@@ -233,7 +233,7 @@ SkyObject* FindDialog::selectedObject() const {
     }
     if( !obj ) {
         QString stext = ui->SearchBox->text();
-        if( stext.startsWith( QString( "HD" ) ) ) {
+        if( stext.startsWith( QLatin1String( "HD" ) ) ) {
             stext.remove( "HD" );
             bool ok;
             int HD = stext.toInt( &ok );

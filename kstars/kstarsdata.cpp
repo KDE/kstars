@@ -698,7 +698,7 @@ bool KStarsData::openUrlFile(const QString &urlfile, QFile & file) {
                     QTextStream writeStream(&localeFile);
                     while ( ! readStream.atEnd() ) {
                         QString line = readStream.readLine();
-                        if ( !line.startsWith( QString( "XXX:" ) ) ) //do not write "deleted" lines
+                        if ( !line.startsWith( QLatin1String( "XXX:" ) ) ) //do not write "deleted" lines
                             writeStream << line << endl;
                     }
 
@@ -1106,7 +1106,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( csName == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
 
                 //Try the filename if it ends with ".colors"
-                if ( filename.endsWith( QString( ".colors" ) ) )
+                if ( filename.endsWith( QLatin1String( ".colors" ) ) )
                     ok = colorScheme()->load( filename );
 
                 //If that didn't work, try assuming that 'name' is the color scheme name

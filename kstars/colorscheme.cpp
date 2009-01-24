@@ -195,7 +195,7 @@ bool ColorScheme::load( const QString &name ) {
     if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
 
     //Try the filename if it ends with ".colors"
-    if ( filename.endsWith( QString( ".colors" ) ) )
+    if ( filename.endsWith( QLatin1String( ".colors" ) ) )
         ok = KSUtils::openDataFile( file, filename );
 
     //If that didn't work, try assuming that 'name' is the color scheme name
