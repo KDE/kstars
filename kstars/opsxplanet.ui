@@ -83,7 +83,7 @@
                 <string>Set the width of window</string>
                </property>
                <property name="whatsThis" >
-                <string>>Set the width of window</string>
+                <string>Set the width of window</string>
                </property>
               </widget>
              </item>
@@ -109,7 +109,7 @@
                 <string>Set the height of window</string>
                </property>
                <property name="whatsThis" >
-                <string>>Set the height of window</string>
+                <string>Set the height of window</string>
                </property>
               </widget>
              </item>
@@ -283,7 +283,7 @@
            <item row="6" column="0" >
             <widget class="QCheckBox" name="kcfg_XplanetStarmap" >
              <property name="toolTip" >
-              <string>Use custom strar map?</string>
+              <string>Use custom star map?</string>
              </property>
              <property name="whatsThis" >
               <string>If checked, use star map file to draw the background stars.</string>
@@ -890,7 +890,7 @@
                  <string>Use background ?</string>
                 </property>
                 <property name="whatsThis" >
-                 <string>If checked, use a file file or a color as background.</string>
+                 <string>If checked, use a file or a color as background.</string>
                 </property>
                 <property name="text" >
                  <string>Use background</string>

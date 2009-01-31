@@ -1005,7 +1005,7 @@
 		</entry>
 		<entry name="XplanetMarkerBounds" type="Bool">
 			<label>Write marker bounds</label>
-			<whatsthis>if checked, write coordinates of the bounding box for each marker in a file.</whatsthis>
+			<whatsthis>If checked, write coordinates of the bounding box for each marker in a file.</whatsthis>
 			<default>false</default>
 		</entry>
 		<entry name="XplanetMarkerBoundsPath" type="String">
