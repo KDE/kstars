@@ -55,7 +55,7 @@
    <item>
     <widget class="KTabWidget" name="tabWidget2" >
      <property name="currentIndex" >
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -226,7 +226,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                 </font>
                </property>
                <property name="text" >
-                <string>arcmin</string>
+                <string>degrees</string>
                </property>
               </widget>
              </item>

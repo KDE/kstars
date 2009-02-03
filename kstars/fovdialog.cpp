@@ -256,7 +256,7 @@ void NewFOV::slotUpdateFOV() {
 
 void NewFOV::slotComputeFOV() {
     if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 ) {
-        ui->FOVEditX->setText( QString::number( (double) ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( QString::number( 60.0 * ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
         ui->FOVEditY->setText( ui->FOVEditX->text() );
     }
     else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 ) {
