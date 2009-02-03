@@ -53,11 +53,22 @@ class MeshIterator;
 
 class StarComponent: public ListComponent
 {
-public:
+
+ protected:
 
     StarComponent( SkyComponent* );
 
+ public:
+
     virtual ~StarComponent();
+
+    /**@short Create an instance of StarComponent
+     */
+    static StarComponent *Create( SkyComponent* );
+
+    /**@return the instance of StarComponent if already created, NULL otherwise
+     */    
+    static StarComponent *Instance() { return pinstance; }
 
     //This function is empty; we need that so that the JiT update 
     //is the only one beiong used.
@@ -94,6 +105,7 @@ public:
     int starColorIntensity( void ) const;
 
     float faintMagnitude() const { return m_FaintMagnitude; }
+
 
     /**
      *@short Read data for stars which will remain static in the memory
@@ -135,7 +147,6 @@ public:
 
     SkyObject* findByHDIndex( int HDnum );
 
-    // TODO: Find the right place for this method
     static void byteSwap( starData *stardata );
 
 private:
@@ -198,6 +209,8 @@ private:
 
     starData stardata;
     starName starname;
+
+    static StarComponent *pinstance;
 
 };
 

@@ -29,6 +29,7 @@
 #include "ksutils.h"
 #include "skyobject.h"
 #include "starobject.h"
+#include "starcomponent.h"
 #include "skymap.h"
 
 #include "skymesh.h"
@@ -113,7 +114,7 @@ void ConstellationLines::init( KStarsData *data ) {
                     lineList = new LineList();
             }
 
-            StarObject *star = (StarObject*) data->skyComposite()->getStarComponent()->findByHDIndex( HDnum );
+            StarObject *star = (StarObject*) StarComponent::Instance()->findByHDIndex( HDnum );
             if ( star && lineList ) {
                 lineList->append( star );
                 double pm = star->pmMagnitude();

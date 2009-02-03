@@ -68,7 +68,7 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
     m_MagellanicClouds = new MagellanicClouds( this );
     addComponent( m_MagellanicClouds );
     //Stars must come before constellation lines
-    m_Stars = new StarComponent( this );
+    m_Stars = StarComponent::Create( this );
     addComponent( m_Stars );
 
     m_CoordinateGrid = new CoordinateGrid( this );

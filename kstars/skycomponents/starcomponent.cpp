@@ -41,6 +41,8 @@
 
 #include <kde_file.h>
 
+StarComponent *StarComponent::pinstance = 0;
+
 StarComponent::StarComponent(SkyComponent *parent )
     : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), 
       starsLoaded(false), focusStar(NULL)
@@ -62,8 +64,16 @@ StarComponent::StarComponent(SkyComponent *parent )
     for ( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
         m_labelList[ i ] = new LabelList;
 }
+
 StarComponent::~StarComponent() {
     // Empty
+}
+
+StarComponent *StarComponent::Create( SkyComponent *parent ) {
+    if( pinstance )
+        delete pinstance;
+    pinstance = new StarComponent( parent );
+    return pinstance;
 }
 
 bool StarComponent::selected() {

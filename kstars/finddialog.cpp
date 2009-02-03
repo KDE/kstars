@@ -240,7 +240,7 @@ SkyObject* FindDialog::selectedObject() const {
             // Looks like the user is looking for a HD star
             if( ok ) {
                 KStars *p = (KStars*)parent();
-                obj = p->data()->skyComposite()->getStarComponent()->findByHDIndex( HD );
+                obj = StarComponent::Instance()->findByHDIndex( HD );
             }
         }
     }
