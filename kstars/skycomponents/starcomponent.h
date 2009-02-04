@@ -104,8 +104,18 @@ class StarComponent: public ListComponent
         */
     int starColorIntensity( void ) const;
 
-    float faintMagnitude() const { return m_FaintMagnitude; }
+    /**
+     *@return the magnitude of the faintest star
+     */
+    float faintMagnitude() const;
 
+    /**
+     *@short Return the size of the star as rendered by KStars
+     *@return the Size of the star's representation on the skymap in pixels
+     */
+    float starRenderingSize( float mag ) const;
+
+    float zoomMagnitudeLimit() const;
 
     /**
      *@short Read data for stars which will remain static in the memory

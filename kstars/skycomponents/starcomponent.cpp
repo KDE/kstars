@@ -192,25 +192,47 @@ void StarComponent::reindexAll( KSNumbers *num )
     printf("Done.\n");
 }
 
+float StarComponent::faintMagnitude() const {
+    float faintmag = m_FaintMagnitude;
+    for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
+        if( faintmag < m_DeepStarComponents.at( i )->faintMagnitude() )
+            faintmag = m_DeepStarComponents.at( i )->faintMagnitude();
+    }
+    return faintmag;
+}
 
+float StarComponent::starRenderingSize( float mag ) const {
+    //adjust maglimit for ZoomLevel
+    const double maxSize = 10.0;
 
-void StarComponent::draw( QPainter& psky )
-{
-    if ( ! selected() ) return;
+    double lgmin = log10(MINZOOM);
+    double lgmax = log10(MAXZOOM);
+    double lgz = log10(Options::zoomFactor());
 
-    SkyMap *map = SkyMap::Instance();
-    KStarsData* data = KStarsData::Instance();
-    UpdateID updateID = data->updateID();
+    // Old formula:
+    //    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
 
-    bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-    m_hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
-                    ! ( Options::showStarMagnitudes() || Options::showStarNames() );
+    // Using the maglim to compute the sizes of stars reduces
+    // discernability between brighter and fainter stars at high zoom
+    // levels. To fix that, we use an "arbitrary" constant in place of
+    // the variable star density.
+    // Not using this formula now.
+    //    float sizeMagLim = 4.444 * ( lgz - lgmin ) + 5.0;
 
-    //shortcuts to inform whether to draw different objects
-    bool hideFaintStars( checkSlewing && Options::hideStars() );
-    double hideStarsMag = Options::magLimitHideStar();
+    float sizeMagLim = zoomMagnitudeLimit();
+    if( sizeMagLim > faintMagnitude() * ( 1 - 1.5/16 ) )
+        sizeMagLim = faintMagnitude() * ( 1 - 1.5/16 );
 
-    reindex( data->updateNum() );
+    float sizeFactor = maxSize + (lgz - lgmin);
+
+    float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
+    if( size <= 1.0 ) size = 1.0;
+    if( size > maxSize ) size = maxSize;
+
+    return size;
+}
+
+float StarComponent::zoomMagnitudeLimit() const {
 
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
@@ -243,9 +265,33 @@ void StarComponent::draw( QPainter& psky )
 
     float maglim = 3.7 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
 
-    m_zoomMagLimit = maglim;
+    return maglim;
 
-    double maxSize = 10.0;
+}
+
+void StarComponent::draw( QPainter& psky )
+{
+    if ( ! selected() ) return;
+
+    SkyMap *map = SkyMap::Instance();
+    KStarsData* data = KStarsData::Instance();
+    UpdateID updateID = data->updateID();
+
+    bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
+    m_hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
+                    ! ( Options::showStarMagnitudes() || Options::showStarNames() );
+
+    //shortcuts to inform whether to draw different objects
+    bool hideFaintStars( checkSlewing && Options::hideStars() );
+    double hideStarsMag = Options::magLimitHideStar();
+    reindex( data->updateNum() );
+
+    double lgmin = log10(MINZOOM);
+    double lgmax = log10(MAXZOOM);
+    double lgz = log10(Options::zoomFactor());
+
+    double maglim;
+    m_zoomMagLimit = maglim = zoomMagnitudeLimit();
 
     double labelMagLim = Options::starLabelDensity() / 5.0;
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
@@ -276,30 +322,7 @@ void StarComponent::draw( QPainter& psky )
 
     int nTrixels = 0;
 
-    /*
-    t_drawNamed = 0;
-    t_dynamicLoad = 0;
-    t_updateCache = 0;
-    t_drawUnnamed = 0;
-    */
-
     visibleStarCount = 0;
-
-    // Old formula:
-    //    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
-
-    // Using the maglim to compute the sizes of stars reduces
-    // discernability between brighter and fainter stars at high zoom
-    // levels. To fix that, we use an "arbitrary" constant in place of
-    // the variable star density.
-    // Not using this formula now.
-    //    float sizeMagLim = 4.444 * ( lgz - lgmin ) + 5.0;
-
-    float sizeMagLim = maglim;
-
-    if( sizeMagLim > m_FaintMagnitude * ( 1 - 1.5/16 ) )
-        sizeMagLim = m_FaintMagnitude * ( 1 - 1.5/16 );
-    float sizeFactor = 10.0 + (lgz - lgmin);
 
     while ( region.hasNext() ) {
         ++nTrixels;
@@ -317,23 +340,15 @@ void StarComponent::draw( QPainter& psky )
             
             // break loop if maglim is reached
             if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) ) {
-                //                kDebug() << "Breaking off @ mag = " << mag;
                 break;
             }
                  
-            //            kDebug() << "Passed mag limit. mag = " << mag;
-
             if ( ! map->checkVisibility( curStar ) ) continue;
-            //            kDebug() << "Passed visibility";
             QPointF o = map->toScreen( curStar );
             
             if ( ! map->onScreen( o ) ) continue;
 
-            float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
-            if ( size <= 1.0 ) size = 1.0;
-            if( size > maxSize ) size = maxSize;
-
-            curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
+            curStar->draw( psky, o.x(), o.y(), starRenderingSize( mag ), (starColorMode()==0),
                            starColorIntensity(), true );
             visibleStarCount++;
             
@@ -341,26 +356,17 @@ void StarComponent::draw( QPainter& psky )
             
             addLabel( o, curStar );
         }
-        //        t_drawNamed += t.restart();
     }
 
     // Draw focusStar if not null
     if( focusStar ) {
         if ( focusStar->updateID != updateID )
             focusStar->JITupdate( data );
-        
         float mag = focusStar->mag();
-        
         if ( map->checkVisibility( focusStar ) ) {
             QPointF o = map->toScreen( focusStar );
-            
             if ( map->onScreen( o ) ) {
-                
-                float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
-                if ( size <= 1.0 ) size = 1.0;
-                if( size > maxSize ) size = maxSize;
-                
-                focusStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
+                focusStar->draw( psky, o.x(), o.y(), starRenderingSize( mag ), (starColorMode()==0),
                                  starColorIntensity(), true );
                 visibleStarCount++;
             }

@@ -174,6 +174,7 @@ void DeepStarComponent::draw( QPainter& psky ) {
     SkyMap *map = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
+    StarComponent *sc = StarComponent::Instance();
 
     float radius = map->fov();
     if ( radius > 90.0 ) radius = 90.0;
@@ -193,31 +194,7 @@ void DeepStarComponent::draw( QPainter& psky ) {
     double lgz = log10(Options::zoomFactor());
     // TODO: Enable hiding of faint stars
 
-    // Old formula:
-    //    float maglim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + Options::magLimitDrawStarZoomOut();
-
-    /*
-     Explanation for the following formula:
-     --------------------------------------
-     Estimates from a sample of 125000 stars shows that, magnitude 
-     limit vs. number of stars follows the formula:
-       nStars = 10^(.45 * maglim + .95)
-     (A better formula is available here: http://www.astro.uu.nl/~strous/AA/en/antwoorden/magnituden.html
-      which we do not implement for simplicity)
-     We want to keep the star density on screen a constant. This is directly proportional to the number of stars
-     and directly proportional to the area on screen. The area is in turn inversely proportional to the square
-     of the zoom factor ( zoomFactor / MINZOOM ). This means that (taking logarithms):
-       0.45 * maglim + 0.95 - 2 * log( ZoomFactor ) - log( Star Density ) - log( Some proportionality constant )
-     hence the formula. We've gathered together all the constants and set it to 3.5, so as to set the minimum
-     possible value of maglim to 3.5
-    */
-     
-    //    float maglim = 4.444 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
-
-    // Reducing the slope w.r.t zoom factor to avoid the extremely fast increase in star density with zoom
-    // that 4.444 gives us (although that is what the derivation gives us)
-
-    float maglim = 3.7 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
+    float maglim = sc->zoomMagnitudeLimit();
 
     if( maglim < triggerMag )
         return;
@@ -248,21 +225,6 @@ void DeepStarComponent::draw( QPainter& psky ) {
     visibleStarCount = 0;
 
     t.start();
-    // Old formula:
-    //    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
-
-    // Using the maglim to compute the sizes of stars reduces
-    // discernability between brighter and fainter stars at high zoom
-    // levels. To fix that, we use an "arbitrary" constant in place of
-    // the variable star density.
-    // Not using this formula now.
-    //    float sizeMagLim = 4.444 * ( lgz - lgmin ) + 5.0;
-
-    float sizeMagLim = maglim;
-
-    //    if( sizeMagLim > m_FaintMagnitude * ( 1 - 1.5/16 ) )
-    //        sizeMagLim = m_FaintMagnitude * ( 1 - 1.5/16 );
-    float sizeFactor = 10.0 + (lgz - lgmin);
 
     // Mark used blocks in the LRU Cache. Not required for static stars
     if( !staticStars ) {
@@ -331,11 +293,7 @@ void DeepStarComponent::draw( QPainter& psky ) {
 
                 if ( ! map->onScreen( o ) ) continue;
                 
-                float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
-                if ( size <= 1.0 ) size = 1.0;
-                if( size > maxSize ) size = maxSize;
-
-                curStar->draw( psky, o.x(), o.y(), size, (starColorMode()==0),
+                curStar->draw( psky, o.x(), o.y(), sc->starRenderingSize( mag ), (starColorMode()==0),
                                starColorIntensity(), true );
                 visibleStarCount++;
             }
