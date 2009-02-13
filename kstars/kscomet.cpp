@@ -81,6 +81,23 @@ bool KSComet::getOrbitalElements( long double *_JD, double *_q, double *_e, dms 
     return true;
 }
 
+void KSComet::findPhysicalParameters() {
+    // Compute and store the estimated Physical size of the comet's coma, tail and nucleus
+    // References:
+    // * http://www.projectpluto.com/update7b.htm#comet_tail_formula [Project Pluto / GUIDE]
+    // * http://articles.adsabs.harvard.edu//full/1978BAICz..29..103K/0000113.000.html [Kresak, 1978a, "Passages of comets and asteroids near the earth"]
+    NuclearSize = pow( 10, 2.1 - 0.2 * H );
+    double mHelio = H + 2.5 * G * log10( rsun() );
+    double L0, D0, L, D;
+    L0 = pow( 10, -0.0075 * mHelio * mHelio - 0.19 * mHelio + 2.10 );
+    D0 = pow( 10, -0.0033 * mHelio * mHelio - 0.07 * mHelio + 3.25 );
+    L = L0 * ( 1 - pow( 10, -4 * rsun() ) ) * ( 1 - pow( 10, -2 * rsun() ) );
+    D = D0 * ( 1 - pow( 10, -2 * rsun() ) ) * ( 1 - pow( 10, -rsun() ) );
+    TailLength = L * 1e6;
+    ComaSize = D * 1e3;
+    setPhysicalSize( ComaSize );
+}
+
 bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
     double v(0.0), r(0.0);
 
@@ -176,6 +193,8 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     EclipticToEquatorial( num->obliquity() );
     nutate( num );
     aberrate( num );
+
+    findPhysicalParameters();
 
     return true;
 }

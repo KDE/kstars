@@ -111,6 +111,16 @@ public:
      */
     inline float getAbsoluteMagnitude() { return H; }
 
+    /**
+     *@return the estimated tail length in km
+     */
+    inline float getTailLength() { return TailLength; }
+
+    /**
+     *@return the estimated diameter of the nucleus in km
+     */
+    inline float getNuclearSize() { return NuclearSize; }
+
 
 protected:
     /**Calculate the geocentric RA, Dec coordinates of the Comet.
@@ -121,10 +131,18 @@ protected:
     	*/
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
+    /**
+     *@short Estimate physical parameters of the comet such as coma size, tail length and size of the nucleus
+     *@note invoked from findGeocentricPosition in order
+     */
+    void findPhysicalParameters();
+
+
 private:
     KStarsData *kd;
     long double JD, JDp;
     double q, e, a, P;
+    double TailLength, ComaSize, NuclearSize; // All in kilometres
     float H, G;
     dms i, w, N;
 
