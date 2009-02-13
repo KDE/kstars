@@ -165,8 +165,8 @@ void WUTDialog::init() {
         sDuration = KGlobal::locale()->formatTime( tDur );
     }
 
-    WUT->SunSetLabel->setText( i18n( "Sunset: %1" , sSet) );
-    WUT->SunRiseLabel->setText( i18n( "Sunrise: %1" , sRise) );
+    WUT->SunSetLabel->setText( i18n( "Sunset: %1 on %2" , sSet, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    WUT->SunRiseLabel->setText( i18n( "Sunrise: %1 on %2" , sRise, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
     WUT->NightDurationLabel->setText( i18n("Night duration: %1 hours", sDuration ) );
 
     // moon almanac information
@@ -190,8 +190,8 @@ void WUTDialog::init() {
         sSet = KGlobal::locale()->formatTime( moonSet.addSecs(30) );
     }
 
-    WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1", sRise ) );
-    WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1", sSet ) );
+    WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1 on %2", sRise, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
     oMoon->findPhase( oSun );
     WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
                                       int(100.0*oMoon->illum() ) ) );
