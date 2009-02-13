@@ -51,6 +51,11 @@ int KSMoon::instance_count = 0;
 QList<KSMoon::MoonLRData*> KSMoon::LRData;
 QList<KSMoon::MoonBData*> KSMoon::BData;
 
+const double KSMoon::MagArray[19] = {-12.7,-12.4,-12.1,-11.8,-11.5,-11.2,
+                               -11.0,-10.8,-10.4,-10.0,-9.6,-9.2,
+                               -8.7,-8.2,-7.6,-6.7,-3.4,0,0};
+
+
 bool KSMoon::loadData() {
     if (data_loaded) return true;
 
@@ -202,6 +207,7 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
 
     return true;
 }
+
 
 void KSMoon::findPhase( const KSSun *Sun ) {
     Phase.setD( ecLong()->Degrees() - Sun->ecLong()->Degrees() );

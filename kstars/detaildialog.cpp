@@ -109,6 +109,8 @@ void DetailDialog::createGeneralTab()
     #endif
     connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 
+    Data->IllumLabel->setVisible( false );
+
     //Show object thumbnail image
     showThumbnail();
 
@@ -186,13 +188,12 @@ void DetailDialog::createGeneralTab()
 
         //Magnitude: The moon displays illumination fraction instead
         if ( selectedObject->name() == "Moon" ) {
-            Data->MagLabel->setText( i18n("Illumination:") );
-            Data->Magnitude->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
-        } else {
-            Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
-                                             KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
+            Data->IllumLabel->setVisible( true );
+            Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
 
+        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+                                         KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( i18nc("distance in kilometers", "%1 km",

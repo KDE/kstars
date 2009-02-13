@@ -51,6 +51,11 @@ public:
     	*/
     void findPhase( const KSSun *Sun );
 
+    /**
+     *@short Compute the magnitude of the moon
+     */
+    void findMagnitude(const KSNumbers *num);
+
     /**@return the moon's current phase angle, as a dms angle
     	*/
     dms phase( void ) const { return Phase; }
@@ -66,6 +71,24 @@ public:
     /** reimplemented from KSPlanetBase
     	*/
     virtual bool loadData();
+
+    /*
+     * Data used to calculate moon magnitude
+     *
+     * Formula and data were obtained from SkyChart v3.x Beta
+     *
+     */
+    // intensities in Table 1 of M. Minnaert (1961),
+    // Phase  Frac.            Phase  Frac.            Phase  Frac.
+    // angle  ill.   Mag       angle  ill.   Mag       angle  ill.   Mag
+    //  0    1.00  -12.7        60   0.75  -11.0       120   0.25  -8.7
+    // 10    0.99  -12.4        70   0.67  -10.8       130   0.18  -8.2
+    // 20    0.97  -12.1        80   0.59  -10.4       140   0.12  -7.6
+    // 30    0.93  -11.8        90   0.50  -10.0       150   0.07  -6.7
+    // 40    0.88  -11.5       100   0.41   -9.6       160   0.03  -3.4
+    // 50    0.82  -11.2       110   0.33   -9.2
+    static const double MagArray[19];
+
 
 protected:
     /**Reimplemented from KSPlanetBase, this function employs unique algorithms for
@@ -129,6 +152,7 @@ private:
     };
 
     static QList<MoonBData*> BData;
+
 };
 
 #endif

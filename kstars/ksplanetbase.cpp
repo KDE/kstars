@@ -142,7 +142,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
         if ( Trail.size() > MAXTRAIL ) Trail.takeFirst();
     }
 
-    if ( isMajorPlanet() || type() == SkyObject::ASTEROID || type() == SkyObject::COMET )
+    if ( isMajorPlanet() || type() == SkyObject::ASTEROID || type() == SkyObject::COMET || type() == SkyObject::MOON )
         findMagnitude(num);
 }
 
@@ -310,6 +310,26 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
 
     double param = 5 * log10(rsun() * rearth() );
     double f1 = phase/100.;
+
+    if( name() == "Moon" ) {
+        // This block of code to compute Moon magnitude (and the
+        // relevant data put into ksplanetbase.h) was taken from
+        // SkyChart v3 Beta
+        KSMoon *me = (KSMoon *)this;
+        int p = (int)( floor( me->phase().Degrees() ) );
+        if( p > 180 )
+            p = p - 360;
+        int i = p / 10;
+        int k = p - 10 * i;
+        int j = (i + 1 > 18) ? 18 : i + 1;
+        if( i < 0 )
+            i = -i;
+        if( j < 0 )
+            j = -j;
+        i = 18 - i;
+        j = 18 - j;
+        magnitude = KSMoon::MagArray[ i ] + ( ( KSMoon::MagArray[ j ] - KSMoon::MagArray[ i ] ) * k / 10 );
+    }
 
     if ( name() == i18n( "Mercury" ) ) {
         if ( phase > 150. ) f1 = 1.5;
