@@ -26,7 +26,7 @@
 class QSplitter;
 class QString;
 class QStackedWidget;
-class QTextEdit;
+class KTextEdit;
 class modCalcJD;
 class modCalcGeodCoord;
 class modCalcGalCoord;
@@ -89,7 +89,7 @@ private:
 
     QStringList ItemTitles;
     QStackedWidget *acStack;
-    QTextEdit *splashScreen;
+    KTextEdit *splashScreen;
     modCalcJD *JDFrame;
     modCalcGeodCoord *GeodCoordFrame;
     modCalcGalCoord *GalFrame;

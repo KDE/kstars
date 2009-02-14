@@ -20,7 +20,7 @@
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QTreeWidget>
-#include <QTextEdit>
+#include <KTextEdit>
 #include <klocale.h>
 #include <ktextedit.h>
 
