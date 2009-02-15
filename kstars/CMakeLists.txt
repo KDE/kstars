@@ -99,6 +99,7 @@ set(libkstarstools_SRCS
 	tools/scriptfunction.cpp
         tools/skycalendar.cpp
 	tools/wutdialog.cpp
+	tools/flagmanager.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
@@ -158,7 +159,9 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/scriptbuilder.ui
 	tools/scriptnamedialog.ui
 	tools/skycalendar.ui
-	tools/wutdialog.ui )
+	tools/wutdialog.ui
+	tools/flagmanager.ui
+        )
 
 
 set(libkstarscomponents_SRCS 
@@ -203,6 +206,7 @@ set(libkstarscomponents_SRCS
    skycomponents/starblocklist.cpp
    skycomponents/starblockfactory.cpp
    skycomponents/culturelist.cpp
+   skycomponents/flagcomponent.cpp
 )
 
 set(libkstarswidgets_SRCS ${fitswidgets_SRCS}

@@ -23,6 +23,7 @@
 #include "skycomposite.h"
 #include "ksnumbers.h"
 #include "starcomponent.h"
+#include "flagcomponent.h"
 
 class SkyMesh;
 class SkyLabeler;
@@ -175,6 +176,8 @@ public:
     void reloadCLines( KStarsData *data );
     void reloadCNames( KStarsData *data );
 
+    FlagComponent* flags();
+
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
     float faintStarMagnitude() const;
@@ -223,6 +226,7 @@ private:
     SkyComposite                *m_CustomCatalogs;
     StarComponent               *m_Stars;
     SatelliteComposite          *m_Satellites;
+    FlagComponent               *m_Flags;
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;

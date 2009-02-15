@@ -430,6 +430,11 @@
 			<whatsthis>Toggle whether the horizon line is drawn in the sky map.</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="ShowFlags" type="Bool">
+			<label>Draw flags in the sky map?</label>
+			<whatsthis>Toggle whether flags are drawn in the sky map.</whatsthis>
+			<default>true</default>
+		</entry>
 		<entry name="ShowIC" type="Bool">
 			<label>Draw IC objects in the sky map?</label>
 			<whatsthis>Toggle whether IC objects are drawn in the sky map.</whatsthis>

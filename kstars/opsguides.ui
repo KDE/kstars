@@ -25,11 +25,11 @@
    </item>
    <item>
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="margin" >
+      <number>0</number>
      </property>
      <item>
       <widget class="QLabel" name="textLabelSkyCulture" >
@@ -89,16 +89,7 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <property name="leftMargin" >
-       <number>8</number>
-      </property>
-      <property name="topMargin" >
-       <number>8</number>
-      </property>
-      <property name="rightMargin" >
-       <number>8</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin" >
        <number>8</number>
       </property>
       <item>
@@ -151,7 +142,7 @@
      <property name="sizeType" >
       <enum>QSizePolicy::Fixed</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>16</height>
@@ -193,7 +184,7 @@
      <property name="sizeType" >
       <enum>QSizePolicy::Fixed</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>16</height>
@@ -267,6 +258,19 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_ShowFlags" >
+     <property name="toolTip" >
+      <string>Draw flags?</string>
+     </property>
+     <property name="whatsThis" >
+      <string>If checked, flags will be drawn on the sky map</string>
+     </property>
+     <property name="text" >
+      <string>Flags</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer>
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
@@ -274,7 +278,7 @@
      <property name="sizeType" >
       <enum>QSizePolicy::Expanding</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>389</width>
        <height>16</height>
@@ -286,6 +290,13 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

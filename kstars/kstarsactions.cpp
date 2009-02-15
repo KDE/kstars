@@ -79,6 +79,7 @@
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
+#include "tools/flagmanager.h"
 #include "imageviewer.h"
 
 #include <config-kstars.h>
@@ -157,6 +158,11 @@ void KStars::slotViewToolBar() {
         Options::setShowGround( a->isChecked() );
         if ( kcd ) {
             opguides->kcfg_ShowGround->setChecked( a->isChecked() );
+        }
+    } else if ( a == actionCollection()->action( "show_flags" ) ) {
+        Options::setShowFlags( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowFlags->setChecked( a->isChecked() );
         }
     }
 
@@ -276,6 +282,11 @@ void KStars::slotSolarSystem() {
 void KStars::slotJMoonTool() {
     if ( ! jmt ) jmt = new JMoonTool(this);
     jmt->show();
+}
+
+void KStars::slotFlagManager() {
+    if ( ! fm ) fm = new FlagManager(this);
+    fm->show();
 }
 
 void KStars::slotImageSequence()
@@ -1162,6 +1173,7 @@ void KStars::slotAboutToQuit()
     if ( sb ) delete sb;
     if ( pv ) delete pv;
     if ( jmt ) delete jmt;
+    if ( fm ) delete fm;
 
     while ( ! m_ImageViewerList.isEmpty() )
         delete m_ImageViewerList.takeFirst();

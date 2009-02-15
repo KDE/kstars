@@ -61,7 +61,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         KXmlGuiWindow(), kstarsData(0), splash(0), skymap(0), TimeStep(0),
         colorActionMenu(0), fovActionMenu(0),
         AAVSODialog(0), findDialog(0), obsList(0), avt(0), wut(0), skycal(0), 
-        sb(0), pv(0), jmt(0), indimenu(0), indidriver(0), indiseq(0),
+        sb(0), pv(0), jmt(0), fm(0), indimenu(0), indidriver(0), indiseq(0),
         DialogIsObsolete(false), StartClockRunning( clockrun ),
         StartDateString( startdate )
 {
@@ -182,6 +182,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     ((KToggleAction*)actionCollection()->action("show_mw"))->setChecked( Options::showMilkyWay() );
     ((KToggleAction*)actionCollection()->action("show_grid"))->setChecked( Options::showGrid() );
     ((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
+    ((KToggleAction*)actionCollection()->action("show_flags"))->setChecked( Options::showFlags() );
 
     //color scheme
     kstarsData->colorScheme()->loadFromConfig();

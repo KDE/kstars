@@ -67,6 +67,7 @@
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />
 		<Action name="jmoontool" />
+                <Action name="flagmanager" />
 	</Menu>
 
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>

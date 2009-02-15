@@ -114,6 +114,9 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
     m_SolarSystem = new SolarSystemComposite( this, data );
     addComponent( m_SolarSystem );
 
+    m_Flags = new FlagComponent( this );
+    addComponent( m_Flags );
+
     connect( this, SIGNAL( progressText( const QString & ) ),
              data, SIGNAL( progressText( const QString & ) ) );
 }
@@ -123,6 +126,7 @@ SkyMapComposite::~SkyMapComposite()
     delete m_skyLabeler;     // These are on the heap to avoid header file hell.
     delete m_skyMesh;
     delete m_Cultures;
+    delete m_Flags;
 }
 
 void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
@@ -253,6 +257,8 @@ void SkyMapComposite::draw( QPainter& psky )
     m_skyLabeler->drawQueuedLabels( psky );
     m_CNames->draw( psky );
     m_Stars->drawLabels( psky );
+
+    m_Flags->draw( psky );
 
     m_skyMesh->inDraw( false );
 
@@ -576,6 +582,10 @@ void SkyMapComposite::setCurrentCulture( QString culture ) {
 
 QString SkyMapComposite::currentCulture() {
     return m_Cultures->current();
+}
+
+FlagComponent* SkyMapComposite::flags() {
+    return m_Flags;
 }
 
 #include "skymapcomposite.moc"

@@ -383,6 +383,10 @@ void KStars::initActions() {
     ka->setShortcuts( KShortcut(Qt::CTRL+Qt::Key_J ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotJMoonTool() ) );
 
+    ka = actionCollection()->addAction( "flagmanager" );
+    ka->setText( i18n( "Flags...") );
+    connect( ka, SIGNAL( triggered() ), this, SLOT( slotFlagManager() ) );
+
     // devices Menu
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
@@ -493,6 +497,12 @@ void KStars::initActions() {
     ta->setToolTip( i18n("Toggle opaque ground") );
     connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
+    //show_flags:
+    ta = actionCollection()->add<KToggleAction>( "show_flags" );
+    ta->setIcon( KIcon( "kstars_flag" ) );
+    ta->setText( i18nc( "Toggle flags in the display", "Flags" ) );
+    ta->setToolTip( i18n("Toggle flags") );
+    connect( ta, SIGNAL( triggered() ), this, SLOT( slotViewToolBar() ) );
 
     setXMLFile( "kstarsui.rc" );
 

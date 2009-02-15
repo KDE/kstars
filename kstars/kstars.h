@@ -49,6 +49,7 @@ class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
 class ImageViewer;
+class FlagManager;
 
 class OpsCatalog;
 class OpsGuides;
@@ -562,6 +563,11 @@ private slots:
     void slotJMoonTool();
 
     /**
+     * action slot: open Flag Manager
+     */
+    void slotFlagManager();
+
+    /**
      * action slot: open Telescope wizard
      */
     void slotTelescopeWizard();
@@ -709,6 +715,7 @@ private:
     PlanetViewer *pv;
     JMoonTool *jmt;
     QList<ImageViewer*> m_ImageViewerList;
+    FlagManager *fm;
 
     INDIMenu *indimenu;
     INDIDriver *indidriver;
