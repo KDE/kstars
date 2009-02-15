@@ -322,12 +322,8 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
         int i = p / 10;
         int k = p - 10 * i;
         int j = (i + 1 > 18) ? 18 : i + 1;
-        if( i < 0 )
-            i = -i;
-        if( j < 0 )
-            j = -j;
-        i = 18 - i;
-        j = 18 - j;
+        i = 18 - abs(i);
+        j = 18 - abs(j);
         magnitude = KSMoon::MagArray[ i ] + ( ( KSMoon::MagArray[ j ] - KSMoon::MagArray[ i ] ) * k / 10 );
     }
 
