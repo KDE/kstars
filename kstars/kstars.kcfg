@@ -173,12 +173,12 @@
 		</entry>
 		<entry name="serverPortStart" type="String">
 			<label>INDI Server Start Port</label>
-			<whatisthis>INDI server will attempt to bind with ports starting from this port</whatisthis>
+			<whatsthis>INDI server will attempt to bind with ports starting from this port</whatsthis>
 			<default>7264</default>
 		</entry>
 		<entry name="serverPortEnd" type="String">
 			<label>INDI Server Final Port</label>
-			<whatisthis>INDI server will attempt to bind with ports ending with this port</whatisthis>
+			<whatsthis>INDI server will attempt to bind with ports ending with this port</whatsthis>
 			<default>9000</default>
 		</entry>
 		<entry name="filterAlias" type="StringList">
