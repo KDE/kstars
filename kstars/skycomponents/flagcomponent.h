@@ -33,7 +33,7 @@
  *Each flag is composed by a SkyPoint where coordinates are stored, an 
  *epoch and a label. This class also stores flag images and associates 
  *each flag with an image.
- *When FlagComponent is created, it seeks all file names begining with
+ *When FlagComponent is created, it seeks all file names beginning with
  *"_flag" in the user directory and *considere them as flag images.
  *
  *The file flags.dat stores coordinates, epoch, image name and label of each

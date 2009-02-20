@@ -64,7 +64,7 @@ FlagManager::FlagManager( KStars *ks )
     // Fill the list
     imageList = ks->data()->skyComposite()->flags()->imageList();
     flagNames =  ks->data()->skyComposite()->flags()->getNames();
-    for ( i=0; i<ks->data()->skyComposite()->flags()->size(); i++ ) {
+    for ( i=0; i<ks->data()->skyComposite()->flags()->size(); ++i ) {
         itemList << new QStandardItem( ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->toHMSString() ) 
                 << new QStandardItem( ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->toDMSString() ) 
                 << new QStandardItem( ks->data()->skyComposite()->flags()->epoch( i ) ) 
@@ -75,7 +75,7 @@ FlagManager::FlagManager( KStars *ks )
     }
 
     // Fill the combobox
-    for ( i=0; i< imageList.size(); i++ ) {
+    for ( i=0; i< imageList.size(); ++i ) {
         ui->flagCombobox->addItem( QIcon( pixmap->fromImage( ks->data()->skyComposite()->flags()->imageList( i ) ) ),
                                    flagNames.at( i ),
                                    flagNames.at( i ) );
@@ -113,11 +113,11 @@ void FlagManager::slotValidatePoint() {
 
         flagPoint = new SkyPoint( ra, dec );
         line.append(
-                    str.setNum( flagPoint->ra0()->Degrees() ).toAscii() + " "
-                + str.setNum( flagPoint->dec0()->Degrees() ).toAscii() + " "
-                + ui->epochBox->text().toAscii() + " "
-                + ui->flagCombobox->currentText().replace( " ", "_" ).toAscii() + " "
-                + ui->flagLabel->text().toAscii() + "\n" );
+                    str.setNum( flagPoint->ra0()->Degrees() ).toAscii() + ' '
+                + str.setNum( flagPoint->dec0()->Degrees() ).toAscii() + ' '
+                + ui->epochBox->text().toAscii() + ' '
+                + ui->flagCombobox->currentText().replace( ' ', '_' ).toAscii() + ' '
+                + ui->flagLabel->text().toAscii() + '\n' );
 
         QFile file( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
         file.open( QIODevice::Append | QIODevice::Text );
@@ -155,13 +155,13 @@ void FlagManager::slotDeleteFlag() {
     QFile file( KStandardDirs::locateLocal( "appdata", "flags.dat.tmp" ) );
     file.open( QIODevice::WriteOnly | QIODevice::Text );
 
-    for ( i=0; i<m_Ks->data()->skyComposite()->flags()->size(); i++ ) {
+    for ( i=0; i<m_Ks->data()->skyComposite()->flags()->size(); ++i ) {
         line.append(
-                    str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->Degrees() ).toAscii() + " "
-                + str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->Degrees() ).toAscii() + " "
-                + m_Ks->data()->skyComposite()->flags()->epoch( i ).toAscii() + " "
-                + m_Ks->data()->skyComposite()->flags()->imageName( i ).replace( " ", "_" ).toAscii() + " "
-                + m_Ks->data()->skyComposite()->flags()->label( i ).toAscii() + "\n" );
+                    str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->Degrees() ).toAscii() + ' '
+                + str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->Degrees() ).toAscii() + ' '
+                + m_Ks->data()->skyComposite()->flags()->epoch( i ).toAscii() + ' '
+                + m_Ks->data()->skyComposite()->flags()->imageName( i ).replace( ' ', '_' ).toAscii() + ' '
+                + m_Ks->data()->skyComposite()->flags()->label( i ).toAscii() + '\n' );
 
         file.write( line );
         line.clear();

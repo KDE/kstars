@@ -59,7 +59,7 @@ void FlagComponent::init( KStarsData *data ) {
     // Read flags.dat
     while ( fileReader.hasMoreLines() ) {
         // Split line and ignore it if it's too short or if it's a comment
-        line = fileReader.readLine().split( " " );
+        line = fileReader.readLine().split( ' ' );
         if ( line.size() < 4 ) continue;
         if ( line.at( 0 ) == "#" ) continue;
 
@@ -74,8 +74,8 @@ void FlagComponent::init( KStarsData *data ) {
 
         // Read image name
         str = line.at( 3 );
-        str = str.replace( "_", " ");
-        for ( i=0; i<m_Names.size(); i++ ) {
+        str = str.replace( '_', ' ');
+        for ( i=0; i<m_Names.size(); ++i ) {
             if ( str == m_Names.at( i ) ) {
                 m_FlagImages.append( i );
                 imageFound = true;
@@ -95,8 +95,8 @@ void FlagComponent::init( KStarsData *data ) {
 
         // Read label
         str.clear();
-        for ( i=4; i<line.size(); i++ ) {
-            str += line.at( i ) + " ";
+        for ( i=4; i<line.size(); ++i ) {
+            str += line.at( i ) + ' ';
         }
 
         m_Labels.append( str );
@@ -206,12 +206,12 @@ void FlagComponent::slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list
 
     for ( KIO::UDSEntryList::ConstIterator it = list.begin(); it != list.end(); ++it ) {
         KFileItem* item = new KFileItem(*it, m_Job->url(), false, true);
-        if ( item->name().startsWith( "_flag" ) ) {
-            fileNameLst = item->name().split( "." );
+        if ( item->name().startsWith( QLatin1String( "_flag" ) ) ) {
+            fileNameLst = item->name().split( '.' );
             fileNameLst.removeLast();
             fileName = fileNameLst.join( "." );
             fileName = fileName.right( fileName.size() - 5 );
-            fileName = fileName.replace( "_", " " );
+            fileName = fileName.replace( '_', ' ' );
             m_Names.append( fileName );
 
             flagImage.load( item->localPath() );
