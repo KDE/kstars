@@ -1,7 +1,7 @@
 /*  INDI frontend for KStars
     Copyright (C) 2003 Elwood C. Downey
 
-    Adapted to KStars by Jasem Mutlaq <mutlaqja@ikarustech.com>
+    Adapted to KStars by Jasem Mutlaq (mutlaqja@ikarustech.com)
 
     This application is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public
