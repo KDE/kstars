@@ -41,6 +41,7 @@ set(indiui_SRCS
         imgsequencedlg.ui
         opsindi.ui
         indihostconf.ui
+        streamform.ui
         telescopewizard.ui
         telescopeprop.ui
 )
