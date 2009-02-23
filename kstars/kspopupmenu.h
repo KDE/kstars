@@ -51,9 +51,9 @@ public:
     	*Rise/Set/Transit labels, Center/Track item, and Show Details item.
     	*@short initialize the right-click popup menu
     	*@param obj pointer to the skyobject which the menu describes
-    	*@param name1 The primary object name
-    	*@param name2 The (optional) secondary object name
+    	*@param name The object name
     	*@param type a string identifying the object type
+    	*@param type short information about object
     	*@param showRiseSet if true, the Rise/Set/Transit labels are added
     	*@param showCenterTrack if true, the Center/Track item is added
     	*@param showDetails if true, the Show-Details item is added
@@ -63,7 +63,7 @@ public:
     	*@param showAngularDistance if true, the Angular Distance item is added.
     	*@param showObsList if true, the Add to List/Remove from List item is added.
      */
-    void initPopupMenu( SkyObject *obj, const QString &name1, const QString &name2, const QString &type,
+    void initPopupMenu( SkyObject *obj, const QString &name, const QString &type, const QString &info,
                         bool showRiseSet=true, bool showCenterTrack=true,
                         bool showDetails=true, bool showTrail=false,
                         bool addTrail=false, bool showAngularDistance=true,
@@ -114,7 +114,7 @@ public:
 
     /**@short Create a popup menu for a solar system body.
     	*
-    	*Solar System bodies get a name label, a type label ("solar system"),
+    	*Solar System bodies get a name label, a type label ("solar system object"),
     	*and rise/set/transit time labels. They also get Center&Track, 
     	*Angular Distance, Detailed Info, Attach Label, and Add Trail items.  
     	*They can have image/info links, and also get the "Add Link..." item.

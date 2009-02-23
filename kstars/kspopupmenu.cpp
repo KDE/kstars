@@ -42,6 +42,27 @@
 
 #include <kactioncollection.h>
 
+// Convert magnitude to string representation for QLabel
+static QString magToStr(double m) {
+	return QString("%1<sup>m</sup>").arg(m, 0, 'f', 2);
+}
+
+// Helper function to return object name
+static QString getObjectName(SkyObject *obj) {
+	// FIXME: make logic less convoluted. 
+	QString name;
+	if( obj->longname() != obj->name() ) { // Object has proper name
+		name = obj->translatedLongName() + ", " + obj->translatedName();
+	} else {
+		if( ! obj->translatedName2().isEmpty() ) {
+			name = obj->translatedName() + ", " + obj->translatedName2();
+		} else {
+			name = obj->translatedName();
+		}
+	}
+	return name;
+}
+
 KSPopupMenu::KSPopupMenu( KStars *_ks )
         : KMenu( _ks ), ks(_ks)
 {}
@@ -80,9 +101,18 @@ void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
     //Add name, rise/set time, center/track, and detail-window items
-    initPopupMenu( star, star->translatedLongName(), i18n( "Spectral type: %1" , star->sptype()),
-                   ( (!star->getHDIndex()) ? "" : QString( "HD%1" ).arg( QString::number( star->getHDIndex() ) ) ) );
-
+	QString name;
+	if( star->name() != "star" ) {
+		name = star->translatedLongName();
+	} else {
+		if( star->getHDIndex() ) {
+			name = QString( "HD%1" ).arg( QString::number( star->getHDIndex() ) );
+		} else {
+			// FIXME: this should be some catalog name too
+			name = "Star";
+		}
+	}
+    initPopupMenu( star, name, "star", i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
     //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
     if ( star->name() != "star" ) {
         addLinksToMenu( star );
@@ -91,42 +121,49 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
     }
 }
-
+ 
 void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
-    QString TypeName = ks->data()->typeName( obj->type() );
-    QString secondName = obj->translatedName2();
-    if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
-
-    initPopupMenu( obj, obj->translatedName(), secondName, TypeName );
+	QString name = getObjectName(obj);
+    QString typeName = ks->data()->typeName( obj->type() );
+	// FIXME: information about angular sizes should be added.
+	// Requires downcast. Not sure whether it safe.
+	QString info = magToStr( obj->mag() );
+	
+	initPopupMenu( obj, name, typeName, info );
     addLinksToMenu( obj );
 }
 
 void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
-    QString TypeName = ks->data()->typeName( obj->type() );
-    QString secondName = obj->translatedName2();
-    if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
-
-    initPopupMenu( obj, obj->translatedName(), secondName, TypeName );
+	QString name = getObjectName(obj); 
+    QString typeName = ks->data()->typeName( obj->type() );
+	QString info = magToStr( obj->mag() );
+	
+    initPopupMenu( obj, name, typeName, info );
 
     addLinksToMenu( obj, true );
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     bool addTrail( ! ((TrailObject*)p)->hasTrail() );
-    QString oname;
+    QString info;
+	QString type;
     if ( p->name() == "Moon" ) {
-        oname = ((KSMoon *)p)->phaseName();
-    }
-    initPopupMenu( p, p->translatedName(), oname, i18n("Solar System"), true, true, true, true, addTrail );
+        info = QString("%1<sup>m</sup>, %2").arg(p->mag(), 0, 'f', 2).arg(((KSMoon *)p)->phaseName());
+    } else {
+		// FIXME: angular size is required.
+		info = magToStr( p->mag() );
+		type = i18n("Solar system object");
+	}
+    initPopupMenu( p, p->translatedName(), type, info, true, true, true, true, addTrail );
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
-void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QString &s2, const QString &s3,
+void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QString &type, const QString &info,
                                  bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail,
                                  bool showAngularDistance, bool showObsList ) {
 
     clear();
-    QString s1 = _s1;
+    QString s1 = name;
     if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
 
     bool showLabel( true );
@@ -139,8 +176,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
     aName->setDefaultWidget( labName );
     addAction( aName );
 
-    if ( ! s2.isEmpty() ) {
-        labName2 = new QLabel( "<b>"+s2+"</b>", this );
+    if ( ! type.isEmpty() ) {
+        labName2 = new QLabel( "<b>"+type+"</b>", this );
         labName2->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
         aName2 = new KAction( this );
         ks->actionCollection()->addAction( "title_name2", aName2 );
@@ -148,8 +185,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &_s1, const QStri
         addAction( aName2 );
     }
 
-    if ( ! s3.isEmpty() ) {
-        labType = new QLabel( "<b>"+s3+"</b>", this );
+    if ( ! info.isEmpty() ) {
+        labType = new QLabel( "<b>"+info+"</b>", this );
         labType->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
         aType = new KAction( this );
         ks->actionCollection()->addAction( "title_type", aType );
