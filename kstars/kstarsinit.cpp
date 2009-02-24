@@ -51,7 +51,7 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indimenu.h"
+#include "indi/indimenu.h"
 #endif
 
 //This file contains functions that kstars calls at startup (except constructors).

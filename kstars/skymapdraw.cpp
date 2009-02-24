@@ -46,11 +46,11 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "devicemanager.h"
-#include "indimenu.h"
-#include "indiproperty.h"
-#include "indielement.h"
-#include "indidevice.h"
+#include "indi/devicemanager.h"
+#include "indi/indimenu.h"
+#include "indi/indiproperty.h"
+#include "indi/indielement.h"
+#include "indi/indidevice.h"
 #endif
 
 void toXYZ(SkyPoint* p, double *x, double *y, double *z) {

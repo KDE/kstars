@@ -51,12 +51,12 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indimenu.h"
-#include "indielement.h"
-#include "indiproperty.h"
-#include "indidevice.h"
-#include "devicemanager.h"
-#include "indistd.h"
+#include "../indi/indimenu.h"
+#include "../indi/indielement.h"
+#include "../indi/indiproperty.h"
+#include "../indi/indidevice.h"
+#include "../indi/devicemanager.h"
+#include "../indi/indistd.h"
 #endif
 
 //

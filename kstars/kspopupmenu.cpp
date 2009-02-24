@@ -31,11 +31,11 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indimenu.h"
-#include "devicemanager.h"
-#include "indidevice.h"
-#include "indigroup.h"
-#include "indiproperty.h"
+#include "indi/indimenu.h"
+#include "indi/devicemanager.h"
+#include "indi/indidevice.h"
+#include "indi/indigroup.h"
+#include "indi/indiproperty.h"
 #endif
 
 #include "skycomponents/constellationboundary.h"

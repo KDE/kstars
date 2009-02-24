@@ -22,28 +22,28 @@ endif(CFITSIO_FOUND)
 
 if (INDI_FOUND)
   set (indi_SRCS
-	devicemanager.cpp
-	indidevice.cpp
-	indidriver.cpp
-	indielement.cpp
-	opsindi.cpp
-	indigroup.cpp
-	indimenu.cpp
-	indiproperty.cpp
-	indistd.cpp
-	streamwg.cpp
-	telescopewizardprocess.cpp
-	telescopeprop.cpp
-	imagesequence.cpp
+	indi/devicemanager.cpp
+	indi/indidevice.cpp
+	indi/indidriver.cpp
+	indi/indielement.cpp
+	indi/opsindi.cpp
+	indi/indigroup.cpp
+	indi/indimenu.cpp
+	indi/indiproperty.cpp
+	indi/indistd.cpp
+	indi/streamwg.cpp
+	indi/telescopewizardprocess.cpp
+	indi/telescopeprop.cpp
+	indi/imagesequence.cpp
 )
 set(indiui_SRCS
-	devmanager.ui
-        imgsequencedlg.ui
-        opsindi.ui
-        indihostconf.ui
-        streamform.ui
-        telescopewizard.ui
-        telescopeprop.ui
+	indi/devmanager.ui
+        indi/imgsequencedlg.ui
+        indi/opsindi.ui
+        indi/indihostconf.ui
+        indi/streamform.ui
+        indi/telescopewizard.ui
+        indi/telescopeprop.ui
 )
 
   include_directories(${INDI_INCLUDE_DIR})

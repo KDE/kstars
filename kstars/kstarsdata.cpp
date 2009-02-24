@@ -44,9 +44,9 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indidriver.h"
+#include "indi/indidriver.h"
 #include "lilxml.h"
-#include "indistd.h"
+#include "indi/indistd.h"
 #endif
 
 #include "detaildialog.h"

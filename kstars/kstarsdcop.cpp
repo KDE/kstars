@@ -50,12 +50,12 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indidriver.h"
-#include "indimenu.h"
-#include "indielement.h"
-#include "indidevice.h"
-#include "indiproperty.h"
-#include "devicemanager.h"
+#include "indi/indidriver.h"
+#include "indi/indimenu.h"
+#include "indi/indielement.h"
+#include "indi/indidevice.h"
+#include "indi/indiproperty.h"
+#include "indi/devicemanager.h"
 #endif
 
 void KStars::setRaDec( double ra, double dec ) {

@@ -86,12 +86,12 @@
 
 #ifdef HAVE_INDI_H
 #include "ui_devmanager.h"
-#include "indimenu.h"
-#include "indidriver.h"
-#include "telescopewizardprocess.h"
-#include "telescopeprop.h"
-#include "opsindi.h"
-#include "imagesequence.h"
+#include "indi/indimenu.h"
+#include "indi/indidriver.h"
+#include "indi/telescopewizardprocess.h"
+#include "indi/telescopeprop.h"
+#include "indi/opsindi.h"
+#include "indi/imagesequence.h"
 #endif
 
 #include "skycomponents/customcatalogcomponent.h"
