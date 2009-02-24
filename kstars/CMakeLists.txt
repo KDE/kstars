@@ -51,10 +51,10 @@ endif(INDI_FOUND)
 
 if ( XPLANET_FOUND )
     set (xplanet_SRCS
-        opsxplanet.cpp
+        xplanet/opsxplanet.cpp
     )
     set(xplanetui_SRCS
-        opsxplanet.ui
+        xplanet/opsxplanet.ui
     )
 endif ( XPLANET_FOUND )
 

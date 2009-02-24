@@ -101,7 +101,7 @@
 #endif
 
 #ifdef HAVE_XPLANET
-#include "opsxplanet.h"
+#include "xplanet/opsxplanet.h"
 #endif
 
 // #include "libkdeedu/kdeeduui/kdeeduglossary.h"
