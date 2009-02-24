@@ -14,7 +14,7 @@ if (CFITSIO_FOUND)
 set(fitsui_SRCS
 	fitsheaderdialog.ui
 	statform.ui
-	streamform.ui
+	indi/streamform.ui
 	fitshistogramui.ui 
 )
   include_directories(${CFITSIO_INCLUDE_DIR})
