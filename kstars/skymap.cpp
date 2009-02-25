@@ -52,12 +52,12 @@
 #include "addlinkdialog.h"
 #include "kspopupmenu.h"
 #include "simclock.h"
-#include "skyobject.h"
-#include "deepskyobject.h"
-#include "ksmoon.h"
-#include "ksasteroid.h"
-#include "kscomet.h"
-#include "starobject.h"
+#include "skyobjects/skyobject.h"
+#include "skyobjects/deepskyobject.h"
+#include "skyobjects/ksmoon.h"
+#include "skyobjects/ksasteroid.h"
+#include "skyobjects/kscomet.h"
+#include "skyobjects/starobject.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>

@@ -30,7 +30,7 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "ksutils.h"
-#include "skyobject.h"
+#include "../skyobjects/skyobject.h"
 #include "ksfilereader.h"
 
 #include "typedef.h"

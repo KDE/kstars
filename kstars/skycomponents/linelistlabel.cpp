@@ -18,7 +18,7 @@
 
 #include "linelistlabel.h"
 #include "Options.h"
-#include "skypoint.h"
+#include "../skyobjects/skypoint.h"
 #include "skymap.h"
 #include "kstarsdata.h"
 #include "skylabeler.h"

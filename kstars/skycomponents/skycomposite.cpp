@@ -18,7 +18,7 @@
 #include "skycomposite.h"
 
 #include "kstarsdata.h"
-#include "skyobject.h"
+#include "../skyobjects/skyobject.h"
 
 SkyComposite::SkyComposite(SkyComponent *parent )
         : SkyComponent( parent ), m_CurrentIndex(0)

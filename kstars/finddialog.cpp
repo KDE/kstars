@@ -26,7 +26,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
-#include "skyobject.h"
+#include "skyobjects/skyobject.h"
 
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );

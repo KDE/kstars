@@ -26,7 +26,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "ksutils.h"
-#include "skyobject.h"
+#include "../skyobjects/skyobject.h"
 #include "ksfilereader.h"
 
 #include "polylist.h"

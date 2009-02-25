@@ -18,8 +18,8 @@
 #include "starblocklist.h"
 #include "binfilehelper.h"
 #include "starblockfactory.h"
-#include "stardata.h"
-#include "deepstardata.h"
+#include "../skyobjects/stardata.h"
+#include "../skyobjects/deepstardata.h"
 #include "starcomponent.h"
 
 #include <kde_file.h>

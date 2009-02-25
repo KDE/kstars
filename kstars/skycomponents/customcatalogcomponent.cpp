@@ -29,8 +29,8 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "starobject.h"
-#include "deepskyobject.h"
+#include "../skyobjects/starobject.h"
+#include "../skyobjects/deepskyobject.h"
 
 QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
 

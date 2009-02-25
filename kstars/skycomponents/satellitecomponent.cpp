@@ -22,7 +22,7 @@
 
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "skyline.h"
+#include "../skyobjects/skyline.h"
 #include "Options.h"
 
 SatelliteComponent::SatelliteComponent(SkyComponent *parent )

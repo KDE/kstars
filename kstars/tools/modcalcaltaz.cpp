@@ -24,7 +24,7 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-#include "skypoint.h"
+#include "../skyobjects/skypoint.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "kstarsdata.h"

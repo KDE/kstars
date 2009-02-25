@@ -29,10 +29,10 @@
 #include "skymap.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
-#include "ksplanet.h"
-#include "kssun.h"
-#include "ksmoon.h"
-#include "kspluto.h"
+#include "../skyobjects/ksplanet.h"
+#include "../skyobjects/kssun.h"
+#include "../skyobjects/ksmoon.h"
+#include "../skyobjects/kspluto.h"
 #include "jupitermoonscomponent.h"
 
 

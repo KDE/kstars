@@ -35,7 +35,7 @@
 
 #include "ksutils.h"
 #include "detaildialog.h"
-#include "skyobject.h"
+#include "skyobjects/skyobject.h"
 
 ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );

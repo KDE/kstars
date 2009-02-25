@@ -23,7 +23,7 @@
 #include <kmessagebox.h>
 
 #include "dms.h"
-#include "skypoint.h"
+#include "../skyobjects/skypoint.h"
 #include "kstars.h"
 #include "finddialog.h"
 #include "widgets/dmsbox.h"

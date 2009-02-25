@@ -33,7 +33,7 @@
 #include "indistd.h"
 #include "kstars.h"
 #include "skymap.h"
-#include "skyobject.h"
+#include "../skyobjects/skyobject.h"
 #include "timedialog.h"
 #include "geolocation.h"
 

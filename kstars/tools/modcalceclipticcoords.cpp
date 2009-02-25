@@ -27,7 +27,7 @@
 #include "dms.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "skypoint.h"
+#include "../skyobjects/skypoint.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "finddialog.h"

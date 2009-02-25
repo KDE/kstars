@@ -29,7 +29,7 @@
 
 #include "ksutils.h"
 #include "Options.h"
-#include "starobject.h"
+#include "skyobjects/starobject.h"
 
 ColorScheme::ColorScheme() : FileName() {
     //Each color has two names associated with it.  The KeyName is its

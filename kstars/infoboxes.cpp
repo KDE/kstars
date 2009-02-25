@@ -27,7 +27,7 @@
 #include "kstarsdatetime.h"
 #include "dms.h"
 #include "geolocation.h"
-#include "skypoint.h"
+#include "skyobjects/skypoint.h"
 #include "skycomponents/skylabeler.h"
 
 InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,

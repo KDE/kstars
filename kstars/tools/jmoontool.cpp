@@ -30,11 +30,11 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksplanet.h"
+#include "../skyobjects/ksplanet.h"
 #include "simclock.h"
 #include "dms.h"
 #include "ksnumbers.h"
-#include "jupitermoons.h"
+#include "../skyobjects/jupitermoons.h"
 
 JMoonTool::JMoonTool(QWidget *parent)
         : KDialog( parent )

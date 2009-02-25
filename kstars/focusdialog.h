@@ -22,7 +22,7 @@
 
 #include "ui_focusdialog.h"
 
-#include "skypoint.h"
+#include "skyobjects/skypoint.h"
 class KStars;
 
 class FocusDialogUI : public QFrame, public Ui::FocusDialog {

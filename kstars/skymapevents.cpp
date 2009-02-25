@@ -42,7 +42,7 @@
 #include "simclock.h"
 #include "infoboxes.h"
 #include "kspopupmenu.h"
-#include "ksmoon.h"
+#include "skyobjects/ksmoon.h"
 
 // TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"

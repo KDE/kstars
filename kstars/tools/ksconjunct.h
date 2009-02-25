@@ -23,9 +23,9 @@
 #include <QObject>
 
 #include "dms.h"
-#include "skyobject.h"
-#include "ksplanet.h"
-#include "ksplanetbase.h"
+#include "../skyobjects/skyobject.h"
+#include "../skyobjects/ksplanet.h"
+#include "../skyobjects/ksplanetbase.h"
 #include "ksnumbers.h"
 
 class SkyObject;

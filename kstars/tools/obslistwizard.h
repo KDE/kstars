@@ -20,7 +20,7 @@
 #include <kdialog.h>
 
 #include "ui_obslistwizard.h"
-#include "skypoint.h"
+#include "../skyobjects/skypoint.h"
 
 class KStars;
 class SkyObject;

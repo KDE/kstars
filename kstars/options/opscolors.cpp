@@ -36,7 +36,7 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "colorscheme.h"
-#include "starobject.h"
+#include "skyobjects/starobject.h"
 
 static int ItemColorData = Qt::UserRole + 1;
 

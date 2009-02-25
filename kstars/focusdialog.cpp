@@ -26,7 +26,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "dms.h"
-#include "skypoint.h"
+#include "skyobjects/skypoint.h"
 #include "skymap.h"
 
 FocusDialogUI::FocusDialogUI( QWidget *parent ) : QFrame( parent ) {

@@ -23,9 +23,9 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "starobject.h"
-#include "deepskyobject.h"
-#include "ksplanet.h"
+#include "../skyobjects/starobject.h"
+#include "../skyobjects/deepskyobject.h"
+#include "../skyobjects/ksplanet.h"
 
 #include "constellationboundary.h"
 #include "constellationboundarylines.h"

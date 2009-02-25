@@ -32,7 +32,7 @@
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
-#include "kssun.h"
+#include "../skyobjects/kssun.h"
 #include "widgets/dmsbox.h"
 
 

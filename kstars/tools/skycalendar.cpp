@@ -28,7 +28,7 @@
 #include "kstars.h"
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
-#include "ksplanet.h"
+#include "../skyobjects/ksplanet.h"
 
 SkyCalendarUI::SkyCalendarUI( QWidget *parent )
     : QFrame( parent )

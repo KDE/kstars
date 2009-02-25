@@ -23,7 +23,7 @@
 #include <kurlrequester.h>
 
 #include "ui_addcatdialog.h"
-#include "deepskyobject.h"
+#include "skyobjects/deepskyobject.h"
 
 class KStars;
 

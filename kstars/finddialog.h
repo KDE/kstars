@@ -26,7 +26,7 @@
 #include <kdialog.h>
 
 #include "ui_finddialog.h"
-#include "skyobject.h"
+#include "skyobjects/skyobject.h"
 
 class QTimer;
 class QStringListModel;

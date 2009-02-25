@@ -35,8 +35,8 @@
 #include "detaildialog.h"
 #include "locationdialog.h"
 #include "timedialog.h"
-#include "kssun.h"
-#include "ksmoon.h"
+#include "../skyobjects/kssun.h"
+#include "../skyobjects/ksmoon.h"
 
 WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );

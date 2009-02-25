@@ -24,7 +24,7 @@
 #include "skycomponent.h"
 
 #include "Options.h"
-#include "ksasteroid.h"
+#include "../skyobjects/ksasteroid.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksfilereader.h"

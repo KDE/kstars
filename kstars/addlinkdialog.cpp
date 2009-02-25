@@ -22,7 +22,7 @@
 #include <kpushbutton.h>
 #include <ktoolinvocation.h>
 
-#include "skyobject.h"
+#include "skyobjects/skyobject.h"
 
 AddLinkDialogUI::AddLinkDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi(this);

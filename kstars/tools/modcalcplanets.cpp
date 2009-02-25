@@ -28,10 +28,10 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
-#include "kssun.h"
-#include "ksplanet.h"
-#include "ksmoon.h"
-#include "kspluto.h"
+#include "../skyobjects/kssun.h"
+#include "../skyobjects/ksplanet.h"
+#include "../skyobjects/ksmoon.h"
+#include "../skyobjects/kspluto.h"
 #include "widgets/dmsbox.h"
 
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit)

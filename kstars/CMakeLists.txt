@@ -244,23 +244,40 @@ set(kstars_optionsui_SRCS
   options/opssolarsystem.ui 
 )
 
+set(kstars_skyobjects_SRCS
+  skyobjects/deepskyobject.cpp
+  skyobjects/jupitermoons.cpp
+  skyobjects/ksasteroid.cpp
+  skyobjects/kscomet.cpp
+  skyobjects/ksmoon.cpp
+  skyobjects/ksplanetbase.cpp
+  skyobjects/ksplanet.cpp
+  skyobjects/kspluto.cpp
+  skyobjects/kssun.cpp
+  skyobjects/skyline.cpp
+  skyobjects/skyobject.cpp
+  skyobjects/skypoint.cpp
+  skyobjects/starobject.cpp
+  skyobjects/trailobject.cpp
+)
+
 set(kstars_extra_SRCS
 	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp
-	deepskyobject.cpp detaildialog.cpp dms.cpp finddialog.cpp 
+	detaildialog.cpp dms.cpp finddialog.cpp 
 	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp
-	imageviewer.cpp infobox.cpp infoboxes.cpp jupitermoons.cpp ksasteroid.cpp
-	kscomet.cpp ksfilereader.cpp ksmoon.cpp ksnumbers.cpp ksplanet.cpp 
-	ksplanetbase.cpp kspluto.cpp kspopupmenu.cpp kssun.cpp kstars.cpp 
+	imageviewer.cpp infobox.cpp infoboxes.cpp 
+	ksfilereader.cpp ksnumbers.cpp
+	kspopupmenu.cpp kstars.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
-	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp trailobject.cpp
-	skyobject.cpp skypoint.cpp skyline.cpp starobject.cpp timedialog.cpp timezonerule.cpp 
+	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
+	timedialog.cpp timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
-	${kstars_options_SRCS}
+	${kstars_options_SRCS} ${kstars_skyobjects_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)

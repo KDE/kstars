@@ -33,11 +33,11 @@
 #include "starblock.h"
 #include "typedef.h"
 #include "highpmstarlist.h"
-#include "starobject.h"
+#include "../skyobjects/starobject.h"
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 #include "skymesh.h"
-#include "deepstardata.h"
+#include "../skyobjects/deepstardata.h"
 #include "starblocklist.h"
 
 class SkyComponent;

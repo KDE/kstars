@@ -27,8 +27,8 @@
 #include <QResizeEvent>
 #include <QPaintEvent>
 
-#include "skypoint.h"
-#include "skyline.h"
+#include "skyobjects/skypoint.h"
+#include "skyobjects/skyline.h"
 
 #include <config-kstars.h>
 
