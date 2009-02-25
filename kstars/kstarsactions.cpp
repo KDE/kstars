@@ -47,11 +47,11 @@
 #include <kicon.h>
 #include <knewstuff2/engine.h>
 
-#include "opscatalog.h"
-#include "opsguides.h"
-#include "opssolarsystem.h"
-#include "opscolors.h"
-#include "opsadvanced.h"
+#include "options/opscatalog.h"
+#include "options/opsguides.h"
+#include "options/opssolarsystem.h"
+#include "options/opscolors.h"
+#include "options/opsadvanced.h"
 
 #include "Options.h"
 #include "kstars.h"

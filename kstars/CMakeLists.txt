@@ -228,6 +228,22 @@ set(libkstarswidgets_SRCS ${fitswidgets_SRCS}
 
 set( kstars_KCFG_SRCS Options.kcfgc )
 
+set(kstars_options_SRCS
+  options/opsadvanced.cpp
+  options/opscatalog.cpp
+  options/opscolors.cpp
+  options/opsguides.cpp
+  options/opssolarsystem.cpp 
+)
+
+set(kstars_optionsui_SRCS
+  options/opsadvanced.ui 
+  options/opscatalog.ui
+  options/opscolors.ui
+  options/opsguides.ui
+  options/opssolarsystem.ui 
+)
+
 set(kstars_extra_SRCS
 	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp
 	deepskyobject.cpp detaildialog.cpp dms.cpp finddialog.cpp 
@@ -237,7 +253,6 @@ set(kstars_extra_SRCS
 	ksplanetbase.cpp kspluto.cpp kspopupmenu.cpp kssun.cpp kstars.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
-	opsadvanced.cpp opscatalog.cpp opscolors.cpp opsguides.cpp opssolarsystem.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp trailobject.cpp
 	skyobject.cpp skypoint.cpp skyline.cpp starobject.cpp timedialog.cpp timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
@@ -245,6 +260,7 @@ set(kstars_extra_SRCS
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
+	${kstars_options_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -256,12 +272,11 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
 kde4_add_ui_files(kstars_SRCS
-       ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS}
+       ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS}
        addcatdialog.ui addlinkdialog.ui details_data.ui details_position.ui
        details_links.ui details_database.ui details_log.ui finddialog.ui
        focusdialog.ui fovdialog.ui newfov.ui locationdialog.ui 
-       wizwelcome.ui wizlocation.ui wizdownload.ui opsadvanced.ui 
-       opscatalog.ui opscolors.ui opsguides.ui opssolarsystem.ui 
+       wizwelcome.ui wizlocation.ui wizdownload.ui 
        thumbnailpicker.ui thumbnaileditor.ui 
 )
 
