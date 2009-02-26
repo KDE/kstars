@@ -63,9 +63,9 @@ rm -f image_url.tmp
 rm -f info_url.tmp
 rm -f tips.cpp
 
-$EXTRACTRC *.ui tools/*.ui *.rc >> rc.cpp || exit 11
+$EXTRACTRC xplanet/*.ui *.ui tools/*.ui *.rc >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
 $XGETTEXT *.cpp *.h tools/*.cpp tools/*.h skycomponents/*.cpp widgets/*.cpp -o $podir/kstars.pot
 rm -f tips.cpp
 rm -f kstars_i18n.cpp
-
+rm -f rc.cpp
