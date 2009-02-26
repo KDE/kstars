@@ -97,7 +97,7 @@
 #include "skycomponents/customcatalogcomponent.h"
 
 #ifdef HAVE_CFITSIO_H
-#include "fitsviewer.h"
+#include "fitsviewer/fitsviewer.h"
 #endif
 
 #ifdef HAVE_XPLANET

@@ -9,13 +9,17 @@ add_subdirectory( htmesh )
 Find_package(ZLIB REQUIRED)
 
 if (CFITSIO_FOUND)
-  set (fits_SRCS fitshistogram.cpp fitsimage.cpp fitsviewer.cpp)
-  set (fitswidgets_SRCS widgets/fitshistogramdraw.cpp)
-set(fitsui_SRCS
-	fitsheaderdialog.ui
-	statform.ui
-	indi/streamform.ui
-	fitshistogramui.ui 
+  set (fits_SRCS
+    fitsviewer/fitshistogram.cpp
+    fitsviewer/fitsimage.cpp
+    fitsviewer/fitsviewer.cpp
+    fitsviewer/fitshistogramdraw.cpp
+)
+  set (fitsui_SRCS
+    fitsviewer/fitsheaderdialog.ui
+    fitsviewer/statform.ui
+    indi/streamform.ui
+    fitsviewer/fitshistogramui.ui 
 )
   include_directories(${CFITSIO_INCLUDE_DIR})
 endif(CFITSIO_FOUND)
@@ -210,7 +214,7 @@ set(libkstarscomponents_SRCS
    skycomponents/flagcomponent.cpp
 )
 
-set(libkstarswidgets_SRCS ${fitswidgets_SRCS}
+set(libkstarswidgets_SRCS
 	widgets/calcframe.cpp 
 	widgets/clicklabel.cpp 
 	widgets/dmsbox.cpp 

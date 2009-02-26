@@ -315,7 +315,7 @@
   <customwidget>
    <class>histDrawArea</class>
    <extends>QFrame</extends>
-   <header>widgets/fitshistogramdraw.h</header>
+   <header>fitsviewer/fitshistogramdraw.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
