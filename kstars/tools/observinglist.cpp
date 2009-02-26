@@ -41,22 +41,22 @@
 #include "obslistwizard.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "../skyobjects/skyobject.h"
-#include "../skyobjects/starobject.h"
+#include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 #include "skymap.h"
-#include "detaildialog.h"
+#include "dialogs/detaildialog.h"
 #include "tools/altvstime.h"
 #include "Options.h"
 
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "../indi/indimenu.h"
-#include "../indi/indielement.h"
-#include "../indi/indiproperty.h"
-#include "../indi/indidevice.h"
-#include "../indi/devicemanager.h"
-#include "../indi/indistd.h"
+#include "indi/indimenu.h"
+#include "indi/indielement.h"
+#include "indi/indiproperty.h"
+#include "indi/indidevice.h"
+#include "indi/devicemanager.h"
+#include "indi/indistd.h"
 #endif
 
 //

@@ -34,7 +34,7 @@
 #include <kstandarddirs.h>
 
 #include "ksutils.h"
-#include "detaildialog.h"
+#include "dialogs/detaildialog.h"
 #include "skyobjects/skyobject.h"
 
 ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {

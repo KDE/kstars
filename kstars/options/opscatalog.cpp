@@ -29,7 +29,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "addcatdialog.h"
+#include "dialogs/addcatdialog.h"
 #include "widgets/magnitudespinbox.h"
 #include "skycomponents/customcatalogcomponent.h"
 

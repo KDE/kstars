@@ -261,23 +261,50 @@ set(kstars_skyobjects_SRCS
   skyobjects/trailobject.cpp
 )
 
+set(kstars_dialogs_SRCS
+  dialogs/addcatdialog.cpp
+  dialogs/addlinkdialog.cpp
+  dialogs/detaildialog.cpp
+  dialogs/finddialog.cpp
+  dialogs/focusdialog.cpp
+  dialogs/fovdialog.cpp
+  dialogs/locationdialog.cpp
+  dialogs/timedialog.cpp
+)
+
+set(kstars_dialogsui_SRCS
+  dialogs/addcatdialog.ui
+  dialogs/addlinkdialog.ui
+  dialogs/details_database.ui
+  dialogs/details_data.ui
+  dialogs/details_links.ui
+  dialogs/details_log.ui
+  dialogs/details_position.ui
+  dialogs/finddialog.ui
+  dialogs/focusdialog.ui
+  dialogs/fovdialog.ui
+  dialogs/locationdialog.ui
+  dialogs/wizwelcome.ui
+  dialogs/wizlocation.ui
+  dialogs/wizdownload.ui
+  dialogs/newfov.ui
+)
+
 set(kstars_extra_SRCS
-	addcatdialog.cpp addlinkdialog.cpp colorscheme.cpp
-	detaildialog.cpp dms.cpp finddialog.cpp 
-	focusdialog.cpp fov.cpp fovdialog.cpp geolocation.cpp
+	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp infobox.cpp infoboxes.cpp 
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp kstars.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
-	kstarssplash.cpp ksutils.cpp kswizard.cpp locationdialog.cpp main.cpp 
+	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
-	timedialog.cpp timezonerule.cpp 
+	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
-	${kstars_options_SRCS} ${kstars_skyobjects_SRCS}
+	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -289,12 +316,8 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
 kde4_add_ui_files(kstars_SRCS
-       ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS}
-       addcatdialog.ui addlinkdialog.ui details_data.ui details_position.ui
-       details_links.ui details_database.ui details_log.ui finddialog.ui
-       focusdialog.ui fovdialog.ui newfov.ui locationdialog.ui 
-       wizwelcome.ui wizlocation.ui wizdownload.ui 
-       thumbnailpicker.ui thumbnaileditor.ui 
+       ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+         thumbnailpicker.ui thumbnaileditor.ui 
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")

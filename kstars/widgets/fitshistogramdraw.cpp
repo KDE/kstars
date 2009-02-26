@@ -15,7 +15,7 @@
  ***************************************************************************/
 
 #include "fitshistogramdraw.h"
-#include "../fitshistogram.h"
+#include "fitshistogram.h"
 
 #include <QPainter>
 #include <QPen>

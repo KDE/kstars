@@ -49,7 +49,7 @@
 #include "indi/indistd.h"
 #endif
 
-#include "detaildialog.h"
+#include "dialogs/detaildialog.h"
 
 //Initialize static members
 QList<GeoLocation*> KStarsData::geoList = QList<GeoLocation*>();

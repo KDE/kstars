@@ -16,9 +16,9 @@
  ***************************************************************************/
 
 #include "starblock.h"
-#include "../skyobjects/starobject.h"
+#include "skyobjects/starobject.h"
 #include "starcomponent.h"
-#include "../skyobjects/stardata.h"
+#include "skyobjects/stardata.h"
 
 #include <kdebug.h>
 

@@ -32,11 +32,11 @@
 #include "skymap.h"
 #include "ksnumbers.h"
 #include "simclock.h"
-#include "detaildialog.h"
-#include "locationdialog.h"
-#include "timedialog.h"
-#include "../skyobjects/kssun.h"
-#include "../skyobjects/ksmoon.h"
+#include "dialogs/detaildialog.h"
+#include "dialogs/locationdialog.h"
+#include "dialogs/timedialog.h"
+#include "skyobjects/kssun.h"
+#include "skyobjects/ksmoon.h"
 
 WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );

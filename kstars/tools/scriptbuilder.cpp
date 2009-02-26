@@ -42,8 +42,8 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "kstarsdatetime.h"
-#include "finddialog.h"
-#include "locationdialog.h"
+#include "dialogs/finddialog.h"
+#include "dialogs/locationdialog.h"
 #include "widgets/dmsbox.h"
 #include "widgets/timestepbox.h"
 

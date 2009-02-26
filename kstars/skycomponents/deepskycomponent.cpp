@@ -24,7 +24,7 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 
-#include "../skyobjects/deepskyobject.h"
+#include "skyobjects/deepskyobject.h"
 #include "dms.h"
 #include "ksfilereader.h"
 #include "kstarsdata.h"

@@ -27,9 +27,9 @@
 
 #include "ksnumbers.h"
 
-#include "../htmesh/HTMesh.h"
-#include "../htmesh/MeshIterator.h"
-#include "../htmesh/MeshBuffer.h"
+#include "htmesh/HTMesh.h"
+#include "htmesh/MeshIterator.h"
+#include "htmesh/MeshBuffer.h"
 
 #include "typedef.h"
 

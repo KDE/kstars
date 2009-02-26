@@ -21,14 +21,14 @@
 #include <KLocale>
 #include <kmessagebox.h>
 
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 #include "geolocation.h"
 #include "kstars.h"
-#include "../skyobjects/kssun.h"
-#include "../skyobjects/ksmoon.h"
+#include "skyobjects/kssun.h"
+#include "skyobjects/ksmoon.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
-#include "locationdialog.h"
+#include "dialogs/locationdialog.h"
 #include "widgets/dmsbox.h"
 #include "widgets/timebox.h"
 

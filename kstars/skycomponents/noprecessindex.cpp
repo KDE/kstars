@@ -17,7 +17,7 @@
 
 #include "noprecessindex.h"
 #include "Options.h"
-#include "../skyobjects/skypoint.h"
+#include "skyobjects/skypoint.h"
 #include "kstarsdata.h"
 #include "linelist.h"
 

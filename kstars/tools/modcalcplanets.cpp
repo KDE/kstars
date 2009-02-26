@@ -23,15 +23,15 @@
 #include <kmessagebox.h>
 
 #include "geolocation.h"
-#include "locationdialog.h"
+#include "dialogs/locationdialog.h"
 #include "dms.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
-#include "../skyobjects/kssun.h"
-#include "../skyobjects/ksplanet.h"
-#include "../skyobjects/ksmoon.h"
-#include "../skyobjects/kspluto.h"
+#include "skyobjects/kssun.h"
+#include "skyobjects/ksplanet.h"
+#include "skyobjects/ksmoon.h"
+#include "skyobjects/kspluto.h"
 #include "widgets/dmsbox.h"
 
 modCalcPlanets::modCalcPlanets(QWidget *parentSplit)

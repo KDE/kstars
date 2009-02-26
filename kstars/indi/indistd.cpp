@@ -19,10 +19,10 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 #include "simclock.h"
 #include "devicemanager.h"
-#include "timedialog.h"
+#include "dialogs/timedialog.h"
 #include "streamwg.h"
 
 #include <config-kstars.h>

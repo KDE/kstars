@@ -22,7 +22,7 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "skymap.h"
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 #include "Options.h"
 
 #include "ksfilereader.h"

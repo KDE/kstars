@@ -20,7 +20,7 @@
 
 #include "listcomponent.h"
 #include <QList>
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 
 class KStarsData;
 class SkyLabeler;

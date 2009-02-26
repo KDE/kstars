@@ -20,7 +20,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "timedialog.h"
+#include "dialogs/timedialog.h"
 #include "ksutils.h"
 
 #include "indimenu.h"

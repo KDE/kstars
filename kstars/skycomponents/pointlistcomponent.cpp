@@ -17,7 +17,7 @@
 
 #include "pointlistcomponent.h"
 
-#include "../skyobjects/skypoint.h" 
+#include "skyobjects/skypoint.h" 
 #include "kstarsdata.h"
 
 PointListComponent::PointListComponent( SkyComponent *parent ) :

@@ -22,7 +22,7 @@
 #include <kdebug.h>
 
 #include "kstarsdata.h"
-#include "../skyobjects/kssun.h"
+#include "skyobjects/kssun.h"
 #include "skycalendar.h"
 
 #define XPADDING 20

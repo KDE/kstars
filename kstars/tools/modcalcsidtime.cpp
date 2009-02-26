@@ -26,7 +26,7 @@
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
-#include "locationdialog.h"
+#include "dialogs/locationdialog.h"
 #include "widgets/dmsbox.h"
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {

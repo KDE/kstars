@@ -21,7 +21,7 @@
 
 #include "kstarsdata.h"
 #include "skymap.h" 
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 
 ListComponent::ListComponent( SkyComponent *parent, bool (*visibleMethod)() )
         : SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)

@@ -33,8 +33,8 @@
 #include "indistd.h"
 #include "kstars.h"
 #include "skymap.h"
-#include "../skyobjects/skyobject.h"
-#include "timedialog.h"
+#include "skyobjects/skyobject.h"
+#include "dialogs/timedialog.h"
 #include "geolocation.h"
 
 #include <sys/socket.h>

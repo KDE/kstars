@@ -22,7 +22,7 @@
 #include <QAbstractTableModel>
 #include <kdialog.h>
 
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 #include "ui_observinglist.h"
 
 class QSortFilterProxyModel;

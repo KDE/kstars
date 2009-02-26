@@ -22,7 +22,7 @@
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "../skyobjects/skypoint.h" 
+#include "skyobjects/skypoint.h" 
 #include "dms.h"
 #include "Options.h"
 #include "linelist.h"

@@ -23,8 +23,8 @@
 #include <klocale.h>
 
 #include "Options.h"
-#include "../skyobjects/ksplanet.h"
-#include "../skyobjects/ksplanetbase.h"
+#include "skyobjects/ksplanet.h"
+#include "skyobjects/ksplanetbase.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 

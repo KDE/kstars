@@ -25,13 +25,13 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "geolocation.h"
-#include "locationdialog.h"
-#include "../skyobjects/skyobject.h"
-#include "../skyobjects/deepskyobject.h"
-#include "../skyobjects/starobject.h"
+#include "dialogs/locationdialog.h"
+#include "skyobjects/skyobject.h"
+#include "skyobjects/deepskyobject.h"
+#include "skyobjects/starobject.h"
 #include "widgets/dmsbox.h"
 #include "widgets/magnitudespinbox.h"
-#include "../skycomponents/constellationboundary.h"
+#include "skycomponents/constellationboundary.h"
 
 ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
     setupUi( this );

@@ -22,7 +22,7 @@
 
 #include "kstarsdata.h"
 #include "skymap.h" 
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 
 SingleComponent::SingleComponent(SkyComponent *parent, bool (*visibleMethod)())
         : SkyComponent( parent, visibleMethod )

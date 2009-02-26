@@ -20,10 +20,10 @@
 #include <math.h>
 
 #include "ksnumbers.h"
-#include "../skyobjects/ksplanetbase.h"
-#include "../skyobjects/ksplanet.h"
-#include "../skyobjects/ksasteroid.h"
-#include "../skyobjects/kscomet.h"
+#include "skyobjects/ksplanetbase.h"
+#include "skyobjects/ksplanet.h"
+#include "skyobjects/ksasteroid.h"
+#include "skyobjects/kscomet.h"
 #include "kstarsdata.h"
 
 KSConjunct::KSConjunct() {

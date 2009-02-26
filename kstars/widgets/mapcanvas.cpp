@@ -25,9 +25,9 @@
 
 #include <kstandarddirs.h>
 
-#include "../locationdialog.h"
-#include "../kstars.h"
-#include "../kstarsdata.h"
+#include "dialogs/locationdialog.h"
+#include "kstars.h"
+#include "kstarsdata.h"
 
 MapCanvas::MapCanvas( QWidget *parent ) : QFrame( parent ) {
     ld = (LocationDialog *)topLevelWidget();

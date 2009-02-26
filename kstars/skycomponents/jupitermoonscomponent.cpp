@@ -21,11 +21,11 @@
 #include <QPoint>
 #include <QPainter>
 
-#include "../skyobjects/jupitermoons.h"
+#include "skyobjects/jupitermoons.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "../skyobjects/skypoint.h" 
-#include "../skyobjects/trailobject.h" 
+#include "skyobjects/skypoint.h" 
+#include "skyobjects/trailobject.h" 
 #include "dms.h"
 #include "Options.h"
 #include "solarsystemsinglecomponent.h"

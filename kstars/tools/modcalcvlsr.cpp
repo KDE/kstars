@@ -24,13 +24,13 @@
 
 #include "ksnumbers.h"
 #include "dms.h"
-#include "../skyobjects/skypoint.h"
+#include "skyobjects/skypoint.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"
-#include "locationdialog.h"
-#include "finddialog.h"
+#include "dialogs/locationdialog.h"
+#include "dialogs/finddialog.h"
 
 modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0)
 {

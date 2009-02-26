@@ -34,7 +34,7 @@
 #include "skylabel.h"
 #include "typedef.h"
 #include "highpmstarlist.h"
-#include "../skyobjects/starobject.h"
+#include "skyobjects/starobject.h"
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 #include "skymesh.h"

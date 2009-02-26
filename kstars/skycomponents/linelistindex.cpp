@@ -42,7 +42,7 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 #include "skymap.h"
 
 #include "skymesh.h"

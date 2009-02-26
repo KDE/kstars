@@ -41,7 +41,7 @@
 #include "kstarssplash.h"
 #include "skymap.h"
 #include "simclock.h"
-#include "finddialog.h"
+#include "dialogs/finddialog.h"
 #include "ksutils.h"
 #include "imageviewer.h"
 #include "infoboxes.h"

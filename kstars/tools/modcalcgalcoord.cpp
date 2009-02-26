@@ -23,9 +23,9 @@
 #include <kmessagebox.h>
 
 #include "dms.h"
-#include "../skyobjects/skypoint.h"
+#include "skyobjects/skypoint.h"
 #include "kstars.h"
-#include "finddialog.h"
+#include "dialogs/finddialog.h"
 #include "widgets/dmsbox.h"
 
 modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit)

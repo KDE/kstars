@@ -39,9 +39,9 @@
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "ksfilereader.h"
-#include "../skyobjects/ksplanetbase.h"
-#include "../skyobjects/ksplanet.h"
-#include "../skyobjects/kspluto.h"
+#include "skyobjects/ksplanetbase.h"
+#include "skyobjects/ksplanet.h"
+#include "skyobjects/kspluto.h"
 #include "dms.h"
 #include "widgets/timestepbox.h"
 

@@ -25,7 +25,7 @@
 #include <QPen> 
 
 #include "skycomponent.h"
-#include "../skyobjects/skypoint.h"
+#include "skyobjects/skypoint.h"
 
 class SkyLabeler;
 class SkyMap;

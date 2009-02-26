@@ -24,7 +24,7 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 
 SkyComponent::SkyComponent( SkyComponent *parent, bool (*visibleMethod)() )
 {

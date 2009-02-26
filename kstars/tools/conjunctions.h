@@ -28,8 +28,8 @@
 #include <QTextStream>
 
 #include "ui_conjunctions.h"
-#include "../skyobjects/skyobject.h"
-#include "../skyobjects/ksplanetbase.h"
+#include "skyobjects/skyobject.h"
+#include "skyobjects/ksplanetbase.h"
 
 class GeoLocation;
 class KSPlanetBase;

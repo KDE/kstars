@@ -29,7 +29,7 @@
 #include <kpagedialog.h>
 #include <ktextedit.h>
 
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 //UI headers
 #include "ui_details_data.h"
 #include "ui_details_position.h"

@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "fovwidget.h"
-#include "fovdialog.h"
+#include "dialogs/fovdialog.h"
 #include "fov.h"
 
 #include <QPaintEvent>

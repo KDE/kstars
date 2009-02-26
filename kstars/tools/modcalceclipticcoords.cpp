@@ -27,10 +27,10 @@
 #include "dms.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "../skyobjects/skypoint.h"
+#include "skyobjects/skypoint.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
-#include "finddialog.h"
+#include "dialogs/finddialog.h"
 #include "widgets/dmsbox.h"
 
 modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)

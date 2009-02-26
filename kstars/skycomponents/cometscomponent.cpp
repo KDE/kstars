@@ -24,7 +24,7 @@
 #include <kglobal.h>
 
 #include "Options.h"
-#include "../skyobjects/kscomet.h"
+#include "skyobjects/kscomet.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksfilereader.h"

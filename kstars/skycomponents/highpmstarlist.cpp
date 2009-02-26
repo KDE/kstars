@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include "highpmstarlist.h"
-#include "../skyobjects/starobject.h"
+#include "skyobjects/starobject.h"
 #include "kstarsdatetime.h"
 #include "skymesh.h"
 

@@ -17,7 +17,7 @@
  #include "indistd.h"
  #include "Options.h"
  #include "kstars.h"
- #include "timedialog.h"
+ #include "dialogs/timedialog.h"
  #include "skymap.h"
 
  #include <base64.h>

@@ -20,7 +20,7 @@
 
 #include <QPointF>
 #include <QList>
-#include "../skyobjects/skyobject.h"
+#include "skyobjects/skyobject.h"
 
 class SkyLabel;
 typedef QList<SkyLabel>                LabelList;

@@ -24,14 +24,14 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-#include "../skyobjects/skypoint.h"
+#include "skyobjects/skypoint.h"
 #include "geolocation.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"
-#include "finddialog.h"
-#include "locationdialog.h"
+#include "dialogs/finddialog.h"
+#include "dialogs/locationdialog.h"
 
 modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
         : QFrame(parentSplit), horInputCoords(false) {

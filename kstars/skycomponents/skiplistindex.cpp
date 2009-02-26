@@ -20,7 +20,7 @@
 #include <QList>
 #include <QPointF>
 
-#include "../skyobjects/skypoint.h"
+#include "skyobjects/skypoint.h"
 #include "skymesh.h"
 
 #include "skiplist.h"
