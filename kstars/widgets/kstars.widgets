@@ -11,6 +11,6 @@ Group=KStars Widgets
 
 [DragListBox]
 ToolTip=List box that handles drag/drop events
-WhatsThis=A list box that handles drag/drop events.  This is written specifically for the Add Catalog tool in KStars.
+WhatsThis=A list box that handles drag/drop events. This is written specifically for the Add Catalog tool in KStars.
 IncludeFile=draglistbox.h
 Group=KStars Widgets
