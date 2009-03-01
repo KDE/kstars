@@ -169,7 +169,7 @@ void modCalcVlsr::slotCompute()
         }
 
     default: //oops
-        kDebug() << i18n("Error: I do not know which velocity to use for input.");
+        kDebug() << i18n("Error: do not know which velocity to use for input.");
         break;
     }
 }

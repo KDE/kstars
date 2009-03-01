@@ -116,7 +116,7 @@
 	<group name="Catalogs">
 		<entry name="CatalogFile" type="StringList">
 			<label>Filenames of defined custom object catalogs.</label>
-			<whatsthis>List of the filenames of custom objects catalogs.</whatsthis>
+			<whatsthis>List of the filenames of custom object catalogs.</whatsthis>
 		</entry>
 		<entry name="ShowCatalog" type="IntList">
 			<label>List of toggles for displaying custom object catalogs.</label>
@@ -884,7 +884,7 @@
 		</entry>
 		<entry name="XplanetDateFormat" type="String">
 			<label>Date format</label>
-			<whatsthis>Specify the format for the date/time label.  This format string is passed to strftime(3).  The default is "%c %Z", which shows the date, time, and time zone in the  locale’s  appropriate date and time representation.</whatsthis>
+			<whatsthis>Specify the format for the date/time label.  This format string is passed to strftime(3).  The default is "%c %Z", which shows the date, time, and time zone in the locale’s appropriate date and time representation.</whatsthis>
 			<default>%c %Z</default>
 		</entry>
 		<entry name="XplanetLabelTL" type="Bool">
@@ -925,12 +925,12 @@
 		</entry>
 		<entry name="XplanetLongitude" type="String">
 			<label>Longitude in degrees</label>
-			<whatsthis>Place the observer above the specified longitude (in degrees).  Longitude is positive going east, negative going west (for the earth and moon), so for example Los Angeles is at  -118  or 242.  The default value is 0.</whatsthis>
+			<whatsthis>Place the observer above the specified longitude (in degrees).  Longitude is positive going east, negative going west (for the earth and moon), so for example Los Angeles is at -118 or 242.  The default value is 0.</whatsthis>
 			<default>0</default>
 		</entry>
 		<entry name="XplanetProjection" type="UInt">
 			<label>Projection</label>
-			<whatsthis>The default is  no projection.  Multiple bodies will not be shown if this option is specified, although shadows will still be drawn.</whatsthis>
+			<whatsthis>The default is no projection.  Multiple bodies will not be shown if this option is specified, although shadows will still be drawn.</whatsthis>
 			<default>0</default>
 		</entry>
 		<entry name="XplanetWait" type="Bool">
@@ -939,8 +939,8 @@
 			<default>false</default>
 		</entry>
 		<entry name="XplanetWaitValue" type="String">
-			<label>Number of seconde to wait before updating</label>
-			<whatsthis>Number of seconde to wait before updating</whatsthis>
+			<label>Number of seconds to wait before updating</label>
+			<whatsthis>Number of seconds to wait before updating</whatsthis>
 			<default>60</default>
 		</entry>
 		<entry name="XplanetBackground" type="Bool">
@@ -990,12 +990,12 @@
 		</entry>
 		<entry name="XplanetConfigFilePath" type="String">
 			<label>Path to config file</label>
-			<whatsthis>Use specified the configuration file.</whatsthis>
+			<whatsthis>Use the specified configuration file.</whatsthis>
 			<default></default>
 		</entry>
 		<entry name="XplanetFOV" type="Bool">
-			<label>Use kstars FOV</label>
-			<whatsthis>If checked, use kstars FOV.</whatsthis>
+			<label>Use kstars's FOV</label>
+			<whatsthis>If checked, use kstars's FOV.</whatsthis>
 			<default>false</default>
 		</entry>
 		<entry name="XplanetMarkerFile" type="Bool">
@@ -1005,7 +1005,7 @@
 		</entry>
 		<entry name="XplanetMarkerFilePath" type="String">
 			<label>Marker file path</label>
-			<whatsthis>Specify a file containing user defined marker data to display against the background stars.</whatsthis>
+			<whatsthis>Specify a file containing user-defined marker data to display against the background stars.</whatsthis>
 			<default></default>
 		</entry>
 		<entry name="XplanetMarkerBounds" type="Bool">

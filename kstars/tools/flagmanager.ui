@@ -22,7 +22,7 @@
          <item row="0" column="0" >
           <widget class="QLabel" name="raLabel" >
            <property name="text" >
-            <string>Right ascension :</string>
+            <string>Right ascension:</string>
            </property>
           </widget>
          </item>
@@ -39,7 +39,7 @@
          <item row="1" column="0" >
           <widget class="QLabel" name="decLabel" >
            <property name="text" >
-            <string>Declination :</string>
+            <string>Declination:</string>
            </property>
           </widget>
          </item>
@@ -56,7 +56,7 @@
          <item row="2" column="0" >
           <widget class="QLabel" name="epochLabel" >
            <property name="text" >
-            <string>Epoch :</string>
+            <string>Epoch:</string>
            </property>
           </widget>
          </item>
@@ -76,7 +76,7 @@
          <item row="3" column="0" >
           <widget class="QLabel" name="label" >
            <property name="text" >
-            <string>Label :</string>
+            <string>Label:</string>
            </property>
           </widget>
          </item>
@@ -93,7 +93,7 @@
          <item row="4" column="0" >
           <widget class="QLabel" name="label_2" >
            <property name="text" >
-            <string>Icon :</string>
+            <string>Icon:</string>
            </property>
           </widget>
          </item>

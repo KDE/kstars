@@ -256,7 +256,7 @@ void AstroCalc::genSolarText(void)
                                "on solar system bodies coordinates and times"
                                "<UL><LI>"
                                "<B>Planets Coords:</B> Coordinates for the planets, moon and sun "
-                               " at a given time and from a given position on Earth "
+                               "at a given time and from a given position on Earth "
                                "</LI></UL>"
                                "</QT>"));
     acStack->setCurrentWidget( splashScreen );

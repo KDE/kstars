@@ -139,7 +139,7 @@ void AltVsTime::slotAddSource(void) {
         }
 
         if ( found )
-            kDebug() << i18n("An object named %1 is already displayed; I will not duplicate it.", obj->name());
+            kDebug() << i18n("An object named %1 is already displayed, it will not be duplicated.", obj->name());
 
         else
             processObject( obj );

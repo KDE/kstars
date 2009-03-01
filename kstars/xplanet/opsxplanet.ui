@@ -33,7 +33,7 @@
            <item row="2" column="0" >
             <widget class="QLabel" name="textLabelXplanetTitle" >
              <property name="text" >
-              <string>Window title :</string>
+              <string>Window title:</string>
              </property>
             </widget>
            </item>
@@ -56,7 +56,7 @@
            <item row="3" column="0" >
             <widget class="QLabel" name="textLabelXplanetGeometryX" >
              <property name="text" >
-              <string>Window size : </string>
+              <string>Window size: </string>
              </property>
             </widget>
            </item>
@@ -138,7 +138,7 @@
            <item row="0" column="0" >
             <widget class="QLabel" name="textLabelXplanetPath" >
              <property name="text" >
-              <string>Xplanet path :</string>
+              <string>Xplanet path:</string>
              </property>
             </widget>
            </item>
@@ -187,20 +187,20 @@
            <item row="1" column="0" >
             <widget class="QCheckBox" name="kcfg_XplanetFOV" >
              <property name="toolTip" >
-              <string>Use kstars FOV ?</string>
+              <string>Use kstars's FOV?</string>
              </property>
              <property name="whatsThis" >
-              <string>If checked, use kstars FOV.</string>
+              <string>If checked, use kstars's FOV.</string>
              </property>
              <property name="text" >
-              <string>Use kstars FOV</string>
+              <string>Use kstars's FOV</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0" >
             <widget class="QCheckBox" name="kcfg_XplanetWait" >
              <property name="toolTip" >
-              <string>Update ?</string>
+              <string>Update?</string>
              </property>
              <property name="whatsThis" >
               <string>If checked, update view.</string>
@@ -228,7 +228,7 @@
              <item>
               <widget class="QLabel" name="textLabelXplanetSecondes" >
                <property name="text" >
-                <string>secondes</string>
+                <string>seconds</string>
                </property>
               </widget>
              </item>
@@ -237,7 +237,7 @@
            <item row="3" column="0" >
             <widget class="QLabel" name="textLabelXplanetGlare" >
              <property name="text" >
-              <string>Glare of Sun :</string>
+              <string>Glare of Sun:</string>
              </property>
             </widget>
            </item>
@@ -260,7 +260,7 @@
            <item row="4" column="0" >
             <widget class="QLabel" name="textLabelXplanetMagnitude" >
              <property name="text" >
-              <string>Base magnitude :</string>
+              <string>Base magnitude:</string>
              </property>
             </widget>
            </item>
@@ -289,7 +289,7 @@
               <string>If checked, use star map file to draw the background stars.</string>
              </property>
              <property name="text" >
-              <string>Star map :</string>
+              <string>Star map:</string>
              </property>
             </widget>
            </item>
@@ -337,21 +337,21 @@
               <string>Config file path</string>
              </property>
              <property name="whatsThis" >
-              <string>Use specified the configuration file</string>
+              <string>Use the specified configuration file</string>
              </property>
             </widget>
            </item>
            <item row="5" column="0" >
             <widget class="QCheckBox" name="kcfg_XplanetConfigFile" >
              <property name="text" >
-              <string>Config file :</string>
+              <string>Config file:</string>
              </property>
             </widget>
            </item>
            <item row="7" column="0" >
             <widget class="QCheckBox" name="kcfg_XplanetArcFile" >
              <property name="text" >
-              <string>Arc file :</string>
+              <string>Arc file:</string>
              </property>
             </widget>
            </item>
@@ -378,7 +378,7 @@
            <item>
             <widget class="QLabel" name="textLabelXplanetQuality" >
              <property name="text" >
-              <string>Output file quality :</string>
+              <string>Output file quality:</string>
              </property>
             </widget>
            </item>
@@ -481,7 +481,7 @@
               <item row="1" column="0" >
                <widget class="QLabel" name="textLabelXplanetLabelString" >
                 <property name="text" >
-                 <string>Label string :</string>
+                 <string>Label string:</string>
                 </property>
                </widget>
               </item>
@@ -498,7 +498,7 @@
               <item row="2" column="0" >
                <widget class="QLabel" name="textLabelXplanetDateFormat" >
                 <property name="text" >
-                 <string>Date format :</string>
+                 <string>Date format:</string>
                 </property>
                </widget>
               </item>
@@ -518,7 +518,7 @@
                  <bool>true</bool>
                 </property>
                 <property name="text" >
-                 <string>Font size :</string>
+                 <string>Font size:</string>
                 </property>
                </widget>
               </item>
@@ -535,7 +535,7 @@
               <item row="4" column="0" >
                <widget class="QLabel" name="textLabelXplanetColor" >
                 <property name="text" >
-                 <string>Color :</string>
+                 <string>Color:</string>
                 </property>
                </widget>
               </item>
@@ -625,7 +625,7 @@
                 <item>
                  <widget class="QLabel" name="textLabelLabelPos" >
                   <property name="text" >
-                   <string>Label position :</string>
+                   <string>Label position:</string>
                   </property>
                  </widget>
                 </item>
@@ -676,13 +676,13 @@
               <item row="0" column="0" >
                <widget class="QCheckBox" name="kcfg_XplanetMarkerFile" >
                 <property name="toolTip" >
-                 <string>Use marker file ?</string>
+                 <string>Use marker file?</string>
                 </property>
                 <property name="whatsThis" >
                  <string>If checked, use the specified marker file.</string>
                 </property>
                 <property name="text" >
-                 <string>Use marker file :</string>
+                 <string>Use marker file:</string>
                 </property>
                </widget>
               </item>
@@ -705,7 +705,7 @@
                  <string>Write coordinates of the bounding box for each marker in a file.</string>
                 </property>
                 <property name="text" >
-                 <string>Write marker bounds to :</string>
+                 <string>Write marker bounds to:</string>
                 </property>
                </widget>
               </item>
@@ -844,7 +844,7 @@
            <item>
             <widget class="QLabel" name="textLabelXplanetProjection" >
              <property name="text" >
-              <string>Projection :</string>
+              <string>Projection:</string>
              </property>
             </widget>
            </item>
@@ -887,7 +887,7 @@
               <item>
                <widget class="QCheckBox" name="kcfg_XplanetBackground" >
                 <property name="toolTip" >
-                 <string>Use background ?</string>
+                 <string>Use background?</string>
                 </property>
                 <property name="whatsThis" >
                  <string>If checked, use a file or a color as background.</string>
@@ -902,7 +902,7 @@
                 <item>
                  <widget class="QRadioButton" name="kcfg_XplanetBackgroundImage" >
                   <property name="text" >
-                   <string>Background image :</string>
+                   <string>Background image:</string>
                   </property>
                   <property name="checked" >
                    <bool>false</bool>
@@ -926,7 +926,7 @@
                 <item>
                  <widget class="QRadioButton" name="kcfg_XplanetBackgroundColor" >
                   <property name="text" >
-                   <string>Background color :</string>
+                   <string>Background color:</string>
                   </property>
                   <property name="checked" >
                    <bool>true</bool>
