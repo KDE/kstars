@@ -73,6 +73,7 @@ Alpharetta                       : Georgia               : USA                  
 Alpine                           : California            : USA                   : 32 : 30 : 13 : N : 116 : 27 :  3 : W : -8.0 : US
 Altenstadt                       :                       : Germany               : 47 : 50 :  2 : N :  10 : 52 :  4 : E :  1.0 : EU
 Altoona                          : Pennsylvania          : USA                   : 40 : 30 : 55 : N :  78 : 24 :  2 : W : -5.0 : US
+Alytus                           :                       : Lietuva               : 54 : 22 : 53 : N :  24 :  2 : 53 : E :  2.0 : RU
 Amami Island                     :                       : Japan                 : 28 : 15 :  0 : N : 129 : 41 : 59 : E :  9.0 : --
 Amarillo                         : Texas                 : USA                   : 35 : 12 : 27 : N : 101 : 50 :  2 : W : -6.0 : US
 Ambler                           : Alaska                : USA                   : 67 :  4 : 47 : N : 157 : 50 : 59 : W : -9.0 : US
@@ -1450,6 +1451,7 @@ Kassel                           :                       : Germany              
 Kathmandu                        :                       : Nepal                 : 27 : 49 :  0 : N :  85 : 20 : 59 : E : 5.75 : --
 Katima Mulilo                    :                       : Namibia               : 17 :  5 :  0 : S :  24 : 27 :  0 : E :   0.0 : NB
 Kaunakakai                       : Hawaii                : USA                   : 21 :  6 :  0 : N : 156 : 58 : 58 : W :-10.0 : --
+Kaunas                           :                       : Lietuva               : 54 : 54 : 21 : N :  23 : 51 : 21 : E :   2.0 : RU
 Kazabazua                        : Quebec                : Canada                : 45 : 57 : 00 : N : 76  : 01 : 00 : W : -5.0 : US
 Kazan                            : Volga Region          : Russia                : 55 : 49 :  0 : N :  49 :  8 :  0 : E :  3.0 : RU
 Keahole                          : Hawaii                : USA                   : 19 : 44 :  8 : N : 156 :  2 : 56 : W :-10.0 : --
@@ -1508,6 +1510,7 @@ Kitchener                        : Ontario               : Canada               
 Kitt Peak Nat'l. Obs.            : Arizona               : USA                   : 31 : 42 :  5 : N : 111 : 35 : 44 : W : -7.0 : --
 Kitwe                            :                       : Zambie                : 12 : 81 :  0 : S :  28 : 22 :  0 : E :   2.0 : --
 Kiviõli                          :                       : Estonia               : 59 : 21 : 25 : N :  26 : 57 : 47 : E :  2.0 : EU
+Klaipėda                         :                       : Lietuva               : 55 : 44 : 36 : N :  21 :  6 : 36 : E :   2.0 : RU
 Klamath Falls                    : Oregon                : USA                   : 42 : 13 :  1 : N : 121 : 49 :  1 : W : -8.0 : US
 Kleena Kleene                    : British Columbia      : Canada                : 51 : 57 : 00 : N : 124 : 50 : 00 : W : -8.0 : US
 Knightdale                       : North Carolina        : USA                   : 35 : 47 : 48 : N :  78 : 26 : 21 : W : -5.0 : US
@@ -1804,6 +1807,7 @@ Marbach                          :                       : Germany              
 Mariana Lake                     : Alberta               : Canada                : 55 : 57 : 15 : N : 112 : 01 : 05 : W : -7.0 : US
 Marienberg                       :                       : Germany               : 50 : 38 : 56 : N :  13 :  9 : 56 : E :   1.0 : EU
 Marietta                         : Georgia               : USA                   : 33 : 57 :  0 : N :  84 : 32 : 48 : W : -5.0 : US
+Marijampolė                      :                       : Lietuva               : 54 : 33 : 14 : N :  23 : 20 : 14 : E :   2.0 : RU
 Marion                           : Virginia              : USA                   : 36 : 47 : 59 : N :  81 : 32 : 59 : W : -5.0 : US
 Markersbach                      :                       : Germany               : 50 : 32 : 13 : N :  12 : 52 : 13 : E :   1.0 : EU
 Markersdorf                      :                       : Germany               : 50 : 55 : 51 : N :  12 : 52 : 51 : E :   1.0 : EU
@@ -2295,6 +2299,7 @@ Palo Alto                        : California            : USA                  
 Pamplona                         :                       : Spain                 : 42 : 49 : 11 : N :  01 : 38 : 31 : W : 1.0  : EU
 Panama City                      :                       : Panama                :  9 :  4 :  1 : N :  79 : 22 : 58 : W : -5.0 : --
 Panama City                      : Florida               : USA                   : 30 :  7 : 58 : N :  85 : 39 :  0 : W : -5.0 : US
+Panevėžys                        :                       : Lietuva               : 55 : 44 : 14 : N :  24 : 21 : 14 : E :   2.0 : RU
 Pantelleria                      :                       : Italy                 : 36 : 49 : 46 : N :  11 : 56 : 35 : E :  1.0 : EU
 Papeete                          :                       : French Polynesia      : 17 : 34 :  1 : S : 149 : 37 :  1 : W :-10.0 : --
 Paradis                          : Quebec                : Canada                : 48 : 13 : 33 : N : 76  : 35 : 14 : W : -5.0 : US
@@ -2748,6 +2753,7 @@ Shiraz                           :                       : Iran                 
 Shoshone                         : Idaho                 : USA                   : 42 : 55 : 58 : N : 114 : 24 :  0 : W : -7.0 : US
 Shreveport                       : Louisiana             : USA                   : 32 : 30 : 46 : N :  93 : 44 : 57 : W : -6.0 : US
 Shungnak                         : Alaska                : USA                   : 66 : 55 :  1 : N : 157 : 19 : 58 : W : -9.0 : US
+Šiauliai                         :                       : Lietuva               : 55 : 55 : 43 : N :  23 : 18 : 43 : E :   2.0 : RU
 Sibu                             :                       : Malaysia              :  2 : 21 :  0 : N : 111 : 49 : 59 : E : 8.0  : --
 Siding Spring                    :                       : Australia             : 31 : 16 :  4 : S : 149 :  3 : 45 : E : 10.0 : AU
 Siegen                           :                       : Germany               : 50 : 52 : 00 : N :   8 : 02 : 00 : E : 1.0  : EU
