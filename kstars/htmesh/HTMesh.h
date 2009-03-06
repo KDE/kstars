@@ -15,6 +15,7 @@
 #ifndef HTMESH_H
 #define HTMESH_H
 
+#include <cstdio>
 #include "typedef.h"
 
 class SpatialIndex;
