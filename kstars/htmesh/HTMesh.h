@@ -16,6 +16,7 @@
 #define HTMESH_H
 
 #include "typedef.h"
+#include <stdio.h>
 
 class SpatialIndex;
 class RangeConvex;
