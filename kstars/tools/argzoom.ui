@@ -84,8 +84,7 @@ The Zoom level specifies the number of pixels which span one radian of arc.  Rea
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
+  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
    <extends></extends>

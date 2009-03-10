@@ -79,7 +79,6 @@ If unchecked, then Tracking will be forced off, even if an object has been cente
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <resources/>
+  <resources/>
  <connections/>
 </ui>

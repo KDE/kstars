@@ -635,8 +635,7 @@ Enter the port number your telescope is connected to. If you only have one seria
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="0" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
+  <customwidgets>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
