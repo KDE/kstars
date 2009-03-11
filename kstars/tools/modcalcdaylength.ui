@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>modCalcDayLengthDlg</class>
- <widget class="QWidget" name="modCalcDayLengthDlg" >
-  <property name="geometry" >
+ <widget class="QWidget" name="modCalcDayLengthDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,69 +10,61 @@
     <height>465</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Almanac</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="KTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
-      <number>0</number>
+    <widget class="KTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="tab" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>395</width>
-        <height>419</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
        <string>Interactive mode</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <layout class="QGridLayout" >
-         <property name="margin" >
+        <layout class="QGridLayout">
+         <property name="margin">
           <number>0</number>
          </property>
-         <property name="spacing" >
+         <property name="spacing">
           <number>6</number>
          </property>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="LocationLabel" >
-           <property name="text" >
+         <item row="1" column="0">
+          <widget class="QLabel" name="LocationLabel">
+           <property name="text">
             <string>Location:</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="0" >
-          <widget class="QLabel" name="DateLabel" >
-           <property name="text" >
+         <item row="0" column="0">
+          <widget class="QLabel" name="DateLabel">
+           <property name="text">
             <string>Date:</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1" colspan="2" >
-          <widget class="KPushButton" name="Location" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Minimum" hsizetype="Minimum" >
+         <item row="1" column="1" colspan="2">
+          <widget class="KPushButton" name="Location">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Greenwich, United Kingdom</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="2" >
+         <item row="0" column="2">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -79,12 +72,12 @@
            </property>
           </spacer>
          </item>
-         <item row="0" column="3" >
+         <item row="0" column="3">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -92,12 +85,12 @@
            </property>
           </spacer>
          </item>
-         <item row="1" column="3" >
+         <item row="1" column="3">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -105,47 +98,47 @@
            </property>
           </spacer>
          </item>
-         <item row="0" column="1" >
-          <widget class="QDateEdit" name="Date" />
+         <item row="0" column="1">
+          <widget class="QDateEdit" name="Date"/>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="SunBox" >
-         <property name="title" >
+        <widget class="QGroupBox" name="SunBox">
+         <property name="title">
           <string>Sun</string>
          </property>
-         <layout class="QVBoxLayout" >
-          <property name="spacing" >
+         <layout class="QVBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin" >
+          <property name="margin">
            <number>9</number>
           </property>
           <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
+           <layout class="QGridLayout">
+            <property name="margin">
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="spacing">
              <number>6</number>
             </property>
-            <item row="1" column="3" >
-             <widget class="QLabel" name="SunTransitAltLabel" >
-              <property name="text" >
+            <item row="1" column="3">
+             <widget class="QLabel" name="SunTransitAltLabel">
+              <property name="text">
                <string>Altitude at noon:</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="2" >
+            <item row="1" column="2">
              <spacer>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeType" >
+              <property name="sizeType">
                <enum>QSizePolicy::Fixed</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>12</width>
                 <height>12</height>
@@ -153,9 +146,9 @@
               </property>
              </spacer>
             </item>
-            <item row="1" column="4" >
-             <widget class="QLabel" name="SunTransitAlt" >
-              <property name="font" >
+            <item row="1" column="4">
+             <widget class="QLabel" name="SunTransitAlt">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>12</pointsize>
@@ -163,26 +156,26 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="indent" >
+              <property name="indent">
                <number>5</number>
               </property>
-              <property name="textInteractionFlags" >
+              <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
-            <item row="3" column="2" >
+            <item row="3" column="2">
              <spacer>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeType" >
+              <property name="sizeType">
                <enum>QSizePolicy::Fixed</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>12</width>
                 <height>12</height>
@@ -190,9 +183,9 @@
               </property>
              </spacer>
             </item>
-            <item row="3" column="1" >
-             <widget class="QLabel" name="DayLength" >
-              <property name="font" >
+            <item row="3" column="1">
+             <widget class="QLabel" name="DayLength">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>12</pointsize>
@@ -200,26 +193,26 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="indent" >
+              <property name="indent">
                <number>5</number>
               </property>
-              <property name="textInteractionFlags" >
+              <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
-            <item row="3" column="3" colspan="2" >
+            <item row="3" column="3" colspan="2">
              <spacer>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeType" >
+              <property name="sizeType">
                <enum>QSizePolicy::Expanding</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>163</width>
                 <height>16</height>
@@ -227,15 +220,15 @@
               </property>
              </spacer>
             </item>
-            <item row="2" column="2" >
+            <item row="2" column="2">
              <spacer>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeType" >
+              <property name="sizeType">
                <enum>QSizePolicy::Fixed</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>12</width>
                 <height>12</height>
@@ -243,35 +236,35 @@
               </property>
              </spacer>
             </item>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="SunSetLabel" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+            <item row="2" column="0">
+             <widget class="QLabel" name="SunSetLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text" >
+              <property name="text">
                <string comment="Sky object passing below the horizon">Set:</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="0" >
-             <widget class="QLabel" name="DayLengthLabel" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+            <item row="3" column="0">
+             <widget class="QLabel" name="DayLengthLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Day length:</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="4" >
-             <widget class="QLabel" name="SunRiseAz" >
-              <property name="font" >
+            <item row="0" column="4">
+             <widget class="QLabel" name="SunRiseAz">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>12</pointsize>
@@ -279,53 +272,53 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="indent" >
+              <property name="indent">
                <number>5</number>
               </property>
-              <property name="textInteractionFlags" >
+              <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
-            <item row="0" column="3" >
-             <widget class="QLabel" name="SunRiseAzLabel" >
-              <property name="text" >
+            <item row="0" column="3">
+             <widget class="QLabel" name="SunRiseAzLabel">
+              <property name="text">
                <string>Sunrise azimuth:</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="SunRiseLabel" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+            <item row="0" column="0">
+             <widget class="QLabel" name="SunRiseLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Rise:</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="SunTransitLabel" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+            <item row="1" column="0">
+             <widget class="QLabel" name="SunTransitLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Noon:</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="4" >
-             <widget class="QLabel" name="SunSetAz" >
-              <property name="font" >
+            <item row="2" column="4">
+             <widget class="QLabel" name="SunSetAz">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>12</pointsize>
@@ -333,26 +326,26 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="indent" >
+              <property name="indent">
                <number>5</number>
               </property>
-              <property name="textInteractionFlags" >
+              <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
-            <item row="0" column="2" >
+            <item row="0" column="2">
              <spacer>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeType" >
+              <property name="sizeType">
                <enum>QSizePolicy::Fixed</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>12</width>
                 <height>12</height>
@@ -360,9 +353,9 @@
               </property>
              </spacer>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLabel" name="SunSet" >
-              <property name="font" >
+            <item row="2" column="1">
+             <widget class="QLabel" name="SunSet">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>12</pointsize>
@@ -370,33 +363,33 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="indent" >
+              <property name="indent">
                <number>5</number>
               </property>
-              <property name="textInteractionFlags" >
+              <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
-            <item row="2" column="3" >
-             <widget class="QLabel" name="SunSetAzLabel" >
-              <property name="sizePolicy" >
-               <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+            <item row="2" column="3">
+             <widget class="QLabel" name="SunSetAzLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Sunset azimuth:</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="QLabel" name="SunRise" >
-              <property name="font" >
+            <item row="0" column="1">
+             <widget class="QLabel" name="SunRise">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>12</pointsize>
@@ -404,20 +397,20 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="indent" >
+              <property name="indent">
                <number>5</number>
               </property>
-              <property name="textInteractionFlags" >
+              <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" >
-             <widget class="QLabel" name="SunTransit" >
-              <property name="font" >
+            <item row="1" column="1">
+             <widget class="QLabel" name="SunTransit">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>12</pointsize>
@@ -425,13 +418,13 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="indent" >
+              <property name="indent">
                <number>5</number>
               </property>
-              <property name="textInteractionFlags" >
+              <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
              </widget>
@@ -440,10 +433,10 @@
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
               <height>10</height>
@@ -455,49 +448,49 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="MoonBox" >
-         <property name="title" >
+        <widget class="QGroupBox" name="MoonBox">
+         <property name="title">
           <string>Moon</string>
          </property>
-         <layout class="QVBoxLayout" >
-          <property name="spacing" >
+         <layout class="QVBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin" >
+          <property name="margin">
            <number>9</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" >
-            <property name="spacing" >
+           <layout class="QHBoxLayout">
+            <property name="spacing">
              <number>6</number>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>0</number>
             </property>
             <item>
-             <layout class="QGridLayout" >
-              <property name="margin" >
+             <layout class="QGridLayout">
+              <property name="margin">
                <number>0</number>
               </property>
-              <property name="spacing" >
+              <property name="spacing">
                <number>6</number>
               </property>
-              <item row="0" column="0" >
-               <widget class="QLabel" name="MoonRiseLabel" >
-                <property name="text" >
+              <item row="0" column="0">
+               <widget class="QLabel" name="MoonRiseLabel">
+                <property name="text">
                  <string>Rise:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="2" >
+              <item row="2" column="2">
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeType" >
+                <property name="sizeType">
                  <enum>QSizePolicy::Fixed</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>12</width>
                   <height>12</height>
@@ -505,9 +498,9 @@
                 </property>
                </spacer>
               </item>
-              <item row="0" column="1" >
-               <widget class="QLabel" name="MoonRise" >
-                <property name="font" >
+              <item row="0" column="1">
+               <widget class="QLabel" name="MoonRise">
+                <property name="font">
                  <font>
                   <family>Monospace</family>
                   <pointsize>12</pointsize>
@@ -515,26 +508,26 @@
                   <bold>true</bold>
                  </font>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>00:00</string>
                 </property>
-                <property name="indent" >
+                <property name="indent">
                  <number>5</number>
                 </property>
-                <property name="textInteractionFlags" >
+                <property name="textInteractionFlags">
                  <set>Qt::TextSelectableByMouse</set>
                 </property>
                </widget>
               </item>
-              <item row="1" column="2" >
+              <item row="1" column="2">
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeType" >
+                <property name="sizeType">
                  <enum>QSizePolicy::Fixed</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>12</width>
                   <height>12</height>
@@ -542,16 +535,16 @@
                 </property>
                </spacer>
               </item>
-              <item row="1" column="3" >
-               <widget class="QLabel" name="MoonTransitAltLabel" >
-                <property name="text" >
+              <item row="1" column="3">
+               <widget class="QLabel" name="MoonTransitAltLabel">
+                <property name="text">
                  <string>Transit altitude:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" >
-               <widget class="QLabel" name="MoonSet" >
-                <property name="font" >
+              <item row="2" column="1">
+               <widget class="QLabel" name="MoonSet">
+                <property name="font">
                  <font>
                   <family>Monospace</family>
                   <pointsize>12</pointsize>
@@ -559,26 +552,26 @@
                   <bold>true</bold>
                  </font>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>00:00</string>
                 </property>
-                <property name="indent" >
+                <property name="indent">
                  <number>5</number>
                 </property>
-                <property name="textInteractionFlags" >
+                <property name="textInteractionFlags">
                  <set>Qt::TextSelectableByMouse</set>
                 </property>
                </widget>
               </item>
-              <item row="0" column="2" >
+              <item row="0" column="2">
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeType" >
+                <property name="sizeType">
                  <enum>QSizePolicy::Fixed</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>12</width>
                   <height>12</height>
@@ -586,22 +579,22 @@
                 </property>
                </spacer>
               </item>
-              <item row="0" column="3" >
-               <widget class="QLabel" name="MoonRiseAzLabel" >
-                <property name="sizePolicy" >
-                 <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+              <item row="0" column="3">
+               <widget class="QLabel" name="MoonRiseAzLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Moon rise azimuth:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="4" >
-               <widget class="QLabel" name="MoonRiseAz" >
-                <property name="font" >
+              <item row="0" column="4">
+               <widget class="QLabel" name="MoonRiseAz">
+                <property name="font">
                  <font>
                   <family>Monospace</family>
                   <pointsize>12</pointsize>
@@ -609,20 +602,20 @@
                   <bold>true</bold>
                  </font>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>00:00</string>
                 </property>
-                <property name="indent" >
+                <property name="indent">
                  <number>5</number>
                 </property>
-                <property name="textInteractionFlags" >
+                <property name="textInteractionFlags">
                  <set>Qt::TextSelectableByMouse</set>
                 </property>
                </widget>
               </item>
-              <item row="2" column="4" >
-               <widget class="QLabel" name="MoonSetAz" >
-                <property name="font" >
+              <item row="2" column="4">
+               <widget class="QLabel" name="MoonSetAz">
+                <property name="font">
                  <font>
                   <family>Monospace</family>
                   <pointsize>12</pointsize>
@@ -630,20 +623,20 @@
                   <bold>true</bold>
                  </font>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>00:00</string>
                 </property>
-                <property name="indent" >
+                <property name="indent">
                  <number>5</number>
                 </property>
-                <property name="textInteractionFlags" >
+                <property name="textInteractionFlags">
                  <set>Qt::TextSelectableByMouse</set>
                 </property>
                </widget>
               </item>
-              <item row="1" column="4" >
-               <widget class="QLabel" name="MoonTransitAlt" >
-                <property name="font" >
+              <item row="1" column="4">
+               <widget class="QLabel" name="MoonTransitAlt">
+                <property name="font">
                  <font>
                   <family>Monospace</family>
                   <pointsize>12</pointsize>
@@ -651,47 +644,47 @@
                   <bold>true</bold>
                  </font>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>00:00</string>
                 </property>
-                <property name="indent" >
+                <property name="indent">
                  <number>5</number>
                 </property>
-                <property name="textInteractionFlags" >
+                <property name="textInteractionFlags">
                  <set>Qt::TextSelectableByMouse</set>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0" >
-               <widget class="QLabel" name="MoonTransitLabel" >
-                <property name="sizePolicy" >
-                 <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
+              <item row="1" column="0">
+               <widget class="QLabel" name="MoonTransitLabel">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Transit:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="0" >
-               <widget class="QLabel" name="MoonSetLabel" >
-                <property name="text" >
+              <item row="2" column="0">
+               <widget class="QLabel" name="MoonSetLabel">
+                <property name="text">
                  <string comment="Sky object passing below the horizon">Set:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="3" >
-               <widget class="QLabel" name="MoonSetAzLabel" >
-                <property name="text" >
+              <item row="2" column="3">
+               <widget class="QLabel" name="MoonSetAzLabel">
+                <property name="text">
                  <string>Moon set azimuth:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" >
-               <widget class="QLabel" name="MoonTransit" >
-                <property name="font" >
+              <item row="1" column="1">
+               <widget class="QLabel" name="MoonTransit">
+                <property name="font">
                  <font>
                   <family>Monospace</family>
                   <pointsize>12</pointsize>
@@ -699,13 +692,13 @@
                   <bold>true</bold>
                  </font>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>00:00</string>
                 </property>
-                <property name="indent" >
+                <property name="indent">
                  <number>5</number>
                 </property>
-                <property name="textInteractionFlags" >
+                <property name="textInteractionFlags">
                  <set>Qt::TextSelectableByMouse</set>
                 </property>
                </widget>
@@ -715,23 +708,23 @@
            </layout>
           </item>
           <item>
-           <layout class="QHBoxLayout" >
-            <property name="spacing" >
+           <layout class="QHBoxLayout">
+            <property name="spacing">
              <number>6</number>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="LunarPhaseLabel" >
-              <property name="text" >
+             <widget class="QLabel" name="LunarPhaseLabel">
+              <property name="text">
                <string>Phase:</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="LunarPhase" >
-              <property name="font" >
+             <widget class="QLabel" name="LunarPhase">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>12</pointsize>
@@ -739,26 +732,26 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Waxing gibbous (75%)</string>
               </property>
-              <property name="indent" >
+              <property name="indent">
                <number>5</number>
               </property>
-              <property name="textInteractionFlags" >
+              <property name="textInteractionFlags">
                <set>Qt::TextSelectableByMouse</set>
               </property>
              </widget>
             </item>
             <item>
              <spacer>
-              <property name="orientation" >
+              <property name="orientation">
                <enum>Qt::Horizontal</enum>
               </property>
-              <property name="sizeType" >
+              <property name="sizeType">
                <enum>QSizePolicy::Expanding</enum>
               </property>
-              <property name="sizeHint" stdset="0" >
+              <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
                 <height>12</height>
@@ -770,10 +763,10 @@
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
               <height>10</height>
@@ -786,47 +779,39 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_2" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>840</width>
-        <height>420</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
        <string>Batch mode</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
-          <widget class="QLabel" name="LocationLabelBatch" >
-           <property name="text" >
+          <widget class="QLabel" name="LocationLabelBatch">
+           <property name="text">
             <string>Location:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="LocationBatch" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Minimum" hsizetype="Minimum" >
+          <widget class="KPushButton" name="LocationBatch">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Greenwich, United Kingdom</string>
            </property>
           </widget>
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -838,13 +823,13 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Minimum</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>16</height>
@@ -853,45 +838,45 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label" >
-         <property name="text" >
+        <widget class="QLabel" name="label">
+         <property name="text">
           <string>Specify dates for the calculation in the input file.</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_5" >
-           <property name="text" >
+        <layout class="QGridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
             <string>Input file: </string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1" >
-          <widget class="KUrlRequester" name="InputFileBatch" />
+         <item row="0" column="1">
+          <widget class="KUrlRequester" name="InputFileBatch"/>
          </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_6" >
-           <property name="text" >
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
             <string>Output file: </string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1" >
-          <widget class="KUrlRequester" name="OutputFileBatch" />
+         <item row="1" column="1">
+          <widget class="KUrlRequester" name="OutputFileBatch"/>
          </item>
         </layout>
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Minimum</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>20</height>
@@ -900,13 +885,13 @@
         </spacer>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -915,17 +900,17 @@
           </spacer>
          </item>
          <item>
-          <layout class="QVBoxLayout" >
+          <layout class="QVBoxLayout">
            <item>
-            <widget class="KPushButton" name="RunButtonBatch" >
-             <property name="text" >
+            <widget class="KPushButton" name="RunButtonBatch">
+             <property name="text">
               <string>Compute</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="ViewButtonBatch" >
-             <property name="text" >
+            <widget class="KPushButton" name="ViewButtonBatch">
+             <property name="text">
               <string>View output</string>
              </property>
             </widget>
@@ -934,10 +919,10 @@
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -949,13 +934,13 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>20</height>
@@ -969,8 +954,13 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
   <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
@@ -982,12 +972,17 @@
    <header>ktabwidget.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>Date</tabstop>
+  <tabstop>Location</tabstop>
+  <tabstop>LocationBatch</tabstop>
+  <tabstop>InputFileBatch</tabstop>
+  <tabstop>OutputFileBatch</tabstop>
+  <tabstop>RunButtonBatch</tabstop>
+  <tabstop>ViewButtonBatch</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

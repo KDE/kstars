@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>modCalcSidTimeDlg</class>
- <widget class="QWidget" name="modCalcSidTimeDlg" >
-  <property name="geometry" >
+ <widget class="QWidget" name="modCalcSidTimeDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,48 +10,40 @@
     <height>463</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Sidereal Time</string>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="KTabWidget" name="tabWidget" >
-     <property name="currentIndex" >
-      <number>0</number>
+    <widget class="KTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="interact" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>497</width>
-        <height>417</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="interact">
+      <attribute name="title">
        <string>Interactive Mode</string>
       </attribute>
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="margin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <layout class="QGridLayout" >
-         <property name="margin" >
+        <layout class="QGridLayout">
+         <property name="margin">
           <number>0</number>
          </property>
-         <property name="spacing" >
+         <property name="spacing">
           <number>6</number>
          </property>
-         <item row="2" column="0" colspan="3" >
+         <item row="2" column="0" colspan="3">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>391</width>
              <height>20</height>
@@ -58,12 +51,12 @@
            </property>
           </spacer>
          </item>
-         <item rowspan="2" row="3" column="2" >
+         <item row="3" column="2" rowspan="2">
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -71,57 +64,57 @@
            </property>
           </spacer>
          </item>
-         <item row="1" column="1" colspan="2" >
-          <widget class="KPushButton" name="LocationButton" >
-           <property name="text" >
+         <item row="1" column="1" colspan="2">
+          <widget class="KPushButton" name="LocationButton">
+           <property name="text">
             <string>Greenwich, United Kingdom</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="0" >
-          <widget class="QLabel" name="DateLabel" >
-           <property name="text" >
+         <item row="0" column="0">
+          <widget class="QLabel" name="DateLabel">
+           <property name="text">
             <string>Date:</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1" >
-          <widget class="QTimeEdit" name="ST" />
+         <item row="4" column="1">
+          <widget class="QTimeEdit" name="ST"/>
          </item>
-         <item row="3" column="1" >
-          <widget class="QTimeEdit" name="LT" />
+         <item row="3" column="1">
+          <widget class="QTimeEdit" name="LT"/>
          </item>
-         <item row="4" column="0" >
-          <widget class="QLabel" name="SiderealTimeLabel" >
-           <property name="text" >
+         <item row="4" column="0">
+          <widget class="QLabel" name="SiderealTimeLabel">
+           <property name="text">
             <string>Sidereal time:</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0" >
-          <widget class="QLabel" name="LocalTimeLabel" >
-           <property name="text" >
+         <item row="3" column="0">
+          <widget class="QLabel" name="LocalTimeLabel">
+           <property name="text">
             <string>Local time:</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1" colspan="2" >
-          <layout class="QHBoxLayout" >
-           <property name="spacing" >
+         <item row="0" column="1" colspan="2">
+          <layout class="QHBoxLayout">
+           <property name="spacing">
             <number>6</number>
            </property>
-           <property name="margin" >
+           <property name="margin">
             <number>0</number>
            </property>
            <item>
-            <widget class="QDateEdit" name="Date" />
+            <widget class="QDateEdit" name="Date"/>
            </item>
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>40</width>
                <height>20</height>
@@ -131,9 +124,9 @@
            </item>
           </layout>
          </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="LocationLabel" >
-           <property name="text" >
+         <item row="1" column="0">
+          <widget class="QLabel" name="LocationLabel">
+           <property name="text">
             <string>Location:</string>
            </property>
           </widget>
@@ -142,10 +135,10 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>40</height>
@@ -155,30 +148,22 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="batch" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>840</width>
-        <height>420</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="batch">
+      <attribute name="title">
        <string>Batch Mode</string>
       </attribute>
-      <layout class="QVBoxLayout" >
+      <layout class="QVBoxLayout">
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
-          <widget class="KComboBox" name="ComputeComboBatch" >
+          <widget class="KComboBox" name="ComputeComboBatch">
            <item>
-            <property name="text" >
+            <property name="text">
              <string>Compute sidereal time</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>Compute standard time</string>
             </property>
            </item>
@@ -186,10 +171,10 @@
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -200,79 +185,79 @@
         </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
           <string>Input parameters</string>
          </property>
-         <layout class="QGridLayout" >
-          <item row="0" column="0" >
-           <widget class="QLabel" name="DateLabelBatch" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+         <layout class="QGridLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="DateLabelBatch">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Date:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" >
-           <widget class="QCheckBox" name="DateCheckBatch" >
-            <property name="text" >
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="DateCheckBatch">
+            <property name="text">
              <string>Read from input file</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="LocationLabelBatch" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="LocationLabelBatch">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Location:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="KPushButton" name="LocationButtonBatch" >
-            <property name="sizePolicy" >
-             <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+          <item row="1" column="1">
+           <widget class="KPushButton" name="LocationButtonBatch">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Greenwich, United Kingdom</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="2" >
-           <widget class="QCheckBox" name="LocationCheckBatch" >
-            <property name="text" >
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="LocationCheckBatch">
+            <property name="text">
              <string>Read from input file</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="QDateEdit" name="DateBatch" />
+          <item row="0" column="1">
+           <widget class="QDateEdit" name="DateBatch"/>
           </item>
          </layout>
         </widget>
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Minimum</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>16</height>
@@ -281,44 +266,44 @@
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="HelpLabel" >
-         <property name="text" >
+        <widget class="QLabel" name="HelpLabel">
+         <property name="text">
           <string>Specify local time in the input file.</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
+        <layout class="QGridLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
             <string>Input file:</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1" >
-          <widget class="KUrlRequester" name="InputFileBatch" />
+         <item row="0" column="1">
+          <widget class="KUrlRequester" name="InputFileBatch"/>
          </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_4" >
-           <property name="text" >
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
             <string>Output file:</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1" >
-          <widget class="KUrlRequester" name="OutputFileBatch" />
+         <item row="1" column="1">
+          <widget class="KUrlRequester" name="OutputFileBatch"/>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
+        <layout class="QHBoxLayout">
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -327,17 +312,17 @@
           </spacer>
          </item>
          <item>
-          <layout class="QVBoxLayout" >
+          <layout class="QVBoxLayout">
            <item>
-            <widget class="KPushButton" name="RunButtonBatch" >
-             <property name="text" >
+            <widget class="KPushButton" name="RunButtonBatch">
+             <property name="text">
               <string>Compute</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KPushButton" name="ViewButtonBatch" >
-             <property name="text" >
+            <widget class="KPushButton" name="ViewButtonBatch">
+             <property name="text">
               <string>View output</string>
              </property>
             </widget>
@@ -346,10 +331,10 @@
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -361,10 +346,10 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>465</width>
            <height>16</height>
@@ -380,9 +365,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>
@@ -390,17 +375,33 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>Date</tabstop>
+  <tabstop>LocationButton</tabstop>
+  <tabstop>LT</tabstop>
+  <tabstop>ST</tabstop>
+  <tabstop>ComputeComboBatch</tabstop>
+  <tabstop>DateBatch</tabstop>
+  <tabstop>DateCheckBatch</tabstop>
+  <tabstop>LocationButtonBatch</tabstop>
+  <tabstop>LocationCheckBatch</tabstop>
+  <tabstop>InputFileBatch</tabstop>
+  <tabstop>OutputFileBatch</tabstop>
+  <tabstop>RunButtonBatch</tabstop>
+  <tabstop>ViewButtonBatch</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
