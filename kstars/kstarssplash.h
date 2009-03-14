@@ -23,8 +23,7 @@
 #include <QPaintEvent>
 #include <QCloseEvent>
 
-#include <QDialog>
-//#include <kdialog.h>
+#include <KSplashScreen>
 
 /**@class KStarsSplash
 	*The KStars Splash Screen.  The splash screen shows the KStars logo and 
@@ -36,7 +35,7 @@
 
 class QLabel;
 
-class KStarsSplash : public QDialog
+class KStarsSplash : public KSplashScreen
 {
     Q_OBJECT
 
@@ -44,7 +43,7 @@ public:
     /**Constructor. Create widgets.  Load KStars logo.  Start load timer.
      * A non-empty customMessage will replace "Welcome to KStars [...]".
     */
-    explicit KStarsSplash( QWidget *parent, const QString& customMessage="" );
+    explicit KStarsSplash( const QString& customMessage="" );
 
     /**Destructor
     	*/
@@ -54,18 +53,6 @@ public slots:
     /**Display the text argument in the Splash Screen's status label.
     	*This is connected to KStarsData::progressText(QString)*/
     void setMessage(const QString &s);
-
-protected:
-    /**If the user clicks on the "X" close-window button, then abort loading
-    	*as soon as possible and shut down the program.
-    	*/
-    void closeEvent( QCloseEvent *e );
-
-signals:
-    void closeWindow();
-
-private:
-    QLabel *textCurrentStatus, *label, *Banner;
 };
 
 #endif

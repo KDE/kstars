@@ -151,7 +151,7 @@ void StarComponent::reindex( KSNumbers *num )
 void StarComponent::reindexAll( KSNumbers *num )
 {
     if (  0 && ! m_reindexSplash ) {
-        m_reindexSplash = new KStarsSplash(0,
+        m_reindexSplash = new KStarsSplash(
                                            i18n("Please wait while re-indexing stars ...") );
         QObject::connect( KStarsData::Instance(),
                           SIGNAL( progressText( QString ) ),
