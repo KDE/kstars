@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ScriptBuilder</class>
- <widget class="QWidget" name="ScriptBuilder" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ScriptBuilder">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,182 +10,164 @@
     <height>520</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
+  <layout class="QVBoxLayout">
+   <property name="spacing">
     <number>6</number>
    </property>
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin">
     <number>9</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
+    <layout class="QHBoxLayout">
+     <property name="spacing">
       <number>6</number>
      </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
+     <property name="margin">
       <number>0</number>
      </property>
      <item>
-      <widget class="QPushButton" name="NewButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="QPushButton" name="NewButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>New Script</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Discards current script and starts a new one.  Will prompt to save any unsaved changes in the current script.</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="OpenButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="QPushButton" name="OpenButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Open Script</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Opens an existing script.  Will prompt to save any unsaved changes in the current script.</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="SaveButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="QPushButton" name="SaveButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Save Script</string>
        </property>
-       <property name="whatsThis" >
-        <string>Save the current script.  If the script has not been saved before, this is equivalent to "Save As..."</string>
+       <property name="whatsThis">
+        <string>Save the current script.  If the script has not been saved before, this is equivalent to &quot;Save As...&quot;</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="SaveAsButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="QPushButton" name="SaveAsButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Save Script As...</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Saves the script to a file, allowing you to first specify the filename and a name for the script.</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="RunButton" >
-       <property name="minimumSize" >
+      <widget class="QPushButton" name="RunButton">
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Test Script</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Executes the script in the KStars main window.  You may want to reposition the Script Builder tool so that the Sky map is visible.  </string>
        </property>
       </widget>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>490</width>
          <height>20</height>
@@ -195,197 +178,170 @@
     </layout>
    </item>
    <item>
-    <widget class="QSplitter" name="splitter" >
-     <property name="orientation" >
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QGroupBox" name="groupBox" >
-      <property name="title" >
+     <widget class="QGroupBox" name="groupBox">
+      <property name="title">
        <string>Current Script</string>
       </property>
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" >
-         <property name="spacing" >
+        <layout class="QHBoxLayout">
+         <property name="spacing">
           <number>6</number>
          </property>
-         <property name="leftMargin" >
-          <number>0</number>
-         </property>
-         <property name="topMargin" >
-          <number>0</number>
-         </property>
-         <property name="rightMargin" >
-          <number>0</number>
-         </property>
-         <property name="bottomMargin" >
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QListWidget" name="ScriptListBox" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+          <widget class="QListWidget" name="ScriptListBox">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>1</verstretch>
             </sizepolicy>
            </property>
-           <property name="whatsThis" >
+           <property name="whatsThis">
             <string>This shows the list of commands present in the current working script.  Highlighting any command will present a widget where you can specify its arguments below.  Use the action buttons at right to copy, remove, or change the position of the selected command.  </string>
            </property>
           </widget>
          </item>
          <item>
-          <layout class="QVBoxLayout" >
-           <property name="spacing" >
+          <layout class="QVBoxLayout">
+           <property name="spacing">
             <number>6</number>
            </property>
-           <property name="leftMargin" >
-            <number>0</number>
-           </property>
-           <property name="topMargin" >
-            <number>0</number>
-           </property>
-           <property name="rightMargin" >
-            <number>0</number>
-           </property>
-           <property name="bottomMargin" >
+           <property name="margin">
             <number>0</number>
            </property>
            <item>
-            <widget class="QPushButton" name="AddButton" >
-             <property name="minimumSize" >
+            <widget class="QPushButton" name="AddButton">
+             <property name="minimumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Add Function</string>
              </property>
-             <property name="whatsThis" >
-              <string>If a function is highlighted in the "Function Browser" box, this button will add it to the current working script.  The new function is inserted directly after the highlighted function in the "Current Script" box.
+             <property name="whatsThis">
+              <string>If a function is highlighted in the &quot;Function Browser&quot; box, this button will add it to the current working script.  The new function is inserted directly after the highlighted function in the &quot;Current Script&quot; box.
 </string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="RemoveButton" >
-             <property name="minimumSize" >
+            <widget class="QPushButton" name="RemoveButton">
+             <property name="minimumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Remove Function</string>
              </property>
-             <property name="whatsThis" >
-              <string>If a function is highlighted in the "Current Script" box, this button will remove it from the script.</string>
+             <property name="whatsThis">
+              <string>If a function is highlighted in the &quot;Current Script&quot; box, this button will remove it from the script.</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="CopyButton" >
-             <property name="minimumSize" >
+            <widget class="QPushButton" name="CopyButton">
+             <property name="minimumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Copy Function</string>
              </property>
-             <property name="whatsThis" >
-              <string>If a function is highlighted in the "Current Script" box, this button will add a duplicate of the function.</string>
+             <property name="whatsThis">
+              <string>If a function is highlighted in the &quot;Current Script&quot; box, this button will add a duplicate of the function.</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="UpButton" >
-             <property name="minimumSize" >
+            <widget class="QPushButton" name="UpButton">
+             <property name="minimumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Move Up</string>
              </property>
-             <property name="whatsThis" >
-              <string>If a function is highlighted in the "Current Script" box, this button will move it up one position in the script.</string>
+             <property name="whatsThis">
+              <string>If a function is highlighted in the &quot;Current Script&quot; box, this button will move it up one position in the script.</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="DownButton" >
-             <property name="minimumSize" >
+            <widget class="QPushButton" name="DownButton">
+             <property name="minimumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="maximumSize" >
+             <property name="maximumSize">
               <size>
                <width>32</width>
                <height>32</height>
               </size>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Move Down</string>
              </property>
-             <property name="whatsThis" >
-              <string>If a function is highlighted in the "Current Script" box, this button will move it down one position in the script.</string>
+             <property name="whatsThis">
+              <string>If a function is highlighted in the &quot;Current Script&quot; box, this button will move it down one position in the script.</string>
              </property>
             </widget>
            </item>
            <item>
             <spacer>
-             <property name="orientation" >
+             <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
-             <property name="sizeType" >
+             <property name="sizeType">
               <enum>QSizePolicy::Expanding</enum>
              </property>
-             <property name="sizeHint" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
                <height>118</height>
@@ -398,30 +354,21 @@
         </layout>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
           <string>Function Arguments</string>
          </property>
-         <layout class="QVBoxLayout" >
-          <property name="spacing" >
+         <layout class="QVBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="leftMargin" >
-           <number>9</number>
-          </property>
-          <property name="topMargin" >
-           <number>9</number>
-          </property>
-          <property name="rightMargin" >
-           <number>9</number>
-          </property>
-          <property name="bottomMargin" >
+          <property name="margin">
            <number>9</number>
           </property>
           <item>
-           <widget class="QStackedWidget" name="ArgStack" >
-            <widget class="QWidget" name="page" />
-            <widget class="QWidget" name="page_2" />
+           <widget class="QStackedWidget" name="ArgStack">
+            <widget class="QWidget" name="page"/>
+            <widget class="QWidget" name="page_2"/>
            </widget>
           </item>
          </layout>
@@ -429,58 +376,49 @@
        </item>
       </layout>
      </widget>
-     <widget class="QGroupBox" name="groupBox_3" >
-      <property name="title" >
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="title">
        <string>Function Browser</string>
       </property>
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="leftMargin" >
-        <number>9</number>
-       </property>
-       <property name="topMargin" >
-        <number>9</number>
-       </property>
-       <property name="rightMargin" >
-        <number>9</number>
-       </property>
-       <property name="bottomMargin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <widget class="QSplitter" name="splitter7" >
-         <property name="orientation" >
+        <widget class="QSplitter" name="splitter7">
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <widget class="QTreeWidget" name="FunctionTree" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+         <widget class="QTreeWidget" name="FunctionTree">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>5</verstretch>
            </sizepolicy>
           </property>
-          <property name="rootIsDecorated" >
+          <property name="rootIsDecorated">
            <bool>true</bool>
           </property>
           <column>
-           <property name="text" >
+           <property name="text">
             <string>1</string>
            </property>
           </column>
          </widget>
-         <widget class="QTextEdit" name="FuncDoc" >
-          <property name="sizePolicy" >
-           <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
+         <widget class="KTextEdit" name="FuncDoc">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="toolTip" >
+          <property name="toolTip">
            <string>Function Help</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If a function is highlighted in the Function Browser, this area will show some brief documentation about the function.</string>
           </property>
          </widget>
@@ -492,6 +430,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

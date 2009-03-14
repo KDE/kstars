@@ -18,14 +18,14 @@
 #ifndef TIMEBOX_H
 #define TIMEBOX_H
 
-#include <qlineedit.h>
+#include <KLineEdit>
 #include <qstring.h>
 
 class QTime;
 class QDate;
 
 /**@class timeBox
-	* This class creates a QHBox with 3 QLineEdit Fields which will contain
+	* This class creates a QHBox with 3 KLineEdit Fields which will contain
 	* either Time (Hour, Minute, Second) or Date (Day, Month, Year).
 	*
 	* Inherits QHBox
@@ -33,7 +33,7 @@ class QDate;
 	*@version 1.0
 	*/
 
-class timeBox : public QLineEdit  {
+class timeBox : public KLineEdit  {
 public:
     /**
      * Constructor for the timeBox object.
@@ -46,14 +46,14 @@ public:
     ~timeBox();
 
     /**
-    * Fills the QLineEdit fields of the timebox object from a QTime object
+    * Fills the KLineEdit fields of the timebox object from a QTime object
     * showing hours, minutes and seconds.
     * @param t QTime object from which to fill the entry fields
     */
     void showTime( const QTime &t );
 
     /**
-    * Fills the QLineEdit fields of the timebox object from a QDate object
+    * Fills the KLineEdit fields of the timebox object from a QDate object
     * @param d QDate object from which to fill the entry fields
     */
     void showDate( const QDate &d );

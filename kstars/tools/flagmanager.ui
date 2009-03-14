@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>FlagManager</class>
- <widget class="QWidget" name="FlagManager" >
-  <property name="geometry" >
+ <widget class="QWidget" name="FlagManager">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,26 +10,26 @@
     <height>356</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="0" >
-    <layout class="QVBoxLayout" name="verticalLayout_2" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout" >
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <layout class="QFormLayout" name="formLayout" >
-         <property name="fieldGrowthPolicy" >
+        <layout class="QFormLayout" name="formLayout">
+         <property name="fieldGrowthPolicy">
           <enum>QFormLayout::ExpandingFieldsGrow</enum>
          </property>
-         <item row="0" column="0" >
-          <widget class="QLabel" name="raLabel" >
-           <property name="text" >
+         <item row="0" column="0">
+          <widget class="QLabel" name="raLabel">
+           <property name="text">
             <string>Right ascension:</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1" >
-          <widget class="dmsBox" name="raBox" >
-           <property name="maximumSize" >
+         <item row="0" column="1">
+          <widget class="dmsBox" name="raBox">
+           <property name="maximumSize">
             <size>
              <width>150</width>
              <height>16777215</height>
@@ -36,16 +37,16 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="decLabel" >
-           <property name="text" >
+         <item row="1" column="0">
+          <widget class="QLabel" name="decLabel">
+           <property name="text">
             <string>Declination:</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1" >
-          <widget class="dmsBox" name="decBox" >
-           <property name="maximumSize" >
+         <item row="1" column="1">
+          <widget class="dmsBox" name="decBox">
+           <property name="maximumSize">
             <size>
              <width>150</width>
              <height>16777215</height>
@@ -53,36 +54,36 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0" >
-          <widget class="QLabel" name="epochLabel" >
-           <property name="text" >
+         <item row="2" column="0">
+          <widget class="QLabel" name="epochLabel">
+           <property name="text">
             <string>Epoch:</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="1" >
-          <widget class="KLineEdit" name="epochBox" >
-           <property name="maximumSize" >
+         <item row="2" column="1">
+          <widget class="KLineEdit" name="epochBox">
+           <property name="maximumSize">
             <size>
              <width>150</width>
              <height>16777215</height>
             </size>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>2000.0</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0" >
-          <widget class="QLabel" name="label" >
-           <property name="text" >
+         <item row="3" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
             <string>Label:</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1" >
-          <widget class="QLineEdit" name="flagLabel" >
-           <property name="maximumSize" >
+         <item row="3" column="1">
+          <widget class="KLineEdit" name="flagLabel">
+           <property name="maximumSize">
             <size>
              <width>150</width>
              <height>16777215</height>
@@ -90,36 +91,36 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="0" >
-          <widget class="QLabel" name="label_2" >
-           <property name="text" >
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
             <string>Icon:</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1" >
-          <widget class="KComboBox" name="flagCombobox" />
+         <item row="4" column="1">
+          <widget class="KComboBox" name="flagCombobox"/>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3" >
+        <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QPushButton" name="addButton" >
-           <property name="text" >
+          <widget class="QPushButton" name="addButton">
+           <property name="text">
             <string>Add</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer_2" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Minimum</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -132,57 +133,57 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="label_3" >
-       <property name="text" >
-        <string>To add custom icons, just add images in $HOME/.kde4/share/apps/kstars. File names must begin with "_flags". For example, the file "_flagSmall_red_cross.gif" will be shown as "Small red cross" in the combo box.</string>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>To add custom icons, just add images in $HOME/.kde4/share/apps/kstars. File names must begin with &quot;_flags&quot;. For example, the file &quot;_flagSmall_red_cross.gif&quot; will be shown as &quot;Small red cross&quot; in the combo box.</string>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" >
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QTableView" name="flagList" >
-         <property name="minimumSize" >
+        <widget class="QTableView" name="flagList">
+         <property name="minimumSize">
           <size>
            <width>350</width>
            <height>0</height>
           </size>
          </property>
-         <property name="editTriggers" >
+         <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
-         <property name="alternatingRowColors" >
+         <property name="alternatingRowColors">
           <bool>true</bool>
          </property>
-         <property name="selectionMode" >
+         <property name="selectionMode">
           <enum>QAbstractItemView::SingleSelection</enum>
          </property>
-         <property name="selectionBehavior" >
+         <property name="selectionBehavior">
           <enum>QAbstractItemView::SelectRows</enum>
          </property>
-         <property name="sortingEnabled" >
+         <property name="sortingEnabled">
           <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout" >
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="QPushButton" name="delButton" >
-           <property name="text" >
+          <widget class="QPushButton" name="delButton">
+           <property name="text">
             <string>Delete</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -201,14 +202,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>dmsBox</class>

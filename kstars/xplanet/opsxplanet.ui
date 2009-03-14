@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>OpsXplanet</class>
- <widget class="QWidget" name="OpsXplanet" >
-  <property name="geometry" >
+ <widget class="QWidget" name="OpsXplanet">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,123 +10,123 @@
     <height>647</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="0" column="1" >
-    <widget class="QTabWidget" name="tab" >
-     <property name="currentIndex" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1">
+    <widget class="KTabWidget" name="tab">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="XplanetTabGeneral" >
-      <attribute name="title" >
+     <widget class="QWidget" name="XplanetTabGeneral">
+      <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2" >
-       <item row="0" column="0" >
-        <layout class="QVBoxLayout" name="verticalLayout" >
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <layout class="QFormLayout" name="formLayout" >
-           <property name="fieldGrowthPolicy" >
+          <layout class="QFormLayout" name="formLayout">
+           <property name="fieldGrowthPolicy">
             <enum>QFormLayout::ExpandingFieldsGrow</enum>
            </property>
-           <property name="formAlignment" >
+           <property name="formAlignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
-           <item row="2" column="0" >
-            <widget class="QLabel" name="textLabelXplanetTitle" >
-             <property name="text" >
+           <item row="2" column="0">
+            <widget class="QLabel" name="textLabelXplanetTitle">
+             <property name="text">
               <string>Window title:</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1" >
-            <widget class="KLineEdit" name="kcfg_XplanetTitle" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+           <item row="2" column="1">
+            <widget class="KLineEdit" name="kcfg_XplanetTitle">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Title of xplanet window</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Set the window’s title.</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0" >
-            <widget class="QLabel" name="textLabelXplanetGeometryX" >
-             <property name="text" >
+           <item row="3" column="0">
+            <widget class="QLabel" name="textLabelXplanetGeometryX">
+             <property name="text">
               <string>Window size: </string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1" >
-            <layout class="QHBoxLayout" name="horizontalLayout_2" >
-             <property name="sizeConstraint" >
+           <item row="3" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="sizeConstraint">
               <enum>QLayout::SetMaximumSize</enum>
              </property>
              <item>
-              <widget class="KLineEdit" name="kcfg_XplanetWidth" >
-               <property name="sizePolicy" >
-                <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+              <widget class="KLineEdit" name="kcfg_XplanetWidth">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="maximumSize" >
+               <property name="maximumSize">
                 <size>
                  <width>50</width>
                  <height>16777215</height>
                 </size>
                </property>
-               <property name="toolTip" >
+               <property name="toolTip">
                 <string>Set the width of window</string>
                </property>
-               <property name="whatsThis" >
+               <property name="whatsThis">
                 <string>Set the width of window</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="textLabelXplanetGeometryY" >
-               <property name="text" >
+              <widget class="QLabel" name="textLabelXplanetGeometryY">
+               <property name="text">
                 <string>x</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="KLineEdit" name="kcfg_XplanetHeight" >
-               <property name="enabled" >
+              <widget class="KLineEdit" name="kcfg_XplanetHeight">
+               <property name="enabled">
                 <bool>true</bool>
                </property>
-               <property name="maximumSize" >
+               <property name="maximumSize">
                 <size>
                  <width>50</width>
                  <height>16777215</height>
                 </size>
                </property>
-               <property name="toolTip" >
+               <property name="toolTip">
                 <string>Set the height of window</string>
                </property>
-               <property name="whatsThis" >
+               <property name="whatsThis">
                 <string>Set the height of window</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label" >
-               <property name="text" >
+              <widget class="QLabel" name="label">
+               <property name="text">
                 <string>pixels</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer" >
-               <property name="orientation" >
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
-               <property name="sizeHint" stdset="0" >
+               <property name="sizeHint" stdset="0">
                 <size>
                  <width>40</width>
                  <height>20</height>
@@ -135,25 +136,25 @@
              </item>
             </layout>
            </item>
-           <item row="0" column="0" >
-            <widget class="QLabel" name="textLabelXplanetPath" >
-             <property name="text" >
+           <item row="0" column="0">
+            <widget class="QLabel" name="textLabelXplanetPath">
+             <property name="text">
               <string>Xplanet path:</string>
              </property>
             </widget>
            </item>
-           <item row="0" column="1" >
-            <widget class="KLineEdit" name="kcfg_XplanetPath" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+           <item row="0" column="1">
+            <widget class="KLineEdit" name="kcfg_XplanetPath">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Xplanet binary path</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Enter here the path of xplanet binary.</string>
              </property>
             </widget>
@@ -161,14 +162,14 @@
           </layout>
          </item>
          <item>
-          <spacer name="verticalSpacer" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Fixed</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>506</width>
              <height>13</height>
@@ -177,180 +178,180 @@
           </spacer>
          </item>
          <item>
-          <layout class="QFormLayout" name="formLayout_2" >
-           <property name="fieldGrowthPolicy" >
+          <layout class="QFormLayout" name="formLayout_2">
+           <property name="fieldGrowthPolicy">
             <enum>QFormLayout::ExpandingFieldsGrow</enum>
            </property>
-           <property name="labelAlignment" >
+           <property name="labelAlignment">
             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
            </property>
-           <item row="1" column="0" >
-            <widget class="QCheckBox" name="kcfg_XplanetFOV" >
-             <property name="toolTip" >
+           <item row="1" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetFOV">
+             <property name="toolTip">
               <string>Use kstars's FOV?</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>If checked, use kstars's FOV.</string>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Use kstars's FOV</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="0" >
-            <widget class="QCheckBox" name="kcfg_XplanetWait" >
-             <property name="toolTip" >
+           <item row="2" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetWait">
+             <property name="toolTip">
               <string>Update?</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>If checked, update view.</string>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Update every</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1" >
-            <layout class="QHBoxLayout" name="horizontalLayout_3" >
+           <item row="2" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
              <item>
-              <widget class="KIntSpinBox" name="kcfg_XplanetWaitValue" >
-               <property name="toolTip" >
+              <widget class="KIntSpinBox" name="kcfg_XplanetWaitValue">
+               <property name="toolTip">
                 <string>Number of seconde to wait before updating</string>
                </property>
-               <property name="whatsThis" >
+               <property name="whatsThis">
                 <string>Number of seconde to wait before updating</string>
                </property>
-               <property name="maximum" >
+               <property name="maximum">
                 <number>99999</number>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="textLabelXplanetSecondes" >
-               <property name="text" >
+              <widget class="QLabel" name="textLabelXplanetSecondes">
+               <property name="text">
                 <string>seconds</string>
                </property>
               </widget>
              </item>
             </layout>
            </item>
-           <item row="3" column="0" >
-            <widget class="QLabel" name="textLabelXplanetGlare" >
-             <property name="text" >
+           <item row="3" column="0">
+            <widget class="QLabel" name="textLabelXplanetGlare">
+             <property name="text">
               <string>Glare of Sun:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1" >
-            <widget class="KIntSpinBox" name="kcfg_XplanetGlare" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+           <item row="3" column="1">
+            <widget class="KIntSpinBox" name="kcfg_XplanetGlare">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Radius of the glare around the Sun.</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Draw a glare around the sun with with a radius of the specified value larger than the Sun.  The default value is 28.</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0" >
-            <widget class="QLabel" name="textLabelXplanetMagnitude" >
-             <property name="text" >
+           <item row="4" column="0">
+            <widget class="QLabel" name="textLabelXplanetMagnitude">
+             <property name="text">
               <string>Base magnitude:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1" >
-            <widget class="KIntSpinBox" name="kcfg_XplanetMagnitude" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+           <item row="4" column="1">
+            <widget class="KIntSpinBox" name="kcfg_XplanetMagnitude">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>A star of the specified magnitude will have a pixel brightness of 1</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>A star of the specified magnitude will have a pixel brightness of 1. The default value is 10. Stars will be drawn more brightly if this number is larger.</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="0" >
-            <widget class="QCheckBox" name="kcfg_XplanetStarmap" >
-             <property name="toolTip" >
+           <item row="6" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetStarmap">
+             <property name="toolTip">
               <string>Use custom star map?</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>If checked, use star map file to draw the background stars.</string>
              </property>
-             <property name="text" >
+             <property name="text">
               <string>Star map:</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1" >
-            <widget class="KLineEdit" name="kcfg_XplanetStarmapPath" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+           <item row="6" column="1">
+            <widget class="KLineEdit" name="kcfg_XplanetStarmapPath">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Star map file path</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Star map file path</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="1" >
-            <widget class="KLineEdit" name="kcfg_XplanetArcFilePath" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+           <item row="7" column="1">
+            <widget class="KLineEdit" name="kcfg_XplanetArcFilePath">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Arc file path</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Specify an arc file to be plotted against the background stars.</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1" >
-            <widget class="KLineEdit" name="kcfg_XplanetConfigFilePath" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+           <item row="5" column="1">
+            <widget class="KLineEdit" name="kcfg_XplanetConfigFilePath">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>Config file path</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Use the specified configuration file</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="0" >
-            <widget class="QCheckBox" name="kcfg_XplanetConfigFile" >
-             <property name="text" >
+           <item row="5" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetConfigFile">
+             <property name="text">
               <string>Config file:</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="0" >
-            <widget class="QCheckBox" name="kcfg_XplanetArcFile" >
-             <property name="text" >
+           <item row="7" column="0">
+            <widget class="QCheckBox" name="kcfg_XplanetArcFile">
+             <property name="text">
               <string>Arc file:</string>
              </property>
             </widget>
@@ -358,14 +359,14 @@
           </layout>
          </item>
          <item>
-          <spacer name="verticalSpacer_8" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer_8">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Fixed</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>506</width>
              <height>13</height>
@@ -374,39 +375,39 @@
           </spacer>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_9" >
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
            <item>
-            <widget class="QLabel" name="textLabelXplanetQuality" >
-             <property name="text" >
+            <widget class="QLabel" name="textLabelXplanetQuality">
+             <property name="text">
               <string>Output file quality:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KIntSpinBox" name="kcfg_XplanetQuality" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+            <widget class="KIntSpinBox" name="kcfg_XplanetQuality">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="toolTip" >
+             <property name="toolTip">
               <string>JPEG Quality</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>This option is only used when creating JPEG images. The quality can range from 0 to 100. The default value is 80.</string>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>100</number>
              </property>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_4" >
-             <property name="orientation" >
+            <spacer name="horizontalSpacer_4">
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>40</width>
                <height>20</height>
@@ -417,11 +418,11 @@
           </layout>
          </item>
          <item>
-          <spacer name="verticalSpacer_2" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -433,145 +434,145 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="XplanetTabLabel" >
-      <attribute name="title" >
+     <widget class="QWidget" name="XplanetTabLabel">
+      <attribute name="title">
        <string>Labels and markers</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_7" >
-       <item row="0" column="0" >
-        <layout class="QVBoxLayout" name="verticalLayout_5" >
+      <layout class="QGridLayout" name="gridLayout_7">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
          <item>
-          <widget class="QGroupBox" name="groupBox" >
-           <property name="title" >
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
             <string>Labels</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_5" >
-            <item row="0" column="0" >
-             <layout class="QFormLayout" name="formLayout_3" >
-              <property name="fieldGrowthPolicy" >
+           <layout class="QGridLayout" name="gridLayout_5">
+            <item row="0" column="0">
+             <layout class="QFormLayout" name="formLayout_3">
+              <property name="fieldGrowthPolicy">
                <enum>QFormLayout::ExpandingFieldsGrow</enum>
               </property>
-              <property name="labelAlignment" >
+              <property name="labelAlignment">
                <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
               </property>
-              <property name="formAlignment" >
+              <property name="formAlignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
-              <item row="0" column="1" >
-               <layout class="QHBoxLayout" name="horizontalLayout" >
+              <item row="0" column="1">
+               <layout class="QHBoxLayout" name="horizontalLayout">
                 <item>
-                 <widget class="QRadioButton" name="kcfg_XplanetLabelLocalTime" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="kcfg_XplanetLabelLocalTime">
+                  <property name="text">
                    <string>local time</string>
                   </property>
-                  <property name="checked" >
+                  <property name="checked">
                    <bool>true</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QRadioButton" name="kcfg_XplanetLabelGMT" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="kcfg_XplanetLabelGMT">
+                  <property name="text">
                    <string>GMT</string>
                   </property>
                  </widget>
                 </item>
                </layout>
               </item>
-              <item row="1" column="0" >
-               <widget class="QLabel" name="textLabelXplanetLabelString" >
-                <property name="text" >
+              <item row="1" column="0">
+               <widget class="QLabel" name="textLabelXplanetLabelString">
+                <property name="text">
                  <string>Label string:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" >
-               <widget class="KLineEdit" name="kcfg_XplanetLabelString" >
-                <property name="toolTip" >
+              <item row="1" column="1">
+               <widget class="KLineEdit" name="kcfg_XplanetLabelString">
+                <property name="toolTip">
                  <string>Specify the text of the first line of the label.</string>
                 </property>
-                <property name="whatsThis" >
-                 <string>Specify the text of the first line of the label. By default, it says something like "Looking at Earth".  Any instances of %t will be replaced by the target name, and any instances of %o will be replaced by the origin name.</string>
+                <property name="whatsThis">
+                 <string>Specify the text of the first line of the label. By default, it says something like &quot;Looking at Earth&quot;.  Any instances of %t will be replaced by the target name, and any instances of %o will be replaced by the origin name.</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="0" >
-               <widget class="QLabel" name="textLabelXplanetDateFormat" >
-                <property name="text" >
+              <item row="2" column="0">
+               <widget class="QLabel" name="textLabelXplanetDateFormat">
+                <property name="text">
                  <string>Date format:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" >
-               <widget class="KLineEdit" name="kcfg_XplanetDateFormat" >
-                <property name="toolTip" >
+              <item row="2" column="1">
+               <widget class="KLineEdit" name="kcfg_XplanetDateFormat">
+                <property name="toolTip">
                  <string>Specify the format for the date/time label.</string>
                 </property>
-                <property name="whatsThis" >
-                 <string>Specify the format for the date/time label.  This format string is passed to strftime(3).  The default is "%c %Z", which shows the date, time, and time zone in the  locale’s  appropriate date and time representation.</string>
+                <property name="whatsThis">
+                 <string>Specify the format for the date/time label.  This format string is passed to strftime(3).  The default is &quot;%c %Z&quot;, which shows the date, time, and time zone in the  locale’s  appropriate date and time representation.</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="0" >
-               <widget class="QLabel" name="textLabelXplanetFontSize" >
-                <property name="enabled" >
+              <item row="3" column="0">
+               <widget class="QLabel" name="textLabelXplanetFontSize">
+                <property name="enabled">
                  <bool>true</bool>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Font size:</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="1" >
-               <widget class="KIntSpinBox" name="kcfg_XplanetFontSize" >
-                <property name="toolTip" >
+              <item row="3" column="1">
+               <widget class="KIntSpinBox" name="kcfg_XplanetFontSize">
+                <property name="toolTip">
                  <string>Label font size</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Specify the point size.</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="0" >
-               <widget class="QLabel" name="textLabelXplanetColor" >
-                <property name="text" >
+              <item row="4" column="0">
+               <widget class="QLabel" name="textLabelXplanetColor">
+                <property name="text">
                  <string>Color:</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="1" >
-               <widget class="KColorButton" name="kcfg_XplanetColor" >
-                <property name="toolTip" >
+              <item row="4" column="1">
+               <widget class="KColorButton" name="kcfg_XplanetColor">
+                <property name="toolTip">
                  <string>Label color</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Set the color for the label.</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="1" >
-               <widget class="QFrame" name="frame_2" >
-                <layout class="QGridLayout" name="gridLayout_4" >
-                 <item row="0" column="0" >
-                  <layout class="QHBoxLayout" name="horizontalLayout_4" >
+              <item row="5" column="1">
+               <widget class="QFrame" name="frame_2">
+                <layout class="QGridLayout" name="gridLayout_4">
+                 <item row="0" column="0">
+                  <layout class="QHBoxLayout" name="horizontalLayout_4">
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_2" >
+                    <layout class="QVBoxLayout" name="verticalLayout_2">
                      <item>
-                      <widget class="QRadioButton" name="kcfg_XplanetLabelTL" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="kcfg_XplanetLabelTL">
+                       <property name="text">
                         <string>Top left</string>
                        </property>
-                       <property name="checked" >
+                       <property name="checked">
                         <bool>false</bool>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QRadioButton" name="kcfg_XplanetLabelBL" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="kcfg_XplanetLabelBL">
+                       <property name="text">
                         <string>Bottom left</string>
                        </property>
-                       <property name="checked" >
+                       <property name="checked">
                         <bool>false</bool>
                        </property>
                       </widget>
@@ -579,23 +580,23 @@
                     </layout>
                    </item>
                    <item>
-                    <layout class="QVBoxLayout" name="verticalLayout_3" >
+                    <layout class="QVBoxLayout" name="verticalLayout_3">
                      <item>
-                      <widget class="QRadioButton" name="kcfg_XplanetLabelTR" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="kcfg_XplanetLabelTR">
+                       <property name="text">
                         <string>Top right</string>
                        </property>
-                       <property name="checked" >
+                       <property name="checked">
                         <bool>true</bool>
                        </property>
                       </widget>
                      </item>
                      <item>
-                      <widget class="QRadioButton" name="kcfg_XplanetLabelBR" >
-                       <property name="text" >
+                      <widget class="QRadioButton" name="kcfg_XplanetLabelBR">
+                       <property name="text">
                         <string>Bottom right</string>
                        </property>
-                       <property name="checked" >
+                       <property name="checked">
                         <bool>false</bool>
                        </property>
                       </widget>
@@ -607,14 +608,14 @@
                 </layout>
                </widget>
               </item>
-              <item row="5" column="0" >
-               <layout class="QVBoxLayout" name="verticalLayout_4" >
+              <item row="5" column="0">
+               <layout class="QVBoxLayout" name="verticalLayout_4">
                 <item>
-                 <spacer name="verticalSpacer_3" >
-                  <property name="orientation" >
+                 <spacer name="verticalSpacer_3">
+                  <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="sizeHint" stdset="0" >
+                  <property name="sizeHint" stdset="0">
                    <size>
                     <width>20</width>
                     <height>40</height>
@@ -623,18 +624,18 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QLabel" name="textLabelLabelPos" >
-                  <property name="text" >
+                 <widget class="QLabel" name="textLabelLabelPos">
+                  <property name="text">
                    <string>Label position:</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <spacer name="verticalSpacer_4" >
-                  <property name="orientation" >
+                 <spacer name="verticalSpacer_4">
+                  <property name="orientation">
                    <enum>Qt::Vertical</enum>
                   </property>
-                  <property name="sizeHint" stdset="0" >
+                  <property name="sizeHint" stdset="0">
                    <size>
                     <width>20</width>
                     <height>40</height>
@@ -644,15 +645,15 @@
                 </item>
                </layout>
               </item>
-              <item row="0" column="0" >
-               <widget class="QCheckBox" name="kcfg_XplanetLabel" >
-                <property name="toolTip" >
+              <item row="0" column="0">
+               <widget class="QCheckBox" name="kcfg_XplanetLabel">
+                <property name="toolTip">
                  <string>Show label?</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>If checked, display a label in the upper right corner.</string>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Show label</string>
                 </property>
                </widget>
@@ -663,58 +664,58 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBox_2" >
-           <property name="title" >
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="title">
             <string>Markers</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_6" >
-            <item row="0" column="0" >
-             <layout class="QFormLayout" name="formLayout_4" >
-              <property name="labelAlignment" >
+           <layout class="QGridLayout" name="gridLayout_6">
+            <item row="0" column="0">
+             <layout class="QFormLayout" name="formLayout_4">
+              <property name="labelAlignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
               </property>
-              <item row="0" column="0" >
-               <widget class="QCheckBox" name="kcfg_XplanetMarkerFile" >
-                <property name="toolTip" >
+              <item row="0" column="0">
+               <widget class="QCheckBox" name="kcfg_XplanetMarkerFile">
+                <property name="toolTip">
                  <string>Use marker file?</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>If checked, use the specified marker file.</string>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Use marker file:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1" >
-               <widget class="KLineEdit" name="kcfg_XplanetMarkerFilePath" >
-                <property name="toolTip" >
+              <item row="0" column="1">
+               <widget class="KLineEdit" name="kcfg_XplanetMarkerFilePath">
+                <property name="toolTip">
                  <string>Marker file path</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Specify a file containing user defined marker data to display against the background stars.</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0" >
-               <widget class="QCheckBox" name="kcfg_XplanetMarkerBounds" >
-                <property name="toolTip" >
+              <item row="1" column="0">
+               <widget class="QCheckBox" name="kcfg_XplanetMarkerBounds">
+                <property name="toolTip">
                  <string>Write marker bounds in a file</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Write coordinates of the bounding box for each marker in a file.</string>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Write marker bounds to:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1" >
-               <widget class="KLineEdit" name="kcfg_XplanetMarkerBoundsPath" >
-                <property name="toolTip" >
+              <item row="1" column="1">
+               <widget class="KLineEdit" name="kcfg_XplanetMarkerBoundsPath">
+                <property name="toolTip">
                  <string>Marker bounds file path</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>Write coordinates of the bounding box for each marker to this file.</string>
                 </property>
                </widget>
@@ -725,11 +726,11 @@
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer_6" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -741,67 +742,67 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="XplanetTabPosition" >
-      <attribute name="title" >
+     <widget class="QWidget" name="XplanetTabPosition">
+      <attribute name="title">
        <string>Position</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3" >
-       <item row="0" column="0" >
-        <layout class="QVBoxLayout" name="verticalLayout_6" >
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_6">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5" >
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <widget class="QRadioButton" name="kcfg_XplanetLatLong" >
-             <property name="text" >
+            <widget class="QRadioButton" name="kcfg_XplanetLatLong">
+             <property name="text">
               <string>Place the observer above latitude </string>
              </property>
-             <property name="checked" >
+             <property name="checked">
               <bool>true</bool>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KIntSpinBox" name="kcfg_XplanetLatitude" >
-             <property name="toolTip" >
+            <widget class="KIntSpinBox" name="kcfg_XplanetLatitude">
+             <property name="toolTip">
               <string>Latitude in degrees</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Render the target body as seen from above the specified latitude (in degrees).  The default value is 0.</string>
              </property>
-             <property name="minimum" >
+             <property name="minimum">
               <number>-360</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>360</number>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabelXplanetLongitude" >
-             <property name="text" >
+            <widget class="QLabel" name="textLabelXplanetLongitude">
+             <property name="text">
               <string> and longitude </string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KIntSpinBox" name="kcfg_XplanetLongitude" >
-             <property name="toolTip" >
+            <widget class="KIntSpinBox" name="kcfg_XplanetLongitude">
+             <property name="toolTip">
               <string>Longitude in degrees</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>Place the observer above the specified longitude (in degrees).  Longitude is positive going east, negative going west (for the earth and moon), so for example Los Angeles is at  -118  or 242.  The default value is 0.</string>
              </property>
-             <property name="minimum" >
+             <property name="minimum">
               <number>-360</number>
              </property>
-             <property name="maximum" >
+             <property name="maximum">
               <number>360</number>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_2" >
-             <property name="text" >
+            <widget class="QLabel" name="label_2">
+             <property name="text">
               <string>in degrees</string>
              </property>
             </widget>
@@ -809,18 +810,18 @@
           </layout>
          </item>
          <item>
-          <widget class="QRadioButton" name="kcfg_XplanetRandom" >
-           <property name="text" >
+          <widget class="QRadioButton" name="kcfg_XplanetRandom">
+           <property name="text">
             <string>Place the observer above a random latitude and longitude</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer_5" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer_5">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -832,38 +833,38 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="XplanetTabProjection" >
-      <attribute name="title" >
+     <widget class="QWidget" name="XplanetTabProjection">
+      <attribute name="title">
        <string>Projection</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_9" >
-       <item row="0" column="0" >
-        <layout class="QVBoxLayout" name="verticalLayout_8" >
+      <layout class="QGridLayout" name="gridLayout_9">
+       <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_8">
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_6" >
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>
-            <widget class="QLabel" name="textLabelXplanetProjection" >
-             <property name="text" >
+            <widget class="QLabel" name="textLabelXplanetProjection">
+             <property name="text">
               <string>Projection:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="KComboBox" name="kcfg_XplanetProjection" >
-             <property name="toolTip" >
+            <widget class="KComboBox" name="kcfg_XplanetProjection">
+             <property name="toolTip">
               <string>The projection type</string>
              </property>
-             <property name="whatsThis" >
+             <property name="whatsThis">
               <string>The default is  no projection.  Multiple bodies will not be shown if this option is specified, although shadows will still be drawn.</string>
              </property>
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_2" >
-             <property name="orientation" >
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
-             <property name="sizeHint" stdset="0" >
+             <property name="sizeHint" stdset="0">
               <size>
                <width>40</width>
                <height>20</height>
@@ -874,47 +875,47 @@
           </layout>
          </item>
          <item>
-          <widget class="QGroupBox" name="groupBoxBackground" >
-           <property name="enabled" >
+          <widget class="QGroupBox" name="groupBoxBackground">
+           <property name="enabled">
             <bool>true</bool>
            </property>
-           <property name="title" >
+           <property name="title">
             <string>Background</string>
            </property>
-           <layout class="QGridLayout" name="gridLayout_8" >
-            <item row="0" column="0" >
-             <layout class="QVBoxLayout" name="verticalLayout_7" >
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="0" column="0">
+             <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
-               <widget class="QCheckBox" name="kcfg_XplanetBackground" >
-                <property name="toolTip" >
+               <widget class="QCheckBox" name="kcfg_XplanetBackground">
+                <property name="toolTip">
                  <string>Use background?</string>
                 </property>
-                <property name="whatsThis" >
+                <property name="whatsThis">
                  <string>If checked, use a file or a color as background.</string>
                 </property>
-                <property name="text" >
+                <property name="text">
                  <string>Use background</string>
                 </property>
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_7" >
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
                 <item>
-                 <widget class="QRadioButton" name="kcfg_XplanetBackgroundImage" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="kcfg_XplanetBackgroundImage">
+                  <property name="text">
                    <string>Background image:</string>
                   </property>
-                  <property name="checked" >
+                  <property name="checked">
                    <bool>false</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="KLineEdit" name="kcfg_XplanetBackgroundImagePath" >
-                  <property name="toolTip" >
+                 <widget class="KLineEdit" name="kcfg_XplanetBackgroundImagePath">
+                  <property name="toolTip">
                    <string>Use this file as the background image</string>
                   </property>
-                  <property name="whatsThis" >
+                  <property name="whatsThis">
                    <string>Enter here the path of background image file.</string>
                   </property>
                  </widget>
@@ -922,33 +923,33 @@
                </layout>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_8" >
+               <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
-                 <widget class="QRadioButton" name="kcfg_XplanetBackgroundColor" >
-                  <property name="text" >
+                 <widget class="QRadioButton" name="kcfg_XplanetBackgroundColor">
+                  <property name="text">
                    <string>Background color:</string>
                   </property>
-                  <property name="checked" >
+                  <property name="checked">
                    <bool>true</bool>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="KColorButton" name="kcfg_XplanetBackgroundColorValue" >
-                  <property name="toolTip" >
+                 <widget class="KColorButton" name="kcfg_XplanetBackgroundColorValue">
+                  <property name="toolTip">
                    <string>Background color</string>
                   </property>
-                  <property name="whatsThis" >
+                  <property name="whatsThis">
                    <string>Set the color for the background.</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <spacer name="horizontalSpacer_3" >
-                  <property name="orientation" >
+                 <spacer name="horizontalSpacer_3">
+                  <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
-                  <property name="sizeHint" stdset="0" >
+                  <property name="sizeHint" stdset="0">
                    <size>
                     <width>40</width>
                     <height>20</height>
@@ -964,11 +965,11 @@
           </widget>
          </item>
          <item>
-          <spacer name="verticalSpacer_7" >
-           <property name="orientation" >
+          <spacer name="verticalSpacer_7">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>20</width>
              <height>40</height>
@@ -984,18 +985,8 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
-  <customwidgets>
-  <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
   <customwidget>
    <class>KIntSpinBox</class>
    <extends>QSpinBox</extends>
@@ -1005,6 +996,22 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>ktabwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

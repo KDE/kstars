@@ -27,7 +27,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-timeBox::timeBox(QWidget *parent, bool tt) : QLineEdit(parent)
+timeBox::timeBox(QWidget *parent, bool tt) : KLineEdit(parent)
 {
 
     if (tt) {
