@@ -159,6 +159,15 @@ public:
     	*/
     void setStarColorIntensity( int intens);
 
+
+    /**
+      *Set the star color mode and intensity value used by the color scheme
+    	*@p mode the star color mode to use
+    	*@p intens The star color intensity value
+    	*/
+    void setStarColorModeIntensity( int mode, int intens);
+
+
 private:
     int StarColorMode, StarColorIntensity;
     QString FileName;

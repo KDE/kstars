@@ -181,9 +181,7 @@ public:
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
     float faintStarMagnitude() const;
-    void setStarColorMode( int newMode );
     int starColorMode() const;
-    void setStarColorIntensity( int newIntensity );
     int starColorIntensity() const;
 
     virtual void emitProgressText( const QString &message );

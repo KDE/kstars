@@ -143,8 +143,7 @@ void ColorScheme::copy( const ColorScheme &cs ) {
     KeyName = cs.KeyName;
     Name = cs.Name;
     Default = cs.Default;
-    setStarColorMode( cs.StarColorMode );
-    setStarColorIntensity( cs.StarColorIntensity );
+    setStarColorModeIntensity( cs.StarColorMode, cs.StarColorIntensity );
     Palette = cs.Palette;
     FileName = cs.FileName;
 }
@@ -327,8 +326,7 @@ void ColorScheme::loadFromConfig() {
     for ( int i=0; i < KeyName.size(); ++i )
         setColor( KeyName.at(i), cg.readEntry( KeyName.at(i).toUtf8().constData(), Default.at( i ) ) );
 
-    setStarColorMode( cg.readEntry( "StarColorMode", 0 ) );
-    setStarColorIntensity( cg.readEntry( "StarColorIntensity", 5 ) );
+    setStarColorModeIntensity( cg.readEntry( "StarColorMode", 0 ), cg.readEntry( "StarColorIntensity", 5 ) );
 }
 
 void ColorScheme::saveToConfig() {
@@ -350,6 +348,14 @@ void ColorScheme::setStarColorMode( int mode ) {
 
 void ColorScheme::setStarColorIntensity( int intens ) { 
     StarColorIntensity = intens;
+    Options::setStarColorIntensity( intens );
+    StarObject::initImages();
+}
+
+void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
+    StarColorMode = mode;
+    StarColorIntensity = intens;
+    Options::setStarColorMode( mode );
     Options::setStarColorIntensity( intens );
     StarObject::initImages();
 }
