@@ -90,7 +90,7 @@ void FlagComponent::init( KStarsData *data ) {
         imageFound = false;
 
         // Continue if there is no label
-        if ( ! line.size() > 4 )
+        if ( ! ( line.size() > 4 ) )
             continue;
 
         // Read label
