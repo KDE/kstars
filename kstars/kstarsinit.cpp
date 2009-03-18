@@ -414,9 +414,6 @@ void KStars::initActions() {
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIPanel() ) );
     ka->setEnabled(false);
 
-    ka = actionCollection()->addAction( "configure_indi");
-    ka->setText( i18n("Configure INDI...") );
-    connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIConf() ) );
 #endif
 #endif
 
