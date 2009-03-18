@@ -268,7 +268,7 @@ void modCalcPlanets::slotRunBatch() {
 
     QString inputFileName;
 
-    inputFileName = InputFileBoxBatch->url().path();
+    inputFileName = InputFileBoxBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
@@ -316,7 +316,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     // we open the output file
 
     QString outputFileName, lineToWrite;
-    outputFileName = OutputFileBoxBatch->url().path();
+    outputFileName = OutputFileBoxBatch->url().toLocalFile();
     QFile fOut( outputFileName );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);

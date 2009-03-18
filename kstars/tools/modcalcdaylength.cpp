@@ -244,7 +244,7 @@ void modCalcDayLength::slotCheckFiles() {
 }
 
 void modCalcDayLength::slotRunBatch() {
-    QString inputFileName = InputFileBatch->url().path();
+    QString inputFileName = InputFileBatch->url().toLocalFile();
 
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
@@ -267,7 +267,7 @@ void modCalcDayLength::slotRunBatch() {
 }
 
 void modCalcDayLength::processLines( QTextStream &istream ) {
-    QFile fOut( OutputFileBatch->url().path() );
+    QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);
 
@@ -302,7 +302,7 @@ void modCalcDayLength::processLines( QTextStream &istream ) {
 }
 
 void modCalcDayLength::slotViewBatch() {
-    QFile fOut( OutputFileBatch->url().path() );
+    QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::ReadOnly);
     QTextStream istream(&fOut);
     QStringList text;
@@ -312,7 +312,7 @@ void modCalcDayLength::slotViewBatch() {
 
     fOut.close();
 
-    KMessageBox::informationList( 0, i18n("Results of Almanac calculation"), text, OutputFileBatch->url().path() );
+    KMessageBox::informationList( 0, i18n("Results of Almanac calculation"), text, OutputFileBatch->url().toLocalFile() );
 }
 
 #include "modcalcdaylength.moc"

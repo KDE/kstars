@@ -114,7 +114,7 @@ void modCalcJD::slotCheckFiles() {
 }
 
 void modCalcJD::slotRunBatch() {
-    QString inputFileName = InputFileBatch->url().path();
+    QString inputFileName = InputFileBatch->url().toLocalFile();
 
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
@@ -137,7 +137,7 @@ void modCalcJD::slotRunBatch() {
 }
 
 void modCalcJD::processLines( QTextStream &istream, int inputData ) {
-    QFile fOut( OutputFileBatch->url().path() );
+    QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);
 
@@ -217,7 +217,7 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
 }
 
 void modCalcJD::slotViewBatch() {
-    QFile fOut( OutputFileBatch->url().path() );
+    QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::ReadOnly);
     QTextStream istream(&fOut);
     QStringList text;
@@ -227,5 +227,5 @@ void modCalcJD::slotViewBatch() {
 
     fOut.close();
 
-    KMessageBox::informationList( 0, i18n("Results of Julian day calculation"), text, OutputFileBatch->url().path() );
+    KMessageBox::informationList( 0, i18n("Results of Julian day calculation"), text, OutputFileBatch->url().toLocalFile() );
 }

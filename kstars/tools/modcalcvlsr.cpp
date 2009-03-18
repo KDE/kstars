@@ -261,7 +261,7 @@ void modCalcVlsr::slotOutputFile() {
 void modCalcVlsr::slotRunBatch() {
     QString inputFileName;
 
-    inputFileName = InputFileBoxBatch->url().path();
+    inputFileName = InputFileBoxBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
@@ -294,7 +294,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
 
     //	QTextStream istream(&fIn);
     QString outputFileName;
-    outputFileName = OutputFileBoxBatch->url().path();
+    outputFileName = OutputFileBoxBatch->url().toLocalFile();
     QFile fOut( outputFileName );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);

@@ -117,7 +117,7 @@ bool AddCatDialog::validateDataFile() {
     CatalogContents = writeCatalogHeader();
 
     //Next, the data lines (fill from user-specified file)
-    QFile dataFile( acd->DataURL->url().path() );
+    QFile dataFile( acd->DataURL->url().toLocalFile() );
     if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
         QTextStream dataStream( &dataFile );
         CatalogContents += dataStream.readAll();
@@ -184,7 +184,7 @@ QString AddCatDialog::writeCatalogHeader() {
 }
 
 void AddCatDialog::slotShowDataFile() {
-    QFile dataFile( acd->DataURL->url().path() );
+    QFile dataFile( acd->DataURL->url().toLocalFile() );
     if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
         acd->DataFileBox->clear();
         QTextStream dataStream( &dataFile );
@@ -206,7 +206,7 @@ void AddCatDialog::slotCreateCatalog() {
         //and objList contains the parsed objects
 
         //Warn user if file exists!
-        if ( QFile::exists( acd->CatalogURL->url().path() ) )
+        if ( QFile::exists( acd->CatalogURL->url().toLocalFile() ) )
         {
             KUrl u( acd->CatalogURL->url() );
             int r=KMessageBox::warningContinueCancel( 0,
@@ -218,10 +218,10 @@ void AddCatDialog::slotCreateCatalog() {
             if(r==KMessageBox::Cancel) return;
         }
 
-        QFile OutFile( acd->CatalogURL->url().path() );
+        QFile OutFile( acd->CatalogURL->url().toLocalFile() );
         if ( ! OutFile.open( QIODevice::WriteOnly ) ) {
             KMessageBox::sorry( 0,
-                                i18n( "Could not open the file %1 for writing.", acd->CatalogURL->url().path() ),
+                                i18n( "Could not open the file %1 for writing.", acd->CatalogURL->url().toLocalFile() ),
                                 i18n( "Error Opening Output File" ) );
         } else {
             QTextStream outStream( &OutFile );

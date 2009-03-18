@@ -82,7 +82,7 @@ void modCalcEquinox::slotCheckFiles() {
 }
 
 void modCalcEquinox::slotRunBatch() {
-    QString inputFileName = InputFileBatch->url().path();
+    QString inputFileName = InputFileBatch->url().toLocalFile();
 
     if ( QFile::exists(inputFileName) ) {
         QFile f( inputFileName );
@@ -108,7 +108,7 @@ void modCalcEquinox::slotRunBatch() {
 }
 
 void modCalcEquinox::processLines( QTextStream &istream ) {
-    QFile fOut( OutputFileBatch->url().path() );
+    QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::WriteOnly);
     QTextStream ostream(&fOut);
     int originalYear = Year->value();
@@ -143,7 +143,7 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 }
 
 void modCalcEquinox::slotViewBatch() {
-    QFile fOut( OutputFileBatch->url().path() );
+    QFile fOut( OutputFileBatch->url().toLocalFile() );
     fOut.open(QIODevice::ReadOnly);
     QTextStream istream(&fOut);
     QStringList text;
@@ -153,7 +153,7 @@ void modCalcEquinox::slotViewBatch() {
 
     fOut.close();
 
-    KMessageBox::informationList( 0, i18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().path() );
+    KMessageBox::informationList( 0, i18n("Results of Sidereal time calculation"), text, OutputFileBatch->url().toLocalFile() );
 }
 
 void modCalcEquinox::slotCompute()

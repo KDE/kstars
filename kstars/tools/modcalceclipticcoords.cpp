@@ -193,7 +193,7 @@ void modCalcEclCoords::slotEclLongCheckedBatch(){
 
 void modCalcEclCoords::slotRunBatch() {
 
-    QString inputFileName = InputFileBoxBatch->url().path();
+    QString inputFileName = InputFileBoxBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
@@ -225,7 +225,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
     // we open the output file
 
     //	QTextStream istream(&fIn);
-    QString outputFileName = OutputFileBoxBatch->url().path();
+    QString outputFileName = OutputFileBoxBatch->url().toLocalFile();
     QFile fOut( outputFileName );
     fOut.open(QIODevice::WriteOnly); // TODO error checking
     QTextStream ostream(&fOut);
