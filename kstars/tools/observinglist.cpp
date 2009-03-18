@@ -563,7 +563,7 @@ void ObservingList::slotOpenList() {
                 f.setFileName( FileName );
 
         } else {
-            FileName = fileURL.path();
+            FileName = fileURL.toLocalFile();
             f.setFileName( FileName );
         }
 

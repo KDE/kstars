@@ -977,7 +977,7 @@ void ScriptBuilder::slotOpen() {
             sb->ArgStack->setCurrentWidget( argBlank );
 
             if ( currentFileURL.isLocalFile() ) {
-                fname = currentFileURL.path();
+                fname = currentFileURL.toLocalFile();
             } else {
                 fname = tmpfile.fileName();
                 if ( ! KIO::NetAccess::download( currentFileURL, fname, (QWidget*) 0 ) )
@@ -1030,7 +1030,7 @@ void ScriptBuilder::slotSave()
         currentDir = currentFileURL.directory();
 
         if ( currentFileURL.isLocalFile() ) {
-            fname = currentFileURL.path();
+            fname = currentFileURL.toLocalFile();
 
             //Warn user if file exists
             if (newFilename == true && QFile::exists(currentFileURL.path())) {

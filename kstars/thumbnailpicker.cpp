@@ -287,7 +287,7 @@ void ThumbnailPicker::slotSetFromURL() {
 
     if ( u.isValid() ) {
         if ( u.isLocalFile() ) {
-            QFile localFile( u.path() );
+            QFile localFile( u.toLocalFile() );
 
             //Add image to list
             //If image is taller than desktop, rescale it.

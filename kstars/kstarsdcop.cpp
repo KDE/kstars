@@ -429,7 +429,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
 
     if ( fileURL.isValid() ) {
         if ( fileURL.isLocalFile() ) {
-            fname = fileURL.path();
+            fname = fileURL.toLocalFile();
         } else {
             fname = tmpfile.fileName();
         }

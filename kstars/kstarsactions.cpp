@@ -581,7 +581,7 @@ void KStars::slotRunScript() {
                 }
 
                 if ( saveURL.isLocalFile() ) {
-                    fname = saveURL.path();
+                    fname = saveURL.toLocalFile();
                 } else {
                     fname = tmpfile.fileName();
                 }
@@ -614,7 +614,7 @@ void KStars::slotRunScript() {
                 f.setFileName( fname );
             }
         } else {
-            f.setFileName( fileURL.path() );
+            f.setFileName( fileURL.toLocalFile() );
         }
 
         if ( !f.open( QIODevice::ReadOnly) ) {
