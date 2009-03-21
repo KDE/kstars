@@ -51,11 +51,6 @@ public:
      */
     void findPhase();
 
-    /**
-     *@short Compute the magnitude of the moon
-     */
-    void findMagnitude(const KSNumbers *num);
-
     /**@return the illuminated fraction of the Moon as seen from Earth
     	*/
     double illum( void ) const { return 0.5*(1.0 - cos( Phase * 180.0 / dms::PI ) ); }
