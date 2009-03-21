@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>OpsSolarSystem</class>
- <widget class="QWidget" name="OpsSolarSystem" >
-  <property name="geometry" >
+ <widget class="QWidget" name="OpsSolarSystem">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,200 +10,200 @@
     <height>593</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QCheckBox" name="kcfg_ShowSolarSystem" >
-     <property name="text" >
+    <widget class="QCheckBox" name="kcfg_ShowSolarSystem">
+     <property name="text">
       <string>Show solar system objects</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="MajorBodiesBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="MajorBodiesBox">
+     <property name="title">
       <string>Sun, Moon &amp;&amp; Planets</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <layout class="QGridLayout" >
-        <item row="1" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowSaturn" >
-          <property name="toolTip" >
+       <layout class="QGridLayout">
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="kcfg_ShowSaturn">
+          <property name="toolTip">
            <string>Draw Saturn?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, Saturn will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Saturn</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="2" >
-         <widget class="QCheckBox" name="kcfg_ShowPlanetImages" >
-          <property name="toolTip" >
+        <item row="3" column="2">
+         <widget class="QCheckBox" name="kcfg_ShowPlanetImages">
+          <property name="toolTip">
            <string>Draw major bodies as images?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, then the planets, the Sun and the Moon will be shown as bitmap images on the map</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Use images</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowMars" >
-          <property name="toolTip" >
+        <item row="4" column="0">
+         <widget class="QCheckBox" name="kcfg_ShowMars">
+          <property name="toolTip">
            <string>Draw Mars?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, Mars will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Mars</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="2" >
-         <widget class="QCheckBox" name="kcfg_ShowPlanetNames" >
-          <property name="toolTip" >
+        <item row="2" column="2">
+         <widget class="QCheckBox" name="kcfg_ShowPlanetNames">
+          <property name="toolTip">
            <string>Attach Name labels to the major solar system bodies?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, name labels will be attached to the planets, the Sun and the Moon</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Use name labels</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowPluto" >
-          <property name="toolTip" >
+        <item row="4" column="1">
+         <widget class="QCheckBox" name="kcfg_ShowPluto">
+          <property name="toolTip">
            <string>Draw Pluto?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, Pluto will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Pluto</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="2" >
-         <widget class="KPushButton" name="showAllPlanets" >
-          <property name="toolTip" >
+        <item row="0" column="2">
+         <widget class="KPushButton" name="showAllPlanets">
+          <property name="toolTip">
            <string>Select all major bodies</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>Press this to select all planets, the Sun and the Moon to be drawn in the map</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Select All</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="2" >
-         <widget class="KPushButton" name="showNonePlanets" >
-          <property name="toolTip" >
+        <item row="1" column="2">
+         <widget class="KPushButton" name="showNonePlanets">
+          <property name="toolTip">
            <string>Unselect all major bodies</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>Press this button to unselect all planets, the Sun and the Moon so that they will not be drawn on the map</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Select None</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowVenus" >
-          <property name="toolTip" >
+        <item row="3" column="0">
+         <widget class="QCheckBox" name="kcfg_ShowVenus">
+          <property name="toolTip">
            <string>Draw Venus?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, Venus will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Venus</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowSun" >
-          <property name="toolTip" >
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="kcfg_ShowSun">
+          <property name="toolTip">
            <string>Draw the Sun?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, the Sun will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>The sun</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowJupiter" >
-          <property name="toolTip" >
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="kcfg_ShowJupiter">
+          <property name="toolTip">
            <string>Draw Jupiter?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, Jupiter will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Jupiter</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowMoon" >
-          <property name="toolTip" >
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="kcfg_ShowMoon">
+          <property name="toolTip">
            <string>Draw the Moon?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, the Moon will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>The moon</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowMercury" >
-          <property name="toolTip" >
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="kcfg_ShowMercury">
+          <property name="toolTip">
            <string>Draw Mercury?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, Mercury will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Mercury</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowNeptune" >
-          <property name="toolTip" >
+        <item row="3" column="1">
+         <widget class="QCheckBox" name="kcfg_ShowNeptune">
+          <property name="toolTip">
            <string>Draw Neptune?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, Neptune will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Neptune</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="2" >
+        <item row="4" column="2">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Fixed</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>100</width>
             <height>20</height>
@@ -210,15 +211,15 @@
           </property>
          </spacer>
         </item>
-        <item row="2" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowUranus" >
-          <property name="toolTip" >
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="kcfg_ShowUranus">
+          <property name="toolTip">
            <string>Draw Uranus?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, Uranus will be drawn on the map.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Uranus</string>
           </property>
          </widget>
@@ -227,13 +228,13 @@
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Expanding</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>16</width>
           <height>16</height>
@@ -245,66 +246,66 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="MinorBodiesBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="MinorBodiesBox">
+     <property name="title">
       <string>Minor Planets</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <layout class="QGridLayout" >
-        <item row="0" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowAsteroids" >
-          <property name="toolTip" >
+       <layout class="QGridLayout">
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="kcfg_ShowAsteroids">
+          <property name="toolTip">
            <string>Draw asteroids?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, asteroids will be drawn on the map</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Asteroids</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="1" >
-         <widget class="QLabel" name="textLabel3" >
-          <property name="text" >
+        <item row="0" column="1">
+         <widget class="QLabel" name="textLabel3">
+          <property name="text">
            <string>Show asteroids brighter than</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="2" >
-         <layout class="QHBoxLayout" >
+        <item row="0" column="2">
+         <layout class="QHBoxLayout">
           <item>
-           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroid" >
-            <property name="focusPolicy" >
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitAsteroid">
+            <property name="focusPolicy">
              <enum>Qt::StrongFocus</enum>
             </property>
-            <property name="toolTip" >
+            <property name="toolTip">
              <string>faint limit for asteroids</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Set the faintest magnitude for drawing asteroids</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="textLabel6" >
-            <property name="text" >
+           <widget class="QLabel" name="textLabel6">
+            <property name="text">
              <string>mag</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item row="1" column="0" >
+        <item row="1" column="0">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Fixed</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
             <height>16</height>
@@ -312,30 +313,30 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="1" >
-         <layout class="QHBoxLayout" >
+        <item row="1" column="1">
+         <layout class="QHBoxLayout">
           <item>
-           <widget class="QCheckBox" name="kcfg_ShowAsteroidNames" >
-            <property name="toolTip" >
+           <widget class="QCheckBox" name="kcfg_ShowAsteroidNames">
+            <property name="toolTip">
              <string>Attach name labels to asteroids?</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>If checked, then name labels will be attached to asteroids</string>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Show names</string>
             </property>
            </widget>
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Preferred</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
               <height>20</height>
@@ -344,71 +345,71 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="LabelDensity" >
-            <property name="text" >
+           <widget class="QLabel" name="LabelDensity">
+            <property name="text">
              <string>Label density:</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item row="1" column="2" >
-         <widget class="QSlider" name="kcfg_AsteroidLabelDensity" >
-          <property name="maximum" >
+        <item row="1" column="2">
+         <widget class="QSlider" name="kcfg_AsteroidLabelDensity">
+          <property name="maximum">
            <number>20</number>
           </property>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
          </widget>
         </item>
-        <item row="2" column="0" >
-         <widget class="QCheckBox" name="kcfg_ShowComets" >
-          <property name="toolTip" >
+        <item row="2" column="0">
+         <widget class="QCheckBox" name="kcfg_ShowComets">
+          <property name="toolTip">
            <string>Draw comets?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, comets will be drawn on the map</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Comets</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="1" >
-         <widget class="QCheckBox" name="kcfg_ShowCometNames" >
-          <property name="toolTip" >
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="kcfg_ShowCometNames">
+          <property name="toolTip">
            <string>Show names of comets near the Sun</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, the comets near the Sun will have name labels attached.  Comets vary in brightness in their orbits, so a faint magnitude is not effective in this case.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Show names of comets within</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="2" >
-         <layout class="QHBoxLayout" >
+        <item row="2" column="2">
+         <layout class="QHBoxLayout">
           <item>
-           <widget class="KDoubleNumInput" name="kcfg_MaxRadCometName" >
-            <property name="toolTip" >
+           <widget class="KDoubleNumInput" name="kcfg_MaxRadCometName">
+            <property name="toolTip">
              <string>Maximum distance for comet names</string>
             </property>
-            <property name="whatsThis" >
+            <property name="whatsThis">
              <string>Set the maximum distance from the Sun for a comet to have a name label, in Astronomical Units (AU).  1 AU is the distance between the Earth and the Sun, approximately 150 million km</string>
             </property>
-            <property name="maximum" >
-             <double>0.000000000000000</double>
+            <property name="maximum">
+             <double>9999.000000000000000</double>
             </property>
-            <property name="decimals" >
-             <number>1</number>
+            <property name="decimals">
+             <number>2</number>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="textLabel4" >
-            <property name="text" >
+           <widget class="QLabel" name="textLabel4">
+            <property name="text">
              <string>AU</string>
             </property>
            </widget>
@@ -419,10 +420,10 @@
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>21</width>
           <height>16</height>
@@ -434,48 +435,48 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="TrailsBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="TrailsBox">
+     <property name="title">
       <string>Orbit Trails</string>
      </property>
-     <layout class="QVBoxLayout" >
+     <layout class="QVBoxLayout">
       <item>
-       <widget class="QCheckBox" name="kcfg_UseAutoTrail" >
-        <property name="toolTip" >
+       <widget class="QCheckBox" name="kcfg_UseAutoTrail">
+        <property name="toolTip">
          <string>Auto-trail tracked bodies</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>If checked then any solar system body will have a temporary trail attached while it is centered in the display.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Always show trail when tracking a solar system body</string>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
+       <layout class="QHBoxLayout">
         <item>
-         <widget class="QCheckBox" name="kcfg_FadePlanetTrails" >
-          <property name="toolTip" >
+         <widget class="QCheckBox" name="kcfg_FadePlanetTrails">
+          <property name="toolTip">
            <string>Fade trail color into the background?</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>If checked, the color of the planet trail will be blended into the background sky color.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Fade trails to background color</string>
           </property>
          </widget>
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -484,14 +485,14 @@
          </spacer>
         </item>
         <item>
-         <widget class="KPushButton" name="ClearAllTrails" >
-          <property name="toolTip" >
+         <widget class="KPushButton" name="ClearAllTrails">
+          <property name="toolTip">
            <string>Clear all orbit trails</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>Press this to clear all orbit trails that you may have attached to solar system bodies using the right-click popup menu.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Remove All Trails</string>
           </property>
          </widget>
@@ -500,13 +501,13 @@
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeType" >
+        <property name="sizeType">
          <enum>QSizePolicy::Fixed</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>41</width>
           <height>21</height>
@@ -515,18 +516,18 @@
        </spacer>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox" >
-        <property name="text" >
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
          <string>Earth satellite tracks</string>
         </property>
        </widget>
       </item>
       <item>
        <spacer>
-        <property name="orientation" >
+        <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
           <height>20</height>
@@ -539,7 +540,7 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
    <class>KDoubleNumInput</class>
