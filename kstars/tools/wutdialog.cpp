@@ -192,14 +192,14 @@ void WUTDialog::init() {
 
     WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1 on %2", sRise, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
     WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
-    oMoon->findPhase( oSun );
+    oMoon->findPhase();
     WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
                                       int(100.0*oMoon->illum() ) ) );
 
     //Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
     oMoon->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
     oSun->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
-    oMoon->findPhase( oSun );
+    oMoon->findPhase();
 
     if ( WUT->CategoryListWidget->currentItem() )
         slotLoadList( WUT->CategoryListWidget->currentItem()->text() );

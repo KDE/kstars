@@ -45,24 +45,20 @@ public:
     ~KSMoon();
 
     /**
-    	*Determine the phase angle of the moon, and assign the appropriate
-    	*moon image
-    	*@param Sun The current Sun object.
-    	*/
-    void findPhase( const KSSun *Sun );
+     *Determine the phase angle of the moon, and assign the appropriate
+     *moon image
+     *@note Overrides KSPlanetBase::findPhase()
+     */
+    void findPhase();
 
     /**
      *@short Compute the magnitude of the moon
      */
     void findMagnitude(const KSNumbers *num);
 
-    /**@return the moon's current phase angle, as a dms angle
-    	*/
-    dms phase( void ) const { return Phase; }
-
     /**@return the illuminated fraction of the Moon as seen from Earth
     	*/
-    double illum( void ) const { return 0.5*(1.0 - cos( phase().radians() ) ); }
+    double illum( void ) const { return 0.5*(1.0 - cos( Phase * 180.0 / dms::PI ) ); }
 
     /**@return a short string describing the moon's phase
     	*/
@@ -106,7 +102,6 @@ protected:
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* );
 
 private:
-    dms Phase;
     static bool data_loaded;
     static int instance_count;
 

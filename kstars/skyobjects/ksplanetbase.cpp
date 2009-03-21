@@ -131,7 +131,14 @@ void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms 
 }
 
 void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms *LST, const KSPlanetBase *Earth ) {
+    // DEBUG edit
     findGeocentricPosition( num, Earth );  //private function, reimplemented in each subclass
+    if( type() == SkyObject::MOON ) { // Required till we make KSSun singleton and re-implement KSPlanetBase::findPhase()
+        KSMoon *me = (KSMoon *)this;
+        me->findPhase(); // Find the phase.
+    }
+    else
+        findPhase();
     setAngularSize( asin(physicalSize()/Rearth/AU_KM)*60.*180./dms::PI ); //angular size in arcmin
 
     if ( lat && LST )
@@ -144,6 +151,15 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 
     if ( isMajorPlanet() || type() == SkyObject::ASTEROID || type() == SkyObject::COMET || type() == SkyObject::MOON )
         findMagnitude(num);
+
+    if ( type() == SkyObject::COMET ) {
+        // Compute tail size
+        KSComet *me = (KSComet *)this;
+        double TailAngSize;
+        TailAngSize = asin(physicalSize()/Rearth/AU_KM)*60.0*180.0/dms::PI; // Convert the tail size in km to angular tail size (degrees)
+        me->setTailAngSize( TailAngSize * fabs(sin( phase().radians() ))); // Find the apparent length as projected on the celestial sphere (the comet's tail points away from the sun)
+    }
+
 }
 
 bool KSPlanetBase::isMajorPlanet() const {
@@ -289,16 +305,21 @@ void KSPlanetBase::scaleRotateImage( float size, double imAngle ) {
     Image = Image0.transformed( m ).scaledToWidth( int(size) );
 }
 
+void KSPlanetBase::findPhase() {
+    /* Compute the phase of the planet in degrees */
+    double earthSun = KStarsData::Instance()->skyComposite()->earth()->rsun();
+    double cosPhase = (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun)
+        / (2 * rsun() * rearth() );
+    Phase = acos ( cosPhase ) * 180.0 / dms::PI;
+    /* More elegant way of doing it, but requires the Sun. 
+       TODO: Switch to this if and when we make KSSun a singleton */
+    //    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees();
+}
+
+
 void KSPlanetBase::findMagnitude(const KSNumbers *num) {
     double cosDec, sinDec;
     dec()->SinCos(cosDec, sinDec);
-
-    /* Phase of the planet in degrees */
-    double earthSun = data->skyComposite()->earth()->rsun();
-    double cosPhase = (rsun()*rsun() + rearth()*rearth() - earthSun*earthSun)
-                      / (2 * rsun() * rearth() );
-    double phase_rad = acos ( cosPhase ); // Phase in radian - used for asteroid magnitudes
-    double phase = phase_rad * 180.0 / dms::PI;
 
     /* Computation of the visual magnitude (V band) of the planet.
     * Algorithm provided by Pere Planesas (Observatorio Astronomico Nacional)
@@ -309,14 +330,15 @@ void KSPlanetBase::findMagnitude(const KSNumbers *num) {
     float magnitude = 30;
 
     double param = 5 * log10(rsun() * rearth() );
+    double phase_rad = phase().radians();
+    double phase = this->phase().Degrees();
     double f1 = phase/100.;
 
     if( name() == "Moon" ) {
         // This block of code to compute Moon magnitude (and the
         // relevant data put into ksplanetbase.h) was taken from
         // SkyChart v3 Beta
-        KSMoon *me = (KSMoon *)this;
-        int p = (int)( floor( me->phase().Degrees() ) );
+        int p = (int)( floor( phase ) );
         if( p > 180 )
             p = p - 360;
         int i = p / 10;

@@ -93,7 +93,7 @@ void KSComet::findPhysicalParameters() {
     D0 = pow( 10, -0.0033 * mHelio * mHelio - 0.07 * mHelio + 3.25 );
     L = L0 * ( 1 - pow( 10, -4 * rsun() ) ) * ( 1 - pow( 10, -2 * rsun() ) );
     D = D0 * ( 1 - pow( 10, -2 * rsun() ) ) * ( 1 - pow( 10, -rsun() ) );
-    TailLength = L * 1e6;
+    TailSize = L * 1e6;
     ComaSize = D * 1e3;
     setPhysicalSize( ComaSize );
 }

@@ -112,9 +112,24 @@ public:
     inline float getAbsoluteMagnitude() { return H; }
 
     /**
+     *@short Sets the comet's tail length in km
+     */
+    void setTailSize( double tailsize ) { TailSize = tailsize; }
+
+    /**
      *@return the estimated tail length in km
      */
-    inline float getTailLength() { return TailLength; }
+    inline float getTailSize() { return TailSize; }
+
+    /**
+     *@short Sets the comet's apparent tail length in degrees
+     */
+    void setTailAngSize( double tailangsize ) { TailAngSize = tailangsize; }
+
+    /**
+     *@return the estimated angular size of the tail as a dms
+     */
+    inline dms getTailAngSize() { return dms( TailAngSize ); }
 
     /**
      *@return the estimated diameter of the nucleus in km
@@ -142,7 +157,7 @@ private:
     KStarsData *kd;
     long double JD, JDp;
     double q, e, a, P;
-    double TailLength, ComaSize, NuclearSize; // All in kilometres
+    double TailSize, TailAngSize, ComaSize, NuclearSize; // All in kilometres
     float H, G;
     dms i, w, N;
 

@@ -162,7 +162,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     //Moon
     KSMoon *Moon = new KSMoon( ((KStars*) topLevelWidget()->parent())->data() );
     Moon->findPosition(num);
-    Moon->findPhase(Sun);
+    Moon->findPhase();
 
     QTime msTime = Moon->riseSetTime( jd0 , geo, false );
     QTime mrTime = Moon->riseSetTime( jd0 , geo, true );

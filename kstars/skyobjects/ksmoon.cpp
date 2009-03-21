@@ -208,11 +208,11 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     return true;
 }
 
-
-void KSMoon::findPhase( const KSSun *Sun ) {
-    Phase.setD( ecLong()->Degrees() - Sun->ecLong()->Degrees() );
-    Phase.setD( Phase.reduce().Degrees() );
-    int iPhase = int( 0.1*Phase.Degrees()+0.5 );
+void KSMoon::findPhase() {
+    KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" ); // TODO: Get rid of this ugly thing by making KSSun singleton.
+    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees();
+    double DegPhase = dms( Phase ).reduce().Degrees();
+    int iPhase = int( 0.1*DegPhase+0.5 );
     if (iPhase==36) iPhase = 0;
     QString sPhase;
     sPhase = sPhase.sprintf( "%02d", iPhase );
@@ -228,7 +228,7 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 
 QString KSMoon::phaseName() const {
     double f = illum();
-    double p = phase().Degrees();
+    double p = Phase;
 
     //First, handle the major phases
     if ( f > 0.99 ) return i18nc( "moon phase, 100 percent illuminated", "Full moon" );

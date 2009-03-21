@@ -264,6 +264,11 @@ public:
     void setPhysicalSize( double size ) { PhysicalSize = size; }
 
     /**
+     *@return the phase angle of this planet
+     */
+    inline dms phase() { return dms( Phase ); }
+
+    /**
      *@return the color for the planet symbol
      */
     QColor& color() { return m_Color; }
@@ -313,6 +318,11 @@ protected:
     	*/
     void findPA( const KSNumbers *num );
 
+    /**
+     * Determine the phase of the planet.
+     */
+    void findPhase();
+
     // Geocentric ecliptic position, but distance to the Sun
     EclipticPosition ep;
 
@@ -320,6 +330,7 @@ protected:
     // as obtained from VSOP.
     EclipticPosition helEcPos;
     double  Rearth;
+    double Phase;
 
 private:
     /**
