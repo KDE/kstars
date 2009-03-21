@@ -6,6 +6,7 @@
 #
 #ID     RA        Dec  BMag type  a     b   pa   PGC  other           Messr Longname
 #
+    0 052334.5 -694522  0.9  8   0.0            17223 ESO  56- G 115        Large Magellanic Cloud
     0 181654.0 -182900  4.6  3  15.0                                  M  24
     0 034700.0 +240700  1.6  3  70.0                                  M  45 Pleiades
     0 122224.0 +580500  8.4  1   0.0   0.0                            M  40
