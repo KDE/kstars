@@ -428,6 +428,12 @@ void SkyLabeler::drawQueuedLabels( QPainter& psky )
     psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
     drawQueuedLabelsType( psky, PLANET_LABEL );
 
+    if ( labelList[ SATURN_MOON_LABEL ].size() > 0 ) {
+        shrinkFont( psky, 2 );
+        drawQueuedLabelsType( psky, SATURN_MOON_LABEL );
+        resetFont( psky );
+    }
+
     if ( labelList[ JUPITER_MOON_LABEL ].size() > 0 ) {
         shrinkFont( psky, 2 );
         drawQueuedLabelsType( psky, JUPITER_MOON_LABEL );
@@ -480,6 +486,7 @@ void SkyLabeler::printInfo()
     labelName[        COMET_LABEL ] = "Comet";
     labelName[       PLANET_LABEL ] = "Planet";
     labelName[ JUPITER_MOON_LABEL ] = "Jupiter Moon";
+    labelName[  SATURN_MOON_LABEL ] = "Saturn Moon";
     labelName[     DEEP_SKY_LABEL ] = "Deep Sky Object";
     labelName[ CONSTEL_NAME_LABEL ] = "Constellation Name";
 

@@ -34,7 +34,7 @@
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/kspluto.h"
 #include "jupitermoonscomponent.h"
-
+#include "saturnmoonscomponent.h"
 
 SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *data )
         : SkyComposite(parent)
@@ -53,7 +53,10 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData *dat
     addComponent( jup );
     m_JupiterMoons = new JupiterMoonsComponent( this, jup, &Options::showJupiter);
     addComponent( m_JupiterMoons );
-    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, KSPlanetBase::SATURN ), Options::showSaturn, 4 ) );
+    SolarSystemSingleComponent *sat = new SolarSystemSingleComponent( this, new KSPlanet( data, KSPlanetBase::SATURN ), Options::showSaturn, 4 );
+    addComponent( sat );
+    m_SaturnMoons = new SaturnMoonsComponent( this, sat, &Options::showSaturn);
+    addComponent( m_SaturnMoons );
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, KSPlanetBase::URANUS ), Options::showUranus, 4 ) );
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( data, KSPlanetBase::NEPTUNE ), Options::showNeptune, 4 ) );
     addComponent( new SolarSystemSingleComponent( this, new KSPluto(data), Options::showPluto, 4 ) );
@@ -93,6 +96,7 @@ void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
     m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     m_JupiterMoons->update( data, num );
+    m_SaturnMoons->update( data, num );
 
     foreach ( SkyComponent *comp, components() ) {
         comp->update( data, num );
@@ -117,6 +121,7 @@ void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
     m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
     m_Moon->findPhase();
     m_JupiterMoons->updateMoons( data, num );
+    m_SaturnMoons->updateMoons( data, num );
 }
 
 void SolarSystemComposite::draw( QPainter& psky )

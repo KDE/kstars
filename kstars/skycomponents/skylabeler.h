@@ -121,6 +121,7 @@ public:
         COMET_LABEL,
         PLANET_LABEL,
         JUPITER_MOON_LABEL,
+	SATURN_MOON_LABEL,
         DEEP_SKY_LABEL,
         CONSTEL_NAME_LABEL,
         NUM_LABEL_TYPES

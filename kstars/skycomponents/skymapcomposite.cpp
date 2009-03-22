@@ -39,6 +39,7 @@
 #include "ecliptic.h"
 #include "horizoncomponent.h"
 #include "jupitermoonscomponent.h"
+#include "saturnmoonscomponent.h"
 #include "milkyway.h"
 #include "magellanicclouds.h"
 #include "solarsystemcomposite.h"

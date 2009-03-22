@@ -84,7 +84,7 @@ public:
     	*Planet positions change over time, so they need to be recomputed 
     	*periodically, but not on every call to update().  This function 
     	*will recompute the positions of all solar system bodies except the 
-    	*Earth's Moon and Jupiter's Moons (because these objects' positions 
+    	*Earth's Moon, Jupiter's Moons AND Saturn Moons (because these objects' positions 
     	*change on a much more rapid timescale).
     	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
