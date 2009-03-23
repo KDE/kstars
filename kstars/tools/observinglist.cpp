@@ -332,8 +332,7 @@ void ObservingList::slotNewSelection() {
         ui->DetailsButton->setEnabled( false );
         ui->AVTButton->setEnabled( false );
         ui->RemoveButton->setEnabled( false );
-        //FIXME: after 4.0, set this label to "Select one object to record notes on it here"
-        ui->NotesLabel->setText( i18n( "observing notes for object:" ) );
+        ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
         m_CurrentObject = 0;
@@ -348,8 +347,7 @@ void ObservingList::slotNewSelection() {
         ui->DetailsButton->setEnabled( false );
         ui->AVTButton->setEnabled( true );
         ui->RemoveButton->setEnabled( true );
-        //FIXME: after 4.0, set this label to "Select one object to record notes on it here"
-        ui->NotesLabel->setText( i18n( "observing notes for object:" ) );
+        ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
         m_CurrentObject = 0;
