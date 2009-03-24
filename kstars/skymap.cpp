@@ -1680,6 +1680,8 @@ void SkyMap::setMouseMoveCursor()
 }
 
 void SkyMap::addLink() {
+    if( !clickedObject() ) 
+        return;
     AddLinkDialog adialog( this, clickedObject()->name() );
     QString entry;
     QFile file;
