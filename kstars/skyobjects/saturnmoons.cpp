@@ -34,7 +34,7 @@ SaturnMoons::SaturnMoons(){
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 10, i18nc( "Saturn's moon Rheas", "Rhea" ) ) );
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 7.9, i18nc( "Saturn's moon Titan", "Titan" ) ) );
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 14.9, i18nc( "Saturn's moon Hyperion", "Hyperion" ) ) );
-    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 11, i18nc( "Saturn's moon Lapetus", "Lapetus" ) ) );
+    Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 11, i18nc( "Saturn's moon Iapetus", "Iapetus" ) ) );
 
     for ( uint i=0; i<8; ++i ) {
         XS[i] = 0.0;
