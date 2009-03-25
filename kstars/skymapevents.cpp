@@ -153,32 +153,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             zoomOutOrMagStep( e->modifiers() );
         break;
 
-    //In the following cases, we set slewing=true in order to disengage tracking
-    case Qt::Key_N: //center on north horizon
-        stopTracking();
-        setDestinationAltAz( 15.0, 0.0001 );
-        break;
-
-    case Qt::Key_E: //center on east horizon
-        stopTracking();
-        setDestinationAltAz( 15.0, 90.0 );
-        break;
-
-    case Qt::Key_S: //center on south horizon
-        stopTracking();
-        setDestinationAltAz( 15.0, 180.0 );
-        break;
-
-    case Qt::Key_W: //center on west horizon
-        stopTracking();
-        setDestinationAltAz( 15.0, 270.0 );
-        break;
-
-    case Qt::Key_Z: //center on Zenith
-        stopTracking();
-        setDestinationAltAz( 90.0, focus()->az()->Degrees() );
-        break;
-
     case Qt::Key_0: //center on Sun
         setClickedObject( data->skyComposite()->planet( KSPlanetBase::SUN ) );
         setClickedPoint( clickedObject() );

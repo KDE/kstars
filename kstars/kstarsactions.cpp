@@ -705,17 +705,18 @@ void KStars::slotToggleTimer() {
 
 //Pointing
 void KStars::slotPointFocus() {
-
-    if ( sender() == actionCollection()->action("zenith") )
-        map()->invokeKey( Qt::Key_Z );
+    // In the following cases, we set slewing=true in order to disengage tracking
+	map()->stopTracking();
+    if ( sender() == actionCollection()->action("zenith") ) 
+        map()->setDestinationAltAz( 90.0, map()->focus()->az()->Degrees() );
     else if ( sender() == actionCollection()->action("north") )
-        map()->invokeKey( Qt::Key_N );
+        map()->setDestinationAltAz( 15.0, 0.0001 );
     else if ( sender() == actionCollection()->action("east") )
-        map()->invokeKey( Qt::Key_E );
+        map()->setDestinationAltAz( 15.0, 90.0 );
     else if ( sender() == actionCollection()->action("south") )
-        map()->invokeKey( Qt::Key_S );
+        map()->setDestinationAltAz( 15.0, 180.0 );
     else if ( sender() == actionCollection()->action("west") )
-        map()->invokeKey( Qt::Key_W );
+        map()->setDestinationAltAz( 15.0, 270.0 );
 }
 
 void KStars::slotTrack() {
