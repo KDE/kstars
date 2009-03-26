@@ -387,7 +387,7 @@
       </font>
      </property>
      <property name="text" >
-      <string>observing notes for object:</string>
+      <string>Select an object to record notes on it here:</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignVCenter</set>
