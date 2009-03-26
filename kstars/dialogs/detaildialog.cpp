@@ -209,7 +209,7 @@ void DetailDialog::createGeneralTab()
                 Data->AngSize->setText( i18nc("angular size in arcminutes", "%1 arcmin",
                                               KGlobal::locale()->formatNumber( ps->angSize() ) ) ); // Needn't be a plural form because sun / moon will never contract to 1 arcminute
             else
-                Data->AngSize->setText( i18ncp("angular size in arcseconds", "1 arcsec", "%1 arcsec",
+                Data->AngSize->setText( i18nc("angular size in arcseconds","%1 arcsec",
                                               KGlobal::locale()->formatNumber( ps->angSize()*60.0 ) ) ); 
         } else {
             Data->AngSize->setText( "--" );
