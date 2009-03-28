@@ -111,8 +111,8 @@ void dmsBox::setDegType( bool t ) {
                           "degrees, arcminutes and arcseconds" );
 
             sWhatsThis = i18n( "Enter an angle value in degrees.  The angle can be expressed "
-                               "as a simple integer (\"12\"), or floating-point "
-                               "(\"12.33\") value, or as space- or colon-delimited "
+                               "as a simple integer (\"12\"), a floating-point value "
+                               "(\"12.33\"), or as space- or colon-delimited "
                                "values specifying degrees, arcminutes and arcseconds (\"12:20\", \"12:20:00\", "
                                "\"12 20\", \"12 20 00.0\", etc.)." );
         }
@@ -122,8 +122,8 @@ void dmsBox::setDegType( bool t ) {
                           "hours, minutes and seconds" );
             
             sWhatsThis = i18n( "Enter an angle value in hours.  The angle can be expressed "
-                               "as a simple integer (\"12\"), or floating-point "
-                               "(\"12.33\") value, or as space- or colon-delimited "
+                               "as a simple integer (\"12\"), a floating-point value "
+                               "(\"12.33\"), or as space- or colon-delimited "
                                "values specifying hours, minutes and seconds (\"12:20\", \"12:20:00\", "
                                "\"12 20\", \"12 20 00.0\", etc.)." );
         }
