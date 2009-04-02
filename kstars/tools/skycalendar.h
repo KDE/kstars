@@ -52,6 +52,7 @@ class SkyCalendar : public KDialog
         
     private:
         void addPlanetEvents( int nPlanet );
+        void drawEventLabel( float x1, float y1, float x2, float y2, QString LabelText );
         
         SkyCalendarUI *scUI;
         KStars *ks;

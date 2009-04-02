@@ -86,6 +86,30 @@ void SkyCalendar::slotFillCalendar() {
     update();
 }
 
+// FIXME: For the time being, adjust with dirty, cluttering labels that don't align to the line
+/*
+void SkyCalendar::drawEventLabel( float x1, float y1, float x2, float y2, QString LabelText ) {
+    QFont origFont = p->font();
+    p->setFont( QFont( "Bitstream Vera", 10 ) );
+
+    int textFlags = Qt::AlignCenter; // TODO: See if Qt::SingleLine flag works better
+    QFontMetricsF fm( p->font(), p->device() );
+
+    QRectF LabelRect = fm.boundingRect( QRectF(0,0,1,1), textFlags, LabelText );
+    QPointF LabelPoint = scUI->CalendarView->mapToWidget( QPointF( x, y ) );
+        
+    float LabelAngle = atan2( y2 - y1, x2 - x1 )/dms::DegToRad;
+        
+    p->save();
+    p->translate( LabelPoint );
+    p->rotate( LabelAngle );
+    p->drawText( LabelRect, textFlags, LabelText );
+    p->restore();
+
+    p->setFont( origFont );
+}
+*/
+
 void SkyCalendar::addPlanetEvents( int nPlanet ) {
     KSPlanetBase *ksp = ks->data()->skyComposite()->planet( nPlanet );
     int y = scUI->Year->value();
@@ -124,15 +148,22 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
         vSet << QPointF( st, dy );
         vTransit << QPointF( tt, dy );
         ++iweek;
-        
+
         kdt = kdt.addDays( 7 );
     }
 
     //Now, find continuous segments in each QVector and add each segment 
     //as a separate KPlotObject
+
+    // Flags to indicate whether the set / rise / transit labels should be drawn
+    bool setLabel, riseLabel, transitLabel;
+
     KPlotObject *oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+
+    setLabel = riseLabel = transitLabel = false;
+
     for ( int i=0; i<vRise.size(); ++i ) {
         if ( i > 0 && fabs(vRise.at(i).x() - vRise.at(i-1).x()) > 6.0 ) { 
             scUI->CalendarView->addPlotObject( oRise );
@@ -150,9 +181,29 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             scUI->CalendarView->update();
         }
         
-        oRise->addPoint( vRise.at(i) );
-        oSet->addPoint( vSet.at(i) );
-        oTransit->addPoint( vTransit.at(i) );
+        if( i > 0 ) {
+            // Draw a label when a line crosses the Y-Axis
+            if( vRise.at( i - 1 ).x() * vRise.at( i ).x() <= 0 )
+                riseLabel = true;
+            if( vSet.at( i - 1 ).x() * vSet.at( i ).x() <= 0 )
+                setLabel = true;
+            if( vTransit.at( i - 1 ).x() * vTransit.at( i ).x() <= 0 )
+                transitLabel = true;
+            
+            // Draw a label when a line reaches a maximum / minimum
+            if( i < vRise.size() - 1 ) {
+                if( ( vRise.at( i - 1 ).x() - vRise.at( i ).x() ) * ( vRise.at( i ).x() - vRise.at( i + 1 ).x() ) < 0 )
+                    riseLabel = true;
+                if( ( vSet.at( i - 1 ).x() - vSet.at( i ).x() ) * ( vSet.at( i ).x() - vSet.at( i + 1 ).x() ) < 0 )
+                    setLabel = true;
+                if( ( vTransit.at( i - 1 ).x() - vTransit.at( i ).x() ) * ( vTransit.at( i ).x() - vTransit.at( i + 1 ).x() ) < 0 )
+                    transitLabel = true;
+            }                
+        }
+        oRise->addPoint( vRise.at(i), riseLabel ? i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() ) : QString() );
+        oSet->addPoint( vSet.at(i), setLabel ? i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() ) : QString() );
+        oTransit->addPoint( vTransit.at(i), transitLabel ? i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() ) : QString() );
+        setLabel = riseLabel = transitLabel = false;
     }
     
     scUI->CalendarView->addPlotObject( oRise );
