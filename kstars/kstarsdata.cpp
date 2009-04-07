@@ -82,7 +82,7 @@ KStarsData::KStarsData(KStars* kstars) : locale(0),
     objects++;
 
     TypeName[0] = i18n( "star" );
-    TypeName[1] = i18n( "multiple star" );
+    TypeName[1] = i18n( "star" );
     TypeName[2] = i18n( "planet" );
     TypeName[3] = i18n( "open cluster" );
     TypeName[4] = i18n( "globular cluster" );
@@ -93,6 +93,12 @@ KStarsData::KStarsData(KStars* kstars) : locale(0),
     TypeName[9] = i18n( "comet" );
     TypeName[10] = i18n( "asteroid" );
     TypeName[11] = i18n( "constellation" );
+    TypeName[12] = i18n( "Moon" );
+    TypeName[13] = i18n( "asterism" );
+    TypeName[14] = i18n( "galaxy cluster" );
+    TypeName[15] = i18n( "dark nebula" );
+    TypeName[16] = i18n( "quasar" );
+    TypeName[17] = i18n( "multiple star" );
 
     //standard directories and locale objects
     locale = new KLocale( "kstars" );

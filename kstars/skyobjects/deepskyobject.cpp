@@ -155,12 +155,12 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
     case 2: //Planet
         break;
     case 3: //Open cluster; draw circle of points
+    case 13: // Asterism
         tempBrush = psky.brush();
         psky.setBrush( psky.pen().color() );
         psize = 2.;
         if ( size > 50. )  psize *= 2.;
         if ( size > 100. ) psize *= 2.;
-
         if ( Options::useAntialias() ) {
             psky.drawEllipse( QRectF(xa, y1, psize, psize) );
             psky.drawEllipse( QRectF(xb, y1, psize, psize) );
@@ -185,7 +185,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
             psky.drawEllipse( QRect(ix2, iyb, int(psize), int(psize)) );
         }
         psky.setBrush( tempBrush );
-        break;
+        break;        
     case 4: //Globular Cluster
         if (size<2.) size = 2.;
         psky.save();
@@ -208,6 +208,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
         break;
 
     case 5: //Gaseous Nebula
+    case 15: // Dark Nebula
         if (size <2.) size = 2.;
         psky.save();
         psky.translate( x, y );
@@ -275,6 +276,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
         psky.restore(); //reset coordinate system
         break;
     case 8: //Galaxy
+    case 16: // Quasar
         if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
         if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
         if ( size>2. ) {
@@ -294,6 +296,53 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
         } else if ( size>0. ) {
             psky.drawPoint( QPointF(x, y) );
         }
+        break;
+    case 14: // Galaxy cluster - draw a circle of + marks
+        tempBrush = psky.brush();
+        psky.setBrush( psky.pen().color() );
+        psize = 1.;
+        if ( size > 50. )  psize *= 2.;
+
+        if ( Options::useAntialias() ) {
+            psky.drawLine( QLineF( xa-psize, y1, xa+psize, y1 ) );
+            psky.drawLine( QLineF( xa, y1-psize, xa, y1+psize ) );
+            psky.drawLine( QLineF( xb-psize, y1, xa+psize, y1 ) );
+            psky.drawLine( QLineF( xb, y1-psize, xa, y1+psize ) );
+            psky.drawLine( QLineF( xa-psize, y2, xa+psize, y1 ) );
+            psky.drawLine( QLineF( xa, y2-psize, xa, y1+psize ) );
+            psky.drawLine( QLineF( xb-psize, y2, xa+psize, y1 ) );
+            psky.drawLine( QLineF( xb, y2-psize, xa, y1+psize ) );
+            psky.drawLine( QLineF( x1-psize, ya, xa+psize, y1 ) );
+            psky.drawLine( QLineF( x1, ya-psize, xa, y1+psize ) );
+            psky.drawLine( QLineF( x1-psize, yb, xa+psize, y1 ) );
+            psky.drawLine( QLineF( x1, yb-psize, xa, y1+psize ) );
+            psky.drawLine( QLineF( x2-psize, ya, xa+psize, y1 ) );
+            psky.drawLine( QLineF( x2, ya-psize, xa, y1+psize ) );
+            psky.drawLine( QLineF( x2-psize, yb, xa+psize, y1 ) );
+            psky.drawLine( QLineF( x2, yb-psize, xa, y1+psize ) );
+        } else {
+            int ix1 = int(x1); int iy1 = int(y1);
+            int ix2 = int(x2); int iy2 = int(y2);
+            int ixa = int(xa); int iya = int(ya);
+            int ixb = int(xb); int iyb = int(yb);
+            psky.drawLine( QLine( ixa - int(psize), iy1, ixa + int(psize), iy1 ) );
+            psky.drawLine( QLine( ixa, iy1 - int(psize), ixa, iy1 + int(psize) ) );
+            psky.drawLine( QLine( ixb - int(psize), iy1, ixa + int(psize), iy1 ) );
+            psky.drawLine( QLine( ixb, iy1 - int(psize), ixa, iy1 + int(psize) ) );
+            psky.drawLine( QLine( ixa - int(psize), iy2, ixa + int(psize), iy1 ) );
+            psky.drawLine( QLine( ixa, iy2 - int(psize), ixa, iy1 + int(psize) ) );
+            psky.drawLine( QLine( ixb - int(psize), iy2, ixa + int(psize), iy1 ) );
+            psky.drawLine( QLine( ixb, iy2 - int(psize), ixa, iy1 + int(psize) ) );
+            psky.drawLine( QLine( ix1 - int(psize), iya, ixa + int(psize), iy1 ) );
+            psky.drawLine( QLine( ix1, iya - int(psize), ixa, iy1 + int(psize) ) );
+            psky.drawLine( QLine( ix1 - int(psize), iyb, ixa + int(psize), iy1 ) );
+            psky.drawLine( QLine( ix1, iyb - int(psize), ixa, iy1 + int(psize) ) );
+            psky.drawLine( QLine( ix2 - int(psize), iya, ixa + int(psize), iy1 ) );
+            psky.drawLine( QLine( ix2, iya - int(psize), ixa, iy1 + int(psize) ) );
+            psky.drawLine( QLine( ix2 - int(psize), iyb, ixa + int(psize), iy1 ) );
+            psky.drawLine( QLine( ix2, iyb - int(psize), ixa, iy1 + int(psize) ) );
+        }
+        psky.setBrush( tempBrush );
         break;
     }
 }

@@ -967,7 +967,7 @@ void DetailDialog::centerTelescope()
 void DetailDialog::showThumbnail() {
     //No image if object is a star
     if ( selectedObject->type() == SkyObject::STAR ||
-            selectedObject->type() == SkyObject::CATALOG_STAR ) {
+         selectedObject->type() == SkyObject::CATALOG_STAR ) {
         Thumbnail->scaled( Data->Image->width(), Data->Image->height() );
         Thumbnail->fill( Data->DataFrame->palette().color( QPalette::Window ) );
         Data->Image->setPixmap( *Thumbnail );

@@ -315,7 +315,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
     foreach ( SkyObject *obj, labelObjects ) {
         //Only draw an attached label if the object is being drawn to the map
         //reproducing logic from other draw funcs here...not an optimal solution
-        if ( obj->type() == SkyObject::STAR ) {
+        if ( obj->type() == SkyObject::STAR || obj->type() == SkyObject::CATALOG_STAR || obj->type() == SkyObject::MULT_STAR ) {
             if ( ! drawStars ) continue;
             //            if ( obj->mag() > Options::magLimitDrawStar() ) continue;
             if ( hideFaintStars && obj->mag() > Options::magLimitHideStar() ) continue;
@@ -333,7 +333,8 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
             if ( obj->name() == i18n( "Neptune" ) && ! Options::showNeptune() ) continue;
             if ( obj->name() == i18n( "Pluto" ) && ! Options::showPluto() ) continue;
         }
-        if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY ) {
+        if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY 
+             || obj->type() >= SkyObject::ASTERISM || obj->type() <= SkyObject::QUASAR ) {
             if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) continue;
             if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) continue;
             if ( ((DeepSkyObject*)obj)->isCatalogIC() && ! drawIC ) continue;

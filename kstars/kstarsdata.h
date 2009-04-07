@@ -486,7 +486,7 @@ private:
 
     int initCounter;
 
-    QString TypeName[12];
+    QString TypeName[18];
 
     //--- Static member variables
     //the number of KStarsData objects.
