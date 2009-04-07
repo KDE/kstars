@@ -764,6 +764,7 @@ bool INDIStdDevice::handleNonSidereal()
     {
         // Planet/Moon
     case 2:
+    case 12:
         kDebug() << "Initiating pulse tracking for " << currentObject->name();
         devTimer->start(INDI_PULSE_TRACKING);
         break;
