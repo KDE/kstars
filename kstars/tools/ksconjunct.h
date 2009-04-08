@@ -117,18 +117,6 @@ class KSConjunct :public QObject {
 
   int sgn(dms a);
 
-  //TODO: Uncomment and implement if required. Kill if not.
-
-  /**
-    *@short Return the absolute value of x
-    *
-    *@param x  The number whose absolute value is to be found.
-    *
-    *@return The absolute value of x
-    */
-
-  // inline int absolute(double x) { return x * sgn(x); }
-
   KStarsData *ksdata;
 };
 
