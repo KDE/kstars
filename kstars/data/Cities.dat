@@ -301,7 +301,7 @@ Berkeley                         : California            : USA                  
 Berlin                           :                       : Germany               : 52 : 31 :  0 : N :  13 : 19 : 59 : E : 1.0  : EU
 Berlin                           : New Hampshire         : USA                   : 44 : 25 :  1 : N :  71 : 10 :  1 : W : -5.0 : US
 Bern                             :                       : Switzerland           : 46 : 55 :  0 : N :   7 : 25 :  0 : E : 1.0  : EU
-Besançon                         : Doubs                 : France                : 47 : 14 : 35 : N :   6 :  1 : 19 : E :  1.0 : EU
+BesanÃ§on                         : Doubs                 : France                : 47 : 14 : 35 : N :   6 :  1 : 19 : E :  1.0 : EU
 Bethel                           : Alaska                : USA                   : 60 : 47 : 30 : N : 161 : 45 :  0 : W : -9.0 : US
 Bethesda                         : Maryland              : USA                   : 39 :  0 :  0 : N :  77 : 10 :  1 : W : -5.0 : US
 Bethlehem                        : Pennsylvania          : USA                   : 40 : 37 : 15 : N :  75 : 22 : 33 : W : -5.0 : US
@@ -604,7 +604,7 @@ Circle                           : Alaska                : USA                  
 Circleville                      : Ohio                  : USA                   : 39 : 34 : 58 : N :  83 :  0 :  0 : W : -5.0 : US
 Ciudad Real                      :                       : Spain                 : 38 : 59 : 12 : N :  03 : 55 : 53 : W : 1.0  : EU
 Civry                            : Eure-et-Loir          : France                : 48 : 05 : 29 : N :   1 : 29 : 31 : E :  1.0 : EU
-Clamecy                          : Nièvre                : France                : 47 : 27 : 39 : N :   3 : 31 : 13 : E :  1.0 : EU
+Clamecy                          : NiÃ¨vre                : France                : 47 : 27 : 39 : N :   3 : 31 : 13 : E :  1.0 : EU
 Claremont                        : New Hampshire         : USA                   : 43 : 22 : 30 : N :  72 : 20 : 12 : W : -5.0 : US
 Clarenville                      : Newfoundland          : Canada                : 48 : 10 : 00 : N : 53  : 58 : 00 : W : -3.5 : US
 Claresholm                       : Alberta               : Canada                : 50 : 02 : 00 : N : 113 : 35 : 00 : W : -7.0 : US
@@ -1040,7 +1040,7 @@ Fukuoka                          :                       : Japan                
 Fullerton                        : California            : USA                   : 33 : 52 : 30 : N : 117 : 55 : 29 : W : -8.0 : US
 Funchal                          : Madeira               : Portugal              : 32 : 41 : 31 : N :  16 : 46 : 22 : W : 0.0  : EU
 Furth (Mfr)                      :                       : Germany               : 49 : 28 : 58 : N :  11 : 58 : 58 : E : 1.0  : EU
-Fömi                          :                       : Hungary               : 47 : 47 :  4 : N :  19 : 16 : 59 : E :  2.0 : EU
+FÃ¶mi                          :                       : Hungary               : 47 : 47 :  4 : N :  19 : 16 : 59 : E :  2.0 : EU
 GMRT                             :                       : India                 : 19 :  6 :  0 : N :  74 :  3 :  0 : E :  5.5 : --
 Gabes                            :                       : Tunisia               : 33 : 53 :  0 : N :  10 : 06 :  0 : E :   1.0 : --
 Gaborone                         :                       : Botswana              : 24 : 40 :  0 : S :  25 : 55 :  0 : E :   2.0 : --
@@ -2402,7 +2402,7 @@ Pohang                           : Gyeongbuk             : Korea                
 Pohnpei                          :                       : Micronesia            :  6 : 59 :  4 : N : 158 : 12 : 55 : E : 11.0 : --
 Point Hope                       : Alaska                : USA                   : 68 : 17 : 59 : N : 166 : 37 : 58 : W : -9.0 : US
 Pointe Noire                     :                       : Congo                 :  4 : 49 :  0 : S :  11 : 54 :  0 : E :   1.0 : --
-Pointe-à-Pitre                   : Guadeloupe            : France                : 16 : 14 : 28 : N :  61 : 31 : 59 : W : -4.0 : --
+Pointe-Ã -Pitre                   : Guadeloupe            : France                : 16 : 14 : 28 : N :  61 : 31 : 59 : W : -4.0 : --
 Pointe au Baril Station          : Ontario               : Canada                : 45 : 36 : 00 : N : 80  : 22 : 00 : W : -5.0 : US
 Pointe-aux-Anglais               : Quebec                : Canada                : 49 : 40 : 38 : N : 67  : 10 : 05 : W : -5.0 : US
 Polson                           : Montana               : USA                   : 47 : 40 :  1 : N : 114 : 10 :  1 : W : -7.0 : US
@@ -2814,7 +2814,7 @@ Somerville                       : New Jersey            : USA                  
 Sondrestrom                      :                       : Greenland             : 67 :  1 : 11 : N :  50 : 43 : 11 : W : -3.0 : EU
 Sonnenberg                       :                       : Germany               : 50 : 22 :  7 : N :  11 : 11 : 30 : E :  1.0 : EU
 Sonoma                           : California            : USA                   : 38 : 17 : 53 : N : 122 : 30 : 46 : W : -8.0 : US
-Sopron                           : Gyñr-Moson-Sopron     : Magyarország          : 47 : 41 :  5 : N :  16 : 34 :  5 : E :  1.0 : EU
+Sopron                           : GyÅ‘r-Moson-Sopron     : MagyarorszÃ¡g          : 47 : 41 :  5 : N :  16 : 34 :  5 : E :  1.0 : EU
 Soria                            :                       : Spain                 : 41 : 46 : 06 : N :  02 : 28 : 01 : W : 1.0  : EU
 Souris                           : Manitoba              : Canada                : 49 : 37 : 02 : N : 100 : 15 : 37 : W : -6.0 : US
 Souris                           : Prince Edward Island  : Canada                : 46 : 21 : 00 : N : 62  : 15 : 00 : W : -4.0 : US
