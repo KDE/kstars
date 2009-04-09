@@ -75,7 +75,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
     //	kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
 
     //How close are we to a conjunction, and how fast are we approaching one?
-    double factor = fabs( Dist.Degrees() / (Dist.Degrees() - prevDist.Degrees()) );
+    double factor = fabs( (Dist.Degrees() - prevDist.Degrees()) / Dist.Degrees());
     if ( factor > 10.0 ) { //let's go faster!
         step = step0 * factor/10.0;
     } else { //slow down, we're getting close!
