@@ -174,6 +174,9 @@ void ConjunctionsTool::slotCompute (void)
     KStarsDateTime dtStop = stopDate -> dateTime();
     long double startJD = dtStart.djd();
     long double stopJD = dtStop.djd();
+    bool opposition = false;
+    if(Opposition->currentIndex()) opposition = true;
+    
     dms maxSeparation( 0.0 );
     bool ok;
     maxSeparation = maxSeparationBox->createDms( true, &ok );
@@ -195,7 +198,7 @@ void ConjunctionsTool::slotCompute (void)
     ComputeStack->setCurrentIndex( 1 );
     connect( &ksc, SIGNAL(madeProgress(int)), this, SLOT(showProgress(int)) );
 
-    showConjunctions( ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation) );
+    showConjunctions( ksc.findClosestApproach(*Object1, *Object2, startJD, stopJD, maxSeparation, opposition) );
 
     ComputeStack->setCurrentIndex( 0 );
     QApplication::restoreOverrideCursor();
@@ -221,11 +224,15 @@ void ConjunctionsTool::showConjunctions(const QMap<long double, dms> &conjunctio
 
     for(it = conjunctionlist.constBegin(); it != conjunctionlist.constEnd(); ++it) {
         dt.setDJD( it.key() );
-        OutputView -> addItem( i18n("Conjunction on %1 UT: Separation is %2", 
-                                    KGlobal::locale()->formatDateTime( dt, KLocale::LongDate ), 
-                                    it.value().toDMSString()) );
+        if(!Opposition->currentIndex())
+		OutputView -> addItem( i18n("Conjunction on %1 UT: Separation is %2", 
+                	                    KGlobal::locale()->formatDateTime( dt, KLocale::LongDate ), 
+                        	            it.value().toDMSString()) );
+	else
+		OutputView -> addItem( i18n("Opposition on %1 UT: Separation is %2", 
+        	                            KGlobal::locale()->formatDateTime( dt, KLocale::LongDate ), 
+                	                    it.value().toDMSString()) );
         outputJDList.insert( i, it.key() );
         ++i;
     }
 }
-

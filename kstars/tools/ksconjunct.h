@@ -69,16 +69,17 @@ class KSConjunct :public QObject {
    *@param stopJD   Julian Day corresponding to end of the calculation period
    *@param maxSeparation   Maximum separation between Object1 and Object2 - a measure
    *                       how close the conjunction should be to be output.
+   *@param opposition A parameter to see if we are computing conjunction or opposition
    *@return Hash containing julian days of close conjunctions against separation
    */
 
-  QMap<long double, dms> findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation);
-
+  QMap<long double, dms> findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation, bool _opposition=false);
+  
  signals:
   void madeProgress( int progress );
 
  private:
-
+	bool opposition;
 
   /**
     *@short Finds the angular distance between two solar system objects.

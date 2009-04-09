@@ -73,7 +73,7 @@
      <item row="0" column="0" >
       <widget class="QLabel" name="label_3" >
        <property name="text" >
-        <string>Show conjunctions for:</string>
+        <string>Show conjunctions/oppositions for:</string>
        </property>
       </widget>
      </item>
@@ -153,6 +153,26 @@
            </property>
           </spacer>
          </item>
+	 <item>
+        <widget class="KComboBox" name="Opposition" >
+         <property name="sizePolicy" >
+          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+	 <item>
+        <property name="text" >
+         <string>Conjunction</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Opposition</string>
+        </property>
+       </item>
+        </widget>
+       </item>
          <item>
           <widget class="QPushButton" name="ComputeButton" >
            <property name="text" >
@@ -199,7 +219,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2" >
      <property name="title" >
-      <string>Close Conjunctions</string>
+      <string>Conjunctions / Oppositions</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout" >
       <item>

@@ -32,7 +32,7 @@ KSConjunct::KSConjunct() {
 
 }
 
-QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation) {
+QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation,bool _opposition) {
 
   QMap<long double, dms> Separations;
   QPair<long double, dms> extremum;
@@ -40,7 +40,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
   dms prevDist;
   double step, step0;
   int Sign, prevSign;
-
+  opposition=_opposition;
   ksdata = KStarsData::Instance();
   //  kDebug() << "Entered KSConjunct::findClosestApproach() with startJD = " << (double)startJD;
   //  kDebug() << "Initial Positional Information: \n";
@@ -61,7 +61,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
 
   step = step0;
   
-//  kDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
+  //	kDebug() << "Initial Separation between " << Object1.name() << " and " << Object2.name() << " = " << (prevDist.toDMSString());
 
   long double jd = startJD;
   prevDist = findDistance(jd, &Object1, &Object2);
@@ -72,7 +72,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
     
     Dist = findDistance(jd, &Object1, &Object2);
     Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
-//    kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
+    //	kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
 
     //How close are we to a conjunction, and how fast are we approaching one?
     double factor = fabs( Dist.Degrees() / (Dist.Degrees() - prevDist.Degrees()) );
@@ -91,7 +91,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
             while ( jd <= stopJD ) {
                 Dist = findDistance(jd, &Object1, &Object2);
                 Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
-                //                kDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "djd=" << (int)(jd - startJD);
+                //	kDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "djd=" << (int)(jd - startJD);
                 if ( Sign != prevSign ) break;
                 
                 prevDist = Dist;
@@ -100,7 +100,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
             }
         }
         
-        //        kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
+        //	kDebug() << "Sign = " << Sign << " and " << "prevSign = " << prevSign << ": Entering findPrecise()\n";
         if(findPrecise(&extremum, &Object1, &Object2, jd, step, Sign))
             if(extremum.second.radians() < maxSeparation.radians())
                 Separations.insert(extremum.first, extremum.second);
@@ -151,8 +151,9 @@ dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *O
       Object1->updateCoords( &num );
 
   Object2->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
-
-  dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
+  if(opposition) {  Object2->setRA( Object2->ra()->Hours() + 12.0); Object2->setDec( -Object2->dec()->Degrees()); }
+   dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
+  if(opposition) {  Object2->setRA( Object2->ra()->Hours() - 12.0); Object2->setDec( -Object2->dec()->Degrees()); }
   
   return dist;
 }
