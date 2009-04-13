@@ -72,13 +72,13 @@ JMoonTool::JMoonTool(QWidget *parent)
 
     QPalette p = palette();
     p.setColor( QPalette::Window, Qt::black );
-    p.setColor( QPalette::Text, colIo );
+    p.setColor( QPalette::WindowText, colIo );
     labIo->setPalette( p );
-    p.setColor( QPalette::Text, colEu );
+    p.setColor( QPalette::WindowText, colEu );
     labEu->setPalette( p );
-    p.setColor( QPalette::Text, colGn );
+    p.setColor( QPalette::WindowText, colGn );
     labGn->setPalette( p );
-    p.setColor( QPalette::Text, colCa );
+    p.setColor( QPalette::WindowText, colCa );
     labCa->setPalette( p );
     labIo->setAutoFillBackground( true );
     labEu->setAutoFillBackground( true );
