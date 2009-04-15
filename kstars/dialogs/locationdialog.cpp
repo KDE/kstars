@@ -219,10 +219,12 @@ void LocationDialog::addCity( void ) {
         QString message = i18n( "All fields (except province) must be filled to add this location." );
         KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
         return;
-
-        //FIXME after strings freeze lifts, separate TZ check from lat/long check
-    } else if ( ! latOk || ! lngOk || ! tzOk ) {
-        QString message = i18n( "Could not parse coordinates." );
+    } else if ( ! latOk || ! lngOk ) {
+        QString message = i18n( "Could not parse the Latitude/Londitude" );
+        KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
+        return;
+    } else if( ! tzOk) {
+    	QString message = i18n( "Could not parse coordinates." );
         KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
         return;
     } else {
