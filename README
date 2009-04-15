@@ -1,9 +1,9 @@
 
       *****************************************************
-      **    KStars 1.0: A Desktop Planetarium for KDE    **
+      **   KStars 1.5.0: A Desktop Planetarium for KDE   **
       *****************************************************
 
-Copyright (c) 2001,2002,2003 by The KStars Team: 
+Copyright (c) 2001 - 2009 by The KStars Team: 
 
              Jason Harris <kstars@30doradus.org>
              Heiko Evermann <heiko@evermann.de>
@@ -12,6 +12,9 @@ Copyright (c) 2001,2002,2003 by The KStars Team:
              Jasem Mutlaq <mutlaqja@ku.edu>
              Mark Hollomon <mhh@mindspring.com>
              Carsten Niehaus <cniehaus@gmx.de>
+	     James Bowlin <bowlin@mindspring.com>
+	     Médéric Boquien <mboquien@free.fr>
+	     Akarsh Simha <akarsh.simha@kdemail.net>
 
 KStars is Free Software, released under the GNU Public License.
 See COPYING for GPL license information.
@@ -23,11 +26,8 @@ See COPYING for GPL license information.
 
 The KStars homepage is: http://edu.kde.org/kstars/
 
-You can obtain the latest version at:
-http://sourceforge.net/project/showfiles.php?group_id=22914
-
-There are instructions for obtaining the latest CVS build at:
-http://edu.kde.org/kstars/cvs.html
+You can obtain the latest version (trunk) via SVN from:
+svn://anonsvn.kde.org/home/kde/trunk/KDE/kdeedu/kstars
 
 Installation instructions are in the file INSTALL.  
 
@@ -62,6 +62,9 @@ Main contributors:
    Jasem Mutlaq <mutlaqja@ku.edu>
    Mark Hollomon <mhh@mindspring.com>
    Carsten Niehaus <cniehaus@kde.org>
+   James Bowlin <bowlin@mindspring.com>
+   Médéric Boquien <mboquien@free.fr>
+   Akarsh Simha <akarsh.simha@kdemail.net>
 
 
 B. Data Sources:
@@ -87,6 +90,13 @@ B. Data Sources:
  Kitt Peak National Observatory.  If you are interested in astrophotography,
  you might consider checking out their program:
  http://www.noao.edu/outreach/aop/
+
+ KStars user Jeamy Lee hosts updated versions of comet and asteroid
+ orbital elements in KStars' format here:
+ http://mpcreader.sourceforge.net/
+ Users can download them and put them in the .kde4/share/apps/kstars
+ directory under their home directory, till the KStars team comes up
+ with a better solution.
 
  Credits for each image used in the program are listed in README.images
 
