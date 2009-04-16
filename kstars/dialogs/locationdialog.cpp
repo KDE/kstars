@@ -220,7 +220,7 @@ void LocationDialog::addCity( void ) {
         KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
         return;
     } else if ( ! latOk || ! lngOk ) {
-        QString message = i18n( "Could not parse the Latitude/Londitude" );
+        QString message = i18n( "Could not parse the Latitude/Longitude." );
         KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
         return;
     } else if( ! tzOk) {
