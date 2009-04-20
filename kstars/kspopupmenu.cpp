@@ -310,11 +310,11 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
 
 void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     QString sURL;
-    QStringList::Iterator itList, itTitle, itListEnd;
+    QStringList::ConstIterator itList, itTitle, itListEnd;
 
-    itList  = obj->ImageList().begin();
-    itTitle = obj->ImageTitle().begin();
-    itListEnd = obj->ImageList().end();
+    itList  = obj->ImageList().constBegin();
+    itTitle = obj->ImageTitle().constBegin();
+    itListEnd = obj->ImageList().constEnd();
 
     int id = 100;
     for ( ; itList != itListEnd; ++itList ) {
@@ -331,9 +331,9 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     }
     else if ( obj->ImageList().count() ) addSeparator();
 
-    itList  = obj->InfoList().begin();
-    itTitle = obj->InfoTitle().begin();
-    itListEnd = obj->InfoList().end();
+    itList  = obj->InfoList().constBegin();
+    itTitle = obj->InfoTitle().constBegin();
+    itListEnd = obj->InfoList().constEnd();
 
     id = 200;
     for ( ; itList != itListEnd; ++itList ) {
