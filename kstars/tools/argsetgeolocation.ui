@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ArgSetGeoLocation</class>
  <widget class="QWidget" name="ArgSetGeoLocation" >
   <property name="geometry" >
@@ -173,7 +170,6 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <customwidgets>
   <customwidget>
    <class>KPushButton</class>

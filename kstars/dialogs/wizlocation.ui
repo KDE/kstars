@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>WizLocation</class>
  <widget class="QWidget" name="WizLocation" >
   <property name="geometry" >
@@ -233,7 +230,6 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>dmsBox</class>

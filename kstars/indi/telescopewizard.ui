@@ -634,7 +634,6 @@ Enter the port number your telescope is connected to. If you only have one seria
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="0" />
   <customwidgets>
   <customwidget>
    <class>KComboBox</class>

@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ArgZoom</class>
  <widget class="QWidget" name="ArgZoom" >
   <property name="geometry" >
@@ -83,7 +80,6 @@ The Zoom level specifies the number of pixels which span one radian of arc.  Rea
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <customwidgets>
   <customwidget>
    <class>KLineEdit</class>

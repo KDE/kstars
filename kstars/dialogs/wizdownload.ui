@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>WizDownload</class>
  <widget class="QWidget" name="WizDownload" >
   <property name="geometry" >
@@ -165,7 +162,6 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KPushButton</class>

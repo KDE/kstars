@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ArgStartExposureINDI</class>
  <widget class="QWidget" name="ArgStartExposureINDI" >
   <property name="geometry" >
@@ -73,7 +70,6 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <customwidgets>
   <customwidget>
    <class>KIntNumInput</class>

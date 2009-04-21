@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>DetailsDatabase</class>
  <widget class="QWidget" name="DetailsDatabase" >
   <property name="geometry" >
@@ -36,7 +33,6 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <resources/>
  <connections/>
 </ui>

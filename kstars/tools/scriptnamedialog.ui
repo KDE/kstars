@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ScriptNameDialog</class>
  <widget class="QWidget" name="ScriptNameDialog" >
   <property name="geometry" >
@@ -58,7 +55,6 @@
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>

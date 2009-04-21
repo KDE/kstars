@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ArgSetRaDec</class>
  <widget class="QWidget" name="ArgSetRaDec" >
   <property name="geometry" >
@@ -67,8 +64,6 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>dmsBox</class>

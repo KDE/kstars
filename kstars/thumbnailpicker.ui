@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ThumbnailPicker</class>
  <widget class="QWidget" name="ThumbnailPicker" >
   <property name="geometry" >
@@ -278,7 +275,6 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>

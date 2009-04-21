@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ArgSetTrack</class>
  <widget class="QWidget" name="ArgSetTrack" >
   <property name="geometry" >
@@ -78,7 +75,6 @@ If unchecked, then Tracking will be forced off, even if an object has been cente
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <resources/>
  <connections/>
 </ui>

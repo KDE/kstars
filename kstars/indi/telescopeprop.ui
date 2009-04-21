@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>scopeProp</class>
  <widget class="QDialog" name="scopeProp" >
   <property name="geometry" >
@@ -230,7 +227,6 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <customwidgets>
   <customwidget>
    <class>KComboBox</class>

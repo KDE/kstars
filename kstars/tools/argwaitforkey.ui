@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ArgWaitForKey</class>
  <widget class="QWidget" name="ArgWaitForKey" >
   <property name="geometry" >
@@ -82,7 +79,6 @@ Only simple keys can currently be used; you cannot use modifier keys such as Ctr
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <customwidgets>
   <customwidget>
    <class>KLineEdit</class>

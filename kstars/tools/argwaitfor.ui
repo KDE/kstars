@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>ArgWaitFor</class>
  <widget class="QWidget" name="ArgWaitFor" >
   <property name="geometry" >
@@ -80,7 +77,6 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
   <resources/>
  <connections/>
 </ui>
