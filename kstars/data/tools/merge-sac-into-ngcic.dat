@@ -1,0 +1,284 @@
+#!/usr/bin/perl
+#
+# merge-sac-into-ngcic.dat    Incorporate information from the SAC Deep Sky Catalog into ngcic.dat
+#
+# Copyright (c) 2009 James Bowlin <bowlin@mindspring.com> and Akarsh Simha <akarsh.simha@kdemail.net>
+# Licensed under the GNU General Public License.
+
+use strict;
+use DBI;
+
+my $ERROR;
+
+my $VERBOSE = 1;
+
+# For database handling
+my $db_db = shift;
+my $db_user = shift;
+!($db_db eq "") and !($db_user eq "") or print "USAGE: " . $0 . " <SAC database name> <MySQL Username> [[MySQL Password [SAC Table]]\n" and exit;
+my $db_pass = shift;
+my $db_tbl = shift or "SAC_DeepSky";
+
+my $db_select_query = qq/USE `$db_db`/;
+
+# Get the database handle
+my $dbh = DBI->connect("DBI:mysql:", $db_user, $db_pass, { RaiseError => 1, AutoCommit => 0 });
+
+my @fields = qw/primary secondary type RA Dec mag a b pa/;
+
+$dbh->do($db_select_query);
+$dbh->commit();
+
+while(<>) {
+    m/^\s*#/ and do { print if $VERBOSE; next};
+    m/\S/ or     do { print if $VERBOSE; next};
+    chomp;
+    my $object = unpack_ngcic($_) or do {
+        warn sprintf("%4d: FORMAT ERROR ($ERROR):\n$_\n", $.);
+        next;
+    };
+    $object->{line} = $.;
+    
+#    printf("\n\n\n");
+#    while( my ($k, $v) = each %$object ) {
+#        print "key: $k, value: $v\n";
+#    }
+
+#    my $query ||= qq/INSERT INTO `$db_tbl` (/ .
+#	join(", ", map {"`$_`"} @fields) .
+#	qq/) VALUES (/ .
+#	join(", ", map {"?"} @fields) .
+#	qq/)/;
+# 
+
+
+
+    # Get more reliable values from SAC wherever required
+    my $query ||= qq/SELECT / .
+	join(", ", map {"`$_`"} @fields).
+	qq/ FROM `$db_tbl` WHERE `primary` = '/ . $object->{primary} . qq/'/;
+#    print $query . "\n";
+    my $sth ||= $dbh->prepare($query);
+    $sth->execute();
+
+    my $data = $sth->fetchrow_hashref();
+    if( $data ) {
+	if( $object->{secondary} eq "" && $data->{secondary} !~ m{^M\s}x ) { 
+	    $object->{secondary}=$data->{secondary};
+	}
+	$object->{type}=$data->{type};
+
+        # NOTE: This approach treats Blue and Visual magnitudes on the same footing, and hence is not advisable
+        #    if( $data->{mag} < 32 && $object->{mag} != 0 ) {
+        #	$object->{mag} = $data->{mag}
+        #    }
+        #    my $id = $data[2];
+	
+	# We follow a visual-mag-preferable kind of approach here
+	if( $data->{mag} < 32.0 ) {
+	    $object->{mag} = $data->{mag};
+	}
+	
+	if( !$object->{RA} ) {
+	    $object->{RA} = $data->{RA};
+	}
+	if( !$object->{Dec} ) {
+	    $object->{Dec} = $data->{Dec};
+	}
+	
+	$object->{a} = $data->{a};
+	$object->{b} = $data->{b};
+	$object->{pa} = $data->{pa};
+	
+	if( $object->{ra_str} eq "" ) {
+	    my $ang = $data->{RA};
+	    my $h = int($ang);
+	    $ang -= $h;
+	    $ang *= 60.0;
+	    my $m = int($ang);
+	    $ang -= $m;
+	    $ang *= 60.0;
+	    my $s = int($ang * 10.0) / 10.0;
+	    $object->{ra_str} = sprintf("%02d%02d%04.1f", $h, $m, $s);
+	}
+	
+	if( $object->{dec_str} eq "" ) {
+	    my $ang = $data->{Dec};
+	    my $sgn = "+";
+	    ( $ang < 0 ) and do {
+		$sgn = "-";
+		$ang = -$ang;
+	    };
+	    my $h = int($ang);
+	    $ang -= $h;
+	    $ang *= 60.0;
+	    my $m = int($ang);
+	    $ang -= $m;
+	    $ang *= 60.0;
+	    my $s = int($ang * 10.0) / 10.0;
+	    $object->{dec_str} = sprintf("%1s%02d%02d%02d", $sgn, $h, $m, $s);
+	}
+    }
+    else {
+	if( $object->{dec_str} eq "" ) {
+	    $object->{dec_str} = "       ";
+	}
+
+	if( $object->{ra_str} eq "" ) {
+	    $object->{ra_str} = "        " ;
+	}
+    }
+
+
+
+
+    $object->{secondary_clipped} = substr($object->{secondary}, 0, 15);
+    $object->{mag_str} = ($object->{mag} != m{^\s*$}) ? sprintf("%05.2f", $object->{mag}) : "     ";
+    if( $object->{a} < 99.9 ) {
+	$object->{a_str} = sprintf("%05.2f", $object->{a});
+    }
+    else{
+	$object->{a_str} = sprintf("%05.1f", $object->{a});
+    }
+    if( $object->{b} < 99.9 ) {
+	$object->{b_str} = sprintf("%05.2f", $object->{b});
+    }
+    else{
+	$object->{b_str} = sprintf("%05.1f", $object->{b});
+    }
+
+#    print "\n";
+    $VERBOSE and do {
+	printf("%1s%4d%1s%s %s %s%2s %s %s %3d %6d %-15s %5s%s\n", $object->{shortcat}, substr($object->{catno},0,4), substr($object->{catno},4,1), 
+	       $object->{ra_str}, $object->{dec_str}, $object->{mag_str}, $object->{type}, $object->{a_str}, $object->{b_str}, $object->{pa},
+	       $object->{pgc}, $object->{secondary_clipped}, $object->{messier_str}, $object->{common});
+    }
+
+
+}
+
+$dbh->commit();
+
+$dbh->disconnect();
+
+exit;
+
+#----------------------------------------------------------------------------
+#--- Subroutines ------------------------------------------------------------
+#----------------------------------------------------------------------------
+
+sub unpack_ngcic {
+    my $line = shift;
+    chomp $line;
+#    $VERBOSE and print $line;
+
+
+    # Catch the catalog and catalog number first
+    my $s1 = substr($line, 0, 6, "");
+    $s1 =~ m{^([NI])				# Catalog 
+             \s*(\d+[A-Z]?)\s?   		# Catalog Number
+		  }x or do 
+	      {
+		  $ERROR = "Positional Error (I)";
+		  return;
+	      };
+    my $catalog = ( $1 eq "N" ) ? "NGC" : "IC";
+    my $object = {
+	shortcat => $1,
+        cat => $catalog,
+	catno => $2,
+	primary => $catalog . " " . $2
+    };
+    $line or return $object;
+    ($line =~ m{^\s*$}x) and return $object;
+
+    # Catch the RA, Dec, mag and type
+    my $s2 = substr($line, 0, 25, "");
+    $s2 =~ m{^\s*([\d\.]*)\s                      # RA [String: HHMMSS.S]
+             \s*([+-\d]*)\s                       # Dec [String: +/-DDMMSS]
+             \s*([\d\.]*)\s*                      # Magnitude (blue)
+             \s*(\d+)\s*                          # Type
+             
+                   }x or do 
+	       {
+		   $ERROR = "Positional Error (II)";
+		   return;
+	       };
+    $object->{ra_str}=$1;
+    $object->{dec_str}=$2;
+    $object->{RA}=hms_to_hour($1);
+    $object->{Dec}=hms_to_hour($2);
+    $object->{mag}=( $3 ne "" ) ? $3 : "     ";
+    $object->{type}=$4;
+    $line or return $object;
+    ($line =~ m{^\s*$}x) and return $object;
+
+    # Catch the Major Axis, Minor Axis and Position Angle
+    my $s3 = substr($line, 0, 17, "");
+    $s3 =~ m{^\s*([\d\.]*)      # Major Axis
+             \s*([\d\.]*)       # Minor Axis
+             \s*(\d*)           # Position Angle
+             \s*}x or do 
+	 {
+	     $ERROR = "Positional Error (III)";
+	     return;
+	 };
+
+    $object->{a}=$1;
+    $object->{b}=$2;
+    $object->{pa}=$3;
+    $line or return $object;
+    ($line =~ m{^\s*$}x) and return $object;
+
+    # Catch the PGC / other designations
+    my $s4 = substr($line, 0, 22, "");
+    $s4 =~ m{^\s*(\d*)\s               # PGC
+             \s*([A-Za-z\-+\d\s]*)\s*$ # Other
+            }x or do
+	{
+	    $ERROR = "Positional Error (IV)";
+	    return;
+	};
+
+    $object->{pgc}=$1;
+    $object->{other}=$2;
+    $object->{secondary}=$object->{other};
+    $line or return $object;
+    ($line =~ m{^\s*$}x) and return $object;
+
+    # Catch Messier
+    my $s5 = substr($line, 0, 5, "");
+    $s5 =~ m{^[\sM]\s+(\d*)\s*   # Messier
+            }x or do
+	{
+	    $ERROR = "Positional Error (V)";
+	    return;
+	};
+    $object->{messier}=$1;
+    if( $1 ne "" ) {
+	$object->{messier_str} = sprintf( "M %3d", $object->{messier});
+    }
+    $line or return $object;
+    chomp $line;
+    ($line =~ m{^\s*$}x) and return $object;
+
+    # Catch Common Name
+    $line =~ m{^(.*)$           # Common Name
+              }x or do
+	  {
+	      $ERROR = "Positional Error (VI)";
+	      return;
+	  };
+    $object->{common}=$1;
+    return $object;
+
+}
+
+sub hms_to_hour {
+    my $string = shift;
+    $string =~ /^([+-]?)(\d\d)(\d\d)(\d\d(?:\.\d*)?)/ or return;
+    my ($h, $m, $s) = ($2, $3, $4);
+    my $sign = ($1 eq '-') ? -1 : 1;
+    $m += $s / 60;
+    return $sign * ($h + $m / 60);
+}
