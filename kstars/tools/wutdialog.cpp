@@ -94,6 +94,7 @@ void WUTDialog::makeConnections() {
     connect( WUT->LocationButton, SIGNAL( clicked() ), SLOT( slotChangeLocation() ) );
     connect( WUT->CenterButton, SIGNAL( clicked() ), SLOT( slotCenter() ) );
     connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
+    connect( WUT->ObslistButton, SIGNAL( clicked() ), SLOT( slotObslist() ) );
     connect( WUT->CategoryListWidget, SIGNAL( currentTextChanged(const QString &) ),
              SLOT( slotLoadList(const QString &) ) );
     connect( WUT->ObjectListWidget, SIGNAL( currentTextChanged(const QString &) ),
@@ -427,6 +428,16 @@ void WUTDialog::slotDetails() {
         DetailDialog detail(o, kstars->data()->LTime, geo, kstars);
         detail.exec();
     }
+}
+void WUTDialog::slotObslist() {
+    SkyObject *o = 0;
+    // get selected item
+    if (WUT->ObjectListWidget->currentItem() != 0) {
+        o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
+    }
+    if(o != 0) 
+    	kstars->observingList()->slotAddObject( o ) ;
+ 
 }
 
 void WUTDialog::slotChangeDate() {

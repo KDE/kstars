@@ -93,6 +93,10 @@ private slots:
     /**@short center the display on the current object
     	*/
     void slotCenter();
+
+    /*@short Add the object to the observing list
+    	*/
+   void slotObslist();
 private:
 
     KStars *kstars;

@@ -477,7 +477,20 @@
           </property>
          </widget>
         </item>
-       </layout>
+ 	<item>
+         <widget class="KPushButton" name="ObslistButton" >
+          <property name="toolTip" >
+           <string>Adds the selected object to the Observing list</string>
+          </property>
+          <property name="whatsThis" >
+           <string>Open the Details window for the highlighted object.</string>
+          </property>
+          <property name="text" >
+           <string>Add to List</string>
+          </property>
+         </widget>
+        </item>
+      </layout>
       </widget>
      </item>
      <item row="1" column="0" >
