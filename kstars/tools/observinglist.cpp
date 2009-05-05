@@ -84,6 +84,7 @@ ObservingList::ObservingList( KStars *_ks )
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Name" ) 
         << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
+	<< i18nc( "Altitude","Alt" )<< i18nc( "Azimuth", "Az" )
         << i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
@@ -141,7 +142,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->NotesEdit->setEnabled( false );
 
     //Hide the MiniButton until I can figure out how to resize the Dialog!
-    ui->MiniButton->hide();
+//    ui->MiniButton->hide();
 }
 
 bool ObservingList::contains( const SkyObject *q ) {
@@ -175,6 +176,8 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
     itemList << new QStandardItem( obj->translatedName() ) 
             << new QStandardItem( obj->ra()->toHMSString() ) 
             << new QStandardItem( obj->dec()->toDMSString() ) 
+	    << new QStandardItem( obj->alt()->toDMSString() )
+	    << new QStandardItem( obj->az()->toDMSString() )
             << new QStandardItem( smag )
             << new QStandardItem( obj->typeName() );
     m_Model->appendRow( itemList );
