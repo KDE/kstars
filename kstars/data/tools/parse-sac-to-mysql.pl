@@ -111,7 +111,7 @@ sub kstars_unpack {
              \s*(\d+\.?\d*\s*[ms])?\s*\| # Minor Axis
              (\d*)\s*\|              # Position Angle
              ([^|]*?)\s*\|           # Class
-             ## NOTE: Ignoring fields NSTS, BRSTR and BCHM
+             ## NOTE: Ignoring fields NSTS, BRSTR and BCHM; TODO: Include them later
              [^\|]*\|[^\|]*\|[^\|]*\|     # Ignore NSTS, BRSTR, BCHM
              ([^|]*?)\s*\|           # NGC Description
              ([^|]*?)\s*\|           # Notes
@@ -148,9 +148,9 @@ sub kstars_unpack {
     $object->{dec_str} =~ m/\s*([+-]?\d\d) (\d\d)/;# or do { $ERROR="Dec String format error: " . $object->{dec_str}; return; };
     $object->{Dec} = $1 + $2 / 60.0;
     $object->{a_str} =~ m/\s*(\d*\.?\d*)\s*([ms]?)\s*/;# or do { $ERROR="Major axis format error: " . $object->{a_str}; return; };
-    $object->{a} = $1 * (($2 eq 's')? 60.0 : 1.0);
+    $object->{a} = $1 / (($2 eq 's')? 60.0 : 1.0);
     $object->{b_str} =~ m/\s*(\d*\.?\d*)\s*([ms]?)\s*/;# or do { $ERROR="Minor axis format error: " . $object->{b_str}; return; };
-    $object->{b} = $1 * (($2 eq 's')? 60.0 : 1.0);
+    $object->{b} = $1 / (($2 eq 's')? 60.0 : 1.0);
 
     return $object;
 }
