@@ -41,7 +41,7 @@ sort --unique info_url.tmp >> kstars_i18n.cpp
 cat data/stars.dat | gawk 'BEGIN { FS=", "; } ($1!~/\#/ && NF==3) { printf( "i18nc(\"star name\", \"%s\");\n", $3); }' >> kstars_i18n.cpp;
 
 # extract deep-sky object names (sorry, I don't know perl-fu ;( ...using AWK )
-cat data/ngcic.dat | gawk '{ split(substr( $0, 77 ), name, " "); \
+cat data/ngcic.dat | grep -v '^#' | gawk '{ split(substr( $0, 77 ), name, " "); \
 if ( name[1]!="" ) { \
 printf( "%s", name[1] ); i=2; \
 while( name[i]!="" ) { printf( " %s", name[i] ); i++; } \
