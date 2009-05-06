@@ -367,7 +367,7 @@
         <string>Open the FindDialog for adding objects to the list</string>
        </property>
        <property name="text" >
-        <string>Find..</string>
+        <string>Find &amp;Object</string>
        </property>
       </widget>
      </item>
