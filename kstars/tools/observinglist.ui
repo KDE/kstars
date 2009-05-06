@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>415</width>
-    <height>491</height>
+    <width>500</width>
+    <height>500</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
@@ -311,6 +311,25 @@
        </property>
        <property name="text" >
         <string>&amp;Alt vs Time</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KPushButton" name="FindButton" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip" >
+        <string>Open FindDialog</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Open the FindDialog for adding objects to the list</string>
+       </property>
+       <property name="text" >
+        <string>Find..</string>
        </property>
       </widget>
      </item>

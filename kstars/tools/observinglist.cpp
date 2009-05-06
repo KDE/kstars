@@ -45,6 +45,7 @@
 #include "skyobjects/starobject.h"
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
+#include "dialogs/finddialog.h"
 #include "tools/altvstime.h"
 #include "Options.h"
 
@@ -114,7 +115,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotDetails() ) );
     connect( ui->AVTButton, SIGNAL( clicked() ),
              this, SLOT( slotAVT() ) );
-
+    connect( ui->FindButton, SIGNAL( clicked() ),
+    	     this, SLOT( slotFind() ) );
     connect( ui->OpenButton, SIGNAL( clicked() ),
              this, SLOT( slotOpenList() ) );
     connect( ui->SaveButton, SIGNAL( clicked() ),
@@ -508,6 +510,16 @@ void ObservingList::slotDetails() {
         DetailDialog dd( currentObject(), ks->data()->lt(), ks->geo(), ks );
         dd.exec();
     }
+}
+
+void ObservingList::slotFind() {
+    FindDialog fd( ks );    
+    if ( fd.exec() == QDialog::Accepted ) {
+       SkyObject *o = fd.selectedObject();
+       if( o!= 0 )
+       slotAddObject( o );
+    }
+
 }
 
 void ObservingList::slotAVT() {

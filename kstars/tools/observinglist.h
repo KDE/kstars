@@ -136,6 +136,10 @@ public slots:
     	*/
     void slotAVT();
 
+    /**@short Open the Find Dialog
+    	*/
+    void slotFind();
+
     /**@short Tasks needed when changing the selected object
     	*Save the user log of the previous selected object, 
     	*find the new selected object in the obsList, and 
