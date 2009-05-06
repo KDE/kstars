@@ -132,9 +132,13 @@ public slots:
     	*/
     void slotDetails();
 
-    /**@short Show the details window for the selected object
+    /**@short Show the Altitude vs Time for selecteld objects
     	*/
     void slotAVT();
+
+    /**@short Open the WUT dialog
+   	*/
+   void slotWUT();
 
     /**@short Open the Find Dialog
     	*/

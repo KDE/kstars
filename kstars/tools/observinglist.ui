@@ -315,25 +315,6 @@
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="FindButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip" >
-        <string>Open FindDialog</string>
-       </property>
-       <property name="whatsThis" >
-        <string>Open the FindDialog for adding objects to the list</string>
-       </property>
-       <property name="text" >
-        <string>Find..</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="KPushButton" name="RemoveButton" >
        <property name="sizePolicy" >
         <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
@@ -349,6 +330,44 @@
        </property>
        <property name="text" >
         <string>Remove</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KPushButton" name="WUTButton" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip" >
+        <string>Open the WUT dialog</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Opens the What's up tonight dialog, from which objects can be added to the list</string>
+       </property>
+       <property name="text" >
+        <string>WUT</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KPushButton" name="FindButton" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="toolTip" >
+        <string>Open FindDialog</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Open the FindDialog for adding objects to the list</string>
+       </property>
+       <property name="text" >
+        <string>Find..</string>
        </property>
       </widget>
      </item>

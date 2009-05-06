@@ -47,6 +47,7 @@
 #include "dialogs/detaildialog.h"
 #include "dialogs/finddialog.h"
 #include "tools/altvstime.h"
+#include "tools/wutdialog.h"
 #include "Options.h"
 
 #include <config-kstars.h>
@@ -115,6 +116,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotDetails() ) );
     connect( ui->AVTButton, SIGNAL( clicked() ),
              this, SLOT( slotAVT() ) );
+    connect( ui->WUTButton, SIGNAL( clicked() ),
+             this, SLOT( slotWUT() ) );
     connect( ui->FindButton, SIGNAL( clicked() ),
     	     this, SLOT( slotFind() ) );
     connect( ui->OpenButton, SIGNAL( clicked() ),
@@ -511,6 +514,12 @@ void ObservingList::slotDetails() {
         dd.exec();
     }
 }
+
+void ObservingList::slotWUT() {
+    WUTDialog w( ks );    
+    w.exec();
+}
+
 
 void ObservingList::slotFind() {
     FindDialog fd( ks );    
