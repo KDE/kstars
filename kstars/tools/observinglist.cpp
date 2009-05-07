@@ -747,6 +747,7 @@ void ObservingList::plot( SkyObject *o ) {
         for ( double h=-12.0; h<=12.0; h+=0.5 ) {
             po->addPoint( h, findAltitude( o, h ) );
         }
+    ui->View->removeAllPlotObjects();
 	ui->View->addPlotObject( po );
 }
 double ObservingList::findAltitude( SkyPoint *p, double hour ) {
