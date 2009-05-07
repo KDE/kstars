@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>500</height>
+    <height>1000</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
@@ -406,6 +406,22 @@
     </widget>
    </item>
    <item>
+    <widget class="AVTPlotWidget" name="View" >
+     <property name="sizePolicy" >
+      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize" >
+      <size>
+       <width>400</width>
+       <height>300</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QLabel" name="NotesLabel" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
@@ -448,7 +464,12 @@
    <extends>QTextEdit</extends>
    <header>ktextedit.h</header>
   </customwidget>
- </customwidgets>
+  <customwidget>
+   <class>AVTPlotWidget</class>
+   <extends>KPlotWidget</extends>
+   <header>tools/avtplotwidget.h</header>
+  </customwidget>
+  </customwidgets>
  <resources/>
  <connections/>
 </ui>

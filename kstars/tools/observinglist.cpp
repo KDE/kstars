@@ -37,6 +37,10 @@
 #include <kfiledialog.h>
 #include <ktemporaryfile.h>
 #include <klineedit.h>
+#include <kplotobject.h>
+#include <kplotaxis.h>
+#include <kplotwidget.h>
+#include <ksnumbers.h>
 
 #include "obslistwizard.h"
 #include "kstars.h"
@@ -74,7 +78,7 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 // ---------------------------------
 ObservingList::ObservingList( KStars *_ks )
         : KDialog( (QWidget*)_ks ),
-        ks( _ks ), LogObject(0), m_CurrentObject(0),
+        ks( _ks ), LogObject(0), m_CurrentObject(0), PlotObject(0),
         noNameStars(0), isModified(false), bIsLarge(true)
 {
     ui = new ObservingListUI( this );
@@ -94,7 +98,12 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
-
+    ui->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
+	ui->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
+    ui->View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
+    ui->View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
+    ui->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
+ 
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
@@ -310,7 +319,8 @@ void ObservingList::slotNewSelection() {
 
                 //set LogObject to the new selected object
                 LogObject = currentObject();
-
+                PlotObject = currentObject();
+		plot( PlotObject );
                 ui->NotesLabel->setEnabled( true );
                 ui->NotesEdit->setEnabled( true );
 
@@ -723,6 +733,35 @@ void ObservingList::slotWizard() {
         }
     }
 }
+
+void ObservingList::plot( SkyObject *o ) {
+	if( !o ) return;
+ KStarsDateTime ut = KStarsDateTime::currentDateTime().addSecs( (1.5)*86400. );
+
+    double h1 = ks->LST()->Hours();
+    if ( h1 > 12.0 ) h1 -= 24.0;
+    double h2 = h1 + 24.0;
+    ui->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
+	ui->View->update();
+	KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
+        for ( double h=-12.0; h<=12.0; h+=0.5 ) {
+            po->addPoint( h, findAltitude( o, h ) );
+        }
+	ui->View->addPlotObject( po );
+}
+double ObservingList::findAltitude( SkyPoint *p, double hour ) {
+	if (KStarsDateTime::currentDateTime().time().hour() > 12 )
+	hour+=24.0;
+    KStarsDateTime ut = KStarsDateTime::currentDateTime();
+	ut.setTime(QTime());
+	ut = ks->geo()->LTtoUT(ut);
+	ut= ut.addSecs( hour*3600.0 );
+    dms LST = ks->geo()->GSTtoLST( ut.gst() );
+    p->EquatorialToHorizontal( &LST, ks->geo()->lat() );
+	kDebug()<<"OL : "<<p->alt()->Degrees()<<"  "<<hour;
+    return p->alt()->Degrees();
+}
+
 
 void ObservingList::slotToggleSize() {
     if ( isLarge() ) {

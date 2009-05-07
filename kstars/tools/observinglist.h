@@ -178,6 +178,9 @@ public slots:
     	*/
     void saveCurrentUserLog();
 
+	void plot( SkyObject *o=NULL);
+
+	double findAltitude( SkyPoint *p=NULL, double hour=0);
 protected slots:
     void slotClose();
 
@@ -186,9 +189,8 @@ private:
     ObservingListUI *ui;
     QList<SkyObject*> m_ObservingList;
 //    QList<SkyObject*> m_SelectedObjects;
-    SkyObject *LogObject, *m_CurrentObject;
+    SkyObject *LogObject, *m_CurrentObject, *PlotObject;
     uint noNameStars;
-
     bool isModified, bIsLarge;
     QString ListName, FileName;
 
