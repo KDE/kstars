@@ -773,14 +773,14 @@ void ObservingList::slotToggleSize() {
         ui->DetailsButton->setText( i18nc( "First letter in 'Details'", "D" ) );
         ui->AVTButton->setText( i18nc( "First letter in 'Alt vs Time'", "A" ) );
         ui->RemoveButton->setText( i18nc( "First letter in 'Remove'", "R" ) );
-
+		ui->WUTButton->setText( i18nc( "First letter in 'WUT'", "W" ) );
+		ui->FindButton->setText( i18nc( "First letter in 'Find'", "F" ) );
         //Hide columns 1-5
         ui->TableView->hideColumn(1);
         ui->TableView->hideColumn(2);
         ui->TableView->hideColumn(3);
         ui->TableView->hideColumn(4);
         ui->TableView->hideColumn(5);
-
         //Hide the headers
         ui->TableView->horizontalHeader()->hide();
         ui->TableView->verticalHeader()->hide();
@@ -788,7 +788,8 @@ void ObservingList::slotToggleSize() {
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
-
+		ui->View->hide();
+//		ui->Spacer1->hide();
         //Set the width of the Table to be the width of 5 toolbar buttons, 
         //or the width of column 1, whichever is larger
         int w = 5*ui->MiniButton->width();
@@ -824,11 +825,13 @@ void ObservingList::slotToggleSize() {
         ui->DetailsButton->setText( i18n( "Details" ) );
         ui->AVTButton->setText( i18n( "Alt vs Time" ) );
         ui->RemoveButton->setText( i18n( "Remove" ) );
+		ui->WUTButton->setText( i18n( "WUT") );
+		ui->FindButton->setText( i18n( "Find &amp;Object") );
 
         //Show Observing notes
         ui->NotesLabel->show();
         ui->NotesEdit->show();
-
+		ui->View->show();
         adjustSize();
         bIsLarge = true;
     }

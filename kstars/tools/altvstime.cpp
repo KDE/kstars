@@ -353,7 +353,7 @@ void AltVsTime::computeSunRiseSetTimes() {
     SkyObject *oSun = ks->data()->objectNamed( "Sun" );
     double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
     double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
-
+	kDebug() << sunRise<<"  "<<sunSet;
     //check to see if Sun is circumpolar
     //requires temporary repositioning of Sun to target date
     KSNumbers *num = new KSNumbers( today.djd() );
