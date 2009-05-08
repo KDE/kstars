@@ -72,13 +72,13 @@ protected:
     *Constructor.  Read stored settings from KConfig object (focus position,
     *zoom factor, sky color, etc.).  Run initPopupMenus().
     */
-    explicit SkyMap( KStarsData *_data, KStars *_ks = 0 );
+    explicit SkyMap();
 
     SkyMap( SkyMap& skyMap );
 
 public:
 
-    static SkyMap* Create( KStarsData *_data, KStars *_ks = 0 );
+    static SkyMap* Create();
 
     static SkyMap* Instance();
 

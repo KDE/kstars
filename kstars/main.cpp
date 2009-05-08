@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
         KSNumbers num( dat->ut().djd() );
         //		dat->initGuides(&num);
 
-        SkyMap *map = SkyMap::Create( dat );
+        SkyMap *map = SkyMap::Create();
         map->resize( w, h );
         QPixmap sky( w, h );
 
