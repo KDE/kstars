@@ -1,180 +1,175 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ObservingList</class>
- <widget class="QWidget" name="ObservingList" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ObservingList">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>1000</height>
+    <width>663</width>
+    <height>713</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>650</height>
+   </size>
+  </property>
+  <layout class="QVBoxLayout">
+   <property name="spacing">
     <number>6</number>
    </property>
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin">
     <number>9</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
+    <layout class="QHBoxLayout">
+     <property name="spacing">
       <number>6</number>
      </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
+     <property name="margin">
       <number>0</number>
      </property>
      <item>
-      <widget class="KPushButton" name="OpenButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="KPushButton" name="OpenButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Open observing list</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Load an observing list from disk</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="SaveButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="KPushButton" name="SaveButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Save observing list</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Save the current observing list to disk</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="SaveAsButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="KPushButton" name="SaveAsButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Save observing list as...</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Save the current observing list to disk, specifying the filename</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="WizardButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="KPushButton" name="WizardButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Observing List Wizard</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>The list wizard helps you construct observing lists based on filtering by object type, position on the sky, and magnitude.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string/>
        </property>
       </widget>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -183,32 +178,32 @@
       </spacer>
      </item>
      <item>
-      <widget class="KPushButton" name="MiniButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+      <widget class="KPushButton" name="MiniButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="minimumSize" >
+       <property name="minimumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="maximumSize" >
+       <property name="maximumSize">
         <size>
          <width>32</width>
          <height>32</height>
         </size>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Make window small</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>This button toggles between large and small states.  The small state may be useful if you want the Observing list open while working in the main window.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string/>
        </property>
       </widget>
@@ -216,170 +211,161 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" >
-     <property name="spacing" >
+    <layout class="QHBoxLayout">
+     <property name="spacing">
       <number>6</number>
      </property>
-     <property name="leftMargin" >
-      <number>0</number>
-     </property>
-     <property name="topMargin" >
-      <number>0</number>
-     </property>
-     <property name="rightMargin" >
-      <number>0</number>
-     </property>
-     <property name="bottomMargin" >
+     <property name="margin">
       <number>0</number>
      </property>
      <item>
-      <widget class="KPushButton" name="CenterButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="KPushButton" name="CenterButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Center sky map on highlighted object</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Center the sky map on the highlighted object in the list</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Ce&amp;nter</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="ScopeButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="KPushButton" name="ScopeButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Point telescope at highlighted object</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Point the telescope at the highlighted object in the list</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Scope</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="DetailsButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="KPushButton" name="DetailsButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Show details for highlighted object</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Open the Details window for the highlighted object</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Details</string>
        </property>
-       <property name="shortcut" >
+       <property name="shortcut">
         <string/>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="AVTButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="KPushButton" name="AVTButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Show altitude plot</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Open the Altitude vs. Time tool, with curves for the highlighted objects shown</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>&amp;Alt vs Time</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="RemoveButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="KPushButton" name="RemoveButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Remove from list</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Remove the highlighted object(s) from the observing list</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Remove</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="WUTButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="KPushButton" name="WUTButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Open the WUT dialog</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Opens the What's up tonight dialog, from which objects can be added to the list</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>WUT</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KPushButton" name="FindButton" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
+      <widget class="KPushButton" name="FindButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Open FindDialog</string>
        </property>
-       <property name="whatsThis" >
+       <property name="whatsThis">
         <string>Open the FindDialog for adding objects to the list</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Find &amp;Object</string>
        </property>
       </widget>
      </item>
      <item>
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>40</width>
          <height>20</height>
@@ -390,46 +376,75 @@
     </layout>
    </item>
    <item>
-    <widget class="QTableView" name="TableView" >
-     <property name="editTriggers" >
+    <widget class="QTableView" name="TableView">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-     <property name="selectionBehavior" >
+     <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
-     <property name="showGrid" >
+     <property name="showGrid">
       <bool>false</bool>
      </property>
-     <property name="sortingEnabled" >
+     <property name="sortingEnabled">
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="AVTPlotWidget" name="View" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Expanding" hsizetype="Preferred" >
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="topMargin">
+      <number>0</number>
      </property>
-     <property name="minimumSize" >
-      <size>
-       <width>400</width>
-       <height>300</height>
-      </size>
-     </property>
-    </widget>
+     <item>
+      <widget class="AVTPlotWidget" name="View">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>200</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>350</width>
+         <height>200</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item>
-    <widget class="QLabel" name="NotesLabel" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+    <widget class="QLabel" name="NotesLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="font" >
+     <property name="font">
       <font>
        <family>Sans Serif</family>
        <pointsize>9</pointsize>
@@ -440,16 +455,23 @@
        <strikeout>false</strikeout>
       </font>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Select an object to record notes on it here:</string>
      </property>
-     <property name="alignment" >
+     <property name="alignment">
       <set>Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="KTextEdit" name="NotesEdit" />
+    <widget class="KTextEdit" name="NotesEdit">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -469,7 +491,7 @@
    <extends>KPlotWidget</extends>
    <header>tools/avtplotwidget.h</header>
   </customwidget>
-  </customwidgets>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

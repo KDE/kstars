@@ -759,7 +759,6 @@ double ObservingList::findAltitude( SkyPoint *p, double hour ) {
 	ut= ut.addSecs( hour*3600.0 );
     dms LST = ks->geo()->GSTtoLST( ut.gst() );
     p->EquatorialToHorizontal( &LST, ks->geo()->lat() );
-	kDebug()<<"OL : "<<p->alt()->Degrees()<<"  "<<hour;
     return p->alt()->Degrees();
 }
 
