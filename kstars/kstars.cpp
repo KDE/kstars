@@ -57,6 +57,8 @@
 #include "indi/imagesequence.h"
 #endif
 
+KStars *KStars::pinstance = 0;
+
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         KXmlGuiWindow(), kstarsData(0), splash(0), skymap(0), TimeStep(0),
         colorActionMenu(0), fovActionMenu(0),
@@ -123,6 +125,13 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 #else
     kDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions.";
 #endif
+}
+
+KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &startdate ) {
+    if( pinstance )
+        delete pinstance;
+    pinstance = new KStars( doSplash, clockrun, startdate );
+    return pinstance;
 }
 
 KStars::~KStars()
