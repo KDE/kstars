@@ -20,6 +20,7 @@
 
 #include <qstring.h>
 #include "ksplanet.h"
+#include "kstarsdata.h"
 
 /**@class KSSun
 	*Child class of KSPlanetBase; encapsulates information about the Sun.
@@ -36,7 +37,7 @@ public:
     	*Sets Ecliptic coordinates appropriate for J2000.
     	*@param kd pointer to KStarsData object
     	*/
-    KSSun( KStarsData *kd );
+    KSSun( KStarsData *kd = KStarsData::Instance() );
 
     /**Destructor (empty)
     	*/

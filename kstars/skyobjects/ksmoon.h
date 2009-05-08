@@ -20,7 +20,7 @@
 
 #include "ksplanetbase.h"
 #include "dms.h"
-
+#include "kstarsdata.h"
 /**@class KSMoon
 	*A subclass of SkyObject that provides information
 	*needed for the Moon.  Specifically, KSMoon provides a moon-specific
@@ -39,7 +39,7 @@ public:
     /**
     	*Default constructor.  Set name="Moon".
     	*/
-    KSMoon(KStarsData *kd);
+    KSMoon(KStarsData *kd = KStarsData::Instance() );
 
     /**Destructor (empty). */
     ~KSMoon();
