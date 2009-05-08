@@ -62,30 +62,54 @@ class OpsXplanet;
 #endif
 
 /**
-	*@class KStars
-	*@short This is the main window for KStars.
-	*In addition to the GUI elements, the class contains the program clock,
-	*KStarsData, and SkyMap objects.  It also contains functions for the DCOP interface.
-	*@author Jason Harris
-	*@version 1.0
-	*/
+ *@class KStars
+ *@short This is the main window for KStars.
+ *In addition to the GUI elements, the class contains the program clock,
+ *KStarsData, and SkyMap objects.  It also contains functions for the D-Bus interface.
+ *@author Jason Harris
+ *@version 1.0
+ */
+
+// KStars is now a singleton class. Use KStars::createInstance() to
+// create an instance and KStars::Instance() to get a pointer to the
+// instance
+// asimha, 9th May 2009
 
 class KStars : public KXmlGuiWindow
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars")
 
-public:
+private:
     /**
-    	*@short Constructor.
-    	*@param doSplash should the splash panel be displayed during
-    	*initialization.
-    	*@param startClockRunning should the clock be running on startup?
-    	*@param startDateString date (in string representation) to start running from.
-    	*
-    	* @todo Refer to documentation on date format.
-    	*/
+     *@short Constructor.
+     *@param doSplash should the splash panel be displayed during
+     *initialization.
+     *@param startClockRunning should the clock be running on startup?
+     *@param startDateString date (in string representation) to start running from.
+     *
+     * @todo Refer to documentation on date format.
+     */
     explicit KStars( bool doSplash, bool startClockRunning = true, const QString &startDateString = QString() );
+
+    static KStars *pinstance; // Pointer to an instance of KStars
+
+public:
+
+    /**
+     *@short Create an instance of this class. Destroy any previous instance
+     *@param doSplash
+     *@param clockrunning
+     *@param startDateString
+     *@note See KStars::KStars for details on parameters
+     *@return a pointer to the instance
+     */
+    static KStars *createInstance( bool doSplash, bool clockrunning = true, const QString &startDateString = QString() );
+
+    /**
+     *@return a pointer to the instance of this class
+     */
+    inline static KStars *Instance() { return pinstance; }
 
     /**Destructor.  Synchs config file.  Deletes objects.
     	*/
