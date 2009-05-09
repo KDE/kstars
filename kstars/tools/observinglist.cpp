@@ -91,7 +91,7 @@ ObservingList::ObservingList( KStars *_ks )
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Name" ) 
         << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
-	<< i18nc( "Altitude","Alt" )<< i18nc( "Azimuth", "Az" )
+    << i18nc( "Altitude","Alt" )<< i18nc( "Azimuth", "Az" )
         << i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
@@ -99,8 +99,10 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
+    ksal = KSAlmanac::Instance();
+    ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
     ui->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
-	ui->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
+    ui->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
     ui->View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
     ui->View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
     ui->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
@@ -129,7 +131,7 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->WUTButton, SIGNAL( clicked() ),
              this, SLOT( slotWUT() ) );
     connect( ui->FindButton, SIGNAL( clicked() ),
-    	     this, SLOT( slotFind() ) );
+             this, SLOT( slotFind() ) );
     connect( ui->OpenButton, SIGNAL( clicked() ),
              this, SLOT( slotOpenList() ) );
     connect( ui->SaveButton, SIGNAL( clicked() ),
@@ -191,8 +193,8 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
     itemList << new QStandardItem( obj->translatedName() ) 
             << new QStandardItem( obj->ra()->toHMSString() ) 
             << new QStandardItem( obj->dec()->toDMSString() ) 
-	    << new QStandardItem( obj->alt()->toDMSString() )
-	    << new QStandardItem( obj->az()->toDMSString() )
+        << new QStandardItem( obj->alt()->toDMSString() )
+        << new QStandardItem( obj->az()->toDMSString() )
             << new QStandardItem( smag )
             << new QStandardItem( obj->typeName() );
     m_Model->appendRow( itemList );
@@ -292,9 +294,9 @@ void ObservingList::slotNewSelection() {
 
         //Enable buttons
         ui->CenterButton->setEnabled( true );
-	#ifdef HAVE_INDI_H
+    #ifdef HAVE_INDI_H
         ui->ScopeButton->setEnabled( true );
-	#endif
+    #endif
         ui->DetailsButton->setEnabled( true );
         ui->AVTButton->setEnabled( true );
         ui->RemoveButton->setEnabled( true );
@@ -321,7 +323,7 @@ void ObservingList::slotNewSelection() {
                 //set LogObject to the new selected object
                 LogObject = currentObject();
                 PlotObject = currentObject();
-		plot( PlotObject );
+        plot( PlotObject );
                 ui->NotesLabel->setEnabled( true );
                 ui->NotesEdit->setEnabled( true );
 
@@ -417,7 +419,7 @@ void ObservingList::slotSlewToObject()
                     if (prop == NULL)
                         continue;
                     else
-                        selectedCoord = 1;		/* Select horizontal */
+                        selectedCoord = 1;      /* Select horizontal */
                 }
                 else
                     useJ2000 = true;
@@ -736,29 +738,31 @@ void ObservingList::slotWizard() {
 }
 
 void ObservingList::plot( SkyObject *o ) {
-	if( !o ) return;
-	KStarsDateTime ut = KStarsDateTime::currentDateTime().addSecs( (1.5)*86400. );
-	ksal = KSAlmanac::Instance();
-	ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
-    double h1 = ks->LST()->Hours();
+    if( !o ) return;
+    float DayOffset = 0;
+    if (KStarsDateTime::currentDateTime().time().hour() > 12 )
+        DayOffset = 1;
+    KStarsDateTime ut = KStarsDateTime::currentDateTime();
+    ut.setTime(QTime());
+    ut = ks->geo()->LTtoUT(ut);
+    ut = ut.addSecs( (0.5+DayOffset)*86400.0 );
+    double h1 = ks->geo()->GSTtoLST( ut.gst() ).Hours();
     if ( h1 > 12.0 ) h1 -= 24.0;
     double h2 = h1 + 24.0;
     ui->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
-	ui->View->update();
-	KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
+    ui->View->update();
+    KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
         for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-            po->addPoint( h, findAltitude( o, h ) );
+            po->addPoint( h, findAltitude( o, (h + DayOffset*24.0) ) );
         }
     ui->View->removeAllPlotObjects();
-	ui->View->addPlotObject( po );
+    ui->View->addPlotObject( po );
 }
 double ObservingList::findAltitude( SkyPoint *p, double hour ) {
-	if (KStarsDateTime::currentDateTime().time().hour() > 12 )
-	hour+=24.0;
     KStarsDateTime ut = KStarsDateTime::currentDateTime();
-	ut.setTime(QTime());
-	ut = ks->geo()->LTtoUT(ut);
-	ut= ut.addSecs( hour*3600.0 );
+    ut.setTime(QTime());
+    ut = ks->geo()->LTtoUT(ut);
+    ut= ut.addSecs( hour*3600.0 );
     dms LST = ks->geo()->GSTtoLST( ut.gst() );
     p->EquatorialToHorizontal( &LST, ks->geo()->lat() );
     return p->alt()->Degrees();
@@ -775,8 +779,8 @@ void ObservingList::slotToggleSize() {
         ui->DetailsButton->setText( i18nc( "First letter in 'Details'", "D" ) );
         ui->AVTButton->setText( i18nc( "First letter in 'Alt vs Time'", "A" ) );
         ui->RemoveButton->setText( i18nc( "First letter in 'Remove'", "R" ) );
-		ui->WUTButton->setText( i18nc( "First letter in 'WUT'", "W" ) );
-		ui->FindButton->setText( i18nc( "First letter in 'Find'", "F" ) );
+        ui->WUTButton->setText( i18nc( "First letter in 'WUT'", "W" ) );
+        ui->FindButton->setText( i18nc( "First letter in 'Find'", "F" ) );
         //Hide columns 1-5
         ui->TableView->hideColumn(1);
         ui->TableView->hideColumn(2);
@@ -790,8 +794,8 @@ void ObservingList::slotToggleSize() {
         //Hide Observing notes
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
-		ui->View->hide();
-//		ui->Spacer1->hide();
+        ui->View->hide();
+//      ui->Spacer1->hide();
         //Set the width of the Table to be the width of 5 toolbar buttons, 
         //or the width of column 1, whichever is larger
         int w = 5*ui->MiniButton->width();
@@ -827,13 +831,13 @@ void ObservingList::slotToggleSize() {
         ui->DetailsButton->setText( i18n( "Details" ) );
         ui->AVTButton->setText( i18n( "Alt vs Time" ) );
         ui->RemoveButton->setText( i18n( "Remove" ) );
-		ui->WUTButton->setText( i18n( "WUT") );
-		ui->FindButton->setText( i18n( "Find &amp;Object") );
+        ui->WUTButton->setText( i18n( "WUT") );
+        ui->FindButton->setText( i18n( "Find &amp;Object") );
 
         //Show Observing notes
         ui->NotesLabel->show();
         ui->NotesEdit->show();
-		ui->View->show();
+        ui->View->show();
         adjustSize();
         bIsLarge = true;
     }

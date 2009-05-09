@@ -52,7 +52,7 @@ public:
     	*@param sr the fractional position of Sunrise
     	*@param ss the fractional position of Sunset
     	*/
-    void setSunRiseSetTimes( double sr, double ss ) { SunRise = sr; SunSet = ss; }
+    void setSunRiseSetTimes( double sr, double ss ) { SunRise = sr; SunSet = ss; update(); }
 
 protected:
     /**Handle mouse move events.  If the mouse button is down,
