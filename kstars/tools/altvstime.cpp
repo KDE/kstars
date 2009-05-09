@@ -348,37 +348,10 @@ void AltVsTime::computeSunRiseSetTimes() {
     //Determine the time of sunset and sunrise for the desired date and location
     //expressed as doubles, the fraction of a full day.
     KStarsDateTime today = getDate();
-
-    SkyObject *oSun = ks->data()->objectNamed( "Sun" );
-    double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
-    double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
-    //check to see if Sun is circumpolar
-    //requires temporary repositioning of Sun to target date
-    KSNumbers *num = new KSNumbers( today.djd() );
-    KSNumbers *oldNum = new KSNumbers( ks->data()->ut().djd() );
-    dms LST = geo->GSTtoLST( getDate().gst() );
-    oSun->updateCoords( num, true, geo->lat(), &LST );
-    if ( oSun->checkCircumpolar( geo->lat() ) ) {
-        if ( oSun->alt()->Degrees() > 0.0 ) {
-            //Circumpolar, signal it this way:
-            sunRise = 0.0;
-            sunSet = 1.0;
-        } else {
-            //never rises, signal it this way:
-            sunRise = 0.0;
-            sunSet = -1.0;
-        }
-    }
-	kDebug() << sunRise<<"  "<<sunSet;
-    //Notify the View about new sun rise/set times:
+	ksal->setDate( &today);
+	double sunRise = ksal->getSunRise();
+    double sunSet = ksal->getSunSet();
     avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
-
-    //Restore Sun coordinates:
-    oSun->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
-    oSun->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
-
-    delete num;
-    delete oldNum;
 }
 
 void AltVsTime::slotUpdateDateLoc(void) {
