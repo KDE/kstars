@@ -41,8 +41,8 @@
 #include <kde_file.h>
 
 DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, float trigMag, bool staticstars )
-    : dataFileName( fileName ), ListComponent(parent), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 
-      m_reindexNum( J2000 ), staticStars( staticstars )
+    : ListComponent(parent), m_reindexNum( J2000 ), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 
+      staticStars( staticstars ), dataFileName( fileName )
 {
     fileOpened = false;
 }
