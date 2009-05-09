@@ -34,6 +34,7 @@
 #include <kplotwidget.h>
 
 #include "ui_altvstime.h"
+#include "ksalmanac.h"
 #include "dms.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -45,7 +46,6 @@
 #include "dialogs/locationdialog.h"
 #include "widgets/dmsbox.h"
 #include "avtplotwidget.h"
-
 #include "kstarsdatetime.h"
 
 AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
@@ -56,7 +56,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
         KDialog( parent )
 {
     ks = (KStars*) parent;
-
+	ksal = KSAlmanac::Instance();
     QFrame *page = new QFrame( this );
     setMainWidget(page);
     setCaption( i18n( "Altitude vs. Time" ) );
@@ -98,7 +98,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->latBox->show( geo->lat() );
 
     computeSunRiseSetTimes();
-
     setLSTLimits();
 
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
@@ -353,7 +352,6 @@ void AltVsTime::computeSunRiseSetTimes() {
     SkyObject *oSun = ks->data()->objectNamed( "Sun" );
     double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
     double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
-	kDebug() << sunRise<<"  "<<sunSet;
     //check to see if Sun is circumpolar
     //requires temporary repositioning of Sun to target date
     KSNumbers *num = new KSNumbers( today.djd() );
@@ -371,7 +369,7 @@ void AltVsTime::computeSunRiseSetTimes() {
             sunSet = -1.0;
         }
     }
-
+	kDebug() << sunRise<<"  "<<sunSet;
     //Notify the View about new sun rise/set times:
     avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
 
