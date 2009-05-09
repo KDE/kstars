@@ -24,11 +24,11 @@
 
 #include "skyobjects/skyobject.h"
 #include "ui_observinglist.h"
-
+#include "ksalmanac.h"
+class KSAlmanac;
 class QSortFilterProxyModel;
 class QStandardItemModel;
 class KStars;
-
 class ObservingListUI : public QFrame, public Ui::ObservingList {
     Q_OBJECT
 
@@ -186,6 +186,7 @@ protected slots:
 
 private:
     KStars *ks;
+	KSAlmanac *ksal;
     ObservingListUI *ui;
     QList<SkyObject*> m_ObservingList;
 //    QList<SkyObject*> m_SelectedObjects;

@@ -42,6 +42,7 @@
 #include <kplotwidget.h>
 #include <ksnumbers.h>
 
+#include "ksalmanac.h"
 #include "obslistwizard.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -736,8 +737,9 @@ void ObservingList::slotWizard() {
 
 void ObservingList::plot( SkyObject *o ) {
 	if( !o ) return;
- KStarsDateTime ut = KStarsDateTime::currentDateTime().addSecs( (1.5)*86400. );
-
+	KStarsDateTime ut = KStarsDateTime::currentDateTime().addSecs( (1.5)*86400. );
+	ksal = KSAlmanac::Instance();
+	ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
     double h1 = ks->LST()->Hours();
     if ( h1 > 12.0 ) h1 -= 24.0;
     double h2 = h1 + 24.0;
