@@ -58,11 +58,8 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime ) {
     //Compute Sun rise and set times
     const KStarsDateTime today = dt;
     const GeoLocation* _geo = geo;
-//    *riseTime = -1.0 * o->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
-//     *setTime = -1.0 * o->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
-    *riseTime = -1.0 * o->riseSetTime( today, _geo, true ).secsTo(QTime()) / 86400.0; 
+    *riseTime = -1.0 * o->riseSetTime( today.addDays(1), _geo, true ).secsTo(QTime()) / 86400.0; 
     *setTime = -1.0 * o->riseSetTime( today, _geo, false ).secsTo(QTime()) / 86400.0;
-  
   //check to see if Sun is circumpolar
     //requires temporary repositioning of Sun to target date
     KSNumbers *num = new KSNumbers( dt.djd() );
