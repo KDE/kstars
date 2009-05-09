@@ -52,7 +52,6 @@ KSAlmanac::KSAlmanac() {
 void KSAlmanac::update() {
     RiseSetTime( (SkyObject*)m_Sun, &SunRise, &SunSet );
     RiseSetTime( (SkyObject*)m_Moon, &MoonRise, &MoonSet );
-    kDebug()<< SunRise<<" "<<SunSet;
 }
 void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime ) {
     //Compute Sun rise and set times
