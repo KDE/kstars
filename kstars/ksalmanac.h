@@ -47,7 +47,7 @@ class KSAlmanac {
         KSMoon *m_Moon;
 		KStars *ks;
         KStarsDateTime dt;
-        GeoLocation geo;
+        GeoLocation *geo;
         double SunRise, SunSet, MoonRise, MoonSet, riseRate;
 };
 

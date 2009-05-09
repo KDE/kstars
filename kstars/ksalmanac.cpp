@@ -28,6 +28,7 @@
 #include "ksnumbers.h"
 #include "dms.h"
 #include "skyobjects/skyobject.h"
+
 KSAlmanac* KSAlmanac::pinstance=NULL;
 
 KSAlmanac* KSAlmanac::Instance() {
@@ -39,6 +40,8 @@ KSAlmanac::KSAlmanac() {
     ks = KStars::Instance();
     dt = KStarsDateTime::currentDateTime();
     geo = ks->geo();
+	dt.setTime(QTime());
+	dt = geo->LTtoUT(dt);
     m_Sun = new KSSun;
     m_Moon = new KSMoon;
     SunRise=SunSet=MoonRise=MoonSet=0;
@@ -54,19 +57,19 @@ void KSAlmanac::update() {
 void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime ) {
     //Compute Sun rise and set times
     const KStarsDateTime today = dt;
-    const GeoLocation _geo = geo;
+    const GeoLocation* _geo = geo;
 //    *riseTime = -1.0 * o->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
 //     *setTime = -1.0 * o->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
-    *riseTime = -1.0 * o->riseSetTime( today, &_geo, true ).secsTo(QTime()) / 86400.0; 
-    *setTime = -1.0 * o->riseSetTime( today, &_geo, false ).secsTo(QTime()) / 86400.0;
+    *riseTime = -1.0 * o->riseSetTime( today, _geo, true ).secsTo(QTime()) / 86400.0; 
+    *setTime = -1.0 * o->riseSetTime( today, _geo, false ).secsTo(QTime()) / 86400.0;
   
   //check to see if Sun is circumpolar
     //requires temporary repositioning of Sun to target date
     KSNumbers *num = new KSNumbers( dt.djd() );
     KSNumbers *oldNum = new KSNumbers( ks->data()->ut().djd() );
-    dms LST = ks->geo()->GSTtoLST( dt.gst() );
-    o->updateCoords( num, true, ks->geo()->lat(), &LST );
-    if ( o->checkCircumpolar( ks->geo()->lat() ) ) {
+    dms LST = geo->GSTtoLST( dt.gst() );
+    o->updateCoords( num, true, geo->lat(), &LST );
+    if ( o->checkCircumpolar( geo->lat() ) ) {
         if ( o->alt()->Degrees() > 0.0 ) {
             //Circumpolar, signal it this way:
             *riseTime = 0.0;
@@ -90,7 +93,7 @@ void KSAlmanac::setDate( KStarsDateTime *newdt ) {
 }
 
 void KSAlmanac::setLocation( GeoLocation *m_geo ) {
-    geo = *m_geo;
+    geo = m_geo;
     update();
 }
 
