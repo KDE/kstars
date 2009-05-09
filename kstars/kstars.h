@@ -50,6 +50,7 @@ class PlanetViewer;
 class JMoonTool;
 class ImageViewer;
 class FlagManager;
+class ObservingList;
 
 class OpsCatalog;
 class OpsGuides;
