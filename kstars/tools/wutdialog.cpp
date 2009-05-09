@@ -381,8 +381,8 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
         } else {
             tRise = o->riseSetTime( T0, geo, true );
             tSet = o->riseSetTime( T0, geo, false );
-            //			if ( tSet < tRise )
-            //				tSet = o->riseSetTime( JDTomorrow, geo, false );
+            //          if ( tSet < tRise )
+            //              tSet = o->riseSetTime( JDTomorrow, geo, false );
 
             sRise.clear();
             sRise.sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
@@ -391,8 +391,8 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
         }
 
         tTransit = o->transitTime( T0, geo );
-        //		if ( tTransit < tRise )
-        //			tTransit = o->transitTime( JDTomorrow, geo );
+        //      if ( tTransit < tRise )
+        //          tTransit = o->transitTime( JDTomorrow, geo );
 
         sTransit.clear();
         sTransit.sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
@@ -436,7 +436,7 @@ void WUTDialog::slotObslist() {
         o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
     if(o != 0) 
-    	kstars->observingList()->slotAddObject( o ) ;
+        kstars->observingList()->slotAddObject( o ) ;
  
 }
 

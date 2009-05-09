@@ -56,7 +56,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
         KDialog( parent )
 {
     ks = (KStars*) parent;
-	ksal = KSAlmanac::Instance();
+    ksal = KSAlmanac::Instance();
     QFrame *page = new QFrame( this );
     setMainWidget(page);
     setCaption( i18n( "Altitude vs. Time" ) );
@@ -348,8 +348,8 @@ void AltVsTime::computeSunRiseSetTimes() {
     //Determine the time of sunset and sunrise for the desired date and location
     //expressed as doubles, the fraction of a full day.
     KStarsDateTime today = getDate();
-	ksal->setDate( &today);
-	double sunRise = ksal->getSunRise();
+    ksal->setDate( &today);
+    double sunRise = ksal->getSunRise();
     double sunSet = ksal->getSunSet();
     avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
 }

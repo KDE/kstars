@@ -27,7 +27,7 @@
 #include "kstarsdata.h"
 class KSAlmanac {
     public:
-		void RiseSetTime( SkyObject *o, double *riseTime, double *setTime );
+        void RiseSetTime( SkyObject *o, double *riseTime, double *setTime );
         void setDate( KStarsDateTime *newdt );
         void setLocation( GeoLocation *m_geo );
         static KSAlmanac* Instance();
@@ -45,7 +45,7 @@ class KSAlmanac {
         static KSAlmanac *pinstance;
         KSSun *m_Sun;
         KSMoon *m_Moon;
-		KStars *ks;
+        KStars *ks;
         KStarsDateTime dt;
         GeoLocation *geo;
         double SunRise, SunSet, MoonRise, MoonSet, riseRate;

@@ -40,8 +40,8 @@ KSAlmanac::KSAlmanac() {
     ks = KStars::Instance();
     dt = KStarsDateTime::currentDateTime();
     geo = ks->geo();
-	dt.setTime(QTime());
-	dt = geo->LTtoUT(dt);
+    dt.setTime(QTime());
+    dt = geo->LTtoUT(dt);
     m_Sun = new KSSun;
     m_Moon = new KSMoon;
     SunRise=SunSet=MoonRise=MoonSet=0;

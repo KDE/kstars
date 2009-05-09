@@ -34,39 +34,39 @@ class ObservingListUI : public QFrame, public Ui::ObservingList {
 
 public:
     /**@short Cunstructor
-    	*/
+        */
     ObservingListUI( QWidget *parent );
 };
 
 /**@class ObservingList
-	*Tool window for managing a custom list of objects.  The window
-	*displays the Name, RA, Dec, mag, and type of each object in the list.
-	*
-	*By selecting an object in the list, you can perform a number of functions
-	*on that object:
-	*+ Center it in the display 
-	*+ Examine its Details Window 
-	*+ Point the telescope at it 
-	*+ Attach a custom icon or name label (TBD)
-	*+ Attach a trail (solar system only) (TBD)
-	*+ Open the AltVsTime tool 
-	*
-	*The user can also save/load their observing lists, and can export 
-	*list data (TBD: as HTML table?  CSV format?  plain text?)
-	*
-	*The observing notes associated with the selected object are displayed 
-	*below the list. (TBD)
-	*
-	*TODO: 
-	*+ Implement a "shaded" state, in which the UI is compressed to
-	*  make it easier to float on the KStars window.  Displays only
-	*  object names, and single-letter action buttons, and no user log.
-	*+ Implement an InfoBox version (the ultimate shaded state)
-	*
-	*@short Tool for managing a custom list of objects
-	*@author Jeff Woods, Jason Harris
-	*@version 1.0
-	*/
+    *Tool window for managing a custom list of objects.  The window
+    *displays the Name, RA, Dec, mag, and type of each object in the list.
+    *
+    *By selecting an object in the list, you can perform a number of functions
+    *on that object:
+    *+ Center it in the display 
+    *+ Examine its Details Window 
+    *+ Point the telescope at it 
+    *+ Attach a custom icon or name label (TBD)
+    *+ Attach a trail (solar system only) (TBD)
+    *+ Open the AltVsTime tool 
+    *
+    *The user can also save/load their observing lists, and can export 
+    *list data (TBD: as HTML table?  CSV format?  plain text?)
+    *
+    *The observing notes associated with the selected object are displayed 
+    *below the list. (TBD)
+    *
+    *TODO: 
+    *+ Implement a "shaded" state, in which the UI is compressed to
+    *  make it easier to float on the KStars window.  Displays only
+    *  object names, and single-letter action buttons, and no user log.
+    *+ Implement an InfoBox version (the ultimate shaded state)
+    *
+    *@short Tool for managing a custom list of objects
+    *@author Jeff Woods, Jason Harris
+    *@version 1.0
+    */
 
 class ObservingList : public KDialog
 {
@@ -74,119 +74,119 @@ class ObservingList : public KDialog
 
 public:
     /**@short Cunstructor
-    	*/
+        */
     ObservingList( KStars *_ks );
     /**@short Destuctor (empty)
-    	*/
+        */
     ~ObservingList() {}
 
     /**@return true if the object is in the observing list
-    	*@p o pointer to the object to test.
-    	*/
+        *@p o pointer to the object to test.
+        */
     bool contains( const SkyObject *o );
 
     /**@return true if the window is in its default "large" state.
-    	*/
+        */
     bool isLarge() const { return bIsLarge; }
 
     /**@return reference to the current observing list
-    	*/
+        */
     QList<SkyObject*>& obsList() { return m_ObservingList; }
 
     /**@return pointer to the currently-selected object in the observing list
-    	*@note if more than one object is selected, this function returns 0.
-    	*/
+        *@note if more than one object is selected, this function returns 0.
+        */
     SkyObject *currentObject() const { return m_CurrentObject; }
 
     /**@short If the current list has unsaved changes, ask the user about saving it.
-    	*@note also clears the list in preparation of opening a new one
-    	*/
+        *@note also clears the list in preparation of opening a new one
+        */
     void saveCurrentList();
 
 public slots:
     /**@short add a new object to list
-    	*@p o pointer to the object to add to the list
-    	*/
+        *@p o pointer to the object to add to the list
+        */
     void slotAddObject( SkyObject *o=NULL );
 
     /**@short Remove skyobjects which are highlighted in the
-    	*observing list tool from the observing list.
-    	*/
+        *observing list tool from the observing list.
+        */
     void slotRemoveSelectedObjects();
 
     /**@short Remove skyobject from the observing list.
-    	*@p o pointer to the SkyObject to be removed.
-    	*Use SkyMap::clickedObject() if o is NULL (default)
-    	*/
+        *@p o pointer to the SkyObject to be removed.
+        *Use SkyMap::clickedObject() if o is NULL (default)
+        */
     void slotRemoveObject( SkyObject *o=NULL );
 
     /**@short center the selected object in the display
-    	*/
+        */
     void slotCenterObject();
 
     /**@short slew the telescope to the selected object
-    	*/
+        */
     void slotSlewToObject();
 
     /**@short Show the details window for the selected object
-    	*/
+        */
     void slotDetails();
 
     /**@short Show the Altitude vs Time for selecteld objects
-    	*/
+        */
     void slotAVT();
 
     /**@short Open the WUT dialog
-   	*/
+    */
    void slotWUT();
 
     /**@short Open the Find Dialog
-    	*/
+        */
     void slotFind();
 
     /**@short Tasks needed when changing the selected object
-    	*Save the user log of the previous selected object, 
-    	*find the new selected object in the obsList, and 
-    	*show the notes associated with the new selected object
-    	*/
+        *Save the user log of the previous selected object, 
+        *find the new selected object in the obsList, and 
+        *show the notes associated with the new selected object
+        */
     void slotNewSelection();
 
-    //	void slotNewCurrent();
+    //  void slotNewCurrent();
 
     /**@short load an observing list from disk.
-    	*/
+        */
     void slotOpenList();
 
     /**@short save the current observing list to disk.
-    	*/
+        */
     void slotSaveList();
 
     /**@short save the current observing list to disk, specify filename.
-    	*/
+        */
     void slotSaveListAs();
 
     /**@short construct a new observing list using the wizard.
-    	*/
+        */
     void slotWizard();
 
     /**@short toggle between the large and small window states
-    	*/
+        */
     void slotToggleSize();
 
     /**@short Save the user log text to a file.
-    	*@note the log is attached to the current object in obsList.
-    	*/
+        *@note the log is attached to the current object in obsList.
+        */
     void saveCurrentUserLog();
 
-	void plot( SkyObject *o=NULL);
+    void plot( SkyObject *o=NULL);
 
-	double findAltitude( SkyPoint *p=NULL, double hour=0);
+    double findAltitude( SkyPoint *p=NULL, double hour=0);
 protected slots:
     void slotClose();
 
 private:
     KStars *ks;
-	KSAlmanac *ksal;
+    KSAlmanac *ksal;
     ObservingListUI *ui;
     QList<SkyObject*> m_ObservingList;
 //    QList<SkyObject*> m_SelectedObjects;

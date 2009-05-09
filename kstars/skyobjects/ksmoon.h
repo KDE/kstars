@@ -22,14 +22,14 @@
 #include "dms.h"
 #include "kstarsdata.h"
 /**@class KSMoon
-	*A subclass of SkyObject that provides information
-	*needed for the Moon.  Specifically, KSMoon provides a moon-specific
-	*findPosition() function.  Also, there is a method findPhase(), which returns
-	*the lunar phase as a floating-point number between 0.0 and 1.0.
-	*@short Provides necessary information about the Moon.
-	*@author Jason Harris
-	*@version 1.0
-	*/
+    *A subclass of SkyObject that provides information
+    *needed for the Moon.  Specifically, KSMoon provides a moon-specific
+    *findPosition() function.  Also, there is a method findPhase(), which returns
+    *the lunar phase as a floating-point number between 0.0 and 1.0.
+    *@short Provides necessary information about the Moon.
+    *@author Jason Harris
+    *@version 1.0
+    */
 
 class KStarsData;
 class KSSun;
@@ -37,8 +37,8 @@ class KSSun;
 class KSMoon : public KSPlanetBase  {
 public:
     /**
-    	*Default constructor.  Set name="Moon".
-    	*/
+        *Default constructor.  Set name="Moon".
+        */
     KSMoon(KStarsData *kd = KStarsData::Instance() );
 
     /**Destructor (empty). */
@@ -52,15 +52,15 @@ public:
     void findPhase();
 
     /**@return the illuminated fraction of the Moon as seen from Earth
-    	*/
+        */
     double illum( void ) const { return 0.5*(1.0 - cos( Phase * 180.0 / dms::PI ) ); }
 
     /**@return a short string describing the moon's phase
-    	*/
+        */
     QString phaseName( void ) const;
 
     /** reimplemented from KSPlanetBase
-    	*/
+        */
     virtual bool loadData();
 
     /*
@@ -83,17 +83,17 @@ public:
 
 protected:
     /**Reimplemented from KSPlanetBase, this function employs unique algorithms for
-    	*estimating the lunar coordinates.  Finding the position of the moon is
-    	*much more difficult than the other planets.  For one thing, the Moon is
-    	*a lot closer, so we can detect smaller deviations in its orbit.  Also,
-    	*the Earth has a significant effect on the Moon's orbit, and their
-    	*interaction is complex and nonlinear.  As a result, the positions as
-    	*calculated by findPosition() are only accurate to about 10 arcseconds
-    	*(10 times less precise than the planets' positions!)
-    	*@short moon-specific coordinate finder
-    	*@param num KSNumbers pointer for the target date/time
-    	*@note we don't use the Earth pointer here
-    	*/
+        *estimating the lunar coordinates.  Finding the position of the moon is
+        *much more difficult than the other planets.  For one thing, the Moon is
+        *a lot closer, so we can detect smaller deviations in its orbit.  Also,
+        *the Earth has a significant effect on the Moon's orbit, and their
+        *interaction is complex and nonlinear.  As a result, the positions as
+        *calculated by findPosition() are only accurate to about 10 arcseconds
+        *(10 times less precise than the planets' positions!)
+        *@short moon-specific coordinate finder
+        *@param num KSNumbers pointer for the target date/time
+        *@note we don't use the Earth pointer here
+        */
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* );
 
 private:
@@ -101,12 +101,12 @@ private:
     static int instance_count;
 
     /**@class MoonLRData
-    	*Encapsulates the Longitude and radius terms of the sums
-    	*used to compute the moon's position.
-    	*@short Moon Longitude and radius data object
-    	*@author Mark Hollomon
-    	*@version 1.0
-    	*/
+        *Encapsulates the Longitude and radius terms of the sums
+        *used to compute the moon's position.
+        *@short Moon Longitude and radius data object
+        *@author Mark Hollomon
+        *@version 1.0
+        */
     class MoonLRData {
     public:
         int nd;
@@ -123,12 +123,12 @@ private:
     static QList<MoonLRData*> LRData;
 
     /**@class MoonBData
-    	*Encapsulates the Latitude terms of the sums
-    	*used to compute the moon's position.
-    	*@short Moon Latitude data object
-    	*@author Mark Hollomon
-    	*@version 1.0
-    	*/
+        *Encapsulates the Latitude terms of the sums
+        *used to compute the moon's position.
+        *@short Moon Latitude data object
+        *@author Mark Hollomon
+        *@version 1.0
+        */
     class MoonBData {
     public:
         int nd;
