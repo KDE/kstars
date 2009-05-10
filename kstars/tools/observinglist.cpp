@@ -100,6 +100,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
     ksal = KSAlmanac::Instance();
+    ksal->setLocation(ks->geo());
     ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
     ui->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
     ui->View->axis(KPlotWidget::BottomAxis)->setTickLabelFormat( 't' );
@@ -248,7 +249,8 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 
     obsList().removeAt(k);
     if ( ! isModified ) isModified = true;
-
+   
+    ui->View->removeAllPlotObjects();
     ui->TableView->resizeColumnsToContents();
 }
 
@@ -314,19 +316,17 @@ void ObservingList::slotNewSelection() {
         }
         if ( found ) {
             m_CurrentObject = o;
+            plot( PlotObject );
 
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
                 //First, save the last object's user log to disk, if necessary
                 saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
-
                 //set LogObject to the new selected object
                 LogObject = currentObject();
                 PlotObject = currentObject();
-        plot( PlotObject );
                 ui->NotesLabel->setEnabled( true );
                 ui->NotesEdit->setEnabled( true );
-
                 ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
                 if ( LogObject->userLog().isEmpty() ) {
                     ui->NotesEdit->setPlainText( i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
@@ -361,6 +361,7 @@ void ObservingList::slotNewSelection() {
         //Clear the user log text box.
         saveCurrentUserLog();
         ui->NotesEdit->setPlainText("");
+        ui->View->removeAllPlotObjects();
 
     } else { //more than one object selected.
         ui->CenterButton->setEnabled( false );
@@ -372,6 +373,7 @@ void ObservingList::slotNewSelection() {
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
         m_CurrentObject = 0;
+        ui->View->removeAllPlotObjects();
 
         //Clear the user log text box.
         saveCurrentUserLog();
@@ -567,7 +569,7 @@ void ObservingList::slotClose() {
             != i18n("Record here observation logs and/or data on %1.", currentObject()->name()) ) {
         currentObject()->saveUserLog( ui->NotesEdit->toPlainText() );
     }
-
+    ui->View->removeAllPlotObjects();
     hide();
 }
 
@@ -750,6 +752,8 @@ void ObservingList::plot( SkyObject *o ) {
     if ( h1 > 12.0 ) h1 -= 24.0;
     double h2 = h1 + 24.0;
     ui->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
+    ksal->setLocation(ks->geo());
+    ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
     ui->View->update();
     KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
         for ( double h=-12.0; h<=12.0; h+=0.5 ) {
