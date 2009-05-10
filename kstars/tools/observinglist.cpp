@@ -316,6 +316,7 @@ void ObservingList::slotNewSelection() {
         }
         if ( found ) {
             m_CurrentObject = o;
+            PlotObject = currentObject();
             plot( PlotObject );
 
             if ( newName != i18n( "star" ) ) {
@@ -324,7 +325,6 @@ void ObservingList::slotNewSelection() {
                 saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
                 //set LogObject to the new selected object
                 LogObject = currentObject();
-                PlotObject = currentObject();
                 ui->NotesLabel->setEnabled( true );
                 ui->NotesEdit->setEnabled( true );
                 ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
