@@ -50,15 +50,18 @@ KSAlmanac::KSAlmanac() {
 }
 
 void KSAlmanac::update() {
-    RiseSetTime( (SkyObject*)m_Sun, &SunRise, &SunSet );
-    RiseSetTime( (SkyObject*)m_Moon, &MoonRise, &MoonSet );
+    RiseSetTime( (SkyObject*)m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
+    RiseSetTime( (SkyObject*)m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
+    kDebug()<< SunRise <<"   " <<  SunSet ;
 }
-void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime ) {
+void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ) {
     //Compute Sun rise and set times
     const KStarsDateTime today = dt;
     const GeoLocation* _geo = geo;
-    *riseTime = -1.0 * o->riseSetTime( today.addDays(1), _geo, true ).secsTo(QTime()) / 86400.0; 
-    *setTime = -1.0 * o->riseSetTime( today, _geo, false ).secsTo(QTime()) / 86400.0;
+    *RiseTime = o->riseSetTime( today.addDays(1), _geo, true );
+    *SetTime = o->riseSetTime( today, _geo, false );
+    *riseTime = -1.0 * RiseTime->secsTo(QTime()) / 86400.0; 
+    *setTime = -1.0 * SetTime->secsTo(QTime()) / 86400.0;
   //check to see if Sun is circumpolar
     //requires temporary repositioning of Sun to target date
     KSNumbers *num = new KSNumbers( dt.djd() );

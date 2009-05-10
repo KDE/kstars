@@ -27,7 +27,7 @@
 #include "kstarsdata.h"
 class KSAlmanac {
     public:
-        void RiseSetTime( SkyObject *o, double *riseTime, double *setTime );
+        void RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime );
         void setDate( KStarsDateTime *newdt );
         void setLocation( GeoLocation *m_geo );
         static KSAlmanac* Instance();
@@ -35,6 +35,10 @@ class KSAlmanac {
         inline double getSunSet() { return SunSet; }
         inline double getMoonRise() { return MoonRise; }
         inline double getMoonSet() { return MoonSet; }
+        inline QTime sunRise() { return SunRiseT; }
+        inline QTime sunSet() { return SunSetT; }
+        inline QTime moonRise() { return MoonRiseT; }
+        inline QTime moonSet() { return MoonSetT; }
         double getAstroTwilight( bool begin = true );
         double getNauticalTwilight( bool begin = true );
         double getCivilTwilight( bool begin = true );
@@ -49,6 +53,7 @@ class KSAlmanac {
         KStarsDateTime dt;
         GeoLocation *geo;
         double SunRise, SunSet, MoonRise, MoonSet, riseRate;
+        QTime SunRiseT, SunSetT, MoonRiseT, MoonSetT;
 };
 
 #endif
