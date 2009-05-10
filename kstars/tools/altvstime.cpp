@@ -349,6 +349,7 @@ void AltVsTime::computeSunRiseSetTimes() {
     //expressed as doubles, the fraction of a full day.
     KStarsDateTime today = getDate();
     ksal->setDate( &today);
+    ksal->setLocation(geo);
     double sunRise = ksal->getSunRise();
     double sunSet = ksal->getSunSet();
     avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
