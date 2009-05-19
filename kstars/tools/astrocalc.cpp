@@ -71,7 +71,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     new QTreeWidgetItem(timeItem,QStringList(i18n("Sidereal Time")) );
     new QTreeWidgetItem(timeItem,QStringList(i18n("Almanac")) );
     new QTreeWidgetItem(timeItem,QStringList(i18n("Equinoxes & Solstices")) );
-    //	dayItem->setIcon(0,sunsetIcon);
+    //  dayItem->setIcon(0,sunsetIcon);
 
     QTreeWidgetItem * coordItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Coordinate Converters")) );
     new QTreeWidgetItem(coordItem,QStringList(i18n("Equatorial/Galactic")) );
@@ -115,39 +115,34 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     splashScreen->setReadOnly( true );
     acStack->addWidget( splashScreen );
 
-    JDFrame = new modCalcJD( acStack );
-    acStack->addWidget( JDFrame );
-    GeodCoordFrame = new modCalcGeodCoord( acStack );
-    acStack->addWidget( GeodCoordFrame );
-    GalFrame = new modCalcGalCoord( acStack );
-    acStack->addWidget( GalFrame );
+    JDFrame        = addToStack<modCalcJD>();
+    GeodCoordFrame = addToStack<modCalcGeodCoord>();
+    GalFrame       = addToStack<modCalcGalCoord>();
 
-    SidFrame = new modCalcSidTime( acStack );
-    acStack->addWidget( SidFrame );
-    AppFrame = new modCalcApCoord( acStack );
-    acStack->addWidget( AppFrame );
-    DayFrame = new modCalcDayLength( acStack );
-    acStack->addWidget( DayFrame );
+    SidFrame       = addToStack<modCalcSidTime>();
+    AppFrame       = addToStack<modCalcApCoord>();
+    DayFrame       = addToStack<modCalcDayLength>();
 
-    AltAzFrame = new modCalcAltAz( acStack );
-    acStack->addWidget( AltAzFrame );
-    PlanetsFrame = new modCalcPlanets( acStack );
-    acStack->addWidget( PlanetsFrame );
-    EquinoxFrame = new modCalcEquinox( acStack );
-    acStack->addWidget( EquinoxFrame );
-    EclFrame = new modCalcEclCoords( acStack );
-    acStack->addWidget( EclFrame );
-    AngDistFrame = new modCalcAngDist( acStack );
-    acStack->addWidget( AngDistFrame );
-    VlsrFrame = new modCalcVlsr( acStack );
-    acStack->addWidget( VlsrFrame );
-    ConjunctFrame = new ConjunctionsTool( acStack );
-    acStack->addWidget( ConjunctFrame );
+    AltAzFrame     = addToStack<modCalcAltAz>();
+    PlanetsFrame   = addToStack<modCalcPlanets>();
+    EquinoxFrame   = addToStack<modCalcEquinox>();
+    EclFrame       = addToStack<modCalcEclCoords>();
+    AngDistFrame   = addToStack<modCalcAngDist>();
+    VlsrFrame      = addToStack<modCalcVlsr>();
+    ConjunctFrame  = addToStack<ConjunctionsTool>();
 
     acStack->setCurrentWidget( splashScreen );
 
     connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this,
             SLOT(slotItemSelection(QTreeWidgetItem *)));
+}
+
+template<typename T>
+T* AstroCalc::addToStack()
+{
+    T* t = new T( acStack );
+    acStack->addWidget(t);
+    return t;
 }
 
 AstroCalc::~AstroCalc()

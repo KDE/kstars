@@ -73,13 +73,17 @@ public:
     QSize sizeHint() const;
 
 public slots:
-    /**Determine which item is selected in the function menu QListBox.
-    	*Generate the corresponding calculator module.
-    	*/
+    /** Determine which item is selected in the navigation panel
+      * Generate the corresponding calculator module.
+      */
     void slotItemSelection(QTreeWidgetItem *it);
 
 private:
-
+    /** Create widget of type T and put it to widget stack. Widget must
+     *  have construtor of type T(QWidget*) */
+    template<typename T>
+    inline T* addToStack();
+    
     QSplitter *split;
     QTreeWidget *navigationPanel;
     QString previousElection;
