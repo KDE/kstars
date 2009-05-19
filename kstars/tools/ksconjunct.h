@@ -61,6 +61,13 @@ class KSConjunct :public QObject {
   ~KSConjunct() { }
 
   /**
+   *@short Sets the geographic location to compute conjunctions at
+   *
+   *@param geo  Pointer to the GeoLocation object
+   */
+  void setGeoLocation( GeoLocation *geo );
+
+  /**
    *@short Compute the closest approach of two planets in the given range
    *
    *@param Object1  A copy of the class corresponding to one of the two bodies
@@ -89,6 +96,9 @@ class KSConjunct :public QObject {
     *
     *@return The angular distance between the two bodies.
     */
+
+  // TODO: Make pointers to Object1 and Object2 private objects instead of passing them to the methods again and again. 
+  //       Should improve performance, at least marginally.
 
   dms findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2);
 
@@ -119,6 +129,7 @@ class KSConjunct :public QObject {
 
   bool opposition;
   KStarsData *ksdata;
+  GeoLocation *geoPlace;
 };
 
 #endif

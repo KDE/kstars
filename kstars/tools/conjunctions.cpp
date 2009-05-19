@@ -196,6 +196,7 @@ void ConjunctionsTool::slotCompute (void)
     }
     QApplication::setOverrideCursor( QCursor(Qt::WaitCursor) );
     KSConjunct ksc;
+    ksc.setGeoLocation( geoPlace );
     ComputeStack->setCurrentIndex( 1 );
     connect( &ksc, SIGNAL(madeProgress(int)), this, SLOT(showProgress(int)) );
 
