@@ -56,13 +56,14 @@ modCalcGalCoord::~modCalcGalCoord() {
 
 void modCalcGalCoord::slotObject()
 {
-    FindDialog fd( (KStars*)topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotComputeCoords();
     }
+    delete fd;
 }
 
 void modCalcGalCoord::slotComputeCoords (void) {

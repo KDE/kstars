@@ -91,9 +91,9 @@ void modCalcAngDist::slotValidatePositions(){
 }
 
 void modCalcAngDist::slotObjectButton() {
-    FindDialog fd( (KStars*)topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         if ( sender()->objectName() == QString("FirstObjectButton") ) {
             FirstRA->showInHours( o->ra() );
             FirstDec->showInDegrees( o->dec() );
@@ -106,6 +106,7 @@ void modCalcAngDist::slotObjectButton() {
 
         slotValidatePositions();
     }
+    delete fd;
 }
 
 void modCalcAngDist::slotResetTitle() {

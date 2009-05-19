@@ -84,15 +84,16 @@ void modCalcApCoord::slotCompute(){
 }
 
 void modCalcApCoord::slotObject() {
-    FindDialog fd( (KStars*)topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         RACat->showInHours( o->ra0() );
         DecCat->showInDegrees( o->dec0() );
         EpochCat->setValue( 2000.0 );
 
         slotCompute();
     }
+    delete fd;
 }
 
 void modCalcApCoord::slotUtCheckedBatch(){

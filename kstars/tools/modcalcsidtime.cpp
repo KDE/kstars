@@ -81,10 +81,10 @@ void modCalcSidTime::showCurrentTimeAndLocation()
 }
 
 void modCalcSidTime::slotChangeLocation() {
-    LocationDialog ld(ks);
+    QPointer<LocationDialog> ld = new LocationDialog(ks);
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geo = newGeo;
             LocationButton->setText( geo->fullName() );
@@ -93,6 +93,7 @@ void modCalcSidTime::slotChangeLocation() {
             slotConvertST( LT->time() );
         }
     }
+    delete ld;
 }
 
 void modCalcSidTime::slotChangeDate() {
@@ -179,15 +180,16 @@ void modCalcSidTime::slotHelpLabel() {
 }
 
 void modCalcSidTime::slotLocationBatch() {
-    LocationDialog ld(ks);
+    QPointer<LocationDialog> ld = new LocationDialog(ks);
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoBatch = newGeo;
             LocationButtonBatch->setText( geoBatch->fullName() );
         }
     }
+    delete ld;
 }
 
 void modCalcSidTime::slotCheckFiles() {

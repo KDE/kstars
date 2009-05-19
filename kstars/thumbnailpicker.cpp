@@ -240,13 +240,14 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 }
 
 void ThumbnailPicker::slotEditImage() {
-    ThumbnailEditor te( this );
-    if ( te.exec() == QDialog::Accepted ) {
-        QPixmap pm = te.thumbnail();
+    QPointer<ThumbnailEditor> te = new ThumbnailEditor( this );
+    if ( te->exec() == QDialog::Accepted ) {
+        QPixmap pm = te->thumbnail();
         *Image = pm;
         ui->CurrentImage->setPixmap( pm );
         ui->CurrentImage->update();
     }
+    delete te;
 }
 
 void ThumbnailPicker::slotUnsetImage() {

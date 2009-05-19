@@ -83,29 +83,31 @@ QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
 }
 
 void modCalcDayLength::slotLocation() {
-    LocationDialog ld(ks);
+    QPointer<LocationDialog> ld = new LocationDialog(ks);
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoPlace = newGeo;
             Location->setText( geoPlace->fullName() );
         }
     }
+    delete ld;
 
     slotComputeAlmanac();
 }
 
 void modCalcDayLength::slotLocationBatch() {
-    LocationDialog ld(ks);
+    QPointer<LocationDialog> ld = new LocationDialog(ks);
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoBatch = newGeo;
             LocationBatch->setText( geoBatch->fullName() );
         }
     }
+    delete ld;
 }
 
 void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {

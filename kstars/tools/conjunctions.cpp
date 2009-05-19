@@ -126,28 +126,28 @@ void ConjunctionsTool::slotGoto() {
 }
 
 void ConjunctionsTool::slotFindObject() {
-    FindDialog fd( (KStars*) topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
+    QPointer<FindDialog> fd = new FindDialog( (KStars*) topLevelWidget()->parent() );
+    if ( fd->exec() == QDialog::Accepted ) {
         if( Object1 )
             delete Object1;
-        if( !fd.selectedObject() )
+        if( !fd->selectedObject() )
             return;
-        if( !fd.selectedObject()->isSolarSystem() ) {
-            Object1 = new SkyObject( *fd.selectedObject() );
+        if( !fd->selectedObject()->isSolarSystem() ) {
+            Object1 = new SkyObject( *fd->selectedObject() );
         }
         else {
-            switch( fd.selectedObject()->type() ) {
+            switch( fd->selectedObject()->type() ) {
             case 9: {
-                Object1 =  new KSComet( (KSComet &) *fd.selectedObject() );
+                Object1 =  new KSComet( (KSComet &) *fd->selectedObject() );
                 break;
             }
             case 10: {
-                Object1 =  new KSAsteroid( (KSAsteroid &) *fd.selectedObject() );
+                Object1 =  new KSAsteroid( (KSAsteroid &) *fd->selectedObject() );
                 break;
             }
             case 2: 
             default: {
-                Object1 = KSPlanetBase::createPlanet( pNames.key( fd.selectedObject()->name() ) ); // TODO: Fix i18n issues.
+                Object1 = KSPlanetBase::createPlanet( pNames.key( fd->selectedObject()->name() ) ); // TODO: Fix i18n issues.
                 break;
             }
             }
@@ -155,6 +155,7 @@ void ConjunctionsTool::slotFindObject() {
         if( Object1 )
             Obj1FindButton->setText( Object1->name() );
     }
+    delete fd;
 }
 
 void ConjunctionsTool::slotLocation()

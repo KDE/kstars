@@ -207,11 +207,12 @@ void AltVsTime::slotAddSource(void) {
 
 //Use find dialog to choose an object
 void AltVsTime::slotBrowseObject(void) {
-    FindDialog fd(ks);
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog(ks);
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         processObject( o );
     }
+    delete fd;
 
     avtUI->View->update();
 }
@@ -444,15 +445,16 @@ void AltVsTime::slotUpdateDateLoc(void) {
 }
 
 void AltVsTime::slotChooseCity(void) {
-    LocationDialog ld(ks);
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    QPointer<LocationDialog> ld = new LocationDialog(ks);
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geo = newGeo;
             avtUI->latBox->showInDegrees( geo->lat() );
             avtUI->longBox->showInDegrees( geo->lng() );
         }
     }
+    delete ld;
 }
 
 int AltVsTime::currentPlotListItem() const {

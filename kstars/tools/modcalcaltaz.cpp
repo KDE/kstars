@@ -83,26 +83,28 @@ void modCalcAltAz::slotNow()
 
 void modCalcAltAz::slotLocation()
 {
-    LocationDialog ld( (KStars*)topLevelWidget()->parent() );
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    QPointer<LocationDialog> ld = new LocationDialog( (KStars*)topLevelWidget()->parent() );
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoPlace = newGeo;
             LocationButton->setText( geoPlace->fullName() );
             slotCompute();
         }
     }
+    delete ld;
 }
 
 void modCalcAltAz::slotObject()
 {
-    FindDialog fd( (KStars*)topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotCompute();
     }
+    delete fd;
 }
 
 void modCalcAltAz::slotDateTimeChanged(const QDateTime &dt)
