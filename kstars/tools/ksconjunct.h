@@ -79,7 +79,6 @@ class KSConjunct :public QObject {
   void madeProgress( int progress );
 
  private:
-	bool opposition;
 
   /**
     *@short Finds the angular distance between two solar system objects.
@@ -118,6 +117,7 @@ class KSConjunct :public QObject {
 
   int sgn(dms a);
 
+  bool opposition;
   KStarsData *ksdata;
 };
 
