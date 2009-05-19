@@ -1,8 +1,8 @@
 /***************************************************************************
                          saturnmoonscomponent.cpp  -  K Desktop Planetarium
                              -------------------
-     begin                : Sat Mar 13 2009
-                             : by Vipul Kumar Singh
+    begin                : Sat Mar 13 2009
+    copyright            : (C) 2009 by Vipul Kumar Singh
     email                : vipulkrsingh@gmail.com
  ***************************************************************************/
 
