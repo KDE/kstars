@@ -248,8 +248,8 @@ void SkyMapComposite::draw( QPainter& psky )
     m_SolarSystem->drawTrails( psky );
     m_SolarSystem->draw( psky );
 
-    // TODO: Fix satellites by KDE 4.3
-    m_Satellites->draw( psky );
+    // TODO: Fix satellites sometime
+    //    m_Satellites->draw( psky );
 
     m_Horizon->draw( psky );
 
