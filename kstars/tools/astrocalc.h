@@ -19,6 +19,7 @@
 #define ASTROCALC_H_
 
 #include <QTreeWidgetItem>
+#include <QMap>
 #include <kdialog.h>
 
 #include "dms.h"
@@ -84,6 +85,22 @@ private:
     template<typename T>
     inline T* addToStack();
     
+    /** Add top level item to navigation panel.
+        title - name of item
+        html  - string to be displayed in splash screen
+     */
+    QTreeWidgetItem* addTreeTopItem(QTreeWidget* parent, QString title, QString html);
+
+    /** Add item to navigation panel.
+        title - name of item
+        widget - widget to be selected on click
+     */
+    QTreeWidgetItem* addTreeItem(QTreeWidgetItem* parent, QString title, QWidget* widget);
+
+    /** Lookup table for help texts */
+    QMap<QString, QString>  htmlTable;
+    /** Lookup table for widgets */
+    QMap<QString, QWidget*> dispatchTable;
     QSplitter *split;
     QTreeWidget *navigationPanel;
     QString previousElection;

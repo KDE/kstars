@@ -61,32 +61,6 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     QIcon sunsetIcon = QIcon ("sunset.png");
     QIcon timeIcon = QIcon ("sunclock.png");
 
-    //Populate the tree widget
-    QTreeWidgetItem * timeItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Time Calculators")) );
-    timeItem->setIcon(0,timeIcon);
-
-    QTreeWidgetItem * jdItem = new QTreeWidgetItem(timeItem,QStringList(i18n("Julian Day")) );
-    jdItem->setIcon(0,jdIcon);
-
-    new QTreeWidgetItem(timeItem,QStringList(i18n("Sidereal Time")) );
-    new QTreeWidgetItem(timeItem,QStringList(i18n("Almanac")) );
-    new QTreeWidgetItem(timeItem,QStringList(i18n("Equinoxes & Solstices")) );
-    //  dayItem->setIcon(0,sunsetIcon);
-
-    QTreeWidgetItem * coordItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Coordinate Converters")) );
-    new QTreeWidgetItem(coordItem,QStringList(i18n("Equatorial/Galactic")) );
-    new QTreeWidgetItem(coordItem,QStringList(i18n("Apparent Coordinates")) );
-    new QTreeWidgetItem(coordItem,QStringList(i18n("Horizontal Coordinates")) );
-    new QTreeWidgetItem(coordItem,QStringList(i18n("Ecliptic Coordinates")) );
-    new QTreeWidgetItem(coordItem,QStringList(i18n("Angular Distance")) );
-    new QTreeWidgetItem(coordItem,QStringList(i18n("Geodetic Coordinates")) );
-    new QTreeWidgetItem(coordItem,QStringList(i18n("LSR Velocity")) );
-
-    QTreeWidgetItem * solarItem = new QTreeWidgetItem(navigationPanel,QStringList(i18n("Solar System")) );
-    solarItem->setIcon(0,solarIcon);
-    new QTreeWidgetItem(solarItem,QStringList(i18n("Planets Coordinates")) );
-    new QTreeWidgetItem(solarItem,QStringList(i18n("Conjunctions")) );
-
     //FIXME: Would be better to make the navigationPanel fit its contents,
     //but I wasn't able to make it work
     navigationPanel->setMinimumWidth( 200 );
@@ -132,7 +106,33 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     ConjunctFrame  = addToStack<ConjunctionsTool>();
 
     acStack->setCurrentWidget( splashScreen );
+	
+    //Populate the tree widget
+    QTreeWidgetItem * timeItem = addTreeTopItem(navigationPanel, i18n("Time Calculators"), "");
+    timeItem->setIcon(0,timeIcon);
 
+    QTreeWidgetItem * jdItem = addTreeItem(timeItem, i18n("Julian Day"), JDFrame );
+    jdItem->setIcon(0,jdIcon);
+
+    addTreeItem(timeItem, i18n("Sidereal Time"), SidFrame );
+    addTreeItem(timeItem, i18n("Almanac"), DayFrame );
+    addTreeItem(timeItem, i18n("Equinoxes & Solstices"), EquinoxFrame );
+    //	dayItem->setIcon(0,sunsetIcon);
+
+    QTreeWidgetItem * coordItem = addTreeTopItem(navigationPanel, i18n("Coordinate Converters"), "");
+    addTreeItem(coordItem, i18n("Equatorial/Galactic"), GalFrame);
+    addTreeItem(coordItem, i18n("Apparent Coordinates"), AppFrame);
+    addTreeItem(coordItem, i18n("Horizontal Coordinates"), AltAzFrame);
+    addTreeItem(coordItem, i18n("Ecliptic Coordinates"), EclFrame);
+    addTreeItem(coordItem, i18n("Angular Distance"), AngDistFrame);
+    addTreeItem(coordItem, i18n("Geodetic Coordinates"), GeodCoordFrame);
+    addTreeItem(coordItem, i18n("LSR Velocity"), VlsrFrame);
+
+    QTreeWidgetItem * solarItem = addTreeTopItem(navigationPanel, i18n("Solar System"), "");
+    solarItem->setIcon(0,solarIcon);
+    addTreeItem(solarItem, i18n("Planets Coordinates"), PlanetsFrame);
+    addTreeItem(solarItem, i18n("Conjunctions"), ConjunctFrame);
+	
     connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this,
             SLOT(slotItemSelection(QTreeWidgetItem *)));
 }
@@ -143,6 +143,20 @@ T* AstroCalc::addToStack()
     T* t = new T( acStack );
     acStack->addWidget(t);
     return t;
+}
+
+QTreeWidgetItem* AstroCalc::addTreeItem(QTreeWidgetItem* parent, QString title, QWidget* widget)
+{
+    QTreeWidgetItem* item = new QTreeWidgetItem(parent, QStringList(title));
+    dispatchTable.insert(title, widget);
+    return item;
+}
+
+QTreeWidgetItem* AstroCalc::addTreeTopItem(QTreeWidget* parent, QString title, QString html)
+{
+    QTreeWidgetItem* item = new QTreeWidgetItem(parent, QStringList(title));
+    htmlTable.insert(title, html);
+    return item;
 }
 
 AstroCalc::~AstroCalc()
