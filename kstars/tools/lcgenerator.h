@@ -78,7 +78,7 @@ public slots:
 
 private:
 
-    /** Initilizes and positions the dialog child widgets. */
+    /** Initializes and positions the dialog child widgets. */
     void createGUI();
 
     /** Parses star information and connects to the AAVSO server with the information embedded in the URL
