@@ -172,7 +172,7 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     SkyPoint sp0, sp1;
     dms ra0B, dec0B, ra1B, dec1B, dist;

@@ -324,7 +324,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     QString message;
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     QString planetB;
     unsigned int i = 0, nline = 0;
     QTime utB;

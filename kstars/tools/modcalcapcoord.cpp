@@ -195,7 +195,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     long double jd, jd0;
     SkyPoint sp;

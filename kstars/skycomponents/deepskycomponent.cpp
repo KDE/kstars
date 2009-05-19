@@ -140,7 +140,7 @@ void DeepSkyComponent::init(KStarsData *data)
         if ( line.mid( 70,1 ) == "M" ) {
             cat2 = cat;
             if ( ingc==0 ) cat2.clear();
-            cat = "M";
+            cat = 'M';
             imess = line.mid( 72, 3 ).toInt();
         }
 

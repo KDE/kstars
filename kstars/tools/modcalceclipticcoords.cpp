@@ -231,7 +231,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     SkyPoint sp;
     dms raB, decB, eclLatB, eclLongB;

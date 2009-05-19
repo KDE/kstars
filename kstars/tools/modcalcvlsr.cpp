@@ -300,7 +300,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     long double jd0;
     SkyPoint spB;
