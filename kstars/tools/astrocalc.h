@@ -18,29 +18,16 @@
 #ifndef ASTROCALC_H_
 #define ASTROCALC_H_
 
-#include <QTreeWidgetItem>
 #include <QMap>
+#include <QString>
 #include <kdialog.h>
 
-#include "dms.h"
 
 class QSplitter;
-class QString;
 class QStackedWidget;
+class QTreeWidget;
+class QTreeWidgetItem;
 class KTextEdit;
-class modCalcJD;
-class modCalcGeodCoord;
-class modCalcGalCoord;
-class modCalcSidTime;
-class modCalcApCoord;
-class modCalcDayLength;
-class modCalcAltAz;
-class modCalcEquinox;
-class modCalcPlanets;
-class modCalcEclCoords;
-class modCalcAngDist;
-class modCalcVlsr;
-class ConjunctionsTool;
 
 /** Astrocalc is the base class for the KStars astronomical calculator
  * @author: Pablo de Vicente
@@ -59,56 +46,36 @@ public:
     /**@returns suggested size of calculator window. */
     QSize sizeHint() const;
 public slots:
-    /** Determine which item is selected in the navigation panel
-      * Generate the corresponding calculator module.
-      */
+    /** Display calculator module or help text based on item selected.
+	 */
     void slotItemSelection(QTreeWidgetItem *it);
 
 private:
     /** Create widget of type T and put it to widget stack. Widget must
-     *  have construtor of type T(QWidget*) */
+     *  have construtor of type T(QWidget*). Returns constructed widget. */
     template<typename T>
     inline T* addToStack();
     
-    /** Add top level item to navigation panel.
-        title - name of item
-        html  - string to be displayed in splash screen
+    /** Add top level item to navigation panel. At the same time adds item to htmlTable 
+        @param title name of item
+        @param html  string to be displayed in splash screen
      */
     QTreeWidgetItem* addTreeTopItem(QTreeWidget* parent, QString title, QString html);
 
-    /** Add item to navigation panel.
-        title - name of item
-        widget - widget to be selected on click
+    /** Add item to navigation panel. At the same time adds item to dispatchTable
+        @param title  name of item
+        @param widget widget to be selected on click
      */
     QTreeWidgetItem* addTreeItem(QTreeWidgetItem* parent, QString title, QWidget* widget);
 
-    /** Lookup table for help texts */
+    /** Lookup table for help texts. Maps navpanel item name to help text. */
     QMap<QString, QString>  htmlTable;
-    /** Lookup table for widgets */
+    /** Lookup table for widgets. Maps navpanel item name to widget to be displayed. */
     QMap<QString, QWidget*> dispatchTable;
     QSplitter *split;
     QTreeWidget *navigationPanel;
-    QString previousElection;
-
-    enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Apparent, AltAz, Planets, Ecliptic, AngDist, Vlsr};
-    typeOfPanel rightPanel;
-
-    QStringList ItemTitles;
     QStackedWidget *acStack;
     KTextEdit *splashScreen;
-    modCalcJD *JDFrame;
-    modCalcGeodCoord *GeodCoordFrame;
-    modCalcGalCoord *GalFrame;
-    modCalcSidTime *SidFrame;
-    modCalcApCoord *AppFrame;
-    modCalcDayLength *DayFrame;
-    modCalcAltAz *AltAzFrame;
-    modCalcPlanets *PlanetsFrame;
-    modCalcEquinox *EquinoxFrame;
-    modCalcEclCoords *EclFrame;
-    modCalcAngDist *AngDistFrame;
-    modCalcVlsr *VlsrFrame;
-    ConjunctionsTool *ConjunctFrame;
 };
 
 #endif

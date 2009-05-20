@@ -20,6 +20,7 @@
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QTreeWidget>
+#include <QTreeWidgetItem>
 #include <KTextEdit>
 #include <klocale.h>
 #include <ktextedit.h>
@@ -40,12 +41,9 @@
 #include "conjunctions.h"
 
 AstroCalc::AstroCalc( QWidget* parent ) :
-        KDialog( parent ), JDFrame(0), GeodCoordFrame(0),
-        GalFrame(0), SidFrame(0), AppFrame(0),
-        DayFrame(0), AltAzFrame(0), PlanetsFrame(0), EquinoxFrame(0),
-        EclFrame(0), AngDistFrame(0)
+        KDialog( parent )
 {
-    // Long list of messages
+    // List of messages. Maybe there is better place for it...
     QString message =
         i18n("<QT>"
              "<H2>KStars Astrocalculator</H2>"
@@ -117,6 +115,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     setCaption( i18n("Calculator") );
     setButtons( KDialog::Close );
 
+    // Create navigation panel
     navigationPanel = new QTreeWidget(split);
     navigationPanel->setColumnCount(1);
     navigationPanel->setHeaderLabels( QStringList(i18n("Calculator modules")) );
@@ -125,64 +124,63 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     //but I wasn't able to make it work
     navigationPanel->setMinimumWidth( 200 );
 
-	// Load icons
-    QIcon jdIcon = QIcon ("jd.png");
-    QIcon geodIcon = QIcon ("geodetic.png");
-    QIcon solarIcon = QIcon ("geodetic.png");
-    QIcon sunsetIcon = QIcon ("sunset.png");
-    QIcon timeIcon = QIcon ("sunclock.png");
-
-    //Populate widget stack
     acStack = new QStackedWidget( split );
 
     splashScreen = new KTextEdit( message, acStack );
     splashScreen->setReadOnly( true );
     acStack->addWidget( splashScreen );
 
-    JDFrame        = addToStack<modCalcJD>();
-    GeodCoordFrame = addToStack<modCalcGeodCoord>();
-    GalFrame       = addToStack<modCalcGalCoord>();
 
-    SidFrame       = addToStack<modCalcSidTime>();
-    AppFrame       = addToStack<modCalcApCoord>();
-    DayFrame       = addToStack<modCalcDayLength>();
-
-    AltAzFrame     = addToStack<modCalcAltAz>();
-    PlanetsFrame   = addToStack<modCalcPlanets>();
-    EquinoxFrame   = addToStack<modCalcEquinox>();
-    EclFrame       = addToStack<modCalcEclCoords>();
-    AngDistFrame   = addToStack<modCalcAngDist>();
-    VlsrFrame      = addToStack<modCalcVlsr>();
-    ConjunctFrame  = addToStack<ConjunctionsTool>();
-
-    acStack->setCurrentWidget( splashScreen );
-	
-    //Populate the tree widget
+    // Load icons
+    QIcon jdIcon = QIcon ("jd.png");
+    QIcon geodIcon = QIcon ("geodetic.png");
+    QIcon solarIcon = QIcon ("geodetic.png");
+    // QIcon sunsetIcon = QIcon ("sunset.png"); // Its usage is commented out.
+    QIcon timeIcon = QIcon ("sunclock.png");
+    
+    /* Populate the tree widget and widget stack */
+    // Time-related entries
     QTreeWidgetItem * timeItem = addTreeTopItem(navigationPanel, i18n("Time Calculators"), messageTime);
     timeItem->setIcon(0,timeIcon);
 
-    QTreeWidgetItem * jdItem = addTreeItem(timeItem, i18n("Julian Day"), JDFrame );
+    QTreeWidgetItem * jdItem = addTreeItem(timeItem, i18n("Julian Day"),
+                                           addToStack<modCalcJD>());
     jdItem->setIcon(0,jdIcon);
 
-    addTreeItem(timeItem, i18n("Sidereal Time"), SidFrame );
-    addTreeItem(timeItem, i18n("Almanac"), DayFrame );
-    addTreeItem(timeItem, i18n("Equinoxes & Solstices"), EquinoxFrame );
-    //	dayItem->setIcon(0,sunsetIcon);
+    addTreeItem(timeItem, i18n("Sidereal Time"),
+                addToStack<modCalcSidTime>());
+    addTreeItem(timeItem, i18n("Almanac"),
+                addToStack<modCalcDayLength>());
+    addTreeItem(timeItem, i18n("Equinoxes & Solstices"),
+                addToStack<modCalcEquinox>());
+    //  dayItem->setIcon(0,sunsetIcon);
 
+    // Coordinate-related entries
     QTreeWidgetItem * coordItem = addTreeTopItem(navigationPanel, i18n("Coordinate Converters"), messageCoord);
-    addTreeItem(coordItem, i18n("Equatorial/Galactic"), GalFrame);
-    addTreeItem(coordItem, i18n("Apparent Coordinates"), AppFrame);
-    addTreeItem(coordItem, i18n("Horizontal Coordinates"), AltAzFrame);
-    addTreeItem(coordItem, i18n("Ecliptic Coordinates"), EclFrame);
-    addTreeItem(coordItem, i18n("Angular Distance"), AngDistFrame);
-    addTreeItem(coordItem, i18n("Geodetic Coordinates"), GeodCoordFrame);
-    addTreeItem(coordItem, i18n("LSR Velocity"), VlsrFrame);
+    addTreeItem(coordItem, i18n("Equatorial/Galactic"),
+                addToStack<modCalcGalCoord>());
+    addTreeItem(coordItem, i18n("Apparent Coordinates"),
+                addToStack<modCalcApCoord>());
+    addTreeItem(coordItem, i18n("Horizontal Coordinates"),
+                addToStack<modCalcAltAz>());
+    addTreeItem(coordItem, i18n("Ecliptic Coordinates"),
+                addToStack<modCalcEclCoords>());
+    addTreeItem(coordItem, i18n("Angular Distance"),
+                addToStack<modCalcAngDist>());
+    addTreeItem(coordItem, i18n("Geodetic Coordinates"),
+                addToStack<modCalcGeodCoord>());
+    addTreeItem(coordItem, i18n("LSR Velocity"),
+                addToStack<modCalcVlsr>());
 
+    // Solar System related entries
     QTreeWidgetItem * solarItem = addTreeTopItem(navigationPanel, i18n("Solar System"), messageSolar);
     solarItem->setIcon(0,solarIcon);
-    addTreeItem(solarItem, i18n("Planets Coordinates"), PlanetsFrame);
-    addTreeItem(solarItem, i18n("Conjunctions"), ConjunctFrame);
-	
+    addTreeItem(solarItem, i18n("Planets Coordinates"),
+                addToStack<modCalcPlanets>());
+    addTreeItem(solarItem, i18n("Conjunctions"),
+                addToStack<ConjunctionsTool>());
+    
+    acStack->setCurrentWidget( splashScreen );
     connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this,
             SLOT(slotItemSelection(QTreeWidgetItem *)));
 }
