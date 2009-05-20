@@ -52,27 +52,12 @@ class AstroCalc : public KDialog
 
     Q_OBJECT
 public:
-    /** construtor */
     AstroCalc(QWidget *parent = 0);
 
-    /** destructor */
     ~AstroCalc();
-
-    /**Generate explanatory text for time modules. */
-    void genTimeText(void);
-
-    /**Generate explanatory text for coordinate modules. */
-    void genCoordText(void);
-
-    /**Generate explanatory text for geodetic modules. */
-    void genGeodText(void);
-
-    /**Generate explanatory text for solar system modules. */
-    void genSolarText(void);
 
     /**@returns suggested size of calculator window. */
     QSize sizeHint() const;
-
 public slots:
     /** Determine which item is selected in the navigation panel
       * Generate the corresponding calculator module.
