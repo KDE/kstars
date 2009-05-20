@@ -76,11 +76,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     kstarsData = KStarsData::Create( this );
     connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
 
-    //reset date format to get rid of weekday
-    QString fmt = KGlobal::locale()->dateFormat();
-    fmt = fmt.remove( "%A", Qt::CaseInsensitive );
-    KGlobal::locale()->setDateFormat( fmt );
-
     //Set Geographic Location from Options
     kstarsData->setLocationFromOptions();
 
