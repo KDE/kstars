@@ -357,22 +357,18 @@ endif (INDI_FOUND)
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
-if (INDI_FOUND)
-  set(rc_file ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui-indi.rc)
-else (INDI_FOUND)
-  set(rc_file ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui.rc)
-  message(STATUS "INDI NOT FOUND!")
-endif(INDI_FOUND)
-add_custom_command(TARGET kstars PRE_BUILD
-                   COMMAND cmake ARGS -E copy ${rc_file} ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc
-                   )
-
-
 ########### install files ###############
 install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kstars.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
-install( FILES ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
+if (INDI_FOUND)
+install( FILES kstarsui-indi.rc DESTINATION  ${DATA_INSTALL_DIR}/kstars/ RENAME kstarsui.rc)
+else (INDI_FOUND)
+install( FILES kstarsui.rc DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
+message(STATUS "INDI NOT FOUND!")
+endif(INDI_FOUND)
+
+install( FILES fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 endif (WIN32)
