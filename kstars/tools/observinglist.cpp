@@ -174,7 +174,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->RemoveButton->setEnabled( false );
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
-//    ui->AddToSession->setEnabled( false );
+    ui->AddToSession->setEnabled( false );
     slotLoadWishList();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
 //    ui->MiniButton->hide();
@@ -440,6 +440,7 @@ void ObservingList::slotNewSelection() {
         ui->DetailsButton->setEnabled( true );
         ui->AVTButton->setEnabled( true );
         ui->RemoveButton->setEnabled( true );
+        ui->AddToSession->setEnabled( true );
 
         //Find the selected object in the obsList,
         //then break the loop.  Now obsList.current()
@@ -494,6 +495,7 @@ void ObservingList::slotNewSelection() {
         ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
+        ui->AddToSession->setEnabled( false );
         m_CurrentObject = 0;
 
         //Clear the user log text box.
@@ -507,6 +509,7 @@ void ObservingList::slotNewSelection() {
         ui->DetailsButton->setEnabled( false );
         ui->AVTButton->setEnabled( true );
         ui->RemoveButton->setEnabled( true );
+        ui->AddToSession->setEnabled( true );
         ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
