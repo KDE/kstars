@@ -92,6 +92,10 @@ public:
     /**@return reference to the current observing list
         */
     QList<SkyObject*>& obsList() { return m_ObservingList; }
+    
+    /**@return reference to the current observing list
+        */
+    QList<SkyObject*>& SessionList() { return m_SessionList; }
 
     /**@return pointer to the currently-selected object in the observing list
         *@note if more than one object is selected, this function returns 0.
@@ -106,8 +110,10 @@ public:
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
+        *@p session To add an object to the session list
+        *@p init For disabling autosave during initial loading of the WishList
         */
-    void slotAddObject( SkyObject *o=NULL );
+    void slotAddObject( SkyObject *o=NULL, bool session=false, bool init=false );
 
     /**@short Remove skyobjects which are highlighted in the
         *observing list tool from the observing list.
@@ -139,6 +145,10 @@ public slots:
     /**@short Open the WUT dialog
     */
    void slotWUT();
+    
+    /**@short Add the object to the Session List
+        */
+    void slotAddToSession();
 
     /**@short Open the Find Dialog
         */
@@ -150,6 +160,7 @@ public slots:
         *show the notes associated with the new selected object
         */
     void slotNewSelection();
+    void slotNewSelectionSession();
 
     //  void slotNewCurrent();
 
@@ -161,10 +172,18 @@ public slots:
         */
     void slotSaveList();
 
-    /**@short save the current observing list to disk, specify filename.
+    /**@short Load the Wish list from disk.
         */
-    void slotSaveListAs();
+    void slotLoadWishList();
 
+    /**@short save the current observing session plan to disk, specify filename.
+        */
+    void slotSaveSessionAs();
+    
+    /**@short save the current session
+        */
+    void slotSaveSession();
+    
     /**@short construct a new observing list using the wizard.
         */
     void slotWizard();
@@ -178,9 +197,9 @@ public slots:
         */
     void saveCurrentUserLog();
 
-    void plot( SkyObject *o=NULL);
+    void plot( SkyObject *o );
 
-    double findAltitude( SkyPoint *p=NULL, double hour=0);
+    double findAltitude( SkyPoint *p, double hour=0);
 protected slots:
     void slotClose();
 
@@ -188,15 +207,15 @@ private:
     KStars *ks;
     KSAlmanac *ksal;
     ObservingListUI *ui;
-    QList<SkyObject*> m_ObservingList;
+    QList<SkyObject*> m_ObservingList, m_SessionList;
 //    QList<SkyObject*> m_SelectedObjects;
     SkyObject *LogObject, *m_CurrentObject, *PlotObject;
     uint noNameStars;
     bool isModified, bIsLarge;
-    QString ListName, FileName;
+    QString ListName, FileName, SessionName;
 
-    QStandardItemModel *m_Model;
-    QSortFilterProxyModel *m_SortModel;
+    QStandardItemModel *m_Model, *m_Session;
+    QSortFilterProxyModel *m_SortModel, *m_SortModelSession;
 };
 
 #endif // OBSERVINGLIST_H_

@@ -43,6 +43,7 @@
 #include <ksnumbers.h>
 
 #include "ksalmanac.h"
+#include <kstandarddirs.h>
 #include "obslistwizard.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -89,16 +90,26 @@ ObservingList::ObservingList( KStars *_ks )
 
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
+    m_Session = new QStandardItemModel( 0, 5 );
     m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Name" ) 
         << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
-    << i18nc( "Altitude","Alt" )<< i18nc( "Azimuth", "Az" )
         << i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) );
+    m_Session->setHorizontalHeaderLabels( QStringList() << i18n( "Name" ) 
+        << i18nc( "Right Ascension", "RA" ) << i18nc( "Declination", "Dec" )
+        << i18nc( "Magnitude", "Mag" ) << i18n( "Type" ) 
+        << i18n( "Time" ) << i18nc( "Altitude", "Alt" ) << i18nc( "Azimuth", "Az" ));
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     m_SortModel->setDynamicSortFilter( true );
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
+    m_SortModelSession = new QSortFilterProxyModel;
+    m_SortModelSession->setSourceModel( m_Session );
+    m_SortModelSession->setDynamicSortFilter( true );
+    ui->SessionView->setModel( m_SortModelSession );
+    ui->SessionView->horizontalHeader()->setStretchLastSection( true );
+    ui->SessionView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
     ksal = KSAlmanac::Instance();
     ksal->setLocation(ks->geo());
     ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
@@ -112,14 +123,20 @@ ObservingList::ObservingList( KStars *_ks )
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
              this, SLOT( slotCenterObject() ) );
+    connect( ui->SessionView, SIGNAL( doubleClicked( const QModelIndex& ) ),
+             this, SLOT( slotCenterObject() ) );
     connect( ui->TableView->selectionModel(), 
             SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
             this, SLOT( slotNewSelection() ) );
+    connect( ui->SessionView->selectionModel(), 
+            SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
+            this, SLOT( slotNewSelectionSession() ) );
     connect( ui->RemoveButton, SIGNAL( clicked() ),
              this, SLOT( slotRemoveSelectedObjects() ) );
     connect( ui->CenterButton, SIGNAL( clicked() ),
              this, SLOT( slotCenterObject() ) );
-
+    connect( ui->AddToSession, SIGNAL( clicked() ),
+             this, SLOT( slotAddToSession() ) );
     #ifdef HAVE_INDI_H
     connect( ui->ScopeButton, SIGNAL( clicked() ),
              this, SLOT( slotSlewToObject() ) );
@@ -136,14 +153,13 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->OpenButton, SIGNAL( clicked() ),
              this, SLOT( slotOpenList() ) );
     connect( ui->SaveButton, SIGNAL( clicked() ),
-             this, SLOT( slotSaveList() ) );
+             this, SLOT( slotSaveSession() ) );
     connect( ui->SaveAsButton, SIGNAL( clicked() ),
-             this, SLOT( slotSaveListAs() ) );
+             this, SLOT( slotSaveSessionAs() ) );
     connect( ui->WizardButton, SIGNAL( clicked() ),
              this, SLOT( slotWizard() ) );
     connect( ui->MiniButton, SIGNAL( clicked() ),
              this, SLOT( slotToggleSize() ) );
-
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( KIcon("document-open") );
     ui->SaveButton->setIcon( KIcon("document-save") );
@@ -158,7 +174,8 @@ ObservingList::ObservingList( KStars *_ks )
     ui->RemoveButton->setEnabled( false );
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
-
+//    ui->AddToSession->setEnabled( false );
+    slotLoadWishList();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
 //    ui->MiniButton->hide();
 }
@@ -174,37 +191,61 @@ bool ObservingList::contains( const SkyObject *q ) {
 
 //SLOTS
 
-void ObservingList::slotAddObject( SkyObject *obj ) {
+void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
+    bool flag=true;
     if ( ! obj ) obj = ks->map()->clickedObject();
 
     //First, make sure object is not already in the list
     foreach ( SkyObject *o, obsList() ) {
         if ( obj == o ) {
-            ks->statusBar()->changeItem( i18n( "%1 is already in the observing list.", obj->name() ), 0 );
-            return;
+            flag = false;
+            if( !session ) {
+                ks->statusBar()->changeItem( i18n( "%1 is already in the observing list.", obj->name() ), 0 );
+                return;
+            }
         }
     }
-
-    //Insert object in obsList
-    m_ObservingList.append( obj );
-    m_CurrentObject = obj;
-    QList<QStandardItem*> itemList;
+    if( session ) 
+        foreach ( SkyObject *o, SessionList() ) {
+            if ( obj == o ) {
+                ks->statusBar()->changeItem( i18n( "%1 is already in the session list.", obj->name() ), 0 );
+                return;
+            }
+        }
+    
     QString smag = "--";
     if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
-    itemList << new QStandardItem( obj->translatedName() ) 
-            << new QStandardItem( obj->ra()->toHMSString() ) 
-            << new QStandardItem( obj->dec()->toDMSString() ) 
-        << new QStandardItem( obj->alt()->toDMSString() )
-        << new QStandardItem( obj->az()->toDMSString() )
-            << new QStandardItem( smag )
-            << new QStandardItem( obj->typeName() );
-    m_Model->appendRow( itemList );
-    if ( ! isModified ) isModified = true;
-
-    //Note addition in statusbar
-    ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", obj->name() ), 0 );
-
-    ui->TableView->resizeColumnsToContents();
+       
+    //Insert object in obsList
+    if(flag) {
+        m_ObservingList.append( obj );
+        m_CurrentObject = obj;
+        QList<QStandardItem*> itemList,i;
+        itemList << new QStandardItem( obj->translatedName() ) 
+                << new QStandardItem( obj->ra()->toHMSString() ) 
+                << new QStandardItem( obj->dec()->toDMSString() ) 
+                << new QStandardItem( smag )
+                << new QStandardItem( obj->typeName() );
+        m_Model->appendRow( itemList );
+        //Note addition in statusbar
+        ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", obj->name() ), 0 );
+        ui->TableView->resizeColumnsToContents(); 
+        if( !init) slotSaveList();
+    }
+     
+    if( session )
+    {
+        m_SessionList.append(obj);
+        QList<QStandardItem*> itemList,i;
+        itemList << new QStandardItem( obj->translatedName() ) 
+                << new QStandardItem( obj->ra()->toHMSString() ) 
+                << new QStandardItem( obj->dec()->toDMSString() ) 
+                << new QStandardItem( smag )
+                << new QStandardItem( obj->typeName() );
+        m_Session->appendRow( itemList );
+        if ( ! isModified ) isModified = true;
+        ui->SessionView->resizeColumnsToContents();
+    }
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o ) {
@@ -252,6 +293,7 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
    
     ui->View->removeAllPlotObjects();
     ui->TableView->resizeColumnsToContents();
+    slotSaveList();
 }
 
 void ObservingList::slotRemoveSelectedObjects() {
@@ -286,6 +328,102 @@ void ObservingList::slotRemoveSelectedObjects() {
     //we've removed all selected objects, so clear the selection
     ui->TableView->selectionModel()->clear();
 }
+
+void ObservingList::slotNewSelectionSession() {
+    QModelIndexList selectedItems = m_SortModelSession->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
+
+    //Enable widgets when one object selected
+    if ( selectedItems.size() == m_Session->columnCount() ) {
+        QString newName( selectedItems[0].data().toString() );
+
+        //Enable buttons
+        ui->CenterButton->setEnabled( true );
+    #ifdef HAVE_INDI_H
+        ui->ScopeButton->setEnabled( true );
+    #endif
+        ui->DetailsButton->setEnabled( true );
+        ui->AVTButton->setEnabled( true );
+        ui->RemoveButton->setEnabled( true );
+
+        //Find the selected object in the obsList,
+        //then break the loop.  Now obsList.current()
+        //points to the new selected object (until now it was the previous object)
+        bool found(false);
+        SkyObject *o;
+        foreach ( o, SessionList() ) {
+            if ( o->translatedName() == newName ) {
+                found = true;
+                break;
+            }
+        }
+        if ( found ) {
+            m_CurrentObject = o;
+            PlotObject = currentObject();
+            plot( PlotObject );
+
+            if ( newName != i18n( "star" ) ) {
+                //Display the current object's user notes in the NotesEdit
+                //First, save the last object's user log to disk, if necessary
+                saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
+                //set LogObject to the new selected object
+                LogObject = currentObject();
+                ui->NotesLabel->setEnabled( true );
+                ui->NotesEdit->setEnabled( true );
+                ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
+                if ( LogObject->userLog().isEmpty() ) {
+                    ui->NotesEdit->setPlainText( i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
+                } else {
+                    ui->NotesEdit->setPlainText( LogObject->userLog() );
+                }
+            } else { //selected object is named "star"
+                //clear the log text box
+                saveCurrentUserLog();
+                ui->NotesLabel->setText( i18n( "observing notes (disabled for unnamed star)" ) );
+                ui->NotesLabel->setEnabled( false );
+                ui->NotesEdit->clear();
+                ui->NotesEdit->setEnabled( false );
+            }
+
+        } else {
+            kDebug() << i18n( "Object %1 not found in Session", newName );
+        } 
+
+    } else if ( selectedItems.size() == 0 ) {
+        //Disable buttons
+        ui->CenterButton->setEnabled( false );
+        ui->ScopeButton->setEnabled( false );
+        ui->DetailsButton->setEnabled( false );
+        ui->AVTButton->setEnabled( false );
+        ui->RemoveButton->setEnabled( false );
+        ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
+        ui->NotesLabel->setEnabled( false );
+        ui->NotesEdit->setEnabled( false );
+        m_CurrentObject = 0;
+
+        //Clear the user log text box.
+        saveCurrentUserLog();
+        ui->NotesEdit->setPlainText("");
+        ui->View->removeAllPlotObjects();
+
+    } else { //more than one object selected.
+        ui->CenterButton->setEnabled( false );
+        ui->ScopeButton->setEnabled( false );
+        ui->DetailsButton->setEnabled( false );
+        ui->AVTButton->setEnabled( true );
+        ui->RemoveButton->setEnabled( true );
+        ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
+        ui->NotesLabel->setEnabled( false );
+        ui->NotesEdit->setEnabled( false );
+        m_CurrentObject = 0;
+        ui->View->removeAllPlotObjects();
+
+        //Clear the user log text box.
+        saveCurrentUserLog();
+        ui->NotesEdit->setPlainText("");
+    }
+
+}
+
 
 void ObservingList::slotNewSelection() {
     QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
@@ -535,6 +673,17 @@ void ObservingList::slotWUT() {
     w.exec();
 }
 
+void ObservingList::slotAddToSession() {
+    QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+    if ( selectedItems.size() ) {
+        foreach ( const QModelIndex &i, selectedItems ) {
+            foreach ( SkyObject *o, obsList() ) {
+                if ( o->translatedName() == i.data().toString() )
+                    slotAddObject( o, true );
+                }
+        }
+    }
+}
 
 void ObservingList::slotFind() {
     FindDialog fd( ks );    
@@ -615,7 +764,7 @@ void ObservingList::slotOpenList() {
         //be object names, one per line.
         QTextStream istream(&f);
         QString line;
-        ListName = istream.readLine();
+        SessionName = istream.readLine();
 
         while ( ! istream.atEnd() ) {
             line = istream.readLine();
@@ -637,14 +786,13 @@ void ObservingList::slotOpenList() {
             //name as a star's genetive name (with ascii letters)
             if ( !o ) o = ks->data()->skyComposite()->findStarByGenetiveName( line );
 
-            if ( o ) slotAddObject( o );
+            if ( o ) slotAddObject( o, true );
         }
 
         //Newly-opened list should not trigger isModified flag
         isModified = false;
-
         f.close();
-
+        
     } else if ( !fileURL.path().isEmpty() ) {
         QString message = i18n( "The specified file is invalid.  Try another file?" );
         if ( KMessageBox::warningYesNo( this, message, i18n("Invalid File"), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
@@ -656,57 +804,122 @@ void ObservingList::slotOpenList() {
 void ObservingList::saveCurrentList() {
     //Before loading a new list, do we need to save the current one?
     //Assume that if the list is empty, then there's no need to save
-    if ( obsList().size() ) {
+    if ( SessionList().size() ) {
         if ( isModified ) {
-            QString message = i18n( "Do you want to save the current list before opening a new list?" );
+            QString message = i18n( "Do you want to save the current session before opening a new session?" );
             if ( KMessageBox::questionYesNo( this, message,
-                                             i18n( "Save Current List?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() ) == KMessageBox::Yes )
-                slotSaveList();
+                                             i18n( "Save Current session?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() ) == KMessageBox::Yes )
+                slotSaveSession();
         }
 
         //If we ever allow merging the loaded list with
         //the existing one, that code would go here
 
-        m_Model->clear();
-        obsList().clear();
-        m_CurrentObject = 0;
+//        m_Model->clear();
+  //      obsList().clear();
+    //    m_CurrentObject = 0;
     }
 }
 
-void ObservingList::slotSaveListAs() {
+void ObservingList::slotSaveSessionAs() {
     bool ok(false);
-    ListName = KInputDialog::getText( i18n( "Enter List Name" ),
-                                      i18n( "List name:" ), QString(), &ok );
-
+    SessionName = KInputDialog::getText( i18n( "Enter Session Name" ),
+                                      i18n( "Session name:" ), QString(), &ok );
     if ( ok ) {
         KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
-
         if ( fileURL.isValid() )
             FileName = fileURL.path();
-
-        slotSaveList();
+        slotSaveSession();
     }
 }
 
 void ObservingList::slotSaveList() {
-    if ( ListName.isEmpty() || FileName.isEmpty() ) {
-        slotSaveListAs();
-        return;
-    }
-
-    QFile f( FileName );
+    QFile f;
+    f.setFileName( KStandardDirs::locateLocal( "appdata", "wishlist.obslist" ) );   
     if ( !f.open( QIODevice::WriteOnly) ) {
-        QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
-
-        if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
-            FileName.clear();
-            slotSaveList();
-        }
+        kDebug()<<"Cannot write list to  file";
         return;
     }
 
     QTextStream ostream(&f);
-    ostream << ListName << endl;
+    foreach ( SkyObject* o, obsList() ) {
+        if ( o->name() == "star" ) {
+            ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
+        } else if ( o->type() == SkyObject::STAR ) {
+            StarObject *s = (StarObject*)o;
+
+            if ( s->name() == s->gname() ) {
+                ostream << s->name2() << endl;
+            } else { 
+                ostream << s->name() << endl;
+            }
+        } else {
+            ostream << o->name() << endl;
+        }
+    }
+
+    f.close();
+    isModified = false;
+}
+
+void ObservingList::slotLoadWishList() {
+    QFile f;
+    f.setFileName( KStandardDirs::locateLocal( "appdata", "wishlist.obslist" ) );   
+
+    if ( !f.open( QIODevice::ReadOnly) ) {
+     //  QString message = i18n( "Could not open file %1", f.fileName() );
+      // KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+       kDebug()<<" No WishList Saved yet";
+       return;
+   }
+
+   
+    QTextStream istream(&f);
+    QString line;
+
+    while ( ! istream.atEnd() ) {
+        line = istream.readLine();
+
+        //If the object is named "star", add it by coordinates
+        SkyObject *o;
+        if ( line.startsWith( QLatin1String( "star" ) ) ) {
+            QStringList fields = line.split( ' ', QString::SkipEmptyParts );
+            dms ra = dms::fromString( fields[1], false ); //false = hours
+            dms dc = dms::fromString( fields[2], true );  //true  = degrees
+            SkyPoint p( ra, dc );
+            double maxrad = 1000.0/Options::zoomFactor();
+            o = ks->data()->skyComposite()->starNearest( &p, maxrad );
+        } else {
+            o = ks->data()->objectNamed( line );
+        }
+
+        //If we haven't identified the object, try interpreting the 
+        //name as a star's genetive name (with ascii letters)
+        if ( !o ) o = ks->data()->skyComposite()->findStarByGenetiveName( line );
+
+        if ( o ) slotAddObject( o, false, true );
+    }
+    f.close();
+}
+
+
+void ObservingList::slotSaveSession() {
+    if ( FileName.isEmpty() ) {
+        slotSaveSessionAs();
+        return;
+    }
+
+    QFile f( FileName );
+    if(!f.open(QIODevice::WriteOnly)) {
+        QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
+        if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
+            FileName.clear();
+            slotSaveSessionAs();
+        }
+    return;
+    }
+    QTextStream ostream(&f);
+    ostream << SessionName << endl;
     foreach ( SkyObject* o, obsList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
@@ -730,9 +943,6 @@ void ObservingList::slotSaveList() {
 void ObservingList::slotWizard() {
     ObsListWizard wizard( ks );
     if ( wizard.exec() == QDialog::Accepted ) {
-        //Make sure current list is saved
-        saveCurrentList();
-
         foreach ( SkyObject *o, wizard.obsList() ) {
             slotAddObject( o );
         }
