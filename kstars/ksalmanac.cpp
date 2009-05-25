@@ -95,6 +95,11 @@ void KSAlmanac::setLocation( GeoLocation *m_geo ) {
     update();
 }
 
+/*TODO This way calculated twilights are longer than real. Moreover solution always
+exists even if sun never goes below 6/12/18 degrees.
+Right way to do this is to find when Sun goes above/below -6/12/18 deg. as done
+in SkyObject::riseSetTime.
+    */
 double KSAlmanac::getAstroTwilight( bool begin ) {
     if(begin) return ( SunRise - 18 * riseRate ); 
     return ( SunSet + 18 * riseRate );
