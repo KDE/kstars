@@ -50,8 +50,8 @@ KSAlmanac::KSAlmanac() {
 }
 
 void KSAlmanac::update() {
-    RiseSetTime( (SkyObject*)m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
-    RiseSetTime( (SkyObject*)m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
+    RiseSetTime( m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
+    RiseSetTime( m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
 }
 void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ) {
     //Compute Sun rise and set times
