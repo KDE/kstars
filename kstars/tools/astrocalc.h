@@ -62,11 +62,15 @@ private:
      */
     QTreeWidgetItem* addTreeTopItem(QTreeWidget* parent, QString title, QString html);
 
-    /** Add item to navigation panel. At the same time adds item to dispatchTable
+    /** Add item to navigation panel. At the same time adds item to
+        dispatchTable Template parameter is type of widget to be
+        constructed and added to widget stack. It must have T()
+        constructor.
+
         @param title  name of item
-        @param widget widget to be selected on click
      */
-    QTreeWidgetItem* addTreeItem(QTreeWidgetItem* parent, QString title, QWidget* widget);
+    template<typename T>
+    QTreeWidgetItem* addTreeItem(QTreeWidgetItem* parent, QString title);
 
     /** Lookup table for help texts. Maps navpanel item to help text. */
     QMap<QTreeWidgetItem*, QString>  htmlTable;
