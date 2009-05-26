@@ -68,9 +68,9 @@ private:
      */
     QTreeWidgetItem* addTreeItem(QTreeWidgetItem* parent, QString title, QWidget* widget);
 
-    /** Lookup table for help texts. Maps navpanel item name to help text. */
+    /** Lookup table for help texts. Maps navpanel item to help text. */
     QMap<QTreeWidgetItem*, QString>  htmlTable;
-    /** Lookup table for widgets. Maps navpanel item name to widget to be displayed. */
+    /** Lookup table for widgets. Maps navpanel item to widget to be displayed. */
     QMap<QTreeWidgetItem*, QWidget*> dispatchTable;
     QSplitter *split;
     QTreeWidget *navigationPanel;
