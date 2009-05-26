@@ -160,6 +160,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotWizard() ) );
     connect( ui->MiniButton, SIGNAL( clicked() ),
              this, SLOT( slotToggleSize() ) );
+    connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
+             this, SLOT( slotChangeTab(int) ) );
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( KIcon("document-open") );
     ui->SaveButton->setIcon( KIcon("document-save") );
@@ -1060,4 +1062,35 @@ void ObservingList::slotToggleSize() {
     }
 }
 
+void ObservingList::slotChangeTab(int index)
+{
+    if(index) {
+        ui->AddToSession->hide();
+        ui->SetDate->show();
+        ui->SetLocation->show();
+        ui->timeEdit->show();
+        ui->lineEdit->show();
+    } else {
+        ui->AddToSession->show();
+        ui->SetDate->hide();
+        ui->SetLocation->hide();
+        ui->timeEdit->hide();
+        ui->lineEdit->hide();
+    }
+        ui->CenterButton->setEnabled( false );
+        ui->ScopeButton->setEnabled( false );
+        ui->DetailsButton->setEnabled( false );
+        ui->AVTButton->setEnabled( false );
+        ui->RemoveButton->setEnabled( false );
+        ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
+        ui->NotesLabel->setEnabled( false );
+        ui->NotesEdit->setEnabled( false );
+        ui->AddToSession->setEnabled( false );
+        m_CurrentObject = 0;
+
+        //Clear the user log text box.
+        saveCurrentUserLog();
+        ui->NotesEdit->setPlainText("");
+        ui->View->removeAllPlotObjects();
+}
 #include "observinglist.moc"

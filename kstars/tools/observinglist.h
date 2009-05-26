@@ -180,6 +180,7 @@ public slots:
         */
     void slotSaveSessionAs();
     
+
     /**@short save the current session
         */
     void slotSaveSession();
@@ -200,6 +201,9 @@ public slots:
     void plot( SkyObject *o );
 
     double findAltitude( SkyPoint *p, double hour=0);
+
+    void slotChangeTab(int index);
+
 protected slots:
     void slotClose();
 
