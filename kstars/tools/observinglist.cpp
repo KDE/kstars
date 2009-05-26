@@ -1065,19 +1065,13 @@ void ObservingList::slotToggleSize() {
 void ObservingList::slotChangeTab(int index)
 {
     if(index) {
-        //ui->AddToSession->hide();
         ui->SetDate->show();
         ui->SetLocation->show();
         ui->timeEdit->show();
-        //ui->lineEdit->show();
-        ui->SessionView->resizeColumnsToContents();
     } else {
-        //ui->AddToSession->show();
         ui->SetDate->hide();
         ui->SetLocation->hide();
         ui->timeEdit->hide();
-        //ui->lineEdit->hide();
-        ui->TableView->resizeColumnsToContents(); 
     }
         ui->CenterButton->setEnabled( false );
         ui->ScopeButton->setEnabled( false );
