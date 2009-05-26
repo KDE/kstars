@@ -358,6 +358,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="SetLocation">
+       <property name="text">
+        <string>Set Location</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="SetDate">
+       <property name="text">
+        <string>Set Date</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer>
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -420,7 +434,7 @@
       <widget class="QTableView" name="SessionView">
        <property name="geometry">
         <rect>
-         <x>0</x>
+         <x>10</x>
          <y>0</y>
          <width>635</width>
          <height>159</height>
@@ -474,20 +488,6 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButton">
-         <property name="text">
-          <string>Set Location</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="text">
-          <string>Set Date</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
         <widget class="QTimeEdit" name="timeEdit"/>
        </item>
