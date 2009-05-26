@@ -160,7 +160,6 @@ public slots:
         *show the notes associated with the new selected object
         */
     void slotNewSelection();
-    void slotNewSelectionSession();
 
     //  void slotNewCurrent();
 
