@@ -196,14 +196,14 @@ T* AstroCalc::addToStack()
 QTreeWidgetItem* AstroCalc::addTreeItem(QTreeWidgetItem* parent, QString title, QWidget* widget)
 {
     QTreeWidgetItem* item = new QTreeWidgetItem(parent, QStringList(title));
-    dispatchTable.insert(title, widget);
+    dispatchTable.insert(item, widget);
     return item;
 }
 
 QTreeWidgetItem* AstroCalc::addTreeTopItem(QTreeWidget* parent, QString title, QString html)
 {
     QTreeWidgetItem* item = new QTreeWidgetItem(parent, QStringList(title));
-    htmlTable.insert(title, html);
+    htmlTable.insert(item, html);
     return item;
 }
 
@@ -219,16 +219,15 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
     //DEBUG
     kDebug() << "Item clicked: " << item->text(0);
 
-    QString s = item->text(0);
     // Lookup in HTML table
-    QMap<QString, QString>::iterator iterHTML = htmlTable.find(s);
+    QMap<QTreeWidgetItem*, QString>::iterator iterHTML = htmlTable.find(item);
     if( iterHTML != htmlTable.end() ) {
         splashScreen->setHtml(*iterHTML);
         acStack->setCurrentWidget(splashScreen);
         return;
     }
     // Lookup in frames table
-    QMap<QString, QWidget*>::iterator iter = dispatchTable.find(s);
+    QMap<QTreeWidgetItem*, QWidget*>::iterator iter = dispatchTable.find(item);
     if( iter != dispatchTable.end() ) {
         acStack->setCurrentWidget( *iter );
     }
