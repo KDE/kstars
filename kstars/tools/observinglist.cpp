@@ -130,7 +130,7 @@ ObservingList::ObservingList( KStars *_ks )
             this, SLOT( slotNewSelection() ) );
     connect( ui->SessionView->selectionModel(), 
             SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
-            this, SLOT( slotNewSelectionSession() ) );
+            this, SLOT( slotNewSelection() ) );
     connect( ui->RemoveButton, SIGNAL( clicked() ),
              this, SLOT( slotRemoveSelectedObjects() ) );
     connect( ui->CenterButton, SIGNAL( clicked() ),
@@ -415,130 +415,59 @@ void ObservingList::slotRemoveSelectedObjects() {
 
 }
 
-void ObservingList::slotNewSelectionSession() {
-    QModelIndexList selectedItems = m_SortModelSession->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
-
-    //Enable widgets when one object selected
-    if ( selectedItems.size() == m_Session->columnCount() ) {
-        QString newName( selectedItems[0].data().toString() );
-
-        //Enable buttons
-        ui->CenterButton->setEnabled( true );
-    #ifdef HAVE_INDI_H
-        ui->ScopeButton->setEnabled( true );
-    #endif
-        ui->DetailsButton->setEnabled( true );
-        ui->AVTButton->setEnabled( true );
-        ui->RemoveButton->setEnabled( true );
-
-        //Find the selected object in the obsList,
-        //then break the loop.  Now obsList.current()
-        //points to the new selected object (until now it was the previous object)
-        bool found(false);
-        SkyObject *o;
-        foreach ( o, SessionList() ) {
-            if ( o->translatedName() == newName ) {
-                found = true;
-                break;
-            }
-        }
-        if ( found ) {
-            m_CurrentObject = o;
-            PlotObject = currentObject();
-            plot( PlotObject );
-
-            if ( newName != i18n( "star" ) ) {
-                //Display the current object's user notes in the NotesEdit
-                //First, save the last object's user log to disk, if necessary
-                saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
-                //set LogObject to the new selected object
-                LogObject = currentObject();
-                ui->NotesLabel->setEnabled( true );
-                ui->NotesEdit->setEnabled( true );
-                ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
-                if ( LogObject->userLog().isEmpty() ) {
-                    ui->NotesEdit->setPlainText( i18n("Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
-                } else {
-                    ui->NotesEdit->setPlainText( LogObject->userLog() );
-                }
-            } else { //selected object is named "star"
-                //clear the log text box
-                saveCurrentUserLog();
-                ui->NotesLabel->setText( i18n( "observing notes (disabled for unnamed star)" ) );
-                ui->NotesLabel->setEnabled( false );
-                ui->NotesEdit->clear();
-                ui->NotesEdit->setEnabled( false );
-            }
-
-        } else {
-            kDebug() << i18n( "Object %1 not found in Session", newName );
-        } 
-
-    } else if ( selectedItems.size() == 0 ) {
-        //Disable buttons
-        ui->CenterButton->setEnabled( false );
-        ui->ScopeButton->setEnabled( false );
-        ui->DetailsButton->setEnabled( false );
-        ui->AVTButton->setEnabled( false );
-        ui->RemoveButton->setEnabled( false );
-        ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
-        ui->NotesLabel->setEnabled( false );
-        ui->NotesEdit->setEnabled( false );
-        m_CurrentObject = 0;
-
-        //Clear the user log text box.
-        saveCurrentUserLog();
-        ui->NotesEdit->setPlainText("");
-        ui->View->removeAllPlotObjects();
-
-    } else { //more than one object selected.
-        ui->CenterButton->setEnabled( false );
-        ui->ScopeButton->setEnabled( false );
-        ui->DetailsButton->setEnabled( false );
-        ui->AVTButton->setEnabled( true );
-        ui->RemoveButton->setEnabled( true );
-        ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
-        ui->NotesLabel->setEnabled( false );
-        ui->NotesEdit->setEnabled( false );
-        m_CurrentObject = 0;
-        ui->View->removeAllPlotObjects();
-
-        //Clear the user log text box.
-        saveCurrentUserLog();
-        ui->NotesEdit->setPlainText("");
-    }
-
-}
-
-
 void ObservingList::slotNewSelection() {
-    QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-
-    //Enable widgets when one object selected
-    if ( selectedItems.size() == m_Model->columnCount() ) {
-        QString newName( selectedItems[0].data().toString() );
-
-        //Enable buttons
-        ui->CenterButton->setEnabled( true );
-    #ifdef HAVE_INDI_H
-        ui->ScopeButton->setEnabled( true );
-    #endif
-        ui->DetailsButton->setEnabled( true );
-        ui->AVTButton->setEnabled( true );
-        ui->RemoveButton->setEnabled( true );
-        ui->AddToSession->setEnabled( true );
-
-        //Find the selected object in the obsList,
-        //then break the loop.  Now obsList.current()
-        //points to the new selected object (until now it was the previous object)
-        bool found(false);
-        SkyObject *o;
-        foreach ( o, obsList() ) {
-            if ( o->translatedName() == newName ) {
-                found = true;
-                break;
+    bool singleSelection = false, found = false;
+    QModelIndexList selectedItems;
+    QString newName;
+    SkyObject *o;
+    if( ui->tabWidget->currentIndex() ) {
+        selectedItems = m_SortModelSession->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
+ 
+        //When one object is selected
+        if ( selectedItems.size() == m_Session->columnCount() ) {
+            newName = selectedItems[0].data().toString();
+            singleSelection = true;
+ 
+            //Find the selected object in the SessionList,
+            //then break the loop.  Now SessionList.current()
+            //points to the new selected object (until now it was the previous object)
+            foreach ( o, SessionList() ) {
+                if ( o->translatedName() == newName ) {
+                    found = true;
+                    break;
+                }
             }
         }
+    } else {
+        selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+ 
+        //When one object is selected
+        if ( selectedItems.size() == m_Model->columnCount() ) {
+            newName = selectedItems[0].data().toString();
+            singleSelection = true;
+             
+            //Find the selected object in the obsList,
+            //then break the loop.  Now obsList.current()
+            //points to the new selected object (until now it was the previous object)
+            foreach ( o, obsList() ) {
+                if ( o->translatedName() == newName ) {
+                    found = true;
+                break;
+                }
+            }
+        }
+    }
+    if( singleSelection ) {
+        //Enable buttons
+            ui->CenterButton->setEnabled( true );
+        #ifdef HAVE_INDI_H
+            ui->ScopeButton->setEnabled( true );
+        #endif
+            ui->DetailsButton->setEnabled( true );
+            ui->AVTButton->setEnabled( true );
+            ui->RemoveButton->setEnabled( true );
+            ui->AddToSession->setEnabled( true );
+
         if ( found ) {
             m_CurrentObject = o;
             PlotObject = currentObject();
@@ -568,9 +497,8 @@ void ObservingList::slotNewSelection() {
             }
 
         } else {
-            kDebug() << i18n( "Object %1 not found in observing ist.", newName );
+            kDebug() << i18n( "Object %1 not found in list.", newName );
         } 
-
     } else if ( selectedItems.size() == 0 ) {
         //Disable buttons
         ui->CenterButton->setEnabled( false );
@@ -606,7 +534,6 @@ void ObservingList::slotNewSelection() {
         saveCurrentUserLog();
         ui->NotesEdit->setPlainText("");
     }
-
 }
 
 void ObservingList::slotCenterObject() {
