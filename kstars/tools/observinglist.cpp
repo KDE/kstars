@@ -118,7 +118,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->View->axis(KPlotWidget::BottomAxis)->setLabel( i18n( "Local Time" ) );
     ui->View->axis(KPlotWidget::TopAxis)->setTickLabelFormat( 't' );
     ui->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
- 
+
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
@@ -177,6 +177,10 @@ ObservingList::ObservingList( KStars *_ks )
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
     ui->AddToSession->setEnabled( false );
+    ui->SetDate->hide();
+    ui->SetLocation->hide();
+    ui->timeEdit->hide();
+
     slotLoadWishList();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
 //    ui->MiniButton->hide();
