@@ -251,84 +251,164 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o ) {
+    bool session = false;
     if ( !o )
         o = ks->map()->clickedObject();
-
-    int k = obsList().indexOf( o );
-    if ( k < 0 ) return; //object not in observing list
-
-    //DEBUG
-    kDebug() << "Removing " << o->name();
-
-    if ( o == LogObject )
-        saveCurrentUserLog();
-
-    //Remove row from the TableView model
-    bool found(false);
-    if ( o->name() == "star" ) {
-        //Find object in table by RA and Dec
-        for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
-            QString ra = m_Model->item(irow, 1)->text();
-            QString dc = m_Model->item(irow, 2)->text();
-            if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
-                m_Model->removeRow(irow);
-                found = true;
-                break;
+    else
+        if( ui->tabWidget->currentIndex() )
+            session = true;
+    if( !session ) {
+        int k = obsList().indexOf( o );
+        if ( k < 0 ) return; //object not in observing list
+ 
+        //DEBUG
+        kDebug() << "Removing " << o->name();
+ 
+        if ( o == LogObject )
+            saveCurrentUserLog();
+ 
+        //Remove row from the TableView model
+        bool found(false);
+        if ( o->name() == "star" ) {
+            //Find object in table by RA and Dec
+            for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
+                QString ra = m_Model->item(irow, 1)->text();
+                QString dc = m_Model->item(irow, 2)->text();
+                if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
+                    m_Model->removeRow(irow);
+                    found = true;
+                    break;
+                }
             }
-        }
-    } else { // name is not "star"
-        //Find object in table by name
-        for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
-            QString name = m_Model->item(irow, 0)->text();
-            if ( o->translatedName() == name ) {
-                m_Model->removeRow(irow);
-                found = true;
-                break;
-            }
-        }
-    }
-
-    if ( !found ) kDebug() << "Did not find object named " << o->translatedName() << " in the Table!";
-
-    obsList().removeAt(k);
-    if ( ! isModified ) isModified = true;
-   
-    ui->View->removeAllPlotObjects();
-    ui->TableView->resizeColumnsToContents();
-    slotSaveList();
-}
-
-void ObservingList::slotRemoveSelectedObjects() {
-    if ( ! ui->TableView->selectionModel()->hasSelection() ) return;
-
-    //Find each object by name in the observing list, and remove it
-    //Go backwards so item alignment doesn't get screwed up as rows are removed.
-    for ( int irow = m_Model->rowCount()-1; irow >= 0; --irow ) {
-        if ( ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
-            QModelIndex mSortIndex = m_SortModel->index( irow, 0 );
-            QModelIndex mIndex = m_SortModel->mapToSource( mSortIndex );
-            int irow = mIndex.row();
-            QString ra = m_Model->item(irow, 1)->text();
-            QString dc = m_Model->item(irow, 2)->text();
-
-            foreach ( SkyObject *o, obsList() ) {
-                //Stars named "star" must be matched by coordinates
-                if ( o->name() == "star" ) {
-                    if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
-                        slotRemoveObject( o );
-                        break;
-                    }
-
-                } else if ( o->translatedName() == mIndex.data().toString() ) {
-                    slotRemoveObject( o );
+        } else { // name is not "star"
+            //Find object in table by name
+            for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
+                QString name = m_Model->item(irow, 0)->text();
+                if ( o->translatedName() == name ) {
+                    m_Model->removeRow(irow);
+                    found = true;
                     break;
                 }
             }
         }
+ 
+        if ( !found ) kDebug() << "Did not find object named " << o->translatedName() << " in the Table!";
+ 
+        obsList().removeAt(k);
+       
+        ui->View->removeAllPlotObjects();
+        ui->TableView->resizeColumnsToContents();
+        slotSaveList();
+    } else {
+        int k = SessionList().indexOf( o );
+        if ( k < 0 ) return; //object not in observing list
+ 
+        //DEBUG
+        kDebug() << "Removing " << o->name();
+ 
+        if ( o == LogObject )
+            saveCurrentUserLog();
+ 
+        //Remove row from the TableView model
+        bool found(false);
+        if ( o->name() == "star" ) {
+            //Find object in table by RA and Dec
+            for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
+                QString ra = m_Session->item(irow, 1)->text();
+                QString dc = m_Session->item(irow, 2)->text();
+                if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
+                    m_Session->removeRow(irow);
+                    found = true;
+                    break;
+                }
+            }
+        } else { // name is not "star"
+            //Find object in table by name
+            for ( int irow = 0; irow < m_Session->rowCount(); ++irow ) {
+                QString name = m_Session->item(irow, 0)->text();
+                if ( o->translatedName() == name ) {
+                    m_Session->removeRow(irow);
+                    found = true;
+                    break;
+                }
+            }
+        }
+ 
+        if ( !found ) kDebug() << "Did not find object named " << o->translatedName() << " in the Table!";
+ 
+        SessionList().removeAt(k);
+        if ( ! isModified ) isModified = true;
+       
+        ui->View->removeAllPlotObjects();
+        ui->SessionView->resizeColumnsToContents();
+    }
+}
+
+void ObservingList::slotRemoveSelectedObjects() {
+    if(ui->tabWidget->currentIndex())
+    {
+        if ( ! ui->SessionView->selectionModel()->hasSelection() ) return;
+
+        //Find each object by name in the observing list, and remove it
+        //Go backwards so item alignment doesn't get screwed up as rows are removed.
+        for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
+            if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
+                QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
+                QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
+                int irow = mIndex.row();
+                QString ra = m_Session->item(irow, 1)->text();
+                QString dc = m_Session->item(irow, 2)->text();
+
+                foreach ( SkyObject *o, SessionList() ) {
+                    //Stars named "star" must be matched by coordinates
+                    if ( o->name() == "star" ) {
+                        if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
+                            slotRemoveObject( o );
+                            break;
+                        }
+    
+                    } else if ( o->translatedName() == mIndex.data().toString() ) {
+                        slotRemoveObject( o );
+                        break;
+                    }
+                }
+            }
+        }
+
+        //we've removed all selected objects, so clear the selection
+        ui->SessionView->selectionModel()->clear();
+    } else {
+         if ( ! ui->TableView->selectionModel()->hasSelection() ) return;
+ 
+         //Find each object by name in the observing list, and remove it
+         //Go backwards so item alignment doesn't get screwed up as rows are removed.
+         for ( int irow = m_Model->rowCount()-1; irow >= 0; --irow ) {
+             if ( ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
+                 QModelIndex mSortIndex = m_SortModel->index( irow, 0 );
+                 QModelIndex mIndex = m_SortModel->mapToSource( mSortIndex );
+                 int irow = mIndex.row();
+                 QString ra = m_Model->item(irow, 1)->text();
+                 QString dc = m_Model->item(irow, 2)->text();
+ 
+                 foreach ( SkyObject *o, obsList() ) {
+                     //Stars named "star" must be matched by coordinates
+                     if ( o->name() == "star" ) {
+                         if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
+                             slotRemoveObject( o );
+                             break;
+                         }
+     
+                     } else if ( o->translatedName() == mIndex.data().toString() ) {
+                         slotRemoveObject( o );
+                         break;
+                     }
+                 }
+             }
+         }
+        //we've removed all selected objects, so clear the selection
+        ui->TableView->selectionModel()->clear();
     }
 
-    //we've removed all selected objects, so clear the selection
-    ui->TableView->selectionModel()->clear();
 }
 
 void ObservingList::slotNewSelectionSession() {
