@@ -909,7 +909,7 @@ void ObservingList::slotLoadWishList() {
 
 
 void ObservingList::slotSaveSession() {
-    if ( FileName.isEmpty() ) {
+    if ( FileName.isEmpty() || SessionName.isEmpty()  ) {
         slotSaveSessionAs();
         return;
     }
@@ -925,7 +925,7 @@ void ObservingList::slotSaveSession() {
     }
     QTextStream ostream(&f);
     ostream << SessionName << endl;
-    foreach ( SkyObject* o, obsList() ) {
+    foreach ( SkyObject* o, SessionList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
         } else if ( o->type() == SkyObject::STAR ) {
