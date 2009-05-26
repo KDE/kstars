@@ -425,8 +425,9 @@ void WUTDialog::slotDetails() {
         o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
     if (o != 0) {
-        DetailDialog detail(o, kstars->data()->LTime, geo, kstars);
-        detail.exec();
+        QPointer<DetailDialog> detail = new DetailDialog(o, kstars->data()->LTime, geo, kstars);
+        detail->exec();
+	delete detail;
     }
 }
 void WUTDialog::slotObslist() {
@@ -446,9 +447,9 @@ void WUTDialog::slotChangeDate() {
     // wants to see what's up on the night of some date, rather than the night of the previous day
     T0.setTime( QTime( 18, 0, 0 ) ); // 6 PM
 
-    TimeDialog td( T0, kstars->geo(), this );
-    if ( td.exec() == QDialog::Accepted ) {
-        T0 = td.selectedDateTime();
+    QPointer<TimeDialog> td = new TimeDialog( T0, kstars->geo(), this );
+    if ( td->exec() == QDialog::Accepted ) {
+        T0 = td->selectedDateTime();
 
         // If the time is set to 12 midnight, set it to 00:00:01, so that we don't have date interpretation problems
         if ( T0.time() == QTime( 0, 0, 0 ) )
@@ -476,12 +477,13 @@ void WUTDialog::slotChangeDate() {
         init();
         slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
     }
+    delete td;
 }
 
 void WUTDialog::slotChangeLocation() {
-    LocationDialog ld( kstars );
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    QPointer<LocationDialog> ld = new LocationDialog( kstars );
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geo = newGeo;
             UT0 = geo->LTtoUT( T0 );
@@ -494,6 +496,7 @@ void WUTDialog::slotChangeLocation() {
             slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
         }
     }
+    delete ld;
 }
 
 void WUTDialog::slotEveningMorning( int index ) {

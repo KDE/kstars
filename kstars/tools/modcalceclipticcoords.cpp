@@ -72,13 +72,14 @@ void modCalcEclCoords::slotNow() {
 }
 
 void modCalcEclCoords::slotObject() {
-    FindDialog fd( (KStars*)topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotCompute();
     }
+    delete fd;
 }
 
 void modCalcEclCoords::slotDateTimeChanged(const QDateTime &edt) {
@@ -231,7 +232,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     SkyPoint sp;
     dms raB, decB, eclLatB, eclLongB;

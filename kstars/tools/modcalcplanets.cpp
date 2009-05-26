@@ -70,13 +70,14 @@ modCalcPlanets::~modCalcPlanets(){
 
 void modCalcPlanets::slotLocation()
 {
-    LocationDialog ld( (KStars*) topLevelWidget()->parent() );
+    QPointer<LocationDialog> ld = new LocationDialog( (KStars*) topLevelWidget()->parent() );
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        geoPlace = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted ) {
+        geoPlace = ld->selectedCity();
         LocationButton->setText( geoPlace->fullName() );
         slotComputePosition();
     }
+    delete ld;
 }
 
 void modCalcPlanets::slotComputePosition (void)
@@ -324,7 +325,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     QString message;
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     QString planetB;
     unsigned int i = 0, nline = 0;
     QTime utB;

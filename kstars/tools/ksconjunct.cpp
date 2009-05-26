@@ -27,9 +27,15 @@
 #include "kstarsdata.h"
 
 KSConjunct::KSConjunct() {
+    ksdata = KStarsData::Instance();
+    geoPlace = ksdata->geo();
+}
 
-  ksdata = NULL;
-
+void KSConjunct::setGeoLocation( GeoLocation *geo ) {
+    if( geo != NULL )
+        geoPlace = geo;
+    else
+        geoPlace = KStarsData::Instance()->geo();
 }
 
 QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation,bool _opposition) {
@@ -126,23 +132,23 @@ dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *O
 
   KSPlanet *m_Earth = new KSPlanet( ksdata, I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
   m_Earth -> findPosition( &num );
-  dms LST(ksdata->geo()->GSTtoLST(t.gst()));
+  dms LST(geoPlace->GSTtoLST(t.gst()));
 
   if( Object1->isSolarSystem() ) {
       switch( Object1->type() ) {
       case 2: {
           KSPlanet *Planet = (KSPlanet *)Object1;
-          Planet->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
+          Planet->findPosition(&num, geoPlace->lat(), &LST, (KSPlanetBase *)m_Earth);
           break;
       }
       case 9: {
           KSComet *Comet = (KSComet *)Object1;
-          Comet->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
+          Comet->findPosition(&num, geoPlace->lat(), &LST, (KSPlanetBase *)m_Earth);
           break;
       }
       case 10: {
           KSAsteroid *Asteroid = (KSAsteroid *)Object1;
-          Asteroid->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
+          Asteroid->findPosition(&num, geoPlace->lat(), &LST, (KSPlanetBase *)m_Earth);
           break;
       }
       }
@@ -150,7 +156,7 @@ dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *O
   else
       Object1->updateCoords( &num );
 
-  Object2->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
+  Object2->findPosition(&num, geoPlace->lat(), &LST, (KSPlanetBase *)m_Earth);
   if(opposition) {  Object2->setRA( Object2->ra()->Hours() + 12.0); Object2->setDec( -Object2->dec()->Degrees()); }
    dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
   if(opposition) {  Object2->setRA( Object2->ra()->Hours() - 12.0); Object2->setDec( -Object2->dec()->Degrees()); }

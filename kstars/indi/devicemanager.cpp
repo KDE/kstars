@@ -473,7 +473,7 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
     {
         serverFP << QString("  <oneNumber\n");
         serverFP << QString("    name='%1'>\n").arg(qPrintable( lp->name));
-        if (lp->text.isEmpty())
+        if (lp->text.isEmpty() || lp->spin_w)
         	serverFP << QString("      %1\n").arg(lp->targetValue);
         else
         	serverFP << QString("      %1\n").arg(lp->text);

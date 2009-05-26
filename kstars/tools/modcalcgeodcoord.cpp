@@ -260,7 +260,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     GeoLocation geoPl;
     geoPl.setEllipsoid(0);

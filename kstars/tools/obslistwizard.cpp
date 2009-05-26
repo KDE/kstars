@@ -230,15 +230,16 @@ void ObsListWizard::slotSolarSystemButton()
 
 void ObsListWizard::slotChangeLocation()
 {
-    LocationDialog ld( ksw );
+    QPointer<LocationDialog> ld = new LocationDialog( ksw );
 
-    if ( ld.exec() == QDialog::Accepted ) {
+    if ( ld->exec() == QDialog::Accepted ) {
         //set geographic location
-        if ( ld.selectedCity() ) {
-            geo = ld.selectedCity();
+        if ( ld->selectedCity() ) {
+            geo = ld->selectedCity();
             olw->LocationButton->setText( geo->fullName() );
         }
     }
+    delete ld;
 }
 
 void ObsListWizard::slotToggleDateWidgets()

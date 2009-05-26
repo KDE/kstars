@@ -748,8 +748,9 @@ void ObservingList::slotSlewToObject()
 //Should have one window whose target object changes with selection
 void ObservingList::slotDetails() {
     if ( currentObject() ) {
-        DetailDialog dd( currentObject(), ks->data()->lt(), ks->geo(), ks );
-        dd.exec();
+        QPointer<DetailDialog> dd = new DetailDialog( currentObject(), ks->data()->lt(), ks->geo(), ks );
+        dd->exec();
+	delete dd;
     }
 }
 
@@ -784,15 +785,16 @@ void ObservingList::slotAVT() {
     QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
 
     if ( selectedItems.size() ) {
-        AltVsTime avt( ks );
+        QPointer<AltVsTime> avt = new AltVsTime( ks );
         foreach ( const QModelIndex &i, selectedItems ) {
             foreach ( SkyObject *o, obsList() ) {
                 if ( o->translatedName() == i.data().toString() )
-                    avt.processObject( o );
+                    avt->processObject( o );
             }
         }
 
-        avt.exec();
+        avt->exec();
+	delete avt;
     }
 }
 
@@ -1026,12 +1028,13 @@ void ObservingList::slotSaveSession() {
 }
 
 void ObservingList::slotWizard() {
-    ObsListWizard wizard( ks );
-    if ( wizard.exec() == QDialog::Accepted ) {
-        foreach ( SkyObject *o, wizard.obsList() ) {
+    QPointer<ObsListWizard> wizard = new ObsListWizard( ks );
+    if ( wizard->exec() == QDialog::Accepted ) {
+        foreach ( SkyObject *o, wizard->obsList() ) {
             slotAddObject( o );
         }
     }
+    delete wizard;
 }
 
 void ObservingList::plot( SkyObject *o ) {

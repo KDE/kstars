@@ -216,14 +216,15 @@ void SkyCalendar::slotPrint() {
 }
 
 void SkyCalendar::slotLocation() {
-    LocationDialog ld( ks );
-    if ( ld.exec() == QDialog::Accepted ) {                  
-        GeoLocation *newGeo = ld.selectedCity();
+    QPointer<LocationDialog> ld = new LocationDialog( ks );
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geo = newGeo;
             scUI->LocationButton->setText( geo->fullName() );
         }
     }
+    delete ld;
 }
 
 #include "skycalendar.moc"

@@ -143,9 +143,10 @@ void OpsCatalog::selectCatalog() {
 }
 
 void OpsCatalog::slotAddCatalog() {
-    AddCatDialog ac( ksw );
-    if ( ac.exec()==QDialog::Accepted )
-        insertCatalog( ac.filename() );
+    QPointer<AddCatDialog> ac = new AddCatDialog( ksw );
+    if ( ac->exec()==QDialog::Accepted )
+        insertCatalog( ac->filename() );
+    delete ac;
 }
 
 void OpsCatalog::slotLoadCatalog() {

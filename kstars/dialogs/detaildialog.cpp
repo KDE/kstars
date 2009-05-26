@@ -994,16 +994,16 @@ void DetailDialog::showThumbnail() {
 }
 
 void DetailDialog::updateThumbnail() {
-    ThumbnailPicker tp( selectedObject, *Thumbnail, this );
+    QPointer<ThumbnailPicker> tp = new ThumbnailPicker( selectedObject, *Thumbnail, this );
 
-    if ( tp.exec() == QDialog::Accepted ) {
+    if ( tp->exec() == QDialog::Accepted ) {
         QString fname = KStandardDirs::locateLocal( "appdata", "thumb-" + selectedObject->name().toLower().remove( ' ' ) + ".png" );
 
-        Data->Image->setPixmap( *(tp.image()) );
+        Data->Image->setPixmap( *(tp->image()) );
 
         //If a real image was set, save it.
         //If the image was unset, delete the old image on disk.
-        if ( tp.imageFound() ) {
+        if ( tp->imageFound() ) {
             Data->Image->pixmap()->save( fname, "PNG" );
             *Thumbnail = *(Data->Image->pixmap());
         } else {
@@ -1012,6 +1012,7 @@ void DetailDialog::updateThumbnail() {
             f.remove();
         }
     }
+    delete tp;
 }
 
 DataWidget::DataWidget( QWidget *p ) : QFrame( p )

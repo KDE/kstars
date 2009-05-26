@@ -1942,41 +1942,43 @@ void ScriptBuilder::slotShowDoc() {
 
 //Slots for Arg Widgets
 void ScriptBuilder::slotFindCity() {
-    LocationDialog ld( ks );
+    QPointer<LocationDialog> ld = new LocationDialog( ks );
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        if ( ld.selectedCity() ) {
+    if ( ld->exec() == QDialog::Accepted ) {
+        if ( ld->selectedCity() ) {
             // set new location names
-            argSetGeoLocation->CityName->setText( ld.selectedCityName() );
-            if ( ! ld.selectedProvinceName().isEmpty() ) {
-                argSetGeoLocation->ProvinceName->setText( ld.selectedProvinceName() );
+            argSetGeoLocation->CityName->setText( ld->selectedCityName() );
+            if ( ! ld->selectedProvinceName().isEmpty() ) {
+                argSetGeoLocation->ProvinceName->setText( ld->selectedProvinceName() );
             } else {
                 argSetGeoLocation->ProvinceName->clear();
             }
-            argSetGeoLocation->CountryName->setText( ld.selectedCountryName() );
+            argSetGeoLocation->CountryName->setText( ld->selectedCountryName() );
 
             ScriptFunction *sf = ScriptList[ sb->ScriptListBox->currentRow() ];
             if ( sf->name() == "setGeoLocation" ) {
                 setUnsavedChanges( true );
 
-                sf->setArg( 0, ld.selectedCityName() );
-                sf->setArg( 1, ld.selectedProvinceName() );
-                sf->setArg( 2, ld.selectedCountryName() );
+                sf->setArg( 0, ld->selectedCityName() );
+                sf->setArg( 1, ld->selectedProvinceName() );
+                sf->setArg( 2, ld->selectedCountryName() );
             } else {
                 warningMismatch( "setGeoLocation" );
             }
         }
     }
+    delete ld;
 }
 
 void ScriptBuilder::slotFindObject() {
-    FindDialog fd( ks );
+    QPointer<FindDialog> fd = new FindDialog( ks );
 
-    if ( fd.exec() == QDialog::Accepted && fd.selectedObject() ) {
+    if ( fd->exec() == QDialog::Accepted && fd->selectedObject() ) {
         setUnsavedChanges( true );
 
-        argLookToward->FocusEdit->setEditText( fd.selectedObject()->name() );
+        argLookToward->FocusEdit->setEditText( fd->selectedObject()->name() );
     }
+    delete fd;
 }
 
 //TODO JM: INDI Scripting to be included in KDE 4.1

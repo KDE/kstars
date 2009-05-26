@@ -566,8 +566,9 @@ void SkyMap::slotDetail( void ) {
         KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
         return;
     }
-    DetailDialog detail( clickedObject(), data->ut(), data->geo(), ks );
-    detail.exec();
+    QPointer<DetailDialog> detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), ks );
+    detail->exec();
+    delete detail;
 }
 
 void SkyMap::slotClockSlewing() {
@@ -1682,15 +1683,15 @@ void SkyMap::setMouseMoveCursor()
 void SkyMap::addLink() {
     if( !clickedObject() ) 
         return;
-    AddLinkDialog adialog( this, clickedObject()->name() );
+    QPointer<AddLinkDialog> adialog = new AddLinkDialog( this, clickedObject()->name() );
     QString entry;
     QFile file;
 
-    if ( adialog.exec()==QDialog::Accepted ) {
-        if ( adialog.isImageLink() ) {
+    if ( adialog->exec()==QDialog::Accepted ) {
+        if ( adialog->isImageLink() ) {
             //Add link to object's ImageList, and descriptive text to its ImageTitle list
-            clickedObject()->ImageList().append( adialog.url() );
-            clickedObject()->ImageTitle().append( adialog.desc() );
+            clickedObject()->ImageList().append( adialog->url() );
+            clickedObject()->ImageTitle().append( adialog->desc() );
 
             //Also, update the user's custom image links database
             //check for user's image-links database.  If it doesn't exist, create it.
@@ -1701,15 +1702,15 @@ void SkyMap::addLink() {
                 KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
                 return;
             } else {
-                entry = clickedObject()->name() + ':' + adialog.desc() + ':' + adialog.url();
+                entry = clickedObject()->name() + ':' + adialog->desc() + ':' + adialog->url();
                 QTextStream stream( &file );
                 stream << entry << endl;
                 file.close();
                 emit linkAdded();
             }
         } else {
-            clickedObject()->InfoList().append( adialog.url() );
-            clickedObject()->InfoTitle().append( adialog.desc() );
+            clickedObject()->InfoList().append( adialog->url() );
+            clickedObject()->InfoTitle().append( adialog->desc() );
 
             //check for user's image-links database.  If it doesn't exist, create it.
             file.setFileName( KStandardDirs::locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
@@ -1718,7 +1719,7 @@ void SkyMap::addLink() {
                 QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
                 return;
             } else {
-                entry = clickedObject()->name() + ':' + adialog.desc() + ':' + adialog.url();
+                entry = clickedObject()->name() + ':' + adialog->desc() + ':' + adialog->url();
                 QTextStream stream( &file );
                 stream << entry << endl;
                 file.close();
@@ -1726,6 +1727,7 @@ void SkyMap::addLink() {
             }
         }
     }
+    delete adialog;
 }
 
 void SkyMap::updateAngleRuler() {
