@@ -137,7 +137,7 @@ void INDIMenu::removeDeviceManager(DeviceManager *deviceManager)
         {
 		foreach(INDI_D *device, deviceManager->indi_dev)
 			ksw->indiDriver()->disableDevice(device);
-	    //ksw->indiDriver()->shutDeviceManager(deviceManager);
+
             delete managers.takeAt(i);
         }
     }

@@ -28,6 +28,7 @@
 #include <QTreeWidget>
 #include <QIcon>
 #include <QDialog>
+#include <QTcpServer>
 
 #include <KMenu>
 #include <KMessageBox>
@@ -39,7 +40,6 @@
 #include <KIconLoader>
 
 #include <kstandarddirs.h>
-#include <k3serversocket.h>
 
 #include "indimenu.h"
 #include "ui_indihostconf.h"
@@ -375,8 +375,6 @@ void INDIDriver::resizeDeviceColumn()
 
 void INDIDriver::updateMenuActions()
 {
-
-
     // We iterate over devices, we enable INDI Control Panel if we have any active device
     // We enable capture image sequence if we have any imaging device
 
@@ -406,29 +404,15 @@ void INDIDriver::updateMenuActions()
         }
     }
 
+
     tmpAction = ksw->actionCollection()->action("capture_sequence");
 
     if (tmpAction != NULL)
         tmpAction->setEnabled(activeImaging);
 
-    tmpAction = NULL;
     tmpAction = ksw->actionCollection()->action("indi_cpl");
     if (tmpAction != NULL)
-        tmpAction->setEnabled(activeDevice);
-#if 0
-    /* FIXME The following seems to cause a crash in KStars when we use
-       the telescope wizard to automatically search for scopes. I can't
-       find any correlation! */
-
-    // Troubled Code START
-    tmpAction = ksw->actionCollection()->action("indi_cpl");
-    if (!tmpAction)
-        kDebug() << "Warning: indi_cpl action not found";
-    else
-        tmpAction->setEnabled(activeDevice);
-    // Troubled Code END
-#endif
-
+       tmpAction->setEnabled(activeDevice);
 
 }
 
@@ -554,15 +538,13 @@ int INDIDriver::getINDIPort()
     // recycle
     if (currentPort > lastPort) currentPort = Options::serverPortStart().toInt();
 
-    KNetwork::KServerSocket ss;
-    ss.setFamily(KNetwork::KResolver::InetFamily);
+    QTcpServer temp_server;
     for(; currentPort <= lastPort; currentPort++)
     {
-        ss.setAddress( QString::number( currentPort ) );
-        bool success = ss.listen();
-        if(success && ss.error() == KNetwork::KSocketBase::NoError )
+        bool success = temp_server.listen(QHostAddress::LocalHost, currentPort);
+        if(success)
         {
-            ss.close();
+            temp_server.close();
             return currentPort;
         }
     }
@@ -583,6 +565,7 @@ bool INDIDriver::readXMLDrivers()
           return false;
      }
 
+    indiDir.setNameFilters(QStringList("*.xml"));
     indiDir.setFilter(QDir::Files | QDir::NoSymLinks);
     QFileInfoList list = indiDir.entryInfoList();
 
@@ -605,6 +588,7 @@ void INDIDriver::processXMLDriver(QString & driverName)
          return;
     }
 
+	kDebug() << "Processing driver: " << driverName << endl;
     char errmsg[1024];
     char c;
     LilXML *xmlParser = newLilXML();
@@ -623,7 +607,7 @@ void INDIDriver::processXMLDriver(QString & driverName)
         }
         else if (errmsg[0])
         {
-            kDebug() << QString(errmsg);
+            kDebug() << QString(errmsg) << endl;
             delLilXML(xmlParser);
             return;
         }
