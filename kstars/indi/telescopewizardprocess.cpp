@@ -234,14 +234,16 @@ void telescopeWizardProcess::establishLink()
     // Make sure we start is locally
     indidriver->ui->localR->setChecked(true);
     // Connect new device discovered with process ports
-    connect (indidriver, SIGNAL(newTelescope()), this, SLOT(processPort()));
+    connect (indidriver, SIGNAL(newTelescope()), this, SLOT(processPort()), Qt::QueuedConnection);
     // Run it
     indidriver->processLocalTree(IDevice::DEV_START);
     
-    kDebug() << "Processing device tree for " << ui->telescopeCombo->currentText();
+//    kDebug() << "Processing device tree for " << ui->telescopeCombo->currentText();
 
     if (!indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
         return;
+
+    currentPort = -1;
 
     if (ui->portIn->text().isEmpty())
     {
@@ -288,18 +290,20 @@ void telescopeWizardProcess::processPort()
         return;
     }
 
-kDebug () << "New telescope discovered, processing port";
+	//kDebug () << "New telescope discovered, processing port";
 
     indiDev = indimenu->findDeviceByLabel(currentDevice);
     if (!indiDev) return;
+
+    disconnect(this, SLOT(processPort()));
 
     // port empty, start autoscan
     if (ui->portIn->text().isEmpty())
     {
         //newDeviceTimer->stop();
         linkRejected = false;
-        connect(indiDev->stdDev, SIGNAL(linkRejected()), this, SLOT(scanPorts()));
-        connect(indiDev->stdDev, SIGNAL(linkAccepted()), this, SLOT(linkSuccess()));
+        connect(indiDev->stdDev, SIGNAL(linkRejected()), this, SLOT(scanPorts()), Qt::QueuedConnection);
+        connect(indiDev->stdDev, SIGNAL(linkAccepted()), this, SLOT(linkSuccess()), Qt::QueuedConnection);
         scanPorts();
         return;
     }
@@ -337,12 +341,15 @@ void telescopeWizardProcess::scanPorts()
     if (!indiDev || !indidriver || !indimenu || linkRejected)
         return;
 
-    //disconnect (indidriver, SIGNAL(newDevice()), this, SLOT(scanPorts()));
-
     currentPort++;
 
     if (progressScan->wasCancelled())
     {
+	if (linkRejected)
+		return;
+
+	disconnect(this, SLOT(scanPorts()));
+	disconnect(this, SLOT(linkSuccess()));
         linkRejected = true;
         indidriver->processLocalTree(IDevice::DEV_TERMINATE);
         Reset();
@@ -353,12 +360,16 @@ void telescopeWizardProcess::scanPorts()
 
     if ( currentPort >= portList.count())
     {
-        KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
+	if (linkRejected)
+		return;
 
+	disconnect(this, SLOT(scanPorts()));
+	disconnect(this, SLOT(linkSuccess()));
         linkRejected = true;
-	//FIXME this causes crash
-        //indidriver->processLocalTree(IDevice::DEV_TERMINATE);
+        indidriver->processLocalTree(IDevice::DEV_TERMINATE);
         Reset();
+
+        KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
         return;
     }
 
@@ -396,7 +407,6 @@ void telescopeWizardProcess::linkSuccess()
 
 void telescopeWizardProcess::Reset()
 {
-    kDebug() << "Resetting";
     currentPort = -1;
     timeOutCount = 0;
 
