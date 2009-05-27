@@ -239,18 +239,13 @@ QTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation *geo )
 
 dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) {
     KStarsDateTime dt0 = dt;
-    QTime UT = transitTimeUT( dt, geo );
-    dt0.setTime( UT );
+    dt0.setTime( transitTimeUT( dt, geo ) );
     SkyPoint sp = recomputeCoords( dt0, geo );
-    const dms *decm = sp.dec0();
 
-    dms delta;
-    delta.setRadians( asin ( sin (geo->lat()->radians()) *
-                             sin ( decm->radians() ) +
-                             cos (geo->lat()->radians()) *
-                             cos (decm->radians() ) ) );
-
-    return delta;
+    double delta = 90 - geo->lat()->Degrees() + sp.dec()->Degrees();
+    if( delta > 90 )
+        delta = 180 - delta;
+    return dms(delta);
 }
 
 double SkyObject::approxHourAngle( const dms *h0, const dms *gLat, const dms *dec ) {
@@ -317,11 +312,7 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
 }
 
 bool SkyObject::checkCircumpolar( const dms *gLat ) {
-    double r = -1.0 * tan( gLat->radians() ) * tan( dec()->radians() );
-    if ( r < -1.0 || r > 1.0 )
-        return true;
-    else
-        return false;
+    return fabs(dec()->Degrees())  >  (90 - fabs(gLat->Degrees()));
 }
 
 QString SkyObject::typeName( void ) const {
@@ -491,10 +482,7 @@ double SkyObject::labelOffset() const {
 }
 
 AuxInfo *SkyObject::getAuxInfo() {
-    if( info )
-        return info;
-    else {
-        info = new AuxInfo;
-        return info;
-    }
+    if( !info )
+        info = new AuxInfo; 
+    return info;
 }
