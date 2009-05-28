@@ -201,8 +201,6 @@ void DeepStarComponent::draw( QPainter& psky ) {
 
     m_zoomMagLimit = maglim;
 
-    double maxSize = 10.0;
-
     m_skyMesh->inDraw( true );
 
     SkyPoint* focus = map->focus();

@@ -239,7 +239,6 @@ SkyObject* FindDialog::selectedObject() const {
             int HD = stext.toInt( &ok );
             // Looks like the user is looking for a HD star
             if( ok ) {
-                KStars *p = (KStars*)parent();
                 obj = StarComponent::Instance()->findByHDIndex( HD );
             }
         }
