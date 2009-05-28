@@ -1129,12 +1129,16 @@ void ObservingList::slotUpdate() {
     //Creating a copy of the lists, we can't use the original lists as they'll keep getting modified as the loop iterates
     QList<SkyObject*> _obsList=m_ObservingList, _SessionList=m_SessionList;
     foreach ( SkyObject *o, _obsList ) {
-        slotRemoveObject( o, false, true );
-        slotAddObject( o, false, true );
+        if( o->name() != "star" ) {
+            slotRemoveObject( o, false, true );
+            slotAddObject( o, false, true );
+        }
     }
     foreach ( SkyObject *obj, _SessionList ) {
-        slotRemoveObject( obj, true );
-        slotAddObject( obj, true, true );
+        if( obj->name() != "star" ) { 
+            slotRemoveObject( obj, true );
+            slotAddObject( obj, true, true );
+        }
     }
 }
 #include "observinglist.moc"
