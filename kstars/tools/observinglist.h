@@ -24,11 +24,15 @@
 
 #include "skyobjects/skyobject.h"
 #include "ui_observinglist.h"
+#include "kstarsdatetime.h"
+#include "geolocation.h"
 #include "ksalmanac.h"
 class KSAlmanac;
 class QSortFilterProxyModel;
 class QStandardItemModel;
 class KStars;
+class KStarsDateTime;
+class GeoLocation;
 class ObservingListUI : public QFrame, public Ui::ObservingList {
     Q_OBJECT
 
@@ -124,7 +128,7 @@ public slots:
         *@p o pointer to the SkyObject to be removed.
         *Use SkyMap::clickedObject() if o is NULL (default)
         */
-    void slotRemoveObject( SkyObject *o=NULL );
+    void slotRemoveObject( SkyObject *o=NULL, bool session=false, bool update=false );
 
     /**@short center the selected object in the display
         */
@@ -202,7 +206,10 @@ public slots:
     double findAltitude( SkyPoint *p, double hour=0);
 
     void slotChangeTab(int index);
+    
+    void slotLocation();
 
+    void slotUpdate();
 protected slots:
     void slotClose();
 
@@ -216,7 +223,8 @@ private:
     uint noNameStars;
     bool isModified, bIsLarge;
     QString ListName, FileName, SessionName;
-
+    KStarsDateTime dt;
+    GeoLocation *geo;
     QStandardItemModel *m_Model, *m_Session;
     QSortFilterProxyModel *m_SortModel, *m_SortModelSession;
 };

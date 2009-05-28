@@ -378,13 +378,6 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QPushButton" name="SetDate">
-       <property name="text">
-        <string>Set Date</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="SetLocation">
        <property name="text">
         <string>Set Location</string>
@@ -392,12 +385,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QTimeEdit" name="timeEdit">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>30</height>
-        </size>
+      <widget class="QDateEdit" name="DateEdit"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="Update">
+       <property name="text">
+        <string>Update</string>
        </property>
       </widget>
      </item>
@@ -469,7 +462,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>750</width>
+         <width>661</width>
          <height>170</height>
         </rect>
        </property>
@@ -496,6 +489,35 @@
        </property>
        <property name="sortingEnabled">
         <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QTimeEdit" name="TimeEdit">
+       <property name="geometry">
+        <rect>
+         <x>660</x>
+         <y>70</y>
+         <width>100</width>
+         <height>27</height>
+        </rect>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>30</height>
+        </size>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>673</x>
+         <y>50</y>
+         <width>71</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Set Time:</string>
        </property>
       </widget>
      </widget>
