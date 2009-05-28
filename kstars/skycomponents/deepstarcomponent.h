@@ -36,7 +36,6 @@
 #include "skyobjects/starobject.h"
 #include "binfilehelper.h"
 #include "starblockfactory.h"
-#include "skymesh.h"
 #include "skyobjects/deepstardata.h"
 #include "starblocklist.h"
 

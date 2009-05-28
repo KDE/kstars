@@ -22,8 +22,6 @@
 
 #include "skycomposite.h"
 #include "ksnumbers.h"
-#include "starcomponent.h"
-#include "flagcomponent.h"
 
 class SkyMesh;
 class SkyLabeler;
@@ -40,6 +38,7 @@ class CoordinateGrid;
 class DeepSkyComponent;
 class Ecliptic;
 class Equator;
+class FlagComponent;
 class HorizonComponent;
 class MilkyWay;
 class MagellanicClouds;

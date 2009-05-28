@@ -23,6 +23,7 @@
 
 #include "dms.h"
 #include "kstarsdata.h"
+#include "skyobjects/starobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/ksplanet.h"
 #include "skymap.h"
