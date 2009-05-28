@@ -276,12 +276,13 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) {
-    
-    if ( !o )
-        o = ks->map()->clickedObject();
-    else
-        if( ui->tabWidget->currentIndex() )
-            session = true;
+    if(!update) { 
+        if ( !o )
+            o = ks->map()->clickedObject();
+        else
+            if( ui->tabWidget->currentIndex() )
+                session = true;
+    }
     if( !session ) {
         int k = obsList().indexOf( o );
         if ( k < 0 ) return; //object not in observing list
