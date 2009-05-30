@@ -257,7 +257,6 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
     {
         m_SessionList.append(obj);
         QList<QStandardItem*> itemList;
-        if(!init && obj->name() != "star" ) TimeHash [obj->name()] = obj->transitTime( dt, geo );
         if(obj->name() == "star" )
             itemList << new QStandardItem( obj->translatedName() ) 
                     << new QStandardItem( obj->ra0()->toHMSString() ) 
@@ -271,7 +270,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
                     << new QStandardItem( obj->recomputeCoords(dt,geo).dec()->toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() )
-                    << new QStandardItem( TimeHash[obj->name()].toString( "h:mm A" ) );
+                    << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "h:mm A" ) );
         m_Session->appendRow( itemList );
         if ( ! isModified ) isModified = true;
         ui->SessionView->resizeColumnsToContents();
@@ -515,7 +514,7 @@ void ObservingList::slotNewSelection() {
                 if( ui->tabWidget->currentIndex() ) {
                     ui->TimeEdit->setEnabled( true );
                     ui->SetTime->setEnabled( true );
-                    ui->TimeEdit->setTime( TimeHash[o->name()] );
+                    ui->TimeEdit->setTime( TimeHash.value( o->name(), o->transitTime( dt, geo ) ) );
                 }   
             } else { //selected object is named "star"
                 //clear the log text box
@@ -1000,10 +999,7 @@ void ObservingList::slotWizard() {
 void ObservingList::plot( SkyObject *o ) {
     if( !o ) return;
     float DayOffset = 0;
-    if( ui->tabWidget->currentIndex() ) {
-        if( TimeHash[o->name()].hour() > 12)
-            DayOffset = 1;
-    } else if ( o->transitTime( dt, geo ).hour() > 12 )
+    if( TimeHash.value( o->name(), o->transitTime( dt, geo ) ).hour() > 12)
         DayOffset = 1;
     KStarsDateTime ut = dt;
     ut.setTime(QTime());
@@ -1131,10 +1127,6 @@ void ObservingList::slotLocation() {
     LocationDialog ld( (KStars*) topLevelWidget()->parent() );
 
     if ( ld.exec() == QDialog::Accepted ) {
-        foreach ( SkyObject *obj, SessionList() ) {
-            if(obj->transitTime(dt, geo) == TimeHash[obj->name()] )
-                TimeHash[obj->name()] = obj->transitTime( dt, ld.selectedCity() );
-        }
         geo = ld.selectedCity();
         ui->SetLocation -> setText( geo -> fullName() );
     }
