@@ -816,6 +816,10 @@ void ObservingList::slotOpenList() {
         QTextStream istream(&f);
         QString line;
         SessionName = istream.readLine();
+        line = istream.readLine();
+        QStringList fields = line.split('~');
+        geo = ks->data()->locationNamed(fields[0],fields[1],fields[2]);
+        ui->SetLocation -> setText( geo -> fullName() );
 
         while ( ! istream.atEnd() ) {
             line = istream.readLine();
@@ -846,10 +850,10 @@ void ObservingList::slotOpenList() {
             QStringList hashdata = line.split(':');
             TimeHash.insert( hashdata[0], QTime::fromString( hashdata[1], " hms ap" ) );
         }
+        //Update the location and user set times from file
+        slotUpdate();
         //Newly-opened list should not trigger isModified flag
         isModified = false;
-        //Update the user set times from file
-        slotUpdate();
         f.close();
         
     } else if ( !fileURL.path().isEmpty() ) {
@@ -974,6 +978,7 @@ void ObservingList::slotSaveSession() {
     }
     QTextStream ostream(&f);
     ostream << SessionName << endl;
+    ostream << geo->name() << "~" <<geo->province() << "~" << geo->country() << endl;
     foreach ( SkyObject* o, SessionList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
