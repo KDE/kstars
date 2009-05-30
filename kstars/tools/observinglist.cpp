@@ -193,13 +193,8 @@ ObservingList::ObservingList( KStars *_ks )
 //    ui->MiniButton->hide();
 }
 
-bool ObservingList::contains( const SkyObject *q ) {
-    // TODO: I guess there's a more effecient way of doing this using some method. Check QList reference. In fact, I think there's an QList::contains() method - Akarsh
-    foreach ( SkyObject* o, obsList() ) {
-        if ( o == q ) return true;
-    }
-
-    return false;
+bool ObservingList::contains(  SkyObject *q ) {
+    return obsList().contains( q );    
 }
 
 
