@@ -36,6 +36,7 @@ public slots:
     void saveScope();
     void updateScopeDetails(int index);
     void removeScope();
+    void restoreDefault();
 
 private:
     int findDeviceIndex(int listIndex);

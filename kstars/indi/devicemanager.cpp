@@ -128,8 +128,6 @@ void DeviceManager::connectToServer()
   
 void DeviceManager::connectionSuccess()
 {
-   kDebug() << "Connection success!!";
-    
    QTextStream serverFP(&serverSocket);
    
    foreach (IDevice *device, managed_devices)
@@ -346,7 +344,7 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 	indi_dev.append(dp);
 	emit newDevice(dp);
 		
-	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()));
+	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()), Qt::QueuedConnection);
 
     	/* ok */
     	return dp;

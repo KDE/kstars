@@ -44,7 +44,7 @@ void MagellanicClouds::init( KStarsData *data )
 
     intro();
 
-    char* fname = "lmc.dat";
+    const char* fname = "lmc.dat";
     QString line;
     double ra, dec, lastRa, lastDec;
     SkipList *skipList = 0;

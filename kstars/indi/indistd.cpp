@@ -650,6 +650,7 @@ void INDIStdDevice::registerProperty(INDI_P *pp)
         break;
 
     case EQUATORIAL_EOD_COORD:
+    case HORIZONTAL_COORD:
         emit newTelescope();
         break;
 
@@ -667,8 +668,6 @@ void INDIStdDevice::createDeviceInit()
 
     INDI_P *prop;
 
-    //initDevCounter = 0;
-
     if ( Options::useTimeUpdate() && Options::useComputerSource())
     {
         prop = dp->findProp("TIME_UTC");
@@ -676,7 +675,6 @@ void INDIStdDevice::createDeviceInit()
         {
 	    driverTimeUpdated = false;
             updateTime();
-            //initDevCounter += 5;
         }
     }
  
@@ -687,7 +685,6 @@ void INDIStdDevice::createDeviceInit()
         {
 	    driverLocationUpdated = false;
             updateLocation();
-            //initDevCounter += 2;
         }
     }
 
@@ -905,12 +902,10 @@ void INDIStdProperty::newText()
                     if (device->deviceType == KSTARS_TELESCOPE)
                     {
                         Options::setTelescopePort( lp->text );
-                        kDebug() << "Setting telescope port " << lp->text;
                     }
                     else if (device->deviceType == KSTARS_VIDEO)
                     {
                         Options::setVideoPort( lp->text );
-                        kDebug() << "Setting video port " << lp->text;
                     }
                     break;
                 }

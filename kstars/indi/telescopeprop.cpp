@@ -21,6 +21,7 @@
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <kmessagebox.h>
+#include <kstandarddirs.h>
 
 #include <QListWidget>
 
@@ -50,6 +51,7 @@ telescopeProp::telescopeProp(QWidget* parent, const char* /*name*/, bool modal, 
     connect (ui->removeB, SIGNAL(clicked()), this, SLOT(removeScope()));
     connect (ui->telescopeListBox, SIGNAL(currentRowChanged(int)),this, SLOT(updateScopeDetails(int)));
     connect(ui->closeB, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->restoreB, SIGNAL(clicked()), this, SLOT(restoreDefault()));
 
     // Fill the combo box with drivers
     ui->driverCombo->addItems(indi_driver->driversList);
@@ -58,7 +60,7 @@ telescopeProp::telescopeProp(QWidget* parent, const char* /*name*/, bool modal, 
     //for (unsigned int i=0; i < indi_driver->devices.size(); i++)
     foreach (IDevice *dev, indi_driver->devices)
     {
-        if (dev->deviceType == KSTARS_TELESCOPE)
+        if (dev->deviceType == KSTARS_TELESCOPE && dev->primary_xml)
             ui->telescopeListBox->addItem(dev->tree_label);
     }
 
@@ -86,9 +88,8 @@ void telescopeProp::newScope()
 
     /* FIXME This call causes KStars to crash under Qt 4.1
       Possible bug?? 
-      JM: This is a bug in Qt 4.1, have to wait for Qt 4.2 for a fix
+      JM: This is a bug in Qt 4.1, have to wait for Qt 4.2 for a fix */
     ui->telescopeListBox->clearSelection();
-    */
 
     newScopePending = true;
 
@@ -99,6 +100,7 @@ void telescopeProp::saveScope()
     IDevice *dev (NULL);
     double focal_length(-1), aperture(-1);
     int finalIndex = -1;
+    bool is_ok=false;
 
     if (ui->labelEdit->text().isEmpty())
     {
@@ -121,21 +123,25 @@ void telescopeProp::saveScope()
     if (ui->telescopeListBox->currentRow() != -1)
         finalIndex = findDeviceIndex(ui->telescopeListBox->currentRow());
 
+     // FIXME add GUI warnings for negative values after KDE 4.3 is released
+     focal_length = ui->focalEdit->text().toDouble(&is_ok);
+     if (is_ok == false)
+	   focal_length = -1;
+     aperture = ui->apertureEdit->text().toDouble(&is_ok);
+     if (is_ok == false)
+	   aperture = -1;
+
     // Add new scope
     if (newScopePending)
     {
 
         dev = new IDevice(ui->labelEdit->text(), ui->labelEdit->text(), ui->driverCombo->currentText(), ui->versionEdit->text());
 
-        dev->deviceType = KSTARS_TELESCOPE;
+        dev->deviceType  = KSTARS_TELESCOPE;
+	dev->primary_xml = true;
 
-        focal_length = ui->focalEdit->text().toDouble();
-        aperture = ui->apertureEdit->text().toDouble();
-
-        if (focal_length > 0)
-            dev->focal_length = focal_length;
-        if (aperture > 0)
-            dev->aperture = aperture;
+         dev->focal_length = focal_length;
+         dev->aperture = aperture;
 
         indi_driver->devices.append(dev);
 
@@ -151,14 +157,8 @@ void telescopeProp::saveScope()
         indi_driver->devices[finalIndex]->version 	= ui->versionEdit->text();
         indi_driver->devices[finalIndex]->driver 	= ui->driverCombo->currentText();
 
-
-        focal_length = ui->focalEdit->text().toDouble();
-        aperture = ui->apertureEdit->text().toDouble();
-
-        if (focal_length > 0)
-            indi_driver->devices[finalIndex]->focal_length = focal_length;
-        if (aperture > 0)
-            indi_driver->devices[finalIndex]->aperture = aperture;
+        indi_driver->devices[finalIndex]->focal_length = focal_length;
+        indi_driver->devices[finalIndex]->aperture = aperture;
     }
 
     indi_driver->saveDevicesToDisk();
@@ -252,6 +252,22 @@ void telescopeProp::removeScope()
 
 }
 
+void telescopeProp::restoreDefault()
+{
+	QString driver_fullpath;
+	QFile driver_file;
+
+	driver_fullpath = KStandardDirs::locateLocal( "appdata", "drivers.xml");
+
+	/* FIXME add more appropiate warning & confirmation dialogs after 4.3 is released */
+	if (driver_fullpath.isEmpty())
+		return;
+
+	driver_file.setFileName(driver_fullpath);
+
+	if (driver_file.remove())
+	        KMessageBox::information(NULL, i18n("You need to restart KStars for changes to take effect."));
+}
 
 #include "telescopeprop.moc"
 

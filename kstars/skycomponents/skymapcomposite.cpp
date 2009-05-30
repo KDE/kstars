@@ -46,6 +46,7 @@
 #include "starcomponent.h"
 #include "deepstarcomponent.h"
 #include "satellitecomposite.h"
+#include "flagcomponent.h"
 
 #include "skymesh.h"
 #include "skylabeler.h"

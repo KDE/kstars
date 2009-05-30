@@ -114,7 +114,7 @@ void JMoonTool::initPlotObjects() {
     KPlotObject *jpath;
     long double jd0 = ksw->data()->ut().djd();
     KSSun *ksun = (KSSun*)ksw->data()->skyComposite()->findByName( "Sun" );
-    KSPlanet *jup = (KSPlanet*)ksw->data()->skyComposite()->findByName( "Jupiter" );
+    KSPlanet *jup = (KSPlanet*)ksw->data()->skyComposite()->findByName( i18n("Jupiter") );
     JupiterMoons jm;
 
     pw->removeAllPlotObjects();

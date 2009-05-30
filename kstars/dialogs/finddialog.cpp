@@ -27,6 +27,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skyobjects/skyobject.h"
+#include "skycomponents/starcomponent.h"
 
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
@@ -239,7 +240,6 @@ SkyObject* FindDialog::selectedObject() const {
             int HD = stext.toInt( &ok );
             // Looks like the user is looking for a HD star
             if( ok ) {
-                KStars *p = (KStars*)parent();
                 obj = StarComponent::Instance()->findByHDIndex( HD );
             }
         }

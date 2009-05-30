@@ -58,6 +58,7 @@ public:
     QString driver;
     QString version;
     DeviceStatus state;
+    bool primary_xml;
 
     DeviceManager *deviceManager;
     int deviceType;
@@ -99,8 +100,6 @@ public:
 
     bool readXMLDrivers();
     void processXMLDriver(QString & driverName);
-
-    bool buildDriversList( XMLEle *root, char errmsg[]);
     bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
     bool buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int groupType, char errmsg[]);
 
@@ -112,6 +111,7 @@ public:
   
     QStringList driversList;
     int currentPort;
+    bool primary_xml;
   
     void saveDevicesToDisk();
     int getINDIPort();

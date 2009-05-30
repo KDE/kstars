@@ -26,6 +26,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "skycomponents/flagcomponent.h"
 
 
 FlagManagerUI::FlagManagerUI( QWidget *p ) : QFrame( p ) {
