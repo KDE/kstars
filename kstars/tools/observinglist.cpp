@@ -829,6 +829,8 @@ void ObservingList::slotOpenList() {
                 SkyPoint p( ra, dc );
                 double maxrad = 1000.0/Options::zoomFactor();
                 o = ks->data()->skyComposite()->starNearest( &p, maxrad );
+            } else if ( line.startsWith( "Begin Hash" ) ) {
+                break;
             } else {
                 o = ks->data()->objectNamed( line );
             }
@@ -839,9 +841,15 @@ void ObservingList::slotOpenList() {
 
             if ( o ) slotAddObject( o, true );
         }
-
+        while ( ! istream.atEnd() ) {
+            line = istream.readLine();
+            QStringList hashdata = line.split(':');
+            TimeHash.insert( hashdata[0], QTime::fromString( hashdata[1], " hms ap" ) );
+        }
         //Newly-opened list should not trigger isModified flag
         isModified = false;
+        //Update the user set times from file
+        slotUpdate();
         f.close();
         
     } else if ( !fileURL.path().isEmpty() ) {
@@ -981,7 +989,12 @@ void ObservingList::slotSaveSession() {
             ostream << o->name() << endl;
         }
     }
-
+    ostream << "Begin Hash"<<endl;
+    QHashIterator<QString, QTime> i(TimeHash);
+    while (i.hasNext()) {
+        i.next();
+        ostream << i.key() << ": " << i.value().toString("hms ap") << endl;
+    }
     f.close();
     isModified = false;
 }
