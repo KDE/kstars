@@ -777,6 +777,7 @@ void ObservingList::slotClose() {
         currentObject()->saveUserLog( ui->NotesEdit->toPlainText() );
     }
     ui->View->removeAllPlotObjects();
+    saveCurrentList();
     hide();
 }
 
