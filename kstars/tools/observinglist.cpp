@@ -205,21 +205,21 @@ bool ObservingList::contains( const SkyObject *q ) {
 
 //SLOTS
 
-void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
-    // TODO: Give 'flag' a better, more descriptive name, so that one easily understands its function - Akarsh
-    bool flag=true;
+void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
+    bool addToWishList=true;
     if ( ! obj ) obj = ks->map()->clickedObject();
 
     //First, make sure object is not already in the list
     foreach ( SkyObject *o, obsList() ) {
         if ( obj == o ) {
-            flag = false;
+            addToWishList = false;
             if( !session ) {
                 ks->statusBar()->changeItem( i18n( "%1 is already in the observing list.", obj->name() ), 0 );
                 return;
             }
         }
     }
+
     if( session ) 
         foreach ( SkyObject *o, SessionList() ) {
             if ( obj == o ) {
@@ -232,7 +232,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
     if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
        
     //Insert object in obsList
-    if(flag) {
+    if( addToWishList  ) {
         m_ObservingList.append( obj );
         m_CurrentObject = obj;
         QList<QStandardItem*> itemList;
@@ -252,11 +252,10 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", obj->name() ), 0 );
         ui->TableView->resizeColumnsToContents(); 
-        if( !init) slotSaveList();
+        if( !update ) slotSaveList();
     }
      
-    if( session )
-    {
+    if( session ){
         m_SessionList.append(obj);
         QList<QStandardItem*> itemList;
         if(obj->name() == "star" )
@@ -291,9 +290,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
     if( !session ) {
         int k = obsList().indexOf( o );
         if ( k < 0 ) return; //object not in observing list
- 
-        //DEBUG
-        kDebug() << "Removing " << o->name();
  
         if ( o == LogObject )
             saveCurrentUserLog();
@@ -334,14 +330,11 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
     } else {
         int k = SessionList().indexOf( o );
         if ( k < 0 ) return; //object not in observing list
- 
-        //DEBUG
-        kDebug() << "Removing " << o->name();
- 
+
         if ( o == LogObject )
             saveCurrentUserLog();
  
-        //Remove row from the TableView model
+        //Remove row from the SessionView model
         bool found(false);
         if ( o->name() == "star" ) {
             //Find object in table by RA and Dec
@@ -828,7 +821,7 @@ void ObservingList::slotOpenList() {
         QString line;
         SessionName = istream.readLine();
         line = istream.readLine();
-        QStringList fields = line.split('~'); // TODO: I think '|' is a better idea. - Akarsh
+        QStringList fields = line.split('|'); 
         geo = ks->data()->locationNamed(fields[0],fields[1],fields[2]);
         ui->SetLocation -> setText( geo -> fullName() );
 
@@ -844,7 +837,7 @@ void ObservingList::slotOpenList() {
                 SkyPoint p( ra, dc );
                 double maxrad = 1000.0/Options::zoomFactor();
                 o = ks->data()->skyComposite()->starNearest( &p, maxrad );
-            } else if ( line.startsWith( "Begin Hash" ) ) { // TODO: I find this Begin Hash weird... don't you? - Akarsh
+            } else if ( line.startsWith( "QHash" ) ) { 
                 break;
             } else {
                 o = ks->data()->objectNamed( line );
@@ -868,13 +861,7 @@ void ObservingList::slotOpenList() {
         f.close();
         
     } else if ( !fileURL.path().isEmpty() ) { 
-        // TODO: I don't recommend this. Instead, why not give the user an error and just go back, so that the user can click open again.
-        //       Although that doesn't make much of a difference, really, it'll be cleaner since this code will consume more memory due to recursion.
-        //       I know I'm being paranoid, but why not?... - Akarsh
-        QString message = i18n( "The specified file is invalid.  Try another file?" );
-        if ( KMessageBox::warningYesNo( this, message, i18n("Invalid File"), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
-            slotOpenList();
-        }
+        KMessageBox::sorry( 0 , i18n("The specified file is invalid") );
     }
 }
 
@@ -888,9 +875,6 @@ void ObservingList::saveCurrentList() {
                                              i18n( "Save Current session?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() ) == KMessageBox::Yes )
                 slotSaveSession();
         }
-
-        //If we ever allow merging the loaded list with
-        //the existing one, that code would go here
     }
 }
 
@@ -983,7 +967,6 @@ void ObservingList::slotSaveSession() {
 
     QFile f( FileName );
     if(!f.open(QIODevice::WriteOnly)) {
-        // TODO: Same as before. Maybe you should just exit with an error. - Akarsh
         QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
         if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
             FileName.clear();
@@ -993,7 +976,7 @@ void ObservingList::slotSaveSession() {
     }
     QTextStream ostream(&f);
     ostream << SessionName << endl;
-    ostream << geo->name() << "~" <<geo->province() << "~" << geo->country() << endl; // TODO: |s look better, atleast to me. - Akarsh
+    ostream << geo->name() << "|" <<geo->province() << "|" << geo->country() << endl;
     foreach ( SkyObject* o, SessionList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
@@ -1009,7 +992,7 @@ void ObservingList::slotSaveSession() {
             ostream << o->name() << endl;
         }
     }
-    ostream << "Begin Hash"<<endl;
+    ostream << "QHash" << endl;
     QHashIterator<QString, QTime> i(TimeHash);
     while (i.hasNext()) {
         i.next();
@@ -1066,8 +1049,8 @@ double ObservingList::findAltitude( SkyPoint *p, double hour ) {
 void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
         ui->MiniButton->setIcon( KIcon("view-fullscreen") );
-        //Abbreviate text on each button
 
+        //Abbreviate text on each button
         ui->CenterButton->setText( i18nc( "First letter in 'Center'", "C" ) );
         ui->ScopeButton->setText( i18nc( "First letter in 'Scope'", "S" ) );
         ui->DetailsButton->setText( i18nc( "First letter in 'Details'", "D" ) );
@@ -1089,7 +1072,6 @@ void ObservingList::slotToggleSize() {
         ui->NotesLabel->hide();
         ui->NotesEdit->hide();
         ui->View->hide();
-//      ui->Spacer1->hide();
         //Set the width of the Table to be the width of 5 toolbar buttons, 
         //or the width of column 1, whichever is larger
         int w = 5*ui->MiniButton->width();
