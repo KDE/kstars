@@ -1135,7 +1135,10 @@ void ObservingList::slotChangeTab(int index) {
     ui->TimeEdit->setEnabled( false );
     ui->SetTime->setEnabled( false );
     m_CurrentObject = 0;
-
+    if(index)
+        ui->WizardButton->setEnabled( false );
+    else 
+        ui->WizardButton->setEnabled( true );
     //Clear the user log text box.
     saveCurrentUserLog();
     ui->NotesEdit->setPlainText("");
