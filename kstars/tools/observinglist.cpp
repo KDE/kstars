@@ -738,9 +738,12 @@ void ObservingList::slotAddToSession() {
 void ObservingList::slotFind() {
     FindDialog fd( ks );    
     if ( fd.exec() == QDialog::Accepted ) {
-       SkyObject *o = fd.selectedObject();
-       if( o!= 0 )
-       slotAddObject( o );
+        SkyObject *o = fd.selectedObject();
+        if( o!= 0 )
+            if( ui->tabWidget->currentIndex() )
+                slotAddObject( o, true );
+            else
+                slotAddObject( o );  
     }
 
 }
