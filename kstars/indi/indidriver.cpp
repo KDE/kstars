@@ -84,6 +84,7 @@ INDIDriver::INDIDriver( KStars *_ks )
     currentPort = Options::serverPortStart().toInt()-1;
     lastGroup = NULL;
     lastDevice = NULL;
+    primary_xml = false;
 
     ui = new DeviceManagerUI( this );
     setMainWidget( ui );
@@ -433,26 +434,30 @@ void INDIDriver::saveDevicesToDisk()
 
     QTextStream outstream(&file);
 
-    // Let's write drivers first
-/*
-    outstream << "<ScopeDrivers>" << endl;
-    for (int i=0; i < driversList.count(); i++)
-        outstream << "       <driver>" << driversList[i] << "</driver>" << endl;
-    outstream << "</ScopeDrivers>" << endl;
-*/
-
     // Next we write devices, in the following order:
     // Telescopes, CCDs, Filter Wheels, Video, Dome, GPS
-
     // #1 Telescopes
     outstream << "<devGroup group='Telescopes'>" << endl;
     //for (unsigned i=0; i < devices.size(); i++)
     foreach (IDevice *dev, devices)
     {
+	// We only write devices that were contained orignally in drivers.xml
+	if (dev->primary_xml == false)
+		continue;
+
         if (dev->deviceType == KSTARS_TELESCOPE)
         {
-            outstream << QString("<device label='%1' focal_length='%2' aperture='%3'>").arg(dev->tree_label).arg(dev->focal_length > 0 ? dev->focal_length : -1).arg(dev->aperture > 0 ? dev->aperture : -1) << endl;
+//            outstream << QString("<device label='%1' focal_length='%2' aperture='%3'>").arg(dev->tree_label).arg(dev->focal_length > 0 ? dev->focal_length : -1).arg(dev->aperture > 0 ? dev->aperture : -1) << endl;
 
+            outstream << QString("<device label='%1'").arg(dev->tree_label);
+	    if (dev->focal_length > 0)
+	            outstream << QString(" focal_length='%1'").arg(dev->focal_length);
+	    if (dev->aperture > 0)
+	            outstream << QString(" aperture='%1'").arg(dev->aperture);
+	    outstream << QString(">") << endl;
+	
+
+            outstream << "       <name>" << dev->driver_class << "</name>" << endl;
             outstream << "       <driver>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
@@ -466,9 +471,14 @@ void INDIDriver::saveDevicesToDisk()
     //for (unsigned i=0; i < devices.size(); i++)
     foreach (IDevice *dev, devices)
     {
+	// We only write devices that were contained orignally in drivers.xml
+	if (dev->primary_xml == false)
+		continue;
+
         if (dev->deviceType == KSTARS_CCD)
         {
             outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
+            outstream << "       <name>" << dev->driver_class << "</name>" << endl;
             outstream << "       <driver>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
@@ -483,9 +493,14 @@ void INDIDriver::saveDevicesToDisk()
     foreach (IDevice *dev, devices)
     //for (unsigned i=0; i < devices.size(); i++)
     {
+	// We only write devices that were contained orignally in drivers.xml
+	if (dev->primary_xml == false)
+		continue;
+
         if (dev->deviceType == KSTARS_FILTER)
         {
             outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
+            outstream << "       <name>" << dev->driver_class << "</name>" << endl;
             outstream << "       <driver>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
@@ -500,9 +515,14 @@ void INDIDriver::saveDevicesToDisk()
     foreach (IDevice *dev, devices)
     //for (unsigned i=0; i < devices.size(); i++)
     {
+	// We only write devices that were contained orignally in drivers.xml
+	if (dev->primary_xml == false)
+		continue;
+
         if (dev->deviceType == KSTARS_VIDEO)
         {
             outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
+            outstream << "       <name>" << dev->driver_class << "</name>" << endl;
             outstream << "       <driver>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
@@ -551,11 +571,8 @@ int INDIDriver::getINDIPort()
     return -1;
 }
 
-// Change this to ReadXMLDriver(file name). Scan directory, TAKE out drivers.xml, then call that first. If drivers.xml doesn't exit, 
-// process each file individually in the order received.
 bool INDIDriver::readXMLDrivers()
 {
-    //QString indiFile("drivers.xml");
     QDir indiDir;
     QString driverName;
 
@@ -571,8 +588,22 @@ bool INDIDriver::readXMLDrivers()
 
     foreach (QFileInfo fileInfo, list)
     {
-        driverName = QString("%1/%2").arg(Options::indiDriversDir()).arg(fileInfo.fileName());
-        processXMLDriver(driverName);
+	if (fileInfo.fileName() == "drivers.xml")
+	{ 
+	    // Let first attempt to load the local version of drivers.xml
+	    driverName = KStandardDirs::locateLocal( "appdata", "drivers.xml");
+
+	    // If found, we continue, otherwise, we load the system file
+	    if (driverName.isEmpty() == false && QFile(driverName).exists())
+	    {
+	        processXMLDriver(driverName);
+		continue;
+	    }
+	}
+
+	        driverName = QString("%1/%2").arg(Options::indiDriversDir()).arg(fileInfo.fileName());
+	        processXMLDriver(driverName);
+
     }
 
 return true;
@@ -588,11 +619,15 @@ void INDIDriver::processXMLDriver(QString & driverName)
          return;
     }
 
-	kDebug() << "Processing driver: " << driverName << endl;
     char errmsg[1024];
     char c;
     LilXML *xmlParser = newLilXML();
     XMLEle *root = NULL;
+
+    if (driverName.endsWith("drivers.xml"))
+	primary_xml = true;
+   else
+        primary_xml = false;
 
     while ( file.getChar(&c))
     {
@@ -616,17 +651,6 @@ void INDIDriver::processXMLDriver(QString & driverName)
     delLilXML(xmlParser);
 
 }
-bool INDIDriver::buildDriversList( XMLEle *root, char* /*errmsg[]*/)
-{
-
-    XMLEle *ep;
-
-    for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
-        driversList << pcdataXMLEle(ep);
-
-    return true;
-
-}
 
 bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 {
@@ -636,9 +660,6 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
     QString groupName;
     QTreeWidgetItem *group;
     int groupType = KSTARS_TELESCOPE;
-
-    //if (!strcmp(tagXMLEle(root), "ScopeDrivers"))
-      //  return buildDriversList(root, errmsg);
 
     // avoid overflow
     if (strlen(tagXMLEle(root)) > 1024)
@@ -752,8 +773,12 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
     lastDevice = device;
 
+    if (primary_xml && driversList.contains(driver) == false)
+	driversList << driver;
+
     dv = new IDevice(name, label, driver, version);
     dv->deviceType = groupType;
+    dv->primary_xml = primary_xml;
     //connect(dv, SIGNAL(newServerInput()), this, SLOT(updateLocalTab()));
     if (focal_length > 0)
         dv->focal_length = focal_length;
@@ -884,8 +909,6 @@ void INDIDriver::removeINDIHost()
 
 
     saveHosts();
-
-
 }
 
 void INDIDriver::saveHosts()
@@ -942,6 +965,8 @@ IDevice::IDevice(const QString &inName, const QString &inLabel, const QString &i
     driver_class = inName;
     driver	 = inDriver;
     version	 = inVersion;
+
+    primary_xml  = false;
   
       // Initially off
     state = IDevice::DEV_TERMINATE;
