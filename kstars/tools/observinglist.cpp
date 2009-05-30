@@ -862,7 +862,7 @@ void ObservingList::saveCurrentList() {
     //Assume that if the list is empty, then there's no need to save
     if ( SessionList().size() ) {
         if ( isModified ) {
-            QString message = i18n( "Do you want to save the current session before opening a new session?" );
+            QString message = i18n( "Do you want to save the current session?" );
             if ( KMessageBox::questionYesNo( this, message,
                                              i18n( "Save Current session?" ), KStandardGuiItem::save(), KStandardGuiItem::discard() ) == KMessageBox::Yes )
                 slotSaveSession();
