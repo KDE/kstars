@@ -111,22 +111,35 @@ public:
         */
     void saveCurrentList();
 
+    /**@short Plot the SkyObject's Altitude vs Time in the AVTPlotWidget.
+       *@p o pointer to the object to be plotted
+       */
+    void plot( SkyObject *o );
+    
+    /**@short Return the altitude of the given SkyObject for the given hour.
+        *@p p pointer to the SkyObject 
+        *@p hour time at which altitude has to be found
+        */
+    double findAltitude( SkyPoint *p, double hour=0);
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
-        *@p session To add an object to the session list
-        *@p init For disabling autosave during initial loading of the WishList
+        *@p session flag toggle adding the object to the session list
+        *@p update flag to toggle the call of slotSaveList
         */
-    void slotAddObject( SkyObject *o=NULL, bool session=false, bool init=false );
+    void slotAddObject( SkyObject *o=NULL, bool session=false, bool update=false );
 
     /**@short Remove skyobjects which are highlighted in the
         *observing list tool from the observing list.
         */
     void slotRemoveSelectedObjects();
 
-    // TODO: Add comments for the session and update parameters - Akarsh
     /**@short Remove skyobject from the observing list.
         *@p o pointer to the SkyObject to be removed.
+        *@p session flag to tell it whether to remove the object
+        *from the sessionlist or from the wishlist
+        *@p update flag to toggle the call of slotSaveList
         *Use SkyMap::clickedObject() if o is NULL (default)
         */
     void slotRemoveObject( SkyObject *o=NULL, bool session=false, bool update=false );
@@ -149,7 +162,7 @@ public slots:
 
     /**@short Open the WUT dialog
     */
-   void slotWUT();
+    void slotWUT();
     
     /**@short Add the object to the Session List
         */
@@ -166,8 +179,6 @@ public slots:
         */
     void slotNewSelection();
 
-    //  void slotNewCurrent();
-
     /**@short load an observing list from disk.
         */
     void slotOpenList();
@@ -183,7 +194,6 @@ public slots:
     /**@short save the current observing session plan to disk, specify filename.
         */
     void slotSaveSessionAs();
-    
 
     /**@short save the current session
         */
@@ -202,17 +212,27 @@ public slots:
         */
     void saveCurrentUserLog();
 
-    void plot( SkyObject *o );
-
-    double findAltitude( SkyPoint *p, double hour=0);
-
+    /**@short toggle the setEnabled flags according to current view
+        *set the m_currentItem to NULL and clear selections
+        *@p index captures the integer value sent by the signal
+        *which is the currentIndex of the table
+        */
     void slotChangeTab(int index);
     
+    /**@short Opens the Location dialog to set the GeoLocation
+        *for the sessionlist.
+        */
     void slotLocation();
 
+    /**@short Updates the tableviews for the new geolocation and date 
+        */
     void slotUpdate();
-
+    
+    /**@short Takes the time from the QTimeEdit box and sets it as the
+        *time parameter in the tableview of the SessionList.
+        */
     void slotSetTime();
+
 protected slots:
     void slotClose();
 
@@ -221,11 +241,10 @@ private:
     KSAlmanac *ksal;
     ObservingListUI *ui;
     QList<SkyObject*> m_ObservingList, m_SessionList;
-//    QList<SkyObject*> m_SelectedObjects;
     SkyObject *LogObject, *m_CurrentObject, *PlotObject;
     uint noNameStars;
     bool isModified, bIsLarge;
-    QString ListName, FileName, SessionName;
+    QString FileName, SessionName;
     KStarsDateTime dt;
     GeoLocation *geo;
     QStandardItemModel *m_Model, *m_Session;
