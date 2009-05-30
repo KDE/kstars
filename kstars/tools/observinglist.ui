@@ -495,7 +495,7 @@
        <property name="geometry">
         <rect>
          <x>660</x>
-         <y>70</y>
+         <y>60</y>
          <width>100</width>
          <height>27</height>
         </rect>
@@ -507,17 +507,17 @@
         </size>
        </property>
       </widget>
-      <widget class="QLabel" name="label">
+      <widget class="QPushButton" name="SetTime">
        <property name="geometry">
         <rect>
-         <x>673</x>
-         <y>50</y>
-         <width>71</width>
-         <height>20</height>
+         <x>660</x>
+         <y>90</y>
+         <width>91</width>
+         <height>27</height>
         </rect>
        </property>
        <property name="text">
-        <string>Set Time:</string>
+        <string>Set Time</string>
        </property>
       </widget>
      </widget>

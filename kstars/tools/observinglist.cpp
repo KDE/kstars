@@ -166,6 +166,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotLocation() ) );
     connect( ui->Update, SIGNAL( clicked() ),
              this, SLOT( slotUpdate() ) );
+    connect( ui->SetTime, SIGNAL( clicked() ),
+             this, SLOT( slotSetTime() ) );
     connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
              this, SLOT( slotChangeTab(int) ) );
     //Add icons to Push Buttons
@@ -183,9 +185,8 @@ ObservingList::ObservingList( KStars *_ks )
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
     ui->AddToSession->setEnabled( false );
-//    ui->SetDate->hide();
-//    ui->SetLocation->hide();
-//    ui->timeEdit->hide();
+    ui->SetTime->setEnabled( false );
+    ui->TimeEdit->setEnabled( false );
 
     slotLoadWishList();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
@@ -256,18 +257,21 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
     {
         m_SessionList.append(obj);
         QList<QStandardItem*> itemList;
+        if(!init && obj->name() != "star" ) TimeHash [obj->name()] = obj->transitTime( dt, geo );
         if(obj->name() == "star" )
             itemList << new QStandardItem( obj->translatedName() ) 
                     << new QStandardItem( obj->ra0()->toHMSString() ) 
                     << new QStandardItem( obj->dec0()->toDMSString() ) 
                     << new QStandardItem( smag )
-                    << new QStandardItem( obj->typeName() );
+                    << new QStandardItem( obj->typeName() )
+                    << new QStandardItem( "--"  );
         else
             itemList << new QStandardItem( obj->translatedName() ) 
                     << new QStandardItem( obj->recomputeCoords(dt,geo).ra()->toHMSString() ) 
                     << new QStandardItem( obj->recomputeCoords(dt,geo).dec()->toDMSString() ) 
                     << new QStandardItem( smag )
-                    << new QStandardItem( obj->typeName() );
+                    << new QStandardItem( obj->typeName() )
+                    << new QStandardItem( TimeHash[obj->name()].toString( "h:mm A" ) );
         m_Session->appendRow( itemList );
         if ( ! isModified ) isModified = true;
         ui->SessionView->resizeColumnsToContents();
@@ -485,11 +489,10 @@ void ObservingList::slotNewSelection() {
         #ifdef HAVE_INDI_H
             ui->ScopeButton->setEnabled( true );
         #endif
-            ui->DetailsButton->setEnabled( true );
-            ui->AVTButton->setEnabled( true );
-            ui->RemoveButton->setEnabled( true );
-            ui->AddToSession->setEnabled( true );
-
+        ui->DetailsButton->setEnabled( true );
+        ui->AVTButton->setEnabled( true );
+        ui->RemoveButton->setEnabled( true );
+        ui->AddToSession->setEnabled( true );
         if ( found ) {
             m_CurrentObject = o;
             PlotObject = currentObject();
@@ -509,6 +512,11 @@ void ObservingList::slotNewSelection() {
                 } else {
                     ui->NotesEdit->setPlainText( LogObject->userLog() );
                 }
+                if( ui->tabWidget->currentIndex() ) {
+                    ui->TimeEdit->setEnabled( true );
+                    ui->SetTime->setEnabled( true );
+                    ui->TimeEdit->setTime( TimeHash[o->name()] );
+                }   
             } else { //selected object is named "star"
                 //clear the log text box
                 saveCurrentUserLog();
@@ -533,6 +541,8 @@ void ObservingList::slotNewSelection() {
         ui->NotesEdit->setEnabled( false );
         ui->AddToSession->setEnabled( false );
         m_CurrentObject = 0;
+        ui->TimeEdit->setEnabled( false );
+        ui->SetTime->setEnabled( false );
 
         //Clear the user log text box.
         saveCurrentUserLog();
@@ -549,6 +559,8 @@ void ObservingList::slotNewSelection() {
         ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
+        ui->TimeEdit->setEnabled( false );
+        ui->SetTime->setEnabled( false );
         m_CurrentObject = 0;
         ui->View->removeAllPlotObjects();
 
@@ -993,7 +1005,10 @@ void ObservingList::slotWizard() {
 void ObservingList::plot( SkyObject *o ) {
     if( !o ) return;
     float DayOffset = 0;
-    if ( o->transitTime( dt, geo ).hour() > 12 )
+    if( ui->tabWidget->currentIndex() ) {
+        if( TimeHash[o->name()].hour() > 12)
+            DayOffset = 1;
+    } else if ( o->transitTime( dt, geo ).hour() > 12 )
         DayOffset = 1;
     KStarsDateTime ut = dt;
     ut.setTime(QTime());
@@ -1108,6 +1123,8 @@ void ObservingList::slotChangeTab(int index) {
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
     ui->AddToSession->setEnabled( false );
+    ui->TimeEdit->setEnabled( false );
+    ui->SetTime->setEnabled( false );
     m_CurrentObject = 0;
 
     //Clear the user log text box.
@@ -1119,6 +1136,10 @@ void ObservingList::slotLocation() {
     LocationDialog ld( (KStars*) topLevelWidget()->parent() );
 
     if ( ld.exec() == QDialog::Accepted ) {
+        foreach ( SkyObject *obj, SessionList() ) {
+            if(obj->transitTime(dt, geo) == TimeHash[obj->name()] )
+                TimeHash[obj->name()] = obj->transitTime( dt, ld.selectedCity() );
+        }
         geo = ld.selectedCity();
         ui->SetLocation -> setText( geo -> fullName() );
     }
@@ -1136,10 +1157,16 @@ void ObservingList::slotUpdate() {
         }
     }
     foreach ( SkyObject *obj, _SessionList ) {
-        if( obj->name() != "star" ) { 
+        if( obj->name() != "star" ) {  
             slotRemoveObject( obj, true );
             slotAddObject( obj, true, true );
         }
     }
+}
+void ObservingList::slotSetTime() {
+    SkyObject *o = currentObject();
+    slotRemoveObject( o, true );
+    TimeHash [o->name()] = ui->TimeEdit->time();
+    slotAddObject(o, true, true );
 }
 #include "observinglist.moc"

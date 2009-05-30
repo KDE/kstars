@@ -210,6 +210,8 @@ public slots:
     void slotLocation();
 
     void slotUpdate();
+
+    void slotSetTime();
 protected slots:
     void slotClose();
 
@@ -227,6 +229,7 @@ private:
     GeoLocation *geo;
     QStandardItemModel *m_Model, *m_Session;
     QSortFilterProxyModel *m_SortModel, *m_SortModelSession;
+    QHash<QString, QTime> TimeHash; 
 };
 
 #endif // OBSERVINGLIST_H_
