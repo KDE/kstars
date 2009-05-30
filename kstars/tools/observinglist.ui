@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>783</width>
+    <width>782</width>
     <height>650</height>
    </rect>
   </property>
@@ -58,7 +58,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Open observing list</string>
+        <string>Open an observation session list</string>
        </property>
        <property name="whatsThis">
         <string>Load an observing list from disk</string>
@@ -89,7 +89,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Save observing list</string>
+        <string>Save the observing session</string>
        </property>
        <property name="whatsThis">
         <string>Save the current observing list to disk</string>
@@ -120,7 +120,7 @@
         </size>
        </property>
        <property name="toolTip">
-        <string>Save observing list as...</string>
+        <string>Save observing session as...</string>
        </property>
        <property name="whatsThis">
         <string>Save the current observing list to disk, specifying the filename</string>
@@ -353,7 +353,7 @@
         <string>Open the FindDialog for adding objects to the list</string>
        </property>
        <property name="text">
-        <string>Find &amp;Object</string>
+        <string>Add Object</string>
        </property>
       </widget>
      </item>
