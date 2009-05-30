@@ -1146,6 +1146,8 @@ void ObservingList::slotChangeTab(int index) {
         ui->WizardButton->setEnabled( false );
     else 
         ui->WizardButton->setEnabled( true );
+    ui->TableView->clearSelection();
+    ui->SessionView->clearSelection();
     //Clear the user log text box.
     saveCurrentUserLog();
     ui->NotesEdit->setPlainText("");
