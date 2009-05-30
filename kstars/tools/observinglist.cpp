@@ -866,10 +866,6 @@ void ObservingList::saveCurrentList() {
 
         //If we ever allow merging the loaded list with
         //the existing one, that code would go here
-
-//        m_Model->clear();
-  //      obsList().clear();
-    //    m_CurrentObject = 0;
     }
 }
 
@@ -911,7 +907,6 @@ void ObservingList::slotSaveList() {
     }
 
     f.close();
-    isModified = false;
 }
 
 void ObservingList::slotLoadWishList() {
