@@ -719,7 +719,10 @@ void ObservingList::slotDetails() {
 }
 
 void ObservingList::slotWUT() {
-    WUTDialog w( ks );    
+    bool session = false;
+    if( ui->tabWidget->currentIndex() )
+        session = true;
+    WUTDialog w( ks, session );
     w.exec();
 }
 
@@ -736,15 +739,16 @@ void ObservingList::slotAddToSession() {
 }
 
 void ObservingList::slotFind() {
-    FindDialog fd( ks );    
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
-        if( o!= 0 )
-            if( ui->tabWidget->currentIndex() )
-                slotAddObject( o, true );
-            else
-                slotAddObject( o );  
-    }
+   FindDialog fd( ks );    
+   if ( fd.exec() == QDialog::Accepted ) {
+       SkyObject *o = fd.selectedObject();
+       if( o!= 0 ) {
+           if( ui->tabWidget->currentIndex() )
+               slotAddObject( o, true );
+           else
+               slotAddObject( o );  
+       }
+   }
 
 }
 

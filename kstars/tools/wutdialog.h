@@ -48,7 +48,7 @@ class WUTDialog : public KDialog  {
 public:
 
     /**@short Constructor*/
-    WUTDialog(KStars *ks);
+    WUTDialog(KStars *ks, bool session = false);
     /**@short Destructor*/
     ~WUTDialog();
 
@@ -101,7 +101,7 @@ private:
 
     KStars *kstars;
     WUTDialogUI *WUT;
-
+    bool session;
     QList<SkyObject*>& visibleObjects( const QString &category );
     bool isCategoryInitialized( const QString &category );
 

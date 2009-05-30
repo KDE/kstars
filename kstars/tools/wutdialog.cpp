@@ -42,7 +42,7 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
 
-WUTDialog::WUTDialog(KStars *ks) :
+WUTDialog::WUTDialog( KStars *ks, bool _session ) :
         KDialog( (QWidget*)ks ), kstars(ks), EveningFlag(0)
 {
 
@@ -54,7 +54,7 @@ WUTDialog::WUTDialog(KStars *ks) :
 
     //initialize location and date to current KStars settings:
     geo = kstars->geo();
-
+    session = _session;
     T0 = kstars->data()->lt();
     //If the Time is earlier than 6:00 am, assume the user wants the night of the previous date
     if ( T0.time().hour() < 6 )
@@ -436,9 +436,12 @@ void WUTDialog::slotObslist() {
     if (WUT->ObjectListWidget->currentItem() != 0) {
         o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
-    if(o != 0) 
-        kstars->observingList()->slotAddObject( o ) ;
- 
+    if(o != 0) {
+        if(!session)
+            kstars->observingList()->slotAddObject( o ) ;
+        else
+            kstars->observingList()->slotAddObject( o, true );
+    }
 }
 
 void WUTDialog::slotChangeDate() {
