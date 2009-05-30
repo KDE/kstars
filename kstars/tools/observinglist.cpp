@@ -304,7 +304,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             }
         } else { // name is not "star"
             //Find object in table by name
-            // TODO: Is there no already existing method to do this? - Akarsh
             for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
                 QString name = m_Model->item(irow, 0)->text();
                 if ( o->translatedName() == name ) {
@@ -705,7 +704,7 @@ void ObservingList::slotDetails() {
     if ( currentObject() ) {
         QPointer<DetailDialog> dd = new DetailDialog( currentObject(), ks->data()->lt(), geo, ks );
         dd->exec();
-	delete dd;
+    	delete dd;
     }
 }
 
@@ -713,8 +712,9 @@ void ObservingList::slotWUT() {
     bool session = false;
     if( ui->tabWidget->currentIndex() )
         session = true;
-    WUTDialog w( ks, session );
-    w.exec();
+    QPointer<WUTDialog> w = new WUTDialog( ks, session );
+    w->exec();
+    delete w;
 }
 
 void ObservingList::slotAddToSession() {
@@ -730,9 +730,9 @@ void ObservingList::slotAddToSession() {
 }
 
 void ObservingList::slotFind() {
-   FindDialog fd( ks );    
-   if ( fd.exec() == QDialog::Accepted ) {
-       SkyObject *o = fd.selectedObject();
+   QPointer<FindDialog> fd = new FindDialog( ks );    
+   if ( fd->exec() == QDialog::Accepted ) {
+       SkyObject *o = fd->selectedObject();
        if( o!= 0 ) {
            if( ui->tabWidget->currentIndex() )
                slotAddObject( o, true );
@@ -740,7 +740,7 @@ void ObservingList::slotFind() {
                slotAddObject( o );  
        }
    }
-
+   delete fd;
 }
 
 void ObservingList::slotAVT() {
@@ -754,9 +754,8 @@ void ObservingList::slotAVT() {
                     avt->processObject( o );
             }
         }
-
         avt->exec();
-	delete avt;
+	    delete avt;
     }
 }
 
@@ -1139,12 +1138,13 @@ void ObservingList::slotChangeTab(int index) {
     ui->View->removeAllPlotObjects();
 }
 void ObservingList::slotLocation() {
-    LocationDialog ld( (KStars*) topLevelWidget()->parent() );
+    QPointer<LocationDialog> ld = new LocationDialog( (KStars*) topLevelWidget()->parent() );
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        geo = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted ) {
+        geo = ld->selectedCity();
         ui->SetLocation -> setText( geo -> fullName() );
     }
+    delete ld;
 }
 
 void ObservingList::slotUpdate() {
