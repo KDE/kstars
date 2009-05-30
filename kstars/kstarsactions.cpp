@@ -413,7 +413,7 @@ void KStars::slotViewOps() {
 
     #ifdef HAVE_INDI_H
     opsindi = new OpsINDI (this);
-    dialog->addPage(opsindi, i18n("INDI"), "kstars_INDI");
+    dialog->addPage(opsindi, i18n("INDI"), "kstars");
     #endif
 
 #ifdef HAVE_XPLANET

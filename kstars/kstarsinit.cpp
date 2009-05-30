@@ -315,7 +315,7 @@ void KStars::initActions() {
     initFOV();
 
     ka = actionCollection()->addAction( "geolocation" );
-    ka->setIcon( KIcon( "world" ) );
+    ka->setIcon( KIcon( "applications-internet" ) );
     ka->setText( i18nc( "Location on Earth", "&Geographic..." ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_G  ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotGeoLocator() ) );
@@ -392,6 +392,7 @@ void KStars::initActions() {
 #ifndef Q_WS_WIN
 
     ka = actionCollection()->addAction( "telescope_wizard");
+    ka->setIcon( KIcon( "tools-wizard" ) );
     ka->setText( i18n("Telescope Wizard...") );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeWizard() ) );
 
@@ -401,7 +402,9 @@ void KStars::initActions() {
     //connect( ka, SIGNAL( triggered() ), this, SLOT( slotTelescopeProperties() ) );
 
     ka = actionCollection()->addAction( "device_manager");
+
     ka->setText( i18n("Device Manager...") );
+    ka->setIcon( KIcon( "network-server" ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotINDIDriver() ) );
 
     ka = actionCollection()->addAction( "capture_sequence");
