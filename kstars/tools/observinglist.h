@@ -124,6 +124,7 @@ public slots:
         */
     void slotRemoveSelectedObjects();
 
+    // TODO: Add comments for the session and update parameters - Akarsh
     /**@short Remove skyobject from the observing list.
         *@p o pointer to the SkyObject to be removed.
         *Use SkyMap::clickedObject() if o is NULL (default)

@@ -194,6 +194,7 @@ ObservingList::ObservingList( KStars *_ks )
 }
 
 bool ObservingList::contains( const SkyObject *q ) {
+    // TODO: I guess there's a more effecient way of doing this using some method. Check QList reference. In fact, I think there's an QList::contains() method - Akarsh
     foreach ( SkyObject* o, obsList() ) {
         if ( o == q ) return true;
     }
@@ -205,6 +206,7 @@ bool ObservingList::contains( const SkyObject *q ) {
 //SLOTS
 
 void ObservingList::slotAddObject( SkyObject *obj, bool session, bool init ) {
+    // TODO: Give 'flag' a better, more descriptive name, so that one easily understands its function - Akarsh
     bool flag=true;
     if ( ! obj ) obj = ks->map()->clickedObject();
 
@@ -311,6 +313,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             }
         } else { // name is not "star"
             //Find object in table by name
+            // TODO: Is there no already existing method to do this? - Akarsh
             for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
                 QString name = m_Model->item(irow, 0)->text();
                 if ( o->translatedName() == name ) {
@@ -754,7 +757,7 @@ void ObservingList::slotFind() {
 
 void ObservingList::slotAVT() {
     QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-
+    // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
     if ( selectedItems.size() ) {
         QPointer<AltVsTime> avt = new AltVsTime( ks );
         foreach ( const QModelIndex &i, selectedItems ) {
@@ -825,7 +828,7 @@ void ObservingList::slotOpenList() {
         QString line;
         SessionName = istream.readLine();
         line = istream.readLine();
-        QStringList fields = line.split('~');
+        QStringList fields = line.split('~'); // TODO: I think '|' is a better idea. - Akarsh
         geo = ks->data()->locationNamed(fields[0],fields[1],fields[2]);
         ui->SetLocation -> setText( geo -> fullName() );
 
@@ -841,7 +844,7 @@ void ObservingList::slotOpenList() {
                 SkyPoint p( ra, dc );
                 double maxrad = 1000.0/Options::zoomFactor();
                 o = ks->data()->skyComposite()->starNearest( &p, maxrad );
-            } else if ( line.startsWith( "Begin Hash" ) ) {
+            } else if ( line.startsWith( "Begin Hash" ) ) { // TODO: I find this Begin Hash weird... don't you? - Akarsh
                 break;
             } else {
                 o = ks->data()->objectNamed( line );
@@ -864,7 +867,10 @@ void ObservingList::slotOpenList() {
         isModified = false;
         f.close();
         
-    } else if ( !fileURL.path().isEmpty() ) {
+    } else if ( !fileURL.path().isEmpty() ) { 
+        // TODO: I don't recommend this. Instead, why not give the user an error and just go back, so that the user can click open again.
+        //       Although that doesn't make much of a difference, really, it'll be cleaner since this code will consume more memory due to recursion.
+        //       I know I'm being paranoid, but why not?... - Akarsh
         QString message = i18n( "The specified file is invalid.  Try another file?" );
         if ( KMessageBox::warningYesNo( this, message, i18n("Invalid File"), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
             slotOpenList();
@@ -977,6 +983,7 @@ void ObservingList::slotSaveSession() {
 
     QFile f( FileName );
     if(!f.open(QIODevice::WriteOnly)) {
+        // TODO: Same as before. Maybe you should just exit with an error. - Akarsh
         QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
         if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
             FileName.clear();
@@ -986,7 +993,7 @@ void ObservingList::slotSaveSession() {
     }
     QTextStream ostream(&f);
     ostream << SessionName << endl;
-    ostream << geo->name() << "~" <<geo->province() << "~" << geo->country() << endl;
+    ostream << geo->name() << "~" <<geo->province() << "~" << geo->country() << endl; // TODO: |s look better, atleast to me. - Akarsh
     foreach ( SkyObject* o, SessionList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
