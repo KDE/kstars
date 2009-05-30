@@ -437,12 +437,11 @@ void ObservingList::slotNewSelection() {
     SkyObject *o;
     if( ui->tabWidget->currentIndex() ) {
         selectedItems = m_SortModelSession->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
- 
+        ui->AddToSession->setEnabled( false );
         //When one object is selected
         if ( selectedItems.size() == m_Session->columnCount() ) {
             newName = selectedItems[0].data().toString();
             singleSelection = true;
- 
             //Find the selected object in the SessionList,
             //then break the loop.  Now SessionList.current()
             //points to the new selected object (until now it was the previous object)
@@ -460,7 +459,7 @@ void ObservingList::slotNewSelection() {
         if ( selectedItems.size() == m_Model->columnCount() ) {
             newName = selectedItems[0].data().toString();
             singleSelection = true;
-             
+            ui->AddToSession->setEnabled( true );
             //Find the selected object in the obsList,
             //then break the loop.  Now obsList.current()
             //points to the new selected object (until now it was the previous object)
@@ -481,7 +480,6 @@ void ObservingList::slotNewSelection() {
         ui->DetailsButton->setEnabled( true );
         ui->AVTButton->setEnabled( true );
         ui->RemoveButton->setEnabled( true );
-        ui->AddToSession->setEnabled( true );
         if ( found ) {
             m_CurrentObject = o;
             PlotObject = currentObject();
@@ -544,7 +542,6 @@ void ObservingList::slotNewSelection() {
         ui->DetailsButton->setEnabled( false );
         ui->AVTButton->setEnabled( true );
         ui->RemoveButton->setEnabled( true );
-        ui->AddToSession->setEnabled( true );
         ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
@@ -552,7 +549,8 @@ void ObservingList::slotNewSelection() {
         ui->SetTime->setEnabled( false );
         m_CurrentObject = 0;
         ui->View->removeAllPlotObjects();
-
+        if( !ui->tabWidget->currentIndex() )
+            ui->AddToSession->setEnabled( true );
         //Clear the user log text box.
         saveCurrentUserLog();
         ui->NotesEdit->setPlainText("");
