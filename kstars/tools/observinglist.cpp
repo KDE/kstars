@@ -193,11 +193,6 @@ ObservingList::ObservingList( KStars *_ks )
 //    ui->MiniButton->hide();
 }
 
-bool ObservingList::contains(  SkyObject *q ) {
-    return obsList().contains( q );    
-}
-
-
 //SLOTS
 
 void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
