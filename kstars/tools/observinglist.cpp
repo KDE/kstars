@@ -811,7 +811,13 @@ void ObservingList::slotOpenList() {
         }
 
         saveCurrentList();
-        //First line is the name of the list.  The rest of the file should
+        ui->tabWidget->setCurrentIndex(1);
+        slotChangeTab(1);
+        SessionList().clear();
+        TimeHash.clear();
+        m_CurrentObject = 0;
+        m_Session->removeRows( 0, m_Session->rowCount() );
+       //First line is the name of the list.  The rest of the file should
         //be object names, one per line.
         QTextStream istream(&f);
         QString line;
