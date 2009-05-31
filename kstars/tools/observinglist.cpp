@@ -824,6 +824,7 @@ void ObservingList::slotOpenList() {
         ui->DateEdit->setDate( dt.date() );
         while ( ! istream.atEnd() ) {
             line = istream.readLine();
+            QStringList parts = line.split('|'); 
 
             //If the object is named "star", add it by coordinates
             SkyObject *o;
@@ -837,19 +838,17 @@ void ObservingList::slotOpenList() {
             } else if ( line.startsWith( "QHash" ) ) { 
                 break;
             } else {
-                o = ks->data()->objectNamed( line );
+                o = ks->data()->objectNamed( parts[0] );
             }
 
             //If we haven't identified the object, try interpreting the 
             //name as a star's genetive name (with ascii letters)
-            if ( !o ) o = ks->data()->skyComposite()->findStarByGenetiveName( line );
+            if ( !o ) o = ks->data()->skyComposite()->findStarByGenetiveName( parts[0] );
 
-            if ( o ) slotAddObject( o, true );
-        }
-        while ( ! istream.atEnd() ) {
-            line = istream.readLine();
-            QStringList hashdata = line.split(':');
-            TimeHash.insert( hashdata[0], QTime::fromString( hashdata[1], " hms ap" ) );
+            if ( o ) {
+                slotAddObject( o, true );
+                if( !parts[1].isEmpty() ) TimeHash.insert( o->name(), QTime::fromString( parts[1], "hms ap" ) );
+            }
         }
         //Update the location and user set times from file
         slotUpdate();
@@ -977,23 +976,21 @@ void ObservingList::slotSaveSession() {
     foreach ( SkyObject* o, SessionList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
-        } else if ( o->type() == SkyObject::STAR ) {
-            StarObject *s = (StarObject*)o;
-
-            if ( s->name() == s->gname() ) {
-                ostream << s->name2() << endl;
-            } else { 
-                ostream << s->name() << endl;
-            }
         } else {
-            ostream << o->name() << endl;
+            if ( o->type() == SkyObject::STAR ) {
+                StarObject *s = (StarObject*)o;
+
+                if ( s->name() == s->gname() ) {
+                    ostream << s->name2() << "|";
+                } else { 
+                    ostream << s->name() << "|";
+                }
+            } else {
+                ostream << o->name() << "|";
+            }
+            if( TimeHash.value( o->name(), QTime(30,0,0) ).isValid() ) ostream << TimeHash.value( o->name() ).toString("hms ap");
+            ostream<<endl;
         }
-    }
-    ostream << "QHash" << endl;
-    QHashIterator<QString, QTime> i(TimeHash);
-    while (i.hasNext()) {
-        i.next();
-        ostream << i.key() << ": " << i.value().toString("hms ap") << endl;
     }
     f.close();
     isModified = false;
