@@ -220,7 +220,9 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     
     QString smag = "--";
     if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
-       
+
+    SkyPoint p = obj->recomputeCoords( dt, geo );
+ 
     //Insert object in obsList
     if( addToWishList  ) {
         m_ObservingList.append( obj );
@@ -234,8 +236,8 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                     << new QStandardItem( obj->typeName() );
         else
             itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( obj->recomputeCoords(dt,geo).ra()->toHMSString() ) 
-                    << new QStandardItem( obj->recomputeCoords(dt,geo).dec()->toDMSString() ) 
+                    << new QStandardItem( p.ra()->toHMSString() ) 
+                    << new QStandardItem( p.dec()->toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() );
         m_Model->appendRow( itemList );
@@ -247,6 +249,9 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
      
     if( session ){
         m_SessionList.append(obj);
+        dt.setTime( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ) );
+        dms lst(geo->GSTtoLST( dt.gst() ));
+        p.EquatorialToHorizontal( &lst, geo->lat() );
         QList<QStandardItem*> itemList;
         if(obj->name() == "star" )
             itemList << new QStandardItem( obj->translatedName() ) 
@@ -254,14 +259,18 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                     << new QStandardItem( obj->dec0()->toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() )
+                    << new QStandardItem( "--"  )
+                    << new QStandardItem( "--"  )
                     << new QStandardItem( "--"  );
         else
             itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( obj->recomputeCoords(dt,geo).ra()->toHMSString() ) 
-                    << new QStandardItem( obj->recomputeCoords(dt,geo).dec()->toDMSString() ) 
+                    << new QStandardItem( p.ra()->toHMSString() ) 
+                    << new QStandardItem( p.dec()->toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() )
-                    << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "h:mm A" ) );
+                    << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "h:mm A" ) )
+                    << new QStandardItem( p.alt()->toDMSString() )
+                    << new QStandardItem( p.az()->toDMSString() );
         m_Session->appendRow( itemList );
         if ( ! isModified ) isModified = true;
         ui->SessionView->resizeColumnsToContents();
