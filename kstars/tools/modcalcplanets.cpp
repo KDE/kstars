@@ -466,28 +466,19 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
         KSPlanet Earth( kd, I18N_NOOP( "Earth" ));
         Earth.findPosition( &num );
 
-        KSPlanetBase *kspb;
+        // FIXME: allocate new object for every iteration is probably not wisest idea.
+        KSPlanetBase *kspb = 0 ;
         if ( pn == "Pluto" ) {
-            KSPluto ksp( kd );
-            ksp.findPosition( &num, &latB, &LST, &Earth );
-            ksp.EquatorialToHorizontal( &LST, &latB );
-            kspb = (KSPlanetBase*)&ksp;
+            kspb = new KSPluto(kd);
         } else if ( pn == "Sun" ) {
-            KSSun ksp( kd );
-            ksp.findPosition( &num, &latB, &LST, &Earth );
-            ksp.EquatorialToHorizontal( &LST, &latB );
-            kspb = (KSPlanetBase*)&ksp;
+            kspb = new KSSun(kd);
         } else if ( pn == "Moon" ) {
-            KSMoon ksp( kd );
-            ksp.findPosition( &num, &latB, &LST, &Earth );
-            ksp.EquatorialToHorizontal( &LST, &latB );
-            kspb = (KSPlanetBase*)&ksp;
+            kspb = new KSMoon(kd);
         } else {
-            KSPlanet ksp( kd, i18n( pn.toLocal8Bit() ), QString(), Qt::white, 1.0 );
-            ksp.findPosition( &num, &latB, &LST, &Earth );
-            ksp.EquatorialToHorizontal( &LST, &latB );
-            kspb = (KSPlanetBase*)&ksp;
+            kspb = new KSPlanet(i18n( pn.toLocal8Bit() ), QString(), Qt::white, 1.0 );
         }
+        kspb->findPosition( &num, &latB, &LST, &Earth );
+        kspb->EquatorialToHorizontal( &LST, &latB );
 
         // Heliocentric Ecl. coords.
         hlongB.setD( kspb->helEcLong()->Degrees());
@@ -514,9 +505,11 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
             ostream << raB.toHMSString() << space << decB.toDMSString() << space ;
         if ( HorizontalCheckBatch->isChecked() )
             ostream << azmB.toDMSString() << space << altB.toDMSString() << space ;
-
         ostream << endl;
 
+        // Delete object
+        delete kspb;
+   
         nline++;
     }
 
