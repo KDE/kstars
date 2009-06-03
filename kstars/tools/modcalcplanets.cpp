@@ -475,7 +475,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
         } else if ( pn == "Moon" ) {
             kspb = new KSMoon(kd);
         } else {
-            kspb = new KSPlanet(i18n( pn.toLocal8Bit() ), QString(), Qt::white, 1.0 );
+            kspb = new KSPlanet( kd, i18n( pn.toLocal8Bit() ), QString(), Qt::white, 1.0 );
         }
         kspb->findPosition( &num, &latB, &LST, &Earth );
         kspb->EquatorialToHorizontal( &LST, &latB );
