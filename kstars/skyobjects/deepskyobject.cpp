@@ -38,9 +38,9 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
     UGC( o.UGC ),
     PGC( o.PGC ),
     MajorAxis( o.MajorAxis ),
-    MinorAxis( o.MinorAxis ),
-    Image(new QImage(*o.Image))
+    MinorAxis( o.MinorAxis )
 {
+    Image = o.Image ? new QImage(*o.Image) : 0;
     updateID = updateNumID = 0;
 }
 

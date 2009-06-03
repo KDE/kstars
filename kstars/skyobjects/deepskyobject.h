@@ -94,10 +94,8 @@ public:
 
     virtual DeepSkyObject* clone() const;
     
-    /**
-    	*Destructor 
-    	*/
-    ~DeepSkyObject() { if ( Image ) { deleteImage(); } }
+    /** *Destructor */
+    virtual ~DeepSkyObject() { delete Image; }
 
     /**
       *@enum CATALOG

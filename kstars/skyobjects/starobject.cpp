@@ -115,6 +115,20 @@ StarObject::StarObject( double r, double d, float m,
     updateID = updateNumID = 0;
 }
 
+StarObject::StarObject( const StarObject &o ) :
+    SkyObject (o),
+    PM_RA(o.PM_RA),
+    PM_Dec(o.PM_Dec),
+    Parallax(o.Parallax),
+    Multiplicity(o.Multiplicity),
+    Variability(o.Variability),
+    HD(o.HD)
+{
+    SpType[0] = o.SpType[0];
+    SpType[1] = o.SpType[1];
+    updateID = updateNumID = 0;
+}
+
 StarObject* StarObject::clone() const
 {
     return new StarObject(*this);

@@ -132,26 +132,7 @@ void ConjunctionsTool::slotFindObject() {
             delete Object1;
         if( !fd->selectedObject() )
             return;
-        if( !fd->selectedObject()->isSolarSystem() ) {
-            Object1 = new SkyObject( *fd->selectedObject() );
-        }
-        else {
-            switch( fd->selectedObject()->type() ) {
-            case 9: {
-                Object1 =  new KSComet( (KSComet &) *fd->selectedObject() );
-                break;
-            }
-            case 10: {
-                Object1 =  new KSAsteroid( (KSAsteroid &) *fd->selectedObject() );
-                break;
-            }
-            case 2: 
-            default: {
-                Object1 = KSPlanetBase::createPlanet( pNames.key( fd->selectedObject()->name() ) ); // TODO: Fix i18n issues.
-                break;
-            }
-            }
-        }
+        Object1 = fd->selectedObject()->clone();
         if( Object1 )
             Obj1FindButton->setText( Object1->name() );
     }

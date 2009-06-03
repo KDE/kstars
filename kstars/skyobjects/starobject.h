@@ -41,7 +41,8 @@ class KStarsData;
         *@version 1.0
         */
 
-class StarObject : public SkyObject {
+class StarObject : public SkyObject
+{
 public:
 
     /** @short returns the reindex interval (in centuries!) for the given
@@ -91,6 +92,9 @@ public:
 
     virtual StarObject* clone() const;
     
+    /** Copy constructor */
+    StarObject(const StarObject& o);
+
     /**
      * Destructor. (Empty)
      */
