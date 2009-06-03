@@ -37,6 +37,11 @@ KSMoon::KSMoon(KStarsData *kd)
     setType( SkyObject::MOON );
 }
 
+KSMoon* KSMoon::clone() const
+{
+    return new KSMoon(*this);
+}
+
 KSMoon::~KSMoon() {
     instance_count--;
     if(instance_count <= 0) {

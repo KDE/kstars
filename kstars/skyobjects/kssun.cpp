@@ -31,6 +31,11 @@ KSSun::KSSun( KStarsData *kd )
     setMag( -26.73 );
 }
 
+KSSun* KSSun::clone() const 
+{
+    return new KSSun(*this);   
+}
+
 bool KSSun::loadData() {
     OrbitDataColl odc;
     return (odm.loadData(odc, "earth") != 0);

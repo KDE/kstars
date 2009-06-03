@@ -82,12 +82,8 @@ public:
     KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
                 long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
 
-    /**
-     *@short Copy constructor
-     *@param o  Object to make copy of
-     */
-    KSAsteroid( KSAsteroid &o );
-
+    virtual KSAsteroid* clone() const;
+    
     /**Destructor (empty)*/
     virtual ~KSAsteroid() {}
 

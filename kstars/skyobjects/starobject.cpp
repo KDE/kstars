@@ -57,22 +57,6 @@ double StarObject::reindexInterval( double pm )
     return 25.0 * 60.0 * 10.0 / pm;
 }
 
-StarObject::StarObject( StarObject &o )
-        : SkyObject (o)
-{
-    SpType[0] = o.SpType[0];
-    SpType[1] = o.SpType[1];
-    //SONAME: deprecated (?) JH
-    //  soName = o.soName;
-    PM_RA = o.pmRA();
-    PM_Dec = o.pmDec();
-    Parallax = o.parallax();
-    Multiplicity = o.isMultiple();
-    Variability = o.isVariable();
-    HD = o.getHDIndex();
-    updateID = updateNumID = 0;
-}
-
 StarObject::StarObject( dms r, dms d, float m,
                         const QString &n, const QString &n2,
                         const QString &sptype, double pmra, double pmdec,
@@ -131,6 +115,10 @@ StarObject::StarObject( double r, double d, float m,
     updateID = updateNumID = 0;
 }
 
+StarObject* StarObject::clone() const
+{
+    return new StarObject(*this);
+}
 
 void StarObject::init( const starData *stardata ) 
 {

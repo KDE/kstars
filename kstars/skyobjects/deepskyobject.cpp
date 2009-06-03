@@ -31,7 +31,7 @@
 #include "Options.h"
 #include "skymap.h"
 
-DeepSkyObject::DeepSkyObject( DeepSkyObject &o )
+DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
         : SkyObject( o ) {
     MajorAxis = o.a();
     MinorAxis = o.b();
@@ -73,6 +73,11 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
     updateID = updateNumID = 0;
 }
 
+DeepSkyObject* DeepSkyObject::clone() const
+{
+    return new DeepSkyObject(*this);
+}
+    
 void DeepSkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos ) {
     pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos );
 }

@@ -71,16 +71,20 @@ public:
                const QString &n=QString(), const QString &n2=QString(), const QString &lname=QString() );
 
     /**
-     *Copy constructor.
-     *@param o SkyObject from which to copy data
-     */
-    SkyObject( SkyObject &o );
-
-    /**
      *Destructor (empty)
      */
     ~SkyObject();
 
+    /** Create copy of object.
+     * This method is virtual copy constructor. It allows for safe
+     * copying of objects. In other words, KSPlanet object stored in
+     * SkyObject pointer will be copied as KSPlanet.
+     * Each subclass of SkyObject MUST implement clone method.
+     *
+     *  @return pointer to newly allocated object. Caller takes full responsibility
+     *  for deallocating it. 
+     */
+    virtual SkyObject* clone() const;
     /**
      *@enum TYPE
      *The type classification of the SkyObject.

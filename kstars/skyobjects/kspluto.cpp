@@ -55,6 +55,11 @@ KSPluto::KSPluto(KStarsData *kd, const QString &fn, double pSize )
     setPhysicalSize( pSize );
 }
 
+KSPluto* KSPluto::clone() const
+{
+    return new KSPluto(*this);
+}
+
 KSPluto::~KSPluto() {
 }
 

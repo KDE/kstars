@@ -41,23 +41,6 @@ QString SkyObject::unnamedString = QString(i18n("unnamed"));
 QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
 QString SkyObject::starString = QString("star");
 
-SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
-    setType( o.type() );
-    Magnitude = o.mag();
-    setName(o.name());
-    setName2(o.name2());
-    setLongName(o.longname());
-    info = NULL;
-    if( o.hasAuxInfo() ) {
-        info = getAuxInfo();
-        info->ImageList = o.ImageList();
-        info->ImageTitle = o.ImageTitle();
-        info->InfoList = o.InfoList();
-        info->InfoTitle = o.InfoTitle();
-        info->userLog = o.userLog();
-    }
-}
-
 SkyObject::SkyObject( int t, dms r, dms d, float m,
                       const QString &n, const QString &n2,
                       const QString &lname )
@@ -80,6 +63,11 @@ SkyObject::SkyObject( int t, double r, double d, float m,
     setName2(n2);
     setLongName(lname);
     info = NULL;
+}
+
+SkyObject* SkyObject::clone() const
+{
+    return new SkyObject(*this);
 }
 
 SkyObject::~SkyObject() {

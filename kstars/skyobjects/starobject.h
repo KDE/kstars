@@ -44,15 +44,11 @@ class KStarsData;
 class StarObject : public SkyObject {
 public:
 
-    /* @short returns the reindex interval (in centuries!) for the given
+    /** @short returns the reindex interval (in centuries!) for the given
      * magnitude of proper motion (in milliarcsec/year).  ASSUMING a 
      * 25 arc-minute margin for proper motion.
      */
     static double reindexInterval( double pm );
-    /**
-        *Copy constructor
-        */
-    StarObject(StarObject & o);
 
     /**
         *Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
@@ -93,6 +89,8 @@ public:
                 const QString &n2=QString(), const QString &sptype="--", double pmra=0.0, double pmdec=0.0,
                 double par=0.0, bool mult=false, bool var=false, int hd=0 );
 
+    virtual StarObject* clone() const;
+    
     /**
      * Destructor. (Empty)
      */

@@ -41,13 +41,9 @@ KSAsteroid::KSAsteroid( KStarsData *_kd, const QString &s, const QString &imfile
     P = 365.2568984 * pow(a, 1.5); //period in days
 }
 
-KSAsteroid::KSAsteroid( KSAsteroid &o ) 
-    : KSPlanetBase( (KSPlanetBase &) o ) {
-    setType( 10 );
-    o.getOrbitalElements( &JD, &a, &e, &i, &w, &N, &M );
-    this->H = o.getAbsoluteMagnitude();
-    this->G = o.getSlopeParameter();
-    P = 365.2568984 * pow(a, 1.5); //period in days
+KSAsteroid* KSAsteroid::clone() const
+{
+    return new KSAsteroid(*this);
 }
 
 bool KSAsteroid::getOrbitalElements( long double *_JD, double *_a, double *_e, dms *_i,

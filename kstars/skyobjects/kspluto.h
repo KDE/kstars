@@ -51,6 +51,8 @@ public:
     	*/
     explicit KSPluto(KStarsData *kd, const QString &fn=QString(), double pSize=0);
 
+    virtual KSPluto* clone() const;
+    
     /**Destructor (empty) */
     virtual ~KSPluto();
 

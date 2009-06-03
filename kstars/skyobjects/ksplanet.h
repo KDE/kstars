@@ -60,6 +60,8 @@ public:
      */
     KSPlanet( KStarsData *kd, int n );
 
+    virtual KSPlanet* clone() const;
+    
     /**
      * Destructor (empty)
      */

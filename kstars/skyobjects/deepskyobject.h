@@ -91,8 +91,10 @@ public:
       *Copy constructor.
     	*@param o SkyObject from which to copy data
     	*/
-    DeepSkyObject( DeepSkyObject &o );
+    DeepSkyObject(const DeepSkyObject &o );
 
+    virtual DeepSkyObject* clone() const;
+    
     /**
     	*Destructor 
     	*/

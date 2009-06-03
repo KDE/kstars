@@ -41,6 +41,8 @@ public:
     	*/
     KSMoon(KStarsData *kd);
 
+    virtual KSMoon* clone() const;
+    
     /**Destructor (empty). */
     ~KSMoon();
 

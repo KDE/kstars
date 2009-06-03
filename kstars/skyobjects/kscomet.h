@@ -66,12 +66,8 @@ public:
     KSComet( KStarsData *kd, const QString &s, const QString &image_file,
              long double JD, double q, double e, dms i, dms w, dms N, double Tp, float H, float G );
     
-    /**
-     *Copy Constructor
-     *@param o  Object to copy into this
-     */
-    KSComet( KSComet &o );
-
+    virtual KSComet* clone() const;
+    
     /**Destructor (empty)*/
     virtual ~KSComet() {}
 

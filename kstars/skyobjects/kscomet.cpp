@@ -55,18 +55,10 @@ KSComet::KSComet( KStarsData *_kd, const QString &_s, const QString &imfile,
 
 }
 
-KSComet::KSComet( KSComet &o )
-    : KSPlanetBase( (KSPlanetBase &) o ) {
-    setType( 9 ); // Comet
-    kd = KStarsData::Instance();
-    o.getOrbitalElements( &JD, &q, &e, &i, &w, &N );
-    JDp = o.getPerihelionJD();
-    a = q/(1.0 - e);
-    P = 365.2568984 * pow(a, 1.5);
-    H = o.getAbsoluteMagnitude();
-    G = o.getSlopeParameter();
-    setLongName( o.name2() );
-}    
+KSComet* KSComet::clone() const
+{
+    return new KSComet(*this);
+}
 
 bool KSComet::getOrbitalElements( long double *_JD, double *_q, double *_e, dms *_i,
                                   dms *_w, dms *_N ) {

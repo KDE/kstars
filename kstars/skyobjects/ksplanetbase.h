@@ -47,15 +47,8 @@ public:
 
     /**Constructor. */
     explicit EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
-    longitude(plong), latitude(plat), radius(prad) {}
-
-    /**Assignment operator. Copy all values from the target object. */
-    EclipticPosition &operator=(EclipticPosition &r) {
-        this->longitude = r.longitude;
-        this->latitude = r.latitude;
-        this->radius = r.radius;
-        return *this;
-    }
+        longitude(plong), latitude(plat), radius(prad)
+    {}
 };
 
 /**
@@ -85,12 +78,6 @@ public:
                            const QString &s = i18n("unnamed"),
                            const QString &image_file=QString(),
                            const QColor &c=Qt::white, double pSize=0 );
-
-    /**
-     *Copy Constructor. Creates a copy of the given KSPlanetBase object
-     *@param o  Object to be copied
-     */
-    KSPlanetBase( KSPlanetBase &o );
 
    /**
      *Destructor (empty)

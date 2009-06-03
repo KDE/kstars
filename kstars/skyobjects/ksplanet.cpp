@@ -147,6 +147,11 @@ KSPlanet::KSPlanet( KStarsData *kd, int n )
     }
 }
 
+KSPlanet* KSPlanet::clone() const
+{
+    return new KSPlanet(*this);
+}
+        
 // TODO: Get rid of this dirty hack post KDE 4.2 release
 QString KSPlanet::untranslatedName() const {
     if( name() == i18n( "Mercury" ) )

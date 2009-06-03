@@ -38,6 +38,8 @@ public:
     	*/
     KSSun( KStarsData *kd );
 
+    virtual KSSun* clone() const;
+    
     /**Destructor (empty)
     	*/
     virtual ~KSSun() {}
