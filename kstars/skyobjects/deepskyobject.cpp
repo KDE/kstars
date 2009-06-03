@@ -31,15 +31,16 @@
 #include "Options.h"
 #include "skymap.h"
 
-DeepSkyObject::DeepSkyObject( const DeepSkyObject &o )
-        : SkyObject( o ) {
-    MajorAxis = o.a();
-    MinorAxis = o.b();
-    PositionAngle = o.pa();
-    UGC = o.ugc();
-    PGC = o.pgc();
-    setCatalog( o.catalog() );
-    Image = o.image();
+DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
+    SkyObject( o ),
+    Catalog( o.Catalog ),
+    PositionAngle( o.PositionAngle ),
+    UGC( o.UGC ),
+    PGC( o.PGC ),
+    MajorAxis( o.MajorAxis ),
+    MinorAxis( o.MinorAxis ),
+    Image(new QImage(*o.Image))
+{
     updateID = updateNumID = 0;
 }
 
