@@ -20,6 +20,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QSharedDataPointer>
 
 #include <klocale.h>
 
@@ -323,7 +324,7 @@ public:
      *@short Query whether this SkyObject has a valid AuxInfo structure associated with it.
      *@return true if this SkyObject has a valid AuxInfo structure associated with it, false if not.
      */
-    inline bool hasAuxInfo() { return ( ( info == NULL) ? false : true ); }
+    inline bool hasAuxInfo() { return ! (!info); }
 
     /**
      *@return a reference to a QStringList storing a list of Image URLs associated with this SkyObject
@@ -423,7 +424,7 @@ protected:
     QString Name, Name2, LongName;
 
     // Pointer to an auxiliary info structure that stores Image URLs, Info URLs etc.
-    AuxInfo *info;
+    QSharedDataPointer<AuxInfo> info;
 
     // store often used name strings in static variables
     static QString emptyString;

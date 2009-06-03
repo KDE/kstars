@@ -44,25 +44,27 @@ QString SkyObject::starString = QString("star");
 SkyObject::SkyObject( int t, dms r, dms d, float m,
                       const QString &n, const QString &n2,
                       const QString &lname )
-        : SkyPoint( r, d) {
+    : SkyPoint( r, d),
+      info()
+{
     setType( t );
     Magnitude = m;
     setName(n);
     setName2(n2);
     setLongName(lname);
-    info = NULL;
 }
 
 SkyObject::SkyObject( int t, double r, double d, float m,
                       const QString &n, const QString &n2,
                       const QString &lname )
-        : SkyPoint( r, d) {
+    : SkyPoint( r, d),
+      info()
+{
     setType( t );
     Magnitude = m;
     setName(n);
     setName2(n2);
     setLongName(lname);
-    info = NULL;
 }
 
 SkyObject* SkyObject::clone() const
@@ -70,10 +72,7 @@ SkyObject* SkyObject::clone() const
     return new SkyObject(*this);
 }
 
-SkyObject::~SkyObject() {
-    delete info;
-    info = NULL;
-}
+SkyObject::~SkyObject() {}
 
 void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
     pmenu->createEmptyMenu( this ); pmenu->popup( pos );
@@ -472,5 +471,5 @@ double SkyObject::labelOffset() const {
 AuxInfo *SkyObject::getAuxInfo() {
     if( !info )
         info = new AuxInfo; 
-    return info;
+    return &(*info);
 }
