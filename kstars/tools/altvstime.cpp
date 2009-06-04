@@ -306,13 +306,11 @@ void AltVsTime::slotHighlight( int row ) {
 
     avtUI->View->update();
 
-    for ( int i=0; i < pList.size(); ++i ) {
-        if ( i == row ) {
-            SkyObject *p = pList.at(i);
-            avtUI->raBox->showInHours( p->ra() );
-            avtUI->decBox->showInDegrees( p->dec() );
-            avtUI->nameBox->setText( avtUI->PlotList->currentItem()->text() );
-        }
+    if( row >= 0 && row < pList.size() ) {
+        SkyObject *p = pList.at(row);
+        avtUI->raBox->showInHours( p->ra() );
+        avtUI->decBox->showInDegrees( p->dec() );
+        avtUI->nameBox->setText( avtUI->PlotList->currentItem()->text() );
     }
 }
 
