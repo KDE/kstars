@@ -159,39 +159,12 @@ void modCalcPlanets::slotComputePosition (void)
     }
 }
 
-void modCalcPlanets::showCoordinates( const KSPlanet &ksp) {
-
+void modCalcPlanets::showCoordinates( const KSPlanetBase &ksp)
+{
     showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
     showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
     showEquatorialCoords(ksp.ra(), ksp.dec() );
     showTopocentricCoords(ksp.az(), ksp.alt() );
-
-}
-
-void modCalcPlanets::showCoordinates( const KSMoon &ksp ) {
-
-    showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
-    showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
-    showEquatorialCoords(ksp.ra(), ksp.dec() );
-    showTopocentricCoords(ksp.az(), ksp.alt() );
-
-}
-void modCalcPlanets::showCoordinates( const KSPluto &ksp ) {
-
-    showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
-    showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
-    showEquatorialCoords(ksp.ra(), ksp.dec() );
-    showTopocentricCoords(ksp.az(), ksp.alt() );
-
-}
-
-void modCalcPlanets::showCoordinates( const KSSun &ksp ) {
-
-    showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
-    showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
-    showEquatorialCoords(ksp.ra(), ksp.dec() );
-    showTopocentricCoords(ksp.az(), ksp.alt() );
-
 }
 
 void modCalcPlanets::showHeliocentricEclipticCoords(const dms *hLong, const dms *hLat, double dist)
@@ -294,7 +267,7 @@ void modCalcPlanets::slotRunBatch() {
     }
 }
 
-unsigned int modCalcPlanets::requiredBatchFields(void) {
+unsigned int modCalcPlanets::requiredBatchFields() {
     unsigned int i = 0;
 
     if(PlanetCheckBatch->isChecked() )
@@ -309,7 +282,6 @@ unsigned int modCalcPlanets::requiredBatchFields(void) {
         i++;
 
     return i;
-
 }
 
 void modCalcPlanets::processLines( QTextStream &istream ) {
