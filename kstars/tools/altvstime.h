@@ -70,12 +70,12 @@ public:
     	*in the KStars main window.  Currently, this is only 
     	*used in the ctor to initialize the Date.
     	*/
-    void showCurrentDate (void);
+    void showCurrentDate ();
 
     /**@return a KStarsDateTime object constructed from the
     	*current setting in the Date widget.
     	*/
-    KStarsDateTime getDate (void);
+    KStarsDateTime getDate ();
 
     /**Determine the time of sunset and sunrise for the current
     	*date and location settings.  Convert the times to doubles, 
@@ -124,29 +124,29 @@ public:
 public slots:
     /**@short Update the plot to reflec new Date and Location settings.
     	*/
-    void slotUpdateDateLoc(void);
+    void slotUpdateDateLoc();
 
     /**@short Clear the list of displayed objects.
     	*/
-    void slotClear(void);
+    void slotClear();
 
     /**@short Clear the edit boxes for specifying a new object.
     	*/
-    void slotClearBoxes(void);
+    void slotClearBoxes();
 
     /**@short Add an object to the list of displayed objects, according
     	*to the data entered in the edit boxes.
     	*/
-    void slotAddSource(void);
+    void slotAddSource();
 
     /**@short Launch the Find Object window to select a new object for
     	*the list of displayed objects.
     	*/
-    void slotBrowseObject(void);
+    void slotBrowseObject();
 
     /**@short Launch the Location dialog to choose a new location.
     	*/
-    void slotChooseCity(void);
+    void slotChooseCity();
 
     /**@short Move input keyboard focus to the next logical widget.
     	*We need a separate slot for this because we are intercepting 
@@ -154,7 +154,7 @@ public slots:
     	*advance input focus instead (when the Enter events occur in 
     	*certain Edit boxes).
     	*/
-    void slotAdvanceFocus(void);
+    void slotAdvanceFocus();
 
     /**Update the plot to highlight the altitude curve of the objects
     	*which is highlighted in the listbox.

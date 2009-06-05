@@ -127,7 +127,7 @@ AltVsTime::~AltVsTime()
     //WARNING: need to delete deleteList items!
 }
 
-void AltVsTime::slotAddSource(void) {
+void AltVsTime::slotAddSource() {
     SkyObject *obj = ks->data()->objectNamed( avtUI->nameBox->text() );
 
     if ( obj ) {
@@ -206,7 +206,7 @@ void AltVsTime::slotAddSource(void) {
 }
 
 //Use find dialog to choose an object
-void AltVsTime::slotBrowseObject(void) {
+void AltVsTime::slotBrowseObject() {
     QPointer<FindDialog> fd = new FindDialog(ks);
     if ( fd->exec() == QDialog::Accepted ) {
         SkyObject *o = fd->selectedObject();
@@ -315,7 +315,7 @@ void AltVsTime::slotHighlight( int row ) {
 }
 
 //move input focus to the next logical widget
-void AltVsTime::slotAdvanceFocus(void) {
+void AltVsTime::slotAdvanceFocus() {
     if ( sender()->objectName() == QString( "nameBox" ) ) avtUI->addButton->setFocus();
     if ( sender()->objectName() == QString( "raBox" ) ) avtUI->decBox->setFocus();
     if ( sender()->objectName() == QString( "decbox" ) ) avtUI->addButton->setFocus();
@@ -323,7 +323,7 @@ void AltVsTime::slotAdvanceFocus(void) {
     if ( sender()->objectName() == QString( "latBox" ) ) avtUI->updateButton->setFocus();
 }
 
-void AltVsTime::slotClear(void) {
+void AltVsTime::slotClear() {
     if ( pList.count() ) pList.clear();
     //Need to delete the pointers in deleteList
     while ( ! deleteList.isEmpty() )
@@ -337,7 +337,7 @@ void AltVsTime::slotClear(void) {
     avtUI->View->update();
 }
 
-void AltVsTime::slotClearBoxes(void) {
+void AltVsTime::slotClearBoxes() {
     avtUI->nameBox->clear();
     avtUI->raBox->clear() ;
     avtUI->decBox->clear();
@@ -382,7 +382,7 @@ void AltVsTime::computeSunRiseSetTimes() {
     delete oldNum;
 }
 
-void AltVsTime::slotUpdateDateLoc(void) {
+void AltVsTime::slotUpdateDateLoc() {
     KStarsDateTime today = getDate();
     KSNumbers *num = new KSNumbers( today.djd() );
     KSNumbers *oldNum = 0;
@@ -442,7 +442,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
     delete num;
 }
 
-void AltVsTime::slotChooseCity(void) {
+void AltVsTime::slotChooseCity() {
     QPointer<LocationDialog> ld = new LocationDialog(ks);
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
@@ -459,7 +459,7 @@ int AltVsTime::currentPlotListItem() const {
     return avtUI->PlotList->currentRow();
 }
 
-void AltVsTime::setLSTLimits(void) {
+void AltVsTime::setLSTLimits() {
     //UT at noon on target date
     KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );
 
@@ -470,14 +470,14 @@ void AltVsTime::setLSTLimits(void) {
     avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
 }
 
-void AltVsTime::showCurrentDate (void)
+void AltVsTime::showCurrentDate()
 {
     KStarsDateTime dt = KStarsDateTime::currentDateTime();
     if ( dt.time() > QTime( 12, 0, 0 ) ) dt = dt.addDays( 1 );
     avtUI->DateWidget->setDate( dt.date() );
 }
 
-KStarsDateTime AltVsTime::getDate (void)
+KStarsDateTime AltVsTime::getDate()
 {
     //convert midnight local time to UT:
     KStarsDateTime dt( avtUI->DateWidget->date(), QTime() );
