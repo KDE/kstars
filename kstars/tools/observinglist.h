@@ -25,6 +25,7 @@
 #include "skyobjects/skyobject.h"
 #include "ui_observinglist.h"
 #include "kstarsdatetime.h"
+#include <kio/copyjob.h>
 #include "geolocation.h"
 #include "ksalmanac.h"
 class KSAlmanac;
@@ -233,8 +234,14 @@ public slots:
         */
     void slotSetTime();
 
+    /**@short Gets the corresponding DSS or SDSS image from the web and
+        *displays it
+        */
+    void slotGetImage();
+
 protected slots:
     void slotClose();
+    void downloadReady (KJob *);
 
 private:
     KStars *ks;
@@ -244,11 +251,12 @@ private:
     SkyObject *LogObject, *m_CurrentObject, *PlotObject;
     uint noNameStars;
     bool isModified, bIsLarge;
-    QString FileName, SessionName;
+    QString FileName, SessionName, CurrentImage;
     KStarsDateTime dt;
     GeoLocation *geo;
     QStandardItemModel *m_Model, *m_Session;
     QSortFilterProxyModel *m_SortModel, *m_SortModelSession;
+    KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash; 
 };
 

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>820</width>
+    <width>861</width>
     <height>650</height>
    </rect>
   </property>
@@ -389,6 +389,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="GetImage">
+       <property name="text">
+        <string>Get Image</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -567,6 +574,29 @@
       </widget>
      </item>
      <item>
+      <widget class="KSeparator" name="kseparator">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KImageFilePreview" name="ImagePreview">
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>200</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -622,9 +652,19 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KImageFilePreview</class>
+   <extends>QWidget</extends>
+   <header>kimagefilepreview.h</header>
+  </customwidget>
+  <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KSeparator</class>
+   <extends>QFrame</extends>
+   <header>kseparator.h</header>
   </customwidget>
   <customwidget>
    <class>KTextEdit</class>

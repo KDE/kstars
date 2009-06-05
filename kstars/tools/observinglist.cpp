@@ -26,7 +26,8 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
-
+#include <QLabel>
+#include <QPainter>
 #include <kpushbutton.h>
 #include <kstatusbar.h>
 #include <ktextedit.h>
@@ -66,6 +67,8 @@
 #include "indi/indidevice.h"
 #include "indi/devicemanager.h"
 #include "indi/indistd.h"
+#include <kio/copyjob.h>
+
 #endif
 
 //
@@ -166,6 +169,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotLocation() ) );
     connect( ui->Update, SIGNAL( clicked() ),
              this, SLOT( slotUpdate() ) );
+    connect( ui->GetImage, SIGNAL( clicked() ),
+             this, SLOT( slotGetImage() ) );
     connect( ui->SetTime, SIGNAL( clicked() ),
              this, SLOT( slotSetTime() ) );
     connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
@@ -187,6 +192,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->AddToSession->setEnabled( false );
     ui->SetTime->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
+    ui->GetImage->setEnabled( false );
 
     slotLoadWishList();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
@@ -436,6 +442,7 @@ void ObservingList::slotRemoveSelectedObjects() {
 
 void ObservingList::slotNewSelection() {
     bool singleSelection = false, found = false;
+    ui->ImagePreview->clearPreview();
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
@@ -478,6 +485,7 @@ void ObservingList::slotNewSelection() {
     if( singleSelection ) {
         //Enable buttons
             ui->CenterButton->setEnabled( true );
+            ui->GetImage->setEnabled( true );
         #ifdef HAVE_INDI_H
             ui->ScopeButton->setEnabled( true );
         #endif
@@ -534,6 +542,7 @@ void ObservingList::slotNewSelection() {
         m_CurrentObject = 0;
         ui->TimeEdit->setEnabled( false );
         ui->SetTime->setEnabled( false );
+        ui->GetImage->setEnabled( false );
 
         //Clear the user log text box.
         saveCurrentUserLog();
@@ -551,6 +560,7 @@ void ObservingList::slotNewSelection() {
         ui->NotesEdit->setEnabled( false );
         ui->TimeEdit->setEnabled( false );
         ui->SetTime->setEnabled( false );
+        ui->GetImage->setEnabled( false );
         m_CurrentObject = 0;
         ui->View->removeAllPlotObjects();
         if( !ui->tabWidget->currentIndex() )
@@ -1131,6 +1141,7 @@ void ObservingList::slotChangeTab(int index) {
     ui->AddToSession->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
     ui->SetTime->setEnabled( false );
+    ui->GetImage->setEnabled( false );
     m_CurrentObject = 0;
     if(index)
         ui->WizardButton->setEnabled( false );
@@ -1177,4 +1188,36 @@ void ObservingList::slotSetTime() {
     TimeHash [o->name()] = ui->TimeEdit->time();
     slotAddObject(o, true, true );
 }
+
+void ObservingList::slotGetImage() {
+    QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
+    QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+    dms ra(0.0), dec(0.0);
+    QString RAString, DecString;
+    char decsgn;
+    ra.setH( currentObject()->ra0()->Hours() );
+    dec.setD( currentObject()->dec0()->Degrees() );
+
+    RAString = RAString.sprintf( "%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
+
+    decsgn = '+';
+    if ( dec.Degrees() < 0.0 ) decsgn = '-';
+    int dd = abs( dec.degree() );
+    int dm = abs( dec.arcmin() );
+    int ds = abs( dec.arcsec() );
+    DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
+    CurrentImage = RAString + DecString;
+    KUrl url (URLprefix + "&r=" + RAString + "&d=" + DecString + URLsuffix);
+    if( !QFile::exists(KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) { 
+        downloadJob = KIO::copy (url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+        connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
+    } else
+        ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
+}
+void ObservingList::downloadReady (KJob *job)
+{
+    // set downloadJob to 0, but don't delete it - the job will be deleted automatically
+    downloadJob = 0;
+    ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
+}  
 #include "observinglist.moc"
