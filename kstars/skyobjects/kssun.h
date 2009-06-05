@@ -28,15 +28,13 @@
 	*@version 1.0
 	*/
 
-class KStarsData;
-
 class KSSun : public KSPlanet  {
 public:
     /**Constructor.  Defines constants needed by findPosition().
     	*Sets Ecliptic coordinates appropriate for J2000.
     	*@param kd pointer to KStarsData object
     	*/
-    KSSun( KStarsData *kd );
+    KSSun();
 
     virtual KSSun* clone() const;
     

@@ -31,7 +31,6 @@
 	*@version 1.0
 	*/
 
-class KStarsData;
 class KSSun;
 
 class KSMoon : public KSPlanetBase  {
@@ -39,7 +38,7 @@ public:
     /**
     	*Default constructor.  Set name="Moon".
     	*/
-    KSMoon(KStarsData *kd);
+    KSMoon();
 
     virtual KSMoon* clone() const;
     

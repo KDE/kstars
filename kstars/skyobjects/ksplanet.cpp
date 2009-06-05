@@ -112,13 +112,14 @@ bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const Q
     return true;
 }
 
-KSPlanet::KSPlanet( KStarsData *kd, const QString &s,
-                    const QString &imfile, const QColor & c, double pSize )
-    : KSPlanetBase(kd, s, imfile, c, pSize ), data_loaded(false) {
-}
+KSPlanet::KSPlanet( const QString &s, const QString &imfile, const QColor & c, double pSize ) :
+    KSPlanetBase(s, imfile, c, pSize ),
+    data_loaded(false)
+{ }
 
-KSPlanet::KSPlanet( KStarsData *kd, int n ) 
-    : KSPlanetBase(kd) {
+KSPlanet::KSPlanet( int n ) 
+    : KSPlanetBase()
+{
     switch ( n ) {
         case MERCURY:
             KSPlanetBase::init( i18n("Mercury"), "mercury.png", KSPlanetBase::planetColor[KSPlanetBase::MERCURY], 4879.4 );

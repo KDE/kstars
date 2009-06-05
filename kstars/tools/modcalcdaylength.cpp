@@ -116,7 +116,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     KSNumbers num(jd0);
 
     //Sun
-    KSSun Sun ( ((KStars*) topLevelWidget()->parent())->data() );
+    KSSun Sun;
     Sun.findPosition(&num);
 
     QTime ssTime = Sun.riseSetTime(jd0 , geo, false );
@@ -163,7 +163,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     }
 
     //Moon
-    KSMoon Moon( ((KStars*) topLevelWidget()->parent())->data() );
+    KSMoon Moon;
     Moon.findPosition(&num);
     Moon.findPhase();
 

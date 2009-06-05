@@ -128,7 +128,6 @@ class KSConjunct :public QObject {
   int sgn(dms a);
 
   bool opposition;
-  KStarsData *ksdata;
   GeoLocation *geoPlace;
 };
 

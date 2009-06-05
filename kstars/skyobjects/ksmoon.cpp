@@ -29,8 +29,8 @@
 #include "kssun.h"
 #include "kstarsdata.h"
 
-KSMoon::KSMoon(KStarsData *kd)
-        : KSPlanetBase( kd, I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ )
+KSMoon::KSMoon()
+        : KSPlanetBase( I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ )
 {
     instance_count++;
     //Reset object type
