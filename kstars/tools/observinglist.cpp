@@ -1205,10 +1205,9 @@ void ObservingList::slotGetImage() {
     QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
     QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
     KUrl url (URLprefix + "&r=" + RAString + "&d=" + DecString + URLsuffix);
-    if( !QFile::exists(KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) { 
-        downloadJob = KIO::copy (url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
-        connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
-    }
+    downloadJob = KIO::copy (url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+    connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
+    
 }
 
 void ObservingList::downloadReady (KJob *job)
