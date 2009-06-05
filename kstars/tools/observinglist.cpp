@@ -506,8 +506,7 @@ void ObservingList::slotNewSelection() {
             CurrentImage = RAString + DecString;
             if(QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )
                 ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
-            else
-                ui->GetImage->setEnabled( true );
+            ui->GetImage->setEnabled( true );
 
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
@@ -1202,12 +1201,13 @@ void ObservingList::slotSetTime() {
 }
 
 void ObservingList::slotGetImage() {
+    ui->ImagePreview->clearPreview();
     QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
     QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
     KUrl url (URLprefix + "&r=" + RAString + "&d=" + DecString + URLsuffix);
+    QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
     downloadJob = KIO::copy (url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
     connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
-    
 }
 
 void ObservingList::downloadReady (KJob *job)
