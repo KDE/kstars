@@ -31,15 +31,16 @@
 #include "Options.h"
 #include "skymap.h"
 
-DeepSkyObject::DeepSkyObject( DeepSkyObject &o )
-        : SkyObject( o ) {
-    MajorAxis = o.a();
-    MinorAxis = o.b();
-    PositionAngle = o.pa();
-    UGC = o.ugc();
-    PGC = o.pgc();
-    setCatalog( o.catalog() );
-    Image = o.image();
+DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
+    SkyObject( o ),
+    Catalog( o.Catalog ),
+    PositionAngle( o.PositionAngle ),
+    UGC( o.UGC ),
+    PGC( o.PGC ),
+    MajorAxis( o.MajorAxis ),
+    MinorAxis( o.MinorAxis )
+{
+    Image = o.Image ? new QImage(*o.Image) : 0;
     updateID = updateNumID = 0;
 }
 
@@ -73,6 +74,11 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
     updateID = updateNumID = 0;
 }
 
+DeepSkyObject* DeepSkyObject::clone() const
+{
+    return new DeepSkyObject(*this);
+}
+    
 void DeepSkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos ) {
     pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos );
 }

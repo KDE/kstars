@@ -24,16 +24,19 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 
-KSAsteroid::KSAsteroid( KStarsData *_kd, const QString &s, const QString &imfile,
+KSAsteroid::KSAsteroid( const QString &s, const QString &imfile,
                         long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H )
-	: KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H) {
-    KSAsteroid(_kd, s, imfile, _JD, _a, _e, _i, _w, _Node, _M, _H, -1); // Set G to -1 - G can never be negative in reality.
+	: KSPlanetBase(s, imfile),
+      JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H)
+{
+    KSAsteroid(s, imfile, _JD, _a, _e, _i, _w, _Node, _M, _H, -1); // Set G to -1 - G can never be negative in reality.
 }
 
-KSAsteroid::KSAsteroid( KStarsData *_kd, const QString &s, const QString &imfile,
+KSAsteroid::KSAsteroid( const QString &s, const QString &imfile,
                         long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H, double _G )
-        : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G) {
-
+        : KSPlanetBase(s, imfile),
+          JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G)
+{
     setType( 10 ); //Asteroid
     this -> H = H;
     this -> G = G;
@@ -41,13 +44,9 @@ KSAsteroid::KSAsteroid( KStarsData *_kd, const QString &s, const QString &imfile
     P = 365.2568984 * pow(a, 1.5); //period in days
 }
 
-KSAsteroid::KSAsteroid( KSAsteroid &o ) 
-    : KSPlanetBase( (KSPlanetBase &) o ) {
-    setType( 10 );
-    o.getOrbitalElements( &JD, &a, &e, &i, &w, &N, &M );
-    this->H = o.getAbsoluteMagnitude();
-    this->G = o.getSlopeParameter();
-    P = 365.2568984 * pow(a, 1.5); //period in days
+KSAsteroid* KSAsteroid::clone() const
+{
+    return new KSAsteroid(*this);
 }
 
 bool KSAsteroid::getOrbitalElements( long double *_JD, double *_a, double *_e, dms *_i,

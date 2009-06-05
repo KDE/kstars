@@ -78,7 +78,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     KStarsData *data = KStarsData::Instance();
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MERCURY ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::VENUS ) );
-    PlanetList.append( new KSPlanet( data, "Earth" ) );
+    PlanetList.append( new KSPlanet( "Earth" ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MARS ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::JUPITER ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::SATURN ) );

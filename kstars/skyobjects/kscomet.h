@@ -42,7 +42,6 @@
 	*@version 1.1
 	*/
 
-class KStarsData;
 class KSNumbers;
 class dms;
 
@@ -50,7 +49,6 @@ class KSComet : public KSPlanetBase
 {
 public:
     /**Constructor.
-    	*@param kd pointer to the KStarsData object
     	*@param s the name of the comet
     	*@param image_file the filename for an image of the comet
     	*@param JD the Julian Day for the orbital elements
@@ -63,15 +61,11 @@ public:
         *@param H the absolute magnitude
         *@param G the slope parameter
     	*/
-    KSComet( KStarsData *kd, const QString &s, const QString &image_file,
+    KSComet( const QString &s, const QString &image_file,
              long double JD, double q, double e, dms i, dms w, dms N, double Tp, float H, float G );
     
-    /**
-     *Copy Constructor
-     *@param o  Object to copy into this
-     */
-    KSComet( KSComet &o );
-
+    virtual KSComet* clone() const;
+    
     /**Destructor (empty)*/
     virtual ~KSComet() {}
 
@@ -154,7 +148,6 @@ protected:
 
 
 private:
-    KStarsData *kd;
     long double JD, JDp;
     double q, e, a, P;
     double TailSize, TailAngSize, ComaSize, NuclearSize; // All in kilometres

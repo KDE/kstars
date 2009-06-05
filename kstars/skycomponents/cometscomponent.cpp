@@ -40,7 +40,8 @@ CometsComponent::~CometsComponent() {
     //object deletion handled in grandparent class (ListComponent)
 }
 
-void CometsComponent::init( KStarsData *data ) {
+// FIXME: is KStarsData needed?
+void CometsComponent::init( KStarsData *) {
     QFile file;
 
     if ( KSUtils::openDataFile( file, "comets.dat" ) ) {
@@ -76,7 +77,7 @@ void CometsComponent::init( KStarsData *data ) {
 
             JD = double( mJD ) + 2400000.5;
 
-            com = new KSComet( data, name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, H, G );
+            com = new KSComet( name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, H, G );
             com->setAngularSize( 0.005 );
 
             objectList().append( com );

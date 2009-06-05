@@ -82,25 +82,24 @@ void modCalcPlanets::slotLocation()
 
 void modCalcPlanets::slotComputePosition (void)
 {
-    KStarsData *kd = ((KStars*)topLevelWidget()->parent())->data();
     KStarsDateTime dt = DateTimeBox->dateTime();
     long double julianDay = dt.djd();
     KSNumbers num( julianDay );
     dms LST( geoPlace->GSTtoLST( dt.gst() ) );
 
     // Earth
-    KSPlanet Earth( kd, I18N_NOOP( "Earth" ));
+    KSPlanet Earth( I18N_NOOP( "Earth" ));
     Earth.findPosition( &num );
 
     // Mercury
     if (PlanetComboBox->currentIndex() == 0 ) {
-        KSPlanet p( kd, I18N_NOOP( "Mercury" ));
+        KSPlanet p( I18N_NOOP( "Mercury" ));
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
     }
     else if(PlanetComboBox->currentIndex() == 1) {
-        KSPlanet p( kd, I18N_NOOP( "Venus" ));
+        KSPlanet p( I18N_NOOP( "Venus" ));
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
@@ -109,49 +108,49 @@ void modCalcPlanets::slotComputePosition (void)
         showCoordinates( Earth );
     }
     else if(PlanetComboBox->currentIndex() == 3) {
-        KSPlanet p( kd, I18N_NOOP( "Mars" ));
+        KSPlanet p( I18N_NOOP( "Mars" ));
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
     }
     else if(PlanetComboBox->currentIndex() == 4) {
-        KSPlanet p( kd, I18N_NOOP( "Jupiter" ));
+        KSPlanet p( I18N_NOOP( "Jupiter" ));
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
     }
     else if(PlanetComboBox->currentIndex() == 5) {
-        KSPlanet p( kd, I18N_NOOP( "Saturn" ));
+        KSPlanet p( I18N_NOOP( "Saturn" ));
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
     }
     else if(PlanetComboBox->currentIndex() == 6) {
-        KSPlanet p( kd, I18N_NOOP( "Uranus" ));
+        KSPlanet p( I18N_NOOP( "Uranus" ));
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
     }
     else if(PlanetComboBox->currentIndex() == 7) {
-        KSPlanet p( kd, I18N_NOOP( "Neptune" ));
+        KSPlanet p( I18N_NOOP( "Neptune" ));
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
     }
     else if(PlanetComboBox->currentIndex() == 8) {
-        KSPluto p( kd );
+        KSPluto p;
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
     }
     else if(PlanetComboBox->currentIndex() == 9) {
-        KSMoon p( kd );
+        KSMoon p;
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         showCoordinates( p );
     }
     else if(PlanetComboBox->currentIndex() == 10) {
-        KSSun p( kd );
+        KSSun p;
         p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
         p.EquatorialToHorizontal( &LST, geoPlace->lat());
         p.setRsun(0.0);
@@ -159,39 +158,12 @@ void modCalcPlanets::slotComputePosition (void)
     }
 }
 
-void modCalcPlanets::showCoordinates( const KSPlanet &ksp) {
-
+void modCalcPlanets::showCoordinates( const KSPlanetBase &ksp)
+{
     showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
     showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
     showEquatorialCoords(ksp.ra(), ksp.dec() );
     showTopocentricCoords(ksp.az(), ksp.alt() );
-
-}
-
-void modCalcPlanets::showCoordinates( const KSMoon &ksp ) {
-
-    showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
-    showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
-    showEquatorialCoords(ksp.ra(), ksp.dec() );
-    showTopocentricCoords(ksp.az(), ksp.alt() );
-
-}
-void modCalcPlanets::showCoordinates( const KSPluto &ksp ) {
-
-    showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
-    showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
-    showEquatorialCoords(ksp.ra(), ksp.dec() );
-    showTopocentricCoords(ksp.az(), ksp.alt() );
-
-}
-
-void modCalcPlanets::showCoordinates( const KSSun &ksp ) {
-
-    showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
-    showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
-    showEquatorialCoords(ksp.ra(), ksp.dec() );
-    showTopocentricCoords(ksp.az(), ksp.alt() );
-
 }
 
 void modCalcPlanets::showHeliocentricEclipticCoords(const dms *hLong, const dms *hLat, double dist)
@@ -294,7 +266,7 @@ void modCalcPlanets::slotRunBatch() {
     }
 }
 
-unsigned int modCalcPlanets::requiredBatchFields(void) {
+unsigned int modCalcPlanets::requiredBatchFields() {
     unsigned int i = 0;
 
     if(PlanetCheckBatch->isChecked() )
@@ -309,7 +281,6 @@ unsigned int modCalcPlanets::requiredBatchFields(void) {
         i++;
 
     return i;
-
 }
 
 void modCalcPlanets::processLines( QTextStream &istream ) {
@@ -332,8 +303,6 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     QDate dtB;
     dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
     double rSunB(0.0), rEarthB(0.0);
-
-    KStarsData *kd = ((KStars*)topLevelWidget()->parent())->data();
 
     //Initialize planet names
     QString pn;
@@ -463,31 +432,22 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
         dms LST = edt.gst().Degrees() + longB.Degrees();
 
         KSNumbers num( edt.djd() );
-        KSPlanet Earth( kd, I18N_NOOP( "Earth" ));
+        KSPlanet Earth( I18N_NOOP( "Earth" ));
         Earth.findPosition( &num );
 
-        KSPlanetBase *kspb;
+        // FIXME: allocate new object for every iteration is probably not wisest idea.
+        KSPlanetBase *kspb = 0 ;
         if ( pn == "Pluto" ) {
-            KSPluto ksp( kd );
-            ksp.findPosition( &num, &latB, &LST, &Earth );
-            ksp.EquatorialToHorizontal( &LST, &latB );
-            kspb = (KSPlanetBase*)&ksp;
+            kspb = new KSPluto();
         } else if ( pn == "Sun" ) {
-            KSSun ksp( kd );
-            ksp.findPosition( &num, &latB, &LST, &Earth );
-            ksp.EquatorialToHorizontal( &LST, &latB );
-            kspb = (KSPlanetBase*)&ksp;
+            kspb = new KSSun();
         } else if ( pn == "Moon" ) {
-            KSMoon ksp( kd );
-            ksp.findPosition( &num, &latB, &LST, &Earth );
-            ksp.EquatorialToHorizontal( &LST, &latB );
-            kspb = (KSPlanetBase*)&ksp;
+            kspb = new KSMoon();
         } else {
-            KSPlanet ksp( kd, i18n( pn.toLocal8Bit() ), QString(), Qt::white, 1.0 );
-            ksp.findPosition( &num, &latB, &LST, &Earth );
-            ksp.EquatorialToHorizontal( &LST, &latB );
-            kspb = (KSPlanetBase*)&ksp;
+            kspb = new KSPlanet(i18n( pn.toLocal8Bit() ), QString(), Qt::white, 1.0 );
         }
+        kspb->findPosition( &num, &latB, &LST, &Earth );
+        kspb->EquatorialToHorizontal( &LST, &latB );
 
         // Heliocentric Ecl. coords.
         hlongB.setD( kspb->helEcLong()->Degrees());
@@ -514,9 +474,11 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
             ostream << raB.toHMSString() << space << decB.toDMSString() << space ;
         if ( HorizontalCheckBatch->isChecked() )
             ostream << azmB.toDMSString() << space << altB.toDMSString() << space ;
-
         ostream << endl;
 
+        // Delete object
+        delete kspb;
+   
         nline++;
     }
 

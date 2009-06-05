@@ -159,7 +159,7 @@ void modCalcEquinox::slotViewBatch() {
 void modCalcEquinox::slotCompute()
 {
     KStars *ks = (KStars*) topLevelWidget()->parent();
-    KSSun Sun( ks->data() );
+    KSSun Sun;
     int year0 = Year->value();
 
     KStarsDateTime dt( QDate(year0, 1, 1), QTime(0,0,0) );
@@ -284,7 +284,6 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
     //First find three points which bracket the maximum (i.e., x2 > x1,x3)
     //Start at June 16th, which will always be approaching the solstice
 
-    KStars *ks = (KStars*) topLevelWidget()->parent();
     long double jd1,jd2,jd3,jd4;
     double y1(0.0),y2(0.0),y3(0.0), y4(0.0);
     int month = 6;
@@ -292,7 +291,7 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
 
     jd3 = KStarsDateTime( QDate( year, month, 16 ), QTime(0,0,0) ).djd();
     KSNumbers num( jd3 );
-    KSSun Sun( ks->data() );
+    KSSun Sun;
     Sun.findPosition( &num );
     y3 = Sun.dec()->Degrees();
 

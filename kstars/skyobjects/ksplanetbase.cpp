@@ -48,17 +48,12 @@ QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
   QColor("white"); //Moon
 
 
-KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, const QString &image_file, const QColor &c, double pSize )
-    : TrailObject( 2, 0.0, 0.0, 0.0, s ), Rearth(0.0), Image(), data(kd) {
+KSPlanetBase::KSPlanetBase( const QString &s, const QString &image_file, const QColor &c, double pSize ) :
+    TrailObject( 2, 0.0, 0.0, 0.0, s ),
+    Rearth(0.0),
+    Image()
+{
     init( s, image_file, c, pSize );
-}
-
-KSPlanetBase::KSPlanetBase( KSPlanetBase &o ) 
-    : TrailObject( (TrailObject &) o ) {
-    init( o.name(), "", o.color(), o.physicalSize() );
-    Image = *o.image();
-    Image0 = *o.image0();
-    data = KStarsData::Instance();
 }
 
 void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
@@ -81,8 +76,6 @@ void KSPlanetBase::init( const QString &s, const QString &image_file, const QCol
 }
 
 KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
-    KStarsData *kd = KStarsData::Instance();
-
     switch ( n ) {
         case KSPlanetBase::MERCURY:
         case KSPlanetBase::VENUS:
@@ -91,20 +84,18 @@ KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
         case KSPlanetBase::SATURN:
         case KSPlanetBase::URANUS:
         case KSPlanetBase::NEPTUNE:
-            return new KSPlanet( kd, n );
+            return new KSPlanet( n );
             break;
-
         case KSPlanetBase::PLUTO:
-            return new KSPluto(kd);
+            return new KSPluto();
             break;
         case KSPlanetBase::SUN:
-            return new KSSun(kd);
+            return new KSSun();
             break;
         case KSPlanetBase::MOON:
-            return new KSMoon(kd);
+            return new KSMoon();
             break;
     }
-
     return 0;
 }
 
@@ -116,16 +107,19 @@ void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
     setFromEcliptic( Obliquity, &ep.longitude, &ep.latitude );
 }
 
-void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST ){
+void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST )
+{
+    KStarsData *kd = KStarsData::Instance();
     if ( includePlanets ) {
-        data->skyComposite()->earth()->findPosition( num ); //since we don't pass lat & LST, localizeCoords will be skipped
+        kd->skyComposite()->earth()->findPosition( num ); //since we don't pass lat & LST, localizeCoords will be skipped
 
         if ( lat && LST ) {
-            findPosition( num, lat, LST, data->skyComposite()->earth() );
+            findPosition( num, lat, LST, kd->skyComposite()->earth() );
             //Don't add to the trail this time
-            if ( hasTrail() ) Trail.takeLast();
+            if ( hasTrail() )
+                Trail.takeLast();
         } else {
-            findGeocentricPosition( num, data->skyComposite()->earth() );
+            findGeocentricPosition( num, kd->skyComposite()->earth() );
         }
     }
 }

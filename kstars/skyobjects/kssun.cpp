@@ -25,10 +25,15 @@
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 
-KSSun::KSSun( KStarsData *kd )
-        : KSPlanet( kd, I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  )
+KSSun::KSSun( )
+        : KSPlanet( I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  )
 {
     setMag( -26.73 );
+}
+
+KSSun* KSSun::clone() const 
+{
+    return new KSSun(*this);   
 }
 
 bool KSSun::loadData() {

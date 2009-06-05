@@ -31,7 +31,6 @@
 class QPoint;
 class KSNumbers;
 class KSPopupMenu;
-class KStarsData;
 
 /**
  *@class EclipticPosition
@@ -47,15 +46,8 @@ public:
 
     /**Constructor. */
     explicit EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
-    longitude(plong), latitude(plat), radius(prad) {}
-
-    /**Assignment operator. Copy all values from the target object. */
-    EclipticPosition &operator=(EclipticPosition &r) {
-        this->longitude = r.longitude;
-        this->latitude = r.latitude;
-        this->radius = r.radius;
-        return *this;
-    }
+        longitude(plong), latitude(plat), radius(prad)
+    {}
 };
 
 /**
@@ -75,22 +67,14 @@ public:
     /**
       *Constructor.  Calls SkyObject constructor with type=2 (planet),
       *coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
-      *@param kd pointer to the KStarsData object
       *@param s Name of planet
       *@param image_file filename of the planet's image
       *@param c color of the symbol to use for this planet
       *@param pSize the planet's physical size, in km
       */
-    explicit KSPlanetBase( KStarsData *kd, 
-                           const QString &s = i18n("unnamed"),
+    explicit KSPlanetBase( const QString &s = i18n("unnamed"),
                            const QString &image_file=QString(),
                            const QColor &c=Qt::white, double pSize=0 );
-
-    /**
-     *Copy Constructor. Creates a copy of the given KSPlanetBase object
-     *@param o  Object to be copied
-     */
-    KSPlanetBase( KSPlanetBase &o );
 
    /**
      *Destructor (empty)
@@ -352,7 +336,6 @@ private:
     void findMagnitude(const KSNumbers *num);
 
     QImage Image0, Image;
-    KStarsData *data;
     double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
     QColor m_Color;
 };

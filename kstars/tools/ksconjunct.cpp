@@ -27,8 +27,7 @@
 #include "kstarsdata.h"
 
 KSConjunct::KSConjunct() {
-    ksdata = KStarsData::Instance();
-    geoPlace = ksdata->geo();
+    geoPlace = KStarsData::Instance()->geo();
 }
 
 void KSConjunct::setGeoLocation( GeoLocation *geo ) {
@@ -47,7 +46,6 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
   double step, step0;
   int Sign, prevSign;
   opposition=_opposition;
-  ksdata = KStarsData::Instance();
   //  kDebug() << "Entered KSConjunct::findClosestApproach() with startJD = " << (double)startJD;
   //  kDebug() << "Initial Positional Information: \n";
   //  kDebug() << Object1.name() << ": RA = " << Object1.ra() -> toHMSString() << "; Dec = " << Object1.dec() -> toDMSString() << "\n";
@@ -121,19 +119,17 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
 }
 
 
-dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2) {
-
+dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2)
+{
   KStarsDateTime t(jd);
   KSNumbers num(jd);
   dms dist;
 
-  if(ksdata == NULL)
-    ksdata = KStarsData::Instance();
-
-  KSPlanet *m_Earth = new KSPlanet( ksdata, I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
+  KSPlanet *m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
   m_Earth -> findPosition( &num );
   dms LST(geoPlace->GSTtoLST(t.gst()));
 
+  // FIXME: This should be virtual functions or whatever
   if( Object1->isSolarSystem() ) {
       switch( Object1->type() ) {
       case 2: {

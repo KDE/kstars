@@ -87,16 +87,15 @@ public:
                    const QString &lname=QString(), const QString &cat=QString(),
                    float a=0.0, float b=0.0, double pa=0.0, int pgc=0, int ugc=0 );
 
-    /**
-      *Copy constructor.
-    	*@param o SkyObject from which to copy data
-    	*/
-    DeepSkyObject( DeepSkyObject &o );
+    /** @short Copy constructor.
+     *  @param o SkyObject from which to copy data
+     */
+    DeepSkyObject(const DeepSkyObject &o );
 
-    /**
-    	*Destructor 
-    	*/
-    ~DeepSkyObject() { if ( Image ) { deleteImage(); } }
+    virtual DeepSkyObject* clone() const;
+    
+    /** *Destructor */
+    virtual ~DeepSkyObject() { delete Image; }
 
     /**
       *@enum CATALOG

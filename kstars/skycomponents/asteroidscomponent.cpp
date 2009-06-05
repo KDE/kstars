@@ -47,7 +47,8 @@ bool AsteroidsComponent::selected()
     return Options::showAsteroids();
 }
 
-void AsteroidsComponent::init(KStarsData *data)
+// FIXME: is it really needed if KStarsData is a singleton
+void AsteroidsComponent::init(KStarsData *)
 {
 
     QString line, name;
@@ -78,7 +79,7 @@ void AsteroidsComponent::init(KStarsData *data)
 
         JD = double( mJD ) + 2400000.5;
 
-        ast = new KSAsteroid( data, name, QString(), JD, a, e, dms(dble_i),
+        ast = new KSAsteroid( name, QString(), JD, a, e, dms(dble_i),
                               dms(dble_w), dms(dble_N), dms(dble_M), H, G );
         ast->setAngularSize( 0.005 );
         objectList().append( ast );

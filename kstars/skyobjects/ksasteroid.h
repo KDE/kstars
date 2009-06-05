@@ -51,7 +51,6 @@ public:
 
     /**Constructor.
 	*@note For use by KSPluto, which inherits from this class. Sets the slope parameter to -1.
-    	*@p kd pointer to the KStarsData object
     	*@p s the name of the asteroid
     	*@p image_file the filename for an image of the asteroid
     	*@p JD the Julian Day for the orbital elements
@@ -63,10 +62,9 @@ public:
     	*@p M the mean anomaly for the Julian Day
     	*@p H absolute magnitude
     	*/
-    KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
+    KSAsteroid( const QString &s, const QString &image_file,
                 long double JD, double a, double e, dms i, dms w, dms N, dms M, double H);
     /**Constructor.
-    	*@p kd pointer to the KStarsData object
     	*@p s the name of the asteroid
     	*@p image_file the filename for an image of the asteroid
     	*@p JD the Julian Day for the orbital elements
@@ -79,15 +77,11 @@ public:
     	*@p H absolute magnitude
         *@p G slope parameter
     	*/
-    KSAsteroid( KStarsData *kd, const QString &s, const QString &image_file,
+    KSAsteroid( const QString &s, const QString &image_file,
                 long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
 
-    /**
-     *@short Copy constructor
-     *@param o  Object to make copy of
-     */
-    KSAsteroid( KSAsteroid &o );
-
+    virtual KSAsteroid* clone() const;
+    
     /**Destructor (empty)*/
     virtual ~KSAsteroid() {}
 
@@ -138,7 +132,6 @@ protected:
     void setJD( long double jd ) { JD = jd; }
 
 private:
-    KStarsData *kd;
     long double JD;
     double a, e, P;
     dms i, w, M, N;

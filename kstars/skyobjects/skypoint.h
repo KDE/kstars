@@ -378,8 +378,7 @@ public:
      *  @param sp SkyPoint to which distance is to be calculated
      *  @return dms angle representing angular separation.
      **/
-
-    dms angularDistanceTo( SkyPoint *sp);
+    dms angularDistanceTo(const SkyPoint *sp);
 
     inline bool operator == ( SkyPoint &p ) { return ( ra()->Degrees() == p.ra()->Degrees() && dec()->Degrees() == p.dec()->Degrees() ); }
 
