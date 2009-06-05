@@ -484,8 +484,8 @@ void ObservingList::slotNewSelection() {
     }
     if( singleSelection ) {
         //Enable buttons
-            ui->CenterButton->setEnabled( true );
-            ui->GetImage->setEnabled( true );
+        ui->CenterButton->setEnabled( true );
+            
         #ifdef HAVE_INDI_H
             ui->ScopeButton->setEnabled( true );
         #endif
@@ -496,6 +496,18 @@ void ObservingList::slotNewSelection() {
             m_CurrentObject = o;
             PlotObject = currentObject();
             plot( PlotObject );
+            RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0()->hour(), o->ra0()->minute(), o->ra0()->second() );
+            decsgn = '+';
+            if ( o->dec0()->Degrees() < 0.0 ) decsgn = '-';
+            int dd = abs( o->dec0()->degree() );
+            int dm = abs( o->dec0()->arcmin() );
+            int ds = abs( o->dec0()->arcsec() );
+            DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
+            CurrentImage = RAString + DecString;
+            if(QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )
+                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
+            else
+                ui->GetImage->setEnabled( true );
 
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
@@ -1192,28 +1204,13 @@ void ObservingList::slotSetTime() {
 void ObservingList::slotGetImage() {
     QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
     QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
-    dms ra(0.0), dec(0.0);
-    QString RAString, DecString;
-    char decsgn;
-    ra.setH( currentObject()->ra0()->Hours() );
-    dec.setD( currentObject()->dec0()->Degrees() );
-
-    RAString = RAString.sprintf( "%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
-
-    decsgn = '+';
-    if ( dec.Degrees() < 0.0 ) decsgn = '-';
-    int dd = abs( dec.degree() );
-    int dm = abs( dec.arcmin() );
-    int ds = abs( dec.arcsec() );
-    DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-    CurrentImage = RAString + DecString;
     KUrl url (URLprefix + "&r=" + RAString + "&d=" + DecString + URLsuffix);
     if( !QFile::exists(KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) { 
         downloadJob = KIO::copy (url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
         connect (downloadJob, SIGNAL (result (KJob *)), SLOT (downloadReady (KJob *)));
-    } else
-        ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
+    }
 }
+
 void ObservingList::downloadReady (KJob *job)
 {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically

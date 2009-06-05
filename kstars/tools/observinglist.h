@@ -251,7 +251,8 @@ private:
     SkyObject *LogObject, *m_CurrentObject, *PlotObject;
     uint noNameStars;
     bool isModified, bIsLarge;
-    QString FileName, SessionName, CurrentImage;
+    QString FileName, SessionName, CurrentImage, RAString, DecString;
+    char decsgn;
     KStarsDateTime dt;
     GeoLocation *geo;
     QStandardItemModel *m_Model, *m_Session;
