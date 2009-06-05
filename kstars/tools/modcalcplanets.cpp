@@ -283,11 +283,11 @@ unsigned int modCalcPlanets::requiredBatchFields() {
     return i;
 }
 
-void modCalcPlanets::processLines( QTextStream &istream ) {
-
+void modCalcPlanets::processLines( QTextStream &istream )
+{
     // we open the output file
 
-    QString outputFileName, lineToWrite;
+    QString outputFileName;
     outputFileName = OutputFileBoxBatch->url().toLocalFile();
     QFile fOut( outputFileName );
     fOut.open(QIODevice::WriteOnly);
@@ -295,7 +295,6 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     bool lineIsValid = true;
     QString message;
 
-    QString line;
     QChar space = ' ';
     QString planetB;
     unsigned int i = 0, nline = 0;
@@ -318,8 +317,8 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
     ///Parse the input file
     int numberOfRequiredFields = requiredBatchFields();
     while ( ! istream.atEnd() ) {
-        lineToWrite.clear();
-        line = istream.readLine();
+        QString lineToWrite;
+        QString line = istream.readLine();
         line.trimmed();
 
         //Go through the line, looking for parameters
@@ -338,7 +337,6 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
         i = 0;
         if(PlanetCheckBatch->isChecked() ) {
             planetB = fields[i];
-
             int j = pNamesi18n.indexOf( planetB );
             if (j == -1) {
                 kWarning() << i18n("Unknown planet ")
@@ -348,21 +346,15 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
             }
             pn = pNames.at(j); //untranslated planet name
             i++;
-        } else
+        } else {
             planetB = PlanetComboBoxBatch->currentText( );
-
-        if ( AllRadioBatch->isChecked() ) {
+        }
+        if ( AllRadioBatch->isChecked() || PlanetCheckBatch->isChecked() ) {
             lineToWrite = planetB;
             lineToWrite += space;
         }
-        else
-            if(PlanetCheckBatch->isChecked() ) {
-                lineToWrite = planetB;
-                lineToWrite += space;
-            }
 
         // Read Ut and write in ostream if corresponds
-
         if(UTCheckBatch->isChecked() ) {
             utB = QTime::fromString( fields[i] );
             if ( !utB.isValid() ) {
@@ -372,17 +364,13 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
                 continue;
             }
             i++;
-        } else
+        } else {
             utB = UTBoxBatch->time();
-
-        if ( AllRadioBatch->isChecked() )
+        }
+        if ( AllRadioBatch->isChecked() || UTCheckBatch->isChecked() )
             lineToWrite += KGlobal::locale()->formatTime( utB, true ).append(space);
-        else
-            if(UTCheckBatch->isChecked() )
-                lineToWrite += KGlobal::locale()->formatTime( utB, true ).append(space);
 
         // Read date and write in ostream if corresponds
-
         if(DateCheckBatch->isChecked() ) {
             dtB = QDate::fromString( fields[i], Qt::ISODate );
             if ( !dtB.isValid() ) {
@@ -393,40 +381,34 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
                 continue;
             }
             i++;
-        } else
+        } else {
             dtB = DateBoxBatch->date();
-        if ( AllRadioBatch->isChecked() )
+        }
+        if ( AllRadioBatch->isChecked() || DateCheckBatch->isChecked() )
             lineToWrite += KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
-        else
-            if(DateCheckBatch->isChecked() )
-                lineToWrite += KGlobal::locale()->formatDate( dtB, KLocale::LongDate ).append(space);
+
 
         // Read Longitude and write in ostream if corresponds
 
         if (LongCheckBatch->isChecked() ) {
             longB = dms::fromString( fields[i],true);
             i++;
-        } else
+        } else {
             longB = LongBoxBatch->createDms(true);
-
-        if ( AllRadioBatch->isChecked() )
+        }
+        if ( AllRadioBatch->isChecked() || LongCheckBatch->isChecked() )
             lineToWrite += longB.toDMSString() + space;
-        else
-            if (LongCheckBatch->isChecked() )
-                lineToWrite += longB.toDMSString() +  space;
 
         // Read Latitude
-
         if (LatCheckBatch->isChecked() ) {
             latB = dms::fromString( fields[i], true);
             i++;
-        } else
+        } else {
             latB = LatBoxBatch->createDms(true);
-        if ( AllRadioBatch->isChecked() )
+        }
+        if ( AllRadioBatch->isChecked() || LatCheckBatch->isChecked() ) 
             lineToWrite += latB.toDMSString() + space;
-        else
-            if (LatCheckBatch->isChecked() )
-                lineToWrite += latB.toDMSString() + space;
+
 
         KStarsDateTime edt( dtB, utB );
         dms LST = edt.gst().Degrees() + longB.Degrees();
