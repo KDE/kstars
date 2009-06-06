@@ -78,9 +78,10 @@ public:
     	*@param r Right Ascension, expressed as a double
     	*@param d Declination, expressed as a double
     	*/
+    //FIXME: this (*15.0) thing is somewhat hacky.
     explicit SkyPoint( double r=0.0, double d=0.0 ) :
-        RA0(r), Dec0(d),
-        RA(r),  Dec(d)
+        RA0(r*15.0), Dec0(d),
+        RA(r*15.0),  Dec(d)
     {
         syncQuaternion();
     }
