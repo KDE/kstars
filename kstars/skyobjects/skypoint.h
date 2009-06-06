@@ -54,21 +54,36 @@ public:
     	*@param r Right Ascension
     	*@param d Declination
     	*/
-    SkyPoint( const dms& r, const dms& d ) { set( r, d ); }
+    SkyPoint( const dms& r, const dms& d ) :
+        RA0(r), Dec0(d),
+        RA(r),  Dec(d)
+    {
+        syncQuaternion();
+    }
 
     /**Alternate constructor using pointer arguments, for convenience.
     	*It behaves essentially like the default constructor.
     	*@param r Right Ascension pointer
     	*@param d Declination pointer
     	*/
-    SkyPoint( const dms *r, const dms *d ) { set( dms(*r), dms(*d) ); }
+    SkyPoint( const dms *r, const dms *d ) :
+        RA0(*r), Dec0(*d),
+        RA(*r),  Dec(*d)
+    {
+        syncQuaternion();
+    }
 
     /**Alternate constructor using double arguments, for convenience.
     	*It behaves essentially like the default constructor.
     	*@param r Right Ascension, expressed as a double
     	*@param d Declination, expressed as a double
     	*/
-    explicit SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
+    explicit SkyPoint( double r=0.0, double d=0.0 ) :
+        RA0(r), Dec0(d),
+        RA(r),  Dec(d)
+    {
+        syncQuaternion();
+    }
 
     /**
     	*Empty destructor.
