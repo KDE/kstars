@@ -476,7 +476,7 @@ void ObservingList::slotNewSelection() {
             int dm = abs( o->dec0()->arcmin() );
             int ds = abs( o->dec0()->arcsec() );
             DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-            CurrentImage = RAString + DecString;
+            CurrentImage ="dss_" + o->name().remove(' ') ;
             if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )//If the image is present, show it!
                 ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
             ui->GetImage->setEnabled( true );//Enable anyway for updating the image
