@@ -468,27 +468,25 @@ void ObservingList::slotNewSelection() {
         if ( found ) {
             m_CurrentObject = o;
             plot( o );
+            //Change the RAString, DecString, CurrentImage to correspond to the new object
+            RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0()->hour(), o->ra0()->minute(), o->ra0()->second() );
+            decsgn = '+';
+            if ( o->dec0()->Degrees() < 0.0 ) decsgn = '-';
+            int dd = abs( o->dec0()->degree() );
+            int dm = abs( o->dec0()->arcmin() );
+            int ds = abs( o->dec0()->arcsec() );
+            DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
+            ui->GetImage->setEnabled( true );//Enable anyway for updating the image
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
                 //First, save the last object's user log to disk, if necessary
                 saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
                 //set LogObject to the new selected object
                 LogObject = currentObject();
+                CurrentImage = "dss_" + o->name().remove(' ');
                 ui->NotesLabel->setEnabled( true );
                 ui->NotesEdit->setEnabled( true );
                 ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
-                //Change the RAString, DecString, CurrentImage to correspond to the new object
-                RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0()->hour(), o->ra0()->minute(), o->ra0()->second() );
-                decsgn = '+';
-                if ( o->dec0()->Degrees() < 0.0 ) decsgn = '-';
-                int dd = abs( o->dec0()->degree() );
-                int dm = abs( o->dec0()->arcmin() );
-                int ds = abs( o->dec0()->arcsec() );
-                DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-                CurrentImage ="dss_" + o->name().remove(' ') ;
-                if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )//If the image is present, show it!
-                    ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
-                ui->GetImage->setEnabled( true );//Enable anyway for updating the image
                 if ( LogObject->userLog().isEmpty() ) {
                     ui->NotesEdit->setPlainText( i18n( "Record here observation logs and/or data on %1.", LogObject->translatedName() ) );
                 } else {
@@ -500,14 +498,18 @@ void ObservingList::slotNewSelection() {
                     ui->TimeEdit->setTime( TimeHash.value( o->name(), o->transitTime( dt, geo ) ) );
                 }   
             } else { //selected object is named "star"
+                CurrentImage = "dss_" + RAString + DecString;
+                CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
                 //clear the log text box
                 saveCurrentUserLog();
                 ui->NotesLabel->setText( i18n( "observing notes (disabled for unnamed star)" ) );
                 ui->NotesLabel->setEnabled( false );
                 ui->NotesEdit->clear();
                 ui->NotesEdit->setEnabled( false );
-                ui->GetImage->setEnabled( false );//Disabled for unnamed object
             }
+            if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )//If the image is present, show it!
+                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
+
         } else {
             kDebug() << i18n( "Object %1 not found in list.", newName );
         } 
