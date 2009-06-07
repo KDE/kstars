@@ -615,6 +615,11 @@
 			<whatsthis>Objects in the observing list will be highlighted with a colored name label in the map.</whatsthis>
 			<default>false</default>
 		</entry>
+        <entry name="ObsListSaveImage" type="Bool">
+            <label>Save the DSS/SDSS images to harddisk</label>
+            <whatisthis>The images of objects in the obseving list will be autosaved if you download them</whatisthis>
+            <default>false</default>
+        </entry>
 		<entry name="UseRefraction" type="Bool">
 			<label>Correct positions for atmospheric refraction?</label>
 			<whatsthis>Toggle whether object positions are corrected for the effects of atmospheric refraction (only applies when horizontal coordinates are used).</whatsthis>

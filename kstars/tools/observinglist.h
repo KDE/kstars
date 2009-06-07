@@ -20,14 +20,16 @@
 
 #include <QList>
 #include <QAbstractTableModel>
-#include <kdialog.h>
 
-#include "skyobjects/skyobject.h"
-#include "ui_observinglist.h"
-#include "kstarsdatetime.h"
+#include <kdialog.h>
 #include <kio/copyjob.h>
+
+#include "ui_observinglist.h"
+#include "skyobjects/skyobject.h"
+#include "kstarsdatetime.h"
 #include "geolocation.h"
 #include "ksalmanac.h"
+
 class KSAlmanac;
 class QSortFilterProxyModel;
 class QStandardItemModel;
@@ -60,7 +62,7 @@ public:
     *list data (TBD: as HTML table?  CSV format?  plain text?)
     *
     *The observing notes associated with the selected object are displayed 
-    *below the list. (TBD)
+    *below the list.
     *
     *TODO: 
     *+ Implement a "shaded" state, in which the UI is compressed to
@@ -78,7 +80,7 @@ class ObservingList : public KDialog
     Q_OBJECT
 
 public:
-    /**@short Cunstructor
+    /**@short Constructor
         */
     ObservingList( KStars *_ks );
     /**@short Destuctor (empty)
@@ -123,6 +125,9 @@ public:
         */
     double findAltitude( SkyPoint *p, double hour=0);
 
+    /**@short Return the list of downloaded images
+        */
+    QList<QString> imageList() { return ImageList; }
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
@@ -199,7 +204,7 @@ public slots:
     /**@short save the current session
         */
     void slotSaveSession();
-    
+
     /**@short construct a new observing list using the wizard.
         */
     void slotWizard();
@@ -219,7 +224,7 @@ public slots:
         *which is the currentIndex of the table
         */
     void slotChangeTab(int index);
-    
+
     /**@short Opens the Location dialog to set the GeoLocation
         *for the sessionlist.
         */
@@ -228,7 +233,7 @@ public slots:
     /**@short Updates the tableviews for the new geolocation and date 
         */
     void slotUpdate();
-    
+
     /**@short Takes the time from the QTimeEdit box and sets it as the
         *time parameter in the tableview of the SessionList.
         */
@@ -259,6 +264,7 @@ private:
     QSortFilterProxyModel *m_SortModel, *m_SortModelSession;
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash; 
+    QList<QString> ImageList;
 };
 
 #endif // OBSERVINGLIST_H_

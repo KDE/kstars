@@ -1151,6 +1151,7 @@ void ObservingList::downloadReady() {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
     downloadJob = 0;
     ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+    ImageList.append( CurrentImage );
 }  
 
 #include "observinglist.moc"
