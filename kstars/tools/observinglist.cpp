@@ -26,8 +26,7 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
-#include <QLabel>
-#include <QPainter>
+
 #include <kpushbutton.h>
 #include <kstatusbar.h>
 #include <ktextedit.h>
@@ -41,10 +40,10 @@
 #include <kplotobject.h>
 #include <kplotaxis.h>
 #include <kplotwidget.h>
-#include <ksnumbers.h>
+#include <kio/copyjob.h>
+#include <kstandarddirs.h>
 
 #include "ksalmanac.h"
-#include <kstandarddirs.h>
 #include "obslistwizard.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -67,8 +66,6 @@
 #include "indi/indidevice.h"
 #include "indi/devicemanager.h"
 #include "indi/indistd.h"
-#include <kio/copyjob.h>
-
 #endif
 
 //
