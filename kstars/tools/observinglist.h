@@ -234,23 +234,23 @@ public slots:
         */
     void slotSetTime();
 
-    /**@short Gets the corresponding DSS or SDSS image from the web and
+    /**@short Downloads the corresponding DSS or SDSS image from the web and
         *displays it
         */
     void slotGetImage();
 
 protected slots:
     void slotClose();
-    void downloadReady (KJob *);
+    void downloadReady();
 
 private:
     KStars *ks;
     KSAlmanac *ksal;
     ObservingListUI *ui;
     QList<SkyObject*> m_ObservingList, m_SessionList;
-    SkyObject *LogObject, *m_CurrentObject, *PlotObject;
+    SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
-    bool isModified, bIsLarge;
+    bool isModified, bIsLarge, sessionView;
     QString FileName, SessionName, CurrentImage, RAString, DecString;
     char decsgn;
     KStarsDateTime dt;
