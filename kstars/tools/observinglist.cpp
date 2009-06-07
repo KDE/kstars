@@ -351,6 +351,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
                 }
             }
         }
+        TimeHash.remove( o->name() );
         SessionList().removeAt(k);//Remove from the session list
         if ( ! isModified ) isModified = true;//Removing an object should trigger the modified flag
         ui->View->removeAllPlotObjects();
