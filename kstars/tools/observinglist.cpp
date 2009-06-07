@@ -303,7 +303,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
                 QString ra = m_Model->item(irow, 1)->text();
                 QString dc = m_Model->item(irow, 2)->text();
-                if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
+                if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
                     m_Model->removeRow(irow);
                     found = true;
                     break;
@@ -334,7 +334,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
                 QString ra = m_Session->item(irow, 1)->text();
                 QString dc = m_Session->item(irow, 2)->text();
-                if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
+                if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
                     m_Session->removeRow(irow);
                     found = true;
                     break;
@@ -373,7 +373,7 @@ void ObservingList::slotRemoveSelectedObjects() {
                 foreach ( SkyObject *o, SessionList() ) {
                     //Stars named "star" must be matched by coordinates
                     if ( o->name() == "star" ) {
-                        if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
+                        if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
                             slotRemoveObject( o );
                             break;
                         }
@@ -400,7 +400,7 @@ void ObservingList::slotRemoveSelectedObjects() {
                  foreach ( SkyObject *o, obsList() ) {
                      //Stars named "star" must be matched by coordinates
                      if ( o->name() == "star" ) {
-                         if ( o->ra()->toHMSString() == ra && o->dec()->toDMSString() == dc ) {
+                         if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
                              slotRemoveObject( o );
                              break;
                          }
@@ -883,7 +883,7 @@ void ObservingList::slotSaveList() {
     QTextStream ostream( &f );
     foreach ( SkyObject* o, obsList() ) {
         if ( o->name() == "star" ) {
-            ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
+            ostream << o->name() << "  " << o->ra0()->Hours() << "  " << o->dec0()->Degrees() << endl;
         } else if ( o->type() == SkyObject::STAR ) {
             StarObject *s = (StarObject*)o;
             if ( s->name() == s->gname() ) 
@@ -947,7 +947,7 @@ void ObservingList::slotSaveSession() {
     ostream << geo->name() << "|" <<geo->province() << "|" << geo->country() << "|" << dt.date().toString("dMyyyy") << endl;
     foreach ( SkyObject* o, SessionList() ) {
         if ( o->name() == "star" ) {
-            ostream << o->name() << "  " << o->ra()->Hours() << "  " << o->dec()->Degrees() << endl;
+            ostream << o->name() << "  " << o->ra0()->Hours() << "  " << o->dec0()->Degrees() << endl;
         } else {
             if ( o->type() == SkyObject::STAR ) {
                 StarObject *s = (StarObject*)o;
