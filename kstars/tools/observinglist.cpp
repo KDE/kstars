@@ -222,7 +222,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         }
     
     QString smag = "--";
-    if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
+    if (  -30 < obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
 
     SkyPoint p = obj->recomputeCoords( dt, geo );
  
