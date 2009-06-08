@@ -2,8 +2,8 @@
                    deepstarcomponent.h  -  K Desktop Planetarium
                              -------------------
     begin                : Fri 1st Aug 2008
-    copyright            : (C) 2008 Akarsh Simha
-    email                : akarshsimha@gmail.com
+    copyright            : (C) 2008 Akarsh Simha, Thomas Kabelmann
+    email                : akarshsimha@gmail.com, thomas.kabelmann@gmx.de
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,7 +20,7 @@
 
 /**
  *@class DeepStarComponent
- *Stores and manages stars from fainter catalogs
+ *Stores and manages unnamed stars, most of which are dynamically loaded into memory.
  *
  *@author Akarsh Simha
  *@note Much of the code here is copied from class StarComponent authored by Thomas Kabelmann
