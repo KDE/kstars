@@ -119,7 +119,7 @@ bool DeepStarComponent::loadStaticStars() {
              *          and then calling StarObject::init() to replace the default data with the correct
              *          data.
              *          This means that this section of the code plays around with pointers to a great
-             *          extend and has a chance of breaking down / causing segfaults.
+             *          extent and has a chance of breaking down / causing segfaults.
              */
                     
             /* Make a copy of the star template and set up the data in it */
@@ -370,6 +370,8 @@ SkyObject *DeepStarComponent::findByHDIndex( int HDnum ) {
 // build an index for just the named stars which would make this go
 // much faster still.  -jbb
 //
+
+
 SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
 {
     StarObject *oBest = 0;
@@ -398,6 +400,15 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
             }
         }
     }
+
+    // TODO: What if we are looking around a point that's not on
+    // screen? objectNearest() will need to keep on filling up all
+    // trixels around the SkyPoint to find the best match in case it
+    // has not been found. Ideally, this should be implemented in a
+    // different method and should be called after all other
+    // candidates (eg: DeepSkyObject::objectNearest()) have been
+    // called.
+    
     return (SkyObject*) oBest;
 }
 

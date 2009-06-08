@@ -19,11 +19,18 @@
 #define STARCOMPONENT_H
 
 /**
- *@class StarComponent
- *Represents the stars on the sky map. For optimization reasons the stars are
- *not separate objects and are stored in a list.
+ *@class StarComponent 
+ *
+ *@short Represents the stars on the sky map. For optimization reasons the
+ *stars are not separate objects and are stored in a list. 
+ *
+ *The StarComponent class manages all stars drawn in KStars. While it
+ *handles all stars having names using its own member methods, it
+ *shunts the responsibility of unnamed stars to the class
+ *'DeepStarComponent', objects of which it maintains.
  *
  *@author Thomas Kabelmann
+ *@author Akarsh Simha
  *@version 1.0
  */
 
@@ -87,7 +94,7 @@ class StarComponent: public ListComponent
 
     void init(KStarsData *data);
 
-    KStarsData *data() { return m_Data; }
+    inline KStarsData *data() { return m_Data; }
 
     /**@return the current setting of the color mode for stars (0=real colors,
         *1=solid red, 2=solid white or 3=solid black).
@@ -120,12 +127,13 @@ class StarComponent: public ListComponent
     /**
      *@short Read data for stars which will remain static in the memory
      *
-     *This method reads data for 'shallow' stars (stars having names, and all 
-     *stars down to mag 8) which are stored by default in "shallowstars.dat" into
-     *memory. These stars are always kept in memory, as against 'deep' stars
-     *which are dynamically loaded into memory when required, depending on region
-     *and magnitude limit. Once loading is successful, this method sets the 
-     *starsLoaded flag to true
+     *This method reads data for named stars (stars having names,
+     *which are stored by default in "namedstars.dat") into
+     *memory. These stars are always kept in memory, as against 'deep'
+     *stars which are mostly loaded dynamically (KStars treats all
+     *unnamed stars as 'deep' stars) into memory when required,
+     *depending on region and magnitude limit. Once loading is
+     *successful, this method sets the starsLoaded flag to true
      */
 
     bool loadStaticData();

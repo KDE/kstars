@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-// Modified appropriately and incorporated for use in KStars on 9 Jun 2008
+// Modified appropriately and incorporated for use in KStars on 9 Jun
+// 2008 by Akarsh Simha <akarsh.simha@kdemail.net>
 
 #ifndef BYTESWAP_H
 #define BYTESWAP_H
