@@ -457,8 +457,13 @@ bool StarComponent::loadStaticData()
     quint16 t_MSpT;
 
     fread( &faintmag, 2, 1, dataFile );
+    if( swapBytes )
+        bswap_16( faintmag );
     fread( &htm_level, 1, 1, dataFile );
     fread( &t_MSpT, 2, 1, dataFile ); // Unused
+    if( swapBytes )
+        bswap_16( faintmag );
+
 
     if( faintmag / 100.0 > m_FaintMagnitude )
         m_FaintMagnitude = faintmag / 100.0;
@@ -572,6 +577,8 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
             return 0;
         FILE *dataFile;
         KDE_fseek( hdidxFile, (HDnum - 1) * 4, SEEK_SET );
+        // TODO: Offsets need to be byteswapped if this is a big endian machine.
+        // This means that the Henry Draper Index needs a endianness indicator.
         fread( &offset, 4, 1, hdidxFile );
         if( offset <= 0 )
             return 0;
