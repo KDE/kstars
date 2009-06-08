@@ -165,6 +165,9 @@ class StarComponent: public ListComponent
 
     SkyObject* findByHDIndex( int HDnum );
 
+    // TODO: Make byteSwap a template method and put it in byteswap.h
+    // It should ideally handle 32-bit, 16-bit fields and starData and
+    // deepStarData fields
     static void byteSwap( starData *stardata );
 
 private:

@@ -74,9 +74,15 @@ bool DeepStarComponent::loadStaticStars() {
     qint16 faintmag;
     quint8 htm_level;
     quint16 t_MSpT;
+
     fread( &faintmag, 2, 1, dataFile );
+    if( starReader.getByteSwap() )
+        bswap_16( faintmag );
     fread( &htm_level, 1, 1, dataFile );
     fread( &t_MSpT, 2, 1, dataFile ); // Unused
+    if( starReader.getByteSwap() )
+        bswap_16( faintmag );
+
 
     // TODO: Read the multiplying factor from the dataFile
     m_FaintMagnitude = faintmag / 100.0;
@@ -329,6 +335,8 @@ bool DeepStarComponent::openDataFile() {
         qint16 faintmag;
         quint8 htm_level;
         fread( &faintmag, 2, 1, starReader.getFileHandle() );
+        if( starReader.getByteSwap() )
+            bswap_16( faintmag );
         if( starReader.guessRecordSize() == 16 )
             m_FaintMagnitude = faintmag / 1000.0;
         else
@@ -344,6 +352,8 @@ bool DeepStarComponent::openDataFile() {
         }
         meshLevel = htm_level;
         fread( &MSpT, 2, 1, starReader.getFileHandle() );
+        if( starReader.getByteSwap() )
+            bswap_16( MSpT );
         fileOpened = true;
         kDebug() << "  Sky Mesh Size: " << m_skyMesh->size();
         for (long int i = 0; i < m_skyMesh->size(); i++) {
