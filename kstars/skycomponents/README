@@ -37,10 +37,11 @@ is indicated in square brackets (see below for more on the base classes)
 
 + SkyComposite
   - StarComponent			[ListComponent]
+  - DeepStarComponent			[ListComponent]
   - DeepSkyComponent			[ListComponent]
   - ConstellationNamesComponent		[ListComponent]
   + SolarSystemComposite
-    - SolarSystemSingleComponent (Sun		[SingleComponent]
+    - SolarSystemSingleComponent (Sun)		[SingleComponent]
     - SolarSystemSingleComponent (Moon)		[SingleComponent]
     - SolarSystemSingleComponent (Mercury)	[SingleComponent]
     - SolarSystemSingleComponent (Venus)	[SingleComponent]
@@ -120,8 +121,15 @@ JupiterMoonsComponent inherits from SkyComponent directly, because
 the 4 Jupiter moons have their own class (JMoons) not derived 
 directly from a SkyPoint.
 
+4. DeepStarComponent and StarComponent
 
-4. Functions
+StarComponent and DeepStarComponent manage stars in
+KStars. StarComponent maintains a QVector of instances of
+DeepStarComponents and takes care of calling their draw routines
+etc. The machinery for handling stars is documented in great detail in
+README.stars
+
+5. Functions
 
 TBD.  Describe important functions, and in which classes they are
 defined (i.e., update() is only defined in SkyComponent[pure virtual],
