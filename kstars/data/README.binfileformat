@@ -102,9 +102,9 @@ variable-sized region for expansion and a series of records.
  details of whose fields (assumed to be placed continuously, without
  any gaps) are as described in the field descriptor in the header.
 
- NOTE: KStars _overrides_ this convention for performance gains and
- ease of programming in the star names file, where records are stored
- as single blocks of the "starName" structure defined in
+ NOTE: KStars _overrides_ the above defined convention for performance
+ gains and ease of programming in the star names file, where records
+ are stored as single blocks of the "starName" structure defined in
  kstars/kstars/skycomponents/starcomponent.h
 
 3. Licensing Information
@@ -112,5 +112,6 @@ variable-sized region for expansion and a series of records.
 
 (c) 2008. Akarsh Simha <akarshsimha@gmail.com>
 
-This document is released under the GPL.
+This document is released under the GNU GPL v2 or, at your option, any
+later version.
 
