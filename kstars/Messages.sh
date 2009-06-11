@@ -15,6 +15,9 @@ echo "#if 0" >> kstars_i18n.cpp
 sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/^[A-B] //' | \
    sed 's/\([A-Z].*\)/i18nc("Constellation name (optional)", "\1");/' | sed 's/\ "/"/g' >> "kstars_i18n.cpp"
 
+# extract sky cultures
+grep ^C data/cnames.dat | awk '{ print "i18nc( \"Sky Culture\", \"" $2 "\" );" }' >> "kstars_i18n.cpp"
+
 # extract cities
 awk 'BEGIN {FS=":"}; {print "\"" $1 "\""; }' < data/Cities.dat | \
    sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"City name (optional, probably does not need a translation)\",\"/g' | sed 's/i18nc(.*,"");//' >> "cities.tmp"

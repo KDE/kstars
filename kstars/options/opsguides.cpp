@@ -29,7 +29,7 @@ OpsGuides::OpsGuides( KStars *_ks )
     connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ),
              this, SLOT( slotToggleMilkyWayOptions() ) );
 
-    kcfg_SkyCulture->addItems( ksw->data()->skyComposite()->getCultureNames() );
+    kcfg_SkyCulture->addItems( i18n( ksw->data()->skyComposite()->getCultureNames() ) );
 
 }
 
