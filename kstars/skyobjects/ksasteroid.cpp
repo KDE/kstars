@@ -25,14 +25,6 @@
 #include "kstarsdata.h"
 
 KSAsteroid::KSAsteroid( const QString &s, const QString &imfile,
-                        long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H )
-	: KSPlanetBase(s, imfile),
-      JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H)
-{
-    KSAsteroid(s, imfile, _JD, _a, _e, _i, _w, _Node, _M, _H, -1); // Set G to -1 - G can never be negative in reality.
-}
-
-KSAsteroid::KSAsteroid( const QString &s, const QString &imfile,
                         long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H, double _G )
         : KSPlanetBase(s, imfile),
           JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G)
@@ -48,21 +40,6 @@ KSAsteroid* KSAsteroid::clone() const
 {
     return new KSAsteroid(*this);
 }
-
-bool KSAsteroid::getOrbitalElements( long double *_JD, double *_a, double *_e, dms *_i,
-                                     dms *_w, dms *_N, dms *_M ) {
-    if( !_JD || !_a || !_e || !_i || !_w || !_N || !_M )
-        return false;
-    *_JD = JD;
-    *_a = a;
-    *_e = e;
-    *_i = i;
-    *_w = w;
-    *_N = N;
-    *_M = M;
-    return true;
-}
-
 
 bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
     //Precess the longitude of the Ascending Node to the desired epoch:

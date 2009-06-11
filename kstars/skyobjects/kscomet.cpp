@@ -62,19 +62,6 @@ KSComet* KSComet::clone() const
     return new KSComet(*this);
 }
 
-bool KSComet::getOrbitalElements( long double *_JD, double *_q, double *_e, dms *_i,
-                                  dms *_w, dms *_N ) {
-    if( !_JD || !_q || !_e || !_i || !_w || !_N )
-        return false;
-    *_JD = JD;
-    *_q = q;
-    *_e = e;
-    *_i = i;
-    *_w = w;
-    *_N = N;
-    return true;
-}
-
 void KSComet::findPhysicalParameters() {
     // Compute and store the estimated Physical size of the comet's coma, tail and nucleus
     // References:

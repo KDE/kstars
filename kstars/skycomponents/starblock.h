@@ -51,15 +51,6 @@ class StarBlock {
      */
     StarBlock( int nstars );
 
-    // DEPRECATED
-    /**
-     * Constructor
-     * Initializes values of various parameters and links this StarBlock to its neighbours
-     *@param  _prev  Pointer to the previous StarBlock in the linked list
-     *@param  _next  Pointer to the next StarBlock in the linked list
-     */
-    StarBlock( StarBlock *_prev, StarBlock *_next );
-
     /**
      * Destructor
      * Deletes any stored stars
