@@ -242,7 +242,7 @@ public slots:
     /**@short Downloads the corresponding DSS or SDSS image from the web and
         *displays it
         */
-    void slotGetImage();
+    void slotGetImage( bool dss=false );
 
 protected slots:
     void slotClose();
@@ -256,7 +256,7 @@ private:
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
     bool isModified, bIsLarge, sessionView;
-    QString FileName, SessionName, CurrentImage, RAString, DecString;
+    QString FileName, SessionName, CurrentImage, RAString, DecString, RA, Dec,  DSSUrl, SDSSUrl;
     char decsgn;
     KStarsDateTime dt;
     GeoLocation *geo;
