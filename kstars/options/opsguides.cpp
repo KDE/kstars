@@ -30,7 +30,7 @@ OpsGuides::OpsGuides( KStars *_ks )
              this, SLOT( slotToggleMilkyWayOptions() ) );
 
     foreach( QString item,  ksw->data()->skyComposite()->getCultureNames() )
-        kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toLocal8Bit().data() ) );
+        kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toUtf8().constData() ) );
 
 }
 
