@@ -458,11 +458,11 @@ bool StarComponent::loadStaticData()
 
     fread( &faintmag, 2, 1, dataFile );
     if( swapBytes )
-        bswap_16( faintmag );
+        faintmag = bswap_16( faintmag );
     fread( &htm_level, 1, 1, dataFile );
     fread( &t_MSpT, 2, 1, dataFile ); // Unused
     if( swapBytes )
-        bswap_16( faintmag );
+        faintmag = bswap_16( faintmag );
 
 
     if( faintmag / 100.0 > m_FaintMagnitude )
@@ -653,14 +653,14 @@ int StarComponent::starColorIntensity( void ) const {
 }
 
 void StarComponent::byteSwap( starData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_32( stardata->dRA );
-    bswap_32( stardata->dDec );
-    bswap_32( stardata->parallax );
-    bswap_32( stardata->HD );
-    bswap_16( stardata->mag );
-    bswap_16( stardata->bv_index );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_32( stardata->dRA );
+    stardata->dDec = bswap_32( stardata->dDec );
+    stardata->parallax = bswap_32( stardata->parallax );
+    stardata->HD = bswap_32( stardata->HD );
+    stardata->mag = bswap_16( stardata->mag );
+    stardata->bv_index = bswap_16( stardata->bv_index );
 }
 /*
 void StarComponent::printDebugInfo() {

@@ -77,11 +77,11 @@ bool DeepStarComponent::loadStaticStars() {
 
     fread( &faintmag, 2, 1, dataFile );
     if( starReader.getByteSwap() )
-        bswap_16( faintmag );
+        faintmag = bswap_16( faintmag );
     fread( &htm_level, 1, 1, dataFile );
     fread( &t_MSpT, 2, 1, dataFile ); // Unused
     if( starReader.getByteSwap() )
-        bswap_16( faintmag );
+        faintmag = bswap_16( faintmag );
 
 
     // TODO: Read the multiplying factor from the dataFile
@@ -336,7 +336,7 @@ bool DeepStarComponent::openDataFile() {
         quint8 htm_level;
         fread( &faintmag, 2, 1, starReader.getFileHandle() );
         if( starReader.getByteSwap() )
-            bswap_16( faintmag );
+            faintmag = bswap_16( faintmag );
         if( starReader.guessRecordSize() == 16 )
             m_FaintMagnitude = faintmag / 1000.0;
         else
@@ -353,7 +353,7 @@ bool DeepStarComponent::openDataFile() {
         meshLevel = htm_level;
         fread( &MSpT, 2, 1, starReader.getFileHandle() );
         if( starReader.getByteSwap() )
-            bswap_16( MSpT );
+            MSpT = bswap_16( MSpT );
         fileOpened = true;
         kDebug() << "  Sky Mesh Size: " << m_skyMesh->size();
         for (long int i = 0; i < m_skyMesh->size(); i++) {
@@ -431,23 +431,23 @@ int DeepStarComponent::starColorIntensity( void ) const {
 }
 
 void DeepStarComponent::byteSwap( deepStarData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_16( stardata->dRA );
-    bswap_16( stardata->dDec );
-    bswap_16( stardata->B );
-    bswap_16( stardata->V );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_16( stardata->dRA );
+    stardata->dDec = bswap_16( stardata->dDec );
+    stardata->B = bswap_16( stardata->B );
+    stardata->V = bswap_16( stardata->V );
 }
 
 void DeepStarComponent::byteSwap( starData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_32( stardata->dRA );
-    bswap_32( stardata->dDec );
-    bswap_32( stardata->parallax );
-    bswap_32( stardata->HD );
-    bswap_16( stardata->mag );
-    bswap_16( stardata->bv_index );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_32( stardata->dRA );
+    stardata->dDec = bswap_32( stardata->dDec );
+    stardata->parallax = bswap_32( stardata->parallax );
+    stardata->HD = bswap_32( stardata->HD );
+    stardata->mag = bswap_16( stardata->mag );
+    stardata->bv_index = bswap_16( stardata->bv_index );
 }
 
 bool DeepStarComponent::verifySBLIntegrity() {
