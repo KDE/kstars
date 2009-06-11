@@ -150,8 +150,10 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
         // Compute tail size
         KSComet *me = (KSComet *)this;
         double TailAngSize;
-        TailAngSize = asin(physicalSize()/Rearth/AU_KM)*60.0*180.0/dms::PI; // Convert the tail size in km to angular tail size (degrees)
-        me->setTailAngSize( TailAngSize * fabs(sin( phase().radians() ))); // Find the apparent length as projected on the celestial sphere (the comet's tail points away from the sun)
+        // Convert the tail size in km to angular tail size (degrees)
+        TailAngSize = asin(physicalSize()/Rearth/AU_KM)*60.0*180.0/dms::PI; 
+        // Find the apparent length as projected on the celestial sphere (the comet's tail points away from the sun)
+        me->setTailAngSize( TailAngSize * fabs(sin( phase().radians() ))); 
     }
 
 }
