@@ -20,7 +20,7 @@
 
 #include <kstandarddirs.h>
 #include <kde_file.h>
-#include "byteswap.h"
+#include <byteswap.h>
 
 class BinFileHelper;
 

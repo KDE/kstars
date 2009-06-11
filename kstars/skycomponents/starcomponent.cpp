@@ -36,9 +36,9 @@
 #include "kstarssplash.h"
 
 #include "binfilehelper.h"
-#include "byteswap.h"
 #include "starblockfactory.h"
 
+#include <byteswap.h>
 #include <kde_file.h>
 
 StarComponent *StarComponent::pinstance = 0;
