@@ -35,11 +35,11 @@ class KSSun;
 
 class KSMoon : public KSPlanetBase  {
 public:
-    /**
-    	*Default constructor.  Set name="Moon".
-    	*/
+    /** Default constructor. Set name="Moon". */
     KSMoon();
-
+    /** Copy constructor */
+    KSMoon(const KSMoon& o);
+    
     virtual KSMoon* clone() const;
     
     /**Destructor (empty). */
