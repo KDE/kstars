@@ -128,6 +128,7 @@ public:
     /**@short Return the list of downloaded images
         */
     QList<QString> imageList() { return ImageList; }
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
@@ -242,7 +243,12 @@ public slots:
     /**@short Downloads the corresponding DSS or SDSS image from the web and
         *displays it
         */
-    void slotGetImage( bool dss=false );
+    void slotGetImage( bool _dss = false );
+
+    /**@short Sets the image parameters for the current object
+        *@p o The passed object for setting the parameters
+        */
+    void setCurrentImage( SkyObject *o );
 
 protected slots:
     void slotClose();
@@ -255,8 +261,8 @@ private:
     QList<SkyObject*> m_ObservingList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
-    bool isModified, bIsLarge, sessionView;
-    QString FileName, SessionName, CurrentImage, RAString, DecString, RA, Dec,  DSSUrl, SDSSUrl;
+    bool isModified, bIsLarge, sessionView, saveOnly, dss;
+    QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl;
     char decsgn;
     KStarsDateTime dt;
     GeoLocation *geo;

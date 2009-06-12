@@ -468,16 +468,8 @@ void ObservingList::slotNewSelection() {
         if ( found ) {
             m_CurrentObject = o;
             plot( o );
-            //Change the RAString, DecString, CurrentImage to correspond to the new object
-            RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0()->hour(), o->ra0()->minute(), o->ra0()->second() );
-            decsgn = '+';
-            if ( o->dec0()->Degrees() < 0.0 ) decsgn = '-';
-            int dd = abs( o->dec0()->degree() );
-            int dm = abs( o->dec0()->arcmin() );
-            int ds = abs( o->dec0()->arcsec() );
-            DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-            RA = RA.sprintf( "ra=%f", o->ra0()->Degrees() );
-            Dec = Dec.sprintf( "&dec=%f", o->dec0()->Degrees() );
+            //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
+            setCurrentImage( o );
             ui->GetImage->setEnabled( true );//Enable anyway for updating the image
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
@@ -485,7 +477,6 @@ void ObservingList::slotNewSelection() {
                 saveCurrentUserLog(); //uses LogObject, which is still the previous obj.
                 //set LogObject to the new selected object
                 LogObject = currentObject();
-                CurrentImage = o->name().remove(' ');
                 ui->NotesLabel->setEnabled( true );
                 ui->NotesEdit->setEnabled( true );
                 ui->NotesLabel->setText( i18n( "observing notes for %1:", LogObject->translatedName() ) );
@@ -500,8 +491,6 @@ void ObservingList::slotNewSelection() {
                     ui->TimeEdit->setTime( TimeHash.value( o->name(), o->transitTime( dt, geo ) ) );
                 }   
             } else { //selected object is named "star"
-                CurrentImage = "image" + RAString + DecString;
-                CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
                 //clear the log text box
                 saveCurrentUserLog();
                 ui->NotesLabel->setText( i18n( "observing notes (disabled for unnamed star)" ) );
@@ -1142,33 +1131,55 @@ void ObservingList::slotSetTime() {
     slotAddObject( o, true, true );
 }
 
-void ObservingList::slotGetImage( bool dss ) {
+void ObservingList::slotGetImage( bool _dss ) {
+    dss = _dss;
+    ui->GetImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
+    QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+    KUrl url;
     if( dss ) {
-        QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
-        QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
-        KUrl url ( URLprefix + "&r=" + RAString + "&d=" + DecString + URLsuffix );
-        QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-        downloadJob = KIO::copy ( url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
-        connect ( downloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadReady() ) );
+        url.setUrl( DSSUrl );
     } else {
-      	QString URLprefix( "http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?" );
-        QString URLsuffix( "&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)" );
-        KUrl url ( URLprefix + RA + Dec + URLsuffix );
-        QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-        downloadJob = KIO::copy ( url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
-        connect ( downloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadReady() ) );
+        url.setUrl( SDSSUrl );
     }
+    downloadJob = KIO::copy ( url, KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+    connect ( downloadJob, SIGNAL ( result (KJob *) ), SLOT ( downloadReady() ) );
 }
 
 void ObservingList::downloadReady() {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
     downloadJob = 0;
     if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 9000 ) {//The default image is around 8689 bytes
+        ui->GetImage->setEnabled( true );
         ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
         ImageList.append( CurrentImage );
-    } else
-        slotGetImage(true);
+    } 
+    else if( ! dss )
+        slotGetImage( true );
 }  
+
+void ObservingList::setCurrentImage( SkyObject *o  ) {
+    QString RAString, DecString, RA, Dec;
+    RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0()->hour(), o->ra0()->minute(), o->ra0()->second() );
+    decsgn = '+';
+    if ( o->dec0()->Degrees() < 0.0 ) decsgn = '-';
+    int dd = abs( o->dec0()->degree() );
+    int dm = abs( o->dec0()->arcmin() );
+    int ds = abs( o->dec0()->arcsec() );
+    DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
+    RA = RA.sprintf( "ra=%f", o->ra0()->Degrees() );
+    Dec = Dec.sprintf( "&dec=%f", o->dec0()->Degrees() );
+    CurrentImage = o->name().remove(' ');
+    if( o->name() == "star" ) {
+        CurrentImage = "image" + RAString + DecString;
+        CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
+    }
+    QString UrlPrefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
+    QString UrlSuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+    DSSUrl = UrlPrefix + "&r=" + RAString + "&d=" + DecString + UrlSuffix;
+    UrlPrefix = "http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?";
+    UrlSuffix = "&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)";
+    SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
+}
 
 #include "observinglist.moc"
