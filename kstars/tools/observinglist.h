@@ -250,6 +250,10 @@ public slots:
         */
     void setCurrentImage( SkyObject *o );
 
+    /*8@short Downloads the images of all the objects in the session list
+        *Note: This downloads the SDSS image, checks if the size is > default image
+        *and gets the DSS image if thats the case
+        */
     void slotSaveImages();
 
 protected slots:
