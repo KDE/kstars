@@ -443,7 +443,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         dsList = m_ICIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
-            obj = (SkyObject*) dsList->at( i );
+            obj = dsList->at( i );
             r = obj->angularDistanceTo( p ).Degrees();
             if ( r < rTry ) {
                 rTry = r;
@@ -464,7 +464,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         dsList = m_NGCIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
-            obj = (SkyObject*) dsList->at( i );
+            obj = dsList->at( i );
             r = obj->angularDistanceTo( p ).Degrees();
             if ( r < rTry ) {
                 rTry = r;
@@ -486,7 +486,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         dsList = m_OtherIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
-            obj = (SkyObject*) dsList->at( i );
+            obj = dsList->at( i );
             r = obj->angularDistanceTo( p ).Degrees();
             if ( r < rTry ) {
                 rTry = r;
@@ -508,7 +508,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         dsList = m_MessierIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
-            obj = (SkyObject*) dsList->at( i );
+            obj = dsList->at( i );
             r = obj->angularDistanceTo( p ).Degrees();
             if ( r < rTry ) {
                 rTry = r;
