@@ -172,6 +172,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotSetTime() ) );
     connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
              this, SLOT( slotChangeTab(int) ) );
+    connect( ui->saveImages, SIGNAL( clicked() ),
+             this, SLOT( slotSaveImages() ) );
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( KIcon("document-open") );
     ui->SaveButton->setIcon( KIcon("document-save") );
@@ -190,6 +192,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->SetTime->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
     ui->GetImage->setEnabled( false );
+    ui->saveImages->setEnabled( false );
 
     slotLoadWishList(); //Load the wishlist from disk if present
     //Hide the MiniButton until I can figure out how to resize the Dialog!
@@ -278,6 +281,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //Adding an object should trigger the modified flag
         if ( ! isModified ) isModified = true;
         ui->SessionView->resizeColumnsToContents();
+        ui->saveImages->setEnabled( sessionView );
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to session list.", obj->name() ), 0 );
     }
@@ -1087,6 +1091,8 @@ void ObservingList::slotChangeTab(int index) {
     else
         sessionView = false;
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
+    if( ! SessionList().isEmpty() )
+        ui->saveImages->setEnabled( sessionView );
     //Clear the selection in the Tables
     ui->TableView->clearSelection();
     ui->SessionView->clearSelection();
@@ -1180,6 +1186,19 @@ void ObservingList::setCurrentImage( SkyObject *o  ) {
     UrlPrefix = "http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?";
     UrlSuffix = "&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)";
     SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
+}
+
+void ObservingList::slotSaveImages() {
+    foreach( SkyObject *o, SessionList() ) {
+        setCurrentImage( o );
+        KUrl url( SDSSUrl );
+        QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+        if(  KIO::NetAccess::download( url, img, mainWidget() ) )
+            if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
+                url = KUrl( DSSUrl );
+                KIO::NetAccess::download( url, img, mainWidget() );
+            }
+    }
 }
 
 #include "observinglist.moc"

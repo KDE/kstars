@@ -250,6 +250,8 @@ public slots:
         */
     void setCurrentImage( SkyObject *o );
 
+    void slotSaveImages();
+
 protected slots:
     void slotClose();
     void downloadReady();
@@ -261,7 +263,7 @@ private:
     QList<SkyObject*> m_ObservingList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
-    bool isModified, bIsLarge, sessionView, saveOnly, dss;
+    bool isModified, bIsLarge, sessionView, dss;
     QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl;
     char decsgn;
     KStarsDateTime dt;
