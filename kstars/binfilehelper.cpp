@@ -136,7 +136,7 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
     // Read the index table
     fread(&indexSize, 4, 1, fileHandle);
     if( byteswap ) indexSize = bswap_32( indexSize );
-
+    
     quint32 ID;
     quint32 offset;
     quint32 prev_offset;
@@ -151,6 +151,11 @@ enum BinFileHelper::Errors BinFileHelper::__readHeader() {
 
     indexCount.clear();
     indexOffset.clear();
+
+    if( indexSize == 0 ) {
+        errorMessage.sprintf( "Zero index size!" );
+        return ERR_INDEX_TRUNC;
+    }
     for(i = 0; i < indexSize; ++i) {
         if(!fread(&ID, 4, 1, fileHandle)) {
             errorMessage.sprintf("Table truncated before expected! Read i = %d index entries so far", i);
