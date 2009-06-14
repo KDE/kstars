@@ -818,6 +818,11 @@ void ObservingList::slotOpenList() {
         QString line;
         SessionName = istream.readLine();
         line = istream.readLine();
+        if( ! line.contains( '|' ) ) {
+            SessionName = "";
+            KMessageBox::sorry( 0, i18n( "Old formatted Observing Lists are not supported " ), i18n( "Invalid List" ) );
+            return;
+        }
         QStringList fields = line.split( '|' ); 
         geo = ks->data()->locationNamed( fields[0], fields[1], fields[2] );
         ui->SetLocation -> setText( geo -> fullName() );
