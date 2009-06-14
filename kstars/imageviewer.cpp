@@ -51,8 +51,7 @@ ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 ImageLabel::~ImageLabel()
 {}
 
-void ImageLabel::paintEvent (QPaintEvent */*ev*/)
-{
+void ImageLabel::paintEvent (QPaintEvent */*ev*/) {
     QPainter p;
     p.begin( this );
     int x = 0;
@@ -110,6 +109,36 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
     }// we just need the name and delete the tempfile from disc; if we don't do it, a dialog will be show
 
     loadImageFromURL();
+}
+
+ImageViewer::ImageViewer ( QString FileName )
+        : KDialog( KStars::Instance() ), ks( KStars::Instance() ), fileIsImage(true), downloadJob(0)
+{
+    setModal( false );
+    setCaption( i18n( "KStars image viewer" ) + QString( " : " ) + FileName );
+    setButtons( KDialog::Close );
+
+    Page = new QFrame( this );
+    setMainWidget( Page );
+    View = new ImageLabel( Page );
+    Caption = new QLabel( Page );
+    View->setAutoFillBackground( true );
+    //Reverse colors
+    QPalette p = palette();
+    p.setColor( QPalette::Window, palette().color( QPalette::WindowText ) );
+    p.setColor( QPalette::WindowText, palette().color( QPalette::Window ) );
+    Caption->setPalette( p );
+    View->setPalette( p );
+
+    vlay = new QVBoxLayout( Page );
+    vlay->setSpacing( 0 );
+    vlay->setMargin( 0 );
+    vlay->addWidget( View );
+    setWindowTitle ( FileName); // the title of the window
+
+    file.setFileName( FileName );
+    showImage();
+
 }
 
 ImageViewer::~ImageViewer() {

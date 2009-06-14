@@ -29,6 +29,7 @@
 #include "kstarsdatetime.h"
 #include "geolocation.h"
 #include "ksalmanac.h"
+#include "imageviewer.h"
 
 class KSAlmanac;
 class QSortFilterProxyModel;
@@ -85,7 +86,7 @@ public:
     ObservingList( KStars *_ks );
     /**@short Destuctor (empty)
         */
-    ~ObservingList() {}
+    ~ObservingList();
 
     /**@return true if the object is in the observing list
         *@p o pointer to the object to test.
@@ -256,6 +257,10 @@ public slots:
         */
     void slotSaveImages();
 
+    /**@short Shows the image in a ImageViewer window.
+        */
+    void slotImageViewer();
+
 protected slots:
     void slotClose();
     void downloadReady();
@@ -277,6 +282,7 @@ private:
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash; 
     QList<QString> ImageList;
+    QList<ImageViewer*> ivList;
 };
 
 #endif // OBSERVINGLIST_H_

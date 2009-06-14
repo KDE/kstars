@@ -56,6 +56,7 @@
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
 #include "Options.h"
+#include "imageviewer.h"
 
 #include <config-kstars.h>
 
@@ -168,6 +169,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotUpdate() ) );
     connect( ui->GetImage, SIGNAL( clicked() ),
              this, SLOT( slotGetImage() ) );
+    connect( ui->ExpandImage, SIGNAL( clicked() ),
+             this, SLOT( slotImageViewer() ) );
     connect( ui->SetTime, SIGNAL( clicked() ),
              this, SLOT( slotSetTime() ) );
     connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
@@ -193,12 +196,18 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TimeEdit->setEnabled( false );
     ui->GetImage->setEnabled( false );
     ui->saveImages->setEnabled( false );
+    ui->ExpandImage->setEnabled( false );
 
     slotLoadWishList(); //Load the wishlist from disk if present
     //Hide the MiniButton until I can figure out how to resize the Dialog!
 //    ui->MiniButton->hide();
 }
 
+ObservingList::~ObservingList() {
+    foreach( ImageViewer *iv, ivList ) {
+        delete iv;
+    }
+}
 //SLOTS
 
 void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
@@ -361,6 +370,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 }
 
 void ObservingList::slotRemoveSelectedObjects() {
+    ui->ExpandImage->setEnabled( false );
     if( sessionView )
     {
         //Find each object by name in the session list, and remove it
@@ -422,6 +432,7 @@ void ObservingList::slotRemoveSelectedObjects() {
 void ObservingList::slotNewSelection() {
     bool singleSelection = false, found = false;
     ui->ImagePreview->clearPreview();
+    ui->ExpandImage->setEnabled( false );
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
@@ -502,8 +513,10 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->clear();
                 ui->NotesEdit->setEnabled( false );
             }
-            if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )//If the image is present, show it!
+            if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) {//If the image is present, show it!
                 ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
+                ui->ExpandImage->setEnabled( true );
+            }
 
         } else {
             kDebug() << i18n( "Object %1 not found in list.", newName );
@@ -1175,7 +1188,7 @@ void ObservingList::setCurrentImage( SkyObject *o  ) {
     DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
     RA = RA.sprintf( "ra=%f", o->ra0()->Degrees() );
     Dec = Dec.sprintf( "&dec=%f", o->dec0()->Degrees() );
-    CurrentImage = o->name().remove(' ');
+    CurrentImage = "image_" +  o->name().remove(' ');
     if( o->name() == "star" ) {
         CurrentImage = "image" + RAString + DecString;
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
@@ -1201,4 +1214,9 @@ void ObservingList::slotSaveImages() {
     }
 }
 
+void ObservingList::slotImageViewer() {
+    ImageViewer *iv = new ImageViewer( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+    ivList.append( iv );
+    iv->show();
+}
 #include "observinglist.moc"
