@@ -78,7 +78,7 @@ WUTDialog::WUTDialog( KStars *ks, bool _session ) :
     sGeo += ", " + geo->translatedCountry();
     WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );
     WUT->DateLabel->setText( i18n( "The night of %1", KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate ) ) );
-    m_Mag = 6.0;
+    m_Mag = 10.0;
     WUT->MagnitudeEdit->setValue( m_Mag );
     initCategories();
 
@@ -105,10 +105,10 @@ void WUTDialog::makeConnections() {
 }
 
 void WUTDialog::initCategories() {
-    m_Categories << i18n( "Planets" ) << i18n( "Comets" )
-    << i18n( "Asteroids" ) << i18n( "Stars" )
-    << i18n( "Constellations" ) << i18n( "Star Clusters" )
-    << i18n( "Nebulae" ) << i18n( "Galaxies" );
+    m_Categories << i18n( "Planets" ) << i18n( "Stars" )
+    << i18n( "Nebulae" ) << i18n( "Galaxies" )
+    << i18n( "Star Clusters" ) << i18n( "Constellations" ) 
+    << i18n( "Asteroids" ) << i18n( "Comets" );
 
     foreach ( const QString &c, m_Categories )
     WUT->CategoryListWidget->addItem( c );
@@ -238,23 +238,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
             m_CategoryInitialized[ c ] = true;
         }
 
-        else if ( c == m_Categories[1] ) { //Comets
-            foreach ( SkyObject *o, kstars->data()->skyComposite()->comets() )
-            if ( checkVisibility(o) )
-                visibleObjects(c).append(o);
-
-            m_CategoryInitialized[ c ] = true;
-        }
-
-        else if ( c == m_Categories[2] ) { //Asteroids
-            foreach ( SkyObject *o, kstars->data()->skyComposite()->asteroids() )
-            if ( checkVisibility(o) && o->name() != i18n("Pluto") && o->mag() <= m_Mag )
-                visibleObjects(c).append(o);
-
-            m_CategoryInitialized[ c ] = true;
-        }
-
-        else if ( c == m_Categories[3] ) { //Stars
+        else if ( c == m_Categories[1] ) { //Stars
             foreach ( SkyObject *o, kstars->data()->skyComposite()->stars() )
             if ( o->name() != i18n("star") && checkVisibility(o) && o->mag() <= m_Mag )
                 visibleObjects(c).append(o);
@@ -262,8 +246,24 @@ void WUTDialog::slotLoadList( const QString &c ) {
             m_CategoryInitialized[ c ] = true;
         }
 
-        else if ( c == m_Categories[4] ) { //Constellations
+        else if ( c == m_Categories[5] ) { //Constellations
             foreach ( SkyObject *o, kstars->data()->skyComposite()->constellationNames() )
+            if ( checkVisibility(o) )
+                visibleObjects(c).append(o);
+
+            m_CategoryInitialized[ c ] = true;
+        }
+
+        else if ( c == m_Categories[6] ) { //Asteroids
+            foreach ( SkyObject *o, kstars->data()->skyComposite()->asteroids() )
+            if ( checkVisibility(o) && o->name() != i18n("Pluto") && o->mag() <= m_Mag )
+                visibleObjects(c).append(o);
+
+            m_CategoryInitialized[ c ] = true;
+        }
+
+        else if ( c == m_Categories[7] ) { //Comets
+            foreach ( SkyObject *o, kstars->data()->skyComposite()->comets() )
             if ( checkVisibility(o) )
                 visibleObjects(c).append(o);
 
@@ -277,23 +277,23 @@ void WUTDialog::slotLoadList( const QString &c ) {
                     switch( o->type() ) {
                     case SkyObject::OPEN_CLUSTER: //fall through
                     case SkyObject::GLOBULAR_CLUSTER:
-                        visibleObjects(m_Categories[5]).append(o); //star clusters
+                        visibleObjects(m_Categories[4]).append(o); //star clusters
                         break;
                     case SkyObject::GASEOUS_NEBULA: //fall through
                     case SkyObject::PLANETARY_NEBULA: //fall through
                     case SkyObject::SUPERNOVA_REMNANT:
-                        visibleObjects(m_Categories[6]).append(o); //nebulae
+                        visibleObjects(m_Categories[2]).append(o); //nebulae
                         break;
                     case SkyObject::GALAXY:
-                        visibleObjects(m_Categories[7]).append(o); //galaxies
+                        visibleObjects(m_Categories[3]).append(o); //galaxies
                         break;
                     }
                 }
             }
 
-            m_CategoryInitialized[ m_Categories[5] ] = true;
-            m_CategoryInitialized[ m_Categories[6] ] = true;
-            m_CategoryInitialized[ m_Categories[7] ] = true;
+            m_CategoryInitialized[ m_Categories[2] ] = true;
+            m_CategoryInitialized[ m_Categories[3] ] = true;
+            m_CategoryInitialized[ m_Categories[4] ] = true;
         }
     }
 
