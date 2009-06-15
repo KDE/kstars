@@ -130,6 +130,16 @@ public:
         */
     QList<QString> imageList() { return ImageList; }
 
+    /**@short Sets the image parameters for the current object
+        *@p o The passed object for setting the parameters
+        */
+    void setCurrentImage( SkyObject *o );
+
+    /**@short Save the user log text to a file.
+        *@note the log is attached to the current object in obsList.
+        */
+    void saveCurrentUserLog();
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
@@ -215,11 +225,6 @@ public slots:
         */
     void slotToggleSize();
 
-    /**@short Save the user log text to a file.
-        *@note the log is attached to the current object in obsList.
-        */
-    void saveCurrentUserLog();
-
     /**@short toggle the setEnabled flags according to current view
         *set the m_currentItem to NULL and clear selections
         *@p index captures the integer value sent by the signal
@@ -245,11 +250,6 @@ public slots:
         *displays it
         */
     void slotGetImage( bool _dss = false );
-
-    /**@short Sets the image parameters for the current object
-        *@p o The passed object for setting the parameters
-        */
-    void setCurrentImage( SkyObject *o );
 
     /*8@short Downloads the images of all the objects in the session list
         *Note: This downloads the SDSS image, checks if the size is > default image
