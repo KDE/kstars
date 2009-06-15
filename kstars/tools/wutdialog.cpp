@@ -78,7 +78,8 @@ WUTDialog::WUTDialog( KStars *ks, bool _session ) :
     sGeo += ", " + geo->translatedCountry();
     WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );
     WUT->DateLabel->setText( i18n( "The night of %1", KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate ) ) );
-
+    m_Mag = 6.0;
+    WUT->MagnitudeEdit->setValue( m_Mag );
     initCategories();
 
     makeConnections();
@@ -100,6 +101,7 @@ void WUTDialog::makeConnections() {
     connect( WUT->ObjectListWidget, SIGNAL( currentTextChanged(const QString &) ),
              SLOT( slotDisplayObject(const QString &) ) );
     connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
+    connect( WUT->MagnitudeUpdate, SIGNAL( clicked() ), SLOT( slotChangeMagnitude() ) );
 }
 
 void WUTDialog::initCategories() {
@@ -229,7 +231,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
             foreach ( const QString &name, kstars->data()->skyComposite()->objectNames( SkyObject::PLANET ) ) {
                 SkyObject *o = kstars->data()->skyComposite()->findByName( name );
 
-                if ( checkVisibility( o ) )
+                if ( checkVisibility( o ) && o->mag() <= m_Mag )
                     visibleObjects(c).append(o);
             }
 
@@ -246,7 +248,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
 
         else if ( c == m_Categories[2] ) { //Asteroids
             foreach ( SkyObject *o, kstars->data()->skyComposite()->asteroids() )
-            if ( checkVisibility(o) && o->name() != i18n("Pluto") )
+            if ( checkVisibility(o) && o->name() != i18n("Pluto") && o->mag() <= m_Mag )
                 visibleObjects(c).append(o);
 
             m_CategoryInitialized[ c ] = true;
@@ -254,7 +256,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
 
         else if ( c == m_Categories[3] ) { //Stars
             foreach ( SkyObject *o, kstars->data()->skyComposite()->stars() )
-            if ( o->name() != i18n("star") && checkVisibility(o) )
+            if ( o->name() != i18n("star") && checkVisibility(o) && o->mag() <= m_Mag )
                 visibleObjects(c).append(o);
 
             m_CategoryInitialized[ c ] = true;
@@ -271,7 +273,7 @@ void WUTDialog::slotLoadList( const QString &c ) {
         else { //all deep-sky objects, need to split clusters, nebulae and galaxies
             foreach ( DeepSkyObject *dso, kstars->data()->skyComposite()->deepSkyObjects() ) {
                 SkyObject *o = (SkyObject*)dso;
-                if ( checkVisibility(o) ) {
+                if ( checkVisibility(o) && o->mag() <= m_Mag ) {
                     switch( o->type() ) {
                     case SkyObject::OPEN_CLUSTER: //fall through
                     case SkyObject::GLOBULAR_CLUSTER:
@@ -510,4 +512,9 @@ void WUTDialog::slotEveningMorning( int index ) {
     }
 }
 
+void WUTDialog::slotChangeMagnitude() {
+    m_Mag = WUT->MagnitudeEdit->value();
+    init();
+    slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
+}
 #include "wutdialog.moc"

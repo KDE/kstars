@@ -26,6 +26,7 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 #include <QHeaderView>
+#include <QDirIterator>
 
 #include <kpushbutton.h>
 #include <kstatusbar.h>

@@ -94,9 +94,14 @@ private slots:
         */
     void slotCenter();
 
-    /*@short Add the object to the observing list
+    /**@short Add the object to the observing list
         */
-   void slotObslist();
+    void slotObslist();
+
+    /**@short Filters the objects displayed by Magnitude
+        */
+    void slotChangeMagnitude();
+
 private:
 
     KStars *kstars;
@@ -122,6 +127,7 @@ private:
 
     GeoLocation *geo;
     int EveningFlag;
+    double m_Mag;
 
     QStringList m_Categories;
     QHash< QString, QList< SkyObject* > > m_VisibleList;
