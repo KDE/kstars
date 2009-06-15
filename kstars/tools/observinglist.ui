@@ -418,6 +418,16 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="DeleteImages">
+       <property name="toolTip">
+        <string>Deletes all the stored DSS/SDSS images</string>
+       </property>
+       <property name="text">
+        <string>Delete Images</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

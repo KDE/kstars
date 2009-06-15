@@ -261,6 +261,10 @@ public slots:
         */
     void slotImageViewer();
 
+    /**@short Removes all the save DSS/SDSS images from the disk.
+        */
+    void slotDeleteImages();
+
 protected slots:
     void slotClose();
     void downloadReady();

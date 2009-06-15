@@ -177,6 +177,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotChangeTab(int) ) );
     connect( ui->saveImages, SIGNAL( clicked() ),
              this, SLOT( slotSaveImages() ) );
+    connect( ui->DeleteImages, SIGNAL( clicked() ),
+             this, SLOT( slotDeleteImages() ) );
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( KIcon("document-open") );
     ui->SaveButton->setIcon( KIcon("document-save") );
@@ -1223,5 +1225,17 @@ void ObservingList::slotImageViewer() {
     ImageViewer *iv = new ImageViewer( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
     ivList.append( iv );
     iv->show();
+}
+
+void ObservingList::slotDeleteImages() {
+    QDirIterator it( KStandardDirs::locateLocal( "appdata", "" ) );
+    while( it.hasNext() )
+    {
+        if( it.fileName().contains( "image" ) && ( ! it.fileName().contains( "dat" ) ) ) {
+            QFile file( it.filePath() );
+            file.remove();
+        }
+        it.next();
+    }
 }
 #include "observinglist.moc"
