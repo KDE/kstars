@@ -1195,9 +1195,9 @@ void ObservingList::setCurrentImage( SkyObject *o  ) {
     DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
     RA = RA.sprintf( "ra=%f", o->ra0()->Degrees() );
     Dec = Dec.sprintf( "&dec=%f", o->dec0()->Degrees() );
-    CurrentImage = "image_" +  o->name().remove(' ');
+    CurrentImage = "Image_" +  o->name().remove(' ');
     if( o->name() == "star" ) {
-        CurrentImage = "image" + RAString + DecString;
+        CurrentImage = "Image" + RAString + DecString;
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
     QString UrlPrefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
@@ -1231,7 +1231,7 @@ void ObservingList::slotDeleteImages() {
     QDirIterator it( KStandardDirs::locateLocal( "appdata", "" ) );
     while( it.hasNext() )
     {
-        if( it.fileName().contains( "image" ) && ( ! it.fileName().contains( "dat" ) ) ) {
+        if( it.fileName().contains( "Image" ) && ( ! it.fileName().contains( "dat" ) ) && ( ! it.fileName().contains( "obslist" ) ) ) {
             QFile file( it.filePath() );
             file.remove();
         }
