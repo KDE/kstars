@@ -1228,6 +1228,7 @@ void ObservingList::slotImageViewer() {
 }
 
 void ObservingList::slotDeleteImages() {
+    ui->ImagePreview->clearPreview();
     QDirIterator it( KStandardDirs::locateLocal( "appdata", "" ) );
     while( it.hasNext() )
     {
