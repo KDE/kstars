@@ -199,7 +199,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TimeEdit->setEnabled( false );
     ui->GetImage->setEnabled( false );
     ui->saveImages->setEnabled( false );
-    ui->ExpandImage->setEnabled( false );
+    ui->ExpandImage->hide();
 
     slotLoadWishList(); //Load the wishlist from disk if present
     //Hide the MiniButton until I can figure out how to resize the Dialog!
@@ -373,7 +373,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 }
 
 void ObservingList::slotRemoveSelectedObjects() {
-    ui->ExpandImage->setEnabled( false );
+    ui->ExpandImage->hide();
     if( sessionView )
     {
         //Find each object by name in the session list, and remove it
@@ -434,8 +434,9 @@ void ObservingList::slotRemoveSelectedObjects() {
 
 void ObservingList::slotNewSelection() {
     bool singleSelection = false, found = false;
+    ui->ExpandImage->hide();
     ui->ImagePreview->clearPreview();
-    ui->ExpandImage->setEnabled( false );
+    ui->ImagePreview->hide();
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
@@ -518,7 +519,8 @@ void ObservingList::slotNewSelection() {
             }
             if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) {//If the image is present, show it!
                 ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
-                ui->ExpandImage->setEnabled( true );
+                ui->ImagePreview->show();
+                ui->ExpandImage->show();
             }
 
         } else {
@@ -1162,6 +1164,7 @@ void ObservingList::slotGetImage( bool _dss ) {
     dss = _dss;
     ui->GetImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
+    ui->ExpandImage->hide();
     QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
     KUrl url;
     if( dss ) {
@@ -1179,6 +1182,8 @@ void ObservingList::downloadReady() {
     if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 9000 ) {//The default image is around 8689 bytes
         ui->GetImage->setEnabled( true );
         ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+        ui->ImagePreview->show();
+        ui->ExpandImage->show();
         ImageList.append( CurrentImage );
     } 
     else if( ! dss )
