@@ -138,14 +138,9 @@ dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *O
   }
 
   Object2->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
-  if(opposition) {
-      Object2->setRA( Object2->ra()->Hours() + 12.0);
-      Object2->setDec( -Object2->dec()->Degrees());
-  }
   dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
-  if(opposition) {
-      Object2->setRA( Object2->ra()->Hours() - 12.0);
-      Object2->setDec( -Object2->dec()->Degrees());
+  if( opposition ) {
+      dist.set( 180 - dist.Degrees() );
   }
   return dist;
 }
