@@ -746,25 +746,33 @@ void ObservingList::slotFind() {
 }
 
 void ObservingList::slotAVT() {
-    QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+    QModelIndexList selectedItems;
     // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
-    if ( selectedItems.size() ) {
-        QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
-        foreach ( const QModelIndex &i, selectedItems ) {
-            if( sessionView )
-                foreach ( SkyObject *o, SessionList() ) {//we can't use the obsList directly as it not always a superset of the SessionList
+    if( sessionView ) {
+        selectedItems =  m_SortModel->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
+        if ( selectedItems.size() ) {
+            QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
+            foreach ( const QModelIndex &i, selectedItems ) {
+                foreach ( SkyObject *o, SessionList() ) //we can't use the obsList directly as it not always a superset of the SessionList
                     if ( o->translatedName() == i.data().toString() )
                         avt->processObject( o );
-                }
-            else 
-                foreach ( SkyObject *o, obsList() ) {
-                    if ( o->translatedName() == i.data().toString() )
-                        avt->processObject( o );
-                }
+            }
+            avt->exec();
+	        delete avt;
         }
-        avt->exec();
-	    delete avt;
-    }
+    } else {
+        selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+        if ( selectedItems.size() ) {
+            QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
+            foreach ( const QModelIndex &i, selectedItems ) {
+                foreach ( SkyObject *o, obsList() )
+                    if ( o->translatedName() == i.data().toString() )
+                        avt->processObject( o );
+            }
+            avt->exec();
+	        delete avt;
+        }
+    }       
 }
 
 //FIXME: On close, we will need to close any open Details/AVT windows
