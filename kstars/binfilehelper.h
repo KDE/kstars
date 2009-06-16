@@ -261,7 +261,7 @@ class BinFileHelper {
     QVector<dataElement *> fields;        // Maintains a list of fields in the file, along with relevant details
     QString headerText;                   // Stores the file header text
     qint16 nfields;                       // Stores the number of fields as indicated by the field descriptor
-    quint16 indexSize;                    // Stores the size of the index table in number of entries
+    quint32 indexSize;                    // Stores the size of the index table in number of entries
     long itableOffset;                    // Stores the offset position of the first index table entry
     long dataOffset;                      // Stores the offset position of the start of data
     QString errorMessage;                 // Stores the most recent 'unread' error message
