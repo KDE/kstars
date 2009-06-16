@@ -245,12 +245,9 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         pList.append( o );
 
         //make sure existing curves are thin and red
-        QList< KPlotObject* > objects = avtUI->View->plotObjects();
-        for ( int i=0; i < objects.count(); ++i ) {
-            KPlotObject *obj = objects.at( i );
-            if ( obj->size() == 2 ) {
+        foreach(KPlotObject* obj, avtUI->View->plotObjects()) {
+            if ( obj->size() == 2 ) 
                 obj->setLinePen( QPen( Qt::red, 1 ) );
-            }
         }
 
         //add new curve with width=2, and color=white
