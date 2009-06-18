@@ -364,7 +364,8 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
                 }
             }
         }
-        TimeHash.remove( o->name() );
+        if( ! update )
+            TimeHash.remove( o->name() );
         SessionList().removeAt(k);//Remove from the session list
         if ( ! isModified ) isModified = true;//Removing an object should trigger the modified flag
         ui->View->removeAllPlotObjects();
@@ -1155,7 +1156,7 @@ void ObservingList::slotUpdate() {
     }
     foreach ( SkyObject *obj, _SessionList ) {
         if( obj->name() != "star" ) {  
-            slotRemoveObject( obj, true );
+            slotRemoveObject( obj, true, true );
             slotAddObject( obj, true, true );
         }
     }
