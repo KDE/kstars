@@ -67,7 +67,6 @@ bool StarBlockList::fillToMag( float maglim ) {
     // TODO: Remove staticity of BinFileHelper
     BinFileHelper *dSReader;
     StarBlockFactory *SBFactory;
-    StarObject star;
     starData stardata;
     deepStarData deepstardata;
     FILE *dataFile;
@@ -122,27 +121,28 @@ bool StarBlockList::fillToMag( float maglim ) {
         }
 	// TODO: Make this more general
 	if( dSReader->guessRecordSize() == 32 ) {
-	  fread( &stardata, sizeof( starData ), 1, dataFile );
-	  if( dSReader->getByteSwap() ) DeepStarComponent::byteSwap( &stardata );
-	  readOffset += sizeof( starData );
-	  star.init( &stardata );
+        fread( &stardata, sizeof( starData ), 1, dataFile );
+        if( dSReader->getByteSwap() )
+            DeepStarComponent::byteSwap( &stardata );
+        readOffset += sizeof( starData );
+        blocks[nBlocks - 1]->addStar(stardata);
 	}
 	else {
-	  fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
-	  if( dSReader->getByteSwap() ) DeepStarComponent::byteSwap( &deepstardata );
-	  readOffset += sizeof( deepStarData );
-	  star.init( &deepstardata );
+        fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
+        if( dSReader->getByteSwap() )
+            DeepStarComponent::byteSwap( &deepstardata );
+        readOffset += sizeof( deepStarData );
+        blocks[nBlocks - 1]->addStar(deepstardata);
 	}
 
-        blocks[nBlocks - 1]->addStar( &star );
-        /*
-        if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
-            kDebug() << "Encountered a jump from mag" << faintMag << "to mag"
-                     << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
-        }
-        */
-        faintMag = blocks[nBlocks - 1]->getFaintMag();
-        nStars++;
+    /*
+      if( faintMag > -5.0 && fabs(faintMag - blocks[nBlocks - 1]->getFaintMag()) > 0.2 ) {
+      kDebug() << "Encountered a jump from mag" << faintMag << "to mag"
+      << blocks[nBlocks - 1]->getFaintMag() << "in trixel" << trixel;
+      }
+    */
+    faintMag = blocks[nBlocks - 1]->getFaintMag();
+    nStars++;
     }
 
     return ( ( maglim < faintMag ) ? true : false );

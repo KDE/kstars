@@ -46,7 +46,6 @@ DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, fl
 
 bool DeepStarComponent::loadStaticStars() {
     FILE *dataFile;
-    StarObject plainStarTemplate;
 
     if( !staticStars )
         return true;
@@ -114,30 +113,20 @@ bool DeepStarComponent::loadStaticStars() {
                     byteSwap( &deepstardata );
             }
 
-
-            /*
-             * CAUTION: We avoid trying to construct StarObjects using the constructors [The C++ way]
-             *          in order to gain speed. Instead, one template StarObject is constructed and
-             *          all other unnamed stars are created by doing a raw copy from this using memcpy()
-             *          and then calling StarObject::init() to replace the default data with the correct
-             *          data.
-             *          This means that this section of the code plays around with pointers to a great
-             *          extent and has a chance of breaking down / causing segfaults.
-             */
-                    
-            /* Make a copy of the star template and set up the data in it */
+            /* Initialize star with data just read. */
+            StarObject* star;
             if( starReader.guessRecordSize() == 32 )
-                plainStarTemplate.init( &stardata );
+                star = SB->addStar( stardata );
             else
-                plainStarTemplate.init( &deepstardata );
-            plainStarTemplate.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-            if( !SB->addStar( &plainStarTemplate ) )
+                star = SB->addStar( deepstardata );
+            
+            if( star ) {
+                star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+                if( star->getHDIndex() != 0 )
+                    m_CatalogNumber.insert( star->getHDIndex(), star );
+            } else {
                 kDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
-            StarObject *star = SB->star( SB->getStarCount() - 1 );
-
-            if( star->getHDIndex() != 0 )
-                m_CatalogNumber.insert( star->getHDIndex(), star );
-
+            }
         }
     }
 
