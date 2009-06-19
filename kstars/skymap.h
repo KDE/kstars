@@ -928,9 +928,6 @@ private:
     SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
 
-    //	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
-    SkyPoint *sp;			// see line above
-
     SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.
 

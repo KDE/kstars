@@ -81,11 +81,10 @@ SkyMap* SkyMap::Instance( )
 SkyMap::SkyMap()
     : QWidget( KStars::Instance() ), computeSkymap(true), angularDistanceMode(false),
       ks( KStars::Instance() ), data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0), IBoxes(0),
-        ClickedObject(0), FocusObject(0), TransientObject(0), sp(0)
+        ClickedObject(0), FocusObject(0), TransientObject(0)
 {
     m_Scale = 1.0;
 
-    sp = new SkyPoint();            // needed by coordinate grid
     ZoomRect = QRect();
 
     setDefaultMouseCursor();	// set the cross cursor
@@ -155,7 +154,6 @@ SkyMap::SkyMap()
 }
 
 SkyMap::~SkyMap() {
-    delete sp;
     delete sky;
     delete sky2;
     delete pmenu;
