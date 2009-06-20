@@ -112,7 +112,7 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 			name = "Star";
 		}
 	}
-    initPopupMenu( star, name, "star", i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
+    initPopupMenu( star, name, i18n( "star" ), i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
     //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
     if ( star->name() != "star" ) {
         addLinksToMenu( star );
