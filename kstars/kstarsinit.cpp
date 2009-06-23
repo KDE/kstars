@@ -536,11 +536,11 @@ void KStars::initFOV() {
 
             if ( fields.count() == 4 ) {
                 nm = fields[0].trimmed();
-                KToggleAction *kta = actionCollection()->add<KToggleAction>( nm.toUtf8() );
+                KToggleAction *kta = actionCollection()->add<KToggleAction>( nm );
                 kta->setText( nm );
                 connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotTargetSymbol() ) );
 
-                kta->setObjectName( nm.toUtf8() );
+                kta->setObjectName( nm );
                 kta->setActionGroup( fovGroup );
                 if ( nm == Options::fOVName() ) kta->setChecked( true );
                 fovActionMenu->addAction( kta );

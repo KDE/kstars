@@ -979,9 +979,9 @@ void KStars::slotFOVEdit() {
 
                 if ( fields.count() == 4 ) {
                     QString nm = fields[0].trimmed();
-                    KToggleAction *kta = actionCollection()->add<KToggleAction>( nm.toUtf8() );
+                    KToggleAction *kta = actionCollection()->add<KToggleAction>( nm );
                     kta->setText( nm );
-                    kta->setObjectName( nm.toUtf8() );
+                    kta->setObjectName( nm );
                     kta->setActionGroup( fovGroup );
                     connect( kta, SIGNAL( toggled(bool) ), this, SLOT( slotTargetSymbol() ) );
                     if ( nm == Options::fOVName() ) kta->setChecked( true );
