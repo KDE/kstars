@@ -138,7 +138,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         stTimeString = KGlobal::locale()->formatTime( stTime );
 
         QTime daylength = lengthOfDay(ssTime,srTime);
-        daylengthString = KGlobal::locale()->formatTime( daylength );
+        daylengthString = KGlobal::locale()->formatTime( daylength, false, true );
 
         //...but not always!
     } else if ( stAlt.Degrees() > 0. ) {
