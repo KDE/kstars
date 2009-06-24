@@ -169,49 +169,29 @@ void modCalcPlanets::showTopocentricCoords(const dms *az, const dms *el)
     AltBox->show( el );
 }
 
-void modCalcPlanets::slotPlanetsCheckedBatch(){
-
-    if ( PlanetCheckBatch->isChecked() )
-        PlanetComboBoxBatch->setEnabled( false );
-    else {
-        PlanetComboBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotPlanetsCheckedBatch()
+{
+    PlanetComboBoxBatch->setEnabled( ! PlanetCheckBatch->isChecked() );
 }
 
-void modCalcPlanets::slotUtCheckedBatch(){
-
-    if ( UTCheckBatch->isChecked() )
-        UTBoxBatch->setEnabled( false );
-    else {
-        UTBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotUtCheckedBatch()
+{
+    UTBoxBatch->setEnabled( ! UTCheckBatch->isChecked() );
 }
 
-void modCalcPlanets::slotDateCheckedBatch(){
-
-    if ( DateCheckBatch->isChecked() )
-        DateBoxBatch->setEnabled( false );
-    else {
-        DateBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotDateCheckedBatch()
+{
+    DateBoxBatch->setEnabled( ! DateCheckBatch->isChecked() );
 }
 
-void modCalcPlanets::slotLongCheckedBatch(){
-
-    if ( LongCheckBatch->isChecked() )
-        LongBoxBatch->setEnabled( false );
-    else {
-        LongBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotLongCheckedBatch()
+{
+    LongBoxBatch->setEnabled( ! LongCheckBatch->isChecked() );
 }
 
-void modCalcPlanets::slotLatCheckedBatch(){
-
-    if ( LatCheckBatch->isChecked() )
-        LatBoxBatch->setEnabled( false );
-    else {
-        LatBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotLatCheckedBatch()
+{
+    LatBoxBatch->setEnabled( ! LatCheckBatch->isChecked() );
 }
 
 void modCalcPlanets::slotRunBatch() {
