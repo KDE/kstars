@@ -66,6 +66,8 @@ protected:
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
 private:
+    virtual void findMagnitude(const KSNumbers*);
+
     //The base orbital elements for J2000 (these don't change with time)
     double a0, e0;
     dms i0, w0, M0, N0;

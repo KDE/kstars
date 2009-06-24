@@ -41,6 +41,9 @@ bool KSSun::loadData() {
     return (odm.loadData(odc, "earth") != 0);
 }
 
+// We don't need to do anything here
+void KSSun::findMagnitude(const KSNumbers*) {}
+
 bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
     if (Earth) {
         //

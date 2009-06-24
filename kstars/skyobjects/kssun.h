@@ -57,6 +57,8 @@ protected:
     	*@p Earth pointer to earth object
     	*/
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
+private:
+    virtual void findMagnitude(const KSNumbers*);
 };
 long double equinox(int year, int d, int m, int angle);
 

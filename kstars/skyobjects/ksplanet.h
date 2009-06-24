@@ -177,6 +177,8 @@ protected:
 
     static OrbitDataManager odm;
 
+private:
+    virtual void findMagnitude(const KSNumbers*);
 };
 
 #endif

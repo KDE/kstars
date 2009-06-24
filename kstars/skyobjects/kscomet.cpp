@@ -180,5 +180,10 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     return true;
 }
 
+void KSComet::findMagnitude(const KSNumbers*)
+{
+    setMag( H + 5.0 * log10( rearth() ) + 2.5 * G * log10( rsun() ) );
+}
+
 //Unused virtual function from KSPlanetBase
 bool KSComet::loadData() { return false; }

@@ -98,6 +98,8 @@ protected:
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* );
 
 private:
+    virtual void findMagnitude(const KSNumbers*);
+
     static bool data_loaded;
     static int instance_count;
 

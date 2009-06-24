@@ -102,6 +102,8 @@ protected:
     void setJD( long double jd ) { JD = jd; }
 
 private:
+    virtual void findMagnitude(const KSNumbers*);
+    
     long double JD;
     double a, e, P;
     dms i, w, M, N;

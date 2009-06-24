@@ -133,6 +133,8 @@ protected:
 
 
 private:
+    virtual void findMagnitude(const KSNumbers*);
+    
     long double JD, JDp;
     double q, e, a, P;
     double TailSize, TailAngSize, ComaSize, NuclearSize; // All in kilometres

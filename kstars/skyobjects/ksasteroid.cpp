@@ -129,6 +129,15 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
     return true;
 }
 
+void KSAsteroid::findMagnitude(const KSNumbers*)
+{
+    double param     = 5 * log10(rsun() * rearth() );
+    double phase_rad = phase().radians();
+    double phi1      = exp( -3.33 * pow( tan( phase_rad / 2 ), 0.63 ) );
+    double phi2      = exp( -1.87 * pow( tan( phase_rad / 2 ), 1.22 ) );
+    
+    setMag( H + param - 2.5 * log( (1 - G) * phi1 + G * phi2 ) );
+}
 
 //Unused virtual function from KSPlanetBase
 bool KSAsteroid::loadData() { return false; }

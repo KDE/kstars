@@ -203,6 +203,22 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     return true;
 }
 
+void KSMoon::findMagnitude(const KSNumbers*)
+{
+    // This block of code to compute Moon magnitude (and the
+    // relevant data put into ksplanetbase.h) was taken from
+    // SkyChart v3 Beta
+    int p = floor( phase().Degrees() );
+    if( p > 180 )
+        p = p - 360;
+    int i = p / 10;
+    int k = p % 10;
+    int j = (i + 1 > 18) ? 18 : i + 1;
+    i = 18 - abs(i);
+    j = 18 - abs(j);
+    setMag( KSMoon::MagArray[ i ] + ( ( KSMoon::MagArray[ j ] - KSMoon::MagArray[ i ] ) * k / 10 ) );
+}
+
 void KSMoon::findPhase() {
     KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" ); // TODO: Get rid of this ugly thing by making KSSun singleton.
     Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees();
