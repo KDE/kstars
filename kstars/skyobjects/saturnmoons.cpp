@@ -111,8 +111,6 @@ void SaturnMoons::findPosition( const KSNumbers *num, const KSPlanet *Saturn, co
     double A2[9], B2[9], C2[9];
     double A3[9], B3[9], C3[9];
     double A4[9], B4[9], C4[9];
-    double A5[9], B5[9], C5[9];
-    double A6[9], B6[9], C6[9];
 
     Saturn->ecLong()->SinCos( sinJL, cosJL );
     Saturn->ecLat()->SinCos( sinJB, cosJB );
@@ -153,29 +151,16 @@ void SaturnMoons::findPosition( const KSNumbers *num, const KSPlanet *Saturn, co
 	
     //Longitudes of the satellites' nodes on the equatorial plane of Jupiter
 
-         double W0 = MapTo0To360Range(5.095*(t3 - 1866.39));
 	double W0rad = MapTo0To360Range(5.095*(t3 - 1866.39))*dms::DegToRad;
-   
-        double W1 = MapTo0To360Range(74.4- 32.39*t2);
 	double W1rad = MapTo0To360Range(74.4- 32.39*t2)*dms::DegToRad;
-    
-	double W2 = MapTo0To360Range(134.3 - 92.62*t2);
 	double W2rad = MapTo0To360Range(134.3 - 92.62*t2)*dms::DegToRad;
-    	double W3 = MapTo0To360Range(42.0 - 0.5118*t5);
 	double W3rad = MapTo0To360Range(42.0 - 0.5118*t5)*dms::DegToRad;
-	
-	double W4 = MapTo0To360Range(276.59 - 0.5118*t5);
-	double W4rad = MapTo0To360Range(276.59 - 0.5118*t5)*dms::DegToRad;
-	double W5 = MapTo0To360Range(267.2635- 1222.1136*t7);
-	double W5rad = MapTo0To360Range(267.2635- 1222.1136*t7)*dms::DegToRad;
-	
-	double W6 = MapTo0To360Range(175.4762 - 1221.5515*t7);
+	double W4    = MapTo0To360Range(276.59 - 0.5118*t5);
+	double W4rad = W4 * dms::DegToRad;
+	double W5    = MapTo0To360Range(267.2635- 1222.1136*t7);
+	double W5rad = W5 * dms::DegToRad;
 	double W6rad = MapTo0To360Range(175.4762 - 1221.5515*t7)*dms::DegToRad;
-	
-	double W7 = MapTo0To360Range(2.4891 - 0.002435*t7);
 	double W7rad = MapTo0To360Range(2.4891 - 0.002435*t7)*dms::DegToRad;
-	
-	double W8 = MapTo0To360Range(113.35 - 0.2597*t7);
 	double W8rad = MapTo0To360Range(113.35 - 0.2597*t7)*dms::DegToRad;
 	
 	
