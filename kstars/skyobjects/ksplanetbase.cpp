@@ -127,12 +127,7 @@ void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms 
 void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms *LST, const KSPlanetBase *Earth ) {
     // DEBUG edit
     findGeocentricPosition( num, Earth );  //private function, reimplemented in each subclass
-    if( type() == SkyObject::MOON ) { // Required till we make KSSun singleton and re-implement KSPlanetBase::findPhase()
-        KSMoon *me = (KSMoon *)this;
-        me->findPhase(); // Find the phase.
-    }
-    else
-        findPhase();
+    findPhase();
     setAngularSize( asin(physicalSize()/Rearth/AU_KM)*60.*180./dms::PI ); //angular size in arcmin
 
     if ( lat && LST )

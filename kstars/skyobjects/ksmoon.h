@@ -50,7 +50,7 @@ public:
      *moon image
      *@note Overrides KSPlanetBase::findPhase()
      */
-    void findPhase();
+    virtual void findPhase();
 
     /**@return the illuminated fraction of the Moon as seen from Earth
     	*/

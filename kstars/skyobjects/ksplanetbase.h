@@ -305,7 +305,7 @@ protected:
     /**
      * Determine the phase of the planet.
      */
-    void findPhase();
+    virtual void findPhase();
 
     // Geocentric ecliptic position, but distance to the Sun
     EclipticPosition ep;
