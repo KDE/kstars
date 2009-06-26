@@ -29,12 +29,28 @@
 #include "kssun.h"
 #include "kstarsdata.h"
 
+namespace {
+    // Convert degrees to radians and put it into [0,2*pi] range
+    double degToRad(double x)
+    {
+        while( x > 360.0) x -= 360.0;
+        while( x < 0.0  ) x += 360.0;
+        return x * dms::DegToRad;
+    }
+}
+
 KSMoon::KSMoon()
         : KSPlanetBase( I18N_NOOP( "Moon" ), QString(), QColor("white"), 3474.8 /*diameter in km*/ )
 {
     instance_count++;
     //Reset object type
     setType( SkyObject::MOON );
+}
+
+KSMoon::KSMoon(const KSMoon& o) :
+    KSPlanetBase(o)
+{
+    instance_count++;
 }
 
 KSMoon* KSMoon::clone() const
@@ -115,11 +131,9 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
     QString fname, snum, line;
     QFile f;
-    double DegtoRad;
-    double T, L, D, M, M1, F, E, A1, A2, A3;
-    double sumL, sumR, sumB;
 
-    DegtoRad = acos( -1.0 )/180.0;
+    double T, L, D, M, M1, F, A1, A2, A3;
+    double sumL, sumR, sumB;
 
     //Julian centuries since J2000
     T = num->julianCenturies();
@@ -127,43 +141,19 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     double Et = 1.0 - 0.002516*T - 0.0000074*T*T;
 
     //Moon's mean longitude
-    L = 218.3164591 + 481267.88134236*T - 0.0013268*T*T + T*T*T/538841.0 - T*T*T*T/65194000.0;
-    while ( L > 360.0 ) L -= 360.0;
-    while ( L < 0.0 ) L += 360.0;
-    L *= DegtoRad;
+    L = degToRad( 218.3164591 + 481267.88134236*T - 0.0013268*T*T + T*T*T/538841.0 - T*T*T*T/65194000.0 );
     //Moon's mean elongation
-    D = 297.8502042 + 445267.1115168*T - 0.0016300*T*T + T*T*T/545868.0 - T*T*T*T/113065000.0;
-    while ( D > 360.0 ) D -= 360.0;
-    while ( D < 0.0 ) D += 360.0;
-    D *= DegtoRad;
+    D = degToRad( 297.8502042 + 445267.1115168*T - 0.0016300*T*T + T*T*T/545868.0 - T*T*T*T/113065000.0 );
     //Sun's mean anomaly
-    M = 357.5291092 + 35999.0502909*T - 0.0001536*T*T + T*T*T/24490000.0;
-    while ( M > 360.0 ) M -= 360.0;
-    while ( M < 0.0 ) M += 360.0;
-    M *= DegtoRad;
+    M = degToRad( 357.5291092 + 35999.0502909*T - 0.0001536*T*T + T*T*T/24490000.0 );
     //Moon's mean anomaly
-    M1= 134.9634114 + 477198.8676313*T + 0.0089970*T*T + T*T*T/69699.0 - T*T*T*T/14712000.0;
-    while ( M1 > 360.0 ) M1 -= 360.0;
-    while ( M1 < 0.0 ) M1 += 360.0;
-    M1 *= DegtoRad;
+    M1= degToRad( 134.9634114 + 477198.8676313*T + 0.0089970*T*T + T*T*T/69699.0 - T*T*T*T/14712000.0 );
     //Moon's argument of latitude (angle from ascending node)
-    F = 93.2720993 + 483202.0175273*T - 0.0034029*T*T - T*T*T/3526000.0 + T*T*T*T/863310000.0;
-    while ( F > 360.0 ) F -= 360.0;
-    while ( F < 0.0 ) F += 360.0;
-    F *= DegtoRad;
+    F = degToRad( 93.2720993 + 483202.0175273*T - 0.0034029*T*T - T*T*T/3526000.0 + T*T*T*T/863310000.0 );
 
-    A1 = 119.75 +    131.849*T;
-    A2 =  53.09 + 479264.290*T;
-    A3 = 313.45 + 481226.484*T;
-    while ( A1 > 360.0 ) A1 -= 360.0;
-    while ( A1 < 0.0 ) A1 += 360.0;
-    while ( A2 > 360.0 ) A2 -= 360.0;
-    while ( A2 < 0.0 ) A2 += 360.0;
-    while ( A3 > 360.0 ) A3 -= 360.0;
-    while ( A3 < 0.0 ) A3 += 360.0;
-    A1 *= DegtoRad;
-    A2 *= DegtoRad;
-    A3 *= DegtoRad;
+    A1 = degToRad( 119.75 +    131.849*T );
+    A2 = degToRad(  53.09 + 479264.290*T );
+    A3 = degToRad( 313.45 + 481226.484*T );
 
     //Calculate the series expansions stored in moonLR.txt and moonB.txt.
     //
@@ -175,7 +165,7 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     for ( int i=0; i < LRData.size(); ++i ) {
         MoonLRData *mlrd = LRData[i];
 
-        E = 1.0;
+        double E = 1.0;
         if ( mlrd->nm ) { //if M != 0, include changing eccentricity of Earth's orbit
             E = Et;
             if ( abs( mlrd->nm )==2 ) E = E*E; //use E^2
@@ -188,7 +178,7 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     for ( int i=0; i < BData.size(); ++i ) {
         MoonBData *mbd = BData[i];
 
-        E = 1.0;
+        double E = 1.0;
         if ( mbd->nm ) { //if M != 0, include changing eccentricity of Earth's orbit
             E = Et;
             if ( abs( mbd->nm )==2 ) E = E*E; //use E^2
@@ -201,8 +191,8 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     sumB += ( -2235.0*sin( L ) + 382.0*sin( A3 ) + 175.0*sin( A1-F ) + 175.0*sin( A1+F ) + 127.0*sin( L-M1 ) - 115.0*sin( L+M1 ) );
 
     //Geocentric coordinates
-    setEcLong( ( L + DegtoRad*sumL/1000000.0 ) * 180./dms::PI );  //convert radians to degrees
-    setEcLat( ( DegtoRad*sumB/1000000.0 ) * 180./dms::PI );
+    setEcLong( sumL/1000000.0 + L * 180.0 / dms::PI ); //convert radians to degrees
+    setEcLat(  sumB/1000000.0 );
     Rearth = ( 385000.56 + sumR/1000.0 )/AU_KM; //distance from Earth, in AU
 
     EclipticToEquatorial( num->obliquity() );
@@ -211,6 +201,22 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     findPA( num );
 
     return true;
+}
+
+void KSMoon::findMagnitude(const KSNumbers*)
+{
+    // This block of code to compute Moon magnitude (and the
+    // relevant data put into ksplanetbase.h) was taken from
+    // SkyChart v3 Beta
+    int p = floor( phase().Degrees() );
+    if( p > 180 )
+        p = p - 360;
+    int i = p / 10;
+    int k = p % 10;
+    int j = (i + 1 > 18) ? 18 : i + 1;
+    i = 18 - abs(i);
+    j = 18 - abs(j);
+    setMag( KSMoon::MagArray[ i ] + ( ( KSMoon::MagArray[ j ] - KSMoon::MagArray[ i ] ) * k / 10 ) );
 }
 
 void KSMoon::findPhase() {

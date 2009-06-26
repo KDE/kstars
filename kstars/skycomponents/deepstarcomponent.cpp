@@ -29,16 +29,13 @@
 #include "ksutils.h"
 #include "skymap.h"
 #include "skyobjects/starobject.h"
-
 #include "skymesh.h"
-
 #include "binfilehelper.h"
-#include "byteswap.h"
 #include "starblockfactory.h"
-
 #include "starcomponent.h"
 
 #include <kde_file.h>
+#include <byteswap.h>
 
 DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, float trigMag, bool staticstars )
     : ListComponent(parent), m_reindexNum( J2000 ), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 
@@ -49,7 +46,6 @@ DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, fl
 
 bool DeepStarComponent::loadStaticStars() {
     FILE *dataFile;
-    StarObject plainStarTemplate;
 
     if( !staticStars )
         return true;
@@ -77,11 +73,11 @@ bool DeepStarComponent::loadStaticStars() {
 
     fread( &faintmag, 2, 1, dataFile );
     if( starReader.getByteSwap() )
-        bswap_16( faintmag );
+        faintmag = bswap_16( faintmag );
     fread( &htm_level, 1, 1, dataFile );
     fread( &t_MSpT, 2, 1, dataFile ); // Unused
     if( starReader.getByteSwap() )
-        bswap_16( faintmag );
+        faintmag = bswap_16( faintmag );
 
 
     // TODO: Read the multiplying factor from the dataFile
@@ -117,30 +113,20 @@ bool DeepStarComponent::loadStaticStars() {
                     byteSwap( &deepstardata );
             }
 
-
-            /*
-             * CAUTION: We avoid trying to construct StarObjects using the constructors [The C++ way]
-             *          in order to gain speed. Instead, one template StarObject is constructed and
-             *          all other unnamed stars are created by doing a raw copy from this using memcpy()
-             *          and then calling StarObject::init() to replace the default data with the correct
-             *          data.
-             *          This means that this section of the code plays around with pointers to a great
-             *          extent and has a chance of breaking down / causing segfaults.
-             */
-                    
-            /* Make a copy of the star template and set up the data in it */
+            /* Initialize star with data just read. */
+            StarObject* star;
             if( starReader.guessRecordSize() == 32 )
-                plainStarTemplate.init( &stardata );
+                star = SB->addStar( stardata );
             else
-                plainStarTemplate.init( &deepstardata );
-            plainStarTemplate.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-            if( !SB->addStar( &plainStarTemplate ) )
+                star = SB->addStar( deepstardata );
+            
+            if( star ) {
+                star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+                if( star->getHDIndex() != 0 )
+                    m_CatalogNumber.insert( star->getHDIndex(), star );
+            } else {
                 kDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
-            StarObject *star = SB->star( SB->getStarCount() - 1 );
-
-            if( star->getHDIndex() != 0 )
-                m_CatalogNumber.insert( star->getHDIndex(), star );
-
+            }
         }
     }
 
@@ -336,7 +322,7 @@ bool DeepStarComponent::openDataFile() {
         quint8 htm_level;
         fread( &faintmag, 2, 1, starReader.getFileHandle() );
         if( starReader.getByteSwap() )
-            bswap_16( faintmag );
+            faintmag = bswap_16( faintmag );
         if( starReader.guessRecordSize() == 16 )
             m_FaintMagnitude = faintmag / 1000.0;
         else
@@ -353,7 +339,7 @@ bool DeepStarComponent::openDataFile() {
         meshLevel = htm_level;
         fread( &MSpT, 2, 1, starReader.getFileHandle() );
         if( starReader.getByteSwap() )
-            bswap_16( MSpT );
+            MSpT = bswap_16( MSpT );
         fileOpened = true;
         kDebug() << "  Sky Mesh Size: " << m_skyMesh->size();
         for (long int i = 0; i < m_skyMesh->size(); i++) {
@@ -431,23 +417,23 @@ int DeepStarComponent::starColorIntensity( void ) const {
 }
 
 void DeepStarComponent::byteSwap( deepStarData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_16( stardata->dRA );
-    bswap_16( stardata->dDec );
-    bswap_16( stardata->B );
-    bswap_16( stardata->V );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_16( stardata->dRA );
+    stardata->dDec = bswap_16( stardata->dDec );
+    stardata->B = bswap_16( stardata->B );
+    stardata->V = bswap_16( stardata->V );
 }
 
 void DeepStarComponent::byteSwap( starData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_32( stardata->dRA );
-    bswap_32( stardata->dDec );
-    bswap_32( stardata->parallax );
-    bswap_32( stardata->HD );
-    bswap_16( stardata->mag );
-    bswap_16( stardata->bv_index );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_32( stardata->dRA );
+    stardata->dDec = bswap_32( stardata->dDec );
+    stardata->parallax = bswap_32( stardata->parallax );
+    stardata->HD = bswap_32( stardata->HD );
+    stardata->mag = bswap_16( stardata->mag );
+    stardata->bv_index = bswap_16( stardata->bv_index );
 }
 
 bool DeepStarComponent::verifySBLIntegrity() {

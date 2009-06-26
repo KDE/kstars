@@ -35,11 +35,11 @@ class KSSun;
 
 class KSMoon : public KSPlanetBase  {
 public:
-    /**
-    	*Default constructor.  Set name="Moon".
-    	*/
+    /** Default constructor. Set name="Moon". */
     KSMoon();
-
+    /** Copy constructor */
+    KSMoon(const KSMoon& o);
+    
     virtual KSMoon* clone() const;
     
     /**Destructor (empty). */
@@ -50,7 +50,7 @@ public:
      *moon image
      *@note Overrides KSPlanetBase::findPhase()
      */
-    void findPhase();
+    virtual void findPhase();
 
     /**@return the illuminated fraction of the Moon as seen from Earth
     	*/
@@ -98,6 +98,8 @@ protected:
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* );
 
 private:
+    virtual void findMagnitude(const KSNumbers*);
+
     static bool data_loaded;
     static int instance_count;
 

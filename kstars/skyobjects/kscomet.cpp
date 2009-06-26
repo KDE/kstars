@@ -62,19 +62,6 @@ KSComet* KSComet::clone() const
     return new KSComet(*this);
 }
 
-bool KSComet::getOrbitalElements( long double *_JD, double *_q, double *_e, dms *_i,
-                                  dms *_w, dms *_N ) {
-    if( !_JD || !_q || !_e || !_i || !_w || !_N )
-        return false;
-    *_JD = JD;
-    *_q = q;
-    *_e = e;
-    *_i = i;
-    *_w = w;
-    *_N = N;
-    return true;
-}
-
 void KSComet::findPhysicalParameters() {
     // Compute and store the estimated Physical size of the comet's coma, tail and nucleus
     // References:
@@ -191,6 +178,11 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     findPhysicalParameters();
 
     return true;
+}
+
+void KSComet::findMagnitude(const KSNumbers*)
+{
+    setMag( H + 5.0 * log10( rearth() ) + 2.5 * G * log10( rsun() ) );
 }
 
 //Unused virtual function from KSPlanetBase

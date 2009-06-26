@@ -36,7 +36,6 @@ class KTextEdit;
 
 class AstroCalc : public KDialog
 {
-
     Q_OBJECT
 public:
     AstroCalc(QWidget *parent = 0);
@@ -51,10 +50,34 @@ public slots:
     void slotItemSelection(QTreeWidgetItem *it);
 
 private:
+    /** Pointer to function which return QWidget* 
+     */
+    typedef QWidget* (AstroCalc::*WidgetConstructor)();
+    /** Data structure used for lazy widget construction. This class
+     *  construct widget when it requested. 
+     */
+    class WidgetThunk
+    {
+    public:
+        /** Create thunk
+         *  @param acalc  pointer to class.
+         *  @param f      function which construct widget.
+         */
+        WidgetThunk(AstroCalc* acalc, WidgetConstructor f) :
+            widget(0), calc(acalc), func(f) {}
+        /** Request widget.
+         *  @return newly created widget or cached value. */
+        QWidget* eval();
+    private:
+        QWidget* widget;        // Cached value
+        AstroCalc* calc;        // Pointer to calculator
+        WidgetConstructor func; // Function to call to construct widget. 
+    };
+    
     /** Create widget of type T and put it to widget stack. Widget must
      *  have construtor of type T(QWidget*). Returns constructed widget. */
     template<typename T>
-    inline T* addToStack();
+    inline QWidget* addToStack();
     
     /** Add top level item to navigation panel. At the same time adds item to htmlTable 
         @param title name of item
@@ -75,8 +98,7 @@ private:
     /** Lookup table for help texts. Maps navpanel item to help text. */
     QMap<QTreeWidgetItem*, QString>  htmlTable;
     /** Lookup table for widgets. Maps navpanel item to widget to be displayed. */
-    QMap<QTreeWidgetItem*, QWidget*> dispatchTable;
-    QSplitter *split;
+    QMap<QTreeWidgetItem*, WidgetThunk> dispatchTable;
     QTreeWidget *navigationPanel;
     QStackedWidget *acStack;
     KTextEdit *splashScreen;

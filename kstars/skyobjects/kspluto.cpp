@@ -79,3 +79,8 @@ bool KSPluto::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
 
     return KSAsteroid::findGeocentricPosition( num, Earth );
 }
+
+void KSPluto::findMagnitude(const KSNumbers*)
+{
+    setMag( -1.01 + 5*log10(rsun() * rearth())  + 0.041*phase().Degrees() );
+}

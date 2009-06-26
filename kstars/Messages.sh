@@ -15,6 +15,9 @@ echo "#if 0" >> kstars_i18n.cpp
 sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/^[A-B] //' | \
    sed 's/\([A-Z].*\)/i18nc("Constellation name (optional)", "\1");/' | sed 's/\ "/"/g' >> "kstars_i18n.cpp"
 
+# extract sky cultures
+grep ^C data/cnames.dat | awk '{ print "i18nc( \"Sky Culture\", \"" $2 "\" );" }' >> "kstars_i18n.cpp"
+
 # extract cities
 awk 'BEGIN {FS=":"}; {print "\"" $1 "\""; }' < data/Cities.dat | \
    sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"City name (optional, probably does not need a translation)\",\"/g' | sed 's/i18nc(.*,"");//' >> "cities.tmp"
@@ -65,7 +68,7 @@ rm -f tips.cpp
 
 $EXTRACTRC xplanet/*.ui *.ui tools/*.ui dialogs/*.ui fitsviewer/*.ui indi/*.ui options/*.ui *.rc >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
-$XGETTEXT *.cpp *.h tools/*.cpp tools/*.h skycomponents/*.cpp widgets/*.cpp dialogs/*.cpp dialogs/*.h fitsviewer/*.cpp fitsviewer/*.h indi/*.cpp indi/*.h options/*.cpp options/*.h skyobjects/*.cpp skyobjects/*.h -o $podir/kstars.pot
+$XGETTEXT *.cpp *.h tools/*.cpp tools/*.h skycomponents/*.cpp widgets/*.cpp dialogs/*.cpp dialogs/*.h fitsviewer/*.cpp fitsviewer/*.h indi/*.cpp indi/*.h options/*.cpp options/*.h skyobjects/*.cpp skyobjects/*.h xplanet/*.cpp -o $podir/kstars.pot
 rm -f tips.cpp
 rm -f kstars_i18n.cpp
 rm -f rc.cpp

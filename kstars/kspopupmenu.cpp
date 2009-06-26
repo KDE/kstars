@@ -112,7 +112,7 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 			name = "Star";
 		}
 	}
-    initPopupMenu( star, name, "star", i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
+    initPopupMenu( star, name, i18n( "star" ), i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
     //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
     if ( star->name() != "star" ) {
         addLinksToMenu( star );
@@ -293,7 +293,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
 #ifdef HAVE_XPLANET
     if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) {
         QMenu *xplanetSubmenu = new QMenu();
-        xplanetSubmenu->setTitle( "Print Xplanet view" );
+        xplanetSubmenu->setTitle( i18n( "Print Xplanet view" ) );
         xplanetSubmenu->addAction( i18n( "To screen" ), ks->map(), SLOT( slotXplanetToScreen() ) );
         xplanetSubmenu->addAction( i18n( "To file..." ), ks->map(), SLOT( slotXplanetToFile() ) );
         addMenu( xplanetSubmenu );

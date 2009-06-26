@@ -110,7 +110,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
              "</LI></UL>"
              "</QT>");
 
-    split = new QSplitter ( this );
+    QSplitter* split = new QSplitter ( this );
     setMainWidget(split);
     setCaption( i18n("Calculator") );
     setButtons( KDialog::Close );
@@ -128,6 +128,10 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 
     splashScreen = new KTextEdit( message, acStack );
     splashScreen->setReadOnly( true );
+    //FIXME: Minimum size is set to resize calculator to correct size
+    //when no modules is loaded. This is simply biggest size of
+    //calculator modules. I think it should be set in more cleverly.
+    splashScreen->setMinimumSize(640, 550);
     acStack->addWidget( splashScreen );
 
 
@@ -166,12 +170,12 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     addTreeItem<ConjunctionsTool>(solarItem, i18n("Conjunctions"));
     
     acStack->setCurrentWidget( splashScreen );
-    connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this,
-            SLOT(slotItemSelection(QTreeWidgetItem *)));
+    connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)),
+            this, SLOT(slotItemSelection(QTreeWidgetItem *)));
 }
 
 template<typename T>
-T* AstroCalc::addToStack()
+QWidget* AstroCalc::addToStack()
 {
     T* t = new T( acStack );
     acStack->addWidget(t);
@@ -182,7 +186,8 @@ template<typename T>
 QTreeWidgetItem* AstroCalc::addTreeItem(QTreeWidgetItem* parent, QString title)
 {
     QTreeWidgetItem* item = new QTreeWidgetItem(parent, QStringList(title));
-    dispatchTable.insert(item, addToStack<T>());
+    dispatchTable.insert(item,
+                         WidgetThunk(this, &AstroCalc::addToStack<T>));
     return item;
 }
 
@@ -193,18 +198,12 @@ QTreeWidgetItem* AstroCalc::addTreeTopItem(QTreeWidget* parent, QString title, Q
     return item;
 }
 
-AstroCalc::~AstroCalc()
-{
-}
+AstroCalc::~AstroCalc() {}
 
 void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
 {
     if ( item == 0)
         return;
-
-    //DEBUG
-    kDebug() << "Item clicked: " << item->text(0);
-
     // Lookup in HTML table
     QMap<QTreeWidgetItem*, QString>::iterator iterHTML = htmlTable.find(item);
     if( iterHTML != htmlTable.end() ) {
@@ -213,15 +212,24 @@ void AstroCalc::slotItemSelection(QTreeWidgetItem *item)
         return;
     }
     // Lookup in frames table
-    QMap<QTreeWidgetItem*, QWidget*>::iterator iter = dispatchTable.find(item);
+    QMap<QTreeWidgetItem*, WidgetThunk>::iterator iter = dispatchTable.find(item);
     if( iter != dispatchTable.end() ) {
-        acStack->setCurrentWidget( *iter );
+        acStack->setCurrentWidget( iter->eval() );
     }
 }
 
 QSize AstroCalc::sizeHint() const
 {
     return QSize(640,430);
+}
+
+QWidget* AstroCalc::WidgetThunk::eval()
+{
+    if( widget == 0 ) {
+        // This is pointer to member function call. 
+        widget = (calc->*func)();
+    }
+    return widget;
 }
 
 #include "astrocalc.moc"

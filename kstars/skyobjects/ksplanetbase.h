@@ -305,7 +305,7 @@ protected:
     /**
      * Determine the phase of the planet.
      */
-    void findPhase();
+    virtual void findPhase();
 
     // Geocentric ecliptic position, but distance to the Sun
     EclipticPosition ep;
@@ -333,7 +333,7 @@ private:
      *@param num pointer to a ksnumbers object. Needed for the saturn rings contribution to 
      *           saturn's magnitude.
      */
-    void findMagnitude(const KSNumbers *num);
+    virtual void findMagnitude(const KSNumbers *num) = 0;
 
     QImage Image0, Image;
     double PositionAngle, ImageAngle, AngularSize, PhysicalSize;

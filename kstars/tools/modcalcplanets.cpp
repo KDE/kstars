@@ -91,71 +91,48 @@ void modCalcPlanets::slotComputePosition (void)
     KSPlanet Earth( I18N_NOOP( "Earth" ));
     Earth.findPosition( &num );
 
-    // Mercury
-    if (PlanetComboBox->currentIndex() == 0 ) {
-        KSPlanet p( I18N_NOOP( "Mercury" ));
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
-    }
-    else if(PlanetComboBox->currentIndex() == 1) {
-        KSPlanet p( I18N_NOOP( "Venus" ));
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
-    }
-    else if(PlanetComboBox->currentIndex() == 2) {
+    // Earth is special case!
+    if( PlanetComboBox->currentIndex() == 2 ) {
         showCoordinates( Earth );
+        return;
     }
-    else if(PlanetComboBox->currentIndex() == 3) {
-        KSPlanet p( I18N_NOOP( "Mars" ));
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
+
+    // Pointer to hold planet data. Pointer is used since it has to
+    // hold objects of different type. It's safe to use new/delete
+    // because exceptions are disallowed.
+    KSPlanetBase* p = 0;    
+
+    switch( PlanetComboBox->currentIndex() ) {
+    case 0 : 
+        p = new KSPlanet(KSPlanetBase::MERCURY); break;
+    case 1:
+        p = new KSPlanet(KSPlanetBase::VENUS);   break;
+    case 3:
+        p = new KSPlanet(KSPlanetBase::MARS);    break;
+    case 4:
+        p = new KSPlanet(KSPlanetBase::JUPITER); break;
+    case 5:
+        p = new KSPlanet(KSPlanetBase::SATURN);  break;
+    case 6:
+        p = new KSPlanet(KSPlanetBase::URANUS);  break;
+    case 7:
+        p = new KSPlanet(KSPlanetBase::NEPTUNE); break;
+    case 8:
+        p = new KSPluto(); break;
+    case 9:
+        p = new KSMoon();  break;
+    case 10:
+        p = new KSSun();
+        p->setRsun(0.0);
+        break;
     }
-    else if(PlanetComboBox->currentIndex() == 4) {
-        KSPlanet p( I18N_NOOP( "Jupiter" ));
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
-    }
-    else if(PlanetComboBox->currentIndex() == 5) {
-        KSPlanet p( I18N_NOOP( "Saturn" ));
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
-    }
-    else if(PlanetComboBox->currentIndex() == 6) {
-        KSPlanet p( I18N_NOOP( "Uranus" ));
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
-    }
-    else if(PlanetComboBox->currentIndex() == 7) {
-        KSPlanet p( I18N_NOOP( "Neptune" ));
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
-    }
-    else if(PlanetComboBox->currentIndex() == 8) {
-        KSPluto p;
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
-    }
-    else if(PlanetComboBox->currentIndex() == 9) {
-        KSMoon p;
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        showCoordinates( p );
-    }
-    else if(PlanetComboBox->currentIndex() == 10) {
-        KSSun p;
-        p.findPosition( &num, geoPlace->lat(), &LST, &Earth);
-        p.EquatorialToHorizontal( &LST, geoPlace->lat());
-        p.setRsun(0.0);
-        showCoordinates( p );
-    }
+
+    // Show data.
+    p->findPosition( &num, geoPlace->lat(), &LST, &Earth);        
+    p->EquatorialToHorizontal( &LST, geoPlace->lat());            
+    showCoordinates( *p );
+    // Cleanup. 
+    delete p;
 }
 
 void modCalcPlanets::showCoordinates( const KSPlanetBase &ksp)
@@ -192,49 +169,29 @@ void modCalcPlanets::showTopocentricCoords(const dms *az, const dms *el)
     AltBox->show( el );
 }
 
-void modCalcPlanets::slotPlanetsCheckedBatch(){
-
-    if ( PlanetCheckBatch->isChecked() )
-        PlanetComboBoxBatch->setEnabled( false );
-    else {
-        PlanetComboBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotPlanetsCheckedBatch()
+{
+    PlanetComboBoxBatch->setEnabled( ! PlanetCheckBatch->isChecked() );
 }
 
-void modCalcPlanets::slotUtCheckedBatch(){
-
-    if ( UTCheckBatch->isChecked() )
-        UTBoxBatch->setEnabled( false );
-    else {
-        UTBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotUtCheckedBatch()
+{
+    UTBoxBatch->setEnabled( ! UTCheckBatch->isChecked() );
 }
 
-void modCalcPlanets::slotDateCheckedBatch(){
-
-    if ( DateCheckBatch->isChecked() )
-        DateBoxBatch->setEnabled( false );
-    else {
-        DateBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotDateCheckedBatch()
+{
+    DateBoxBatch->setEnabled( ! DateCheckBatch->isChecked() );
 }
 
-void modCalcPlanets::slotLongCheckedBatch(){
-
-    if ( LongCheckBatch->isChecked() )
-        LongBoxBatch->setEnabled( false );
-    else {
-        LongBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotLongCheckedBatch()
+{
+    LongBoxBatch->setEnabled( ! LongCheckBatch->isChecked() );
 }
 
-void modCalcPlanets::slotLatCheckedBatch(){
-
-    if ( LatCheckBatch->isChecked() )
-        LatBoxBatch->setEnabled( false );
-    else {
-        LatBoxBatch->setEnabled( true );
-    }
+void modCalcPlanets::slotLatCheckedBatch()
+{
+    LatBoxBatch->setEnabled( ! LatCheckBatch->isChecked() );
 }
 
 void modCalcPlanets::slotRunBatch() {

@@ -53,9 +53,9 @@ datafiles: mysql2bin
 	rm ushf usdf nshf nsdf nf dsdf dshf
 
 nomaddatafiles: nomadmysql2bin
-	echo "If this step hangs, please reduce the value of MYSQL_STARS_PER_QUERY in mysql2bin.c and try again."
+	echo "If this step hangs, please reduce the value of MYSQL_STARS_PER_QUERY in nomadmysql2bin.c and try again."
 	./nomadmysql2bin $(KSTARS_MYSQL_DB_USER) $(KSTARS_MYSQL_DB_PASS) usdf ushf $(KSTARS_MYSQL_DB_DB) $(KSTARS_NOMAD_MYSQL_DB_TBL)
-	cat ushf usdf > USNO-NOMAD.dat    # TODO: Change
+	cat ushf usdf > USNO-NOMAD-1e8.dat    # TODO: Change
 	rm ushf usdf
 
 install:

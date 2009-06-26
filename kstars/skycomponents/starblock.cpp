@@ -19,33 +19,25 @@
 #include "skyobjects/starobject.h"
 #include "starcomponent.h"
 #include "skyobjects/stardata.h"
+#include "skyobjects/deepstardata.h"
 
 #include <kdebug.h>
 
-StarObject *StarBlock::plainStarTemplate = NULL;
-int StarBlock::refCount = 0;
 
-StarBlock::StarBlock() {
-    init();
-    allocStars( 100 );                // TODO: Make this number user-specifiable
-}
+StarBlock::StarBlock( int nstars ) :
+    faintMag(-5),
+    brightMag(35),
+    parent(0),
+    prev(0),
+    next(0),
+    drawID(0),
+    nStars(0),
+    stars(nstars, StarObject())
+{ }
 
-StarBlock::StarBlock( int nstars ) {
-    init();
-    allocStars( nstars );
-}
 
-void StarBlock::init() {
-    parent = NULL;
-    prev = next = NULL;
-    drawID = 0;
-    if( !plainStarTemplate )
-        plainStarTemplate = new StarObject;
-    refCount++;
-    reset();
-}
-
-void StarBlock::reset() {
+void StarBlock::reset()
+{
     if( parent )
         parent->releaseBlock( this );
     parent = NULL;
@@ -54,45 +46,36 @@ void StarBlock::reset() {
     nStars = 0;
 }
 
-
-StarBlock::~StarBlock() {
-    StarObject *star;
-    foreach( star, stars )
-        free( star );
-    refCount--;
-    if(refCount == 0) {
-        delete plainStarTemplate;
-        plainStarTemplate = NULL;
-    }
+StarBlock::~StarBlock()
+{
     if( parent )
         parent -> releaseBlock( this );
 }
 
-
-int StarBlock::allocStars( int nstars ) {
-    StarObject *newStarObject;
-    for( int i = 0; i < nstars; ++i ) {
-        newStarObject = (StarObject *) malloc( sizeof( StarObject ) );
-        if( !newStarObject )
-            return i;
-        memcpy( newStarObject, plainStarTemplate, sizeof( StarObject ) );
-        stars.append( newStarObject );
-    }
-    return nstars;
+StarObject* StarBlock::addStar(const starData& data)
+{
+    if(isFull())
+        return 0;
+    StarObject& star = stars[nStars++];
+    
+    star.init(&data);
+    if( star.mag() > faintMag )
+        faintMag = star.mag();
+    if( star.mag() < brightMag )
+        brightMag = star.mag();
+    return &star;
 }
 
-bool StarBlock::addStar( StarObject *star ) {
-
+StarObject* StarBlock::addStar(const deepStarData& data)
+{
     if(isFull())
-        return false;
-
-    memcpy( stars.at( nStars ), star, sizeof( StarObject ) );
+        return 0;
+    StarObject& star = stars[nStars++];
     
-    if( star->mag() > faintMag )
-        faintMag = star->mag();
-    if( star->mag() < brightMag )
-        brightMag = star->mag();
-    
-    ++nStars;
-    return true;
+    star.init(&data);
+    if( star.mag() > faintMag )
+        faintMag = star.mag();
+    if( star.mag() < brightMag )
+        brightMag = star.mag();
+    return &star;
 }

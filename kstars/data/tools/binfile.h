@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "byteswap.h"
+#include <byteswap.h>
 
 /* NOTE: HTM_LEVEL and other HTM-related stuff must be defined before using this header */
 

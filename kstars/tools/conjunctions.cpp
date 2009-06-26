@@ -80,8 +80,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     pNames[KSPlanetBase::URANUS] = i18n("Uranus");
     pNames[KSPlanetBase::NEPTUNE] = i18n("Neptune");
     pNames[KSPlanetBase::PLUTO] = i18n("Pluto");
-    pNames[KSPlanetBase::SUN] = "Sun";
-    pNames[KSPlanetBase::MOON] = "Moon";
+    pNames[KSPlanetBase::SUN] = i18n("Sun");
+    pNames[KSPlanetBase::MOON] = i18n("Moon");
 
     for ( int i=0; i<KSPlanetBase::UNKNOWN_PLANET; ++i ) {
         //      Obj1ComboBox->insertItem( i, pNames[i] );

@@ -131,32 +131,17 @@ dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *O
 
   // FIXME: This should be virtual functions or whatever
   if( Object1->isSolarSystem() ) {
-      switch( Object1->type() ) {
-      case 2: {
-          KSPlanet *Planet = (KSPlanet *)Object1;
-          Planet->findPosition(&num, geoPlace->lat(), &LST, (KSPlanetBase *)m_Earth);
-          break;
-      }
-      case 9: {
-          KSComet *Comet = (KSComet *)Object1;
-          Comet->findPosition(&num, geoPlace->lat(), &LST, (KSPlanetBase *)m_Earth);
-          break;
-      }
-      case 10: {
-          KSAsteroid *Asteroid = (KSAsteroid *)Object1;
-          Asteroid->findPosition(&num, geoPlace->lat(), &LST, (KSPlanetBase *)m_Earth);
-          break;
-      }
-      }
-  }
-  else
+      KSPlanetBase* p = reinterpret_cast<KSPlanetBase*>(Object1);
+      p->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
+  } else {
       Object1->updateCoords( &num );
+  }
 
-  Object2->findPosition(&num, geoPlace->lat(), &LST, (KSPlanetBase *)m_Earth);
-  if(opposition) {  Object2->setRA( Object2->ra()->Hours() + 12.0); Object2->setDec( -Object2->dec()->Degrees()); }
-   dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
-  if(opposition) {  Object2->setRA( Object2->ra()->Hours() - 12.0); Object2->setDec( -Object2->dec()->Degrees()); }
-  
+  Object2->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
+  dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
+  if( opposition ) {
+      dist.set( 180 - dist.Degrees() );
+  }
   return dist;
 }
 
