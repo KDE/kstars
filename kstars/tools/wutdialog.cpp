@@ -80,6 +80,8 @@ WUTDialog::WUTDialog( KStars *ks, bool _session ) :
     WUT->DateLabel->setText( i18n( "The night of %1", KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate ) ) );
     m_Mag = 10.0;
     WUT->MagnitudeEdit->setValue( m_Mag );
+    WUT->MagnitudeEdit->setSliderEnabled( true );
+    WUT->MagnitudeEdit->setSingleStep(0.100);
     initCategories();
 
     makeConnections();
