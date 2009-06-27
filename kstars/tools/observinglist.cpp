@@ -125,6 +125,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->View->axis(KPlotWidget::TopAxis)->setTickLabelsShown( true );
     ui->DateEdit->setDate(dt.date());
     ui->SetLocation->setText( geo -> fullName() );
+    ui->ImagePreview->installEventFilter( this );
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
@@ -170,8 +171,6 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotUpdate() ) );
     connect( ui->GetImage, SIGNAL( clicked() ),
              this, SLOT( slotGetImage() ) );
-    connect( ui->ExpandImage, SIGNAL( clicked() ),
-             this, SLOT( slotImageViewer() ) );
     connect( ui->SetTime, SIGNAL( clicked() ),
              this, SLOT( slotSetTime() ) );
     connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
@@ -199,7 +198,6 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TimeEdit->setEnabled( false );
     ui->GetImage->setEnabled( false );
     ui->saveImages->setEnabled( false );
-    ui->ExpandImage->hide();
 
     slotLoadWishList(); //Load the wishlist from disk if present
     setSaveImages();
@@ -375,7 +373,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 }
 
 void ObservingList::slotRemoveSelectedObjects() {
-    ui->ExpandImage->hide();
     if( sessionView )
     {
         //Find each object by name in the session list, and remove it
@@ -437,7 +434,6 @@ void ObservingList::slotRemoveSelectedObjects() {
 
 void ObservingList::slotNewSelection() {
     bool singleSelection = false, found = false;
-    ui->ExpandImage->hide();
     ui->ImagePreview->clearPreview();
     ui->ImagePreview->hide();
     QModelIndexList selectedItems;
@@ -524,7 +520,6 @@ void ObservingList::slotNewSelection() {
             if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) {//If the image is present, show it!
                 ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
                 ui->ImagePreview->show();
-                ui->ExpandImage->show();
             }
 
         } else {
@@ -1176,7 +1171,6 @@ void ObservingList::slotGetImage( bool _dss ) {
     dss = _dss;
     ui->GetImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
-    ui->ExpandImage->hide();
     if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) 
         setCurrentImage( currentObject(), true );
     QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
@@ -1197,7 +1191,6 @@ void ObservingList::downloadReady() {
         ui->GetImage->setEnabled( true );
         ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
         ui->ImagePreview->show();
-        ui->ExpandImage->show();
         if( CurrentImage.contains( "Temp" ) )
             ImageList.append( CurrentImage );
     } 
@@ -1298,4 +1291,9 @@ void ObservingList::setSaveImages() {
     }
 }
 
+bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
+    if( obj == ui->ImagePreview )
+        if( event->type() == QEvent::MouseButtonRelease )
+            slotImageViewer();
+}
 #include "observinglist.moc"

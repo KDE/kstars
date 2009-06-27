@@ -152,6 +152,8 @@ public:
         */
     void saveImage( KUrl url, QString filename );
 
+    bool eventFilter( QObject *obj, QEvent *event );
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
