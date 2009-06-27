@@ -48,6 +48,7 @@
 #include "obslistwizard.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksutils.h"
 #include "dialogs/locationdialog.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
@@ -518,11 +519,16 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->clear();
                 ui->NotesEdit->setEnabled( false );
             }
+            QFile file;
             if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) {//If the image is present, show it!
-                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
+                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
                 ui->ImagePreview->show();
             } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
-                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata","Temp_" + CurrentImage ) ));
+                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata","Temp_" + CurrentImage ) ) );
+                ui->ImagePreview->show();
+            } else if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
+                file.close();
+                ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
                 ui->ImagePreview->show();
             }
         } else {
@@ -1301,6 +1307,11 @@ void ObservingList::setSaveImages() {
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview )
         if( event->type() == QEvent::MouseButtonRelease )
-            slotImageViewer();
+            if( ! currentObject()->isSolarSystem() ) {
+                if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) )
+                    slotGetImage();
+                else
+                    slotImageViewer();
+            }
 }
 #include "observinglist.moc"
