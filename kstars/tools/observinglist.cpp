@@ -492,7 +492,7 @@ void ObservingList::slotNewSelection() {
             plot( o );
             //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
-            if( ! o->isSolarSystem() )
+            if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
                 ui->GetImage->setEnabled( true );//Enable anyway for updating the image
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
@@ -1177,6 +1177,8 @@ void ObservingList::slotGetImage( bool _dss ) {
     ui->GetImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
     ui->ExpandImage->hide();
+    if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) 
+        setCurrentImage( currentObject(), true );
     QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
     KUrl url;
     if( dss ) {
@@ -1196,13 +1198,14 @@ void ObservingList::downloadReady() {
         ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
         ui->ImagePreview->show();
         ui->ExpandImage->show();
-        ImageList.append( CurrentImage );
+        if( CurrentImage.contains( "Temp" ) )
+            ImageList.append( CurrentImage );
     } 
     else if( ! dss )
         slotGetImage( true );
 }  
 
-void ObservingList::setCurrentImage( SkyObject *o  ) {
+void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
     QString RAString, DecString, RA, Dec;
     RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0()->hour(), o->ra0()->minute(), o->ra0()->second() );
     decsgn = '+';
@@ -1213,9 +1216,15 @@ void ObservingList::setCurrentImage( SkyObject *o  ) {
     DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
     RA = RA.sprintf( "ra=%f", o->ra0()->Degrees() );
     Dec = Dec.sprintf( "&dec=%f", o->dec0()->Degrees() );
-    CurrentImage = "Image_" +  o->name().remove(' ');
+    if( temp )
+        CurrentImage = "Temp_Image_" +  o->name().remove(' ');
+    else
+        CurrentImage = "Image_" +  o->name().remove(' ');
     if( o->name() == "star" ) {
-        CurrentImage = "Image" + RAString + DecString;
+        if( temp )
+            CurrentImage = "Temp_Image" + RAString + DecString;
+        else
+            CurrentImage = "Image" + RAString + DecString;
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
     QString UrlPrefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
@@ -1230,24 +1239,36 @@ void ObservingList::slotSaveImages() {
     if( sessionView ) {
         foreach( SkyObject *o, SessionList() ) {
             setCurrentImage( o );
-            KUrl url( SDSSUrl );
             QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-            if(  KIO::NetAccess::download( url, img, mainWidget() ) )
-                if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
-                    url = KUrl( DSSUrl );
-                    KIO::NetAccess::download( url, img, mainWidget() );
+            KUrl url( SDSSUrl );
+            if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+                if(  KIO::NetAccess::download( url, img, mainWidget() ) ) {
+                    if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
+                        url = KUrl( DSSUrl );
+                        KIO::NetAccess::download( url, img, mainWidget() );
+                    }
                 }
+            } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+                QFile f( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
+                f.rename( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+            }
         }
     } else {
         foreach( SkyObject *o, obsList() ) {
             setCurrentImage( o );
-            KUrl url( SDSSUrl );
             QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-            if(  KIO::NetAccess::download( url, img, mainWidget() ) )
-                if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
-                    url = KUrl( DSSUrl );
-                    KIO::NetAccess::download( url, img, mainWidget() );
+            KUrl url( SDSSUrl );
+            if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+                if(  KIO::NetAccess::download( url, img, mainWidget() ) ) {
+                    if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
+                        url = KUrl( DSSUrl );
+                        KIO::NetAccess::download( url, img, mainWidget() );
+                    }
                 }
+            } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+                QFile f( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
+                f.rename( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+            }
         }
     }
 }
@@ -1260,14 +1281,14 @@ void ObservingList::slotImageViewer() {
 
 void ObservingList::slotDeleteImages() {
     ui->ImagePreview->clearPreview();
-    QDirIterator it( KStandardDirs::locateLocal( "appdata", "" ) );
-    while( it.hasNext() )
+    QDirIterator iterator( KStandardDirs::locateLocal( "appdata", "" ) );
+    while( iterator.hasNext() )
     {
-        if( it.fileName().contains( "Image" ) && ( ! it.fileName().contains( "dat" ) ) && ( ! it.fileName().contains( "obslist" ) ) ) {
-            QFile file( it.filePath() );
+        if( iterator.fileName().contains( "Image" ) && ( ! iterator.fileName().contains( "dat" ) ) && ( ! iterator.fileName().contains( "obslist" ) ) ) {
+            QFile file( iterator.filePath() );
             file.remove();
         }
-        it.next();
+        iterator.next();
     }
 }
 

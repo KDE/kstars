@@ -132,8 +132,9 @@ public:
 
     /**@short Sets the image parameters for the current object
         *@p o The passed object for setting the parameters
+        *@p temp A flag to edit the name for temporary images
         */
-    void setCurrentImage( SkyObject *o );
+    void setCurrentImage( SkyObject *o, bool temp = false );
 
     /**@short Save the user log text to a file.
         *@note the log is attached to the current object in obsList.
