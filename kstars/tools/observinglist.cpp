@@ -492,7 +492,8 @@ void ObservingList::slotNewSelection() {
             plot( o );
             //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
-            ui->GetImage->setEnabled( true );//Enable anyway for updating the image
+            if( ! o->isSolarSystem() )
+                ui->GetImage->setEnabled( true );//Enable anyway for updating the image
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
                 //First, save the last object's user log to disk, if necessary
