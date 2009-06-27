@@ -145,6 +145,13 @@ public:
         */
     void setSaveImages();
 
+    /**@short saves the image syncronously from a given URL into a given file
+        *@p url the url from whih the image has to be downloaded
+        *@p filename the file onto which the url has to be copied to
+        *NOTE: This is not a generic image saver, it is specific to the current object
+        */
+    void saveImage( KUrl url, QString filename );
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
@@ -256,7 +263,7 @@ public slots:
         */
     void slotGetImage( bool _dss = false );
 
-    /*8@short Downloads the images of all the objects in the session list
+    /**@short Downloads the images of all the objects in the session list
         *Note: This downloads the SDSS image, checks if the size is > default image
         *and gets the DSS image if thats the case
         */

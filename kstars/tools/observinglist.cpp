@@ -1241,38 +1241,33 @@ void ObservingList::slotSaveImages() {
             setCurrentImage( o );
             QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
             KUrl url( SDSSUrl );
-            if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
-                if(  KIO::NetAccess::download( url, img, mainWidget() ) ) {
-                    if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
-                        url = KUrl( DSSUrl );
-                        KIO::NetAccess::download( url, img, mainWidget() );
-                    }
-                }
-            } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
-                QFile f( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
-                f.rename( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-            }
+            if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
+                saveImage( url, img );
         }
     } else {
         foreach( SkyObject *o, obsList() ) {
             setCurrentImage( o );
             QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
             KUrl url( SDSSUrl );
-            if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
-                if(  KIO::NetAccess::download( url, img, mainWidget() ) ) {
-                    if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
-                        url = KUrl( DSSUrl );
-                        KIO::NetAccess::download( url, img, mainWidget() );
-                    }
-                }
-            } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
-                QFile f( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
-                f.rename( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-            }
+            if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
+                saveImage( url, img );
         }
     }
 }
 
+void ObservingList::saveImage( KUrl url, QString filename ) {
+    if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+        if(  KIO::NetAccess::download( url, filename, mainWidget() ) ) {
+            if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
+                url = KUrl( DSSUrl );
+                KIO::NetAccess::download( url, filename, mainWidget() );
+            }
+        }
+    } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+        QFile f( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
+        f.rename( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+    }
+}
 void ObservingList::slotImageViewer() {
     ImageViewer *iv = new ImageViewer( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
     ivList.append( iv );
