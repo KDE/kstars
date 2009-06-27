@@ -521,8 +521,10 @@ void ObservingList::slotNewSelection() {
             if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) {//If the image is present, show it!
                 ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ));
                 ui->ImagePreview->show();
+            } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+                ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata","Temp_" + CurrentImage ) ));
+                ui->ImagePreview->show();
             }
-
         } else {
             kDebug() << i18n( "Object %1 not found in list.", newName );
         } 
@@ -1263,7 +1265,11 @@ void ObservingList::saveImage( KUrl url, QString filename ) {
     }
 }
 void ObservingList::slotImageViewer() {
-    ImageViewer *iv = new ImageViewer( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+    ImageViewer *iv;
+    if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )
+        iv = new ImageViewer( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+    else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) )
+        iv = new ImageViewer( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
     ivList.append( iv );
     iv->show();
 }
