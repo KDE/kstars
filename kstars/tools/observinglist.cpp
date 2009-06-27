@@ -202,6 +202,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->ExpandImage->hide();
 
     slotLoadWishList(); //Load the wishlist from disk if present
+    setSaveImages();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
 //    ui->MiniButton->hide();
 }
@@ -240,7 +241,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if (  - 30.0 < obj->mag() && obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
 
     SkyPoint p = obj->recomputeCoords( dt, geo );
- 
+
     //Insert object in the Wish List
     if( addToWishList  ) {
         m_ObservingList.append( obj );
@@ -293,10 +294,10 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //Adding an object should trigger the modified flag
         if ( ! isModified ) isModified = true;
         ui->SessionView->resizeColumnsToContents();
-        ui->saveImages->setEnabled( sessionView );
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to session list.", obj->name() ), 0 );
     }
+    setSaveImages();
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) {
@@ -431,6 +432,7 @@ void ObservingList::slotRemoveSelectedObjects() {
         //we've removed all selected objects, so clear the selection
         ui->TableView->selectionModel()->clear();
     }
+    setSaveImages();
 }
 
 void ObservingList::slotNewSelection() {
@@ -1118,13 +1120,13 @@ void ObservingList::slotChangeTab(int index) {
     ui->SetTime->setEnabled( false );
     ui->GetImage->setEnabled( false );
     m_CurrentObject = 0;
-    if( index )
+    if( index ) {
         sessionView = true;
-    else
+    } else {
         sessionView = false;
+    }
+    setSaveImages();
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
-    if( ! SessionList().isEmpty() )
-        ui->saveImages->setEnabled( sessionView );
     //Clear the selection in the Tables
     ui->TableView->clearSelection();
     ui->SessionView->clearSelection();
@@ -1224,15 +1226,28 @@ void ObservingList::setCurrentImage( SkyObject *o  ) {
 }
 
 void ObservingList::slotSaveImages() {
-    foreach( SkyObject *o, SessionList() ) {
-        setCurrentImage( o );
-        KUrl url( SDSSUrl );
-        QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-        if(  KIO::NetAccess::download( url, img, mainWidget() ) )
-            if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
-                url = KUrl( DSSUrl );
-                KIO::NetAccess::download( url, img, mainWidget() );
-            }
+    if( sessionView ) {
+        foreach( SkyObject *o, SessionList() ) {
+            setCurrentImage( o );
+            KUrl url( SDSSUrl );
+            QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+            if(  KIO::NetAccess::download( url, img, mainWidget() ) )
+                if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
+                    url = KUrl( DSSUrl );
+                    KIO::NetAccess::download( url, img, mainWidget() );
+                }
+        }
+    } else {
+        foreach( SkyObject *o, obsList() ) {
+            setCurrentImage( o );
+            KUrl url( SDSSUrl );
+            QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+            if(  KIO::NetAccess::download( url, img, mainWidget() ) )
+                if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
+                    url = KUrl( DSSUrl );
+                    KIO::NetAccess::download( url, img, mainWidget() );
+                }
+        }
     }
 }
 
@@ -1254,4 +1269,16 @@ void ObservingList::slotDeleteImages() {
         it.next();
     }
 }
+
+void ObservingList::setSaveImages() {
+    ui->saveImages->setEnabled( false );
+    if( sessionView ) {
+        if( ! SessionList().isEmpty() )
+            ui->saveImages->setEnabled( true );
+    } else {
+        if( ! obsList().isEmpty() )
+            ui->saveImages->setEnabled( true );
+    }
+}
+
 #include "observinglist.moc"

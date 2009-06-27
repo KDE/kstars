@@ -140,6 +140,10 @@ public:
         */
     void saveCurrentUserLog();
 
+    /**@short decides on whether to enable the SaveImages button or not
+        */
+    void setSaveImages();
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
