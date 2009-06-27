@@ -102,6 +102,8 @@ private slots:
         */
     void slotChangeMagnitude();
 
+    void updateMag();
+
 private:
 
     KStars *kstars;
@@ -128,6 +130,7 @@ private:
     GeoLocation *geo;
     int EveningFlag;
     double m_Mag;
+    QTimer *timer;
 
     QStringList m_Categories;
     QHash< QString, QList< SkyObject* > > m_VisibleList;

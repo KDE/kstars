@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>458</width>
-    <height>518</height>
+    <height>520</height>
    </rect>
   </property>
   <layout class="QVBoxLayout">
@@ -159,13 +159,6 @@
          </property>
          <property name="maximum">
           <double>30.000000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="MagnitudeUpdate">
-         <property name="text">
-          <string>Update</string>
          </property>
         </widget>
        </item>

@@ -43,7 +43,8 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
 }
 
 WUTDialog::WUTDialog( KStars *ks, bool _session ) :
-        KDialog( (QWidget*)ks ), kstars(ks), EveningFlag(0)
+        KDialog( (QWidget*)ks ), kstars(ks), EveningFlag(0),
+        timer(NULL)
 {
 
     WUT = new WUTDialogUI( this );
@@ -103,7 +104,7 @@ void WUTDialog::makeConnections() {
     connect( WUT->ObjectListWidget, SIGNAL( currentTextChanged(const QString &) ),
              SLOT( slotDisplayObject(const QString &) ) );
     connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
-    connect( WUT->MagnitudeUpdate, SIGNAL( clicked() ), SLOT( slotChangeMagnitude() ) );
+    connect( WUT->MagnitudeEdit, SIGNAL( valueChanged( double ) ), SLOT( slotChangeMagnitude() ) );
 }
 
 void WUTDialog::initCategories() {
@@ -514,9 +515,20 @@ void WUTDialog::slotEveningMorning( int index ) {
     }
 }
 
-void WUTDialog::slotChangeMagnitude() {
+void WUTDialog::updateMag() {
     m_Mag = WUT->MagnitudeEdit->value();
     init();
     slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
+}
+
+void WUTDialog::slotChangeMagnitude() {
+    if( timer ) {
+        timer->stop();
+    } else {
+        timer = new QTimer( this );
+        timer->setSingleShot( true );
+        connect( timer, SIGNAL( timeout() ), this, SLOT( updateMag() ) );
+    }
+    timer->start( 500 );
 }
 #include "wutdialog.moc"
