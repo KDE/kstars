@@ -126,6 +126,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->DateEdit->setDate(dt.date());
     ui->SetLocation->setText( geo -> fullName() );
     ui->ImagePreview->installEventFilter( this );
+    ui->ImagePreview->hide();
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
