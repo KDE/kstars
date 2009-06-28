@@ -847,7 +847,7 @@ void ObservingList::slotOpenList() {
         QStringList fields = line.split( '|' ); 
         geo = ks->data()->locationNamed( fields[0], fields[1], fields[2] );
         ui->SetLocation -> setText( geo -> fullName() );
-        dt.setDate( QDate::fromString( fields[3], "dMyyyy" ) );
+        dt.setDate( QDate::fromString( fields[3], "ddMMyyyy" ) );
         ui->DateEdit->setDate( dt.date() );
         while ( ! istream.atEnd() ) {
             line = istream.readLine();
@@ -979,7 +979,7 @@ void ObservingList::slotSaveSession() {
     }
     QTextStream ostream( &f );
     ostream << SessionName << endl;
-    ostream << geo->name() << "|" <<geo->province() << "|" << geo->country() << "|" << dt.date().toString("dMyyyy") << endl;
+    ostream << geo->name() << "|" <<geo->province() << "|" << geo->country() << "|" << dt.date().toString("ddMMyyyy") << endl;
     foreach ( SkyObject* o, SessionList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra0()->Hours() << "  " << o->dec0()->Degrees() << endl;
