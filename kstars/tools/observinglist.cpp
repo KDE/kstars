@@ -1223,6 +1223,7 @@ void ObservingList::downloadReady() {
     downloadJob = 0;
     if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 13000 ) {//The default image is around 8689 bytes
         ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
+        saveThumbImage();
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
         if( CurrentImage.contains( "Temp" ) ) {
@@ -1250,6 +1251,7 @@ void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
         CurrentImage = "Temp_Image_" +  o->name().remove(' ');
     else
         CurrentImage = "Image_" +  o->name().remove(' ');
+    ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
     if( o->name() == "star" ) {
         if( temp )
             CurrentImage = "Temp_Image" + RAString + DecString;
@@ -1300,6 +1302,7 @@ void ObservingList::saveImage( KUrl url, QString filename ) {
                 url = KUrl( DSSUrl );
                 KIO::NetAccess::download( url, filename, mainWidget() );
             }
+            saveThumbImage();
         }
     } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
         QFile f( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
@@ -1379,6 +1382,7 @@ void ObservingList::slotGoogleImage() {
         if ( tp->imageFound() ) {
             tp->image()->save( f.fileName(), "PNG" ); 
             ui->ImagePreview->showPreview( KUrl( f.fileName() ) );
+            saveThumbImage();
             slotNewSelection();
         }
     }
@@ -1390,4 +1394,13 @@ void ObservingList::slotDeleteImage() {
     QFile::remove( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
     slotNewSelection();
 }
+
+void ObservingList::saveThumbImage() {
+    if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", ThumbImage ) ) ) {
+        QImage img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+        img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+        img.save( KStandardDirs::locateLocal( "appdata", ThumbImage ) );
+    }
+}
+
 #include "observinglist.moc"

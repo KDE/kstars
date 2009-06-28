@@ -147,6 +147,8 @@ public:
 
     bool eventFilter( QObject *obj, QEvent *event );
 
+    void saveThumbImage();
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
@@ -301,7 +303,7 @@ private:
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
     bool isModified, bIsLarge, sessionView, dss;
-    QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl;
+    QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage;
     char decsgn;
     KStarsDateTime dt;
     GeoLocation *geo;
