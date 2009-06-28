@@ -520,13 +520,16 @@ void ObservingList::slotNewSelection() {
                 ui->NotesEdit->setEnabled( false );
             }
             QFile file;
-            if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) {//If the image is present, show it!
+            bool shownoimage = true;
+            if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 13000 ) {//If the image is present, show it!
                 ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
                 ui->ImagePreview->show();
-            } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+                shownoimage = false;
+            } else if( QFile( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ).size() > 13000 ) {
                 ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata","Temp_" + CurrentImage ) ) );
                 ui->ImagePreview->show();
-            } else if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
+                shownoimage = false;
+            } else if ( shownoimage && KSUtils::openDataFile( file, "noimage.png" ) ) {
                 file.close();
                 ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
                 ui->ImagePreview->show();
@@ -1196,7 +1199,7 @@ void ObservingList::slotGetImage( bool _dss ) {
 void ObservingList::downloadReady() {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
     downloadJob = 0;
-    if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 9000 ) {//The default image is around 8689 bytes
+    if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 13000 ) {//The default image is around 8689 bytes
         ui->GetImage->setEnabled( true );
         ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
         ui->ImagePreview->show();
@@ -1260,7 +1263,7 @@ void ObservingList::slotSaveImages() {
 void ObservingList::saveImage( KUrl url, QString filename ) {
     if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
         if(  KIO::NetAccess::download( url, filename, mainWidget() ) ) {
-            if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 9000 ) {//The default image is around 8689 bytes
+            if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 13000 ) {//The default image is around 8689 bytes
                 url = KUrl( DSSUrl );
                 KIO::NetAccess::download( url, filename, mainWidget() );
             }
@@ -1308,7 +1311,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview )
         if( event->type() == QEvent::MouseButtonRelease )
             if( ! currentObject()->isSolarSystem() ) {
-                if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) )
+                if( ! QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 13000 && ! QFile( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ).size() > 13000 )
                     slotGetImage();
                 else
                     slotImageViewer();
