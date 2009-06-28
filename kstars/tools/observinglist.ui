@@ -648,13 +648,6 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="ResetImage">
-         <property name="text">
-          <string>Reset Image</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="DeleteImage">
          <property name="text">
           <string>Delete</string>

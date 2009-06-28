@@ -177,8 +177,6 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotLocation() ) );
     connect( ui->Update, SIGNAL( clicked() ),
              this, SLOT( slotUpdate() ) );
-    connect( ui->ResetImage, SIGNAL( clicked() ),
-             this, SLOT( slotGetImage() ) );
     connect( ui->SaveImage, SIGNAL( clicked() ),
              this, SLOT( slotSaveImage() ) );
     connect( ui->DeleteImage, SIGNAL( clicked() ),
@@ -210,7 +208,6 @@ ObservingList::ObservingList( KStars *_ks )
     ui->AddToSession->setEnabled( false );
     ui->SetTime->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
-    ui->ResetImage->setEnabled( false );
     ui->GoogleImage->setEnabled( false );
     ui->saveImages->setEnabled( false );
     ui->SaveImage->setEnabled( false );
@@ -516,7 +513,6 @@ void ObservingList::slotNewSelection() {
             //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
             if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
-                ui->ResetImage->setEnabled( true );//Enable anyway for updating the image
             ui->GoogleImage->setEnabled( true );
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
@@ -574,7 +570,6 @@ void ObservingList::slotNewSelection() {
         m_CurrentObject = 0;
         ui->TimeEdit->setEnabled( false );
         ui->SetTime->setEnabled( false );
-        ui->ResetImage->setEnabled( false );
         ui->GoogleImage->setEnabled( false );
         //Clear the user log text box.
         saveCurrentUserLog();
@@ -592,7 +587,6 @@ void ObservingList::slotNewSelection() {
         ui->NotesEdit->setEnabled( false );
         ui->TimeEdit->setEnabled( false );
         ui->SetTime->setEnabled( false );
-        ui->ResetImage->setEnabled( false );
         ui->GoogleImage->setEnabled( false );
         m_CurrentObject = 0;
         //Clear the plot in the AVTPlotwidget
@@ -1151,7 +1145,6 @@ void ObservingList::slotChangeTab(int index) {
     ui->AddToSession->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
     ui->SetTime->setEnabled( false );
-    ui->ResetImage->setEnabled( false );
     ui->GoogleImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
@@ -1209,7 +1202,6 @@ void ObservingList::slotSetTime() {
 
 void ObservingList::slotGetImage( bool _dss ) {
     dss = _dss;
-    ui->ResetImage->setEnabled( false );
     ui->GoogleImage->setEnabled( false );
     ui->ImagePreview->clearPreview();
     if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) ) 
@@ -1229,7 +1221,6 @@ void ObservingList::downloadReady() {
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically
     downloadJob = 0;
     if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() > 13000 ) {//The default image is around 8689 bytes
-        ui->ResetImage->setEnabled( true );
         ui->ImagePreview->showPreview( KUrl( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) );
         ui->ImagePreview->show();
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -1274,7 +1265,6 @@ void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
 }
 
 void ObservingList::slotSaveImages() {
-    ui->ResetImage->setEnabled( false );
     ui->GoogleImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
@@ -1335,7 +1325,6 @@ void ObservingList::slotImageViewer() {
 
 void ObservingList::slotDeleteImages() {
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
-    ui->ResetImage->setEnabled( false );
     ui->GoogleImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
