@@ -214,6 +214,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->DeleteImage->setEnabled( false );
 
     slotLoadWishList(); //Load the wishlist from disk if present
+    m_CurrentObject = 0;
     setSaveImages();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
 //    ui->MiniButton->hide();
