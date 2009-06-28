@@ -145,13 +145,6 @@ public:
         */
     void setSaveImages();
 
-    /**@short saves the image syncronously from a given URL into a given file
-        *@p url the url from whih the image has to be downloaded
-        *@p filename the file onto which the url has to be copied to
-        *NOTE: This is not a generic image saver, it is specific to the current object
-        */
-    void saveImage( KUrl url, QString filename );
-
     bool eventFilter( QObject *obj, QEvent *event );
 
 public slots:
@@ -265,15 +258,32 @@ public slots:
         */
     void slotGetImage( bool _dss = false );
 
+    void slotGoogleImage();
+
     /**@short Downloads the images of all the objects in the session list
         *Note: This downloads the SDSS image, checks if the size is > default image
         *and gets the DSS image if thats the case
         */
     void slotSaveImages();
+    
+    /**@short saves the image syncronously from a given URL into a given file
+        *@p url the url from whih the image has to be downloaded
+        *@p filename the file onto which the url has to be copied to
+        *NOTE: This is not a generic image saver, it is specific to the current object
+        */
+    void saveImage( KUrl url , QString filename );
+
+    /**@short saves the temporary image permanently
+        */
+    void slotSaveImage();
 
     /**@short Shows the image in a ImageViewer window.
         */
     void slotImageViewer();
+
+    /**@short Remove the current image
+        */
+    void slotDeleteImage();
 
     /**@short Removes all the save DSS/SDSS images from the disk.
         */

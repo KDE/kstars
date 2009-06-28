@@ -34,10 +34,12 @@ ThumbnailEditorUI::ThumbnailEditorUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 }
 
-ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp )
+ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h )
         : KDialog( _tp ),  tp( _tp )
 {
     ui = new ThumbnailEditorUI( this );
+    w = _w;
+    h = _h;
     setMainWidget( ui );
     setCaption( i18n( "Edit Thumbnail Image" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
@@ -60,7 +62,7 @@ ThumbnailEditor::~ThumbnailEditor()
 
 QPixmap ThumbnailEditor::thumbnail() {
     QImage im = ui->ImageCanvas->croppedImage().toImage();
-    im = im.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+    im = im.scaled( w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
     return QPixmap::fromImage( im );
 }
 

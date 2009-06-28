@@ -395,19 +395,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="GetImage">
-       <property name="toolTip">
-        <string>Download the SDSS/DSS image for the selected object</string>
-       </property>
-       <property name="whatsThis">
-        <string>This queries the SDSS image sever for the image of the selected object. It shows the DSS image if the object is out of the SDSS footprint</string>
-       </property>
-       <property name="text">
-        <string>Get Image</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="saveImages">
        <property name="toolTip">
         <string>Download the SDSS/DSS images of all the objects in the current list.</string>
@@ -640,6 +627,41 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="rightMargin">
+        <number>12</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="SaveImage">
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="GoogleImage">
+         <property name="text">
+          <string>Google Image</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="ResetImage">
+         <property name="text">
+          <string>Reset Image</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="DeleteImage">
+         <property name="text">
+          <string>Delete</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
