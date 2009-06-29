@@ -643,7 +643,7 @@
        <item>
         <widget class="QPushButton" name="GoogleImage">
          <property name="text">
-          <string>Google Image</string>
+          <string>Find Image</string>
          </property>
         </widget>
        </item>
