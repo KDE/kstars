@@ -303,7 +303,7 @@ private:
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
     bool isModified, bIsLarge, sessionView, dss;
-    QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage;
+    QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     char decsgn;
     KStarsDateTime dt;
     GeoLocation *geo;

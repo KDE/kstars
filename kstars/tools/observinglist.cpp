@@ -1259,6 +1259,8 @@ void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
             CurrentImage = "Image" + RAString + DecString;
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
+    CurrentImagePath = KStandardDirs::locateLocal( "appdata" , CurrentImage );
+    CurrentTempPath = KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage );
     QString UrlPrefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
     QString UrlSuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
     DSSUrl = UrlPrefix + "&r=" + RAString + "&d=" + DecString + UrlSuffix;
@@ -1279,7 +1281,7 @@ void ObservingList::slotSaveImages() {
     if( sessionView ) {
         foreach( SkyObject *o, SessionList() ) {
             setCurrentImage( o );
-            QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+            QString img( CurrentImagePath  );
             KUrl url( SDSSUrl );
             if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
                 saveImage( url, img );
@@ -1287,7 +1289,7 @@ void ObservingList::slotSaveImages() {
     } else {
         foreach( SkyObject *o, obsList() ) {
             setCurrentImage( o );
-            QString img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+            QString img( CurrentImagePath  );
             KUrl url( SDSSUrl );
             if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
                 saveImage( url, img );
@@ -1296,33 +1298,33 @@ void ObservingList::slotSaveImages() {
 }
 
 void ObservingList::saveImage( KUrl url, QString filename ) {
-    if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) && ! QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
+    if( ! QFile::exists( CurrentImagePath  ) && ! QFile::exists( CurrentTempPath ) ) {
         if(  KIO::NetAccess::download( url, filename, mainWidget() ) ) {
-            if( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 13000 ) {//The default image is around 8689 bytes
+            if( QFile( CurrentImagePath ).size() < 13000 ) {//The default image is around 8689 bytes
                 url = KUrl( DSSUrl );
                 KIO::NetAccess::download( url, filename, mainWidget() );
             }
             saveThumbImage();
         }
-    } else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) ) {
-        QFile f( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
-        f.rename( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+    } else if( QFile::exists( CurrentTempPath ) ) {
+        QFile f( CurrentTempPath );
+        f.rename( CurrentImagePath );
     }
 }
 
 void ObservingList::slotSaveImage() {
     setCurrentImage( currentObject() );
-    QFile f( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
-    f.rename( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+    QFile f( CurrentTempPath);
+    f.rename( CurrentImagePath );
     ui->SaveImage->setEnabled( false );
 }  
 
 void ObservingList::slotImageViewer() {
     ImageViewer *iv;
-    if( QFile::exists( KStandardDirs::locateLocal( "appdata", CurrentImage ) ) )
-        iv = new ImageViewer( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-    else if( QFile::exists( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ) )
-        iv = new ImageViewer( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
+    if( QFile::exists( CurrentImagePath ) )
+        iv = new ImageViewer( CurrentImagePath );
+    else if( QFile::exists( CurrentTempPath ) )
+        iv = new ImageViewer( CurrentTempPath );
     ivList.append( iv );
     iv->show();
 }
@@ -1363,7 +1365,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview )
         if( event->type() == QEvent::MouseButtonRelease )
             if( currentObject() ) {
-                if( ( ( QFile( KStandardDirs::locateLocal( "appdata", CurrentImage ) ).size() < 13000 ) && (  QFile( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) ).size() < 13000 ) ) ) {
+                if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) {
                     if( ! currentObject()->isSolarSystem() )
                         slotGetImage();
                 }
@@ -1376,7 +1378,7 @@ void ObservingList::slotGoogleImage() {
     QPixmap *pm = new QPixmap;
     QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, "Image Chooser" );
     if ( tp->exec() == QDialog::Accepted ) {
-        QFile f( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+        QFile f( CurrentImagePath );
 
         //If a real image was set, save it.
         if ( tp->imageFound() ) {
@@ -1390,14 +1392,14 @@ void ObservingList::slotGoogleImage() {
 }
 
 void ObservingList::slotDeleteImage() {
-    QFile::remove( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
-    QFile::remove( KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ) );
+    QFile::remove( CurrentImagePath );
+    QFile::remove( CurrentTempPath );
     slotNewSelection();
 }
 
 void ObservingList::saveThumbImage() {
     if( ! QFile::exists( KStandardDirs::locateLocal( "appdata", ThumbImage ) ) ) {
-        QImage img( KStandardDirs::locateLocal( "appdata", CurrentImage ) );
+        QImage img( CurrentImagePath );
         img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
         img.save( KStandardDirs::locateLocal( "appdata", ThumbImage ) );
     }
