@@ -40,6 +40,7 @@ ThumbnailEditor::ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h )
     ui = new ThumbnailEditorUI( this );
     w = _w;
     h = _h;
+    ui->MessageLabel->setText( i18n( "Crop region will be scaled to [ %1 * %2 ]", w, h) );
     setMainWidget( ui );
     setCaption( i18n( "Edit Thumbnail Image" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
