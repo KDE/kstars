@@ -1367,6 +1367,8 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
                 if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) {
                     if( ! currentObject()->isSolarSystem() )
                         slotGetImage();
+                    else
+                        slotGoogleImage();
                 }
                 else
                     slotImageViewer();
