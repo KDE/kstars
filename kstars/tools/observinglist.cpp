@@ -513,7 +513,6 @@ void ObservingList::slotNewSelection() {
             plot( o );
             //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
-            if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
             ui->GoogleImage->setEnabled( true );
             if ( newName != i18n( "star" ) ) {
                 //Display the current object's user notes in the NotesEdit
