@@ -44,6 +44,7 @@ LCGenerator::LCGenerator( QWidget* parent)
 
     lcg->AverageDayBox->setMinimum( 1 );
     lcg->AverageDayBox->setValue( 1 );
+    lcg->AverageDayBox->setSuffix(ki18np(" day", " days"));
 
     setModal( false );
     setWindowTitle(i18n( "AAVSO Light Curve Generator" ));
