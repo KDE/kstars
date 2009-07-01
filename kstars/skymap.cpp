@@ -1664,8 +1664,8 @@ void SkyMap::setDefaultMouseCursor()
     p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
     p.end();
 
-    cursorPix.setMask( mask );  // set the mask
-    QCursor cursor( cursorPix );
+    //cursorPix.setMask( mask );  // set the mask
+    QCursor cursor( cursorPix, mask );
     setCursor( cursor );
 }
 
