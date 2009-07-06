@@ -30,7 +30,8 @@ class QLabel;
 /**@class ObsListPopupMenu
 	*The Popup Menu for the observing list in KStars. The menu is sensitive to the 
 	*type of selection in the observing list.
-    *Author Prakash Mohan, v1.0
+    *@author Prakash Mohan
+    *@version 1.0
 	*/
 class ObsListPopupMenu : public KMenu
 {
