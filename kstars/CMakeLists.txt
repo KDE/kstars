@@ -301,7 +301,7 @@ set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp infobox.cpp infoboxes.cpp 
 	ksfilereader.cpp ksnumbers.cpp
-	kspopupmenu.cpp kstars.cpp ksalmanac.cpp 
+	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp

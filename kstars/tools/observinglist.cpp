@@ -60,6 +60,7 @@
 #include "Options.h"
 #include "imageviewer.h"
 #include "thumbnailpicker.h"
+#include "obslistpopupmenu.h"
 
 #include <config-kstars.h>
 
@@ -95,6 +96,7 @@ ObservingList::ObservingList( KStars *_ks )
     dt = KStarsDateTime::currentDateTime();
     geo = ks->geo();
     sessionView = false;
+    pmenu = new ObsListPopupMenu( KStars::Instance() );
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Session = new QStandardItemModel( 0, 5 );
@@ -128,6 +130,8 @@ ObservingList::ObservingList( KStars *_ks )
     ui->DateEdit->setDate(dt.date());
     ui->SetLocation->setText( geo -> fullName() );
     ui->ImagePreview->installEventFilter( this );
+    ui->TableView->viewport()->installEventFilter( this );
+    ui->SessionView->viewport()->installEventFilter( this );
     QFile file;
     if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
        file.close();
@@ -144,21 +148,6 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->SessionView->selectionModel(), 
             SIGNAL( selectionChanged(const QItemSelection&, const QItemSelection&) ),
             this, SLOT( slotNewSelection() ) );
-    connect( ui->RemoveButton, SIGNAL( clicked() ),
-             this, SLOT( slotRemoveSelectedObjects() ) );
-    connect( ui->CenterButton, SIGNAL( clicked() ),
-             this, SLOT( slotCenterObject() ) );
-    connect( ui->AddToSession, SIGNAL( clicked() ),
-             this, SLOT( slotAddToSession() ) );
-    #ifdef HAVE_INDI_H
-    connect( ui->ScopeButton, SIGNAL( clicked() ),
-             this, SLOT( slotSlewToObject() ) );
-    #endif
-
-    connect( ui->DetailsButton, SIGNAL( clicked() ),
-             this, SLOT( slotDetails() ) );
-    connect( ui->AVTButton, SIGNAL( clicked() ),
-             this, SLOT( slotAVT() ) );
     connect( ui->WUTButton, SIGNAL( clicked() ),
              this, SLOT( slotWUT() ) );
     connect( ui->FindButton, SIGNAL( clicked() ),
@@ -197,15 +186,10 @@ ObservingList::ObservingList( KStars *_ks )
     ui->SaveAsButton->setIcon( KIcon("document-save-as") );
     ui->WizardButton->setIcon( KIcon("games-solve") ); //is there a better icon for this button?
     ui->MiniButton->setIcon( KIcon("view-restore") );
-
-    ui->CenterButton->setEnabled( false );
-    ui->ScopeButton->setEnabled( false );
-    ui->DetailsButton->setEnabled( false );
-    ui->AVTButton->setEnabled( false );
-    ui->RemoveButton->setEnabled( false );
+    noSelection = true;
+    showScope = false;
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
-    ui->AddToSession->setEnabled( false );
     ui->SetTime->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
     ui->GoogleImage->setEnabled( false );
@@ -449,7 +433,10 @@ void ObservingList::slotRemoveSelectedObjects() {
 }
 
 void ObservingList::slotNewSelection() {
-    bool singleSelection = false, found = false;
+    bool found = false;
+    singleSelection = false;
+    noSelection = false;
+    showScope = false;
     ui->ImagePreview->clearPreview();
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
     QFile file;
@@ -465,7 +452,6 @@ void ObservingList::slotNewSelection() {
     ui->DeleteImage->setEnabled( false );
     if( sessionView ) {
         selectedItems = m_SortModelSession->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
-        ui->AddToSession->setEnabled( false );
         //When one object is selected
         if ( selectedItems.size() == m_Session->columnCount() ) {
             newName = selectedItems[0].data().toString();
@@ -486,7 +472,6 @@ void ObservingList::slotNewSelection() {
         if ( selectedItems.size() == m_Model->columnCount() ) {
             newName = selectedItems[0].data().toString();
             singleSelection = true;
-            ui->AddToSession->setEnabled( true );
             //Find the selected object in the obsList,
             //then break the loop.  Now obsList.current()
             //points to the new selected object (until now it was the previous object)
@@ -501,15 +486,12 @@ void ObservingList::slotNewSelection() {
     if( singleSelection ) {
         //Enable buttons
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
-        ui->CenterButton->setEnabled( true );
         #ifdef HAVE_INDI_H
-            ui->ScopeButton->setEnabled( true );
+            showScope = true;
         #endif
-        ui->DetailsButton->setEnabled( true );
-        ui->AVTButton->setEnabled( true );
-        ui->RemoveButton->setEnabled( true );
         if ( found ) {
             m_CurrentObject = o;
+            QPoint pos(0,0);
             plot( o );
             //Change the CurrentImage, DSS/SDSS Url to correspond to the new object
             setCurrentImage( o );
@@ -558,15 +540,10 @@ void ObservingList::slotNewSelection() {
         } 
     } else if ( selectedItems.size() == 0 ) {//Nothing selected
         //Disable buttons
-        ui->CenterButton->setEnabled( false );
-        ui->ScopeButton->setEnabled( false );
-        ui->DetailsButton->setEnabled( false );
-        ui->AVTButton->setEnabled( false );
-        ui->RemoveButton->setEnabled( false );
+        noSelection = true;
         ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
-        ui->AddToSession->setEnabled( false );
         m_CurrentObject = 0;
         ui->TimeEdit->setEnabled( false );
         ui->SetTime->setEnabled( false );
@@ -577,11 +554,6 @@ void ObservingList::slotNewSelection() {
         //Clear the plot in the AVTPlotwidget
         ui->View->removeAllPlotObjects();
     } else { //more than one object selected.
-        ui->CenterButton->setEnabled( false );
-        ui->ScopeButton->setEnabled( false );
-        ui->DetailsButton->setEnabled( false );
-        ui->AVTButton->setEnabled( true );
-        ui->RemoveButton->setEnabled( true );
         ui->NotesLabel->setText( i18n( "Select a single object to record notes on it here:" ) );
         ui->NotesLabel->setEnabled( false );
         ui->NotesEdit->setEnabled( false );
@@ -591,8 +563,6 @@ void ObservingList::slotNewSelection() {
         m_CurrentObject = 0;
         //Clear the plot in the AVTPlotwidget
         ui->View->removeAllPlotObjects();
-        if( ! sessionView )
-            ui->AddToSession->setEnabled( true );
         //Clear the user log text box.
         saveCurrentUserLog();
         ui->NotesEdit->setPlainText("");
@@ -1073,12 +1043,6 @@ void ObservingList::slotToggleSize() {
     if ( isLarge() ) {
         ui->MiniButton->setIcon( KIcon("view-fullscreen") );
         //Abbreviate text on each button
-        ui->CenterButton->setText( i18nc( "First letter in 'Center'", "C" ) );
-        ui->ScopeButton->setText( i18nc( "First letter in 'Scope'", "S" ) );
-        ui->DetailsButton->setText( i18nc( "First letter in 'Details'", "D" ) );
-        ui->AVTButton->setText( i18nc( "First letter in 'Alt vs Time'", "A" ) );
-        ui->RemoveButton->setText( i18nc( "First letter in 'Remove'", "R" ) );
-        ui->WUTButton->setText( i18nc( "First letter in 'WUT'", "W" ) );
         ui->FindButton->setText( i18nc( "First letter in 'Find'", "F" ) );
         //Hide columns 1-5
         ui->TableView->hideColumn(1);
@@ -1116,11 +1080,6 @@ void ObservingList::slotToggleSize() {
         //Show the horizontal header
         ui->TableView->horizontalHeader()->show();
         //Expand text on each button
-        ui->CenterButton->setText( i18n( "Center" ) );
-        ui->ScopeButton->setText( i18n( "Scope" ) );
-        ui->DetailsButton->setText( i18n( "Details" ) );
-        ui->AVTButton->setText( i18n( "Alt vs Time" ) );
-        ui->RemoveButton->setText( i18n( "Remove" ) );
         ui->WUTButton->setText( i18n( "WUT") );
         ui->FindButton->setText( i18n( "Find &amp;Object") );
         //Show Observing notes
@@ -1133,16 +1092,11 @@ void ObservingList::slotToggleSize() {
 }
 
 void ObservingList::slotChangeTab(int index) {
-    ui->CenterButton->setEnabled( false );
-    ui->ScopeButton->setEnabled( false );
-    ui->DetailsButton->setEnabled( false );
-    ui->AVTButton->setEnabled( false );
-    ui->RemoveButton->setEnabled( false );
+    noSelection = true;
     saveCurrentUserLog();
     ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
     ui->NotesLabel->setEnabled( false );
     ui->NotesEdit->setEnabled( false );
-    ui->AddToSession->setEnabled( false );
     ui->TimeEdit->setEnabled( false );
     ui->SetTime->setEnabled( false );
     ui->GoogleImage->setEnabled( false );
@@ -1361,8 +1315,8 @@ void ObservingList::setSaveImages() {
 }
 
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
-    if( obj == ui->ImagePreview )
-        if( event->type() == QEvent::MouseButtonRelease )
+    if( obj == ui->ImagePreview ) {
+        if( event->type() == QEvent::MouseButtonRelease ) {
             if( currentObject() ) {
                 if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) {
                     if( ! currentObject()->isSolarSystem() )
@@ -1373,6 +1327,34 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
                 else
                     slotImageViewer();
             }
+        }
+    }
+    if( obj == ui->TableView->viewport() && ! noSelection ) {
+        if( event->type() == QEvent::MouseButtonRelease ) {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent* >(event);
+            if( mouseEvent->button() == Qt::RightButton ) {
+                QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
+                if( singleSelection )
+                    pmenu->initPopupMenu( true, true, true, showScope, true );
+                else
+                    pmenu->initPopupMenu( true, false, false, false, true );
+                pmenu->popup( pos );
+            }
+        }
+    }
+    if( obj == ui->SessionView->viewport() && ! noSelection ) {
+        if( event->type() == QEvent::MouseButtonRelease ) {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent* >(event);
+            if( mouseEvent->button() == Qt::RightButton ) {
+                QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
+                if( singleSelection )
+                    pmenu->initPopupMenu( false, true, true, showScope, true );
+                else
+                    pmenu->initPopupMenu( false, false, false, false, true );
+                pmenu->popup( pos );
+            }
+        }
+    }
 }
 
 void ObservingList::slotGoogleImage() {

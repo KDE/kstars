@@ -30,6 +30,7 @@
 #include "geolocation.h"
 #include "ksalmanac.h"
 #include "imageviewer.h"
+#include "obslistpopupmenu.h"
 
 class KSAlmanac;
 class QSortFilterProxyModel;
@@ -302,7 +303,7 @@ private:
     QList<SkyObject*> m_ObservingList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
-    bool isModified, bIsLarge, sessionView, dss;
+    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
     QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     char decsgn;
     KStarsDateTime dt;
@@ -313,6 +314,7 @@ private:
     QHash<QString, QTime> TimeHash; 
     QList<QString> ImageList;
     QList<ImageViewer*> ivList;
+    ObsListPopupMenu *pmenu; 
 };
 
 #endif // OBSERVINGLIST_H_
