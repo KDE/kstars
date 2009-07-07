@@ -216,23 +216,18 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     if ( ! obj ) obj = ks->map()->clickedObject();
 
     //First, make sure object is not already in the list
-    foreach ( SkyObject *o, obsList() ) {
-        if ( obj == o ) {
-            addToWishList = false;
-            if( ! session ) {
-                ks->statusBar()->changeItem( i18n( "%1 is already in the observing list.", obj->name() ), 0 );
-                return;
-            }
+    if ( obsList().contains( obj ) ) {
+        addToWishList = false;
+        if( ! session ) {
+            ks->statusBar()->changeItem( i18n( "%1 is already in your wishlist.", obj->name() ), 0 );
+            return;
         }
     }
 
-    if( session ) 
-        foreach ( SkyObject *o, SessionList() ) {
-            if ( obj == o ) {
-                ks->statusBar()->changeItem( i18n( "%1 is already in the session list.", obj->name() ), 0 );
-                return;
-            }
-        }
+    if ( session && SessionList().contains( obj ) ) { // TODO: Change method name from SessionList() to sessionList() to keep up with C++ conventions
+        ks->statusBar()->changeItem( i18n( "%1 is already in the session plan.", obj->name() ), 0 );
+        return;
+    }
     
     QString smag = "--";
     if (  - 30.0 < obj->mag() && obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
