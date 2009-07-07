@@ -292,6 +292,10 @@ public slots:
         */
     void slotDeleteImages();
 
+    /**@short download the DSS image and show it
+        */
+    void slotDSS() { slotGetImage( true ); }
+
 protected slots:
     void slotClose();
     void downloadReady();

@@ -45,7 +45,7 @@ public:
 
     /**Initialize the popup menus.
         */
-    void initPopupMenu( bool showAddToSession = false, bool showCenter = false, bool showDetails = false, bool showScope = false, bool showRemove = false, bool sessionView = false );
+    void initPopupMenu( bool showAddToSession = false, bool showCenter = false, bool showDetails = false, bool showScope = false, bool showRemove = false, bool showLinks = false, bool sessionView = false );
 
 private:
     KStars *ks;

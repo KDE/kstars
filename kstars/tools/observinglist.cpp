@@ -1337,6 +1337,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
                 else
                     slotImageViewer();
             }
+            return true;
         }
     }
     if( obj == ui->TableView->viewport() && ! noSelection ) {
@@ -1345,10 +1346,11 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             if( mouseEvent->button() == Qt::RightButton ) {
                 QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
                 if( singleSelection )
-                    pmenu->initPopupMenu( true, true, true, showScope, true );
+                    pmenu->initPopupMenu( true, true, true, showScope, true, true );
                 else
                     pmenu->initPopupMenu( true, false, false, false, true );
                 pmenu->popup( pos );
+                return true;
             }
         }
     }
@@ -1358,13 +1360,15 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             if( mouseEvent->button() == Qt::RightButton ) {
                 QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
                 if( singleSelection )
-                    pmenu->initPopupMenu( false, true, true, showScope, true, true );
+                    pmenu->initPopupMenu( false, true, true, showScope, true, true, true );
                 else
-                    pmenu->initPopupMenu( false, false, false, false, true, true );
+                    pmenu->initPopupMenu( false, false, false, false, true, false, true );
                 pmenu->popup( pos );
+                return true;
             }
         }
     }
+    return false;
 }
 
 void ObservingList::slotGoogleImage() {

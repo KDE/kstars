@@ -32,7 +32,7 @@ ObsListPopupMenu::ObsListPopupMenu( KStars *_ks )
 
 ObsListPopupMenu::~ObsListPopupMenu() { }
 
-void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bool showDetails, bool showScope, bool showRemove, bool sessionView ) {
+void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bool showDetails, bool showScope, bool showRemove, bool showLinks, bool sessionView ) {
 
     clear();
     //Insert item for adding the object to the session view
@@ -50,8 +50,15 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bo
     if( showDetails )
         addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->observingList(), SLOT( slotDetails() ) );
     //Insert item for opening the Altitude vs time dialog
-    addAction( i18n("Altitude vs. Time"), ks->observingList(), SLOT( slotAVT() ) );
+    addAction( i18n( "Altitude vs. Time" ), ks->observingList(), SLOT( slotAVT() ) );
     addSeparator();
+    //Insert item for dowloading different images
+    if( showLinks ) {
+        addAction( i18n( "Show SDSS image" ), ks->observingList(), SLOT( slotGetImage() ) );
+        addAction( i18n( "Show DSS image" ), ks->observingList(), SLOT( slotDSS() ) );
+        addAction( i18n( "Show images from web " ), ks->observingList(), SLOT( slotGoogleImage() ) );
+        addSeparator();
+    }
     //Insert item for Removing the object(s)
     if( showRemove ) {
         if( ! sessionView )
