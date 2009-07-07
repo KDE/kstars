@@ -18,7 +18,7 @@
 #ifndef TIMESPINBOX_H
 #define TIMESPINBOX_H
 
-#include <QSpinBox>
+#include <KNumInput>
 
 class QStringList;
 
@@ -29,7 +29,7 @@ class QStringList;
 	*@version 1.0
 	*/
 
-class TimeSpinBox : public QSpinBox  {
+class TimeSpinBox : public KIntSpinBox  {
     Q_OBJECT
 public:
     /**Constructor */

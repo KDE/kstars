@@ -216,10 +216,10 @@
              <item>
               <widget class="KIntSpinBox" name="kcfg_XplanetWaitValue">
                <property name="toolTip">
-                <string>Number of seconde to wait before updating</string>
+                <string>Number of seconds to wait before updating</string>
                </property>
                <property name="whatsThis">
-                <string>Number of seconde to wait before updating</string>
+                <string>Number of seconds to wait before updating</string>
                </property>
                <property name="maximum">
                 <number>99999</number>
