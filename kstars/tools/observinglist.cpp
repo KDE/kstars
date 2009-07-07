@@ -1348,9 +1348,9 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             if( mouseEvent->button() == Qt::RightButton ) {
                 QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
                 if( singleSelection )
-                    pmenu->initPopupMenu( false, true, true, showScope, true );
+                    pmenu->initPopupMenu( false, true, true, showScope, true, true );
                 else
-                    pmenu->initPopupMenu( false, false, false, false, true );
+                    pmenu->initPopupMenu( false, false, false, false, true, true );
                 pmenu->popup( pos );
             }
         }

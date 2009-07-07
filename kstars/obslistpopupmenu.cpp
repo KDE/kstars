@@ -32,7 +32,7 @@ ObsListPopupMenu::ObsListPopupMenu( KStars *_ks )
 
 ObsListPopupMenu::~ObsListPopupMenu() { }
 
-void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bool showDetails, bool showScope, bool showRemove) {
+void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bool showDetails, bool showScope, bool showRemove, bool sessionView ) {
 
     clear();
     //Insert item for adding the object to the session view
@@ -53,8 +53,12 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bo
     addAction( i18n("Altitude vs. Time"), ks->observingList(), SLOT( slotAVT() ) );
     addSeparator();
     //Insert item for Removing the object(s)
-    if( showRemove )
-        addAction( i18n("Remove from list"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
+    if( showRemove ) {
+        if( ! sessionView )
+            addAction( i18n("Remove from WishList"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
+        else
+            addAction( i18n("Remove from Session Plan"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
+    }
 }
 
 #include "obslistpopupmenu.moc"
