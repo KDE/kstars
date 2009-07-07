@@ -274,6 +274,26 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="DeleteImages">
+       <property name="toolTip">
+        <string>Deletes all the stored DSS/SDSS images</string>
+       </property>
+       <property name="text">
+        <string>Delete all Images</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveImages">
+       <property name="toolTip">
+        <string>Download the SDSS/DSS images of all the objects in the current list.</string>
+       </property>
+       <property name="text">
+        <string>Save all Images</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -510,26 +530,6 @@
         <widget class="QPushButton" name="DeleteImage">
          <property name="text">
           <string>Delete</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="saveImages">
-         <property name="toolTip">
-          <string>Download the SDSS/DSS images of all the objects in the current list.</string>
-         </property>
-         <property name="text">
-          <string>Save all Images</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="DeleteImages">
-         <property name="toolTip">
-          <string>Deletes all the stored DSS/SDSS images</string>
-         </property>
-         <property name="text">
-          <string>Delete all Images</string>
          </property>
         </widget>
        </item>
