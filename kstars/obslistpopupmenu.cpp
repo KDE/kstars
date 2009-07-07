@@ -37,18 +37,21 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bo
     clear();
     //Insert item for adding the object to the session view
     if( showAddToSession )
-        addAction( i18n( "Add to session" ), ks->observingList(), SLOT( slotAddToSession() ) );
+        addAction( i18n( "Add to session plan" ), ks->observingList(), SLOT( slotAddToSession() ) );
+    addSeparator();
     //Insert item for centering on object
     if( showCenter )
         addAction( i18n( "Center" ), ks->observingList(), SLOT( slotCenterObject() ) );
-    //Insert item for Showing details dialog
-    if( showDetails )
-        addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->observingList(), SLOT( slotDetails() ) );
     //Insert item for Slewing to the object
     if( showScope )
         addAction( i18nc( "Show the selected object in the telescope", "Scope" ), ks->observingList(), SLOT( slotSlewToObject() ) );
+    addSeparator();
+    //Insert item for Showing details dialog
+    if( showDetails )
+        addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->observingList(), SLOT( slotDetails() ) );
     //Insert item for opening the Altitude vs time dialog
     addAction( i18n("Altitude vs. Time"), ks->observingList(), SLOT( slotAVT() ) );
+    addSeparator();
     //Insert item for Removing the object(s)
     if( showRemove )
         addAction( i18n("Remove from list"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
