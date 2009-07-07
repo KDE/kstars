@@ -397,6 +397,13 @@
           </spacer>
          </item>
          <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Scheduled Time</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QTimeEdit" name="TimeEdit">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
