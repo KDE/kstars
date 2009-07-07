@@ -71,6 +71,11 @@ public slots:
      */
     void slotDeleteFlag();
 
+    /**
+     *@short Center the selected object in the display
+     */
+    void slotCenterFlag();
+
 private:
     KStars *m_Ks;
     FlagManagerUI *ui;

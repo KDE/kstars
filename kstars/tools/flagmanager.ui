@@ -172,6 +172,13 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
+          <widget class="QPushButton" name="CenterButton">
+           <property name="text">
+            <string>Center</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="delButton">
            <property name="text">
             <string>Delete</string>

@@ -23,6 +23,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
+#include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -82,9 +83,11 @@ FlagManager::FlagManager( KStars *ks )
                                    flagNames.at( i ) );
     }
 
-    // Connect "Add" and "Delete" buttons
+    // Connect buttons 
     connect( ui->addButton, SIGNAL( clicked() ), this, SLOT( slotValidatePoint() ) );
     connect( ui->delButton, SIGNAL( clicked() ), this, SLOT( slotDeleteFlag() ) );
+    connect( ui->CenterButton, SIGNAL( clicked() ), this, SLOT( slotCenterFlag() ) );
+    connect( ui->flagList, SIGNAL( doubleClicked( const QModelIndex& ) ), this, SLOT( slotCenterFlag() ) );
 }
 
 FlagManager::~FlagManager()
@@ -177,6 +180,14 @@ void FlagManager::slotDeleteFlag() {
 
     // Redraw map
     m_Ks->map()->forceUpdate(false);
+}
+
+void FlagManager::slotCenterFlag() {
+    if ( ui->flagList->currentIndex().isValid() ) {
+        m_Ks->map()->setClickedObject( 0 );
+        m_Ks->map()->setClickedPoint( m_Ks->data()->skyComposite()->flags()->pointList().at( ui->flagList->currentIndex().row() ) );
+        m_Ks->map()->slotCenter();
+    }
 }
 
 #include "flagmanager.moc"
