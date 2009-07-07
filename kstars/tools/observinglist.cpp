@@ -224,7 +224,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         }
     }
 
-    if ( session && SessionList().contains( obj ) ) { // TODO: Change method name from SessionList() to sessionList() to keep up with C++ conventions
+    if ( session && sessionList().contains( obj ) ) { 
         ks->statusBar()->changeItem( i18n( "%1 is already in the session plan.", obj->name() ), 0 );
         return;
     }
@@ -331,7 +331,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
         ui->TableView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     } else {
-        int k = SessionList().indexOf( o );
+        int k = sessionList().indexOf( o );
         if ( o == LogObject ) saveCurrentUserLog();
         //Remove row from the Session View model
         bool found(false);
@@ -359,7 +359,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
         }
         if( ! update )
             TimeHash.remove( o->name() );
-        SessionList().removeAt(k);//Remove from the session list
+        sessionList().removeAt(k);//Remove from the session list
         if ( ! isModified ) isModified = true;//Removing an object should trigger the modified flag
         ui->View->removeAllPlotObjects();
         ui->SessionView->resizeColumnsToContents();
@@ -378,16 +378,16 @@ void ObservingList::slotRemoveSelectedObjects() {
                 int irow = mIndex.row();
                 QString ra = m_Session->item(irow, 1)->text();
                 QString dc = m_Session->item(irow, 2)->text();
-                foreach ( SkyObject *o, SessionList() ) {
+                foreach ( SkyObject *o, sessionList() ) {
                     //Stars named "star" must be matched by coordinates
                     if ( o->name() == "star" ) {
                         if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
-                            slotRemoveObject( o );
+                            slotRemoveObject( o, true );
                             break;
                         }
     
                     } else if ( o->translatedName() == mIndex.data().toString() ) {
-                        slotRemoveObject( o );
+                        slotRemoveObject( o, true );
                         break;
                     }
                 }
@@ -454,7 +454,7 @@ void ObservingList::slotNewSelection() {
             //Find the selected object in the SessionList,
             //then break the loop.  Now SessionList.current()
             //points to the new selected object (until now it was the previous object)
-            foreach ( o, SessionList() ) {
+            foreach ( o, sessionList() ) {
                 if ( o->translatedName() == newName ) {
                     found = true;
                     break;
@@ -748,7 +748,7 @@ void ObservingList::slotAVT() {
         if ( selectedItems.size() ) {
             QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
             foreach ( const QModelIndex &i, selectedItems ) {
-                foreach ( SkyObject *o, SessionList() ) //we can't use the obsList directly as it not always a superset of the SessionList
+                foreach ( SkyObject *o, sessionList() ) //we can't use the obsList directly as it not always a superset of the SessionList
                     if ( o->translatedName() == i.data().toString() )
                         avt->processObject( o );
             }
@@ -775,6 +775,7 @@ void ObservingList::slotClose() {
     //Save the current User log text
     saveCurrentUserLog();
     ui->View->removeAllPlotObjects();
+    slotNewSelection();
     saveCurrentList();
     hide();
 }
@@ -816,7 +817,7 @@ void ObservingList::slotOpenList() {
         saveCurrentList();//See if the current list needs to be saved before opening the new one
         ui->tabWidget->setCurrentIndex(1);
         slotChangeTab(1);
-        SessionList().clear();
+        sessionList().clear();
         TimeHash.clear();
         m_CurrentObject = 0;
         m_Session->removeRows( 0, m_Session->rowCount() );
@@ -873,7 +874,7 @@ void ObservingList::slotOpenList() {
 void ObservingList::saveCurrentList() {
     //Before loading a new list, do we need to save the current one?
     //Assume that if the list is empty, then there's no need to save
-    if ( SessionList().size() ) {
+    if ( sessionList().size() ) {
         if ( isModified ) {
             QString message = i18n( "Do you want to save the current session?" );
             if ( KMessageBox::questionYesNo( this, message,
@@ -967,7 +968,7 @@ void ObservingList::slotSaveSession() {
     QTextStream ostream( &f );
     ostream << SessionName << endl;
     ostream << geo->name() << "|" <<geo->province() << "|" << geo->country() << "|" << dt.date().toString("ddMMyyyy") << endl;
-    foreach ( SkyObject* o, SessionList() ) {
+    foreach ( SkyObject* o, sessionList() ) {
         if ( o->name() == "star" ) {
             ostream << o->name() << "  " << o->ra0()->Hours() << "  " << o->dec0()->Degrees() << endl;
         } else {
@@ -1227,7 +1228,7 @@ void ObservingList::slotSaveImages() {
     ui->SessionView->clearSelection();
 
     if( sessionView ) {
-        foreach( SkyObject *o, SessionList() ) {
+        foreach( SkyObject *o, sessionList() ) {
             setCurrentImage( o );
             QString img( CurrentImagePath  );
             KUrl url( SDSSUrl );
@@ -1301,7 +1302,7 @@ void ObservingList::slotDeleteImages() {
 void ObservingList::setSaveImages() {
     ui->saveImages->setEnabled( false );
     if( sessionView ) {
-        if( ! SessionList().isEmpty() )
+        if( ! sessionList().isEmpty() )
             ui->saveImages->setEnabled( true );
     } else {
         if( ! obsList().isEmpty() )
