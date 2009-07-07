@@ -744,17 +744,31 @@ void ObservingList::slotAVT() {
     QModelIndexList selectedItems;
     // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
     if( sessionView ) {
-        selectedItems =  m_SortModel->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
-        if ( selectedItems.size() ) {
-            QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
-            foreach ( const QModelIndex &i, selectedItems ) {
-                foreach ( SkyObject *o, sessionList() ) //we can't use the obsList directly as it not always a superset of the SessionList
-                    if ( o->translatedName() == i.data().toString() )
+        QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
+        for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
+            if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
+                QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
+                QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
+                int irow = mIndex.row();
+                QString ra = m_Session->item(irow, 1)->text();
+                QString dc = m_Session->item(irow, 2)->text();
+                foreach ( SkyObject *o, sessionList() ) {
+                    //Stars named "star" must be matched by coordinates
+                    if ( o->name() == "star" ) {
+                        if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
+                            avt->processObject( o );
+                            break;
+                        }
+    
+                    } else if ( o->translatedName() == mIndex.data().toString() ) {
                         avt->processObject( o );
+                        break;
+                    }
+                }
             }
-            avt->exec();
-	        delete avt;
         }
+        avt->exec();
+	    delete avt;
     } else {
         selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
