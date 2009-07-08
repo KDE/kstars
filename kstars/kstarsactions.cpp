@@ -1178,6 +1178,9 @@ void KStars::slotAboutToQuit()
     clearCachedFindDialog();
 
     delete AAVSODialog;
+    if( ! Options::obsListSaveImage() )
+        foreach ( QString file, obsList->imageList() )
+            QFile::remove( KStandardDirs::locateLocal( "appdata", file ) );
     delete obsList;
     if ( findDialog ) delete findDialog;
     if ( avt ) delete avt;

@@ -66,6 +66,8 @@ public:
     /**Constructor. */
     ImageViewer (const KUrl &imageURL, const QString &capText, KStars *ks );
 
+    ImageViewer ( QString FileName );
+
     /**Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();
 

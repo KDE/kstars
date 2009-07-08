@@ -102,9 +102,10 @@ set(libkstarstools_SRCS
 	tools/scriptargwidgets.cpp
 	tools/scriptbuilder.cpp
 	tools/scriptfunction.cpp
-        tools/skycalendar.cpp
+    tools/skycalendar.cpp
 	tools/wutdialog.cpp
 	tools/flagmanager.cpp
+
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
@@ -300,7 +301,7 @@ set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp infobox.cpp infoboxes.cpp 
 	ksfilereader.cpp ksnumbers.cpp
-	kspopupmenu.cpp kstars.cpp 
+	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp

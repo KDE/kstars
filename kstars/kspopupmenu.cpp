@@ -275,9 +275,9 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
 
     if ( showObsList && obj ) {
         if ( ks->observingList()->contains( obj ) )
-            addAction( i18n("Remove From List"), ks->observingList(), SLOT( slotRemoveObject() ) );
+            addAction( i18n("Remove From Observing WishList"), ks->observingList(), SLOT( slotRemoveObject() ) );
         else
-            addAction( i18n("Add to List"), ks->observingList(), SLOT( slotAddObject() ) );
+            addAction( i18n("Add to Observing WishList"), ks->observingList(), SLOT( slotAddObject() ) );
     }
 
     if ( showTrail && obj && obj->isSolarSystem() ) {
