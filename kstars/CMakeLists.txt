@@ -5,6 +5,7 @@ add_subdirectory( data )
 add_subdirectory( icons ) 
 add_subdirectory( satlib ) 
 add_subdirectory( htmesh ) 
+add_subdirectory( comast ) 
 
 Find_package(ZLIB REQUIRED)
 
@@ -309,9 +310,13 @@ set(kstars_extra_SRCS
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
 
+set(comast_SRCS
+    comast/log.cpp
+)
+
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
-	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS}
+	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${comast_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)

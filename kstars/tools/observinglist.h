@@ -150,6 +150,10 @@ public:
 
     void saveThumbImage();
 
+    QString getTime( SkyObject *o ) { return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" ); }
+
+    void setTime( SkyObject *o, QTime t ) { TimeHash.insert( o->name(), t); }
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
@@ -308,7 +312,7 @@ private:
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
-    QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
+    QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     char decsgn;
     KStarsDateTime dt;
     GeoLocation *geo;
