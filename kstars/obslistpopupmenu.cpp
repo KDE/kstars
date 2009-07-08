@@ -54,8 +54,10 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bo
     addSeparator();
     //Insert item for dowloading different images
     if( showLinks ) {
-        addAction( i18n( "Show SDSS image" ), ks->observingList(), SLOT( slotGetImage() ) );
-        addAction( i18n( "Show DSS image" ), ks->observingList(), SLOT( slotDSS() ) );
+        if( ! ks->observingList()->currentObject()->isSolarSystem() ) {
+            addAction( i18n( "Show SDSS image" ), ks->observingList(), SLOT( slotGetImage() ) );
+            addAction( i18n( "Show DSS image" ), ks->observingList(), SLOT( slotDSS() ) );
+        }
         addAction( i18n( "Show images from web " ), ks->observingList(), SLOT( slotGoogleImage() ) );
         addSeparator();
     }
