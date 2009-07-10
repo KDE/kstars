@@ -82,6 +82,12 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
 
+void ObservingList::setGeoDate(QString name, QString province, QString country, QString date) {
+    geo = ks->data()->locationNamed( name, province, country );
+    dt.setDate( QDate::fromString( date, "ddMMyyyy" ) );
+    ui->DateEdit->setDate( dt.date() );
+
+}
 
 //
 // ObservingList
@@ -98,6 +104,7 @@ ObservingList::ObservingList( KStars *_ks )
     dt = KStarsDateTime::currentDateTime();
     geo = ks->geo();
     sessionView = false;
+    nativeSave = true;
     FileName = "";
     pmenu = new ObsListPopupMenu( KStars::Instance() );
     //Set up the Table Views
@@ -183,6 +190,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotSaveImages() ) );
     connect( ui->DeleteImages, SIGNAL( clicked() ),
              this, SLOT( slotDeleteImages() ) );
+    connect( ui->OALExport, SIGNAL( clicked() ),
+             this, SLOT( slotOALExport() ) );  
     //Add icons to Push Buttons
     ui->OpenButton->setIcon( KIcon("document-open") );
     ui->SaveButton->setIcon( KIcon("document-save") );
@@ -199,6 +208,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->saveImages->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
+    ui->OALExport->setEnabled( false );
 
     slotLoadWishList(); //Load the wishlist from disk if present
     m_CurrentObject = 0;
@@ -947,7 +957,7 @@ void ObservingList::slotSaveSession() {
     }
     QTextStream ostream( &f );
     Comast::Log log;
-    ostream<< log.writeLog( true );
+    ostream<< log.writeLog( nativeSave );
     f.close();
     isModified = false;//We've saved the session, so reset the modified flag.
 }
@@ -1067,6 +1077,7 @@ void ObservingList::slotChangeTab(int index) {
     }
     setSaveImages();
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
+    ui->OALExport->setEnabled( sessionView );
     //Clear the selection in the Tables
     ui->TableView->clearSelection();
     ui->SessionView->clearSelection();
@@ -1347,6 +1358,12 @@ void ObservingList::saveThumbImage() {
         img = img.scaled( 200, 200, Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
         img.save( KStandardDirs::locateLocal( "appdata", ThumbImage ) );
     }
+}
+
+void ObservingList::slotOALExport() {
+    nativeSave = false;
+    slotSaveSessionAs();
+    nativeSave = true;
 }
 
 #include "observinglist.moc"

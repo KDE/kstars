@@ -24,6 +24,7 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
+#include "kstars.h"
 #include "dms.h"
 #include "skyobjects/skyobject.h"
 
@@ -31,6 +32,7 @@ class Comast::Log {
     public:
         QString writeLog( bool native = true );
         void writeBegin();
+        void writeGeoDate();
         void writeObservers();
         void writeSites();
         void writeSessions();
@@ -44,7 +46,7 @@ class Comast::Log {
 //        void writeObserver();
 //        void writeSite();
 //        void writeSession();
-          void writeTarget( SkyObject *o );
+        void writeTarget( SkyObject *o );
 //        void writeScope();
 //        void writeEyePiece();
 //        void writeLense();
@@ -57,6 +59,7 @@ class Comast::Log {
         void readTargets();
         void readTarget();
         void readPosition();
+        void readGeoDate();
     private:
         QList<SkyObject *> m_targetList;
 //        QList<Comast::Observer *> m_observerList;
@@ -70,6 +73,7 @@ class Comast::Log {
         QString output;
         bool native;
         dms ra, dec;
+        KStars *ks;
         QXmlStreamWriter *writer;
         QXmlStreamReader *reader;
 };

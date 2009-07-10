@@ -162,6 +162,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="OALExport">
+       <property name="text">
+        <string>Export to OAL</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="Spacer1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

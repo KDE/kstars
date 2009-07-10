@@ -25,6 +25,7 @@
 #include <kio/copyjob.h>
 
 #include "ui_observinglist.h"
+#include "kstars.h"
 #include "skyobjects/skyobject.h"
 #include "kstarsdatetime.h"
 #include "geolocation.h"
@@ -153,6 +154,12 @@ public:
     QString getTime( SkyObject *o ) { return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" ); }
 
     void setTime( SkyObject *o, QTime t ) { TimeHash.insert( o->name(), t); }
+
+    void setGeoDate( QString name, QString province, QString country, QString date ); 
+
+    GeoLocation* geoLocation() { return geo; }
+
+    KStarsDateTime dateTime() { return dt; }
 
 public slots:
     /**@short add a new object to list
@@ -300,6 +307,10 @@ public slots:
         */
     void slotDSS() { slotGetImage( true ); }
 
+    /**@short Export a target list to the comast compliant format
+        */
+    void slotOALExport(); 
+
 protected slots:
     void slotClose();
     void downloadReady();
@@ -311,7 +322,7 @@ private:
     QList<SkyObject*> m_ObservingList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
-    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
+    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection, nativeSave;
     QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     char decsgn;
     KStarsDateTime dt;

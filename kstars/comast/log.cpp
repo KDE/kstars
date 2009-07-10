@@ -20,6 +20,7 @@
 #include "skyobjects/skyobject.h"
 #include "skymap.h"
 #include "skycomponents/constellationboundary.h"
+#include "kstarsdatetime.h"
 
 void Comast::Log::writeBegin() {
     writer = new QXmlStreamWriter(&output);
@@ -33,9 +34,12 @@ void Comast::Log::writeBegin() {
 }
 
 QString Comast::Log::writeLog( bool _native ) {
+    ks = KStars::Instance();
     m_targetList = KStars::Instance()->observingList()->sessionList();
     native = _native;
     writeBegin();
+    if( native )
+        writeGeoDate();
     writeObservers();
     writeSites();
     writeSessions();
@@ -156,8 +160,25 @@ void Comast::Log::writeTarget( SkyObject *o ) {
     writer->writeEndElement();
 }
 
+void Comast::Log::writeGeoDate() {
+    writer->writeStartElement( "geodate" );
+    writer->writeStartElement( "name" );
+    writer->writeCDATA( ks->observingList()->geoLocation()->name() );
+    writer->writeEndElement();
+    writer->writeStartElement( "province" );
+    writer->writeCDATA( ks->observingList()->geoLocation()->province() );
+    writer->writeEndElement();
+    writer->writeStartElement( "country" );
+    writer->writeCDATA( ks->observingList()->geoLocation()->country() );
+    writer->writeEndElement();
+    writer->writeStartElement( "date" );
+    writer->writeCDATA( ks->observingList()->dateTime().date().toString( "ddMMyyyy" ) );
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
 void Comast::Log::readBegin( QString input ) {
     reader = new QXmlStreamReader( input );
+    ks = KStars::Instance();
     m_targetList.clear();
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -190,6 +211,8 @@ void Comast::Log::readLog() {
         if( reader->isStartElement() ) {
             if( reader->name() == "targets" )
                 readTargets();
+            if( reader->name() == "geodate" )
+                readGeoDate();
             else
                 readUnknownElement();
         }
@@ -228,8 +251,7 @@ void Comast::Log::readTarget() {
                     if( ! o ) o = KStars::Instance()->data()->skyComposite()->findStarByGenetiveName( Name );
                     if( o ) KStars::Instance()->observingList()->slotAddObject( o, true );
                 }
-            }
-          else  if( reader->name() == "time" ) {
+            } else if( reader->name() == "time" ) {
                 if( o )
                     KStars::Instance()->observingList()->setTime( o, QTime::fromString( reader->readElementText(), "h:mm:ss AP" ) );
           }
@@ -261,4 +283,27 @@ void Comast::Log::readPosition() {
                 readUnknownElement();
         }
     }
+}
+void Comast::Log::readGeoDate() {
+    QString name, province, country, date;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "name" )
+                name = reader->readElementText();
+            else if( reader->name() == "province" )
+                province = reader->readElementText();
+            else if( reader->name() == "country" )
+                country = reader->readElementText();
+            else if( reader->name() == "date" ){
+                date = reader->readElementText();
+            } else
+                readUnknownElement();
+        }
+    }
+    KStars::Instance()->observingList()->setGeoDate( name, province, country, date );
 }
