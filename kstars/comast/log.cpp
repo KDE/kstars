@@ -35,7 +35,7 @@ void Comast::Log::writeBegin() {
 
 QString Comast::Log::writeLog( bool _native ) {
     ks = KStars::Instance();
-    m_targetList = KStars::Instance()->observingList()->sessionList();
+    m_targetList = ks->observingList()->sessionList();
     native = _native;
     writeBegin();
     if( native )
@@ -149,9 +149,9 @@ void Comast::Log::writeTarget( SkyObject *o ) {
     writer->writeCharacters( QString::number( o->dec()->radians() ) );
     writer->writeEndElement();
     writer->writeEndElement();
-    if( native && ! KStars::Instance()->observingList()->getTime( o ).isEmpty() ) {
+    if( native && ! ks->observingList()->getTime( o ).isEmpty() ) {
         writer->writeStartElement("time");
-        writer->writeCDATA( KStars::Instance()->observingList()->getTime( o ) );
+        writer->writeCDATA( ks->observingList()->getTime( o ) );
         writer->writeEndElement();
     }
     writer->writeStartElement( "constellation" );
@@ -247,13 +247,13 @@ void Comast::Log::readTarget() {
              if( reader->name() == "name" ) {
                 QString Name = reader->readElementText();
                 if( Name != "star" ) {
-                    o = KStars::Instance()->data()->objectNamed( Name );
-                    if( ! o ) o = KStars::Instance()->data()->skyComposite()->findStarByGenetiveName( Name );
-                    if( o ) KStars::Instance()->observingList()->slotAddObject( o, true );
+                    o = ks->data()->objectNamed( Name );
+                    if( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( Name );
+                    if( o ) ks->observingList()->slotAddObject( o, true );
                 }
             } else if( reader->name() == "time" ) {
                 if( o )
-                    KStars::Instance()->observingList()->setTime( o, QTime::fromString( reader->readElementText(), "h:mm:ss AP" ) );
+                    ks->observingList()->setTime( o, QTime::fromString( reader->readElementText(), "h:mm:ss AP" ) );
           }
        //   else  if( reader->name() == "datasource" )
        //         kDebug() << reader->readElementText();
@@ -305,5 +305,5 @@ void Comast::Log::readGeoDate() {
                 readUnknownElement();
         }
     }
-    KStars::Instance()->observingList()->setGeoDate( name, province, country, date );
+    ks->observingList()->setGeoDate( name, province, country, date );
 }
