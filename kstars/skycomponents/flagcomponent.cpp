@@ -89,9 +89,12 @@ void FlagComponent::init( KStarsData *data ) {
 
         imageFound = false;
 
-        // Continue if there is no label
-        if ( ! ( line.size() > 4 ) )
+        // If there is no label, use an empty string, red color and continue.
+        if ( ! ( line.size() > 4 ) ) {
+            m_Labels.append( "" );
+            m_LabelColors.append( QColor( "red" ) );
             continue;
+        }
 
         // Read label and color label
         // If the last word is a color value, use it to set label color
