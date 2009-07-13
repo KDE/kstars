@@ -53,7 +53,7 @@ void FlagComponent::init( KStarsData *data ) {
     // Return if flags.dat does not exist
     if ( ! QFile::exists ( KStandardDirs::locateLocal( "appdata", "flags.dat" ) ) ) return;
 
-    // Return if flags.dat cna not be read
+    // Return if flags.dat can not be read
     if ( ! fileReader.open( "flags.dat" ) ) return;
 
     // Read flags.dat
@@ -93,7 +93,17 @@ void FlagComponent::init( KStarsData *data ) {
         if ( ! ( line.size() > 4 ) )
             continue;
 
-        // Read label
+        // Read label and color label
+        // If the last word is a color value, use it to set label color
+        // Else use red
+        QRegExp rxLabelColor( "^#[a-fA-F0-9]{6}$" );
+        if ( rxLabelColor.exactMatch( line.last() ) ) {
+            m_LabelColors.append( QColor( line.last() ) );
+            line.removeLast();
+        } else {
+            m_LabelColors.append( QColor( "red" ) );
+        }
+
         str.clear();
         for ( i=4; i<line.size(); ++i ) {
             str += line.at( i ) + ' ';
@@ -136,7 +146,7 @@ void FlagComponent::draw( QPainter& psky )
         o.setX( o.x() + 25.0 );
         o.setY( o.y() + 12.0 );
         psky.save();
-        psky.setPen( QColor( 255, 0, 0 ) );
+        psky.setPen( m_LabelColors.at( i ) );
         psky.setFont( QFont( "Courier New", 10, QFont::Bold ) );
         psky.drawText( o, m_Labels.at( i ) );
         psky.restore();
@@ -172,7 +182,7 @@ long double FlagComponent::epochToJd (double epoch) {
 
 }
 
-void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label ) {
+void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
     int i;
 
     pointList().append( flagPoint );
@@ -185,6 +195,7 @@ void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QStr
     }
 
     m_Labels.append( label );
+    m_LabelColors.append( labelColor );
 }
 
 void FlagComponent::remove( int index ) {
@@ -192,6 +203,7 @@ void FlagComponent::remove( int index ) {
     m_Epoch.removeAt( index );
     m_FlagImages.removeAt( index );
     m_Labels.removeAt( index );
+    m_LabelColors.removeAt( index );
 }
 
 void FlagComponent::slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list ) {
@@ -236,6 +248,10 @@ QString FlagComponent::epoch( int index ) {
 
 QString FlagComponent::label( int index ) {
     return m_Labels.at( index );
+}
+
+QColor FlagComponent::labelColor( int index ) {
+    return m_LabelColors.at( index );
 }
 
 QImage FlagComponent::image( int index ) {

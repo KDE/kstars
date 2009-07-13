@@ -43,7 +43,7 @@ class FlagManagerUI : public QFrame, public Ui::FlagManager
  *@short Flag manager
  *Dialog box to add and remove flags
  *
- *@version 1.0
+ *@version 1.1
  *@author Jerome SONRIER
  */
 class FlagManager : public KDialog
