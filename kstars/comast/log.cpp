@@ -442,7 +442,7 @@ void Comast::Log::readTarget() {
             break;
 
         if( reader->isStartElement() ) {
-             if( reader->name() == "name" ) {
+            if( reader->name() == "name" ) {
                 QString Name = reader->readElementText();
                 if( Name != "star" ) {
                     o = ks->data()->objectNamed( Name );
@@ -452,10 +452,10 @@ void Comast::Log::readTarget() {
             } else if( reader->name() == "time" ) {
                 if( o )
                     ks->observingList()->setTime( o, QTime::fromString( reader->readElementText(), "h:mm:ss AP" ) );
-          } else if( reader->name() == "notes" ) {
-            if( o )
-                o->setNotes( reader->readElementText() );
-          }
+            } else if( reader->name() == "notes" ) {
+                if( o )
+                    o->setNotes( reader->readElementText() );
+            }
        //   else  if( reader->name() == "datasource" )
        //         kDebug() << reader->readElementText();
        //     else if( reader->name() == "position" )
@@ -467,7 +467,6 @@ void Comast::Log::readTarget() {
         }
     }
 }
-
 
 void Comast::Log::readObserver() {
     QString name, surname, contact;
