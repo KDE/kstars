@@ -29,11 +29,10 @@ class Comast::Scope {
         QString model() { return m_Model; }
         QString vendor() { return m_Vendor; }
         QString type() { return m_Type; }
-        QString fovUnit() { return m_AppFovUnit; }
         double focalLength() { return m_FocalLength; }
         void setScope( QString _name, QString _model, QString _vendor, QString _type, double _focalLength );
     private:
-        QString m_Name, m_Model, m_AppFovUnit, m_Vendor, m_Type;
+        QString m_Name, m_Model, m_Vendor, m_Type;
         double m_FocalLength;
 };
 #endif
