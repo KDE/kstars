@@ -332,6 +332,10 @@ public:
 
     void appendTelescopeObject(SkyObject * object);*/
 
+    /*@short Increments the updateID, forcing a recomputation of star positions as well
+     */
+    unsigned int incUpdateID();
+
     unsigned int updateID() { return m_updateID; }
     unsigned int updateNumID() { return m_updateNumID; }
     KSNumbers* updateNum()  { return &m_updateNum; }
