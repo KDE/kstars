@@ -351,6 +351,10 @@ public:
      */
     inline QString &userLog() { return getAuxInfo()->userLog; }
 
+    inline QString &notes() { return getAuxInfo()->notes; }
+
+    void setNotes( QString _notes) { getAuxInfo()->notes = _notes; }
+
 private:
 
     /**

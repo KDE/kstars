@@ -179,6 +179,9 @@ void Comast::Log::writeTarget( SkyObject *o ) {
     writer->writeStartElement( "constellation" );
     writer->writeCDATA( ConstellationBoundary::Instance()->constellationName( o ) );
     writer->writeEndElement();
+    writer->writeStartElement( "notes" );
+    writer->writeCDATA( o->notes() );
+    writer->writeEndElement();
     writer->writeEndElement();
 }
 
@@ -431,6 +434,9 @@ void Comast::Log::readTarget() {
             } else if( reader->name() == "time" ) {
                 if( o )
                     ks->observingList()->setTime( o, QTime::fromString( reader->readElementText(), "h:mm:ss AP" ) );
+          } else if( reader->name() == "notes" ) {
+            if( o )
+                o->setNotes( reader->readElementText() );
           }
        //   else  if( reader->name() == "datasource" )
        //         kDebug() << reader->readElementText();

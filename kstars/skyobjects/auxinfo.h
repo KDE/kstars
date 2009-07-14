@@ -39,6 +39,7 @@ public:
     QStringList InfoList;
     QStringList InfoTitle;
     QString userLog;
+    QString notes;
 };
 
 #endif
