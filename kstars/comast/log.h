@@ -4,7 +4,7 @@
                              -------------------
     begin                : Friday June 19, 2009
     copyright            : (C) 2009 by Prakash Mohan
-    email                : prak902000@gmail.com
+    email                : prakash.mohan@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,14 @@
 #include "kstars.h"
 #include "dms.h"
 #include "skyobjects/skyobject.h"
+#include "comast/observer.h"
+#include "comast/site.h"
+#include "comast/session.h"
+#include "comast/scope.h"
+#include "comast/eyepiece.h"
+#include "comast/filter.h"
+#include "comast/lens.h"
+#include "comast/observation.h"
 
 class Comast::Log {
     public:
@@ -43,14 +51,15 @@ class Comast::Log {
         void writeFilters();
         void writeImagers();
         inline QList<SkyObject *> targetList() { return m_targetList; }
-//        void writeObserver();
-//        void writeSite();
-//        void writeSession();
+        void writeObserver( Comast::Observer *o );
+        void writeSite( Comast::Site *s );
+        void writeSession( Comast::Session *s );
         void writeTarget( SkyObject *o );
-//        void writeScope();
-//        void writeEyePiece();
-//        void writeLense();
-//        void writeFilter();
+        void writeScope( Comast::Scope *s );
+        void writeEyepiece( Comast::Eyepiece *ep );
+        void writeLens( Comast::Lens *l );
+        void writeFilter(Comast::Filter *f );
+        void writeObservation( Comast::Observation *o );
 //        void writeImager();
         void writeEnd();
         void readBegin( QString input );
@@ -62,14 +71,14 @@ class Comast::Log {
         void readGeoDate();
     private:
         QList<SkyObject *> m_targetList;
-//        QList<Comast::Observer *> m_observerList;
-//        QList<Comast::Eyepiece *> m_eyepieceList; 
-//        QList<Comast::Filter *> m_filterList;
+        QList<Comast::Observer *> m_observerList;
+        QList<Comast::Eyepiece *> m_eyepieceList; 
+        QList<Comast::Filter *> m_filterList;
 //        QList<Comast::Equipment *> m_equipmentList;
 //        QList<Comast::Imager *> m_imagerList;
-//        QList<Comast::ObservingSite *> m_siteList;
-//        QList<Comast::ObservingSession *> m_sessionList;
-//        QList<Comast::Telescope *> m_scopeList;
+        QList<Comast::Site *> m_siteList;
+        QList<Comast::Session *> m_sessionList;
+        QList<Comast::Scope *> m_scopeList;
         QString output;
         bool native;
         dms ra, dec;

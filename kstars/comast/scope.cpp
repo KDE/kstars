@@ -1,8 +1,8 @@
 /***************************************************************************
-                          comast.h  -  description
+                          scope.cpp  -  description
 
                              -------------------
-    begin                : Friday June 19, 2009
+    begin                : Wednesday July 8, 2009
     copyright            : (C) 2009 by Prakash Mohan
     email                : prakash.mohan@kdemail.net
  ***************************************************************************/
@@ -16,20 +16,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COMAST_H_
-#define COMAST_H_
-namespace Comast {
-    class Log;
-    class Observer;
-    class Observation;
-    class Equipment;
-    class Eyepiece;
-    class Scope;
-    class Filter;
-    class Imager;
-    class Site;
-    class Session;
-    class Target;
-    class Lens;
+#include "comast/scope.h"
+
+void Comast::Scope::setScope( QString _name, QString _model, QString _vendor, QString _type, double _focalLength ) {
+    m_Name = _name;
+    m_Model = _model;
+    m_Vendor = _vendor;
+    m_Type = _type;
+    m_FocalLength = _focalLength;
 }
-#endif

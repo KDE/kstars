@@ -1,8 +1,8 @@
 /***************************************************************************
-                          comast.h  -  description
+                          eyepiece.cpp  -  description
 
                              -------------------
-    begin                : Friday June 19, 2009
+    begin                : Wednesday July 8, 2009
     copyright            : (C) 2009 by Prakash Mohan
     email                : prakash.mohan@kdemail.net
  ***************************************************************************/
@@ -16,20 +16,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COMAST_H_
-#define COMAST_H_
-namespace Comast {
-    class Log;
-    class Observer;
-    class Observation;
-    class Equipment;
-    class Eyepiece;
-    class Scope;
-    class Filter;
-    class Imager;
-    class Site;
-    class Session;
-    class Target;
-    class Lens;
+#include "comast/eyepiece.h"
+
+void Comast::Eyepiece::setEyepiece( QString _name, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength ) {
+    m_Name = _name;
+    m_Model = _model;
+    m_Vendor = _vendor;
+    m_AppFovUnit = _fovUnit;
+    m_AppFOV = _fov;
+    m_FocalLength = _focalLength;
 }
-#endif

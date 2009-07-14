@@ -312,6 +312,14 @@ set(kstars_extra_SRCS
 
 set(comast_SRCS
     comast/log.cpp
+    comast/observer.cpp
+    comast/site.cpp
+    comast/session.cpp
+    comast/scope.cpp
+    comast/eyepiece.cpp
+    comast/filter.cpp
+    comast/observation.cpp
+    comast/lens.cpp
 )
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 

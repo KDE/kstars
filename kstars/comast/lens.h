@@ -1,8 +1,8 @@
 /***************************************************************************
-                          comast.h  -  description
+                          lens.h  -  description
 
                              -------------------
-    begin                : Friday June 19, 2009
+    begin                : Wednesday July 8, 2009
     copyright            : (C) 2009 by Prakash Mohan
     email                : prakash.mohan@kdemail.net
  ***************************************************************************/
@@ -15,21 +15,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef LENS_H_
+#define LENS_H_
 
-#ifndef COMAST_H_
-#define COMAST_H_
-namespace Comast {
-    class Log;
-    class Observer;
-    class Observation;
-    class Equipment;
-    class Eyepiece;
-    class Scope;
-    class Filter;
-    class Imager;
-    class Site;
-    class Session;
-    class Target;
-    class Lens;
-}
+#include "comast/comast.h"
+
+#include <QString>
+
+class Comast::Lens {
+    public:
+        QString id() { return m_Name; }
+        QString model() { return m_Model; }
+        QString vendor() { return m_Vendor; }
+        double factor() { return m_Factor; }
+        void setLens( QString _name, QString _model, QString _vendor, double _factor );
+    private:
+        QString m_Name, m_Model, m_Vendor;
+        double m_Factor;
+};
 #endif

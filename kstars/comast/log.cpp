@@ -4,7 +4,7 @@
                              -------------------
     begin                : Friday June 19, 2009
     copyright            : (C) 2009 by Prakash Mohan
-    email                : prak902000@gmail.com
+    email                : prakash.mohan@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -59,7 +59,9 @@ void Comast::Log::writeEnd() {
 }
 
 void Comast::Log::writeObservers() {
-    writer->writeStartElement("observers");
+    writer->writeStartElement( "observers" );
+    foreach( Comast::Observer *o, m_observerList )
+        writeObserver( o );
     writer->writeEndElement();
 }
 
@@ -160,6 +162,161 @@ void Comast::Log::writeTarget( SkyObject *o ) {
     writer->writeEndElement();
 }
 
+void Comast::Log::writeObserver( Comast::Observer *o ) {
+    writer->writeStartElement( "observer" );
+    writer->writeAttribute( "id", o->name() );
+    writer->writeStartElement( "name" );
+    writer->writeCDATA( o->name() );
+    writer->writeEndElement();
+    writer->writeStartElement( "surname" );
+    writer->writeCDATA( o->surname() );
+    writer->writeEndElement();
+    writer->writeStartElement( "contact" );
+    writer->writeCDATA( o->contact() );
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
+void Comast::Log::writeSite( Comast::Site *s ) {
+    writer->writeStartElement( "site" );
+    writer->writeAttribute( "id", s->name() );
+    writer->writeStartElement( "name" );
+    writer->writeCDATA( s->name() );
+    writer->writeEndElement();
+    writer->writeStartElement( "latitude" );
+    writer->writeAttribute( "unit",  s->latUnit() );
+    writer->writeCharacters( QString::number( s->latitude() ) );
+    writer->writeStartElement( "longitude" );
+    writer->writeAttribute( "unit", s->lonUnit() );
+    writer->writeCharacters( QString::number( s->longitude() ) );
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
+void Comast::Log::writeSession( Comast::Session *s ) {
+    writer->writeStartElement( "session" );
+    writer->writeAttribute( "id", s->id() ); 
+    writer->writeStartElement( "begin" );
+    writer->writeCharacters( s->begin().date().toString( "yyyy-MM-dd" ) + "T" + s->begin().time().toString( "hh:mm:ss" ) );
+    writer->writeEndElement();
+    writer->writeStartElement( "end" );
+    writer->writeCharacters( s->end().date().toString( "yyyy-MM-dd" ) + "T" + s->end().time().toString( "hh:mm:ss" ) );
+    writer->writeEndElement();
+    writer->writeStartElement( "site" );
+    writer->writeCDATA( s->site() );
+    writer->writeEndElement();
+    writer->writeStartElement( "weather" );
+    writer->writeCDATA( s->weather() );
+    writer->writeEndElement();
+    writer->writeStartElement( "equipment" );
+    writer->writeCDATA( s->equipment() );
+    writer->writeEndElement();
+    writer->writeStartElement( "comments" );
+    writer->writeCDATA( s->comments() );
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
+void Comast::Log::writeScope( Comast::Scope *s ) {
+    writer->writeStartElement( "scope" );
+    writer->writeAttribute( "id", s->id() ); 
+    writer->writeStartElement( "model" );
+    writer->writeCDATA( s->model() );
+    writer->writeEndElement();
+    writer->writeStartElement( "type" );
+    writer->writeCDATA( s->type() );
+    writer->writeEndElement();
+    writer->writeStartElement( "vendor" );
+    writer->writeCDATA( s->vendor() );
+    writer->writeEndElement();
+    writer->writeStartElement( "focalLength" );
+    writer->writeCharacters( QString::number( s->focalLength() ) );
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
+void Comast::Log::writeEyepiece( Comast::Eyepiece *ep ) {
+    writer->writeStartElement( "eyepiece" );
+    writer->writeAttribute( "id", ep->id() ); 
+    writer->writeStartElement( "model" );
+    writer->writeCDATA( ep->model() );
+    writer->writeEndElement();
+    writer->writeStartElement( "vendor" );
+    writer->writeCDATA( ep->vendor() );
+    writer->writeEndElement();
+    writer->writeStartElement( "focalLength" );
+    writer->writeCharacters( QString::number( ep->focalLength() ) );
+    writer->writeEndElement();
+    writer->writeStartElement( "apparantFOV" );
+    writer->writeAttribute( "unit", ep->fovUnit() );
+    writer->writeCharacters( QString::number( ep->appFov() ) );
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
+void Comast::Log::writeLens( Comast::Lens *l ) {
+    writer->writeStartElement( "lens" );
+    writer->writeAttribute( "id", l->id() );
+    writer->writeStartElement( "model" );
+    writer->writeCDATA( l->model() );
+    writer->writeEndElement();
+    writer->writeStartElement( "vendor" );
+    writer->writeCDATA( l->vendor() );
+    writer->writeEndElement();
+    writer->writeStartElement( "factor" );
+    writer->writeCharacters( QString::number( l->factor() ) );
+    writer->writeEndElement();
+}
+
+void Comast::Log::writeFilter( Comast::Filter *f ) {
+    writer->writeStartElement( "filter" );
+    writer->writeAttribute( "id", f->id() );
+    writer->writeStartElement( "model" );
+    writer->writeCDATA( f->model() );
+    writer->writeEndElement();
+    writer->writeStartElement( "vendor" );
+    writer->writeCDATA( f->vendor() );
+    writer->writeEndElement();
+    writer->writeStartElement( "type" );
+    writer->writeCDATA( f->type() );
+    writer->writeEndElement();
+    writer->writeStartElement( "color" );
+    writer->writeCDATA( f->color() );
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
+
+void Comast::Log::writeObservation( Comast::Observation *o ) {
+    writer->writeStartElement( "observation" );
+    writer->writeStartElement( "observer" );
+    writer->writeCharacters( o->observer() );
+    writer->writeEndElement();
+    writer->writeStartElement( "site" );
+    writer->writeCharacters( o->site() );
+    writer->writeEndElement();
+    writer->writeStartElement( "session" );
+    writer->writeCharacters( o->session() );
+    writer->writeEndElement();
+    writer->writeStartElement( "target" );
+    writer->writeCharacters( o->target() );
+    writer->writeEndElement();
+    writer->writeStartElement( "begin" );
+    writer->writeCharacters( o->begin().date().toString( "yyyy-MM-dd" ) + "T" + o->begin().time().toString( "hh:mm:ss" ) );
+    writer->writeEndElement();
+    writer->writeStartElement( "faintestStar" );
+    writer->writeCharacters( QString::number( o->faintestStar() ) );
+    writer->writeEndElement();
+    writer->writeStartElement( "seeing" );
+    writer->writeCharacters( QString::number( o->seeing() ) );
+    writer->writeEndElement();
+    writer->writeStartElement( "scope" );
+    writer->writeCharacters( o->scope() );
+    writer->writeEndElement();
+    writer->writeStartElement( "eyepiece" );
+    writer->writeCharacters( o->eyepiece() );
+    writer->writeEndElement();
+    writer->writeStartElement( "result" );
+    writer->writeAttribute( "xsi:type", "oal:findingsType" );
+    writer->writeAttribute( "lang", o->lang() );
+    writer->writeCDATA( o->result() );
+    writer->writeEndElement();
+    writer->writeEndElement();
+}
 void Comast::Log::writeGeoDate() {
     writer->writeStartElement( "geodate" );
     writer->writeStartElement( "name" );

@@ -1,8 +1,8 @@
 /***************************************************************************
-                          comast.h  -  description
+                          site.h  -  description
 
                              -------------------
-    begin                : Friday June 19, 2009
+    begin                : Wednesday July 8, 2009
     copyright            : (C) 2009 by Prakash Mohan
     email                : prakash.mohan@kdemail.net
  ***************************************************************************/
@@ -15,21 +15,23 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef SITE_H_
+#define SITE_H_
 
-#ifndef COMAST_H_
-#define COMAST_H_
-namespace Comast {
-    class Log;
-    class Observer;
-    class Observation;
-    class Equipment;
-    class Eyepiece;
-    class Scope;
-    class Filter;
-    class Imager;
-    class Site;
-    class Session;
-    class Target;
-    class Lens;
-}
+#include "comast/comast.h"
+
+#include <QString>
+
+class Comast::Site {
+    public:
+       QString name() { return m_Name; }
+       double latitude() { return m_Lat; }
+       QString latUnit() { return m_LatUnit; }
+       double longitude() { return m_Lon; }
+       QString lonUnit() { return m_LonUnit; }
+       void setSite( QString _name, double _lat, QString _latUnit, double _lon, QString _lonUnit);
+    private:
+        QString m_Name, m_LatUnit, m_LonUnit;
+        double m_Lat, m_Lon;
+};
 #endif

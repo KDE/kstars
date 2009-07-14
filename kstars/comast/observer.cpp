@@ -1,8 +1,8 @@
 /***************************************************************************
-                          comast.h  -  description
+                          observer.cpp  -  description
 
                              -------------------
-    begin                : Friday June 19, 2009
+    begin                : Wednesday July 8, 2009
     copyright            : (C) 2009 by Prakash Mohan
     email                : prakash.mohan@kdemail.net
  ***************************************************************************/
@@ -16,20 +16,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COMAST_H_
-#define COMAST_H_
-namespace Comast {
-    class Log;
-    class Observer;
-    class Observation;
-    class Equipment;
-    class Eyepiece;
-    class Scope;
-    class Filter;
-    class Imager;
-    class Site;
-    class Session;
-    class Target;
-    class Lens;
+#include "comast/observer.h"
+
+void Comast::Observer::setObserver( QString _name, QString _surname, QString _contact ){
+    m_Name = _name;
+    m_Surname = _surname;
+    m_Contact = _contact;
 }
-#endif
