@@ -24,6 +24,7 @@
 
 class Comast::Scope {
     public:
+        Scope( QString name, QString model, QString vendor, QString type, double focalLength ) { setScope( name, model, vendor, type, focalLength ); }
         QString id() { return m_Name; }
         QString model() { return m_Model; }
         QString vendor() { return m_Vendor; }

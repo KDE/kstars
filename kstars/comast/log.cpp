@@ -397,6 +397,8 @@ void Comast::Log::readLog() {
                 readSites();
            else if( reader->name() == "sessions" )
                 readSessions();
+           else if( reader->name() == "scopes" )
+                readScopes();
            else if( reader->name() == "geodate" )
                 readGeoDate();
             else
@@ -463,6 +465,22 @@ void Comast::Log::readSessions() {
         if( reader->isStartElement() ) {
             if( reader->name() == "session" )
                 readSession( reader->attributes().value( "id" ).toString(), reader->attributes().value( "lang" ).toString() );
+            else
+                readUnknownElement();
+        }
+    }
+}
+
+void Comast::Log::readScopes() {
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "scope" )
+                readScope( reader->attributes().value( "id" ).toString() );
             else
                 readUnknownElement();
         }
@@ -583,6 +601,32 @@ void Comast::Log::readSession( QString id, QString lang ) {
     
     Comast::Session *o= new Comast::Session( id, site, beginDT, endDT, weather, equipment, comments, lang );
     m_sessionList.append( o );
+}
+
+void Comast::Log::readScope( QString id ) {
+    QString model, focalLength, vendor, type;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "model" ) {
+                model = reader->readElementText();
+            } else if( reader->name() == "vendor" ) {
+                vendor = reader->readElementText() ;
+            } else if( reader->name() == "type" ) {
+                type = reader->readElementText() ;
+            } else if( reader->name() == "focalLength" ) {
+                focalLength = reader->readElementText() ;
+            } else
+                readUnknownElement();
+        }
+    }
+    
+    Comast::Scope *o= new Comast::Scope( id, model, vendor, type, focalLength.toDouble() );
+    m_scopeList.append( o );
 }
 
 void Comast::Log::readPosition() {
