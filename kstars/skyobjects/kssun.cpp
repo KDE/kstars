@@ -131,7 +131,13 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
     //Finally, convert Ecliptic coords to Ra, Dec.  Ecliptic latitude is zero, by definition
     EclipticToEquatorial( num->obliquity() );
 
+
     nutate(num);
+
+    // Store in RA0 and Dec0, the unaberrated coordinates
+    setRA0( *ra() );
+    setDec0( *dec() );
+
     aberrate(num);
 
     // We obtain the apparent geocentric ecliptic coordinates. That is, after
