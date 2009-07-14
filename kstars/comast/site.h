@@ -24,6 +24,7 @@
 
 class Comast::Site {
     public:
+       Site( QString name, double lat, QString latUnit, double lon, QString lonUnit ) { setSite( name, lat, latUnit, lon, lonUnit ); }
        QString name() { return m_Name; }
        double latitude() { return m_Lat; }
        QString latUnit() { return m_LatUnit; }

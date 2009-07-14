@@ -393,6 +393,8 @@ void Comast::Log::readLog() {
                 readTargets();
            else if( reader->name() == "observers" )
                 readObservers();
+           else if( reader->name() == "sites" )
+                readSites();
            else if( reader->name() == "geodate" )
                 readGeoDate();
             else
@@ -427,6 +429,22 @@ void Comast::Log::readObservers() {
         if( reader->isStartElement() ) {
             if( reader->name() == "observer" )
                 readObserver();
+            else
+                readUnknownElement();
+        }
+    }
+}
+
+void Comast::Log::readSites() {
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "site" )
+                readSite();
             else
                 readUnknownElement();
         }
@@ -489,6 +507,31 @@ void Comast::Log::readObserver() {
     }
     Comast::Observer *o= new Comast::Observer( name, surname, contact );
     m_observerList.append( o );
+}
+
+void Comast::Log::readSite() {
+    QString name, latUnit, lonUnit, lat, lon;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "name" ) {
+                name = reader->readElementText();
+            } else if( reader->name() == "latitude" ) {
+                lat = reader->readElementText() ;
+                latUnit = reader->attributes().value( "unit" ).toString();
+            } else if( reader->name() == "longitude" ) {
+                lon = reader->readElementText() ;
+                lonUnit = reader->attributes().value( "unit" ).toString();
+            } else
+                readUnknownElement();
+        }
+    }
+    Comast::Site *o= new Comast::Site( name, lat.toDouble(), latUnit, lon.toDouble(), lonUnit );
+    m_siteList.append( o );
 }
 
 void Comast::Log::readPosition() {

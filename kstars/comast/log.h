@@ -68,8 +68,10 @@ class Comast::Log {
         void readUnknownElement();
         void readTargets();
         void readObservers();
+        void readSites();
         void readTarget();
         void readObserver();
+        void readSite();
         void readPosition();
         void readGeoDate();
     private:
