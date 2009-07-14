@@ -48,6 +48,8 @@
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/starcomponent.h"
 
+bool SkyMap::debugmsg = false;
+
 void SkyMap::resizeEvent( QResizeEvent * )
 {
     computeSkymap = true; // skymap must be new computed
@@ -372,6 +374,20 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             break;
         }
         //END_TIMING
+
+    case Qt::Key_R:
+        {
+            // Toggle relativistic corrections
+            Options::setUseRelativistic( ! Options::useRelativistic() );
+            kDebug() << "Relativistc corrections: " << Options::useRelativistic();
+            forceUpdate();
+            break;
+        }
+
+    case Qt::Key_V:
+        {
+            debugmsg = !debugmsg;
+        }
 
     case Qt::Key_A:
         Options::setUseAntialias( ! Options::useAntialias() );

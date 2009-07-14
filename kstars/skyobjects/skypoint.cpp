@@ -26,6 +26,9 @@
 #include "dms.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h" //for J2000 define
+#include "kssun.h"
+#include "kstarsdata.h"
+#include "Options.h"
 
 void SkyPoint::set( const dms& r, const dms& d ) {
     RA0.set( r );
@@ -219,6 +222,68 @@ void SkyPoint::nutate(const KSNumbers *num) {
     }
 }
 
+SkyPoint SkyPoint::moveAway( SkyPoint &from, double dist ){
+    dms lat1, dtheta;
+
+    if( dist == 0.0 ) {
+        kDebug() << "moveThrough called with zero distance!";
+        return *this;
+    }
+
+    double dst = fabs( dist * dms::DegToRad / 3600.0 ); // In radian
+    
+    // Compute the bearing angle w.r.t. the RA axis ("latitude")
+    dms dRA( ra()->Degrees() - from.ra()->Degrees() );
+    dms dDec( dec()->Degrees() - from.dec()->Degrees() );
+    double bearing = atan2( dRA.sin() / dRA.cos(), dDec.sin() ); // Do not use dRA = PI / 2!!
+    //double bearing = atan2( dDec.radians() , dRA.radians() );
+    
+    double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
+    dist = fabs( dist ); // in radian
+
+
+    lat1.setRadians( asin( dec()->sin() * cos( dst ) +
+                           dec()->cos() * sin( dst ) * cos( dir0 ) ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec()->cos(),
+                              cos( dst ) - dec()->sin() * lat1.sin() ) );
+    
+    dms finalRA( ra()->Degrees() + dtheta.Degrees() );
+    return SkyPoint( finalRA, lat1 );
+}
+
+bool SkyPoint::bendlight() {
+
+    // NOTE: This should be applied before aberration
+
+    // First see if we are close enough to the sun to bother about the
+    // effect. We correct for the effect at least till b = 10 solar
+    // radii, where the effect is only about 0.06".  Assuming
+    // min. sun-earth distance is 200 solar radii.
+
+    static KSSun* sun;
+    const dms maxAngle( 1.75 * ( 30.0 / 200.0) / dms::DegToRad );
+    SkyPoint sp;
+
+    if( !sun ) // Hope we don't destroy the sun before the program ends!
+        sun = (KSSun*) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+    //    kDebug() << "bendlight says maximum correctable angle is " << maxAngle.Degrees();
+
+    // TODO: We can make this code more efficient
+    sp = SkyPoint( sun->ra0(), sun->dec0() );
+    //    kDebug() << "The unaberrated sun is " << sp.angularDistanceTo( sun ).Degrees() << "deg away";
+    if( fabs( angularDistanceTo( &sp ).radians() ) <= maxAngle.radians() ) {
+        // We correct for GR effects
+        double corr_sec = 1.75 * sun->physicalSize() / ( sun->rearth() * AU_KM * angularDistanceTo( &sp ).sin() );
+        Q_ASSERT( corr_sec > 0 );
+        
+        sp = moveAway( sp, corr_sec );
+        setRA( *sp.ra() );
+        setDec( *sp.dec() );
+        return true;
+    }
+    return false;
+}
+
 void SkyPoint::aberrate(const KSNumbers *num) {
     double cosRA, sinRA, cosDec, sinDec;
     dms dRA2, dDec2;
@@ -252,11 +317,11 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
     dms pRA, pDec;
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
-
     precess(num);
     nutate(num);
+    if(Options::useRelativistic())
+        bendlight();
     aberrate(num);
-
     if ( lat || LST )
         kWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) ;
 }
@@ -345,14 +410,12 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
 }
 
 void SkyPoint::apparentCoord(long double jd0, long double jdf){
-
     precessFromAnyEpoch(jd0,jdf);
-
     KSNumbers *num = new KSNumbers (jdf);
-
     nutate(num);
+    if(Options::useRelativistic())
+        bendlight();
     aberrate(num);
-
     delete num;
 }
 
