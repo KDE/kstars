@@ -46,7 +46,7 @@ class Comast::Log {
         void writeSessions();
         void writeTargets();
         void writeScopes();
-        void writeEyePieces();
+        void writeEyepieces();
         void writeLenses();
         void writeFilters();
         void writeImagers();

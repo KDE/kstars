@@ -45,7 +45,7 @@ QString Comast::Log::writeLog( bool _native ) {
     writeSessions();
     writeTargets();
     writeScopes();
-    writeEyePieces();
+    writeEyepieces();
     writeLenses();
     writeFilters();
     writeImagers();
@@ -94,7 +94,7 @@ void Comast::Log::writeScopes() {
     writer->writeEndElement();
 }
 
-void Comast::Log::writeEyePieces() {
+void Comast::Log::writeEyepieces() {
     writer->writeStartElement("eyepieces");
     foreach( Comast::Eyepiece *o, m_eyepieceList )
         writeEyepiece( o );
