@@ -38,6 +38,7 @@
 
 class Comast::Log {
     public:
+        static Comast::Log* Instance();
         QString writeLog( bool native = true );
         void writeBegin();
         void writeGeoDate();
@@ -70,6 +71,7 @@ class Comast::Log {
         void readPosition();
         void readGeoDate();
     private:
+        Log() {}
         QList<SkyObject *> m_targetList;
         QList<Comast::Observer *> m_observerList;
         QList<Comast::Eyepiece *> m_eyepieceList; 

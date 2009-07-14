@@ -22,6 +22,14 @@
 #include "skycomponents/constellationboundary.h"
 #include "kstarsdatetime.h"
 
+Comast::Log *pinstance = NULL;
+
+Comast::Log* Comast::Log::Instance() {
+    if( !pinstance ) 
+        pinstance = new Comast::Log;
+    return pinstance;
+}
+
 void Comast::Log::writeBegin() {
     writer = new QXmlStreamWriter(&output);
     writer->setAutoFormatting( true );
