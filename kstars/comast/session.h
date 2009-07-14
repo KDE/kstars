@@ -25,6 +25,7 @@
 
 class Comast::Session {
     public:
+       Session ( QString name, QString site, KStarsDateTime begin, KStarsDateTime end, QString weather, QString equipment, QString comment, QString lang ) { setSession( name, site, begin, end, weather, equipment, comment, lang ); }
        QString id() { return m_Id; }
        QString site() { return m_Site; }
        KStarsDateTime begin() { return m_Begin; }

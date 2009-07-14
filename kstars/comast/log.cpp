@@ -395,6 +395,8 @@ void Comast::Log::readLog() {
                 readObservers();
            else if( reader->name() == "sites" )
                 readSites();
+           else if( reader->name() == "sessions" )
+                readSessions();
            else if( reader->name() == "geodate" )
                 readGeoDate();
             else
@@ -445,6 +447,22 @@ void Comast::Log::readSites() {
         if( reader->isStartElement() ) {
             if( reader->name() == "site" )
                 readSite();
+            else
+                readUnknownElement();
+        }
+    }
+}
+
+void Comast::Log::readSessions() {
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "session" )
+                readSession( reader->attributes().value( "id" ).toString(), reader->attributes().value( "lang" ).toString() );
             else
                 readUnknownElement();
         }
@@ -532,6 +550,39 @@ void Comast::Log::readSite() {
     }
     Comast::Site *o= new Comast::Site( name, lat.toDouble(), latUnit, lon.toDouble(), lonUnit );
     m_siteList.append( o );
+}
+
+void Comast::Log::readSession( QString id, QString lang ) {
+    QString site, weather, equipment, comments, begin, end;
+    KStarsDateTime beginDT, endDT;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "site" ) {
+                site = reader->readElementText();
+            } else if( reader->name() == "begin" ) {
+                begin = reader->readElementText() ;
+                beginDT.fromString( begin );
+            } else if( reader->name() == "end" ) {
+                end = reader->readElementText() ;
+                endDT.fromString( begin );
+            } else if( reader->name() == "weather" ) {
+                weather = reader->readElementText() ;
+            } else if( reader->name() == "equipment" ) {
+                equipment = reader->readElementText() ;
+            } else if( reader->name() == "comments" ) {
+                comments = reader->readElementText() ;
+            } else
+                readUnknownElement();
+        }
+    }
+    
+    Comast::Session *o= new Comast::Session( id, site, beginDT, endDT, weather, equipment, comments, lang );
+    m_sessionList.append( o );
 }
 
 void Comast::Log::readPosition() {
