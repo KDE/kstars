@@ -73,6 +73,7 @@ class Comast::Log {
         QList<SkyObject *> m_targetList;
         QList<Comast::Observer *> m_observerList;
         QList<Comast::Eyepiece *> m_eyepieceList; 
+        QList<Comast::Lens *> m_lensList; 
         QList<Comast::Filter *> m_filterList;
 //        QList<Comast::Equipment *> m_equipmentList;
 //        QList<Comast::Imager *> m_imagerList;

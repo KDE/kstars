@@ -67,11 +67,15 @@ void Comast::Log::writeObservers() {
 
 void Comast::Log::writeSites() {
     writer->writeStartElement("sites");
+    foreach( Comast::Site *o, m_siteList )
+        writeSite( o );
     writer->writeEndElement();
 }
 
 void Comast::Log::writeSessions() {
     writer->writeStartElement("sessions");
+    foreach( Comast::Session *o, m_sessionList )
+        writeSession( o );
     writer->writeEndElement();
 }
 
@@ -85,21 +89,29 @@ void Comast::Log::writeTargets() {
 
 void Comast::Log::writeScopes() {
     writer->writeStartElement("scopes");
+    foreach( Comast::Scope *o, m_scopeList )
+        writeScope( o );
     writer->writeEndElement();
 }
 
 void Comast::Log::writeEyePieces() {
     writer->writeStartElement("eyepieces");
+    foreach( Comast::Eyepiece *o, m_eyepieceList )
+        writeEyepiece( o );
     writer->writeEndElement();
 }
 
 void Comast::Log::writeLenses() {
     writer->writeStartElement("lenses");
+    foreach( Comast::Lens *o, m_lensList )
+        writeLens( o );
     writer->writeEndElement();
 }
 
 void Comast::Log::writeFilters() {
     writer->writeStartElement("filters");
+    foreach( Comast::Filter *o, m_filterList )
+        writeFilter( o );
     writer->writeEndElement();
 }
 
