@@ -66,12 +66,16 @@ FlagManager::FlagManager( KStars *ks )
     // Fill the list
     imageList = ks->data()->skyComposite()->flags()->imageList();
     flagNames =  ks->data()->skyComposite()->flags()->getNames();
+
     for ( i=0; i<ks->data()->skyComposite()->flags()->size(); ++i ) {
+        QStandardItem* labelItem = new QStandardItem( ks->data()->skyComposite()->flags()->label( i ) );
+        labelItem->setForeground( QBrush( ks->data()->skyComposite()->flags()->labelColor( i ) ) );
+
         itemList << new QStandardItem( ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->toHMSString() ) 
                 << new QStandardItem( ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->toDMSString() ) 
                 << new QStandardItem( ks->data()->skyComposite()->flags()->epoch( i ) ) 
                 << new QStandardItem( QIcon( pixmap->fromImage( ks->data()->skyComposite()->flags()->image( i ) ) ), "" ) 
-                << new QStandardItem( ks->data()->skyComposite()->flags()->label( i ) );
+                << labelItem;
         m_Model->appendRow( itemList );
         itemList.clear();
     }
@@ -121,7 +125,8 @@ void FlagManager::slotValidatePoint() {
                 + str.setNum( flagPoint->dec0()->Degrees() ).toAscii() + ' '
                 + ui->epochBox->text().toAscii() + ' '
                 + ui->flagCombobox->currentText().replace( ' ', '_' ).toAscii() + ' '
-                + ui->flagLabel->text().toAscii() + '\n' );
+                + ui->flagLabel->text().toAscii() + ' '
+                + ui->labelColorcombo->color().name().toAscii() + '\n' );
 
         QFile file( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
         file.open( QIODevice::Append | QIODevice::Text );
@@ -129,16 +134,19 @@ void FlagManager::slotValidatePoint() {
         file.close();
 
         // Add flag in FlagComponent
-        m_Ks->data()->skyComposite()->flags()->add( flagPoint, ui->epochBox->text(), ui->flagCombobox->currentText(), ui->flagLabel->text() );
+        m_Ks->data()->skyComposite()->flags()->add( flagPoint, ui->epochBox->text(), ui->flagCombobox->currentText(), ui->flagLabel->text(), ui->labelColorcombo->color() );
 
         // Add flag in the list 
         pixmap = new QPixmap();
+
+        QStandardItem* labelItem = new QStandardItem( ui->flagLabel->text() );
+        labelItem->setForeground( QBrush( ui->labelColorcombo->color() ) );
 
         itemList << new QStandardItem( flagPoint->ra0()->toHMSString() ) 
                 << new QStandardItem( flagPoint->dec0()->toDMSString() ) 
                 << new QStandardItem( ui->epochBox->text() ) 
                 << new QStandardItem( QIcon( pixmap->fromImage( m_Ks->data()->skyComposite()->flags()->image( m_Ks->data()->skyComposite()->flags()->size()-1 ) ) ), "" )
-                << new QStandardItem( ui->flagLabel->text() );
+                << labelItem;
         m_Model->appendRow( itemList );
 
         // Redraw map
@@ -165,7 +173,8 @@ void FlagManager::slotDeleteFlag() {
                 + str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->Degrees() ).toAscii() + ' '
                 + m_Ks->data()->skyComposite()->flags()->epoch( i ).toAscii() + ' '
                 + m_Ks->data()->skyComposite()->flags()->imageName( i ).replace( ' ', '_' ).toAscii() + ' '
-                + m_Ks->data()->skyComposite()->flags()->label( i ).toAscii() + '\n' );
+                + m_Ks->data()->skyComposite()->flags()->label( i ).toAscii() + ' '
+                + m_Ks->data()->skyComposite()->flags()->labelColor( i ).name().toAscii() + '\n' );
 
         file.write( line );
         line.clear();
