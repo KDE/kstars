@@ -391,7 +391,9 @@ void Comast::Log::readLog() {
         if( reader->isStartElement() ) {
             if( reader->name() == "targets" )
                 readTargets();
-            if( reader->name() == "geodate" )
+           else if( reader->name() == "observers" )
+                readObservers();
+           else if( reader->name() == "geodate" )
                 readGeoDate();
             else
                 readUnknownElement();
@@ -409,6 +411,22 @@ void Comast::Log::readTargets() {
         if( reader->isStartElement() ) {
             if( reader->name() == "target" )
                 readTarget();
+            else
+                readUnknownElement();
+        }
+    }
+}
+
+void Comast::Log::readObservers() {
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "observer" )
+                readObserver();
             else
                 readUnknownElement();
         }
@@ -448,6 +466,30 @@ void Comast::Log::readTarget() {
                 readUnknownElement();
         }
     }
+}
+
+
+void Comast::Log::readObserver() {
+    QString name, surname, contact;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "name" ) {
+                name = reader->readElementText();
+            } else if( reader->name() == "surname" ) {
+                surname = reader->readElementText();
+            } else if( reader->name() == "contact" ) {
+                contact = reader->readElementText();
+            } else
+                readUnknownElement();
+        }
+    }
+    Comast::Observer *o= new Comast::Observer( name, surname, contact );
+    m_observerList.append( o );
 }
 
 void Comast::Log::readPosition() {

@@ -27,6 +27,7 @@ class Comast::Observer {
        QString name() { return m_Name; }
        QString surname() { return m_Surname; }
        QString contact() { return m_Contact; }
+       Observer( QString _name ="", QString _surname = "", QString _contact = "" ) { setObserver( _name, _surname, _contact ); }
        void setObserver( QString _name = "", QString _surname= "", QString _contact = "" );
     private:
         QString m_Name, m_Surname, m_Contact;
