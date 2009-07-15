@@ -24,6 +24,7 @@
 
 class Comast::Eyepiece {
     public:
+        Eyepiece( QString id, QString model, QString vendor, double fov, QString fovUnit, double focalLength ) { setEyepiece( id, model, vendor, fov, fovUnit, focalLength ); }
         QString id() { return m_Name; }
         QString model() { return m_Model; }
         QString vendor() { return m_Vendor; }

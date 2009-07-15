@@ -399,6 +399,8 @@ void Comast::Log::readLog() {
                 readSessions();
            else if( reader->name() == "scopes" )
                 readScopes();
+           else if( reader->name() == "eyepieces" )
+                readEyepieces();
            else if( reader->name() == "geodate" )
                 readGeoDate();
             else
@@ -481,6 +483,22 @@ void Comast::Log::readScopes() {
         if( reader->isStartElement() ) {
             if( reader->name() == "scope" )
                 readScope( reader->attributes().value( "id" ).toString() );
+            else
+                readUnknownElement();
+        }
+    }
+}
+
+void Comast::Log::readEyepieces() {
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "eyepiece" )
+                readEyepiece( reader->attributes().value( "id" ).toString() );
             else
                 readUnknownElement();
         }
@@ -627,6 +645,33 @@ void Comast::Log::readScope( QString id ) {
     
     Comast::Scope *o= new Comast::Scope( id, model, vendor, type, focalLength.toDouble() );
     m_scopeList.append( o );
+}
+
+void Comast::Log::readEyepiece( QString id ) {
+    QString model, focalLength, vendor, fov, fovUnit;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "model" ) {
+                model = reader->readElementText();
+            } else if( reader->name() == "vendor" ) {
+                vendor = reader->readElementText() ;
+            } else if( reader->name() == "apparentFOV" ) {
+                fov = reader->readElementText();
+                fovUnit = reader->attributes().value( "unit" ).toString();
+            } else if( reader->name() == "focalLength" ) {
+                focalLength = reader->readElementText() ;
+            } else
+                readUnknownElement();
+        }
+    }
+    
+    Comast::Eyepiece *o= new Comast::Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
+    m_eyepieceList.append( o );
 }
 
 void Comast::Log::readPosition() {

@@ -71,11 +71,13 @@ class Comast::Log {
         void readSites();
         void readSessions();
         void readScopes();
+        void readEyepieces();
         void readTarget();
         void readObserver();
         void readSite();
         void readSession( QString id, QString lang );
         void readScope( QString id );
+        void readEyepiece( QString id );
         void readPosition();
         void readGeoDate();
     private:
