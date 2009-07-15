@@ -401,6 +401,8 @@ void Comast::Log::readLog() {
                 readScopes();
            else if( reader->name() == "eyepieces" )
                 readEyepieces();
+           else if( reader->name() =="lenses" )
+                readLenses();
            else if( reader->name() == "geodate" )
                 readGeoDate();
             else
@@ -499,6 +501,22 @@ void Comast::Log::readEyepieces() {
         if( reader->isStartElement() ) {
             if( reader->name() == "eyepiece" )
                 readEyepiece( reader->attributes().value( "id" ).toString() );
+            else
+                readUnknownElement();
+        }
+    }
+}
+
+void Comast::Log::readLenses() {
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "Lens" )
+                readLens( reader->attributes().value( "id" ).toString() );
             else
                 readUnknownElement();
         }
@@ -672,6 +690,30 @@ void Comast::Log::readEyepiece( QString id ) {
     
     Comast::Eyepiece *o= new Comast::Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
     m_eyepieceList.append( o );
+}
+
+void Comast::Log::readLens( QString id ) {
+    QString model, factor, vendor;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "model" ) {
+                model = reader->readElementText();
+            } else if( reader->name() == "vendor" ) {
+                vendor = reader->readElementText() ;
+            } else if( reader->name() == "factor" ) {
+                factor = reader->readElementText() ;
+            } else
+                readUnknownElement();
+        }
+    }
+    
+    Comast::Lens *o= new Comast::Lens( id, model, vendor, factor.toDouble() );
+    m_lensList.append( o );
 }
 
 void Comast::Log::readPosition() {

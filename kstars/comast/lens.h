@@ -24,6 +24,7 @@
 
 class Comast::Lens {
     public:
+        Lens( QString id, QString model, QString vendor, double factor ) { setLens( id, model, vendor, factor ); }
         QString id() { return m_Name; }
         QString model() { return m_Model; }
         QString vendor() { return m_Vendor; }

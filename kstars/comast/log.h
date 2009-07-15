@@ -72,12 +72,14 @@ class Comast::Log {
         void readSessions();
         void readScopes();
         void readEyepieces();
+        void readLenses();
         void readTarget();
         void readObserver();
         void readSite();
         void readSession( QString id, QString lang );
         void readScope( QString id );
         void readEyepiece( QString id );
+        void readLens( QString id );
         void readPosition();
         void readGeoDate();
     private:
