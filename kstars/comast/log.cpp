@@ -515,7 +515,7 @@ void Comast::Log::readLenses() {
             break;
 
         if( reader->isStartElement() ) {
-            if( reader->name() == "Lens" )
+            if( reader->name() == "lens" )
                 readLens( reader->attributes().value( "id" ).toString() );
             else
                 readUnknownElement();
