@@ -228,6 +228,11 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     bool addToWishList=true;
     if ( ! obj ) obj = ks->map()->clickedObject();
 
+    if( obj->name() == "star" ) {
+        KMessageBox::sorry(0, i18n( "Unnamed stars are not supported in the observing lists"));
+        return;
+    }
+        
     //First, make sure object is not already in the list
     if ( obsList().contains( obj ) ) {
         addToWishList = false;
