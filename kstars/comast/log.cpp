@@ -543,6 +543,7 @@ void Comast::Log::readFilters() {
 
 void Comast::Log::readTarget() {
     SkyObject *o = NULL;
+    QString name, time, notes;
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -551,18 +552,20 @@ void Comast::Log::readTarget() {
 
         if( reader->isStartElement() ) {
             if( reader->name() == "name" ) {
-                QString Name = reader->readElementText();
-                if( Name != "star" ) {
-                    o = ks->data()->objectNamed( Name );
-                    if( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( Name );
+                name = reader->readElementText();
+                if( name != "star" ) {
+                    o = ks->data()->objectNamed( name );
+                    if( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( name );
                     if( o ) ks->observingList()->slotAddObject( o, true );
                 }
             } else if( reader->name() == "time" ) {
+                time = reader->readElementText();
                 if( o )
-                    ks->observingList()->setTime( o, QTime::fromString( reader->readElementText(), "h:mm:ss AP" ) );
+                    ks->observingList()->setTime( o, QTime::fromString( time, "h:mm:ss AP" ) );
             } else if( reader->name() == "notes" ) {
+                notes = reader->readElementText();
                 if( o )
-                    o->setNotes( reader->readElementText() );
+                    o->setNotes( notes );
             }
        //   else  if( reader->name() == "datasource" )
        //         kDebug() << reader->readElementText();
@@ -652,7 +655,6 @@ void Comast::Log::readSession( QString id, QString lang ) {
                 readUnknownElement();
         }
     }
-    
     Comast::Session *o= new Comast::Session( id, site, beginDT, endDT, weather, equipment, comments, lang );
     m_sessionList.append( o );
 }
@@ -755,7 +757,6 @@ void Comast::Log::readFilter( QString id ) {
                 readUnknownElement();
         }
     }
-    
     Comast::Filter *o= new Comast::Filter( id, model, vendor, type, color );
     m_filterList.append( o );
 }
