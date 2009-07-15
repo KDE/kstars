@@ -1497,6 +1497,10 @@ void SkyMap::forceUpdate( bool now )
     }
 
     computeSkymap = true;
+    
+    // Ensure that stars are recomputed
+    data->incUpdateID();
+
     if ( now ) repaint();
     else update();
 }

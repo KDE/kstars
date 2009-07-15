@@ -625,6 +625,11 @@
 			<whatsthis>Toggle whether object positions are corrected for the effects of atmospheric refraction (only applies when horizontal coordinates are used).</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="UseRelativistic" type="Bool">
+		        <label>Apply relativistic corrections due to the bending of light in sun's gravitational field</label>
+			<whatsthis>Toggle whether corrections due to bending of light around the sun are taken into account</whatsthis>
+			<default>true</default>
+		</entry>
 		<entry name="UseAntialias" type="Bool">
 			<label>Use antialiasing when drawing the screen?</label>
 			<whatsthis>Toggle whether the sky is rendered using antialiasing.  Lines and shapes are smoother with antialiasing, but rendering the screen will take more time.</whatsthis>

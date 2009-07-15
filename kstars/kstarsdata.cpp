@@ -357,6 +357,12 @@ void KStarsData::syncUpdateIDs()
     m_updateNum = KSNumbers( m_preUpdateNum );
 }
 
+unsigned int KStarsData::incUpdateID() {
+    m_preUpdateID++;
+    m_preUpdateNumID++;
+    syncUpdateIDs();
+}
+
 void KStarsData::setFullTimeUpdate() {
     //Set the update markers to invalid dates to trigger updates in each category
     LastSkyUpdate = KDateTime();

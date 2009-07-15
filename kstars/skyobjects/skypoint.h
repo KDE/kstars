@@ -317,6 +317,18 @@ public:
     	*/
     void nutate(const KSNumbers *num);
 
+    /**Correct for the effect of "bending" of light around the sun for
+     * positions near the sun.
+     *
+     * General Relativity tells us that a photon with an impact
+     * parameter b is deflected through an angle 1.75" (Rs / b) where
+     * Rs is the solar radius.
+     *
+     * @return: true if the light was bent, false otherwise
+     */
+    bool bendlight();
+
+
     /**Determine the effects of aberration for this SkyPoint.
     	*@param num pointer to KSNumbers object containing current values of
     	*time-dependent variables.
@@ -476,6 +488,16 @@ public:
      * @return Radial velocity of the source referred the center of the earth in km/s
      **/
     double vTopoToVGeo(double vtopo, double vsite[3]);
+
+    /** Find the SkyPoint obtained by moving distance dist
+     * (arcseconds) away from the givenSkyPoint 
+     *
+     * @param dist Distance to move through in arcseconds
+     * @param p The SkyPoint to move away from
+     * @return a SkyPoint that is at the dist away from this SkyPoint in the direction specified by bearing
+     */
+    SkyPoint moveAway( SkyPoint &from, double dist );
+
 
     ////
     //// 5. Calculating Rise/Set/Transit data.

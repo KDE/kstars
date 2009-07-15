@@ -518,6 +518,9 @@ public:
     	*/
     void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky );
 
+    // The truth value of this variable suppresses / expresses some debug messages
+    static bool debugmsg;
+
 public slots:
     //DEBUG_KIO_JOB
     void slotJobResult( KJob *j );
