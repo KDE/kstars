@@ -336,7 +336,9 @@ void Comast::Log::writeObservation( Comast::Observation *o ) {
     writer->writeStartElement( "result" );
     writer->writeAttribute( "xsi:type", "oal:findingsType" );
     writer->writeAttribute( "lang", o->lang() );
+    writer->writeStartElement( "description" );
     writer->writeCDATA( o->result() );
+    writer->writeEndElement();
     writer->writeEndElement();
     writer->writeEndElement();
 }
@@ -806,14 +808,31 @@ void Comast::Log::readObservation( QString id ) {
             else if( reader->name() == "eyepiece" )
                 eyepiece = reader->readElementText();
             else if( reader->name() == "result" ) {
-                result = reader->readElementText();
                 lang = reader->attributes().value( "lang" ).toString();
+                result = readResult();
             } else
                 readUnknownElement();
         }
     }
         Comast::Observation *o = new Comast::Observation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, result, lang );
         m_observationList.append( o );
+}
+
+QString Comast::Log::readResult() {
+    QString result;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+        if( reader->isStartElement() ) {
+            if( reader->name() == "description" )
+                result = reader->readElementText();
+            else
+                readUnknownElement();
+        }
+    }
+    return result;
 }
 
 void Comast::Log::readGeoDate() {

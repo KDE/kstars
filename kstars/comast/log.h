@@ -85,6 +85,7 @@ class Comast::Log {
         void readFilter( QString id );
         void readPosition();
         void readGeoDate();
+        QString readResult();
     private:
         Log() {}
         QList<SkyObject *> m_targetList;
