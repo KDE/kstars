@@ -25,6 +25,9 @@
 
 class Comast::Observation {
     public:
+        Observation( QString id, QString observer, QString site, QString session, QString target, KStarsDateTime begin, double faintestStar, double seeing, QString scope, QString eyepiece, QString result, QString lang ) {
+            setObservation( id, observer, site, session, target, begin, faintestStar, seeing, scope, eyepiece, result, lang );
+        }
         QString id() { return m_Name; }
         QString target() { return m_Target; }
         QString observer() { return m_Observer; }

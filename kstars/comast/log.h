@@ -74,6 +74,7 @@ class Comast::Log {
         void readEyepieces();
         void readLenses();
         void readFilters();
+        void readObservation( QString id );
         void readTarget();
         void readObserver();
         void readSite();
@@ -96,6 +97,7 @@ class Comast::Log {
         QList<Comast::Site *> m_siteList;
         QList<Comast::Session *> m_sessionList;
         QList<Comast::Scope *> m_scopeList;
+        QList<Comast::Observation *> m_observationList;
         QString output;
         bool native;
         dms ra, dec;

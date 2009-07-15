@@ -403,6 +403,8 @@ void Comast::Log::readLog() {
                 readEyepieces();
            else if( reader->name() =="lenses" )
                 readLenses();
+           else if( reader->name() == "observation" ) 
+                readObservation( reader->attributes().value( "id" ).toString() );
            else if( reader->name() == "geodate" )
                 readGeoDate();
             else
@@ -775,6 +777,44 @@ void Comast::Log::readPosition() {
         }
     }
 }
+
+void Comast::Log::readObservation( QString id ) {
+    QString observer, site, session, target, faintestStar, seeing, scope, eyepiece, result, lang;
+    KStarsDateTime begin;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+        if( reader->isEndElement() )
+            break;
+        if( reader->isStartElement() ) {
+            if( reader->name() == "observer" )
+                observer = reader->readElementText();
+            else if( reader->name() == "site" )
+                site = reader->readElementText();
+            else if( reader->name() == "session" )
+                session = reader->readElementText();
+            else if( reader->name() == "target" )
+                target = reader->readElementText();
+            else if( reader->name() == "begin" )
+                begin.fromString( reader->readElementText() );
+            else if( reader->name() == "faintestStar" )
+                faintestStar = reader->readElementText();
+            else if( reader->name() == "seeing" )
+                seeing = reader->readElementText();
+            else if( reader->name() == "scope" )
+                scope = reader->readElementText();
+            else if( reader->name() == "eyepiece" )
+                eyepiece = reader->readElementText();
+            else if( reader->name() == "result" ) {
+                result = reader->readElementText();
+                lang = reader->attributes().value( "lang" ).toString();
+            } else
+                readUnknownElement();
+        }
+    }
+        Comast::Observation *o = new Comast::Observation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, result, lang );
+        m_observationList.append( o );
+}
+
 void Comast::Log::readGeoDate() {
     QString name, province, country, date;
     while( ! reader->atEnd() ) {
