@@ -24,6 +24,7 @@
 
 class Comast::Filter {
     public:
+        Filter( QString name, QString model, QString vendor, QString type, QString color ) { setFilter( name, model, vendor, type, color ); }
         QString id() { return m_Name; }
         QString model() { return m_Model; }
         QString vendor() { return m_Vendor; }

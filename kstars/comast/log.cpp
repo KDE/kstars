@@ -523,6 +523,22 @@ void Comast::Log::readLenses() {
     }
 }
 
+void Comast::Log::readFilters() {
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "filter" )
+                readFilter( reader->attributes().value( "id" ).toString() );
+            else
+                readUnknownElement();
+        }
+    }
+}
+
 void Comast::Log::readTarget() {
     SkyObject *o = NULL;
     while( ! reader->atEnd() ) {
@@ -714,6 +730,32 @@ void Comast::Log::readLens( QString id ) {
     
     Comast::Lens *o= new Comast::Lens( id, model, vendor, factor.toDouble() );
     m_lensList.append( o );
+}
+
+void Comast::Log::readFilter( QString id ) {
+    QString model, vendor, type, color;
+    while( ! reader->atEnd() ) {
+        reader->readNext();
+
+        if( reader->isEndElement() )
+            break;
+
+        if( reader->isStartElement() ) {
+            if( reader->name() == "model" ) {
+                model = reader->readElementText();
+            } else if( reader->name() == "vendor" ) {
+                vendor = reader->readElementText() ;
+            } else if( reader->name() == "type" ) {
+                type = reader->readElementText() ;
+            } else if( reader->name() == "color" ) {
+                color = reader->readElementText() ;
+            } else
+                readUnknownElement();
+        }
+    }
+    
+    Comast::Filter *o= new Comast::Filter( id, model, vendor, type, color );
+    m_filterList.append( o );
 }
 
 void Comast::Log::readPosition() {
