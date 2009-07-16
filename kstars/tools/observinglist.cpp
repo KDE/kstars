@@ -1371,4 +1371,19 @@ void ObservingList::slotOALExport() {
     nativeSave = true;
 }
 
+void ObservingList::slotAddVisibleObj() {
+    KStarsDateTime lt = dt;
+    lt.setTime( QTime(8,0,0) );
+    QPointer<WUTDialog> w = new WUTDialog( ks, sessionView, geo, lt );
+    w->init();
+    QModelIndexList selectedItems;
+    selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
+    if ( selectedItems.size() )
+        foreach ( const QModelIndex &i, selectedItems ) {
+            foreach ( SkyObject *o, obsList() )
+                if ( o->translatedName() == i.data().toString() && w->checkVisibility( o ) )
+                    slotAddObject( o, true );
+        }
+    delete w;
+}
 #include "observinglist.moc"

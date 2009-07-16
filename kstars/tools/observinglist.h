@@ -311,6 +311,8 @@ public slots:
         */
     void slotOALExport(); 
 
+    void slotAddVisibleObj();
+
 protected slots:
     void slotClose();
     void downloadReady();

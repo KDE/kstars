@@ -22,6 +22,7 @@
 #include <kdialog.h>
 #include <q3listview.h>
 #include "kstarsdatetime.h"
+#include "kstars.h"
 #include "ui_wutdialog.h"
 
 #define NCATEGORY 8
@@ -48,9 +49,23 @@ class WUTDialog : public KDialog  {
 public:
 
     /**@short Constructor*/
-    WUTDialog(KStars *ks, bool session = false);
+    WUTDialog( KStars *ks, bool session = false,GeoLocation *geo = KStars::Instance()->geo(), KStarsDateTime lt = KStars::Instance()->data()->lt() );
+
     /**@short Destructor*/
     ~WUTDialog();
+
+    /**@short Check visibility of object
+        *@p o the object to check
+        *@return true if visible
+        */
+    bool checkVisibility(SkyObject *o);
+
+public slots:
+
+    /**@short Determine which objects are visible, and store them in
+        *an array of lists, classified by object type 
+        */
+    void init();
 
 private slots:
 
@@ -58,11 +73,6 @@ private slots:
         *@p category the string describing the type of object
         */
     void slotLoadList(const QString &category);
-
-    /**@short Determine which objects are visible, and store them in
-        *an array of lists, classified by object type 
-        */
-    void init();
 
     /**@short display the rise/transit/set times for selected object
         */
@@ -118,11 +128,6 @@ private:
     /**@short Initialize catgory list, used in constructor */
     void initCategories();
 
-    /**@short Check visibility of object
-        *@p o the object to check
-        *@return true if visible
-        */
-    bool checkVisibility(SkyObject *o);
 
     QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
     KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;

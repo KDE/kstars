@@ -38,6 +38,8 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bo
     //Insert item for adding the object to the session view
     if( showAddToSession )
         addAction( i18n( "Add to session plan" ), ks->observingList(), SLOT( slotAddToSession() ) );
+    if( !sessionView )
+        addAction( i18n( "Add objects visible tonight to session plan" ), ks->observingList(), SLOT( slotAddVisibleObj() ) );
     addSeparator();
     //Insert item for centering on object
     if( showCenter )
