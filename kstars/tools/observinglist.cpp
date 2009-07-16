@@ -730,7 +730,9 @@ void ObservingList::slotDetails() {
 }
 
 void ObservingList::slotWUT() {
-    QPointer<WUTDialog> w = new WUTDialog( ks, sessionView );
+    KStarsDateTime lt = dt;
+    lt.setTime( QTime(8,0,0) );
+    QPointer<WUTDialog> w = new WUTDialog( ks, sessionView, geo, lt );
     w->exec();
     delete w;
 }
