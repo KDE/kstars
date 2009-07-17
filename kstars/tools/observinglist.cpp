@@ -860,8 +860,8 @@ void ObservingList::slotOpenList() {
         QTextStream istream( &f );
         QString input;
         input = istream.readAll();
-        Comast::Log *logObject = Comast::Log::Instance();
-        logObject->readBegin( input );
+        Comast::Log logObject;
+        logObject.readBegin( input );
         //Update the location and user set times from file
         slotUpdate();
         //Newly-opened list should not trigger isModified flag
@@ -963,8 +963,8 @@ void ObservingList::slotSaveSession() {
     return;
     }
     QTextStream ostream( &f );
-    Comast::Log *logObject = Comast::Log::Instance();
-    ostream<< logObject->writeLog( nativeSave );
+    Comast::Log log;
+    ostream<< log.writeLog( nativeSave );
     f.close();
     isModified = false;//We've saved the session, so reset the modified flag.
 }
