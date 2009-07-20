@@ -363,6 +363,7 @@ unsigned int KStarsData::incUpdateID() {
     m_preUpdateID++;
     m_preUpdateNumID++;
     syncUpdateIDs();
+    return m_updateID;
 }
 
 void KStarsData::setFullTimeUpdate() {
