@@ -23,6 +23,7 @@
 #include <config-kstars.h>
 
 #include "tools/observinglist.h"
+#include "comast/equipmentwriter.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;
@@ -51,6 +52,7 @@ class JMoonTool;
 class ImageViewer;
 class FlagManager;
 class ObservingList;
+class EquipmentWriter;
 
 class OpsCatalog;
 class OpsGuides;
@@ -692,6 +694,8 @@ private slots:
     /**Save data to config file before exiting.*/
     void slotAboutToQuit();
 
+    void slotEquipmentWriter();
+
 private:
     /**
         *Initialize Menu bar, toolbars and all Actions.
@@ -733,6 +737,7 @@ private:
 
     //FIXME: move to KStarsData
     ObservingList *obsList;
+    EquipmentWriter *eWriter;
     AltVsTime *avt;
     WUTDialog *wut;
     SkyCalendar *skycal;

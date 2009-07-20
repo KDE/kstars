@@ -47,6 +47,7 @@
 #include "infoboxes.h"
 #include "simclock.h"
 #include "widgets/timestepbox.h"
+#include "comast/equipmentwriter.h"
 
 #include <config-kstars.h>
 
@@ -386,6 +387,13 @@ void KStars::initActions() {
     ka = actionCollection()->addAction( "flagmanager" );
     ka->setText( i18n( "Flags...") );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotFlagManager() ) );
+    
+    // comast Menu
+
+    ka = actionCollection()->addAction( "ewriter" );
+    ka->setText( i18n( "Equipment Writer..." ) );
+    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_0 ) );
+    connect( ka, SIGNAL( triggered() ), this, SLOT( slotEquipmentWriter() ) );
 
     // devices Menu
 #ifdef HAVE_INDI_H
@@ -629,6 +637,7 @@ void KStars::datainitFinished(bool worked) {
 
     //Initialize Observing List
     obsList = new ObservingList( this );
+    eWriter = new EquipmentWriter();
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )

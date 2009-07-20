@@ -36,6 +36,8 @@
 #include "comast/lens.h"
 #include "comast/observation.h"
 
+class KStars;
+
 class Comast::Log {
     public:
         QString writeLog( bool native = true );
@@ -50,7 +52,14 @@ class Comast::Log {
         void writeLenses();
         void writeFilters();
         void writeImagers();
-        inline QList<SkyObject *> targetList() { return m_targetList; }
+        inline QList<SkyObject *> *targetList() { return &m_targetList; }
+        inline QList<Comast::Scope *> *scopeList() { return &m_scopeList; }
+        inline QList<Comast::Site *> *siteList() { return &m_siteList; }
+        inline QList<Comast::Session *> *sessionList() { return &m_sessionList; }
+        inline QList<Comast::Eyepiece *> *eyepieceList() { return &m_eyepieceList; }
+        inline QList<Comast::Lens *> *lensList() { return &m_lensList; }
+        inline QList<Comast::Filter *> *filterList() { return &m_filterList; }
+        inline QList<Comast::Observation *> *observationList() { return &m_observationList; }
         void writeObserver( Comast::Observer *o );
         void writeSite( Comast::Site *s );
         void writeSession( Comast::Session *s );

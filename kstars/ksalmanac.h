@@ -25,6 +25,9 @@
 #include "kstars.h"
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
+
+class KStars;
+
 class KSAlmanac {
     public:
         void RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime );

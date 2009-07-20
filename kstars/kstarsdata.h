@@ -32,6 +32,8 @@
 #include "kstarsdatetime.h"
 #include "simclock.h"
 #include "skycomponents/skymapcomposite.h"
+#include "comast/comast.h"
+#include "comast/log.h"
 
 //#define MINZOOM 200.
 #define MINZOOM 250.
@@ -341,6 +343,8 @@ public:
     KSNumbers* updateNum()  { return &m_updateNum; }
     void syncUpdateIDs();
 
+    Comast::Log *logObject() { return m_logObject; }
+
 signals:
     /**Signal that specifies the text that should be drawn in the KStarsSplash window.
     	*/
@@ -470,7 +474,7 @@ private:
     SimClock Clock;
     KStarsDateTime LTime;
     ColorScheme CScheme;
-
+    Comast::Log *m_logObject;
 
     bool TimeRunsForward, temporaryTrail, snapToFocus;
 
@@ -504,6 +508,7 @@ private:
     KSNumbers    m_preUpdateNum, m_updateNum;
 
     static KStarsData* pinstance;
+
 };
 
 

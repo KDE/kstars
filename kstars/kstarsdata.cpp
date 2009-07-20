@@ -104,6 +104,7 @@ KStarsData::KStarsData(KStars* kstars) : locale(0),
     locale = new KLocale( "kstars" );
 
     m_SkyComposite = new SkyMapComposite( 0, this );
+    m_logObject = new Comast::Log;
 
     //Instantiate LST and HourAngle
     LST = new dms();
@@ -129,6 +130,7 @@ KStarsData::~KStarsData() {
     delete locale;
     delete LST;
     delete HourAngle;
+    delete m_logObject;
 
     while ( ! geoList.isEmpty() )
         delete geoList.takeFirst();

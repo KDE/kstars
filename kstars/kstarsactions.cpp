@@ -1049,6 +1049,9 @@ void KStars::slotObsList() {
     obsList->show();
 }
 
+void KStars::slotEquipmentWriter() {
+    eWriter->show();
+}
 //Help Menu
 void KStars::slotTipOfDay() {
     KTipDialog::showTip(this, "kstars/tips", true);
