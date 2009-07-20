@@ -106,6 +106,10 @@
 		<Action name="startwizard" />
 	</Menu>
 
+	<Menu name="comast" noMerge="1"><text>&amp;Comast</text>
+        <Action name="ewriter"/>
+    </Menu>
+
 	<Menu name="help"><text>&amp;Help</text>
 		<Action name="help_contents"/>
 		<Action name="help_tipofday"/>
