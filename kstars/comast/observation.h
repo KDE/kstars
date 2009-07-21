@@ -25,8 +25,8 @@
 
 class Comast::Observation {
     public:
-        Observation( QString id, QString observer, QString site, QString session, QString target, KStarsDateTime begin, double faintestStar, double seeing, QString scope, QString eyepiece, QString result, QString lang ) {
-            setObservation( id, observer, site, session, target, begin, faintestStar, seeing, scope, eyepiece, result, lang );
+        Observation( QString id, QString observer, QString site, QString session, QString target, KStarsDateTime begin, double faintestStar, double seeing, QString scope, QString eyepiece, QString lens, QString filter,  QString result, QString lang ) {
+            setObservation( id, observer, site, session, target, begin, faintestStar, seeing, scope, eyepiece, lens, filter, result, lang );
         }
         QString id() { return m_Name; }
         QString target() { return m_Target; }
@@ -35,12 +35,14 @@ class Comast::Observation {
         QString session() { return m_Session; }
         QString scope() { return m_Scope; }
         QString eyepiece() { return m_Eyepiece; }
+        QString lens() { return m_Lens; }
+        QString filter() { return m_Filter; }
         QString lang() { return m_Lang; }
         QString result() { return m_Result; }
         double seeing() { return m_Seeing; }
         double faintestStar() { return m_FaintestStar; }
         KStarsDateTime begin() { return m_Begin; }
-        void setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin, double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _result, QString _lang =  "en" );
+        void setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin, double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _lens, QString _filter, QString _result, QString _lang =  "en" );
     private:
         QString m_Name; 
         QString m_Target;
@@ -50,6 +52,8 @@ class Comast::Observation {
         QString m_Scope;
         QString m_Result;
         QString m_Eyepiece;
+        QString m_Lens;
+        QString m_Filter;
         QString m_Lang;
         double m_Seeing;
         double m_FaintestStar;

@@ -326,6 +326,12 @@ void Comast::Log::writeObservation( Comast::Observation *o ) {
     writer->writeStartElement( "eyepiece" );
     writer->writeCharacters( o->eyepiece() );
     writer->writeEndElement();
+    writer->writeStartElement( "lens" );
+    writer->writeCharacters( o->lens() );
+    writer->writeEndElement();
+    writer->writeStartElement( "filter" );
+    writer->writeCharacters( o->filter() );
+    writer->writeEndElement();
     writer->writeStartElement( "result" );
     writer->writeAttribute( "xsi:type", "oal:findingsType" );
     writer->writeAttribute( "lang", o->lang() );
@@ -775,7 +781,7 @@ void Comast::Log::readPosition() {
 }
 
 void Comast::Log::readObservation( QString id ) {
-    QString observer, site, session, target, faintestStar, seeing, scope, eyepiece, result, lang;
+    QString observer, site, session, target, faintestStar, seeing, scope, eyepiece, lens, filter, result, lang;
     KStarsDateTime begin;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -800,6 +806,10 @@ void Comast::Log::readObservation( QString id ) {
                 scope = reader->readElementText();
             else if( reader->name() == "eyepiece" )
                 eyepiece = reader->readElementText();
+            else if( reader->name() == "lens" )
+                lens = reader->readElementText();
+            else if( reader->name() == "filter" )
+                filter = reader->readElementText();
             else if( reader->name() == "result" ) {
                 lang = reader->attributes().value( "lang" ).toString();
                 result = readResult();
@@ -807,7 +817,7 @@ void Comast::Log::readObservation( QString id ) {
                 readUnknownElement();
         }
     }
-        Comast::Observation *o = new Comast::Observation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, result, lang );
+        Comast::Observation *o = new Comast::Observation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, lens, filter, result, lang );
         m_observationList.append( o );
 }
 
