@@ -65,7 +65,7 @@ void CalendarWidget::paintEvent( QPaintEvent *e ) {
 }
 
 void CalendarWidget::drawHorizon( QPainter *p ) {
-    KSSun *sun = (KSSun*)KSPlanetBase::createPlanet( KSPlanetBase::SUN );
+    KSSun *the_sun = (KSSun*)KSPlanetBase::createPlanet( KSPlanetBase::SUN );
     KStarsData *data = KStarsData::Instance();
     SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
     int y = skycal->year();
@@ -79,8 +79,8 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     float rTime, sTime;
     while ( y == kdt.date().year() ) {
         float t = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
-        rTime = sun->riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
-        sTime = sun->riseSetTime( kdt.djd(), data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
+        rTime = the_sun->riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
+        sTime = the_sun->riseSetTime( kdt.djd(), data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
 
         if ( kdt.date().month() != imonth ) {
             riseTimeList.append( rTime );
@@ -113,7 +113,7 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     p->drawPolygon( polySunRise );
     p->drawPolygon( polySunSet );
     
-    delete sun;
+    delete the_sun;
 }
 
 void CalendarWidget::drawAxes( QPainter *p ) {
