@@ -79,11 +79,6 @@ class KSAlmanac {
     inline QTime moonRise() { return MoonRiseT; }
     inline QTime moonSet() { return MoonSetT; }
     
-
-    double getAstroTwilight( bool begin = true );
-    double getNauticalTwilight( bool begin = true );
-    double getCivilTwilight( bool begin = true );
-
  private:
     // TODO: Add documentation
     KSAlmanac(); 
