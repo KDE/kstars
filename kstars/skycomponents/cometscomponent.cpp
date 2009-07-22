@@ -120,7 +120,7 @@ void CometsComponent::draw( QPainter& psky )
             psky.drawEllipse( QRectF( x1, y1, size, size ) );
         }
 
-        float tailsize = com->getTailAngSize().Degrees() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
+//        float tailsize = com->getTailAngSize().Degrees() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
 
         if ( hideLabels || com->rsun() >= rsunLabelLimit ) continue;
         SkyLabeler::AddLabel( o, com, SkyLabeler::COMET_LABEL );

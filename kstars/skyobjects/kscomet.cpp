@@ -27,7 +27,7 @@
 KSComet::KSComet( const QString &_s, const QString &imfile,
                   long double _JD, double _q, double _e, dms _i, dms _w, dms _Node, double Tp, float _H, float _G )
     : KSPlanetBase(_s, imfile),
-      JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_Node), H(_H), G(_G)
+      JD(_JD), q(_q), e(_e), H(_H), G(_G), i(_i), w(_w), N(_Node)
 {
     setType( 9 ); //Comet
 

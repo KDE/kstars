@@ -577,7 +577,7 @@ void StarObject::updateColors( bool desaturateColors, int saturation ) {
 }
 
 void StarObject::draw( QPainter &psky, float x, float y, float size,
-                       bool useRealColors, int scIntensity, bool /*showMultiple*/ ) {
+                       bool /*useRealColors*/, int /*scIntensity*/, bool /*showMultiple*/ ) {
 
     int isize = int(size);
     if ( isize >= 14 ) {
