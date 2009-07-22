@@ -861,3 +861,59 @@ void Comast::Log::readGeoDate() {
     }
     ks->observingList()->setGeoDate( name, province, country, date );
 }
+
+Comast::Observer* Comast::Log::findObserverByName( QString id ) {
+    foreach( Comast::Observer *obs, *observerList() )
+        if( obs->name() == id )
+            return obs;
+    return NULL;
+}
+
+Comast::Session* Comast::Log::findSessionByName( QString id ) {
+    foreach( Comast::Session *s, *sessionList() )
+        if( s->id()  == id )
+            return s;
+    return NULL;
+}
+
+Comast::Site* Comast::Log::findSiteByName( QString name ) {
+    foreach( Comast::Site *s, *siteList() )
+        if( s->name()  == name )
+            return s;
+    return NULL;
+}
+
+Comast::Scope* Comast::Log::findScopeByName( QString id ) {
+    foreach( Comast::Scope *s, *scopeList() )
+        if( s->id()  == id )
+            return s;
+    return NULL;
+}
+
+Comast::Eyepiece* Comast::Log::findEyepieceByName( QString id ) {
+    foreach( Comast::Eyepiece *e, *eyepieceList() )
+        if( e->id()  == id )
+            return e;
+    return NULL;
+}
+
+Comast::Filter* Comast::Log::findFilterByName( QString id ) {
+    foreach( Comast::Filter *f, *filterList() )
+        if( f->id()  == id )
+            return f;
+    return NULL;
+}
+
+Comast::Lens* Comast::Log::findLensByName( QString id ) {
+    foreach( Comast::Lens *l, *lensList() )
+        if( l->id()  == id )
+            return l;
+    return NULL;
+}
+
+Comast::Observation* Comast::Log::findObservationByName( QString id ) {
+    foreach( Comast::Observation *o, *observationList() )
+        if( o->id()  == id )
+            return o;
+    return NULL;
+}

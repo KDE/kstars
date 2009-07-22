@@ -60,6 +60,7 @@ class Comast::Log {
         inline QList<Comast::Lens *> *lensList() { return &m_lensList; }
         inline QList<Comast::Filter *> *filterList() { return &m_filterList; }
         inline QList<Comast::Observation *> *observationList() { return &m_observationList; }
+        inline QList<Comast::Observer *> *observerList() { return &m_observerList; }
         void writeObserver( Comast::Observer *o );
         void writeSite( Comast::Site *s );
         void writeSession( Comast::Session *s );
@@ -94,6 +95,14 @@ class Comast::Log {
         void readPosition();
         void readGeoDate();
         QString readResult();
+        Comast::Observer* findObserverByName( QString id );
+        Comast::Site* findSiteByName( QString id );
+        Comast::Session* findSessionByName( QString id );
+        Comast::Scope* findScopeByName( QString id );
+        Comast::Eyepiece* findEyepieceByName( QString id );
+        Comast::Lens* findLensByName( QString id );
+        Comast::Filter* findFilterByName( QString id );
+        Comast::Observation* findObservationByName( QString id );
     private:
         QList<SkyObject *> m_targetList;
         QList<Comast::Observer *> m_observerList;
