@@ -22,15 +22,19 @@
 
 #include <QString>
 
+#include "geolocation.h"
+
 class Comast::Site {
     public:
        Site( QString name, double lat, QString latUnit, double lon, QString lonUnit ) { setSite( name, lat, latUnit, lon, lonUnit ); }
+       Site( GeoLocation *geo ) { setSite( geo ); }
        QString name() { return m_Name; }
        double latitude() { return m_Lat; }
        QString latUnit() { return m_LatUnit; }
        double longitude() { return m_Lon; }
        QString lonUnit() { return m_LonUnit; }
        void setSite( QString _name, double _lat, QString _latUnit, double _lon, QString _lonUnit);
+       void setSite( GeoLocation *geo );
     private:
         QString m_Name, m_LatUnit, m_LonUnit;
         double m_Lat, m_Lon;

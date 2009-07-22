@@ -25,3 +25,9 @@ void Comast::Site::setSite( QString _name, double _lat, QString _latUnit, double
     m_LatUnit = _latUnit;
     m_LonUnit = _lonUnit;
 }
+void Comast::Site::setSite( GeoLocation *geo ) {
+    m_Name = geo->name();
+    m_Lat = geo->lat()->radians();
+    m_Lon = geo->lng()->radians();
+    m_LatUnit = m_LonUnit = "rad";
+}
