@@ -35,7 +35,21 @@
 #include "starcomponent.h"
 
 #include <kde_file.h>
+
+// Byte-swapping support.
+//
+// bswap_16 is a linuxism, use BSWAP_16 define on Solaris,
+// probably need to usw BSD's swap16() on FreeBSD. This could
+// use some cmake checks to actually check for the supported
+// include files and which form of byte swapping to use.
+//
+#ifdef Q_OS_SOLARIS
+#include <sys/byteorder.h>
+#define bswap_16(x) BSWAP_16(x)
+#define bswap_32(x) BSWAP_32(x)
+#else
 #include <byteswap.h>
+#endif
 
 DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, float trigMag, bool staticstars )
     : ListComponent(parent), m_reindexNum( J2000 ), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 
