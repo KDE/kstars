@@ -42,7 +42,8 @@
 class KSAlmanac {
  public:
     /**
-     * ??? I have absolutely no clue what this method does and why it takes a SkyObject at all - Akarsh
+     * This function computes the rise and set time for the given SkyObject. This is done in order to 
+     * have a common function for the computation of the Sun and Moon rise and set times.
      */
     void RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime );
 
@@ -65,23 +66,12 @@ class KSAlmanac {
     static KSAlmanac* Instance();
 
     /**
-     *??? in what units does this return?
+     *All the functions returns the fraction of the day
+     *as their return value
      */
     inline double getSunRise() { return SunRise; }
-    
-    /**
-     *??? in what units does this return?
-     */
     inline double getSunSet() { return SunSet; }
-    
-    /**
-     *??? in what units does this return?
-     */
     inline double getMoonRise() { return MoonRise; }
-    
-    /**
-     *??? in what units does this return?
-     */
     inline double getMoonSet() { return MoonSet; }
     
     inline QTime sunRise() { return SunRiseT; }
