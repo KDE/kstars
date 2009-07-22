@@ -148,7 +148,7 @@ public:
 
     /**@return time zone, including any DST correction.
     	*/
-    double TZ() const { return TimeZone + TZrule->deltaTZ(); }
+    double TZ() const { if( TZrule ) return TimeZone + TZrule->deltaTZ(); return TimeZone; }
 
     /**@return pointer to time zone rule object
     	*/
