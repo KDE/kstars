@@ -181,9 +181,9 @@ void DeepStarComponent::draw( QPainter& psky ) {
     double hideStarsMag = Options::magLimitHideStar();
 
     //adjust maglimit for ZoomLevel
-    double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
-    double lgz = log10(Options::zoomFactor());
+//    double lgmin = log10(MINZOOM);
+//    double lgmax = log10(MAXZOOM);
+//    double lgz = log10(Options::zoomFactor());
     // TODO: Enable hiding of faint stars
 
     float maglim = sc->zoomMagnitudeLimit();

@@ -206,7 +206,7 @@ float StarComponent::starRenderingSize( float mag ) const {
     const double maxSize = 10.0;
 
     double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
+//    double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
 
     // Old formula:
@@ -236,7 +236,7 @@ float StarComponent::zoomMagnitudeLimit() const {
 
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
+//    double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
 
     // Old formula:
