@@ -105,7 +105,7 @@ public:
     
     /**@return reference to the current observing list
         */
-    QList<SkyObject*>& sessionList() { return m_SessionList; }
+    QList<SkyObject*>* sessionList() { return &m_SessionList; }
 
     /**@return pointer to the currently-selected object in the observing list
         *@note if more than one object is selected, this function returns 0.

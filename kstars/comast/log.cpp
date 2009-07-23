@@ -36,7 +36,7 @@ void Comast::Log::writeBegin() {
 QString Comast::Log::writeLog( bool _native ) {
     ks = KStars::Instance();
     output = "";
-    m_targetList = ks->observingList()->sessionList();
+    m_targetList = *(ks->observingList()->sessionList());
     native = _native;
     writeBegin();
     if( native )
