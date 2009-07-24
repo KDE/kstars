@@ -377,8 +377,8 @@ void SkyMap::drawObservingList( QPainter &psky ) {
     int penWidth = int(m_Scale);
     psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), penWidth ) );
 
-    if ( ks && ks->observingList()->sessionList()->size() ) {
-        foreach ( SkyObject* obj, *( ks->observingList()->sessionList() ) ) {
+    if ( ks && ks->observingList()->sessionList().size() ) {
+        foreach ( SkyObject* obj, ks->observingList()->sessionList() ) {
             if ( checkVisibility( obj ) ) {
                 QPointF o = toScreen( obj );
 

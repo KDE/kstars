@@ -242,7 +242,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         }
     }
 
-    if ( session && sessionList()->contains( obj ) ) { 
+    if ( session && sessionList().contains( obj ) ) { 
         ks->statusBar()->changeItem( i18n( "%1 is already in the session plan.", obj->name() ), 0 );
         return;
     }
@@ -349,7 +349,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
         ui->TableView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     } else {
-        int k = sessionList()->indexOf( o );
+        int k = sessionList().indexOf( o );
         if ( o == LogObject ) saveCurrentUserLog();
         //Remove row from the Session View model
         bool found(false);
@@ -377,7 +377,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
         }
         if( ! update )
             TimeHash.remove( o->name() );
-        sessionList()->removeAt(k);//Remove from the session list
+        sessionList().removeAt(k);//Remove from the session list
         if ( ! isModified ) isModified = true;//Removing an object should trigger the modified flag
         ui->View->removeAllPlotObjects();
         ui->SessionView->resizeColumnsToContents();
@@ -396,7 +396,7 @@ void ObservingList::slotRemoveSelectedObjects() {
                 int irow = mIndex.row();
                 QString ra = m_Session->item(irow, 1)->text();
                 QString dc = m_Session->item(irow, 2)->text();
-                foreach ( SkyObject *o, *sessionList() ) {
+                foreach ( SkyObject *o, sessionList() ) {
                     //Stars named "star" must be matched by coordinates
                     if ( o->name() == "star" ) {
                         if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
@@ -472,7 +472,7 @@ void ObservingList::slotNewSelection() {
             //Find the selected object in the SessionList,
             //then break the loop.  Now SessionList.current()
             //points to the new selected object (until now it was the previous object)
-            foreach ( o, *sessionList() ) {
+            foreach ( o, sessionList() ) {
                 if ( o->translatedName() == newName ) {
                     found = true;
                     break;
@@ -772,7 +772,7 @@ void ObservingList::slotAVT() {
                 int irow = mIndex.row();
                 QString ra = m_Session->item(irow, 1)->text();
                 QString dc = m_Session->item(irow, 2)->text();
-                foreach ( SkyObject *o, *sessionList() ) {
+                foreach ( SkyObject *o, sessionList() ) {
                     //Stars named "star" must be matched by coordinates
                     if ( o->name() == "star" ) {
                         if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
@@ -851,7 +851,7 @@ void ObservingList::slotOpenList() {
         saveCurrentList();//See if the current list needs to be saved before opening the new one
         ui->tabWidget->setCurrentIndex(1);
         slotChangeTab(1);
-        sessionList()->clear();
+        sessionList().clear();
         TimeHash.clear();
         m_CurrentObject = 0;
         m_Session->removeRows( 0, m_Session->rowCount() );
@@ -875,7 +875,7 @@ void ObservingList::slotOpenList() {
 void ObservingList::saveCurrentList() {
     //Before loading a new list, do we need to save the current one?
     //Assume that if the list is empty, then there's no need to save
-    if ( sessionList()->size() ) {
+    if ( sessionList().size() ) {
         if ( isModified ) {
             QString message = i18n( "Do you want to save the current session?" );
             if ( KMessageBox::questionYesNo( this, message,
@@ -1207,7 +1207,7 @@ void ObservingList::slotSaveImages() {
     ui->SessionView->clearSelection();
 
     if( sessionView ) {
-        foreach( SkyObject *o, *sessionList() ) {
+        foreach( SkyObject *o, sessionList() ) {
             setCurrentImage( o );
             QString img( CurrentImagePath  );
             KUrl url( SDSSUrl );
@@ -1281,7 +1281,7 @@ void ObservingList::slotDeleteImages() {
 void ObservingList::setSaveImages() {
     ui->saveImages->setEnabled( false );
     if( sessionView ) {
-        if( ! sessionList()->isEmpty() )
+        if( ! sessionList().isEmpty() )
             ui->saveImages->setEnabled( true );
     } else {
         if( ! obsList().isEmpty() )
