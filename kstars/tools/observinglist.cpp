@@ -82,13 +82,6 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
 
-void ObservingList::setGeoDate(QString name, QString province, QString country, QString date) {
-    geo = ks->data()->locationNamed( name, province, country );
-    dt.setDate( QDate::fromString( date, "ddMMyyyy" ) );
-    ui->DateEdit->setDate( dt.date() );
-
-}
-
 //
 // ObservingList
 // ---------------------------------

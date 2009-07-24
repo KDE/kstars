@@ -157,8 +157,6 @@ public:
 
     void setTime( SkyObject *o, QTime t ) { TimeHash.insert( o->name(), t); }
 
-    void setGeoDate( QString name, QString province, QString country, QString date ); 
-
     GeoLocation* geoLocation() { return geo; }
 
     KStarsDateTime dateTime() { return dt; }
