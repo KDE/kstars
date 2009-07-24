@@ -277,6 +277,7 @@ void Comast::Log::writeLens( Comast::Lens *l ) {
     writer->writeStartElement( "factor" );
     writer->writeCharacters( QString::number( l->factor() ) );
     writer->writeEndElement();
+    writer->writeEndElement();
 }
 
 void Comast::Log::writeFilter( Comast::Filter *f ) {
@@ -404,6 +405,8 @@ void Comast::Log::readLog() {
                 readEyepieces();
            else if( reader->name() =="lenses" )
                 readLenses();
+           else if( reader->name() =="filters" )
+                readFilters();
            else if( reader->name() == "observation" ) 
                 readObservation( reader->attributes().value( "id" ).toString() );
            else if( reader->name() == "geodate" )
