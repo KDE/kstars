@@ -153,6 +153,8 @@ public:
 
     QString getTime( SkyObject *o ) { return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" ); }
 
+    QTime scheduledTime( SkyObject *o ) { return TimeHash.value( o->name(), o->transitTime( dt, geo ) ); }
+
     void setTime( SkyObject *o, QTime t ) { TimeHash.insert( o->name(), t); }
 
     void setGeoDate( QString name, QString province, QString country, QString date ); 
