@@ -103,6 +103,9 @@ class Comast::Log {
         Comast::Lens* findLensByName( QString id );
         Comast::Filter* findFilterByName( QString id );
         Comast::Observation* findObservationByName( QString id );
+        QHash<QString, QTime> timeHash() { return TimeHash; }
+        KStarsDateTime dateTime() { return dt; }
+        GeoLocation* geoLocation() { return geo; }
     private:
         QList<SkyObject *> m_targetList;
         QList<Comast::Observer *> m_observerList;
@@ -121,5 +124,8 @@ class Comast::Log {
         KStars *ks;
         QXmlStreamWriter *writer;
         QXmlStreamReader *reader;
+        QHash<QString, QTime> TimeHash;
+        KStarsDateTime dt;
+        GeoLocation *geo;
 };
 #endif

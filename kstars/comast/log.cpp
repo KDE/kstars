@@ -560,12 +560,12 @@ void Comast::Log::readTarget() {
                 if( name != "star" ) {
                     o = ks->data()->objectNamed( name );
                     if( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( name );
-                    if( o ) ks->observingList()->slotAddObject( o, true );
+                    if( o ) targetList()->append( o );
                 }
             } else if( reader->name() == "time" ) {
                 time = reader->readElementText();
                 if( o )
-                    ks->observingList()->setTime( o, QTime::fromString( time, "h:mm:ss AP" ) );
+                    TimeHash.insert( o->name(), QTime::fromString( time, "h:mm:ss AP" ) );
             } else if( reader->name() == "notes" ) {
                 notes = reader->readElementText();
                 if( o )
@@ -862,7 +862,8 @@ void Comast::Log::readGeoDate() {
                 readUnknownElement();
         }
     }
-    ks->observingList()->setGeoDate( name, province, country, date );
+    geo = ks->data()->locationNamed( name, province, country );
+    dt.setDate( QDate::fromString( date, "ddMMyyyy" ) );
 }
 
 Comast::Observer* Comast::Log::findObserverByName( QString id ) {

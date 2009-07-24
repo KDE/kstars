@@ -862,6 +862,12 @@ void ObservingList::slotOpenList() {
         input = istream.readAll();
         Comast::Log logObject;
         logObject.readBegin( input );
+        //Set the New TimeHash
+        TimeHash = logObject.timeHash();
+        geo = logObject.geoLocation();
+        dt = logObject.dateTime();
+        foreach( SkyObject *o, *( logObject.targetList() ) )
+            slotAddObject( o, true );
         //Update the location and user set times from file
         slotUpdate();
         //Newly-opened list should not trigger isModified flag
