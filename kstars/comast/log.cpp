@@ -361,7 +361,6 @@ void Comast::Log::writeGeoDate() {
 void Comast::Log::readBegin( QString input ) {
     reader = new QXmlStreamReader( input );
     ks = KStars::Instance();
-    m_targetList.clear();
     while( ! reader->atEnd() ) {
         reader->readNext();
         if( reader->isStartElement() ) {
