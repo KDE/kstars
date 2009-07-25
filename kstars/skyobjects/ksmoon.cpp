@@ -37,6 +37,25 @@ namespace {
         while( x < 0.0  ) x += 360.0;
         return x * dms::DegToRad;
     }
+
+    /*
+     * Data used to calculate moon magnitude. 
+     *
+     * Formula and data were obtained from SkyChart v3.x Beta
+     *
+     */
+    // intensities in Table 1 of M. Minnaert (1961),
+    // Phase  Frac.            Phase  Frac.            Phase  Frac.
+    // angle  ill.   Mag       angle  ill.   Mag       angle  ill.   Mag
+    //  0    1.00  -12.7        60   0.75  -11.0       120   0.25  -8.7
+    // 10    0.99  -12.4        70   0.67  -10.8       130   0.18  -8.2
+    // 20    0.97  -12.1        80   0.59  -10.4       140   0.12  -7.6
+    // 30    0.93  -11.8        90   0.50  -10.0       150   0.07  -6.7
+    // 40    0.88  -11.5       100   0.41   -9.6       160   0.03  -3.4
+    // 50    0.82  -11.2       110   0.33   -9.2
+    static const double MagArray[19] = {
+        -12.7, -12.4, -12.1, -11.8, -11.5, -11.2, -11.0, -10.8, -10.4, -10.0,
+        -9.6,  -9.2,  -8.7,  -8.2,  -7.6,  -6.7,  -3.4,  0, 0};
 }
 
 KSMoon::KSMoon()
@@ -71,10 +90,6 @@ bool KSMoon::data_loaded = false;
 int KSMoon::instance_count = 0;
 QList<KSMoon::MoonLRData*> KSMoon::LRData;
 QList<KSMoon::MoonBData*> KSMoon::BData;
-
-const double KSMoon::MagArray[19] = {-12.7,-12.4,-12.1,-11.8,-11.5,-11.2,
-                               -11.0,-10.8,-10.4,-10.0,-9.6,-9.2,
-                               -8.7,-8.2,-7.6,-6.7,-3.4,0,0};
 
 
 bool KSMoon::loadData() {
@@ -216,7 +231,7 @@ void KSMoon::findMagnitude(const KSNumbers*)
     int j = (i + 1 > 18) ? 18 : i + 1;
     i = 18 - abs(i);
     j = 18 - abs(j);
-    setMag( KSMoon::MagArray[ i ] + ( ( KSMoon::MagArray[ j ] - KSMoon::MagArray[ i ] ) * k / 10 ) );
+    setMag( MagArray[i] + (MagArray[j] - MagArray[i]) * k / 10 );
 }
 
 void KSMoon::findPhase() {
