@@ -321,6 +321,7 @@ set(comast_SRCS
     comast/observation.cpp
     comast/lens.cpp
     comast/equipmentwriter.cpp
+    comast/observeradd.cpp
 )
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
@@ -338,7 +339,8 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 kde4_add_ui_files(kstars_SRCS
        ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
-         thumbnailpicker.ui thumbnaileditor.ui comast/equipmentwriter.ui
+         thumbnailpicker.ui thumbnaileditor.ui comast/observeradd.ui comast/equipmentwriter.ui
+
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")

@@ -24,6 +24,7 @@
 
 #include "tools/observinglist.h"
 #include "comast/equipmentwriter.h"
+#include "comast/observeradd.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;
@@ -53,6 +54,7 @@ class ImageViewer;
 class FlagManager;
 class ObservingList;
 class EquipmentWriter;
+class ObserverAdd;
 
 class OpsCatalog;
 class OpsGuides;
@@ -696,6 +698,8 @@ private slots:
 
     void slotEquipmentWriter();
 
+    void slotObserverAdd();
+
 private:
     /**
         *Initialize Menu bar, toolbars and all Actions.
@@ -738,6 +742,7 @@ private:
     //FIXME: move to KStarsData
     ObservingList *obsList;
     EquipmentWriter *eWriter;
+    ObserverAdd *oAdd;
     AltVsTime *avt;
     WUTDialog *wut;
     SkyCalendar *skycal;
