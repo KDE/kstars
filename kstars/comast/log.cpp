@@ -180,7 +180,7 @@ void Comast::Log::writeTarget( SkyObject *o ) {
 
 void Comast::Log::writeObserver( Comast::Observer *o ) {
     writer->writeStartElement( "observer" );
-    writer->writeAttribute( "id", o->name() );
+    writer->writeAttribute( "id", o->name() + o->surname() );
     writer->writeStartElement( "name" );
     writer->writeCDATA( o->name() );
     writer->writeEndElement();
