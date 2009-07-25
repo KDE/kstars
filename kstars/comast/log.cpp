@@ -867,7 +867,7 @@ void Comast::Log::readGeoDate() {
 
 Comast::Observer* Comast::Log::findObserverByName( QString id ) {
     foreach( Comast::Observer *obs, *observerList() )
-        if( obs->name() == id )
+        if( obs->name() + obs->surname() == id )
             return obs;
     return NULL;
 }
