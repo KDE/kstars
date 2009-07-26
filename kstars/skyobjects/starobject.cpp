@@ -23,6 +23,8 @@
 #include <QPixmap>
 #include <kdebug.h>
 
+#include <assert.h>
+
 #include "kspopupmenu.h"
 #include "ksnumbers.h"
 #include "kstarsdata.h"
@@ -704,4 +706,21 @@ QString StarObject::labelString() const {
 double StarObject::labelOffset() const {
     return SkyMap::Instance()->scale() * 
         (6. + 0.5*( 5.0 - mag() ) + 0.01*( Options::zoomFactor()/500. ) );
+}
+
+SkyObject::UID StarObject::getUID() const
+{
+    // mag takes 10 bit
+    SkyObject::UID m = mag()*10; 
+    if( m < 0 ) m = 0;
+
+    // Both RA & dec fits in 24-bits
+    SkyObject::UID ra  = ra0()->Degrees() * 36000;
+    SkyObject::UID dec = (ra0()->Degrees()+91) * 36000;
+
+    assert("Magnitude is expected to fit into 10bits" && m>=0 && m<(1<<10));
+    assert("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));
+    assert("Dec should fit into 24bits" && dec>=0 && dec<(1<<24));
+
+    return (SkyObject::UID_STAR << 60) | (m << 48) | (ra << 24) | dec;
 }
