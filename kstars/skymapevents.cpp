@@ -421,25 +421,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_G:    // print Cache structure
         StarComponent::m_StarBlockFactory.printStructure();
         break;
-    case Qt::Key_H: {  // Frugal memory mode
-        StarComponent::veryFrugalMem = false;
-        if( StarComponent::frugalMem = !(StarComponent::frugalMem) )
-            kDebug() << "Switched to frugal memory mode";
-        else
-            kDebug() << "Switched to generous memory mode";
-        break;
-    }
-    case Qt::Key_I: {  // Very frugal memory mode
-        StarComponent::frugalMem = false;
-        if( StarComponent::veryFrugalMem = !(StarComponent::veryFrugalMem) )
-            kDebug() << "Switched to very frugal memory mode";
-        else
-            kDebug() << "Switched to generous memory mode";
-        
-        break;
-    }
         */
-
+    default:
+        // We don't want to do anything in this case. Key is unknown
+        return;
     }
 
     setOldFocus( focus() );
