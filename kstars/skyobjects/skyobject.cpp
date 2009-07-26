@@ -473,3 +473,8 @@ AuxInfo *SkyObject::getAuxInfo() {
         info = new AuxInfo; 
     return &(*info);
 }
+
+SkyObject::UID SkyObject::getUID() const
+{
+    return invalidUID;
+}

@@ -45,6 +45,24 @@ class KSPopupMenu;
  */
 class SkyObject : public SkyPoint {
 public:
+    /** @short Type for Unique object IDenticator.
+     *
+     * Each object has unique ID (UID). For different objects UIDs
+     * must be different.
+     */
+    typedef qint64 UID;
+
+    /** @short Kind of UID */
+    enum UIDkind {
+        UID_STAR     = 0,
+        UID_GALAXY   = 1,
+        UID_DEEPSKY  = 2,
+        UID_SOLARSYS = 3
+    };
+    
+    /** Invalid UID. Real sky object could not have such UID */
+    static const UID invalidUID = ~0;
+    
     /**
      *Constructor.  Set SkyObject data according to arguments.
      *@param t Type of object
@@ -350,6 +368,13 @@ public:
      *@return a reference to a QString storing the users' log for this SkyObject
      */
     inline QString &userLog() { return getAuxInfo()->userLog; }
+
+    /** @short Return UID for object.  
+     * This method should be reimplemented in all concrete
+     * subclasses. Implementation for SkyObject just returns
+     * invalidUID. It's required SkyObject is not an abstract class.
+     */
+    virtual UID getUID() const;
 
 private:
 
