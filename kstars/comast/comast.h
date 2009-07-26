@@ -18,6 +18,10 @@
 
 #ifndef COMAST_H_
 #define COMAST_H_
+
+#include <QString>
+#include <KLocale>
+#include <kmessagebox.h>
 namespace Comast {
     class Log;
     class Observer;
@@ -31,5 +35,8 @@ namespace Comast {
     class Session;
     class Target;
     class Lens;
+    inline int warningOverwrite( QString message ) {
+        return KMessageBox::warningYesNo( 0, message, i18n("Overwrite"), KGuiItem(i18n("Overwrite")), KGuiItem(i18n("Cancel")) );
+    }
 }
 #endif
