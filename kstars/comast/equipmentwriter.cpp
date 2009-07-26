@@ -47,25 +47,22 @@ EquipmentWriter::EquipmentWriter() {
 }
 
 void EquipmentWriter::slotAddScope() {
-    bool found = false;
     if( ui.Id->text().isEmpty() ) {
         KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
         return;
     }
     Comast::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
     if( s ) {
-        found = true;
         if( KMessageBox::warningYesNo( 0, i18n("Another Scope already exists with the given Id, Overwrite?"), i18n( "Overwrite" ), KGuiItem( i18n("Overwrite") ), KGuiItem( i18n( "Cancel" ) ) ) == KMessageBox::Yes ) {
             s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value() );
-            slotSaveEquipment();
         } else
-            return;
+            return; //Do nothing
+    } else { // No such scope exists, so create a new scope
+        s = new Comast::Scope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value() );
+        ks->data()->logObject()->scopeList()->append( s );
     }
-   if( ! found ) {
-        Comast::Scope *newScope = new Comast::Scope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value() );
-        ks->data()->logObject()->scopeList()->append( newScope );
-        slotSaveEquipment();
-    }
+
+    slotSaveEquipment(); //Save the new list.
     ui.Id->clear();
     ui.Model->clear();
     ui.Vendor->clear();
@@ -78,21 +75,17 @@ void EquipmentWriter::slotAddEyepiece() {
         KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
         return;
     }
-    bool found = false;
     Comast::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
     if( e ){
-        found = true;
         if( KMessageBox::warningYesNo( 0, i18n("Another Eyepiece already exists with the given Id, Overwrite?"), i18n( "Overwrite" ), KGuiItem( i18n("Overwrite") ), KGuiItem( i18n( "Cancel" ) ) ) == KMessageBox::Yes ) {
             e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->text(), ui.e_focalLength->value() );
-            slotSaveEquipment();
         } else
             return;
+    } else {
+        e = new Comast::Eyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->text(), ui.e_focalLength->value() );
+        ks->data()->logObject()->eyepieceList()->append( e );
     }
-    if( !found ) {
-        Comast::Eyepiece *newEyepiece = new Comast::Eyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->text(), ui.e_focalLength->value() );
-        ks->data()->logObject()->eyepieceList()->append( newEyepiece );
-        slotSaveEquipment();
-    }
+    slotSaveEquipment(); //Save the new list.
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();
@@ -106,21 +99,17 @@ void EquipmentWriter::slotAddLens() {
         KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
         return;
     }
-    bool found = false;
     Comast::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
     if( l ){
         if( KMessageBox::warningYesNo( 0, i18n("Another Lens already exists with the given Id, Overwrite?"), i18n( "Overwrite" ), KGuiItem( i18n("Overwrite") ), KGuiItem( i18n( "Cancel" ) ) ) == KMessageBox::Yes ) {
-            found = true;
             l->setLens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
-            slotSaveEquipment();
         } else
             return;
+    } else {
+        l = new Comast::Lens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
+        ks->data()->logObject()->lensList()->append( l );
     }
-    if( !found ) {
-        Comast::Lens *newLens = new Comast::Lens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
-        ks->data()->logObject()->lensList()->append( newLens );
-        slotSaveEquipment();
-    }
+    slotSaveEquipment(); //Save the new list.
     ui.l_Id->clear();
     ui.l_Model->clear();
     ui.l_Vendor->clear();
@@ -132,21 +121,18 @@ void EquipmentWriter::slotAddFilter() {
         KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
         return;
     }
-    bool found = false;
     Comast::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
     if( f ){
         if( KMessageBox::warningYesNo( 0, i18n("Another Filter already exists with the given Id, Overwrite?"), i18n( "Overwrite" ), KGuiItem( i18n("Overwrite") ), KGuiItem( i18n( "Cancel" ) ) ) == KMessageBox::Yes ) {
-            found = true;
             f->setFilter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
             slotSaveEquipment();
         } else
             return;
+    } else {
+        f = new Comast::Filter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
+        ks->data()->logObject()->filterList()->append( f );
     }
-    if( !found ) {
-        Comast::Filter *newFilter = new Comast::Filter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
-        ks->data()->logObject()->filterList()->append( newFilter );
-        slotSaveEquipment();
-    }
+    slotSaveEquipment(); //Save the new list.
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
