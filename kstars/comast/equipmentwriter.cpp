@@ -147,7 +147,13 @@ void EquipmentWriter::slotSaveEquipment() {
         return;
     }
     QTextStream ostream( &f );
-    ostream << ks->data()->logObject()->writeLog( false );
+    ks->data()->logObject()->writeBegin();
+    ks->data()->logObject()->writeScopes();
+    ks->data()->logObject()->writeEyepieces();
+    ks->data()->logObject()->writeLenses();
+    ks->data()->logObject()->writeFilters();
+    ks->data()->logObject()->writeEnd();
+    ostream << ks->data()->logObject()->writtenOutput();
     f.close();
 }
 
