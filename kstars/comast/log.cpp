@@ -23,6 +23,9 @@
 #include "kstarsdatetime.h"
 
 void Comast::Log::writeBegin() {
+    ks = KStars::Instance();
+    output = "";
+    m_targetList = ks->observingList()->sessionList();
     writer = new QXmlStreamWriter(&output);
     writer->setAutoFormatting( true );
     writer->writeStartDocument();
@@ -34,9 +37,6 @@ void Comast::Log::writeBegin() {
 }
 
 QString Comast::Log::writeLog( bool _native ) {
-    ks = KStars::Instance();
-    output = "";
-    m_targetList = ks->observingList()->sessionList();
     native = _native;
     writeBegin();
     if( native )

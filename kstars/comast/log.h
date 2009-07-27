@@ -106,6 +106,7 @@ class Comast::Log {
         QHash<QString, QTime> timeHash() { return TimeHash; }
         KStarsDateTime dateTime() { return dt; }
         GeoLocation* geoLocation() { return geo; }
+        inline QString writtenOutput() { return output; }
     private:
         QList<SkyObject *> m_targetList;
         QList<Comast::Observer *> m_observerList;
