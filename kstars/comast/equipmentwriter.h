@@ -32,6 +32,8 @@ class EquipmentWriter : public KDialog {
 Q_OBJECT
     public:
         EquipmentWriter();
+        void saveEquipment();
+        void loadEquipment();
 
     public slots:
         void slotAddScope();
@@ -39,8 +41,6 @@ Q_OBJECT
         void slotAddLens();
         void slotAddFilter();
         void slotClose() { hide(); }
-        void slotSaveEquipment();
-        void slotLoadEquipment();
 
     private:
         KStars *ks;

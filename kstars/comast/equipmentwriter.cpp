@@ -36,7 +36,7 @@ EquipmentWriter::EquipmentWriter() {
     setCaption( i18n( "Equipment Writer" ) );
     setButtons( KDialog::Close );
     ks = KStars::Instance();
-    slotLoadEquipment();
+    loadEquipment();
 
     //make connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
@@ -62,7 +62,7 @@ void EquipmentWriter::slotAddScope() {
         ks->data()->logObject()->scopeList()->append( s );
     }
 
-    slotSaveEquipment(); //Save the new list.
+    saveEquipment(); //Save the new list.
     ui.Id->clear();
     ui.Model->clear();
     ui.Vendor->clear();
@@ -85,7 +85,7 @@ void EquipmentWriter::slotAddEyepiece() {
         e = new Comast::Eyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->text(), ui.e_focalLength->value() );
         ks->data()->logObject()->eyepieceList()->append( e );
     }
-    slotSaveEquipment(); //Save the new list.
+    saveEquipment(); //Save the new list.
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();
@@ -109,7 +109,7 @@ void EquipmentWriter::slotAddLens() {
         l = new Comast::Lens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
         ks->data()->logObject()->lensList()->append( l );
     }
-    slotSaveEquipment(); //Save the new list.
+    saveEquipment(); //Save the new list.
     ui.l_Id->clear();
     ui.l_Model->clear();
     ui.l_Vendor->clear();
@@ -131,7 +131,7 @@ void EquipmentWriter::slotAddFilter() {
         f = new Comast::Filter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
         ks->data()->logObject()->filterList()->append( f );
     }
-    slotSaveEquipment(); //Save the new list.
+    saveEquipment(); //Save the new list.
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
@@ -139,7 +139,7 @@ void EquipmentWriter::slotAddFilter() {
     ui.f_Color->clear();
 }
 
-void EquipmentWriter::slotSaveEquipment() {
+void EquipmentWriter::saveEquipment() {
     QFile f;
     f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
     if ( ! f.open( QIODevice::WriteOnly ) ) {
@@ -157,7 +157,7 @@ void EquipmentWriter::slotSaveEquipment() {
     f.close();
 }
 
-void EquipmentWriter::slotLoadEquipment() {
+void EquipmentWriter::loadEquipment() {
     QFile f;
     f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
     if( ! f.open( QIODevice::ReadOnly ) )
