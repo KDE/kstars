@@ -53,7 +53,7 @@ void EquipmentWriter::slotAddScope() {
     }
     Comast::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
     if( s ) {
-        if( Comast::warningOverwrite( "Another Scope already exists with the given Id, Overwrite?" ) == KMessageBox::Yes ) {
+        if( Comast::warningOverwrite( i18n( "Another Scope already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
             s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value() );
         } else
             return; //Do nothing
@@ -77,7 +77,7 @@ void EquipmentWriter::slotAddEyepiece() {
     }
     Comast::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
     if( e ){
-        if( Comast::warningOverwrite( "Another Eyepiece already exists with the given Id, Overwrite?" ) == KMessageBox::Yes ) {
+        if( Comast::warningOverwrite( i18n ( "Another Eyepiece already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
             e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->text(), ui.e_focalLength->value() );
         } else
             return;
@@ -101,7 +101,7 @@ void EquipmentWriter::slotAddLens() {
     }
     Comast::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
     if( l ){
-        if( Comast::warningOverwrite( "Another Lens already exists with the given Id, Overwrite?" ) == KMessageBox::Yes ) {
+        if( Comast::warningOverwrite( ( "Another Lens already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
             l->setLens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
         } else
             return;
@@ -123,7 +123,7 @@ void EquipmentWriter::slotAddFilter() {
     }
     Comast::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
     if( f ){
-        if( Comast::warningOverwrite( "Another Filter already exists with the given Id, Overwrite?" ) == KMessageBox::Yes ) {
+        if( Comast::warningOverwrite( ( "Another Filter already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
             f->setFilter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
         } else
             return;
