@@ -29,11 +29,23 @@
 class ObserverAdd : public KDialog {
 Q_OBJECT
     public:
+        //The default constructor
         ObserverAdd();
+
+        /*@short function to load the list of
+         * observers from the file
+         */
         void loadObservers();
+
+        /*@short function to save the list of
+         * observers to the file
+         */
         void saveObservers();
 
     public slots:
+        /*@short function to add the new observer
+         * to the observerList of the global logObject
+         */
         void slotAddObserver();
 
     private:

@@ -27,14 +27,18 @@
 #include "comast/observer.h"
 
 ObserverAdd::ObserverAdd() {
+    // Setting up the widget from the .ui file and adding it to the KDialog
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
     setMainWidget( widget );
     setCaption( i18n( "Add Observer" ) );
     setButtons( KDialog::Close );
     ks = KStars::Instance();
+
+    // Load the observers list from the file
     loadObservers();
 
+    // Make connections
     connect( ui.AddObserver, SIGNAL( clicked() ), this, SLOT( slotAddObserver() ) );
 }
 
@@ -43,13 +47,13 @@ void ObserverAdd::slotAddObserver() {
         KMessageBox::sorry( 0, i18n("The Name field cannot be empty"), i18n("Invalid Input") );
         return;
     }
-    Comast::Observer *o = ks->data()->logObject()->findObserverByName( ui.Name->text() + ui.Surname->text() );
+    Comast::Observer *o = ks->data()->logObject()->findObserverByName( ui.Name->text() + ui.Surname->text() ); //The findObserverByName uses the fullName for searching
     if( o ) {
-        if( KMessageBox::warningYesNo( 0, i18n("Another Observer already exists with the given Name and Surname, Overwrite?"), i18n( "Overwrite" ), KGuiItem( i18n("Overwrite") ), KGuiItem( i18n( "Cancel" ) ) ) == KMessageBox::Yes ) {
+        if( Comast::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::Yes ) {
             o->setObserver( o->name(), o->surname(), ui.Contact->text() );
         } else
             return; //Do nothing
-    } else {
+    } else { // No such observer exists, so create a new observer object and append to file
         o = new Comast::Observer( ui.Name->text(), ui.Surname->text(), ui.Contact->text() );
         ks->data()->logObject()->observerList()->append( o );
     }
@@ -65,9 +69,9 @@ void ObserverAdd::slotAddObserver() {
 
 void ObserverAdd::saveObservers() {
     QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "observerlist.xml" ) );   
+    f.setFileName( KStandardDirs::locateLocal( "appdata", "observerlist.xml" ) );
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        kDebug() << "Cannot write list to  file";
+        KMessageBox::sorry( 0, i18n( "Could not save the observer list to the file" ), i18n( "Write Error!" ) );
         return;
     }
     QTextStream ostream( &f );
@@ -84,5 +88,5 @@ void ObserverAdd::loadObservers() {
     ks->data()->logObject()->readBegin( istream.readAll() );
     f.close();
 }
-    
+
 #include "observeradd.moc"
