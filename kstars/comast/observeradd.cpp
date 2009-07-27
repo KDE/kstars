@@ -75,7 +75,10 @@ void ObserverAdd::saveObservers() {
         return;
     }
     QTextStream ostream( &f );
-    ostream << ks->data()->logObject()->writeLog( false );
+    ks->data()->logObject()->writeBegin(); //Initialize the xml document, etc.
+    ks->data()->logObject()->writeObservers();//Write the observer list into the QString
+    ks->data()->logObject()->writeEnd();//End the write process
+    ostream << ks->data()->logObject()->writtenOutput();
     f.close();
 }
 
