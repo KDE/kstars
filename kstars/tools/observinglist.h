@@ -147,8 +147,14 @@ public:
         */
     void setSaveImages();
 
+    /**@short This is the declaration of the event filter function
+     * which is installed on the KImageFilePreview and the TabeView
+     */
     bool eventFilter( QObject *obj, QEvent *event );
 
+    /**@short saves a thumbnail image for the details dialog
+     * from the downloaded image
+     */
     void saveThumbImage();
 
     QString getTime( SkyObject *o ) { return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" ); }
@@ -160,7 +166,10 @@ public:
     GeoLocation* geoLocation() { return geo; }
 
     KStarsDateTime dateTime() { return dt; }
-
+    
+    /**@short return the object with the name as the passed
+     * QString from the Session List, return null otherwise
+     */
     SkyObject* findObjectByName( QString name );
 
 public slots:
