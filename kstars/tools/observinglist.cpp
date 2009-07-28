@@ -1387,4 +1387,11 @@ void ObservingList::slotAddVisibleObj() {
         }
     delete w;
 }
+
+SkyObject* ObservingList::findObjectByName( QString name ) {
+    foreach( SkyObject* o, sessionList() )
+        if( o->name() == name )
+            return o;
+    return NULL;
+}
 #include "observinglist.moc"

@@ -161,6 +161,8 @@ public:
 
     KStarsDateTime dateTime() { return dt; }
 
+    SkyObject* findObjectByName( QString name );
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
