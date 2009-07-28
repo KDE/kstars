@@ -93,6 +93,7 @@ public:
     DeepSkyObject(const DeepSkyObject &o );
 
     virtual DeepSkyObject* clone() const;
+    virtual SkyObject::UID getUID() const;
     
     /** *Destructor */
     virtual ~DeepSkyObject() { delete Image; }

@@ -91,7 +91,8 @@ public:
                 double par=0.0, bool mult=false, bool var=false, int hd=0 );
 
     virtual StarObject* clone() const;
-    
+    virtual UID getUID() const;
+   
     /** Copy constructor */
     StarObject(const StarObject& o);
 
@@ -110,7 +111,6 @@ public:
      *@param  stardata  Pointer to starData object containing required data (except name and gname)
      *@return Nothing
      */
-
     void init( const starData *stardata );
     
     /**
@@ -119,7 +119,6 @@ public:
      *@param  stardata  Pointer to deepStarData object containing the available data
      *@return Nothing
      */
-
     void init( const deepStarData *stardata );
 
     /**
@@ -128,7 +127,6 @@ public:
      *@param  name  Common name
      *@param  name2 Genetive name
      */
-
     void setNames( QString name, QString name2 );
 
     /**

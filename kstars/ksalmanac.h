@@ -87,8 +87,8 @@ class KSAlmanac {
     void update();
     
     static KSAlmanac *pinstance;
-    KSSun *m_Sun;
-    KSMoon *m_Moon;
+    KSSun m_Sun;
+    KSMoon m_Moon;
     KStars *ks;
     KStarsDateTime dt;
     

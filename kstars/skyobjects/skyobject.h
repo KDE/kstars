@@ -45,6 +45,22 @@ class KSPopupMenu;
  */
 class SkyObject : public SkyPoint {
 public:
+    /** @short Type for Unique object IDenticator.
+     *
+     * Each object has unique ID (UID). For different objects UIDs
+     * must be different.
+     */
+    typedef qint64 UID;
+
+    /** @short Kind of UID */
+    static const UID UID_STAR     = 0;
+    static const UID UID_GALAXY   = 1;
+    static const UID UID_DEEPSKY  = 2;
+    static const UID UID_SOLARSYS = 3;
+    
+    /** Invalid UID. Real sky object could not have such UID */
+    static const UID invalidUID = ~0;
+    
     /**
      *Constructor.  Set SkyObject data according to arguments.
      *@param t Type of object
@@ -71,10 +87,8 @@ public:
     SkyObject( int t, double r, double d, float m=0.0,
                const QString &n=QString(), const QString &n2=QString(), const QString &lname=QString() );
 
-    /**
-     *Destructor (empty)
-     */
-    ~SkyObject();
+    /** Destructor (empty) */
+    virtual ~SkyObject();
 
     /** Create copy of object.
      * This method is virtual copy constructor. It allows for safe
@@ -354,6 +368,13 @@ public:
     inline QString &notes() { return getAuxInfo()->notes; }
 
     void setNotes( QString _notes) { getAuxInfo()->notes = _notes; }
+
+    /** @short Return UID for object.  
+     * This method should be reimplemented in all concrete
+     * subclasses. Implementation for SkyObject just returns
+     * invalidUID. It's required SkyObject is not an abstract class.
+     */
+    virtual UID getUID() const;
 
 private:
 

@@ -334,7 +334,6 @@ void KSPlanet::findMagnitude(const KSNumbers* num)
     float magnitude = 30;
 
     double param = 5 * log10(rsun() * rearth() );
-    double phase_rad = phase().radians();
     double phase = this->phase().Degrees();
     double f1 = phase/100.;
 

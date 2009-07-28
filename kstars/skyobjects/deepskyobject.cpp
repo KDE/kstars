@@ -24,6 +24,8 @@
 #include <QPainter>
 #include <QImage>
 
+#include <assert.h>
+
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "dms.h"
@@ -391,4 +393,24 @@ double DeepSkyObject::labelOffset() const {
     double scale = SkyMap::Instance()->scale();
     double size = ((majorAxis + minorAxis) / 2.0 ) * scale * dms::PI * Options::zoomFactor()/10800.0;
     return 0.5*size + 4.;
+}
+
+
+SkyObject::UID DeepSkyObject::getUID() const
+{
+    // mag takes 10 bit
+    SkyObject::UID m = mag()*10; 
+    if( m < 0 ) m = 0;
+
+    // Both RA & dec fits in 24-bits
+    SkyObject::UID ra  = ra0()->Degrees() * 36000;
+    SkyObject::UID dec = (ra0()->Degrees()+91) * 36000;
+
+    assert("Magnitude is expected to fit into 10bits" && m>=0 && m<(1<<10));
+    assert("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));
+    assert("Dec should fit into 24bits" && dec>=0 && dec<(1<<24));
+
+    // Choose kind of 
+    SkyObject::UID kind = type() == SkyObject::GALAXY ? SkyObject::UID_GALAXY : SkyObject::UID_DEEPSKY;
+    return (kind << 60) | (m << 48) | (ra << 24) | dec;
 }
