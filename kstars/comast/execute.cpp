@@ -170,7 +170,7 @@ void Execute::sortTargetList() {
 
 void Execute::addTargetNotes() {
     SkyObject *o = ks->data()->objectNamed( ui.TargetList->currentText() );
-    if ( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( line );
+    if ( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( ui.TargetList->currentText() );
     if( o ) {
         o->setNotes( ui.Notes->toPlainText() );
         loadObservationTab();
@@ -191,6 +191,7 @@ void Execute::addObservation() {
 }
 void Execute::slotEndSession() {
     currentSession->setSession( ui.Id->text(), geo->fullName(), ui.Begin->dateTime(), KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+    hide();
 }
 
 void Execute::slotSetTarget( QString name ) { 
