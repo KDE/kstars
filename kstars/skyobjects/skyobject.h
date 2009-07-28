@@ -89,10 +89,8 @@ public:
     SkyObject( int t, double r, double d, float m=0.0,
                const QString &n=QString(), const QString &n2=QString(), const QString &lname=QString() );
 
-    /**
-     *Destructor (empty)
-     */
-    ~SkyObject();
+    /** Destructor (empty) */
+    virtual ~SkyObject();
 
     /** Create copy of object.
      * This method is virtual copy constructor. It allows for safe

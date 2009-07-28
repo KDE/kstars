@@ -52,10 +52,8 @@ public:
     SkyComposite( SkyComponent *parent );
     SkyComposite( SkyComponent *parent, bool (*visibleMethod)());
 
-    /**
-    	*@short Destructor
-    	*/
-    ~SkyComposite();
+    /** *@short Destructor */
+    virtual ~SkyComposite();
 
     /**
     	*@short Delegate draw requests to all sub components
