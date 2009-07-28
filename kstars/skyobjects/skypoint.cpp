@@ -667,8 +667,7 @@ double SkyPoint::vHelioToVlsr(double vhelio, long double jd0) {
 
 double SkyPoint::vREarth(long double jd0)
 {
-
-    double sinRA, sinDec, cosRA, cosDec, vREarth;
+    double sinRA, sinDec, cosRA, cosDec;
 
     /* u_radial = unitary vector in the direction of the source
     	Vlsr 	= Vhel + Vsun.u_radial
@@ -696,13 +695,10 @@ double SkyPoint::vREarth(long double jd0)
     the source coordinates are also in the same reference system.
     */
 
-    KSNumbers *num = new KSNumbers(jd0);
-
-    vREarth = num->vEarth(0) * cosDec * cosRA +
-              num->vEarth(1) * cosDec * sinRA +
-              num->vEarth(2) * sinDec;
-
-    return vREarth;
+    KSNumbers num(jd0);
+    return num.vEarth(0) * cosDec * cosRA +
+           num.vEarth(1) * cosDec * sinRA +
+           num.vEarth(2) * sinDec;
 }
 
 
