@@ -169,8 +169,7 @@ void Execute::sortTargetList() {
 }
 
 void Execute::addTargetNotes() {
-    SkyObject *o = ks->data()->objectNamed( ui.TargetList->currentText() );
-    if ( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( ui.TargetList->currentText() );
+    SkyObject *o = ks->observingList()->findObjectByName( ui.TargetList->currentText() );
     if( o ) {
         o->setNotes( ui.Notes->toPlainText() );
         loadObservationTab();
@@ -195,7 +194,7 @@ void Execute::slotEndSession() {
 }
 
 void Execute::slotSetTarget( QString name ) { 
-    currentTarget = ks->data()->objectNamed( name ); 
+    currentTarget = ks->observingList()->findObjectByName( name );
 }
 
 #include "execute.moc"
