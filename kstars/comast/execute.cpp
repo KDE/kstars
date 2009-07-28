@@ -21,6 +21,7 @@
 #include <QFile>
 
 #include <kmessagebox.h>
+#include <kfiledialog.h>
 #include "comast/observer.h"
 #include "comast/site.h"
 #include "comast/session.h"
@@ -190,6 +191,18 @@ void Execute::addObservation() {
 }
 void Execute::slotEndSession() {
     currentSession->setSession( ui.Id->text(), geo->fullName(), ui.Begin->dateTime(), KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+    KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml" );
+    if( fileURL.isValid() ) {
+        QFile f( fileURL.path() );
+        if( ! f.open( QIODevice::WriteOnly ) ) {
+            QString message = i18n( "Could not open file %1", f.fileName() );
+            KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+            return;
+        }
+        QTextStream ostream( &f );
+        ostream<< logObject->writeLog( false );
+        f.close();
+    }
     hide();
 }
 
