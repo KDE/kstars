@@ -102,17 +102,14 @@ void SaturnMoons::findPosition( const KSNumbers *num, const KSPlanet *Saturn, co
     double sinSB, cosSB, sinSL, cosSL;
     double D, t, tdelay, LAMBDA, ALPHA;
     double l=0;
-    //double T, oj, fj, ij, pa, tb, I, P;
-
-    //double l1, l2, l3, l4, p1, p2, p3, p4, G, fl, z, Gj, Gs, Pj;
 
     //L/B = true longitude/latitude of satellites
-    //double S1, S2, S3, S4, L1, L2, L3, L4, b1, b2, b3, b4, R1, R2, R3, R4;
-    double X[9], Y[9], Z[9];
-    double A1[9], B1[9], C1[9];
-    double A2[9], B2[9], C2[9];
-    double A3[9], B3[9], C3[9];
-    double A4[9], B4[9], C4[9];
+    // 12 is just a safety measure. Only 9 elements actually used. 
+    double X[12], Y[12], Z[12];
+    double A1[12], B1[12], C1[12];
+    double A2[12], B2[12], C2[12];
+    double A3[12], B3[12], C3[12];
+    double A4[12], B4[12], C4[12];
 
     Saturn->ecLong()->SinCos( sinJL, cosJL );
     Saturn->ecLat()->SinCos( sinJB, cosJB );
