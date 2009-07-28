@@ -42,15 +42,13 @@ KSAlmanac::KSAlmanac() {
     geo = ks->geo();
     dt.setTime(QTime());
     dt = geo->LTtoUT(dt);
-    m_Sun = new KSSun;
-    m_Moon = new KSMoon;
     SunRise=SunSet=MoonRise=MoonSet=0;
     update();
 }
 
 void KSAlmanac::update() {
-    RiseSetTime( m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
-    RiseSetTime( m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
+    RiseSetTime( &m_Sun, &SunRise, &SunSet, &SunRiseT, &SunSetT );
+    RiseSetTime( &m_Moon, &MoonRise, &MoonSet, &MoonRiseT, &MoonSetT );
 }
 
 void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ) {
