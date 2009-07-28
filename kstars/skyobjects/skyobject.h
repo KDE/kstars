@@ -53,12 +53,10 @@ public:
     typedef qint64 UID;
 
     /** @short Kind of UID */
-    enum UIDkind {
-        UID_STAR     = 0,
-        UID_GALAXY   = 1,
-        UID_DEEPSKY  = 2,
-        UID_SOLARSYS = 3
-    };
+    static const UID UID_STAR     = 0;
+    static const UID UID_GALAXY   = 1;
+    static const UID UID_DEEPSKY  = 2;
+    static const UID UID_SOLARSYS = 3;
     
     /** Invalid UID. Real sky object could not have such UID */
     static const UID invalidUID = ~0;
