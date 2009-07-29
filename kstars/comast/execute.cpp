@@ -246,6 +246,10 @@ void Execute::slotEndSession() {
         f.close();
     }
     hide();
+    ui.stackedWidget->setCurrentIndex(0);
+    logObject->observationList()->clear();
+    logObject->sessionList()->clear();
+
 }
 
 void Execute::slotSetTarget( QString name ) { 
