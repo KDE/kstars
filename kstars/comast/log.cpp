@@ -50,6 +50,7 @@ QString Comast::Log::writeLog( bool _native ) {
     writeLenses();
     writeFilters();
     writeImagers();
+    writeObservations();
     writeEnd();
     return output;
 }
@@ -119,6 +120,11 @@ void Comast::Log::writeFilters() {
 void Comast::Log::writeImagers() {
     writer->writeStartElement("imagers");
     writer->writeEndElement();
+}
+
+void Comast::Log::writeObservations() {
+    foreach( Comast::Observation *o, m_observationList )
+        writeObservation( o );
 }
 
 void Comast::Log::writeTarget( SkyObject *o ) {

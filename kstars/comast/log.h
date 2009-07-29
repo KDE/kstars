@@ -52,6 +52,7 @@ class Comast::Log {
         void writeLenses();
         void writeFilters();
         void writeImagers();
+        void writeObservations();
         inline QList<SkyObject *> *targetList() { return &m_targetList; }
         inline QList<Comast::Scope *> *scopeList() { return &m_scopeList; }
         inline QList<Comast::Site *> *siteList() { return &m_siteList; }
