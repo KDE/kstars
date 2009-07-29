@@ -108,11 +108,20 @@ Q_OBJECT
 
         void selectNextTarget();
 
+        void loadCurrentItems();
+
+        void slotSetCurrentObjects();
+
     private:
         KStars *ks;
         Ui::Execute ui;
         Comast::Session *currentSession;
         Comast::Log *logObject;
+        Comast::Observer *currentObserver;
+        Comast::Scope *currentScope;
+        Comast::Eyepiece *currentEyepiece;
+        Comast::Lens *currentLens;
+        Comast::Filter *currentFilter;
         GeoLocation *geo;
         SkyObject *currentTarget;
 };

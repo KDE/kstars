@@ -40,6 +40,12 @@ Execute::Execute() {
     setButtons( KDialog::User1|KDialog::Close );
     setButtonGuiItem( KDialog::User1, KGuiItem( i18n("End Session"), QString(), i18n("Save and End the current session") ) );
     ks = KStars::Instance();
+    currentTarget = NULL;
+    currentObserver = NULL;
+    currentScope = NULL;
+    currentEyepiece = NULL;
+    currentLens = NULL;
+    currentFilter = NULL;
 
     //initialize the global logObject
     logObject = ks->data()->logObject();
@@ -54,8 +60,8 @@ Execute::Execute() {
              this, SLOT( slotNext() ) );
     connect( ui.Location, SIGNAL( clicked() ),
              this, SLOT( slotLocation() ) );
-    connect( ui.TargetList, SIGNAL( currentIndexChanged(const QString) ),
-             this, SLOT( slotSetTarget(QString) ) );
+//    connect( ui.TargetList, SIGNAL( currentIndexChanged(const QString) ),
+//             this, SLOT( slotSetTarget(QString) ) );
 }
 
 void Execute::init() {
@@ -74,6 +80,24 @@ void Execute::init() {
 
     //load Observers
     loadObservers();
+
+    //set Current Items
+    loadCurrentItems();
+}
+void Execute::loadCurrentItems() {
+    //Set the current target, equipments and observer
+    if( currentTarget )
+        ui.TargetList->setCurrentIndex( ui.TargetList->findText( currentTarget->name() ) );
+    if( currentObserver )
+        ui.Observer->setCurrentIndex( ui.Observer->findText( currentObserver->name() + " " + currentObserver->surname() ) );
+    if( currentScope )
+        ui.Scope->setCurrentIndex( ui.Scope->findText( currentScope->id()) );
+    if( currentEyepiece )
+        ui.Eyepiece->setCurrentIndex( ui.Eyepiece->findText( currentEyepiece->id()) );
+    if( currentLens )
+        ui.Lens->setCurrentIndex( ui.Lens->findText( currentLens->id()) );
+    if( currentFilter )
+        ui.Filter->setCurrentIndex( ui.Filter->findText( currentFilter->id()) );
 }
 void Execute::slotNext() {
     switch( ui.stackedWidget->currentIndex() ) {
@@ -173,6 +197,7 @@ void Execute::sortTargetList() {
 
 void Execute::addTargetNotes() {
     SkyObject *o = ks->observingList()->findObjectByName( ui.TargetList->currentText() );
+    currentTarget = o;
     if( o ) {
         o->setNotes( ui.Notes->toPlainText() );
         loadObservationTab();
@@ -201,6 +226,7 @@ bool Execute::addObservation() {
         o = new Comast::Observation( ui.o_Id->text(), ui.Observer->currentText(), geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
     }
+    slotSetCurrentObjects();
     return true;
 }
 void Execute::slotEndSession() {
@@ -234,6 +260,14 @@ void Execute::selectNextTarget() {
         ui.TargetList->setCurrentIndex( i );
         slotSetTarget( ui.TargetList->currentText() );
     }
+}
+
+void Execute::slotSetCurrentObjects() {
+    currentScope = logObject->findScopeByName( ui.Scope->currentText() );
+    currentEyepiece = logObject->findEyepieceByName( ui.Eyepiece->currentText() );
+    currentLens = logObject->findLensByName( ui.Lens->currentText() );
+    currentFilter = logObject->findFilterByName( ui.Filter->currentText() );
+    currentObserver = logObject->findObserverByName( ui.Observer->currentText() );
 }
 
 #include "execute.moc"
