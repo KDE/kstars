@@ -250,10 +250,14 @@ void Execute::slotEndSession() {
 
 void Execute::slotSetTarget( QString name ) { 
     currentTarget = ks->observingList()->findObjectByName( name );
-    if( !currentTarget )
+    if( ! currentTarget ) {
         ui.NextButton->setEnabled( false );
-    else
+        return;
+    } else {
         ui.NextButton->setEnabled( true );
+        ks->observingList()->selectObject( currentTarget );
+        ks->observingList()->slotCenterObject();
+    }
 }
 
 void Execute::selectNextTarget() {

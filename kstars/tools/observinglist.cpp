@@ -1394,4 +1394,18 @@ SkyObject* ObservingList::findObjectByName( QString name ) {
             return o;
     return NULL;
 }
+
+void ObservingList::selectObject( SkyObject *o ) {
+    ui->tabWidget->setCurrentIndex( 1 );
+    ui->SessionView->selectionModel()->clear();
+    for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
+        QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
+        QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
+        int irow = mIndex.row();
+        if(  m_Session->item(irow, 0)->text() == o->translatedName() )
+            ui->SessionView->selectRow( irow );
+        slotNewSelection();
+    }
+}
+
 #include "observinglist.moc"

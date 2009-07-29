@@ -324,6 +324,8 @@ public slots:
 
     void slotAddVisibleObj();
 
+    void selectObject( SkyObject *o );
+
 protected slots:
     void slotClose();
     void downloadReady();
