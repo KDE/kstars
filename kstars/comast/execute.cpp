@@ -229,6 +229,8 @@ bool Execute::addObservation() {
         logObject->observationList()->append( o );
     }
     slotSetCurrentObjects();
+    ui.o_Id->clear();
+    ui.Description->clear();
     return true;
 }
 void Execute::slotEndSession() {
