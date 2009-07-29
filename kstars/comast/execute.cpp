@@ -257,6 +257,18 @@ void Execute::slotSetTarget( QString name ) {
         ui.NextButton->setEnabled( true );
         ks->observingList()->selectObject( currentTarget );
         ks->observingList()->slotCenterObject();
+        QString smag = "--";
+        if (  - 30.0 < currentTarget->mag() && currentTarget->mag() < 90.0 ) smag = QString::number( currentTarget->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
+        ui.Mag->setText( smag );
+        ui.Type->setText( currentTarget->typeName() );
+        ui.SchTime->setText( ks->observingList()->scheduledTime(currentTarget).toString( "h:mm:ss AP" ) ) ;
+        SkyPoint p = currentTarget->recomputeCoords( KStarsDateTime::currentDateTime() , geo );
+        dms lst(geo->GSTtoLST( KStarsDateTime::currentDateTime().gst() ));
+        p.EquatorialToHorizontal( &lst, geo->lat() );
+        ui.RA->setText( p.ra()->toHMSString() ) ;
+        ui.Dec->setText( p.dec()->toDMSString() );
+        ui.Alt->setText( p.alt()->toDMSString() );
+        ui.Az->setText( p.az()->toDMSString() );
     }
 }
 
