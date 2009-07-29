@@ -401,6 +401,11 @@ void KStars::initActions() {
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_1 ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotObserverAdd() ) );
 
+    ka = actionCollection()->addAction( "execute" );
+    ka->setText( i18n( "Execute the session Plan..." ) );
+    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_2 ) );
+    connect( ka, SIGNAL( triggered() ), this, SLOT( slotExecute() ) );
+
     // devices Menu
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
@@ -645,6 +650,7 @@ void KStars::datainitFinished(bool worked) {
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
+    execute = new Execute;
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )

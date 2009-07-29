@@ -1056,6 +1056,11 @@ void KStars::slotEquipmentWriter() {
 void KStars::slotObserverAdd() {
     oAdd->show();
 }
+
+void KStars::slotExecute() {
+    execute->init();
+    execute->show();
+}
 //Help Menu
 void KStars::slotTipOfDay() {
     KTipDialog::showTip(this, "kstars/tips", true);
