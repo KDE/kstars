@@ -63,7 +63,6 @@ public:
   */
 class KSPlanetBase : public TrailObject {
 public:
-
     /**
       *Constructor.  Calls SkyObject constructor with type=2 (planet),
       *coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
@@ -286,6 +285,16 @@ public:
     virtual double labelOffset() const;
 
 protected:
+    /** Big object. Planet, Moon, Sun. */
+    static const UID UID_SOL_BIGOBJ   = 0;
+    /** Asteroids */
+    static const UID UID_SOL_ASTEROID = 1;
+    /** Comets */
+    static const UID UID_SOL_COMET    = 2;
+
+    /** Compute high 32-bits of UID. */
+    inline UID solarsysUID(UID type) const { return (SkyObject::UID_SOLARSYS << 60) | (type << 52); }
+   
     /**
      *@short find the object's current geocentric equatorial coordinates (RA and Dec)
      *This function is pure virtual; it must be overloaded by subclasses.

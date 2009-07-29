@@ -48,11 +48,6 @@ public:
     	*/
     GeoLocation( const GeoLocation &g );
 
-    /**Copy Constructor.  Differs from the above function only in argument type.
-    	*@param g pointer to the GeoLocation to duplicate
-    	*/
-    GeoLocation( GeoLocation *g );
-
     /**Constructor using dms objects to specify longitude and latitude.
     	*@param lng the longitude
     	*@param lat the latitude

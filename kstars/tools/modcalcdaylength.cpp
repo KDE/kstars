@@ -20,6 +20,7 @@
 #include <KGlobal>
 #include <KLocale>
 #include <kmessagebox.h>
+#include <KLineEdit>
 
 #include "skyobjects/skyobject.h"
 #include "geolocation.h"
@@ -29,8 +30,6 @@
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 #include "dialogs/locationdialog.h"
-#include "widgets/dmsbox.h"
-#include "widgets/timebox.h"
 
 
 modCalcDayLength::modCalcDayLength(QWidget *parentSplit)

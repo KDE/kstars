@@ -187,3 +187,9 @@ void KSComet::findMagnitude(const KSNumbers*)
 
 //Unused virtual function from KSPlanetBase
 bool KSComet::loadData() { return false; }
+
+SkyObject::UID KSComet::getUID() const
+{
+    // FIXME: create sensible algorithm.
+    return SkyObject::invalidUID;
+}

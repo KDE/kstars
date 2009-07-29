@@ -269,3 +269,8 @@ QString KSMoon::phaseName() const {
 
     else return i18n( "unknown" );
 }
+
+SkyObject::UID KSMoon::getUID() const
+{
+   return solarsysUID(UID_SOL_BIGOBJ) | 10;
+}

@@ -41,7 +41,8 @@ public:
     KSMoon(const KSMoon& o);
     
     virtual KSMoon* clone() const;
-    
+    virtual SkyObject::UID getUID() const;
+
     /**Destructor (empty). */
     ~KSMoon();
 

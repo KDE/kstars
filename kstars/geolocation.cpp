@@ -26,6 +26,7 @@ GeoLocation::GeoLocation(){
     TZrule = NULL;
 }
 
+// FIXME: check whether this constructor needed
 GeoLocation::GeoLocation( const GeoLocation &g ) {
     Longitude = g.Longitude;
     Latitude  = g.Latitude;
@@ -36,20 +37,6 @@ GeoLocation::GeoLocation( const GeoLocation &g ) {
     TZrule    = g.TZrule;
     Height    = g.Height;
     indexEllipsoid = g.indexEllipsoid;
-    setEllipsoid ( indexEllipsoid );
-    geodToCart();
-}
-
-GeoLocation::GeoLocation( GeoLocation *g ) {
-    Longitude = g->Longitude;
-    Latitude  = g->Latitude;
-    Name      = g->Name;
-    Province  = g->Province;
-    Country   = g->Country;
-    TimeZone  = g->TimeZone;
-    TZrule    = g->TZrule;
-    Height    = g->Height;
-    indexEllipsoid = g->indexEllipsoid;
     setEllipsoid ( indexEllipsoid );
     geodToCart();
 }
