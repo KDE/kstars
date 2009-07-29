@@ -220,6 +220,18 @@ void Execute::slotEndSession() {
 
 void Execute::slotSetTarget( QString name ) { 
     currentTarget = ks->observingList()->findObjectByName( name );
+    if( !currentTarget )
+        ui.NextButton->setEnabled( false );
+    else
+        ui.NextButton->setEnabled( true );
+}
+
+void Execute::selectNextTarget() {
+    int i = ui.TargetList->findText( currentTarget->name() ) + 1;
+    if( i < ui.TargetList->count() ) {
+        ui.TargetList->setCurrentIndex( i );
+        slotSetTarget( ui.TargetList->currentText() );
+    }
 }
 
 #include "execute.moc"

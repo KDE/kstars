@@ -106,6 +106,8 @@ Q_OBJECT
          */
         void loadObservationTab();
 
+        void selectNextTarget();
+
     private:
         KStars *ks;
         Ui::Execute ui;
