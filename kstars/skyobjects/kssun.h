@@ -37,7 +37,8 @@ public:
     KSSun();
 
     virtual KSSun* clone() const;
-    
+    virtual SkyObject::UID getUID() const;
+
     /**Destructor (empty)
     	*/
     virtual ~KSSun() {}

@@ -361,3 +361,28 @@ void KSPlanet::findMagnitude(const KSNumbers* num)
     }
     setMag(magnitude);
 }
+
+SkyObject::UID KSPlanet::getUID() const
+{
+    SkyObject::UID n;
+    if( name() == i18n( "Mercury" ) ) {
+        n = 1;
+    } else if( name() == i18n( "Venus" ) ) {
+        n = 2;
+    } else if( name() == i18n( "Earth" ) ) {
+        n = 3;
+    } else if( name() == i18n( "Mars" ) ) {
+        n = 4;
+    } else if( name() == i18n( "Jupiter" ) ) {
+        n = 5;
+    } else if( name() == i18n( "Saturn" ) ) {
+        n = 6;
+    } else if( name() == i18n( "Uranus" ) ) {
+        n = 7;
+    } else if( name() == i18n( "Neptune" ) ) {
+        n = 8;
+    } else {
+        return SkyObject::invalidUID;
+    }
+    return solarsysUID(UID_SOL_BIGOBJ) | n;
+}

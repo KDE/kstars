@@ -150,3 +150,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
     return true;
 }
 
+SkyObject::UID KSSun::getUID() const
+{
+   return solarsysUID(UID_SOL_BIGOBJ) | 0;
+}

@@ -65,6 +65,7 @@ public:
              long double JD, double q, double e, dms i, dms w, dms N, double Tp, float H, float G );
     
     virtual KSComet* clone() const;
+    virtual SkyObject::UID getUID() const;
     
     /**Destructor (empty)*/
     virtual ~KSComet() {}

@@ -142,3 +142,8 @@ void KSAsteroid::findMagnitude(const KSNumbers*)
 //Unused virtual function from KSPlanetBase
 bool KSAsteroid::loadData() { return false; }
 
+SkyObject::UID KSAsteroid::getUID() const
+{
+    // FIXME: return sensible number. Asteriod number required.
+    return SkyObject::invalidUID;
+}

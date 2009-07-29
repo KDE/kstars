@@ -58,6 +58,7 @@ public:
     KSPlanet( int n );
 
     virtual KSPlanet* clone() const;
+    virtual SkyObject::UID getUID() const;
     
     /**
      * Destructor (empty)

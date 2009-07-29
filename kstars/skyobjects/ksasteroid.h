@@ -66,7 +66,8 @@ public:
                 long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
 
     virtual KSAsteroid* clone() const;
-    
+    virtual SkyObject::UID getUID() const;
+
     /**Destructor (empty)*/
     virtual ~KSAsteroid() {}
 
