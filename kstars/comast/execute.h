@@ -60,7 +60,7 @@ Q_OBJECT
 
         /**@short Function to add the current observation to the observation list
          */
-        void addObservation();
+        bool addObservation();
 
         /**@short Function to handle the state of current observation,
          * and hiding the execute window

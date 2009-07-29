@@ -86,8 +86,10 @@ void Execute::slotNext() {
             break;
         }
         case 2: {
-            addObservation();
-            ui.stackedWidget->setCurrentIndex( 1 );
+            if ( addObservation() )
+                ui.stackedWidget->setCurrentIndex( 1 );
+                loadTargets();
+                selectNextTarget();
             break;
         }
     }
@@ -183,10 +185,10 @@ void Execute::loadObservationTab() {
 }
 
 
-void Execute::addObservation() {
+bool Execute::addObservation() {
     if( ui.Id->text().isEmpty() ) {
         KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
+        return false;
     }
     Comast::Observation *o = logObject->findObservationByName( ui.Id->text() );
     KStarsDateTime dt = currentSession->begin();
@@ -195,11 +197,12 @@ void Execute::addObservation() {
         if( Comast::warningOverwrite( i18n("Another observation already exists with the given Id, Overwrite?") ) == KMessageBox::Yes ) {
             o->setObservation( ui.o_Id->text(), ui.Observer->currentText(), geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
         } else
-            return;
+            return false;
     } else {
         o = new Comast::Observation( ui.o_Id->text(), ui.Observer->currentText(), geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
     }
+    return true;
 }
 void Execute::slotEndSession() {
     currentSession->setSession( ui.Id->text(), geo->fullName(), ui.Begin->dateTime(), KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
