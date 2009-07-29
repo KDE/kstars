@@ -184,13 +184,12 @@ void Execute::loadObservationTab() {
    ui.stackedWidget->setCurrentIndex( 2 );
 }
 
-
 bool Execute::addObservation() {
     if( ui.Id->text().isEmpty() ) {
         KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
         return false;
     }
-    Comast::Observation *o = logObject->findObservationByName( ui.Id->text() );
+    Comast::Observation *o = logObject->findObservationByName( ui.o_Id->text() );
     KStarsDateTime dt = currentSession->begin();
     dt.setTime( ui.Time->time() );
     if( o ){
