@@ -24,14 +24,12 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 
-KSAsteroid::KSAsteroid( const QString &s, const QString &imfile,
+KSAsteroid::KSAsteroid( int _catN, const QString &s, const QString &imfile,
                         long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H, double _G )
         : KSPlanetBase(s, imfile),
-          JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G)
+          catN(_catN), JD(_JD), a(_a), e(_e), i(_i), w(_w), M(_M), N(_Node), H(_H), G(_G)
 {
-    setType( 10 ); //Asteroid
-    this -> H = H;
-    this -> G = G;
+    setType( SkyObject::ASTEROID );
     //Compute the orbital Period from Kepler's 3rd law:
     P = 365.2568984 * pow(a, 1.5); //period in days
 }
@@ -144,6 +142,5 @@ bool KSAsteroid::loadData() { return false; }
 
 SkyObject::UID KSAsteroid::getUID() const
 {
-    // FIXME: return sensible number. Asteriod number required.
-    return SkyObject::invalidUID;
+    return solarsysUID(UID_SOL_ASTEROID) | catN;
 }

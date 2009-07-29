@@ -50,7 +50,8 @@ class KSAsteroid : public KSPlanetBase
 public:
 
     /**Constructor.
-    	*@p s the name of the asteroid
+        *@p catN number of asteroid
+    	*@p s    the name of the asteroid
     	*@p image_file the filename for an image of the asteroid
     	*@p JD the Julian Day for the orbital elements
     	*@p a the semi-major axis of the asteroid's orbit (AU)
@@ -62,7 +63,7 @@ public:
     	*@p H absolute magnitude
         *@p G slope parameter
     	*/
-    KSAsteroid( const QString &s, const QString &image_file,
+    KSAsteroid( int catN, const QString &s, const QString &image_file,
                 long double JD, double a, double e, dms i, dms w, dms N, dms M, double H, double G );
 
     virtual KSAsteroid* clone() const;
@@ -105,6 +106,7 @@ protected:
 private:
     virtual void findMagnitude(const KSNumbers*);
     
+    int catN;
     long double JD;
     double a, e, P;
     dms i, w, M, N;
