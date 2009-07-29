@@ -121,127 +121,132 @@
         </widget>
        </item>
        <item>
-        <layout class="QFormLayout" name="formLayout_4">
-         <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::ExpandingFieldsGrow</enum>
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Current Object:</string>
          </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>Current Object:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="KComboBox" name="TargetList"/>
-         </item>
-         <item row="8" column="0">
-          <widget class="QLabel" name="label_10">
-           <property name="text">
-            <string>Notes:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="KTextEdit" name="Notes"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_20">
-           <property name="text">
-            <string>Magnitude:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLabel" name="Mag">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_22">
-           <property name="text">
-            <string>Type:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QLabel" name="Type">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_24">
-           <property name="text">
-            <string>Schdeduled Time:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLabel" name="SchTime">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
+        </widget>
+       </item>
+       <item>
+        <widget class="KComboBox" name="TargetList"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_20">
+         <property name="text">
+          <string>Magnitude:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KLineEdit" name="Mag">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_22">
+         <property name="text">
+          <string>Type:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KLineEdit" name="Type">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_24">
+         <property name="text">
+          <string>Schdeduled Time:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="KLineEdit" name="SchTime">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
           <widget class="QLabel" name="label_26">
            <property name="text">
             <string>Right Ascention:</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
+         <item>
+          <widget class="KLineEdit" name="RA">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLabel" name="label_27">
            <property name="text">
             <string>Declination</string>
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
-          <widget class="QLabel" name="RA">
-           <property name="text">
-            <string/>
+         <item>
+          <widget class="KLineEdit" name="Dec">
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="5" column="1">
-          <widget class="QLabel" name="Dec">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
           <widget class="QLabel" name="label_21">
            <property name="text">
             <string>Altitude:</string>
            </property>
           </widget>
          </item>
-         <item row="7" column="0">
+         <item>
+          <widget class="KLineEdit" name="Alt">
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QLabel" name="label_23">
            <property name="text">
             <string>Azimuth:</string>
            </property>
           </widget>
          </item>
-         <item row="6" column="1">
-          <widget class="QLabel" name="Alt">
-           <property name="text">
-            <string/>
+         <item>
+          <widget class="KLineEdit" name="Az">
+           <property name="readOnly">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="7" column="1">
-          <widget class="QLabel" name="Az">
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_10">
            <property name="text">
-            <string/>
+            <string>Notes:</string>
            </property>
           </widget>
+         </item>
+         <item>
+          <widget class="KTextEdit" name="Notes"/>
          </item>
         </layout>
        </item>
