@@ -249,7 +249,8 @@ void Execute::slotEndSession() {
     ui.stackedWidget->setCurrentIndex(0);
     logObject->observationList()->clear();
     logObject->sessionList()->clear();
-
+    delete currentSession;
+    currentTarget = NULL;
 }
 
 void Execute::slotSetTarget( QString name ) { 
