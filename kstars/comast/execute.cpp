@@ -60,8 +60,8 @@ Execute::Execute() {
              this, SLOT( slotNext() ) );
     connect( ui.Location, SIGNAL( clicked() ),
              this, SLOT( slotLocation() ) );
-//    connect( ui.TargetList, SIGNAL( currentIndexChanged(const QString) ),
-//             this, SLOT( slotSetTarget(QString) ) );
+    connect( ui.TargetList, SIGNAL( currentIndexChanged(const QString) ),
+             this, SLOT( slotSetTarget(QString) ) );
 }
 
 void Execute::init() {
@@ -112,7 +112,9 @@ void Execute::slotNext() {
         case 2: {
             if ( addObservation() )
                 ui.stackedWidget->setCurrentIndex( 1 );
+                QString prevTarget = currentTarget->name();
                 loadTargets();
+                ui.TargetList->setCurrentIndex( ui.TargetList->findText( prevTarget ) );
                 selectNextTarget();
             break;
         }
