@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>310</width>
-    <height>253</height>
+    <width>336</width>
+    <height>275</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="_2">
@@ -201,7 +201,18 @@
             </widget>
            </item>
            <item>
-            <widget class="KLineEdit" name="FovUnit"/>
+            <widget class="KComboBox" name="FovUnit">
+             <item>
+              <property name="text">
+               <string>deg</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>rad</string>
+              </property>
+             </item>
+            </widget>
            </item>
           </layout>
          </item>
@@ -434,6 +445,11 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

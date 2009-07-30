@@ -78,18 +78,17 @@ void EquipmentWriter::slotAddEyepiece() {
     Comast::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
     if( e ){
         if( Comast::warningOverwrite( i18n ( "Another Eyepiece already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
-            e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->text(), ui.e_focalLength->value() );
+            e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
         } else
             return;
     } else {
-        e = new Comast::Eyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->text(), ui.e_focalLength->value() );
+        e = new Comast::Eyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
         ks->data()->logObject()->eyepieceList()->append( e );
     }
     saveEquipment(); //Save the new list.
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();
-    ui.FovUnit->clear();
     ui.Fov->setValue(0);
     ui.e_focalLength->setValue(0);
 }
