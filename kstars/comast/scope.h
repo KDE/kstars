@@ -24,15 +24,16 @@
 
 class Comast::Scope {
     public:
-        Scope( QString name, QString model, QString vendor, QString type, double focalLength ) { setScope( name, model, vendor, type, focalLength ); }
+        Scope( QString name, QString model, QString vendor, QString type, double focalLength, double aperture ) { setScope( name, model, vendor, type, focalLength, aperture ); }
         QString id() { return m_Name; }
         QString model() { return m_Model; }
         QString vendor() { return m_Vendor; }
         QString type() { return m_Type; }
         double focalLength() { return m_FocalLength; }
-        void setScope( QString _name, QString _model, QString _vendor, QString _type, double _focalLength );
+        double aperture() { return m_Aperture; }
+        void setScope( QString _name, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture );
     private:
         QString m_Name, m_Model, m_Vendor, m_Type;
-        double m_FocalLength;
+        double m_FocalLength, m_Aperture;
 };
 #endif

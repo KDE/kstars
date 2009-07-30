@@ -18,10 +18,11 @@
 
 #include "comast/scope.h"
 
-void Comast::Scope::setScope( QString _name, QString _model, QString _vendor, QString _type, double _focalLength ) {
+void Comast::Scope::setScope( QString _name, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture ) {
     m_Name = _name;
     m_Model = _model;
     m_Vendor = _vendor;
     m_Type = _type;
     m_FocalLength = _focalLength;
+    m_Aperture = _aperture;
 }

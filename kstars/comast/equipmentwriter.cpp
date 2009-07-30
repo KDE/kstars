@@ -54,11 +54,11 @@ void EquipmentWriter::slotAddScope() {
     Comast::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
     if( s ) {
         if( Comast::warningOverwrite( i18n( "Another Scope already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
-            s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value() );
+            s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value(), ui.Aperture->value() );
         } else
             return; //Do nothing
     } else { // No such scope exists, so create a new scope
-        s = new Comast::Scope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value() );
+        s = new Comast::Scope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value(), ui.Aperture->value() );
         ks->data()->logObject()->scopeList()->append( s );
     }
 

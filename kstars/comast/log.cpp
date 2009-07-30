@@ -248,6 +248,9 @@ void Comast::Log::writeScope( Comast::Scope *s ) {
     writer->writeStartElement( "vendor" );
     writer->writeCDATA( s->vendor() );
     writer->writeEndElement();
+    writer->writeStartElement( "aperture" );
+    writer->writeCharacters( QString::number( s->aperture() ) );
+    writer->writeEndElement();
     writer->writeStartElement( "focalLength" );
     writer->writeCharacters( QString::number( s->focalLength() ) );
     writer->writeEndElement();
@@ -669,7 +672,7 @@ void Comast::Log::readSession( QString id, QString lang ) {
 }
 
 void Comast::Log::readScope( QString id ) {
-    QString model, focalLength, vendor, type;
+    QString model, focalLength, vendor, type, aperture;
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -685,12 +688,14 @@ void Comast::Log::readScope( QString id ) {
                 type = reader->readElementText() ;
             } else if( reader->name() == "focalLength" ) {
                 focalLength = reader->readElementText() ;
+            } else if( reader->name() == "aperture" ) {
+                aperture = reader->readElementText() ;
             } else
                 readUnknownElement();
         }
     }
     
-    Comast::Scope *o= new Comast::Scope( id, model, vendor, type, focalLength.toDouble() );
+    Comast::Scope *o= new Comast::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
     m_scopeList.append( o );
 }
 
