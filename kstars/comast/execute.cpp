@@ -59,6 +59,8 @@ Execute::Execute() {
              this, SLOT( slotEndSession() ) );
     connect( ui.NextButton, SIGNAL( clicked() ),
              this, SLOT( slotNext() ) );
+    connect( ui.Slew, SIGNAL( clicked() ),
+             this, SLOT( slotSlew() ) );
     connect( ui.Location, SIGNAL( clicked() ),
              this, SLOT( slotLocation() ) );
     connect( ui.TargetList, SIGNAL( currentIndexChanged(const QString) ),
@@ -265,9 +267,11 @@ void Execute::slotSetTarget( QString name ) {
     currentTarget = ks->observingList()->findObjectByName( name );
     if( ! currentTarget ) {
         ui.NextButton->setEnabled( false );
+        ui.Slew->setEnabled( false );
         return;
     } else {
         ui.NextButton->setEnabled( true );
+        ui.Slew->setEnabled( true );
         ks->observingList()->selectObject( currentTarget );
         ks->observingList()->slotCenterObject();
         QString smag = "--";
@@ -284,6 +288,10 @@ void Execute::slotSetTarget( QString name ) {
         ui.Az->setText( p.az()->toDMSString() );
         ui.Notes->setText( currentTarget->notes() );
     }
+}
+
+void Execute::slotSlew() {
+    ks->observingList()->slotSlewToObject();
 }
 
 void Execute::selectNextTarget() {

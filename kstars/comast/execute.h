@@ -112,6 +112,8 @@ Q_OBJECT
 
         void slotSetCurrentObjects();
 
+        void slotSlew();
+
     private:
         KStars *ks;
         Ui::Execute ui;
