@@ -202,6 +202,7 @@ void Execute::addTargetNotes() {
     currentTarget = o;
     if( o ) {
         o->setNotes( ui.Notes->toPlainText() );
+        ui.Notes->clear();
         loadObservationTab();
     }
 }
