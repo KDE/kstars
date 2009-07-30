@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
+    <width>340</width>
     <height>275</height>
    </rect>
   </property>
@@ -40,7 +40,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label">
              <property name="text">
-              <string>Id</string>
+              <string>Id:</string>
              </property>
             </widget>
            </item>
@@ -50,7 +50,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
-              <string>Model</string>
+              <string>Model:</string>
              </property>
             </widget>
            </item>
@@ -60,7 +60,7 @@
            <item row="2" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Vendor</string>
+              <string>Vendor:</string>
              </property>
             </widget>
            </item>
@@ -70,7 +70,7 @@
            <item row="3" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
-              <string>Type</string>
+              <string>Type:</string>
              </property>
             </widget>
            </item>
@@ -80,7 +80,7 @@
            <item row="5" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
-              <string>Focal Length</string>
+              <string>Focal Length:</string>
              </property>
             </widget>
            </item>
@@ -90,7 +90,7 @@
            <item row="4" column="0">
             <widget class="QLabel" name="label_13">
              <property name="text">
-              <string>Aperture</string>
+              <string>Aperture:</string>
              </property>
             </widget>
            </item>
@@ -142,7 +142,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_6">
              <property name="text">
-              <string>Id</string>
+              <string>Id:</string>
              </property>
             </widget>
            </item>
@@ -152,7 +152,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>Model</string>
+              <string>Model:</string>
              </property>
             </widget>
            </item>
@@ -162,7 +162,7 @@
            <item row="2" column="0">
             <widget class="QLabel" name="label_8">
              <property name="text">
-              <string>Vendor</string>
+              <string>Vendor:</string>
              </property>
             </widget>
            </item>
@@ -172,7 +172,7 @@
            <item row="3" column="0">
             <widget class="QLabel" name="label_10">
              <property name="text">
-              <string>Focal Length</string>
+              <string>Focal Length:</string>
              </property>
             </widget>
            </item>
@@ -186,7 +186,7 @@
            <item>
             <widget class="QLabel" name="label_9">
              <property name="text">
-              <string>Apparent FOV</string>
+              <string>Apparent FOV:</string>
              </property>
             </widget>
            </item>
@@ -196,7 +196,7 @@
            <item>
             <widget class="QLabel" name="label_11">
              <property name="text">
-              <string>Unit</string>
+              <string>Unit:</string>
              </property>
             </widget>
            </item>
@@ -272,7 +272,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label3">
              <property name="text">
-              <string>Id</string>
+              <string>Id:</string>
              </property>
             </widget>
            </item>
@@ -282,7 +282,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label2">
              <property name="text">
-              <string>Model</string>
+              <string>Model:</string>
              </property>
             </widget>
            </item>
@@ -292,7 +292,7 @@
            <item row="2" column="0">
             <widget class="QLabel" name="label3">
              <property name="text">
-              <string>Vendor</string>
+              <string>Vendor:</string>
              </property>
             </widget>
            </item>
@@ -302,7 +302,7 @@
            <item row="3" column="0">
             <widget class="QLabel" name="label5">
              <property name="text">
-              <string>Factor</string>
+              <string>Factor:</string>
              </property>
             </widget>
            </item>
@@ -354,7 +354,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label4">
              <property name="text">
-              <string>Id</string>
+              <string>Id:</string>
              </property>
             </widget>
            </item>
@@ -364,7 +364,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label3">
              <property name="text">
-              <string>Model</string>
+              <string>Model:</string>
              </property>
             </widget>
            </item>
@@ -374,7 +374,7 @@
            <item row="2" column="0">
             <widget class="QLabel" name="label5">
              <property name="text">
-              <string>Vendor</string>
+              <string>Vendor:</string>
              </property>
             </widget>
            </item>
@@ -384,7 +384,7 @@
            <item row="3" column="0">
             <widget class="QLabel" name="label6">
              <property name="text">
-              <string>Type</string>
+              <string>Type:</string>
              </property>
             </widget>
            </item>
@@ -394,7 +394,7 @@
            <item row="4" column="0">
             <widget class="QLabel" name="label_12">
              <property name="text">
-              <string>Color</string>
+              <string>Color:</string>
              </property>
             </widget>
            </item>
