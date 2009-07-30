@@ -248,6 +248,7 @@ void Execute::slotEndSession() {
         ostream<< logObject->writeLog( false );
         f.close();
     }
+    ui.Id->clear();
     hide();
     ui.stackedWidget->setCurrentIndex(0);
     logObject->observationList()->clear();
@@ -285,7 +286,6 @@ void Execute::selectNextTarget() {
     int i = ui.TargetList->findText( currentTarget->name() ) + 1;
     if( i < ui.TargetList->count() ) {
         ui.TargetList->setCurrentIndex( i );
-        slotSetTarget( ui.TargetList->currentText() );
     }
 }
 
