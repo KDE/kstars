@@ -176,7 +176,7 @@
            <item>
             <widget class="QLabel" name="label_9">
              <property name="text">
-              <string>FOV</string>
+              <string>Apparent FOV</string>
              </property>
             </widget>
            </item>
