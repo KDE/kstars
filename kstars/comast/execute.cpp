@@ -277,6 +277,7 @@ void Execute::slotSetTarget( QString name ) {
         ui.Dec->setText( p.dec()->toDMSString() );
         ui.Alt->setText( p.alt()->toDMSString() );
         ui.Az->setText( p.az()->toDMSString() );
+        ui.Notes->setText( currentTarget->notes() );
     }
 }
 
