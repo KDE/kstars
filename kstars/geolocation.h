@@ -35,18 +35,12 @@
 	*@author Jason Harris
 	*@version 1.0
 	*/
-
 class GeoLocation {
 public:
     /**
     	*Default constructor; sets coordinates to zero.	
     	*/
     GeoLocation();
-
-    /**Copy Constructor
-    	*@param g the GeoLocation to duplicate
-    	*/
-    GeoLocation( const GeoLocation &g );
 
     /**Constructor using dms objects to specify longitude and latitude.
     	*@param lng the longitude
