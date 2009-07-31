@@ -25,12 +25,18 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 
-FOV::FOV( const QString &n, float a, float b, int sh, const QString &col ) : Name( n ), Color( col ), SizeX( a ), Shape( sh )
-{
-    SizeY = (b < 0.0) ? a : b;
-}
+FOV::Shape FOV::intToShape(int s)
+{ 
+    return (s >= FOV::UNKNOWN || s < 0) ? FOV::UNKNOWN : static_cast<FOV::Shape>(s);
+} 
 
-FOV::FOV() : Name( i18n( "No FOV" ) ), Color( "#FFFFFF" ), SizeX( 0.0 ), SizeY( 0.0 ), Shape( 0 )
+FOV::FOV( const QString &n, float a, float b, Shape sh, const QString &col ) :
+    m_name( n ), m_color( col ), m_sizeX( a ), m_shape( sh )
+{ 
+    m_sizeY = (b < 0.0) ? a : b;
+} 
+
+FOV::FOV() : m_name( i18n( "No FOV" ) ), m_color( "#FFFFFF" ), m_sizeX( 0.0 ), m_sizeY( 0.0 ), m_shape( SQUARE )
 {}
 
 FOV::FOV( const QString &sname ) {
@@ -73,11 +79,11 @@ FOV::FOV( const QString &sname ) {
                     if( !ok )
                         break;
                     ++index;
-                    Name = fields[0];
-                    SizeX = sx;
-                    SizeY = sy;
-                    Shape = sh;
-                    Color = fields[index];
+                    m_name = fields[0];
+                    m_sizeX = sx;
+                    m_sizeY = sy;
+                    m_shape = intToShape(sh);
+                    m_color = fields[index];
                     return;
                 }
             }
@@ -85,11 +91,11 @@ FOV::FOV( const QString &sname ) {
     }
     
     //If we get here, then the symbol could not be assigned
-    Name = i18n( "No FOV" );
-    SizeX = 0.0;
-    SizeY = 0.0;
-    Shape = 0;
-    Color = "#FFFFFF";
+    m_name = i18n( "No FOV" );
+    m_sizeX = 0.0;
+    m_sizeY = 0.0;
+    m_shape = UNKNOWN;
+    m_color = "#FFFFFF";
 }
 
 void FOV::draw( QPainter &p, float pixelSizeX, float pixelSizeY ) {
@@ -105,15 +111,15 @@ void FOV::draw( QPainter &p, float pixelSizeX, float pixelSizeY ) {
     int sy = int( pixelSizeY );
 
     switch ( shape() ) {
-    case 0: { //Square
+    case SQUARE: { //Square
         p.drawRect( (w - sx)/2, (h - sy)/2, sx, sy );
         break;
     }
-    case 1: { //Circle
+    case CIRCLE: { //Circle
         p.drawEllipse( (w - sx)/2, (h - sy)/2, sx, sy );
         break;
     }
-    case 2: { //Crosshairs
+    case CROSSHAIRS: { //Crosshairs
         int sx1 = sx;
         int sy1 = sy;
         int sx2 = 2 * sx;
@@ -138,7 +144,7 @@ void FOV::draw( QPainter &p, float pixelSizeX, float pixelSizeY ) {
         
         break;
     }
-    case 3: { //Bullseye
+    case BULLSEYE: { //Bullseye
         int sx1 = sx;
         int sy1 = sy;
         int sx2 = 4 * sx;
@@ -157,7 +163,7 @@ void FOV::draw( QPainter &p, float pixelSizeX, float pixelSizeY ) {
 
         break;
     }
-    case 4: { // Solid Circle
+    case SOLIDCIRCLE: { // Solid Circle
         QColor colorAlpha( color() );
         colorAlpha.setAlpha(127);
         p.setBrush( QBrush ( colorAlpha ) );
@@ -165,6 +171,11 @@ void FOV::draw( QPainter &p, float pixelSizeX, float pixelSizeY ) {
         p.setBrush(Qt::NoBrush);
         break;
     }
+    default: ; 
     }
 }
 
+void FOV::setShape( int s)
+{
+    m_shape = intToShape(s);
+}

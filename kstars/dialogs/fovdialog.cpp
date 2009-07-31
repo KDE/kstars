@@ -105,7 +105,7 @@ void FOVDialog::initList() {
             }
 
             if ( ok ) {
-                FOV *newfov = new FOV( nm, sx, sy, sh, cl );
+                FOV *newfov = new FOV( nm, sx, sy, FOV::intToShape(sh), cl );
                 fov->FOVListBox->addItem( nm );
                 FOVList.append( newfov );
 
@@ -144,7 +144,8 @@ void FOVDialog::slotNewFOV() {
 
     if ( newfdlg->exec() == QDialog::Accepted ) {
         FOV *newfov = new FOV( newfdlg->ui->FOVName->text(), fovsizeX, fovsizeY,
-                               newfdlg->ui->ShapeBox->currentIndex(), newfdlg->ui->ColorButton->color().name() );
+                               FOV::intToShape(newfdlg->ui->ShapeBox->currentIndex()),
+                               newfdlg->ui->ColorButton->color().name() );
 
         FOVList.append( newfov );
 
@@ -173,7 +174,8 @@ void FOVDialog::slotEditFOV() {
         double fovsizeX = newfdlg.ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
         double fovsizeY = newfdlg.ui->FOVEditY->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
         FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsizeX, fovsizeY,
-                               newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
+                               FOV::intToShape(newfdlg.ui->ShapeBox->currentIndex()),
+                               newfdlg.ui->ColorButton->color().name() );
 
         fov->FOVListBox->currentItem()->setText( newfdlg.ui->FOVName->text() );
 
