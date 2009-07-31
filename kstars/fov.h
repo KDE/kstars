@@ -64,7 +64,7 @@ public:
     	*@param p reference to the target QPainter.  The painter should already be started.
     	*@param size the size of the target symbol, in pixels.
     	*/
-    void draw( QPainter &p, float pixelSizeX, float pixelSizeY=-1 );
+    void draw( QPainter &p, float zoomFactor);
 
     /** @short Fill list with default FOVs*/
     static QList<FOV*> defaults();

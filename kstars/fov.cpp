@@ -98,7 +98,10 @@ FOV::FOV( const QString &sname ) {
     m_color = "#FFFFFF";
 }
 
-void FOV::draw( QPainter &p, float pixelSizeX, float pixelSizeY ) {
+void FOV::draw( QPainter &p, float zoomFactor ) {
+    float pixelSizeX = sizeX() * zoomFactor / 57.3 / 60.0;
+    float pixelSizeY = sizeY() * zoomFactor / 57.3 / 60.0;
+    
     p.setPen( QColor( color() ) );
     p.setBrush( Qt::NoBrush );
 
@@ -239,7 +242,7 @@ QList<FOV*> FOV::readFOVs()
             float   sizeX, sizeY;
             Shape   shape;
             if( fields.count() == 4 ) {
-                name = fields[1];
+                name = fields[0];
                 sizeX = fields[1].toFloat(&ok);
                 if( !ok ) {
                     return QList<FOV*>();
@@ -251,7 +254,7 @@ QList<FOV*> FOV::readFOVs()
                 }
                 color = fields[3];
             } else if( fields.count() == 5 ) {
-                name = fields[1];
+                name = fields[0];
                 sizeX = fields[1].toFloat(&ok);
                 if( !ok ) {
                     return QList<FOV*>();
