@@ -511,7 +511,7 @@ void KStars::initActions() {
 
 void KStars::repopulateFOV() {
     // Read list of all FOVs
-    while( ! data()->availFOVs.isEmpty() ) delete data()->availFOVs.takeFirst()
+    while( ! data()->availFOVs.isEmpty() ) delete data()->availFOVs.takeFirst();
     data()->availFOVs = FOV::readFOVs();
     data()->syncFOV();
     
