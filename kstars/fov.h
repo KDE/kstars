@@ -18,6 +18,8 @@
 #ifndef FOV_H_
 #define FOV_H_
 
+#include <QList>
+
 #include <qstring.h>
 #include <klocale.h>
 
@@ -64,6 +66,12 @@ public:
     	*/
     void draw( QPainter &p, float pixelSizeX, float pixelSizeY=-1 );
 
+    /** @short Fill list with default FOVs*/
+    static QList<FOV*> defaults();
+    /** @short Write list of FOVs to "fov.dat" */
+    static void writeFOVs(const QList<FOV*> fovs);
+    /** @short Read list of FOVs from "fov.dat" */
+    static QList<FOV*>readFOVs();
 private:
     QString m_name,  m_color;
     float   m_sizeX, m_sizeY;

@@ -179,3 +179,97 @@ void FOV::setShape( int s)
 {
     m_shape = intToShape(s);
 }
+
+
+QList<FOV*> FOV::defaults()
+{
+    QList<FOV*> fovs;
+    fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
+                    558,  558,  CIRCLE,"#AAAAAA")
+         << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
+                    30,   30,   CROSSHAIRS,"#AA0000")
+         << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"),
+                    60,   60,   CIRCLE,"#AAAAAA")
+         << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"),
+                    2.4,  2.4,  SQUARE,"#AAAAAA")
+         << new FOV(i18nc("use Radiotelescope HPBW", "30m at 1.3cm" ),
+                    1.79, 1.79, SQUARE,"#AAAAAA");
+    return fovs;
+}
+
+void FOV::writeFOVs(const QList<FOV*> fovs)
+{
+    QFile f;
+    f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
+
+    if ( ! f.open( QIODevice::WriteOnly ) ) {
+        kDebug() << i18n( "Could not open fov.dat." );
+        return;
+    }
+    QTextStream ostream(&f);
+    foreach(FOV* fov, fovs) {
+        ostream << fov->name()  << ':'
+                << fov->sizeX() << ':'
+                << fov->sizeY() << ':'
+                << QString::number( fov->shape() ) << ':' //FIXME: is this needed???
+                << fov->color() << endl;
+    }
+    f.close();
+}
+
+QList<FOV*> FOV::readFOVs()
+{
+    QFile f;
+    QList<FOV*> fovs;
+    f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
+
+    if( !f.exists() ) {
+        fovs = defaults();
+        writeFOVs(fovs);
+        return fovs;
+    }
+
+    if( f.open(QIODevice::ReadOnly) ) {
+        fovs.clear();
+        QTextStream istream(&f);
+        while( !istream.atEnd() ) {
+            QStringList fields = istream.readLine().split(':');
+            bool ok;
+            QString name, color;
+            float   sizeX, sizeY;
+            Shape   shape;
+            if( fields.count() == 4 ) {
+                name = fields[1];
+                sizeX = fields[1].toFloat(&ok);
+                if( !ok ) {
+                    return QList<FOV*>();
+                }
+                sizeY = sizeX;
+                shape = intToShape( fields[2].toInt(&ok) );
+                if( !ok ) {
+                    return QList<FOV*>();
+                }
+                color = fields[3];
+            } else if( fields.count() == 5 ) {
+                name = fields[1];
+                sizeX = fields[1].toFloat(&ok);
+                if( !ok ) {
+                    return QList<FOV*>();
+                }
+                sizeY = fields[2].toFloat(&ok);
+                if( !ok ) {
+                    return QList<FOV*>();
+                }
+                shape = intToShape( fields[3].toInt(&ok) );
+                if( !ok ) {
+                    return QList<FOV*>();
+                }
+                color = fields[4];
+            } else {
+                continue;
+            }
+            fovs.append( new FOV(name, sizeX, sizeY, shape, color) );
+        }
+    }
+    return fovs;
+}
