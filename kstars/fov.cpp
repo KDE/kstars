@@ -36,67 +36,9 @@ FOV::FOV( const QString &n, float a, float b, Shape sh, const QString &col ) :
     m_sizeY = (b < 0.0) ? a : b;
 } 
 
-FOV::FOV() : m_name( i18n( "No FOV" ) ), m_color( "#FFFFFF" ), m_sizeX( 0.0 ), m_sizeY( 0.0 ), m_shape( SQUARE )
+FOV::FOV() :
+    m_name( i18n( "No FOV" ) ), m_color( "#FFFFFF" ), m_sizeX( 0.0 ), m_sizeY( 0.0 ), m_shape( SQUARE )
 {}
-
-FOV::FOV( const QString &sname ) {
-    QFile f;
-    f.setFileName( KStandardDirs::locate( "appdata", "fov.dat" ) );
-
-    int sh;
-    float sx, sy;
-
-    /* NOTE:
-       If there are five fields, interpret them as Name:SizeX:SizeY:Shape:Color
-       If there are four fields, interpret them as Name:Size = SizeX = SizeY:Shape:Color
-       [This is required for backward compatibility]
-    */
-
-    if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
-        QTextStream stream( &f );
-        while ( !stream.atEnd() ) {
-            QStringList fields = stream.readLine().split( ':' );
-            bool ok( false );
-            if ( fields.count() == 4 || fields.count() == 5 ) {
-                int index = 0;
-                if ( fields[index] == sname ) {
-                    ++index;
-                    sx = (float)(fields[index].toDouble( &ok ));
-                    if( !ok )
-                        break;  // Conversion failed, so no point continuing
-                    ++ index;
-
-                    if( fields.count() == 5 ) {
-                        sy = (float)(fields[index].toDouble( &ok ));
-                        if( !ok )
-                            break;
-                        ++index;
-                    }
-                    else
-                        sy = sx;
-
-                    sh = fields[index].toInt( &ok );
-                    if( !ok )
-                        break;
-                    ++index;
-                    m_name = fields[0];
-                    m_sizeX = sx;
-                    m_sizeY = sy;
-                    m_shape = intToShape(sh);
-                    m_color = fields[index];
-                    return;
-                }
-            }
-        }
-    }
-    
-    //If we get here, then the symbol could not be assigned
-    m_name = i18n( "No FOV" );
-    m_sizeX = 0.0;
-    m_sizeY = 0.0;
-    m_shape = UNKNOWN;
-    m_color = "#FFFFFF";
-}
 
 void FOV::draw( QPainter &p, float zoomFactor ) {
     float pixelSizeX = sizeX() * zoomFactor / 57.3 / 60.0;

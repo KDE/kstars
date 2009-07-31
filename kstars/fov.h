@@ -41,9 +41,7 @@ public:
     
     /**Default constructor*/
     FOV();
-    FOV( const QString &name );  //in this case, read params from fov.dat
     FOV( const QString &name, float a, float b=-1, Shape shape=SQUARE, const QString &color="#FFFFFF" );
-    ~FOV() {}
 
     inline QString name() const { return m_name; }
     void setName( const QString &n ) { m_name = n; }
