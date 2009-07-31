@@ -87,47 +87,39 @@ private:
     static int instance_count;
 
     /**@class MoonLRData
-    	*Encapsulates the Longitude and radius terms of the sums
-    	*used to compute the moon's position.
-    	*@short Moon Longitude and radius data object
-    	*@author Mark Hollomon
-    	*@version 1.0
-    	*/
-    class MoonLRData {
-    public:
+     * Encapsulates the Longitude and radius terms of the sums
+     * used to compute the moon's position.
+     * @short Moon Longitude and radius data object
+     * @author Mark Hollomon
+     * @version 1.0
+     */
+    struct MoonLRData {
         int nd;
         int nm;
         int nm1;
         int nf;
         double Li;
         double Ri;
-
-        MoonLRData( int pnd, int pnm, int pnm1, int pnf, double pLi, double pRi ):
-        nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Li(pLi), Ri(pRi) {}
     };
 
-    static QList<MoonLRData*> LRData;
+    static QList<MoonLRData> LRData;
 
     /**@class MoonBData
-    	*Encapsulates the Latitude terms of the sums
-    	*used to compute the moon's position.
-    	*@short Moon Latitude data object
-    	*@author Mark Hollomon
-    	*@version 1.0
-    	*/
-    class MoonBData {
-    public:
+     * Encapsulates the Latitude terms of the sums
+     * used to compute the moon's position.
+     * @short Moon Latitude data object
+     * @author Mark Hollomon
+     * @version 1.0
+     */
+    struct MoonBData {
         int nd;
         int nm;
         int nm1;
         int nf;
         double Bi;
-
-        MoonBData( int pnd, int pnm, int pnm1, int pnf, double pBi ):
-        nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Bi(pBi) {}
     };
 
-    static QList<MoonBData*> BData;
+    static QList<MoonBData> BData;
 
 };
 
