@@ -60,68 +60,14 @@ FOVDialog::FOVDialog( KStars *_ks )
     connect( fov->EditButton, SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
     connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
 
-    //	FOVList.setAutoDelete( true );
-    initList();
+    FOVList = FOV::readFOVs();
+    foreach(FOV* f, FOVList) {
+        fov->FOVListBox->addItem( f->name() );
+    }
 }
 
 FOVDialog::~FOVDialog()
 {}
-
-void FOVDialog::initList() {
-    QStringList fields;
-    QFile f;
-
-    QString nm, cl;
-    int sh(0), irow(0);
-    float sx(0.0), sy(0.0);
-
-    f.setFileName( KStandardDirs::locate( "appdata", "fov.dat" ) );
-
-    if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
-        QTextStream stream( &f );
-        while ( !stream.atEnd() ) {
-            fields = stream.readLine().split( ':' );
-            bool ok( false );
-
-            if ( fields.count() == 4 || fields.count() == 5 ) {
-                int index = 0;
-                nm = fields[index]; // Name
-                ++index;
-                sx = (float)(fields[index].toDouble( &ok )); // SizeX
-                if( !ok )
-                    continue;
-                ++index;
-                if( fields.count() == 5 ) {
-                    sy = (float)(fields[index].toDouble( &ok )); // SizeY
-                    if( !ok )
-                        continue;
-                    ++index;
-                }
-                else
-                    sy = sx;
-                sh = fields[index].toInt( &ok ); // Shape
-                if ( ok )
-                    cl = fields[++index]; // Color
-            }
-
-            if ( ok ) {
-                FOV *newfov = new FOV( nm, sx, sy, FOV::intToShape(sh), cl );
-                fov->FOVListBox->addItem( nm );
-                FOVList.append( newfov );
-
-                //Tag item if its name matches the current fov symbol in the main window
-                if ( nm == ks->data()->fovSymbol.name() ) 
-                    irow = fov->FOVListBox->count()-1;
-            }
-        }
-
-        f.close();
-
-        //preset the listbox selection to the current setting in the main window
-        fov->FOVListBox->setCurrentRow( irow );
-        slotSelect( irow );
-    }
-}
 
 void FOVDialog::slotSelect( int irow ) {
     if ( irow < 0 ) { //no item selected

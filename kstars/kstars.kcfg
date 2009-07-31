@@ -244,26 +244,9 @@
 			<whatsthis>If true, focus changes will cause the sky to visibly spin to the new position.  Otherwise, the display will "snap" instantly to the new position.</whatsthis>
 			<default>true</default>
 		</entry>
-		<entry name="FOVName" type="String">
-			<label>Name of selected FOV indicator</label>
-			<whatsthis>The name of the currently-selected field-of-view indicator.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
-			<default>No FOV</default>
-		</entry>
-		<entry name="FOVShape" type="UInt">
-			<label>Shape of selected FOV</label>
-			<whatsthis>Integer indicating the selected FOV symbol shape.  Possible values are: 0=Square; 1=Circle; 2=Crosshairs; 3=Bullseye; 4=Semitransparent circle.</whatsthis>
-			<default>0</default>
-			<max>4</max>
-		</entry>
-		<entry name="FOVSizeX" type="Double">
-			<label>Angular size of selected FOV indicator, in arcmin, along X direction</label>
-			<whatsthis>The angular size for the FOV symbol, in arcminutes, along X direction.</whatsthis>
-			<default>0.0</default>
-		</entry>
-		<entry name="FOVSizeY" type="Double">
-			<label>Angular size of selected FOV indicator, in arcmin, along Y direction</label>
-			<whatsthis>The angular size for the FOV symbol, in arcminutes, along Y direction.</whatsthis>
-			<default>0.0</default>
+		<entry name="FOVNames" type="StringList">
+			<label>Name of selected FOV indicators</label>
+			<whatsthis>The names of the currently-selected field-of-view indicators.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
 		</entry>
 		<entry name="FadePlanetTrails" type="Bool">
 			<label>Fade planet trails to background color?</label>
@@ -768,11 +751,6 @@
 		<entry name="EquatorColor" type="String">
 			<label>Color of equator line</label>
 			<whatsthis>The color for the equator line.</whatsthis>
-			<default>#FFF</default>
-		</entry>
-		<entry name="FOVColor" type="String">
-			<label>Color of FOV indicator symbol</label>
-			<whatsthis>The color for the field-of-view indicator symbol.</whatsthis>
 			<default>#FFF</default>
 		</entry>
 		<entry name="GridColor" type="String">

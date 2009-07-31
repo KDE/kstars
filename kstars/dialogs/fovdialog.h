@@ -61,8 +61,6 @@ private slots:
     void slotSelect(int);
 
 private:
-    void initList();
-
     KStars *ks;
     FOVDialogUI *fov;
 };

@@ -143,7 +143,9 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
         drawBoxes( p );
 
         //draw FOV symbol
-
+        foreach( FOV* fov, ks->data()->visibleFOVs ) {
+            fov->draw(p, Options::zoomFactor());
+        }
         drawTelescopeSymbols( p );
         drawObservingList( p );
         drawZoomBox( p );

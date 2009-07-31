@@ -18,9 +18,9 @@
 #include "kstarsdata.h"
 
 #include <QApplication>
-#include <QRegExp>
 #include <QDir>
 #include <QFileInfo>
+#include <QSet>
 #include <QTextStream>
 
 #include <kcomponentdata.h>
@@ -108,9 +108,6 @@ KStarsData::KStarsData(KStars* kstars) : locale(0),
     //Instantiate LST and HourAngle
     LST = new dms();
     HourAngle = new dms();
-
-    //initialize FOV symbol
-    fovSymbol = FOV();
 
     // at startup times run forward
     setTimeDirection( 0.0 );
@@ -1193,11 +1190,12 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 //parse double value
                 double dVal = fn[2].toDouble( &dOk );
 
-                if ( fn[1] == "FOVName"                ) { Options::setFOVName(       fn[2] ); cmdCount++; }
-                if ( fn[1] == "FOVSizeX"         && dOk ) { Options::setFOVSizeX( (float)dVal ); cmdCount++; }
-                if ( fn[1] == "FOVSizeY"         && dOk ) { Options::setFOVSizeY( (float)dVal ); cmdCount++; }
-                if ( fn[1] == "FOVShape"        && nOk ) { Options::setFOVShape(       nVal ); cmdCount++; }
-                if ( fn[1] == "FOVColor"               ) { Options::setFOVColor(      fn[2] ); cmdCount++; }
+                // FIXME: REGRESSION
+//                if ( fn[1] == "FOVName"                ) { Options::setFOVName(       fn[2] ); cmdCount++; }
+//                if ( fn[1] == "FOVSizeX"         && dOk ) { Options::setFOVSizeX( (float)dVal ); cmdCount++; }
+//                if ( fn[1] == "FOVSizeY"         && dOk ) { Options::setFOVSizeY( (float)dVal ); cmdCount++; }
+//                if ( fn[1] == "FOVShape"        && nOk ) { Options::setFOVShape(       nVal ); cmdCount++; }
+//                if ( fn[1] == "FOVColor"               ) { Options::setFOVColor(      fn[2] ); cmdCount++; }
                 if ( fn[1] == "ShowStars"         && bOk ) { Options::setShowStars(    bVal ); cmdCount++; }
                 if ( fn[1] == "ShowMessier"        && bOk ) { Options::setShowMessier( bVal ); cmdCount++; }
                 if ( fn[1] == "ShowMessierImages"  && bOk ) { Options::setShowMessierImages( bVal ); cmdCount++; }
@@ -1299,6 +1297,23 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 
     if ( cmdCount ) return true;
     return false;
+}
+
+void KStarsData::syncFOV()
+{
+    visibleFOVs.clear();
+    // Add visible FOVs 
+    foreach(FOV* fov, availFOVs) {
+        if( Options::fOVNames().contains( fov->name() ) ) 
+            visibleFOVs.append( fov );
+    }
+    // Remove unavailable FOVs
+    QSet<QString> names = QSet<QString>::fromList( Options::fOVNames() );
+    QSet<QString> all;
+    foreach(FOV* fov, visibleFOVs) {
+        all.insert(fov->name());
+    }
+    Options::setFOVNames( all.intersect(names).toList() );
 }
 
 /*void KStarsData::appendTelescopeObject(SkyObject * object)

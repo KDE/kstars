@@ -660,7 +660,7 @@ private slots:
     void slotColorScheme();
 
     /**Select the Target symbol (a.k.a. field-of-view indicator) */
-    void slotTargetSymbol();
+    void slotTargetSymbol(bool flag);
 
     /**Invoke the Field-of-View symbol editor window */
     void slotFOVEdit();
@@ -693,29 +693,19 @@ private slots:
     void slotAboutToQuit();
 
 private:
-    /**
-        *Initialize Menu bar, toolbars and all Actions.
-        */
+    /** Load FOV information and repopulate menu. */
+    void repopulateFOV();
+    
+    /** Initialize Menu bar, toolbars and all Actions. */
     void initActions();
 
-    /**
-        *Initialize Field-of-View symbols and FOV submenu
-        */
-    void initFOV();
-
-    /**
-        *Initialize Status bar.
-        */
+    /** Initialize Status bar. */
     void initStatusBar();
 
-    /**
-        *Initialize focus position
-        */
+    /** Initialize focus position */
     void initFocus();
 
-    /**
-        *Build the KStars main window
-        */
+    /** Build the KStars main window */
     void buildGUI();
 
     void reportZoom();
@@ -746,7 +736,7 @@ private:
     INDIDriver *indidriver;
     imagesequence *indiseq;  /* We need imgsequence here because it runs in batch mode */
 
-    QActionGroup *projectionGroup, *fovGroup, *cschemeGroup;
+    QActionGroup *projectionGroup, *cschemeGroup;
 
     int idSpinBox;
     bool DialogIsObsolete;

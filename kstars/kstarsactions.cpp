@@ -955,92 +955,32 @@ void KStars::slotColorScheme() {
     loadColorScheme( filename );
 }
 
-void KStars::slotTargetSymbol() {
-    QString symbolName( sender()->objectName() );
-
-    FOV f( symbolName );
-
-    Options::setFOVName( f.name() );
-    Options::setFOVSizeX( f.sizeX() );
-    Options::setFOVSizeY( f.sizeY() );
-    Options::setFOVShape( f.shape() );
-    Options::setFOVColor( f.color() );
-    data()->fovSymbol.setName( Options::fOVName() );
-    data()->fovSymbol.setSize( Options::fOVSizeX(), Options::fOVSizeY() );
-    data()->fovSymbol.setShape( Options::fOVShape() );
-    data()->fovSymbol.setColor( Options::fOVColor() );
-
+void KStars::slotTargetSymbol(bool flag) {
+    kDebug() << QString("slotTargetSymbol: %1 %2").arg( sender()->objectName() ).arg( flag);
+    
+    QStringList names = Options::fOVNames();
+    if( flag ) {
+        // Add FOV to list
+        names.append( sender()->objectName() );
+    } else {
+        // Remove FOV from list
+        int ix = names.indexOf( sender()->objectName() );
+        if( ix >= 0 ) 
+            names.removeAt(ix);
+    }
+    Options::setFOVNames( names );
+   
+    // Sync visibleFOVs with fovNames
+    data()->syncFOV();
+    
     map()->forceUpdate();
 }
 
 void KStars::slotFOVEdit() {
     QPointer<FOVDialog> fovdlg = new FOVDialog( this );
     if ( fovdlg->exec() == QDialog::Accepted ) {
-        //replace existing fov.dat with data from the FOVDialog
-        QFile f;
-        f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
-
-        //rebuild fov.dat if FOVList is empty
-        if ( fovdlg->FOVList.isEmpty() ) {
-            f.remove();
-            initFOV();
-        } else {
-            if ( ! f.open( QIODevice::WriteOnly ) ) {
-                kDebug() << i18n( "Could not open fov.dat for writing." );
-            } else {
-                QTextStream ostream(&f);
-
-                foreach ( FOV *fov, fovdlg->FOVList )
-                    ostream << fov->name() << ":" << fov->sizeX() << ":" 
-                            << fov->sizeY() << ":" << QString::number( fov->shape() ) 
-                            << ":" << fov->color() << endl;
-
-                f.close();
-            }
-        }
-
-        //repopulate FOV menu  with items from new fov.dat
-        fovActionMenu->menu()->clear();
-
-        if ( f.open( QIODevice::ReadOnly ) ) {
-            QTextStream stream( &f );
-            while ( !stream.atEnd() ) {
-                QString line = stream.readLine();
-                QStringList fields = line.split( ':' );
-
-                if ( fields.count() == 4 || fields.count() == 5 ) {
-                    QString nm = fields[0].trimmed();
-                    KToggleAction *kta = actionCollection()->add<KToggleAction>( nm );
-                    kta->setText( nm );
-                    kta->setObjectName( nm );
-                    kta->setActionGroup( fovGroup );
-                    connect( kta, SIGNAL( toggled(bool) ), this, SLOT( slotTargetSymbol() ) );
-                    if ( nm == Options::fOVName() ) kta->setChecked( true );
-                    fovActionMenu->addAction( kta );
-                }
-            }
-        } else {
-            kDebug() << i18n( "Could not open file: %1", f.fileName() );
-        }
-
-        fovActionMenu->menu()->addSeparator();
-        QAction *ka = actionCollection()->addAction( "edit_fov" );
-        ka->setText( i18n( "Edit FOV Symbols..." ) );
-        connect( ka, SIGNAL( triggered() ), this, SLOT( slotFOVEdit() ) );
-        fovActionMenu->addAction( ka );
-
-        //set FOV to whatever was highlighted in FOV dialog
-        if ( fovdlg->FOVList.count() > 0 ) {
-            Options::setFOVName( fovdlg->FOVList.at( fovdlg->currentItem() )->name() );
-            data()->fovSymbol.setName( Options::fOVName() );
-            data()->fovSymbol.setSize( Options::fOVSizeX(), Options::fOVSizeY() );
-            data()->fovSymbol.setShape( Options::fOVShape() );
-            data()->fovSymbol.setColor( Options::fOVColor() );
-        }
-
-        //Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
-        //		//set ZoomLevel to match the FOV symbol
-        //		zoom( (double)(map()->width()) * 60.0 / ( 2.0 * dms::DegToRad * data()->fovSymbol.size() ) );
+        FOV::writeFOVs( fovdlg->FOVList );
+        repopulateFOV();
     }
     delete fovdlg;
 }

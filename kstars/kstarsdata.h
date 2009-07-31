@@ -320,6 +320,10 @@ public:
     	*/
     bool executeScript( const QString &name, SkyMap *map );
 
+    /** Syncronize list of visible FOVs and list of selected FOVs in
+     * Options */
+    void syncFOV();
+    
     /**@short Initialize celestial equator, horizon and ecliptic.
     	*@param num pointer to a KSNumbers object to use.
     	*/
@@ -481,7 +485,8 @@ private:
 
     QKeySequence resumeKey;
 
-    FOV fovSymbol;
+    QList<FOV*> availFOVs;   // List of all available FOVs
+    QList<FOV*> visibleFOVs; // List of visible FOVs. Cached from Options::FOVNames
 
     double Obliquity, dObliq, dEcLong;
     KStarsDateTime LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
