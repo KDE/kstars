@@ -66,10 +66,8 @@ StarObject::StarObject( dms r, dms d, float m,
         : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
           PM_RA(pmra), PM_Dec(pmdec),
           Parallax(par), Multiplicity(mult), Variability(var)
-        // SONAME deprecated //, soName( 0 )
 {
-
-    const char *spt = (const char *)sptype.toAscii();
+    QByteArray spt = sptype.toAscii();
     SpType[0] = spt[0];
     SpType[1] = spt[1];
     QString lname;
@@ -95,9 +93,8 @@ StarObject::StarObject( double r, double d, float m,
     : SkyObject (SkyObject::STAR, r, d, m, n, n2, QString()),
       PM_RA(pmra), PM_Dec(pmdec),
       Parallax(par), Multiplicity(mult), Variability(var)
-      // SONAME deprecated //, soName( 0 )
 {
-    const char *spt = (const char *)sptype.toAscii();
+    QByteArray spt = sptype.toAscii();
     SpType[0] = spt[0];
     SpType[1] = spt[1];
     

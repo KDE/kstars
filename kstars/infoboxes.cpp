@@ -30,6 +30,7 @@
 #include "skyobjects/skypoint.h"
 #include "skycomponents/skylabeler.h"
 
+// FIXME: Refactor constructor >14 parameters is WAY to many
 InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
                       const QPoint &gp, bool gshade, const QPoint &fp, bool fshade,
                       const QColor &colorText, const QColor &colorGrab, const QColor &colorBG ) :
@@ -64,6 +65,7 @@ InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
     resize( w, h );
 }
 
+// FIXME: Refactor constructor >14 parameters is WAY to many
 InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
                       int gx, int gy, bool gshade, int fx, int fy, bool fshade,
                       const QColor &colorText, const QColor &colorGrab, const QColor &colorBG ) :
@@ -130,7 +132,9 @@ void InfoBoxes::reserveBoxes( QPainter& psky )
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     for ( int i = 0; i < 3; i++ ) {
         InfoBox* box = m_box[i];
-        if ( ! box->isVisible() ) continue;
+        if ( ! box->isVisible() )
+            continue;
+        // FIXME: m_saveFocus could be uninitialized in this function 
         int x = m_saveFocus[i][0];
         int y = m_saveFocus[i][1];
         skyLabeler->markRect( x, y, box->width(), box->height(), psky );
