@@ -31,6 +31,7 @@
 #include "comast/filter.h"
 #include "skyobjects/skyobject.h"
 #include "dialogs/locationdialog.h"
+#include "dialogs/finddialog.h"
 
 Execute::Execute() {
     QWidget *w = new QWidget;
@@ -53,6 +54,9 @@ Execute::Execute() {
 
     //initialize the lists and parameters
     init();
+    ui.Target->hide();
+    ui.AddObject->hide();
+    ui.NextButton->hide();
 
     //make connections
     connect( this, SIGNAL( user1Clicked() ), 
@@ -63,8 +67,14 @@ Execute::Execute() {
              this, SLOT( slotSlew() ) );
     connect( ui.Location, SIGNAL( clicked() ),
              this, SLOT( slotLocation() ) );
-    connect( ui.TargetList, SIGNAL( currentIndexChanged(const QString) ),
+    connect( ui.Target, SIGNAL( currentTextChanged(const QString) ),
              this, SLOT( slotSetTarget(QString) ) );
+    connect( ui.SessionURL, SIGNAL( leftClickedUrl() ),
+             this, SLOT( slotShowSession() ) );
+    connect( ui.ObservationsURL, SIGNAL( leftClickedUrl() ),
+             this, SLOT( slotShowTargets() ) );
+    connect( ui.AddObject, SIGNAL( leftClickedUrl() ),
+             this, SLOT( slotAddObject() ) );
 }
 
 void Execute::init() {
@@ -90,7 +100,10 @@ void Execute::init() {
 void Execute::loadCurrentItems() {
     //Set the current target, equipments and observer
     if( currentTarget )
-        ui.TargetList->setCurrentIndex( ui.TargetList->findText( currentTarget->name() ) );
+        ui.Target->setCurrentRow( findIndexOfTarget( currentTarget->name() ), QItemSelectionModel::SelectCurrent );
+    else
+        ui.Target->setCurrentRow( 0, QItemSelectionModel::SelectCurrent );
+        
     if( currentObserver )
         ui.Observer->setCurrentIndex( ui.Observer->findText( currentObserver->name() + " " + currentObserver->surname() ) );
     if( currentScope )
@@ -102,6 +115,14 @@ void Execute::loadCurrentItems() {
     if( currentFilter )
         ui.Filter->setCurrentIndex( ui.Filter->findText( currentFilter->id()) );
 }
+
+int Execute::findIndexOfTarget( QString name ) {
+    for( int i = 0; i < ui.Target->count(); i++ )
+        if( ui.Target->item( i )->text() == name )
+            return i;
+    return -1;
+}
+
 void Execute::slotNext() {
     switch( ui.stackedWidget->currentIndex() ) {
         case 0: {
@@ -117,24 +138,24 @@ void Execute::slotNext() {
                 ui.stackedWidget->setCurrentIndex( 1 );
                 QString prevTarget = currentTarget->name();
                 loadTargets();
-                ui.TargetList->setCurrentIndex( ui.TargetList->findText( prevTarget ) );
+                ui.Target->setCurrentRow( findIndexOfTarget( prevTarget ), QItemSelectionModel::SelectCurrent );
                 selectNextTarget();
             break;
         }
     }
 }
 
-void Execute::saveSession() {
+bool Execute::saveSession() {
     if( ui.Id->text().isEmpty() ) {
         KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
+        return false;
     }
     currentSession = logObject->findSessionByName( ui.Id->text() );
     if( currentSession ){
-        if( Comast::warningOverwrite( i18n("Another session already exists with the given Id, Overwrite?") ) == KMessageBox::Yes ) {
+//        if( Comast::warningOverwrite( i18n("Another session already exists with the given Id, Overwrite?") ) == KMessageBox::Yes ) {
             currentSession->setSession( ui.Id->text(), geo->fullName(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
-        } else
-            return;
+//        } else
+//            return false;
     } else {
         currentSession = new Comast::Session( ui.Id->text(), geo->fullName(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         logObject->sessionList()->append( currentSession );
@@ -144,6 +165,7 @@ void Execute::saveSession() {
         logObject->siteList()->append( newSite );
     }
     ui.stackedWidget->setCurrentIndex( 1 ); //Move to the next page
+    return true;
 }
 
 void Execute::slotLocation() {
@@ -156,10 +178,11 @@ void Execute::slotLocation() {
 }
 
 void Execute::loadTargets() {
-    ui.TargetList->clear();
+    ui.Target->clear();
     sortTargetList();
-    foreach( SkyObject *o, ks->observingList()->sessionList() )
-        ui.TargetList->addItem( o->name() );
+    foreach( SkyObject *o, ks->observingList()->sessionList() ) {
+        ui.Target->addItem( o->name() );
+    }
 }
 
 void Execute::loadEquipment() {
@@ -201,7 +224,7 @@ void Execute::sortTargetList() {
 }
 
 void Execute::addTargetNotes() {
-    SkyObject *o = ks->observingList()->findObjectByName( ui.TargetList->currentText() );
+    SkyObject *o = ks->observingList()->findObjectByName( ui.Target->currentItem()->text() );
     currentTarget = o;
     if( o ) {
         o->setNotes( ui.Notes->toPlainText() );
@@ -295,9 +318,10 @@ void Execute::slotSlew() {
 }
 
 void Execute::selectNextTarget() {
-    int i = ui.TargetList->findText( currentTarget->name() ) + 1;
-    if( i < ui.TargetList->count() ) {
-        ui.TargetList->setCurrentIndex( i );
+    int i = findIndexOfTarget( currentTarget->name() ) + 1; 
+    if( i < ui.Target->count() ) {
+        ui.Target->selectionModel()->clear();
+        ui.Target->setCurrentRow( i, QItemSelectionModel::SelectCurrent );
     }
 }
 
@@ -308,5 +332,35 @@ void Execute::slotSetCurrentObjects() {
     currentFilter = logObject->findFilterByName( ui.Filter->currentText() );
     currentObserver = logObject->findObserverByName( ui.Observer->currentText() );
 }
+
+void Execute::slotShowSession() {
+    ui.Target->hide();
+    ui.stackedWidget->setCurrentIndex( 0 );
+    ui.NextButton->hide();
+    ui.AddObject->hide();
+}
+
+void Execute::slotShowTargets() {
+    if( saveSession() ) {
+        ui.Target->show();
+        ui.AddObject->show();
+        ui.stackedWidget->setCurrentIndex( 1 );
+        ui.NextButton->show();
+    }
+}
+
+void Execute::slotAddObject() {
+   QPointer<FindDialog> fd = new FindDialog( ks );    
+   if ( fd->exec() == QDialog::Accepted ) {
+       SkyObject *o = fd->selectedObject();
+       if( o != 0 ) {
+           ks->observingList()->slotAddObject( o, true );  
+           kDebug() << "alpha";
+           init();
+       }
+   }
+   delete fd;
+}
+
 
 #include "execute.moc"

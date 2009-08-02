@@ -51,7 +51,7 @@ Q_OBJECT
         void slotNext();
 
         /*Function to Save the session details*/
-        void saveSession();
+        bool saveSession();
 
         /**@short Function to save the user notes set for 
          * the current object in the target combo box
@@ -113,6 +113,14 @@ Q_OBJECT
         void slotSetCurrentObjects();
 
         void slotSlew();
+
+        void slotShowSession();
+
+        void slotShowTargets();
+
+        int findIndexOfTarget( QString );
+
+        void slotAddObject();
 
     private:
         KStars *ks;
