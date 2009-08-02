@@ -19,14 +19,14 @@
      <item>
       <widget class="KUrlLabel" name="SessionURL">
        <property name="text">
-        <string>Edit Session Details</string>
+        <string>Step 1: Session Details</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="KUrlLabel" name="ObservationsURL">
        <property name="text">
-        <string>Observations</string>
+        <string>Step 2: Observations</string>
        </property>
       </widget>
      </item>
@@ -49,7 +49,7 @@
      <item>
       <widget class="KUrlLabel" name="ConclusionsURL">
        <property name="text">
-        <string>Conclusions</string>
+        <string>Step 3: Conclusions</string>
        </property>
       </widget>
      </item>
