@@ -236,6 +236,7 @@ void Execute::addTargetNotes() {
 void Execute::loadObservationTab() {
    ui.Time->setTime( KStarsDateTime::currentDateTime().time() );
    ui.stackedWidget->setCurrentIndex( 2 );
+   ui.NextButton->setText( i18n( "Next Target >" ) );
 }
 
 bool Execute::addObservation() {
@@ -346,6 +347,7 @@ void Execute::slotShowTargets() {
         ui.AddObject->show();
         ui.stackedWidget->setCurrentIndex( 1 );
         ui.NextButton->show();
+        ui.NextButton->setText( i18n( "Next Page >" ) );
     }
 }
 
