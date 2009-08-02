@@ -226,7 +226,6 @@ set(libkstarswidgets_SRCS
 	widgets/magnitudespinbox.cpp 
 	widgets/mapcanvas.cpp 
 	widgets/thumbimage.cpp 
-	widgets/timebox.cpp 
 	widgets/timespinbox.cpp 
 	widgets/timestepbox.cpp 
 	widgets/timeunitbox.cpp
