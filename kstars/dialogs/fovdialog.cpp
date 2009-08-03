@@ -147,14 +147,7 @@ void FOVDialog::slotEditFOV() {
     FOV *f = item->data(Qt::UserRole).value<FOV*>();
 
     // Create dialog 
-    QPointer<NewFOV> newfdlg = new NewFOV( this );
-    newfdlg->ui->FOVName->setText( f->name() );
-    newfdlg->ui->FOVEditX->setText( toString(f->sizeX()) );
-    newfdlg->ui->FOVEditY->setText( toString(f->sizeY()) );
-    newfdlg->ui->ColorButton->setColor( QColor( f->color() ) );
-    newfdlg->ui->ShapeBox->setCurrentIndex( f->shape() );
-    newfdlg->slotUpdateFOV();
-
+    QPointer<NewFOV> newfdlg = new NewFOV( this, f );
     if ( newfdlg->exec() == QDialog::Accepted ) {
         // Overwrite FOV
         *f = newfdlg->getFOV();
@@ -174,13 +167,26 @@ void FOVDialog::slotRemoveFOV() {
 
 //-------------NewFOV------------------//
 
-NewFOV::NewFOV( QWidget *parent )
-        : KDialog( parent ), f()
+NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
+    KDialog( parent ), f()
 {
     ui = new NewFOVUI( this );
     setMainWidget( ui );
     setCaption( i18n( "New FOV Indicator" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
+
+    // Initialize FOV if required
+    if( fov != 0 ) {
+        f = *fov;
+        ui->FOVName->setText( f.name() );
+        ui->FOVEditX->setText( toString(f.sizeX()) );
+        ui->FOVEditY->setText( toString(f.sizeY()) );
+        ui->ColorButton->setColor( QColor( f.color() ) );
+        ui->ShapeBox->setCurrentIndex( f.shape() );
+
+        ui->ViewBox->setFOV( &f );
+        ui->ViewBox->update();
+    }
 
     connect( ui->FOVName,     SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
     connect( ui->FOVEditX,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );

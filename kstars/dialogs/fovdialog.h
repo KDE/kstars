@@ -75,9 +75,12 @@ class NewFOV : public KDialog
 {
     Q_OBJECT
 public:
-    NewFOV( QWidget *parent=0 );
+    /** Create new dialog
+     * @param parent parent widget
+     * @fov widget to copy data from. If it's empty will create empty one.
+     */
+    NewFOV( QWidget *parent=0, const FOV* fov = 0);
     ~NewFOV() {}
-    NewFOVUI *ui;
     /** Return reference to FOV. */
     const FOV& getFOV() const { return f; }
 public slots:
@@ -87,6 +90,7 @@ public slots:
 
 private:
     FOV f;
+    NewFOVUI *ui;   
 };
 
 #endif
