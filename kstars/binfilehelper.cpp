@@ -33,9 +33,14 @@
 #define bswap_16(x) BSWAP_16(x)
 #define bswap_32(x) BSWAP_32(x)
 #else
+#if defined(Q_OS_FREEBSD) || defined(Q_OS_NETBSD)
+#include <sys/endian.h>
+#define bswap_16(x) bswap16(x)
+#define bswap_32(x) bswap32(x)
+#else
 #include <byteswap.h>
 #endif
-
+#endif
 
 class BinFileHelper;
 
