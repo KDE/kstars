@@ -38,6 +38,14 @@
 #include "kstarsdata.h"
 #include "widgets/fovwidget.h"
 
+namespace {
+    // Try to convert text in KLine edit to double
+    inline double textToDouble(const KLineEdit* edit, bool* ok = 0)
+    {
+        return edit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(ok);
+    }
+}
+
 FOVDialogUI::FOVDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 }
@@ -47,17 +55,17 @@ NewFOVUI::NewFOVUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 //---------FOVDialog---------------//
-FOVDialog::FOVDialog( KStars *_ks )
-        : KDialog( _ks ), ks(_ks)
+FOVDialog::FOVDialog( QWidget* p ) :
+    KDialog( p )
 {
     fov = new FOVDialogUI( this );
     setMainWidget( fov );
     setCaption( i18n( "Set FOV Indicator" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
-    connect( fov->FOVListBox, SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
-    connect( fov->NewButton, SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
-    connect( fov->EditButton, SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
+    connect( fov->FOVListBox,   SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
+    connect( fov->NewButton,    SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
+    connect( fov->EditButton,   SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
     connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
 
     FOVList = FOV::readFOVs();
@@ -70,13 +78,9 @@ FOVDialog::~FOVDialog()
 {}
 
 void FOVDialog::slotSelect( int irow ) {
-    if ( irow < 0 ) { //no item selected
-        fov->RemoveButton->setEnabled( false );
-        fov->EditButton->setEnabled( false );
-    } else {
-        fov->RemoveButton->setEnabled( true );
-        fov->EditButton->setEnabled( true );
-    }
+    bool enable = irow >= 0;   
+    fov->RemoveButton->setEnabled( enable );
+    fov->EditButton->setEnabled( enable);
 
     //paint dialog with selected FOV symbol
     fov->ViewBox->setFOV( FOVList[ currentItem() ] );
@@ -85,11 +89,10 @@ void FOVDialog::slotSelect( int irow ) {
 
 void FOVDialog::slotNewFOV() {
     QPointer<NewFOV> newfdlg = new NewFOV( this );
-    float fovsizeX = newfdlg->ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
-    float fovsizeY = newfdlg->ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
-
     if ( newfdlg->exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg->ui->FOVName->text(), fovsizeX, fovsizeY,
+        FOV *newfov = new FOV( newfdlg->ui->FOVName->text(),
+                               textToDouble( newfdlg->ui->FOVEditX ),
+                               textToDouble( newfdlg->ui->FOVEditX ),
                                FOV::intToShape(newfdlg->ui->ShapeBox->currentIndex()),
                                newfdlg->ui->ColorButton->color().name() );
 
@@ -117,9 +120,9 @@ void FOVDialog::slotEditFOV() {
     newfdlg.slotUpdateFOV();
 
     if ( newfdlg.exec() == QDialog::Accepted ) {
-        double fovsizeX = newfdlg.ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
-        double fovsizeY = newfdlg.ui->FOVEditY->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsizeX, fovsizeY,
+        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), 
+                               textToDouble( newfdlg.ui->FOVEditX ),
+                               textToDouble( newfdlg.ui->FOVEditY ),
                                FOV::intToShape(newfdlg.ui->ShapeBox->currentIndex()),
                                newfdlg.ui->ColorButton->color().name() );
 
@@ -143,12 +146,7 @@ void FOVDialog::slotRemoveFOV() {
     if ( i == fov->FOVListBox->count() ) i--; //last item was removed
     fov->FOVListBox->setCurrentRow( i );
     fov->FOVListBox->update();
-
-    if ( FOVList.isEmpty() ) {
-        QString message( i18n( "You have removed all FOV symbols.  If the list remains empty when you exit this tool, the default symbols will be regenerated." ) );
-        KMessageBox::information( 0, message, i18n( "FOV list is empty" ), "dontShowFOVMessage" );
-    }
-
+    
     update();
 }
 
@@ -161,14 +159,14 @@ NewFOV::NewFOV( QWidget *parent )
     setCaption( i18n( "New FOV Indicator" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
-    connect( ui->FOVName, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->FOVEditX, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->FOVEditY, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->ColorButton, SIGNAL( changed( const QColor & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->ShapeBox, SIGNAL( activated( int ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->ComputeEyeFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
-    connect( ui->ComputeCameraFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
-    connect( ui->ComputeHPBW, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+    connect( ui->FOVName,     SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditX,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditY,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->ColorButton, SIGNAL( changed( const QColor & ) ),      SLOT( slotUpdateFOV() ) );
+    connect( ui->ShapeBox,    SIGNAL( activated( int ) ),               SLOT( slotUpdateFOV() ) );
+    connect( ui->ComputeEyeFOV,       SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+    connect( ui->ComputeCameraFOV,    SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+    connect( ui->ComputeHPBW,         SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
     connect( ui->ComputeBinocularFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
 
     ui->LinearFOVDistance->insertItem( 0, i18n( "1000 yards" ) );
@@ -186,19 +184,17 @@ void NewFOV::slotBinocularFOVDistanceChanged( int index ) {
 }
 
 void NewFOV::slotUpdateFOV() {
-    bool sizeOk( false );
+    bool okX, okY;
     f.setName( ui->FOVName->text() );
-    float sizeX = ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
-    float sizeY = ui->FOVEditY->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
-    if ( sizeOk ) f.setSize( sizeX, sizeY );
+    float sizeX = textToDouble(ui->FOVEditX, &okX);
+    float sizeY = textToDouble(ui->FOVEditY, &okY);
+    if ( okX && okY )
+        f.setSize( sizeX, sizeY );
     f.setShape( ui->ShapeBox->currentIndex() );
     f.setColor( ui->ColorButton->color().name() );
 
-    if ( ! f.name().isEmpty() && sizeOk )
-        enableButtonOk( true );
-    else
-        enableButtonOk( false );
-
+    enableButtonOk( !f.name().isEmpty() && okX && okY );
+    
     ui->ViewBox->setFOV( &f );
     ui->ViewBox->update();
 }

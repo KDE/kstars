@@ -49,7 +49,7 @@ class FOVDialog : public KDialog
 {
     Q_OBJECT
 public:
-    FOVDialog( KStars *ks );
+    FOVDialog( QWidget *parent = 0 );
     ~FOVDialog();
     unsigned int currentItem() const;
     QList<FOV*> FOVList;
@@ -61,7 +61,6 @@ private slots:
     void slotSelect(int);
 
 private:
-    KStars *ks;
     FOVDialogUI *fov;
 };
 
