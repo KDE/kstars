@@ -58,12 +58,18 @@ public:
     inline QString color() const { return m_color; }
     void setColor( const QString &c ) { m_color = c; }
 
-    /**@short draw the FOV symbol on a QPainter
-    	*@param p reference to the target QPainter.  The painter should already be started.
-    	*@param size the size of the target symbol, in pixels.
-    	*/
+    /** @short draw the FOV symbol on a QPainter
+     * @param p reference to the target QPainter. The painter should already be started.
+     * @param zoomFactor is zoom factor as in SkyMap.
+     */
     void draw( QPainter &p, float zoomFactor);
-
+    /** @short draw FOV symbol so it will be inside a rectangle
+     * @param p reference to the target QPainter. The painter should already be started.
+     * @param x is X size of rectangle
+     * @param y is Y size of rectangle
+     */
+    void draw(QPainter &p, float x, float y);
+    
     /** @short Fill list with default FOVs*/
     static QList<FOV*> defaults();
     /** @short Write list of FOVs to "fov.dat" */

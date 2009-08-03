@@ -17,12 +17,12 @@
 
 #include "fov.h"
 
+#include <algorithm>
+
 #include <qpainter.h>
-#include <qfile.h>
-//Added by qt3to4:
 #include <QTextStream>
+#include <QFile>
 #include <kdebug.h>
-#include <klocale.h>
 #include <kstandarddirs.h>
 
 FOV::Shape FOV::intToShape(int s)
@@ -56,15 +56,15 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
     int sy = int( pixelSizeY );
 
     switch ( shape() ) {
-    case SQUARE: { //Square
+    case SQUARE: {
         p.drawRect( (w - sx)/2, (h - sy)/2, sx, sy );
         break;
     }
-    case CIRCLE: { //Circle
+    case CIRCLE: {
         p.drawEllipse( (w - sx)/2, (h - sy)/2, sx, sy );
         break;
     }
-    case CROSSHAIRS: { //Crosshairs
+    case CROSSHAIRS: {
         int sx1 = sx;
         int sy1 = sy;
         int sx2 = 2 * sx;
@@ -89,7 +89,7 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
         
         break;
     }
-    case BULLSEYE: { //Bullseye
+    case BULLSEYE: {
         int sx1 = sx;
         int sy1 = sy;
         int sx2 = 4 * sx;
@@ -108,7 +108,7 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
 
         break;
     }
-    case SOLIDCIRCLE: { // Solid Circle
+    case SOLIDCIRCLE: {
         QColor colorAlpha( color() );
         colorAlpha.setAlpha(127);
         p.setBrush( QBrush ( colorAlpha ) );
@@ -118,6 +118,13 @@ void FOV::draw( QPainter &p, float zoomFactor ) {
     }
     default: ; 
     }
+}
+
+void FOV::draw(QPainter &p, float x, float y)
+{
+    float xfactor = x / sizeX() * 57.3 * 60.0;
+    float yfactor = y / sizeY() * 57.3 * 60.0;
+    draw(p, std::min(xfactor, yfactor));
 }
 
 void FOV::setShape( int s)
