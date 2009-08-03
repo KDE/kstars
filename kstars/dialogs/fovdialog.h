@@ -50,18 +50,21 @@ class FOVDialog : public KDialog
     Q_OBJECT
 public:
     FOVDialog( QWidget *parent = 0 );
-    ~FOVDialog();
-    unsigned int currentItem() const;
-    QList<FOV*> FOVList;
-
+    virtual ~FOVDialog();
+    /** Write list of FOVs to disk. */
+    void writeFOVList();
 private slots:
     void slotNewFOV();
     void slotEditFOV();
     void slotRemoveFOV();
     void slotSelect(int);
-
 private:
+    /** Add new widget to list box */
+    QListWidgetItem* addListWidget(FOV* f);
+    
+    unsigned int currentItem() const;   
     FOVDialogUI *fov;
+    static int fovID;
 };
 
 /**@class NewFOV Dialog for defining a new FOV symbol

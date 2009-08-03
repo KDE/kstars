@@ -44,7 +44,19 @@ namespace {
     {
         return edit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(ok);
     }
+
+    // Extract FOV from QListWidget. No checking is done
+    FOV* getFOV(QListWidgetItem* item)
+    {
+        return item->data(Qt::UserRole).value<FOV*>();
+    }
 }
+
+// This is needed to make FOV work with QVariant
+Q_DECLARE_METATYPE(FOV*);
+
+int FOVDialog::fovID = -1;
+
 
 FOVDialogUI::FOVDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
@@ -58,33 +70,57 @@ NewFOVUI::NewFOVUI( QWidget *parent ) : QFrame( parent ) {
 FOVDialog::FOVDialog( QWidget* p ) :
     KDialog( p )
 {
+    // Register FOV* data type
+    if( fovID == -1 )
+        fovID = qRegisterMetaType<FOV*>("FOV*");
     fov = new FOVDialogUI( this );
     setMainWidget( fov );
     setCaption( i18n( "Set FOV Indicator" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
-
+    setButtons( KDialog::Ok | KDialog::Cancel );
+    
     connect( fov->FOVListBox,   SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
     connect( fov->NewButton,    SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
     connect( fov->EditButton,   SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
     connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
 
-    FOVList = FOV::readFOVs();
-    foreach(FOV* f, FOVList) {
-        fov->FOVListBox->addItem( f->name() );
+    // Read list of FOVs and for each FOV create listbox entry, which stores it.
+    foreach(FOV* f, FOV::readFOVs() ) {
+        addListWidget(f);
     }
 }
 
 FOVDialog::~FOVDialog()
-{}
+{
+    // Delete FOVs 
+    for(int i = 0; i < fov->FOVListBox->count(); i++) {
+        delete getFOV( fov->FOVListBox->item(i) );
+    }
+}
+
+QListWidgetItem* FOVDialog::addListWidget(FOV* f)
+{
+    QListWidgetItem* item = new QListWidgetItem( f->name(), fov->FOVListBox );
+    item->setData( Qt::UserRole, QVariant::fromValue<FOV*>(f) );
+    return item;
+}
+
+void FOVDialog::writeFOVList() {
+    QList<FOV*> fovs;
+    for(int i = 0; i < fov->FOVListBox->count(); i++) {
+        fovs << getFOV( fov->FOVListBox->item(i) );
+    }
+    FOV::writeFOVs(fovs);
+}
 
 void FOVDialog::slotSelect( int irow ) {
     bool enable = irow >= 0;   
     fov->RemoveButton->setEnabled( enable );
     fov->EditButton->setEnabled( enable);
-
-    //paint dialog with selected FOV symbol
-    fov->ViewBox->setFOV( FOVList[ currentItem() ] );
-    fov->ViewBox->update();
+    if( enable ) {
+        //paint dialog with selected FOV symbol
+        fov->ViewBox->setFOV( getFOV( fov->FOVListBox->currentItem() ) );
+        fov->ViewBox->update();
+    }
 }
 
 void FOVDialog::slotNewFOV() {
@@ -92,13 +128,11 @@ void FOVDialog::slotNewFOV() {
     if ( newfdlg->exec() == QDialog::Accepted ) {
         FOV *newfov = new FOV( newfdlg->ui->FOVName->text(),
                                textToDouble( newfdlg->ui->FOVEditX ),
-                               textToDouble( newfdlg->ui->FOVEditX ),
+                               textToDouble( newfdlg->ui->FOVEditY ),
                                FOV::intToShape(newfdlg->ui->ShapeBox->currentIndex()),
                                newfdlg->ui->ColorButton->color().name() );
-
-        FOVList.append( newfov );
-
-        fov->FOVListBox->addItem( newfdlg->ui->FOVName->text() );
+        // Add new item in listbox
+        addListWidget( newfov );
         fov->FOVListBox->setCurrentRow( fov->FOVListBox->count() -1 );
     }
     delete newfdlg;
@@ -106,11 +140,12 @@ void FOVDialog::slotNewFOV() {
 
 void FOVDialog::slotEditFOV() {
     //Preload current values
-    FOV *f = FOVList[ currentItem() ];
-
-    if (!f)
+    QListWidgetItem* item = fov->FOVListBox->currentItem();
+    if( item == 0 )
         return;
+    FOV *f = item->data(Qt::UserRole).value<FOV*>();
 
+    // Create dialog 
     QPointer<NewFOV> newfdlg = new NewFOV( this );
     newfdlg->ui->FOVName->setText( f->name() );
     newfdlg->ui->FOVEditX->setText( QString::number( (double)( f->sizeX() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
@@ -120,35 +155,24 @@ void FOVDialog::slotEditFOV() {
     newfdlg->slotUpdateFOV();
 
     if ( newfdlg->exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg->ui->FOVName->text(), 
-                               textToDouble( newfdlg->ui->FOVEditX ),
-                               textToDouble( newfdlg->ui->FOVEditY ),
-                               FOV::intToShape(newfdlg->ui->ShapeBox->currentIndex()),
-                               newfdlg->ui->ColorButton->color().name() );
-
-        fov->FOVListBox->currentItem()->setText( newfdlg->ui->FOVName->text() );
-
-        //Use the following replacement for QPtrList::replace():
-        //(see Qt4 porting guide at doc.trolltech.com)
-        delete FOVList[ currentItem() ];
-        FOVList[ currentItem() ] = newfov;
-
-        //paint dialog with edited FOV symbol
-        fov->ViewBox->setFOV( FOVList[ currentItem() ] );
+        // Overwrite FOV
+        *f =  FOV( newfdlg->ui->FOVName->text(), 
+                   textToDouble( newfdlg->ui->FOVEditX ),
+                   textToDouble( newfdlg->ui->FOVEditY ),
+                   FOV::intToShape(newfdlg->ui->ShapeBox->currentIndex()),
+                   newfdlg->ui->ColorButton->color().name() );
         fov->ViewBox->update();
     }
     delete newfdlg;
 }
 
 void FOVDialog::slotRemoveFOV() {
-    int i = currentItem();
-    delete FOVList.takeAt( i );
-    delete fov->FOVListBox->takeItem( i );
-    if ( i == fov->FOVListBox->count() ) i--; //last item was removed
-    fov->FOVListBox->setCurrentRow( i );
-    fov->FOVListBox->update();
-    
-    update();
+    int i = fov->FOVListBox->currentRow();
+    if( i >= 0 ) {
+        QListWidgetItem* item = fov->FOVListBox->takeItem(i);
+        delete getFOV(item);
+        delete item;
+    }
 }
 
 //-------------NewFOV------------------//
