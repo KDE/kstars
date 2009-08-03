@@ -50,6 +50,12 @@ namespace {
     {
         return item->data(Qt::UserRole).value<FOV*>();
     }
+
+    // Convert double to QString 
+    QString toString(double x)
+    {
+        return QString::number(x, 'f', 2).replace( '.', KGlobal::locale()->decimalSymbol() );
+    }
 }
 
 // This is needed to make FOV work with QVariant
@@ -148,8 +154,8 @@ void FOVDialog::slotEditFOV() {
     // Create dialog 
     QPointer<NewFOV> newfdlg = new NewFOV( this );
     newfdlg->ui->FOVName->setText( f->name() );
-    newfdlg->ui->FOVEditX->setText( QString::number( (double)( f->sizeX() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
-    newfdlg->ui->FOVEditY->setText( QString::number( (double)( f->sizeY() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+    newfdlg->ui->FOVEditX->setText( toString(f->sizeX()) );
+    newfdlg->ui->FOVEditY->setText( toString(f->sizeY()) );
     newfdlg->ui->ColorButton->setColor( QColor( f->color() ) );
     newfdlg->ui->ShapeBox->setCurrentIndex( f->shape() );
     newfdlg->slotUpdateFOV();
@@ -202,10 +208,8 @@ NewFOV::NewFOV( QWidget *parent )
 }
 
 void NewFOV::slotBinocularFOVDistanceChanged( int index ) {
-    if( index == 0 )
-        ui->LabelUnits->setText( i18n( "feet" ) );
-    else
-        ui->LabelUnits->setText( i18n( "meters" ) );
+    QString text = (index == 0  ? i18n("feet") : i18n("meters"));
+    ui->LabelUnits->setText( text );
 }
 
 void NewFOV::slotUpdateFOV() {
@@ -226,17 +230,17 @@ void NewFOV::slotUpdateFOV() {
 
 void NewFOV::slotComputeFOV() {
     if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 ) {
-        ui->FOVEditX->setText( QString::number( 60.0 * ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( toString(60.0 * ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value()) );
         ui->FOVEditY->setText( ui->FOVEditX->text() );
     }
     else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 ) {
         double sx = (double) ui->ChipSize->value() * 3438.0 / ui->TLength2->value();
         const double aspectratio = 3.0/2.0; // Use the default aspect ratio for DSLRs / Film (i.e. 3:2)
-        ui->FOVEditX->setText( QString::number( sx, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
-        ui->FOVEditY->setText( QString::number( sx / aspectratio, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( toString(sx) );
+        ui->FOVEditY->setText( toString(sx / aspectratio) );
     }
     else if ( sender() == ui->ComputeHPBW && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
-        ui->FOVEditX->setText( QString::number( (double) 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( toString(34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value()) );
         // Beam width for an antenna is usually a circle on the sky.
         ui->ShapeBox->setCurrentIndex(4);
         ui->FOVEditY->setText( ui->FOVEditX->text() );
@@ -244,7 +248,7 @@ void NewFOV::slotComputeFOV() {
     }
     else if ( sender() == ui->ComputeBinocularFOV && ui->LinearFOV->value() > 0.0 && ui->LinearFOVDistance->currentIndex() >= 0 ) {
         double sx = atan( (double) ui->LinearFOV->value() / ( (ui->LinearFOVDistance->currentIndex() == 0 ) ? 3000.0 : 1000.0 ) ) * 180.0 * 60.0 / dms::PI;
-        ui->FOVEditX->setText( QString::number( sx, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( toString(sx) );
         ui->FOVEditY->setText( ui->FOVEditX->text() );
     }
 }
