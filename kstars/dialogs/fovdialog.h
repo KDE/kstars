@@ -78,7 +78,8 @@ public:
     NewFOV( QWidget *parent=0 );
     ~NewFOV() {}
     NewFOVUI *ui;
-
+    /** Return reference to FOV. */
+    const FOV& getFOV() const { return f; }
 public slots:
     void slotBinocularFOVDistanceChanged( int index );
     void slotUpdateFOV();

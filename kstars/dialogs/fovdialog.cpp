@@ -132,12 +132,7 @@ void FOVDialog::slotSelect( int irow ) {
 void FOVDialog::slotNewFOV() {
     QPointer<NewFOV> newfdlg = new NewFOV( this );
     if ( newfdlg->exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg->ui->FOVName->text(),
-                               textToDouble( newfdlg->ui->FOVEditX ),
-                               textToDouble( newfdlg->ui->FOVEditY ),
-                               FOV::intToShape(newfdlg->ui->ShapeBox->currentIndex()),
-                               newfdlg->ui->ColorButton->color().name() );
-        // Add new item in listbox
+        FOV *newfov = new FOV( newfdlg->getFOV() );
         addListWidget( newfov );
         fov->FOVListBox->setCurrentRow( fov->FOVListBox->count() -1 );
     }
@@ -162,11 +157,7 @@ void FOVDialog::slotEditFOV() {
 
     if ( newfdlg->exec() == QDialog::Accepted ) {
         // Overwrite FOV
-        *f =  FOV( newfdlg->ui->FOVName->text(), 
-                   textToDouble( newfdlg->ui->FOVEditX ),
-                   textToDouble( newfdlg->ui->FOVEditY ),
-                   FOV::intToShape(newfdlg->ui->ShapeBox->currentIndex()),
-                   newfdlg->ui->ColorButton->color().name() );
+        *f = newfdlg->getFOV();
         fov->ViewBox->update();
     }
     delete newfdlg;
@@ -182,6 +173,7 @@ void FOVDialog::slotRemoveFOV() {
 }
 
 //-------------NewFOV------------------//
+
 NewFOV::NewFOV( QWidget *parent )
         : KDialog( parent ), f()
 {
