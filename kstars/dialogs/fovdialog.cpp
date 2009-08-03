@@ -105,28 +105,28 @@ void FOVDialog::slotNewFOV() {
 }
 
 void FOVDialog::slotEditFOV() {
-    NewFOV newfdlg( this );
     //Preload current values
     FOV *f = FOVList[ currentItem() ];
 
     if (!f)
         return;
 
-    newfdlg.ui->FOVName->setText( f->name() );
-    newfdlg.ui->FOVEditX->setText( QString::number( (double)( f->sizeX() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
-    newfdlg.ui->FOVEditY->setText( QString::number( (double)( f->sizeY() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
-    newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
-    newfdlg.ui->ShapeBox->setCurrentIndex( f->shape() );
-    newfdlg.slotUpdateFOV();
+    QPointer<NewFOV> newfdlg = new NewFOV( this );
+    newfdlg->ui->FOVName->setText( f->name() );
+    newfdlg->ui->FOVEditX->setText( QString::number( (double)( f->sizeX() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+    newfdlg->ui->FOVEditY->setText( QString::number( (double)( f->sizeY() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+    newfdlg->ui->ColorButton->setColor( QColor( f->color() ) );
+    newfdlg->ui->ShapeBox->setCurrentIndex( f->shape() );
+    newfdlg->slotUpdateFOV();
 
-    if ( newfdlg.exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), 
-                               textToDouble( newfdlg.ui->FOVEditX ),
-                               textToDouble( newfdlg.ui->FOVEditY ),
-                               FOV::intToShape(newfdlg.ui->ShapeBox->currentIndex()),
-                               newfdlg.ui->ColorButton->color().name() );
+    if ( newfdlg->exec() == QDialog::Accepted ) {
+        FOV *newfov = new FOV( newfdlg->ui->FOVName->text(), 
+                               textToDouble( newfdlg->ui->FOVEditX ),
+                               textToDouble( newfdlg->ui->FOVEditY ),
+                               FOV::intToShape(newfdlg->ui->ShapeBox->currentIndex()),
+                               newfdlg->ui->ColorButton->color().name() );
 
-        fov->FOVListBox->currentItem()->setText( newfdlg.ui->FOVName->text() );
+        fov->FOVListBox->currentItem()->setText( newfdlg->ui->FOVName->text() );
 
         //Use the following replacement for QPtrList::replace():
         //(see Qt4 porting guide at doc.trolltech.com)
@@ -137,6 +137,7 @@ void FOVDialog::slotEditFOV() {
         fov->ViewBox->setFOV( FOVList[ currentItem() ] );
         fov->ViewBox->update();
     }
+    delete newfdlg;
 }
 
 void FOVDialog::slotRemoveFOV() {
