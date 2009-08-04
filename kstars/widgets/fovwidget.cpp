@@ -38,8 +38,8 @@ void FOVWidget::paintEvent( QPaintEvent * ) {
     p.setRenderHint( QPainter::Antialiasing, true );
     p.fillRect( contentsRect(), QColor( "black" ) );
 
-    if( m_FOV && (m_FOV->sizeX() > 0 || m_FOV->sizeY() > 0) ) {
-        m_FOV->draw(p, 0.3*contentsRect().width(), 0.3*contentsRect().height() );
+    if( m_FOV && m_FOV->sizeX() > 0 && m_FOV->sizeY() > 0 ) {
+        m_FOV->draw(p, 0.6*contentsRect().width(), 0.6*contentsRect().height() );
         QFont smallFont = p.font();
         smallFont.setPointSize( p.font().pointSize() - 2 );
         p.setFont( smallFont );
