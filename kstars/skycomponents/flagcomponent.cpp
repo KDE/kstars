@@ -21,6 +21,7 @@
 #include <kio/job.h>
 #include <kstandarddirs.h>
 #include <kfileitem.h>
+#include <klocale.h>
 
 #include "Options.h"
 #include "kstarsdata.h"
@@ -215,7 +216,7 @@ void FlagComponent::slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list
     QStringList fileNameLst;
     QImage flagImage;
 
-    m_Names.append( "Default" );
+    m_Names.append( i18n ("Default" ) );
     flagImage.load( KStandardDirs::locate( "appdata", "defaultflag.gif" ) );
     m_Images.append( flagImage );
 
