@@ -41,78 +41,43 @@ FOV::FOV() :
 {}
 
 void FOV::draw( QPainter &p, float zoomFactor ) {
-    float pixelSizeX = sizeX() * zoomFactor / 57.3 / 60.0;
-    float pixelSizeY = sizeY() * zoomFactor / 57.3 / 60.0;
-    
     p.setPen( QColor( color() ) );
     p.setBrush( Qt::NoBrush );
 
-    int w = p.viewport().width();
-    int h = p.viewport().height();
-
-    int sx = int( pixelSizeX );
-    if( pixelSizeY < 0.0 )
-        pixelSizeY = pixelSizeX;
-    int sy = int( pixelSizeY );
-
+    float pixelSizeX = sizeX() * zoomFactor / 57.3 / 60.0;
+    float pixelSizeY = sizeY() * zoomFactor / 57.3 / 60.0;
+    QPointF center = p.viewport().center();
     switch ( shape() ) {
-    case SQUARE: {
-        p.drawRect( (w - sx)/2, (h - sy)/2, sx, sy );
+    case SQUARE: 
+        p.drawRect( center.x() - pixelSizeX/2, center.y() - pixelSizeY/2, pixelSizeX, pixelSizeY);
         break;
-    }
-    case CIRCLE: {
-        p.drawEllipse( (w - sx)/2, (h - sy)/2, sx, sy );
+    case CIRCLE: 
+        p.drawEllipse( center, pixelSizeX/2, pixelSizeY/2 );
         break;
-    }
-    case CROSSHAIRS: {
-        int sx1 = sx;
-        int sy1 = sy;
-        int sx2 = 2 * sx;
-        int sy2 = 2 * sy;
-        int sx3 = 3 * sx;
-        int sy3 = 3 * sy;
-        
-        int x0 = w/2;  int y0 = h/2;
-        int x1 = x0 - sx1/2;  int y1 = y0 - sy1/2;
-        int x2 = x0 - sx2/2;  int y2 = y0 - sy2/2;
-        int x3 = x0 - sx3/2;  int y3 = y0 - sy3/2;
-        
+    case CROSSHAIRS: 
         //Draw radial lines
-        p.drawLine( x1, y0, x3, y0 );
-        p.drawLine( x0+sx3/2, y0, x0+sx1/2, y0 );
-        p.drawLine( x0, y1, x0, y3 );
-        p.drawLine( x0, y0+sy1/2, x0, y0+sy3/2 );
-        
+        p.drawLine(center.x() + 0.5*pixelSizeX, center.y(),
+                   center.x() + 1.5*pixelSizeX, center.y());
+        p.drawLine(center.x() - 0.5*pixelSizeX, center.y(),
+                   center.x() - 1.5*pixelSizeX, center.y());
+        p.drawLine(center.x(), center.y() + 0.5*pixelSizeY,
+                   center.x(), center.y() + 1.5*pixelSizeY);
+        p.drawLine(center.x(), center.y() - 0.5*pixelSizeY,
+                   center.x(), center.y() - 1.5*pixelSizeY);
         //Draw circles at 0.5 & 1 degrees
-        p.drawEllipse( x1, y1, sx1, sy1 );
-        p.drawEllipse( x2, y2, sx2, sy2 );
-        
+        p.drawEllipse( center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
+        p.drawEllipse( center,       pixelSizeX,       pixelSizeY);
         break;
-    }
-    case BULLSEYE: {
-        int sx1 = sx;
-        int sy1 = sy;
-        int sx2 = 4 * sx;
-        int sy2 = 4 * sy;
-        int sx3 = 8 * sx;
-        int sy3 = 8 * sy;
-
-        int x0 = w/2;  int y0 = h/2;
-        int x1 = x0 - sx1/2;  int y1 = y0 - sy1/2;
-        int x2 = x0 - sx2/2;  int y2 = y0 - sy2/2;
-        int x3 = x0 - sx3/2;  int y3 = y0 - sy3/2;
-
-        p.drawEllipse( x1, y1, sx1, sy1 );
-        p.drawEllipse( x2, y2, sx2, sy2 );
-        p.drawEllipse( x3, y3, sx3, sy3 );
-
+    case BULLSEYE: 
+        p.drawEllipse(center, 0.5 * pixelSizeX, 0.5 * pixelSizeY);
+        p.drawEllipse(center, 2.0 * pixelSizeX, 2.0 * pixelSizeY);
+        p.drawEllipse(center, 4.0 * pixelSizeX, 4.0 * pixelSizeY);
         break;
-    }
     case SOLIDCIRCLE: {
-        QColor colorAlpha( color() );
+        QColor colorAlpha = color();
         colorAlpha.setAlpha(127);
-        p.setBrush( QBrush ( colorAlpha ) );
-        p.drawEllipse( (w - sx)/2, (h - sy)/2, sx, sy );
+        p.setBrush( QBrush( colorAlpha ) );
+        p.drawEllipse(center, pixelSizeX/2, pixelSizeY/2 );
         p.setBrush(Qt::NoBrush);
         break;
     }
@@ -124,7 +89,12 @@ void FOV::draw(QPainter &p, float x, float y)
 {
     float xfactor = x / sizeX() * 57.3 * 60.0;
     float yfactor = y / sizeY() * 57.3 * 60.0;
-    draw(p, std::min(xfactor, yfactor));
+    float zoomFactor = std::min(xfactor, yfactor);
+    switch( shape() ) {
+    case CROSSHAIRS: zoomFactor /= 3; break;
+    case BULLSEYE:   zoomFactor /= 8; break;
+    }
+    draw(p, zoomFactor);
 }
 
 void FOV::setShape( int s)
