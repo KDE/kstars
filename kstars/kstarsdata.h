@@ -315,7 +315,7 @@ public:
     	*/
     bool executeScript( const QString &name, SkyMap *map );
 
-    /** Syncronize list of visible FOVs and list of selected FOVs in
+    /** Synchronize list of visible FOVs and list of selected FOVs in
      * Options */
     void syncFOV();
     
