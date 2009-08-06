@@ -36,35 +36,15 @@ SaturnMoons::SaturnMoons(){
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 14.9, i18nc( "Saturn's moon Hyperion", "Hyperion" ) ) );
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 11, i18nc( "Saturn's moon Iapetus", "Iapetus" ) ) );
 
-    for ( uint i=0; i<8; ++i ) {
-        XS[i] = 0.0;
-        YS[i] = 0.0;
-        ZS[i] = 0.0;
-    }
+    XP = QVector<double>(8, 0.0);
+    YP = QVector<double>(8, 0.0);
+    ZP = QVector<double>(8, 0.0);
+    InFront = QVector<bool>(8, false);
 }
 
 SaturnMoons::~SaturnMoons(){
-    qDeleteAll( Moon );
 }
 
-QString SaturnMoons::name( int id ) const {
-    return Moon[id]->translatedName();
-}
-
-TrailObject* SaturnMoons::moonNamed( const QString &name ) const {
-    for ( uint i=0; i<8; ++i ) {
-        if ( Moon[i]->name() == name ) {
-            return Moon[i];
-            break;
-        }
-    }
-    return 0;
-}
-
-void SaturnMoons::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
-    for ( uint i=0; i<8; ++i )
-        moon(i)->EquatorialToHorizontal( LST, lat );
-}
 void SaturnMoons::HelperSubroutine(double e, double lambdadash, double p, double a,
                                    double omega, double i, double c1, double s1,
                                    double& r, double& lambda, double& gamma, double& w)
@@ -441,14 +421,14 @@ void SaturnMoons::findPosition( const KSNumbers *num, const KSPlanet *Saturn, co
     double pa = Saturn->pa()*dms::PI/180.0;
 
     for ( int i=0; i<8; ++i ) {
-        XS[i] = A4[i+1] * cos( D ) - C4[i+1] * sin( D );
-        YS[i] = A4[i+1] * sin( D ) + C4[i+1] * cos( D );
-        ZS[i] = B4[i+1];
+        XP[i] = A4[i+1] * cos( D ) - C4[i+1] * sin( D );
+        YP[i] = A4[i+1] * sin( D ) + C4[i+1] * cos( D );
+        ZP[i] = B4[i+1];
 
-        Moon[i]->setRA( Saturn->ra()->Hours() - 0.011*( XS[i] * cos( pa ) - YS[i] * sin( pa ) )/15.0 );
-        Moon[i]->setDec( Saturn->dec()->Degrees() - 0.011*( XS[i] * sin( pa ) + YS[i] * cos( pa ) ) );
+        Moon[i]->setRA( Saturn->ra()->Hours() - 0.011*( XP[i] * cos( pa ) - YP[i] * sin( pa ) )/15.0 );
+        Moon[i]->setDec( Saturn->dec()->Degrees() - 0.011*( XP[i] * sin( pa ) + YP[i] * cos( pa ) ) );
 
-        if ( ZS[i] < 0.0 ) InFront[i] = true;
+        if ( ZP[i] < 0.0 ) InFront[i] = true;
         else InFront[i] = false;
 
         //Update Trails

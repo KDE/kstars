@@ -17,8 +17,6 @@
 
 #include "jupitermoons.h"
 
-#include <kdebug.h>
-
 #include "ksnumbers.h"
 #include "ksplanet.h"
 #include "kssun.h"
@@ -32,34 +30,13 @@ JupiterMoons::JupiterMoons(){
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 4.6, i18nc( "Jupiter's moon Ganymede", "Ganymede" ) ) );
     Moon.append( new TrailObject( SkyObject::MOON, 0.0, 0.0, 5.7, i18nc( "Jupiter's moon Callisto", "Callisto" ) ) );
 
-    for ( uint i=0; i<4; ++i ) {
-        XJ[i] = 0.0;
-        YJ[i] = 0.0;
-        ZJ[i] = 0.0;
-    }
+    XP = QVector<double>(4, 0.0);
+    YP = QVector<double>(4, 0.0);
+    ZP = QVector<double>(4, 0.0);
+    InFront = QVector<bool>(4, false);
 }
 
 JupiterMoons::~JupiterMoons(){
-    qDeleteAll( Moon );
-}
-
-QString JupiterMoons::name( int id ) const { 
-    return Moon[id]->translatedName(); 
-}
-
-TrailObject* JupiterMoons::moonNamed( const QString &name ) const {
-    for ( uint i=0; i<4; ++i ) {
-        if ( Moon[i]->name() == name ) {
-            return Moon[i];
-            break;
-        }
-    }
-    return 0;
-}
-
-void JupiterMoons::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
-    for ( uint i=0; i<4; ++i )
-        moon(i)->EquatorialToHorizontal( LST, lat );
 }
 
 void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, const KSSun *Sun ) {
@@ -498,14 +475,14 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, 
     pa = Jupiter->pa()*dms::PI/180.0;
 
     for ( int i=0; i<4; ++i ) {
-        XJ[i] = A6[i] * cos( D ) - C6[i] * sin( D );
-        YJ[i] = A6[i] * sin( D ) + C6[i] * cos( D );
-        ZJ[i] = B6[i];
+        XP[i] = A6[i] * cos( D ) - C6[i] * sin( D );
+        YP[i] = A6[i] * sin( D ) + C6[i] * cos( D );
+        ZP[i] = B6[i];
 
-        Moon[i]->setRA( Jupiter->ra()->Hours() - 0.011*( XJ[i] * cos( pa ) - YJ[i] * sin( pa ) )/15.0 );
-        Moon[i]->setDec( Jupiter->dec()->Degrees() - 0.011*( XJ[i] * sin( pa ) + YJ[i] * cos( pa ) ) );
+        Moon[i]->setRA( Jupiter->ra()->Hours() - 0.011*( XP[i] * cos( pa ) - YP[i] * sin( pa ) )/15.0 );
+        Moon[i]->setDec( Jupiter->dec()->Degrees() - 0.011*( XP[i] * sin( pa ) + YP[i] * cos( pa ) ) );
 
-        if ( ZJ[i] < 0.0 ) InFront[i] = true;
+        if ( ZP[i] < 0.0 ) InFront[i] = true;
         else InFront[i] = false;
 
         //Update Trails
