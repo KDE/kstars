@@ -134,6 +134,7 @@ Q_OBJECT
         Comast::Filter *currentFilter;
         GeoLocation *geo;
         SkyObject *currentTarget;
+        int nextSession, nextObservation;
 };
 
 #endif

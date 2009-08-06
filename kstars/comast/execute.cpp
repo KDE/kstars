@@ -48,6 +48,8 @@ Execute::Execute() {
     currentLens = NULL;
     currentFilter = NULL;
     currentSession = NULL;
+    nextSession = 0;
+    nextObservation = 0;
 
     //initialize the global logObject
     logObject = ks->data()->logObject();
@@ -134,8 +136,8 @@ void Execute::slotNext() {
             break;
         }
         case 2: {
-            if ( addObservation() )
                 ui.stackedWidget->setCurrentIndex( 1 );
+                ui.NextButton->setText( i18n( "Next Page >" ) );
                 QString prevTarget = currentTarget->name();
                 loadTargets();
                 ui.Target->setCurrentRow( findIndexOfTarget( prevTarget ), QItemSelectionModel::SelectCurrent );
@@ -146,18 +148,12 @@ void Execute::slotNext() {
 }
 
 bool Execute::saveSession() {
-    if( ui.Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return false;
-    }
-    currentSession = logObject->findSessionByName( ui.Id->text() );
     if( currentSession ){
-//        if( Comast::warningOverwrite( i18n("Another session already exists with the given Id, Overwrite?") ) == KMessageBox::Yes ) {
-            currentSession->setSession( ui.Id->text(), geo->fullName(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
-//        } else
-//            return false;
+            currentSession->setSession( currentSession->id(), geo->fullName(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
     } else {
-        currentSession = new Comast::Session( ui.Id->text(), geo->fullName(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+        while( logObject->findSessionByName( i18n( "session_" ) + QString::number( nextSession ) ) )
+            nextSession++;
+        currentSession = new Comast::Session( i18n( "session_" ) + QString::number( nextSession++ ) , geo->fullName(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         logObject->sessionList()->append( currentSession );
     } 
     if( ! logObject->findSiteByName( geo->fullName() ) ) {
@@ -240,30 +236,19 @@ void Execute::loadObservationTab() {
 }
 
 bool Execute::addObservation() {
-    if( ui.Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return false;
-    }
-    Comast::Observation *o = logObject->findObservationByName( ui.o_Id->text() );
+    while( logObject->findObservationByName( i18n( "observation_" ) + QString::number( nextObservation ) ) )
+        nextObservation++;
     KStarsDateTime dt = currentSession->begin();
     dt.setTime( ui.Time->time() );
-    if( o ){
-        if( Comast::warningOverwrite( i18n("Another observation already exists with the given Id, Overwrite?") ) == KMessageBox::Yes ) {
-            o->setObservation( ui.o_Id->text(), ui.Observer->currentText(), geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
-        } else
-            return false;
-    } else {
-        o = new Comast::Observation( ui.o_Id->text(), ui.Observer->currentText(), geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
+    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , ui.Observer->currentText(), geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
-    }
     slotSetCurrentObjects();
-    ui.o_Id->clear();
     ui.Description->clear();
     return true;
 }
 void Execute::slotEndSession() {
     if( currentSession ) {
-        currentSession->setSession( ui.Id->text(), geo->fullName(), ui.Begin->dateTime(), KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+        currentSession->setSession( currentSession->id(), geo->fullName(), ui.Begin->dateTime(), KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml" );
         if( fileURL.isValid() ) {
             QFile f( fileURL.path() );
@@ -277,7 +262,6 @@ void Execute::slotEndSession() {
             f.close();
         }
     }
-        ui.Id->clear();
         hide();
         ui.stackedWidget->setCurrentIndex(0);
         logObject->observationList()->clear();
