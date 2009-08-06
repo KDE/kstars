@@ -48,7 +48,11 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="Id"/>
+            <widget class="KLineEdit" name="Id">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_2">
@@ -160,7 +164,11 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="e_Id"/>
+            <widget class="KLineEdit" name="e_Id">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_7">
@@ -300,7 +308,11 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="l_Id"/>
+            <widget class="KLineEdit" name="l_Id">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label2">
@@ -392,7 +404,11 @@
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="f_Id"/>
+            <widget class="KLineEdit" name="f_Id">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label3">

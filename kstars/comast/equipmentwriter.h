@@ -59,6 +59,7 @@ Q_OBJECT
         KStars *ks;
         Ui::EquipmentWriter ui;
         bool newScope, newEyepiece, newLens, newFilter;
+        int nextScope, nextEyepiece, nextLens, nextFilter;
 
 };
 

@@ -36,6 +36,10 @@ EquipmentWriter::EquipmentWriter() {
     setCaption( i18n( "Equipment Writer" ) );
     setButtons( KDialog::Close );
     ks = KStars::Instance();
+    nextScope = 0;
+    nextEyepiece = 0;
+    nextFilter = 0;
+    nextLens = 0;
     loadEquipment();
     newScope = true;
     newEyepiece = true;
@@ -63,33 +67,17 @@ EquipmentWriter::EquipmentWriter() {
 }
 
 void EquipmentWriter::slotAddScope() {
-    if( ui.Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
-    }
-    Comast::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
-    if( s ) {
-        if( Comast::warningOverwrite( i18n( "Another Scope already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
-            s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value(), ui.Aperture->value() );
-        } else
-            return; //Do nothing
-    } else { // No such scope exists, so create a new scope
-        s = new Comast::Scope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value(), ui.Aperture->value() );
-        ks->data()->logObject()->scopeList()->append( s );
-    }
-
+    while ( ks->data()->logObject()->findScopeByName( i18n("scope_") + QString::number( nextScope ) ) )
+    nextScope++;
+    Comast::Scope *s = new Comast::Scope( i18n( "scope_" ) + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value(), ui.Aperture->value() ); 
+    ks->data()->logObject()->scopeList()->append( s );
     saveEquipment(); //Save the new list.
-    ui.Id->clear();
     ui.Model->clear();
     ui.Vendor->clear();
     ui.Type->clear();
     ui.FocalLength->setValue(0);
 }
 void EquipmentWriter::slotSaveScope() {
-    if( ui.Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
-    }
     Comast::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
     if( s ) {
         s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value(), ui.Aperture->value() );
@@ -119,20 +107,10 @@ void EquipmentWriter::slotNewScope() {
 }
 
 void EquipmentWriter::slotAddEyepiece() {
-    if( ui.e_Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
-    }
-    Comast::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
-    if( e ){
-        if( Comast::warningOverwrite( i18n ( "Another Eyepiece already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
-            e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
-        } else
-            return;
-    } else {
-        e = new Comast::Eyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
-        ks->data()->logObject()->eyepieceList()->append( e );
-    }
+    while ( ks->data()->logObject()->findEyepieceByName( i18n("eyepiece_") + QString::number( nextEyepiece ) ) )
+    nextEyepiece++;
+    Comast::Eyepiece *e = new Comast::Eyepiece( i18n("eyepiece_") + QString::number( nextEyepiece++ ), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
+    ks->data()->logObject()->eyepieceList()->append( e );
     saveEquipment(); //Save the new list.
     ui.e_Id->clear();
     ui.e_Model->clear();
@@ -142,10 +120,6 @@ void EquipmentWriter::slotAddEyepiece() {
 }
 
 void EquipmentWriter::slotSaveEyepiece() {
-    if( ui.e_Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
-    }
     Comast::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
     if( e ){
         e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
@@ -177,20 +151,10 @@ void EquipmentWriter::slotNewEyepiece() {
 }
 
 void EquipmentWriter::slotAddLens() {
-    if( ui.l_Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
-    }
-    Comast::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
-    if( l ){
-        if( Comast::warningOverwrite( ( "Another Lens already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
-            l->setLens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
-        } else
-            return;
-    } else {
-        l = new Comast::Lens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
-        ks->data()->logObject()->lensList()->append( l );
-    }
+    while ( ks->data()->logObject()->findLensByName( i18n("lens_") + QString::number( nextLens ) ) )
+    nextLens++;
+    Comast::Lens *l = new Comast::Lens( i18n("lens_") + QString::number( nextLens++ ), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
+    ks->data()->logObject()->lensList()->append( l );
     saveEquipment(); //Save the new list.
     ui.l_Id->clear();
     ui.l_Model->clear();
@@ -199,10 +163,6 @@ void EquipmentWriter::slotAddLens() {
 }
 
 void EquipmentWriter::slotSaveLens() {
-    if( ui.l_Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
-    }
     Comast::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
     if( l ){
         l->setLens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
@@ -232,20 +192,10 @@ void EquipmentWriter::slotNewLens() {
 }
 
 void EquipmentWriter::slotAddFilter() {
-    if( ui.f_Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
-    }
-    Comast::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
-    if( f ){
-        if( Comast::warningOverwrite( ( "Another Filter already exists with the given Id, Overwrite?" ) ) == KMessageBox::Yes ) {
-            f->setFilter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
-        } else
-            return;
-    } else {
-        f = new Comast::Filter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
-        ks->data()->logObject()->filterList()->append( f );
-    }
+    while ( ks->data()->logObject()->findFilterByName( i18n("filter_") + QString::number( nextFilter ) ) )
+    nextFilter++;
+    Comast::Filter *f = new Comast::Filter( i18n("filter_") + QString::number( nextFilter++ ), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
+    ks->data()->logObject()->filterList()->append( f );
     saveEquipment(); //Save the new list.
     ui.f_Id->clear();
     ui.f_Model->clear();
@@ -255,10 +205,6 @@ void EquipmentWriter::slotAddFilter() {
 }
 
 void EquipmentWriter::slotSaveFilter() {
-    if( ui.f_Id->text().isEmpty() ) {
-        KMessageBox::sorry( 0, i18n("The Id field cannot be empty"), i18n("Invalid Id") );
-        return;
-    }
     Comast::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
     if( f ){
         f->setFilter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
