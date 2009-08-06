@@ -73,10 +73,12 @@ KStarsData* KStarsData::Instance( )
 }
 
 
-KStarsData::KStarsData(KStars* kstars) : locale(0),
-        LST(0), HourAngle(0), m_kstars(kstars),
-        m_preUpdateID(0), m_preUpdateNumID(0),
-        m_preUpdateNum( J2000 ), m_updateNum( J2000 )
+KStarsData::KStarsData(KStars* kstars) :
+    locale(0),
+    LST(0), HourAngle(0), m_kstars(kstars),
+    m_preUpdateID(0),        m_updateID(0),
+    m_preUpdateNumID(0),     m_updateNumID(0),
+    m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
     startupComplete = false;
     objects++;
