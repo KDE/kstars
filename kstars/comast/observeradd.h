@@ -51,5 +51,6 @@ Q_OBJECT
     private:
         KStars *ks;
         Ui::ObserverAdd ui;
+        int nextObserver;
 };
 #endif

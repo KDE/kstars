@@ -136,6 +136,7 @@ void Execute::slotNext() {
             break;
         }
         case 2: {
+                addObservation();
                 ui.stackedWidget->setCurrentIndex( 1 );
                 ui.NextButton->setText( i18n( "Next Page >" ) );
                 QString prevTarget = currentTarget->name();
@@ -236,13 +237,16 @@ void Execute::loadObservationTab() {
 }
 
 bool Execute::addObservation() {
+    slotSetCurrentObjects();
     while( logObject->findObservationByName( i18n( "observation_" ) + QString::number( nextObservation ) ) )
         nextObservation++;
     KStarsDateTime dt = currentSession->begin();
     dt.setTime( ui.Time->time() );
-    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , ui.Observer->currentText(), geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
+    QString observer = "";
+    if( currentObserver )
+        observer = currentObserver->id();
+    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , observer, geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
-    slotSetCurrentObjects();
     ui.Description->clear();
     return true;
 }
@@ -341,7 +345,6 @@ void Execute::slotAddObject() {
        SkyObject *o = fd->selectedObject();
        if( o != 0 ) {
            ks->observingList()->slotAddObject( o, true );  
-           kDebug() << "alpha";
            init();
        }
    }

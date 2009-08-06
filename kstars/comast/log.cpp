@@ -186,7 +186,7 @@ void Comast::Log::writeTarget( SkyObject *o ) {
 
 void Comast::Log::writeObserver( Comast::Observer *o ) {
     writer->writeStartElement( "observer" );
-    writer->writeAttribute( "id", o->name() + o->surname() );
+    writer->writeAttribute( "id", o->id() );
     writer->writeStartElement( "name" );
     writer->writeCDATA( o->name() );
     writer->writeEndElement();
@@ -450,7 +450,7 @@ void Comast::Log::readObservers() {
 
         if( reader->isStartElement() ) {
             if( reader->name() == "observer" )
-                readObserver();
+                readObserver( reader->attributes().value( "id" ).toString() );
             else
                 readUnknownElement();
         }
@@ -591,7 +591,7 @@ void Comast::Log::readTarget() {
     }
 }
 
-void Comast::Log::readObserver() {
+void Comast::Log::readObserver( QString id ) {
     QString name, surname, contact;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -610,7 +610,7 @@ void Comast::Log::readObserver() {
                 readUnknownElement();
         }
     }
-    Comast::Observer *o= new Comast::Observer( name, surname, contact );
+    Comast::Observer *o= new Comast::Observer( id, name, surname, contact );
     m_observerList.append( o );
 }
 
@@ -876,9 +876,16 @@ void Comast::Log::readGeoDate() {
     dt.setDate( QDate::fromString( date, "ddMMyyyy" ) );
 }
 
-Comast::Observer* Comast::Log::findObserverByName( QString id ) {
+Comast::Observer* Comast::Log::findObserverByName( QString name ) {
     foreach( Comast::Observer *obs, *observerList() )
-        if( obs->name() + obs->surname() == id )
+        if( obs->name() + " " + obs->surname() == name )
+            return obs;
+    return NULL;
+}
+
+Comast::Observer* Comast::Log::findObserverById( QString id ) {
+    foreach( Comast::Observer *obs, *observerList() )
+        if( obs->id() == id )
             return obs;
     return NULL;
 }

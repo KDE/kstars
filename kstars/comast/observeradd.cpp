@@ -34,6 +34,7 @@ ObserverAdd::ObserverAdd() {
     setCaption( i18n( "Add Observer" ) );
     setButtons( KDialog::Close );
     ks = KStars::Instance();
+    nextObserver = 0;
 
     // Load the observers list from the file
     loadObservers();
@@ -47,14 +48,16 @@ void ObserverAdd::slotAddObserver() {
         KMessageBox::sorry( 0, i18n("The Name field cannot be empty"), i18n("Invalid Input") );
         return;
     }
-    Comast::Observer *o = ks->data()->logObject()->findObserverByName( ui.Name->text() + ui.Surname->text() ); //The findObserverByName uses the fullName for searching
+    Comast::Observer *o = ks->data()->logObject()->findObserverByName( ui.Name->text() + " " + ui.Surname->text() ); //The findObserverByName uses the fullName for searching
     if( o ) {
         if( Comast::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::Yes ) {
-            o->setObserver( o->name(), o->surname(), ui.Contact->text() );
+            o->setObserver( o->id(), o->name(), o->surname(), ui.Contact->text() );
         } else
             return; //Do nothing
     } else { // No such observer exists, so create a new observer object and append to file
-        o = new Comast::Observer( ui.Name->text(), ui.Surname->text(), ui.Contact->text() );
+        while( ks->data()->logObject()->findObserverById( i18n("observer_") + QString::number( nextObserver ) ) )
+            nextObserver++;
+        o = new Comast::Observer( i18n("observer_") + QString::number( nextObserver++ ), ui.Name->text(), ui.Surname->text(), ui.Contact->text() );
         ks->data()->logObject()->observerList()->append( o );
     }
  

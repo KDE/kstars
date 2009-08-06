@@ -24,12 +24,13 @@
 
 class Comast::Observer {
     public:
+       QString id() { return m_Id; }
        QString name() { return m_Name; }
        QString surname() { return m_Surname; }
        QString contact() { return m_Contact; }
-       Observer( QString _name ="", QString _surname = "", QString _contact = "" ) { setObserver( _name, _surname, _contact ); }
-       void setObserver( QString _name = "", QString _surname= "", QString _contact = "" );
+       Observer( QString _id,  QString _name ="", QString _surname = "", QString _contact = "" ) { setObserver( _id, _name, _surname, _contact ); }
+       void setObserver( QString _id, QString _name = "", QString _surname= "", QString _contact = "" );
     private:
-        QString m_Name, m_Surname, m_Contact;
+        QString m_Name, m_Surname, m_Contact, m_Id;
 };
 #endif

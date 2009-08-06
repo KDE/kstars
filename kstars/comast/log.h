@@ -86,7 +86,7 @@ class Comast::Log {
         void readFilters();
         void readObservation( QString id );
         void readTarget();
-        void readObserver();
+        void readObserver( QString id );
         void readSite();
         void readSession( QString id, QString lang );
         void readScope( QString id );
@@ -96,7 +96,8 @@ class Comast::Log {
         void readPosition();
         void readGeoDate();
         QString readResult();
-        Comast::Observer* findObserverByName( QString id );
+        Comast::Observer* findObserverByName( QString fullName );
+        Comast::Observer* findObserverById( QString id );
         Comast::Site* findSiteByName( QString id );
         Comast::Session* findSessionByName( QString id );
         Comast::Scope* findScopeByName( QString id );
