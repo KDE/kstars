@@ -40,11 +40,25 @@ Q_OBJECT
         void slotAddEyepiece();
         void slotAddLens();
         void slotAddFilter();
+        void slotSaveScope();
+        void slotSaveEyepiece();
+        void slotSaveLens();
+        void slotSaveFilter();
+        void slotSetScope( QString );
+        void slotSetEyepiece( QString );
+        void slotSetLens( QString );
+        void slotSetFilter( QString );
+        void slotNewScope();
+        void slotNewEyepiece();
+        void slotNewLens();
+        void slotNewFilter();
         void slotClose() { hide(); }
+        void slotSave();
 
     private:
         KStars *ks;
         Ui::EquipmentWriter ui;
+        bool newScope, newEyepiece, newLens, newFilter;
 
 };
 

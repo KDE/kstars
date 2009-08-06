@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>340</width>
+    <width>411</width>
     <height>275</height>
    </rect>
   </property>
@@ -29,7 +29,10 @@
       <attribute name="title">
        <string>Scope</string>
       </attribute>
-      <layout class="QVBoxLayout" name="_3">
+      <layout class="QHBoxLayout" name="_3">
+       <item>
+        <widget class="KListWidget" name="ScopeList"/>
+       </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
@@ -115,9 +118,16 @@
             </spacer>
            </item>
            <item>
+            <widget class="QPushButton" name="NewScope">
+             <property name="text">
+              <string>Add New..</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="AddScope">
              <property name="text">
-              <string>Add Scope</string>
+              <string>Save Scope</string>
              </property>
             </widget>
            </item>
@@ -132,6 +142,9 @@
        <string>Eyepiece</string>
       </attribute>
       <layout class="QHBoxLayout">
+       <item>
+        <widget class="KListWidget" name="EyepieceList"/>
+       </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
@@ -245,9 +258,16 @@
             </spacer>
            </item>
            <item>
+            <widget class="QPushButton" name="NewEyepiece">
+             <property name="text">
+              <string>Add New</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="AddEyepiece">
              <property name="text">
-              <string>Add Eyepiece</string>
+              <string>Save Eyepiece</string>
              </property>
             </widget>
            </item>
@@ -261,7 +281,10 @@
       <attribute name="title">
        <string>Lens</string>
       </attribute>
-      <layout class="QVBoxLayout" name="_4">
+      <layout class="QHBoxLayout" name="_4">
+       <item>
+        <widget class="KListWidget" name="LensList"/>
+       </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout3">
          <item>
@@ -327,9 +350,16 @@
             </spacer>
            </item>
            <item>
+            <widget class="QPushButton" name="NewLens">
+             <property name="text">
+              <string>Add New..</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="AddLens">
              <property name="text">
-              <string>Add Lens</string>
+              <string>Save Lens</string>
              </property>
             </widget>
            </item>
@@ -343,7 +373,10 @@
       <attribute name="title">
        <string>Filter</string>
       </attribute>
-      <layout class="QVBoxLayout" name="_5">
+      <layout class="QHBoxLayout" name="_5">
+       <item>
+        <widget class="KListWidget" name="FilterList"/>
+       </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout4">
          <item>
@@ -419,9 +452,16 @@
             </spacer>
            </item>
            <item>
+            <widget class="QPushButton" name="NewFilter">
+             <property name="text">
+              <string>Add New..</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QPushButton" name="AddFilter">
              <property name="text">
-              <string>Add Filter</string>
+              <string>Save Filter</string>
              </property>
             </widget>
            </item>
@@ -436,6 +476,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
+  </customwidget>
   <customwidget>
    <class>KDoubleNumInput</class>
    <extends>QWidget</extends>
