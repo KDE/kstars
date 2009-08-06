@@ -51,18 +51,13 @@
 
 #include "dialogs/detaildialog.h"
 
-//Initialize static members
-QList<GeoLocation*> KStarsData::geoList = QList<GeoLocation*>();
-
-QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
-
-int KStarsData::objects = 0;
 
 KStarsData* KStarsData::pinstance = 0;
 
 KStarsData* KStarsData::Create( KStars* kstars )
 {
-    if ( pinstance ) delete pinstance;
+    if ( pinstance )
+        delete pinstance;
     pinstance = new KStarsData( kstars );
     return pinstance;
 }
@@ -81,7 +76,6 @@ KStarsData::KStarsData(KStars* kstars) :
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
     startupComplete = false;
-    objects++;
 
     TypeName[0] = i18n( "star" );
     TypeName[1] = i18n( "star" );
@@ -121,33 +115,20 @@ KStarsData::KStarsData(KStars* kstars) :
 }
 
 KStarsData::~KStarsData() {
-    //FIXME: Do we still need this?
-    objects--; //the number of existing KStarsData objects
-
-    //FIXME: Verify list of deletes
     delete locale;
     delete LST;
     delete HourAngle;
 
-    while ( ! geoList.isEmpty() )
-        delete geoList.takeFirst();
-
-    while ( !VariableStarsList.isEmpty())
-        delete VariableStarsList.takeFirst();
-
-    while ( !INDIHostsList.isEmpty())
-        delete INDIHostsList.takeFirst();
-
-    while ( !ADVtreeList.isEmpty())
-        delete ADVtreeList.takeFirst();
-
+    qDeleteAll( geoList );
+    qDeleteAll( VariableStarsList );
+    qDeleteAll( INDIHostsList );
+    qDeleteAll( ADVtreeList );
 }
 
 QString KStarsData::typeName( int i ) {
-    QString result = i18n( "no type" );
-    if ( i >= 0 && i < 12 ) result = TypeName[i];
-
-    return result;
+    if ( i >= 0 && i < 12 )
+        return TypeName[i];
+    return i18n( "no type" );
 }
 
 void KStarsData::initialize() {
@@ -201,26 +182,17 @@ void KStarsData::slotInitialize() {
     case 0: //Load Time Zone Rules//
         emit progressText( i18n("Reading time zone rules") );
 
-        if (objects==1) {
-            // timezone rules
-            if ( !readTimeZoneRulebook( ) )
-                initError( "TZrules.dat", true );
-        }
-
+        // timezone rules
+        if ( !readTimeZoneRulebook( ) )
+            initError( "TZrules.dat", true );
 
         break;
 
     case 1: //Load Cities//
-        {
-            if (objects>1) break;
-
-            emit progressText( i18n("Loading city data") );
-
-            if ( !readCityData( ) )
-                initError( "Cities.dat", true );
-
-            break;
-        }
+        emit progressText( i18n("Loading city data") );
+        if ( !readCityData( ) )
+            initError( "Cities.dat", true );
+        break;
 
     case 2: //Initialize SkyMapComposite//
 

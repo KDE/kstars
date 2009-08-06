@@ -449,8 +449,6 @@ private:
 
     QList<SkyObject> objList;
 
-    // 	QPtrList<StarObject> starList;
-
     unsigned int StarCount;
 
     QList<VariableStarInfo*> VariableStarsList;
@@ -467,7 +465,6 @@ private:
 
     bool TimeRunsForward, temporaryTrail, snapToFocus;
 
-    //	QString cnameFile;
     KLocale *locale;
 
     dms *LST, *HourAngle;
@@ -488,9 +485,8 @@ private:
 
     //--- Static member variables
     //the number of KStarsData objects.
-    static int objects;
-    static QList<GeoLocation*> geoList;
-    static QMap<QString, TimeZoneRule> Rulebook;
+    QList<GeoLocation*> geoList;
+    QMap<QString, TimeZoneRule> Rulebook;
 
     KStars*      m_kstars;
     quint32      m_preUpdateID, m_updateID;
