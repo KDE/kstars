@@ -221,9 +221,11 @@ void Execute::sortTargetList() {
 }
 
 void Execute::addTargetNotes() {
-    SkyObject *o = ks->observingList()->findObjectByName( ui.Target->currentItem()->text() );
-    currentTarget = o;
+    if( ! ui.Target->count() )
+        return;
+    SkyObject *o = KStars::Instance()->observingList()->findObjectByName( ui.Target->currentItem()->text() );
     if( o ) {
+        currentTarget = o;
         o->setNotes( ui.Notes->toPlainText() );
         ui.Notes->clear();
         loadObservationTab();
