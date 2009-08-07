@@ -223,7 +223,7 @@ void Comast::Log::writeSession( Comast::Session *s ) {
     writer->writeCharacters( s->end().date().toString( "yyyy-MM-dd" ) + "T" + s->end().time().toString( "hh:mm:ss" ) );
     writer->writeEndElement();
     writer->writeStartElement( "site" );
-    writer->writeCDATA( s->site() );
+    writer->writeCharacters( s->site() );
     writer->writeEndElement();
     writer->writeStartElement( "weather" );
     writer->writeCDATA( s->weather() );
