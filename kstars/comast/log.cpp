@@ -200,7 +200,7 @@ void Comast::Log::writeObserver( Comast::Observer *o ) {
 }
 void Comast::Log::writeSite( Comast::Site *s ) {
     writer->writeStartElement( "site" );
-    writer->writeAttribute( "id", s->name() );
+    writer->writeAttribute( "id", s->id() );
     writer->writeStartElement( "name" );
     writer->writeCDATA( s->name() );
     writer->writeEndElement();
@@ -466,7 +466,7 @@ void Comast::Log::readSites() {
 
         if( reader->isStartElement() ) {
             if( reader->name() == "site" )
-                readSite();
+                readSite( reader->attributes().value( "id" ).toString() );
             else
                 readUnknownElement();
         }
@@ -614,7 +614,7 @@ void Comast::Log::readObserver( QString id ) {
     m_observerList.append( o );
 }
 
-void Comast::Log::readSite() {
+void Comast::Log::readSite( QString id ) {
     QString name, latUnit, lonUnit, lat, lon;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -635,7 +635,7 @@ void Comast::Log::readSite() {
                 readUnknownElement();
         }
     }
-    Comast::Site *o= new Comast::Site( name, lat.toDouble(), latUnit, lon.toDouble(), lonUnit );
+    Comast::Site *o= new Comast::Site( id, name, lat.toDouble(), latUnit, lon.toDouble(), lonUnit );
     m_siteList.append( o );
 }
 
@@ -892,6 +892,13 @@ Comast::Observer* Comast::Log::findObserverById( QString id ) {
 
 Comast::Session* Comast::Log::findSessionByName( QString id ) {
     foreach( Comast::Session *s, *sessionList() )
+        if( s->id()  == id )
+            return s;
+    return NULL;
+}
+
+Comast::Site* Comast::Log::findSiteById( QString id ) {
+    foreach( Comast::Site *s, *siteList() )
         if( s->id()  == id )
             return s;
     return NULL;

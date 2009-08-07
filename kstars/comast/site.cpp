@@ -18,14 +18,16 @@
 
 #include "comast/site.h"
 
-void Comast::Site::setSite( QString _name, double _lat, QString _latUnit, double _lon, QString _lonUnit ){
+void Comast::Site::setSite(QString _id, QString _name, double _lat, QString _latUnit, double _lon, QString _lonUnit ){
+    m_Id = _id;
     m_Name = _name;
     m_Lat = _lat;
     m_Lon = _lon;
     m_LatUnit = _latUnit;
     m_LonUnit = _lonUnit;
 }
-void Comast::Site::setSite( GeoLocation *geo ) {
+void Comast::Site::setSite( GeoLocation *geo, QString id ) {
+    m_Id = id;
     m_Name = geo->name();
     m_Lat = geo->lat()->radians();
     m_Lon = geo->lng()->radians();

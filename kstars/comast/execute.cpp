@@ -50,6 +50,7 @@ Execute::Execute() {
     currentSession = NULL;
     nextSession = 0;
     nextObservation = 0;
+    nextSite = 0;
 
     //initialize the global logObject
     logObject = ks->data()->logObject();
@@ -149,18 +150,21 @@ void Execute::slotNext() {
 }
 
 bool Execute::saveSession() {
+    Comast::Site *site = logObject->findSiteByName( geo->fullName() ); 
+    if( ! site ) {
+        while( logObject->findSiteById( i18n( "site_" ) + QString::number( nextSite ) ) )
+            nextSite++;
+        site = new Comast::Site( geo, i18n( "site_" ) + QString::number( nextSite++ ) );
+        logObject->siteList()->append( site );
+    }
     if( currentSession ){
-            currentSession->setSession( currentSession->id(), geo->fullName(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+            currentSession->setSession( currentSession->id(), site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
     } else {
         while( logObject->findSessionByName( i18n( "session_" ) + QString::number( nextSession ) ) )
             nextSession++;
-        currentSession = new Comast::Session( i18n( "session_" ) + QString::number( nextSession++ ) , geo->fullName(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+        currentSession = new Comast::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         logObject->sessionList()->append( currentSession );
     } 
-    if( ! logObject->findSiteByName( geo->fullName() ) ) {
-        Comast::Site *newSite = new Comast::Site( geo );
-        logObject->siteList()->append( newSite );
-    }
     ui.stackedWidget->setCurrentIndex( 1 ); //Move to the next page
     return true;
 }
@@ -247,14 +251,14 @@ bool Execute::addObservation() {
     QString observer = "";
     if( currentObserver )
         observer = currentObserver->id();
-    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , observer, geo->fullName(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
+    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , observer, currentSession->site(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
     ui.Description->clear();
     return true;
 }
 void Execute::slotEndSession() {
     if( currentSession ) {
-        currentSession->setSession( currentSession->id(), geo->fullName(), ui.Begin->dateTime(), KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+        currentSession->setSession( currentSession->id(), currentSession->site(), ui.Begin->dateTime(), KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml" );
         if( fileURL.isValid() ) {
             QFile f( fileURL.path() );
