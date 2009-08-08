@@ -59,7 +59,7 @@ namespace {
 }
 
 // This is needed to make FOV work with QVariant
-Q_DECLARE_METATYPE(FOV*);
+Q_DECLARE_METATYPE(FOV*)
 
 int FOVDialog::fovID = -1;
 
