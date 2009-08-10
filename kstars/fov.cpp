@@ -93,6 +93,7 @@ void FOV::draw(QPainter &p, float x, float y)
     switch( shape() ) {
     case CROSSHAIRS: zoomFactor /= 3; break;
     case BULLSEYE:   zoomFactor /= 8; break;
+    default: ;
     }
     draw(p, zoomFactor);
 }
