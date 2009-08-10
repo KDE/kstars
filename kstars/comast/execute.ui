@@ -155,7 +155,7 @@
          <item>
           <widget class="KTitleWidget" name="ktitlewidget_2">
            <property name="text">
-            <string>Enter Object Details:</string>
+            <string>View Object Details:</string>
            </property>
           </widget>
          </item>
@@ -304,6 +304,13 @@
           </layout>
          </item>
          <item>
+          <widget class="KTitleWidget" name="ktitlewidget_4">
+           <property name="text">
+            <string>Set observing notes for the object:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
             <widget class="QLabel" name="label_10">
@@ -335,7 +342,7 @@
            <item>
             <widget class="QPushButton" name="Slew">
              <property name="text">
-              <string>Slew</string>
+              <string>Slew Scope</string>
              </property>
             </widget>
            </item>
