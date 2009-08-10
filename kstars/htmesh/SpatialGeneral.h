@@ -44,6 +44,9 @@
 // ------------------------------------------------------------------------
 //
 
+/* get all the standard defines from the platform */
+#include <cstdlib>
+
 #if !defined(OO_MACHINE_H) && !defined(OO_CONFIG_H) && !defined(SXGENERAL_H)
 typedef char				int8;
 typedef unsigned char		uint8;
