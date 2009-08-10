@@ -35,7 +35,7 @@
 #include "starcomponent.h"
 
 #include <kde_file.h>
-#include <byteswap.h>
+#include "byteorder.h"
 
 DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, float trigMag, bool staticstars )
     : ListComponent(parent), m_reindexNum( J2000 ), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 

@@ -43,7 +43,7 @@
 #define bswap_16(x) bswap16(x)
 #define bswap_32(x) bswap32(x)
 #else
-#include <byteswap.h>
+#include "byteorder.h"
 #endif
 
 #include <kde_file.h>

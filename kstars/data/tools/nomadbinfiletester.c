@@ -26,7 +26,7 @@
 #include <math.h>
 #include <sys/types.h>
 #include <string.h>
-#include <byteswap.h>
+#include "byteorder.h"
 
 
 /*
