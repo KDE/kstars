@@ -48,7 +48,7 @@ class WUTDialog : public KDialog  {
 public:
 
     /**@short Constructor*/
-    WUTDialog(KStars *ks, bool session = false);
+    WUTDialog(QWidget *ks, bool session = false);
     /**@short Destructor*/
     ~WUTDialog();
 

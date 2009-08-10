@@ -42,11 +42,11 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
 
-WUTDialog::WUTDialog( KStars *ks, bool _session ) :
-        KDialog( (QWidget*)ks ), kstars(ks), EveningFlag(0),
+WUTDialog::WUTDialog( QWidget *ks, bool _session ) :
+        KDialog( ks ), EveningFlag(0),
         timer(NULL)
 {
-
+    kstars = KStars::Instance();
     WUT = new WUTDialogUI( this );
     setMainWidget( WUT );
     setCaption( i18n("What's up Tonight") );
@@ -442,10 +442,7 @@ void WUTDialog::slotObslist() {
         o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
     if(o != 0) {
-        if(!session)
-            kstars->observingList()->slotAddObject( o ) ;
-        else
-            kstars->observingList()->slotAddObject( o, true );
+        kstars->observingList()->slotAddObject( o, session ) ;
     }
 }
 
