@@ -388,11 +388,9 @@ void KStars::initActions() {
     ka = actionCollection()->addAction( "flagmanager" );
     ka->setText( i18n( "Flags...") );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotFlagManager() ) );
-    
-    // comast Menu
 
     ka = actionCollection()->addAction( "ewriter" );
-    ka->setText( i18n( "Equipment Writer..." ) );
+    ka->setText( i18n( "Define Equipment..." ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_0 ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotEquipmentWriter() ) );
 
@@ -401,6 +399,7 @@ void KStars::initActions() {
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_1 ) );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotObserverAdd() ) );
 
+    //observation menu
     ka = actionCollection()->addAction( "execute" );
     ka->setText( i18n( "Execute the session Plan..." ) );
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_2 ) );
