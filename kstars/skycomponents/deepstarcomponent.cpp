@@ -224,12 +224,10 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList.at( currentRegion )->block( i - 1 ) : NULL );
                 StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
                 
-                if( i == 0 )
-                    if( !m_StarBlockFactory->markFirst( block ) )
-                        kDebug() << "markFirst failed in trixel" << currentRegion;
-                if( i > 0 )
-                    if( !m_StarBlockFactory->markNext( prevBlock, block ) )
-                        kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+                if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
+                    kDebug() << "markFirst failed in trixel" << currentRegion;
+                if( i > 0   &&  !m_StarBlockFactory->markNext( prevBlock, block ) )
+                    kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
                 if( i < m_starBlockList.at( currentRegion )->getBlockCount() 
                     && m_starBlockList.at( currentRegion )->block( i )->getFaintMag() < maglim )
                     break;
