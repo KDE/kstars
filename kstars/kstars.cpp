@@ -281,5 +281,7 @@ dms* KStars::LST() { return data()->LST; }
 
 ObservingList* KStars::observingList() { return obsList; }
 
+Execute* KStars::getExecute() { return execute; }
+
 #include "kstars.moc"
 

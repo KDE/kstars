@@ -406,6 +406,8 @@ void ObservingList::slotRemoveSelectedObjects() {
         }
         //we've removed all selected objects, so clear the selection
         ui->SessionView->selectionModel()->clear();
+        //Update the lists in the Execute window as well
+        ks->getExecute()->init();
     } else {
          //Find each object by name in the observing list, and remove it
          //Go backwards so item alignment doesn't get screwed up as rows are removed.

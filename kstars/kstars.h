@@ -136,6 +136,8 @@ public:
 
     ObservingList* observingList();
 
+    Execute* getExecute();
+
     ImageViewer* addImageViewer(const KUrl &url, const QString &message );
     void removeImageViewer( ImageViewer* );
 
