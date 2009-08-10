@@ -1021,20 +1021,17 @@ void KStars::slotShowGUIItem( bool show ) {
     //Toolbars
     if ( sender() == actionCollection()->action( "show_mainToolBar" ) ) {
         Options::setShowMainToolBar( show );
-        if ( show ) toolBar("kstarsToolBar")->show();
-        else toolBar("kstarsToolBar")->hide();
+        toolBar("kstarsToolBar")->setVisible(show);
     }
 
     if ( sender() == actionCollection()->action( "show_viewToolBar" ) ) {
         Options::setShowViewToolBar( show );
-        if ( show ) toolBar( "viewToolBar" )->show();
-        else toolBar( "viewToolBar" )->hide();
+        toolBar( "viewToolBar" )->setVisible(show);
     }
 
     if ( sender() == actionCollection()->action( "show_statusBar" ) ) {
         Options::setShowStatusBar( show );
-        if ( show ) statusBar()->show();
-        else  statusBar()->hide();
+        statusBar()->setVisible(show);
     }
 
     if ( sender() == actionCollection()->action( "show_sbAzAlt" ) ) {
