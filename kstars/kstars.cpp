@@ -137,9 +137,6 @@ KStars::~KStars()
     delete indiseq;
     delete projectionGroup;
     delete cschemeGroup;
-
-    //NOTE: Dialog window pointers are deleted in KStars::slotAboutToQuit()
-    //(if they are deleted here, it causes a SegFault for some reason)
 }
 
 void KStars::clearCachedFindDialog() {
