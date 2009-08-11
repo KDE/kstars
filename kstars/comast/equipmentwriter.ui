@@ -188,6 +188,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="RemoveScope">
+             <property name="text">
+              <string>Remove</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
@@ -343,6 +350,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="RemoveEyepiece">
+             <property name="text">
+              <string>Remove</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
@@ -455,6 +469,13 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QPushButton" name="RemoveLens">
+             <property name="text">
+              <string>Remove</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
         </layout>
@@ -558,6 +579,13 @@
             <widget class="QPushButton" name="AddFilter">
              <property name="text">
               <string>Save Filter</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RemoveFilter">
+             <property name="text">
+              <string>Remove</string>
              </property>
             </widget>
            </item>

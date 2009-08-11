@@ -64,6 +64,10 @@ EquipmentWriter::EquipmentWriter() {
              this, SLOT( slotSetLens(QString) ) );
     connect( ui.FilterList, SIGNAL( currentTextChanged(const QString) ),
              this, SLOT( slotSetFilter(QString) ) );
+    connect( ui.RemoveScope, SIGNAL( clicked() ), this, SLOT( slotRemoveScope() ) );
+    connect( ui.RemoveEyepiece, SIGNAL( clicked() ), this, SLOT( slotRemoveEyepiece() ) );
+    connect( ui.RemoveLens, SIGNAL( clicked() ), this, SLOT( slotRemoveLens() ) );
+    connect( ui.RemoveFilter, SIGNAL( clicked() ), this, SLOT( slotRemoveFilter() ) );
 }
 
 void EquipmentWriter::slotAddScope() {
@@ -76,6 +80,19 @@ void EquipmentWriter::slotAddScope() {
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
 }
+
+void EquipmentWriter::slotRemoveScope() {
+    Comast::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
+    ks->data()->logObject()->scopeList()->removeAll( s );
+    saveEquipment(); //Save the new list.
+    ui.Model->clear();
+    ui.Vendor->clear();
+    ui.FocalLength->setValue(0);
+    ui.ScopeList->clear();
+    foreach( Comast::Scope *s, *( ks->data()->logObject()->scopeList() ) )
+        ui.ScopeList->addItem( s->id() );
+}
+
 void EquipmentWriter::slotSaveScope() {
     Comast::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
     if( s ) {
@@ -117,6 +134,19 @@ void EquipmentWriter::slotAddEyepiece() {
     ui.e_focalLength->setValue(0);
 }
 
+void EquipmentWriter::slotRemoveEyepiece() {
+    Comast::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
+    ks->data()->logObject()->eyepieceList()->removeAll( e );
+    saveEquipment(); //Save the new list.
+    ui.e_Id->clear();
+    ui.e_Model->clear();
+    ui.e_Vendor->clear();
+    ui.Fov->setValue(0);
+    ui.e_focalLength->setValue(0);
+    ui.EyepieceList->clear();
+    foreach( Comast::Eyepiece *e, *( ks->data()->logObject()->eyepieceList() ) )
+        ui.EyepieceList->addItem( e->id() );
+}
 void EquipmentWriter::slotSaveEyepiece() {
     Comast::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
     if( e ){
@@ -160,6 +190,18 @@ void EquipmentWriter::slotAddLens() {
     ui.l_Factor->setValue(0);
 }
 
+void EquipmentWriter::slotRemoveLens() {
+    Comast::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
+    ks->data()->logObject()->lensList()->removeAll( l );
+    saveEquipment(); //Save the new list.
+    ui.l_Id->clear();
+    ui.l_Model->clear();
+    ui.l_Vendor->clear();
+    ui.l_Factor->setValue(0);
+    ui.LensList->clear();
+    foreach( Comast::Lens *l, *( ks->data()->logObject()->lensList() ) )
+        ui.LensList->addItem( l->id() );
+}
 void EquipmentWriter::slotSaveLens() {
     Comast::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
     if( l ){
@@ -200,6 +242,20 @@ void EquipmentWriter::slotAddFilter() {
     ui.f_Vendor->clear();
     ui.f_Type->clear();
     ui.f_Color->clear();
+}
+
+void EquipmentWriter::slotRemoveFilter() {
+    Comast::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
+    ks->data()->logObject()->filterList()->removeAll( f );
+    saveEquipment(); //Save the new list.
+    ui.f_Id->clear();
+    ui.f_Model->clear();
+    ui.f_Vendor->clear();
+    ui.f_Type->clear();
+    ui.f_Color->clear();
+    ui.FilterList->clear();
+    foreach( Comast::Filter *f, *( ks->data()->logObject()->filterList() ) )
+        ui.FilterList->addItem( f->id() );
 }
 
 void EquipmentWriter::slotSaveFilter() {

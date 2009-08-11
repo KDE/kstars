@@ -44,6 +44,10 @@ Q_OBJECT
         void slotSaveEyepiece();
         void slotSaveLens();
         void slotSaveFilter();
+        void slotRemoveScope();
+        void slotRemoveEyepiece();
+        void slotRemoveLens();
+        void slotRemoveFilter();
         void slotSetScope( QString );
         void slotSetEyepiece( QString );
         void slotSetLens( QString );
