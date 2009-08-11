@@ -129,7 +129,7 @@ void Comast::Log::writeObservations() {
 
 void Comast::Log::writeTarget( SkyObject *o ) {
     writer->writeStartElement( "target" );
-    writer->writeAttribute("id", o->name() );
+    writer->writeAttribute("id", o->name().remove( ' ' ) );
     QString typeString;
     if( native )
         writer->writeAttribute( "type", o->typeName() );
@@ -319,7 +319,7 @@ void Comast::Log::writeObservation( Comast::Observation *o ) {
     writer->writeCharacters( o->session() );
     writer->writeEndElement();
     writer->writeStartElement( "target" );
-    writer->writeCharacters( o->target() );
+    writer->writeCharacters( o->target().remove( ' ' ) );
     writer->writeEndElement();
     writer->writeStartElement( "begin" );
     writer->writeCharacters( o->begin().date().toString( "yyyy-MM-dd" ) + "T" + o->begin().time().toString( "hh:mm:ss" ) );
