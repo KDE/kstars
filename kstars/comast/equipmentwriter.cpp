@@ -69,18 +69,17 @@ EquipmentWriter::EquipmentWriter() {
 void EquipmentWriter::slotAddScope() {
     while ( ks->data()->logObject()->findScopeByName( i18n("scope_") + QString::number( nextScope ) ) )
     nextScope++;
-    Comast::Scope *s = new Comast::Scope( i18n( "scope_" ) + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value(), ui.Aperture->value() ); 
+    Comast::Scope *s = new Comast::Scope( i18n( "scope_" ) + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
     ks->data()->logObject()->scopeList()->append( s );
     saveEquipment(); //Save the new list.
     ui.Model->clear();
     ui.Vendor->clear();
-    ui.Type->clear();
     ui.FocalLength->setValue(0);
 }
 void EquipmentWriter::slotSaveScope() {
     Comast::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
     if( s ) {
-        s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->text(), ui.FocalLength->value(), ui.Aperture->value() );
+        s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
     }
     saveEquipment(); //Save the new list.
 }
@@ -91,7 +90,7 @@ void EquipmentWriter::slotSetScope( QString id) {
         ui.Id->setText( s->id() ) ;
         ui.Model->setText( s->model() );
         ui.Vendor->setText( s->vendor() );
-        ui.Type->setText( s->type() );
+        ui.Type->setCurrentIndex( ui.Type->findText( s->type() ) );
         ui.FocalLength->setValue( s->focalLength() );
         newScope = false;
     }
@@ -100,7 +99,6 @@ void EquipmentWriter::slotNewScope() {
     ui.Id->clear();
     ui.Model->clear();
     ui.Vendor->clear();
-    ui.Type->clear();
     ui.FocalLength->setValue(0);
     ui.ScopeList->selectionModel()->clear();
     newScope = true;

@@ -81,9 +81,6 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="KLineEdit" name="Type"/>
-           </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_13">
              <property name="text">
@@ -125,6 +122,40 @@
               </widget>
              </item>
             </layout>
+           </item>
+           <item row="3" column="1">
+            <widget class="KComboBox" name="Type">
+             <item>
+              <property name="text">
+               <string>Refractor</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Newtonian</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Maksutov</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Schmidt-Cassegrain</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Kutter (Schiefspiegler)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cassegrain</string>
+              </property>
+             </item>
+            </widget>
            </item>
           </layout>
          </item>

@@ -243,7 +243,7 @@ void Comast::Log::writeScope( Comast::Scope *s ) {
     writer->writeCDATA( s->model() );
     writer->writeEndElement();
     writer->writeStartElement( "type" );
-    writer->writeCDATA( s->type() );
+    writer->writeCDATA( s->type().at(0) );
     writer->writeEndElement();
     writer->writeStartElement( "vendor" );
     writer->writeCDATA( s->vendor() );
@@ -686,6 +686,12 @@ void Comast::Log::readScope( QString id ) {
                 vendor = reader->readElementText() ;
             } else if( reader->name() == "type" ) {
                 type = reader->readElementText() ;
+                if( type == "N" ) type = "Newtonian";
+                if( type == "R" ) type = "Refractor";
+                if( type == "M" ) type = "Maksutov";
+                if( type == "S" ) type = "Schmidt-Cassegrain";
+                if( type == "K" ) type = "Kutter (Schiefspiegler)";
+                if( type == "C" ) type = "Cassegrain";
             } else if( reader->name() == "focalLength" ) {
                 focalLength = reader->readElementText() ;
             } else if( reader->name() == "aperture" ) {
