@@ -60,6 +60,8 @@ Execute::Execute() {
     ui.Target->hide();
     ui.AddObject->hide();
     ui.NextButton->hide();
+    ui.NextButton->setEnabled( false );
+    ui.Slew->setEnabled( false );
 
     //make connections
     connect( this, SIGNAL( user1Clicked() ), 
