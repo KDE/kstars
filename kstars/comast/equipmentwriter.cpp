@@ -71,7 +71,7 @@ EquipmentWriter::EquipmentWriter() {
 }
 
 void EquipmentWriter::slotAddScope() {
-    while ( ks->data()->logObject()->findScopeByName( i18n("scope_") + QString::number( nextScope ) ) )
+    while ( ks->data()->logObject()->findScopeById( i18n("scope_") + QString::number( nextScope ) ) )
     nextScope++;
     Comast::Scope *s = new Comast::Scope( i18n( "scope_" ) + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
     ks->data()->logObject()->scopeList()->append( s );
@@ -90,7 +90,7 @@ void EquipmentWriter::slotRemoveScope() {
     ui.FocalLength->setValue(0);
     ui.ScopeList->clear();
     foreach( Comast::Scope *s, *( ks->data()->logObject()->scopeList() ) )
-        ui.ScopeList->addItem( s->id() );
+        ui.ScopeList->addItem( s->name() );
 }
 
 void EquipmentWriter::slotSaveScope() {
@@ -101,10 +101,10 @@ void EquipmentWriter::slotSaveScope() {
     saveEquipment(); //Save the new list.
 }
  
-void EquipmentWriter::slotSetScope( QString id) {
-    Comast::Scope *s = ks->data()->logObject()->findScopeByName( id );
+void EquipmentWriter::slotSetScope( QString name) {
+    Comast::Scope *s = ks->data()->logObject()->findScopeByName( name );
     if ( s ) {
-        ui.Id->setText( s->id() ) ;
+        ui.Id->setText( s->name() ) ;
         ui.Model->setText( s->model() );
         ui.Vendor->setText( s->vendor() );
         ui.Type->setCurrentIndex( ui.Type->findText( s->type() ) );
@@ -320,7 +320,7 @@ void EquipmentWriter::loadEquipment() {
     ui.LensList->clear();
     ui.FilterList->clear();
     foreach( Comast::Scope *s, *( ks->data()->logObject()->scopeList() ) )
-        ui.ScopeList->addItem( s->id() );
+        ui.ScopeList->addItem( s->name() );
     foreach( Comast::Eyepiece *e, *( ks->data()->logObject()->eyepieceList() ) )
         ui.EyepieceList->addItem( e->id() );
     foreach( Comast::Lens *l, *( ks->data()->logObject()->lensList() ) )
@@ -338,7 +338,7 @@ void EquipmentWriter::slotSave() {
                 slotSaveScope();
             ui.ScopeList->clear();
             foreach( Comast::Scope *s, *( ks->data()->logObject()->scopeList() ) )
-                ui.ScopeList->addItem( s->id() );
+                ui.ScopeList->addItem( s->name() );
             break;
         }
         case 1: {

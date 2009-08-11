@@ -917,9 +917,16 @@ Comast::Site* Comast::Log::findSiteByName( QString name ) {
     return NULL;
 }
 
-Comast::Scope* Comast::Log::findScopeByName( QString id ) {
+Comast::Scope* Comast::Log::findScopeById( QString id ) {
     foreach( Comast::Scope *s, *scopeList() )
         if( s->id()  == id )
+            return s;
+    return NULL;
+}
+
+Comast::Scope* Comast::Log::findScopeByName( QString name ) {
+    foreach( Comast::Scope *s, *scopeList() )
+        if( s->name()  == name )
             return s;
     return NULL;
 }

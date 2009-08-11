@@ -17,12 +17,12 @@
  ***************************************************************************/
 
 #include "comast/scope.h"
-
-void Comast::Scope::setScope( QString _name, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture ) {
-    m_Name = _name;
+void Comast::Scope::setScope( QString _id, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture ) {
+    m_Id = _id;
     m_Model = _model;
     m_Vendor = _vendor;
     m_Type = _type;
     m_FocalLength = _focalLength;
     m_Aperture = _aperture;
+    m_Name.append ( _vendor + " " + _model + " " + QString::number( _aperture ) + "mm f/" + QString::number( (_focalLength/_aperture), 'g', 1 ) + " (" + _id + ")" ) ; 
 }

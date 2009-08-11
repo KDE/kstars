@@ -101,7 +101,8 @@ class Comast::Log {
         Comast::Site* findSiteByName( QString name );
         Comast::Site* findSiteById( QString id );
         Comast::Session* findSessionByName( QString id );
-        Comast::Scope* findScopeByName( QString id );
+        Comast::Scope* findScopeByName( QString name );
+        Comast::Scope* findScopeById( QString id );
         Comast::Eyepiece* findEyepieceByName( QString id );
         Comast::Lens* findLensByName( QString id );
         Comast::Filter* findFilterByName( QString id );

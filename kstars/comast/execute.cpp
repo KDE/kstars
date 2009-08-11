@@ -112,7 +112,7 @@ void Execute::loadCurrentItems() {
     if( currentObserver )
         ui.Observer->setCurrentIndex( ui.Observer->findText( currentObserver->name() + " " + currentObserver->surname() ) );
     if( currentScope )
-        ui.Scope->setCurrentIndex( ui.Scope->findText( currentScope->id()) );
+        ui.Scope->setCurrentIndex( ui.Scope->findText( currentScope->name()) );
     if( currentEyepiece )
         ui.Eyepiece->setCurrentIndex( ui.Eyepiece->findText( currentEyepiece->id()) );
     if( currentLens )
@@ -194,7 +194,7 @@ void Execute::loadEquipment() {
     ui.Lens->clear();
     ui.Filter->clear();
     foreach( Comast::Scope *s, *( logObject->scopeList() ) )
-        ui.Scope->addItem( s->id() );
+        ui.Scope->addItem( s->name() );
     foreach( Comast::Eyepiece *e, *( logObject->eyepieceList() ) )
         ui.Eyepiece->addItem( e->id() );
     foreach( Comast::Lens *l, *( logObject->lensList() ) )
@@ -253,7 +253,7 @@ bool Execute::addObservation() {
     QString observer = "";
     if( currentObserver )
         observer = currentObserver->id();
-    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , observer, currentSession->site(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), ui.Scope->currentText(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
+    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , observer, currentSession->site(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope->id(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
     ui.Description->clear();
     return true;
