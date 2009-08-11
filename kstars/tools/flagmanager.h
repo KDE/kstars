@@ -53,7 +53,7 @@ public:
     /**
      *@short Constructor.
      */
-    FlagManager( KStars *ks );
+    FlagManager( QWidget *ks );
 
     /**
      *@short Destructor.

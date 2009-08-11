@@ -35,8 +35,8 @@ FlagManagerUI::FlagManagerUI( QWidget *p ) : QFrame( p ) {
 }
 
 
-FlagManager::FlagManager( KStars *ks )
-        : KDialog( (QWidget*)ks )
+FlagManager::FlagManager( QWidget *ks )
+        : KDialog( ks )
 {
     QList<QStandardItem*> itemList;
     QList<QImage> imageList;
@@ -49,7 +49,7 @@ FlagManager::FlagManager( KStars *ks )
     setCaption( i18n( "Flag manager" ) );
     setButtons( KDialog::Close );
 
-    m_Ks = ks;
+    m_Ks = KStars::Instance();
 
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
@@ -64,17 +64,17 @@ FlagManager::FlagManager( KStars *ks )
     ui->flagList->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
 
     // Fill the list
-    imageList = ks->data()->skyComposite()->flags()->imageList();
-    flagNames =  ks->data()->skyComposite()->flags()->getNames();
+    imageList = m_Ks->data()->skyComposite()->flags()->imageList();
+    flagNames =  m_Ks->data()->skyComposite()->flags()->getNames();
 
-    for ( i=0; i<ks->data()->skyComposite()->flags()->size(); ++i ) {
-        QStandardItem* labelItem = new QStandardItem( ks->data()->skyComposite()->flags()->label( i ) );
-        labelItem->setForeground( QBrush( ks->data()->skyComposite()->flags()->labelColor( i ) ) );
+    for ( i=0; i<m_Ks->data()->skyComposite()->flags()->size(); ++i ) {
+        QStandardItem* labelItem = new QStandardItem( m_Ks->data()->skyComposite()->flags()->label( i ) );
+        labelItem->setForeground( QBrush( m_Ks->data()->skyComposite()->flags()->labelColor( i ) ) );
 
-        itemList << new QStandardItem( ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->toHMSString() ) 
-                << new QStandardItem( ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->toDMSString() ) 
-                << new QStandardItem( ks->data()->skyComposite()->flags()->epoch( i ) ) 
-                << new QStandardItem( QIcon( pixmap->fromImage( ks->data()->skyComposite()->flags()->image( i ) ) ), "" ) 
+        itemList << new QStandardItem( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->toHMSString() ) 
+                << new QStandardItem( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->toDMSString() ) 
+                << new QStandardItem( m_Ks->data()->skyComposite()->flags()->epoch( i ) ) 
+                << new QStandardItem( QIcon( pixmap->fromImage( m_Ks->data()->skyComposite()->flags()->image( i ) ) ), "" ) 
                 << labelItem;
         m_Model->appendRow( itemList );
         itemList.clear();
@@ -82,7 +82,7 @@ FlagManager::FlagManager( KStars *ks )
 
     // Fill the combobox
     for ( i=0; i< imageList.size(); ++i ) {
-        ui->flagCombobox->addItem( QIcon( pixmap->fromImage( ks->data()->skyComposite()->flags()->imageList( i ) ) ),
+        ui->flagCombobox->addItem( QIcon( pixmap->fromImage( m_Ks->data()->skyComposite()->flags()->imageList( i ) ) ),
                                    flagNames.at( i ),
                                    flagNames.at( i ) );
     }
