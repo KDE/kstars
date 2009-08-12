@@ -1,5 +1,4 @@
 project(kstars)
-KDE4_NO_ENABLE_FINAL(kstars)
 
 # some configure checks needed for kstars
 include(CheckIncludeFiles)

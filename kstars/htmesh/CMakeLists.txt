@@ -1,4 +1,3 @@
-KDE4_NO_ENABLE_FINAL(htmesh)
 INCLUDE(CheckFunctionExists)
 check_function_exists(drand48 HAVE_DRAND48)
 
