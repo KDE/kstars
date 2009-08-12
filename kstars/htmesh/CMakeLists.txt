@@ -23,6 +23,7 @@ set(HTMesh_LIB_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HTMesh.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/MeshBuffer.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/MeshIterator.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/VarStr.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/cc_aux.c
 )
 
