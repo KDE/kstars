@@ -73,7 +73,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
     connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
-    kstarsData = KStarsData::Create( this );
+    kstarsData = KStarsData::Create();
     connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
 
     //Set Geographic Location from Options
