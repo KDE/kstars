@@ -33,8 +33,7 @@
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/kspluto.h"
-#include "jupitermoonscomponent.h"
-#include "saturnmoonscomponent.h"
+#include "planetmoonscomponent.h"
 
 // FIXME: is KStarsData needed here
 SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData * )
@@ -52,11 +51,11 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData * )
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::MARS ), Options::showMars, 4 ) );
     SolarSystemSingleComponent *jup = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::JUPITER ), Options::showJupiter, 4 );
     addComponent( jup );
-    m_JupiterMoons = new JupiterMoonsComponent( this, jup, &Options::showJupiter);
+    m_JupiterMoons = new PlanetMoonsComponent( this, jup, KSPlanetBase::JUPITER, &Options::showJupiter);
     addComponent( m_JupiterMoons );
     SolarSystemSingleComponent *sat = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::SATURN ), Options::showSaturn, 4 );
     addComponent( sat );
-    m_SaturnMoons = new SaturnMoonsComponent( this, sat, &Options::showSaturn);
+    m_SaturnMoons = new PlanetMoonsComponent( this, sat, KSPlanetBase::SATURN, &Options::showSaturn);
     addComponent( m_SaturnMoons );
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::URANUS ), Options::showUranus, 4 ) );
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::NEPTUNE ), Options::showNeptune, 4 ) );

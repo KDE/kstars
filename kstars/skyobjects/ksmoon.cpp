@@ -80,25 +80,24 @@ KSMoon* KSMoon::clone() const
 KSMoon::~KSMoon() {
     instance_count--;
     if(instance_count <= 0) {
-        while ( ! LRData.isEmpty() ) delete LRData.takeFirst();
-        while ( !  BData.isEmpty() ) delete  BData.takeFirst();
-	data_loaded = false;
+        LRData.clear();
+        BData.clear();
+        data_loaded = false;
     }
 }
 
 bool KSMoon::data_loaded = false;
 int KSMoon::instance_count = 0;
-QList<KSMoon::MoonLRData*> KSMoon::LRData;
-QList<KSMoon::MoonBData*> KSMoon::BData;
+QList<KSMoon::MoonLRData> KSMoon::LRData;
+QList<KSMoon::MoonBData> KSMoon::BData;
 
 
 bool KSMoon::loadData() {
-    if (data_loaded) return true;
+    if (data_loaded)
+        return true;
 
     QStringList fields;
     QFile f;
-    int nd, nm, nm1, nf;
-    double Li, Ri, Bi; //coefficients of the sums
 
     if ( KSUtils::openDataFile( f, "moonLR.dat" ) ) {
         QTextStream stream( &f );
@@ -106,13 +105,13 @@ bool KSMoon::loadData() {
             fields = stream.readLine().split( ' ', QString::SkipEmptyParts );
 
             if ( fields.size() == 6 ) {
-                nd = fields[0].toInt();
-                nm = fields[1].toInt();
-                nm1= fields[2].toInt();
-                nf = fields[3].toInt();
-                Li = fields[4].toDouble();
-                Ri = fields[5].toDouble();
-                LRData.append(new MoonLRData(nd, nm, nm1, nf, Li, Ri));
+                LRData.append( MoonLRData() );
+                LRData.last().nd  = fields[0].toInt();
+                LRData.last().nm  = fields[1].toInt();
+                LRData.last().nm1 = fields[2].toInt();
+                LRData.last().nf  = fields[3].toInt();
+                LRData.last().Li  = fields[4].toDouble();
+                LRData.last().Ri  = fields[5].toDouble();
             }
         }
         f.close();
@@ -126,12 +125,12 @@ bool KSMoon::loadData() {
             fields = stream.readLine().split( ' ', QString::SkipEmptyParts );
             
             if ( fields.size() == 5 ) {
-                nd = fields[0].toInt();
-                nm = fields[1].toInt();
-                nm1= fields[2].toInt();
-                nf = fields[3].toInt();
-                Bi = fields[4].toDouble();
-                BData.append(new MoonBData(nd, nm, nm1, nf, Bi));
+                BData.append( MoonBData() );
+                BData.last().nd  = fields[0].toInt();
+                BData.last().nm  = fields[1].toInt();
+                BData.last().nm1 = fields[2].toInt();
+                BData.last().nf  = fields[3].toInt();
+                BData.last().Bi  = fields[4].toDouble();
             }
         }
         f.close();
@@ -178,27 +177,27 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     if (!loadData()) return false;
 
     for ( int i=0; i < LRData.size(); ++i ) {
-        MoonLRData *mlrd = LRData[i];
+        const MoonLRData& mlrd = LRData[i];
 
         double E = 1.0;
-        if ( mlrd->nm ) { //if M != 0, include changing eccentricity of Earth's orbit
+        if ( mlrd.nm ) { //if M != 0, include changing eccentricity of Earth's orbit
             E = Et;
-            if ( abs( mlrd->nm )==2 ) E = E*E; //use E^2
+            if ( abs( mlrd.nm )==2 ) E = E*E; //use E^2
         }
-        sumL += E*mlrd->Li*sin( mlrd->nd*D + mlrd->nm*M + mlrd->nm1*M1 + mlrd->nf*F );
-        sumR += E*mlrd->Ri*cos( mlrd->nd*D + mlrd->nm*M + mlrd->nm1*M1 + mlrd->nf*F );
+        sumL += E*mlrd.Li*sin( mlrd.nd*D + mlrd.nm*M + mlrd.nm1*M1 + mlrd.nf*F );
+        sumR += E*mlrd.Ri*cos( mlrd.nd*D + mlrd.nm*M + mlrd.nm1*M1 + mlrd.nf*F );
     }
 
     sumB = 0.0;
     for ( int i=0; i < BData.size(); ++i ) {
-        MoonBData *mbd = BData[i];
+        const MoonBData& mbd = BData[i];
 
         double E = 1.0;
-        if ( mbd->nm ) { //if M != 0, include changing eccentricity of Earth's orbit
+        if ( mbd.nm ) { //if M != 0, include changing eccentricity of Earth's orbit
             E = Et;
-            if ( abs( mbd->nm )==2 ) E = E*E; //use E^2
+            if ( abs( mbd.nm )==2 ) E = E*E; //use E^2
         }
-        sumB += E*mbd->Bi*sin( mbd->nd*D + mbd->nm*M + mbd->nm1*M1 + mbd->nf*F );
+        sumB += E*mbd.Bi*sin( mbd.nd*D + mbd.nm*M + mbd.nm1*M1 + mbd.nf*F );
     }
 
     //Additive terms for sumL and sumB

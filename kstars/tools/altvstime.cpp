@@ -55,7 +55,7 @@ AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
 AltVsTime::AltVsTime( QWidget* parent)  :
         KDialog( parent )
 {
-    ks = (KStars*) parent;
+    ks   = KStars::Instance();
     ksal = KSAlmanac::Instance();
     QFrame *page = new QFrame( this );
     setMainWidget(page);

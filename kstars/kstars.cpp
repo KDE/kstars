@@ -112,7 +112,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
     //Initialize QActionGroups
     projectionGroup = new QActionGroup( this );
-    fovGroup = new QActionGroup( this );
     cschemeGroup = new QActionGroup( this );
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
@@ -137,11 +136,7 @@ KStars::~KStars()
     delete indidriver;
     delete indiseq;
     delete projectionGroup;
-    delete fovGroup;
     delete cschemeGroup;
-
-    //NOTE: Dialog window pointers are deleted in KStars::slotAboutToQuit()
-    //(if they are deleted here, it causes a SegFault for some reason)
 }
 
 void KStars::clearCachedFindDialog() {

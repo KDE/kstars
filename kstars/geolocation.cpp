@@ -26,21 +26,6 @@ GeoLocation::GeoLocation(){
     TZrule = NULL;
 }
 
-// FIXME: check whether this constructor needed
-GeoLocation::GeoLocation( const GeoLocation &g ) {
-    Longitude = g.Longitude;
-    Latitude  = g.Latitude;
-    Name      = g.Name;
-    Province  = g.Province;
-    Country   = g.Country;
-    TimeZone  = g.TimeZone;
-    TZrule    = g.TZrule;
-    Height    = g.Height;
-    indexEllipsoid = g.indexEllipsoid;
-    setEllipsoid ( indexEllipsoid );
-    geodToCart();
-}
-
 GeoLocation::GeoLocation( dms lng, dms lat,
                           const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
     Longitude = lng;

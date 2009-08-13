@@ -53,7 +53,7 @@ is indicated in square brackets (see below for more on the base classes)
     - SolarSystemSingleComponent (Pluto)	[SingleComponent]
     - AsteroidsComponent		[SolarSystemListComponent]
     - CometsComponent			[SolarSystemListComponent]
-    - JupiterMoonsComponent		[SkyComponent]
+    - PlanetMoonsComponent		[SkyComponent]
   - EquatorComponent			[PointListComponent]
   - EclipticComponent			[PointListComponent]
   - HorizonComponent			[PointListComponent]
@@ -117,8 +117,8 @@ constellation (representing the "stick figure" of the constellation).
 
 Finally, we have the Components which don't inherit from either
 SingleComponent, ListComponent, or PointListComponent:
-JupiterMoonsComponent inherits from SkyComponent directly, because 
-the 4 Jupiter moons have their own class (JMoons) not derived 
+PlanetMoonsComponent inherits from SkyComponent directly, because 
+the planet moons have their own class (PlanetMoons) not derived 
 directly from a SkyPoint.
 
 4. DeepStarComponent and StarComponent

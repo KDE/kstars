@@ -20,6 +20,7 @@
 
 #include <QString>
 #include <QVector>
+#include "planetmoons.h"
 
 class KSNumbers;
 class KSPlanet;
@@ -37,7 +38,7 @@ class dms;
   *@author Jason Harris
   *@version 1.0
   */
-class JupiterMoons {
+class JupiterMoons: public PlanetMoons {
 public:
     /**
       *Constructor.  Assign the name of each moon,
@@ -48,7 +49,7 @@ public:
     /**
       *Destructor.  Delete moon objects.
       */
-    ~JupiterMoons();
+    virtual ~JupiterMoons();
 
     /**
       *@short Find the positions of each Moon, relative to Jupiter.
@@ -70,62 +71,7 @@ public:
       *@param jup pointer to the jupiter object
       *@param sunptr pointer to the Sun object
       */
-    void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *sunptr );
-
-    /**
-      *@return pointer to a moon given the ID number.
-      *@param id which moon?  0=Io, 1=Europa, 2=Ganymede, 3=Callisto
-      */
-    inline TrailObject* moon( int id ) { return Moon[id]; }
-
-    /**
-      *@return pointer to a moon, given its name:
-      *@param name the name of the moon (Io, Europa, Ganymede, Callisto)
-      */
-    TrailObject* moonNamed( const QString &name ) const;
-
-    /**
-      *@return true if the Moon is nearer to Earth than Jupiter.
-      *@param id which moon?  0=Io, 1=Europa, 2=Ganymede, 3=Callisto
-      */
-    inline bool inFront( int id ) const { return InFront[id]; }
-
-    /**
-      *@return the name of a moon.
-      *@param id which moon?  0=Io, 1=Europa, 2=Ganymede, 3=Callisto
-      */
-    QString name( int id ) const;
-
-    /**
-      *Convert the RA,Dec coordinates of each moon to Az,Alt
-      *@param LSTh pointer to the current local sidereal time
-      *@param lat pointer to the geographic latitude
-      */
-    void EquatorialToHorizontal( const dms *LSTh, const dms *lat );
-
-    /**
-      *@return the X-coordinate in the Jupiter-centered coord. system.
-      *@param i which moon? 0=Io, 1=Europa, 2=Ganymede, 3=Callisto.  
-      */
-    double x( int i ) const { return XJ[i]; }
-
-    /**
-      *@return the Y-coordinate in the Jupiter-centered coord. system.
-      *@param i which moon? 0=Io, 1=Europa, 2=Ganymede, 3=Callisto.  
-      */
-    double y( int i ) const { return YJ[i]; }
-
-    /**
-      *@return the Z-coordinate in the Jupiter-centered coord. system.
-      *@param i which moon? 0=Io, 1=Europa, 2=Ganymede, 3=Callisto.  
-      */
-    double z( int i ) const { return ZJ[i]; }
-
-private:
-    QVector<TrailObject*> Moon;
-    bool InFront[4];
-    //the rectangular position, relative to Jupiter.  X-axis is equator of Jupiter; usints are Jup. Radius
-    double XJ[4], YJ[4], ZJ[4];
+    virtual void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *sunptr );
 };
 
 #endif

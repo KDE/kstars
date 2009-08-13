@@ -43,10 +43,10 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
 }
 
 WUTDialog::WUTDialog( KStars *ks, bool _session, GeoLocation *_geo, KStarsDateTime _lt ) :
-        KDialog( (QWidget*)ks ), kstars(ks), EveningFlag(0),
+        KDialog( ks ), kstars(ks), EveningFlag(0),
         timer(NULL)
 {
-
+    kstars = KStars::Instance();
     WUT = new WUTDialogUI( this );
     setMainWidget( WUT );
     setCaption( i18n("What's up Tonight") );
@@ -430,7 +430,7 @@ void WUTDialog::slotDetails() {
         o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
     if (o != 0) {
-        QPointer<DetailDialog> detail = new DetailDialog(o, kstars->data()->LTime, geo, kstars);
+        QPointer<DetailDialog> detail = new DetailDialog(o, kstars->data()->lt(), geo, kstars);
         detail->exec();
 	delete detail;
     }
@@ -442,10 +442,7 @@ void WUTDialog::slotObslist() {
         o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
     if(o != 0) {
-        if(!session)
-            kstars->observingList()->slotAddObject( o ) ;
-        else
-            kstars->observingList()->slotAddObject( o, true );
+        kstars->observingList()->slotAddObject( o, session ) ;
     }
 }
 

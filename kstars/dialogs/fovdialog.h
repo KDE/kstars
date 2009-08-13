@@ -49,22 +49,22 @@ class FOVDialog : public KDialog
 {
     Q_OBJECT
 public:
-    FOVDialog( KStars *ks );
-    ~FOVDialog();
-    unsigned int currentItem() const;
-    QList<FOV*> FOVList;
-
+    FOVDialog( QWidget *parent = 0 );
+    virtual ~FOVDialog();
+    /** Write list of FOVs to disk. */
+    void writeFOVList();
 private slots:
     void slotNewFOV();
     void slotEditFOV();
     void slotRemoveFOV();
     void slotSelect(int);
-
 private:
-    void initList();
-
-    KStars *ks;
+    /** Add new widget to list box */
+    QListWidgetItem* addListWidget(FOV* f);
+    
+    unsigned int currentItem() const;   
     FOVDialogUI *fov;
+    static int fovID;
 };
 
 /**@class NewFOV Dialog for defining a new FOV symbol
@@ -75,10 +75,14 @@ class NewFOV : public KDialog
 {
     Q_OBJECT
 public:
-    NewFOV( QWidget *parent=0 );
+    /** Create new dialog
+     * @param parent parent widget
+     * @fov widget to copy data from. If it's empty will create empty one.
+     */
+    NewFOV( QWidget *parent=0, const FOV* fov = 0);
     ~NewFOV() {}
-    NewFOVUI *ui;
-
+    /** Return reference to FOV. */
+    const FOV& getFOV() const { return f; }
 public slots:
     void slotBinocularFOVDistanceChanged( int index );
     void slotUpdateFOV();
@@ -86,6 +90,7 @@ public slots:
 
 private:
     FOV f;
+    NewFOVUI *ui;   
 };
 
 #endif

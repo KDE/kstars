@@ -38,18 +38,18 @@ void FOVWidget::paintEvent( QPaintEvent * ) {
     p.setRenderHint( QPainter::Antialiasing, true );
     p.fillRect( contentsRect(), QColor( "black" ) );
 
-    if ( m_FOV ) {
-        if ( m_FOV->sizeX() > 0 || m_FOV->sizeY() > 0 ) {
-            float aspectratio = m_FOV->sizeY() / m_FOV->sizeX();
-            m_FOV->draw( p, (float)( 0.3*contentsRect().width() ), (float)( 0.3*contentsRect().width() * aspectratio ) );
-            QFont smallFont = p.font();
-            smallFont.setPointSize( p.font().pointSize() - 2 );
-            p.setFont( smallFont );
-            // TODO: Check if decimal points in this are localized (eg: It should read 1,5 x 1,5 in German rather than 1.5 x 1.5)
-            p.drawText( rect(), Qt::AlignHCenter|Qt::AlignBottom, i18nc("angular size in arcminutes", "%1 x %2 arcmin", QString::number( m_FOV->sizeX(), 'f', 1 ), QString::number( m_FOV->sizeY(), 'f', 1 ) ) );
-        }
+    if( m_FOV && m_FOV->sizeX() > 0 && m_FOV->sizeY() > 0 ) {
+        m_FOV->draw(p, 0.6*contentsRect().width(), 0.6*contentsRect().height() );
+        QFont smallFont = p.font();
+        smallFont.setPointSize( p.font().pointSize() - 2 );
+        p.setFont( smallFont );
+        // TODO: Check if decimal points in this are localized (eg: It should read 1,5 x 1,5 in German rather than 1.5 x 1.5)
+        p.drawText( rect(), Qt::AlignHCenter|Qt::AlignBottom,
+                    i18nc("angular size in arcminutes", "%1 x %2 arcmin",
+                          QString::number( m_FOV->sizeX(), 'f', 1 ),
+                          QString::number( m_FOV->sizeY(), 'f', 1 ) ) );
     }
-
+    
     p.end();
 }
 

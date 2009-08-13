@@ -291,11 +291,12 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "ShowViewToolBar" && bOk ) Options::setShowViewToolBar( bVal );
 
     //[View]
-    if ( op == "FOVName"                ) Options::setFOVName(         val );
-    if ( op == "FOVSizeX"         && dOk ) Options::setFOVSizeX( (float)dVal );
-    if ( op == "FOVSizeY"         && dOk ) Options::setFOVSizeY( (float)dVal );
-    if ( op == "FOVShape"        && nOk ) Options::setFOVShape(       nVal );
-    if ( op == "FOVColor"               ) Options::setFOVColor(        val );
+    // FIXME: REGRESSION
+//     if ( op == "FOVName"                ) Options::setFOVName(         val );
+//     if ( op == "FOVSizeX"         && dOk ) Options::setFOVSizeX( (float)dVal );
+//     if ( op == "FOVSizeY"         && dOk ) Options::setFOVSizeY( (float)dVal );
+//     if ( op == "FOVShape"        && nOk ) Options::setFOVShape(       nVal );
+//     if ( op == "FOVColor"               ) Options::setFOVColor(        val );
     if ( op == "ShowStars"       && bOk ) Options::setShowStars(      bVal );
     if ( op == "ShowMessier"     && bOk ) Options::setShowMessier(    bVal );
     if ( op == "ShowMessierImages" && bOk ) Options::setShowMessierImages( bVal );

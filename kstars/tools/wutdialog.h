@@ -50,7 +50,6 @@ public:
 
     /**@short Constructor*/
     WUTDialog( KStars *ks, bool session = false,GeoLocation *geo = KStars::Instance()->geo(), KStarsDateTime lt = KStars::Instance()->data()->lt() );
-
     /**@short Destructor*/
     ~WUTDialog();
 

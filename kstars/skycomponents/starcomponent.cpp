@@ -38,7 +38,14 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 
-#include <byteswap.h>
+#if defined(Q_OS_FREEBSD) || defined(Q_OS_NETBSD)
+#include <sys/endian.h>
+#define bswap_16(x) bswap16(x)
+#define bswap_32(x) bswap32(x)
+#else
+#include "byteorder.h"
+#endif
+
 #include <kde_file.h>
 
 StarComponent *StarComponent::pinstance = 0;

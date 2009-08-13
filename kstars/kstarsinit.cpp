@@ -314,7 +314,7 @@ void KStars::initActions() {
     //Add FOV Symbol actions
     fovActionMenu = actionCollection()->add<KActionMenu>( "fovsymbols" );
     fovActionMenu->setText( i18n( "&FOV Symbols" ) );
-    initFOV();
+    repopulateFOV();
 
     ka = actionCollection()->addAction( "geolocation" );
     ka->setIcon( KIcon( "applications-internet" ) );
@@ -527,56 +527,24 @@ void KStars::initActions() {
         Options::setFitsDir(QDir:: homePath());
 }
 
-void KStars::initFOV() {
-    //Read in the user's fov.dat and populate the FOV menu with its symbols.  
-    //If no fov.dat exists, create a default version.
-    QFile f;
-    QStringList fields;
-    QString nm;
-
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
-
-    //if file s empty, let's start over
-    if ( (uint)f.size() == 0 ) f.remove();
-
-    if ( ! f.exists() ) {
-        if ( ! f.open( QIODevice::WriteOnly ) ) {
-            kDebug() << i18n( "Could not open fov.dat." );
-        } else {
-            QTextStream ostream(&f);
-            ostream << i18nc( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
-            ostream << i18nc( "use field-of-view for binoculars", "7x35 Binoculars" ) << ":558:1:#AAAAAA" << endl;
-            ostream << i18nc( "use a Telrad field-of-view indicator", "Telrad" ) << ":30:3:#AA0000" << endl;
-            ostream << i18nc( "use 1-degree field-of-view indicator", "One Degree" ) << ":60:2:#AAAAAA" << endl;
-            ostream << i18nc( "use HST field-of-view indicator", "HST WFPC2" ) << ":2.4:0:#AAAAAA" << endl;
-            ostream << i18nc( "use Radiotelescope HPBW", "30m at 1.3cm" ) << ":1.79:1:#AAAAAA" << endl;
-            f.close();
+void KStars::repopulateFOV() {
+    // Read list of all FOVs
+    while( ! data()->availFOVs.isEmpty() ) delete data()->availFOVs.takeFirst();
+    data()->availFOVs = FOV::readFOVs();
+    data()->syncFOV();
+    
+    // Iterate through FOVs
+    fovActionMenu->menu()->clear();
+    foreach(FOV* fov, data()->availFOVs) {
+        KToggleAction *kta = actionCollection()->add<KToggleAction>( fov->name() );
+        kta->setText( fov->name() );
+        if( Options::fOVNames().contains( fov->name() ) ) {
+            kta->setChecked(true);
         }
+        fovActionMenu->addAction( kta );
+        connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotTargetSymbol(bool) ) );
     }
-
-    //just populate the FOV menu with items, don't need to fully parse the lines
-    if ( f.open( QIODevice::ReadOnly ) ) {
-        QTextStream stream( &f );
-        while ( !stream.atEnd() ) {
-            QString line = stream.readLine();
-            fields = line.split( ':' );
-
-            if ( fields.count() == 4 || fields.count() == 5 ) {
-                nm = fields[0].trimmed();
-                KToggleAction *kta = actionCollection()->add<KToggleAction>( nm );
-                kta->setText( nm );
-                connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotTargetSymbol() ) );
-
-                kta->setObjectName( nm );
-                kta->setActionGroup( fovGroup );
-                if ( nm == Options::fOVName() ) kta->setChecked( true );
-                fovActionMenu->addAction( kta );
-            }
-        }
-    } else {
-        kDebug() << i18n( "Could not open file: %1", f.fileName() );
-    }
-
+    // Add menu bottom
     fovActionMenu->addSeparator();
     QAction *ka = actionCollection()->addAction( "edit_fov" );
     ka->setText( i18n( "Edit FOV Symbols..." ) );
@@ -777,13 +745,6 @@ void KStars::buildGUI() {
 #else
     createGUI("kstarsui.rc");
 #endif
-
-    //Initialize FOV symbol from options
-    data()->fovSymbol.setName( Options::fOVName() );
-    data()->fovSymbol.setSize( Options::fOVSizeX() );
-    data()->fovSymbol.setSize( Options::fOVSizeY() );
-    data()->fovSymbol.setShape( Options::fOVShape() );
-    data()->fovSymbol.setColor( Options::fOVColor() );
 
     //get focus of keyboard and mouse actions (for example zoom in with +)
     map()->QWidget::setFocus();

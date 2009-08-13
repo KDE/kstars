@@ -19,6 +19,7 @@
 #define SOLARSYSTEMCOMPOSITE_H
 
 #include "skycomposite.h"
+#include "planetmoonscomponent.h"
 
 class KSPlanet;
 class KSSun;
@@ -70,8 +71,8 @@ private:
     KSPlanet *m_Earth;
     KSSun *m_Sun;
     KSMoon *m_Moon;
-    JupiterMoonsComponent *m_JupiterMoons;
-    SaturnMoonsComponent *m_SaturnMoons;
+    PlanetMoonsComponent *m_JupiterMoons;
+    PlanetMoonsComponent *m_SaturnMoons;
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;
     SkyLabeler* m_skyLabeler;

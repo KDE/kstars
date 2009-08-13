@@ -91,20 +91,15 @@ public:
     friend class KStars;
     friend class KSWizard;
     friend class LocationDialog;
-    friend class FOVDialog;
     friend class MapCanvas;
     friend class SkyMap;
     friend class FileSource;
-    friend class StarDataSink;
     friend class LCGenerator;
     friend class DetailDialog;
-    friend class AltVsTime;
-    friend class WUTDialog;
     friend class INDIDriver;
     friend class INDI_P;
     friend class INDIStdProperty;
     friend class PlanetViewer;
-    friend class JMoonTool;
     friend class telescopeWizardProcess;
     friend class ObsListWizard;
 
@@ -322,6 +317,10 @@ public:
     	*/
     bool executeScript( const QString &name, SkyMap *map );
 
+    /** Synchronize list of visible FOVs and list of selected FOVs in
+     * Options */
+    void syncFOV();
+    
     /**@short Initialize celestial equator, horizon and ecliptic.
     	*@param num pointer to a KSNumbers object to use.
     	*/
@@ -346,22 +345,16 @@ public:
     Comast::Log *logObject() { return m_logObject; }
 
 signals:
-    /**Signal that specifies the text that should be drawn in the KStarsSplash window.
-    	*/
+    /**Signal that specifies the text that should be drawn in the KStarsSplash window. */
     void progressText( const QString& );
 
-    /**Signal that the Data initialization has finished.
-    	*/
+    /**Signal that the Data initialization has finished. */
     void initFinished(bool);
 
-    /**
-    	*Should be used to refresh skymap.
-    	*/
+    /** Should be used to refresh skymap. */
     void update();
 
-    /**
-    	*If data changed, emit clearCache signal.
-    	*/
+    /** If data changed, emit clearCache signal. */
     void clearCache();
 
 public slots:
@@ -460,8 +453,6 @@ private:
 
     QList<SkyObject> objList;
 
-    // 	QPtrList<StarObject> starList;
-
     unsigned int StarCount;
 
     QList<VariableStarInfo*> VariableStarsList;
@@ -478,14 +469,14 @@ private:
 
     bool TimeRunsForward, temporaryTrail, snapToFocus;
 
-    //	QString cnameFile;
     KLocale *locale;
 
     dms *LST, *HourAngle;
 
     QKeySequence resumeKey;
 
-    FOV fovSymbol;
+    QList<FOV*> availFOVs;   // List of all available FOVs
+    QList<FOV*> visibleFOVs; // List of visible FOVs. Cached from Options::FOVNames
 
     double Obliquity, dObliq, dEcLong;
     KStarsDateTime LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
@@ -498,9 +489,8 @@ private:
 
     //--- Static member variables
     //the number of KStarsData objects.
-    static int objects;
-    static QList<GeoLocation*> geoList;
-    static QMap<QString, TimeZoneRule> Rulebook;
+    QList<GeoLocation*> geoList;
+    QMap<QString, TimeZoneRule> Rulebook;
 
     KStars*      m_kstars;
     quint32      m_preUpdateID, m_updateID;
