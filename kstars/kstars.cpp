@@ -262,15 +262,10 @@ void KStars::removeImageViewer( ImageViewer *iv ) {
         m_ImageViewerList.takeAt( i )->deleteLater();
 }
 
-KStarsData* KStars::data() { return kstarsData; }
-
-SkyMap* KStars::map()  { return skymap; }
 
 InfoBoxes* KStars::infoBoxes()  { return map()->infoBoxes(); }
 
 void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
-
-ObservingList* KStars::observingList() { return obsList; }
 
 #include "kstars.moc"
 

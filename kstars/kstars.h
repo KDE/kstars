@@ -112,19 +112,16 @@ public:
      */
     inline static KStars *Instance() { return pinstance; }
 
-    /**Destructor.  Synchs config file.  Deletes objects.
-        */
+    /**Destructor.  Synchs config file.  Deletes objects. */
     ~KStars();
 
-    /**@return pointer to KStarsData object which contains application data.
-        */
-    KStarsData* data();
+    /**@return pointer to KStarsData object which contains application data. */
+    KStarsData* data() { return kstarsData; }
 
-    /**@return pointer to SkyMap object which is the sky display widget.
-        */
-    SkyMap* map();
+    /**@return pointer to SkyMap object which is the sky display widget. */
+    SkyMap* map() { return skymap; }
 
-    ObservingList* observingList();
+    ObservingList* observingList() { return obsList; }
 
     ImageViewer* addImageViewer(const KUrl &url, const QString &message );
     void removeImageViewer( ImageViewer* );
