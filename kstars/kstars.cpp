@@ -160,27 +160,27 @@ void KStars::applyConfig( bool doApplyFocus ) {
         actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
     }
 
-    if ( Options::useAltAz() ) actionCollection()->action("coordsys")->setText(i18n("Horizontal &Coordinates"));
-    else actionCollection()->action("coordsys")->setText(i18n("Equatorial &Coordinates"));
+    actionCollection()->action("coordsys")->setText(
+        Options::useAltAz() ? i18n("Horizontal &Coordinates") : i18n("Equatorial &Coordinates") );
 
-    ((KToggleAction*)actionCollection()->action("show_time_box"))->setChecked( Options::showTimeBox() );
-    ((KToggleAction*)actionCollection()->action("show_location_box"))->setChecked( Options::showGeoBox() );
-    ((KToggleAction*)actionCollection()->action("show_focus_box"))->setChecked( Options::showFocusBox() );
-    ((KToggleAction*)actionCollection()->action("show_mainToolBar"))->setChecked( Options::showMainToolBar() );
-    ((KToggleAction*)actionCollection()->action("show_viewToolBar"))->setChecked( Options::showViewToolBar() );
-    ((KToggleAction*)actionCollection()->action("show_statusBar"))->setChecked( Options::showStatusBar() );
-    ((KToggleAction*)actionCollection()->action("show_sbAzAlt"))->setChecked( Options::showAltAzField() );
-    ((KToggleAction*)actionCollection()->action("show_sbRADec"))->setChecked( Options::showRADecField() );
-    ((KToggleAction*)actionCollection()->action("show_stars"))->setChecked( Options::showStars() );
-    ((KToggleAction*)actionCollection()->action("show_deepsky"))->setChecked( Options::showDeepSky() );
-    ((KToggleAction*)actionCollection()->action("show_planets"))->setChecked( Options::showSolarSystem() );
-    ((KToggleAction*)actionCollection()->action("show_clines"))->setChecked( Options::showCLines() );
-    ((KToggleAction*)actionCollection()->action("show_cnames"))->setChecked( Options::showCNames() );
-    ((KToggleAction*)actionCollection()->action("show_cbounds"))->setChecked( Options::showCBounds() );
-    ((KToggleAction*)actionCollection()->action("show_mw"))->setChecked( Options::showMilkyWay() );
-    ((KToggleAction*)actionCollection()->action("show_grid"))->setChecked( Options::showGrid() );
-    ((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
-    ((KToggleAction*)actionCollection()->action("show_flags"))->setChecked( Options::showFlags() );
+    actionCollection()->action("show_time_box"    )->setChecked( Options::showTimeBox() );
+    actionCollection()->action("show_location_box")->setChecked( Options::showGeoBox() );
+    actionCollection()->action("show_focus_box"   )->setChecked( Options::showFocusBox() );
+    actionCollection()->action("show_mainToolBar" )->setChecked( Options::showMainToolBar() );
+    actionCollection()->action("show_viewToolBar" )->setChecked( Options::showViewToolBar() );
+    actionCollection()->action("show_statusBar"   )->setChecked( Options::showStatusBar() );
+    actionCollection()->action("show_sbAzAlt"     )->setChecked( Options::showAltAzField() );
+    actionCollection()->action("show_sbRADec"     )->setChecked( Options::showRADecField() );
+    actionCollection()->action("show_stars"       )->setChecked( Options::showStars() );
+    actionCollection()->action("show_deepsky"     )->setChecked( Options::showDeepSky() );
+    actionCollection()->action("show_planets"     )->setChecked( Options::showSolarSystem() );
+    actionCollection()->action("show_clines"      )->setChecked( Options::showCLines() );
+    actionCollection()->action("show_cnames"      )->setChecked( Options::showCNames() );
+    actionCollection()->action("show_cbounds"     )->setChecked( Options::showCBounds() );
+    actionCollection()->action("show_mw"          )->setChecked( Options::showMilkyWay() );
+    actionCollection()->action("show_grid"        )->setChecked( Options::showGrid() );
+    actionCollection()->action("show_horizon"     )->setChecked( Options::showGround() );
+    actionCollection()->action("show_flags"       )->setChecked( Options::showFlags() );
 
     //color scheme
     kstarsData->colorScheme()->loadFromConfig();
