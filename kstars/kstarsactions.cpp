@@ -513,18 +513,6 @@ void KStars::slotFind() {
     if ( DialogIsObsolete ) clearCachedFindDialog();
 }
 
-/** Menu Slots **/
-
-//File
-void KStars::newWindow() {
-    new KStars(true);
-}
-
-void KStars::closeWindow() {
-    show();
-    close();
-}
-
 void KStars::slotOpenFITS()
 {
 #ifdef HAVE_CFITSIO_H
