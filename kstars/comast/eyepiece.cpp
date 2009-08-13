@@ -18,11 +18,12 @@
 
 #include "comast/eyepiece.h"
 
-void Comast::Eyepiece::setEyepiece( QString _name, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength ) {
-    m_Name = _name;
+void Comast::Eyepiece::setEyepiece( QString _id, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength ) {
+    m_Id = _id;
     m_Model = _model;
     m_Vendor = _vendor;
     m_AppFovUnit = _fovUnit;
     m_AppFOV = _fov;
     m_FocalLength = _focalLength;
+    m_Name = _vendor + " " + _model + " " + QString::number( _focalLength ) + "mm (" + _id +  ")";
 }

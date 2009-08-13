@@ -25,13 +25,14 @@
 class Comast::Lens {
     public:
         Lens( QString id, QString model, QString vendor, double factor ) { setLens( id, model, vendor, factor ); }
-        QString id() { return m_Name; }
+        QString id() { return m_Id; }
+        QString name() { return m_Name; }
         QString model() { return m_Model; }
         QString vendor() { return m_Vendor; }
         double factor() { return m_Factor; }
-        void setLens( QString _name, QString _model, QString _vendor, double _factor );
+        void setLens( QString _id, QString _model, QString _vendor, double _factor );
     private:
-        QString m_Name, m_Model, m_Vendor;
+        QString m_Id, m_Model, m_Vendor, m_Name;
         double m_Factor;
 };
 #endif

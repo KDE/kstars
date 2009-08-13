@@ -114,11 +114,11 @@ void Execute::loadCurrentItems() {
     if( currentScope )
         ui.Scope->setCurrentIndex( ui.Scope->findText( currentScope->name()) );
     if( currentEyepiece )
-        ui.Eyepiece->setCurrentIndex( ui.Eyepiece->findText( currentEyepiece->id()) );
+        ui.Eyepiece->setCurrentIndex( ui.Eyepiece->findText( currentEyepiece->name()) );
     if( currentLens )
-        ui.Lens->setCurrentIndex( ui.Lens->findText( currentLens->id()) );
+        ui.Lens->setCurrentIndex( ui.Lens->findText( currentLens->name()) );
     if( currentFilter )
-        ui.Filter->setCurrentIndex( ui.Filter->findText( currentFilter->id()) );
+        ui.Filter->setCurrentIndex( ui.Filter->findText( currentFilter->name()) );
 }
 
 int Execute::findIndexOfTarget( QString name ) {
@@ -196,11 +196,11 @@ void Execute::loadEquipment() {
     foreach( Comast::Scope *s, *( logObject->scopeList() ) )
         ui.Scope->addItem( s->name() );
     foreach( Comast::Eyepiece *e, *( logObject->eyepieceList() ) )
-        ui.Eyepiece->addItem( e->id() );
+        ui.Eyepiece->addItem( e->name() );
     foreach( Comast::Lens *l, *( logObject->lensList() ) )
-        ui.Lens->addItem( l->id() );
+        ui.Lens->addItem( l->name() );
     foreach( Comast::Filter *f, *( logObject->filterList() ) )
-        ui.Filter->addItem( f->id() );
+        ui.Filter->addItem( f->name() );
 }
 
 void Execute::loadObservers() {
@@ -253,7 +253,7 @@ bool Execute::addObservation() {
     QString observer = "";
     if( currentObserver )
         observer = currentObserver->id();
-    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , observer, currentSession->site(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope->id(), ui.Eyepiece->currentText(), ui.Lens->currentText(), ui.Filter->currentText(), ui.Description->toPlainText(), ui.Language->text() );
+    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , observer, currentSession->site(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope->id(), currentEyepiece->id(), currentLens->id(), currentFilter->id(), ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
     ui.Description->clear();
     return true;

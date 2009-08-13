@@ -103,10 +103,13 @@ class Comast::Log {
         Comast::Session* findSessionByName( QString id );
         Comast::Scope* findScopeByName( QString name );
         Comast::Scope* findScopeById( QString id );
-        Comast::Eyepiece* findEyepieceByName( QString id );
-        Comast::Lens* findLensByName( QString id );
-        Comast::Filter* findFilterByName( QString id );
-        Comast::Observation* findObservationByName( QString id );
+        Comast::Eyepiece* findEyepieceById( QString id );
+        Comast::Lens* findLensById( QString id );
+        Comast::Filter* findFilterById( QString id );
+        Comast::Eyepiece* findEyepieceByName( QString name );
+        Comast::Lens* findLensByName( QString name );
+        Comast::Filter* findFilterByName( QString name );
+        Comast::Observation* findObservationByName( QString name );
         QHash<QString, QTime> timeHash() { return TimeHash; }
         KStarsDateTime dateTime() { return dt; }
         GeoLocation* geoLocation() { return geo; }

@@ -18,10 +18,11 @@
 
 #include "comast/filter.h"
 
-void Comast::Filter::setFilter( QString _name, QString _model, QString _vendor, QString _type, QString _color ){ 
-    m_Name = _name;
+void Comast::Filter::setFilter( QString _id, QString _model, QString _vendor, QString _type, QString _color ){ 
+    m_Id = _id;
     m_Model = _model;
     m_Vendor = _vendor;
     m_Type = _type;
     m_Color = _color;
+    m_Name = _vendor + " " + _model + " - " + _type + " " + _color + " (" + _id + ")";  
 }

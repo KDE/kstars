@@ -924,6 +924,27 @@ Comast::Scope* Comast::Log::findScopeById( QString id ) {
     return NULL;
 }
 
+Comast::Eyepiece* Comast::Log::findEyepieceById( QString id ) {
+    foreach( Comast::Eyepiece *e, *eyepieceList() )
+        if( e->id()  == id )
+            return e;
+    return NULL;
+}
+
+Comast::Lens* Comast::Log::findLensById( QString id ) {
+    foreach( Comast::Lens *l, *lensList() )
+        if( l->id()  == id )
+            return l;
+    return NULL;
+}
+
+Comast::Filter* Comast::Log::findFilterById( QString id ) {
+    foreach( Comast::Filter *f, *filterList() )
+        if( f->id()  == id )
+            return f;
+    return NULL;
+}
+
 Comast::Scope* Comast::Log::findScopeByName( QString name ) {
     foreach( Comast::Scope *s, *scopeList() )
         if( s->name()  == name )
@@ -931,23 +952,23 @@ Comast::Scope* Comast::Log::findScopeByName( QString name ) {
     return NULL;
 }
 
-Comast::Eyepiece* Comast::Log::findEyepieceByName( QString id ) {
+Comast::Eyepiece* Comast::Log::findEyepieceByName( QString name ) {
     foreach( Comast::Eyepiece *e, *eyepieceList() )
-        if( e->id()  == id )
+        if( e->name()  == name )
             return e;
     return NULL;
 }
 
-Comast::Filter* Comast::Log::findFilterByName( QString id ) {
+Comast::Filter* Comast::Log::findFilterByName( QString name ) {
     foreach( Comast::Filter *f, *filterList() )
-        if( f->id()  == id )
+        if( f->name()  == name )
             return f;
     return NULL;
 }
 
-Comast::Lens* Comast::Log::findLensByName( QString id ) {
+Comast::Lens* Comast::Log::findLensByName( QString name ) {
     foreach( Comast::Lens *l, *lensList() )
-        if( l->id()  == id )
+        if( l->name()  == name )
             return l;
     return NULL;
 }

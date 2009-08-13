@@ -25,15 +25,16 @@
 class Comast::Eyepiece {
     public:
         Eyepiece( QString id, QString model, QString vendor, double fov, QString fovUnit, double focalLength ) { setEyepiece( id, model, vendor, fov, fovUnit, focalLength ); }
-        QString id() { return m_Name; }
+        QString id() { return m_Id; }
+        QString name() { return m_Name; }
         QString model() { return m_Model; }
         QString vendor() { return m_Vendor; }
         QString fovUnit() { return m_AppFovUnit; }
         double appFov() { return m_AppFOV; }
         double focalLength() { return m_FocalLength; }
-        void setEyepiece( QString _name, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength );
+        void setEyepiece( QString _id, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength );
     private:
-        QString m_Name, m_Model, m_AppFovUnit, m_Vendor;
+        QString m_Id, m_Model, m_AppFovUnit, m_Vendor, m_Name;
         double m_AppFOV, m_FocalLength;
 };
 #endif
