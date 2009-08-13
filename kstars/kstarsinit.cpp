@@ -60,20 +60,6 @@
 void KStars::initActions() {
     KIconLoader::global()->addAppDir( "kstars" );
 
-    //File Menu:
-//FIXME: New window disabled
-//     QAction *ka = actionCollection()->addAction( "new_window" );
-//     ka->setIcon( KIcon( "window-new" ) );
-//     ka->setText( i18n("&New Window") );
-//     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_N ) );
-//     connect( ka, SIGNAL( triggered() ), this, SLOT( newWindow() ) );
-// 
-//     ka = actionCollection()->addAction( "close_window");
-//     ka->setIcon( KIcon( "window-close" ) );
-//     ka->setText( i18n("&Close Window") );
-//     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_W ) );
-//     connect( ka, SIGNAL( triggered() ), this, SLOT( closeWindow() ) );
-
     KAction *ka = KNS::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data");
     ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_D ) );
     ka->setWhatsThis(i18n("Downloads new data"));

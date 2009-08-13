@@ -626,12 +626,6 @@ private slots:
      */
     void datainitFinished(bool worked);
 
-    /**Open new KStars window. */
-    void newWindow();
-
-    /**Close KStars window. */
-    void closeWindow();
-
     /** Open FITS image. */
     void slotOpenFITS();
 
