@@ -55,10 +55,9 @@ modCalcGeodCoord::~modCalcGeodCoord(){
 
 void modCalcGeodCoord::showLongLat(void)
 {
-
-    KStars *ks = (KStars*) topLevelWidget()->parent();
-    LongGeoBox->show( ks->geo()->lng() );
-    LatGeoBox->show( ks->geo()->lat() );
+    KStarsData* data = KStarsData::Instance();
+    LongGeoBox->show( data->geo()->lng() );
+    LatGeoBox->show(  data->geo()->lat() );
     AltGeoBox->setText( QString("0.0") );
 }
 

@@ -21,7 +21,6 @@
 #include "ui_modcalcdaylength.h"
 
 class GeoLocation;
-class KStars;
 class QTextStream;
 
 /** Module to compute the equatorial coordinates for a given date and time
@@ -52,7 +51,6 @@ private:
     void initGeo(void);
     void processLines( QTextStream &istream );
 
-    KStars *ks;
     GeoLocation *geoPlace, *geoBatch;
     QString srTimeString, stTimeString, ssTimeString;
     QString mrTimeString, mtTimeString, msTimeString;

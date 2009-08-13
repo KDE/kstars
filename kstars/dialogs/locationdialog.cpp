@@ -113,7 +113,7 @@ void LocationDialog::initCityList( void ) {
     ui->GeoBox->setCurrentItem( 0 );
     if ( ui->GeoBox->count() ) {
         for ( uint i=0; i < ui->GeoBox->count(); i++ ) {
-            if ( ui->GeoBox->item(i)->text() == ksw->geo()->fullName() ) {
+            if ( ui->GeoBox->item(i)->text() == ksw->data()->geo()->fullName() ) {
                 ui->GeoBox->setCurrentItem( i );
                 break;
             }

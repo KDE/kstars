@@ -42,7 +42,7 @@ SkyCalendar::SkyCalendar( KStars *parent )
     scUI = new SkyCalendarUI( this );
     setMainWidget( scUI );
     
-    geo = ks->geo();
+    geo = ks->data()->geo();
     
     setCaption( i18n( "Sky Calendar" ) );
     setButtons( KDialog::User1 | KDialog::Close );

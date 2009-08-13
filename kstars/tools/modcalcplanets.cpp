@@ -34,18 +34,18 @@
 #include "skyobjects/kspluto.h"
 #include "widgets/dmsbox.h"
 
-modCalcPlanets::modCalcPlanets(QWidget *parentSplit)
-        : QFrame(parentSplit) {
+modCalcPlanets::modCalcPlanets(QWidget *parentSplit) :
+    QFrame(parentSplit)
+{
     setupUi(this);
 
-    KStars *ks = (KStars*) topLevelWidget()->parent();
     KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
     DateTimeBox->setDateTime( dt.dateTime() );
     DateBoxBatch->setDate( dt.date() );
     UTBoxBatch->setTime( dt.time() );
 
-    geoPlace = ks->geo();
+    geoPlace = KStarsData::Instance()->geo();
     LocationButton->setText( geoPlace->fullName() );
 
     RABox->setDegType(false);

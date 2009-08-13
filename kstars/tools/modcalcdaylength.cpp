@@ -25,6 +25,7 @@
 #include "skyobjects/skyobject.h"
 #include "geolocation.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
 #include "ksnumbers.h"
@@ -32,11 +33,10 @@
 #include "dialogs/locationdialog.h"
 
 
-modCalcDayLength::modCalcDayLength(QWidget *parentSplit)
-        : QFrame(parentSplit) {
+modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
+    QFrame(parentSplit)
+{
     setupUi(this);
-
-    ks = (KStars*) topLevelWidget()->parent();
 
     showCurrentDate();
     initGeo();
@@ -67,8 +67,9 @@ void modCalcDayLength::showCurrentDate (void)
 
 void modCalcDayLength::initGeo(void)
 {
-    geoPlace = ks->geo();
-    geoBatch = ks->geo();
+    KStarsData *data = KStarsData::Instance();
+    geoPlace = data->geo();
+    geoBatch = data->geo();
     Location->setText( geoPlace->fullName() );
     LocationBatch->setText( geoBatch->fullName() );
 }
@@ -82,7 +83,7 @@ QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
 }
 
 void modCalcDayLength::slotLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog(ks);
+    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
 
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
@@ -97,7 +98,7 @@ void modCalcDayLength::slotLocation() {
 }
 
 void modCalcDayLength::slotLocationBatch() {
-    QPointer<LocationDialog> ld = new LocationDialog(ks);
+    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
 
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();

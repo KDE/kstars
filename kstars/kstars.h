@@ -120,10 +120,6 @@ public:
         */
     KStarsData* data();
 
-    /**@return pointer to the local sidereal time.
-        */
-    dms* LST();
-
     /**@return pointer to SkyMap object which is the sky display widget.
         */
     SkyMap* map();
@@ -133,12 +129,7 @@ public:
     ImageViewer* addImageViewer(const KUrl &url, const QString &message );
     void removeImageViewer( ImageViewer* );
 
-    /**@return pointer to GeoLocation object which is the current geographic location.
-        */
-    GeoLocation* geo();
-
-    /**@return pointer to InfoBoxes object.
-        */
+    /**@return pointer to InfoBoxes object. */
     InfoBoxes* infoBoxes();
 
     inline KLed* diskLED() { return m_DiskLED; }

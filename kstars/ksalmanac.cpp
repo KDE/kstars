@@ -39,7 +39,7 @@ KSAlmanac* KSAlmanac::Instance() {
 KSAlmanac::KSAlmanac() {
     ks = KStars::Instance();
     dt = KStarsDateTime::currentDateTime();
-    geo = ks->geo();
+    geo = ks->data()->geo();
     dt.setTime(QTime());
     dt = geo->LTtoUT(dt);
     SunRise=SunSet=MoonRise=MoonSet=0;
@@ -76,8 +76,8 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
             *setTime = -1.0;
         }
     }
-    o->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
-    o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
+    o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->data()->lst() );
+    o->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
     delete num;
     delete oldNum;
 

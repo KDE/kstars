@@ -32,8 +32,6 @@
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
     setupUi(this);
 
-    ks = (KStars*) topLevelWidget()->parent();
-
     //Preset date and location
     showCurrentTimeAndLocation();
 
@@ -63,25 +61,25 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
     show();
 }
 
-modCalcSidTime::~modCalcSidTime(void) {
-
-}
+modCalcSidTime::~modCalcSidTime()
+{}
 
 void modCalcSidTime::showCurrentTimeAndLocation()
 {
-    LT->setTime( ks->data()->lt().time() );
-    Date->setDate( ks->data()->lt().date() );
+    KStarsData* data = KStarsData::Instance();
+    LT->setTime(   data->lt().time() );
+    Date->setDate( data->lt().date() );
 
-    geo = ks->geo();
+    geo = data->geo();
     LocationButton->setText( geo->fullName() );
-    geoBatch = ks->geo();
+    geoBatch = data->geo();
     LocationButtonBatch->setText( geoBatch->fullName() );
 
     slotConvertST( LT->time() );
 }
 
 void modCalcSidTime::slotChangeLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog(ks);
+    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
 
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
@@ -180,7 +178,7 @@ void modCalcSidTime::slotHelpLabel() {
 }
 
 void modCalcSidTime::slotLocationBatch() {
-    QPointer<LocationDialog> ld = new LocationDialog(ks);
+    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
 
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
@@ -269,7 +267,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
                     continue;
                 }
 
-                geoBatch = ks->data()->locationNamed( locationFields[0], locationFields[1], locationFields[2] );
+                geoBatch = KStarsData::Instance()->locationNamed( locationFields[0], locationFields[1], locationFields[2] );
                 if ( ! geoBatch ) {
                     kDebug() << i18n("Error: location not found in database: ") << locationString;
                     continue;

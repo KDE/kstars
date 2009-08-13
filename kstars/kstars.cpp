@@ -82,7 +82,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     //Initialize Time and Date
     KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
     if ( ! StartDateString.isEmpty() && startDate.isValid() )
-        data()->changeDateTime( geo()->LTtoUT( startDate ) );
+        data()->changeDateTime( data()->geo()->LTtoUT( startDate ) );
     else
         data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
 
@@ -220,15 +220,15 @@ void KStars::applyConfig( bool doApplyFocus ) {
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {
-    dms oldLST( LST()->Degrees() );
     // Due to frequently use of this function save data and map pointers for speedup.
     // Save options and geo() to a pointer would not speedup because most of time options
     // and geo will accessed only one time.
     KStarsData *Data = data();
     SkyMap *Map = map();
+    dms oldLST( Data->lst()->Degrees() );
 
-    Data->updateTime( geo(), Map, automaticDSTchange );
-    if ( infoBoxes()->timeChanged( Data->ut(), Data->lt(), LST() ) )
+    Data->updateTime( Data->geo(), Map, automaticDSTchange );
+    if ( infoBoxes()->timeChanged( Data->ut(), Data->lt(), Data->lst() ) )
         Map->update();
 
     //We do this outside of kstarsdata just to get the coordinates
@@ -268,11 +268,7 @@ SkyMap* KStars::map()  { return skymap; }
 
 InfoBoxes* KStars::infoBoxes()  { return map()->infoBoxes(); }
 
-GeoLocation* KStars::geo() { return data()->geo(); }
-
 void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
-
-dms* KStars::LST() { return data()->lst(); }
 
 ObservingList* KStars::observingList() { return obsList; }
 

@@ -32,7 +32,8 @@
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
 
-modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0)
+modCalcVlsr::modCalcVlsr(QWidget *parentSplit) :
+    QFrame(parentSplit), velocityFlag(0)
 {
     setupUi(this);
     RA->setDegType(false);
@@ -68,8 +69,7 @@ modCalcVlsr::~modCalcVlsr(){
 
 void modCalcVlsr::initGeo(void)
 {
-    KStars *ks = (KStars*) topLevelWidget()->parent();
-    geoPlace = ks->geo();
+    geoPlace = KStarsData::Instance()->geo();
     LocationButton->setText( geoPlace->fullName() );
 }
 
