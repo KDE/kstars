@@ -462,7 +462,7 @@ private:
 
     KLocale *locale;
 
-    dms LST, HourAngle;
+    dms LST;
 
     QKeySequence resumeKey;
 

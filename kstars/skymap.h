@@ -928,6 +928,7 @@ private:
     KSPopupMenu *pmenu;
     QPixmap *sky, *sky2;
     InfoBoxes  *IBoxes;
+    dms HourAngle;
     SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
 

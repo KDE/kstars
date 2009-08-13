@@ -433,7 +433,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     double dHA = data->lst()->Hours() - focus()->ra()->Hours();
     while ( dHA < 0.0 ) dHA += 24.0;
-    data->HourAngle.setH( dHA );
+    HourAngle.setH( dHA );
 
     if ( arrowKeyPressed ) {
         infoBoxes()->focusObjChanged( i18n( "nothing" ) );
@@ -600,7 +600,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
         double dHA = data->lst()->Hours() - focus()->ra()->Hours();
         while ( dHA < 0.0 ) dHA += 24.0;
-        data->HourAngle.setH( dHA );
+        HourAngle.setH( dHA );
 
         //redetermine RA, Dec of mouse pointer, using new focus
         setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
