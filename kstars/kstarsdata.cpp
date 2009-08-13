@@ -70,7 +70,7 @@ KStarsData* KStarsData::Instance( )
 
 KStarsData::KStarsData(KStars* kstars) :
     locale(0),
-    LST(0), HourAngle(0), m_kstars(kstars),
+    m_kstars(kstars),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
@@ -102,10 +102,6 @@ KStarsData::KStarsData(KStars* kstars) :
     m_SkyComposite = new SkyMapComposite( 0, this );
     m_logObject = new Comast::Log;
 
-    //Instantiate LST and HourAngle
-    LST = new dms();
-    HourAngle = new dms();
-
     // at startup times run forward
     setTimeDirection( 0.0 );
 
@@ -117,8 +113,6 @@ KStarsData::KStarsData(KStars* kstars) :
 
 KStarsData::~KStarsData() {
     delete locale;
-    delete LST;
-    delete HourAngle;
     delete m_logObject;
 
     qDeleteAll( geoList );
@@ -346,7 +340,7 @@ void KStarsData::setFullTimeUpdate() {
 }
 
 void KStarsData::syncLST() {
-    LST->set( geo()->GSTtoLST( ut().gst() ) );
+    LST.set( geo()->GSTtoLST( ut().gst() ) );
 }
 
 void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
@@ -1030,14 +1024,14 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( arg == "nw" || arg == "northwest" ) az = 335.0;
                 if ( az >= 0.0 ) {
                     map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
-                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
+                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;
                 }
 
                 if ( arg == "z" || arg == "zenith" ) {
                     map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
-                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
+                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;
                 }
@@ -1049,7 +1043,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 SkyObject *target = objectNamed( objname );
                 if ( target ) { 
                     map->setFocus( target );
-                    map->focus()->EquatorialToHorizontal( LST, geo()->lat() );
+                    map->focus()->EquatorialToHorizontal( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;
                 }
@@ -1062,7 +1056,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( ok ) ok = d.setFromString( fn[2], true );  //assume angle in degrees
                 if ( ok ) {
                     map->setFocus( r, d );
-                    map->focus()->EquatorialToHorizontal( LST, geo()->lat() );
+                    map->focus()->EquatorialToHorizontal( &LST, geo()->lat() );
                     cmdCount++;
                 }
 
@@ -1074,7 +1068,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( ok ) ok = az.setFromString( fn[2] );
                 if ( ok ) {
                     map->setFocusAltAz( alt, az );
-                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
+                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     cmdCount++;
                 }
 

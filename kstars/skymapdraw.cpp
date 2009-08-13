@@ -193,7 +193,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
         for ( int i = 0; i < cbound->size(); i++ ) {
             QPointF node = cbound->at( i );
             SkyPoint sp( node.x(), node.y() );
-            sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             horizPolygon << QPointF( sp.az()->Degrees(), sp.alt()->Degrees() );
         }
 
@@ -221,7 +221,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
                 SkyPoint sp;
                 sp.setAz( node.x() );
                 sp.setAlt( node.y() );
-                sp.HorizontalToEquatorial( data->LST, data->geo()->lat() );
+                sp.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
                 clippedPoly << QPointF( sp.ra()->Hours(), sp.dec()->Degrees() );
             }
         }
@@ -241,7 +241,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
     QPointF node = bound->at( 0 );
     pLast.set( node.x(), node.y() );
 
-    pLast.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    pLast.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     oLast = toScreen( &pLast, Options::useRefraction(), &isVisibleLast );
 
     int limit = bound->size();
@@ -249,7 +249,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
     for ( int i=1 ; i < limit ; i++ ) {
         node = bound->at( i );
         pThis.set( node.x(), node.y() );
-        pThis.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        pThis.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         oThis = toScreen( &pThis, Options::useRefraction(), &isVisible );
 
         if ( isVisible && isVisibleLast ) {
@@ -275,7 +275,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
         bool isVisible;
     	foreach ( const QPointF &node, cbound ) {
     		SkyPoint sp( node.x(), node.y() );
-    		sp.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    		sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     		QPointF v = toScreen( &sp, scale, Options::useRefraction() );
 
     		poly << v;

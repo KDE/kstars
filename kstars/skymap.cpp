@@ -258,7 +258,7 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 void SkyMap::slotCenter( void ) {
     setFocusPoint( clickedPoint() );
     if ( Options::useAltAz() )
-        focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     //clear the planet trail of old focusObject, if it was temporary
     if ( focusObject() && focusObject()->isSolarSystem() && data->temporaryTrail ) {
@@ -310,7 +310,7 @@ void SkyMap::slotCenter( void ) {
         setDestination( focusPoint() );
     }
 
-    focusPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     //display coordinates in statusBar
     if ( ks ) {
@@ -607,7 +607,7 @@ void SkyMap::setFocus( double ra, double dec ) {
     Options::setFocusRA( ra );
     Options::setFocusDec( dec );
 
-    focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
@@ -617,7 +617,7 @@ void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
 void SkyMap::setFocusAltAz(double alt, double az) {
     focus()->setAlt(alt);
     focus()->setAz(az);
-    focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+    focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     Options::setFocusRA( focus()->ra()->Hours() );
     Options::setFocusDec( focus()->dec()->Degrees() );
 
@@ -627,42 +627,42 @@ void SkyMap::setFocusAltAz(double alt, double az) {
     oldfocus()->setAz( focus()->az()->Degrees() );
     oldfocus()->setAlt( focus()->alt()->Degrees() );
 
-    double dHA = data->LST->Hours() - focus()->ra()->Hours();
+    double dHA = data->lst()->Hours() - focus()->ra()->Hours();
     while ( dHA < 0.0 ) dHA += 24.0;
-    data->HourAngle->setH( dHA );
+    data->HourAngle.setH( dHA );
 
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
 void SkyMap::setDestination( SkyPoint *p ) {
     Destination.set( p->ra(), p->dec() );
-    destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
 void SkyMap::setDestination( const dms &ra, const dms &dec ) {
     Destination.set( ra, dec );
-    destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
 void SkyMap::setDestination( double ra, double dec ) {
     Destination.set( ra, dec );
-    destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
     destination()->setAlt(alt);
     destination()->setAz(az);
-    destination()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+    destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz(double alt, double az) {
     destination()->setAlt(alt);
     destination()->setAz(az);
-    destination()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+    destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
@@ -682,12 +682,12 @@ void SkyMap::updateFocus() {
             if ( Options::useRefraction() )
                 dAlt = refract( focusObject()->alt(), true ).Degrees();
             setFocusAltAz( dAlt, focusObject()->az()->Degrees() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             setDestination( focus() );
         } else {
             //Tracking in equatorial coords
             setFocus( focusObject() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             setDestination( focus() );
         }
 
@@ -696,7 +696,7 @@ void SkyMap::updateFocus() {
         if ( Options::useAltAz() ) {
             //Tracking on empty sky in Alt/Az mode
             setFocus( focusPoint() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             setDestination( focus() );
         }
 
@@ -705,21 +705,21 @@ void SkyMap::updateFocus() {
         if ( Options::useAltAz() ) {
             focus()->setAlt( destination()->alt()->Degrees() );
             focus()->setAz( destination()->az()->Degrees() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
-            //destination()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+            //destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
-            focus()->setRA( data->LST->Hours() - data->HourAngle->Hours() );
+            focus()->setRA( data->lst()->Hours() - data->HourAngle.Hours() );
             setDestination( focus() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-            destination()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
     }
 
     //Update the Hour Angle
-    data->setHourAngle( data->LST->Hours() - focus()->ra()->Hours() );
+    data->HourAngle.setH( data->lst()->Hours() - focus()->ra()->Hours() );
 
     setOldFocus( focus() );
-    oldfocus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    oldfocus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void SkyMap::slewFocus( void ) {
@@ -764,12 +764,12 @@ void SkyMap::slewFocus( void ) {
                 if ( Options::useAltAz() ) {
                     focus()->setAlt( focus()->alt()->Degrees() + fY*step );
                     focus()->setAz( dms( focus()->az()->Degrees() + fX*step ).reduce() );
-                    focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+                    focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
                 } else {
                     fX = fX/15.; //convert RA degrees to hours
                     newFocus.set( focus()->ra()->Hours() + fX*step, focus()->dec()->Degrees() + fY*step );
                     setFocus( &newFocus );
-                    focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+                    focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 }
 
                 slewing = true;
@@ -808,13 +808,13 @@ void SkyMap::slewFocus( void ) {
         //set focus=destination.
         if ( Options::useAltAz() ) {
             setFocusAltAz( destination()->alt()->Degrees(), destination()->az()->Degrees() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             setFocus( destination() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
-        data->HourAngle->setH( data->LST->Hours() - focus()->ra()->Hours() );
+        data->HourAngle.setH( data->lst()->Hours() - focus()->ra()->Hours() );
         slewing = false;
 
         //Turn off snapNextFocus, we only want it to happen once
@@ -844,7 +844,7 @@ double SkyMap::findPA( SkyObject *o, float x, float y ) {
     double newDec = o->dec()->Degrees() + 5730.0/Options::zoomFactor();
     if ( newDec > 90.0 ) newDec = 90.0;
     SkyPoint test( o->ra()->Hours(), newDec );
-    if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     QPointF t = toScreen( &test );
     double dx = double( t.x() - x );
     double dy = double( y - t.y() );  //backwards because QWidget Y-axis increases to the bottom
@@ -1493,7 +1493,7 @@ void SkyMap::forceUpdate( bool now )
     QPoint mp( mapFromGlobal( QCursor::pos() ) );
     if (! unusablePoint ( mp )) {
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( mp, data->LST, data->geo()->lat() ) );
+        setMousePoint( fromScreen( mp, data->lst(), data->geo()->lat() ) );
     }
 
     computeSkymap = true;

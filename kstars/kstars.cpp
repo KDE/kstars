@@ -272,7 +272,7 @@ GeoLocation* KStars::geo() { return data()->geo(); }
 
 void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
 
-dms* KStars::LST() { return data()->LST; }
+dms* KStars::LST() { return data()->lst(); }
 
 ObservingList* KStars::observingList() { return obsList; }
 

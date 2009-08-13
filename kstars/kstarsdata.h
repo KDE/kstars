@@ -252,11 +252,6 @@ public:
     	*/
     void syncLST();
 
-    /**Set the HourAngle member variable according to the argument.
-    	*@param ha The new HourAngle
-    	*/
-    void setHourAngle( double ha ) { HourAngle->setH( ha ); }
-
     //Some members need to be accessed outside of the friend classes (i.e., in the main fcn).
 
     SkyMapComposite* skyComposite() { return m_SkyComposite; }
@@ -271,7 +266,7 @@ public:
 
     /**@return pointer to the local sidereal time: a dms object
     	*/
-    dms *lst() { return LST; }
+    dms *lst() { return &LST; }
 
     /**@return pointer to the GeoLocation object*/
     GeoLocation *geo() { return &Geo; }
@@ -471,7 +466,7 @@ private:
 
     KLocale *locale;
 
-    dms *LST, *HourAngle;
+    dms LST, HourAngle;
 
     QKeySequence resumeKey;
 
