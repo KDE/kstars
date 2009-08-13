@@ -149,19 +149,11 @@ void modCalcAltAz::slotCompute()
 }
 
 void modCalcAltAz::slotUtChecked(){
-    if ( utCheckBatch->isChecked() )
-        utBoxBatch->setEnabled( false );
-    else {
-        utBoxBatch->setEnabled( true );
-    }
+    utBoxBatch->setEnabled( !utCheckBatch->isChecked() );
 }
 
 void modCalcAltAz::slotDateChecked(){
-    if ( dateCheckBatch->isChecked() )
-        dateBoxBatch->setEnabled( false );
-    else {
-        dateBoxBatch->setEnabled( true );
-    }
+    dateBoxBatch->setEnabled( !dateCheckBatch->isChecked() );
 }
 
 void modCalcAltAz::slotRaChecked(){
@@ -185,25 +177,15 @@ void modCalcAltAz::slotDecChecked(){
 }
 
 void modCalcAltAz::slotEpochChecked(){
-    if ( epochCheckBatch->isChecked() )
-        epochBoxBatch->setEnabled( false );
-    else
-        epochBoxBatch->setEnabled( true );
+    epochBoxBatch->setEnabled( !epochCheckBatch->isChecked() );
 }
 
 void modCalcAltAz::slotLongChecked(){
-    if ( longCheckBatch->isChecked() )
-        longBoxBatch->setEnabled( false );
-    else
-        longBoxBatch->setEnabled( true );
+    longBoxBatch->setEnabled( !longCheckBatch->isChecked());
 }
 
 void modCalcAltAz::slotLatChecked(){
-    if ( latCheckBatch->isChecked() )
-        latBoxBatch->setEnabled( false );
-    else {
-        latBoxBatch->setEnabled( true );
-    }
+    latBoxBatch->setEnabled( !latCheckBatch->isChecked() );
 }
 
 void modCalcAltAz::slotAzChecked(){
