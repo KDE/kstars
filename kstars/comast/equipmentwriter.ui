@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EquipmentWriter</class>
+ <widget class="QWidget" name="EquipmentWriter">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>411</width>
+    <height>279</height>
+   </rect>
+  </property>
+  <layout class="QVBoxLayout" name="_2">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="minimumSize">
+      <size>
+       <width>252</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <property name="documentMode">
+      <bool>false</bool>
+     </property>
+     <widget class="QWidget" name="Scope">
+      <attribute name="title">
+       <string>Scope</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="_3">
+       <item>
+        <widget class="KListWidget" name="ScopeList"/>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <layout class="QFormLayout" name="formLayout">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::ExpandingFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Id:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="KLineEdit" name="Id">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Model:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="KLineEdit" name="Model"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Vendor:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="KLineEdit" name="Vendor"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Type:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>Aperture:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Focal Length:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="KDoubleNumInput" name="FocalLength"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="4" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="KDoubleNumInput" name="Aperture"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="1">
+            <widget class="KComboBox" name="Type">
+             <item>
+              <property name="text">
+               <string>Refractor</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Newtonian</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Maksutov</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Schmidt-Cassegrain</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Kutter (Schiefspiegler)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cassegrain</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="NewScope">
+             <property name="text">
+              <string>Add New..</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="AddScope">
+             <property name="text">
+              <string>Save Scope</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RemoveScope">
+             <property name="text">
+              <string>Remove</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="Eyepiece">
+      <attribute name="title">
+       <string>Eyepiece</string>
+      </attribute>
+      <layout class="QHBoxLayout">
+       <item>
+        <widget class="KListWidget" name="EyepieceList"/>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <layout class="QFormLayout" name="formLayout_2">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::ExpandingFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Id:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="KLineEdit" name="e_Id">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Model:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="KLineEdit" name="e_Model"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Vendor:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="KLineEdit" name="e_Vendor"/>
+           </item>
+           <item row="3" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="KDoubleNumInput" name="e_focalLength"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_17">
+               <property name="text">
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_10">
+             <property name="text">
+              <string>Focal Length:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Apparent FOV:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="KDoubleNumInput" name="Fov"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>Unit:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="KComboBox" name="FovUnit">
+             <item>
+              <property name="text">
+               <string>deg</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>rad</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="NewEyepiece">
+             <property name="text">
+              <string>Add New</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="AddEyepiece">
+             <property name="text">
+              <string>Save Eyepiece</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RemoveEyepiece">
+             <property name="text">
+              <string>Remove</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="Lens">
+      <attribute name="title">
+       <string>Lens</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="_4">
+       <item>
+        <widget class="KListWidget" name="LensList"/>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout3">
+         <item>
+          <widget class="QLabel" name="label_16">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Enter details of Barlow/Shapley lenses</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QFormLayout" name="formLayout3">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::ExpandingFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label3">
+             <property name="text">
+              <string>Id:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="KLineEdit" name="l_Id">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label2">
+             <property name="text">
+              <string>Model:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="KLineEdit" name="l_Model"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label3">
+             <property name="text">
+              <string>Vendor:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="KLineEdit" name="l_Vendor"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label5">
+             <property name="toolTip">
+              <string>Magnification factor of the Barlow/Shapley lens</string>
+             </property>
+             <property name="text">
+              <string>Factor:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="KDoubleNumInput" name="l_Factor"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout3">
+           <item>
+            <spacer name="horizontalSpacer3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="NewLens">
+             <property name="text">
+              <string>Add New..</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="AddLens">
+             <property name="text">
+              <string>Save Lens</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RemoveLens">
+             <property name="text">
+              <string>Remove</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="Filter">
+      <attribute name="title">
+       <string>Filter</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="_5">
+       <item>
+        <widget class="KListWidget" name="FilterList"/>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout4">
+         <item>
+          <layout class="QFormLayout" name="formLayout4">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::ExpandingFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label4">
+             <property name="text">
+              <string>Id:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="KLineEdit" name="f_Id">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label3">
+             <property name="text">
+              <string>Model:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="KLineEdit" name="f_Model"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label5">
+             <property name="text">
+              <string>Vendor:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="KLineEdit" name="f_Vendor"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label6">
+             <property name="text">
+              <string>Type:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="KLineEdit" name="f_Type"/>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Color:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="KLineEdit" name="f_Color"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout7">
+           <item>
+            <spacer name="horizontalSpacer3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="NewFilter">
+             <property name="text">
+              <string>Add New..</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="AddFilter">
+             <property name="text">
+              <string>Save Filter</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="RemoveFilter">
+             <property name="text">
+              <string>Remove</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

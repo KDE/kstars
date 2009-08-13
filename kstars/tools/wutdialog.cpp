@@ -42,8 +42,8 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
 
-WUTDialog::WUTDialog( QWidget *ks, bool _session ) :
-        KDialog( ks ), EveningFlag(0),
+WUTDialog::WUTDialog( KStars *ks, bool _session, GeoLocation *_geo, KStarsDateTime _lt ) :
+        KDialog( ks ), kstars(ks), EveningFlag(0),
         timer(NULL)
 {
     kstars = KStars::Instance();
@@ -54,9 +54,9 @@ WUTDialog::WUTDialog( QWidget *ks, bool _session ) :
     setModal( false );
 
     //initialize location and date to current KStars settings:
-    geo = kstars->geo();
+    geo = _geo; 
     session = _session;
-    T0 = kstars->data()->lt();
+    T0 = _lt;
     //If the Time is earlier than 6:00 am, assume the user wants the night of the previous date
     if ( T0.time().hour() < 6 )
         T0 = T0.addDays( -1 );

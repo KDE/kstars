@@ -5,6 +5,7 @@ add_subdirectory( data )
 add_subdirectory( icons ) 
 add_subdirectory( satlib ) 
 add_subdirectory( htmesh ) 
+add_subdirectory( comast ) 
 
 Find_package(ZLIB REQUIRED)
 
@@ -308,9 +309,24 @@ set(kstars_extra_SRCS
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
 
+set(comast_SRCS
+    comast/log.cpp
+    comast/observer.cpp
+    comast/site.cpp
+    comast/session.cpp
+    comast/scope.cpp
+    comast/eyepiece.cpp
+    comast/filter.cpp
+    comast/observation.cpp
+    comast/lens.cpp
+    comast/equipmentwriter.cpp
+    comast/observeradd.cpp
+    comast/execute.cpp
+)
+
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
-	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS}
+	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${comast_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -323,7 +339,8 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 kde4_add_ui_files(kstars_SRCS
        ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
-         thumbnailpicker.ui thumbnaileditor.ui 
+         thumbnailpicker.ui thumbnaileditor.ui comast/observeradd.ui comast/equipmentwriter.ui comast/execute.ui
+
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")

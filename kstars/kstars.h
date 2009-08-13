@@ -23,6 +23,9 @@
 #include <config-kstars.h>
 
 #include "tools/observinglist.h"
+#include "comast/equipmentwriter.h"
+#include "comast/observeradd.h"
+#include "comast/execute.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;
@@ -51,6 +54,9 @@ class JMoonTool;
 class ImageViewer;
 class FlagManager;
 class ObservingList;
+class EquipmentWriter;
+class ObserverAdd;
+class Execute;
 
 class OpsCatalog;
 class OpsGuides;
@@ -129,6 +135,8 @@ public:
     SkyMap* map();
 
     ObservingList* observingList();
+
+    Execute* getExecute();
 
     ImageViewer* addImageViewer(const KUrl &url, const QString &message );
     void removeImageViewer( ImageViewer* );
@@ -686,6 +694,12 @@ private slots:
     /**Save data to config file before exiting.*/
     void slotAboutToQuit();
 
+    void slotEquipmentWriter();
+
+    void slotObserverAdd();
+
+    void slotExecute();
+
 private:
     /** Load FOV information and repopulate menu. */
     void repopulateFOV();
@@ -717,6 +731,9 @@ private:
 
     //FIXME: move to KStarsData
     ObservingList *obsList;
+    EquipmentWriter *eWriter;
+    ObserverAdd *oAdd;
+    Execute *execute;
     AltVsTime *avt;
     WUTDialog *wut;
     SkyCalendar *skycal;

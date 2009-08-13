@@ -1,9 +1,10 @@
 /***************************************************************************
-                    auxinfo.h  -  K Desktop Planetarium
+                          observer.h  -  description
+
                              -------------------
-    begin                : Sun Jul 20 2008
-    copyright            : (C) 2008 by Akarsh Simha
-    email                : akarshsimha@gmail.com
+    begin                : Wednesday July 8, 2009
+    copyright            : (C) 2009 by Prakash Mohan
+    email                : prakash.mohan@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,33 +15,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef OBSERVER_H_
+#define OBSERVER_H_
 
-#ifndef AUXINFO_H_
-#define AUXINFO_H_
+#include "comast/comast.h"
 
 #include <QString>
-#include <QStringList>
-#include <QSharedData>
 
-/**
- *@struct AuxInfo
- *Stores Users' Logs and QStringLists of URLs for images 
- *and webpages regarding an object in the sky.
- *@short Auxiliary information associated with a SkyObject.
- *@author Akarsh Simha
- *@version 1.0
- */
-
-class AuxInfo : public QSharedData
-{
-public:
-    QStringList ImageList;
-    QStringList ImageTitle;
-    QStringList InfoList;
-    QStringList InfoTitle;
-    QString userLog;
-    QString notes;
+class Comast::Observer {
+    public:
+       QString id() { return m_Id; }
+       QString name() { return m_Name; }
+       QString surname() { return m_Surname; }
+       QString contact() { return m_Contact; }
+       Observer( QString _id,  QString _name ="", QString _surname = "", QString _contact = "" ) { setObserver( _id, _name, _surname, _contact ); }
+       void setObserver( QString _id, QString _name = "", QString _surname= "", QString _contact = "" );
+    private:
+        QString m_Name, m_Surname, m_Contact, m_Id;
 };
-
 #endif
-

@@ -1,9 +1,10 @@
 /***************************************************************************
-                    auxinfo.h  -  K Desktop Planetarium
+                          site.cpp  -  description
+
                              -------------------
-    begin                : Sun Jul 20 2008
-    copyright            : (C) 2008 by Akarsh Simha
-    email                : akarshsimha@gmail.com
+    begin                : Wednesday July 8, 2009
+    copyright            : (C) 2009 by Prakash Mohan
+    email                : prakash.mohan@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,32 +16,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AUXINFO_H_
-#define AUXINFO_H_
+#include "comast/site.h"
 
-#include <QString>
-#include <QStringList>
-#include <QSharedData>
-
-/**
- *@struct AuxInfo
- *Stores Users' Logs and QStringLists of URLs for images 
- *and webpages regarding an object in the sky.
- *@short Auxiliary information associated with a SkyObject.
- *@author Akarsh Simha
- *@version 1.0
- */
-
-class AuxInfo : public QSharedData
-{
-public:
-    QStringList ImageList;
-    QStringList ImageTitle;
-    QStringList InfoList;
-    QStringList InfoTitle;
-    QString userLog;
-    QString notes;
-};
-
-#endif
-
+void Comast::Site::setSite(QString _id, QString _name, double _lat, QString _latUnit, double _lon, QString _lonUnit ){
+    m_Id = _id;
+    m_Name = _name;
+    m_Lat = _lat;
+    m_Lon = _lon;
+    m_LatUnit = _latUnit;
+    m_LonUnit = _lonUnit;
+}
+void Comast::Site::setSite( GeoLocation *geo, QString id ) {
+    m_Id = id;
+    m_Name = geo->name();
+    m_Lat = geo->lat()->radians();
+    m_Lon = geo->lng()->radians();
+    m_LatUnit = m_LonUnit = "rad";
+}

@@ -1,9 +1,10 @@
 /***************************************************************************
-                    auxinfo.h  -  K Desktop Planetarium
+                          comast.h  -  description
+
                              -------------------
-    begin                : Sun Jul 20 2008
-    copyright            : (C) 2008 by Akarsh Simha
-    email                : akarshsimha@gmail.com
+    begin                : Friday June 19, 2009
+    copyright            : (C) 2009 by Prakash Mohan
+    email                : prakash.mohan@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,32 +16,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef AUXINFO_H_
-#define AUXINFO_H_
+#ifndef COMAST_H_
+#define COMAST_H_
 
 #include <QString>
-#include <QStringList>
-#include <QSharedData>
-
-/**
- *@struct AuxInfo
- *Stores Users' Logs and QStringLists of URLs for images 
- *and webpages regarding an object in the sky.
- *@short Auxiliary information associated with a SkyObject.
- *@author Akarsh Simha
- *@version 1.0
- */
-
-class AuxInfo : public QSharedData
-{
-public:
-    QStringList ImageList;
-    QStringList ImageTitle;
-    QStringList InfoList;
-    QStringList InfoTitle;
-    QString userLog;
-    QString notes;
-};
-
+#include <KLocale>
+#include <kmessagebox.h>
+namespace Comast {
+    class Log;
+    class Observer;
+    class Observation;
+    class Equipment;
+    class Eyepiece;
+    class Scope;
+    class Filter;
+    class Imager;
+    class Site;
+    class Session;
+    class Target;
+    class Lens;
+    inline int warningOverwrite( QString message ) {
+        return KMessageBox::warningYesNo( 0, message, i18n("Overwrite"), KGuiItem(i18n("Overwrite")), KGuiItem(i18n("Cancel")) );
+    }
+}
 #endif
-

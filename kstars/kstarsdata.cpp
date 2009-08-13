@@ -99,6 +99,7 @@ KStarsData::KStarsData() :
     locale = new KLocale( "kstars" );
 
     m_SkyComposite = new SkyMapComposite( 0, this );
+    m_logObject = new Comast::Log;
 
     // at startup times run forward
     setTimeDirection( 0.0 );
@@ -111,6 +112,7 @@ KStarsData::KStarsData() :
 
 KStarsData::~KStarsData() {
     delete locale;
+    delete m_logObject;
 
     qDeleteAll( geoList );
     qDeleteAll( VariableStarsList );

@@ -47,6 +47,8 @@
 #include "infoboxes.h"
 #include "simclock.h"
 #include "widgets/timestepbox.h"
+#include "comast/equipmentwriter.h"
+#include "comast/observeradd.h"
 
 #include <config-kstars.h>
 
@@ -373,6 +375,22 @@ void KStars::initActions() {
     ka->setText( i18n( "Flags...") );
     connect( ka, SIGNAL( triggered() ), this, SLOT( slotFlagManager() ) );
 
+    ka = actionCollection()->addAction( "ewriter" );
+    ka->setText( i18n( "Define Equipment..." ) );
+    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_0 ) );
+    connect( ka, SIGNAL( triggered() ), this, SLOT( slotEquipmentWriter() ) );
+
+    ka = actionCollection()->addAction( "obsadd" );
+    ka->setText( i18n( "Add Observer..." ) );
+    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_1 ) );
+    connect( ka, SIGNAL( triggered() ), this, SLOT( slotObserverAdd() ) );
+
+    //observation menu
+    ka = actionCollection()->addAction( "execute" );
+    ka->setText( i18n( "Execute the session Plan..." ) );
+    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_2 ) );
+    connect( ka, SIGNAL( triggered() ), this, SLOT( slotExecute() ) );
+
     // devices Menu
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
@@ -583,6 +601,9 @@ void KStars::datainitFinished(bool worked) {
 
     //Initialize Observing List
     obsList = new ObservingList( this );
+    eWriter = new EquipmentWriter();
+    oAdd = new ObserverAdd;
+    execute = new Execute;
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )

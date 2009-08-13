@@ -42,6 +42,8 @@ class KStars;
 
 // TODO: Fix the documentation for these methods
 
+class KStars;
+
 class KSAlmanac {
 public:
     /**

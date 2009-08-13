@@ -25,6 +25,7 @@
 #include <kio/copyjob.h>
 
 #include "ui_observinglist.h"
+#include "kstars.h"
 #include "skyobjects/skyobject.h"
 #include "kstarsdatetime.h"
 #include "geolocation.h"
@@ -146,9 +147,30 @@ public:
         */
     void setSaveImages();
 
+    /**@short This is the declaration of the event filter function
+     * which is installed on the KImageFilePreview and the TabeView
+     */
     bool eventFilter( QObject *obj, QEvent *event );
 
+    /**@short saves a thumbnail image for the details dialog
+     * from the downloaded image
+     */
     void saveThumbImage();
+
+    QString getTime( SkyObject *o ) { return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" ); }
+
+    QTime scheduledTime( SkyObject *o ) { return TimeHash.value( o->name(), o->transitTime( dt, geo ) ); }
+
+    void setTime( SkyObject *o, QTime t ) { TimeHash.insert( o->name(), t); }
+
+    GeoLocation* geoLocation() { return geo; }
+
+    KStarsDateTime dateTime() { return dt; }
+    
+    /**@short return the object with the name as the passed
+     * QString from the Session List, return null otherwise
+     */
+    SkyObject* findObjectByName( QString name );
 
 public slots:
     /**@short add a new object to list
@@ -296,6 +318,14 @@ public slots:
         */
     void slotDSS() { slotGetImage( true ); }
 
+    /**@short Export a target list to the comast compliant format
+        */
+    void slotOALExport(); 
+
+    void slotAddVisibleObj();
+
+    void selectObject( SkyObject *o );
+
 protected slots:
     void slotClose();
     void downloadReady();
@@ -307,8 +337,8 @@ private:
     QList<SkyObject*> m_ObservingList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
-    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
-    QString FileName, SessionName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
+    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection, nativeSave;
+    QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     char decsgn;
     KStarsDateTime dt;
     GeoLocation *geo;
