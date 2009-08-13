@@ -22,6 +22,7 @@
 
 #include "ui_skycalendar.h"
 
+class KStars;
 class GeoLocation;
 
 class SkyCalendarUI : public QFrame, public Ui::SkyCalendar {
@@ -39,7 +40,7 @@ class SkyCalendar : public KDialog
     Q_OBJECT
     
     public:
-        SkyCalendar( QWidget *parent=0 );
+        SkyCalendar( KStars *parent=0 );
         ~SkyCalendar();
         
         int year();
@@ -54,6 +55,7 @@ class SkyCalendar : public KDialog
         void drawEventLabel( float x1, float y1, float x2, float y2, QString LabelText );
         
         SkyCalendarUI *scUI;
+        KStars *ks;
         GeoLocation *geo;
 };
 

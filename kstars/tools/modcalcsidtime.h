@@ -24,6 +24,7 @@
 
 class QTime;
 class GeoLocation;
+class KStars;
 
 /**
   * Class which implements the KStars calculator module to compute Universal
@@ -34,8 +35,11 @@ class GeoLocation;
 	*@version 0.9
   */
 class modCalcSidTime : public CalcFrame, public Ui::modCalcSidTimeDlg  {
+
     Q_OBJECT
+
 public:
+
     modCalcSidTime(QWidget *p);
     ~modCalcSidTime();
 
@@ -66,6 +70,7 @@ private:
 
     bool bSyncTime;
     GeoLocation *geo, *geoBatch;
+    KStars *ks;
 };
 
 #endif

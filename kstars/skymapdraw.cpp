@@ -517,7 +517,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
                             }
 
                             if ( Options::useAltAz() )
-                                indi_sp.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+                                indi_sp.EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
 
                         }
 

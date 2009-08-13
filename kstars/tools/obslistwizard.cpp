@@ -79,7 +79,7 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
 
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotApplyFilters() ) );
 
-    geo = ksw->data()->geo();
+    geo = ksw->geo();
     olw->LocationButton->setText( geo->fullName() );
 
     initialize();

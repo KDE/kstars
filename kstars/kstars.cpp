@@ -82,7 +82,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     //Initialize Time and Date
     KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
     if ( ! StartDateString.isEmpty() && startDate.isValid() )
-        data()->changeDateTime( data()->geo()->LTtoUT( startDate ) );
+        data()->changeDateTime( geo()->LTtoUT( startDate ) );
     else
         data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
 
@@ -160,27 +160,27 @@ void KStars::applyConfig( bool doApplyFocus ) {
         actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
     }
 
-    actionCollection()->action("coordsys")->setText(
-        Options::useAltAz() ? i18n("Horizontal &Coordinates") : i18n("Equatorial &Coordinates") );
+    if ( Options::useAltAz() ) actionCollection()->action("coordsys")->setText(i18n("Horizontal &Coordinates"));
+    else actionCollection()->action("coordsys")->setText(i18n("Equatorial &Coordinates"));
 
-    actionCollection()->action("show_time_box"    )->setChecked( Options::showTimeBox() );
-    actionCollection()->action("show_location_box")->setChecked( Options::showGeoBox() );
-    actionCollection()->action("show_focus_box"   )->setChecked( Options::showFocusBox() );
-    actionCollection()->action("show_mainToolBar" )->setChecked( Options::showMainToolBar() );
-    actionCollection()->action("show_viewToolBar" )->setChecked( Options::showViewToolBar() );
-    actionCollection()->action("show_statusBar"   )->setChecked( Options::showStatusBar() );
-    actionCollection()->action("show_sbAzAlt"     )->setChecked( Options::showAltAzField() );
-    actionCollection()->action("show_sbRADec"     )->setChecked( Options::showRADecField() );
-    actionCollection()->action("show_stars"       )->setChecked( Options::showStars() );
-    actionCollection()->action("show_deepsky"     )->setChecked( Options::showDeepSky() );
-    actionCollection()->action("show_planets"     )->setChecked( Options::showSolarSystem() );
-    actionCollection()->action("show_clines"      )->setChecked( Options::showCLines() );
-    actionCollection()->action("show_cnames"      )->setChecked( Options::showCNames() );
-    actionCollection()->action("show_cbounds"     )->setChecked( Options::showCBounds() );
-    actionCollection()->action("show_mw"          )->setChecked( Options::showMilkyWay() );
-    actionCollection()->action("show_grid"        )->setChecked( Options::showGrid() );
-    actionCollection()->action("show_horizon"     )->setChecked( Options::showGround() );
-    actionCollection()->action("show_flags"       )->setChecked( Options::showFlags() );
+    ((KToggleAction*)actionCollection()->action("show_time_box"))->setChecked( Options::showTimeBox() );
+    ((KToggleAction*)actionCollection()->action("show_location_box"))->setChecked( Options::showGeoBox() );
+    ((KToggleAction*)actionCollection()->action("show_focus_box"))->setChecked( Options::showFocusBox() );
+    ((KToggleAction*)actionCollection()->action("show_mainToolBar"))->setChecked( Options::showMainToolBar() );
+    ((KToggleAction*)actionCollection()->action("show_viewToolBar"))->setChecked( Options::showViewToolBar() );
+    ((KToggleAction*)actionCollection()->action("show_statusBar"))->setChecked( Options::showStatusBar() );
+    ((KToggleAction*)actionCollection()->action("show_sbAzAlt"))->setChecked( Options::showAltAzField() );
+    ((KToggleAction*)actionCollection()->action("show_sbRADec"))->setChecked( Options::showRADecField() );
+    ((KToggleAction*)actionCollection()->action("show_stars"))->setChecked( Options::showStars() );
+    ((KToggleAction*)actionCollection()->action("show_deepsky"))->setChecked( Options::showDeepSky() );
+    ((KToggleAction*)actionCollection()->action("show_planets"))->setChecked( Options::showSolarSystem() );
+    ((KToggleAction*)actionCollection()->action("show_clines"))->setChecked( Options::showCLines() );
+    ((KToggleAction*)actionCollection()->action("show_cnames"))->setChecked( Options::showCNames() );
+    ((KToggleAction*)actionCollection()->action("show_cbounds"))->setChecked( Options::showCBounds() );
+    ((KToggleAction*)actionCollection()->action("show_mw"))->setChecked( Options::showMilkyWay() );
+    ((KToggleAction*)actionCollection()->action("show_grid"))->setChecked( Options::showGrid() );
+    ((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
+    ((KToggleAction*)actionCollection()->action("show_flags"))->setChecked( Options::showFlags() );
 
     //color scheme
     kstarsData->colorScheme()->loadFromConfig();
@@ -220,15 +220,15 @@ void KStars::applyConfig( bool doApplyFocus ) {
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {
+    dms oldLST( LST()->Degrees() );
     // Due to frequently use of this function save data and map pointers for speedup.
     // Save options and geo() to a pointer would not speedup because most of time options
     // and geo will accessed only one time.
     KStarsData *Data = data();
     SkyMap *Map = map();
-    dms oldLST( Data->lst()->Degrees() );
 
-    Data->updateTime( Data->geo(), Map, automaticDSTchange );
-    if ( infoBoxes()->timeChanged( Data->ut(), Data->lt(), Data->lst() ) )
+    Data->updateTime( geo(), Map, automaticDSTchange );
+    if ( infoBoxes()->timeChanged( Data->ut(), Data->lt(), LST() ) )
         Map->update();
 
     //We do this outside of kstarsdata just to get the coordinates
@@ -262,10 +262,19 @@ void KStars::removeImageViewer( ImageViewer *iv ) {
         m_ImageViewerList.takeAt( i )->deleteLater();
 }
 
+KStarsData* KStars::data() { return kstarsData; }
+
+SkyMap* KStars::map()  { return skymap; }
 
 InfoBoxes* KStars::infoBoxes()  { return map()->infoBoxes(); }
 
+GeoLocation* KStars::geo() { return data()->geo(); }
+
 void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
+
+dms* KStars::LST() { return data()->lst(); }
+
+ObservingList* KStars::observingList() { return obsList; }
 
 #include "kstars.moc"
 

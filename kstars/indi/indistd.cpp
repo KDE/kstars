@@ -278,23 +278,22 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
 	}
 
 	// Update KStars Location once we receive update from INDI, if the source is set to DEVICE
-	if (Options::useDeviceSource()) {
+	if (Options::useDeviceSource())
+	{
 		dms lng, lat;
 
-        el = pp->findElement("LONG");
-        if (!el)
-            return;
-        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
+	        el = pp->findElement("LONG");
+	        if (!el) return;
+	        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
 		lng.setD(d,min,sec);
 
 		el = pp->findElement("LAT");
-        if (!el)
-            return;
-        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
+	        if (!el) return;
+	        sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
 		lat.setD(d,min,sec);
 		
-        ksw->data()->geo()->setLong(lng);
-        ksw->data()->geo()->setLat(lat);
+	        ksw->geo()->setLong(lng);
+		ksw->geo()->setLat(lat);
 	}
         break;
 
@@ -324,7 +323,7 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
         el = pp->findElement("DEC");
         if (!el) return;
         telescopeSkyObject->setDec(el->value);
-        telescopeSkyObject->EquatorialToHorizontal(ksw->data()->lst(), ksw->data()->geo()->lat());
+        telescopeSkyObject->EquatorialToHorizontal(ksw->LST(), ksw->geo()->lat());
 
         if (ksw->map()->focusObject() == telescopeSkyObject)
             ksw->map()->updateFocus();
@@ -341,7 +340,7 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
         el = pp->findElement("AZ");
         if (!el) return;
         telescopeSkyObject->setAz(el->value);
-        telescopeSkyObject->HorizontalToEquatorial(ksw->data()->lst(), ksw->data()->geo()->lat());
+        telescopeSkyObject->HorizontalToEquatorial(ksw->LST(), ksw->geo()->lat());
         // Force immediate update of skymap if the focus object is our telescope.
         if (ksw->map()->focusObject() == telescopeSkyObject)
             ksw->map()->updateFocus();
@@ -519,7 +518,7 @@ void INDIStdProperty::newTime()
     timeEle = pp->findElement("UTC");
     if (!timeEle) return;
 
-    TimeDialog timedialog ( ksw->data()->ut(), ksw->data()->geo(), ksw, true );
+    TimeDialog timedialog ( ksw->data()->ut(), ksw->geo(), ksw, true );
 
     if ( timedialog.exec() == QDialog::Accepted )
     {
@@ -539,7 +538,7 @@ void INDIStdProperty::newTime()
     timeEle = SDProp->findElement("LST");
     if (!timeEle) return;
 
-    timeEle->write_w->setText(ksw->data()->lst()->toHMSString());
+    timeEle->write_w->setText(ksw->LST()->toHMSString());
     SDProp->newText();
 }
 
@@ -587,7 +586,7 @@ void INDIStdDevice::updateLocation()
 {
     INDI_P *pp;
     INDI_E * latEle, * longEle;
-    GeoLocation *geo = ksw->data()->geo();
+    GeoLocation *geo = ksw->geo();
 
     pp = dp->findProp("GEOGRAPHIC_COORD");
     if (!pp) return;

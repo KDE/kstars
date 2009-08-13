@@ -69,11 +69,10 @@ KStarsData* KStarsData::Instance( )
 
 
 KStarsData::KStarsData() :
-    locale( new KLocale( "kstars" ) ),
+    locale(0),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
-    m_preUpdateNum( J2000 ), m_updateNum( J2000 ),
-    temporaryTrail( false )
+    m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
     startupComplete = false;
 
@@ -96,9 +95,18 @@ KStarsData::KStarsData() :
     TypeName[16] = i18n( "quasar" );
     TypeName[17] = i18n( "multiple star" );
 
+    //standard directories and locale objects
+    locale = new KLocale( "kstars" );
+
     m_SkyComposite = new SkyMapComposite( 0, this );
+
     // at startup times run forward
     setTimeDirection( 0.0 );
+
+    //The StoredDate is used when saving user settings in a script; initialize to invalid date
+    StoredDate = KDateTime();
+
+    temporaryTrail = false;
 }
 
 KStarsData::~KStarsData() {

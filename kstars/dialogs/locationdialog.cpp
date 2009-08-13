@@ -113,7 +113,7 @@ void LocationDialog::initCityList( void ) {
     ui->GeoBox->setCurrentItem( 0 );
     if ( ui->GeoBox->count() ) {
         for ( uint i=0; i < ui->GeoBox->count(); i++ ) {
-            if ( ui->GeoBox->item(i)->text() == ksw->data()->geo()->fullName() ) {
+            if ( ui->GeoBox->item(i)->text() == ksw->geo()->fullName() ) {
                 ui->GeoBox->setCurrentItem( i );
                 break;
             }
@@ -199,11 +199,13 @@ void LocationDialog::changeCity( void ) {
     ui->AddCityButton->setEnabled( false );
 }
 
-bool LocationDialog::addCity( ) {
+void LocationDialog::addCity( void ) {
+    bCityAdded = false;
+
     if ( !nameModified && !dataModified ) {
         QString message = i18n( "This City already exists in the database." );
         KMessageBox::sorry( 0, message, i18n( "Error: Duplicate Entry" ) );
-        return false;
+        return;
     }
 
     bool latOk(false), lngOk(false), tzOk(false);
@@ -216,20 +218,20 @@ bool LocationDialog::addCity( ) {
     if ( ui->NewCityName->text().isEmpty() || ui->NewCountryName->text().isEmpty() ) {
         QString message = i18n( "All fields (except province) must be filled to add this location." );
         KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
-        return false;
+        return;
     } else if ( ! latOk || ! lngOk ) {
         QString message = i18n( "Could not parse the Latitude/Longitude." );
         KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
-        return false;
+        return;
     } else if( ! tzOk) {
     	QString message = i18n( "Could not parse coordinates." );
         KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
-        return false;
+        return;
     } else {
         if ( !nameModified ) {
             QString message = i18n( "Really override original data for this city?" );
             if ( KMessageBox::questionYesNo( 0, message, i18n( "Override Existing Data?" ), KGuiItem(i18n("Override Data")), KGuiItem(i18n("Do Not Override"))) == KMessageBox::No )
-                return false; //user answered No.
+                return; //user answered No.
         }
 
         QString entry;
@@ -246,7 +248,7 @@ bool LocationDialog::addCity( ) {
         if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
             QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );
             KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-            return false;
+            return;
         } else {
             char ltsgn = 'N'; if ( lat.degree()<0 ) ltsgn = 'S';
             char lgsgn = 'E'; if ( lng.degree()<0 ) lgsgn = 'W';
@@ -284,7 +286,9 @@ bool LocationDialog::addCity( ) {
 
         }
     }
-    return true;
+
+    bCityAdded = true;
+    return;
 }
 
 void LocationDialog::findCitiesNear( int lng, int lat ) {
@@ -313,19 +317,16 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 }
 
 bool LocationDialog::checkLongLat( void ) {
-    if ( ui->NewLong->text().isEmpty() || ui->NewLat->text().isEmpty() )
-        return false;
+    if ( ui->NewLong->text().isEmpty() || ui->NewLat->text().isEmpty() ) return false;
 
-    bool ok;
+    bool ok(false);
     double lng = ui->NewLong->createDms(true, &ok).Degrees();
-    if( !ok )
-        return false;
+    if ( ! ok ) return false;
     double lat = ui->NewLat->createDms(true, &ok).Degrees();
-    if( !ok )
-        return false;
+    if ( ! ok ) return false;
 
-    if( fabs(lng) > 180 || fabs(lat) > 90 )
-        return false;
+    if ( lng < -180.0 || lng > 180.0 ) return false;
+    if ( lat <  -90.0 || lat >  90.0 ) return false;
 
     return true;
 }
@@ -407,14 +408,22 @@ void LocationDialog::nameChanged( void ) {
 //do not enable Add button until all data are present and valid.
 void LocationDialog::dataChanged( void ) {
     dataModified = true;
-    ui->AddCityButton->setEnabled( !ui->NewCityName->text().isEmpty() &&
-                                   !ui->NewCountryName->text().isEmpty() &&
-                                   checkLongLat() );
+    if ( ! ui->NewCityName->text().isEmpty() && ! ui->NewCountryName->text().isEmpty() && checkLongLat() )
+        ui->AddCityButton->setEnabled( true );
+    else
+        ui->AddCityButton->setEnabled( false );
 }
 
 void LocationDialog::slotOk( void ) {
-    if( addCityEnabled() && addCity() )
-        accept();
+    bool bOkToClose = false;
+    if ( addCityEnabled() ) { //user closed the location dialog without adding their new city;
+        addCity();                   //call addCity() for them!
+        bOkToClose = bCityAdded;
+    } else {
+        bOkToClose = true;
+    }
+
+    if ( bOkToClose ) accept();
 }
 
 bool LocationDialog::addCityEnabled() { return ui->AddCityButton->isEnabled(); }

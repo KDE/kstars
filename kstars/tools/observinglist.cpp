@@ -94,7 +94,7 @@ ObservingList::ObservingList( KStars *_ks )
     setCaption( i18n( "Observing List" ) );
     setButtons( KDialog::Close );
     dt = KStarsDateTime::currentDateTime();
-    geo = ks->data()->geo();
+    geo = ks->geo();
     sessionView = false;
     pmenu = new ObsListPopupMenu( KStars::Instance() );
     //Set up the Table Views

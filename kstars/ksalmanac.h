@@ -27,6 +27,8 @@
 #include "kstarsdata.h"
 
 
+class KStars;
+
 /**
  *@class KSAlmanac
  *
@@ -80,7 +82,7 @@ public:
     inline QTime moonRise() { return MoonRiseT; }
     inline QTime moonSet() { return MoonSetT; }
     
-private:
+ private:
     // TODO: Add documentation
     KSAlmanac(); 
     void update();
@@ -88,6 +90,7 @@ private:
     static KSAlmanac *pinstance;
     KSSun m_Sun;
     KSMoon m_Moon;
+    KStars *ks;
     KStarsDateTime dt;
     
     GeoLocation *geo;
