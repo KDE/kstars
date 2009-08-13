@@ -88,7 +88,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
     topLayout->addWidget( avtUI );
 
-    geo = ks->geo();
+    geo = ks->data()->geo();
 
     DayOffset = 0;
     showCurrentDate();
@@ -225,7 +225,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     //If the object is in the solar system, recompute its position for the given epochLabel
     if ( o->isSolarSystem() ) {
         oldNum = new KSNumbers( ks->data()->ut().djd() );
-        o->updateCoords( num, true, geo->lat(), ks->LST() );
+        o->updateCoords( num, true, geo->lat(), ks->data()->lst() );
     }
 
     //precess coords to target epoch
@@ -269,10 +269,10 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
     //restore original position
     if ( o->isSolarSystem() ) {
-        o->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
+        o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->data()->lst() );
         delete oldNum;
     }
-    o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
+    o->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
     delete num;
 }
 
@@ -385,11 +385,11 @@ void AltVsTime::slotUpdateDateLoc() {
 
             //restore original position
             if ( o->isSolarSystem() ) {
-                o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
+                o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->data()->lst() );
                 delete oldNum;
                 oldNum = 0;
             }
-            o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
+            o->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
         } else {  //assume unfound object is a custom object
             pList.at(i)->updateCoords( num ); //precess to desired epoch
 

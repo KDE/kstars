@@ -68,13 +68,13 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
     ui->dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
 
     // FIXME is there a better way to check if a translated message is empty?
-    //if (ksw->geo()->translatedProvince().isEmpty())
-    if (ksw->geo()->translatedProvince() == QString("(I18N_EMPTY_MESSAGE)"))
-        ui->locationOut->setText( QString("%1, %2").arg(ksw->geo()->translatedName()).arg(ksw->geo()->translatedCountry()));
+    //if (ksw->data()->geo()->translatedProvince().isEmpty())
+    if (ksw->data()->geo()->translatedProvince() == QString("(I18N_EMPTY_MESSAGE)"))
+        ui->locationOut->setText( QString("%1, %2").arg(ksw->data()->geo()->translatedName()).arg(ksw->data()->geo()->translatedCountry()));
     else
-        ui->locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
-                                  .arg(ksw->geo()->translatedProvince())
-                                  .arg(ksw->geo()->translatedCountry()));
+        ui->locationOut->setText( QString("%1, %2, %3").arg(ksw->data()->geo()->translatedName())
+                                  .arg(ksw->data()->geo()->translatedProvince())
+                                  .arg(ksw->data()->geo()->translatedCountry()));
 
 
     foreach (IDevice *device, indidriver->devices)
@@ -171,7 +171,7 @@ void telescopeWizardProcess::processBack(void)
 
 void telescopeWizardProcess::newTime()
 {
-    TimeDialog timedialog (ksw->data()->lt(), ksw->geo(), ksw);
+    TimeDialog timedialog (ksw->data()->lt(), ksw->data()->geo(), ksw);
 
     if ( timedialog.exec() == QDialog::Accepted )
     {
@@ -185,19 +185,20 @@ void telescopeWizardProcess::newTime()
 
 void telescopeWizardProcess::newLocation()
 {
-
     ksw->slotGeoLocator();
-
-    ui->locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
-                              .arg(ksw->geo()->translatedProvince())
-                              .arg(ksw->geo()->translatedCountry()));
-    ui->timeOut->setText( QString().sprintf("%02d:%02d:%02d", ksw->data()->lt().time().hour(), ksw->data()->lt().time().minute(), ksw->data()->lt().time().second()));
-
-    ui->dateOut->setText( QString().sprintf("%d-%02d-%02d", ksw->data()->lt().date().year(),
-                                            ksw->data()->lt().date().month() ,ksw->data()->lt().date().day()));
-
-
-
+    GeoLocation* geo = ksw->data()->geo();
+    ui->locationOut->setText( QString("%1, %2, %3")
+                                  .arg( geo->translatedName() )
+                                  .arg( geo->translatedProvince() )
+                                  .arg( geo->translatedCountry()) );
+    ui->timeOut->setText( QString().sprintf("%02d:%02d:%02d",
+                                            ksw->data()->lt().time().hour(),
+                                            ksw->data()->lt().time().minute(),
+                                            ksw->data()->lt().time().second()));
+    ui->dateOut->setText( QString().sprintf("%d-%02d-%02d",
+                                            ksw->data()->lt().date().year(),
+                                            ksw->data()->lt().date().month(),
+                                            ksw->data()->lt().date().day()));
 }
 
 void telescopeWizardProcess::establishLink()

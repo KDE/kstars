@@ -190,17 +190,17 @@ void KStars::slotWizard() {
         data()->setLocation( *(wizard->geo()) );
 
         // reset infoboxes
-        infoBoxes()->geoChanged( geo() );
+        infoBoxes()->geoChanged( data()->geo() );
 
         // adjust local time to keep UT the same.
         // create new LT without DST offset
-        KStarsDateTime ltime = geo()->UTtoLT( data()->ut() );
+        KStarsDateTime ltime = data()->geo()->UTtoLT( data()->ut() );
 
         // reset timezonerule to compute next dst change
-        geo()->tzrule()->reset_with_ltime( ltime, geo()->TZ0(), data()->isTimeRunningForward() );
+        data()->geo()->tzrule()->reset_with_ltime( ltime, data()->geo()->TZ0(), data()->isTimeRunningForward() );
 
         // reset next dst change time
-        data()->setNextDSTChange( geo()->tzrule()->nextDSTChange() );
+        data()->setNextDSTChange( data()->geo()->tzrule()->nextDSTChange() );
 
         // reset local sideral time
         data()->syncLST();
@@ -211,7 +211,7 @@ void KStars::slotWizard() {
         // If the sky is in Horizontal mode and not tracking, reset focus such that
         // Alt/Az remain constant.
         if ( ! Options::isTracking() && Options::useAltAz() ) {
-            map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+            map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         }
 
         // recalculate new times and objects
@@ -369,7 +369,7 @@ void KStars::slotGeoLocator() {
             // If the sky is in Horizontal mode and not tracking, reset focus such that
             // Alt/Az remain constant.
             if ( ! Options::isTracking() && Options::useAltAz() ) {
-                map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+                map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
 
             // recalculate new times and objects
@@ -448,17 +448,17 @@ void KStars::slotApplyConfigChanges() {
 }
 
 void KStars::slotSetTime() {
-    QPointer<TimeDialog> timedialog = new TimeDialog( data()->lt(), geo(), this );
+    QPointer<TimeDialog> timedialog = new TimeDialog( data()->lt(), data()->geo(), this );
 
     if ( timedialog->exec() == QDialog::Accepted ) {
-        data()->changeDateTime( geo()->LTtoUT( timedialog->selectedDateTime() ) );
+        data()->changeDateTime( data()->geo()->LTtoUT( timedialog->selectedDateTime() ) );
 
         if ( Options::useAltAz() ) {
             if ( map()->focusObject() ) {
-                map()->focusObject()->EquatorialToHorizontal( LST(), geo()->lat() );
+                map()->focusObject()->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
                 map()->setFocus( map()->focusObject() );
             } else
-                map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+                map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         }
 
         map()->forceUpdateNow();
@@ -479,10 +479,10 @@ void KStars::slotSetTimeToNow() {
 
     if ( Options::useAltAz() ) {
         if ( map()->focusObject() ) {
-            map()->focusObject()->EquatorialToHorizontal( LST(), geo()->lat() );
+            map()->focusObject()->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
             map()->setFocus( map()->focusObject() );
         } else
-            map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+            map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
     }
 
     map()->forceUpdateNow();
@@ -756,11 +756,11 @@ void KStars::slotManualFocus() {
         double realDec( focusDialog->point().dec()->Degrees() );
         if ( Options::useAltAz() && realAlt > 89.0 ) {
             focusDialog->point().setAlt( 89.0 );
-            focusDialog->point().HorizontalToEquatorial( LST(), geo()->lat() );
+            focusDialog->point().HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         }
         if ( ! Options::useAltAz() && realDec > 89.0 ) {
             focusDialog->point().setDec( 89.0 );
-            focusDialog->point().EquatorialToHorizontal( LST(), geo()->lat() );
+            focusDialog->point().EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
         }
 
         map()->setClickedPoint( & focusDialog->point() );
@@ -901,7 +901,7 @@ void KStars::slotCoordSys() {
             else { //need to recompute focus for unrefracted position
                 map()->setFocusAltAz( map()->refract( map()->focus()->alt(), false ).Degrees(),
                                       map()->focus()->az()->Degrees() );
-                map()->focus()->HorizontalToEquatorial( data()->lst(), geo()->lat() );
+                map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
         actionCollection()->action("coordsys")->setText( i18n("Equatorial &Coordinates") );

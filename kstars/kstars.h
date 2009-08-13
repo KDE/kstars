@@ -118,35 +118,23 @@ public:
      */
     inline static KStars *Instance() { return pinstance; }
 
-    /**Destructor.  Synchs config file.  Deletes objects.
-        */
-    ~KStars();
+    /**Destructor.  Synchs config file.  Deletes objects. */
+    virtual ~KStars();
 
-    /**@return pointer to KStarsData object which contains application data.
-        */
-    KStarsData* data();
+    /**@return pointer to KStarsData object which contains application data. */
+    KStarsData* data() { return kstarsData; }
 
-    /**@return pointer to the local sidereal time.
-        */
-    dms* LST();
+    /**@return pointer to SkyMap object which is the sky display widget. */
+    SkyMap* map() { return skymap; }
 
-    /**@return pointer to SkyMap object which is the sky display widget.
-        */
-    SkyMap* map();
-
-    ObservingList* observingList();
+    ObservingList* observingList() { return obsList; }
 
     Execute* getExecute();
 
     ImageViewer* addImageViewer(const KUrl &url, const QString &message );
     void removeImageViewer( ImageViewer* );
 
-    /**@return pointer to GeoLocation object which is the current geographic location.
-        */
-    GeoLocation* geo();
-
-    /**@return pointer to InfoBoxes object.
-        */
+    /**@return pointer to InfoBoxes object. */
     InfoBoxes* infoBoxes();
 
     inline KLed* diskLED() { return m_DiskLED; }

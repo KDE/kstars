@@ -36,14 +36,14 @@ SkyCalendarUI::SkyCalendarUI( QWidget *parent )
     setupUi( this );
 }
 
-SkyCalendar::SkyCalendar( KStars *parent )
-    : KDialog( (QWidget*)parent ), ks(parent)
+SkyCalendar::SkyCalendar( QWidget *parent )
+    : KDialog( parent )
 {
     scUI = new SkyCalendarUI( this );
     setMainWidget( scUI );
     
-    geo = ks->geo();
-    
+    geo = KStars::Instance()->data()->geo();
+
     setCaption( i18n( "Sky Calendar" ) );
     setButtons( KDialog::User1 | KDialog::Close );
     setModal( false );
@@ -55,7 +55,7 @@ SkyCalendar::SkyCalendar( KStars *parent )
     
     scUI->CalendarView->setLimits( -9.0, 9.0, 0.0, 366.0 );
     scUI->CalendarView->setShowGrid( false ); 
-    scUI->Year->setValue( ks->data()->lt().date().year() );
+    scUI->Year->setValue( KStarsData::Instance()->lt().date().year() );
 
     scUI->LocationButton->setText( geo->fullName() );
     setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Print..."), QString(), i18n("Print the Sky Calendar") ) );
@@ -111,7 +111,7 @@ void SkyCalendar::drawEventLabel( float x1, float y1, float x2, float y2, QStrin
 */
 
 void SkyCalendar::addPlanetEvents( int nPlanet ) {
-    KSPlanetBase *ksp = ks->data()->skyComposite()->planet( nPlanet );
+    KSPlanetBase *ksp = KStarsData::Instance()->skyComposite()->planet( nPlanet );
     int y = scUI->Year->value();
     KStarsDateTime kdt( QDate( y, 1, 1 ), QTime( 12, 0, 0 ) );
     QColor pColor = KSPlanetBase::planetColor[nPlanet];
@@ -216,7 +216,7 @@ void SkyCalendar::slotPrint() {
 }
 
 void SkyCalendar::slotLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog( ks );
+    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {

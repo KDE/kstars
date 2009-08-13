@@ -432,8 +432,8 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
     if ( ! obj ) return;
 
     QString rt;
-    QTime rtime = obj->riseSetTime( ks->data()->ut(), ks->geo(), true );
-    dms rAz = obj->riseSetTimeAz( ks->data()->ut(), ks->geo(), true );
+    QTime rtime = obj->riseSetTime( ks->data()->ut(), ks->data()->geo(), true );
+    dms rAz = obj->riseSetTimeAz( ks->data()->ut(), ks->data()->geo(), true );
 
     if ( rtime.isValid() ) {
         //We can round to the nearest minute by simply adding 30 seconds to the time.
@@ -446,10 +446,10 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
     }
 
     KStarsDateTime dt = ks->data()->ut();
-    QTime stime = obj->riseSetTime( dt, ks->geo(), false );
+    QTime stime = obj->riseSetTime( dt, ks->data()->geo(), false );
 
     QString st;
-    dms sAz = obj->riseSetTimeAz( dt,  ks->geo(), false );
+    dms sAz = obj->riseSetTimeAz( dt,  ks->data()->geo(), false );
 
     if ( stime.isValid() ) {
         //We can round to the nearest minute by simply adding 30 seconds to the time.
@@ -461,8 +461,8 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
         st = i18n( "No set time: Never rises" );
     }
 
-    QTime ttime = obj->transitTime( dt, ks->geo() );
-    dms trAlt = obj->transitAltitude( dt, ks->geo() );
+    QTime ttime = obj->transitTime( dt, ks->data()->geo() );
+    dms trAlt = obj->transitAltitude( dt, ks->data()->geo() );
     QString tt;
 
     if ( ttime.isValid() ) {

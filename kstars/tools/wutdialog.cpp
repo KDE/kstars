@@ -203,8 +203,8 @@ void WUTDialog::init() {
                                       int(100.0*oMoon->illum() ) ) );
 
     //Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
-    oMoon->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
-    oSun->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
+    oMoon->updateCoords( oldNum, true, geo->lat(), kstars->data()->lst() );
+    oSun->updateCoords( oldNum, true, geo->lat(), kstars->data()->lst() );
     oMoon->findPhase();
 
     if ( WUT->CategoryListWidget->currentItem() )
@@ -452,7 +452,7 @@ void WUTDialog::slotChangeDate() {
     // wants to see what's up on the night of some date, rather than the night of the previous day
     T0.setTime( QTime( 18, 0, 0 ) ); // 6 PM
 
-    QPointer<TimeDialog> td = new TimeDialog( T0, kstars->geo(), this );
+    QPointer<TimeDialog> td = new TimeDialog( T0, kstars->data()->geo(), this );
     if ( td->exec() == QDialog::Accepted ) {
         T0 = td->selectedDateTime();
 

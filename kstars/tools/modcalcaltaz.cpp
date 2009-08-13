@@ -34,19 +34,20 @@
 #include "dialogs/locationdialog.h"
 
 modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
-        : QFrame(parentSplit), horInputCoords(false) {
+        : QFrame(parentSplit), horInputCoords(false)
+{
     setupUi(this);
 
-    KStars *ks = ((KStars*) topLevelWidget()->parent());
+    KStarsData *data = KStarsData::Instance();
     RA->setDegType(false);
 
     //Initialize Date/Time and Location data
-    geoPlace = ks->geo();
+    geoPlace = data->geo();
     LocationButton->setText( geoPlace->fullName() );
 
     //Make sure slotDateTime() gets called, so that LST will be set
     connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
-    DateTime->setDateTime( ks->data()->lt().dateTime() );
+    DateTime->setDateTime( data->lt().dateTime() );
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
@@ -83,7 +84,7 @@ void modCalcAltAz::slotNow()
 
 void modCalcAltAz::slotLocation()
 {
-    QPointer<LocationDialog> ld = new LocationDialog( (KStars*)topLevelWidget()->parent() );
+    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {

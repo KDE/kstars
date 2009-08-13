@@ -97,7 +97,7 @@ void FocusDialog::validatePoint() {
         double epoch0 = getEpoch( fd->epochBox->text() );
         long double jd0 = epochToJd ( epoch0 );
         Point.apparentCoord(jd0, ks->data()->ut().djd() );
-        Point.EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
+        Point.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
 
         KDialog::accept();
     } else {
@@ -117,7 +117,7 @@ void FocusDialog::validatePoint() {
 
             Point.setAz( az );
             Point.setAlt( alt );
-            Point.HorizontalToEquatorial( ks->LST(), ks->geo()->lat() );
+            Point.HorizontalToEquatorial( ks->data()->lst(), ks->data()->geo()->lat() );
 
             UsedAltAz = true;
 

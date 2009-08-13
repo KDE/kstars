@@ -28,6 +28,7 @@
 #define NCATEGORY 8
 
 class KStars;
+class KStarsData;
 class GeoLocation;
 class SkyObject;
 
@@ -47,9 +48,11 @@ class WUTDialog : public KDialog  {
     Q_OBJECT
 
 public:
-
     /**@short Constructor*/
-    WUTDialog( KStars *ks, bool session = false,GeoLocation *geo = KStars::Instance()->geo(), KStarsDateTime lt = KStars::Instance()->data()->lt() );
+    WUTDialog( KStars *ks,
+               bool session = false,
+               GeoLocation *geo  = KStarsData::Instance()->geo(),
+               KStarsDateTime lt = KStarsData::Instance()->lt() );
     /**@short Destructor*/
     ~WUTDialog();
 
@@ -60,14 +63,12 @@ public:
     bool checkVisibility(SkyObject *o);
 
 public slots:
-
     /**@short Determine which objects are visible, and store them in
         *an array of lists, classified by object type 
         */
     void init();
 
 private slots:
-
     /**@short Load the list of visible objects for selected object type.
         *@p category the string describing the type of object
         */
