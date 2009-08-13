@@ -40,9 +40,8 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
     RA->setDegType(false);
 
     //Initialize Date/Time and Location data
-    KStars *ks = ((KStars*) topLevelWidget()->parent());
-    DateTime->setDateTime( ks->data()->lt().dateTime() );
-    kdt = ((KStarsDateTime)DateTime->dateTime());
+    DateTime->setDateTime( KStarsData::Instance()->lt().dateTime() );
+    kdt = DateTime->dateTime();
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
@@ -72,7 +71,7 @@ void modCalcEclCoords::slotNow() {
 }
 
 void modCalcEclCoords::slotObject() {
-    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
     if ( fd->exec() == QDialog::Accepted ) {
         SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra() );
