@@ -86,10 +86,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_Left :
         if ( Options::useAltAz() ) {
             focus()->setAz( dms( focus()->az()->Degrees() - step * MINZOOM/Options::zoomFactor() ).reduce() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             focus()->setRA( focus()->ra()->Hours() + 0.05*step * MINZOOM/Options::zoomFactor() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         arrowKeyPressed = true;
@@ -100,10 +100,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_Right :
         if ( Options::useAltAz() ) {
             focus()->setAz( dms( focus()->az()->Degrees() + step * MINZOOM/Options::zoomFactor() ).reduce() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             focus()->setRA( focus()->ra()->Hours() - 0.05*step * MINZOOM/Options::zoomFactor() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         arrowKeyPressed = true;
@@ -115,11 +115,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         if ( Options::useAltAz() ) {
             focus()->setAlt( focus()->alt()->Degrees() + step * MINZOOM/Options::zoomFactor() );
             if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             focus()->setDec( focus()->dec()->Degrees() + step * MINZOOM/Options::zoomFactor() );
             if (focus()->dec()->Degrees() > 90.0) focus()->setDec( 90.0 );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         arrowKeyPressed = true;
@@ -131,11 +131,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         if ( Options::useAltAz() ) {
             focus()->setAlt( focus()->alt()->Degrees() - step * MINZOOM/Options::zoomFactor() );
             if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
-            focus()->HorizontalToEquatorial(data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
         } else {
             focus()->setDec( focus()->dec()->Degrees() - step * MINZOOM/Options::zoomFactor() );
             if (focus()->dec()->Degrees() < -90.0) focus()->setDec( -90.0 );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         arrowKeyPressed = true;
@@ -431,9 +431,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     oldfocus()->setAz( focus()->az()->Degrees() );
     oldfocus()->setAlt( focus()->alt()->Degrees() );
 
-    double dHA = data->LST->Hours() - focus()->ra()->Hours();
+    double dHA = data->lst()->Hours() - focus()->ra()->Hours();
     while ( dHA < 0.0 ) dHA += 24.0;
-    data->HourAngle->setH( dHA );
+    data->HourAngle.setH( dHA );
 
     if ( arrowKeyPressed ) {
         infoBoxes()->focusObjChanged( i18n( "nothing" ) );
@@ -539,8 +539,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
     if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     //determine RA, Dec of mouse pointer
-    setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
-    mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+    mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     double dyPix = 0.5*height() - e->y();
     if ( midMouseButtonDown ) { //zoom according to y-offset
@@ -567,8 +567,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
         //Update focus such that the sky coords at mouse cursor remain approximately constant
         if ( Options::useAltAz() ) {
-            mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-            clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             dms dAz = mousePoint()->az()->Degrees() - clickedPoint()->az()->Degrees();
             dms dAlt = mousePoint()->alt()->Degrees() - clickedPoint()->alt()->Degrees();
             focus()->setAz( focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
@@ -577,7 +577,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             if ( focus()->alt()->Degrees() >90.0 ) focus()->setAlt( 90.0 );
             if ( focus()->alt()->Degrees() <-90.0 ) focus()->setAlt( -90.0 );
             focus()->setAz( focus()->az()->reduce() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             dms dRA = mousePoint()->ra()->Degrees() - clickedPoint()->ra()->Degrees();
             dms dDec = mousePoint()->dec()->Degrees() - clickedPoint()->dec()->Degrees();
@@ -587,7 +587,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             if ( focus()->dec()->Degrees() >90.0 ) focus()->setDec( 90.0 );
             if ( focus()->dec()->Degrees() <-90.0 ) focus()->setDec( -90.0 );
             focus()->setRA( focus()->ra()->reduce() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         ++scrollCount;
@@ -598,13 +598,13 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
         setOldFocus( focus() );
 
-        double dHA = data->LST->Hours() - focus()->ra()->Hours();
+        double dHA = data->lst()->Hours() - focus()->ra()->Hours();
         while ( dHA < 0.0 ) dHA += 24.0;
-        data->HourAngle->setH( dHA );
+        data->HourAngle.setH( dHA );
 
         //redetermine RA, Dec of mouse pointer, using new focus
-        setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
-        mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
 
         forceUpdate();  // must be new computed
@@ -656,7 +656,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
         infoBoxes()->focusObjChanged( i18n( "nothing" ) );
         stopTracking();
 
-        SkyPoint newcenter = fromScreen( ZoomRect.center(), data->LST, data->geo()->lat() );
+        SkyPoint newcenter = fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
 
         setFocus( &newcenter );
         setDestination( &newcenter );
@@ -722,10 +722,10 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         }
 
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
-        mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
-        clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
