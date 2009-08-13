@@ -119,11 +119,11 @@ public slots:
     	*/
     void changeCity( void );
 
-    /**
-    	*When the "Add new city" QPushButton is clicked, add the manually-entered
-    	*city information to the user's custom city database.
-    	*/
-    void addCity( void );
+    /** When the "Add new city" QPushButton is clicked, add the manually-entered
+     * city information to the user's custom city database.
+     * @return true on success
+     */
+    bool addCity();
 
     void clearFields( void );
     void showTZRules( void );
@@ -138,7 +138,7 @@ private:
     	*/
     bool checkLongLat( void );
 
-    bool dataModified, nameModified, bCityAdded;
+    bool dataModified, nameModified;
 
     Ui::LocationDialog *ui;
     KStars *ksw;
