@@ -57,7 +57,6 @@ struct INDIHostsInfo;
 struct ADVTreeData;
 class CustomCatalog;
 
-class KStars;
 
 struct VariableStarInfo
 {
@@ -80,9 +79,7 @@ class KStarsData : public QObject
 
 protected:
     /**Constructor. */
-    KStarsData( KStars* kstars=0 );
-
-    KStarsData( KStarsData& ksd );
+    KStarsData();
 
 public:
     //Friend classes can see the private data.
@@ -103,7 +100,7 @@ public:
     friend class telescopeWizardProcess;
     friend class ObsListWizard;
 
-    static KStarsData* Create( KStars* kstars=0 );
+    static KStarsData* Create( );
 
     static KStarsData* Instance();
 
@@ -487,7 +484,6 @@ private:
     QList<GeoLocation*> geoList;
     QMap<QString, TimeZoneRule> Rulebook;
 
-    KStars*      m_kstars;
     quint32      m_preUpdateID, m_updateID;
     quint32      m_preUpdateNumID, m_updateNumID;
     KSNumbers    m_preUpdateNum, m_updateNum;

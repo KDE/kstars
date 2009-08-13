@@ -26,6 +26,9 @@
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
 
+
+class KStars;
+
 /**
  *@class KSAlmanac
  *
@@ -42,7 +45,7 @@
 class KStars;
 
 class KSAlmanac {
- public:
+public:
     /**
      * This function computes the rise and set time for the given SkyObject. This is done in order to 
      * have a common function for the computation of the Sun and Moon rise and set times.
