@@ -141,17 +141,17 @@ void KStars::initActions() {
     ka->setStatusTip(ka->whatsThis());
 
 #ifdef HAVE_CFITSIO_H
-    ka = actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()) )
+    actionCollection()->addAction("open_file", this, SLOT(slotOpenFITS()) )
         << i18n("Open FITS...")
         << KIcon("document-open")
         << KShortcut( Qt::CTRL+Qt::Key_O );
 #endif
 
-    ka = actionCollection()->addAction("export_image", this, SLOT( slotExportImage() ) )
+    actionCollection()->addAction("export_image", this, SLOT( slotExportImage() ) )
         << i18n("&Save Sky Image...")
         << KIcon("document-export-image")
         << KShortcut( Qt::CTRL+Qt::Key_I );
-    ka = actionCollection()->addAction("run_script", this, SLOT( slotRunScript() ))
+    actionCollection()->addAction("run_script", this, SLOT( slotRunScript() ))
         << i18n("&Run Script...")
         << KIcon("system-run" )
         << KShortcut( Qt::CTRL+Qt::Key_R );
@@ -159,11 +159,11 @@ void KStars::initActions() {
     actionCollection()->addAction( KStandardAction::Quit,  "quit",  this, SLOT( close() ) );
 
     // ==== Time Menu ================
-    ka = actionCollection()->addAction("time_to_now", this, SLOT( slotSetTimeToNow() ))
+    actionCollection()->addAction("time_to_now", this, SLOT( slotSetTimeToNow() ))
         << i18n("Set Time to &Now")
         << KShortcut( Qt::CTRL+Qt::Key_E );
 
-    ka = actionCollection()->addAction("time_dialog", this, SLOT( slotSetTime() ) )
+    actionCollection()->addAction("time_dialog", this, SLOT( slotSetTime() ) )
         << i18nc("set Clock to New Time", "&Set Time..." )
         << KShortcut( Qt::CTRL+Qt::Key_S )
         << KIcon("view-history");
@@ -179,23 +179,23 @@ void KStars::initActions() {
     // ==== Pointing Menu ================
     actionCollection()->addAction("zenith", this, SLOT( slotPointFocus() ) )
         << i18n("&Zenith")
-        << KShortcut("Z" );
+        << KShortcut("Z");
     actionCollection()->addAction("north", this, SLOT( slotPointFocus() ) )
         << i18n("&North")
-        << KShortcut("N" );
+        << KShortcut("N");
     actionCollection()->addAction("east", this, SLOT( slotPointFocus() ) )
         << i18n("&East")
-        << KShortcut("E" );
+        << KShortcut("E");
     actionCollection()->addAction("south", this, SLOT( slotPointFocus() ) )
         << i18n("&South")
-        << KShortcut("S" );
+        << KShortcut("S");
     actionCollection()->addAction("west", this, SLOT( slotPointFocus() ) )
         << i18n("&West")
-        << KShortcut("W" );
+        << KShortcut("W");
 
     actionCollection()->addAction("find_object", this, SLOT( slotFind() ) )
         << i18n("&Find Object...")
-        << KIcon("edit-find" )
+        << KIcon("edit-find")
         << KShortcut( Qt::CTRL+Qt::Key_F );
     actionCollection()->addAction("track_object", this, SLOT( slotTrack() ) )
         << i18n("Engage &Tracking")
@@ -369,23 +369,19 @@ void KStars::initActions() {
     actionCollection()->addAction("flagmanager", this, SLOT( slotFlagManager() ) )
         << i18n("Flags...");
 
-    ka = actionCollection()->addAction( "ewriter" );
-    ka->setText( i18n( "Define Equipment..." ) );
-    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_0 ) );
-    connect( ka, SIGNAL( triggered() ), this, SLOT( slotEquipmentWriter() ) );
+    actionCollection()->addAction("ewriter", this, SLOT( slotEquipmentWriter() ) )
+        << i18n("Define Equipment...")
+        << KShortcut( Qt::CTRL+Qt::Key_0 );
+    actionCollection()->addAction("obsadd", this, SLOT( slotObserverAdd() ) )
+        << i18n( "Add Observer..." )
+        << KShortcut( Qt::CTRL+Qt::Key_1 );
 
-    ka = actionCollection()->addAction( "obsadd" );
-    ka->setText( i18n( "Add Observer..." ) );
-    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_1 ) );
-    connect( ka, SIGNAL( triggered() ), this, SLOT( slotObserverAdd() ) );
+    // ==== observation menu ================
+    ka = actionCollection()->addAction("execute", this, SLOT( slotExecute() ) )
+        << i18n( "Execute the session Plan..." )
+        << KShortcut( Qt::CTRL+Qt::Key_2 );
 
-    //observation menu
-    ka = actionCollection()->addAction( "execute" );
-    ka->setText( i18n( "Execute the session Plan..." ) );
-    ka->setShortcuts( KShortcut( Qt::CTRL+Qt::Key_2 ) );
-    connect( ka, SIGNAL( triggered() ), this, SLOT( slotExecute() ) );
-
-    // devices Menu
+    // ==== devices Menu ================
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
 
@@ -420,8 +416,7 @@ void KStars::initActions() {
         << i18n("Time step control");
     ka->setDefaultWidget( TimeStep );
 
-
-    // viewToolBar actions:
+    // ==== viewToolBar actions ================
     actionCollection()->add<KToggleAction>("show_stars", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle Stars in the display", "Stars" )
         << KIcon("kstars_stars" )
