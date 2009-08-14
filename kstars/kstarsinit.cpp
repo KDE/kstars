@@ -571,10 +571,8 @@ void KStars::datainitFinished(bool worked) {
     }
 
     //delete the splash screen window
-    if ( splash ) {
-        delete splash;
-        splash = 0;
-    }
+    delete splash;
+    splash = 0;
 
     //Add GUI elements to main window
     buildGUI();
