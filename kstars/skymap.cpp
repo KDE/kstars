@@ -187,7 +187,7 @@ void SkyMap::showFocusCoords( bool coordsOnly ) {
     infoBoxes()->focusCoordChanged( focus() );
 }
 
-void SkyMap::slotTransientLabel( void ) {
+void SkyMap::slotTransientLabel() {
     //This function is only called if the HoverTimer manages to timeout.
     //(HoverTimer is restarted with every mouseMoveEvent; so if it times
     //out, that means there was no mouse movement for HOVER_INTERVAL msec.)
@@ -218,7 +218,7 @@ void SkyMap::slotTransientLabel( void ) {
 
 //Slots
 
-void SkyMap::slotTransientTimeout( void ) {
+void SkyMap::slotTransientTimeout() {
     //Don't fade label if the transientObject is now the focusObject!
     if ( transientObject() == focusObject() && Options::useAutoLabel() ) {
         setTransientObject( NULL );
@@ -255,7 +255,7 @@ void SkyMap::setFocusObject( SkyObject *o ) {
         Options::setFocusObject( i18n( "nothing" ) );
 }
 
-void SkyMap::slotCenter( void ) {
+void SkyMap::slotCenter() {
     setFocusPoint( clickedPoint() );
     if ( Options::useAltAz() )
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -332,7 +332,7 @@ void SkyMap::slotCenter( void ) {
     showFocusCoords(); //update FocusBox
 }
 
-void SkyMap::slotDSS( void ) {
+void SkyMap::slotDSS() {
     QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
     QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
     dms ra(0.0), dec(0.0);
@@ -530,19 +530,19 @@ bool SkyMap::isObjectLabeled( SkyObject *object ) {
     return false;
 }
 
-void SkyMap::slotRemoveObjectLabel( void ) {
+void SkyMap::slotRemoveObjectLabel() {
     data->skyComposite()->removeNameLabel( clickedObject() );
     forceUpdate();
 }
 
-void SkyMap::slotAddObjectLabel( void ) {
+void SkyMap::slotAddObjectLabel() {
     data->skyComposite()->addNameLabel( clickedObject() );
     //Since we just added a permanent label, we don't want it to fade away!
     if ( transientObject() == clickedObject() ) setTransientObject( NULL );
     forceUpdate();
 }
 
-void SkyMap::slotRemovePlanetTrail( void ) {
+void SkyMap::slotRemovePlanetTrail() {
     //probably don't need this if-statement, but just to be sure...
     if ( clickedObject() && clickedObject()->isSolarSystem() ) {
         data->skyComposite()->removeTrail( clickedObject() );
@@ -550,7 +550,7 @@ void SkyMap::slotRemovePlanetTrail( void ) {
     }
 }
 
-void SkyMap::slotAddPlanetTrail( void ) {
+void SkyMap::slotAddPlanetTrail() {
     //probably don't need this if-statement, but just to be sure...
     if ( clickedObject() && clickedObject()->isSolarSystem() ) {
         data->skyComposite()->addTrail( clickedObject() );
@@ -558,7 +558,7 @@ void SkyMap::slotAddPlanetTrail( void ) {
     }
 }
 
-void SkyMap::slotDetail( void ) {
+void SkyMap::slotDetail() {
     // check if object is selected
     if ( !clickedObject() ) {
         KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
@@ -722,7 +722,7 @@ void SkyMap::updateFocus() {
     oldfocus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void SkyMap::slewFocus( void ) {
+void SkyMap::slewFocus() {
     double dX, dY, fX, fY, r, r0;
     double step0 = 0.5;
     double step = step0;

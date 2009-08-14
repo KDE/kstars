@@ -294,7 +294,7 @@ public:
     	*or NULL if there is no CLickedObject.
     	*@return a pointer to the object nearest to a user mouse click.
     	*/
-    SkyObject* clickedObject( void ) const { return ClickedObject; }
+    SkyObject* clickedObject() const { return ClickedObject; }
 
     /**@short Set the ClickedObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the ClickedObject
@@ -309,7 +309,7 @@ public:
     	*FocusObject, or NULL if there is not FocusObject.
     	*@return a pointer to the object at the center of the sky map.
     	*/
-    SkyObject* focusObject( void ) const { return FocusObject; }
+    SkyObject* focusObject() const { return FocusObject; }
 
     /**@short Set the FocusObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the FocusObject
@@ -324,7 +324,7 @@ public:
     	*@return pointer to the SkyObject nearest to the mouse hover position.
     	*@see SkyMap::slotTransientLabel()
     	*/
-    SkyObject* transientObject( void ) const { return TransientObject; }
+    SkyObject* transientObject() const { return TransientObject; }
 
     /**@short Set the TransientObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the TransientObject.
@@ -345,7 +345,7 @@ public:
     	*@see SkyMap::checkVisibility()
     	*@see SkyMap::paintEvent()
     	*/
-    void setMapGeometry( void );
+    void setMapGeometry();
 
     float guideMaxLength() const { return m_Guidemax; }
 
@@ -568,7 +568,7 @@ public slots:
     	*Map after each step, until the Focus point is within 1 step of the Destination point.
     	*For the final step, snap directly to Destination, and redraw the map.
     	*/
-    void slewFocus( void );
+    void slewFocus();
 
     /**@short Center the display at the point ClickedPoint.
     	*
@@ -580,7 +580,7 @@ public slots:
     	*@see destinationChanged()
     	*@see slewFocus()
     	*/
-    void slotCenter( void );
+    void slotCenter();
 
     //QUATERNION
     void slotRotateTo( SkyPoint *p );
@@ -607,17 +607,17 @@ public slots:
 
     /**@short Popup menu function: Show the Detailed Information window for ClickedObject.
     	*/
-    void slotDetail( void );
+    void slotDetail();
 
     /**Add ClickedObject to KStarsData::ObjLabelList, which stores pointers to SkyObjects which
     	*have User Labels attached.
     	*/
-    void slotAddObjectLabel( void );
+    void slotAddObjectLabel();
 
     /**Remove ClickedObject from KStarsData::ObjLabelList, which stores pointers to SkyObjects which
     	*have User Labels attached.
     	*/
-    void slotRemoveObjectLabel( void );
+    void slotRemoveObjectLabel();
 
     /**@short Add a Planet Trail to ClickedObject.
     	*@note Trails are added simply by calling KSPlanetBase::addToTrail() to add the first point.
@@ -625,19 +625,19 @@ public slots:
     	*@note if ClickedObject is not a Solar System body, this function does nothing.
     	*@see KSPlanetBase::addToTrail()
     	*/
-    void slotAddPlanetTrail( void );
+    void slotAddPlanetTrail();
 
     /**@short Remove the PlanetTrail from ClickedObject.
     	*@note The Trail is removed by simply calling KSPlanetBase::clearTrail().  As long as
     	*the trail is empty, no new points will be automatically appended.
     	*@see KSPlanetBase::clearTrail()
     	*/
-    void slotRemovePlanetTrail( void );
+    void slotRemovePlanetTrail();
 
     /**Popup menu function: Add a custom Image or Information URL.
     	*Opens the AddLinkDialog window.
     	*/
-    void addLink( void );
+    void addLink();
 
     /**Checks whether the timestep exceeds a threshold value.  If so, sets
     	*ClockSlewing=true and sets the SimClock to ManualMode. 
