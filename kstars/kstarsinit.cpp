@@ -61,9 +61,18 @@
 //These functions are declared in kstars.h
 
 namespace {
-    // For setting properties operator << is used.
+    // A lot of KAction is defined there. In order to decrease amount
+    // of boilerplate code a trick with << operator overloading is used.
+    // This makes code more concise and readable.
+    //
+    // When data type could not used directly. Either because of
+    // overloading rules or because one data type have different
+    // semantics its wrapped into struct.
+    //
+    // Downside is unfamiliar syntax and really unhelpful error
+    // messages due to general abuse of << overloading
 
-    // Set text
+    // Set KAction text
     KAction* operator << (KAction* ka, QString text) {
         ka->setText(text);
         return ka;
@@ -78,6 +87,7 @@ namespace {
         ka->setShortcuts(sh);
         return ka;
     }
+
     // Add action to group. AddToGroup struct acts as newtype wrapper
     // in order to allow overloading.
     struct AddToGroup {
@@ -88,6 +98,7 @@ namespace {
         g.grp->addAction(ka);
         return ka;
     }
+
     // Set checked property. Checked is newtype wrapper.
     struct Checked {
         bool flag;
@@ -98,7 +109,8 @@ namespace {
         ka->setChecked(chk.flag);
         return ka;
     }
-    // Set tool tip
+
+    // Set tool tip. ToolTip is used as newtype wrapper.
     struct ToolTip {
         QString tip;
         ToolTip(QString msg) : tip(msg) {}
@@ -107,6 +119,7 @@ namespace {
         ka->setToolTip(tool.tip);
         return ka;
     }
+
     // Create new KToggleAction and connect slot to toggled(bool) signal
     KAction* newToggleAction(KActionCollection* col, QString name, QString text,
                              QObject* reciever, const char* member) {
