@@ -25,7 +25,6 @@
 #include "tools/observinglist.h"
 #include "comast/equipmentwriter.h"
 #include "comast/observeradd.h"
-#include "comast/execute.h"
 
 // forward declaration is enough. We only need pointers
 class QPalette;

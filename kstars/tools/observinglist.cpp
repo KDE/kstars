@@ -63,6 +63,7 @@
 #include "obslistpopupmenu.h"
 #include "comast/log.h"
 #include "comast/comast.h"
+#include "comast/execute.h"
 
 #include <config-kstars.h>
 

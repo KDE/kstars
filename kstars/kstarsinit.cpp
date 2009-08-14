@@ -49,6 +49,7 @@
 #include "widgets/timestepbox.h"
 #include "comast/equipmentwriter.h"
 #include "comast/observeradd.h"
+#include "comast/execute.h"
 
 #include <config-kstars.h>
 
