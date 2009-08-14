@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 {
     KAboutData aboutData( "kstars", 0, ki18n("KStars"),
                           KSTARS_VERSION, ki18n(description), KAboutData::License_GPL,
-                          ki18n("(c) 2001-2003, The KStars Team"), ki18n(notice), "http://edu.kde.org/kstars");
+                          ki18n("(c) 2001-2009, The KStars Team"), ki18n(notice), "http://edu.kde.org/kstars");
     aboutData.addAuthor(ki18n("Jason Harris"),KLocalizedString(), "jharris@30doradus.org", "http://www.30doradus.org");
     aboutData.addAuthor(ki18n("Jasem Mutlaq"), KLocalizedString(), "mutlaqja@ikarustech.com");
     aboutData.addAuthor(ki18n("James Bowlin"), KLocalizedString(), "bowlin@mindspring.com");
@@ -53,6 +53,11 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(ki18n("Heiko Evermann"),KLocalizedString(), "heiko@evermann.de", "http://www.evermann.de");
     aboutData.addAuthor(ki18n("Carsten Niehaus"), KLocalizedString(), "cniehaus@gmx.de");
     aboutData.addAuthor(ki18n("Mark Hollomon"), KLocalizedString(), "mhh@mindspring.com");
+    aboutData.addAuthor(ki18n("Alexey Khudyakov"), KLocalizedString(), "alexey.skladnoy@gmail.com");
+    aboutData.addAuthor(ki18n("M&eacute;d&eacute;ric Boquien"), KLocalizedString(), "mboquien@free.fr");
+    aboutData.addAuthor(ki18n("Akarsh Simha"), KLocalizedString(), "akarsh.simha@kdemail.net");
+    aboutData.addAuthor(ki18n("J&eacute;r&ocirc;me Sonrier"), KLocalizedString(), "jsid@emor3j.fr.eu.org");
+    aboutData.addAuthor(ki18n("Prakash Mohan"), KLocalizedString(), "prakash.mohan@kdemail.net");
     KCmdLineArgs::init( argc, argv, &aboutData );
 
     KCmdLineOptions options;
