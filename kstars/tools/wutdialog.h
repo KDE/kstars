@@ -46,10 +46,9 @@ public:
     */
 class WUTDialog : public KDialog  {
     Q_OBJECT
-
 public:
     /**@short Constructor*/
-    WUTDialog( KStars *ks,
+    WUTDialog( QWidget *ks,
                bool session = false,
                GeoLocation *geo  = KStarsData::Instance()->geo(),
                KStarsDateTime lt = KStarsData::Instance()->lt() );
@@ -115,19 +114,15 @@ private slots:
     void updateMag();
 
 private:
-
-    KStars *kstars;
-    WUTDialogUI *WUT;
-    bool session;
     QList<SkyObject*>& visibleObjects( const QString &category );
     bool isCategoryInitialized( const QString &category );
-
     /**@short Initialize all SIGNAL/SLOT connections, used in constructor */
     void makeConnections();
-
     /**@short Initialize catgory list, used in constructor */
     void initCategories();
 
+    WUTDialogUI *WUT;
+    bool session;
 
     QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
     KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;
