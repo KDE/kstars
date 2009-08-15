@@ -1499,13 +1499,8 @@ void SkyMap::forceUpdate( bool now )
 }
 
 float SkyMap::fov() {
-    float diagonalPixels = sqrt( (double)(width() * width() + height() * height()) );
+    float diagonalPixels = sqrt( width() * width() + height() * height() );
     return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
-
-    //if ( width() >= height() )
-    //	return 28.65*width()/Options::zoomFactor();
-    //else
-    //	return 28.65*height()/Options::zoomFactor();
 }
 
 bool SkyMap::checkVisibility( SkyLine *sl ) {
@@ -1533,22 +1528,22 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
     } else {
         dY = fabs( p->dec()->Degrees() - focus()->dec()->Degrees() );
     }
-    if ( isPoleVisible ) dY *= 0.75; //increase effective FOV when pole visible.
-    if ( dY > fov() ) return false;
-    if ( isPoleVisible ) return true;
+    if( isPoleVisible )
+        dY *= 0.75; //increase effective FOV when pole visible.
+    if( dY > fov() )
+        return false;
+    if( isPoleVisible )
+        return true;
 
     if ( useAltAz ) {
         dX = fabs( p->az()->Degrees() - focus()->az()->Degrees() );
     } else {
         dX = fabs( p->ra()->Degrees() - focus()->ra()->Degrees() );
     }
-    if ( dX > 180.0 ) dX = 360.0 - dX; // take shorter distance around sky
+    if ( dX > 180.0 )
+        dX = 360.0 - dX; // take shorter distance around sky
 
-    if ( dX < XRange ) {
-        return true;
-    } else {
-        return false;
-    }
+    return dX < XRange;
 }
 
 bool SkyMap::unusablePoint( const QPointF &p )
