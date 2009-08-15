@@ -860,9 +860,6 @@ double SkyMap::findPA( SkyObject *o, float x, float y ) {
 }
 
 //QUATERNION
-void SkyMap::slotRotateTo( SkyPoint */*p*/ ) {}
-
-//QUATERNION
 QPointF SkyMap::toScreenQuaternion( SkyPoint *o ) {
     QPointF p;
     Quaternion oq = o->quat();

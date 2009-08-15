@@ -582,9 +582,6 @@ public slots:
     	*/
     void slotCenter();
 
-    //QUATERNION
-    void slotRotateTo( SkyPoint *p );
-
     /**@short Popup menu function: Display 1st-Generation DSS image with the Image Viewer.
     	*@note the URL is generated using the coordinates of ClickedPoint.
     	*/
