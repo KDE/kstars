@@ -664,7 +664,6 @@ void SkyMap::setDestinationAltAz(double alt, double az) {
 }
 
 void SkyMap::setClickedPoint( SkyPoint *f ) { 
-    PreviousClickedPoint.set(ClickedPoint.ra(), ClickedPoint.dec());
     ClickedPoint.set( f->ra(), f->dec() );
 }
 

@@ -260,17 +260,6 @@ public:
     	*/
     void setClickedPoint( SkyPoint *f );
 
-    /**@short Retrieve the PreviousClickedPoint position.
-    	*@return a pointer to PreviousClickedPoint, the sky coordinates of the 
-    	*penultimate mouse click.
-    	*/
-    SkyPoint* previousClickedPoint() { return &PreviousClickedPoint; }
-
-    /**Sets the PreviousClickedPoint to the skypoint given as an argument.
-    	*@param f pointer to the new PreviousClickedPoint.
-    	*/
-    void setPreviousClickedPoint( SkyPoint *f ) { PreviousClickedPoint.set( f->ra(), f->dec() ); }
-
     /**@short Retrieve a pointer to MousePoint, the sky coordinates of the mouse cursor.
     	*
     	*When the user moves the mouse in the sky map, the sky coordinates of the mouse
@@ -913,7 +902,7 @@ private:
     QPixmap *sky, *sky2;
     InfoBoxes  *IBoxes;
     dms HourAngle;
-    SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
+    SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
 
     SkyLine AngularRuler; //The line for measuring angles in the map
