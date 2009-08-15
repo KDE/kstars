@@ -1513,10 +1513,10 @@ float SkyMap::fov() {
 }
 
 bool SkyMap::checkVisibility( SkyLine *sl ) {
-    foreach ( SkyPoint *p, sl->points() )
-    if ( checkVisibility( p ) )
-        return true;
-
+    foreach ( SkyPoint *p, sl->points() ) {
+        if ( checkVisibility( p ) )
+            return true;
+    }
     return false;
 }
 
