@@ -48,7 +48,6 @@
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/starcomponent.h"
 
-bool SkyMap::debugmsg = false;
 
 void SkyMap::resizeEvent( QResizeEvent * )
 {
@@ -382,11 +381,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             kDebug() << "Relativistc corrections: " << Options::useRelativistic();
             forceUpdate();
             break;
-        }
-
-    case Qt::Key_V:
-        {
-            debugmsg = !debugmsg;
         }
 
     case Qt::Key_A:
@@ -870,7 +864,6 @@ double SkyMap::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 
     if ( modifier & Qt::ShiftModifier ) 
         factor = sqrt( factor );
-
     return factor;
 }
 
@@ -889,19 +882,10 @@ void SkyMap::zoomOutOrMagStep( const int modifier ) {
         ks->zoomOut( zoomFactor (modifier ) );
 }
 
-void SkyMap::zoomIn( const int modifier) {
-    ks->zoomIn( zoomFactor( modifier) );
-}
-
-void SkyMap::zoomOut( const int modifier) {
-    ks->zoomOut( zoomFactor( modifier ) );
-}
-
 double SkyMap::magFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? 0.2 : 1.0; 
     if ( modifier & Qt::ShiftModifier ) 
         factor /= 2.0;
-
     return factor;
 }
 

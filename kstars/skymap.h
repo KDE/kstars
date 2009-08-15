@@ -518,9 +518,6 @@ public:
     	*/
     void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky );
 
-    // The truth value of this variable suppresses / expresses some debug messages
-    static bool debugmsg;
-
 public slots:
     //DEBUG_KIO_JOB
     void slotJobResult( KJob *j );
@@ -842,16 +839,6 @@ private:
     	*@param p the screen pixel position
     	*/
     bool unusablePoint ( const QPointF &p );
-
-    /** Zoom in a large amount or a small amount depending on the keyboard modifier
-     * @param modifier
-     */
-    void zoomIn( const int modifier );
-
-    /** Zoom in a large amount or a small amount depending on the keyboard modifier 
-     * @param modifier
-     */
-    void zoomOut( const int modifier );
 
     /** Calculate the zoom factor for the given keyboard modifier
      * @param modifier
