@@ -262,7 +262,7 @@ void SkyMap::slotCenter() {
 
     //clear the planet trail of old focusObject, if it was temporary
     if ( focusObject() && focusObject()->isSolarSystem() && data->temporaryTrail ) {
-        ((KSPlanetBase*)focusObject())->clearTrail();
+        reinterpret_cast<KSPlanetBase*>(focusObject())->clearTrail();
         data->temporaryTrail = false;
     }
 
@@ -294,9 +294,10 @@ void SkyMap::slotCenter() {
 
     //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
     if ( focusObject() && focusObject()->isSolarSystem()
-            && Options::useAutoTrail()
-            && ! ((KSPlanetBase*)focusObject())->hasTrail() ) {
-        ((KSPlanetBase*)focusObject())->addToTrail();
+         && Options::useAutoTrail()
+         && ! reinterpret_cast<KSPlanetBase*>(focusObject())->hasTrail() )
+    {
+        reinterpret_cast<KSPlanetBase*>(focusObject())->addToTrail();
         data->temporaryTrail = true;
     }
 
