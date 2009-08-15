@@ -53,10 +53,6 @@
 #include "kspopupmenu.h"
 #include "simclock.h"
 #include "skyobjects/skyobject.h"
-#include "skyobjects/deepskyobject.h"
-#include "skyobjects/ksmoon.h"
-#include "skyobjects/ksasteroid.h"
-#include "skyobjects/kscomet.h"
 #include "skyobjects/starobject.h"
 
 #ifdef HAVE_XPLANET
