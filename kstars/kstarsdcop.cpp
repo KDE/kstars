@@ -138,11 +138,7 @@ void KStars::removeTrail( const QString &name ) {
 }
 
 void KStars::zoom( double z ) {
-    if ( z > MAXZOOM ) z = MAXZOOM;
-    if ( z < MINZOOM ) z = MINZOOM;
-    Options::setZoomFactor( z );
-    reportZoom();
-    map()->forceUpdate();
+    map()->setZoomFactor( z );
 }
 
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {

@@ -665,6 +665,7 @@ void KStars::buildGUI() {
     //create the skymap
     skymap = SkyMap::Create();
     setCentralWidget( skymap );
+    connect(skymap, SIGNAL(zoomChanged()), this, SLOT( slotZoomChanged() ));
 
     //Initialize menus, toolbars, and statusbars
     initStatusBar();

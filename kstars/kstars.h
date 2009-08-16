@@ -223,9 +223,8 @@ public Q_SLOTS:
     /**DBUS interface function.  reset to the default zoom level. */
     Q_SCRIPTABLE Q_NOREPLY void defaultZoom() { slotDefaultZoom(); }
 
-    /**DBUS interface function.  Set zoom level to specified value.
-        *@param z the zoom level.  Units are pixels per radian.
-        */
+    /** DBUS interface function. Set zoom level to specified value.
+     *  @param z the zoom level. Units are pixels per radian. */
     Q_SCRIPTABLE Q_NOREPLY void zoom(double z);
 
     /**DBUS interface function.  Set local time and date.
@@ -439,54 +438,40 @@ public Q_SLOTS:
         */
     void updateTime( const bool automaticDSTchange = true );
 
-    /**
-        *Apply new settings and redraw skymap
-        */
+    /** Apply new settings and redraw skymap */
     void slotApplyConfigChanges();
 
-    /**
-        *action slot: Generate toolbars with new user-specified configuration
-        */
+    /** action slot: Generate toolbars with new user-specified configuration */
     void slotApplyToolbarConfig();
 
-    /**
-        *action slot: Zoom in one step
-        */
+    /** *action slot: Zoom in one step */
     void slotZoomIn();
 
-    /**
-        *action slot: Zoom out one step
-        */
+    /** *action slot: Zoom out one step */
     void slotZoomOut();
 
-    /**
-        *action slot: Set the zoom level to its default value
-        */
+    /** action slot: Set the zoom level to its default value */
     void slotDefaultZoom();
 
-    /**
-        *action slot: Allow user to specify a field-of-view angle for the display window in degrees, 
-        *and set the zoom level accordingly.
-        */
+    /** Called when zoom level is changed. Enables/disables zoom
+     *  actions and updates status bar. */
+    void slotZoomChanged();
+
+    /** action slot: Allow user to specify a field-of-view angle for the display window in degrees, 
+     * and set the zoom level accordingly. */
     void slotSetZoom();
-    /**
-        *action slot: Toggle whether kstars is tracking current position
-        */
+
+    /** action slot: Toggle whether kstars is tracking current position */
     void slotTrack();
 
-    /**
-        *action slot: open dialog for selecting a new geographic location
-        */
+    /** action slot: open dialog for selecting a new geographic location */
     void slotGeoLocator();
 
     /**Delete FindDialog because ObjNames list has changed in KStarsData due to
-        *reloading star data. So list in FindDialog must be new filled with current data.
-        */
+     * reloading star data. So list in FindDialog must be new filled with current data. */
     void clearCachedFindDialog();
 
-    /**
-        *Remove all trails which may have been added to solar system bodies
-        */
+    /** Remove all trails which may have been added to solar system bodies */
     void slotClearAllTrails();
 
 private slots:
@@ -689,8 +674,6 @@ private:
 
     /** Build the KStars main window */
     void buildGUI();
-
-    void reportZoom();
 
     KStarsData *kstarsData;
     KStarsSplash *splash;

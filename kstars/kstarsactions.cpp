@@ -803,40 +803,11 @@ void KStars::slotDefaultZoom() {
     map()->setZoomFactor( DEFAULTZOOM );
 }
 
-void KStars::slotSetZoom() {
-    bool ok( false );
-    double currentAngle = map()->width() / ( Options::zoomFactor() * dms::DegToRad );
-    double angSize = currentAngle;
-    double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
-    double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
-
-    angSize = KInputDialog::getDouble( i18nc( "The user should enter an angle for the field-of-view of the display",
-                                       "Enter Desired Field-of-View Angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
-                                       currentAngle, minAngle, maxAngle, 0.1, 1, &ok );
-
-    if ( ok ) {
-        Options::setZoomFactor( map()->width() / ( angSize * dms::DegToRad ) );
-
-        if ( Options::zoomFactor() <= MINZOOM ) {
-            Options::setZoomFactor( MINZOOM );
-            actionCollection()->action("zoom_out")->setEnabled( false );
-        } else {
-            actionCollection()->action("zoom_out")->setEnabled( true );
-        }
-
-        if ( Options::zoomFactor() >= MAXZOOM ) {
-            Options::setZoomFactor( MAXZOOM );
-            actionCollection()->action("zoom_in")->setEnabled( false );
-        } else {
-            actionCollection()->action("zoom_in")->setEnabled( true );
-        }
-
-        reportZoom();
-        map()->forceUpdate();
-    }
-}
-
-void KStars::reportZoom() {
+void KStars::slotZoomChanged() {
+    // Enable/disable actions
+    actionCollection()->action("zoom_out")->setEnabled( Options::zoomFactor() > MINZOOM );
+    actionCollection()->action("zoom_in" )->setEnabled( Options::zoomFactor() < MAXZOOM );
+    // Update status bar
     float fov = map()->fov();
     QString fovunits = i18n( "degrees" );
     if ( fov < 1.0 ) {
@@ -847,9 +818,24 @@ void KStars::reportZoom() {
         fov = fov * 60.0;
         fovunits = i18n( "arcseconds" );
     }
-
     QString fovstring = i18nc("field of view", "FOV") + ": " + QString::number( fov, 'f', 1 ) + ' ' + fovunits;
     statusBar()->changeItem( fovstring, 0 );
+}
+
+void KStars::slotSetZoom() {
+    bool ok;
+    double currentAngle = map()->width() / ( Options::zoomFactor() * dms::DegToRad );
+    double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
+    double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
+
+    double angSize = KInputDialog::getDouble( i18nc( "The user should enter an angle for the field-of-view of the display",
+                                                     "Enter Desired Field-of-View Angle" ),
+                                              i18n( "Enter a field-of-view angle in degrees: " ),
+                                              currentAngle, minAngle, maxAngle, 0.1, 1, &ok );
+
+    if( ok ) {
+        map()->setZoomFactor( map()->width() / ( angSize * dms::DegToRad ) );
+    }
 }
 
 void KStars::slotCoordSys() {
