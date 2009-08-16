@@ -871,7 +871,7 @@ void SkyMap::zoomInOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         incMagLimit( modifier );
     else
-        ks->zoomIn( zoomFactor( modifier ) );
+        setZoomFactor( Options::zoomFactor() * zoomFactor( modifier ) );
 }
 
     
@@ -879,7 +879,7 @@ void SkyMap::zoomOutOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         decMagLimit( modifier );
     else
-        ks->zoomOut( zoomFactor (modifier ) );
+        setZoomFactor( Options::zoomFactor() / zoomFactor (modifier ) );
 }
 
 double SkyMap::magFactor( const int modifier ) {

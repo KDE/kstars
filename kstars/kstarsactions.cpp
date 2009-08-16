@@ -792,53 +792,15 @@ void KStars::slotManualFocus() {
 }
 
 void KStars::slotZoomIn() {
-    zoomIn ( DZOOM );
+    map()->slotZoomIn();
 }
 
 void KStars::slotZoomOut() {
-    zoomOut ( DZOOM );
-}
-
-void KStars::zoomIn( const double factor ) {
-    actionCollection()->action("zoom_out")->setEnabled (true);
-    double newZoom = Options::zoomFactor() * factor;
-    if ( newZoom >= MAXZOOM )
-        newZoom = MAXZOOM;
-
-    Options::setZoomFactor( newZoom );
-    reportZoom();
-
-    if ( newZoom == MAXZOOM )
-        actionCollection()->action("zoom_in")->setEnabled (false);
-
-    map()->forceUpdate();
-}
-
-void KStars::zoomOut( const double factor ) {
-    actionCollection()->action("zoom_in")->setEnabled (true);
-    double newZoom = Options::zoomFactor() / factor;
-    if ( newZoom < MINZOOM )
-        newZoom = MINZOOM;
-
-    Options::setZoomFactor( newZoom );
-    reportZoom();
-
-    if ( newZoom == MINZOOM )
-        actionCollection()->action("zoom_out")->setEnabled (false);
-
-    map()->forceUpdate();
+    map()->slotZoomOut();
 }
 
 void KStars::slotDefaultZoom() {
-    Options::setZoomFactor( DEFAULTZOOM );
-    reportZoom();
-
-    map()->forceUpdate();
-
-    if ( Options::zoomFactor() > MINZOOM )
-        actionCollection()->action("zoom_out")->setEnabled (true);
-    if ( Options::zoomFactor() < MAXZOOM )
-        actionCollection()->action("zoom_in")->setEnabled (true);
+    map()->setZoomFactor( DEFAULTZOOM );
 }
 
 void KStars::slotSetZoom() {

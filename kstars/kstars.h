@@ -450,22 +450,9 @@ public Q_SLOTS:
     void slotApplyToolbarConfig();
 
     /**
-        * Zoom in by a given factor
-        *
-        */
-    void zoomIn( const double factor );
-
-    /**
-        * Zoom out by a given factor
-        *
-        */
-    void zoomOut( const double factor );
-
-    /**
         *action slot: Zoom in one step
         */
     void slotZoomIn();
-
 
     /**
         *action slot: Zoom out one step
