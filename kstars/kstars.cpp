@@ -76,6 +76,10 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
     connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
+    //Initialize QActionGroups
+    projectionGroup = new QActionGroup( this );
+    cschemeGroup    = new QActionGroup( this );
+
     kstarsData = KStarsData::Create();
     connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
 
@@ -112,10 +116,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     DarkPalette.setColor( QPalette::Normal, QPalette::HighlightedText, QColor( "black" ) );
     //store original color scheme
     OriginalPalette = QApplication::palette();
-
-    //Initialize QActionGroups
-    projectionGroup = new QActionGroup( this );
-    cschemeGroup = new QActionGroup( this );
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
     kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";
