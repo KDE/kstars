@@ -100,11 +100,11 @@ KStarsData* KStarsData::Instance( )
 
 
 KStarsData::KStarsData() :
+    temporaryTrail( false ),
     locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
-    m_preUpdateNum( J2000 ), m_updateNum( J2000 ),
-    temporaryTrail( false )
+    m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
     TypeName[0] = i18n( "star" );
     TypeName[1] = i18n( "star" );
