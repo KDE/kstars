@@ -121,31 +121,29 @@ void KStarsData::initialize() {
 }
 
 void KStarsData::initError(const QString &s, bool required = false) {
-    QString message, caption;
-
     if (required) {
-        message = i18n( "The file %1 could not be found. "
-                        "KStars cannot run properly without this file. "
-                        "To continue loading, place the file in one of the "
-                        "following locations, then press Retry:\n\n", s )
-                  + QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
-                  + QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
-                  + i18n( "Otherwise, press Cancel to shutdown." );
-        caption = i18n( "Critical File Not Found: %1", s );
+        // Nothing could be done here.
+        KMessageBox::sorry(0, i18n("The file  %1 could not be found. "
+                                   "KStars cannot run properly without this file. "
+                                   "KStars search for this file in following locations:\n\n"
+                                   "\t$(KDEDIR)/share/apps/kstars/%1\n"
+                                   "\t~/.kde/share/apps/kstars/%1\n\n"
+                                   "It appears that your setup is broken.", s),
+                           i18n( "Critical File Not Found: %1", s ));
+        qApp->exit(1);
     } else {
-        message = i18n( "The file %1 could not be found. "
-                        "KStars can still run without this file. "
-                        "However, to avoid seeing this message in the future, you can "
-                        "place the file in one of the following locations, then press Retry:\n\n", s )
-                  + QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
-                  + QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
-                  + i18n( "Otherwise, press Cancel to continue loading without this file.");
-        caption = i18n( "Non-Critical File Not Found: %1", s );
+        // Alert user
+        int res = KMessageBox::warningContinueCancel(0,
+                      i18n("The file %1 could not be found. "
+                           "KStars can still run without this file. "
+                           "KStars search for this file in following locations:\n\n"
+                           "\t$(KDEDIR)/share/apps/kstars/%1\n"
+                           "\t~/.kde/share/apps/kstars/%1\n\n"
+                           "It appears that you setup is broken. Press Continue to run KStars without this file ", s),
+                      i18n( "Non-Critical File Not Found: %1", s ));
+        if( res != KMessageBox::Continue )
+            qApp->exit(1);
     }
-    // Warn user.
-    int res = KMessageBox::warningContinueCancel( 0, message, caption, KGuiItem(i18n( "Retry" )) );
-    if( required  ||  res != KMessageBox::Continue )
-        qApp->quit();
 }
 
 void KStarsData::slotInitialize() {
