@@ -139,7 +139,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
         drawBoxes( p );
 
         //draw FOV symbol
-        foreach( FOV* fov, ks->data()->visibleFOVs ) {
+        foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {
             fov->draw(p, Options::zoomFactor());
         }
         drawTelescopeSymbols( p );
@@ -174,10 +174,11 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 void SkyMap::drawHighlightConstellation( QPainter &psky ) {
     const QPolygonF* cbound =
         ConstellationBoundary::Instance()->constellationPoly( focus() );
+    if ( ! cbound )
+        return;
 
-    if ( ! cbound ) return;
-
-    psky.setPen( QPen( QColor( ks->data()->colorScheme()->colorNamed( "CBoundHighColor" ) ), 3, Qt::SolidLine ) );
+    psky.setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CBoundHighColor" ) ),
+                       3, Qt::SolidLine ) );
 
     QPolygonF clippedPoly;
     bool needClip( false );
@@ -365,11 +366,12 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 
 //FIXME: Implement Options::boxBGMode()
 void SkyMap::drawBoxes( QPainter &p ) {
-    if ( ks ) { //only if we are drawing in the GUI window
-        ks->infoBoxes()->drawBoxes( p,
-                                    data->colorScheme()->colorNamed( "BoxTextColor" ),
-                                    data->colorScheme()->colorNamed( "BoxGrabColor" ),
-                                    data->colorScheme()->colorNamed( "BoxBGColor" ), 1 /*Options::boxBGMode()*/ );
+    KStars* kstars = KStars::Instance();
+    if ( kstars ) { //only if we are drawing in the GUI window
+        kstars->infoBoxes()->drawBoxes( p,
+            data->colorScheme()->colorNamed( "BoxTextColor" ),
+            data->colorScheme()->colorNamed( "BoxGrabColor" ),
+            data->colorScheme()->colorNamed( "BoxBGColor" ), 1 /*Options::boxBGMode()*/ );
     }
 }
 
@@ -377,8 +379,9 @@ void SkyMap::drawObservingList( QPainter &psky ) {
     int penWidth = int(m_Scale);
     psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), penWidth ) );
 
-    if ( ks && ks->observingList()->sessionList().size() ) {
-        foreach ( SkyObject* obj, ks->observingList()->sessionList() ) {
+    KStars* kstars = KStars::Instance();
+    if ( kstars && kstars->observingList()->sessionList().size() ) {
+        foreach ( SkyObject* obj, kstars->observingList()->sessionList() ) {
             if ( checkVisibility( obj ) ) {
                 QPointF o = toScreen( obj );
 
@@ -411,158 +414,135 @@ void SkyMap::drawObservingList( QPainter &psky ) {
 void SkyMap::drawTelescopeSymbols(QPainter &psky)
 {
 #ifdef HAVE_INDI_H
-    if ( ks ) { //ks doesn't exist in non-GUI mode!
-        INDI_P *eqNum;
-        INDI_P *portConnect;
-        INDI_E *lp;
-        INDIMenu *devMenu = ks->indiMenu();
-        bool useJ2000 (false), useAltAz(false);
-        SkyPoint indi_sp;
+    KStars* kstars = KStars::Instance();
+    if( !kstars )
+        return;
 
-        if (!Options::showTargetCrosshair() || devMenu == NULL)
-            return;
+    INDI_P *eqNum;
+    INDI_P *portConnect;
+    INDI_E *lp;
+    INDIMenu *devMenu = kstars->indiMenu();
+    SkyPoint indi_sp;
 
-        psky.setPen( QPen( QColor( data->colorScheme()->colorNamed("TargetColor" ) ) ) );
-        psky.setBrush( Qt::NoBrush );
-        float pxperdegree = Options::zoomFactor()/57.3;
+    if (!Options::showTargetCrosshair() || devMenu == NULL)
+        return;
 
-        //fprintf(stderr, "in draw telescope function with managerssize of %d\n", devMenu->managers.size());
-        for ( int i=0; i < devMenu->managers.size(); i++ )
-        {
-            for ( int j=0; j < devMenu->managers.at(i)->indi_dev.size(); j++ )
-            {
-                useAltAz = false;
-                useJ2000 = false;
+    psky.setPen( QPen( QColor( data->colorScheme()->colorNamed("TargetColor" ) ) ) );
+    psky.setBrush( Qt::NoBrush );
+    float pxperdegree = Options::zoomFactor()/57.3;
 
-                // make sure the dev is on first
-                if (devMenu->managers.at(i)->indi_dev.at(j)->isOn())
-                {
-                    portConnect = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CONNECTION");
+    //fprintf(stderr, "in draw telescope function with managerssize of %d\n", devMenu->managers.size());
+    for ( int i=0; i < devMenu->managers.size(); i++ ) {
+        for ( int j=0; j < devMenu->managers.at(i)->indi_dev.size(); j++ ) {
+            bool useAltAz = false;
+            bool useJ2000 = false;
 
-                    if (!portConnect)
-                        return;
+            // make sure the dev is on first
+            if (devMenu->managers.at(i)->indi_dev.at(j)->isOn()) {
+                portConnect = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CONNECTION");
+                if( !portConnect || portConnect->state == PS_BUSY )
+                    return;
 
-                    if (portConnect->state == PS_BUSY)
-                        return;
-
-                    eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
-
-                    if (eqNum == NULL)
-                    {
-                        eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
+                eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
+                if (eqNum == NULL) {
+                    eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
+                    if (eqNum == NULL) {
+                        eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("HORIZONTAL_COORD");
                         if (eqNum == NULL)
-                        {
-                            eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("HORIZONTAL_COORD");
-                            if (eqNum == NULL) continue;
-                            else
-                                useAltAz = true;
-                        }
+                            continue;
                         else
-                            useJ2000 = true;
+                            useAltAz = true;
+                    } else {
+                        useJ2000 = true;
+                    }
+                }
+
+                // make sure it has RA and DEC properties
+                if ( eqNum) {
+                    //fprintf(stderr, "Looking for RA label\n");
+                    if (useAltAz) {
+                        lp = eqNum->findElement("AZ");
+                        if (!lp)
+                            continue;
+
+                        dms azDMS(lp->value);
+
+                        lp = eqNum->findElement("ALT");
+                        if (!lp)
+                            continue;
+
+                        dms altDMS(lp->value);
+                        indi_sp.setAz(azDMS);
+                        indi_sp.setAlt(altDMS);
+                    } else {
+                        lp = eqNum->findElement("RA");
+                        if (!lp)
+                            continue;
+
+                        // express hours in degrees on the celestial sphere
+                        dms raDMS(lp->value);
+                        raDMS.setD ( raDMS.Degrees() * 15.0);
+
+                        lp = eqNum->findElement("DEC");
+                        if (!lp)
+                            continue;
+
+                        dms decDMS(lp->value);
+
+                        indi_sp.setRA(raDMS);
+                        indi_sp.setDec(decDMS);
+
+                        if (useJ2000) {
+                            indi_sp.setRA0(raDMS);
+                            indi_sp.setDec0(decDMS);
+                            indi_sp.apparentCoord( (double) J2000, data->ut().djd());
+                        }
+
+                        if ( Options::useAltAz() )
+                            indi_sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                     }
 
-                    // make sure it has RA and DEC properties
-                    if ( eqNum)
-                    {
-                        //fprintf(stderr, "Looking for RA label\n");
-                        if (useAltAz)
-                        {
-                            lp = eqNum->findElement("AZ");
-                            if (!lp)
-                                continue;
+                    QPointF P = toScreen( &indi_sp );
+                    if ( Options::useAntialias() ) {
+                        float s1 = 0.5*pxperdegree;
+                        float s2 = pxperdegree;
+                        float s3 = 2.0*pxperdegree;
 
-                            dms azDMS(lp->value);
+                        float x0 = P.x();        float y0 = P.y();
+                        float x1 = x0 - 0.5*s1;  float y1 = y0 - 0.5*s1;
+                        float x2 = x0 - 0.5*s2;  float y2 = y0 - 0.5*s2;
+                        float x3 = x0 - 0.5*s3;  float y3 = y0 - 0.5*s3;
 
-                            lp = eqNum->findElement("ALT");
-                            if (!lp)
-                                continue;
+                        //Draw radial lines
+                        psky.drawLine( QPointF(x1, y0), QPointF(x3, y0) );
+                        psky.drawLine( QPointF(x0+s2, y0), QPointF(x0+0.5*s1, y0) );
+                        psky.drawLine( QPointF(x0, y1), QPointF(x0, y3) );
+                        psky.drawLine( QPointF(x0, y0+0.5*s1), QPointF(x0, y0+s2) );
+                        //Draw circles at 0.5 & 1 degrees
+                        psky.drawEllipse( QRectF(x1, y1, s1, s1) );
+                        psky.drawEllipse( QRectF(x2, y2, s2, s2) );
 
-                            dms altDMS(lp->value);
+                        psky.drawText( QPointF(x0+s2+2., y0), QString(devMenu->managers.at(i)->indi_dev.at(j)->label) );
+                    } else {
+                        int s1 = int( 0.5*pxperdegree );
+                        int s2 = int( pxperdegree );
+                        int s3 = int( 2.0*pxperdegree );
 
-                            indi_sp.setAz(azDMS);
-                            indi_sp.setAlt(altDMS);
+                        int x0 = int(P.x());   int y0 = int(P.y());
+                        int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
+                        int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
+                        int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
 
-                        }
-                        else
-                        {
+                        //Draw radial lines
+                        psky.drawLine( QPoint(x1, y0),      QPoint(x3, y0) );
+                        psky.drawLine( QPoint(x0+s2, y0),   QPoint(x0+s1/2, y0) );
+                        psky.drawLine( QPoint(x0, y1),      QPoint(x0, y3) );
+                        psky.drawLine( QPoint(x0, y0+s1/2), QPoint(x0, y0+s2) );
+                        //Draw circles at 0.5 & 1 degrees
+                        psky.drawEllipse( QRect(x1, y1, s1, s1) );
+                        psky.drawEllipse( QRect(x2, y2, s2, s2) );
 
-                            lp = eqNum->findElement("RA");
-                            if (!lp)
-                                continue;
-
-                            // express hours in degrees on the celestial sphere
-                            dms raDMS(lp->value);
-                            raDMS.setD ( raDMS.Degrees() * 15.0);
-
-                            lp = eqNum->findElement("DEC");
-                            if (!lp)
-                                continue;
-
-                            dms decDMS(lp->value);
-
-
-                            //kDebug() << "the KStars RA is " << raDMS.toHMSString();
-                            //kDebug() << "the KStars DEC is " << decDMS.toDMSString() << "\n****************";
-
-                            indi_sp.setRA(raDMS);
-                            indi_sp.setDec(decDMS);
-
-                            if (useJ2000)
-                            {
-                                indi_sp.setRA0(raDMS);
-                                indi_sp.setDec0(decDMS);
-                                indi_sp.apparentCoord( (double) J2000, ks->data()->ut().djd());
-                            }
-
-                            if ( Options::useAltAz() )
-                                indi_sp.EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
-
-                        }
-
-                        QPointF P = toScreen( &indi_sp );
-
-                        if ( Options::useAntialias() ) {
-                            float s1 = 0.5*pxperdegree;
-                            float s2 = pxperdegree;
-                            float s3 = 2.0*pxperdegree;
-
-                            float x0 = P.x();        float y0 = P.y();
-                            float x1 = x0 - 0.5*s1;  float y1 = y0 - 0.5*s1;
-                            float x2 = x0 - 0.5*s2;  float y2 = y0 - 0.5*s2;
-                            float x3 = x0 - 0.5*s3;  float y3 = y0 - 0.5*s3;
-
-                            //Draw radial lines
-                            psky.drawLine( QPointF(x1, y0), QPointF(x3, y0) );
-                            psky.drawLine( QPointF(x0+s2, y0), QPointF(x0+0.5*s1, y0) );
-                            psky.drawLine( QPointF(x0, y1), QPointF(x0, y3) );
-                            psky.drawLine( QPointF(x0, y0+0.5*s1), QPointF(x0, y0+s2) );
-                            //Draw circles at 0.5 & 1 degrees
-                            psky.drawEllipse( QRectF(x1, y1, s1, s1) );
-                            psky.drawEllipse( QRectF(x2, y2, s2, s2) );
-
-                            psky.drawText( QPointF(x0+s2+2., y0), QString(devMenu->managers.at(i)->indi_dev.at(j)->label) );
-
-                        } else {
-                            int s1 = int( 0.5*pxperdegree );
-                            int s2 = int( pxperdegree );
-                            int s3 = int( 2.0*pxperdegree );
-
-                            int x0 = int(P.x());   int y0 = int(P.y());
-                            int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
-                            int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
-                            int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
-
-                            //Draw radial lines
-                            psky.drawLine( QPoint(x1, y0),      QPoint(x3, y0) );
-                            psky.drawLine( QPoint(x0+s2, y0),   QPoint(x0+s1/2, y0) );
-                            psky.drawLine( QPoint(x0, y1),      QPoint(x0, y3) );
-                            psky.drawLine( QPoint(x0, y0+s1/2), QPoint(x0, y0+s2) );
-                            //Draw circles at 0.5 & 1 degrees
-                            psky.drawEllipse( QRect(x1, y1, s1, s1) );
-                            psky.drawEllipse( QRect(x2, y2, s2, s2) );
-
-                            psky.drawText( QPoint(x0+s2+2, y0), QString(devMenu->managers.at(i)->indi_dev.at(j)->label) );
-                        }
+                        psky.drawText( QPoint(x0+s2+2, y0), QString(devMenu->managers.at(i)->indi_dev.at(j)->label) );
                     }
                 }
             }
