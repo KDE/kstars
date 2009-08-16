@@ -653,11 +653,11 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
         setFocus( &newcenter );
         setDestination( &newcenter );
-        ks->zoom( Options::zoomFactor() * factor );
-
         setDefaultMouseCursor();
+
+        setZoomFactor( Options::zoomFactor() * factor );
+
         ZoomRect = QRect(); //invalidate ZoomRect
-        forceUpdate();
     } else {
         setDefaultMouseCursor();
         ZoomRect = QRect(); //just in case user Ctrl+clicked + released w/o dragging...
