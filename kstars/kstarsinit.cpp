@@ -205,9 +205,9 @@ void KStars::initActions() {
         << KShortcut( Qt::CTRL+Qt::Key_M );
 
     // ==== View Menu ================
-    actionCollection()->addAction( KStandardAction::ZoomIn,  "zoom_in",  this, SLOT( slotZoomIn() ) );
-    actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", this, SLOT( slotZoomOut() ) );
-    actionCollection()->addAction("zoom_default", this, SLOT( slotDefaultZoom() ) )
+    actionCollection()->addAction( KStandardAction::ZoomIn,  "zoom_in",  map(), SLOT( slotZoomIn() ) );
+    actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", map(), SLOT( slotZoomOut() ) );
+    actionCollection()->addAction("zoom_default", map(), SLOT( slotDefaultZoom() ) )
         << i18n("&Default Zoom")
         << KIcon("zoom-fit-best" )
         << KShortcut( Qt::CTRL+Qt::Key_Z );

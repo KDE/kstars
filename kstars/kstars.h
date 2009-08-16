@@ -215,13 +215,13 @@ public Q_SLOTS:
     Q_SCRIPTABLE Q_NOREPLY void removeTrail( const QString &name );
 
     /**DBUS interface function.  Zoom in one step. */
-    Q_SCRIPTABLE Q_NOREPLY void zoomIn() { slotZoomIn(); }
+    Q_SCRIPTABLE Q_NOREPLY void zoomIn();
 
     /**DBUS interface function.  Zoom out one step. */
-    Q_SCRIPTABLE Q_NOREPLY void zoomOut(){ slotZoomOut(); }
+    Q_SCRIPTABLE Q_NOREPLY void zoomOut();
 
     /**DBUS interface function.  reset to the default zoom level. */
-    Q_SCRIPTABLE Q_NOREPLY void defaultZoom() { slotDefaultZoom(); }
+    Q_SCRIPTABLE Q_NOREPLY void defaultZoom();
 
     /** DBUS interface function. Set zoom level to specified value.
      *  @param z the zoom level. Units are pixels per radian. */
@@ -443,15 +443,6 @@ public Q_SLOTS:
 
     /** action slot: Generate toolbars with new user-specified configuration */
     void slotApplyToolbarConfig();
-
-    /** *action slot: Zoom in one step */
-    void slotZoomIn();
-
-    /** *action slot: Zoom out one step */
-    void slotZoomOut();
-
-    /** action slot: Set the zoom level to its default value */
-    void slotDefaultZoom();
 
     /** Called when zoom level is changed. Enables/disables zoom
      *  actions and updates status bar. */

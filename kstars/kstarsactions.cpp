@@ -791,18 +791,6 @@ void KStars::slotManualFocus() {
     delete focusDialog;
 }
 
-void KStars::slotZoomIn() {
-    map()->slotZoomIn();
-}
-
-void KStars::slotZoomOut() {
-    map()->slotZoomOut();
-}
-
-void KStars::slotDefaultZoom() {
-    map()->setZoomFactor( DEFAULTZOOM );
-}
-
 void KStars::slotZoomChanged() {
     // Enable/disable actions
     actionCollection()->action("zoom_out")->setEnabled( Options::zoomFactor() > MINZOOM );

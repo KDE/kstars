@@ -652,6 +652,8 @@ public slots:
 
     void slotZoomOut();
 
+    void slotZoomDefault();
+
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
     	*point is changed, slewFocus() will iteratively step the Focus toward Destination 

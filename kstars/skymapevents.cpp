@@ -539,14 +539,13 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
     double dyPix = 0.5*height() - e->y();
     if ( midMouseButtonDown ) { //zoom according to y-offset
         float yoff = dyPix - y0;
-
         if (yoff > 10 ) {
             y0 = dyPix;
-            if ( ks ) ks->slotZoomIn();
+            slotZoomIn();
         }
         if (yoff < -10 ) {
             y0 = dyPix;
-            if ( ks ) ks->slotZoomOut();
+            slotZoomOut();
         }
     }
 

@@ -906,6 +906,10 @@ void SkyMap::slotZoomOut() {
     setZoomFactor( Options::zoomFactor() / DZOOM );
 }
 
+void SkyMap::slotZoomDefault() {
+    setZoomFactor( DEFAULTZOOM );
+}
+
 void SkyMap::setZoomFactor(double factor) {
     if( factor < MINZOOM )
         factor = MINZOOM;

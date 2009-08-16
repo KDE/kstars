@@ -141,6 +141,18 @@ void KStars::zoom( double z ) {
     map()->setZoomFactor( z );
 }
 
+void KStars::zoomIn() {
+    map()->slotZoomIn();
+}
+
+void KStars::zoomOut() {
+    map()->slotZoomOut();
+}
+
+void KStars::defaultZoom() {
+    map()->slotZoomDefault();
+}
+
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
     data()->changeDateTime( data()->geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,min,sec) ) ) );
 }
