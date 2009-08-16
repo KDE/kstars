@@ -330,6 +330,7 @@ public:
     	*/
     void setMapGeometry();
 
+    /** Set zoom factor. */
     void setZoomFactor(double factor);
 
     float guideMaxLength() const { return m_Guidemax; }
@@ -648,10 +649,13 @@ public slots:
     void slotXplanetToFile();
 #endif
 
+    /** Zoom in one step. */
     void slotZoomIn();
 
+    /** Zoom out one step. */
     void slotZoomOut();
 
+    /** Set default zoom. */
     void slotZoomDefault();
 
 signals:
@@ -668,6 +672,7 @@ signals:
     	*/
     void linkAdded();
 
+    /** Emitted when zoom level is changed. */
     void zoomChanged();
 protected:
     /**Draw the Sky, and all objects in it. */
