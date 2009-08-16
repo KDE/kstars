@@ -135,15 +135,6 @@ public:
     	*/
     SkyPoint* focusPoint() { return &FocusPoint; }
 
-    /**@short retrieve the last focus posiiton.
-    	*
-    	*We store the previous focus point to determine how much the focus 
-    	*position has changed.  
-    	*
-    	*@return a pointer to the previous central focus point of the sky map
-    	*/
-    SkyPoint* oldfocus() { return &OldFocus; }
-
     /**@short sets the central focus point of the sky map.
     	*@param f a pointer to the SkyPoint the map should be centered on
     	*/
@@ -229,11 +220,6 @@ public:
     	*@param az the new azimuth
     	*/
     void setDestinationAltAz(double alt, double az);
-
-    /**@short set the previous central focus point of the sky map.
-    	*@param f a pointer to the SkyPoint the map was centered on
-    	*/
-    void setOldFocus( SkyPoint *f ) { OldFocus.set( f->ra(), f->dec() ); }
 
     /**@short set the FocusPoint; the position that is to be the next Destination.
     	*@param f a pointer to the FocusPoint SkyPoint.
@@ -899,7 +885,7 @@ private:
     QPixmap *sky, *sky2;
     InfoBoxes  *IBoxes;
     dms HourAngle;
-    SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination;
+    SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
 
     SkyLine AngularRuler; //The line for measuring angles in the map

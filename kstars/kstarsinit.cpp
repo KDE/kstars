@@ -628,10 +628,6 @@ void KStars::initFocus() {
 
     map()->showFocusCoords();
 
-    map()->setOldFocus( map()->focus() );
-    map()->oldfocus()->setAz( map()->focus()->az()->Degrees() );
-    map()->oldfocus()->setAlt( map()->focus()->alt()->Degrees() );
-
     //Check whether initial position is below the horizon.
     if ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
             map()->focus()->alt()->Degrees() < -1.0 ) {

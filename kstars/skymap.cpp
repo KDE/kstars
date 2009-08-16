@@ -612,10 +612,6 @@ void SkyMap::setFocusAltAz(double alt, double az) {
 
     slewing = false;
 
-    oldfocus()->set( focus()->ra(), focus()->dec() );
-    oldfocus()->setAz( focus()->az()->Degrees() );
-    oldfocus()->setAlt( focus()->alt()->Degrees() );
-
     double dHA = data->lst()->Hours() - focus()->ra()->Hours();
     while ( dHA < 0.0 ) dHA += 24.0;
     HourAngle.setH( dHA );
@@ -705,9 +701,6 @@ void SkyMap::updateFocus() {
 
     //Update the Hour Angle
     HourAngle.setH( data->lst()->Hours() - focus()->ra()->Hours() );
-
-    setOldFocus( focus() );
-    oldfocus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void SkyMap::slewFocus() {

@@ -421,10 +421,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         return;
     }
 
-    setOldFocus( focus() );
-    oldfocus()->setAz( focus()->az()->Degrees() );
-    oldfocus()->setAlt( focus()->alt()->Degrees() );
-
     double dHA = data->lst()->Hours() - focus()->ra()->Hours();
     while ( dHA < 0.0 ) dHA += 24.0;
     HourAngle.setH( dHA );
@@ -589,8 +585,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             scrollCount = 0;
         }
 
-        setOldFocus( focus() );
-
         double dHA = data->lst()->Hours() - focus()->ra()->Hours();
         while ( dHA < 0.0 ) dHA += 24.0;
         HourAngle.setH( dHA );
@@ -673,8 +667,6 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
             else
                 setDestination( focus() );
         }
-
-        setOldFocus( focus() );
         forceUpdate();	// is needed because after moving the sky not all stars are shown
     }
     if ( midMouseButtonDown ) midMouseButtonDown = false;  // if middle button was pressed unset here
