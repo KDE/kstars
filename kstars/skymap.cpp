@@ -898,6 +898,24 @@ QPointF SkyMap::toScreenQuaternion( SkyPoint *o ) {
     return p;
 }
 
+void SkyMap::slotZoomIn() {
+    setZoomFactor( Options::zoomFactor() * DZOOM );
+}
+
+void SkyMap::slotZoomOut() {
+    setZoomFactor( Options::zoomFactor() / DZOOM );
+}
+
+void SkyMap::setZoomFactor(double factor) {
+    if( factor < MINZOOM )
+        factor = MINZOOM;
+    if( factor > MAXZOOM )
+        factor = MAXZOOM;
+    Options::setZoomFactor( factor );
+    forceUpdate();
+    emit zoomChanged();
+}
+
 QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) {
 
     QPointF p;

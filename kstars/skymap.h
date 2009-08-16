@@ -85,9 +85,7 @@ public:
     static bool IsSlewing() { return pinstance->isSlewing(); }
 
 
-    /**
-    *Destructor (empty)
-    */
+    /** Destructor (empty) */
     ~SkyMap();
 
     enum Projection { Lambert=0, AzimuthalEquidistant=1,
@@ -102,17 +100,13 @@ public:
     float fov();
 
 
-    /**
-    	*@return pointer to InfoBoxes object.
-    	*/
+    /** @return pointer to InfoBoxes object. */
     InfoBoxes* infoBoxes() const { return IBoxes; }
 
-    /**@short Update object name and coordinates in the Focus InfoBox
-    	*/
+    /**@short Update object name and coordinates in the Focus InfoBox */
     void showFocusCoords( bool coordsOnly = false );
 
-    /**@short Update the focus position according to current options.
-    	*/
+    /**@short Update the focus position according to current options. */
     void updateFocus();
 
     /**@short Retrieve the Focus point; the position on the sky at the
@@ -335,6 +329,8 @@ public:
     	*@see SkyMap::paintEvent()
     	*/
     void setMapGeometry();
+
+    void setZoomFactor(double factor);
 
     float guideMaxLength() const { return m_Guidemax; }
 
@@ -576,7 +572,7 @@ public slots:
     /**@short Popup menu function: Display Sloan Digital Sky Survey image with the Image Viewer.
     	*@note the URL is generated using the coordinates of ClickedPoint.
     	*/
-		void slotSDSS();
+    void slotSDSS();
 
     /**@short Popup menu function: Show webpage about ClickedObject
     	*(only available for some objects). 
@@ -652,6 +648,10 @@ public slots:
     void slotXplanetToFile();
 #endif
 
+    void slotZoomIn();
+
+    void slotZoomOut();
+
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
     	*point is changed, slewFocus() will iteratively step the Focus toward Destination 
@@ -666,6 +666,7 @@ signals:
     	*/
     void linkAdded();
 
+    void zoomChanged();
 protected:
     /**Draw the Sky, and all objects in it. */
     virtual void paintEvent( QPaintEvent *e );
