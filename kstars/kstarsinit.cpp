@@ -49,7 +49,6 @@
 #include "widgets/timestepbox.h"
 #include "comast/equipmentwriter.h"
 #include "comast/observeradd.h"
-#include "comast/execute.h"
 
 #include <config-kstars.h>
 
@@ -551,7 +550,6 @@ void KStars::datainitFinished(bool worked) {
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
-    execute = new Execute;
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )
