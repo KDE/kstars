@@ -879,7 +879,6 @@ private:
     bool isPoleVisible;
     double XRange;
 
-    KStars *ks;
     KStarsData *data;
     KSPopupMenu *pmenu;
     QPixmap *sky, *sky2;

@@ -57,7 +57,8 @@ void SkyMap::resizeEvent( QResizeEvent * )
     //	if ( testWState( Qt::WState_AutoMask ) ) updateMask();
 
     // avoid phantom positions of infoboxes
-    if ( ks && ( isVisible() || width() == ks->width() || height() == ks->height() ) ) {
+    KStars* kstars = KStars::Instance();
+    if ( kstars && ( isVisible() || width() == kstars->width() || height() == kstars->height() ) ) {
         infoBoxes()->resize( width(), height() );
     }
     *sky = sky->scaled( width(), height() );
@@ -65,6 +66,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
 }
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
+    KStars* kstars = KStars::Instance();
     QString s;
     bool arrowKeyPressed( false );
     bool shiftPressed( false );
@@ -144,14 +146,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_Plus:   //Zoom in
     case Qt::Key_Equal:
-        if ( ks ) 
-            zoomInOrMagStep( e->modifiers() );
+        zoomInOrMagStep( e->modifiers() );
         break;
 
     case Qt::Key_Minus:  //Zoom out
     case Qt::Key_Underscore:
-        if (  ks ) 
-            zoomOutOrMagStep( e->modifiers() );
+        zoomOutOrMagStep( e->modifiers() );
         break;
 
     case Qt::Key_0: //center on Sun
@@ -293,7 +293,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         }
 
         if ( clickedObject() ) {
-            ks->observingList()->slotAddObject();
+            kstars->observingList()->slotAddObject();
         }
 
         if ( orig ) {
@@ -451,7 +451,8 @@ void SkyMap::slotJobResult( KJob *job ) {
 }
 
 void SkyMap::stopTracking() {
-    if ( ks && Options::isTracking() ) ks->slotTrack();
+    KStars* kstars = KStars::Instance();
+    if ( kstars && Options::isTracking() ) kstars->slotTrack();
 }
 
 void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
@@ -597,7 +598,8 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         forceUpdate();  // must be new computed
 
     } else { //mouse button not down
-        if ( ks ) {
+        KStars* kstars = KStars::Instance();
+        if ( kstars ) {
             QString sX, sY, s;
 
             if ( Options::showAltAzField() ) {
@@ -608,14 +610,14 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
                 sY = a.toDMSString(true); //true: force +/- symbol
     
                 s = sX + ",  " + sY;
-                ks->statusBar()->changeItem( s, 1 );
+                kstars->statusBar()->changeItem( s, 1 );
             }
 
             if ( Options::showRADecField() ) {
                 sX = mousePoint()->ra()->toHMSString();
                 sY = mousePoint()->dec()->toDMSString(true); //true: force +/- symbol
                 s = sX + ",  " + sY;
-                ks->statusBar()->changeItem( s, 2 );
+                kstars->statusBar()->changeItem( s, 2 );
             }
         }
     }
@@ -675,6 +677,8 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 }
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
+    KStars* kstars = KStars::Instance();
+
     //did we Grab an infoBox?
     if ( e->button() == Qt::LeftButton && infoBoxes()->grabBox( e ) ) {
         update(); //refresh without redrawing skymap
@@ -722,8 +726,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                 clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
             }
 
-            if ( ks && e->button() == Qt::LeftButton ) {
-                ks->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
+            if ( kstars && e->button() == Qt::LeftButton ) {
+                kstars->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
             }
         } else {
             //Empty sky selected.  If left-click, display "nothing" in the status bar.
@@ -732,7 +736,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
             switch (e->button()) {
             case Qt::LeftButton:
-                if ( ks ) ks->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
+                if ( kstars )
+                    kstars->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
                 break;
             case Qt::RightButton:
                 {

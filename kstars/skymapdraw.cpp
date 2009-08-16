@@ -127,30 +127,32 @@ QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2 ) {
 
 
 void SkyMap::drawOverlays( QPixmap *pm ) {
-    if ( ks ) { //only if we are drawing in the GUI window
-        QPainter p;
-        p.begin( pm );
-        p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
+    if( !KStars::Instance() )
+        return;
 
-        if ( Options::showHighlightedCBound() )
-            drawHighlightConstellation( p );
+    QPainter p;
+    p.begin( pm );
+    p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
 
-        showFocusCoords( true );
-        drawBoxes( p );
+    if ( Options::showHighlightedCBound() )
+        drawHighlightConstellation( p );
 
-        //draw FOV symbol
-        foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {
-            fov->draw(p, Options::zoomFactor());
-        }
-        drawTelescopeSymbols( p );
-        drawObservingList( p );
-        drawZoomBox( p );
+    showFocusCoords( true );
+    drawBoxes( p );
 
-        if ( transientObject() ) drawTransientLabel( p );
-        if (isAngleMode()) {
-            updateAngleRuler();
-            drawAngleRuler( p );
-        }
+    //draw FOV symbol
+    foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {
+        fov->draw(p, Options::zoomFactor());
+    }
+    drawTelescopeSymbols( p );
+    drawObservingList( p );
+    drawZoomBox( p );
+
+    if ( transientObject() )
+        drawTransientLabel( p );
+    if (isAngleMode()) {
+        updateAngleRuler();
+        drawAngleRuler( p );
     }
 }
 

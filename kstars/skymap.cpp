@@ -74,10 +74,11 @@ SkyMap* SkyMap::Instance( )
     return pinstance;
 }
 
-SkyMap::SkyMap()
-    : QWidget( KStars::Instance() ), computeSkymap(true), angularDistanceMode(false),
-      ks( KStars::Instance() ), data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0), IBoxes(0),
-        ClickedObject(0), FocusObject(0), TransientObject(0)
+SkyMap::SkyMap() :
+    QWidget( KStars::Instance() ),
+    computeSkymap(true), angularDistanceMode(false),
+    data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0), IBoxes(0),
+    ClickedObject(0), FocusObject(0), TransientObject(0)
 {
     m_Scale = 1.0;
 
@@ -104,7 +105,7 @@ SkyMap::SkyMap()
 
     sky = new QPixmap( width(),  height() );
     sky2 = new QPixmap( width(),  height() );
-    pmenu = new KSPopupMenu( ks );
+    pmenu = new KSPopupMenu( KStars::Instance() );
 
     //Initialize Transient label stuff
     TransientTimeout = 100; //fade label color every 0.1 sec
@@ -252,6 +253,8 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 }
 
 void SkyMap::slotCenter() {
+    KStars* kstars = KStars::Instance();
+
     setFocusPoint( clickedPoint() );
     if ( Options::useAltAz() )
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -283,9 +286,9 @@ void SkyMap::slotCenter() {
     //destination to previous object...
     setFocusObject( ClickedObject );
     Options::setIsTracking( true );
-    if ( ks ) {
-        ks->actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
-        ks->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
+    if ( kstars ) {
+        kstars->actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
+        kstars->actionCollection()->action("track_object")->setText( i18n( "Stop &Tracking" ) );
     }
 
     //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
@@ -310,19 +313,19 @@ void SkyMap::slotCenter() {
     focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     //display coordinates in statusBar
-    if ( ks ) {
+    if ( kstars ) {
         if ( Options::showAltAzField() ) {
             QString sX = focusPoint()->az()->toDMSString();
             QString sY = focusPoint()->alt()->toDMSString(true);
             if ( Options::useAltAz() && Options::useRefraction() )
                 sY = refract( focusPoint()->alt(), true ).toDMSString(true);
             QString s = sX + ",  " + sY;
-            ks->statusBar()->changeItem( s, 1 );
+            kstars->statusBar()->changeItem( s, 1 );
         }
 
         if ( Options::showRADecField() ) {
             QString s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
-            ks->statusBar()->changeItem( s, 2 );
+            kstars->statusBar()->changeItem( s, 2 );
         }
     }
 
@@ -451,7 +454,7 @@ void SkyMap::slotEndAngularDistance() {
         angularDistance = AngularRuler.angularSize();
         sbMessage += i18n( "Angular distance: %1", angularDistance.toDMSString() );
 
-        ks->statusBar()->changeItem( sbMessage, 0 );
+        KStars::Instance()->statusBar()->changeItem( sbMessage, 0 );
         
         AngularRuler.clear();
     }
@@ -489,7 +492,7 @@ void SkyMap::slotImage() {
     KUrl url ( sURL );
     if ( url.isEmpty() ) return;
 
-    ks->addImageViewer( url, clickedObject()->messageFromTitle(message) );
+    KStars::Instance()->addImageViewer( url, clickedObject()->messageFromTitle(message) );
 }
 
 void SkyMap::slotInfo() {
@@ -525,7 +528,6 @@ bool SkyMap::isObjectLabeled( SkyObject *object ) {
     foreach ( SkyObject *o, data->skyComposite()->labelObjects() ) {
         if ( o == object ) return true;
     }
-
     return false;
 }
 
@@ -563,7 +565,7 @@ void SkyMap::slotDetail() {
         KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
         return;
     }
-    QPointer<DetailDialog> detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), ks );
+    QPointer<DetailDialog> detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), KStars::Instance() );
     detail->exec();
     delete detail;
 }
@@ -574,8 +576,9 @@ void SkyMap::slotClockSlewing() {
         data->clock()->setManualMode( !clockSlewing );
         clockSlewing = !clockSlewing;
         // don't change automatically the DST status
-        if( ks )
-            ks->updateTime( false );
+        KStars* kstars = KStars::Instance();
+        if( kstars )
+            kstars->updateTime( false );
     }
 }
 
