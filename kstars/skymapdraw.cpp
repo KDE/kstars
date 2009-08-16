@@ -17,8 +17,8 @@
 
 //This file contains drawing functions SkyMap class.
 
-#include <stdlib.h> // abs
-#include <math.h> //log10()
+#include <cstdlib> // abs
+#include <cmath>   // log10()
 #include <iostream>
 
 #include <QPainter>
@@ -33,10 +33,6 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/ksplanetbase.h"
-#include "skyobjects/ksasteroid.h"
-#include "skyobjects/kscomet.h"
-#include "skyobjects/ksmoon.h"
-#include "skyobjects/jupitermoons.h"
 #include "infoboxes.h"
 #include "simclock.h"
 #include "observinglist.h"
@@ -335,8 +331,10 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
             if ( obj->name() == i18n( "Neptune" ) && ! Options::showNeptune() ) continue;
             if ( obj->name() == i18n( "Pluto" ) && ! Options::showPluto() ) continue;
         }
-        if ( obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY 
-             || obj->type() >= SkyObject::ASTERISM || obj->type() <= SkyObject::QUASAR ) {
+        if ( (obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY) ||
+             (obj->type() >= SkyObject::ASTERISM) ||
+             (obj->type() <= SkyObject::QUASAR) )
+        {
             if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) continue;
             if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) continue;
             if ( ((DeepSkyObject*)obj)->isCatalogIC() && ! drawIC ) continue;
@@ -611,9 +609,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
 }
 
 void SkyMap::setMapGeometry() {
-    m_Guidemax = Options::zoomFactor()/10.0;
-
-    isPoleVisible = false;
+    double Ymax;
     if ( Options::useAltAz() ) {
         XRange = 1.2*fov()/cos( focus()->alt()->radians() );
         Ymax = fabs( focus()->alt()->Degrees() ) + fov();
@@ -621,10 +617,5 @@ void SkyMap::setMapGeometry() {
         XRange = 1.2*fov()/cos( focus()->dec()->radians() );
         Ymax = fabs( focus()->dec()->Degrees() ) + fov();
     }
-    if ( Ymax >= 90. ) isPoleVisible = true;
-
-    //at high zoom, double FOV for guide lines so they don't disappear.
-    guideFOV = fov();
-    guideXRange = XRange;
-    if ( Options::zoomFactor() > 10.*MINZOOM ) { guideFOV *= 2.0; guideXRange *= 2.0; }
+    isPoleVisible = Ymax >= 90.0;
 }

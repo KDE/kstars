@@ -323,8 +323,6 @@ public:
     	*The variables set by setMapGeometry are:
     	*@li isPoleVisible true if a coordinate Pole is on-screen
     	*@li XMax the horizontal center-to-edge angular distance
-    	*@li guideXMax a version of XMax used for guide lines (same as XMax at low zoom; 2x XMAX otherwise)
-    	*@li guideFOV similar to guideXMax, but for the vertical direction.
     	*@see SkyMap::checkVisibility()
     	*@see SkyMap::paintEvent()
     	*/
@@ -332,8 +330,6 @@ public:
 
     /** Set zoom factor. */
     void setZoomFactor(double factor);
-
-    float guideMaxLength() const { return m_Guidemax; }
 
     /**@short Call keyPressEvent, as if the key given as an argument had been pressed. */
     void invokeKey( int key );
@@ -887,9 +883,7 @@ private:
     bool slewing, clockSlewing;
     bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
     bool angularDistanceMode;
-    int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
     int scrollCount;
-    double Range;
     double RefractCorr1[184], RefractCorr2[184];
     double y0;
 
@@ -897,12 +891,7 @@ private:
 
     //data for checkVisibility
     bool isPoleVisible;
-    float m_Guidemax;
-    float guideFOV;
-    double XRange, Ymax;
-    double guideXRange;
-
-    QString sURL;
+    double XRange;
 
     KStars *ks;
     KStarsData *data;
