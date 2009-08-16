@@ -51,6 +51,37 @@
 
 #include "dialogs/detaildialog.h"
 
+namespace {
+    // Report fatal error during data loading to user
+    // Calls QApplication::exit
+    void fatalErrorMessage(QString fname) {
+        KMessageBox::sorry(0, i18n("The file  %1 could not be found. "
+                                   "KStars cannot run properly without this file. "
+                                   "KStars search for this file in following locations:\n\n"
+                                   "\t$(KDEDIR)/share/apps/kstars/%1\n"
+                                   "\t~/.kde/share/apps/kstars/%1\n\n"
+                                   "It appears that your setup is broken.", fname),
+                           i18n( "Critical File Not Found: %1", fname ));
+        qApp->exit(1);
+    }
+
+    // Report non-fatal error during data loading to user and ask
+    // whether he wants to continue.
+    // Calls QApplication::exit if he don't
+    bool nonFatalErrorMessage(QString fname) {
+        int res = KMessageBox::warningContinueCancel(0,
+                      i18n("The file %1 could not be found. "
+                           "KStars can still run without this file. "
+                           "KStars search for this file in following locations:\n\n"
+                           "\t$(KDEDIR)/share/apps/kstars/%1\n"
+                           "\t~/.kde/share/apps/kstars/%1\n\n"
+                           "It appears that you setup is broken. Press Continue to run KStars without this file ", fname),
+                      i18n( "Non-Critical File Not Found: %1", fname ));
+        if( res != KMessageBox::Continue )
+            qApp->exit(1);
+        return res == KMessageBox::Continue;
+    }
+}
 
 KStarsData* KStarsData::pinstance = 0;
 
@@ -116,49 +147,20 @@ QString KStarsData::typeName( int i ) {
     return i18n( "no type" );
 }
 
-void KStarsData::initialize() {
-    QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-}
-
-void KStarsData::initError(const QString &s, bool required = false) {
-    if (required) {
-        // Nothing could be done here.
-        KMessageBox::sorry(0, i18n("The file  %1 could not be found. "
-                                   "KStars cannot run properly without this file. "
-                                   "KStars search for this file in following locations:\n\n"
-                                   "\t$(KDEDIR)/share/apps/kstars/%1\n"
-                                   "\t~/.kde/share/apps/kstars/%1\n\n"
-                                   "It appears that your setup is broken.", s),
-                           i18n( "Critical File Not Found: %1", s ));
-        qApp->exit(1);
-    } else {
-        // Alert user
-        int res = KMessageBox::warningContinueCancel(0,
-                      i18n("The file %1 could not be found. "
-                           "KStars can still run without this file. "
-                           "KStars search for this file in following locations:\n\n"
-                           "\t$(KDEDIR)/share/apps/kstars/%1\n"
-                           "\t~/.kde/share/apps/kstars/%1\n\n"
-                           "It appears that you setup is broken. Press Continue to run KStars without this file ", s),
-                      i18n( "Non-Critical File Not Found: %1", s ));
-        if( res != KMessageBox::Continue )
-            qApp->exit(1);
-    }
-}
-
-void KStarsData::slotInitialize() {
-
-    qApp->flush(); // flush all paint events before loading data
-
+bool KStarsData::initialize() {
     // Load Time Zone Rules
     emit progressText( i18n("Reading time zone rules") );
-    if( !readTimeZoneRulebook( ) )
-        initError( "TZrules.dat", true );
+    if( !readTimeZoneRulebook( ) ) {
+        fatalErrorMessage( "TZrules.dat" );
+        return false;
+    }
     
     // Load Cities
     emit progressText( i18n("Loading city data") );
-    if ( !readCityData( ) )
-        initError( "Cities.dat", true );
+    if ( !readCityData( ) ) {
+        fatalErrorMessage( "Cities.dat" );
+        return false;
+    }
 
     //Initialize SkyMapComposite//
     emit progressText(i18n("Loading sky objects" ) );
@@ -166,13 +168,13 @@ void KStarsData::slotInitialize() {
 
     //Load Image URLs//
     emit progressText( i18n("Loading Image URLs" ) );
-    if ( !readURLData( "image_url.dat", 0 ) )
-        initError( "image_url.dat", false );
+    if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
+        return false;
 
     //Load Information URLs//
     emit progressText( i18n("Loading Information URLs" ) );
-    if ( !readURLData( "info_url.dat", 1 ) )
-        initError( "info_url.dat", false );
+    if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
+        return false;
 
     emit progressText( i18n("Loading Variable Stars" ) );
     readINDIHosts();
@@ -180,7 +182,7 @@ void KStarsData::slotInitialize() {
     readVARData();
     readADVTreeData();
 
-    emit initFinished(true);
+    return true;
 }
 
 void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {

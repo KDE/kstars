@@ -81,8 +81,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     cschemeGroup    = new QActionGroup( this );
 
     kstarsData = KStarsData::Create();
-    connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
-
     //Set Geographic Location from Options
     kstarsData->setLocationFromOptions();
 
@@ -105,9 +103,6 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
     }
 
-    //Initialize data.  When initialization is complete, it will run dataInitFinished()
-    kstarsData->initialize();
-
     //set up Dark color scheme for application windows
     DarkPalette = QPalette(QColor("darkred"), QColor("darkred"));
     DarkPalette.setColor( QPalette::Normal, QPalette::Base, QColor( "black" ) );
@@ -116,6 +111,11 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     DarkPalette.setColor( QPalette::Normal, QPalette::HighlightedText, QColor( "black" ) );
     //store original color scheme
     OriginalPalette = QApplication::palette();
+
+    //Initialize data.  When initialization is complete, it will run dataInitFinished()
+    if( !kstarsData->initialize() )
+        return;
+    datainitFinished(true);
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
     kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";

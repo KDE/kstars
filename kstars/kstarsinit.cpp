@@ -512,12 +512,6 @@ void KStars::initStatusBar() {
 }
 
 void KStars::datainitFinished(bool worked) {
-    //Quit program if something went wrong with initialization of data
-    if (!worked) {
-        qApp->quit();
-        return;
-    }
-
     //delete the splash screen window
     delete splash;
     splash = 0;
@@ -526,19 +520,18 @@ void KStars::datainitFinished(bool worked) {
     buildGUI();
 
     //Time-related connections
-    connect( data()->clock(), SIGNAL( timeAdvanced() ), this,
-             SLOT( updateTime() ) );
-    connect( data()->clock(), SIGNAL( timeChanged() ), this,
-             SLOT( updateTime() ) );
-    connect( data()->clock(), SIGNAL( scaleChanged( float ) ), map(),
-             SLOT( slotClockSlewing() ) );
-    connect(data(), SIGNAL( update() ), map(), SLOT( forceUpdateNow() ) );
-    connect( TimeStep, SIGNAL( scaleChanged( float ) ), data(),
-             SLOT( setTimeDirection( float ) ) );
-    connect( TimeStep, SIGNAL( scaleChanged( float ) ), data()->clock(),
-             SLOT( setScale( float )) );
-    connect( TimeStep, SIGNAL( scaleChanged( float ) ), this,
-             SLOT( mapGetsFocus() ) );
+    connect( data()->clock(), SIGNAL( timeAdvanced() ),
+             this, SLOT( updateTime() ) );
+    connect( data()->clock(), SIGNAL( timeChanged() ),
+             this, SLOT( updateTime() ) );
+    connect( data()->clock(), SIGNAL( scaleChanged( float ) ),
+             map(), SLOT( slotClockSlewing() ) );
+
+    connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
+    connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
+    connect( TimeStep, SIGNAL( scaleChanged(float) ),
+             data()->clock(), SLOT( setScale( float )) );
+    connect( TimeStep, SIGNAL( scaleChanged(float) ), this,   SLOT( mapGetsFocus() ) );
 
 
     #ifdef HAVE_INDI_H
@@ -677,7 +670,6 @@ void KStars::buildGUI() {
 
     //get focus of keyboard and mouse actions (for example zoom in with +)
     map()->QWidget::setFocus();
-
     resize( Options::windowWidth(), Options::windowHeight() );
 
     // check zoom in/out buttons

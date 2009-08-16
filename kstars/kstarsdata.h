@@ -49,13 +49,11 @@ class QFile;
 class dms;
 class SkyMap;
 class SkyObject;
-class StarObject;
 class KSPlanet;
 
 class TimeZoneRule;
-struct INDIHostsInfo;
-struct ADVTreeData;
-class CustomCatalog;
+class INDIHostsInfo;
+class ADVTreeData;
 
 
 struct VariableStarInfo
@@ -103,6 +101,11 @@ public:
     static KStarsData* Create( );
 
     static KStarsData* Instance();
+
+    /** Initialize KStarsData while running splash screen.
+     *  @return true on success.
+     */
+    bool initialize();
 
     /**Destructor.  Delete data objects. */
     virtual ~KStarsData();
@@ -272,10 +275,6 @@ public:
 
     QString typeName( int );
 
-    /**@return reference to the CustomCatalogs list
-    	*/
-    // 	QPtrList<CustomCatalog>& customCatalogs() { return CustomCatalogs; }
-
     /**Set the GeoLocation according to the argument.
     	*@param l reference to the new GeoLocation
     	*/
@@ -313,18 +312,11 @@ public:
      * Options */
     void syncFOV();
     
-    /**@short Initialize celestial equator, horizon and ecliptic.
-    	*@param num pointer to a KSNumbers object to use.
-    	*/
-    //	void initGuides( KSNumbers *num );
-
     /*@short Appends telescope sky object to the list of INDI telescope objects. This enables KStars to track all telescopes properly.
     	*@param object pointer to telescope sky object
-
     void appendTelescopeObject(SkyObject * object);*/
 
-    /*@short Increments the updateID, forcing a recomputation of star positions as well
-     */
+    /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 
     unsigned int updateID() { return m_updateID; }
@@ -348,10 +340,6 @@ signals:
     void clearCache();
 
 public slots:
-
-    /**Create a timer and connect its timeout() signal to slotInitialize(). */
-    void initialize();
-
     /**@short send a message to the console*/
     void slotConsoleMessage( QString s ) { std::cout << (const char*)(s.toLocal8Bit()) << std::endl; }
 
@@ -401,46 +389,13 @@ public slots:
     	*/
     void saveFocusBoxPos( QPoint p );
 
-private slots:
-    /**This function runs while the splash screen is displayed as KStars is
-    	*starting up.  It is connected to the timeout() signal of a timer
-    	*created in the initialize() slot.  It consists of a large switch
-    	*statement, in which each case causes the next data object to be
-    	*initialized (which usually consists of reading data from a file on disk,
-    	*and storing it in the appropriate object in memory).
-    	*At the end of this function, the integer which the switch statement is
-    	*checking is incremented, so that the next case label will be executed when
-    	*the next timeout() signal is fired.
-    	*/
-    void slotInitialize();
-
 private:
-
-    /**Display an Error messagebox if a data file could not be opened.  If the file
-    	*was marked as "required", then abort the program when the messagebox is closed.
-    	*Otherwise, continue loading the program.
-    	*@param fn the name of the file which could not be opened.
-    	*@param required if true, then the error message is more severe, and the program 
-    	*exits when the messagebox is closed.
-    	*/
-    void initError(const QString &fn, bool required);
-
     /**Reset local time to new daylight saving time. Use this function if DST has changed.
     	*Used by updateTime().
     	*/
     void resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange);
 
-    /*
-    	* Store the highest magnitude level at the current session and compare with current used
-    	* magnitude. If current magnitude is equal to maxSetMagnitude reload data on next increment
-    	* of magnitude level.
-    	*/
-    float maxSetMagnitude;
-    /*
-    	* Store the last position in star data file. Needed by reloading star data.
-    	*/
-    int lastFileIndex;
-
+    // FIXME: this should be moved to CustomCatalogComponent
     QList<SkyObject> objList;
 
     unsigned int StarCount;
@@ -468,15 +423,12 @@ private:
     QList<FOV*> availFOVs;   // List of all available FOVs
     QList<FOV*> visibleFOVs; // List of visible FOVs. Cached from Options::FOVNames
 
-    double Obliquity, dObliq, dEcLong;
     KStarsDateTime LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
     KStarsDateTime NextDSTChange;
     KStarsDateTime StoredDate;
 
     QString TypeName[18];
 
-    //--- Static member variables
-    //the number of KStarsData objects.
     QList<GeoLocation*> geoList;
     QMap<QString, TimeZoneRule> Rulebook;
 
