@@ -736,7 +736,6 @@ private:
 
     QActionGroup *projectionGroup, *cschemeGroup;
 
-    int idSpinBox;
     bool DialogIsObsolete;
     bool StartClockRunning;
     QString StartDateString;
