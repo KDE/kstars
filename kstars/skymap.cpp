@@ -334,7 +334,6 @@ void SkyMap::slotDSS() {
     QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
     dms ra(0.0), dec(0.0);
     QString RAString, DecString;
-    char decsgn;
 
     //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
     //if we clicked on empty sky, we need to precess to J2000.
@@ -356,8 +355,7 @@ void SkyMap::slotDSS() {
 
     RAString = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
 
-    decsgn = '+';
-    if ( dec.Degrees() < 0.0 ) decsgn = '-';
+    char decsgn = ( dec.Degrees() < 0.0 ) ? '-' : '+';
     int dd = abs( dec.degree() );
     int dm = abs( dec.arcmin() );
     int ds = abs( dec.arcsec() );
@@ -366,10 +364,12 @@ void SkyMap::slotDSS() {
     //concat all the segments into the kview command line:
     KUrl url (URLprefix + RAString + DecString + URLsuffix);
 
-    QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." );
-
-    ImageViewer *iv = ks->addImageViewer( url, message );
-    iv->show();
+    KStars* kstars = KStars::Instance();
+    if( kstars ) {
+        ImageViewer *iv = kstars->addImageViewer(
+            url, i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ));
+        iv->show();
+    }
 }
 
 void SkyMap::slotSDSS() {
@@ -402,10 +402,12 @@ void SkyMap::slotSDSS() {
 	//concat all the segments into the kview command line:
 	KUrl url (URLprefix + RAString + DecString + URLsuffix);
 
-	QString message = i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." );
-
-	ImageViewer *iv = ks->addImageViewer( url, message );
-	iv->show();
+    KStars* kstars = KStars::Instance();
+    if( kstars ) {
+        ImageViewer *iv = kstars->addImageViewer(
+            url, i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ) );
+        iv->show();
+    }
 }
 
 void SkyMap::slotBeginAngularDistance() {
