@@ -75,8 +75,6 @@ KStarsData::KStarsData() :
     m_preUpdateNum( J2000 ), m_updateNum( J2000 ),
     temporaryTrail( false )
 {
-    startupComplete = false;
-
     TypeName[0] = i18n( "star" );
     TypeName[1] = i18n( "star" );
     TypeName[2] = i18n( "planet" );
@@ -119,10 +117,7 @@ QString KStarsData::typeName( int i ) {
 }
 
 void KStarsData::initialize() {
-    if (startupComplete) return;
-
     QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-    initCounter = 0;
 }
 
 void KStarsData::initError(const QString &s, bool required = false) {
@@ -147,82 +142,47 @@ void KStarsData::initError(const QString &s, bool required = false) {
                   + i18n( "Otherwise, press Cancel to continue loading without this file.");
         caption = i18n( "Non-Critical File Not Found: %1", s );
     }
-
-    if ( KMessageBox::warningContinueCancel( 0, message, caption, KGuiItem( i18n( "Retry" ) ) ) == KMessageBox::Continue ) {
-        initCounter--;
-        QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-    } else {
-        if (required) {
-            emit initFinished(false);
-        } else {
-            QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-        }
-    }
+    // Warn user.
+    int res = KMessageBox::warningContinueCancel( 0, message, caption, KGuiItem(i18n( "Retry" )) );
+    if( required  ||  res != KMessageBox::Continue )
+        qApp->quit();
 }
 
 void KStarsData::slotInitialize() {
 
     qApp->flush(); // flush all paint events before loading data
 
-    switch ( initCounter )
-    {
-    case 0: //Load Time Zone Rules//
-        emit progressText( i18n("Reading time zone rules") );
+    // Load Time Zone Rules
+    emit progressText( i18n("Reading time zone rules") );
+    if( !readTimeZoneRulebook( ) )
+        initError( "TZrules.dat", true );
+    
+    // Load Cities
+    emit progressText( i18n("Loading city data") );
+    if ( !readCityData( ) )
+        initError( "Cities.dat", true );
 
-        // timezone rules
-        if ( !readTimeZoneRulebook( ) )
-            initError( "TZrules.dat", true );
+    //Initialize SkyMapComposite//
+    emit progressText(i18n("Loading sky objects" ) );
+    skyComposite()->init( this );
 
-        break;
+    //Load Image URLs//
+    emit progressText( i18n("Loading Image URLs" ) );
+    if ( !readURLData( "image_url.dat", 0 ) )
+        initError( "image_url.dat", false );
 
-    case 1: //Load Cities//
-        emit progressText( i18n("Loading city data") );
-        if ( !readCityData( ) )
-            initError( "Cities.dat", true );
-        break;
+    //Load Information URLs//
+    emit progressText( i18n("Loading Information URLs" ) );
+    if ( !readURLData( "info_url.dat", 1 ) )
+        initError( "info_url.dat", false );
 
-    case 2: //Initialize SkyMapComposite//
+    emit progressText( i18n("Loading Variable Stars" ) );
+    readINDIHosts();
+    readUserLog();
+    readVARData();
+    readADVTreeData();
 
-        emit progressText(i18n("Loading sky objects" ) );
-        skyComposite()->init( this );
-        break;
-
-    case 3: //Load Image URLs//
-
-        emit progressText( i18n("Loading Image URLs" ) );
-        if ( !readURLData( "image_url.dat", 0 ) ) {
-            initError( "image_url.dat", false );
-        }
-
-        break;
-
-    case 4: //Load Information URLs//
-
-        emit progressText( i18n("Loading Information URLs" ) );
-        if ( !readURLData( "info_url.dat", 1 ) ) {
-            initError( "info_url.dat", false );
-        }
-
-        break;
-
-    case 5:
-        emit progressText( i18n("Loading Variable Stars" ) );
-        readINDIHosts();
-        readUserLog();
-        readVARData();
-        readADVTreeData();
-        break;
-
-    default:
-        startupComplete = true;
-        emit initFinished(true);
-        break;
-    } // switch ( initCounter )
-
-    initCounter++;  // before processEvents!
-    if(!startupComplete)
-        QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-    qApp->processEvents();
+    emit initFinished(true);
 }
 
 void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {

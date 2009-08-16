@@ -102,7 +102,6 @@ int main(int argc, char *argv[])
         KStarsData *dat = KStarsData::Create();
         QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
         dat->initialize();
-        while (!dat->startupComplete) { qApp->processEvents(); }
 
         //Set Geographic Location
         dat->setLocationFromOptions();
