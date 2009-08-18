@@ -424,10 +424,6 @@ void AltVsTime::slotChooseCity() {
     delete ld;
 }
 
-int AltVsTime::currentPlotListItem() const {
-    return avtUI->PlotList->currentRow();
-}
-
 void AltVsTime::setLSTLimits() {
     //UT at noon on target date
     KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );

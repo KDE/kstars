@@ -112,11 +112,6 @@ public:
         */
     double findAltitude( SkyPoint *p, double hour );
 
-    /**@return the currently highlighted item in the list of displayed
-        *objects
-        */
-    int currentPlotListItem() const;
-
     /**@return a pointer to the list of SkyObjects representing the
         *objects being displayed.
         */
