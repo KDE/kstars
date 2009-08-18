@@ -109,6 +109,7 @@ void EquipmentWriter::slotSetScope( QString name) {
         ui.Vendor->setText( s->vendor() );
         ui.Type->setCurrentIndex( ui.Type->findText( s->type() ) );
         ui.FocalLength->setValue( s->focalLength() );
+        ui.Aperture->setValue( s->aperture() );
         newScope = false;
     }
 }
