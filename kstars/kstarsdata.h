@@ -117,11 +117,11 @@ public:
     	*@return true if at least one city read successfully.
     	*@see KStarsData::processCity()
     	*/
-    bool readCityData( void );
+    bool readCityData();
 
     /**Read the data file that contains daylight savings time rules.
     	*/
-    bool readTimeZoneRulebook( void );
+    bool readTimeZoneRulebook();
 
     /**Parse one line from a locations database file.  The line contains 10 or 11 fields
     	*separated by colons (":").  The fields are:
@@ -151,7 +151,7 @@ public:
     	*@short read Variable Stars data.
     	*@return true if data is successfully read.
     	*/
-    bool readVARData(void);
+    bool readVARData();
 
     //TODO JM: ADV tree should use XML instead
     /**Read Advanced interface structure to be used later to construct the list view in
@@ -162,10 +162,10 @@ public:
     	*@short read online database lookup structure.
     	*@return true if data is successfully read.
     	*/
-    bool readADVTreeData(void);
+    bool readADVTreeData();
 
     /**Read INDI hosts from an XML file*/
-    bool readINDIHosts(void);
+    bool readINDIHosts();
 
     //TODO JM: Use XML instead; The logger should have more features
     // that allow users to enter details about their observation logs
@@ -176,7 +176,7 @@ public:
     	*@short read user logs.
     	*@return true if data is successfully read.
     	*/
-    bool readUserLog(void);
+    bool readUserLog();
 
     /**Read in URLs to be attached to a named object's right-click popup menu.  At this
     	*point, there is no way to attach URLs to unnamed objects.  There are two
@@ -214,11 +214,6 @@ public:
     /**@return pointer to the localization (KLocale) object
     	*/
     KLocale *getLocale() { return locale; }
-
-    /**@return pointer to the Earth object
-    	*/
-    //FIXME: can we live without this, or do we need a SkyMapComposite fcn?
-    //	KSPlanet *earth() { return PCat->earth(); }
 
     /**@short Find object by name.
     	*@param name Object name to find
@@ -312,10 +307,6 @@ public:
      * Options */
     void syncFOV();
     
-    /*@short Appends telescope sky object to the list of INDI telescope objects. This enables KStars to track all telescopes properly.
-    	*@param object pointer to telescope sky object
-    void appendTelescopeObject(SkyObject * object);*/
-
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 
@@ -432,9 +423,9 @@ private:
     QList<GeoLocation*> geoList;
     QMap<QString, TimeZoneRule> Rulebook;
 
-    quint32      m_preUpdateID, m_updateID;
-    quint32      m_preUpdateNumID, m_updateNumID;
-    KSNumbers    m_preUpdateNum, m_updateNum;
+    quint32   m_preUpdateID, m_updateID;
+    quint32   m_preUpdateNumID, m_updateNumID;
+    KSNumbers m_preUpdateNum, m_updateNum;
 
     static KStarsData* pinstance;
 

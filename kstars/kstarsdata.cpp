@@ -367,7 +367,7 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
     return skyComposite()->findByName( name );
 }
 
-bool KStarsData::readCityData( void ) {
+bool KStarsData::readCityData() {
     QFile file;
     bool citiesFound = false;
 
@@ -511,7 +511,7 @@ bool KStarsData::processCity( const QString& line ) {
     return true;
 }
 
-bool KStarsData::readTimeZoneRulebook( void ) {
+bool KStarsData::readTimeZoneRulebook() {
     QFile file;
     QString id;
 
@@ -689,7 +689,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
     return true;
 }
 
-bool KStarsData::readUserLog(void)
+bool KStarsData::readUserLog()
 {
     QFile file;
     QString buffer;
@@ -729,7 +729,7 @@ bool KStarsData::readUserLog(void)
     return true;
 }
 
-bool KStarsData::readADVTreeData(void)
+bool KStarsData::readADVTreeData()
 {
     QFile file;
     QString Interface;
@@ -792,7 +792,7 @@ bool KStarsData::readADVTreeData(void)
     return true;
 }
 
-bool KStarsData::readVARData(void)
+bool KStarsData::readVARData()
 {
     QString varFile("valaav.txt");
     QFile localeFile;
@@ -846,7 +846,7 @@ bool KStarsData::readVARData(void)
 }
 
 
-bool KStarsData::readINDIHosts(void)
+bool KStarsData::readINDIHosts()
 {
 #ifdef HAVE_INDI_H
     QString indiFile("indihosts.xml");
@@ -1236,11 +1236,6 @@ void KStarsData::syncFOV()
     }
     Options::setFOVNames( all.intersect(names).toList() );
 }
-
-/*void KStarsData::appendTelescopeObject(SkyObject * object)
-{
-  INDITelescopeList.append(object);
-}*/
 
 void KStarsData::saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }
 void KStarsData::saveGeoBoxShaded( bool b ) { Options::setShadeGeoBox( b ); }
