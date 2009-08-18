@@ -25,7 +25,6 @@
 #include <kmenu.h>
 #include <kstatusbar.h>
 #include <ktip.h>
-#include <kled.h>
 #include <kmessagebox.h>
 #include <kstandardaction.h>
 #include <kstandarddirs.h>
@@ -504,11 +503,8 @@ void KStars::initStatusBar() {
         statusBar()->changeItem( QString(), 2 );
     }
 
-    m_DiskLED = new KLed( Qt::red, statusBar() );
-    m_DiskLED->off();
-    statusBar()->addPermanentWidget( m_DiskLED );
-
-    if ( ! Options::showStatusBar() ) statusBar()->hide();
+    if ( ! Options::showStatusBar() )
+        statusBar()->hide();
 }
 
 void KStars::datainitFinished(bool worked) {
