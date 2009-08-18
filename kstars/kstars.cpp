@@ -14,10 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-//JH 11.06.2002: replaced infoPanel with infoBoxes
-//JH 24.08.2001: reorganized infoPanel
-//JH 25.08.2001: added toolbar, converted menu items to KAction objects
-//JH 25.08.2001: main window now resizable, window size saved in config file
 
 #include "kstars.h"
 
