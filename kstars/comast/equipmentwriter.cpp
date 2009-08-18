@@ -33,7 +33,7 @@ EquipmentWriter::EquipmentWriter() {
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
     setMainWidget( widget );
-    setCaption( i18n( "Equipment Writer" ) );
+    setCaption( i18n( "Define Equipment" ) );
     setButtons( KDialog::Close );
     ks = KStars::Instance();
     nextScope = 0;
