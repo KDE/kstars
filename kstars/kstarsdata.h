@@ -82,21 +82,28 @@ protected:
 public:
     //Friend classes can see the private data.
     //FIXME: can we avoid having so many friend classes?
-    friend class FindDialog;
-    friend class KStars;
-    friend class KSWizard;
-    friend class LocationDialog;
-    friend class MapCanvas;
-    friend class SkyMap;
-    friend class FileSource;
-    friend class LCGenerator;
-    friend class DetailDialog;
+    //
+    //FIXME: Yes we can. Moreover we should
+
+    // FIXME: It uses INDIHostsLista and is only one user.
+    //        INDIHostsList should be moved there.
     friend class INDIDriver;
-    friend class INDI_P;
-    friend class INDIStdProperty;
-    friend class PlanetViewer;
-    friend class telescopeWizardProcess;
-    friend class ObsListWizard;
+    // FIXME: It uses geoList
+    friend class MapCanvas;
+    // FIXME: It uses VariableStarList and is only one user.
+    //        VariableStarsList should be moved there.
+    friend class LCGenerator;
+    // FIXME: It uses temporary trail. There must be way to
+    //        this better. And resumeKey in DBUS code
+    friend class KStars;
+    // FIXME: uses geoList
+    friend class KSWizard;
+    // FIXME: it uses temporary trail and resumeKey
+    friend class SkyMap;
+    // FIXME: uses ADVTreeData and only user
+    friend class DetailDialog;
+    // FIXME: uses Rulebook & geoList
+    friend class LocationDialog;
 
     static KStarsData* Create( );
 
@@ -279,6 +286,9 @@ public:
     	*/
     void setLocationFromOptions();
 
+    /** Return map for daylight saving rules. */
+    QMap<QString, TimeZoneRule> getRulebook() { return Rulebook; }
+    
     /**@return whether the next Focus change will omit the slewing animation.
     	*/
     bool snapNextFocus() const { return snapToFocus; }
@@ -433,4 +443,3 @@ private:
 
 
 #endif // KSTARSDATA_H_
-
