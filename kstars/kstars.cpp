@@ -183,11 +183,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
 
     //color scheme
     kstarsData->colorScheme()->loadFromConfig();
-    if ( Options::darkAppColors() ) {
-        QApplication::setPalette( DarkPalette );
-    } else {
-        QApplication::setPalette( OriginalPalette );
-    }
+    QApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
 
     //Infoboxes, toolbars, statusbars
     infoBoxes()->setVisible( Options::showInfoBoxes() );
