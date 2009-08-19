@@ -399,8 +399,6 @@ private:
     // FIXME: this should be moved to CustomCatalogComponent
     QList<SkyObject> objList;
 
-    unsigned int StarCount;
-
     QList<VariableStarInfo*> VariableStarsList;
     QList<ADVTreeData*> ADVtreeList;
     QList<INDIHostsInfo*> INDIHostsList;
@@ -413,7 +411,9 @@ private:
     ColorScheme CScheme;
     Comast::Log *m_logObject;
 
-    bool TimeRunsForward, temporaryTrail, snapToFocus;
+    bool TimeRunsForward, temporaryTrail;
+    // FIXME: Used in SkyMap only. Check!
+    bool snapToFocus;
 
     KLocale *locale;
 
@@ -426,6 +426,7 @@ private:
 
     KStarsDateTime LastNumUpdate, LastSkyUpdate, LastPlanetUpdate, LastMoonUpdate;
     KStarsDateTime NextDSTChange;
+    // FIXME: Used in kstarsdcop.cpp only
     KStarsDateTime StoredDate;
 
     QString TypeName[18];
@@ -433,9 +434,9 @@ private:
     QList<GeoLocation*> geoList;
     QMap<QString, TimeZoneRule> Rulebook;
 
-    quint32   m_preUpdateID, m_updateID;
+    quint32   m_preUpdateID,    m_updateID;
     quint32   m_preUpdateNumID, m_updateNumID;
-    KSNumbers m_preUpdateNum, m_updateNum;
+    KSNumbers m_preUpdateNum,   m_updateNum;
 
     static KStarsData* pinstance;
 
