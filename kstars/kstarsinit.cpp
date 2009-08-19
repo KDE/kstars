@@ -507,7 +507,7 @@ void KStars::initStatusBar() {
         statusBar()->hide();
 }
 
-void KStars::datainitFinished(bool worked) {
+void KStars::datainitFinished() {
     //delete the splash screen window
     delete splash;
     splash = 0;

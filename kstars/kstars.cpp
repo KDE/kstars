@@ -111,7 +111,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     //Initialize data.  When initialization is complete, it will run dataInitFinished()
     if( !kstarsData->initialize() )
         return;
-    datainitFinished(true);
+    datainitFinished();
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
     kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";

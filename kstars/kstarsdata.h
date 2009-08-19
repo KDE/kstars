@@ -331,9 +331,6 @@ signals:
     /**Signal that specifies the text that should be drawn in the KStarsSplash window. */
     void progressText( const QString& );
 
-    /**Signal that the Data initialization has finished. */
-    void initFinished(bool);
-
     /** Should be used to refresh skymap. */
     void update();
 

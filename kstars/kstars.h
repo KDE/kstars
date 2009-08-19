@@ -579,7 +579,7 @@ private slots:
 
     /** finish setting up after the kstarsData has finished
      */
-    void datainitFinished(bool worked);
+    void datainitFinished();
 
     /** Open FITS image. */
     void slotOpenFITS();
