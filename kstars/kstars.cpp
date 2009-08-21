@@ -220,7 +220,7 @@ void KStars::updateTime( const bool automaticDSTchange ) {
     // and geo will accessed only one time.
     KStarsData *Data = data();
     SkyMap *Map = map();
-    dms oldLST( Data->lst()->Degrees() );
+    // dms oldLST( Data->lst()->Degrees() );
 
     Data->updateTime( Data->geo(), Map, automaticDSTchange );
     if ( infoBoxes()->timeChanged( Data->ut(), Data->lt(), Data->lst() ) )
