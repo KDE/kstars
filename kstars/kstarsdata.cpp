@@ -347,18 +347,20 @@ void KStarsData::setLocationFromOptions() {
 }
 
 void KStarsData::setLocation( const GeoLocation &l ) {
-    Geo = GeoLocation(l);
-    if ( Geo.lat()->Degrees() >= 90.0 ) Geo.setLat( 89.99 );
-    if ( Geo.lat()->Degrees() <= -90.0 ) Geo.setLat( -89.99 );
+    m_Geo = GeoLocation(l);
+    if ( m_Geo.lat()->Degrees() >=  90.0 ) m_Geo.setLat( 89.99 );
+    if ( m_Geo.lat()->Degrees() <= -90.0 ) m_Geo.setLat( -89.99 );
 
     //store data in the Options objects
-    Options::setCityName( Geo.name() );
-    Options::setProvinceName( Geo.province() );
-    Options::setCountryName( Geo.country() );
-    Options::setTimeZone( Geo.TZ0() );
-    Options::setElevation( Geo.height() );
-    Options::setLongitude( Geo.lng()->Degrees() );
-    Options::setLatitude( Geo.lat()->Degrees() );
+    Options::setCityName( m_Geo.name() );
+    Options::setProvinceName( m_Geo.province() );
+    Options::setCountryName( m_Geo.country() );
+    Options::setTimeZone( m_Geo.TZ0() );
+    Options::setElevation( m_Geo.height() );
+    Options::setLongitude( m_Geo.lng()->Degrees() );
+    Options::setLatitude( m_Geo.lat()->Degrees() );
+
+    emit geoChanged();
 }
 
 SkyObject* KStarsData::objectNamed( const QString &name ) {

@@ -271,7 +271,7 @@ public:
     dms *lst() { return &LST; }
 
     /**@return pointer to the GeoLocation object*/
-    GeoLocation *geo() { return &Geo; }
+    GeoLocation *geo() { return &m_Geo; }
 
     GeoLocation *locationNamed( const QString &city, const QString &province=0, const QString &country=0 );
 
@@ -336,6 +336,9 @@ signals:
 
     /** If data changed, emit clearCache signal. */
     void clearCache();
+
+    /** Emitted when geo location changed */
+    void geoChanged();
 
 public slots:
     /**@short send a message to the console*/
@@ -402,7 +405,7 @@ private:
 
     SkyMapComposite* m_SkyComposite;
 
-    GeoLocation Geo;
+    GeoLocation m_Geo;
     SimClock Clock;
     KStarsDateTime LTime;
     ColorScheme CScheme;
