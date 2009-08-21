@@ -30,6 +30,16 @@
 #include "skyobjects/skypoint.h"
 #include "skycomponents/skylabeler.h"
 
+namespace {
+    void zeroOut(int arr[3][2]) {
+        arr[0][0] = 0;
+        arr[1][0] = 0;
+        arr[2][0] = 0;
+        arr[0][1] = 0;
+        arr[1][1] = 0;
+        arr[2][1] = 0;
+    }
+}
 // FIXME: Refactor constructor >14 parameters is WAY to many
 InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
                       const QPoint &gp, bool gshade, const QPoint &fp, bool fshade,
@@ -37,6 +47,7 @@ InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
         boxColor(colorText), grabColor(colorGrab), bgColor(colorBG),
         GeoBox(0), FocusBox(0), TimeBox(0)
 {
+    zeroOut(m_saveFocus);
     int tx = tp.x();
     int ty = tp.y();
     int gx = gp.x();
@@ -69,8 +80,9 @@ InfoBoxes::InfoBoxes( int w, int h, const QPoint &tp, bool tshade,
 InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
                       int gx, int gy, bool gshade, int fx, int fy, bool fshade,
                       const QColor &colorText, const QColor &colorGrab, const QColor &colorBG ) :
-boxColor(colorText), grabColor(colorGrab), bgColor(colorBG) {
-
+boxColor(colorText), grabColor(colorGrab), bgColor(colorBG)
+{
+    zeroOut(m_saveFocus);
     GrabbedBox = 0;
     GrabPos = QPoint( 0, 0 );
     Visible = true;
