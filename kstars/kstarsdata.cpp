@@ -796,29 +796,15 @@ bool KStarsData::readADVTreeData()
 
 bool KStarsData::readVARData()
 {
-    QString varFile("valaav.txt");
-    QFile localeFile;
+    QString varFile   = "valaav.txt";
+    QString localName =  KStandardDirs::locateLocal( "appdata", varFile );
     QFile file;
 
-    file.setFileName( KStandardDirs::locateLocal( "appdata", varFile ) );
-    if ( !file.open( QIODevice::ReadOnly ) )
-    {
-        // Open default variable stars file
-        if ( KSUtils::openDataFile( file, varFile ) )
-        {
-            // we found urlfile, we need to copy it to locale
-            localeFile.setFileName( KStandardDirs::locateLocal( "appdata", varFile ) );
-
-            if (localeFile.open(QIODevice::WriteOnly))
-            {
-                QTextStream readStream(&file);
-                QTextStream writeStream(&localeFile);
-                writeStream <<  readStream.readAll();
-                localeFile.close();
-                file.reset();
-            }
-        }
-        else
+    file.setFileName( localName );
+    if ( !file.open( QIODevice::ReadOnly ) ) {
+        // Copy file with varstars data to user's data dir
+        QFile::copy(KStandardDirs::locate("appdata", varFile), localName);
+        if( !file.open( QIODevice::ReadOnly ) )
             return false;
     }
 
