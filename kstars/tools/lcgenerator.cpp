@@ -31,9 +31,8 @@ LCGeneratorUI::LCGeneratorUI( QWidget *p ) : QFrame(p) {
     setupUi( this );
 }
 
-LCGenerator::LCGenerator( QWidget* parent)
-        : KDialog( parent ),
-        Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)
+LCGenerator::LCGenerator( QWidget* parent) :
+    KDialog( parent )
 {
     KStarsData* data = KStarsData::Instance();
 
@@ -115,10 +114,9 @@ void LCGenerator::VerifyData()
 
 void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay)
 {
-
-    QString buf(Hostprefix);
-    QString Yes("yes");
-    QString No("no");
+    QString buf = "http://www.aavso.org/cgi-bin/kstar.pl";
+    QString Yes = "yes";
+    QString No  = "no";
 
     buf.append('?'+QString::number(StartDate.toJulianDay()));
     buf.append('?'+QString::number(EndDate.toJulianDay()));

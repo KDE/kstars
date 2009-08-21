@@ -87,11 +87,7 @@ private:
 
     LCGeneratorUI *lcg;
 
-    const QString Hostprefix;
-    const int JDCutOff;
-
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
-
     QFile *file;
 
     /** Make sure all events have been processed before closing the dialog
