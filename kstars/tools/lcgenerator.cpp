@@ -25,7 +25,6 @@
 #include <kstandarddirs.h>
 
 #include "imageviewer.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 
 LCGeneratorUI::LCGeneratorUI( QWidget *p ) : QFrame(p) {
@@ -36,7 +35,8 @@ LCGenerator::LCGenerator( QWidget* parent)
         : KDialog( parent ),
         Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)
 {
-    ksw = (KStars*) parent;
+    KStarsData* data = KStarsData::Instance();
+
     lcg = new LCGeneratorUI( this );
     setMainWidget( lcg );
     setCaption( i18n( "AAVSO Light Curve Generator" ) );
@@ -54,16 +54,16 @@ LCGenerator::LCGenerator( QWidget* parent)
     lcg->DesignationBox->clear();
     lcg->NameBox->clear();
 
-    lcg->StartDateBox->setDate(ksw->data()->lt().date());
-    lcg->EndDateBox->setDate(ksw->data()->lt().date());
+    lcg->StartDateBox->setDate(data->lt().date());
+    lcg->EndDateBox->setDate(data->lt().date());
 
     // Fill stars designations
-    for (int i=0; i< (ksw->data()->VariableStarsList.count()); i++)
-        lcg->DesignationBox->addItem(ksw->data()->VariableStarsList.at(i)->Designation);
+    for (int i=0; i< (data->VariableStarsList.count()); i++)
+        lcg->DesignationBox->addItem(data->VariableStarsList.at(i)->Designation);
 
     // Fill star names
-    for (int i=0; i<ksw->data()->VariableStarsList.count(); i++)
-        lcg->NameBox->addItem(ksw->data()->VariableStarsList.at(i)->Name);
+    for (int i=0; i<data->VariableStarsList.count(); i++)
+        lcg->NameBox->addItem(data->VariableStarsList.at(i)->Name);
 
 
     // Signals/Slots
@@ -136,7 +136,7 @@ void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, co
     KUrl url(buf);
     QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
 
-    ImageViewer *iv = ksw->addImageViewer( url, message );
+    ImageViewer *iv = KStars::Instance()->addImageViewer( url, message );
     iv->show();
 }
 
@@ -165,36 +165,34 @@ void LCGenerator::updateStarList()
 
 void LCGenerator::downloadReady(KJob * job)
 {
+    KStarsData* data = KStarsData::Instance();
 
     downloadJob = 0;
-
     if ( job->error() )
     {
         static_cast<KIO::Job*>(job)->showErrorDialog();
         closeEvent (0);
-        return;		// exit this function
+        return;
     }
 
     file->close(); // to get the newest information of the file and not any information from opening of the file
 
     if ( file->exists() )
     {
-        ksw->data()->readVARData();
+        data->readVARData();
 
         lcg->DesignationBox->clear();
         lcg->NameBox->clear();
 
         // Fill stars designations
-        for (int i=0; i< (ksw->data()->VariableStarsList.count()); i++)
-            lcg->DesignationBox->addItem(ksw->data()->VariableStarsList.at(i)->Designation);
+        for (int i=0; i < data->VariableStarsList.count(); i++)
+            lcg->DesignationBox->addItem(data->VariableStarsList.at(i)->Designation);
 
         // Fill star names
-        for (int i=0; i<ksw->data()->VariableStarsList.count(); i++)
-            lcg->NameBox->addItem(ksw->data()->VariableStarsList.at(i)->Name);
+        for (int i=0; i < data->VariableStarsList.count(); i++)
+            lcg->NameBox->addItem(data->VariableStarsList.at(i)->Name);
 
         KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully."));
-
-
         return;
     }
     closeEvent (0);

@@ -25,14 +25,13 @@
 #include "ui_lcgenerator.h"
 
 class QFile;
-class QVBoxLayout;
-class KStars;
 
 class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
     Q_OBJECT
 public:
     LCGeneratorUI( QWidget *p=0 );
 };
+
 
 /**
 	*@class LCGenerator
@@ -45,29 +44,27 @@ public:
 class LCGenerator : public KDialog
 {
     Q_OBJECT
-
 public:
-    /**Constructor
-    	*@p parent pointer to the parent widget
-    	*/
+    /** Constructor
+     *  @p parent pointer to the parent widget */
     LCGenerator( QWidget* parent = 0);
-    /**Destructor */
+    /** Destructor */
     ~LCGenerator();
 
 public slots:
     /** Checks if a star name or designation exists in the database,
-    	*verifies date format, and connects to server if no errors occur  
-    	*/
+     * verifies date format, and connects to server if no errors occur  
+     */
     void VerifyData();
 
-    /**Select the star name that matches the current star designation
-    	*@p index the index of the selected designation
-    	*/
+    /** Select the star name that matches the current star designation
+     *  @p index the index of the selected designation
+     */
     void updateNameList(int index);
 
-    /**Select the star designation that matches the current star name
-    	*@p index the index of the selected star name
-    	*/
+    /** Select the star designation that matches the current star name
+     *  @p index the index of the selected star name
+     */
     void updateDesigList(int index);
 
     /** Connects to AAVSO database server and downloads a fresh list of Variable stars.*/
@@ -77,20 +74,17 @@ public slots:
     void downloadReady(KJob *);
 
 private:
-
     /** Initializes and positions the dialog child widgets. */
     void createGUI();
 
     /** Parses star information and connects to the AAVSO server with the information embedded in the URL
-    	*@param FinalStartDate The start date 
-    	*@param FinalEndDate The end date 
-    	*@param FinalDesignation The AAVSO star designation
-    	*@param AverageDay Number of average days for binning the light curve
-    	*/
+     * @param FinalStartDate The start date 
+     * @param FinalEndDate The end date 
+     * @param FinalDesignation The AAVSO star designation
+     * @param AverageDay Number of average days for binning the light curve
+     */
     void DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay);
 
-    KStars *ksw;
-    QVBoxLayout *vlay;
     LCGeneratorUI *lcg;
 
     const QString Hostprefix;
@@ -100,9 +94,9 @@ private:
 
     QFile *file;
 
-    /**Make sure all events have been processed before closing the dialog
-    	*@p ev pointer to the QCloseEvent object
-    	*/
+    /** Make sure all events have been processed before closing the dialog
+     *  @p ev pointer to the QCloseEvent object
+     */
     void closeEvent (QCloseEvent *ev);
 };
 
