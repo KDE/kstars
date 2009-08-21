@@ -22,21 +22,12 @@
 #include <kstandarddirs.h>
 
 bool KSUtils::openDataFile( QFile &file, const QString &s ) {
-    bool result;
     QString FileName = KStandardDirs::locate( "appdata", s );
-
     if ( !FileName.isNull() ) {
         file.setFileName( FileName );
-        if ( !file.open( QIODevice::ReadOnly ) ) {
-            result = false;
-        } else {
-            result = true;
-        }
-    } else {
-        result = false;
+        return file.open( QIODevice::ReadOnly );
     }
-
-    return result;
+    return false;
 }
 
 long double KSUtils::lagrangeInterpolation( const long double x[], const long double v[], int n, long double xval) {
