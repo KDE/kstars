@@ -56,13 +56,12 @@ LCGenerator::LCGenerator( QWidget* parent) :
     lcg->StartDateBox->setDate(data->lt().date());
     lcg->EndDateBox->setDate(data->lt().date());
 
-    // Fill stars designations
-    for (int i=0; i< (data->VariableStarsList.count()); i++)
-        lcg->DesignationBox->addItem(data->VariableStarsList.at(i)->Designation);
-
-    // Fill star names
-    for (int i=0; i<data->VariableStarsList.count(); i++)
-        lcg->NameBox->addItem(data->VariableStarsList.at(i)->Name);
+    readVarData();
+    // Fill stars designations & names
+    for (int i=0; i< (varInfoList.count()); i++) {
+        lcg->DesignationBox->addItem( varInfoList.at(i).designation );
+        lcg->NameBox->addItem( varInfoList.at(i).name );
+    }
 
 
     // Signals/Slots
@@ -163,13 +162,10 @@ void LCGenerator::updateStarList()
 
 void LCGenerator::downloadReady(KJob * job)
 {
-    KStarsData* data = KStarsData::Instance();
-
     downloadJob = 0;
     if ( job->error() )
     {
         static_cast<KIO::Job*>(job)->showErrorDialog();
-        closeEvent (0);
         return;
     }
 
@@ -177,24 +173,50 @@ void LCGenerator::downloadReady(KJob * job)
 
     if ( file->exists() )
     {
-        data->readVARData();
+        readVarData();
 
         lcg->DesignationBox->clear();
         lcg->NameBox->clear();
 
         // Fill stars designations
-        for (int i=0; i < data->VariableStarsList.count(); i++)
-            lcg->DesignationBox->addItem(data->VariableStarsList.at(i)->Designation);
-
-        // Fill star names
-        for (int i=0; i < data->VariableStarsList.count(); i++)
-            lcg->NameBox->addItem(data->VariableStarsList.at(i)->Name);
+        for (int i=0; i < varInfoList.count(); i++) {
+            lcg->DesignationBox->addItem( varInfoList.at(i).designation );
+            lcg->NameBox->addItem( varInfoList.at(i).name );
+        }
 
         KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully."));
         return;
     }
-    closeEvent (0);
+}
 
+bool LCGenerator::readVarData()
+{
+    QString varFile   = "valaav.txt";
+    QString localName =  KStandardDirs::locateLocal( "appdata", varFile );
+    QFile file;
+
+    file.setFileName( localName );
+    if ( !file.open( QIODevice::ReadOnly ) ) {
+        // Copy file with varstars data to user's data dir
+        QFile::copy(KStandardDirs::locate("appdata", varFile), localName);
+        if( !file.open( QIODevice::ReadOnly ) )
+            return false;
+    }
+
+    QTextStream stream(&file);
+    stream.readLine();
+
+    VariableStarInfo vInfo;
+    while(!stream.atEnd()) {
+        QString line = stream.readLine();
+        if( line.startsWith('*') )
+            break;
+
+        vInfo.designation = line.left(8).trimmed();
+        vInfo.name        = line.mid(10,20).simplified();
+        varInfoList.append(vInfo);
+    }
+    return true;
 }
 
 void LCGenerator::closeEvent (QCloseEvent *ev)

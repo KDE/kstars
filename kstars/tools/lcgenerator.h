@@ -19,12 +19,20 @@
 #define LCGENERATOR_H_
 
 #include <QCloseEvent>
+#include <QList>
+#include <QString>
 #include <kdialog.h>
 #include <kio/job.h>
 
 #include "ui_lcgenerator.h"
 
 class QFile;
+
+struct VariableStarInfo
+{
+    QString name;
+    QString designation;
+};
 
 class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
     Q_OBJECT
@@ -33,14 +41,12 @@ public:
 };
 
 
-/**
-	*@class LCGenerator
-	*@short KStars Light Curve Generator
-	*This class provides a simple interface that enables a user to download
-	*variable stars light curves from an online AAVSO database given few basic parameters.
-	*@author Jasem Mutlaq
-	*@version 1.0
-	*/
+/** @class LCGenerator
+ *  @short KStars Light Curve Generator
+ *  This class provides a simple interface that enables a user to download
+ *  variable stars light curves from an online AAVSO database given few basic parameters.
+ *  @author Jasem Mutlaq
+ */
 class LCGenerator : public KDialog
 {
     Q_OBJECT
@@ -85,10 +91,15 @@ private:
      */
     void DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay);
 
+    /** Read list of variable stars. */
+    bool readVarData();
+
+
     LCGeneratorUI *lcg;
 
-    KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
+    KIO::Job *downloadJob;               /// download job of image -> 0 == no job is running
     QFile *file;
+    QList<VariableStarInfo> varInfoList; /// Information about variable stars.
 
     /** Make sure all events have been processed before closing the dialog
      *  @p ev pointer to the QCloseEvent object

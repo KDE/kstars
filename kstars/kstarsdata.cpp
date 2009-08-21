@@ -136,7 +136,6 @@ KStarsData::~KStarsData() {
     delete m_logObject;
 
     qDeleteAll( geoList );
-    qDeleteAll( VariableStarsList );
     qDeleteAll( INDIHostsList );
     qDeleteAll( ADVtreeList );
 }
@@ -179,7 +178,6 @@ bool KStarsData::initialize() {
     emit progressText( i18n("Loading Variable Stars" ) );
     readINDIHosts();
     readUserLog();
-    readVARData();
     readADVTreeData();
 
     return true;
@@ -336,7 +334,6 @@ GeoLocation* KStarsData::locationNamed( const QString &city, const QString &prov
             return loc;
         }
     }
-
     return 0;
 }
 
@@ -793,46 +790,6 @@ bool KStarsData::readADVTreeData()
 
     return true;
 }
-
-bool KStarsData::readVARData()
-{
-    QString varFile   = "valaav.txt";
-    QString localName =  KStandardDirs::locateLocal( "appdata", varFile );
-    QFile file;
-
-    file.setFileName( localName );
-    if ( !file.open( QIODevice::ReadOnly ) ) {
-        // Copy file with varstars data to user's data dir
-        QFile::copy(KStandardDirs::locate("appdata", varFile), localName);
-        if( !file.open( QIODevice::ReadOnly ) )
-            return false;
-    }
-
-
-    QTextStream stream(&file);
-    stream.readLine();
-
-    QString Name, Designation, Line;
-    while  (!stream.atEnd())
-    {
-        Line = stream.readLine();
-
-        if (Line.startsWith('*'))
-            break;
-
-        Designation = Line.left(8).trimmed();
-        Name        = Line.mid(10,20).simplified();
-
-        VariableStarInfo *VInfo = new VariableStarInfo;
-
-        VInfo->Designation = Designation;
-        VInfo->Name        = Name;
-        VariableStarsList.append(VInfo);
-    }
-
-    return true;
-}
-
 
 bool KStarsData::readINDIHosts()
 {

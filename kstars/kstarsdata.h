@@ -56,12 +56,6 @@ class INDIHostsInfo;
 class ADVTreeData;
 
 
-struct VariableStarInfo
-{
-    QString Name;
-    QString Designation;
-};
-
 /**@class KStarsData
 	*KStarsData is the backbone of KStars.  It contains all the data used by KStars, 
 	*including the SkyMapComposite that contains all items in the skymap 
@@ -90,9 +84,6 @@ public:
     friend class INDIDriver;
     // FIXME: It uses geoList
     friend class MapCanvas;
-    // FIXME: It uses VariableStarList and is only one user.
-    //        VariableStarsList should be moved there.
-    friend class LCGenerator;
     // FIXME: It uses temporary trail. There must be way to
     //        this better. And resumeKey in DBUS code
     friend class KStars;
@@ -151,14 +142,6 @@ public:
     	*@see KStarsData::readCityData()
     	*/
     bool processCity( const QString& line );
-
-    /**Read Variable Stars data and stores them in structure of type VariableStarsInfo.
-    	*@li 0-8 AAVSO Star Designation
-    	*@li 10-20 Common star name
-    	*@short read Variable Stars data.
-    	*@return true if data is successfully read.
-    	*/
-    bool readVARData();
 
     //TODO JM: ADV tree should use XML instead
     /**Read Advanced interface structure to be used later to construct the list view in
@@ -399,7 +382,6 @@ private:
     // FIXME: this should be moved to CustomCatalogComponent
     QList<SkyObject> objList;
 
-    QList<VariableStarInfo*> VariableStarsList;
     QList<ADVTreeData*> ADVtreeList;
     QList<INDIHostsInfo*> INDIHostsList;
 

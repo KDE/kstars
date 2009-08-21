@@ -334,11 +334,9 @@ void KStars::initActions() {
         << KShortcut( Qt::CTRL+Qt::Key_L );
 
     // enable action only if file was loaded and processed successfully.
-    if (!data()->VariableStarsList.isEmpty()) {
-        actionCollection()->addAction("lightcurvegenerator", this, SLOT( slotLCGenerator() ) )
-            << i18n("AAVSO Light Curves...")
-            << KShortcut( Qt::CTRL+Qt::Key_V );
-    }
+    actionCollection()->addAction("lightcurvegenerator", this, SLOT( slotLCGenerator() ) )
+        << i18n("AAVSO Light Curves...")
+        << KShortcut( Qt::CTRL+Qt::Key_V );
 
     actionCollection()->addAction("altitude_vs_time", this, SLOT( slotAVT() ) )
         << i18n("Altitude vs. Time...")
