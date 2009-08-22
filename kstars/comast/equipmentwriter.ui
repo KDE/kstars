@@ -54,16 +54,6 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Model:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="KLineEdit" name="Model"/>
-           </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
@@ -74,56 +64,14 @@
            <item row="2" column="1">
             <widget class="KLineEdit" name="Vendor"/>
            </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
               <string>Type:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_13">
-             <property name="text">
-              <string>Aperture:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Focal Length:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
-              <widget class="KDoubleNumInput" name="FocalLength"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_14">
-               <property name="text">
-                <string>mm</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
            <item row="4" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="KDoubleNumInput" name="Aperture"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_15">
-               <property name="text">
-                <string>mm</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="3" column="1">
             <widget class="KComboBox" name="Type">
              <item>
               <property name="text">
@@ -155,6 +103,58 @@
                <string>Cassegrain</string>
               </property>
              </item>
+            </widget>
+           </item>
+           <item row="5" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>Aperture:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="KDoubleNumInput" name="Aperture"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Focal Length:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="KDoubleNumInput" name="FocalLength"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>mm</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="3" column="1">
+            <widget class="KLineEdit" name="Model"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Model:</string>
+             </property>
             </widget>
            </item>
           </layout>
@@ -230,16 +230,6 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Model:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="KLineEdit" name="e_Model"/>
-           </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_8">
              <property name="text">
@@ -250,7 +240,7 @@
            <item row="2" column="1">
             <widget class="KLineEdit" name="e_Vendor"/>
            </item>
-           <item row="3" column="1">
+           <item row="4" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
               <widget class="KDoubleNumInput" name="e_focalLength"/>
@@ -264,10 +254,20 @@
              </item>
             </layout>
            </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_10">
              <property name="text">
               <string>Focal Length:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="KLineEdit" name="e_Model"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Model:</string>
              </property>
             </widget>
            </item>
@@ -405,16 +405,6 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label2">
-             <property name="text">
-              <string>Model:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="KLineEdit" name="l_Model"/>
-           </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label3">
              <property name="text">
@@ -425,7 +415,7 @@
            <item row="2" column="1">
             <widget class="KLineEdit" name="l_Vendor"/>
            </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label5">
              <property name="toolTip">
               <string>Magnification factor of the Barlow/Shapley lens</string>
@@ -435,8 +425,18 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="4" column="1">
             <widget class="KDoubleNumInput" name="l_Factor"/>
+           </item>
+           <item row="3" column="1">
+            <widget class="KLineEdit" name="l_Model"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label2">
+             <property name="text">
+              <string>Model:</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -511,16 +511,6 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label3">
-             <property name="text">
-              <string>Model:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="KLineEdit" name="f_Model"/>
-           </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label5">
              <property name="text">
@@ -531,25 +521,35 @@
            <item row="2" column="1">
             <widget class="KLineEdit" name="f_Vendor"/>
            </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label6">
              <property name="text">
               <string>Type:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="4" column="1">
             <widget class="KLineEdit" name="f_Type"/>
            </item>
-           <item row="4" column="0">
+           <item row="5" column="0">
             <widget class="QLabel" name="label_12">
              <property name="text">
               <string>Color:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="5" column="1">
             <widget class="KLineEdit" name="f_Color"/>
+           </item>
+           <item row="3" column="1">
+            <widget class="KLineEdit" name="f_Model"/>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label3">
+             <property name="text">
+              <string>Model:</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
