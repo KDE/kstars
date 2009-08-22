@@ -105,7 +105,7 @@ SkyMap::SkyMap() :
 
     sky = new QPixmap( width(),  height() );
     sky2 = new QPixmap( width(),  height() );
-    pmenu = new KSPopupMenu( KStars::Instance() );
+    pmenu = new KSPopupMenu();
 
     //Initialize Transient label stuff
     TransientTimeout = 100; //fade label color every 0.1 sec

@@ -42,7 +42,7 @@ class KSPopupMenu : public KMenu
     Q_OBJECT
 public:
     /**Default constructor*/
-    KSPopupMenu( KStars *_ks );
+    KSPopupMenu();
 
     /**Destructor (empty)*/
     ~KSPopupMenu();

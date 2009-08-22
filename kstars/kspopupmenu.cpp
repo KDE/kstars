@@ -63,9 +63,11 @@ static QString getObjectName(SkyObject *obj) {
 	return name;
 }
 
-KSPopupMenu::KSPopupMenu( KStars *_ks )
-        : KMenu( _ks ), ks(_ks)
-{}
+KSPopupMenu::KSPopupMenu()
+    : KMenu( KStars::Instance() )
+{
+    ks = KStars::Instance();
+}
 
 KSPopupMenu::~KSPopupMenu()
 {
