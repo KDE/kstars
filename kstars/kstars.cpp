@@ -70,6 +70,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     QDBusConnection::sessionBus().registerObject("/KStars",  this);
     QDBusConnection::sessionBus().registerService("org.kde.kstars");
 
+    // Set pinstance to yourself
+    pinstance = this;
+
     connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
     //Initialize QActionGroups
@@ -77,6 +80,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     cschemeGroup    = new QActionGroup( this );
 
     kstarsData = KStarsData::Create();
+    Q_ASSERT( kstarsData );
     //Set Geographic Location from Options
     kstarsData->setLocationFromOptions();
 
@@ -124,6 +128,7 @@ KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &sta
     if( pinstance )
         delete pinstance;
     pinstance = new KStars( doSplash, clockrun, startdate );
+    Q_ASSERT( pinstance );
     return pinstance;
 }
 
