@@ -172,6 +172,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
     labName = new QLabel( "<b>"+s1+"</b>", this );
     labName->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
     aName = new KAction( this );
+    ks = KStars::Instance();
     ks->actionCollection()->addAction( "title_name1", aName );
     aName->setDefaultWidget( labName );
     addAction( aName );
