@@ -26,14 +26,15 @@
 
 #include <config-kstars.h>
 
-ObsListPopupMenu::ObsListPopupMenu( KStars *_ks )
-        : KMenu( _ks ), ks(_ks)
+ObsListPopupMenu::ObsListPopupMenu()
+        : KMenu( 0 )
 {}
 
 ObsListPopupMenu::~ObsListPopupMenu() { }
 
 void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bool showDetails, bool showScope, bool showRemove, bool showLinks, bool sessionView ) {
 
+    ks = KStars::Instance();
     clear();
     //Insert item for adding the object to the session view
     if( showAddToSession )

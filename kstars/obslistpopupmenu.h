@@ -38,7 +38,7 @@ class ObsListPopupMenu : public KMenu
     Q_OBJECT
 public:
     /**Default constructor*/
-    ObsListPopupMenu( KStars *_ks);
+    ObsListPopupMenu();
 
     /**Destructor (empty)*/
     ~ObsListPopupMenu();

@@ -100,7 +100,7 @@ ObservingList::ObservingList( KStars *_ks )
     sessionView = false;
     nativeSave = true;
     FileName = "";
-    pmenu = new ObsListPopupMenu( KStars::Instance() );
+    pmenu = new ObsListPopupMenu();
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Session = new QStandardItemModel( 0, 5 );
