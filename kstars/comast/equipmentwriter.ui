@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -49,6 +49,9 @@
            </item>
            <item row="0" column="1">
             <widget class="KLineEdit" name="Id">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -115,7 +118,11 @@
            <item row="5" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="KDoubleNumInput" name="Aperture"/>
+              <widget class="KDoubleNumInput" name="Aperture">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_15">
@@ -136,7 +143,11 @@
            <item row="6" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="KDoubleNumInput" name="FocalLength"/>
+              <widget class="KDoubleNumInput" name="FocalLength">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_14">
@@ -225,6 +236,9 @@
            </item>
            <item row="0" column="1">
             <widget class="KLineEdit" name="e_Id">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -243,7 +257,11 @@
            <item row="4" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="KDoubleNumInput" name="e_focalLength"/>
+              <widget class="KDoubleNumInput" name="e_focalLength">
+               <property name="focusPolicy">
+                <enum>Qt::TabFocus</enum>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QLabel" name="label_17">
@@ -283,7 +301,11 @@
             </widget>
            </item>
            <item>
-            <widget class="KDoubleNumInput" name="Fov"/>
+            <widget class="KDoubleNumInput" name="Fov">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QLabel" name="label_11">
@@ -400,6 +422,9 @@
            </item>
            <item row="0" column="1">
             <widget class="KLineEdit" name="l_Id">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -426,7 +451,11 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KDoubleNumInput" name="l_Factor"/>
+            <widget class="KDoubleNumInput" name="l_Factor">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
+            </widget>
            </item>
            <item row="3" column="1">
             <widget class="KLineEdit" name="l_Model"/>
@@ -506,6 +535,9 @@
            </item>
            <item row="0" column="1">
             <widget class="KLineEdit" name="f_Id">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="readOnly">
               <bool>true</bool>
              </property>
@@ -621,6 +653,46 @@
    <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>ScopeList</tabstop>
+  <tabstop>Id</tabstop>
+  <tabstop>Vendor</tabstop>
+  <tabstop>Model</tabstop>
+  <tabstop>Type</tabstop>
+  <tabstop>Aperture</tabstop>
+  <tabstop>FocalLength</tabstop>
+  <tabstop>NewScope</tabstop>
+  <tabstop>AddScope</tabstop>
+  <tabstop>RemoveScope</tabstop>
+  <tabstop>EyepieceList</tabstop>
+  <tabstop>e_Id</tabstop>
+  <tabstop>e_Vendor</tabstop>
+  <tabstop>e_Model</tabstop>
+  <tabstop>e_focalLength</tabstop>
+  <tabstop>Fov</tabstop>
+  <tabstop>FovUnit</tabstop>
+  <tabstop>NewEyepiece</tabstop>
+  <tabstop>AddEyepiece</tabstop>
+  <tabstop>RemoveEyepiece</tabstop>
+  <tabstop>LensList</tabstop>
+  <tabstop>l_Id</tabstop>
+  <tabstop>l_Vendor</tabstop>
+  <tabstop>l_Model</tabstop>
+  <tabstop>l_Factor</tabstop>
+  <tabstop>NewLens</tabstop>
+  <tabstop>AddLens</tabstop>
+  <tabstop>RemoveLens</tabstop>
+  <tabstop>FilterList</tabstop>
+  <tabstop>f_Id</tabstop>
+  <tabstop>f_Vendor</tabstop>
+  <tabstop>f_Model</tabstop>
+  <tabstop>f_Type</tabstop>
+  <tabstop>f_Color</tabstop>
+  <tabstop>NewFilter</tabstop>
+  <tabstop>AddFilter</tabstop>
+  <tabstop>RemoveFilter</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
