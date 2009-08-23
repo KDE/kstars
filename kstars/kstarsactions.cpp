@@ -773,11 +773,10 @@ void KStars::slotManualFocus() {
         //
         //Also, if the requested position was within 1 degree of the coordinate pole, this will
         //automatically correct the final pointing from the intermediate offset position to the final position
+        data()->setSnapNextFocus();
         if ( Options::useAltAz() ) {
-            data()->setSnapNextFocus();
             map()->setDestinationAltAz( focusDialog->point().alt()->Degrees(), focusDialog->point().az()->Degrees() );
         } else {
-            data()->setSnapNextFocus();
             map()->setDestination( focusDialog->point().ra()->Hours(), focusDialog->point().dec()->Degrees() );
         }
 
@@ -786,7 +785,8 @@ void KStars::slotManualFocus() {
         if ( ! Options::useAltAz() && realDec > 89.0 ) map()->focus()->setDec( realAlt );
 
         //Don't track if we set Alt/Az coordinates.  This way, Alt/Az remain constant.
-        if ( focusDialog->usedAltAz() ) map()->stopTracking();
+        if ( focusDialog->usedAltAz() )
+            map()->stopTracking();
     }
     delete focusDialog;
 }
