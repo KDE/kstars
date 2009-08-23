@@ -379,9 +379,6 @@ private:
     	*/
     void resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange);
 
-    // FIXME: this should be moved to CustomCatalogComponent
-    QList<SkyObject> objList;
-
     QList<ADVTreeData*> ADVtreeList;
     QList<INDIHostsInfo*> INDIHostsList;
 

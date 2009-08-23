@@ -109,7 +109,7 @@ void CustomCatalogComponent::init( KStarsData * ) {
                     return ;
                 }
             }
-        } else { //objList.count() == 0
+        } else {
             if ( m_Showerrs ) {
                 QString message( i18n( "No lines could be parsed from the specified file, see error messages below." ) );
                 KMessageBox::informationList( 0, message, errs,
