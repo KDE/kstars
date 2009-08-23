@@ -125,10 +125,13 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 }
 
 KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &startdate ) {
-    if( pinstance )
+    if( pinstance ) {
         delete pinstance;
-    pinstance = new KStars( doSplash, clockrun, startdate );
-    Q_ASSERT( pinstance );
+        pinstance = 0;
+    }
+    // pinstance is set directly in constructor.
+    new KStars( doSplash, clockrun, startdate );
+    Q_ASSERT( pinstance && "pinstance must be non NULL");
     return pinstance;
 }
 
