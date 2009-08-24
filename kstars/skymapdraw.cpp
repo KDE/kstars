@@ -49,14 +49,16 @@
 #include "indi/indidevice.h"
 #endif
 
-void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
-    double sinRa, sinDec, cosRa, cosDec;
+namespace {
+    void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
+        double sinRa, sinDec, cosRa, cosDec;
 
-    p->ra()->SinCos( sinRa, cosRa );
-    p->dec()->SinCos( sinDec, cosDec );
-    *x = cosDec * cosRa;
-    *y = cosDec * sinRa;
-    *z = sinDec;
+        p->ra()->SinCos(  sinRa,  cosRa );
+        p->dec()->SinCos( sinDec, cosDec );
+        *x = cosDec * cosRa;
+        *y = cosDec * sinRa;
+        *z = sinDec;
+    }
 }
 
 QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
@@ -121,10 +123,8 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
 }
 
 QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2 ) {
-    QPointF qpf = clipLine( p1, p2 );
-    return QPoint( (int) qpf.x(), (int) qpf.y() );
+    return clipLine( p1, p2 ).toPoint();
 }
-
 
 void SkyMap::drawOverlays( QPixmap *pm ) {
     if( !KStars::Instance() )
@@ -357,10 +357,11 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
 }
 
 void SkyMap::drawTransientLabel( QPainter &p ) {
-    if ( ! transientObject() || ! checkVisibility( transientObject() ) ) return;
-
+    if( !transientObject() || !checkVisibility( transientObject() ) )
+        return;
     QPointF o = toScreen( transientObject() );
-    if ( ! onScreen( o ) ) return;
+    if( !onScreen( o ) )
+        return;
 
     p.setPen( TransientColor );
     transientObject()->drawRudeNameLabel( p, o );
