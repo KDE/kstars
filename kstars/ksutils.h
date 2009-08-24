@@ -44,6 +44,19 @@ namespace KSUtils {
     	*/
     bool openDataFile( QFile &file, const QString &filename );
 
+    /** Clamp value into range.
+     *  @p x  value to clamp.
+     *  @p min  minimal allowed value.
+     *  @p max  maximum allowed value.
+     */
+    template<typename T>
+    inline T clamp(T x, T min, T max) {
+        if( x < min )
+            return min;
+        if( x > max )
+            return max;
+        return x;
+    }
 }
 
 #endif

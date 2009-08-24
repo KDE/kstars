@@ -46,6 +46,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksutils.h"
 #include "imageviewer.h"
 #include "infoboxes.h"
 #include "dialogs/detaildialog.h"
@@ -899,11 +900,7 @@ void SkyMap::slotZoomDefault() {
 }
 
 void SkyMap::setZoomFactor(double factor) {
-    if( factor < MINZOOM )
-        factor = MINZOOM;
-    if( factor > MAXZOOM )
-        factor = MAXZOOM;
-    Options::setZoomFactor( factor );
+    Options::setZoomFactor(  KSUtils::clamp(factor, MINZOOM, MAXZOOM)  );
     forceUpdate();
     emit zoomChanged();
 }
