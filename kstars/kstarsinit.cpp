@@ -120,9 +120,9 @@ namespace {
 
     // Create new KToggleAction and connect slot to toggled(bool) signal
     KAction* newToggleAction(KActionCollection* col, QString name, QString text,
-                             QObject* reciever, const char* member) {
+                             QObject* receiver, const char* member) {
         KAction* ka = col->add<KToggleAction>(name) << text;
-        QObject::connect(ka, SIGNAL( toggled(bool) ), reciever, member);
+        QObject::connect(ka, SIGNAL( toggled(bool) ), receiver, member);
         return ka;
     }
 }

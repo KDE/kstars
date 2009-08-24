@@ -83,7 +83,7 @@ Execute::Execute() {
 }
 
 void Execute::init() {
-    //intialize geo to current location of the ObservingList
+    //initialize geo to current location of the ObservingList
     geo = ks->observingList()->geoLocation();
     ui.Location->setText( geo->fullName() );
 
