@@ -110,7 +110,7 @@ void Execute::loadCurrentItems() {
         ui.Target->setCurrentRow( 0, QItemSelectionModel::SelectCurrent );
         
     if( currentObserver )
-        ui.Observer->setCurrentIndex( ui.Observer->findText( currentObserver->name() + " " + currentObserver->surname() ) );
+        ui.Observer->setCurrentIndex( ui.Observer->findText( currentObserver->name() + ' ' + currentObserver->surname() ) );
     if( currentScope )
         ui.Scope->setCurrentIndex( ui.Scope->findText( currentScope->name()) );
     if( currentEyepiece )
@@ -206,7 +206,7 @@ void Execute::loadEquipment() {
 void Execute::loadObservers() {
     ui.Observer->clear();
     foreach( Comast::Observer *o,*( logObject->observerList() ) )
-        ui.Observer->addItem( o->name() + " " + o->surname() );
+        ui.Observer->addItem( o->name() + ' ' + o->surname() );
 }
 
 void Execute::sortTargetList() {

@@ -25,5 +25,5 @@ void Comast::Eyepiece::setEyepiece( QString _id, QString _model, QString _vendor
     m_AppFovUnit = _fovUnit;
     m_AppFOV = _fov;
     m_FocalLength = _focalLength;
-    m_Name = _vendor + " " + _model + " " + QString::number( _focalLength ) + "mm (" + _id +  ")";
+    m_Name = _vendor + ' ' + _model + ' ' + QString::number( _focalLength ) + "mm (" + _id +  ')';
 }

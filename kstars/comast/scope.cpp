@@ -24,5 +24,5 @@ void Comast::Scope::setScope( QString _id, QString _model, QString _vendor, QStr
     m_Type = _type;
     m_FocalLength = _focalLength;
     m_Aperture = _aperture;
-    m_Name.append ( _vendor + " " + _model + " " + QString::number( _aperture ) + "mm f/" + QString::number( (_focalLength/_aperture), 'g', 1 ) + " (" + _id + ")" ) ; 
+    m_Name.append ( _vendor + ' ' + _model + ' ' + QString::number( _aperture ) + "mm f/" + QString::number( (_focalLength/_aperture), 'g', 1 ) + " (" + _id + ')' ) ; 
 }

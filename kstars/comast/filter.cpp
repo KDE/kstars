@@ -24,5 +24,5 @@ void Comast::Filter::setFilter( QString _id, QString _model, QString _vendor, QS
     m_Vendor = _vendor;
     m_Type = _type;
     m_Color = _color;
-    m_Name = _vendor + " " + _model + " - " + _type + " " + _color + " (" + _id + ")";  
+    m_Name = _vendor + ' ' + _model + " - " + _type + ' ' + _color + " (" + _id + ')';  
 }

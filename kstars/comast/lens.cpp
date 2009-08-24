@@ -24,7 +24,7 @@ void Comast::Lens::setLens( QString _id, QString _model, QString _vendor, double
     m_Vendor = _vendor;
     m_Factor = _factor;
     if( _factor > 1 )
-        m_Name = _vendor + " " + _model + " - " + QString::number( _factor ) + "x Barlow (" + _id + ")"; 
+        m_Name = _vendor + ' ' + _model + " - " + QString::number( _factor ) + "x Barlow (" + _id + ')'; 
     else
-        m_Name = _vendor + " " + _model + " - " + QString::number( _factor ) + "x Focal Reducer (" + _id + ")"; 
+        m_Name = _vendor + ' ' + _model + " - " + QString::number( _factor ) + "x Focal Reducer (" + _id + ')'; 
 }

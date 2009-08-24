@@ -217,10 +217,10 @@ void Comast::Log::writeSession( Comast::Session *s ) {
     writer->writeStartElement( "session" );
     writer->writeAttribute( "id", s->id() ); 
     writer->writeStartElement( "begin" );
-    writer->writeCharacters( s->begin().date().toString( "yyyy-MM-dd" ) + "T" + s->begin().time().toString( "hh:mm:ss" ) );
+    writer->writeCharacters( s->begin().date().toString( "yyyy-MM-dd" ) + 'T' + s->begin().time().toString( "hh:mm:ss" ) );
     writer->writeEndElement();
     writer->writeStartElement( "end" );
-    writer->writeCharacters( s->end().date().toString( "yyyy-MM-dd" ) + "T" + s->end().time().toString( "hh:mm:ss" ) );
+    writer->writeCharacters( s->end().date().toString( "yyyy-MM-dd" ) + 'T' + s->end().time().toString( "hh:mm:ss" ) );
     writer->writeEndElement();
     writer->writeStartElement( "site" );
     writer->writeCharacters( s->site() );
@@ -322,7 +322,7 @@ void Comast::Log::writeObservation( Comast::Observation *o ) {
     writer->writeCharacters( o->target().remove( ' ' ) );
     writer->writeEndElement();
     writer->writeStartElement( "begin" );
-    writer->writeCharacters( o->begin().date().toString( "yyyy-MM-dd" ) + "T" + o->begin().time().toString( "hh:mm:ss" ) );
+    writer->writeCharacters( o->begin().date().toString( "yyyy-MM-dd" ) + 'T' + o->begin().time().toString( "hh:mm:ss" ) );
     writer->writeEndElement();
     writer->writeStartElement( "faintestStar" );
     writer->writeCharacters( QString::number( o->faintestStar() ) );
@@ -884,7 +884,7 @@ void Comast::Log::readGeoDate() {
 
 Comast::Observer* Comast::Log::findObserverByName( QString name ) {
     foreach( Comast::Observer *obs, *observerList() )
-        if( obs->name() + " " + obs->surname() == name )
+        if( obs->name() + ' ' + obs->surname() == name )
             return obs;
     return NULL;
 }
