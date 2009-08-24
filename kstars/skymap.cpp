@@ -831,14 +831,13 @@ double SkyMap::findPA( SkyObject *o, float x, float y ) {
     SkyPoint test( o->ra()->Hours(), newDec );
     if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     QPointF t = toScreen( &test );
-    double dx = double( t.x() - x );
-    double dy = double( y - t.y() );  //backwards because QWidget Y-axis increases to the bottom
+    double dx = t.x() - x;
+    double dy = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
     double north;
     if ( dy ) {
         north = atan2( dx, dy )*180.0/dms::PI;
     } else {
-        north = 90.0;
-        if ( dx > 0 ) north = -90.0;
+        north = (dx > 0.0 ? -90.0 : 90.0);
     }
 
     return ( north + o->pa() );
