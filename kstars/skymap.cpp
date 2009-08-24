@@ -1558,7 +1558,7 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
 
 bool SkyMap::unusablePoint( const QPointF &p )
 {
-    double r0 = 1.0;
+    double r0;
     //r0 is the angular size of the sky horizon, in radians
     //See HorizonComponent::draw() for documentation of these values
     switch ( Options::projection() ) {
@@ -1572,6 +1572,7 @@ bool SkyMap::unusablePoint( const QPointF &p )
         r0 = 6.28318531; break; //Gnomonic has an infinite horizon; this is 2*PI
     case Orthographic:
     default:
+        r0 = 1.0;
         break;
     }
 
@@ -1586,14 +1587,8 @@ bool SkyMap::unusablePoint( const QPointF &p )
     //Convert pixel position to x and y offsets in radians
     double dx = ( 0.5*width()  - p.x() )/Options::zoomFactor();
     double dy = ( 0.5*height() - p.y() )/Options::zoomFactor();
-    double rsq = ( dx*dx + dy*dy );
-    r0 = r0*r0;
 
-    if (rsq < r0) {
-        return false;
-    }
-
-    return true;
+    return (dx*dx + dy*dy) > r0*r0;
 }
 
 void SkyMap::setZoomMouseCursor()
