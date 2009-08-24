@@ -44,15 +44,6 @@ namespace KSUtils {
     	*/
     bool openDataFile( QFile &file, const QString &filename );
 
-    // FIXME: function does not used anywhere. Maybe it should be removed.
-    /** Lagrange interpolation using a maximum number of 10 points.
-     	*@param x[] double array with x values
-     	*@param v[] double array with y values
-    	*@param n number of points to use for interpolation
-    	*@param xval value for which we are looking for the y value.
-     	*/
-    long double lagrangeInterpolation(const long double x[], const long double v[], int n, long double xval);
-
 }
 
 #endif
