@@ -62,32 +62,25 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
     image->getFITSSize(&width, &height);
 
-    if (buffer == NULL) return;
+    if (buffer == NULL)
+        return;
 
     x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
     y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
 
-    if (x < 1)
-        x = 1;
-    else if (x > width)
-        x = width;
+    x = KSUtils::clamp(x, 1.0, width);
+    y = KSUtils::clamp(y, 1.0, height);
 
-    if (y < 1)
-        y = 1;
-    else if (y > height)
-        y = height;
+    image->getViewer()->statusBar()->changeItem(QString("%1 , %2").arg( (int)x ).arg( (int)y ), 0);
 
-    image->getViewer()->statusBar()->changeItem(QString("%1 , %2").arg( (int) x).arg( (int) y), 0);
-
-    // Range is 0 to dim -1 when accessing array
-    x-=1;
-    y-=1;
+    // Range is 0 to dim-1 when accessing array
+    x -= 1;
+    y -= 1;
 
     image->getViewer()->statusBar()->changeItem( KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)], 3 ), 1 );
     setCursor(Qt::CrossCursor);
 
     e->accept();
-
 }
 
 FITSImage::FITSImage(QWidget * parent) : QScrollArea(parent) , zoomFactor(1.2)
