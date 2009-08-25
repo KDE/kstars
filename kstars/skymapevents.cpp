@@ -17,9 +17,6 @@
 
 //This file contains Event handlers for the SkyMap class.
 
-#include <stdlib.h>
-#include <math.h> //using fabs()
-
 #include <QCursor>
 #include <QPainter>
 #include <QMouseEvent>
