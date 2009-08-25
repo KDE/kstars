@@ -144,6 +144,9 @@ void INDIMenu::removeDeviceManager(DeviceManager *deviceManager)
     }
   
     ksw->indiDriver()->updateMenuActions();
+
+    if (managers.size() == 0)
+	close();
 }
 
 INDI_D * INDIMenu::findDevice(const QString &deviceName)
