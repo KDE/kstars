@@ -61,6 +61,8 @@ DeviceManager::DeviceManager(INDIMenu *INDIparent, QString inHost, uint inPort, 
 
 DeviceManager::~DeviceManager()
 {
+    serverSocket.close();
+
     if (serverProcess)
 	serverProcess->close();
   

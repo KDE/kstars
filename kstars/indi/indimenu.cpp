@@ -108,7 +108,7 @@ DeviceManager* INDIMenu::initDeviceManager(QString inHost, uint inPort, DeviceMa
     managers.append(deviceManager);
   
     connect(deviceManager, SIGNAL(newDevice(INDI_D *)), ksw->indiDriver(), SLOT(enableDevice(INDI_D *)));
-    connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this, SLOT(removeDeviceManager(DeviceManager*)));
+    connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this, SLOT(removeDeviceManager(DeviceManager*)), Qt::QueuedConnection);
   
     return deviceManager;
 }
@@ -139,6 +139,7 @@ void INDIMenu::removeDeviceManager(DeviceManager *deviceManager)
 			ksw->indiDriver()->disableDevice(device);
 
             delete managers.takeAt(i);
+	    break;
         }
     }
   
