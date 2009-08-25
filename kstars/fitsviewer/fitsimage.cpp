@@ -20,10 +20,6 @@
 #include "fitsimage.h"
 
 #include <math.h>
-#ifndef WIN32
-  #include <netinet/in.h>
-  #include <unistd.h>
-#endif
 #include <stdlib.h>
 
 #include <QApplication>
