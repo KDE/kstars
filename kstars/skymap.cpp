@@ -955,10 +955,7 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
             p.setY( 0.5*Height - zoomscale*(Y - focus()->dec()->radians()) );
 
         if ( onVisibleHemisphere != NULL ) {
-            if ( scaledRect().contains( p.toPoint() ) )  //FIXME -jbb
-                *onVisibleHemisphere = true;
-            else
-                *onVisibleHemisphere = false;
+            *onVisibleHemisphere = scaledRect().contains( p.toPoint() );
         }
 
         return p;
