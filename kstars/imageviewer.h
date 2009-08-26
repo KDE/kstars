@@ -70,13 +70,6 @@ public:
     /**Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();
 
-protected:
-    /**The window is resized when a file finishes downloading, before it is displayed.
-     * The resizeEvent converts the downloaded QImage to a QPixmap 
-     * @note (JH: not sure why this conversion is not done in showImage)
-     */
-    void resizeEvent (QResizeEvent *ev);
-
 private:
     /**Display the downloaded image.  Resize the window to fit the image,  If the image is
      * larger than the screen, make the image as large as possible while preserving the

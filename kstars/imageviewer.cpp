@@ -156,11 +156,6 @@ ImageViewer::~ImageViewer() {
         delete downloadJob;
 }
 
-void ImageViewer::resizeEvent (QResizeEvent */*ev*/ )
-{
-    update();
-}
-
 void ImageViewer::loadImageFromURL()
 {
     KUrl saveURL = KUrl::fromPath( file.fileName() );
