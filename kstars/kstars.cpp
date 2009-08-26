@@ -56,7 +56,7 @@
 KStars *KStars::pinstance = 0;
 
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
-        KXmlGuiWindow(), kstarsData(0), splash(0), skymap(0), TimeStep(0),
+        KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
         colorActionMenu(0), fovActionMenu(0),
         AAVSODialog(0), findDialog(0), obsList(0),
         execute(0),
@@ -90,13 +90,11 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     else
         data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
 
+    // Setup splash screen
+    KStarsSplash *splash = 0;
     if ( doSplash ) {
         splash = new KStarsSplash(0);
         connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
-
-        //Uncomment to show startup messages on console also
-        //connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
-
         splash->show();
     } else {
         connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
@@ -114,6 +112,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     //Initialize data.  When initialization is complete, it will run dataInitFinished()
     if( !kstarsData->initialize() )
         return;
+    delete splash;
     datainitFinished();
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )

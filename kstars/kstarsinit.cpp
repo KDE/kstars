@@ -37,7 +37,6 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "kstarssplash.h"
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
@@ -510,10 +509,6 @@ void KStars::initStatusBar() {
 }
 
 void KStars::datainitFinished() {
-    //delete the splash screen window
-    delete splash;
-    splash = 0;
-
     //Add GUI elements to main window
     buildGUI();
 

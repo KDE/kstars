@@ -32,7 +32,6 @@ class KActionMenu;
 
 class dms;
 class KStarsData;
-class KStarsSplash;
 class SkyMap;
 class GeoLocation;
 class FindDialog;
@@ -660,7 +659,6 @@ private:
     void buildGUI();
 
     KStarsData *kstarsData;
-    KStarsSplash *splash;
     SkyMap *skymap;
 
     TimeStepBox *TimeStep;
