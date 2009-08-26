@@ -97,11 +97,12 @@ void KSAlmanac::setLocation( GeoLocation *m_geo ) {
     update();
 }
 
-/*
+
 double KSAlmanac::sunZenithAngleToTime( double z ) {
+    // TODO: Correct for movement of the sun
     double HA = acos( ( cos( z * dms::DegToRad ) - m_Sun->dec()->sin() * geo->lat()->sin() ) / (m_Sun->dec()->cos() * geo->lat()->cos()) );
     double HASunset = acos( ( -m_Sun->dec()->sin() * geo->lat()->sin() ) / (m_Sun->dec()->cos() * geo->lat()->cos()) );
-    return SunSet*24*60 + ( HA - HASunset ) * 4.0 * 15.0;
+    return SunSet + ( HA - HASunset ) / 24.0;
 }
-*/
+
     

@@ -81,6 +81,14 @@ public:
     inline QTime sunSet() { return SunSetT; }
     inline QTime moonRise() { return MoonRiseT; }
     inline QTime moonSet() { return MoonSetT; }
+
+    /**
+     *@short Convert the zenithal distance of the sun to fraction of the day
+     *@param z Zenithal angular distance
+     *@return Time as a fraction of the day, at which the zenithal distance is attained by the sun
+     *@note This is accurate only for zenithal angles close to sunset. TODO: Make this more accurate
+     */
+    double KSAlmanac::sunZenithAngleToTime( double z );
     
 private:
     // TODO: Add documentation
