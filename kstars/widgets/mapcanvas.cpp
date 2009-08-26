@@ -29,10 +29,10 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 
-MapCanvas::MapCanvas( QWidget *parent ) : QFrame( parent ) {
-    ld = (LocationDialog *)topLevelWidget();
-    ks = (KStars *)ld->parent();
-
+MapCanvas::MapCanvas( QWidget *parent ) :
+    QFrame( parent ),
+    ld(0)
+{
     setAutoFillBackground( false );
 
     QString bgFile = KStandardDirs::locate( "data", "kstars/geomap.png" );
@@ -63,7 +63,8 @@ void MapCanvas::mousePressEvent( QMouseEvent *e ) {
     int lng = ( e->x() - origin.x() );
     int lat  = ( origin.y() - e->y() );
 
-    ld->findCitiesNear( lng, lat );
+    if( ld )
+        ld->findCitiesNear( lng, lat );
 }
 
 void MapCanvas::paintEvent( QPaintEvent * ) {
@@ -76,7 +77,7 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 
     //Draw cities
     QPoint o;
-    foreach ( GeoLocation *g, ks->data()->geoList ) {
+    foreach ( GeoLocation *g, KStarsData::Instance()->geoList ) {
         o.setX( int( g->lng()->Degrees() + origin.x() ) );
         o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
@@ -85,36 +86,38 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
         }
     }
 
-    //redraw the cities that appear in the filtered list, with a white pen
-    //If the list has not been filtered, skip the redraw.
-    if ( ld->filteredList().size() ) {
-        p.setPen( Qt::white );
-        foreach ( GeoLocation *g, ld->filteredList() ) {
+    // FIXME: there must be better way to this. Without bothering LocationDialog
+    if( ld ) {
+        //redraw the cities that appear in the filtered list, with a white pen
+        //If the list has not been filtered, skip the redraw.
+        if ( ld->filteredList().size() ) {
+            p.setPen( Qt::white );
+            foreach ( GeoLocation *g, ld->filteredList() ) {
+                o.setX( int( g->lng()->Degrees() + origin.x() ) );
+                o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
+
+                if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
+                    p.drawPoint( o.x(), o.y() );
+                }
+            }
+        }
+
+        GeoLocation *g = ld->selectedCity();
+        if ( g ) {
             o.setX( int( g->lng()->Degrees() + origin.x() ) );
             o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
-            if ( o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <=height() ) {
-                p.drawPoint( o.x(), o.y() );
-            }
+            p.setPen( Qt::red );
+            p.setBrush( Qt::red );
+            p.drawEllipse( o.x()-3, o.y()-3, 6, 6 );
+            p.drawLine( o.x()-16, o.y(), o.x()-8, o.y() );
+            p.drawLine( o.x()+8, o.y(), o.x()+16, o.y() );
+            p.drawLine( o.x(), o.y()-16, o.x(), o.y()-8 );
+            p.drawLine( o.x(), o.y()+8, o.x(), o.y()+16 );
+            p.setPen( Qt::white );
+            p.setBrush( Qt::white );
         }
     }
-
-    GeoLocation *g = ld->selectedCity();
-    if ( g ) {
-        o.setX( int( g->lng()->Degrees() + origin.x() ) );
-        o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
-
-        p.setPen( Qt::red );
-        p.setBrush( Qt::red );
-        p.drawEllipse( o.x()-3, o.y()-3, 6, 6 );
-        p.drawLine( o.x()-16, o.y(), o.x()-8, o.y() );
-        p.drawLine( o.x()+8, o.y(), o.x()+16, o.y() );
-        p.drawLine( o.x(), o.y()-16, o.x(), o.y()-8 );
-        p.drawLine( o.x(), o.y()+8, o.x(), o.y()+16 );
-        p.setPen( Qt::white );
-        p.setBrush( Qt::white );
-    }
-
     p.end();
 }
 #include "mapcanvas.moc"

@@ -1096,7 +1096,7 @@ void ObservingList::slotChangeTab(int index) {
 }
 
 void ObservingList::slotLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog( (KStars*) topLevelWidget()->parent() );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
     if ( ld->exec() == QDialog::Accepted ) {
         geo = ld->selectedCity();
         ui->SetLocation -> setText( geo -> fullName() );

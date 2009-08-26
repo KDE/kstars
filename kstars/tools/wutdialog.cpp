@@ -490,7 +490,7 @@ void WUTDialog::slotChangeDate() {
 }
 
 void WUTDialog::slotChangeLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {

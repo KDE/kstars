@@ -25,7 +25,6 @@
 #include "calendarwidget.h"
 #include "geolocation.h"
 #include "dialogs/locationdialog.h"
-#include "kstars.h"
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
 #include "skyobjects/ksplanet.h"
@@ -216,7 +215,7 @@ void SkyCalendar::slotPrint() {
 }
 
 void SkyCalendar::slotLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {

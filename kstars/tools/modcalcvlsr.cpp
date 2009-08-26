@@ -26,7 +26,6 @@
 #include "dms.h"
 #include "skyobjects/skypoint.h"
 #include "geolocation.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"
@@ -91,7 +90,7 @@ void modCalcVlsr::slotFindObject() {
 }
 
 void modCalcVlsr::slotLocation() {
-    LocationDialog ld( KStars::Instance() );
+    LocationDialog ld( this );
 
     if ( ld.exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld.selectedCity();

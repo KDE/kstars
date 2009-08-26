@@ -36,6 +36,9 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     KStarsData* data = KStarsData::Instance();
     ui = new Ui::LocationDialog();
     ui->setupUi( mainWidget() );
+    // FIXME: temporary plug! (See MapCanvas for details)
+    ui->MapView->setLocationDialog( this );
+
     setCaption( i18n( "Set Geographic Location" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
@@ -48,7 +51,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     for ( ; it != itEnd; ++it )
         if ( it.key().length() )
             ui->DSTRuleBox->addItem( it.key() );
-
+    
     connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
     connect( ui->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
     connect( ui->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );

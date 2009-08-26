@@ -84,7 +84,7 @@ void modCalcAltAz::slotNow()
 
 void modCalcAltAz::slotLocation()
 {
-    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
@@ -98,7 +98,7 @@ void modCalcAltAz::slotLocation()
 
 void modCalcAltAz::slotObject()
 {
-    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
     if ( fd->exec() == QDialog::Accepted ) {
         SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra() );

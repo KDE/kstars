@@ -230,7 +230,7 @@ void ObsListWizard::slotSolarSystemButton()
 
 void ObsListWizard::slotChangeLocation()
 {
-    QPointer<LocationDialog> ld = new LocationDialog( ksw );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
 
     if ( ld->exec() == QDialog::Accepted ) {
         //set geographic location

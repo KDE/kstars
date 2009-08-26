@@ -25,7 +25,6 @@
 #include "geolocation.h"
 #include "dialogs/locationdialog.h"
 #include "dms.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
 #include "skyobjects/kssun.h"
@@ -70,7 +69,7 @@ modCalcPlanets::~modCalcPlanets(){
 
 void modCalcPlanets::slotLocation()
 {
-    QPointer<LocationDialog> ld = new LocationDialog( (KStars*) topLevelWidget()->parent() );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
 
     if ( ld->exec() == QDialog::Accepted ) {
         geoPlace = ld->selectedCity();

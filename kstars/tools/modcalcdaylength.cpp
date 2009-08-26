@@ -24,7 +24,6 @@
 
 #include "skyobjects/skyobject.h"
 #include "geolocation.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
@@ -83,8 +82,7 @@ QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
 }
 
 void modCalcDayLength::slotLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
-
+    QPointer<LocationDialog> ld = new LocationDialog( this );
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
@@ -98,8 +96,7 @@ void modCalcDayLength::slotLocation() {
 }
 
 void modCalcDayLength::slotLocationBatch() {
-    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
-
+    QPointer<LocationDialog> ld = new LocationDialog( this );
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {

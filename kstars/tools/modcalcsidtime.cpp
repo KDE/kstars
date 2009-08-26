@@ -22,7 +22,6 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
@@ -79,7 +78,7 @@ void modCalcSidTime::showCurrentTimeAndLocation()
 }
 
 void modCalcSidTime::slotChangeLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
 
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();
@@ -178,7 +177,7 @@ void modCalcSidTime::slotHelpLabel() {
 }
 
 void modCalcSidTime::slotLocationBatch() {
-    QPointer<LocationDialog> ld = new LocationDialog( KStars::Instance() );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
 
     if ( ld->exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld->selectedCity();

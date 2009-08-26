@@ -112,7 +112,7 @@ void ConjunctionsTool::slotGoto() {
     int index = OutputView->currentRow();
     long double jd = outputJDList.value( index );
     KStarsDateTime dt;
-    KStars *ks= (KStars *) topLevelWidget()->parent();
+    KStars *ks = KStars::Instance();
     KStarsData *data = KStarsData::Instance();
     SkyMap *map = ks->map();
 
@@ -126,7 +126,7 @@ void ConjunctionsTool::slotGoto() {
 }
 
 void ConjunctionsTool::slotFindObject() {
-    QPointer<FindDialog> fd = new FindDialog( (KStars*) topLevelWidget()->parent() );
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
     if ( fd->exec() == QDialog::Accepted ) {
         if( Object1 )
             delete Object1;
@@ -141,8 +141,7 @@ void ConjunctionsTool::slotFindObject() {
 
 void ConjunctionsTool::slotLocation()
 {
-    LocationDialog ld( (KStars*) topLevelWidget()->parent() );
-
+    LocationDialog ld( this );
     if ( ld.exec() == QDialog::Accepted ) {
         geoPlace = ld.selectedCity();
         LocationButton -> setText( geoPlace -> fullName() );

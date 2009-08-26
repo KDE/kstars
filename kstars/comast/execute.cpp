@@ -173,7 +173,7 @@ bool Execute::saveSession() {
 }
 
 void Execute::slotLocation() {
-    QPointer<LocationDialog> ld = new LocationDialog( ks );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
     if ( ld->exec() == QDialog::Accepted ) {
         geo = ld->selectedCity();
         ui.Location->setText( geo -> fullName() );

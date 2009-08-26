@@ -1942,7 +1942,7 @@ void ScriptBuilder::slotShowDoc() {
 
 //Slots for Arg Widgets
 void ScriptBuilder::slotFindCity() {
-    QPointer<LocationDialog> ld = new LocationDialog( ks );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
 
     if ( ld->exec() == QDialog::Accepted ) {
         if ( ld->selectedCity() ) {
