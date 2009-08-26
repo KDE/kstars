@@ -77,7 +77,6 @@
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
 #include "tools/flagmanager.h"
-#include "imageviewer.h"
 #include "comast/execute.h"
 
 #include <config-kstars.h>

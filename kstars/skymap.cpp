@@ -54,7 +54,7 @@
 #include "kspopupmenu.h"
 #include "simclock.h"
 #include "skyobjects/skyobject.h"
-#include "skyobjects/starobject.h"
+#include "skyobjects/ksplanetbase.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>

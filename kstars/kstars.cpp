@@ -39,7 +39,6 @@
 #include "simclock.h"
 #include "dialogs/finddialog.h"
 #include "ksutils.h"
-#include "imageviewer.h"
 #include "infoboxes.h"
 #include "observinglist.h"
 #include "comast/execute.h"

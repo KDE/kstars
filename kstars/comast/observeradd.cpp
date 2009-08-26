@@ -16,6 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kstarsdata.h"
 #include "comast/observeradd.h"
 #include "ui_observeradd.h"
 

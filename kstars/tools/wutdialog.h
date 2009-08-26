@@ -22,12 +22,11 @@
 #include <kdialog.h>
 #include <q3listview.h>
 #include "kstarsdatetime.h"
-#include "kstars.h"
+#include "kstarsdata.h"
 #include "ui_wutdialog.h"
 
 #define NCATEGORY 8
 
-class KStars;
 class KStarsData;
 class GeoLocation;
 class SkyObject;

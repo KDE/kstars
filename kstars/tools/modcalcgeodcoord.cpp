@@ -26,6 +26,7 @@
 #include "dms.h"
 #include "geolocation.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "widgets/dmsbox.h"
 
 

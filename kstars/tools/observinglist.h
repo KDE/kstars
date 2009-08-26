@@ -25,12 +25,8 @@
 #include <kio/copyjob.h>
 
 #include "ui_observinglist.h"
-#include "kstars.h"
-#include "skyobjects/skyobject.h"
 #include "kstarsdatetime.h"
-#include "geolocation.h"
-#include "ksalmanac.h"
-#include "imageviewer.h"
+#include "skyobjects/skyobject.h"
 #include "obslistpopupmenu.h"
 
 class KSAlmanac;
@@ -39,6 +35,8 @@ class QStandardItemModel;
 class KStars;
 class KStarsDateTime;
 class GeoLocation;
+
+
 class ObservingListUI : public QFrame, public Ui::ObservingList {
     Q_OBJECT
 

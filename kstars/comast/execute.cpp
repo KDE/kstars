@@ -22,6 +22,7 @@
 
 #include <kmessagebox.h>
 #include <kfiledialog.h>
+#include "kstarsdata.h"
 #include "comast/observer.h"
 #include "comast/site.h"
 #include "comast/session.h"

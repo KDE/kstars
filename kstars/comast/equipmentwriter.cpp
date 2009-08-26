@@ -23,6 +23,7 @@
 
 #include <kstandarddirs.h>
 
+#include "kstarsdata.h"
 #include "comast/comast.h"
 #include "comast/scope.h"
 #include "comast/eyepiece.h"
