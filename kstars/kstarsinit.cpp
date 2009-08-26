@@ -408,6 +408,10 @@ void KStars::initActions() {
 
     //Add timestep widget for toolbar
     TimeStep = new TimeStepBox( toolBar("kstarsToolBar") );
+    // Add a tool tip to TimeStep describing the weird nature of time steps
+    QString TSBToolTip = i18nc( "Tooltip describing the nature of the time step control", "Use this to set the rate at which time in the simulation flows.\nFor time step \'X\' up to 10 minutes, time passes at the rate of \'X\' per second.\nFor time steps larger than 10 minutes, frames are displayed at an interval of \'X\'." );
+    TimeStep->setToolTip( TSBToolTip );
+    TimeStep->tsbox()->setToolTip( TSBToolTip );
     ka = actionCollection()->addAction("timestep_control")
         << i18n("Time step control");
     ka->setDefaultWidget( TimeStep );
