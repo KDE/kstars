@@ -1252,9 +1252,10 @@ void ObservingList::slotSaveImage() {
 void ObservingList::slotImageViewer() {
     ImageViewer *iv;
     if( QFile::exists( CurrentImagePath ) )
-        iv = new ImageViewer( CurrentImagePath );
+        iv = new ImageViewer( CurrentImagePath, this );
     else if( QFile::exists( CurrentTempPath ) )
-        iv = new ImageViewer( CurrentTempPath );
+        iv = new ImageViewer( CurrentTempPath, this );
+    // FIXME: iv may be uninitialized here
     ivList.append( iv );
     iv->show();
 }

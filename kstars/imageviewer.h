@@ -27,7 +27,6 @@
 #include <kdialog.h>
 
 class KUrl;
-class KStars;
 class QLabel;
 class QVBoxLayout;
 
@@ -45,63 +44,58 @@ private:
 };
 
 /**@class ImageViewer
-	*@short Image viewer window for KStars
-	*@author Thomas Kabelmann
-	*@version 1.0
-	*
-	*This image-viewer automatically resizes the picture. The output 
-	*works with kio-slaves and not directly with the QImage save-routines 
-	*because normally the image-files are in GIF-format and QT does not 
-	*save these files. For other formats, like PNG, this is not so important 
-	*because they can directly saved by QImage.
-	*
-	*The download-slave works asynchron so the parent-widget can be used at 
-	*this time. The save-slave works synchronously, but this is not important 
-	*because the files are at this time local saved and this works not so long.
-	*/
+ * @short Image viewer window for KStars
+ * @author Thomas Kabelmann
+ * @version 1.0
+ *
+ * This image-viewer automatically resizes the picture. The output
+ * works with kio-slaves and not directly with the QImage save-routines
+ * because normally the image-files are in GIF-format and QT does not
+ * save these files. For other formats, like PNG, this is not so important
+ * because they can directly saved by QImage.
+ *
+ * The download-slave works asynchron so the parent-widget can be used at
+ * this time. The save-slave works synchronously, but this is not important
+ * because the files are at this time local saved and this works not so long.
+ */
 class ImageViewer : public KDialog {
     Q_OBJECT
 
 public:
     /**Constructor. */
-    ImageViewer (const KUrl &imageURL, const QString &capText, KStars *ks );
+    ImageViewer (const KUrl &imageURL, const QString &capText, QWidget *parent );
 
-    ImageViewer ( QString FileName );
+    ImageViewer ( QString FileName, QWidget *parent );
 
     /**Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();
 
 protected:
     /**The window is resized when a file finishes downloading, before it is displayed.
-    	*The resizeEvent converts the downloaded QImage to a QPixmap 
-    	*@note (JH: not sure why this conversion is not done in showImage)
-    	*/
+     * The resizeEvent converts the downloaded QImage to a QPixmap 
+     * @note (JH: not sure why this conversion is not done in showImage)
+     */
     void resizeEvent (QResizeEvent *ev);
 
-    /**Make sure all events have been processed before closing the dialog */
+    /** Make sure all events have been processed before closing the dialog */
     void closeEvent (QCloseEvent *ev);
 
 private:
     /**Display the downloaded image.  Resize the window to fit the image,  If the image is
-    	*larger than the screen, make the image as large as possible while preserving the
-    	*original aspect ratio
-    	*/
+     * larger than the screen, make the image as large as possible while preserving the
+     * original aspect ratio */
     void showImage( void );
 
-    /**Download the image file pointed to by the URL string.
-    	*/
+    /**Download the image file pointed to by the URL string. */
     void loadImageFromURL( void );
 
-    /**Save the downloaded image to a local file.
-    	*/
+    /**Save the downloaded image to a local file. */
     void saveFile (KUrl &url);
 
-    /**Kill running download jobs, if close of window is forced.
-    	*/
+    /**Kill running download jobs, if close of window is forced. */
     void checkJob();
 
     QFile file;
-    KStars *ks;
 
     const KUrl m_ImageUrl;
     bool fileIsImage;
@@ -109,10 +103,8 @@ private:
 
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
 
-    QFrame *Page;
-    ImageLabel *View;
-    QLabel *Caption;
-    QVBoxLayout *vlay;
+    ImageLabel *m_View;
+    QLabel     *m_Caption;
 
 private slots:
     /**Make sure download has finished, then make sure file exists, then display the image */

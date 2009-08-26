@@ -51,18 +51,21 @@ ImageLabel::ImageLabel( QWidget *parent ) : QFrame( parent )
 ImageLabel::~ImageLabel()
 {}
 
-void ImageLabel::paintEvent (QPaintEvent */*ev*/) {
+void ImageLabel::paintEvent (QPaintEvent*) {
     QPainter p;
     p.begin( this );
     int x = 0;
-    if ( m_Image.width() < width() ) x = (width() - m_Image.width())/2;
+    if( m_Image.width() < width() )
+        x = (width() - m_Image.width())/2;
     p.drawImage( x, 0, m_Image );
     p.end();
 }
 
-ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
-        : KDialog( _ks ), ks(_ks), m_ImageUrl(url), fileIsImage(false),
-        downloadJob(0)
+ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *parent) :
+    KDialog( parent ),
+    m_ImageUrl(url),
+    fileIsImage(false),
+    downloadJob(0)
 {
     setModal( false );
     setCaption( i18n("KStars image viewer")+QString(" : ")+url.fileName() );
@@ -70,31 +73,31 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
     KGuiItem saveButton( i18n("Save"), "document-save", i18n("Save the image to disk") );
     setButtonGuiItem( KDialog::User1, saveButton );
 
-    Page = new QFrame( this );
+    QFrame* Page = new QFrame( this );
     setMainWidget( Page );
-    View = new ImageLabel( Page );
-    Caption = new QLabel( Page );
-    View->setAutoFillBackground( true );
-    Caption->setAutoFillBackground( true );
-    Caption->setFrameShape( QFrame::StyledPanel );
-    Caption->setText( capText );
+    m_View = new ImageLabel( Page );
+    m_View->setAutoFillBackground( true );
+    m_Caption = new QLabel( Page );
+    m_Caption->setAutoFillBackground( true );
+    m_Caption->setFrameShape( QFrame::StyledPanel );
+    m_Caption->setText( capText );
     //Reverse colors
     QPalette p = palette();
     p.setColor( QPalette::Window, palette().color( QPalette::WindowText ) );
     p.setColor( QPalette::WindowText, palette().color( QPalette::Window ) );
-    Caption->setPalette( p );
-    View->setPalette( p );
+    m_Caption->setPalette( p );
+    m_View->setPalette( p );
 
     //If the caption is wider than the image, try to shrink the font a bit
-    QFont capFont = Caption->font();
+    QFont capFont = m_Caption->font();
     capFont.setPointSize( capFont.pointSize() - 2 );
-    Caption->setFont( capFont );
+    m_Caption->setFont( capFont );
 
-    vlay = new QVBoxLayout( Page );
+    QVBoxLayout* vlay = new QVBoxLayout( Page );
     vlay->setSpacing( 0 );
     vlay->setMargin( 0 );
-    vlay->addWidget( View );
-    vlay->addWidget( Caption );
+    vlay->addWidget( m_View );
+    vlay->addWidget( m_Caption );
 
     connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
 
@@ -111,29 +114,31 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, KStars *_ks)
     loadImageFromURL();
 }
 
-ImageViewer::ImageViewer ( QString FileName )
-        : KDialog( KStars::Instance() ), ks( KStars::Instance() ), fileIsImage(true), downloadJob(0)
+ImageViewer::ImageViewer ( QString FileName, QWidget *parent ) :
+    KDialog( parent ),
+    fileIsImage(true),
+    downloadJob(0)
 {
     setModal( false );
     setCaption( i18n( "KStars image viewer" ) + QString( " : " ) + FileName );
     setButtons( KDialog::Close );
 
-    Page = new QFrame( this );
+    QFrame* Page = new QFrame( this );
     setMainWidget( Page );
-    View = new ImageLabel( Page );
-    Caption = new QLabel( Page );
-    View->setAutoFillBackground( true );
+    m_View = new ImageLabel( Page );
+    m_View->setAutoFillBackground( true );
+    m_Caption = new QLabel( Page );
     //Reverse colors
     QPalette p = palette();
     p.setColor( QPalette::Window, palette().color( QPalette::WindowText ) );
     p.setColor( QPalette::WindowText, palette().color( QPalette::Window ) );
-    Caption->setPalette( p );
-    View->setPalette( p );
+    m_Caption->setPalette( p );
+    m_View->setPalette( p );
 
-    vlay = new QVBoxLayout( Page );
+    QVBoxLayout* vlay = new QVBoxLayout( Page );
     vlay->setSpacing( 0 );
     vlay->setMargin( 0 );
-    vlay->addWidget( View );
+    vlay->addWidget( m_View );
     setWindowTitle ( FileName); // the title of the window
 
     file.setFileName( FileName );
@@ -142,13 +147,11 @@ ImageViewer::ImageViewer ( QString FileName )
 }
 
 ImageViewer::~ImageViewer() {
+    kDebug() << "Dying";
     // check if download job is running
     checkJob();
-
-    delete View;
-    delete Caption;
-    delete Page;
-    if ( downloadJob ) delete downloadJob;
+    if ( downloadJob )
+        delete downloadJob;
 }
 
 void ImageViewer::resizeEvent (QResizeEvent */*ev*/ )
@@ -156,9 +159,9 @@ void ImageViewer::resizeEvent (QResizeEvent */*ev*/ )
     update();
 }
 
-void ImageViewer::closeEvent (QCloseEvent */*ev*/ )
+void ImageViewer::closeEvent (QCloseEvent * ev)
 {
-    ks->removeImageViewer( this );
+    KStars::Instance()->removeImageViewer( this );
 }
 
 void ImageViewer::loadImageFromURL()
@@ -229,13 +232,14 @@ void ImageViewer::showImage()
 
     show();	// hide is default
 
-    View->setImage( image );
+    m_View->setImage( image );
     w = image.width();
 
     //If the caption is wider than the image, set the window size
     //to fit the caption
-    if ( Caption->width() > w ) w = Caption->width();
-    setFixedSize( w, image.height() + Caption->height() );
+    if ( m_Caption->width() > w )
+        w = m_Caption->width();
+    setFixedSize( w, image.height() + m_Caption->height() );
 
     update();
 }
