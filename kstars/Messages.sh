@@ -25,8 +25,8 @@ awk 'BEGIN {FS=":"}; {print "\"" $2 ":" $3 ":" $1 "\""; }' < data/Cities.dat | \
 sort --unique cities.tmp >> kstars_i18n.cpp
 
 # extract regions
-awk 'BEGIN {FS=":"}; {print "\"" $2 "\""; }' < data/Cities.dat | \
-   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Region\/state name (optional, rarely needs a translation)\",\"/g' | sed 's/i18nc(.*,"");//' >> "regions.tmp";
+awk 'BEGIN {FS=":"}; {print "\"" $3 ":" $2 "\""; }' < data/Cities.dat | \
+   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Region\/state in /' | sed 's/ *:/ (optional, rarely needs a translation)\",\"/g' | sed 's/i18nc(.*,"");//' >> "regions.tmp";
 sort --unique regions.tmp >> kstars_i18n.cpp
 
 # extract countries
