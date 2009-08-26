@@ -537,15 +537,10 @@ void INDIDriver::saveDevicesToDisk()
 
 bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 {
-    foreach (IDevice *dev, devices)
-    if (deviceLabel == dev->tree_label)
-    {
-        if (dev->state == IDevice::DEV_START)
-		return true;
-	else
-		return false;
+    foreach(IDevice *dev, devices) {
+        if (deviceLabel == dev->tree_label)
+            return dev->state == IDevice::DEV_START;
     }
-
     return false;
 }
 
@@ -619,15 +614,12 @@ void INDIDriver::processXMLDriver(QString & driverName)
          return;
     }
 
-    char errmsg[1024];
+    char errmsg[ERRMSG_SIZE];
     char c;
     LilXML *xmlParser = newLilXML();
     XMLEle *root = NULL;
 
-    if (driverName.endsWith("drivers.xml"))
-	primary_xml = true;
-   else
-        primary_xml = false;
+    primary_xml = driverName.endsWith("drivers.xml");
 
     while ( file.getChar(&c))
     {
