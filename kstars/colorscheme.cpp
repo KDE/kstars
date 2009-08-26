@@ -118,34 +118,15 @@ ColorScheme::ColorScheme() : FileName() {
     Name.append( i18n( "Satellite Track" ) );
     Default.append( "#007777" );
 
-		//Load colors from config object
-		loadFromConfig();
+    //Load colors from config object
+    loadFromConfig();
 
     //Default values for integer variables:
     StarColorMode = 0;
     StarColorIntensity = 4;
 }
 
-ColorScheme::ColorScheme( const ColorScheme &cs ) {
-    KeyName = cs.KeyName;
-    Name = cs.Name;
-    Default = cs.Default;
-    StarColorMode = cs.StarColorMode;
-    StarColorIntensity = cs.StarColorIntensity;
-    Palette = cs.Palette;
-    FileName = cs.FileName;
-}
-
 ColorScheme::~ColorScheme(){
-}
-
-void ColorScheme::copy( const ColorScheme &cs ) {
-    KeyName = cs.KeyName;
-    Name = cs.Name;
-    Default = cs.Default;
-    setStarColorModeIntensity( cs.StarColorMode, cs.StarColorIntensity );
-    Palette = cs.Palette;
-    FileName = cs.FileName;
 }
 
 QColor ColorScheme::colorNamed( const QString &name ) const {

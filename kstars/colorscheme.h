@@ -37,11 +37,9 @@
 class ColorScheme {
 
 public:
-
-    /**
-      *Constructor.  Enter all adjustable colors and their default 
-    	*values into the QMap.  Also assign the corresponding long names.
-    	*/
+    /** Constructor.  Enter all adjustable colors and their default 
+     *	values into the QMap.  Also assign the corresponding long names.
+     */
     ColorScheme();
 
     /**
@@ -117,12 +115,6 @@ public:
     QString fileName() const { return FileName; }
 
     /**
-      *Copy a color scheme
-    	*@p cs the color scheme to be copied into this object
-    	*/
-    void copy( const ColorScheme &cs );
-
-    /**
       *Read color-scheme data from the Config object.
     	*/
     void loadFromConfig();
@@ -173,7 +165,6 @@ private:
     QString FileName;
     QStringList KeyName, Name, Default;
     QMap<QString,QString> Palette;
-
 };
 
 #endif

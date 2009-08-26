@@ -527,7 +527,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
         //(if requested)
         ColorScheme cs;
         if ( useChartColors ) {
-            cs.copy( * data()->colorScheme() );
+            cs = *data()->colorScheme();
             loadColorScheme( "chart.colors" );
         }
 
@@ -537,7 +537,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
         //Restore old color scheme if necessary
         //(if printing was aborted, the colorscheme is still restored)
         if ( useChartColors ) {
-            data()->colorScheme()->copy( cs );
+            *(data()->colorScheme()) = cs;
             map()->forceUpdate();
         }
 
