@@ -112,12 +112,10 @@ void LocationDialog::initCityList() {
 
     // attempt to highlight the current kstars location in the GeoBox
     ui->GeoBox->setCurrentItem( 0 );
-    if ( ui->GeoBox->count() ) {
-        for ( uint i=0; i < ui->GeoBox->count(); i++ ) {
-            if ( ui->GeoBox->item(i)->text() == data->geo()->fullName() ) {
-                ui->GeoBox->setCurrentItem( i );
-                break;
-            }
+    for( uint i=0; i < ui->GeoBox->count(); i++ ) {
+        if ( ui->GeoBox->item(i)->text() == data->geo()->fullName() ) {
+            ui->GeoBox->setCurrentItem( i );
+            break;
         }
     }
 }
@@ -126,7 +124,8 @@ void LocationDialog::filterCity() {
     KStarsData* data = KStarsData::Instance();
     ui->GeoBox->clear();
     //Do NOT delete members of filteredCityList!
-    while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
+    while( !filteredCityList.isEmpty() )
+        filteredCityList.takeFirst();
 
     nameModified = false;
     dataModified = false;
