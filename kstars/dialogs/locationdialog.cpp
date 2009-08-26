@@ -28,12 +28,12 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 
-LocationDialog::LocationDialog( KStars *_ks )
-        : KDialog( _ks ),  ksw( _ks )
+LocationDialog::LocationDialog( QWidget* parent ) :
+    KDialog( parent )
 {
+    KStarsData* data = KStarsData::Instance();
     ui = new Ui::LocationDialog();
     ui->setupUi( mainWidget() );
     setCaption( i18n( "Set Geographic Location" ) );
@@ -43,8 +43,8 @@ LocationDialog::LocationDialog( KStars *_ks )
         ui->TZBox->addItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
 
     //Populate DSTRuleBox
-    QMap<QString, TimeZoneRule>::Iterator it = ksw->data()->Rulebook.begin();
-    QMap<QString, TimeZoneRule>::Iterator itEnd = ksw->data()->Rulebook.end();
+    QMap<QString, TimeZoneRule>::Iterator it = data->Rulebook.begin();
+    QMap<QString, TimeZoneRule>::Iterator itEnd = data->Rulebook.end();
     for ( ; it != itEnd; ++it )
         if ( it.key().length() )
             ui->DSTRuleBox->addItem( it.key() );
@@ -87,8 +87,9 @@ LocationDialog::LocationDialog( KStars *_ks )
 LocationDialog::~LocationDialog(){
 }
 
-void LocationDialog::initCityList( void ) {
-    foreach ( GeoLocation *loc, ksw->data()->geoList )
+void LocationDialog::initCityList() {
+    KStarsData* data = KStarsData::Instance();
+    foreach ( GeoLocation *loc, data->geoList )
     {
         ui->GeoBox->insertItem( loc->fullName() );
         filteredCityList.append( loc );
@@ -113,7 +114,7 @@ void LocationDialog::initCityList( void ) {
     ui->GeoBox->setCurrentItem( 0 );
     if ( ui->GeoBox->count() ) {
         for ( uint i=0; i < ui->GeoBox->count(); i++ ) {
-            if ( ui->GeoBox->item(i)->text() == ksw->data()->geo()->fullName() ) {
+            if ( ui->GeoBox->item(i)->text() == data->geo()->fullName() ) {
                 ui->GeoBox->setCurrentItem( i );
                 break;
             }
@@ -121,7 +122,8 @@ void LocationDialog::initCityList( void ) {
     }
 }
 
-void LocationDialog::filterCity( void ) {
+void LocationDialog::filterCity() {
+    KStarsData* data = KStarsData::Instance();
     ui->GeoBox->clear();
     //Do NOT delete members of filteredCityList!
     while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
@@ -130,7 +132,7 @@ void LocationDialog::filterCity( void ) {
     dataModified = false;
     ui->AddCityButton->setEnabled( false );
 
-    foreach ( GeoLocation *loc, ksw->data()->geoList ) {
+    foreach ( GeoLocation *loc, data->geoList ) {
         QString sc( loc->translatedName() );
         QString ss( loc->translatedCountry() );
         QString sp = "";
@@ -156,7 +158,8 @@ void LocationDialog::filterCity( void ) {
     ui->MapView->repaint();
 }
 
-void LocationDialog::changeCity( void ) {
+void LocationDialog::changeCity() {
+    KStarsData* data = KStarsData::Instance();
     //when the selected city changes, set newCity, and redraw map
     SelectedCity = 0L;
     if ( ui->GeoBox->currentItem() >= 0 ) {
@@ -186,7 +189,7 @@ void LocationDialog::changeCity( void ) {
 
         //Pick the City's rule from the rulebook
         for ( int i=0; i < ui->DSTRuleBox->count(); ++i ) {
-            TimeZoneRule tzr = ksw->data()->Rulebook.value( ui->DSTRuleBox->itemText(i) );
+            TimeZoneRule tzr = data->Rulebook.value( ui->DSTRuleBox->itemText(i) );
             if ( tzr.equals( SelectedCity->tzrule() ) ) {
                 ui->DSTRuleBox->setCurrentIndex( i );
                 break;
@@ -200,6 +203,7 @@ void LocationDialog::changeCity( void ) {
 }
 
 bool LocationDialog::addCity( ) {
+    KStarsData* data = KStarsData::Instance();
     if ( !nameModified && !dataModified ) {
         QString message = i18n( "This City already exists in the database." );
         KMessageBox::sorry( 0, message, i18n( "Error: Duplicate Entry" ) );
@@ -265,8 +269,8 @@ bool LocationDialog::addCity( ) {
             //Add city to geoList...don't need to insert it alphabetically, since we always sort GeoList
             GeoLocation *g = new GeoLocation( lng.Degrees(), lat.Degrees(),
                                               ui->NewCityName->text(), ui->NewProvinceName->text(), ui->NewCountryName->text(),
-                                              TZ, &ksw->data()->Rulebook[ TZrule ] );
-            ksw->data()->geoList.append( g );
+                                              TZ, &data->Rulebook[ TZrule ] );
+            data->geoList.append( g );
 
             //(possibly) insert new city into GeoBox by running filterCity()
             filterCity();
@@ -288,13 +292,13 @@ bool LocationDialog::addCity( ) {
 }
 
 void LocationDialog::findCitiesNear( int lng, int lat ) {
-    KStars *ks = (KStars *)parent();
+    KStarsData* data = KStarsData::Instance();
     //find all cities within 3 degrees of (lng, lat); list them in GeoBox
     ui->GeoBox->clear();
     //Remember, do NOT delete members of filteredCityList
     while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 
-    foreach ( GeoLocation *loc, ks->data()->geoList ) {
+    foreach ( GeoLocation *loc, data->geoList ) {
         if ( ( abs(	lng - int( loc->lng()->Degrees() ) ) < 3 ) &&
                 ( abs( lat - int( loc->lat()->Degrees() ) ) < 3 ) ) {
 
@@ -312,7 +316,7 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
     repaint();
 }
 
-bool LocationDialog::checkLongLat( void ) {
+bool LocationDialog::checkLongLat() {
     if ( ui->NewLong->text().isEmpty() || ui->NewLat->text().isEmpty() )
         return false;
 
@@ -330,7 +334,7 @@ bool LocationDialog::checkLongLat( void ) {
     return true;
 }
 
-void LocationDialog::clearFields( void ) {
+void LocationDialog::clearFields() {
     ui->CityFilter->clear();
     ui->ProvinceFilter->clear();
     ui->CountryFilter->clear();
@@ -347,7 +351,7 @@ void LocationDialog::clearFields( void ) {
     ui->NewCityName->setFocus();
 }
 
-void LocationDialog::showTZRules( void ) {
+void LocationDialog::showTZRules() {
     QStringList lines;
     lines.append( i18n( " Start Date (Start Time)  /  Revert Date (Revert Time)" ) );
     lines.append( " " );
@@ -399,20 +403,20 @@ void LocationDialog::showTZRules( void ) {
     delete tzd;
 }
 
-void LocationDialog::nameChanged( void ) {
+void LocationDialog::nameChanged() {
     nameModified = true;
     dataChanged();
 }
 
 //do not enable Add button until all data are present and valid.
-void LocationDialog::dataChanged( void ) {
+void LocationDialog::dataChanged() {
     dataModified = true;
     ui->AddCityButton->setEnabled( !ui->NewCityName->text().isEmpty() &&
                                    !ui->NewCountryName->text().isEmpty() &&
                                    checkLongLat() );
 }
 
-void LocationDialog::slotOk( void ) {
+void LocationDialog::slotOk() {
     if( addCityEnabled() && addCity() )
         accept();
 }
