@@ -81,7 +81,7 @@ void modCalcVlsr::slotNow()
 }
 
 void modCalcVlsr::slotFindObject() {
-    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
     if ( fd->exec() == QDialog::Accepted ) {
         SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra0() );
@@ -91,8 +91,7 @@ void modCalcVlsr::slotFindObject() {
 }
 
 void modCalcVlsr::slotLocation() {
-    KStars *ks = (KStars*) topLevelWidget()->parent();
-    LocationDialog ld(ks);
+    LocationDialog ld( KStars::Instance() );
 
     if ( ld.exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld.selectedCity();
