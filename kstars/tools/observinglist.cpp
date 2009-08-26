@@ -211,16 +211,15 @@ ObservingList::ObservingList( KStars *_ks )
 //    ui->MiniButton->hide();
 }
 
-ObservingList::~ObservingList() {
-    foreach( ImageViewer *iv, ivList ) {
-        delete iv;
-    }
-}
+ObservingList::~ObservingList()
+{}
+
 //SLOTS
 
 void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     bool addToWishList=true;
-    if ( ! obj ) obj = ks->map()->clickedObject();
+    if( ! obj )
+        obj = ks->map()->clickedObject();
 
     if( obj->name() == "star" ) {
         KMessageBox::sorry(0, i18n( "Unnamed stars are not supported in the observing lists"));
@@ -1250,14 +1249,14 @@ void ObservingList::slotSaveImage() {
 }  
 
 void ObservingList::slotImageViewer() {
-    ImageViewer *iv;
+    ImageViewer *iv = 0;
     if( QFile::exists( CurrentImagePath ) )
         iv = new ImageViewer( CurrentImagePath, this );
     else if( QFile::exists( CurrentTempPath ) )
         iv = new ImageViewer( CurrentTempPath, this );
-    // FIXME: iv may be uninitialized here
-    ivList.append( iv );
-    iv->show();
+
+    if( iv )
+        iv->show();
 }
 
 void ObservingList::slotDeleteImages() {

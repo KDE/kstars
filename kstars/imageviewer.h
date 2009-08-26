@@ -77,9 +77,6 @@ protected:
      */
     void resizeEvent (QResizeEvent *ev);
 
-    /** Make sure all events have been processed before closing the dialog */
-    void closeEvent (QCloseEvent *ev);
-
 private:
     /**Display the downloaded image.  Resize the window to fit the image,  If the image is
      * larger than the screen, make the image as large as possible while preserving the

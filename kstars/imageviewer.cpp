@@ -67,6 +67,7 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *pare
     fileIsImage(false),
     downloadJob(0)
 {
+    setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
     setCaption( i18n("KStars image viewer")+QString(" : ")+url.fileName() );
     setButtons( KDialog::User1|KDialog::Close );
@@ -119,6 +120,7 @@ ImageViewer::ImageViewer ( QString FileName, QWidget *parent ) :
     fileIsImage(true),
     downloadJob(0)
 {
+    setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
     setCaption( i18n( "KStars image viewer" ) + QString( " : " ) + FileName );
     setButtons( KDialog::Close );
@@ -157,11 +159,6 @@ ImageViewer::~ImageViewer() {
 void ImageViewer::resizeEvent (QResizeEvent */*ev*/ )
 {
     update();
-}
-
-void ImageViewer::closeEvent (QCloseEvent * ev)
-{
-    KStars::Instance()->removeImageViewer( this );
 }
 
 void ImageViewer::loadImageFromURL()

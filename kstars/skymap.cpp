@@ -370,8 +370,9 @@ void SkyMap::slotDSS() {
 
     KStars* kstars = KStars::Instance();
     if( kstars ) {
-        ImageViewer *iv = kstars->addImageViewer(
-            url, i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ));
+        ImageViewer *iv = new ImageViewer( url,
+            i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute [public domain]." ),
+            this );
         iv->show();
     }
 }
@@ -408,8 +409,9 @@ void SkyMap::slotSDSS() {
 
     KStars* kstars = KStars::Instance();
     if( kstars ) {
-        ImageViewer *iv = kstars->addImageViewer(
-            url, i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ) );
+        ImageViewer *iv = new ImageViewer( url,
+            i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ),
+            this );
         iv->show();
     }
 }
@@ -491,9 +493,10 @@ void SkyMap::slotImage() {
     }
 
     KUrl url ( sURL );
-    if ( url.isEmpty() ) return;
+    if( url.isEmpty() )
+        return;
 
-    KStars::Instance()->addImageViewer( url, clickedObject()->messageFromTitle(message) );
+    ImageViewer* iv = new ImageViewer( url, clickedObject()->messageFromTitle(message), this );
 }
 
 void SkyMap::slotInfo() {

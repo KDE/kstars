@@ -133,7 +133,7 @@ void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, co
     KUrl url(buf);
     QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
 
-    ImageViewer *iv = KStars::Instance()->addImageViewer( url, message );
+    ImageViewer *iv = new ImageViewer( url, message, this );
     iv->show();
 }
 

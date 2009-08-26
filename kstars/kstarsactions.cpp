@@ -1049,11 +1049,9 @@ void KStars::slotAboutToQuit()
     //Delete dialog window pointers
     clearCachedFindDialog();
 
-    if( ! Options::obsListSaveImage() )
+    if( !Options::obsListSaveImage() ) {
         foreach ( QString file, obsList->imageList() )
             QFile::remove( KStandardDirs::locateLocal( "appdata", file ) );
-
-    while ( ! m_ImageViewerList.isEmpty() )
-        delete m_ImageViewerList.takeFirst();
+    }
 }
 

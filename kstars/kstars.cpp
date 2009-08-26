@@ -253,18 +253,6 @@ void KStars::updateTime( const bool automaticDSTchange ) {
     }
 }
 
-ImageViewer* KStars::addImageViewer( const KUrl &url, const QString &message ) {
-    ImageViewer *iv = new ImageViewer( url, message, this );
-    m_ImageViewerList.append( iv );
-    return iv;
-}
-
-void KStars::removeImageViewer( ImageViewer *iv ) {
-    int i = m_ImageViewerList.indexOf( iv );
-    if ( i != -1 )
-        m_ImageViewerList.takeAt( i )->deleteLater();
-}
-
 Execute* KStars::getExecute() {
     if( !execute )
         execute = new Execute();

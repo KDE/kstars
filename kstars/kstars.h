@@ -49,7 +49,6 @@ class SkyCalendar;
 class ScriptBuilder;
 class PlanetViewer;
 class JMoonTool;
-class ImageViewer;
 class FlagManager;
 class ObservingList;
 class EquipmentWriter;
@@ -128,9 +127,6 @@ public:
     ObservingList* observingList() { return obsList; }
 
     Execute* getExecute();
-
-    ImageViewer* addImageViewer(const KUrl &url, const QString &message );
-    void removeImageViewer( ImageViewer* );
 
     /**@return pointer to InfoBoxes object. */
     InfoBoxes* infoBoxes();
@@ -685,7 +681,6 @@ private:
     ScriptBuilder *sb;
     PlanetViewer *pv;
     JMoonTool *jmt;
-    QList<ImageViewer*> m_ImageViewerList;
     FlagManager *fm;
 
     INDIMenu *indimenu;

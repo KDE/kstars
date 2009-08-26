@@ -347,7 +347,6 @@ private:
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash; 
     QList<QString> ImageList;
-    QList<ImageViewer*> ivList;
     ObsListPopupMenu *pmenu; 
 };
 
