@@ -88,7 +88,7 @@ public:
      *@return Time as a fraction of the day, at which the zenithal distance is attained by the sun
      *@note This is accurate only for zenithal angles close to sunset. TODO: Make this more accurate
      */
-    double KSAlmanac::sunZenithAngleToTime( double z );
+    double sunZenithAngleToTime( double z );
     
 private:
     // TODO: Add documentation
