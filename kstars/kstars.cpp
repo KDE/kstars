@@ -26,9 +26,6 @@
 #include <KLocale>
 #include <kdebug.h>
 #include <kactioncollection.h>
-#include <kiconloader.h>
-#include <kicontheme.h>
-#include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kicon.h>
 
@@ -38,7 +35,6 @@
 #include "skymap.h"
 #include "simclock.h"
 #include "dialogs/finddialog.h"
-#include "ksutils.h"
 #include "imageviewer.h"
 #include "observinglist.h"
 #include "comast/execute.h"

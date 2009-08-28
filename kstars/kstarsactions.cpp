@@ -28,8 +28,6 @@
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
-#include <klineedit.h>
-#include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <ktemporaryfile.h>
@@ -41,9 +39,7 @@
 #include <kmenu.h>
 #include <kstatusbar.h>
 #include <kprocess.h>
-#include <kdeversion.h>
 #include <ktoolbar.h>
-#include <kedittoolbar.h>
 #include <kicon.h>
 #include <knewstuff2/engine.h>
 

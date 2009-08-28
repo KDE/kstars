@@ -28,7 +28,6 @@
 #include <kmessagebox.h>
 #include <kstandardaction.h>
 #include <kstandarddirs.h>
-#include <kdeversion.h>
 #include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kicon.h>
@@ -40,8 +39,6 @@
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
-#include "ksutils.h"
-#include "ksnumbers.h"
 #include "simclock.h"
 #include "widgets/timestepbox.h"
 #include "comast/equipmentwriter.h"
