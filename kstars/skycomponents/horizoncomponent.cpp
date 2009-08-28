@@ -38,8 +38,9 @@ HorizonComponent::HorizonComponent(SkyComponent *parent )
 HorizonComponent::~HorizonComponent()
 {}
 
-void HorizonComponent::init(KStarsData *data)
+void HorizonComponent::init()
 {
+    KStarsData *data = KStarsData::Instance();
     emitProgressText( i18n("Creating horizon" ) );
 
     //Define Horizon

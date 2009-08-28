@@ -49,7 +49,7 @@ public:
     *a star, which marks the position of the constellation node.
     *@p data Pointer to the KStarsData object
     */
-    void init( KStarsData *data );
+    virtual void init();
 
 
     const IndexHash& getIndexHash(LineList* lineList );

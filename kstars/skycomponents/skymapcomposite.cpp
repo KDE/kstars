@@ -107,7 +107,7 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
     m_CustomCatalogs = new SkyComposite( this );
     for ( int i=0; i<Options::catalogFile().size(); ++ i ) {
         CustomCatalogComponent *cc = new CustomCatalogComponent( this, Options::catalogFile()[i], false, i );
-        cc->init( data );
+        cc->init();
         m_CustomCatalogs->addComponent( cc );
     }
 
@@ -198,7 +198,8 @@ void SkyMapComposite::draw( QPainter& psky )
 
     // prepare the aperture
     float radius = map->fov();
-    if ( radius > 90.0 ) radius = 90.0;
+    if ( radius > 90.0 )
+        radius = 90.0;
 
     if ( m_skyMesh->inDraw() ) {
         printf("Warning: aborting concurrent SkyMapComposite::draw()\n");
@@ -210,8 +211,7 @@ void SkyMapComposite::draw( QPainter& psky )
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
     // create the no-precess aperture if needed
-    if ( Options::showGrid() || Options::showCBounds() ||
-            Options::showEquator() ) {
+    if ( Options::showGrid() || Options::showCBounds() || Options::showEquator() ) {
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
 
@@ -462,7 +462,7 @@ KSPlanetBase* SkyMapComposite::planet( int n ) {
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, KStarsData *data, int index ) {
     CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, index );
-    cc->init( data );
+    cc->init();
     
     if ( cc->objectList().size() ) {
         m_CustomCatalogs->addComponent( cc );
@@ -486,7 +486,7 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
 
 void SkyMapComposite::reloadDeepSky( KStarsData *data ) {
     m_DeepSky->clear();
-    m_DeepSky->init( data );
+    m_DeepSky->init();
 }
 
 void SkyMapComposite::reloadAsteroids( KStarsData *data ) {
@@ -501,7 +501,7 @@ void SkyMapComposite::reloadCLines( KStarsData *data ) {
     if( m_CLines ) 
         delete m_CLines;
     m_CLines = new ConstellationLines( this );
-    m_CLines->init( data );
+    m_CLines->init();
 }
 
 void SkyMapComposite::reloadCNames( KStarsData *data ) {
@@ -509,7 +509,7 @@ void SkyMapComposite::reloadCNames( KStarsData *data ) {
     if( m_CNames )
         delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this );
-    m_CNames->init( data );
+    m_CNames->init();
 }
 
 bool SkyMapComposite::isLocalCNames() {

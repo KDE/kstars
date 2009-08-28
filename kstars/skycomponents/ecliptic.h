@@ -46,7 +46,7 @@ public:
     /**@short Initialize the Ecliptic
      *@p data pointer to the KStarsData object
      */
-    virtual void init( KStarsData *data );
+    virtual void init();
 
     bool selected();
 

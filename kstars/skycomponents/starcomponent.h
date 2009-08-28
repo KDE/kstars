@@ -92,7 +92,7 @@ class StarComponent: public ListComponent
      */
     void drawLabels( QPainter& psky );
 
-    void init(KStarsData *data);
+    virtual void init();
 
     inline KStarsData *data() { return m_Data; }
 

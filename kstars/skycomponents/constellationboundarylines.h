@@ -53,7 +53,7 @@ public:
     	*
     	*@param data Pointer to the KStarsData object
     	*/
-    void init( KStarsData *data );
+    virtual void init();
 
     bool selected();
 

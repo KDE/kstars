@@ -50,7 +50,7 @@ public:
     QList<SkyObject*>& comets();
 
 
-    virtual void init(KStarsData *data);
+    virtual void init();
 
     bool selected();
 

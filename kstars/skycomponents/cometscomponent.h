@@ -74,7 +74,7 @@ public:
         *
         *@note See KSComet constructor for more details.
     	*/
-    virtual void init(KStarsData *data);
+    virtual void init();
 
 };
 

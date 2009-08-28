@@ -75,10 +75,10 @@ SolarSystemComposite::~SolarSystemComposite()
 bool SolarSystemComposite::selected()
 {
     return Options::showSolarSystem() &&
-           ! ( Options::hideOnSlew() && Options::hidePlanets() && SkyMap::IsSlewing() );
+           !( Options::hideOnSlew() && Options::hidePlanets() && SkyMap::IsSlewing() );
 }
 
-void SolarSystemComposite::init(KStarsData *data)
+void SolarSystemComposite::init()
 {
     if (!m_Earth->loadData())
         return; //stop initializing
@@ -86,7 +86,7 @@ void SolarSystemComposite::init(KStarsData *data)
     emitProgressText( i18n("Loading solar system" ) );
 
     //init all sub components
-    SkyComposite::init(data);
+    SkyComposite::init();
 }
 
 void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
@@ -154,10 +154,10 @@ QList<SkyObject*>& SolarSystemComposite::comets() {
 
 void SolarSystemComposite::reloadAsteroids( KStarsData *data ) {
     m_AsteroidsComponent->clear();
-    m_AsteroidsComponent->init( data );
+    m_AsteroidsComponent->init();
 }
 
 void SolarSystemComposite::reloadComets( KStarsData *data ) {
     m_CometsComponent->clear();
-    m_CometsComponent->init( data );
+    m_CometsComponent->init();
 }

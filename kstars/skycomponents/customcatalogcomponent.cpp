@@ -42,7 +42,7 @@ CustomCatalogComponent::~CustomCatalogComponent()
 {
 }
 
-void CustomCatalogComponent::init( KStarsData * ) {
+void CustomCatalogComponent::init() {
     emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
 
     QDir::setCurrent( QDir::homePath() );  //for files with relative path

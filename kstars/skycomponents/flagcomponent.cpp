@@ -44,7 +44,7 @@ FlagComponent::~FlagComponent()
 {
 }
 
-void FlagComponent::init( KStarsData *data ) {
+void FlagComponent::init() {
     KSFileReader fileReader;
     QStringList line;
     QString str;

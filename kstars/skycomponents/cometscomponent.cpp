@@ -41,7 +41,7 @@ CometsComponent::~CometsComponent() {
 }
 
 // FIXME: is KStarsData needed?
-void CometsComponent::init( KStarsData *) {
+void CometsComponent::init() {
     QFile file;
 
     if ( KSUtils::openDataFile( file, "comets.dat" ) ) {

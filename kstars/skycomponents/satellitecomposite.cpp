@@ -40,9 +40,10 @@ SatelliteComposite::~SatelliteComposite()
         delete pSat[i];
 }
 
-void SatelliteComposite::init( KStarsData *data ) {
+void SatelliteComposite::init() {
     emitProgressText( i18n("Creating Earth satellites" ) );
 
+    KStarsData* data = KStarsData::Instance();
     QFile file;
 
     //Extract satellite names from every third line of the satellites.dat file
@@ -54,7 +55,6 @@ void SatelliteComposite::init( KStarsData *data ) {
             QString name = stream.readLine().trimmed();
             if ( i % 3 == 0 )
                 SatelliteNames.append( name );
-
             i++;
         }
         file.close();
@@ -92,7 +92,7 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
 
         if ( isVisible ) {
             SatelliteComponent *sc = new SatelliteComponent( this );
-            sc->init( satName, data, pSat.data(), NSTEPS );
+            sc->initSat( satName, data, pSat.data(), NSTEPS );
             addComponent( sc );
 
             //DEBUG

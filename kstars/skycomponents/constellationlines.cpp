@@ -53,7 +53,7 @@ void ConstellationLines::preDraw( QPainter &psky )
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
-void ConstellationLines::init( KStarsData *data ) {
+void ConstellationLines::init() {
     //Create the ConstellationLinesComponents.  Each is a series of points
     //connected by line segments.  A single constellation can be composed of
     //any number of these series, and we don't need to know which series
@@ -96,7 +96,7 @@ void ConstellationLines::init( KStarsData *data ) {
 
         if ( mode == 'C') {
             cultureName = line.mid( 2 ).trimmed();
-            if ( cultureName == data->skyComposite()->currentCulture() )
+            if ( cultureName == KStarsData::Instance()->skyComposite()->currentCulture() )
                 culture = true;
             else
                 culture = false;

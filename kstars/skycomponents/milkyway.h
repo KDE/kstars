@@ -36,7 +36,7 @@ public:
     	*/
     MilkyWay( SkyComponent *parent );
 
-    void init( KStarsData *data );
+    virtual void init();
 
     /**
     	*@short Draw the Milky Way on the sky map

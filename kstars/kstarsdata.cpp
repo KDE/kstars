@@ -163,7 +163,7 @@ bool KStarsData::initialize() {
 
     //Initialize SkyMapComposite//
     emit progressText(i18n("Loading sky objects" ) );
-    skyComposite()->init( this );
+    skyComposite()->init();
 
     //Load Image URLs//
     emit progressText( i18n("Loading Image URLs" ) );

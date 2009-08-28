@@ -83,7 +83,7 @@ public:
     	*@li 77-END   Common name [string] can be blank
     	*@return true if data file is successfully read.
     	*/
-    virtual void init(KStarsData *data);
+    virtual void init();
 
     /**
     	*@short Update the sky positions of this component.  FIXME -jbb does nothing now

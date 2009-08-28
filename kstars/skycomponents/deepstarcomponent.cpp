@@ -296,12 +296,12 @@ void DeepStarComponent::draw( QPainter& psky ) {
 
 }
 
-void DeepStarComponent::init( KStarsData *data ) {
-  m_Data = data;
-  openDataFile();
-  if( staticStars )
-      loadStaticStars();
-  kDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
+void DeepStarComponent::init() {
+    m_Data = KStarsData::Instance();
+    openDataFile();
+    if( staticStars )
+        loadStaticStars();
+    kDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
 }
 
 bool DeepStarComponent::openDataFile() {

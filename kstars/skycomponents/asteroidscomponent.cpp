@@ -47,8 +47,7 @@ bool AsteroidsComponent::selected()
     return Options::showAsteroids();
 }
 
-// FIXME: is it really needed if KStarsData is a singleton
-void AsteroidsComponent::init(KStarsData *)
+void AsteroidsComponent::init()
 {
 
     QString line, name;

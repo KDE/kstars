@@ -47,7 +47,7 @@ public:
     	*
     	*@param data Pointer to the KStarsData object
     	*/
-    virtual void init( KStarsData *data );
+    virtual void init();
 
     /**
     	*@short Update the satellite tracks

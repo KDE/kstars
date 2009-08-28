@@ -68,11 +68,10 @@ public:
     	*/
     virtual void drawExportable( QPainter& psky );
 
-    /**
-    	*@short Delegate init requests to all sub components
-    	*@p data Pointer to the KStarsData object
-    	*/
-    virtual void init(KStarsData *data);
+    /**@short Delegate init requests to all sub components
+     * @p data Pointer to the KStarsData object
+     */
+    virtual void init();
 
     /**
     	*@short Delegate update-position requests to all sub components

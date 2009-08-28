@@ -42,7 +42,7 @@ bool ConstellationNamesComponent::selected()
 
 }
 
-void ConstellationNamesComponent::init(KStarsData *data)
+void ConstellationNamesComponent::init()
 {
     uint i = 0;
     bool culture = false;
@@ -65,7 +65,7 @@ void ConstellationNamesComponent::init(KStarsData *data)
         mode = line.at( 0 );
         if ( mode == 'C') {
             cultureName = line.mid( 2 ).trimmed();
-            if ( cultureName == data->skyComposite()->currentCulture() )
+            if ( cultureName == KStarsData::Instance()->skyComposite()->currentCulture() )
                 culture = true;
             else
                 culture = false;

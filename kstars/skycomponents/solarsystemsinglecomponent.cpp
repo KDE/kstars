@@ -44,7 +44,7 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
     //Object deletes handled by parent class (SingleComponent)
 }
 
-void SolarSystemSingleComponent::init(KStarsData *) {
+void SolarSystemSingleComponent::init() {
     ksp()->loadData();
 
     if ( ! ksp()->name().isEmpty() ) objectNames(ksp()->type()).append( ksp()->name() );

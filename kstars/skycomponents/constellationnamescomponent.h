@@ -66,7 +66,7 @@ public:
     	*@li 17-     Constellation name [string]
     	*@p data Pointer to the KStarsData object
     	*/
-    virtual void init(KStarsData *data);
+    virtual void init();
 
     /* @short we need a custom routine (for now) so we don't
      * precess the locations of the names.

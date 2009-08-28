@@ -52,8 +52,9 @@ void Equator::draw( QPainter &psky )
     m_label.draw( psky );
 }
 
-void Equator::init(KStarsData *data)
+void Equator::init()
 {
+    KStarsData *data = KStarsData::Instance();
     KSNumbers num( data->ut().djd() );
 
     double eps    =   0.1;

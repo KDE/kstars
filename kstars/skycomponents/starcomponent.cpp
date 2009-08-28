@@ -87,9 +87,9 @@ bool StarComponent::selected() {
     return Options::showStars();
 }
 
-void StarComponent::init(KStarsData *data) {
+void StarComponent::init() {
     emitProgressText( i18n("Loading stars" ) );
-    m_Data = data;
+    m_Data = KStarsData::Instance();
 
     loadStaticData();
 
@@ -103,11 +103,10 @@ bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float t
     if( BinFileHelper::testFileExists( fileName ) ) {
         DeepStarComponent *newdsc;
         m_DeepStarComponents.append( newdsc = new DeepStarComponent( this, fileName, trigMag, staticstars ) );
-        newdsc->init( KStarsData::Instance() );
+        newdsc->init();
         return true;
     }
-    else
-        return false;
+    return false;
 }
 
 

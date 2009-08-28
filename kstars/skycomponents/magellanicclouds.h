@@ -36,7 +36,7 @@ public:
     	*/
     MagellanicClouds( SkyComponent *parent );
 
-    void init( KStarsData *data );
+    virtual void init();
 
     /**
     	*@short Draw the Magellanic Clouds on the sky map

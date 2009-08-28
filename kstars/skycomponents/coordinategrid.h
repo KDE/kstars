@@ -38,7 +38,7 @@ public:
     	*/
     CoordinateGrid( SkyComponent *parent );
 
-    void init( KStarsData *data );
+    virtual void init();
 
     void preDraw( QPainter &psky );
 

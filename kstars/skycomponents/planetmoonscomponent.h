@@ -64,7 +64,7 @@ public:
      *@short Initialize the planet moons
      *@p data Pointer to the KStarsData object
      */
-    void init(KStarsData *data);
+    virtual void init();
 
     void update( KStarsData *data, KSNumbers *num );
     void updateMoons( KStarsData *data, KSNumbers *num );

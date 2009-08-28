@@ -155,7 +155,7 @@ void OpsCatalog::slotLoadCatalog() {
     if ( ! filename.isEmpty() ) {
         //test integrity of file before trying to add it
         CustomCatalogComponent newCat( ksw->data()->skyComposite(), filename, true, 0 );
-        newCat.init( ksw->data() );
+        newCat.init();
         if ( newCat.objectList().size() )
             insertCatalog( filename );
     }

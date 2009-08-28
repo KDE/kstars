@@ -80,11 +80,10 @@ public:
 
     virtual void drawPlanets( QPainter& /*psky*/ ) {}
 
-    /**
-    	*@short Initialize the component - load data from disk etc.
-    	*@p data Pointer to the KStarsData object
-    	*/
-    virtual void init( KStarsData* /*data*/ ) { kDebug() << "Should never see this"; }
+    /**@short Initialize the component - load data from disk etc.
+     * @p data Pointer to the KStarsData object
+     */
+    virtual void init() = 0;
 
     /**
     	*@short Update the sky position(s) of this component.

@@ -67,7 +67,7 @@ public:
 
     void draw( QPainter& psky );
 
-    void init(KStarsData *data);
+    virtual void init();
 
     bool loadStaticStars();
 

@@ -61,7 +61,7 @@ public:
      *Read the file flags.dat and init members.
      *@param data KStars data
      */
-    void init( KStarsData *data );
+    virtual void init();
 
     /**
      *@short Draw flags on the map.

@@ -48,13 +48,12 @@ PlanetMoonsComponent::~PlanetMoonsComponent()
     delete pmoons;
 }
 
-void PlanetMoonsComponent::init(KStarsData *)
+void PlanetMoonsComponent::init()
 {
-
     if (planet == KSPlanetBase::JUPITER)
-      pmoons = new JupiterMoons();
+        pmoons = new JupiterMoons();
     else
-      pmoons = new SaturnMoons();
+        pmoons = new SaturnMoons();
 
     int nmoons = pmoons->nMoons();
     for ( int i=0; i<nmoons; ++i ) 

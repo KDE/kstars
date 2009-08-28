@@ -60,7 +60,7 @@ public:
     	*@short Initialize the Custom catalog
     	*@p data Pointer to the KStarsData object
     	*/
-    virtual void init(KStarsData *data);
+    virtual void init();
 
     /**
     	*@return the name of the catalog

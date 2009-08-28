@@ -38,10 +38,8 @@ MagellanicClouds::MagellanicClouds( SkyComponent *parent ) :
         SkipListIndex( parent, i18n("Magellanic Clouds") )
 {}
 
-void MagellanicClouds::init( KStarsData *data )
+void MagellanicClouds::init()
 {
-    Q_UNUSED(data)
-
     intro();
 
     const char* fname = "lmc.dat";

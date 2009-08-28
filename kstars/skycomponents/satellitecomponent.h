@@ -26,21 +26,21 @@ extern "C" {
 
 class SatelliteComponent : public LineListComponent {
 public:
-    /**
-    	*@short Constructor
-    	*@p parent Pointer to the parent SkyComponent object
-    	*/
+    /**@short Constructor
+     * @p parent Pointer to the parent SkyComponent object
+     */
     SatelliteComponent(SkyComponent* parent);
-    /**
-    	*@short Destructor.  Delete list members
-    	*/
+
+    /**@short Destructor.  Delete list members */
     ~SatelliteComponent();
 
-    /**
-    	*@short Initialize the component using a SPositionSat array
-    	*@p data Pointer to the KStarsData object
-    	*/
-    void init(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
+    /** Exists only to make this class constructible. */
+    virtual void init();
+
+    /**@short Initialize the component using a SPositionSat array
+     * @p data Pointer to the KStarsData object
+     */
+    void initSat(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
 
     bool selected();
 
