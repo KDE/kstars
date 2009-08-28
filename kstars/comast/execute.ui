@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>623</width>
-    <height>497</height>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -151,170 +151,155 @@
         </layout>
        </widget>
        <widget class="QWidget" name="TargetDetails">
-        <widget class="KTitleWidget" name="ktitlewidget_2">
-         <property name="geometry">
-          <rect>
-           <x>9</x>
-           <y>9</y>
-           <width>170</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>View Object Details:</string>
-         </property>
-        </widget>
-        <widget class="KTitleWidget" name="ktitlewidget_4">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>200</y>
-           <width>275</width>
-           <height>32</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Set observing notes for the object:</string>
-         </property>
-        </widget>
-        <widget class="QWidget" name="gridLayoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>50</y>
-           <width>401</width>
-           <height>140</height>
-          </rect>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_20">
-            <property name="text">
-             <string>Magnitude:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="KLineEdit" name="Mag">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_22">
-            <property name="text">
-             <string>Type:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1" colspan="2">
-           <widget class="KLineEdit" name="Type">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_24">
-            <property name="text">
-             <string>Schdeduled Time:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="KLineEdit" name="SchTime">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="label_26">
-            <property name="text">
-             <string>Right Ascention:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="KLineEdit" name="RA">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="2">
-           <widget class="QLabel" name="label_27">
-            <property name="text">
-             <string>Declination:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="3">
-           <widget class="KLineEdit" name="Dec">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="label_21">
-            <property name="text">
-             <string>Altitude:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="KLineEdit" name="Alt">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="2">
-           <widget class="QLabel" name="label_23">
-            <property name="text">
-             <string>Azimuth:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="3">
-           <widget class="KLineEdit" name="Az">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-        <widget class="QPushButton" name="Slew">
-         <property name="geometry">
-          <rect>
-           <x>300</x>
-           <y>410</y>
-           <width>111</width>
-           <height>26</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Slew Scope</string>
-         </property>
-        </widget>
-        <widget class="QWidget" name="">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>240</y>
-           <width>403</width>
-           <height>165</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="KTextEdit" name="Notes"/>
-          </item>
-         </layout>
-        </widget>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="KTitleWidget" name="ktitlewidget_2">
+           <property name="text">
+            <string>View Object Details:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>Magnitude:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="KLineEdit" name="Mag">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_22">
+             <property name="text">
+              <string>Type:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1" colspan="2">
+            <widget class="KLineEdit" name="Type">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_24">
+             <property name="text">
+              <string>Schdeduled Time:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="KLineEdit" name="SchTime">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_26">
+             <property name="text">
+              <string>Right Ascention:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="KLineEdit" name="RA">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLabel" name="label_27">
+             <property name="text">
+              <string>Declination:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="KLineEdit" name="Dec">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_21">
+             <property name="text">
+              <string>Altitude:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="KLineEdit" name="Alt">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="2">
+            <widget class="QLabel" name="label_23">
+             <property name="text">
+              <string>Azimuth:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="3">
+            <widget class="KLineEdit" name="Az">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="KTitleWidget" name="ktitlewidget_4">
+           <property name="text">
+            <string>Set observing notes for the object:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="KTextEdit" name="Notes"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Slew">
+             <property name="text">
+              <string>Slew Scope</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="page_2">
         <layout class="QVBoxLayout" name="verticalLayout_3">
