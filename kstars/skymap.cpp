@@ -61,6 +61,19 @@
 #include <kfiledialog.h>
 #endif
 
+namespace {
+    // Assign values in x1 and x2 to p1 and p2 conserving ordering with respect to X coordinate
+    void storePointsOrd(QPointF& p1, QPointF& p2, const QPointF& edge1, const QPointF& edge2) {
+        if ( ( p1.x() < p2.x() )  ==  ( edge1.x() < edge2.x() ) ) {
+            p1 = edge1;
+            p2 = edge2;
+        } else {
+            p1 = edge2;
+            p2 = edge1;
+        }
+    }
+}
+
 SkyMap* SkyMap::pinstance = 0;
 
 SkyMap* SkyMap::Create()
@@ -1176,15 +1189,7 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
         if ( edgePoint2.isNull() )
             edgePoint2 = edgePoint1;
         else {
-            //Two intersection points found.  Return this line segment
-            //First make sure that edgePoint1 corresponds to p1
-            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
-                p1 = edgePoint1;
-                p2 = edgePoint2;
-            } else {
-                p1 = edgePoint2;
-                p2 = edgePoint1;
-            }
+            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
             return true;
         }
     }
@@ -1193,15 +1198,7 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
         if ( edgePoint2.isNull() )
             edgePoint2 = edgePoint1;
         else {
-            //Two intersection points found.  Return this line segment
-            //First make sure that edgePoint1 corresponds to p1
-            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
-                p1 = edgePoint1;
-                p2 = edgePoint2;
-            } else {
-                p1 = edgePoint2;
-                p2 = edgePoint1;
-            }
+            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
             return true;
         }
     }
@@ -1209,15 +1206,7 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
         if ( edgePoint2.isNull() )
             edgePoint2 = edgePoint1;
         else {
-            //Two intersection points found.  Return this line segment
-            //First make sure that edgePoint1 corresponds to p1
-            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
-                p1 = edgePoint1;
-                p2 = edgePoint2;
-            } else {
-                p1 = edgePoint2;
-                p2 = edgePoint1;
-            }
+            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
             return true;
         }
     }
@@ -1291,15 +1280,7 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
         if ( edgePoint2.isNull() )
             edgePoint2 = edgePoint1;
         else {
-            //Two intersection points found.  Return this line segment
-            //First make sure that edgePoint1 corresponds to p1
-            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
-                p1 = edgePoint1;
-                p2 = edgePoint2;
-            } else {
-                p1 = edgePoint2;
-                p2 = edgePoint1;
-            }
+            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
             return;
         }
     }
@@ -1308,15 +1289,7 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
         if ( edgePoint2.isNull() )
             edgePoint2 = edgePoint1;
         else {
-            //Two intersection points found.  Return this line segment
-            //First make sure that edgePoint1 corresponds to p1
-            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
-                p1 = edgePoint1;
-                p2 = edgePoint2;
-            } else {
-                p1 = edgePoint2;
-                p2 = edgePoint1;
-            }
+            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
             return;
         }
     }
@@ -1324,15 +1297,7 @@ void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
         if ( edgePoint2.isNull() )
             edgePoint2 = edgePoint1;
         else {
-            //Two intersection points found.  Return this line segment
-            //First make sure that edgePoint1 corresponds to p1
-            if ( ( p1.x() < p2.x() ) == ( edgePoint1.x() < edgePoint2.x() ) ) {
-                p1 = edgePoint1;
-                p2 = edgePoint2;
-            } else {
-                p1 = edgePoint2;
-                p2 = edgePoint1;
-            }
+            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
             return;
         }
     }
