@@ -34,3 +34,28 @@ void Comast::Observation::setObservation( QString _id, QString _observer, QStrin
     m_Result = _result;
     m_Lang = _lang;
 }
+
+Observation::Observation( QString id, Observer* observer, Session* session, SkyObject* target, KStarsDateTime begin, double faintestStar, double seeing, Scope* scope, Eyepiece* eyepiece, Lens *lens, Filter* filter,  QString result, QString lang ) {
+    if( observer )
+        m_Observer = observer->id();
+    if( target )
+        m_Target = target->name();
+    if( session ) {
+        m_Session = session->id();
+        m_Site = session->site();
+    }
+    if( scope )
+        m_Scope = scope->id();
+    if( lens )
+        m_Lens = lens->id();
+    if( filter )
+        m_Filter = filter->id();
+    if( eyepiece )
+        m_Eyepiece = eyepiece->id();
+    m_Name = id;
+    m_Begin = begin;
+    m_FaintestStar = faintestStar;
+    m_Seeing = seeing;
+    m_Result = result;
+    m_Lang = lang;
+}

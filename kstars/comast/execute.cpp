@@ -251,10 +251,7 @@ bool Execute::addObservation() {
         nextObservation++;
     KStarsDateTime dt = currentSession->begin();
     dt.setTime( ui.Time->time() );
-    QString observer = "";
-    if( currentObserver )
-        observer = currentObserver->id();
-    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , observer, currentSession->site(), currentSession->id(), currentTarget->name(), dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope->id(), currentEyepiece->id(), currentLens->id(), currentFilter->id(), ui.Description->toPlainText(), ui.Language->text() );
+    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver, currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
     ui.Description->clear();
     return true;
