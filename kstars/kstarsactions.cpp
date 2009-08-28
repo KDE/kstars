@@ -1017,17 +1017,9 @@ void KStars::establishINDI()
 
 void KStars::slotAboutToQuit()
 {
-    //store focus values in Options
-    //If not trcking and using Alt/Az coords, stor the Alt/Az coordinates
-    if( skymap && skymap->focus() && skymap->focus()->ra() ) {
-        if ( Options::useAltAz() && ! Options::isTracking() ) {
-            Options::setFocusRA( skymap->focus()->az()->Degrees() );
-            Options::setFocusDec( skymap->focus()->alt()->Degrees() );
-        } else {
-            Options::setFocusRA( skymap->focus()->ra()->Hours() );
-            Options::setFocusDec( skymap->focus()->dec()->Degrees() );
-        }
-    }
+    // Delete skymap. This required to run destructors and save
+    // current state in the option.
+    delete skymap;
 
     //Store Window geometry in Options object
     Options::setWindowWidth( width() );

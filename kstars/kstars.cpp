@@ -136,7 +136,6 @@ KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &sta
 KStars::~KStars()
 {
     delete kstarsData;
-    delete skymap;
     delete indimenu;
     delete indidriver;
     delete indiseq;

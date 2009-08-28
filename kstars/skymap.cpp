@@ -165,6 +165,16 @@ SkyMap::SkyMap() :
 }
 
 SkyMap::~SkyMap() {
+    //store focus values in Options
+    //If not trcking and using Alt/Az coords, stor the Alt/Az coordinates
+    if ( Options::useAltAz() && ! Options::isTracking() ) {
+        Options::setFocusRA(  focus()->az()->Degrees() );
+        Options::setFocusDec( focus()->alt()->Degrees() );
+    } else {
+        Options::setFocusRA(  focus()->ra()->Hours() );
+        Options::setFocusDec( focus()->dec()->Degrees() );
+    }
+
     delete sky;
     delete sky2;
     delete pmenu;
