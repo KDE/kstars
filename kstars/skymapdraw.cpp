@@ -136,7 +136,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
     if ( Options::showHighlightedCBound() )
         drawHighlightConstellation( p );
 
-    showFocusCoords( true );
+    showFocusCoords();
 
     //draw FOV symbol
     foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {

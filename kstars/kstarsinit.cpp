@@ -252,26 +252,22 @@ void KStars::initActions() {
 
     //Settings Menu:
     //Info Boxes option actions
-    ka = actionCollection()->add<KToggleAction>("show_boxes" )
+    KAction* kaBoxes = actionCollection()->add<KToggleAction>("show_boxes" )
         << i18nc("Show the information boxes", "Show &Info Boxes")
         << Checked( Options::showInfoBoxes() );
-    // QObject::connect(ka, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
-    // QObject::connect(ka, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
 
     ka = actionCollection()->add<KToggleAction>("show_time_box")
         << i18nc("Show time-related info box", "Show &Time Box");
-    // QObject::connect(ka, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
-    // QObject::connect(ka, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    connect(kaBoxes, SIGNAL( toggled(bool) ), ka, SLOT( setEnabled(bool) ) );
 
     ka = actionCollection()->add<KToggleAction>("show_focus_box")
         << i18nc("Show focus-related info box", "Show &Focus Box");
-    // QObject::connect(ka, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
-    // QObject::connect(ka, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    connect(kaBoxes, SIGNAL( toggled(bool) ), ka, SLOT( setEnabled(bool) ) );
 
     ka = actionCollection()->add<KToggleAction>("show_location_box")
         << i18nc("Show location-related info box", "Show &Location Box");
-    // QObject::connect(ka, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
-    // QObject::connect(ka, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+    connect(kaBoxes, SIGNAL( toggled(bool) ), ka, SLOT( setEnabled(bool) ) );
+
 
     //Toolbar options
     newToggleAction( actionCollection(), "show_mainToolBar", i18n("Show Main Toolbar"),

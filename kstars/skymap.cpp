@@ -110,8 +110,8 @@ SkyMap::SkyMap() :
     ClickedObject = NULL;
     FocusObject = NULL;
 
-    sky = new QPixmap( width(),  height() );
-    sky2 = new QPixmap( width(),  height() );
+    sky   = new QPixmap( width(),  height() );
+    sky2  = new QPixmap( width(),  height() );
     pmenu = new KSPopupMenu();
 
     //Initialize Transient label stuff
@@ -120,6 +120,7 @@ SkyMap::SkyMap() :
 
     connect( &HoverTimer,     SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
     connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
+    connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
     //Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
     //the apparent altitude from the true altitude, and RefractCorr2 is for the reverse.
@@ -129,6 +130,31 @@ SkyMap::SkyMap() :
         RefractCorr1[index] = 1.02 / tan( dms::PI*( alt + 10.3/(alt + 5.11) )/180.0 ) / 60.0; //correction in degrees.
         RefractCorr2[index] = -1.0 / tan( dms::PI*( alt + 7.31/(alt + 4.4) )/180.0 ) / 60.0;
     }
+
+    // Time infobox
+    InfoBoxWidget* timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
+                                                Options::positionTimeBox(),
+                                                QStringList(), this);
+    connect(data->clock(), SIGNAL( timeChanged() ),
+            timeBox,       SLOT( slotTimeChanged() ) );
+    connect(data->clock(), SIGNAL( timeAdvanced() ),
+            timeBox,       SLOT( slotTimeChanged() ) );
+
+    // Geo infobox
+    InfoBoxWidget* geoBox = new InfoBoxWidget( Options::shadeGeoBox(),
+                                               Options::positionGeoBox(),
+                                               QStringList(), this);
+    connect(data,   SIGNAL( geoChanged() ),
+            geoBox, SLOT( slotGeoChanged() ) );
+
+    // Object infobox
+    InfoBoxWidget* objBox = new InfoBoxWidget( Options::shadeFocusBox(),
+                                               Options::positionFocusBox(),
+                                               QStringList(), this);
+    connect(this,   SIGNAL( objectChanged(SkyObject*) ),
+            objBox, SLOT( slotObjectChanged(SkyObject*) ) );
+    connect(this,   SIGNAL( positionChanged(SkyPoint*) ),
+            objBox, SLOT( slotPointChanged(SkyPoint*) ) );
 }
 
 SkyMap::~SkyMap() {
@@ -160,19 +186,11 @@ void SkyMap::setGeometry( const QRect &r ) {
 }
 
 
-void SkyMap::showFocusCoords( bool coordsOnly ) {
-    // FIXME: commented out for a while
-    // if ( ! coordsOnly ) {
-    //     //display object info in infoBoxes
-    //     QString oname;
-    //     oname = i18n( "nothing" );
-    //     if ( focusObject() != NULL && Options::isTracking() )
-    //         oname = focusObject()->translatedLongName();
-
-    //     infoBoxes()->focusObjChanged(oname);
-    // }
-
-    // infoBoxes()->focusCoordChanged( focus() );
+void SkyMap::showFocusCoords() {
+    if( focusObject() && Options::isTracking() )
+        emit objectChanged( focusObject() );
+    else
+        emit positionChanged( focus() );
 }
 
 void SkyMap::slotTransientLabel() {
@@ -236,7 +254,6 @@ void SkyMap::setClickedObject( SkyObject *o ) {
 
 void SkyMap::setFocusObject( SkyObject *o ) {
     FocusObject = o;
-
     if ( FocusObject )
         Options::setFocusObject( FocusObject->name() );
     else

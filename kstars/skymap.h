@@ -99,9 +99,8 @@ public:
     	*/
     float fov();
 
-
     /**@short Update object name and coordinates in the Focus InfoBox */
-    void showFocusCoords( bool coordsOnly = false );
+    void showFocusCoords();
 
     /**@short Update the focus position according to current options. */
     void updateFocus();
@@ -650,6 +649,13 @@ signals:
 
     /** Emitted when zoom level is changed. */
     void zoomChanged();
+
+    /** Emitted when current object changed. */
+    void objectChanged(SkyObject*);
+
+    /** Emitted when pointing changed. (At least should) */
+    void positionChanged(SkyPoint*);
+
 protected:
     /**Draw the Sky, and all objects in it. */
     virtual void paintEvent( QPaintEvent *e );

@@ -440,8 +440,7 @@ void SkyMap::slotJobResult( KJob *job ) {
 
 void SkyMap::stopTracking() {
     KStars* kstars = KStars::Instance();
-    // if( infoBoxes() )
-        // infoBoxes()->focusObjChanged( i18n( "nothing" ) );
+    emit positionChanged( focus() );
     if( kstars && Options::isTracking() )
         kstars->slotTrack();
 }
@@ -465,7 +464,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
         else
             setDestination( focus() );
 
-        showFocusCoords( true );
+        showFocusCoords();
         forceUpdate();  // Need a full update to draw faint objects that are not drawn while slewing.
         break;
     }
@@ -566,7 +565,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
         ++scrollCount;
         if ( scrollCount > 4 ) {
-            showFocusCoords( true );
+            showFocusCoords();
             scrollCount = 0;
         }
 
@@ -729,7 +728,6 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
-    //Was the event inside an infoBox?  If so, shade the box.
     if ( e->button() == Qt::LeftButton ) {
         // break if point is unusable
         if ( unusablePoint( e->pos() ) )
