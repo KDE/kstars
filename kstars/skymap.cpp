@@ -48,6 +48,7 @@
 #include "simclock.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
+#include "widgets/infoboxwidget.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
