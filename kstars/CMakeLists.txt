@@ -229,6 +229,7 @@ set(libkstarswidgets_SRCS
 	widgets/timespinbox.cpp 
 	widgets/timestepbox.cpp 
 	widgets/timeunitbox.cpp
+	widgets/infoboxwidget.cpp
 )
 
 set( kstars_KCFG_SRCS Options.kcfgc )
