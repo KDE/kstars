@@ -96,12 +96,12 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
             addComponent( sc );
 
             //DEBUG
-            foreach ( SPositionSat *ps, pSat ) {
-                KStarsDateTime dt( ps->jd );
-                dms alt( ps->sat_ele );
-                dms az( ps->sat_azi );
-                //				kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString();
-            }
+            // foreach ( SPositionSat *ps, pSat ) {
+            //     KStarsDateTime dt( ps->jd );
+            //     dms alt( ps->sat_ele );
+            //     dms az( ps->sat_azi );
+            //     kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString();
+            // }
         }
     }
 }
