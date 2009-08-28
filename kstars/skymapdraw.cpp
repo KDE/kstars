@@ -33,7 +33,6 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/ksplanetbase.h"
-#include "infoboxes.h"
 #include "simclock.h"
 #include "observinglist.h"
 #include "skycomponents/constellationboundary.h"
@@ -138,7 +137,6 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
         drawHighlightConstellation( p );
 
     showFocusCoords( true );
-    drawBoxes( p );
 
     //draw FOV symbol
     foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {
@@ -365,17 +363,6 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 
     p.setPen( TransientColor );
     transientObject()->drawRudeNameLabel( p, o );
-}
-
-//FIXME: Implement Options::boxBGMode()
-void SkyMap::drawBoxes( QPainter &p ) {
-    KStars* kstars = KStars::Instance();
-    if ( kstars ) { //only if we are drawing in the GUI window
-        kstars->infoBoxes()->drawBoxes( p,
-            data->colorScheme()->colorNamed( "BoxTextColor" ),
-            data->colorScheme()->colorNamed( "BoxGrabColor" ),
-            data->colorScheme()->colorNamed( "BoxBGColor" ), 1 /*Options::boxBGMode()*/ );
-    }
 }
 
 void SkyMap::drawObservingList( QPainter &psky ) {

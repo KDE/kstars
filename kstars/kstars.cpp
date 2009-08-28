@@ -39,7 +39,7 @@
 #include "simclock.h"
 #include "dialogs/finddialog.h"
 #include "ksutils.h"
-#include "infoboxes.h"
+#include "imageviewer.h"
 #include "observinglist.h"
 #include "comast/execute.h"
 
@@ -183,9 +183,6 @@ void KStars::applyConfig( bool doApplyFocus ) {
     kstarsData->colorScheme()->loadFromConfig();
     QApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
 
-    //Infoboxes, toolbars, statusbars
-    infoBoxes()->setVisible( Options::showInfoBoxes() );
-
     //Set toolbar options from config file
     toolBar("kstarsToolBar")->applySettings( KGlobal::config()->group( "MainToolBar" ) );
     toolBar( "viewToolBar" )->applySettings( KGlobal::config()->group( "ViewToolBar" ) );
@@ -221,8 +218,6 @@ void KStars::updateTime( const bool automaticDSTchange ) {
     // dms oldLST( Data->lst()->Degrees() );
 
     Data->updateTime( Data->geo(), Map, automaticDSTchange );
-    if ( infoBoxes()->timeChanged( Data->ut(), Data->lt(), Data->lst() ) )
-        Map->update();
 
     //We do this outside of kstarsdata just to get the coordinates
     //displayed in the infobox to update every second.
@@ -248,8 +243,6 @@ Execute* KStars::getExecute() {
         execute = new Execute();
     return execute;
 }
-
-InfoBoxes* KStars::infoBoxes()  { return map()->infoBoxes(); }
 
 #include "kstars.moc"
 

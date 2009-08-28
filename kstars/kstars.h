@@ -35,7 +35,6 @@ class KStarsData;
 class SkyMap;
 class GeoLocation;
 class FindDialog;
-class InfoBoxes;
 class TimeStepBox;
 
 class INDIMenu;
@@ -126,9 +125,6 @@ public:
     ObservingList* observingList() { return obsList; }
 
     Execute* getExecute();
-
-    /**@return pointer to InfoBoxes object. */
-    InfoBoxes* infoBoxes();
 
     /**@return pointer to the INDI driver
         */

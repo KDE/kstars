@@ -291,15 +291,16 @@ public:
     /** Synchronize list of visible FOVs and list of selected FOVs in Options */
     void syncFOV();
 
+    /** Return log object */
+    Comast::Log *logObject() { return m_logObject; }
+
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 
-    unsigned int updateID() { return m_updateID; }
+    unsigned int updateID()    { return m_updateID; }
     unsigned int updateNumID() { return m_updateNumID; }
-    KSNumbers* updateNum()  { return &m_updateNum; }
+    KSNumbers* updateNum()     { return &m_updateNum; }
     void syncUpdateIDs();
-
-    Comast::Log *logObject() { return m_logObject; }
 
 signals:
     /** Signal that specifies the text that should be drawn in the KStarsSplash window. */
@@ -333,36 +334,6 @@ public slots:
      * one daylight saving change time (previous or next DST change).
      */
     void setTimeDirection( float scale );
-
-    /**@short Save the shaded state of the Time infobox.
-    	*@param b true if the box is shaded
-    	*/
-    void saveTimeBoxShaded( bool b );
-
-    /**@short Save the shaded state of the Geo infobox.
-    	*@param b true if the box is shaded
-    	*/
-    void saveGeoBoxShaded( bool b );
-
-    /**@short Save the shaded state of the Focus infobox.
-    	*@param b true if the box is shaded
-    	*/
-    void saveFocusBoxShaded( bool b );
-
-    /**@short Save the screen position of the Time infobox.
-    	*@param p the position of the box
-    	*/
-    void saveTimeBoxPos( QPoint p );
-
-    /**@short Save the screen position of the Time infobox.
-    	*@param p the position of the box
-    	*/
-    void saveGeoBoxPos( QPoint p );
-
-    /**@short Save the screen position of the Time infobox.
-    	*@param p the position of the box
-    	*/
-    void saveFocusBoxPos( QPoint p );
 
 private:
     /**Reset local time to new daylight saving time. Use this function if DST has changed.

@@ -61,7 +61,6 @@
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "simclock.h"
-#include "infoboxes.h"
 #include "dialogs/timedialog.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
@@ -185,9 +184,6 @@ void KStars::slotWizard() {
         Options::setRunStartupWizard( false );  //don't run on startup next time
 
         data()->setLocation( *(wizard->geo()) );
-
-        // reset infoboxes
-        infoBoxes()->geoChanged( data()->geo() );
 
         // adjust local time to keep UT the same.
         // create new LT without DST offset
@@ -343,9 +339,6 @@ void KStars::slotGeoLocator() {
         if ( newLocation ) {
             // set new location in options
             data()->setLocation( *newLocation );
-
-            // reset infoboxes
-            infoBoxes()->geoChanged( newLocation );
 
             // adjust local time to keep UT the same.
             // create new LT without DST offset
@@ -692,7 +685,6 @@ void KStars::slotToggleTimer() {
 //Pointing
 void KStars::slotPointFocus() {
     // In the following cases, we set slewing=true in order to disengage tracking
-    // We also change focus object to "nothing" in infobox
     map()->stopTracking();
 
     if ( sender() == actionCollection()->action("zenith") ) 
@@ -973,18 +965,7 @@ void KStars::slotShowGUIItem( bool show ) {
         if ( ! show ) { statusBar()->changeItem( QString(), 2 ); }
     }
 
-    //InfoBoxes: we only change options here; these are also connected to slots in
-    //InfoBoxes that actually toggle the display.
-    if ( sender() == actionCollection()->action( "show_boxes" ) )
-        Options::setShowInfoBoxes( show );
-    if ( sender() == actionCollection()->action( "show_time_box" ) )
-        Options::setShowTimeBox( show );
-    if ( sender() == actionCollection()->action( "show_location_box" ) )
-        Options::setShowGeoBox( show );
-    if ( sender() == actionCollection()->action( "show_focus_box" ) )
-        Options::setShowFocusBox( show );
 }
-
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
     KToggleAction *kta = actionCollection()->add<KToggleAction>( actionName );
     kta->setText( name );
@@ -1004,7 +985,6 @@ void KStars::establishINDI()
 #ifdef HAVE_INDI_H
     if (indimenu == NULL)
         indimenu = new INDIMenu(this);
-
     if (indidriver == NULL)
         indidriver = new INDIDriver(this);
 #endif

@@ -42,7 +42,6 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "imageviewer.h"
-#include "infoboxes.h"
 #include "dialogs/detaildialog.h"
 #include "dialogs/addlinkdialog.h"
 #include "kspopupmenu.h"
@@ -85,7 +84,7 @@ SkyMap* SkyMap::Instance( )
 SkyMap::SkyMap() :
     QWidget( KStars::Instance() ),
     computeSkymap(true), angularDistanceMode(false),
-    data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0), IBoxes(0),
+    data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0),
     ClickedObject(0), FocusObject(0), TransientObject(0)
 {
     m_Scale = 1.0;
@@ -119,34 +118,8 @@ SkyMap::SkyMap() :
     TransientTimeout = 100; //fade label color every 0.1 sec
     HoverTimer.setSingleShot( true ); // using this timer as a single shot timer
 
-    connect( &HoverTimer, SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
+    connect( &HoverTimer,     SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
     connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
-
-    IBoxes = new InfoBoxes( Options::windowWidth(), Options::windowHeight(),
-                            Options::positionTimeBox(), Options::shadeTimeBox(),
-                            Options::positionGeoBox(), Options::shadeGeoBox(),
-                            Options::positionFocusBox(), Options::shadeFocusBox(),
-                            data->colorScheme()->colorNamed( "BoxTextColor" ),
-                            data->colorScheme()->colorNamed( "BoxGrabColor" ),
-                            data->colorScheme()->colorNamed( "BoxBGColor" ) );
-
-    IBoxes->showTimeBox( Options::showTimeBox() );
-    IBoxes->showFocusBox( Options::showFocusBox() );
-    IBoxes->showGeoBox( Options::showGeoBox() );
-    IBoxes->timeBox()->setAnchorFlag( Options::stickyTimeBox() );
-    IBoxes->geoBox()->setAnchorFlag( Options::stickyGeoBox() );
-    IBoxes->focusBox()->setAnchorFlag( Options::stickyFocusBox() );
-
-    IBoxes->geoChanged( data->geo() );
-
-    connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), data, SLOT( saveTimeBoxShaded(bool) ) );
-    connect( IBoxes->geoBox(),   SIGNAL( shaded(bool) ), data, SLOT( saveGeoBoxShaded(bool) ) );
-    connect( IBoxes->focusBox(), SIGNAL( shaded(bool) ), data, SLOT( saveFocusBoxShaded(bool) ) );
-    connect( IBoxes->timeBox(),  SIGNAL( moved(QPoint) ), data, SLOT( saveTimeBoxPos(QPoint) ) );
-    connect( IBoxes->geoBox(),   SIGNAL( moved(QPoint) ), data, SLOT( saveGeoBoxPos(QPoint) ) );
-    connect( IBoxes->focusBox(), SIGNAL( moved(QPoint) ), data, SLOT( saveFocusBoxPos(QPoint) ) );
-
-    connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
     //Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
     //the apparent altitude from the true altitude, and RefractCorr2 is for the reverse.
@@ -172,7 +145,6 @@ SkyMap::~SkyMap() {
     delete sky;
     delete sky2;
     delete pmenu;
-    delete IBoxes;
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
@@ -189,17 +161,18 @@ void SkyMap::setGeometry( const QRect &r ) {
 
 
 void SkyMap::showFocusCoords( bool coordsOnly ) {
-    if ( ! coordsOnly ) {
-        //display object info in infoBoxes
-        QString oname;
-        oname = i18n( "nothing" );
-        if ( focusObject() != NULL && Options::isTracking() )
-            oname = focusObject()->translatedLongName();
+    // FIXME: commented out for a while
+    // if ( ! coordsOnly ) {
+    //     //display object info in infoBoxes
+    //     QString oname;
+    //     oname = i18n( "nothing" );
+    //     if ( focusObject() != NULL && Options::isTracking() )
+    //         oname = focusObject()->translatedLongName();
 
-        infoBoxes()->focusObjChanged(oname);
-    }
+    //     infoBoxes()->focusObjChanged(oname);
+    // }
 
-    infoBoxes()->focusCoordChanged( focus() );
+    // infoBoxes()->focusCoordChanged( focus() );
 }
 
 void SkyMap::slotTransientLabel() {

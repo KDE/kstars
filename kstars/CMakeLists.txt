@@ -300,7 +300,7 @@ set(kstars_dialogsui_SRCS
 
 set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
-	imageviewer.cpp infobox.cpp infoboxes.cpp 
+	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 

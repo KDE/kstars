@@ -35,7 +35,6 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "simclock.h"
-#include "infoboxes.h"
 #include "kspopupmenu.h"
 #include "skyobjects/ksplanetbase.h"
 
@@ -51,12 +50,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
     //FIXME: No equivalent for this line in Qt4 ??
     //	if ( testWState( Qt::WState_AutoMask ) ) updateMask();
 
-    // avoid phantom positions of infoboxes
-    KStars* kstars = KStars::Instance();
-    if ( kstars && ( isVisible() || width() == kstars->width() || height() == kstars->height() ) ) {
-        infoBoxes()->resize( width(), height() );
-    }
-    *sky = sky->scaled( width(), height() );
+    *sky  = sky->scaled( width(), height() );
     *sky2 = sky2->scaled( width(), height() );
 }
 
@@ -446,8 +440,8 @@ void SkyMap::slotJobResult( KJob *job ) {
 
 void SkyMap::stopTracking() {
     KStars* kstars = KStars::Instance();
-    if( infoBoxes() )
-        infoBoxes()->focusObjChanged( i18n( "nothing" ) );
+    // if( infoBoxes() )
+        // infoBoxes()->focusObjChanged( i18n( "nothing" ) );
     if( kstars && Options::isTracking() )
         kstars->slotTrack();
 }
@@ -489,12 +483,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         //The idea is that whenever a moveEvent occurs, the timer is reset.  It
         //will only timeout if there are no move events for HOVER_INTERVAL ms
         HoverTimer.start( HOVER_INTERVAL );
-    }
-
-    //Are we dragging an infoBox?
-    if ( infoBoxes()->dragBox( e ) ) {
-        update();
-        return;
     }
 
     //Are we defining a ZoomRect?
@@ -627,11 +615,6 @@ void SkyMap::wheelEvent( QWheelEvent *e ) {
 }
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
-    if ( infoBoxes()->unGrabBox() ) {
-        update();
-        return;
-    }
-
     if ( ZoomRect.isValid() ) {
         //Zoom in on center of Zoom Circle, by a factor equal to the ratio
         //of the sky pixmap's width to the Zoom Circle's diameter
@@ -673,12 +656,6 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
     KStars* kstars = KStars::Instance();
-
-    //did we Grab an infoBox?
-    if ( e->button() == Qt::LeftButton && infoBoxes()->grabBox( e ) ) {
-        update(); //refresh without redrawing skymap
-        return;
-    }
 
     if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
         ZoomRect.moveCenter( e->pos() );
@@ -754,15 +731,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
     //Was the event inside an infoBox?  If so, shade the box.
     if ( e->button() == Qt::LeftButton ) {
-        if ( infoBoxes()->shadeBox( e ) ) {
-            update();
+        // break if point is unusable
+        if ( unusablePoint( e->pos() ) )
             return;
-        }
 
-        if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
-
-        if (mouseButtonDown ) mouseButtonDown = false;
-        if ( e->x() != width()/2 || e->y() != height()/2 ) slotCenter();
+        mouseButtonDown = false;
+        if( e->x() != width()/2 || e->y() != height()/2 )
+            slotCenter();
     }
 }
 

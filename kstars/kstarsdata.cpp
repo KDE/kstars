@@ -1182,11 +1182,4 @@ void KStarsData::syncFOV()
     Options::setFOVNames( all.intersect(names).toList() );
 }
 
-void KStarsData::saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }
-void KStarsData::saveGeoBoxShaded( bool b ) { Options::setShadeGeoBox( b ); }
-void KStarsData::saveFocusBoxShaded( bool b ) { Options::setShadeFocusBox( b ); }
-void KStarsData::saveTimeBoxPos( QPoint p ) { Options::setPositionTimeBox( p ); }
-void KStarsData::saveGeoBoxPos( QPoint p ) { Options::setPositionGeoBox( p ); }
-void KStarsData::saveFocusBoxPos( QPoint p ) { Options::setPositionFocusBox( p ); }
-
 #include "kstarsdata.moc"

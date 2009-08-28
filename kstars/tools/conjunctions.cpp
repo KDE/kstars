@@ -46,7 +46,6 @@
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skymap.h"
-#include "infoboxes.h"
 
 ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     : QFrame(parentSplit), Object1( 0 ), Object2( 0 ) {
@@ -117,7 +116,6 @@ void ConjunctionsTool::slotGoto() {
     SkyMap *map = ks->map();
 
     data->setLocation( *geoPlace );
-    ks->infoBoxes()->geoChanged( geoPlace );
     dt.setDJD( jd );
     data->changeDateTime( dt );
     map->setClickedObject( data->skyComposite()->findByName( Object1->name() ) ); // This is required, because the Object1 we have is a copy

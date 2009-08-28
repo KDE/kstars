@@ -48,7 +48,6 @@
 
 #include "skymesh.h"
 #include "skylabeler.h"
-#include "infoboxes.h"
 
 SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
         SkyComposite(parent), m_reindexNum( J2000 )
@@ -220,7 +219,8 @@ void SkyMapComposite::draw( QPainter& psky )
     m_skyLabeler->useStdFont( psky );
 
     // info boxes have highest label priority
-    map->infoBoxes()->reserveBoxes( psky );
+    // FIXME: REGRESSION. Labeler now know nothing about infoboxes
+    // map->infoBoxes()->reserveBoxes( psky );
 
     m_MilkyWay->draw( psky );
 

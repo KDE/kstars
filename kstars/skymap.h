@@ -100,9 +100,6 @@ public:
     float fov();
 
 
-    /** @return pointer to InfoBoxes object. */
-    InfoBoxes* infoBoxes() const { return IBoxes; }
-
     /**@short Update object name and coordinates in the Focus InfoBox */
     void showFocusCoords( bool coordsOnly = false );
 
@@ -704,9 +701,8 @@ protected:
     virtual void wheelEvent( QWheelEvent *e );
 
     /**If the skymap will be resized, the sky must be new computed. So this
-    	*function calls explicitly new computing of the skymap.
-    	*It also repositions the InfoBoxes, if they are anchored to a window edge. 
-    	*/
+     * function calls explicitly new computing of the skymap.
+     */
     virtual void resizeEvent( QResizeEvent * );
 
 private slots:
@@ -741,12 +737,6 @@ private:
     	*@param pm pointer to the Sky pixmap
     	*/
     void drawOverlays( QPixmap *pm );
-
-    /**Draw the Focus, Geo and Time InfoBoxes.  This is called by drawOverlays().
-    	*@param p reference to the QPainter on which to draw (this should be the Sky pixmap).
-    	*@see SkyMap::drawOverlays()
-    	*/
-    void drawBoxes( QPainter &p );
 
     /**Draw symbols at the position of each Telescope currently being controlled by KStars.
     	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
@@ -876,7 +866,6 @@ private:
     KStarsData *data;
     KSPopupMenu *pmenu;
     QPixmap *sky, *sky2;
-    InfoBoxes  *IBoxes;
     dms HourAngle;
     SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;

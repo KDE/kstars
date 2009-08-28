@@ -43,7 +43,6 @@
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
-#include "infoboxes.h"
 #include "simclock.h"
 #include "Options.h"
 
@@ -205,9 +204,6 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
 
             data()->setLocation( *loc );
 
-            //notify on-screen GeoBox
-            infoBoxes()->geoChanged( loc );
-
             //configure time zone rule
             KStarsDateTime ltime = loc->UTtoLT( data()->ut() );
             loc->tzrule()->reset_with_ltime( ltime, loc->TZ0(), data()->isTimeRunningForward() );
@@ -294,15 +290,16 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     double dVal = val.toDouble( &dOk );
 
     //[GUI]
-    if ( op == "ShowInfoBoxes"   && bOk ) Options::setShowInfoBoxes(   bVal );
-    if ( op == "ShowTimeBox"     && bOk ) Options::setShowTimeBox(     bVal );
-    if ( op == "ShowGeoBox"      && bOk ) Options::setShowGeoBox(      bVal );
-    if ( op == "ShowFocusBox"    && bOk ) Options::setShowFocusBox(    bVal );
-    if ( op == "ShadeTimeBox"    && bOk ) Options::setShadeTimeBox(    bVal );
-    if ( op == "ShadeGeoBox"     && bOk ) Options::setShadeGeoBox(     bVal );
-    if ( op == "ShadeFocusBox"   && bOk ) Options::setShadeFocusBox(   bVal );
-    if ( op == "ShowMainToolBar" && bOk ) Options::setShowMainToolBar( bVal );
-    if ( op == "ShowViewToolBar" && bOk ) Options::setShowViewToolBar( bVal );
+    // FIXME: REGRESSION
+    // if ( op == "ShowInfoBoxes"   && bOk ) Options::setShowInfoBoxes(   bVal );
+    // if ( op == "ShowTimeBox"     && bOk ) Options::setShowTimeBox(     bVal );
+    // if ( op == "ShowGeoBox"      && bOk ) Options::setShowGeoBox(      bVal );
+    // if ( op == "ShowFocusBox"    && bOk ) Options::setShowFocusBox(    bVal );
+    // if ( op == "ShadeTimeBox"    && bOk ) Options::setShadeTimeBox(    bVal );
+    // if ( op == "ShadeGeoBox"     && bOk ) Options::setShadeGeoBox(     bVal );
+    // if ( op == "ShadeFocusBox"   && bOk ) Options::setShadeFocusBox(   bVal );
+    // if ( op == "ShowMainToolBar" && bOk ) Options::setShowMainToolBar( bVal );
+    // if ( op == "ShowViewToolBar" && bOk ) Options::setShowViewToolBar( bVal );
 
     //[View]
     // FIXME: REGRESSION
