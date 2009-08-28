@@ -35,12 +35,11 @@
 #include "comast/comast.h"
 #include "comast/log.h"
 
-//#define MINZOOM 200.
 #define MINZOOM 250.
 #define MAXZOOM 5000000.
 #define DEFAULTZOOM 2000.
-#define DZOOM 1.189207115   // 2^(1/4)  
-#define AU_KM 1.49605e8  //km in one AU
+#define DZOOM 1.189207115  // 2^(1/4)
+#define AU_KM 1.49605e8    //km in one AU
 
 #define MINDRAWSTARMAG 6.5 // min. magnitude to load all stars which are needed for constellation lines
 
@@ -57,9 +56,9 @@ class ADVTreeData;
 
 
 /**@class KStarsData
-	*KStarsData is the backbone of KStars.  It contains all the data used by KStars, 
-	*including the SkyMapComposite that contains all items in the skymap 
-	*(stars, deep-sky objects, planets, constellations, etc).  Other kinds of data 
+	*KStarsData is the backbone of KStars.  It contains all the data used by KStars,
+	*including the SkyMapComposite that contains all items in the skymap
+	*(stars, deep-sky objects, planets, constellations, etc).  Other kinds of data
 	*are stored here as well: the geographic locations, the timezone rules, etc.
 	*
 	*@author Heiko Evermann
@@ -109,49 +108,48 @@ public:
     virtual ~KStarsData();
 
     /**Populate list of geographic locations from "Cities.dat". Also check for custom
-    	*locations file "mycities.dat", but don't require it.  Each line in the file
-    	*provides the information required to create one GeoLocation object.
-    	*@short Fill list of geographic locations from file(s)
-    	*@return true if at least one city read successfully.
-    	*@see KStarsData::processCity()
-    	*/
+     * locations file "mycities.dat", but don't require it.  Each line in the file
+     * provides the information required to create one GeoLocation object.
+     * @short Fill list of geographic locations from file(s)
+     * @return true if at least one city read successfully.
+     * @see KStarsData::processCity()
+     */
     bool readCityData();
 
-    /**Read the data file that contains daylight savings time rules.
-    	*/
+    /**Read the data file that contains daylight savings time rules. */
     bool readTimeZoneRulebook();
 
     /**Parse one line from a locations database file.  The line contains 10 or 11 fields
-    	*separated by colons (":").  The fields are:
-    	*@li City Name [string]
-    	*@li Province Name (optional) [string]
-    	*@li Country Name [string]
-    	*@li Longitude degrees [int]
-    	*@li Latitude arcminutes [int]
-    	*@li Latitude arcseconds [int]
-    	*@li Latitude sign [char; 'E' or 'W' ]
-    	*@li Latitude degrees [int]
-    	*@li Latitude arcminutes [int]
-    	*@li Latitude arcseconds [int]
-    	*@li Latitude sign [char; 'N' or 'S' ]
-    	*@li Timezone [float; -12 <= TZ <= 12, or 'x' if TZ unknown]
-    	*
-    	*@short Parse one line from a geographic database
-    	*@param line The line from the geographic database to be parsed
-    	*@return true if location successfully parsed; otherwise false.
-    	*@see KStarsData::readCityData()
-    	*/
+     * separated by colons (":").  The fields are:
+     * @li City Name [string]
+     * @li Province Name (optional) [string]
+     * @li Country Name [string]
+     * @li Longitude degrees [int]
+     * @li Latitude arcminutes [int]
+     * @li Latitude arcseconds [int]
+     * @li Latitude sign [char; 'E' or 'W' ]
+     * @li Latitude degrees [int]
+     * @li Latitude arcminutes [int]
+     * @li Latitude arcseconds [int]
+     * @li Latitude sign [char; 'N' or 'S' ]
+     * @li Timezone [float; -12 <= TZ <= 12, or 'x' if TZ unknown]
+     *
+     * @short Parse one line from a geographic database
+     * @param line The line from the geographic database to be parsed
+     * @return true if location successfully parsed; otherwise false.
+     * @see KStarsData::readCityData()
+     */
     bool processCity( const QString& line );
 
     //TODO JM: ADV tree should use XML instead
     /**Read Advanced interface structure to be used later to construct the list view in
-    	*the advanced tab in the Detail Dialog.
-    	*@li KSLABEL designates a top-level parent label
-    	*@li KSINTERFACE designates a common URL interface for several objects
-    	*@li END designates the end of a sub tree structure
-    	*@short read online database lookup structure.
-    	*@return true if data is successfully read.
-    	*/
+     * the advanced tab in the Detail Dialog.
+     * @li KSLABEL designates a top-level parent label
+     * @li KSINTERFACE designates a common URL interface for several objects
+     * @li END designates the end of a sub tree structure
+     * @short read online database lookup structure.
+     * @return true if data is successfully read.
+     */
     bool readADVTreeData();
 
     /**Read INDI hosts from an XML file*/
@@ -160,97 +158,93 @@ public:
     //TODO JM: Use XML instead; The logger should have more features
     // that allow users to enter details about their observation logs
     // objects observed, eye pieces, telescope, conditions, mag..etc
-    /**Read user logs. The log file is formatted as following:
-    	*@li KSLABEL designates the beginning of a log
-    	*@li KSLogEnd designates the end of a log.
-    	*@short read user logs.
-    	*@return true if data is successfully read.
-    	*/
+    /** @short read user logs.
+     *
+     * Read user logs. The log file is formatted as following:
+     * @li KSLABEL designates the beginning of a log
+     * @li KSLogEnd designates the end of a log.
+     *
+     * @return true if data is successfully read.
+     */
     bool readUserLog();
 
     /**Read in URLs to be attached to a named object's right-click popup menu.  At this
-    	*point, there is no way to attach URLs to unnamed objects.  There are two
-    	*kinds of URLs, each with its own data file: image links and webpage links.  In addition,
-    	*there may be user-specific versions with custom URLs.  Each line contains 3 fields
-    	*separated by colons (":").  Note that the last field is the URL, and as such it will
-    	*generally contain a colon itself.  Only the first two colons encountered are treated
-    	*as field separators.  The fields are:
-    	*@li Object name.  This must be the "primary" name of the object (the name at the top of the popup menu).
-    	*@li Menu text.  The string that should appear in the popup menu to activate the link.
-    	*@li URL.
-    	*@short Read in image and information URLs.
-    	*@return true if data files were successfully read.
-    	*/
+     * point, there is no way to attach URLs to unnamed objects.  There are two
+     * kinds of URLs, each with its own data file: image links and webpage links.  In addition,
+     * there may be user-specific versions with custom URLs.  Each line contains 3 fields
+     * separated by colons (":").  Note that the last field is the URL, and as such it will
+     * generally contain a colon itself.  Only the first two colons encountered are treated
+     * as field separators.  The fields are:
+     *
+     * @li Object name.  This must be the "primary" name of the object (the name at the top of the popup menu).
+     * @li Menu text.  The string that should appear in the popup menu to activate the link.
+     * @li URL.
+     * @short Read in image and information URLs.
+     * @return true if data files were successfully read.
+     */
     bool readURLData( const QString &url, int type=0, bool deepOnly=false );
 
-    /**@short open a file containing URL links.
-    	*@param urlfile string representation of the filename to open
-    	*@param file reference to the QFile object which will be opened to this file.
-    	*@return true if file successfully opened. 
-    	*/
+    /** @short open a file containing URL links.
+     *  @param urlfile string representation of the filename to open
+     *  @param file reference to the QFile object which will be opened to this file.
+     *  @return true if file successfully opened.
+     */
     bool openUrlFile(const QString &urlfile, QFile& file);
 
-    /**Set the NextDSTChange member.
-    	*Need this accessor because I could not make KStars::privatedata a friend
-    	*class for some reason...:/
-    	*/
+    /** Set the NextDSTChange member.
+     *  Need this accessor because I could not make KStars::privatedata a friend
+     *  class for some reason...:/
+     */
     void setNextDSTChange( const KStarsDateTime &dt ) { NextDSTChange = dt; }
 
-    /**Returns true if time is running forward else false. Used by KStars to prevent
-    	*2 calculations of daylight saving change time.
-    	*/
+    /** Returns true if time is running forward else false. Used by KStars to prevent
+     *  double calculations of daylight saving change time.
+     */
     bool isTimeRunningForward() { return TimeRunsForward; }
 
-    /**@return pointer to the localization (KLocale) object
-    	*/
+    /**@return pointer to the localization (KLocale) object */
     KLocale *getLocale() { return locale; }
 
     /**@short Find object by name.
-    	*@param name Object name to find
-    	*@return pointer to SkyObject matching this name
-    	*/
+     * @param name Object name to find
+     * @return pointer to SkyObject matching this name
+     */
     SkyObject* objectNamed( const QString &name );
 
     /**The Sky is updated more frequently than the moon, which is updated more frequently
-    	*than the planets.  The date of the last update for each category is recorded so we
-    	*know when we need to do it again (see KStars::updateTime()).
-    	*Initializing these to -1000000.0 ensures they will be updated immediately
-    	*on the first call to KStars::updateTime().
-    	*/
+     * than the planets.  The date of the last update for each category is recorded so we
+     * know when we need to do it again (see KStars::updateTime()).
+     * Initializing these to -1000000.0 ensures they will be updated immediately
+     * on the first call to KStars::updateTime().
+     */
     void setFullTimeUpdate();
 
     /**change the current simulation date/time to the KStarsDateTime argument.
-    	*Specified DateTime is always universal time.
-    	*@param newDate the DateTime to set.
-    	*/
+     * Specified DateTime is always universal time.
+     * @param newDate the DateTime to set.
+     */
     void changeDateTime( const KStarsDateTime &newDate );
 
-    /**@return pointer to the current simulation local time
-    	*/
+    /** @return pointer to the current simulation local time */
     const KStarsDateTime& lt() const { return LTime; }
 
-    /**@return reference to the current simulation universal time
-    	*/
+    /** @return reference to the current simulation universal time */
     const KStarsDateTime& ut() const { return Clock.utc(); }
 
-    /**Sync the LST with the simulation clock.
-    	*/
+    /** Sync the LST with the simulation clock. */
     void syncLST();
 
-    //Some members need to be accessed outside of the friend classes (i.e., in the main fcn).
 
+    /** @return pointer to SkyComposite */
     SkyMapComposite* skyComposite() { return m_SkyComposite; }
 
-    /**@return pointer to the ColorScheme object
-    	*/
+    /**@return pointer to the ColorScheme object */
     ColorScheme *colorScheme() { return &CScheme; }
 
-    /**@return pointer to the simulation Clock object
-    	*/
+    /**@return pointer to the simulation Clock object */
     SimClock *clock() { return &Clock; }
 
-    /**@return pointer to the local sidereal time: a dms object
-    	*/
+    /**@return pointer to the local sidereal time: a dms object */
     dms *lst() { return &LST; }
 
     /**@return pointer to the GeoLocation object*/
@@ -261,45 +255,42 @@ public:
     QString typeName( int );
 
     /**Set the GeoLocation according to the argument.
-    	*@param l reference to the new GeoLocation
-    	*/
+     * @param l reference to the new GeoLocation
+     */
     void setLocation( const GeoLocation &l );
 
-    /**Set the GeoLocation according to the values stored in the configuration file.
-    	*/
+    /** Set the GeoLocation according to the values stored in the configuration file. */
     void setLocationFromOptions();
 
     /** Return map for daylight saving rules. */
     QMap<QString, TimeZoneRule> getRulebook() { return Rulebook; }
-    
-    /**@return whether the next Focus change will omit the slewing animation.
-    	*/
+
+    /** @return whether the next Focus change will omit the slewing animation. */
     bool snapNextFocus() const { return snapToFocus; }
 
     /**Disable or re-enable the slewing animation for the next Focus change.
-    	*@note If the user has turned off all animated slewing, setSnapNextFocus(false)
-    	*will *NOT* enable animation on the next slew.  A false argument would only
-    	*be used if you have previously called setSnapNextFocus(true), but then decided 
-    	*you didn't want that after all.  In other words, it's extremely unlikely you'd
-    	*ever want to use setSnapNextFocus(false).
-    	*@param b when true (the default), the next Focus chnage will omit the slewing 
-    	*animation. 
-    	*/
+     * @note If the user has turned off all animated slewing, setSnapNextFocus(false)
+     * will *NOT* enable animation on the next slew.  A false argument would only
+     * be used if you have previously called setSnapNextFocus(true), but then decided
+     * you didn't want that after all.  In other words, it's extremely unlikely you'd
+     * ever want to use setSnapNextFocus(false).
+     * @param b when true (the default), the next Focus change will omit the slewing
+     * animation.
+     */
     void setSnapNextFocus(bool b=true) { snapToFocus = b; }
 
     /**Execute a script.  This function actually duplicates the DCOP functionality
-    	*for those cases when invoking DCOP is not practical (i.e., when preparing 
-    	*a sky image in command-line dump mode).
-    	*@param name the filename of the script to "execute".
-    	*@param map pointer to the SkyMap object.
-    	*@return true if the script was successfully parsed.
-    	*/
+     * for those cases when invoking DCOP is not practical (i.e., when preparing
+     * a sky image in command-line dump mode).
+     * @param name the filename of the script to "execute".
+     * @param map pointer to the SkyMap object.
+     * @return true if the script was successfully parsed.
+     */
     bool executeScript( const QString &name, SkyMap *map );
 
-    /** Synchronize list of visible FOVs and list of selected FOVs in
-     * Options */
+    /** Synchronize list of visible FOVs and list of selected FOVs in Options */
     void syncFOV();
-    
+
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 
@@ -311,7 +302,7 @@ public:
     Comast::Log *logObject() { return m_logObject; }
 
 signals:
-    /**Signal that specifies the text that should be drawn in the KStarsSplash window. */
+    /** Signal that specifies the text that should be drawn in the KStarsSplash window. */
     void progressText( const QString& );
 
     /** Should be used to refresh skymap. */
@@ -328,19 +319,19 @@ public slots:
     void slotConsoleMessage( QString s ) { std::cout << (const char*)(s.toLocal8Bit()) << std::endl; }
 
     /**Update the Simulation Clock.  Update positions of Planets.  Update
-    	*Alt/Az coordinates of objects.  Update precession.  Update Focus position.
-    	*Draw new Skymap.
-    	*
-    	* This is ugly.
-    	* It _will_ change!
-    	*(JH:)hey, it's much less ugly now...can we lose the comment yet? :p
-    	*/
+     * Alt/Az coordinates of objects.  Update precession.  Update Focus position.
+     * Draw new Skymap.
+     *
+     * This is ugly.
+     * It _will_ change!
+     * (JH:)hey, it's much less ugly now...can we lose the comment yet? :p
+     */
     void updateTime(GeoLocation *geo, SkyMap * skymap, const bool automaticDSTchange = true);
 
     /**Sets the direction of time and stores it in bool TimeRunForwards. If scale >= 0
-    	*time is running forward else time runs backward. We need this to calculate just
-    	*one daylight saving change time (previous or next DST change).
-    	*/
+     * time is running forward else time runs backward. We need this to calculate just
+     * one daylight saving change time (previous or next DST change).
+     */
     void setTimeDirection( float scale );
 
     /**@short Save the shaded state of the Time infobox.
@@ -375,8 +366,8 @@ public slots:
 
 private:
     /**Reset local time to new daylight saving time. Use this function if DST has changed.
-    	*Used by updateTime().
-    	*/
+     * Used by updateTime().
+     */
     void resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange);
 
     QList<ADVTreeData*> ADVtreeList;
@@ -418,7 +409,6 @@ private:
     KSNumbers m_preUpdateNum,   m_updateNum;
 
     static KStarsData* pinstance;
-
 };
 
 
