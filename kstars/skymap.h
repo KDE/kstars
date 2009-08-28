@@ -658,31 +658,29 @@ protected:
     virtual void paintEvent( QPaintEvent *e );
 
     /**Process keystrokes:
-    	*@li arrow keys  Slew the map
-    	*@li +/- keys  Zoom in and out 
-    	*@li N/E/S/W keys  Go to the cardinal points on the Horizon
-    	*@li Z  Go to the Zenith
-    	*@li <i>Space</i>  Toggle between Horizontal and Equatorial coordinate systems
-    	*@li 0-9  Go to a major Solar System body (0=Sun; 1-9 are the major planets, except 3=Moon)
-    	*@li [  Place starting point for measuring an angular distance
-    	*@li ]  End point for Angular Distance; display measurement.
-    	*@li <i>Escape</i>  Cancel Angular measurement
-    	*@li ,/<  Step backward one time step
-    	*@li ./>  Step forward one time step
-    	*/
+     * @li arrow keys  Slew the map
+     * @li +/- keys  Zoom in and out
+     * @li <i>Space</i>  Toggle between Horizontal and Equatorial coordinate systems
+     * @li 0-9  Go to a major Solar System body (0=Sun; 1-9 are the major planets, except 3=Moon)
+     * @li [  Place starting point for measuring an angular distance
+     * @li ]  End point for Angular Distance; display measurement.
+     * @li <i>Escape</i>  Cancel Angular measurement
+     * @li ,/<  Step backward one time step
+     * @li ./>  Step forward one time step
+     */
     virtual void keyPressEvent( QKeyEvent *e );
 
     /**When keyRelease is triggered, just set the "slewing" flag to false,
-    	*and update the display (to draw objects that are hidden when slewing==true). */
+     * and update the display (to draw objects that are hidden when slewing==true). */
     virtual void keyReleaseEvent( QKeyEvent *e );
 
     /**Determine RA, Dec coordinates of clicked location.  Find the SkyObject
-    	*which is nearest to the clicked location.
-    	*
-    	*If left-clicked: Set set mouseButtonDown==true, slewing==true; display 
-    	*nearest object name in status bar.
-    	*If right-clicked: display popup menu appropriate for nearest object.
-    	*/
+     * which is nearest to the clicked location.
+     *
+     * If left-clicked: Set set mouseButtonDown==true, slewing==true; display
+     * nearest object name in status bar.
+     * If right-clicked: display popup menu appropriate for nearest object.
+     */
     virtual void mousePressEvent( QMouseEvent *e );
 
     /**set mouseButtonDown==false, slewing==false */
@@ -692,15 +690,14 @@ protected:
     virtual void mouseDoubleClickEvent( QMouseEvent *e );
 
     /**This function does several different things depending on the state of the program:
-    	*@li If Angle-measurement mode is active, update the end-ruler point to the mouse cursor,
-    	*and continue this function.
-    	*@li If we are dragging an InfoBox, simply redraw the screen and return.
-    	*@li If we are defining a ZoomBox, update the ZoomBox rectangle, redraw the screen, 
-    	*and return.
-    	*@li If dragging the mouse in the map, update focus such that RA, Dec under the mouse 
-    	*cursor remains constant. 
-    	*@li If just moving the mouse, simply update the curso coordinates in the status bar.
-    	*/
+     * @li If Angle-measurement mode is active, update the end-ruler point to the mouse cursor,
+     *     and continue this function.
+     * @li If we are defining a ZoomBox, update the ZoomBox rectangle, redraw the screen,
+     *     and return.
+     * @li If dragging the mouse in the map, update focus such that RA, Dec under the mouse
+     *     cursor remains constant.
+     * @li If just moving the mouse, simply update the curso coordinates in the status bar.
+     */
     virtual void mouseMoveEvent( QMouseEvent *e );
 
     /**Zoom in and out with the mouse wheel. */
