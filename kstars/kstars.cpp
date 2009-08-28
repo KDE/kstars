@@ -136,18 +136,11 @@ KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &sta
 KStars::~KStars()
 {
     delete kstarsData;
-    delete indimenu;
-    delete indidriver;
-    delete indiseq;
-    delete projectionGroup;
-    delete cschemeGroup;
 }
 
 void KStars::clearCachedFindDialog() {
     if ( findDialog  ) {  // dialog is cached
-        /**
-        	*Delete findDialog only if it is not opened
-        	*/
+        /** Delete findDialog only if it is not opened */
         if ( findDialog->isHidden() ) {
             delete findDialog;
             findDialog = 0;
