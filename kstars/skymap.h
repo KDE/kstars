@@ -317,9 +317,6 @@ public:
     /** Set zoom factor. */
     void setZoomFactor(double factor);
 
-    /**@short Call keyPressEvent, as if the key given as an argument had been pressed. */
-    void invokeKey( int key );
-
     /**@return true if the angular distance measuring mode is on
      */
     bool isAngleMode() const {return angularDistanceMode;}

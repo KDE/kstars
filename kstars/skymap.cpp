@@ -836,12 +836,6 @@ void SkyMap::slewFocus() {
     }
 }
 
-void SkyMap::invokeKey( int key ) {
-    QKeyEvent *e = new QKeyEvent( QEvent::KeyPress, key, 0 );
-    keyPressEvent( e );
-    delete e;
-}
-
 double SkyMap::findPA( SkyObject *o, float x, float y ) {
     //Find position angle of North using a test point displaced to the north
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)

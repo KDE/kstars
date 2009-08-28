@@ -35,6 +35,7 @@
 #include <kpushbutton.h>
 #include <klineedit.h>
 #include <knuminput.h>
+#include <kactioncollection.h>
 
 #include "colorscheme.h"
 #include "kstars.h"
@@ -68,12 +69,17 @@ void KStars::setAltAz( double alt, double az ) {
 
 void KStars::lookTowards ( const QString &direction ) {
     QString dir = direction.toLower();
-    if (dir == "zenith" || dir=="z") map()->invokeKey( Qt::Key_Z );
-    else if (dir == "north" || dir=="n") map()->invokeKey( Qt::Key_N );
-    else if (dir == "east"  || dir=="e") map()->invokeKey( Qt::Key_E );
-    else if (dir == "south" || dir=="s") map()->invokeKey( Qt::Key_S );
-    else if (dir == "west"  || dir=="w") map()->invokeKey( Qt::Key_W );
-    else if (dir == "northeast" || dir=="ne") {
+    if        (dir == "zenith" || dir=="z") {
+        actionCollection()->action("zenith")->trigger();
+    } else if (dir == "north"  || dir=="n") {
+        actionCollection()->action("north")->trigger();
+    } else if (dir == "east"   || dir=="e") {
+        actionCollection()->action("east")->trigger();
+    } else if (dir == "south"  || dir=="s") {
+        actionCollection()->action("south")->trigger();
+    } else if (dir == "west"   || dir=="w") {
+        actionCollection()->action("west")->trigger();
+    } else if (dir == "northeast" || dir=="ne") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
         map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
