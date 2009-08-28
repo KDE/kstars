@@ -37,6 +37,7 @@
 #include "simclock.h"
 #include "infoboxes.h"
 #include "kspopupmenu.h"
+#include "skyobjects/ksplanetbase.h"
 
 // TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"
@@ -420,7 +421,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     HourAngle.setH( dHA );
 
     if ( arrowKeyPressed ) {
-        infoBoxes()->focusObjChanged( i18n( "nothing" ) );
         stopTracking();
 
         if ( scrollCount > 10 ) {
@@ -446,7 +446,10 @@ void SkyMap::slotJobResult( KJob *job ) {
 
 void SkyMap::stopTracking() {
     KStars* kstars = KStars::Instance();
-    if ( kstars && Options::isTracking() ) kstars->slotTrack();
+    if( infoBoxes() )
+        infoBoxes()->focusObjChanged( i18n( "nothing" ) );
+    if( kstars && Options::isTracking() )
+        kstars->slotTrack();
 }
 
 void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
@@ -545,7 +548,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         if (!mouseMoveCursor) setMouseMoveCursor();
         if (!slewing) {
             slewing = true;
-            infoBoxes()->focusObjChanged( i18n( "nothing" ) );
             stopTracking(); //toggle tracking off
         }
 
@@ -635,7 +637,6 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
         //of the sky pixmap's width to the Zoom Circle's diameter
         float factor = float(width()) / float(ZoomRect.width());
 
-        infoBoxes()->focusObjChanged( i18n( "nothing" ) );
         stopTracking();
 
         SkyPoint newcenter = fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );

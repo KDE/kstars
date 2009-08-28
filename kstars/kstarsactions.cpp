@@ -694,7 +694,6 @@ void KStars::slotPointFocus() {
     // In the following cases, we set slewing=true in order to disengage tracking
     // We also change focus object to "nothing" in infobox
     map()->stopTracking();
-    map()->infoBoxes()->focusObjChanged( i18n( "nothing" ) );
 
     if ( sender() == actionCollection()->action("zenith") ) 
         map()->setDestinationAltAz( 90.0, map()->focus()->az()->Degrees() );
