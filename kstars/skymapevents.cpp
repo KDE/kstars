@@ -26,9 +26,7 @@
 #include <QKeySequence>
 #include <QPaintEvent>
 
-#include <kiconloader.h>
 #include <kstatusbar.h>
-#include <kurl.h>
 #include <kio/job.h>
 
 #include "skymap.h"
@@ -39,7 +37,6 @@
 #include "simclock.h"
 #include "infoboxes.h"
 #include "kspopupmenu.h"
-#include "skyobjects/ksmoon.h"
 
 // TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"

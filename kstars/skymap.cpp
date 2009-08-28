@@ -17,17 +17,11 @@
 
 #include "skymap.h"
 
-#include <math.h>
-#include <stdlib.h>
-#include <unistd.h>
-
 #include <QCursor>
 #include <QBitmap>
 #include <QPainter>
 #include <QPixmap>
 #include <QTextStream>
-#include <QKeyEvent>
-#include <QEvent>
 #include <QFile>
 #include <QPointF>
 #include <QApplication>
