@@ -19,6 +19,7 @@
 #define INFOBOXWIDGET_H_
 
 #include <QWidget>
+#include <QPoint>
 #include <QString>
 #include <QStringList>
 
@@ -29,7 +30,7 @@ class InfoBoxWidget : public QWidget
 {
     Q_OBJECT
 public:
-    InfoBoxWidget(bool shade, int x, int y, QStringList str = QStringList(), QWidget* parent = 0);
+    InfoBoxWidget(bool shade, QPoint pos, QStringList str = QStringList(), QWidget* parent = 0);
     virtual ~InfoBoxWidget();
 public slots:
     void slotTimeChanged();

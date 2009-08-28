@@ -44,13 +44,13 @@ namespace {
 }
 
 
-InfoBoxWidget::InfoBoxWidget(bool shade, int x, int y, QStringList str, QWidget* parent) :
+InfoBoxWidget::InfoBoxWidget(bool shade, QPoint pos, QStringList str, QWidget* parent) :
     QWidget(parent),
     m_strings(str),
     m_grabbed(false),
     m_shaded(shade)
 {
-    move(x,y);
+    move(pos);
     updateSize();
 }
 
@@ -131,6 +131,8 @@ void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
     m_strings[2] =
         i18nc( "Azimuth", "Az" )   + ": " + p->az()->toDMSString(true) + "  " +
         i18nc( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true);
+    updateSize();
+    update();
 }
 
 void InfoBoxWidget::resizeEvent(QResizeEvent*) {
