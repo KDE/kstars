@@ -524,7 +524,7 @@ void KStars::datainitFinished() {
     connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ),
              data()->clock(), SLOT( setScale( float )) );
-    connect( TimeStep, SIGNAL( scaleChanged(float) ), this,   SLOT( mapGetsFocus() ) );
+    connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
 
     #ifdef HAVE_INDI_H

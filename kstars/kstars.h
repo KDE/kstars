@@ -433,9 +433,6 @@ public Q_SLOTS:
     /** Apply new settings and redraw skymap */
     void slotApplyConfigChanges();
 
-    /** action slot: Generate toolbars with new user-specified configuration */
-    void slotApplyToolbarConfig();
-
     /** Called when zoom level is changed. Enables/disables zoom
      *  actions and updates status bar. */
     void slotZoomChanged();
@@ -595,12 +592,12 @@ private slots:
     void slotManualFocus();
 
     /**Meta-slot to point the focus at special points (zenith, N, S, E, W).
-        *Uses the name of the Action which sent the Signal to identify the
-        *desired direction.  */
+     * Uses the name of the Action which sent the Signal to identify the
+     * desired direction.  */
     void slotPointFocus();
 
     /**Meta-slot to set the color scheme according to the name of the
-        *Action which sent the activating signal.  */
+     * Action which sent the activating signal.  */
     void slotColorScheme();
 
     /**Select the Target symbol (a.k.a. field-of-view indicator) */
@@ -619,16 +616,12 @@ private slots:
     void slotObsList();
 
     /**Meta-slot to handle display toggles for all of the viewtoolbar buttons.
-        *uses the name of the sender to identify the item to change.  */
+     * uses the name of the sender to identify the item to change.  */
     void slotViewToolBar();
 
     /**Meta-slot to handle toggling display of GUI elements (toolbars and infoboxes)
-        *uses name of the sender action to identify the widget to hide/show.  */
+     * uses name of the sender action to identify the widget to hide/show.  */
     void slotShowGUIItem( bool );
-
-    /**Re-assign the input focus to the SkyMap widget.
-        */
-    void mapGetsFocus();
 
     /**Toggle to and from full screen mode */
     void slotFullScreen();

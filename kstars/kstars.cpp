@@ -251,7 +251,5 @@ Execute* KStars::getExecute() {
 
 InfoBoxes* KStars::infoBoxes()  { return map()->infoBoxes(); }
 
-void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
-
 #include "kstars.moc"
 

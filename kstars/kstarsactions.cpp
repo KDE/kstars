@@ -377,14 +377,6 @@ void KStars::slotGeoLocator() {
     delete locationdialog;
 }
 
-void KStars::slotApplyToolbarConfig() {
-    //DEBUG
-    kDebug() << "Recreating GUI...";
-
-    createGUI();
-    applyMainWindowSettings( KGlobal::config()->group( "MainWindow" ) );
-}
-
 void KStars::slotViewOps() {
     //An instance of your dialog could be already created and could be cached,
     //in which case you want to display the cached dialog instead of creating
@@ -675,8 +667,10 @@ void KStars::slotPrint() {
         answer = KMessageBox::questionYesNoCancel( 0, message, i18n( "Switch to Star Chart Colors?" ),
                  KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors" );
 
-        if ( answer == KMessageBox::Cancel ) return;
-        if ( answer == KMessageBox::Yes ) switchColors = true;
+        if ( answer == KMessageBox::Cancel )
+            return;
+        if ( answer == KMessageBox::Yes )
+            switchColors = true;
     }
 
     printImage( true, switchColors );
@@ -690,7 +684,8 @@ void KStars::slotToggleTimer() {
         if ( fabs( data()->clock()->scale() ) > Options::slewTimeScale() )
             data()->clock()->setManualMode( true );
         data()->clock()->start();
-        if ( data()->clock()->isManualMode() ) map()->forceUpdate();
+        if ( data()->clock()->isManualMode() )
+            map()->forceUpdate();
     }
 }
 
