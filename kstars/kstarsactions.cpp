@@ -507,7 +507,8 @@ void KStars::slotFind() {
     }
 
     // check if data has changed while dialog was open
-    if ( DialogIsObsolete ) clearCachedFindDialog();
+    if ( DialogIsObsolete )
+        clearCachedFindDialog();
 }
 
 void KStars::slotOpenFITS()
@@ -1028,17 +1029,14 @@ void KStars::slotAboutToQuit()
     //explicitly save the colorscheme data to the config file
     data()->colorScheme()->saveToConfig();
 
-    KConfigGroup cg = KGlobal::config()->group( "MainToolBar" );
     //explicitly save toolbar settings to config file
+    KConfigGroup cg = KGlobal::config()->group( "MainToolBar" );
     toolBar("kstarsToolBar")->saveSettings( cg );
     cg = KGlobal::config()->group( "ViewToolBar" );
     toolBar( "viewToolBar" )->saveSettings( cg );
 
     //synch the config file with the Config object
     writeConfig();
-
-    //Delete dialog window pointers
-    clearCachedFindDialog();
 
     if( !Options::obsListSaveImage() ) {
         foreach ( QString file, obsList->imageList() )
