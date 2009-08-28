@@ -21,11 +21,6 @@
 #include <QTimer>
 #include <QWidget>
 #include <QPixmap>
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QKeyEvent>
-#include <QResizeEvent>
-#include <QPaintEvent>
 
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
@@ -36,16 +31,18 @@
 
 class QPainter;
 class QPaintDevice;
-class QPoint;
 class QPixmap;
+class QMouseEvent;
+class QWheelEvent;
+class QKeyEvent;
+class QResizeEvent;
+class QPaintEvent;
+
 //DEBUG_KIO_JOB
 class KJob;
 
 class dms;
-class InfoBoxes;
-class KStars;
 class KStarsData;
-class KSPlanetBase;
 class KSPopupMenu;
 class SkyObject;
 
