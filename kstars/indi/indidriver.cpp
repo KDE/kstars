@@ -405,7 +405,6 @@ void INDIDriver::updateMenuActions()
         }
     }
 
-
     tmpAction = ksw->actionCollection()->action("capture_sequence");
 
     if (tmpAction != NULL)
@@ -457,8 +456,7 @@ void INDIDriver::saveDevicesToDisk()
 	    outstream << QString(">") << endl;
 	
 
-            outstream << "       <name>" << dev->driver_class << "</name>" << endl;
-            outstream << "       <driver>" << dev->driver << "</driver>" << endl;
+            outstream << "       <driver name='" << dev->driver_class << "'>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
         }
@@ -478,8 +476,7 @@ void INDIDriver::saveDevicesToDisk()
         if (dev->deviceType == KSTARS_CCD)
         {
             outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
-            outstream << "       <name>" << dev->driver_class << "</name>" << endl;
-            outstream << "       <driver>" << dev->driver << "</driver>" << endl;
+            outstream << "       <driver name='" << dev->driver_class << "'>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
         }
@@ -500,8 +497,7 @@ void INDIDriver::saveDevicesToDisk()
         if (dev->deviceType == KSTARS_FILTER)
         {
             outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
-            outstream << "       <name>" << dev->driver_class << "</name>" << endl;
-            outstream << "       <driver>" << dev->driver << "</driver>" << endl;
+            outstream << "       <driver name='" << dev->driver_class << "'>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
         }
@@ -522,8 +518,7 @@ void INDIDriver::saveDevicesToDisk()
         if (dev->deviceType == KSTARS_VIDEO)
         {
             outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
-            outstream << "       <name>" << dev->driver_class << "</name>" << endl;
-            outstream << "       <driver>" << dev->driver << "</driver>" << endl;
+            outstream << "       <driver name='" << dev->driver_class << "'>" << dev->driver << "</driver>" << endl;
             outstream << "       <version>" << dev->version << "</version>" << endl;
             outstream << "</device>" << endl;
         }
@@ -735,20 +730,21 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
     if (ap)
         aperture = QString(valuXMLAtt(ap)).toDouble();
 
-
-    el = findXMLEle(root, "name");
-
-    if (el)
-	    name = pcdataXMLEle(el);
-    else
-	    name = label;
-
     el = findXMLEle(root, "driver");
 
     if (!el)
         return false;
 
     driver = pcdataXMLEle(el);
+
+    ap = findXMLAtt(el, "name");
+    if (!ap)
+    {
+        snprintf(errmsg, ERRMSG_SIZE, "Tag %.64s does not have a name attribute", tagXMLEle(el));
+        return false;
+    }
+
+    name = valuXMLAtt(ap);
 
     el = findXMLEle(root, "version");
 
