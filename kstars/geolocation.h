@@ -113,13 +113,13 @@ public:
     QString name() const { return Name; }
     /**@return translated City name
     	*/
-    QString translatedName() const { return Name.isEmpty() ? QString() : i18nc("City name (optional, probably does not need a translation)", Name.toUtf8().data()); }
+    QString translatedName() const { return Name.isEmpty() ? QString() : i18nc(("City in " + province() + " " + country()).toUtf8().data(), Name.toUtf8().data()); }
     /**@return untranslated Province name 
     	*/
     QString province() const { return Province; }
     /**@return translated Province name
     	*/
-    QString translatedProvince() const { return Province.isEmpty() ? QString() : i18nc("Region/state name (optional, rarely needs a translation)", Province.toUtf8().data()); }
+    QString translatedProvince() const { return Province.isEmpty() ? QString() : i18nc(("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data()); }
     /**@return untranslated Country name
     	*/
     QString country() const { return Country; }
