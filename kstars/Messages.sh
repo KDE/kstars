@@ -21,17 +21,17 @@ grep ^C data/cnames.dat | awk '{ print "i18nc( \"Sky Culture\", \"" $2 "\" );" }
 # extract cities
 awk 'BEGIN {FS=":"}; {print "\"" $2 ":" $3 ":" $1 "\""; }' < data/Cities.dat | \
    sed 's/ *:/:/g' | \
-   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"City in /' | sed 's/:/ /' | sed 's/:/ (optional, probably does not need a translation)\",\"/' | sed 's/i18nc(.*,"");//' >> "cities.tmp"
+   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"City in /' | sed 's/ *: */ /' | sed 's/ *: */\",\"/' | sed 's/i18nc(.*,"");//' >> "cities.tmp"
 sort --unique cities.tmp >> kstars_i18n.cpp
 
 # extract regions
 awk 'BEGIN {FS=":"}; {print "\"" $3 ":" $2 "\""; }' < data/Cities.dat | \
-   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Region\/state in /' | sed 's/ *:/ (optional, rarely needs a translation)\",\"/g' | sed 's/i18nc(.*,"");//' >> "regions.tmp";
+   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Region\/state in /' | sed 's/ *: */\",\"/g' | sed 's/i18nc(.*,"");//' >> "regions.tmp";
 sort --unique regions.tmp >> kstars_i18n.cpp
 
 # extract countries
 awk 'BEGIN {FS=":"}; {print "\"" $3 "\""; }' < data/Cities.dat | \
-   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Country name (optional, but should be translated)\",\"/g' | sed 's/i18nc(.*,"");//' >> "countries.tmp"
+   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Country name\",\"/g' | sed 's/i18nc(.*,"");//' >> "countries.tmp"
 sort --unique countries.tmp >> kstars_i18n.cpp
 
 # extract image/info menu items
