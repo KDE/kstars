@@ -27,258 +27,222 @@
 #include "kstarsdatetime.h"
 
 /**@class GeoLocation
-	*Contains all relevant information for specifying a location 
-	*on Earth: City Name, State/Province name, Country Name,
-	*Longitude, Latitude, Elevation, Time Zone, and Daylight Savings 
-	*Time rule.
-	*@short Relevant data about an observing location on Earth.
-	*@author Jason Harris
-	*@version 1.0
-	*/
+ * Contains all relevant information for specifying a location
+ * on Earth: City Name, State/Province name, Country Name,
+ * Longitude, Latitude, Elevation, Time Zone, and Daylight Savings
+ * Time rule.
+ *
+ * @short Relevant data about an observing location on Earth.
+ * @author Jason Harris
+ * @version 1.0
+ */
 class GeoLocation {
 public:
-    /**
-    	*Default constructor; sets coordinates to zero.	
-    	*/
+    /** Default constructor; sets coordinates to zero. */
     GeoLocation();
 
     /**Constructor using dms objects to specify longitude and latitude.
-    	*@param lng the longitude
-    	*@param lat the latitude
-    	*@param name the name of the city/town/location
-    	*@param province the name of the province/US state
-    	*@param country the name of the country
-    	*@param TZ the base time zone offset from Greenwich, UK
-    	*@param TZrule pointer to the daylight savings time rule
-    	*@param iEllips type of geodetic ellipsoid model
-    	*@param hght the elevation above sea level (in meters?)
-    	*/
-    GeoLocation( dms lng, dms lat, const QString &name="Nowhere", const QString &province="Nowhere", const QString &country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
-
-    /**Constructor using doubles to specify longitude and latitude.
-    	*@param lng the longitude
-    	*@param lat the latitude
-    	*@param name the name of the city/town/location
-    	*@param province the name of the province/US state
-    	*@param country the name of the country
-    	*@param TZ the base time zone offset from Greenwich, UK
-    	*@param TZrule pointer to the daylight savings time rule
-    	*@param iEllips type of geodetic ellipsoid model
-    	*@param hght the elevation above sea level (in meters?)
-    	*/
-    GeoLocation( double lng, double lat, const QString &name="Nowhere", const QString &province="Nowhere", const QString &country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
+     * @param lng the longitude
+     * @param lat the latitude
+     * @param name the name of the city/town/location
+     * @param province the name of the province/US state
+     * @param country the name of the country
+     * @param TZ the base time zone offset from Greenwich, UK
+     * @param TZrule pointer to the daylight savings time rule
+     * @param iEllips type of geodetic ellipsoid model
+     * @param hght the elevation above sea level (in meters?)
+     */
+    GeoLocation(dms lng, dms lat,
+                const QString &name="Nowhere",
+                const QString &province="Nowhere",
+                const QString &country="Nowhere",
+                double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
 
     /**Constructor using doubles to specify X, Y and Z referred to the center of the Earth.
-    	*@param x the x-position, in m
-    	*@param y the y-position, in m
-    	*@param z the z-position, in m
-    	*@param name the name of the city/town/location
-    	*@param province the name of the province/US state
-    	*@param country the name of the country
-    	*@param TZ the base time zone offset from Greenwich, UK
-    	*@param TZrule pointer to the daylight savings time rule
-    	*@param iEllips type of geodetic ellipsoid model
-    	*/
-    GeoLocation( double x, double y, double z, const QString &name="Nowhere", const QString &province="Nowhere", const QString &country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4 );
+     * @param x the x-position, in m
+     * @param y the y-position, in m
+     * @param z the z-position, in m
+     * @param name the name of the city/town/location
+     * @param province the name of the province/US state
+     * @param country the name of the country
+     * @param TZ the base time zone offset from Greenwich, UK
+     * @param TZrule pointer to the daylight savings time rule
+     * @param iEllips type of geodetic ellipsoid model
+     */
+    GeoLocation(double x, double y, double z,
+                const QString &name="Nowhere",
+                const QString &province="Nowhere",
+                const QString &country="Nowhere",
+                double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4 );
 
-
-    /**Destructor (empty)
-    	*/
-    ~GeoLocation() {}
-
-    /**@return pointer to the longitude dms object
-    	*/
+    /**@return pointer to the longitude dms object */
     const dms* lng() const { return &Longitude; }
-    /**@return pointer to the latitude dms object
-    	*/
+
+    /**@return pointer to the latitude dms object */
     const dms* lat() const { return &Latitude; }
-    /**@return elevation above seal level (meters)
-    	*/
+
+    /**@return elevation above seal level (meters) */
     double height() const { return Height; }
-    /**@return X position in m
-    	*/
+
+    /**@return X position in m */
     double xPos() const { return PosCartX; }
-    /**@return Y position in m
-    	*/
+
+    /**@return Y position in m */
     double yPos() const { return PosCartY; }
-    /**@return Z position in m
-    	*/
+
+    /**@return Z position in m */
     double zPos() const { return PosCartZ; }
-    /**@return index identifying the geodetic ellipsoid model
-    	*/
+
+    /**@return index identifying the geodetic ellipsoid model */
     int ellipsoid() const { return indexEllipsoid; }
 
-    /**@return untranslated City name
-    	*/
+    /**@return untranslated City name */
     QString name() const { return Name; }
-    /**@return translated City name
-    	*/
+
+    /**@return translated City name */
     QString translatedName() const { return Name.isEmpty() ? QString() : i18nc(("City in " + province() + " " + country()).toUtf8().data(), Name.toUtf8().data()); }
-    /**@return untranslated Province name 
-    	*/
+
+    /**@return untranslated Province name */
     QString province() const { return Province; }
-    /**@return translated Province name
-    	*/
+
+    /**@return translated Province name */
     QString translatedProvince() const { return Province.isEmpty() ? QString() : i18nc(("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data()); }
-    /**@return untranslated Country name
-    	*/
+    /**@return untranslated Country name */
     QString country() const { return Country; }
-    /**@return translated Country name
-     */
+
+    /**@return translated Country name */
     QString translatedCountry() const { return Country.isEmpty() ? QString() :  i18nc("Country name (optional, but should be translated)", Country.toUtf8().data()); }
 
-    /**@return comma-separated city, province, country names (each localized)
-     */
+    /**@return comma-separated city, province, country names (each localized) */
     QString fullName() const;
 
-    /**@return time zone without DST correction
-    	*/
+    /**@return time zone without DST correction */
     double TZ0() const { return TimeZone; }
 
-    /**@return time zone, including any DST correction.
-    	*/
+    /**@return time zone, including any DST correction. */
     double TZ() const { if( TZrule ) return TimeZone + TZrule->deltaTZ(); return TimeZone; }
 
-    /**@return pointer to time zone rule object
-    	*/
+    /**@return pointer to time zone rule object */
     TimeZoneRule* tzrule() const { return TZrule; }
 
     /**Set longitude according to dms argument.
-    	*@param l the new longitude
-    	*/
+     * @param l the new longitude */
     void setLong( dms l ) {
         Longitude = l;
         geodToCart();
     }
-    /**Set longitude according to argument.
-    	*Differs from above function only in argument type.
-    	*@param l the new longitude
-    	*/
-    void setLong( double l ) {
-        Longitude.setD( l );
-        geodToCart();
-    }
 
     /**Set latitude according to dms argument.
-    	*@param l the new latitude
-    	*/
+     * @param l the new latitude
+     */
     void setLat( dms l ) {
         Latitude  = l;
         geodToCart();
     }
 
-    /**Set latitude according to argument.
-    	*Differs from above function only in argument type.
-    	*@param l the new latitude
-    	*/
-    void setLat( double l ) {
-        Latitude.setD( l );
-        geodToCart();
-    }
-
     /**Set elevation above sea level
-    	*@param hg the new elevation (meters)
-    	*/
+     * @param hg the new elevation (meters)
+     */
     void setHeight( double hg ) {
         Height  = hg;
         geodToCart();
     }
 
     /**Set X
-    	*@param x the new x-position (meters)
-    	*/
+     * @param x the new x-position (meters)
+     */
     void setXPos( double x ) {
         PosCartX  = x;
         cartToGeod();
     }
     /**Set Y
-    	*@param y the new y-position (meters)
-    	*/
+     * @param y the new y-position (meters)
+     */
     void setYPos( double y ) {
         PosCartY  = y;
         cartToGeod();
     }
     /**Set Z
-    	*@param z the new z-position (meters)
-    	*/
+     * @param z the new z-position (meters)
+     */
     void setZPos( double z ) {
         PosCartZ  = z;
         cartToGeod();
     }
 
     /**Update Latitude, Longitude and Height according to new ellipsoid. These are
-    	*computed from XYZ which do NOT change on changing the ellipsoid.
-    	*@param i index to identify the ellipsoid
-    	*/
+     * computed from XYZ which do NOT change on changing the ellipsoid.
+     * @param i index to identify the ellipsoid
+     */
     void changeEllipsoid( int i );
 
     /**Set City name according to argument.
-    	*@param n new city name
-    	*/
+     * @param n new city name
+     */
     void setName( const QString &n ) { Name = n; }
 
     /**Set Province name according to argument.
-    	*@param n new province name
-    	*/
+     * @param n new province name
+     */
     void setProvince( const QString &n ) { Province = n; }
 
     /**Set Country name according to argument.
-    	*@param n new country name
-    	*/
+     * @param n new country name
+     */
     void setCountry( const QString &n ) { Country = n; }
 
     /**Sets Time Zone according to argument.
-    	*@param tz new timezone offset
-    	*/
+     * @param tz new timezone offset
+     */
     void setTZ( double tz ) { TimeZone = tz; }
 
     /**Sets DST rule pointer according to argument.
-    	*@param tzr pointer to the new DST rule
-    	*/
+     * @param tzr pointer to the new DST rule
+     */
     void setTZrule( TimeZoneRule *tzr ) { TZrule = tzr; }
 
     /**Set location data to that of the GeoLocation pointed to by argument.
-    	*Similar to copy constructor.
-    	*@param g pointer to the GeoLocation which should be duplicated.
-    	*/
+     * Similar to copy constructor.
+     * @param g pointer to the GeoLocation which should be duplicated.
+     */
     void reset( GeoLocation *g );
 
     /**Converts from cartesian coordinates in meters to longitude,
-    	*latitude and height on a standard geoid for the Earth. The 
-    	*geoid is characterized by two parameters: the semimajor axis
-    	*and the flattening.
-    	*
-    	*@note The astronomical zenith is defined as the perpendicular to 
-    	*the real geoid. The geodetic zenith is the perpendicular to the 
-    	*standard geoid. Both zeniths differ due to local gravitational 
-    	*anomalies.
-    	*
-    	* Algorithm is from "GPS Satellite Surveying", A. Leick, page 184.
-    	*/
+     * latitude and height on a standard geoid for the Earth. The
+     * geoid is characterized by two parameters: the semimajor axis
+     * and the flattening.
+     *
+     * @note The astronomical zenith is defined as the perpendicular to
+     * the real geoid. The geodetic zenith is the perpendicular to the
+     * standard geoid. Both zeniths differ due to local gravitational
+     * anomalies.
+     *
+     * Algorithm is from "GPS Satellite Surveying", A. Leick, page 184.
+     */
     void cartToGeod(void);
 
     /**Converts from longitude, latitude and height on a standard
-    	*geoid of the Earth to cartesian coordinates in meters. The geoid
-    	*is characterized by two parameters: the semimajor axis and the 
-    	*flattening.
-    	*
-    	*@note The astronomical zenith is defined as the perpendicular to 
-    	*the real geoid. The geodetic zenith is the perpendicular to the 
-    	*standard geoid. Both zeniths differ due to local gravitational 
-    	*anomalies.
-    	*
-    	*Algorithm is from "GPS Satellite Surveying", A. Leick, page 184.
-    	*/
+     * geoid of the Earth to cartesian coordinates in meters. The geoid
+     * is characterized by two parameters: the semimajor axis and the
+     * flattening.
+     *
+     * @note The astronomical zenith is defined as the perpendicular to
+     * the real geoid. The geodetic zenith is the perpendicular to the
+     * standard geoid. Both zeniths differ due to local gravitational
+     * anomalies.
+     *
+     * Algorithm is from "GPS Satellite Surveying", A. Leick, page 184.
+     */
     void geodToCart (void);
 
     /**The geoid is an elliposid which fits the shape of the Earth. It is
-    	*characterized by two parameters: the semimajor axis and the
-    	*flattening.
-    	*
-    	*@param i is the index which allows to identify the parameters for the
-    	*chosen elliposid. 1="IAU76", 2="GRS80", 3="MERIT83", 4="WGS84", 
-    	*5="IERS89".
-    	*/
+     * characterized by two parameters: the semimajor axis and the
+     * flattening.
+     *
+     * @param i is the index which allows to identify the parameters for the
+     * chosen elliposid. 1="IAU76", 2="GRS80", 3="MERIT83", 4="WGS84",
+     * 5="IERS89".
+     */
     void setEllipsoid( int i );
 
     dms GSTtoLST( const dms &gst ) const { return dms( gst.Degrees() + Longitude.Degrees() ); }
@@ -289,11 +253,11 @@ public:
 
 
     /** Computes the velocity in km/s of an observer on the surface of the Earth
-     * referred to a system whose origin is the center of the Earth. The X and 
+     * referred to a system whose origin is the center of the Earth. The X and
      * Y axis are contained in the equator and the X axis is towards the nodes
      * line. The Z axis is along the poles.
      *
-     * @param vtopo[] Topocentric velocity. The resultant velocity is available 
+     * @param vtopo[] Topocentric velocity. The resultant velocity is available
      *        in this array.
      * @param gt Greenwich sideral time for which we want to compute the topocentric velocity.
      */

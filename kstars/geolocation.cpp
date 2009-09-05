@@ -40,23 +40,6 @@ GeoLocation::GeoLocation( dms lng, dms lat,
     geodToCart();
 }
 
-GeoLocation::GeoLocation( double lng, double lat,
-                          const QString &name, const QString &province,
-                          const QString &country, double tz,
-                          TimeZoneRule *tzrule, int iEllips, double hght ) {
-    Longitude.set( lng );
-    Latitude.set( lat );
-    Name = name;
-    Province = province;
-    Country = country;
-    TimeZone = tz;
-    TZrule = tzrule;
-    Height = hght;
-    indexEllipsoid = iEllips;
-    setEllipsoid ( indexEllipsoid );
-    geodToCart();
-}
-
 GeoLocation::GeoLocation( double x, double y, double z,
                           const QString &name, const QString &province,
                           const QString &country, double TZ,
