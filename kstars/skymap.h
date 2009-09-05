@@ -32,11 +32,6 @@
 class QPainter;
 class QPaintDevice;
 class QPixmap;
-class QMouseEvent;
-class QWheelEvent;
-class QKeyEvent;
-class QResizeEvent;
-class QPaintEvent;
 
 //DEBUG_KIO_JOB
 class KJob;
@@ -45,6 +40,7 @@ class dms;
 class KStarsData;
 class KSPopupMenu;
 class SkyObject;
+class InfoBoxWidget;
 
 /**@class SkyMap
 	*
@@ -71,10 +67,7 @@ protected:
     */
     explicit SkyMap();
 
-    SkyMap( SkyMap& skyMap );
-
 public:
-
     static SkyMap* Create();
 
     static SkyMap* Instance();
@@ -881,6 +874,10 @@ private:
     QColor TransientColor;
     unsigned int TransientTimeout;
 
+    // InfoBoxes. Used in desctructor to save state
+    InfoBoxWidget* m_timeBox;
+    InfoBoxWidget* m_geoBox;
+    InfoBoxWidget* m_objBox;
     //QUATERNION
     Quaternion m_rotAxis;
 

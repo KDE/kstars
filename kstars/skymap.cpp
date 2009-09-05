@@ -125,7 +125,7 @@ SkyMap::SkyMap() :
 
     //Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
     //the apparent altitude from the true altitude, and RefractCorr2 is for the reverse.
-    for ( unsigned int index = 0; index <184; ++index ) {
+    for( int index = 0; index <184; ++index ) {
         double alt = -1.75 + index*0.5;  //start at -1.75 degrees to get midpoint value for each interval.
 
         RefractCorr1[index] = 1.02 / tan( dms::PI*( alt + 10.3/(alt + 5.11) )/180.0 ) / 60.0; //correction in degrees.
@@ -133,32 +133,46 @@ SkyMap::SkyMap() :
     }
 
     // Time infobox
-    InfoBoxWidget* timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
-                                                Options::positionTimeBox(),
-                                                QStringList(), this);
+    m_timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
+                                   Options::positionTimeBox(),
+                                   QStringList(), this);
     connect(data->clock(), SIGNAL( timeChanged() ),
-            timeBox,       SLOT( slotTimeChanged() ) );
+            m_timeBox,     SLOT(   slotTimeChanged() ) );
     connect(data->clock(), SIGNAL( timeAdvanced() ),
-            timeBox,       SLOT( slotTimeChanged() ) );
+            m_timeBox,     SLOT(   slotTimeChanged() ) );
 
     // Geo infobox
-    InfoBoxWidget* geoBox = new InfoBoxWidget( Options::shadeGeoBox(),
-                                               Options::positionGeoBox(),
-                                               QStringList(), this);
-    connect(data,   SIGNAL( geoChanged() ),
-            geoBox, SLOT( slotGeoChanged() ) );
+    m_geoBox = new InfoBoxWidget( Options::shadeGeoBox(),
+                                  Options::positionGeoBox(),
+                                  QStringList(), this);
+    connect(data,     SIGNAL( geoChanged() ),
+            m_geoBox, SLOT(   slotGeoChanged() ) );
 
     // Object infobox
-    InfoBoxWidget* objBox = new InfoBoxWidget( Options::shadeFocusBox(),
-                                               Options::positionFocusBox(),
-                                               QStringList(), this);
-    connect(this,   SIGNAL( objectChanged(SkyObject*) ),
-            objBox, SLOT( slotObjectChanged(SkyObject*) ) );
-    connect(this,   SIGNAL( positionChanged(SkyPoint*) ),
-            objBox, SLOT( slotPointChanged(SkyPoint*) ) );
+    m_objBox = new InfoBoxWidget( Options::shadeFocusBox(),
+                                  Options::positionFocusBox(),
+                                  QStringList(), this);
+    connect(this,     SIGNAL( objectChanged( SkyObject*) ),
+            m_objBox, SLOT(   slotObjectChanged( SkyObject*) ) );
+    connect(this,     SIGNAL( positionChanged( SkyPoint*) ),
+            m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
 }
 
 SkyMap::~SkyMap() {
+    /* == Save infoxes status into Options == */
+    // Time box
+    Options::setPositionTimeBox( m_timeBox->pos() );
+    Options::setShadeTimeBox(    m_timeBox->shaded() );
+    Options::setShowTimeBox(     m_timeBox->isVisible() );
+    // Geo box
+    Options::setPositionGeoBox( m_geoBox->pos() );
+    Options::setShadeGeoBox(    m_geoBox->shaded() );
+    Options::setShowGeoBox(     m_geoBox->isVisible() );
+    // Obj box
+    Options::setPositionFocusBox( m_objBox->pos() );
+    Options::setShadeFocusBox(    m_objBox->shaded() );
+    Options::setShowFocusBox(     m_objBox->isVisible() );
+    
     //store focus values in Options
     //If not trcking and using Alt/Az coords, stor the Alt/Az coordinates
     if ( Options::useAltAz() && ! Options::isTracking() ) {

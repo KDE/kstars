@@ -32,6 +32,8 @@ class InfoBoxWidget : public QWidget
 public:
     InfoBoxWidget(bool shade, QPoint pos, QStringList str = QStringList(), QWidget* parent = 0);
     virtual ~InfoBoxWidget();
+
+    bool shaded() const { return m_shaded; }
 public slots:
     void slotTimeChanged();
     void slotGeoChanged();
