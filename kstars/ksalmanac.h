@@ -21,10 +21,7 @@
 
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
-#include "geolocation.h"
-#include "kstars.h"
 #include "kstarsdatetime.h"
-#include "kstarsdata.h"
 
 
 /**
@@ -38,9 +35,9 @@
  *@version 1.0
  */
 
-// TODO: Fix the documentation for these methods
+class GeoLocation;
 
-class KStars;
+// TODO: Fix the documentation for these methods
 
 class KSAlmanac {
 public:
