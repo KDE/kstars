@@ -79,19 +79,30 @@ void GeoLocation::reset( GeoLocation *g ) {
 }
 
 
-void GeoLocation::setEllipsoid(int index) {
+void GeoLocation::setEllipsoid(int i) {
     static const double A[] = { 6378140.0,       6378137.0,       6378137.0,       6378137.0,        6378136.0 };
     static const double F[] = { 0.0033528131779, 0.0033528106812, 0.0033528131779, 0.00335281066474, 0.0033528131779 };
 
-    axis = A[index];
-    flattening = F[index];
+    Q_ASSERT(i >= 0 && i < sizeof(A)/sizeof(A[0]) && "Index must be in bounds");
+    axis       = A[i];
+    flattening = F[i];
 }
 
 void GeoLocation::changeEllipsoid(int index) {
-
     setEllipsoid(index);
     cartToGeod();
+}
 
+QString GeoLocation::translatedName() const {
+    return Name.isEmpty() ? QString() : i18nc(("City in " + province() + " " + country()).toUtf8().data(), Name.toUtf8().data());
+}
+
+QString GeoLocation::translatedProvince() const {
+    return Province.isEmpty() ? QString() : i18nc(("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data());
+}
+
+QString GeoLocation::translatedCountry() const {
+    return Country.isEmpty() ? QString() : i18nc("Country name (optional, but should be translated)", Country.toUtf8().data());
 }
 
 void GeoLocation::cartToGeod(void)
