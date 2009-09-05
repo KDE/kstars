@@ -80,7 +80,13 @@ void GeoLocation::changeEllipsoid(int index) {
 }
 
 QString GeoLocation::translatedName() const {
-    return Name.isEmpty() ? QString() : i18nc(("City in " + province() + " " + country()).toUtf8().data(), Name.toUtf8().data());
+    QString context;
+    if( province().isEmpty() ) {
+        context = QString("City in %1").arg(country());
+    } else {
+        context = QString("City in %1 %2").arg(province(), country());
+    }
+    return Name.isEmpty() ? QString() : i18nc(context.toUtf8().data(), Name.toUtf8().data());
 }
 
 QString GeoLocation::translatedProvince() const {
@@ -88,7 +94,7 @@ QString GeoLocation::translatedProvince() const {
 }
 
 QString GeoLocation::translatedCountry() const {
-    return Country.isEmpty() ? QString() : i18nc("Country name (optional, but should be translated)", Country.toUtf8().data());
+    return Country.isEmpty() ? QString() : i18nc("Country name", Country.toUtf8().data());
 }
 
 void GeoLocation::cartToGeod()
