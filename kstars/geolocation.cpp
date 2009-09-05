@@ -23,7 +23,6 @@
 
 GeoLocation::GeoLocation(){
     GeoLocation( 0.0, 0.0 );
-    TZrule = NULL;
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
@@ -76,14 +75,11 @@ GeoLocation::GeoLocation( double x, double y, double z,
 }
 
 QString GeoLocation::fullName() const {
-    QString s;
     if ( province().isEmpty() ) {
-        s = translatedName() + ", " + translatedCountry();
+        return QString("%1, %2").arg(translatedName(), translatedCountry());
     } else {
-        s = translatedName() + ", " + translatedProvince() + ", " + translatedCountry();
+        return QString("%1, %2, %3").arg(translatedName(), translatedProvince(), translatedCountry());
     }
-
-    return s;
 }
 
 void GeoLocation::reset( GeoLocation *g ) {
@@ -101,7 +97,7 @@ void GeoLocation::reset( GeoLocation *g ) {
 
 
 void GeoLocation::setEllipsoid(int index) {
-    static const double A[] = { 6378140.0, 6378137.0, 6378137.0, 6378137.0, 6378136.0 };
+    static const double A[] = { 6378140.0,       6378137.0,       6378137.0,       6378137.0,        6378136.0 };
     static const double F[] = { 0.0033528131779, 0.0033528106812, 0.0033528131779, 0.00335281066474, 0.0033528131779 };
 
     axis = A[index];
