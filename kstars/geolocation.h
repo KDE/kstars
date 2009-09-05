@@ -202,12 +202,6 @@ public:
      */
     void setTZrule( TimeZoneRule *tzr ) { TZrule = tzr; }
 
-    /**Set location data to that of the GeoLocation pointed to by argument.
-     * Similar to copy constructor.
-     * @param g pointer to the GeoLocation which should be duplicated.
-     */
-    void reset( GeoLocation *g );
-
     /**Converts from cartesian coordinates in meters to longitude,
      * latitude and height on a standard geoid for the Earth. The
      * geoid is characterized by two parameters: the semimajor axis
@@ -220,7 +214,7 @@ public:
      *
      * Algorithm is from "GPS Satellite Surveying", A. Leick, page 184.
      */
-    void cartToGeod(void);
+    void cartToGeod();
 
     /**Converts from longitude, latitude and height on a standard
      * geoid of the Earth to cartesian coordinates in meters. The geoid
@@ -234,7 +228,7 @@ public:
      *
      * Algorithm is from "GPS Satellite Surveying", A. Leick, page 184.
      */
-    void geodToCart (void);
+    void geodToCart();
 
     /**The geoid is an elliposid which fits the shape of the Earth. It is
      * characterized by two parameters: the semimajor axis and the

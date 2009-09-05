@@ -65,20 +65,6 @@ QString GeoLocation::fullName() const {
     }
 }
 
-void GeoLocation::reset( GeoLocation *g ) {
-    indexEllipsoid = g->ellipsoid();
-    setEllipsoid ( indexEllipsoid );
-    setLong( g->lng()->Degrees() );
-    setLat( g->lat()->Degrees() );
-    Name      = g->name();
-    Province  = g->province();
-    Country   = g->country();
-    TimeZone  = g->TZ();
-    TZrule    = g->tzrule();
-    Height    = g->height();
-}
-
-
 void GeoLocation::setEllipsoid(int i) {
     static const double A[] = { 6378140.0,       6378137.0,       6378137.0,       6378137.0,        6378136.0 };
     static const double F[] = { 0.0033528131779, 0.0033528106812, 0.0033528131779, 0.00335281066474, 0.0033528131779 };
@@ -105,7 +91,7 @@ QString GeoLocation::translatedCountry() const {
     return Country.isEmpty() ? QString() : i18nc("Country name (optional, but should be translated)", Country.toUtf8().data());
 }
 
-void GeoLocation::cartToGeod(void)
+void GeoLocation::cartToGeod()
 {
     static const double RIT = 2.7778e-6;
     double e2, rpro, lat1, xn, s1, sqrtP2, latd, sinl;
@@ -133,7 +119,7 @@ void GeoLocation::cartToGeod(void)
     Latitude.setRadians(latd);
 }
 
-void GeoLocation::geodToCart (void) {
+void GeoLocation::geodToCart() {
     double e2, xn;
     double sinLong, cosLong, sinLat, cosLat;
 
