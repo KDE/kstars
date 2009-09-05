@@ -581,25 +581,21 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         forceUpdate();  // must be new computed
 
     } else { //mouse button not down
+        // FIXME: move to KStars
         KStars* kstars = KStars::Instance();
         if ( kstars ) {
-            QString sX, sY, s;
-
             if ( Options::showAltAzField() ) {
-                sX = mousePoint()->az()->toDMSString(true);  //true: force +/- symbol
                 dms a( mousePoint()->alt()->Degrees() );
                 if ( Options::useAltAz() && Options::useRefraction() )
                     a = refract( mousePoint()->alt(), true ); //true: compute apparent alt from true alt
-                sY = a.toDMSString(true); //true: force +/- symbol
     
-                s = sX + ",  " + sY;
+                QString s = QString("%1, %2").arg( mousePoint()->az()->toDMSString(true), //true: force +/- symbol
+                                                   a.toDMSString(true) );                 //true: force +/- symbol
                 kstars->statusBar()->changeItem( s, 1 );
             }
-
             if ( Options::showRADecField() ) {
-                sX = mousePoint()->ra()->toHMSString();
-                sY = mousePoint()->dec()->toDMSString(true); //true: force +/- symbol
-                s = sX + ",  " + sY;
+                QString s = QString("%1, %2").arg(mousePoint()->ra()->toHMSString(),
+                                                  mousePoint()->dec()->toDMSString(true) ); //true: force +/- symbol
                 kstars->statusBar()->changeItem( s, 2 );
             }
         }
