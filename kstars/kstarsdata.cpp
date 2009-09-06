@@ -18,7 +18,6 @@
 #include "kstarsdata.h"
 
 #include <QApplication>
-#include <QDir>
 #include <QFileInfo>
 #include <QSet>
 #include <QTextStream>
@@ -35,7 +34,6 @@
 #include "ksutils.h"
 #include "ksfilereader.h"
 #include "ksnumbers.h"
-#include "skyobjects/skypoint.h"
 #include "skyobjects/skyobject.h"
 
 #include "simclock.h"
@@ -52,6 +50,17 @@
 #include "dialogs/detaildialog.h"
 
 namespace {
+    // Convert string to integer and complain on failure.
+    //
+    // This function is used in processCity
+    bool strToInt(int& i, QString str, QString line = QString()) {
+        bool ok;
+        i = str.toInt( &ok );
+        if( !ok )
+            kDebug() << str << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << line;
+        return ok;
+    }
+
     // Report fatal error during data loading to user
     // Calls QApplication::exit
     void fatalErrorMessage(QString fname) {
@@ -361,8 +370,8 @@ void KStarsData::setLocation( const GeoLocation &l ) {
 }
 
 SkyObject* KStarsData::objectNamed( const QString &name ) {
-    if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
-
+    if ( (name== "star") || (name== "nothing") || name.isEmpty() )
+        return NULL;
     return skyComposite()->findByName( name );
 }
 
@@ -370,54 +379,41 @@ bool KStarsData::readCityData() {
     QFile file;
     bool citiesFound = false;
 
-    // begin new code
     if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
         KSFileReader fileReader( file ); // close file is included
         while ( fileReader.hasMoreLines() ) {
             citiesFound |= processCity( fileReader.readLine() );
         }
-        file.close();  // -jbb because I changed KSFileReader.
+        file.close();
     }
-    // end new code
 
     //check for local cities database, but don't require it.
-    file.setFileName( KStandardDirs::locate( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName( KStandardDirs::locate( "appdata", "mycities.dat" ) );
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
-
         while ( !stream.atEnd() ) {
             QString line = stream.readLine();
             citiesFound |= processCity( line );
-        }	// while ( !stream.atEnd() )
+        }
         file.close();
-    }	// if ( fileopen() )
+    }
 
     return citiesFound;
 }
 
 bool KStarsData::processCity( const QString& line ) {
-    QString totalLine;
-    QString name, province, country;
-    QStringList fields;
     TimeZoneRule *TZrule;
-    bool intCheck = true;
-    QChar latsgn, lngsgn;
-    int lngD, lngM, lngS;
-    int latD, latM, latS;
     double TZ;
-    float lng, lat;
-
-    totalLine = line;
 
     // separate fields
-    fields = line.split( ':' );
-
-    for ( int i=0; i< fields.size(); ++i )
+    QStringList fields = line.split( ':' );
+    for(int i = 0; i < fields.size(); ++i )
         fields[i] = fields[i].trimmed();
 
     if ( fields.size() < 11 ) {
-        kDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" );
-        kDebug()<< totalLine.toLocal8Bit();
+        kDebug() << i18n( "Cities.dat: Ran out of fields.  Line was:" );
+        kDebug() << line;
         return false;
     } else if ( fields.size() < 12 ) {
         // allow old format (without TZ) for mycities.dat
@@ -428,65 +424,44 @@ bool KStarsData::processCity( const QString& line ) {
         fields.append("--");
     }
 
-    name = fields[0];
-    province = fields[1];
-    country = fields[2];
+    // Read names
+    QString name     = fields[0];
+    QString province = fields[1];
+    QString country  = fields[2];
 
-    latD = fields[3].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[3] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
+    // Read coordinates
+    int lngD, lngM, lngS;
+    int latD, latM, latS;
+    bool ok =
+        strToInt(latD, fields[3], line) &&
+        strToInt(latM, fields[4], line) &&
+        strToInt(latS, fields[5], line) &&
+        strToInt(lngD, fields[7], line) &&
+        strToInt(lngM, fields[8], line) &&
+        strToInt(lngS, fields[9], line);
+    if( !ok )
+        return false;
+
+    double lat = latD + (latM + latS/60.0)/60.0;
+    double lng = lngD + (lngM + lngS/60.0)/60.0;
+
+    // Read sign for latitude
+    switch( fields[6].at(0).toAscii() ) {
+    case 'N' : break;
+    case 'S' : lat *= -1; break;
+    default :
+        kDebug() << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << line;
         return false;
     }
 
-    latM = fields[4].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[4] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
+    // Read sign for longitude
+    switch( fields[10].at(0).toAscii() ) {
+    case 'E' : break;
+    case 'W' : lng *= -1; break;
+    default:
+        kDebug() << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << line;
         return false;
     }
-
-    latS = fields[5].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[5] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    QChar ctemp = fields[6].at(0);
-    latsgn = ctemp;
-    if (latsgn != 'N' && latsgn != 'S') {
-        kDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    lngD = fields[7].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[7] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    lngM = fields[8].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[8] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    lngS = fields[9].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[9] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    ctemp = fields[10].at(0);
-    lngsgn = ctemp;
-    if (lngsgn != 'E' && lngsgn != 'W') {
-        kDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
-    lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
-
-    if ( latsgn == 'S' ) lat *= -1.0;
-    if ( lngsgn == 'W' ) lng *= -1.0;
 
     // find time zone. Use value from Cities.dat if available.
     // otherwise use the old approximation: int(lng/15.0);
@@ -496,23 +471,22 @@ bool KStarsData::processCity( const QString& line ) {
         bool doubleCheck = true;
         TZ = fields[11].toDouble( &doubleCheck);
         if ( !doubleCheck ) {
-            kDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << totalLine;
+            kDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << line;
             return false;
         }
     }
 
     //last field is the TimeZone Rule ID.
+    // FIXME: no checking performed. Crash is possible
     TZrule = &( Rulebook[ fields[12] ] );
 
-    //	if ( fields[12]=="--" )
-    //		kDebug() << "Empty rule start month: " << TZrule->StartMonth;
-    geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));  // appends city names to list
+    // appends city names to list
+    geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));
     return true;
 }
 
 bool KStarsData::readTimeZoneRulebook() {
     QFile file;
-    QString id;
 
     if ( KSUtils::openDataFile( file, "TZrules.dat" ) ) {
         QTextStream stream( &file );
@@ -521,7 +495,7 @@ bool KStarsData::readTimeZoneRulebook() {
             QString line = stream.readLine().trimmed();
             if ( line.length() && !line.startsWith('#') ) { //ignore commented and blank lines
                 QStringList fields = line.split( ' ', QString::SkipEmptyParts );
-                id = fields[0];
+                QString id = fields[0];
                 QTime stime = QTime( fields[3].left( fields[3].indexOf(':')).toInt() ,
                                      fields[3].mid( fields[3].indexOf(':')+1, fields[3].length()).toInt() );
                 QTime rtime = QTime( fields[6].left( fields[6].indexOf(':')).toInt(),
