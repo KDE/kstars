@@ -127,9 +127,12 @@ bool ColorScheme::load( const QString &name ) {
     bool ok;
 
     //Parse default names which don't follow the regular file-naming scheme
-    if ( name == i18nc("use default color scheme", "Default Colors") )     filename = "classic.colors";
-    if ( name == i18nc("use 'star chart' color scheme", "Star Chart") )     filename = "chart.colors";
-    if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
+    if ( name == i18nc("use default color scheme", "Default Colors") )
+        filename = "classic.colors";
+    if ( name == i18nc("use 'star chart' color scheme", "Star Chart") )
+        filename = "chart.colors";
+    if ( name == i18nc("use 'night vision' color scheme", "Night Vision") )
+        filename = "night.colors";
 
     //Try the filename if it ends with ".colors"
     if ( filename.endsWith( QLatin1String( ".colors" ) ) )
@@ -151,16 +154,16 @@ bool ColorScheme::load( const QString &name ) {
 
     //If we reach here, the file should have been successfully opened
     QTextStream stream( &file );
-    QString line;
 
     //first line is the star-color mode and star color intensity
-    line = stream.readLine();
-    ok = false;
+    QString line = stream.readLine();
     int newmode = line.left(1).toInt( &ok );
-    if ( ok ) setStarColorMode( newmode );
-    if ( line.contains(':') ) {
+    if( ok )
+        setStarColorMode( newmode );
+    if( line.contains(':') ) {
         int newintens = line.mid( line.indexOf(':')+1, 2 ).toInt( &ok );
-        if ( ok ) setStarColorIntensity( newintens );
+        if ( ok )
+            setStarColorIntensity( newintens );
     }
 
     //More flexible method for reading in color values.  Any order is acceptable, and
@@ -228,11 +231,9 @@ bool ColorScheme::save( const QString &name ) {
             QTextStream stream( &file );
             stream << StarColorMode << ":" << StarColorIntensity << endl;
 
-            QStringList::Iterator it = KeyName.begin();
-            QStringList::Iterator it_end = KeyName.end();
-            for ( ; it != it_end; ++it )
-                stream << Palette[ (*it) ] << " :" << (*it) << endl;
-
+            foreach( key, KeyName ) {
+                stream << Palette[ key ] << " :" << key << endl;
+            }
             file.close();
         }
 
