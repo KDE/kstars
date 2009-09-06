@@ -186,9 +186,9 @@ bool ColorScheme::load( const QString &name ) {
                 if ( KeyName.contains( k ) ) {
                     setColor( k, tname );
                 } else {
-                    kWarning() << "Could not use the key \"" << tkey <<
-                    "\" from the color scheme file \"" << filename << "\".  I also tried \"" <<
-                    k << "\"." << endl;
+                    kWarning() << "Could not use the key \"" << tkey
+                               << "\" from the color scheme file \"" << filename
+                               << "\".  I also tried \"" << k << "\"." << endl;
                 }
             }
 
@@ -199,10 +199,8 @@ bool ColorScheme::load( const QString &name ) {
             //Assuming the old *.colors format.  Loop through the KeyName list,
             //and assign each color.  Note that order matters here, but only here
             //(so if you don't use the old format, then order doesn't ever matter)
-            QStringList::ConstIterator it = KeyName.constBegin();
-            QStringList::ConstIterator it_end = KeyName.constEnd();
-            for ( ; it != it_end; ++it )
-                setColor( QString(*it), line.left( 7 ) );
+            foreach(QString key, KeyName)
+                setColor( key, line.left( 7 ) );
         }
     }
 
@@ -231,9 +229,8 @@ bool ColorScheme::save( const QString &name ) {
             QTextStream stream( &file );
             stream << StarColorMode << ":" << StarColorIntensity << endl;
 
-            foreach( key, KeyName ) {
+            foreach(QString key, KeyName )
                 stream << Palette[ key ] << " :" << key << endl;
-            }
             file.close();
         }
 
