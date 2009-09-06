@@ -23,7 +23,6 @@
 
 #include <kmessagebox.h>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skyobjects/skyobject.h"
@@ -48,8 +47,9 @@ FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
     SearchList->setMinimumHeight( 320 );
 }
 
-FindDialog::FindDialog( QWidget* parent )
-        : KDialog( parent ), timer(0)
+FindDialog::FindDialog( QWidget* parent ) :
+    KDialog( parent ),
+    timer(0)
 {
     ui = new FindDialogUI( this );
     setMainWidget( ui );
@@ -138,60 +138,59 @@ void FindDialog::initSelection() {
 }
 
 void FindDialog::filterByType() {
-    KStars *p = (KStars *)parent();
+    KStarsData *data = KStarsData::Instance();
 
     switch ( ui->FilterType->currentIndex() ) {
     case 0: // All object types
         {
             QStringList allObjects;
-            foreach ( int type, p->data()->skyComposite()->objectNames().keys() )
-            allObjects += p->data()->skyComposite()->objectNames( type );
-
+            foreach( int type, data->skyComposite()->objectNames().keys() )
+                allObjects += data->skyComposite()->objectNames( type );
             fModel->setStringList( allObjects );
             break;
         }
     case 1: //Stars
         {
             QStringList starObjects;
-            starObjects += p->data()->skyComposite()->objectNames( SkyObject::STAR );
-            starObjects += p->data()->skyComposite()->objectNames( SkyObject::CATALOG_STAR );
+            starObjects += data->skyComposite()->objectNames( SkyObject::STAR );
+            starObjects += data->skyComposite()->objectNames( SkyObject::CATALOG_STAR );
             fModel->setStringList( starObjects );
             break;
         }
     case 2: //Solar system
         {
             QStringList ssObjects;
-            ssObjects += p->data()->skyComposite()->objectNames( SkyObject::PLANET );
-            ssObjects += p->data()->skyComposite()->objectNames( SkyObject::COMET );
-            ssObjects += p->data()->skyComposite()->objectNames( SkyObject::ASTEROID );
-            ssObjects += p->data()->skyComposite()->objectNames( SkyObject::MOON );
+            ssObjects += data->skyComposite()->objectNames( SkyObject::PLANET );
+            ssObjects += data->skyComposite()->objectNames( SkyObject::COMET );
+            ssObjects += data->skyComposite()->objectNames( SkyObject::ASTEROID );
+            ssObjects += data->skyComposite()->objectNames( SkyObject::MOON );
             ssObjects += i18n("Sun");
             fModel->setStringList( ssObjects );
             break;
         }
     case 3: //Open Clusters
-        fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::OPEN_CLUSTER ) );
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::OPEN_CLUSTER ) );
         break;
     case 4: //Open Clusters
-        fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::GLOBULAR_CLUSTER ) );
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::GLOBULAR_CLUSTER ) );
         break;
     case 5: //Gaseous nebulae
-        fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::GASEOUS_NEBULA ) );
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::GASEOUS_NEBULA ) );
         break;
     case 6: //Planetary nebula
-        fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::PLANETARY_NEBULA ) );
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::PLANETARY_NEBULA ) );
         break;
     case 7: //Galaxies
-        fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::GALAXY ) );
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::GALAXY ) );
         break;
     case 8: //Comets
-        fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::COMET ) );
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::COMET ) );
         break;
     case 9: //Asteroids
-        fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::ASTEROID ) );
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::ASTEROID ) );
         break;
     case 10: //Constellations
-        fModel->setStringList( p->data()->skyComposite()->objectNames( SkyObject::CONSTELLATION ) );
+        fModel->setStringList( data->skyComposite()->objectNames( SkyObject::CONSTELLATION ) );
         break;
     }
 }
@@ -228,9 +227,8 @@ SkyObject* FindDialog::selectedObject() const {
     QModelIndex i = ui->SearchList->currentIndex();
     SkyObject *obj = 0;
     if ( i.isValid() ) {
-        KStars *p = (KStars*)parent();
         QString ObjName = i.data().toString();
-        obj = p->data()->skyComposite()->findByName( ObjName );
+        obj = KStarsData::Instance()->skyComposite()->findByName( ObjName );
     }
     if( !obj ) {
         QString stext = ui->SearchBox->text();
