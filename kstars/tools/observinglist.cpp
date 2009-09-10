@@ -1404,9 +1404,9 @@ void ObservingList::selectObject( SkyObject *o ) {
     for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
         QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
         QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
-        int irow = mIndex.row();
-        if(  m_Session->item(irow, 0)->text() == o->translatedName() )
-            ui->SessionView->selectRow( irow );
+        int idxrow = mIndex.row();
+        if(  m_Session->item(idxrow, 0)->text() == o->translatedName() )
+            ui->SessionView->selectRow( idxrow );
         slotNewSelection();
     }
 }

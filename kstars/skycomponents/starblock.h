@@ -25,8 +25,8 @@
 
 class StarObject;
 class StarBlockList;
-class starData;
-class deepStarData;
+struct starData;
+struct deepStarData;
 
 /**
  *@class StarBlock

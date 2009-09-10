@@ -52,7 +52,7 @@ class KSPlanet;
 
 class TimeZoneRule;
 class INDIHostsInfo;
-class ADVTreeData;
+struct ADVTreeData;
 
 
 /**@class KStarsData
