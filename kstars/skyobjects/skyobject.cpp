@@ -41,6 +41,12 @@ QString SkyObject::unnamedString = QString(i18n("unnamed"));
 QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
 QString SkyObject::starString = QString("star");
 
+const SkyObject::UID SkyObject::invalidUID   = ~0;
+const SkyObject::UID SkyObject::UID_STAR     = 0;
+const SkyObject::UID SkyObject::UID_GALAXY   = 1;
+const SkyObject::UID SkyObject::UID_DEEPSKY  = 2;
+const SkyObject::UID SkyObject::UID_SOLARSYS = 3;
+
 SkyObject::SkyObject( int t, dms r, dms d, float m,
                       const QString &n, const QString &n2,
                       const QString &lname )

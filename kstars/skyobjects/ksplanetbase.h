@@ -286,11 +286,11 @@ public:
 
 protected:
     /** Big object. Planet, Moon, Sun. */
-    static const UID UID_SOL_BIGOBJ   = 0;
+    static const UID UID_SOL_BIGOBJ;
     /** Asteroids */
-    static const UID UID_SOL_ASTEROID = 1;
+    static const UID UID_SOL_ASTEROID;
     /** Comets */
-    static const UID UID_SOL_COMET    = 2;
+    static const UID UID_SOL_COMET;
 
     /** Compute high 32-bits of UID. */
     inline UID solarsysUID(UID type) const { return (SkyObject::UID_SOLARSYS << 60) | (type << 52); }

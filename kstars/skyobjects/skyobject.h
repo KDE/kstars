@@ -53,13 +53,13 @@ public:
     typedef qint64 UID;
 
     /** @short Kind of UID */
-    static const UID UID_STAR     = 0;
-    static const UID UID_GALAXY   = 1;
-    static const UID UID_DEEPSKY  = 2;
-    static const UID UID_SOLARSYS = 3;
+    static const UID UID_STAR;
+    static const UID UID_GALAXY;
+    static const UID UID_DEEPSKY;
+    static const UID UID_SOLARSYS;
     
     /** Invalid UID. Real sky object could not have such UID */
-    static const UID invalidUID = ~0;
+    static const UID invalidUID;
     
     /**
      *Constructor.  Set SkyObject data according to arguments.
