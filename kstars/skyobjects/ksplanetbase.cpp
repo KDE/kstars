@@ -48,11 +48,6 @@ QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
   QColor("white"); //Moon
 
 
-const SkyObject::UID KSPlanetBase::UID_SOL_BIGOBJ;
-const SkyObject::UID KSPlanetBase::UID_SOL_ASTEROID;
-const SkyObject::UID KSPlanetBase::UID_SOL_COMET;
-
-
 KSPlanetBase::KSPlanetBase( const QString &s, const QString &image_file, const QColor &c, double pSize ) :
     TrailObject( 2, 0.0, 0.0, 0.0, s ),
     Rearth(0.0),
