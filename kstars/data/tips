@@ -327,7 +327,7 @@
 <tip category="KStars|Customize">
 	<html>
 		<p>You can hide either the Ra/Dec or Az/Alt coordinate fields in the statusbar,
-			or hide the stausbar completely, using the Settings|Statusbar menu.
+			or hide the statusbar completely, using the Settings|Statusbar menu.
 		</p>
 	</html>
 </tip>
