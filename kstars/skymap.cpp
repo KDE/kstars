@@ -974,24 +974,22 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
         else
             Y = o->alt()->radians();
 
+        dX = focus()->az()->reduce().radians() - o->az()->reduce().radians();
         if ( focus()->az()->Degrees() > 270.0 && o->az()->Degrees() < 90.0 ) {
-            dX = -2.0*dms::PI + focus()->az()->reduce().radians() - o->az()->reduce().radians();
+            dX -= 2.0*dms::PI;
         } else if ( focus()->az()->Degrees() < 90.0 && o->az()->Degrees() > 270.0 ) {
-            dX = 2.0*dms::PI + focus()->az()->reduce().radians() - o->az()->reduce().radians();
-        } else {
-            dX = focus()->az()->reduce().radians() - o->az()->reduce().radians();
+            dX += 2.0*dms::PI;
         }
-
         focus()->alt()->SinCos( sinY0, cosY0 );
 
     } else {
+        dX = o->ra()->reduce().radians() - focus()->ra()->reduce().radians();
         if (focus()->ra()->Hours() > 18.0 && o->ra()->Hours() < 6.0) {
-            dX = 2.0*dms::PI + o->ra()->reduce().radians() - focus()->ra()->reduce().radians();
+            dX += 2.0*dms::PI;
         } else if (focus()->ra()->Hours() < 6.0 && o->ra()->Hours() > 18.0) {
-            dX = o->ra()->reduce().radians() - focus()->ra()->reduce().radians() - 2.0*dms::PI;
-        } else {
-            dX = o->ra()->reduce().radians() - focus()->ra()->reduce().radians();
+            dX -= 2.0*dms::PI;
         }
+
         Y = o->dec()->radians();
         focus()->dec()->SinCos( sinY0, cosY0 );
     }
