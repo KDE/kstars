@@ -41,6 +41,7 @@ class KStarsData;
 class KSPopupMenu;
 class SkyObject;
 class InfoBoxWidget;
+class InfoBoxes;
 
 /**@class SkyMap
 	*
@@ -878,6 +879,7 @@ private:
     InfoBoxWidget* m_timeBox;
     InfoBoxWidget* m_geoBox;
     InfoBoxWidget* m_objBox;
+    InfoBoxes*     m_iboxes;
     //QUATERNION
     Quaternion m_rotAxis;
 

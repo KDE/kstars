@@ -37,6 +37,7 @@
 #include "simclock.h"
 #include "kspopupmenu.h"
 #include "skyobjects/ksplanetbase.h"
+#include "widgets/infoboxwidget.h"
 
 // TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"
@@ -52,6 +53,10 @@ void SkyMap::resizeEvent( QResizeEvent * )
 
     *sky  = sky->scaled( width(), height() );
     *sky2 = sky2->scaled( width(), height() );
+
+    // Resize infoboxes container.
+    // FIXME: this is not really pretty. Maybe there are some better way to this???
+    m_iboxes->resize( size() );
 }
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {

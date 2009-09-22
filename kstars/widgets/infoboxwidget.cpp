@@ -44,6 +44,18 @@ namespace {
 }
 
 
+InfoBoxes::~InfoBoxes()
+{}
+
+void InfoBoxes::addInfoBox(InfoBoxWidget* ibox)
+{
+    ibox->setParent(this);
+    m_boxes.append(ibox);
+}
+
+void InfoBoxes::resizeEvent(QResizeEvent * event) {
+}
+
 InfoBoxWidget::InfoBoxWidget(bool shade, QPoint pos, QStringList str, QWidget* parent) :
     QWidget(parent),
     m_strings(str),

@@ -136,6 +136,7 @@ SkyMap::SkyMap() :
     m_timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
                                    Options::positionTimeBox(),
                                    QStringList(), this);
+    m_timeBox->setVisible( Options::showTimeBox() );
     connect(data->clock(), SIGNAL( timeChanged() ),
             m_timeBox,     SLOT(   slotTimeChanged() ) );
     connect(data->clock(), SIGNAL( timeAdvanced() ),
@@ -145,6 +146,7 @@ SkyMap::SkyMap() :
     m_geoBox = new InfoBoxWidget( Options::shadeGeoBox(),
                                   Options::positionGeoBox(),
                                   QStringList(), this);
+    m_geoBox->setVisible( Options::showGeoBox() );
     connect(data,     SIGNAL( geoChanged() ),
             m_geoBox, SLOT(   slotGeoChanged() ) );
 
@@ -152,29 +154,60 @@ SkyMap::SkyMap() :
     m_objBox = new InfoBoxWidget( Options::shadeFocusBox(),
                                   Options::positionFocusBox(),
                                   QStringList(), this);
+    m_objBox->setVisible( Options::showFocusBox() );
     connect(this,     SIGNAL( objectChanged( SkyObject*) ),
             m_objBox, SLOT(   slotObjectChanged( SkyObject*) ) );
     connect(this,     SIGNAL( positionChanged( SkyPoint*) ),
             m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
+
+    m_iboxes = new InfoBoxes(this);
+    m_iboxes->setVisible( Options::showInfoBoxes() );
+    m_iboxes->addInfoBox(m_timeBox);
+    m_iboxes->addInfoBox(m_geoBox);
+    m_iboxes->addInfoBox(m_objBox);
+    // Connect action to infoboxes
+    KStars*  ks = KStars::Instance();
+    QAction* ka;
+    if( ks ) {
+        ka = ks->actionCollection()->action("show_time_box");
+        connect( ka, SIGNAL(toggled(bool)), m_timeBox, SLOT(setVisible(bool)));
+        ka->setChecked( Options::showTimeBox() );
+        ka->setEnabled( Options::showInfoBoxes() );
+
+        ka = ks->actionCollection()->action("show_focus_box");
+        connect( ka, SIGNAL(toggled(bool)), m_objBox, SLOT(setVisible(bool)));
+        ka->setChecked( Options::showFocusBox() );
+        ka->setEnabled( Options::showInfoBoxes() );
+
+        ka = ks->actionCollection()->action("show_location_box");
+        connect( ka, SIGNAL(toggled(bool)), m_geoBox, SLOT(setVisible(bool)));
+        ka->setChecked( Options::showGeoBox() );
+        ka->setEnabled( Options::showInfoBoxes() );
+
+        ka = ks->actionCollection()->action("show_boxes");
+        connect( ka, SIGNAL(toggled(bool)), m_iboxes, SLOT(setVisible(bool)));
+        ka->setChecked( Options::showInfoBoxes() );
+    }
 }
 
 SkyMap::~SkyMap() {
     /* == Save infoxes status into Options == */
+    Options::setShowInfoBoxes( m_iboxes->isVisible() );
     // Time box
     Options::setPositionTimeBox( m_timeBox->pos() );
     Options::setShadeTimeBox(    m_timeBox->shaded() );
-    Options::setShowTimeBox(     m_timeBox->isVisible() );
+    Options::setShowTimeBox(     m_timeBox->isVisibleTo(m_iboxes) );
     // Geo box
     Options::setPositionGeoBox( m_geoBox->pos() );
     Options::setShadeGeoBox(    m_geoBox->shaded() );
-    Options::setShowGeoBox(     m_geoBox->isVisible() );
+    Options::setShowGeoBox(     m_geoBox->isVisibleTo(m_iboxes) );
     // Obj box
     Options::setPositionFocusBox( m_objBox->pos() );
     Options::setShadeFocusBox(    m_objBox->shaded() );
-    Options::setShowFocusBox(     m_objBox->isVisible() );
+    Options::setShowFocusBox(     m_objBox->isVisibleTo(m_iboxes) );
     
     //store focus values in Options
-    //If not trcking and using Alt/Az coords, stor the Alt/Az coordinates
+    //If not tracking and using Alt/Az coords, stor the Alt/Az coordinates
     if ( Options::useAltAz() && ! Options::isTracking() ) {
         Options::setFocusRA(  focus()->az()->Degrees() );
         Options::setFocusDec( focus()->alt()->Degrees() );

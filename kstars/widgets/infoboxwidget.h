@@ -20,11 +20,29 @@
 
 #include <QWidget>
 #include <QPoint>
+#include <QList>
 #include <QString>
 #include <QStringList>
 
 class SkyPoint;
 class SkyObject;
+class InfoBoxWidget;
+
+class InfoBoxes : public QWidget
+{
+    Q_OBJECT
+public:
+    InfoBoxes(QWidget* parent = 0) : QWidget(parent) {}
+    virtual ~InfoBoxes();
+
+    void addInfoBox(InfoBoxWidget* ibox);
+    QList<InfoBoxWidget*> getInfoBoxes() const { return m_boxes; }
+protected:
+    virtual void resizeEvent(QResizeEvent * event);
+private:
+    QList<InfoBoxWidget*> m_boxes;
+};
+
 
 class InfoBoxWidget : public QWidget
 {
