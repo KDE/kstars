@@ -964,14 +964,15 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
     float Height = height() * m_Scale;
     double zoomscale = Options::zoomFactor() * m_Scale;
 
-    //oRefract = true means listen to Options::useRefraction()
-    //false means do not use refraction
-    bool useRefract = oRefract;
-    if ( oRefract == true ) useRefract = Options::useRefraction();
+    //oRefract == true  means listen to Options::useRefraction()
+    //oRefract == false means do not use refraction
+    oRefract &= Options::useRefraction();
 
     if ( Options::useAltAz() ) {
-        if ( useRefract ) Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
-        else Y = o->alt()->radians();
+        if ( oRefract )
+            Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
+        else
+            Y = o->alt()->radians();
 
         if ( focus()->az()->Degrees() > 270.0 && o->az()->Degrees() < 90.0 ) {
             dX = -2.0*dms::PI + focus()->az()->reduce().radians() - o->az()->reduce().radians();
