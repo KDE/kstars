@@ -1716,8 +1716,7 @@ bool SkyMap::isSlewing() const  {
 }
 
 bool SkyMap::isPointNull( const QPointF &p ) {
-    if ( p.x() < -100000. ) return true;
-    return false;
+    return p.x() < -100000.0;
 }
 
 #ifdef HAVE_XPLANET
