@@ -548,10 +548,8 @@ void SkyMap::slotImage() {
     }
 
     KUrl url ( sURL );
-    if( url.isEmpty() )
-        return;
-
-    ImageViewer* iv = new ImageViewer( url, clickedObject()->messageFromTitle(message), this );
+    if( !url.isEmpty() )
+        new ImageViewer( url, clickedObject()->messageFromTitle(message), this );
 }
 
 void SkyMap::slotInfo() {
