@@ -451,7 +451,7 @@ QString StarObject::greekLetter( bool gchar ) const {
     return letter;
 }
 
-QString StarObject::constell( void ) const {
+QString StarObject::constell() const {
     QString code = name2().mid(4,3);
     if ( code == "And" ) return QString("Andromedae");
     if ( code == "Ant" ) return QString("Antliae");

@@ -17,8 +17,6 @@
 
 //This file contains drawing functions SkyMap class.
 
-#include <cstdlib> // abs
-#include <cmath>   // log10()
 #include <iostream>
 
 #include <QPainter>
