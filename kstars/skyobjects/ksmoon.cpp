@@ -31,11 +31,8 @@
 
 namespace {
     // Convert degrees to radians and put it into [0,2*pi] range
-    double degToRad(double x)
-    {
-        while( x > 360.0) x -= 360.0;
-        while( x < 0.0  ) x += 360.0;
-        return x * dms::DegToRad;
+    double degToRad(double x) {
+        return dms::DegToRad * KSUtils::reduceAngle(x, 0.0, 360.0);
     }
 
     /*

@@ -788,8 +788,7 @@ void SkyMap::slewFocus() {
             }
 
             //switch directions to go the short way around the celestial sphere, if necessary.
-            if ( dX < -180.0 ) dX = 360.0 + dX;
-            else if ( dX > 180.0 ) dX = -360.0 + dX;
+            dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
 
             r0 = sqrt( dX*dX + dY*dY );
             r = r0;
@@ -830,9 +829,7 @@ void SkyMap::slewFocus() {
                 }
 
                 //switch directions to go the short way around the celestial sphere, if necessary.
-                if ( dX < -180.0 ) dX = 360.0 + dX;
-                else if ( dX > 180.0 ) dX = -360.0 + dX;
-
+                dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
                 r = sqrt( dX*dX + dY*dY );
                 
                 //Modify step according to a cosine-shaped profile
@@ -960,7 +957,7 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
     double Y, dX;
     double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
-    float Width = width() * m_Scale;
+    float Width  = width()  * m_Scale;
     float Height = height() * m_Scale;
     double zoomscale = Options::zoomFactor() * m_Scale;
 
@@ -973,26 +970,15 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
             Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
         else
             Y = o->alt()->radians();
-
         dX = focus()->az()->reduce().radians() - o->az()->reduce().radians();
-        if ( focus()->az()->Degrees() > 270.0 && o->az()->Degrees() < 90.0 ) {
-            dX -= 2.0*dms::PI;
-        } else if ( focus()->az()->Degrees() < 90.0 && o->az()->Degrees() > 270.0 ) {
-            dX += 2.0*dms::PI;
-        }
         focus()->alt()->SinCos( sinY0, cosY0 );
 
     } else {
         dX = o->ra()->reduce().radians() - focus()->ra()->reduce().radians();
-        if (focus()->ra()->Hours() > 18.0 && o->ra()->Hours() < 6.0) {
-            dX += 2.0*dms::PI;
-        } else if (focus()->ra()->Hours() < 6.0 && o->ra()->Hours() > 18.0) {
-            dX -= 2.0*dms::PI;
-        }
-
         Y = o->dec()->radians();
         focus()->dec()->SinCos( sinY0, cosY0 );
     }
+    dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
 
     //Special case: Equirectangular projection is very simple
     if ( Options::projection() == Equirectangular ) {

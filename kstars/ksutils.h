@@ -57,6 +57,22 @@ namespace KSUtils {
             return max;
         return x;
     }
+
+    /** Put angle into range. Period is equal to max-min.
+     *
+     *  @p x angle value
+     *  @p min minimal angle
+     *  @p max maximal angle
+     */
+    template<typename T>
+    inline T reduceAngle(T x, T min, T max) {
+        T delta = max - min;
+        while( x > max )
+            x -= delta;
+        while( x < min )
+            x += delta;
+        return x;
+    }
 }
 
 #endif
