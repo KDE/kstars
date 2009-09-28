@@ -267,7 +267,7 @@ void INDI_P::newComboBoxItem(const QString &item)
 {
     foreach(INDI_E *lp, el)
     {
-        if (lp->push_w->text() == item)
+        if (lp->label == item)
         {
             newSwitch(lp);
             break;
