@@ -89,7 +89,7 @@ private:
      * @param FinalDesignation The AAVSO star designation
      * @param AverageDay Number of average days for binning the light curve
      */
-    void DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay);
+    void DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, unsigned int AverageDay);
 
     /** Read list of variable stars. */
     bool readVarData();

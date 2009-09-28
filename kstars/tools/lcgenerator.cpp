@@ -84,7 +84,7 @@ LCGenerator::~LCGenerator()
 void LCGenerator::VerifyData()
 {
     QDate StartDate, EndDate;
-    QString Designation, AverageDays;
+    QString Designation;
 
     if ( ! lcg->StartDateBox->date().isValid() ) {
         KMessageBox::error(this, i18n("Start date invalid."));
@@ -103,15 +103,14 @@ void LCGenerator::VerifyData()
     }
 
     // Check that we have an integer for average number of days, if data field empty, then make it 'default'
-    AverageDays  = lcg->AverageDayBox->value();
     Designation  = lcg->DesignationBox->currentItem()->text();
 
     //Download the curve!
-    DownloadCurve(StartDate, EndDate, Designation, AverageDays);
+    DownloadCurve(StartDate, EndDate, Designation, lcg->AverageDayBox->value());
 
 }
 
-void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay)
+void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, unsigned int AverageDay)
 {
     QString buf = "http://www.aavso.org/cgi-bin/kstar.pl";
     QString Yes = "yes";
@@ -120,7 +119,7 @@ void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, co
     buf.append('?'+QString::number(StartDate.toJulianDay()));
     buf.append('?'+QString::number(EndDate.toJulianDay()));
     buf.append('?'+Designation);
-    buf.append('?'+AverageDay);
+    buf.append('?'+QString::number(AverageDay));
     buf.append('?'+ (lcg->FainterCheck->isChecked() ? Yes : No));
     buf.append('?'+ (lcg->CCDVCheck->isChecked() ? Yes : No));
     buf.append('?'+ (lcg->CCDICheck->isChecked() ? Yes : No));
@@ -165,7 +164,7 @@ void LCGenerator::downloadReady(KJob * job)
     downloadJob = 0;
     if ( job->error() )
     {
-        static_cast<KIO::Job*>(job)->showErrorDialog();
+        KMessageBox::error(0, job->errorString());
         return;
     }
 
