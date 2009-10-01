@@ -459,10 +459,21 @@ void DetailDialog::viewLink()
     if (m_CurrentLink == NULL) return;
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList ) {
-        int i = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
-        if (i >= 0) URL = QString( selectedObject->InfoList().at( i ) );
+        for( int j = 0; j < selectedObject->InfoTitle().count(); ++j ) {
+            if( i18nc( "Image/info menu item (should be translated)", selectedObject->InfoTitle().at(j).toLocal8Bit() ) == m_CurrentLink->text() ) {
+                URL = QString( selectedObject->InfoList().at( j ) );
+                break;
+            }
+        }
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList ) {
+        for( int j = 0; j < selectedObject->ImageTitle().count(); ++j ) {
+            if( i18nc( "Image/info menu item (should be translated)", selectedObject->ImageTitle().at(j).toLocal8Bit() ) == m_CurrentLink->text() ) {
+                URL = QString( selectedObject->ImageList().at( j ) );
+                break;
+            }
+        }
+
         int i = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
         if (i >= 0) URL = QString( selectedObject->ImageList().at( i ) );
     }
