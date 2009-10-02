@@ -675,6 +675,8 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
         groupType = KSTARS_FOCUSER;
     else if (groupName.indexOf("Domes") != -1)
         groupType = KSTARS_DOME;
+    else if (groupName.indexOf("Receivers") != -1)
+        groupType = KSTARS_RECEIVERS;
     else if (groupName.indexOf("GPS") != -1)
         groupType = KSTARS_GPS;
 
