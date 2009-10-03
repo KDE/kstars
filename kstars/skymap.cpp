@@ -1,4 +1,4 @@
-/***************************************************************************
+/**************************************************************************
                           skymap.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Sat Feb 10 2001
@@ -1434,6 +1434,7 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
 }
 
 dms SkyMap::refract( const dms *alt, bool findApparent ) {
+    if (!Options::showGround()) return *alt;
     if ( alt->Degrees() <= -2.000 ) return dms( alt->Degrees() );
 
     int index = int( ( alt->Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.

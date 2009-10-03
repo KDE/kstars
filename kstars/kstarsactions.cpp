@@ -148,6 +148,14 @@ void KStars::slotViewToolBar() {
         }
     } else if ( a == actionCollection()->action( "show_horizon" ) ) {
         Options::setShowGround( a->isChecked() );
+        if( !a->isChecked() && Options::useRefraction() ) {
+           QString caption = i18n( "Refraction effects disabled" );
+           QString message = i18n( "When the horizon is switched off, refraction effects are temporarily disabled." );
+    
+           KMessageBox::information( this, message, caption, "dag_refract_hide_ground" );
+        }
+
+
         if ( kcd ) {
             opguides->kcfg_ShowGround->setChecked( a->isChecked() );
         }
