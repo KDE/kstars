@@ -167,7 +167,7 @@ void WUTDialog::init() {
         int hDur = int(Dur);
         int mDur = int(60.0*(Dur - (float)hDur));
         QTime tDur( hDur, mDur );
-        sDuration = KGlobal::locale()->formatTime( tDur );
+        sDuration = KGlobal::locale()->formatTime( tDur, false, true );
     }
 
     WUT->SunSetLabel->setText( i18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
