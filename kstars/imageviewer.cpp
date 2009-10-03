@@ -174,8 +174,8 @@ void ImageViewer::downloadReady (KJob *job)
     if ( job->error() )
     {
       static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
-        closeEvent (0);
-        return;		// exit this function
+	close();        
+	return;		// exit this function
     }
 
     file.close(); // to get the newest information from the file and not any information from opening of the file
@@ -185,7 +185,7 @@ void ImageViewer::downloadReady (KJob *job)
         showImage();
         return;
     }
-    closeEvent (0);
+    close();
 }
 
 void ImageViewer::showImage()
@@ -195,8 +195,8 @@ void ImageViewer::showImage()
     {
         QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyUrl());
         KMessageBox::error (this, text);
-        closeEvent (0);
-        return;
+        close();
+	return;
     }
     fileIsImage = true;	// we loaded the file and know now, that it is an image
 
@@ -264,10 +264,6 @@ void ImageViewer::saveFile (KUrl &url) {
         QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
         KMessageBox::error (this, text);
     }
-}
-
-void ImageViewer::close() {
-    closeEvent(0);
 }
 
 void ImageViewer::checkJob() {

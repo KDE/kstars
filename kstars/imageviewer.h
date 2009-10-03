@@ -103,8 +103,6 @@ private slots:
     /**Saves. File. To. Disc. */
     void saveFileToDisc( void );
 
-    /**Close the window.*/
-    void close( void );
 };
 
 #endif
