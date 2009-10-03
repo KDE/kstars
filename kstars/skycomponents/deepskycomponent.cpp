@@ -332,15 +332,12 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
 
     double maglim = Options::magLimitDrawDeepSky();
 
-    //FIXME
-    //disabling faint limits until the NGC/IC catalog has reasonable mags
     //adjust maglimit for ZoomLevel
-    //double lgmin = log10(MINZOOM);
-    //double lgmax = log10(MAXZOOM);
-    //double lgz = log10(Options::zoomFactor());
-    //if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-    //else
-    maglim = 40.0; //show all deep-sky objects
+    double lgmin = log10(MINZOOM);
+    double lgmax = log10(MAXZOOM);
+    double lgz = log10(Options::zoomFactor());
+    if ( lgz <= 0.75 * lgmax ) 
+        maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
 
     //DrawID drawID = m_skyMesh->drawID();
     MeshIterator region( m_skyMesh, DRAW_BUF );
@@ -373,7 +370,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             //zoom > 2000.), and it's brighter than maglim (unless mag is
             //undefined (=99.9)
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
-                    (mag > 90.0 || mag < (float)maglim) ) {
+                 ( mag < (float)maglim || obj->isCatalogIC() ) ) {
 
                 QPointF o = map->toScreen( obj );
                 if ( ! map->onScreen( o ) ) continue;
