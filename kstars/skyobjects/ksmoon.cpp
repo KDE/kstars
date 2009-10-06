@@ -220,8 +220,8 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
 }
 
 void KSMoon::findPhase() {
-    KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" ); // TODO: Get rid of this ugly thing by making KSSun singleton.
-    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees();
+    KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees(); // Phase is obviously in degrees
     double DegPhase = dms( Phase ).reduce().Degrees();
     int iPhase = int( 0.1*DegPhase+0.5 );
     if (iPhase==36) iPhase = 0;

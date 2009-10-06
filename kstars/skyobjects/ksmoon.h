@@ -54,7 +54,7 @@ public:
 
     /**@return the illuminated fraction of the Moon as seen from Earth
     	*/
-    double illum( void ) const { return 0.5*(1.0 - cos( Phase * 180.0 / dms::PI ) ); }
+    double illum( void ) const { return 0.5*(1.0 - cos( Phase * dms::PI / 180.0 ) ); }
 
     /**@return a short string describing the moon's phase
     	*/
