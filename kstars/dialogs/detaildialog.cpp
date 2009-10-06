@@ -359,6 +359,10 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
     Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
     Pos->AltTransit->setText( talt.toDMSString() );
+
+    // Restore the position and other time-dependent parameters
+    selectedObject->recomputeCoords( ut, geo );
+
 }
 
 void DetailDialog::createLinksTab()
