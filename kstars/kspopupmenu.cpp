@@ -475,6 +475,9 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
     labRiseTime->setText( "<b>"+rt+"</b>" );
     labSetTime->setText( "<b>"+st+"</b>" );
     labTransitTime->setText( "<b>"+tt+"</b>" ) ;
+
+    // Restore the position to the original
+    obj->recomputeCoords( ks->data()->ut(), ks->data()->geo() );
 }
 
 #include "kspopupmenu.moc"
