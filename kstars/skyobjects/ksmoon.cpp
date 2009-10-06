@@ -231,8 +231,8 @@ void KSMoon::findMagnitude(const KSNumbers*)
 }
 
 void KSMoon::findPhase() {
-    KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" ); // TODO: Get rid of this ugly thing by making KSSun singleton.
-    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees();
+    KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees(); // Phase is obviously in degrees
     double DegPhase = dms( Phase ).reduce().Degrees();
     int iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
     QString imName = QString().sprintf("moon%02d.png", iPhase);
