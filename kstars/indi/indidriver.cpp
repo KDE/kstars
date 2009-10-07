@@ -154,6 +154,8 @@ void INDIDriver::enableDevice(INDI_D *indi_device)
 			
 			updateLocalTab();
 			updateMenuActions();
+			    if (ksw->indiMenu()->managers.size() == 1)
+				ksw->indiMenu()->show();
 			return;
 		}
 	}
@@ -345,14 +347,6 @@ void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
   
 		return;
 	  }
-}
-
-void INDIDriver::newDeviceDiscovered()
-{
-
-    emit newDevice();
-
-    updateMenuActions();
 }
 
 void INDIDriver::newTelescopeDiscovered()

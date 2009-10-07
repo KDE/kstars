@@ -137,12 +137,10 @@ public:
     void addINDIHost();
     void modifyINDIHost();
     void removeINDIHost();
-    //TODO void shutdownHost(int managersID);
     void activateRunService();
     void activateStopService();
     void activateHostConnection();
     void activateHostDisconnection();
-    void newDeviceDiscovered();
     void newTelescopeDiscovered();
     void newCCDDiscovered();
 
