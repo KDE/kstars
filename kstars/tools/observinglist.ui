@@ -251,10 +251,10 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string>Open FindDialog</string>
+        <string>Open Find Dialog</string>
        </property>
        <property name="whatsThis">
-        <string>Open the FindDialog for adding objects to the list</string>
+        <string>Open the Find Dialog for adding objects to the list</string>
        </property>
        <property name="text">
         <string>Add Object</string>

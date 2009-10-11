@@ -75,7 +75,7 @@ void ObserverAdd::saveObservers() {
     QFile f;
     f.setFileName( KStandardDirs::locateLocal( "appdata", "observerlist.xml" ) );
     if ( ! f.open( QIODevice::WriteOnly ) ) {
-        KMessageBox::sorry( 0, i18n( "Could not save the observer list to the file" ), i18n( "Write Error!" ) );
+        KMessageBox::sorry( 0, i18n( "Could not save the observer list to the file." ), i18n( "Write Error" ) );
         return;
     }
     QTextStream ostream( &f );

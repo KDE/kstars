@@ -246,7 +246,7 @@
 		</entry>
 		<entry name="FOVNames" type="StringList">
 			<label>Name of selected FOV indicators</label>
-			<whatsthis>The names of the currently-selected field-of-view indicators.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
+			<whatsthis>The names of the currently selected field-of-view indicators.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
 		</entry>
 		<entry name="FadePlanetTrails" type="Bool">
 			<label>Fade planet trails to background color?</label>
@@ -599,7 +599,7 @@
 			<default>false</default>
 		</entry>
         <entry name="ObsListSaveImage" type="Bool">
-            <label>Save the DSS/SDSS images to harddisk</label>
+            <label>Save the DSS/SDSS images to disk</label>
             <whatisthis>The images of objects in the obseving list will be autosaved if you download them</whatisthis>
             <default>false</default>
         </entry>
