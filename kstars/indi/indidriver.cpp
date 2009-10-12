@@ -136,6 +136,7 @@ void INDIDriver::enableDevice(INDI_D *indi_device)
              		host->isConnected = true;
 			updateClientTab();
 			updateMenuActions();
+			ksw->indiMenu()->show();
              		return;
         	}
     	}
@@ -154,8 +155,7 @@ void INDIDriver::enableDevice(INDI_D *indi_device)
 			
 			updateLocalTab();
 			updateMenuActions();
-			    if (ksw->indiMenu()->managers.size() == 1)
-				ksw->indiMenu()->show();
+			ksw->indiMenu()->show();
 			return;
 		}
 	}

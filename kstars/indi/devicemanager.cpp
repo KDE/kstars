@@ -200,7 +200,9 @@ void DeviceManager::dataReceived()
                 delXMLEle (root);
            }
            else if (*errmsg)
+	   {
                 kDebug() << "XML Root Error: " << errmsg;
+	   }
           }
   }
 
