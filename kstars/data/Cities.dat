@@ -427,9 +427,8 @@ Brunswick                        : Maine                 : USA                  
 Brussels                         : Brabant               : Belgium               : 50 : 51 :  0 : N :   4 : 20 : 59 : E : 1.0  : EU
 Bryansk                          : Central Region        : Russia                : 53 : 15 :  0 : N :  34 : 22 :  0 : E :  3.0 : RU
 Buan                             : Jeonbuk               : Korea                 : 35 : 43 :  0 : N : 126 : 42 :  0 : E : 9.0  : SK
-Bucarest                         :                       : Romania               : 44 : 24 :  8 : N :  25 :  6 : 45 : E :  2.0 : EU
 Buchans                          : Newfoundland          : Canada                : 48 : 49 : 30 : N : 56  : 50 : 45 : W : -3.5 : US
-Bucharest                        :                       : Romania               : 44 : 22 : 59 : N :  26 : 10 :  0 : E : 2.0  : EU
+Bucharest                        :                       : Romania               : 44 : 25 : 57 : N :  26 :  6 : 14 : E : 2.0  : EU
 Buckeburg                        :                       : Germany               : 52 : 16 : 29 : N :   9 :  4 : 26 : E : 1.0  : EU
 Budapest                         :                       : Hungary               : 47 : 29 :  6 : N :  19 :  3 : 45 : E :  1.0 : EU
 Buena Park                       : California            : USA                   : 33 : 52 : 18 : N : 117 : 59 : 49 : W : -8.0 : US
@@ -583,7 +582,7 @@ Chillicothe                      : Illinois              : USA                  
 Chillicothe                      : Missouri              : USA                   : 39 : 46 :  1 : N :  93 : 31 : 58 : W : -6.0 : US
 Chillicothe                      : Ohio                  : USA                   : 39 : 19 : 58 : N :  83 :  0 :  0 : W : -5.0 : US
 Chilliwack                       : British Columbia      : Canada                : 49 : 10 : 30 : N : 121 : 56 : 30 : W : -8.0 : US
-Chingola                         :                       : Zambie                : 12 : 54 :  0 : S :  27 : 85 :  0 : E :   2.0 : --
+Chingola                         :                       : Zambia                : 12 : 54 :  0 : S :  27 : 85 :  0 : E :   2.0 : --
 Chino                            : California            : USA                   : 34 :  1 :  1 : N : 117 : 42 :  0 : W : -8.0 : US
 Chino Hills                      : California            : USA                   : 34 :  1 :  1 : N : 117 : 42 :  0 : W : -8.0 : US
 Chinook                          : Montana               : USA                   : 48 : 34 : 58 : N : 109 : 15 :  0 : W : -7.0 : US
@@ -792,7 +791,7 @@ Djibouti                         :                       : Djibouti             
 Dnipropetropsk                   :                       : Ukraine               : 48 : 27 :  0 : N :  34 : 59 : 00 : E :  2.0 : EU
 Doaktown                         : New Brunswick         : Canada                : 46 : 33 : 50 : N : 66  : 06 : 55 : W : -4.0 : US
 Dodge City                       : Kansas                : USA                   : 37 : 45 : 16 : N : 100 :  1 :  8 : W : -6.0 : US
-Dodoma                           :                       : Tanzanie              :  6 : 10 :  0 : S :  35 : 46 :  0 : E :   3.0 : --
+Dodoma                           :                       : Tanzania              :  6 : 10 :  0 : S :  35 : 46 :  0 : E :   3.0 : --
 Doha                             :                       : Qatar                 : 25 : 16 :  1 : N :  51 : 34 :  1 : E : x    : --
 Dokdo                            : Gyengnam              : Korea                 : 37 : 14 : 12 : N : 131 : 52 : 07 : E : 9.0  : SK
 Dolbeau                          : Quebec                : Canada                : 48 : 52 : 37 : N : 72  : 13 : 39 : W : -5.0 : US
@@ -1419,7 +1418,7 @@ Juneau                           : Alaska                : USA                  
 Jõgeva                           :                       : Estonia               : 58 : 44 : 42 : N :  26 : 23 : 49 : E :  2.0 : EU
 Jõvi                             :                       : Estonia               : 59 : 21 : 19 : N :  27 : 25 : 04 : E :  2.0 : EU
 Kabul                            :                       : Afghanistan           : 34 : 34 :  1 : N :  69 : 13 :  1 : E : 4.5  : --
-Kabwe                            :                       : Zambie                : 14 : 44 :  0 : S :  28 : 45 :  0 : E :   2.0 : --
+Kabwe                            :                       : Zambia                : 14 : 44 :  0 : S :  28 : 45 :  0 : E :   2.0 : --
 Kaduna                           :                       : Nigeria               : 10 : 28 :  0 : N :  07 : 55 :  0 : E :   1.0 : --
 Kaena Point                      : Hawaii                : USA                   : 21 : 30 :  0 : N : 158 : 11 : 59 : W :-10.0 : --
 Kaesong                          :                       : Korea                 : 37 : 59 :  0 : N : 126 : 33 :  0 : E : 9.0  : SK
@@ -1522,7 +1521,7 @@ Kisumu                           :                       : Kenya                
 Kit Carson                       : Colorado              : USA                   : 38 : 46 :  1 : N : 102 : 47 : 59 : W : -7.0 : US
 Kitchener                        : Ontario               : Canada                : 43 : 15 :  0 : N :  80 : 19 : 47 : W : -5.0 : US
 Kitt Peak Nat'l. Obs.            : Arizona               : USA                   : 31 : 42 :  5 : N : 111 : 35 : 44 : W : -7.0 : --
-Kitwe                            :                       : Zambie                : 12 : 81 :  0 : S :  28 : 22 :  0 : E :   2.0 : --
+Kitwe                            :                       : Zambia                : 12 : 81 :  0 : S :  28 : 22 :  0 : E :   2.0 : --
 Kiviõli                          :                       : Estonia               : 59 : 21 : 25 : N :  26 : 57 : 47 : E :  2.0 : EU
 Klaipėda                         :                       : Lithuania             : 55 : 44 : 36 : N :  21 :  6 : 36 : E :   2.0 : RU
 Klamath Falls                    : Oregon                : USA                   : 42 : 13 :  1 : N : 121 : 49 :  1 : W : -8.0 : US
@@ -1702,7 +1701,7 @@ Liverpool                        :                       : United Kingdom       
 Liverpool                        : Nova Scotia           : Canada                : 44 : 02 : 00 : N : 64  : 43 : 00 : W : -4.0 : US
 Livingston                       : Alabama               : USA                   : 32 : 34 : 58 : N :  88 :  9 :  0 : W : -6.0 : US
 Livingston                       : Montana               : USA                   : 45 : 39 : 47 : N : 110 : 33 : 46 : W : -7.0 : US
-Livingstone                      :                       : Zambie                : 17 : 49 :  0 : S :  25 : 49 :  0 : E :   2.0 : --
+Livingstone                      :                       : Zambia                : 17 : 49 :  0 : S :  25 : 49 :  0 : E :   2.0 : --
 Livonia                          : Michigan              : USA                   : 42 : 22 : 59 : N :  83 : 22 : 30 : W : -5.0 : US
 Livorno                          :                       : Italy                 : 43 : 33 :  0 : N :  10 : 19 : 15 : E :  1.0 : EU
 Ljubljana                        :                       : Slovenia              : 46 :  2 :  6 : N :  14 : 31 : 45 : E :  1.0 : EU
@@ -1747,7 +1746,7 @@ Luleå                            :                       : Sweden              
 Lund                             :                       : Sweden                : 55 : 41 :  9 : N :  13 : 11 : 15 : E :  1.0 : EU
 Lunenburg                        : Nova Scotia           : Canada                : 44 : 23 : 00 : N : 64  : 19 : 00 : W : -4.0 : US
 Lusaka                           :                       : Zambia                : 15 : 19 : 58 : S :  28 : 26 : 59 : E : 2.0  : --
-Lusaka                           :                       : Zambie                : 14 : 27 :  0 : S :  28 : 28 :  0 : E :   2.0 : --
+Lusaka                           :                       : Zambia                : 14 : 27 :  0 : S :  28 : 28 :  0 : E :   2.0 : --
 Luts'k                           :                       : Ukraine               : 50 : 45 : 00 : N :  25 : 20 : 09 : E : 2.0  : EU
 Luxembourg City                  :                       : Luxembourg            : 49 : 37 :  1 : N :   6 : 12 :  0 : E : 1.0  : EU
 Lynchburg                        : Virginia              : USA                   : 37 : 24 : 53 : N :  79 :  8 : 35 : W : -5.0 : US
@@ -1863,7 +1862,7 @@ Maykop                           : South Region          : Russia               
 Maysville                        : Kentucky              : USA                   : 38 : 34 : 58 : N :  83 : 45 :  0 : W : -5.0 : US
 Mbabane                          :                       : Swaziland             : 26 : 32 :  0 : S :  31 : 14 :  0 : E :   2.0 : --
 Mbandaka                         :                       : Dem rep of Congo      : 00 :  1 :  0 : N :  18 : 17 :  0 : E :   1.0 : --
-Mbeya                            :                       : Tanzanie              :  8 : 89 :  0 : S :  33 : 43 :  0 : E :   3.0 : --
+Mbeya                            :                       : Tanzania              :  8 : 89 :  0 : S :  33 : 43 :  0 : E :   3.0 : --
 McAdam                           : New Brunswick         : Canada                : 45 : 35 : 32 : N : 67  : 18 : 29 : W : -4.0 : US
 McAlester                        : Oklahoma              : USA                   : 34 : 55 :  1 : N :  95 : 45 :  0 : W : -6.0 : US
 McAllen                          : Texas                 : USA                   : 26 : 12 : 11 : N :  98 : 13 : 48 : W : -6.0 : US
@@ -2028,7 +2027,7 @@ Morden                           : Manitoba              : Canada               
 Morehead                         : Kentucky              : USA                   : 38 : 10 :  1 : N :  83 : 25 :  1 : W : -5.0 : US
 Morgan City                      : Louisiana             : USA                   : 29 : 41 : 53 : N :  91 : 12 : 24 : W : -6.0 : US
 Morgantown                       : West Virginia         : USA                   : 39 : 37 : 54 : N :  79 : 57 : 11 : W : -5.0 : US
-Morogoro                         :                       : Tanzanie              :  6 : 82 :  0 : S :  37 : 66 :  0 : E :   3.0 : --
+Morogoro                         :                       : Tanzania              :  6 : 82 :  0 : S :  37 : 66 :  0 : E :   3.0 : --
 Moroto                           :                       : Uganda                :  2 : 30 :  0 : N :  34 : 38 :  0 : E :   3.0 : --
 Morristown                       : New Jersey            : USA                   : 40 : 47 : 59 : N :  74 : 28 : 58 : W : -5.0 : US
 Morristown                       : Tennessee             : USA                   : 36 : 10 :  1 : N :  83 : 17 : 59 : W : -5.0 : US
@@ -2070,7 +2069,7 @@ Muskogee                         : Oklahoma              : USA                  
 Mustvee                          :                       : Estonia               : 58 : 50 : 54 : N :  26 : 56 : 40 : E :  2.0 : EU
 Mutare                           :                       : Zimbabwe              : 18 : 97 :  0 : S :  32 : 65 :  0 : E :   2.0 : --
 Muyinga                          :                       : Burundi               :  2 : 86 :  0 : S :  30 : 32 :  0 : E :   2.0 : --
-Mwanza                           :                       : Tanzanie              :  2 : 52 :  0 : S :  32 : 89 :  0 : E :   3.0 : --
+Mwanza                           :                       : Tanzania              :  2 : 52 :  0 : S :  32 : 89 :  0 : E :   3.0 : --
 Mykolaiv                         :                       : Ukraine               : 46 : 58 : 00 : N :  32 : 00 : 00 : E : 2.0  : EU
 Myrtle Beach                     : South Carolina        : USA                   : 33 : 42 :  0 : N :  78 : 52 : 58 : W : -5.0 : US
 Mzuzu                            :                       : Malawi                : 11 : 46 :  0 : S :  34 : 02 :  0 : E :   2.0 : --
@@ -2102,7 +2101,7 @@ Namwon                           : Jeonbuk               : Korea                
 Nanaimo                          : British Columbia      : Canada                : 49 : 10 : 00 : N : 123 : 56 : 00 : W : -8.0 : US
 Nancay (observatory)             : Cher                  : France                : 47 : 22 :  8 : N :   2 : 13 : 59 : E :  1.0 : EU
 Nandi                            :                       : Fiji                  : 17 : 45 :  0 : S : 177 : 26 : 59 : E : 12.0 : --
-Nantes                           : Loire atlantique      : France                : 47 : 13 : 00 : N :   1 : 33 : 00 : W : 1.0  : EU
+Nantes                           : Loire-atlantique      : France                : 47 : 13 : 00 : N :   1 : 33 : 00 : W : 1.0  : EU
 Napa                             : California            : USA                   : 38 : 17 : 59 : N : 122 : 17 : 24 : W : -8.0 : US
 Naperville                       : Illinois              : USA                   : 41 : 45 :  0 : N :  88 : 10 :  0 : W : -6.0 : US
 Napierville                      : Quebec                : Canada                : 45 : 11 : 00 : N : 73  : 24 : 00 : W : -5.0 : US
@@ -2118,7 +2117,7 @@ Natal                            :                       : Brazil               
 Natchez                          : Mississippi           : USA                   : 31 : 33 : 47 : N :  91 : 23 : 30 : W : -6.0 : US
 Nazko                            : British Columbia      : Canada                : 53 : 00 : 00 : N : 123 : 37 : 00 : W : -8.0 : US
 Našice                           :                       : Croatia               : 45 : 29 : 20 : N :  18 :  5 : 16 : E :  1.0 : EU
-Ndola                            :                       : Zambie                : 12 : 97 :  0 : S :  28 : 29 :  0 : E :   2.0 : --
+Ndola                            :                       : Zambia                : 12 : 97 :  0 : S :  28 : 29 :  0 : E :   2.0 : --
 Needles                          : British Columbia      : Canada                : 49 : 52 : 00 : N : 118 : 06 : 00 : W : -8.0 : US
 Needles                          : California            : USA                   : 34 : 51 :  0 : N : 114 : 39 :  0 : W : -8.0 : US
 Nelson                           : British Columbia      : Canada                : 49 : 30 : 00 : N : 117 : 17 : 00 : W : -8.0 : US
@@ -2620,7 +2619,7 @@ Roswell                          : Georgia               : USA                  
 Roswell                          : New Mexico            : USA                   : 33 : 23 : 42 : N : 104 : 31 : 37 : W : -7.0 : US
 Rota Island                      :                       : US Territory          : 14 : 10 : 23 : N : 145 : 14 : 20 : E : x    : --
 Rotterdam                        :                       : Netherlands           : 51 : 55 :  0 : N :   4 : 29 :  0 : E : 1.0  : EU
-Rouen                            : Seine maritime        : France                : 49 : 25 :  0 : N :   1 :  4 : 59 : E : 1.0  : EU
+Rouen                            : Seine-maritime        : France                : 49 : 25 :  0 : N :   1 :  4 : 59 : E : 1.0  : EU
 Roundup                          : Montana               : USA                   : 46 : 25 :  1 : N : 108 : 34 : 58 : W : -7.0 : US
 Rouyn-Noranda                    : Quebec                : Canada                : 48 : 14 : 00 : N : 79  : 01 : 00 : W : -5.0 : US
 Rovaniemi                        :                       : Finland               : 66 : 17 : 24 : N :  25 : 24 : 36 : W : +2.0 : EU
@@ -3370,7 +3369,7 @@ Yuzhno-Sakhalinsk                : Far East              : Russia               
 Zadar                            :                       : Croatia               : 44 :  7 :  1 : N :  15 : 15 :  0 : E :  1.0 : EU
 Zamora                           :                       : Spain                 : 41 : 29 : 56 : N :  05 : 45 : 18 : W : 1.0  : EU
 Zanesville                       : Ohio                  : USA                   : 39 : 56 : 17 : N :  82 :  0 : 29 : W : -5.0 : US
-Zanzibar                         :                       : Tanzanie              :  6 : 13 :  0 : S :  39 : 13 :  0 : E :   3.0 : --
+Zanzibar                         :                       : Tanzania              :  6 : 13 :  0 : S :  39 : 13 :  0 : E :   3.0 : --
 Zaporizhia                       :                       : Ukraine               : 47 : 50 :  0 : N :  35 : 10 :  0 : E :  2.0 : EU
 Zaragoza                         :                       : Spain                 : 41 : 39 : 24 : N :  00 : 52 : 48 : W : 1.0  : EU
 Zarzis                           :                       : Tunisia               : 33 : 34 :  0 : N :  11 : 04 :  0 : E :   1.0 : --
