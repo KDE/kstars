@@ -22,7 +22,6 @@
 
 #include "skycomponent.h"
 
-class KStarsData;
 class KSNumbers;
 
 /**
@@ -69,7 +68,6 @@ public:
     virtual void drawExportable( QPainter& psky );
 
     /**@short Delegate init requests to all sub components
-     * @p data Pointer to the KStarsData object
      */
     virtual void init();
 
@@ -80,7 +78,6 @@ public:
     	*coordinates.  However, the precession and nutation must also be 
     	*recomputed periodically.  Requests to do so are sent through the
     	*doPrecess parameter.
-    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*@sa updatePlanets()
     	*@sa updateMoons()
@@ -88,7 +85,7 @@ public:
     	*Precession/Nutation computation should be skipped; this computation 
     	*is only occasionally required.
     	*/
-    virtual void update(KStarsData *data, KSNumbers *num=0 );
+    virtual void update( KSNumbers *num=0 );
 
     /**
     	*@short Delegate planet position updates to the SolarSystemComposite
@@ -98,13 +95,12 @@ public:
     	*will recompute the positions of all solar system bodies except the 
     	*Earth's Moon and Jupiter's Moons (because these objects' positions 
     	*change on a much more rapid timescale).
-    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*@sa update()
     	*@sa updateMoons()
     	*@sa SolarSystemComposite::updatePlanets()
     	*/
-    virtual void updatePlanets( KStarsData * /*data*/, KSNumbers * /*num*/ ) {}
+    virtual void updatePlanets( KSNumbers * /*num*/ ) {}
 
     /**
     	*@short Delegate moon position updates to the SolarSystemComposite
@@ -115,13 +111,12 @@ public:
     	*Galilean moons.  These objects are done separately from the other 
     	*solar system bodies, because their positions change more rapidly,
     	*and so updateMoons() must be called more often than updatePlanets().
-    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*@sa update()
     	*@sa updatePlanets()
     	*@sa SolarSystemComposite::updateMoons()
     	*/
-    virtual void updateMoons( KStarsData * /*data*/, KSNumbers * /*num*/ ) {}
+    virtual void updateMoons( KSNumbers * /*num*/ ) {}
 
     /**
     	*@short Add a new sub component to the composite

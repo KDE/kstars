@@ -36,7 +36,7 @@
 #include "planetmoonscomponent.h"
 
 // FIXME: is KStarsData needed here
-SolarSystemComposite::SolarSystemComposite(SkyComponent *parent, KStarsData * )
+SolarSystemComposite::SolarSystemComposite(SkyComponent *parent )
         : SkyComposite(parent)
 {
 
@@ -89,39 +89,40 @@ void SolarSystemComposite::init()
     SkyComposite::init();
 }
 
-void SolarSystemComposite::update( KStarsData *data, KSNumbers *num )
+void SolarSystemComposite::update( KSNumbers *num )
 {
 	//    if ( ! selected() ) return;
 
+    KStarsData *data = KStarsData::Instance(); 
     m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    m_JupiterMoons->update( data, num );
-    m_SaturnMoons->update( data, num );
+    m_JupiterMoons->update( num );
+    m_SaturnMoons->update( num );
 
     foreach ( SkyComponent *comp, components() ) {
-        comp->update( data, num );
+        comp->update( num );
     }
 }
 
-void SolarSystemComposite::updatePlanets( KStarsData *data, KSNumbers *num )
+void SolarSystemComposite::updatePlanets( KSNumbers *num )
 {
 	//    if ( ! selected() ) return;
-
+    KStarsData *data = KStarsData::Instance(); 
     m_Earth->findPosition( num );
     foreach ( SkyComponent *comp, components() ) {
-        comp->updatePlanets( data, num );
+        comp->updatePlanets( num );
     }
 }
 
-void SolarSystemComposite::updateMoons( KStarsData *data, KSNumbers *num )
+void SolarSystemComposite::updateMoons( KSNumbers *num )
 {
 	//    if ( ! selected() ) return;
-
+    KStarsData *data = KStarsData::Instance(); 
     m_Sun->findPosition( num );
     m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
     m_Moon->findPhase();
-    m_JupiterMoons->updateMoons( data, num );
-    m_SaturnMoons->updateMoons( data, num );
+    m_JupiterMoons->updateMoons( num );
+    m_SaturnMoons->updateMoons( num );
 }
 
 void SolarSystemComposite::draw( QPainter& psky )
@@ -152,12 +153,12 @@ QList<SkyObject*>& SolarSystemComposite::comets() {
     return m_CometsComponent->objectList();
 }
 
-void SolarSystemComposite::reloadAsteroids( KStarsData *data ) {
+void SolarSystemComposite::reloadAsteroids( ) {
     m_AsteroidsComponent->clear();
     m_AsteroidsComponent->init();
 }
 
-void SolarSystemComposite::reloadComets( KStarsData *data ) {
+void SolarSystemComposite::reloadComets( ) {
     m_CometsComponent->clear();
     m_CometsComponent->init();
 }

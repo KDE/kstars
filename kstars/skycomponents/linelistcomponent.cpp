@@ -39,11 +39,11 @@ LineListComponent::~LineListComponent()
 
 
 // I don't think the ecliptic or the celestial equator should precess. -jbb
-void LineListComponent::update( KStarsData *data, KSNumbers *num )
+void LineListComponent::update( KSNumbers * )
 {
-    Q_UNUSED(num)
-
-    if ( ! selected() ) return;
+    if ( ! selected() )
+        return;
+    KStarsData *data = KStarsData::Instance();
 
     foreach ( SkyPoint* p, pointList ) {
         //if ( num ) p->updateCoords( num );

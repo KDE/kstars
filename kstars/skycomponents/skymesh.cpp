@@ -32,13 +32,13 @@
 QMap<int, SkyMesh *> SkyMesh::pinstances;
 int SkyMesh::defaultLevel = -1;
 
-SkyMesh* SkyMesh::Create( KStarsData* data, int level )
+SkyMesh* SkyMesh::Create( int level )
 {
     SkyMesh *newInstance;
     newInstance = pinstances.value( level, NULL );
     if( newInstance )
         delete newInstance;
-    newInstance = new SkyMesh( data, level );
+    newInstance = new SkyMesh( level );
     pinstances.insert( level, newInstance );
     if( defaultLevel < 0 )
         defaultLevel = newInstance->level();
@@ -55,9 +55,9 @@ SkyMesh* SkyMesh::Instance( int level )
     return pinstances.value( level, NULL );
 }
 
-SkyMesh::SkyMesh( KStarsData* data, int level) :
+SkyMesh::SkyMesh( int level) :
         HTMesh(level, level, NUM_MESH_BUF),
-        m_drawID(0), m_data( data ), m_KSNumbers( 0 )
+        m_drawID(0), m_KSNumbers( 0 )
 {
     errLimit = HTMesh::size() / 4;
     m_zoomedInPercent = 25;
@@ -66,8 +66,9 @@ SkyMesh::SkyMesh( KStarsData* data, int level) :
 
 void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
 {
+    KStarsData* data = KStarsData::Instance();
     SkyPoint p1( p0->ra(), p0->dec() );
-    long double now = m_data->updateNum()->julianDay();
+    long double now = data->updateNum()->julianDay();
     p1.apparentCoord( now, J2000 );
 
     if ( radius == 1.0 ) {
@@ -75,7 +76,7 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
         printf(" ra1 = %8.4f   dec1 = %8.4f\n", p1.ra()->Degrees(), p1.dec()->Degrees() );
 
         SkyPoint p2( p1.ra(), p1.dec() );
-        p2.updateCoords( m_data->updateNum() );
+        p2.updateCoords( data->updateNum() );
         printf(" ra2 = %8.4f  dec2 = %8.4f\n", p2.ra()->Degrees(), p2.dec()->Degrees() );
         printf("p0 - p1 = %6.4f degrees\n", p0->angularDistanceTo( &p1 ).Degrees() );
         printf("p0 - p2 = %6.4f degrees\n", p0->angularDistanceTo( &p2 ).Degrees() );

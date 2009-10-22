@@ -59,7 +59,6 @@ public:
     /**
      *@short Init class
      *Read the file flags.dat and init members.
-     *@param data KStars data
      */
     virtual void init();
 

@@ -39,16 +39,11 @@
 #include "skyobjects/deepstardata.h"
 #include "starblocklist.h"
 
-class SkyComponent;
-class KStarsData;
-class KSFileReader;
 class SkyMesh;
 class StarObject;
 class SkyLabeler;
-class KStarsSplash;
 class BinFileHelper;
 class StarBlockFactory;
-class MeshIterator;
 class StarBlockList;
 
 class DeepStarComponent: public ListComponent
@@ -61,7 +56,7 @@ public:
 
     //This function is empty; we need that so that the JiT update 
     //is the only one beiong used.
-    void update( KStarsData *data, KSNumbers *num );
+    void update( KSNumbers *num );
 
     bool selected();
 
@@ -74,8 +69,6 @@ public:
     bool openDataFile();
 
     inline bool hasStaticStars() { return staticStars; }
-
-    inline KStarsData *data() { return m_Data; }
 
     /**@return the current setting of the color mode for stars (0=real colors,
         *1=solid red, 2=solid white or 3=solid black).
@@ -115,7 +108,6 @@ private:
     KSNumbers      m_reindexNum;
     int            meshLevel;
 
-    KStarsData*    m_Data;
     float          m_zoomMagLimit;
     float          triggerMag;       // Magnitude at which this catalog triggers
 

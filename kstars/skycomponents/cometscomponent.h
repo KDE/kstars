@@ -18,7 +18,6 @@
 #ifndef COMETSCOMPONENT_H
 #define COMETSCOMPONENT_H
 
-class KStarsData;
 class SkyLabeler;
 
 #include "solarsystemlistcomponent.h"
@@ -57,7 +56,6 @@ public:
     /**
     	*@short Initialize the asteroids list.
     	*Reads in the asteroids data from the asteroids.dat file.
-    	*@p data Pointer to the KStarsData object
     	*
     	*Populate the list of Comets from the data file.
     	*Each line in the data file is parsed as follows:

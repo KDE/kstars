@@ -242,7 +242,7 @@ void OpsCatalog::slotApply() {
 
         if ( ! Options::catalogFile().contains( filename ) ) {
             //Add this catalog
-            ksw->data()->skyComposite()->addCustomCatalog( filename, ksw->data(),  i );
+            ksw->data()->skyComposite()->addCustomCatalog( filename, i );
         }
     }
 

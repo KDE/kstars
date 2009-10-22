@@ -38,9 +38,8 @@ public:
     virtual void init();
 
     /**@short Initialize the component using a SPositionSat array
-     * @p data Pointer to the KStarsData object
      */
-    void initSat(const QString &name, KStarsData *data, SPositionSat *pSat[], int nsteps);
+    void initSat(const QString &name, SPositionSat *pSat[], int nsteps);
 
     bool selected();
 

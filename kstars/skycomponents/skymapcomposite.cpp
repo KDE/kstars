@@ -49,12 +49,12 @@
 #include "skymesh.h"
 #include "skylabeler.h"
 
-SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
+SkyMapComposite::SkyMapComposite(SkyComponent *parent ) :
         SkyComposite(parent), m_reindexNum( J2000 )
 {
     m_skyLabeler = SkyLabeler::Instance();
 
-    m_skyMesh = SkyMesh::Create( data, 3 );  // level 5 mesh = 8192 trixels
+    m_skyMesh = SkyMesh::Create( 3 );  // level 5 mesh = 8192 trixels
 
     m_skyMesh->debug( 0 );               //  1 => print "indexing ..."
     //  2 => prints totals too
@@ -110,14 +110,14 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent, KStarsData *data) :
         m_CustomCatalogs->addComponent( cc );
     }
 
-    m_SolarSystem = new SolarSystemComposite( this, data );
+    m_SolarSystem = new SolarSystemComposite( this );
     addComponent( m_SolarSystem );
 
     m_Flags = new FlagComponent( this );
     addComponent( m_Flags );
 
     connect( this, SIGNAL( progressText( const QString & ) ),
-             data, SIGNAL( progressText( const QString & ) ) );
+             KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
 }
 
 SkyMapComposite::~SkyMapComposite()
@@ -128,7 +128,7 @@ SkyMapComposite::~SkyMapComposite()
     delete m_Flags;
 }
 
-void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
+void SkyMapComposite::update(KSNumbers *num )
 {
     //printf("updating SkyMapComposite\n");
     //1. Milky Way
@@ -140,7 +140,7 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
     //4. Constellation lines
     //m_CLines->update( data, num );
     //5. Constellation names
-    m_CNames->update( data, num );
+    m_CNames->update( num );
     //6. Equator
     //m_Equator->update( data, num );
     //7. Ecliptic
@@ -148,27 +148,27 @@ void SkyMapComposite::update(KStarsData *data, KSNumbers *num )
     //8. Deep sky
     //m_DeepSky->update( data, num );
     //9. Custom catalogs
-    m_CustomCatalogs->update( data, num );
+    m_CustomCatalogs->update( num );
     //10. Stars
     //m_Stars->update( data, num );
     //m_CLines->update( data, num );  // MUST follow stars.
 
     //12. Solar system
-    m_SolarSystem->update( data, num );
+    m_SolarSystem->update( num );
     //13. Satellites
     //m_Satellites->update( data, num );
     //14. Horizon
-    m_Horizon->update( data, num );
+    m_Horizon->update( num );
 }
 
-void SkyMapComposite::updatePlanets(KStarsData *data, KSNumbers *num )
+void SkyMapComposite::updatePlanets(KSNumbers *num )
 {
-    m_SolarSystem->updatePlanets( data, num );
+    m_SolarSystem->updatePlanets( num );
 }
 
-void SkyMapComposite::updateMoons(KStarsData *data, KSNumbers *num )
+void SkyMapComposite::updateMoons(KSNumbers *num )
 {
-    m_SolarSystem->updateMoons( data, num );
+    m_SolarSystem->updateMoons( num );
 }
 
 //Reimplement draw function so that we have control over the order of
@@ -460,7 +460,7 @@ KSPlanetBase* SkyMapComposite::planet( int n ) {
 	return 0;
 }
 
-void SkyMapComposite::addCustomCatalog( const QString &filename, KStarsData *data, int index ) {
+void SkyMapComposite::addCustomCatalog( const QString &filename, int index ) {
     CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, index );
     cc->init();
     
@@ -484,27 +484,27 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
     kWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
 }
 
-void SkyMapComposite::reloadDeepSky( KStarsData *data ) {
+void SkyMapComposite::reloadDeepSky( ) {
     m_DeepSky->clear();
     m_DeepSky->init();
 }
 
-void SkyMapComposite::reloadAsteroids( KStarsData *data ) {
-    m_SolarSystem->reloadAsteroids( data );
+void SkyMapComposite::reloadAsteroids( ) {
+    m_SolarSystem->reloadAsteroids( );
 }
 
-void SkyMapComposite::reloadComets( KStarsData *data ) {
-    m_SolarSystem->reloadComets( data );
+void SkyMapComposite::reloadComets( ) {
+    m_SolarSystem->reloadComets( );
 }
 
-void SkyMapComposite::reloadCLines( KStarsData *data ) {
+void SkyMapComposite::reloadCLines( ) {
     if( m_CLines ) 
         delete m_CLines;
     m_CLines = new ConstellationLines( this );
     m_CLines->init();
 }
 
-void SkyMapComposite::reloadCNames( KStarsData *data ) {
+void SkyMapComposite::reloadCNames( ) {
     objectNames(SkyObject::CONSTELLATION).clear();
     if( m_CNames )
         delete m_CNames;

@@ -65,13 +65,8 @@ void ConstellationNamesComponent::init()
         mode = line.at( 0 );
         if ( mode == 'C') {
             cultureName = line.mid( 2 ).trimmed();
-            if ( cultureName == KStarsData::Instance()->skyComposite()->currentCulture() )
-                culture = true;
-            else
-                culture = false;
-
+            culture     = cultureName == KStarsData::Instance()->skyComposite()->currentCulture();
             i++;
-
             continue;
         }
 
@@ -106,13 +101,13 @@ void ConstellationNamesComponent::init()
 }
 
 // Don't precess the location of the names
-void ConstellationNamesComponent::update( KStarsData *data, KSNumbers *num )
+void ConstellationNamesComponent::update( KSNumbers* )
 {
-    Q_UNUSED(num)
+    if ( ! selected() )
+        return;
 
-    if ( ! selected() ) return;
-
-    for ( int i = 0; i < objectList().size(); i++ ) {
+    KStarsData *data = KStarsData::Instance();
+    for( int i = 0; i < objectList().size(); i++ ) {
         objectList().at( i )->EquatorialToHorizontal( data->lst(),
                 data->geo()->lat() );
     }

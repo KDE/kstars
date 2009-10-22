@@ -45,7 +45,8 @@ void SatelliteComponent::init() {
         );
 }
 
-void SatelliteComponent::initSat( const QString &name, KStarsData *data, SPositionSat *pSat[], int npos ) {
+void SatelliteComponent::initSat( const QString &name, SPositionSat *pSat[], int npos ) {
+    KStarsData *data = KStarsData::Instance();
     setLabel( name );
     setLabelPosition( LineListComponent::RightEdgeLabel );
 

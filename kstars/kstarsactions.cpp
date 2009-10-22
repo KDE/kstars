@@ -227,7 +227,7 @@ void KStars::slotDownload() {
                 //To start displaying the custom catalog, add it to SkyMapComposite
                 Options::setCatalogFile( Options::catalogFile() << fname );
                 Options::setShowCatalog( Options::showCatalog() << 1 );
-                data()->skyComposite()->addCustomCatalog( fname, data(),  Options::catalogFile().size()-1 );
+                data()->skyComposite()->addCustomCatalog( fname, Options::catalogFile().size()-1 );
             }
         }
     }
@@ -429,8 +429,8 @@ void KStars::slotApplyConfigChanges() {
     map()->forceUpdate();
 
     kstarsData->skyComposite()->setCurrentCulture(  kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
-    kstarsData->skyComposite()->reloadCLines( kstarsData );
-    kstarsData->skyComposite()->reloadCNames( kstarsData );
+    kstarsData->skyComposite()->reloadCLines();
+    kstarsData->skyComposite()->reloadCNames();
 }
 
 void KStars::slotSetTime() {

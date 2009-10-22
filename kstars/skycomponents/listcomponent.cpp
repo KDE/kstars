@@ -49,10 +49,11 @@ void ListComponent::clear() {
     }
 }
 
-void ListComponent::update( KStarsData *data, KSNumbers *num )
+void ListComponent::update( KSNumbers *num )
 {
-    if ( ! selected() ) return;
-
+    if ( ! selected() )
+        return;
+    KStarsData *data = KStarsData::Instance();
     foreach ( SkyObject *o, objectList() ) {
         if ( num ) o->updateCoords( num );
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );

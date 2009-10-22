@@ -25,8 +25,8 @@
 
 #include "Options.h"
 #include "skyobjects/ksasteroid.h"
-#include "kstarsdata.h"
 #include "ksutils.h"
+#include "kstarsdata.h"
 #include "ksfilereader.h"
 #include "skymap.h"
 
@@ -109,6 +109,7 @@ void AsteroidsComponent::draw( QPainter& psky )
     psky.setBrush( QBrush( QColor( "gray" ) ) );
 
     foreach ( SkyObject *so, objectList() ) {
+        // FIXME: God help us!
         KSAsteroid *ast = (KSAsteroid*) so;
 
         if ( ast->mag() > Options::magLimitAsteroid() ) continue;

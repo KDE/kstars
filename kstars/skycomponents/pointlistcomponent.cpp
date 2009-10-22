@@ -26,16 +26,17 @@ PointListComponent::PointListComponent( SkyComponent *parent ) :
 
 PointListComponent::~PointListComponent()
 {
-    while ( ! pointList().isEmpty() )
-        delete  pointList().takeFirst();
+    qDeleteAll( pointList() );
 }
 
-void PointListComponent::update( KStarsData *data, KSNumbers *num )
+void PointListComponent::update( KSNumbers *num )
 {
-    if ( ! selected() ) return;
-
-    foreach ( SkyPoint *p, pointList() ) {
-        if ( num ) p->updateCoords( num );
+    if ( ! selected() )
+        return;
+    KStarsData *data = KStarsData::Instance();
+    foreach( SkyPoint *p, pointList() ) {
+        if( num )
+            p->updateCoords( num );
         p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
 }

@@ -25,7 +25,6 @@ class QPainter;
 class QString;
 
 class KSNumbers;
-class KStarsData;
 class SkyObject;
 class SkyPoint;
 
@@ -77,7 +76,6 @@ public:
     virtual void drawPlanets( QPainter& /*psky*/ ) {}
 
     /**@short Initialize the component - load data from disk etc.
-     * @p data Pointer to the KStarsData object
      */
     virtual void init() = 0;
 
@@ -88,7 +86,6 @@ public:
      * coordinates of its member object(s).  However, the precession and
      * nutation must also be recomputed periodically.  Requests to do so are
      * sent through the doPrecess parameter.
-     * @p data Pointer to the KStarsData object
      * @p num Pointer to the KSNumbers object
      * @note this is a pure virtual function, it must be reimplemented
      * by the subclasses of SkyComponent.
@@ -96,9 +93,9 @@ public:
      * @sa ListComponent::update()
      * @sa ConstellationBoundaryComponent::update()
      */
-    virtual void update( KStarsData*, KSNumbers* ) {}
-    virtual void updatePlanets( KStarsData *, KSNumbers * ) {}
-    virtual void updateMoons( KStarsData *, KSNumbers * ) {}
+    virtual void update( KSNumbers* ) {}
+    virtual void updatePlanets( KSNumbers * ) {}
+    virtual void updateMoons( KSNumbers * ) {}
 
     /**
      * @ return true if the component is to be drawn on the map.

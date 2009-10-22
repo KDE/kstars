@@ -20,7 +20,6 @@
 
 #include "linelistindex.h"
 #include "linelistlabel.h"
-class KStarsData;
 
 /**
 	*@class Ecliptic
@@ -43,9 +42,7 @@ public:
 
     void drawLabel( QPainter& psky );
 
-    /**@short Initialize the Ecliptic
-     *@p data pointer to the KStarsData object
-     */
+    /** @short Initialize the Ecliptic */
     virtual void init();
 
     bool selected();

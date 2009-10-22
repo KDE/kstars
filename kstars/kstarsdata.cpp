@@ -134,7 +134,7 @@ KStarsData::KStarsData() :
     TypeName[16] = i18n( "quasar" );
     TypeName[17] = i18n( "multiple star" );
 
-    m_SkyComposite = new SkyMapComposite( 0, this );
+    m_SkyComposite = new SkyMapComposite(0);
     m_logObject = new Comast::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
@@ -223,7 +223,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
         m_preUpdateNumID++;
         m_preUpdateNum = KSNumbers( num );
-        skyComposite()->update( this, &num );
+        skyComposite()->update( &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::update() took %1 ms").arg(t.elapsed());
@@ -234,7 +234,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //TIMING
         //		t.start();
 
-        skyComposite()->updatePlanets( this, &num );
+        skyComposite()->updatePlanets( &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::updatePlanets() took %1 ms").arg(t.elapsed());
@@ -246,7 +246,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //TIMING
         //		t.start();
 
-        skyComposite()->updateMoons( this, &num );
+        skyComposite()->updateMoons( &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::updateMoons() took %1 ms").arg(t.elapsed());
@@ -260,7 +260,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //		t.start();
 
         m_preUpdateID++;
-        skyComposite()->update( this ); //omit KSNumbers arg == just update Alt/Az coords
+        skyComposite()->update(); //omit KSNumbers arg == just update Alt/Az coords
 
         //Update focus
         skymap->updateFocus();

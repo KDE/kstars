@@ -96,10 +96,7 @@ void ConstellationLines::init() {
 
         if ( mode == 'C') {
             cultureName = line.mid( 2 ).trimmed();
-            if ( cultureName == KStarsData::Instance()->skyComposite()->currentCulture() )
-                culture = true;
-            else
-                culture = false;
+            culture     = cultureName == KStarsData::Instance()->skyComposite()->currentCulture();
 
             i++;
             continue;
@@ -143,8 +140,9 @@ const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {
 // StarComponent and ConstellationLines.  If the update is redundant then
 // StarObject::JITupdate() simply returns without doing any work.
 
-void ConstellationLines::JITupdate( KStarsData *data, LineList* lineList )
+void ConstellationLines::JITupdate( LineList* lineList )
 {
+    KStarsData *data = KStarsData::Instance();
     lineList->updateID = data->updateID();
 
     SkyList* points = lineList->points();

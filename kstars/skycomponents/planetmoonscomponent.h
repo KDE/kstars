@@ -24,7 +24,6 @@
 
 class SkyComposite;
 class SolarSystemSingleComponent;
-class KStarsData;
 class SkyMap;
 class KSNumbers;
 class JupiterMoons;
@@ -60,14 +59,11 @@ public:
      */
     void draw( QPainter& psky );
 
-    /**
-     *@short Initialize the planet moons
-     *@p data Pointer to the KStarsData object
-     */
+    /** @short Initialize the planet moons */
     virtual void init();
 
-    void update( KStarsData *data, KSNumbers *num );
-    void updateMoons( KStarsData *data, KSNumbers *num );
+    void update( KSNumbers *num );
+    void updateMoons( KSNumbers *num );
 
     SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 

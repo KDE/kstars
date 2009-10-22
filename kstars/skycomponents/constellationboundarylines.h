@@ -50,8 +50,6 @@ public:
     	*defining the "nodes" of the boundaries.  The nodes are organized into 
     	*"segments", such that each segment represents a continuous series 
     	*of boundary-line intervals that divide two particular constellations.
-    	*
-    	*@param data Pointer to the KStarsData object
     	*/
     virtual void init();
 

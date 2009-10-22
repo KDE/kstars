@@ -21,7 +21,6 @@
 #include "pointlistcomponent.h"
 
 class SkyComposite;
-class KStarsData;
 class SkyMap;
 class KSNumbers;
 
@@ -56,11 +55,10 @@ public:
 
     /**
      *@short Initialize the Horizon
-     *@p data Pointer to the KStarsData object
      */
     virtual void init();
 
-    virtual void update( KStarsData*, KSNumbers* );
+    virtual void update( KSNumbers* );
 
     bool selected();
 

@@ -22,7 +22,6 @@
 #include "listcomponent.h"
 #include "Options.h"
 
-class KStarsData;
 class CustomCatalog;
 
 //JH: TODO: this class should only contain one custom catalog.
@@ -54,17 +53,12 @@ public:
     	*/
     virtual void draw( QPainter& psky );
 
-    virtual void update( KStarsData *data, KSNumbers *num );
+    virtual void update( KSNumbers *num );
 
-    /**
-    	*@short Initialize the Custom catalog
-    	*@p data Pointer to the KStarsData object
-    	*/
+    /** @short Initialize the Custom catalog */
     virtual void init();
 
-    /**
-    	*@return the name of the catalog
-    	*/
+    /** @return the name of the catalog */
     QString name() const { return m_catName; }
 
     /**

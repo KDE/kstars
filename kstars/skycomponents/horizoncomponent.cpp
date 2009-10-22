@@ -59,10 +59,11 @@ bool HorizonComponent::selected()
     return Options::showHorizon();
 }
 
-void HorizonComponent::update( KStarsData *data, KSNumbers * )
+void HorizonComponent::update( KSNumbers * )
 {
-    if ( ! selected() ) return;
-
+    if ( ! selected() )
+        return;
+    KStarsData *data = KStarsData::Instance();
     foreach ( SkyPoint *p, pointList() ) {
         p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     }

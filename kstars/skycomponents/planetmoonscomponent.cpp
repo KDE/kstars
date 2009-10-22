@@ -60,13 +60,14 @@ void PlanetMoonsComponent::init()
         objectNames(SkyObject::MOON).append( pmoons->name(i) );
 }
 
-void PlanetMoonsComponent::update( KStarsData *data, KSNumbers * )
+void PlanetMoonsComponent::update( KSNumbers * )
 {
+    KStarsData *data = KStarsData::Instance();
     if ( visible() )
         pmoons->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void PlanetMoonsComponent::updateMoons( KStarsData *, KSNumbers *num )
+void PlanetMoonsComponent::updateMoons( KSNumbers *num )
 {
     if ( visible() )
         pmoons->findPosition( num, (KSPlanet*)(m_Planet->skyObject()), (KSSun*)(parent()->findByName( "Sun" )) );

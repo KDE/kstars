@@ -89,7 +89,6 @@ bool StarComponent::selected() {
 
 void StarComponent::init() {
     emitProgressText( i18n("Loading stars" ) );
-    m_Data = KStarsData::Instance();
 
     loadStaticData();
 
@@ -129,11 +128,8 @@ int StarComponent::loadDeepStarCatalogs() {
 
 //This function is empty for a reason; we override the normal 
 //update function in favor of JiT updates for stars.
-void StarComponent::update( KStarsData *data, KSNumbers *num )   
-{   
-    Q_UNUSED(data)   
-    Q_UNUSED(num)   
-}   
+void StarComponent::update( KSNumbers*)
+{}
 
 // We use the update hook to re-index all the stars when the date has changed by
 // more than 150 years.
@@ -417,6 +413,7 @@ bool StarComponent::loadStaticData()
 {
     // We break from Qt / KDE API and use traditional file handling here, to obtain speed.
     // We also avoid C++ constructors for the same reason.
+    KStarsData* data = KStarsData::Instance();
     FILE *dataFile, *nameFile;
     bool swapBytes = false;
     BinFileHelper dataReader, nameReader;
@@ -514,7 +511,7 @@ bool StarComponent::loadStaticData()
             star = new StarObject;
             star->init( &stardata );
             star->setNames( name, visibleName );
-            star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+            star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             ++nstars;
             
             if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
@@ -567,6 +564,7 @@ SkyObject* StarComponent::findByName( const QString &name ) {
 }
 
 SkyObject *StarComponent::findByHDIndex( int HDnum ) {
+    KStarsData* data = KStarsData::Instance();
     SkyObject *o;
     BinFileHelper hdidxReader;
     // First check the hash to see if we have a corresponding StarObject already
@@ -595,8 +593,8 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
             byteSwap( &stardata );
         }
         m_starObject.init( &stardata );
-        m_starObject.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-        m_starObject.JITupdate( data() );
+        m_starObject.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        m_starObject.JITupdate( data );
         focusStar = &m_starObject;
         hdidxReader.closeFile();
         return focusStar;
@@ -647,15 +645,15 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
     }
     maxrad = rBest;
 
-    return (SkyObject*) oBest;
+    return oBest;
 }
 
 int StarComponent::starColorMode( void ) const {
-    return m_Data->colorScheme()->starColorMode();
+    return KStarsData::Instance()->colorScheme()->starColorMode();
 }
 
 int StarComponent::starColorIntensity( void ) const {
-    return m_Data->colorScheme()->starColorIntensity();
+    return KStarsData::Instance()->colorScheme()->starColorIntensity();
 }
 
 void StarComponent::byteSwap( starData *stardata ) {

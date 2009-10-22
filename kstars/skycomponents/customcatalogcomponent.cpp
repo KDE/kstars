@@ -128,9 +128,10 @@ void CustomCatalogComponent::init() {
     }
 }
 
-void CustomCatalogComponent::update( KStarsData *data, KSNumbers * )
+void CustomCatalogComponent::update( KSNumbers * )
 {
     if ( visible() ) {
+        KStarsData *data = KStarsData::Instance();
         foreach ( SkyObject *obj, objectList() ) {
             obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }

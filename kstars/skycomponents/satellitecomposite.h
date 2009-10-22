@@ -29,7 +29,6 @@ extern "C" {
 #define DT 10.0    //10-sec timesteps
 #define NSTEPS 360 //360 steps == 1 hour of coverage
 
-class KStarsData;
 
 class SatelliteComposite : public SkyComposite
 {
@@ -42,20 +41,13 @@ public:
 
     ~SatelliteComposite();
 
-    /**
-    	*@short Initialize the Satellite composite
-    	*
-    	*@param data Pointer to the KStarsData object
-    	*/
+    /** @short Initialize the Satellite composite */
     virtual void init();
 
-    /**
-    	*@short Update the satellite tracks
-    	*
-    	*@param data Pointer to the KStarsData object
-    	*@param num Pointer to the KSNumbers object
-    	*/
-    virtual void update( KStarsData *data, KSNumbers *num=0 );
+    /**@short Update the satellite tracks
+     * @param num Pointer to the KSNumbers object
+     */
+    virtual void update( KSNumbers *num=0 );
 
 private:
     QVector<SPositionSat*> pSat;

@@ -25,8 +25,8 @@
 
 #include "Options.h"
 #include "skyobjects/kscomet.h"
-#include "kstarsdata.h"
 #include "ksutils.h"
+#include "kstarsdata.h"
 #include "ksfilereader.h"
 #include "skymap.h"
 #include "skylabeler.h"
@@ -40,7 +40,6 @@ CometsComponent::~CometsComponent() {
     //object deletion handled in grandparent class (ListComponent)
 }
 
-// FIXME: is KStarsData needed?
 void CometsComponent::init() {
     QFile file;
 

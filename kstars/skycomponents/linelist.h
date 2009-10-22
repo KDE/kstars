@@ -24,7 +24,6 @@
 
 class SkyPoint;
 class KSNumbers;
-class KStarsData;
 
 /* @class LineList
  * A simple data container used by LineListIndex.  It contains a list of
@@ -48,8 +47,6 @@ public:
     UpdateID updateID;
     UpdateID updateNumID;
 
-
-    //void update( KStarsData* data );
     /* @short return the list of points for iterating or appending
      * (or whatever).
      */

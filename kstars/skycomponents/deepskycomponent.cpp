@@ -55,11 +55,8 @@ bool DeepSkyComponent::selected()
     return Options::showDeepSky();
 }
 
-void DeepSkyComponent::update( KStarsData *data, KSNumbers *num )
-{
-    Q_UNUSED(data)
-    Q_UNUSED(num)
-}
+void DeepSkyComponent::update( KSNumbers* )
+{}
 
 
 void DeepSkyComponent::init()

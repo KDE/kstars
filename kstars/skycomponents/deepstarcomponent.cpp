@@ -121,7 +121,8 @@ bool DeepStarComponent::loadStaticStars() {
                 star = SB->addStar( deepstardata );
             
             if( star ) {
-                star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+                KStarsData* data = KStarsData::Instance();
+                star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 if( star->getHDIndex() != 0 )
                     m_CatalogNumber.insert( star->getHDIndex(), star );
             } else {
@@ -154,10 +155,8 @@ bool openIndexFile( ) {
 
 //This function is empty for a reason; we override the normal 
 //update function in favor of JiT updates for stars.
-void DeepStarComponent::update( KStarsData *data, KSNumbers *num ) {   
-    Q_UNUSED(data)   
-    Q_UNUSED(num)   
-}   
+void DeepStarComponent::update( KSNumbers *num )
+{}
 
 // TODO: Optimize draw, if it is worth it.
 void DeepStarComponent::draw( QPainter& psky ) {
@@ -297,7 +296,6 @@ void DeepStarComponent::draw( QPainter& psky ) {
 }
 
 void DeepStarComponent::init() {
-    m_Data = KStarsData::Instance();
     openDataFile();
     if( staticStars )
         loadStaticStars();
@@ -329,7 +327,7 @@ bool DeepStarComponent::openDataFile() {
         kDebug() << "Processing " << dataFileName << ", HTMesh Level" << htm_level;
         m_skyMesh = SkyMesh::Instance( htm_level );
         if( !m_skyMesh ) {
-            if( !( m_skyMesh = SkyMesh::Create( KStarsData::Instance(), htm_level ) ) ) {
+            if( !( m_skyMesh = SkyMesh::Create( htm_level ) ) ) {
                 kDebug() << "Could not create HTMesh of level " << htm_level << " for catalog " << dataFileName << ". Skipping it.";
                 return false;
             }
@@ -403,15 +401,15 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
     // candidates (eg: DeepSkyObject::objectNearest()) have been
     // called.
     
-    return (SkyObject*) oBest;
+    return oBest;
 }
 
 int DeepStarComponent::starColorMode( void ) const {
-    return m_Data->colorScheme()->starColorMode();
+    return KStarsData::Instance()->colorScheme()->starColorMode();
 }
 
 int DeepStarComponent::starColorIntensity( void ) const {
-    return m_Data->colorScheme()->starColorIntensity();
+    return KStarsData::Instance()->colorScheme()->starColorIntensity();
 }
 
 void DeepStarComponent::byteSwap( deepStarData *stardata ) {

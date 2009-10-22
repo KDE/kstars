@@ -136,8 +136,9 @@ void LineListIndex::reindexLines()
 }
 
 
-void LineListIndex::JITupdate( KStarsData *data, LineList* lineList )
+void LineListIndex::JITupdate( LineList* lineList )
 {
+    KStarsData *data = KStarsData::Instance();
     lineList->updateID = data->updateID();
     SkyList* points = lineList->points();
 
@@ -203,7 +204,7 @@ void LineListIndex::drawAllLines( QPainter& psky )
         LineList* lineList = m_listList.at( i );
 
         if ( lineList->updateID != updateID )
-            JITupdate( data, lineList );
+            JITupdate( lineList );
 
         SkyList* points = lineList->points();
         pLast = points->first();
@@ -263,7 +264,7 @@ void LineListIndex::drawLines( QPainter& psky )
             lineList->drawID = drawID;
 
             if ( lineList->updateID != updateID )
-                JITupdate( data, lineList );
+                JITupdate( lineList );
 
             SkyList* points = lineList->points();
             pLast = points->first();
@@ -332,7 +333,7 @@ void LineListIndex::drawFilled( QPainter& psky )
             lineList->drawID = drawID;
 
             if ( lineList->updateID != updateID )
-                JITupdate( data, lineList );
+                JITupdate( lineList );
 
             SkyList* points = lineList->points();
             pLast = points->last();
