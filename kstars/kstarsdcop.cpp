@@ -175,7 +175,7 @@ void KStars::waitForKey( const QString &k ) {
         while ( ! data()->resumeKey.isEmpty() ) { qApp->processEvents(); }
 
     } else {
-        kDebug() << i18n( "Error [DCOP waitForKey()]: Invalid key requested." );
+        kDebug() << i18n( "Error [D-Bus waitForKey()]: Invalid key requested." );
     }
 }
 
@@ -232,10 +232,10 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
 
     if ( !cityFound ) {
         if ( province.isEmpty() )
-            kDebug() << i18n( "Error [DCOP setGeoLocation]: city " ) << city << ", "
+            kDebug() << i18n( "Error [D-Bus setGeoLocation]: city " ) << city << ", "
             << country << i18n( " not found in database." ) << endl;
         else
-            kDebug() << i18n( "Error [DCOP setGeoLocation]: city " ) << city << ", "
+            kDebug() << i18n( "Error [D-Bus setGeoLocation]: city " ) << city << ", "
             << province << ", " << country << i18n( " not found in database." ) << endl;
     }
 }
