@@ -483,10 +483,10 @@ void DetailDialog::updateLists()
     Links->ImageTitleList->clear();
 
     foreach ( const QString &s, selectedObject->InfoTitle() )
-    Links->InfoTitleList->addItem( s );
+        Links->InfoTitleList->addItem( s );
 
     foreach ( const QString &s, selectedObject->ImageTitle() )
-    Links->ImageTitleList->addItem( s );
+        Links->ImageTitleList->addItem( s );
 
     updateButtons();
 }
