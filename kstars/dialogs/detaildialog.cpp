@@ -402,8 +402,8 @@ void DetailDialog::createLinksTab()
     connect( Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), Links->ImageTitleList, SLOT( clearSelection() ) );
 
     // vice versa
-    connect( Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
-    connect( Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*)), Links->InfoTitleList, SLOT( clearSelection() ));
+    connect( Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
+    connect( Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), Links->InfoTitleList, SLOT( clearSelection() ));
 
     connect( Links->InfoTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT( viewLink() ) );
     connect( Links->ImageTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT( viewLink() ) );
