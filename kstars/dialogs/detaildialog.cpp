@@ -119,7 +119,7 @@ void DetailDialog::createGeneralTab()
     StarObject *s = 0L;
     DeepSkyObject *dso = 0L;
     KSPlanetBase *ps = 0L;
-    QString pname, oname;
+    QString pname, oname, objecttyp, constellationname;
 
     switch ( selectedObject->type() ) {
     case SkyObject::STAR:
@@ -133,7 +133,7 @@ void DetailDialog::createGeneralTab()
             else
                 Data->Names->setText( QString( ", HD%1" ).arg( QString::number( s->getHDIndex() ) ) );
         }
-        Data->Type->setText( s->sptype() + ' ' + i18n("star") );
+        objecttyp = s->sptype() + ' ' + i18n("star");
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
 
@@ -178,13 +178,13 @@ void DetailDialog::createGeneralTab()
         Data->Names->setText( ps->longname() );
         //Type is "G5 star" for Sun
         if ( ps->name() == "Sun" )
-            Data->Type->setText( i18n("G5 star") );
+            objecttyp = i18n("G5 star");
         else if ( ps->name() == "Moon" )
-            Data->Type->setText( ps->translatedName() );
+            objecttyp = ps->translatedName();
         else if ( ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris" ) // TODO: Check if Ceres / Eris have translations and i18n() them
-            Data->Type->setText( i18n("Dwarf planet") );
+            objecttyp = i18n("Dwarf planet");
         else
-            Data->Type->setText( ps->typeName() );
+            objecttyp = ps->typeName();
 
         //Magnitude: The moon displays illumination fraction instead
         if ( selectedObject->name() == "Moon" ) {
@@ -245,7 +245,7 @@ void DetailDialog::createGeneralTab()
         if ( ! oname.isEmpty() ) pname += ", " + oname;
         Data->Names->setText( pname );
 
-        Data->Type->setText( dso->typeName() );
+        objecttyp = dso->typeName();
 
         if ( dso->mag() > 90.0 )
             Data->Magnitude->setText( "--" );
@@ -270,8 +270,12 @@ void DetailDialog::createGeneralTab()
     }
 
     //Common to all types:
-    Data->Constellation->setText(
-        ConstellationBoundary::Instance()->constellationName( selectedObject ) );
+    if ( selectedObject->type() == SkyObject::CONSTELLATION )
+        Data->ObjectTypeInConstellation->setText( ConstellationBoundary::Instance()->constellationName( selectedObject ) );
+    else
+        Data->ObjectTypeInConstellation->setText( 
+            i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objecttyp, 
+                  ConstellationBoundary::Instance()->constellationName( selectedObject ) ) );
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
