@@ -1,7 +1,7 @@
 <tip category="KStars|General">
 	<html>
 		<p>You can locate objects in the sky by their name.
-			Use Ctrl+F, the "Focus->Find Object" menu item, or the "Find"
+			Use Ctrl+F, the "Pointing->Find Object" menu item, or the "Find Object"
 			Toolbar button.
 		</p>
 	</html>
@@ -9,7 +9,7 @@
 <tip category="KStars|General">
 	<html>
 		<p>To change your Geographic Location,
-			use Ctrl+G, the "Settings->Set Geographic Location..." menu item,
+			use Ctrl+G, the "Settings->Geographic..." menu item,
 			or the "globe" Toolbar button.
 		</p>
 	</html>
@@ -18,7 +18,7 @@
 	<html>
 		<p>You can Track an object, so it will always be centered
 			in the display.<br/>
-			Use Ctrl+T, the "Focus->Track Object" menu item, or the "lock"
+			Use Ctrl+T, the "Pointing->Engage Tracking" menu item, or the "lock"
 			Toolbar button. You can also simply center the object by
 			double-clicking on it or selecting "Center and Track" from the
 			object's popup menu.
@@ -102,7 +102,7 @@
 <tip category="KStars|Navigation">
 	<html>
 		<p>You can manually set the coordinates of the central Focus point.
-			Press Ctrl+M, or use the "Focus->Set Focus Manually..." menu item, and enter
+			Press Ctrl+M, or use the "Pointing->Set Focus Manually..." menu item, and enter
 			the desired coordinates in the popup window.
 		</p>
 	</html>
@@ -140,7 +140,7 @@
 <tip category="KStars|Time">
 	<html>
 		<p>You can stop and start the clock with the "Play/Pause" button
-			in the Toolbar, or with the "Time->Stop/Start Clock" menu item.
+			in the Toolbar, or with the "Time->Stop Clock" menu item.
 		</p>
 	</html>
 </tip>
@@ -193,7 +193,7 @@
 	<html>
 		<p>If you want the very latest orbital information for asteroids and
 			comets (including recently-discovered objects), check the "Download
-			Data" tool ("File|Download Data" or Ctrl+D) frequently for updated
+			Data" tool ("File->Download New Data" or Ctrl+D) frequently for updated
 			ephemerides.
 		</p>
 	</html>
@@ -256,7 +256,7 @@
 </tip>
 <tip category="KStars|Tools">
 	<html>
-		<p>The ScriptBuilder tool allows you to construct complex DCOP
+		<p>The ScriptBuilder tool allows you to construct complex D-Bus
 			scripts using a simple GUI.  The scripts can be played back later
 			from the command line, or from within KStars.
 		</p>
@@ -290,8 +290,8 @@
 </tip>
 <tip category="KStars|Customize">
 	<html>
-		<p>To add your own custom Object Catalogs, select
-			"Add Catalog" from the Catalogs tab in the KStars Configuration window.
+		<p>To add your own custom Object Catalogs, select "Import Catalog" or 
+			"Load Catalog" from the Catalogs tab in the KStars Configuration window.
 			See the Handbook for instructions on formatting your catalog file.
 		</p>
 	</html>
@@ -327,7 +327,7 @@
 <tip category="KStars|Customize">
 	<html>
 		<p>You can hide either the Ra/Dec or Az/Alt coordinate fields in the statusbar,
-			or hide the statusbar completely, using the Settings|Statusbar menu.
+			or hide the statusbar completely, using the Settings->Statusbar menu.
 		</p>
 	</html>
 </tip>
@@ -341,8 +341,8 @@
 <tip category="KStars|Customize">
 	<html>
 		<p>You can define your own Geographic Locations.  Fill in the
-			required fields in the "Change Location" Dialog and then press the
-			"Add to List" button. Your Locations will be available in all
+			required fields in the "Set Geographic Location" Dialog and then press the
+			"Add City to List" button. Your Locations will be available in all
 			future sessions.
 		</p>
 	</html>
@@ -359,7 +359,7 @@
 <tip category="KStars|Customize">
 	<html>
 		<p>You can construct your own field-of-view (FOV) symbols, using the
-			FOV Editor under the Tools menu.  You can set the angular size, the
+			FOV Editor from the Setiings->FOV Symbols menu.  You can set the angular size, the
 			shape, and the color of your new symbols.
 		</p>
 	</html>
