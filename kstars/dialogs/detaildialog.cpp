@@ -481,10 +481,10 @@ void DetailDialog::updateLists()
     Links->ImageTitleList->clear();
 
     foreach ( const QString &s, selectedObject->InfoTitle() )
-    Links->InfoTitleList->addItem( s );
+        Links->InfoTitleList->addItem( s );
 
     foreach ( const QString &s, selectedObject->ImageTitle() )
-    Links->ImageTitleList->addItem( s );
+        Links->ImageTitleList->addItem( s );
 
     updateButtons();
 }
@@ -517,11 +517,10 @@ void DetailDialog::editLinkDialog()
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
-        row = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
-        if ( row < 0 ) return;
+        row = Links->InfoTitleList->row( m_CurrentLink );
 
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL   = selectedObject->InfoList()[row];
+        currentItemURL = selectedObject->InfoTitle().at( row );
         search_line = selectedObject->name();
         search_line += ':';
         search_line += currentItemTitle;
@@ -531,11 +530,10 @@ void DetailDialog::editLinkDialog()
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList )
     {
-        row = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
-        if ( row < 0 ) return;
+        row = Links->ImageTitleList->row( m_CurrentLink );
 
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL   = selectedObject->ImageList()[row];
+        currentItemURL = selectedObject->ImageTitle().at( row ); 
         search_line = selectedObject->name();
         search_line += ':';
         search_line += currentItemTitle;
@@ -612,7 +610,7 @@ void DetailDialog::removeLinkDialog()
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
-        row = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
+        row = Links->InfoTitleList->row( m_CurrentLink );
         currentItemTitle = m_CurrentLink->text();
         currentItemURL   = selectedObject->InfoList()[row];
         LineEntry = selectedObject->name();
@@ -624,7 +622,7 @@ void DetailDialog::removeLinkDialog()
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList )
     {
-        row = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
+        row = Links->ImageTitleList->row( m_CurrentLink );
         currentItemTitle = m_CurrentLink->text();
         currentItemURL   = selectedObject->ImageList()[row];
         LineEntry = selectedObject->name();
