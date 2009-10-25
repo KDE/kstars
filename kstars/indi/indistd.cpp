@@ -1003,11 +1003,12 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
 
                 if (prop == NULL)
                 {
-		    // Backward compatibility
-                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD");
+
+                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
                     if (prop == NULL)
 		    {
-			prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
+  		        // Backward compatibility
+			prop = pp->pg->dp->findProp("HORIZONTAL_COORD");
 			if (prop == NULL)
                         	return false;
 		    }
