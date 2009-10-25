@@ -359,7 +359,7 @@
 <tip category="KStars|Customize">
 	<html>
 		<p>You can construct your own field-of-view (FOV) symbols, using the
-			FOV Editor from the Setiings->FOV Symbols menu.  You can set the angular size, the
+			FOV Editor from the Settings->FOV Symbols menu.  You can set the angular size, the
 			shape, and the color of your new symbols.
 		</p>
 	</html>
