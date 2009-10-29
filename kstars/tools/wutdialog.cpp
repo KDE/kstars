@@ -120,6 +120,8 @@ void WUTDialog::initCategories() {
 
 void WUTDialog::init() {
     QString sRise, sSet, sDuration;
+    float Dur;
+    int hDur,mDur;
     KStarsData* data = KStarsData::Instance();
     // reset all lists
     foreach ( const QString &c, m_Categories ) {
@@ -148,31 +150,43 @@ void WUTDialog::init() {
             sRise = i18n( "circumpolar" );
             sSet = i18n( "circumpolar" );
             sDuration = "00:00";
+            Dur = hDur = mDur = 0;
         } else {
             sRise = i18n( "does not rise" );
             sSet = i18n( "does not rise" );
             sDuration = "24:00";
+            Dur = hDur = 24;
+            mDur = 0;
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
         sRise = KGlobal::locale()->formatTime( sunRiseTomorrow );
         sSet = KGlobal::locale()->formatTime( sunSetToday );
 
-        float Dur = 24.0 + (float)sunRiseTomorrow.hour()
+        Dur = 24.0 + (float)sunRiseTomorrow.hour()
                     + (float)sunRiseTomorrow.minute()/60.0
                     + (float)sunRiseTomorrow.second()/3600.0
                     - (float)sunSetToday.hour()
                     - (float)sunSetToday.minute()/60.0
                     - (float)sunSetToday.second()/3600.0;
-        int hDur = int(Dur);
-        int mDur = int(60.0*(Dur - (float)hDur));
+        hDur = int(Dur);
+        mDur = int(60.0*(Dur - (float)hDur));
         QTime tDur( hDur, mDur );
         sDuration = KGlobal::locale()->formatTime( tDur, false, true );
     }
 
     WUT->SunSetLabel->setText( i18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
     WUT->SunRiseLabel->setText( i18nc( "Sunrise at time %1 on date %2", "Sunrise: %1 on %2" , sRise, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
-    WUT->NightDurationLabel->setText( i18np("Night duration: %1 hour", "Night duration: %1 hours", sDuration, 0 ) );
+    if( Dur == 0 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1", sDuration ) );
+    else if( Dur > 1 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1 hours", sDuration ) );
+    else if( Dur == 1 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1 hour", sDuration ) );
+    else if( mDur > 1 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1 minutes", sDuration ) );
+    else if( mDur == 1 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1 minute", sDuration ) );
 
     // moon almanac information
     KSMoon *oMoon = reinterpret_cast<KSMoon*>( data->objectNamed("Moon") );
