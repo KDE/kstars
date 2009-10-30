@@ -81,7 +81,6 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
 
     ksal->setLocation(data->geo());
     while ( y == kdt.date().year() ) {
-        float t = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
         ksal->setDate(&kdt);
 
         rTime = ksal->getSunRise()*24.0;
@@ -97,6 +96,7 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
             imonth = kdt.date().month();
         }
         
+        float t = kdt.date().daysInYear() - kdt.date().dayOfYear();
         polySunRise << mapToWidget( QPointF( rTime, t ) );
         polySunSet << mapToWidget( QPointF(  sTime, t ) );
         
