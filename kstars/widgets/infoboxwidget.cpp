@@ -33,14 +33,6 @@ namespace {
     // Padding
     const int padX = 6;
     const int padY = 2;
-
-    // Resize QStringList. For some reason. QList doesn't have resize.
-    void resizeList(QStringList& list, int n) {
-        while( list.size() > n )
-            list.removeLast();
-        while( list.size() < n )
-            list.append( QString() );
-    }
 }
 
 
@@ -83,12 +75,12 @@ void InfoBoxWidget::updateSize() {
 void InfoBoxWidget::slotTimeChanged() {
     KStarsData* data = KStarsData::Instance();
 
-    resizeList(m_strings, 3);
-    m_strings[0] =
+    m_strings.clear();
+    m_strings <<
         i18nc( "Local Time", "LT: " ) +
         KGlobal::locale()->formatTime( data->lt().time(), true ) + "   " +
         KGlobal::locale()->formatDate( data->lt().date() );
-    m_strings[1] =
+    m_strings <<
         i18nc( "Universal Time", "UT: " ) +
         KGlobal::locale()->formatTime( data->ut().time(), true ) + "   " +
         KGlobal::locale()->formatDate( data->ut().date() );
@@ -99,7 +91,7 @@ void InfoBoxWidget::slotTimeChanged() {
     //thousands-place separators
     QString JDString = QString::number( data->ut().djd(), 'f', 2 );
     JDString.replace( '.', KGlobal::locale()->decimalSymbol() );
-    m_strings[2] =
+    m_strings <<
         i18nc( "Sidereal Time", "ST: " ) + STString +
         i18nc( "Julian Day", "JD: " ) + JDString;
     updateSize();
@@ -109,15 +101,14 @@ void InfoBoxWidget::slotTimeChanged() {
 void InfoBoxWidget::slotGeoChanged() {
     KStarsData* data = KStarsData::Instance();
 
-    resizeList(m_strings, 2);
-
     QString name = data->geo()->translatedName() + ", ";
     if ( ! data->geo()->province().isEmpty() )
         name += data->geo()->translatedProvince() + ",  ";
     name += data->geo()->translatedCountry();
-    m_strings[0] = name;
 
-    m_strings[1] =
+    m_strings.clear();
+    m_strings << name;
+    m_strings <<
         i18nc( "Longitude", "Long:" ) + ' ' +
         KGlobal::locale()->formatNumber( data->geo()->lng()->Degrees(),3) + "   " +
         i18nc( "Latitude", "Lat:" ) + ' ' +
@@ -135,12 +126,12 @@ void InfoBoxWidget::slotPointChanged(SkyPoint* p) {
 }
 
 void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
-    resizeList(m_strings, 3);
-    m_strings[0] = name;
-    m_strings[1] =
+    m_strings.clear();
+    m_strings << name;
+    m_strings <<
         i18nc( "Right Ascension", "RA" ) + ": " + p->ra()->toHMSString() + "  " +
         i18nc( "Declination", "Dec" )    +  ": " + p->dec()->toDMSString(true);
-    m_strings[2] =
+    m_strings <<
         i18nc( "Azimuth", "Az" )   + ": " + p->az()->toDMSString(true) + "  " +
         i18nc( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true);
     updateSize();

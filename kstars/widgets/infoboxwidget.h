@@ -32,6 +32,7 @@ class InfoBoxes : public QWidget
 {
     Q_OBJECT
 public:
+
     InfoBoxes(QWidget* parent = 0) : QWidget(parent) {}
     virtual ~InfoBoxes();
 
@@ -43,19 +44,26 @@ private:
     QList<InfoBoxWidget*> m_boxes;
 };
 
-
+/** Small optianally transparent box for display of text messages. */
 class InfoBoxWidget : public QWidget
 {
     Q_OBJECT
 public:
+    /** Create one infobox. */
     InfoBoxWidget(bool shade, QPoint pos, QStringList str = QStringList(), QWidget* parent = 0);
+    /** Destructor */
     virtual ~InfoBoxWidget();
 
+    /** Check whether box is shaded. In this case only one line is shown. */
     bool shaded() const { return m_shaded; }
 public slots:
+    /** Set information about time. Data is taken from KStarsData. */
     void slotTimeChanged();
+    /** Set information about location. Data is taken from KStarsData. */
     void slotGeoChanged();
+    /** Set information about object. */
     void slotObjectChanged(SkyObject* obj);
+    /** Set information about pointing. */
     void slotPointChanged(SkyPoint* p);
 protected:
     virtual void resizeEvent(QResizeEvent * event);
@@ -65,11 +73,14 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
 private:
+    /** Uset to set information about object. */
     void setPoint(QString name, SkyPoint* p);
+    /** Recalculate size of widet */
     void updateSize();
-    QStringList m_strings;
-    bool m_grabbed;
-    bool m_shaded;
+    
+    QStringList m_strings;  // list of string to show
+    bool m_grabbed;         // True if widget is dragged around
+    bool m_shaded;          // True if widget if shaded
 };
 
 #endif /* INFOBOXWIDGET_H_ */
