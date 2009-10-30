@@ -29,6 +29,16 @@
 #include "kstarsdata.h"
 #include "skyobjects/ksplanet.h"
 
+namespace {
+    // convert time to decimal hours since midnight
+    float timeToHours(QTime t) {
+        float h = t.secsTo(QTime()) * -24.0 / 86400.0;
+        if( h > 12.0 )
+            h -= 24.0;
+        return h;
+    }
+}
+
 SkyCalendarUI::SkyCalendarUI( QWidget *parent )
     : QFrame( parent )
 {
@@ -41,7 +51,7 @@ SkyCalendar::SkyCalendar( QWidget *parent )
     scUI = new SkyCalendarUI( this );
     setMainWidget( scUI );
     
-    geo = KStars::Instance()->data()->geo();
+    geo = KStarsData::Instance()->geo();
 
     setCaption( i18n( "Sky Calendar" ) );
     setButtons( KDialog::User1 | KDialog::Close );
@@ -117,7 +127,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
 
     QVector<QPointF> vRise, vSet, vTransit;
     int iweek = 0;
-    while ( kdt.date().year() == y ) {
+    while( kdt.date().year() == y ) {
         float dy = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
 
         //Compute rise/set/transit times.  If they occur before noon, 
@@ -135,17 +145,9 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             ttime = ksp->transitTime( kdt.addDays( 1 ), geo );
         }
 
-        //convert time to decimal hours since midnight
-        float rt = rtime.secsTo(QTime())*-24.0/86400.0;
-        if ( rt > 12.0 ) { rt -= 24.0; }
-        float st = stime.secsTo(QTime())*-24.0/86400.0;
-        if ( st > 12.0 ) { st -= 24.0; }
-        float tt = ttime.secsTo(QTime())*-24.0/86400.0;
-        if ( tt > 12.0 ) { tt -= 24.0; }
-        
-        vRise << QPointF( rt, dy );
-        vSet << QPointF( st, dy );
-        vTransit << QPointF( tt, dy );
+        vRise    << QPointF( timeToHours( rtime ), dy );
+        vSet     << QPointF( timeToHours( stime ), dy );
+        vTransit << QPointF( timeToHours( ttime ), dy );
         ++iweek;
 
         kdt = kdt.addDays( 7 );
