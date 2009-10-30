@@ -66,7 +66,7 @@ void CalendarWidget::paintEvent( QPaintEvent *e ) {
 }
 
 void CalendarWidget::drawHorizon( QPainter *p ) {
-    KSSun *sun = (KSSun*)KSPlanetBase::createPlanet( KSPlanetBase::SUN );
+    KSSun sun;
     KStarsData *data = KStarsData::Instance();
     SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
     int y = skycal->year();
@@ -121,8 +121,6 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     p->setBrush( Qt::darkGreen );
     p->drawPolygon( polySunRise );
     p->drawPolygon( polySunSet );
-    
-    delete sun;
 }
 
 void CalendarWidget::drawAxes( QPainter *p ) {
