@@ -31,13 +31,11 @@ SatelliteComposite::SatelliteComposite( SkyComponent *parent )
 {
     for ( uint i=0; i<NSTEPS; ++i )
         pSat.append( new SPositionSat );
-
 }
 
 SatelliteComposite::~SatelliteComposite()
 {
-    for ( uint i=0; i<NSTEPS; ++i )
-        delete pSat[i];
+    qDeleteAll(pSat);
 }
 
 void SatelliteComposite::init() {
