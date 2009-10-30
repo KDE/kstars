@@ -78,10 +78,12 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     //Add points along curved edge of horizon polygons
     int imonth = -1;
     float rTime, sTime;
+
+    ksal->setLocation(data->geo());
     while ( y == kdt.date().year() ) {
         float t = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
         ksal->setDate(&kdt);
-        ksal->setLocation(data->geo());
+
         rTime = ksal->getSunRise()*24.0;
         sTime = ksal->getSunSet()*24.0 -24.0;
 //        kDebug()<<rTime<<" "<<sTime;
