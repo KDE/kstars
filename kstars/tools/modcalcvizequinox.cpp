@@ -28,7 +28,6 @@
 #include <kmessagebox.h>
 
 #include "dms.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
@@ -36,17 +35,16 @@
 #include "widgets/dmsbox.h"
 
 
-modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
-        : QFrame(parentSplit), dSpring(), dSummer(), dAutumn(), dWinter() {
+modCalcEquinox::modCalcEquinox(QWidget *parentSplit) :
+    QFrame(parentSplit), dSpring(), dSummer(), dAutumn(), dWinter()
+{
     setupUi(this);
 
-    connect( Year, SIGNAL( valueChanged(int) ), this, SLOT( slotCompute() ) );
-    connect( InputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
+    connect( Year,            SIGNAL( valueChanged(int) ),      this, SLOT( slotCompute() ) );
+    connect( InputFileBatch,  SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
     connect( OutputFileBatch, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotCheckFiles()) );
-    connect(RunButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
-    connect(ViewButtonBatch, SIGNAL(clicked()), this, SLOT(slotViewBatch()));
-
-    KStars *ks = (KStars*) topLevelWidget()->parent();
+    connect( RunButtonBatch,  SIGNAL(clicked()),                this, SLOT(slotRunBatch()));
+    connect( ViewButtonBatch, SIGNAL(clicked()),                this, SLOT(slotViewBatch()));
 
     Plot->axis(KPlotWidget::LeftAxis)->setLabel( i18n("Sun's Declination") );
     Plot->setTopPadding( 40 );
@@ -55,7 +53,7 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit)
     Plot->axis(KPlotWidget::TopAxis)->setVisible( false );
 
     //This will call slotCompute():
-    Year->setValue( ks->data()->lt().date().year() );
+    Year->setValue( KStarsData::Instance()->lt().date().year() );
 
     RunButtonBatch->setEnabled( false );
     ViewButtonBatch->setEnabled( false );
@@ -67,18 +65,14 @@ modCalcEquinox::~modCalcEquinox(){
 }
 
 double modCalcEquinox::dmonth(int i) {
-    if ( i>=0 && i<12 )
-        return DMonth[i];
-    else
-        return 0.0;
+    Q_ASSERT( i>=0 && i<12 && "Month must be in 0 .. 11 range");
+    return DMonth[i];
 }
 
 void modCalcEquinox::slotCheckFiles() {
-    if ( ! InputFileBatch->lineEdit()->text().isEmpty() && ! OutputFileBatch->lineEdit()->text().isEmpty() ) {
-        RunButtonBatch->setEnabled( true );
-    } else {
-        RunButtonBatch->setEnabled( false );
-    }
+    RunButtonBatch->setEnabled(
+        !InputFileBatch->lineEdit()->text().isEmpty() && !OutputFileBatch->lineEdit()->text().isEmpty()
+        );
 }
 
 void modCalcEquinox::slotRunBatch() {
@@ -158,7 +152,7 @@ void modCalcEquinox::slotViewBatch() {
 
 void modCalcEquinox::slotCompute()
 {
-    KStars *ks = (KStars*) topLevelWidget()->parent();
+    KStarsData* data = KStarsData::Instance();
     KSSun Sun;
     int year0 = Year->value();
 
@@ -172,7 +166,7 @@ void modCalcEquinox::slotCompute()
     Plot->removeAllPlotObjects();
 
     //Add the celestial equator, just a single line bisecting the plot horizontally
-    KPlotObject *ce = new KPlotObject( ks->data()->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
+    KPlotObject *ce = new KPlotObject( data->colorScheme()->colorNamed( "EqColor" ), KPlotObject::Lines, 2.0 );
     ce->addPoint( 0.0, 0.0 );
     ce->addPoint( 366.0, 0.0 );
     Plot->addPlotObject( ce );
@@ -180,7 +174,7 @@ void modCalcEquinox::slotCompute()
     //Add Ecliptic.  This is more complicated than simply incrementing the
     //ecliptic longitude, because we want the x-axis to be time, not RA.
     //For each day in the year, compute the Sun's position.
-    KPlotObject *ecl = new KPlotObject( ks->data()->colorScheme()->colorNamed( "EclColor" ), KPlotObject::Lines, 2 );
+    KPlotObject *ecl = new KPlotObject( data->colorScheme()->colorNamed( "EclColor" ), KPlotObject::Lines, 2 );
     ecl->setLinePen( QPen( ecl->pen().color(), 4 ) );
 
     Plot->setLimits( 1.0, double(dt.date().daysInYear()), -30.0, 30.0 );
