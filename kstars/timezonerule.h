@@ -70,9 +70,6 @@ public:
     TimeZoneRule( const QString &smonth, const QString &sday, const QTime &stime,
                   const QString &rmonth, const QString &rday, const QTime &rtime, const double &offset=1.00 );
 
-    /**Destructor. (empty)*/
-    ~TimeZoneRule();
-
     /**Determine whether DST is in effect for the given DateTime, according to this rule
     	*@param date the date/time to test for DST
     	*/

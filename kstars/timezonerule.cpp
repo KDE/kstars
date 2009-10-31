@@ -73,9 +73,6 @@ TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QT
     }
 }
 
-TimeZoneRule::~TimeZoneRule() {
-}
-
 void TimeZoneRule::setDST( bool activate ) {
     if ( activate ) {
         kDebug() << i18n( "Daylight Saving Time active" );
@@ -103,7 +100,7 @@ int TimeZoneRule::initMonth( const QString &mn ) {
     else if ( ml == "dec" ) return 12;
 
     kWarning() << i18n( "Could not parse " ) << mn << i18n( " as a valid month code." ) ;
-    return false;
+    return 0;
 }
 
 bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
