@@ -24,7 +24,6 @@
 #include "kstars.h"
 #include "simclockadaptor.h"
 
-//int SimClock::idgen = 1;
 
 int SimClock::TimerInterval = 100; //msec
 
@@ -35,30 +34,14 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
     new SimClockAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars/SimClock",  this);
 
-    if (! when.isValid() ) tmr.stop();
+    if (! when.isValid() )
+        tmr.stop();
     setUTC(when);
     julianmark = UTC.djd();
 
     Scale = 1.0;
     ManualMode = false;
     ManualActive = false;
-
-    QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
-
-    QObject::connect(this, SIGNAL(clockStarted()), this, SLOT(slotClockStarted()));
-    QObject::connect(this, SIGNAL(clockStopped()), this, SLOT(slotClockStopped()));
-}
-
-SimClock::SimClock (const SimClock &old) :
-        QObject(old.parent()),
-        tmr(this)
-{
-    UTC = old.UTC;
-    julianmark = old.julianmark;
-
-    Scale = old.Scale;
-    ManualMode = old.ManualMode;
-    ManualActive = old.ManualActive;
 
     QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
 
@@ -93,38 +76,32 @@ void SimClock::tick() {
 void SimClock::setManualMode( bool on ) {
     if ( on ) {
         //Turn on manual ticking.
-        //If the timer was active, stop the timer and set ManualActive=true.
-        //Otherwise, set ManualActive=false.
-        //Finally, set ManualMode=true.
-        if ( tmr.isActive() ) {
-            tmr.stop();
-            ManualActive = true;
-        } else {
-            ManualActive = false;
-        }
-        ManualMode = true;
+        ManualActive = tmr.isActive();
+        tmr.stop();
     } else {
         //Turn off manual ticking.  If the Manual clock was active, start the timer.
-        //Then set ManualMode=false.
         if ( isActive() ) {
             sysmark.start();
             julianmark = UTC.djd();
             lastelapsed = 0;
             tmr.start(TimerInterval);
         }
-        ManualMode = false;
     }
+    ManualMode = on;
 }
 
 void SimClock::manualTick( bool force ) {
     if ( force || (ManualMode && ManualActive) ) {
         setUTC( UTC.addSecs( (long double)Scale ) );
-    } else if ( ! ManualMode ) tick();
+    } else if ( ! ManualMode )
+        tick();
 }
 
 bool SimClock::isActive() {
-    if ( ManualMode ) return ManualActive;
-    else return tmr.isActive();
+    if ( ManualMode )
+        return ManualActive;
+    else
+        return tmr.isActive();
 }
 
 void SimClock::stop() {

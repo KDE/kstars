@@ -43,11 +43,6 @@ public:
      * @param when the date/time to which the SimClock should be initialized in UTC
      */
     explicit SimClock(QObject *parent = 0, const KStarsDateTime &when = KStarsDateTime::currentDateTime() );
-    /**
-     * Constructor
-     * @param old a SimClock to initialize from.
-     */
-    SimClock(const SimClock &old);
 
     /**@return const reference to the current simulation Universal Time. */
     const KStarsDateTime& utc() const { return UTC; }
@@ -146,7 +141,7 @@ private:
     // how often to update
     static int TimerInterval;
 
- private slots:
+private slots:
     
     /** These two slots subscribe to the clockStarted() and
         clockStopped() signals and call the corresponding
@@ -155,6 +150,9 @@ private:
     void slotClockStarted();
 
     void slotClockStopped();
+private:
+    SimClock(const SimClock&);
+    SimClock& operator = (const SimClock&);
 };
 
 #endif
