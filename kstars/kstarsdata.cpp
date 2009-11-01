@@ -332,7 +332,7 @@ void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTch
 }
 
 void KStarsData::setTimeDirection( float scale ) {
-    TimeRunsForward = ( scale < 0 ? false : true );
+    TimeRunsForward = scale >= 0;
 }
 
 GeoLocation* KStarsData::locationNamed( const QString &city, const QString &province, const QString &country ) {
