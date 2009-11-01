@@ -575,6 +575,13 @@ void StarObject::updateColors( bool desaturateColors, int saturation ) {
     }
 }
 
+bool StarObject::isSpecType( char c ) {
+    if( c == 'W' || c == 'O' || c == 'B' || c == 'A' || c == 'F' || c == 'G' || c == 'K' || c == 'M' || c == 'R' || c == 'N' || c == 'S' )
+        return true;
+    else
+        return false;
+}
+
 void StarObject::draw( QPainter &psky, float x, float y, float size,
                        bool /*useRealColors*/, int /*scIntensity*/, bool /*showMultiple*/ ) {
 
@@ -582,7 +589,7 @@ void StarObject::draw( QPainter &psky, float x, float y, float size,
     if ( isize >= 14 ) {
         isize = 14;
     }
-    QString imKey = SpType[0] + QString("%1").arg(isize);
+    QString imKey = ( isSpecType( SpType[0] )  ? SpType[0] : ( isSpecType( SpType[1] ) ? SpType[1] : 'A' ) ) + QString("%1").arg(isize);
     float offset = 0.5*StarImage[imKey].width();
     psky.drawPixmap( QPointF(x-offset, y-offset), StarImage[imKey] );
 

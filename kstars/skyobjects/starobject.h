@@ -246,6 +246,10 @@ public:
         */
     inline bool isVariable() const { return Variability; }
 
+    /**@return true if the passed character is a valid spectral class
+     */
+    bool isSpecType( char c );
+
     //Not using VRange, VPeriod currently (to save memory)
     ///**@short set the range in brightness covered by the star's variability
     //  *@param r the range of brightness, in magnitudes
