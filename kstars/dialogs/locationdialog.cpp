@@ -46,8 +46,8 @@ LocationDialog::LocationDialog( QWidget* parent ) :
         ui->TZBox->addItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
 
     //Populate DSTRuleBox
-    QMap<QString, TimeZoneRule>::Iterator it = data->Rulebook.begin();
-    QMap<QString, TimeZoneRule>::Iterator itEnd = data->Rulebook.end();
+    QMap<QString, TimeZoneRule>::Iterator it = data->getRulebook().begin();
+    QMap<QString, TimeZoneRule>::Iterator itEnd = data->getRulebook().end();
     for ( ; it != itEnd; ++it )
         if ( it.key().length() )
             ui->DSTRuleBox->addItem( it.key() );
@@ -92,7 +92,7 @@ LocationDialog::~LocationDialog(){
 
 void LocationDialog::initCityList() {
     KStarsData* data = KStarsData::Instance();
-    foreach ( GeoLocation *loc, data->geoList )
+    foreach ( GeoLocation *loc, data->getGeoList() )
     {
         ui->GeoBox->insertItem( loc->fullName() );
         filteredCityList.append( loc );
@@ -134,7 +134,7 @@ void LocationDialog::filterCity() {
     dataModified = false;
     ui->AddCityButton->setEnabled( false );
 
-    foreach ( GeoLocation *loc, data->geoList ) {
+    foreach ( GeoLocation *loc, data->getGeoList() ) {
         QString sc( loc->translatedName() );
         QString ss( loc->translatedCountry() );
         QString sp = "";
@@ -191,7 +191,7 @@ void LocationDialog::changeCity() {
 
         //Pick the City's rule from the rulebook
         for ( int i=0; i < ui->DSTRuleBox->count(); ++i ) {
-            TimeZoneRule tzr = data->Rulebook.value( ui->DSTRuleBox->itemText(i) );
+            TimeZoneRule tzr = data->getRulebook().value( ui->DSTRuleBox->itemText(i) );
             if ( tzr.equals( SelectedCity->tzrule() ) ) {
                 ui->DSTRuleBox->setCurrentIndex( i );
                 break;
@@ -272,6 +272,7 @@ bool LocationDialog::addCity( ) {
             GeoLocation *g = new GeoLocation( lng.Degrees(), lat.Degrees(),
                                               ui->NewCityName->text(), ui->NewProvinceName->text(), ui->NewCountryName->text(),
                                               TZ, &data->Rulebook[ TZrule ] );
+            // FIXME: Uses friendship
             data->geoList.append( g );
 
             //(possibly) insert new city into GeoBox by running filterCity()
@@ -300,7 +301,7 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
     //Remember, do NOT delete members of filteredCityList
     while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 
-    foreach ( GeoLocation *loc, data->geoList ) {
+    foreach ( GeoLocation *loc, data->getGeoList() ) {
         if ( ( abs(	lng - int( loc->lng()->Degrees() ) ) < 3 ) &&
                 ( abs( lat - int( loc->lat()->Degrees() ) ) < 3 ) ) {
 

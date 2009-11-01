@@ -81,18 +81,14 @@ public:
     // FIXME: It uses INDIHostsLista and is only one user.
     //        INDIHostsList should be moved there.
     friend class INDIDriver;
-    // FIXME: It uses geoList
-    friend class MapCanvas;
     // FIXME: It uses temporary trail. There must be way to
     //        this better. And resumeKey in DBUS code
     friend class KStars;
-    // FIXME: uses geoList
-    friend class KSWizard;
     // FIXME: it uses temporary trail and resumeKey
     friend class SkyMap;
     // FIXME: uses ADVTreeData and only user
     friend class DetailDialog;
-    // FIXME: uses Rulebook & geoList
+    // FIXME: uses geoList and changes it.
     friend class LocationDialog;
 
     static KStarsData* Create( );
@@ -249,6 +245,9 @@ public:
 
     /**@return pointer to the GeoLocation object*/
     GeoLocation *geo() { return &m_Geo; }
+
+    /** @return list of all geographic locations */
+    QList<GeoLocation*> getGeoList() { return geoList; }
 
     GeoLocation *locationNamed( const QString &city, const QString &province=0, const QString &country=0 );
 

@@ -77,7 +77,7 @@ void MapCanvas::paintEvent( QPaintEvent * ) {
 
     //Draw cities
     QPoint o;
-    foreach ( GeoLocation *g, KStarsData::Instance()->geoList ) {
+    foreach ( GeoLocation *g, KStarsData::Instance()->getGeoList() ) {
         o.setX( int( g->lng()->Degrees() + origin.x() ) );
         o.setY( height() - int( g->lat()->Degrees() + origin.y() ) );
 
