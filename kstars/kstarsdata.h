@@ -103,90 +103,6 @@ public:
     /**Destructor.  Delete data objects. */
     virtual ~KStarsData();
 
-    /**Populate list of geographic locations from "Cities.dat". Also check for custom
-     * locations file "mycities.dat", but don't require it.  Each line in the file
-     * provides the information required to create one GeoLocation object.
-     * @short Fill list of geographic locations from file(s)
-     * @return true if at least one city read successfully.
-     * @see KStarsData::processCity()
-     */
-    bool readCityData();
-
-    /**Read the data file that contains daylight savings time rules. */
-    bool readTimeZoneRulebook();
-
-    /**Parse one line from a locations database file.  The line contains 10 or 11 fields
-     * separated by colons (":").  The fields are:
-     * @li City Name [string]
-     * @li Province Name (optional) [string]
-     * @li Country Name [string]
-     * @li Longitude degrees [int]
-     * @li Latitude arcminutes [int]
-     * @li Latitude arcseconds [int]
-     * @li Latitude sign [char; 'E' or 'W' ]
-     * @li Latitude degrees [int]
-     * @li Latitude arcminutes [int]
-     * @li Latitude arcseconds [int]
-     * @li Latitude sign [char; 'N' or 'S' ]
-     * @li Timezone [float; -12 <= TZ <= 12, or 'x' if TZ unknown]
-     *
-     * @short Parse one line from a geographic database
-     * @param line The line from the geographic database to be parsed
-     * @return true if location successfully parsed; otherwise false.
-     * @see KStarsData::readCityData()
-     */
-    bool processCity( const QString& line );
-
-    //TODO JM: ADV tree should use XML instead
-    /**Read Advanced interface structure to be used later to construct the list view in
-     * the advanced tab in the Detail Dialog.
-     * @li KSLABEL designates a top-level parent label
-     * @li KSINTERFACE designates a common URL interface for several objects
-     * @li END designates the end of a sub tree structure
-     * @short read online database lookup structure.
-     * @return true if data is successfully read.
-     */
-    bool readADVTreeData();
-
-    /**Read INDI hosts from an XML file*/
-    bool readINDIHosts();
-
-    //TODO JM: Use XML instead; The logger should have more features
-    // that allow users to enter details about their observation logs
-    // objects observed, eye pieces, telescope, conditions, mag..etc
-    /** @short read user logs.
-     *
-     * Read user logs. The log file is formatted as following:
-     * @li KSLABEL designates the beginning of a log
-     * @li KSLogEnd designates the end of a log.
-     *
-     * @return true if data is successfully read.
-     */
-    bool readUserLog();
-
-    /**Read in URLs to be attached to a named object's right-click popup menu.  At this
-     * point, there is no way to attach URLs to unnamed objects.  There are two
-     * kinds of URLs, each with its own data file: image links and webpage links.  In addition,
-     * there may be user-specific versions with custom URLs.  Each line contains 3 fields
-     * separated by colons (":").  Note that the last field is the URL, and as such it will
-     * generally contain a colon itself.  Only the first two colons encountered are treated
-     * as field separators.  The fields are:
-     *
-     * @li Object name.  This must be the "primary" name of the object (the name at the top of the popup menu).
-     * @li Menu text.  The string that should appear in the popup menu to activate the link.
-     * @li URL.
-     * @short Read in image and information URLs.
-     * @return true if data files were successfully read.
-     */
-    bool readURLData( const QString &url, int type=0, bool deepOnly=false );
-
-    /** @short open a file containing URL links.
-     *  @param urlfile string representation of the filename to open
-     *  @param file reference to the QFile object which will be opened to this file.
-     *  @return true if file successfully opened.
-     */
-    bool openUrlFile(const QString &urlfile, QFile& file);
-
     /** Set the NextDSTChange member.
      *  Need this accessor because I could not make KStars::privatedata a friend
      *  class for some reason...:/
@@ -229,7 +145,6 @@ public:
 
     /** Sync the LST with the simulation clock. */
     void syncLST();
-
 
     /** @return pointer to SkyComposite */
     SkyMapComposite* skyComposite() { return m_SkyComposite; }
@@ -335,6 +250,90 @@ public slots:
     void setTimeDirection( float scale );
 
 private:
+    /**Populate list of geographic locations from "Cities.dat". Also check for custom
+     * locations file "mycities.dat", but don't require it.  Each line in the file
+     * provides the information required to create one GeoLocation object.
+     * @short Fill list of geographic locations from file(s)
+     * @return true if at least one city read successfully.
+     * @see KStarsData::processCity()
+     */
+    bool readCityData();
+
+    /**Read the data file that contains daylight savings time rules. */
+    bool readTimeZoneRulebook();
+
+    /**Parse one line from a locations database file.  The line contains 10 or 11 fields
+     * separated by colons (":").  The fields are:
+     * @li City Name [string]
+     * @li Province Name (optional) [string]
+     * @li Country Name [string]
+     * @li Longitude degrees [int]
+     * @li Latitude arcminutes [int]
+     * @li Latitude arcseconds [int]
+     * @li Latitude sign [char; 'E' or 'W' ]
+     * @li Latitude degrees [int]
+     * @li Latitude arcminutes [int]
+     * @li Latitude arcseconds [int]
+     * @li Latitude sign [char; 'N' or 'S' ]
+     * @li Timezone [float; -12 <= TZ <= 12, or 'x' if TZ unknown]
+     *
+     * @short Parse one line from a geographic database
+     * @param line The line from the geographic database to be parsed
+     * @return true if location successfully parsed; otherwise false.
+     * @see KStarsData::readCityData()
+     */
+    bool processCity( const QString& line );
+
+    //TODO JM: ADV tree should use XML instead
+    /**Read Advanced interface structure to be used later to construct the list view in
+     * the advanced tab in the Detail Dialog.
+     * @li KSLABEL designates a top-level parent label
+     * @li KSINTERFACE designates a common URL interface for several objects
+     * @li END designates the end of a sub tree structure
+     * @short read online database lookup structure.
+     * @return true if data is successfully read.
+     */
+    bool readADVTreeData();
+
+    /**Read INDI hosts from an XML file*/
+    bool readINDIHosts();
+
+    //TODO JM: Use XML instead; The logger should have more features
+    // that allow users to enter details about their observation logs
+    // objects observed, eye pieces, telescope, conditions, mag..etc
+    /** @short read user logs.
+     *
+     * Read user logs. The log file is formatted as following:
+     * @li KSLABEL designates the beginning of a log
+     * @li KSLogEnd designates the end of a log.
+     *
+     * @return true if data is successfully read.
+     */
+    bool readUserLog();
+
+    /**Read in URLs to be attached to a named object's right-click popup menu.  At this
+     * point, there is no way to attach URLs to unnamed objects.  There are two
+     * kinds of URLs, each with its own data file: image links and webpage links.  In addition,
+     * there may be user-specific versions with custom URLs.  Each line contains 3 fields
+     * separated by colons (":").  Note that the last field is the URL, and as such it will
+     * generally contain a colon itself.  Only the first two colons encountered are treated
+     * as field separators.  The fields are:
+     *
+     * @li Object name.  This must be the "primary" name of the object (the name at the top of the popup menu).
+     * @li Menu text.  The string that should appear in the popup menu to activate the link.
+     * @li URL.
+     * @short Read in image and information URLs.
+     * @return true if data files were successfully read.
+     */
+    bool readURLData( const QString &url, int type=0, bool deepOnly=false );
+
+    /** @short open a file containing URL links.
+     *  @param urlfile string representation of the filename to open
+     *  @param file reference to the QFile object which will be opened to this file.
+     *  @return true if file successfully opened.
+     */
+    bool openUrlFile(const QString &urlfile, QFile& file);
+
     /**Reset local time to new daylight saving time. Use this function if DST has changed.
      * Used by updateTime().
      */
