@@ -25,7 +25,6 @@
 #include <kpushbutton.h>
 #include <knewstuff2/engine.h>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "geolocation.h"
@@ -43,8 +42,8 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 }
 
-KSWizard::KSWizard( KStars *_ks )
-        : KDialog( _ks ),  ksw( _ks )
+KSWizard::KSWizard( QWidget *parent ) :
+    KDialog( parent )
 {
     wizardStack = new QStackedWidget( this );
     setMainWidget( wizardStack );
@@ -125,18 +124,19 @@ void KSWizard::slotPrevPage() {
 }
 
 void KSWizard::initGeoPage() {
+    KStarsData* data = KStarsData::Instance();
     location->LongBox->setReadOnly( true );
     location->LatBox->setReadOnly( true );
 
     //Populate the CityListBox
     //flag the ID of the current City
-    int index(0);
-    foreach ( GeoLocation *loc, ksw->data()->geoList ) {
+    int index = 0;
+    foreach ( GeoLocation *loc, data->geoList ) {
         location->CityListBox->insertItem( loc->fullName() );
         filteredCityList.append( loc );
 
-        if ( loc->fullName() == ksw->data()->geo()->fullName() ) {
-            index = ksw->data()->geoList.indexOf( loc );
+        if ( loc->fullName() == data->geo()->fullName() ) {
+            index = data->geoList.indexOf( loc );
             Geo = loc;
         }
     }
@@ -168,7 +168,7 @@ void KSWizard::slotFilterCities() {
     //Do NOT delete members of filteredCityList!
     while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 
-    foreach ( GeoLocation *loc, ksw->data()->geoList ) {
+    foreach ( GeoLocation *loc, KStarsData::Instance()->geoList ) {
         QString sc( loc->translatedName() );
         QString ss( loc->translatedCountry() );
         QString sp = "";
