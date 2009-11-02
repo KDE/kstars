@@ -23,8 +23,6 @@
 #include <QPixmap>
 #include <kdebug.h>
 
-#include <assert.h>
-
 #include "kspopupmenu.h"
 #include "ksnumbers.h"
 #include "kstarsdata.h"
@@ -398,7 +396,7 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of 
     // PM times the number of Julian millenia since J2000.0
 
-    double pm = sqrt( pmRA() * pmRA() + pmDec() * pmDec() ) * num->julianMillenia();   // Proper Motion in arcseconds
+    double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
     double dir0 = ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() );  // Bearing, in radian
 
     ( pm < 0 ) && ( pm = -pm );
@@ -720,9 +718,9 @@ SkyObject::UID StarObject::getUID() const
     SkyObject::UID ra  = ra0()->Degrees() * 36000;
     SkyObject::UID dec = (ra0()->Degrees()+91) * 36000;
 
-    assert("Magnitude is expected to fit into 10bits" && m>=0 && m<(1<<10));
-    assert("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));
-    assert("Dec should fit into 24bits" && dec>=0 && dec<(1<<24));
+    Q_ASSERT("Magnitude is expected to fit into 10bits" && m>=0 && m<(1<<10));
+    Q_ASSERT("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));
+    Q_ASSERT("Dec should fit into 24bits" && dec>=0 && dec<(1<<24));
 
     return (SkyObject::UID_STAR << 60) | (m << 48) | (ra << 24) | dec;
 }
