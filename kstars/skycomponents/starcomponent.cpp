@@ -298,22 +298,6 @@ void StarComponent::draw( QPainter& psky )
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
     if ( labelMagLim > 8.0 ) labelMagLim = 8.0;
 
-//REMOVE
-//     //Set the brush
-//     QColor fillColor( Qt::white );
-//     if ( starColorMode() == 1 ) fillColor = Qt::red;
-//     if ( starColorMode() == 2 ) fillColor = Qt::black;
-//     psky.setBrush( QBrush( fillColor ) );
-//     if ( starColorMode() > 0 )
-//         psky.setPen( QPen( fillColor ) );
-//     else
-//        //Reset the colors before drawing the stars.
-//        //Strictly speaking, we don't need to do this every time, but once per
-//        //draw loop isn't too expensive.
-//        StarObject::updateColors( (! Options::useAntialias() ||
-//                                   map->isSlewing()), starColorIntensity() );
-//END_REMOVE
-
     //Loop for drawing star images
 
     MeshIterator region(m_skyMesh, DRAW_BUF);

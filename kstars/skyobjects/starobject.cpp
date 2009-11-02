@@ -549,32 +549,6 @@ QColor StarObject::color() const {
     return ColorMap[QString(QChar(SpType[0]))];
 }
 
-void StarObject::updateColors( bool desaturateColors, int saturation ) {
-    //First set colors to their fully-saturated values
-    ColorMap.insert( "O", QColor::fromRgb(   0,   0, 255 ) );
-    ColorMap.insert( "B", QColor::fromRgb(   0, 200, 255 ) );
-    ColorMap.insert( "A", QColor::fromRgb(   0, 255, 255 ) );
-    ColorMap.insert( "F", QColor::fromRgb( 200, 255, 100 ) );
-    ColorMap.insert( "G", QColor::fromRgb( 255, 255,   0 ) );
-    ColorMap.insert( "K", QColor::fromRgb( 255, 100,   0 ) );
-    ColorMap.insert( "M", QColor::fromRgb( 255,   0,   0 ) );
-
-    if ( ! desaturateColors ) return;
-
-    //Desaturate the star colors by mixing in white
-    float sat = 0.1*saturation; //sat is between 0.0 and 1.0
-    int r, g, b;
-    QMapIterator<QString, QColor> it(ColorMap);
-    while ( it.hasNext() ) {
-        it.next();
-        r = int( 255.0*(1.0 - sat) + it.value().red()*sat   );
-        g = int( 255.0*(1.0 - sat) + it.value().green()*sat );
-        b = int( 255.0*(1.0 - sat) + it.value().blue()*sat  );
-
-        ColorMap[ it.key() ] = QColor::fromRgb( r, g, b );
-    }
-}
-
 bool StarObject::isSpecType( char c ) {
     if( c == 'W' || c == 'O' || c == 'B' || c == 'A' || c == 'F' || c == 'G' || c == 'K' || c == 'M' || c == 'R' || c == 'N' || c == 'S' )
         return true;

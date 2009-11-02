@@ -295,37 +295,7 @@ public:
         */
     virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
 
-    /**
-        *Reet the colors which will be used to make realistic star colors.
-        *Each star has a spectral type, a string whose first letter indicates 
-        *its color (RGB triplets shown below):
-        *@li O: (   0,   0, 255 )
-        *@li B: (   0, 200, 255 )
-        *@li A: (   0, 255, 255 )
-        *@li F: ( 200, 255, 100 )
-        *@li G: ( 255, 255,   0 )
-        *@li K: ( 255, 100,   0 )
-        *@li M: ( 255,   0,   0 )
-        *
-        *If the user has enabled antialiased drawing, then these are the RGB 
-        *codes of the colors that will be assigned to each spectral type.
-        *However, if antialiasing is disabled, it is more complicated, because 
-        *the colored "rim" of the star image cannot be less than 1 pixel wide,
-        *so the above RGB codes will produce very saturated star colors.
-        *To fix this, we mix the above colors with white to desaturate the 
-        *colors, effectively simulating an antialiased colored band with width 
-        *less than 1 pixel.
-        *
-        *@note This function only needs to be called when the user modifies the 
-        *star color saturation level, or when the user toggles 
-        *Options::useAntialias().
-        *
-        *@param desaturateColors if true, then we need to desaturate the star colors.
-        *@param saturation The saturation level for star colors (this will 
-        *almost always be passed as data()->colorScheme()->starColorIntensity())
-        */
-    static void updateColors( bool desaturateColors, int saturation );
-
+    /** Create cached images for stars rendering. */
     static void initImages();
 
     quint64 updateID;
