@@ -30,8 +30,11 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "skymap.h"
+#include "skylabel.h"
+#include "skylabeler.h"
 #include "Options.h"
 #include "skymesh.h"
+
 
 DeepSkyComponent::DeepSkyComponent( SkyComponent *parent )
         : SkyComponent(parent)
@@ -43,6 +46,11 @@ DeepSkyComponent::DeepSkyComponent( SkyComponent *parent )
     m_OtherList = QList<DeepSkyObject*>();
 
     m_skyMesh = SkyMesh::Instance();
+
+    // Add labels
+    for ( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
+        m_labelList[ i ] = new LabelList;
+
 }
 
 DeepSkyComponent::~DeepSkyComponent()
@@ -327,6 +335,10 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
     QColor color        = data->colorScheme()->colorNamed( colorString );
     QColor colorExtra = data->colorScheme()->colorNamed( "HSTColor" );
 
+    m_hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
+                    ! ( Options::showDeepSkyMagnitudes() || Options::showDeepSkyNames() );
+
+
     double maglim = Options::magLimitDrawDeepSky();
 
     //adjust maglimit for ZoomLevel
@@ -335,6 +347,12 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
     double lgz = log10(Options::zoomFactor());
     if ( lgz <= 0.75 * lgmax ) 
         maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+    m_zoomMagLimit = maglim;
+
+    double labelMagLim = Options::deepSkyLabelDensity() / 3.0;
+    labelMagLim += ( Options::magLimitDrawDeepSky() - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
+    if ( labelMagLim > Options::magLimitDrawDeepSky() ) labelMagLim = Options::magLimitDrawDeepSky();
+
 
     //DrawID drawID = m_skyMesh->drawID();
     MeshIterator region( m_skyMesh, DRAW_BUF );
@@ -399,6 +417,10 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                         psky.setPen( color );
                     }
                 }
+
+                if ( !( drawObject || drawImage )  && ( m_hideLabels || mag > labelMagLim ) ) continue;
+            
+                addLabel( o, obj );
             }
             else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
                 if ( obj->image() ) {
@@ -407,6 +429,34 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             }
         }
     }
+}
+
+void DeepSkyComponent::addLabel( const QPointF& p, DeepSkyObject *obj )
+{
+    int idx = int( obj->mag() * 10.0 );
+    if ( idx < 0 ) idx = 0;
+    if ( idx > MAX_LINENUMBER_MAG ) idx = MAX_LINENUMBER_MAG;
+    m_labelList[ idx ]->append( SkyLabel( p, obj ) );
+}
+
+void DeepSkyComponent::drawLabels( QPainter& psky )
+{
+    if ( m_hideLabels ) return;
+
+    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "DSNameColor" ) ) );
+
+    int max = int( m_zoomMagLimit * 10.0 );
+    if ( max < 0 ) max = 0;
+    if ( max > MAX_LINENUMBER_MAG ) max = MAX_LINENUMBER_MAG;
+
+    for ( int i = 0; i <= max; i++ ) {
+        LabelList* list = m_labelList[ i ];
+        for ( int j = 0; j < list->size(); j++ ) {
+            list->at(j).obj->drawNameLabel( psky, list->at(j).o );
+        }
+        list->clear();
+    }
+
 }
 
 

@@ -538,6 +538,16 @@
 			<whatsthis>Toggle whether star name labels are shown in the sky map.</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="ShowDeepSkyMagnitudes" type="Bool">
+			<label>Label deep-sky object magnitudes in the sky map?</label>
+			<whatsthis>Toggle whether deep-sky object magnitude (brightness) labels are shown in the sky map.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="ShowDeepSkyNames" type="Bool">
+			<label>Label deep-sky objects in the sky map?</label>
+			<whatsthis>Toggle whether deep-sky object name labels are shown in the sky map.</whatsthis>
+			<default>true</default>
+		</entry>
 		<entry name="SlewTimeScale" type="Double">
 			<label>Minimum timescale for forced-slewing mode</label>
 			<whatsthis>The timescale above which slewing mode is forced on at all times.</whatsthis>
@@ -673,6 +683,16 @@
 			<whatsthis>The relative density for drawing star name and magnitude labels.</whatsthis>
 			<default>2.0</default>
 		</entry>
+		<entry name="DeepSkyLabelDensity" type="Double">
+			<label>Relative density for deep-sky object name labels and/or magnitudes</label>
+			<whatsthis>The relative density for drawing deep-sky object name and magnitude labels.</whatsthis>
+			<default>2.0</default>
+		</entry>
+		<entry name="DeepSkyLongLabels" type="Bool">
+			<label>Show long names in deep-sky object name labels?</label>
+			<whatsthis>If true, long names (common names) for deep-sky objects are shown in the labels.</whatsthis>
+			<default>false</default>
+		</entry>
 		<entry name="MaxRadCometName" type="Double">
 			<label>Maximum distance from Sun for labeling comets, in AU</label>
 			<whatsthis>The maximum solar distance for drawing comets.</whatsthis>
@@ -791,6 +811,11 @@
 		<entry name="StarNameColor" type="String">
 			<label>Color of star name labels</label>
 			<whatsthis>The color for star name labels.</whatsthis>
+			<default>#7AA</default>
+		</entry>
+		<entry name="DeepSkyNameColor" type="String">
+			<label>Color of deep-sky object name labels</label>
+			<whatsthis>The color for deep-sky object name labels.</whatsthis>
 			<default>#7AA</default>
 		</entry>
 		<entry name="PlanetNameColor" type="String">

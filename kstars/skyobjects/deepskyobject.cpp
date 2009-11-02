@@ -395,6 +395,24 @@ double DeepSkyObject::labelOffset() const {
     return 0.5*size + 4.;
 }
 
+QString DeepSkyObject::labelString() const {
+    QString oName;
+    if( Options::showDeepSkyNames() ) {
+        if( Options::deepSkyLongLabels() && translatedLongName() != translatedName() )
+            oName = translatedLongName() + " (" + translatedName() + ')';
+        else
+            oName = translatedName();
+    }
+
+    if( Options::showDeepSkyMagnitudes() ) {
+        if( Options::showDeepSkyNames() )
+            oName += "; ";
+        oName += KGlobal::locale()->formatNumber( mag(), 1 );
+    }
+
+    return oName;
+}
+
 
 SkyObject::UID DeepSkyObject::getUID() const
 {

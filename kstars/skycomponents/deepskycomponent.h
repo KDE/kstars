@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include "skycomponent.h"
+#include "skylabel.h"
 
 #define NNGCFILES 14
 
@@ -31,6 +32,12 @@ class KSNumbers;
 class DeepSkyObject;
 class SkyPoint;
 class SkyMesh;
+class SkyLabeler;
+
+// NOTE: Although the following symbol has nothing to do with line
+// number in any file, we use this name to keep consistency in naming
+// conventions with StarComponent
+#define MAX_LINENUMBER_MAG 90
 
 typedef QVector< DeepSkyObject*>    DeepSkyList;
 typedef QHash< int, DeepSkyList*>   DeepSkyIndex;
@@ -53,6 +60,12 @@ public:
     ~DeepSkyComponent();
 
     virtual void draw( QPainter& psky );
+
+    /* @short draw all the labels in the prioritized LabelLists and then
+     * clear the LabelLists.
+     */
+    void drawLabels( QPainter& psky );
+
 
     /**
     	*@short Read the ngcic.dat deep-sky database.
@@ -126,6 +139,11 @@ private:
     QList<DeepSkyObject*> m_ICList;
     QList<DeepSkyObject*> m_OtherList;
 
+    LabelList*     m_labelList[  MAX_LINENUMBER_MAG + 1 ];
+    bool           m_hideLabels;
+    double         m_zoomMagLimit;
+
+
     SkyMesh* m_skyMesh;
     DeepSkyIndex m_DeepSkyIndex;
     DeepSkyIndex m_MessierIndex;
@@ -137,6 +155,13 @@ private:
     void appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Trixel trixel );
 
     QHash<QString, DeepSkyObject*> nameHash;
+
+    /**
+     *@short adds a label to the lists of labels to be drawn prioritized
+     *by magnitude.
+     */
+    void addLabel( const QPointF& p, DeepSkyObject *obj );
+
 };
 
 #endif

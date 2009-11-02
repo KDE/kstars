@@ -92,6 +92,8 @@ public:
      */
     DeepSkyObject(const DeepSkyObject &o );
 
+    QString labelString() const;
+
     virtual DeepSkyObject* clone() const;
     virtual SkyObject::UID getUID() const;
     

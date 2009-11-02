@@ -46,6 +46,7 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("HSTColor",
                i18nc("Object with extra attached URLs", "Object w/ Links"), "#930000");
     appendItem("SNameColor",       i18n("Star Name"),              "#577d7d");
+    appendItem("DSNameColor",      i18n("Deep Sky Object Name"),   "#75759c");
     appendItem("PNameColor",       i18n("Planet Name"),            "#ac9800");
     appendItem("CNameColor",
                i18nc("Constellation Name", "Constell. Name"),      "#718488");

@@ -104,6 +104,7 @@ OpsCatalog::OpsCatalog( KStars *_ks )
     */
     connect( kcfg_ShowStars, SIGNAL( toggled(bool) ), SLOT( slotStarWidgets(bool) ) );
     connect( kcfg_ShowDeepSky, SIGNAL( toggled(bool) ), SLOT( slotDeepSkyWidgets(bool) ) );
+    connect( kcfg_ShowDeepSkyNames, SIGNAL( toggled(bool) ), kcfg_DeepSkyLongLabels, SLOT( setEnabled(bool) ) );
     connect( m_ConfigDialog, SIGNAL( applyClicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( okClicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( cancelClicked() ), SLOT( slotCancel() ) );
@@ -295,6 +296,10 @@ void OpsCatalog::slotDeepSkyWidgets(bool on) {
     LabelMagDeepSkyZoomOut->setEnabled( on );
     kcfg_MagLimitDrawDeepSky->setEnabled( on );
     kcfg_MagLimitDrawDeepSkyZoomOut->setEnabled( on );
+    kcfg_ShowDeepSkyNames->setEnabled( on );
+    kcfg_ShowDeepSkyMagnitudes->setEnabled( on );
+    kcfg_DeepSkyLabelDensity->setEnabled( on );
+    kcfg_DeepSkyLongLabels->setEnabled( on );
     LabelMag3->setEnabled( on );
     LabelMag4->setEnabled( on );
     if ( on ) {
