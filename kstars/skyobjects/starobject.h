@@ -143,10 +143,6 @@ public:
         *If star is unnamed return "star" otherwise return the longname
         */
     inline virtual QString longname( void ) const { return hasLongName() ? LongName : starString; }
-    /**
-        *@return QColor corresponding to the star's Spectral Type
-        */
-    QColor color( void ) const;
 
     /**
         *Returns entire spectral type string
@@ -246,28 +242,6 @@ public:
         */
     inline bool isVariable() const { return Variability; }
 
-    /**@return true if the passed character is a valid spectral class
-     */
-    bool isSpecType( char c );
-
-    //Not using VRange, VPeriod currently (to save memory)
-    ///**@short set the range in brightness covered by the star's variability
-    //  *@param r the range of brightness, in magnitudes
-    //  */
-    //  void setVRange( double r ) { VRange = r; }
-    //
-    ///**@return the range in brightness covered by the star's variability, in magnitudes
-    //  */
-    //  double vrange() const { return VRange; }
-    //
-    ///**@short set the period of the star's brightness variation, in days.
-    //  */
-    //  void setVPeriod( double p ) { VPeriod = p; }
-    //
-    ///**@return the period of the star's brightness variation, in days.
-    //  */
-    //  double vperiod() const { return VPeriod; }
-
     void draw( QPainter &psky, float x, float y, float size,
                bool useRealColors, int scIntensity, bool drawMultiple=true );
 
@@ -302,9 +276,6 @@ public:
     quint64 updateNumID;
 
 protected:
-    static QMap<QString, QColor> ColorMap;
-    static QHash<QString, QPixmap> StarImage;
-
     // DEBUG EDIT. For testing proper motion, uncomment this, and related blocks
     // See starobject.cpp for further info.
     //    static QVector<SkyPoint *> Trail;
