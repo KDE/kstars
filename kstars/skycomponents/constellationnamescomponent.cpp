@@ -20,7 +20,6 @@
 #include <QTextStream>
 
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "Options.h"

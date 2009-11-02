@@ -23,7 +23,6 @@
 
 #include <kdebug.h>
 
-#include "ksutils.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h" //for J2000 define
 

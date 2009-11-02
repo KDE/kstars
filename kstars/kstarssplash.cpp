@@ -30,7 +30,6 @@
 #include <kdebug.h>
 #include <KStandardDirs>
 
-#include "ksutils.h"
 
 KStarsSplash::KStarsSplash(const QString& customMessage )
         : KSplashScreen(QPixmap() )

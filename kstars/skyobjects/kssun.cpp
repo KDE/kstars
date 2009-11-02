@@ -18,9 +18,7 @@
 #include "kssun.h"
 
 #include <math.h>
-#include <qdatetime.h>
 
-#include "ksutils.h"
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"

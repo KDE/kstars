@@ -33,7 +33,6 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "simclock.h"
 #include "kspopupmenu.h"
 #include "skyobjects/ksplanetbase.h"

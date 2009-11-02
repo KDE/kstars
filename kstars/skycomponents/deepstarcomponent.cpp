@@ -26,7 +26,6 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skymap.h"
 #include "skyobjects/starobject.h"
 #include "skymesh.h"

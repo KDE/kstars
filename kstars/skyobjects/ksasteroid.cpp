@@ -21,7 +21,6 @@
 
 #include "dms.h"
 #include "ksnumbers.h"
-#include "ksutils.h"
 #include "kstarsdata.h"
 
 KSAsteroid::KSAsteroid( int _catN, const QString &s, const QString &imfile,

@@ -28,7 +28,6 @@
 #include "dms.h"
 #include "ksfilereader.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skymap.h"
 #include "skylabel.h"
 #include "skylabeler.h"
