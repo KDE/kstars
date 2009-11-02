@@ -5,6 +5,7 @@
 #CC0099 :ICColor 
 #AA0000 :HSTColor 
 #AA0000 :SNameColor
+#950000 :DSNameColor
 #AA7777 :PNameColor
 #990000 :CNameColor
 #880000 :CLineColor
