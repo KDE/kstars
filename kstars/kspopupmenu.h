@@ -63,7 +63,7 @@ public:
     	*@param showAngularDistance if true, the Angular Distance item is added.
     	*@param showObsList if true, the Add to List/Remove from List item is added.
      */
-    void initPopupMenu( SkyObject *obj, const QString &name, const QString &type, const QString &info,
+    void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                         bool showRiseSet=true, bool showCenterTrack=true,
                         bool showDetails=true, bool showTrail=false,
                         bool addTrail=false, bool showAngularDistance=true,
@@ -150,9 +150,6 @@ public:
 
 private:
     KStars *ks;
-    KAction *aName, *aName2, *aType, *aConstellation;
-    KAction *aRiseTime, *aSetTime, *aTransitTime;
-    QLabel *labName, *labName2, *labType, *labConstellation;
     QLabel *labRiseTime, *labSetTime, *labTransitTime;
     KMenu *menuDevice;
 };

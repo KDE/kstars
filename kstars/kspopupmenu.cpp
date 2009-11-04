@@ -136,47 +136,46 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
-void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QString &type, const QString &info,
+void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                                  bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail,
-                                 bool showAngularDistance, bool showObsList ) {
+                                 bool showAngularDistance, bool showObsList )
+{
+    ks = KStars::Instance();
 
     clear();
-    QString s1 = name;
-    if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
+    bool showLabel = name != i18n("star") && !name.isEmpty();
+    if( name.isEmpty() )
+        name = i18n( "Empty sky" );
 
-    bool showLabel( true );
-    if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
-
-    labName = new QLabel( "<b>"+s1+"</b>", this );
+    QLabel* labName = new QLabel( "<b>"+name+"</b>", this );
     labName->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-    aName = new KAction( this );
-    ks = KStars::Instance();
+    KAction* aName = new KAction( this );
     ks->actionCollection()->addAction( "title_name1", aName );
     aName->setDefaultWidget( labName );
     addAction( aName );
 
     if ( ! type.isEmpty() ) {
-        labName2 = new QLabel( "<b>"+type+"</b>", this );
+        QLabel* labName2 = new QLabel( "<b>"+type+"</b>", this );
         labName2->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        aName2 = new KAction( this );
+        KAction* aName2 = new KAction( this );
         ks->actionCollection()->addAction( "title_name2", aName2 );
         aName2->setDefaultWidget( labName2 );
         addAction( aName2 );
     }
 
     if ( ! info.isEmpty() ) {
-        labType = new QLabel( "<b>"+info+"</b>", this );
+        QLabel* labType = new QLabel( "<b>"+info+"</b>", this );
         labType->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        aType = new KAction( this );
+        KAction* aType = new KAction( this );
         ks->actionCollection()->addAction( "title_type", aType );
         aType->setDefaultWidget( labType );
         addAction( aType );
     }
 
-    labConstellation = new QLabel( "<b>"+
+    QLabel* labConstellation = new QLabel( "<b>"+
                                    ConstellationBoundary::Instance()->constellationName( obj )+"</b>", this );
     labConstellation->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-    aConstellation = new KAction( this );
+    KAction* aConstellation = new KAction( this );
     ks->actionCollection()->addAction( "title_constellation", aConstellation );
     aConstellation->setDefaultWidget( labConstellation );
     addAction( aConstellation );
@@ -194,7 +193,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
         QFont smallFont = labRiseTime->font();
         smallFont.setPointSize( smallFont.pointSize() - 2 );
         labRiseTime->setFont( smallFont );
-        aRiseTime = new KAction( this );
+        KAction* aRiseTime = new KAction( this );
         ks->actionCollection()->addAction( "title_risetime", aRiseTime );
         aRiseTime->setDefaultWidget( labRiseTime );
         addAction( aRiseTime );
@@ -202,7 +201,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
         labSetTime = new QLabel( "<b>"+sSetTime+"</b>", this );
         labSetTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
         labSetTime->setFont( smallFont );
-        aSetTime = new KAction( this );
+        KAction* aSetTime = new KAction( this );
         ks->actionCollection()->addAction( "title_settime", aSetTime );
         aSetTime->setDefaultWidget( labSetTime );
         addAction( aSetTime );
@@ -210,7 +209,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
         labTransitTime = new QLabel( "<b>"+sTransitTime+"</b>", this );
         labTransitTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
         labTransitTime->setFont( smallFont );
-        aTransitTime = new KAction( this );
+        KAction* aTransitTime = new KAction( this );
         ks->actionCollection()->addAction( "title_transittime", aTransitTime );
         aTransitTime->setDefaultWidget( labTransitTime );
         addAction( aTransitTime );
