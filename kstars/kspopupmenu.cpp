@@ -150,7 +150,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     QLabel* labName = new QLabel( "<b>"+name+"</b>", this );
     labName->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
     KAction* aName = new KAction( this );
-    ks->actionCollection()->addAction( "title_name1", aName );
     aName->setDefaultWidget( labName );
     addAction( aName );
 
@@ -158,7 +157,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         QLabel* labName2 = new QLabel( "<b>"+type+"</b>", this );
         labName2->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
         KAction* aName2 = new KAction( this );
-        ks->actionCollection()->addAction( "title_name2", aName2 );
         aName2->setDefaultWidget( labName2 );
         addAction( aName2 );
     }
@@ -167,7 +165,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         QLabel* labType = new QLabel( "<b>"+info+"</b>", this );
         labType->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
         KAction* aType = new KAction( this );
-        ks->actionCollection()->addAction( "title_type", aType );
         aType->setDefaultWidget( labType );
         addAction( aType );
     }
@@ -176,7 +173,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
                                    ConstellationBoundary::Instance()->constellationName( obj )+"</b>", this );
     labConstellation->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
     KAction* aConstellation = new KAction( this );
-    ks->actionCollection()->addAction( "title_constellation", aConstellation );
     aConstellation->setDefaultWidget( labConstellation );
     addAction( aConstellation );
 
@@ -194,7 +190,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         smallFont.setPointSize( smallFont.pointSize() - 2 );
         labRiseTime->setFont( smallFont );
         KAction* aRiseTime = new KAction( this );
-        ks->actionCollection()->addAction( "title_risetime", aRiseTime );
         aRiseTime->setDefaultWidget( labRiseTime );
         addAction( aRiseTime );
 
@@ -202,7 +197,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         labSetTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
         labSetTime->setFont( smallFont );
         KAction* aSetTime = new KAction( this );
-        ks->actionCollection()->addAction( "title_settime", aSetTime );
         aSetTime->setDefaultWidget( labSetTime );
         addAction( aSetTime );
 
@@ -210,7 +204,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         labTransitTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
         labTransitTime->setFont( smallFont );
         KAction* aTransitTime = new KAction( this );
-        ks->actionCollection()->addAction( "title_transittime", aTransitTime );
         aTransitTime->setDefaultWidget( labTransitTime );
         addAction( aTransitTime );
 
