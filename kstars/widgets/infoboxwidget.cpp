@@ -99,20 +99,15 @@ void InfoBoxWidget::slotTimeChanged() {
 }
 
 void InfoBoxWidget::slotGeoChanged() {
-    KStarsData* data = KStarsData::Instance();
-
-    QString name = data->geo()->translatedName() + ", ";
-    if ( ! data->geo()->province().isEmpty() )
-        name += data->geo()->translatedProvince() + ",  ";
-    name += data->geo()->translatedCountry();
+    GeoLocation* geo = KStarsData::Instance()->geo();
 
     m_strings.clear();
-    m_strings << name;
+    m_strings << geo->fullName();
     m_strings <<
         i18nc( "Longitude", "Long:" ) + ' ' +
-        KGlobal::locale()->formatNumber( data->geo()->lng()->Degrees(),3) + "   " +
+        KGlobal::locale()->formatNumber( geo->lng()->Degrees(),3) + "   " +
         i18nc( "Latitude", "Lat:" ) + ' ' +
-        KGlobal::locale()->formatNumber( data->geo()->lat()->Degrees(),3);
+        KGlobal::locale()->formatNumber( geo->lat()->Degrees(),3);
     updateSize();
     update();
 }
