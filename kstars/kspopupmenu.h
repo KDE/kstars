@@ -135,22 +135,19 @@ public:
     	*/
     void createEmptyMenu( SkyObject *nullObj=0 );
 
-    /**Set the rise/transit/set time labels for the object.  Compute these times
-    	*for the object for the current date and location.  If the object is 
-    	*circumpolar or never rises, the rise and set labels will indicate this
-    	*(but the transit time should always be valid).
-    	*@param obj the skyobject whose r/t/s times are to be displayed.
-    	*/
-    void setRiseSetLabels( SkyObject *obj );
-
     /**Add a submenu for INDI controls (Slew, Track, Sync, etc).
     	*@return true if a valid INDI menu was added.
     	*/
     bool addINDI(void);
 
 private:
+    /** Add fancy label to menu.
+     * @param name is content of the label
+     * @param deltaFontSize is change in font size from default
+     */
+    void addFancyLabel(QString name, int deltaFontSize = 0);
+
     KStars *ks;
-    QLabel *labRiseTime, *labSetTime, *labTransitTime;
     KMenu *menuDevice;
 };
 
