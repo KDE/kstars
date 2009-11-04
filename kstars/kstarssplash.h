@@ -18,23 +18,15 @@
 #ifndef KSTARSSPLASH_H__
 #define KSTARSSPLASH_H__
 
-#include <QImage>
-#include <QLabel>
-#include <QPaintEvent>
-#include <QCloseEvent>
-
 #include <KSplashScreen>
 
 /**@class KStarsSplash
-	*The KStars Splash Screen.  The splash screen shows the KStars logo and 
-	*progress messages while data files are parsed and objects are initialized.
-	*@short the KStars Splash Screen.
-	*@author Heiko Evermann
-	*@version 1.0
-	*/
-
-class QLabel;
-
+ * The KStars Splash Screen.  The splash screen shows the KStars logo and 
+ * progress messages while data files are parsed and objects are initialized.
+ * @short the KStars Splash Screen.
+ * @author Heiko Evermann
+ * @version 1.0
+ */
 class KStarsSplash : public KSplashScreen
 {
     Q_OBJECT
@@ -45,13 +37,12 @@ public:
     */
     explicit KStarsSplash( const QString& customMessage="" );
 
-    /**Destructor
-    	*/
+    /** Destructor */
     ~KStarsSplash();
 
 public slots:
     /**Display the text argument in the Splash Screen's status label.
-    	*This is connected to KStarsData::progressText(QString)*/
+     * This is connected to KStarsData::progressText(QString)*/
     void setMessage(const QString &s);
 };
 

@@ -17,17 +17,7 @@
 
 #include "kstarssplash.h"
 
-#include <QFile>
-#include <QLabel>
-#include <QPixmap>
-#include <QVBoxLayout>
-#include <QFrame>
-#include <QPaintEvent>
-#include <QPainter>
-#include <QApplication>
-
 #include <klocale.h>
-#include <kdebug.h>
 #include <KStandardDirs>
 
 
