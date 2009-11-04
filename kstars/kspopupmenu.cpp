@@ -50,17 +50,15 @@ static QString magToStr(double m) {
 // Helper function to return object name
 static QString getObjectName(SkyObject *obj) {
 	// FIXME: make logic less convoluted. 
-	QString name;
 	if( obj->longname() != obj->name() ) { // Object has proper name
-		name = obj->translatedLongName() + ", " + obj->translatedName();
+		return obj->translatedLongName() + ", " + obj->translatedName();
 	} else {
-		if( ! obj->translatedName2().isEmpty() ) {
-			name = obj->translatedName() + ", " + obj->translatedName2();
+		if( !obj->translatedName2().isEmpty() ) {
+			return obj->translatedName() + ", " + obj->translatedName2();
 		} else {
-			name = obj->translatedName();
+			return obj->translatedName();
 		}
 	}
-	return name;
 }
 
 KSPopupMenu::KSPopupMenu()
@@ -70,29 +68,7 @@ KSPopupMenu::KSPopupMenu()
 }
 
 KSPopupMenu::~KSPopupMenu()
-{
-    //DEBUG
-    //kDebug() << "aName: " << aName;
-    //if ( aName )            delete aName;
-    //if ( aName2 )           delete aName2;
-    //if ( aType )            delete aType;
-    //if ( aConstellation )   delete aConstellation;
-    //if ( aRiseTime )        delete aRiseTime;
-    //if ( aSetTime )         delete aSetTime;
-    //if ( aTransitTime )     delete aTransitTime;
-    //DEBUG
-    //kDebug() << "labName: " << labName;
-    //if ( labName )          labName->deleteLater();
-    //if ( labName2 )         labName2->deleteLater();
-    //if ( labType )          labType->deleteLater();
-    //if ( labConstellation ) labConstellation->deleteLater();
-    //if ( labRiseTime )      labRiseTime->deleteLater();
-    //if ( labSetTime )       labSetTime->deleteLater();
-    //if ( labTransitTime )   labTransitTime->deleteLater();
-    ////DEBUG
-    //kDebug() << "menuDevice: " << menuDevice;
-    //if ( menuDevice )       delete menuDevice;
-}
+{}
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
     initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), true, true, false, false, false, true, false );
@@ -150,7 +126,7 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     QString info;
 	QString type;
     if ( p->name() == "Moon" ) {
-        info = QString("%1<sup>m</sup>, %2").arg(p->mag(), 0, 'f', 2).arg(((KSMoon *)p)->phaseName());
+        info = QString("%1, %2").arg( magToStr(p->mag()), reinterpret_cast<KSMoon*>(p)->phaseName() );
     } else {
 		// FIXME: angular size is required.
 		info = magToStr( p->mag() );
