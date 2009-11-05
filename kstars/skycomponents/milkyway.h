@@ -30,20 +30,17 @@
 class MilkyWay : public SkipListIndex
 {
 public:
-    /**
-    	*@short Constructor
-    	*@p parent pointer to the parent SkyComponent
-    	*/
+    /**@short Constructor
+     * @p parent pointer to the parent SkyComponent
+     */
     MilkyWay( SkyComponent *parent );
 
+    /** Load skiplists from file */
+    void loadContours(QString fname, QString greeting);
+
+    
     virtual void init();
-
-    /**
-    	*@short Draw the Milky Way on the sky map
-    	*@p psky Reference to the QPainter on which to paint
-    	*/
-    void draw( QPainter& psky );
-
-    bool selected();
+    virtual void draw( QPainter& psky );
+    virtual bool selected();
 };
 #endif

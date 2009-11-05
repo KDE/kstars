@@ -54,9 +54,6 @@ public:
      * code in LineListIndex instead of repeating it all here.
      */
     bool skipAt( LineList* skpiList, int i );
-
-    /** Load skiplists from file */
-    void loadSkipLists(QString fname, QString greeting);
 };
 
 #endif

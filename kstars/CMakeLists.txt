@@ -206,7 +206,6 @@ set(libkstarscomponents_SRCS
    skycomponents/equator.cpp 
    skycomponents/horizoncomponent.cpp 
    skycomponents/milkyway.cpp 
-   skycomponents/magellanicclouds.cpp
    skycomponents/skycomponent.cpp 
    skycomponents/skycomposite.cpp 
    skycomponents/starblock.cpp
