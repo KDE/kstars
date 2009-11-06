@@ -357,8 +357,6 @@ public:
     QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
     QPointF toScreenQuaternion( SkyPoint *o );
 
-    QPoint toScreenI( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
-
     /**
     	*@return the given SkyLine, transformed to screen pixel coordinates.
     	*If only a portion of the line is on-screen, this function returns 

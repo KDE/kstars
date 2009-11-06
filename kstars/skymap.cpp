@@ -1046,10 +1046,6 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
                     0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
 }
 
-QPoint SkyMap::toScreenI( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) {
-    return toScreen( o, oRefract, onVisibleHemisphere ).toPoint();
-}
-
 QRect SkyMap::scaledRect() {
     return QRect( 0, 0, int(m_Scale*width()), int(m_Scale*height()) );
 }
