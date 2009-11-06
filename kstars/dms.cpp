@@ -27,14 +27,12 @@
 void dms::setD( const double &x ) {
     D = x;
     scDirty = true;
-    rDirty = true;
 }
 
 void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
     D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
     if (d<0) {D = -1.0*D;}
     scDirty = true;
-    rDirty = true;
 }
 
 void dms::setH( const double &x ) {
@@ -45,14 +43,11 @@ void dms::setH(const int &h, const int &m, const int &s, const int &ms) {
     D = 15.0*((double)abs(h) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.);
     if (h<0) {D = -1.0*D;}
     scDirty = true;
-    rDirty = true;
 }
 
 void dms::setRadians( const double &Rad ) {
     setD( Rad/DegToRad );
-    Radians = Rad;
     scDirty = true;
-    rDirty = true;
 }
 
 bool dms::setFromString( const QString &str, bool isDeg ) {
@@ -252,15 +247,6 @@ void dms::SinCos( double &sina, double &cosa ) const {
     }
     sina = Sin;
     cosa = Cos;
-}
-
-const double& dms::radians( void ) const {
-    if ( rDirty ) {
-        Radians = D*DegToRad;
-        rDirty = false;
-    }
-
-    return Radians;
 }
 
 const dms dms::reduce( void ) const {

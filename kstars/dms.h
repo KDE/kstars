@@ -279,7 +279,7 @@ public:
     	*@return the Sine of the angle.
     	*@sa cos()
     	*/
-    const double& sin( void ) const;
+    const double& sin() const;
 
     /**@short Compute the Angle's Cosine.
     	*
@@ -289,15 +289,12 @@ public:
     	*@return the Cosine of the angle.
     	*@sa sin()
     	*/
-    const double& cos( void ) const;
+    const double& cos() const;
 
     /**@short Express the angle in radians.
-    	*The computed Radians value is stored internally.  On subsequent calls,
-    	*the stored value is returned directly (unless the angle's value has
-    	*changed).
-    	*@return the angle in radians (double)
-    	*/
-    const double& radians( void ) const;
+     * @return the angle in radians (double)
+     */
+    double radians() const { return D*DegToRad; }
 
     /**@short Set angle according to the argument, in radians.
     	*
@@ -310,7 +307,7 @@ public:
     /**return the equivalent angle between 0 and 360 degrees.
     	*@warning does not change the value of the parent angle itself.
     	*/
-    const dms reduce( void ) const;
+    const dms reduce() const;
 
     /**@return a nicely-formatted string representation of the angle
     	*in degrees, arcminutes, and arcseconds.
@@ -351,9 +348,8 @@ public:
 private:
     double D;
 
-    mutable double Radians;
     mutable double Sin, Cos;
-    mutable bool scDirty, rDirty;
+    mutable bool scDirty;
 };
 
 #endif
