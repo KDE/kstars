@@ -710,18 +710,13 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                 if ( kstars )
                     kstars->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
                 break;
-            case Qt::RightButton:
-                {
-                    SkyObject *nullObj = new SkyObject( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
-                    pmenu->createEmptyMenu( nullObj );
-                    delete nullObj;
-
-                    pmenu->popup(  QCursor::pos() );
-                    break;
-                }
-
-            default:
+            case Qt::RightButton: {
+                SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
+                pmenu->createEmptyMenu( &o );
+                pmenu->popup( QCursor::pos() );
                 break;
+                }
+            default: ;
             }
         }
     }
