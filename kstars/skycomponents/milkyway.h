@@ -20,13 +20,13 @@
 
 #include "skiplistindex.h"
 
-/**
-	*@class MlkyWay
-    *This  stores a SkipList for each chunk.  
-	*
-	*@author James B. Bowlin
-	*@version 0.1
-	*/
+/** @class MlkyWay
+ *
+ * Specialize SkipListIndex for drawing Milky Way and Magellanic clouds.
+ *
+ * @author James B. Bowlin
+ * @version 0.1
+ */
 class MilkyWay : public SkipListIndex
 {
 public:
