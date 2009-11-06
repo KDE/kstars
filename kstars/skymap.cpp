@@ -1104,19 +1104,15 @@ QList<QPointF> SkyMap::toScreen( SkyLine *line, bool oRefract, bool doClipLines 
             //and the user wants clipped lines, then we have to
             //interpolate to find the intersection of the line
             //segment with the screen edge
-            if ( doClipLines ) {
-                onscreenLine( p, pLast );
-                if ( ! isPointNull( p ) ) {
-                    screenLine.append( pLast );
-                    screenLine.append( p );
-                }
+            if ( doClipLines  &&  onscreenLine( p, pLast ) ) {
+                screenLine.append( pLast );
+                screenLine.append( p );
             }
             //If the current point is onscreen, add it to the list
             else if ( on ) {
                 //First, add pLast if it is offscreen
                 if ( !onLast )
                     screenLine.append( pLast );
-
                 screenLine.append( p );
             }
         }
@@ -1127,7 +1123,7 @@ QList<QPointF> SkyMap::toScreen( SkyLine *line, bool oRefract, bool doClipLines 
     return screenLine;
 }
 
-bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
+bool SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
     //If the SkyMap rect contains both points or either point is null,
     //we can return immediately
     bool on1 = scaledRect().contains( p1.toPoint() );
@@ -1213,102 +1209,6 @@ bool SkyMap::onscreenLine2( QPointF &p1, QPointF &p2 ) {
 
     return true;
 }
-
-
-void SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
-    //If the SkyMap rect contains both points or either point is null,
-    //we can return immediately
-    if ( isPointNull( p1 ) || isPointNull( p2 ) )
-        return;
-    bool on1 = scaledRect().contains( p1.toPoint() );
-    bool on2 = scaledRect().contains( p2.toPoint() );
-    if ( on1 && on2 )
-        return;
-
-    //Given two points defining a line segment, determine the
-    //endpoints of the segment which is clipped by the boundaries
-    //of the SkyMap QRectF.
-    QLineF screenLine( p1, p2 );
-
-    //Define screen edges to be just beyond the scaledRect() bounds, so that clipped
-    //positions are considered "offscreen"
-    QPoint topLeft( scaledRect().left()-1, scaledRect().top()-1 );
-    QPoint bottomLeft( scaledRect().left()-1, scaledRect().top() + height()+1 );
-    QPoint topRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top()-1 );
-    QPoint bottomRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top() + height()+1 );
-    QLine topEdge( topLeft, topRight );
-    QLine bottomEdge( bottomLeft, bottomRight );
-    QLine leftEdge( topLeft, bottomLeft );
-    QLine rightEdge( topRight, bottomRight );
-
-    QPointF edgePoint1;
-    QPointF edgePoint2;
-
-    //If both points are offscreen in the same direction, return a null point.
-    if ( ( p1.x() <= topLeft.x() && p2.x() <= topLeft.x() ) ||
-            ( p1.y() <= topLeft.y() && p2.y() <= topLeft.y() ) ||
-            ( p1.x() >= topRight.x() && p2.x() >= topRight.x() ) ||
-            ( p1.y() >= bottomLeft.y() && p2.y() >= bottomLeft.y() ) ) {
-        p1 = QPointF( -10000000., -10000000. );
-        return;
-    }
-
-    //When an intersection betwen the line and a screen edge is found, the
-    //intersection point is stored in edgePoint2.
-    //If two intersection points are found for the same line, then we'll
-    //return the line joining those two intersection points.
-    if ( screenLine.intersect( QLineF(topEdge), &edgePoint1 ) == 1 ) {
-        edgePoint2 = edgePoint1;
-    }
-
-    if ( screenLine.intersect( QLineF(leftEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return;
-        }
-    }
-
-    if ( screenLine.intersect( QLineF(rightEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return;
-        }
-    }
-    if ( screenLine.intersect( QLineF(bottomEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return;
-        }
-    }
-    //If we get here, zero or one intersection point was found.
-    //If no intersection points were found, the line must be totally offscreen
-    //return a null point
-    if ( edgePoint2.isNull() ) {
-        p1 = QPointF( -10000000., -10000000. );
-        return;
-    }
-
-    //If one intersection point was found, then one of the original endpoints
-    //was onscreen.  Return the line that connects this point to the edgePoint
-
-    //edgePoint2 is the one defined edgePoint.
-    if ( on2 )
-        p1 = edgePoint2;
-    else
-        p2 = edgePoint2;
-
-    return;
-}
-
-// QLine SkyMap::toScreenI( SkyLine *line, double scale, bool oRefract, bool doClipLines ) {
-// 	return toScreen( line, scale, oRefract, doClipLines ).toLine();
-// }
 
 SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
     //Determine RA and Dec of a point, given (dx, dy): its pixel

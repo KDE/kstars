@@ -400,8 +400,7 @@ public:
     bool onScreen( QPointF &p1, QPointF &p2 );
     bool onScreen( QPoint &p1, QPoint &p2 );
 
-    void onscreenLine( QPointF &p1, QPointF &p2 );
-    bool onscreenLine2( QPointF &p1, QPointF &p2 );
+    bool onscreenLine( QPointF &p1, QPointF &p2 );
 
     /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
     	*screen pixel coordinate offsets from the center of the Sky pixmap.

@@ -276,7 +276,7 @@ void LineListIndex::drawLines( QPainter& psky )
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
                     if ( isVisible && isVisibleLast ) {
-                        if ( map->onscreenLine2( oLast, oThis ) ) {
+                        if ( map->onscreenLine( oLast, oThis ) ) {
                             psky.drawLine( oLast, oThis );
                             updateLabelCandidates( oThis, lineList, i );
                             //psky.drawEllipse( QRectF( oThis.x(), oThis.y(), 2, 2 ) );
