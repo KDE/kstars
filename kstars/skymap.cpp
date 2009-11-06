@@ -66,7 +66,31 @@ namespace {
             p2 = edge1;
         }
     }
+
+    // FIXME: describe what this function do and give descriptive name
+    double projectionK(double c) {
+        switch ( Options::projection() ) {
+        case SkyMap::Lambert:
+            return sqrt( 2.0/( 1.0 + c ) );
+        case SkyMap:: AzimuthalEquidistant: {
+            double crad = acos(c);
+            return crad/sin(crad);
+        }
+        case SkyMap:: Orthographic:
+            return 1.0;
+        case SkyMap:: Stereographic:
+            return 2.0/(1.0 + c);
+        case SkyMap:: Gnomonic:
+            return 1.0/c;
+        default: //should never get here
+            kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection();
+        }
+        // Default to orthographic
+        return 1.0;
+    }
+
 }
+
 
 SkyMap* SkyMap::pinstance = 0;
 
@@ -892,45 +916,18 @@ double SkyMap::findPA( SkyObject *o, float x, float y ) {
 
 //QUATERNION
 QPointF SkyMap::toScreenQuaternion( SkyPoint *o ) {
-    QPointF p;
     Quaternion oq = o->quat();
     //	Quaternion invRotAxis = m_rotAxis.inverse();
     oq.rotateAroundAxis( m_rotAxis );
 
-    double zoomscale = m_Scale*Options::zoomFactor();
-    double k;
     //c is the cosine of the angular distance from the center.
     //I believe this is just the z coordinate.
     double c = oq.v[Q_Z];
-    switch ( Options::projection() ) {
-    case Lambert:
-        k = sqrt( 2.0/( 1.0 + c ) );
-        break;
-    case AzimuthalEquidistant:
-        {
-            double crad = acos(c);
-            k = crad/sin(crad);
-            break;
-        }
-    case Orthographic:
-        k = 1.0;
-        break;
-    case Stereographic:
-        k = 2.0/(1.0 + c);
-        break;
-    case Gnomonic:
-        k = 1.0/c;
-        break;
-    default: //should never get here
-        kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection();
-        k = 1.0;  //just default to Orthographic
-        break;
-    }
+    double k = projectionK(c);
+    double zoomscale = m_Scale*Options::zoomFactor();
 
-    p.setX( 0.5*width()  - zoomscale*k*oq.v[Q_X] );
-    p.setY( 0.5*height() - zoomscale*k*oq.v[Q_Y] );
-
-    return p;
+    return QPointF( 0.5*width()  - zoomscale*k*oq.v[Q_X],
+                    0.5*height() - zoomscale*k*oq.v[Q_Y] );
 }
 
 void SkyMap::slotZoomIn() {
@@ -953,7 +950,6 @@ void SkyMap::setZoomFactor(double factor) {
 
 QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) {
 
-    QPointF p;
     double Y, dX;
     double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
@@ -982,7 +978,7 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
 
     //Special case: Equirectangular projection is very simple
     if ( Options::projection() == Equirectangular ) {
-
+        QPointF p;
         p.setX( 0.5*Width  - zoomscale*dX );
         if ( Options::useAltAz() )
             p.setY( 0.5*Height - zoomscale*(Y - focus()->alt()->radians()) );
@@ -1038,46 +1034,16 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
     //The Gnomonic projection has an infinite sky horizon, so don't allow the field
     //angle to approach 90 degrees in thi scase (cut it off at c=0.2).
     if ( c < 0.0 || ( Options::projection()==Gnomonic && c < 0.2 ) ) {
-        if (onVisibleHemisphere == NULL) {
-            p.setX( -10000000. );
-            p.setY( -10000000. );
-            return p;
-        }
-        else {
+        if( onVisibleHemisphere == NULL )
+            return QPointF( -1e+7, -1e+7 );
+        else
             *onVisibleHemisphere = false;
-        }
     }
 
-    double k;
-    switch ( Options::projection() ) {
-    case Lambert:
-        k = sqrt( 2.0/( 1.0 + c ) );
-        break;
-    case AzimuthalEquidistant:
-        {
-            double crad = acos(c);
-            k = crad/sin(crad);
-            break;
-        }
-    case Orthographic:
-        k = 1.0;
-        break;
-    case Stereographic:
-        k = 2.0/(1.0 + c);
-        break;
-    case Gnomonic:
-        k = 1.0/c;
-        break;
-    default: //should never get here
-        kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
-        k = 1.0;  //just default to Orthographic
-        break;
-    }
+    double k = projectionK(c);
 
-    p.setX( 0.5*Width  - zoomscale*k*cosY*sindX );
-    p.setY( 0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
-
-    return p;
+    return QPointF( 0.5*Width  - zoomscale*k*cosY*sindX,
+                    0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
 }
 
 QPoint SkyMap::toScreenI( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) {
