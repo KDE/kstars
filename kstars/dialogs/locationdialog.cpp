@@ -46,12 +46,11 @@ LocationDialog::LocationDialog( QWidget* parent ) :
         ui->TZBox->addItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
 
     //Populate DSTRuleBox
-    QMap<QString, TimeZoneRule>::Iterator it = data->getRulebook().begin();
-    QMap<QString, TimeZoneRule>::Iterator itEnd = data->getRulebook().end();
-    for ( ; it != itEnd; ++it )
-        if ( it.key().length() )
-            ui->DSTRuleBox->addItem( it.key() );
-    
+    foreach( QString key, data->getRulebook().keys() ) {
+        if( !key.isEmpty() )
+            ui->DSTRuleBox->addItem( key );
+    }
+
     connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
     connect( ui->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
     connect( ui->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
