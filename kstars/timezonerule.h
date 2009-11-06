@@ -136,6 +136,9 @@ private:
     	*/
     int initMonth( const QString &m );
 
+    /** Set up empty time zone rule */
+    void setEmpty();
+
     /**Interpret the day string as a week ID and a day-of-week ID.  The day-of-week
     	*is an integer between 1 (sunday) and 7 (saturday); the week integer can
     	*be 1-3 (1st/2nd/third weekday of the month), or 5 (last weekday of the month) 
