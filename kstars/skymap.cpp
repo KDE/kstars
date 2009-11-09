@@ -108,7 +108,7 @@ SkyMap* SkyMap::Instance( )
 
 SkyMap::SkyMap() :
     QWidget( KStars::Instance() ),
-    computeSkymap(true), angularDistanceMode(false),
+    computeSkymap(true), angularDistanceMode(false), scrollCount(0),
     data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0),
     ClickedObject(0), FocusObject(0), TransientObject(0)
 {
