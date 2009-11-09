@@ -43,6 +43,7 @@ class imagesequence;
 class AltVsTime;
 class LCGenerator;
 class WUTDialog;
+class AstroCalc;
 class SkyCalendar;
 class ScriptBuilder;
 class PlanetViewer;
@@ -669,6 +670,7 @@ private:
     PlanetViewer *pv;
     JMoonTool *jmt;
     FlagManager *fm;
+    AstroCalc *astrocalc;
 
     INDIMenu *indimenu;
     INDIDriver *indidriver;

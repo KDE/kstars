@@ -177,9 +177,9 @@ void KStars::slotViewToolBar() {
 /** Major Dialog Window Actions **/
 
 void KStars::slotCalculator() {
-    QPointer<AstroCalc> astrocalc = new AstroCalc (this);
-    astrocalc->exec();
-    delete astrocalc;
+    if( ! astrocalc )
+        astrocalc = new AstroCalc (this);
+    astrocalc->show();
 }
 
 void KStars::slotWizard() {

@@ -646,9 +646,9 @@ void SkyMap::slotDetail() {
         KMessageBox::sorry( this, i18n("No object selected."), i18n("Object Details") );
         return;
     }
-    QPointer<DetailDialog> detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), KStars::Instance() );
-    detail->exec();
-    delete detail;
+    DetailDialog* detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), KStars::Instance() );
+    detail->setAttribute(Qt::WA_DeleteOnClose);
+    detail->show();
 }
 
 void SkyMap::slotClockSlewing() {
