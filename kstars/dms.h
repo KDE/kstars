@@ -23,75 +23,71 @@
 #include <kdebug.h>
 
 /**@class dms
-	*@short An angle, stored as degrees, but expressible in many ways.
-	*@author Jason Harris
-	*@version 1.0
-	*
-	*dms encapsulates an angle.  The angle is stored as a double,
-	*equal to the value of the angle in degrees.  Methods are available
-	*for setting/getting the angle as a floating-point measured in
-	*Degrees or Hours, or as integer triplets (degrees, arcminutes,
-	*arcseconds or hours, minutes, seconds).  There is also a method
-	*to set the angle according to a radian value, and to return the
-	*angle expressed in radians.  Finally, a SinCos() method computes
-	*the sin and cosine of the angle.  Once computed, the sin and cos
-	*values are stored, so that subsequent SinCos() calls will be faster.
-  */
+ * @short An angle, stored as degrees, but expressible in many ways.
+ * @author Jason Harris
+ * @version 1.0
+ *
+ * dms encapsulates an angle.  The angle is stored as a double,
+ * equal to the value of the angle in degrees.  Methods are available
+ * for setting/getting the angle as a floating-point measured in
+ * Degrees or Hours, or as integer triplets (degrees, arcminutes,
+ * arcseconds or hours, minutes, seconds).  There is also a method
+ * to set the angle according to a radian value, and to return the
+ * angle expressed in radians.  Finally, a SinCos() method computes
+ * the sin and cosine of the angle. 
+ */
 class dms {
 public:
-    /**@short Default Constructor.
-    	*
-    	*Set the floating-point value of the angle according to the four integer arguments.
-    	*@param d degree portion of angle (int).  Defaults to zero.
-    	*@param m arcminute portion of angle (int).  Defaults to zero.
-    	*@param s arcsecond portion of angle (int).  Defaults to zero.
-    	*@param ms arcsecond portion of angle (int).  Defaults to zero.
-    	*/
-    explicit dms( const int &d=0, const int &m=0, const int &s=0, const int &ms=0 ) { setD( d, m, s, ms ); }
+    /** Default constructor. */
+    dms() : D(0) {}
+
+    /**@short Set the floating-point value of the angle according to the four integer arguments.
+     * @param d degree portion of angle (int).  Defaults to zero.
+     * @param m arcminute portion of angle (int).  Defaults to zero.
+     * @param s arcsecond portion of angle (int).  Defaults to zero.
+     * @param ms arcsecond portion of angle (int).  Defaults to zero.
+     */
+    explicit dms( const int &d, const int &m=0, const int &s=0, const int &ms=0 ) { setD( d, m, s, ms ); }
 
     /**@short Construct an angle from a double value.
-    	*
-    	*Creates an angle whose value in Degrees is equal to the argument.
-    	*@param x angle expressed as a floating-point number (in degrees)
-    	*/
+     *
+     * Creates an angle whose value in Degrees is equal to the argument.
+     * @param x angle expressed as a floating-point number (in degrees)
+     */
     dms( const double &x ) { setD( x ); }
 
     /**@short Construct an angle from a string representation.
-    	*
-    	*Attempt to create the angle according to the string argument.  If the string
-    	*cannot be parsed as an angle value, the angle is set to zero.
-    	*
-    	*@warning There is not an unambiguous notification that it failed to parse the string,
-    	*since the string could have been a valid representation of zero degrees.
-    	*If this is a concern, use the setFromString() function directly instead.
-    	*
-    	*@param s the string to parse as a dms value.
-    	*@param isDeg if true, value is in degrees; if false, value is in hours.
-    	*@sa setFromString()
-    	*/
+     *
+     * Attempt to create the angle according to the string argument.  If the string
+     * cannot be parsed as an angle value, the angle is set to zero.
+     *
+     * @warning There is not an unambiguous notification that it failed to parse the string,
+     * since the string could have been a valid representation of zero degrees.
+     * If this is a concern, use the setFromString() function directly instead.
+     *
+     * @param s the string to parse as a dms value.
+     * @param isDeg if true, value is in degrees; if false, value is in hours.
+     * @sa setFromString()
+     */
     explicit dms( const QString &s, bool isDeg=true ) { setFromString( s, isDeg ); }
 
-    /**Destructor (empty).
-    	*/
-    ~dms() {}
-
     /**@return integer degrees portion of the angle
-    	*/
+     */
     inline int degree() const { return int( D ) ; }
 
     /**@return integer arcminutes portion of the angle.
-    	*@note an arcminute is 1/60 degree.
-    	*/
+     * @note an arcminute is 1/60 degree.
+     */
     int arcmin() const;
 
     /**@return integer arcseconds portion of the angle
-    	*@note an arcsecond is 1/60 arcmin, or 1/3600 degree.
-    	*/
+     * @note an arcsecond is 1/60 arcmin, or 1/3600 degree.
+     */
     int arcsec() const;
 
     /**@return integer milliarcseconds portion of the angle
-    	*@note a  milliarcsecond is 1/1000 arcsecond.
-    	*/
+     * @note a  milliarcsecond is 1/1000 arcsecond.
+     */
     int marcsec() const;
 
     /**@return angle in degrees expressed as a double.
@@ -221,75 +217,39 @@ public:
     void set( const double &d ) { setD( d ); }
 
     /**@short Attempt to parse the string argument as a dms value, and set the dms object
-    	*accordingly.
-    	*@param s the string to be parsed as a dms value.  The string can be an int or
-    	*floating-point value, or a triplet of values (d/h, m, s) separated by spaces or colons.
-    	*@param isDeg if true, the value is in degrees.  Otherwise, it is in hours.
-    	*@return true if sting was parsed successfully.  Otherwise, set the dms value
-    	*to 0.0 and return false.
-    	*/
+     * accordingly.
+     * @param s the string to be parsed as a dms value.  The string can be an int or
+     * floating-point value, or a triplet of values (d/h, m, s) separated by spaces or colons.
+     * @param isDeg if true, the value is in degrees.  Otherwise, it is in hours.
+     * @return true if sting was parsed successfully.  Otherwise, set the dms value
+     * to 0.0 and return false.
+     */
     bool setFromString( const QString &s, bool isDeg=true );
 
-    //TODO: Either implement these operators, or delete the commented declarations
-    /**
-    	*Addition operator.  Add two dms objects.
-    	*@param d add to current angle
-    	*@return sum of two angles, in a dms object
-    	*/
-    //  dms operator+ ( dms d );
-    /**
-    	*Subtraction operator.  Subtract two dms objects.
-    	*@param d subtract from current angle
-    	*@return difference of two angles, in a dms object
-    	*/
-    //  dms operator- ( dms d );
-    /**
-    	*Assignment operator.  Assign value of argument to current angle.
-    	*I wanted to pass the argument by reference, but I couldn't figure
-    	*out a good way to do it without generating an error or warning message.
-    	*@param a dms object to get angle value from
-    	*@return dms object, copy of argument.
-    	*/
-    //  dms operator= ( const dms a ) { return a; }
-    /**
-    	*Assignment operator.  Assign value of argument to current angle.
-    	*@param d floating-point number to get angle value from
-    	*@return dms object, same value as argument.
-    	*/
-    //  dms operator= ( const double &d ) { return (dms( d )); }
-
     /**@short Compute Sine and Cosine of the angle simultaneously.
-    	*On machines using glibc >= 2.1, calling SinCos() is somewhat faster
-    	*than calling sin() and cos() separately.
-    	*The values are returned through the arguments (passed by reference).
-    	*The Sin and Cos values are stored internally; on subsequent calls
-    	*to SinCos(), the stored values are returned directly (unless the
-    	*angle's value has changed).
-    	*@param s Sine of the angle
-    	*@param c Cosine of the angle
-    	*@sa sin() cos()
-    	*/
-    void SinCos( double &s, double &c ) const;
+     * On machines using glibc >= 2.1, calling SinCos() is somewhat faster
+     * than calling sin() and cos() separately.
+     * The values are returned through the arguments (passed by reference).
+     *
+     * @param s Sine of the angle
+     * @param c Cosine of the angle
+     * @sa sin() cos()
+     */
+    inline void SinCos( double &s, double &c ) const;
 
     /**@short Compute the Angle's Sine.
-    	*
-    	*If the Sine/Cosine values have already been computed, then this
-    	*function simply returns the stored value.  Otherwise, it will compute
-    	*and store the values first.
-    	*@return the Sine of the angle.
-    	*@sa cos()
-    	*/
-    const double& sin() const;
+     *
+     * @return the Sine of the angle.
+     * @sa cos()
+     */
+    double sin() const { return ::sin(D*DegToRad); }
 
     /**@short Compute the Angle's Cosine.
-    	*
-    	*If the Sine/Cosine values have already been computed, then this
-    	*function simply returns the stored value.  Otherwise, it will compute
-    	*and store the values first.
-    	*@return the Cosine of the angle.
-    	*@sa sin()
-    	*/
-    const double& cos() const;
+     *
+     * @return the Cosine of the angle.
+     * @sa sin()
+     */
+    double cos() const { return ::cos(D*DegToRad); }
 
     /**@short Express the angle in radians.
      * @return the angle in radians (double)
@@ -297,36 +257,36 @@ public:
     double radians() const { return D*DegToRad; }
 
     /**@short Set angle according to the argument, in radians.
-    	*
-    	*This function converts the argument to degrees, then sets the angle
-    	*with setD().
-    	*@param a angle in radians
-    	*/
+     *
+     * This function converts the argument to degrees, then sets the angle
+     * with setD().
+     * @param a angle in radians
+     */
     void setRadians( const double &a );
 
     /**return the equivalent angle between 0 and 360 degrees.
-    	*@warning does not change the value of the parent angle itself.
-    	*/
+     * @warning does not change the value of the parent angle itself.
+     */
     const dms reduce() const;
 
     /**@return a nicely-formatted string representation of the angle
-    	*in degrees, arcminutes, and arcseconds.
-    	*/
+     * in degrees, arcminutes, and arcseconds.
+     */
     const QString toDMSString(const bool forceSign = false) const;
 
     /**@return a nicely-formatted string representation of the angle
-    	*in hours, minutes, and seconds.
-    	*/
+     * in hours, minutes, and seconds.
+     */
     const QString toHMSString() const;
 
     /**PI is a const static member; it's public so that it can be used anywhere,
-    	*as long as dms.h is included.
-    	*/
+     * as long as dms.h is included.
+     */
     static const double PI;
 
     /**DegToRad is a const static member equal to the number of radians in
-    	*one degree (dms::PI/180.0).
-    	*/
+     * one degree (dms::PI/180.0).
+     */
     static const double DegToRad;
 
     /**@short Static function to create a DMS object from a QString.
@@ -347,9 +307,24 @@ public:
 
 private:
     double D;
-
-    mutable double Sin, Cos;
-    mutable bool scDirty;
 };
+
+// Inline sincos
+inline void dms::SinCos(double& s, double& c) const {
+#ifdef __GLIBC__
+#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 && !defined(__UCLIBC__))
+    //GNU version
+    sincos( radians(), &s, &c );
+#else
+    //For older GLIBC versions
+    s = ::sin( radians() );
+    c = ::cos( radians() );
+#endif
+#else
+    //ANSI-compliant version
+    s = ::sin( radians() );
+    c = ::cos( radians() );
+#endif
+}
 
 #endif
