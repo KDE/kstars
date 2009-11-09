@@ -195,7 +195,6 @@ void SkyPoint::precess( const KSNumbers *num) {
 
 void SkyPoint::nutate(const KSNumbers *num) {
     double cosRA, sinRA, cosDec, sinDec, tanDec;
-    dms dRA1, dRA2, dDec1, dDec2;
     double cosOb, sinOb;
 
     RA.SinCos( sinRA, cosRA );
@@ -207,11 +206,11 @@ void SkyPoint::nutate(const KSNumbers *num) {
     if ( fabs( Dec.Degrees() ) < 80.0 ) { //approximate method
         tanDec = sinDec/cosDec;
 
-        dRA1.setD( num->dEcLong()*( cosOb + sinOb*sinRA*tanDec ) - num->dObliq()*cosRA*tanDec );
-        dDec1.setD( num->dEcLong()*( sinOb*cosRA ) + num->dObliq()*sinRA );
+        double dRA  = num->dEcLong()*( cosOb + sinOb*sinRA*tanDec ) - num->dObliq()*cosRA*tanDec;
+        double dDec = num->dEcLong()*( sinOb*cosRA ) + num->dObliq()*sinRA;
 
-        RA.setD( RA.Degrees() + dRA1.Degrees() );
-        Dec.setD( Dec.Degrees() + dDec1.Degrees() );
+        RA.setD( RA.Degrees() + dRA );
+        Dec.setD( Dec.Degrees() + dDec );
     } else { //exact method
         dms EcLong, EcLat;
         findEcliptic( num->obliquity(), EcLong, EcLat );
@@ -286,7 +285,6 @@ bool SkyPoint::bendlight() {
 
 void SkyPoint::aberrate(const KSNumbers *num) {
     double cosRA, sinRA, cosDec, sinDec;
-    dms dRA2, dDec2;
     double cosOb, sinOb, cosL, sinL, cosP, sinP;
 
     double K = num->constAberr().Degrees();  //constant of aberration
@@ -303,18 +301,17 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 
 
     //Step 3: Aberration
-    dRA2.setD( -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
-               + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec );
+    double dRA = -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
+                  + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec;
 
-    dDec2.setD( -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
-                + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP ) );
+    double dDec = -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
+                   + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP );
 
-    RA.setD( RA.Degrees() + dRA2.Degrees() );
-    Dec.setD( Dec.Degrees() + dDec2.Degrees() );
+    RA.setD( RA.Degrees() + dRA );
+    Dec.setD( Dec.Degrees() + dDec );
 }
 
 void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST ) {
-    dms pRA, pDec;
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
     precess(num);
@@ -354,9 +351,6 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
         if ( jd0 != J2000 ) {
 
             //v is a column vector representing input coordinates.
-
-            KSNumbers *num = new KSNumbers (jd0);
-
             v[0] = cosRA*cosDec;
             v[1] = sinRA*cosDec;
             v[2] = sinDec;
@@ -364,12 +358,12 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
             //Need to first precess to J2000.0 coords
             //s is the product of P1 and v; s represents the
             //coordinates precessed to J2000
+            KSNumbers num(jd0);
             for ( unsigned int i=0; i<3; ++i ) {
-                s[i] = num->p1( 0, i )*v[0] +
-                       num->p1( 1, i )*v[1] +
-                       num->p1( 2, i )*v[2];
+                s[i] = num.p1( 0, i )*v[0] +
+                       num.p1( 1, i )*v[1] +
+                       num.p1( 2, i )*v[2];
             }
-            delete num;
 
             //Input coords already in J2000, set s accordingly.
         } else {
@@ -388,15 +382,12 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
             return;
         }
 
-        KSNumbers *num = new KSNumbers (jdf);
-
+        KSNumbers num(jdf);
         for ( unsigned int i=0; i<3; ++i ) {
-            v[i] = num->p2( 0, i )*s[0] +
-                   num->p2( 1, i )*s[1] +
-                   num->p2( 2, i )*s[2];
+            v[i] = num.p2( 0, i )*s[0] +
+                   num.p2( 1, i )*s[1] +
+                   num.p2( 2, i )*s[2];
         }
-
-        delete num;
 
         RA.setRadians( atan2( v[1],v[0] ) );
         Dec.setRadians( asin( v[2] ) );
@@ -422,11 +413,10 @@ void SkyPoint::apparentCoord(long double jd0, long double jdf){
 void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat) {
 
     double a = 192.25;
-    dms b, c;
     double sinb, cosb, sina_RA, cosa_RA, sinDEC, cosDEC, tanDEC;
 
-    c.setD(303);
-    b.setD(27.4);
+    dms c(303.0);
+    dms b(27.4);
     tanDEC = tan( Dec.radians() );
 
     b.SinCos(sinb,cosb);
@@ -442,22 +432,18 @@ void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat) {
 void SkyPoint::GalacticToEquatorial1950(const dms* galLong, const dms* galLat) {
 
     double a = 123.0;
-    dms b, c, galLong_a;
     double sinb, cosb, singLat, cosgLat, tangLat, singLong_a, cosgLong_a;
 
-    c.setD(12.25);
-    b.setD(27.4);
+    dms c(12.25);
+    dms b(27.4);
     tangLat = tan( galLat->radians() );
-
-
     galLat->SinCos(singLat,cosgLat);
 
-    dms( galLong->Degrees()-a ).SinCos(singLong_a,cosgLong_a);
+    dms( galLong->Degrees() - a ).SinCos(singLong_a,cosgLong_a);
     b.SinCos(sinb,cosb);
 
     RA.setRadians(c.radians() + atan2(singLong_a,cosgLong_a*sinb-tangLat*cosb) );
     RA = RA.reduce();
-    //	raHourCoord = dms( raCoord.Hours() );
 
     Dec.setRadians( asin(singLat*sinb+cosgLat*cosb*cosgLong_a) );
 }
@@ -617,14 +603,13 @@ dms SkyPoint::angularDistanceTo(const SkyPoint *sp) {
 
 double SkyPoint::vRSun(long double jd0) {
 
-    dms asun,dsun;
     double ca, sa, cd, sd, vsun;
     double cosRA, sinRA, cosDec, sinDec;
 
     /* Sun apex (where the sun goes) coordinates */
 
-    asun.setD(270.9592);	// Right ascention: 18h 3m 50.2s [J2000]
-    dsun.setD(30.00467);	// Declination: 30^o 0' 16.8'' [J2000]
+    dms asun(270.9592);	// Right ascention: 18h 3m 50.2s [J2000]
+    dms dsun(30.00467);	// Declination: 30^o 0' 16.8'' [J2000]
     vsun=20.;		// [km/s]
 
     asun.SinCos(sa,ca);
