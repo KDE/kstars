@@ -85,11 +85,6 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
 DetailDialog::~DetailDialog() {
     delete Thumbnail;
-    delete Data;
-    delete Pos;
-    delete Links;
-    delete Adv;
-    delete Log;
 }
 
 void DetailDialog::createGeneralTab()
