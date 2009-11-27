@@ -261,14 +261,13 @@ bool SkyPoint::bendlight() {
 
     static KSSun* sun;
     const dms maxAngle( 1.75 * ( 30.0 / 200.0) / dms::DegToRad );
-    SkyPoint sp;
 
     if( !sun ) // Hope we don't destroy the sun before the program ends!
         sun = (KSSun*) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
     //    kDebug() << "bendlight says maximum correctable angle is " << maxAngle.Degrees();
 
     // TODO: We can make this code more efficient
-    sp = SkyPoint( sun->ra0(), sun->dec0() );
+    SkyPoint sp( sun->ra0(), sun->dec0() );
     //    kDebug() << "The unaberrated sun is " << sp.angularDistanceTo( sun ).Degrees() << "deg away";
     if( fabs( angularDistanceTo( &sp ).radians() ) <= maxAngle.radians() ) {
         // We correct for GR effects
