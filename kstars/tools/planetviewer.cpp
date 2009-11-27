@@ -106,14 +106,14 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 
     QTimer::singleShot( 0, this, SLOT( initPlotObjects() ) );
 
-    connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
-    connect( pw->TimeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
-    connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
-    connect( pw->ZoomInButton, SIGNAL( clicked() ), SLOT( slotMapZoomIn() ) );
-    connect( pw->ZoomOutButton, SIGNAL( clicked() ), SLOT( slotMapZoomOut() ) );
-    connect( pw->DateBox, SIGNAL( dateChanged( const QDate & ) ), SLOT( slotChangeDate() ) );
-    connect( pw->TodayButton, SIGNAL( clicked() ), SLOT( slotToday() ) );
-    connect( this, SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
+    connect( &tmr,              SIGNAL( timeout() ), SLOT( tick() ) );
+    connect( pw->TimeStep,      SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
+    connect( pw->RunButton,     SIGNAL( clicked() ), SLOT( slotRunClock() ) );
+    connect( pw->ZoomInButton,  SIGNAL( clicked() ), pw->map, SLOT( slotZoomIn() ) );
+    connect( pw->ZoomOutButton, SIGNAL( clicked() ), pw->map, SLOT( slotZoomOut() ) );
+    connect( pw->DateBox,       SIGNAL( dateChanged(const QDate&) ), SLOT( slotChangeDate() ) );
+    connect( pw->TodayButton,   SIGNAL( clicked() ), SLOT( slotToday() ) );
+    connect( this,              SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
 }
 
 PlanetViewer::~PlanetViewer()
@@ -256,14 +256,6 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
         close();
     else
         e->ignore();
-}
-
-void PlanetViewer::slotMapZoomIn() {
-    pw->map->slotZoomIn();
-}
-
-void PlanetViewer::slotMapZoomOut() {
-    pw->map->slotZoomOut();
 }
 
 #include "planetviewer.moc"
