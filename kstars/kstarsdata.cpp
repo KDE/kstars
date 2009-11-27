@@ -30,6 +30,7 @@
 
 #include "Options.h"
 #include "dms.h"
+#include "fov.h"
 #include "skymap.h"
 #include "ksutils.h"
 #include "ksfilereader.h"

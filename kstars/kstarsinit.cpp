@@ -34,6 +34,7 @@
 #include <knewstuff2/ui/knewstuffaction.h>
 
 #include "Options.h"
+#include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"

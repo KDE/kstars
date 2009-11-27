@@ -26,7 +26,6 @@
 #include <QMap>
 #include <QKeySequence>
 
-#include "fov.h"
 #include "geolocation.h"
 #include "colorscheme.h"
 #include "kstarsdatetime.h"
@@ -49,6 +48,7 @@ class dms;
 class SkyMap;
 class SkyObject;
 class KSPlanet;
+class FOV;
 
 class TimeZoneRule;
 class INDIHostsInfo;

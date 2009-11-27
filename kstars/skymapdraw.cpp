@@ -24,6 +24,7 @@
 
 #include "skymap.h"
 #include "Options.h"
+#include "fov.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
