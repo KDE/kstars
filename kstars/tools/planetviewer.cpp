@@ -34,7 +34,6 @@
 #include <KPlotPoint>
 
 #include "ui_planetviewer.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
@@ -52,6 +51,7 @@ PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
 PlanetViewer::PlanetViewer(QWidget *parent)
         : KDialog( parent ), scale(1.0), isClockRunning(false), tmr(this)
 {
+    KStarsData *data = KStarsData::Instance();
     pw = new PlanetViewerUI( this );
     setMainWidget( pw );
     setCaption( i18n("Solar System Viewer") );
@@ -68,14 +68,13 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     pw->RunButton->setIcon( KIcon("arrow-right") );
     pw->ZoomInButton->setIcon( KIcon("zoom-in") );
     pw->ZoomOutButton->setIcon( KIcon("zoom-out") );
-    pw->DateBox->setDate( ((KStars*)parent)->data()->lt().date() );
+    pw->DateBox->setDate( data->lt().date() );
 
     resize( 500, 500 );
     pw->map->QWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
 
     setCenterPlanet(QString());
 
-    KStarsData *data = KStarsData::Instance();
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MERCURY ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::VENUS ) );
     PlanetList.append( new KSPlanet( "Earth" ) );
@@ -200,8 +199,7 @@ void PlanetViewer::updatePlanets() {
 }
 
 void PlanetViewer::slotToday() {
-    KStars *ks = (KStars*)parent();
-    pw->DateBox->setDate( ks->data()->lt().date() );
+    pw->DateBox->setDate( KStarsData::Instance()->lt().date() );
 }
 
 void PlanetViewer::paintEvent( QPaintEvent* ) {
@@ -254,14 +252,10 @@ void PlanetViewer::initPlotObjects() {
 }
 
 void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
-    switch ( e->key() ) {
-    case Qt::Key_Escape:
+    if( e->key() == Qt::Key_Escape )
         close();
-        break;
-    default:
+    else
         e->ignore();
-        break;
-    }
 }
 
 void PlanetViewer::slotMapZoomIn() {
