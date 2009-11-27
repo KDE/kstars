@@ -102,21 +102,15 @@ void modCalcSidTime::slotShown() {
 }
 
 void modCalcSidTime::slotConvertST(const QTime &lt){
-    if ( bSyncTime == false ) {
-        bSyncTime = true;
+    if( !bSyncTime )
         ST->setTime( computeLTtoST( lt ) );
-    } else {
-        bSyncTime = false;
-    }
+    bSyncTime = !bSyncTime;
 }
 
 void modCalcSidTime::slotConvertLT(const QTime &st){
-    if ( bSyncTime == false ) {
-        bSyncTime = true;
+    if( !bSyncTime )
         LT->setTime( computeSTtoLT( st ) );
-    } else {
-        bSyncTime = false;
-    }
+    bSyncTime = !bSyncTime;
 }
 
 QTime modCalcSidTime::computeLTtoST( QTime lt )
