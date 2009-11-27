@@ -60,8 +60,10 @@
 
 #include "skycomponents/constellationboundary.h"
 
-DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent )
-        : KPageDialog( parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
+DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent ) :
+    KPageDialog( parent ),
+    selectedObject(o),
+    Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
     setFaceType( Tabbed );
     setBackgroundRole( QPalette::Base );
@@ -294,7 +296,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     Pos->Az->setText( selectedObject->az()->toDMSString() );
     dms a( selectedObject->alt()->Degrees() );
     if ( Options::useAltAz() && Options::useRefraction() )
-        a = ksw->map()->refract( selectedObject->alt(), true ); //true: compute apparent alt from true alt
+        a = KStars::Instance()->map()->refract( selectedObject->alt(), true ); //true: compute apparent alt from true alt
     Pos->Alt->setText( a.toDMSString() );
 
     //Hour Angle can be negative, but dms HMS expressions cannot.
@@ -388,7 +390,7 @@ void DetailDialog::createLinksTab()
 
     // Signals/Slots
     connect( Links->ViewButton, SIGNAL(clicked()), this, SLOT( viewLink() ) );
-    connect( Links->AddLinkButton, SIGNAL(clicked()), ksw->map(), SLOT( addLink() ) );
+    connect( Links->AddLinkButton, SIGNAL(clicked()), KStars::Instance()->map(), SLOT( addLink() ) );
     connect( Links->EditLinkButton, SIGNAL(clicked()), this, SLOT( editLinkDialog() ) );
     connect( Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT( removeLinkDialog() ) );
 
@@ -406,7 +408,7 @@ void DetailDialog::createLinksTab()
     connect( Links->InfoTitleList, SIGNAL(itemSelectionChanged ()), this, SLOT( updateButtons() ) );
     connect( Links->ImageTitleList, SIGNAL(itemSelectionChanged ()), this, SLOT( updateButtons() ));
 
-    connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
+    connect( KStars::Instance()->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
 }
 
 void DetailDialog::createAdvancedTab()
@@ -414,7 +416,7 @@ void DetailDialog::createAdvancedTab()
     // Don't create an adv tab for an unnamed star or if advinterface file failed loading
     // We also don't need adv dialog for solar system objects.
     if (selectedObject->name() == QString("star") ||
-            ksw->data()->ADVtreeList.isEmpty() ||
+            KStarsData::Instance()->ADVtreeList.isEmpty() ||
             selectedObject->type() == SkyObject::PLANET ||
             selectedObject->type() == SkyObject::COMET ||
             selectedObject->type() == SkyObject::ASTEROID )
@@ -730,7 +732,7 @@ void DetailDialog::populateADVTree()
 
     // We populate the tree iterativley, keeping track of parents as we go
     // This solution is more efficient than the previous recursion algorithm.
-    foreach (ADVTreeData *item, ksw->data()->ADVtreeList)
+    foreach (ADVTreeData *item, KStarsData::Instance()->ADVtreeList)
     {
 
         switch (item->Type)
@@ -766,7 +768,7 @@ void  DetailDialog::viewADVData()
     //If the item has children or is invalid, do nothing
     if ( !current || current->childCount()>0 )  return;
 
-    foreach (ADVTreeData *item, ksw->data()->ADVtreeList)
+    foreach (ADVTreeData *item, KStarsData::Instance()->ADVtreeList)
     {
         if (item->Name == current->text(0))
         {
@@ -826,12 +828,13 @@ void DetailDialog::saveLogData() {
 }
 
 void DetailDialog::addToObservingList() {
-    ksw->observingList()->slotAddObject( selectedObject );
+    KStars::Instance()->observingList()->slotAddObject( selectedObject );
 }
 
 void DetailDialog::centerMap() {
-    ksw->map()->setClickedObject( selectedObject );
-    ksw->map()->slotCenter();
+    SkyMap* map = KStars::Instance()->map();
+    map->setClickedObject( selectedObject );
+    map->slotCenter();
 }
 
 void DetailDialog::centerTelescope()
@@ -843,11 +846,12 @@ void DetailDialog::centerTelescope()
     bool useJ2000( false);
     int selectedCoord(0);
     SkyPoint sp;
-
+    SkyMap* map = KStars::Instance()->map();
+    
     // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
     // i.e. the first telescope we find!
 
-    INDIMenu *imenu = ksw->indiMenu();
+    INDIMenu *imenu = KStars::Instance()->indiMenu();
     for ( int i=0; i < imenu->managers.size() ; i++ )
     {
         for ( int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++ )
@@ -924,10 +928,10 @@ void DetailDialog::centerTelescope()
                 if (indidev->stdDev->currentObject)
                     sp.set (indidev->stdDev->currentObject->ra(), indidev->stdDev->currentObject->dec());
                 else
-                    sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
+                    sp.set (map->clickedPoint()->ra(), map->clickedPoint()->dec());
 
                 if (useJ2000)
-                    sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+                    sp.apparentCoord(KStarsData::Instance()->ut().djd(), (long double) J2000);
 
                 RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
                 DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
@@ -942,8 +946,8 @@ void DetailDialog::centerTelescope()
                 }
                 else
                 {
-                    sp.setAz(*ksw->map()->clickedPoint()->az());
-                    sp.setAlt(*ksw->map()->clickedPoint()->alt());
+                    sp.setAz(*map->clickedPoint()->az());
+                    sp.setAlt(*map->clickedPoint()->alt());
                 }
 
                 AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
