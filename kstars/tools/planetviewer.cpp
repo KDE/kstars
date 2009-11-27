@@ -111,7 +111,7 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
     connect( pw->ZoomInButton, SIGNAL( clicked() ), SLOT( slotMapZoomIn() ) );
     connect( pw->ZoomOutButton, SIGNAL( clicked() ), SLOT( slotMapZoomOut() ) );
-    connect( pw->DateBox, SIGNAL( valueChanged( const QDate & ) ), SLOT( slotChangeDate( const QDate & ) ) );
+    connect( pw->DateBox, SIGNAL( dateChanged( const QDate & ) ), SLOT( slotChangeDate() ) );
     connect( pw->TodayButton, SIGNAL( clicked() ), SLOT( slotToday() ) );
     connect( this, SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
 }
@@ -150,7 +150,7 @@ void PlanetViewer::slotRunClock() {
     }
 }
 
-void PlanetViewer::slotChangeDate( const QDate & ) {
+void PlanetViewer::slotChangeDate() {
     ut.setDate( pw->DateBox->date() );
     updatePlanets();
 }
