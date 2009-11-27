@@ -106,8 +106,6 @@ void SolarSystemComposite::update( KSNumbers *num )
 
 void SolarSystemComposite::updatePlanets( KSNumbers *num )
 {
-	//    if ( ! selected() ) return;
-    KStarsData *data = KStarsData::Instance(); 
     m_Earth->findPosition( num );
     foreach ( SkyComponent *comp, components() ) {
         comp->updatePlanets( num );
