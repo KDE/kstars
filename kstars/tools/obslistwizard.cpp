@@ -43,9 +43,9 @@ ObsListWizard::ObsListWizard( QWidget *ksparent ) :
     setMainWidget( olw );
     setCaption( i18n("Observing List Wizard") );
     setButtons( KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel );
-    setButtonGuiItem( KDialog::User1, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );
-    setButtonGuiItem( KDialog::User2, KGuiItem( i18n("&Next") + QString(">"), QString(), i18n("Go to next Wizard page") ) );
-    enableButton( KDialog::User1, false );
+    setButtonGuiItem( KDialog::User2, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );
+    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Next") + QString(">"), QString(), i18n("Go to next Wizard page") ) );
+    enableButton( KDialog::User2, false );
 
     connect( olw->AllButton, SIGNAL( clicked() ), this, SLOT( slotAllButton() ) );
     connect( olw->NoneButton, SIGNAL( clicked() ), this, SLOT( slotNoneButton() ) );
@@ -53,8 +53,8 @@ ObsListWizard::ObsListWizard( QWidget *ksparent ) :
     connect( olw->SolarSystemButton, SIGNAL( clicked() ), this, SLOT( slotSolarSystemButton() ) );
     connect( olw->LocationButton, SIGNAL( clicked() ), this, SLOT( slotChangeLocation() ) );
 
-    connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotPrevPage() ) );
-    connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotNextPage() ) );
+    connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotNextPage() ) );
+    connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotPrevPage() ) );
 
     //Update the count of objects when the user asks for it
     connect( olw->updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
@@ -179,9 +179,9 @@ void ObsListWizard::slotNextPage() {
 
     olw->olwStack->setCurrentIndex( NextPage );
     if ( olw->olwStack->currentIndex() == olw->olwStack->count() - 1 )
-        enableButton( KDialog::User2, false );
+        enableButton( KDialog::User1, false );
 
-    enableButton( KDialog::User1, true );
+    enableButton( KDialog::User2, true );
 }
 
 //Advance to the previous page in the stack.  However, because the
@@ -199,9 +199,9 @@ void ObsListWizard::slotPrevPage() {
 
     olw->olwStack->setCurrentIndex( PrevPage );
     if ( olw->olwStack->currentIndex() == 0 )
-        enableButton( KDialog::User1, false );
+        enableButton( KDialog::User2, false );
 
-    enableButton( KDialog::User2, true );
+    enableButton( KDialog::User1, true );
 }
 
 void ObsListWizard::slotAllButton() {
