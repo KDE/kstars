@@ -47,9 +47,8 @@ public:
     *this position without drawing a line, "D" means draw a line from 
     *the previous position to this one), followed by the genetive name of 
     *a star, which marks the position of the constellation node.
-    *@p data Pointer to the KStarsData object
     */
-    void init( KStarsData *data );
+    virtual void init();
 
 
     const IndexHash& getIndexHash(LineList* lineList );
@@ -57,7 +56,7 @@ public:
     /* @short we need to override the update routine because stars are
      * updated differently from mere SkyPoints.
      */
-    void JITupdate( KStarsData *data, LineList* lineList );
+    void JITupdate( LineList* lineList );
 
     /* @short
      *

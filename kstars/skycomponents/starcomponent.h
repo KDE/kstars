@@ -19,11 +19,18 @@
 #define STARCOMPONENT_H
 
 /**
- *@class StarComponent
- *Represents the stars on the sky map. For optimization reasons the stars are
- *not separate objects and are stored in a list.
+ *@class StarComponent 
+ *
+ *@short Represents the stars on the sky map. For optimization reasons the
+ *stars are not separate objects and are stored in a list. 
+ *
+ *The StarComponent class manages all stars drawn in KStars. While it
+ *handles all stars having names using its own member methods, it
+ *shunts the responsibility of unnamed stars to the class
+ *'DeepStarComponent', objects of which it maintains.
  *
  *@author Thomas Kabelmann
+ *@author Akarsh Simha
  *@version 1.0
  */
 
@@ -40,7 +47,6 @@
 #include "skymesh.h"
 
 class SkyComponent;
-class KStarsData;
 class SkyMesh;
 class StarObject;
 class SkyLabeler;
@@ -72,7 +78,7 @@ class StarComponent: public ListComponent
 
     //This function is empty; we need that so that the JiT update 
     //is the only one beiong used.
-    void update( KStarsData *data, KSNumbers *num );
+    void update( KSNumbers *num );
 
     bool selected();
 
@@ -85,9 +91,7 @@ class StarComponent: public ListComponent
      */
     void drawLabels( QPainter& psky );
 
-    void init(KStarsData *data);
-
-    KStarsData *data() { return m_Data; }
+    virtual void init();
 
     /**@return the current setting of the color mode for stars (0=real colors,
         *1=solid red, 2=solid white or 3=solid black).
@@ -120,12 +124,13 @@ class StarComponent: public ListComponent
     /**
      *@short Read data for stars which will remain static in the memory
      *
-     *This method reads data for 'shallow' stars (stars having names, and all 
-     *stars down to mag 8) which are stored by default in "shallowstars.dat" into
-     *memory. These stars are always kept in memory, as against 'deep' stars
-     *which are dynamically loaded into memory when required, depending on region
-     *and magnitude limit. Once loading is successful, this method sets the 
-     *starsLoaded flag to true
+     *This method reads data for named stars (stars having names,
+     *which are stored by default in "namedstars.dat") into
+     *memory. These stars are always kept in memory, as against 'deep'
+     *stars which are mostly loaded dynamically (KStars treats all
+     *unnamed stars as 'deep' stars) into memory when required,
+     *depending on region and magnitude limit. Once loading is
+     *successful, this method sets the starsLoaded flag to true
      */
 
     bool loadStaticData();
@@ -157,6 +162,9 @@ class StarComponent: public ListComponent
 
     SkyObject* findByHDIndex( int HDnum );
 
+    // TODO: Make byteSwap a template method and put it in byteorder.h
+    // It should ideally handle 32-bit, 16-bit fields and starData and
+    // deepStarData fields
     static void byteSwap( starData *stardata );
 
 private:
@@ -172,7 +180,6 @@ private:
     bool           m_validLineNums;
     bool           m_hideLabels;
 
-    KStarsData*    m_Data;
     float          m_zoomMagLimit;
 
     float          m_FaintMagnitude; // Limiting magnitude of the catalog currently loaded

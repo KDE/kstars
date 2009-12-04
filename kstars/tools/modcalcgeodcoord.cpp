@@ -26,6 +26,7 @@
 #include "dms.h"
 #include "geolocation.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "widgets/dmsbox.h"
 
 
@@ -55,10 +56,9 @@ modCalcGeodCoord::~modCalcGeodCoord(){
 
 void modCalcGeodCoord::showLongLat(void)
 {
-
-    KStars *ks = (KStars*) topLevelWidget()->parent();
-    LongGeoBox->show( ks->geo()->lng() );
-    LatGeoBox->show( ks->geo()->lat() );
+    KStarsData* data = KStarsData::Instance();
+    LongGeoBox->show( data->geo()->lng() );
+    LatGeoBox->show(  data->geo()->lat() );
     AltGeoBox->setText( QString("0.0") );
 }
 
@@ -260,7 +260,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     GeoLocation geoPl;
     geoPl.setEllipsoid(0);

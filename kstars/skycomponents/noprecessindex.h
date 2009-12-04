@@ -36,7 +36,7 @@ public:
     /* @ short override JITupdate so we don't perform the precession
      * correction, only rotation.
      */
-    void JITupdate( KStarsData *data, LineList* lineList );
+    void JITupdate( LineList* lineList );
 
     /* @short we override draw() so we can switch between indexed and
      * non-indexed drawing for speed optimization.

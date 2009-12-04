@@ -24,8 +24,6 @@
 #include "ksplanetbase.h"
 #include "dms.h"
 
-class KStarsData;
-
 /**@class KSPlanet
  *A subclass of KSPlanetBase for seven of the major planets in the solar system
  *(Earth and Pluto have their own specialized classes derived from KSPlanetBase).  
@@ -44,13 +42,12 @@ public:
 
     /**
      * Constructor.
-     * @param kd Pointer to the KStarsData object
      * @param s Name of planet
      * @param image_file filename of the planet's image
      * @param c the color for the planet
      * @param pSize physical diameter of the planet, in km
      */
-    explicit KSPlanet( KStarsData *kd, const QString &s="unnamed", const QString &image_file=QString(),
+    explicit KSPlanet( const QString &s="unnamed", const QString &image_file=QString(),
                        const QColor & c=Qt::white, double pSize=0 );
 
     /**
@@ -58,8 +55,11 @@ public:
      * @param n identifier of the planet to be created
      * @see PLANET enum
      */
-    KSPlanet( KStarsData *kd, int n );
+    KSPlanet( int n );
 
+    virtual KSPlanet* clone() const;
+    virtual SkyObject::UID getUID() const;
+    
     /**
      * Destructor (empty)
      */
@@ -178,6 +178,8 @@ protected:
 
     static OrbitDataManager odm;
 
+private:
+    virtual void findMagnitude(const KSNumbers*);
 };
 
 #endif

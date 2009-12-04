@@ -25,18 +25,17 @@
 #include <kstandarddirs.h>
 
 #include "imageviewer.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 
 LCGeneratorUI::LCGeneratorUI( QWidget *p ) : QFrame(p) {
     setupUi( this );
 }
 
-LCGenerator::LCGenerator( QWidget* parent)
-        : KDialog( parent ),
-        Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)
+LCGenerator::LCGenerator( QWidget* parent) :
+    KDialog( parent )
 {
-    ksw = (KStars*) parent;
+    KStarsData* data = KStarsData::Instance();
+
     lcg = new LCGeneratorUI( this );
     setMainWidget( lcg );
     setCaption( i18n( "AAVSO Light Curve Generator" ) );
@@ -44,6 +43,7 @@ LCGenerator::LCGenerator( QWidget* parent)
 
     lcg->AverageDayBox->setMinimum( 1 );
     lcg->AverageDayBox->setValue( 1 );
+    lcg->AverageDayBox->setSuffix(ki18np(" day", " days"));
 
     setModal( false );
     setWindowTitle(i18n( "AAVSO Light Curve Generator" ));
@@ -53,16 +53,15 @@ LCGenerator::LCGenerator( QWidget* parent)
     lcg->DesignationBox->clear();
     lcg->NameBox->clear();
 
-    lcg->StartDateBox->setDate(ksw->data()->lt().date());
-    lcg->EndDateBox->setDate(ksw->data()->lt().date());
+    lcg->StartDateBox->setDate(data->lt().date());
+    lcg->EndDateBox->setDate(data->lt().date());
 
-    // Fill stars designations
-    for (int i=0; i< (ksw->data()->VariableStarsList.count()); i++)
-        lcg->DesignationBox->addItem(ksw->data()->VariableStarsList.at(i)->Designation);
-
-    // Fill star names
-    for (int i=0; i<ksw->data()->VariableStarsList.count(); i++)
-        lcg->NameBox->addItem(ksw->data()->VariableStarsList.at(i)->Name);
+    readVarData();
+    // Fill stars designations & names
+    for (int i=0; i< (varInfoList.count()); i++) {
+        lcg->DesignationBox->addItem( varInfoList.at(i).designation );
+        lcg->NameBox->addItem( varInfoList.at(i).name );
+    }
 
 
     // Signals/Slots
@@ -85,7 +84,7 @@ LCGenerator::~LCGenerator()
 void LCGenerator::VerifyData()
 {
     QDate StartDate, EndDate;
-    QString Designation, AverageDays;
+    QString Designation;
 
     if ( ! lcg->StartDateBox->date().isValid() ) {
         KMessageBox::error(this, i18n("Start date invalid."));
@@ -104,25 +103,23 @@ void LCGenerator::VerifyData()
     }
 
     // Check that we have an integer for average number of days, if data field empty, then make it 'default'
-    AverageDays  = lcg->AverageDayBox->value();
     Designation  = lcg->DesignationBox->currentItem()->text();
 
     //Download the curve!
-    DownloadCurve(StartDate, EndDate, Designation, AverageDays);
+    DownloadCurve(StartDate, EndDate, Designation, lcg->AverageDayBox->value());
 
 }
 
-void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay)
+void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, unsigned int AverageDay)
 {
-
-    QString buf(Hostprefix);
-    QString Yes("yes");
-    QString No("no");
+    QString buf = "http://www.aavso.org/cgi-bin/kstar.pl";
+    QString Yes = "yes";
+    QString No  = "no";
 
     buf.append('?'+QString::number(StartDate.toJulianDay()));
     buf.append('?'+QString::number(EndDate.toJulianDay()));
     buf.append('?'+Designation);
-    buf.append('?'+AverageDay);
+    buf.append('?'+QString::number(AverageDay));
     buf.append('?'+ (lcg->FainterCheck->isChecked() ? Yes : No));
     buf.append('?'+ (lcg->CCDVCheck->isChecked() ? Yes : No));
     buf.append('?'+ (lcg->CCDICheck->isChecked() ? Yes : No));
@@ -135,7 +132,7 @@ void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, co
     KUrl url(buf);
     QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
 
-    ImageViewer *iv = ksw->addImageViewer( url, message );
+    ImageViewer *iv = new ImageViewer( url, message, this );
     iv->show();
 }
 
@@ -164,40 +161,61 @@ void LCGenerator::updateStarList()
 
 void LCGenerator::downloadReady(KJob * job)
 {
-
     downloadJob = 0;
-
     if ( job->error() )
     {
-        static_cast<KIO::Job*>(job)->showErrorDialog();
-        closeEvent (0);
-        return;		// exit this function
+        KMessageBox::error(0, job->errorString());
+        return;
     }
 
     file->close(); // to get the newest information of the file and not any information from opening of the file
 
     if ( file->exists() )
     {
-        ksw->data()->readVARData();
+        readVarData();
 
         lcg->DesignationBox->clear();
         lcg->NameBox->clear();
 
         // Fill stars designations
-        for (int i=0; i< (ksw->data()->VariableStarsList.count()); i++)
-            lcg->DesignationBox->addItem(ksw->data()->VariableStarsList.at(i)->Designation);
-
-        // Fill star names
-        for (int i=0; i<ksw->data()->VariableStarsList.count(); i++)
-            lcg->NameBox->addItem(ksw->data()->VariableStarsList.at(i)->Name);
+        for (int i=0; i < varInfoList.count(); i++) {
+            lcg->DesignationBox->addItem( varInfoList.at(i).designation );
+            lcg->NameBox->addItem( varInfoList.at(i).name );
+        }
 
         KMessageBox::information(this, i18n("AAVSO Star list downloaded successfully."));
-
-
         return;
     }
-    closeEvent (0);
+}
 
+bool LCGenerator::readVarData()
+{
+    QString varFile   = "valaav.txt";
+    QString localName =  KStandardDirs::locateLocal( "appdata", varFile );
+    QFile file;
+
+    file.setFileName( localName );
+    if ( !file.open( QIODevice::ReadOnly ) ) {
+        // Copy file with varstars data to user's data dir
+        QFile::copy(KStandardDirs::locate("appdata", varFile), localName);
+        if( !file.open( QIODevice::ReadOnly ) )
+            return false;
+    }
+
+    QTextStream stream(&file);
+    stream.readLine();
+
+    VariableStarInfo vInfo;
+    while(!stream.atEnd()) {
+        QString line = stream.readLine();
+        if( line.startsWith('*') )
+            break;
+
+        vInfo.designation = line.left(8).trimmed();
+        vInfo.name        = line.mid(10,20).simplified();
+        varInfoList.append(vInfo);
+    }
+    return true;
 }
 
 void LCGenerator::closeEvent (QCloseEvent *ev)

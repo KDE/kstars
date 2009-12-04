@@ -57,6 +57,7 @@
 	</Menu>
 
 	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
+		<Action name="telescope_properties" />
 		<Action name="telescope_wizard" />
 		<Action name="device_manager" />
 		
@@ -97,6 +98,9 @@
 		<Action name="colorschemes" /> <!--This is a KMenuAction-->
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
 		<Separator />
+        <Action name="ewriter"/>
+        <Action name="obsadd"/>
+		<Separator />
 		<Action name="geolocation" />
 		<Separator />
 		<Action name="options_configure_keybinding"/>
@@ -104,6 +108,10 @@
 		<Action name="configure" />
 		<Action name="startwizard" />
 	</Menu>
+
+	<Menu name="comast" noMerge="1"><text>&amp;Observation</text>
+        <Action name="execute"/>
+    </Menu>
 
 	<Menu name="help"><text>&amp;Help</text>
 		<Action name="help_contents"/>

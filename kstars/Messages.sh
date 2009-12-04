@@ -15,19 +15,23 @@ echo "#if 0" >> kstars_i18n.cpp
 sed -e "s/\([0-9].*[a-z]\)//" < data/cnames.dat | sed 's/^[A-B] //' | \
    sed 's/\([A-Z].*\)/i18nc("Constellation name (optional)", "\1");/' | sed 's/\ "/"/g' >> "kstars_i18n.cpp"
 
+# extract sky cultures
+grep ^C data/cnames.dat | awk '{ print "i18nc( \"Sky Culture\", \"" $2 "\" );" }' >> "kstars_i18n.cpp"
+
 # extract cities
-awk 'BEGIN {FS=":"}; {print "\"" $1 "\""; }' < data/Cities.dat | \
-   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"City name (optional, probably does not need a translation)\",\"/g' | sed 's/i18nc(.*,"");//' >> "cities.tmp"
+awk 'BEGIN {FS=":"}; {print "\"" $2 ":" $3 ":" $1 "\""; }' < data/Cities.dat | \
+   sed 's/ *:/:/g' | \
+   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"City in /' | sed 's/ *: */ /' | sed 's/ *: */\",\"/' | sed 's/i18nc(.*,"");//' >> "cities.tmp"
 sort --unique cities.tmp >> kstars_i18n.cpp
 
 # extract regions
-awk 'BEGIN {FS=":"}; {print "\"" $2 "\""; }' < data/Cities.dat | \
-   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Region\/state name (optional, rarely needs a translation)\",\"/g' | sed 's/i18nc(.*,"");//' >> "regions.tmp";
+awk 'BEGIN {FS=":"}; {print "\"" $3 ":" $2 "\""; }' < data/Cities.dat | \
+   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Region\/state in /' | sed 's/ *: */\",\"/g' | sed 's/i18nc(.*,"");//' >> "regions.tmp";
 sort --unique regions.tmp >> kstars_i18n.cpp
 
 # extract countries
 awk 'BEGIN {FS=":"}; {print "\"" $3 "\""; }' < data/Cities.dat | \
-   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Country name (optional, but should be translated)\",\"/g' | sed 's/i18nc(.*,"");//' >> "countries.tmp"
+   sed 's/ *\"$/\");/g' | sed 's/^\" */i18nc(\"Country name\",\"/g' | sed 's/i18nc(.*,"");//' >> "countries.tmp"
 sort --unique countries.tmp >> kstars_i18n.cpp
 
 # extract image/info menu items
@@ -41,7 +45,7 @@ sort --unique info_url.tmp >> kstars_i18n.cpp
 cat data/stars.dat | gawk 'BEGIN { FS=", "; } ($1!~/\#/ && NF==3) { printf( "i18nc(\"star name\", \"%s\");\n", $3); }' >> kstars_i18n.cpp;
 
 # extract deep-sky object names (sorry, I don't know perl-fu ;( ...using AWK )
-cat data/ngcic.dat | gawk '{ split(substr( $0, 77 ), name, " "); \
+cat data/ngcic.dat | grep -v '^#' | gawk '{ split(substr( $0, 77 ), name, " "); \
 if ( name[1]!="" ) { \
 printf( "%s", name[1] ); i=2; \
 while( name[i]!="" ) { printf( " %s", name[i] ); i++; } \
@@ -63,9 +67,9 @@ rm -f image_url.tmp
 rm -f info_url.tmp
 rm -f tips.cpp
 
-$EXTRACTRC xplanet/*.ui *.ui tools/*.ui dialogs/*.ui fitsviewer/*.ui indi/*.ui options/*.ui *.rc >> rc.cpp || exit 11
+$EXTRACTRC xplanet/*.ui *.ui tools/*.ui dialogs/*.ui fitsviewer/*.ui indi/*.ui options/*.ui comast/*.ui *.rc >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
-$XGETTEXT *.cpp *.h tools/*.cpp tools/*.h skycomponents/*.cpp widgets/*.cpp dialogs/*.cpp dialogs/*.h fitsviewer/*.cpp fitsviewer/*.h indi/*.cpp indi/*.h options/*.cpp options/*.h skyobjects/*.cpp skyobjects/*.h -o $podir/kstars.pot
+$XGETTEXT *.cpp *.h tools/*.cpp tools/*.h skycomponents/*.cpp widgets/*.cpp dialogs/*.cpp dialogs/*.h fitsviewer/*.cpp fitsviewer/*.h indi/*.cpp indi/*.h options/*.cpp options/*.h skyobjects/*.cpp skyobjects/*.h xplanet/*.cpp comast/*.h comast/*.cpp -o $podir/kstars.pot
 rm -f tips.cpp
 rm -f kstars_i18n.cpp
 rm -f rc.cpp

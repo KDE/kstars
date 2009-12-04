@@ -22,6 +22,7 @@
 
 #include "skyobjects/skypoint.h"
 #include "skymesh.h"
+#include "ksfilereader.h"
 
 #include "skiplist.h"
 
@@ -39,6 +40,3 @@ bool SkipListIndex::skipAt( LineList* lineList, int i ) {
     SkipList* skipList = (SkipList*) lineList;
     return skipList->skip( i );
 }
-
-
-

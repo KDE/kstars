@@ -1,26 +1,27 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>WUTDialog</class>
- <widget class="QWidget" name="WUTDialog" >
-  <property name="geometry" >
+ <widget class="QWidget" name="WUTDialog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>418</width>
-    <height>426</height>
+    <width>458</width>
+    <height>520</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <layout class="QGridLayout" >
-     <item row="0" column="0" >
-      <widget class="QLabel" name="DateLabel" >
-       <property name="minimumSize" >
+    <layout class="QGridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="DateLabel">
+       <property name="minimumSize">
         <size>
          <width>200</width>
          <height>0</height>
         </size>
        </property>
-       <property name="font" >
+       <property name="font">
         <font>
          <family>Sans Serif</family>
          <pointsize>9</pointsize>
@@ -31,33 +32,33 @@
          <strikeout>false</strikeout>
         </font>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>The night of DATE</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1" >
-      <widget class="KPushButton" name="DateButton" >
-       <property name="toolTip" >
+     <item row="0" column="1">
+      <widget class="KPushButton" name="DateButton">
+       <property name="toolTip">
         <string>Choose a new date</string>
        </property>
-       <property name="whatsThis" >
-        <string>Press this button to select a new date for the "What's Up Tonight" tool.  Note that the date of the main window is not changed.</string>
+       <property name="whatsThis">
+        <string>Press this button to select a new date for the &quot;What's Up Tonight&quot; tool.  Note that the date of the main window is not changed.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Change Date...</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0" >
-      <widget class="QLabel" name="LocationLabel" >
-       <property name="minimumSize" >
+     <item row="1" column="0">
+      <widget class="QLabel" name="LocationLabel">
+       <property name="minimumSize">
         <size>
          <width>200</width>
          <height>0</height>
         </size>
        </property>
-       <property name="font" >
+       <property name="font">
         <font>
          <family>Sans Serif</family>
          <pointsize>9</pointsize>
@@ -68,255 +69,267 @@
          <strikeout>false</strikeout>
         </font>
        </property>
-       <property name="frameShape" >
+       <property name="frameShape">
         <enum>QFrame::NoFrame</enum>
        </property>
-       <property name="frameShadow" >
+       <property name="frameShadow">
         <enum>QFrame::Plain</enum>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>at LOCATION</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1" >
-      <widget class="KPushButton" name="LocationButton" >
-       <property name="toolTip" >
+     <item row="1" column="1">
+      <widget class="KPushButton" name="LocationButton">
+       <property name="toolTip">
         <string>Choose a new geographic location</string>
        </property>
-       <property name="whatsThis" >
-        <string>Press this button to select a new geographic location for the "What's Up Tonight" tool.  Note that the location of the main window is not changed.</string>
+       <property name="whatsThis">
+        <string>Press this button to select a new geographic location for the &quot;What's Up Tonight&quot; tool.  Note that the location of the main window is not changed.</string>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Change Location...</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0" >
-      <widget class="QLabel" name="textLabel14" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Preferred" hsizetype="MinimumExpanding" >
+     <item row="2" column="0">
+      <widget class="QLabel" name="textLabel14">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Show objects which are up:</string>
        </property>
-       <property name="alignment" >
+       <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
-     <item row="2" column="1" >
-      <widget class="KComboBox" name="EveningMorningBox" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+     <item row="2" column="1">
+      <widget class="KComboBox" name="EveningMorningBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="toolTip" >
+       <property name="toolTip">
         <string>Choose time interval</string>
        </property>
-       <property name="whatsThis" >
-        <string>By default, the "What's Up Tonight" tool displays all objects which are above the horizon between sunset and midnight (i.e., "in the evening").  You can also choose to show objects which are up between midnight and dawn (i.e., "in the morning"), or objects which are up at any time between sunset and sunrise (i.e., "any time tonight")</string>
+       <property name="whatsThis">
+        <string>By default, the &quot;What's Up Tonight&quot; tool displays all objects which are above the horizon between sunset and midnight (i.e., &quot;in the evening&quot;).  You can also choose to show objects which are up between midnight and dawn (i.e., &quot;in the morning&quot;), or objects which are up at any time between sunset and sunrise (i.e., &quot;any time tonight&quot;)</string>
        </property>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>In the Evening</string>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>In the Morning</string>
         </property>
        </item>
        <item>
-        <property name="text" >
+        <property name="text">
          <string>Any Time Tonight</string>
         </property>
        </item>
       </widget>
      </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Show objects brighter than magnitude:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="KDoubleNumInput" name="MagnitudeEdit">
+         <property name="minimum">
+          <double>-30.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>30.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="title" >
+     <property name="title">
       <string>Almanac</string>
      </property>
-     <layout class="QGridLayout" >
-      <property name="leftMargin" >
+     <layout class="QGridLayout">
+      <property name="margin">
        <number>9</number>
       </property>
-      <property name="topMargin" >
-       <number>9</number>
-      </property>
-      <property name="rightMargin" >
-       <number>9</number>
-      </property>
-      <property name="bottomMargin" >
-       <number>9</number>
-      </property>
-      <property name="horizontalSpacing" >
+      <property name="spacing">
        <number>6</number>
       </property>
-      <property name="verticalSpacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="1" >
-       <widget class="QLabel" name="MoonRiseLabel" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <item row="0" column="1">
+       <widget class="QLabel" name="MoonRiseLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>0</width>
           <height>20</height>
          </size>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Time of moon rise</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>Displays the time at which the moon rises on the selected date.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Moon rise:  13:19</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="NightDurationLabel" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <item row="2" column="0">
+       <widget class="QLabel" name="NightDurationLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>0</width>
           <height>20</height>
          </size>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Duration of night for selected date</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>Displays the duration between sunset and sunrise for the selected date.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Night duration: 11:00 hours</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="SunSetLabel" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <item row="1" column="0">
+       <widget class="QLabel" name="SunSetLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>0</width>
           <height>20</height>
          </size>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Time of sunset</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>Displays the time of sunset for the selected date.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Sunset:  19:15</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
-       <widget class="QLabel" name="MoonSetLabel" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <item row="1" column="1">
+       <widget class="QLabel" name="MoonSetLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>0</width>
           <height>20</height>
          </size>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Time of moon set</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>Displays the time at which the moon sets on the selected date.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Moon set: 04:27 </string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0" >
-       <widget class="QLabel" name="SunRiseLabel" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <item row="0" column="0">
+       <widget class="QLabel" name="SunRiseLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>0</width>
           <height>20</height>
          </size>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Time of sunrise</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>Displays the time of sunrise for the selected date.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Sunrise:  07:15</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" >
-       <widget class="QLabel" name="MoonIllumLabel" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+      <item row="2" column="1">
+       <widget class="QLabel" name="MoonIllumLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
-        <property name="minimumSize" >
+        <property name="minimumSize">
          <size>
           <width>0</width>
           <height>20</height>
          </size>
         </property>
-        <property name="toolTip" >
+        <property name="toolTip">
          <string>Moon's illumination fraction</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>Displays the illumination fraction of the Moon for the selected date.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Moon illum: 42%</string>
         </property>
        </widget>
@@ -325,10 +338,10 @@
     </widget>
    </item>
    <item>
-    <layout class="QGridLayout" >
-     <item row="0" column="0" >
-      <widget class="QLabel" name="textLabel15" >
-       <property name="font" >
+    <layout class="QGridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="textLabel15">
+       <property name="font">
         <font>
          <family>Sans Serif</family>
          <pointsize>10</pointsize>
@@ -339,14 +352,14 @@
          <strikeout>false</strikeout>
         </font>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Select a category:</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1" >
-      <widget class="QLabel" name="textLabel16" >
-       <property name="font" >
+     <item row="0" column="1">
+      <widget class="QLabel" name="textLabel16">
+       <property name="font">
         <font>
          <family>Sans Serif</family>
          <pointsize>10</pointsize>
@@ -357,20 +370,20 @@
          <strikeout>false</strikeout>
         </font>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Matching objects:</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="2" >
+     <item row="0" column="2">
       <spacer>
-       <property name="orientation" >
+       <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeType" >
+       <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="sizeHint" stdset="0">
         <size>
          <width>191</width>
          <height>21</height>
@@ -378,72 +391,63 @@
        </property>
       </spacer>
      </item>
-     <item row="1" column="2" >
-      <widget class="QGroupBox" name="ObjectBox" >
-       <property name="title" >
+     <item row="1" column="2">
+      <widget class="QGroupBox" name="ObjectBox">
+       <property name="title">
         <string>Object Name</string>
        </property>
-       <layout class="QVBoxLayout" >
-        <property name="spacing" >
+       <layout class="QVBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>9</number>
-        </property>
-        <property name="topMargin" >
-         <number>9</number>
-        </property>
-        <property name="rightMargin" >
-         <number>9</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>9</number>
         </property>
         <item>
-         <widget class="QLabel" name="ObjectRiseLabel" >
-          <property name="whatsThis" >
+         <widget class="QLabel" name="ObjectRiseLabel">
+          <property name="whatsThis">
            <string>Displays the time at which the highlighted object rises above the horizon on the selected date.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Rises at:  22:12</string>
           </property>
-          <property name="alignment" >
+          <property name="alignment">
            <set>Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="ObjectTransitLabel" >
-          <property name="whatsThis" >
+         <widget class="QLabel" name="ObjectTransitLabel">
+          <property name="whatsThis">
            <string>Displays the time at which the highlighted object transits across the local meridian on the selected date.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Transits at:  03:45</string>
           </property>
-          <property name="alignment" >
+          <property name="alignment">
            <set>Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="ObjectSetLabel" >
-          <property name="whatsThis" >
+         <widget class="QLabel" name="ObjectSetLabel">
+          <property name="whatsThis">
            <string>Displays the time at which the highlighted object sets below the horizon on the selected date.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Sets at:  08:22</string>
           </property>
-          <property name="alignment" >
+          <property name="alignment">
            <set>Qt::AlignVCenter</set>
           </property>
          </widget>
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
             <height>20</height>
@@ -452,48 +456,61 @@
          </spacer>
         </item>
         <item>
-         <widget class="KPushButton" name="CenterButton" >
-          <property name="toolTip" >
+         <widget class="KPushButton" name="CenterButton">
+          <property name="toolTip">
            <string>Center this object in the sky display</string>
           </property>
-          <property name="whatsThis" >
-           <string>Center the sky display on this object, and begin tracking it.  Equivalent to the "Center and Track" item in the popup menu.</string>
+          <property name="whatsThis">
+           <string>Center the sky display on this object, and begin tracking it.  Equivalent to the &quot;Center and Track&quot; item in the popup menu.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Center Object</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KPushButton" name="DetailButton" >
-          <property name="toolTip" >
+         <widget class="KPushButton" name="DetailButton">
+          <property name="toolTip">
            <string>Open the Object Details window</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>Open the Details window for the highlighted object.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Object Details</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KPushButton" name="ObslistButton">
+          <property name="toolTip">
+           <string>Adds the selected object to the Observing list</string>
+          </property>
+          <property name="whatsThis">
+           <string>Open the Details window for the highlighted object.</string>
+          </property>
+          <property name="text">
+           <string>Add to List</string>
           </property>
          </widget>
         </item>
        </layout>
       </widget>
      </item>
-     <item row="1" column="0" >
-      <widget class="KListWidget" name="CategoryListWidget" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+     <item row="1" column="0">
+      <widget class="KListWidget" name="CategoryListWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
       </widget>
      </item>
-     <item row="1" column="1" >
-      <widget class="KListWidget" name="ObjectListWidget" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+     <item row="1" column="1">
+      <widget class="KListWidget" name="ObjectListWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -506,19 +523,24 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KListWidget</class>
    <extends>QListWidget</extends>
    <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

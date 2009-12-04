@@ -26,7 +26,6 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skymap.h"
 #include "skyobjects/starobject.h"
 
@@ -36,8 +35,15 @@
 #include "kstarssplash.h"
 
 #include "binfilehelper.h"
-#include "byteswap.h"
 #include "starblockfactory.h"
+
+#if defined(Q_OS_FREEBSD) || defined(Q_OS_NETBSD)
+#include <sys/endian.h>
+#define bswap_16(x) bswap16(x)
+#define bswap_32(x) bswap32(x)
+#else
+#include "byteorder.h"
+#endif
 
 #include <kde_file.h>
 
@@ -80,9 +86,8 @@ bool StarComponent::selected() {
     return Options::showStars();
 }
 
-void StarComponent::init(KStarsData *data) {
+void StarComponent::init() {
     emitProgressText( i18n("Loading stars" ) );
-    m_Data = data;
 
     loadStaticData();
 
@@ -96,11 +101,10 @@ bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float t
     if( BinFileHelper::testFileExists( fileName ) ) {
         DeepStarComponent *newdsc;
         m_DeepStarComponents.append( newdsc = new DeepStarComponent( this, fileName, trigMag, staticstars ) );
-        newdsc->init( KStarsData::Instance() );
+        newdsc->init();
         return true;
     }
-    else
-        return false;
+    return false;
 }
 
 
@@ -123,11 +127,8 @@ int StarComponent::loadDeepStarCatalogs() {
 
 //This function is empty for a reason; we override the normal 
 //update function in favor of JiT updates for stars.
-void StarComponent::update( KStarsData *data, KSNumbers *num )   
-{   
-    Q_UNUSED(data)   
-    Q_UNUSED(num)   
-}   
+void StarComponent::update( KSNumbers*)
+{}
 
 // We use the update hook to re-index all the stars when the date has changed by
 // more than 150 years.
@@ -206,7 +207,7 @@ float StarComponent::starRenderingSize( float mag ) const {
     const double maxSize = 10.0;
 
     double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
+//    double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
 
     // Old formula:
@@ -236,7 +237,7 @@ float StarComponent::zoomMagnitudeLimit() const {
 
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
+//    double lgmax = log10(MAXZOOM);
     double lgz = log10(Options::zoomFactor());
 
     // Old formula:
@@ -263,7 +264,7 @@ float StarComponent::zoomMagnitudeLimit() const {
     // Reducing the slope w.r.t zoom factor to avoid the extremely fast increase in star density with zoom
     // that 4.444 gives us (although that is what the derivation gives us)
 
-    float maglim = 3.7 * ( lgz - lgmin ) + 2.222 * log10( Options::starDensity() ) + 3.5;
+    float maglim = 3.7 * ( lgz - lgmin ) + 2.222 * log10( static_cast<float>(Options::starDensity()) ) + 3.5;
 
     return maglim;
 
@@ -296,22 +297,6 @@ void StarComponent::draw( QPainter& psky )
     double labelMagLim = Options::starLabelDensity() / 5.0;
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
     if ( labelMagLim > 8.0 ) labelMagLim = 8.0;
-
-//REMOVE
-//     //Set the brush
-//     QColor fillColor( Qt::white );
-//     if ( starColorMode() == 1 ) fillColor = Qt::red;
-//     if ( starColorMode() == 2 ) fillColor = Qt::black;
-//     psky.setBrush( QBrush( fillColor ) );
-//     if ( starColorMode() > 0 )
-//         psky.setPen( QPen( fillColor ) );
-//     else
-//        //Reset the colors before drawing the stars.
-//        //Strictly speaking, we don't need to do this every time, but once per
-//        //draw loop isn't too expensive.
-//        StarObject::updateColors( (! Options::useAntialias() ||
-//                                   map->isSlewing()), starColorIntensity() );
-//END_REMOVE
 
     //Loop for drawing star images
 
@@ -411,6 +396,7 @@ bool StarComponent::loadStaticData()
 {
     // We break from Qt / KDE API and use traditional file handling here, to obtain speed.
     // We also avoid C++ constructors for the same reason.
+    KStarsData* data = KStarsData::Instance();
     FILE *dataFile, *nameFile;
     bool swapBytes = false;
     BinFileHelper dataReader, nameReader;
@@ -457,8 +443,13 @@ bool StarComponent::loadStaticData()
     quint16 t_MSpT;
 
     fread( &faintmag, 2, 1, dataFile );
+    if( swapBytes )
+        faintmag = bswap_16( faintmag );
     fread( &htm_level, 1, 1, dataFile );
     fread( &t_MSpT, 2, 1, dataFile ); // Unused
+    if( swapBytes )
+        faintmag = bswap_16( faintmag );
+
 
     if( faintmag / 100.0 > m_FaintMagnitude )
         m_FaintMagnitude = faintmag / 100.0;
@@ -503,7 +494,7 @@ bool StarComponent::loadStaticData()
             star = new StarObject;
             star->init( &stardata );
             star->setNames( name, visibleName );
-            star->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
+            star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             ++nstars;
             
             if ( ! gname.isEmpty() ) m_genName.insert( gname, star );
@@ -556,6 +547,7 @@ SkyObject* StarComponent::findByName( const QString &name ) {
 }
 
 SkyObject *StarComponent::findByHDIndex( int HDnum ) {
+    KStarsData* data = KStarsData::Instance();
     SkyObject *o;
     BinFileHelper hdidxReader;
     // First check the hash to see if we have a corresponding StarObject already
@@ -572,6 +564,8 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
             return 0;
         FILE *dataFile;
         KDE_fseek( hdidxFile, (HDnum - 1) * 4, SEEK_SET );
+        // TODO: Offsets need to be byteswapped if this is a big endian machine.
+        // This means that the Henry Draper Index needs a endianness indicator.
         fread( &offset, 4, 1, hdidxFile );
         if( offset <= 0 )
             return 0;
@@ -582,8 +576,8 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
             byteSwap( &stardata );
         }
         m_starObject.init( &stardata );
-        m_starObject.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-        m_starObject.JITupdate( data() );
+        m_starObject.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        m_starObject.JITupdate( data );
         focusStar = &m_starObject;
         hdidxReader.closeFile();
         return focusStar;
@@ -634,26 +628,26 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
     }
     maxrad = rBest;
 
-    return (SkyObject*) oBest;
+    return oBest;
 }
 
 int StarComponent::starColorMode( void ) const {
-    return m_Data->colorScheme()->starColorMode();
+    return KStarsData::Instance()->colorScheme()->starColorMode();
 }
 
 int StarComponent::starColorIntensity( void ) const {
-    return m_Data->colorScheme()->starColorIntensity();
+    return KStarsData::Instance()->colorScheme()->starColorIntensity();
 }
 
 void StarComponent::byteSwap( starData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_32( stardata->dRA );
-    bswap_32( stardata->dDec );
-    bswap_32( stardata->parallax );
-    bswap_32( stardata->HD );
-    bswap_16( stardata->mag );
-    bswap_16( stardata->bv_index );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_32( stardata->dRA );
+    stardata->dDec = bswap_32( stardata->dDec );
+    stardata->parallax = bswap_32( stardata->parallax );
+    stardata->HD = bswap_32( stardata->HD );
+    stardata->mag = bswap_16( stardata->mag );
+    stardata->bv_index = bswap_16( stardata->bv_index );
 }
 /*
 void StarComponent::printDebugInfo() {

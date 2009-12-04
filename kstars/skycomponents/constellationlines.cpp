@@ -26,7 +26,6 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 #include "starcomponent.h"
@@ -53,7 +52,7 @@ void ConstellationLines::preDraw( QPainter &psky )
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
-void ConstellationLines::init( KStarsData *data ) {
+void ConstellationLines::init() {
     //Create the ConstellationLinesComponents.  Each is a series of points
     //connected by line segments.  A single constellation can be composed of
     //any number of these series, and we don't need to know which series
@@ -96,10 +95,7 @@ void ConstellationLines::init( KStarsData *data ) {
 
         if ( mode == 'C') {
             cultureName = line.mid( 2 ).trimmed();
-            if ( cultureName == data->skyComposite()->currentCulture() )
-                culture = true;
-            else
-                culture = false;
+            culture     = cultureName == KStarsData::Instance()->skyComposite()->currentCulture();
 
             i++;
             continue;
@@ -143,8 +139,9 @@ const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {
 // StarComponent and ConstellationLines.  If the update is redundant then
 // StarObject::JITupdate() simply returns without doing any work.
 
-void ConstellationLines::JITupdate( KStarsData *data, LineList* lineList )
+void ConstellationLines::JITupdate( LineList* lineList )
 {
+    KStarsData *data = KStarsData::Instance();
     lineList->updateID = data->updateID();
 
     SkyList* points = lineList->points();

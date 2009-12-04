@@ -25,8 +25,8 @@
 
 #include "Options.h"
 #include "skyobjects/kscomet.h"
-#include "kstarsdata.h"
 #include "ksutils.h"
+#include "kstarsdata.h"
 #include "ksfilereader.h"
 #include "skymap.h"
 #include "skylabeler.h"
@@ -40,7 +40,7 @@ CometsComponent::~CometsComponent() {
     //object deletion handled in grandparent class (ListComponent)
 }
 
-void CometsComponent::init( KStarsData *data ) {
+void CometsComponent::init() {
     QFile file;
 
     if ( KSUtils::openDataFile( file, "comets.dat" ) ) {
@@ -76,7 +76,7 @@ void CometsComponent::init( KStarsData *data ) {
 
             JD = double( mJD ) + 2400000.5;
 
-            com = new KSComet( data, name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, H, G );
+            com = new KSComet( name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, H, G );
             com->setAngularSize( 0.005 );
 
             objectList().append( com );
@@ -119,7 +119,7 @@ void CometsComponent::draw( QPainter& psky )
             psky.drawEllipse( QRectF( x1, y1, size, size ) );
         }
 
-        float tailsize = com->getTailAngSize().Degrees() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
+//        float tailsize = com->getTailAngSize().Degrees() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
 
         if ( hideLabels || com->rsun() >= rsunLabelLimit ) continue;
         SkyLabeler::AddLabel( o, com, SkyLabeler::COMET_LABEL );

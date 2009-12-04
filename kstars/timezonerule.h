@@ -70,9 +70,6 @@ public:
     TimeZoneRule( const QString &smonth, const QString &sday, const QTime &stime,
                   const QString &rmonth, const QString &rday, const QTime &rtime, const double &offset=1.00 );
 
-    /**Destructor. (empty)*/
-    ~TimeZoneRule();
-
     /**Determine whether DST is in effect for the given DateTime, according to this rule
     	*@param date the date/time to test for DST
     	*/
@@ -138,6 +135,9 @@ private:
     	*@return the month integer (1=jan ... 12=dec) 
     	*/
     int initMonth( const QString &m );
+
+    /** Set up empty time zone rule */
+    void setEmpty();
 
     /**Interpret the day string as a week ID and a day-of-week ID.  The day-of-week
     	*is an integer between 1 (sunday) and 7 (saturday); the week integer can

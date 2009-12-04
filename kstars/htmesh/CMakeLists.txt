@@ -1,4 +1,3 @@
-KDE4_NO_ENABLE_FINAL(htmesh)
 INCLUDE(CheckFunctionExists)
 check_function_exists(drand48 HAVE_DRAND48)
 
@@ -23,6 +22,7 @@ set(HTMesh_LIB_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HTMesh.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/MeshBuffer.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/MeshIterator.cpp
+	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/VarStr.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/cc_aux.c
 )
 

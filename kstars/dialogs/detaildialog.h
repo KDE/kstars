@@ -187,11 +187,9 @@ private:
     	*/
     void createLogTab();
 
-
     /**Populate the TreeView of known astronomical databases in the Advanced Tab
     	*/
     void populateADVTree();
-
 
     /**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
     	*This function parses advinterface.dat.
@@ -207,7 +205,6 @@ private:
     void updateLocalDatabase(int type, const QString &search_line, const QString &replace_line = QString());
 
     SkyObject *selectedObject;
-    KStars* ksw;
     QPalette titlePalette;
 
     QListWidgetItem *m_CurrentLink;

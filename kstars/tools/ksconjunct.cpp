@@ -27,9 +27,14 @@
 #include "kstarsdata.h"
 
 KSConjunct::KSConjunct() {
+    geoPlace = KStarsData::Instance()->geo();
+}
 
-  ksdata = NULL;
-
+void KSConjunct::setGeoLocation( GeoLocation *geo ) {
+    if( geo != NULL )
+        geoPlace = geo;
+    else
+        geoPlace = KStarsData::Instance()->geo();
 }
 
 QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPlanetBase& Object2, long double startJD, long double stopJD, dms maxSeparation,bool _opposition) {
@@ -41,7 +46,6 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
   double step, step0;
   int Sign, prevSign;
   opposition=_opposition;
-  ksdata = KStarsData::Instance();
   //  kDebug() << "Entered KSConjunct::findClosestApproach() with startJD = " << (double)startJD;
   //  kDebug() << "Initial Positional Information: \n";
   //  kDebug() << Object1.name() << ": RA = " << Object1.ra() -> toHMSString() << "; Dec = " << Object1.dec() -> toDMSString() << "\n";
@@ -115,46 +119,29 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
 }
 
 
-dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2) {
-
+dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *Object2)
+{
   KStarsDateTime t(jd);
   KSNumbers num(jd);
   dms dist;
 
-  if(ksdata == NULL)
-    ksdata = KStarsData::Instance();
-
-  KSPlanet *m_Earth = new KSPlanet( ksdata, I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
+  KSPlanet *m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
   m_Earth -> findPosition( &num );
-  dms LST(ksdata->geo()->GSTtoLST(t.gst()));
+  dms LST(geoPlace->GSTtoLST(t.gst()));
 
+  // FIXME: This should be virtual functions or whatever
   if( Object1->isSolarSystem() ) {
-      switch( Object1->type() ) {
-      case 2: {
-          KSPlanet *Planet = (KSPlanet *)Object1;
-          Planet->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
-          break;
-      }
-      case 9: {
-          KSComet *Comet = (KSComet *)Object1;
-          Comet->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
-          break;
-      }
-      case 10: {
-          KSAsteroid *Asteroid = (KSAsteroid *)Object1;
-          Asteroid->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
-          break;
-      }
-      }
-  }
-  else
+      KSPlanetBase* p = reinterpret_cast<KSPlanetBase*>(Object1);
+      p->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
+  } else {
       Object1->updateCoords( &num );
+  }
 
-  Object2->findPosition(&num, ksdata->geo()->lat(), &LST, (KSPlanetBase *)m_Earth);
-  if(opposition) {  Object2->setRA( Object2->ra()->Hours() + 12.0); Object2->setDec( -Object2->dec()->Degrees()); }
-   dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
-  if(opposition) {  Object2->setRA( Object2->ra()->Hours() - 12.0); Object2->setDec( -Object2->dec()->Degrees()); }
-  
+  Object2->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
+  dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());
+  if( opposition ) {
+      dist.set( 180 - dist.Degrees() );
+  }
   return dist;
 }
 

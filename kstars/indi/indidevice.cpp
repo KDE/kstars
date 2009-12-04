@@ -58,6 +58,7 @@
 #include <QButtonGroup>
 #include <QSocketNotifier>
 #include <QDateTime>
+#include <QSplitter>
 
 
 #include <kled.h>
@@ -91,13 +92,13 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QStri
     parent		= menuParent;
     deviceManager 	= InParentManager;
   
-    deviceVBox     	= new QFrame();
-    deviceLayout   	= new QVBoxLayout(deviceVBox);
-    groupContainer 	= new KTabWidget(deviceVBox);
+    deviceVBox     	= new QSplitter();
+    deviceVBox->setOrientation(Qt::Vertical);
+
+    groupContainer 	= new KTabWidget();
   
-    msgST_w        	= new KTextEdit(deviceVBox);
+    msgST_w        	= new KTextEdit();
     msgST_w->setReadOnly(true);
-    msgST_w->setMaximumHeight(100);
   
     dataBuffer 		= (unsigned char *) malloc (1);
   
@@ -107,8 +108,8 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QStri
   
     INDIStdSupport 	= false;
 
-    deviceLayout->addWidget(groupContainer);
-    deviceLayout->addWidget(msgST_w);
+    deviceVBox->addWidget(groupContainer);
+    deviceVBox->addWidget(msgST_w);
 
     parent->mainTabWidget->addTab(deviceVBox, label);
 }

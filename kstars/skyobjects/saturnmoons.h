@@ -20,6 +20,7 @@
 
 #include <QString>
 #include <QVector>
+#include "planetmoons.h"
 
 class KSNumbers;
 class KSPlanet;
@@ -28,7 +29,7 @@ class TrailObject;
 class dms;
 
 /**
-  *@class SAturnMoons
+  *@class SaturnMoons
   *Implements the Eight largest moons of Saturn.
   *using Algorithms based on "Astronomical Algorithms"by Jean Meeus 
   *
@@ -37,7 +38,7 @@ class dms;
   *@author Vipul Kumar Singh
   *@version 1.0
   */
-class SaturnMoons {
+class SaturnMoons : public PlanetMoons {
 public:
     /**
       *Constructor.  Assign the name of each moon,
@@ -48,7 +49,7 @@ public:
     /**
       *Destructor.  Delete moon objects.
       */
-    ~SaturnMoons();
+    virtual ~SaturnMoons();
 
     /**
       *@short Find the positions of each Moon, relative to Saturn.
@@ -70,56 +71,9 @@ public:
       *@param sat pointer to the Saturn object
       *@param sunptr pointer to the Sun object
       */
-    void findPosition( const KSNumbers *num, const KSPlanet *sat, const KSSun *sunptr );
+    virtual void findPosition( const KSNumbers *num, const KSPlanet *sat, const KSSun *sunptr );
 
-    /**
-      *@return pointer to a moon given the ID number.
-      *@param id which moon? 0=Mimas,1=Enceladus,2=Tethys,3=Dione,4=Rhea,5=Titan,6=Hyperion,7=Lapetus
-      */
-    inline TrailObject* moon( int id ) { return Moon[id]; }
-
-    /**
-      *@return pointer to a moon, given its name:
-      *@param name the name of the moon (Mimas,Enceladus,Tethys,Dione,Rhea,Titan,Hyperion,Lapetus )
-      */
-    TrailObject* moonNamed( const QString &name ) const;
-
-    /**
-      *@return true if the Moon is nearer to Earth than Saturn.
-      *@param id which moon? 0=Mimas,1=Enceladus,2=Tethys,3=Dione,4=Rhea,5=Titan,6=Hyperion,7=Lapetus
-      */
-    inline bool inFront( int id ) const { return InFront[id]; }
-
-    /**
-      *@return the name of a moon.
-      *@param id which moon? 0=Mimas,1=Enceladus,2=Tethys,3=Dione,4=Rhea,5=Titan,6=Hyperion,7=Lapetus
-      */
-    QString name( int id ) const;
-
-    /**
-      *Convert the RA,Dec coordinates of each moon to Az,Alt
-      *@param LSTh pointer to the current local sidereal time
-      *@param lat pointer to the geographic latitude
-      */
-    void EquatorialToHorizontal( const dms *LSTh, const dms *lat );
-
-    /**
-      *@return the X-coordinate in the Saturn-centered coord. system.
-      *@param i which moon? 0=Mimas,1=Enceladus,2=Tethys,3=Dione,4=Rhea,5=Titan,6=Hyperion,7=Lapetus
-      */
-    double x( int i ) const { return XS[i]; }
-
-    /**
-      *@return the Y-coordinate in the Saturn-centered coord. system.
-      *@param i which moon? 0=Mimas,1=Enceladus,2=Tethys,3=Dione,4=Rhea,5=Titan,6=Hyperion,7=Lapetus
-      */
-    double y( int i ) const { return YS[i]; }
-
-    /**
-      *@return the Z-coordinate in the Saturn-centered coord. system.
-      *@param i which moon? 0=Mimas,1=Enceladus,2=Tethys,3=Dione,4=Rhea,5=Titan,6=Hyperion,7=Lapetus
-      */
-    double z( int i ) const { return ZS[i]; }
+  private:
 
     /** the subroutine helps in saturn moon calculations
     */
@@ -136,11 +90,6 @@ public:
 	Value -= 360;
       return Value;
     }
-private:
-    QVector<TrailObject*> Moon;
-    bool InFront[8];
-    //the rectangular position, relative to Saturn.  X-axis is equator of Saturn; usints are Sat. Radius
-    double XS[8], YS[8], ZS[8];
 };
 
 #endif

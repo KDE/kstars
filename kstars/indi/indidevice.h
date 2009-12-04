@@ -38,6 +38,7 @@ class QString;
 class QTextEdit;
 class QTabWidget;
 class QGridLayout;
+class QSplitter;
 
 /*************************************************************************
 ** The INDI Tree
@@ -64,8 +65,8 @@ public:
 
     QString 	name;			/* device name */
     QString	label;			/* device label */
-    QFrame      *deviceVBox;
-    QVBoxLayout *deviceLayout;		/* device tab frame vertial layout */
+    QSplitter   *deviceVBox;
+
     QTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     unsigned char *dataBuffer;          /* Generic buffer */

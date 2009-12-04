@@ -40,17 +40,20 @@ SolarSystemListComponent::~SolarSystemListComponent()
     //Object deletes handled by parent class (ListComponent)
 }
 
-void SolarSystemListComponent::update(KStarsData *data, KSNumbers * ) {
+void SolarSystemListComponent::update(KSNumbers * ) {
     if ( visible() ) {
+        KStarsData *data = KStarsData::Instance(); 
         foreach ( SkyObject *o, objectList() ) {
+            // FIXME: get rid of cast. 
             KSPlanetBase *p = (KSPlanetBase*)o;
             p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
     }
 }
 
-void SolarSystemListComponent::updatePlanets(KStarsData *data, KSNumbers *num ) {
+void SolarSystemListComponent::updatePlanets(KSNumbers *num ) {
     if ( visible() ) {
+        KStarsData *data = KStarsData::Instance(); 
         foreach ( SkyObject *o, objectList() ) {
             KSPlanetBase *p = (KSPlanetBase*)o;
             p->findPosition( num, data->geo()->lat(), data->lst(), earth() );

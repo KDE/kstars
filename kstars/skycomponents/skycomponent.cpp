@@ -22,7 +22,6 @@
 #include <QPainter>
 
 #include "Options.h"
-#include "kstarsdata.h"
 #include "ksnumbers.h"
 #include "skyobjects/skyobject.h"
 

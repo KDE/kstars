@@ -23,6 +23,7 @@
 
 #include "dms.h"
 #include "kstarsdata.h"
+#include "skyobjects/starobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/ksplanet.h"
 #include "skymap.h"
@@ -43,7 +44,7 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
     //Object deletes handled by parent class (SingleComponent)
 }
 
-void SolarSystemSingleComponent::init(KStarsData *) {
+void SolarSystemSingleComponent::init() {
     ksp()->loadData();
 
     if ( ! ksp()->name().isEmpty() ) objectNames(ksp()->type()).append( ksp()->name() );
@@ -51,13 +52,15 @@ void SolarSystemSingleComponent::init(KStarsData *) {
         objectNames(ksp()->type()).append( ksp()->longname() );
 }
 
-void SolarSystemSingleComponent::update(KStarsData *data, KSNumbers *) {
+void SolarSystemSingleComponent::update(KSNumbers *) {
+    KStarsData *data = KStarsData::Instance(); 
     if ( visible() )
         ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void SolarSystemSingleComponent::updatePlanets(KStarsData *data, KSNumbers *num) {
+void SolarSystemSingleComponent::updatePlanets(KSNumbers *num) {
     if ( visible() ) {
+        KStarsData *data = KStarsData::Instance(); 
         ksp()->findPosition( num, data->geo()->lat(), data->lst(), earth() );
         ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 

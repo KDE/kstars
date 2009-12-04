@@ -28,8 +28,6 @@
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
-#include <klineedit.h>
-#include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
 #include <ktemporaryfile.h>
@@ -41,9 +39,7 @@
 #include <kmenu.h>
 #include <kstatusbar.h>
 #include <kprocess.h>
-#include <kdeversion.h>
 #include <ktoolbar.h>
-#include <kedittoolbar.h>
 #include <kicon.h>
 #include <knewstuff2/engine.h>
 
@@ -60,11 +56,7 @@
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
-#include "skyobjects/ksasteroid.h"
-#include "skyobjects/kscomet.h"
-#include "skyobjects/ksmoon.h"
 #include "simclock.h"
-#include "infoboxes.h"
 #include "dialogs/timedialog.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
@@ -80,7 +72,7 @@
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
 #include "tools/flagmanager.h"
-#include "imageviewer.h"
+#include "comast/execute.h"
 
 #include <config-kstars.h>
 
@@ -156,6 +148,14 @@ void KStars::slotViewToolBar() {
         }
     } else if ( a == actionCollection()->action( "show_horizon" ) ) {
         Options::setShowGround( a->isChecked() );
+        if( !a->isChecked() && Options::useRefraction() ) {
+           QString caption = i18n( "Refraction effects disabled" );
+           QString message = i18n( "When the horizon is switched off, refraction effects are temporarily disabled." );
+    
+           KMessageBox::information( this, message, caption, "dag_refract_hide_ground" );
+        }
+
+
         if ( kcd ) {
             opguides->kcfg_ShowGround->setChecked( a->isChecked() );
         }
@@ -177,29 +177,27 @@ void KStars::slotViewToolBar() {
 /** Major Dialog Window Actions **/
 
 void KStars::slotCalculator() {
-    AstroCalc astrocalc (this);
-    astrocalc.exec();
+    if( ! astrocalc )
+        astrocalc = new AstroCalc (this);
+    astrocalc->show();
 }
 
 void KStars::slotWizard() {
-    KSWizard wizard(this);
-    if ( wizard.exec() == QDialog::Accepted ) {
+    QPointer<KSWizard> wizard = new KSWizard(this);
+    if ( wizard->exec() == QDialog::Accepted ) {
         Options::setRunStartupWizard( false );  //don't run on startup next time
 
-        data()->setLocation( wizard.geo() );
-
-        // reset infoboxes
-        infoBoxes()->geoChanged( geo() );
+        data()->setLocation( *(wizard->geo()) );
 
         // adjust local time to keep UT the same.
         // create new LT without DST offset
-        KStarsDateTime ltime = geo()->UTtoLT( data()->ut() );
+        KStarsDateTime ltime = data()->geo()->UTtoLT( data()->ut() );
 
         // reset timezonerule to compute next dst change
-        geo()->tzrule()->reset_with_ltime( ltime, geo()->TZ0(), data()->isTimeRunningForward() );
+        data()->geo()->tzrule()->reset_with_ltime( ltime, data()->geo()->TZ0(), data()->isTimeRunningForward() );
 
         // reset next dst change time
-        data()->setNextDSTChange( geo()->tzrule()->nextDSTChange() );
+        data()->setNextDSTChange( data()->geo()->tzrule()->nextDSTChange() );
 
         // reset local sideral time
         data()->syncLST();
@@ -210,13 +208,14 @@ void KStars::slotWizard() {
         // If the sky is in Horizontal mode and not tracking, reset focus such that
         // Alt/Az remain constant.
         if ( ! Options::isTracking() && Options::useAltAz() ) {
-            map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+            map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         }
 
         // recalculate new times and objects
         data()->setSnapNextFocus();
         updateTime();
     }
+    delete wizard;
 }
 
 void KStars::slotDownload() {
@@ -228,7 +227,7 @@ void KStars::slotDownload() {
                 //To start displaying the custom catalog, add it to SkyMapComposite
                 Options::setCatalogFile( Options::catalogFile() << fname );
                 Options::setShowCatalog( Options::showCatalog() << 1 );
-                data()->skyComposite()->addCustomCatalog( fname, data(),  Options::catalogFile().size()-1 );
+                data()->skyComposite()->addCustomCatalog( fname, Options::catalogFile().size()-1 );
             }
         }
     }
@@ -303,17 +302,18 @@ void KStars::slotImageSequence()
 void KStars::slotTelescopeWizard()
 {
 #ifdef HAVE_INDI_H
-    telescopeWizardProcess twiz(this);
-    twiz.exec();
+    QPointer<telescopeWizardProcess> twiz = new telescopeWizardProcess(this);
+    twiz->exec();
+    delete twiz;
 #endif
 }
 
 void KStars::slotTelescopeProperties()
 {
 #ifdef HAVE_INDI_H
-	// TODO JM: redesign after KDE 4.2 is released.
-    //telescopeProp scopeProp(this);
-    //scopeProp.exec();
+    QPointer<telescopeProp> scopeProp = new telescopeProp(this);
+    scopeProp->exec();
+    delete scopeProp;
 #endif
 }
 
@@ -337,15 +337,12 @@ void KStars::slotINDIDriver()
 }
 
 void KStars::slotGeoLocator() {
-    LocationDialog locationdialog (this);
-    if ( locationdialog.exec() == QDialog::Accepted ) {
-        GeoLocation *newLocation = locationdialog.selectedCity();
+    QPointer<LocationDialog> locationdialog = new LocationDialog(this);
+    if ( locationdialog->exec() == QDialog::Accepted ) {
+        GeoLocation *newLocation = locationdialog->selectedCity();
         if ( newLocation ) {
             // set new location in options
             data()->setLocation( *newLocation );
-
-            // reset infoboxes
-            infoBoxes()->geoChanged( newLocation );
 
             // adjust local time to keep UT the same.
             // create new LT without DST offset
@@ -366,7 +363,7 @@ void KStars::slotGeoLocator() {
             // If the sky is in Horizontal mode and not tracking, reset focus such that
             // Alt/Az remain constant.
             if ( ! Options::isTracking() && Options::useAltAz() ) {
-                map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+                map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
 
             // recalculate new times and objects
@@ -374,14 +371,7 @@ void KStars::slotGeoLocator() {
             updateTime();
         }
     }
-}
-
-void KStars::slotApplyToolbarConfig() {
-    //DEBUG
-    kDebug() << "Recreating GUI...";
-
-    createGUI();
-    applyMainWindowSettings( KGlobal::config()->group( "MainWindow" ) );
+    delete locationdialog;
 }
 
 void KStars::slotViewOps() {
@@ -409,7 +399,7 @@ void KStars::slotViewOps() {
 
     #ifdef HAVE_INDI_H
     opsindi = new OpsINDI (this);
-    dialog->addPage(opsindi, i18n("INDI"), "kstars_INDI");
+    dialog->addPage(opsindi, i18n("INDI"), "kstars");
     #endif
 
 #ifdef HAVE_XPLANET
@@ -439,22 +429,22 @@ void KStars::slotApplyConfigChanges() {
     map()->forceUpdate();
 
     kstarsData->skyComposite()->setCurrentCulture(  kstarsData->skyComposite()->getCultureName( (int)Options::skyCulture() ) );
-    kstarsData->skyComposite()->reloadCLines( kstarsData );
-    kstarsData->skyComposite()->reloadCNames( kstarsData );
+    kstarsData->skyComposite()->reloadCLines();
+    kstarsData->skyComposite()->reloadCNames();
 }
 
 void KStars::slotSetTime() {
-    TimeDialog timedialog ( data()->lt(), geo(), this );
+    QPointer<TimeDialog> timedialog = new TimeDialog( data()->lt(), data()->geo(), this );
 
-    if ( timedialog.exec() == QDialog::Accepted ) {
-        data()->changeDateTime( geo()->LTtoUT( timedialog.selectedDateTime() ) );
+    if ( timedialog->exec() == QDialog::Accepted ) {
+        data()->changeDateTime( data()->geo()->LTtoUT( timedialog->selectedDateTime() ) );
 
         if ( Options::useAltAz() ) {
             if ( map()->focusObject() ) {
-                map()->focusObject()->EquatorialToHorizontal( LST(), geo()->lat() );
+                map()->focusObject()->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
                 map()->setFocus( map()->focusObject() );
             } else
-                map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+                map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         }
 
         map()->forceUpdateNow();
@@ -466,6 +456,7 @@ void KStars::slotSetTime() {
             ((KSPlanetBase*)map()->focusObject())->addToTrail();
         }
     }
+    delete timedialog;
 }
 
 //Set Time to CPU clock
@@ -474,10 +465,10 @@ void KStars::slotSetTimeToNow() {
 
     if ( Options::useAltAz() ) {
         if ( map()->focusObject() ) {
-            map()->focusObject()->EquatorialToHorizontal( LST(), geo()->lat() );
+            map()->focusObject()->EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
             map()->setFocus( map()->focusObject() );
         } else
-            map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+            map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
     }
 
     map()->forceUpdateNow();
@@ -505,19 +496,8 @@ void KStars::slotFind() {
     }
 
     // check if data has changed while dialog was open
-    if ( DialogIsObsolete ) clearCachedFindDialog();
-}
-
-/** Menu Slots **/
-
-//File
-void KStars::newWindow() {
-    new KStars(true);
-}
-
-void KStars::closeWindow() {
-    show();
-    close();
+    if ( DialogIsObsolete )
+        clearCachedFindDialog();
 }
 
 void KStars::slotOpenFITS()
@@ -684,8 +664,10 @@ void KStars::slotPrint() {
         answer = KMessageBox::questionYesNoCancel( 0, message, i18n( "Switch to Star Chart Colors?" ),
                  KGuiItem(i18n("Switch Color Scheme")), KGuiItem(i18n("Do Not Switch")), KStandardGuiItem::cancel(), "askAgainPrintColors" );
 
-        if ( answer == KMessageBox::Cancel ) return;
-        if ( answer == KMessageBox::Yes ) switchColors = true;
+        if ( answer == KMessageBox::Cancel )
+            return;
+        if ( answer == KMessageBox::Yes )
+            switchColors = true;
     }
 
     printImage( true, switchColors );
@@ -699,16 +681,15 @@ void KStars::slotToggleTimer() {
         if ( fabs( data()->clock()->scale() ) > Options::slewTimeScale() )
             data()->clock()->setManualMode( true );
         data()->clock()->start();
-        if ( data()->clock()->isManualMode() ) map()->forceUpdate();
+        if ( data()->clock()->isManualMode() )
+            map()->forceUpdate();
     }
 }
 
 //Pointing
 void KStars::slotPointFocus() {
     // In the following cases, we set slewing=true in order to disengage tracking
-    // We also change focus object to "nothing" in infobox
     map()->stopTracking();
-    map()->infoBoxes()->focusObjChanged( i18n( "nothing" ) );
 
     if ( sender() == actionCollection()->action("zenith") ) 
         map()->setDestinationAltAz( 90.0, map()->focus()->az()->Degrees() );
@@ -749,28 +730,28 @@ void KStars::slotTrack() {
 }
 
 void KStars::slotManualFocus() {
-    FocusDialog focusDialog( this ); // = new FocusDialog( this );
-    if ( Options::useAltAz() ) focusDialog.activateAzAltPage();
+    QPointer<FocusDialog> focusDialog = new FocusDialog( this ); // = new FocusDialog( this );
+    if ( Options::useAltAz() ) focusDialog->activateAzAltPage();
 
-    if ( focusDialog.exec() == QDialog::Accepted ) {
+    if ( focusDialog->exec() == QDialog::Accepted ) {
         //DEBUG
         kDebug() << "focusDialog point: " << &focusDialog;
 
         //If the requested position is very near the pole, we need to point first
         //to an intermediate location just below the pole in order to get the longitudinal
         //position (RA/Az) right.
-        double realAlt( focusDialog.point().alt()->Degrees() );
-        double realDec( focusDialog.point().dec()->Degrees() );
+        double realAlt( focusDialog->point().alt()->Degrees() );
+        double realDec( focusDialog->point().dec()->Degrees() );
         if ( Options::useAltAz() && realAlt > 89.0 ) {
-            focusDialog.point().setAlt( 89.0 );
-            focusDialog.point().HorizontalToEquatorial( LST(), geo()->lat() );
+            focusDialog->point().setAlt( 89.0 );
+            focusDialog->point().HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         }
         if ( ! Options::useAltAz() && realDec > 89.0 ) {
-            focusDialog.point().setDec( 89.0 );
-            focusDialog.point().EquatorialToHorizontal( LST(), geo()->lat() );
+            focusDialog->point().setDec( 89.0 );
+            focusDialog->point().EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
         }
 
-        map()->setClickedPoint( & focusDialog.point() );
+        map()->setClickedPoint( & focusDialog->point() );
         if ( Options::isTracking() ) slotTrack();
 
         map()->slotCenter();
@@ -782,12 +763,11 @@ void KStars::slotManualFocus() {
         //
         //Also, if the requested position was within 1 degree of the coordinate pole, this will
         //automatically correct the final pointing from the intermediate offset position to the final position
+        data()->setSnapNextFocus();
         if ( Options::useAltAz() ) {
-            data()->setSnapNextFocus();
-            map()->setDestinationAltAz( focusDialog.point().alt()->Degrees(), focusDialog.point().az()->Degrees() );
+            map()->setDestinationAltAz( focusDialog->point().alt()->Degrees(), focusDialog->point().az()->Degrees() );
         } else {
-            data()->setSnapNextFocus();
-            map()->setDestination( focusDialog.point().ra()->Hours(), focusDialog.point().dec()->Degrees() );
+            map()->setDestination( focusDialog->point().ra()->Hours(), focusDialog->point().dec()->Degrees() );
         }
 
         //Now, if the requested point was near a pole, we need to reset the Alt/Dec of the focus.
@@ -795,94 +775,17 @@ void KStars::slotManualFocus() {
         if ( ! Options::useAltAz() && realDec > 89.0 ) map()->focus()->setDec( realAlt );
 
         //Don't track if we set Alt/Az coordinates.  This way, Alt/Az remain constant.
-        if ( focusDialog.usedAltAz() ) map()->stopTracking();
+        if ( focusDialog->usedAltAz() )
+            map()->stopTracking();
     }
+    delete focusDialog;
 }
 
-void KStars::slotZoomIn() {
-    zoomIn ( DZOOM );
-}
-
-void KStars::slotZoomOut() {
-    zoomOut ( DZOOM );
-}
-
-void KStars::zoomIn( const double factor ) {
-    actionCollection()->action("zoom_out")->setEnabled (true);
-    double newZoom = Options::zoomFactor() * factor;
-    if ( newZoom >= MAXZOOM )
-        newZoom = MAXZOOM;
-
-    Options::setZoomFactor( newZoom );
-    reportZoom();
-
-    if ( newZoom == MAXZOOM )
-        actionCollection()->action("zoom_in")->setEnabled (false);
-
-    map()->forceUpdate();
-}
-
-void KStars::zoomOut( const double factor ) {
-    actionCollection()->action("zoom_in")->setEnabled (true);
-    double newZoom = Options::zoomFactor() / factor;
-    if ( newZoom < MINZOOM )
-        newZoom = MINZOOM;
-
-    Options::setZoomFactor( newZoom );
-    reportZoom();
-
-    if ( newZoom == MINZOOM )
-        actionCollection()->action("zoom_out")->setEnabled (false);
-
-    map()->forceUpdate();
-}
-
-void KStars::slotDefaultZoom() {
-    Options::setZoomFactor( DEFAULTZOOM );
-    reportZoom();
-
-    map()->forceUpdate();
-
-    if ( Options::zoomFactor() > MINZOOM )
-        actionCollection()->action("zoom_out")->setEnabled (true);
-    if ( Options::zoomFactor() < MAXZOOM )
-        actionCollection()->action("zoom_in")->setEnabled (true);
-}
-
-void KStars::slotSetZoom() {
-    bool ok( false );
-    double currentAngle = map()->width() / ( Options::zoomFactor() * dms::DegToRad );
-    double angSize = currentAngle;
-    double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
-    double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
-
-    angSize = KInputDialog::getDouble( i18nc( "The user should enter an angle for the field-of-view of the display",
-                                       "Enter Desired Field-of-View Angle" ), i18n( "Enter a field-of-view angle in degrees: " ),
-                                       currentAngle, minAngle, maxAngle, 0.1, 1, &ok );
-
-    if ( ok ) {
-        Options::setZoomFactor( map()->width() / ( angSize * dms::DegToRad ) );
-
-        if ( Options::zoomFactor() <= MINZOOM ) {
-            Options::setZoomFactor( MINZOOM );
-            actionCollection()->action("zoom_out")->setEnabled( false );
-        } else {
-            actionCollection()->action("zoom_out")->setEnabled( true );
-        }
-
-        if ( Options::zoomFactor() >= MAXZOOM ) {
-            Options::setZoomFactor( MAXZOOM );
-            actionCollection()->action("zoom_in")->setEnabled( false );
-        } else {
-            actionCollection()->action("zoom_in")->setEnabled( true );
-        }
-
-        reportZoom();
-        map()->forceUpdate();
-    }
-}
-
-void KStars::reportZoom() {
+void KStars::slotZoomChanged() {
+    // Enable/disable actions
+    actionCollection()->action("zoom_out")->setEnabled( Options::zoomFactor() > MINZOOM );
+    actionCollection()->action("zoom_in" )->setEnabled( Options::zoomFactor() < MAXZOOM );
+    // Update status bar
     float fov = map()->fov();
     QString fovunits = i18n( "degrees" );
     if ( fov < 1.0 ) {
@@ -893,9 +796,24 @@ void KStars::reportZoom() {
         fov = fov * 60.0;
         fovunits = i18n( "arcseconds" );
     }
-
     QString fovstring = i18nc("field of view", "FOV") + ": " + QString::number( fov, 'f', 1 ) + ' ' + fovunits;
     statusBar()->changeItem( fovstring, 0 );
+}
+
+void KStars::slotSetZoom() {
+    bool ok;
+    double currentAngle = map()->width() / ( Options::zoomFactor() * dms::DegToRad );
+    double minAngle = map()->width() / ( MAXZOOM * dms::DegToRad );
+    double maxAngle = map()->width() / ( MINZOOM * dms::DegToRad );
+
+    double angSize = KInputDialog::getDouble( i18nc( "The user should enter an angle for the field-of-view of the display",
+                                                     "Enter Desired Field-of-View Angle" ),
+                                              i18n( "Enter a field-of-view angle in degrees: " ),
+                                              currentAngle, minAngle, maxAngle, 0.1, 1, &ok );
+
+    if( ok ) {
+        map()->setZoomFactor( map()->width() / ( angSize * dms::DegToRad ) );
+    }
 }
 
 void KStars::slotCoordSys() {
@@ -907,7 +825,7 @@ void KStars::slotCoordSys() {
             else { //need to recompute focus for unrefracted position
                 map()->setFocusAltAz( map()->refract( map()->focus()->alt(), false ).Degrees(),
                                       map()->focus()->az()->Degrees() );
-                map()->focus()->HorizontalToEquatorial( data()->lst(), geo()->lat() );
+                map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
         actionCollection()->action("coordsys")->setText( i18n("Equatorial &Coordinates") );
@@ -949,97 +867,51 @@ void KStars::slotColorScheme() {
     loadColorScheme( filename );
 }
 
-void KStars::slotTargetSymbol() {
-    QString symbolName( sender()->objectName() );
-
-    FOV f( symbolName );
-
-    Options::setFOVName( f.name() );
-    Options::setFOVSizeX( f.sizeX() );
-    Options::setFOVSizeY( f.sizeY() );
-    Options::setFOVShape( f.shape() );
-    Options::setFOVColor( f.color() );
-    data()->fovSymbol.setName( Options::fOVName() );
-    data()->fovSymbol.setSize( Options::fOVSizeX(), Options::fOVSizeY() );
-    data()->fovSymbol.setShape( Options::fOVShape() );
-    data()->fovSymbol.setColor( Options::fOVColor() );
-
+void KStars::slotTargetSymbol(bool flag) {
+    kDebug() << QString("slotTargetSymbol: %1 %2").arg( sender()->objectName() ).arg( flag);
+    
+    QStringList names = Options::fOVNames();
+    if( flag ) {
+        // Add FOV to list
+        names.append( sender()->objectName() );
+    } else {
+        // Remove FOV from list
+        int ix = names.indexOf( sender()->objectName() );
+        if( ix >= 0 ) 
+            names.removeAt(ix);
+    }
+    Options::setFOVNames( names );
+   
+    // Sync visibleFOVs with fovNames
+    data()->syncFOV();
+    
     map()->forceUpdate();
 }
 
 void KStars::slotFOVEdit() {
-    FOVDialog fovdlg( this );
-    if ( fovdlg.exec() == QDialog::Accepted ) {
-        //replace existing fov.dat with data from the FOVDialog
-        QFile f;
-        f.setFileName( KStandardDirs::locateLocal( "appdata", "fov.dat" ) );
-
-        //rebuild fov.dat if FOVList is empty
-        if ( fovdlg.FOVList.isEmpty() ) {
-            f.remove();
-            initFOV();
-        } else {
-            if ( ! f.open( QIODevice::WriteOnly ) ) {
-                kDebug() << i18n( "Could not open fov.dat for writing." );
-            } else {
-                QTextStream ostream(&f);
-
-                foreach ( FOV *fov, fovdlg.FOVList )
-                    ostream << fov->name() << ":" << fov->sizeX() << ":" 
-                            << fov->sizeY() << ":" << QString::number( fov->shape() ) 
-                            << ":" << fov->color() << endl;
-
-                f.close();
-            }
-        }
-
-        //repopulate FOV menu  with items from new fov.dat
-        fovActionMenu->menu()->clear();
-
-        if ( f.open( QIODevice::ReadOnly ) ) {
-            QTextStream stream( &f );
-            while ( !stream.atEnd() ) {
-                QString line = stream.readLine();
-                QStringList fields = line.split( ':' );
-
-                if ( fields.count() == 4 || fields.count() == 5 ) {
-                    QString nm = fields[0].trimmed();
-                    KToggleAction *kta = actionCollection()->add<KToggleAction>( nm.toUtf8() );
-                    kta->setText( nm );
-                    kta->setObjectName( nm.toUtf8() );
-                    kta->setActionGroup( fovGroup );
-                    connect( kta, SIGNAL( toggled(bool) ), this, SLOT( slotTargetSymbol() ) );
-                    if ( nm == Options::fOVName() ) kta->setChecked( true );
-                    fovActionMenu->addAction( kta );
-                }
-            }
-        } else {
-            kDebug() << i18n( "Could not open file: %1", f.fileName() );
-        }
-
-        fovActionMenu->menu()->addSeparator();
-        QAction *ka = actionCollection()->addAction( "edit_fov" );
-        ka->setText( i18n( "Edit FOV Symbols..." ) );
-        connect( ka, SIGNAL( triggered() ), this, SLOT( slotFOVEdit() ) );
-        fovActionMenu->addAction( ka );
-
-        //set FOV to whatever was highlighted in FOV dialog
-        if ( fovdlg.FOVList.count() > 0 ) {
-            Options::setFOVName( fovdlg.FOVList.at( fovdlg.currentItem() )->name() );
-            data()->fovSymbol.setName( Options::fOVName() );
-            data()->fovSymbol.setSize( Options::fOVSizeX(), Options::fOVSizeY() );
-            data()->fovSymbol.setShape( Options::fOVShape() );
-            data()->fovSymbol.setColor( Options::fOVColor() );
-        }
-
-        //Careful!!  If the user selects a small FOV (like HST), this basically crashes kstars :(
-        //		//set ZoomLevel to match the FOV symbol
-        //		zoom( (double)(map()->width()) * 60.0 / ( 2.0 * dms::DegToRad * data()->fovSymbol.size() ) );
+    QPointer<FOVDialog> fovdlg = new FOVDialog( this );
+    if ( fovdlg->exec() == QDialog::Accepted ) {
+        fovdlg->writeFOVList();
+        repopulateFOV();
     }
+    delete fovdlg;
 }
 
 void KStars::slotObsList() {
     obsList->show();
+}
+
+void KStars::slotEquipmentWriter() {
+    eWriter->show();
+}
+
+void KStars::slotObserverAdd() {
+    oAdd->show();
+}
+
+void KStars::slotExecute() {
+    getExecute()->init();
+    getExecute()->show();
 }
 
 //Help Menu
@@ -1074,20 +946,17 @@ void KStars::slotShowGUIItem( bool show ) {
     //Toolbars
     if ( sender() == actionCollection()->action( "show_mainToolBar" ) ) {
         Options::setShowMainToolBar( show );
-        if ( show ) toolBar("kstarsToolBar")->show();
-        else toolBar("kstarsToolBar")->hide();
+        toolBar("kstarsToolBar")->setVisible(show);
     }
 
     if ( sender() == actionCollection()->action( "show_viewToolBar" ) ) {
         Options::setShowViewToolBar( show );
-        if ( show ) toolBar( "viewToolBar" )->show();
-        else toolBar( "viewToolBar" )->hide();
+        toolBar( "viewToolBar" )->setVisible(show);
     }
 
     if ( sender() == actionCollection()->action( "show_statusBar" ) ) {
         Options::setShowStatusBar( show );
-        if ( show ) statusBar()->show();
-        else  statusBar()->hide();
+        statusBar()->setVisible(show);
     }
 
     if ( sender() == actionCollection()->action( "show_sbAzAlt" ) ) {
@@ -1100,18 +969,7 @@ void KStars::slotShowGUIItem( bool show ) {
         if ( ! show ) { statusBar()->changeItem( QString(), 2 ); }
     }
 
-    //InfoBoxes: we only change options here; these are also connected to slots in
-    //InfoBoxes that actually toggle the display.
-    if ( sender() == actionCollection()->action( "show_boxes" ) )
-        Options::setShowInfoBoxes( show );
-    if ( sender() == actionCollection()->action( "show_time_box" ) )
-        Options::setShowTimeBox( show );
-    if ( sender() == actionCollection()->action( "show_location_box" ) )
-        Options::setShowGeoBox( show );
-    if ( sender() == actionCollection()->action( "show_focus_box" ) )
-        Options::setShowFocusBox( show );
 }
-
 void KStars::addColorMenuItem( const QString &name, const QString &actionName ) {
     KToggleAction *kta = actionCollection()->add<KToggleAction>( actionName );
     kta->setText( name );
@@ -1131,7 +989,6 @@ void KStars::establishINDI()
 #ifdef HAVE_INDI_H
     if (indimenu == NULL)
         indimenu = new INDIMenu(this);
-
     if (indidriver == NULL)
         indidriver = new INDIDriver(this);
 #endif
@@ -1139,17 +996,9 @@ void KStars::establishINDI()
 
 void KStars::slotAboutToQuit()
 {
-    //store focus values in Options
-    //If not trcking and using Alt/Az coords, stor the Alt/Az coordinates
-    if( skymap && skymap->focus() && skymap->focus()->ra() ) {
-        if ( Options::useAltAz() && ! Options::isTracking() ) {
-            Options::setFocusRA( skymap->focus()->az()->Degrees() );
-            Options::setFocusDec( skymap->focus()->alt()->Degrees() );
-        } else {
-            Options::setFocusRA( skymap->focus()->ra()->Hours() );
-            Options::setFocusDec( skymap->focus()->dec()->Degrees() );
-        }
-    }
+    // Delete skymap. This required to run destructors and save
+    // current state in the option.
+    delete skymap;
 
     //Store Window geometry in Options object
     Options::setWindowWidth( width() );
@@ -1158,8 +1007,8 @@ void KStars::slotAboutToQuit()
     //explicitly save the colorscheme data to the config file
     data()->colorScheme()->saveToConfig();
 
-    KConfigGroup cg = KGlobal::config()->group( "MainToolBar" );
     //explicitly save toolbar settings to config file
+    KConfigGroup cg = KGlobal::config()->group( "MainToolBar" );
     toolBar("kstarsToolBar")->saveSettings( cg );
     cg = KGlobal::config()->group( "ViewToolBar" );
     toolBar( "viewToolBar" )->saveSettings( cg );
@@ -1167,19 +1016,9 @@ void KStars::slotAboutToQuit()
     //synch the config file with the Config object
     writeConfig();
 
-    //Delete dialog window pointers
-    clearCachedFindDialog();
-
-    delete AAVSODialog;
-    delete obsList;
-    if ( findDialog ) delete findDialog;
-    if ( avt ) delete avt;
-    if ( sb ) delete sb;
-    if ( pv ) delete pv;
-    if ( jmt ) delete jmt;
-    if ( fm ) delete fm;
-
-    while ( ! m_ImageViewerList.isEmpty() )
-        delete m_ImageViewerList.takeFirst();
+    if( !Options::obsListSaveImage() ) {
+        foreach ( QString file, obsList->imageList() )
+            QFile::remove( KStandardDirs::locateLocal( "appdata", file ) );
+    }
 }
 

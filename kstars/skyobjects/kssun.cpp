@@ -18,23 +18,29 @@
 #include "kssun.h"
 
 #include <math.h>
-#include <qdatetime.h>
 
-#include "ksutils.h"
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 
-KSSun::KSSun( KStarsData *kd )
-        : KSPlanet( kd, I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  )
+KSSun::KSSun( )
+        : KSPlanet( I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  )
 {
     setMag( -26.73 );
+}
+
+KSSun* KSSun::clone() const 
+{
+    return new KSSun(*this);   
 }
 
 bool KSSun::loadData() {
     OrbitDataColl odc;
     return (odm.loadData(odc, "earth") != 0);
 }
+
+// We don't need to do anything here
+void KSSun::findMagnitude(const KSNumbers*) {}
 
 bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
     if (Earth) {
@@ -123,7 +129,13 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
     //Finally, convert Ecliptic coords to Ra, Dec.  Ecliptic latitude is zero, by definition
     EclipticToEquatorial( num->obliquity() );
 
+
     nutate(num);
+
+    // Store in RA0 and Dec0, the unaberrated coordinates
+    setRA0( *ra() );
+    setDec0( *dec() );
+
     aberrate(num);
 
     // We obtain the apparent geocentric ecliptic coordinates. That is, after
@@ -136,3 +148,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
     return true;
 }
 
+SkyObject::UID KSSun::getUID() const
+{
+   return solarsysUID(UID_SOL_BIGOBJ) | 0;
+}

@@ -43,20 +43,16 @@ public:
     INDIMenu(QWidget * parent = 0);
     ~INDIMenu();
 
+    KStars *ksw;
+
+    QList<DeviceManager*> managers;
+
     /*****************************************************************
     * GUI stuff
     ******************************************************************/
     QVBoxLayout	*mainLayout;
     QTabWidget	*mainTabWidget;
     QTextEdit 	*msgST_w;
-
-    QPushButton  *clear;
-    //QString	currentLabel;
-
-
-    KStars *ksw;
-
-    QList<DeviceManager*> managers;
 
     void updateStatus();
     QString getUniqueDeviceLabel(const QString &deviceName);
@@ -72,10 +68,17 @@ public:
     void stopDeviceManager(QList<IDevice *> &processed_devices);
 
   private:
-      QString currentDevice;
+
+
+    QPushButton  *clearB;
+    QPushButton  *closeB;
+
+
+    QString currentDevice;
   
   public slots:
     void removeDeviceManager(DeviceManager *deviceManager);
+    void clearLog();
 
 
 };

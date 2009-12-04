@@ -46,7 +46,6 @@
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skymap.h"
-#include "infoboxes.h"
 
 ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     : QFrame(parentSplit), Object1( 0 ), Object2( 0 ) {
@@ -80,8 +79,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     pNames[KSPlanetBase::URANUS] = i18n("Uranus");
     pNames[KSPlanetBase::NEPTUNE] = i18n("Neptune");
     pNames[KSPlanetBase::PLUTO] = i18n("Pluto");
-    pNames[KSPlanetBase::SUN] = "Sun";
-    pNames[KSPlanetBase::MOON] = "Moon";
+    pNames[KSPlanetBase::SUN] = i18n("Sun");
+    pNames[KSPlanetBase::MOON] = i18n("Moon");
 
     for ( int i=0; i<KSPlanetBase::UNKNOWN_PLANET; ++i ) {
         //      Obj1ComboBox->insertItem( i, pNames[i] );
@@ -112,12 +111,11 @@ void ConjunctionsTool::slotGoto() {
     int index = OutputView->currentRow();
     long double jd = outputJDList.value( index );
     KStarsDateTime dt;
-    KStars *ks= (KStars *) topLevelWidget()->parent();
+    KStars *ks = KStars::Instance();
     KStarsData *data = KStarsData::Instance();
     SkyMap *map = ks->map();
 
     data->setLocation( *geoPlace );
-    ks->infoBoxes()->geoChanged( geoPlace );
     dt.setDJD( jd );
     data->changeDateTime( dt );
     map->setClickedObject( data->skyComposite()->findByName( Object1->name() ) ); // This is required, because the Object1 we have is a copy
@@ -126,41 +124,22 @@ void ConjunctionsTool::slotGoto() {
 }
 
 void ConjunctionsTool::slotFindObject() {
-    FindDialog fd( (KStars*) topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
+    if ( fd->exec() == QDialog::Accepted ) {
         if( Object1 )
             delete Object1;
-        if( !fd.selectedObject() )
+        if( !fd->selectedObject() )
             return;
-        if( !fd.selectedObject()->isSolarSystem() ) {
-            Object1 = new SkyObject( *fd.selectedObject() );
-        }
-        else {
-            switch( fd.selectedObject()->type() ) {
-            case 9: {
-                Object1 =  new KSComet( (KSComet &) *fd.selectedObject() );
-                break;
-            }
-            case 10: {
-                Object1 =  new KSAsteroid( (KSAsteroid &) *fd.selectedObject() );
-                break;
-            }
-            case 2: 
-            default: {
-                Object1 = KSPlanetBase::createPlanet( pNames.key( fd.selectedObject()->name() ) ); // TODO: Fix i18n issues.
-                break;
-            }
-            }
-        }
+        Object1 = fd->selectedObject()->clone();
         if( Object1 )
             Obj1FindButton->setText( Object1->name() );
     }
+    delete fd;
 }
 
 void ConjunctionsTool::slotLocation()
 {
-    LocationDialog ld( (KStars*) topLevelWidget()->parent() );
-
+    LocationDialog ld( this );
     if ( ld.exec() == QDialog::Accepted ) {
         geoPlace = ld.selectedCity();
         LocationButton -> setText( geoPlace -> fullName() );
@@ -195,6 +174,7 @@ void ConjunctionsTool::slotCompute (void)
     }
     QApplication::setOverrideCursor( QCursor(Qt::WaitCursor) );
     KSConjunct ksc;
+    ksc.setGeoLocation( geoPlace );
     ComputeStack->setCurrentIndex( 1 );
     connect( &ksc, SIGNAL(madeProgress(int)), this, SLOT(showProgress(int)) );
 

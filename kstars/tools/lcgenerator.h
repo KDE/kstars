@@ -19,14 +19,20 @@
 #define LCGENERATOR_H_
 
 #include <QCloseEvent>
+#include <QList>
+#include <QString>
 #include <kdialog.h>
 #include <kio/job.h>
 
 #include "ui_lcgenerator.h"
 
 class QFile;
-class QVBoxLayout;
-class KStars;
+
+struct VariableStarInfo
+{
+    QString name;
+    QString designation;
+};
 
 class LCGeneratorUI : public QFrame, public Ui::LCGenerator {
     Q_OBJECT
@@ -34,40 +40,37 @@ public:
     LCGeneratorUI( QWidget *p=0 );
 };
 
-/**
-	*@class LCGenerator
-	*@short KStars Light Curve Generator
-	*This class provides a simple interface that enables a user to download
-	*variable stars light curves from an online AAVSO database given few basic parameters.
-	*@author Jasem Mutlaq
-	*@version 1.0
-	*/
+
+/** @class LCGenerator
+ *  @short KStars Light Curve Generator
+ *  This class provides a simple interface that enables a user to download
+ *  variable stars light curves from an online AAVSO database given few basic parameters.
+ *  @author Jasem Mutlaq
+ */
 class LCGenerator : public KDialog
 {
     Q_OBJECT
-
 public:
-    /**Constructor
-    	*@p parent pointer to the parent widget
-    	*/
+    /** Constructor
+     *  @p parent pointer to the parent widget */
     LCGenerator( QWidget* parent = 0);
-    /**Destructor */
+    /** Destructor */
     ~LCGenerator();
 
 public slots:
     /** Checks if a star name or designation exists in the database,
-    	*verifies date format, and connects to server if no errors occur  
-    	*/
+     * verifies date format, and connects to server if no errors occur  
+     */
     void VerifyData();
 
-    /**Select the star name that matches the current star designation
-    	*@p index the index of the selected designation
-    	*/
+    /** Select the star name that matches the current star designation
+     *  @p index the index of the selected designation
+     */
     void updateNameList(int index);
 
-    /**Select the star designation that matches the current star name
-    	*@p index the index of the selected star name
-    	*/
+    /** Select the star designation that matches the current star name
+     *  @p index the index of the selected star name
+     */
     void updateDesigList(int index);
 
     /** Connects to AAVSO database server and downloads a fresh list of Variable stars.*/
@@ -77,32 +80,30 @@ public slots:
     void downloadReady(KJob *);
 
 private:
-
-    /** Initilizes and positions the dialog child widgets. */
+    /** Initializes and positions the dialog child widgets. */
     void createGUI();
 
     /** Parses star information and connects to the AAVSO server with the information embedded in the URL
-    	*@param FinalStartDate The start date 
-    	*@param FinalEndDate The end date 
-    	*@param FinalDesignation The AAVSO star designation
-    	*@param AverageDay Number of average days for binning the light curve
-    	*/
-    void DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, const QString &AverageDay);
+     * @param FinalStartDate The start date 
+     * @param FinalEndDate The end date 
+     * @param FinalDesignation The AAVSO star designation
+     * @param AverageDay Number of average days for binning the light curve
+     */
+    void DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, unsigned int AverageDay);
 
-    KStars *ksw;
-    QVBoxLayout *vlay;
+    /** Read list of variable stars. */
+    bool readVarData();
+
+
     LCGeneratorUI *lcg;
 
-    const QString Hostprefix;
-    const int JDCutOff;
-
-    KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
-
+    KIO::Job *downloadJob;               /// download job of image -> 0 == no job is running
     QFile *file;
+    QList<VariableStarInfo> varInfoList; /// Information about variable stars.
 
-    /**Make sure all events have been processed before closing the dialog
-    	*@p ev pointer to the QCloseEvent object
-    	*/
+    /** Make sure all events have been processed before closing the dialog
+     *  @p ev pointer to the QCloseEvent object
+     */
     void closeEvent (QCloseEvent *ev);
 };
 

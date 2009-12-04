@@ -37,16 +37,16 @@
 #include <QDateTime>
 #include <QTimer>
 
-#include <kled.h>
-#include <klineedit.h>
-#include <kpushbutton.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kdebug.h>
-#include <kcombobox.h>
-#include <knuminput.h>
-#include <kdialog.h>
-#include <ktabwidget.h>
+#include <KLed>
+#include <KLineEdit>
+#include <KPushButton>
+#include <KLocale>
+#include <KMessageBox>
+#include <KDebug>
+#include <KComboBox>
+#include <KNumInput>
+#include <KDialog>
+#include <KTabWidget>
 
 #include "kstars.h"
 #include "indidriver.h"
@@ -56,12 +56,9 @@
 ** data.
 *******************************************************************/
 INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
-        /*KDialogBase(KDialogBase::Tabbed, i18n("INDI Control Panel"), 0, KDialogBase::Default, parent, name, false)*/
 {
 
     ksw = (KStars *) parent;
-
-    // managers.setAutoDelete(true);
 
     mainLayout    = new QVBoxLayout(this);
     mainLayout->setMargin(10);
@@ -71,11 +68,22 @@ INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
 
     mainLayout->addWidget(mainTabWidget);
 
-    //currentLabel = QString();
-
     setWindowTitle(i18n("INDI Control Panel"));
     setAttribute(Qt::WA_ShowModal, false);
-    //setModal(false);
+
+    clearB= new QPushButton(i18n("Clear"));
+    closeB= new QPushButton(i18n("Close"));
+
+    QHBoxLayout *buttonLayout = new QHBoxLayout;
+    buttonLayout->insertStretch(0);
+    buttonLayout->addWidget(clearB, 0, Qt::AlignRight);
+    buttonLayout->addWidget(closeB, 0, Qt::AlignRight);
+
+    
+    mainLayout->addLayout(buttonLayout);
+
+    connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
+    connect(clearB, SIGNAL(clicked()), this, SLOT(clearLog()));
 
     resize( 640, 480);
 }
@@ -108,7 +116,7 @@ DeviceManager* INDIMenu::initDeviceManager(QString inHost, uint inPort, DeviceMa
     managers.append(deviceManager);
   
     connect(deviceManager, SIGNAL(newDevice(INDI_D *)), ksw->indiDriver(), SLOT(enableDevice(INDI_D *)));
-    connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this, SLOT(removeDeviceManager(DeviceManager*)));
+    connect(deviceManager, SIGNAL(deviceManagerError(DeviceManager *)), this, SLOT(removeDeviceManager(DeviceManager*)), Qt::QueuedConnection);
   
     return deviceManager;
 }
@@ -137,12 +145,16 @@ void INDIMenu::removeDeviceManager(DeviceManager *deviceManager)
         {
 		foreach(INDI_D *device, deviceManager->indi_dev)
 			ksw->indiDriver()->disableDevice(device);
-	    //ksw->indiDriver()->shutDeviceManager(deviceManager);
+
             delete managers.takeAt(i);
+	    break;
         }
     }
   
     ksw->indiDriver()->updateMenuActions();
+
+    if (managers.size() == 0)
+	close();
 }
 
 INDI_D * INDIMenu::findDevice(const QString &deviceName)
@@ -181,6 +193,15 @@ QString INDIMenu::getUniqueDeviceLabel(const QString &deviceName)
         return (deviceName + QString(" %1").arg(nset+1));
       else
         return (deviceName);
+
+}
+
+void INDIMenu::clearLog()
+{
+  INDI_D *dev = findDeviceByLabel(mainTabWidget->tabText(mainTabWidget->currentIndex()).remove(QChar('&')));
+
+  if (dev)
+	dev->msgST_w->clear();
 
 }
 

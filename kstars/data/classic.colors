@@ -5,6 +5,7 @@
 #443399 :ICColor
 #AA0000 :HSTColor
 #77AAAA :SNameColor
+#77AAAA :DSNameColor
 #AA7777 :PNameColor
 #AAAA77 :CNameColor
 #555555 :CLineColor

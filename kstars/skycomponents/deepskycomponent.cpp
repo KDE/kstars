@@ -28,10 +28,12 @@
 #include "dms.h"
 #include "ksfilereader.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skymap.h"
+#include "skylabel.h"
+#include "skylabeler.h"
 #include "Options.h"
 #include "skymesh.h"
+
 
 DeepSkyComponent::DeepSkyComponent( SkyComponent *parent )
         : SkyComponent(parent)
@@ -43,6 +45,11 @@ DeepSkyComponent::DeepSkyComponent( SkyComponent *parent )
     m_OtherList = QList<DeepSkyObject*>();
 
     m_skyMesh = SkyMesh::Instance();
+
+    // Add labels
+    for ( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
+        m_labelList[ i ] = new LabelList;
+
 }
 
 DeepSkyComponent::~DeepSkyComponent()
@@ -55,15 +62,13 @@ bool DeepSkyComponent::selected()
     return Options::showDeepSky();
 }
 
-void DeepSkyComponent::update( KStarsData *data, KSNumbers *num )
-{
-    Q_UNUSED(data)
-    Q_UNUSED(num)
-}
+void DeepSkyComponent::update( KSNumbers* )
+{}
 
 
-void DeepSkyComponent::init(KStarsData *data)
+void DeepSkyComponent::init()
 {
+    KStarsData* data = KStarsData::Instance();
     //Check whether we need to concatenate a plit NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();
@@ -140,7 +145,7 @@ void DeepSkyComponent::init(KStarsData *data)
         if ( line.mid( 70,1 ) == "M" ) {
             cat2 = cat;
             if ( ingc==0 ) cat2.clear();
-            cat = "M";
+            cat = 'M';
             imess = line.mid( 72, 3 ).toInt();
         }
 
@@ -329,17 +334,24 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
     QColor color        = data->colorScheme()->colorNamed( colorString );
     QColor colorExtra = data->colorScheme()->colorNamed( "HSTColor" );
 
+    m_hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
+                    ! ( Options::showDeepSkyMagnitudes() || Options::showDeepSkyNames() );
+
+
     double maglim = Options::magLimitDrawDeepSky();
 
-    //FIXME
-    //disabling faint limits until the NGC/IC catalog has reasonable mags
     //adjust maglimit for ZoomLevel
-    //double lgmin = log10(MINZOOM);
-    //double lgmax = log10(MAXZOOM);
-    //double lgz = log10(Options::zoomFactor());
-    //if ( lgz <= 0.75*lgmax ) maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
-    //else
-    maglim = 40.0; //show all deep-sky objects
+    double lgmin = log10(MINZOOM);
+    double lgmax = log10(MAXZOOM);
+    double lgz = log10(Options::zoomFactor());
+    if ( lgz <= 0.75 * lgmax ) 
+        maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
+    m_zoomMagLimit = maglim;
+
+    double labelMagLim = Options::deepSkyLabelDensity() / 3.0;
+    labelMagLim += ( Options::magLimitDrawDeepSky() - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
+    if ( labelMagLim > Options::magLimitDrawDeepSky() ) labelMagLim = Options::magLimitDrawDeepSky();
+
 
     //DrawID drawID = m_skyMesh->drawID();
     MeshIterator region( m_skyMesh, DRAW_BUF );
@@ -372,7 +384,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             //zoom > 2000.), and it's brighter than maglim (unless mag is
             //undefined (=99.9)
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
-                    (mag > 90.0 || mag < (float)maglim) ) {
+                 ( mag < (float)maglim || obj->isCatalogIC() ) ) {
 
                 QPointF o = map->toScreen( obj );
                 if ( ! map->onScreen( o ) ) continue;
@@ -404,6 +416,10 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                         psky.setPen( color );
                     }
                 }
+
+                if ( !( drawObject || drawImage )  && ( m_hideLabels || mag > labelMagLim ) ) continue;
+            
+                addLabel( o, obj );
             }
             else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
                 if ( obj->image() ) {
@@ -412,6 +428,34 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             }
         }
     }
+}
+
+void DeepSkyComponent::addLabel( const QPointF& p, DeepSkyObject *obj )
+{
+    int idx = int( obj->mag() * 10.0 );
+    if ( idx < 0 ) idx = 0;
+    if ( idx > MAX_LINENUMBER_MAG ) idx = MAX_LINENUMBER_MAG;
+    m_labelList[ idx ]->append( SkyLabel( p, obj ) );
+}
+
+void DeepSkyComponent::drawLabels( QPainter& psky )
+{
+    if ( m_hideLabels ) return;
+
+    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "DSNameColor" ) ) );
+
+    int max = int( m_zoomMagLimit * 10.0 );
+    if ( max < 0 ) max = 0;
+    if ( max > MAX_LINENUMBER_MAG ) max = MAX_LINENUMBER_MAG;
+
+    for ( int i = 0; i <= max; i++ ) {
+        LabelList* list = m_labelList[ i ];
+        for ( int j = 0; j < list->size(); j++ ) {
+            list->at(j).obj->drawNameLabel( psky, list->at(j).o );
+        }
+        list->clear();
+    }
+
 }
 
 
@@ -443,7 +487,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         dsList = m_ICIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
-            obj = (SkyObject*) dsList->at( i );
+            obj = dsList->at( i );
             r = obj->angularDistanceTo( p ).Degrees();
             if ( r < rTry ) {
                 rTry = r;
@@ -464,7 +508,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         dsList = m_NGCIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
-            obj = (SkyObject*) dsList->at( i );
+            obj = dsList->at( i );
             r = obj->angularDistanceTo( p ).Degrees();
             if ( r < rTry ) {
                 rTry = r;
@@ -486,7 +530,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         dsList = m_OtherIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
-            obj = (SkyObject*) dsList->at( i );
+            obj = dsList->at( i );
             r = obj->angularDistanceTo( p ).Degrees();
             if ( r < rTry ) {
                 rTry = r;
@@ -508,7 +552,7 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         dsList = m_MessierIndex[ region.next() ];
         if ( ! dsList ) continue;
         for (int i=0; i < dsList->size(); ++i) {
-            obj = (SkyObject*) dsList->at( i );
+            obj = dsList->at( i );
             r = obj->angularDistanceTo( p ).Degrees();
             if ( r < rTry ) {
                 rTry = r;

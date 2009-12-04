@@ -23,10 +23,7 @@
 #include "ui_modcalcplanets.h"
 
 class GeoLocation;
-class KSPlanet;
-class KSMoon;
-class KSSun;
-class KSPluto;
+class KSPlanetBase;
 
 /**
   *@author Pablo de Vicente
@@ -56,15 +53,12 @@ public slots:
 
 private:
 
-    void showCoordinates( const KSPlanet &ksp );
-    void showCoordinates( const KSMoon &ksp );
-    void showCoordinates( const KSSun &ksp );
-    void showCoordinates( const KSPluto &ksp );
+    void showCoordinates( const KSPlanetBase &ksp );
     void showHeliocentricEclipticCoords( const dms *hLong, const dms *hLat, double dist);
     void showGeocentricEclipticCoords( const dms *eLong, const dms *eLat, double r);
     void showEquatorialCoords( const dms *ra, const dms *dec);
     void showTopocentricCoords( const dms *az, const dms *el);
-    unsigned int requiredBatchFields(void);
+    unsigned int requiredBatchFields();
 
     // void processLines( QTextStream &istream );
 

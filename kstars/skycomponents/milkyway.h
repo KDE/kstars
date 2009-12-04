@@ -20,30 +20,27 @@
 
 #include "skiplistindex.h"
 
-/**
-	*@class MlkyWay
-    *This  stores a SkipList for each chunk.  
-	*
-	*@author James B. Bowlin
-	*@version 0.1
-	*/
+/** @class MlkyWay
+ *
+ * Specialize SkipListIndex for drawing Milky Way and Magellanic clouds.
+ *
+ * @author James B. Bowlin
+ * @version 0.1
+ */
 class MilkyWay : public SkipListIndex
 {
 public:
-    /**
-    	*@short Constructor
-    	*@p parent pointer to the parent SkyComponent
-    	*/
+    /**@short Constructor
+     * @p parent pointer to the parent SkyComponent
+     */
     MilkyWay( SkyComponent *parent );
 
-    void init( KStarsData *data );
+    /** Load skiplists from file */
+    void loadContours(QString fname, QString greeting);
 
-    /**
-    	*@short Draw the Milky Way on the sky map
-    	*@p psky Reference to the QPainter on which to paint
-    	*/
-    void draw( QPainter& psky );
-
-    bool selected();
+    
+    virtual void init();
+    virtual void draw( QPainter& psky );
+    virtual bool selected();
 };
 #endif

@@ -37,7 +37,7 @@ class ThumbnailEditor : public KDialog
 {
     Q_OBJECT
 public:
-    ThumbnailEditor( ThumbnailPicker *_tp );
+    ThumbnailEditor( ThumbnailPicker *_tp, double _w, double _h );
     ~ThumbnailEditor();
     QPixmap thumbnail();
 
@@ -47,6 +47,7 @@ private slots:
 private:
     ThumbnailEditorUI *ui;
     ThumbnailPicker *tp;
+    double w, h;
 
 };
 

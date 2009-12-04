@@ -18,9 +18,8 @@
 #include "kstarsdata.h"
 
 #include <QApplication>
-#include <QRegExp>
-#include <QDir>
 #include <QFileInfo>
+#include <QSet>
 #include <QTextStream>
 
 #include <kcomponentdata.h>
@@ -31,11 +30,11 @@
 
 #include "Options.h"
 #include "dms.h"
+#include "fov.h"
 #include "skymap.h"
 #include "ksutils.h"
 #include "ksfilereader.h"
 #include "ksnumbers.h"
-#include "skyobjects/skypoint.h"
 #include "skyobjects/skyobject.h"
 
 #include "simclock.h"
@@ -51,19 +50,56 @@
 
 #include "dialogs/detaildialog.h"
 
-//Initialize static members
-QList<GeoLocation*> KStarsData::geoList = QList<GeoLocation*>();
+namespace {
+    // Convert string to integer and complain on failure.
+    //
+    // This function is used in processCity
+    bool strToInt(int& i, QString str, QString line = QString()) {
+        bool ok;
+        i = str.toInt( &ok );
+        if( !ok )
+            kDebug() << str << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << line;
+        return ok;
+    }
 
-QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
+    // Report fatal error during data loading to user
+    // Calls QApplication::exit
+    void fatalErrorMessage(QString fname) {
+        KMessageBox::sorry(0, i18n("The file  %1 could not be found. "
+                                   "KStars cannot run properly without this file. "
+                                   "KStars search for this file in following locations:\n\n"
+                                   "\t$(KDEDIR)/share/apps/kstars/%1\n"
+                                   "\t~/.kde/share/apps/kstars/%1\n\n"
+                                   "It appears that your setup is broken.", fname),
+                           i18n( "Critical File Not Found: %1", fname ));
+        qApp->exit(1);
+    }
 
-int KStarsData::objects = 0;
+    // Report non-fatal error during data loading to user and ask
+    // whether he wants to continue.
+    // Calls QApplication::exit if he don't
+    bool nonFatalErrorMessage(QString fname) {
+        int res = KMessageBox::warningContinueCancel(0,
+                      i18n("The file %1 could not be found. "
+                           "KStars can still run without this file. "
+                           "KStars search for this file in following locations:\n\n"
+                           "\t$(KDEDIR)/share/apps/kstars/%1\n"
+                           "\t~/.kde/share/apps/kstars/%1\n\n"
+                           "It appears that you setup is broken. Press Continue to run KStars without this file ", fname),
+                      i18n( "Non-Critical File Not Found: %1", fname ));
+        if( res != KMessageBox::Continue )
+            qApp->exit(1);
+        return res == KMessageBox::Continue;
+    }
+}
 
 KStarsData* KStarsData::pinstance = 0;
 
-KStarsData* KStarsData::Create( KStars* kstars )
+KStarsData* KStarsData::Create()
 {
-    if ( pinstance ) delete pinstance;
-    pinstance = new KStarsData( kstars );
+    if ( pinstance )
+        delete pinstance;
+    pinstance = new KStarsData();
     return pinstance;
 }
 
@@ -73,14 +109,13 @@ KStarsData* KStarsData::Instance( )
 }
 
 
-KStarsData::KStarsData(KStars* kstars) : locale(0),
-        LST(0), HourAngle(0), m_kstars(kstars),
-        m_preUpdateID(0), m_preUpdateNumID(0),
-        m_preUpdateNum( J2000 ), m_updateNum( J2000 )
+KStarsData::KStarsData() :
+    temporaryTrail( false ),
+    locale( new KLocale( "kstars" ) ),
+    m_preUpdateID(0),        m_updateID(0),
+    m_preUpdateNumID(0),     m_updateNumID(0),
+    m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
-    startupComplete = false;
-    objects++;
-
     TypeName[0] = i18n( "star" );
     TypeName[1] = i18n( "star" );
     TypeName[2] = i18n( "planet" );
@@ -100,171 +135,62 @@ KStarsData::KStarsData(KStars* kstars) : locale(0),
     TypeName[16] = i18n( "quasar" );
     TypeName[17] = i18n( "multiple star" );
 
-    //standard directories and locale objects
-    locale = new KLocale( "kstars" );
-
-    m_SkyComposite = new SkyMapComposite( 0, this );
-
-    //Instantiate LST and HourAngle
-    LST = new dms();
-    HourAngle = new dms();
-
-    //initialize FOV symbol
-    fovSymbol = FOV();
-
+    m_SkyComposite = new SkyMapComposite(0);
+    m_logObject = new Comast::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
-
-    //The StoredDate is used when saving user settings in a script; initialize to invalid date
-    StoredDate = KDateTime();
-
-    temporaryTrail = false;
 }
 
 KStarsData::~KStarsData() {
-    //FIXME: Do we still need this?
-    objects--; //the number of existing KStarsData objects
-
-    //FIXME: Verify list of deletes
     delete locale;
-    delete LST;
-    delete HourAngle;
+    delete m_logObject;
 
-    while ( ! geoList.isEmpty() )
-        delete geoList.takeFirst();
-
-    while ( !VariableStarsList.isEmpty())
-        delete VariableStarsList.takeFirst();
-
-    while ( !INDIHostsList.isEmpty())
-        delete INDIHostsList.takeFirst();
-
-    while ( !ADVtreeList.isEmpty())
-        delete ADVtreeList.takeFirst();
-
+    qDeleteAll( geoList );
+    qDeleteAll( INDIHostsList );
+    qDeleteAll( ADVtreeList );
 }
 
 QString KStarsData::typeName( int i ) {
-    QString result = i18n( "no type" );
-    if ( i >= 0 && i < 12 ) result = TypeName[i];
-
-    return result;
+    if ( i >= 0 && i < 12 )
+        return TypeName[i];
+    return i18n( "no type" );
 }
 
-void KStarsData::initialize() {
-    if (startupComplete) return;
-
-    QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-    initCounter = 0;
-}
-
-void KStarsData::initError(const QString &s, bool required = false) {
-    QString message, caption;
-
-    if (required) {
-        message = i18n( "The file %1 could not be found. "
-                        "KStars cannot run properly without this file. "
-                        "To continue loading, place the file in one of the "
-                        "following locations, then press Retry:\n\n", s )
-                  + QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
-                  + QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
-                  + i18n( "Otherwise, press Cancel to shutdown." );
-        caption = i18n( "Critical File Not Found: %1", s );
-    } else {
-        message = i18n( "The file %1 could not be found. "
-                        "KStars can still run without this file. "
-                        "However, to avoid seeing this message in the future, you can "
-                        "place the file in one of the following locations, then press Retry:\n\n", s )
-                  + QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
-                  + QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
-                  + i18n( "Otherwise, press Cancel to continue loading without this file.");
-        caption = i18n( "Non-Critical File Not Found: %1", s );
+bool KStarsData::initialize() {
+    // Load Time Zone Rules
+    emit progressText( i18n("Reading time zone rules") );
+    if( !readTimeZoneRulebook( ) ) {
+        fatalErrorMessage( "TZrules.dat" );
+        return false;
+    }
+    
+    // Load Cities
+    emit progressText( i18n("Loading city data") );
+    if ( !readCityData( ) ) {
+        fatalErrorMessage( "Cities.dat" );
+        return false;
     }
 
-    if ( KMessageBox::warningContinueCancel( 0, message, caption, KGuiItem( i18n( "Retry" ) ) ) == KMessageBox::Continue ) {
-        initCounter--;
-        QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-    } else {
-        if (required) {
-            emit initFinished(false);
-        } else {
-            QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-        }
-    }
-}
+    //Initialize SkyMapComposite//
+    emit progressText(i18n("Loading sky objects" ) );
+    skyComposite()->init();
 
-void KStarsData::slotInitialize() {
+    //Load Image URLs//
+    emit progressText( i18n("Loading Image URLs" ) );
+    if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
+        return false;
 
-    qApp->flush(); // flush all paint events before loading data
+    //Load Information URLs//
+    emit progressText( i18n("Loading Information URLs" ) );
+    if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
+        return false;
 
-    switch ( initCounter )
-    {
-    case 0: //Load Time Zone Rules//
-        emit progressText( i18n("Reading time zone rules") );
+    emit progressText( i18n("Loading Variable Stars" ) );
+    readINDIHosts();
+    readUserLog();
+    readADVTreeData();
 
-        if (objects==1) {
-            // timezone rules
-            if ( !readTimeZoneRulebook( ) )
-                initError( "TZrules.dat", true );
-        }
-
-
-        break;
-
-    case 1: //Load Cities//
-        {
-            if (objects>1) break;
-
-            emit progressText( i18n("Loading city data") );
-
-            if ( !readCityData( ) )
-                initError( "Cities.dat", true );
-
-            break;
-        }
-
-    case 2: //Initialize SkyMapComposite//
-
-        emit progressText(i18n("Loading sky objects" ) );
-        skyComposite()->init( this );
-        break;
-
-    case 3: //Load Image URLs//
-
-        emit progressText( i18n("Loading Image URLs" ) );
-        if ( !readURLData( "image_url.dat", 0 ) ) {
-            initError( "image_url.dat", false );
-        }
-
-        break;
-
-    case 4: //Load Information URLs//
-
-        emit progressText( i18n("Loading Information URLs" ) );
-        if ( !readURLData( "info_url.dat", 1 ) ) {
-            initError( "info_url.dat", false );
-        }
-
-        break;
-
-    case 5:
-        emit progressText( i18n("Loading Variable Stars" ) );
-        readINDIHosts();
-        readUserLog();
-        readVARData();
-        readADVTreeData();
-        break;
-
-    default:
-        startupComplete = true;
-        emit initFinished(true);
-        break;
-    } // switch ( initCounter )
-
-    initCounter++;  // before processEvents!
-    if(!startupComplete)
-        QTimer::singleShot(0, this, SLOT( slotInitialize() ) );
-    qApp->processEvents();
+    return true;
 }
 
 void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automaticDSTchange ) {
@@ -298,7 +224,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
         m_preUpdateNumID++;
         m_preUpdateNum = KSNumbers( num );
-        skyComposite()->update( this, &num );
+        skyComposite()->update( &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::update() took %1 ms").arg(t.elapsed());
@@ -309,7 +235,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //TIMING
         //		t.start();
 
-        skyComposite()->updatePlanets( this, &num );
+        skyComposite()->updatePlanets( &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::updatePlanets() took %1 ms").arg(t.elapsed());
@@ -321,7 +247,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //TIMING
         //		t.start();
 
-        skyComposite()->updateMoons( this, &num );
+        skyComposite()->updateMoons( &num );
 
         //TIMING
         //		kDebug() << QString("SkyMapComposite::updateMoons() took %1 ms").arg(t.elapsed());
@@ -335,7 +261,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
         //		t.start();
 
         m_preUpdateID++;
-        skyComposite()->update( this ); //omit KSNumbers arg == just update Alt/Az coords
+        skyComposite()->update(); //omit KSNumbers arg == just update Alt/Az coords
 
         //Update focus
         skymap->updateFocus();
@@ -357,6 +283,13 @@ void KStarsData::syncUpdateIDs()
     m_updateNum = KSNumbers( m_preUpdateNum );
 }
 
+unsigned int KStarsData::incUpdateID() {
+    m_preUpdateID++;
+    m_preUpdateNumID++;
+    syncUpdateIDs();
+    return m_updateID;
+}
+
 void KStarsData::setFullTimeUpdate() {
     //Set the update markers to invalid dates to trigger updates in each category
     LastSkyUpdate = KDateTime();
@@ -366,7 +299,7 @@ void KStarsData::setFullTimeUpdate() {
 }
 
 void KStarsData::syncLST() {
-    LST->set( geo()->GSTtoLST( ut().gst() ) );
+    LST.set( geo()->GSTtoLST( ut().gst() ) );
 }
 
 void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
@@ -400,7 +333,7 @@ void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTch
 }
 
 void KStarsData::setTimeDirection( float scale ) {
-    TimeRunsForward = ( scale < 0 ? false : true );
+    TimeRunsForward = scale >= 0;
 }
 
 GeoLocation* KStarsData::locationNamed( const QString &city, const QString &province, const QString &country ) {
@@ -411,7 +344,6 @@ GeoLocation* KStarsData::locationNamed( const QString &city, const QString &prov
             return loc;
         }
     }
-
     return 0;
 }
 
@@ -422,78 +354,67 @@ void KStarsData::setLocationFromOptions() {
 }
 
 void KStarsData::setLocation( const GeoLocation &l ) {
-    Geo = GeoLocation(l);
-    if ( Geo.lat()->Degrees() >= 90.0 ) Geo.setLat( 89.99 );
-    if ( Geo.lat()->Degrees() <= -90.0 ) Geo.setLat( -89.99 );
+    m_Geo = GeoLocation(l);
+    if ( m_Geo.lat()->Degrees() >=  90.0 ) m_Geo.setLat( 89.99 );
+    if ( m_Geo.lat()->Degrees() <= -90.0 ) m_Geo.setLat( -89.99 );
 
     //store data in the Options objects
-    Options::setCityName( Geo.name() );
-    Options::setProvinceName( Geo.province() );
-    Options::setCountryName( Geo.country() );
-    Options::setTimeZone( Geo.TZ0() );
-    Options::setElevation( Geo.height() );
-    Options::setLongitude( Geo.lng()->Degrees() );
-    Options::setLatitude( Geo.lat()->Degrees() );
+    Options::setCityName( m_Geo.name() );
+    Options::setProvinceName( m_Geo.province() );
+    Options::setCountryName( m_Geo.country() );
+    Options::setTimeZone( m_Geo.TZ0() );
+    Options::setElevation( m_Geo.height() );
+    Options::setLongitude( m_Geo.lng()->Degrees() );
+    Options::setLatitude( m_Geo.lat()->Degrees() );
+
+    emit geoChanged();
 }
 
 SkyObject* KStarsData::objectNamed( const QString &name ) {
-    if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
-
+    if ( (name== "star") || (name== "nothing") || name.isEmpty() )
+        return NULL;
     return skyComposite()->findByName( name );
 }
 
-bool KStarsData::readCityData( void ) {
+bool KStarsData::readCityData() {
     QFile file;
     bool citiesFound = false;
 
-    // begin new code
     if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
         KSFileReader fileReader( file ); // close file is included
         while ( fileReader.hasMoreLines() ) {
             citiesFound |= processCity( fileReader.readLine() );
         }
-        file.close();  // -jbb because I changed KSFileReader.
+        file.close();
     }
-    // end new code
 
     //check for local cities database, but don't require it.
-    file.setFileName( KStandardDirs::locate( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
+    //determine filename in local user KDE directory tree.
+    file.setFileName( KStandardDirs::locate( "appdata", "mycities.dat" ) );
     if ( file.exists() && file.open( QIODevice::ReadOnly ) ) {
         QTextStream stream( &file );
-
         while ( !stream.atEnd() ) {
             QString line = stream.readLine();
             citiesFound |= processCity( line );
-        }	// while ( !stream.atEnd() )
+        }
         file.close();
-    }	// if ( fileopen() )
+    }
 
     return citiesFound;
 }
 
 bool KStarsData::processCity( const QString& line ) {
-    QString totalLine;
-    QString name, province, country;
-    QStringList fields;
     TimeZoneRule *TZrule;
-    bool intCheck = true;
-    QChar latsgn, lngsgn;
-    int lngD, lngM, lngS;
-    int latD, latM, latS;
     double TZ;
-    float lng, lat;
-
-    totalLine = line;
 
     // separate fields
-    fields = line.split( ':' );
-
-    for ( int i=0; i< fields.size(); ++i )
+    QStringList fields = line.split( ':' );
+    for(int i = 0; i < fields.size(); ++i )
         fields[i] = fields[i].trimmed();
 
     if ( fields.size() < 11 ) {
-        kDebug()<< i18n( "Cities.dat: Ran out of fields.  Line was:" );
-        kDebug()<< totalLine.toLocal8Bit();
+        kDebug() << i18n( "Cities.dat: Ran out of fields.  Line was:" );
+        kDebug() << line;
         return false;
     } else if ( fields.size() < 12 ) {
         // allow old format (without TZ) for mycities.dat
@@ -504,65 +425,44 @@ bool KStarsData::processCity( const QString& line ) {
         fields.append("--");
     }
 
-    name = fields[0];
-    province = fields[1];
-    country = fields[2];
+    // Read names
+    QString name     = fields[0];
+    QString province = fields[1];
+    QString country  = fields[2];
 
-    latD = fields[3].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[3] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
+    // Read coordinates
+    int lngD, lngM, lngS;
+    int latD, latM, latS;
+    bool ok =
+        strToInt(latD, fields[3], line) &&
+        strToInt(latM, fields[4], line) &&
+        strToInt(latS, fields[5], line) &&
+        strToInt(lngD, fields[7], line) &&
+        strToInt(lngM, fields[8], line) &&
+        strToInt(lngS, fields[9], line);
+    if( !ok )
+        return false;
+
+    double lat = latD + (latM + latS/60.0)/60.0;
+    double lng = lngD + (lngM + lngS/60.0)/60.0;
+
+    // Read sign for latitude
+    switch( fields[6].at(0).toAscii() ) {
+    case 'N' : break;
+    case 'S' : lat *= -1; break;
+    default :
+        kDebug() << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << line;
         return false;
     }
 
-    latM = fields[4].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[4] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
+    // Read sign for longitude
+    switch( fields[10].at(0).toAscii() ) {
+    case 'E' : break;
+    case 'W' : lng *= -1; break;
+    default:
+        kDebug() << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << line;
         return false;
     }
-
-    latS = fields[5].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[5] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    QChar ctemp = fields[6].at(0);
-    latsgn = ctemp;
-    if (latsgn != 'N' && latsgn != 'S') {
-        kDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    lngD = fields[7].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[7] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    lngM = fields[8].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[8] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    lngS = fields[9].toInt( &intCheck );
-    if ( !intCheck ) {
-        kDebug() << fields[9] << i18n( "\nCities.dat: Bad integer.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    ctemp = fields[10].at(0);
-    lngsgn = ctemp;
-    if (lngsgn != 'E' && lngsgn != 'W') {
-        kDebug() << latsgn << i18n( "\nCities.dat: Invalid longitude sign.  Line was:\n" ) << totalLine;
-        return false;
-    }
-
-    lat = (float)latD + ((float)latM + (float)latS/60.0)/60.0;
-    lng = (float)lngD + ((float)lngM + (float)lngS/60.0)/60.0;
-
-    if ( latsgn == 'S' ) lat *= -1.0;
-    if ( lngsgn == 'W' ) lng *= -1.0;
 
     // find time zone. Use value from Cities.dat if available.
     // otherwise use the old approximation: int(lng/15.0);
@@ -572,23 +472,22 @@ bool KStarsData::processCity( const QString& line ) {
         bool doubleCheck = true;
         TZ = fields[11].toDouble( &doubleCheck);
         if ( !doubleCheck ) {
-            kDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << totalLine;
+            kDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << line;
             return false;
         }
     }
 
     //last field is the TimeZone Rule ID.
+    // FIXME: no checking performed. Crash is possible
     TZrule = &( Rulebook[ fields[12] ] );
 
-    //	if ( fields[12]=="--" )
-    //		kDebug() << "Empty rule start month: " << TZrule->StartMonth;
-    geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));  // appends city names to list
+    // appends city names to list
+    geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));
     return true;
 }
 
-bool KStarsData::readTimeZoneRulebook( void ) {
+bool KStarsData::readTimeZoneRulebook() {
     QFile file;
-    QString id;
 
     if ( KSUtils::openDataFile( file, "TZrules.dat" ) ) {
         QTextStream stream( &file );
@@ -597,7 +496,7 @@ bool KStarsData::readTimeZoneRulebook( void ) {
             QString line = stream.readLine().trimmed();
             if ( line.length() && !line.startsWith('#') ) { //ignore commented and blank lines
                 QStringList fields = line.split( ' ', QString::SkipEmptyParts );
-                id = fields[0];
+                QString id = fields[0];
                 QTime stime = QTime( fields[3].left( fields[3].indexOf(':')).toInt() ,
                                      fields[3].mid( fields[3].indexOf(':')+1, fields[3].length()).toInt() );
                 QTime rtime = QTime( fields[6].left( fields[6].indexOf(':')).toInt(),
@@ -764,7 +663,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
     return true;
 }
 
-bool KStarsData::readUserLog(void)
+bool KStarsData::readUserLog()
 {
     QFile file;
     QString buffer;
@@ -804,7 +703,7 @@ bool KStarsData::readUserLog(void)
     return true;
 }
 
-bool KStarsData::readADVTreeData(void)
+bool KStarsData::readADVTreeData()
 {
     QFile file;
     QString Interface;
@@ -867,61 +766,7 @@ bool KStarsData::readADVTreeData(void)
     return true;
 }
 
-bool KStarsData::readVARData(void)
-{
-    QString varFile("valaav.txt");
-    QFile localeFile;
-    QFile file;
-
-    file.setFileName( KStandardDirs::locateLocal( "appdata", varFile ) );
-    if ( !file.open( QIODevice::ReadOnly ) )
-    {
-        // Open default variable stars file
-        if ( KSUtils::openDataFile( file, varFile ) )
-        {
-            // we found urlfile, we need to copy it to locale
-            localeFile.setFileName( KStandardDirs::locateLocal( "appdata", varFile ) );
-
-            if (localeFile.open(QIODevice::WriteOnly))
-            {
-                QTextStream readStream(&file);
-                QTextStream writeStream(&localeFile);
-                writeStream <<  readStream.readAll();
-                localeFile.close();
-                file.reset();
-            }
-        }
-        else
-            return false;
-    }
-
-
-    QTextStream stream(&file);
-    stream.readLine();
-
-    QString Name, Designation, Line;
-    while  (!stream.atEnd())
-    {
-        Line = stream.readLine();
-
-        if (Line.startsWith('*'))
-            break;
-
-        Designation = Line.left(8).trimmed();
-        Name        = Line.mid(10,20).simplified();
-
-        VariableStarInfo *VInfo = new VariableStarInfo;
-
-        VInfo->Designation = Designation;
-        VInfo->Name        = Name;
-        VariableStarsList.append(VInfo);
-    }
-
-    return true;
-}
-
-
-bool KStarsData::readINDIHosts(void)
+bool KStarsData::readINDIHosts()
 {
 #ifdef HAVE_INDI_H
     QString indiFile("indihosts.xml");
@@ -1050,14 +895,14 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( arg == "nw" || arg == "northwest" ) az = 335.0;
                 if ( az >= 0.0 ) {
                     map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
-                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
+                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;
                 }
 
                 if ( arg == "z" || arg == "zenith" ) {
                     map->setFocusAltAz( 90.0, map->focus()->az()->Degrees() );
-                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
+                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;
                 }
@@ -1069,7 +914,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 SkyObject *target = objectNamed( objname );
                 if ( target ) { 
                     map->setFocus( target );
-                    map->focus()->EquatorialToHorizontal( LST, geo()->lat() );
+                    map->focus()->EquatorialToHorizontal( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;
                 }
@@ -1082,7 +927,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( ok ) ok = d.setFromString( fn[2], true );  //assume angle in degrees
                 if ( ok ) {
                     map->setFocus( r, d );
-                    map->focus()->EquatorialToHorizontal( LST, geo()->lat() );
+                    map->focus()->EquatorialToHorizontal( &LST, geo()->lat() );
                     cmdCount++;
                 }
 
@@ -1094,7 +939,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( ok ) ok = az.setFromString( fn[2] );
                 if ( ok ) {
                     map->setFocusAltAz( alt, az );
-                    map->focus()->HorizontalToEquatorial( LST, geo()->lat() );
+                    map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     cmdCount++;
                 }
 
@@ -1186,11 +1031,12 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 //parse double value
                 double dVal = fn[2].toDouble( &dOk );
 
-                if ( fn[1] == "FOVName"                ) { Options::setFOVName(       fn[2] ); cmdCount++; }
-                if ( fn[1] == "FOVSizeX"         && dOk ) { Options::setFOVSizeX( (float)dVal ); cmdCount++; }
-                if ( fn[1] == "FOVSizeY"         && dOk ) { Options::setFOVSizeY( (float)dVal ); cmdCount++; }
-                if ( fn[1] == "FOVShape"        && nOk ) { Options::setFOVShape(       nVal ); cmdCount++; }
-                if ( fn[1] == "FOVColor"               ) { Options::setFOVColor(      fn[2] ); cmdCount++; }
+                // FIXME: REGRESSION
+//                if ( fn[1] == "FOVName"                ) { Options::setFOVName(       fn[2] ); cmdCount++; }
+//                if ( fn[1] == "FOVSizeX"         && dOk ) { Options::setFOVSizeX( (float)dVal ); cmdCount++; }
+//                if ( fn[1] == "FOVSizeY"         && dOk ) { Options::setFOVSizeY( (float)dVal ); cmdCount++; }
+//                if ( fn[1] == "FOVShape"        && nOk ) { Options::setFOVShape(       nVal ); cmdCount++; }
+//                if ( fn[1] == "FOVColor"               ) { Options::setFOVColor(      fn[2] ); cmdCount++; }
                 if ( fn[1] == "ShowStars"         && bOk ) { Options::setShowStars(    bVal ); cmdCount++; }
                 if ( fn[1] == "ShowMessier"        && bOk ) { Options::setShowMessier( bVal ); cmdCount++; }
                 if ( fn[1] == "ShowMessierImages"  && bOk ) { Options::setShowMessierImages( bVal ); cmdCount++; }
@@ -1294,16 +1140,21 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
     return false;
 }
 
-/*void KStarsData::appendTelescopeObject(SkyObject * object)
+void KStarsData::syncFOV()
 {
-  INDITelescopeList.append(object);
-}*/
-
-void KStarsData::saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }
-void KStarsData::saveGeoBoxShaded( bool b ) { Options::setShadeGeoBox( b ); }
-void KStarsData::saveFocusBoxShaded( bool b ) { Options::setShadeFocusBox( b ); }
-void KStarsData::saveTimeBoxPos( QPoint p ) { Options::setPositionTimeBox( p ); }
-void KStarsData::saveGeoBoxPos( QPoint p ) { Options::setPositionGeoBox( p ); }
-void KStarsData::saveFocusBoxPos( QPoint p ) { Options::setPositionFocusBox( p ); }
+    visibleFOVs.clear();
+    // Add visible FOVs 
+    foreach(FOV* fov, availFOVs) {
+        if( Options::fOVNames().contains( fov->name() ) ) 
+            visibleFOVs.append( fov );
+    }
+    // Remove unavailable FOVs
+    QSet<QString> names = QSet<QString>::fromList( Options::fOVNames() );
+    QSet<QString> all;
+    foreach(FOV* fov, visibleFOVs) {
+        all.insert(fov->name());
+    }
+    Options::setFOVNames( all.intersect(names).toList() );
+}
 
 #include "kstarsdata.moc"

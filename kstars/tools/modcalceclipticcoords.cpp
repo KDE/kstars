@@ -28,7 +28,6 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobjects/skypoint.h"
-#include "ksutils.h"
 #include "ksnumbers.h"
 #include "dialogs/finddialog.h"
 #include "widgets/dmsbox.h"
@@ -40,9 +39,8 @@ modCalcEclCoords::modCalcEclCoords(QWidget *parentSplit)
     RA->setDegType(false);
 
     //Initialize Date/Time and Location data
-    KStars *ks = ((KStars*) topLevelWidget()->parent());
-    DateTime->setDateTime( ks->data()->lt().dateTime() );
-    kdt = ((KStarsDateTime)DateTime->dateTime());
+    DateTime->setDateTime( KStarsData::Instance()->lt().dateTime() );
+    kdt = DateTime->dateTime();
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(ObjectButton, SIGNAL(clicked()), this, SLOT(slotObject()));
@@ -72,13 +70,14 @@ void modCalcEclCoords::slotNow() {
 }
 
 void modCalcEclCoords::slotObject() {
-    FindDialog fd( (KStars*)topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotCompute();
     }
+    delete fd;
 }
 
 void modCalcEclCoords::slotDateTimeChanged(const QDateTime &edt) {
@@ -231,7 +230,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     SkyPoint sp;
     dms raB, decB, eclLatB, eclLongB;

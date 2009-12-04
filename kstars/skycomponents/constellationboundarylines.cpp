@@ -29,7 +29,6 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
-#include "ksutils.h"
 #include "skyobjects/skyobject.h"
 #include "ksfilereader.h"
 
@@ -60,8 +59,8 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComponent *parent )
 // screen).  We also store the non-duplicate segments in the Component's native
 // list of SkyLines (for fast drawing of all boundaries at once).
 
-void ConstellationBoundaryLines::init( KStarsData *data ) {
-
+void ConstellationBoundaryLines::init() {
+    KStarsData *data = KStarsData::Instance();
     int verbose = 0;                  // -1 => create cbounds-$x.idx on stdout
     //  0 => normal
     const char* fname = "cbounds.dat";
@@ -87,7 +86,7 @@ void ConstellationBoundaryLines::init( KStarsData *data ) {
     KSFileReader fileReader;
     if ( ! fileReader.open( fname ) ) return;
 
-    fileReader.setProgress( i18n("Loading Consellation Boundaries"), 13124, 10 );
+    fileReader.setProgress( i18n("Loading Constellation Boundaries"), 13124, 10 );
 
     lastRa = lastDec = -1000.0;
 

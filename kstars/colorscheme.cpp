@@ -39,122 +39,61 @@ ColorScheme::ColorScheme() : FileName() {
     //To add another color to the Palette, just add an entry for KeyName,
     //Name and Default here.
 
-    KeyName.append( "SkyColor" );
-    Name.append( i18n( "Sky" ) );
-    Default.append( "#000000" );
-    KeyName.append( "MessColor" );
-    Name.append( i18n( "Messier Object" ) );
-    Default.append( "#008f00" );
-    KeyName.append( "NGCColor" );
-    Name.append( i18nc( "New General Catalog object", "NGC Object" ) );
-    Default.append( "#006666" );
-    KeyName.append( "ICColor" );
-    Name.append( i18nc( "Index Catalog object", "IC Object" ) );
-    Default.append( "#382a7d" );
-    KeyName.append( "HSTColor" );
-    Name.append( i18nc( "Object with extra attached URLs", "Object w/ Links" ) );
-    Default.append( "#930000" );
-    KeyName.append( "SNameColor" );
-    Name.append( i18n( "Star Name" ) );
-    Default.append( "#577d7d" );
-    KeyName.append( "PNameColor" );
-    Name.append( i18n( "Planet Name" ) );
-    Default.append( "#ac9800" );
-    KeyName.append( "CNameColor" );
-    Name.append( i18nc( "Constellation Name", "Constell. Name" ) );
-    Default.append( "#718488" );
-    KeyName.append( "CLineColor" );
-    Name.append( i18nc( "Constellation Line", "Constell. Line" ) );
-    Default.append( "#3d3d3d" );
-    KeyName.append( "CBoundColor" );
-    Name.append( i18nc( "Constellation Boundary", "Constell. Boundary" ) );
-    Default.append( "#222f2f" );
-    KeyName.append( "CBoundHighColor" );
-    Name.append( i18nc( "Highlighted Constellation Boundary", "Constell. Boundary Highlight" ) );
-    Default.append( "#445555" );
-    KeyName.append( "MWColor" );
-    Name.append( i18nc( "refers to the band of stars in the sky due to the Galactic plane", "Milky Way" ) );
-    Default.append( "#0d1115" );
-    KeyName.append( "EqColor" );
-    Name.append( i18n( "Equator" ) );
-    Default.append( "#909090" );
-    KeyName.append( "EclColor" );
-    Name.append( i18n( "Ecliptic" ) );
-    Default.append( "#613d12" );
-    KeyName.append( "HorzColor" );
-    Name.append( i18n( "Horizon" ) );
-    Default.append( "#091f14" );
-    KeyName.append( "CompassColor" );
-    Name.append( i18n( "Compass Labels" ) );
-    Default.append( "#909055" );
-    KeyName.append( "GridColor" );
-    Name.append( i18n( "Coordinate Grid" ) );
-    Default.append( "#445566" );
-    KeyName.append( "BoxTextColor" );
-    Name.append( i18n( "Info Box Text" ) );
-    Default.append( "#d2dbef" );
-    KeyName.append( "BoxGrabColor" );
-    Name.append( i18n( "Info Box Selected" ) );
-    Default.append( "#900000" );
-    KeyName.append( "BoxBGColor" );
-    Name.append( i18n( "Info Box Background" ) );
-    Default.append( "#000000" );
-    KeyName.append( "TargetColor" );
-    Name.append( i18n( "Target Indicator" ) );
-    Default.append( "#DD0000" );
-    KeyName.append( "UserLabelColor" );
-    Name.append( i18n( "User Labels" ) );
-    Default.append( "#AAAAAA" );
-    KeyName.append( "PlanetTrailColor" );
-    Name.append( i18n( "Planet Trails" ) );
-    Default.append( "#993311" );
-    KeyName.append( "AngularRuler" );
-    Name.append( i18n( "Angular Distance Ruler" ) );
-    Default.append( "#445566" );
-    KeyName.append( "ObsListColor" );
-    Name.append( i18n( "Observing List Label" ) );
-    Default.append( "#FF0000" );
-    KeyName.append( "SatColor" );
-    Name.append( i18n( "Satellite Track" ) );
-    Default.append( "#007777" );
+    appendItem("SkyColor",         i18n("Sky"),                    "#000000");
+    appendItem("MessColor",        i18n("Messier Object"),         "#008f00");
+    appendItem("NGCColor",         i18nc("New General Catalog object", "NGC Object"), "#006666");
+    appendItem("ICColor",          i18nc("Index Catalog object", "IC Object"), "#382a7d");
+    appendItem("HSTColor",
+               i18nc("Object with extra attached URLs", "Object w/ Links"), "#930000");
+    appendItem("SNameColor",       i18n("Star Name"),              "#577d7d");
+    appendItem("DSNameColor",      i18n("Deep Sky Object Name"),   "#75759c");
+    appendItem("PNameColor",       i18n("Planet Name"),            "#ac9800");
+    appendItem("CNameColor",
+               i18nc("Constellation Name", "Constell. Name"),      "#718488");
+    appendItem("CLineColor",
+               i18nc("Constellation Line", "Constell. Line"),      "#3d3d3d");
+    appendItem("CBoundColor",
+               i18nc("Constellation Boundary", "Constell. Boundary"), "#222f2f");
+    appendItem("CBoundHighColor",
+               i18nc("Highlighted Constellation Boundary", "Constell. Boundary Highlight"), "#445555");
+    appendItem("MWColor",
+               i18nc("refers to the band of stars in the sky due to the Galactic plane", "Milky Way"), "#0d1115");
+    appendItem("EqColor",          i18n("Equator"),                "#909090");
+    appendItem("EclColor",         i18n("Ecliptic"),               "#613d12");
+    appendItem("HorzColor",        i18n("Horizon"),                "#091f14");
+    appendItem("CompassColor",     i18n("Compass Labels"),         "#909055");
+    appendItem("GridColor",        i18n("Coordinate Grid"),        "#445566");
+    appendItem("BoxTextColor",     i18n("Info Box Text"),          "#d2dbef");
+    appendItem("BoxGrabColor",     i18n("Info Box Selected"),      "#900000");
+    appendItem("BoxBGColor",       i18n("Info Box Background"),    "#000000");
+    appendItem("TargetColor",      i18n("Target Indicator"),       "#DD0000");
+    appendItem("UserLabelColor",   i18n("User Labels"),            "#AAAAAA");
+    appendItem("PlanetTrailColor", i18n("Planet Trails"),          "#993311");
+    appendItem("AngularRuler",     i18n("Angular Distance Ruler"), "#445566");
+    appendItem("ObsListColor",     i18n("Observing List Label"),   "#FF0000");
+    appendItem("SatColor",         i18n("Satellite Track"),        "#007777");
 
-		//Load colors from config object
-		loadFromConfig();
+    //Load colors from config object
+    loadFromConfig();
 
     //Default values for integer variables:
     StarColorMode = 0;
     StarColorIntensity = 4;
 }
 
-ColorScheme::ColorScheme( const ColorScheme &cs ) {
-    KeyName = cs.KeyName;
-    Name = cs.Name;
-    Default = cs.Default;
-    StarColorMode = cs.StarColorMode;
-    StarColorIntensity = cs.StarColorIntensity;
-    Palette = cs.Palette;
-    FileName = cs.FileName;
-}
+void ColorScheme::appendItem(QString key, QString name, QString def) {
+    KeyName.append( key );
+    Name.append( name );
+    Default.append( def );
 
-ColorScheme::~ColorScheme(){
-}
-
-void ColorScheme::copy( const ColorScheme &cs ) {
-    KeyName = cs.KeyName;
-    Name = cs.Name;
-    Default = cs.Default;
-    setStarColorModeIntensity( cs.StarColorMode, cs.StarColorIntensity );
-    Palette = cs.Palette;
-    FileName = cs.FileName;
 }
 
 QColor ColorScheme::colorNamed( const QString &name ) const {
     if ( ! hasColorNamed( name ) ) {
         kWarning() << i18n( "No color named \"%1\" found in color scheme.", name ) ;
-        //color = "#FFFFFF"; //set to white if no color found
+        // Return white if no color found
         return QColor( Qt::white );
     }
-
     return QColor( Palette[ name ] );
 }
 
@@ -185,13 +124,16 @@ void ColorScheme::setColor( const QString &key, const QString &color ) {
 bool ColorScheme::load( const QString &name ) {
     QString filename = name.toLower().trimmed();
     QFile file;
-    int inew(0),iold(0);
-    bool ok( false );
+    int inew = 0, iold = 0;
+    bool ok;
 
     //Parse default names which don't follow the regular file-naming scheme
-    if ( name == i18nc("use default color scheme", "Default Colors") ) filename = "classic.colors";
-    if ( name == i18nc("use 'star chart' color scheme", "Star Chart") ) filename = "chart.colors";
-    if ( name == i18nc("use 'night vision' color scheme", "Night Vision") ) filename = "night.colors";
+    if ( name == i18nc("use default color scheme", "Default Colors") )
+        filename = "classic.colors";
+    if ( name == i18nc("use 'star chart' color scheme", "Star Chart") )
+        filename = "chart.colors";
+    if ( name == i18nc("use 'night vision' color scheme", "Night Vision") )
+        filename = "night.colors";
 
     //Try the filename if it ends with ".colors"
     if ( filename.endsWith( QLatin1String( ".colors" ) ) )
@@ -213,16 +155,16 @@ bool ColorScheme::load( const QString &name ) {
 
     //If we reach here, the file should have been successfully opened
     QTextStream stream( &file );
-    QString line;
 
     //first line is the star-color mode and star color intensity
-    line = stream.readLine();
-    ok = false;
+    QString line = stream.readLine();
     int newmode = line.left(1).toInt( &ok );
-    if ( ok ) setStarColorMode( newmode );
-    if ( line.contains(':') ) {
+    if( ok )
+        setStarColorMode( newmode );
+    if( line.contains(':') ) {
         int newintens = line.mid( line.indexOf(':')+1, 2 ).toInt( &ok );
-        if ( ok ) setStarColorIntensity( newintens );
+        if ( ok )
+            setStarColorIntensity( newintens );
     }
 
     //More flexible method for reading in color values.  Any order is acceptable, and
@@ -245,9 +187,9 @@ bool ColorScheme::load( const QString &name ) {
                 if ( KeyName.contains( k ) ) {
                     setColor( k, tname );
                 } else {
-                    kWarning() << "Could not use the key \"" << tkey <<
-                    "\" from the color scheme file \"" << filename << "\".  I also tried \"" <<
-                    k << "\"." << endl;
+                    kWarning() << "Could not use the key \"" << tkey
+                               << "\" from the color scheme file \"" << filename
+                               << "\".  I also tried \"" << k << "\"." << endl;
                 }
             }
 
@@ -258,10 +200,8 @@ bool ColorScheme::load( const QString &name ) {
             //Assuming the old *.colors format.  Loop through the KeyName list,
             //and assign each color.  Note that order matters here, but only here
             //(so if you don't use the old format, then order doesn't ever matter)
-            QStringList::ConstIterator it = KeyName.constBegin();
-            QStringList::ConstIterator it_end = KeyName.constEnd();
-            for ( ; it != it_end; ++it )
-                setColor( QString(*it), line.left( 7 ) );
+            foreach(QString key, KeyName)
+                setColor( key, line.left( 7 ) );
         }
     }
 
@@ -290,11 +230,8 @@ bool ColorScheme::save( const QString &name ) {
             QTextStream stream( &file );
             stream << StarColorMode << ":" << StarColorIntensity << endl;
 
-            QStringList::Iterator it = KeyName.begin();
-            QStringList::Iterator it_end = KeyName.end();
-            for ( ; it != it_end; ++it )
-                stream << Palette[ (*it) ] << " :" << (*it) << endl;
-
+            foreach(QString key, KeyName )
+                stream << Palette[ key ] << " :" << key << endl;
             file.close();
         }
 

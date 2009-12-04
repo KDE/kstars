@@ -20,6 +20,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QSharedData>
 
 /**
  *@struct AuxInfo
@@ -30,11 +31,16 @@
  *@version 1.0
  */
 
-typedef struct AuxInfo {
-    QStringList ImageList, ImageTitle;
-    QStringList InfoList, InfoTitle;
+class AuxInfo : public QSharedData
+{
+public:
+    QStringList ImageList;
+    QStringList ImageTitle;
+    QStringList InfoList;
+    QStringList InfoTitle;
     QString userLog;
-} AuxInfo;
+    QString notes;
+};
 
 #endif
 

@@ -17,20 +17,9 @@
 
 #include "kstarssplash.h"
 
-#include <QFile>
-#include <QLabel>
-#include <QPixmap>
-#include <QVBoxLayout>
-#include <QFrame>
-#include <QPaintEvent>
-#include <QPainter>
-#include <QApplication>
-
 #include <klocale.h>
-#include <kdebug.h>
 #include <KStandardDirs>
 
-#include "ksutils.h"
 
 KStarsSplash::KStarsSplash(const QString& customMessage )
         : KSplashScreen(QPixmap() )

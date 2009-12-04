@@ -14,10 +14,6 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-//JH 11.06.2002: replaced infoPanel with infoBoxes
-//JH 24.08.2001: reorganized infoPanel
-//JH 25.08.2001: added toolbar, converted menu items to KAction objects
-//JH 25.08.2001: main window now resizable, window size saved in config file
 
 #include "kstars.h"
 
@@ -30,9 +26,6 @@
 #include <KLocale>
 #include <kdebug.h>
 #include <kactioncollection.h>
-#include <kiconloader.h>
-#include <kicontheme.h>
-#include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kicon.h>
 
@@ -42,10 +35,9 @@
 #include "skymap.h"
 #include "simclock.h"
 #include "dialogs/finddialog.h"
-#include "ksutils.h"
 #include "imageviewer.h"
-#include "infoboxes.h"
 #include "observinglist.h"
+#include "comast/execute.h"
 
 #include "kstarsadaptor.h"
 
@@ -57,11 +49,15 @@
 #include "indi/imagesequence.h"
 #endif
 
+KStars *KStars::pinstance = 0;
+
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
-        KXmlGuiWindow(), kstarsData(0), splash(0), skymap(0), TimeStep(0),
+        KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
         colorActionMenu(0), fovActionMenu(0),
-        AAVSODialog(0), findDialog(0), obsList(0), avt(0), wut(0), skycal(0), 
-        sb(0), pv(0), jmt(0), fm(0), indimenu(0), indidriver(0), indiseq(0),
+        AAVSODialog(0), findDialog(0), obsList(0),
+        execute(0),
+        avt(0), wut(0), skycal(0),
+        sb(0), pv(0), jmt(0), fm(0), astrocalc(0), indimenu(0), indidriver(0), indiseq(0),
         DialogIsObsolete(false), StartClockRunning( clockrun ),
         StartDateString( startdate )
 {
@@ -69,40 +65,36 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     QDBusConnection::sessionBus().registerObject("/KStars",  this);
     QDBusConnection::sessionBus().registerService("org.kde.kstars");
 
+    // Set pinstance to yourself
+    pinstance = this;
+
     connect( qApp, SIGNAL( aboutToQuit() ), this, SLOT( slotAboutToQuit() ) );
 
-    kstarsData = KStarsData::Create( this );
-    connect( kstarsData, SIGNAL( initFinished(bool) ), this, SLOT( datainitFinished(bool) ) );
+    //Initialize QActionGroups
+    projectionGroup = new QActionGroup( this );
+    cschemeGroup    = new QActionGroup( this );
 
-    //reset date format to get rid of weekday
-    QString fmt = KGlobal::locale()->dateFormat();
-    fmt = fmt.remove( "%A", Qt::CaseInsensitive );
-    KGlobal::locale()->setDateFormat( fmt );
-
+    kstarsData = KStarsData::Create();
+    Q_ASSERT( kstarsData );
     //Set Geographic Location from Options
     kstarsData->setLocationFromOptions();
 
     //Initialize Time and Date
     KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );
     if ( ! StartDateString.isEmpty() && startDate.isValid() )
-        data()->changeDateTime( geo()->LTtoUT( startDate ) );
+        data()->changeDateTime( data()->geo()->LTtoUT( startDate ) );
     else
         data()->changeDateTime( KStarsDateTime::currentUtcDateTime() );
 
+    // Setup splash screen
+    KStarsSplash *splash = 0;
     if ( doSplash ) {
         splash = new KStarsSplash(0);
         connect( kstarsData, SIGNAL( progressText(QString) ), splash, SLOT( setMessage(QString) ));
-
-        //Uncomment to show startup messages on console also
-        //connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
-
         splash->show();
     } else {
         connect( kstarsData, SIGNAL( progressText(QString) ), kstarsData, SLOT( slotConsoleMessage(QString) ) );
     }
-
-    //Initialize data.  When initialization is complete, it will run dataInitFinished()
-    kstarsData->initialize();
 
     //set up Dark color scheme for application windows
     DarkPalette = QPalette(QColor("darkred"), QColor("darkred"));
@@ -113,10 +105,11 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     //store original color scheme
     OriginalPalette = QApplication::palette();
 
-    //Initialize QActionGroups
-    projectionGroup = new QActionGroup( this );
-    fovGroup = new QActionGroup( this );
-    cschemeGroup = new QActionGroup( this );
+    //Initialize data.  When initialization is complete, it will run dataInitFinished()
+    if( !kstarsData->initialize() )
+        return;
+    delete splash;
+    datainitFinished();
 
 #if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1  && !defined(__UCLIBC__) )
     kDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()";
@@ -125,26 +118,25 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 #endif
 }
 
+KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &startdate ) {
+    if( pinstance ) {
+        delete pinstance;
+        pinstance = 0;
+    }
+    // pinstance is set directly in constructor.
+    new KStars( doSplash, clockrun, startdate );
+    Q_ASSERT( pinstance && "pinstance must be non NULL");
+    return pinstance;
+}
+
 KStars::~KStars()
 {
     delete kstarsData;
-    delete skymap;
-    delete indimenu;
-    delete indidriver;
-    delete indiseq;
-    delete projectionGroup;
-    delete fovGroup;
-    delete cschemeGroup;
-
-    //NOTE: Dialog window pointers are deleted in KStars::slotAboutToQuit()
-    //(if they are deleted here, it causes a SegFault for some reason)
 }
 
 void KStars::clearCachedFindDialog() {
     if ( findDialog  ) {  // dialog is cached
-        /**
-        	*Delete findDialog only if it is not opened
-        	*/
+        /** Delete findDialog only if it is not opened */
         if ( findDialog->isHidden() ) {
             delete findDialog;
             findDialog = 0;
@@ -161,38 +153,31 @@ void KStars::applyConfig( bool doApplyFocus ) {
         actionCollection()->action("track_object")->setIcon( KIcon("document-encrypt") );
     }
 
-    if ( Options::useAltAz() ) actionCollection()->action("coordsys")->setText(i18n("Horizontal &Coordinates"));
-    else actionCollection()->action("coordsys")->setText(i18n("Equatorial &Coordinates"));
+    actionCollection()->action("coordsys")->setText(
+        Options::useAltAz() ? i18n("Horizontal &Coordinates") : i18n("Equatorial &Coordinates") );
 
-    ((KToggleAction*)actionCollection()->action("show_time_box"))->setChecked( Options::showTimeBox() );
-    ((KToggleAction*)actionCollection()->action("show_location_box"))->setChecked( Options::showGeoBox() );
-    ((KToggleAction*)actionCollection()->action("show_focus_box"))->setChecked( Options::showFocusBox() );
-    ((KToggleAction*)actionCollection()->action("show_mainToolBar"))->setChecked( Options::showMainToolBar() );
-    ((KToggleAction*)actionCollection()->action("show_viewToolBar"))->setChecked( Options::showViewToolBar() );
-    ((KToggleAction*)actionCollection()->action("show_statusBar"))->setChecked( Options::showStatusBar() );
-    ((KToggleAction*)actionCollection()->action("show_sbAzAlt"))->setChecked( Options::showAltAzField() );
-    ((KToggleAction*)actionCollection()->action("show_sbRADec"))->setChecked( Options::showRADecField() );
-    ((KToggleAction*)actionCollection()->action("show_stars"))->setChecked( Options::showStars() );
-    ((KToggleAction*)actionCollection()->action("show_deepsky"))->setChecked( Options::showDeepSky() );
-    ((KToggleAction*)actionCollection()->action("show_planets"))->setChecked( Options::showSolarSystem() );
-    ((KToggleAction*)actionCollection()->action("show_clines"))->setChecked( Options::showCLines() );
-    ((KToggleAction*)actionCollection()->action("show_cnames"))->setChecked( Options::showCNames() );
-    ((KToggleAction*)actionCollection()->action("show_cbounds"))->setChecked( Options::showCBounds() );
-    ((KToggleAction*)actionCollection()->action("show_mw"))->setChecked( Options::showMilkyWay() );
-    ((KToggleAction*)actionCollection()->action("show_grid"))->setChecked( Options::showGrid() );
-    ((KToggleAction*)actionCollection()->action("show_horizon"))->setChecked( Options::showGround() );
-    ((KToggleAction*)actionCollection()->action("show_flags"))->setChecked( Options::showFlags() );
+    actionCollection()->action("show_time_box"    )->setChecked( Options::showTimeBox() );
+    actionCollection()->action("show_location_box")->setChecked( Options::showGeoBox() );
+    actionCollection()->action("show_focus_box"   )->setChecked( Options::showFocusBox() );
+    actionCollection()->action("show_mainToolBar" )->setChecked( Options::showMainToolBar() );
+    actionCollection()->action("show_viewToolBar" )->setChecked( Options::showViewToolBar() );
+    actionCollection()->action("show_statusBar"   )->setChecked( Options::showStatusBar() );
+    actionCollection()->action("show_sbAzAlt"     )->setChecked( Options::showAltAzField() );
+    actionCollection()->action("show_sbRADec"     )->setChecked( Options::showRADecField() );
+    actionCollection()->action("show_stars"       )->setChecked( Options::showStars() );
+    actionCollection()->action("show_deepsky"     )->setChecked( Options::showDeepSky() );
+    actionCollection()->action("show_planets"     )->setChecked( Options::showSolarSystem() );
+    actionCollection()->action("show_clines"      )->setChecked( Options::showCLines() );
+    actionCollection()->action("show_cnames"      )->setChecked( Options::showCNames() );
+    actionCollection()->action("show_cbounds"     )->setChecked( Options::showCBounds() );
+    actionCollection()->action("show_mw"          )->setChecked( Options::showMilkyWay() );
+    actionCollection()->action("show_grid"        )->setChecked( Options::showGrid() );
+    actionCollection()->action("show_horizon"     )->setChecked( Options::showGround() );
+    actionCollection()->action("show_flags"       )->setChecked( Options::showFlags() );
 
     //color scheme
     kstarsData->colorScheme()->loadFromConfig();
-    if ( Options::darkAppColors() ) {
-        QApplication::setPalette( DarkPalette );
-    } else {
-        QApplication::setPalette( OriginalPalette );
-    }
-
-    //Infoboxes, toolbars, statusbars
-    infoBoxes()->setVisible( Options::showInfoBoxes() );
+    QApplication::setPalette( Options::darkAppColors() ? DarkPalette : OriginalPalette );
 
     //Set toolbar options from config file
     toolBar("kstarsToolBar")->applySettings( KGlobal::config()->group( "MainToolBar" ) );
@@ -221,16 +206,14 @@ void KStars::applyConfig( bool doApplyFocus ) {
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {
-    dms oldLST( LST()->Degrees() );
     // Due to frequently use of this function save data and map pointers for speedup.
     // Save options and geo() to a pointer would not speedup because most of time options
     // and geo will accessed only one time.
     KStarsData *Data = data();
     SkyMap *Map = map();
+    // dms oldLST( Data->lst()->Degrees() );
 
-    Data->updateTime( geo(), Map, automaticDSTchange );
-    if ( infoBoxes()->timeChanged( Data->ut(), Data->lt(), LST() ) )
-        Map->update();
+    Data->updateTime( Data->geo(), Map, automaticDSTchange );
 
     //We do this outside of kstarsdata just to get the coordinates
     //displayed in the infobox to update every second.
@@ -251,31 +234,11 @@ void KStars::updateTime( const bool automaticDSTchange ) {
     }
 }
 
-ImageViewer* KStars::addImageViewer( const KUrl &url, const QString &message ) {
-    ImageViewer *iv = new ImageViewer( url, message, this );
-    m_ImageViewerList.append( iv );
-    return iv;
+Execute* KStars::getExecute() {
+    if( !execute )
+        execute = new Execute();
+    return execute;
 }
-
-void KStars::removeImageViewer( ImageViewer *iv ) {
-    int i = m_ImageViewerList.indexOf( iv );
-    if ( i != -1 )
-        m_ImageViewerList.takeAt( i )->deleteLater();
-}
-
-KStarsData* KStars::data() { return kstarsData; }
-
-SkyMap* KStars::map()  { return skymap; }
-
-InfoBoxes* KStars::infoBoxes()  { return map()->infoBoxes(); }
-
-GeoLocation* KStars::geo() { return data()->geo(); }
-
-void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
-
-dms* KStars::LST() { return data()->LST; }
-
-ObservingList* KStars::observingList() { return obsList; }
 
 #include "kstars.moc"
 

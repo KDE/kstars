@@ -104,6 +104,7 @@ OpsCatalog::OpsCatalog( KStars *_ks )
     */
     connect( kcfg_ShowStars, SIGNAL( toggled(bool) ), SLOT( slotStarWidgets(bool) ) );
     connect( kcfg_ShowDeepSky, SIGNAL( toggled(bool) ), SLOT( slotDeepSkyWidgets(bool) ) );
+    connect( kcfg_ShowDeepSkyNames, SIGNAL( toggled(bool) ), kcfg_DeepSkyLongLabels, SLOT( setEnabled(bool) ) );
     connect( m_ConfigDialog, SIGNAL( applyClicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( okClicked() ), SLOT( slotApply() ) );
     connect( m_ConfigDialog, SIGNAL( cancelClicked() ), SLOT( slotCancel() ) );
@@ -143,9 +144,10 @@ void OpsCatalog::selectCatalog() {
 }
 
 void OpsCatalog::slotAddCatalog() {
-    AddCatDialog ac( ksw );
-    if ( ac.exec()==QDialog::Accepted )
-        insertCatalog( ac.filename() );
+    QPointer<AddCatDialog> ac = new AddCatDialog( ksw );
+    if ( ac->exec()==QDialog::Accepted )
+        insertCatalog( ac->filename() );
+    delete ac;
 }
 
 void OpsCatalog::slotLoadCatalog() {
@@ -154,7 +156,7 @@ void OpsCatalog::slotLoadCatalog() {
     if ( ! filename.isEmpty() ) {
         //test integrity of file before trying to add it
         CustomCatalogComponent newCat( ksw->data()->skyComposite(), filename, true, 0 );
-        newCat.init( ksw->data() );
+        newCat.init();
         if ( newCat.objectList().size() )
             insertCatalog( filename );
     }
@@ -241,7 +243,7 @@ void OpsCatalog::slotApply() {
 
         if ( ! Options::catalogFile().contains( filename ) ) {
             //Add this catalog
-            ksw->data()->skyComposite()->addCustomCatalog( filename, ksw->data(),  i );
+            ksw->data()->skyComposite()->addCustomCatalog( filename, i );
         }
     }
 
@@ -294,6 +296,10 @@ void OpsCatalog::slotDeepSkyWidgets(bool on) {
     LabelMagDeepSkyZoomOut->setEnabled( on );
     kcfg_MagLimitDrawDeepSky->setEnabled( on );
     kcfg_MagLimitDrawDeepSkyZoomOut->setEnabled( on );
+    kcfg_ShowDeepSkyNames->setEnabled( on );
+    kcfg_ShowDeepSkyMagnitudes->setEnabled( on );
+    kcfg_DeepSkyLabelDensity->setEnabled( on );
+    kcfg_DeepSkyLongLabels->setEnabled( on );
     LabelMag3->setEnabled( on );
     LabelMag4->setEnabled( on );
     if ( on ) {

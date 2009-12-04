@@ -29,7 +29,8 @@ OpsGuides::OpsGuides( KStars *_ks )
     connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ),
              this, SLOT( slotToggleMilkyWayOptions() ) );
 
-    kcfg_SkyCulture->addItems( ksw->data()->skyComposite()->getCultureNames() );
+    foreach( QString item,  ksw->data()->skyComposite()->getCultureNames() )
+        kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toUtf8().constData() ) );
 
 }
 

@@ -23,9 +23,11 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
+#include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skymap.h"
+#include "skycomponents/flagcomponent.h"
 
 
 FlagManagerUI::FlagManagerUI( QWidget *p ) : QFrame( p ) {
@@ -33,8 +35,8 @@ FlagManagerUI::FlagManagerUI( QWidget *p ) : QFrame( p ) {
 }
 
 
-FlagManager::FlagManager( KStars *ks )
-        : KDialog( (QWidget*)ks )
+FlagManager::FlagManager( QWidget *ks )
+        : KDialog( ks )
 {
     QList<QStandardItem*> itemList;
     QList<QImage> imageList;
@@ -47,7 +49,7 @@ FlagManager::FlagManager( KStars *ks )
     setCaption( i18n( "Flag manager" ) );
     setButtons( KDialog::Close );
 
-    m_Ks = ks;
+    m_Ks = KStars::Instance();
 
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
@@ -62,28 +64,34 @@ FlagManager::FlagManager( KStars *ks )
     ui->flagList->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
 
     // Fill the list
-    imageList = ks->data()->skyComposite()->flags()->imageList();
-    flagNames =  ks->data()->skyComposite()->flags()->getNames();
-    for ( i=0; i<ks->data()->skyComposite()->flags()->size(); ++i ) {
-        itemList << new QStandardItem( ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->toHMSString() ) 
-                << new QStandardItem( ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->toDMSString() ) 
-                << new QStandardItem( ks->data()->skyComposite()->flags()->epoch( i ) ) 
-                << new QStandardItem( QIcon( pixmap->fromImage( ks->data()->skyComposite()->flags()->image( i ) ) ), "" ) 
-                << new QStandardItem( ks->data()->skyComposite()->flags()->label( i ) );
+    imageList = m_Ks->data()->skyComposite()->flags()->imageList();
+    flagNames =  m_Ks->data()->skyComposite()->flags()->getNames();
+
+    for ( i=0; i<m_Ks->data()->skyComposite()->flags()->size(); ++i ) {
+        QStandardItem* labelItem = new QStandardItem( m_Ks->data()->skyComposite()->flags()->label( i ) );
+        labelItem->setForeground( QBrush( m_Ks->data()->skyComposite()->flags()->labelColor( i ) ) );
+
+        itemList << new QStandardItem( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->toHMSString() ) 
+                << new QStandardItem( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->toDMSString() ) 
+                << new QStandardItem( m_Ks->data()->skyComposite()->flags()->epoch( i ) ) 
+                << new QStandardItem( QIcon( pixmap->fromImage( m_Ks->data()->skyComposite()->flags()->image( i ) ) ), "" ) 
+                << labelItem;
         m_Model->appendRow( itemList );
         itemList.clear();
     }
 
     // Fill the combobox
     for ( i=0; i< imageList.size(); ++i ) {
-        ui->flagCombobox->addItem( QIcon( pixmap->fromImage( ks->data()->skyComposite()->flags()->imageList( i ) ) ),
+        ui->flagCombobox->addItem( QIcon( pixmap->fromImage( m_Ks->data()->skyComposite()->flags()->imageList( i ) ) ),
                                    flagNames.at( i ),
                                    flagNames.at( i ) );
     }
 
-    // Connect "Add" and "Delete" buttons
+    // Connect buttons 
     connect( ui->addButton, SIGNAL( clicked() ), this, SLOT( slotValidatePoint() ) );
     connect( ui->delButton, SIGNAL( clicked() ), this, SLOT( slotDeleteFlag() ) );
+    connect( ui->CenterButton, SIGNAL( clicked() ), this, SLOT( slotCenterFlag() ) );
+    connect( ui->flagList, SIGNAL( doubleClicked( const QModelIndex& ) ), this, SLOT( slotCenterFlag() ) );
 }
 
 FlagManager::~FlagManager()
@@ -117,7 +125,8 @@ void FlagManager::slotValidatePoint() {
                 + str.setNum( flagPoint->dec0()->Degrees() ).toAscii() + ' '
                 + ui->epochBox->text().toAscii() + ' '
                 + ui->flagCombobox->currentText().replace( ' ', '_' ).toAscii() + ' '
-                + ui->flagLabel->text().toAscii() + '\n' );
+                + ui->flagLabel->text().toAscii() + ' '
+                + ui->labelColorcombo->color().name().toAscii() + '\n' );
 
         QFile file( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
         file.open( QIODevice::Append | QIODevice::Text );
@@ -125,16 +134,19 @@ void FlagManager::slotValidatePoint() {
         file.close();
 
         // Add flag in FlagComponent
-        m_Ks->data()->skyComposite()->flags()->add( flagPoint, ui->epochBox->text(), ui->flagCombobox->currentText(), ui->flagLabel->text() );
+        m_Ks->data()->skyComposite()->flags()->add( flagPoint, ui->epochBox->text(), ui->flagCombobox->currentText(), ui->flagLabel->text(), ui->labelColorcombo->color() );
 
         // Add flag in the list 
         pixmap = new QPixmap();
+
+        QStandardItem* labelItem = new QStandardItem( ui->flagLabel->text() );
+        labelItem->setForeground( QBrush( ui->labelColorcombo->color() ) );
 
         itemList << new QStandardItem( flagPoint->ra0()->toHMSString() ) 
                 << new QStandardItem( flagPoint->dec0()->toDMSString() ) 
                 << new QStandardItem( ui->epochBox->text() ) 
                 << new QStandardItem( QIcon( pixmap->fromImage( m_Ks->data()->skyComposite()->flags()->image( m_Ks->data()->skyComposite()->flags()->size()-1 ) ) ), "" )
-                << new QStandardItem( ui->flagLabel->text() );
+                << labelItem;
         m_Model->appendRow( itemList );
 
         // Redraw map
@@ -161,7 +173,8 @@ void FlagManager::slotDeleteFlag() {
                 + str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->Degrees() ).toAscii() + ' '
                 + m_Ks->data()->skyComposite()->flags()->epoch( i ).toAscii() + ' '
                 + m_Ks->data()->skyComposite()->flags()->imageName( i ).replace( ' ', '_' ).toAscii() + ' '
-                + m_Ks->data()->skyComposite()->flags()->label( i ).toAscii() + '\n' );
+                + m_Ks->data()->skyComposite()->flags()->label( i ).toAscii() + ' '
+                + m_Ks->data()->skyComposite()->flags()->labelColor( i ).name().toAscii() + '\n' );
 
         file.write( line );
         line.clear();
@@ -176,6 +189,14 @@ void FlagManager::slotDeleteFlag() {
 
     // Redraw map
     m_Ks->map()->forceUpdate(false);
+}
+
+void FlagManager::slotCenterFlag() {
+    if ( ui->flagList->currentIndex().isValid() ) {
+        m_Ks->map()->setClickedObject( 0 );
+        m_Ks->map()->setClickedPoint( m_Ks->data()->skyComposite()->flags()->pointList().at( ui->flagList->currentIndex().row() ) );
+        m_Ks->map()->slotCenter();
+    }
 }
 
 #include "flagmanager.moc"

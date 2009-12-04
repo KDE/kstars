@@ -28,15 +28,16 @@
 	*@version 1.0
 	*/
 
-class KStarsData;
-
 class KSSun : public KSPlanet  {
 public:
     /**Constructor.  Defines constants needed by findPosition().
     	*Sets Ecliptic coordinates appropriate for J2000.
     	*@param kd pointer to KStarsData object
     	*/
-    KSSun( KStarsData *kd );
+    KSSun();
+
+    virtual KSSun* clone() const;
+    virtual SkyObject::UID getUID() const;
 
     /**Destructor (empty)
     	*/
@@ -57,6 +58,8 @@ protected:
     	*@p Earth pointer to earth object
     	*/
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
+private:
+    virtual void findMagnitude(const KSNumbers*);
 };
 long double equinox(int year, int d, int m, int angle);
 

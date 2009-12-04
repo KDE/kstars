@@ -60,8 +60,10 @@
 
 #include "skycomponents/constellationboundary.h"
 
-DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent )
-        : KPageDialog( parent ), selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
+DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent ) :
+    KPageDialog( parent ),
+    selectedObject(o),
+    Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
     setFaceType( Tabbed );
     setBackgroundRole( QPalette::Base );
@@ -85,11 +87,6 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 
 DetailDialog::~DetailDialog() {
     delete Thumbnail;
-    delete Data;
-    delete Pos;
-    delete Links;
-    delete Adv;
-    delete Log;
 }
 
 void DetailDialog::createGeneralTab()
@@ -119,7 +116,7 @@ void DetailDialog::createGeneralTab()
     StarObject *s = 0L;
     DeepSkyObject *dso = 0L;
     KSPlanetBase *ps = 0L;
-    QString pname, oname;
+    QString pname, oname, objecttyp, constellationname;
 
     switch ( selectedObject->type() ) {
     case SkyObject::STAR:
@@ -133,7 +130,7 @@ void DetailDialog::createGeneralTab()
             else
                 Data->Names->setText( QString( ", HD%1" ).arg( QString::number( s->getHDIndex() ) ) );
         }
-        Data->Type->setText( s->sptype() + ' ' + i18n("star") );
+        objecttyp = s->sptype() + ' ' + i18n("star");
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
 
@@ -178,13 +175,13 @@ void DetailDialog::createGeneralTab()
         Data->Names->setText( ps->longname() );
         //Type is "G5 star" for Sun
         if ( ps->name() == "Sun" )
-            Data->Type->setText( i18n("G5 star") );
+            objecttyp = i18n("G5 star");
         else if ( ps->name() == "Moon" )
-            Data->Type->setText( ps->translatedName() );
+            objecttyp = ps->translatedName();
         else if ( ps->name() == i18n("Pluto") || ps->name() == "Ceres" || ps->name() == "Eris" ) // TODO: Check if Ceres / Eris have translations and i18n() them
-            Data->Type->setText( i18n("Dwarf planet") );
+            objecttyp = i18n("Dwarf planet");
         else
-            Data->Type->setText( ps->typeName() );
+            objecttyp = ps->typeName();
 
         //Magnitude: The moon displays illumination fraction instead
         if ( selectedObject->name() == "Moon" ) {
@@ -245,7 +242,7 @@ void DetailDialog::createGeneralTab()
         if ( ! oname.isEmpty() ) pname += ", " + oname;
         Data->Names->setText( pname );
 
-        Data->Type->setText( dso->typeName() );
+        objecttyp = dso->typeName();
 
         if ( dso->mag() > 90.0 )
             Data->Magnitude->setText( "--" );
@@ -270,8 +267,12 @@ void DetailDialog::createGeneralTab()
     }
 
     //Common to all types:
-    Data->Constellation->setText(
-        ConstellationBoundary::Instance()->constellationName( selectedObject ) );
+    if ( selectedObject->type() == SkyObject::CONSTELLATION )
+        Data->ObjectTypeInConstellation->setText( ConstellationBoundary::Instance()->constellationName( selectedObject ) );
+    else
+        Data->ObjectTypeInConstellation->setText( 
+            i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objecttyp, 
+                  ConstellationBoundary::Instance()->constellationName( selectedObject ) ) );
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
@@ -295,7 +296,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     Pos->Az->setText( selectedObject->az()->toDMSString() );
     dms a( selectedObject->alt()->Degrees() );
     if ( Options::useAltAz() && Options::useRefraction() )
-        a = ksw->map()->refract( selectedObject->alt(), true ); //true: compute apparent alt from true alt
+        a = KStars::Instance()->map()->refract( selectedObject->alt(), true ); //true: compute apparent alt from true alt
     Pos->Alt->setText( a.toDMSString() );
 
     //Hour Angle can be negative, but dms HMS expressions cannot.
@@ -359,6 +360,10 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
     Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
     Pos->AltTransit->setText( talt.toDMSString() );
+
+    // Restore the position and other time-dependent parameters
+    selectedObject->recomputeCoords( ut, geo );
+
 }
 
 void DetailDialog::createLinksTab()
@@ -385,17 +390,17 @@ void DetailDialog::createLinksTab()
 
     // Signals/Slots
     connect( Links->ViewButton, SIGNAL(clicked()), this, SLOT( viewLink() ) );
-    connect( Links->AddLinkButton, SIGNAL(clicked()), ksw->map(), SLOT( addLink() ) );
+    connect( Links->AddLinkButton, SIGNAL(clicked()), KStars::Instance()->map(), SLOT( addLink() ) );
     connect( Links->EditLinkButton, SIGNAL(clicked()), this, SLOT( editLinkDialog() ) );
     connect( Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT( removeLinkDialog() ) );
 
     // When an item is selected in info list, selected items are cleared image list.
-    connect( Links->InfoTitleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
-    connect( Links->InfoTitleList, SIGNAL(itemClicked(QListWidgetItem*)), Links->ImageTitleList, SLOT( clearSelection() ) );
+    connect( Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
+    connect( Links->InfoTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), Links->ImageTitleList, SLOT( clearSelection() ) );
 
     // vice versa
-    connect( Links->ImageTitleList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
-    connect( Links->ImageTitleList, SIGNAL(itemClicked(QListWidgetItem*)), Links->InfoTitleList, SLOT( clearSelection() ));
+    connect( Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), this, SLOT( setCurrentLink(QListWidgetItem*) ) );
+    connect( Links->ImageTitleList, SIGNAL(currentItemChanged(QListWidgetItem*, QListWidgetItem*)), Links->InfoTitleList, SLOT( clearSelection() ));
 
     connect( Links->InfoTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT( viewLink() ) );
     connect( Links->ImageTitleList, SIGNAL(itemDoubleClicked(QListWidgetItem *)), this, SLOT( viewLink() ) );
@@ -403,7 +408,7 @@ void DetailDialog::createLinksTab()
     connect( Links->InfoTitleList, SIGNAL(itemSelectionChanged ()), this, SLOT( updateButtons() ) );
     connect( Links->ImageTitleList, SIGNAL(itemSelectionChanged ()), this, SLOT( updateButtons() ));
 
-    connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
+    connect( KStars::Instance()->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
 }
 
 void DetailDialog::createAdvancedTab()
@@ -411,7 +416,7 @@ void DetailDialog::createAdvancedTab()
     // Don't create an adv tab for an unnamed star or if advinterface file failed loading
     // We also don't need adv dialog for solar system objects.
     if (selectedObject->name() == QString("star") ||
-            ksw->data()->ADVtreeList.isEmpty() ||
+            KStarsData::Instance()->ADVtreeList.isEmpty() ||
             selectedObject->type() == SkyObject::PLANET ||
             selectedObject->type() == SkyObject::COMET ||
             selectedObject->type() == SkyObject::ASTEROID )
@@ -459,12 +464,10 @@ void DetailDialog::viewLink()
     if (m_CurrentLink == NULL) return;
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList ) {
-        int i = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
-        if (i >= 0) URL = QString( selectedObject->InfoList().at( i ) );
+        URL = QString( selectedObject->InfoList().at( Links->InfoTitleList->row(m_CurrentLink) ) );
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList ) {
-        int i = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
-        if (i >= 0) URL = QString( selectedObject->ImageList().at( i ) );
+        URL = QString( selectedObject->ImageList().at( Links->ImageTitleList->row(m_CurrentLink) ) );
     }
 
     if ( !URL.isEmpty() )
@@ -477,10 +480,10 @@ void DetailDialog::updateLists()
     Links->ImageTitleList->clear();
 
     foreach ( const QString &s, selectedObject->InfoTitle() )
-    Links->InfoTitleList->addItem( s );
+        Links->InfoTitleList->addItem( s );
 
     foreach ( const QString &s, selectedObject->ImageTitle() )
-    Links->ImageTitleList->addItem( s );
+        Links->ImageTitleList->addItem( s );
 
     updateButtons();
 }
@@ -513,11 +516,10 @@ void DetailDialog::editLinkDialog()
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
-        row = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
-        if ( row < 0 ) return;
+        row = Links->InfoTitleList->row( m_CurrentLink );
 
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL   = selectedObject->InfoList()[row];
+        currentItemURL = selectedObject->InfoTitle().at( row );
         search_line = selectedObject->name();
         search_line += ':';
         search_line += currentItemTitle;
@@ -527,11 +529,10 @@ void DetailDialog::editLinkDialog()
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList )
     {
-        row = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
-        if ( row < 0 ) return;
+        row = Links->ImageTitleList->row( m_CurrentLink );
 
         currentItemTitle = m_CurrentLink->text();
-        currentItemURL   = selectedObject->ImageList()[row];
+        currentItemURL = selectedObject->ImageTitle().at( row ); 
         search_line = selectedObject->name();
         search_line += ':';
         search_line += currentItemTitle;
@@ -608,7 +609,7 @@ void DetailDialog::removeLinkDialog()
 
     if ( m_CurrentLink->listWidget() == Links->InfoTitleList )
     {
-        row = selectedObject->InfoTitle().indexOf( m_CurrentLink->text() );
+        row = Links->InfoTitleList->row( m_CurrentLink );
         currentItemTitle = m_CurrentLink->text();
         currentItemURL   = selectedObject->InfoList()[row];
         LineEntry = selectedObject->name();
@@ -620,7 +621,7 @@ void DetailDialog::removeLinkDialog()
     }
     else if ( m_CurrentLink->listWidget() == Links->ImageTitleList )
     {
-        row = selectedObject->ImageTitle().indexOf( m_CurrentLink->text() );
+        row = Links->ImageTitleList->row( m_CurrentLink );
         currentItemTitle = m_CurrentLink->text();
         currentItemURL   = selectedObject->ImageList()[row];
         LineEntry = selectedObject->name();
@@ -731,7 +732,7 @@ void DetailDialog::populateADVTree()
 
     // We populate the tree iterativley, keeping track of parents as we go
     // This solution is more efficient than the previous recursion algorithm.
-    foreach (ADVTreeData *item, ksw->data()->ADVtreeList)
+    foreach (ADVTreeData *item, KStarsData::Instance()->ADVtreeList)
     {
 
         switch (item->Type)
@@ -767,7 +768,7 @@ void  DetailDialog::viewADVData()
     //If the item has children or is invalid, do nothing
     if ( !current || current->childCount()>0 )  return;
 
-    foreach (ADVTreeData *item, ksw->data()->ADVtreeList)
+    foreach (ADVTreeData *item, KStarsData::Instance()->ADVtreeList)
     {
         if (item->Name == current->text(0))
         {
@@ -827,12 +828,13 @@ void DetailDialog::saveLogData() {
 }
 
 void DetailDialog::addToObservingList() {
-    ksw->observingList()->slotAddObject( selectedObject );
+    KStars::Instance()->observingList()->slotAddObject( selectedObject );
 }
 
 void DetailDialog::centerMap() {
-    ksw->map()->setClickedObject( selectedObject );
-    ksw->map()->slotCenter();
+    SkyMap* map = KStars::Instance()->map();
+    map->setClickedObject( selectedObject );
+    map->slotCenter();
 }
 
 void DetailDialog::centerTelescope()
@@ -844,11 +846,12 @@ void DetailDialog::centerTelescope()
     bool useJ2000( false);
     int selectedCoord(0);
     SkyPoint sp;
-
+    SkyMap* map = KStars::Instance()->map();
+    
     // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
     // i.e. the first telescope we find!
 
-    INDIMenu *imenu = ksw->indiMenu();
+    INDIMenu *imenu = KStars::Instance()->indiMenu();
     for ( int i=0; i < imenu->managers.size() ; i++ )
     {
         for ( int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++ )
@@ -925,10 +928,10 @@ void DetailDialog::centerTelescope()
                 if (indidev->stdDev->currentObject)
                     sp.set (indidev->stdDev->currentObject->ra(), indidev->stdDev->currentObject->dec());
                 else
-                    sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
+                    sp.set (map->clickedPoint()->ra(), map->clickedPoint()->dec());
 
                 if (useJ2000)
-                    sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+                    sp.apparentCoord(KStarsData::Instance()->ut().djd(), (long double) J2000);
 
                 RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
                 DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
@@ -943,8 +946,8 @@ void DetailDialog::centerTelescope()
                 }
                 else
                 {
-                    sp.setAz(*ksw->map()->clickedPoint()->az());
-                    sp.setAlt(*ksw->map()->clickedPoint()->alt());
+                    sp.setAz(*map->clickedPoint()->az());
+                    sp.setAlt(*map->clickedPoint()->alt());
                 }
 
                 AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
@@ -994,16 +997,16 @@ void DetailDialog::showThumbnail() {
 }
 
 void DetailDialog::updateThumbnail() {
-    ThumbnailPicker tp( selectedObject, *Thumbnail, this );
+    QPointer<ThumbnailPicker> tp = new ThumbnailPicker( selectedObject, *Thumbnail, this );
 
-    if ( tp.exec() == QDialog::Accepted ) {
+    if ( tp->exec() == QDialog::Accepted ) {
         QString fname = KStandardDirs::locateLocal( "appdata", "thumb-" + selectedObject->name().toLower().remove( ' ' ) + ".png" );
 
-        Data->Image->setPixmap( *(tp.image()) );
+        Data->Image->setPixmap( *(tp->image()) );
 
         //If a real image was set, save it.
         //If the image was unset, delete the old image on disk.
-        if ( tp.imageFound() ) {
+        if ( tp->imageFound() ) {
             Data->Image->pixmap()->save( fname, "PNG" );
             *Thumbnail = *(Data->Image->pixmap());
         } else {
@@ -1012,6 +1015,7 @@ void DetailDialog::updateThumbnail() {
             f.remove();
         }
     }
+    delete tp;
 }
 
 DataWidget::DataWidget( QWidget *p ) : QFrame( p )

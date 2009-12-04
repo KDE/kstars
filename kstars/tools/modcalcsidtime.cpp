@@ -22,7 +22,6 @@
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
@@ -31,8 +30,6 @@
 
 modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
     setupUi(this);
-
-    ks = (KStars*) topLevelWidget()->parent();
 
     //Preset date and location
     showCurrentTimeAndLocation();
@@ -63,28 +60,28 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
     show();
 }
 
-modCalcSidTime::~modCalcSidTime(void) {
-
-}
+modCalcSidTime::~modCalcSidTime()
+{}
 
 void modCalcSidTime::showCurrentTimeAndLocation()
 {
-    LT->setTime( ks->data()->lt().time() );
-    Date->setDate( ks->data()->lt().date() );
+    KStarsData* data = KStarsData::Instance();
+    LT->setTime(   data->lt().time() );
+    Date->setDate( data->lt().date() );
 
-    geo = ks->geo();
+    geo = data->geo();
     LocationButton->setText( geo->fullName() );
-    geoBatch = ks->geo();
+    geoBatch = data->geo();
     LocationButtonBatch->setText( geoBatch->fullName() );
 
     slotConvertST( LT->time() );
 }
 
 void modCalcSidTime::slotChangeLocation() {
-    LocationDialog ld(ks);
+    QPointer<LocationDialog> ld = new LocationDialog( this );
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geo = newGeo;
             LocationButton->setText( geo->fullName() );
@@ -93,6 +90,7 @@ void modCalcSidTime::slotChangeLocation() {
             slotConvertST( LT->time() );
         }
     }
+    delete ld;
 }
 
 void modCalcSidTime::slotChangeDate() {
@@ -104,21 +102,15 @@ void modCalcSidTime::slotShown() {
 }
 
 void modCalcSidTime::slotConvertST(const QTime &lt){
-    if ( bSyncTime == false ) {
-        bSyncTime = true;
+    if( !bSyncTime )
         ST->setTime( computeLTtoST( lt ) );
-    } else {
-        bSyncTime = false;
-    }
+    bSyncTime = !bSyncTime;
 }
 
 void modCalcSidTime::slotConvertLT(const QTime &st){
-    if ( bSyncTime == false ) {
-        bSyncTime = true;
+    if( !bSyncTime )
         LT->setTime( computeSTtoLT( st ) );
-    } else {
-        bSyncTime = false;
-    }
+    bSyncTime = !bSyncTime;
 }
 
 QTime modCalcSidTime::computeLTtoST( QTime lt )
@@ -179,15 +171,16 @@ void modCalcSidTime::slotHelpLabel() {
 }
 
 void modCalcSidTime::slotLocationBatch() {
-    LocationDialog ld(ks);
+    QPointer<LocationDialog> ld = new LocationDialog( this );
 
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoBatch = newGeo;
             LocationButtonBatch->setText( geoBatch->fullName() );
         }
     }
+    delete ld;
 }
 
 void modCalcSidTime::slotCheckFiles() {
@@ -267,7 +260,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
                     continue;
                 }
 
-                geoBatch = ks->data()->locationNamed( locationFields[0], locationFields[1], locationFields[2] );
+                geoBatch = KStarsData::Instance()->locationNamed( locationFields[0], locationFields[1], locationFields[2] );
                 if ( ! geoBatch ) {
                     kDebug() << i18n("Error: location not found in database: ") << locationString;
                     continue;

@@ -24,6 +24,8 @@
 #include <QPainter>
 #include <QImage>
 
+#include <assert.h>
+
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "dms.h"
@@ -31,15 +33,16 @@
 #include "Options.h"
 #include "skymap.h"
 
-DeepSkyObject::DeepSkyObject( DeepSkyObject &o )
-        : SkyObject( o ) {
-    MajorAxis = o.a();
-    MinorAxis = o.b();
-    PositionAngle = o.pa();
-    UGC = o.ugc();
-    PGC = o.pgc();
-    setCatalog( o.catalog() );
-    Image = o.image();
+DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
+    SkyObject( o ),
+    Catalog( o.Catalog ),
+    PositionAngle( o.PositionAngle ),
+    UGC( o.UGC ),
+    PGC( o.PGC ),
+    MajorAxis( o.MajorAxis ),
+    MinorAxis( o.MinorAxis )
+{
+    Image = o.Image ? new QImage(*o.Image) : 0;
     updateID = updateNumID = 0;
 }
 
@@ -73,6 +76,11 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
     updateID = updateNumID = 0;
 }
 
+DeepSkyObject* DeepSkyObject::clone() const
+{
+    return new DeepSkyObject(*this);
+}
+    
 void DeepSkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos ) {
     pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos );
 }
@@ -385,4 +393,42 @@ double DeepSkyObject::labelOffset() const {
     double scale = SkyMap::Instance()->scale();
     double size = ((majorAxis + minorAxis) / 2.0 ) * scale * dms::PI * Options::zoomFactor()/10800.0;
     return 0.5*size + 4.;
+}
+
+QString DeepSkyObject::labelString() const {
+    QString oName;
+    if( Options::showDeepSkyNames() ) {
+        if( Options::deepSkyLongLabels() && translatedLongName() != translatedName() )
+            oName = translatedLongName() + " (" + translatedName() + ')';
+        else
+            oName = translatedName();
+    }
+
+    if( Options::showDeepSkyMagnitudes() ) {
+        if( Options::showDeepSkyNames() )
+            oName += "; ";
+        oName += KGlobal::locale()->formatNumber( mag(), 1 );
+    }
+
+    return oName;
+}
+
+
+SkyObject::UID DeepSkyObject::getUID() const
+{
+    // mag takes 10 bit
+    SkyObject::UID m = mag()*10; 
+    if( m < 0 ) m = 0;
+
+    // Both RA & dec fits in 24-bits
+    SkyObject::UID ra  = ra0()->Degrees() * 36000;
+    SkyObject::UID dec = (ra0()->Degrees()+91) * 36000;
+
+    assert("Magnitude is expected to fit into 10bits" && m>=0 && m<(1<<10));
+    assert("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));
+    assert("Dec should fit into 24bits" && dec>=0 && dec<(1<<24));
+
+    // Choose kind of 
+    SkyObject::UID kind = type() == SkyObject::GALAXY ? SkyObject::UID_GALAXY : SkyObject::UID_DEEPSKY;
+    return (kind << 60) | (m << 48) | (ra << 24) | dec;
 }

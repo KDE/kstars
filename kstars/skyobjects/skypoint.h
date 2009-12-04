@@ -54,21 +54,37 @@ public:
     	*@param r Right Ascension
     	*@param d Declination
     	*/
-    SkyPoint( const dms& r, const dms& d ) { set( r, d ); }
+    SkyPoint( const dms& r, const dms& d ) :
+        RA0(r), Dec0(d),
+        RA(r),  Dec(d)
+    {
+        syncQuaternion();
+    }
 
     /**Alternate constructor using pointer arguments, for convenience.
     	*It behaves essentially like the default constructor.
     	*@param r Right Ascension pointer
     	*@param d Declination pointer
     	*/
-    SkyPoint( const dms *r, const dms *d ) { set( dms(*r), dms(*d) ); }
+    SkyPoint( const dms *r, const dms *d ) :
+        RA0(*r), Dec0(*d),
+        RA(*r),  Dec(*d)
+    {
+        syncQuaternion();
+    }
 
     /**Alternate constructor using double arguments, for convenience.
     	*It behaves essentially like the default constructor.
     	*@param r Right Ascension, expressed as a double
     	*@param d Declination, expressed as a double
     	*/
-    explicit SkyPoint( double r=0.0, double d=0.0 ) { set( r, d ); }
+    //FIXME: this (*15.0) thing is somewhat hacky.
+    explicit SkyPoint( double r=0.0, double d=0.0 ) :
+        RA0(r*15.0), Dec0(d),
+        RA(r*15.0),  Dec(d)
+    {
+        syncQuaternion();
+    }
 
     /**
     	*Empty destructor.
@@ -301,6 +317,18 @@ public:
     	*/
     void nutate(const KSNumbers *num);
 
+    /**Correct for the effect of "bending" of light around the sun for
+     * positions near the sun.
+     *
+     * General Relativity tells us that a photon with an impact
+     * parameter b is deflected through an angle 1.75" (Rs / b) where
+     * Rs is the solar radius.
+     *
+     * @return: true if the light was bent, false otherwise
+     */
+    bool bendlight();
+
+
     /**Determine the effects of aberration for this SkyPoint.
     	*@param num pointer to KSNumbers object containing current values of
     	*time-dependent variables.
@@ -378,8 +406,7 @@ public:
      *  @param sp SkyPoint to which distance is to be calculated
      *  @return dms angle representing angular separation.
      **/
-
-    dms angularDistanceTo( SkyPoint *sp);
+    dms angularDistanceTo(const SkyPoint *sp);
 
     inline bool operator == ( SkyPoint &p ) { return ( ra()->Degrees() == p.ra()->Degrees() && dec()->Degrees() == p.dec()->Degrees() ); }
 
@@ -461,6 +488,16 @@ public:
      * @return Radial velocity of the source referred the center of the earth in km/s
      **/
     double vTopoToVGeo(double vtopo, double vsite[3]);
+
+    /** Find the SkyPoint obtained by moving distance dist
+     * (arcseconds) away from the givenSkyPoint 
+     *
+     * @param dist Distance to move through in arcseconds
+     * @param p The SkyPoint to move away from
+     * @return a SkyPoint that is at the dist away from this SkyPoint in the direction specified by bearing
+     */
+    SkyPoint moveAway( SkyPoint &from, double dist );
+
 
     ////
     //// 5. Calculating Rise/Set/Transit data.

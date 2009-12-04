@@ -42,7 +42,7 @@ class KSPopupMenu : public KMenu
     Q_OBJECT
 public:
     /**Default constructor*/
-    KSPopupMenu( KStars *_ks );
+    KSPopupMenu();
 
     /**Destructor (empty)*/
     ~KSPopupMenu();
@@ -63,7 +63,7 @@ public:
     	*@param showAngularDistance if true, the Angular Distance item is added.
     	*@param showObsList if true, the Add to List/Remove from List item is added.
      */
-    void initPopupMenu( SkyObject *obj, const QString &name, const QString &type, const QString &info,
+    void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                         bool showRiseSet=true, bool showCenterTrack=true,
                         bool showDetails=true, bool showTrail=false,
                         bool addTrail=false, bool showAngularDistance=true,
@@ -135,25 +135,19 @@ public:
     	*/
     void createEmptyMenu( SkyObject *nullObj=0 );
 
-    /**Set the rise/transit/set time labels for the object.  Compute these times
-    	*for the object for the current date and location.  If the object is 
-    	*circumpolar or never rises, the rise and set labels will indicate this
-    	*(but the transit time should always be valid).
-    	*@param obj the skyobject whose r/t/s times are to be displayed.
-    	*/
-    void setRiseSetLabels( SkyObject *obj );
-
     /**Add a submenu for INDI controls (Slew, Track, Sync, etc).
     	*@return true if a valid INDI menu was added.
     	*/
     bool addINDI(void);
 
 private:
+    /** Add fancy label to menu.
+     * @param name is content of the label
+     * @param deltaFontSize is change in font size from default
+     */
+    void addFancyLabel(QString name, int deltaFontSize = 0);
+
     KStars *ks;
-    KAction *aName, *aName2, *aType, *aConstellation;
-    KAction *aRiseTime, *aSetTime, *aTransitTime;
-    QLabel *labName, *labName2, *labType, *labConstellation;
-    QLabel *labRiseTime, *labSetTime, *labTransitTime;
     KMenu *menuDevice;
 };
 

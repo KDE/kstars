@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>OpsCatalog</class>
- <widget class="QWidget" name="OpsCatalog" >
-  <property name="geometry" >
+ <widget class="QWidget" name="OpsCatalog">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,68 +10,68 @@
     <height>686</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QGroupBox" name="StarBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="StarBox">
+     <property name="title">
       <string/>
      </property>
-     <layout class="QHBoxLayout" >
+     <layout class="QHBoxLayout">
       <item>
-       <layout class="QVBoxLayout" >
+       <layout class="QVBoxLayout">
         <item>
-         <widget class="QCheckBox" name="kcfg_ShowStars" >
-          <property name="text" >
+         <widget class="QCheckBox" name="kcfg_ShowStars">
+          <property name="text">
            <string>&amp;Star Catalogs</string>
           </property>
          </widget>
         </item>
         <item>
-         <layout class="QGridLayout" >
-          <property name="margin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <item row="0" column="1" >
-           <widget class="QLabel" name="LabelStarDensity" >
-            <property name="text" >
+          <item row="0" column="1">
+           <widget class="QLabel" name="LabelStarDensity">
+            <property name="text">
              <string>Star Density:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" >
-           <widget class="QSlider" name="kcfg_StarDensity" >
-            <property name="minimum" >
+          <item row="0" column="2">
+           <widget class="QSlider" name="kcfg_StarDensity">
+            <property name="minimum">
              <number>1</number>
             </property>
-            <property name="maximum" >
+            <property name="maximum">
              <number>100</number>
             </property>
-            <property name="singleStep" >
+            <property name="singleStep">
              <number>1</number>
             </property>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="tickPosition" >
+            <property name="tickPosition">
              <enum>QSlider::NoTicks</enum>
             </property>
-            <property name="tickInterval" >
+            <property name="tickInterval">
              <number>1</number>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <spacer name="horizontalSpacer_2" >
-            <property name="orientation" >
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Fixed</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>16</width>
               <height>20</height>
@@ -78,12 +79,12 @@
             </property>
            </spacer>
           </item>
-          <item row="0" column="3" >
-           <spacer name="horizontalSpacer_3" >
-            <property name="orientation" >
+          <item row="0" column="3">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
               <height>20</height>
@@ -94,36 +95,36 @@
          </layout>
         </item>
         <item>
-         <layout class="QGridLayout" >
-          <property name="margin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <item row="0" column="1" >
-           <widget class="QCheckBox" name="kcfg_ShowStarNames" >
-            <property name="text" >
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="kcfg_ShowStarNames">
+            <property name="text">
              <string>Show &amp;name</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="QCheckBox" name="kcfg_ShowStarMagnitudes" >
-            <property name="text" >
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="kcfg_ShowStarMagnitudes">
+            <property name="text">
              <string>Show ma&amp;gnitude</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
+          <item row="0" column="0">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Fixed</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>16</width>
               <height>20</height>
@@ -131,15 +132,15 @@
             </property>
            </spacer>
           </item>
-          <item row="1" column="0" >
+          <item row="1" column="0">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Fixed</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>16</width>
               <height>20</height>
@@ -150,16 +151,16 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" >
+         <layout class="QHBoxLayout">
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Fixed</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
               <height>20</height>
@@ -168,28 +169,28 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLabel" name="LabelDensity" >
-            <property name="text" >
+           <widget class="QLabel" name="LabelDensity">
+            <property name="text">
              <string>Label density:</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QSlider" name="kcfg_StarLabelDensity" >
-            <property name="maximum" >
+           <widget class="QSlider" name="kcfg_StarLabelDensity">
+            <property name="maximum">
              <number>20</number>
             </property>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
            </widget>
           </item>
           <item>
-           <spacer name="horizontalSpacer" >
-            <property name="orientation" >
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>40</width>
               <height>20</height>
@@ -205,77 +206,242 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="DeepSkyBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="DeepSkyBox">
+     <property name="title">
       <string/>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="spacing" >
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>6</number>
       </property>
-      <property name="margin" >
+      <property name="margin">
        <number>8</number>
       </property>
       <item>
-       <widget class="QCheckBox" name="kcfg_ShowDeepSky" >
-        <property name="text" >
-         <string>Deep-Sky Catalogs</string>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="topMargin">
+         <number>0</number>
         </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <property name="margin" >
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QListWidget" name="CatalogList" >
-          <property name="verticalScrollBarPolicy" >
+         <widget class="QCheckBox" name="kcfg_ShowDeepSky">
+          <property name="text">
+           <string>Deep-Sky Catalogs</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::ExpandingFieldsGrow</enum>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>16</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="kcfg_ShowDeepSkyNames">
+            <property name="text">
+             <string>Show na&amp;me</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>16</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="kcfg_ShowDeepSkyMagnitudes">
+            <property name="text">
+             <string>Show magni&amp;tude</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="horizontalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_DeepSkyLongLabels">
+            <property name="text">
+             <string>Show &amp;long names</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="DeepSkyLabelDensityLabel">
+            <property name="text">
+             <string>Label density:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSlider" name="kcfg_DeepSkyLabelDensity">
+            <property name="maximum">
+             <number>20</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QListWidget" name="CatalogList">
+          <property name="verticalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOn</enum>
           </property>
          </widget>
         </item>
         <item>
-         <layout class="QVBoxLayout" >
-          <property name="spacing" >
+         <layout class="QVBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin" >
+          <property name="margin">
            <number>0</number>
           </property>
           <item>
-           <widget class="KPushButton" name="AddCatalog" >
-            <property name="text" >
+           <widget class="KPushButton" name="AddCatalog">
+            <property name="text">
              <string>Import Catalog...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="KPushButton" name="LoadCatalog" >
-            <property name="text" >
+           <widget class="KPushButton" name="LoadCatalog">
+            <property name="text">
              <string>Load Catalog...</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="KPushButton" name="RemoveCatalog" >
-            <property name="enabled" >
+           <widget class="KPushButton" name="RemoveCatalog">
+            <property name="enabled">
              <bool>false</bool>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Remove Catalog...</string>
             </property>
            </widget>
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
-            <property name="sizeHint" stdset="0" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
               <height>40</height>
@@ -288,63 +454,89 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="margin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <layout class="QGridLayout" >
-          <property name="margin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="LabelMagDeepSkyZoomOut" >
-            <property name="text" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="LabelMagDeepSkyZoomOut">
+            <property name="toolTip">
+             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
+These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+            </property>
+            <property name="text">
              <string>Faint limit zoomed out:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" >
-           <widget class="QLabel" name="LabelMag3" >
-            <property name="text" >
+          <item row="0" column="2">
+           <widget class="QLabel" name="LabelMag3">
+            <property name="toolTip">
+             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
+These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+            </property>
+            <property name="text">
              <string>mag</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="2" >
-           <widget class="QLabel" name="LabelMag4" >
-            <property name="text" >
+          <item row="1" column="2">
+           <widget class="QLabel" name="LabelMag4">
+            <property name="toolTip">
+             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
+These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+            </property>
+            <property name="text">
              <string>mag</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="LabelMagDeepSky" >
-            <property name="text" >
+          <item row="0" column="0">
+           <widget class="QLabel" name="LabelMagDeepSky">
+            <property name="toolTip">
+             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
+These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+            </property>
+            <property name="text">
              <string>Faint limit zoomed in:</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSky" />
+          <item row="0" column="1">
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSky">
+            <property name="toolTip">
+             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
+These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+            </property>
+           </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSkyZoomOut" />
+          <item row="1" column="1">
+           <widget class="MagnitudeSpinBox" name="kcfg_MagLimitDrawDeepSkyZoomOut">
+            <property name="toolTip">
+             <string>Set the faint magnitude limits for NGC / Messier objects when zoomed in and zoomed out. 
+These magnitude limits do not affect IC objects, as the magnitudes for many IC objects are undefined.</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" stdset="0" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -360,6 +552,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
   <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>

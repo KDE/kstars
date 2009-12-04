@@ -43,7 +43,7 @@ class FlagManagerUI : public QFrame, public Ui::FlagManager
  *@short Flag manager
  *Dialog box to add and remove flags
  *
- *@version 1.0
+ *@version 1.1
  *@author Jerome SONRIER
  */
 class FlagManager : public KDialog
@@ -53,7 +53,7 @@ public:
     /**
      *@short Constructor.
      */
-    FlagManager( KStars *ks );
+    FlagManager( QWidget *ks );
 
     /**
      *@short Destructor.
@@ -70,6 +70,11 @@ public slots:
      *@short Delete a flag
      */
     void slotDeleteFlag();
+
+    /**
+     *@short Center the selected object in the display
+     */
+    void slotCenterFlag();
 
 private:
     KStars *m_Ks;

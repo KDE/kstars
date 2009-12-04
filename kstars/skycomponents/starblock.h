@@ -25,6 +25,8 @@
 
 class StarObject;
 class StarBlockList;
+struct starData;
+struct deepStarData;
 
 /**
  *@class StarBlock
@@ -33,50 +35,32 @@ class StarBlockList;
  *@author  Akarsh Simha
  *@version 1.0
  */
-
-class StarBlock {
-
- public:
-
-    /**
-     * Constructor
-     * Initializes values of various parameters and creates a predefined number of stars
+class StarBlock
+{
+public:
+    /** Constructor
+     *  Initializes values of various parameters and creates nstars number of stars
+     *  @param nstars   Number of stars to hold in this StarBlock
      */
-    StarBlock();
+    StarBlock( int nstars = 100 );
 
-    /**
-     * Constructor
-     * Initializes values of various parameters and creates nstars number of stars
-     *@param nstars   Number of stars to hold in this StarBlock
-     */
-    StarBlock( int nstars );
-
-    // DEPRECATED
-    /**
-     * Constructor
-     * Initializes values of various parameters and links this StarBlock to its neighbours
-     *@param  _prev  Pointer to the previous StarBlock in the linked list
-     *@param  _next  Pointer to the next StarBlock in the linked list
-     */
-    StarBlock( StarBlock *_prev, StarBlock *_next );
-
-    /**
-     * Destructor
-     * Deletes any stored stars
+    /**                                                                                 
+     * Destructor                                                                       
+     * Deletes all stored stars                                                         
      */
     ~StarBlock();
 
-    /**
-     *@short Make a copy of the given StarObject in this StarBlock
+    /** @short Initialize another star with data. 
      *
-     *This method uses memcpy() to copy the given StarObject into the next un-initialized
-     *StarObject in this StarBlock. If the capacity of this StarBlock is exceeded, it 
-     *returns false.
+     *  FIXME: StarObject::init doesn't reset object name(s). It
+     *  shouldn't be issue since stars which are swapped in/out do not
+     *  have names. 
      *
-     *@param  star  Pointer to a StarObject
-     *@return true on success, false on failure
+     *@param  data    data to initialize star with.
+     *@return pointer to star initialized with data. NULL if block is full.
      */
-    bool addStar( StarObject *star );
+    StarObject* addStar(const starData& data);
+    StarObject* addStar(const deepStarData& data);
 
     /**
      *@short Returns true if the StarBlock is full
@@ -102,7 +86,7 @@ class StarBlock {
      *@param  Index of StarBlock to return
      *@return A pointer to the i-th StarObject
      */
-    inline StarObject *star( int i ) { return stars.at( i ); }
+    inline StarObject *star( int i ) { return &stars[i]; }
 
     // These methods are there because we might want to make faintMag and brightMag private at some point
     /**
@@ -138,25 +122,14 @@ class StarBlock {
     quint32 drawID;
 
  private:
+    // Disallow copying and assignment. Just in case.
+    StarBlock(const StarBlock&);
+    StarBlock& operator = (const StarBlock&);
 
-    /**
-     *@short Allocate Space for nstars stars and put the pointers in the stars vector
-     *
-     *@param nstars  Number of stars to allocate space for
-     *@return Number of StarObjects successfully allocated
-     */
-    int allocStars( int nstars );
-
-    /**
-     *@short  Do the real construction work
-     */
-    void init();
-
+    /** Number of initialized stars in StarBlock. */
     int nStars;
-    QVector< StarObject *> stars;
-
-    static StarObject *plainStarTemplate;
-    static int refCount;
+    /** Array of stars. */
+    QVector<StarObject> stars;
 };
 
 #endif

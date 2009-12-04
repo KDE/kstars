@@ -24,7 +24,7 @@
 #include <math.h>
 #include <sys/types.h>
 #include <string.h>
-#include "byteswap.h"
+#include "byteorder.h"
 
 
 
@@ -45,12 +45,12 @@ typedef struct deepStarData {
  * Does byteswapping for deepStarData structures
  */
 void bswap_stardata( deepStarData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_16( stardata->dRA );
-    bswap_16( stardata->dDec );
-    bswap_16( stardata->B );
-    bswap_16( stardata->V );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_16( stardata->dRA );
+    stardata->dDec = bswap_16( stardata->dDec );
+    stardata->B = bswap_16( stardata->B );
+    stardata->V = bswap_16( stardata->V );
 }
 
 int main(int argc, char *argv[]) {

@@ -24,6 +24,7 @@
 #include "kstarsdata.h"
 #include "skyobjects/kssun.h"
 #include "skycalendar.h"
+#include "ksalmanac.h"
 
 #define XPADDING 20
 #define YPADDING 20
@@ -65,7 +66,7 @@ void CalendarWidget::paintEvent( QPaintEvent *e ) {
 }
 
 void CalendarWidget::drawHorizon( QPainter *p ) {
-    KSSun *sun = (KSSun*)KSPlanetBase::createPlanet( KSPlanetBase::SUN );
+    KSSun sun;
     KStarsData *data = KStarsData::Instance();
     SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
     int y = skycal->year();
@@ -73,21 +74,29 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     
     QPolygonF polySunRise;
     QPolygonF polySunSet;
-
+    KSAlmanac *ksal =KSAlmanac::Instance() ;
     //Add points along curved edge of horizon polygons
     int imonth = -1;
     float rTime, sTime;
-    while ( y == kdt.date().year() ) {
-        float t = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
-        rTime = sun->riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
-        sTime = sun->riseSetTime( kdt.djd(), data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
 
+    ksal->setLocation(data->geo());
+    while ( y == kdt.date().year() ) {
+        ksal->setDate(&kdt);
+
+        rTime = ksal->getSunRise()*24.0;
+        sTime = ksal->getSunSet()*24.0 -24.0;
+//        kDebug()<<rTime<<" "<<sTime;
+//        rTime = sun->riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
+//        sTime = sun->riseSetTime( kdt.djd(), data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
+//        kDebug()<<rTime<<" "<<sTime;
+//        FIXME why do the above two give different values ? ( Difference < 1 min though )
         if ( kdt.date().month() != imonth ) {
             riseTimeList.append( rTime );
             setTimeList.append( sTime );
             imonth = kdt.date().month();
         }
         
+        float t = kdt.date().daysInYear() - kdt.date().dayOfYear();
         polySunRise << mapToWidget( QPointF( rTime, t ) );
         polySunSet << mapToWidget( QPointF(  sTime, t ) );
         
@@ -112,8 +121,6 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     p->setBrush( Qt::darkGreen );
     p->drawPolygon( polySunRise );
     p->drawPolygon( polySunSet );
-    
-    delete sun;
 }
 
 void CalendarWidget::drawAxes( QPainter *p ) {

@@ -59,3 +59,64 @@
 </item>
 
 </glossary>
+<glossary>
+<item picture="sun.png">
+<name>Sun</name>
+<desc>Our solar system's star.  It is a main-sequence G dwarf star.</desc>
+</item>
+
+<item picture="mercury.png">
+<name>Mercury</name>
+<desc>The planet closest to the Sun, and is the second-smallest of the nine major planets.
+</desc>
+</item>
+
+<item picture="venus.png">
+<name>Venus</name>
+<desc>The second planet from the Sun.  It is similar in size to the Earth, and has no moons.
+</desc>
+</item>
+
+<item>
+<name>Earth</name>
+<desc>Our planet, the third from the Sun.
+</desc>
+</item>
+
+<item picture="mars.png">
+<name>Mars</name>
+<desc>The fourth planet from the Sun.  It is smaller than the Earth, and has a thin atmosphere, as well as two small moons.
+</desc>
+</item>
+
+<item picture="jupiter.png">
+<name>Jupiter</name>
+<desc>The fifth planet from the Sun, and the largest planet in the solar system.  Jupiter is a gas giant, and has dozens of moons.
+</desc>
+</item>
+
+<item picture="saturn.png">
+<name>Saturn</name>
+<desc>The sixth planet from the Sun.  Saturn is a gas giant and has dozens of moons.  It also has a beautiful ring system.
+</desc>
+</item>
+
+<item picture="uranus.png">
+<name>Uranus</name>
+<desc>The seventh planet from the Sun.  Uranus is a small gas giant with a tenuous ring system.
+</desc>
+</item>
+
+<item picture="neptune.png">
+<name>Neptune</name>
+<desc>The eighth planet from the Sun.  Uranus is a small gas giant.  It was the first planet to be discovered in modern times.
+</desc>
+</item>
+
+<item picture="pluto.png">
+<name>Pluto</name>
+<desc>The furthest major planet from the Sun, and also the smallest.  Very few details are known about this distant, icy world.  It has a moon which is not much smaller than Pluto itself.
+</desc>
+</item>
+
+</glossary>

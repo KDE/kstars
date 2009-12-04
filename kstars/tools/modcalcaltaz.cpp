@@ -34,19 +34,20 @@
 #include "dialogs/locationdialog.h"
 
 modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
-        : QFrame(parentSplit), horInputCoords(false) {
+        : QFrame(parentSplit), horInputCoords(false)
+{
     setupUi(this);
 
-    KStars *ks = ((KStars*) topLevelWidget()->parent());
+    KStarsData *data = KStarsData::Instance();
     RA->setDegType(false);
 
     //Initialize Date/Time and Location data
-    geoPlace = ks->geo();
+    geoPlace = data->geo();
     LocationButton->setText( geoPlace->fullName() );
 
     //Make sure slotDateTime() gets called, so that LST will be set
     connect(DateTime, SIGNAL(dateTimeChanged(const QDateTime&)), this, SLOT(slotDateTimeChanged(const QDateTime&)));
-    DateTime->setDateTime( ks->data()->lt().dateTime() );
+    DateTime->setDateTime( data->lt().dateTime() );
 
     connect(NowButton, SIGNAL(clicked()), this, SLOT(slotNow()));
     connect(LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()));
@@ -83,26 +84,28 @@ void modCalcAltAz::slotNow()
 
 void modCalcAltAz::slotLocation()
 {
-    LocationDialog ld( (KStars*)topLevelWidget()->parent() );
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    QPointer<LocationDialog> ld = new LocationDialog( this );
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoPlace = newGeo;
             LocationButton->setText( geoPlace->fullName() );
             slotCompute();
         }
     }
+    delete ld;
 }
 
 void modCalcAltAz::slotObject()
 {
-    FindDialog fd( (KStars*)topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra() );
         Dec->showInDegrees( o->dec() );
         slotCompute();
     }
+    delete fd;
 }
 
 void modCalcAltAz::slotDateTimeChanged(const QDateTime &dt)
@@ -147,19 +150,11 @@ void modCalcAltAz::slotCompute()
 }
 
 void modCalcAltAz::slotUtChecked(){
-    if ( utCheckBatch->isChecked() )
-        utBoxBatch->setEnabled( false );
-    else {
-        utBoxBatch->setEnabled( true );
-    }
+    utBoxBatch->setEnabled( !utCheckBatch->isChecked() );
 }
 
 void modCalcAltAz::slotDateChecked(){
-    if ( dateCheckBatch->isChecked() )
-        dateBoxBatch->setEnabled( false );
-    else {
-        dateBoxBatch->setEnabled( true );
-    }
+    dateBoxBatch->setEnabled( !dateCheckBatch->isChecked() );
 }
 
 void modCalcAltAz::slotRaChecked(){
@@ -183,25 +178,15 @@ void modCalcAltAz::slotDecChecked(){
 }
 
 void modCalcAltAz::slotEpochChecked(){
-    if ( epochCheckBatch->isChecked() )
-        epochBoxBatch->setEnabled( false );
-    else
-        epochBoxBatch->setEnabled( true );
+    epochBoxBatch->setEnabled( !epochCheckBatch->isChecked() );
 }
 
 void modCalcAltAz::slotLongChecked(){
-    if ( longCheckBatch->isChecked() )
-        longBoxBatch->setEnabled( false );
-    else
-        longBoxBatch->setEnabled( true );
+    longBoxBatch->setEnabled( !longCheckBatch->isChecked());
 }
 
 void modCalcAltAz::slotLatChecked(){
-    if ( latCheckBatch->isChecked() )
-        latBoxBatch->setEnabled( false );
-    else {
-        latBoxBatch->setEnabled( true );
-    }
+    latBoxBatch->setEnabled( !latCheckBatch->isChecked() );
 }
 
 void modCalcAltAz::slotAzChecked(){
@@ -296,7 +281,7 @@ void modCalcAltAz::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     long double jd0, jdf;
     dms LST;

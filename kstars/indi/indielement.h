@@ -63,7 +63,7 @@ enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSE
                      FILTER_SLOT};						/* Filter */
 
 /* Devices families that we explicitly support (i.e. with std properties) */
-enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_GPS };
+enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_RECEIVERS, KSTARS_GPS };
 
 #define	MAXSCSTEPS	1000	/* max number of steps in a scale */
 #define MAXRADIO	4	/* max numbere of buttons in a property */

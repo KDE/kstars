@@ -26,13 +26,14 @@
 #include "dms.h"
 #include "skyobjects/skypoint.h"
 #include "geolocation.h"
-#include "kstars.h"
+#include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "widgets/dmsbox.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
 
-modCalcVlsr::modCalcVlsr(QWidget *parentSplit) : QFrame(parentSplit), velocityFlag(0)
+modCalcVlsr::modCalcVlsr(QWidget *parentSplit) :
+    QFrame(parentSplit), velocityFlag(0)
 {
     setupUi(this);
     RA->setDegType(false);
@@ -68,8 +69,7 @@ modCalcVlsr::~modCalcVlsr(){
 
 void modCalcVlsr::initGeo(void)
 {
-    KStars *ks = (KStars*) topLevelWidget()->parent();
-    geoPlace = ks->geo();
+    geoPlace = KStarsData::Instance()->geo();
     LocationButton->setText( geoPlace->fullName() );
 }
 
@@ -80,17 +80,17 @@ void modCalcVlsr::slotNow()
 }
 
 void modCalcVlsr::slotFindObject() {
-    FindDialog fd( (KStars*)topLevelWidget()->parent() );
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+    QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra0() );
         Dec->showInDegrees( o->dec0() );
     }
+    delete fd;
 }
 
 void modCalcVlsr::slotLocation() {
-    KStars *ks = (KStars*) topLevelWidget()->parent();
-    LocationDialog ld(ks);
+    LocationDialog ld( this );
 
     if ( ld.exec() == QDialog::Accepted ) {
         GeoLocation *newGeo = ld.selectedCity();
@@ -300,7 +300,7 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    QString space = " ";
+    QChar space = ' ';
     int i = 0;
     long double jd0;
     SkyPoint spB;

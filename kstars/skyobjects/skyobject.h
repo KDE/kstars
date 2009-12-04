@@ -20,6 +20,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QSharedDataPointer>
 
 #include <klocale.h>
 
@@ -44,6 +45,22 @@ class KSPopupMenu;
  */
 class SkyObject : public SkyPoint {
 public:
+    /** @short Type for Unique object IDenticator.
+     *
+     * Each object has unique ID (UID). For different objects UIDs
+     * must be different.
+     */
+    typedef qint64 UID;
+
+    /** @short Kind of UID */
+    static const UID UID_STAR;
+    static const UID UID_GALAXY;
+    static const UID UID_DEEPSKY;
+    static const UID UID_SOLARSYS;
+    
+    /** Invalid UID. Real sky object could not have such UID */
+    static const UID invalidUID;
+    
     /**
      *Constructor.  Set SkyObject data according to arguments.
      *@param t Type of object
@@ -70,17 +87,19 @@ public:
     SkyObject( int t, double r, double d, float m=0.0,
                const QString &n=QString(), const QString &n2=QString(), const QString &lname=QString() );
 
-    /**
-     *Copy constructor.
-     *@param o SkyObject from which to copy data
-     */
-    SkyObject( SkyObject &o );
+    /** Destructor (empty) */
+    virtual ~SkyObject();
 
-    /**
-     *Destructor (empty)
+    /** Create copy of object.
+     * This method is virtual copy constructor. It allows for safe
+     * copying of objects. In other words, KSPlanet object stored in
+     * SkyObject pointer will be copied as KSPlanet.
+     * Each subclass of SkyObject MUST implement clone method.
+     *
+     *  @return pointer to newly allocated object. Caller takes full responsibility
+     *  for deallocating it. 
      */
-    ~SkyObject();
-
+    virtual SkyObject* clone() const;
     /**
      *@enum TYPE
      *The type classification of the SkyObject.
@@ -319,7 +338,7 @@ public:
      *@short Query whether this SkyObject has a valid AuxInfo structure associated with it.
      *@return true if this SkyObject has a valid AuxInfo structure associated with it, false if not.
      */
-    inline bool hasAuxInfo() { return ( ( info == NULL) ? false : true ); }
+    inline bool hasAuxInfo() { return ! (!info); }
 
     /**
      *@return a reference to a QStringList storing a list of Image URLs associated with this SkyObject
@@ -345,6 +364,17 @@ public:
      *@return a reference to a QString storing the users' log for this SkyObject
      */
     inline QString &userLog() { return getAuxInfo()->userLog; }
+
+    inline QString &notes() { return getAuxInfo()->notes; }
+
+    void setNotes( QString _notes) { getAuxInfo()->notes = _notes; }
+
+    /** @short Return UID for object.  
+     * This method should be reimplemented in all concrete
+     * subclasses. Implementation for SkyObject just returns
+     * invalidUID. It's required SkyObject is not an abstract class.
+     */
+    virtual UID getUID() const;
 
 private:
 
@@ -419,7 +449,7 @@ protected:
     QString Name, Name2, LongName;
 
     // Pointer to an auxiliary info structure that stores Image URLs, Info URLs etc.
-    AuxInfo *info;
+    QSharedDataPointer<AuxInfo> info;
 
     // store often used name strings in static variables
     static QString emptyString;

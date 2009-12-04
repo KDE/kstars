@@ -23,17 +23,7 @@
 #include "kstarsdatetime.h"
 
 TimeZoneRule::TimeZoneRule() {
-    //Build the empty TimeZoneRule.
-    StartMonth = 0;
-    RevertMonth = 0;
-    StartDay = 0;
-    RevertDay = 0;
-    StartWeek = -1;
-    RevertWeek = -1;
-    StartTime = QTime();
-    RevertTime = QTime();
-    HourOffset = 0.0;
-    dTZ = 0.0;
+    setEmpty();
 }
 
 TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QTime &stime,
@@ -50,30 +40,24 @@ TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QT
             HourOffset = dh;
         } else {
             kWarning() << i18n( "Error parsing TimeZoneRule, setting to empty rule." ) ;
-            StartMonth = 0;
-            RevertMonth = 0;
-            StartDay = 0;
-            RevertDay = 0;
-            StartWeek = -1;
-            RevertWeek = -1;
-            StartTime = QTime();
-            RevertTime = QTime();
-            HourOffset = 0.0;
+            setEmpty();
         }
     } else { //Empty rule
-        StartMonth = 0;
-        RevertMonth = 0;
-        StartDay = 0;
-        RevertDay = 0;
-        StartWeek = -1;
-        RevertWeek = -1;
-        StartTime = QTime();
-        RevertTime = QTime();
-        HourOffset = 0.0;
+        setEmpty();
     }
 }
 
-TimeZoneRule::~TimeZoneRule() {
+void TimeZoneRule::setEmpty() {
+    StartMonth = 0;
+    RevertMonth = 0;
+    StartDay = 0;
+    RevertDay = 0;
+    StartWeek = -1;
+    RevertWeek = -1;
+    StartTime = QTime();
+    RevertTime = QTime();
+    HourOffset = 0.0;
+    dTZ = 0.0;
 }
 
 void TimeZoneRule::setDST( bool activate ) {
@@ -103,7 +87,7 @@ int TimeZoneRule::initMonth( const QString &mn ) {
     else if ( ml == "dec" ) return 12;
 
     kWarning() << i18n( "Could not parse " ) << mn << i18n( " as a valid month code." ) ;
-    return false;
+    return 0;
 }
 
 bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {

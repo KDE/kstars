@@ -42,8 +42,9 @@ SingleComponent::~SingleComponent()
     delete m_StoredObject;
 }
 
-void SingleComponent::update( KStarsData *data, KSNumbers *num )
+void SingleComponent::update( KSNumbers *num )
 {
+    KStarsData *data = KStarsData::Instance();
     if ( visible() ) {
         if ( num ) skyObject()->updateCoords( num );
         skyObject()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );

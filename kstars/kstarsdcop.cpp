@@ -35,6 +35,7 @@
 #include <kpushbutton.h>
 #include <klineedit.h>
 #include <knuminput.h>
+#include <kactioncollection.h>
 
 #include "colorscheme.h"
 #include "kstars.h"
@@ -42,7 +43,6 @@
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
-#include "infoboxes.h"
 #include "simclock.h"
 #include "Options.h"
 
@@ -68,30 +68,35 @@ void KStars::setAltAz( double alt, double az ) {
 
 void KStars::lookTowards ( const QString &direction ) {
     QString dir = direction.toLower();
-    if (dir == "zenith" || dir=="z") map()->invokeKey( Qt::Key_Z );
-    else if (dir == "north" || dir=="n") map()->invokeKey( Qt::Key_N );
-    else if (dir == "east"  || dir=="e") map()->invokeKey( Qt::Key_E );
-    else if (dir == "south" || dir=="s") map()->invokeKey( Qt::Key_S );
-    else if (dir == "west"  || dir=="w") map()->invokeKey( Qt::Key_W );
-    else if (dir == "northeast" || dir=="ne") {
+    if        (dir == "zenith" || dir=="z") {
+        actionCollection()->action("zenith")->trigger();
+    } else if (dir == "north"  || dir=="n") {
+        actionCollection()->action("north")->trigger();
+    } else if (dir == "east"   || dir=="e") {
+        actionCollection()->action("east")->trigger();
+    } else if (dir == "south"  || dir=="s") {
+        actionCollection()->action("south")->trigger();
+    } else if (dir == "west"   || dir=="w") {
+        actionCollection()->action("west")->trigger();
+    } else if (dir == "northeast" || dir=="ne") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 45.0 );
-        map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
+        map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
     } else if (dir == "southeast" || dir=="se") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 135.0 );
-        map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
+        map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
     } else if (dir == "southwest" || dir=="sw") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 225.0 );
-        map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
+        map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
     } else if (dir == "northwest" || dir=="nw") {
         map()->stopTracking();
         map()->clickedPoint()->setAlt( 15.0 ); map()->clickedPoint()->setAz( 315.0 );
-        map()->clickedPoint()->HorizontalToEquatorial( LST(), geo()->lat() );
+        map()->clickedPoint()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
         map()->slotCenter();
     } else {
         SkyObject *target = data()->objectNamed( direction );
@@ -138,15 +143,23 @@ void KStars::removeTrail( const QString &name ) {
 }
 
 void KStars::zoom( double z ) {
-    if ( z > MAXZOOM ) z = MAXZOOM;
-    if ( z < MINZOOM ) z = MINZOOM;
-    Options::setZoomFactor( z );
-    reportZoom();
-    map()->forceUpdate();
+    map()->setZoomFactor( z );
+}
+
+void KStars::zoomIn() {
+    map()->slotZoomIn();
+}
+
+void KStars::zoomOut() {
+    map()->slotZoomOut();
+}
+
+void KStars::defaultZoom() {
+    map()->slotZoomDefault();
 }
 
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
-    data()->changeDateTime( geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,min,sec) ) ) );
+    data()->changeDateTime( data()->geo()->LTtoUT( KStarsDateTime( QDate(yr, mth, day), QTime(hr,min,sec) ) ) );
 }
 
 void KStars::waitFor( double sec ) {
@@ -162,7 +175,7 @@ void KStars::waitForKey( const QString &k ) {
         while ( ! data()->resumeKey.isEmpty() ) { qApp->processEvents(); }
 
     } else {
-        kDebug() << i18n( "Error [DCOP waitForKey()]: Invalid key requested." );
+        kDebug() << i18n( "Error [D-Bus waitForKey()]: Invalid key requested." );
     }
 }
 
@@ -191,9 +204,6 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
 
             data()->setLocation( *loc );
 
-            //notify on-screen GeoBox
-            infoBoxes()->geoChanged( loc );
-
             //configure time zone rule
             KStarsDateTime ltime = loc->UTtoLT( data()->ut() );
             loc->tzrule()->reset_with_ltime( ltime, loc->TZ0(), data()->isTimeRunningForward() );
@@ -208,7 +218,7 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
             // If the sky is in Horizontal mode and not tracking, reset focus such that
             // Alt/Az remain constant.
             if ( ! Options::isTracking() && Options::useAltAz() ) {
-                map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
+                map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
 
             // recalculate new times and objects
@@ -222,10 +232,10 @@ void KStars::setGeoLocation( const QString &city, const QString &province, const
 
     if ( !cityFound ) {
         if ( province.isEmpty() )
-            kDebug() << i18n( "Error [DCOP setGeoLocation]: city " ) << city << ", "
+            kDebug() << i18n( "Error [D-Bus setGeoLocation]: city " ) << city << ", "
             << country << i18n( " not found in database." ) << endl;
         else
-            kDebug() << i18n( "Error [DCOP setGeoLocation]: city " ) << city << ", "
+            kDebug() << i18n( "Error [D-Bus setGeoLocation]: city " ) << city << ", "
             << province << ", " << country << i18n( " not found in database." ) << endl;
     }
 }
@@ -238,7 +248,7 @@ void KStars::readConfig() {
 
     //Reset date, if one was stored
     if ( data()->StoredDate.isValid() ) {
-        data()->changeDateTime( geo()->LTtoUT( data()->StoredDate ) );
+        data()->changeDateTime( data()->geo()->LTtoUT( data()->StoredDate ) );
         data()->StoredDate = KDateTime(); //invalidate StoredDate
     }
 
@@ -280,22 +290,24 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     double dVal = val.toDouble( &dOk );
 
     //[GUI]
-    if ( op == "ShowInfoBoxes"   && bOk ) Options::setShowInfoBoxes(   bVal );
-    if ( op == "ShowTimeBox"     && bOk ) Options::setShowTimeBox(     bVal );
-    if ( op == "ShowGeoBox"      && bOk ) Options::setShowGeoBox(      bVal );
-    if ( op == "ShowFocusBox"    && bOk ) Options::setShowFocusBox(    bVal );
-    if ( op == "ShadeTimeBox"    && bOk ) Options::setShadeTimeBox(    bVal );
-    if ( op == "ShadeGeoBox"     && bOk ) Options::setShadeGeoBox(     bVal );
-    if ( op == "ShadeFocusBox"   && bOk ) Options::setShadeFocusBox(   bVal );
-    if ( op == "ShowMainToolBar" && bOk ) Options::setShowMainToolBar( bVal );
-    if ( op == "ShowViewToolBar" && bOk ) Options::setShowViewToolBar( bVal );
+    // FIXME: REGRESSION
+    // if ( op == "ShowInfoBoxes"   && bOk ) Options::setShowInfoBoxes(   bVal );
+    // if ( op == "ShowTimeBox"     && bOk ) Options::setShowTimeBox(     bVal );
+    // if ( op == "ShowGeoBox"      && bOk ) Options::setShowGeoBox(      bVal );
+    // if ( op == "ShowFocusBox"    && bOk ) Options::setShowFocusBox(    bVal );
+    // if ( op == "ShadeTimeBox"    && bOk ) Options::setShadeTimeBox(    bVal );
+    // if ( op == "ShadeGeoBox"     && bOk ) Options::setShadeGeoBox(     bVal );
+    // if ( op == "ShadeFocusBox"   && bOk ) Options::setShadeFocusBox(   bVal );
+    // if ( op == "ShowMainToolBar" && bOk ) Options::setShowMainToolBar( bVal );
+    // if ( op == "ShowViewToolBar" && bOk ) Options::setShowViewToolBar( bVal );
 
     //[View]
-    if ( op == "FOVName"                ) Options::setFOVName(         val );
-    if ( op == "FOVSizeX"         && dOk ) Options::setFOVSizeX( (float)dVal );
-    if ( op == "FOVSizeY"         && dOk ) Options::setFOVSizeY( (float)dVal );
-    if ( op == "FOVShape"        && nOk ) Options::setFOVShape(       nVal );
-    if ( op == "FOVColor"               ) Options::setFOVColor(        val );
+    // FIXME: REGRESSION
+//     if ( op == "FOVName"                ) Options::setFOVName(         val );
+//     if ( op == "FOVSizeX"         && dOk ) Options::setFOVSizeX( (float)dVal );
+//     if ( op == "FOVSizeY"         && dOk ) Options::setFOVSizeY( (float)dVal );
+//     if ( op == "FOVShape"        && nOk ) Options::setFOVShape(       nVal );
+//     if ( op == "FOVColor"               ) Options::setFOVColor(        val );
     if ( op == "ShowStars"       && bOk ) Options::setShowStars(      bVal );
     if ( op == "ShowMessier"     && bOk ) Options::setShowMessier(    bVal );
     if ( op == "ShowMessierImages" && bOk ) Options::setShowMessierImages( bVal );
@@ -331,6 +343,7 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "ShowPlanetNames"    && bOk ) Options::setShowPlanetNames(    bVal );
     if ( op == "ShowPlanetImages"   && bOk ) Options::setShowPlanetImages(   bVal );
     if ( op == "HideOnSlew"  && bOk ) Options::setHideOnSlew(  bVal );
+    if ( op == "ObsListSaveImage"  && bOk ) Options::setObsListSaveImage(  bVal );
     if ( op == "HideStars"   && bOk ) Options::setHideStars(   bVal );
     if ( op == "HidePlanets" && bOk ) Options::setHidePlanets( bVal );
     if ( op == "HideMessier" && bOk ) Options::setHideMessier( bVal );
@@ -517,7 +530,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
         //(if requested)
         ColorScheme cs;
         if ( useChartColors ) {
-            cs.copy( * data()->colorScheme() );
+            cs = *data()->colorScheme();
             loadColorScheme( "chart.colors" );
         }
 
@@ -527,7 +540,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
         //Restore old color scheme if necessary
         //(if printing was aborted, the colorscheme is still restored)
         if ( useChartColors ) {
-            data()->colorScheme()->copy( cs );
+            *(data()->colorScheme()) = cs;
             map()->forceUpdate();
         }
 

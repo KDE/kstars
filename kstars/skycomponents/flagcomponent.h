@@ -40,7 +40,7 @@
  *flags and is read to init FlagComponent
  *
  *@author Jerome SONRIER
- *@version 1.0
+ *@version 1.1
  */
 class FlagComponent: public QObject, public PointListComponent
 {
@@ -59,9 +59,8 @@ public:
     /**
      *@short Init class
      *Read the file flags.dat and init members.
-     *@param data KStars data
      */
-    void init( KStarsData *data );
+    virtual void init();
 
     /**
      *@short Draw flags on the map.
@@ -81,7 +80,7 @@ public:
      *@param image Image name
      *@param label Label of the flag
      */
-    void add( SkyPoint* flagPoint, QString epoch, QString image, QString label );
+    void add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor );
 
     /**
      *@short Remove a flag.
@@ -114,6 +113,13 @@ public:
      *@param index Index of the flag
      */
     QString label( int index );
+
+    /**
+     *@short Get label color.
+     *@return the label color
+     *@param index Index of the flag
+     */
+    QColor labelColor( int index );
 
     /**
      *@short Get image.
@@ -163,6 +169,7 @@ private:
     QStringList         m_Epoch;        /**< List of epochs                */
     QList<int>          m_FlagImages;   /**< List of image index           */
     QStringList         m_Labels;       /**< List of label                 */
+    QList<QColor>       m_LabelColors;  /**< List of label colors          */
     QStringList         m_Names;        /**< List of image names           */
     QList<QImage>       m_Images;       /**< List of flag images           */
     KIO::ListJob*       m_Job;          /**< Used to list user's directory */

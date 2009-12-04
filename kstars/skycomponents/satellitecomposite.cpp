@@ -31,18 +31,17 @@ SatelliteComposite::SatelliteComposite( SkyComponent *parent )
 {
     for ( uint i=0; i<NSTEPS; ++i )
         pSat.append( new SPositionSat );
-
 }
 
 SatelliteComposite::~SatelliteComposite()
 {
-    for ( uint i=0; i<NSTEPS; ++i )
-        delete pSat[i];
+    qDeleteAll(pSat);
 }
 
-void SatelliteComposite::init( KStarsData *data ) {
+void SatelliteComposite::init() {
     emitProgressText( i18n("Creating Earth satellites" ) );
 
+    KStarsData* data = KStarsData::Instance();
     QFile file;
 
     //Extract satellite names from every third line of the satellites.dat file
@@ -54,7 +53,6 @@ void SatelliteComposite::init( KStarsData *data ) {
             QString name = stream.readLine().trimmed();
             if ( i % 3 == 0 )
                 SatelliteNames.append( name );
-
             i++;
         }
         file.close();
@@ -65,11 +63,12 @@ void SatelliteComposite::init( KStarsData *data ) {
                  data->geo()->lat()->Degrees(), data->geo()->lng()->Degrees(),
                  data->geo()->height(), sfPath.toAscii().data() );
 
-        update( data );
+        update( );
     }
 }
 
-void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
+void SatelliteComposite::update( KSNumbers * ) {
+    KStarsData *data = KStarsData::Instance();
     //Julian Day value for current date and time:
     JD_0 = data->ut().djd();
 
@@ -92,16 +91,16 @@ void SatelliteComposite::update( KStarsData *data, KSNumbers * ) {
 
         if ( isVisible ) {
             SatelliteComponent *sc = new SatelliteComponent( this );
-            sc->init( satName, data, pSat.data(), NSTEPS );
+            sc->initSat( satName, pSat.data(), NSTEPS );
             addComponent( sc );
 
             //DEBUG
-            foreach ( SPositionSat *ps, pSat ) {
-                KStarsDateTime dt( ps->jd );
-                dms alt( ps->sat_ele );
-                dms az( ps->sat_azi );
-                //				kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString();
-            }
+            // foreach ( SPositionSat *ps, pSat ) {
+            //     KStarsDateTime dt( ps->jd );
+            //     dms alt( ps->sat_ele );
+            //     dms az( ps->sat_azi );
+            //     kDebug() << ps->name << " " << dt.toString() << " " << alt.toDMSString() << " " << az.toDMSString();
+            // }
         }
     }
 }

@@ -42,20 +42,20 @@ WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );
 }
 
-WUTDialog::WUTDialog(KStars *ks) :
-        KDialog( (QWidget*)ks ), kstars(ks), EveningFlag(0)
+WUTDialog::WUTDialog( QWidget *parent, bool _session, GeoLocation *_geo, KStarsDateTime _lt ) :
+        KDialog( parent ),
+        session(_session),
+        T0(_lt),
+        geo(_geo),
+        EveningFlag(0),
+        timer(NULL)
 {
-
     WUT = new WUTDialogUI( this );
     setMainWidget( WUT );
     setCaption( i18n("What's up Tonight") );
     setButtons( KDialog::Close );
     setModal( false );
 
-    //initialize location and date to current KStars settings:
-    geo = kstars->geo();
-
-    T0 = kstars->data()->lt();
     //If the Time is earlier than 6:00 am, assume the user wants the night of the previous date
     if ( T0.time().hour() < 6 )
         T0 = T0.addDays( -1 );
@@ -78,7 +78,10 @@ WUTDialog::WUTDialog(KStars *ks) :
     sGeo += ", " + geo->translatedCountry();
     WUT->LocationLabel->setText( i18n( "at %1", sGeo ) );
     WUT->DateLabel->setText( i18n( "The night of %1", KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate ) ) );
-
+    m_Mag = 10.0;
+    WUT->MagnitudeEdit->setValue( m_Mag );
+    WUT->MagnitudeEdit->setSliderEnabled( true );
+    WUT->MagnitudeEdit->setSingleStep(0.100);
     initCategories();
 
     makeConnections();
@@ -94,18 +97,20 @@ void WUTDialog::makeConnections() {
     connect( WUT->LocationButton, SIGNAL( clicked() ), SLOT( slotChangeLocation() ) );
     connect( WUT->CenterButton, SIGNAL( clicked() ), SLOT( slotCenter() ) );
     connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
+    connect( WUT->ObslistButton, SIGNAL( clicked() ), SLOT( slotObslist() ) );
     connect( WUT->CategoryListWidget, SIGNAL( currentTextChanged(const QString &) ),
              SLOT( slotLoadList(const QString &) ) );
     connect( WUT->ObjectListWidget, SIGNAL( currentTextChanged(const QString &) ),
              SLOT( slotDisplayObject(const QString &) ) );
     connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
+    connect( WUT->MagnitudeEdit, SIGNAL( valueChanged( double ) ), SLOT( slotChangeMagnitude() ) );
 }
 
 void WUTDialog::initCategories() {
-    m_Categories << i18n( "Planets" ) << i18n( "Comets" )
-    << i18n( "Asteroids" ) << i18n( "Stars" )
-    << i18n( "Constellations" ) << i18n( "Star Clusters" )
-    << i18n( "Nebulae" ) << i18n( "Galaxies" );
+    m_Categories << i18n( "Planets" ) << i18n( "Stars" )
+    << i18n( "Nebulae" ) << i18n( "Galaxies" )
+    << i18n( "Star Clusters" ) << i18n( "Constellations" ) 
+    << i18n( "Asteroids" ) << i18n( "Comets" );
 
     foreach ( const QString &c, m_Categories )
     WUT->CategoryListWidget->addItem( c );
@@ -115,7 +120,9 @@ void WUTDialog::initCategories() {
 
 void WUTDialog::init() {
     QString sRise, sSet, sDuration;
-
+    float Dur;
+    int hDur,mDur;
+    KStarsData* data = KStarsData::Instance();
     // reset all lists
     foreach ( const QString &c, m_Categories ) {
         if ( m_VisibleList.contains( c ) )
@@ -127,14 +134,14 @@ void WUTDialog::init() {
     }
 
     // sun almanac information
-    KSSun *oSun = (KSSun*) kstars->data()->objectNamed( "Sun" );
+    KSSun *oSun = reinterpret_cast<KSSun*>( data->objectNamed("Sun") );
     sunRiseTomorrow = oSun->riseSetTime( TomorrowUT, geo, true );
     sunSetToday = oSun->riseSetTime( EveningUT, geo, false );
     sunRiseToday = oSun->riseSetTime( EveningUT, geo, true );
 
     //check to see if Sun is circumpolar
     KSNumbers *num = new KSNumbers( UT0.djd() );
-    KSNumbers *oldNum = new KSNumbers( kstars->data()->ut().djd() );
+    KSNumbers *oldNum = new KSNumbers( data->ut().djd() );
     dms LST = geo->GSTtoLST( T0.gst() );
 
     oSun->updateCoords( num, true, geo->lat(), &LST );
@@ -143,34 +150,46 @@ void WUTDialog::init() {
             sRise = i18n( "circumpolar" );
             sSet = i18n( "circumpolar" );
             sDuration = "00:00";
+            Dur = hDur = mDur = 0;
         } else {
             sRise = i18n( "does not rise" );
             sSet = i18n( "does not rise" );
             sDuration = "24:00";
+            Dur = hDur = 24;
+            mDur = 0;
         }
     } else {
         //Round times to the nearest minute by adding 30 seconds to the time
         sRise = KGlobal::locale()->formatTime( sunRiseTomorrow );
         sSet = KGlobal::locale()->formatTime( sunSetToday );
 
-        float Dur = 24.0 + (float)sunRiseTomorrow.hour()
+        Dur = 24.0 + (float)sunRiseTomorrow.hour()
                     + (float)sunRiseTomorrow.minute()/60.0
                     + (float)sunRiseTomorrow.second()/3600.0
                     - (float)sunSetToday.hour()
                     - (float)sunSetToday.minute()/60.0
                     - (float)sunSetToday.second()/3600.0;
-        int hDur = int(Dur);
-        int mDur = int(60.0*(Dur - (float)hDur));
+        hDur = int(Dur);
+        mDur = int(60.0*(Dur - (float)hDur));
         QTime tDur( hDur, mDur );
-        sDuration = KGlobal::locale()->formatTime( tDur );
+        sDuration = KGlobal::locale()->formatTime( tDur, false, true );
     }
 
-    WUT->SunSetLabel->setText( i18n( "Sunset: %1 on %2" , sSet, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
-    WUT->SunRiseLabel->setText( i18n( "Sunrise: %1 on %2" , sRise, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
-    WUT->NightDurationLabel->setText( i18n("Night duration: %1 hours", sDuration ) );
+    WUT->SunSetLabel->setText( i18nc( "Sunset at time %1 on date %2", "Sunset: %1 on %2" , sSet, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    WUT->SunRiseLabel->setText( i18nc( "Sunrise at time %1 on date %2", "Sunrise: %1 on %2" , sRise, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
+    if( Dur == 0 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1", sDuration ) );
+    else if( Dur > 1 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1 hours", sDuration ) );
+    else if( Dur == 1 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1 hour", sDuration ) );
+    else if( mDur > 1 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1 minutes", sDuration ) );
+    else if( mDur == 1 )
+        WUT->NightDurationLabel->setText( i18n("Night duration: %1 minute", sDuration ) );
 
     // moon almanac information
-    KSMoon *oMoon = (KSMoon*) kstars->data()->objectNamed( "Moon" );
+    KSMoon *oMoon = reinterpret_cast<KSMoon*>( data->objectNamed("Moon") );
     moonRise = oMoon->riseSetTime( UT0, geo, true );
     moonSet = oMoon->riseSetTime( UT0, geo, false );
 
@@ -197,8 +216,8 @@ void WUTDialog::init() {
                                       int(100.0*oMoon->illum() ) ) );
 
     //Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
-    oMoon->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
-    oSun->updateCoords( oldNum, true, geo->lat(), kstars->LST() );
+    oMoon->updateCoords( oldNum, true, geo->lat(), data->lst() );
+    oSun->updateCoords( oldNum, true, geo->lat(), data->lst() );
     oMoon->findPhase();
 
     if ( WUT->CategoryListWidget->currentItem() )
@@ -217,7 +236,9 @@ bool WUTDialog::isCategoryInitialized( const QString &category ) {
 }
 
 void WUTDialog::slotLoadList( const QString &c ) {
-    if ( ! m_VisibleList.contains( c ) ) return;
+    KStarsData* data = KStarsData::Instance();
+    if ( ! m_VisibleList.contains( c ) )
+        return;
 
     WUT->ObjectListWidget->clear();
     setCursor(QCursor(Qt::WaitCursor));
@@ -225,42 +246,42 @@ void WUTDialog::slotLoadList( const QString &c ) {
     if ( ! isCategoryInitialized(c) ) {
 
         if ( c == m_Categories[0] ) { //Planets
-            foreach ( const QString &name, kstars->data()->skyComposite()->objectNames( SkyObject::PLANET ) ) {
-                SkyObject *o = kstars->data()->skyComposite()->findByName( name );
+            foreach ( const QString &name, data->skyComposite()->objectNames( SkyObject::PLANET ) ) {
+                SkyObject *o = data->skyComposite()->findByName( name );
 
-                if ( checkVisibility( o ) )
+                if ( checkVisibility( o ) && o->mag() <= m_Mag )
                     visibleObjects(c).append(o);
             }
 
             m_CategoryInitialized[ c ] = true;
         }
 
-        else if ( c == m_Categories[1] ) { //Comets
-            foreach ( SkyObject *o, kstars->data()->skyComposite()->comets() )
+        else if ( c == m_Categories[1] ) { //Stars
+            foreach ( SkyObject *o, data->skyComposite()->stars() )
+            if ( o->name() != i18n("star") && checkVisibility(o) && o->mag() <= m_Mag )
+                visibleObjects(c).append(o);
+
+            m_CategoryInitialized[ c ] = true;
+        }
+
+        else if ( c == m_Categories[5] ) { //Constellations
+            foreach ( SkyObject *o, data->skyComposite()->constellationNames() )
             if ( checkVisibility(o) )
                 visibleObjects(c).append(o);
 
             m_CategoryInitialized[ c ] = true;
         }
 
-        else if ( c == m_Categories[2] ) { //Asteroids
-            foreach ( SkyObject *o, kstars->data()->skyComposite()->asteroids() )
-            if ( checkVisibility(o) && o->name() != i18n("Pluto") )
+        else if ( c == m_Categories[6] ) { //Asteroids
+            foreach ( SkyObject *o, data->skyComposite()->asteroids() )
+            if ( checkVisibility(o) && o->name() != i18n("Pluto") && o->mag() <= m_Mag )
                 visibleObjects(c).append(o);
 
             m_CategoryInitialized[ c ] = true;
         }
 
-        else if ( c == m_Categories[3] ) { //Stars
-            foreach ( SkyObject *o, kstars->data()->skyComposite()->stars() )
-            if ( o->name() != i18n("star") && checkVisibility(o) )
-                visibleObjects(c).append(o);
-
-            m_CategoryInitialized[ c ] = true;
-        }
-
-        else if ( c == m_Categories[4] ) { //Constellations
-            foreach ( SkyObject *o, kstars->data()->skyComposite()->constellationNames() )
+        else if ( c == m_Categories[7] ) { //Comets
+            foreach ( SkyObject *o, data->skyComposite()->comets() )
             if ( checkVisibility(o) )
                 visibleObjects(c).append(o);
 
@@ -268,29 +289,29 @@ void WUTDialog::slotLoadList( const QString &c ) {
         }
 
         else { //all deep-sky objects, need to split clusters, nebulae and galaxies
-            foreach ( DeepSkyObject *dso, kstars->data()->skyComposite()->deepSkyObjects() ) {
+            foreach ( DeepSkyObject *dso, data->skyComposite()->deepSkyObjects() ) {
                 SkyObject *o = (SkyObject*)dso;
-                if ( checkVisibility(o) ) {
+                if ( checkVisibility(o) && o->mag() <= m_Mag ) {
                     switch( o->type() ) {
                     case SkyObject::OPEN_CLUSTER: //fall through
                     case SkyObject::GLOBULAR_CLUSTER:
-                        visibleObjects(m_Categories[5]).append(o); //star clusters
+                        visibleObjects(m_Categories[4]).append(o); //star clusters
                         break;
                     case SkyObject::GASEOUS_NEBULA: //fall through
                     case SkyObject::PLANETARY_NEBULA: //fall through
                     case SkyObject::SUPERNOVA_REMNANT:
-                        visibleObjects(m_Categories[6]).append(o); //nebulae
+                        visibleObjects(m_Categories[2]).append(o); //nebulae
                         break;
                     case SkyObject::GALAXY:
-                        visibleObjects(m_Categories[7]).append(o); //galaxies
+                        visibleObjects(m_Categories[3]).append(o); //galaxies
                         break;
                     }
                 }
             }
 
-            m_CategoryInitialized[ m_Categories[5] ] = true;
-            m_CategoryInitialized[ m_Categories[6] ] = true;
-            m_CategoryInitialized[ m_Categories[7] ] = true;
+            m_CategoryInitialized[ m_Categories[2] ] = true;
+            m_CategoryInitialized[ m_Categories[3] ] = true;
+            m_CategoryInitialized[ m_Categories[4] ] = true;
         }
     }
 
@@ -360,7 +381,7 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
         WUT->ObjectBox->setTitle( i18n( "No Object Selected" ) );
         o = 0;
     } else {
-        o = kstars->data()->objectNamed( name );
+        o = KStarsData::Instance()->objectNamed( name );
 
         if ( !o ) { //should never get here
             WUT->ObjectBox->setTitle( i18n( "Object Not Found" ) );
@@ -380,8 +401,8 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
         } else {
             tRise = o->riseSetTime( T0, geo, true );
             tSet = o->riseSetTime( T0, geo, false );
-            //			if ( tSet < tRise )
-            //				tSet = o->riseSetTime( JDTomorrow, geo, false );
+            //          if ( tSet < tRise )
+            //              tSet = o->riseSetTime( JDTomorrow, geo, false );
 
             sRise.clear();
             sRise.sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
@@ -390,8 +411,8 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
         }
 
         tTransit = o->transitTime( T0, geo );
-        //		if ( tTransit < tRise )
-        //			tTransit = o->transitTime( JDTomorrow, geo );
+        //      if ( tTransit < tRise )
+        //          tTransit = o->transitTime( JDTomorrow, geo );
 
         sTransit.clear();
         sTransit.sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
@@ -405,6 +426,7 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
 }
 
 void WUTDialog::slotCenter() {
+    KStars* kstars = KStars::Instance();
     SkyObject *o = 0;
     // get selected item
     if (WUT->ObjectListWidget->currentItem() != 0) {
@@ -418,14 +440,27 @@ void WUTDialog::slotCenter() {
 }
 
 void WUTDialog::slotDetails() {
+    KStars* kstars = KStars::Instance();
     SkyObject *o = 0;
     // get selected item
     if (WUT->ObjectListWidget->currentItem() != 0) {
         o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
     }
     if (o != 0) {
-        DetailDialog detail(o, kstars->data()->LTime, geo, kstars);
-        detail.exec();
+        QPointer<DetailDialog> detail = new DetailDialog(o, kstars->data()->lt(), geo, kstars);
+        detail->exec();
+	delete detail;
+    }
+}
+void WUTDialog::slotObslist() {
+    KStars* kstars = KStars::Instance();
+    SkyObject *o = 0;
+    // get selected item
+    if (WUT->ObjectListWidget->currentItem() != 0) {
+        o = kstars->data()->objectNamed( WUT->ObjectListWidget->currentItem()->text() );
+    }
+    if(o != 0) {
+        kstars->observingList()->slotAddObject( o, session ) ;
     }
 }
 
@@ -435,9 +470,9 @@ void WUTDialog::slotChangeDate() {
     // wants to see what's up on the night of some date, rather than the night of the previous day
     T0.setTime( QTime( 18, 0, 0 ) ); // 6 PM
 
-    TimeDialog td( T0, kstars->geo(), this );
-    if ( td.exec() == QDialog::Accepted ) {
-        T0 = td.selectedDateTime();
+    QPointer<TimeDialog> td = new TimeDialog( T0, KStarsData::Instance()->geo(), this );
+    if ( td->exec() == QDialog::Accepted ) {
+        T0 = td->selectedDateTime();
 
         // If the time is set to 12 midnight, set it to 00:00:01, so that we don't have date interpretation problems
         if ( T0.time() == QTime( 0, 0, 0 ) )
@@ -465,12 +500,13 @@ void WUTDialog::slotChangeDate() {
         init();
         slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
     }
+    delete td;
 }
 
 void WUTDialog::slotChangeLocation() {
-    LocationDialog ld( kstars );
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    QPointer<LocationDialog> ld = new LocationDialog( this );
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geo = newGeo;
             UT0 = geo->LTtoUT( T0 );
@@ -483,6 +519,7 @@ void WUTDialog::slotChangeLocation() {
             slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
         }
     }
+    delete ld;
 }
 
 void WUTDialog::slotEveningMorning( int index ) {
@@ -493,4 +530,20 @@ void WUTDialog::slotEveningMorning( int index ) {
     }
 }
 
+void WUTDialog::updateMag() {
+    m_Mag = WUT->MagnitudeEdit->value();
+    init();
+    slotLoadList( WUT->CategoryListWidget->currentItem()->text() );
+}
+
+void WUTDialog::slotChangeMagnitude() {
+    if( timer ) {
+        timer->stop();
+    } else {
+        timer = new QTimer( this );
+        timer->setSingleShot( true );
+        connect( timer, SIGNAL( timeout() ), this, SLOT( updateMag() ) );
+    }
+    timer->start( 500 );
+}
 #include "wutdialog.moc"

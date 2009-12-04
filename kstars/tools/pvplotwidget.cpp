@@ -31,6 +31,7 @@ PVPlotWidget::PVPlotWidget( QWidget *parent ) :
     setFocusPolicy( Qt::StrongFocus );
     setMouseTracking (true);
     setAntialiasing(true);
+    //FIXME: Evil cast!
     pv = (PlanetViewer*)topLevelWidget();
 }
 

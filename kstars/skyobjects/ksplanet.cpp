@@ -112,13 +112,14 @@ bool KSPlanet::OrbitDataManager::loadData( KSPlanet::OrbitDataColl &odc, const Q
     return true;
 }
 
-KSPlanet::KSPlanet( KStarsData *kd, const QString &s,
-                    const QString &imfile, const QColor & c, double pSize )
-    : KSPlanetBase(kd, s, imfile, c, pSize ), data_loaded(false) {
-}
+KSPlanet::KSPlanet( const QString &s, const QString &imfile, const QColor & c, double pSize ) :
+    KSPlanetBase(s, imfile, c, pSize ),
+    data_loaded(false)
+{ }
 
-KSPlanet::KSPlanet( KStarsData *kd, int n ) 
-    : KSPlanetBase(kd) {
+KSPlanet::KSPlanet( int n ) 
+    : KSPlanetBase()
+{
     switch ( n ) {
         case MERCURY:
             KSPlanetBase::init( i18n("Mercury"), "mercury.png", KSPlanetBase::planetColor[KSPlanetBase::MERCURY], 4879.4 );
@@ -147,6 +148,11 @@ KSPlanet::KSPlanet( KStarsData *kd, int n )
     }
 }
 
+KSPlanet* KSPlanet::clone() const
+{
+    return new KSPlanet(*this);
+}
+        
 // TODO: Get rid of this dirty hack post KDE 4.2 release
 QString KSPlanet::untranslatedName() const {
     if( name() == i18n( "Mercury" ) )
@@ -312,4 +318,71 @@ bool KSPlanet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase 
     findPA( num );
 
     return true;
+}
+
+void KSPlanet::findMagnitude(const KSNumbers* num)
+{
+    double cosDec, sinDec;
+    dec()->SinCos(cosDec, sinDec);
+
+    /* Computation of the visual magnitude (V band) of the planet.
+    * Algorithm provided by Pere Planesas (Observatorio Astronomico Nacional)
+    * It has some simmilarity to J. Meeus algorithm in Astronomical Algorithms, Chapter 40.
+    * */
+
+    // Initialized to the faintest magnitude observable with the HST
+    float magnitude = 30;
+
+    double param = 5 * log10(rsun() * rearth() );
+    double phase = this->phase().Degrees();
+    double f1 = phase/100.;
+
+    if( name() == i18n( "Mercury" ) ) {
+        if ( phase > 150. ) f1 = 1.5;
+        magnitude = -0.36 + param + 3.8*f1 - 2.73*f1*f1 + 2*f1*f1*f1;
+    } else if( name() == i18n( "Venus" ) ) {
+        magnitude = -4.29 + param + 0.09*f1 + 2.39*f1*f1 - 0.65*f1*f1*f1;
+    } else if( name() == i18n( "Mars" ) ) {
+        magnitude = -1.52 + param + 0.016*phase;
+    } else if( name() == i18n( "Jupiter" ) ) {
+        magnitude = -9.25 + param + 0.005*phase;
+    } else if( name() == i18n( "Saturn" ) ) {
+        double T = num->julianCenturies();
+        double a0 = (40.66-4.695*T)* dms::PI / 180.;
+        double d0 = (83.52+0.403*T)* dms::PI / 180.;
+        double sinx = -cos(d0)*cosDec*cos(a0 - ra()->radians());
+        sinx = fabs(sinx-sin(d0)*sinDec);
+        double rings = -2.6*sinx + 1.25*sinx*sinx;
+        magnitude = -8.88 + param + 0.044*phase + rings;
+    } else if( name() == i18n( "Uranus" ) ) {
+        magnitude = -7.19 + param + 0.0028*phase;
+    } else if( name() == i18n( "Neptune" ) ) {
+        magnitude = -6.87 + param;
+    }
+    setMag(magnitude);
+}
+
+SkyObject::UID KSPlanet::getUID() const
+{
+    SkyObject::UID n;
+    if( name() == i18n( "Mercury" ) ) {
+        n = 1;
+    } else if( name() == i18n( "Venus" ) ) {
+        n = 2;
+    } else if( name() == i18n( "Earth" ) ) {
+        n = 3;
+    } else if( name() == i18n( "Mars" ) ) {
+        n = 4;
+    } else if( name() == i18n( "Jupiter" ) ) {
+        n = 5;
+    } else if( name() == i18n( "Saturn" ) ) {
+        n = 6;
+    } else if( name() == i18n( "Uranus" ) ) {
+        n = 7;
+    } else if( name() == i18n( "Neptune" ) ) {
+        n = 8;
+    } else {
+        return SkyObject::invalidUID;
+    }
+    return solarsysUID(UID_SOL_BIGOBJ) | n;
 }

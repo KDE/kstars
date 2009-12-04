@@ -23,58 +23,12 @@
 
 GeoLocation::GeoLocation(){
     GeoLocation( 0.0, 0.0 );
-    TZrule = NULL;
-}
-
-GeoLocation::GeoLocation( const GeoLocation &g ) {
-    Longitude = g.Longitude;
-    Latitude  = g.Latitude;
-    Name      = g.Name;
-    Province  = g.Province;
-    Country   = g.Country;
-    TimeZone  = g.TimeZone;
-    TZrule    = g.TZrule;
-    Height    = g.Height;
-    indexEllipsoid = g.indexEllipsoid;
-    setEllipsoid ( indexEllipsoid );
-    geodToCart();
-}
-
-GeoLocation::GeoLocation( GeoLocation *g ) {
-    Longitude = g->Longitude;
-    Latitude  = g->Latitude;
-    Name      = g->Name;
-    Province  = g->Province;
-    Country   = g->Country;
-    TimeZone  = g->TimeZone;
-    TZrule    = g->TZrule;
-    Height    = g->Height;
-    indexEllipsoid = g->indexEllipsoid;
-    setEllipsoid ( indexEllipsoid );
-    geodToCart();
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
                           const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
     Longitude = lng;
     Latitude = lat;
-    Name = name;
-    Province = province;
-    Country = country;
-    TimeZone = tz;
-    TZrule = tzrule;
-    Height = hght;
-    indexEllipsoid = iEllips;
-    setEllipsoid ( indexEllipsoid );
-    geodToCart();
-}
-
-GeoLocation::GeoLocation( double lng, double lat,
-                          const QString &name, const QString &province,
-                          const QString &country, double tz,
-                          TimeZoneRule *tzrule, int iEllips, double hght ) {
-    Longitude.set( lng );
-    Latitude.set( lat );
     Name = name;
     Province = province;
     Country = country;
@@ -104,46 +58,46 @@ GeoLocation::GeoLocation( double x, double y, double z,
 }
 
 QString GeoLocation::fullName() const {
-    QString s;
     if ( province().isEmpty() ) {
-        s = translatedName() + ", " + translatedCountry();
+        return QString("%1, %2").arg(translatedName(), translatedCountry());
     } else {
-        s = translatedName() + ", " + translatedProvince() + ", " + translatedCountry();
+        return QString("%1, %2, %3").arg(translatedName(), translatedProvince(), translatedCountry());
     }
-
-    return s;
 }
 
-void GeoLocation::reset( GeoLocation *g ) {
-    indexEllipsoid = g->ellipsoid();
-    setEllipsoid ( indexEllipsoid );
-    setLong( g->lng()->Degrees() );
-    setLat( g->lat()->Degrees() );
-    Name      = g->name();
-    Province  = g->province();
-    Country   = g->country();
-    TimeZone  = g->TZ();
-    TZrule    = g->tzrule();
-    Height    = g->height();
-}
-
-
-void GeoLocation::setEllipsoid(int index) {
-    static const double A[] = { 6378140.0, 6378137.0, 6378137.0, 6378137.0, 6378136.0 };
+void GeoLocation::setEllipsoid(int i) {
+    static const double A[] = { 6378140.0,       6378137.0,       6378137.0,       6378137.0,        6378136.0 };
     static const double F[] = { 0.0033528131779, 0.0033528106812, 0.0033528131779, 0.00335281066474, 0.0033528131779 };
 
-    axis = A[index];
-    flattening = F[index];
+    Q_ASSERT(i >= 0 && i < sizeof(A)/sizeof(A[0]) && "Index must be in bounds");
+    axis       = A[i];
+    flattening = F[i];
 }
 
 void GeoLocation::changeEllipsoid(int index) {
-
     setEllipsoid(index);
     cartToGeod();
-
 }
 
-void GeoLocation::cartToGeod(void)
+QString GeoLocation::translatedName() const {
+    QString context;
+    if( province().isEmpty() ) {
+        context = QString("City in %1").arg(country());
+    } else {
+        context = QString("City in %1 %2").arg(province(), country());
+    }
+    return Name.isEmpty() ? QString() : i18nc(context.toUtf8().data(), Name.toUtf8().data());
+}
+
+QString GeoLocation::translatedProvince() const {
+    return Province.isEmpty() ? QString() : i18nc(("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data());
+}
+
+QString GeoLocation::translatedCountry() const {
+    return Country.isEmpty() ? QString() : i18nc("Country name", Country.toUtf8().data());
+}
+
+void GeoLocation::cartToGeod()
 {
     static const double RIT = 2.7778e-6;
     double e2, rpro, lat1, xn, s1, sqrtP2, latd, sinl;
@@ -171,7 +125,7 @@ void GeoLocation::cartToGeod(void)
     Latitude.setRadians(latd);
 }
 
-void GeoLocation::geodToCart (void) {
+void GeoLocation::geodToCart() {
     double e2, xn;
     double sinLong, cosLong, sinLat, cosLat;
 

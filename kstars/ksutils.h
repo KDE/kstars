@@ -31,8 +31,7 @@
 class QFile;
 class QString;
 
-class KSUtils {
-public:
+namespace KSUtils {
     /**Attempt to open the data file named filename, using the QFile object "file".
     	*First look in the standard KDE directories, then look in a local "data"
     	*subdirectory.  If the data file cannot be found or opened, display a warning
@@ -43,22 +42,37 @@ public:
     	*@returns bool Returns true if data file was opened successfully.
     	*@returns a reference to the opened file.
     	*/
-    static bool openDataFile( QFile &file, const QString &filename );
+    bool openDataFile( QFile &file, const QString &filename );
 
-    /** Lagrange interpolation using a maximum number of 10 points.
-     	*@param x[] double array with x values
-     	*@param v[] double array with y values
-    	*@param n number of points to use for interpolation
-    	*@param xval value for which we are looking for the y value.
-     	*/
-    static long double lagrangeInterpolation(const long double x[], const long double v[], int n, long double xval);
+    /** Clamp value into range.
+     *  @p x  value to clamp.
+     *  @p min  minimal allowed value.
+     *  @p max  maximum allowed value.
+     */
+    template<typename T>
+    inline T clamp(T x, T min, T max) {
+        if( x < min )
+            return min;
+        if( x > max )
+            return max;
+        return x;
+    }
 
-private:
-    /**Constructor.  This class is just a collection of static functions, so
-    	*we have made the constructor private (so it is not possible to  
-    	*instantiate a KSUtils object).
-    	*/
-    KSUtils();
-};
+    /** Put angle into range. Period is equal to max-min.
+     *
+     *  @p x angle value
+     *  @p min minimal angle
+     *  @p max maximal angle
+     */
+    template<typename T>
+    inline T reduceAngle(T x, T min, T max) {
+        T delta = max - min;
+        while( x > max )
+            x -= delta;
+        while( x < min )
+            x += delta;
+        return x;
+    }
+}
 
 #endif

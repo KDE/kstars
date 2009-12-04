@@ -34,7 +34,6 @@
 #include <KPlotPoint>
 
 #include "ui_planetviewer.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
@@ -52,6 +51,7 @@ PlanetViewerUI::PlanetViewerUI( QWidget *p ) : QFrame( p ) {
 PlanetViewer::PlanetViewer(QWidget *parent)
         : KDialog( parent ), scale(1.0), isClockRunning(false), tmr(this)
 {
+    KStarsData *data = KStarsData::Instance();
     pw = new PlanetViewerUI( this );
     setMainWidget( pw );
     setCaption( i18n("Solar System Viewer") );
@@ -68,17 +68,16 @@ PlanetViewer::PlanetViewer(QWidget *parent)
     pw->RunButton->setIcon( KIcon("arrow-right") );
     pw->ZoomInButton->setIcon( KIcon("zoom-in") );
     pw->ZoomOutButton->setIcon( KIcon("zoom-out") );
-    pw->DateBox->setDate( ((KStars*)parent)->data()->lt().date() );
+    pw->DateBox->setDate( data->lt().date() );
 
     resize( 500, 500 );
     pw->map->QWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
 
     setCenterPlanet(QString());
 
-    KStarsData *data = KStarsData::Instance();
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MERCURY ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::VENUS ) );
-    PlanetList.append( new KSPlanet( data, "Earth" ) );
+    PlanetList.append( new KSPlanet( "Earth" ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::MARS ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::JUPITER ) );
     PlanetList.append( KSPlanetBase::createPlanet( KSPlanetBase::SATURN ) );
@@ -107,14 +106,14 @@ PlanetViewer::PlanetViewer(QWidget *parent)
 
     QTimer::singleShot( 0, this, SLOT( initPlotObjects() ) );
 
-    connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
-    connect( pw->TimeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
-    connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
-    connect( pw->ZoomInButton, SIGNAL( clicked() ), SLOT( slotMapZoomIn() ) );
-    connect( pw->ZoomOutButton, SIGNAL( clicked() ), SLOT( slotMapZoomOut() ) );
-    connect( pw->DateBox, SIGNAL( valueChanged( const QDate & ) ), SLOT( slotChangeDate( const QDate & ) ) );
-    connect( pw->TodayButton, SIGNAL( clicked() ), SLOT( slotToday() ) );
-    connect( this, SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
+    connect( &tmr,              SIGNAL( timeout() ), SLOT( tick() ) );
+    connect( pw->TimeStep,      SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
+    connect( pw->RunButton,     SIGNAL( clicked() ), SLOT( slotRunClock() ) );
+    connect( pw->ZoomInButton,  SIGNAL( clicked() ), pw->map, SLOT( slotZoomIn() ) );
+    connect( pw->ZoomOutButton, SIGNAL( clicked() ), pw->map, SLOT( slotZoomOut() ) );
+    connect( pw->DateBox,       SIGNAL( dateChanged(const QDate&) ), SLOT( slotChangeDate() ) );
+    connect( pw->TodayButton,   SIGNAL( clicked() ), SLOT( slotToday() ) );
+    connect( this,              SIGNAL( closeClicked() ), SLOT( slotCloseWindow() ) );
 }
 
 PlanetViewer::~PlanetViewer()
@@ -151,7 +150,7 @@ void PlanetViewer::slotRunClock() {
     }
 }
 
-void PlanetViewer::slotChangeDate( const QDate & ) {
+void PlanetViewer::slotChangeDate() {
     ut.setDate( pw->DateBox->date() );
     updatePlanets();
 }
@@ -200,8 +199,7 @@ void PlanetViewer::updatePlanets() {
 }
 
 void PlanetViewer::slotToday() {
-    KStars *ks = (KStars*)parent();
-    pw->DateBox->setDate( ks->data()->lt().date() );
+    pw->DateBox->setDate( KStarsData::Instance()->lt().date() );
 }
 
 void PlanetViewer::paintEvent( QPaintEvent* ) {
@@ -254,22 +252,10 @@ void PlanetViewer::initPlotObjects() {
 }
 
 void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
-    switch ( e->key() ) {
-    case Qt::Key_Escape:
+    if( e->key() == Qt::Key_Escape )
         close();
-        break;
-    default:
+    else
         e->ignore();
-        break;
-    }
-}
-
-void PlanetViewer::slotMapZoomIn() {
-    pw->map->slotZoomIn();
-}
-
-void PlanetViewer::slotMapZoomOut() {
-    pw->map->slotZoomOut();
 }
 
 #include "planetviewer.moc"

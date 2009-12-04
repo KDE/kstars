@@ -21,11 +21,6 @@
 #include <QTimer>
 #include <QWidget>
 #include <QPixmap>
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QKeyEvent>
-#include <QResizeEvent>
-#include <QPaintEvent>
 
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
@@ -36,18 +31,17 @@
 
 class QPainter;
 class QPaintDevice;
-class QPoint;
 class QPixmap;
+
 //DEBUG_KIO_JOB
 class KJob;
 
 class dms;
-class InfoBoxes;
-class KStars;
 class KStarsData;
-class KSPlanetBase;
 class KSPopupMenu;
 class SkyObject;
+class InfoBoxWidget;
+class InfoBoxes;
 
 /**@class SkyMap
 	*
@@ -72,22 +66,17 @@ protected:
     *Constructor.  Read stored settings from KConfig object (focus position,
     *zoom factor, sky color, etc.).  Run initPopupMenus().
     */
-    explicit SkyMap( KStarsData *_data, KStars *_ks = 0 );
-
-    SkyMap( SkyMap& skyMap );
+    explicit SkyMap();
 
 public:
-
-    static SkyMap* Create( KStarsData *_data, KStars *_ks = 0 );
+    static SkyMap* Create();
 
     static SkyMap* Instance();
 
     static bool IsSlewing() { return pinstance->isSlewing(); }
 
 
-    /**
-    *Destructor (empty)
-    */
+    /** Destructor (empty) */
     ~SkyMap();
 
     enum Projection { Lambert=0, AzimuthalEquidistant=1,
@@ -101,18 +90,10 @@ public:
     	*/
     float fov();
 
+    /**@short Update object name and coordinates in the Focus InfoBox */
+    void showFocusCoords();
 
-    /**
-    	*@return pointer to InfoBoxes object.
-    	*/
-    InfoBoxes* infoBoxes() const { return IBoxes; }
-
-    /**@short Update object name and coordinates in the Focus InfoBox
-    	*/
-    void showFocusCoords( bool coordsOnly = false );
-
-    /**@short Update the focus position according to current options.
-    	*/
+    /**@short Update the focus position according to current options. */
     void updateFocus();
 
     /**@short Retrieve the Focus point; the position on the sky at the
@@ -140,15 +121,6 @@ public:
     	*@return a pointer to the sky point which is to be focused next.
     	*/
     SkyPoint* focusPoint() { return &FocusPoint; }
-
-    /**@short retrieve the last focus posiiton.
-    	*
-    	*We store the previous focus point to determine how much the focus 
-    	*position has changed.  
-    	*
-    	*@return a pointer to the previous central focus point of the sky map
-    	*/
-    SkyPoint* oldfocus() { return &OldFocus; }
 
     /**@short sets the central focus point of the sky map.
     	*@param f a pointer to the SkyPoint the map should be centered on
@@ -236,11 +208,6 @@ public:
     	*/
     void setDestinationAltAz(double alt, double az);
 
-    /**@short set the previous central focus point of the sky map.
-    	*@param f a pointer to the SkyPoint the map was centered on
-    	*/
-    void setOldFocus( SkyPoint *f ) { OldFocus.set( f->ra(), f->dec() ); }
-
     /**@short set the FocusPoint; the position that is to be the next Destination.
     	*@param f a pointer to the FocusPoint SkyPoint.
     	*/
@@ -259,17 +226,6 @@ public:
     	*@param f pointer to the new ClickedPoint.
     	*/
     void setClickedPoint( SkyPoint *f );
-
-    /**@short Retrieve the PreviousClickedPoint position.
-    	*@return a pointer to PreviousClickedPoint, the sky coordinates of the 
-    	*penultimate mouse click.
-    	*/
-    SkyPoint* previousClickedPoint() { return &PreviousClickedPoint; }
-
-    /**Sets the PreviousClickedPoint to the skypoint given as an argument.
-    	*@param f pointer to the new PreviousClickedPoint.
-    	*/
-    void setPreviousClickedPoint( SkyPoint *f ) { PreviousClickedPoint.set( f->ra(), f->dec() ); }
 
     /**@short Retrieve a pointer to MousePoint, the sky coordinates of the mouse cursor.
     	*
@@ -294,7 +250,7 @@ public:
     	*or NULL if there is no CLickedObject.
     	*@return a pointer to the object nearest to a user mouse click.
     	*/
-    SkyObject* clickedObject( void ) const { return ClickedObject; }
+    SkyObject* clickedObject() const { return ClickedObject; }
 
     /**@short Set the ClickedObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the ClickedObject
@@ -309,7 +265,7 @@ public:
     	*FocusObject, or NULL if there is not FocusObject.
     	*@return a pointer to the object at the center of the sky map.
     	*/
-    SkyObject* focusObject( void ) const { return FocusObject; }
+    SkyObject* focusObject() const { return FocusObject; }
 
     /**@short Set the FocusObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the FocusObject
@@ -324,7 +280,7 @@ public:
     	*@return pointer to the SkyObject nearest to the mouse hover position.
     	*@see SkyMap::slotTransientLabel()
     	*/
-    SkyObject* transientObject( void ) const { return TransientObject; }
+    SkyObject* transientObject() const { return TransientObject; }
 
     /**@short Set the TransientObject pointer to the argument.
     	*@param o pointer to the SkyObject to be assigned as the TransientObject.
@@ -340,17 +296,13 @@ public:
     	*The variables set by setMapGeometry are:
     	*@li isPoleVisible true if a coordinate Pole is on-screen
     	*@li XMax the horizontal center-to-edge angular distance
-    	*@li guideXMax a version of XMax used for guide lines (same as XMax at low zoom; 2x XMAX otherwise)
-    	*@li guideFOV similar to guideXMax, but for the vertical direction.
     	*@see SkyMap::checkVisibility()
     	*@see SkyMap::paintEvent()
     	*/
-    void setMapGeometry( void );
+    void setMapGeometry();
 
-    float guideMaxLength() const { return m_Guidemax; }
-
-    /**@short Call keyPressEvent, as if the key given as an argument had been pressed. */
-    void invokeKey( int key );
+    /** Set zoom factor. */
+    void setZoomFactor(double factor);
 
     /**@return true if the angular distance measuring mode is on
      */
@@ -405,8 +357,6 @@ public:
     QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
     QPointF toScreenQuaternion( SkyPoint *o );
 
-    QPoint toScreenI( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
-
     /**
     	*@return the given SkyLine, transformed to screen pixel coordinates.
     	*If only a portion of the line is on-screen, this function returns 
@@ -448,8 +398,7 @@ public:
     bool onScreen( QPointF &p1, QPointF &p2 );
     bool onScreen( QPoint &p1, QPoint &p2 );
 
-    void onscreenLine( QPointF &p1, QPointF &p2 );
-    bool onscreenLine2( QPointF &p1, QPointF &p2 );
+    bool onscreenLine( QPointF &p1, QPointF &p2 );
 
     /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
     	*screen pixel coordinate offsets from the center of the Sky pixmap.
@@ -565,7 +514,7 @@ public slots:
     	*Map after each step, until the Focus point is within 1 step of the Destination point.
     	*For the final step, snap directly to Destination, and redraw the map.
     	*/
-    void slewFocus( void );
+    void slewFocus();
 
     /**@short Center the display at the point ClickedPoint.
     	*
@@ -577,10 +526,7 @@ public slots:
     	*@see destinationChanged()
     	*@see slewFocus()
     	*/
-    void slotCenter( void );
-
-    //QUATERNION
-    void slotRotateTo( SkyPoint *p );
+    void slotCenter();
 
     /**@short Popup menu function: Display 1st-Generation DSS image with the Image Viewer.
     	*@note the URL is generated using the coordinates of ClickedPoint.
@@ -590,7 +536,7 @@ public slots:
     /**@short Popup menu function: Display Sloan Digital Sky Survey image with the Image Viewer.
     	*@note the URL is generated using the coordinates of ClickedPoint.
     	*/
-		void slotSDSS();
+    void slotSDSS();
 
     /**@short Popup menu function: Show webpage about ClickedObject
     	*(only available for some objects). 
@@ -604,17 +550,17 @@ public slots:
 
     /**@short Popup menu function: Show the Detailed Information window for ClickedObject.
     	*/
-    void slotDetail( void );
+    void slotDetail();
 
     /**Add ClickedObject to KStarsData::ObjLabelList, which stores pointers to SkyObjects which
     	*have User Labels attached.
     	*/
-    void slotAddObjectLabel( void );
+    void slotAddObjectLabel();
 
     /**Remove ClickedObject from KStarsData::ObjLabelList, which stores pointers to SkyObjects which
     	*have User Labels attached.
     	*/
-    void slotRemoveObjectLabel( void );
+    void slotRemoveObjectLabel();
 
     /**@short Add a Planet Trail to ClickedObject.
     	*@note Trails are added simply by calling KSPlanetBase::addToTrail() to add the first point.
@@ -622,19 +568,19 @@ public slots:
     	*@note if ClickedObject is not a Solar System body, this function does nothing.
     	*@see KSPlanetBase::addToTrail()
     	*/
-    void slotAddPlanetTrail( void );
+    void slotAddPlanetTrail();
 
     /**@short Remove the PlanetTrail from ClickedObject.
     	*@note The Trail is removed by simply calling KSPlanetBase::clearTrail().  As long as
     	*the trail is empty, no new points will be automatically appended.
     	*@see KSPlanetBase::clearTrail()
     	*/
-    void slotRemovePlanetTrail( void );
+    void slotRemovePlanetTrail();
 
     /**Popup menu function: Add a custom Image or Information URL.
     	*Opens the AddLinkDialog window.
     	*/
-    void addLink( void );
+    void addLink();
 
     /**Checks whether the timestep exceeds a threshold value.  If so, sets
     	*ClockSlewing=true and sets the SimClock to ManualMode. 
@@ -666,6 +612,15 @@ public slots:
     void slotXplanetToFile();
 #endif
 
+    /** Zoom in one step. */
+    void slotZoomIn();
+
+    /** Zoom out one step. */
+    void slotZoomOut();
+
+    /** Set default zoom. */
+    void slotZoomDefault();
+
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
     	*point is changed, slewFocus() will iteratively step the Focus toward Destination 
@@ -680,36 +635,43 @@ signals:
     	*/
     void linkAdded();
 
+    /** Emitted when zoom level is changed. */
+    void zoomChanged();
+
+    /** Emitted when current object changed. */
+    void objectChanged(SkyObject*);
+
+    /** Emitted when pointing changed. (At least should) */
+    void positionChanged(SkyPoint*);
+
 protected:
     /**Draw the Sky, and all objects in it. */
     virtual void paintEvent( QPaintEvent *e );
 
     /**Process keystrokes:
-    	*@li arrow keys  Slew the map
-    	*@li +/- keys  Zoom in and out 
-    	*@li N/E/S/W keys  Go to the cardinal points on the Horizon
-    	*@li Z  Go to the Zenith
-    	*@li <i>Space</i>  Toggle between Horizontal and Equatorial coordinate systems
-    	*@li 0-9  Go to a major Solar System body (0=Sun; 1-9 are the major planets, except 3=Moon)
-    	*@li [  Place starting point for measuring an angular distance
-    	*@li ]  End point for Angular Distance; display measurement.
-    	*@li <i>Escape</i>  Cancel Angular measurement
-    	*@li ,/<  Step backward one time step
-    	*@li ./>  Step forward one time step
-    	*/
+     * @li arrow keys  Slew the map
+     * @li +/- keys  Zoom in and out
+     * @li <i>Space</i>  Toggle between Horizontal and Equatorial coordinate systems
+     * @li 0-9  Go to a major Solar System body (0=Sun; 1-9 are the major planets, except 3=Moon)
+     * @li [  Place starting point for measuring an angular distance
+     * @li ]  End point for Angular Distance; display measurement.
+     * @li <i>Escape</i>  Cancel Angular measurement
+     * @li ,/<  Step backward one time step
+     * @li ./>  Step forward one time step
+     */
     virtual void keyPressEvent( QKeyEvent *e );
 
     /**When keyRelease is triggered, just set the "slewing" flag to false,
-    	*and update the display (to draw objects that are hidden when slewing==true). */
+     * and update the display (to draw objects that are hidden when slewing==true). */
     virtual void keyReleaseEvent( QKeyEvent *e );
 
     /**Determine RA, Dec coordinates of clicked location.  Find the SkyObject
-    	*which is nearest to the clicked location.
-    	*
-    	*If left-clicked: Set set mouseButtonDown==true, slewing==true; display 
-    	*nearest object name in status bar.
-    	*If right-clicked: display popup menu appropriate for nearest object.
-    	*/
+     * which is nearest to the clicked location.
+     *
+     * If left-clicked: Set set mouseButtonDown==true, slewing==true; display
+     * nearest object name in status bar.
+     * If right-clicked: display popup menu appropriate for nearest object.
+     */
     virtual void mousePressEvent( QMouseEvent *e );
 
     /**set mouseButtonDown==false, slewing==false */
@@ -719,24 +681,22 @@ protected:
     virtual void mouseDoubleClickEvent( QMouseEvent *e );
 
     /**This function does several different things depending on the state of the program:
-    	*@li If Angle-measurement mode is active, update the end-ruler point to the mouse cursor,
-    	*and continue this function.
-    	*@li If we are dragging an InfoBox, simply redraw the screen and return.
-    	*@li If we are defining a ZoomBox, update the ZoomBox rectangle, redraw the screen, 
-    	*and return.
-    	*@li If dragging the mouse in the map, update focus such that RA, Dec under the mouse 
-    	*cursor remains constant. 
-    	*@li If just moving the mouse, simply update the curso coordinates in the status bar.
-    	*/
+     * @li If Angle-measurement mode is active, update the end-ruler point to the mouse cursor,
+     *     and continue this function.
+     * @li If we are defining a ZoomBox, update the ZoomBox rectangle, redraw the screen,
+     *     and return.
+     * @li If dragging the mouse in the map, update focus such that RA, Dec under the mouse
+     *     cursor remains constant.
+     * @li If just moving the mouse, simply update the curso coordinates in the status bar.
+     */
     virtual void mouseMoveEvent( QMouseEvent *e );
 
     /**Zoom in and out with the mouse wheel. */
     virtual void wheelEvent( QWheelEvent *e );
 
     /**If the skymap will be resized, the sky must be new computed. So this
-    	*function calls explicitly new computing of the skymap.
-    	*It also repositions the InfoBoxes, if they are anchored to a window edge. 
-    	*/
+     * function calls explicitly new computing of the skymap.
+     */
     virtual void resizeEvent( QResizeEvent * );
 
 private slots:
@@ -771,12 +731,6 @@ private:
     	*@param pm pointer to the Sky pixmap
     	*/
     void drawOverlays( QPixmap *pm );
-
-    /**Draw the Focus, Geo and Time InfoBoxes.  This is called by drawOverlays().
-    	*@param p reference to the QPainter on which to draw (this should be the Sky pixmap).
-    	*@see SkyMap::drawOverlays()
-    	*/
-    void drawBoxes( QPainter &p );
 
     /**Draw symbols at the position of each Telescope currently being controlled by KStars.
     	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
@@ -843,16 +797,6 @@ private:
     	*/
     bool unusablePoint ( const QPointF &p );
 
-    /** Zoom in a large amount or a small amount depending on the keyboard modifier
-     * @param modifier
-     */
-    void zoomIn( const int modifier );
-
-    /** Zoom in a large amount or a small amount depending on the keyboard modifier 
-     * @param modifier
-     */
-    void zoomOut( const int modifier );
-
     /** Calculate the zoom factor for the given keyboard modifier
      * @param modifier
      */
@@ -903,9 +847,7 @@ private:
     bool slewing, clockSlewing;
     bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
     bool angularDistanceMode;
-    int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
     int scrollCount;
-    double Range;
     double RefractCorr1[184], RefractCorr2[184];
     double y0;
 
@@ -913,23 +855,14 @@ private:
 
     //data for checkVisibility
     bool isPoleVisible;
-    float m_Guidemax;
-    float guideFOV;
-    double XRange, Ymax;
-    double guideXRange;
+    double XRange;
 
-    QString sURL;
-
-    KStars *ks;
     KStarsData *data;
     KSPopupMenu *pmenu;
     QPixmap *sky, *sky2;
-    InfoBoxes  *IBoxes;
-    SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
+    dms HourAngle;
+    SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
-
-    //	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
-    SkyPoint *sp;			// see line above
 
     SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.
@@ -939,6 +872,11 @@ private:
     QColor TransientColor;
     unsigned int TransientTimeout;
 
+    // InfoBoxes. Used in desctructor to save state
+    InfoBoxWidget* m_timeBox;
+    InfoBoxWidget* m_geoBox;
+    InfoBoxWidget* m_objBox;
+    InfoBoxes*     m_iboxes;
     //QUATERNION
     Quaternion m_rotAxis;
 

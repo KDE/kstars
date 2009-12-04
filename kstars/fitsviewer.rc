@@ -19,7 +19,7 @@
 <Menu name="view"><text>&amp;View</text>
 		<Action name="view_zoom_in"/>
 		<Action name="view_zoom_out"/>
-		<Action name="zoom_default"/>
+		<Action name="view_actual_size"/>
 </Menu>
 
 <ToolBar noMerge="1" name="mainToolBar"><text>Main Toolbar</text>
@@ -30,7 +30,7 @@
 	<Action name="edit_redo" />
 	<Action name="view_zoom_in" />
 	<Action name="view_zoom_out" />	
-	<Action name="zoom_default"/>
+	<Action name="view_actual_size"/>
 </ToolBar>
 	
 <ToolBar noMerge="1" name="processToolBar"><text>Process ToolBar</text>

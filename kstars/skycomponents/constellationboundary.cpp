@@ -24,9 +24,6 @@
 #include <QPolygonF>
 
 #include "Options.h"
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "ksutils.h"
 #include "skyobjects/skyobject.h"
 
 #include "polylist.h"

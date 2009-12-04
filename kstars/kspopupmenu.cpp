@@ -40,57 +40,65 @@
 
 #include "skycomponents/constellationboundary.h"
 
-#include <kactioncollection.h>
 
-// Convert magnitude to string representation for QLabel
-static QString magToStr(double m) {
-	return QString("%1<sup>m</sup>").arg(m, 0, 'f', 2);
+namespace {
+    // Convert magnitude to string representation for QLabel
+    QString magToStr(double m) {
+        return QString("%1<sup>m</sup>").arg(m, 0, 'f', 2);
+    }
+
+    // Return object name
+    QString getObjectName(SkyObject *obj) {
+        // FIXME: make logic less convoluted.
+        if( obj->longname() != obj->name() ) { // Object has proper name
+            return obj->translatedLongName() + ", " + obj->translatedName();
+        } else {
+            if( !obj->translatedName2().isEmpty() )
+                return obj->translatedName() + ", " + obj->translatedName2();
+            else
+                return obj->translatedName();
+        }
+    }
+
+    // String representation for rise/set time of object. If object
+    // doesn't rise/set returns descriptive string.
+    //
+    // Second parameter choose between raise and set. 'true' for
+    // raise, 'false' for set.
+    QString riseSetTimeLabel(SkyObject* o, bool isRaise) {
+        KStarsData* data = KStarsData::Instance();
+        QTime t = o->riseSetTime( data->ut(), data->geo(), isRaise );
+        if ( t.isValid() )
+            //We can round to the nearest minute by simply adding 30 seconds to the time.
+            return i18n( "Rise time: %1", KGlobal::locale()->formatTime( t.addSecs(30) ) );
+        if ( o->alt()->Degrees() > 0 )
+            return i18n( "No rise time: Circumpolar" );
+        else
+            return i18n( "No rise time: Never rises" );
+    }
+
+    // String representation for transit time for object
+    QString transitTimeLabel(SkyObject* o) {
+        KStarsData* data = KStarsData::Instance();
+        QTime t = o->transitTime( data->ut(), data->geo() );
+        if ( t.isValid() )
+            //We can round to the nearest minute by simply adding 30 seconds to the time.
+            return i18n( "Transit time: %1", KGlobal::locale()->formatTime( t.addSecs(30) ) );
+        else
+            return "--:--";
+    }
+
 }
 
-// Helper function to return object name
-static QString getObjectName(SkyObject *obj) {
-	// FIXME: make logic less convoluted. 
-	QString name;
-	if( obj->longname() != obj->name() ) { // Object has proper name
-		name = obj->translatedLongName() + ", " + obj->translatedName();
-	} else {
-		if( ! obj->translatedName2().isEmpty() ) {
-			name = obj->translatedName() + ", " + obj->translatedName2();
-		} else {
-			name = obj->translatedName();
-		}
-	}
-	return name;
-}
 
-KSPopupMenu::KSPopupMenu( KStars *_ks )
-        : KMenu( _ks ), ks(_ks)
-{}
+KSPopupMenu::KSPopupMenu()
+    : KMenu( KStars::Instance() )
+{
+    ks = KStars::Instance();
+}
 
 KSPopupMenu::~KSPopupMenu()
-{
-    //DEBUG
-    //kDebug() << "aName: " << aName;
-    //if ( aName )            delete aName;
-    //if ( aName2 )           delete aName2;
-    //if ( aType )            delete aType;
-    //if ( aConstellation )   delete aConstellation;
-    //if ( aRiseTime )        delete aRiseTime;
-    //if ( aSetTime )         delete aSetTime;
-    //if ( aTransitTime )     delete aTransitTime;
-    //DEBUG
-    //kDebug() << "labName: " << labName;
-    //if ( labName )          labName->deleteLater();
-    //if ( labName2 )         labName2->deleteLater();
-    //if ( labType )          labType->deleteLater();
-    //if ( labConstellation ) labConstellation->deleteLater();
-    //if ( labRiseTime )      labRiseTime->deleteLater();
-    //if ( labSetTime )       labSetTime->deleteLater();
-    //if ( labTransitTime )   labTransitTime->deleteLater();
-    ////DEBUG
-    //kDebug() << "menuDevice: " << menuDevice;
-    //if ( menuDevice )       delete menuDevice;
-}
+{}
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
     initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), true, true, false, false, false, true, false );
@@ -112,7 +120,7 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 			name = "Star";
 		}
 	}
-    initPopupMenu( star, name, "star", i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
+    initPopupMenu( star, name, i18n( "star" ), i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
     //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
     if ( star->name() != "star" ) {
         addLinksToMenu( star );
@@ -148,7 +156,7 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     QString info;
 	QString type;
     if ( p->name() == "Moon" ) {
-        info = QString("%1<sup>m</sup>, %2").arg(p->mag(), 0, 'f', 2).arg(((KSMoon *)p)->phaseName());
+        info = QString("%1, %2").arg( magToStr(p->mag()), reinterpret_cast<KSMoon*>(p)->phaseName() );
     } else {
 		// FIXME: angular size is required.
 		info = magToStr( p->mag() );
@@ -158,90 +166,37 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
-void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QString &type, const QString &info,
+void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                                  bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail,
-                                 bool showAngularDistance, bool showObsList ) {
+                                 bool showAngularDistance, bool showObsList )
+{
+    ks = KStars::Instance();
 
     clear();
-    QString s1 = name;
-    if ( s1.isEmpty() ) s1 = i18n( "Empty sky" );
+    bool showLabel = name != i18n("star") && !name.isEmpty();
+    if( name.isEmpty() )
+        name = i18n( "Empty sky" );
 
-    bool showLabel( true );
-    if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
-
-    labName = new QLabel( "<b>"+s1+"</b>", this );
-    labName->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-    aName = new KAction( this );
-    ks->actionCollection()->addAction( "title_name1", aName );
-    aName->setDefaultWidget( labName );
-    addAction( aName );
-
-    if ( ! type.isEmpty() ) {
-        labName2 = new QLabel( "<b>"+type+"</b>", this );
-        labName2->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        aName2 = new KAction( this );
-        ks->actionCollection()->addAction( "title_name2", aName2 );
-        aName2->setDefaultWidget( labName2 );
-        addAction( aName2 );
-    }
-
-    if ( ! info.isEmpty() ) {
-        labType = new QLabel( "<b>"+info+"</b>", this );
-        labType->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        aType = new KAction( this );
-        ks->actionCollection()->addAction( "title_type", aType );
-        aType->setDefaultWidget( labType );
-        addAction( aType );
-    }
-
-    labConstellation = new QLabel( "<b>"+
-                                   ConstellationBoundary::Instance()->constellationName( obj )+"</b>", this );
-    labConstellation->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-    aConstellation = new KAction( this );
-    ks->actionCollection()->addAction( "title_constellation", aConstellation );
-    aConstellation->setDefaultWidget( labConstellation );
-    addAction( aConstellation );
+    addFancyLabel( name );
+    if ( !type.isEmpty() )
+        addFancyLabel( type );
+    if ( !info.isEmpty() )
+        addFancyLabel( info );
+    addFancyLabel( ConstellationBoundary::Instance()->constellationName( obj ) );
 
     //Insert Rise/Set/Transit labels
-    if ( showRiseSet && obj ) {
+    if( showRiseSet && obj ) {
+        SkyObject* o = obj->clone();
         addSeparator();
-
-        QString sRiseTime( i18n( "Rise time: %1" , QString("00:00") ) );
-        QString sSetTime( i18nc( "the time at which an object falls below the horizon", "Set time: %1" , QString("00:00") ) );
-        QString sTransitTime( i18n( "Transit time: %1" , QString("00:00") ) );
-
-        labRiseTime = new QLabel( "<b>"+sRiseTime+"</b>", this );
-        labRiseTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        QFont smallFont = labRiseTime->font();
-        smallFont.setPointSize( smallFont.pointSize() - 2 );
-        labRiseTime->setFont( smallFont );
-        aRiseTime = new KAction( this );
-        ks->actionCollection()->addAction( "title_risetime", aRiseTime );
-        aRiseTime->setDefaultWidget( labRiseTime );
-        addAction( aRiseTime );
-
-        labSetTime = new QLabel( "<b>"+sSetTime+"</b>", this );
-        labSetTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        labSetTime->setFont( smallFont );
-        aSetTime = new KAction( this );
-        ks->actionCollection()->addAction( "title_settime", aSetTime );
-        aSetTime->setDefaultWidget( labSetTime );
-        addAction( aSetTime );
-
-        labTransitTime = new QLabel( "<b>"+sTransitTime+"</b>", this );
-        labTransitTime->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-        labTransitTime->setFont( smallFont );
-        aTransitTime = new KAction( this );
-        ks->actionCollection()->addAction( "title_transittime", aTransitTime );
-        aTransitTime->setDefaultWidget( labTransitTime );
-        addAction( aTransitTime );
-
-        setRiseSetLabels( obj );
+        addFancyLabel( riseSetTimeLabel(o, true),  -2 );
+        addFancyLabel( riseSetTimeLabel(o, false), -2 );
+        addFancyLabel( transitTimeLabel(o),        -2 );
+        addSeparator();
+        delete o;
     }
 
     //Insert item for centering on object
     if ( showCenterTrack && obj ) {
-        addSeparator();
         addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
     }
 
@@ -275,9 +230,9 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
 
     if ( showObsList && obj ) {
         if ( ks->observingList()->contains( obj ) )
-            addAction( i18n("Remove From List"), ks->observingList(), SLOT( slotRemoveObject() ) );
+            addAction( i18n("Remove From Observing WishList"), ks->observingList(), SLOT( slotRemoveObject() ) );
         else
-            addAction( i18n("Add to List"), ks->observingList(), SLOT( slotAddObject() ) );
+            addAction( i18n("Add to Observing WishList"), ks->observingList(), SLOT( slotAddObject() ) );
     }
 
     if ( showTrail && obj && obj->isSolarSystem() ) {
@@ -293,7 +248,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, const QString &name, const QStr
 #ifdef HAVE_XPLANET
     if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) {
         QMenu *xplanetSubmenu = new QMenu();
-        xplanetSubmenu->setTitle( "Print Xplanet view" );
+        xplanetSubmenu->setTitle( i18n( "Print Xplanet view" ) );
         xplanetSubmenu->addAction( i18n( "To screen" ), ks->map(), SLOT( slotXplanetToScreen() ) );
         xplanetSubmenu->addAction( i18n( "To file..." ), ks->map(), SLOT( slotXplanetToFile() ) );
         addMenu( xplanetSubmenu );
@@ -428,53 +383,17 @@ bool KSPopupMenu::addINDI(void)
     #endif
 }
 
-void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
-    if ( ! obj ) return;
 
-    QString rt;
-    QTime rtime = obj->riseSetTime( ks->data()->ut(), ks->geo(), true );
-    dms rAz = obj->riseSetTimeAz( ks->data()->ut(), ks->geo(), true );
-
-    if ( rtime.isValid() ) {
-        //We can round to the nearest minute by simply adding 30 seconds to the time.
-        rt = i18n( "Rise time: %1", KGlobal::locale()->formatTime( rtime.addSecs(30) ) );
-
-    } else if ( obj->alt()->Degrees() > 0 ) {
-        rt = i18n( "No rise time: Circumpolar" );
-    } else {
-        rt = i18n( "No rise time: Never rises" );
+void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize) {
+    QLabel* label = new QLabel( "<b>"+name+"</b>", this );
+    label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+    if( deltaFontSize != 0 ) {
+        QFont font = label->font();
+        font.setPointSize( font.pointSize() + deltaFontSize );
+        label->setFont( font );
     }
-
-    KStarsDateTime dt = ks->data()->ut();
-    QTime stime = obj->riseSetTime( dt, ks->geo(), false );
-
-    QString st;
-    dms sAz = obj->riseSetTimeAz( dt,  ks->geo(), false );
-
-    if ( stime.isValid() ) {
-        //We can round to the nearest minute by simply adding 30 seconds to the time.
-        st = i18nc( "the time at which an object falls below the horizon", "Set time: %1", KGlobal::locale()->formatTime( stime.addSecs(30) ) );
-
-    } else if ( obj->alt()->Degrees() > 0 ) {
-        st = i18n( "No set time: Circumpolar" );
-    } else {
-        st = i18n( "No set time: Never rises" );
-    }
-
-    QTime ttime = obj->transitTime( dt, ks->geo() );
-    dms trAlt = obj->transitAltitude( dt, ks->geo() );
-    QString tt;
-
-    if ( ttime.isValid() ) {
-        //We can round to the nearest minute by simply adding 30 seconds to the time.
-        tt = i18n( "Transit time: %1", KGlobal::locale()->formatTime( ttime.addSecs(30) ) );
-    } else {
-        tt = "--:--";
-    }
-
-    labRiseTime->setText( "<b>"+rt+"</b>" );
-    labSetTime->setText( "<b>"+st+"</b>" );
-    labTransitTime->setText( "<b>"+tt+"</b>" ) ;
+    KAction* act = new KAction( this );
+    act->setDefaultWidget( label );
+    addAction( act );
 }
-
 #include "kspopupmenu.moc"

@@ -38,6 +38,32 @@
 #include "kstarsdata.h"
 #include "widgets/fovwidget.h"
 
+namespace {
+    // Try to convert text in KLine edit to double
+    inline double textToDouble(const KLineEdit* edit, bool* ok = 0)
+    {
+        return edit->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble(ok);
+    }
+
+    // Extract FOV from QListWidget. No checking is done
+    FOV* getFOV(QListWidgetItem* item)
+    {
+        return item->data(Qt::UserRole).value<FOV*>();
+    }
+
+    // Convert double to QString 
+    QString toString(double x)
+    {
+        return QString::number(x, 'f', 2).replace( '.', KGlobal::locale()->decimalSymbol() );
+    }
+}
+
+// This is needed to make FOV work with QVariant
+Q_DECLARE_METATYPE(FOV*)
+
+int FOVDialog::fovID = -1;
+
+
 FOVDialogUI::FOVDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 }
@@ -47,179 +73,129 @@ NewFOVUI::NewFOVUI( QWidget *parent ) : QFrame( parent ) {
 }
 
 //---------FOVDialog---------------//
-FOVDialog::FOVDialog( KStars *_ks )
-        : KDialog( _ks ), ks(_ks)
+FOVDialog::FOVDialog( QWidget* p ) :
+    KDialog( p )
 {
+    // Register FOV* data type
+    if( fovID == -1 )
+        fovID = qRegisterMetaType<FOV*>("FOV*");
     fov = new FOVDialogUI( this );
     setMainWidget( fov );
     setCaption( i18n( "Set FOV Indicator" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
-
-    connect( fov->FOVListBox, SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
-    connect( fov->NewButton, SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
-    connect( fov->EditButton, SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
+    setButtons( KDialog::Ok | KDialog::Cancel );
+    
+    connect( fov->FOVListBox,   SIGNAL( currentRowChanged( int ) ), SLOT( slotSelect( int ) ) );
+    connect( fov->NewButton,    SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
+    connect( fov->EditButton,   SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
     connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
 
-    //	FOVList.setAutoDelete( true );
-    initList();
+    // Read list of FOVs and for each FOV create listbox entry, which stores it.
+    foreach(FOV* f, FOV::readFOVs() ) {
+        addListWidget(f);
+    }
 }
 
 FOVDialog::~FOVDialog()
-{}
-
-void FOVDialog::initList() {
-    QStringList fields;
-    QFile f;
-
-    QString nm, cl;
-    int sh(0), irow(0);
-    float sx(0.0), sy(0.0);
-
-    f.setFileName( KStandardDirs::locate( "appdata", "fov.dat" ) );
-
-    if ( f.exists() && f.open( QIODevice::ReadOnly ) ) {
-        QTextStream stream( &f );
-        while ( !stream.atEnd() ) {
-            fields = stream.readLine().split( ':' );
-            bool ok( false );
-
-            if ( fields.count() == 4 || fields.count() == 5 ) {
-                int index = 0;
-                nm = fields[index]; // Name
-                ++index;
-                sx = (float)(fields[index].toDouble( &ok )); // SizeX
-                if( !ok )
-                    continue;
-                ++index;
-                if( fields.count() == 5 ) {
-                    sy = (float)(fields[index].toDouble( &ok )); // SizeY
-                    if( !ok )
-                        continue;
-                    ++index;
-                }
-                else
-                    sy = sx;
-                sh = fields[index].toInt( &ok ); // Shape
-                if ( ok )
-                    cl = fields[++index]; // Color
-            }
-
-            if ( ok ) {
-                FOV *newfov = new FOV( nm, sx, sy, sh, cl );
-                fov->FOVListBox->addItem( nm );
-                FOVList.append( newfov );
-
-                //Tag item if its name matches the current fov symbol in the main window
-                if ( nm == ks->data()->fovSymbol.name() ) 
-                    irow = fov->FOVListBox->count()-1;
-            }
-        }
-
-        f.close();
-
-        //preset the listbox selection to the current setting in the main window
-        fov->FOVListBox->setCurrentRow( irow );
-        slotSelect( irow );
+{
+    // Delete FOVs 
+    for(int i = 0; i < fov->FOVListBox->count(); i++) {
+        delete getFOV( fov->FOVListBox->item(i) );
     }
+}
+
+QListWidgetItem* FOVDialog::addListWidget(FOV* f)
+{
+    QListWidgetItem* item = new QListWidgetItem( f->name(), fov->FOVListBox );
+    item->setData( Qt::UserRole, QVariant::fromValue<FOV*>(f) );
+    return item;
+}
+
+void FOVDialog::writeFOVList() {
+    QList<FOV*> fovs;
+    for(int i = 0; i < fov->FOVListBox->count(); i++) {
+        fovs << getFOV( fov->FOVListBox->item(i) );
+    }
+    FOV::writeFOVs(fovs);
 }
 
 void FOVDialog::slotSelect( int irow ) {
-    if ( irow < 0 ) { //no item selected
-        fov->RemoveButton->setEnabled( false );
-        fov->EditButton->setEnabled( false );
-    } else {
-        fov->RemoveButton->setEnabled( true );
-        fov->EditButton->setEnabled( true );
-    }
-
-    //paint dialog with selected FOV symbol
-    fov->ViewBox->setFOV( FOVList[ currentItem() ] );
-    fov->ViewBox->update();
-}
-
-void FOVDialog::slotNewFOV() {
-    NewFOV newfdlg( this );
-    float fovsizeX = newfdlg.ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
-    float fovsizeY = newfdlg.ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
-
-    if ( newfdlg.exec() == QDialog::Accepted ) {
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsizeX, fovsizeY,
-                               newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
-
-        FOVList.append( newfov );
-
-        fov->FOVListBox->addItem( newfdlg.ui->FOVName->text() );
-        fov->FOVListBox->setCurrentRow( fov->FOVListBox->count() -1 );
-    }
-}
-
-void FOVDialog::slotEditFOV() {
-    NewFOV newfdlg( this );
-    //Preload current values
-    FOV *f = FOVList[ currentItem() ];
-
-    if (!f)
-        return;
-
-    newfdlg.ui->FOVName->setText( f->name() );
-    newfdlg.ui->FOVEditX->setText( QString::number( (double)( f->sizeX() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
-    newfdlg.ui->FOVEditY->setText( QString::number( (double)( f->sizeY() ), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
-    newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
-    newfdlg.ui->ShapeBox->setCurrentIndex( f->shape() );
-    newfdlg.slotUpdateFOV();
-
-    if ( newfdlg.exec() == QDialog::Accepted ) {
-        double fovsizeX = newfdlg.ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
-        double fovsizeY = newfdlg.ui->FOVEditY->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble();
-        FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), fovsizeX, fovsizeY,
-                               newfdlg.ui->ShapeBox->currentIndex(), newfdlg.ui->ColorButton->color().name() );
-
-        fov->FOVListBox->currentItem()->setText( newfdlg.ui->FOVName->text() );
-
-        //Use the following replacement for QPtrList::replace():
-        //(see Qt4 porting guide at doc.trolltech.com)
-        delete FOVList[ currentItem() ];
-        FOVList[ currentItem() ] = newfov;
-
-        //paint dialog with edited FOV symbol
-        fov->ViewBox->setFOV( FOVList[ currentItem() ] );
+    bool enable = irow >= 0;   
+    fov->RemoveButton->setEnabled( enable );
+    fov->EditButton->setEnabled( enable);
+    if( enable ) {
+        //paint dialog with selected FOV symbol
+        fov->ViewBox->setFOV( getFOV( fov->FOVListBox->currentItem() ) );
         fov->ViewBox->update();
     }
 }
 
-void FOVDialog::slotRemoveFOV() {
-    int i = currentItem();
-    delete FOVList.takeAt( i );
-    delete fov->FOVListBox->takeItem( i );
-    if ( i == fov->FOVListBox->count() ) i--; //last item was removed
-    fov->FOVListBox->setCurrentRow( i );
-    fov->FOVListBox->update();
-
-    if ( FOVList.isEmpty() ) {
-        QString message( i18n( "You have removed all FOV symbols.  If the list remains empty when you exit this tool, the default symbols will be regenerated." ) );
-        KMessageBox::information( 0, message, i18n( "FOV list is empty" ), "dontShowFOVMessage" );
+void FOVDialog::slotNewFOV() {
+    QPointer<NewFOV> newfdlg = new NewFOV( this );
+    if ( newfdlg->exec() == QDialog::Accepted ) {
+        FOV *newfov = new FOV( newfdlg->getFOV() );
+        addListWidget( newfov );
+        fov->FOVListBox->setCurrentRow( fov->FOVListBox->count() -1 );
     }
+    delete newfdlg;
+}
 
-    update();
+void FOVDialog::slotEditFOV() {
+    //Preload current values
+    QListWidgetItem* item = fov->FOVListBox->currentItem();
+    if( item == 0 )
+        return;
+    FOV *f = item->data(Qt::UserRole).value<FOV*>();
+
+    // Create dialog 
+    QPointer<NewFOV> newfdlg = new NewFOV( this, f );
+    if ( newfdlg->exec() == QDialog::Accepted ) {
+        // Overwrite FOV
+        *f = newfdlg->getFOV();
+        fov->ViewBox->update();
+    }
+    delete newfdlg;
+}
+
+void FOVDialog::slotRemoveFOV() {
+    int i = fov->FOVListBox->currentRow();
+    if( i >= 0 ) {
+        QListWidgetItem* item = fov->FOVListBox->takeItem(i);
+        delete getFOV(item);
+        delete item;
+    }
 }
 
 //-------------NewFOV------------------//
-NewFOV::NewFOV( QWidget *parent )
-        : KDialog( parent ), f()
+
+NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
+    KDialog( parent ), f()
 {
     ui = new NewFOVUI( this );
     setMainWidget( ui );
     setCaption( i18n( "New FOV Indicator" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
-    connect( ui->FOVName, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->FOVEditX, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->FOVEditY, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->ColorButton, SIGNAL( changed( const QColor & ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->ShapeBox, SIGNAL( activated( int ) ), SLOT( slotUpdateFOV() ) );
-    connect( ui->ComputeEyeFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
-    connect( ui->ComputeCameraFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
-    connect( ui->ComputeHPBW, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+    // Initialize FOV if required
+    if( fov != 0 ) {
+        f = *fov;
+        ui->FOVName->setText( f.name() );
+        ui->FOVEditX->setText( toString(f.sizeX()) );
+        ui->FOVEditY->setText( toString(f.sizeY()) );
+        ui->ColorButton->setColor( QColor( f.color() ) );
+        ui->ShapeBox->setCurrentIndex( f.shape() );
+
+        ui->ViewBox->setFOV( &f );
+        ui->ViewBox->update();
+    }
+
+    connect( ui->FOVName,     SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditX,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->FOVEditY,    SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
+    connect( ui->ColorButton, SIGNAL( changed( const QColor & ) ),      SLOT( slotUpdateFOV() ) );
+    connect( ui->ShapeBox,    SIGNAL( activated( int ) ),               SLOT( slotUpdateFOV() ) );
+    connect( ui->ComputeEyeFOV,       SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+    connect( ui->ComputeCameraFOV,    SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+    connect( ui->ComputeHPBW,         SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
     connect( ui->ComputeBinocularFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
 
     ui->LinearFOVDistance->insertItem( 0, i18n( "1000 yards" ) );
@@ -230,43 +206,39 @@ NewFOV::NewFOV( QWidget *parent )
 }
 
 void NewFOV::slotBinocularFOVDistanceChanged( int index ) {
-    if( index == 0 )
-        ui->LabelUnits->setText( i18n( "feet" ) );
-    else
-        ui->LabelUnits->setText( i18n( "meters" ) );
+    QString text = (index == 0  ? i18n("feet") : i18n("meters"));
+    ui->LabelUnits->setText( text );
 }
 
 void NewFOV::slotUpdateFOV() {
-    bool sizeOk( false );
+    bool okX, okY;
     f.setName( ui->FOVName->text() );
-    float sizeX = ui->FOVEditX->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
-    float sizeY = ui->FOVEditY->text().replace( KGlobal::locale()->decimalSymbol(), "." ).toDouble( &sizeOk );
-    if ( sizeOk ) f.setSize( sizeX, sizeY );
+    float sizeX = textToDouble(ui->FOVEditX, &okX);
+    float sizeY = textToDouble(ui->FOVEditY, &okY);
+    if ( okX && okY )
+        f.setSize( sizeX, sizeY );
     f.setShape( ui->ShapeBox->currentIndex() );
     f.setColor( ui->ColorButton->color().name() );
 
-    if ( ! f.name().isEmpty() && sizeOk )
-        enableButtonOk( true );
-    else
-        enableButtonOk( false );
-
+    enableButtonOk( !f.name().isEmpty() && okX && okY );
+    
     ui->ViewBox->setFOV( &f );
     ui->ViewBox->update();
 }
 
 void NewFOV::slotComputeFOV() {
     if ( sender() == ui->ComputeEyeFOV && ui->TLength1->value() > 0.0 ) {
-        ui->FOVEditX->setText( QString::number( 60.0 * ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( toString(60.0 * ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value()) );
         ui->FOVEditY->setText( ui->FOVEditX->text() );
     }
     else if ( sender() == ui->ComputeCameraFOV && ui->TLength2->value() > 0.0 ) {
         double sx = (double) ui->ChipSize->value() * 3438.0 / ui->TLength2->value();
         const double aspectratio = 3.0/2.0; // Use the default aspect ratio for DSLRs / Film (i.e. 3:2)
-        ui->FOVEditX->setText( QString::number( sx, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
-        ui->FOVEditY->setText( QString::number( sx / aspectratio, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( toString(sx) );
+        ui->FOVEditY->setText( toString(sx / aspectratio) );
     }
     else if ( sender() == ui->ComputeHPBW && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
-        ui->FOVEditX->setText( QString::number( (double) 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value(), 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( toString(34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value()) );
         // Beam width for an antenna is usually a circle on the sky.
         ui->ShapeBox->setCurrentIndex(4);
         ui->FOVEditY->setText( ui->FOVEditX->text() );
@@ -274,7 +246,7 @@ void NewFOV::slotComputeFOV() {
     }
     else if ( sender() == ui->ComputeBinocularFOV && ui->LinearFOV->value() > 0.0 && ui->LinearFOVDistance->currentIndex() >= 0 ) {
         double sx = atan( (double) ui->LinearFOV->value() / ( (ui->LinearFOVDistance->currentIndex() == 0 ) ? 3000.0 : 1000.0 ) ) * 180.0 * 60.0 / dms::PI;
-        ui->FOVEditX->setText( QString::number( sx, 'f', 2 ).replace( '.', KGlobal::locale()->decimalSymbol() ) );
+        ui->FOVEditX->setText( toString(sx) );
         ui->FOVEditY->setText( ui->FOVEditX->text() );
     }
 }

@@ -38,67 +38,15 @@ MilkyWay::MilkyWay( SkyComponent *parent ) :
         SkipListIndex( parent, i18n("Milky Way") )
 {}
 
-void MilkyWay::init( KStarsData *data )
+void MilkyWay::init()
 {
-    Q_UNUSED(data)
-
     intro();
-
-    const char* fname = "milkyway.dat";
-    QString line;
-    double ra, dec, lastRa, lastDec;
-    SkipList *skipList = 0;
-    bool ok;
-    int iSkip = 0;
-
-    lastRa = lastDec = -1000.0;
-
-    KSFileReader fileReader;
-    if ( ! fileReader.open( fname ) ) return;
-
-    fileReader.setProgress( i18n("Loading Milky Way"), 2136, 5 );
-
-    while ( fileReader.hasMoreLines() ) {
-        line = fileReader.readLine();
-
-        fileReader.showProgress();
-
-        QChar firstChar = line.at( 0 );
-        if ( firstChar == '#' ) continue;
-
-        ra = line.mid( 2, 8 ).toDouble(&ok);
-        if ( ok ) dec = line.mid( 11, 8 ).toDouble(&ok);
-        if ( !ok ) {
-            fprintf(stderr, "%s: conversion error on line: %d\n",
-                    fname, fileReader.lineNumber());
-            continue;
-        }
-
-        if ( firstChar == 'M' )  {
-            if (  skipList )  appendBoth( skipList );
-            skipList = 0;
-            iSkip = 0;
-            lastRa = lastDec = -1000.0;
-        }
-
-        if ( ! skipList ) skipList = new SkipList();
-
-        if ( ra == lastRa && dec == lastDec ) {
-            fprintf(stderr, "%s: tossing dupe on line %4d: (%f, %f)\n",
-                    fname, fileReader.lineNumber(), ra, dec);
-            continue;
-        }
-
-        skipList->append( new SkyPoint(ra, dec) );
-        lastRa = ra;
-        lastDec = dec;
-        if ( firstChar == 'S' ) skipList->setSkip( iSkip );
-        iSkip++;
-    }
-    if ( skipList ) appendBoth( skipList );
-
+    // Milky way
+    loadContours("milkyway.dat", i18n("Loading Milky Way"));
+    // Magellanic clouds
+    loadContours("lmc.dat", i18n("Loading Large Magellanic Clouds"));
+    loadContours("smc.dat", i18n("Loading Small Magellanic Clouds"));
     summary();
-    //printf("Done.\n");
 }
 
 bool MilkyWay::selected()
@@ -109,25 +57,59 @@ bool MilkyWay::selected()
 
 void MilkyWay::draw( QPainter& psky )
 {
-    if ( !selected() ) return;
+    if ( !selected() )
+        return;
 
-    KStarsData *data = KStarsData::Instance();
-
-    QColor color =  QColor( data->colorScheme()->colorNamed( "MWColor" ) );
-
+    QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "MWColor" );
     psky.setPen( QPen( color, 3, Qt::SolidLine ) );
     psky.setBrush( QBrush( color ) );
 
-    // Uncomment these two lines to get more visible images for debugging.  -jbb
-    //
-    //psky.setPen( QPen( QColor( "red" ), 1, Qt::SolidLine ) );
-    //psky.setBrush( QBrush( QColor("green"  ) ) );
-
-    if ( Options::fillMilkyWay() ) {
+    if ( Options::fillMilkyWay() )
         drawFilled( psky );
-    }
-    else {
+    else
         drawLines( psky );
-    }
 }
 
+void MilkyWay::loadContours(QString fname, QString greeting) {
+    
+    KSFileReader fileReader;
+    if ( !fileReader.open( fname ) )
+        return;
+    fileReader.setProgress( greeting, 2136, 5 );
+
+    SkipList *skipList = 0;
+    int iSkip = 0;
+    while ( fileReader.hasMoreLines() ) {
+        QString line = fileReader.readLine();
+        fileReader.showProgress();
+
+        QChar firstChar = line.at( 0 );
+        if ( firstChar == '#' )
+            continue;
+
+        bool okRA, okDec;
+        double ra  = line.mid( 2,  8 ).toDouble(&okRA);
+        double dec = line.mid( 11, 8 ).toDouble(&okDec);
+        if( !okRA || !okDec) {
+            kDebug() << QString("%1: conversion error on line: %2\n").arg(fname).arg(fileReader.lineNumber());
+            continue;
+        }
+
+        if ( firstChar == 'M' )  {
+            if( skipList )
+                appendBoth( skipList );
+            skipList = 0;
+            iSkip    = 0;
+        }
+
+        if( !skipList )
+            skipList = new SkipList();
+
+        skipList->append( new SkyPoint(ra, dec) );
+        if ( firstChar == 'S' )
+            skipList->setSkip( iSkip );
+        iSkip++;
+    }  
+    if ( skipList )
+        appendBoth( skipList );
+}

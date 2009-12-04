@@ -26,7 +26,6 @@
 #include "Options.h"
 #include "skyobjects/ksasteroid.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "ksfilereader.h"
 #include "skymap.h"
 
@@ -47,7 +46,7 @@ bool AsteroidsComponent::selected()
     return Options::showAsteroids();
 }
 
-void AsteroidsComponent::init(KStarsData *data)
+void AsteroidsComponent::init()
 {
 
     QString line, name;
@@ -62,9 +61,9 @@ void AsteroidsComponent::init(KStarsData *data)
     emitProgressText( i18n("Loading asteroids") );
 
     while( fileReader.hasMoreLines() ) {
-        KSAsteroid *ast = 0;
         line = fileReader.readLine();
 
+        int catN = line.mid(0,6).toInt();
         name = line.mid( 6, 17 ).trimmed();
         mJD  = line.mid( 24, 5 ).toInt();
         a    = line.mid( 30, 9 ).toDouble();
@@ -78,8 +77,8 @@ void AsteroidsComponent::init(KStarsData *data)
 
         JD = double( mJD ) + 2400000.5;
 
-        ast = new KSAsteroid( data, name, QString(), JD, a, e, dms(dble_i),
-                              dms(dble_w), dms(dble_N), dms(dble_M), H, G );
+        KSAsteroid *ast = new KSAsteroid( catN, name, QString(), JD, a, e, dms(dble_i),
+                                          dms(dble_w), dms(dble_N), dms(dble_M), H, G );
         ast->setAngularSize( 0.005 );
         objectList().append( ast );
 
@@ -109,6 +108,7 @@ void AsteroidsComponent::draw( QPainter& psky )
     psky.setBrush( QBrush( QColor( "gray" ) ) );
 
     foreach ( SkyObject *so, objectList() ) {
+        // FIXME: God help us!
         KSAsteroid *ast = (KSAsteroid*) so;
 
         if ( ast->mag() > Options::magLimitAsteroid() ) continue;

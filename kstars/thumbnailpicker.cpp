@@ -41,15 +41,17 @@ ThumbnailPickerUI::ThumbnailPickerUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 }
 
-ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent )
+ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, double _w, double _h, QString cap )
         : KDialog( parent ), SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
+    wid = _w;
+    ht = _h;
     Image = new QPixmap( current );
     ImageRect = new QRect( 0, 0, 200, 200 );
 
     ui = new ThumbnailPickerUI( this );
     setMainWidget( ui );
-    setCaption( i18n( "Choose Thumbnail Image" ) );
+    setCaption( cap );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     ui->CurrentImage->setPixmap( *Image );
@@ -240,13 +242,14 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 }
 
 void ThumbnailPicker::slotEditImage() {
-    ThumbnailEditor te( this );
-    if ( te.exec() == QDialog::Accepted ) {
-        QPixmap pm = te.thumbnail();
+    QPointer<ThumbnailEditor> te = new ThumbnailEditor( this, wid, ht );
+    if ( te->exec() == QDialog::Accepted ) {
+        QPixmap pm = te->thumbnail();
         *Image = pm;
         ui->CurrentImage->setPixmap( pm );
         ui->CurrentImage->update();
     }
+    delete te;
 }
 
 void ThumbnailPicker::slotUnsetImage() {
@@ -276,8 +279,7 @@ void ThumbnailPicker::slotSetFromList( int i ) {
     ui->CurrentImage->update();
     ui->EditButton->setEnabled( true );
 
-    //Set Image to the selected 200x200 pixmap
-    *Image = pm;
+    *Image = PixList[i]->scaled( wid, ht, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ); 
     bImageFound = true;
 }
 

@@ -22,7 +22,6 @@
 #include <knuminput.h>
 #include <kpushbutton.h>
 
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "geolocation.h"
 #include "dialogs/locationdialog.h"
@@ -37,16 +36,16 @@ ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
     setupUi( this );
 }
 
-ObsListWizard::ObsListWizard( KStars *ksparent )
-        : KDialog( ksparent ),  ksw( ksparent )
+ObsListWizard::ObsListWizard( QWidget *ksparent ) :
+    KDialog( ksparent )
 {
     olw = new ObsListWizardUI( this );
     setMainWidget( olw );
     setCaption( i18n("Observing List Wizard") );
     setButtons( KDialog::User1|KDialog::User2|KDialog::Ok|KDialog::Cancel );
-    setButtonGuiItem( KDialog::User1, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );
-    setButtonGuiItem( KDialog::User2, KGuiItem( i18n("&Next") + QString(">"), QString(), i18n("Go to next Wizard page") ) );
-    enableButton( KDialog::User1, false );
+    setButtonGuiItem( KDialog::User2, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );
+    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Next") + QString(">"), QString(), i18n("Go to next Wizard page") ) );
+    enableButton( KDialog::User2, false );
 
     connect( olw->AllButton, SIGNAL( clicked() ), this, SLOT( slotAllButton() ) );
     connect( olw->NoneButton, SIGNAL( clicked() ), this, SLOT( slotNoneButton() ) );
@@ -54,8 +53,8 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
     connect( olw->SolarSystemButton, SIGNAL( clicked() ), this, SLOT( slotSolarSystemButton() ) );
     connect( olw->LocationButton, SIGNAL( clicked() ), this, SLOT( slotChangeLocation() ) );
 
-    connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotPrevPage() ) );
-    connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotNextPage() ) );
+    connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotNextPage() ) );
+    connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotPrevPage() ) );
 
     //Update the count of objects when the user asks for it
     connect( olw->updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
@@ -79,7 +78,7 @@ ObsListWizard::ObsListWizard( KStars *ksparent )
 
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotApplyFilters() ) );
 
-    geo = ksw->geo();
+    geo = KStarsData::Instance()->geo();
     olw->LocationButton->setText( geo->fullName() );
 
     initialize();
@@ -91,11 +90,12 @@ ObsListWizard::~ObsListWizard()
 
 void ObsListWizard::initialize()
 {
+    KStarsData* data = KStarsData::Instance();
     olw->olwStack->setCurrentIndex( 0 );
 
     //Populate the list of constellations
-    foreach ( SkyObject *p, ksw->data()->skyComposite()->constellationNames() )
-    olw->ConstellationList->addItem( p->name() );
+    foreach ( SkyObject *p, data->skyComposite()->constellationNames() )
+        olw->ConstellationList->addItem( p->name() );
 
     //unSelect all object types
     olw->TypeList->clearSelection();
@@ -110,10 +110,10 @@ void ObsListWizard::initialize()
 
     //Initialize object counts
     ObjectCount = 0; //number of objects in observing list
-    StarCount = ksw->data()->skyComposite()->stars().size(); //total number of stars
+    StarCount = data->skyComposite()->stars().size(); //total number of stars
     PlanetCount = 10; //Sun, Moon, 8 planets
-    AsteroidCount = ksw->data()->skyComposite()->asteroids().size(); //total number of asteroids
-    CometCount = ksw->data()->skyComposite()->comets().size(); //total number of comets
+    AsteroidCount = data->skyComposite()->asteroids().size(); //total number of asteroids
+    CometCount = data->skyComposite()->comets().size(); //total number of comets
     //DeepSkyObjects
     OpenClusterCount = 0;
     GlobClusterCount = 0;
@@ -121,7 +121,7 @@ void ObsListWizard::initialize()
     PlanNebCount = 0;
     GalaxyCount = 0;
 
-    foreach ( DeepSkyObject *o, ksw->data()->skyComposite()->deepSkyObjects() ) {
+    foreach ( DeepSkyObject *o, data->skyComposite()->deepSkyObjects() ) {
         if ( o->type() == SkyObject::GALAXY ) ++GalaxyCount; //most deepsky obj are galaxies, so check them first
         else if ( o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR ) ++StarCount;
         else if ( o->type() == SkyObject::OPEN_CLUSTER ) ++OpenClusterCount;
@@ -132,17 +132,18 @@ void ObsListWizard::initialize()
 }
 
 bool ObsListWizard::isItemSelected( const QString &name, QListWidget *listWidget, bool *ok ) {
-    bool result = false;
     QList<QListWidgetItem*> items = listWidget->findItems( name, Qt::MatchContains );
-    if ( items.size() ) result = listWidget->isItemSelected( items[0] );
-    if ( ok ) *ok = (items.size()) ? true : false;
-    return result;
+    if ( ok )
+        *ok = items.size();
+    return items.size() && listWidget->isItemSelected( items[0] );;
 }
 
 void ObsListWizard::setItemSelected( const QString &name, QListWidget *listWidget, bool value, bool *ok ) {
     QList<QListWidgetItem*> items = listWidget->findItems( name, Qt::MatchContains );
-    if ( items.size() ) listWidget->setItemSelected( items[0], value );
-    if ( ok ) *ok = (items.size()) ? true : false;
+    if ( ok )
+        *ok = items.size();
+    if ( items.size() )
+        listWidget->setItemSelected( items[0], value );
 }
 
 //Advance to the next page in the stack.  However, on page 2 the user
@@ -178,9 +179,9 @@ void ObsListWizard::slotNextPage() {
 
     olw->olwStack->setCurrentIndex( NextPage );
     if ( olw->olwStack->currentIndex() == olw->olwStack->count() - 1 )
-        enableButton( KDialog::User2, false );
+        enableButton( KDialog::User1, false );
 
-    enableButton( KDialog::User1, true );
+    enableButton( KDialog::User2, true );
 }
 
 //Advance to the previous page in the stack.  However, because the
@@ -198,9 +199,9 @@ void ObsListWizard::slotPrevPage() {
 
     olw->olwStack->setCurrentIndex( PrevPage );
     if ( olw->olwStack->currentIndex() == 0 )
-        enableButton( KDialog::User1, false );
+        enableButton( KDialog::User2, false );
 
-    enableButton( KDialog::User2, true );
+    enableButton( KDialog::User1, true );
 }
 
 void ObsListWizard::slotAllButton() {
@@ -230,15 +231,16 @@ void ObsListWizard::slotSolarSystemButton()
 
 void ObsListWizard::slotChangeLocation()
 {
-    LocationDialog ld( ksw );
+    QPointer<LocationDialog> ld = new LocationDialog( this );
 
-    if ( ld.exec() == QDialog::Accepted ) {
+    if ( ld->exec() == QDialog::Accepted ) {
         //set geographic location
-        if ( ld.selectedCity() ) {
-            geo = ld.selectedCity();
+        if ( ld->selectedCity() ) {
+            geo = ld->selectedCity();
             olw->LocationButton->setText( geo->fullName() );
         }
     }
+    delete ld;
 }
 
 void ObsListWizard::slotToggleDateWidgets()
@@ -303,27 +305,21 @@ void ObsListWizard::slotParseRegion()
             slotObjectCountDirty();
         }
 
-    } else {
-            if ( ! olw->RA->isEmpty() && ! olw->Dec->isEmpty() 
-            && ! olw->Radius->isEmpty() ) {
-            bool circOk = false;
-
-            double ra = olw->RA->createDms( false, &circOk ).Hours();
-            double dc(0.0);
-            if ( circOk ) dc = olw->Dec->createDms( true, &circOk ).Degrees();
-            if ( circOk ) {
-                pCirc.set( ra, dc );
-                rCirc = olw->Radius->createDms( true, &circOk ).Degrees();
-            }
-
-            if ( !circOk ) {
-                kWarning() << i18n( "Illegal circle specified, no region selection possible." ) ;
-                return;
-            }
-
-            //            slotUpdateObjectCount();
-            slotObjectCountDirty();
+    } else if ( ! olw->RA->isEmpty() && ! olw->Dec->isEmpty() && ! olw->Radius->isEmpty() ) {
+        bool circOk = false;
+        double ra = olw->RA->createDms( false, &circOk ).Hours();
+        double dc(0.0);
+        if ( circOk )
+            dc = olw->Dec->createDms( true, &circOk ).Degrees();
+        if ( circOk ) {
+            pCirc.set( ra, dc );
+            rCirc = olw->Radius->createDms( true, &circOk ).Degrees();
+        } else {
+            kWarning() << i18n( "Illegal circle specified, no region selection possible." ) ;
+            return;
         }
+        //            slotUpdateObjectCount();
+        slotObjectCountDirty();
     }
 }
 
@@ -361,92 +357,88 @@ void ObsListWizard::slotUpdateObjectCount()
 
 void ObsListWizard::applyFilters( bool doBuildList )
 {
+    KStarsData* data = KStarsData::Instance();
     if ( doBuildList )
         obsList().clear();
 
     //We don't need to call applyRegionFilter() if no region filter is selected, *and*
     //we are just counting items (i.e., doBuildList is false)
     bool needRegion = true;
-    if ( !doBuildList && isItemSelected( i18n( "all over the sky" ), olw->RegionList ) ) needRegion = false;
+    if ( !doBuildList && isItemSelected( i18n( "all over the sky" ), olw->RegionList ) )
+        needRegion = false;
 
     double maglimit = 100.;
-    if ( olw->SelectByMagnitude->isChecked() ) maglimit = olw->Mag->value();
+    if ( olw->SelectByMagnitude->isChecked() )
+        maglimit = olw->Mag->value();
 
     //Stars
     if ( isItemSelected( i18n( "Stars" ), olw->TypeList ) ) {
-        QList<SkyObject*>& starList = ksw->data()->skyComposite()->stars();
+        QList<SkyObject*>& starList = data->skyComposite()->stars();
         int starIndex( starList.size() );
         if ( maglimit < 100. ) {
             //Stars are sorted by mag, so use binary search algo to find index of faintest mag
             int low(0), high(starList.size()-1), middle(high);
             while ( low < high ) {
                 middle = (low + high)/2;
-                if ( maglimit == starList.at(middle)->mag() ) break;
-                if ( maglimit <  starList.at(middle)->mag() ) high = middle - 1;
-                if ( maglimit >  starList.at(middle)->mag() ) low = middle + 1;
+                if ( maglimit == starList.at(middle)->mag() )
+                    break;
+                if ( maglimit <  starList.at(middle)->mag() )
+                    high = middle - 1;
+                if ( maglimit >  starList.at(middle)->mag() )
+                    low = middle + 1;
             }
             //now, the star at "middle" has the right mag, but we want the *last* star that has this mag.
             for ( starIndex=middle+1; starIndex < starList.size(); ++starIndex ) {
-                if ( starList.at(starIndex)->mag() > maglimit ) break;
+                if ( starList.at(starIndex)->mag() > maglimit )
+                    break;
             }
         }
 
         //DEBUG
         kDebug() << QString("starIndex for mag %1: %2").arg(maglimit).arg(starIndex) << endl;
 
-        if ( doBuildList ) {
-            for ( int i=0; i < starIndex; ++i ) {
-                SkyObject *o = (SkyObject*)(starList[i]);
-                if ( needRegion ) 
-                    applyRegionFilter( o, doBuildList, false ); //false = don't adjust ObjectCount
-
-                //Filter objects visible from geo at Date
-                if ( olw->SelectByDate->isChecked() )
-                    applyObservableFilter( o, doBuildList, false );
-            }
-        } else {
+        if( !doBuildList ) {
             //reduce StarCount by appropriate amount
             ObjectCount -= StarCount;
             ObjectCount += starIndex;
-            for ( int i=0; i < starIndex; ++i ) {
-                SkyObject *o = starList[i];
-                if ( needRegion ) 
-                    applyRegionFilter( o, doBuildList );
-
-                //Filter objects visible from geo at Date
-                if ( olw->SelectByDate->isChecked() )
-                    applyObservableFilter( o, doBuildList );
-            }
+        }
+        for ( int i=0; i < starIndex; ++i ) {
+            SkyObject *o = (SkyObject*)(starList[i]);
+            if ( needRegion ) 
+                applyRegionFilter( o, doBuildList, !doBuildList);
+            //Filter objects visible from geo at Date
+            if ( olw->SelectByDate->isChecked() )
+                applyObservableFilter( o, doBuildList, !doBuildList);
         }
     }
 
     //Sun, Moon, Planets
     if ( isItemSelected( i18n( "Sun, moon, planets" ), olw->TypeList ) ) {
         if ( needRegion ) {
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Sun"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Moon"), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Mercury" )), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Venus" )), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Mars" )), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Jupiter" )), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Saturn" )), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Uranus" )), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Neptune" )), doBuildList );
-            applyRegionFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Pluto" )), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName("Sun"), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName("Moon"), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName(i18n( "Mercury" )), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName(i18n( "Venus" )), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName(i18n( "Mars" )), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName(i18n( "Jupiter" )), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName(i18n( "Saturn" )), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName(i18n( "Uranus" )), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName(i18n( "Neptune" )), doBuildList );
+            applyRegionFilter( data->skyComposite()->findByName(i18n( "Pluto" )), doBuildList );
         }
 
         //Filter objects visible from geo at Date
         if ( olw->SelectByDate->isChecked() ) {
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Sun"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName("Moon"), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Mercury" )), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Venus" )), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Mars" )), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Jupiter" )), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Saturn" )), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Uranus" )), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Neptune" )), doBuildList );
-            applyObservableFilter( (SkyObject*)ksw->data()->skyComposite()->findByName(i18n( "Pluto" )), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName("Sun"), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName("Moon"), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName(i18n( "Mercury" )), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName(i18n( "Venus" )), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName(i18n( "Mars" )), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName(i18n( "Jupiter" )), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName(i18n( "Saturn" )), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName(i18n( "Uranus" )), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName(i18n( "Neptune" )), doBuildList );
+            applyObservableFilter( data->skyComposite()->findByName(i18n( "Pluto" )), doBuildList );
         }
     }
 
@@ -461,7 +453,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
         //Don't need to do anything if we are just counting objects and not
         //filtering by region or magnitude
         if ( needRegion || olw->SelectByMagnitude->isChecked() ) {
-            foreach ( DeepSkyObject *o, ksw->data()->skyComposite()->deepSkyObjects() ) {
+            foreach ( DeepSkyObject *o, data->skyComposite()->deepSkyObjects() ) {
                 //Skip unselected object types
                 bool typeSelected = false;
                 if ( (o->type() == SkyObject::STAR || o->type() == SkyObject::CATALOG_STAR) &&
@@ -487,20 +479,26 @@ void ObsListWizard::applyFilters( bool doBuildList )
                 if ( olw->SelectByMagnitude->isChecked() ) {
                     if ( o->mag() > 90. ) {
                         if ( olw->IncludeNoMag->isChecked() ) {
-                            if ( needRegion ) applyRegionFilter( o, doBuildList );
-                            if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                            if ( needRegion )
+                                applyRegionFilter( o, doBuildList );
+                            if ( olw->SelectByDate->isChecked() )
+                                applyObservableFilter( o, doBuildList );
                         } else if ( ! doBuildList )
                             --ObjectCount;
                     } else {
                         if ( o->mag() <= maglimit ) {
-                            if ( needRegion ) applyRegionFilter( o, doBuildList );
-                            if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                            if ( needRegion )
+                                applyRegionFilter( o, doBuildList );
+                            if ( olw->SelectByDate->isChecked() )
+                                applyObservableFilter( o, doBuildList );
                         } else if ( ! doBuildList )
                             --ObjectCount;
                     }
                 } else {
-                    if ( needRegion ) applyRegionFilter( o, doBuildList );
-                    if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                    if ( needRegion )
+                        applyRegionFilter( o, doBuildList );
+                    if ( olw->SelectByDate->isChecked() )
+                        applyObservableFilter( o, doBuildList );
                 }
             }
         }
@@ -508,38 +506,47 @@ void ObsListWizard::applyFilters( bool doBuildList )
 
     //Comets
     if ( isItemSelected( i18n( "Comets" ), olw->TypeList ) ) {
-        foreach ( SkyObject *o, ksw->data()->skyComposite()->comets() ) {
-            if ( needRegion ) applyRegionFilter( o, doBuildList );
-            if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+        foreach ( SkyObject *o, data->skyComposite()->comets() ) {
+            if ( needRegion )
+                applyRegionFilter( o, doBuildList );
+            if ( olw->SelectByDate->isChecked() )
+                applyObservableFilter( o, doBuildList );
         }
     }
 
     //Asteroids
     if ( isItemSelected( i18n( "Asteroids" ), olw->TypeList ) ) {
-        foreach ( SkyObject *o, ksw->data()->skyComposite()->asteroids() ) {
+        foreach ( SkyObject *o, data->skyComposite()->asteroids() ) {
             if ( olw->SelectByMagnitude->isChecked() ) {
                 if ( o->mag() > 90. ) {
                     if ( olw->IncludeNoMag->isChecked() )
-                        if ( needRegion ) applyRegionFilter( o, doBuildList );
-                        if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                        if ( needRegion )
+                            applyRegionFilter( o, doBuildList );
+                        if ( olw->SelectByDate->isChecked() )
+                            applyObservableFilter( o, doBuildList );
                     else if ( ! doBuildList )
                         --ObjectCount;
                 } else {
                     if ( o->mag() <= maglimit )
-                        if ( needRegion ) applyRegionFilter( o, doBuildList );
-                        if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                        if ( needRegion )
+                            applyRegionFilter( o, doBuildList );
+                        if ( olw->SelectByDate->isChecked() )
+                            applyObservableFilter( o, doBuildList );
                     else if ( ! doBuildList )
                         --ObjectCount;
                 }
             } else {
-                if ( needRegion ) applyRegionFilter( o, doBuildList );
-                if ( olw->SelectByDate->isChecked() ) applyObservableFilter( o, doBuildList );
+                if ( needRegion )
+                    applyRegionFilter( o, doBuildList );
+                if ( olw->SelectByDate->isChecked() )
+                    applyObservableFilter( o, doBuildList );
             }
         }
     }
 
     //Update the object count label
-    if ( doBuildList ) ObjectCount = obsList().size();
+    if ( doBuildList )
+        ObjectCount = obsList().size();
 
     olw->CountLabel->setText( i18np("Your observing list currently has 1 object", "Your observing list currently has %1 objects", ObjectCount ) );
 }
@@ -551,8 +558,10 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
     if ( isItemSelected( i18n("by constellation"), olw->RegionList ) ) {
         QString c( ConstellationBoundary::Instance()->constellationName( o ) );
         if ( isItemSelected( c, olw->ConstellationList ) ) {
-            if ( doBuildList ) obsList().append ( o );
-        } else if ( doAdjustCount ) --ObjectCount;
+            if ( doBuildList )
+                obsList().append ( o );
+        } else if ( doAdjustCount )
+            --ObjectCount;
     }
 
     //select by rectangular region
@@ -562,22 +571,26 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
         bool addObject = false;
         if ( dec >= yRect1 && dec <= yRect2 ) {
             if ( xRect1 < 0.0 ) {
-                if (ra >= xRect1 + 24.0 || ra <= xRect2 ) { addObject = true; }
+                addObject = ra >= xRect1 + 24.0 || ra <= xRect2;
             } else {
-                if ( ra >= xRect1 && ra <= xRect2 ) { addObject = true; }
+                addObject = ra >= xRect1 && ra <= xRect2;
             }
         }
 
-        if ( addObject && doBuildList ) obsList().append( o );
-        if ( ! addObject && doAdjustCount ) --ObjectCount;
+        if ( addObject && doBuildList )
+            obsList().append( o );
+        if ( ! addObject && doAdjustCount )
+            --ObjectCount;
     }
 
     //select by circular region
     //make sure circ region data are valid
     else if ( isItemSelected( i18n("in a circular region"), olw->RegionList ) ) {
         if ( o->angularDistanceTo( &pCirc ).Degrees() < rCirc ) {
-            if ( doBuildList ) obsList().append( o );
-        } else if ( doAdjustCount ) --ObjectCount;
+            if ( doBuildList )
+                obsList().append( o );
+        } else if ( doAdjustCount )
+            --ObjectCount;
     }
 
     //No region filter, just add the object
@@ -597,7 +610,8 @@ void ObsListWizard::applyObservableFilter( SkyObject *o, bool doBuildList, bool 
     for ( KStarsDateTime t = Evening; t < Midnight; t = t.addSecs( 3600.0 ) ) {
         dms LST = geo->GSTtoLST( t.gst() );
         p.EquatorialToHorizontal( &LST, geo->lat() );
-        if ( p.alt()->Degrees() > 15.0 ) visible = true;
+        if ( p.alt()->Degrees() > 15.0 )
+            visible = true;
     }
 
     if ( ! visible ) {

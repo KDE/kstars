@@ -39,7 +39,6 @@ class StarObject;
 class SkyPoint;
 class QPolygonF;
 
-class KStarsData;
 class QPainter;
 
 // These enums control the trixel storage.  Separate buffers are available for
@@ -95,7 +94,8 @@ class SkyMesh : public HTMesh
 {
 protected:
 
-    SkyMesh( KStarsData* data, int level );
+    SkyMesh( int level );
+    // FIXME: check copy ctor
     SkyMesh( SkyMesh& skyMesh );
 
 public:
@@ -106,7 +106,7 @@ public:
      * 2^(level + 1) so a level 5 mesh will have triagles size roughly of
      * .05 radians or 2.8 degrees.
            */
-    static SkyMesh* Create( KStarsData* data, int level );
+    static SkyMesh* Create( int level );
 
     /* @short returns the default instance of SkyMesh or null if it has not
      * yet been created.
@@ -295,7 +295,6 @@ private:
     int    m_debug;
 
     IndexHash   indexHash;
-    KStarsData* m_data;
     KSNumbers   m_KSNumbers;
     int         m_zoomedInPercent;
 

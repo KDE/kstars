@@ -41,7 +41,6 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skyobjects/skyobject.h"
 #include "skymap.h"
 
@@ -136,8 +135,9 @@ void LineListIndex::reindexLines()
 }
 
 
-void LineListIndex::JITupdate( KStarsData *data, LineList* lineList )
+void LineListIndex::JITupdate( LineList* lineList )
 {
+    KStarsData *data = KStarsData::Instance();
     lineList->updateID = data->updateID();
     SkyList* points = lineList->points();
 
@@ -203,7 +203,7 @@ void LineListIndex::drawAllLines( QPainter& psky )
         LineList* lineList = m_listList.at( i );
 
         if ( lineList->updateID != updateID )
-            JITupdate( data, lineList );
+            JITupdate( lineList );
 
         SkyList* points = lineList->points();
         pLast = points->first();
@@ -263,7 +263,7 @@ void LineListIndex::drawLines( QPainter& psky )
             lineList->drawID = drawID;
 
             if ( lineList->updateID != updateID )
-                JITupdate( data, lineList );
+                JITupdate( lineList );
 
             SkyList* points = lineList->points();
             pLast = points->first();
@@ -276,7 +276,7 @@ void LineListIndex::drawLines( QPainter& psky )
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
 
                     if ( isVisible && isVisibleLast ) {
-                        if ( map->onscreenLine2( oLast, oThis ) ) {
+                        if ( map->onscreenLine( oLast, oThis ) ) {
                             psky.drawLine( oLast, oThis );
                             updateLabelCandidates( oThis, lineList, i );
                             //psky.drawEllipse( QRectF( oThis.x(), oThis.y(), 2, 2 ) );
@@ -332,7 +332,7 @@ void LineListIndex::drawFilled( QPainter& psky )
             lineList->drawID = drawID;
 
             if ( lineList->updateID != updateID )
-                JITupdate( data, lineList );
+                JITupdate( lineList );
 
             SkyList* points = lineList->points();
             pLast = points->last();

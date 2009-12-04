@@ -22,7 +22,6 @@
 #include <QList>
 #include "skyobjects/skyobject.h"
 
-class KStarsData;
 class SkyLabeler;
 
 /**
@@ -64,14 +63,13 @@ public:
     	*@li 11-12   Dec seconds [int]
     	*@li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
     	*@li 17-     Constellation name [string]
-    	*@p data Pointer to the KStarsData object
     	*/
-    virtual void init(KStarsData *data);
+    virtual void init();
 
     /* @short we need a custom routine (for now) so we don't
      * precess the locations of the names.
      */
-    void update( KStarsData *data, KSNumbers *num );
+    void update( KSNumbers *num );
 
     /**
      *@short Return true if we are using localized constellation names

@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-
-
 #ifndef FINDDIALOG_H_
 #define FINDDIALOG_H_
 
@@ -39,84 +36,68 @@ public:
 };
 
 /**@class FindDialog
- *Dialog window for finding SkyObjects by name.  The dialog contains
- *a QListBox showing the list of named objects, a QLineEdit for filtering
- *the list by name, and a QCombobox for filtering the list by object type.
+ * Dialog window for finding SkyObjects by name.  The dialog contains
+ * a QListBox showing the list of named objects, a QLineEdit for filtering
+ * the list by name, and a QCombobox for filtering the list by object type.
  *
- *@short Find Object Dialog
- *@author Jason Harris
- *@version 1.0
+ * @short Find Object Dialog
+ * @author Jason Harris
+ * @version 1.0
  */
 class FindDialog : public KDialog {
     Q_OBJECT
-
 public:
-    /**
-     *Constructor. Creates all widgets and packs them in QLayouts.  Connects
-     *Signals and Slots.  Runs initObjectList().
+    /**Constructor. Creates all widgets and packs them in QLayouts.  Connects
+     * Signals and Slots.  Runs initObjectList().
      */
     FindDialog( QWidget* parent = 0 );
 
-    /**
-     *Destructor
-     */
-    ~FindDialog();
+    /** Destructor */
+    virtual ~FindDialog();
 
-    /**
-     *@return the currently-selected item from the listbox of named objects
-     */
+    /** @return the currently-selected item from the listbox of named objects */
     SkyObject* selectedObject() const;
 
 public slots:
-    /**
-     *When Text is entered in the QLineEdit, filter the List of objects
-     *so that only objects which start with the filter text are shown.
+    /**When Text is entered in the QLineEdit, filter the List of objects
+     * so that only objects which start with the filter text are shown.
      */
     void filterList();
 
     //FIXME: Still valid for KDialog?  i.e., does KDialog have a slotOk() ?
     /**
      *Overloading the Standard KDialogBase slotOk() to show a "sorry" message
-     *box if no object is selected when the user presses Ok.  The window is 
+     *box if no object is selected when the user presses Ok.  The window is
      *not closed in this case.
      */
     void slotOk();
 
 private slots:
-    /**
-     *Init object list after opening dialog.
-     */
+    /** Init object list after opening dialog. */
     void init();
 
-    /**
-     *Set the selected item to the first item in the list
-     */
+    /** Set the selected item to the first item in the list */
     void initSelection();
 
     void enqueueSearch();
 
 protected:
-    /**
-     *Process Keystrokes.  The Up and Down arrow keys are used to select the 
-     *Previous/Next item in the listbox of named objects.  The Esc key closes 
-     *the window with no selection, using reject().
-     *@param e The QKeyEvent pointer 
+    /**Process Keystrokes.  The Up and Down arrow keys are used to select the
+     * Previous/Next item in the listbox of named objects.  The Esc key closes
+     * the window with no selection, using reject().
+     * @param e The QKeyEvent pointer
      */
     void keyPressEvent( QKeyEvent *e );
 
 private:
 
-    /**
-     *
-     *@short Do some post processing on the search text to interpret what the user meant
-     *
+    /**@short Do some post processing on the search text to interpret what the user meant
      * This could include replacing text like "m93" with "m 93"
      */
      QString processSearchText();
 
-    /**
-     *@short pre-filter the list of objects according to 
-     *the selected object type.
+    /**@short pre-filter the list of objects according to the
+     * selected object type.
      */
     void filterByType();
 

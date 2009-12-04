@@ -61,6 +61,8 @@ DeviceManager::DeviceManager(INDIMenu *INDIparent, QString inHost, uint inPort, 
 
 DeviceManager::~DeviceManager()
 {
+    serverSocket.close();
+
     if (serverProcess)
 	serverProcess->close();
   
@@ -128,12 +130,10 @@ void DeviceManager::connectToServer()
   
 void DeviceManager::connectionSuccess()
 {
-   kDebug() << "Connection success!!";
-    
    QTextStream serverFP(&serverSocket);
    
-   foreach (IDevice *device, managed_devices)
-   		device->state = IDevice::DEV_START;
+   //foreach (IDevice *device, managed_devices)
+   		//device->state = IDevice::DEV_START;
   
    if (XMLParser)
         delLilXML(XMLParser);
@@ -193,14 +193,16 @@ void DeviceManager::dataReceived()
            {
                 if (dispatchCommand(root, err_cmd) < 0)
                 {
-                    kDebug() << "Dispatch command error: " << err_cmd;
+                    kDebug() << "Dispatch command error: " << err_cmd << endl;
                     prXMLEle (stdout, root, 0);
                 }
 
                 delXMLEle (root);
            }
            else if (*errmsg)
+	   {
                 kDebug() << "XML Root Error: " << errmsg;
+	   }
           }
   }
 
@@ -215,7 +217,10 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
     /* Get the device, if not available, create it */
     INDI_D *dp = findDev (root, 1, errmsg);
     if (dp == NULL)
+    {
+	errmsg = "No device available and none was created";
         return -1;
+    }
 
     if (!strcmp (tagXMLEle(root), "defTextVector"))
         return dp->buildTextGUI(root, errmsg);
@@ -313,6 +318,7 @@ INDI_D * DeviceManager::findDev( const QString &devName, QString & errmsg )
 - */
 INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 {
+
     INDI_D *dp;
     XMLAtt *ap;
     QString device_name, unique_label;
@@ -320,7 +326,11 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
     /* allocate new INDI_D on indi_dev */
     ap = findAtt (dep, "device", errmsg);
     if (!ap)
+    {
+	errmsg = QString("Unable to find device attribute in XML tree. Cannot add device.");
+	kDebug() << errmsg << endl;
         return NULL;
+    }
 
     device_name = QString(valuXMLAtt(ap));
 
@@ -331,22 +341,24 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 			// Therefore, when a new device is discovered, we match the driver name (which never changes, it's always static from indiserver) against the driver_class
 			// of IDevice because IDevice can have several names. It can have the tree_label which is the name it has in the local tree widget. Finally, the name that shows
 			// up in the INDI control panel is the unique name of the driver, which is for most cases tree_label, but if that exists already then we get tree_label_1..etc
+
 			if (device->driver_class == device_name && device->state == IDevice::DEV_TERMINATE)
 			{
 	 			device->state = IDevice::DEV_START;
-				unique_label  = device->unique_label;
+			        unique_label = device->unique_label = parent->getUniqueDeviceLabel(device->tree_label);
 				break;
 			}
 		}
 
+        // For remote INDI drivers with no label attributes
 	if (unique_label.isEmpty())
-		unique_label = parent->getUniqueDeviceLabel(device_name);
+	  unique_label = parent->getUniqueDeviceLabel(device_name);
 
     	dp = new INDI_D(parent, this, device_name, unique_label);
 	indi_dev.append(dp);
 	emit newDevice(dp);
 		
-	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()));
+	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()), Qt::QueuedConnection);
 
     	/* ok */
     	return dp;
@@ -361,7 +373,10 @@ INDI_D * DeviceManager::findDev (XMLEle *root, int create, QString & errmsg)
     /* get device name */
     ap = findAtt (root, "device", errmsg);
     if (!ap)
+    {
+	errmsg = QString("No device attribute found in element %1").arg(tagXMLEle(root));
         return (NULL);
+    }
     dn = valuXMLAtt(ap);
 
     /* search for existing */
@@ -473,7 +488,7 @@ void DeviceManager::sendNewNumber (INDI_P *pp)
     {
         serverFP << QString("  <oneNumber\n");
         serverFP << QString("    name='%1'>\n").arg(qPrintable( lp->name));
-        if (lp->text.isEmpty())
+        if (lp->text.isEmpty() || lp->spin_w)
         	serverFP << QString("      %1\n").arg(lp->targetValue);
         else
         	serverFP << QString("      %1\n").arg(lp->text);

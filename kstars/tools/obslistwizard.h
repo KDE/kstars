@@ -22,7 +22,6 @@
 #include "ui_obslistwizard.h"
 #include "skyobjects/skypoint.h"
 
-class KStars;
 class SkyObject;
 class GeoLocation;
 
@@ -40,15 +39,12 @@ class ObsListWizard : public KDialog
 {
     Q_OBJECT
 public:
-    /**@short Constructor
-    	*/
-    ObsListWizard( KStars *parent );
-    /**@short Destructor
-    	*/
+    /**@short Constructor */
+    ObsListWizard( QWidget *parent );
+    /**@short Destructor */
     ~ObsListWizard();
 
-    /**@return reference to QPtrList of objects selected by the wizard
-    	*/
+    /**@return reference to QPtrList of objects selected by the wizard */
     QList<SkyObject*>& obsList() { return ObsList; }
 
 private slots:
@@ -96,7 +92,6 @@ private:
     void setItemSelected( const QString &name, QListWidget *listWidget, bool value, bool *ok=0 );
 
     QList<SkyObject*> ObsList;
-    KStars *ksw;
     ObsListWizardUI *olw;
     uint ObjectCount, StarCount, PlanetCount, CometCount, AsteroidCount;
     uint GalaxyCount, OpenClusterCount, GlobClusterCount, GasNebCount, PlanNebCount;

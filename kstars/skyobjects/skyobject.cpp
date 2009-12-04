@@ -41,51 +41,44 @@ QString SkyObject::unnamedString = QString(i18n("unnamed"));
 QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
 QString SkyObject::starString = QString("star");
 
-SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
-    setType( o.type() );
-    Magnitude = o.mag();
-    setName(o.name());
-    setName2(o.name2());
-    setLongName(o.longname());
-    info = NULL;
-    if( o.hasAuxInfo() ) {
-        info = getAuxInfo();
-        info->ImageList = o.ImageList();
-        info->ImageTitle = o.ImageTitle();
-        info->InfoList = o.InfoList();
-        info->InfoTitle = o.InfoTitle();
-        info->userLog = o.userLog();
-    }
-}
+const SkyObject::UID SkyObject::invalidUID   = ~0;
+const SkyObject::UID SkyObject::UID_STAR     = 0;
+const SkyObject::UID SkyObject::UID_GALAXY   = 1;
+const SkyObject::UID SkyObject::UID_DEEPSKY  = 2;
+const SkyObject::UID SkyObject::UID_SOLARSYS = 3;
 
 SkyObject::SkyObject( int t, dms r, dms d, float m,
                       const QString &n, const QString &n2,
                       const QString &lname )
-        : SkyPoint( r, d) {
+    : SkyPoint( r, d),
+      info()
+{
     setType( t );
     Magnitude = m;
     setName(n);
     setName2(n2);
     setLongName(lname);
-    info = NULL;
 }
 
 SkyObject::SkyObject( int t, double r, double d, float m,
                       const QString &n, const QString &n2,
                       const QString &lname )
-        : SkyPoint( r, d) {
+    : SkyPoint( r, d),
+      info()
+{
     setType( t );
     Magnitude = m;
     setName(n);
     setName2(n2);
     setLongName(lname);
-    info = NULL;
 }
 
-SkyObject::~SkyObject() {
-    delete info;
-    info = NULL;
+SkyObject* SkyObject::clone() const
+{
+    return new SkyObject(*this);
 }
+
+SkyObject::~SkyObject() {}
 
 void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
     pmenu->createEmptyMenu( this ); pmenu->popup( pos );
@@ -239,18 +232,13 @@ QTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation *geo )
 
 dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) {
     KStarsDateTime dt0 = dt;
-    QTime UT = transitTimeUT( dt, geo );
-    dt0.setTime( UT );
+    dt0.setTime( transitTimeUT( dt, geo ) );
     SkyPoint sp = recomputeCoords( dt0, geo );
-    const dms *decm = sp.dec0();
 
-    dms delta;
-    delta.setRadians( asin ( sin (geo->lat()->radians()) *
-                             sin ( decm->radians() ) +
-                             cos (geo->lat()->radians()) *
-                             cos (decm->radians() ) ) );
-
-    return delta;
+    double delta = 90 - geo->lat()->Degrees() + sp.dec()->Degrees();
+    if( delta > 90 )
+        delta = 180 - delta;
+    return dms(delta);
 }
 
 double SkyObject::approxHourAngle( const dms *h0, const dms *gLat, const dms *dec ) {
@@ -317,11 +305,7 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
 }
 
 bool SkyObject::checkCircumpolar( const dms *gLat ) {
-    double r = -1.0 * tan( gLat->radians() ) * tan( dec()->radians() );
-    if ( r < -1.0 || r > 1.0 )
-        return true;
-    else
-        return false;
+    return fabs(dec()->Degrees())  >  (90 - fabs(gLat->Degrees()));
 }
 
 QString SkyObject::typeName( void ) const {
@@ -491,10 +475,12 @@ double SkyObject::labelOffset() const {
 }
 
 AuxInfo *SkyObject::getAuxInfo() {
-    if( info )
-        return info;
-    else {
-        info = new AuxInfo;
-        return info;
-    }
+    if( !info )
+        info = new AuxInfo; 
+    return &(*info);
+}
+
+SkyObject::UID SkyObject::getUID() const
+{
+    return invalidUID;
 }

@@ -21,7 +21,6 @@
 #include "noprecessindex.h"
 #include "linelistlabel.h"
 
-class KStarsData;
 
 /**
 	*@class Equator
@@ -54,10 +53,8 @@ public:
         m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
     }
 
-    /**@short Initialize the Equator
-     *@p data pointer to the KStarsData object
-     */
-    virtual void init( KStarsData *data );
+    /**@short Initialize the Equator */
+    virtual void init();
 
     bool selected();
 

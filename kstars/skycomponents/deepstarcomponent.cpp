@@ -26,30 +26,25 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "skymap.h"
 #include "skyobjects/starobject.h"
-
 #include "skymesh.h"
-
 #include "binfilehelper.h"
-#include "byteswap.h"
 #include "starblockfactory.h"
-
 #include "starcomponent.h"
 
 #include <kde_file.h>
+#include "byteorder.h"
 
 DeepStarComponent::DeepStarComponent( SkyComponent *parent, QString fileName, float trigMag, bool staticstars )
-    : dataFileName( fileName ), ListComponent(parent), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 
-      m_reindexNum( J2000 ), staticStars( staticstars )
+    : ListComponent(parent), m_reindexNum( J2000 ), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 
+      staticStars( staticstars ), dataFileName( fileName )
 {
     fileOpened = false;
 }
 
 bool DeepStarComponent::loadStaticStars() {
     FILE *dataFile;
-    StarObject plainStarTemplate;
 
     if( !staticStars )
         return true;
@@ -74,9 +69,15 @@ bool DeepStarComponent::loadStaticStars() {
     qint16 faintmag;
     quint8 htm_level;
     quint16 t_MSpT;
+
     fread( &faintmag, 2, 1, dataFile );
+    if( starReader.getByteSwap() )
+        faintmag = bswap_16( faintmag );
     fread( &htm_level, 1, 1, dataFile );
     fread( &t_MSpT, 2, 1, dataFile ); // Unused
+    if( starReader.getByteSwap() )
+        faintmag = bswap_16( faintmag );
+
 
     // TODO: Read the multiplying factor from the dataFile
     m_FaintMagnitude = faintmag / 100.0;
@@ -111,30 +112,21 @@ bool DeepStarComponent::loadStaticStars() {
                     byteSwap( &deepstardata );
             }
 
-
-            /*
-             * CAUTION: We avoid trying to construct StarObjects using the constructors [The C++ way]
-             *          in order to gain speed. Instead, one template StarObject is constructed and
-             *          all other unnamed stars are created by doing a raw copy from this using memcpy()
-             *          and then calling StarObject::init() to replace the default data with the correct
-             *          data.
-             *          This means that this section of the code plays around with pointers to a great
-             *          extend and has a chance of breaking down / causing segfaults.
-             */
-                    
-            /* Make a copy of the star template and set up the data in it */
+            /* Initialize star with data just read. */
+            StarObject* star;
             if( starReader.guessRecordSize() == 32 )
-                plainStarTemplate.init( &stardata );
+                star = SB->addStar( stardata );
             else
-                plainStarTemplate.init( &deepstardata );
-            plainStarTemplate.EquatorialToHorizontal( data()->lst(), data()->geo()->lat() );
-            if( !SB->addStar( &plainStarTemplate ) )
+                star = SB->addStar( deepstardata );
+            
+            if( star ) {
+                KStarsData* data = KStarsData::Instance();
+                star->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                if( star->getHDIndex() != 0 )
+                    m_CatalogNumber.insert( star->getHDIndex(), star );
+            } else {
                 kDebug() << "CODE ERROR: More unnamed static stars in trixel " << trixel << " than we allocated space for!" << endl;
-            StarObject *star = SB->star( SB->getStarCount() - 1 );
-
-            if( star->getHDIndex() != 0 )
-                m_CatalogNumber.insert( star->getHDIndex(), star );
-
+            }
         }
     }
 
@@ -162,10 +154,8 @@ bool openIndexFile( ) {
 
 //This function is empty for a reason; we override the normal 
 //update function in favor of JiT updates for stars.
-void DeepStarComponent::update( KStarsData *data, KSNumbers *num ) {   
-    Q_UNUSED(data)   
-    Q_UNUSED(num)   
-}   
+void DeepStarComponent::update( KSNumbers *num )
+{}
 
 // TODO: Optimize draw, if it is worth it.
 void DeepStarComponent::draw( QPainter& psky ) {
@@ -189,9 +179,9 @@ void DeepStarComponent::draw( QPainter& psky ) {
     double hideStarsMag = Options::magLimitHideStar();
 
     //adjust maglimit for ZoomLevel
-    double lgmin = log10(MINZOOM);
-    double lgmax = log10(MAXZOOM);
-    double lgz = log10(Options::zoomFactor());
+//    double lgmin = log10(MINZOOM);
+//    double lgmax = log10(MAXZOOM);
+//    double lgz = log10(Options::zoomFactor());
     // TODO: Enable hiding of faint stars
 
     float maglim = sc->zoomMagnitudeLimit();
@@ -200,8 +190,6 @@ void DeepStarComponent::draw( QPainter& psky ) {
         return;
 
     m_zoomMagLimit = maglim;
-
-    double maxSize = 10.0;
 
     m_skyMesh->inDraw( true );
 
@@ -234,12 +222,10 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 StarBlock *prevBlock = ( ( i >= 1 ) ? m_starBlockList.at( currentRegion )->block( i - 1 ) : NULL );
                 StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
                 
-                if( i == 0 )
-                    if( !m_StarBlockFactory->markFirst( block ) )
-                        kDebug() << "markFirst failed in trixel" << currentRegion;
-                if( i > 0 )
-                    if( !m_StarBlockFactory->markNext( prevBlock, block ) )
-                        kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
+                if( i == 0  &&  !m_StarBlockFactory->markFirst( block ) )
+                    kDebug() << "markFirst failed in trixel" << currentRegion;
+                if( i > 0   &&  !m_StarBlockFactory->markNext( prevBlock, block ) )
+                    kDebug() << "markNext failed in trixel" << currentRegion << "while marking block" << i;
                 if( i < m_starBlockList.at( currentRegion )->getBlockCount() 
                     && m_starBlockList.at( currentRegion )->block( i )->getFaintMag() < maglim )
                     break;
@@ -308,12 +294,11 @@ void DeepStarComponent::draw( QPainter& psky ) {
 
 }
 
-void DeepStarComponent::init( KStarsData *data ) {
-  m_Data = data;
-  openDataFile();
-  if( staticStars )
-      loadStaticStars();
-  kDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
+void DeepStarComponent::init() {
+    openDataFile();
+    if( staticStars )
+        loadStaticStars();
+    kDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
 }
 
 bool DeepStarComponent::openDataFile() {
@@ -331,6 +316,8 @@ bool DeepStarComponent::openDataFile() {
         qint16 faintmag;
         quint8 htm_level;
         fread( &faintmag, 2, 1, starReader.getFileHandle() );
+        if( starReader.getByteSwap() )
+            faintmag = bswap_16( faintmag );
         if( starReader.guessRecordSize() == 16 )
             m_FaintMagnitude = faintmag / 1000.0;
         else
@@ -339,13 +326,15 @@ bool DeepStarComponent::openDataFile() {
         kDebug() << "Processing " << dataFileName << ", HTMesh Level" << htm_level;
         m_skyMesh = SkyMesh::Instance( htm_level );
         if( !m_skyMesh ) {
-            if( !( m_skyMesh = SkyMesh::Create( KStarsData::Instance(), htm_level ) ) ) {
+            if( !( m_skyMesh = SkyMesh::Create( htm_level ) ) ) {
                 kDebug() << "Could not create HTMesh of level " << htm_level << " for catalog " << dataFileName << ". Skipping it.";
                 return false;
             }
         }
         meshLevel = htm_level;
         fread( &MSpT, 2, 1, starReader.getFileHandle() );
+        if( starReader.getByteSwap() )
+            MSpT = bswap_16( MSpT );
         fileOpened = true;
         kDebug() << "  Sky Mesh Size: " << m_skyMesh->size();
         for (long int i = 0; i < m_skyMesh->size(); i++) {
@@ -372,6 +361,8 @@ SkyObject *DeepStarComponent::findByHDIndex( int HDnum ) {
 // build an index for just the named stars which would make this go
 // much faster still.  -jbb
 //
+
+
 SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
 {
     StarObject *oBest = 0;
@@ -400,35 +391,44 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
             }
         }
     }
-    return (SkyObject*) oBest;
+
+    // TODO: What if we are looking around a point that's not on
+    // screen? objectNearest() will need to keep on filling up all
+    // trixels around the SkyPoint to find the best match in case it
+    // has not been found. Ideally, this should be implemented in a
+    // different method and should be called after all other
+    // candidates (eg: DeepSkyObject::objectNearest()) have been
+    // called.
+    
+    return oBest;
 }
 
 int DeepStarComponent::starColorMode( void ) const {
-    return m_Data->colorScheme()->starColorMode();
+    return KStarsData::Instance()->colorScheme()->starColorMode();
 }
 
 int DeepStarComponent::starColorIntensity( void ) const {
-    return m_Data->colorScheme()->starColorIntensity();
+    return KStarsData::Instance()->colorScheme()->starColorIntensity();
 }
 
 void DeepStarComponent::byteSwap( deepStarData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_16( stardata->dRA );
-    bswap_16( stardata->dDec );
-    bswap_16( stardata->B );
-    bswap_16( stardata->V );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_16( stardata->dRA );
+    stardata->dDec = bswap_16( stardata->dDec );
+    stardata->B = bswap_16( stardata->B );
+    stardata->V = bswap_16( stardata->V );
 }
 
 void DeepStarComponent::byteSwap( starData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_32( stardata->dRA );
-    bswap_32( stardata->dDec );
-    bswap_32( stardata->parallax );
-    bswap_32( stardata->HD );
-    bswap_16( stardata->mag );
-    bswap_16( stardata->bv_index );
+    stardata->RA = bswap_32( stardata->RA );
+    stardata->Dec = bswap_32( stardata->Dec );
+    stardata->dRA = bswap_32( stardata->dRA );
+    stardata->dDec = bswap_32( stardata->dDec );
+    stardata->parallax = bswap_32( stardata->parallax );
+    stardata->HD = bswap_32( stardata->HD );
+    stardata->mag = bswap_16( stardata->mag );
+    stardata->bv_index = bswap_16( stardata->bv_index );
 }
 
 bool DeepStarComponent::verifySBLIntegrity() {

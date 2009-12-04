@@ -20,24 +20,22 @@
 #include <KGlobal>
 #include <KLocale>
 #include <kmessagebox.h>
+#include <KLineEdit>
 
 #include "skyobjects/skyobject.h"
 #include "geolocation.h"
-#include "kstars.h"
+#include "kstarsdata.h"
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 #include "dialogs/locationdialog.h"
-#include "widgets/dmsbox.h"
-#include "widgets/timebox.h"
 
 
-modCalcDayLength::modCalcDayLength(QWidget *parentSplit)
-        : QFrame(parentSplit) {
+modCalcDayLength::modCalcDayLength(QWidget *parentSplit) :
+    QFrame(parentSplit)
+{
     setupUi(this);
-
-    ks = (KStars*) topLevelWidget()->parent();
 
     showCurrentDate();
     initGeo();
@@ -68,8 +66,9 @@ void modCalcDayLength::showCurrentDate (void)
 
 void modCalcDayLength::initGeo(void)
 {
-    geoPlace = ks->geo();
-    geoBatch = ks->geo();
+    KStarsData *data = KStarsData::Instance();
+    geoPlace = data->geo();
+    geoBatch = data->geo();
     Location->setText( geoPlace->fullName() );
     LocationBatch->setText( geoBatch->fullName() );
 }
@@ -83,46 +82,47 @@ QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
 }
 
 void modCalcDayLength::slotLocation() {
-    LocationDialog ld(ks);
-
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    QPointer<LocationDialog> ld = new LocationDialog( this );
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoPlace = newGeo;
             Location->setText( geoPlace->fullName() );
         }
     }
+    delete ld;
 
     slotComputeAlmanac();
 }
 
 void modCalcDayLength::slotLocationBatch() {
-    LocationDialog ld(ks);
-
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+    QPointer<LocationDialog> ld = new LocationDialog( this );
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geoBatch = newGeo;
             LocationBatch->setText( geoBatch->fullName() );
         }
     }
+    delete ld;
 }
 
 void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     //Determine values needed for the Almanac
     long double jd0 = KStarsDateTime(d, QTime(8,0,0)).djd();
-    KSNumbers * num = new KSNumbers(jd0);
+    KSNumbers num(jd0);
 
     //Sun
-    KSSun *Sun = new KSSun( ((KStars*) topLevelWidget()->parent())->data() );	Sun->findPosition(num);
+    KSSun Sun;
+    Sun.findPosition(&num);
 
-    QTime ssTime = Sun->riseSetTime( jd0 , geo, false );
-    QTime srTime = Sun->riseSetTime( jd0 , geo, true );
-    QTime stTime = Sun->transitTime(jd0 , geo);
+    QTime ssTime = Sun.riseSetTime(jd0 , geo, false );
+    QTime srTime = Sun.riseSetTime(jd0 , geo, true );
+    QTime stTime = Sun.transitTime(jd0 , geo);
 
-    dms ssAz = Sun->riseSetTimeAz(jd0, geo, false);
-    dms srAz = Sun->riseSetTimeAz(jd0, geo, true);
-    dms stAlt = Sun->transitAltitude(jd0, geo);
+    dms ssAz  = Sun.riseSetTimeAz(jd0, geo, false);
+    dms srAz  = Sun.riseSetTimeAz(jd0, geo, true);
+    dms stAlt = Sun.transitAltitude(jd0, geo);
 
     //In most cases, the Sun will rise and set:
     if ( ssTime.isValid() ) {
@@ -135,7 +135,7 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         stTimeString = KGlobal::locale()->formatTime( stTime );
 
         QTime daylength = lengthOfDay(ssTime,srTime);
-        daylengthString = KGlobal::locale()->formatTime( daylength );
+        daylengthString = KGlobal::locale()->formatTime( daylength, false, true );
 
         //...but not always!
     } else if ( stAlt.Degrees() > 0. ) {
@@ -160,17 +160,17 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
     }
 
     //Moon
-    KSMoon *Moon = new KSMoon( ((KStars*) topLevelWidget()->parent())->data() );
-    Moon->findPosition(num);
-    Moon->findPhase();
+    KSMoon Moon;
+    Moon.findPosition(&num);
+    Moon.findPhase();
 
-    QTime msTime = Moon->riseSetTime( jd0 , geo, false );
-    QTime mrTime = Moon->riseSetTime( jd0 , geo, true );
-    QTime mtTime = Moon->transitTime(jd0 , geo);
+    QTime msTime = Moon.riseSetTime( jd0 , geo, false );
+    QTime mrTime = Moon.riseSetTime( jd0 , geo, true );
+    QTime mtTime = Moon.transitTime(jd0 , geo);
 
-    dms msAz = Moon->riseSetTimeAz(jd0, geo, false);
-    dms mrAz = Moon->riseSetTimeAz(jd0, geo, true);
-    dms mtAlt = Moon->transitAltitude(jd0, geo);
+    dms msAz  = Moon.riseSetTimeAz(jd0, geo, false);
+    dms mrAz  = Moon.riseSetTimeAz(jd0, geo, true);
+    dms mtAlt = Moon.transitAltitude(jd0, geo);
 
     //In most cases, the Moon will rise and set:
     if ( msTime.isValid() ) {
@@ -202,17 +202,13 @@ void modCalcDayLength::updateAlmanac( const QDate &d, GeoLocation *geo ) {
         mtTimeString = KGlobal::locale()->formatTime( mtTime );
     }
 
-    lunarphaseString = Moon->phaseName()+" ("+QString::number( int( 100*Moon->illum() ) )+"%)";
+    lunarphaseString = Moon.phaseName()+" ("+QString::number( int( 100*Moon.illum() ) )+"%)";
 
     //Fix length of Az strings
     if ( srAz.Degrees() < 100.0 ) srAzString = ' '+srAzString;
     if ( ssAz.Degrees() < 100.0 ) ssAzString = ' '+ssAzString;
     if ( mrAz.Degrees() < 100.0 ) mrAzString = ' '+mrAzString;
     if ( msAz.Degrees() < 100.0 ) msAzString = ' '+msAzString;
-
-    delete num;
-    delete Sun;
-    delete Moon;
 }
 
 void modCalcDayLength::slotComputeAlmanac() {

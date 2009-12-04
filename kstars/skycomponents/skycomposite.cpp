@@ -17,7 +17,6 @@
 
 #include "skycomposite.h"
 
-#include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
 
 SkyComposite::SkyComposite(SkyComponent *parent )
@@ -33,8 +32,7 @@ SkyComposite::SkyComposite(SkyComponent *parent, bool (*visibleMethod)())
 
 SkyComposite::~SkyComposite()
 {
-    while ( !components().isEmpty() )
-        delete components().takeFirst();
+    qDeleteAll( components() );
 }
 
 void SkyComposite::addComponent(SkyComponent *component)
@@ -65,16 +63,16 @@ void SkyComposite::drawExportable( QPainter& psky )
         component->drawExportable( psky );
 }
 
-void SkyComposite::init( KStarsData *data )
+void SkyComposite::init()
 {
     foreach ( SkyComponent *component, components() )
-        component->init( data );
+        component->init();
 }
 
-void SkyComposite::update(KStarsData *data, KSNumbers *num )
+void SkyComposite::update( KSNumbers *num )
 {
     foreach (SkyComponent *component, components())
-        component->update( data, num );
+        component->update( num );
 }
 
 SkyObject* SkyComposite::findByName( const QString &name ) {

@@ -426,7 +426,7 @@
             <item>
              <widget class="QCheckBox" name="raCheckBatch" >
               <property name="text" >
-               <string>Right ascention:</string>
+               <string>Right ascension:</string>
               </property>
               <property name="checked" >
                <bool>true</bool>

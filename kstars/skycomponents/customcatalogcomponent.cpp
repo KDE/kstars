@@ -42,7 +42,7 @@ CustomCatalogComponent::~CustomCatalogComponent()
 {
 }
 
-void CustomCatalogComponent::init( KStarsData * ) {
+void CustomCatalogComponent::init() {
     emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
 
     QDir::setCurrent( QDir::homePath() );  //for files with relative path
@@ -109,7 +109,7 @@ void CustomCatalogComponent::init( KStarsData * ) {
                     return ;
                 }
             }
-        } else { //objList.count() == 0
+        } else {
             if ( m_Showerrs ) {
                 QString message( i18n( "No lines could be parsed from the specified file, see error messages below." ) );
                 KMessageBox::informationList( 0, message, errs,
@@ -128,9 +128,10 @@ void CustomCatalogComponent::init( KStarsData * ) {
     }
 }
 
-void CustomCatalogComponent::update( KStarsData *data, KSNumbers * )
+void CustomCatalogComponent::update( KSNumbers * )
 {
     if ( visible() ) {
+        KStarsData *data = KStarsData::Instance();
         foreach ( SkyObject *obj, objectList() ) {
             obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }

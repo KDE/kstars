@@ -5,6 +5,7 @@ add_subdirectory( data )
 add_subdirectory( icons ) 
 add_subdirectory( satlib ) 
 add_subdirectory( htmesh ) 
+add_subdirectory( comast ) 
 
 Find_package(ZLIB REQUIRED)
 
@@ -102,9 +103,10 @@ set(libkstarstools_SRCS
 	tools/scriptargwidgets.cpp
 	tools/scriptbuilder.cpp
 	tools/scriptfunction.cpp
-        tools/skycalendar.cpp
+    tools/skycalendar.cpp
 	tools/wutdialog.cpp
 	tools/flagmanager.cpp
+
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
@@ -187,8 +189,7 @@ set(libkstarscomponents_SRCS
    skycomponents/solarsystemlistcomponent.cpp 
    skycomponents/asteroidscomponent.cpp 
    skycomponents/cometscomponent.cpp 
-   skycomponents/jupitermoonscomponent.cpp 
-   skycomponents/saturnmoonscomponent.cpp 
+   skycomponents/planetmoonscomponent.cpp 
    skycomponents/solarsystemcomposite.cpp 
    skycomponents/satellitecomposite.cpp
    skycomponents/satellitecomponent.cpp
@@ -205,7 +206,6 @@ set(libkstarscomponents_SRCS
    skycomponents/equator.cpp 
    skycomponents/horizoncomponent.cpp 
    skycomponents/milkyway.cpp 
-   skycomponents/magellanicclouds.cpp
    skycomponents/skycomponent.cpp 
    skycomponents/skycomposite.cpp 
    skycomponents/starblock.cpp
@@ -225,10 +225,10 @@ set(libkstarswidgets_SRCS
 	widgets/magnitudespinbox.cpp 
 	widgets/mapcanvas.cpp 
 	widgets/thumbimage.cpp 
-	widgets/timebox.cpp 
 	widgets/timespinbox.cpp 
 	widgets/timestepbox.cpp 
 	widgets/timeunitbox.cpp
+	widgets/infoboxwidget.cpp
 )
 
 set( kstars_KCFG_SRCS Options.kcfgc )
@@ -253,6 +253,7 @@ set(kstars_skyobjects_SRCS
   skyobjects/deepskyobject.cpp
   skyobjects/jupitermoons.cpp
   skyobjects/saturnmoons.cpp
+  skyobjects/planetmoons.cpp
   skyobjects/ksasteroid.cpp
   skyobjects/kscomet.cpp
   skyobjects/ksmoon.cpp
@@ -298,9 +299,9 @@ set(kstars_dialogsui_SRCS
 
 set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
-	imageviewer.cpp infobox.cpp infoboxes.cpp 
+	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
-	kspopupmenu.cpp kstars.cpp 
+	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
@@ -308,9 +309,24 @@ set(kstars_extra_SRCS
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
 
+set(comast_SRCS
+    comast/log.cpp
+    comast/observer.cpp
+    comast/site.cpp
+    comast/session.cpp
+    comast/scope.cpp
+    comast/eyepiece.cpp
+    comast/filter.cpp
+    comast/observation.cpp
+    comast/lens.cpp
+    comast/equipmentwriter.cpp
+    comast/observeradd.cpp
+    comast/execute.cpp
+)
+
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
-	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS}
+	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${comast_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -323,7 +339,8 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 kde4_add_ui_files(kstars_SRCS
        ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
-         thumbnailpicker.ui thumbnaileditor.ui 
+         thumbnailpicker.ui thumbnaileditor.ui comast/observeradd.ui comast/equipmentwriter.ui comast/execute.ui
+
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
@@ -357,22 +374,18 @@ endif (INDI_FOUND)
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
-if (INDI_FOUND)
-  set(rc_file ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui-indi.rc)
-else (INDI_FOUND)
-  set(rc_file ${CMAKE_SOURCE_DIR}/kstars/kstars/kstarsui.rc)
-  message(STATUS "INDI NOT FOUND!")
-endif(INDI_FOUND)
-add_custom_command(TARGET kstars PRE_BUILD
-                   COMMAND cmake ARGS -E copy ${rc_file} ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc
-                   )
-
-
 ########### install files ###############
 install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kstars.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
-install( FILES ${CMAKE_BINARY_DIR}/kstars/kstars/kstarsui.rc fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
+if (INDI_FOUND)
+install( FILES kstarsui-indi.rc DESTINATION  ${DATA_INSTALL_DIR}/kstars/ RENAME kstarsui.rc)
+else (INDI_FOUND)
+install( FILES kstarsui.rc DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
+message(STATUS "INDI NOT FOUND!")
+endif(INDI_FOUND)
+
+install( FILES fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 if (WIN32)
   install( FILES kstarsui-win.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
 endif (WIN32)

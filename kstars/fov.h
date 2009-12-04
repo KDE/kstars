@@ -18,6 +18,8 @@
 #ifndef FOV_H_
 #define FOV_H_
 
+#include <QList>
+
 #include <qstring.h>
 #include <klocale.h>
 
@@ -29,35 +31,55 @@ class QPainter;
 	*/
 class FOV {
 public:
+    enum Shape { SQUARE,
+                 CIRCLE,
+                 CROSSHAIRS,
+                 BULLSEYE,
+                 SOLIDCIRCLE,
+                 UNKNOWN };
+    static FOV::Shape intToShape(int); 
+    
     /**Default constructor*/
     FOV();
-    FOV( const QString &name );  //in this case, read params from fov.dat
-    FOV( const QString &name, float a, float b=-1, int shape=0, const QString &color="#FFFFFF" );
-    ~FOV() {}
+    FOV( const QString &name, float a, float b=-1, Shape shape=SQUARE, const QString &color="#FFFFFF" );
 
-    //			enum SHAPE { FOV_SQUARE=0, FOV_CIRCLE=1, FOV_CROSSHAIRS=2, FOV_BULLSEYE=3, FOV_UNKNOWN };
+    inline QString name() const { return m_name; }
+    void setName( const QString &n ) { m_name = n; }
 
-    inline QString name() const { return Name; }
-    void setName( const QString &n ) { Name = n; }
-    inline int shape() const { return Shape; }
-    void setShape( int s ) { Shape = s; }
-    inline float sizeX() const { return SizeX; }
-    inline float sizeY() const { return SizeY; }
-    void setSize( float s ) { SizeX = SizeY = s; }
-    void setSize( float sx, float sy ) { SizeX = sx; SizeY = sy; }
-    inline QString color() const { return Color; }
-    void setColor( const QString &c ) { Color = c; }
+    inline Shape shape() const { return m_shape; }
+    void setShape( Shape s ) { m_shape = s; }
+    void setShape( int s);
+    
+    inline float sizeX() const { return m_sizeX; }
+    inline float sizeY() const { return m_sizeY; }
+    void setSize( float s ) { m_sizeX = m_sizeY = s; }
+    void setSize( float sx, float sy ) { m_sizeX = sx; m_sizeY = sy; }
 
-    /**@short draw the FOV symbol on a QPainter
-    	*@param p reference to the target QPainter.  The painter should already be started.
-    	*@param size the size of the target symbol, in pixels.
-    	*/
-    void draw( QPainter &p, float pixelSizeX, float pixelSizeY=-1 );
+    inline QString color() const { return m_color; }
+    void setColor( const QString &c ) { m_color = c; }
 
+    /** @short draw the FOV symbol on a QPainter
+     * @param p reference to the target QPainter. The painter should already be started.
+     * @param zoomFactor is zoom factor as in SkyMap.
+     */
+    void draw( QPainter &p, float zoomFactor);
+    /** @short draw FOV symbol so it will be inside a rectangle
+     * @param p reference to the target QPainter. The painter should already be started.
+     * @param x is X size of rectangle
+     * @param y is Y size of rectangle
+     */
+    void draw(QPainter &p, float x, float y);
+    
+    /** @short Fill list with default FOVs*/
+    static QList<FOV*> defaults();
+    /** @short Write list of FOVs to "fov.dat" */
+    static void writeFOVs(const QList<FOV*> fovs);
+    /** @short Read list of FOVs from "fov.dat" */
+    static QList<FOV*>readFOVs();
 private:
-    QString Name, Color;
-    float SizeX, SizeY;
-    int Shape;
+    QString m_name,  m_color;
+    float   m_sizeX, m_sizeY;
+    Shape   m_shape;
 };
 
 #endif

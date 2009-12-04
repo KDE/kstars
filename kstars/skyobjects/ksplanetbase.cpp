@@ -47,18 +47,17 @@ QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
 	QColor("yellow") << //Sun
   QColor("white"); //Moon
 
+  
+const SkyObject::UID KSPlanetBase::UID_SOL_BIGOBJ   = 0;
+const SkyObject::UID KSPlanetBase::UID_SOL_ASTEROID = 1;
+const SkyObject::UID KSPlanetBase::UID_SOL_COMET    = 2;
 
-KSPlanetBase::KSPlanetBase( KStarsData *kd, const QString &s, const QString &image_file, const QColor &c, double pSize )
-    : TrailObject( 2, 0.0, 0.0, 0.0, s ), Rearth(0.0), Image(), data(kd) {
+KSPlanetBase::KSPlanetBase( const QString &s, const QString &image_file, const QColor &c, double pSize ) :
+    TrailObject( 2, 0.0, 0.0, 0.0, s ),
+    Rearth(0.0),
+    Image()
+{
     init( s, image_file, c, pSize );
-}
-
-KSPlanetBase::KSPlanetBase( KSPlanetBase &o ) 
-    : TrailObject( (TrailObject &) o ) {
-    init( o.name(), "", o.color(), o.physicalSize() );
-    Image = *o.image();
-    Image0 = *o.image0();
-    data = KStarsData::Instance();
 }
 
 void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
@@ -81,8 +80,6 @@ void KSPlanetBase::init( const QString &s, const QString &image_file, const QCol
 }
 
 KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
-    KStarsData *kd = KStarsData::Instance();
-
     switch ( n ) {
         case KSPlanetBase::MERCURY:
         case KSPlanetBase::VENUS:
@@ -91,20 +88,18 @@ KSPlanetBase* KSPlanetBase::createPlanet( int n ) {
         case KSPlanetBase::SATURN:
         case KSPlanetBase::URANUS:
         case KSPlanetBase::NEPTUNE:
-            return new KSPlanet( kd, n );
+            return new KSPlanet( n );
             break;
-
         case KSPlanetBase::PLUTO:
-            return new KSPluto(kd);
+            return new KSPluto();
             break;
         case KSPlanetBase::SUN:
-            return new KSSun(kd);
+            return new KSSun();
             break;
         case KSPlanetBase::MOON:
-            return new KSMoon(kd);
+            return new KSMoon();
             break;
     }
-
     return 0;
 }
 
@@ -116,16 +111,19 @@ void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
     setFromEcliptic( Obliquity, &ep.longitude, &ep.latitude );
 }
 
-void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST ){
+void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST )
+{
+    KStarsData *kd = KStarsData::Instance();
     if ( includePlanets ) {
-        data->skyComposite()->earth()->findPosition( num ); //since we don't pass lat & LST, localizeCoords will be skipped
+        kd->skyComposite()->earth()->findPosition( num ); //since we don't pass lat & LST, localizeCoords will be skipped
 
         if ( lat && LST ) {
-            findPosition( num, lat, LST, data->skyComposite()->earth() );
+            findPosition( num, lat, LST, kd->skyComposite()->earth() );
             //Don't add to the trail this time
-            if ( hasTrail() ) Trail.takeLast();
+            if ( hasTrail() )
+                Trail.takeLast();
         } else {
-            findGeocentricPosition( num, data->skyComposite()->earth() );
+            findGeocentricPosition( num, kd->skyComposite()->earth() );
         }
     }
 }
@@ -133,12 +131,7 @@ void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms 
 void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms *LST, const KSPlanetBase *Earth ) {
     // DEBUG edit
     findGeocentricPosition( num, Earth );  //private function, reimplemented in each subclass
-    if( type() == SkyObject::MOON ) { // Required till we make KSSun singleton and re-implement KSPlanetBase::findPhase()
-        KSMoon *me = (KSMoon *)this;
-        me->findPhase(); // Find the phase.
-    }
-    else
-        findPhase();
+    findPhase();
     setAngularSize( asin(physicalSize()/Rearth/AU_KM)*60.*180./dms::PI ); //angular size in arcmin
 
     if ( lat && LST )
@@ -156,8 +149,10 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
         // Compute tail size
         KSComet *me = (KSComet *)this;
         double TailAngSize;
-        TailAngSize = asin(physicalSize()/Rearth/AU_KM)*60.0*180.0/dms::PI; // Convert the tail size in km to angular tail size (degrees)
-        me->setTailAngSize( TailAngSize * fabs(sin( phase().radians() ))); // Find the apparent length as projected on the celestial sphere (the comet's tail points away from the sun)
+        // Convert the tail size in km to angular tail size (degrees)
+        TailAngSize = asin(physicalSize()/Rearth/AU_KM)*60.0*180.0/dms::PI; 
+        // Find the apparent length as projected on the celestial sphere (the comet's tail points away from the sun)
+        me->setTailAngSize( TailAngSize * fabs(sin( phase().radians() ))); 
     }
 
 }
@@ -314,87 +309,4 @@ void KSPlanetBase::findPhase() {
     /* More elegant way of doing it, but requires the Sun. 
        TODO: Switch to this if and when we make KSSun a singleton */
     //    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees();
-}
-
-
-void KSPlanetBase::findMagnitude(const KSNumbers *num) {
-    double cosDec, sinDec;
-    dec()->SinCos(cosDec, sinDec);
-
-    /* Computation of the visual magnitude (V band) of the planet.
-    * Algorithm provided by Pere Planesas (Observatorio Astronomico Nacional)
-    * It has some simmilarity to J. Meeus algorithm in Astronomical Algorithms, Chapter 40.
-    * */
-
-    // Initialized to the faintest magnitude observable with the HST
-    float magnitude = 30;
-
-    double param = 5 * log10(rsun() * rearth() );
-    double phase_rad = phase().radians();
-    double phase = this->phase().Degrees();
-    double f1 = phase/100.;
-
-    if( name() == "Moon" ) {
-        // This block of code to compute Moon magnitude (and the
-        // relevant data put into ksplanetbase.h) was taken from
-        // SkyChart v3 Beta
-        int p = (int)( floor( phase ) );
-        if( p > 180 )
-            p = p - 360;
-        int i = p / 10;
-        int k = p - 10 * i;
-        int j = (i + 1 > 18) ? 18 : i + 1;
-        i = 18 - abs(i);
-        j = 18 - abs(j);
-        magnitude = KSMoon::MagArray[ i ] + ( ( KSMoon::MagArray[ j ] - KSMoon::MagArray[ i ] ) * k / 10 );
-    }
-
-    if ( name() == i18n( "Mercury" ) ) {
-        if ( phase > 150. ) f1 = 1.5;
-        magnitude = -0.36 + param + 3.8*f1 - 2.73*f1*f1 + 2*f1*f1*f1;
-    }
-    if ( name() == i18n( "Venus" ) )
-        magnitude = -4.29 + param + 0.09*f1 + 2.39*f1*f1 - 0.65*f1*f1*f1;
-    if( name() == i18n( "Mars" ) )
-        magnitude = -1.52 + param + 0.016*phase;
-    if( name() == i18n( "Jupiter" ) )
-        magnitude = -9.25 + param + 0.005*phase;
-
-    if( name() == i18n( "Saturn" ) ) {
-        double T = num->julianCenturies();
-        double a0 = (40.66-4.695*T)* dms::PI / 180.;
-        double d0 = (83.52+0.403*T)* dms::PI / 180.;
-        double sinx = -cos(d0)*cosDec*cos(a0 - ra()->radians());
-        sinx = fabs(sinx-sin(d0)*sinDec);
-        double rings = -2.6*sinx + 1.25*sinx*sinx;
-        magnitude = -8.88 + param + 0.044*phase + rings;
-    }
-
-    if( name() == i18n( "Uranus" ) )
-        magnitude = -7.19 + param + 0.0028*phase;
-    if( name() == i18n( "Neptune" ) )
-        magnitude = -6.87 + param;
-    if( name() == i18n( "Pluto" ) )
-        magnitude = -1.01 + param + 0.041*phase;
-
-    if( type() == SkyObject::ASTEROID ) {
-        // Asteroid
-        double H, G;
-        double phi1 = exp( -3.33 * pow( tan( phase_rad / 2 ), 0.63 ) );
-        double phi2 = exp( -1.87 * pow( tan( phase_rad / 2 ), 1.22 ) );
-        KSAsteroid *me = (KSAsteroid *)this;
-        H = me -> getAbsoluteMagnitude();
-        G = me -> getSlopeParameter();
-        magnitude = H + param - 2.5 * log( (1 - G) * phi1 + G * phi2 );
-    }
-
-    if( type() == SkyObject::COMET ) {
-        // Comet
-        double H, G;
-        KSComet *me = (KSComet *)this;
-        H = me -> getAbsoluteMagnitude();
-        G = me -> getSlopeParameter();
-        magnitude = H + 5.0 * log10( rearth() ) + 2.5 * G * log10( rsun() );
-    }
-    setMag(magnitude);
 }

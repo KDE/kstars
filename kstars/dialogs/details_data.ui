@@ -78,23 +78,9 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="Type" >
+           <widget class="QLabel" name="ObjectTypeInConstellation" >
             <property name="text" >
-             <string>Object type</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="InLabel" >
-            <property name="text" >
-             <string>in</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="Constellation" >
-            <property name="text" >
-             <string>Constellation</string>
+             <string comment="KDE::DoNotExtract">Object_type_in_Constellation</string>
             </property>
            </widget>
           </item>

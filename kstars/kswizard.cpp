@@ -24,10 +24,9 @@
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <knewstuff2/engine.h>
+#include <kstandarddirs.h>
 
-#include "kstars.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "geolocation.h"
 #include "widgets/dmsbox.h"
 
@@ -43,8 +42,8 @@ WizDownloadUI::WizDownloadUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 }
 
-KSWizard::KSWizard( KStars *_ks )
-        : KDialog( _ks ),  ksw( _ks )
+KSWizard::KSWizard( QWidget *parent ) :
+    KDialog( parent )
 {
     wizardStack = new QStackedWidget( this );
     setMainWidget( wizardStack );
@@ -63,26 +62,16 @@ KSWizard::KSWizard( KStars *_ks )
     wizardStack->setCurrentWidget( welcome );
 
     //Load images into banner frames.
-    QFile imFile;
-    QPixmap im = QPixmap();
+    QPixmap im;
 
-    if ( KSUtils::openDataFile( imFile, "wzstars.png" ) ) {
-        imFile.close(); //Just need the filename...
-        im.load( imFile.fileName() );
-    }
-    welcome->Banner->setPixmap( im );
+    if( im.load(KStandardDirs::locate("appdata", "wzstars.png")) )
+        welcome->Banner->setPixmap( im );
 
-    if ( KSUtils::openDataFile( imFile, "wzgeo.png" ) ) {
-        imFile.close(); //Just need the filename...
-        im.load( imFile.fileName() );
-    }
-    location->Banner->setPixmap( im );
+    if( im.load(KStandardDirs::locate("appdata", "wzgeo.png")) )
+        location->Banner->setPixmap( im );
 
-    if ( KSUtils::openDataFile( imFile, "wzdownload.png" ) ) {
-        imFile.close(); //Just need the filename...
-        im.load( imFile.fileName() );
-    }
-    download->Banner->setPixmap( im );
+    if( im.load(KStandardDirs::locate("appdata", "wzdownload.png")) )
+        download->Banner->setPixmap( im );
 
     //connect signals/slots
     connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotNextPage() ) );
@@ -125,18 +114,19 @@ void KSWizard::slotPrevPage() {
 }
 
 void KSWizard::initGeoPage() {
+    KStarsData* data = KStarsData::Instance();
     location->LongBox->setReadOnly( true );
     location->LatBox->setReadOnly( true );
 
     //Populate the CityListBox
     //flag the ID of the current City
-    int index(0);
-    foreach ( GeoLocation *loc, ksw->data()->geoList ) {
+    int index = 0;
+    foreach ( GeoLocation *loc, data->getGeoList() ) {
         location->CityListBox->insertItem( loc->fullName() );
         filteredCityList.append( loc );
 
-        if ( loc->fullName() == ksw->data()->geo()->fullName() ) {
-            index = ksw->data()->geoList.indexOf( loc );
+        if ( loc->fullName() == data->geo()->fullName() ) {
+            index = data->getGeoList().indexOf( loc );
             Geo = loc;
         }
     }
@@ -168,16 +158,15 @@ void KSWizard::slotFilterCities() {
     //Do NOT delete members of filteredCityList!
     while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 
-    foreach ( GeoLocation *loc, ksw->data()->geoList ) {
-        QString sc( loc->translatedName() );
-        QString ss( loc->translatedCountry() );
-        QString sp = "";
-        if ( !loc->province().isEmpty() )
-            sp = loc->translatedProvince();
+    foreach ( GeoLocation *loc, KStarsData::Instance()->getGeoList() ) {
+        QString sc = loc->translatedName();
+        QString ss = loc->translatedCountry();
+        QString sp = loc->translatedProvince();
 
         if ( sc.toLower().startsWith( location->CityFilter->text().toLower() ) &&
-                sp.toLower().startsWith( location->ProvinceFilter->text().toLower() ) &&
-                ss.toLower().startsWith( location->CountryFilter->text().toLower() ) ) {
+             sp.toLower().startsWith( location->ProvinceFilter->text().toLower() ) &&
+             ss.toLower().startsWith( location->CountryFilter->text().toLower() ) )
+        {
             location->CityListBox->insertItem( loc->fullName() );
             filteredCityList.append( loc );
         }

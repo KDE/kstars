@@ -66,12 +66,10 @@ private slots:
     void initPlotObjects();
     void tick();
     void setTimeScale(float);
-    void slotChangeDate( const QDate &d );
+    void slotChangeDate();
     void slotRunClock();
     void slotToday();
     void slotCloseWindow();
-    void slotMapZoomIn();
-    void slotMapZoomOut();
 
 private:
     void updatePlanets();

@@ -26,7 +26,7 @@
 #include <math.h>
 #include <sys/types.h>
 #include <string.h>
-#include "byteswap.h"
+#include "byteorder.h"
 
 
 /*
@@ -52,12 +52,12 @@ u_int32_t ntrixels;
  * Does byteswapping for deepStarData structures
  */
 void bswap_stardata( deepStarData *stardata ) {
-    bswap_32( stardata->RA );
-    bswap_32( stardata->Dec );
-    bswap_16( stardata->dRA );
-    bswap_16( stardata->dDec );
-    bswap_16( stardata->B );
-    bswap_16( stardata->V );
+    stardata->RA=bswap_32( stardata->RA );
+    stardata->Dec=bswap_32( stardata->Dec );
+    stardata->dRA=bswap_16( stardata->dRA );
+    stardata->dDec=bswap_16( stardata->dDec );
+    stardata->B=bswap_16( stardata->B );
+    stardata->V=bswap_16( stardata->V );
 }
 
 
@@ -85,7 +85,7 @@ int verifyIndexValidity(FILE *f) {
             +nerr;
             break;
         }
-        if( byteswap ) bswap_32( trixel );
+        if( byteswap ) trixel=bswap_32( trixel );
         if(trixel >= ntrixels) {
             fprintf(stderr, "Trixel number %u is greater than the expected number of trixels %u\n", trixel, ntrixels);
             ++nerr;
@@ -97,9 +97,9 @@ int verifyIndexValidity(FILE *f) {
             ++nerr;
         }
         fread(&offset, 4, 1, f);
-        if( byteswap ) bswap_32( offset );
+        if( byteswap ) offset = bswap_32( offset );
         fread(&nrecs, 4, 1, f);
-        if( byteswap ) bswap_32( nrecs );
+        if( byteswap ) nrecs = bswap_32( nrecs );
         if( prev_offset != 0 && prev_nrecs != (-prev_offset + offset)/sizeof(deepStarData) ) { 
             fprintf( stderr, "Expected %u  = (%X - %x) / 16 records, but found %u, in trixel %d\n", 
                      (offset - prev_offset) / 16, offset, prev_offset, nrecs, trixel );
@@ -220,15 +220,15 @@ void readStarList(FILE *f, int trixel, FILE *names) {
     offset = index_offset + id * 8; // CAUTION: Change if the size of each entry in the index table changes
     fseek(f, offset, SEEK_SET);
     fread(&trix, 4, 1, f);
-    if( byteswap ) bswap_32( trix );
+    if( byteswap ) trix = bswap_32( trix );
     if(trix != id) {
         fprintf(stderr, "ERROR: Something fishy in the index. I guessed that %d would be here, but instead I find %d. Aborting.\n", id, trix);
         return;
     }
     fread(&offset, 4, 1, f);
-    if( byteswap ) bswap_32( offset );
+    if( byteswap ) offset = bswap_32( offset );
     fread(&nrecs, 4, 1, f);
-    if( byteswap ) bswap_32( nrecs );
+    if( byteswap ) nrecs = bswap_32( nrecs );
 
     if(fseek(f, offset, SEEK_SET)) {
         fprintf(stderr, "ERROR: Could not seek to position %X in the file. The file is either truncated or the indexes are bogus.\n", offset);
@@ -293,17 +293,17 @@ int readFileHeader(FILE *f) {
     fprintf( stdout, "Version number: %d\n", version_no );
 
     fread(&nfields, 2, 1, f);
-    if( byteswap ) bswap_16( nfields );
+    if( byteswap ) nfields = bswap_16( nfields );
     fprintf( stdout, "%d fields reported\n", nfields );
 
     for(i = 0; i < nfields; ++i) {
         fread(&(de[i]), sizeof(struct dataElement), 1, f);
-        if( byteswap ) bswap_32( de->scale );
+        if( byteswap ) de->scale = bswap_32( de->scale );
         displayDataElementDescription(&(de[i]));
     }
 
     fread(&ntrixels, 4, 1, f);
-    if( byteswap ) bswap_32( ntrixels );
+    if( byteswap ) ntrixels = bswap_32( ntrixels );
     fprintf( stdout, "Number of trixels reported = %d\n", ntrixels );
 
     return 1;

@@ -40,7 +40,6 @@
 	*@version 1.0
 	*/
 
-class KStarsData;
 class KSPluto : public KSAsteroid  {
 public:
     /**Constructor.  Calls KSAsteroid constructor with name="Pluto", and fills
@@ -49,8 +48,10 @@ public:
     	*@param fn filename of Pluto's image
     	*@param pSize physical diameter of Pluto, in km
     	*/
-    explicit KSPluto(KStarsData *kd, const QString &fn=QString(), double pSize=0);
+    explicit KSPluto(const QString &fn=QString(), double pSize=0);
 
+    virtual KSPluto* clone() const;
+    
     /**Destructor (empty) */
     virtual ~KSPluto();
 
@@ -65,6 +66,8 @@ protected:
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
 private:
+    virtual void findMagnitude(const KSNumbers*);
+
     //The base orbital elements for J2000 (these don't change with time)
     double a0, e0;
     dms i0, w0, M0, N0;

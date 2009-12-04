@@ -22,16 +22,22 @@
 
 #include <QObject>
 #include "skycomponent.h"
+#include "skylabel.h"
 
 #define NNGCFILES 14
 
 class QColor;
-class KStarsData;
 class SkyMap;
 class KSNumbers;
 class DeepSkyObject;
 class SkyPoint;
 class SkyMesh;
+class SkyLabeler;
+
+// NOTE: Although the following symbol has nothing to do with line
+// number in any file, we use this name to keep consistency in naming
+// conventions with StarComponent
+#define MAX_LINENUMBER_MAG 90
 
 typedef QVector< DeepSkyObject*>    DeepSkyList;
 typedef QHash< int, DeepSkyList*>   DeepSkyIndex;
@@ -54,6 +60,12 @@ public:
     ~DeepSkyComponent();
 
     virtual void draw( QPainter& psky );
+
+    /* @short draw all the labels in the prioritized LabelLists and then
+     * clear the LabelLists.
+     */
+    void drawLabels( QPainter& psky );
+
 
     /**
     	*@short Read the ngcic.dat deep-sky database.
@@ -83,7 +95,7 @@ public:
     	*@li 77-END   Common name [string] can be blank
     	*@return true if data file is successfully read.
     	*/
-    virtual void init(KStarsData *data);
+    virtual void init();
 
     /**
     	*@short Update the sky positions of this component.  FIXME -jbb does nothing now
@@ -92,13 +104,12 @@ public:
     	*coordinates of the objects in this component.  If the KSNumbers* 
     	*argument is not NULL, this function also recomputes precession and
     	*nutation for the date in KSNumbers.
-    	*@p data Pointer to the KStarsData object
     	*@p num Pointer to the KSNumbers object
     	*@note By default, the num parameter is NULL, indicating that 
     	*Precession/Nutation computation should be skipped; this computation 
     	*is only occasionally required.
     	*/
-    virtual void update( KStarsData *data, KSNumbers *num=0 );
+    virtual void update( KSNumbers *num=0 );
 
     /**
     	*@short Search the children of this SkyComponent for 
@@ -128,6 +139,11 @@ private:
     QList<DeepSkyObject*> m_ICList;
     QList<DeepSkyObject*> m_OtherList;
 
+    LabelList*     m_labelList[  MAX_LINENUMBER_MAG + 1 ];
+    bool           m_hideLabels;
+    double         m_zoomMagLimit;
+
+
     SkyMesh* m_skyMesh;
     DeepSkyIndex m_DeepSkyIndex;
     DeepSkyIndex m_MessierIndex;
@@ -139,6 +155,13 @@ private:
     void appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Trixel trixel );
 
     QHash<QString, DeepSkyObject*> nameHash;
+
+    /**
+     *@short adds a label to the lists of labels to be drawn prioritized
+     *by magnitude.
+     */
+    void addLabel( const QPointF& p, DeepSkyObject *obj );
+
 };
 
 #endif

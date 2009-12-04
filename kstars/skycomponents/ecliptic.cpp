@@ -60,7 +60,8 @@ void Ecliptic::draw( QPainter &psky )
 
 void Ecliptic::drawLabel( QPainter& psky )
 {
-    if ( ! selected() ) return;
+    if( !selected() )
+        return;
 
     KStarsData *data = KStarsData::Instance();
     QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
@@ -70,8 +71,9 @@ void Ecliptic::drawLabel( QPainter& psky )
 }
 
 
-void Ecliptic::init(KStarsData *data)
+void Ecliptic::init()
 {
+    KStarsData *data = KStarsData::Instance();
     KSNumbers num( data->ut().djd() );
     dms elat(0.0), elng(0.0);
 

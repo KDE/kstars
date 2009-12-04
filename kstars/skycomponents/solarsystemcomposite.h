@@ -19,6 +19,7 @@
 #define SOLARSYSTEMCOMPOSITE_H
 
 #include "skycomposite.h"
+#include "planetmoonscomponent.h"
 
 class KSPlanet;
 class KSSun;
@@ -41,7 +42,7 @@ class SkyLabeler;
 class SolarSystemComposite : public SkyComposite
 {
 public:
-    SolarSystemComposite( SkyComponent *parent, KStarsData *data );
+    SolarSystemComposite( SkyComponent *parent );
     ~SolarSystemComposite();
 
     KSPlanet* earth() { return m_Earth; }
@@ -49,29 +50,29 @@ public:
     QList<SkyObject*>& comets();
 
 
-    virtual void init(KStarsData *data);
+    virtual void init();
 
     bool selected();
 
-    virtual void update( KStarsData *data, KSNumbers *num );
+    virtual void update( KSNumbers *num );
 
-    virtual void updatePlanets( KStarsData *data, KSNumbers *num );
+    virtual void updatePlanets( KSNumbers *num );
 
-    virtual void updateMoons( KStarsData *data, KSNumbers *num );
+    virtual void updateMoons( KSNumbers *num );
 
     virtual void draw( QPainter& psky );
 
     void drawTrails( QPainter& psky );
 
-    void reloadAsteroids( KStarsData *data );
-    void reloadComets( KStarsData *data );
+    void reloadAsteroids();
+    void reloadComets();
 
 private:
     KSPlanet *m_Earth;
     KSSun *m_Sun;
     KSMoon *m_Moon;
-    JupiterMoonsComponent *m_JupiterMoons;
-    SaturnMoonsComponent *m_SaturnMoons;
+    PlanetMoonsComponent *m_JupiterMoons;
+    PlanetMoonsComponent *m_SaturnMoons;
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;
     SkyLabeler* m_skyLabeler;

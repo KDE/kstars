@@ -31,7 +31,6 @@
 class QPoint;
 class KSNumbers;
 class KSPopupMenu;
-class KStarsData;
 
 /**
  *@class EclipticPosition
@@ -47,15 +46,8 @@ public:
 
     /**Constructor. */
     explicit EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
-    longitude(plong), latitude(plat), radius(prad) {}
-
-    /**Assignment operator. Copy all values from the target object. */
-    EclipticPosition &operator=(EclipticPosition &r) {
-        this->longitude = r.longitude;
-        this->latitude = r.latitude;
-        this->radius = r.radius;
-        return *this;
-    }
+        longitude(plong), latitude(plat), radius(prad)
+    {}
 };
 
 /**
@@ -71,26 +63,17 @@ public:
   */
 class KSPlanetBase : public TrailObject {
 public:
-
     /**
       *Constructor.  Calls SkyObject constructor with type=2 (planet),
       *coordinates=0.0, mag=0.0, primary name s, and all other QStrings empty.
-      *@param kd pointer to the KStarsData object
       *@param s Name of planet
       *@param image_file filename of the planet's image
       *@param c color of the symbol to use for this planet
       *@param pSize the planet's physical size, in km
       */
-    explicit KSPlanetBase( KStarsData *kd, 
-                           const QString &s = i18n("unnamed"),
+    explicit KSPlanetBase( const QString &s = i18n("unnamed"),
                            const QString &image_file=QString(),
                            const QColor &c=Qt::white, double pSize=0 );
-
-    /**
-     *Copy Constructor. Creates a copy of the given KSPlanetBase object
-     *@param o  Object to be copied
-     */
-    KSPlanetBase( KSPlanetBase &o );
 
    /**
      *Destructor (empty)
@@ -99,7 +82,7 @@ public:
 
     void init(const QString &s, const QString &image_file, const QColor &c, double pSize );
 
-    enum { MERCURY=0, VENUS=1, MARS=2, JUPITER=3, SATURN=4, URANUS=5, NEPTUNE=6, PLUTO=7, SUN=8, MOON=9, UNKNOWN_PLANET };
+    enum Planets { MERCURY=0, VENUS=1, MARS=2, JUPITER=3, SATURN=4, URANUS=5, NEPTUNE=6, PLUTO=7, SUN=8, MOON=9, UNKNOWN_PLANET };
 
     static KSPlanetBase* createPlanet( int n );
 
@@ -302,6 +285,16 @@ public:
     virtual double labelOffset() const;
 
 protected:
+    /** Big object. Planet, Moon, Sun. */
+    static const UID UID_SOL_BIGOBJ;
+    /** Asteroids */
+    static const UID UID_SOL_ASTEROID;
+    /** Comets */
+    static const UID UID_SOL_COMET;
+
+    /** Compute high 32-bits of UID. */
+    inline UID solarsysUID(UID type) const { return (SkyObject::UID_SOLARSYS << 60) | (type << 52); }
+   
     /**
      *@short find the object's current geocentric equatorial coordinates (RA and Dec)
      *This function is pure virtual; it must be overloaded by subclasses.
@@ -321,7 +314,7 @@ protected:
     /**
      * Determine the phase of the planet.
      */
-    void findPhase();
+    virtual void findPhase();
 
     // Geocentric ecliptic position, but distance to the Sun
     EclipticPosition ep;
@@ -349,10 +342,9 @@ private:
      *@param num pointer to a ksnumbers object. Needed for the saturn rings contribution to 
      *           saturn's magnitude.
      */
-    void findMagnitude(const KSNumbers *num);
+    virtual void findMagnitude(const KSNumbers *num) = 0;
 
     QImage Image0, Image;
-    KStarsData *data;
     double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
     QColor m_Color;
 };

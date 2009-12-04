@@ -244,26 +244,9 @@
 			<whatsthis>If true, focus changes will cause the sky to visibly spin to the new position.  Otherwise, the display will "snap" instantly to the new position.</whatsthis>
 			<default>true</default>
 		</entry>
-		<entry name="FOVName" type="String">
-			<label>Name of selected FOV indicator</label>
-			<whatsthis>The name of the currently-selected field-of-view indicator.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
-			<default>No FOV</default>
-		</entry>
-		<entry name="FOVShape" type="UInt">
-			<label>Shape of selected FOV</label>
-			<whatsthis>Integer indicating the selected FOV symbol shape.  Possible values are: 0=Square; 1=Circle; 2=Crosshairs; 3=Bullseye; 4=Semitransparent circle.</whatsthis>
-			<default>0</default>
-			<max>4</max>
-		</entry>
-		<entry name="FOVSizeX" type="Double">
-			<label>Angular size of selected FOV indicator, in arcmin, along X direction</label>
-			<whatsthis>The angular size for the FOV symbol, in arcminutes, along X direction.</whatsthis>
-			<default>0.0</default>
-		</entry>
-		<entry name="FOVSizeY" type="Double">
-			<label>Angular size of selected FOV indicator, in arcmin, along Y direction</label>
-			<whatsthis>The angular size for the FOV symbol, in arcminutes, along Y direction.</whatsthis>
-			<default>0.0</default>
+		<entry name="FOVNames" type="StringList">
+			<label>Name of selected FOV indicators</label>
+			<whatsthis>The names of the currently selected field-of-view indicators.  The list of defined FOV indicator names is listed in the "Settings|FOV Symbols" menu.</whatsthis>
 		</entry>
 		<entry name="FadePlanetTrails" type="Bool">
 			<label>Fade planet trails to background color?</label>
@@ -555,6 +538,16 @@
 			<whatsthis>Toggle whether star name labels are shown in the sky map.</whatsthis>
 			<default>true</default>
 		</entry>
+		<entry name="ShowDeepSkyMagnitudes" type="Bool">
+			<label>Label deep-sky object magnitudes in the sky map?</label>
+			<whatsthis>Toggle whether deep-sky object magnitude (brightness) labels are shown in the sky map.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="ShowDeepSkyNames" type="Bool">
+			<label>Label deep-sky objects in the sky map?</label>
+			<whatsthis>Toggle whether deep-sky object name labels are shown in the sky map.</whatsthis>
+			<default>true</default>
+		</entry>
 		<entry name="SlewTimeScale" type="Double">
 			<label>Minimum timescale for forced-slewing mode</label>
 			<whatsthis>The timescale above which slewing mode is forced on at all times.</whatsthis>
@@ -615,9 +608,19 @@
 			<whatsthis>Objects in the observing list will be highlighted with a colored name label in the map.</whatsthis>
 			<default>false</default>
 		</entry>
+        <entry name="ObsListSaveImage" type="Bool">
+            <label>Save the DSS/SDSS images to disk</label>
+            <whatisthis>The images of objects in the obseving list will be autosaved if you download them</whatisthis>
+            <default>false</default>
+        </entry>
 		<entry name="UseRefraction" type="Bool">
 			<label>Correct positions for atmospheric refraction?</label>
 			<whatsthis>Toggle whether object positions are corrected for the effects of atmospheric refraction (only applies when horizontal coordinates are used).</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="UseRelativistic" type="Bool">
+		        <label>Apply relativistic corrections due to the bending of light in sun's gravitational field</label>
+			<whatsthis>Toggle whether corrections due to bending of light around the sun are taken into account</whatsthis>
 			<default>true</default>
 		</entry>
 		<entry name="UseAntialias" type="Bool">
@@ -679,6 +682,16 @@
 			<label>Relative density for star name labels and/or magnitudes</label>
 			<whatsthis>The relative density for drawing star name and magnitude labels.</whatsthis>
 			<default>2.0</default>
+		</entry>
+		<entry name="DeepSkyLabelDensity" type="Double">
+			<label>Relative density for deep-sky object name labels and/or magnitudes</label>
+			<whatsthis>The relative density for drawing deep-sky object name and magnitude labels.</whatsthis>
+			<default>2.0</default>
+		</entry>
+		<entry name="DeepSkyLongLabels" type="Bool">
+			<label>Show long names in deep-sky object name labels?</label>
+			<whatsthis>If true, long names (common names) for deep-sky objects are shown in the labels.</whatsthis>
+			<default>false</default>
 		</entry>
 		<entry name="MaxRadCometName" type="Double">
 			<label>Maximum distance from Sun for labeling comets, in AU</label>
@@ -760,11 +773,6 @@
 			<whatsthis>The color for the equator line.</whatsthis>
 			<default>#FFF</default>
 		</entry>
-		<entry name="FOVColor" type="String">
-			<label>Color of FOV indicator symbol</label>
-			<whatsthis>The color for the field-of-view indicator symbol.</whatsthis>
-			<default>#FFF</default>
-		</entry>
 		<entry name="GridColor" type="String">
 			<label>Color of coordinate grid lines</label>
 			<whatsthis>The color for the coordinate grid lines.</whatsthis>
@@ -803,6 +811,11 @@
 		<entry name="StarNameColor" type="String">
 			<label>Color of star name labels</label>
 			<whatsthis>The color for star name labels.</whatsthis>
+			<default>#7AA</default>
+		</entry>
+		<entry name="DeepSkyNameColor" type="String">
+			<label>Color of deep-sky object name labels</label>
+			<whatsthis>The color for deep-sky object name labels.</whatsthis>
 			<default>#7AA</default>
 		</entry>
 		<entry name="PlanetNameColor" type="String">

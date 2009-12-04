@@ -42,7 +42,6 @@
 	*@version 1.1
 	*/
 
-class KStarsData;
 class KSNumbers;
 class dms;
 
@@ -50,7 +49,6 @@ class KSComet : public KSPlanetBase
 {
 public:
     /**Constructor.
-    	*@param kd pointer to the KStarsData object
     	*@param s the name of the comet
     	*@param image_file the filename for an image of the comet
     	*@param JD the Julian Day for the orbital elements
@@ -63,15 +61,12 @@ public:
         *@param H the absolute magnitude
         *@param G the slope parameter
     	*/
-    KSComet( KStarsData *kd, const QString &s, const QString &image_file,
+    KSComet( const QString &s, const QString &image_file,
              long double JD, double q, double e, dms i, dms w, dms N, double Tp, float H, float G );
     
-    /**
-     *Copy Constructor
-     *@param o  Object to copy into this
-     */
-    KSComet( KSComet &o );
-
+    virtual KSComet* clone() const;
+    virtual SkyObject::UID getUID() const;
+    
     /**Destructor (empty)*/
     virtual ~KSComet() {}
 
@@ -79,21 +74,6 @@ public:
     	*so it's simply empty here.
     	*/
     virtual bool loadData();
-
-    /**
-     *@short Loads the orbital elements into the given pointers
-     *
-     *@param _JD  Julian Day of Orbital Elements
-     *@param _q the perihelion distance of the comet's orbit (AU)
-     *@param _e the eccentricity of the comet's orbit
-     *@param _i the inclination angle of the comet's orbit
-     *@param _w the argument of the orbit's perihelion
-     *@param _N the longitude of the orbit's ascending node
-     *
-     *@return true on success, false if one or more pointers were NULL
-     */
-    bool getOrbitalElements( long double *_JD, double *_q, double *_e, dms *_i,
-                             dms *_w, dms *_N );
 
     /**
      *@short Returns the Julian Day of Perihelion passage
@@ -154,7 +134,8 @@ protected:
 
 
 private:
-    KStarsData *kd;
+    virtual void findMagnitude(const KSNumbers*);
+    
     long double JD, JDp;
     double q, e, a, P;
     double TailSize, TailAngSize, ComaSize, NuclearSize; // All in kilometres

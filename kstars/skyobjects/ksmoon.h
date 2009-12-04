@@ -31,15 +31,17 @@
 	*@version 1.0
 	*/
 
-class KStarsData;
 class KSSun;
 
 class KSMoon : public KSPlanetBase  {
 public:
-    /**
-    	*Default constructor.  Set name="Moon".
-    	*/
-    KSMoon(KStarsData *kd);
+    /** Default constructor. Set name="Moon". */
+    KSMoon();
+    /** Copy constructor */
+    KSMoon(const KSMoon& o);
+    
+    virtual KSMoon* clone() const;
+    virtual SkyObject::UID getUID() const;
 
     /**Destructor (empty). */
     ~KSMoon();
@@ -49,11 +51,11 @@ public:
      *moon image
      *@note Overrides KSPlanetBase::findPhase()
      */
-    void findPhase();
+    virtual void findPhase();
 
     /**@return the illuminated fraction of the Moon as seen from Earth
     	*/
-    double illum( void ) const { return 0.5*(1.0 - cos( Phase * 180.0 / dms::PI ) ); }
+    double illum( void ) const { return 0.5*(1.0 - cos( Phase * dms::PI / 180.0 ) ); }
 
     /**@return a short string describing the moon's phase
     	*/
@@ -62,24 +64,6 @@ public:
     /** reimplemented from KSPlanetBase
     	*/
     virtual bool loadData();
-
-    /*
-     * Data used to calculate moon magnitude
-     *
-     * Formula and data were obtained from SkyChart v3.x Beta
-     *
-     */
-    // intensities in Table 1 of M. Minnaert (1961),
-    // Phase  Frac.            Phase  Frac.            Phase  Frac.
-    // angle  ill.   Mag       angle  ill.   Mag       angle  ill.   Mag
-    //  0    1.00  -12.7        60   0.75  -11.0       120   0.25  -8.7
-    // 10    0.99  -12.4        70   0.67  -10.8       130   0.18  -8.2
-    // 20    0.97  -12.1        80   0.59  -10.4       140   0.12  -7.6
-    // 30    0.93  -11.8        90   0.50  -10.0       150   0.07  -6.7
-    // 40    0.88  -11.5       100   0.41   -9.6       160   0.03  -3.4
-    // 50    0.82  -11.2       110   0.33   -9.2
-    static const double MagArray[19];
-
 
 protected:
     /**Reimplemented from KSPlanetBase, this function employs unique algorithms for
@@ -97,51 +81,45 @@ protected:
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* );
 
 private:
+    virtual void findMagnitude(const KSNumbers*);
+
     static bool data_loaded;
     static int instance_count;
 
     /**@class MoonLRData
-    	*Encapsulates the Longitude and radius terms of the sums
-    	*used to compute the moon's position.
-    	*@short Moon Longitude and radius data object
-    	*@author Mark Hollomon
-    	*@version 1.0
-    	*/
-    class MoonLRData {
-    public:
+     * Encapsulates the Longitude and radius terms of the sums
+     * used to compute the moon's position.
+     * @short Moon Longitude and radius data object
+     * @author Mark Hollomon
+     * @version 1.0
+     */
+    struct MoonLRData {
         int nd;
         int nm;
         int nm1;
         int nf;
         double Li;
         double Ri;
-
-        MoonLRData( int pnd, int pnm, int pnm1, int pnf, double pLi, double pRi ):
-        nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Li(pLi), Ri(pRi) {}
     };
 
-    static QList<MoonLRData*> LRData;
+    static QList<MoonLRData> LRData;
 
     /**@class MoonBData
-    	*Encapsulates the Latitude terms of the sums
-    	*used to compute the moon's position.
-    	*@short Moon Latitude data object
-    	*@author Mark Hollomon
-    	*@version 1.0
-    	*/
-    class MoonBData {
-    public:
+     * Encapsulates the Latitude terms of the sums
+     * used to compute the moon's position.
+     * @short Moon Latitude data object
+     * @author Mark Hollomon
+     * @version 1.0
+     */
+    struct MoonBData {
         int nd;
         int nm;
         int nm1;
         int nf;
         double Bi;
-
-        MoonBData( int pnd, int pnm, int pnm1, int pnf, double pBi ):
-        nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Bi(pBi) {}
     };
 
-    static QList<MoonBData*> BData;
+    static QList<MoonBData> BData;
 
 };
 

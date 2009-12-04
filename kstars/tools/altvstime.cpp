@@ -34,6 +34,7 @@
 #include <kplotwidget.h>
 
 #include "ui_altvstime.h"
+#include "ksalmanac.h"
 #include "dms.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -45,7 +46,6 @@
 #include "dialogs/locationdialog.h"
 #include "widgets/dmsbox.h"
 #include "avtplotwidget.h"
-
 #include "kstarsdatetime.h"
 
 AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
@@ -55,8 +55,8 @@ AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
 AltVsTime::AltVsTime( QWidget* parent)  :
         KDialog( parent )
 {
-    ks = (KStars*) parent;
-
+    ks   = KStars::Instance();
+    ksal = KSAlmanac::Instance();
     QFrame *page = new QFrame( this );
     setMainWidget(page);
     setCaption( i18n( "Altitude vs. Time" ) );
@@ -88,7 +88,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
     topLayout->addWidget( avtUI );
 
-    geo = ks->geo();
+    geo = ks->data()->geo();
 
     DayOffset = 0;
     showCurrentDate();
@@ -98,7 +98,6 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     avtUI->latBox->show( geo->lat() );
 
     computeSunRiseSetTimes();
-
     setLSTLimits();
 
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
@@ -127,7 +126,7 @@ AltVsTime::~AltVsTime()
     //WARNING: need to delete deleteList items!
 }
 
-void AltVsTime::slotAddSource(void) {
+void AltVsTime::slotAddSource() {
     SkyObject *obj = ks->data()->objectNamed( avtUI->nameBox->text() );
 
     if ( obj ) {
@@ -206,12 +205,13 @@ void AltVsTime::slotAddSource(void) {
 }
 
 //Use find dialog to choose an object
-void AltVsTime::slotBrowseObject(void) {
-    FindDialog fd(ks);
-    if ( fd.exec() == QDialog::Accepted ) {
-        SkyObject *o = fd.selectedObject();
+void AltVsTime::slotBrowseObject() {
+    QPointer<FindDialog> fd = new FindDialog(ks);
+    if ( fd->exec() == QDialog::Accepted ) {
+        SkyObject *o = fd->selectedObject();
         processObject( o );
     }
+    delete fd;
 
     avtUI->View->update();
 }
@@ -225,7 +225,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     //If the object is in the solar system, recompute its position for the given epochLabel
     if ( o->isSolarSystem() ) {
         oldNum = new KSNumbers( ks->data()->ut().djd() );
-        o->updateCoords( num, true, geo->lat(), ks->LST() );
+        o->updateCoords( num, true, geo->lat(), ks->data()->lst() );
     }
 
     //precess coords to target epoch
@@ -244,12 +244,9 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         pList.append( o );
 
         //make sure existing curves are thin and red
-        QList< KPlotObject* > objects = avtUI->View->plotObjects();
-        for ( int i=0; i < objects.count(); ++i ) {
-            KPlotObject *obj = objects.at( i );
-            if ( obj->size() == 2 ) {
+        foreach(KPlotObject* obj, avtUI->View->plotObjects()) {
+            if ( obj->size() == 2 ) 
                 obj->setLinePen( QPen( Qt::red, 1 ) );
-            }
         }
 
         //add new curve with width=2, and color=white
@@ -272,10 +269,10 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
     //restore original position
     if ( o->isSolarSystem() ) {
-        o->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
+        o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->data()->lst() );
         delete oldNum;
     }
-    o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
+    o->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
     delete num;
 }
 
@@ -305,18 +302,16 @@ void AltVsTime::slotHighlight( int row ) {
 
     avtUI->View->update();
 
-    for ( int i=0; i < pList.size(); ++i ) {
-        if ( i == row ) {
-            SkyObject *p = pList.at(i);
-            avtUI->raBox->showInHours( p->ra() );
-            avtUI->decBox->showInDegrees( p->dec() );
-            avtUI->nameBox->setText( avtUI->PlotList->currentItem()->text() );
-        }
+    if( row >= 0 && row < pList.size() ) {
+        SkyObject *p = pList.at(row);
+        avtUI->raBox->showInHours( p->ra() );
+        avtUI->decBox->showInDegrees( p->dec() );
+        avtUI->nameBox->setText( avtUI->PlotList->currentItem()->text() );
     }
 }
 
 //move input focus to the next logical widget
-void AltVsTime::slotAdvanceFocus(void) {
+void AltVsTime::slotAdvanceFocus() {
     if ( sender()->objectName() == QString( "nameBox" ) ) avtUI->addButton->setFocus();
     if ( sender()->objectName() == QString( "raBox" ) ) avtUI->decBox->setFocus();
     if ( sender()->objectName() == QString( "decbox" ) ) avtUI->addButton->setFocus();
@@ -324,7 +319,7 @@ void AltVsTime::slotAdvanceFocus(void) {
     if ( sender()->objectName() == QString( "latBox" ) ) avtUI->updateButton->setFocus();
 }
 
-void AltVsTime::slotClear(void) {
+void AltVsTime::slotClear() {
     if ( pList.count() ) pList.clear();
     //Need to delete the pointers in deleteList
     while ( ! deleteList.isEmpty() )
@@ -338,7 +333,7 @@ void AltVsTime::slotClear(void) {
     avtUI->View->update();
 }
 
-void AltVsTime::slotClearBoxes(void) {
+void AltVsTime::slotClearBoxes() {
     avtUI->nameBox->clear();
     avtUI->raBox->clear() ;
     avtUI->decBox->clear();
@@ -349,41 +344,14 @@ void AltVsTime::computeSunRiseSetTimes() {
     //Determine the time of sunset and sunrise for the desired date and location
     //expressed as doubles, the fraction of a full day.
     KStarsDateTime today = getDate();
-
-    SkyObject *oSun = ks->data()->objectNamed( "Sun" );
-    double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
-    double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
-
-    //check to see if Sun is circumpolar
-    //requires temporary repositioning of Sun to target date
-    KSNumbers *num = new KSNumbers( today.djd() );
-    KSNumbers *oldNum = new KSNumbers( ks->data()->ut().djd() );
-    dms LST = geo->GSTtoLST( getDate().gst() );
-    oSun->updateCoords( num, true, geo->lat(), &LST );
-    if ( oSun->checkCircumpolar( geo->lat() ) ) {
-        if ( oSun->alt()->Degrees() > 0.0 ) {
-            //Circumpolar, signal it this way:
-            sunRise = 0.0;
-            sunSet = 1.0;
-        } else {
-            //never rises, signal it this way:
-            sunRise = 0.0;
-            sunSet = -1.0;
-        }
-    }
-
-    //Notify the View about new sun rise/set times:
+    ksal->setDate( &today);
+    ksal->setLocation(geo);
+    double sunRise = ksal->getSunRise();
+    double sunSet = ksal->getSunSet();
     avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
-
-    //Restore Sun coordinates:
-    oSun->updateCoords( oldNum, true, ks->geo()->lat(), ks->LST() );
-    oSun->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
-
-    delete num;
-    delete oldNum;
 }
 
-void AltVsTime::slotUpdateDateLoc(void) {
+void AltVsTime::slotUpdateDateLoc() {
     KStarsDateTime today = getDate();
     KSNumbers *num = new KSNumbers( today.djd() );
     KSNumbers *oldNum = 0;
@@ -417,11 +385,11 @@ void AltVsTime::slotUpdateDateLoc(void) {
 
             //restore original position
             if ( o->isSolarSystem() ) {
-                o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->LST() );
+                o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->data()->lst() );
                 delete oldNum;
                 oldNum = 0;
             }
-            o->EquatorialToHorizontal( ks->LST(), ks->geo()->lat() );
+            o->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
         } else {  //assume unfound object is a custom object
             pList.at(i)->updateCoords( num ); //precess to desired epoch
 
@@ -443,23 +411,20 @@ void AltVsTime::slotUpdateDateLoc(void) {
     delete num;
 }
 
-void AltVsTime::slotChooseCity(void) {
-    LocationDialog ld(ks);
-    if ( ld.exec() == QDialog::Accepted ) {
-        GeoLocation *newGeo = ld.selectedCity();
+void AltVsTime::slotChooseCity() {
+    QPointer<LocationDialog> ld = new LocationDialog(this);
+    if ( ld->exec() == QDialog::Accepted ) {
+        GeoLocation *newGeo = ld->selectedCity();
         if ( newGeo ) {
             geo = newGeo;
             avtUI->latBox->showInDegrees( geo->lat() );
             avtUI->longBox->showInDegrees( geo->lng() );
         }
     }
+    delete ld;
 }
 
-int AltVsTime::currentPlotListItem() const {
-    return avtUI->PlotList->currentRow();
-}
-
-void AltVsTime::setLSTLimits(void) {
+void AltVsTime::setLSTLimits() {
     //UT at noon on target date
     KStarsDateTime ut = getDate().addSecs( ((double)DayOffset + 0.5)*86400. );
 
@@ -470,14 +435,14 @@ void AltVsTime::setLSTLimits(void) {
     avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
 }
 
-void AltVsTime::showCurrentDate (void)
+void AltVsTime::showCurrentDate()
 {
     KStarsDateTime dt = KStarsDateTime::currentDateTime();
     if ( dt.time() > QTime( 12, 0, 0 ) ) dt = dt.addDays( 1 );
     avtUI->DateWidget->setDate( dt.date() );
 }
 
-KStarsDateTime AltVsTime::getDate (void)
+KStarsDateTime AltVsTime::getDate()
 {
     //convert midnight local time to UT:
     KStarsDateTime dt( avtUI->DateWidget->date(), QTime() );

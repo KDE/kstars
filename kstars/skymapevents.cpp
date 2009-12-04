@@ -17,9 +17,6 @@
 
 //This file contains Event handlers for the SkyMap class.
 
-#include <stdlib.h>
-#include <math.h> //using fabs()
-
 #include <QCursor>
 #include <QPainter>
 #include <QMouseEvent>
@@ -29,24 +26,22 @@
 #include <QKeySequence>
 #include <QPaintEvent>
 
-#include <kiconloader.h>
 #include <kstatusbar.h>
-#include <kurl.h>
 #include <kio/job.h>
 
 #include "skymap.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksutils.h"
 #include "simclock.h"
-#include "infoboxes.h"
 #include "kspopupmenu.h"
-#include "skyobjects/ksmoon.h"
+#include "skyobjects/ksplanetbase.h"
+#include "widgets/infoboxwidget.h"
 
 // TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/starcomponent.h"
+
 
 void SkyMap::resizeEvent( QResizeEvent * )
 {
@@ -55,15 +50,16 @@ void SkyMap::resizeEvent( QResizeEvent * )
     //FIXME: No equivalent for this line in Qt4 ??
     //	if ( testWState( Qt::WState_AutoMask ) ) updateMask();
 
-    // avoid phantom positions of infoboxes
-    if ( ks && ( isVisible() || width() == ks->width() || height() == ks->height() ) ) {
-        infoBoxes()->resize( width(), height() );
-    }
-    *sky = sky->scaled( width(), height() );
+    *sky  = sky->scaled( width(), height() );
     *sky2 = sky2->scaled( width(), height() );
+
+    // Resize infoboxes container.
+    // FIXME: this is not really pretty. Maybe there are some better way to this???
+    m_iboxes->resize( size() );
 }
 
 void SkyMap::keyPressEvent( QKeyEvent *e ) {
+    KStars* kstars = KStars::Instance();
     QString s;
     bool arrowKeyPressed( false );
     bool shiftPressed( false );
@@ -84,10 +80,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_Left :
         if ( Options::useAltAz() ) {
             focus()->setAz( dms( focus()->az()->Degrees() - step * MINZOOM/Options::zoomFactor() ).reduce() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             focus()->setRA( focus()->ra()->Hours() + 0.05*step * MINZOOM/Options::zoomFactor() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         arrowKeyPressed = true;
@@ -98,10 +94,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_Right :
         if ( Options::useAltAz() ) {
             focus()->setAz( dms( focus()->az()->Degrees() + step * MINZOOM/Options::zoomFactor() ).reduce() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             focus()->setRA( focus()->ra()->Hours() - 0.05*step * MINZOOM/Options::zoomFactor() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         arrowKeyPressed = true;
@@ -113,11 +109,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         if ( Options::useAltAz() ) {
             focus()->setAlt( focus()->alt()->Degrees() + step * MINZOOM/Options::zoomFactor() );
             if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             focus()->setDec( focus()->dec()->Degrees() + step * MINZOOM/Options::zoomFactor() );
             if (focus()->dec()->Degrees() > 90.0) focus()->setDec( 90.0 );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         arrowKeyPressed = true;
@@ -129,11 +125,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         if ( Options::useAltAz() ) {
             focus()->setAlt( focus()->alt()->Degrees() - step * MINZOOM/Options::zoomFactor() );
             if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
-            focus()->HorizontalToEquatorial(data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
         } else {
             focus()->setDec( focus()->dec()->Degrees() - step * MINZOOM/Options::zoomFactor() );
             if (focus()->dec()->Degrees() < -90.0) focus()->setDec( -90.0 );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         arrowKeyPressed = true;
@@ -143,14 +139,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_Plus:   //Zoom in
     case Qt::Key_Equal:
-        if ( ks ) 
-            zoomInOrMagStep( e->modifiers() );
+        zoomInOrMagStep( e->modifiers() );
         break;
 
     case Qt::Key_Minus:  //Zoom out
     case Qt::Key_Underscore:
-        if (  ks ) 
-            zoomOutOrMagStep( e->modifiers() );
+        zoomOutOrMagStep( e->modifiers() );
         break;
 
     case Qt::Key_0: //center on Sun
@@ -292,7 +286,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         }
 
         if ( clickedObject() ) {
-            ks->observingList()->slotAddObject();
+            kstars->observingList()->slotAddObject();
         }
 
         if ( orig ) {
@@ -373,6 +367,15 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         }
         //END_TIMING
 
+    case Qt::Key_R:
+        {
+            // Toggle relativistic corrections
+            Options::setUseRelativistic( ! Options::useRelativistic() );
+            kDebug() << "Relativistc corrections: " << Options::useRelativistic();
+            forceUpdate();
+            break;
+        }
+
     case Qt::Key_A:
         Options::setUseAntialias( ! Options::useAntialias() );
         kDebug() << "Use Antialiasing: " << Options::useAntialias();
@@ -405,37 +408,17 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     case Qt::Key_G:    // print Cache structure
         StarComponent::m_StarBlockFactory.printStructure();
         break;
-    case Qt::Key_H: {  // Frugal memory mode
-        StarComponent::veryFrugalMem = false;
-        if( StarComponent::frugalMem = !(StarComponent::frugalMem) )
-            kDebug() << "Switched to frugal memory mode";
-        else
-            kDebug() << "Switched to generous memory mode";
-        break;
-    }
-    case Qt::Key_I: {  // Very frugal memory mode
-        StarComponent::frugalMem = false;
-        if( StarComponent::veryFrugalMem = !(StarComponent::veryFrugalMem) )
-            kDebug() << "Switched to very frugal memory mode";
-        else
-            kDebug() << "Switched to generous memory mode";
-        
-        break;
-    }
         */
-
+    default:
+        // We don't want to do anything in this case. Key is unknown
+        return;
     }
 
-    setOldFocus( focus() );
-    oldfocus()->setAz( focus()->az()->Degrees() );
-    oldfocus()->setAlt( focus()->alt()->Degrees() );
-
-    double dHA = data->LST->Hours() - focus()->ra()->Hours();
+    double dHA = data->lst()->Hours() - focus()->ra()->Hours();
     while ( dHA < 0.0 ) dHA += 24.0;
-    data->HourAngle->setH( dHA );
+    HourAngle.setH( dHA );
 
     if ( arrowKeyPressed ) {
-        infoBoxes()->focusObjChanged( i18n( "nothing" ) );
         stopTracking();
 
         if ( scrollCount > 10 ) {
@@ -460,7 +443,10 @@ void SkyMap::slotJobResult( KJob *job ) {
 }
 
 void SkyMap::stopTracking() {
-    if ( ks && Options::isTracking() ) ks->slotTrack();
+    KStars* kstars = KStars::Instance();
+    emit positionChanged( focus() );
+    if( kstars && Options::isTracking() )
+        kstars->slotTrack();
 }
 
 void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
@@ -482,7 +468,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
         else
             setDestination( focus() );
 
-        showFocusCoords( true );
+        showFocusCoords();
         forceUpdate();  // Need a full update to draw faint objects that are not drawn while slewing.
         break;
     }
@@ -500,12 +486,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         //The idea is that whenever a moveEvent occurs, the timer is reset.  It
         //will only timeout if there are no move events for HOVER_INTERVAL ms
         HoverTimer.start( HOVER_INTERVAL );
-    }
-
-    //Are we dragging an infoBox?
-    if ( infoBoxes()->dragBox( e ) ) {
-        update();
-        return;
     }
 
     //Are we defining a ZoomRect?
@@ -538,20 +518,19 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
     if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     //determine RA, Dec of mouse pointer
-    setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
-    mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+    setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+    mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     double dyPix = 0.5*height() - e->y();
     if ( midMouseButtonDown ) { //zoom according to y-offset
         float yoff = dyPix - y0;
-
         if (yoff > 10 ) {
             y0 = dyPix;
-            if ( ks ) ks->slotZoomIn();
+            slotZoomIn();
         }
         if (yoff < -10 ) {
             y0 = dyPix;
-            if ( ks ) ks->slotZoomOut();
+            slotZoomOut();
         }
     }
 
@@ -560,14 +539,13 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         if (!mouseMoveCursor) setMouseMoveCursor();
         if (!slewing) {
             slewing = true;
-            infoBoxes()->focusObjChanged( i18n( "nothing" ) );
             stopTracking(); //toggle tracking off
         }
 
         //Update focus such that the sky coords at mouse cursor remain approximately constant
         if ( Options::useAltAz() ) {
-            mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-            clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             dms dAz = mousePoint()->az()->Degrees() - clickedPoint()->az()->Degrees();
             dms dAlt = mousePoint()->alt()->Degrees() - clickedPoint()->alt()->Degrees();
             focus()->setAz( focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
@@ -576,7 +554,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             if ( focus()->alt()->Degrees() >90.0 ) focus()->setAlt( 90.0 );
             if ( focus()->alt()->Degrees() <-90.0 ) focus()->setAlt( -90.0 );
             focus()->setAz( focus()->az()->reduce() );
-            focus()->HorizontalToEquatorial( data->LST, data->geo()->lat() );
+            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             dms dRA = mousePoint()->ra()->Degrees() - clickedPoint()->ra()->Degrees();
             dms dDec = mousePoint()->dec()->Degrees() - clickedPoint()->dec()->Degrees();
@@ -586,55 +564,49 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             if ( focus()->dec()->Degrees() >90.0 ) focus()->setDec( 90.0 );
             if ( focus()->dec()->Degrees() <-90.0 ) focus()->setDec( -90.0 );
             focus()->setRA( focus()->ra()->reduce() );
-            focus()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
         ++scrollCount;
         if ( scrollCount > 4 ) {
-            showFocusCoords( true );
+            showFocusCoords();
             scrollCount = 0;
         }
 
-        setOldFocus( focus() );
-
-        double dHA = data->LST->Hours() - focus()->ra()->Hours();
+        double dHA = data->lst()->Hours() - focus()->ra()->Hours();
         while ( dHA < 0.0 ) dHA += 24.0;
-        data->HourAngle->setH( dHA );
+        HourAngle.setH( dHA );
 
         //redetermine RA, Dec of mouse pointer, using new focus
-        setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
-        mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
 
         forceUpdate();  // must be new computed
 
     } else { //mouse button not down
-        if ( ks ) {
-            QString sX, sY, s;
-
+        // FIXME: move to KStars
+        KStars* kstars = KStars::Instance();
+        if ( kstars ) {
             if ( Options::showAltAzField() ) {
-                sX = mousePoint()->az()->toDMSString(true);  //true: force +/- symbol
                 dms a( mousePoint()->alt()->Degrees() );
                 if ( Options::useAltAz() && Options::useRefraction() )
                     a = refract( mousePoint()->alt(), true ); //true: compute apparent alt from true alt
-                sY = a.toDMSString(true); //true: force +/- symbol
     
-                s = sX + ",  " + sY;
-                ks->statusBar()->changeItem( s, 1 );
+                QString s = QString("%1, %2").arg( mousePoint()->az()->toDMSString(true), //true: force +/- symbol
+                                                   a.toDMSString(true) );                 //true: force +/- symbol
+                kstars->statusBar()->changeItem( s, 1 );
             }
-
             if ( Options::showRADecField() ) {
-                sX = mousePoint()->ra()->toHMSString();
-                sY = mousePoint()->dec()->toDMSString(true); //true: force +/- symbol
-                s = sX + ",  " + sY;
-                ks->statusBar()->changeItem( s, 2 );
+                QString s = QString("%1, %2").arg(mousePoint()->ra()->toHMSString(),
+                                                  mousePoint()->dec()->toDMSString(true) ); //true: force +/- symbol
+                kstars->statusBar()->changeItem( s, 2 );
             }
         }
     }
 }
 
 void SkyMap::wheelEvent( QWheelEvent *e ) {
-    if ( ! ks ) return;
     if ( e->delta() > 0 ) 
         zoomInOrMagStep ( e->modifiers() );
     else
@@ -642,28 +614,22 @@ void SkyMap::wheelEvent( QWheelEvent *e ) {
 }
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
-    if ( infoBoxes()->unGrabBox() ) {
-        update();
-        return;
-    }
-
     if ( ZoomRect.isValid() ) {
         //Zoom in on center of Zoom Circle, by a factor equal to the ratio
         //of the sky pixmap's width to the Zoom Circle's diameter
         float factor = float(width()) / float(ZoomRect.width());
 
-        infoBoxes()->focusObjChanged( i18n( "nothing" ) );
         stopTracking();
 
-        SkyPoint newcenter = fromScreen( ZoomRect.center(), data->LST, data->geo()->lat() );
+        SkyPoint newcenter = fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
 
         setFocus( &newcenter );
         setDestination( &newcenter );
-        ks->zoom( Options::zoomFactor() * factor );
-
         setDefaultMouseCursor();
+
+        setZoomFactor( Options::zoomFactor() * factor );
+
         ZoomRect = QRect(); //invalidate ZoomRect
-        forceUpdate();
     } else {
         setDefaultMouseCursor();
         ZoomRect = QRect(); //just in case user Ctrl+clicked + released w/o dragging...
@@ -680,8 +646,6 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
             else
                 setDestination( focus() );
         }
-
-        setOldFocus( focus() );
         forceUpdate();	// is needed because after moving the sky not all stars are shown
     }
     if ( midMouseButtonDown ) midMouseButtonDown = false;  // if middle button was pressed unset here
@@ -690,11 +654,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 }
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
-    //did we Grab an infoBox?
-    if ( e->button() == Qt::LeftButton && infoBoxes()->grabBox( e ) ) {
-        update(); //refresh without redrawing skymap
-        return;
-    }
+    KStars* kstars = KStars::Instance();
 
     if ( ( e->modifiers() & Qt::ControlModifier ) && (e->button() == Qt::LeftButton) ) {
         ZoomRect.moveCenter( e->pos() );
@@ -721,10 +681,10 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         }
 
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( e->pos(), data->LST, data->geo()->lat() ) );
-        mousePoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
-        clickedPoint()->EquatorialToHorizontal( data->LST, data->geo()->lat() );
+        clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
@@ -737,8 +697,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                 clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
             }
 
-            if ( ks && e->button() == Qt::LeftButton ) {
-                ks->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
+            if ( kstars && e->button() == Qt::LeftButton ) {
+                kstars->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
             }
         } else {
             //Empty sky selected.  If left-click, display "nothing" in the status bar.
@@ -747,37 +707,30 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
             switch (e->button()) {
             case Qt::LeftButton:
-                if ( ks ) ks->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
+                if ( kstars )
+                    kstars->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
                 break;
-            case Qt::RightButton:
-                {
-                    SkyObject *nullObj = new SkyObject( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
-                    pmenu->createEmptyMenu( nullObj );
-                    delete nullObj;
-
-                    pmenu->popup(  QCursor::pos() );
-                    break;
+            case Qt::RightButton: {
+                SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
+                pmenu->createEmptyMenu( &o );
+                pmenu->popup( QCursor::pos() );
+                break;
                 }
-
-            default:
-                break;
+            default: ;
             }
         }
     }
 }
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
-    //Was the event inside an infoBox?  If so, shade the box.
     if ( e->button() == Qt::LeftButton ) {
-        if ( infoBoxes()->shadeBox( e ) ) {
-            update();
+        // break if point is unusable
+        if ( unusablePoint( e->pos() ) )
             return;
-        }
 
-        if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
-
-        if (mouseButtonDown ) mouseButtonDown = false;
-        if ( e->x() != width()/2 || e->y() != height()/2 ) slotCenter();
+        mouseButtonDown = false;
+        if( e->x() != width()/2 || e->y() != height()/2 )
+            slotCenter();
     }
 }
 
@@ -869,7 +822,6 @@ double SkyMap::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 
     if ( modifier & Qt::ShiftModifier ) 
         factor = sqrt( factor );
-
     return factor;
 }
 
@@ -877,7 +829,7 @@ void SkyMap::zoomInOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         incMagLimit( modifier );
     else
-        ks->zoomIn( zoomFactor( modifier ) );
+        setZoomFactor( Options::zoomFactor() * zoomFactor( modifier ) );
 }
 
     
@@ -885,22 +837,13 @@ void SkyMap::zoomOutOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         decMagLimit( modifier );
     else
-        ks->zoomOut( zoomFactor (modifier ) );
-}
-
-void SkyMap::zoomIn( const int modifier) {
-    ks->zoomIn( zoomFactor( modifier) );
-}
-
-void SkyMap::zoomOut( const int modifier) {
-    ks->zoomOut( zoomFactor( modifier ) );
+        setZoomFactor( Options::zoomFactor() / zoomFactor (modifier ) );
 }
 
 double SkyMap::magFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? 0.2 : 1.0; 
     if ( modifier & Qt::ShiftModifier ) 
         factor /= 2.0;
-
     return factor;
 }
 

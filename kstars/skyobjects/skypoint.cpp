@@ -26,6 +26,9 @@
 #include "dms.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h" //for J2000 define
+#include "kssun.h"
+#include "kstarsdata.h"
+#include "Options.h"
 
 void SkyPoint::set( const dms& r, const dms& d ) {
     RA0.set( r );
@@ -192,7 +195,6 @@ void SkyPoint::precess( const KSNumbers *num) {
 
 void SkyPoint::nutate(const KSNumbers *num) {
     double cosRA, sinRA, cosDec, sinDec, tanDec;
-    dms dRA1, dRA2, dDec1, dDec2;
     double cosOb, sinOb;
 
     RA.SinCos( sinRA, cosRA );
@@ -204,11 +206,11 @@ void SkyPoint::nutate(const KSNumbers *num) {
     if ( fabs( Dec.Degrees() ) < 80.0 ) { //approximate method
         tanDec = sinDec/cosDec;
 
-        dRA1.setD( num->dEcLong()*( cosOb + sinOb*sinRA*tanDec ) - num->dObliq()*cosRA*tanDec );
-        dDec1.setD( num->dEcLong()*( sinOb*cosRA ) + num->dObliq()*sinRA );
+        double dRA  = num->dEcLong()*( cosOb + sinOb*sinRA*tanDec ) - num->dObliq()*cosRA*tanDec;
+        double dDec = num->dEcLong()*( sinOb*cosRA ) + num->dObliq()*sinRA;
 
-        RA.setD( RA.Degrees() + dRA1.Degrees() );
-        Dec.setD( Dec.Degrees() + dDec1.Degrees() );
+        RA.setD( RA.Degrees() + dRA );
+        Dec.setD( Dec.Degrees() + dDec );
     } else { //exact method
         dms EcLong, EcLat;
         findEcliptic( num->obliquity(), EcLong, EcLat );
@@ -219,9 +221,69 @@ void SkyPoint::nutate(const KSNumbers *num) {
     }
 }
 
+SkyPoint SkyPoint::moveAway( SkyPoint &from, double dist ){
+    dms lat1, dtheta;
+
+    if( dist == 0.0 ) {
+        kDebug() << "moveThrough called with zero distance!";
+        return *this;
+    }
+
+    double dst = fabs( dist * dms::DegToRad / 3600.0 ); // In radian
+    
+    // Compute the bearing angle w.r.t. the RA axis ("latitude")
+    dms dRA( ra()->Degrees() - from.ra()->Degrees() );
+    dms dDec( dec()->Degrees() - from.dec()->Degrees() );
+    double bearing = atan2( dRA.sin() / dRA.cos(), dDec.sin() ); // Do not use dRA = PI / 2!!
+    //double bearing = atan2( dDec.radians() , dRA.radians() );
+    
+    double dir0 = (dist >= 0 ) ? bearing : bearing + dms::PI; // in radian
+    dist = fabs( dist ); // in radian
+
+
+    lat1.setRadians( asin( dec()->sin() * cos( dst ) +
+                           dec()->cos() * sin( dst ) * cos( dir0 ) ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec()->cos(),
+                              cos( dst ) - dec()->sin() * lat1.sin() ) );
+    
+    dms finalRA( ra()->Degrees() + dtheta.Degrees() );
+    return SkyPoint( finalRA, lat1 );
+}
+
+bool SkyPoint::bendlight() {
+
+    // NOTE: This should be applied before aberration
+
+    // First see if we are close enough to the sun to bother about the
+    // effect. We correct for the effect at least till b = 10 solar
+    // radii, where the effect is only about 0.06".  Assuming
+    // min. sun-earth distance is 200 solar radii.
+
+    static KSSun* sun;
+    const dms maxAngle( 1.75 * ( 30.0 / 200.0) / dms::DegToRad );
+
+    if( !sun ) // Hope we don't destroy the sun before the program ends!
+        sun = (KSSun*) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+    //    kDebug() << "bendlight says maximum correctable angle is " << maxAngle.Degrees();
+
+    // TODO: We can make this code more efficient
+    SkyPoint sp( sun->ra0(), sun->dec0() );
+    //    kDebug() << "The unaberrated sun is " << sp.angularDistanceTo( sun ).Degrees() << "deg away";
+    if( fabs( angularDistanceTo( &sp ).radians() ) <= maxAngle.radians() ) {
+        // We correct for GR effects
+        double corr_sec = 1.75 * sun->physicalSize() / ( sun->rearth() * AU_KM * angularDistanceTo( &sp ).sin() );
+        Q_ASSERT( corr_sec > 0 );
+        
+        sp = moveAway( sp, corr_sec );
+        setRA( *sp.ra() );
+        setDec( *sp.dec() );
+        return true;
+    }
+    return false;
+}
+
 void SkyPoint::aberrate(const KSNumbers *num) {
     double cosRA, sinRA, cosDec, sinDec;
-    dms dRA2, dDec2;
     double cosOb, sinOb, cosL, sinL, cosP, sinP;
 
     double K = num->constAberr().Degrees();  //constant of aberration
@@ -238,25 +300,24 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 
 
     //Step 3: Aberration
-    dRA2.setD( -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
-               + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec );
+    double dRA = -1.0 * K * ( cosRA * cosL * cosOb + sinRA * sinL )/cosDec
+                  + e * K * ( cosRA * cosP * cosOb + sinRA * sinP )/cosDec;
 
-    dDec2.setD( -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
-                + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP ) );
+    double dDec = -1.0 * K * ( cosL * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinL )
+                   + e * K * ( cosP * cosOb * ( tanOb * cosDec - sinRA * sinDec ) + cosRA * sinDec * sinP );
 
-    RA.setD( RA.Degrees() + dRA2.Degrees() );
-    Dec.setD( Dec.Degrees() + dDec2.Degrees() );
+    RA.setD( RA.Degrees() + dRA );
+    Dec.setD( Dec.Degrees() + dDec );
 }
 
 void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST ) {
-    dms pRA, pDec;
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
-
     precess(num);
     nutate(num);
+    if(Options::useRelativistic())
+        bendlight();
     aberrate(num);
-
     if ( lat || LST )
         kWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) ;
 }
@@ -289,9 +350,6 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
         if ( jd0 != J2000 ) {
 
             //v is a column vector representing input coordinates.
-
-            KSNumbers *num = new KSNumbers (jd0);
-
             v[0] = cosRA*cosDec;
             v[1] = sinRA*cosDec;
             v[2] = sinDec;
@@ -299,12 +357,12 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
             //Need to first precess to J2000.0 coords
             //s is the product of P1 and v; s represents the
             //coordinates precessed to J2000
+            KSNumbers num(jd0);
             for ( unsigned int i=0; i<3; ++i ) {
-                s[i] = num->p1( 0, i )*v[0] +
-                       num->p1( 1, i )*v[1] +
-                       num->p1( 2, i )*v[2];
+                s[i] = num.p1( 0, i )*v[0] +
+                       num.p1( 1, i )*v[1] +
+                       num.p1( 2, i )*v[2];
             }
-            delete num;
 
             //Input coords already in J2000, set s accordingly.
         } else {
@@ -323,15 +381,12 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
             return;
         }
 
-        KSNumbers *num = new KSNumbers (jdf);
-
+        KSNumbers num(jdf);
         for ( unsigned int i=0; i<3; ++i ) {
-            v[i] = num->p2( 0, i )*s[0] +
-                   num->p2( 1, i )*s[1] +
-                   num->p2( 2, i )*s[2];
+            v[i] = num.p2( 0, i )*s[0] +
+                   num.p2( 1, i )*s[1] +
+                   num.p2( 2, i )*s[2];
         }
-
-        delete num;
 
         RA.setRadians( atan2( v[1],v[0] ) );
         Dec.setRadians( asin( v[2] ) );
@@ -345,25 +400,22 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
 }
 
 void SkyPoint::apparentCoord(long double jd0, long double jdf){
-
     precessFromAnyEpoch(jd0,jdf);
-
     KSNumbers *num = new KSNumbers (jdf);
-
     nutate(num);
+    if(Options::useRelativistic())
+        bendlight();
     aberrate(num);
-
     delete num;
 }
 
 void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat) {
 
     double a = 192.25;
-    dms b, c;
     double sinb, cosb, sina_RA, cosa_RA, sinDEC, cosDEC, tanDEC;
 
-    c.setD(303);
-    b.setD(27.4);
+    dms c(303.0);
+    dms b(27.4);
     tanDEC = tan( Dec.radians() );
 
     b.SinCos(sinb,cosb);
@@ -379,22 +431,18 @@ void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat) {
 void SkyPoint::GalacticToEquatorial1950(const dms* galLong, const dms* galLat) {
 
     double a = 123.0;
-    dms b, c, galLong_a;
     double sinb, cosb, singLat, cosgLat, tangLat, singLong_a, cosgLong_a;
 
-    c.setD(12.25);
-    b.setD(27.4);
+    dms c(12.25);
+    dms b(27.4);
     tangLat = tan( galLat->radians() );
-
-
     galLat->SinCos(singLat,cosgLat);
 
-    dms( galLong->Degrees()-a ).SinCos(singLong_a,cosgLong_a);
+    dms( galLong->Degrees() - a ).SinCos(singLong_a,cosgLong_a);
     b.SinCos(sinb,cosb);
 
     RA.setRadians(c.radians() + atan2(singLong_a,cosgLong_a*sinb-tangLat*cosb) );
     RA = RA.reduce();
-    //	raHourCoord = dms( raCoord.Hours() );
 
     Dec.setRadians( asin(singLat*sinb+cosgLat*cosb*cosgLong_a) );
 }
@@ -532,7 +580,7 @@ void SkyPoint::subtractEterms(void) {
     Dec.setD( Dec.Degrees() - spd.dec()->Degrees() );
 }
 
-dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
+dms SkyPoint::angularDistanceTo(const SkyPoint *sp) {
 
     double dalpha = ra()->radians() - sp->ra()->radians() ;
     double ddelta = dec()->radians() - sp->dec()->radians() ;
@@ -554,14 +602,13 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 
 double SkyPoint::vRSun(long double jd0) {
 
-    dms asun,dsun;
     double ca, sa, cd, sd, vsun;
     double cosRA, sinRA, cosDec, sinDec;
 
     /* Sun apex (where the sun goes) coordinates */
 
-    asun.setD(270.9592);	// Right ascention: 18h 3m 50.2s [J2000]
-    dsun.setD(30.00467);	// Declination: 30^o 0' 16.8'' [J2000]
+    dms asun(270.9592);	// Right ascention: 18h 3m 50.2s [J2000]
+    dms dsun(30.00467);	// Declination: 30^o 0' 16.8'' [J2000]
     vsun=20.;		// [km/s]
 
     asun.SinCos(sa,ca);
@@ -604,8 +651,7 @@ double SkyPoint::vHelioToVlsr(double vhelio, long double jd0) {
 
 double SkyPoint::vREarth(long double jd0)
 {
-
-    double sinRA, sinDec, cosRA, cosDec, vREarth;
+    double sinRA, sinDec, cosRA, cosDec;
 
     /* u_radial = unitary vector in the direction of the source
     	Vlsr 	= Vhel + Vsun.u_radial
@@ -633,13 +679,10 @@ double SkyPoint::vREarth(long double jd0)
     the source coordinates are also in the same reference system.
     */
 
-    KSNumbers *num = new KSNumbers(jd0);
-
-    vREarth = num->vEarth(0) * cosDec * cosRA +
-              num->vEarth(1) * cosDec * sinRA +
-              num->vEarth(2) * sinDec;
-
-    return vREarth;
+    KSNumbers num(jd0);
+    return num.vEarth(0) * cosDec * cosRA +
+           num.vEarth(1) * cosDec * sinRA +
+           num.vEarth(2) * sinDec;
 }
 
 
