@@ -89,11 +89,37 @@ namespace {
         return 1.0;
     }
 
-    // Return pixmap for cursor with size 32x32 (this size is
-    // compatible to all systems) which is filled with color0
-    QBitmap cursorBitmap() {
+    // Draw bitmap for zoom cursor. Width is size of pen to draw with.
+    QBitmap zoomCursorBitmap(int width) {
         QBitmap b(32, 32);
         b.fill(Qt::color0);
+        int mx = 16, my = 16;
+        // Begin drawing
+        QPainter p;
+        p.begin( &b );
+          p.setPen( QPen( Qt::color1, width ) );
+          p.drawEllipse( mx - 7, my - 7, 14, 14 );
+          p.drawLine(    mx + 5, my + 5, mx + 11, my + 11 );
+        p.end();
+        return b;
+    }
+
+    // Draw bitmap for default cursor. Width is size of pen to draw with.
+    QBitmap defaultCursorBitmap(int width) {
+        QBitmap b(32, 32);
+        b.fill(Qt::color0);
+        int mx = 16, my = 16;
+        // Begin drawing
+        QPainter p;
+        p.begin( &b );
+          p.setPen( QPen( Qt::color1, width ) );
+          // 1. diagonal
+          p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
+          p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
+          // 2. diagonal
+          p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
+          p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
+        p.end();
         return b;
     }
 }
@@ -1449,64 +1475,16 @@ bool SkyMap::unusablePoint( const QPointF &p )
 void SkyMap::setZoomMouseCursor()
 {
     mouseMoveCursor = false;	// no mousemove cursor
-
-    QPainter p;
-
-    // Draw cursor pixmap
-    QBitmap cursor = cursorBitmap();
-    // the center of the pixmap
-    int mx = cursor.width()  / 2;
-    int my = cursor.height() / 2;
-    p.begin(&cursor);
-    p.setPen(QPen( Qt::color1, 2));	// black lines
-    p.drawEllipse( mx - 7, my - 7, 14, 14 );
-    p.drawLine(    mx + 5, my + 5, mx + 11, my + 11 );
-    p.end();
-
-    // create a mask to make parts of the pixmap invisible
-    QBitmap mask = cursorBitmap();
-    p.begin(&mask);
-    p.setPen( QPen( Qt::color1, 4 ) );
-    p.drawEllipse( mx - 7, my - 7, 14, 14 );
-    p.drawLine( mx + 5, my + 5, mx + 12, my + 12 );
-    p.end();
-
+    QBitmap cursor = zoomCursorBitmap(2);
+    QBitmap mask   = zoomCursorBitmap(4);
     setCursor( QCursor(cursor, mask) );
 }
 
 void SkyMap::setDefaultMouseCursor()
 {
     mouseMoveCursor = false;        // no mousemove cursor
-
-    QPainter p;
-
-    // Draw cursor
-    QPixmap cursor = cursorBitmap();
-    // the center of the pixmap
-    int mx = cursor.width() / 2;
-    int my = cursor.height() / 2;
-    p.begin(&cursor);
-    p.setPen( QPen( Qt::color1, 2 ) );	// black lines
-    // 1. diagonal
-    p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
-    p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
-    // 2. diagonal
-    p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
-    p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
-    p.end();
-
-    // create a mask to make parts of the pixmap invisible
-    QBitmap mask = cursorBitmap();
-    p.begin (&mask);
-    p.setPen( QPen( Qt::color1, 3 ) );
-    // 1. diagonal
-    p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
-    p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
-    // 2. diagonal
-    p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
-    p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
-    p.end();
-
+    QBitmap cursor = defaultCursorBitmap(2);
+    QBitmap mask   = defaultCursorBitmap(3);
     setCursor( QCursor(cursor, mask) );
 }
 
