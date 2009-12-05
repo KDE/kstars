@@ -89,6 +89,13 @@ namespace {
         return 1.0;
     }
 
+    // Return pixmap for cursor with size 32x32 (this size is
+    // compatible to all systems) which is filled with color0
+    QBitmap cursorBitmap() {
+        QBitmap b(32, 32);
+        b.fill(Qt::color0);
+        return b;
+    }
 }
 
 
@@ -1442,33 +1449,27 @@ void SkyMap::setZoomMouseCursor()
     mouseMoveCursor = false;	// no mousemove cursor
 
     QPainter p;
-    QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
+
+    // Draw cursor pixmap
+    QBitmap cursor = cursorBitmap();
     // the center of the pixmap
-    int mx = cursorPix.	width() / 2;
-    int my = cursorPix.	height() / 2;
-
-    cursorPix.fill ( Qt::white );  // white background
-    p.begin (&cursorPix);
-    p.setPen (QPen ( Qt::black, 2));	// black lines
-
+    int mx = cursor.width()  / 2;
+    int my = cursor.height() / 2;
+    p.begin(&cursor);
+    p.setPen(QPen( Qt::color1, 2));	// black lines
     p.drawEllipse( mx - 7, my - 7, 14, 14 );
-    p.drawLine( mx + 5, my + 5, mx + 11, my + 11 );
+    p.drawLine(    mx + 5, my + 5, mx + 11, my + 11 );
     p.end();
 
     // create a mask to make parts of the pixmap invisible
-    QBitmap mask (32, 32);
-    mask.fill ( Qt::color0 );	// all is invisible
-
-    p.begin (&mask);
-    // paint over the parts which should be visible
-    p.setPen( QPen ( Qt::color1, 3 ) );
+    QBitmap mask = cursorBitmap();
+    p.begin(&mask);
+    p.setPen( QPen( Qt::color1, 4 ) );
     p.drawEllipse( mx - 7, my - 7, 14, 14 );
     p.drawLine( mx + 5, my + 5, mx + 12, my + 12 );
     p.end();
 
-    cursorPix.setMask (mask);	// set the mask
-    QCursor cursor (cursorPix);
-    setCursor (cursor);
+    setCursor( QCursor(cursor, mask) );
 }
 
 void SkyMap::setDefaultMouseCursor()
@@ -1476,14 +1477,14 @@ void SkyMap::setDefaultMouseCursor()
     mouseMoveCursor = false;        // no mousemove cursor
 
     QPainter p;
-    QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
-    // the center of the pixmap
-    int mx = cursorPix.	width() / 2;
-    int my = cursorPix.	height() / 2;
 
-    cursorPix.fill ( Qt::white );  // white background
-    p.begin (&cursorPix);
-    p.setPen( QPen ( Qt::black, 2 ) );	// black lines
+    // Draw cursor
+    QPixmap cursor = cursorBitmap();
+    // the center of the pixmap
+    int mx = cursor.width() / 2;
+    int my = cursor.height() / 2;
+    p.begin(&cursor);
+    p.setPen( QPen( Qt::color1, 2 ) );	// black lines
     // 1. diagonal
     p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
     p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
@@ -1493,11 +1494,8 @@ void SkyMap::setDefaultMouseCursor()
     p.end();
 
     // create a mask to make parts of the pixmap invisible
-    QBitmap mask (32, 32);
-    mask.fill( Qt::color0 );	// all is invisible
-
+    QBitmap mask = cursorBitmap();
     p.begin (&mask);
-    // paint over the parts which should be visible
     p.setPen( QPen( Qt::color1, 3 ) );
     // 1. diagonal
     p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
@@ -1507,9 +1505,7 @@ void SkyMap::setDefaultMouseCursor()
     p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
     p.end();
 
-    cursorPix.setMask( mask );  // set the mask
-    QCursor cursor( cursorPix );
-    setCursor( cursor );
+    setCursor( QCursor(cursor, mask) );
 }
 
 void SkyMap::setMouseMoveCursor()
