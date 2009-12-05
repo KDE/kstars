@@ -142,7 +142,6 @@ void InfoBoxWidget::slotPointChanged(SkyPoint* p) {
 }
 
 void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
-    kDebug() << "A";
     m_strings.clear();
     m_strings << name;
     m_strings <<
@@ -200,7 +199,6 @@ void InfoBoxWidget::paintEvent(QPaintEvent* e)
 
 void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event) {
     m_grabbed = true;
-    
     int newX = repositionX(x() + event->x(), 0, parentWidget()->width()  - width(),  m_anchor, true);
     int newY = repositionX(y() + event->y(), 0, parentWidget()->height() - height(), m_anchor, false);
     move(newX, newY);
