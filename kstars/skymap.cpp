@@ -159,6 +159,7 @@ SkyMap::SkyMap() :
     // Time infobox
     m_timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
                                    Options::positionTimeBox(),
+                                   Options::stickyTimeBox(),
                                    QStringList(), this);
     m_timeBox->setVisible( Options::showTimeBox() );
     connect(data->clock(), SIGNAL( timeChanged() ),
@@ -169,6 +170,7 @@ SkyMap::SkyMap() :
     // Geo infobox
     m_geoBox = new InfoBoxWidget( Options::shadeGeoBox(),
                                   Options::positionGeoBox(),
+                                  Options::stickyGeoBox(),
                                   QStringList(), this);
     m_geoBox->setVisible( Options::showGeoBox() );
     connect(data,     SIGNAL( geoChanged() ),
@@ -177,6 +179,7 @@ SkyMap::SkyMap() :
     // Object infobox
     m_objBox = new InfoBoxWidget( Options::shadeFocusBox(),
                                   Options::positionFocusBox(),
+                                  Options::stickyFocusBox(),
                                   QStringList(), this);
     m_objBox->setVisible( Options::showFocusBox() );
     connect(this,     SIGNAL( objectChanged( SkyObject*) ),
@@ -216,7 +219,7 @@ SkyMap::SkyMap() :
 
 SkyMap::~SkyMap() {
     /* == Save infoxes status into Options == */
-    Options::setShowInfoBoxes( m_iboxes->isVisible() );
+    Options::setShowInfoBoxes( m_iboxes->isVisibleTo( parentWidget() ) );
     // Time box
     Options::setPositionTimeBox( m_timeBox->pos() );
     Options::setShadeTimeBox(    m_timeBox->shaded() );
@@ -259,6 +262,7 @@ void SkyMap::setGeometry( const QRect &r ) {
 
 
 void SkyMap::showFocusCoords() {
+    kDebug() << "--";
     if( focusObject() && Options::isTracking() )
         emit objectChanged( focusObject() );
     else
@@ -408,7 +412,6 @@ void SkyMap::slotCenter() {
             kstars->statusBar()->changeItem( s, 2 );
         }
     }
-
     showFocusCoords(); //update FocusBox
 }
 

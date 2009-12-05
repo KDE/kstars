@@ -15,24 +15,41 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <algorithm>
-
 #include <QPainter>
 #include <QMouseEvent>
 #include <QFontMetrics>
 
 #include <kdebug.h>
 
-#include "ksutils.h"
 #include "kstarsdata.h"
 #include "colorscheme.h"
 
 #include "widgets/infoboxwidget.h"
 
+
 namespace {
     // Padding
     const int padX = 6;
     const int padY = 2;
+
+    int repositionX(int x, int lo, int hi, int& align, bool xaxis) {
+        if( x <= lo )
+            return lo;
+        if( x >= hi ) {
+            align |= xaxis ? InfoBoxWidget::AnchorRight : InfoBoxWidget::AnchorBottom;
+            kDebug() << "HI " << align;
+            return hi;
+        }
+        align &= ~( xaxis ? InfoBoxWidget::AnchorRight : InfoBoxWidget::AnchorBottom );
+        kDebug() << "DD " << align;
+        return x;
+    }
+
+    int adjustX(int x, int lo, int hi, int& align, bool xaxis) {
+        if( (xaxis && (align & InfoBoxWidget::AnchorRight)) || (!xaxis && (align & InfoBoxWidget::AnchorBottom)) )
+            return hi;
+        return repositionX(x, lo, hi, align, xaxis);
+    }
 }
 
 
@@ -46,28 +63,32 @@ void InfoBoxes::addInfoBox(InfoBoxWidget* ibox)
 }
 
 void InfoBoxes::resizeEvent(QResizeEvent * event) {
+    foreach(InfoBoxWidget* w, m_boxes)
+        w->adjust();
 }
 
-InfoBoxWidget::InfoBoxWidget(bool shade, QPoint pos, QStringList str, QWidget* parent) :
+/* ================================================================ */
+
+InfoBoxWidget::InfoBoxWidget(bool shade, QPoint pos, int anchor, QStringList str, QWidget* parent) :
     QWidget(parent),
     m_strings(str),
     m_grabbed(false),
-    m_shaded(shade)
+    m_shaded(shade),
+    m_anchor(anchor)
 {
-    move(pos);
     updateSize();
+    adjust();
 }
 
 InfoBoxWidget::~InfoBoxWidget()
 {}
 
 void InfoBoxWidget::updateSize() {
-    int w = 0;
-    int h = 0;
     QFontMetrics fm(font());
+    int w = 0;
     foreach(QString str, m_strings)
-        w = std::max(w, fm.width(str));
-    h = fm.height() * (m_shaded ? 1 : m_strings.size());
+        w = qMax(w, fm.width(str));
+    int h = fm.height() * (m_shaded ? 1 : m_strings.size());
     // Add padding
     resize(w + 2*padX, h + 2*padY + 2);
 }
@@ -121,11 +142,12 @@ void InfoBoxWidget::slotPointChanged(SkyPoint* p) {
 }
 
 void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
+    kDebug() << "A";
     m_strings.clear();
     m_strings << name;
     m_strings <<
         i18nc( "Right Ascension", "RA" ) + ": " + p->ra()->toHMSString() + "  " +
-        i18nc( "Declination", "Dec" )    +  ": " + p->dec()->toDMSString(true);
+        i18nc( "Declination", "Dec" )    + ": " + p->dec()->toDMSString(true);
     m_strings <<
         i18nc( "Azimuth", "Az" )   + ": " + p->az()->toDMSString(true) + "  " +
         i18nc( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true);
@@ -133,7 +155,16 @@ void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
     update();
 }
 
-void InfoBoxWidget::resizeEvent(QResizeEvent*) {
+void InfoBoxWidget::adjust() {
+    int newX = adjustX(x(), 0, parentWidget()->width()  - width(),  m_anchor, true);
+    int newY = adjustX(y(), 0, parentWidget()->height() - height(), m_anchor, false);
+    move(newX, newY);
+}
+
+void InfoBoxWidget::reposition(int newX, int newY) {
+    newX = repositionX(newX, 0, parentWidget()->width()  - width(),  m_anchor, true);
+    newY = repositionX(newY, 0, parentWidget()->height() - height(), m_anchor, false);
+    move(newX, newY);
 }
 
 void InfoBoxWidget::paintEvent(QPaintEvent* e)
@@ -167,28 +198,22 @@ void InfoBoxWidget::paintEvent(QPaintEvent* e)
     p.end();
 }
 
-void InfoBoxWidget::mouseMoveEvent ( QMouseEvent * event ) {
+void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event) {
     m_grabbed = true;
-    // Maximum allowed value
-    int maxX = parentWidget()->width()  - width();
-    int maxY = parentWidget()->height() - height();
-    // New position
-    int newX = KSUtils::clamp( x() + event->x(), 0, maxX );
-    int newY = KSUtils::clamp( y() + event->y(), 0, maxY );
+    
+    int newX = repositionX(x() + event->x(), 0, parentWidget()->width()  - width(),  m_anchor, true);
+    int newY = repositionX(y() + event->y(), 0, parentWidget()->height() - height(), m_anchor, false);
     move(newX, newY);
 }
 
-void InfoBoxWidget::mouseDoubleClickEvent(QMouseEvent * event ) {
+void InfoBoxWidget::mouseDoubleClickEvent(QMouseEvent*) {
     m_shaded = !m_shaded;
     updateSize();
     update();
 }
 
-void InfoBoxWidget::mouseReleaseEvent ( QMouseEvent * event ) {
+void InfoBoxWidget::mouseReleaseEvent(QMouseEvent*) {
     m_grabbed = false;
-}
-
-void InfoBoxWidget::mousePressEvent ( QMouseEvent * event ) {
 }
 
 #include "infoboxwidget.moc"

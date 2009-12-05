@@ -49,13 +49,27 @@ class InfoBoxWidget : public QWidget
 {
     Q_OBJECT
 public:
+    /** Alignment of widget. */
+    enum {
+        NoAnchor     = 0,
+        AnchorRight  = 1,
+        AnchorBottom = 2,
+        AnchorBoth   = 3
+    };
+
     /** Create one infobox. */
-    InfoBoxWidget(bool shade, QPoint pos, QStringList str = QStringList(), QWidget* parent = 0);
+    InfoBoxWidget(bool shade, QPoint pos, int anchor = 0, QStringList str = QStringList(), QWidget* parent = 0);
     /** Destructor */
     virtual ~InfoBoxWidget();
 
     /** Check whether box is shaded. In this case only one line is shown. */
     bool shaded() const { return m_shaded; }
+
+    /** Adjust widget's postion */
+    void reposition(int newX, int newY);
+    /** Adjust widget's postion */
+    void adjust();
+
 public slots:
     /** Set information about time. Data is taken from KStarsData. */
     void slotTimeChanged();
@@ -66,12 +80,10 @@ public slots:
     /** Set information about pointing. */
     void slotPointChanged(SkyPoint* p);
 protected:
-    virtual void resizeEvent(QResizeEvent * event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void mouseDoubleClickEvent(QMouseEvent * event );
     virtual void mouseMoveEvent(QMouseEvent* event );
     virtual void mouseReleaseEvent(QMouseEvent* event);
-    virtual void mousePressEvent(QMouseEvent* event);
 private:
     /** Uset to set information about object. */
     void setPoint(QString name, SkyPoint* p);
@@ -81,6 +93,7 @@ private:
     QStringList m_strings;  // list of string to show
     bool m_grabbed;         // True if widget is dragged around
     bool m_shaded;          // True if widget if shaded
+    int  m_anchor;          // Vertical alignment of widget
 };
 
 #endif /* INFOBOXWIDGET_H_ */
