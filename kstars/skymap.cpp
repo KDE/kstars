@@ -230,14 +230,17 @@ SkyMap::~SkyMap() {
     // Time box
     Options::setPositionTimeBox( m_timeBox->pos() );
     Options::setShadeTimeBox(    m_timeBox->shaded() );
+    Options::setStickyTimeBox(   m_timeBox->sticky() );
     Options::setShowTimeBox(     m_timeBox->isVisibleTo(m_iboxes) );
     // Geo box
     Options::setPositionGeoBox( m_geoBox->pos() );
     Options::setShadeGeoBox(    m_geoBox->shaded() );
+    Options::setStickyGeoBox(   m_geoBox->sticky() );
     Options::setShowGeoBox(     m_geoBox->isVisibleTo(m_iboxes) );
     // Obj box
     Options::setPositionFocusBox( m_objBox->pos() );
     Options::setShadeFocusBox(    m_objBox->shaded() );
+    Options::setStickyFocusBox(   m_objBox->sticky() );
     Options::setShowFocusBox(     m_objBox->isVisibleTo(m_iboxes) );
     
     //store focus values in Options
@@ -269,7 +272,6 @@ void SkyMap::setGeometry( const QRect &r ) {
 
 
 void SkyMap::showFocusCoords() {
-    kDebug() << "--";
     if( focusObject() && Options::isTracking() )
         emit objectChanged( focusObject() );
     else

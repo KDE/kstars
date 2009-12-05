@@ -19,39 +19,15 @@
 #include <QMouseEvent>
 #include <QFontMetrics>
 
-#include <kdebug.h>
-
 #include "kstarsdata.h"
 #include "colorscheme.h"
+#include "ksutils.h"
 
 #include "widgets/infoboxwidget.h"
 
 
-namespace {
-    // Padding
-    const int padX = 6;
-    const int padY = 2;
-
-    int repositionX(int x, int lo, int hi, int& align, bool xaxis) {
-        if( x <= lo )
-            return lo;
-        if( x >= hi ) {
-            align |= xaxis ? InfoBoxWidget::AnchorRight : InfoBoxWidget::AnchorBottom;
-            kDebug() << "HI " << align;
-            return hi;
-        }
-        align &= ~( xaxis ? InfoBoxWidget::AnchorRight : InfoBoxWidget::AnchorBottom );
-        kDebug() << "DD " << align;
-        return x;
-    }
-
-    int adjustX(int x, int lo, int hi, int& align, bool xaxis) {
-        if( (xaxis && (align & InfoBoxWidget::AnchorRight)) || (!xaxis && (align & InfoBoxWidget::AnchorBottom)) )
-            return hi;
-        return repositionX(x, lo, hi, align, xaxis);
-    }
-}
-
+const int InfoBoxWidget::padX = 6;
+const int InfoBoxWidget::padY = 2;
 
 InfoBoxes::~InfoBoxes()
 {}
@@ -62,7 +38,7 @@ void InfoBoxes::addInfoBox(InfoBoxWidget* ibox)
     m_boxes.append(ibox);
 }
 
-void InfoBoxes::resizeEvent(QResizeEvent * event) {
+void InfoBoxes::resizeEvent(QResizeEvent*) {
     foreach(InfoBoxWidget* w, m_boxes)
         w->adjust();
 }
@@ -76,8 +52,8 @@ InfoBoxWidget::InfoBoxWidget(bool shade, QPoint pos, int anchor, QStringList str
     m_shaded(shade),
     m_anchor(anchor)
 {
+    move(pos);
     updateSize();
-    adjust();
 }
 
 InfoBoxWidget::~InfoBoxWidget()
@@ -91,6 +67,7 @@ void InfoBoxWidget::updateSize() {
     int h = fm.height() * (m_shaded ? 1 : m_strings.size());
     // Add padding
     resize(w + 2*padX, h + 2*padY + 2);
+    adjust();
 }
 
 void InfoBoxWidget::slotTimeChanged() {
@@ -155,18 +132,31 @@ void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
 }
 
 void InfoBoxWidget::adjust() {
-    int newX = adjustX(x(), 0, parentWidget()->width()  - width(),  m_anchor, true);
-    int newY = adjustX(y(), 0, parentWidget()->height() - height(), m_anchor, false);
+    // X axis
+    int newX = x();
+    int maxX = parentWidget()->width() - width();
+    if( m_anchor & AnchorRight ) {
+        newX = maxX;
+    } else {
+        newX = KSUtils::clamp(newX, 0, maxX);
+        if( newX == maxX )
+            m_anchor |= AnchorRight;
+    }
+    // Y axis
+    int newY = y();
+    int maxY = parentWidget()->height() - height();
+    if( m_anchor & AnchorBottom ) {
+        newY = maxY;
+    } else {
+        newY = KSUtils::clamp(newY, 0, maxY);
+        if( newY == maxY )
+            m_anchor |= AnchorBottom;
+    }
+    // Do move
     move(newX, newY);
 }
 
-void InfoBoxWidget::reposition(int newX, int newY) {
-    newX = repositionX(newX, 0, parentWidget()->width()  - width(),  m_anchor, true);
-    newY = repositionX(newY, 0, parentWidget()->height() - height(), m_anchor, false);
-    move(newX, newY);
-}
-
-void InfoBoxWidget::paintEvent(QPaintEvent* e)
+void InfoBoxWidget::paintEvent(QPaintEvent*)
 {
     // If widget contain no strings return
     if( m_strings.empty() )
@@ -199,8 +189,29 @@ void InfoBoxWidget::paintEvent(QPaintEvent* e)
 
 void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event) {
     m_grabbed = true;
-    int newX = repositionX(x() + event->x(), 0, parentWidget()->width()  - width(),  m_anchor, true);
-    int newY = repositionX(y() + event->y(), 0, parentWidget()->height() - height(), m_anchor, false);
+    // X axis
+    int newX = x() + event->x();
+    int maxX = parentWidget()->width() - width();
+    if( newX > maxX ) {
+        newX = maxX;
+        m_anchor |= AnchorRight;
+    } else {
+        if( newX < 0 )
+            newX = 0;
+        m_anchor &= ~AnchorRight;
+    }
+    // Y axis
+    int newY = y() + event->y();
+    int maxY = parentWidget()->height() - height();
+    if( newY > maxY ) {
+        newY = maxY;
+        m_anchor |= AnchorBottom;
+    } else {
+        if( newY < 0 )
+            newY = 0;
+        m_anchor &= ~AnchorBottom;
+    }
+    // Do move
     move(newX, newY);
 }
 

@@ -64,9 +64,9 @@ public:
 
     /** Check whether box is shaded. In this case only one line is shown. */
     bool shaded() const { return m_shaded; }
-
-    /** Adjust widget's postion */
-    void reposition(int newX, int newY);
+    /** Get stickyness status of */
+    int sticky() const { return m_anchor; }
+    
     /** Adjust widget's postion */
     void adjust();
 
@@ -94,6 +94,9 @@ private:
     bool m_grabbed;         // True if widget is dragged around
     bool m_shaded;          // True if widget if shaded
     int  m_anchor;          // Vertical alignment of widget
+
+    static const int padX;
+    static const int padY;
 };
 
 #endif /* INFOBOXWIDGET_H_ */
