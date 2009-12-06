@@ -89,6 +89,39 @@ namespace {
         return 1.0;
     }
 
+    // Draw bitmap for zoom cursor. Width is size of pen to draw with.
+    QBitmap zoomCursorBitmap(int width) {
+        QBitmap b(32, 32);
+        b.fill(Qt::color0);
+        int mx = 16, my = 16;
+        // Begin drawing
+        QPainter p;
+        p.begin( &b );
+          p.setPen( QPen( Qt::color1, width ) );
+          p.drawEllipse( mx - 7, my - 7, 14, 14 );
+          p.drawLine(    mx + 5, my + 5, mx + 11, my + 11 );
+        p.end();
+        return b;
+    }
+
+    // Draw bitmap for default cursor. Width is size of pen to draw with.
+    QBitmap defaultCursorBitmap(int width) {
+        QBitmap b(32, 32);
+        b.fill(Qt::color0);
+        int mx = 16, my = 16;
+        // Begin drawing
+        QPainter p;
+        p.begin( &b );
+          p.setPen( QPen( Qt::color1, width ) );
+          // 1. diagonal
+          p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
+          p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
+          // 2. diagonal
+          p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
+          p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
+        p.end();
+        return b;
+    }
 }
 
 
@@ -159,6 +192,7 @@ SkyMap::SkyMap() :
     // Time infobox
     m_timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
                                    Options::positionTimeBox(),
+                                   Options::stickyTimeBox(),
                                    QStringList(), this);
     m_timeBox->setVisible( Options::showTimeBox() );
     connect(data->clock(), SIGNAL( timeChanged() ),
@@ -169,6 +203,7 @@ SkyMap::SkyMap() :
     // Geo infobox
     m_geoBox = new InfoBoxWidget( Options::shadeGeoBox(),
                                   Options::positionGeoBox(),
+                                  Options::stickyGeoBox(),
                                   QStringList(), this);
     m_geoBox->setVisible( Options::showGeoBox() );
     connect(data,     SIGNAL( geoChanged() ),
@@ -177,6 +212,7 @@ SkyMap::SkyMap() :
     // Object infobox
     m_objBox = new InfoBoxWidget( Options::shadeFocusBox(),
                                   Options::positionFocusBox(),
+                                  Options::stickyFocusBox(),
                                   QStringList(), this);
     m_objBox->setVisible( Options::showFocusBox() );
     connect(this,     SIGNAL( objectChanged( SkyObject*) ),
@@ -216,18 +252,21 @@ SkyMap::SkyMap() :
 
 SkyMap::~SkyMap() {
     /* == Save infoxes status into Options == */
-    Options::setShowInfoBoxes( m_iboxes->isVisible() );
+    Options::setShowInfoBoxes( m_iboxes->isVisibleTo( parentWidget() ) );
     // Time box
     Options::setPositionTimeBox( m_timeBox->pos() );
     Options::setShadeTimeBox(    m_timeBox->shaded() );
+    Options::setStickyTimeBox(   m_timeBox->sticky() );
     Options::setShowTimeBox(     m_timeBox->isVisibleTo(m_iboxes) );
     // Geo box
     Options::setPositionGeoBox( m_geoBox->pos() );
     Options::setShadeGeoBox(    m_geoBox->shaded() );
+    Options::setStickyGeoBox(   m_geoBox->sticky() );
     Options::setShowGeoBox(     m_geoBox->isVisibleTo(m_iboxes) );
     // Obj box
     Options::setPositionFocusBox( m_objBox->pos() );
     Options::setShadeFocusBox(    m_objBox->shaded() );
+    Options::setStickyFocusBox(   m_objBox->sticky() );
     Options::setShowFocusBox(     m_objBox->isVisibleTo(m_iboxes) );
     
     //store focus values in Options
@@ -408,7 +447,6 @@ void SkyMap::slotCenter() {
             kstars->statusBar()->changeItem( s, 2 );
         }
     }
-
     showFocusCoords(); //update FocusBox
 }
 
@@ -1437,76 +1475,17 @@ bool SkyMap::unusablePoint( const QPointF &p )
 void SkyMap::setZoomMouseCursor()
 {
     mouseMoveCursor = false;	// no mousemove cursor
-
-    QPainter p;
-    QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
-    // the center of the pixmap
-    int mx = cursorPix.	width() / 2;
-    int my = cursorPix.	height() / 2;
-
-    cursorPix.fill ( Qt::white );  // white background
-    p.begin (&cursorPix);
-    p.setPen (QPen ( Qt::black, 2));	// black lines
-
-    p.drawEllipse( mx - 7, my - 7, 14, 14 );
-    p.drawLine( mx + 5, my + 5, mx + 11, my + 11 );
-    p.end();
-
-    // create a mask to make parts of the pixmap invisible
-    QBitmap mask (32, 32);
-    mask.fill ( Qt::color0 );	// all is invisible
-
-    p.begin (&mask);
-    // paint over the parts which should be visible
-    p.setPen( QPen ( Qt::color1, 3 ) );
-    p.drawEllipse( mx - 7, my - 7, 14, 14 );
-    p.drawLine( mx + 5, my + 5, mx + 12, my + 12 );
-    p.end();
-
-    cursorPix.setMask (mask);	// set the mask
-    QCursor cursor (cursorPix);
-    setCursor (cursor);
+    QBitmap cursor = zoomCursorBitmap(2);
+    QBitmap mask   = zoomCursorBitmap(4);
+    setCursor( QCursor(cursor, mask) );
 }
 
 void SkyMap::setDefaultMouseCursor()
 {
     mouseMoveCursor = false;        // no mousemove cursor
-
-    QPainter p;
-    QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
-    // the center of the pixmap
-    int mx = cursorPix.	width() / 2;
-    int my = cursorPix.	height() / 2;
-
-    cursorPix.fill ( Qt::white );  // white background
-    p.begin (&cursorPix);
-    p.setPen( QPen ( Qt::black, 2 ) );	// black lines
-    // 1. diagonal
-    p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
-    p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
-    // 2. diagonal
-    p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
-    p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
-    p.end();
-
-    // create a mask to make parts of the pixmap invisible
-    QBitmap mask (32, 32);
-    mask.fill( Qt::color0 );	// all is invisible
-
-    p.begin (&mask);
-    // paint over the parts which should be visible
-    p.setPen( QPen( Qt::color1, 3 ) );
-    // 1. diagonal
-    p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
-    p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
-    // 2. diagonal
-    p.drawLine (mx - 2, my + 2, mx - 8, mx + 8);
-    p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
-    p.end();
-
-    cursorPix.setMask( mask );  // set the mask
-    QCursor cursor( cursorPix );
-    setCursor( cursor );
+    QBitmap cursor = defaultCursorBitmap(2);
+    QBitmap mask   = defaultCursorBitmap(3);
+    setCursor( QCursor(cursor, mask) );
 }
 
 void SkyMap::setMouseMoveCursor()
