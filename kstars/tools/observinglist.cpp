@@ -981,7 +981,8 @@ void ObservingList::slotWizard() {
 }
 
 void ObservingList::plot( SkyObject *o ) {
-    if( ! o ) return;
+    if( !o )
+        return;
     float DayOffset = 0;
     if( TimeHash.value( o->name(), o->transitTime( dt, geo ) ).hour() > 12 )
         DayOffset = 1;
@@ -989,10 +990,12 @@ void ObservingList::plot( SkyObject *o ) {
     ut.setTime(QTime());
     ut = geo->LTtoUT(ut);
     ut = ut.addSecs( ( 0.5 + DayOffset ) * 86400.0 );
+
     double h1 = geo->GSTtoLST( ut.gst() ).Hours();
-    if ( h1 > 12.0 ) h1 -= 24.0;
-    double h2 = h1 + 24.0;
-    ui->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
+    if ( h1 > 12.0 )
+        h1 -= 24.0;
+
+    ui->View->setSecondaryLimits( h1, h1 + 24.0, -90.0, 90.0 );
     ksal->setLocation(geo);
     ui->View->setSunRiseSetTimes( ksal->getSunRise(),ksal->getSunSet() );
     ui->View->update();
