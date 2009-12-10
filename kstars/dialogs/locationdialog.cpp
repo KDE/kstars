@@ -31,7 +31,7 @@
 #include "kstarsdata.h"
 
 LocationDialog::LocationDialog( QWidget* parent ) :
-    KDialog( parent )
+    KDialog( parent ), timer( 0 )
 {
     KStarsData* data = KStarsData::Instance();
     ui = new Ui::LocationDialog();
@@ -52,9 +52,9 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     }
 
     connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
-    connect( ui->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
-    connect( ui->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
-    connect( ui->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
+    connect( ui->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( enqueueFilterCity() ) );
+    connect( ui->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( enqueueFilterCity() ) );
+    connect( ui->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( enqueueFilterCity() ) );
     connect( ui->NewCityName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
     connect( ui->NewProvinceName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
     connect( ui->NewCountryName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
@@ -121,6 +121,18 @@ void LocationDialog::initCityList() {
         }
     }
 }
+
+void LocationDialog::enqueueFilterCity() {
+    if( timer )
+        timer->stop();
+    else {
+        timer = new QTimer( this );
+        timer->setSingleShot( true );
+        connect( timer, SIGNAL( timeout() ), this, SLOT( filterCity() ) );
+    }
+    timer->start( 500 );
+}
+
 
 void LocationDialog::filterCity() {
     KStarsData* data = KStarsData::Instance();

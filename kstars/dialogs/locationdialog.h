@@ -45,6 +45,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QTimer>
 
 #include <kdialog.h>
 #include "geolocation.h"
@@ -77,7 +78,8 @@ public:
     /**@return pointer to the List of filtered city pointers. */
     QList<GeoLocation*> filteredList() { return filteredCityList; }
 
-    /**@short Show only cities within 3 degrees of point specified by arguments
+    /**
+     * @short Show only cities within 3 degrees of point specified by arguments
      * @param longitude the longitude of the search point (int)
      * @param latitude the latitude of the search point (int)
      */
@@ -96,11 +98,18 @@ public:
     bool addCityEnabled();
 
 public slots:
-    /**When text is entered in the City/Province/Country Filter KLineEdits,
-     * the List of cities is trimmed to show only cities beginning with the entered text.
-     * Also, the QMemArray of ID numbers is kept in sync with the filtered list.
+    /**
+     * When text is entered in the City/Province/Country Filter
+     * KLineEdits, the List of cities is trimmed to show only cities
+     * beginning with the entered text.  Also, the QMemArray of ID
+     * numbers is kept in sync with the filtered list.
      */
     void filterCity();
+
+    /**
+     * @short Filter by city / province / country only after a few milliseconds
+     */
+    void enqueueFilterCity();
 
     /**When the selected city in the QListBox changes, repaint the MapCanvas
      * so that the crosshairs icon appears on the newly selected city.
@@ -128,6 +137,7 @@ private:
     Ui::LocationDialog *ui;
     GeoLocation *SelectedCity;
     QList<GeoLocation*> filteredCityList;
+    QTimer *timer;
 };
 
 #endif
