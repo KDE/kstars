@@ -751,12 +751,10 @@ void SkyMap::paintEvent( QPaintEvent * )
         p.end();
         return ; // exit because the pixmap is repainted and that's all what we want
     }
+    // FIXME: used to to notify infobox about possible change of object coordinates
+    // Not elegant at all. Should find better option
+    showFocusCoords();
 
-    //TIMING
-    // 	QTime t;
-    // 	t.start();
-
-    QPainter psky;
     setMapGeometry();
 
     //FIXME: What to do about the visibility logic?
@@ -774,33 +772,17 @@ void SkyMap::paintEvent( QPaintEvent * )
     // 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
     // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
+    QPainter psky;
     psky.begin( sky );
     psky.setRenderHint(QPainter::Antialiasing, (!slewing && Options::useAntialias()) );
-
     psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-
-    //TIMING
-//     QTime t2;
-//     t2.start();
-
     //Draw all sky elements
     data->skyComposite()->draw( psky );
-
-    //TIMING
-//     kDebug() << QString("SkyMapComposite::draw() took %1 ms").arg(t2.elapsed());
-
     //Finish up
     psky.end();
 
-    //TIMING
-    //	t2.start();
-
     *sky2 = *sky;
     drawOverlays( sky2 );
-
-    //TIMING
-    //	kDebug() << QString("drawOverlays() took %1 ms").arg(t2.elapsed());
-
     //TIMING
     //	t2.start();
 
@@ -809,13 +791,7 @@ void SkyMap::paintEvent( QPaintEvent * )
     psky2.drawPixmap( 0, 0, *sky2 );
     psky2.end();
 
-    //TIMING
-    //	kDebug() << QString("drawImage() took %1 ms").arg(t2.elapsed());
-
     computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
-
-    //TIMING
-    //	kDebug() << QString("Skymap draw took %1 ms").arg(t.elapsed());
 }
 
 double SkyMap::zoomFactor( const int modifier ) {
