@@ -214,64 +214,38 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
     KSNumbers num( ut().djd() );
 
-    //TIMING
-    QTime t;
-
     if ( fabs( ut().djd() - LastNumUpdate.djd() ) > 1.0 ) {
         LastNumUpdate = ut().djd();
-        //TIMING
-        //		t.start();
-
         m_preUpdateNumID++;
         m_preUpdateNum = KSNumbers( num );
         skyComposite()->update( &num );
-
-        //TIMING
-        //		kDebug() << QString("SkyMapComposite::update() took %1 ms").arg(t.elapsed());
     }
 
     if ( fabs( ut().djd() - LastPlanetUpdate.djd() ) > 0.01 ) {
         LastPlanetUpdate = ut().djd();
-        //TIMING
-        //		t.start();
-
         skyComposite()->updatePlanets( &num );
-
-        //TIMING
-        //		kDebug() << QString("SkyMapComposite::updatePlanets() took %1 ms").arg(t.elapsed());
     }
 
     // Moon moves ~30 arcmin/hr, so update its position every minute.
     if ( fabs( ut().djd() - LastMoonUpdate.djd() ) > 0.00069444 ) {
         LastMoonUpdate = ut();
-        //TIMING
-        //		t.start();
-
         skyComposite()->updateMoons( &num );
-
-        //TIMING
-        //		kDebug() << QString("SkyMapComposite::updateMoons() took %1 ms").arg(t.elapsed());
     }
 
     //Update Alt/Az coordinates.  Timescale varies with zoom level
     //If Clock is in Manual Mode, always update. (?)
     if ( fabs( ut().djd() - LastSkyUpdate.djd() ) > 0.1/Options::zoomFactor() || clock()->isManualMode() ) {
         LastSkyUpdate = ut();
-        //TIMING
-        //		t.start();
-
         m_preUpdateID++;
         skyComposite()->update(); //omit KSNumbers arg == just update Alt/Az coords
 
         //Update focus
         skymap->updateFocus();
 
-        //TIMING
-        //		kDebug() << QString("SkyMapComposite::update() for Alt/Az took %1 ms").arg(t.elapsed());
-
         if ( clock()->isManualMode() )
             QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );
-        else skymap->forceUpdate();
+        else
+            skymap->forceUpdate();
     }
 }
 
