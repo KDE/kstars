@@ -84,6 +84,7 @@ protected:
     virtual void mouseDoubleClickEvent(QMouseEvent * event );
     virtual void mouseMoveEvent(QMouseEvent* event );
     virtual void mouseReleaseEvent(QMouseEvent* event);
+    virtual void showEvent(QShowEvent* event);
 private:
     /** Uset to set information about object. */
     void setPoint(QString name, SkyPoint* p);
@@ -91,6 +92,7 @@ private:
     void updateSize();
     
     QStringList m_strings;  // list of string to show
+    bool m_adjusted;        // True if widget coordinates were adjusted
     bool m_grabbed;         // True if widget is dragged around
     bool m_shaded;          // True if widget if shaded
     int  m_anchor;          // Vertical alignment of widget
