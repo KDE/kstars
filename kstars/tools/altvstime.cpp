@@ -36,7 +36,6 @@
 #include "ui_altvstime.h"
 #include "ksalmanac.h"
 #include "dms.h"
-#include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyobject.h"
@@ -55,7 +54,6 @@ AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
 AltVsTime::AltVsTime( QWidget* parent)  :
         KDialog( parent )
 {
-    ks   = KStars::Instance();
     ksal = KSAlmanac::Instance();
     QFrame *page = new QFrame( this );
     setMainWidget(page);
@@ -88,7 +86,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
     topLayout->addWidget( avtUI );
 
-    geo = ks->data()->geo();
+    geo = KStarsData::Instance()->geo();
 
     DayOffset = 0;
     showCurrentDate();
@@ -127,7 +125,7 @@ AltVsTime::~AltVsTime()
 }
 
 void AltVsTime::slotAddSource() {
-    SkyObject *obj = ks->data()->objectNamed( avtUI->nameBox->text() );
+    SkyObject *obj = KStarsData::Instance()->objectNamed( avtUI->nameBox->text() );
 
     if ( obj ) {
         //An object with the current name exists.  If the object is not already
@@ -206,7 +204,7 @@ void AltVsTime::slotAddSource() {
 
 //Use find dialog to choose an object
 void AltVsTime::slotBrowseObject() {
-    QPointer<FindDialog> fd = new FindDialog(ks);
+    QPointer<FindDialog> fd = new FindDialog(this);
     if ( fd->exec() == QDialog::Accepted ) {
         SkyObject *o = fd->selectedObject();
         processObject( o );
@@ -223,9 +221,10 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     KSNumbers *oldNum = 0;
 
     //If the object is in the solar system, recompute its position for the given epochLabel
+    KStarsData* data = KStarsData::Instance();
     if ( o->isSolarSystem() ) {
-        oldNum = new KSNumbers( ks->data()->ut().djd() );
-        o->updateCoords( num, true, geo->lat(), ks->data()->lst() );
+        oldNum = new KSNumbers( data->ut().djd() );
+        o->updateCoords( num, true, geo->lat(), data->lst() );
     }
 
     //precess coords to target epoch
@@ -269,10 +268,10 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 
     //restore original position
     if ( o->isSolarSystem() ) {
-        o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->data()->lst() );
+        o->updateCoords( oldNum, true, data->geo()->lat(), data->lst() );
         delete oldNum;
     }
-    o->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+    o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     delete num;
 }
 
@@ -347,11 +346,12 @@ void AltVsTime::computeSunRiseSetTimes() {
     ksal->setDate( &today);
     ksal->setLocation(geo);
     double sunRise = ksal->getSunRise();
-    double sunSet = ksal->getSunSet();
+    double sunSet  = ksal->getSunSet();
     avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
 }
 
 void AltVsTime::slotUpdateDateLoc() {
+    KStarsData* data = KStarsData::Instance();
     KStarsDateTime today = getDate();
     KSNumbers *num = new KSNumbers( today.djd() );
     KSNumbers *oldNum = 0;
@@ -363,11 +363,11 @@ void AltVsTime::slotUpdateDateLoc() {
     for ( int i = 0; i < avtUI->PlotList->count(); ++i ) {
         QString oName = avtUI->PlotList->item( i )->text().toLower();
 
-        SkyObject *o = ks->data()->objectNamed( oName );
+        SkyObject *o = data->objectNamed( oName );
         if ( o ) {
             //If the object is in the solar system, recompute its position for the given date
             if ( o->isSolarSystem() ) {
-                oldNum = new KSNumbers( ks->data()->ut().djd() );
+                oldNum = new KSNumbers( data->ut().djd() );
                 o->updateCoords( num, true, geo->lat(), &LST );
             }
 
@@ -385,11 +385,11 @@ void AltVsTime::slotUpdateDateLoc() {
 
             //restore original position
             if ( o->isSolarSystem() ) {
-                o->updateCoords( oldNum, true, ks->data()->geo()->lat(), ks->data()->lst() );
+                o->updateCoords( oldNum, true, data->geo()->lat(), data->lst() );
                 delete oldNum;
                 oldNum = 0;
             }
-            o->EquatorialToHorizontal( ks->data()->lst(), ks->data()->geo()->lat() );
+            o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         } else {  //assume unfound object is a custom object
             pList.at(i)->updateCoords( num ); //precess to desired epoch
 
