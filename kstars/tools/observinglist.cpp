@@ -123,7 +123,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->SessionView->setModel( m_SortModelSession );
     ui->SessionView->horizontalHeader()->setStretchLastSection( true );
     ui->SessionView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
-    ksal = KSAlmanac::Instance();
+    ksal = new KSAlmanac;
     ksal->setLocation(geo);
     ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
     ui->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
@@ -212,7 +212,9 @@ ObservingList::ObservingList( KStars *_ks )
 }
 
 ObservingList::~ObservingList()
-{}
+{
+    delete ksal;
+}
 
 //SLOTS
 

@@ -342,11 +342,11 @@ void AltVsTime::computeSunRiseSetTimes() {
     //Determine the time of sunset and sunrise for the desired date and location
     //expressed as doubles, the fraction of a full day.
     KStarsDateTime today = getDate();
-    KSAlmanac *ksal = KSAlmanac::Instance();
-    ksal->setDate( &today);
-    ksal->setLocation(geo);
-    double sunRise = ksal->getSunRise();
-    double sunSet  = ksal->getSunSet();
+    KSAlmanac ksal;
+    ksal.setDate( &today);
+    ksal.setLocation(geo);
+    double sunRise = ksal.getSunRise();
+    double sunSet  = ksal.getSunSet();
     avtUI->View->setSunRiseSetTimes( sunRise, sunSet );
 }
 

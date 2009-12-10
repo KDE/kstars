@@ -18,24 +18,17 @@
 
 #include "ksalmanac.h"
 
-#include <math.h>
+#include <cmath>
 
-#include "skyobjects/kssun.h"
-#include "skyobjects/ksmoon.h"
 #include "geolocation.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
 #include "dms.h"
+#include "skyobjects/kssun.h"
+#include "skyobjects/ksmoon.h"
 #include "skyobjects/skyobject.h"
 
-KSAlmanac* KSAlmanac::pinstance=NULL;
-
-KSAlmanac* KSAlmanac::Instance() {
-    if(!pinstance)
-        pinstance = new KSAlmanac;
-    return pinstance;
-}
 
 KSAlmanac::KSAlmanac() :
     SunRise(0),

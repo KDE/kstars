@@ -41,6 +41,9 @@ class GeoLocation;
 
 class KSAlmanac {
 public:
+    // TODO: Add documentation
+    KSAlmanac(); 
+
     /**
      * This function computes the rise and set time for the given SkyObject. This is done in order to 
      * have a common function for the computation of the Sun and Moon rise and set times.
@@ -58,12 +61,6 @@ public:
      *@param The location to set for computations
      */
     void setLocation( GeoLocation *m_geo );
-
-    /**
-     *@short Returns an instance of this class
-     * TODO: Re-implement as a multiple-instance class
-     */
-    static KSAlmanac* Instance();
 
     /**
      *All the functions returns the fraction of the day
@@ -88,18 +85,15 @@ public:
     double sunZenithAngleToTime( double z );
     
 private:
-    // TODO: Add documentation
-    KSAlmanac(); 
     void update();
     
-    static KSAlmanac *pinstance;
-    KSSun m_Sun;
+    KSSun  m_Sun;
     KSMoon m_Moon;
     KStarsDateTime dt;
     
     GeoLocation *geo;
-    double SunRise, SunSet, MoonRise, MoonSet;
-    QTime SunRiseT, SunSetT, MoonRiseT, MoonSetT;
+    double SunRise,  SunSet,  MoonRise,  MoonSet;
+    QTime  SunRiseT, SunSetT, MoonRiseT, MoonSetT;
 };
 
 #endif

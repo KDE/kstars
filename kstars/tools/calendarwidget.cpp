@@ -74,17 +74,17 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     
     QPolygonF polySunRise;
     QPolygonF polySunSet;
-    KSAlmanac *ksal =KSAlmanac::Instance() ;
+    KSAlmanac ksal;
     //Add points along curved edge of horizon polygons
     int imonth = -1;
     float rTime, sTime;
 
-    ksal->setLocation(data->geo());
+    ksal.setLocation(data->geo());
     while ( y == kdt.date().year() ) {
-        ksal->setDate(&kdt);
+        ksal.setDate(&kdt);
 
-        rTime = ksal->getSunRise()*24.0;
-        sTime = ksal->getSunSet()*24.0 -24.0;
+        rTime = ksal.getSunRise()*24.0;
+        sTime = ksal.getSunSet()*24.0 -24.0;
 //        kDebug()<<rTime<<" "<<sTime;
 //        rTime = sun->riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
 //        sTime = sun->riseSetTime( kdt.djd(), data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
