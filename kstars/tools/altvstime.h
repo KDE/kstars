@@ -24,7 +24,6 @@
 #include <QPaintEvent>
 
 #include "ui_altvstime.h"
-#include "ksalmanac.h"
 
 class KStarsDateTime;
 class QVBoxLayout;
@@ -163,7 +162,6 @@ private:
     GeoLocation *geo;
     QList<SkyObject*> pList;
     QList<SkyObject*> deleteList;
-    KSAlmanac *ksal;
     int DayOffset;
     bool dirtyFlag;
 };
