@@ -97,8 +97,7 @@ KStarsData* KStarsData::pinstance = 0;
 
 KStarsData* KStarsData::Create()
 {
-    if ( pinstance )
-        delete pinstance;
+    delete pinstance;
     pinstance = new KStarsData();
     return pinstance;
 }
