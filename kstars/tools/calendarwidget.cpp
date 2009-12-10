@@ -26,8 +26,6 @@
 #include "skycalendar.h"
 #include "ksalmanac.h"
 
-#include "ksdebug.h"
-
 #define XPADDING 20
 #define YPADDING 20
 #define BIGTICKSIZE 10
