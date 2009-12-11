@@ -98,23 +98,27 @@ void SkyObject::setLongName( const QString &longname ) {
 }
 
 QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact ) {
-    //this object does not rise or set; return an invalid time
-    if ( checkCircumpolar(geo->lat()) )
+
+    // If this object does not rise or set, return an invalid time
+    SkyPoint p = recomputeCoords( dt, geo );
+    if( p.checkCircumpolar( geo->lat() ) )
         return QTime( 25, 0, 0 );
 
     //First of all, if the object is below the horizon at date/time dt, adjust the time
     //to bring it above the horizon
     KStarsDateTime dt2 = dt;
-    SkyPoint p = recomputeCoords( dt, geo );
     dms lst(geo->GSTtoLST( dt.gst() ));
     p.EquatorialToHorizontal( &lst, geo->lat() );
     if ( p.alt()->Degrees() < 0.0 ) {
         if ( p.az()->Degrees() < 180.0 ) { //object has not risen yet
-            dt2 = dt.addSecs( 12.*3600. );
+            dt2 = dt.addSecs( 12.*3600. ); // Move forward 12 hours, to a time when it has already risen
         } else { //object has already set
-            dt2 = dt.addSecs( -12.*3600. );
+            dt2 = dt.addSecs( -12.*3600. ); // Move backward 12 hours, to a time when it has not yet set
         }
     }
+    // The addition / subtraction of 12 hours ensures that we always
+    // compute the _closest_ rise time and the _closest_ set time to
+    // the current time.
 
     return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst, exact ) ) ).time();
 
@@ -127,6 +131,14 @@ QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     // We iterate once more using the calculated UT to compute again
     // the ra and dec for that time and hence the rise/set time.
     // Also, adjust the date by +/- 1 day, if necessary
+
+    // By adding this +/- 1 day, we are double-checking that the
+    // reported rise-time is the _already_ (last) risen time, and that
+    // the reported set-time is the _future_ (next) set time
+    //
+    // However, issues with this are taken care of in
+    // SkyObject::riseSetTime()
+
     KStarsDateTime dt0 = dt;
     dt0.setTime( UT );
     if ( riseT && dt0 > dt ) {
