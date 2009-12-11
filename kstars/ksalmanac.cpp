@@ -51,18 +51,20 @@ void KSAlmanac::update() {
 }
 
 void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ) {
-    //Compute Sun rise and set times
-    KStarsData* data = KStarsData::Instance();
+    // Compute object rise and set times
     const KStarsDateTime today = dt;
     const GeoLocation* _geo = geo;
-    *RiseTime = o->riseSetTime( today.addDays(1), _geo, true );
+    *RiseTime = o->riseSetTime( today.addDays(1), _geo, true ); // The addDays(1) gives the future rise time rather than past
     *SetTime = o->riseSetTime( today, _geo, false );
     *riseTime = -1.0 * RiseTime->secsTo(QTime()) / 86400.0; 
     *setTime = -1.0 * SetTime->secsTo(QTime()) / 86400.0;
-    //check to see if Sun is circumpolar
-    //requires temporary repositioning of Sun to target date
+
+    // Check to see if the object is circumpolar
+    // NOTE: Since we are working on a local copy of the Sun / Moon,
+    //       we freely change the geolocation / time without setting
+    //       them back.
+
     KSNumbers num( dt.djd() );
-    KSNumbers oldNum( data->ut().djd() );
     dms LST = geo->GSTtoLST( dt.gst() );
     o->updateCoords( &num, true, geo->lat(), &LST );
     if ( o->checkCircumpolar( geo->lat() ) ) {
@@ -76,8 +78,6 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
             *setTime = -1.0;
         }
     }
-    o->updateCoords( &oldNum, true, data->geo()->lat(), data->lst() );
-    o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void KSAlmanac::setDate( KStarsDateTime *newdt ) {

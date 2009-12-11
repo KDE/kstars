@@ -45,12 +45,6 @@ public:
     KSAlmanac(); 
 
     /**
-     * This function computes the rise and set time for the given SkyObject. This is done in order to 
-     * have a common function for the computation of the Sun and Moon rise and set times.
-     */
-    void RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime );
-
-    /**
      *@short Set the date for computations to the given date
      *@param The new date to set as a KStarsDateTime
      */
@@ -86,7 +80,13 @@ public:
     
 private:
     void update();
-    
+
+   /**
+     * This function computes the rise and set time for the given SkyObject. This is done in order to 
+     * have a common function for the computation of the Sun and Moon rise and set times.
+     */
+    void RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QTime *RiseTime, QTime *SetTime ); 
+   
     KSSun  m_Sun;
     KSMoon m_Moon;
     KStarsDateTime dt;
