@@ -279,13 +279,6 @@ public:
     dms transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo );
 
     /**
-     *Check whether a source is circumpolar or not. True = cirmcumpolar
-     *False = Not circumpolar
-     *@return true if circumpolar
-     */
-    bool checkCircumpolar( const dms *gLng );
-
-    /**
      *The coordinates for the object on date dt are computed and returned,
      *but the object's internal coordinates are not permanently modified.
      *@return the coordinates of the selected object for the time given by jd

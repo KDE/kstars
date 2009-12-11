@@ -304,10 +304,6 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
     return sp;
 }
 
-bool SkyObject::checkCircumpolar( const dms *gLat ) {
-    return fabs(dec()->Degrees())  >  (90 - fabs(gLat->Degrees()));
-}
-
 QString SkyObject::typeName( void ) const {
     if ( Type==0 ) return i18n( "Star" );
     else if ( Type==1 ) return i18n( "Catalog Star" );
