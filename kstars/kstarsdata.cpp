@@ -145,7 +145,9 @@ KStarsData::~KStarsData() {
     delete m_logObject;
 
     qDeleteAll( geoList );
+#ifdef HAVE_INDI_H
     qDeleteAll( INDIHostsList );
+#endif
     qDeleteAll( ADVtreeList );
 }
 
