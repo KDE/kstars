@@ -24,7 +24,6 @@
 #include <QPaintEvent>
 
 #include "ui_altvstime.h"
-#include "ksalmanac.h"
 
 class KStarsDateTime;
 class QVBoxLayout;
@@ -32,7 +31,6 @@ class KDialog;
 class SkyObject;
 class SkyPoint;
 class GeoLocation;
-class KStars;
 
 class AltVsTimeUI : public QFrame, public Ui::AltVsTime {
     Q_OBJECT
@@ -162,10 +160,8 @@ private:
     QVBoxLayout *topLayout;
 
     GeoLocation *geo;
-    KStars *ks;
     QList<SkyObject*> pList;
     QList<SkyObject*> deleteList;
-    KSAlmanac *ksal;
     int DayOffset;
     bool dirtyFlag;
 };

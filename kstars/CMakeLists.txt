@@ -1,11 +1,8 @@
-add_subdirectory( skycomponents ) 
 add_subdirectory( widgets ) 
-add_subdirectory( tools ) 
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
 add_subdirectory( satlib ) 
 add_subdirectory( htmesh ) 
-add_subdirectory( comast ) 
 
 Find_package(ZLIB REQUIRED)
 

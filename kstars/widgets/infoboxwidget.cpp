@@ -48,6 +48,7 @@ void InfoBoxes::resizeEvent(QResizeEvent*) {
 InfoBoxWidget::InfoBoxWidget(bool shade, QPoint pos, int anchor, QStringList str, QWidget* parent) :
     QWidget(parent),
     m_strings(str),
+    m_adjusted(false),
     m_grabbed(false),
     m_shaded(shade),
     m_anchor(anchor)
@@ -132,6 +133,8 @@ void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
 }
 
 void InfoBoxWidget::adjust() {
+    if( !isVisible() )
+        return;
     // X axis
     int newX = x();
     int maxX = parentWidget()->width() - width();
@@ -153,6 +156,7 @@ void InfoBoxWidget::adjust() {
             m_anchor |= AnchorBottom;
     }
     // Do move
+    m_adjusted = true;
     move(newX, newY);
 }
 
@@ -212,7 +216,13 @@ void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event) {
         m_anchor &= ~AnchorBottom;
     }
     // Do move
+    m_adjusted = true;
     move(newX, newY);
+}
+
+void InfoBoxWidget::showEvent(QShowEvent*) {
+    if( !m_adjusted )
+        adjust();
 }
 
 void InfoBoxWidget::mouseDoubleClickEvent(QMouseEvent*) {

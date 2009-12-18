@@ -499,12 +499,10 @@ public:
     SkyPoint moveAway( SkyPoint &from, double dist );
 
 
-    ////
-    //// 5. Calculating Rise/Set/Transit data.
-    //// =====================================
-
-    //TODO: move rise/set/transit stuff from SkyObject
-
+    /**
+     * @short Check if this point is circumpolar at the given geographic latitude
+     */
+    bool checkCircumpolar( const dms *gLat );
 
 protected:
     /**Precess this SkyPoint's catalog coordinates to the epoch described by the

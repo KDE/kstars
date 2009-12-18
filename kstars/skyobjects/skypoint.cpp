@@ -716,3 +716,10 @@ double SkyPoint::vTopocentric(double vgeo, double vsite[3])
 {
     return vgeo - vRSite(vsite);
 }
+
+bool SkyPoint::checkCircumpolar( const dms *gLat ) {
+    return fabs(dec()->Degrees())  >  (90 - fabs(gLat->Degrees()));
+}
+
+
+

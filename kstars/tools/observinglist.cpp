@@ -123,7 +123,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->SessionView->setModel( m_SortModelSession );
     ui->SessionView->horizontalHeader()->setStretchLastSection( true );
     ui->SessionView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
-    ksal = KSAlmanac::Instance();
+    ksal = new KSAlmanac;
     ksal->setLocation(geo);
     ui->View->setSunRiseSetTimes(ksal->getSunRise(),ksal->getSunSet());
     ui->View->setLimits( -12.0, 12.0, -90.0, 90.0 );
@@ -212,7 +212,9 @@ ObservingList::ObservingList( KStars *_ks )
 }
 
 ObservingList::~ObservingList()
-{}
+{
+    delete ksal;
+}
 
 //SLOTS
 
@@ -290,7 +292,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                     << new QStandardItem( p.dec()->toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() )
-                    << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "h:mm A" ) )
+                    << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "HH:mm" ) )
                     << new QStandardItem( p.alt()->toDMSString() )
                     << new QStandardItem( p.az()->toDMSString() );
         m_Session->appendRow( itemList );
@@ -981,7 +983,8 @@ void ObservingList::slotWizard() {
 }
 
 void ObservingList::plot( SkyObject *o ) {
-    if( ! o ) return;
+    if( !o )
+        return;
     float DayOffset = 0;
     if( TimeHash.value( o->name(), o->transitTime( dt, geo ) ).hour() > 12 )
         DayOffset = 1;
@@ -989,10 +992,12 @@ void ObservingList::plot( SkyObject *o ) {
     ut.setTime(QTime());
     ut = geo->LTtoUT(ut);
     ut = ut.addSecs( ( 0.5 + DayOffset ) * 86400.0 );
+
     double h1 = geo->GSTtoLST( ut.gst() ).Hours();
-    if ( h1 > 12.0 ) h1 -= 24.0;
-    double h2 = h1 + 24.0;
-    ui->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
+    if ( h1 > 12.0 )
+        h1 -= 24.0;
+
+    ui->View->setSecondaryLimits( h1, h1 + 24.0, -90.0, 90.0 );
     ksal->setLocation(geo);
     ui->View->setSunRiseSetTimes( ksal->getSunRise(),ksal->getSunSet() );
     ui->View->update();

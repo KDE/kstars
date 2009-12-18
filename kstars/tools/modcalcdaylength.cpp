@@ -232,11 +232,8 @@ void modCalcDayLength::slotComputeAlmanac() {
 }
 
 void modCalcDayLength::slotCheckFiles() {
-    if ( ! InputFileBatch->lineEdit()->text().isEmpty() && ! OutputFileBatch->lineEdit()->text().isEmpty() ) {
-        RunButtonBatch->setEnabled( true );
-    } else {
-        RunButtonBatch->setEnabled( false );
-    }
+    bool flag = !InputFileBatch->lineEdit()->text().isEmpty() && !OutputFileBatch->lineEdit()->text().isEmpty();
+    RunButtonBatch->setEnabled( flag );
 }
 
 void modCalcDayLength::slotRunBatch() {

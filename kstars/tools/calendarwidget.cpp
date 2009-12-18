@@ -68,28 +68,22 @@ void CalendarWidget::paintEvent( QPaintEvent *e ) {
 void CalendarWidget::drawHorizon( QPainter *p ) {
     KSSun sun;
     KStarsData *data = KStarsData::Instance();
+    // FIXME: OMG!!!
     SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
     int y = skycal->year();
     KStarsDateTime kdt( QDate( y, 1, 1 ), QTime( 12, 0, 0 ) );
     
     QPolygonF polySunRise;
     QPolygonF polySunSet;
-    KSAlmanac *ksal =KSAlmanac::Instance() ;
     //Add points along curved edge of horizon polygons
     int imonth = -1;
     float rTime, sTime;
 
-    ksal->setLocation(data->geo());
     while ( y == kdt.date().year() ) {
-        ksal->setDate(&kdt);
+        rTime = sun.riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
+        sTime = sun.riseSetTime( kdt.djd(),       data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
 
-        rTime = ksal->getSunRise()*24.0;
-        sTime = ksal->getSunSet()*24.0 -24.0;
-//        kDebug()<<rTime<<" "<<sTime;
-//        rTime = sun->riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
-//        sTime = sun->riseSetTime( kdt.djd(), data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
-//        kDebug()<<rTime<<" "<<sTime;
-//        FIXME why do the above two give different values ? ( Difference < 1 min though )
+        // FIXME why do the above two give different values ? ( Difference < 1 min though )
         if ( kdt.date().month() != imonth ) {
             riseTimeList.append( rTime );
             setTimeList.append( sTime );
@@ -98,7 +92,7 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
         
         float t = kdt.date().daysInYear() - kdt.date().dayOfYear();
         polySunRise << mapToWidget( QPointF( rTime, t ) );
-        polySunSet << mapToWidget( QPointF(  sTime, t ) );
+        polySunSet  << mapToWidget( QPointF( sTime, t ) );
         
         kdt = kdt.addDays( 7 );
     }
@@ -108,14 +102,14 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     setTimeList.append( sTime );
     
     //Finish polygons by adding pixRect corners
-    polySunRise << mapToWidget( QPointF( rTime, dataRect().top() ) );
-    polySunRise << mapToWidget( QPointF( dataRect().right(), dataRect().top() ) );
-    polySunRise << mapToWidget( QPointF( dataRect().right(), dataRect().bottom() ) );
-    polySunRise << mapToWidget( QPointF( riseTimeList[0], dataRect().bottom() ) );
-    polySunSet << mapToWidget( QPointF( sTime, dataRect().top() ) );
-    polySunSet << mapToWidget( QPointF( dataRect().left(), pixRect().top() ) );
-    polySunSet << mapToWidget( QPointF( dataRect().left(), pixRect().bottom() ) );
-    polySunSet << mapToWidget( QPointF( setTimeList[0], dataRect().bottom() ) );
+    polySunRise << mapToWidget( QPointF( rTime,              dataRect().top() ) )
+                << mapToWidget( QPointF( dataRect().right(), dataRect().top() ) )
+                << mapToWidget( QPointF( dataRect().right(), dataRect().bottom() ) )
+                << mapToWidget( QPointF( riseTimeList[0],    dataRect().bottom() ) );
+    polySunSet << mapToWidget( QPointF( sTime,             dataRect().top() ) )
+               << mapToWidget( QPointF( dataRect().left(), pixRect().top() ) )
+               << mapToWidget( QPointF( dataRect().left(), pixRect().bottom() ) )
+               << mapToWidget( QPointF( setTimeList[0],    dataRect().bottom() ) );
 
     p->setPen( Qt::darkGreen );
     p->setBrush( Qt::darkGreen );

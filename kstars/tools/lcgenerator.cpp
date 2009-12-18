@@ -83,9 +83,9 @@ LCGenerator::~LCGenerator()
 
 void LCGenerator::VerifyData()
 {
-    QDate StartDate, EndDate;
-    QString Designation;
-
+    QListWidgetItem* item = lcg->DesignationBox->currentItem();
+    if( !item )
+        return;
     if ( ! lcg->StartDateBox->date().isValid() ) {
         KMessageBox::error(this, i18n("Start date invalid."));
         return;
@@ -95,19 +95,15 @@ void LCGenerator::VerifyData()
         return;
     }
 
-    StartDate    = lcg->StartDateBox->date();
-    EndDate      = lcg->EndDateBox->date();
+    QDate StartDate    = lcg->StartDateBox->date();
+    QDate EndDate      = lcg->EndDateBox->date();
     if (EndDate < StartDate) {
         KMessageBox::error(this, i18n("End date must occur after start date."));
         return;
     }
 
-    // Check that we have an integer for average number of days, if data field empty, then make it 'default'
-    Designation  = lcg->DesignationBox->currentItem()->text();
-
     //Download the curve!
-    DownloadCurve(StartDate, EndDate, Designation, lcg->AverageDayBox->value());
-
+    DownloadCurve(StartDate, EndDate, item->text(), lcg->AverageDayBox->value());
 }
 
 void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, const QString &Designation, unsigned int AverageDay)
