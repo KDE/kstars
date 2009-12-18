@@ -292,7 +292,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                     << new QStandardItem( p.dec()->toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() )
-                    << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "h:mm A" ) )
+                    << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "HH:mm" ) )
                     << new QStandardItem( p.alt()->toDMSString() )
                     << new QStandardItem( p.az()->toDMSString() );
         m_Session->appendRow( itemList );
