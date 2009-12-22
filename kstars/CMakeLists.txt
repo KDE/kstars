@@ -188,7 +188,6 @@ set(libkstarscomponents_SRCS
    skycomponents/asteroidscomponent.cpp 
    skycomponents/cometscomponent.cpp 
    skycomponents/jupitermoonscomponent.cpp 
-   skycomponents/saturnmoonscomponent.cpp 
    skycomponents/solarsystemcomposite.cpp 
    skycomponents/satellitecomposite.cpp
    skycomponents/satellitecomponent.cpp
@@ -252,7 +251,6 @@ set(kstars_optionsui_SRCS
 set(kstars_skyobjects_SRCS
   skyobjects/deepskyobject.cpp
   skyobjects/jupitermoons.cpp
-  skyobjects/saturnmoons.cpp
   skyobjects/ksasteroid.cpp
   skyobjects/kscomet.cpp
   skyobjects/ksmoon.cpp
