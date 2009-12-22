@@ -25,7 +25,6 @@ class KSPlanet;
 class KSSun;
 class KSMoon;
 class JupiterMoonsComponent;
-class SaturnMoonsComponent;
 class AsteroidsComponent;
 class CometsComponent;
 class SkyLabeler;
@@ -72,7 +71,6 @@ private:
     KSSun *m_Sun;
     KSMoon *m_Moon;
     PlanetMoonsComponent *m_JupiterMoons;
-    PlanetMoonsComponent *m_SaturnMoons;
     AsteroidsComponent *m_AsteroidsComponent;
     CometsComponent *m_CometsComponent;
     SkyLabeler* m_skyLabeler;

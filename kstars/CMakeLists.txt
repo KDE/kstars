@@ -249,7 +249,6 @@ set(kstars_optionsui_SRCS
 set(kstars_skyobjects_SRCS
   skyobjects/deepskyobject.cpp
   skyobjects/jupitermoons.cpp
-  skyobjects/saturnmoons.cpp
   skyobjects/planetmoons.cpp
   skyobjects/ksasteroid.cpp
   skyobjects/kscomet.cpp

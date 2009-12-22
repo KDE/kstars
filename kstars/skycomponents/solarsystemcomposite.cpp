@@ -55,8 +55,6 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent )
     addComponent( m_JupiterMoons );
     SolarSystemSingleComponent *sat = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::SATURN ), Options::showSaturn, 4 );
     addComponent( sat );
-    m_SaturnMoons = new PlanetMoonsComponent( this, sat, KSPlanetBase::SATURN, &Options::showSaturn);
-    addComponent( m_SaturnMoons );
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::URANUS ), Options::showUranus, 4 ) );
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::NEPTUNE ), Options::showNeptune, 4 ) );
     addComponent( new SolarSystemSingleComponent( this, new KSPluto(), Options::showPluto, 4 ) );
@@ -97,7 +95,6 @@ void SolarSystemComposite::update( KSNumbers *num )
     m_Sun->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     m_Moon->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     m_JupiterMoons->update( num );
-    m_SaturnMoons->update( num );
 
     foreach ( SkyComponent *comp, components() ) {
         comp->update( num );
@@ -120,7 +117,6 @@ void SolarSystemComposite::updateMoons( KSNumbers *num )
     m_Moon->findPosition( num, data->geo()->lat(), data->lst() );
     m_Moon->findPhase();
     m_JupiterMoons->updateMoons( num );
-    m_SaturnMoons->updateMoons( num );
 }
 
 void SolarSystemComposite::draw( QPainter& psky )

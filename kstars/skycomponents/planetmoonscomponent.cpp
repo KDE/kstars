@@ -21,7 +21,6 @@
 #include <QPoint>
 #include <QPainter>
 
-#include "skyobjects/saturnmoons.h"
 #include "skyobjects/jupitermoons.h"
 #include "skyobjects/ksplanetbase.h"
 #include "kstarsdata.h"
@@ -50,11 +49,15 @@ PlanetMoonsComponent::~PlanetMoonsComponent()
 
 void PlanetMoonsComponent::init()
 {
+    /*
     if (planet == KSPlanetBase::JUPITER)
         pmoons = new JupiterMoons();
     else
         pmoons = new SaturnMoons();
-
+    */
+    Q_ASSERT( planet == KSPlanetBase::JUPITER );
+    delete pmoons;
+    pmoons = new JupiterMoons();
     int nmoons = pmoons->nMoons();
     for ( int i=0; i<nmoons; ++i ) 
         objectNames(SkyObject::MOON).append( pmoons->name(i) );
@@ -153,7 +156,7 @@ void PlanetMoonsComponent::clearTrailsExcept( SkyObject *exOb ) {
 
 void PlanetMoonsComponent::draw( QPainter& psky )
 {
-    if ( !( (planet == KSPlanetBase::SATURN && Options::showSaturn() ) || (planet == KSPlanetBase::JUPITER && Options::showJupiter() ) ) ) return;
+    if ( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) ) return;
 
     SkyMap *map = SkyMap::Instance();
 
@@ -198,11 +201,12 @@ void PlanetMoonsComponent::draw( QPainter& psky )
         QPointF o = map->toScreen( pmoons->moon(i) );
 
         if ( ! map->onScreen( o ) ) continue;
-
+        /*
         if (planet ==KSPlanetBase::SATURN)
 	  SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::SATURN_MOON_LABEL );
 	else
-	  SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::JUPITER_MOON_LABEL );
+        */
+        SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::JUPITER_MOON_LABEL );
     }
 }
 
