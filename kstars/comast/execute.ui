@@ -293,7 +293,7 @@
            <item>
             <widget class="QPushButton" name="Slew">
              <property name="text">
-              <string>Slew Telescope</string>
+              <string comment="Move the telescope to an object or location">Slew Telescope</string>
              </property>
             </widget>
            </item>
