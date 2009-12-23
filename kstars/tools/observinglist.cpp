@@ -1265,6 +1265,8 @@ void ObservingList::slotImageViewer() {
 }
 
 void ObservingList::slotDeleteImages() {
+    if( KMessageBox::warningYesNo( 0, i18n( "This will delete all saved images! Are you sure you want to do this?" ), i18n( "Delete All Images" ) ) == KMessageBox::No )
+        return;
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
     ui->GoogleImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
@@ -1277,6 +1279,7 @@ void ObservingList::slotDeleteImages() {
     QDirIterator iterator( KStandardDirs::locateLocal( "appdata", "" ) );
     while( iterator.hasNext() )
     {
+        // TODO: Probably, there should be a different directory for cached images in the observing list.
         if( iterator.fileName().contains( "Image" ) && ( ! iterator.fileName().contains( "dat" ) ) && ( ! iterator.fileName().contains( "obslist" ) ) ) {
             QFile file( iterator.filePath() );
             file.remove();
