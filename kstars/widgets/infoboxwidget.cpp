@@ -15,16 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QPainter>
-#include <QMouseEvent>
-#include <QFontMetrics>
+#include "infoboxwidget.h"
 
 #include "kstarsdata.h"
 #include "colorscheme.h"
 #include "ksutils.h"
-
-#include "widgets/infoboxwidget.h"
-
+#include <QPainter>
+#include <QMouseEvent>
+#include <QFontMetrics>
 
 const int InfoBoxWidget::padX = 6;
 const int InfoBoxWidget::padY = 2;
