@@ -16,15 +16,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kstarsdata.h"
-#include "observeradd.h"
-#include "ui_observeradd.h"
-
 #include <QFile>
 
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
+#include "kstarsdata.h"
+#include "observeradd.h"
+#include "ui_observeradd.h"
 #include "observer.h"
 
 ObserverAdd::ObserverAdd() {
