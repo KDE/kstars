@@ -18,6 +18,7 @@
 
 #include <kdebug.h>
 
+#include "planetmoons.h"
 #include "ksnumbers.h"
 #include "ksplanet.h"
 #include "kssun.h"
