@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "kstarsdata.h"
-#include "comast/observeradd.h"
+#include "observeradd.h"
 #include "ui_observeradd.h"
 
 #include <QFile>
@@ -25,7 +25,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 
-#include "comast/observer.h"
+#include "observer.h"
 
 ObserverAdd::ObserverAdd() {
     // Setting up the widget from the .ui file and adding it to the KDialog
