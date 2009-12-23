@@ -72,9 +72,9 @@ EquipmentWriter::EquipmentWriter() {
 }
 
 void EquipmentWriter::slotAddScope() {
-    while ( ks->data()->logObject()->findScopeById( i18n("scope_") + QString::number( nextScope ) ) )
+    while ( ks->data()->logObject()->findScopeById( i18nc( "prefix for ID number identifying a telescope (optional)", "scope" ) + '_' + QString::number( nextScope ) ) )
     nextScope++;
-    Comast::Scope *s = new Comast::Scope( i18n( "scope_" ) + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
+    Comast::Scope *s = new Comast::Scope( i18nc( "prefix for ID number identifying a telescope (optional)", "scope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
     ks->data()->logObject()->scopeList()->append( s );
     saveEquipment(); //Save the new list.
     ui.Model->clear();
@@ -124,9 +124,9 @@ void EquipmentWriter::slotNewScope() {
 }
 
 void EquipmentWriter::slotAddEyepiece() {
-    while ( ks->data()->logObject()->findEyepieceById( i18n("eyepiece_") + QString::number( nextEyepiece ) ) )
+    while ( ks->data()->logObject()->findEyepieceById( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece ) ) )
     nextEyepiece++;
-    Comast::Eyepiece *e = new Comast::Eyepiece( i18n("eyepiece_") + QString::number( nextEyepiece++ ), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
+    Comast::Eyepiece *e = new Comast::Eyepiece( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece++ ), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
     ks->data()->logObject()->eyepieceList()->append( e );
     saveEquipment(); //Save the new list.
     ui.e_Id->clear();
@@ -181,9 +181,9 @@ void EquipmentWriter::slotNewEyepiece() {
 }
 
 void EquipmentWriter::slotAddLens() {
-    while ( ks->data()->logObject()->findLensById( i18n("lens_") + QString::number( nextLens ) ) )
+    while ( ks->data()->logObject()->findLensById( i18nc("prefix for ID number identifying a lens (optional)", "lens") + '_' + QString::number( nextLens ) ) )
     nextLens++;
-    Comast::Lens *l = new Comast::Lens( i18n("lens_") + QString::number( nextLens++ ), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
+    Comast::Lens *l = new Comast::Lens( i18nc("prefix for ID number identifying a lens (optional)", "lens") + '_' + QString::number( nextLens++ ), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
     ks->data()->logObject()->lensList()->append( l );
     saveEquipment(); //Save the new list.
     ui.l_Id->clear();
@@ -234,9 +234,9 @@ void EquipmentWriter::slotNewLens() {
 }
 
 void EquipmentWriter::slotAddFilter() {
-    while ( ks->data()->logObject()->findFilterById( i18n("filter_") + QString::number( nextFilter ) ) )
+    while ( ks->data()->logObject()->findFilterById( i18nc("prefix for ID number identifying a filter (optional)", "filter") + '_' + QString::number( nextFilter ) ) )
     nextFilter++;
-    Comast::Filter *f = new Comast::Filter( i18n("filter_") + QString::number( nextFilter++ ), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
+    Comast::Filter *f = new Comast::Filter( i18nc("prefix for ID number identifying a filter (optional)", "filter") + '_' + QString::number( nextFilter++ ), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
     ks->data()->logObject()->filterList()->append( f );
     saveEquipment(); //Save the new list.
     ui.f_Id->clear();
