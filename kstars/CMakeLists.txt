@@ -377,7 +377,6 @@ if (INDI_FOUND)
 install( FILES kstarsui-indi.rc DESTINATION  ${DATA_INSTALL_DIR}/kstars/ RENAME kstarsui.rc)
 else (INDI_FOUND)
 install( FILES kstarsui.rc DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
-message(STATUS "INDI NOT FOUND!")
 endif(INDI_FOUND)
 
 install( FILES fitsviewer.rc  DESTINATION  ${DATA_INSTALL_DIR}/kstars/ )
