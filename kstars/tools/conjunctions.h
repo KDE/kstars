@@ -26,6 +26,9 @@
 #define CONJUNCTIONS_H_
 
 #include <QTextStream>
+#include <QAbstractTableModel>
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
 
 #include "ui_conjunctions.h"
 #include "skyobjects/skyobject.h"
@@ -55,17 +58,26 @@ public slots:
     void showProgress(int);
     void slotFindObject();
     void slotGoto();
+    void slotFilterType( int );
+    void slotClear();
+    void slotExport();
+    void slotFilterReg( const QString & );
 
 private:
     SkyObject *Object1;
     KSPlanetBase *Object2;        // Second object is always a planet.
-    
+
     QHash<int, QString> pNames;   // To store the names of Planets vs. values expected by KSPlanetBase::createPlanet()
     QMap<int, long double> outputJDList; // To store Julian Days corresponding to the row index in the output list widget
 
-    void showConjunctions(const QMap<long double, dms> &conjunctionlist);
+    void showConjunctions(const QMap<long double, dms> &conjunctionlist, QString object);
 
     GeoLocation *geoPlace;
+
+    QStandardItemModel *m_Model;
+    QSortFilterProxyModel *m_SortModel;
+
+    int m_index;
 };
 
 #endif

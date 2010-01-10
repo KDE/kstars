@@ -1,60 +1,64 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ConjunctionsDlg</class>
- <widget class="QWidget" name="ConjunctionsDlg" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ConjunctionsDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>464</width>
-    <height>408</height>
+    <height>445</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" >
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QGridLayout" name="gridLayout" >
-     <item row="0" column="1" >
-      <widget class="KPushButton" name="LocationButton" >
-       <property name="text" >
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="1">
+      <widget class="KPushButton" name="LocationButton">
+       <property name="text">
         <string>Greenwich, United Kingdom</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1" >
-      <widget class="QDateTimeEdit" name="startDate" />
+     <item row="1" column="1">
+      <widget class="QDateTimeEdit" name="startDate"/>
      </item>
-     <item row="2" column="0" >
-      <widget class="QLabel" name="label_2" >
-       <property name="text" >
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
         <string>Ending on:</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1" >
-      <widget class="QDateTimeEdit" name="stopDate" />
+     <item row="2" column="1">
+      <widget class="QDateTimeEdit" name="stopDate"/>
      </item>
-     <item row="3" column="1" >
-      <layout class="QHBoxLayout" name="horizontalLayout" >
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QPushButton" name="Obj1FindButton" >
-         <property name="text" >
+        <widget class="KComboBox" name="FilterTypeComboBox"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="Obj1FindButton">
+         <property name="text">
           <string>Find Object...</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_4" >
-         <property name="text" >
+        <widget class="QLabel" name="label_4">
+         <property name="text">
           <string>and</string>
          </property>
-         <property name="alignment" >
+         <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="KComboBox" name="Obj2ComboBox" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+        <widget class="KComboBox" name="Obj2ComboBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -63,48 +67,51 @@
        </item>
       </layout>
      </item>
-     <item row="1" column="0" >
-      <widget class="QLabel" name="label" >
-       <property name="text" >
+     <item row="1" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
         <string>Starting on:</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0" >
-      <widget class="QLabel" name="label_3" >
-       <property name="text" >
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
         <string>Show conjunctions/oppositions for:</string>
        </property>
       </widget>
      </item>
-     <item row="3" column="0" >
-      <widget class="QLabel" name="textLabel1" >
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Preferred" hsizetype="Minimum" >
+     <item row="3" column="0">
+      <widget class="QLabel" name="textLabel1">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Between objects:</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="0" >
-      <widget class="QLabel" name="label_5" >
-       <property name="text" >
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
         <string>Maximum allowed separation:</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="1" >
-      <layout class="QHBoxLayout" name="horizontalLayout_5" >
+     <item row="4" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
        <item>
-        <spacer name="horizontalSpacer_3" >
-         <property name="orientation" >
+        <widget class="dmsBox" name="maxSeparationBox"/>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
            <height>20</height>
@@ -112,80 +119,64 @@
          </property>
         </spacer>
        </item>
-       <item>
-        <widget class="dmsBox" name="maxSeparationBox" />
-       </item>
       </layout>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QStackedWidget" name="ComputeStack" >
-     <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+    <widget class="QStackedWidget" name="ComputeStack">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="currentIndex" >
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="page" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+     <widget class="QWidget" name="page">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_4" >
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2" >
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <spacer name="horizontalSpacer" >
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
+          <widget class="KComboBox" name="Opposition">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+           <item>
+            <property name="text">
+             <string>Conjunction</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Opposition</string>
+            </property>
+           </item>
+          </widget>
          </item>
-	 <item>
-        <widget class="KComboBox" name="Opposition" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-	 <item>
-        <property name="text" >
-         <string>Conjunction</string>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Opposition</string>
-        </property>
-       </item>
-        </widget>
-       </item>
          <item>
-          <widget class="QPushButton" name="ComputeButton" >
-           <property name="text" >
+          <widget class="QPushButton" name="ComputeButton">
+           <property name="text">
             <string>Compute</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer_2" >
-           <property name="orientation" >
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
              <height>20</height>
@@ -193,22 +184,36 @@
            </property>
           </spacer>
          </item>
+         <item>
+          <widget class="KPushButton" name="ExportButton">
+           <property name="text">
+            <string>Export</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KPushButton" name="ClearButton">
+           <property name="text">
+            <string>Clear</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="page_2" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+     <widget class="QWidget" name="page_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3" >
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QProgressBar" name="progress" >
-         <property name="value" >
-          <number>24</number>
+        <widget class="QProgressBar" name="progress">
+         <property name="value">
+          <number>0</number>
          </property>
         </widget>
        </item>
@@ -217,20 +222,43 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2" >
-     <property name="title" >
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
       <string>Conjunctions / Oppositions</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" >
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QListWidget" name="OutputView" >
-        <property name="sizePolicy" >
-         <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
+       <widget class="QTableView" name="OutputList">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
         </property>
        </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QPushButton" name="ClearFilterButton">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="KLineEdit" name="FilterEdit"/>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -239,14 +267,19 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>dmsBox</class>
