@@ -18,6 +18,12 @@
 #include "skycalendar.h"
 
 #include <QDesktopWidget>
+#include <QPixmap>
+#include <QPainter>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QFontInfo>
+#include <kdeprintdialog.h>
 #include <kdebug.h>
 #include <KPlotObject>
 #include <KPushButton>
@@ -214,6 +220,78 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
 }
 
 void SkyCalendar::slotPrint() {
+    QPainter p;                 // Our painter object
+    QPrinter printer;           // Our printer object
+    QString str_legend;         // Text legend
+    QString str_year;           // Calendar's year
+    bool ok( false );           // True if the user click "Print" button in print dialog
+    int text_height = 200;      // Height of legend text zone in points
+    QSize calendar_size;        // Initial calendar widget size
+    QFont calendar_font;        // Initial calendar font
+    int calendar_font_size;     // Initial calendar font size
+
+    // Set printer resolution to 300 dpi
+    printer.setResolution( 300 );
+
+    // Open print dialog
+    QPrintDialog *dialog = KdePrint::createPrintDialog( &printer, this );
+    dialog->setWindowTitle( i18n( "Print sky calendar" ) );
+    if ( dialog->exec() == QDialog::Accepted ) {
+        ok = true;
+    }
+    delete dialog;
+
+    // If the user click on "Print" button
+    if ( ok ) {
+        // Change mouse cursor
+        QApplication::setOverrideCursor( Qt::WaitCursor );
+
+        // Save calendar widget font
+        calendar_font = scUI->CalendarView->font();
+        // Save calendar widget font size
+        calendar_font_size = calendar_font.pointSize();
+        // Save calendar widget size
+        calendar_size = scUI->CalendarView->size();
+
+        // Set text legend
+        str_year.setNum( year() );
+        str_legend = i18n( "Sky Calendar" );
+        str_legend += "\n";
+        str_legend += geo->fullName();
+        str_legend += " - ";
+        str_legend += str_year;
+
+        // Create a rectangle for legend text zone
+        QRect text_rect( 0, 0, printer.width(), text_height );
+
+        // Increase calendar widget font size so it looks good in 300 dpi
+        calendar_font.setPointSize( calendar_font_size * 3 );
+        scUI->CalendarView->setFont( calendar_font );
+        // Increase calendar widget size to fit the entire page
+        scUI->CalendarView->resize( printer.width(), printer.height() - text_height );
+
+        // Create a pixmap and render calendar widget into it
+        QPixmap pixmap(  scUI->CalendarView->size() );
+        scUI->CalendarView->render( &pixmap );
+
+        // Begin painting on printer
+        p.begin( &printer );
+        // Draw legend
+        p.drawText( text_rect, Qt::AlignLeft, str_legend );
+        // Draw calendar
+        p.drawPixmap( 0, text_height, pixmap );
+        // Ending painting
+        p.end();
+
+        // Restore calendar widget font size
+        calendar_font.setPointSize( calendar_font_size );
+        scUI->CalendarView->setFont( calendar_font );
+        // Restore calendar widget size
+        scUI->CalendarView->resize( calendar_size );
+
+        // Restore mouse cursor
+        QApplication::restoreOverrideCursor();
+    }
 }
 
 void SkyCalendar::slotLocation() {

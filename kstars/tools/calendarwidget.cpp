@@ -164,7 +164,7 @@ void CalendarWidget::drawAxes( QPainter *p ) {
     
     //Draw month labels along each horizon curve
     QFont origFont = p->font();
-    p->setFont( QFont( "Monospace", 14 ) );
+    p->setFont( QFont( "Monospace", origFont.pointSize() + 5 ) );
     int textFlags = Qt::TextSingleLine | Qt::AlignCenter;
     QFontMetricsF fm( p->font(), p->device() );
     for ( int imonth=1; imonth <= 12; ++ imonth ) {
