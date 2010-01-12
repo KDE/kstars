@@ -1598,11 +1598,11 @@ void SkyMap::startXplanet( const QString & outputFile ) {
     if ( Options::xplanetFOV() )
         *xplanetProc << "-fov" << fov.setNum( this->fov() ).replace( '.', ',' );
     if ( Options::xplanetConfigFile() )
-        *xplanetProc << "-config" << Options::Options::xplanetConfigFilePath();
+        *xplanetProc << "-config" << Options::xplanetConfigFilePath();
     if ( Options::xplanetStarmap() )
         *xplanetProc << "-starmap" << Options::xplanetStarmapPath();
     if ( Options::xplanetArcFile() )
-        *xplanetProc << "-arc_file" << Options::Options::xplanetArcFilePath();
+        *xplanetProc << "-arc_file" << Options::xplanetArcFilePath();
     if ( Options::xplanetWait() )
         *xplanetProc << "-wait" << Options::xplanetWaitValue();
     if ( !outputFile.isEmpty() )
