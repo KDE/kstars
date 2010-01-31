@@ -51,18 +51,19 @@ void ListComponent::update( KSNumbers *num )
         return;
     KStarsData *data = KStarsData::Instance();
     foreach ( SkyObject *o, objectList() ) {
-        if ( num ) o->updateCoords( num );
+        if( num )
+            o->updateCoords( num );
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
 }
 
 SkyObject* ListComponent::findByName( const QString &name ) {
-    foreach ( SkyObject *o, objectList() )
-    if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 || 
-        QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 || 
-        QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 )
-        return o;
-
+    foreach( SkyObject *o, objectList() ) {
+        if( QString::compare( o->name(),     name, Qt::CaseInsensitive ) == 0 ||
+            QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 ||
+            QString::compare( o->name2(),    name, Qt::CaseInsensitive ) == 0 )
+            return o;
+    }
     //No object found
     return 0;
 }
