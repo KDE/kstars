@@ -30,7 +30,7 @@
 #include "Options.h"
 #include "skylabeler.h"
 
-SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize) :
+SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)()) :
     SkyComponent( parent, visibleMethod ),
     m_Earth( parent->earth() ),
     m_Planet( kspb )

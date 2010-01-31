@@ -43,21 +43,21 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent )
     m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
 
     m_Sun = new KSSun();
-    addComponent( new SolarSystemSingleComponent( this, m_Sun, Options::showSun, 8 ) );
+    addComponent( new SolarSystemSingleComponent( this, m_Sun, Options::showSun ) );
     m_Moon = new KSMoon();
-    addComponent( new SolarSystemSingleComponent( this, m_Moon, Options::showMoon, 8 ) );
-    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::MERCURY ), Options::showMercury, 4 ) );
-    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::VENUS ), Options::showVenus, 4 ) );
-    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::MARS ), Options::showMars, 4 ) );
-    SolarSystemSingleComponent *jup = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::JUPITER ), Options::showJupiter, 4 );
+    addComponent( new SolarSystemSingleComponent( this, m_Moon, Options::showMoon ) );
+    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::MERCURY ), Options::showMercury ) );
+    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::VENUS ), Options::showVenus ) );
+    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::MARS ), Options::showMars ) );
+    SolarSystemSingleComponent *jup = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::JUPITER ), Options::showJupiter );
     addComponent( jup );
     m_JupiterMoons = new PlanetMoonsComponent( this, jup, KSPlanetBase::JUPITER, &Options::showJupiter);
     addComponent( m_JupiterMoons );
-    SolarSystemSingleComponent *sat = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::SATURN ), Options::showSaturn, 4 );
+    SolarSystemSingleComponent *sat = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::SATURN ), Options::showSaturn );
     addComponent( sat );
-    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::URANUS ), Options::showUranus, 4 ) );
-    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::NEPTUNE ), Options::showNeptune, 4 ) );
-    addComponent( new SolarSystemSingleComponent( this, new KSPluto(), Options::showPluto, 4 ) );
+    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::URANUS ), Options::showUranus ) );
+    addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::NEPTUNE ), Options::showNeptune ) );
+    addComponent( new SolarSystemSingleComponent( this, new KSPluto(), Options::showPluto ) );
 
     m_AsteroidsComponent = new AsteroidsComponent( this, Options::showAsteroids );
     addComponent( m_AsteroidsComponent );
