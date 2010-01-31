@@ -54,13 +54,6 @@ public:
     /* @short Draw the list of objects on the SkyMap */
     virtual void draw( QPainter& psky );
 
-    /* @short draw the label if any.  Is currently called at the bottom of
-     * draw() but that call could be removed and it could be called
-     * externally AFTER draw() has been called so draw() can set up the label
-     * position candidates.
-     */
-    void drawLabels( QPainter& psky );
-
     /**@short Update the sky positions of this component.
      *
      * This function usually just updates the Horizontal (Azimuth/Altitude)
@@ -83,15 +76,12 @@ public:
     }
 
 private:
-    QList<SkyPoint*> pointList;
-    int LabelPosition;
-    QString Label;
-    QPen Pen;
-
-    SkyLabeler* m_skyLabeler;
-    int m_iLeft, m_iRight, m_iTop, m_iBot;  // the four label position
-    // candidates
-
+    /* @short draw the label if any.  Is currently called at the bottom of
+     * draw() but that call could be removed and it could be called
+     * externally AFTER draw() has been called so draw() can set up the label
+     * position candidates.
+     */
+    void drawLabels( QPainter& psky );
 
     /* @short This routine does two things at once.  It returns the QPointF
      * corresponding to pointList[i] and also computes the angle using
@@ -100,6 +90,14 @@ private:
      *       1 <= i < pointList.size().
      */
     QPointF angleAt( SkyMap* map, int i, double *angle );
+
+    QList<SkyPoint*> pointList;
+    int LabelPosition;
+    QString Label;
+    QPen Pen;
+
+    SkyLabeler* m_skyLabeler;
+    int m_iLeft, m_iRight, m_iTop, m_iBot; // the four label position candidates
 };
 
 #endif
