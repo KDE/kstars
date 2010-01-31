@@ -53,51 +53,29 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     m_skyLabeler = SkyLabeler::Instance();
 
     m_skyMesh = SkyMesh::Create( 3 );  // level 5 mesh = 8192 trixels
-
-    m_skyMesh->debug( 0 );               //  1 => print "indexing ..."
+    m_skyMesh->debug( 0 );
+    //  1 => print "indexing ..."
     //  2 => prints totals too
     // 10 => prints detailed lists
     // You can also set the debug level of individual
     // appendLine() and appendPoly() calls.
-    //Add all components
-    m_MilkyWay = new MilkyWay( this );
-    addComponent( m_MilkyWay );
-    //Stars must come before constellation lines
-    m_Stars = StarComponent::Create( this );
-    addComponent( m_Stars );
 
-    m_CoordinateGrid = new CoordinateGrid( this );
-    addComponent( m_CoordinateGrid );
+    //Add all components
+    //Stars must come before constellation lines
+    addComponent( m_MilkyWay       = new MilkyWay( this ));
+    addComponent( m_Stars          = StarComponent::Create( this ));
+    addComponent( m_CoordinateGrid = new CoordinateGrid( this ));
 
     // Do add to components.
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
-
     m_Cultures = new CultureList();
-
-    m_CLines = new ConstellationLines( this );
-    addComponent( m_CLines );
-
-    m_CNames = new ConstellationNamesComponent( this );
-    addComponent( m_CNames );
-
-    m_Equator = new Equator( this );
-    addComponent( m_Equator );
-
-    m_Ecliptic = new Ecliptic( this );
-    addComponent( m_Ecliptic );
-
-    m_Horizon = new HorizonComponent( this );
-    addComponent( m_Horizon );
-
-    m_Satellites = new SatelliteComposite( this );
-    addComponent( m_Satellites );
-
-    //m_DeepSky = new DeepSkyComponent( this, &Options::showDeepSky,
-    //		&Options::showMessier, &Options::showNGC, &Options::showIC,
-    //		&Options::showOther, &Options::showMessierImages );
-
-    m_DeepSky = new DeepSkyComponent( this );
-    addComponent( m_DeepSky );
+    addComponent( m_CLines     = new ConstellationLines( this ));
+    addComponent( m_CNames     = new ConstellationNamesComponent( this ));
+    addComponent( m_Equator    = new Equator( this ));
+    addComponent( m_Ecliptic   = new Ecliptic( this ));
+    addComponent( m_Horizon    = new HorizonComponent( this ));
+    addComponent( m_Satellites = new SatelliteComposite( this ));
+    addComponent( m_DeepSky    = new DeepSkyComponent( this ));
 
     m_CustomCatalogs = new SkyComposite( this );
     for ( int i=0; i<Options::catalogFile().size(); ++ i ) {
@@ -106,11 +84,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
         m_CustomCatalogs->addComponent( cc );
     }
 
-    m_SolarSystem = new SolarSystemComposite( this );
-    addComponent( m_SolarSystem );
-
-    m_Flags = new FlagComponent( this );
-    addComponent( m_Flags );
+    addComponent( m_SolarSystem = new SolarSystemComposite( this ));
+    addComponent( m_Flags       = new FlagComponent( this ));
 
     connect( this, SIGNAL( progressText( const QString & ) ),
              KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
