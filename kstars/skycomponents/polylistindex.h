@@ -60,8 +60,6 @@ public:
 
     PolyList* ContainingPoly( SkyPoint *p );
 
-    PolyIndex* polyIndex() { return & m_polyIndex; }
-
     const PolyNameHash& nameHash() { return m_nameHash; }
 
     void summary();
