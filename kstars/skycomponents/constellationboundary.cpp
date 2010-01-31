@@ -198,17 +198,5 @@ const QPolygonF* ConstellationBoundary::constellationPoly( SkyPoint *p )
     return 0;
 }
 
-bool ConstellationBoundary::inConstellation( const QString &name, SkyPoint *p )
-{
-    PolyList* polyList = m_nameHash.value( name );
-    if ( !polyList )
-        return false;
-    const QPolygonF* poly = polyList->poly();
-    return poly->containsPoint( QPointF( p->ra()->Hours(),
-                                         p->dec()->Degrees() ), Qt::OddEvenFill );
-}
-
-
-
 void ConstellationBoundary::init() {}
 void ConstellationBoundary::draw(QPainter&) {}
