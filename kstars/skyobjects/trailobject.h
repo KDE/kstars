@@ -18,10 +18,11 @@
 #ifndef TRAILOBJECT_H_
 #define TRAILOBJECT_H_
 
+#include <QSet>
+
 #include "skyobject.h"
 
-
-#define MAXTRAIL 400  //maximum number of points in a planet trail
+#define MAXTRAIL 400
 
 /**
  *@class TrailObject
@@ -43,34 +44,22 @@ public:
 
     virtual TrailObject* clone() const;
     
-    /**
-     *@return whether the planet has a trail
-     */
+    /** @return whether the planet has a trail */
     inline bool hasTrail() const { return ( Trail.count() > 0 ); }
 
-    /**
-     *@return a reference to the planet's trail
-     */
-    inline QList<SkyPoint>& trail() { return Trail; }
+    /** @return a reference to the planet's trail */
+    inline const QList<SkyPoint>& trail() const { return Trail; }
 
-    /**
-     *@short adds a point to the planet's trail
-     */
+    /** @short adds a point to the planet's trail */
     inline void addToTrail() { Trail.append( SkyPoint( ra(), dec() ) ); }
 
-    /**
-     *@short removes the oldest point from the trail
-     */
+    /** @short removes the oldest point from the trail */
     inline void clipTrail() { Trail.removeFirst(); }
 
-    /**
-     *@short clear the Trail
-     */
+    /** @short clear the Trail */
     inline void clearTrail() { Trail.clear(); }
 
-    /**
-     *@short update Horizontal coords of the trail
-     */
+    /** @short update Horizontal coords of the trail */
     void updateTrail( dms *LST, const dms *lat );
 
     /**
@@ -81,10 +70,8 @@ public:
      */
     virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
 
-
 protected:
     QList<SkyPoint> Trail;
-
 };
 
 #endif

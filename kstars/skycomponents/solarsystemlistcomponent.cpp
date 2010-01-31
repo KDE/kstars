@@ -112,7 +112,7 @@ void SolarSystemListComponent::drawTrails( QPainter& psky ) {
         //DEBUG
         kDebug() << obj->name() << endl;
         // FIXME: get rid of cast
-        KSPlanetBase *ksp = (KSPlanetBase*)obj;
+        TrailObject *ksp = (TrailObject*)obj;
         if ( ! ksp->hasTrail() ) continue;
 
         SkyPoint p = ksp->trail().first();

@@ -121,7 +121,7 @@ void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms 
         if ( lat && LST ) {
             findPosition( num, lat, LST, kd->skyComposite()->earth() );
             //Don't add to the trail this time
-            if ( hasTrail() )
+            if( hasTrail() )
                 Trail.takeLast();
         } else {
             findGeocentricPosition( num, kd->skyComposite()->earth() );
@@ -140,7 +140,8 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 
     if ( hasTrail() ) {
         addToTrail();
-        if ( Trail.size() > MAXTRAIL ) Trail.takeFirst();
+        if ( Trail.size() > MAXTRAIL )
+            clipTrail();
     }
 
     if ( isMajorPlanet() || type() == SkyObject::ASTEROID || type() == SkyObject::COMET || type() == SkyObject::MOON )
