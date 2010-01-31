@@ -74,27 +74,6 @@ public:
      */
     void reindexLines();
 
-    /* @short Typically called from within a subclasses init() method.
-     * Adds the trixels covering the outline of lineList to the lineIndex.
-     *
-     * @param debug if greater than zero causes the number of trixels found
-     * to be printed.
-     */
-    void appendLine( LineList* lineList, int debug=0 );
-
-    /* @short Typically called from within a subclasses init() method.
-     * Adds the trixels covering the full lineList to the polyIndex.
-     *
-     * @param debug if greater than zero causes the number of trixels found
-     * to be printed.
-     */
-    void appendPoly( LineList* lineList, int debug=0 );
-
-    /* @short a convenience method that adds a lineList to both the lineIndex
-     * and the polyIndex.
-     */
-    void appendBoth( LineList* lineList, int debug=0 );
-
     //----- Drawing Routines -----
 
     /* @short.  The top level draw routine.  Draws all the LineLists for any
@@ -148,6 +127,28 @@ public:
     void summary();
 
 protected:
+     /* @short Typically called from within a subclasses init() method.
+     * Adds the trixels covering the outline of lineList to the lineIndex.
+     *
+     * @param debug if greater than zero causes the number of trixels found
+     * to be printed.
+     */
+    void appendLine( LineList* lineList, int debug=0 );
+
+    /* @short Typically called from within a subclasses init() method.
+     * Adds the trixels covering the full lineList to the polyIndex.
+     *
+     * @param debug if greater than zero causes the number of trixels found
+     * to be printed.
+     */
+    void appendPoly( LineList* lineList, int debug=0 );
+
+    /* @short a convenience method that adds a lineList to both the lineIndex
+     * and the polyIndex.
+     */
+    void appendBoth( LineList* lineList, int debug=0 );
+
+
     /* @short a callback overridden by NoPrecessIndex so it can use the
      * drawing code with the non-reverse-precessed mesh buffer.
      */
