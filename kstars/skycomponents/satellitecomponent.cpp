@@ -60,7 +60,7 @@ void SatelliteComponent::initSat( const QString &name, SPositionSat *pSat[], int
         p->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
         appendP( p );
-        jdList().append( pSat[i]->jd );
+        JDList.append( pSat[i]->jd );
 
     }
 }
@@ -71,16 +71,16 @@ void SatelliteComponent::draw( QPainter &psky ) {
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
 
-    if ( jdList().size() == 0 ) return;
+    if ( JDList.size() == 0 ) return;
 
     //Add tickmarks and timestamps along the portion of the
     //satellite track that is above the horizon
     //The time at each position is stored in the pSat array
     //as the julian day.  Parse these days, and interpolate to find
     //times with :00 seconds (e.g., 12:34:00)
-    KStarsDateTime dtLast( jdList()[0] );
-    for ( int i=1; i<jdList().size(); ++i ) {
-        KStarsDateTime dt( jdList()[i] );
+    KStarsDateTime dtLast( JDList[0] );
+    for ( int i=1; i<JDList.size(); ++i ) {
+        KStarsDateTime dt( JDList[i] );
         SkyPoint *sp = points()->at(i);
         SkyPoint *sp2;
         if ( i<points()->size()-1 )

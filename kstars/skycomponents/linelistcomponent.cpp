@@ -28,15 +28,15 @@
 #include "skylabeler.h"
 
 
-LineListComponent::LineListComponent( SkyComponent *parent )
-        : SkyComponent( parent ), LabelPosition( NoLabel ), Label( QString() )
+LineListComponent::LineListComponent( SkyComponent *parent ) :
+    SkyComponent( parent ),
+    LabelPosition( NoLabel )
 {
     m_skyLabeler = SkyLabeler::Instance();
 }
 
 LineListComponent::~LineListComponent()
 {}
-
 
 // I don't think the ecliptic or the celestial equator should precess. -jbb
 void LineListComponent::update( KSNumbers * )
@@ -57,7 +57,7 @@ void LineListComponent::draw( QPainter &psky )
 
     SkyMap *map = SkyMap::Instance();
 
-    psky.setPen( pen() );
+    psky.setPen( Pen );
 
     bool isVisible, isVisibleLast;
     SkyPoint  *pLast, *pThis;
@@ -199,7 +199,7 @@ void LineListComponent::drawLabels( QPainter& psky )
     for ( int j = firstI; j < 4; j++ ) {
         o[j] = angleAt( map, i[j], &a[j] );
         if ( fabs( a[j] ) > comfyAngle ) continue;
-        if ( skyLabeler()->drawGuideLabel( psky, o[j], Label, a[j] ) )
+        if ( m_skyLabeler->drawGuideLabel( psky, o[j], Label, a[j] ) )
             return;
         okay[j] = false;
     }
@@ -222,7 +222,7 @@ void LineListComponent::drawLabels( QPainter& psky )
         if ( i[j] && okay[j] && fabs(a[j]) < fabs(a[bestI]) ) bestI = j;
     }
 
-    skyLabeler()->drawGuideLabel( psky, o[bestI], Label, a[bestI] );
+    m_skyLabeler->drawGuideLabel( psky, o[bestI], Label, a[bestI] );
 }
 
 

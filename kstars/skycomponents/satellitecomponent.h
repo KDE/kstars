@@ -34,18 +34,13 @@ public:
     /**@short Destructor.  Delete list members */
     ~SatelliteComponent();
 
-    /** Exists only to make this class constructible. */
+    /* Exists only to make this class constructible. */
     virtual void init();
+    virtual bool selected();
+    virtual void draw( QPainter &psky );
 
-    /**@short Initialize the component using a SPositionSat array
-     */
+    /**@short Initialize the component using a SPositionSat array */
     void initSat(const QString &name, SPositionSat *pSat[], int nsteps);
-
-    bool selected();
-
-    void draw( QPainter &psky );
-
-    QList<double>& jdList() { return JDList; }
 
 private:
     QStringList SatelliteNames;
