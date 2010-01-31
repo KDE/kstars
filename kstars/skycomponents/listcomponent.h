@@ -67,7 +67,6 @@ public:
     void clear();
 
 private:
-    SkyComposite *Parent;
     QList<SkyObject*> ObjectList;
 };
 

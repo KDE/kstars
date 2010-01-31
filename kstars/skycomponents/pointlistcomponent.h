@@ -61,7 +61,6 @@ public:
     QList<SkyPoint*>& pointList() { return m_PointList; }
 
 private:
-    SkyComponent *Parent;
     QList<SkyPoint*> m_PointList;
 };
 
