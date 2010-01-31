@@ -1097,24 +1097,21 @@ bool SkyMap::onScreen( QPointF &pointF ) {
 }
 
 bool SkyMap::onScreen( QPointF &p1, QPointF &p2 ) {
-    if ( ( p1.x() < 0        && p2.x() < 0 ) ||
-            ( p1.y() < 0        && p2.y() < 0 ) ||
-            ( p1.x() > scaledRect().width() && 
-              p2.x() > scaledRect().width() ) ||
-            ( p1.y() > scaledRect().height() && 
-              p2.y() > scaledRect().height() ) )
-        return false;
-    return true;
+    return !( ( p1.x() < 0        && p2.x() < 0 ) ||
+              ( p1.y() < 0        && p2.y() < 0 ) ||
+              ( p1.x() > scaledRect().width() &&
+                p2.x() > scaledRect().width() ) ||
+              ( p1.y() > scaledRect().height() &&
+                p2.y() > scaledRect().height() ) );
 }
 
 bool SkyMap::onScreen( QPoint &p1, QPoint &p2 ) {
-    if ( ( p1.x() < 0        && p2.x() < 0 ) ||
-            ( p1.y() < 0        && p2.y() < 0 ) ||
-            ( p1.x() > scaledRect().width() && 
-              p2.x() > scaledRect().width() ) ||
-            ( p1.y() > scaledRect().height() && 
-              p2.y() > scaledRect().height() ) ) return false;
-    return true;
+    return !( ( p1.x() < 0        && p2.x() < 0 ) ||
+              ( p1.y() < 0        && p2.y() < 0 ) ||
+              ( p1.x() > scaledRect().width() &&
+                p2.x() > scaledRect().width() ) ||
+              ( p1.y() > scaledRect().height() &&
+                p2.y() > scaledRect().height() ) );
 }
 
 bool SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
