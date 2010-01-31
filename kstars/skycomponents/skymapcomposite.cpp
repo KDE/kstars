@@ -522,14 +522,6 @@ float SkyMapComposite::faintStarMagnitude() const {
     return m_Stars->faintMagnitude();
 }
 
-int SkyMapComposite::starColorMode() const {
-    return m_Stars->starColorMode();
-}
-
-int SkyMapComposite::starColorIntensity() const {
-    return m_Stars->starColorIntensity();
-}
-
 QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() {
     return m_DeepSky->objectList();
 }

@@ -630,14 +630,6 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
     return oBest;
 }
 
-int StarComponent::starColorMode( void ) const {
-    return KStarsData::Instance()->colorScheme()->starColorMode();
-}
-
-int StarComponent::starColorIntensity( void ) const {
-    return KStarsData::Instance()->colorScheme()->starColorIntensity();
-}
-
 void StarComponent::byteSwap( starData *stardata ) {
     stardata->RA = bswap_32( stardata->RA );
     stardata->Dec = bswap_32( stardata->Dec );

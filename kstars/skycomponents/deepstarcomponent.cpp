@@ -402,14 +402,6 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
     return oBest;
 }
 
-int DeepStarComponent::starColorMode( void ) const {
-    return KStarsData::Instance()->colorScheme()->starColorMode();
-}
-
-int DeepStarComponent::starColorIntensity( void ) const {
-    return KStarsData::Instance()->colorScheme()->starColorIntensity();
-}
-
 void DeepStarComponent::byteSwap( deepStarData *stardata ) {
     stardata->RA = bswap_32( stardata->RA );
     stardata->Dec = bswap_32( stardata->Dec );

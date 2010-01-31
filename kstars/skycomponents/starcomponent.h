@@ -93,24 +93,8 @@ class StarComponent: public ListComponent
 
     virtual void init();
 
-    /**@return the current setting of the color mode for stars (0=real colors,
-        *1=solid red, 2=solid white or 3=solid black).
-        */
-    int starColorMode( void ) const;
 
-    /**@short Retrieve the color-intensity value for stars.
-        *
-        *When using the "realistic colors" mode for stars, stars are rendered as 
-        *white circles with a colored border.  The "color intensity" setting modulates
-        *the relative thickness of this colored border, so it effectively adjusts
-        *the color-saturation level for star images.
-        *@return the current setting of the color intensity setting for stars.
-        */
-    int starColorIntensity( void ) const;
-
-    /**
-     *@return the magnitude of the faintest star
-     */
+    /** @return the magnitude of the faintest star */
     float faintMagnitude() const;
 
     /**
