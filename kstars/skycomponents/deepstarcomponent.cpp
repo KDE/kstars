@@ -279,8 +279,7 @@ void DeepStarComponent::draw( QPainter& psky ) {
 
                 if ( ! map->onScreen( o ) ) continue;
                 
-                curStar->draw( psky, o.x(), o.y(), sc->starRenderingSize( mag ), (starColorMode()==0),
-                               starColorIntensity(), true );
+                curStar->draw( psky, o.x(), o.y(), sc->starRenderingSize( mag ) );
                 visibleStarCount++;
             }
         }

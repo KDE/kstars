@@ -162,9 +162,8 @@ void CustomCatalogComponent::draw( QPainter &psky )
                 float zoomlim = 7.0 + ( Options::zoomFactor()/MINZOOM)/50.0;
                 float mag = starobj->mag();
                 float sizeFactor = 2.0;
-                int size = int( map->scale()*sizeFactor*(zoomlim - mag) ) + 1;
-                if (size>int(23*map->scale())) size=int(23*map->scale());
-                starobj->draw( psky, o.x(), o.y(), size, Options::starColorMode(), Options::starColorIntensity(), true );
+                int size = map->scale()*sizeFactor*(zoomlim - mag) + 1;
+                starobj->draw( psky, o.x(), o.y(), size );
             } else {
                 //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
                 DeepSkyObject *dso = (DeepSkyObject*)obj;

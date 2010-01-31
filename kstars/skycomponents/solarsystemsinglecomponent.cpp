@@ -172,7 +172,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
         StarObject fakeStar( 0, 0, 0, QString(), QString(), SpecType, 0.0, 0.0, 0.0, false, false, 0); // TODO: Choose the spectral type based on the colour
         if( size < 1.0 )
             size = 1.0;
-        fakeStar.draw( psky, o.x(), o.y(), fakeStarSize, (data->colorScheme()->starColorMode() == 0), data->colorScheme()->starColorIntensity(), false );
+        fakeStar.draw( psky, o.x(), o.y(), fakeStarSize);
     }
     else {
         //Draw planet image if:

@@ -314,9 +314,9 @@ void StarComponent::draw( QPainter& psky )
         Trixel currentRegion = region.next();
         StarList* starList = m_starIndex->at( currentRegion );
         for (int i=0; i < starList->size(); ++i) {
-        
             StarObject *curStar = starList->at( i );
-            if( !curStar ) continue;
+            if( !curStar )
+                continue;
             
             if ( curStar->updateID != updateID )
                 curStar->JITupdate( data );
@@ -324,21 +324,21 @@ void StarComponent::draw( QPainter& psky )
             float mag = curStar->mag();
             
             // break loop if maglim is reached
-            if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) ) {
+            if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
                 break;
-            }
                  
-            if ( ! map->checkVisibility( curStar ) ) continue;
+            if ( ! map->checkVisibility( curStar ) )
+                continue;
             QPointF o = map->toScreen( curStar );
             
-            if ( ! map->onScreen( o ) ) continue;
+            if ( ! map->onScreen( o ) )
+                continue;
 
-            curStar->draw( psky, o.x(), o.y(), starRenderingSize( mag ), (starColorMode()==0),
-                           starColorIntensity(), true );
+            curStar->draw( psky, o.x(), o.y(), starRenderingSize( mag ) );
             visibleStarCount++;
             
-            if ( m_hideLabels || mag > labelMagLim ) continue;
-            
+            if ( m_hideLabels || mag > labelMagLim )
+                continue;
             addLabel( o, curStar );
         }
     }
@@ -351,8 +351,7 @@ void StarComponent::draw( QPainter& psky )
         if ( map->checkVisibility( focusStar ) ) {
             QPointF o = map->toScreen( focusStar );
             if ( map->onScreen( o ) ) {
-                focusStar->draw( psky, o.x(), o.y(), starRenderingSize( mag ), (starColorMode()==0),
-                                 starColorIntensity(), true );
+                focusStar->draw( psky, o.x(), o.y(), starRenderingSize( mag ) );
                 visibleStarCount++;
             }
         }

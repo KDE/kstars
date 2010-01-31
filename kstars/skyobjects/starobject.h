@@ -18,7 +18,6 @@
 #ifndef STAROBJECT_H_
 #define STAROBJECT_H_
 
-#include <qpoint.h>
 #include <QMap>
 #include <QPixmap>
 
@@ -26,8 +25,6 @@
 #include "stardata.h"
 #include "deepstardata.h"
 
-class QPainter;
-class QString;
 class KSPopupMenu;
 class KStarsData;
 
@@ -96,9 +93,7 @@ public:
     /** Copy constructor */
     StarObject(const StarObject& o);
 
-    /**
-     * Destructor. (Empty)
-     */
+    /** Destructor. (Empty) */
     ~StarObject() { }
 
     /**
@@ -129,52 +124,42 @@ public:
      */
     void setNames( QString name, QString name2 );
 
-    /**
-     *@return true if the star has a name ("star" doesn't count)
-     */
+    /** @return true if the star has a name ("star" doesn't count) */
     inline bool hasName() const { return ( !Name.isEmpty() && Name!=starString ); }
 
-    /**
-        *If star is unnamed return "star" otherwise return the name
-        */
+    /** If star is unnamed return "star" otherwise return the name */
     inline virtual QString name( void ) const { return hasName() ? Name : starString;}
 
-    /**
-        *If star is unnamed return "star" otherwise return the longname
-        */
+    /** If star is unnamed return "star" otherwise return the longname */
     inline virtual QString longname( void ) const { return hasLongName() ? LongName : starString; }
 
-    /**
-        *Returns entire spectral type string
-        *@return Spectral Type string
-        */
+    /**Returns entire spectral type string
+     * @return Spectral Type string
+     */
     QString sptype( void ) const;
 
-    /**
-        *Returns the genetive name of the star.
-        *@return genetive name of the star
-        */
+    /**Returns the genetive name of the star.
+     * @return genetive name of the star
+     */
     QString gname( bool useGreekChars=true ) const;
 
-    /**
-        *Returns the greek letter portion of the star's genetive name.
-        *Returns empty string if star has no genetive name defined.
-        *@return greek letter portion of genetive name
-        */
+    /**Returns the greek letter portion of the star's genetive name.
+     * Returns empty string if star has no genetive name defined.
+     * @return greek letter portion of genetive name
+     */
     QString greekLetter( bool useGreekChars=true ) const;
 
-    /**@return the genitive form of the star's constellation.
-        */
+    /**@return the genitive form of the star's constellation. */
     QString constell( void ) const;
 
     /**Determine the current coordinates (RA, Dec) from the catalog
-        *coordinates (RA0, Dec0), accounting for both precession and nutation.
-        *@param num pointer to KSNumbers object containing current values of
-        *time-dependent variables.
-        *@param includePlanets does nothing in this implementation (see KSPlanetBase::updateCoords()).
-        *@param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
-        *@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
-        */
+     * coordinates (RA0, Dec0), accounting for both precession and nutation.
+     * @param num pointer to KSNumbers object containing current values of
+     * time-dependent variables.
+     * @param includePlanets does nothing in this implementation (see KSPlanetBase::updateCoords()).
+     * @param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
+     * @param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
+     */
     virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
 
     /* @short fills ra and dec with the coordinates of the star with the proper
@@ -185,52 +170,42 @@ public:
      */
     void getIndexCoords( KSNumbers *num, double *ra, double *dec );
 
-    /* @short added for JIT updates from both StarComponent and ConstellationLines
-     */
+    /**@short added for JIT updates from both StarComponent and ConstellationLines */
     void JITupdate( KStarsData* data );
 
-    /* @short returns the magnitude of the proper motion correction in milliarcsec/year
-     */
+    /**@short returns the magnitude of the proper motion correction in milliarcsec/year */
     double pmMagnitude();
 
     /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
-        *Note that the RA component is multiplied by cos(dec).
-        *@param pmra the new RA propoer motion
-        *@param pmdec the new Dec proper motion
-        */
+     * Note that the RA component is multiplied by cos(dec).
+     * @param pmra the new RA propoer motion
+     * @param pmdec the new Dec proper motion
+     */
     inline void setProperMotion( double pmra, double pmdec ) { PM_RA = pmra; PM_Dec = pmdec; }
 
-    /**@return the RA component of the star's proper motion, in mas/yr (multiplied by cos(dec))
-        */
+    /**@return the RA component of the star's proper motion, in mas/yr (multiplied by cos(dec)) */
     inline double pmRA() const { return PM_RA; }
 
-    /**@return the Dec component of the star's proper motion, in mas/yr
-        */
+    /**@return the Dec component of the star's proper motion, in mas/yr */
     inline double pmDec() const { return PM_Dec; }
 
-    /**@short set the star's parallax angle, in milliarcsec
-        */
+    /**@short set the star's parallax angle, in milliarcsec */
     inline void setParallax( double plx ) { Parallax = plx; }
 
-    /**@return the star's parallax angle, in milliarcsec
-        */
+    /**@return the star's parallax angle, in milliarcsec */
     inline double parallax() const { return Parallax; }
 
-    /**@return the star's distance from the Sun in parsecs, as computed from the parallax.
-        */
+    /**@return the star's distance from the Sun in parsecs, as computed from the parallax. */
     inline double distance() const { return 1000./parallax(); }
 
     /**@short set the star's multiplicity flag (i.e., is it a binary or multiple star?)
-        *@param m true if binary/multiple star system
-        */
+     * @param m true if binary/multiple star system */
     inline void setMultiple( bool m ) { Multiplicity = m; }
 
-    /**@return whether the star is a binary or multiple starobject
-        */
+    /**@return whether the star is a binary or multiple starobject */
     inline bool isMultiple() const { return Multiplicity; }
 
-    /**@return the star's HD index
-        */
+    /**@return the star's HD index */
     inline int getHDIndex() { return HD; }
 
     /**@short set the star's variability flag
@@ -242,8 +217,17 @@ public:
         */
     inline bool isVariable() const { return Variability; }
 
-    void draw( QPainter &psky, float x, float y, float size,
-               bool useRealColors, int scIntensity, bool drawMultiple=true );
+    /**@short Draw star as pixmap
+     * @p psky QPainter object
+     * @p sp spetral class of star (Letter from Harvard classification)
+     * @p x X position
+     * @p y Y position
+     * @p size size of a star.
+     */
+    static void drawStar(QPainter& psky, char sp, float x, float y, float size );
+
+    /**@short Draw star */
+    inline void draw( QPainter &psky, float x, float y, float size );
 
     /* @short returns the name, the magnitude or both.
      */
@@ -289,5 +273,10 @@ private:
     bool Multiplicity, Variability;
     int HD;
 };
+
+
+inline void StarObject::draw( QPainter &psky, float x, float y, float size ) {
+    StarObject::drawStar(psky, SpType[0], x, y, size);
+}
 
 #endif
