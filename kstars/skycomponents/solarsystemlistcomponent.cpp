@@ -28,12 +28,10 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 
-SolarSystemListComponent::SolarSystemListComponent( SolarSystemComposite *p, bool (*visibleMethod)(), int msize )
-        : ListComponent( (SkyComponent*)p, visibleMethod )
-{
-    m_Earth = p->earth();
-    minsize = msize;
-}
+SolarSystemListComponent::SolarSystemListComponent( SolarSystemComposite *p, bool (*visibleMethod)() ) :
+    ListComponent( p, visibleMethod ),
+    m_Earth( p->earth() )
+{}
 
 SolarSystemListComponent::~SolarSystemListComponent()
 {
@@ -56,7 +54,7 @@ void SolarSystemListComponent::updatePlanets(KSNumbers *num ) {
         KStarsData *data = KStarsData::Instance(); 
         foreach ( SkyObject *o, objectList() ) {
             KSPlanetBase *p = (KSPlanetBase*)o;
-            p->findPosition( num, data->geo()->lat(), data->lst(), earth() );
+            p->findPosition( num, data->geo()->lat(), data->lst(), m_Earth );
             p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
             if ( p->hasTrail() )

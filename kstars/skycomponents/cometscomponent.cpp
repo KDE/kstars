@@ -31,10 +31,9 @@
 #include "skymap.h"
 #include "skylabeler.h"
 
-CometsComponent::CometsComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize )
-        : SolarSystemListComponent( parent, visibleMethod, msize )
-{
-}
+CometsComponent::CometsComponent( SolarSystemComposite *parent, bool (*visibleMethod)())
+        : SolarSystemListComponent( parent, visibleMethod )
+{}
 
 CometsComponent::~CometsComponent() {
     //object deletion handled in grandparent class (ListComponent)

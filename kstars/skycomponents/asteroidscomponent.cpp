@@ -32,8 +32,8 @@
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
 
-AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize)
-        : SolarSystemListComponent(parent, visibleMethod, msize)
+AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)()) :
+    SolarSystemListComponent(parent, visibleMethod)
 {}
 
 AsteroidsComponent::~AsteroidsComponent()

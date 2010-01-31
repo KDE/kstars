@@ -47,7 +47,7 @@ public:
     	*@p visibleMethod 
     	*@p msize
     	*/
-    AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2);
+    AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)());
 
     /**
     	*Destructor.  Delete all list members

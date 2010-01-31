@@ -32,7 +32,7 @@ class SolarSystemComposite;
 class SolarSystemListComponent : public ListComponent
 {
 public:
-    SolarSystemListComponent( SolarSystemComposite *parent, bool (*visibleMethod)(), int msize);
+    SolarSystemListComponent( SolarSystemComposite *parent, bool (*visibleMethod)());
     ~SolarSystemListComponent();
 
     virtual void update( KSNumbers *num );
@@ -59,14 +59,9 @@ public:
     virtual bool removeTrail( SkyObject *o );
     virtual void clearTrailsExcept( SkyObject *exOb );
 
-protected:
-    KSPlanet* earth() { return m_Earth; }
-
 private:
-    int minsize;
     KSPlanet *m_Earth;
     QList<SkyObject*> m_TrailList;
-
 };
 
 #endif

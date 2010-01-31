@@ -40,7 +40,7 @@ public:
     	*@p visibleMethod 
     	*@p msize
     	*/
-    CometsComponent(SolarSystemComposite *parent, bool (*visibleMethod)(), int msize = 2);
+    CometsComponent(SolarSystemComposite *parent, bool (*visibleMethod)());
 
     /**
     	*Destructor.  Delete all list members
