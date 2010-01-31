@@ -51,13 +51,13 @@ public:
     inline const QList<SkyPoint>& trail() const { return Trail; }
 
     /** @short adds a point to the planet's trail */
-    inline void addToTrail() { Trail.append( SkyPoint( ra(), dec() ) ); }
+    void addToTrail();
 
     /** @short removes the oldest point from the trail */
-    inline void clipTrail() { Trail.removeFirst(); }
+    void clipTrail();
 
     /** @short clear the Trail */
-    inline void clearTrail() { Trail.clear(); }
+    void clearTrail();
 
     /** @short update Horizontal coords of the trail */
     void updateTrail( dms *LST, const dms *lat );
@@ -72,6 +72,9 @@ public:
 
 protected:
     QList<SkyPoint> Trail;
+
+    /// Store list of objects with trails.
+    static QSet<TrailObject*> trailObjects;
 };
 
 #endif

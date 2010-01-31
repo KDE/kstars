@@ -18,6 +18,8 @@
 #include "trailobject.h"
 #include "kspopupmenu.h"
 
+QSet<TrailObject*> TrailObject::trailObjects;
+
 TrailObject::TrailObject( int t, dms r, dms d, float m, const QString &n ) 
   : SkyObject( t, r, d, m, n )
 {}
@@ -39,3 +41,18 @@ void TrailObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
     pmenu->createPlanetMenu( this ); pmenu->popup( pos );
 }
 
+void TrailObject::addToTrail() {
+    Trail.append( SkyPoint( ra(), dec() ) );
+    trailObjects.insert( this );
+}
+
+void TrailObject::clipTrail() {
+    Trail.removeFirst();
+    if( Trail.size() )
+        trailObjects.remove( this );
+}
+
+void TrailObject::clearTrail() {
+    Trail.clear();
+    trailObjects.remove( this );
+}
