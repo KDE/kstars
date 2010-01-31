@@ -34,6 +34,7 @@
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
 #include "skyobjects/ksplanet.h"
+#include "skycomponents/skymapcomposite.h"
 
 namespace {
     // convert time to decimal hours since midnight
