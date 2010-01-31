@@ -69,18 +69,15 @@ public:
     /* @short we need a custom routine (for now) so we don't
      * precess the locations of the names.
      */
-    void update( KSNumbers *num );
+    virtual void update( KSNumbers *num );
 
-    /**
-     *@short Return true if we are using localized constellation names
-     */
+    /** *@short Return true if we are using localized constellation names */
     inline bool isLocalCNames() { return localCNames; }
 
-    bool selected();
+    virtual bool selected();
 
- private:
+private:
     bool localCNames;
-
 };
 
 #endif

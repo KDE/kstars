@@ -38,8 +38,7 @@ ConstellationNamesComponent::~ConstellationNamesComponent()
 bool ConstellationNamesComponent::selected()
 {
     return Options::showCNames() &&
-           ! ( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
-
+           !( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
 }
 
 void ConstellationNamesComponent::init()
@@ -115,31 +114,29 @@ void ConstellationNamesComponent::update( KSNumbers* )
 
 void ConstellationNamesComponent::draw( QPainter& psky )
 {
-    if ( ! selected() ) return;
+    if ( ! selected() )
+        return;
 
     SkyMap *map = SkyMap::Instance();
-    KStarsData *data = KStarsData::Instance();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     skyLabeler->useStdFont( psky );
-    psky.setPen( QColor( data->colorScheme()->colorNamed( "CNameColor" ) ) );
+    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
     QString name;
-    for ( int i = 0; i < objectList().size(); i++) {
-        SkyObject* p = objectList().at( i );
-        if ( ! map->checkVisibility( p ) ) continue;
+    foreach(SkyObject *p, objectList()) {
+        if( ! map->checkVisibility( p ) )
+            continue;
 
         QPointF o = map->toScreen( p );
-        if ( ! map->onScreen( o ) ) continue;
+        if( ! map->onScreen( o ) )
+            continue;
 
-        if ( Options::useLatinConstellNames() || Options::useLocalConstellNames() ) {
+        if( Options::useLatinConstellNames() || Options::useLocalConstellNames() )
             name = p->name();
-        }
-        else {
+        else
             name = p->name2();
-        }
 
-        float dx = 5.*( name.length() );
-        o.setX( o.x() - dx );
+        o.setX( o.x() - 5.0 * name.length() );
         skyLabeler->drawGuideLabel( psky, o, name, 0.0 );
     }
 
