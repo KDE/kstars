@@ -15,8 +15,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #include "comast/log.h"
 #include "kstars.h"
+#include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
 #include "skymap.h"
 #include "skycomponents/constellationboundary.h"
