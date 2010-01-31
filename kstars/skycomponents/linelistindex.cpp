@@ -173,18 +173,11 @@ bool LineListIndex::skipAt( LineList *lineList, int i )
 {
     Q_UNUSED(lineList)
     Q_UNUSED(i)
-                                        // left this in .cpp because
-    return false;                      // it generates compiler warnings.
-}                                      // -jbb
+    return false;
+}
 
-
-// Yet another 2 callbacks.  These are used in LabeledListIndex
 void LineListIndex::updateLabelCandidates( const QPointF& /*o*/, LineList* /*lineList*/, int /*i*/ )
 {}
-
-void LineListIndex::updateLabelCandidates( const QPoint& /*o*/, LineList* /*lineList*/, int /*i*/ )
-{}
-
 
 void LineListIndex::drawAllLines( QPainter& psky )
 {

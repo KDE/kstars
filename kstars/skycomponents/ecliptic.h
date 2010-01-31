@@ -52,10 +52,6 @@ protected:
         m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
     }
 
-    virtual void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
-        m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
-    }
-
 private:
     LineListLabel m_label;
 

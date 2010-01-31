@@ -169,8 +169,6 @@ protected:
 
     virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i );
 
-    virtual void updateLabelCandidates( const QPoint& o, LineList* lineList, int i );
-
 private:
     QString      m_name;
     int          m_lineIndexCnt;
