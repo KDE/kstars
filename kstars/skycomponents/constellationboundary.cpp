@@ -47,10 +47,6 @@ void ConstellationBoundary::appendPoly( PolyList* polyList, KSFileReader* file, 
     if ( ! file || debug == -1)
         return appendPoly( polyList, debug );
 
-    m_nameHash.insert( polyList->name(), polyList );
-    if( !polyList->localizedName().isEmpty() )
-        m_nameHash.insert( polyList->localizedName(), polyList );
-
     while ( file->hasMoreLines() ) {
         QString line = file->readLine();
         if ( line.at( 0 ) == ':' ) return;
@@ -61,10 +57,6 @@ void ConstellationBoundary::appendPoly( PolyList* polyList, KSFileReader* file, 
 
 void ConstellationBoundary::appendPoly( PolyList* polyList, int debug)
 {
-    m_nameHash.insert( polyList->name(), polyList );
-    if( !polyList->localizedName().isEmpty() )
-        m_nameHash.insert( polyList->localizedName(), polyList );
-
     if ( debug >= 0 && debug < m_skyMesh->debug() ) debug = m_skyMesh->debug();
 
     const IndexHash& indexHash = m_skyMesh->indexPoly( polyList->poly() );

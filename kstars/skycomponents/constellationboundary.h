@@ -66,7 +66,6 @@ private:
     SkyMesh*                 m_skyMesh;
     PolyIndex                m_polyIndex;
     int                      m_polyIndexCnt;
-    PolyNameHash             m_nameHash;
 };
 
 
