@@ -158,23 +158,18 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     if( fakeStarSize > 15.0 ) 
         fakeStarSize = 15.0;
     float size = m_Planet->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if ( size < fakeStarSize && m_Planet->name() != "Sun" && m_Planet->name() != "Moon" ) {
+    if( size < fakeStarSize && m_Planet->name() != "Sun" && m_Planet->name() != "Moon" ) {
         // Draw them as bright stars of appropriate color instead of images
-        QString SpecType;
-        KStarsData *data = KStarsData::Instance();
-        SpecType = "B0";
+        char spType;
         if( m_Planet->name() == i18n("Mars") ) {
-            SpecType = "K5";
+            spType = 'K';
+        } else if( m_Planet->name() == i18n("Jupiter") || m_Planet->name() == i18n("Mercury") || m_Planet->name() == i18n("Saturn") ) {
+            spType = 'F';
+        } else {
+            spType = 'B';
         }
-        if( m_Planet->name() == i18n("Jupiter") || m_Planet->name() == i18n("Mercury") || m_Planet->name() == i18n("Saturn") ) {
-            SpecType = "F5";
-        }
-        StarObject fakeStar( 0, 0, 0, QString(), QString(), SpecType, 0.0, 0.0, 0.0, false, false, 0); // TODO: Choose the spectral type based on the colour
-        if( size < 1.0 )
-            size = 1.0;
-        fakeStar.draw( psky, o.x(), o.y(), fakeStarSize);
-    }
-    else {
+        StarObject::drawStar( psky, spType, o.x(), o.y(), fakeStarSize);
+    } else {
         //Draw planet image if:
         if( size < sizemin )
             size = sizemin;
