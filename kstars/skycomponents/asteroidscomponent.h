@@ -83,10 +83,6 @@ public:
      * than the draw threshold.
      */
     SkyObject* objectNearest( SkyPoint *p, double &maxrad );
-
-private:
-    AsterIndex  m_asterIndex;
-
 };
 
 #endif
