@@ -57,12 +57,6 @@ void SkyComposite::draw( QPainter& psky )
         component->draw( psky );
 }
 
-void SkyComposite::drawExportable( QPainter& psky )
-{
-    foreach ( SkyComponent *component, components() )
-        component->drawExportable( psky );
-}
-
 void SkyComposite::init()
 {
     foreach ( SkyComponent *component, components() )

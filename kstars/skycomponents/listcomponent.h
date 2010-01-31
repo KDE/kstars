@@ -43,29 +43,22 @@ public:
     virtual ~ListComponent();
 
     /**
-    	*@short Draw the list of objects on the SkyMap
-    	*@note This is a pure virtual function, it is overridden by its subclasses.
-    	*/
+     * @short Draw the list of objects on the SkyMap
+     * @note This is a pure virtual function, it is overridden by its subclasses.
+     */
     virtual void draw( QPainter & ) {}
 
-    /**
-    	*@short Draw the object, if it is exportable to an image
-    	*@see isExportable()
-    	*/
-    void drawExportable( QPainter& psky );
-
-    /**
-    	*@short Update the sky positions of this component.
-    	*
-    	*This function usually just updates the Horizontal (Azimuth/Altitude)
-    	*coordinates of the objects in this component.  If the KSNumbers* 
-    	*argument is not NULL, this function also recomputes precession and
-    	*nutation for the date in KSNumbers.
-    	*@p num Pointer to the KSNumbers object
-    	*@note By default, the num parameter is NULL, indicating that 
-    	*Precession/Nutation computation should be skipped; this computation 
-    	*is only occasionally required.
-    	*/
+    /**@short Update the sky positions of this component.
+     *
+     * This function usually just updates the Horizontal (Azimuth/Altitude)
+     * coordinates of the objects in this component.  If the KSNumbers* 
+     * argument is not NULL, this function also recomputes precession and
+     * nutation for the date in KSNumbers.
+     * @p num Pointer to the KSNumbers object
+     * @note By default, the num parameter is NULL, indicating that 
+     * Precession/Nutation computation should be skipped; this computation 
+     * is only occasionally required.
+     */
     virtual void update( KSNumbers *num=0 );
 
     virtual SkyObject* findByName( const QString &name );
@@ -82,7 +75,6 @@ private:
     SkyComposite *Parent;
     QList<SkyObject*> ObjectList;
     int m_CurrentIndex;
-
 };
 
 

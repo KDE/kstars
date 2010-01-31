@@ -35,17 +35,6 @@ SkyComponent::~SkyComponent()
 {
 }
 
-bool SkyComponent::isExportable()
-{
-    return true;
-}
-
-void SkyComponent::drawExportable( QPainter& psky )
-{
-    if (isExportable())
-        draw( psky );
-}
-
 //Hand the message up to SkyMapComposite
 void SkyComponent::emitProgressText( const QString &message ) {
     parent()->emitProgressText( message );

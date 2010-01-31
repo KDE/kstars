@@ -60,15 +60,7 @@ public:
     	*/
     virtual void draw( QPainter& psky );
 
-    /**
-    	*@short Delegate drawExportable requests to all sub 
-    	*components.
-    	*@p psky Reference to the QPainter on which to paint
-    	*/
-    virtual void drawExportable( QPainter& psky );
-
-    /**@short Delegate init requests to all sub components
-     */
+    /** @short Delegate init requests to all sub components */
     virtual void init();
 
     /**

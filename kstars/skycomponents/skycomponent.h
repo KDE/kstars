@@ -66,13 +66,6 @@ public:
      */
     virtual void draw( QPainter& /*psky*/ ) {}
 
-    /**
-     * @short Draw the object, if it is exportable to an image
-     * @p psky Reference to the QPainter on which to paint
-     * @see isExportable()
-     */
-    void drawExportable( QPainter& psky );
-
     /**@short Initialize the component - load data from disk etc.
      */
     virtual void init() = 0;
@@ -177,17 +170,7 @@ public:
     virtual QHash<int, QStringList>& objectNames() { return parent()->objectNames(); }
     virtual QStringList& objectNames(int type) { return parent()->objectNames(type); }
 
-protected:
-
-    /**@return true if the component is exportable to the SkyMap.
-     * @note The default implementation simply returns true.
-     * Override the function if the object should not
-     * be exported.
-     */
-    virtual bool isExportable();
-
 private:
-
     SkyComponent *Parent;
 };
 

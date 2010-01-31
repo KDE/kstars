@@ -68,11 +68,6 @@ public:
      */
     void drawLabels( QPainter& psky );
 
-    /**Draw the object, if it is exportable to an image
-    *@see isExportable()
-    */
-    void drawExportable( QPainter& psky );
-
     /**
     	*@short Update the sky positions of this component.
     	*

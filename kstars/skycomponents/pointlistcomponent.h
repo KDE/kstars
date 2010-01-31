@@ -45,23 +45,17 @@ public:
     /**Draw the list of objects on the SkyMap*/
     virtual void draw( QPainter& /*psky*/ ) {}
 
-    /**Draw the object, if it is exportable to an image
-    *@see isExportable()
-    */
-    void drawExportable( QPainter& psky );
-
-    /**
-    	*@short Update the sky positions of this component.
-    	*
-    	*This function usually just updates the Horizontal (Azimuth/Altitude)
-    	*coordinates of the objects in this component.  However, the precession
-    	*and nutation must also be recomputed periodically.  Requests to do
-    	*so are sent through the doPrecess parameter.
-    	*@p num Pointer to the KSNumbers object
-    	*@note By default, the num parameter is NULL, indicating that 
-    	*Precession/Nutation computation should be skipped; this computation 
-    	*is only occasionally required.
-    	*/
+    /**@short Update the sky positions of this component.
+     *
+     * This function usually just updates the Horizontal (Azimuth/Altitude)
+     * coordinates of the objects in this component.  However, the precession
+     * and nutation must also be recomputed periodically.  Requests to do
+     * so are sent through the doPrecess parameter.
+     * @p num Pointer to the KSNumbers object
+     * @note By default, the num parameter is NULL, indicating that 
+     * Precession/Nutation computation should be skipped; this computation 
+     * is only occasionally required.
+     */
     virtual void update( KSNumbers *num=0 );
 
     QList<SkyPoint*>& pointList() { return m_PointList; }
