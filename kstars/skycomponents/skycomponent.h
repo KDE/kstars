@@ -73,8 +73,6 @@ public:
      */
     void drawExportable( QPainter& psky );
 
-    virtual void drawPlanets( QPainter& /*psky*/ ) {}
-
     /**@short Initialize the component - load data from disk etc.
      */
     virtual void init() = 0;
