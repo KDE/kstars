@@ -45,35 +45,6 @@ public:
      */
     explicit LineListIndex( SkyComponent *parent, const QString& name="" );
 
-    /* @short this is called from within the draw routines when the updateID
-     * of the lineList is stale.  It is virtual because different subclasses
-     * have different update routines.  NoPrecessIndex doesn't precess in
-     * the updates and ConstellationLines must update its points as stars,
-     * not points.  that doesn't precess the points.
-     */
-    virtual void JITupdate( LineList* lineList );
-
-    /* @short Returns the SkyMesh object.
-     */
-    SkyMesh* skyMesh() { return  m_skyMesh;   }
-
-    /* @short Returns the Hash of QLists of LineLists that
-     * is used for doing the indexing of line segments.
-     */
-    LineListHash* lineIndex() { return m_lineIndex; }
-
-    /* @short Returns the Hash of QLists of LineLists that
-     * is used for indexing filled polygons.
-     */
-    LineListHash* polyIndex() { return m_polyIndex; }
-
-    /* @short as the name says, recreates the lineIndex using the LineLists
-     * in the previous index.  Since we are indexing everything at J2000
-     * this is only used by ConstellationLines which needs to reindex 
-     * because of the proper motion of the stars.
-     */
-    void reindexLines();
-
     //----- Drawing Routines -----
 
     /* @short.  The top level draw routine.  Draws all the LineLists for any
@@ -85,36 +56,24 @@ public:
      */
     virtual void draw( QPainter &psky );
 
-    /* @short Gives the subclasses access to the top of the draw() method.
-     * Typically used for setting the QPen, etc. in the QPainter being
-     * passed in.  Defaults to setting a thin white pen.
+protected:
+    /* @short this is called from within the draw routines when the updateID
+     * of the lineList is stale.  It is virtual because different subclasses
+     * have different update routines.  NoPrecessIndex doesn't precess in
+     * the updates and ConstellationLines must update its points as stars,
+     * not points.  that doesn't precess the points.
      */
-    virtual void preDraw( QPainter &psky );
+    virtual void JITupdate( LineList* lineList );
 
-    /* @short Draws all the lines without making use of the index.  Used by
-     * NoPrecessIndex for cases when the screen is zoomed out and creating
-     * the 2nd mesh buffer would be more expensive than just drawing
-     * everything.  There are no filled versions of the "All" routines
-     * simply because they were not needed.
+    /* @short as the name says, recreates the lineIndex using the LineLists
+     * in the previous index.  Since we are indexing everything at J2000
+     * this is only used by ConstellationLines which needs to reindex 
+     * because of the proper motion of the stars.
      */
-    void drawAllLines( QPainter &psky );
+    void reindexLines();
 
-    /* @short Draws all the lines in m_listList as simple lines in float
-     * mode.
-     */
-    void drawLines( QPainter &psky );
-
-    /* @short Draws all the lines in m_listList as filled polygons in float
-     * mode.
-     */
-    void drawFilled( QPainter& psky );
-
-
-    //----- Debugging and Info Routines -----
-
-    /* @short
-     */
-    QString& name() { return m_name; }
+    /* @short */
+    QString name() { return m_name; }
 
     /* @short displays a message that we are loading m_name.  Also prints
      * out the message if skyMesh debug is greater than zero.
@@ -126,8 +85,20 @@ public:
      */
     void summary();
 
-protected:
-     /* @short Typically called from within a subclasses init() method.
+    /* @short Returns the Hash of QLists of LineLists that
+     * is used for doing the indexing of line segments.
+     */
+    LineListHash* lineIndex() { return m_lineIndex; }
+
+    /* @short Returns the Hash of QLists of LineLists that
+     * is used for indexing filled polygons.
+     */
+    LineListHash* polyIndex() { return m_polyIndex; }
+
+    /* @short Returns the SkyMesh object. */
+    SkyMesh* skyMesh() { return  m_skyMesh; }
+
+    /* @short Typically called from within a subclasses init() method.
      * Adds the trixels covering the outline of lineList to the lineIndex.
      *
      * @param debug if greater than zero causes the number of trixels found
@@ -148,6 +119,29 @@ protected:
      */
     void appendBoth( LineList* lineList, int debug=0 );
 
+    /* @short Draws all the lines without making use of the index.  Used by
+     * NoPrecessIndex for cases when the screen is zoomed out and creating
+     * the 2nd mesh buffer would be more expensive than just drawing
+     * everything.  There are no filled versions of the "All" routines
+     * simply because they were not needed.
+     */
+    void drawAllLines( QPainter &psky );
+
+    /* @short Draws all the lines in m_listList as simple lines in float
+     * mode.
+     */
+    void drawLines( QPainter &psky );
+
+    /* @short Draws all the lines in m_listList as filled polygons in float
+     * mode.
+     */
+    void drawFilled( QPainter& psky );
+
+    /* @short Gives the subclasses access to the top of the draw() method.
+     * Typically used for setting the QPen, etc. in the QPainter being
+     * passed in.  Defaults to setting a thin white pen.
+     */
+    virtual void preDraw( QPainter &psky );
 
     /* @short a callback overridden by NoPrecessIndex so it can use the
      * drawing code with the non-reverse-precessed mesh buffer.
