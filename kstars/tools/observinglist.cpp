@@ -52,6 +52,7 @@
 #include "dialogs/locationdialog.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
+#include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
 #include "dialogs/finddialog.h"

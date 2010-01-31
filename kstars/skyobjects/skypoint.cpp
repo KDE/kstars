@@ -29,6 +29,7 @@
 #include "kssun.h"
 #include "kstarsdata.h"
 #include "Options.h"
+#include "skycomponents/skymapcomposite.h"
 
 void SkyPoint::set( const dms& r, const dms& d ) {
     RA0.set( r );

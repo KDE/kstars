@@ -27,6 +27,7 @@
 #include "Options.h"
 #include "skyobjects/skyobject.h"
 #include "skycomponents/starcomponent.h"
+#include "skycomponents/skymapcomposite.h"
 
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );

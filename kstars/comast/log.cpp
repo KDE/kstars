@@ -20,6 +20,7 @@
 #include "skyobjects/skyobject.h"
 #include "skymap.h"
 #include "skycomponents/constellationboundary.h"
+#include "skycomponents/skymapcomposite.h"
 #include "kstarsdatetime.h"
 
 void Comast::Log::writeBegin() {

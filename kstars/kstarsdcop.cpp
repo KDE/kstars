@@ -43,6 +43,7 @@
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
+#include "skycomponents/skymapcomposite.h"
 #include "simclock.h"
 #include "Options.h"
 

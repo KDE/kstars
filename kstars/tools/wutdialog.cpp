@@ -37,6 +37,7 @@
 #include "dialogs/timedialog.h"
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksmoon.h"
+#include "skycomponents/skymapcomposite.h"
 
 WUTDialogUI::WUTDialogUI( QWidget *p ) : QFrame( p ) {
     setupUi( this );

@@ -34,6 +34,7 @@
 #include "ksplanet.h"
 #include "kssun.h"
 #include "ksmoon.h"
+#include "skycomponents/skymapcomposite.h"
 
 QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
   QColor("slateblue") << //Mercury

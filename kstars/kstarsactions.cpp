@@ -87,6 +87,7 @@
 #endif
 
 #include "skycomponents/customcatalogcomponent.h"
+#include "skycomponents/skymapcomposite.h"
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"

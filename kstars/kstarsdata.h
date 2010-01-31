@@ -30,7 +30,6 @@
 #include "colorscheme.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
-#include "skycomponents/skymapcomposite.h"
 #include "comast/comast.h"
 #include "comast/log.h"
 
@@ -46,6 +45,7 @@ class QFile;
 
 class dms;
 class SkyMap;
+class SkyMapComposite;
 class SkyObject;
 class KSPlanet;
 class FOV;

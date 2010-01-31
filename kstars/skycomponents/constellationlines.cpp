@@ -28,7 +28,8 @@
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
-#include "starcomponent.h"
+#include "skycomponents/starcomponent.h"
+#include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
 
 #include "skymesh.h"

@@ -24,6 +24,7 @@
 #include <QHash>
 #include <QPolygonF>
 
+class SkyMesh;
 class PolyList;
 class KSFileReader;
 
@@ -70,8 +71,6 @@ private:
     PolyIndex                m_polyIndex;
     int                      m_polyIndexCnt;
     PolyNameHash             m_nameHash;
-
-
 };
 
 

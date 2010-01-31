@@ -36,6 +36,7 @@
 #include "observinglist.h"
 #include "skycomponents/constellationboundary.h"
 #include "skycomponents/skylabeler.h"
+#include "skycomponents/skymapcomposite.h"
 
 #include <config-kstars.h>
 

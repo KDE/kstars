@@ -40,15 +40,16 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
+#include "widgets/dmsbox.h"
+#include "dialogs/finddialog.h"
 #include "skyobjects/kssun.h"
 #include "skyobjects/ksplanet.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/kspluto.h"
-#include "widgets/dmsbox.h"
-#include "dialogs/finddialog.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
+#include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
 
 ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)

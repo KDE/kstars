@@ -18,6 +18,7 @@
 #include "ksfilereader.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "skycomponents/skymapcomposite.h"
 
 OpsGuides::OpsGuides( KStars *_ks )
         : QFrame( _ks ), ksw(_ks)

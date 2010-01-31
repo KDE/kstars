@@ -38,6 +38,8 @@
 #include "skyobjects/ksplanetbase.h"
 #include "widgets/infoboxwidget.h"
 
+#include "skycomponents/skymapcomposite.h"
+
 // TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/starcomponent.h"

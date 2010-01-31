@@ -28,13 +28,15 @@
 #include <KPlotObject>
 #include <KPlotAxis>
 
-#include "kstars.h"
-#include "kstarsdata.h"
-#include "skyobjects/ksplanet.h"
 #include "simclock.h"
 #include "dms.h"
 #include "ksnumbers.h"
+#include "kstars.h"
+#include "kstarsdata.h"
+#include "skyobjects/ksplanet.h"
 #include "skyobjects/jupitermoons.h"
+#include "skycomponents/skymapcomposite.h"
+
 
 JMoonTool::JMoonTool(QWidget *parent)
         : KDialog( parent )

@@ -36,6 +36,7 @@
 #include "ksfilereader.h"
 #include "ksnumbers.h"
 #include "skyobjects/skyobject.h"
+#include "skycomponents/skymapcomposite.h"
 
 #include "simclock.h"
 #include "timezonerule.h"

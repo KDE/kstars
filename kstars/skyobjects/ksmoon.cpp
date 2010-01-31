@@ -28,6 +28,7 @@
 #include "ksutils.h"
 #include "kssun.h"
 #include "kstarsdata.h"
+#include "skycomponents/skymapcomposite.h"
 
 namespace {
     // Convert degrees to radians and put it into [0,2*pi] range

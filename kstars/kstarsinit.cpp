@@ -44,6 +44,7 @@
 #include "widgets/timestepbox.h"
 #include "comast/equipmentwriter.h"
 #include "comast/observeradd.h"
+#include "skycomponents/skymapcomposite.h"
 
 #include <config-kstars.h>
 
