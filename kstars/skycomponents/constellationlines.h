@@ -50,22 +50,18 @@ public:
     */
     virtual void init();
 
+    void reindex( KSNumbers *num );
 
+protected:
     const IndexHash& getIndexHash(LineList* lineList );
 
     /* @short we need to override the update routine because stars are
      * updated differently from mere SkyPoints.
      */
-    void JITupdate( LineList* lineList );
+    virtual void JITupdate( LineList* lineList );
 
-    /* @short
-     *
-     */
-    void reindex( KSNumbers *num );
-
-    /* @short Set the QColor and QPen for drawing.
-     */
-    void preDraw( QPainter &psky );
+    /* @short Set the QColor and QPen for drawing. */
+    virtual void preDraw( QPainter &psky );
 
     bool selected();
 
