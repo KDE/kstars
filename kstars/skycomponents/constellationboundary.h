@@ -39,7 +39,7 @@ typedef QHash<QString, PolyList*> PolyNameHash;
  * @version 0.1
 */
 
-class ConstellationBoundary : public SkyComposite
+class ConstellationBoundary : public SkyComponent
 {
 public:
     explicit ConstellationBoundary( SkyComposite *parent );
@@ -62,6 +62,8 @@ public:
 
     bool inConstellation( const QString &name, SkyPoint *p );
 
+    virtual void init();
+    virtual void draw(QPainter& psky);
 private:
     PolyList* ContainingPoly( SkyPoint *p );
 

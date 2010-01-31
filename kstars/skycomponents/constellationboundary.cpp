@@ -33,7 +33,7 @@
 #include "skymesh.h"
 
 ConstellationBoundary::ConstellationBoundary( SkyComposite *parent ) :
-    SkyComposite( parent )
+    SkyComponent( parent )
 {
     m_skyMesh = SkyMesh::Instance();
     m_polyIndexCnt = 0;
@@ -210,3 +210,5 @@ bool ConstellationBoundary::inConstellation( const QString &name, SkyPoint *p )
 
 
 
+void ConstellationBoundary::init() {}
+void ConstellationBoundary::draw(QPainter&) {}
