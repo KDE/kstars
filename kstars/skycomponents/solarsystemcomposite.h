@@ -59,8 +59,6 @@ public:
 
     virtual void updateMoons( KSNumbers *num );
 
-    virtual void draw( QPainter& psky );
-
     void drawTrails( QPainter& psky );
 
     void reloadAsteroids();

@@ -42,8 +42,9 @@ void SkyComposite::removeComponent(SkyComponent *component)
 
 void SkyComposite::draw( QPainter& psky )
 {
-    foreach ( SkyComponent *component, components() )
-        component->draw( psky );
+    if( selected() )
+        foreach ( SkyComponent *component, components() )
+            component->draw( psky );
 }
 
 void SkyComposite::init()

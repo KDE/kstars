@@ -118,18 +118,6 @@ void SolarSystemComposite::updateMoons( KSNumbers *num )
     m_JupiterMoons->updateMoons( num );
 }
 
-void SolarSystemComposite::draw( QPainter& psky )
-{
-    if ( ! selected() )
-        return;
-
-    //FIXME: first draw the objects which are far away
-    //(Thomas had been doing this by keeping separate pointers to
-    //inner solar system objects, but I'd rather handle it here in the draw
-    //function if possible
-    SkyComposite::draw( psky );
-}
-
 void SolarSystemComposite::drawTrails( QPainter& psky )
 {
     if( ! selected() )
