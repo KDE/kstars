@@ -18,41 +18,36 @@
 #include "altvstime.h"
 
 #include <QVBoxLayout>
-#include <QPainter>
-#include <QMouseEvent>
-#include <QPixmap>
 #include <QFrame>
-#include <QPaintEvent>
-#include <QPointF>
 
 #include <klocale.h>
-#include <klineedit.h>
-#include <kpushbutton.h>
 #include <kdialog.h>
 #include <kplotobject.h>
-#include <kplotaxis.h>
 #include <kplotwidget.h>
+#include <kplotaxis.h>
 
-#include "ui_altvstime.h"
-#include "ksalmanac.h"
 #include "dms.h"
+#include "ksalmanac.h"
 #include "kstarsdata.h"
-#include "skyobjects/skypoint.h"
-#include "skyobjects/skyobject.h"
+#include "kstarsdatetime.h"
 #include "ksnumbers.h"
 #include "simclock.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
-#include "widgets/dmsbox.h"
-#include "avtplotwidget.h"
-#include "kstarsdatetime.h"
+#include "skyobjects/skypoint.h"
+#include "skyobjects/skyobject.h"
 
-AltVsTimeUI::AltVsTimeUI( QWidget *p ) : QFrame( p ) {
+#include "avtplotwidget.h"
+#include "ui_altvstime.h"
+
+AltVsTimeUI::AltVsTimeUI( QWidget *p ) :
+    QFrame( p )
+{
     setupUi( this );
 }
 
 AltVsTime::AltVsTime( QWidget* parent)  :
-        KDialog( parent )
+    KDialog( parent )
 {
     QFrame *page = new QFrame( this );
     setMainWidget(page);
@@ -60,7 +55,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     setButtons( KDialog::Close );
     setModal( false );
 
-    topLayout = new QVBoxLayout( page );
+    QVBoxLayout* topLayout = new QVBoxLayout( page );
     topLayout->setMargin( 0 );
     topLayout->setSpacing( spacingHint() );
 
@@ -89,7 +84,8 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
     DayOffset = 0;
     showCurrentDate();
-    if ( getDate().time().hour() > 12 ) DayOffset = 1;
+    if ( getDate().time().hour() > 12 )
+        DayOffset = 1;
 
     avtUI->longBox->show( geo->lng() );
     avtUI->latBox->show( geo->lat() );
@@ -100,8 +96,8 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
     connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
     connect( avtUI->updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateDateLoc() ) );
-    connect( avtUI->clearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
-    connect( avtUI->addButton,   SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
+    connect( avtUI->clearButton , SIGNAL( clicked() ), this, SLOT( slotClear() ) );
+    connect( avtUI->addButton,    SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
     connect( avtUI->nameBox, SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
     connect( avtUI->raBox,   SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
     connect( avtUI->decBox,  SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
@@ -129,14 +125,16 @@ void AltVsTime::slotAddSource() {
     if ( obj ) {
         //An object with the current name exists.  If the object is not already
         //in the avt list, add it.
-        bool found(false);
+        bool found = false;
         foreach ( SkyObject *o, pList ) {
-            if ( o->name() == obj->name() ) { found = true; break; }
+            if ( o->name() == obj->name() ) {
+                found = true;
+                break;
+            }
         }
 
-        if ( found )
+        if( found )
             kDebug() << i18n("An object named %1 is already displayed, it will not be duplicated.", obj->name());
-
         else
             processObject( obj );
 
@@ -145,14 +143,17 @@ void AltVsTime::slotAddSource() {
         //user is trying to add a custom object.  Assume this is the case if
         //the RA and Dec fields are filled in.
 
-        if ( ! avtUI->nameBox->text().isEmpty() &&
-                ! avtUI->raBox->text().isEmpty() &&
-                ! avtUI->decBox->text().isEmpty() ) {
+        if( ! avtUI->nameBox->text().isEmpty() &&
+             ! avtUI->raBox->text().isEmpty()   &&
+             ! avtUI->decBox->text().isEmpty() )
+        {
             bool ok( true );
             dms newRA( 0.0 ), newDec( 0.0 );
             newRA = avtUI->raBox->createDms( false, &ok );
-            if ( ok ) newDec = avtUI->decBox->createDms( true, &ok );
-            if ( !ok ) return;
+            if ( ok )
+                newDec = avtUI->decBox->createDms( true, &ok );
+            if( !ok )
+                return;
 
             //If the epochName is blank (or any non-double), we assume J2000
             //Otherwise, precess to J2000.
@@ -237,8 +238,9 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
             break;
         }
     }
-    if ( found && !forceAdd ) kDebug() << "This point is already displayed; I will not duplicate it.";
-    else {
+    if ( found && !forceAdd ) {
+        kDebug() << "This point is already displayed; I will not duplicate it.";
+    } else {
         pList.append( o );
 
         //make sure existing curves are thin and red
@@ -275,7 +277,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 }
 
 double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
-    hour += 24.0*(double)DayOffset;
+    hour += 24.0 * DayOffset;
 
     //getDate converts the user-entered local time to UT
     KStarsDateTime ut = getDate().addSecs( hour*3600.0 );
@@ -311,17 +313,18 @@ void AltVsTime::slotHighlight( int row ) {
 //move input focus to the next logical widget
 void AltVsTime::slotAdvanceFocus() {
     if ( sender()->objectName() == QString( "nameBox" ) ) avtUI->addButton->setFocus();
-    if ( sender()->objectName() == QString( "raBox" ) ) avtUI->decBox->setFocus();
-    if ( sender()->objectName() == QString( "decbox" ) ) avtUI->addButton->setFocus();
+    if ( sender()->objectName() == QString( "raBox" ) )   avtUI->decBox->setFocus();
+    if ( sender()->objectName() == QString( "decbox" ) )  avtUI->addButton->setFocus();
     if ( sender()->objectName() == QString( "longBox" ) ) avtUI->latBox->setFocus();
-    if ( sender()->objectName() == QString( "latBox" ) ) avtUI->updateButton->setFocus();
+    if ( sender()->objectName() == QString( "latBox" ) )  avtUI->updateButton->setFocus();
 }
 
 void AltVsTime::slotClear() {
-    if ( pList.count() ) pList.clear();
+    pList.clear();
     //Need to delete the pointers in deleteList
-    while ( ! deleteList.isEmpty() )
+    while ( !deleteList.isEmpty() )
         delete deleteList.takeFirst();
+
     avtUI->PlotList->clear();
     avtUI->nameBox->clear();
     avtUI->raBox->clear();
@@ -401,8 +404,10 @@ void AltVsTime::slotUpdateDateLoc() {
         }
     }
 
-    if ( getDate().time().hour() > 12 ) DayOffset = 1;
-    else DayOffset = 0;
+    if ( getDate().time().hour() > 12 )
+        DayOffset = 1;
+    else
+        DayOffset = 0;
 
     setLSTLimits();
     slotHighlight( avtUI->PlotList->currentRow() );
@@ -430,7 +435,8 @@ void AltVsTime::setLSTLimits() {
 
     dms lst = geo->GSTtoLST( ut.gst() );
     double h1 = lst.Hours();
-    if ( h1 > 12.0 ) h1 -= 24.0;
+    if( h1 > 12.0 )
+        h1 -= 24.0;
     double h2 = h1 + 24.0;
     avtUI->View->setSecondaryLimits( h1, h2, -90.0, 90.0 );
 }
@@ -438,7 +444,8 @@ void AltVsTime::setLSTLimits() {
 void AltVsTime::showCurrentDate()
 {
     KStarsDateTime dt = KStarsDateTime::currentDateTime();
-    if ( dt.time() > QTime( 12, 0, 0 ) ) dt = dt.addDays( 1 );
+    if( dt.time() > QTime( 12, 0, 0 ) )
+        dt = dt.addDays( 1 );
     avtUI->DateWidget->setDate( dt.date() );
 }
 
@@ -446,21 +453,18 @@ KStarsDateTime AltVsTime::getDate()
 {
     //convert midnight local time to UT:
     KStarsDateTime dt( avtUI->DateWidget->date(), QTime() );
-    dt = geo->LTtoUT( dt );
-    return dt;
+    return geo->LTtoUT( dt );
 }
 
 double AltVsTime::getEpoch(const QString &eName)
 {
     //If Epoch field not a double, assume J2000
-    bool ok(false);
+    bool ok;
     double epoch = eName.toDouble(&ok);
-
     if ( !ok ) {
         kDebug() << "Invalid Epoch.  Assuming 2000.0.";
         return 2000.0;
     }
-
     return epoch;
 }
 
