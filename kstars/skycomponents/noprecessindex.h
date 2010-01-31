@@ -20,17 +20,15 @@
 
 #include "linelistindex.h"
 
-/**
-	*@class NoPrecessIndex
-
-	*@author James B. Bowlin
-	*@version 0.1
-	*/
+/**@class NoPrecessIndex
+ *
+ * @author James B. Bowlin
+ * @version 0.1
+ */
 class NoPrecessIndex : public LineListIndex
 {
 public:
-    /* @short Constructor
-    */
+    /* @short Constructor */
     NoPrecessIndex( SkyComponent *parent, const QString& name );
 
     /* @ short override JITupdate so we don't perform the precession
@@ -47,10 +45,6 @@ public:
      * reverse-precession correction.
      */
     MeshBufNum_t drawBuffer() { return NO_PRECESS_BUF; }
-
-private:
-
-    bool lastZoom;
 };
 
 

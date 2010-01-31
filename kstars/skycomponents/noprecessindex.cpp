@@ -21,8 +21,8 @@
 #include "kstarsdata.h"
 #include "linelist.h"
 
-NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const QString& name )
-        : LineListIndex( parent, name ), lastZoom( true )
+NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const QString& name ) :
+    LineListIndex( parent, name )
 {}
 
 // Don't precess the points, just account for the Earth's rotation
@@ -38,17 +38,10 @@ void NoPrecessIndex::JITupdate( LineList* lineList )
 
 void NoPrecessIndex::draw( QPainter &psky )
 {
-    if ( ! selected() ) return;
-
+    if ( ! selected() )
+        return;
     preDraw( psky );
-
-    if ( skyMesh()->isZoomedIn() ) {
-        drawLines( psky );
-    }
-    else {
-        drawLines( psky );
-    }
-
+    drawLines( psky );
 }
 
 
