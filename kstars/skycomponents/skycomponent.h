@@ -46,10 +46,7 @@ class SkyComponent
 public:
 
     /**@short Constructor
-     * @p parent pointer to the parent SkyComponent
-     * @p visibleMethod pointer to the function which determines
-     * whether this component should be drawn in the map.  Defaults
-     * to always visible.
+     * @p parent pointer to the parent SkyComposite
      */
     explicit SkyComponent( SkyComposite *parent );
 
@@ -61,8 +58,10 @@ public:
      */
     virtual void draw( QPainter& psky ) = 0;
 
-    /**@short Initialize the component - load data from disk etc.
-     */
+    /**@short Draw trails for objects. */
+    virtual void drawTrails( QPainter & );
+
+    /**@short Initialize the component - load data from disk etc. */
     virtual void init() = 0;
 
     /**
@@ -70,11 +69,8 @@ public:
      *
      * This function usually just updates the Horizontal (Azimuth/Altitude)
      * coordinates of its member object(s).  However, the precession and
-     * nutation must also be recomputed periodically.  Requests to do so are
-     * sent through the doPrecess parameter.
+     * nutation must also be recomputed periodically.
      * @p num Pointer to the KSNumbers object
-     * @note this is a pure virtual function, it must be reimplemented
-     * by the subclasses of SkyComponent.
      * @sa SingleComponent::update()
      * @sa ListComponent::update()
      * @sa ConstellationBoundaryComponent::update()
@@ -130,8 +126,6 @@ public:
 
     virtual QHash<int, QStringList>& objectNames();
     virtual QStringList& objectNames(int type);
-
-    virtual void drawTrails( QPainter & );
 
 private:
     // Disallow copying and assignement

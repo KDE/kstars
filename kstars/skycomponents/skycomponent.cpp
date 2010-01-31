@@ -41,7 +41,7 @@ SkyObject* SkyComponent::findByName( const QString & ) { return 0; }
 
 SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) { return 0; }
 
-void SkyComponent::drawTrails( QPainter & ) { return; }
+void SkyComponent::drawTrails( QPainter & ) {}
 
 QHash<int, QStringList>& SkyComponent::objectNames() { return parent()->objectNames(); }
 
