@@ -53,7 +53,7 @@ void LineListLabel::reset( QPainter &psky )
     m_farTop   = 100000.0;
     m_farBot   = 0.0;
 
-    skyLabeler()->getMargins( psky, m_text, &m_marginLeft, &m_marginRight,
+    m_skyLabeler->getMargins( psky, m_text, &m_marginLeft, &m_marginRight,
                               &m_marginTop, &m_marginBot );
 }
 
@@ -140,7 +140,7 @@ void LineListLabel::draw( QPainter& psky )
         if ( fabs( a[j] ) > comfyAngle )
             continue;
 
-        if ( skyLabeler()->drawGuideLabel( psky, o[j], m_text, a[j] ) )
+        if ( m_skyLabeler->drawGuideLabel( psky, o[j], m_text, a[j] ) )
             return;
 
         okay[j] = false;
@@ -164,7 +164,7 @@ void LineListLabel::draw( QPainter& psky )
         if ( idx[j] && okay[j] && fabs(a[j]) < fabs(a[best]) ) best = j;
     }
 
-    skyLabeler()->drawGuideLabel( psky, o[best], m_text, a[best] );
+    m_skyLabeler->drawGuideLabel( psky, o[best], m_text, a[best] );
 }
 
 

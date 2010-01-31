@@ -55,8 +55,6 @@ public:
 
     void updateLabelCandidates( qreal x, qreal y,  LineList* lineList, int i );
 
-    SkyLabeler* skyLabeler() { return m_skyLabeler; }
-
 private:
     const QString m_text;
     SkyLabeler*   m_skyLabeler;
