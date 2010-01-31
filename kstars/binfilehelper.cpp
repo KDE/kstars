@@ -30,11 +30,8 @@ BinFileHelper::BinFileHelper() {
 }
 
 BinFileHelper::~BinFileHelper() {
-
-    for(int i = 0; i < fields.size(); ++i)
-        delete fields[i];
-
-    if(fileHandle)
+    qDeleteAll( fields );
+    if( fileHandle )
         closeFile();
 }
 
@@ -52,8 +49,7 @@ void BinFileHelper::init() {
 }
 
 void BinFileHelper::clearFields() {
-    for(int i = 0; i < fields.size(); ++i)
-        delete fields[i];
+    qDeleteAll( fields );
     fields.clear();
 }
 
