@@ -574,15 +574,9 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 }
 
 void DeepSkyComponent::clearList(QList<DeepSkyObject*>& list) {
-    int i;
     while( !list.isEmpty() ) {
         SkyObject *o = list.takeFirst();
-        i = objectNames(o->type()).indexOf( o->name() );
-        if( i >= 0 )
-            objectNames(o->type()).removeAt( i );
-        i = objectNames(o->type()).indexOf( o->longname() );
-        if( i >= 0 )
-            objectNames(o->type()).removeAt( i );
+        removeFromNames( o );
         delete o;
     }
 }

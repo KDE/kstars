@@ -117,6 +117,9 @@ public:
 
     inline QStringList& objectNames(int type) { return getObjectNames()[type]; }
 
+protected:
+    void removeFromNames(const SkyObject* obj);
+
 private:
     /** */
     virtual QHash<int, QStringList>& getObjectNames();

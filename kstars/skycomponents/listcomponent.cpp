@@ -34,13 +34,7 @@ ListComponent::~ListComponent() {
 void ListComponent::clear() {
     while ( ! m_ObjectList.isEmpty() ) {
         SkyObject *o = m_ObjectList.takeFirst();
-        int i;
-        i = objectNames(o->type()).indexOf( o->name() );
-        if ( i >= 0 )
-            objectNames(o->type()).removeAt( i );
-        i = objectNames(o->type()).indexOf( o->longname() );
-        if ( i >= 0 )
-            objectNames(o->type()).removeAt( i );
+        removeFromNames( o );
         delete o;
     }
 }

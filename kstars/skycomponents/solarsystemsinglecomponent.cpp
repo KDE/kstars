@@ -39,14 +39,7 @@ SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *par
 
 SolarSystemSingleComponent::~SolarSystemSingleComponent()
 {
-    int i;
-    i = objectNames(m_Planet->type()).indexOf( m_Planet->name() );
-    if ( i >= 0 )
-        objectNames(m_Planet->type()).removeAt( i );
-
-    i = objectNames(m_Planet->type()).indexOf( m_Planet->longname() );
-    if ( i >= 0 )
-        objectNames(m_Planet->type()).removeAt( i );
+    removeFromNames( m_Planet );
     delete m_Planet;
 }
 

@@ -37,10 +37,29 @@ void SkyComponent::emitProgressText( const QString &message ) {
     parent()->emitProgressText( message );
 }
 
-SkyObject* SkyComponent::findByName( const QString & ) { return 0; }
+SkyObject* SkyComponent::findByName( const QString & ) {
+    return 0;
+}
 
-SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) { return 0; }
+SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) {
+    return 0;
+}
 
-void SkyComponent::drawTrails( QPainter & ) {}
+void SkyComponent::drawTrails( QPainter & )
+{}
 
-QHash<int, QStringList>& SkyComponent::getObjectNames() { return parent()->objectNames(); }
+QHash<int, QStringList>& SkyComponent::getObjectNames() {
+    return parent()->objectNames();
+}
+
+void SkyComponent::removeFromNames(const SkyObject* obj) {
+    QStringList& names = getObjectNames()[obj->type()];
+    int i;
+    i = names.indexOf( obj->name() );
+    if ( i >= 0 )
+        names.removeAt( i );
+
+    i = names.indexOf( obj->longname() );
+    if ( i >= 0 )
+        names.removeAt( i );
+}
