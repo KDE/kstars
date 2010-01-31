@@ -29,7 +29,7 @@
 
 Ecliptic::Ecliptic(SkyComposite *parent ) :
         LineListIndex( parent, i18n("Ecliptic") ),
-        m_label( LineListIndex::name() )
+        m_label( name() )
 {}
 
 

@@ -70,8 +70,8 @@ protected:
      */
     void reindexLines();
 
-    /* @short */
-    QString name() { return m_name; }
+    /** @short retrieve name of object */
+    QString name() const { return m_name; }
 
     /* @short displays a message that we are loading m_name.  Also prints
      * out the message if skyMesh debug is greater than zero.
