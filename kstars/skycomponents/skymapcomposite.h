@@ -166,11 +166,11 @@ public:
     QList<SkyObject*>& labelObjects() { return m_LabeledObjects; }
 
     QList<DeepSkyObject*>& deepSkyObjects();
-    QList<SkyComponent*> solarSystem();
     QList<SkyObject*>& constellationNames();
     QList<SkyObject*>& stars();
     QList<SkyObject*>& asteroids();
     QList<SkyObject*>& comets();
+
     KSPlanet* earth();
     KSPlanetBase* planet( int n );
     QStringList getCultureNames();

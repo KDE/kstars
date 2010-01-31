@@ -451,10 +451,6 @@ QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() {
     return m_DeepSky->objectList();
 }
 
-QList<SkyComponent*> SkyMapComposite::solarSystem() {
-    return m_SolarSystem->components();
-}
-
 QList<SkyObject*>& SkyMapComposite::constellationNames() {
     return m_CNames->objectList();
 }
