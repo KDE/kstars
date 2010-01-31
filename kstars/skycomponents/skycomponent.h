@@ -134,6 +134,10 @@ public:
     virtual void drawTrails( QPainter & );
 
 private:
+    // Disallow copying and assignement
+    SkyComponent(const SkyComponent&);
+    SkyComponent& operator= (const SkyComponent&);
+
     SkyComposite *m_parent;
 };
 
