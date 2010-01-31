@@ -52,8 +52,6 @@ public:
     virtual bool selected();
     virtual void update( KSNumbers *num );
     virtual void updatePlanets( KSNumbers *num );
-    virtual SkyObject* first();
-    virtual SkyObject* next();
     virtual SkyObject* findByName( const QString &name );
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
     virtual void draw( QPainter &psky );

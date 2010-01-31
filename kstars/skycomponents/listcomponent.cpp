@@ -24,8 +24,7 @@
 #include "skyobjects/skyobject.h"
 
 ListComponent::ListComponent( SkyComponent *parent ) :
-    SkyComponent( parent ),
-    m_CurrentIndex(0)
+    SkyComponent( parent )
 {}
 
 ListComponent::~ListComponent() {
@@ -35,11 +34,13 @@ ListComponent::~ListComponent() {
 void ListComponent::clear() {
     while ( ! objectList().isEmpty() ) {
         SkyObject *o = objectList().takeFirst();
-        int i = objectNames(o->type()).indexOf( o->name() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+        int i;
+        i = objectNames(o->type()).indexOf( o->name() );
+        if ( i >= 0 )
+            objectNames(o->type()).removeAt( i );
         i = objectNames(o->type()).indexOf( o->longname() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-
+        if ( i >= 0 )
+            objectNames(o->type()).removeAt( i );
         delete o;
     }
 }
@@ -67,10 +68,10 @@ SkyObject* ListComponent::findByName( const QString &name ) {
 }
 
 SkyObject* ListComponent::objectNearest( SkyPoint *p, double &maxrad ) {
+    if ( ! selected() )
+        return 0;
+
     SkyObject *oBest = 0;
-
-    if ( ! selected() ) return 0;
-
     foreach ( SkyObject *o, objectList() ) {
         double r = o->angularDistanceTo( p ).Degrees();
         if ( r < maxrad ) {
@@ -78,20 +79,5 @@ SkyObject* ListComponent::objectNearest( SkyPoint *p, double &maxrad ) {
             maxrad = r;
         }
     }
-
     return oBest;
-}
-
-
-SkyObject* ListComponent::first() {
-    m_CurrentIndex = 0;
-    return ObjectList[m_CurrentIndex];
-}
-
-SkyObject* ListComponent::next() {
-    m_CurrentIndex++;
-    if ( m_CurrentIndex >= ObjectList.size() )
-        return 0;
-    else
-        return ObjectList[m_CurrentIndex];
 }

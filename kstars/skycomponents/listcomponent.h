@@ -62,9 +62,6 @@ public:
     virtual SkyObject* findByName( const QString &name );
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
-    virtual SkyObject* first();
-    virtual SkyObject* next();
-
     QList<SkyObject*>& objectList() { return ObjectList; }
 
     void clear();
@@ -72,7 +69,6 @@ public:
 private:
     SkyComposite *Parent;
     QList<SkyObject*> ObjectList;
-    int m_CurrentIndex;
 };
 
 

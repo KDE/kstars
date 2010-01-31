@@ -62,14 +62,6 @@ void SolarSystemSingleComponent::init() {
         objectNames(m_Planet->type()).append( m_Planet->longname() );
 }
 
-SkyObject* SolarSystemSingleComponent::first() {
-    return m_Planet;
-}
-
-SkyObject* SolarSystemSingleComponent::next() {
-    return 0;
-}
-
 SkyObject* SolarSystemSingleComponent::findByName( const QString &name ) {
     if( QString::compare( m_Planet->name(),     name, Qt::CaseInsensitive ) == 0 ||
         QString::compare( m_Planet->longname(), name, Qt::CaseInsensitive ) == 0 ||

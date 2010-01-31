@@ -131,9 +131,6 @@ public:
     virtual bool addTrail( SkyObject * /*o*/ ) { return false;}
     virtual bool removeTrail( SkyObject * /*o*/ ) {return false;}
 
-    virtual SkyObject* first();
-    virtual SkyObject* next();
-
     /**
     	*@short Search the children of this SkyComposite for 
     	*a SkyObject whose name matches the argument.
@@ -159,7 +156,6 @@ public:
 
 private:
     QList<SkyComponent*> m_Components;
-    int m_CurrentIndex;
 };
 
 #endif
