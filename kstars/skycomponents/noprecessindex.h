@@ -31,12 +31,12 @@ public:
     /* @short Constructor */
     NoPrecessIndex( SkyComponent *parent, const QString& name );
 
+protected:
     /* @ short override JITupdate so we don't perform the precession
      * correction, only rotation.
      */
-    void JITupdate( LineList* lineList );
+    virtual void JITupdate( LineList* lineList );
 
-protected:
     /* @short we need to use the buffer that does not have the
      * reverse-precession correction.
      */
