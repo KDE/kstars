@@ -42,9 +42,6 @@ public:
 
     virtual ~PointListComponent();
 
-    /**Draw the list of objects on the SkyMap*/
-    virtual void draw( QPainter& /*psky*/ ) {}
-
     /**@short Update the sky positions of this component.
      *
      * This function usually just updates the Horizontal (Azimuth/Altitude)
