@@ -1102,7 +1102,8 @@ bool SkyMap::onScreen( QPointF &p1, QPointF &p2 ) {
             ( p1.x() > scaledRect().width() && 
               p2.x() > scaledRect().width() ) ||
             ( p1.y() > scaledRect().height() && 
-              p2.y() > scaledRect().height() ) ) return false;
+              p2.y() > scaledRect().height() ) )
+        return false;
     return true;
 }
 
@@ -1114,47 +1115,6 @@ bool SkyMap::onScreen( QPoint &p1, QPoint &p2 ) {
             ( p1.y() > scaledRect().height() && 
               p2.y() > scaledRect().height() ) ) return false;
     return true;
-}
-
-
-
-//Return the on-screen portion of the given SkyLine, if any portion of it
-//is onscreen
-QList<QPointF> SkyMap::toScreen( SkyLine *line, bool oRefract, bool doClipLines ) {
-    QList<QPointF> screenLine;
-
-    //Initialize spLast to the first point
-    SkyPoint *spLast = line->point(0);
-    bool on(false), onLast(false); //on-screen flags
-
-    foreach ( SkyPoint *sp, line->points() ) {
-        QPointF p = toScreen( sp, oRefract, &on );
-        QPointF pLast = toScreen( spLast, oRefract,&onLast );
-
-        //Make sure the point is not null
-        if ( ! isPointNull( p ) ) {
-
-            //If either this point or the previous are offscreen
-            //and the user wants clipped lines, then we have to
-            //interpolate to find the intersection of the line
-            //segment with the screen edge
-            if ( doClipLines  &&  onscreenLine( p, pLast ) ) {
-                screenLine.append( pLast );
-                screenLine.append( p );
-            }
-            //If the current point is onscreen, add it to the list
-            else if ( on ) {
-                //First, add pLast if it is offscreen
-                if ( !onLast )
-                    screenLine.append( pLast );
-                screenLine.append( p );
-            }
-        }
-
-        spLast = sp;
-    }
-
-    return screenLine;
 }
 
 bool SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
@@ -1385,21 +1345,15 @@ void SkyMap::forceUpdate( bool now )
     // Ensure that stars are recomputed
     data->incUpdateID();
 
-    if ( now ) repaint();
-    else update();
+    if( now )
+        repaint();
+    else
+        update();
 }
 
 float SkyMap::fov() {
     float diagonalPixels = sqrt( width() * width() + height() * height() );
     return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
-}
-
-bool SkyMap::checkVisibility( SkyLine *sl ) {
-    foreach ( SkyPoint *p, sl->points() ) {
-        if ( checkVisibility( p ) )
-            return true;
-    }
-    return false;
 }
 
 bool SkyMap::checkVisibility( SkyPoint *p ) {

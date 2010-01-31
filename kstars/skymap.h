@@ -75,7 +75,6 @@ public:
 
     static bool IsSlewing() { return pinstance->isSlewing(); }
 
-
     /** Destructor (empty) */
     ~SkyMap();
 
@@ -341,7 +340,6 @@ public:
      * between *p1 and *p2 that just clips.
      */
     QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
-
     QPoint clipLineI( SkyPoint *p1, SkyPoint *p2 );
 
     /**Given the coordinates of the SkyPoint argument, determine the
@@ -357,44 +355,22 @@ public:
     QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
     QPointF toScreenQuaternion( SkyPoint *o );
 
-    /**
-    	*@return the given SkyLine, transformed to screen pixel coordinates.
-    	*If only a portion of the line is on-screen, this function returns 
-    	*the on-screen segment.  If no portion of the line is on-screen, 
-    	*a null line is returned.
-    	*
-    	*@param o pointer to the SkyLine which is to be transformed to screen coordinates
-    	*@param useRefraction if true, refract according to the user option UseRefraction; 
-    	*if false, do not use refraction regardless of user option
-    	*@param doClipLines if true, lines will be truncated at the screen edge
-    	*/
-    QList<QPointF> toScreen( SkyLine *o, bool useRefraction=true, bool doClipLines=true );
 
-    /**
-        *@return the current scale factor for drawing the map.
-        *@note the scale factor should be 1.0 unless we are printing.
-        */
+    /**@return the current scale factor for drawing the map.
+     * @note the scale factor should be 1.0 unless we are printing.
+     */
     inline double scale() { return m_Scale; }
 
-    /**
-        *@return the bounding rectangle of the skymap, scaled by the current scale factor
-        */
+    /** @return the bounding rectangle of the skymap, scaled by the current scale factor */
     QRect scaledRect();
 
-    /**
-        *@return whether the given QPoint is on the SkyMap.
-        */
+    /** @return whether the given QPoint is on the SkyMap. */
     bool onScreen( QPoint &point );
-    /**
-        *@return whether the given QPointF is on the SkyMap.
-        */
-
+    /** @return whether the given QPointF is on the SkyMap. */
     bool onScreen( QPointF &pointF );
 
-    /**
-       *@return true if the line connecting the two points is possibly on screen.
-       * will return some false postives.
-       */
+    /** @return true if the line connecting the two points is possibly on screen.
+     * will return some false postives. */
     bool onScreen( QPointF &p1, QPointF &p2 );
     bool onScreen( QPoint &p1, QPoint &p2 );
 
@@ -446,8 +422,6 @@ public:
     	*@see SkyMap::fov()
     	*/
     bool checkVisibility( SkyPoint *p );
-
-    bool checkVisibility( SkyLine *l );
 
     /**Determine the on-screen position angle of a SkyObject.  This is the sum
     	*of the object's sky position angle (w.r.t. North), and the position angle
