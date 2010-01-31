@@ -59,6 +59,7 @@
 #endif
 
 #include "skycomponents/constellationboundary.h"
+#include "skycomponents/skymapcomposite.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent ) :
     KPageDialog( parent ),
@@ -268,11 +269,12 @@ void DetailDialog::createGeneralTab()
 
     //Common to all types:
     if ( selectedObject->type() == SkyObject::CONSTELLATION )
-        Data->ObjectTypeInConstellation->setText( ConstellationBoundary::Instance()->constellationName( selectedObject ) );
+        Data->ObjectTypeInConstellation->setText(
+            KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( selectedObject ) );
     else
         Data->ObjectTypeInConstellation->setText( 
-            i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objecttyp, 
-                  ConstellationBoundary::Instance()->constellationName( selectedObject ) ) );
+            i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objecttyp,
+                  KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( selectedObject ) ) );
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {

@@ -177,7 +177,8 @@ void Comast::Log::writeTarget( SkyObject *o ) {
         writer->writeEndElement();
     }
     writer->writeStartElement( "constellation" );
-    writer->writeCDATA( ConstellationBoundary::Instance()->constellationName( o ) );
+    writer->writeCDATA(
+        KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( o ) );
     writer->writeEndElement();
     writer->writeStartElement( "notes" );
     writer->writeCDATA( o->notes() );

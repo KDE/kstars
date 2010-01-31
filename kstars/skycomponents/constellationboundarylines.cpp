@@ -36,15 +36,14 @@
 #include "linelist.h"
 #include "polylist.h"
 #include "linelistindex.h"
-#include "constellationboundary.h"
+#include "skycomponents/constellationboundary.h"
+#include "skycomponents/skymapcomposite.h"
 
 #include "skymesh.h"
 
 ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComponent *parent )
         : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
-{
-    ConstellationBoundary::Create( parent );
-}
+{}
 
 // FIXME: -jbb: need to update this information.
 // Constellation boundary data is stored in a series of *.cbound files, one per
@@ -70,7 +69,7 @@ void ConstellationBoundaryLines::init() {
     PolyList *polyList = 0;
     bool ok;
 
-    ConstellationBoundary* boundaryPoly = ConstellationBoundary::Instance();
+    ConstellationBoundary* boundaryPoly = data->skyComposite()->getConstellationBoundary();
 
     intro();
 

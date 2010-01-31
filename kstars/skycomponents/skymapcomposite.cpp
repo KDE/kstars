@@ -70,6 +70,8 @@ SkyMapComposite::SkyMapComposite(SkyComponent *parent ) :
     m_CoordinateGrid = new CoordinateGrid( this );
     addComponent( m_CoordinateGrid );
 
+    // Do add to components.
+    m_CBound = new ConstellationBoundary( this );
     m_CBoundLines = new ConstellationBoundaryLines( this );
     addComponent( m_CBoundLines );
 

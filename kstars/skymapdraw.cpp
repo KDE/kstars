@@ -171,7 +171,7 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 
 void SkyMap::drawHighlightConstellation( QPainter &psky ) {
     const QPolygonF* cbound =
-        ConstellationBoundary::Instance()->constellationPoly( focus() );
+        KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationPoly( focus() );
     if ( ! cbound )
         return;
 

@@ -30,22 +30,6 @@
 
 #include "skymesh.h"
 
-ConstellationBoundary* ConstellationBoundary::pinstance = 0;
-
-ConstellationBoundary* ConstellationBoundary::Create( SkyComponent* parent )
-{
-    if ( pinstance ) return pinstance;
-    pinstance = new  ConstellationBoundary( parent );
-    return pinstance;
-}
-
-ConstellationBoundary* ConstellationBoundary::Instance()
-{
-    return pinstance;
-}
-
-
-
 ConstellationBoundary::ConstellationBoundary( SkyComponent *parent )
         : PolyListIndex( parent )
 {}

@@ -193,11 +193,13 @@ public:
 
     QList<SkyComponent*> customCatalogs();
 
+    ConstellationBoundary* getConstellationBoundary() { return m_CBound; }
 signals:
     void progressText( const QString &message );
 
 private:
     CultureList                 *m_Cultures;
+    ConstellationBoundary       *m_CBound;
     ConstellationBoundaryLines  *m_CBoundLines;
     ConstellationNamesComponent *m_CNames;
     ConstellationLines          *m_CLines;

@@ -26,6 +26,7 @@
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/trailobject.h"
+#include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
 
 #include <config-kstars.h>
@@ -182,7 +183,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         addFancyLabel( type );
     if ( !info.isEmpty() )
         addFancyLabel( info );
-    addFancyLabel( ConstellationBoundary::Instance()->constellationName( obj ) );
+    addFancyLabel( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( obj ) );
 
     //Insert Rise/Set/Transit labels
     if( showRiseSet && obj ) {
