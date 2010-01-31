@@ -39,12 +39,10 @@ class SkyComposite;
  * ((TODO_DOX: Add outline of Components hierarchy))
  *
  * @author Thomas Kabelmann
- * @version 0.1
  */
 class SkyComponent
 {
 public:
-
     /**@short Constructor
      * @p parent pointer to the parent SkyComposite
      */
@@ -82,12 +80,7 @@ public:
     /**@return true if component is to be drawn on the map. */
     virtual bool selected() { return true; }
 
-    /**
-     * The parent of a component may be  a composite or nothing.
-     * It's useful to know it's parent, if a component want to
-     * add a component to it's parent, for example a star want
-     * to add/remove a trail to it's parent.
-     */
+    /**@return Parent of component. If there is no parent returns NULL. */
     SkyComposite* parent() { return m_parent; }
 
     /**
@@ -98,10 +91,6 @@ public:
      * the argument, or a NULL pointer if no match was found.
      * @note This function simply returns the NULL pointer; it
      * is reimplemented in various sub-classes
-     * @sa SkyComposite::findByName()
-     * @sa SingleComponent::findByName()
-     * @sa ListComponent::findByName()
-     * @sa DeepSkyComponent::findByName()
      */
     virtual SkyObject* findByName( const QString &name );
 
@@ -115,13 +104,13 @@ public:
      * @return a pointer to the nearest SkyObject
      * @note This function simply returns a NULL pointer; it is
      * reimplemented in various sub-classes.
-     * @sa SkyComposite::objectNearest()
-     * @sa SingleComponent::objectNearest()
-     * @sa ListComponent::objectNearest()
-     * @sa DeepSkyComponent::objectNearest()
      */
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
+    /**@short Emit signal about progress.
+     *
+     * @sa SkyMapComposite::emitProgressText
+     */
     virtual void emitProgressText( const QString &message );
 
     inline QHash<int, QStringList>& objectNames() { return getObjectNames(); }
@@ -136,6 +125,7 @@ private:
     SkyComponent(const SkyComponent&);
     SkyComponent& operator= (const SkyComponent&);
 
+    /** Parent of sky component. */
     SkyComposite *m_parent;
 };
 
