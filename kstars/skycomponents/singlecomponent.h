@@ -66,7 +66,6 @@ public:
     void setStoredObject( SkyObject *o ) { m_StoredObject = o; }
 
 private:
-    SkyComposite *Parent;
     SkyObject* m_StoredObject;
 };
 
