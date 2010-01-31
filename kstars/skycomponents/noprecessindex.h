@@ -29,7 +29,7 @@ class NoPrecessIndex : public LineListIndex
 {
 public:
     /* @short Constructor */
-    NoPrecessIndex( SkyComponent *parent, const QString& name );
+    NoPrecessIndex( SkyComposite *parent, const QString& name );
 
 protected:
     /* @ short override JITupdate so we don't perform the precession

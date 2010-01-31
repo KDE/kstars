@@ -35,7 +35,7 @@
 #include "skymesh.h"
 
 
-MilkyWay::MilkyWay( SkyComponent *parent ) :
+MilkyWay::MilkyWay( SkyComposite *parent ) :
     LineListIndex( parent, i18n("Milky Way") )
 {}
 

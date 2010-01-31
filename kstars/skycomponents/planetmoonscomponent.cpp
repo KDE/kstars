@@ -33,7 +33,7 @@
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
 
-PlanetMoonsComponent::PlanetMoonsComponent( SkyComponent *p,
+PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
                                             SolarSystemSingleComponent *planetComponent,
                                             KSPlanetBase::Planets planet ) :
     SkyComponent( p  )

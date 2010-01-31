@@ -49,7 +49,7 @@ public:
     /**
      *@short Constructor.
     */
-    FlagComponent( SkyComponent* );
+    FlagComponent( SkyComposite* );
 
     /**
      *@short Destructor.

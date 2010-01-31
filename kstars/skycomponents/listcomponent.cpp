@@ -23,7 +23,7 @@
 #include "skymap.h" 
 #include "skyobjects/skyobject.h"
 
-ListComponent::ListComponent( SkyComponent *parent ) :
+ListComponent::ListComponent( SkyComposite *parent ) :
     SkyComponent( parent )
 {}
 

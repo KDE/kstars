@@ -50,7 +50,7 @@ class DeepStarComponent: public ListComponent
 {
 public:
 
-    DeepStarComponent( SkyComponent *parent, QString fileName, float trigMag, bool staticstars=false );
+    DeepStarComponent( SkyComposite *parent, QString fileName, float trigMag, bool staticstars=false );
 
     virtual ~DeepStarComponent();
 

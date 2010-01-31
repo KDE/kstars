@@ -36,9 +36,9 @@ class MilkyWay : public LineListIndex
 {
 public:
     /**@short Constructor
-     * @p parent pointer to the parent SkyComponent
+     * @p parent pointer to the parent SkyComposite
      */
-    MilkyWay( SkyComponent *parent );
+    MilkyWay( SkyComposite *parent );
 
     /** Load skiplists from file */
     void loadContours(QString fname, QString greeting);

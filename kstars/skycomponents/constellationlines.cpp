@@ -36,7 +36,7 @@
 #include "ksfilereader.h"
 
 
-ConstellationLines::ConstellationLines( SkyComponent *parent )
+ConstellationLines::ConstellationLines( SkyComposite *parent )
         : LineListIndex( parent, i18n("Constellation Lines") ), m_reindexNum(J2000)
 {}
 

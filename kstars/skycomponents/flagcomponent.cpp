@@ -30,7 +30,7 @@
 #include "ksfilereader.h"
 
 
-FlagComponent::FlagComponent( SkyComponent *parent )
+FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
 {
     // List user's directory

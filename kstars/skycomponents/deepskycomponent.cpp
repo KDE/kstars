@@ -35,7 +35,7 @@
 #include "skymesh.h"
 
 
-DeepSkyComponent::DeepSkyComponent( SkyComponent *parent ) :
+DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
     SkyComponent(parent)
 {
     m_skyMesh = SkyMesh::Instance();

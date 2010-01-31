@@ -49,7 +49,7 @@
 
 StarComponent *StarComponent::pinstance = 0;
 
-StarComponent::StarComponent(SkyComponent *parent )
+StarComponent::StarComponent(SkyComposite *parent )
     : ListComponent(parent), m_reindexNum(J2000), m_FaintMagnitude(-5.0), 
       starsLoaded(false), focusStar(NULL)
 {
@@ -75,7 +75,7 @@ StarComponent::~StarComponent() {
     // Empty
 }
 
-StarComponent *StarComponent::Create( SkyComponent *parent ) {
+StarComponent *StarComponent::Create( SkyComposite *parent ) {
     if( pinstance )
         delete pinstance;
     pinstance = new StarComponent( parent );
@@ -100,7 +100,7 @@ void StarComponent::init() {
 bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float trigMag, bool staticstars ) {
     if( BinFileHelper::testFileExists( fileName ) ) {
         DeepStarComponent *newdsc;
-        m_DeepStarComponents.append( newdsc = new DeepStarComponent( this, fileName, trigMag, staticstars ) );
+        m_DeepStarComponents.append( newdsc = new DeepStarComponent( parent(), fileName, trigMag, staticstars ) );
         newdsc->init();
         return true;
     }

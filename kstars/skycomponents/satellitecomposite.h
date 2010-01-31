@@ -35,9 +35,9 @@ class SatelliteComposite : public SkyComposite
 public:
     /**
     	*@short Constructor
-    	*@param parent Pointer to the parent SkyComponent object
+    	*@param parent Pointer to the parent SkyComposite object
     	*/
-    SatelliteComposite( SkyComponent *parent );
+    SatelliteComposite( SkyComposite *parent );
 
     ~SatelliteComposite();
 

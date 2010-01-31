@@ -36,7 +36,7 @@ class SkyMap;
 class ListComponent : public SkyComponent
 {
 public:
-    ListComponent( SkyComponent *parent );
+    ListComponent( SkyComposite *parent );
 
     virtual ~ListComponent();
 

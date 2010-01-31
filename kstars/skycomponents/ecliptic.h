@@ -33,10 +33,10 @@ class Ecliptic : public LineListIndex
 public:
 
     /* @short Constructor
-     * @p parent pointer to the parent SkyComponent object
+     * @p parent pointer to the parent SkyComposite object
      * name is the name of the subclass
      */
-    Ecliptic( SkyComponent *parent );
+    Ecliptic( SkyComposite *parent );
 
     virtual void draw( QPainter& psky );
     virtual bool selected();

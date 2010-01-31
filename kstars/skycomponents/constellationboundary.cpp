@@ -32,7 +32,7 @@
 
 #include "skymesh.h"
 
-ConstellationBoundary::ConstellationBoundary( SkyComponent *parent ) :
+ConstellationBoundary::ConstellationBoundary( SkyComposite *parent ) :
     SkyComposite( parent )
 {
     m_skyMesh = SkyMesh::Instance();

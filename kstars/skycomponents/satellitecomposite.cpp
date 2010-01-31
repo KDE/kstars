@@ -26,7 +26,7 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 
-SatelliteComposite::SatelliteComposite( SkyComponent *parent )
+SatelliteComposite::SatelliteComposite( SkyComposite *parent )
         : SkyComposite( parent )
 {
     for ( uint i=0; i<NSTEPS; ++i )

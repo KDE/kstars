@@ -20,7 +20,7 @@
 #include "skyobjects/skypoint.h" 
 #include "kstarsdata.h"
 
-PointListComponent::PointListComponent( SkyComponent *parent ) :
+PointListComponent::PointListComponent( SkyComposite *parent ) :
         SkyComponent( parent )
 {}
 

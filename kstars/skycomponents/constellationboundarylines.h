@@ -39,9 +39,9 @@ public:
     	*@short Constructor
     	*Simply adds all of the coordinate grid circles 
     	*(meridians and parallels)
-    	*@p parent Pointer to the parent SkyComponent object
+    	*@p parent Pointer to the parent SkyComposite object
     	*/
-    ConstellationBoundaryLines( SkyComponent *parent );
+    ConstellationBoundaryLines( SkyComposite *parent );
 
     /**
     	*@short Initialize the Constellation boundary 

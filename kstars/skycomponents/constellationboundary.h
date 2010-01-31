@@ -42,7 +42,7 @@ typedef QHash<QString, PolyList*> PolyNameHash;
 class ConstellationBoundary : public SkyComposite
 {
 public:
-    explicit ConstellationBoundary( SkyComponent *parent );
+    explicit ConstellationBoundary( SkyComposite *parent );
 
     void appendPoly( PolyList* polyList, int debug=0);
 

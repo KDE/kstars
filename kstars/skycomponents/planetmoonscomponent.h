@@ -45,7 +45,7 @@ public:
      *@short Constructor
      *@p parent pointer to the parent SkyComposite
      */
-    PlanetMoonsComponent( SkyComponent *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets planet );
+    PlanetMoonsComponent( SkyComposite *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets planet );
 
     /**
      *@short Destructor

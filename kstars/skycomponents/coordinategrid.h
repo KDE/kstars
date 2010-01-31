@@ -34,9 +34,9 @@ public:
     	*@short Constructor
     	*Simply adds all of the coordinate grid circles 
     	*(meridians and parallels)
-    	*@p parent Pointer to the parent SkyComponent object
+    	*@p parent Pointer to the parent SkyComposite object
     	*/
-    CoordinateGrid( SkyComponent *parent );
+    CoordinateGrid( SkyComposite *parent );
 
     virtual void init();
 

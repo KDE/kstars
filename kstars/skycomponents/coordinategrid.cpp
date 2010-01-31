@@ -28,7 +28,7 @@
 #include "linelist.h"
 #include "dms.h"
 
-CoordinateGrid::CoordinateGrid( SkyComponent *parent )
+CoordinateGrid::CoordinateGrid( SkyComposite *parent )
         : NoPrecessIndex(parent, i18n("Coordinate Grid") )
 {}
 

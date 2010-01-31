@@ -36,9 +36,9 @@ class ConstellationLines : public LineListIndex
 
 public:
     /* @short Constructor
-     * @p parent Pointer to the parent SkyComponent object
+     * @p parent Pointer to the parent SkyComposite object
     */
-    ConstellationLines( SkyComponent *parent );
+    ConstellationLines( SkyComposite *parent );
 
     /* @short Initialize the Constellation lines
     *

@@ -27,7 +27,7 @@
 #include "Options.h"
 #include "linelist.h"
 
-Equator::Equator(SkyComponent *parent ) :
+Equator::Equator(SkyComposite *parent ) :
         NoPrecessIndex( parent, i18n("Equator") ),
         m_label( LineListIndex::name() )
 {}

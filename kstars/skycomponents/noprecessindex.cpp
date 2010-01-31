@@ -21,7 +21,7 @@
 #include "kstarsdata.h"
 #include "linelist.h"
 
-NoPrecessIndex::NoPrecessIndex( SkyComponent *parent, const QString& name ) :
+NoPrecessIndex::NoPrecessIndex( SkyComposite *parent, const QString& name ) :
     LineListIndex( parent, name )
 {}
 

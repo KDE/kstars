@@ -41,7 +41,7 @@
 
 #include "skymesh.h"
 
-ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComponent *parent )
+ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
         : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
 {}
 

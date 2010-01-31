@@ -39,9 +39,9 @@ public:
     enum { NoLabel = 0, LeftEdgeLabel = 1, RightEdgeLabel = 2, UnknownLabel };
 
     /**@short Constructor
-     * @p parent Pointer to the parent SkyComponent object
+     * @p parent Pointer to the parent SkyComposite object
      */
-    SatelliteComponent(SkyComponent* parent);
+    SatelliteComponent(SkyComposite* parent);
 
     virtual ~SatelliteComponent();
 

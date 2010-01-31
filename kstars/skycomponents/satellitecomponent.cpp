@@ -26,7 +26,7 @@
 #include "skylabeler.h"
 #include "Options.h"
 
-SatelliteComponent::SatelliteComponent(SkyComponent *parent ) :
+SatelliteComponent::SatelliteComponent(SkyComposite *parent ) :
     SkyComponent(parent),
     LabelPosition( NoLabel ),
     m_skyLabeler( SkyLabeler::Instance() )

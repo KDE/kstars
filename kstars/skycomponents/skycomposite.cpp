@@ -19,7 +19,7 @@
 
 #include "skyobjects/skyobject.h"
 
-SkyComposite::SkyComposite(SkyComponent *parent ) :
+SkyComposite::SkyComposite(SkyComposite *parent ) :
     SkyComponent( parent )
 { }
 

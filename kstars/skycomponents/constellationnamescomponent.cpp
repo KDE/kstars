@@ -28,7 +28,7 @@
 #include "ksfilereader.h"
 #include "skylabeler.h"
 
-ConstellationNamesComponent::ConstellationNamesComponent(SkyComponent *parent )
+ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent )
         : ListComponent(parent )
 {}
 

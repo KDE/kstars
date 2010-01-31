@@ -46,7 +46,6 @@
 #include "starblockfactory.h"
 #include "skymesh.h"
 
-class SkyComponent;
 class SkyMesh;
 class StarObject;
 class SkyLabeler;
@@ -61,7 +60,7 @@ class StarComponent: public ListComponent
 {
 protected:
 
-    StarComponent( SkyComponent* );
+    StarComponent( SkyComposite* );
 
 public:
 
@@ -69,7 +68,7 @@ public:
 
     // TODO: Desingletonize StarComponent
     /**@short Create an instance of StarComponent */
-    static StarComponent *Create( SkyComponent* );
+    static StarComponent *Create( SkyComposite* );
 
     /**@return the instance of StarComponent if already created, NULL otherwise */
     static StarComponent *Instance() { return pinstance; }

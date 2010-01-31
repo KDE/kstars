@@ -25,7 +25,7 @@
 #include "ksnumbers.h"
 #include "skyobjects/skyobject.h"
 
-SkyComponent::SkyComponent( SkyComponent *parent ) :
+SkyComponent::SkyComponent( SkyComposite *parent ) :
     m_parent( parent )
 {}
 
@@ -47,3 +47,5 @@ bool SkyComponent::addTrail( SkyObject * ) { return false; }
 bool SkyComponent::removeTrail( SkyObject * ) { return false; }
 void SkyComponent::clearTrailsExcept( SkyObject * ) { return; }
 void SkyComponent::drawTrails( QPainter & ) { return; }
+QHash<int, QStringList>& SkyComponent::objectNames() { return parent()->objectNames(); }
+QStringList& SkyComponent::objectNames(int type) { return parent()->objectNames(type); }

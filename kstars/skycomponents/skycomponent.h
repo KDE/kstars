@@ -27,6 +27,7 @@ class QString;
 class KSNumbers;
 class SkyObject;
 class SkyPoint;
+class SkyComposite;
 
 /**
  * @class SkyComponent
@@ -50,7 +51,7 @@ public:
      * whether this component should be drawn in the map.  Defaults
      * to always visible.
      */
-    explicit SkyComponent( SkyComponent *parent );
+    explicit SkyComponent( SkyComposite *parent );
 
     /** @short Destructor */
     virtual ~SkyComponent();
@@ -91,7 +92,7 @@ public:
      * add a component to it's parent, for example a star want
      * to add/remove a trail to it's parent.
      */
-    SkyComponent* parent() { return m_parent; }
+    SkyComposite* parent() { return m_parent; }
 
     /**
      * @short Add a Trail to the specified SkyObject.
@@ -147,11 +148,11 @@ public:
 
     virtual void emitProgressText( const QString &message );
 
-    virtual QHash<int, QStringList>& objectNames() { return parent()->objectNames(); }
-    virtual QStringList& objectNames(int type) { return parent()->objectNames(type); }
+    virtual QHash<int, QStringList>& objectNames();
+    virtual QStringList& objectNames(int type);
 
 private:
-    SkyComponent *m_parent;
+    SkyComposite *m_parent;
 };
 
 #endif

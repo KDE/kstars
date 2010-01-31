@@ -43,7 +43,7 @@ public:
      * @param mesh Pointer to the universal SkyMesh instance
      * @param name name of the subclass used for debugging
      */
-    explicit LineListIndex( SkyComponent *parent, const QString& name="" );
+    explicit LineListIndex( SkyComposite *parent, const QString& name="" );
 
     /* @short.  The top level draw routine.  Draws all the LineLists for any
      * subclass in one fell swoop which minimizes some of the loop overhead.

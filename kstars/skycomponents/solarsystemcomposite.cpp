@@ -35,7 +35,7 @@
 #include "skyobjects/kspluto.h"
 #include "planetmoonscomponent.h"
 
-SolarSystemComposite::SolarSystemComposite(SkyComponent *parent ) :
+SolarSystemComposite::SolarSystemComposite(SkyComposite *parent ) :
     SkyComposite(parent)
 {
 

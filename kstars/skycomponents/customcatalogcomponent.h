@@ -39,9 +39,9 @@ public:
 
     /**
     	*@short Constructor
-    	*@p parent Pointer to the parent SkyComponent object
+    	*@p parent Pointer to the parent SkyComposite object
     	*/
-    CustomCatalogComponent( SkyComponent*, const QString &fname, bool showerrs, int index );
+    CustomCatalogComponent( SkyComposite*, const QString &fname, bool showerrs, int index );
     /**
     	*@short Destructor.  Delete list members
     	*/

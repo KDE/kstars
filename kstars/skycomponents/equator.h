@@ -34,10 +34,10 @@ class Equator : public NoPrecessIndex
 public:
 
     /* @short Constructor
-     * @p parent pointer to the parent SkyComponent object
+     * @p parent pointer to the parent SkyComposite object
      * name is the name of the subclass
      */
-    Equator( SkyComponent *parent );
+    Equator( SkyComposite *parent );
 
     /**@short Initialize the Equator */
     virtual void init();

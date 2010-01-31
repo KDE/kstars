@@ -48,7 +48,7 @@
 #include "skymesh.h"
 #include "skylabeler.h"
 
-SkyMapComposite::SkyMapComposite(SkyComponent *parent ) :
+SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
         SkyComposite(parent), m_reindexNum( J2000 )
 {
     m_skyLabeler = SkyLabeler::Instance();

@@ -48,7 +48,7 @@
 #include "linelist.h"
 
 
-LineListIndex::LineListIndex( SkyComponent *parent, const QString& name )
+LineListIndex::LineListIndex( SkyComposite *parent, const QString& name )
         : SkyComposite( parent ), m_name(name)
 {
     m_skyMesh = SkyMesh::Instance();
