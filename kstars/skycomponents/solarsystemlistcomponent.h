@@ -32,29 +32,26 @@ class SolarSystemComposite;
 class SolarSystemListComponent : public ListComponent
 {
 public:
-    SolarSystemListComponent( SolarSystemComposite *parent, bool (*visibleMethod)());
-    ~SolarSystemListComponent();
+    SolarSystemListComponent( SolarSystemComposite *parent );
+
+    virtual ~SolarSystemListComponent();
 
     virtual void update( KSNumbers *num );
 
-    /**
-    	*@short Update the coordinates of the solar system bodies in this component.
-    	*
-    	*This function updates the position of the moving solar system bodies.
-    	*@p data Pointer to the KStarsData object
-    	*@p num Pointer to the KSNumbers object
-    	*/
+    /**@short Update the coordinates of the solar system bodies in this component.
+     *
+     * This function updates the position of the moving solar system bodies.
+     * @p data Pointer to the KStarsData object
+     * @p num Pointer to the KSNumbers object
+     */
     virtual void updatePlanets( KSNumbers *num );
 
-    /**
-    	*@short Draws the bodies' trails, if necessary.
-    	*/
+    /** @short Draws the bodies' trails, if necessary. */
     void drawTrails( QPainter& psky );
 
-    /**
-    	*@short Add a Trail to the specified SkyObject.
-    	*@p o Pointer to the SkyObject to which a Trail will be added
-    	*/
+    /**@short Add a Trail to the specified SkyObject.
+     * @p o Pointer to the SkyObject to which a Trail will be added
+     */
     virtual bool addTrail( SkyObject *o );
     virtual bool removeTrail( SkyObject *o );
     virtual void clearTrailsExcept( SkyObject *exOb );

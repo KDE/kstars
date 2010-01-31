@@ -29,12 +29,6 @@ class SkyObject;
 class SkyPoint;
 
 /**
- * @short static placeholder function for SkyComponents that don't
- * need a visibility function.  Simply returns true.
- */
-static bool alwaysVisible() { return true; }
-
-/**
  * @class SkyComponent
  * SkyComponent represents an object on the sky map. This may be a
  * star, a planet or an imaginary line like the equator.
@@ -56,7 +50,7 @@ public:
      * whether this component should be drawn in the map.  Defaults
      * to always visible.
      */
-    explicit SkyComponent( SkyComponent *parent, bool (*visibleMethod)() = &alwaysVisible );
+    explicit SkyComponent( SkyComponent *parent );
 
     /** @short Destructor */
     virtual ~SkyComponent();
@@ -88,17 +82,7 @@ public:
     virtual void updatePlanets( KSNumbers * ) {}
     virtual void updateMoons( KSNumbers * ) {}
 
-    /**
-     * @ return true if the component is to be drawn on the map.
-     *
-     * This meta-function is actually a pointer to the appropriate
-     * Options::showXXX() function for this component. It allows
-     * us to call the appropriate function by just calling
-     * "visible()".
-     */
-    bool (*visible)();
-
-    /** -jbb this is a MUCH better way: */
+    /**@return true if component is to be drawn on the map. */
     virtual bool selected() { return true; }
 
     /**

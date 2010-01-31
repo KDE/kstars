@@ -28,8 +28,8 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 
-SolarSystemListComponent::SolarSystemListComponent( SolarSystemComposite *p, bool (*visibleMethod)() ) :
-    ListComponent( p, visibleMethod ),
+SolarSystemListComponent::SolarSystemListComponent( SolarSystemComposite *p ) :
+    ListComponent( p ),
     m_Earth( p->earth() )
 {}
 
@@ -39,7 +39,7 @@ SolarSystemListComponent::~SolarSystemListComponent()
 }
 
 void SolarSystemListComponent::update(KSNumbers * ) {
-    if ( visible() ) {
+    if ( selected() ) {
         KStarsData *data = KStarsData::Instance(); 
         foreach ( SkyObject *o, objectList() ) {
             // FIXME: get rid of cast. 
@@ -50,7 +50,7 @@ void SolarSystemListComponent::update(KSNumbers * ) {
 }
 
 void SolarSystemListComponent::updatePlanets(KSNumbers *num ) {
-    if ( visible() ) {
+    if ( selected() ) {
         KStarsData *data = KStarsData::Instance(); 
         foreach ( SkyObject *o, objectList() ) {
             KSPlanetBase *p = (KSPlanetBase*)o;
@@ -100,7 +100,7 @@ void SolarSystemListComponent::clearTrailsExcept( SkyObject *exOb ) {
 }
 
 void SolarSystemListComponent::drawTrails( QPainter& psky ) {
-    if ( ! visible() ) return;
+    if ( ! selected() ) return;
 
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();

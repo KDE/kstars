@@ -49,6 +49,7 @@ public:
     KSPlanetBase* planet() { return m_Planet; }
 
     virtual void init();
+    virtual bool selected();
     virtual void update( KSNumbers *num );
     virtual void updatePlanets( KSNumbers *num );
     virtual SkyObject* first();
@@ -68,6 +69,7 @@ protected:
     virtual void clearTrailsExcept( SkyObject *exOb );
 
 private:
+    bool (*visible)();    
     QColor        m_Color;
     KSPlanet     *m_Earth;
     KSPlanetBase *m_Planet;

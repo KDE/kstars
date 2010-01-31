@@ -35,9 +35,8 @@
 #include "skyobjects/kspluto.h"
 #include "planetmoonscomponent.h"
 
-// FIXME: is KStarsData needed here
-SolarSystemComposite::SolarSystemComposite(SkyComponent *parent )
-        : SkyComposite(parent)
+SolarSystemComposite::SolarSystemComposite(SkyComponent *parent ) :
+    SkyComposite(parent)
 {
 
     m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
@@ -51,7 +50,7 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent )
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::MARS ), Options::showMars ) );
     SolarSystemSingleComponent *jup = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::JUPITER ), Options::showJupiter );
     addComponent( jup );
-    m_JupiterMoons = new PlanetMoonsComponent( this, jup, KSPlanetBase::JUPITER, &Options::showJupiter);
+    m_JupiterMoons = new PlanetMoonsComponent( this, jup, KSPlanetBase::JUPITER);
     addComponent( m_JupiterMoons );
     SolarSystemSingleComponent *sat = new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::SATURN ), Options::showSaturn );
     addComponent( sat );
@@ -59,9 +58,9 @@ SolarSystemComposite::SolarSystemComposite(SkyComponent *parent )
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::NEPTUNE ), Options::showNeptune ) );
     addComponent( new SolarSystemSingleComponent( this, new KSPluto(), Options::showPluto ) );
 
-    m_AsteroidsComponent = new AsteroidsComponent( this, Options::showAsteroids );
+    m_AsteroidsComponent = new AsteroidsComponent( this  );
     addComponent( m_AsteroidsComponent );
-    m_CometsComponent = new CometsComponent( this, Options::showComets );
+    m_CometsComponent = new CometsComponent( this );
     addComponent( m_CometsComponent );
 }
 

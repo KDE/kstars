@@ -34,8 +34,9 @@
 #include "skylabeler.h"
 
 PlanetMoonsComponent::PlanetMoonsComponent( SkyComponent *p,
-        SolarSystemSingleComponent *planetComponent, KSPlanetBase::Planets planet,
-        bool (*visibleMethod)() ) : SkyComponent( p, visibleMethod )
+                                            SolarSystemSingleComponent *planetComponent,
+                                            KSPlanetBase::Planets planet ) :
+    SkyComponent( p  )
 {
     pmoons = 0;
     PlanetMoonsComponent::planet = planet;
@@ -47,6 +48,10 @@ PlanetMoonsComponent::~PlanetMoonsComponent()
     delete pmoons;
 }
 
+bool PlanetMoonsComponent::selected() {
+    return m_Planet->selected();
+}
+    
 void PlanetMoonsComponent::init()
 {
     /*
@@ -66,14 +71,14 @@ void PlanetMoonsComponent::init()
 void PlanetMoonsComponent::update( KSNumbers * )
 {
     KStarsData *data = KStarsData::Instance();
-    if ( visible() )
+    if ( selected() )
         pmoons->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void PlanetMoonsComponent::updateMoons( KSNumbers *num )
 {
     //FIXME: evil cast
-    if ( visible() )
+    if ( selected() )
         pmoons->findPosition( num, (KSPlanet*)(m_Planet->planet()), (KSSun*)(parent()->findByName( "Sun" )) );
 }
 
@@ -213,7 +218,8 @@ void PlanetMoonsComponent::drawTrails( QPainter& psky ) {
     for ( int i=0; i<nmoons; ++i ) {
         TrailObject *moon = pmoons->moon(i);
 
-        if ( ! visible() || ! moon->hasTrail() ) continue;
+        if ( ! selected() || ! moon->hasTrail() )
+            continue;
 
         SkyPoint p = moon->trail().first();
         QPointF o = map->toScreen( &p );
@@ -232,7 +238,10 @@ void PlanetMoonsComponent::drawTrails( QPainter& psky ) {
         psky.setPen( QPen( tcolor1, 1 ) );
         bool firstPoint( true );
         foreach ( p, moon->trail() ) {
-            if ( firstPoint ) { firstPoint = false; continue; } //skip first point
+            if ( firstPoint ) { //skip first point
+                firstPoint = false;
+                continue;
+            }
 
             if ( Options::fadePlanetTrails() ) {
                 //Define interpolated color

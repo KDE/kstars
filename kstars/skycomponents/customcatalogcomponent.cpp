@@ -130,7 +130,7 @@ void CustomCatalogComponent::init() {
 
 void CustomCatalogComponent::update( KSNumbers * )
 {
-    if ( visible() ) {
+    if ( selected() ) {
         KStarsData *data = KStarsData::Instance();
         foreach ( SkyObject *obj, objectList() ) {
             obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -140,7 +140,7 @@ void CustomCatalogComponent::update( KSNumbers * )
 
 void CustomCatalogComponent::draw( QPainter &psky )
 {
-    if ( ! visible() ) return;
+    if ( ! selected() ) return;
 
     SkyMap *map = SkyMap::Instance();
     //    float Width  = map->scale() * map->width();

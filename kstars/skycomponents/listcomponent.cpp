@@ -23,17 +23,12 @@
 #include "skymap.h" 
 #include "skyobjects/skyobject.h"
 
-ListComponent::ListComponent( SkyComponent *parent, bool (*visibleMethod)() )
-        : SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
+ListComponent::ListComponent( SkyComponent *parent ) :
+    SkyComponent( parent ),
+    m_CurrentIndex(0)
 {}
 
-ListComponent::ListComponent( SkyComponent *parent )
-        : SkyComponent( parent ), m_CurrentIndex(0)
-{}
-
-
-ListComponent::~ListComponent()
-{
+ListComponent::~ListComponent() {
     clear();
 }
 

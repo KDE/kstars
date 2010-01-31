@@ -25,11 +25,9 @@
 #include "ksnumbers.h"
 #include "skyobjects/skyobject.h"
 
-SkyComponent::SkyComponent( SkyComponent *parent, bool (*visibleMethod)() )
-{
-    Parent = parent;
-    visible = visibleMethod;
-}
+SkyComponent::SkyComponent( SkyComponent *parent ) :
+    Parent( parent )
+{}
 
 SkyComponent::~SkyComponent()
 {

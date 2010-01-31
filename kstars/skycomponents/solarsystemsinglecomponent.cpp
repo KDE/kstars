@@ -31,7 +31,8 @@
 #include "skylabeler.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)()) :
-    SkyComponent( parent, visibleMethod ),
+    SkyComponent( parent ),
+    visible( visibleMethod ),
     m_Earth( parent->earth() ),
     m_Planet( kspb )
 {}
@@ -47,6 +48,10 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
     if ( i >= 0 )
         objectNames(m_Planet->type()).removeAt( i );
     delete m_Planet;
+}
+
+bool SolarSystemSingleComponent::selected() {
+    return visible();
 }
 
 void SolarSystemSingleComponent::init() {
@@ -85,12 +90,12 @@ SkyObject* SolarSystemSingleComponent::objectNearest( SkyPoint *p, double &maxra
 
 void SolarSystemSingleComponent::update(KSNumbers*) {
     KStarsData *data = KStarsData::Instance(); 
-    if( visible() )
+    if( selected() )
         m_Planet->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void SolarSystemSingleComponent::updatePlanets(KSNumbers *num) {
-    if ( visible() ) {
+    if ( selected() ) {
         KStarsData *data = KStarsData::Instance(); 
         m_Planet->findPosition( num, data->geo()->lat(), data->lst(), m_Earth );
         m_Planet->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -121,7 +126,7 @@ void SolarSystemSingleComponent::clearTrailsExcept( SkyObject *exOb ) {
 }
 
 void SolarSystemSingleComponent::draw( QPainter &psky ) {
-    if( ! visible() )
+    if( ! selected() )
         return;
 
     SkyMap *map = SkyMap::Instance();
@@ -215,7 +220,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
 }
 
 void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
-    if( ! visible() || ! m_Planet->hasTrail() )
+    if( ! selected() || ! m_Planet->hasTrail() )
         return;
 
     SkyMap *map = SkyMap::Instance();

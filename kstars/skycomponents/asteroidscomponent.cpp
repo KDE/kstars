@@ -32,20 +32,32 @@
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
 
-AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)()) :
-    SolarSystemListComponent(parent, visibleMethod)
+AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent ) :
+    SolarSystemListComponent(parent)
 {}
 
 AsteroidsComponent::~AsteroidsComponent()
-{
-    //object deletion handled in grandparent dtor (ListComponent)
-}
+{}
 
-bool AsteroidsComponent::selected()
-{
+bool AsteroidsComponent::selected() {
     return Options::showAsteroids();
 }
 
+/*
+ *@short Initialize the asteroids list.
+ *Reads in the asteroids data from the asteroids.dat file.
+ *
+ *Each line in the data file is parsed as follows:
+ *@li 6-23 Name [string]
+ *@li 24-29 Modified Julian Day of orbital elements [int]
+ *@li 30-39 semi-major axis of orbit in AU [double]
+ *@li 41-51 eccentricity of orbit [double]
+ *@li 52-61 inclination angle of orbit in degrees [double]
+ *@li 62-71 argument of perihelion in degrees [double]
+ *@li 72-81 Longitude of the Ascending Node in degrees [double]
+ *@li 82-93 Mean Anomaly in degrees [double]
+ *@li 94-98 Magnitude [double]
+ */
 void AsteroidsComponent::init()
 {
 

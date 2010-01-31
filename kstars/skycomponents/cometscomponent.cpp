@@ -31,14 +31,36 @@
 #include "skymap.h"
 #include "skylabeler.h"
 
-CometsComponent::CometsComponent( SolarSystemComposite *parent, bool (*visibleMethod)())
-        : SolarSystemListComponent( parent, visibleMethod )
+CometsComponent::CometsComponent( SolarSystemComposite *parent )
+        : SolarSystemListComponent( parent )
 {}
 
-CometsComponent::~CometsComponent() {
-    //object deletion handled in grandparent class (ListComponent)
+CometsComponent::~CometsComponent()
+{}
+
+bool CometsComponent::selected() {
+    return Options::showComets();
 }
 
+/*
+ * @short Initialize the asteroids list.
+ * Reads in the asteroids data from the asteroids.dat file.
+ *
+ * Populate the list of Comets from the data file.
+ * Each line in the data file is parsed as follows:
+ * @li 3-37 Name [string]
+ * @li 38-42 Modified Julian Day of orbital elements [int]
+ * @li 44-53 semi-major axis of orbit in AU [double]
+ * @li 55-64 eccentricity of orbit [double]
+ * @li 66-74 inclination angle of orbit in degrees [double]
+ * @li 76-84 argument of perihelion in degrees [double]
+ * @li 86-94 Longitude of the Ascending Node in degrees [double]
+ * @li 82-93 Date of most proximate perihelion passage (YYYYMMDD.DDD) [double]
+ * @li 124-127 Absolute magnitude [float]
+ * @li 129-132 Slope parameter [float]
+ *
+ * @note See KSComet constructor for more details.
+ */
 void CometsComponent::init() {
     QFile file;
 
@@ -88,7 +110,8 @@ void CometsComponent::init() {
 
 void CometsComponent::draw( QPainter& psky )
 {
-    if ( !visible() || Options::zoomFactor() < 10*MINZOOM ) return;
+    if( !selected() || Options::zoomFactor() < 10*MINZOOM )
+        return;
 
     SkyMap *map = SkyMap::Instance();
 

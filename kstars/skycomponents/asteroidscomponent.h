@@ -22,67 +22,25 @@
 #include <QList>
 #include "typedef.h"
 
-class SkyLabeler;
-class SolarSystemComposite;
-
-class KSAsteroid;
-
-typedef QList<KSAsteroid*> AsterList;
-typedef QHash<Trixel, AsterList*> AsterIndex;
-
-/**
-	*@class AsteroidsComponent
-	*Represents the asteroids on the sky map.
-
-	*@author Thomas Kabelmann
-	*@version 0.1
-	*/
+/**@class AsteroidsComponent
+ * Represents the asteroids on the sky map.
+ *
+ * @author Thomas Kabelmann
+ * @version 0.1
+ */
 class AsteroidsComponent: public SolarSystemListComponent
 {
 public:
-
-    /**
-    	*@short Default constructor.
-    	*@p parent pointer to the parent SolarSystemComposite
-    	*@p visibleMethod 
-    	*@p msize
-    	*/
-    AsteroidsComponent(SolarSystemComposite *parent, bool (*visibleMethod)());
-
-    /**
-    	*Destructor.  Delete all list members
-    	*/
-    virtual ~AsteroidsComponent();
-
-    /**
-    	*@short Draw the asteroids onto the skymap
-    	*@p psky reference to the QPainter on which to paint
-    	*/
-    virtual void draw( QPainter& psky );
-
-    /**
-    	*@short Initialize the asteroids list.
-    	*Reads in the asteroids data from the asteroids.dat file.
-    	*
-    	*Each line in the data file is parsed as follows:
-    	*@li 6-23 Name [string]
-    	*@li 24-29 Modified Julian Day of orbital elements [int]
-    	*@li 30-39 semi-major axis of orbit in AU [double]
-    	*@li 41-51 eccentricity of orbit [double]
-    	*@li 52-61 inclination angle of orbit in degrees [double]
-    	*@li 62-71 argument of perihelion in degrees [double]
-    	*@li 72-81 Longitude of the Ascending Node in degrees [double]
-    	*@li 82-93 Mean Anomaly in degrees [double]
-    	*@li 94-98 Magnitude [double]
-    	*/
-    virtual void init();
-
-    bool selected();
-
-    /* @short we need to overide objectNearest to bail on asteroids dimmer
-     * than the draw threshold.
+    /**@short Default constructor.
+     * @p parent pointer to the parent SolarSystemComposite
      */
-    SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+    AsteroidsComponent(SolarSystemComposite *parent);
+
+    virtual ~AsteroidsComponent();
+    virtual void draw( QPainter& psky );
+    virtual void init();
+    virtual bool selected();
+    virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 };
 
 #endif

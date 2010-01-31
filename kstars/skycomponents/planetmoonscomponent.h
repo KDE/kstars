@@ -45,47 +45,36 @@ public:
      *@short Constructor
      *@p parent pointer to the parent SkyComposite
      */
-    PlanetMoonsComponent( SkyComponent *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets planet, bool (*visibleMethod)() );
+    PlanetMoonsComponent( SkyComponent *parent, SolarSystemSingleComponent *pla, KSPlanetBase::Planets planet );
 
     /**
      *@short Destructor
      */
     ~PlanetMoonsComponent();
 
-    /**
-     *@short Draw the moons on the sky map
-     *@p map Pointer to the SkyMap object
-     *@p psky Reference to the QPainter on which to paint
-     */
-    void draw( QPainter& psky );
-
-    /** @short Initialize the planet moons */
     virtual void init();
-
-    void update( KSNumbers *num );
-    void updateMoons( KSNumbers *num );
+    virtual bool selected();
+    virtual void draw( QPainter& psky );
+    virtual void update( KSNumbers *num );
+    virtual void updateMoons( KSNumbers *num );
 
     SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
-    /**
-    	*@return a pointer to a moon if its name matches the argument
-    	*
-    	*@p name the name to be matched
-    	*@return a SkyObject pointer to the moon whose name matches
-    	*the argument, or a NULL pointer if no match was found.
-    	*/
+    /**@return a pointer to a moon if its name matches the argument
+     *
+     * @p name the name to be matched
+     * @return a SkyObject pointer to the moon whose name matches
+     * the argument, or a NULL pointer if no match was found.
+     */
     SkyObject* findByName( const QString &name );
 
 protected:
-    /**
-    	*@short Draws the moons' trails, if necessary.
-    	*/
+    /** @short Draws the moons' trails, if necessary. */
     void drawTrails( QPainter& psky );
 
-    /**
-    	*@short Add a Trail to the specified SkyObject.
-    	*@p o Pointer to the SkyObject to which a Trail will be added
-    	*/
+    /**@short Add a Trail to the specified SkyObject.
+     * @p o Pointer to the SkyObject to which a Trail will be added
+     */
     bool addTrail( SkyObject *o );
 
     bool removeTrail( SkyObject *o );

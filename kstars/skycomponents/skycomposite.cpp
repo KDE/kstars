@@ -19,16 +19,9 @@
 
 #include "skyobjects/skyobject.h"
 
-SkyComposite::SkyComposite(SkyComponent *parent )
-        : SkyComponent( parent ), m_CurrentIndex(0)
-{
-}
-
-SkyComposite::SkyComposite(SkyComponent *parent, bool (*visibleMethod)())
-        : SkyComponent( parent, visibleMethod ), m_CurrentIndex(0)
-{
-}
-
+SkyComposite::SkyComposite(SkyComponent *parent ) :
+    SkyComponent( parent ), m_CurrentIndex(0)
+{ }
 
 SkyComposite::~SkyComposite()
 {
