@@ -88,11 +88,6 @@ protected:
     	*/
     bool addTrail( SkyObject *o );
 
-    /**
-    	*@return true if the specified SkyObject is a member of this component, and it contains a Trail.
-    	*@p o Pointer to the SkyObject to which a Trail will be added
-    	*/
-    bool hasTrail( SkyObject *o, bool& found );
     bool removeTrail( SkyObject *o );
     void clearTrailsExcept( SkyObject *exOb );
 

@@ -373,17 +373,6 @@ bool SkyMapComposite::addTrail( SkyObject *o ) {
     return false;
 }
 
-bool SkyMapComposite::hasTrail( SkyObject *o, bool &found ) {
-    found = false;
-    foreach ( SkyComponent *comp, solarSystem() ) {
-        if ( comp->hasTrail( o, found ) ) return true;
-        //It's possible we found the object, but it had no trail:
-        if ( found ) return false;
-    }
-    //Did not find object o
-    return false;
-}
-
 bool SkyMapComposite::removeTrail( SkyObject *o ) {
     foreach ( SkyComponent *comp, solarSystem() ) {
         if ( comp->removeTrail( o ) ) return true;
@@ -430,16 +419,6 @@ SkyObject* SkyMapComposite::findByName( const QString &name ) {
 SkyObject* SkyMapComposite::findStarByGenetiveName( const QString name ) {
     return m_Stars->findStarByGenetiveName( name );
 }
-
-/**
-SkyObject* SkyMapComposite::findStarByGenetiveName( const QString &name ) {
-	foreach( SkyObject *s, m_Stars->objectList() ) 
-		if ( s->name2() == name || ((StarObject*)s)->gname(false) == name ) 
-			return (SkyObject*)s;
-
-	return 0;
-}
-**/
 
 KSPlanetBase* SkyMapComposite::planet( int n ) {
     if ( n == KSPlanetBase::SUN ) return (KSPlanetBase*)(m_SolarSystem->findByName( "Sun" ) );

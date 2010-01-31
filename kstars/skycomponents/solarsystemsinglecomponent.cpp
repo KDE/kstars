@@ -107,14 +107,6 @@ bool SolarSystemSingleComponent::addTrail( SkyObject *o ) {
     return false;
 }
 
-bool SolarSystemSingleComponent::hasTrail( SkyObject *o, bool &found ) {
-    if ( o == m_Planet ) {
-        found = true;
-        return m_Planet->hasTrail();
-    }
-    return false;
-}
-
 bool SolarSystemSingleComponent::removeTrail( SkyObject *o ) {
     if ( o == m_Planet ) {
         m_Planet->clearTrail();

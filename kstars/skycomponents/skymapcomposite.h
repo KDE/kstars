@@ -151,7 +151,6 @@ public:
     	*@return true if the object was found and a Trail was added 
     	*/
     virtual bool addTrail( SkyObject *o );
-    virtual bool hasTrail( SkyObject *o, bool &found );
     virtual bool removeTrail( SkyObject *o );
     virtual void clearTrailsExcept( SkyObject *o );
 
@@ -174,7 +173,6 @@ public:
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
-
     virtual void emitProgressText( const QString &message );
     virtual QHash<int, QStringList>& objectNames();
     virtual QStringList& objectNames( int k );

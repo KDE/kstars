@@ -121,19 +121,6 @@ bool PlanetMoonsComponent::addTrail( SkyObject *o ) {
     return false;
 }
 
-bool PlanetMoonsComponent::hasTrail( SkyObject *o, bool &found ) {
-    int nmoons = pmoons->nMoons();
-    
-    for ( int i=0; i<nmoons; i++ ) {
-        if ( o == pmoons->moon(i) ) {
-            found = true;
-            return pmoons->moon(i)->hasTrail();
-        }
-    }
-
-    return false;
-}
-
 bool PlanetMoonsComponent::removeTrail( SkyObject *o ) {
     int nmoons = pmoons->nMoons();
     

@@ -46,7 +46,6 @@ SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) { return 0; }
 
 //Reimplemented in Solar system components
 bool SkyComponent::addTrail( SkyObject * ) { return false; }
-bool SkyComponent::hasTrail( SkyObject *, bool & ) { return false; }
 bool SkyComponent::removeTrail( SkyObject * ) { return false; }
 void SkyComponent::clearTrailsExcept( SkyObject * ) { return; }
 void SkyComponent::drawTrails( QPainter & ) { return; }
