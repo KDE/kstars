@@ -21,7 +21,7 @@
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
 #include "skymap.h"
-#include "skycomponents/constellationboundary.h"
+#include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
 #include "kstarsdatetime.h"
 

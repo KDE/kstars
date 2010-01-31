@@ -34,7 +34,7 @@
 #include "skyobjects/ksplanetbase.h"
 #include "simclock.h"
 #include "observinglist.h"
-#include "skycomponents/constellationboundary.h"
+#include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/skymapcomposite.h"
 

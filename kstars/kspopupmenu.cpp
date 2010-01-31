@@ -39,7 +39,7 @@
 #include "indi/indiproperty.h"
 #endif
 
-#include "skycomponents/constellationboundary.h"
+#include "skycomponents/constellationboundarylines.h"
 
 
 namespace {

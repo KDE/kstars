@@ -58,7 +58,7 @@
 #include "indi/indistd.h"
 #endif
 
-#include "skycomponents/constellationboundary.h"
+#include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent ) :

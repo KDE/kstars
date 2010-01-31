@@ -30,7 +30,6 @@ class SkyMap;
 class QPolygonF;
 
 class CultureList;
-class ConstellationBoundary;
 class ConstellationBoundaryLines;
 class ConstellationLines;
 class ConstellationNamesComponent;
@@ -182,13 +181,12 @@ public:
 
     QList<SkyComponent*> customCatalogs();
 
-    ConstellationBoundary* getConstellationBoundary() { return m_CBound; }
+    ConstellationBoundaryLines* getConstellationBoundary() { return m_CBoundLines; }
 signals:
     void progressText( const QString &message );
 
 private:
     CultureList                 *m_Cultures;
-    ConstellationBoundary       *m_CBound;
     ConstellationBoundaryLines  *m_CBoundLines;
     ConstellationNamesComponent *m_CNames;
     ConstellationLines          *m_CLines;

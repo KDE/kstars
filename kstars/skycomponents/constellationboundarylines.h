@@ -23,39 +23,61 @@
 #include <QHash>
 #include <QPolygonF>
 
+class PolyList;
 class ConstellationBoundary;
+class KSFileReader;
+
+
+typedef QVector<PolyList*>        PolyListList;
+typedef QVector<PolyListList*>    PolyIndex;
 
 /**
-	*@class ConstellationBoundary
-	*Collection of lines comprising the borders between constellations
-
-	*@author Jason Harris
-	*@version 0.1
-	*/
+ * @class ConstellationBoundary
+ * Collection of lines comprising the borders between constellations
+ *
+ * @author Jason Harris
+ * @version 0.1
+ */
 class ConstellationBoundaryLines : public NoPrecessIndex
 {
 public:
-    /**
-    	*@short Constructor
-    	*Simply adds all of the coordinate grid circles 
-    	*(meridians and parallels)
-    	*@p parent Pointer to the parent SkyComposite object
-    	*/
+    /**@short Constructor
+     * Simply adds all of the coordinate grid circles
+     * (meridians and parallels)
+     * @p parent Pointer to the parent SkyComposite object
+     */
     ConstellationBoundaryLines( SkyComposite *parent );
 
-    /**
-    	*@short Initialize the Constellation boundary 
-    	*Reads the constellation boundary data from cbounds.dat.  
-    	*The boundary data is defined by a series of RA,Dec coordinate pairs 
-    	*defining the "nodes" of the boundaries.  The nodes are organized into 
-    	*"segments", such that each segment represents a continuous series 
-    	*of boundary-line intervals that divide two particular constellations.
-    	*/
+    QString constellationName( SkyPoint *p );
+
+    const QPolygonF* constellationPoly( SkyPoint *p );
+
+    /** @short Initialize the Constellation boundary
+     * Reads the constellation boundary data from cbounds.dat.
+     * The boundary data is defined by a series of RA,Dec coordinate pairs
+     *  defining the "nodes" of the boundaries.  The nodes are organized into
+     * "segments", such that each segment represents a continuous series
+     * of boundary-line intervals that divide two particular constellations.
+     */
     virtual void init();
 
-    bool selected();
+    virtual bool selected();
 
-    void preDraw( QPainter &psky );
+    virtual void preDraw( QPainter &psky );
+private:
+    void appendPoly( PolyList* polyList, int debug=0);
+
+    /* @short reads the indices from the KSFileReader instead of using
+     * the SkyMesh to create them.  If the file pointer is null or if
+     * debug == -1 then we fall back to using the index.
+     */
+    void appendPoly( PolyList* polyList, KSFileReader* file, int debug);
+
+    PolyList* ContainingPoly( SkyPoint *p );
+
+    SkyMesh*   m_skyMesh;
+    PolyIndex  m_polyIndex;
+    int        m_polyIndexCnt;
 };
 
 

@@ -27,7 +27,6 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanet.h"
 
-#include "constellationboundary.h"
 #include "constellationboundarylines.h"
 #include "constellationlines.h"
 #include "culturelist.h"
@@ -71,9 +70,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_CoordinateGrid );
 
     // Do add to components.
-    m_CBound = new ConstellationBoundary( this );
-    m_CBoundLines = new ConstellationBoundaryLines( this );
-    addComponent( m_CBoundLines );
+    addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
 
     m_Cultures = new CultureList();
 

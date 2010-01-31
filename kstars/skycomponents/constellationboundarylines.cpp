@@ -36,14 +36,19 @@
 #include "linelist.h"
 #include "polylist.h"
 #include "linelistindex.h"
-#include "skycomponents/constellationboundary.h"
 #include "skycomponents/skymapcomposite.h"
 
 #include "skymesh.h"
 
 ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
         : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
-{}
+{
+    m_skyMesh = SkyMesh::Instance();
+    m_polyIndexCnt = 0;
+    for(int i = 0; i < m_skyMesh->size(); i++) {
+        m_polyIndex.append( new PolyListList() );
+    }
+}
 
 // FIXME: -jbb: need to update this information.
 // Constellation boundary data is stored in a series of *.cbound files, one per
@@ -68,8 +73,6 @@ void ConstellationBoundaryLines::init() {
     LineList *lineList = 0;
     PolyList *polyList = 0;
     bool ok;
-
-    ConstellationBoundary* boundaryPoly = data->skyComposite()->getConstellationBoundary();
 
     intro();
 
@@ -99,7 +102,8 @@ void ConstellationBoundaryLines::init() {
             if ( lineList ) appendLine( lineList );
             lineList = 0;
 
-            if ( polyList ) boundaryPoly->appendPoly( polyList, idxFile, verbose );
+            if ( polyList )
+                appendPoly( polyList, idxFile, verbose );
             QString cName = line.mid(1);
             polyList = new PolyList( cName , i18nc( "Constellation name (optional)", cName.toUpper().toLocal8Bit().data() ) );
             if ( verbose == -1 ) printf(":\n");
@@ -148,11 +152,10 @@ void ConstellationBoundaryLines::init() {
         }
     }
 
-    if ( lineList ) appendLine( lineList );
-    if ( polyList ) boundaryPoly->appendPoly( polyList, idxFile, verbose );
-
-    summary();
-    boundaryPoly->summary();
+    if( lineList )
+        appendLine( lineList );
+    if( polyList )
+        appendPoly( polyList, idxFile, verbose );
 }
 
 bool ConstellationBoundaryLines::selected()
@@ -163,9 +166,126 @@ bool ConstellationBoundaryLines::selected()
 
 void ConstellationBoundaryLines::preDraw( QPainter &psky )
 {
-    KStarsData *data = KStarsData::Instance();
-    QColor color = data->colorScheme()->colorNamed( "CBoundColor" );
-    //color = QColor("red");
+    QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "CBoundColor" );
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
+void ConstellationBoundaryLines::appendPoly( PolyList* polyList, KSFileReader* file, int debug)
+{
+    if ( ! file || debug == -1)
+        return appendPoly( polyList, debug );
+
+    while ( file->hasMoreLines() ) {
+        QString line = file->readLine();
+        if ( line.at( 0 ) == ':' ) return;
+        Trixel trixel = line.toInt();
+        m_polyIndex[ trixel ]->append( polyList );
+    }
+}
+
+void ConstellationBoundaryLines::appendPoly( PolyList* polyList, int debug)
+{
+    if ( debug >= 0 && debug < m_skyMesh->debug() ) debug = m_skyMesh->debug();
+
+    const IndexHash& indexHash = m_skyMesh->indexPoly( polyList->poly() );
+    IndexHash::const_iterator iter = indexHash.constBegin();
+    while ( iter != indexHash.constEnd() ) {
+        Trixel trixel = iter.key();
+        iter++;
+
+        if ( debug == -1 ) printf("%d\n", trixel );
+
+        m_polyIndex[ trixel ]->append( polyList );
+    }
+
+    if ( debug > 9 )
+        printf("PolyList: %3d: %d\n", ++m_polyIndexCnt, indexHash.size() );
+}
+
+PolyList* ConstellationBoundaryLines::ContainingPoly( SkyPoint *p )
+{
+    //printf("called ContainingPoly(p)\n");
+
+    // we save the pointers in a hash because most often there is only one
+    // constellation and we can avoid doing the expensive boundary calculations
+    // and just return it if we know it is unique.  We can avoid this minor
+    // complication entirely if we use index(p) instead of aperture(p, r)
+    // because index(p) always returns a single trixel index.
+
+    QHash<PolyList*, bool> polyHash;
+    QHash<PolyList*, bool>::const_iterator iter;
+
+    //printf("\n");
+
+    // the boundaries don't precess so we use index() not aperture()
+    m_skyMesh->index( p, 1.0, IN_CONSTELL_BUF );
+    MeshIterator region( m_skyMesh, IN_CONSTELL_BUF );
+    while ( region.hasNext() ) {
+
+        Trixel trixel = region.next();
+        //printf("Trixel: %4d %s\n", trixel, m_skyMesh->indexToName( trixel ) );
+
+        PolyListList *polyListList = m_polyIndex[ trixel ];
+
+        //printf("    size: %d\n", polyListList->size() );
+
+        for (int i = 0; i < polyListList->size(); i++) {
+            PolyList* polyList = polyListList->at( i );
+            polyHash.insert( polyList, true );
+        }
+    }
+
+    iter = polyHash.constBegin();
+
+    // Don't bother with boundaries if there is only one
+    if ( polyHash.size() == 1 ) return iter.key();
+
+    QPointF point( p->ra()->Hours(), p->dec()->Degrees() );
+    QPointF wrapPoint( p->ra()->Hours() - 24.0, p->dec()->Degrees() );
+    bool wrapRA = p->ra()->Hours() > 12.0;
+
+    while ( iter != polyHash.constEnd() ) {
+
+        PolyList* polyList = iter.key();
+        iter++;
+
+        //kDebug() << QString("checking %1 boundary\n").arg( polyList->name() );
+
+        const QPolygonF* poly = polyList->poly();
+        if ( wrapRA && polyList->wrapRA() ) {
+            if ( poly->containsPoint( wrapPoint, Qt::OddEvenFill ) )
+                return polyList;
+        }
+        else {
+            if ( poly->containsPoint( point, Qt::OddEvenFill ) )
+                return polyList;
+        }
+    }
+
+    return 0;
+}
+
+
+//-------------------------------------------------------------------
+// The routines for providing public access to the boundary index
+// start here.  (Some of them may not be needed (or working)).
+//-------------------------------------------------------------------
+
+QString ConstellationBoundaryLines::constellationName( SkyPoint *p )
+{
+    PolyList *polyList = ContainingPoly( p );
+    if ( polyList ) {
+        return ( Options::useLocalConstellNames() ?
+                 i18nc( "Constellation name (optional)", polyList->name().toUpper().toLocal8Bit().data() ) :
+                 polyList->name() );
+    }
+    return i18n("Unknown");
+}
+
+const QPolygonF* ConstellationBoundaryLines::constellationPoly( SkyPoint *p )
+{
+    PolyList *polyList = ContainingPoly( p );
+    if ( polyList )
+        return polyList->poly();
+    return 0;
+}

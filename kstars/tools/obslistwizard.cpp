@@ -30,7 +30,7 @@
 #include "skyobjects/starobject.h"
 #include "widgets/dmsbox.h"
 #include "widgets/magnitudespinbox.h"
-#include "skycomponents/constellationboundary.h"
+#include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
 
 ObsListWizardUI::ObsListWizardUI( QWidget *p ) : QFrame ( p ) {
