@@ -58,10 +58,8 @@ SolarSystemComposite::SolarSystemComposite(SkyComposite *parent ) :
     addComponent( new SolarSystemSingleComponent( this, new KSPlanet( KSPlanetBase::NEPTUNE ), Options::showNeptune ) );
     addComponent( new SolarSystemSingleComponent( this, new KSPluto(), Options::showPluto ) );
 
-    m_AsteroidsComponent = new AsteroidsComponent( this  );
-    addComponent( m_AsteroidsComponent );
-    m_CometsComponent = new CometsComponent( this );
-    addComponent( m_CometsComponent );
+    addComponent( m_AsteroidsComponent = new AsteroidsComponent( this  ));
+    addComponent( m_CometsComponent    = new CometsComponent( this ));
 }
 
 SolarSystemComposite::~SolarSystemComposite()
