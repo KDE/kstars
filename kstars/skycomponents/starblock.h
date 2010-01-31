@@ -67,7 +67,7 @@ public:
      *
      *@return true if full, false if not full
      */
-    inline bool isFull() { return ( ( nStars == size() ) ? true : false ); }
+    inline bool isFull() { return nStars == size(); }
 
     /**
      *@short  Return the capacity of this StarBlock
