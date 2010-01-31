@@ -334,7 +334,7 @@ void StarComponent::draw( QPainter& psky )
             if ( ! map->onScreen( o ) )
                 continue;
 
-            curStar->draw( psky, o.x(), o.y(), starRenderingSize( mag ) );
+            curStar->draw( psky, o, starRenderingSize( mag ) );
             visibleStarCount++;
             
             if ( m_hideLabels || mag > labelMagLim )
@@ -351,7 +351,7 @@ void StarComponent::draw( QPainter& psky )
         if ( map->checkVisibility( focusStar ) ) {
             QPointF o = map->toScreen( focusStar );
             if ( map->onScreen( o ) ) {
-                focusStar->draw( psky, o.x(), o.y(), starRenderingSize( mag ) );
+                focusStar->draw( psky, o, starRenderingSize( mag ) );
                 visibleStarCount++;
             }
         }

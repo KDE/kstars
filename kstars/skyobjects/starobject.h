@@ -220,14 +220,13 @@ public:
     /**@short Draw star as pixmap
      * @p psky QPainter object
      * @p sp spetral class of star (Letter from Harvard classification)
-     * @p x X position
-     * @p y Y position
+     * @p p position of s star
      * @p size size of a star.
      */
-    static void drawStar(QPainter& psky, char sp, float x, float y, float size );
+    static void drawStar(QPainter& psky, char sp, QPointF p, float size );
 
     /**@short Draw star */
-    inline void draw( QPainter &psky, float x, float y, float size );
+    inline void draw( QPainter &psky, QPointF p, float size );
 
     /* @short returns the name, the magnitude or both.
      */
@@ -275,8 +274,8 @@ private:
 };
 
 
-inline void StarObject::draw( QPainter &psky, float x, float y, float size ) {
-    StarObject::drawStar(psky, SpType[0], x, y, size);
+inline void StarObject::draw( QPainter &psky, QPointF p, float size ) {
+    StarObject::drawStar(psky, SpType[0], p, size);
 }
 
 #endif

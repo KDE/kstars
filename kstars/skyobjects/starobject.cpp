@@ -578,11 +578,11 @@ QString StarObject::constell() const {
     return QString();
 }
 
-void StarObject::drawStar( QPainter &psky, char spType, float x, float y, float size ) {
+void StarObject::drawStar( QPainter &psky, char spType, QPointF p, float size ) {
     int isize = qMax(static_cast<int>(size), 14);
     QPixmap* im = imageCache[ harvardToIndex(spType) ][isize];
     float offset = 0.5 * im->width();
-    psky.drawPixmap( QPointF(x-offset, y-offset), *im );
+    psky.drawPixmap( QPointF(p.x()-offset, p.y()-offset), *im );
 }   
 
 // The two routines below seem overly complicated but at least they are doing

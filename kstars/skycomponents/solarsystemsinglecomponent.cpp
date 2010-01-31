@@ -168,7 +168,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
         } else {
             spType = 'B';
         }
-        StarObject::drawStar( psky, spType, o.x(), o.y(), fakeStarSize);
+        StarObject::drawStar( psky, spType, o, fakeStarSize);
     } else {
         //Draw planet image if:
         if( size < sizemin )

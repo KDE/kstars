@@ -154,7 +154,7 @@ bool openIndexFile( ) {
 
 //This function is empty for a reason; we override the normal 
 //update function in favor of JiT updates for stars.
-void DeepStarComponent::update( KSNumbers *num )
+void DeepStarComponent::update( KSNumbers * )
 {}
 
 // TODO: Optimize draw, if it is worth it.
@@ -273,13 +273,13 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 if ( mag > maglim || ( hideFaintStars && mag > hideStarsMag ) )
                     break;
 
-                if ( ! map->checkVisibility( curStar ) ) continue;
+                if ( ! map->checkVisibility( curStar ) )
+                    continue;
 
                 QPointF o = map->toScreen( curStar );
-
-                if ( ! map->onScreen( o ) ) continue;
-                
-                curStar->draw( psky, o.x(), o.y(), sc->starRenderingSize( mag ) );
+                if ( ! map->onScreen( o ) )
+                    continue;
+                curStar->draw( psky, o, sc->starRenderingSize( mag ) );
                 visibleStarCount++;
             }
         }

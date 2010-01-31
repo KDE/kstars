@@ -155,7 +155,8 @@ void CustomCatalogComponent::draw( QPainter &psky )
         if ( map->checkVisibility( obj ) ) {
             QPointF o = map->toScreen( obj );
 
-            if ( ! map->onScreen( o ) ) continue;
+            if( ! map->onScreen( o ) )
+                continue;
 
             if ( obj->type()==0 ) {
                 StarObject *starobj = (StarObject*)obj;
@@ -163,7 +164,7 @@ void CustomCatalogComponent::draw( QPainter &psky )
                 float mag = starobj->mag();
                 float sizeFactor = 2.0;
                 int size = map->scale()*sizeFactor*(zoomlim - mag) + 1;
-                starobj->draw( psky, o.x(), o.y(), size );
+                starobj->draw( psky, o, size );
             } else {
                 //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
                 DeepSkyObject *dso = (DeepSkyObject*)obj;
