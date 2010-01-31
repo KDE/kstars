@@ -23,12 +23,12 @@
 
 
 /**
-	*@class Equator
-	*Represents the equator on the sky map.
-	
-	*@author James B. Bowlin
-	*@version 0.1
-	*/
+ * @class Equator
+ * Represents the equator on the sky map.
+ *
+ * @author James B. Bowlin
+ * @version 0.1
+ */
 class Equator : public NoPrecessIndex
 {
 public:
@@ -39,23 +39,20 @@ public:
      */
     Equator( SkyComponent *parent );
 
-    void preDraw( QPainter& psky );
-
-    void draw( QPainter &psky );
-
-    void drawLabel( QPainter& psky );
-
     /**@short Initialize the Equator */
     virtual void init();
 
-    bool selected();
+    virtual bool selected();
+    virtual void draw( QPainter &psky );
 
 protected:
-    void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
+    virtual void preDraw( QPainter& psky );
+    virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
         m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
     }
 
 private:
+    void drawLabel( QPainter& psky );
 
     LineListLabel m_label;
 };

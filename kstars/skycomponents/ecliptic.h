@@ -22,12 +22,12 @@
 #include "linelistlabel.h"
 
 /**
-	*@class Ecliptic
-	*Represents the ecliptic on the sky map.
-	
-	*@author James B. Bowlin
-	*@version 0.1
-	*/
+ * @class Ecliptic
+ * Represents the ecliptic on the sky map.
+ *	
+ * @author James B. Bowlin
+ * @version 0.1
+ */
 class Ecliptic : public LineListIndex
 {
 public:
@@ -38,23 +38,18 @@ public:
      */
     Ecliptic( SkyComponent *parent );
 
-    void draw( QPainter& psky );
+    virtual void draw( QPainter& psky );
+    virtual bool selected();
 
-    void drawLabel( QPainter& psky );
-
-    /** @short Initialize the Ecliptic */
     virtual void init();
-
-    bool selected();
-
 protected:
     virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
         m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
     }
 
 private:
+    void drawLabel( QPainter& psky );
     LineListLabel m_label;
-
 };
 
 #endif
