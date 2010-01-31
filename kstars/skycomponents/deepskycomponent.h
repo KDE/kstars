@@ -128,6 +128,8 @@ public:
     bool selected();
 
 private:
+    void clearList(QList<DeepSkyObject*>& list);
+
     void mergeSplitFiles();
 
     void drawDeepSkyCatalog( QPainter& psky, bool drawObject, DeepSkyIndex* dsIndex,

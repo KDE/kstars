@@ -573,45 +573,23 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     return oBest;
 }
 
+void DeepSkyComponent::clearList(QList<DeepSkyObject*>& list) {
+    int i;
+    while( !list.isEmpty() ) {
+        SkyObject *o = list.takeFirst();
+        i = objectNames(o->type()).indexOf( o->name() );
+        if( i >= 0 )
+            objectNames(o->type()).removeAt( i );
+        i = objectNames(o->type()).indexOf( o->longname() );
+        if( i >= 0 )
+            objectNames(o->type()).removeAt( i );
+        delete o;
+    }
+}
+
 void DeepSkyComponent::clear() {
-    while ( !m_MessierList.isEmpty() ) {
-        SkyObject *o = m_MessierList.takeFirst();
-        int i = objectNames(o->type()).indexOf( o->name() );
-        if ( i >= 0 )
-            objectNames(o->type()).removeAt( i );
-        i = objectNames(o->type()).indexOf( o->longname() );
-        if ( i >= 0 )
-            objectNames(o->type()).removeAt( i );
-        delete o;
-    }
-
-    while ( ! m_NGCList.isEmpty() ) {
-        SkyObject *o = m_NGCList.takeFirst();
-        int i = objectNames(o->type()).indexOf( o->name() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-        i = objectNames(o->type()).indexOf( o->longname() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-
-        delete o;
-    }
-
-    while ( ! m_ICList.isEmpty() ) {
-        SkyObject *o = m_ICList.takeFirst();
-        int i = objectNames(o->type()).indexOf( o->name() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-        i = objectNames(o->type()).indexOf( o->longname() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-
-        delete o;
-    }
-
-    while ( ! m_OtherList.isEmpty() ) {
-        SkyObject *o = m_OtherList.takeFirst();
-        int i = objectNames(o->type()).indexOf( o->name() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-        i = objectNames(o->type()).indexOf( o->longname() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-
-        delete o;
-    }
+    clearList( m_MessierList );
+    clearList( m_NGCList );
+    clearList( m_ICList );
+    clearList( m_OtherList );
 }
