@@ -120,7 +120,8 @@ void SolarSystemComposite::updateMoons( KSNumbers *num )
 
 void SolarSystemComposite::draw( QPainter& psky )
 {
-    if ( ! selected() ) return;
+    if ( ! selected() )
+        return;
 
     //FIXME: first draw the objects which are far away
     //(Thomas had been doing this by keeping separate pointers to
@@ -131,8 +132,8 @@ void SolarSystemComposite::draw( QPainter& psky )
 
 void SolarSystemComposite::drawTrails( QPainter& psky )
 {
-    if ( ! selected() ) return;
-
+    if( ! selected() )
+        return;
     foreach ( SkyComponent *comp, components() ) {
         comp->drawTrails( psky );
     }

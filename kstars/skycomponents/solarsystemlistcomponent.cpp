@@ -63,95 +63,11 @@ void SolarSystemListComponent::updatePlanets(KSNumbers *num ) {
     }
 }
 
-bool SolarSystemListComponent::addTrail( SkyObject *oTarget ) {
-  //DEBUG
-  kDebug() << oTarget->name() << endl;
-
-    foreach( SkyObject *o, objectList() ) {
-        if ( o == oTarget ) {
-            ((KSPlanetBase*)o)->addToTrail();
-            m_TrailList.append( o );
-            return true;
-        }
-    }
-    return false;
-}
-
-bool SolarSystemListComponent::removeTrail( SkyObject *oTarget ) {
-    foreach( SkyObject *o, m_TrailList ) {
-        if ( o == oTarget ) {
-            ((KSPlanetBase*)o)->clearTrail();
-            if ( m_TrailList.indexOf( o ) >= 0 )
-                m_TrailList.removeAt( m_TrailList.indexOf( o ) );
-            return true;
-        }
-    }
-    return false;
-}
-
-void SolarSystemListComponent::clearTrailsExcept( SkyObject *exOb ) {
-    foreach( SkyObject *o, m_TrailList ) {
-        if ( o != exOb ) {
-            ((KSPlanetBase*)o)->clearTrail();
-            if ( m_TrailList.indexOf( o ) >= 0 )
-                m_TrailList.removeAt( m_TrailList.indexOf( o ) );
-        }
-    }
-}
 
 void SolarSystemListComponent::drawTrails( QPainter& psky ) {
-    if ( ! selected() ) return;
-
-    SkyMap *map = SkyMap::Instance();
-    KStarsData *data = KStarsData::Instance();
-
-    float Width = map->scale() * map->width();
-    float Height = map->scale() * map->height();
-
-    foreach ( SkyObject *obj, m_TrailList ) {
-        //DEBUG
-        kDebug() << obj->name() << endl;
-        // FIXME: get rid of cast
-        TrailObject *ksp = (TrailObject*)obj;
-        if ( ! ksp->hasTrail() ) continue;
-
-        SkyPoint p = ksp->trail().first();
-        QPointF o = map->toScreen( &p );
-        QPointF oLast( o );
-
-        bool doDrawLine(false);
-        int i = 0;
-        int n = ksp->trail().size();
-
-        if ( ( o.x() >= -1000. && o.x() <= Width+1000. && o.y() >=-1000. && o.y() <= Height+1000. ) ) {
-            doDrawLine = true;
-        }
-
-        bool firstPoint( true );
-        QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-				psky.setPen( QPen( tcolor, 1 ) );
-        foreach ( p, ksp->trail() ) {
-            if ( firstPoint ) { firstPoint = false; continue; } //skip first point
-
-            if ( Options::fadePlanetTrails() ) {
-                tcolor.setAlphaF(static_cast<qreal>(i)/static_cast<qreal>(n));
-                ++i;
-                psky.setPen( QPen( tcolor, 1 ) );
-            }
-
-            o = map->toScreen( &p );
-            if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-
-                //Want to disable line-drawing if this point and the last are both outside bounds of display.
-                if ( ! map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) ) doDrawLine = false;
-
-                if ( doDrawLine ) {
-                    psky.drawLine( oLast, o );
-                } else {
-                    doDrawLine = true;
-                }
-            }
-            oLast = o;
-        }
-    }
+    if( !selected() )
+        return;
+    //FIXME: here for all objects trails are drawn this could be source of inefficiency
+    foreach( SkyObject *obj, objectList() ) 
+        reinterpret_cast<TrailObject*>(obj)->drawTrail(psky);
 }

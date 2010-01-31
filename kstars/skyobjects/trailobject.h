@@ -62,6 +62,12 @@ public:
     /** @short update Horizontal coords of the trail */
     void updateTrail( dms *LST, const dms *lat );
 
+    /**Remove trail for all objects but one which is passed as
+     * parameter. It has SkyObject type for generality. */
+    static void clearTrailsExcept(SkyObject* o);
+
+    void drawTrail(QPainter& psky) const;
+
     /**
      *@short Show Solar System object popup menu.  
      *@note Overloaded from virtual SkyObject::showPopupMenu()

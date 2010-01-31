@@ -937,7 +937,7 @@ void KStars::slotClearAllTrails() {
         exOb = map()->focusObject();
     }
 
-    data()->skyComposite()->clearTrailsExcept( exOb );
+    TrailObject::clearTrailsExcept( exOb );
 
     map()->forceUpdate();
 }

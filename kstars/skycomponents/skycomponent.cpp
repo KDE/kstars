@@ -41,10 +41,8 @@ SkyObject* SkyComponent::findByName( const QString & ) { return 0; }
 
 SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) { return 0; }
 
-//Reimplemented in Solar system components
-bool SkyComponent::addTrail( SkyObject * ) { return false; }
-bool SkyComponent::removeTrail( SkyObject * ) { return false; }
-void SkyComponent::clearTrailsExcept( SkyObject * ) { return; }
 void SkyComponent::drawTrails( QPainter & ) { return; }
+
 QHash<int, QStringList>& SkyComponent::objectNames() { return parent()->objectNames(); }
+
 QStringList& SkyComponent::objectNames(int type) { return parent()->objectNames(type); }

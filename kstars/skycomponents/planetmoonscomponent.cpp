@@ -113,40 +113,6 @@ SkyObject* PlanetMoonsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 
 }
 
-bool PlanetMoonsComponent::addTrail( SkyObject *o ) {
-    int nmoons = pmoons->nMoons();
-    
-    for ( int i=0; i<nmoons; i++ ) {
-        if ( o == pmoons->moon(i) ) {
-            pmoons->moon(i)->addToTrail();
-            return true;
-        }
-    }
-
-    return false;
-}
-
-bool PlanetMoonsComponent::removeTrail( SkyObject *o ) {
-    int nmoons = pmoons->nMoons();
-    
-    for ( int i=0; i<nmoons; i++ ) {
-        if ( o == pmoons->moon(i) ) {
-            pmoons->moon(i)->clearTrail();
-            return true;
-        }
-    }
-
-    return false;
-}
-
-void PlanetMoonsComponent::clearTrailsExcept( SkyObject *exOb ) {
-    int nmoons = pmoons->nMoons();
-    
-    for ( int i=0; i<nmoons; i++ ) 
-        if ( exOb != pmoons->moon(i) ) 
-            pmoons->moon(i)->clearTrail();
-}
-
 void PlanetMoonsComponent::draw( QPainter& psky )
 {
     if ( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) ) return;
@@ -204,70 +170,9 @@ void PlanetMoonsComponent::draw( QPainter& psky )
 }
 
 void PlanetMoonsComponent::drawTrails( QPainter& psky ) {
-    SkyMap *map = SkyMap::Instance();
-    KStarsData *data = KStarsData::Instance();
-
-    float Width = map->scale() * map->width();
-    float Height = map->scale() * map->height();
-
-    QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-    QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
-
+    if( ! selected() )
+        return;
     int nmoons = pmoons->nMoons();
-    
-    for ( int i=0; i<nmoons; ++i ) {
-        TrailObject *moon = pmoons->moon(i);
-
-        if ( ! selected() || ! moon->hasTrail() )
-            continue;
-
-        SkyPoint p = moon->trail().first();
-        QPointF o = map->toScreen( &p );
-        QPointF oLast( o );
-
-        bool doDrawLine(false);
-        int j = 0;
-        int n = moon->trail().size();
-
-        if ( ( o.x() >= -1000. && o.x() <= Width+1000.
-                && o.y() >= -1000. && o.y() <= Height+1000. ) ) {
-            //		psky.moveTo(o.x(), o.y());
-            doDrawLine = true;
-        }
-
-        psky.setPen( QPen( tcolor1, 1 ) );
-        bool firstPoint( true );
-        foreach ( p, moon->trail() ) {
-            if ( firstPoint ) { //skip first point
-                firstPoint = false;
-                continue;
-            }
-
-            if ( Options::fadePlanetTrails() ) {
-                //Define interpolated color
-                QColor tcolor = QColor(
-                                    (j*tcolor1.red()   + (n-j)*tcolor2.red())/n,
-                                    (j*tcolor1.green() + (n-j)*tcolor2.green())/n,
-                                    (j*tcolor1.blue()  + (n-j)*tcolor2.blue())/n );
-                ++j;
-                psky.setPen( QPen( tcolor, 1 ) );
-            }
-
-            o = map->toScreen( &p );
-            if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-
-                //Want to disable line-drawing if this point and the last are both outside bounds of display.
-                //FIXME: map->rect() should return QRectF
-                if ( ! map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) ) doDrawLine = false;
-    
-                if ( doDrawLine ) {
-                    psky.drawLine( oLast, o );
-                } else {
-                    doDrawLine = true;
-                }
-            }
-    
-            oLast = o;
-        }
-    }
+    for( int i=0; i<nmoons; ++i ) 
+        pmoons->moon(i)->drawTrail(psky);
 }

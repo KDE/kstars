@@ -96,27 +96,6 @@ void SolarSystemSingleComponent::updatePlanets(KSNumbers *num) {
     }
 }
 
-bool SolarSystemSingleComponent::addTrail( SkyObject *o ) {
-    if ( o == m_Planet ) {
-        m_Planet->addToTrail();
-        return true;
-    }
-    return false;
-}
-
-bool SolarSystemSingleComponent::removeTrail( SkyObject *o ) {
-    if ( o == m_Planet ) {
-        m_Planet->clearTrail();
-        return true;
-    }
-    return false;
-}
-
-void SolarSystemSingleComponent::clearTrailsExcept( SkyObject *exOb ) {
-    if ( exOb != m_Planet )
-        m_Planet->clearTrail();
-}
-
 void SolarSystemSingleComponent::draw( QPainter &psky ) {
     if( ! selected() )
         return;
@@ -211,60 +190,8 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     SkyLabeler::AddLabel( o, m_Planet, SkyLabeler::PLANET_LABEL );
 }
 
+
 void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
-    if( ! selected() || ! m_Planet->hasTrail() )
-        return;
-
-    SkyMap *map = SkyMap::Instance();
-    KStarsData *data = KStarsData::Instance();
-
-    float Width = map->scale() * map->width();
-    float Height = map->scale() * map->height();
-
-    SkyPoint p = m_Planet->trail().first();
-    QPointF o = map->toScreen( &p );
-    QPointF oLast( o );
-
-    bool doDrawLine(false);
-    int i = 0;
-    int n = m_Planet->trail().size();
-
-    if ( ( o.x() >= -1000. && o.x() <= Width+1000.
-            && o.y() >= -1000. && o.y() <= Height+1000. ) ) {
-        //		psky.moveTo(o.x(), o.y());
-        doDrawLine = true;
-    }
-
-    bool firstPoint( true );
-    QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-    psky.setPen( QPen( tcolor, 1 ) );
-    foreach ( p, m_Planet->trail() ) {
-        if( firstPoint ) {
-            firstPoint = false;
-            continue;
-        } //skip first point
-
-        if ( Options::fadePlanetTrails() ) {
-            tcolor.setAlphaF(static_cast<qreal>(i)/static_cast<qreal>(n));
-            ++i;
-            psky.setPen( QPen( tcolor, 1 ) );
-        }
-
-        o = map->toScreen( &p );
-        if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-
-            //Want to disable line-drawing if this point and the last are both outside bounds of display.
-            //FIXME: map->rect() should return QRectF
-            if( !map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) )
-                doDrawLine = false;
-
-            if ( doDrawLine ) {
-                psky.drawLine( oLast, o );
-            } else {
-                doDrawLine = true;
-            }
-        }
-
-        oLast = o;
-    }
+    if( selected() )
+        m_Planet->drawTrail(psky);
 }

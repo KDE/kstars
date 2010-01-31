@@ -95,26 +95,6 @@ public:
     SkyComposite* parent() { return m_parent; }
 
     /**
-     * @short Add a Trail to the specified SkyObject.
-     *
-     * The idea behind this function is that when a trail needs
-     * to be added to SkyObject o, we will simply call
-     * skyComponents()->addTrail( o ), which will then loop through
-     * all sub-components until o is found, and then add a Trail to it.
-     *
-     * @p o Pointer to the SkyObject to which a Trail will be added
-     * @return true if the Trail was successfully added.
-     * @note This base function simply returns false, because you
-     * can only add Trails to solar system bodies.
-     * @sa SolarSystemSingleComponent::addTrail()
-     * @sa SolarSystemListComponent::addTrail()
-     */
-    virtual bool addTrail( SkyObject *o );
-    virtual bool removeTrail( SkyObject *o );
-    virtual void clearTrailsExcept( SkyObject *o );
-    virtual void drawTrails( QPainter & );
-
-    /**
      * @short Search the children of this SkyComponent for
      * a SkyObject whose name matches the argument
      * @p name the name to be matched
@@ -150,6 +130,8 @@ public:
 
     virtual QHash<int, QStringList>& objectNames();
     virtual QStringList& objectNames(int type);
+
+    virtual void drawTrails( QPainter & );
 
 private:
     SkyComposite *m_parent;

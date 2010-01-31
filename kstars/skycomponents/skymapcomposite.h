@@ -143,17 +143,6 @@ public:
     	*/
     virtual SkyObject* findByName( const QString &name );
 
-    /**
-    	*@short Add a Trail to the specified SkyObject
-    	*Loop over all child SkyComponents; if the SkyObject
-    	*in the argument is found, add a Trail to it.
-    	*@p o Pointer to the SkyObject to which a Trail will be added
-    	*@return true if the object was found and a Trail was added 
-    	*/
-    virtual bool addTrail( SkyObject *o );
-    virtual bool removeTrail( SkyObject *o );
-    virtual void clearTrailsExcept( SkyObject *o );
-
     void addCustomCatalog( const QString &filename, int index );
     void removeCustomCatalog( const QString &name );
 

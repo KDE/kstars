@@ -15,8 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "trailobject.h"
+#include <QPainter>
+
+#include "Options.h"
+#include "kstarsdata.h"
+#include "skymap.h"
 #include "kspopupmenu.h"
+#include "trailobject.h"
 
 QSet<TrailObject*> TrailObject::trailObjects;
 
@@ -33,12 +38,13 @@ TrailObject* TrailObject::clone() const {
 }
 
 void TrailObject::updateTrail( dms *LST, const dms *lat ) {
-    for ( int i=0; i < Trail.size(); ++i )
+    for( int i=0; i < Trail.size(); ++i )
         Trail[i].EquatorialToHorizontal( LST, lat );
 }
 
 void TrailObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
-    pmenu->createPlanetMenu( this ); pmenu->popup( pos );
+    pmenu->createPlanetMenu( this );
+    pmenu->popup( pos );
 }
 
 void TrailObject::addToTrail() {
@@ -47,7 +53,8 @@ void TrailObject::addToTrail() {
 }
 
 void TrailObject::clipTrail() {
-    Trail.removeFirst();
+    if( Trail.size() )
+        Trail.removeFirst();
     if( Trail.size() )
         trailObjects.remove( this );
 }
@@ -55,4 +62,74 @@ void TrailObject::clipTrail() {
 void TrailObject::clearTrail() {
     Trail.clear();
     trailObjects.remove( this );
+}
+
+void TrailObject::clearTrailsExcept(SkyObject* o) {
+    TrailObject* keep = 0;
+    foreach(TrailObject* tr, trailObjects) {
+        if( tr != o )
+            tr->clearTrail();
+        else
+            keep = tr;
+    }
+
+    trailObjects = QSet<TrailObject*>();
+    if( keep )
+        trailObjects.insert( keep );
+}
+
+void TrailObject::drawTrail(QPainter& psky) const {
+    if( !Trail.size() )
+        return;
+
+    SkyMap     *map  = SkyMap::Instance();
+    KStarsData *data = KStarsData::Instance();
+
+    float Width  = map->scale() * map->width();
+    float Height = map->scale() * map->height();
+
+    SkyPoint p = Trail.first();
+    QPointF o = map->toScreen( &p );
+    QPointF oLast( o );
+
+    int i = 0;
+    int n = Trail.size();
+
+    bool doDrawLine =
+        o.x() >= -1000.0      &&
+        o.x() <= Width+1000.0 &&
+        o.y() >= -1000.       &&
+        o.y() <= Height+1000.;
+    bool firstPoint = true;
+
+    QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
+    psky.setPen( QPen( tcolor, 1 ) );
+    foreach( p, Trail ) {
+        //skip first point
+        if( firstPoint ) {
+            firstPoint = false;
+            continue;
+        }
+
+        if ( Options::fadePlanetTrails() ) {
+            tcolor.setAlphaF(static_cast<qreal>(i)/static_cast<qreal>(n));
+            ++i;
+            psky.setPen( QPen( tcolor, 1 ) );
+        }
+
+        o = map->toScreen( &p );
+        if( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
+
+            //Want to disable line-drawing if this point and the last are both outside bounds of display.
+            //FIXME: map->rect() should return QRectF
+            if( !map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) )
+                doDrawLine = false;
+
+            if ( doDrawLine )
+                psky.drawLine( oLast, o );
+            else
+                doDrawLine = true;
+        }
+        oLast = o;
+    }
 }

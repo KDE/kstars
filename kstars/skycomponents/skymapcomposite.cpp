@@ -365,30 +365,6 @@ bool SkyMapComposite::removeNameLabel( SkyObject *o ) {
     return true;
 }
 
-bool SkyMapComposite::addTrail( SkyObject *o ) {
-    foreach ( SkyComponent *comp, solarSystem() ) {
-      //DEBUG
-      kDebug() << "here" << endl;
-        if ( comp->addTrail( o ) ) return true;
-    }
-    //Did not find object o
-    return false;
-}
-
-bool SkyMapComposite::removeTrail( SkyObject *o ) {
-    foreach ( SkyComponent *comp, solarSystem() ) {
-        if ( comp->removeTrail( o ) ) return true;
-    }
-    //Did not find object o
-    return false;
-}
-
-void SkyMapComposite::clearTrailsExcept( SkyObject *exOb ) {
-    foreach ( SkyComponent *comp, solarSystem() ) {
-        comp->clearTrailsExcept( exOb );
-    }
-}
-
 QHash<int, QStringList>& SkyMapComposite::objectNames() {
     return m_ObjectNames;
 }

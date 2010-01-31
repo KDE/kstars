@@ -55,16 +55,9 @@ public:
     virtual SkyObject* findByName( const QString &name );
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
     virtual void draw( QPainter &psky );
+
 protected:
-    /**@short Draws the planet's trail, if necessary. */
     virtual void drawTrails( QPainter& psky );
-
-    /**@short Add a Trail to the specified SkyObject.
-     * @p o Pointer to the SkyObject to which a Trail will be added */
-    virtual bool addTrail( SkyObject *o );
-
-    virtual bool removeTrail( SkyObject *o );
-    virtual void clearTrailsExcept( SkyObject *exOb );
 
 private:
     bool (*visible)();    

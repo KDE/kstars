@@ -69,16 +69,7 @@ public:
     SkyObject* findByName( const QString &name );
 
 protected:
-    /** @short Draws the moons' trails, if necessary. */
-    void drawTrails( QPainter& psky );
-
-    /**@short Add a Trail to the specified SkyObject.
-     * @p o Pointer to the SkyObject to which a Trail will be added
-     */
-    bool addTrail( SkyObject *o );
-
-    bool removeTrail( SkyObject *o );
-    void clearTrailsExcept( SkyObject *exOb );
+    virtual void drawTrails( QPainter& psky );
 
 private:
     KSPlanetBase::Planets planet;
