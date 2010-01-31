@@ -159,8 +159,6 @@ public:
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
     virtual void emitProgressText( const QString &message );
-    virtual QHash<int, QStringList>& objectNames();
-    virtual QStringList& objectNames( int k );
     QList<SkyObject*>& labelObjects() { return m_LabeledObjects; }
 
     const QList<DeepSkyObject*>& deepSkyObjects() const;
@@ -180,10 +178,13 @@ public:
     QList<SkyComponent*> customCatalogs();
 
     ConstellationBoundaryLines* getConstellationBoundary() { return m_CBoundLines; }
+
 signals:
     void progressText( const QString &message );
 
 private:
+    virtual QHash<int, QStringList>& getObjectNames();
+    
     CultureList                 *m_Cultures;
     ConstellationBoundaryLines  *m_CBoundLines;
     ConstellationNamesComponent *m_CNames;

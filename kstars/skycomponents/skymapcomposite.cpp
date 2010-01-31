@@ -337,12 +337,8 @@ bool SkyMapComposite::removeNameLabel( SkyObject *o ) {
     return true;
 }
 
-QHash<int, QStringList>& SkyMapComposite::objectNames() {
+QHash<int, QStringList>& SkyMapComposite::getObjectNames() {
     return m_ObjectNames;
-}
-
-QStringList& SkyMapComposite::objectNames( int type ) {
-    return m_ObjectNames[ type ];
 }
 
 SkyObject* SkyMapComposite::findByName( const QString &name ) {

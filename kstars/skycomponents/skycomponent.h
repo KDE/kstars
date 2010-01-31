@@ -124,10 +124,14 @@ public:
 
     virtual void emitProgressText( const QString &message );
 
-    virtual QHash<int, QStringList>& objectNames();
-    virtual QStringList& objectNames(int type);
+    inline QHash<int, QStringList>& objectNames() { return getObjectNames(); }
+
+    inline QStringList& objectNames(int type) { return getObjectNames()[type]; }
 
 private:
+    /** */
+    virtual QHash<int, QStringList>& getObjectNames();
+
     // Disallow copying and assignement
     SkyComponent(const SkyComponent&);
     SkyComponent& operator= (const SkyComponent&);
