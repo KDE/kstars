@@ -35,21 +35,13 @@
 #include "skymesh.h"
 
 
-DeepSkyComponent::DeepSkyComponent( SkyComponent *parent )
-        : SkyComponent(parent)
+DeepSkyComponent::DeepSkyComponent( SkyComponent *parent ) :
+    SkyComponent(parent)
 {
-    m_DeepSkyList = QList<DeepSkyObject*>();
-    m_MessierList = QList<DeepSkyObject*>();
-    m_NGCList = QList<DeepSkyObject*>();
-    m_ICList = QList<DeepSkyObject*>();
-    m_OtherList = QList<DeepSkyObject*>();
-
     m_skyMesh = SkyMesh::Instance();
-
     // Add labels
-    for ( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
+    for( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
         m_labelList[ i ] = new LabelList;
-
 }
 
 DeepSkyComponent::~DeepSkyComponent()
@@ -582,13 +574,14 @@ SkyObject* DeepSkyComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 }
 
 void DeepSkyComponent::clear() {
-    while ( ! m_MessierList.isEmpty() ) {
+    while ( !m_MessierList.isEmpty() ) {
         SkyObject *o = m_MessierList.takeFirst();
         int i = objectNames(o->type()).indexOf( o->name() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
+        if ( i >= 0 )
+            objectNames(o->type()).removeAt( i );
         i = objectNames(o->type()).indexOf( o->longname() );
-        if ( i >= 0 ) objectNames(o->type()).removeAt( i );
-
+        if ( i >= 0 )
+            objectNames(o->type()).removeAt( i );
         delete o;
     }
 
