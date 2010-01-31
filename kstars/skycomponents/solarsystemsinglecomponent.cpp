@@ -30,11 +30,9 @@
 #include "Options.h"
 #include "skylabeler.h"
 
-SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize)
-        : SingleComponent( parent, visibleMethod )
+SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize) :
+    SingleComponent( parent, visibleMethod )
 {
-    minsize = msize;
-    sizeScale = 1.0;
     setStoredObject( kspb );
     m_Earth = parent->earth();
 }
@@ -46,8 +44,8 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
 
 void SolarSystemSingleComponent::init() {
     ksp()->loadData();
-
-    if ( ! ksp()->name().isEmpty() ) objectNames(ksp()->type()).append( ksp()->name() );
+    if ( ! ksp()->name().isEmpty() )
+        objectNames(ksp()->type()).append( ksp()->name() );
     if ( ! ksp()->longname().isEmpty() && ksp()->longname() != ksp()->name() )
         objectNames(ksp()->type()).append( ksp()->longname() );
 }
@@ -61,18 +59,14 @@ void SolarSystemSingleComponent::update(KSNumbers *) {
 void SolarSystemSingleComponent::updatePlanets(KSNumbers *num) {
     if ( visible() ) {
         KStarsData *data = KStarsData::Instance(); 
-        ksp()->findPosition( num, data->geo()->lat(), data->lst(), earth() );
+        ksp()->findPosition( num, data->geo()->lat(), data->lst(), m_Earth );
         ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-
         if ( ksp()->hasTrail() )
             ksp()->updateTrail( data->lst(), data->geo()->lat() );
     }
 }
 
 bool SolarSystemSingleComponent::addTrail( SkyObject *o ) {
-  //DEBUG
-  kDebug() << o->name() << endl;
-
     if ( o == skyObject() ) {
         ksp()->addToTrail();
         return true;
@@ -97,25 +91,26 @@ bool SolarSystemSingleComponent::removeTrail( SkyObject *o ) {
 }
 
 void SolarSystemSingleComponent::clearTrailsExcept( SkyObject *exOb ) {
-    if ( exOb != skyObject() ) {
+    if ( exOb != skyObject() )
         ksp()->clearTrail();
-    }
 }
 
 void SolarSystemSingleComponent::draw( QPainter &psky ) {
-    if ( ! visible() ) return;
+    if( ! visible() )
+        return;
 
     SkyMap *map = SkyMap::Instance();
 
     //TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
-    if ( ! map->checkVisibility( ksp() ) ) return;
+    if ( ! map->checkVisibility( ksp() ) )
+        return;
 
     float Width = map->scale() * map->width();
-//    float Height = map->scale() * map->height();
 
     float sizemin = 1.0;
-    if ( ksp()->name() == "Sun" || ksp()->name() == "Moon" ) sizemin = 8.0;
-    sizemin = sizemin * map->scale();
+    if( ksp()->name() == "Sun" || ksp()->name() == "Moon" )
+        sizemin = 8.0;
+    sizemin *= map->scale();
 
     //TODO: KSPlanetBase needs a color property, and someone has to set the planet's color
     psky.setPen( ksp()->color() );
@@ -123,7 +118,8 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     QPointF o = map->toScreen( ksp() );
 
     //Is planet onscreen?
-    if ( ! map->onScreen( o ) ) return;
+    if( ! map->onScreen( o ) )
+        return;
 
     float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - ksp()->mag() ) / 10;
     if( fakeStarSize > 15.0 ) 
@@ -147,8 +143,9 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     }
     else {
         //Draw planet image if:
-        if ( size < sizemin ) size = sizemin;
-        if ( Options::showPlanetImages() &&  //user wants them,
+        if( size < sizemin )
+            size = sizemin;
+        if( Options::showPlanetImages() &&  //user wants them,
              //FIXME:					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
              ! ksp()->image()->isNull() &&  //image loaded ok,
              size < Width ) {  //and size isn't too big.
@@ -191,13 +188,15 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
         }
     }
     //draw Name
-    if ( ! Options::showPlanetNames() ) return;
+    if ( ! Options::showPlanetNames() )
+        return;
 
     SkyLabeler::AddLabel( o, ksp(), SkyLabeler::PLANET_LABEL );
 }
 
 void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
-    if ( ! visible() || ! ksp()->hasTrail() ) return;
+    if( ! visible() || ! ksp()->hasTrail() )
+        return;
 
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
@@ -221,9 +220,12 @@ void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
 
     bool firstPoint( true );
     QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-		psky.setPen( QPen( tcolor, 1 ) );
+    psky.setPen( QPen( tcolor, 1 ) );
     foreach ( p, ksp()->trail() ) {
-        if ( firstPoint ) { firstPoint = false; continue; } //skip first point
+        if( firstPoint ) {
+            firstPoint = false;
+            continue;
+        } //skip first point
 
         if ( Options::fadePlanetTrails() ) {
             tcolor.setAlphaF(static_cast<qreal>(i)/static_cast<qreal>(n));
@@ -236,7 +238,8 @@ void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
 
             //Want to disable line-drawing if this point and the last are both outside bounds of display.
             //FIXME: map->rect() should return QRectF
-            if ( ! map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) ) doDrawLine = false;
+            if( !map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) )
+                doDrawLine = false;
 
             if ( doDrawLine ) {
                 psky.drawLine( oLast, o );
@@ -247,9 +250,4 @@ void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
 
         oLast = o;
     }
-}
-
-void SolarSystemSingleComponent::setSizeScale(float scale)
-{
-    sizeScale = scale;
 }
