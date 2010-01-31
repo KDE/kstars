@@ -145,8 +145,6 @@ public:
     void addCustomCatalog( const QString &filename, int index );
     void removeCustomCatalog( const QString &name );
 
-    bool addDeepStarComponent( const QString &filename );
-
     bool addNameLabel( SkyObject *o );
     bool removeNameLabel( SkyObject *o );
 
