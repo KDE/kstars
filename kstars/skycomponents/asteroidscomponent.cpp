@@ -92,7 +92,7 @@ void AsteroidsComponent::init()
         KSAsteroid *ast = new KSAsteroid( catN, name, QString(), JD, a, e, dms(dble_i),
                                           dms(dble_w), dms(dble_N), dms(dble_M), H, G );
         ast->setAngularSize( 0.005 );
-        objectList().append( ast );
+        m_ObjectList.append( ast );
 
         //Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append( name );
@@ -119,7 +119,7 @@ void AsteroidsComponent::draw( QPainter& psky )
 
     psky.setBrush( QBrush( QColor( "gray" ) ) );
 
-    foreach ( SkyObject *so, objectList() ) {
+    foreach ( SkyObject *so, m_ObjectList ) {
         // FIXME: God help us!
         KSAsteroid *ast = (KSAsteroid*) so;
 
@@ -149,7 +149,7 @@ SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 
     if ( ! selected() ) return 0;
 
-    foreach ( SkyObject *o, objectList() ) {
+    foreach ( SkyObject *o, m_ObjectList ) {
         if ( o->mag() > Options::magLimitAsteroid() ) continue;
 
         double r = o->angularDistanceTo( p ).Degrees();

@@ -41,7 +41,7 @@ SolarSystemListComponent::~SolarSystemListComponent()
 void SolarSystemListComponent::update(KSNumbers * ) {
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance(); 
-        foreach ( SkyObject *o, objectList() ) {
+        foreach ( SkyObject *o, m_ObjectList ) {
             // FIXME: get rid of cast. 
             KSPlanetBase *p = (KSPlanetBase*)o;
             p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -52,7 +52,7 @@ void SolarSystemListComponent::update(KSNumbers * ) {
 void SolarSystemListComponent::updatePlanets(KSNumbers *num ) {
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance(); 
-        foreach ( SkyObject *o, objectList() ) {
+        foreach ( SkyObject *o, m_ObjectList ) {
             KSPlanetBase *p = (KSPlanetBase*)o;
             p->findPosition( num, data->geo()->lat(), data->lst(), m_Earth );
             p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -65,9 +65,8 @@ void SolarSystemListComponent::updatePlanets(KSNumbers *num ) {
 
 
 void SolarSystemListComponent::drawTrails( QPainter& psky ) {
-    if( !selected() )
-        return;
     //FIXME: here for all objects trails are drawn this could be source of inefficiency
-    foreach( SkyObject *obj, objectList() ) 
-        reinterpret_cast<TrailObject*>(obj)->drawTrail(psky);
+    if( selected() )
+        foreach( SkyObject *obj, m_ObjectList ) 
+            reinterpret_cast<TrailObject*>(obj)->drawTrail(psky);
 }

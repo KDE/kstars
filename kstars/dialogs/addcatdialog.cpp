@@ -135,8 +135,8 @@ bool AddCatDialog::validateDataFile() {
         CustomCatalogComponent newCat( 0, tmpFile.fileName(), true, 0 );
         newCat.init();
 
-        int nObjects = newCat.objectList().size();
-        if ( nObjects ) return true;
+        if( newCat.objectList().size() )
+            return true;
     }
 
     return false;

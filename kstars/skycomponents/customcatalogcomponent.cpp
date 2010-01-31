@@ -102,14 +102,14 @@ void CustomCatalogComponent::init() {
             }
         }
 
-        if ( objectList().size() ) {
+        if ( m_ObjectList.size() ) {
             if ( errs.size() > 0 ) { //some data parsed, but there are errs to report
                 QString message( i18n( "Some lines in the custom catalog could not be parsed; see error messages below." ) + '\n' +
                                  i18n( "To reject the file, press Cancel. " ) +
                                  i18n( "To accept the file (ignoring unparsed lines), press Accept." ) );
                 if ( KMessageBox::warningContinueCancelList( 0, message, errs,
                         i18n( "Some Lines in File Were Invalid" ), KGuiItem( i18n( "Accept" ) ) ) != KMessageBox::Continue ) {
-                    objectList().clear();
+                    m_ObjectList.clear();
                     return ;
                 }
             }
@@ -119,7 +119,7 @@ void CustomCatalogComponent::init() {
                 KMessageBox::informationList( 0, message, errs,
                                               i18n( "No Valid Data Found in File" ) );
             }
-            objectList().clear();
+            m_ObjectList.clear();
             return;
         }
 
@@ -136,7 +136,7 @@ void CustomCatalogComponent::update( KSNumbers * )
 {
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance();
-        foreach ( SkyObject *obj, objectList() ) {
+        foreach ( SkyObject *obj, m_ObjectList ) {
             obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
     }
@@ -154,7 +154,7 @@ void CustomCatalogComponent::draw( QPainter &psky )
     psky.setPen( QColor( m_catColor ) );
 
     //Draw Custom Catalog objects
-    foreach ( SkyObject *obj, objectList() ) {
+    foreach ( SkyObject *obj, m_ObjectList ) {
 
         if ( map->checkVisibility( obj ) ) {
             QPointF o = map->toScreen( obj );
@@ -423,11 +423,11 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
 
     if ( iType == 0 ) { //Add a star
         StarObject *o = new StarObject( RA, Dec, mag, lname );
-        objectList().append( o );
+        m_ObjectList.append( o );
     } else { //Add a deep-sky object
         DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag,
                                               name, QString(), lname, m_catPrefix, a, b, PA );
-        objectList().append( o );
+        m_ObjectList.append( o );
 
         //Add name to the list of object names
         if ( ! name.isEmpty() )

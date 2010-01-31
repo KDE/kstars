@@ -56,12 +56,12 @@ public:
     virtual SkyObject* findByName( const QString &name );
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 
-    QList<SkyObject*>& objectList() { return ObjectList; }
-
     void clear();
 
-private:
-    QList<SkyObject*> ObjectList;
+    const QList<SkyObject*>& objectList() const { return m_ObjectList; }
+
+protected:
+    QList<SkyObject*> m_ObjectList;
 };
 
 

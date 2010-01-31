@@ -175,9 +175,9 @@ void StarComponent::reindexAll( KSNumbers *num )
     }
 
     // re-populate it from the objectList
-    int size = objectList().size();
+    int size = m_ObjectList.size();
     for ( int i = 0; i < size; i++ ) {
-        StarObject* star = (StarObject*) objectList()[ i ];
+        StarObject* star = (StarObject*) m_ObjectList[ i ];
         Trixel trixel = m_skyMesh->indexStar( star );
         m_starIndex->at( trixel )->append( star );
     }
@@ -505,7 +505,7 @@ bool StarComponent::loadStaticData()
                 objectNames(SkyObject::STAR).append( star -> gname(false) );
             }
                 
-            objectList().append( star );
+            m_ObjectList.append( star );
                 
             m_starIndex->at( trixel )->append( star );
             double pm = star->pmMagnitude();
@@ -534,14 +534,13 @@ SkyObject* StarComponent::findStarByGenetiveName( const QString name ) {
 
 // Overrides ListComponent::findByName() to include genetive name and HD index also in the search
 SkyObject* StarComponent::findByName( const QString &name ) {
-    SkyObject *o;
-    foreach ( o, objectList() )
+    foreach(SkyObject* o, m_ObjectList) {
         if ( QString::compare( o->name(), name, Qt::CaseInsensitive ) == 0 || 
              QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 || 
              QString::compare( o->name2(), name, Qt::CaseInsensitive ) == 0 || 
              QString::compare( ((StarObject *)o)->gname(false), name, Qt::CaseInsensitive ) == 0)
             return o;
-
+    }
     return 0;
 }
 

@@ -120,7 +120,8 @@ public:
     virtual SkyObject* findByName( const QString &name );
 
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
-    QList<DeepSkyObject*>& objectList() { return m_DeepSkyList; }
+
+    const QList<DeepSkyObject*>& objectList() const { return m_DeepSkyList; }
 
     void clear();
 

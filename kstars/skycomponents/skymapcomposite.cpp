@@ -389,7 +389,7 @@ void SkyMapComposite::addCustomCatalog( const QString &filename, int index ) {
     CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, index );
     cc->init();
     
-    if ( cc->objectList().size() ) {
+    if( cc->objectList().size() ) {
         m_CustomCatalogs->addComponent( cc );
     } else {
         delete cc;

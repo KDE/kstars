@@ -91,7 +91,7 @@ void ConstellationNamesComponent::init()
             if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
 
             SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
-            objectList().append( o );
+            m_ObjectList.append( o );
 
             //Add name to the list of object names
             objectNames(SkyObject::CONSTELLATION).append( name );
@@ -104,12 +104,9 @@ void ConstellationNamesComponent::update( KSNumbers* )
 {
     if ( ! selected() )
         return;
-
     KStarsData *data = KStarsData::Instance();
-    for( int i = 0; i < objectList().size(); i++ ) {
-        objectList().at( i )->EquatorialToHorizontal( data->lst(),
-                data->geo()->lat() );
-    }
+    foreach(SkyObject* o, m_ObjectList)
+        o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void ConstellationNamesComponent::draw( QPainter& psky )
@@ -123,7 +120,7 @@ void ConstellationNamesComponent::draw( QPainter& psky )
     psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
     QString name;
-    foreach(SkyObject *p, objectList()) {
+    foreach(SkyObject *p, m_ObjectList) {
         if( ! map->checkVisibility( p ) )
             continue;
 

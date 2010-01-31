@@ -100,7 +100,7 @@ void CometsComponent::init() {
             com = new KSComet( name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, H, G );
             com->setAngularSize( 0.005 );
 
-            objectList().append( com );
+            m_ObjectList.append( com );
 
             //Add *short* name to the list of object names
             objectNames(SkyObject::COMET).append( com->name() );
@@ -121,7 +121,7 @@ void CometsComponent::draw( QPainter& psky )
     psky.setPen( QPen( QColor( "darkcyan" ) ) );
     psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
 
-    foreach ( SkyObject *so, objectList() ) {
+    foreach ( SkyObject *so, m_ObjectList ) {
         KSComet *com = (KSComet*)so;
 
         if ( ! map->checkVisibility( com ) ) continue;
@@ -132,7 +132,7 @@ void CometsComponent::draw( QPainter& psky )
         //if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
 
         float size = com->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-	if ( size < 1.0 ) {
+        if ( size < 1.0 ) {
             psky.drawPoint( o );
         } else {
             float x1 = o.x() - 0.5*size;

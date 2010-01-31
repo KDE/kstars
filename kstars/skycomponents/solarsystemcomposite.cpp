@@ -123,11 +123,11 @@ void SolarSystemComposite::drawTrails( QPainter& psky )
             comp->drawTrails( psky );
 }
 
-QList<SkyObject*>& SolarSystemComposite::asteroids() {
+const QList<SkyObject*>& SolarSystemComposite::asteroids() const {
     return m_AsteroidsComponent->objectList();
 }
 
-QList<SkyObject*>& SolarSystemComposite::comets() {
+const QList<SkyObject*>& SolarSystemComposite::comets() const {
     return m_CometsComponent->objectList();
 }
 

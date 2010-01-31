@@ -45,8 +45,8 @@ public:
     ~SolarSystemComposite();
 
     KSPlanet* earth() { return m_Earth; }
-    QList<SkyObject*>& asteroids();
-    QList<SkyObject*>& comets();
+    const QList<SkyObject*>& asteroids() const;
+    const QList<SkyObject*>& comets() const;
 
 
     virtual void init();

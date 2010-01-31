@@ -32,8 +32,8 @@ ListComponent::~ListComponent() {
 }
 
 void ListComponent::clear() {
-    while ( ! objectList().isEmpty() ) {
-        SkyObject *o = objectList().takeFirst();
+    while ( ! m_ObjectList.isEmpty() ) {
+        SkyObject *o = m_ObjectList.takeFirst();
         int i;
         i = objectNames(o->type()).indexOf( o->name() );
         if ( i >= 0 )
@@ -50,7 +50,7 @@ void ListComponent::update( KSNumbers *num )
     if ( ! selected() )
         return;
     KStarsData *data = KStarsData::Instance();
-    foreach ( SkyObject *o, objectList() ) {
+    foreach ( SkyObject *o, m_ObjectList ) {
         if( num )
             o->updateCoords( num );
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -58,7 +58,7 @@ void ListComponent::update( KSNumbers *num )
 }
 
 SkyObject* ListComponent::findByName( const QString &name ) {
-    foreach( SkyObject *o, objectList() ) {
+    foreach( SkyObject *o, m_ObjectList ) {
         if( QString::compare( o->name(),     name, Qt::CaseInsensitive ) == 0 ||
             QString::compare( o->longname(), name, Qt::CaseInsensitive ) == 0 ||
             QString::compare( o->name2(),    name, Qt::CaseInsensitive ) == 0 )
@@ -73,7 +73,7 @@ SkyObject* ListComponent::objectNearest( SkyPoint *p, double &maxrad ) {
         return 0;
 
     SkyObject *oBest = 0;
-    foreach ( SkyObject *o, objectList() ) {
+    foreach ( SkyObject *o, m_ObjectList ) {
         double r = o->angularDistanceTo( p ).Degrees();
         if ( r < maxrad ) {
             oBest = o;
