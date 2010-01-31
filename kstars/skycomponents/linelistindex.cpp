@@ -208,15 +208,15 @@ void LineListIndex::drawAllLines( QPainter& psky )
         pLast = points->first();
         oLast = map->toScreen( pLast, true, &isVisibleLast );
 
-        for ( int i = 1 ; i < points->size() ; i++ ) {
-            pThis = points->at( i );
+        for ( int j = 1 ; j < points->size() ; j++ ) {
+            pThis = points->at( j );
             oThis = map->toScreen( pThis, true, &isVisible );
 
-            if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
+            if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, j ) ) {
 
                 if ( isVisible && isVisibleLast ) {
                     psky.drawLine( oLast, oThis );
-                    updateLabelCandidates( oThis, lineList, i );
+                    updateLabelCandidates( oThis, lineList, j );
                 }
                 else if ( isVisibleLast ) {
                     oMid = map->clipLineI( pLast, pThis );
@@ -268,17 +268,16 @@ void LineListIndex::drawLines( QPainter& psky )
             pLast = points->first();
             oLast = map->toScreen( pLast, true, &isVisibleLast );
 
-            for ( int i = 1 ; i < points->size() ; i++ ) {
-                pThis = points->at( i );
+            for ( int j = 1 ; j < points->size() ; j++ ) {
+                pThis = points->at( j );
                 oThis2 = oThis = map->toScreen( pThis, true, &isVisible );
 
-                if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, i ) ) {
+                if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, j ) ) {
 
                     if ( isVisible && isVisibleLast ) {
                         if ( map->onscreenLine( oLast, oThis ) ) {
                             psky.drawLine( oLast, oThis );
-                            updateLabelCandidates( oThis, lineList, i );
-                            //psky.drawEllipse( QRectF( oThis.x(), oThis.y(), 2, 2 ) );
+                            updateLabelCandidates( oThis, lineList, j );
                         }
                     }
                     else if ( isVisibleLast ) {
