@@ -84,15 +84,6 @@ public:
      */
     void removeComponent(SkyComponent *comp);
 
-    /**@short Add a Trail to the specified SkyObject
-     * Loop over all child SkyComponents; if the SkyObject
-     * in the argument is found, add a Trail to it.
-     * @p o Pointer to the SkyObject to which a Trail will be added
-     * @return true if the object was found and a Trail was added 
-     */
-    virtual bool addTrail( SkyObject * /*o*/ ) { return false;}
-    virtual bool removeTrail( SkyObject * /*o*/ ) {return false;}
-
     /**@short Search the children of this SkyComposite for 
      * a SkyObject whose name matches the argument.
      *
