@@ -30,13 +30,26 @@
 #include "dms.h"
 #include "Options.h"
 #include "ksfilereader.h"
+#include "skycomponents/skiplist.h"
 
 #include "skymesh.h"
 
 
 MilkyWay::MilkyWay( SkyComponent *parent ) :
-        SkipListIndex( parent, i18n("Milky Way") )
+    LineListIndex( parent, i18n("Milky Way") )
 {}
+
+const IndexHash& MilkyWay::getIndexHash(LineList* lineList ) {
+    // FIXME: EVIL!
+    SkipList* skipList = (SkipList*) lineList;
+    return skyMesh()->indexLine( skipList->points(), skipList->skipHash() );
+}
+
+bool MilkyWay::skipAt( LineList* lineList, int i ) {
+    // FIXME: EVIL!
+    SkipList* skipList = (SkipList*) lineList;
+    return skipList->skip( i );
+}
 
 void MilkyWay::init()
 {

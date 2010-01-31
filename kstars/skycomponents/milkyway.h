@@ -18,16 +18,21 @@
 #ifndef MILKYWAY_H
 #define MILKYWAY_H
 
-#include "skiplistindex.h"
+#include "linelistindex.h"
 
 /** @class MlkyWay
  *
- * Specialize SkipListIndex for drawing Milky Way and Magellanic clouds.
+ * Draw filled areas as Milky Way and Magellanic clouds.
+ *
+ * This class should store SkipLists instead of LineLists.  The two methods
+ * are used inside of LineListIndex to access the SkipLists' skip hashes.
+ * This way the same code in LineListIndex does double duty. Only subclassed
+ * by MilkyWay.
  *
  * @author James B. Bowlin
  * @version 0.1
  */
-class MilkyWay : public SkipListIndex
+class MilkyWay : public LineListIndex
 {
 public:
     /**@short Constructor
@@ -38,6 +43,21 @@ public:
     /** Load skiplists from file */
     void loadContours(QString fname, QString greeting);
 
+    // FIXME: Implementation is broken!!
+    /**@short Returns an IndexHash from the SkyMesh that contains the set
+     * of trixels that cover the _SkipList_ lineList excluding skipped
+     * lines as specified in the SkipList.  SkipList is a subclass of
+     * LineList.
+     */
+    const IndexHash& getIndexHash( LineList* skipList );
+
+    // FIXME: Implementation is broken!!
+    /**@short Returns a boolean indicating whether to skip the i-th line
+     * segment in the _SkipList_ skipList.  Note that SkipList is a
+     * subclass of LineList.  This routine allows us to use the drawing
+     * code in LineListIndex instead of repeating it all here.
+     */
+    bool skipAt( LineList* skpiList, int i );
     
     virtual void init();
     virtual void draw( QPainter& psky );
