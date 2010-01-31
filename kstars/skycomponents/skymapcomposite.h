@@ -174,7 +174,6 @@ public:
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
-    float faintStarMagnitude() const;
 
     virtual void emitProgressText( const QString &message );
     virtual QHash<int, QStringList>& objectNames();

@@ -518,10 +518,6 @@ void SkyMapComposite::emitProgressText( const QString &message ) {
     //kDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
 }
 
-float SkyMapComposite::faintStarMagnitude() const {
-    return m_Stars->faintMagnitude();
-}
-
 QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() {
     return m_DeepSky->objectList();
 }

@@ -59,21 +59,19 @@ class MeshIterator;
 
 class StarComponent: public ListComponent
 {
-
- protected:
+protected:
 
     StarComponent( SkyComponent* );
 
- public:
+public:
 
     virtual ~StarComponent();
 
-    /**@short Create an instance of StarComponent
-     */
+    // TODO: Desingletonize StarComponent
+    /**@short Create an instance of StarComponent */
     static StarComponent *Create( SkyComponent* );
 
-    /**@return the instance of StarComponent if already created, NULL otherwise
-     */    
+    /**@return the instance of StarComponent if already created, NULL otherwise */
     static StarComponent *Instance() { return pinstance; }
 
     //This function is empty; we need that so that the JiT update 
@@ -82,41 +80,30 @@ class StarComponent: public ListComponent
 
     bool selected();
 
-    void reindex( KSNumbers *num );
-
     void draw( QPainter& psky );
 
     /* @short draw all the labels in the prioritized LabelLists and then
-     * clear the LabelLists.
-     */
+     * clear the LabelLists. */
     void drawLabels( QPainter& psky );
 
     virtual void init();
 
-
-    /** @return the magnitude of the faintest star */
-    float faintMagnitude() const;
-
-    /**
-     *@short Return the size of the star as rendered by KStars
-     *@return the Size of the star's representation on the skymap in pixels
-     */
+    /**@short Return the size of the star as rendered by KStars
+     * @return the Size of the star's representation on the skymap in pixels */
     float starRenderingSize( float mag ) const;
 
     float zoomMagnitudeLimit() const;
 
-    /**
-     *@short Read data for stars which will remain static in the memory
+    /**@short Read data for stars which will remain static in the memory
      *
-     *This method reads data for named stars (stars having names,
-     *which are stored by default in "namedstars.dat") into
-     *memory. These stars are always kept in memory, as against 'deep'
-     *stars which are mostly loaded dynamically (KStars treats all
-     *unnamed stars as 'deep' stars) into memory when required,
-     *depending on region and magnitude limit. Once loading is
-     *successful, this method sets the starsLoaded flag to true
+     * This method reads data for named stars (stars having names,
+     * which are stored by default in "namedstars.dat") into
+     * memory. These stars are always kept in memory, as against 'deep'
+     * stars which are mostly loaded dynamically (KStars treats all
+     * unnamed stars as 'deep' stars) into memory when required,
+     * depending on region and magnitude limit. Once loading is
+     * successful, this method sets the starsLoaded flag to true
      */
-
     bool loadStaticData();
 
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
@@ -152,6 +139,12 @@ class StarComponent: public ListComponent
     static void byteSwap( starData *stardata );
 
 private:
+    /** @return the magnitude of the faintest star */
+    float faintMagnitude() const;
+
+    void reindex( KSNumbers *num );
+
+    
     SkyMesh*       m_skyMesh;
     StarIndex*     m_starIndex;
 
