@@ -36,15 +36,11 @@ public:
      */
     void JITupdate( LineList* lineList );
 
-    /* @short we override draw() so we can switch between indexed and
-     * non-indexed drawing for speed optimization.
-     */
-    void draw( QPainter &psky );
-
+protected:
     /* @short we need to use the buffer that does not have the
      * reverse-precession correction.
      */
-    MeshBufNum_t drawBuffer() { return NO_PRECESS_BUF; }
+    virtual MeshBufNum_t drawBuffer() { return NO_PRECESS_BUF; }
 };
 
 

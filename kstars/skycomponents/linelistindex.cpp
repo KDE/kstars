@@ -163,10 +163,9 @@ void LineListIndex::preDraw( QPainter &psky )
 
 void LineListIndex::draw( QPainter &psky )
 {
-    if ( ! selected() ) return;
-
+    if ( ! selected() )
+        return;
     preDraw( psky );
-
     drawLines( psky );
 }
 

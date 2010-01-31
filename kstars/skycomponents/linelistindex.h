@@ -132,11 +132,6 @@ public:
 
     virtual void updateLabelCandidates( const QPoint& o, LineList* lineList, int i );
 
-    /* @short a callback overridden by NoPrecessIndex so it can use the
-     * drawing code with the non-reverse-precessed mesh buffer.
-     */
-    virtual MeshBufNum_t drawBuffer() { return DRAW_BUF; }
-
     /* @short Draws all the lines without making use of the index.  Used by
      * NoPrecessIndex for cases when the screen is zoomed out and creating
      * the 2nd mesh buffer would be more expensive than just drawing
@@ -171,6 +166,12 @@ public:
      * greater than 1.
      */
     void summary();
+
+protected:
+    /* @short a callback overridden by NoPrecessIndex so it can use the
+     * drawing code with the non-reverse-precessed mesh buffer.
+     */
+    virtual MeshBufNum_t drawBuffer() { return DRAW_BUF; }
 
 private:
     QString      m_name;

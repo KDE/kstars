@@ -35,13 +35,3 @@ void NoPrecessIndex::JITupdate( LineList* lineList )
         points->at( i )->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     }
 }
-
-void NoPrecessIndex::draw( QPainter &psky )
-{
-    if ( ! selected() )
-        return;
-    preDraw( psky );
-    drawLines( psky );
-}
-
-
