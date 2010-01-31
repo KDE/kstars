@@ -25,53 +25,49 @@
 class SkyLabeler;
 
 /**
-	*@class ConstellationNamesComponent
-	*Represents the constellation names on the sky map.
-
-	*@author Thomas Kabelmann
-	*@version 0.1
-	*/
+ * @class ConstellationNamesComponent
+ * Represents the constellation names on the sky map.
+ *
+ * @author Thomas Kabelmann
+ * @version 0.1
+ */
 class ConstellationNamesComponent : public ListComponent
 {
 public:
-    /**
-    	*@short Constructor
-    	*@p parent Pointer to the parent SkyComposite object
-    	*/
+    /**@short Constructor
+     * @p parent Pointer to the parent SkyComposite object
+     */
     ConstellationNamesComponent(SkyComposite *parent );
-    /**
-    	*@short Destructor.  Delete list members
-    	*/
-    ~ConstellationNamesComponent();
 
-    /**
-    	*@short Draw constellation names on the sky map.
-    	*@p psky Reference to the QPainter on which to paint
-    	*/
+    /** @short Destructor.  Delete list members */
+    virtual ~ConstellationNamesComponent();
+
+    /**@short Draw constellation names on the sky map.
+     * @p psky Reference to the QPainter on which to paint
+     */
     virtual void draw( QPainter& psky );
 
-    /**
-    	*@short Initialize the Constellation names component
-    	*Reads the constellation names data from cnames.dat
-    	*Each line in the file is parsed according to column position:
-    	*@li 0-1     RA hours [int]
-    	*@li 2-3     RA minutes [int]
-    	*@li 4-5     RA seconds [int]
-    	*@li 6       Dec sign [char; '+' or '-']
-    	*@li 7-8     Dec degrees [int]
-    	*@li 9-10    Dec minutes [int]
-    	*@li 11-12   Dec seconds [int]
-    	*@li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
-    	*@li 17-     Constellation name [string]
-    	*/
+    /**@short Initialize the Constellation names component
+     * Reads the constellation names data from cnames.dat
+     * Each line in the file is parsed according to column position:
+     * @li 0-1     RA hours [int]
+     * @li 2-3     RA minutes [int]
+     * @li 4-5     RA seconds [int]
+     * @li 6       Dec sign [char; '+' or '-']
+     * @li 7-8     Dec degrees [int]
+     * @li 9-10    Dec minutes [int]
+     * @li 11-12   Dec seconds [int]
+     * @li 13-15   IAU Abbreviation [string]  e.g., 'Ori' == Orion
+     * @li 17-     Constellation name [string]
+     */
     virtual void init();
 
-    /* @short we need a custom routine (for now) so we don't
+    /**@short we need a custom routine (for now) so we don't
      * precess the locations of the names.
      */
     virtual void update( KSNumbers *num );
 
-    /** *@short Return true if we are using localized constellation names */
+    /** @short Return true if we are using localized constellation names */
     inline bool isLocalCNames() { return localCNames; }
 
     virtual bool selected();

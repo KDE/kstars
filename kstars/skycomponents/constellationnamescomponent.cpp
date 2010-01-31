@@ -52,7 +52,7 @@ void ConstellationNamesComponent::init()
 
     emitProgressText( i18n("Loading constellation names" ) );
     
-    localCNames = ( Options::useLocalConstellNames() ? true : false );
+    localCNames = Options::useLocalConstellNames();
 
     while ( fileReader.hasMoreLines() ) {
         QString line, name, abbrev;
