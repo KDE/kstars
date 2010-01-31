@@ -111,7 +111,7 @@ void SolarSystemListComponent::drawTrails( QPainter& psky ) {
     foreach ( SkyObject *obj, m_TrailList ) {
         //DEBUG
         kDebug() << obj->name() << endl;
-
+        // FIXME: get rid of cast
         KSPlanetBase *ksp = (KSPlanetBase*)obj;
         if ( ! ksp->hasTrail() ) continue;
 

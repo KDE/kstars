@@ -59,7 +59,7 @@ public:
     /**@short Draw the object on the SkyMap
      * @p psky Reference to the QPainter on which to paint
      */
-    virtual void draw( QPainter& /*psky*/ ) {}
+    virtual void draw( QPainter& psky ) = 0;
 
     /**@short Initialize the component - load data from disk etc.
      */

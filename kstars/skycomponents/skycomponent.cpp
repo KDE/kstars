@@ -30,8 +30,7 @@ SkyComponent::SkyComponent( SkyComposite *parent ) :
 {}
 
 SkyComponent::~SkyComponent()
-{
-}
+{}
 
 //Hand the message up to SkyMapComposite
 void SkyComponent::emitProgressText( const QString &message ) {

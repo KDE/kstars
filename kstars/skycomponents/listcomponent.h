@@ -40,12 +40,6 @@ public:
 
     virtual ~ListComponent();
 
-    /**
-     * @short Draw the list of objects on the SkyMap
-     * @note This is a pure virtual function, it is overridden by its subclasses.
-     */
-    virtual void draw( QPainter & ) {}
-
     /**@short Update the sky positions of this component.
      *
      * This function usually just updates the Horizontal (Azimuth/Altitude)
