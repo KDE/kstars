@@ -20,44 +20,32 @@
 
 #include <QStringList>
 
-/*
-*@class CultureList
-*A list of all cultures
-
-*@author Jerome.sonrier
-*@version 0.1
-*/
-
-class CultureList : public QStringList
+/**@class CultureList
+ * A list of all cultures
+ */
+class CultureList
 {
 public:
-    /* @short Constructor
-    */
+    /** @short Create culture list and load its conternt from file */
     CultureList();
 
-    /* @short Destructor
-    */
-    ~CultureList();
+    /** @short Return the current sky culture */
+    QString current() { return m_CurrentCulture; }
 
-    /* @short Return the current sky culture
-    */
-    QString current();
-
-    /* @short Set the current culture name
-    */
+    /** @short Set the current culture name */
     void setCurrent( QString newName );
 
-    /* @short Return a sorted list of cultures
-    */
-    QStringList getNames();
+    /** @short Return a sorted list of cultures */
+    QStringList getNames() { return m_CultureList; }
 
-    /* @short Return the name of the culture at index
-    */
+    /** @short Return the name of the culture at index.
+     *  @return null string if is index is out of range */
     QString getName( int index );
 
-
 private:
-    QString m_CurrentCulture;
+    QString     m_CurrentCulture;
+    // List of all available cultures. It's assumed that list is sorted.
+    QStringList m_CultureList;
 };
 
 

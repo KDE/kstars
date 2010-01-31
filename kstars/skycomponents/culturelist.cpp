@@ -14,77 +14,35 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #include "culturelist.h"
 #include "ksfilereader.h"
 #include "Options.h"
 
 
-CultureList::CultureList() : QStringList()
+CultureList::CultureList()
 {
-    QChar mode;
-    QString line, cultureName;
-    QStringList names;
     KSFileReader fileReader;
-
-    // Initialyse the list of cultures
-    if ( ! fileReader.open( "cnames.dat" ) ) return;
+    if ( ! fileReader.open( "cnames.dat" ) )
+        return;
 
     while ( fileReader.hasMoreLines() ) {
-        line = fileReader.readLine();
+        QString line = fileReader.readLine();
         if ( line.size() < 1 ) continue;
 
-        mode = line.at( 0 );
-
-        if ( mode == 'C' ) {
-            append( line.mid( 2 ).trimmed() );
-        }
+        QChar mode = line.at( 0 );
+        if ( mode == 'C' )
+            m_CultureList << line.mid( 2 ).trimmed();
     }
 
-    // Initialise current culture
-    for (int i = 0; i < size(); ++i) {
-        names.append( at(i) );
-    }
-
-    names.sort();
-    m_CurrentCulture = names.at( (int)Options::skyCulture() );
-}
-
-CultureList::~CultureList()
-{}
-
-QString CultureList::current() {
-    return m_CurrentCulture;
+    m_CultureList.sort();
+    m_CurrentCulture = m_CultureList.at( Options::skyCulture() );
 }
 
 void CultureList::setCurrent ( QString newName ) {
     m_CurrentCulture = newName;
 }
 
-QStringList CultureList::getNames() {
-    QStringList names;
-
-    for (int i = 0; i < size(); ++i) {
-        names.append( at(i) );
-    }
-
-    names.sort();
-
-    return names;
-}
-
 QString CultureList::getName( int index ) {
-    QStringList names;
-    QString name;
-    int i;
-
-    for (i = 0; i < size(); ++i) {
-        names.append( at(i) );
-    }
-
-    names.sort();
-    name = names.at( index );
-
-    return name;
+    return m_CultureList.value( index );
 }
-
