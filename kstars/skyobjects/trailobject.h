@@ -32,15 +32,13 @@
  */
 class TrailObject : public SkyObject {
 public:
-    /**
-     *Constructor
-     */
+    /** Constructor */
     explicit TrailObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0), float m=0.0, const QString &n=QString() );
 
-    /**
-     *Constructor
-     */
+    /** Constructor */
     TrailObject( int t, double r, double d, float m=0.0, const QString &n=QString() );
+
+    virtual ~TrailObject();
 
     virtual TrailObject* clone() const;
     

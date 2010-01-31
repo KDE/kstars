@@ -33,6 +33,10 @@ TrailObject::TrailObject( int t, double r, double d, float m, const QString &n )
   : SkyObject( t, r, d, m, n )
 {}
 
+TrailObject::~TrailObject() {
+    trailObjects.remove(this);
+}
+
 TrailObject* TrailObject::clone() const {
     return new TrailObject(*this);
 }
