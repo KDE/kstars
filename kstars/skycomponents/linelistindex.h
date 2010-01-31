@@ -45,8 +45,6 @@ public:
      */
     explicit LineListIndex( SkyComponent *parent, const QString& name="" );
 
-    //----- Drawing Routines -----
-
     /* @short.  The top level draw routine.  Draws all the LineLists for any
      * subclass in one fell swoop which minimizes some of the loop overhead.
      * Overridden by MilkWay so it can decide whether to draw outlines or
@@ -84,16 +82,6 @@ protected:
      * greater than 1.
      */
     void summary();
-
-    /* @short Returns the Hash of QLists of LineLists that
-     * is used for doing the indexing of line segments.
-     */
-    LineListHash* lineIndex() { return m_lineIndex; }
-
-    /* @short Returns the Hash of QLists of LineLists that
-     * is used for indexing filled polygons.
-     */
-    LineListHash* polyIndex() { return m_polyIndex; }
 
     /* @short Returns the SkyMesh object. */
     SkyMesh* skyMesh() { return  m_skyMesh; }

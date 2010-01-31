@@ -74,10 +74,10 @@ void LineListIndex::appendLine( LineList* lineList, int debug)
         Trixel trixel = iter.key();
         iter++;
 
-        if ( ! lineIndex()->contains( trixel ) ) {
-            lineIndex()->insert(trixel, new LineListList() );
+        if ( ! m_lineIndex->contains( trixel ) ) {
+            m_lineIndex->insert(trixel, new LineListList() );
         }
-        lineIndex()->value( trixel )->append( lineList );
+        m_lineIndex->value( trixel )->append( lineList );
     }
 
     m_listList.append( lineList);
@@ -96,10 +96,10 @@ void LineListIndex::appendPoly(LineList* lineList, int debug)
         Trixel trixel = iter.key();
         iter++;
 
-        if ( ! polyIndex()->contains( trixel ) ) {
-            polyIndex()->insert( trixel, new LineListList() );
+        if ( ! m_polyIndex->contains( trixel ) ) {
+            m_polyIndex->insert( trixel, new LineListList() );
         }
-        polyIndex()->value( trixel )->append( lineList );
+        m_polyIndex->value( trixel )->append( lineList );
     }
 
     if ( debug > 9 )
@@ -232,7 +232,7 @@ void LineListIndex::drawLines( QPainter& psky )
     MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
 
-        LineListList* lineListList = lineIndex()->value( region.next() );
+        LineListList* lineListList = m_lineIndex->value( region.next() );
         if ( lineListList == 0 )
             continue;
 
@@ -289,7 +289,7 @@ void LineListIndex::drawFilled( QPainter& psky )
     MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
 
-        LineListList* lineListList =  polyIndex()->value( region.next() );
+        LineListList* lineListList =  m_polyIndex->value( region.next() );
         if ( lineListList == 0 ) continue;
 
         for (int i = 0; i < lineListList->size(); i++) {
@@ -344,11 +344,12 @@ void LineListIndex::intro()
 
 void LineListIndex::summary()
 {
-    if ( skyMesh()->debug() < 2 ) return;
+    if ( skyMesh()->debug() < 2 )
+        return;
 
     int total = skyMesh()->size();
-    int polySize = polyIndex()->size();
-    int lineSize = lineIndex()->size();
+    int polySize = m_polyIndex->size();
+    int lineSize = m_lineIndex->size();
 
     if ( lineSize > 0 )
         printf("%4d out of %4d trixels in line index %3d%%\n",
