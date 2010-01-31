@@ -42,7 +42,12 @@ public:
 
     /** Load skiplists from file */
     void loadContours(QString fname, QString greeting);
+  
+    virtual void init();
+    virtual void draw( QPainter& psky );
+    virtual bool selected();
 
+protected:
     // FIXME: Implementation is broken!!
     /**@short Returns an IndexHash from the SkyMesh that contains the set
      * of trixels that cover the _SkipList_ lineList excluding skipped
@@ -57,10 +62,7 @@ public:
      * subclass of LineList.  This routine allows us to use the drawing
      * code in LineListIndex instead of repeating it all here.
      */
-    bool skipAt( LineList* skpiList, int i );
-    
-    virtual void init();
-    virtual void draw( QPainter& psky );
-    virtual bool selected();
+    virtual bool skipAt( LineList* skpiList, int i );
+
 };
 #endif

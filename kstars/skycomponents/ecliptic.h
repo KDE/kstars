@@ -47,11 +47,12 @@ public:
 
     bool selected();
 
-    void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
+protected:
+    virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
         m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
     }
 
-    void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
+    virtual void updateLabelCandidates( const QPoint& o, LineList* lineList, int i ) {
         m_label.updateLabelCandidates( (qreal) o.x(), (qreal) o.y(), lineList, i );
     }
 

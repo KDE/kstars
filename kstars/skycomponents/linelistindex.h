@@ -95,14 +95,6 @@ public:
      */
     void appendBoth( LineList* lineList, int debug=0 );
 
-    /* @short Returns an IndexHash from the SkyMesh that contains the set of
-     * trixels that cover lineList.  Overridden by SkipListIndex so it can
-     * pass SkyMesh an IndexHash indicating which line segments should not
-     * be indexed @param lineList contains the list of points to be covered.
-     */
-    virtual const IndexHash& getIndexHash(LineList* lineList );
-
-
     //----- Drawing Routines -----
 
     /* @short.  The top level draw routine.  Draws all the LineLists for any
@@ -119,18 +111,6 @@ public:
      * passed in.  Defaults to setting a thin white pen.
      */
     virtual void preDraw( QPainter &psky );
-
-    /* @short Also overridden by SkipListIndex.  Controls skipping inside of
-     * the draw() routines.  The default behavior is to simply return false
-     * but this was moved into the .cpp file to prevent this header file
-     * from generating repeated unused parameter warnings.
-     */
-    virtual bool skipAt( LineList* lineList, int i );
-
-
-    virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i );
-
-    virtual void updateLabelCandidates( const QPoint& o, LineList* lineList, int i );
 
     /* @short Draws all the lines without making use of the index.  Used by
      * NoPrecessIndex for cases when the screen is zoomed out and creating
@@ -172,6 +152,24 @@ protected:
      * drawing code with the non-reverse-precessed mesh buffer.
      */
     virtual MeshBufNum_t drawBuffer() { return DRAW_BUF; }
+
+    /* @short Returns an IndexHash from the SkyMesh that contains the set of
+     * trixels that cover lineList.  Overridden by SkipListIndex so it can
+     * pass SkyMesh an IndexHash indicating which line segments should not
+     * be indexed @param lineList contains the list of points to be covered.
+     */
+    virtual const IndexHash& getIndexHash(LineList* lineList );
+
+    /* @short Also overridden by SkipListIndex.  Controls skipping inside of
+     * the draw() routines.  The default behavior is to simply return false
+     * but this was moved into the .cpp file to prevent this header file
+     * from generating repeated unused parameter warnings.
+     */
+    virtual bool skipAt( LineList* lineList, int i );
+
+    virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i );
+
+    virtual void updateLabelCandidates( const QPoint& o, LineList* lineList, int i );
 
 private:
     QString      m_name;

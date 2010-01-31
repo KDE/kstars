@@ -58,8 +58,7 @@ LineListIndex::LineListIndex( SkyComponent *parent, const QString& name )
 }
 
 // This is a callback for the indexLines() function below
-const IndexHash& LineListIndex::getIndexHash(LineList* lineList )
-{
+const IndexHash& LineListIndex::getIndexHash(LineList* lineList ) {
     return skyMesh()->indexLine( lineList->points() );
 }
 
