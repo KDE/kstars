@@ -165,11 +165,11 @@ public:
     virtual QStringList& objectNames( int k );
     QList<SkyObject*>& labelObjects() { return m_LabeledObjects; }
 
-    QList<DeepSkyObject*>& deepSkyObjects();
-    QList<SkyObject*>& constellationNames();
-    QList<SkyObject*>& stars();
-    QList<SkyObject*>& asteroids();
-    QList<SkyObject*>& comets();
+    const QList<DeepSkyObject*>& deepSkyObjects() const;
+    const QList<SkyObject*>& constellationNames() const;
+    const QList<SkyObject*>& stars() const;
+    const QList<SkyObject*>& asteroids() const;
+    const QList<SkyObject*>& comets() const;
 
     KSPlanet* earth();
     KSPlanetBase* planet( int n );

@@ -374,7 +374,7 @@ void ObsListWizard::applyFilters( bool doBuildList )
 
     //Stars
     if ( isItemSelected( i18n( "Stars" ), olw->TypeList ) ) {
-        QList<SkyObject*>& starList = data->skyComposite()->stars();
+        const QList<SkyObject*>& starList = data->skyComposite()->stars();
         int starIndex( starList.size() );
         if ( maglimit < 100. ) {
             //Stars are sorted by mag, so use binary search algo to find index of faintest mag

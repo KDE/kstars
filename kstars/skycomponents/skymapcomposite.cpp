@@ -447,25 +447,25 @@ void SkyMapComposite::emitProgressText( const QString &message ) {
     //kDebug() << QString("PROGRESS TEXT: %1\n").arg( message );
 }
 
-QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() {
+const QList<DeepSkyObject*>& SkyMapComposite::deepSkyObjects() const {
     return m_DeepSky->objectList();
 }
 
-QList<SkyObject*>& SkyMapComposite::constellationNames() {
+const QList<SkyObject*>& SkyMapComposite::constellationNames() const {
     return m_CNames->objectList();
 }
 
 // Returns only named stars, and should not be used
-QList<SkyObject*>& SkyMapComposite::stars() {
+const QList<SkyObject*>& SkyMapComposite::stars() const {
     return m_Stars->objectList();
 }
 
 
-QList<SkyObject*>& SkyMapComposite::asteroids() {
+const QList<SkyObject*>& SkyMapComposite::asteroids() const {
     return m_SolarSystem->asteroids();
 }
 
-QList<SkyObject*>& SkyMapComposite::comets() {
+const QList<SkyObject*>& SkyMapComposite::comets() const {
     return m_SolarSystem->comets();
 }
 
