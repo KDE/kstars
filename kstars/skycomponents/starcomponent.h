@@ -76,7 +76,7 @@ public:
 
     //This function is empty; we need that so that the JiT update 
     //is the only one beiong used.
-    void update( KSNumbers *num );
+    virtual void update( KSNumbers *num );
 
     bool selected();
 
@@ -94,6 +94,38 @@ public:
 
     float zoomMagnitudeLimit() const;
 
+    virtual SkyObject* objectNearest(SkyPoint *p, double &maxrad );
+
+    virtual SkyObject* findStarByGenetiveName( const QString name );
+
+    /**
+     *@short Find stars by name (including genetive name)
+     *
+     * Overrides ListComponent::findByName() to include genetive names of stars
+     * as well.
+     *
+     *@param name  Name to search for. Could be trivial name or genetive name
+     *@return  Pointer to the star with the given name as a SkyObject, NULL if
+     *         no match was found
+     */
+    virtual SkyObject* findByName( const QString &name );
+
+    /**
+     *@short Find stars by HD catalog index
+     *@param HDnum HD Catalog Number of the star to find
+     *@return If the star is a static star, a pointer to the star will be returned
+     *        If it is a dynamic star, a fake copy will be created that survives till
+     *        the next findByHDIndex() call. If no match was found, returns NULL.
+     */
+    // FIXME: check whether return type should be StarObject*
+    SkyObject* findByHDIndex( int HDnum );
+
+    // TODO: Make byteSwap a template method and put it in byteorder.h
+    // It should ideally handle 32-bit, 16-bit fields and starData and
+    // deepStarData fields
+    static void byteSwap( starData *stardata );
+
+private:
     /**@short Read data for stars which will remain static in the memory
      *
      * This method reads data for named stars (stars having names,
@@ -106,39 +138,6 @@ public:
      */
     bool loadStaticData();
 
-    SkyObject* objectNearest(SkyPoint *p, double &maxrad );
-
-    SkyObject* findStarByGenetiveName( const QString name );
-
-    /**
-     *@short Find stars by name (including genetive name)
-     *
-     * Overrides ListComponent::findByName() to include genetive names of stars
-     * as well.
-     *
-     *@param name  Name to search for. Could be trivial name or genetive name
-     *@return  Pointer to the star with the given name as a SkyObject, NULL if
-     *         no match was found
-     */
-
-    SkyObject* findByName( const QString &name );
-
-    /**
-     *@short Find stars by HD catalog index
-     *@param HDnum HD Catalog Number of the star to find
-     *@return If the star is a static star, a pointer to the star will be returned
-     *        If it is a dynamic star, a fake copy will be created that survives till
-     *        the next findByHDIndex() call. If no match was found, returns NULL.
-     */
-
-    SkyObject* findByHDIndex( int HDnum );
-
-    // TODO: Make byteSwap a template method and put it in byteorder.h
-    // It should ideally handle 32-bit, 16-bit fields and starData and
-    // deepStarData fields
-    static void byteSwap( starData *stardata );
-
-private:
     /** @return the magnitude of the faintest star */
     float faintMagnitude() const;
 
