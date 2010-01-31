@@ -26,7 +26,7 @@
 #include "skyobjects/skyobject.h"
 
 SkyComponent::SkyComponent( SkyComponent *parent ) :
-    Parent( parent )
+    m_parent( parent )
 {}
 
 SkyComponent::~SkyComponent()

@@ -91,7 +91,7 @@ public:
      * add a component to it's parent, for example a star want
      * to add/remove a trail to it's parent.
      */
-    SkyComponent* parent() { return Parent; }
+    SkyComponent* parent() { return m_parent; }
 
     /**
      * @short Add a Trail to the specified SkyObject.
@@ -151,7 +151,7 @@ public:
     virtual QStringList& objectNames(int type) { return parent()->objectNames(type); }
 
 private:
-    SkyComponent *Parent;
+    SkyComponent *m_parent;
 };
 
 #endif
