@@ -18,14 +18,18 @@
 #ifndef CONSTELLATION_BOUNDARY_H
 #define CONSTELLATION_BOUNDARY_H
 
-#include "polylistindex.h"
+#include "skycomposite.h"
 
 #include <QHash>
 #include <QPolygonF>
 
+class SkyMesh;
 class PolyList;
+class KSFileReader;
 
-typedef QVector<PolyList*> PolyListList;
+typedef QVector<PolyList*>        PolyListList;
+typedef QVector<PolyListList*>    PolyIndex;
+typedef QHash<QString, PolyList*> PolyNameHash;
 
 
 /* @class ConstellationBoundaryPoly
@@ -35,10 +39,20 @@ typedef QVector<PolyList*> PolyListList;
  * @version 0.1
 */
 
-class ConstellationBoundary : public PolyListIndex
+class ConstellationBoundary : public SkyComposite
 {
 public:
     explicit ConstellationBoundary( SkyComponent *parent );
+
+    void appendPoly( PolyList* polyList, int debug=0);
+
+    /* @short reads the indices from the KSFileReader instead of using
+     * the SkyMesh to create them.  If the file pointer is null or if
+     * debug == -1 then we fall back to using the index.
+     */
+    void appendPoly( PolyList* polyList, KSFileReader* file, int debug);
+
+    void summary();
 
     QString constellationName( SkyPoint *p );
 
@@ -47,6 +61,14 @@ public:
     const QPolygonF* constellationPoly( const QString& name );
 
     bool inConstellation( const QString &name, SkyPoint *p );
+
+private:
+    PolyList* ContainingPoly( SkyPoint *p );
+
+    SkyMesh*                 m_skyMesh;
+    PolyIndex                m_polyIndex;
+    int                      m_polyIndexCnt;
+    PolyNameHash             m_nameHash;
 };
 
 
