@@ -31,19 +31,13 @@
  */
 class PolyList
 {
- public:
+public:
     /* @short trivial constructor that also sets the name.   It was
      * convenient to specify the name at construction time.
      */
     PolyList( QString name) : m_wrapRA(false) { m_name = name; };
 
-    /* @short trivial constructor that also sets the name and
-     * localized name. 
-     */
-    PolyList( QString name, QString lname ) : m_wrapRA(false) { m_name = name; m_lname = lname; };
-
-    /* @short returns the QPolygonF that holds the points.
-     */
+    /* @short returns the QPolygonF that holds the points. */
     const QPolygonF* poly() { return &m_poly; }
 
     /* @short we need a new append() method to append QPointF's
@@ -51,32 +45,16 @@ class PolyList
      */
     void append( const QPointF &p ) { m_poly.append( p ); }
 
-    /* @short not used now since the name is specified in the
-     * constructor now.
-     */
-    void setName( QString name ) { m_name = name; }
-
-    /* @short set the localized name
-     */
-    void setLocalizedName( QString lname ) { m_lname = lname; }
-
-    /* @short returns the name.
-     */
-    const QString &name() { return m_name; }
-
-    /* @short returns the localized name.
-     */
-    const QString &localizedName() { return m_lname; }
+    /* @short returns the name. */
+    const QString& name() { return m_name; }
 
     bool wrapRA() { return m_wrapRA; }
-    void wrapRA( bool wrap ) { m_wrapRA = wrap; }
-
- private:
+    
+    void setWrapRA( bool wrap ) { m_wrapRA = wrap; }
+private:
     QPolygonF m_poly;
     QString   m_name;
-    QString   m_lname; // Localized name
     bool      m_wrapRA;
-
 };
 
 #endif

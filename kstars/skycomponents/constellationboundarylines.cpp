@@ -105,7 +105,7 @@ void ConstellationBoundaryLines::init() {
             if ( polyList )
                 appendPoly( polyList, idxFile, verbose );
             QString cName = line.mid(1);
-            polyList = new PolyList( cName , i18nc( "Constellation name (optional)", cName.toUpper().toLocal8Bit().data() ) );
+            polyList = new PolyList( cName );
             if ( verbose == -1 ) printf(":\n");
             lastRa = lastDec = -1000.0;
             continue;
@@ -133,7 +133,8 @@ void ConstellationBoundaryLines::init() {
         Q_ASSERT( polyList ); // Is this the right fix?
 
         polyList->append( QPointF( ra, dec ) );
-        if ( ra < 0 ) polyList->wrapRA( true );
+        if ( ra < 0 )
+            polyList->setWrapRA( true );
 
         if ( flag ) {
 
