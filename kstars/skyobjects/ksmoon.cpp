@@ -22,7 +22,6 @@
 
 #include <QFile>
 #include <QTextStream>
-#include <kglobal.h>
 
 #include "ksnumbers.h"
 #include "ksutils.h"
