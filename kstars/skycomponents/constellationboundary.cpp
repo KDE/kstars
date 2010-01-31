@@ -183,13 +183,6 @@ QString ConstellationBoundary::constellationName( SkyPoint *p )
     return i18n("Unknown");
 }
 
-const QPolygonF* ConstellationBoundary::constellationPoly( const QString &name )
-{
-    if ( m_nameHash.contains( name ) )
-        return m_nameHash.value( name )->poly();
-    return 0;
-}
-
 const QPolygonF* ConstellationBoundary::constellationPoly( SkyPoint *p )
 {
     PolyList *polyList = ContainingPoly( p );

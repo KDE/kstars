@@ -58,8 +58,6 @@ public:
 
     const QPolygonF* constellationPoly( SkyPoint *p );
 
-    const QPolygonF* constellationPoly( const QString& name );
-
     virtual void init();
     virtual void draw(QPainter& psky);
 private:
