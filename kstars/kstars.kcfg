@@ -89,16 +89,6 @@
 			<whatsthis>Toggle display of the Equatorial coordinates of the mouse cursor in the status bar.</whatsthis>
 			<default>true</default>
 		</entry>
-		<entry name="ShowMainToolBar" type="Bool">
-			<label>Display main toolbar?</label>
-			<whatsthis>Toggle display of the main toolbar.</whatsthis>
-			<default>true</default>
-		</entry>
-		<entry name="ShowViewToolBar" type="Bool">
-			<label>Display view toolbar?</label>
-			<whatsthis>Toggle display of the "view" toolbar.</whatsthis>
-			<default>true</default>
-		</entry>
 		<entry name="WindowWidth" type="UInt">
 			<label>Width of main window, in pixels</label>
 			<default>600</default>

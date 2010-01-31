@@ -159,8 +159,6 @@ void KStars::applyConfig( bool doApplyFocus ) {
     actionCollection()->action("show_time_box"    )->setChecked( Options::showTimeBox() );
     actionCollection()->action("show_location_box")->setChecked( Options::showGeoBox() );
     actionCollection()->action("show_focus_box"   )->setChecked( Options::showFocusBox() );
-    actionCollection()->action("show_mainToolBar" )->setChecked( Options::showMainToolBar() );
-    actionCollection()->action("show_viewToolBar" )->setChecked( Options::showViewToolBar() );
     actionCollection()->action("show_statusBar"   )->setChecked( Options::showStatusBar() );
     actionCollection()->action("show_sbAzAlt"     )->setChecked( Options::showAltAzField() );
     actionCollection()->action("show_sbRADec"     )->setChecked( Options::showRADecField() );

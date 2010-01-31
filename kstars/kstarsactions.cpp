@@ -946,12 +946,10 @@ void KStars::slotClearAllTrails() {
 void KStars::slotShowGUIItem( bool show ) {
     //Toolbars
     if ( sender() == actionCollection()->action( "show_mainToolBar" ) ) {
-        Options::setShowMainToolBar( show );
         toolBar("kstarsToolBar")->setVisible(show);
     }
 
     if ( sender() == actionCollection()->action( "show_viewToolBar" ) ) {
-        Options::setShowViewToolBar( show );
         toolBar( "viewToolBar" )->setVisible(show);
     }
 
@@ -962,12 +960,14 @@ void KStars::slotShowGUIItem( bool show ) {
 
     if ( sender() == actionCollection()->action( "show_sbAzAlt" ) ) {
         Options::setShowAltAzField( show );
-        if ( ! show ) { statusBar()->changeItem( QString(), 1 ); }
+        if( !show )
+            statusBar()->changeItem( QString(), 1 );
     }
 
     if ( sender() == actionCollection()->action( "show_sbRADec" ) ) {
         Options::setShowRADecField( show );
-        if ( ! show ) { statusBar()->changeItem( QString(), 2 ); }
+        if( ! show )
+            statusBar()->changeItem( QString(), 2 );
     }
 
 }
