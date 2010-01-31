@@ -48,13 +48,13 @@
 #include "linelist.h"
 
 
-LineListIndex::LineListIndex( SkyComposite *parent, const QString& name )
-        : SkyComposite( parent ), m_name(name)
+LineListIndex::LineListIndex( SkyComposite *parent, const QString& name ) :
+    SkyComponent( parent ),
+    m_name(name)
 {
     m_skyMesh = SkyMesh::Instance();
     m_lineIndex = new LineListHash();
     m_polyIndex = new LineListHash();
-    m_lineIndexCnt = m_polyIndexCnt = 0;
 }
 
 // This is a callback for the indexLines() function below
@@ -65,8 +65,8 @@ const IndexHash& LineListIndex::getIndexHash(LineList* lineList ) {
 
 void LineListIndex::appendLine( LineList* lineList, int debug)
 {
-
-    if ( debug < skyMesh()->debug() ) debug = skyMesh()->debug();
+    if( debug < skyMesh()->debug() )
+        debug = skyMesh()->debug();
 
     const IndexHash& indexHash = getIndexHash( lineList );
     IndexHash::const_iterator iter = indexHash.constBegin();
@@ -81,9 +81,6 @@ void LineListIndex::appendLine( LineList* lineList, int debug)
     }
 
     m_listList.append( lineList);
-
-    if ( debug > 9 )
-        printf("LineList: %3d: %d\n", ++m_lineIndexCnt, indexHash.size() );
 }
 
 void LineListIndex::appendPoly(LineList* lineList, int debug)
@@ -101,9 +98,6 @@ void LineListIndex::appendPoly(LineList* lineList, int debug)
         }
         m_polyIndex->value( trixel )->append( lineList );
     }
-
-    if ( debug > 9 )
-        printf("PolyList: %3d: %d\n", ++m_polyIndexCnt, indexHash.size() );
 }
 
 void LineListIndex::appendBoth(LineList* lineList, int debug)
@@ -114,8 +108,6 @@ void LineListIndex::appendBoth(LineList* lineList, int debug)
 
 void LineListIndex::reindexLines()
 {
-    m_lineIndexCnt = 0;
-
     LineListHash* oldIndex = m_lineIndex;
     m_lineIndex = new LineListHash();
 

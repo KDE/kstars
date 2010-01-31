@@ -21,7 +21,7 @@
 #include <QList>
 #include <QHash>
 
-#include "skycomposite.h"
+#include "skycomponent.h"
 #include "skymesh.h"
 #include "typedef.h"
 
@@ -34,7 +34,7 @@ class LineList;
  *
  * @author James B. Bowlin @version 0.1
  */
-class LineListIndex : public SkyComposite
+class LineListIndex : public SkyComponent
 {
 public:
     /* @short Constructor
@@ -154,16 +154,12 @@ protected:
 
 private:
     QString      m_name;
-    int          m_lineIndexCnt;
-    int          m_polyIndexCnt;
 
-    //LineListList  m_listList;
     SkyMesh*      m_skyMesh;
     LineListHash* m_lineIndex;
     LineListHash* m_polyIndex;
 
     LineListList  m_listList;
-
 };
 
 #endif
