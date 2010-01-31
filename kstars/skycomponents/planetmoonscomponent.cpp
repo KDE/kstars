@@ -72,8 +72,9 @@ void PlanetMoonsComponent::update( KSNumbers * )
 
 void PlanetMoonsComponent::updateMoons( KSNumbers *num )
 {
+    //FIXME: evil cast
     if ( visible() )
-        pmoons->findPosition( num, (KSPlanet*)(m_Planet->skyObject()), (KSSun*)(parent()->findByName( "Sun" )) );
+        pmoons->findPosition( num, (KSPlanet*)(m_Planet->planet()), (KSSun*)(parent()->findByName( "Sun" )) );
 }
 
 SkyObject* PlanetMoonsComponent::findByName( const QString &name ) {

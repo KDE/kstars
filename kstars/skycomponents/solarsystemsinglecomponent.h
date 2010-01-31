@@ -29,7 +29,7 @@
 	*@version 0.1
 	*/
 
-#include "singlecomponent.h"
+#include "skycomponent.h"
 
 class SolarSystemComposite;
 class KSNumbers;
@@ -37,34 +37,28 @@ class KSPlanet;
 class KSPlanetBase;
 class SkyLabeler;
 
-class SolarSystemSingleComponent : public SingleComponent
+class SolarSystemSingleComponent : public SkyComponent
 {
 public:
     /** Initialize visible method, minimum size and sizeScale. */
     SolarSystemSingleComponent(SolarSystemComposite*, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize);
 
-    ~SolarSystemSingleComponent();
+    virtual ~SolarSystemSingleComponent();
 
-    /**@short Initialize the solar system body
-     * Reads in the orbital data from data files. */
+    /** Return pointer to stored planet object. */
+    KSPlanetBase* planet() { return m_Planet; }
+
     virtual void init();
-
     virtual void update( KSNumbers *num );
-
-    /**@short Update the coordinates of the planet.
-     *
-     * This function updates the position of the moving solar system body.
-     * @p num Pointer to the KSNumbers object */
     virtual void updatePlanets( KSNumbers *num );
-
-    void draw( QPainter &psky );
-
+    virtual SkyObject* first();
+    virtual SkyObject* next();
+    virtual SkyObject* findByName( const QString &name );
+    virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+    virtual void draw( QPainter &psky );
 protected:
-    KSPlanet* earth()   { return m_Earth; }
-    KSPlanetBase *ksp() { return (KSPlanetBase*)skyObject(); }
-
     /**@short Draws the planet's trail, if necessary. */
-    void drawTrails( QPainter& psky );
+    virtual void drawTrails( QPainter& psky );
 
     /**@short Add a Trail to the specified SkyObject.
      * @p o Pointer to the SkyObject to which a Trail will be added */
@@ -78,8 +72,9 @@ protected:
     virtual void clearTrailsExcept( SkyObject *exOb );
 
 private:
-    QColor m_Color;
-    KSPlanet *m_Earth;
+    QColor        m_Color;
+    KSPlanet     *m_Earth;
+    KSPlanetBase *m_Planet;
 };
 
 #endif

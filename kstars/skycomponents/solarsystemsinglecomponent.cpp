@@ -31,68 +31,101 @@
 #include "skylabeler.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)(), int msize) :
-    SingleComponent( parent, visibleMethod )
-{
-    setStoredObject( kspb );
-    m_Earth = parent->earth();
-}
+    SkyComponent( parent, visibleMethod ),
+    m_Earth( parent->earth() ),
+    m_Planet( kspb )
+{}
 
 SolarSystemSingleComponent::~SolarSystemSingleComponent()
 {
-    //Object deletes handled by parent class (SingleComponent)
+    int i;
+    i = objectNames(m_Planet->type()).indexOf( m_Planet->name() );
+    if ( i >= 0 )
+        objectNames(m_Planet->type()).removeAt( i );
+
+    i = objectNames(m_Planet->type()).indexOf( m_Planet->longname() );
+    if ( i >= 0 )
+        objectNames(m_Planet->type()).removeAt( i );
+    delete m_Planet;
 }
 
 void SolarSystemSingleComponent::init() {
-    ksp()->loadData();
-    if ( ! ksp()->name().isEmpty() )
-        objectNames(ksp()->type()).append( ksp()->name() );
-    if ( ! ksp()->longname().isEmpty() && ksp()->longname() != ksp()->name() )
-        objectNames(ksp()->type()).append( ksp()->longname() );
+    m_Planet->loadData();
+    if ( ! m_Planet->name().isEmpty() )
+        objectNames(m_Planet->type()).append( m_Planet->name() );
+    if ( ! m_Planet->longname().isEmpty() && m_Planet->longname() != m_Planet->name() )
+        objectNames(m_Planet->type()).append( m_Planet->longname() );
 }
 
-void SolarSystemSingleComponent::update(KSNumbers *) {
+SkyObject* SolarSystemSingleComponent::first() {
+    return m_Planet;
+}
+
+SkyObject* SolarSystemSingleComponent::next() {
+    return 0;
+}
+
+SkyObject* SolarSystemSingleComponent::findByName( const QString &name ) {
+    if( QString::compare( m_Planet->name(),     name, Qt::CaseInsensitive ) == 0 ||
+        QString::compare( m_Planet->longname(), name, Qt::CaseInsensitive ) == 0 ||
+        QString::compare( m_Planet->name2(),    name, Qt::CaseInsensitive ) == 0
+        )
+        return m_Planet;
+    return 0;
+}
+
+SkyObject* SolarSystemSingleComponent::objectNearest( SkyPoint *p, double &maxrad ) {
+    double r = m_Planet->angularDistanceTo( p ).Degrees();
+    if( r < maxrad ) {
+        maxrad = r;
+        return m_Planet;
+    }
+    return 0;
+}
+
+void SolarSystemSingleComponent::update(KSNumbers*) {
     KStarsData *data = KStarsData::Instance(); 
-    if ( visible() )
-        ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    if( visible() )
+        m_Planet->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void SolarSystemSingleComponent::updatePlanets(KSNumbers *num) {
     if ( visible() ) {
         KStarsData *data = KStarsData::Instance(); 
-        ksp()->findPosition( num, data->geo()->lat(), data->lst(), m_Earth );
-        ksp()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        if ( ksp()->hasTrail() )
-            ksp()->updateTrail( data->lst(), data->geo()->lat() );
+        m_Planet->findPosition( num, data->geo()->lat(), data->lst(), m_Earth );
+        m_Planet->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        if ( m_Planet->hasTrail() )
+            m_Planet->updateTrail( data->lst(), data->geo()->lat() );
     }
 }
 
 bool SolarSystemSingleComponent::addTrail( SkyObject *o ) {
-    if ( o == skyObject() ) {
-        ksp()->addToTrail();
+    if ( o == m_Planet ) {
+        m_Planet->addToTrail();
         return true;
     }
     return false;
 }
 
 bool SolarSystemSingleComponent::hasTrail( SkyObject *o, bool &found ) {
-    if ( o == skyObject() ) {
+    if ( o == m_Planet ) {
         found = true;
-        return ksp()->hasTrail();
+        return m_Planet->hasTrail();
     }
     return false;
 }
 
 bool SolarSystemSingleComponent::removeTrail( SkyObject *o ) {
-    if ( o == skyObject() ) {
-        ksp()->clearTrail();
+    if ( o == m_Planet ) {
+        m_Planet->clearTrail();
         return true;
     }
     return false;
 }
 
 void SolarSystemSingleComponent::clearTrailsExcept( SkyObject *exOb ) {
-    if ( exOb != skyObject() )
-        ksp()->clearTrail();
+    if ( exOb != m_Planet )
+        m_Planet->clearTrail();
 }
 
 void SolarSystemSingleComponent::draw( QPainter &psky ) {
@@ -102,38 +135,38 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     SkyMap *map = SkyMap::Instance();
 
     //TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
-    if ( ! map->checkVisibility( ksp() ) )
+    if ( ! map->checkVisibility( m_Planet ) )
         return;
 
     float Width = map->scale() * map->width();
 
     float sizemin = 1.0;
-    if( ksp()->name() == "Sun" || ksp()->name() == "Moon" )
+    if( m_Planet->name() == "Sun" || m_Planet->name() == "Moon" )
         sizemin = 8.0;
     sizemin *= map->scale();
 
     //TODO: KSPlanetBase needs a color property, and someone has to set the planet's color
-    psky.setPen( ksp()->color() );
-    psky.setBrush( ksp()->color() );
-    QPointF o = map->toScreen( ksp() );
+    psky.setPen( m_Planet->color() );
+    psky.setBrush( m_Planet->color() );
+    QPointF o = map->toScreen( m_Planet );
 
     //Is planet onscreen?
     if( ! map->onScreen( o ) )
         return;
 
-    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - ksp()->mag() ) / 10;
+    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - m_Planet->mag() ) / 10;
     if( fakeStarSize > 15.0 ) 
         fakeStarSize = 15.0;
-    float size = ksp()->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if ( size < fakeStarSize && ksp()->name() != "Sun" && ksp()->name() != "Moon" ) {
+    float size = m_Planet->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if ( size < fakeStarSize && m_Planet->name() != "Sun" && m_Planet->name() != "Moon" ) {
         // Draw them as bright stars of appropriate color instead of images
         QString SpecType;
         KStarsData *data = KStarsData::Instance();
         SpecType = "B0";
-        if( ksp()->name() == i18n("Mars") ) {
+        if( m_Planet->name() == i18n("Mars") ) {
             SpecType = "K5";
         }
-        if( ksp()->name() == i18n("Jupiter") || ksp()->name() == i18n("Mercury") || ksp()->name() == i18n("Saturn") ) {
+        if( m_Planet->name() == i18n("Jupiter") || m_Planet->name() == i18n("Mercury") || m_Planet->name() == i18n("Saturn") ) {
             SpecType = "F5";
         }
         StarObject fakeStar( 0, 0, 0, QString(), QString(), SpecType, 0.0, 0.0, 0.0, false, false, 0); // TODO: Choose the spectral type based on the colour
@@ -147,7 +180,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
             size = sizemin;
         if( Options::showPlanetImages() &&  //user wants them,
              //FIXME:					int(Options::zoomFactor()) >= int(zoommin) &&  //zoomed in enough,
-             ! ksp()->image()->isNull() &&  //image loaded ok,
+             ! m_Planet->image()->isNull() &&  //image loaded ok,
              size < Width ) {  //and size isn't too big.
 
             //Image size must be modified to account for possibility that rotated image's
@@ -157,7 +190,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
             //which the two squares are rotated (in our case, equal to the position angle +
             //the north angle, reduced between 0 and 90 degrees).
             //The proof is left as an exercise to the student :)
-            dms pa( map->findPA( ksp(), o.x(), o.y() ) );
+            dms pa( map->findPA( m_Planet, o.x(), o.y() ) );
             double spa, cpa;
             pa.SinCos( spa, cpa );
             cpa = fabs(cpa);
@@ -171,17 +204,17 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
             }
 
             //Because Saturn has rings, we inflate its image size by a factor 2.5
-            if ( ksp()->name() == "Saturn" ) size = int(2.5*size);
+            if ( m_Planet->name() == "Saturn" ) size = int(2.5*size);
 
             //FIXME: resize_mult ??
             //				if (resize_mult != 1) {
             //					size *= resize_mult;
             //				}
 
-            ksp()->scaleRotateImage( size, pa.Degrees() );
-            float x1 = o.x() - 0.5*ksp()->image()->width();
-            float y1 = o.y() - 0.5*ksp()->image()->height();
-            psky.drawImage( QPointF(x1, y1), *( ksp()->image() ) );
+            m_Planet->scaleRotateImage( size, pa.Degrees() );
+            float x1 = o.x() - 0.5*m_Planet->image()->width();
+            float y1 = o.y() - 0.5*m_Planet->image()->height();
+            psky.drawImage( QPointF(x1, y1), *( m_Planet->image() ) );
         }
         else { //Otherwise, draw a simple circle.
             psky.drawEllipse( QRectF(o.x()-0.5*size, o.y()-0.5*size, size, size) );
@@ -191,11 +224,11 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     if ( ! Options::showPlanetNames() )
         return;
 
-    SkyLabeler::AddLabel( o, ksp(), SkyLabeler::PLANET_LABEL );
+    SkyLabeler::AddLabel( o, m_Planet, SkyLabeler::PLANET_LABEL );
 }
 
 void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
-    if( ! visible() || ! ksp()->hasTrail() )
+    if( ! visible() || ! m_Planet->hasTrail() )
         return;
 
     SkyMap *map = SkyMap::Instance();
@@ -204,13 +237,13 @@ void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
     float Width = map->scale() * map->width();
     float Height = map->scale() * map->height();
 
-    SkyPoint p = ksp()->trail().first();
+    SkyPoint p = m_Planet->trail().first();
     QPointF o = map->toScreen( &p );
     QPointF oLast( o );
 
     bool doDrawLine(false);
     int i = 0;
-    int n = ksp()->trail().size();
+    int n = m_Planet->trail().size();
 
     if ( ( o.x() >= -1000. && o.x() <= Width+1000.
             && o.y() >= -1000. && o.y() <= Height+1000. ) ) {
@@ -221,7 +254,7 @@ void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
     bool firstPoint( true );
     QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
     psky.setPen( QPen( tcolor, 1 ) );
-    foreach ( p, ksp()->trail() ) {
+    foreach ( p, m_Planet->trail() ) {
         if( firstPoint ) {
             firstPoint = false;
             continue;

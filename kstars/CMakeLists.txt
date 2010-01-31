@@ -176,7 +176,6 @@ set(libkstarscomponents_SRCS
    skycomponents/linelistlabel.cpp
    skycomponents/noprecessindex.cpp
    skycomponents/polylistindex.cpp
-   skycomponents/singlecomponent.cpp 
    skycomponents/listcomponent.cpp 
    skycomponents/pointlistcomponent.cpp 
    skycomponents/linelistcomponent.cpp 
