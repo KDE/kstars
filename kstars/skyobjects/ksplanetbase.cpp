@@ -144,8 +144,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
             clipTrail();
     }
 
-    if ( isMajorPlanet() || type() == SkyObject::ASTEROID || type() == SkyObject::COMET || type() == SkyObject::MOON )
-        findMagnitude(num);
+    findMagnitude(num);
 
     if ( type() == SkyObject::COMET ) {
         // Compute tail size
