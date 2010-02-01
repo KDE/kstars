@@ -39,7 +39,6 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
     connect(Date, SIGNAL(dateChanged(const QDate&)), this, SLOT(slotChangeDate()));
     connect(LT, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertST(const QTime&)));
     connect(ST, SIGNAL(timeChanged(const QTime&)), this, SLOT(slotConvertLT(const QTime&)));
-    connect(this, SIGNAL(frameShown()), this, SLOT(slotShown()));
 
     connect(LocationCheckBatch, SIGNAL(clicked()), this, SLOT(slotLocationChecked()));
     connect(DateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
@@ -56,7 +55,6 @@ modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
     RunButtonBatch->setEnabled( false );
     ViewButtonBatch->setEnabled( false );
 
-    bSyncTime = false;
     show();
 }
 
@@ -97,20 +95,18 @@ void modCalcSidTime::slotChangeDate() {
     slotConvertST( LT->time() );
 }
 
-void modCalcSidTime::slotShown() {
-    slotConvertST( LT->time() );
-}
-
 void modCalcSidTime::slotConvertST(const QTime &lt){
-    if( !bSyncTime )
-        ST->setTime( computeLTtoST( lt ) );
-    bSyncTime = !bSyncTime;
+    // blockSignals is used to break signal loop
+    ST->blockSignals(true);
+    ST->setTime( computeLTtoST( lt ) );
+    ST->blockSignals(false);
 }
 
 void modCalcSidTime::slotConvertLT(const QTime &st){
-    if( !bSyncTime )
-        LT->setTime( computeSTtoLT( st ) );
-    bSyncTime = !bSyncTime;
+    // blockSignals is used to break signal loop
+    LT->blockSignals(true);
+    LT->setTime( computeSTtoLT( st ) );
+    LT->blockSignals(false);
 }
 
 QTime modCalcSidTime::computeLTtoST( QTime lt )

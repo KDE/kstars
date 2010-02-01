@@ -44,7 +44,6 @@ private slots:
     void slotChangeDate();
     void slotConvertST( const QTime &lt );
     void slotConvertLT( const QTime &st );
-    void slotShown();
 
     void slotDateChecked();
     void slotLocationChecked();
@@ -64,7 +63,6 @@ private:
     QTime computeLTtoST(QTime lt);
     QTime computeSTtoLT(QTime st);
 
-    bool bSyncTime;
     GeoLocation *geo, *geoBatch;
 };
 
