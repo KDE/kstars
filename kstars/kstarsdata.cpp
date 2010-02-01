@@ -110,6 +110,7 @@ KStarsData* KStarsData::Instance( )
 
 
 KStarsData::KStarsData() :
+    m_SkyComposite(0),
     temporaryTrail( false ),
     locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
@@ -135,7 +136,6 @@ KStarsData::KStarsData() :
     TypeName[16] = i18n( "quasar" );
     TypeName[17] = i18n( "multiple star" );
 
-    m_SkyComposite = new SkyMapComposite(0);
     m_logObject = new Comast::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
@@ -175,7 +175,8 @@ bool KStarsData::initialize() {
 
     //Initialize SkyMapComposite//
     emit progressText(i18n("Loading sky objects" ) );
-    skyComposite()->init();
+    m_SkyComposite = new SkyMapComposite(0);
+    m_SkyComposite->init();
 
     //Load Image URLs//
     emit progressText( i18n("Loading Image URLs" ) );
