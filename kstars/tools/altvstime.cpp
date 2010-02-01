@@ -132,27 +132,21 @@ void AltVsTime::slotAddSource() {
                 break;
             }
         }
-
-        if( found )
-            kDebug() << i18n("An object named %1 is already displayed, it will not be duplicated.", obj->name());
-        else
+        if( !found )
             processObject( obj );
-
     } else {
         //Object with the current name doesn't exist.  It's possible that the
         //user is trying to add a custom object.  Assume this is the case if
         //the RA and Dec fields are filled in.
 
         if( ! avtUI->nameBox->text().isEmpty() &&
-             ! avtUI->raBox->text().isEmpty()   &&
-             ! avtUI->decBox->text().isEmpty() )
+            ! avtUI->raBox->text().isEmpty()   &&
+            ! avtUI->decBox->text().isEmpty() )
         {
-            bool ok( true );
-            dms newRA( 0.0 ), newDec( 0.0 );
-            newRA = avtUI->raBox->createDms( false, &ok );
-            if ( ok )
-                newDec = avtUI->decBox->createDms( true, &ok );
-            if( !ok )
+            bool okRA, okDec;
+            dms newRA  = avtUI->raBox->createDms( false, &okRA );
+            dms newDec = avtUI->decBox->createDms( true, &okDec );
+            if( !okRA || !okDec )
                 return;
 
             //If the epochName is blank (or any non-double), we assume J2000
@@ -168,7 +162,7 @@ void AltVsTime::slotAddSource() {
             }
 
             //make sure the coords do not already exist from another object
-            bool found(false);
+            bool found = false;
             foreach ( SkyObject *p, pList ) {
                 //within an arcsecond?
                 if ( fabs( newRA.Degrees() - p->ra()->Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec()->Degrees() ) < 0.0003 ) {
@@ -176,12 +170,7 @@ void AltVsTime::slotAddSource() {
                     break;
                 }
             }
-            if ( found ) {
-                kDebug() << "This point is already displayed; I will not duplicate it.";
-                ok = false;
-            }
-
-            if ( ok ) {
+            if( !found ) {
                 SkyObject *obj = new SkyObject( 8, newRA, newDec, 1.0, avtUI->nameBox->text() );
                 deleteList.append( obj ); //this object will be deleted when window is destroyed
                 processObject( obj );
@@ -191,12 +180,15 @@ void AltVsTime::slotAddSource() {
         //If the Ra and Dec boxes are filled, but the name field is empty,
         //move input focus to nameBox.  If either coordinate box is empty,
         //move focus there
-        if ( avtUI->nameBox->text().isEmpty() )
+        if( avtUI->nameBox->text().isEmpty() ) {
             avtUI->nameBox->QWidget::setFocus();
-        if ( avtUI->raBox->text().isEmpty() )
+        }
+        if( avtUI->raBox->text().isEmpty() ) {
             avtUI->raBox->QWidget::setFocus();
-        else if ( avtUI->decBox->text().isEmpty() )
-            avtUI->decBox->QWidget::setFocus();
+        } else {
+            if ( avtUI->decBox->text().isEmpty() )
+                avtUI->decBox->QWidget::setFocus();
+        }
     }
 
     avtUI->View->update();
@@ -215,7 +207,8 @@ void AltVsTime::slotBrowseObject() {
 }
 
 void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
-    if ( !o ) return;
+    if( !o )
+        return;
 
     KSNumbers *num = new KSNumbers( getDate().djd() );
     KSNumbers *oldNum = 0;
@@ -322,7 +315,7 @@ void AltVsTime::slotAdvanceFocus() {
 void AltVsTime::slotClear() {
     pList.clear();
     //Need to delete the pointers in deleteList
-    while ( !deleteList.isEmpty() )
+    while( !deleteList.isEmpty() )
         delete deleteList.takeFirst();
 
     avtUI->PlotList->clear();
