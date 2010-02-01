@@ -39,13 +39,13 @@
 QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
   QColor("slateblue") << //Mercury
   QColor("lightgreen") << //Venus
-	QColor("red") << //Mars
-	QColor("goldenrod") << //Jupiter
-	QColor("khaki") << //Saturn
-	QColor("lightseagreen") << //Uranus
-	QColor("skyblue") << //Neptune
-	QColor("grey") << //Pluto
-	QColor("yellow") << //Sun
+  QColor("red") << //Mars
+  QColor("goldenrod") << //Jupiter
+  QColor("khaki") << //Saturn
+  QColor("lightseagreen") << //Uranus
+  QColor("skyblue") << //Neptune
+  QColor("grey") << //Pluto
+  QColor("yellow") << //Sun
   QColor("white"); //Moon
 
   
@@ -261,11 +261,9 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     if ( dy ) {
         pa = atan2( dx, dy )*180.0/dms::PI;
     } else {
-		    pa = 90.0;
-		    if ( dx > 0 ) pa = -90.0;
+        pa = dx < 0 ? 90.0 : -90.0;
     }
     setPA( pa );
-
 }
 
 double KSPlanetBase::labelOffset() const {
