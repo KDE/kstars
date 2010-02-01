@@ -17,6 +17,7 @@
 
 #include "modcalcsidtime.h"
 
+#include <QTextStream>
 #include <KGlobal>
 #include <KLocale>
 #include <kfiledialog.h>
@@ -28,7 +29,9 @@
 #include "dialogs/locationdialog.h"
 #include "widgets/dmsbox.h"
 
-modCalcSidTime::modCalcSidTime(QWidget *parentSplit) : CalcFrame(parentSplit) {
+modCalcSidTime::modCalcSidTime(QWidget *parent) :
+    QFrame(parent)
+{
     setupUi(this);
 
     //Preset date and location

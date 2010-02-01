@@ -18,9 +18,8 @@
 #ifndef MODCALCSIDTIME_H_
 #define MODCALCSIDTIME_H_
 
-#include <QTextStream>
+#include <QFrame>
 #include "ui_modcalcsidtime.h"
-#include "widgets/calcframe.h"
 
 class QTime;
 class GeoLocation;
@@ -33,7 +32,7 @@ class GeoLocation;
   *@author Pablo de Vicente
 	*@version 0.9
   */
-class modCalcSidTime : public CalcFrame, public Ui::modCalcSidTimeDlg  {
+class modCalcSidTime : public QFrame, public Ui::modCalcSidTimeDlg  {
     Q_OBJECT
 public:
     modCalcSidTime(QWidget *p);
