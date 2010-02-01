@@ -275,7 +275,7 @@ void KStarsData::setFullTimeUpdate() {
 }
 
 void KStarsData::syncLST() {
-    LST.set( geo()->GSTtoLST( ut().gst() ) );
+    LST = geo()->GSTtoLST( ut().gst() );
 }
 
 void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {

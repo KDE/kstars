@@ -24,10 +24,6 @@
 #include <kglobal.h>
 #include <klocale.h>
 
-void dms::setD( const double &x ) {
-    D = x;
-}
-
 void dms::setD(const int &d, const int &m, const int &s, const int &ms) {
     D = (double)abs(d) + ((double)m + ((double)s + (double)ms/1000.)/60.)/60.;
     if (d<0) {D = -1.0*D;}

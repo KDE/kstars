@@ -119,7 +119,7 @@ public:
     /**Sets RA0, the catalog Right Ascension.
     	*@param r catalog Right Ascension.
     	*/
-    inline void setRA0( dms r ) { RA0.set( r ); }
+    inline void setRA0( dms r ) { RA0 = r; }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -130,7 +130,7 @@ public:
     /**Sets Dec0, the catalog Declination.
     	*@param d catalog Declination.
     	*/
-    inline void setDec0( dms d ) { Dec0.set( d ); }
+    inline void setDec0( dms d ) { Dec0 = d; }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -141,7 +141,7 @@ public:
     /**Sets RA, the current Right Ascension.
     	*@param r Right Ascension.
     	*/
-    inline void setRA( dms r ) { RA.set( r ); syncQuaternion(); }
+    inline void setRA( dms r ) { RA = r; syncQuaternion(); }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -152,7 +152,7 @@ public:
     /**Sets Dec, the current Declination
     	*@param d Declination.
     	*/
-    inline void setDec( dms d ) { Dec.set( d ); syncQuaternion(); }
+    inline void setDec( dms d ) { Dec = d; syncQuaternion(); }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -163,7 +163,7 @@ public:
     /**Sets Alt, the Altitude.
     	*@param alt Altitude.
     	*/
-    inline void setAlt( dms alt ) { Alt.set( alt ); }
+    inline void setAlt( dms alt ) { Alt = alt; }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
@@ -174,7 +174,7 @@ public:
     /**Sets Az, the Azimuth.
     	*@param az Azimuth.
     	*/
-    inline void setAz( dms az ) { Az.set( az ); }
+    inline void setAz( dms az ) { Az = az; }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.

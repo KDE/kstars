@@ -32,10 +32,8 @@
 #include "skycomponents/skymapcomposite.h"
 
 void SkyPoint::set( const dms& r, const dms& d ) {
-    RA0.set( r );
-    Dec0.set( d );
-    RA.set( r );
-    Dec.set( d );
+    RA  = RA0  = r;
+    Dec = Dec0 = d;
     //Quaternion
     syncQuaternion();
 }

@@ -54,7 +54,7 @@ public:
      * Creates an angle whose value in Degrees is equal to the argument.
      * @param x angle expressed as a floating-point number (in degrees)
      */
-    dms( const double &x ) { setD( x ); }
+    dms( const double &x ) : D(x) {}
 
     /**@short Construct an angle from a string representation.
      *
@@ -142,7 +142,7 @@ public:
     /**Sets floating-point value of angle, in degrees.
     	*@param x new angle (double)
     	*/
-    void setD( const double &x );
+    void setD( const double &x ) { D = x; }
 
     /**@short Sets floating-point value of angle, in degrees.
     	*
@@ -203,18 +203,6 @@ public:
     	*@sa setD()
     	*/
     void setH( const int &h, const int &m, const int &s, const int &ms=0 );
-
-    /**@short Copy value of another dms angle
-    	*@param d set angle according to this dms object
-    	*/
-    void set( const dms &d ) { setD( d.Degrees() ); }
-
-    /**Copy value of another dms angle.  Differs from above function only
-    	*in argument type.  Identical to setD(double d).
-    	*@param d set angle according to this double value
-    	*@sa setD()
-    	*/
-    void set( const double &d ) { setD( d ); }
 
     /**@short Attempt to parse the string argument as a dms value, and set the dms object
      * accordingly.
