@@ -119,27 +119,11 @@ public:
      */
     inline QString translatedName() const { return i18n( name().toUtf8() );}
 
-    /**
-     *Set the object's primary name.
-     *@param name the object's primary name
-     */
-    inline void setName( const QString &name ) { Name = name; }
-
-    /**
-     *@return object's secondary name
-     */
+    /** @return object's secondary name */
     inline QString name2( void ) const { return ( hasName2() ? Name2 : emptyString ); }
 
-    /**
-     *@return object's secondary name, translated to local language.
-     */
+    /** @return object's secondary name, translated to local language. */
     inline QString translatedName2() const { return ( hasName2() ? i18n( Name2.toUtf8() ): emptyString );}
-
-    /**
-     *Set the object's secondary name.
-     *@param name2 the object's secondary name.
-     */
-    inline void setName2( const QString &name2=QString() ) { Name2 = name2; }
 
     /**
      *@return object's common (long) name
@@ -188,12 +172,6 @@ public:
     inline float mag( void ) const { return Magnitude; }
 
     /**
-     *Set the object's magnitude.
-     *@param m the object's magnitude.
-     */
-    inline void setMag( float m ) { Magnitude = m; }
-
-    /**
      *@return the object's position angle.  This is overridden in KSPlanetBase
      *and DeepSkyObject; for all other SkyObjects, this returns 0.0.
      */
@@ -236,15 +214,6 @@ public:
      *@param exact If true, use a second iteration for more accurate time
      */
     QTime riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool rst, bool exact=true );
-
-    /**
-     *@return the LST time when the object will rise or set
-     *@param dt  target date/time
-     *@param geo pointer to Geographic location
-     *@param rst Boolean. If true will compute rise time. If false
-     *       will compute set time.
-     */
-    dms riseSetTimeLST( const KStarsDateTime &dt, const GeoLocation *geo, bool rst);
 
     /**
      *@return the Azimuth time when the object will rise or set. This function
@@ -438,6 +407,17 @@ private:
     float Magnitude;
 
 protected:
+    /**Set the object's magnitude.
+     * @param m the object's magnitude. */
+    inline void setMag( float m ) { Magnitude = m; }
+
+    /**Set the object's primary name.
+     * @param name the object's primary name */
+    inline void setName( const QString &name ) { Name = name; }
+
+    /**Set the object's secondary name.
+     * @param name2 the object's secondary name. */
+    inline void setName2( const QString &name2=QString() ) { Name2 = name2; }
 
     QString Name, Name2, LongName;
 

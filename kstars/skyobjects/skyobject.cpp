@@ -161,11 +161,6 @@ QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     return UT;
 }
 
-dms SkyObject::riseSetTimeLST( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) {
-    KStarsDateTime rst( dt.date(), riseSetTimeUT( dt, geo, riseT) );
-    return geo->GSTtoLST( rst.gst() );
-}
-
 QTime SkyObject::auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo,
                                    const dms *righta, const dms *decl, bool riseT) {
     dms LST = auxRiseSetTimeLST( geo->lat(), righta, decl, riseT );
