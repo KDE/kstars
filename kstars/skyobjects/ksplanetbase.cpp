@@ -73,7 +73,6 @@ void KSPlanetBase::init( const QString &s, const QString &image_file, const QCol
         }
     }
     PositionAngle = 0.0;
-    ImageAngle = 0.0;
     PhysicalSize = pSize;
     m_Color = c;
     setName( s );
@@ -286,16 +285,14 @@ double KSPlanetBase::labelOffset() const {
 }
 
 void KSPlanetBase::rotateImage( double imAngle ) {
-    ImageAngle = imAngle;
     QMatrix m;
-    m.rotate( ImageAngle );
+    m.rotate( imAngle );
     Image = Image0.transformed( m );
 }
 
 void KSPlanetBase::scaleRotateImage( float size, double imAngle ) {
-    ImageAngle = imAngle;
     QMatrix m;
-    m.rotate( ImageAngle );
+    m.rotate( imAngle );
     Image = Image0.transformed( m ).scaledToWidth( int(size) );
 }
 

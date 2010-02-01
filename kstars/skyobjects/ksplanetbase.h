@@ -308,7 +308,7 @@ private:
     void localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST );
 
     QImage Image0, Image;
-    double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
+    double PositionAngle, AngularSize, PhysicalSize;
     QColor m_Color;
 };
 
