@@ -451,10 +451,10 @@ void KStars::slotSetTime() {
         map()->forceUpdateNow();
 
         //If focusObject has a Planet Trail, clear it and start anew.
-        if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
-                ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
-            ((KSPlanetBase*)map()->focusObject())->clearTrail();
-            ((KSPlanetBase*)map()->focusObject())->addToTrail();
+        KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
+        if( planet && planet->hasTrail() ) {
+            planet->clearTrail();
+            planet->addToTrail();
         }
     }
     delete timedialog;
@@ -475,10 +475,10 @@ void KStars::slotSetTimeToNow() {
     map()->forceUpdateNow();
 
     //If focusObject has a Planet Trail, clear it and start anew.
-    if ( map()->focusObject() && map()->focusObject()->isSolarSystem() &&
-            ((KSPlanetBase*)map()->focusObject())->hasTrail() ) {
-        ((KSPlanetBase*)map()->focusObject())->clearTrail();
-        ((KSPlanetBase*)map()->focusObject())->addToTrail();
+    KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
+    if( planet && planet->hasTrail() ) {
+        planet->clearTrail();
+        planet->addToTrail();
     }
 }
 
@@ -709,8 +709,10 @@ void KStars::slotTrack() {
         Options::setIsTracking( false );
         actionCollection()->action("track_object")->setText( i18n( "Engage &Tracking" ) );
         actionCollection()->action("track_object")->setIcon( KIcon("document-decrypt") );
-        if ( map()->focusObject() && map()->focusObject()->isSolarSystem() && data()->temporaryTrail ) {
-            ((KSPlanetBase*)map()->focusObject())->clearTrail();
+
+        KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( map()->focusObject() );
+        if( planet && data()->temporaryTrail ) {
+            planet->clearTrail();
             data()->temporaryTrail = false;
         }
 

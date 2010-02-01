@@ -129,13 +129,11 @@ dms KSConjunct::findDistance(long double jd, SkyObject *Object1, KSPlanetBase *O
   m_Earth -> findPosition( &num );
   dms LST(geoPlace->GSTtoLST(t.gst()));
 
-  // FIXME: This should be virtual functions or whatever
-  if( Object1->isSolarSystem() ) {
-      KSPlanetBase* p = reinterpret_cast<KSPlanetBase*>(Object1);
+  KSPlanetBase* p = dynamic_cast<KSPlanetBase*>(Object1);
+  if( p )
       p->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
-  } else {
+  else
       Object1->updateCoords( &num );
-  }
 
   Object2->findPosition(&num, geoPlace->lat(), &LST, m_Earth);
   dist.setRadians(Object1 -> angularDistanceTo(Object2).radians());

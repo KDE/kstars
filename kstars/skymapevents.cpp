@@ -326,8 +326,9 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             setClickedObject( focusObject() );
         }
 
-        if ( clickedObject() && clickedObject()->isSolarSystem() ) {
-            if ( ((KSPlanetBase*)clickedObject())->hasTrail() )
+        KSPlanetBase* planet = dynamic_cast<KSPlanetBase*>( clickedObject() );
+        if( planet ) {
+            if( planet->hasTrail() )
                 slotRemovePlanetTrail();
             else
                 slotAddPlanetTrail();
