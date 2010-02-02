@@ -2771,7 +2771,7 @@ int SatInit(char *ObsName, double ObsLat, double ObsLong, double ObsAlt, char *T
 	antfd=-1;
 	
 	/* Set up qth */
-	sprintf(qth.callsign,"%s",ObsName);
+	qth.callsign[0] = '\0';  /* Set callsing to empty string instead of copying ObsName here. */
 	qth.stnlat=ObsLat;
 	qth.stnlong=ObsLong;
 	qth.stnalt=ObsAlt;
@@ -2781,7 +2781,7 @@ int SatInit(char *ObsName, double ObsLat, double ObsLong, double ObsAlt, char *T
 	obs_geodetic.theta=0.0;
 	
 	/* Set up tle */
-return  ReadTLE(TLE_file);
+    return  ReadTLE(TLE_file);
 }
 
 
