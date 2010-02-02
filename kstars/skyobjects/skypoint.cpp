@@ -258,19 +258,19 @@ bool SkyPoint::bendlight() {
     // radii, where the effect is only about 0.06".  Assuming
     // min. sun-earth distance is 200 solar radii.
 
-    static KSSun* sun;
+    static KSSun* thesun;
     const dms maxAngle( 1.75 * ( 30.0 / 200.0) / dms::DegToRad );
 
-    if( !sun ) // Hope we don't destroy the sun before the program ends!
-        sun = (KSSun*) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+    if( !thesun ) // Hope we don't destroy the sun before the program ends!
+        thesun = (KSSun*) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
     //    kDebug() << "bendlight says maximum correctable angle is " << maxAngle.Degrees();
 
     // TODO: We can make this code more efficient
-    SkyPoint sp( sun->ra0(), sun->dec0() );
-    //    kDebug() << "The unaberrated sun is " << sp.angularDistanceTo( sun ).Degrees() << "deg away";
+    SkyPoint sp( thesun->ra0(), thesun->dec0() );
+    //    kDebug() << "The unaberrated sun is " << sp.angularDistanceTo( thesun ).Degrees() << "deg away";
     if( fabs( angularDistanceTo( &sp ).radians() ) <= maxAngle.radians() ) {
         // We correct for GR effects
-        double corr_sec = 1.75 * sun->physicalSize() / ( sun->rearth() * AU_KM * angularDistanceTo( &sp ).sin() );
+        double corr_sec = 1.75 * thesun->physicalSize() / ( thesun->rearth() * AU_KM * angularDistanceTo( &sp ).sin() );
         Q_ASSERT( corr_sec > 0 );
         
         sp = moveAway( sp, corr_sec );
