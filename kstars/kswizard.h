@@ -91,11 +91,9 @@ private:
      * Populate the city list box, and highlight the current location in the list.
      */
     void initGeoPage();
-
+    
     QStackedWidget *wizardStack;
-    WizWelcomeUI *welcome;
-    WizLocationUI *location;
-    WizDownloadUI *download;
+    WizLocationUI  *location;
 
     GeoLocation *Geo;
     QList<GeoLocation*> filteredCityList;

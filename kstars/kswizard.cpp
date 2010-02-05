@@ -52,9 +52,9 @@ KSWizard::KSWizard( QWidget *parent ) :
     setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Next") + QString(" >"), QString(), i18n("Go to next Wizard page") ) );
     setButtonGuiItem( KDialog::User2, KGuiItem( QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page") ) );
 
-    welcome  = new WizWelcomeUI( wizardStack );
+    WizWelcomeUI* welcome = new WizWelcomeUI( wizardStack );
     location = new WizLocationUI( wizardStack );
-    download = new WizDownloadUI( wizardStack );
+    WizDownloadUI* download = new WizDownloadUI( wizardStack );
 
     wizardStack->addWidget( welcome );
     wizardStack->addWidget( location );
@@ -91,11 +91,7 @@ KSWizard::KSWizard( QWidget *parent ) :
 
 //Do NOT delete members of filteredCityList!  They are not created by KSWizard.
 KSWizard::~KSWizard()
-{
-    delete welcome;
-    delete location;
-    delete download;
-}
+{}
 
 void KSWizard::slotNextPage() {
     wizardStack->setCurrentIndex( wizardStack->currentIndex() + 1 );
@@ -133,13 +129,11 @@ void KSWizard::initGeoPage() {
 
     //Sort alphabetically
     location->CityListBox->sort();
-
     //preset to current city
     location->CityListBox->setCurrentItem( index );
 }
 
 void KSWizard::slotChangeCity() {
-
     if ( location->CityListBox->currentItem() >= 0 ) {
         for ( int i=0; i < filteredCityList.size(); ++i ) {
             if ( filteredCityList[i]->fullName() == location->CityListBox->currentText() ) {
@@ -150,13 +144,12 @@ void KSWizard::slotChangeCity() {
         location->LongBox->showInDegrees( Geo->lng() );
         location->LatBox->showInDegrees( Geo->lat() );
     }
-
 }
 
 void KSWizard::slotFilterCities() {
     location->CityListBox->clear();
     //Do NOT delete members of filteredCityList!
-    while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
+    filteredCityList.clear();
 
     foreach ( GeoLocation *loc, KStarsData::Instance()->getGeoList() ) {
         QString sc = loc->translatedName();
