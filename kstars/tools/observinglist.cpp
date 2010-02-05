@@ -675,9 +675,9 @@ void ObservingList::slotSlewToObject()
             {
             case 0:
                 if (indidev->stdDev->currentObject)
-                    sp.set (indidev->stdDev->currentObject->ra(), indidev->stdDev->currentObject->dec());
+                    sp = *indidev->stdDev->currentObject;
                 else
-                    sp.set (ks->map()->clickedPoint()->ra(), ks->map()->clickedPoint()->dec());
+                    sp = *ks->map()->clickedPoint();
 
                 if (useJ2000)
                     sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);

@@ -210,7 +210,7 @@ public:
     /**@short set the FocusPoint; the position that is to be the next Destination.
     	*@param f a pointer to the FocusPoint SkyPoint.
     	*/
-    void setFocusPoint( SkyPoint *f ) { if ( f ) FocusPoint.set( f->ra(), f->dec() ); }
+    void setFocusPoint( SkyPoint *f ) { if ( f ) FocusPoint = *f; }
 
     /**@short Retrieve the ClickedPoint position.
     	*
@@ -240,7 +240,7 @@ public:
     	*argument, and this function returns by value.
     	*@param f the new MousePoint (typically the output of dXdYToRaDec()).
     	*/
-    void setMousePoint( SkyPoint f ) { MousePoint.set( f.ra(), f.dec() ); }
+    void setMousePoint( SkyPoint f ) { MousePoint = f; }
 
     /**@short Retrieve the object nearest to a mouse click event.
     	*

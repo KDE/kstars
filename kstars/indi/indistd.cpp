@@ -811,18 +811,15 @@ void INDIStdDevice::timerDone()
     // We issue command to the REQUEST property
     prop = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
 
-    if (prop == NULL)
-    {
-	// Backward compatibility
-	prop = dp->findProp("EQUATORIAL_EOD_COORD");
-
-	if (prop == NULL)
-	{
+    if (prop == NULL) {
+        // Backward compatibility
+        prop = dp->findProp("EQUATORIAL_EOD_COORD");
+        if(prop == NULL) {
         	prop = dp->findProp("EQUATORIAL_COORD");
-        	if (prop) useJ2000 = true;
-	}
+        	if(prop)
+                useJ2000 = true;
+        }
     }
-
     if (prop == NULL || !currentObject)
         return;
 
@@ -832,14 +829,13 @@ void INDIStdDevice::timerDone()
 
     kDebug() << "Timer called, starting processing";
 
-    SkyPoint sp(currentObject->ra(), currentObject->dec());
+    SkyPoint sp = *currentObject;
 
     kDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString();
     kDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString();
 
-    if (useJ2000)
-    {
-        sp.set(currentObject->ra(), currentObject->dec());
+    if (useJ2000) {
+        sp = *currentObject;
         sp.apparentCoord( ksw->data()->ut().djd() , (long double) J2000);
     }
 
@@ -1066,11 +1062,11 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
             {
             	kDebug() << "standard object - RA: " << stdDev->currentObject->ra()->toHMSString()
             	<< " DEC: " << stdDev->currentObject->dec()->toDMSString();  
-                sp.set (stdDev->currentObject->ra(), stdDev->currentObject->dec());
+                sp = *stdDev->currentObject;
             }
             else
             {
-                sp.set (ksw->map()->clickedPoint()->ra(), ksw->map()->clickedPoint()->dec());
+                sp = *ksw->map()->clickedPoint();
                 kDebug() << "Skymap click - RA: " << sp.ra()->toHMSString() <<
                 " DEC: " << sp.dec()->toDMSString();
             }

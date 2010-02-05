@@ -928,9 +928,9 @@ void DetailDialog::centerTelescope()
             {
             case 0:
                 if (indidev->stdDev->currentObject)
-                    sp.set (indidev->stdDev->currentObject->ra(), indidev->stdDev->currentObject->dec());
+                    sp = *( indidev->stdDev->currentObject );
                 else
-                    sp.set (map->clickedPoint()->ra(), map->clickedPoint()->dec());
+                    sp = *( map->clickedPoint() );
 
                 if (useJ2000)
                     sp.apparentCoord(KStarsData::Instance()->ut().djd(), (long double) J2000);

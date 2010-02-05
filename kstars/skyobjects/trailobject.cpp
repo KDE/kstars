@@ -52,7 +52,7 @@ void TrailObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
 }
 
 void TrailObject::addToTrail() {
-    Trail.append( SkyPoint( ra(), dec() ) );
+    Trail.append( SkyPoint( *this ) );
     trailObjects.insert( this );
 }
 

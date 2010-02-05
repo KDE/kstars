@@ -266,8 +266,8 @@ bool SkyPoint::bendlight() {
     //    kDebug() << "bendlight says maximum correctable angle is " << maxAngle.Degrees();
 
     // TODO: We can make this code more efficient
-    SkyPoint sp( thesun->ra0(), thesun->dec0() );
-    //    kDebug() << "The unaberrated sun is " << sp.angularDistanceTo( thesun ).Degrees() << "deg away";
+    SkyPoint sp = *thesun;
+    //    kDebug() << "The unaberrated sun is " << sp.angularDistanceTo( sun ).Degrees() << "deg away";
     if( fabs( angularDistanceTo( &sp ).radians() ) <= maxAngle.radians() ) {
         // We correct for GR effects
         double corr_sec = 1.75 * thesun->physicalSize() / ( thesun->rearth() * AU_KM * angularDistanceTo( &sp ).sin() );

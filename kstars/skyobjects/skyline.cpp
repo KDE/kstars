@@ -23,22 +23,22 @@ SkyLine::SkyLine()
 {}
 
 SkyLine::SkyLine( const SkyPoint &start, const SkyPoint &end ) {
-    SkyPoint *pStart = new SkyPoint( start.ra(), start.dec() );
-    SkyPoint *pEnd = new SkyPoint( end.ra(), end.dec() );
+    SkyPoint *pStart = new SkyPoint( start );
+    SkyPoint *pEnd   = new SkyPoint( end );
     m_pList.append( pStart );
     m_pList.append( pEnd );
 }
 
 SkyLine::SkyLine( SkyPoint *start, SkyPoint *end ) {
-    SkyPoint *pStart = new SkyPoint( start->ra(), start->dec() );
-    SkyPoint *pEnd = new SkyPoint( end->ra(), end->dec() );
+    SkyPoint *pStart = new SkyPoint( *start );
+    SkyPoint *pEnd   = new SkyPoint( *end );
     m_pList.append( pStart );
     m_pList.append( pEnd );
 }
 
 SkyLine::SkyLine( QList<SkyPoint*> list ) {
     foreach ( SkyPoint *p, list ) {
-        SkyPoint *p0 = new SkyPoint( p->ra(), p->dec() );
+        SkyPoint *p0 = new SkyPoint( *p );
         m_pList.append( p0 );
     }
 }
@@ -69,8 +69,7 @@ void SkyLine::setPoint( int i, SkyPoint *p ) {
         kDebug() << i18n("SkyLine index error: no such point: %1", i );
         return;
     }
-
-    m_pList[i]->set( p->ra()->Hours(), p->dec()->Degrees() );
+    *( m_pList[i] ) = *p;
 }
 
 dms SkyLine::angularSize( int i ) const{

@@ -290,7 +290,7 @@ dms SkyObject::elevationCorrection(void) {
 
 SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation *geo ) {
     //store current position
-    SkyPoint original( ra(), dec() );
+    SkyPoint original = *this;
 
     // compute coords for new time jd
     KSNumbers num( dt.djd() );
@@ -302,7 +302,7 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
     }
 
     //the coordinates for the date dt:
-    SkyPoint sp = SkyPoint( ra(), dec() );
+    SkyPoint sp = *this;
 
     // restore original coords
     setRA( original.ra()->Hours() );

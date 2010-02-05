@@ -61,18 +61,6 @@ public:
         syncQuaternion();
     }
 
-    /**Alternate constructor using pointer arguments, for convenience.
-    	*It behaves essentially like the default constructor.
-    	*@param r Right Ascension pointer
-    	*@param d Declination pointer
-    	*/
-    SkyPoint( const dms *r, const dms *d ) :
-        RA0(*r), Dec0(*d),
-        RA(*r),  Dec(*d)
-    {
-        syncQuaternion();
-    }
-
     /**Alternate constructor using double arguments, for convenience.
     	*It behaves essentially like the default constructor.
     	*@param r Right Ascension, expressed as a double
@@ -86,9 +74,7 @@ public:
         syncQuaternion();
     }
 
-    /**
-    	*Empty destructor.
-    	*/
+    /** Empty destructor. */
     virtual ~SkyPoint();
 
     ////
@@ -96,26 +82,19 @@ public:
     //// =======================
 
     /**Sets RA, Dec and RA0, Dec0 according to arguments.
-    	*Does not set Altitude or Azimuth.
-    	*@param r Right Ascension
-    	*@param d Declination
-    	*/
+     * Does not set Altitude or Azimuth.
+     * @param r Right Ascension
+     * @param d Declination
+     */
     void set( const dms& r, const dms& d );
 
     /**Overloaded member function, provided for convenience.
-    	*It behaves essentially like the above function.
-    	*@param r Right Ascension
-    	*@param d Declination
-    	*/
-    inline void set( const dms *r, const dms *d ) { set( *r, *d ); }
-
-    /**Overloaded member function, provided for convenience.
-    	*It behaves essentially like the above function.
-    	*@param r Right Ascension
-    	*@param d Declination
-    	*/
+     * It behaves essentially like the above function.
+     * @param r Right Ascension
+     * @param d Declination
+     */
     void set( double r, double d );
-
+    
     /**Sets RA0, the catalog Right Ascension.
     	*@param r catalog Right Ascension.
     	*/

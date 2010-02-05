@@ -743,7 +743,7 @@ void SkyMap::setFocusAltAz(double alt, double az) {
 }
 
 void SkyMap::setDestination( SkyPoint *p ) {
-    Destination.set( p->ra(), p->dec() );
+    Destination = *p;
     destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
@@ -775,7 +775,7 @@ void SkyMap::setDestinationAltAz(double alt, double az) {
 }
 
 void SkyMap::setClickedPoint( SkyPoint *f ) { 
-    ClickedPoint.set( f->ra(), f->dec() );
+    ClickedPoint = *f;
 }
 
 void SkyMap::updateFocus() {

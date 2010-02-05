@@ -37,7 +37,7 @@ FocusDialog::FocusDialog( KStars *_ks )
         : KDialog( _ks ), ks( _ks )
 {
     //initialize point to the current focus position
-    Point.set( ks->map()->focus()->ra(), ks->map()->focus()->dec() );
+    Point = *ks->map()->focus();
 
     UsedAltAz = false; //assume RA/Dec by default
 

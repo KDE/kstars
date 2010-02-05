@@ -394,7 +394,7 @@ void HorizonComponent::draw( QPainter& psky )
     //p2 is a skypoint offset from LabelPoint by +/-1 degree azimuth (scaled by
     //2000./zoomFactor).  We use p2 to determine the rotation angle for the
     //Horizon label, which we want to be parallel to the line between LabelPoint and p2.
-    SkyPoint p2( LabelPoint.ra(), LabelPoint.dec() );
+    SkyPoint p2 = LabelPoint;
     p2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
     p2.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
@@ -403,8 +403,7 @@ void HorizonComponent::draw( QPainter& psky )
 
     float sx = o.x() - o2.x();
     float sy = o.y() - o2.y();
-    float angle;
-    angle = atan2( sy, sx )*180.0/dms::PI;
+    float angle = atan2( sy, sx )*180.0/dms::PI;
     if ( angle < -90.0 ) angle += 180.0;
     if ( angle >  90.0 ) angle -= 180.0;
 
