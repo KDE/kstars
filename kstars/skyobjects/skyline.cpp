@@ -23,45 +23,35 @@ SkyLine::SkyLine()
 {}
 
 SkyLine::SkyLine( const SkyPoint &start, const SkyPoint &end ) {
-    SkyPoint *pStart = new SkyPoint( start );
-    SkyPoint *pEnd   = new SkyPoint( end );
-    m_pList.append( pStart );
-    m_pList.append( pEnd );
+    m_pList.append( new SkyPoint( start ) );
+    m_pList.append( new SkyPoint( end ) );
 }
 
 SkyLine::SkyLine( SkyPoint *start, SkyPoint *end ) {
-    SkyPoint *pStart = new SkyPoint( *start );
-    SkyPoint *pEnd   = new SkyPoint( *end );
-    m_pList.append( pStart );
-    m_pList.append( pEnd );
+    m_pList.append( new SkyPoint( *start ) );
+    m_pList.append( new SkyPoint( *end ) );
 }
 
 SkyLine::SkyLine( QList<SkyPoint*> list ) {
-    foreach ( SkyPoint *p, list ) {
-        SkyPoint *p0 = new SkyPoint( *p );
-        m_pList.append( p0 );
-    }
+    foreach ( SkyPoint *p, list )
+        m_pList.append( new SkyPoint( *p ) );
 }
 
 SkyLine::~SkyLine() {
-  clear();
+    clear();
 }
 
 void SkyLine::clear() {
-  if ( m_pList.size() ) {
     qDeleteAll( m_pList );
     m_pList.clear();
-  }
 }
 
 void SkyLine::append( const SkyPoint &p ) {
-    SkyPoint *pAdd = new SkyPoint( p );
-    m_pList.append( pAdd );
+    m_pList.append( new SkyPoint( p ) );
 }
 
 void SkyLine::append( SkyPoint *p ) {
-    SkyPoint *pAdd = new SkyPoint( *p );
-    m_pList.append( pAdd );
+    m_pList.append( new SkyPoint( *p ) );
 }
 
 void SkyLine::setPoint( int i, SkyPoint *p ) {
@@ -69,7 +59,7 @@ void SkyLine::setPoint( int i, SkyPoint *p ) {
         kDebug() << i18n("SkyLine index error: no such point: %1", i );
         return;
     }
-    *( m_pList[i] ) = *p;
+    *m_pList[i] = *p;
 }
 
 dms SkyLine::angularSize( int i ) const{
@@ -97,16 +87,6 @@ dms SkyLine::angularSize( int i ) const{
     return angDist;
 }
 
-//DEPRECATED
-// void SkyLine::setAngularSize( double size ) {
-// 	double pa=positionAngle().radians();
-//
-// 	double x = (startPoint()->ra()->Degrees()  + size*cos(pa))/15.0;
-// 	double y = startPoint()->dec()->Degrees() - size*sin(pa);
-//
-// 	setEndPoint( SkyPoint( x, y ) );
-// }
-
 dms SkyLine::positionAngle( int i ) const {
     if ( i < 0 || i+1 >= m_pList.size() ) {
         kDebug() << i18n("SkyLine index error: no such segment: %1", i );
@@ -121,28 +101,10 @@ dms SkyLine::positionAngle( int i ) const {
     return dms( atan2( dy, dx )/dms::DegToRad );
 }
 
-//DEPRECATE
-// void SkyLine::rotate( const dms &angle ) {
-// 	double dx = endPoint()->ra()->Degrees()  - startPoint()->ra()->Degrees();
-// 	double dy = endPoint()->dec()->Degrees() - startPoint()->dec()->Degrees();
-//
-// 	double s, c;
-// 	angle.SinCos( s, c );
-//
-// 	double dx0 = dx*c - dy*s;
-// 	double dy0 = dx*s + dy*c;
-//
-// 	double x = (startPoint()->ra()->Degrees() + dx0)/15.0;
-// 	double y = startPoint()->dec()->Degrees() + dy0;
-//
-// 	setEndPoint( SkyPoint( x, y ) );
-// }
-
 void SkyLine::update( KStarsData *d, KSNumbers *num ) {
     foreach ( SkyPoint *p, m_pList ) {
         if ( num )
             p->updateCoords( num );
-
         p->EquatorialToHorizontal( d->lst(), d->geo()->lat() );
     }
 }
