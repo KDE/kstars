@@ -121,24 +121,6 @@ public:
     	*/
     inline double Hours() const { return reduce().Degrees()/15.0; }
 
-    /**Sets integer degrees portion of angle, leaving the arcminute and
-    	*arcsecond values intact.
-    	*@param d new integer degrees value
-    	*/
-    inline void setDeg( const int &d ) { setD( d, arcmin(), arcsec() ); }
-
-    /**Sets integer arcminutes portion of angle, leaving the degrees
-    	*and arcsecond values intact.
-    	*@param m new integer arcminutes value
-    	*/
-    inline void setArcMin( const int &m ) { setD( degree(), m, arcsec() ); }
-
-    /**Sets integer arcseconds portion of angle, leaving the degrees
-    	*and arcminute values intact.
-    	*@param s new integer arcseconds value
-    	*/
-    inline void setArcSec( const int &s ) { setD( degree(), arcmin(), s ); }
-
     /**Sets floating-point value of angle, in degrees.
     	*@param x new angle (double)
     	*/
@@ -159,27 +141,6 @@ public:
     	*@param ms integer arcseconds portion of angle
     	*/
     void setD( const int &d, const int &m, const int &s, const int &ms=0 );
-
-    /**Sets integer hours portion of angle, leaving the minutes and
-    	*seconds values intact.
-    	*@param h new integer hours value
-    	*@sa setH() setDeg()
-    	*/
-    void setHour( const int &h ) { setH( h, minute(), second() ); }
-
-    /**Sets integer minutes portion of angle, leaving the hours and
-    	*seconds values intact.
-    	*@param m new integer minutes value
-    	*@sa setArcMin()
-    	*/
-    void setHMin( const int &m ) { setH( hour(), m, second() ); }
-
-    /**Sets integer seconds portion of angle, leaving the hours and
-    	*minutes values intact.
-    	*@param s new integer seconds value
-    	*@sa setArcSec()
-    	*/
-    void setHSec( const int &s ) { setH( hour(), minute(), s ); }
 
     /**@short Sets floating-point value of angle, in hours.
     	*
