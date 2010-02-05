@@ -293,16 +293,13 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     double dVal = val.toDouble( &dOk );
 
     //[GUI]
-    // FIXME: REGRESSION
-    // if ( op == "ShowInfoBoxes"   && bOk ) Options::setShowInfoBoxes(   bVal );
-    // if ( op == "ShowTimeBox"     && bOk ) Options::setShowTimeBox(     bVal );
-    // if ( op == "ShowGeoBox"      && bOk ) Options::setShowGeoBox(      bVal );
-    // if ( op == "ShowFocusBox"    && bOk ) Options::setShowFocusBox(    bVal );
-    // if ( op == "ShadeTimeBox"    && bOk ) Options::setShadeTimeBox(    bVal );
-    // if ( op == "ShadeGeoBox"     && bOk ) Options::setShadeGeoBox(     bVal );
-    // if ( op == "ShadeFocusBox"   && bOk ) Options::setShadeFocusBox(   bVal );
-    // if ( op == "ShowMainToolBar" && bOk ) Options::setShowMainToolBar( bVal );
-    // if ( op == "ShowViewToolBar" && bOk ) Options::setShowViewToolBar( bVal );
+    if ( op == "ShowInfoBoxes"   && bOk ) Options::setShowInfoBoxes(   bVal );
+    if ( op == "ShowTimeBox"     && bOk ) Options::setShowTimeBox(     bVal );
+    if ( op == "ShowGeoBox"      && bOk ) Options::setShowGeoBox(      bVal );
+    if ( op == "ShowFocusBox"    && bOk ) Options::setShowFocusBox(    bVal );
+    if ( op == "ShadeTimeBox"    && bOk ) Options::setShadeTimeBox(    bVal );
+    if ( op == "ShadeGeoBox"     && bOk ) Options::setShadeGeoBox(     bVal );
+    if ( op == "ShadeFocusBox"   && bOk ) Options::setShadeFocusBox(   bVal );
 
     //[View]
     // FIXME: REGRESSION
