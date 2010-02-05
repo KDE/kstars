@@ -113,7 +113,8 @@ void KStars::addLabel( const QString &name ) {
     SkyObject *target = data()->objectNamed( name );
     if ( target != NULL ) {
 		    data()->skyComposite()->addNameLabel( target );
-        if ( map()->transientObject() == target ) map()->setTransientObject( NULL );
+        if( map()->transientObject() == target )
+            map()->setTransientObject( NULL );
         map()->forceUpdate();
     }
 }
@@ -122,23 +123,24 @@ void KStars::removeLabel( const QString &name ) {
     SkyObject *target = data()->objectNamed( name );
     if ( target != NULL ) {
 		    data()->skyComposite()->removeNameLabel( target );
-        if ( map()->transientObject() == target ) map()->setTransientObject( NULL );
+        if( map()->transientObject() == target )
+            map()->setTransientObject( NULL );
         map()->forceUpdate();
     }
 }
 
 void KStars::addTrail( const QString &name ) {
-    SkyObject *target = data()->objectNamed( name );
-    if ( target != NULL && target->isSolarSystem() ) {
-        ((KSPlanetBase*)target)->addToTrail();
+    TrailObject *target = dynamic_cast<TrailObject*>( data()->objectNamed( name ) );
+    if( target ) {
+        target->addToTrail();
         map()->forceUpdate();
     }
 }
 
 void KStars::removeTrail( const QString &name ) {
-    SkyObject *target = data()->objectNamed( name );
-    if ( target != NULL && target->isSolarSystem() ) {
-        ((KSPlanetBase*)target)->clearTrail();
+    TrailObject *target = dynamic_cast<TrailObject*>( data()->objectNamed( name ) );
+    if ( target ) {
+        target->clearTrail();
         map()->forceUpdate();
     }
 }
@@ -173,8 +175,8 @@ void KStars::waitForKey( const QString &k ) {
     data()->resumeKey = QKeySequence::fromString( k );
     if ( ! data()->resumeKey.isEmpty() ) {
         //When the resumeKey is pressed, resumeKey is set to empty
-        while ( ! data()->resumeKey.isEmpty() ) { qApp->processEvents(); }
-
+        while ( !data()->resumeKey.isEmpty() )
+            qApp->processEvents();
     } else {
         kDebug() << i18n( "Error [D-Bus waitForKey()]: Invalid key requested." );
     }
@@ -754,8 +756,7 @@ void KStars::setINDITargetName(const QString &objectName)
     INDI_P *prop;
     INDI_E *el;
 
-    if (!indidriver || !indimenu)
-    {
+    if (!indidriver || !indimenu) {
         kDebug() << "setINDITarget: establishINDI() failed.";
         return;
     }
@@ -766,8 +767,7 @@ void KStars::setINDITargetName(const QString &objectName)
     dev = indimenu->findDevice(indimenu->getCurrentDevice());
     if (!dev)
         dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
-    if (!dev)
-    {
+    if (!dev) {
         kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
         return;
     }
@@ -775,20 +775,17 @@ void KStars::setINDITargetName(const QString &objectName)
     prop = dev->findProp("EQUATORIAL_EOD_COORD");
     if (!prop) return;
 
-    el   = prop->findElement("RA");
-    if (!el) return;
-    if (!el->write_w) return;
-
+    el = prop->findElement("RA");
+    if( !el || !el->write_w)
+        return;
     el->write_w->setText(QString::number(target->ra()->Hours()));
 
     el  = prop->findElement("DEC");
-    if (!el) return;
-    if (!el->write_w) return;
-
+    if( !el || !el->write_w)
+        return;
     el->write_w->setText(QString::number(target->dec()->Degrees()));
 
     prop->newText();
-
 }
 
 
@@ -806,14 +803,14 @@ void KStars::setINDIAction(const QString &action)
     dev = indimenu->findDevice(indimenu->getCurrentDevice());
     if (!dev)
         dev = indimenu->findDeviceByLabel(indimenu->getCurrentDevice());
-    if (!dev)
-    {
+    if (!dev) {
         kDebug() << "Device " << indimenu->getCurrentDevice() << " not found!";
         return;
     }
 
     el = dev->findElem(action);
-    if (!el) return;
+    if( !el )
+        return;
 
     el->pp->activateSwitch(action);
 
