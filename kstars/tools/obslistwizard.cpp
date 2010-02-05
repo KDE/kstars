@@ -307,11 +307,11 @@ void ObsListWizard::slotParseRegion()
         }
 
     } else if ( ! olw->RA->isEmpty() && ! olw->Dec->isEmpty() && ! olw->Radius->isEmpty() ) {
-        bool circOk = false;
-        double ra = olw->RA->createDms( false, &circOk ).Hours();
-        double dc(0.0);
+        bool circOk;
+        dms ra = olw->RA->createDms( false, &circOk );
+        dms dc = 0.0;
         if ( circOk )
-            dc = olw->Dec->createDms( true, &circOk ).Degrees();
+            dc = olw->Dec->createDms( true, &circOk );
         if ( circOk ) {
             pCirc.set( ra, dc );
             rCirc = olw->Radius->createDms( true, &circOk ).Degrees();
@@ -601,7 +601,7 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 }
 
 void ObsListWizard::applyObservableFilter( SkyObject *o, bool doBuildList, bool doAdjustCount ) {
-    SkyPoint p( o->ra(), o->dec() );
+    SkyPoint p = *o;
 
     //Check altitude of object every hour from 18:00 to midnight
     //If it's ever above 15 degrees, flag it as visible
