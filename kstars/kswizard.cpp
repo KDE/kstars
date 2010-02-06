@@ -30,6 +30,14 @@
 #include "geolocation.h"
 #include "widgets/dmsbox.h"
 
+namespace {
+    bool hasPrefix(QString str, QString prefix) {
+        if( prefix.isEmpty() )
+            return true;
+        return str.startsWith( prefix, Qt::CaseInsensitive );
+    }
+}
+
 WizWelcomeUI::WizWelcomeUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );
 }
@@ -159,19 +167,15 @@ void KSWizard::slotFilterCities() {
     while ( ! filteredCityList.isEmpty() ) filteredCityList.takeFirst();
 
     foreach ( GeoLocation *loc, KStarsData::Instance()->getGeoList() ) {
-        QString sc = loc->translatedName();
-        QString ss = loc->translatedCountry();
-        QString sp = loc->translatedProvince();
-
-        if ( sc.toLower().startsWith( location->CityFilter->text().toLower() ) &&
-             sp.toLower().startsWith( location->ProvinceFilter->text().toLower() ) &&
-             ss.toLower().startsWith( location->CountryFilter->text().toLower() ) )
+        if( hasPrefix( loc->translatedName(),     location->CityFilter->text()     ) &&
+            hasPrefix( loc->translatedCountry(),  location->ProvinceFilter->text() ) &&
+            hasPrefix( loc->translatedProvince(), location->CountryFilter->text()  )
+            )
         {
             location->CityListBox->insertItem( loc->fullName() );
             filteredCityList.append( loc );
         }
     }
-
     location->CityListBox->sort();
 
     if ( location->CityListBox->firstItem() )  // set first item in list as selected
