@@ -135,7 +135,7 @@ void WUTDialog::init() {
     }
 
     // sun almanac information
-    KSSun *oSun = reinterpret_cast<KSSun*>( data->objectNamed("Sun") );
+    KSSun *oSun = dynamic_cast<KSSun*>( data->objectNamed("Sun") );
     sunRiseTomorrow = oSun->riseSetTime( TomorrowUT, geo, true );
     sunSetToday = oSun->riseSetTime( EveningUT, geo, false );
     sunRiseToday = oSun->riseSetTime( EveningUT, geo, true );
@@ -190,7 +190,7 @@ void WUTDialog::init() {
         WUT->NightDurationLabel->setText( i18n("Night duration: %1 minute", sDuration ) );
 
     // moon almanac information
-    KSMoon *oMoon = reinterpret_cast<KSMoon*>( data->objectNamed("Moon") );
+    KSMoon *oMoon = dynamic_cast<KSMoon*>( data->objectNamed("Moon") );
     moonRise = oMoon->riseSetTime( UT0, geo, true );
     moonSet = oMoon->riseSetTime( UT0, geo, false );
 

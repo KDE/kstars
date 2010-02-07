@@ -153,17 +153,20 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
-    bool addTrail( ! ((TrailObject*)p)->hasTrail() );
+    TrailObject* trailObj = dynamic_cast<TrailObject*>( p );
+    Q_ASSERT( trailObj != 0 );
+    KSMoon* moon = dynamic_cast<KSMoon*>( p );
+    
     QString info;
 	QString type;
-    if ( p->name() == "Moon" ) {
-        info = QString("%1, %2").arg( magToStr(p->mag()), reinterpret_cast<KSMoon*>(p)->phaseName() );
+    if( moon ) {
+        info = QString("%1, %2").arg( magToStr(p->mag()), moon->phaseName() );
     } else {
 		// FIXME: angular size is required.
 		info = magToStr( p->mag() );
 		type = i18n("Solar system object");
 	}
-    initPopupMenu( p, p->translatedName(), type, info, true, true, true, true, addTrail );
+    initPopupMenu( p, p->translatedName(), type, info, true, true, true, true, trailObj->hasTrail() );
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 

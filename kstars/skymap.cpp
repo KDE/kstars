@@ -374,14 +374,15 @@ void SkyMap::setFocusObject( SkyObject *o ) {
 
 void SkyMap::slotCenter() {
     KStars* kstars = KStars::Instance();
-
+    TrailObject* trailObj = dynamic_cast<TrailObject*>( focusObject() );
+    
     setFocusPoint( clickedPoint() );
     if ( Options::useAltAz() )
         focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     //clear the planet trail of old focusObject, if it was temporary
-    if ( focusObject() && focusObject()->isSolarSystem() && data->temporaryTrail ) {
-        reinterpret_cast<KSPlanetBase*>(focusObject())->clearTrail();
+    if( trailObj && data->temporaryTrail ) {
+        trailObj->clearTrail();
         data->temporaryTrail = false;
     }
 
@@ -412,11 +413,9 @@ void SkyMap::slotCenter() {
     }
 
     //If focusObject is a SS body and doesn't already have a trail, set the temporaryTrail
-    if ( focusObject() && focusObject()->isSolarSystem()
-         && Options::useAutoTrail()
-         && ! reinterpret_cast<KSPlanetBase*>(focusObject())->hasTrail() )
-    {
-        reinterpret_cast<KSPlanetBase*>(focusObject())->addToTrail();
+
+    if( Options::useAutoTrail() && trailObj && trailObj->hasTrail() ) {
+        trailObj->addToTrail();
         data->temporaryTrail = true;
     }
 
@@ -659,22 +658,23 @@ void SkyMap::slotRemoveObjectLabel() {
 void SkyMap::slotAddObjectLabel() {
     data->skyComposite()->addNameLabel( clickedObject() );
     //Since we just added a permanent label, we don't want it to fade away!
-    if ( transientObject() == clickedObject() ) setTransientObject( NULL );
+    if ( transientObject() == clickedObject() )
+        setTransientObject( NULL );
     forceUpdate();
 }
 
 void SkyMap::slotRemovePlanetTrail() {
-    //probably don't need this if-statement, but just to be sure...
-    if ( clickedObject() && clickedObject()->isSolarSystem() ) {
-        reinterpret_cast<TrailObject*>( clickedObject() )->clearTrail();
+    TrailObject* tobj = dynamic_cast<TrailObject*>( clickedObject() );
+    if( tobj ) {
+        tobj->clearTrail();
         forceUpdate();
     }
 }
 
 void SkyMap::slotAddPlanetTrail() {
-    //probably don't need this if-statement, but just to be sure...
-    if ( clickedObject() && clickedObject()->isSolarSystem() ) {
-        reinterpret_cast<TrailObject*>( clickedObject() )->addToTrail();
+    TrailObject* tobj = dynamic_cast<TrailObject*>( clickedObject() );
+    if( tobj ) {
+        tobj->addToTrail();
         forceUpdate();
     }
 }
@@ -779,7 +779,8 @@ void SkyMap::setClickedPoint( SkyPoint *f ) {
 }
 
 void SkyMap::updateFocus() {
-    if ( slewing ) return;
+    if( slewing )
+        return;
 
     //Tracking on an object
     if ( Options::isTracking() && focusObject() != NULL ) {
