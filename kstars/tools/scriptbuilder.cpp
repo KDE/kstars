@@ -558,6 +558,9 @@ ScriptBuilder::~ScriptBuilder()
     //  while ( ! INDIFunctionList.isEmpty() )
     //    delete INDIFunctionList.takeFirst();
 
+    while( !SimClockFunctionList.isEmpty() )
+        delete SimClockFunctionList.takeFirst();
+
     while ( ! ScriptList.isEmpty() )
         delete ScriptList.takeFirst();
 }
@@ -1340,6 +1343,23 @@ bool ScriptBuilder::parseFunction( QString fn_name, QStringList &fn )
             return true;
         }
 
+        foreach ( ScriptFunction *sf, SimClockFunctionList )
+        {
+            if ( fn_name == sf->name() )
+            {
+
+                if ( fn.count() != sf->numArgs()) return false;
+
+                ScriptList.append( new ScriptFunction( sf ) );
+
+                for ( int i=0; i<sf->numArgs(); ++i )
+                    ScriptList.last()->setArg( i, fn[i] );
+
+                return true;
+            }
+
+        }
+
         #if 0
         foreach ( ScriptFunction *sf, INDIFunctionList )
         {
@@ -1416,6 +1436,13 @@ void ScriptBuilder::slotAddFunction() {
         return;
 
     foreach ( sc, KStarsFunctionList )
+    if (sc->prototype() == currentItem->text(0))
+    {
+        found = sc;
+        break;
+    }
+
+    foreach ( sc, SimClockFunctionList )
     if (sc->prototype() == currentItem->text(0))
     {
         found = sc;
@@ -1911,6 +1938,13 @@ void ScriptBuilder::slotShowDoc() {
         return;
 
     foreach ( sc, KStarsFunctionList )
+    if (sc->prototype() == currentItem->text(0))
+    {
+        found = sc;
+        break;
+    }
+
+    foreach ( sc, SimClockFunctionList )
     if (sc->prototype() == currentItem->text(0))
     {
         found = sc;
