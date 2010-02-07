@@ -1266,7 +1266,7 @@ void ObservingList::slotImageViewer() {
 }
 
 void ObservingList::slotDeleteImages() {
-    if( KMessageBox::warningYesNo( 0, i18n( "This will delete all saved images! Are you sure you want to do this?" ), i18n( "Delete All Images" ) ) == KMessageBox::No )
+    if( KMessageBox::warningYesNo( 0, i18n( "This will delete all saved images. Are you sure you want to do this?" ), i18n( "Delete All Images" ) ) == KMessageBox::No )
         return;
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
     ui->GoogleImage->setEnabled( false );
