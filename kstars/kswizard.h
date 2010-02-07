@@ -91,7 +91,10 @@ private:
      * Populate the city list box, and highlight the current location in the list.
      */
     void initGeoPage();
-    
+
+    /**@short set enabled/disable state of Next/Prev buttins based on current page */
+    void setButtonsEnabled();
+
     QStackedWidget *wizardStack;
     WizLocationUI  *location;
 

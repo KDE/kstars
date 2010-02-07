@@ -71,13 +71,10 @@ KSWizard::KSWizard( QWidget *parent ) :
 
     //Load images into banner frames.
     QPixmap im;
-
     if( im.load(KStandardDirs::locate("appdata", "wzstars.png")) )
         welcome->Banner->setPixmap( im );
-
     if( im.load(KStandardDirs::locate("appdata", "wzgeo.png")) )
         location->Banner->setPixmap( im );
-
     if( im.load(KStandardDirs::locate("appdata", "wzdownload.png")) )
         download->Banner->setPixmap( im );
 
@@ -101,20 +98,19 @@ KSWizard::KSWizard( QWidget *parent ) :
 KSWizard::~KSWizard()
 {}
 
+void KSWizard::setButtonsEnabled() {
+    enableButton( KDialog::User1, wizardStack->currentIndex() < wizardStack->count()-1 );
+    enableButton( KDialog::User2, wizardStack->currentIndex() > 0 );
+}
+
 void KSWizard::slotNextPage() {
     wizardStack->setCurrentIndex( wizardStack->currentIndex() + 1 );
-    if ( wizardStack->currentIndex() == wizardStack->count() - 1 )
-        enableButton( KDialog::User1, false );
-
-    enableButton( KDialog::User2, true );
+    setButtonsEnabled();
 }
 
 void KSWizard::slotPrevPage() {
     wizardStack->setCurrentIndex( wizardStack->currentIndex() - 1 );
-    if ( wizardStack->currentIndex() == 0 )
-        enableButton( KDialog::User2, false );
-
-    enableButton( KDialog::User1, true );
+    setButtonsEnabled();
 }
 
 void KSWizard::initGeoPage() {
@@ -128,7 +124,6 @@ void KSWizard::initGeoPage() {
     foreach ( GeoLocation *loc, data->getGeoList() ) {
         location->CityListBox->insertItem( loc->fullName() );
         filteredCityList.append( loc );
-
         if ( loc->fullName() == data->geo()->fullName() ) {
             index = data->getGeoList().indexOf( loc );
             Geo = loc;
