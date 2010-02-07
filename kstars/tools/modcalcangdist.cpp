@@ -91,7 +91,7 @@ void modCalcAngDist::slotValidatePositions(){
 }
 
 void modCalcAngDist::slotObjectButton() {
-    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted ) {
         SkyObject *o = fd->selectedObject();
         if ( sender()->objectName() == QString("FirstObjectButton") ) {

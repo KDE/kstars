@@ -84,7 +84,7 @@ void modCalcApCoord::slotCompute(){
 }
 
 void modCalcApCoord::slotObject() {
-    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted ) {
         SkyObject *o = fd->selectedObject();
         RACat->showInHours( o->ra0() );

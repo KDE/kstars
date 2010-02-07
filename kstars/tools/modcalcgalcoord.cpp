@@ -56,7 +56,7 @@ modCalcGalCoord::~modCalcGalCoord() {
 
 void modCalcGalCoord::slotObject()
 {
-    QPointer<FindDialog> fd = new FindDialog( (KStars*)topLevelWidget()->parent() );
+    QPointer<FindDialog> fd = new FindDialog( this );
     if ( fd->exec() == QDialog::Accepted ) {
         SkyObject *o = fd->selectedObject();
         RA->showInHours( o->ra() );
@@ -66,8 +66,9 @@ void modCalcGalCoord::slotObject()
     delete fd;
 }
 
-void modCalcGalCoord::slotComputeCoords (void) {
-    if ( GalLongitude->hasFocus() ) GalLongitude->clearFocus();
+void modCalcGalCoord::slotComputeCoords() {
+    if ( GalLongitude->hasFocus() )
+        GalLongitude->clearFocus();
 
     //Determine whether we should compute galactic coords from
     //equatorial, or vice versa

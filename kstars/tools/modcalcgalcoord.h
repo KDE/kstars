@@ -38,19 +38,19 @@ public:
 
 public slots:
 
-    void slotComputeCoords (void);
+    void slotComputeCoords ();
     void slotObject();
 
-    void slotGalLatCheckedBatch(void);
-    void slotGalLongCheckedBatch(void);
-    void slotRaCheckedBatch(void);
-    void slotDecCheckedBatch(void);
-    void slotEpochCheckedBatch(void);
+    void slotGalLatCheckedBatch();
+    void slotGalLongCheckedBatch();
+    void slotRaCheckedBatch();
+    void slotDecCheckedBatch();
+    void slotEpochCheckedBatch();
     void slotRunBatch();
 
 private:
-    void equCheck(void);
-    void galCheck(void);
+    void equCheck();
+    void galCheck();
     void processLines( QTextStream &is );
 
     dms galLong, galLat, raCoord, decCoord;
