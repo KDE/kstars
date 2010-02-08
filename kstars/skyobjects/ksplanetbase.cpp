@@ -284,16 +284,12 @@ double KSPlanetBase::labelOffset() const {
     return 0.5*size + 4.;
 }
 
-void KSPlanetBase::rotateImage( double imAngle ) {
-    QMatrix m;
-    m.rotate( imAngle );
-    Image = Image0.transformed( m );
-}
-
 void KSPlanetBase::scaleRotateImage( float size, double imAngle ) {
     QMatrix m;
     m.rotate( imAngle );
-    Image = Image0.transformed( m ).scaledToWidth( int(size) );
+    double scale = size / Image0.width();
+    m.scale( scale, scale );
+    Image = Image0.transformed( m );
 }
 
 void KSPlanetBase::findPhase() {

@@ -236,14 +236,9 @@ public:
     /** @return true if the KSPlanet is one of the eight major planets */
     bool isMajorPlanet() const;
 
-    /**@short rotate Planet image
-     * @param imageAngle the new angle of rotation for the image
-     */
-    void rotateImage( double imageAngle );
-
     /**@short scale and rotate Planet image
-     * @param scale the scaling factor
-     * @param imageAngle the new angle of rotation for the image
+     * @param scale desired planet diameter in pixels
+     * @param imageAngle angle in degrees to rotate image
      */
     void scaleRotateImage( float scale, double imageAngle );
 
