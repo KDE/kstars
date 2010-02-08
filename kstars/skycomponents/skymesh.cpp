@@ -364,4 +364,11 @@ void SkyMesh::draw(QPainter& psky, MeshBufNum_t bufNum)
     }
 }
 
-
+const SkyRegion& SkyMesh::skyRegion( const SkyPoint& _p1, const SkyPoint& _p2 )
+{
+    SkyPoint p1( _p1 ), p2( _p2 );
+    SkyPoint p3( *p1.ra(), *p2.dec() ), p4( *p2.ra(), *p1.dec() );
+    SkyList skylist;
+    skylist << &p1 << &p2 << &p3 << &p4;
+    return indexPoly( &skylist );
+}

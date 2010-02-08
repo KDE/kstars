@@ -134,6 +134,13 @@ public:
      */
     Trixel index( SkyPoint *p );
 
+    /**
+     * @short returns the sky region needed to cover the rectangle defined by two
+     * SkyPoints p1 and p2
+     * @param p1 top-left SkyPoint of the rectangle
+     * @param p2 bottom-right SkyPoint of the rectangle
+     */
+    const SkyRegion& skyRegion( const SkyPoint& p1, const SkyPoint& p2 );
 
     //----- Stars and CLines -----
 
