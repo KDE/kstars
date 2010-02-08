@@ -193,6 +193,8 @@ void DeepSkyComponent::init()
         //Assign object to general DeepSkyObjects list,
         //and a secondary list based on its catalog.
         m_DeepSkyList.append( o );
+        appendIndex( o, &m_DeepSkyIndex, trixel );
+
         if ( o->isCatalogM()) {
             m_MessierList.append( o );
             appendIndex( o, &m_MessierIndex, trixel );
@@ -455,6 +457,21 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
 
     return nameHash[ name.toLower() ];
 }
+
+void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region ) 
+{
+    for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); it++ )
+    {
+        Trixel trixel = it.key();
+        if( m_DeepSkyIndex.contains( trixel ) )
+        {
+            DeepSkyList* dsoList = m_DeepSkyIndex.value(trixel);
+            for( DeepSkyList::iterator dsit = dsoList->begin(); dsit != dsoList->end(); dsit++ )
+                list.append( *dsit );
+        }
+    }
+}
+
 
 //we multiply each catalog's smallest angular distance by the
 //following factors before selecting the final nearest object:

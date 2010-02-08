@@ -142,6 +142,13 @@ public:
     	*/
     virtual SkyObject* findByName( const QString &name );
 
+    /**
+      *@return the list of objects in the region defined by skypoints 
+      *@param p1 first sky point (top-left vertex of rectangular region)
+      *@param p2 second sky point (bottom-right vertex of rectangular region)
+      */     
+    QList<SkyObject*> findObjectsInArea( const SkyPoint& p1, const SkyPoint& p2 );
+
     void addCustomCatalog( const QString &filename, int index );
     void removeCustomCatalog( const QString &name );
 

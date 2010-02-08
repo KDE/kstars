@@ -341,6 +341,19 @@ QHash<int, QStringList>& SkyMapComposite::getObjectNames() {
     return m_ObjectNames;
 }
 
+QList<SkyObject*> SkyMapComposite::findObjectsInArea( const SkyPoint& p1, const SkyPoint& p2 )
+{
+    const SkyRegion& region = m_skyMesh->skyRegion( p1, p2 );
+    QList<SkyObject*> list;
+    // call objectsInArea( QList<SkyObject*>&, const SkyRegion& ) for each of the
+    // components of the SkyMapComposite
+    if( m_Stars->selected() )
+        m_Stars->objectsInArea( list, region );
+    if( m_DeepSky->selected() )
+        m_DeepSky->objectsInArea( list, region );
+    return list;
+}
+
 SkyObject* SkyMapComposite::findByName( const QString &name ) {
     //We search the children in an "intelligent" order (most-used
     //object types first), in order to avoid wasting too much time

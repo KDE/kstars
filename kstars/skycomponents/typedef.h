@@ -43,6 +43,7 @@ typedef unsigned short                 BufNum;
 
 typedef QVector< SkyPoint*>            SkyList;
 typedef QHash< Trixel, bool>           IndexHash;
+typedef QHash< Trixel, bool>           SkyRegion;
 typedef QList< StarObject*>            StarList;
 typedef QVector< StarList*>            StarIndex;
 typedef QVector< LineList*>            LineListList;

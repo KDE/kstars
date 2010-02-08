@@ -48,6 +48,10 @@ SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) {
 void SkyComponent::drawTrails( QPainter & )
 {}
 
+void SkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )
+{}
+
+
 QHash<int, QStringList>& SkyComponent::getObjectNames() {
     return parent()->objectNames();
 }

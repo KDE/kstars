@@ -110,6 +110,17 @@ public:
     virtual SkyObject* findByName( const QString &name );
 
     /**
+     * @short Searches the region(s) and appends the SkyObjects found to the list of sky objects
+     *
+     * Look for a SkyObject that is in one of the regions 
+     * If found, then append to the list of sky objects
+     * @p list list of SkyObject to which matching list has to be appended to
+     * @p region defines the regions in which the search for SkyObject should be done within
+     * @return void
+     */
+    virtual void objectsInArea( QList<SkyObject*>& list, const SkyRegion& region );
+
+    /**
      *@short Find stars by HD catalog index
      *@param HDnum HD Catalog Number of the star to find
      *@return If the star is a static star, a pointer to the star will be returned

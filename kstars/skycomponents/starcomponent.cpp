@@ -37,6 +37,7 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 
+
 #if defined(Q_OS_FREEBSD) || defined(Q_OS_NETBSD)
 #include <sys/endian.h>
 #define bswap_16(x) bswap16(x)
@@ -542,6 +543,18 @@ SkyObject* StarComponent::findByName( const QString &name ) {
             return o;
     }
     return 0;
+}
+
+void StarComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region ) 
+{
+    for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); it++ )
+    {
+        Trixel trixel = it.key();
+        StarList* starlist = m_starIndex->at( trixel );
+        for( int i = 0; starlist && i < starlist->size(); i++ )
+            if( starlist->at(i) && starlist->at(i)->name() != QString("star") )
+                list.push_back( starlist->at(i) );
+    }
 }
 
 SkyObject *StarComponent::findByHDIndex( int HDnum ) {
