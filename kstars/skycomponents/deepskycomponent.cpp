@@ -42,6 +42,7 @@ DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
     // Add labels
     for( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
         m_labelList[ i ] = new LabelList;
+    loadData();
 }
 
 DeepSkyComponent::~DeepSkyComponent()
@@ -58,7 +59,7 @@ void DeepSkyComponent::update( KSNumbers* )
 {}
 
 
-void DeepSkyComponent::init()
+void DeepSkyComponent::loadData()
 {
     KStarsData* data = KStarsData::Instance();
     //Check whether we need to concatenate a plit NGC/IC catalog
@@ -106,7 +107,7 @@ void DeepSkyComponent::init()
 
         //B magnitude
         ss = line.mid( 23, 4 );
-    if (ss == "    " ) { mag = 99.9f; } else { mag = ss.toFloat(); }
+        if (ss == "    " ) { mag = 99.9f; } else { mag = ss.toFloat(); }
 
         //object type
         type = line.mid( 29, 1 ).toInt();
@@ -147,7 +148,7 @@ void DeepSkyComponent::init()
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
 
-    if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
+        if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
         bool hasName = true;
         QString snum;
