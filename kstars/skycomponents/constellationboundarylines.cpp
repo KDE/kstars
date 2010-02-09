@@ -48,22 +48,7 @@ ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
     for(int i = 0; i < m_skyMesh->size(); i++) {
         m_polyIndex.append( new PolyListList() );
     }
-}
 
-// FIXME: -jbb: need to update this information.
-// Constellation boundary data is stored in a series of *.cbound files, one per
-// constellation.  Each file contains the list of RA/Dec points along the
-// constellation's border, and a flag indicating whether the segment is
-// duplicated in another constellation.  (Actually all segments have a
-// duplicate somewhere...the choice of calling one the duplicate is entirely
-// arbitrary).
-//
-// We store the boundary data in a QHash of QPolygonF's (for fast determination
-// of whether a SkyPoint is enclosed, and for drawing a single boundary to the
-// screen).  We also store the non-duplicate segments in the Component's native
-// list of SkyLines (for fast drawing of all boundaries at once).
-
-void ConstellationBoundaryLines::init() {
     KStarsData *data = KStarsData::Instance();
     int verbose = 0;                  // -1 => create cbounds-$x.idx on stdout
     //  0 => normal

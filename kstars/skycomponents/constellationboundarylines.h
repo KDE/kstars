@@ -45,21 +45,18 @@ public:
      * Simply adds all of the coordinate grid circles
      * (meridians and parallels)
      * @p parent Pointer to the parent SkyComposite object
+     *
+     * Reads the constellation boundary data from cbounds.dat.
+     * The boundary data is defined by a series of RA,Dec coordinate pairs
+     * defining the "nodes" of the boundaries.  The nodes are organized into
+     * "segments", such that each segment represents a continuous series
+     * of boundary-line intervals that divide two particular constellations.
      */
     ConstellationBoundaryLines( SkyComposite *parent );
 
     QString constellationName( SkyPoint *p );
 
     const QPolygonF* constellationPoly( SkyPoint *p );
-
-    /** @short Initialize the Constellation boundary
-     * Reads the constellation boundary data from cbounds.dat.
-     * The boundary data is defined by a series of RA,Dec coordinate pairs
-     *  defining the "nodes" of the boundaries.  The nodes are organized into
-     * "segments", such that each segment represents a continuous series
-     * of boundary-line intervals that divide two particular constellations.
-     */
-    virtual void init();
 
     virtual bool selected();
 
