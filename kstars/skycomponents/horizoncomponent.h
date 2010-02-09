@@ -53,11 +53,6 @@ public:
      */
     virtual void draw( QPainter& psky );
 
-    /**
-     *@short Initialize the Horizon
-     */
-    virtual void init();
-
     virtual void update( KSNumbers* );
 
     bool selected();

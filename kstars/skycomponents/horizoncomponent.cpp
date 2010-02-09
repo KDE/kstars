@@ -33,12 +33,6 @@
 
 HorizonComponent::HorizonComponent(SkyComposite *parent )
         : PointListComponent( parent )
-{}
-
-HorizonComponent::~HorizonComponent()
-{}
-
-void HorizonComponent::init()
 {
     KStarsData *data = KStarsData::Instance();
     emitProgressText( i18n("Creating horizon" ) );
@@ -53,6 +47,9 @@ void HorizonComponent::init()
         pointList().append( o );
     }
 }
+
+HorizonComponent::~HorizonComponent()
+{}
 
 bool HorizonComponent::selected()
 {
