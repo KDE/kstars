@@ -67,3 +67,5 @@ void SkyComponent::removeFromNames(const SkyObject* obj) {
     if ( i >= 0 )
         names.removeAt( i );
 }
+
+void SkyComponent::init() {}

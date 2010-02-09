@@ -61,7 +61,7 @@ public:
     virtual void drawTrails( QPainter & );
 
     /**@short Initialize the component - load data from disk etc. */
-    virtual void init() = 0;
+    virtual void init();
 
     /**
      * @short Update the sky position(s) of this component.
