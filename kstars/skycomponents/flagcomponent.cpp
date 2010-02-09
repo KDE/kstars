@@ -40,23 +40,24 @@ FlagComponent::FlagComponent( SkyComposite *parent )
 
     // Init
     KSFileReader fileReader;
-    QStringList line;
-    QString str;
-    int i;
     bool imageFound = false;
 
     // Return if flags.dat does not exist
-    if ( ! QFile::exists ( KStandardDirs::locateLocal( "appdata", "flags.dat" ) ) ) return;
+    if( !QFile::exists ( KStandardDirs::locateLocal( "appdata", "flags.dat" ) ) )
+        return;
 
     // Return if flags.dat can not be read
-    if ( ! fileReader.open( "flags.dat" ) ) return;
+    if( !fileReader.open( "flags.dat" ) )
+        return;
 
     // Read flags.dat
     while ( fileReader.hasMoreLines() ) {
         // Split line and ignore it if it's too short or if it's a comment
-        line = fileReader.readLine().split( ' ' );
-        if ( line.size() < 4 ) continue;
-        if ( line.at( 0 ) == "#" ) continue;
+        QStringList line = fileReader.readLine().split( ' ' );
+        if ( line.size() < 4 )
+            continue;
+        if ( line.at( 0 ) == "#" )
+            continue;
 
         // Read coordinates
         dms r( line.at( 0 ) );
@@ -68,9 +69,9 @@ FlagComponent::FlagComponent( SkyComposite *parent )
         m_Epoch.append( line.at( 2 ) );
 
         // Read image name
-        str = line.at( 3 );
+        QString str = line.at( 3 );
         str = str.replace( '_', ' ');
-        for ( i=0; i<m_Names.size(); ++i ) {
+        for(int i = 0; i < m_Names.size(); ++i ) {
             if ( str == m_Names.at( i ) ) {
                 m_FlagImages.append( i );
                 imageFound = true;
@@ -103,23 +104,20 @@ FlagComponent::FlagComponent( SkyComposite *parent )
         }
 
         str.clear();
-        for ( i=4; i<line.size(); ++i ) {
+        for(int i=4; i<line.size(); ++i )
             str += line.at( i ) + ' ';
-        }
-
         m_Labels.append( str );
     }
 }
 
 
 FlagComponent::~FlagComponent()
-{
-}
+{}
 
 void FlagComponent::draw( QPainter& psky )
 {
-    // Return if flags must not be draw
-    if ( ! selected() ) return;
+    if( ! selected() )
+        return;
 
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
@@ -164,18 +162,15 @@ bool FlagComponent::selected() {
 
 double FlagComponent::getEpoch (const QString &eName) {
     //If eName is empty (or not a number) assume 2000.0
-    bool ok(false);
+    bool ok;
     double epoch = eName.toDouble( &ok );
-    if ( eName.isEmpty() || ! ok )
+    if( eName.isEmpty() || !ok )
         return 2000.0;
-
     return epoch;
 }
 
 long double FlagComponent::epochToJd (double epoch) {
-
     double yearsTo2000 = 2000.0 - epoch;
-
     if (epoch == 1950.0) {
         return 2433282.4235;
     } else if ( epoch == 2000.0 ) {
@@ -183,19 +178,15 @@ long double FlagComponent::epochToJd (double epoch) {
     } else {
         return ( J2000 - yearsTo2000 * 365.2425 );
     }
-
 }
 
 void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
-    int i;
-
     pointList().append( flagPoint );
     m_Epoch.append( epoch );
 
-    for ( i=0; i<m_Names.size(); i++ ) {
-        if ( image == m_Names.at( i ) ) {
+    for(int i = 0; i<m_Names.size(); i++ ) {
+        if( image == m_Names.at( i ) )
             m_FlagImages.append( i );
-        }
     }
 
     m_Labels.append( label );
@@ -212,8 +203,6 @@ void FlagComponent::remove( int index ) {
 
 void FlagComponent::slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list ) {
     int index = 0;
-    QString fileName;
-    QStringList fileNameLst;
     QImage flagImage;
 
     m_Names.append( i18n ("Default" ) );
@@ -223,9 +212,9 @@ void FlagComponent::slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list
     for ( KIO::UDSEntryList::ConstIterator it = list.begin(); it != list.end(); ++it ) {
         KFileItem* item = new KFileItem(*it, m_Job->url(), false, true);
         if ( item->name().startsWith( QLatin1String( "_flag" ) ) ) {
-            fileNameLst = item->name().split( '.' );
+            QStringList fileNameLst = item->name().split( '.' );
             fileNameLst.removeLast();
-            fileName = fileNameLst.join( "." );
+            QString fileName = fileNameLst.join( "." );
             fileName = fileName.right( fileName.size() - 5 );
             fileName = fileName.replace( '_', ' ' );
             m_Names.append( fileName );
