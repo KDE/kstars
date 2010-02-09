@@ -70,6 +70,13 @@ StarComponent::StarComponent(SkyComposite *parent )
 
     for ( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
         m_labelList[ i ] = new LabelList;
+
+    // Actually load data
+    emitProgressText( i18n("Loading stars" ) );
+    loadStaticData();
+    // Load any deep star catalogs that are available
+    loadDeepStarCatalogs();
+    StarObject::initImages();
 }
 
 StarComponent::~StarComponent() {
@@ -85,17 +92,6 @@ StarComponent *StarComponent::Create( SkyComposite *parent ) {
 
 bool StarComponent::selected() {
     return Options::showStars();
-}
-
-void StarComponent::init() {
-    emitProgressText( i18n("Loading stars" ) );
-
-    loadStaticData();
-
-    // Load any deep star catalogs that are available
-    loadDeepStarCatalogs();
-
-    StarObject::initImages();
 }
 
 bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float trigMag, bool staticstars ) {
