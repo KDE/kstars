@@ -52,7 +52,6 @@ public:
      */
     ~PlanetMoonsComponent();
 
-    virtual void init();
     virtual bool selected();
     virtual void draw( QPainter& psky );
     virtual void update( KSNumbers *num );

@@ -55,9 +55,6 @@ public:
 
     virtual void update( KSNumbers *num );
 
-    /** @short Initialize the Custom catalog */
-    virtual void init();
-
     /** @return the name of the catalog */
     QString name() const { return m_catName; }
 
@@ -71,11 +68,12 @@ public:
     inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
     
 private:
+    /** @short Load data into custom catalog */
+    void loadData();
 
-    /**
-    	*@short Read data for existing custom catalogs from disk
-    	*@return true if catalog data was successfully read
-    	*/
+    /**@short Read data for existing custom catalogs from disk
+     * @return true if catalog data was successfully read
+     */
     bool readCustomCatalogs();
 
     /**

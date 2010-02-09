@@ -40,18 +40,6 @@ PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
     planet( _planet ),
     pmoons( 0 ),
     m_Planet( planetComponent )
-{ }
-
-PlanetMoonsComponent::~PlanetMoonsComponent()
-{
-    delete pmoons;
-}
-
-bool PlanetMoonsComponent::selected() {
-    return m_Planet->selected();
-}
-    
-void PlanetMoonsComponent::init()
 {
     /*
     if (planet == KSPlanetBase::JUPITER)
@@ -65,6 +53,15 @@ void PlanetMoonsComponent::init()
     int nmoons = pmoons->nMoons();
     for ( int i=0; i<nmoons; ++i ) 
         objectNames(SkyObject::MOON).append( pmoons->name(i) );
+}
+
+PlanetMoonsComponent::~PlanetMoonsComponent()
+{
+    delete pmoons;
+}
+
+bool PlanetMoonsComponent::selected() {
+    return m_Planet->selected();
 }
 
 void PlanetMoonsComponent::update( KSNumbers * )

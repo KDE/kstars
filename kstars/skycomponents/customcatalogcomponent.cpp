@@ -40,13 +40,14 @@ CustomCatalogComponent::CustomCatalogComponent(SkyComposite *parent, const QStri
     m_Showerrs( showerrs ),
     m_ccIndex(index)
 {
+    loadData();
 }
 
 CustomCatalogComponent::~CustomCatalogComponent()
 {
 }
 
-void CustomCatalogComponent::init() {
+void CustomCatalogComponent::loadData() {
     emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
 
     QDir::setCurrent( QDir::homePath() );  //for files with relative path
