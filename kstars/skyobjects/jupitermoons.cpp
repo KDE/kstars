@@ -18,7 +18,7 @@
 #include "jupitermoons.h"
 
 #include "ksnumbers.h"
-#include "ksplanet.h"
+#include "ksplanetbase.h"
 #include "kssun.h"
 #include "trailobject.h"
 
@@ -39,7 +39,7 @@ JupiterMoons::JupiterMoons(){
 JupiterMoons::~JupiterMoons(){
 }
 
-void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanet *Jupiter, const KSSun *Sun ) {
+void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupiter, const KSSun *Sun ) {
     double Xj, Yj, Zj, Rj;
     double sinJB, cosJB, sinJL, cosJL;
     double sinSB, cosSB, sinSL, cosSL;

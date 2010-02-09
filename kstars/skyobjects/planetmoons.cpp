@@ -20,7 +20,7 @@
 
 #include "planetmoons.h"
 #include "ksnumbers.h"
-#include "ksplanet.h"
+#include "ksplanetbase.h"
 #include "kssun.h"
 #include "trailobject.h"
 
@@ -36,9 +36,8 @@ QString PlanetMoons::name( int id ) const {
 }
 
 TrailObject* PlanetMoons::moonNamed( const QString &name ) const {
-  int nmoons = nMoons();
-  
-  for ( int i=0; i<nmoons; ++i ) {
+    int nmoons = nMoons();
+    for ( int i=0; i<nmoons; ++i ) {
         if ( Moon[i]->name() == name ) {
             return Moon[i];
         }

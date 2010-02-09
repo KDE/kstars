@@ -22,7 +22,7 @@
 #include <QVector>
 
 class KSNumbers;
-class KSPlanet;
+class KSPlanetBase;
 class KSSun;
 class TrailObject;
 class dms;
@@ -92,7 +92,7 @@ public:
       *@param pla pointer to the planet object
       *@param sunptr pointer to the Sun object
       */
-    virtual void findPosition( const KSNumbers *num, const KSPlanet *pla, const KSSun *sunptr )=0;
+    virtual void findPosition( const KSNumbers *num, const KSPlanetBase *pla, const KSSun *sunptr ) = 0;
 
     /**
       *@return true if the Moon is nearer to Earth than Saturn.

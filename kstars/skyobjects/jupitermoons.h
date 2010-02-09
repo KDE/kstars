@@ -71,7 +71,7 @@ public:
       *@param jup pointer to the jupiter object
       *@param sunptr pointer to the Sun object
       */
-    virtual void findPosition( const KSNumbers *num, const KSPlanet *jup, const KSSun *sunptr );
+    virtual void findPosition( const KSNumbers *num, const KSPlanetBase *jup, const KSSun *sunptr );
 };
 
 #endif

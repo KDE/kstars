@@ -35,13 +35,12 @@
 
 PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
                                             SolarSystemSingleComponent *planetComponent,
-                                            KSPlanetBase::Planets planet ) :
-    SkyComponent( p  )
-{
-    pmoons = 0;
-    PlanetMoonsComponent::planet = planet;
-    m_Planet = planetComponent;
-}
+                                            KSPlanetBase::Planets _planet ) :
+    SkyComponent( p ),
+    planet( _planet ),
+    pmoons( 0 ),
+    m_Planet( planetComponent )
+{ }
 
 PlanetMoonsComponent::~PlanetMoonsComponent()
 {
@@ -79,7 +78,7 @@ void PlanetMoonsComponent::updateMoons( KSNumbers *num )
 {
     //FIXME: evil cast
     if ( selected() )
-        pmoons->findPosition( num, (KSPlanet*)(m_Planet->planet()), (KSSun*)(parent()->findByName( "Sun" )) );
+        pmoons->findPosition( num, m_Planet->planet(), (KSSun*)(parent()->findByName( "Sun" )) );
 }
 
 SkyObject* PlanetMoonsComponent::findByName( const QString &name ) {
@@ -101,21 +100,20 @@ SkyObject* PlanetMoonsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     int nmoons = pmoons->nMoons();
     
     for ( int i=0; i<nmoons; ++i ) {
-        SkyObject *moon = (SkyObject*)(pmoons->moon(i));
+        SkyObject *moon = pmoons->moon(i);
         double r = moon->angularDistanceTo( p ).Degrees();
         if ( r < maxrad ) {
             maxrad = r;
             oBest = moon;
         }
     }
-
     return oBest;
-
 }
 
 void PlanetMoonsComponent::draw( QPainter& psky )
 {
-    if ( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) ) return;
+    if( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) )
+        return;
 
     SkyMap *map = SkyMap::Instance();
 
@@ -124,7 +122,8 @@ void PlanetMoonsComponent::draw( QPainter& psky )
 
     psky.setPen( QPen( QColor( "white" ) ) );
 
-    if ( Options::zoomFactor() <= 10.*MINZOOM ) return;
+    if ( Options::zoomFactor() <= 10.*MINZOOM )
+        return;
 
     //In order to get the z-order right for the moons and the planet,
     //we need to first draw the moons that are further away than the planet,
@@ -159,11 +158,12 @@ void PlanetMoonsComponent::draw( QPainter& psky )
     for ( int i=0; i<nmoons; ++i ) {
         QPointF o = map->toScreen( pmoons->moon(i) );
 
-        if ( ! map->onScreen( o ) ) continue;
+        if ( ! map->onScreen( o ) )
+            continue;
         /*
         if (planet ==KSPlanetBase::SATURN)
-	  SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::SATURN_MOON_LABEL );
-	else
+            SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::SATURN_MOON_LABEL );
+        else
         */
         SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::JUPITER_MOON_LABEL );
     }
@@ -173,6 +173,6 @@ void PlanetMoonsComponent::drawTrails( QPainter& psky ) {
     if( ! selected() )
         return;
     int nmoons = pmoons->nMoons();
-    for( int i=0; i<nmoons; ++i ) 
+    for( int i=0; i<nmoons; ++i )
         pmoons->moon(i)->drawTrail(psky);
 }
