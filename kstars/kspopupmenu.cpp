@@ -303,7 +303,7 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     }
 }
 
-bool KSPopupMenu::addINDI(void)
+bool KSPopupMenu::addINDI()
 {
     #ifdef HAVE_INDI_H
     INDIMenu *indiMenu = ks->indiMenu();
@@ -362,10 +362,7 @@ bool KSPopupMenu::addINDI(void)
                         if (prop->stdID == ON_COORD_SET)
                             continue;
 
-                        if (element->state == PS_ON)
-                            a->setChecked(true);
-                        else
-                            a->setChecked(false);
+                        a->setChecked( element->state == PS_ON );
                     }
                 } // end property
             } // end group
