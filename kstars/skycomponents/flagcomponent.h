@@ -27,137 +27,112 @@
 #include "skymesh.h"
 
 
-/**
- *@class FlagComponent
- *@short Represents a flag on the sky map.
- *Each flag is composed by a SkyPoint where coordinates are stored, an 
- *epoch and a label. This class also stores flag images and associates 
- *each flag with an image.
- *When FlagComponent is created, it seeks all file names beginning with
- *"_flag" in the user directory and *considere them as flag images.
+/**@class FlagComponent
+ * @short Represents a flag on the sky map.
+ * Each flag is composed by a SkyPoint where coordinates are stored, an 
+ * epoch and a label. This class also stores flag images and associates 
+ * each flag with an image.
+ * When FlagComponent is created, it seeks all file names beginning with
+ * "_flag" in the user directory and *considere them as flag images.
  *
- *The file flags.dat stores coordinates, epoch, image name and label of each
- *flags and is read to init FlagComponent
+ * The file flags.dat stores coordinates, epoch, image name and label of each
+ * flags and is read to init FlagComponent
  *
- *@author Jerome SONRIER
- *@version 1.1
+ * @author Jerome SONRIER
+ * @version 1.1
  */
 class FlagComponent: public QObject, public PointListComponent
 {
     Q_OBJECT
 public:
-    /**
-     *@short Constructor.
-    */
+    /** @short Constructor. */
     FlagComponent( SkyComposite* );
 
-    /**
-     *@short Destructor.
-     */
-    ~FlagComponent();
+    /** @short Destructor. */
+    virtual ~FlagComponent();
 
-    /**
-     *@short Draw flags on the map.
-     *@param psky Reference to the QPainter on which to paint
-     */
-    void draw( QPainter& psky );
+    virtual void draw( QPainter& psky );
 
-    /**
-     *@return true if flags must be draw.
-     */
-    bool selected();
+    virtual bool selected();
 
-    /**
-     *@short Add a flag.
-     *@param SkyPoint Reference to the SkyPoint used to store coordinates
-     *@param epoch Moment for which celestial coordinates are specified
-     *@param image Image name
-     *@param label Label of the flag
+    /**@short Add a flag.
+     * @param SkyPoint Reference to the SkyPoint used to store coordinates
+     * @param epoch Moment for which celestial coordinates are specified
+     * @param image Image name
+     * @param label Label of the flag
      */
     void add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor );
 
-    /**
-     *@short Remove a flag.
-     *@param index Index of the flag to be remove.
+    /**@short Remove a flag.
+     * @param index Index of the flag to be remove.
      */
     void remove( int index );
 
-    /**
-     *@short Return image names.
-     *@return the list of all image names
+    /**@short Return image names.
+     * @return the list of all image names
      */
     QStringList getNames();
 
-    /**
-     *@short Return the numbers of flags.
-     *@return the size of m_PointList
+    /**@short Return the numbers of flags.
+     * @return the size of m_PointList
      */
     int size();
 
-    /**
-     *@short Get epoch.
-     *@return the epoch as a string
-     *@param index Index of the flag
+    /**@short Get epoch.
+     * @return the epoch as a string
+     * @param index Index of the flag
      */
     QString epoch( int index );
 
-    /**
-     *@short Get label.
-     *@return the label as a string
-     *@param index Index of the flag
+    /**@short Get label.
+     * @return the label as a string
+     * @param index Index of the flag
      */
     QString label( int index );
 
-    /**
-     *@short Get label color.
-     *@return the label color
-     *@param index Index of the flag
+    /**@short Get label color.
+     * @return the label color
+     * @param index Index of the flag
      */
     QColor labelColor( int index );
 
-    /**
-     *@short Get image.
-     *@return the image associated with the flag
-     *@param index Index of the flag
+    /**@short Get image.
+     * @return the image associated with the flag
+     * @param index Index of the flag
      */
     QImage image( int index );
 
-    /**
-     *@short Get image name.
-     *@return the name of the image associated with the flag
-     *@param index Index of the flag
+    /**@short Get image name.
+     * @return the name of the image associated with the flag
+     * @param index Index of the flag
      */
     QString imageName( int index );
 
-    /**
-     *@short Get images.
-     *@return all images that can be use
+    /**@short Get images.
+     * @return all images that can be use
      */
     QList<QImage> imageList();
 
-    /**
-     *@short Get image.
-     *@return an image from m_Images
-     *@param index Index of the image in m_Images
+    /**@short Get image.
+     * @param index Index of the image in m_Images
+     * @return an image from m_Images
      */
     QImage imageList( int index );
 
 private:
-    /**
-     *@short Convenience function to convert an epoch number (e.g., 2000.0) 
-     *to the corresponding Julian Day number (e.g., 2451545.0).
-     *@param epoch the epoch value to be converted.
-     *FIXME: This should probably move to KStarsDateTime
+    /**@short Convenience function to convert an epoch number (e.g., 2000.0) 
+     * to the corresponding Julian Day number (e.g., 2451545.0).
+     * @param epoch the epoch value to be converted.
      */
+    // FIXME: This should probably move to KStarsDateTime
     long double epochToJd (double epoch);
 
-    /**
-     *@short Convert a string to an epoch number; essentially just 
-     *converts the string to a double.
-     *@param eName the tring representation of the epoch number.
-     *@return the epoch number described by the string argument.
-     *FIXME: This should probably move to KStarsDateTime
+    /**@short Convert a string to an epoch number; essentially just 
+     * converts the string to a double.
+     * @param eName the tring representation of the epoch number.
+     * @return the epoch number described by the string argument.
      */
+    // FIXME: This should probably move to KStarsDateTime
     double getEpoch (const QString &eName);
 
     QStringList         m_Epoch;        /**< List of epochs                */
