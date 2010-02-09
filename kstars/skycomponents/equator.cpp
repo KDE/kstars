@@ -30,7 +30,26 @@
 Equator::Equator(SkyComposite *parent ) :
         NoPrecessIndex( parent, i18n("Equator") ),
         m_label( LineListIndex::name() )
-{}
+{
+    KStarsData *data = KStarsData::Instance();
+    KSNumbers num( data->ut().djd() );
+
+    const double eps    =   0.1;
+    const double minRa  =   0.0;
+    const double maxRa  =  23.0;
+    const double dRa    =   2.0;
+    const double dRa2   =  .5 / 5.;
+
+    for(double ra = minRa; ra < maxRa; ra += dRa ) {
+        LineList* lineList = new LineList();
+        for(double ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
+            SkyPoint* o = new SkyPoint( ra2, 0.0 );
+            o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            lineList->append( o );
+        }
+        appendLine( lineList );
+    }
+}
 
 bool Equator::selected()
 {
@@ -51,30 +70,6 @@ void Equator::draw( QPainter &psky )
     NoPrecessIndex::draw( psky );
     m_label.draw( psky );
 }
-
-void Equator::init()
-{
-    KStarsData *data = KStarsData::Instance();
-    KSNumbers num( data->ut().djd() );
-
-    double eps    =   0.1;
-    double minRa  =   0.0;
-    double maxRa  =  23.0;
-    double dRa    =   2.0;
-    double dRa2   =  .5 / 5.;
-    double ra, ra2;
-
-    for ( ra = minRa; ra < maxRa; ra += dRa ) {
-        LineList* lineList = new LineList();
-        for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
-            SkyPoint* o = new SkyPoint( ra2, 0.0 );
-            o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            lineList->append( o );
-        }
-        appendLine( lineList );
-    }
-}
-
 
 void Equator::drawLabel( QPainter& psky )
 {

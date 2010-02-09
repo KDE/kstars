@@ -39,9 +39,6 @@ public:
      */
     Equator( SkyComposite *parent );
 
-    /**@short Initialize the Equator */
-    virtual void init();
-
     virtual bool selected();
     virtual void draw( QPainter &psky );
 

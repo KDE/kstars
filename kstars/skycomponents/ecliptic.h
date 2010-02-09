@@ -41,7 +41,6 @@ public:
     virtual void draw( QPainter& psky );
     virtual bool selected();
 
-    virtual void init();
 protected:
     virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
         m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );

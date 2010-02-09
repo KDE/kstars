@@ -30,8 +30,31 @@
 Ecliptic::Ecliptic(SkyComposite *parent ) :
         LineListIndex( parent, i18n("Ecliptic") ),
         m_label( name() )
-{}
+{
+    KStarsData *data = KStarsData::Instance();
+    KSNumbers num( data->ut().djd() );
+    dms elat(0.0), elng(0.0);
 
+    const double eps    =   0.1;
+    const double minRa  =   0.0;
+    const double maxRa  =  23.0;
+    const double dRa    =   2.0;
+    const double dRa2   =  2. / 5.;
+
+    for(double ra = minRa; ra < maxRa; ra += dRa ) {
+        LineList* lineList = new LineList();
+        for(double ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
+            elng.setH( ra2 );
+            SkyPoint* o = new SkyPoint();
+            o->setFromEcliptic( num.obliquity(), &elng, &elat );
+            o->setRA0( o->ra()->Hours() );
+            o->setDec0( o->dec()->Degrees() );
+            o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            lineList->append( o );
+        }
+        appendLine( lineList );
+    }
+}
 
 bool Ecliptic::selected()
 {
@@ -69,33 +92,3 @@ void Ecliptic::drawLabel( QPainter& psky )
 
     m_label.draw( psky );
 }
-
-
-void Ecliptic::init()
-{
-    KStarsData *data = KStarsData::Instance();
-    KSNumbers num( data->ut().djd() );
-    dms elat(0.0), elng(0.0);
-
-    double eps    =   0.1;
-    double minRa  =   0.0;
-    double maxRa  =  23.0;
-    double dRa    =   2.0;
-    double dRa2   =  2. / 5.;
-    double ra, ra2;
-
-    for ( ra = minRa; ra < maxRa; ra += dRa ) {
-        LineList* lineList = new LineList();
-        for ( ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
-            elng.setH( ra2 );
-            SkyPoint* o = new SkyPoint();
-            o->setFromEcliptic( num.obliquity(), &elng, &elat );
-            o->setRA0( o->ra()->Hours() );
-            o->setDec0( o->dec()->Degrees() );
-            o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            lineList->append( o );
-        }
-        appendLine( lineList );
-    }
-}
-
