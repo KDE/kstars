@@ -38,9 +38,10 @@ public:
 
     virtual ~AsteroidsComponent();
     virtual void draw( QPainter& psky );
-    virtual void init();
     virtual bool selected();
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
+private:
+    void loadData();
 };
 
 #endif

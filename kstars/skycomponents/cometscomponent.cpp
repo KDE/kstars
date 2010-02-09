@@ -33,7 +33,9 @@
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent )
-{}
+{
+    loadData();
+}
 
 CometsComponent::~CometsComponent()
 {}
@@ -61,7 +63,7 @@ bool CometsComponent::selected() {
  *
  * @note See KSComet constructor for more details.
  */
-void CometsComponent::init() {
+void CometsComponent::loadData() {
     QFile file;
 
     if ( KSUtils::openDataFile( file, "comets.dat" ) ) {

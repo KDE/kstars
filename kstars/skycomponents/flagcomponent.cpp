@@ -140,10 +140,11 @@ void FlagComponent::draw( QPainter& psky )
         o = map->toScreen( p, false );
 
         // Draw flag image
-        flagImage = m_Images.at( m_FlagImages.at( i ) );
-        o.setX( o.x() - flagImage.width()*0.5 );
-        o.setY( o.y() - flagImage.height()*0.5 );
-        psky.drawImage( o, flagImage );
+        // FIXME: Stop drawing for a while
+        // flagImage = m_Images.at( m_FlagImages.at( i ) );
+        // o.setX( o.x() - flagImage.width()*0.5 );
+        // o.setY( o.y() - flagImage.height()*0.5 );
+        // psky.drawImage( o, flagImage );
 
         // Draw flag label
         o.setX( o.x() + 25.0 );

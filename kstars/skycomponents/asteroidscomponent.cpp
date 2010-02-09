@@ -34,7 +34,9 @@
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent ) :
     SolarSystemListComponent(parent)
-{}
+{
+    loadData();
+}
 
 AsteroidsComponent::~AsteroidsComponent()
 {}
@@ -58,7 +60,7 @@ bool AsteroidsComponent::selected() {
  *@li 82-93 Mean Anomaly in degrees [double]
  *@li 94-98 Magnitude [double]
  */
-void AsteroidsComponent::init()
+void AsteroidsComponent::loadData()
 {
 
     QString line, name;

@@ -40,7 +40,8 @@ public:
     virtual ~CometsComponent();
     virtual bool selected();
     virtual void draw( QPainter& psky );
-    virtual void init();
+private:
+    void loadData();
 };
 
 #endif
