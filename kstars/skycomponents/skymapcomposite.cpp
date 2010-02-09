@@ -70,7 +70,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
     m_Cultures = new CultureList();
     addComponent( m_CLines     = new ConstellationLines( this ));
-    addComponent( m_CNames     = new ConstellationNamesComponent( this ));
+    addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ));
     addComponent( m_Equator    = new Equator( this ));
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
@@ -442,7 +442,7 @@ void SkyMapComposite::reloadCNames( ) {
     objectNames(SkyObject::CONSTELLATION).clear();
     if( m_CNames )
         delete m_CNames;
-    m_CNames = new ConstellationNamesComponent( this );
+    m_CNames = new ConstellationNamesComponent( this, m_Cultures );
     m_CNames->init();
 }
 

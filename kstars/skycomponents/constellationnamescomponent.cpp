@@ -22,33 +22,22 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyobjects/skyobject.h"
-#include "skycomponents/skymapcomposite.h"
+#include "skycomponents/culturelist.h"
 #include "Options.h"
 
 #include "ksfilereader.h"
 #include "skylabeler.h"
 
-ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent )
+ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList* cultures )
         : ListComponent(parent )
-{}
-
-ConstellationNamesComponent::~ConstellationNamesComponent()
-{}
-
-bool ConstellationNamesComponent::selected()
-{
-    return Options::showCNames() &&
-           !( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
-}
-
-void ConstellationNamesComponent::init()
 {
     uint i = 0;
     bool culture = false;
     KSFileReader fileReader;
     QString cultureName;
 
-    if ( ! fileReader.open( "cnames.dat" ) ) return;
+    if ( ! fileReader.open( "cnames.dat" ) )
+        return;
 
     emitProgressText( i18n("Loading constellation names" ) );
     
@@ -64,7 +53,7 @@ void ConstellationNamesComponent::init()
         mode = line.at( 0 );
         if ( mode == 'C') {
             cultureName = line.mid( 2 ).trimmed();
-            culture     = cultureName == KStarsData::Instance()->skyComposite()->currentCulture();
+            culture     = cultureName == cultures->current();
             i++;
             continue;
         }
@@ -88,7 +77,8 @@ void ConstellationNamesComponent::init()
             dms r; r.setH( rah, ram, ras );
             dms d( dd, dm,  ds );
 
-            if ( sgn == '-' ) { d.setD( -1.0*d.Degrees() ); }
+            if ( sgn == '-' )
+                d.setD( -1.0*d.Degrees() );
 
             SkyObject *o = new SkyObject( SkyObject::CONSTELLATION, r, d, 0.0, name, abbrev );
             m_ObjectList.append( o );
@@ -97,6 +87,15 @@ void ConstellationNamesComponent::init()
             objectNames(SkyObject::CONSTELLATION).append( name );
         }
     }
+}
+
+ConstellationNamesComponent::~ConstellationNamesComponent()
+{}
+
+bool ConstellationNamesComponent::selected()
+{
+    return Options::showCNames() &&
+           !( Options::hideOnSlew() && Options::hideCNames() && SkyMap::IsSlewing() );
 }
 
 // Don't precess the location of the names
