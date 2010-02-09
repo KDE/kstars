@@ -62,8 +62,6 @@ public:
 
     void draw( QPainter& psky );
 
-    virtual void init();
-
     bool loadStaticStars();
 
     bool openDataFile();

@@ -36,11 +36,19 @@
 #include <kde_file.h>
 #include "byteorder.h"
 
-DeepStarComponent::DeepStarComponent( SkyComposite *parent, QString fileName, float trigMag, bool staticstars )
-    : ListComponent(parent), m_reindexNum( J2000 ), triggerMag( trigMag ), m_FaintMagnitude(-5.0), 
-      staticStars( staticstars ), dataFileName( fileName )
+DeepStarComponent::DeepStarComponent( SkyComposite *parent, QString fileName, float trigMag, bool staticstars ) :
+    ListComponent(parent),
+    m_reindexNum( J2000 ),
+    triggerMag( trigMag ),
+    m_FaintMagnitude(-5.0), 
+    staticStars( staticstars ),
+    dataFileName( fileName )
 {
     fileOpened = false;
+    openDataFile();
+    if( staticStars )
+        loadStaticStars();
+    kDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
 }
 
 bool DeepStarComponent::loadStaticStars() {
@@ -291,13 +299,6 @@ void DeepStarComponent::draw( QPainter& psky ) {
     }
     m_skyMesh->inDraw( false );
 
-}
-
-void DeepStarComponent::init() {
-    openDataFile();
-    if( staticStars )
-        loadStaticStars();
-    kDebug() << "Loaded catalog file " << dataFileName << "(hopefully)";
 }
 
 bool DeepStarComponent::openDataFile() {
