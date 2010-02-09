@@ -37,14 +37,8 @@ FlagComponent::FlagComponent( SkyComposite *parent )
     m_Job = KIO::listDir( KUrl( KStandardDirs::locateLocal("appdata", ".") ), KIO::HideProgressInfo, false );
     connect(m_Job, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList&)), 
             SLOT(slotLoadImages(KIO::Job*, const KIO::UDSEntryList&)));
-}
 
-
-FlagComponent::~FlagComponent()
-{
-}
-
-void FlagComponent::init() {
+    // Init
     KSFileReader fileReader;
     QStringList line;
     QString str;
@@ -115,6 +109,11 @@ void FlagComponent::init() {
 
         m_Labels.append( str );
     }
+}
+
+
+FlagComponent::~FlagComponent()
+{
 }
 
 void FlagComponent::draw( QPainter& psky )

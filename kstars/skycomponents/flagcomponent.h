@@ -57,12 +57,6 @@ public:
     ~FlagComponent();
 
     /**
-     *@short Init class
-     *Read the file flags.dat and init members.
-     */
-    virtual void init();
-
-    /**
      *@short Draw flags on the map.
      *@param psky Reference to the QPainter on which to paint
      */
