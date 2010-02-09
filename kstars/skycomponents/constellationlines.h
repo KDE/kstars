@@ -23,6 +23,8 @@
 #include "linelistindex.h"
 #include "ksnumbers.h"
 
+class CultureList;
+
 /*
 *@class ConstellationLines
 *Collection of lines making the 88 constellations
@@ -37,18 +39,14 @@ class ConstellationLines : public LineListIndex
 public:
     /* @short Constructor
      * @p parent Pointer to the parent SkyComposite object
-    */
-    ConstellationLines( SkyComposite *parent );
-
-    /* @short Initialize the Constellation lines
-    *
-    *Reads the constellation lines data from clines.dat.
-    *Each line in the file contains a command character ("M" means move to 
-    *this position without drawing a line, "D" means draw a line from 
-    *the previous position to this one), followed by the genetive name of 
-    *a star, which marks the position of the constellation node.
-    */
-    virtual void init();
+     *
+     * Constellation lines data is read from clines.dat.
+     * Each line in the file contains a command character ("M" means move to 
+     * this position without drawing a line, "D" means draw a line from 
+     * the previous position to this one), followed by the genetive name of 
+     * a star, which marks the position of the constellation node.
+     */
+    ConstellationLines( SkyComposite *parent, CultureList* cultures );
 
     void reindex( KSNumbers *num );
 

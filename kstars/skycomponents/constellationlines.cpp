@@ -29,31 +29,17 @@
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 #include "skycomponents/starcomponent.h"
-#include "skycomponents/skymapcomposite.h"
+#include "skycomponents/culturelist.h"
 #include "skymap.h"
 
 #include "skymesh.h"
 #include "ksfilereader.h"
 
 
-ConstellationLines::ConstellationLines( SkyComposite *parent )
-        : LineListIndex( parent, i18n("Constellation Lines") ), m_reindexNum(J2000)
-{}
-
-bool ConstellationLines::selected()
+ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultures ) :
+    LineListIndex( parent, i18n("Constellation Lines") ),
+    m_reindexNum(J2000)
 {
-    return Options::showCLines() &&
-           ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
-}
-
-void ConstellationLines::preDraw( QPainter &psky )
-{
-    KStarsData *data = KStarsData::Instance();
-    QColor color = data->colorScheme()->colorNamed( "CLineColor" );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-}
-
-void ConstellationLines::init() {
     //Create the ConstellationLinesComponents.  Each is a series of points
     //connected by line segments.  A single constellation can be composed of
     //any number of these series, and we don't need to know which series
@@ -96,7 +82,7 @@ void ConstellationLines::init() {
 
         if ( mode == 'C') {
             cultureName = line.mid( 2 ).trimmed();
-            culture     = cultureName == KStarsData::Instance()->skyComposite()->currentCulture();
+            culture     = cultureName == cultures->current();
 
             i++;
             continue;
@@ -132,6 +118,19 @@ void ConstellationLines::init() {
     summary();
 }
 
+bool ConstellationLines::selected()
+{
+    return Options::showCLines() &&
+           ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
+}
+
+void ConstellationLines::preDraw( QPainter &psky )
+{
+    KStarsData *data = KStarsData::Instance();
+    QColor color = data->colorScheme()->colorNamed( "CLineColor" );
+    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+}
+
 const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {
     return skyMesh()->indexStarLine( lineList->points() );
 }
@@ -139,7 +138,6 @@ const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {
 // JIT updating makes this simple.  Star updates are called from within both
 // StarComponent and ConstellationLines.  If the update is redundant then
 // StarObject::JITupdate() simply returns without doing any work.
-
 void ConstellationLines::JITupdate( LineList* lineList )
 {
     KStarsData *data = KStarsData::Instance();

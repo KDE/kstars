@@ -69,7 +69,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     // Do add to components.
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
     m_Cultures = new CultureList();
-    addComponent( m_CLines     = new ConstellationLines( this ));
+    addComponent( m_CLines     = new ConstellationLines( this, m_Cultures ));
     addComponent( m_CNames     = new ConstellationNamesComponent( this, m_Cultures ));
     addComponent( m_Equator    = new Equator( this ));
     addComponent( m_Ecliptic   = new Ecliptic( this ));
@@ -434,7 +434,7 @@ void SkyMapComposite::reloadComets( ) {
 void SkyMapComposite::reloadCLines( ) {
     if( m_CLines ) 
         delete m_CLines;
-    m_CLines = new ConstellationLines( this );
+    m_CLines = new ConstellationLines( this, m_Cultures );
     m_CLines->init();
 }
 
