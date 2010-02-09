@@ -35,7 +35,13 @@ SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *par
     visible( visibleMethod ),
     m_Earth( parent->earth() ),
     m_Planet( kspb )
-{}
+{
+    m_Planet->loadData();
+    if ( ! m_Planet->name().isEmpty() )
+        objectNames(m_Planet->type()).append( m_Planet->name() );
+    if ( ! m_Planet->longname().isEmpty() && m_Planet->longname() != m_Planet->name() )
+        objectNames(m_Planet->type()).append( m_Planet->longname() );
+}
 
 SolarSystemSingleComponent::~SolarSystemSingleComponent()
 {
@@ -45,14 +51,6 @@ SolarSystemSingleComponent::~SolarSystemSingleComponent()
 
 bool SolarSystemSingleComponent::selected() {
     return visible();
-}
-
-void SolarSystemSingleComponent::init() {
-    m_Planet->loadData();
-    if ( ! m_Planet->name().isEmpty() )
-        objectNames(m_Planet->type()).append( m_Planet->name() );
-    if ( ! m_Planet->longname().isEmpty() && m_Planet->longname() != m_Planet->name() )
-        objectNames(m_Planet->type()).append( m_Planet->longname() );
 }
 
 SkyObject* SolarSystemSingleComponent::findByName( const QString &name ) {

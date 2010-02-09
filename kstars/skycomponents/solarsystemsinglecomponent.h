@@ -48,7 +48,6 @@ public:
     /** Return pointer to stored planet object. */
     KSPlanetBase* planet() { return m_Planet; }
 
-    virtual void init();
     virtual bool selected();
     virtual void update( KSNumbers *num );
     virtual void updatePlanets( KSNumbers *num );
