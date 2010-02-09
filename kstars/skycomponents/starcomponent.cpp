@@ -96,9 +96,7 @@ bool StarComponent::selected() {
 
 bool StarComponent::addDeepStarCatalogIfExists( const QString &fileName, float trigMag, bool staticstars ) {
     if( BinFileHelper::testFileExists( fileName ) ) {
-        DeepStarComponent *newdsc;
-        m_DeepStarComponents.append( newdsc = new DeepStarComponent( parent(), fileName, trigMag, staticstars ) );
-        newdsc->init();
+        m_DeepStarComponents.append( new DeepStarComponent( parent(), fileName, trigMag, staticstars ) );
         return true;
     }
     return false;

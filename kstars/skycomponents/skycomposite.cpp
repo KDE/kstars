@@ -47,12 +47,6 @@ void SkyComposite::draw( QPainter& psky )
             component->draw( psky );
 }
 
-void SkyComposite::init()
-{
-    foreach ( SkyComponent *component, components() )
-        component->init();
-}
-
 void SkyComposite::update( KSNumbers *num )
 {
     foreach (SkyComponent *component, components())

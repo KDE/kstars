@@ -38,7 +38,7 @@
 SolarSystemComposite::SolarSystemComposite(SkyComposite *parent ) :
     SkyComposite(parent)
 {
-
+    emitProgressText( i18n("Loading solar system" ) );
     m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
 
     m_Sun = new KSSun();
@@ -71,17 +71,6 @@ bool SolarSystemComposite::selected()
 {
     return Options::showSolarSystem() &&
            !( Options::hideOnSlew() && Options::hidePlanets() && SkyMap::IsSlewing() );
-}
-
-void SolarSystemComposite::init()
-{
-    if (!m_Earth->loadData())
-        return; //stop initializing
-
-    emitProgressText( i18n("Loading solar system" ) );
-
-    //init all sub components
-    SkyComposite::init();
 }
 
 void SolarSystemComposite::update( KSNumbers *num )
@@ -129,14 +118,4 @@ const QList<SkyObject*>& SolarSystemComposite::asteroids() const {
 
 const QList<SkyObject*>& SolarSystemComposite::comets() const {
     return m_CometsComponent->objectList();
-}
-
-void SolarSystemComposite::reloadAsteroids( ) {
-    m_AsteroidsComponent->clear();
-    m_AsteroidsComponent->init();
-}
-
-void SolarSystemComposite::reloadComets( ) {
-    m_CometsComponent->clear();
-    m_CometsComponent->init();
 }

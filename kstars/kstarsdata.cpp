@@ -176,8 +176,7 @@ bool KStarsData::initialize() {
     //Initialize SkyMapComposite//
     emit progressText(i18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
-    m_SkyComposite->init();
-
+    
     //Load Image URLs//
     emit progressText( i18n("Loading Image URLs" ) );
     if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )

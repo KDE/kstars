@@ -48,9 +48,6 @@ public:
     const QList<SkyObject*>& asteroids() const;
     const QList<SkyObject*>& comets() const;
 
-
-    virtual void init();
-
     bool selected();
 
     virtual void update( KSNumbers *num );
@@ -60,9 +57,6 @@ public:
     virtual void updateMoons( KSNumbers *num );
 
     void drawTrails( QPainter& psky );
-
-    void reloadAsteroids();
-    void reloadComets();
 
 private:
     KSPlanet *m_Earth;

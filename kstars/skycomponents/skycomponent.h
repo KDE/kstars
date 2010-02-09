@@ -60,9 +60,6 @@ public:
     /**@short Draw trails for objects. */
     virtual void drawTrails( QPainter & );
 
-    /**@short Initialize the component - load data from disk etc. */
-    virtual void init();
-
     /**
      * @short Update the sky position(s) of this component.
      *

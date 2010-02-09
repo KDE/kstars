@@ -28,7 +28,7 @@ class KSNumbers;
 	*@class SkyComposite
 	*SkyComposite is a kind of container class for SkyComponent 
 	*objects.  The SkyComposite is responsible for distributing calls 
-	*to functions like draw(), init(), and update() to its children,
+	*to functions like draw() and update() to its children,
 	*which can be SkyComponents or other SkyComposites with their 
 	*own children.  This is based on the "composite/component"
 	*design pattern.
@@ -55,9 +55,6 @@ public:
      * @p psky Reference to the QPainter on which to paint
      */
     virtual void draw( QPainter& psky );
-
-    /** @short Delegate init requests to all sub components */
-    virtual void init();
 
     /**@short Delegate update-position requests to all sub components
      *

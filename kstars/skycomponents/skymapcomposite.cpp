@@ -79,9 +79,9 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
 
     m_CustomCatalogs = new SkyComposite( this );
     for ( int i=0; i<Options::catalogFile().size(); ++ i ) {
-        CustomCatalogComponent *cc = new CustomCatalogComponent( this, Options::catalogFile()[i], false, i );
-        cc->init();
-        m_CustomCatalogs->addComponent( cc );
+        m_CustomCatalogs->addComponent(
+            new CustomCatalogComponent( this, Options::catalogFile()[i], false, i )
+            );
     }
 
     addComponent( m_SolarSystem = new SolarSystemComposite( this ));
@@ -396,8 +396,6 @@ KSPlanetBase* SkyMapComposite::planet( int n ) {
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, int index ) {
     CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, index );
-    cc->init();
-    
     if( cc->objectList().size() ) {
         m_CustomCatalogs->addComponent( cc );
     } else {
@@ -418,32 +416,15 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
     kWarning() << i18n( "Could not find custom catalog component named %1." , name) ;
 }
 
-void SkyMapComposite::reloadDeepSky( ) {
-    m_DeepSky->clear();
-    m_DeepSky->init();
-}
-
-void SkyMapComposite::reloadAsteroids( ) {
-    m_SolarSystem->reloadAsteroids( );
-}
-
-void SkyMapComposite::reloadComets( ) {
-    m_SolarSystem->reloadComets( );
-}
-
 void SkyMapComposite::reloadCLines( ) {
-    if( m_CLines ) 
-        delete m_CLines;
+    delete m_CLines;
     m_CLines = new ConstellationLines( this, m_Cultures );
-    m_CLines->init();
 }
 
 void SkyMapComposite::reloadCNames( ) {
     objectNames(SkyObject::CONSTELLATION).clear();
-    if( m_CNames )
-        delete m_CNames;
+    delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
-    m_CNames->init();
 }
 
 bool SkyMapComposite::isLocalCNames() {
