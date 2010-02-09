@@ -41,9 +41,6 @@ public:
 
     ~SatelliteComposite();
 
-    /** @short Initialize the Satellite composite */
-    virtual void init();
-
     /**@short Update the satellite tracks
      * @param num Pointer to the KSNumbers object
      */

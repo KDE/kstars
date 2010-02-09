@@ -45,9 +45,6 @@ public:
 
     virtual ~SatelliteComponent();
 
-    /* Exists only to make this class constructible. */
-    virtual void init();
-
     /**@short Update the sky positions of this component.
      *
      * This function usually just updates the Horizontal (Azimuth/Altitude)

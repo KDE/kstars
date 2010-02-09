@@ -31,14 +31,6 @@ SatelliteComposite::SatelliteComposite( SkyComposite *parent )
 {
     for ( uint i=0; i<NSTEPS; ++i )
         pSat.append( new SPositionSat );
-}
-
-SatelliteComposite::~SatelliteComposite()
-{
-    qDeleteAll(pSat);
-}
-
-void SatelliteComposite::init() {
     emitProgressText( i18n("Creating Earth satellites" ) );
 
     KStarsData* data = KStarsData::Instance();
@@ -65,6 +57,11 @@ void SatelliteComposite::init() {
 
         update( );
     }
+}
+
+SatelliteComposite::~SatelliteComposite()
+{
+    qDeleteAll(pSat);
 }
 
 void SatelliteComposite::update( KSNumbers * ) {

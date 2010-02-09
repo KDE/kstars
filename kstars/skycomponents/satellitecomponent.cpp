@@ -54,14 +54,6 @@ void SatelliteComponent::update( KSNumbers * )
     }
 }
 
-void SatelliteComponent::init() {
-    Q_ASSERT( false &&
-              "This code should never execute and even better exist\n\n"
-              "If program crashed and you see this message it is a bug\n\n"
-              "Sorry for any inconvenience (-:"
-        );
-}
-
 void SatelliteComponent::initSat( const QString &name, SPositionSat *pSat[], int npos ) {
     KStarsData *data = KStarsData::Instance();
     Label = name;
