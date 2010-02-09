@@ -26,6 +26,9 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 
+#define DT 10.0    //10-sec timesteps
+#define NSTEPS 360 //360 steps == 1 hour of coverage
+
 SatelliteComposite::SatelliteComposite( SkyComposite *parent )
         : SkyComposite( parent )
 {

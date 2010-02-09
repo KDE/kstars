@@ -26,10 +26,6 @@ extern "C" {
 #include "satlib/SatLib.h"
 }
 
-#define DT 10.0    //10-sec timesteps
-#define NSTEPS 360 //360 steps == 1 hour of coverage
-
-
 class SatelliteComposite : public SkyComposite
 {
 public:

@@ -74,7 +74,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_Equator    = new Equator( this ));
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
-    addComponent( m_Satellites = new SatelliteComposite( this ));
+    // Disable satellites for now
+    // addComponent( m_Satellites = new SatelliteComposite( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
 
     m_CustomCatalogs = new SkyComposite( this );
