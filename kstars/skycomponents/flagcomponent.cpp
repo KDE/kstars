@@ -116,33 +116,25 @@ FlagComponent::~FlagComponent()
 
 void FlagComponent::draw( QPainter& psky )
 {
-    if( ! selected() )
+    if( !selected() )
         return;
 
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
-    SkyPoint *p;
-    QPointF o;
-    QImage flagImage;
-    double epoch;
-    long double jd;
-    int i;
-
-    for ( i=0; i<pointList().size(); i++ ) {
+    for(int i=0; i<pointList().size(); i++ ) {
         // Get Screen coordinates
-        p = pointList().at( i );
-        epoch = getEpoch( m_Epoch.at( i ) );
-        jd = epochToJd ( epoch );
+        SkyPoint* p = pointList().at( i );
+        double epoch = getEpoch( m_Epoch.at( i ) );
+        long double jd = epochToJd ( epoch );
         p->apparentCoord(jd, data->ut().djd() );
         p->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        o = map->toScreen( p, false );
 
         // Draw flag image
-        // FIXME: Stop drawing for a while
-        // flagImage = m_Images.at( m_FlagImages.at( i ) );
-        // o.setX( o.x() - flagImage.width()*0.5 );
-        // o.setY( o.y() - flagImage.height()*0.5 );
-        // psky.drawImage( o, flagImage );
+        QImage flagImage = m_Images.value( m_FlagImages.at( i ) );
+        QPointF o = map->toScreen( p, false );
+        o.setX( o.x() - flagImage.width()*0.5 );
+        o.setY( o.y() - flagImage.height()*0.5 );
+        psky.drawImage( o, flagImage );
 
         // Draw flag label
         o.setX( o.x() + 25.0 );
@@ -201,28 +193,18 @@ void FlagComponent::remove( int index ) {
     m_LabelColors.removeAt( index );
 }
 
-void FlagComponent::slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list ) {
-    int index = 0;
-    QImage flagImage;
-
+void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
     m_Names.append( i18n ("Default" ) );
-    flagImage.load( KStandardDirs::locate( "appdata", "defaultflag.gif" ) );
-    m_Images.append( flagImage );
-
-    for ( KIO::UDSEntryList::ConstIterator it = list.begin(); it != list.end(); ++it ) {
-        KFileItem* item = new KFileItem(*it, m_Job->url(), false, true);
-        if ( item->name().startsWith( QLatin1String( "_flag" ) ) ) {
-            QStringList fileNameLst = item->name().split( '.' );
-            fileNameLst.removeLast();
-            QString fileName = fileNameLst.join( "." );
-            fileName = fileName.right( fileName.size() - 5 );
-            fileName = fileName.replace( '_', ' ' );
+    m_Images.append( QImage( KStandardDirs::locate( "appdata", "defaultflag.gif" ) ));
+    foreach( KIO::UDSEntry entry, list) {
+        KFileItem item(entry, m_Job->url(), false, true);
+        if( item.name().startsWith( "_flag" ) ) {
+            QString fileName = item.name()
+                .replace(QRegExp("\\.[^.]*$"), QString())
+                .replace(QRegExp("^_flag"),   QString())
+                .replace('_',' ');
             m_Names.append( fileName );
-
-            flagImage.load( item->localPath() );
-            m_Images.append( flagImage );
-
-            index++;
+            m_Images.append( QImage( item.localPath() ));
         }
     }
 }
