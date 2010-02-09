@@ -37,7 +37,15 @@
 
 MilkyWay::MilkyWay( SkyComposite *parent ) :
     LineListIndex( parent, i18n("Milky Way") )
-{}
+{
+    intro();
+    // Milky way
+    loadContours("milkyway.dat", i18n("Loading Milky Way"));
+    // Magellanic clouds
+    loadContours("lmc.dat", i18n("Loading Large Magellanic Clouds"));
+    loadContours("smc.dat", i18n("Loading Small Magellanic Clouds"));
+    summary();
+}
 
 const IndexHash& MilkyWay::getIndexHash(LineList* lineList ) {
     // FIXME: EVIL!
@@ -49,17 +57,6 @@ bool MilkyWay::skipAt( LineList* lineList, int i ) {
     // FIXME: EVIL!
     SkipList* skipList = (SkipList*) lineList;
     return skipList->skip( i );
-}
-
-void MilkyWay::init()
-{
-    intro();
-    // Milky way
-    loadContours("milkyway.dat", i18n("Loading Milky Way"));
-    // Magellanic clouds
-    loadContours("lmc.dat", i18n("Loading Large Magellanic Clouds"));
-    loadContours("smc.dat", i18n("Loading Small Magellanic Clouds"));
-    summary();
 }
 
 bool MilkyWay::selected()
