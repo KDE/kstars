@@ -146,9 +146,6 @@ private:
      * @param deltaFontSize is change in font size from default
      */
     void addFancyLabel(QString name, int deltaFontSize = 0);
-
-    KStars *ks;
-    KMenu *menuDevice;
 };
 
 #endif

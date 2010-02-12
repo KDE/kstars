@@ -94,21 +94,20 @@ namespace {
 
 KSPopupMenu::KSPopupMenu()
     : KMenu( KStars::Instance() )
-{
-    ks = KStars::Instance();
-}
+{}
 
 KSPopupMenu::~KSPopupMenu()
 {}
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
+    KStars* ks = KStars::Instance();
     initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), true, true, false, false, false, true, false );
-
     addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
     addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
 }
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
+    KStars* ks = KStars::Instance();
     //Add name, rise/set time, center/track, and detail-window items
 	QString name;
 	if( star->name() != "star" ) {
@@ -133,7 +132,7 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
  
 void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
 	QString name = getObjectName(obj);
-    QString typeName = ks->data()->typeName( obj->type() );
+    QString typeName = KStarsData::Instance()->typeName( obj->type() );
 	// FIXME: information about angular sizes should be added.
 	// Requires downcast. Not sure whether it safe.
 	QString info = magToStr( obj->mag() );
@@ -144,7 +143,7 @@ void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
 
 void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 	QString name = getObjectName(obj); 
-    QString typeName = ks->data()->typeName( obj->type() );
+    QString typeName = KStarsData::Instance()->typeName( obj->type() );
 	QString info = magToStr( obj->mag() );
 	
     initPopupMenu( obj, name, typeName, info );
@@ -174,7 +173,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
                                  bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail,
                                  bool showAngularDistance, bool showObsList )
 {
-    ks = KStars::Instance();
+    KStars* ks = KStars::Instance();
 
     clear();
     bool showLabel = name != i18n("star") && !name.isEmpty();
@@ -268,6 +267,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 }
 
 void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
+    KStars* ks = KStars::Instance();
     QString sURL;
     QStringList::ConstIterator itList, itTitle, itListEnd;
 
@@ -275,7 +275,6 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     itTitle = obj->ImageTitle().constBegin();
     itListEnd = obj->ImageList().constEnd();
 
-    int id = 100;
     for ( ; itList != itListEnd; ++itList ) {
         QString t = QString(*itTitle);
         sURL = QString(*itList);
@@ -287,14 +286,13 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
         addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
         addSeparator();
-    }
-    else if ( obj->ImageList().count() ) addSeparator();
+    } else if ( obj->ImageList().count() )
+        addSeparator();
 
     itList  = obj->InfoList().constBegin();
     itTitle = obj->InfoTitle().constBegin();
     itListEnd = obj->InfoList().constEnd();
 
-    id = 200;
     for ( ; itList != itListEnd; ++itList ) {
         QString t = QString(*itTitle);
         sURL = QString(*itList);
@@ -306,7 +304,7 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
 bool KSPopupMenu::addINDI()
 {
     #ifdef HAVE_INDI_H
-    INDIMenu *indiMenu = ks->indiMenu();
+    INDIMenu *indiMenu = KStars::Instance()->indiMenu();
     DeviceManager *managers;
     INDI_D *dev;
     INDI_G *grp;
@@ -323,7 +321,7 @@ bool KSPopupMenu::addINDI()
             if (!dev->INDIStdSupport)
                 continue;
 
-            menuDevice = new KMenu(dev->label);
+            KMenu* menuDevice = new KMenu(dev->label);
             addMenu(menuDevice);
 
             foreach (grp, dev->gl )
