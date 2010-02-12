@@ -544,7 +544,6 @@ void SkyMap::slotBeginAngularDistance() {
 
 void SkyMap::slotEndAngularDistance() {
     if( angularDistanceMode ) {
-        dms angularDistance;
         QString sbMessage;
 
         //If the cursor is near a SkyObject, reset the AngularRuler's
@@ -560,13 +559,19 @@ void SkyMap::slotEndAngularDistance() {
 
         angularDistanceMode=false;
         AngularRuler.update( data );
+        dms angularDistance = AngularRuler.angularSize();
+        AngularRuler.clear();
 
-        angularDistance = AngularRuler.angularSize();
         sbMessage += i18n( "Angular distance: %1", angularDistance.toDMSString() );
 
-        KStars::Instance()->statusBar()->changeItem( sbMessage, 0 );
-        
-        AngularRuler.clear();
+        // Create unobsructive message box with suicidal tendencies
+        // to display result.
+        InfoBoxWidget* box = new InfoBoxWidget(
+            true, mapFromGlobal( QCursor::pos() ), 0, QStringList(sbMessage), this);
+        connect(box, SIGNAL( clicked() ), box, SLOT( deleteLater() ));
+        QTimer::singleShot(5000, box, SLOT( deleteLater() ));
+        box->adjust();
+        box->show();
     }
 }
 
