@@ -296,7 +296,7 @@ void modCalcEclCoords::processLines( QTextStream &istream ) {
         // 			dt.setFromEpoch( epoch0B );
         // 			KSNumbers *num = new KSNumbers( dt.djd() );
         // 			sp.setFromEcliptic(num->obliquity(), &eclLongB, &eclLatB);
-        // 			ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
+        // 			ostream << sp.ra().toHMSString() << space << sp.dec().toDMSString() << endl;
         // 		// Input coords. are equatorial coordinates:
         //
         // 		} else {

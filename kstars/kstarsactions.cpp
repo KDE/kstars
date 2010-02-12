@@ -693,7 +693,7 @@ void KStars::slotPointFocus() {
     map()->stopTracking();
 
     if ( sender() == actionCollection()->action("zenith") ) 
-        map()->setDestinationAltAz( 90.0, map()->focus()->az()->Degrees() );
+        map()->setDestinationAltAz( 90.0, map()->focus()->az().Degrees() );
     else if ( sender() == actionCollection()->action("north") )
         map()->setDestinationAltAz( 15.0, 0.0001 );
     else if ( sender() == actionCollection()->action("east") )
@@ -743,8 +743,8 @@ void KStars::slotManualFocus() {
         //If the requested position is very near the pole, we need to point first
         //to an intermediate location just below the pole in order to get the longitudinal
         //position (RA/Az) right.
-        double realAlt( focusDialog->point().alt()->Degrees() );
-        double realDec( focusDialog->point().dec()->Degrees() );
+        double realAlt( focusDialog->point().alt().Degrees() );
+        double realDec( focusDialog->point().dec().Degrees() );
         if ( Options::useAltAz() && realAlt > 89.0 ) {
             focusDialog->point().setAlt( 89.0 );
             focusDialog->point().HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
@@ -768,9 +768,9 @@ void KStars::slotManualFocus() {
         //automatically correct the final pointing from the intermediate offset position to the final position
         data()->setSnapNextFocus();
         if ( Options::useAltAz() ) {
-            map()->setDestinationAltAz( focusDialog->point().alt()->Degrees(), focusDialog->point().az()->Degrees() );
+            map()->setDestinationAltAz( focusDialog->point().alt().Degrees(), focusDialog->point().az().Degrees() );
         } else {
-            map()->setDestination( focusDialog->point().ra()->Hours(), focusDialog->point().dec()->Degrees() );
+            map()->setDestination( focusDialog->point().ra().Hours(), focusDialog->point().dec().Degrees() );
         }
 
         //Now, if the requested point was near a pole, we need to reset the Alt/Dec of the focus.
@@ -827,7 +827,7 @@ void KStars::slotCoordSys() {
                 map()->setFocus( map()->focusObject() );
             else { //need to recompute focus for unrefracted position
                 map()->setFocusAltAz( map()->refract( map()->focus()->alt(), false ).Degrees(),
-                                      map()->focus()->az()->Degrees() );
+                                      map()->focus()->az().Degrees() );
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
@@ -836,7 +836,7 @@ void KStars::slotCoordSys() {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
             map()->setFocusAltAz( map()->refract( map()->focus()->alt(), true ).Degrees(),
-                                  map()->focus()->az()->Degrees() );
+                                  map()->focus()->az().Degrees() );
         }
         actionCollection()->action("coordsys")->setText( i18n("Horizontal &Coordinates") );
     }
@@ -1027,16 +1027,16 @@ void KStars::slotAboutToQuit()
 
 void KStars::slotShowPositionBar(SkyPoint* p ) {
     if ( Options::showAltAzField() ) {
-        dms a( p->alt()->Degrees() );
+        dms a( p->alt().Degrees() );
         if ( Options::useAltAz() && Options::useRefraction() )
             a = SkyMap::refract( p->alt(), true ); //true: compute apparent alt from true alt
-        QString s = QString("%1, %2").arg( p->az()->toDMSString(true), //true: force +/- symbol
+        QString s = QString("%1, %2").arg( p->az().toDMSString(true), //true: force +/- symbol
                                            a.toDMSString(true) );                 //true: force +/- symbol
         statusBar()->changeItem( s, 1 );
     }
     if ( Options::showRADecField() ) {
-        QString s = QString("%1, %2").arg(p->ra()->toHMSString(),
-                                          p->dec()->toDMSString(true) ); //true: force +/- symbol
+        QString s = QString("%1, %2").arg(p->ra().toHMSString(),
+                                          p->dec().toDMSString(true) ); //true: force +/- symbol
         statusBar()->changeItem( s, 2 );
     }
 }

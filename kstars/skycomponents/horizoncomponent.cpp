@@ -103,8 +103,8 @@ void HorizonComponent::draw( QPainter& psky )
     }
     if ( daz > 90.0 ) daz = 90.0;
 
-    double az1 = map->focus()->az()->Degrees() - daz;
-    double az2 = map->focus()->az()->Degrees() + daz;
+    double az1 = map->focus()->az().Degrees() - daz;
+    double az2 = map->focus()->az().Degrees() + daz;
 
     QPointF o;
     bool allGround(true);
@@ -113,7 +113,7 @@ void HorizonComponent::draw( QPainter& psky )
     //Special case for equirectangular mode and Alt/Az coordinates
     if ( Options::projection() == SkyMap::Equirectangular && Options::useAltAz() == true ) {
         SkyPoint belowFocus;
-        belowFocus.setAz( map->focus()->az()->Degrees() );
+        belowFocus.setAz( map->focus()->az().Degrees() );
         belowFocus.setAlt( 0.0 );
 
         QPointF obf = map->toScreen( &belowFocus, false );
@@ -153,7 +153,7 @@ void HorizonComponent::draw( QPainter& psky )
     if ( az1 < 0. ) {
         az1 += 360.;
         foreach ( SkyPoint *p, pointList() ) {
-            if ( p->az()->Degrees() > az1 ) {
+            if ( p->az().Degrees() > az1 ) {
                 o = map->toScreen( p, false );
                 if ( ! map->isPointNull( o ) ) {
                     groundPoly << o;
@@ -172,7 +172,7 @@ void HorizonComponent::draw( QPainter& psky )
 
     //Add points in normal range, 0 to 360
     foreach ( SkyPoint *p, pointList() ) {
-        if ( p->az()->Degrees() > az1 && p->az()->Degrees() < az2 ) {
+        if ( p->az().Degrees() > az1 && p->az().Degrees() < az2 ) {
             o = map->toScreen( p, false );
             if ( ! map->isPointNull( o ) ) {
                 groundPoly << o;
@@ -184,7 +184,7 @@ void HorizonComponent::draw( QPainter& psky )
                 if ( o.y() > 0. ) allGround = false;
                 if ( o.y() < Height ) allSky = false;
             }
-        } else if ( p->az()->Degrees() > az2 )
+        } else if ( p->az().Degrees() > az2 )
             break;
     }
 
@@ -192,7 +192,7 @@ void HorizonComponent::draw( QPainter& psky )
     if ( az2 > 360. ) {
         az2 -= 360.;
         foreach ( SkyPoint *p, pointList() ) {
-            if ( p->az()->Degrees() < az2 ) {
+            if ( p->az().Degrees() < az2 ) {
                 o = map->toScreen( p, false );
                 if ( ! map->isPointNull( o ) ) {
                     groundPoly << o;
@@ -365,17 +365,17 @@ void HorizonComponent::draw( QPainter& psky )
     }
 
     //ra0 is the exact RA at which the Horizon intersects a screen edge
-    double ra0 = x1*pAnchor2->ra()->Hours() + x2*pAnchor->ra()->Hours();
+    double ra0 = x1*pAnchor2->ra().Hours() + x2*pAnchor->ra().Hours();
     //dec0 is the exact Dec at which the Horizon intersects a screen edge
-    double dec0 = x1*pAnchor2->dec()->Degrees() + x2*pAnchor->dec()->Degrees();
+    double dec0 = x1*pAnchor2->dec().Degrees() + x2*pAnchor->dec().Degrees();
 
     //LabelPoint is offset from the anchor point by -2.0 degrees in azimuth
     //and -0.4 degree altitude, scaled by 2000./zoomFactor so that they are
     //independent of zoom.
     SkyPoint LabelPoint(ra0, dec0);
     LabelPoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    LabelPoint.setAlt( LabelPoint.alt()->Degrees() - 800./Options::zoomFactor() );
-    LabelPoint.setAz( LabelPoint.az()->Degrees() - 4000./Options::zoomFactor() );
+    LabelPoint.setAlt( LabelPoint.alt().Degrees() - 800./Options::zoomFactor() );
+    LabelPoint.setAz( LabelPoint.az().Degrees() - 4000./Options::zoomFactor() );
     LabelPoint.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
     o = map->toScreen( &LabelPoint, false );
@@ -383,8 +383,8 @@ void HorizonComponent::draw( QPainter& psky )
     if ( o.x() > Width || o.x() < 0 ) {
         //the LabelPoint is offscreen.  Either we are in the Southern hemisphere,
         //or the sky is rotated upside-down.  Use an azimuth offset of +2.0 degrees
-        LabelPoint.setAlt( LabelPoint.alt()->Degrees() + 1600./Options::zoomFactor() );
-        LabelPoint.setAz( LabelPoint.az()->Degrees() + 8000./Options::zoomFactor() );
+        LabelPoint.setAlt( LabelPoint.alt().Degrees() + 1600./Options::zoomFactor() );
+        LabelPoint.setAz( LabelPoint.az().Degrees() + 8000./Options::zoomFactor() );
         LabelPoint.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     }
 
@@ -393,7 +393,7 @@ void HorizonComponent::draw( QPainter& psky )
     //Horizon label, which we want to be parallel to the line between LabelPoint and p2.
     SkyPoint p2 = LabelPoint;
     p2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    p2.setAz( p2.az()->Degrees() + 2000./Options::zoomFactor() );
+    p2.setAz( p2.az().Degrees() + 2000./Options::zoomFactor() );
     p2.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
 
     o2 = map->toScreen( &p2, false );

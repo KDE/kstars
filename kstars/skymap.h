@@ -483,7 +483,7 @@ public slots:
     	*@return the corrected altitude, as a dms object.
     	*/
     // FIXME: move out of SkyMap
-    static dms refract( const dms *alt, bool findApparent );
+    static dms refract( const dms& alt, bool findApparent );
 
     /**Step the Focus point toward the Destination point.  Do this iteratively, redrawing the Sky
     	*Map after each step, until the Focus point is within 1 step of the Destination point.

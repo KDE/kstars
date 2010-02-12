@@ -147,7 +147,7 @@ void WUTDialog::init() {
 
     oSun->updateCoords( num, true, geo->lat(), &LST );
     if ( oSun->checkCircumpolar( geo->lat() ) ) {
-        if ( oSun->alt()->Degrees() > 0.0 ) {
+        if ( oSun->alt().Degrees() > 0.0 ) {
             sRise = i18n( "circumpolar" );
             sSet = i18n( "circumpolar" );
             sDuration = "00:00";
@@ -197,7 +197,7 @@ void WUTDialog::init() {
     //check to see if Moon is circumpolar
     oMoon->updateCoords( num, true, geo->lat(), &LST );
     if ( oMoon->checkCircumpolar( geo->lat() ) ) {
-        if ( oMoon->alt()->Degrees() > 0.0 ) {
+        if ( oMoon->alt().Degrees() > 0.0 ) {
             sRise = i18n( "circumpolar" );
             sSet = i18n( "circumpolar" );
         } else {
@@ -334,7 +334,7 @@ bool WUTDialog::checkVisibility(SkyObject *o) {
     double minAlt = 6.0; //An object is considered 'visible' if it is above horizon during civil twilight.
 
     // reject objects that never rise
-    if (o->checkCircumpolar(geo->lat()) == true && o->alt()->Degrees() <= 0) return false;
+    if (o->checkCircumpolar(geo->lat()) == true && o->alt().Degrees() <= 0) return false;
 
     //Initial values for T1, T2 assume all night option of EveningMorningBox
     KStarsDateTime T1 = Evening;
@@ -358,7 +358,7 @@ bool WUTDialog::checkVisibility(SkyObject *o) {
         //check altitude of object at this time.
         sp.EquatorialToHorizontal( &LST, geo->lat() );
 
-        if ( sp.alt()->Degrees() > minAlt ) {
+        if ( sp.alt().Degrees() > minAlt ) {
             visible = true;
             break;
         }
@@ -392,7 +392,7 @@ void WUTDialog::slotDisplayObject( const QString &name ) {
         WUT->ObjectBox->setTitle( o->name() );
 
         if ( o->checkCircumpolar( geo->lat() ) ) {
-            if ( o->alt()->Degrees() > 0.0 ) {
+            if ( o->alt().Degrees() > 0.0 ) {
                 sRise = i18n( "circumpolar" );
                 sSet = i18n( "circumpolar" );
             } else {

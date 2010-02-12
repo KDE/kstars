@@ -68,7 +68,7 @@ void KSAlmanac::RiseSetTime( SkyObject *o, double *riseTime, double *setTime, QT
     dms LST = geo->GSTtoLST( dt.gst() );
     o->updateCoords( &num, true, geo->lat(), &LST );
     if ( o->checkCircumpolar( geo->lat() ) ) {
-        if ( o->alt()->Degrees() > 0.0 ) {
+        if ( o->alt().Degrees() > 0.0 ) {
             //Circumpolar, signal it this way:
             *riseTime = 0.0;
             *setTime = 1.0;
@@ -93,8 +93,8 @@ void KSAlmanac::setLocation( GeoLocation *m_geo ) {
 
 double KSAlmanac::sunZenithAngleToTime( double z ) {
     // TODO: Correct for movement of the sun
-    double HA = acos( ( cos( z * dms::DegToRad ) - m_Sun.dec()->sin() * geo->lat()->sin() ) / (m_Sun.dec()->cos() * geo->lat()->cos()) );
-    double HASunset = acos( ( -m_Sun.dec()->sin() * geo->lat()->sin() ) / (m_Sun.dec()->cos() * geo->lat()->cos()) );
+    double HA = acos( ( cos( z * dms::DegToRad ) - m_Sun.dec().sin() * geo->lat()->sin() ) / (m_Sun.dec().cos() * geo->lat()->cos()) );
+    double HASunset = acos( ( -m_Sun.dec().sin() * geo->lat()->sin() ) / (m_Sun.dec().cos() * geo->lat()->cos()) );
     return SunSet + ( HA - HASunset ) / 24.0;
 }
 

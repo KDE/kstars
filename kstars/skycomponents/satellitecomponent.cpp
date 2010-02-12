@@ -193,7 +193,7 @@ void SatelliteComponent::draw( QPainter &psky ) {
         else
             sp2 = pointList.at(i-1);
 
-        if ( sp->alt()->Degrees() > 0.0
+        if ( sp->alt().Degrees() > 0.0
                 && dt.time().minute() != dtLast.time().minute() ) {
             double t1 = double(dtLast.time().second());
             double t2 = double(dt.time().second()) + 60.0;
@@ -202,8 +202,8 @@ void SatelliteComponent::draw( QPainter &psky ) {
             //Determine the position of the tickmark along
             //the track, corresponding to the even-second time.
             //f is the fractional distance between the endpoints.
-            double ra = f*sp->ra()->Hours() + (1.0-f)*sp2->ra()->Hours();
-            double dc = f*sp->dec()->Degrees() + (1.0-f)*sp2->dec()->Degrees();
+            double ra = f*sp->ra().Hours() + (1.0-f)*sp2->ra().Hours();
+            double dc = f*sp->dec().Degrees() + (1.0-f)*sp2->dec().Degrees();
             SkyPoint sTick1(ra, dc);
             sTick1.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 

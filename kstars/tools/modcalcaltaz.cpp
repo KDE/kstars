@@ -411,7 +411,7 @@ void modCalcAltAz::processLines( QTextStream &istream ) {
             sp = SkyPoint (raB, decB);
             sp.apparentCoord(jd0, jdf);
             sp.EquatorialToHorizontal( &LST, &latB );
-            ostream << sp.az()->toDMSString() << space << sp.alt()->toDMSString() << endl;
+            ostream << sp.az().toDMSString() << space << sp.alt().toDMSString() << endl;
 
             // Input coords are horizontal coordinates
 
@@ -445,7 +445,7 @@ void modCalcAltAz::processLines( QTextStream &istream ) {
             sp.setAz(azB);
             sp.setAlt(elB);
             sp.HorizontalToEquatorial( &LST, &latB );
-            ostream << sp.ra()->toHMSString() << space << sp.dec()->toDMSString() << endl;
+            ostream << sp.ra().toHMSString() << space << sp.dec().toDMSString() << endl;
         }
 
     }

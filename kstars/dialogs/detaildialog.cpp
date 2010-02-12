@@ -293,10 +293,10 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
     Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
     Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
-    Pos->RA->setText( selectedObject->ra()->toHMSString() );
-    Pos->Dec->setText( selectedObject->dec()->toDMSString() );
-    Pos->Az->setText( selectedObject->az()->toDMSString() );
-    dms a( selectedObject->alt()->Degrees() );
+    Pos->RA->setText( selectedObject->ra().toHMSString() );
+    Pos->Dec->setText( selectedObject->dec().toDMSString() );
+    Pos->Az->setText( selectedObject->az().toDMSString() );
+    dms a( selectedObject->alt().Degrees() );
     if ( Options::useAltAz() && Options::useRefraction() )
         a = KStars::Instance()->map()->refract( selectedObject->alt(), true ); //true: compute apparent alt from true alt
     Pos->Alt->setText( a.toDMSString() );
@@ -304,7 +304,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     //Hour Angle can be negative, but dms HMS expressions cannot.
     //Here's a kludgy workaround:
     dms lst = geo->GSTtoLST( ut.gst() );
-    dms ha( lst.Degrees() - selectedObject->ra()->Degrees() );
+    dms ha( lst.Degrees() - selectedObject->ra().Degrees() );
     QChar sgn('+');
     if ( ha.Hours() > 12.0 ) {
         ha.setH( 24.0 - ha.Hours() );
@@ -314,9 +314,9 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
     //Airmass is approximated as the secant of the zenith distance,
     //equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
-    if ( selectedObject->alt()->Degrees() > 0.0 )
+    if ( selectedObject->alt().Degrees() > 0.0 )
         Pos->Airmass->setText( KGlobal::locale()->formatNumber(
-                                   1./sin( selectedObject->alt()->radians() ), 2 ) );
+                                   1./sin( selectedObject->alt().radians() ), 2 ) );
     else
         Pos->Airmass->setText( "--" );
 
@@ -348,7 +348,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
         Pos->AzRise->setText( raz.toDMSString() );
         Pos->AzSet->setText( saz.toDMSString() );
     } else {
-        if ( selectedObject->alt()->Degrees() > 0.0 ) {
+        if ( selectedObject->alt().Degrees() > 0.0 ) {
             Pos->TimeRise->setText( i18n( "Circumpolar" ) );
             Pos->TimeSet->setText( i18n( "Circumpolar" ) );
         } else {
@@ -797,7 +797,7 @@ QString DetailDialog::parseADVData( const QString &inlink )
     if ( (index = link.indexOf("KSRA")) != -1)
     {
         link.remove(index, 4);
-        subLink.sprintf("%02d%02d%02d", selectedObject->ra0()->hour(), selectedObject->ra0()->minute(), selectedObject->ra0()->second());
+        subLink.sprintf("%02d%02d%02d", selectedObject->ra0().hour(), selectedObject->ra0().minute(), selectedObject->ra0().second());
         subLink = subLink.insert(2, "%20");
         subLink = subLink.insert(7, "%20");
 
@@ -806,15 +806,15 @@ QString DetailDialog::parseADVData( const QString &inlink )
     if ( (index = link.indexOf("KSDEC")) != -1)
     {
         link.remove(index, 5);
-        if (selectedObject->dec()->degree() < 0)
+        if (selectedObject->dec().degree() < 0)
         {
-            subLink.sprintf("%03d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
+            subLink.sprintf("%03d%02d%02d", selectedObject->dec0().degree(), selectedObject->dec0().arcmin(), selectedObject->dec0().arcsec());
             subLink = subLink.insert(3, "%20");
             subLink = subLink.insert(8, "%20");
         }
         else
         {
-            subLink.sprintf("%02d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
+            subLink.sprintf("%02d%02d%02d", selectedObject->dec0().degree(), selectedObject->dec0().arcmin(), selectedObject->dec0().arcsec());
             subLink = subLink.insert(0, "%2B");
             subLink = subLink.insert(5, "%20");
             subLink = subLink.insert(10, "%20");
@@ -935,25 +935,25 @@ void DetailDialog::centerTelescope()
                 if (useJ2000)
                     sp.apparentCoord(KStarsData::Instance()->ut().djd(), (long double) J2000);
 
-                RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
-                DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+                RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra().hour()).arg(sp.ra().minute()).arg(sp.ra().second()));
+                DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec().degree()).arg(sp.dec().arcmin()).arg(sp.dec().arcsec()));
 
                 break;
 
             case 1:
                 if (indidev->stdDev->currentObject)
                 {
-                    sp.setAz(*indidev->stdDev->currentObject->az());
-                    sp.setAlt(*indidev->stdDev->currentObject->alt());
+                    sp.setAz( indidev->stdDev->currentObject->az());
+                    sp.setAlt(indidev->stdDev->currentObject->alt());
                 }
                 else
                 {
-                    sp.setAz(*map->clickedPoint()->az());
-                    sp.setAlt(*map->clickedPoint()->alt());
+                    sp.setAz( map->clickedPoint()->az());
+                    sp.setAlt(map->clickedPoint()->alt());
                 }
 
-                AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
-                AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+                AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az().degree()).arg(sp.az().arcmin()).arg(sp.az().arcsec()));
+                AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt().degree()).arg(sp.alt().arcmin()).arg(sp.alt().arcsec()));
 
                 break;
             }

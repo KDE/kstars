@@ -136,33 +136,33 @@ void modCalcPlanets::slotComputePosition (void)
 
 void modCalcPlanets::showCoordinates( const KSPlanetBase &ksp)
 {
-    showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
-    showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
+    showHeliocentricEclipticCoords(*ksp.helEcLong(), *ksp.helEcLat(), ksp.rsun() );
+    showGeocentricEclipticCoords(*ksp.ecLong(), *ksp.ecLat(), ksp.rearth() );
     showEquatorialCoords(ksp.ra(), ksp.dec() );
     showTopocentricCoords(ksp.az(), ksp.alt() );
 }
 
-void modCalcPlanets::showHeliocentricEclipticCoords(const dms *hLong, const dms *hLat, double dist)
+void modCalcPlanets::showHeliocentricEclipticCoords(const dms& hLong, const dms& hLat, double dist)
 {
     HelioLongBox->show( hLong );
     HelioLatBox->show( hLat );
     HelioDistBox->setText( KGlobal::locale()->formatNumber( dist,6));
 }
 
-void modCalcPlanets::showGeocentricEclipticCoords(const dms *eLong, const dms *eLat, double dist)
+void modCalcPlanets::showGeocentricEclipticCoords(const dms& eLong, const dms& eLat, double dist)
 {
     GeoLongBox->show( eLong );
     GeoLatBox->show( eLat );
     GeoDistBox->setText( KGlobal::locale()->formatNumber( dist,6));
 }
 
-void modCalcPlanets::showEquatorialCoords(const dms *ra, const dms *dec)
+void modCalcPlanets::showEquatorialCoords(const dms& ra, const dms& dec)
 {
     RABox->show( ra, false );
     DecBox->show( dec );
 }
 
-void modCalcPlanets::showTopocentricCoords(const dms *az, const dms *el)
+void modCalcPlanets::showTopocentricCoords(const dms& az, const dms& el)
 {
     AzBox->show( az );
     AltBox->show( el );
@@ -396,11 +396,11 @@ void modCalcPlanets::processLines( QTextStream &istream )
         glatB.setD( kspb->ecLat()->Degrees() );
         rEarthB = kspb->rearth();
         // Equatorial coords.
-        decB.setD( kspb->dec()->Degrees() );
-        raB.setD( kspb->ra()->Degrees() );
+        decB.setD( kspb->dec().Degrees() );
+        raB.setD( kspb->ra().Degrees() );
         // Topocentric Coords.
-        azmB.setD( kspb->az()->Degrees() );
-        altB.setD( kspb->alt()->Degrees() );
+        azmB.setD( kspb->az().Degrees() );
+        altB.setD( kspb->alt().Degrees() );
 
         ostream << lineToWrite;
 

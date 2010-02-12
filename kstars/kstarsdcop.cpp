@@ -269,8 +269,8 @@ void KStars::writeConfig() {
 QString KStars::getOption( const QString &name ) {
     //Some config items are not stored in the Options object while
     //the program is running; catch these here and returntheir current value.
-    if ( name == "FocusRA" ) { return QString::number( map()->focus()->ra()->Hours(), 'f', 6 ); }
-    if ( name == "FocusDec" ) { return QString::number( map()->focus()->dec()->Degrees(), 'f', 6 ); }
+    if ( name == "FocusRA" ) { return QString::number( map()->focus()->ra().Hours(), 'f', 6 ); }
+    if ( name == "FocusDec" ) { return QString::number( map()->focus()->dec().Degrees(), 'f', 6 ); }
 
     KConfigSkeletonItem *it = Options::self()->findItem( name );
     if ( it ) return it->property().toString();
@@ -776,12 +776,12 @@ void KStars::setINDITargetName(const QString &objectName)
     el = prop->findElement("RA");
     if( !el || !el->write_w)
         return;
-    el->write_w->setText(QString::number(target->ra()->Hours()));
+    el->write_w->setText(QString::number(target->ra().Hours()));
 
     el  = prop->findElement("DEC");
     if( !el || !el->write_w)
         return;
-    el->write_w->setText(QString::number(target->dec()->Degrees()));
+    el->write_w->setText(QString::number(target->dec().Degrees()));
 
     prop->newText();
 }

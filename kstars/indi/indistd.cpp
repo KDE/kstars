@@ -5,7 +5,7 @@
     modify it under the terms of the GNU General Public
     License as published by the Free Software Foundation; either
     version 2 of the License, or (at your option) any later version.
-    
+
     2004-01-18: This class handles INDI Standard properties.
  */
 
@@ -56,7 +56,7 @@
 #include <kurl.h>
 #include <kdirlister.h>
 #include <kaction.h>
-#include <kactioncollection.h> 
+#include <kactioncollection.h>
 
 #define STD_BUFFER_SIZ		1024000
 #define FRAME_ILEN		1024
@@ -188,14 +188,14 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 		kDebug() << "Error: Unable to open fits_temp_file";
 		return;
     }
-    
+
     QDataStream out(&fits_temp_file);
 
     for (nr=0; nr < (int) bufferSize; nr += n)
         n = out.writeRawData( (const char *) (buffer+nr), bufferSize - nr);
 
     fits_temp_file.close();
-    
+
     //fwrite( ((unsigned char *) buffer) + nr, 1, bufferSize - nr, fitsTempFile);
     //fclose(fitsTempFile);
 
@@ -292,7 +292,7 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
             return;
         sscanf(el->text.toAscii().data(), "%d%*[^0-9]%d%*[^0-9]%d", &d, &min, &sec);
 		lat.setD(d,min,sec);
-		
+
         ksw->data()->geo()->setLong(lng);
         ksw->data()->geo()->setLat(lat);
 	}
@@ -678,7 +678,7 @@ void INDIStdDevice::createDeviceInit()
             updateTime();
         }
     }
- 
+
     if ( Options::useGeographicUpdate() && Options::useComputerSource())
     {
         prop = dp->findProp("GEOGRAPHIC_COORD");
@@ -831,8 +831,8 @@ void INDIStdDevice::timerDone()
 
     SkyPoint sp = *currentObject;
 
-    kDebug() << "RA: " << currentObject->ra()->toHMSString() << " - DEC: " << currentObject->dec()->toDMSString();
-    kDebug() << "Az: " << currentObject->az()->toHMSString() << " - Alt " << currentObject->alt()->toDMSString();
+    kDebug() << "RA: " << currentObject->ra().toHMSString() << " - DEC: " << currentObject->dec().toDMSString();
+    kDebug() << "Az: " << currentObject->az().toHMSString() << " - Alt "  << currentObject->alt().toDMSString();
 
     if (useJ2000) {
         sp = *currentObject;
@@ -848,12 +848,12 @@ void INDIStdDevice::timerDone()
     DecEle = prop->findElement("DEC");
     if (!DecEle) return;
 
-    RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour())
-                            .arg(sp.ra()->minute())
-                            .arg(sp.ra()->second()));
-    DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree())
-                             .arg(sp.dec()->arcmin())
-                             .arg(sp.dec()->arcsec()));
+    RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra().hour())
+                            .arg(sp.ra().minute())
+                            .arg(sp.ra().second()));
+    DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec().degree())
+                             .arg(sp.dec().arcmin())
+                             .arg(sp.dec().arcsec()));
     prop->newText();
 
 }
@@ -1060,39 +1060,39 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
         case 0:
             if (stdDev->currentObject)
             {
-            	kDebug() << "standard object - RA: " << stdDev->currentObject->ra()->toHMSString()
-            	<< " DEC: " << stdDev->currentObject->dec()->toDMSString();  
+                kDebug() << "standard object - RA: " << stdDev->currentObject->ra().toHMSString()
+                         << " DEC: " << stdDev->currentObject->dec().toDMSString();
                 sp = *stdDev->currentObject;
             }
             else
             {
-                sp = *ksw->map()->clickedPoint();
-                kDebug() << "Skymap click - RA: " << sp.ra()->toHMSString() <<
-                " DEC: " << sp.dec()->toDMSString();
+               sp = *ksw->map()->clickedPoint();
+               kDebug() << "Skymap click - RA: " << sp.ra().toHMSString() <<
+                   " DEC: " << sp.dec().toDMSString();
             }
 
             if (useJ2000)
                 sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
-            RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
-            DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+            RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra().hour()).arg(sp.ra().minute()).arg(sp.ra().second()));
+            DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec().degree()).arg(sp.dec().arcmin()).arg(sp.dec().arcsec()));
 
             break;
 
         case 1:
             if (stdDev->currentObject)
             {
-                sp.setAz(*stdDev->currentObject->az());
-                sp.setAlt(*stdDev->currentObject->alt());
+                sp.setAz( stdDev->currentObject->az());
+                sp.setAlt(stdDev->currentObject->alt());
             }
             else
             {
-                sp.setAz(*ksw->map()->clickedPoint()->az());
-                sp.setAlt(*ksw->map()->clickedPoint()->alt());
+                sp.setAz( ksw->map()->clickedPoint()->az());
+                sp.setAlt(ksw->map()->clickedPoint()->alt());
             }
 
-            AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
-            AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+            AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az().degree()).arg(sp.az().arcmin()).arg(sp.az().arcsec()));
+            AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt().degree()).arg(sp.alt().arcmin()).arg(sp.alt().arcsec()));
 
             break;
         }

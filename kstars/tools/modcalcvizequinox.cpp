@@ -185,7 +185,7 @@ void modCalcEquinox::slotCompute()
     for ( int i=1; i<=dt.date().daysInYear(); i++ ) {
         KSNumbers num( dt.djd() );
         Sun.findPosition( &num );
-        ecl->addPoint( double(i), Sun.dec()->Degrees() );
+        ecl->addPoint( double(i), Sun.dec().Degrees() );
 
         dt = dt.addDays( 1 );
     }
@@ -287,7 +287,7 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
     KSNumbers num( jd3 );
     KSSun Sun;
     Sun.findPosition( &num );
-    y3 = Sun.dec()->Degrees();
+    y3 = Sun.dec().Degrees();
 
     int sgn = 1;
     if ( ! Summer ) sgn = -1; //find minimum if the winter solstice is sought
@@ -299,7 +299,7 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
         y1 = y2;
         y2 = y3;
         Sun.findPosition( &num );
-        y3 = Sun.dec()->Degrees();
+        y3 = Sun.dec().Degrees();
     } while ( y3*sgn > y2*sgn );
 
     //Ok, now y2 is larger(smaller) than both y3 and y1.
@@ -311,14 +311,14 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
     jd2 = jd1 + 0.76394;
     num.updateValues( jd2 );
     Sun.findPosition( &num );
-    y2 = Sun.dec()->Degrees();
+    y2 = Sun.dec().Degrees();
 
     while ( jd3 - jd1 > 0.0005 ) { //sub-minute pecision
         jd4 = jd1 + jd3 - jd2;
 
         num.updateValues( jd4 );
         Sun.findPosition( &num );
-        y4 = Sun.dec()->Degrees();
+        y4 = Sun.dec().Degrees();
 
         if ( y4*sgn > y2*sgn ) { //make jd4 the new center
             if ( jd4 > jd2 ) {

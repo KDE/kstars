@@ -300,10 +300,10 @@ void Execute::slotSetTarget( QString name ) {
         SkyPoint p = currentTarget->recomputeCoords( KStarsDateTime::currentDateTime() , geo );
         dms lst(geo->GSTtoLST( KStarsDateTime::currentDateTime().gst() ));
         p.EquatorialToHorizontal( &lst, geo->lat() );
-        ui.RA->setText( p.ra()->toHMSString() ) ;
-        ui.Dec->setText( p.dec()->toDMSString() );
-        ui.Alt->setText( p.alt()->toDMSString() );
-        ui.Az->setText( p.az()->toDMSString() );
+        ui.RA->setText( p.ra().toHMSString() ) ;
+        ui.Dec->setText( p.dec().toDMSString() );
+        ui.Alt->setText( p.alt().toDMSString() );
+        ui.Az->setText( p.az().toDMSString() );
         ui.Notes->setText( currentTarget->notes() );
     }
 }

@@ -70,8 +70,8 @@ dms SkyLine::angularSize( int i ) const{
 
     SkyPoint *p1 = m_pList[i];
     SkyPoint *p2 = m_pList[i+1];
-    double dalpha = p1->ra()->radians() - p2->ra()->radians();
-    double ddelta = p1->dec()->radians() - p2->dec()->radians() ;
+    double dalpha = p1->ra().radians() - p2->ra().radians();
+    double ddelta = p1->dec().radians() - p2->dec().radians() ;
 
     double sa = sin(dalpha/2.);
     double sd = sin(ddelta/2.);
@@ -79,7 +79,7 @@ dms SkyLine::angularSize( int i ) const{
     double hava = sa*sa;
     double havd = sd*sd;
 
-    double aux = havd + cos (p1->dec()->radians()) * cos(p2->dec()->radians()) * hava;
+    double aux = havd + cos (p1->dec().radians()) * cos(p2->dec().radians()) * hava;
 
     dms angDist;
     angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
@@ -95,8 +95,8 @@ dms SkyLine::positionAngle( int i ) const {
 
     SkyPoint *p1 = m_pList[i];
     SkyPoint *p2 = m_pList[i+1];
-    double dx = p1->ra()->radians() - p2->ra()->radians();
-    double dy = p2->dec()->radians() - p1->dec()->radians();
+    double dx = p1->ra().radians() - p2->ra().radians();
+    double dy = p2->dec().radians() - p1->dec().radians();
 
     return dms( atan2( dy, dx )/dms::DegToRad );
 }

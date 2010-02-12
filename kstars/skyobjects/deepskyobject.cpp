@@ -421,8 +421,8 @@ SkyObject::UID DeepSkyObject::getUID() const
     if( m < 0 ) m = 0;
 
     // Both RA & dec fits in 24-bits
-    SkyObject::UID ra  = ra0()->Degrees() * 36000;
-    SkyObject::UID dec = (ra0()->Degrees()+91) * 36000;
+    SkyObject::UID ra  = ra0().Degrees() * 36000;
+    SkyObject::UID dec = (ra0().Degrees()+91) * 36000;
 
     assert("Magnitude is expected to fit into 10bits" && m>=0 && m<(1<<10));
     assert("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));

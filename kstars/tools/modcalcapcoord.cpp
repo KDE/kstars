@@ -79,8 +79,8 @@ void modCalcApCoord::slotCompute(){
     SkyPoint sp( RACat->createDms(false), DecCat->createDms() );
     sp.apparentCoord(jd0, jd);
 
-    RA->setText( sp.ra()->toHMSString() );
-    Dec->setText( sp.dec()->toDMSString() );
+    RA->setText( sp.ra().toHMSString() );
+    Dec->setText( sp.dec().toDMSString() );
 }
 
 void modCalcApCoord::slotObject() {
@@ -292,7 +292,7 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
         sp = SkyPoint (raB, decB);
         sp.apparentCoord(jd0, jd);
 
-        ostream << sp.ra()->toHMSString() << sp.dec()->toDMSString() << endl;
+        ostream << sp.ra().toHMSString() << sp.dec().toDMSString() << endl;
     }
 
     fOut.close();

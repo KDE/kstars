@@ -54,10 +54,10 @@ public slots:
 private:
 
     void showCoordinates( const KSPlanetBase &ksp );
-    void showHeliocentricEclipticCoords( const dms *hLong, const dms *hLat, double dist);
-    void showGeocentricEclipticCoords( const dms *eLong, const dms *eLat, double r);
-    void showEquatorialCoords( const dms *ra, const dms *dec);
-    void showTopocentricCoords( const dms *az, const dms *el);
+    void showHeliocentricEclipticCoords( const dms& hLong, const dms& hLat, double dist);
+    void showGeocentricEclipticCoords( const dms& eLong, const dms& eLat, double r);
+    void showEquatorialCoords( const dms& ra, const dms& dec);
+    void showTopocentricCoords( const dms& az, const dms& el);
     unsigned int requiredBatchFields();
 
     // void processLines( QTextStream &istream );

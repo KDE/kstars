@@ -72,8 +72,8 @@ FlagManager::FlagManager( QWidget *ks )
         QStandardItem* labelItem = new QStandardItem( m_Ks->data()->skyComposite()->flags()->label( i ) );
         labelItem->setForeground( QBrush( m_Ks->data()->skyComposite()->flags()->labelColor( i ) ) );
 
-        itemList << new QStandardItem( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->toHMSString() ) 
-                << new QStandardItem( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->toDMSString() ) 
+        itemList << new QStandardItem( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->ra0().toHMSString() ) 
+                << new QStandardItem( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0().toDMSString() ) 
                 << new QStandardItem( m_Ks->data()->skyComposite()->flags()->epoch( i ) ) 
                 << new QStandardItem( QIcon( pixmap->fromImage( m_Ks->data()->skyComposite()->flags()->image( i ) ) ), "" ) 
                 << labelItem;
@@ -122,8 +122,8 @@ void FlagManager::slotValidatePoint() {
 
         flagPoint = new SkyPoint( ra, dec );
         line.append(
-                    str.setNum( flagPoint->ra0()->Degrees() ).toAscii() + ' '
-                + str.setNum( flagPoint->dec0()->Degrees() ).toAscii() + ' '
+                    str.setNum( flagPoint->ra0().Degrees() ).toAscii() + ' '
+                + str.setNum( flagPoint->dec0().Degrees() ).toAscii() + ' '
                 + ui->epochBox->text().toAscii() + ' '
                 + ui->flagCombobox->currentText().replace( ' ', '_' ).toAscii() + ' '
                 + ui->flagLabel->text().toAscii() + ' '
@@ -143,8 +143,8 @@ void FlagManager::slotValidatePoint() {
         QStandardItem* labelItem = new QStandardItem( ui->flagLabel->text() );
         labelItem->setForeground( QBrush( ui->labelColorcombo->color() ) );
 
-        itemList << new QStandardItem( flagPoint->ra0()->toHMSString() ) 
-                << new QStandardItem( flagPoint->dec0()->toDMSString() ) 
+        itemList << new QStandardItem( flagPoint->ra0().toHMSString() ) 
+                << new QStandardItem( flagPoint->dec0().toDMSString() ) 
                 << new QStandardItem( ui->epochBox->text() ) 
                 << new QStandardItem( QIcon( pixmap->fromImage( m_Ks->data()->skyComposite()->flags()->image( m_Ks->data()->skyComposite()->flags()->size()-1 ) ) ), "" )
                 << labelItem;
@@ -170,8 +170,8 @@ void FlagManager::slotDeleteFlag() {
 
     for ( i=0; i<m_Ks->data()->skyComposite()->flags()->size(); ++i ) {
         line.append(
-                    str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->ra0()->Degrees() ).toAscii() + ' '
-                + str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0()->Degrees() ).toAscii() + ' '
+                    str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->ra0().Degrees() ).toAscii() + ' '
+                + str.setNum( m_Ks->data()->skyComposite()->flags()->pointList().at( i )->dec0().Degrees() ).toAscii() + ' '
                 + m_Ks->data()->skyComposite()->flags()->epoch( i ).toAscii() + ' '
                 + m_Ks->data()->skyComposite()->flags()->imageName( i ).replace( ' ', '_' ).toAscii() + ' '
                 + m_Ks->data()->skyComposite()->flags()->label( i ).toAscii() + ' '

@@ -121,11 +121,11 @@ void InfoBoxWidget::setPoint(QString name, SkyPoint* p) {
     m_strings.clear();
     m_strings << name;
     m_strings <<
-        i18nc( "Right Ascension", "RA" ) + ": " + p->ra()->toHMSString() + "  " +
-        i18nc( "Declination", "Dec" )    + ": " + p->dec()->toDMSString(true);
+        i18nc( "Right Ascension", "RA" ) + ": " + p->ra().toHMSString() + "  " +
+        i18nc( "Declination", "Dec" )    + ": " + p->dec().toDMSString(true);
     m_strings <<
-        i18nc( "Azimuth", "Az" )   + ": " + p->az()->toDMSString(true) + "  " +
-        i18nc( "Altitude", "Alt" ) + ": " + p->alt()->toDMSString(true);
+        i18nc( "Azimuth", "Az" )   + ": " + p->az().toDMSString(true) + "  " +
+        i18nc( "Altitude", "Alt" ) + ": " + p->alt().toDMSString(true);
     updateSize();
     update();
 }

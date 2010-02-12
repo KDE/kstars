@@ -567,8 +567,8 @@ void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList,
 
     //select by rectangular region
     else if ( isItemSelected( i18n("in a rectangular region"), olw->RegionList ) ) {
-        double ra = o->ra()->Hours();
-        double dec = o->dec()->Degrees();
+        double ra = o->ra().Hours();
+        double dec = o->dec().Degrees();
         bool addObject = false;
         if ( dec >= yRect1 && dec <= yRect2 ) {
             if ( xRect1 < 0.0 ) {
@@ -611,7 +611,7 @@ void ObsListWizard::applyObservableFilter( SkyObject *o, bool doBuildList, bool 
     for ( KStarsDateTime t = Evening; t < Midnight; t = t.addSecs( 3600.0 ) ) {
         dms LST = geo->GSTtoLST( t.gst() );
         p.EquatorialToHorizontal( &LST, geo->lat() );
-        if ( p.alt()->Degrees() > 15.0 )
+        if ( p.alt().Degrees() > 15.0 )
             visible = true;
     }
 

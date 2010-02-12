@@ -72,17 +72,17 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
     p1.apparentCoord( now, J2000 );
 
     if ( radius == 1.0 ) {
-        printf("\n ra0 = %8.4f   dec0 = %8.4f\n", p0->ra()->Degrees(), p0->dec()->Degrees() );
-        printf(" ra1 = %8.4f   dec1 = %8.4f\n", p1.ra()->Degrees(), p1.dec()->Degrees() );
+        printf("\n ra0 = %8.4f   dec0 = %8.4f\n", p0->ra().Degrees(), p0->dec().Degrees() );
+        printf(" ra1 = %8.4f   dec1 = %8.4f\n", p1.ra().Degrees(), p1.dec().Degrees() );
 
         SkyPoint p2 = p1;
         p2.updateCoords( data->updateNum() );
-        printf(" ra2 = %8.4f  dec2 = %8.4f\n", p2.ra()->Degrees(), p2.dec()->Degrees() );
+        printf(" ra2 = %8.4f  dec2 = %8.4f\n", p2.ra().Degrees(), p2.dec().Degrees() );
         printf("p0 - p1 = %6.4f degrees\n", p0->angularDistanceTo( &p1 ).Degrees() );
         printf("p0 - p2 = %6.4f degrees\n", p0->angularDistanceTo( &p2 ).Degrees() );
     }
 
-    HTMesh::intersect( p1.ra()->Degrees(), p1.dec()->Degrees(), radius, (BufNum) bufNum);
+    HTMesh::intersect( p1.ra().Degrees(), p1.dec().Degrees(), radius, (BufNum) bufNum);
     m_drawID++;
 
     return;
@@ -98,7 +98,7 @@ bool SkyMesh::isZoomedIn( int percent )
 
 Trixel SkyMesh::index(SkyPoint *p)
 {
-    return HTMesh::index( p->ra0()->Degrees(), p->dec0()->Degrees() );
+    return HTMesh::index( p->ra0().Degrees(), p->dec0().Degrees() );
 }
 
 Trixel SkyMesh::indexStar( StarObject *star )
@@ -119,7 +119,7 @@ void SkyMesh::indexStar( StarObject* star1, StarObject* star2 )
 
 void SkyMesh::index(SkyPoint *p, double radius, MeshBufNum_t bufNum )
 {
-    HTMesh::intersect( p->ra()->Degrees(), p->dec()->Degrees(), radius, (BufNum) bufNum );
+    HTMesh::intersect( p->ra().Degrees(), p->dec().Degrees(), radius, (BufNum) bufNum );
 
     return;
     if ( m_inDraw && bufNum != DRAW_BUF )
@@ -128,23 +128,23 @@ void SkyMesh::index(SkyPoint *p, double radius, MeshBufNum_t bufNum )
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2 )
 {
-    HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
-                       p2->ra0()->Degrees(), p2->dec0()->Degrees() );
+    HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
+                       p2->ra0().Degrees(), p2->dec0().Degrees() );
 }
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3 )
 {
-    HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
-                       p2->ra0()->Degrees(), p2->dec0()->Degrees(),
-                       p3->ra0()->Degrees(), p3->dec0()->Degrees() );
+    HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
+                       p2->ra0().Degrees(), p2->dec0().Degrees(),
+                       p3->ra0().Degrees(), p3->dec0().Degrees() );
 }
 
 void SkyMesh::index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3, SkyPoint* p4 )
 {
-    HTMesh::intersect( p1->ra0()->Degrees(), p1->dec0()->Degrees(),
-                       p2->ra0()->Degrees(), p2->dec0()->Degrees(),
-                       p3->ra0()->Degrees(), p3->dec0()->Degrees(),
-                       p4->ra0()->Degrees(), p4->dec0()->Degrees() );
+    HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
+                       p2->ra0().Degrees(), p2->dec0().Degrees(),
+                       p3->ra0().Degrees(), p3->dec0().Degrees(),
+                       p4->ra0().Degrees(), p4->dec0().Degrees() );
 }
 
 void SkyMesh::index( const QPointF &p1, const QPointF &p2, const QPointF &p3 )
@@ -215,10 +215,10 @@ const IndexHash& SkyMesh::indexLine( SkyList* points, IndexHash* skip )
 
         if ( region.size() > errLimit ) {
             printf("\nSkyMesh::indexLine: too many trixels: %d\n", region.size() );
-            printf("    ra1  = %f;\n", pThis->ra0()->Degrees());
-            printf("    ra2  = %f;\n", pLast->ra0()->Degrees());
-            printf("    dec1 = %f;\n", pThis->dec0()->Degrees());
-            printf("    dec2 = %f;\n", pLast->dec0()->Degrees());
+            printf("    ra1  = %f;\n", pThis->ra0().Degrees());
+            printf("    ra2  = %f;\n", pLast->ra0().Degrees());
+            printf("    dec1 = %f;\n", pThis->dec0().Degrees());
+            printf("    dec2 = %f;\n", pLast->dec0().Degrees());
             HTMesh::setDebug( 10 );
             index( pThis, pLast );
             HTMesh::setDebug ( 0 );
@@ -270,17 +270,17 @@ const IndexHash& SkyMesh::indexPoly( SkyList *points )
         if ( region.size() > errLimit ) {
             printf("\nSkyMesh::indexPoly: too many trixels: %d\n", region.size() );
 
-            printf("    ra1 = %f;\n", startP->ra0()->Degrees());
-            printf("    ra2 = %f;\n", points->at(p)->ra0()->Degrees());
-            printf("    ra3 = %f;\n", points->at(p+1)->ra0()->Degrees());
+            printf("    ra1 = %f;\n", startP->ra0().Degrees());
+            printf("    ra2 = %f;\n", points->at(p)->ra0().Degrees());
+            printf("    ra3 = %f;\n", points->at(p+1)->ra0().Degrees());
             if ( p < end )
-                printf("    ra4 = %f;\n", points->at(p+2)->ra0()->Degrees());
+                printf("    ra4 = %f;\n", points->at(p+2)->ra0().Degrees());
 
-            printf("    dec1 = %f;\n", startP->dec0()->Degrees());
-            printf("    dec2 = %f;\n", points->at(p)->dec0()->Degrees());
-            printf("    dec3 = %f;\n", points->at(p+1)->dec0()->Degrees());
+            printf("    dec1 = %f;\n", startP->dec0().Degrees());
+            printf("    dec2 = %f;\n", points->at(p)->dec0().Degrees());
+            printf("    dec3 = %f;\n", points->at(p+1)->dec0().Degrees());
             if ( p < end )
-                printf("    dec4 = %f;\n", points->at(p+2)->dec0()->Degrees());
+                printf("    dec4 = %f;\n", points->at(p+2)->dec0().Degrees());
 
             printf("\n");
 
@@ -367,7 +367,7 @@ void SkyMesh::draw(QPainter& psky, MeshBufNum_t bufNum)
 const SkyRegion& SkyMesh::skyRegion( const SkyPoint& _p1, const SkyPoint& _p2 )
 {
     SkyPoint p1( _p1 ), p2( _p2 );
-    SkyPoint p3( *p1.ra(), *p2.dec() ), p4( *p2.ra(), *p1.dec() );
+    SkyPoint p3( p1.ra(), p2.dec() ), p4( p2.ra(), p1.dec() );
     SkyList skylist;
     skylist << &p1 << &p2 << &p3 << &p4;
     return indexPoly( &skylist );

@@ -72,7 +72,7 @@ namespace {
         if ( t.isValid() )
             //We can round to the nearest minute by simply adding 30 seconds to the time.
             return i18n( "Rise time: %1", KGlobal::locale()->formatTime( t.addSecs(30) ) );
-        if ( o->alt()->Degrees() > 0 )
+        if ( o->alt().Degrees() > 0 )
             return i18n( "No rise time: Circumpolar" );
         else
             return i18n( "No rise time: Never rises" );

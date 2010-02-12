@@ -174,16 +174,16 @@ void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const d
     u = atan( 0.996647*tan( lat->radians() ) );
     rsinp = 0.996647*sin( u );
     rcosp = cos( u );
-    HA.setD( LST->Degrees() - ra()->Degrees() );
+    HA.setD( LST->Degrees() - ra().Degrees() );
     HA.SinCos( sinHA, cosHA );
-    dec()->SinCos( sinDec, cosDec );
+    dec().SinCos( sinDec, cosDec );
 
     D = atan2( rcosp*sinHA, r*cosDec/6378.14 - rcosp*cosHA );
     dms temp;
-    temp.setRadians( ra()->radians() - D );
+    temp.setRadians( ra().radians() - D );
     setRA( temp );
 
-    HA2.setD( LST->Degrees() - ra()->Degrees() );
+    HA2.setD( LST->Degrees() - ra().Degrees() );
     cosHA2 = cos( HA2.radians() );
 
     //temp.setRadians( atan2( cosHA2*( r*sinDec/6378.14 - rsinp ), r*cosDec*cosHA/6378.14 - rcosp ) );
@@ -193,15 +193,15 @@ void KSPlanetBase::localizeCoords( const KSNumbers *num, const dms *lat, const d
     setDec( temp );
 
     //Make sure Dec is between -90 and +90
-    if ( dec()->Degrees() > 90.0 ) {
-        setDec( 180.0 - dec()->Degrees() );
-        setRA( ra()->Hours() + 12.0 );
-        ra()->reduce();
+    if ( dec().Degrees() > 90.0 ) {
+        setDec( 180.0 - dec().Degrees() );
+        setRA( ra().Hours() + 12.0 );
+        ra().reduce();
     }
-    if ( dec()->Degrees() < -90.0 ) {
-        setDec( 180.0 + dec()->Degrees() );
-        setRA( ra()->Hours() + 12.0 );
-        ra()->reduce();
+    if ( dec().Degrees() < -90.0 ) {
+        setDec( 180.0 + dec().Degrees() );
+        setRA( ra().Hours() + 12.0 );
+        ra().reduce();
     }
 
     EquatorialToEcliptic( num->obliquity() );
@@ -253,8 +253,8 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     SkyPoint test;
     dms newELat( ecLat()->Degrees() + 1.0 );
     test.setFromEcliptic( num->obliquity(), ecLong(), &newELat );
-    double dx = ra()->Degrees() - test.ra()->Degrees(); 
-    double dy = test.dec()->Degrees() - dec()->Degrees();
+    double dx = ra().Degrees() - test.ra().Degrees(); 
+    double dy = test.dec().Degrees() - dec().Degrees();
     double pa;
     if ( dy ) {
         pa = atan2( dx, dy )*180.0/dms::PI;

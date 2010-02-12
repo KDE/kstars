@@ -109,8 +109,8 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
     KStarsDateTime dt2 = dt;
     dms lst(geo->GSTtoLST( dt.gst() ));
     p.EquatorialToHorizontal( &lst, geo->lat() );
-    if ( p.alt()->Degrees() < 0.0 ) {
-        if ( p.az()->Degrees() < 180.0 ) { //object has not risen yet
+    if ( p.alt().Degrees() < 0.0 ) {
+        if ( p.az().Degrees() < 180.0 ) { //object has not risen yet
             dt2 = dt.addSecs( 12.*3600. ); // Move forward 12 hours, to a time when it has already risen
         } else { //object has already set
             dt2 = dt.addSecs( -12.*3600. ); // Move backward 12 hours, to a time when it has not yet set
@@ -126,7 +126,7 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
 
 QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT, bool exact ) {
     // First trial to calculate UT
-    QTime UT = auxRiseSetTimeUT( dt, geo, ra(), dec(), riseT );
+    QTime UT = auxRiseSetTimeUT( dt, geo, &ra(), &dec(), riseT );
 
     // We iterate once more using the calculated UT to compute again
     // the ra and dec for that time and hence the rise/set time.
@@ -148,14 +148,14 @@ QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     }
 
     SkyPoint sp = recomputeCoords( dt0, geo );
-    UT = auxRiseSetTimeUT( dt0, geo, sp.ra(), sp.dec(), riseT );
+    UT = auxRiseSetTimeUT( dt0, geo, &sp.ra(), &sp.dec(), riseT );
 
     if ( exact ) {
         // We iterate a second time (For the Moon the second iteration changes
         // aprox. 1.5 arcmin the coordinates).
         dt0.setTime( UT );
         sp = recomputeCoords( dt0, geo );
-        UT = auxRiseSetTimeUT( dt0, geo, sp.ra(), sp.dec(), riseT );
+        UT = auxRiseSetTimeUT( dt0, geo, &sp.ra(), &sp.dec(), riseT );
     }
 
     return UT;
@@ -191,14 +191,12 @@ dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, 
     KStarsDateTime dt0 = dt;
     dt0.setTime( UT );
     SkyPoint sp = recomputeCoords( dt0, geo );
-    const dms *ram = sp.ra0();
-    const dms *decm = sp.dec0();
 
-    dms LST = auxRiseSetTimeLST( geo->lat(), ram, decm, riseT );
-    dms HourAngle = dms( LST.Degrees() - ram->Degrees() );
+    dms LST = auxRiseSetTimeLST( geo->lat(), &sp.ra0(), &sp.dec0(), riseT );
+    dms HourAngle = dms( LST.Degrees() - sp.ra0().Degrees() );
 
     geo->lat()->SinCos( sinlat, coslat );
-    dec()->SinCos( sindec, cosdec );
+    dec().SinCos( sindec, cosdec );
     HourAngle.SinCos( sinHA, cosHA );
 
     sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
@@ -216,7 +214,7 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     dms LST = geo->GSTtoLST( dt.gst() );
 
     //dSec is the number of seconds until the object transits.
-    dms HourAngle = dms( LST.Degrees() - ra()->Degrees() );
+    dms HourAngle = dms( LST.Degrees() - ra().Degrees() );
     int dSec = int( -3600.*HourAngle.Hours() );
 
     //dt0 is the first guess at the transit time.
@@ -225,9 +223,8 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     //recompute object's position at UT0 and then find
     //transit time of this refined position
     SkyPoint sp = recomputeCoords( dt0, geo );
-    const dms *ram = sp.ra0();
 
-    HourAngle = dms ( LST.Degrees() - ram->Degrees() );
+    HourAngle = dms ( LST.Degrees() - sp.ra0().Degrees() );
     dSec = int( -3600.*HourAngle.Hours() );
 
     return dt.addSecs( dSec ).time();
@@ -242,7 +239,7 @@ dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo
     dt0.setTime( transitTimeUT( dt, geo ) );
     SkyPoint sp = recomputeCoords( dt0, geo );
 
-    double delta = 90 - geo->lat()->Degrees() + sp.dec()->Degrees();
+    double delta = 90 - geo->lat()->Degrees() + sp.dec().Degrees();
     if( delta > 90 )
         delta = 180 - delta;
     return dms(delta);
@@ -305,8 +302,8 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
     SkyPoint sp = *this;
 
     // restore original coords
-    setRA( original.ra()->Hours() );
-    setDec( original.dec()->Degrees() );
+    setRA( original.ra().Hours() );
+    setDec( original.dec().Degrees() );
 
     return sp;
 }

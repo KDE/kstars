@@ -61,10 +61,10 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
     double sinAlt, cosAlt;
 
-    dms HourAngle = LST->Degrees() - ra()->Degrees();
+    dms HourAngle = LST->Degrees() - ra().Degrees();
 
     lat->SinCos( sinlat, coslat );
-    dec()->SinCos( sindec, cosdec );
+    dec().SinCos( sindec, cosdec );
     HourAngle.SinCos( sinHA, cosHA );
 
     sinAlt = sindec*sinlat + cosdec*coslat*cosHA;
@@ -108,7 +108,7 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
     double sinDec, cosDec;
 
     lat->SinCos( sinlat, coslat );
-    alt()->SinCos( sinAlt, cosAlt );
+    alt().SinCos( sinAlt, cosAlt );
     Az.SinCos( sinAz,  cosAz );
 
     sinDec = sinAlt*sinlat + cosAlt*coslat*cosAz;
@@ -141,8 +141,8 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
 
 void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
     double sinRA, cosRA, sinOb, cosOb, sinDec, cosDec, tanDec;
-    ra()->SinCos( sinRA, cosRA );
-    dec()->SinCos( sinDec, cosDec );
+    ra().SinCos( sinRA, cosRA );
+    dec().SinCos( sinDec, cosDec );
     Obliquity->SinCos( sinOb, cosOb );
 
     tanDec = sinDec/cosDec;                    // FIXME: -jbb div by zero?
@@ -231,8 +231,8 @@ SkyPoint SkyPoint::moveAway( SkyPoint &from, double dist ){
     double dst = fabs( dist * dms::DegToRad / 3600.0 ); // In radian
     
     // Compute the bearing angle w.r.t. the RA axis ("latitude")
-    dms dRA( ra()->Degrees() - from.ra()->Degrees() );
-    dms dDec( dec()->Degrees() - from.dec()->Degrees() );
+    dms dRA( ra().Degrees() - from.ra().Degrees() );
+    dms dDec( dec().Degrees() - from.dec().Degrees() );
     double bearing = atan2( dRA.sin() / dRA.cos(), dDec.sin() ); // Do not use dRA = PI / 2!!
     //double bearing = atan2( dDec.radians() , dRA.radians() );
     
@@ -240,12 +240,12 @@ SkyPoint SkyPoint::moveAway( SkyPoint &from, double dist ){
     dist = fabs( dist ); // in radian
 
 
-    lat1.setRadians( asin( dec()->sin() * cos( dst ) +
-                           dec()->cos() * sin( dst ) * cos( dir0 ) ) );
-    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec()->cos(),
-                              cos( dst ) - dec()->sin() * lat1.sin() ) );
+    lat1.setRadians( asin( dec().sin() * cos( dst ) +
+                           dec().cos() * sin( dst ) * cos( dir0 ) ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec().cos(),
+                              cos( dst ) - dec().sin() * lat1.sin() ) );
     
-    dms finalRA( ra()->Degrees() + dtheta.Degrees() );
+    dms finalRA( ra().Degrees() + dtheta.Degrees() );
     return SkyPoint( finalRA, lat1 );
 }
 
@@ -274,8 +274,8 @@ bool SkyPoint::bendlight() {
         Q_ASSERT( corr_sec > 0 );
         
         sp = moveAway( sp, corr_sec );
-        setRA( *sp.ra() );
-        setDec( *sp.dec() );
+        setRA(  sp.ra() );
+        setDec( sp.dec() );
         return true;
     }
     return false;
@@ -566,8 +566,8 @@ void SkyPoint::addEterms(void) {
 
     SkyPoint spd = Eterms();
 
-    RA.setD( RA.Degrees() + spd.ra()->Degrees() );
-    Dec.setD( Dec.Degrees() + spd.dec()->Degrees() );
+    RA.setD( RA.Degrees() + spd.ra().Degrees() );
+    Dec.setD( Dec.Degrees() + spd.dec().Degrees() );
 
 }
 
@@ -575,14 +575,14 @@ void SkyPoint::subtractEterms(void) {
 
     SkyPoint spd = Eterms();
 
-    RA.setD( RA.Degrees() - spd.ra()->Degrees() );
-    Dec.setD( Dec.Degrees() - spd.dec()->Degrees() );
+    RA.setD( RA.Degrees() - spd.ra().Degrees() );
+    Dec.setD( Dec.Degrees() - spd.dec().Degrees() );
 }
 
 dms SkyPoint::angularDistanceTo(const SkyPoint *sp) {
 
-    double dalpha = ra()->radians() - sp->ra()->radians() ;
-    double ddelta = dec()->radians() - sp->dec()->radians() ;
+    double dalpha = ra().radians() - sp->ra().radians() ;
+    double ddelta = dec().radians() - sp->dec().radians() ;
 
     double sa = sin(dalpha/2.);
     double sd = sin(ddelta/2.);
@@ -590,7 +590,7 @@ dms SkyPoint::angularDistanceTo(const SkyPoint *sp) {
     double hava = sa*sa;
     double havd = sd*sd;
 
-    double aux = havd + cos (dec()->radians()) * cos(sp->dec()->radians())
+    double aux = havd + cos (dec().radians()) * cos(sp->dec().radians())
                  * hava;
 
     dms angDist;
@@ -623,8 +623,8 @@ double SkyPoint::vRSun(long double jd0) {
 
     aux.precessFromAnyEpoch(jd0, J2000);
 
-    aux.ra()->SinCos( sinRA, cosRA );
-    aux.dec()->SinCos( sinDec, cosDec );
+    aux.ra().SinCos( sinRA, cosRA );
+    aux.dec().SinCos( sinDec, cosDec );
 
     /* Computation is done performing the scalar product of a unitary vector
     in the direction of the source with the vector velocity of Sun, both being in the
@@ -671,8 +671,8 @@ double SkyPoint::vREarth(long double jd0)
 
     aux.precessFromAnyEpoch(jd0, J2000);
 
-    aux.ra()->SinCos( sinRA, cosRA );
-    aux.dec()->SinCos( sinDec, cosDec );
+    aux.ra().SinCos( sinRA, cosRA );
+    aux.dec().SinCos( sinDec, cosDec );
 
     /* vEarth is referred to the J2000 equinox, hence we need that
     the source coordinates are also in the same reference system.
@@ -717,7 +717,7 @@ double SkyPoint::vTopocentric(double vgeo, double vsite[3])
 }
 
 bool SkyPoint::checkCircumpolar( const dms *gLat ) {
-    return fabs(dec()->Degrees())  >  (90 - fabs(gLat->Degrees()));
+    return fabs(dec().Degrees())  >  (90 - fabs(gLat->Degrees()));
 }
 
 

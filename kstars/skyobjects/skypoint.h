@@ -187,40 +187,26 @@ public:
     //// 2. Returning coordinates.
     //// =========================
 
-    /**@return a pointer to the catalog Right Ascension.
-    	*/
-    inline const dms* ra0() const { return &RA0; }
+    /**@return a pointer to the catalog Right Ascension. */
+    inline const dms& ra0() const { return RA0; }
 
-    /**@return a pointer to the catalog Declination.
-    	*/
-    inline const dms* dec0() const { return &Dec0; }
+    /**@return a pointer to the catalog Declination. */
+    inline const dms& dec0() const { return Dec0; }
 
-    /**@returns a pointer to the current Right Ascension.
-    	*/
-    inline const dms* ra() const { return &RA; }
+    /**@returns a pointer to the current Right Ascension. */
+    inline const dms& ra() const { return RA; }
 
-    /**@return a pointer to the current Declination.
-    	*/
-    inline const dms* dec() const { return &Dec; }
+    /**@return a pointer to the current Declination. */
+    inline const dms& dec() const { return Dec; }
 
-    /**@return a pointer to the current Azimuth.
-    	*/
-    inline const dms* az() const { return &Az; }
+    /**@return a pointer to the current Azimuth. */
+    inline const dms& az() const { return Az; }
 
-    /**@return a pointer to the current Altitude.
-    	*/
-    inline const dms* alt() const { return &Alt; }
-
-    /**@return a pointer to the current galactic latitude.
-    	*/
-    //	const dms* gLat() const { return &galLat; }
-
-    /**@return a pointer to the current galactic longitude.
-    	*/
-    //	const dms* gLong() const { return &galLong; }
+    /**@return a pointer to the current Altitude. */
+    inline const dms& alt() const { return Alt; }
 
     //XYZ
-    inline const Quaternion quat() const { return m_q; }
+    inline const Quaternion& quat() const { return m_q; }
     void syncQuaternion();
 
     ////
@@ -387,7 +373,7 @@ public:
      **/
     dms angularDistanceTo(const SkyPoint *sp);
 
-    inline bool operator == ( SkyPoint &p ) { return ( ra()->Degrees() == p.ra()->Degrees() && dec()->Degrees() == p.dec()->Degrees() ); }
+    inline bool operator == ( SkyPoint &p ) { return ( ra() == p.ra() && dec() == p.dec() ); }
 
     /** Computes the velocity of the Sun projected on the direction of the source.
      *

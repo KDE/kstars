@@ -81,10 +81,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     switch ( e->key() ) {
     case Qt::Key_Left :
         if ( Options::useAltAz() ) {
-            focus()->setAz( dms( focus()->az()->Degrees() - step * MINZOOM/Options::zoomFactor() ).reduce() );
+            focus()->setAz( dms( focus()->az().Degrees() - step * MINZOOM/Options::zoomFactor() ).reduce() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
-            focus()->setRA( focus()->ra()->Hours() + 0.05*step * MINZOOM/Options::zoomFactor() );
+            focus()->setRA( focus()->ra().Hours() + 0.05*step * MINZOOM/Options::zoomFactor() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
@@ -95,10 +95,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_Right :
         if ( Options::useAltAz() ) {
-            focus()->setAz( dms( focus()->az()->Degrees() + step * MINZOOM/Options::zoomFactor() ).reduce() );
+            focus()->setAz( dms( focus()->az().Degrees() + step * MINZOOM/Options::zoomFactor() ).reduce() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
-            focus()->setRA( focus()->ra()->Hours() - 0.05*step * MINZOOM/Options::zoomFactor() );
+            focus()->setRA( focus()->ra().Hours() - 0.05*step * MINZOOM/Options::zoomFactor() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
@@ -109,12 +109,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_Up :
         if ( Options::useAltAz() ) {
-            focus()->setAlt( focus()->alt()->Degrees() + step * MINZOOM/Options::zoomFactor() );
-            if ( focus()->alt()->Degrees() > 90.0 ) focus()->setAlt( 90.0 );
+            focus()->setAlt( focus()->alt().Degrees() + step * MINZOOM/Options::zoomFactor() );
+            if ( focus()->alt().Degrees() > 90.0 ) focus()->setAlt( 90.0 );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
-            focus()->setDec( focus()->dec()->Degrees() + step * MINZOOM/Options::zoomFactor() );
-            if (focus()->dec()->Degrees() > 90.0) focus()->setDec( 90.0 );
+            focus()->setDec( focus()->dec().Degrees() + step * MINZOOM/Options::zoomFactor() );
+            if (focus()->dec().Degrees() > 90.0) focus()->setDec( 90.0 );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
@@ -125,12 +125,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     case Qt::Key_Down:
         if ( Options::useAltAz() ) {
-            focus()->setAlt( focus()->alt()->Degrees() - step * MINZOOM/Options::zoomFactor() );
-            if ( focus()->alt()->Degrees() < -90.0 ) focus()->setAlt( -90.0 );
+            focus()->setAlt( focus()->alt().Degrees() - step * MINZOOM/Options::zoomFactor() );
+            if ( focus()->alt().Degrees() < -90.0 ) focus()->setAlt( -90.0 );
             focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
         } else {
-            focus()->setDec( focus()->dec()->Degrees() - step * MINZOOM/Options::zoomFactor() );
-            if (focus()->dec()->Degrees() < -90.0) focus()->setDec( -90.0 );
+            focus()->setDec( focus()->dec().Degrees() - step * MINZOOM/Options::zoomFactor() );
+            if (focus()->dec().Degrees() < -90.0) focus()->setDec( -90.0 );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
@@ -345,8 +345,8 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         {
             for ( double alt=-0.5; alt<30.5; alt+=1.0 ) {
                 dms a( alt );
-                dms b( refract( &a, true ) ); //find apparent alt from true alt
-                dms c( refract( &b, false ) );
+                dms b( refract( a, true ) ); //find apparent alt from true alt
+                dms c( refract( b, false ) );
 
                 kDebug() << a.toDMSString() << b.toDMSString() << c.toDMSString();
             }
@@ -391,14 +391,14 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         kDebug() << "Create a skyline: ";
         SkyLine sl( SkyPoint( 12.34, 33.50 ), SkyPoint( 14.00, 40.00 ) );
         kDebug() << "  " << sl.points().size() << " :: "
-        << sl.point(0)->ra()->toHMSString() << " : " 
-        << sl.point(1)->ra()->toHMSString() << endl;
+        << sl.point(0)->ra().toHMSString() << " : " 
+        << sl.point(1)->ra().toHMSString() << endl;
 
         SkyPoint p( 11.75, 30.25 );
         sl.setPoint( 1, &p );
         kDebug() << "  " << sl.points().size() << " :: "
-        << sl.point(0)->ra()->toHMSString() << " : " 
-        << sl.point(1)->ra()->toHMSString() << endl;
+        << sl.point(0)->ra().toHMSString() << " : " 
+        << sl.point(1)->ra().toHMSString() << endl;
             break;
         **/
         /*
@@ -417,7 +417,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         return;
     }
 
-    double dHA = data->lst()->Hours() - focus()->ra()->Hours();
+    double dHA = data->lst()->Hours() - focus()->ra().Hours();
     while ( dHA < 0.0 ) dHA += 24.0;
     HourAngle.setH( dHA );
 
@@ -467,7 +467,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
         scrollCount = 0;
 
         if ( Options::useAltAz() )
-            setDestinationAltAz( focus()->alt()->Degrees(), focus()->az()->Degrees() );
+            setDestinationAltAz( focus()->alt().Degrees(), focus()->az().Degrees() );
         else
             setDestination( focus() );
 
@@ -550,26 +550,26 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         if ( Options::useAltAz() ) {
             mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            dms dAz = mousePoint()->az()->Degrees() - clickedPoint()->az()->Degrees();
-            dms dAlt = mousePoint()->alt()->Degrees() - clickedPoint()->alt()->Degrees();
-            focus()->setAz(  focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
-            focus()->setAlt( focus()->alt()->Degrees() - dAlt.Degrees() );
+            dms dAz = mousePoint()->az().Degrees() - clickedPoint()->az().Degrees();
+            dms dAlt = mousePoint()->alt().Degrees() - clickedPoint()->alt().Degrees();
+            focus()->setAz(  focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
+            focus()->setAlt( focus()->alt().Degrees() - dAlt.Degrees() );
 
-            if( focus()->alt()->Degrees() > 90.0 )
+            if( focus()->alt().Degrees() > 90.0 )
                 focus()->setAlt( 90.0 );
-            if( focus()->alt()->Degrees() < -90.0 )
+            if( focus()->alt().Degrees() < -90.0 )
                 focus()->setAlt( -90.0 );
-            focus()->setAz( focus()->az()->reduce() );
+            focus()->setAz( focus()->az().reduce() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
-            dms dRA = mousePoint()->ra()->Degrees() - clickedPoint()->ra()->Degrees();
-            dms dDec = mousePoint()->dec()->Degrees() - clickedPoint()->dec()->Degrees();
-            focus()->setRA( focus()->ra()->Hours() - dRA.Hours() ); //move focus in opposite direction
-            focus()->setDec( focus()->dec()->Degrees() - dDec.Degrees() );
+            dms dRA = mousePoint()->ra().Degrees() - clickedPoint()->ra().Degrees();
+            dms dDec = mousePoint()->dec().Degrees() - clickedPoint()->dec().Degrees();
+            focus()->setRA( focus()->ra().Hours() - dRA.Hours() ); //move focus in opposite direction
+            focus()->setDec( focus()->dec().Degrees() - dDec.Degrees() );
 
-            if ( focus()->dec()->Degrees() >90.0 ) focus()->setDec( 90.0 );
-            if ( focus()->dec()->Degrees() <-90.0 ) focus()->setDec( -90.0 );
-            focus()->setRA( focus()->ra()->reduce() );
+            if ( focus()->dec().Degrees() >90.0 ) focus()->setDec( 90.0 );
+            if ( focus()->dec().Degrees() <-90.0 ) focus()->setDec( -90.0 );
+            focus()->setRA( focus()->ra().reduce() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
@@ -579,7 +579,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             scrollCount = 0;
         }
 
-        double dHA = data->lst()->Hours() - focus()->ra()->Hours();
+        double dHA = data->lst()->Hours() - focus()->ra().Hours();
         while ( dHA < 0.0 ) dHA += 24.0;
         HourAngle.setH( dHA );
 
@@ -631,7 +631,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
             slewing = false;
 
             if ( Options::useAltAz() )
-                setDestinationAltAz( focus()->alt()->Degrees(), focus()->az()->Degrees() );
+                setDestinationAltAz( focus()->alt().Degrees(), focus()->az().Degrees() );
             else
                 setDestination( focus() );
         }
@@ -703,7 +703,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                 if( clickedObject() ) {
                     clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
                 } else {
-                    SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
+                    SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra().Hours(), clickedPoint()->dec().Degrees() );
                     pmenu->createEmptyMenu( &o );
                     pmenu->popup( QCursor::pos() );
                 }

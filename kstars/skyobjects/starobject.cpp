@@ -365,14 +365,14 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
     // Correction:  The method below computes the proper motion before the
     // precession.  If we precessed first then the direction of the proper
     // motion correction would depend on how far we've precessed.  -jbb
-    double saveRA = ra0()->Hours();
-    double saveDec = dec0()->Degrees();
+    double saveRA = ra0().Hours();
+    double saveDec = dec0().Degrees();
 
     double newRA, newDec;
 
     // Old, Incorrect Proper motion Computation:
-    //    setRA0( ra0()->Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0()->radians() ) * 3600.) );
-    //    setDec0( dec0()->Degrees() + pmDec()*num->julianMillenia() / 3600. );
+    //    setRA0( ra0().Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0().radians() ) * 3600.) );
+    //    setDec0( dec0().Degrees() + pmDec()*num->julianMillenia() / 3600. );
 
     getIndexCoords( num, &newRA, &newDec );
     newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
@@ -388,7 +388,7 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 {
 
     // Old, Incorrect Proper motion Computation:
-    //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0()->radians() ) * 3600.0 );
+    //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
     //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
 
     // Proper Motion Correction should be implemented as motion along a great 
@@ -402,22 +402,22 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     ( pm < 0 ) && ( pm = -pm );
 
     double dst = pm * M_PI / ( 180.0 * 3600.0 );
-    //    double phi = M_PI / 2.0 - dec0()->radians();
+    //    double phi = M_PI / 2.0 - dec0().radians();
 
     dms lat1, dtheta;
-    lat1.setRadians( asin( dec0()->sin() * cos( dst ) +
-                           dec0()->cos() * sin( dst ) * cos( dir0 ) ) );
-    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec0()->cos(),
-                              cos( dst ) - dec0()->sin() * lat1.sin() ) );
+    lat1.setRadians( asin( dec0().sin() * cos( dst ) +
+                           dec0().cos() * sin( dst ) * cos( dir0 ) ) );
+    dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec0().cos(),
+                              cos( dst ) - dec0().sin() * lat1.sin() ) );
 
     // Using dms instead, to ensure that the numbers are in the right range.
-    dms finalRA( ra0()->Degrees() + dtheta.Degrees() );
+    dms finalRA( ra0().Degrees() + dtheta.Degrees() );
 
     *ra = finalRA.Degrees();
     *dec = lat1.Degrees();
 
-    //    *ra = ra0()->Degrees() + dra;
-    //    *dec = dec0()->Degrees() + ddec;
+    //    *ra = ra0().Degrees() + dra;
+    //    *dec = dec0().Degrees() + ddec;
 }
 
 double StarObject::pmMagnitude()
@@ -649,8 +649,8 @@ SkyObject::UID StarObject::getUID() const
     if( m < 0 ) m = 0;
 
     // Both RA & dec fits in 24-bits
-    SkyObject::UID ra  = ra0()->Degrees() * 36000;
-    SkyObject::UID dec = (ra0()->Degrees()+91) * 36000;
+    SkyObject::UID ra  = ra0().Degrees() * 36000;
+    SkyObject::UID dec = (ra0().Degrees()+91) * 36000;
 
     Q_ASSERT("Magnitude is expected to fit into 10bits" && m>=0 && m<(1<<10));
     Q_ASSERT("RA should fit into 24bits"  && ra>=0  && ra <(1<<24));

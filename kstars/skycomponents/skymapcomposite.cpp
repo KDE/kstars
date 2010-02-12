@@ -261,7 +261,7 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
     SkyObject *oTry = 0;
     SkyObject *oBest = 0;
 
-    //printf("%.1f %.1f\n", p->ra()->Degrees(), p->dec()->Degrees() );
+    //printf("%.1f %.1f\n", p->ra().Degrees(), p->dec().Degrees() );
     m_skyMesh->aperture( p, maxrad + 1.0, OBJ_NEAREST_BUF);
 
     oBest = m_Stars->objectNearest( p, rBest );

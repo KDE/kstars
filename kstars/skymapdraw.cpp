@@ -52,8 +52,8 @@ namespace {
     void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
         double sinRa, sinDec, cosRa, cosDec;
 
-        p->ra()->SinCos(  sinRa,  cosRa );
-        p->dec()->SinCos( sinDec, cosDec );
+        p->ra().SinCos(  sinRa,  cosRa );
+        p->dec().SinCos( sinDec, cosDec );
         *x = cosDec * cosRa;
         *y = cosDec * sinRa;
         *z = sinDec;
@@ -187,7 +187,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
             QPointF node = cbound->at( i );
             SkyPoint sp( node.x(), node.y() );
             sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            horizPolygon << QPointF( sp.az()->Degrees(), sp.alt()->Degrees() );
+            horizPolygon << QPointF( sp.az().Degrees(), sp.alt().Degrees() );
         }
 
         QRectF rBound = horizPolygon.boundingRect();
@@ -215,7 +215,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
                 sp.setAz( node.x() );
                 sp.setAlt( node.y() );
                 sp.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-                clippedPoly << QPointF( sp.ra()->Hours(), sp.dec()->Degrees() );
+                clippedPoly << QPointF( sp.ra().Hours(), sp.dec().Degrees() );
             }
         }
     }
@@ -577,11 +577,11 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
 void SkyMap::setMapGeometry() {
     double Ymax;
     if ( Options::useAltAz() ) {
-        XRange = 1.2*fov()/cos( focus()->alt()->radians() );
-        Ymax = fabs( focus()->alt()->Degrees() ) + fov();
+        XRange = 1.2*fov()/cos( focus()->alt().radians() );
+        Ymax = fabs( focus()->alt().Degrees() ) + fov();
     } else {
-        XRange = 1.2*fov()/cos( focus()->dec()->radians() );
-        Ymax = fabs( focus()->dec()->Degrees() ) + fov();
+        XRange = 1.2*fov()/cos( focus()->dec().radians() );
+        Ymax = fabs( focus()->dec().Degrees() ) + fov();
     }
     isPoleVisible = Ymax >= 90.0;
 }

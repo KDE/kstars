@@ -157,15 +157,15 @@ void AltVsTime::slotAddSource() {
             if ( jd != J2000 ) {
                 SkyPoint ptest( newRA, newDec );
                 ptest.precessFromAnyEpoch( jd, J2000 );
-                newRA.setH( ptest.ra()->Hours() );
-                newDec.setD( ptest.dec()->Degrees() );
+                newRA.setH( ptest.ra().Hours() );
+                newDec.setD( ptest.dec().Degrees() );
             }
 
             //make sure the coords do not already exist from another object
             bool found = false;
             foreach ( SkyObject *p, pList ) {
                 //within an arcsecond?
-                if ( fabs( newRA.Degrees() - p->ra()->Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec()->Degrees() ) < 0.0003 ) {
+                if ( fabs( newRA.Degrees() - p->ra().Degrees() ) < 0.0003 && fabs( newDec.Degrees() - p->dec().Degrees() ) < 0.0003 ) {
                     found = true;
                     break;
                 }
@@ -226,7 +226,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
     //If this point is not in list already, add it to list
     bool found(false);
     foreach ( SkyObject *p, pList ) {
-        if ( o->ra()->Degrees() == p->ra()->Degrees() && o->dec()->Degrees() == p->dec()->Degrees() ) {
+        if ( o->ra().Degrees() == p->ra().Degrees() && o->dec().Degrees() == p->dec().Degrees() ) {
             found = true;
             break;
         }
@@ -277,7 +277,7 @@ double AltVsTime::findAltitude( SkyPoint *p, double hour ) {
 
     dms LST = geo->GSTtoLST( ut.gst() );
     p->EquatorialToHorizontal( &LST, geo->lat() );
-    return p->alt()->Degrees();
+    return p->alt().Degrees();
 }
 
 void AltVsTime::slotHighlight( int row ) {

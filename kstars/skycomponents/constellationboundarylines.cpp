@@ -226,9 +226,9 @@ PolyList* ConstellationBoundaryLines::ContainingPoly( SkyPoint *p )
     // Don't bother with boundaries if there is only one
     if ( polyHash.size() == 1 ) return iter.key();
 
-    QPointF point( p->ra()->Hours(), p->dec()->Degrees() );
-    QPointF wrapPoint( p->ra()->Hours() - 24.0, p->dec()->Degrees() );
-    bool wrapRA = p->ra()->Hours() > 12.0;
+    QPointF point( p->ra().Hours(), p->dec().Degrees() );
+    QPointF wrapPoint( p->ra().Hours() - 24.0, p->dec().Degrees() );
+    bool wrapRA = p->ra().Hours() > 12.0;
 
     while ( iter != polyHash.constEnd() ) {
 

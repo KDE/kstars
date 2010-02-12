@@ -47,8 +47,8 @@ Ecliptic::Ecliptic(SkyComposite *parent ) :
             elng.setH( ra2 );
             SkyPoint* o = new SkyPoint();
             o->setFromEcliptic( num.obliquity(), &elng, &elat );
-            o->setRA0( o->ra()->Hours() );
-            o->setDec0( o->dec()->Degrees() );
+            o->setRA0( o->ra().Hours() );
+            o->setDec0( o->dec().Degrees() );
             o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             lineList->append( o );
         }

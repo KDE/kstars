@@ -166,11 +166,11 @@ void Comast::Log::writeTarget( SkyObject *o ) {
     writer->writeStartElement( "position" );
     writer->writeStartElement( "ra" );
     writer->writeAttribute("unit", "rad" );
-    writer->writeCharacters( QString::number( o->ra()->radians() ) );
+    writer->writeCharacters( QString::number( o->ra().radians() ) );
     writer->writeEndElement();
     writer->writeStartElement( "dec" );
     writer->writeAttribute("unit", "rad" );
-    writer->writeCharacters( QString::number( o->dec()->radians() ) );
+    writer->writeCharacters( QString::number( o->dec().radians() ) );
     writer->writeEndElement();
     writer->writeEndElement();
     if( native && ! ks->observingList()->getTime( o ).isEmpty() ) {

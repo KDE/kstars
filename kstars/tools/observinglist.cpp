@@ -255,14 +255,14 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         QList<QStandardItem*> itemList;
         if(obj->name() == "star" )
             itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( obj->ra0()->toHMSString() ) 
-                    << new QStandardItem( obj->dec0()->toDMSString() ) 
+                    << new QStandardItem( obj->ra0().toHMSString() ) 
+                    << new QStandardItem( obj->dec0().toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() );
         else
             itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( p.ra()->toHMSString() ) 
-                    << new QStandardItem( p.dec()->toDMSString() ) 
+                    << new QStandardItem( p.ra().toHMSString() ) 
+                    << new QStandardItem( p.dec().toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() );
         m_Model->appendRow( itemList );
@@ -280,8 +280,8 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         QList<QStandardItem*> itemList;
         if(obj->name() == "star" )
             itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( obj->ra0()->toHMSString() ) 
-                    << new QStandardItem( obj->dec0()->toDMSString() ) 
+                    << new QStandardItem( obj->ra0().toHMSString() ) 
+                    << new QStandardItem( obj->dec0().toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() )
                     << new QStandardItem( "--"  )
@@ -289,13 +289,13 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                     << new QStandardItem( "--"  );
         else
             itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( p.ra()->toHMSString() ) 
-                    << new QStandardItem( p.dec()->toDMSString() ) 
+                    << new QStandardItem( p.ra().toHMSString() ) 
+                    << new QStandardItem( p.dec().toDMSString() ) 
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() )
                     << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "HH:mm" ) )
-                    << new QStandardItem( p.alt()->toDMSString() )
-                    << new QStandardItem( p.az()->toDMSString() );
+                    << new QStandardItem( p.alt().toDMSString() )
+                    << new QStandardItem( p.az().toDMSString() );
         m_Session->appendRow( itemList );
         //Adding an object should trigger the modified flag
         if ( ! isModified ) isModified = true;
@@ -323,7 +323,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
                 QString ra = m_Model->item(irow, 1)->text();
                 QString dc = m_Model->item(irow, 2)->text();
-                if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
+                if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
                     m_Model->removeRow(irow);
                     found = true;
                     break;
@@ -354,7 +354,7 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
                 QString ra = m_Session->item(irow, 1)->text();
                 QString dc = m_Session->item(irow, 2)->text();
-                if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
+                if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
                     m_Session->removeRow(irow);
                     found = true;
                     break;
@@ -395,7 +395,7 @@ void ObservingList::slotRemoveSelectedObjects() {
                 foreach ( SkyObject *o, sessionList() ) {
                     //Stars named "star" must be matched by coordinates
                     if ( o->name() == "star" ) {
-                        if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
+                        if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
                             slotRemoveObject( o, true );
                             break;
                         }
@@ -424,7 +424,7 @@ void ObservingList::slotRemoveSelectedObjects() {
                  foreach ( SkyObject *o, obsList() ) {
                      //Stars named "star" must be matched by coordinates
                      if ( o->name() == "star" ) {
-                         if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
+                         if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
                              slotRemoveObject( o );
                              break;
                          }
@@ -682,25 +682,25 @@ void ObservingList::slotSlewToObject()
                 if (useJ2000)
                     sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
 
-                RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
-                DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+                RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra().hour()).arg(sp.ra().minute()).arg(sp.ra().second()));
+                DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec().degree()).arg(sp.dec().arcmin()).arg(sp.dec().arcsec()));
 
                 break;
 
             case 1:
                 if (indidev->stdDev->currentObject)
                 {
-                    sp.setAz(*indidev->stdDev->currentObject->az());
-                    sp.setAlt(*indidev->stdDev->currentObject->alt());
+                    sp.setAz( indidev->stdDev->currentObject->az());
+                    sp.setAlt(indidev->stdDev->currentObject->alt());
                 }
                 else
                 {
-                    sp.setAz(*ks->map()->clickedPoint()->az());
-                    sp.setAlt(*ks->map()->clickedPoint()->alt());
+                    sp.setAz( ks->map()->clickedPoint()->az());
+                    sp.setAlt(ks->map()->clickedPoint()->alt());
                 }
 
-                AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
-                AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+                AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az().degree()).arg(sp.az().arcmin()).arg(sp.az().arcsec()));
+                AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt().degree()).arg(sp.alt().arcmin()).arg(sp.alt().arcsec()));
 
                 break;
             }
@@ -773,7 +773,7 @@ void ObservingList::slotAVT() {
                 foreach ( SkyObject *o, sessionList() ) {
                     //Stars named "star" must be matched by coordinates
                     if ( o->name() == "star" ) {
-                        if ( o->ra0()->toHMSString() == ra && o->dec0()->toDMSString() == dc ) {
+                        if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
                             avt->processObject( o );
                             break;
                         }
@@ -907,7 +907,7 @@ void ObservingList::slotSaveList() {
     QTextStream ostream( &f );
     foreach ( SkyObject* o, obsList() ) {
         if ( o->name() == "star" ) {
-            ostream << o->name() << "  " << o->ra0()->Hours() << "  " << o->dec0()->Degrees() << endl;
+            ostream << o->name() << "  " << o->ra0().Hours() << "  " << o->dec0().Degrees() << endl;
         } else if ( o->type() == SkyObject::STAR ) {
             StarObject *s = (StarObject*)o;
             if ( s->name() == s->gname() ) 
@@ -1017,7 +1017,7 @@ double ObservingList::findAltitude( SkyPoint *p, double hour ) {
     ut= ut.addSecs( hour*3600.0 );
     dms LST = geo->GSTtoLST( ut.gst() );
     p->EquatorialToHorizontal( &LST, geo->lat() );
-    return p->alt()->Degrees();
+    return p->alt().Degrees();
 }
 
 void ObservingList::slotToggleSize() {
@@ -1173,15 +1173,15 @@ void ObservingList::downloadReady() {
 
 void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
     QString RAString, DecString, RA, Dec;
-    RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0()->hour(), o->ra0()->minute(), o->ra0()->second() );
+    RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0().hour(), o->ra0().minute(), o->ra0().second() );
     decsgn = '+';
-    if ( o->dec0()->Degrees() < 0.0 ) decsgn = '-';
-    int dd = abs( o->dec0()->degree() );
-    int dm = abs( o->dec0()->arcmin() );
-    int ds = abs( o->dec0()->arcsec() );
+    if ( o->dec0().Degrees() < 0.0 ) decsgn = '-';
+    int dd = abs( o->dec0().degree() );
+    int dm = abs( o->dec0().arcmin() );
+    int ds = abs( o->dec0().arcsec() );
     DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-    RA = RA.sprintf( "ra=%f", o->ra0()->Degrees() );
-    Dec = Dec.sprintf( "&dec=%f", o->dec0()->Degrees() );
+    RA = RA.sprintf( "ra=%f", o->ra0().Degrees() );
+    Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
     if( temp )
         CurrentImage = "Temp_Image_" +  o->name().remove(' ');
     else

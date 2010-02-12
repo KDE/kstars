@@ -460,8 +460,8 @@ void modCalcVlsr::processLines( QTextStream &istream ) {
         geoPlace->setHeight( heightB );
         dms gsidt = KStarsDateTime(dtB,utB).gst();
         geoPlace->TopocentricVelocity(vtopo, gsidt);
-        spB.ra()->SinCos(sra, cra);
-        spB.dec()->SinCos(sdc, cdc);
+        spB.ra().SinCos(sra, cra);
+        spB.dec().SinCos(sdc, cdc);
         vtB = vgB - (vtopo[0]*cdc*cra + vtopo[1]*cdc*sra + vtopo[2]*sdc);
 
         ostream << vhB << space << vgB << space << vtB << endl;

@@ -479,8 +479,8 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupit
         YP[i] = A6[i] * sin( D ) + C6[i] * cos( D );
         ZP[i] = B6[i];
 
-        Moon[i]->setRA( Jupiter->ra()->Hours() - 0.011*( XP[i] * cos( pa ) - YP[i] * sin( pa ) )/15.0 );
-        Moon[i]->setDec( Jupiter->dec()->Degrees() - 0.011*( XP[i] * sin( pa ) + YP[i] * cos( pa ) ) );
+        Moon[i]->setRA( Jupiter->ra().Hours() - 0.011*( XP[i] * cos( pa ) - YP[i] * sin( pa ) )/15.0 );
+        Moon[i]->setDec( Jupiter->dec().Degrees() - 0.011*( XP[i] * sin( pa ) + YP[i] * cos( pa ) ) );
 
         if ( ZP[i] < 0.0 ) InFront[i] = true;
         else InFront[i] = false;

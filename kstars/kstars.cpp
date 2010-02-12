@@ -195,7 +195,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     
         if ( ! fo ) {
             SkyPoint fp( Options::focusRA(), Options::focusDec() );
-            if ( fp.ra()->Degrees() != map()->focus()->ra()->Degrees() || fp.dec()->Degrees() != map()->focus()->dec()->Degrees() ) {
+            if ( fp.ra().Degrees() != map()->focus()->ra().Degrees() || fp.dec().Degrees() != map()->focus()->dec().Degrees() ) {
                 map()->setClickedPoint( &fp );
                 map()->slotCenter();
             }
@@ -217,7 +217,7 @@ void KStars::updateTime( const bool automaticDSTchange ) {
     //displayed in the infobox to update every second.
     //	if ( !Options::isTracking() && LST()->Degrees() > oldLST.Degrees() ) {
     //		int nSec = int( 3600.*( LST()->Hours() - oldLST.Hours() ) );
-    //		Map->focus()->setRA( Map->focus()->ra()->Hours() + double( nSec )/3600. );
+    //		Map->focus()->setRA( Map->focus()->ra().Hours() + double( nSec )/3600. );
     //		if ( Options::useAltAz() ) Map->focus()->EquatorialToHorizontal( LST(), geo()->lat() );
     //		Map->showFocusCoords();
     //	}
