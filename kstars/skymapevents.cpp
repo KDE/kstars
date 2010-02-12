@@ -655,7 +655,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
     // if button is down and cursor is not moved set the move cursor after 500 ms
     QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
 
-    if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
+    // break if point is unusable
+    if ( unusablePoint( e->pos() ) )
+        return;
 
     if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
         y0 = 0.5*height() - e->y();  //record y pixel coordinate for middle-button zooming
@@ -676,36 +678,32 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
-        setClickedObject( data->skyComposite()->objectNearest( clickedPoint(), maxrad ) );
+        SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
+        setClickedObject( obj );
+        setClickedPoint(  obj );
 
-        if ( clickedObject() ) {
-            setClickedPoint( clickedObject() );
-
-            if ( e->button() == Qt::RightButton ) {
+        switch( e->button() ) {
+        case Qt::LeftButton:
+            if( kstars ) {
+                QString name;
+                if( clickedObject() )
+                    name = clickedObject()->translatedLongName();
+                else
+                    name = i18n( "Empty sky" );
+                kstars->statusBar()->changeItem(name, 0 );
+            }
+            break;
+        case Qt::RightButton:
+            // Show popup menu
+            if( clickedObject() ) {
                 clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
-            }
-
-            if ( kstars && e->button() == Qt::LeftButton ) {
-                kstars->statusBar()->changeItem( clickedObject()->translatedLongName(), 0 );
-            }
-        } else {
-            //Empty sky selected.  If left-click, display "nothing" in the status bar.
-            //If right-click, open "empty" popup menu.
-            setClickedObject( NULL );
-
-            switch (e->button()) {
-            case Qt::LeftButton:
-                if ( kstars )
-                    kstars->statusBar()->changeItem( i18n( "Empty sky" ), 0 );
-                break;
-            case Qt::RightButton: {
+            } else {
                 SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
                 pmenu->createEmptyMenu( &o );
                 pmenu->popup( QCursor::pos() );
-                break;
-                }
-            default: ;
             }
+            break;
+        default: ;
         }
     }
 }
