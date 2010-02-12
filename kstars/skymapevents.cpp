@@ -680,7 +680,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         double maxrad = 1000.0/Options::zoomFactor();
         SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
         setClickedObject( obj );
-        setClickedPoint(  obj );
+        if( obj )
+            setClickedPoint(  obj );
 
         switch( e->button() ) {
         case Qt::LeftButton:
@@ -694,13 +695,18 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
             }
             break;
         case Qt::RightButton:
-            // Show popup menu
-            if( clickedObject() ) {
-                clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+            if( angularDistanceMode ) {
+                // Compute angular distance.
+                slotEndAngularDistance();
             } else {
-                SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
-                pmenu->createEmptyMenu( &o );
-                pmenu->popup( QCursor::pos() );
+                // Show popup menu
+                if( clickedObject() ) {
+                    clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+                } else {
+                    SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra()->Hours(), clickedPoint()->dec()->Degrees() );
+                    pmenu->createEmptyMenu( &o );
+                    pmenu->popup( QCursor::pos() );
+                }
             }
             break;
         default: ;
