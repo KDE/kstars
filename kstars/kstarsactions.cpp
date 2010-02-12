@@ -1025,3 +1025,18 @@ void KStars::slotAboutToQuit()
     }
 }
 
+void KStars::slotShowPositionBar(SkyPoint* p ) {
+    if ( Options::showAltAzField() ) {
+        dms a( p->alt()->Degrees() );
+        if ( Options::useAltAz() && Options::useRefraction() )
+            a = SkyMap::refract( p->alt(), true ); //true: compute apparent alt from true alt
+        QString s = QString("%1, %2").arg( p->az()->toDMSString(true), //true: force +/- symbol
+                                           a.toDMSString(true) );                 //true: force +/- symbol
+        statusBar()->changeItem( s, 1 );
+    }
+    if ( Options::showRADecField() ) {
+        QString s = QString("%1, %2").arg(p->ra()->toHMSString(),
+                                          p->dec()->toDMSString(true) ); //true: force +/- symbol
+        statusBar()->changeItem( s, 2 );
+    }
+}

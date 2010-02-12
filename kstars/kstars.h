@@ -445,6 +445,9 @@ public Q_SLOTS:
     /** Remove all trails which may have been added to solar system bodies */
     void slotClearAllTrails();
 
+    /** Display position in the status bar. */
+    void slotShowPositionBar(SkyPoint*);
+
 private slots:
     /** action slot: sync kstars clock to system time */
     void slotSetTimeToNow();

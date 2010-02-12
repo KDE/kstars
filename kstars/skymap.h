@@ -482,7 +482,8 @@ public slots:
     	*@param findApparent if true, then alt is the true altitude, and we'll find the apparent alt.
     	*@return the corrected altitude, as a dms object.
     	*/
-    dms refract( const dms *alt, bool findApparent );
+    // FIXME: move out of SkyMap
+    static dms refract( const dms *alt, bool findApparent );
 
     /**Step the Focus point toward the Destination point.  Do this iteratively, redrawing the Sky
     	*Map after each step, until the Focus point is within 1 step of the Destination point.
@@ -597,16 +598,16 @@ public slots:
 
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
-    	*point is changed, slewFocus() will iteratively step the Focus toward Destination 
-    	*until it is reached.
-    	*@see SkyMap::setDestination()
-    	*@see SkyMap::slewFocus()
-    	*/
+     * point is changed, slewFocus() will iteratively step the Focus toward Destination 
+     * until it is reached.
+     * @see SkyMap::setDestination()
+     * @see SkyMap::slewFocus()
+     */
     void destinationChanged();
 
     /**Emitted by SkyMap::addLink().  This Signal is used to inform the Details Dialog
-    	*that it needs to update its lists of URL links.
-    	*/
+     * that it needs to update its lists of URL links.
+     */
     void linkAdded();
 
     /** Emitted when zoom level is changed. */
@@ -617,6 +618,9 @@ signals:
 
     /** Emitted when pointing changed. (At least should) */
     void positionChanged(SkyPoint*);
+
+    /** Emitted when position under mouse changed. */
+    void mousePointChanged(SkyPoint*);
 
 protected:
     /**Draw the Sky, and all objects in it. */
@@ -822,7 +826,8 @@ private:
     bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
     bool angularDistanceMode;
     int scrollCount;
-    double RefractCorr1[184], RefractCorr2[184];
+    static double RefractCorr1[184];
+    static double RefractCorr2[184];
     double y0;
 
     double m_Scale;

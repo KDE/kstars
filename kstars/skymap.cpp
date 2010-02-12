@@ -127,6 +127,9 @@ namespace {
 
 
 SkyMap* SkyMap::pinstance = 0;
+double SkyMap::RefractCorr1[184];
+double SkyMap::RefractCorr2[184];
+
 
 SkyMap* SkyMap::Create()
 {
@@ -432,21 +435,7 @@ void SkyMap::slotCenter() {
     focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     //display coordinates in statusBar
-    if ( kstars ) {
-        if ( Options::showAltAzField() ) {
-            QString sX = focusPoint()->az()->toDMSString();
-            QString sY = focusPoint()->alt()->toDMSString(true);
-            if ( Options::useAltAz() && Options::useRefraction() )
-                sY = refract( focusPoint()->alt(), true ).toDMSString(true);
-            QString s = sX + ",  " + sY;
-            kstars->statusBar()->changeItem( s, 1 );
-        }
-
-        if ( Options::showRADecField() ) {
-            QString s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
-            kstars->statusBar()->changeItem( s, 2 );
-        }
-    }
+    emit mousePointChanged( focusPoint() );
     showFocusCoords(); //update FocusBox
 }
 

@@ -644,9 +644,9 @@ void KStars::buildGUI() {
 
     //create the skymap
     skymap = SkyMap::Create();
+    connect(skymap, SIGNAL(mousePointChanged(SkyPoint*)), SLOT(slotShowPositionBar(SkyPoint*)));
+    connect(skymap, SIGNAL(zoomChanged()),                SLOT(slotZoomChanged()));
     setCentralWidget( skymap );
-    connect(skymap, SIGNAL(zoomChanged()), this, SLOT( slotZoomChanged() ));
-
 
     setupGUI(StandardWindowOptions (Default & ~Create));
 
