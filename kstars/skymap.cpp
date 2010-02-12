@@ -226,6 +226,7 @@ SkyMap::SkyMap() :
 
     m_iboxes = new InfoBoxes(this);
     m_iboxes->setVisible( Options::showInfoBoxes() );
+    m_iboxes->setMouseTracking( true ); // Required to generate mouse move events
     m_iboxes->addInfoBox(m_timeBox);
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
