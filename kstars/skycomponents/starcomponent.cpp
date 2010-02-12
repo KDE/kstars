@@ -622,14 +622,14 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
     double rTry, rBest;
     SkyObject *oTry;
     rBest = maxrad;
-    rTry = maxrad;
+    rTry  = maxrad;
     for( int i = 0; i < m_DeepStarComponents.size(); ++i ) {
-      oTry = m_DeepStarComponents.at( i )->objectNearest( p, rTry );
-      // TODO: Should we multiply rBest by a factor < 1, so that we give higher priority to named stars?
-      if( rTry < rBest ) {
-	rBest = rTry;
-	oBest = oTry;
-      }
+        oTry = m_DeepStarComponents.at( i )->objectNearest( p, rTry );
+        // TODO: Should we multiply rBest by a factor < 1, so that we give higher priority to named stars?
+        if( rTry < rBest ) {
+            rBest = rTry;
+            oBest = oTry;
+        }
     }
     maxrad = rBest;
 
