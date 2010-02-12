@@ -539,8 +539,9 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
     if ( mouseButtonDown ) {
         // set the mouseMoveCursor and set slewing=true, if they are not set yet
-        if (!mouseMoveCursor) setMouseMoveCursor();
-        if (!slewing) {
+        if( !mouseMoveCursor )
+            setMouseMoveCursor();
+        if( !slewing ) {
             slewing = true;
             stopTracking(); //toggle tracking off
         }
@@ -551,11 +552,13 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             dms dAz = mousePoint()->az()->Degrees() - clickedPoint()->az()->Degrees();
             dms dAlt = mousePoint()->alt()->Degrees() - clickedPoint()->alt()->Degrees();
-            focus()->setAz( focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
+            focus()->setAz(  focus()->az()->Degrees() - dAz.Degrees() ); //move focus in opposite direction
             focus()->setAlt( focus()->alt()->Degrees() - dAlt.Degrees() );
 
-            if ( focus()->alt()->Degrees() >90.0 ) focus()->setAlt( 90.0 );
-            if ( focus()->alt()->Degrees() <-90.0 ) focus()->setAlt( -90.0 );
+            if( focus()->alt()->Degrees() > 90.0 )
+                focus()->setAlt( 90.0 );
+            if( focus()->alt()->Degrees() < -90.0 )
+                focus()->setAlt( -90.0 );
             focus()->setAz( focus()->az()->reduce() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
