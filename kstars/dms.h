@@ -95,74 +95,74 @@ public:
     inline const double& Degrees() const { return D; }
 
     /**@return integer hours portion of the angle
-    	*@note an angle can be measured in degrees/arcminutes/arcseconds
-    	*or hours/minutes/seconds.  An hour is equal to 15 degrees.
-    	*/
+     * @note an angle can be measured in degrees/arcminutes/arcseconds
+     * or hours/minutes/seconds.  An hour is equal to 15 degrees.
+     */
     inline int hour() const { return int( reduce().Degrees()/15.0 ); }
 
     /**@return integer minutes portion of the angle
-    	*@note a minute is 1/60 hour (not the same as an arcminute)
-    	*/
+     * @note a minute is 1/60 hour (not the same as an arcminute)
+     */
     int minute() const;
 
     /**@return integer seconds portion of the angle
-    	*@note a second is 1/3600 hour (not the same as an arcsecond)
-    	*/
+     * @note a second is 1/3600 hour (not the same as an arcsecond)
+     */
     int second() const;
 
     /**@return integer milliseconds portion of the angle
-    	*@note a millisecond is 1/1000 second (not the same as a milliarcsecond)
-    	*/
+     * @note a millisecond is 1/1000 second (not the same as a milliarcsecond)
+     */
     int msecond() const;
 
     /**@return angle in hours expressed as a double.
-    	*@note an angle can be measured in degrees/arcminutes/arcseconds
-    	*or hours/minutes/seconds.  An hour is equal to 15 degrees.
-    	*/
+     * @note an angle can be measured in degrees/arcminutes/arcseconds
+     * or hours/minutes/seconds.  An hour is equal to 15 degrees.
+     */
     inline double Hours() const { return reduce().Degrees()/15.0; }
 
     /**Sets floating-point value of angle, in degrees.
-    	*@param x new angle (double)
-    	*/
+     * @param x new angle (double)
+     */
     void setD( const double &x ) { D = x; }
 
     /**@short Sets floating-point value of angle, in degrees.
-    	*
-    	*This is an overloaded member function; it behaves essentially
-    	*like the above function.  The floating-point value of the angle
-    	*(D) is determined from the following formulae:
-    	*
-    	*\f$ fabs(D) = fabs(d) + \frac{(m + (s/60))}{60} \f$
-    	*\f$ sgn(D) = sgn(d) \f$
-    	*
-    	*@param d integer degrees portion of angle
-    	*@param m integer arcminutes portion of angle
-    	*@param s integer arcseconds portion of angle
-    	*@param ms integer arcseconds portion of angle
-    	*/
+     * 
+     * This is an overloaded member function; it behaves essentially
+     * like the above function.  The floating-point value of the angle
+     * (D) is determined from the following formulae:
+     * 
+     * \f $ fabs(D) = fabs(d) + \frac{(m + (s/60))}{60} \f$
+     * \f$ sgn(D) = sgn(d) \f$
+     * 
+     * @param d integer degrees portion of angle
+     * @param m integer arcminutes portion of angle
+     * @param s integer arcseconds portion of angle
+     * @param ms integer arcseconds portion of angle
+     */
     void setD( const int &d, const int &m, const int &s, const int &ms=0 );
 
     /**@short Sets floating-point value of angle, in hours.
-    	*
-    	*Converts argument from hours to degrees, then
-    	*sets floating-point value of angle, in degrees.
-    	*@param x new angle, in hours (double)
-    	*@sa setD()
-    	*/
+     * 
+     * Converts argument from hours to degrees, then
+     * sets floating-point value of angle, in degrees.
+     * @param x new angle, in hours (double)
+     * @sa setD()
+     */
     void setH( const double &x );
 
     /**@short Sets floating-point value of angle, in hours.
-    	*
-    	*Converts argument values from hours to degrees, then
-    	*sets floating-point value of angle, in degrees.
-    	*This is an overloaded member function, provided for convenience.  It
-    	*behaves essentially like the above function.
-    	*@param h integer hours portion of angle
-    	*@param m integer minutes portion of angle
-    	*@param s integer seconds portion of angle
-    	*@param ms integer milliseconds portion of angle
-    	*@sa setD()
-    	*/
+     * 
+     * Converts argument values from hours to degrees, then
+     * sets floating-point value of angle, in degrees.
+     * This is an overloaded member function, provided for convenience.  It
+     * behaves essentially like the above function.
+     * @param h integer hours portion of angle
+     * @param m integer minutes portion of angle
+     * @param s integer seconds portion of angle
+     * @param ms integer milliseconds portion of angle
+     * @sa setD()
+     */
     void setH( const int &h, const int &m, const int &s, const int &ms=0 );
 
     /**@short Attempt to parse the string argument as a dms value, and set the dms object
@@ -239,19 +239,19 @@ public:
     static const double DegToRad;
 
     /**@short Static function to create a DMS object from a QString.
-    	*
-    	*There are several ways to specify the angle:
-    	*@li Integer numbers  ( 5 or -33 )
-    	*@li Floating-point numbers  ( 5.0 or -33.0 )
-    	*@li colon-delimited integers ( 5:0:0 or -33:0:0 )
-    	*@li colon-delimited with float seconds ( 5:0:0.0 or -33:0:0.0 )
-    	*@li colon-delimited with float minutes ( 5:0.0 or -33:0.0 )
-    	*@li space-delimited ( 5 0 0; -33 0 0 ) or ( 5 0.0 or -33 0.0 )
-    	*@li space-delimited, with unit labels ( 5h 0m 0s or -33d 0m 0s )
-    	*@param s the string to be parsed as an angle value
-    	*@param deg if true, s is expressed in degrees; if false, s is expressed in hours
-    	*@return a dms object whose value is parsed from the string argument
-    	*/
+     *
+     * There are several ways to specify the angle:
+     * @li Integer numbers  ( 5 or -33 )
+     * @li Floating-point numbers  ( 5.0 or -33.0 )
+     * @li colon-delimited integers ( 5:0:0 or -33:0:0 )
+     * @li colon-delimited with float seconds ( 5:0:0.0 or -33:0:0.0 )
+     * @li colon-delimited with float minutes ( 5:0.0 or -33:0.0 )
+     * @li space-delimited ( 5 0 0; -33 0 0 ) or ( 5 0.0 or -33 0.0 )
+     * @li space-delimited, with unit labels ( 5h 0m 0s or -33d 0m 0s )
+     * @param s the string to be parsed as an angle value
+     * @param deg if true, s is expressed in degrees; if false, s is expressed in hours
+     * @return a dms object whose value is parsed from the string argument
+     */
     static dms fromString(const QString & s, bool deg);
 
 private:
@@ -275,5 +275,8 @@ inline void dms::SinCos(double& s, double& c) const {
     c = ::cos( radians() );
 #endif
 }
+
+/** Overloaded equality operator */
+inline bool operator == (const dms& a1, const dms& a2) { return a1.Degrees() == a2.Degrees(); }
 
 #endif
