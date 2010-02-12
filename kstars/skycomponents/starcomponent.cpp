@@ -267,15 +267,16 @@ float StarComponent::zoomMagnitudeLimit() const {
 
 void StarComponent::draw( QPainter& psky )
 {
-    if ( ! selected() ) return;
+    if( !selected() )
+        return;
 
-    SkyMap *map = SkyMap::Instance();
-    KStarsData* data = KStarsData::Instance();
+    SkyMap *map       = SkyMap::Instance();
+    KStarsData* data  = KStarsData::Instance();
     UpdateID updateID = data->updateID();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-    m_hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
-                    ! ( Options::showStarMagnitudes() || Options::showStarNames() );
+    m_hideLabels = ( map->isSlewing() && Options::hideLabels() ) ||
+                  !( Options::showStarMagnitudes() || Options::showStarNames() );
 
     //shortcuts to inform whether to draw different objects
     bool hideFaintStars( checkSlewing && Options::hideStars() );
@@ -284,14 +285,15 @@ void StarComponent::draw( QPainter& psky )
 
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
-    double lgz = log10(Options::zoomFactor());
+    double lgz   = log10(Options::zoomFactor());
 
     double maglim;
     m_zoomMagLimit = maglim = zoomMagnitudeLimit();
 
     double labelMagLim = Options::starLabelDensity() / 5.0;
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
-    if ( labelMagLim > 8.0 ) labelMagLim = 8.0;
+    if( labelMagLim > 8.0 )
+        labelMagLim = 8.0;
 
     //Loop for drawing star images
 
@@ -304,7 +306,7 @@ void StarComponent::draw( QPainter& psky )
 
     visibleStarCount = 0;
 
-    while ( region.hasNext() ) {
+    while( region.hasNext() ) {
         ++nTrixels;
         Trixel currentRegion = region.next();
         StarList* starList = m_starIndex->at( currentRegion );

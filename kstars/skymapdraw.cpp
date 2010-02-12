@@ -154,11 +154,9 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 
 void SkyMap::drawAngleRuler( QPainter &p ) {
     p.setPen( QPen( data->colorScheme()->colorNamed( "AngularRuler" ), 3.0, Qt::DotLine ) );
-
-    QPointF startPoint = toScreen( AngularRuler.point(0) );
-    QPointF endPoint = toScreen( AngularRuler.point(1) );
-
-    p.drawLine( startPoint, endPoint );
+    p.drawLine(
+        toScreen( AngularRuler.point(0) ),
+        toScreen( AngularRuler.point(1) ) );
 }
 
 void SkyMap::drawZoomBox( QPainter &p ) {
