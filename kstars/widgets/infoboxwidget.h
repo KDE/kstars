@@ -79,9 +79,13 @@ public slots:
     void slotObjectChanged(SkyObject* obj);
     /** Set information about pointing. */
     void slotPointChanged(SkyPoint* p);
+signals:
+    /** Emitted when widget is clicked */
+    void clicked();
 protected:
     virtual void paintEvent(QPaintEvent* event);
-    virtual void mouseDoubleClickEvent(QMouseEvent * event );
+    virtual void mouseDoubleClickEvent(QMouseEvent* event );
+    virtual void mousePressEvent(QMouseEvent* event);
     virtual void mouseMoveEvent(QMouseEvent* event );
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void showEvent(QShowEvent* event);

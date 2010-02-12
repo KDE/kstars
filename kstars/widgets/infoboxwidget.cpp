@@ -218,6 +218,10 @@ void InfoBoxWidget::mouseMoveEvent(QMouseEvent * event) {
     move(newX, newY);
 }
 
+void InfoBoxWidget::mousePressEvent(QMouseEvent*) {
+    emit clicked();
+}
+
 void InfoBoxWidget::showEvent(QShowEvent*) {
     if( !m_adjusted )
         adjust();
