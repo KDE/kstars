@@ -653,8 +653,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
     }
 
     // if button is down and cursor is not moved set the move cursor after 500 ms
-    QTimer t;
-    t.singleShot (500, this, SLOT (setMouseMoveCursor()));
+    QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
 
     if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
