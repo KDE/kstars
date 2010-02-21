@@ -492,15 +492,15 @@ void SkyMap::slotSDSS() {
 	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
 	//if we clicked on empty sky, we need to precess to J2000.
 	if ( clickedObject() ) {
-		ra.setH( clickedObject()->ra0().Hours() );
-		dec.setD( clickedObject()->dec0().Degrees() );
+		ra  = clickedObject()->ra0();
+		dec = clickedObject()->dec0();
 	} else {
 		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
-		clickedPoint()->setRA0( clickedPoint()->ra().Hours() );
-		clickedPoint()->setDec0( clickedPoint()->dec().Degrees() );
+		clickedPoint()->setRA0( clickedPoint()->ra() );
+		clickedPoint()->setDec0( clickedPoint()->dec() );
 		clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
-		ra.setH( clickedPoint()->ra().Hours() );
-		dec.setD( clickedPoint()->dec().Degrees() );
+		ra  = clickedPoint()->ra();
+		dec = clickedPoint()->dec();
 
 		//restore coords from present epoch
 		clickedPoint()->setRA( clickedPoint()->ra0().Hours() );
@@ -1216,7 +1216,7 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
             alt.setRadians( dy + focus()->alt().radians() );
             result.setAz( az.reduce() );
             if ( Options::useRefraction() )
-                alt.setD( refract( alt, false ).Degrees() );  //find true alt from apparent alt
+                alt = refract( alt, false );  //find true alt from apparent alt
             result.setAlt( alt );
             result.HorizontalToEquatorial( LST, lat );
             return result;
@@ -1273,7 +1273,7 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
         alt.setRadians( Y );
         az.setRadians( A + focus()->az().radians() );
         if ( Options::useRefraction() )
-            alt.setD( refract( alt, false ).Degrees() );  //find true alt from apparent alt
+            alt = refract( alt, false );  //find true alt from apparent alt
         result.setAlt( alt );
         result.setAz( az );
         result.HorizontalToEquatorial( LST, lat );
