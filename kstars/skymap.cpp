@@ -441,36 +441,35 @@ void SkyMap::slotCenter() {
 }
 
 void SkyMap::slotDSS() {
-    QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
-    QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+    const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
+    const QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
     dms ra(0.0), dec(0.0);
-    QString RAString, DecString;
 
     //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
     //if we clicked on empty sky, we need to precess to J2000.
     if ( clickedObject() ) {
-        ra.setH( clickedObject()->ra0().Hours() );
-        dec.setD( clickedObject()->dec0().Degrees() );
+        ra  = clickedObject()->ra0();
+        dec = clickedObject()->dec0();
     } else {
         //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
         clickedPoint()->setRA0( clickedPoint()->ra().Hours() );
         clickedPoint()->setDec0( clickedPoint()->dec().Degrees() );
         clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
-        ra.setH( clickedPoint()->ra().Hours() );
-        dec.setD( clickedPoint()->dec().Degrees() );
+        ra  = clickedPoint()->ra();
+        dec = clickedPoint()->dec();
 
         //restore coords from present epoch
-        clickedPoint()->setRA( clickedPoint()->ra0().Hours() );
-        clickedPoint()->setDec( clickedPoint()->dec0().Degrees() );
+        clickedPoint()->setRA(  clickedPoint()->ra0() );
+        clickedPoint()->setDec( clickedPoint()->dec0() );
     }
-
-    RAString = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
 
     char decsgn = ( dec.Degrees() < 0.0 ) ? '-' : '+';
     int dd = abs( dec.degree() );
     int dm = abs( dec.arcmin() );
     int ds = abs( dec.arcsec() );
+    QString RAString, DecString;
     DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
+    RAString  = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
 
     //concat all the segments into the kview command line:
     KUrl url (URLprefix + RAString + DecString + URLsuffix);
