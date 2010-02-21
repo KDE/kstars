@@ -67,45 +67,16 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *pare
     fileIsImage(false),
     downloadJob(0)
 {
-    setAttribute( Qt::WA_DeleteOnClose, true );
-    setModal( false );
-    setCaption( i18n("KStars image viewer")+QString(" : ")+url.fileName() );
-    setButtons( KDialog::User1|KDialog::Close );
+    init(url.fileName(), capText);
+    // Add save button
     KGuiItem saveButton( i18n("Save"), "document-save", i18n("Save the image to disk") );
     setButtonGuiItem( KDialog::User1, saveButton );
-
-    QFrame* Page = new QFrame( this );
-    setMainWidget( Page );
-    m_View = new ImageLabel( Page );
-    m_View->setAutoFillBackground( true );
-    m_Caption = new QLabel( Page );
-    m_Caption->setAutoFillBackground( true );
-    m_Caption->setFrameShape( QFrame::StyledPanel );
-    m_Caption->setText( capText );
-    //Reverse colors
-    QPalette p = palette();
-    p.setColor( QPalette::Window, palette().color( QPalette::WindowText ) );
-    p.setColor( QPalette::WindowText, palette().color( QPalette::Window ) );
-    m_Caption->setPalette( p );
-    m_View->setPalette( p );
-
-    //If the caption is wider than the image, try to shrink the font a bit
-    QFont capFont = m_Caption->font();
-    capFont.setPointSize( capFont.pointSize() - 2 );
-    m_Caption->setFont( capFont );
-
-    QVBoxLayout* vlay = new QVBoxLayout( Page );
-    vlay->setSpacing( 0 );
-    vlay->setMargin( 0 );
-    vlay->addWidget( m_View );
-    vlay->addWidget( m_Caption );
-
     connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
-
-    if (!m_ImageUrl.isValid())		//check URL
-        kDebug()<<"URL is malformed: "<< m_ImageUrl;
-    setWindowTitle (m_ImageUrl.fileName()); // the title of the window
-
+    // check URL
+    if (!m_ImageUrl.isValid())
+        kDebug() << "URL is malformed: " << m_ImageUrl;
+    
+    // FIXME: check the logic with temporary files. Races are possible
     {
         KTemporaryFile tempfile;
         tempfile.open();
@@ -120,40 +91,52 @@ ImageViewer::ImageViewer ( QString FileName, QWidget *parent ) :
     fileIsImage(true),
     downloadJob(0)
 {
+    init(FileName, QString());
+    file.setFileName( FileName );
+    showImage();
+}
+
+void ImageViewer::init(QString caption, QString capText) {
     setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
-    setCaption( i18n( "KStars image viewer" ) + QString( " : " ) + FileName );
+    setCaption( i18n( "KStars image viewer" ) + QString( " : " ) + caption );
     setButtons( KDialog::Close );
 
-    QFrame* Page = new QFrame( this );
-    setMainWidget( Page );
-    m_View = new ImageLabel( Page );
+    // Create widget
+    QFrame* page = new QFrame( this );
+    setMainWidget( page );
+    m_View = new ImageLabel( page );
     m_View->setAutoFillBackground( true );
-    m_Caption = new QLabel( Page );
+    m_Caption = new QLabel( page );
+    m_Caption->setAutoFillBackground( true );
+    m_Caption->setFrameShape( QFrame::StyledPanel );
+    m_Caption->setText( capText );
+    // Add layout
+    QVBoxLayout* vlay = new QVBoxLayout( page );
+    vlay->setSpacing( 0 );
+    vlay->setMargin( 0 );
+    vlay->addWidget( m_View );
+    vlay->addWidget( m_Caption );
+
     //Reverse colors
     QPalette p = palette();
     p.setColor( QPalette::Window, palette().color( QPalette::WindowText ) );
     p.setColor( QPalette::WindowText, palette().color( QPalette::Window ) );
     m_Caption->setPalette( p );
     m_View->setPalette( p );
-
-    QVBoxLayout* vlay = new QVBoxLayout( Page );
-    vlay->setSpacing( 0 );
-    vlay->setMargin( 0 );
-    vlay->addWidget( m_View );
-    setWindowTitle ( FileName); // the title of the window
-
-    file.setFileName( FileName );
-    showImage();
-
+    
+    //If the caption is wider than the image, try to shrink the font a bit
+    QFont capFont = m_Caption->font();
+    capFont.setPointSize( capFont.pointSize() - 2 );
+    m_Caption->setFont( capFont );
 }
 
 ImageViewer::~ImageViewer() {
-    kDebug() << "Dying";
-    // check if download job is running
-    checkJob();
-    if ( downloadJob )
+    if ( downloadJob ) {
+        // close job quietly, without emitting a result
+        downloadJob->kill( KJob::Quietly );
         delete downloadJob;
+    }
 }
 
 void ImageViewer::loadImageFromURL()
@@ -171,17 +154,15 @@ void ImageViewer::downloadReady (KJob *job)
     // set downloadJob to 0, but don't delete it - the job will be deleted automatically !!!
     downloadJob = 0;
 
-    if ( job->error() )
-    {
-      static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
-	close();        
-	return;		// exit this function
+    if ( job->error() ) {
+        static_cast<KIO::Job*>(job)->ui()->showErrorMessage();
+        close();        
+        return;
     }
 
     file.close(); // to get the newest information from the file and not any information from opening of the file
 
-    if ( file.exists() )
-    {
+    if ( file.exists() ) {
         showImage();
         return;
     }
@@ -191,12 +172,11 @@ void ImageViewer::downloadReady (KJob *job)
 void ImageViewer::showImage()
 {
     QImage image;
-    if (!image.load( file.fileName() ))		// if loading failed
-    {
+    if( !image.load( file.fileName() )) {
         QString text = i18n ("Loading of the image %1 failed.", m_ImageUrl.prettyUrl());
         KMessageBox::error (this, text);
         close();
-	return;
+        return;
     }
     fileIsImage = true;	// we loaded the file and know now, that it is an image
 
@@ -208,10 +188,8 @@ void ImageViewer::showImage()
 
     if ( image.width() <= w && image.height() > h ) //Window is taller than desktop
         image = image.scaled( int( image.width()*h/image.height() ), h );
-
     else if ( image.height() <= h && image.width() > w ) //window is wider than desktop
         image = image.scaled( w, int( image.height()*w/image.width() ) );
-
     else if ( image.width() > w && image.height() > h ) { //window is too tall and too wide
         //which needs to be shrunk least, width or height?
         float fx = float(w)/float(image.width());
@@ -263,13 +241,6 @@ void ImageViewer::saveFile (KUrl &url) {
     {
         QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
         KMessageBox::error (this, text);
-    }
-}
-
-void ImageViewer::checkJob() {
-    if ( downloadJob ) {  // if download job is running
-        downloadJob->kill( KJob::Quietly );  // close job quietly, without emitting a result
-        kDebug() << "Download job killed";
     }
 }
 

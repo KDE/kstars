@@ -62,10 +62,10 @@ class ImageViewer : public KDialog {
     Q_OBJECT
 
 public:
-    /**Constructor. */
-    ImageViewer (const KUrl &imageURL, const QString &capText, QWidget *parent );
+    /** Create image viewer from URL with caption */
+    ImageViewer (const KUrl &imageURL, const QString &capText, QWidget *parent = 0);
 
-    ImageViewer ( QString FileName, QWidget *parent );
+    ImageViewer ( QString FileName, QWidget *parent = 0);
 
     /**Destructor. If there is a partially downloaded image file, delete it.*/
     ~ImageViewer();
@@ -82,9 +82,6 @@ private:
     /**Save the downloaded image to a local file. */
     void saveFile (KUrl &url);
 
-    /**Kill running download jobs, if close of window is forced. */
-    void checkJob();
-
     QFile file;
 
     const KUrl m_ImageUrl;
@@ -97,12 +94,13 @@ private:
     QLabel     *m_Caption;
 
 private slots:
+    /** Initialize (common part of onstructors) */
+    void init(QString caption, QString capText);
     /**Make sure download has finished, then make sure file exists, then display the image */
     void downloadReady (KJob *);
 
-    /**Saves. File. To. Disc. */
-    void saveFileToDisc( void );
-
+    /**Saves file to disc. */
+    void saveFileToDisc();
 };
 
 #endif
