@@ -230,29 +230,22 @@ SkyMap::SkyMap() :
     m_iboxes->addInfoBox(m_timeBox);
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
-    // Connect action to infoboxes
-    KStars*  ks = KStars::Instance();
-    QAction* ka;
-    if( ks ) {
-        ka = ks->actionCollection()->action("show_time_box");
-        connect( ka, SIGNAL(toggled(bool)), m_timeBox, SLOT(setVisible(bool)));
-        ka->setChecked( Options::showTimeBox() );
-        ka->setEnabled( Options::showInfoBoxes() );
+}
 
-        ka = ks->actionCollection()->action("show_focus_box");
-        connect( ka, SIGNAL(toggled(bool)), m_objBox, SLOT(setVisible(bool)));
-        ka->setChecked( Options::showFocusBox() );
-        ka->setEnabled( Options::showInfoBoxes() );
+void SkyMap::slotToggleGeoBox(bool flag) {
+    m_geoBox->setVisible(flag);
+}
 
-        ka = ks->actionCollection()->action("show_location_box");
-        connect( ka, SIGNAL(toggled(bool)), m_geoBox, SLOT(setVisible(bool)));
-        ka->setChecked( Options::showGeoBox() );
-        ka->setEnabled( Options::showInfoBoxes() );
+void SkyMap::slotToggleFocusBox(bool flag) {
+    m_objBox->setVisible(flag);
+}
 
-        ka = ks->actionCollection()->action("show_boxes");
-        connect( ka, SIGNAL(toggled(bool)), m_iboxes, SLOT(setVisible(bool)));
-        ka->setChecked( Options::showInfoBoxes() );
-    }
+void SkyMap::slotToggleTimeBox(bool flag) {
+    m_timeBox->setVisible(flag);
+}
+
+void SkyMap::slotToggleInfoboxes(bool flag) {
+    m_iboxes->setVisible(flag);
 }
 
 SkyMap::~SkyMap() {

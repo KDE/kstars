@@ -201,6 +201,7 @@ void KStars::initActions() {
         << KShortcut( Qt::CTRL+Qt::Key_M );
 
     // ==== View Menu ================
+    kDebug() << map();
     actionCollection()->addAction( KStandardAction::ZoomIn,  "zoom_in",  map(), SLOT( slotZoomIn() ) );
     actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", map(), SLOT( slotZoomOut() ) );
     actionCollection()->addAction("zoom_default", map(), SLOT( slotZoomDefault() ) )
@@ -254,18 +255,29 @@ void KStars::initActions() {
     KAction* kaBoxes = actionCollection()->add<KToggleAction>("show_boxes" )
         << i18nc("Show the information boxes", "Show &Info Boxes")
         << Checked( Options::showInfoBoxes() );
+    connect( kaBoxes, SIGNAL(toggled(bool)), map(), SLOT(slotToggleInfoboxes(bool)));
+    kaBoxes->setChecked( Options::showInfoBoxes() );
 
     ka = actionCollection()->add<KToggleAction>("show_time_box")
         << i18nc("Show time-related info box", "Show &Time Box");
-    connect(kaBoxes, SIGNAL( toggled(bool) ), ka, SLOT( setEnabled(bool) ) );
+    connect(kaBoxes, SIGNAL( toggled(bool) ), ka,    SLOT( setEnabled(bool) ) );
+    connect(ka,      SIGNAL( toggled(bool) ), map(), SLOT( slotToggleTimeBox(bool)));
+    ka->setChecked( Options::showTimeBox() );
+    ka->setEnabled( Options::showInfoBoxes() );
 
     ka = actionCollection()->add<KToggleAction>("show_focus_box")
         << i18nc("Show focus-related info box", "Show &Focus Box");
-    connect(kaBoxes, SIGNAL( toggled(bool) ), ka, SLOT( setEnabled(bool) ) );
+    connect(kaBoxes, SIGNAL( toggled(bool) ), ka,    SLOT( setEnabled(bool) ) );
+    connect(ka,      SIGNAL( toggled(bool) ), map(), SLOT( slotToggleFocusBox(bool)));
+    ka->setChecked( Options::showFocusBox() );
+    ka->setEnabled( Options::showInfoBoxes() );
 
     ka = actionCollection()->add<KToggleAction>("show_location_box")
         << i18nc("Show location-related info box", "Show &Location Box");
-    connect(kaBoxes, SIGNAL( toggled(bool) ), ka, SLOT( setEnabled(bool) ) );
+    connect(kaBoxes, SIGNAL( toggled(bool) ), ka,    SLOT( setEnabled(bool) ) );
+    connect(ka,      SIGNAL( toggled(bool) ), map(), SLOT( slotToggleGeoBox(bool)));
+    ka->setChecked( Options::showGeoBox() );
+    ka->setEnabled( Options::showInfoBoxes() );
 
 
     //Toolbar options
@@ -638,15 +650,15 @@ void KStars::initFocus() {
 }
 
 void KStars::buildGUI() {
-    //Initialize menus, toolbars, and statusbars
-    initStatusBar();
-    initActions();
-
     //create the skymap
     skymap = SkyMap::Create();
     connect(skymap, SIGNAL(mousePointChanged(SkyPoint*)), SLOT(slotShowPositionBar(SkyPoint*)));
     connect(skymap, SIGNAL(zoomChanged()),                SLOT(slotZoomChanged()));
     setCentralWidget( skymap );
+
+    //Initialize menus, toolbars, and statusbars
+    initStatusBar();
+    initActions();
 
     setupGUI(StandardWindowOptions (Default & ~Create));
 

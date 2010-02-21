@@ -445,139 +445,148 @@ public slots:
     //DEBUG_KIO_JOB
     void slotJobResult( KJob *j );
 
-    /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size.
-    	*/
+    /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size. */
     virtual void setGeometry( int x, int y, int w, int h );
 
     /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size.
-    	*
-    	*This function behaves essentially like the above function.  It differs only in the data types 	*of its arguments.
-    	*/
+     * This function behaves essentially like the above function.  It differs only in the data types 	*of its arguments.
+     */
     virtual void setGeometry( const QRect &r );
 
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
-    	*If the positions don't need to be recalculated, use update() instead of forceUpdate().
-    	*This saves a lot of CPU time.
-    	*@param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
-    	*/
+    * If the positions don't need to be recalculated, use update() instead of forceUpdate().
+    * This saves a lot of CPU time.
+    * @param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
+    */
     void forceUpdate( bool now=false );
 
     /**@short Convenience function; simply calls forceUpdate(true).
-    	*@see forceUpdate()
-    	*/
+     * @see forceUpdate()
+     */
     void forceUpdateNow() { forceUpdate( true ); }
 
     /**Estimate the effect of atmospheric refraction on object positions.  Refraction
-    	*affects only the Altitude angle of objects.  Also, the correction should not be applied 
-    	*to the horizon, which is not beyond the atmosphere.
-    	*
-    	*To estimate refraction, we use a simple analytic equation.  To save time, we store
-    	*values of the correction for 0.5-degree Altitude intervals.  Individual objects are then 
-    	*simply assigned the nearest stored value.  The precaclulated values are stored in the 
-    	*RefractCorr1 and RefractCorr2 arrays, and these are initialized in the SkyMap constructor.
-    	*
-    	*There are two cases:  the true altitude is known, and the apparent altitude is needed;
-    	*or the apparent altitude is known and the true altitude is needed.
-    	*@param alt The input altitude
-    	*@param findApparent if true, then alt is the true altitude, and we'll find the apparent alt.
-    	*@return the corrected altitude, as a dms object.
-    	*/
+     * affects only the Altitude angle of objects.  Also, the correction should not be applied 
+     * to the horizon, which is not beyond the atmosphere.
+     * 
+     * To estimate refraction, we use a simple analytic equation.  To save time, we store
+     * values of the correction for 0.5-degree Altitude intervals.  Individual objects are then 
+     * simply assigned the nearest stored value.  The precaclulated values are stored in the 
+     * RefractCorr1 and RefractCorr2 arrays, and these are initialized in the SkyMap constructor.
+     * 
+     * There are two cases:  the true altitude is known, and the apparent altitude is needed;
+     * or the apparent altitude is known and the true altitude is needed.
+     * @param alt The input altitude
+     * @param findApparent if true, then alt is the true altitude, and we'll find the apparent alt.
+     * @return the corrected altitude, as a dms object.
+     */
     // FIXME: move out of SkyMap
     static dms refract( const dms& alt, bool findApparent );
 
+    /** Toggle visibility of geo infobox */
+    void slotToggleGeoBox(bool);
+
+    /** Toggle visibility of focus infobox */
+    void slotToggleFocusBox(bool);
+
+    /** Toggle visibility of time infobox */
+    void slotToggleTimeBox(bool);
+
+    /** Toggle visibility of all infoboxes */
+    void slotToggleInfoboxes(bool);
+
     /**Step the Focus point toward the Destination point.  Do this iteratively, redrawing the Sky
-    	*Map after each step, until the Focus point is within 1 step of the Destination point.
-    	*For the final step, snap directly to Destination, and redraw the map.
-    	*/
+     * Map after each step, until the Focus point is within 1 step of the Destination point.
+     * For the final step, snap directly to Destination, and redraw the map.
+     */
     void slewFocus();
 
     /**@short Center the display at the point ClickedPoint.
-    	*
-    	*The essential part of the function is to simply set the Destination point, which will emit 
-    	*the destinationChanged() SIGNAL, which triggers the slewFocus() SLOT.  Additionally, this
-    	*function performs some bookkeeping tasks, such updating whether we are tracking the new 
-    	*object/position, adding a Planet Trail if required, etc.
-    	*
-    	*@see destinationChanged()
-    	*@see slewFocus()
-    	*/
+     * 
+     * The essential part of the function is to simply set the Destination point, which will emit 
+     * the destinationChanged() SIGNAL, which triggers the slewFocus() SLOT.  Additionally, this
+     * function performs some bookkeeping tasks, such updating whether we are tracking the new 
+     * object/position, adding a Planet Trail if required, etc.
+     * 
+     * @see destinationChanged()
+     * @see slewFocus()
+     */
     void slotCenter();
 
     /**@short Popup menu function: Display 1st-Generation DSS image with the Image Viewer.
-    	*@note the URL is generated using the coordinates of ClickedPoint.
-    	*/
+     * @note the URL is generated using the coordinates of ClickedPoint.
+     */
     void slotDSS();
 
     /**@short Popup menu function: Display Sloan Digital Sky Survey image with the Image Viewer.
-    	*@note the URL is generated using the coordinates of ClickedPoint.
-    	*/
+     * @note the URL is generated using the coordinates of ClickedPoint.
+     */
     void slotSDSS();
 
     /**@short Popup menu function: Show webpage about ClickedObject
-    	*(only available for some objects). 
-    	*/
+     * (only available for some objects). 
+     */
     void slotInfo();
 
     /**@short Popup menu function: Show image of ClickedObject
-    	*(only available for some objects). 
-    	*/
+     * (only available for some objects). 
+     */
     void slotImage();
 
-    /**@short Popup menu function: Show the Detailed Information window for ClickedObject.
-    	*/
+    /**@short Popup menu function: Show the Detailed Information window for ClickedObject. */
     void slotDetail();
 
     /**Add ClickedObject to KStarsData::ObjLabelList, which stores pointers to SkyObjects which
-    	*have User Labels attached.
-    	*/
+     * have User Labels attached.
+     */
     void slotAddObjectLabel();
 
     /**Remove ClickedObject from KStarsData::ObjLabelList, which stores pointers to SkyObjects which
-    	*have User Labels attached.
-    	*/
+     * have User Labels attached.
+     */
     void slotRemoveObjectLabel();
 
     /**@short Add a Planet Trail to ClickedObject.
-    	*@note Trails are added simply by calling KSPlanetBase::addToTrail() to add the first point.
-    	*as long as the trail is not empty, new points will be automatically appended to it.
-    	*@note if ClickedObject is not a Solar System body, this function does nothing.
-    	*@see KSPlanetBase::addToTrail()
-    	*/
+     * @note Trails are added simply by calling KSPlanetBase::addToTrail() to add the first point.
+     * as long as the trail is not empty, new points will be automatically appended to it.
+     * @note if ClickedObject is not a Solar System body, this function does nothing.
+     * @see KSPlanetBase::addToTrail()
+     */
     void slotAddPlanetTrail();
 
     /**@short Remove the PlanetTrail from ClickedObject.
-    	*@note The Trail is removed by simply calling KSPlanetBase::clearTrail().  As long as
-    	*the trail is empty, no new points will be automatically appended.
-    	*@see KSPlanetBase::clearTrail()
-    	*/
+     * @note The Trail is removed by simply calling KSPlanetBase::clearTrail().  As long as
+     * the trail is empty, no new points will be automatically appended.
+     * @see KSPlanetBase::clearTrail()
+     */
     void slotRemovePlanetTrail();
 
     /**Popup menu function: Add a custom Image or Information URL.
-    	*Opens the AddLinkDialog window.
-    	*/
+     * Opens the AddLinkDialog window.
+     */
     void addLink();
 
     /**Checks whether the timestep exceeds a threshold value.  If so, sets
-    	*ClockSlewing=true and sets the SimClock to ManualMode. 
-    	*/
+     * ClockSlewing=true and sets the SimClock to ManualMode. 
+     */
     void slotClockSlewing();
 
     /**Enables the angular distance measuring mode. It saves the first
-    	*position of the ruler in a SkyPoint. It makes difference between
-    	*having clicked on the skymap and not having done so */
-    void slotBeginAngularDistance(void);
+     * position of the ruler in a SkyPoint. It makes difference between
+     * having clicked on the skymap and not having done so */
+    void slotBeginAngularDistance();
 
     /**Computes the angular distance, prints the result in the status
-    	*bar and disables the angular distance measuring mode
-    	*If the user has clicked on the map the status bar shows the 
-    	*name of the clicked object plus the angular distance. If 
-    	*the user did not clicked on the map, just pressed ], only 
-    	*the angular distance is printed */
-    void slotEndAngularDistance(void);
+     * bar and disables the angular distance measuring mode
+     * If the user has clicked on the map the status bar shows the 
+     * name of the clicked object plus the angular distance. If 
+     * the user did not clicked on the map, just pressed ], only 
+     * the angular distance is printed */
+    void slotEndAngularDistance();
 
     /**Disables the angular distance measuring mode. Nothing is printed
-    	*in the status bar */
-    void slotCancelAngularDistance(void);
+     * in the status bar */
+    void slotCancelAngularDistance();
 
 #ifdef HAVE_XPLANET
     /**Run Xplanet to print a view on the screen*/
