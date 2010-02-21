@@ -20,8 +20,6 @@
 #include <QPixmap>
 #include <QPainter>
 
-#include <QRectF>
-#include <QFontMetricsF>
 #include <kglobal.h>
 
 #include "Options.h"
