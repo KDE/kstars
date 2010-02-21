@@ -282,9 +282,9 @@ void KStars::initActions() {
 
     //Toolbar options
     newToggleAction( actionCollection(), "show_mainToolBar", i18n("Show Main Toolbar"),
-                     this, SLOT(slotShowGUIItem(bool)));
+                     toolBar("kstarsToolBar"), SLOT(setVisible(bool)));
     newToggleAction( actionCollection(), "show_viewToolBar", i18n("Show View Toolbar"),
-                     this, SLOT(slotShowGUIItem(bool)));
+                     toolBar( "viewToolBar" ), SLOT(setVisible(bool)));
 
     //Statusbar view options
     newToggleAction( actionCollection(), "show_statusBar", i18n("Show Statusbar"),

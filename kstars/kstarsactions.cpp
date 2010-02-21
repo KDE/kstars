@@ -947,14 +947,6 @@ void KStars::slotClearAllTrails() {
 //toggle display of GUI Items on/off
 void KStars::slotShowGUIItem( bool show ) {
     //Toolbars
-    if ( sender() == actionCollection()->action( "show_mainToolBar" ) ) {
-        toolBar("kstarsToolBar")->setVisible(show);
-    }
-
-    if ( sender() == actionCollection()->action( "show_viewToolBar" ) ) {
-        toolBar( "viewToolBar" )->setVisible(show);
-    }
-
     if ( sender() == actionCollection()->action( "show_statusBar" ) ) {
         Options::setShowStatusBar( show );
         statusBar()->setVisible(show);
