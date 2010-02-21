@@ -377,68 +377,68 @@ public:
     bool onscreenLine( QPointF &p1, QPointF &p2 );
 
     /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
-    	*screen pixel coordinate offsets from the center of the Sky pixmap.
-    	*@param the screen pixel position to convert
-    	*@param LST pointer to the local sidereal time, as a dms object.
-    	*@param lat pointer to the current geographic laitude, as a dms object
-    	*/
+     * screen pixel coordinate offsets from the center of the Sky pixmap.
+     * @param the screen pixel position to convert
+     * @param LST pointer to the local sidereal time, as a dms object.
+     * @param lat pointer to the current geographic laitude, as a dms object
+     */
     SkyPoint fromScreen( const QPointF &p, dms *LST, const dms *lat );
 
     /**@short Determine if the skypoint p is likely to be visible in the display
-    	*window.
-    	*
-    	*checkVisibility() is an optimization function.  It determines whether an object
-    	*appears within the bounds of the skymap window, and therefore should be drawn.
-    	*The idea is to save time by skipping objects which are off-screen, so it is 
-    	*absolutely essential that checkVisibility() is significantly faster than
-    	*the computations required to draw the object to the screen.
-    	*
-    	*The function first checks the difference between the Declination/Altitude
-    	*coordinate of the Focus position, and that of the point p.  If the absolute 
-    	*value of this difference is larger than fov, then the function returns false.
-    	*For most configurations of the sky map window, this simple check is enough to 
-    	*exclude a large number of objects.
-    	*
-    	*Next, it determines if one of the poles of the current Coordinate System 
-    	*(Equatorial or Horizontal) is currently inside the sky map window.  This is
-    	*stored in the member variable 'bool SkyMap::isPoleVisible, and is set by the 
-    	*function SkyMap::setMapGeometry(), which is called by SkyMap::paintEvent().
-    	*If a Pole is visible, then it will return true immediately.  The idea is that
-    	*when a pole is on-screen it is computationally expensive to determine whether 
-    	*a particular position is on-screen or not: for many valid Dec/Alt values, *all* 
-    	*values of RA/Az will indeed be onscreen, but for other valid Dec/Alt values, 
-    	*only *most* RA/Az values are onscreen.  It is cheaper to simply accept all 
-    	*"horizontal" RA/Az values, since we have already determined that they are 
-    	*on-screen in the "vertical" Dec/Alt coordinate.
-    	*
-    	*Finally, if no Pole is onscreen, it checks the difference between the Focus 
-    	*position's RA/Az coordinate and that of the point p.  If the absolute value of 
-    	*this difference is larger than XMax, the function returns false.  Otherwise,
-    	*it returns true.
-    	
-    	*@param p pointer to the skypoint to be checked.
-    	*@return true if the point p was found to be inside the Sky map window.
-    	*@see SkyMap::setMapGeometry()
-    	*@see SkyMap::fov()
-    	*/
+     * window.
+     * 
+     * checkVisibility() is an optimization function.  It determines whether an object
+     * appears within the bounds of the skymap window, and therefore should be drawn.
+     * The idea is to save time by skipping objects which are off-screen, so it is 
+     * absolutely essential that checkVisibility() is significantly faster than
+     * the computations required to draw the object to the screen.
+     * 
+     * The function first checks the difference between the Declination/Altitude
+     * coordinate of the Focus position, and that of the point p.  If the absolute 
+     * value of this difference is larger than fov, then the function returns false.
+     * For most configurations of the sky map window, this simple check is enough to 
+     * exclude a large number of objects.
+     * 
+     * Next, it determines if one of the poles of the current Coordinate System 
+     * (Equatorial or Horizontal) is currently inside the sky map window.  This is
+     * stored in the member variable 'bool SkyMap::isPoleVisible, and is set by the 
+     * function SkyMap::setMapGeometry(), which is called by SkyMap::paintEvent().
+     * If a Pole is visible, then it will return true immediately.  The idea is that
+     * when a pole is on-screen it is computationally expensive to determine whether 
+     * a particular position is on-screen or not: for many valid Dec/Alt values, *all* 
+     * values of RA/Az will indeed be onscreen, but for other valid Dec/Alt values, 
+     * only *most* RA/Az values are onscreen.  It is cheaper to simply accept all 
+     * "horizontal" RA/Az values, since we have already determined that they are 
+     * on-screen in the "vertical" Dec/Alt coordinate.
+     * 
+     * Finally, if no Pole is onscreen, it checks the difference between the Focus 
+     * position's RA/Az coordinate and that of the point p.  If the absolute value of 
+     * this difference is larger than XMax, the function returns false.  Otherwise,
+     * it returns true.
+     *     
+     * @param p pointer to the skypoint to be checked.
+     * @return true if the point p was found to be inside the Sky map window.
+     * @see SkyMap::setMapGeometry()
+     * @see SkyMap::fov()
+     */
     bool checkVisibility( SkyPoint *p );
 
     /**Determine the on-screen position angle of a SkyObject.  This is the sum
-    	*of the object's sky position angle (w.r.t. North), and the position angle
-    	*of "North" at the position of the object (w.r.t. the screen Y-axis).  
-    	*The latter is determined by constructing a test point with the same RA but 
-    	*a slightly increased Dec as the object, and calculating the angle w.r.t. the 
-    	*Y-axis of the line connecing the object to its test point. 
-    	*/
+     * of the object's sky position angle (w.r.t. North), and the position angle
+     * of "North" at the position of the object (w.r.t. the screen Y-axis).  
+     * The latter is determined by constructing a test point with the same RA but 
+     * a slightly increased Dec as the object, and calculating the angle w.r.t. the 
+     * Y-axis of the line connecing the object to its test point. 
+     */
     double findPA( SkyObject *o, float x, float y );
 
     /**@short Draw "user labels".  User labels are name labels attached to objects manually with
-    	*the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
-    	*is true.
-    	*@param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
-    	*@param psky painter for the sky
-    	*@note the labelObjects list is managed by the SkyMapComponents class
-    	*/
+     * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
+     * is true.
+     * @param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
+     * @param psky painter for the sky
+     * @note the labelObjects list is managed by the SkyMapComponents class
+     */
     void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky );
 
 public slots:
@@ -454,10 +454,10 @@ public slots:
     virtual void setGeometry( const QRect &r );
 
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
-    * If the positions don't need to be recalculated, use update() instead of forceUpdate().
-    * This saves a lot of CPU time.
-    * @param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
-    */
+     * If the positions don't need to be recalculated, use update() instead of forceUpdate().
+     * This saves a lot of CPU time.
+     * @param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
+     */
     void forceUpdate( bool now=false );
 
     /**@short Convenience function; simply calls forceUpdate(true).
