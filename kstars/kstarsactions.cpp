@@ -1002,12 +1002,6 @@ void KStars::slotAboutToQuit()
     //explicitly save the colorscheme data to the config file
     data()->colorScheme()->saveToConfig();
 
-    //explicitly save toolbar settings to config file
-    KConfigGroup cg = KGlobal::config()->group( "MainToolBar" );
-    toolBar("kstarsToolBar")->saveSettings( cg );
-    cg = KGlobal::config()->group( "ViewToolBar" );
-    toolBar( "viewToolBar" )->saveSettings( cg );
-
     //synch the config file with the Config object
     writeConfig();
 
