@@ -26,6 +26,7 @@
 #include <KLocale>
 #include <kdebug.h>
 #include <kactioncollection.h>
+#include <kstatusbar.h>
 #include <ktoolbar.h>
 #include <kicon.h>
 
@@ -35,7 +36,6 @@
 #include "skymap.h"
 #include "simclock.h"
 #include "dialogs/finddialog.h"
-#include "imageviewer.h"
 #include "observinglist.h"
 #include "comast/execute.h"
 
@@ -172,6 +172,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     actionCollection()->action("show_grid"        )->setChecked( Options::showGrid() );
     actionCollection()->action("show_horizon"     )->setChecked( Options::showGround() );
     actionCollection()->action("show_flags"       )->setChecked( Options::showFlags() );
+    statusBar()->setVisible( Options::showStatusBar() );
 
     //color scheme
     kstarsData->colorScheme()->loadFromConfig();
