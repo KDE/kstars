@@ -185,9 +185,4 @@ const float64 gEpsilon = 1.0E-15;
 //
 #endif
 
-#if defined(_WIN32) && defined(_INC_IOSTREAM)
-LINKAGE ostream& operator<<(ostream& os, const int64 &i64);
-LINKAGE ostream& operator<<(ostream& os, const uint64 &ui64);
-#endif
-
 #endif /* SPATIALGENERAL_H */
