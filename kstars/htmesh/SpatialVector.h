@@ -138,7 +138,6 @@ private:
 
   friend class SpatialIndex;
   friend class SpatialDomain;
-  friend class sxSpatialDomain;
 };
 
 #include "SpatialVector.hxx"

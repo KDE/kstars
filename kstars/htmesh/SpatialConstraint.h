@@ -117,7 +117,6 @@ private:
   friend class SpatialConvex;
   friend class RangeConvex;
   friend class SpatialDomain;
-  friend class sxSpatialDomain;
   friend class Htmio;
 };
 

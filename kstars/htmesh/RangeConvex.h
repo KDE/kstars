@@ -233,7 +233,6 @@ public:
 
 
   friend class SpatialDomain;
-  friend class sxSpatialDomain;
   friend class SpatialLookup;
   friend class Htmio;
   friend class SpatialConstraint;
