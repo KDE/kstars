@@ -158,10 +158,7 @@ private:
     KSNumbers      m_reindexNum;
     double         m_reindexInterval;
 
-    int            m_lineNumber[ MAX_LINENUMBER_MAG + 1 ];
     LabelList*     m_labelList[  MAX_LINENUMBER_MAG + 1 ];
-    int            m_lastLineNum;
-    bool           m_validLineNums;
     bool           m_hideLabels;
 
     float          m_zoomMagLimit;
@@ -169,13 +166,10 @@ private:
     float          m_FaintMagnitude; // Limiting magnitude of the catalog currently loaded
     bool           starsLoaded;
     float          magLim;           // Current limiting magnitude for visible stars
-    unsigned long  visibleStarCount;
-    quint16        MSpT;             // Maximum number of stars in any given trixel
 
     StarObject     m_starObject;
     StarObject     *focusStar;       // This object is always drawn
 
-    KStarsSplash*  m_reloadSplash;
     KStarsSplash*  m_reindexSplash;
 
     StarBlockFactory *m_StarBlockFactory;

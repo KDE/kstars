@@ -63,8 +63,6 @@ StarComponent::StarComponent(SkyComposite *parent )
     m_reindexInterval = StarObject::reindexInterval( 304.0 );
 
     m_zoomMagLimit = 0.0;
-    m_reloadSplash = m_reindexSplash = 0;
-    m_validLineNums = false;
 
     for ( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
         m_labelList[ i ] = new LabelList;
@@ -273,11 +271,10 @@ void StarComponent::draw( QPainter& psky )
     UpdateID updateID = data->updateID();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-    m_hideLabels = ( map->isSlewing() && Options::hideLabels() ) ||
-                  !( Options::showStarMagnitudes() || Options::showStarNames() );
+    m_hideLabels = checkSlewing || !( Options::showStarMagnitudes() || Options::showStarNames() );
 
     //shortcuts to inform whether to draw different objects
-    bool hideFaintStars( checkSlewing && Options::hideStars() );
+    bool hideFaintStars = checkSlewing && Options::hideStars();
     double hideStarsMag = Options::magLimitHideStar();
     reindex( data->updateNum() );
 
@@ -301,8 +298,6 @@ void StarComponent::draw( QPainter& psky )
     m_StarBlockFactory->drawID = m_skyMesh->drawID();
 
     int nTrixels = 0;
-
-    visibleStarCount = 0;
 
     while( region.hasNext() ) {
         ++nTrixels;
@@ -330,7 +325,6 @@ void StarComponent::draw( QPainter& psky )
                 continue;
 
             curStar->draw( psky, o, starRenderingSize( mag ) );
-            visibleStarCount++;
             
             if ( m_hideLabels || mag > labelMagLim )
                 continue;
@@ -347,7 +341,6 @@ void StarComponent::draw( QPainter& psky )
             QPointF o = map->toScreen( focusStar );
             if ( map->onScreen( o ) ) {
                 focusStar->draw( psky, o, starRenderingSize( mag ) );
-                visibleStarCount++;
             }
         }
     }
@@ -368,7 +361,8 @@ void StarComponent::addLabel( const QPointF& p, StarObject *star )
 
 void StarComponent::drawLabels( QPainter& psky )
 {
-    if ( m_hideLabels ) return;
+    if( m_hideLabels )
+        return;
 
     psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" ) ) );
 
@@ -677,7 +671,6 @@ void StarComponent::printDebugInfo() {
     printf( "Number of visible StarBlocks                 = %8d\n", nBlocks );
     printf( "Number of StarBlocks allocated via SBF       = %8d\n", m_StarBlockFactory.getBlockCount() );
     printf( "Number of unnamed stars in memory            = %8ld\n", nStars );
-    printf( "Number of visible stars (named + unnamed)    = %8ld\n", visibleStarCount );
     printf( "Magnitude of the faintest star in memory     = %8.2f\n", faintMag );
     printf( "Target magnitude limit                       = %8.2f\n", magLim );
     printf( "Size of each StarBlock                       = %8d bytes\n", sizeof( StarBlock ) );
@@ -690,7 +683,6 @@ void StarComponent::printDebugInfo() {
     printf( "Time taken for dynamic load of data          = %8ld ms\n", t_dynamicLoad );
     printf( "Time taken for updating LRU cache            = %8ld ms\n", t_updateCache );
     printf( "Time taken for drawing unnamed stars         = %8ld ms\n", t_drawUnnamed );
-    printf( "Average Number of stars draw per millisecond = %8.2f stars/ms\n", ( (double)visibleStarCount ) / ( t_drawUnnamed + t_drawNamed ) );
     printf( "================================================================\n" );
 }
 
