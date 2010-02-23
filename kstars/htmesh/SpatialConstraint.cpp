@@ -28,19 +28,7 @@
 //
 SpatialSign::SpatialSign(Sign sign) : sign_(sign) {
 }
-
-/////////////COPY CONSTRUCTOR/////////////////////////////
-//
-SpatialSign::SpatialSign(const SpatialSign & oldSign) : sign_(oldSign.sign_) {
-}
-
-/////////////ASSIGNMENT///////////////////////////////////
-//
-SpatialSign &
-SpatialSign::operator =(const SpatialSign & oldSign) {
-  if( & oldSign != this)sign_ = oldSign.sign_;
-  return *this;
-}
+SpatialSign::~SpatialSign() {}
 
 // ===========================================================================
 //
