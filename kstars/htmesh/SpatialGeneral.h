@@ -164,16 +164,6 @@ const float64 gEpsilon = 1.0E-15;
 #ifndef SpatialWinNT
 #   define IDHIGHBIT  0x8000000000000000LL
 #   define IDHIGHBIT2 0x4000000000000000LL
-#   ifdef SpatialDigitalUnix
-#      define PRINTID(x) printf("%lu",(x))
-#      define PRINTID_HEX(x) printf("%lX",(x))
-#   else
-#      define PRINTID(x) printf("%llu",(x))
-#      define PRINTID_HEX(x) printf("%llX",(x))
-#   endif
-#else
-#   define PRINTID(x) printf("%I64u",(x))
-#   define PRINTID_HEX(x) printf("%I64X",(x))
 #endif
 
 // Swap functions for little-endian.
