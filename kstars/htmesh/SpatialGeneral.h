@@ -150,13 +150,4 @@ const float64 gEpsilon = 1.0E-15;
 #   define IDHIGHBIT2 0x4000000000000000LL
 #endif
 
-// Swap functions for little-endian.
-
-#if !defined(SPATIALBIGENDIAN) && !defined(SXGENERAL_H)
-#   define SWAP(a,b)     { a^=b; b^=a; a^=b; }
-//
-// swapEndian was here
-//
-#endif
-
 #endif /* SPATIALGENERAL_H */
