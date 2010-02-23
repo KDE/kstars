@@ -172,7 +172,6 @@ void DeepStarComponent::draw( QPainter& psky ) {
     SkyMap *map = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
-    StarComponent *sc = StarComponent::Instance();
 
     float radius = map->fov();
     if ( radius > 90.0 ) radius = 90.0;
@@ -192,7 +191,7 @@ void DeepStarComponent::draw( QPainter& psky ) {
 //    double lgz = log10(Options::zoomFactor());
     // TODO: Enable hiding of faint stars
 
-    float maglim = sc->zoomMagnitudeLimit();
+    float maglim = StarComponent::zoomMagnitudeLimit();
 
     if( maglim < triggerMag )
         return;
@@ -287,7 +286,7 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 QPointF o = map->toScreen( curStar );
                 if ( ! map->onScreen( o ) )
                     continue;
-                curStar->draw( psky, o, sc->starRenderingSize( mag ) );
+                curStar->draw( psky, o, StarComponent::Instance()->starRenderingSize( mag ) );
                 visibleStarCount++;
             }
         }
