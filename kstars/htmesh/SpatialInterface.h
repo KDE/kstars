@@ -18,7 +18,6 @@
 
 #include "SpatialIndex.h"
 #include "SpatialDomain.h"
-#include "VarStr.h"
 
 class htmRange {
 public:
@@ -83,18 +82,6 @@ public:
   */
   uint64 lookupID(char *) const;
 
-  /** Lookup a node ID from a string command.
-      The string in the input may have one of the following forms:
-      <ul>
-      <li> "J2000 depth ra dec"
-      <li> "CARTESIAN depth x y z"
-      <li> "NAME name"
-      </ul>
-      The string will be evaluated depending on how many items it has.
-      SpatialInterfaceError is thrown if the string is unexpected.
-  */
-  uint64 lookupIDCmd(char *);
-
   /** Lookup a node name from ra,dec
       Given a certain RA,DEC and index depth return its HTM NodeName.
   */
@@ -109,18 +96,6 @@ public:
   /** Lookup a node name from a node ID.
   */
   const char * lookupName(uint64 ID) ;
-
-  /** Lookup a node name using a string command.
-      The string in the input may have one of the following forms:
-      <ul>
-      <li> "J2000 depth ra dec"
-      <li> "CARTESIAN depth x y z"
-      <li> "ID id"
-      </ul>
-      The string will be evaluated depending on how many items it has.
-      SpatialInterfaceError is thrown if the string is unexpected.
-  */
-  const char * lookupNameCmd(char *);
 
   /** Request all triangles in a circular region.
       Given are the center coordinate and radius in arcminutes.
@@ -137,12 +112,6 @@ public:
 					 float64 z,
 					 float64 rad ) ;
 
-  /** Request all triangles in a circular region.
-      Given are the center coordinate and radius in arcminutes.
-      Same as previous two functions but from a string.
-  */
-  const ValueVector & circleRegionCmd( char *str );
-
   /** Request all triangles in the convex hull of a given set of 
       points.
   */
@@ -156,66 +125,12 @@ public:
 				       ValueVectorF64 y,
 				       ValueVectorF64 z ) ;
 
-  /** Request all triangles in the convex hull of a given set of 
-      points.
-      The points are given in the string in the following form:
-      <pre>
-      " J2000 depth ra dec ra dec ra dec "  
-      </pre>
-      or
-      <pre>
-      " CARTESIAN depth x y z x y z x y z "
-      </pre>
-      There may be as many points ra, dec or x,y,z as you want.
-  */
-  const ValueVector & convexHullCmd( char *str );
-
 
   /** Give the ranges for an intersection with a proper domain. */
   const ValueVector & domain( SpatialDomain & );
 
-  /** String interface for domain intersection.
-      The domain should be given in the following form:
-      <pre>
-      DOMAIN depth
-      nConvexes
-      nConstraints in convex 1
-      x y z d
-      x y z d
-      .
-      .
-      x y z d
-      nConstraints in convex 2
-      x y z d
-      x y z d
-      .
-      .
-      x y z d
-      .
-      .
-      .
-      nConstrinats in convex n
-      x y z d
-      x y z d
-      .
-      .
-      x y z d
-      <pre>
-
-      <p>
-      The numbers need to be separated by whitespace (newlines are allowed).
-      Throws SpatialInterfaceError on syntax errors.
-  */
-  const ValueVector & domainCmd( char *str );
-
   /** Change the current index depth */
   void changeDepth(size_t depth, size_t saveDepth = 5);
-
-  /** Check whether a varstring is an integer */
-  static bool isInteger(const StdStr &);
-
-  /** Check whether a varstring is a float */
-  static bool isFloat(const StdStr &);
 
   /** Check whether a range contains a certain id */
   static bool inRange( const ValueVector &, uint64 );
@@ -239,21 +154,6 @@ private:
   ValueVectorUint64 idList_;
   typedef std::vector<htmPolyCorner> ValueVectorPolyCor;
   ValueVectorPolyCor polyCorners_;
-  StdStr cmd_;
-  VarStrToken *t_;
-
-  // parse command code
-  cmdCode getCode();
-
-  // parse depth
-  void getDepth();
-
-  // parse the string, returning the depth
-  bool parseVec( cmdCode, float64 *v );
-
-  int32   getInteger();   // get an int off the command string
-  uint64  getInt64();     // get an int off the command string
-  float64 getFloat();     // get a float off the command string
 
   // add a polygon corner to the list, sort it counterclockwise
   // and ignore if inside the convex hull

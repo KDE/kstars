@@ -38,210 +38,14 @@ extern long long atoll (const char *str);
 //==============================================================
 
 ///////////CONSTRUCTOR///////////////////////
-htmInterface::htmInterface(size_t depth, size_t savedepth) : t_(NULL) {
+htmInterface::htmInterface(size_t depth, size_t savedepth) {
   index_ = new SpatialIndex(depth, savedepth);
 }
 
 ///////////DESTRUCTOR////////////////////////
 htmInterface::~htmInterface() {
   delete index_;
-  if(t_ != NULL) delete t_;
 }
-
-///////////LOOKUP METHODS////////////////////
-
-uint64 htmInterface::lookupIDCmd(char *str) {
-
-  cmd_ = str;
-  if(t_ != NULL)delete t_;
-  t_ = new VarStrToken(cmd_);
-
-  float64 v[3];
-  cmdCode code = getCode();
-
-  if(code == NAME) {
-	StdStr token = t_->next();
-    if(token.empty())
-      throw SpatialInterfaceError("htmInterface:lookupIDCmd: expected Name");
-    return index_->idByName(token.data());
-  }
-
-  getDepth();
-  if(! parseVec(code, v) )
-    throw SpatialInterfaceError("htmInterface:lookupIDCmd: Expect vector in Command. ", cmd_.data());
-
-  if( code == J2000 )
-    return lookupID(v[0], v[1]);
-  return lookupID(v[0], v[1], v[2]);
-
-}
-
-const char * htmInterface::lookupNameCmd(char *str) {
-
-  cmd_ = str;
-  if(t_ != NULL)delete t_;
-  t_ = new VarStrToken(cmd_);
-
-  float64 v[3];
-  cmdCode code = getCode();
-
-  if(code == ID) {
-    uint64 id = getInt64();
-    index_->nameById(id, name_);
-  } else {
-    getDepth();
-
-	if(! parseVec(code, v) )
-		throw SpatialInterfaceError("htmInterface:lookupNameCmd: Expect vector in Command. ", cmd_.data());
-
-    if( code == J2000 )
-		index_->nameByPoint(v[0], v[1], name_);
-    else {
-		SpatialVector tv(v[0], v[1], v[2]);
-		index_->nameByPoint(tv, name_);
-    }
-  }
-  return name_;
-}
-
-// get the depth, which is the first item in the first character argument.
-htmInterface::cmdCode
-htmInterface::getCode() {
-
-  cmdCode code;
-
-  // parse incoming string. expect to have an integer indicating the
-  // depth at first position.
-  StdStr token = t_->next();
-
-  if     ( token == "J2000" )
-    code = J2000;
-  else if( token == "CARTESIAN" )
-    code = CARTESIAN;
-  else if( token == "NAME" )
-    code = NAME;
-  else if( token == "ID" )
-    code = ID;
-  else if( token == "DOMAIN" )
-    code = HTMDOMAIN;
-  else
-    throw SpatialInterfaceError("htmInterface:getCode: Unexpected command",token);
-
-  return code;
-}
-
-void 
-htmInterface::getDepth() {
-
-  size_t depth = getInteger();
-  if(depth > HTMMAXDEPTH)
-    throw SpatialInterfaceError("htmInterface:getDepth: Depth too large: Max is HTMMAXDEPTH");
-
-  changeDepth(depth);
-}
-
-// get an integer out of the command string
-int32 
-htmInterface::getInteger() {
-
-  if(t_ == NULL)
-    throw SpatialFailure("htmInterface:getInteger: No command to parse");
-
-  // parse incoming string. expect to have an integer.
-  const StdStr &token = t_->next();
-  if(!isInteger(token))
-    throw SpatialInterfaceError("htmInterface:getInteger: Expected integer at first position of Command. ",cmd_.data());
-
-  return atoi(token.data());
-}
-
-// get an 64bit integer out of the command string
-uint64 
-htmInterface::getInt64() {
-
-	if(t_ == NULL)
-		throw SpatialFailure("htmInterface:getInt64: No command to parse");
-
-	// parse incoming string. expect to have an integer.
-	const StdStr &token = t_->next();
-	if(!isInteger(token))
-		throw SpatialInterfaceError("htmInterface:getInt64: Expected integer at first position of Command. ",cmd_.data());
-#ifdef SpatialWinNT
-	return _atoi64(token.data());
-#elif defined(SpatialDigitalUnix)
-	return atol(token.data());
-#elif defined(__APPLE__)
-	return atol(token.data());
-#else
-	return atoll(token.data());
-#endif
-}
-
-// get a float64 out of the command string
-float64 
-htmInterface::getFloat() {
-
-  if(t_ == NULL)
-    throw SpatialFailure("htmInterface:getFloat: No command to parse");
-
-  // parse incoming string. expect to have an integer.
-  const StdStr &token = t_->next();
-  if(!isFloat(token))
-    throw SpatialInterfaceError("htmInterface:getFloat: Expected float at first position of Command. ",cmd_.data());
-
-  return atof(token.data());
-}
-
-
-// parse the string, returning the number of floats
-// that have been in the string.
-bool
-htmInterface::parseVec( cmdCode code, float64 *v) {
-
-  typedef StdStr VaribleString;
-
-  VaribleString token;
-  size_t  i = 0, len;
-
-  if(code == J2000)
-    len = 2;
-  else if(code == CARTESIAN)
-    len = 3;
-  else
-    throw SpatialInterfaceError("htmInterface:parseVec: Expected code J2000 or CARTESIAN.");
-
-  // parse the next len positions
-  while( i < len  ) {
-    token = t_->next();
-    if(token.empty())break;
-
-    if(!isFloat(token))
-      throw SpatialInterfaceError("htmInterface:parse: Expected float at this position of Command. ",cmd_.data());
-    if(i == len)
-      throw SpatialInterfaceError("htmInterface:parse: Expect less floats in Command. ", cmd_.data());
-    v[i++] = atof(token.data());
-  }
-
-  if(i < len)
-    return false;
-  return true;
-
-}
-
-// check whether string is an integer
-bool htmInterface::isInteger(const StdStr &str) {
-	if(str.empty()) return false;
-	uint32 len = str.length();
-	return (strspn(str.data(),"+0123456789") == len) ? true : false ;
-}
-
-// check whether string is a float
-bool htmInterface::isFloat(const StdStr &str) {
-	if(str.empty()) return false;
-	uint32 len = str.length();
-	return (strspn(str.data(),"+-.e0123456789") == len) ? true : false ;
-}
-
 
 // check whether an id is in a range
 bool htmInterface::inRange( const ValueVector &range, uint64 id) {
@@ -322,28 +126,6 @@ htmInterface::circleRegion( float64 x,
 	return domain(dom);
 }
 
-const ValueVector & 
-htmInterface::circleRegionCmd( char *str ) {
-
-	cmd_ = str;
-	if(t_ != NULL)delete t_;
-	t_ = new VarStrToken(cmd_);
-
-	float64 v[3];
-	float64 d;
-
-	cmdCode code = getCode();
-	getDepth();
-	if(! parseVec(code, v) )
-		throw SpatialInterfaceError("htmInterface:circleRegionCmd: Expect vector in Command. ", cmd_.data());
-
-	d = getFloat();
-	if( code == J2000 )
-		return circleRegion(v[0], v[1], d);
-
-	return circleRegion(v[0], v[1], v[2], d);
-}
-
 //////////////////ConvexHull///////////////////////
 const ValueVector & 
 htmInterface::convexHull( ValueVectorF64 ra,
@@ -373,32 +155,6 @@ htmInterface::convexHull( ValueVectorF64 x,
   for(size_t i = 0; i < x.size(); i++) {
     SpatialVector v(x[i],y[i],z[i]);
     setPolyCorner(v);
-  }
-
-  return doHull();
-}
-
-const ValueVector & 
-htmInterface::convexHullCmd( char *str ) {
-
-  cmd_ = str;
-  if(t_ != NULL) delete t_;
-  t_ = new VarStrToken(cmd_);
-
-  float64 v[3];
-
-  cmdCode code = getCode();
-  getDepth();
-  polyCorners_.clear();
-
-  while(  parseVec( code, v ) ) {
-    if(code == J2000) {
-      SpatialVector tv(v[0],v[1]);
-      setPolyCorner(tv);
-    } else {
-      SpatialVector tv(v[0],v[1],v[2]);
-      setPolyCorner(tv);
-    }
   }
 
   return doHull();
@@ -568,43 +324,6 @@ htmInterface::domain( SpatialDomain & domain ) {
 				// Construct the valuevector...
   fillValueVec( htmRange, range_);
   return range_;
-}
-
-
-
-const ValueVector & 
-htmInterface::domainCmd( char *str ) {
-
-  cmd_ = str;
-  if(t_ != NULL)delete t_;
-  t_ = new VarStrToken(cmd_);
-
-  cmdCode code = getCode();
-  if(code != HTMDOMAIN)
-    throw SpatialInterfaceError("htmInterface:domainCmd: missing keyword HTMDOMAIN");
-  getDepth();
-
-  int32 nx,nc;
-  nx = getInteger();
-
-  SpatialDomain dom;
-  for(int32 i = 0 ; i < nx; i++ ) {
-
-    RangeConvex convex;
-
-    nc = getInteger();
-    for(int32 j = 0; j < nc; j++ ) {
-      float64 x = getFloat();
-      float64 y = getFloat();
-      float64 z = getFloat();
-      float64 d = getFloat();
-      SpatialConstraint c(SpatialVector(x,y,z),d);
-      convex.add(c); // [ed:RangeConvex::add]
-    }
-    dom.add(convex);
-  }
-  dom.setOlevel(20); 		// [ed:olevel]
-  return domain(dom);
 }
 
 #ifdef _WIN32
