@@ -75,40 +75,40 @@
 */
 class LINKAGE SpatialConstraint {
 public:
-  /// Constructor
-  SpatialConstraint() {};
+    /// Constructor
+    SpatialConstraint() {};
 
-  /// Initialization constructor
-  SpatialConstraint(SpatialVector, float64);
+    /// Initialization constructor
+    SpatialConstraint(SpatialVector, float64);
 
-  /// set vector
-  void setVector(SpatialVector &);
+    /// set vector
+    void setVector(SpatialVector &);
 
-  /// set distance
-  void setDistance(float64);
+    /// set distance
+    void setDistance(float64);
 
-  /// Invert
-  void invert();
+    /// Invert
+    void invert();
 
-  /// check whether a vector is inside this
-  bool contains(const SpatialVector v);
+    /// check whether a vector is inside this
+    bool contains(const SpatialVector v);
 
-  /// give back vector
-  SpatialVector & v() ;
+    /// give back vector
+    SpatialVector & v() ;
 
-  /// give back distance
-  float64 d() const ;
+    /// give back distance
+    float64 d() const ;
 
 private:
-  Sign          sign_;
-  SpatialVector a_;			// normal vector
-  float64       d_;			// distance from origin
-  float64       s_;			// cone angle in radians
+    Sign          sign_;
+    SpatialVector a_;			// normal vector
+    float64       d_;			// distance from origin
+    float64       s_;			// cone angle in radians
 
-  friend class SpatialIndex;
-  friend class SpatialConvex;
-  friend class RangeConvex;
-  friend class SpatialDomain;
+    friend class SpatialIndex;
+    friend class SpatialConvex;
+    friend class RangeConvex;
+    friend class SpatialDomain;
 };
 
 #include "SpatialConstraint.hxx"

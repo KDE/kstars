@@ -27,29 +27,30 @@
 /////////////CONSTRUCTOR//////////////////////////////////
 //
 SpatialConstraint::SpatialConstraint(SpatialVector a, float64 d) :
-  a_(a), d_(d)
+    a_(a), d_(d)
 {
-  a_.normalize();
-  s_ = acos(d_);
-  if(d_ <= -gEpsilon) sign_ = nEG;
-  if(d_ >=  gEpsilon) sign_ = pOS;
+    a_.normalize();
+    s_ = acos(d_);
+    if(d_ <= -gEpsilon)
+        sign_ = nEG;
+    if(d_ >=  gEpsilon)
+        sign_ = pOS;
 }
 
 /////////////CONTAINS/////////////////////////////////////
 // check whether a vector is inside this
 //
-bool 
-SpatialConstraint::contains(const SpatialVector v) {
-    if ( acos(v * a_) < s_ ) return true;
-    return false;
+bool SpatialConstraint::contains(const SpatialVector v) {
+    return acos(v * a_) < s_;
 }
 
 /////////////INVERT///////////////////////////////////////
 //
-void
-SpatialConstraint::invert() {
+void SpatialConstraint::invert() {
   d_ = -d_;
   s_ = acos(d_);
-  if(sign_ == nEG) sign_ = pOS;
-  if(sign_ == pOS) sign_ = nEG;
+  if(sign_ == nEG)
+      sign_ = pOS;
+  if(sign_ == pOS)
+      sign_ = nEG;
 }
