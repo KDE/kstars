@@ -6,7 +6,6 @@
 class HtmRangeIterator {
  public:
   Key next();
-  char *nextSymbolic(char *buffer); /* User responsible for managing it */
   bool hasNext();
   HtmRangeIterator(HtmRange *ran) {
     range = ran;

@@ -10,10 +10,6 @@
 #define INTERSECT  0
 #define GAP_HISTO_SIZE 10000
 
-
-extern "C" {
-  int cc_ID2name(char *name, uint64 id);
-}
 HtmRange::HtmRange()
 {
   my_los = new SkipList(SKIP_PROB);
