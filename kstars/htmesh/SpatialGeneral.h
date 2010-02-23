@@ -129,25 +129,9 @@ const float64 gEpsilon = 1.0E-15;
 #endif
 
 #if defined(__unix__) || defined(__unix)
-
-#   if defined(__osf__)
-#      define SpatialDigitalUnix 1
-#      define SpatialStandardTemplate 1
-#   elif defined(__sgi)
-#      define SpatialSGI 1
-#      define SpatialPragmaTemplateSGI 1
-#   elif defined(__sun)
-#      define SpatialSUN 1
-#      define SpatialStandardTemplate 1
-#   elif defined(__linux__)
-#      define SpatialLinux 1
-#      define SpatialStandardTemplate 1
-#   endif
 #   define LINKAGE 
-
 #elif defined(_WIN32)
 #   define SpatialWinNT 1
-#   define SpatialWINTemplate 1
 // This warning is about template instances being exported in the dll...
 #   pragma warning(disable: 4251)
 
