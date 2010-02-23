@@ -18,8 +18,6 @@
 #include "SpatialDomain.h"
 #include "SpatialException.h"
 
-#include "Htmio.h"
-
 // ===========================================================================
 //
 // Member functions for class SpatialDomain
@@ -81,16 +79,6 @@ SpatialDomain::intersect(const SpatialIndex * idx, HtmRange *htmrange, bool varl
   return true;
 }
 
-/////////////Write////////////////////////////////////////
-//
-void
-SpatialDomain::write(std::ostream &out) const {
-  out << "#DOMAIN" << std::endl;
-  out << convexes_.size() << std::endl;
-  for (size_t i = 0; i < convexes_.size() ; i++)
-    out << convexes_[i];
-}
-
 /////////////COMPUINT64///////////////////////////////////
 // compare ids
 //
@@ -115,26 +103,3 @@ compRange(const void* v1, const void* v2) {
 }
 
 uint64 SpatialDomain::topBit_ = 0;
-
-/////////////>>///////////////////////////////////////////
-// read from istream
-//
-std::istream& operator >>( std::istream& in, SpatialDomain & c) {
-  Htmio::read(in, c);
-  return(in);
-}
-
-
-/////////////<<///////////////////////////////////////////
-// write to ostream
-//
-std::ostream& operator <<( std::ostream& out, const SpatialDomain & c) {
-  c.write(out);
-  return(out);
-}
-std::ostream& operator <<( std::ostream& out, SpatialDomain & c) {
-  c.write(out);
-  return(out);
-}
-
-

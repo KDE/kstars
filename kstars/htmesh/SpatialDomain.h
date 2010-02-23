@@ -18,7 +18,6 @@
 //#     Oct 18, 2001 : Dennis C. Dinge -- Replaced ValVec with std::vector
 //#
 
-#include "Htmio.h"
 #include "RangeConvex.h"
 #include <HtmRange.h>
 #include <vector>
@@ -58,12 +57,7 @@ public:
   /// [] operator: give back convex
   RangeConvex & operator [](size_t i);
 
-  /// write to stream
-  void write(std::ostream&) const;
-
   const SpatialIndex *index; 		/// A pointer to the index
-
-  static void ignoreCrLf(std::istream &);
 
   void setOlevel(int level);
   int getOlevel(void){return olevel;};
@@ -90,10 +84,6 @@ size_t
 SpatialDomain::numConvexes() {
   return convexes_.size();
 }
-
-LINKAGE std::istream& operator >>( std::istream& in, SpatialDomain & c);
-LINKAGE std::ostream& operator <<( std::ostream& out, const SpatialDomain & c);
-LINKAGE std::ostream& operator <<( std::ostream& out, SpatialDomain & c);
 
 extern  int compUint64(const void*, const void*);
 extern  int compRange (const void*, const void*);

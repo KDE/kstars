@@ -7,7 +7,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-htmesh.h.cmake ${CMAKE_CURRENT
 set(HTMesh_LIB_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HtmRange.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HtmRangeIterator.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/Htmio.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/RangeConvex.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SkipList.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SkipListElement.cpp

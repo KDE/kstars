@@ -10,9 +10,6 @@
 //#                     The Johns Hopkins University
 //#
 
-extern std::istream& operator >>( std::istream&, SpatialConstraint &);
-extern std::ostream& operator <<( std::ostream&, const SpatialConstraint &);
-
 // 
 inline
 SpatialVector &

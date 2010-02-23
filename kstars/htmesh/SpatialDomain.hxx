@@ -23,23 +23,5 @@ SpatialDomain::numConvexes() {
   return convexes_.size();
 }
 
-/////////////>>///////////////////////////////////////////
-// read from istream
-//
-inline
-istream& operator >>( istream& in, SpatialDomain & c) {
-  Convexio::read(in, c);
-  return(in);
-}
-
-/////////////<<///////////////////////////////////////////
-// write to ostream
-//
-inline
-ostream& operator <<( ostream& out, const SpatialDomain & c) {
-  c.write(out);
-  return(out);
-}
-
 extern  int compUint64(const void*, const void*);
 extern  int compRange (const void*, const void*);

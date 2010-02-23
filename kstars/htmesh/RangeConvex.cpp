@@ -8,7 +8,6 @@
 
 #include "SpatialGeneral.h"
 #include "RangeConvex.h"
-#include "Htmio.h"
 
 
 #define N(n)	index_->nodes_[(n)]
@@ -1254,14 +1253,5 @@ RangeConvex::testVectorInside(const SpatialVector & v0,
       ( (( v2 ^ v0 ) * v) < 0 ) )
       return false;
   return true;
-}
-
-
-/////////////<<///////////////////////////////////////////
-// write to ostream
-//
-std::ostream& operator <<( std::ostream& out, const RangeConvex & c) {
-  Htmio::write(out, c);
-  return(out);
 }
 

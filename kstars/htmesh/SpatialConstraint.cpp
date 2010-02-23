@@ -18,7 +18,6 @@
 #include "SpatialConstraint.h"
 #include "SpatialException.h"
 
-#include "Htmio.h"
 // ===========================================================================
 //
 // Member functions for class SpatialSign
@@ -108,20 +107,4 @@ SpatialConstraint::write(std::ostream &out) const {
   out.precision(16);
   out << a_ << ' ' << d_ << std::endl;
   out.precision(p);
-}
-
-/////////////>>///////////////////////////////////////////
-// read from istream
-//
-std::istream& operator >>( std::istream& in, SpatialConstraint & c) {
-  Htmio::read(in, c);
-  return(in);
-}
-
-/////////////<<///////////////////////////////////////////
-// write to ostream
-//
-std::ostream& operator <<( std::ostream& out, const SpatialConstraint & c) {
-  c.write(out);
-  return(out);
 }

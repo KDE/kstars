@@ -11,10 +11,6 @@
 //#                     The Johns Hopkins University
 //#
 
-extern std::istream& operator >>( std::istream&, RangeConvex &);
-extern std::ostream& operator <<( std::ostream&, const RangeConvex &);
-
-
 inline
 SpatialConstraint &
 RangeConvex::operator [](size_t i) {
