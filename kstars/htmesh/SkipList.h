@@ -10,14 +10,11 @@
 #include <limits.h> // INT_MAX
 #include <SkipListElement.h>
 
-#include <iosfwd>  // -jbb
-
 #define SKIPLIST_NOT_FOUND -1
 // INT_MAX
 // Was: -1
 
 class SkipListElement;
-//-jbb class ostream;
 
 class LINKAGE SkipList{
 public:
@@ -30,8 +27,7 @@ public:
   Value search(const Key searchKey); // search element with key
   Key findMAX(const Key searchKey) const; // search element with key NGT searchKey
   Key findMIN(const Key searchKey) const; // search element with key NLT searchKey
-  void list(std::ostream & os);	// List to stream
-				/* ITERATOR SUPPRT */
+  /* ITERATOR SUPPRT */
   void reset() {iter = myHeader->getElement(0);}
   int step() {
     iter = iter->getElement(0); return (iter != NIL);}
@@ -72,8 +68,6 @@ public:
   long getLength() {
     return myLength;
   }
-
-  friend std::ostream& operator<<(std::ostream& os, const SkipList& list);
 
 private:
   float myProbability;

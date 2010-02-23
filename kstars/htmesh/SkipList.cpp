@@ -259,26 +259,6 @@ Value SkipList::search(const Key searchKey)
     return(SKIPLIST_NOT_FOUND);
 }
 
-//////////ITERATOR/////////////////////////////////////////////////////////////
-// see the .h file
-///////////////////////////////////////////////////////////////////////////////
-void SkipList::list(std::ostream & os)
-{
-  os << "List ing start *****************************************" << std::endl;
-  SkipListElement* element;
-  SkipListElement* nextElement;
-
-  element = myHeader;
-  nextElement = element->getElement(0);
-  while( (nextElement != NIL) ) {
-    os << std::setw(20) << nextElement->getKey() << " " << std::setw(4) << nextElement->getValue() << " " <<  std::endl; 
-    element=nextElement;
-    nextElement = element->getElement(0);
-  }
-  os << "List end ***********************************************" << std::endl;
-  return;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 void SkipList::freeRange(const Key loKey, const Key hiKey)
 {
@@ -354,6 +334,7 @@ void SkipList::free(const Key searchKey)
     }
   }
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 void SkipList::freeAll()
 {
@@ -371,30 +352,6 @@ void SkipList::freeAll()
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-std::ostream& operator<<(std::ostream& os, const SkipList& list)
-{
-  int i;
-  SkipListElement* element;
-
-  // print header info
-  element = list.myHeader;
-  os << "Sl prob. = " << list.myProbability << std::endl;
-  os << "Header " << std::setw(OS_DEFAULT_WIDTH) << "" << *element << std::endl;
-
-  // print all levels
-  //!!  for(i=SKIPLIST_MAXLEVEL - 1; i>=0; i--){
-  for(i=list.myHeader->getLevel(); i>=0; i--){
-    element = list.myHeader->getElement(i);
-    if (element!=NIL) os << std::endl;
-    while(element!=NIL) {
-      // print element in level
-      os << "(i" << std::setw(OS_DEFAULT_WIDTH) << i << " (elt " << *element << ")" << std::endl;
-      element = element->getElement(i);
-    }
-  }
-  return(os);
-}
 //// STATISTICS on skiplist
 void SkipList::stat()
 {
