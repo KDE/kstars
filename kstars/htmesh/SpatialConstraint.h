@@ -81,12 +81,6 @@ public:
   /// Initialization constructor
   SpatialConstraint(SpatialVector, float64);
 
-  /// Copy constructor
-  SpatialConstraint(const SpatialConstraint &);
-
-  /// Assignment
-  SpatialConstraint & operator =(const SpatialConstraint &);
-
   /// set vector
   void setVector(SpatialVector &);
 

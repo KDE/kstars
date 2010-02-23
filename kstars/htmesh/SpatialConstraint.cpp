@@ -35,27 +35,6 @@ SpatialConstraint::SpatialConstraint(SpatialVector a, float64 d) :
   if(d_ >=  gEpsilon) sign_ = pOS;
 }
 
-/////////////COPY CONSTRUCTOR/////////////////////////////
-//
-SpatialConstraint::SpatialConstraint(const SpatialConstraint & old) :
-  a_(old.a_), d_(old.d_), s_(old.s_) {
-  sign_ = old.sign_;
-}
-
-/////////////ASSIGNMENT///////////////////////////////////
-//
-SpatialConstraint &
-SpatialConstraint::operator =(const SpatialConstraint & old)
-{
-  if ( &old != this ) { // beware of self-assignment
-    a_ = old.a_;
-    d_ = old.d_;
-    s_ = old.s_;
-    sign_ = old.sign_;
-  }
-  return *this;
-}
-
 /////////////CONTAINS/////////////////////////////////////
 // check whether a vector is inside this
 //
