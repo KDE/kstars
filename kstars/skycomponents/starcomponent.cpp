@@ -224,12 +224,11 @@ float StarComponent::starRenderingSize( float mag ) const {
     return size;
 }
 
-float StarComponent::zoomMagnitudeLimit() const {
+float StarComponent::zoomMagnitudeLimit() {
 
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
-//    double lgmax = log10(MAXZOOM);
-    double lgz = log10(Options::zoomFactor());
+    double lgz   = log10(Options::zoomFactor());
 
     // Old formula:
     //    float maglim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + Options::magLimitDrawStarZoomOut();
@@ -255,10 +254,7 @@ float StarComponent::zoomMagnitudeLimit() const {
     // Reducing the slope w.r.t zoom factor to avoid the extremely fast increase in star density with zoom
     // that 4.444 gives us (although that is what the derivation gives us)
 
-    float maglim = 3.7 * ( lgz - lgmin ) + 2.222 * log10( static_cast<float>(Options::starDensity()) ) + 3.5;
-
-    return maglim;
-
+    return 3.5 + 3.7*( lgz - lgmin ) + 2.222*log10( static_cast<float>(Options::starDensity()) );
 }
 
 void StarComponent::draw( QPainter& psky )

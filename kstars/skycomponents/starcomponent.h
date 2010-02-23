@@ -89,7 +89,7 @@ public:
      * @return the Size of the star's representation on the skymap in pixels */
     float starRenderingSize( float mag ) const;
 
-    float zoomMagnitudeLimit() const;
+    static float zoomMagnitudeLimit();
 
     virtual SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
