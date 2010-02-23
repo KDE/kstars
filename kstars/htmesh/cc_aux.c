@@ -23,51 +23,6 @@ typedef unsigned long uint32;
 
 #define HTMNAMEMAX         32
 
-uint64 cc_name2ID(const char *name){
-
-  uint64 out=0, i;
-  size_t siz = 0;
-
-  if(name == 0)              /* null pointer-name */
-    return 0;
-  if(name[0] != 'N' && name[0] != 'S')  /* invalid name */
-    return 0;
-
-  siz = strlen(name);       /* determine string length */
-  /* at least size-2 required, don't exceed max */
-  if(siz < 2)
-    return 0;
-  if(siz > HTMNAMEMAX)
-    return 0;
-
-  for(i = siz-1; i > 0; i--) {  /* set bits starting from the end */
-    if(name[i] > '3' || name[i] < '0') {/* invalid name */
-      return 0;
-    }
-    out += ( (uint64)(name[i]-'0')) << 2*(siz - i -1);
-  }
-
-  i = 2;                     /* set first pair of bits, first bit always set */
-  if(name[0]=='N') i++;      /* for north set second bit too */
-  out += (i << (2*siz - 2) );
-
-  
-  /************************
-			   // This code may be used later for hashing !
-			   if(size==2)out -= 8;
-			   else {
-			   size -= 2;
-			   uint32 offset = 0, level4 = 8;
-			   for(i = size; i > 0; i--) { // calculate 4 ^ (level-1), level = size-2
-			   offset += level4;
-			   level4 *= 4;
-			   }
-			   out -= level4 - offset;
-			   }
-  **************************/
-  return out;
-}
-
 #define HTM_INVALID_ID 1
 
 int cc_ID2name(char *name, uint64 id)

@@ -13,7 +13,6 @@
 //-jbb class ostream;
 
 extern "C" {
-  uint64 cc_name2ID(const char *name);
   int cc_ID2name(char *name, uint64 id);
 }
 HtmRange::HtmRange()
