@@ -115,7 +115,6 @@ private:
   friend class SpatialConvex;
   friend class RangeConvex;
   friend class SpatialDomain;
-  friend class Htmio;
 };
 
 #include "SpatialConstraint.hxx"

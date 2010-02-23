@@ -234,8 +234,6 @@ protected:
 
 
   friend class SpatialDomain;
-  friend class SpatialLookup;
-  friend class Htmio;
   friend class SpatialConstraint;
 };
 
