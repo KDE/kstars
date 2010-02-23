@@ -3,8 +3,6 @@
 
 #include <SkipList.h>
 
-//-jbb class ostream;
-
 enum InclusionType {
   InclOutside = 0,
   InclInside,
@@ -37,8 +35,6 @@ class LINKAGE HtmRange {
   int nranges();
   void reset();
 
-  void print(int what, std::ostream& os, bool symbolic); // FIX THIS, so caller does not set symbolic here....
-
   int compare(const HtmRange & other) const;
 
 
@@ -49,13 +45,11 @@ class LINKAGE HtmRange {
     delete my_his;
   };
   
-  friend LINKAGE std::ostream& operator<<(std::ostream& os, const HtmRange& range);
-
- protected:
+protected:
   InclusionType tinside(const Key mid) const;
   // const char buffer[256];
   bool symbolicOutput;
- private:
+private:
 
   
   SkipList *my_los;

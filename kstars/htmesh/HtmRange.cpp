@@ -10,7 +10,6 @@
 #define INTERSECT  0
 #define GAP_HISTO_SIZE 10000
 
-//-jbb class ostream;
 
 extern "C" {
   int cc_ID2name(char *name, uint64 id);
@@ -554,37 +553,6 @@ int HtmRange::stats(int desiredSize)
   return bestgap;
 }
 
-std::ostream& operator<<(std::ostream& os, const HtmRange& range)
-{
-  char tmp_buf[256];
-  Key lo, hi;
-  // os << "Start Range " << std::endl;
-  range.my_los->reset();
-  range.my_his->reset();
-  while((lo = range.my_los->getkey()) > 0){
-    hi = range.my_his->getkey();
-    if (range.symbolicOutput){
-      cc_ID2name(tmp_buf, lo);
-      strcat(tmp_buf, " ");
-      cc_ID2name(tmp_buf+strlen(tmp_buf), hi);
-    } else {
-#ifdef _WIN32
-      sprintf(tmp_buf, "%I64d %I64d", lo, hi);
-#else
-      sprintf(tmp_buf, "%llu %lld", lo, hi);
-#endif
-    }
-    os << tmp_buf << std::endl;
-
-	// os << lo << " " << hi << std::endl;
-    range.my_los->step();
-    range.my_his->step();
-  }
-  // os << "End Range ";
-  return os;
-}
-
-
 int HtmRange::getNext(Key &lo, Key &hi)
 {
 	lo = my_los->getkey();
@@ -608,38 +576,6 @@ int HtmRange::getNext(Key *lo, Key *hi)
 	my_his->step();
 	my_los->step();
 	return 1;
-}
-
-void HtmRange::print(int what, std::ostream& os, bool symbolic)
-{
-
-  Key hi, lo;
-  char tmp_buf[256];
-  // Though we always print either low or high here, 
-  // the code cycles through both skiplists as if
-  // both were printed. Saves code, looks neater
-  // and since it is ascii IO, who cares if it is fast
-  //
-  my_los->reset();
-  my_his->reset();
-
-  while((lo = my_los->getkey()) > 0){
-    hi = my_his->getkey();
-    if (symbolic){
-      cc_ID2name(tmp_buf, what == LOWS ? lo : hi);
-    } else {
-#ifdef _WIN32
-      sprintf(tmp_buf, "%I64d", what == LOWS ? lo : hi);
-#else
-      sprintf(tmp_buf, "%llu", what == LOWS ? lo : hi);
-#endif
-    }
-
-    os << tmp_buf << std::endl;
-    my_los->step();
-    my_his->step();
-  }
-  return;
 }
 
 int HtmRange::LOWS = 1;

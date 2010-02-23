@@ -14,8 +14,6 @@
 
 #include <SpatialGeneral.h>
 
-#include <iosfwd>  // -jbb
-
 #define SKIPLIST_MAXLEVEL 6 // maximum node level
 #define OS_DEFAULT_WIDTH 3  // width for keys, values for output
 #define OS_INDEX_WIDTH 2    // width for index
@@ -34,7 +32,6 @@
 typedef int64 Key;            // key type
 typedef int Value;          // value type
 
-//-jbb class ostream;
 class SkipListElement;
 
 class LINKAGE SkipListElement{
@@ -54,8 +51,6 @@ public:
   SkipListElement* getElement(long level); // get next element in level
   void setElement(long level, SkipListElement* element); // set next element in level
   
-  friend std::ostream& operator<<(std::ostream& os, const SkipListElement& element);
-
 private:
   long myLevel; // level of element
   Key myKey; // key of element
