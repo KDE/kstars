@@ -11,7 +11,6 @@ set(HTMesh_LIB_SRCS
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SkipList.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SkipListElement.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialConstraint.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialDomain.bak_cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialDomain.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialEdge.cpp
 	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialException.cpp
