@@ -32,21 +32,3 @@ inline
 float64 SpatialVector::z() const {
   return z_;
 }
-
-/////////////>>///////////////////////////////////////////
-// read from istream
-//
-inline
-std::istream& operator >>( std::istream& in, SpatialVector & v) {
-  v.read(in);
-  return(in);
-}
-
-/////////////<<///////////////////////////////////////////
-// write to ostream
-//
-inline
-std::ostream& operator <<( std::ostream& out, const SpatialVector & v) {
-  v.write(out);
-  return(out);
-}

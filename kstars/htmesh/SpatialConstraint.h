@@ -105,9 +105,6 @@ public:
   /// give back distance
   float64 d() const ;
 
-  /// write
-  void write(std::ostream &out) const;
-
 private:
   SpatialVector a_;			// normal vector
   float64       d_;			// distance from origin

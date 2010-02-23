@@ -1,3 +1,4 @@
+
 //#     Filename:       SpatialVector.cpp
 //#
 //#     The SpatialVector class is defined here.
@@ -279,34 +280,3 @@ SpatialVector::operator ==(const SpatialVector & v) const
 {
   return ( (x_ == v.x_ && y_ == v.y_ && z_ == v.z_) ? 1 : 0 );
 }
-
-/////////////SHOW/////////////////////////////////////////
-// print to stdout
-//
-void 
-SpatialVector::show() const
-{
-  printf(" %11.8f %11.8f %11.8f \n",x_,y_,z_);
-}
-
-/////////////READ/////////////////////////////////////////
-// print to stdout
-//
-void 
-SpatialVector::read(std::istream &in)
-{
-  in.setf(std::ios::skipws);
-  in >> x_ >> y_ >> z_;
-  if(!in.good())
-    throw SpatialFailure("SpatialVector:read: Could not read vector");
-}
-
-/////////////WRITE////////////////////////////////////////
-// print to stdout
-//
-void 
-SpatialVector::write(std::ostream &out) const
-{
-  out << x_ << ' ' << y_ << ' ' << z_ ;
-}
-

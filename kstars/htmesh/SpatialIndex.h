@@ -18,7 +18,6 @@
 //#
 
 #include <math.h>
-#include <stdio.h>
 #include <string.h>
 #include <time.h>
 #include <SpatialGeneral.h>
@@ -143,9 +142,6 @@ public:
   /// return index of vertices for a node
   void nodeVertex(const size_t idx, 
 		  size_t & v1, size_t & v2, size_t & v3) const; 
-
-  /// print all vertices to output stream
-  void showVertices(std::ostream & out) const;
 
   /// set the maximum depth of the layer
   void setMaxlevel(int level);

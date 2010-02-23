@@ -98,13 +98,3 @@ SpatialConstraint::invert() {
   if(sign_ == nEG) sign_ = pOS;
   if(sign_ == pOS) sign_ = nEG;
 }
-
-/////////////WRITE////////////////////////////////////////
-//
-void
-SpatialConstraint::write(std::ostream &out) const {
-  size_t p = out.precision();
-  out.precision(16);
-  out << a_ << ' ' << d_ << std::endl;
-  out.precision(p);
-}

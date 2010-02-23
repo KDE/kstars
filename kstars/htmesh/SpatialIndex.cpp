@@ -114,15 +114,6 @@ SpatialIndex::SpatialIndex(size_t maxlevel, size_t buildlevel) : maxlevel_(maxle
   sortIndex();
 }
 
-/////////////SHOWVERTICES/////////////////////////////////
-// showVertices: print every vertex to the output stream
-void
-SpatialIndex::showVertices(std::ostream & out) const
-{
-  for(size_t i = 0; i < vertices_.size()-1; i++)
-	out << vertices_[i] << std::endl;
-}
-
 /////////////NODEVERTEX///////////////////////////////////
 // nodeVertex: return index of vertices for a node
 void 

@@ -18,8 +18,6 @@
 //#
 
 #include <math.h>
-#include <stdio.h>
-#include <iostream>
 #include <SpatialGeneral.h>
 
 //########################################################################
@@ -89,15 +87,6 @@ public:
 
   /// Normalize vector length to 1
   void normalize();
-
-  /// Printf it to stdout
-  void show() const;
-
-  /// Read vector from a stream
-  void read(std::istream &);
-
-  /// Write vector to a stream
-  void write(std::ostream &) const;
 
   /// Comparison
   int operator ==(const SpatialVector & ) const;
