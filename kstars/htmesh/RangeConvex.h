@@ -56,7 +56,7 @@ enum SpatialMarkup {
    constraints tend to tear 'holes' into the convex area.
 */
 
-class LINKAGE RangeConvex : public SpatialSign {
+class LINKAGE RangeConvex {
 public:
   /// Default Constructor
   RangeConvex();
@@ -106,9 +106,10 @@ public:
 
   void setOlevel(int level){olevel = level;};
   int getOlevel(void){return olevel;};
- protected:
+protected:
   HtmRange *hr;
   int olevel;
+  Sign sign_;
 
   // Do the intersection (common function for overloaded intersect())
   // Simplification routine for zERO convexes. This is called by

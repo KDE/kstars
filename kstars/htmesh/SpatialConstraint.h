@@ -73,7 +73,7 @@
  etc on the sphere surface (pure ZERO convexes)
 
 */
-class LINKAGE SpatialConstraint : public SpatialSign {
+class LINKAGE SpatialConstraint {
 public:
   /// Constructor
   SpatialConstraint() {};
@@ -106,6 +106,7 @@ public:
   float64 d() const ;
 
 private:
+  Sign          sign_;
   SpatialVector a_;			// normal vector
   float64       d_;			// distance from origin
   float64       s_;			// cone angle in radians
