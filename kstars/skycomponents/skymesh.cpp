@@ -67,7 +67,8 @@ SkyMesh::SkyMesh( int level) :
 void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
 {
     KStarsData* data = KStarsData::Instance();
-    SkyPoint p1 = *p0;
+    // FIXME: simple copying leads to incorrect results because RA0 && dec0 are both zero sometimes
+    SkyPoint p1( p0->ra(), p0->dec() );
     long double now = data->updateNum()->julianDay();
     p1.apparentCoord( now, J2000 );
 
