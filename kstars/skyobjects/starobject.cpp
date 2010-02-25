@@ -436,7 +436,7 @@ void StarObject::JITupdate( KStarsData* data )
 }
 
 QString StarObject::sptype( void ) const {
-    return (QString)QByteArray(SpType, 2);
+    return QString( QByteArray(SpType, 2) );
 }
 
 QString StarObject::gname( bool useGreekChars ) const {
