@@ -136,25 +136,14 @@ void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
 	QString name = getObjectName(obj);
     QString typeName = KStarsData::Instance()->typeName( obj->type() );
 	// FIXME: information about angular sizes should be added.
-	// Requires downcast. Not sure whether it safe.
 	QString info = magToStr( obj->mag() );
-	
 	initPopupMenu( obj, name, typeName, info );
     addLinksToMenu( obj );
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
-    KSMoon* moon = dynamic_cast<KSMoon*>( p );
-    
-    QString info;
-	QString type;
-    if( moon ) {
-        info = QString("%1, %2").arg( magToStr(p->mag()), moon->phaseName() );
-    } else {
-		// FIXME: angular size is required.
-		info = magToStr( p->mag() );
-		type = i18n("Solar system object");
-	}
+    QString info = magToStr( p->mag() );
+	QString type = i18n("Solar system object");;
     initPopupMenu( p, p->translatedName(), type, info, true, true);
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
