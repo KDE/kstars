@@ -210,18 +210,12 @@ public:
     	*/
     virtual double labelOffset() const;
 
-    /**
-      *Show Deep-sky object popup menu.  Overloaded from virtual 
-    	*SkyObject::showPopupMenu()
-    	*@param pmenu pointer to the KSPopupMenu object
-    	*@param pos QPojnt holding the x,y coordinates for the menu
-    	*/
-    virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos );
-
     quint64 updateID;
     quint64 updateNumID;
 
 private:
+    virtual void initPopupMenu( KSPopupMenu *pmenu );
+
     unsigned char Catalog;
     double PositionAngle;
     int UGC, PGC;

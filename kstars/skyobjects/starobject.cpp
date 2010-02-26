@@ -352,8 +352,8 @@ void StarObject::initImages() {
     }
 }
 
-void StarObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
-    pmenu->createStarMenu( this ); pmenu->popup( pos );
+void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
+    pmenu->createStarMenu( this );
 }
 
 void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {

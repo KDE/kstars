@@ -46,9 +46,8 @@ void TrailObject::updateTrail( dms *LST, const dms *lat ) {
         Trail[i].EquatorialToHorizontal( LST, lat );
 }
 
-void TrailObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
+void TrailObject::initPopupMenu( KSPopupMenu *pmenu ) {
     pmenu->createPlanetMenu( this );
-    pmenu->popup( pos );
 }
 
 void TrailObject::addToTrail() {

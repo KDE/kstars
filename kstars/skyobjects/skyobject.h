@@ -182,13 +182,9 @@ public:
      */
     inline bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 || type() == 12 ); }
 
-    /**
-     *Show Type-specific popup menu.  This is a two-line function that needs to be
-     *overloaded by each subclass of SkyObject, to make sure that the correct popupmenu 
-     *function gets called.  By overloading the function, we don't have to check the 
-     *object type when we need the menu.
+    /** Show Type-specific popup menu. Oveloading is done in the function initPopupMenu
      */
-    virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
+    void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
 
     /**
      *Determine the time at which the point will rise or set.  Because solar system
@@ -339,6 +335,11 @@ public:
     virtual UID getUID() const;
 
 private:
+    /** Initialize the popup menut. This function should call correct
+     * initialization function in KSPopupMenu. By overloading the
+     * function, we don't have to check the object type when we need
+     * the menu. */
+    virtual void initPopupMenu(KSPopupMenu* pmenu);
 
     /**
      *Compute the UT time when the object will rise or set. It is an auxiliary

@@ -66,19 +66,13 @@ public:
 
     void drawTrail(QPainter& psky) const;
 
-    /**
-     *@short Show Solar System object popup menu.  
-     *@note Overloaded from virtual SkyObject::showPopupMenu()
-     *@param pmenu pointer to the KSPopupMenu object
-     *@param pos QPojnt holding the x,y coordinates for the menu
-     */
-    virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
-
 protected:
     QList<SkyPoint> Trail;
-
     /// Store list of objects with trails.
     static QSet<TrailObject*> trailObjects;
+private:
+    virtual void initPopupMenu( KSPopupMenu *pmenu );
+
 };
 
 #endif

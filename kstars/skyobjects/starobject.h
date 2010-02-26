@@ -245,13 +245,6 @@ public:
      */
     virtual double labelOffset() const;
 
-    /**Show star object popup menu.  Overloaded from virtual
-        *SkyObject::showPopupMenu()
-        *@param pmenu pointer to the KSPopupMenu object
-        *@param pos QPojnt holding the x,y coordinates for the menu
-        */
-    virtual void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
-
     /** Create cached images for stars rendering. */
     static void initImages();
 
@@ -266,6 +259,8 @@ protected:
     // END DEBUG
 
 private:
+    virtual void initPopupMenu( KSPopupMenu *pmenu);
+
     char SpType[2];
 
     double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;

@@ -81,7 +81,12 @@ SkyObject* SkyObject::clone() const
 SkyObject::~SkyObject() {}
 
 void SkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos ) {
-    pmenu->createEmptyMenu( this ); pmenu->popup( pos );
+    initPopupMenu( pmenu );
+    pmenu->popup( pos );
+}
+
+void SkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
+    pmenu->createEmptyMenu( this );
 }
 
 void SkyObject::setLongName( const QString &longname ) {

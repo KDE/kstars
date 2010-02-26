@@ -81,12 +81,13 @@ DeepSkyObject* DeepSkyObject::clone() const
     return new DeepSkyObject(*this);
 }
     
-void DeepSkyObject::showPopupMenu( KSPopupMenu *pmenu, const QPoint & pos ) {
-    pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos );
+void DeepSkyObject::initPopupMenu( KSPopupMenu *pmenu ) {
+    pmenu->createDeepSkyObjectMenu( this );
 }
 
-float DeepSkyObject::e( void ) const {
-    if ( MajorAxis==0.0 || MinorAxis==0.0 ) return 1.0; //assume circular
+float DeepSkyObject::e() const {
+    if ( MajorAxis==0.0 || MinorAxis==0.0 )
+        return 1.0; //assume circular
     return MinorAxis / MajorAxis;
 }
 
