@@ -21,12 +21,9 @@
 
 #include <kmenu.h>
 #include <kaction.h>
-#include <QLabel>
 
-class KStars;
 class StarObject;
 class SkyObject;
-class QLabel;
 
 /**@class KSPopupMenu
 	*The KStars Popup Menu.  The menu is sensitive to the 
