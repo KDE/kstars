@@ -178,10 +178,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         name = i18n( "Empty sky" );
 
     addFancyLabel( name );
-    if ( !type.isEmpty() )
-        addFancyLabel( type );
-    if ( !info.isEmpty() )
-        addFancyLabel( info );
+    addFancyLabel( type );
+    addFancyLabel( info );
     addFancyLabel( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( obj ) );
 
     if( obj ) {
@@ -365,6 +363,8 @@ void KSPopupMenu::addINDI()
 
 
 void KSPopupMenu::addFancyLabel(QString name, int deltaFontSize) {
+    if( name.isEmpty() )
+        return;
     QLabel* label = new QLabel( "<b>"+name+"</b>", this );
     label->setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
     if( deltaFontSize != 0 ) {
