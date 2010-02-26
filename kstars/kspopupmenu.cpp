@@ -101,7 +101,7 @@ KSPopupMenu::~KSPopupMenu()
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
     KStars* ks = KStars::Instance();
-    initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), true, true, false, false, false, true, false );
+    initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), false, false, false, true, false );
     addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
     addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
 }
@@ -165,12 +165,12 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 		info = magToStr( p->mag() );
 		type = i18n("Solar system object");
 	}
-    initPopupMenu( p, p->translatedName(), type, info, true, true, true, true, trailObj->hasTrail() );
+    initPopupMenu( p, p->translatedName(), type, info, true, true, trailObj->hasTrail() );
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
-                                 bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail,
+                                 bool showDetails, bool showTrail, bool addTrail,
                                  bool showAngularDistance, bool showObsList )
 {
     KStars* ks = KStars::Instance();
@@ -187,8 +187,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         addFancyLabel( info );
     addFancyLabel( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( obj ) );
 
-    //Insert Rise/Set/Transit labels
-    if( showRiseSet && obj ) {
+    if( obj ) {
+        //Insert Rise/Set/Transit labels
         SkyObject* o = obj->clone();
         addSeparator();
         addFancyLabel( riseSetTimeLabel(o, true),  -2 );
@@ -196,10 +196,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         addFancyLabel( transitTimeLabel(o),        -2 );
         addSeparator();
         delete o;
-    }
-
-    //Insert item for centering on object
-    if ( showCenterTrack && obj ) {
+        //Insert item for centering on object
         addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
     }
 

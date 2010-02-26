@@ -61,7 +61,6 @@ public:
     	*@param showObsList if true, the Add to List/Remove from List item is added.
      */
     void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
-                        bool showRiseSet=true, bool showCenterTrack=true,
                         bool showDetails=true, bool showTrail=false,
                         bool addTrail=false, bool showAngularDistance=true,
                         bool showObsList=true );
