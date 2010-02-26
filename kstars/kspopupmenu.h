@@ -62,7 +62,7 @@ public:
      */
     void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                         bool showDetails=true, bool showTrail=false,
-                        bool addTrail=false, bool showObsList=true );
+                        bool showObsList=true );
 
     /**Add an item to the popup menu for each of the URL links associated with
     	*this object.  URL links appear in two categories: images and information pages.
@@ -133,7 +133,7 @@ public:
     /**Add a submenu for INDI controls (Slew, Track, Sync, etc).
     	*@return true if a valid INDI menu was added.
     	*/
-    bool addINDI(void);
+    void addINDI();
 
 private:
     /** Add fancy label to menu.

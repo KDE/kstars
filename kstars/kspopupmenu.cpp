@@ -101,7 +101,7 @@ KSPopupMenu::~KSPopupMenu()
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
     KStars* ks = KStars::Instance();
-    initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), false, false, false, false );
+    initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), false, false, false );
     addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
     addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
 }
@@ -152,8 +152,6 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 }
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
-    TrailObject* trailObj = dynamic_cast<TrailObject*>( p );
-    Q_ASSERT( trailObj != 0 );
     KSMoon* moon = dynamic_cast<KSMoon*>( p );
     
     QString info;
@@ -165,13 +163,12 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 		info = magToStr( p->mag() );
 		type = i18n("Solar system object");
 	}
-    initPopupMenu( p, p->translatedName(), type, info, true, true, trailObj->hasTrail() );
+    initPopupMenu( p, p->translatedName(), type, info, true, true);
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
-                                 bool showDetails, bool showTrail, bool addTrail,
-                                 bool showObsList )
+                                 bool showDetails, bool showTrail, bool showObsList )
 {
     KStars* ks = KStars::Instance();
 
@@ -220,15 +217,16 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         }
     }
 
-    if ( showObsList && obj ) {
+    if( showObsList && obj ) {
         if ( ks->observingList()->contains( obj ) )
             addAction( i18n("Remove From Observing WishList"), ks->observingList(), SLOT( slotRemoveObject() ) );
         else
             addAction( i18n("Add to Observing WishList"), ks->observingList(), SLOT( slotAddObject() ) );
     }
 
-    if ( showTrail && obj && obj->isSolarSystem() ) {
-        if ( addTrail ) {
+    if( showTrail ) {
+        TrailObject* t = dynamic_cast<TrailObject*>( obj );
+        if( t && !t->hasTrail() ) {
             addAction( i18n( "Add Trail" ), ks->map(), SLOT( slotAddPlanetTrail() ) );
         } else {
             addAction( i18n( "Remove Trail" ), ks->map(), SLOT( slotRemovePlanetTrail() ) );
@@ -249,10 +247,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 
     addSeparator();
 
-    #ifdef HAVE_INDI_H
-    if (addINDI())
-        addSeparator();
-    #endif
+    addINDI();
 }
 
 void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
@@ -290,9 +285,9 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     }
 }
 
-bool KSPopupMenu::addINDI()
+void KSPopupMenu::addINDI()
 {
-    #ifdef HAVE_INDI_H
+#ifdef HAVE_INDI_H
     INDIMenu *indiMenu = KStars::Instance()->indiMenu();
     DeviceManager *managers;
     INDI_D *dev;
@@ -301,7 +296,7 @@ bool KSPopupMenu::addINDI()
     INDI_E *element;
 
     if (indiMenu->managers.count() == 0)
-        return false;
+        return;
 
     foreach ( managers, indiMenu->managers )
     {
@@ -364,11 +359,8 @@ bool KSPopupMenu::addINDI()
             }
         } // end device
     } // end device manager
-
-    return true;
-    #else
-    return false;
-    #endif
+    addSeparator();
+#endif
 }
 
 
