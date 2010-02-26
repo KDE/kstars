@@ -62,8 +62,7 @@ public:
      */
     void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                         bool showDetails=true, bool showTrail=false,
-                        bool addTrail=false, bool showAngularDistance=true,
-                        bool showObsList=true );
+                        bool addTrail=false, bool showObsList=true );
 
     /**Add an item to the popup menu for each of the URL links associated with
     	*this object.  URL links appear in two categories: images and information pages.

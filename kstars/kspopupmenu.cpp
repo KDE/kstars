@@ -101,7 +101,7 @@ KSPopupMenu::~KSPopupMenu()
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
     KStars* ks = KStars::Instance();
-    initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), false, false, false, true, false );
+    initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), false, false, false, false );
     addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
     addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
 }
@@ -171,7 +171,7 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                                  bool showDetails, bool showTrail, bool addTrail,
-                                 bool showAngularDistance, bool showObsList )
+                                 bool showObsList )
 {
     KStars* ks = KStars::Instance();
 
@@ -198,15 +198,12 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
         delete o;
         //Insert item for centering on object
         addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
-    }
-
-    //Insert item for measuring distances
-    //FIXME: add key shortcut to menu items properly!
-    if ( showAngularDistance && obj ) {
+        //Insert item for measuring distances
+        //FIXME: add key shortcut to menu items properly!
         addAction( i18n( "Angular Distance To...            [" ), ks->map(),
                    SLOT( slotBeginAngularDistance() ) );
     }
-
+    
 
     //Insert item for Showing details dialog
     if ( showDetails && obj ) {
