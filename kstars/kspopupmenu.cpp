@@ -26,6 +26,8 @@
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/trailobject.h"
+#include "skyobjects/deepskyobject.h"
+#include "skyobjects/ksmoon.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
 
@@ -130,7 +132,7 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
     }
 }
  
-void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
+void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
 	QString name = getObjectName(obj);
     QString typeName = KStarsData::Instance()->typeName( obj->type() );
 	// FIXME: information about angular sizes should be added.
@@ -155,6 +157,12 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 	}
     initPopupMenu( p, p->translatedName(), type, info, true, true);
     addLinksToMenu( p, false ); //don't offer DSS images for planets
+}
+
+void KSPopupMenu::createMoonMenu( KSMoon *moon ) {
+    QString info = QString("%1, %2").arg( magToStr(moon->mag()), moon->phaseName() );
+    initPopupMenu( moon, moon->translatedName(), QString(), info, true, true);
+    addLinksToMenu( moon, false ); //don't offer DSS images for planets
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,

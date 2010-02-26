@@ -24,6 +24,8 @@
 
 class StarObject;
 class SkyObject;
+class DeepSkyObject;
+class KSMoon;
 
 /**@class KSPopupMenu
 	*The KStars Popup Menu.  The menu is sensitive to the 
@@ -97,7 +99,7 @@ public:
     	*"Add Link..." item.  They do not get an "Add Trail" item.
     	*@param obj pointer to the object which the menu describes
     	*/
-    void createDeepSkyObjectMenu( SkyObject *obj );
+    void createDeepSkyObjectMenu( DeepSkyObject *obj );
 
     /**@short Create a popup menu for a solar system body.
     	*
@@ -110,6 +112,8 @@ public:
     	*@param p the solar system object which the menu describes.
     	*/
     void createPlanetMenu( SkyObject *p );
+
+    void createMoonMenu( KSMoon *moon );
 
     /**@short Create a popup menu for empty sky.
     	*
