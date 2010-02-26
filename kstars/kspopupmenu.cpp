@@ -203,13 +203,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
     if ( showAngularDistance && obj ) {
-        if (! (ks->map()->isAngleMode()) ) {
-            addAction( i18n( "Angular Distance To...            [" ), ks->map(),
-                       SLOT( slotBeginAngularDistance() ) );
-        } else {
-            addAction( i18n( "Compute Angular Distance          ]" ), ks->map(),
-                       SLOT( slotEndAngularDistance() ) );
-        }
+        addAction( i18n( "Angular Distance To...            [" ), ks->map(),
+                   SLOT( slotBeginAngularDistance() ) );
     }
 
 
