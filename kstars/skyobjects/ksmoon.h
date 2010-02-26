@@ -81,6 +81,8 @@ protected:
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* );
 
 private:
+    virtual void initPopupMenu( KSPopupMenu* pmenu );
+
     virtual void findMagnitude(const KSNumbers*);
 
     static bool data_loaded;

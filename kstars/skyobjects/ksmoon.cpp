@@ -27,6 +27,7 @@
 #include "ksutils.h"
 #include "kssun.h"
 #include "kstarsdata.h"
+#include "kspopupmenu.h"
 #include "skycomponents/skymapcomposite.h"
 
 namespace {
@@ -264,6 +265,10 @@ QString KSMoon::phaseName() const {
     else if ( p < 360.0 ) return i18nc( "moon phase between 3rd quarter and new moon", "Waning crescent" );
 
     else return i18n( "unknown" );
+}
+
+void KSMoon::initPopupMenu( KSPopupMenu* pmenu ) {
+    pmenu->createMoonMenu( this );
 }
 
 SkyObject::UID KSMoon::getUID() const
