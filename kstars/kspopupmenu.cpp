@@ -141,16 +141,6 @@ void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
     addLinksToMenu( obj );
 }
 
-void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
-	QString name = getObjectName(obj); 
-    QString typeName = KStarsData::Instance()->typeName( obj->type() );
-	QString info = magToStr( obj->mag() );
-	
-    initPopupMenu( obj, name, typeName, info );
-
-    addLinksToMenu( obj, true );
-}
-
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     KSMoon* moon = dynamic_cast<KSMoon*>( p );
     

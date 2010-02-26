@@ -99,14 +99,6 @@ public:
     	*/
     void createDeepSkyObjectMenu( SkyObject *obj );
 
-    /**@short Create a popup menu for a custom-catalog object.
-    	*
-    	*For now, this behaves essentially like the createDeepSkyObjectMenu() 
-    	*function, except that adding custom links is (temporarily?) disabled.
-    	*@param obj pointer to the custom catalog object which the menu describes
-    	*/
-    void createCustomObjectMenu( SkyObject *obj );
-
     /**@short Create a popup menu for a solar system body.
     	*
     	*Solar System bodies get a name label, a type label ("solar system object"),
