@@ -31,7 +31,7 @@
 #include <ktoggleaction.h>
 #include <ktoolbar.h>
 #include <kicon.h>
-#include <knewstuff2/ui/knewstuffaction.h>
+#include <knewstuff3/knewstuffaction.h>
 
 #include "Options.h"
 #include "fov.h"
@@ -129,7 +129,7 @@ void KStars::initActions() {
     KAction *ka;
 
     // ==== File menu ================
-    ka = KNS::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data")
+    ka = KNS3::standardAction(i18n("Download New Data..."), this, SLOT(slotDownload()), actionCollection(), "get_data")
         << KShortcut( Qt::CTRL+Qt::Key_D );
     ka->setWhatsThis(i18n("Downloads new data"));
     ka->setToolTip(ka->whatsThis());

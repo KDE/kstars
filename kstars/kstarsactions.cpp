@@ -41,7 +41,7 @@
 #include <kprocess.h>
 #include <ktoolbar.h>
 #include <kicon.h>
-#include <knewstuff2/engine.h>
+#include <knewstuff3/downloaddialog.h>
 
 #include "options/opscatalog.h"
 #include "options/opsguides.h"
@@ -220,21 +220,22 @@ void KStars::slotWizard() {
 }
 
 void KStars::slotDownload() {
-    KNS::Entry::List entries = KNS::Engine::download();
+    KNS3::DownloadDialog dlg(this);
+    dlg.exec();
 
-    foreach ( KNS::Entry *e, entries ) {
-        foreach ( const QString& fname, e->installedFiles() ) {
-            if ( fname.endsWith( QLatin1String( ".cat" ) ) ) {
-                //To start displaying the custom catalog, add it to SkyMapComposite
-                Options::setCatalogFile( Options::catalogFile() << fname );
-                Options::setShowCatalog( Options::showCatalog() << 1 );
-                data()->skyComposite()->addCustomCatalog( fname, Options::catalogFile().size()-1 );
+    // Get the list of all the installed entries.
+    KNS3::Entry::List entries = dlg.installedEntries();
+
+    foreach (const KNS3::Entry &entry, entries) {
+        foreach (const QString &name, entry.installedFiles()) {
+            if ( name.endsWith( QLatin1String( ".cat" ) ) ) {
+                // To start displaying the custom catalog, add it to SkyMapComposite
+                Options::setCatalogFile(Options::catalogFile() << name);
+                Options::setShowCatalog(Options::showCatalog() << 1);
+                data()->skyComposite()->addCustomCatalog(name, Options::catalogFile().size() - 1);
             }
         }
     }
-
-    // we need to delete the entry* items in the returned list
-    qDeleteAll(entries);
 }
 
 void KStars::slotLCGenerator() {

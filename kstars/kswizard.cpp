@@ -23,7 +23,7 @@
 
 #include <klineedit.h>
 #include <kpushbutton.h>
-#include <knewstuff2/engine.h>
+#include <knewstuff3/downloaddialog.h>
 #include <kstandarddirs.h>
 
 #include "kstarsdata.h"
@@ -171,9 +171,8 @@ void KSWizard::slotFilterCities() {
 }
 
 void KSWizard::slotDownload() {
-    KNS::Engine engine( this );
-    engine.init( "kstars.knsrc" );
-    KNS::Entry::List entries = engine.downloadDialogModal( this );
+    KNS3::DownloadDialog dlg;
+    dlg.exec();
 }
 
 #include "kswizard.moc"
