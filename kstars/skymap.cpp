@@ -795,19 +795,10 @@ void SkyMap::updateFocus() {
             setDestination( focus() );
         }
 
-    //Not tracking and not slewing, let sky drift by
+    // Not tracking and not slewing, let sky drift by
+    // This means that horizontal coordinates are constant.
     } else {
-        if ( Options::useAltAz() ) {
-            focus()->setAlt( destination()->alt().Degrees() );
-            focus()->setAz( destination()->az().Degrees() );
-            focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-            //destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-        } else {
-            focus()->setRA( data->lst()->Hours() - HourAngle.Hours() );
-            setDestination( focus() );
-            focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        }
+        focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
     }
 
     //Update the Hour Angle
