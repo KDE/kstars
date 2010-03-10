@@ -53,17 +53,11 @@ public:
     	*@param name The object name
     	*@param type a string identifying the object type
     	*@param type short information about object
-    	*@param showRiseSet if true, the Rise/Set/Transit labels are added
-    	*@param showCenterTrack if true, the Center/Track item is added
     	*@param showDetails if true, the Show-Details item is added
-    	*@param showTrail if true, the add/remove planet trail item is added
-    	*@param addTrail if true, the add/remove planet trail item reads "Add Trail"
-    	*if false, it reads "Remove Trail".
-    	*@param showAngularDistance if true, the Angular Distance item is added.
     	*@param showObsList if true, the Add to List/Remove from List item is added.
      */
     void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
-                        bool showDetails=true, bool showTrail=false,
+                        bool showDetails=true,
                         bool showObsList=true );
 
     /**Add an item to the popup menu for each of the URL links associated with
