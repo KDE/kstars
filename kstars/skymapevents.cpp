@@ -214,22 +214,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         if ( !isAngleMode() ) {
             slotBeginAngularDistance();
         }
-
         break;
-
-    case Qt::Key_BracketRight:  // End measuring angular distance
-        if ( isAngleMode() ) {
-            slotEndAngularDistance();
-        }
-
-        break;
-
     case Qt::Key_Escape:        // Cancel angular distance measurement
         if  (isAngleMode() ) {
             slotCancelAngularDistance();
         }
         break;
-
     case Qt::Key_Comma:  //advance one step backward in time
     case Qt::Key_Less:
         if ( data->clock()->isActive() ) data->clock()->stop();
@@ -353,24 +343,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             }
             break;
         }
-
-        //TIMING
-        // *** Uncomment and insert timing test code here ***
-    case Qt::Key_X:
-        {
-            QTime t;
-            t.start();
-            foreach ( SkyObject *star, data->skyComposite()->stars() )
-            toScreen( star );
-            kDebug() << QString("toScreen() for all stars took %1 ms").arg(t.elapsed());
-            t.start();
-            foreach ( SkyObject *star, data->skyComposite()->stars() )
-            toScreenQuaternion( star );
-            kDebug() << QString("toScreenQuaternion() for all stars took %1 ms").arg(t.elapsed());
-            break;
-        }
-        //END_TIMING
-
     case Qt::Key_R:
         {
             // Toggle relativistic corrections
@@ -379,40 +351,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             forceUpdate();
             break;
         }
-
     case Qt::Key_A:
         Options::setUseAntialias( ! Options::useAntialias() );
         kDebug() << "Use Antialiasing: " << Options::useAntialias();
         forceUpdate();
         break;
-
-        //Test code: create a SkyLine
-        /**
-        case Qt::Key_V:
-        kDebug() << "Create a skyline: ";
-        SkyLine sl( SkyPoint( 12.34, 33.50 ), SkyPoint( 14.00, 40.00 ) );
-        kDebug() << "  " << sl.points().size() << " :: "
-        << sl.point(0)->ra().toHMSString() << " : " 
-        << sl.point(1)->ra().toHMSString() << endl;
-
-        SkyPoint p( 11.75, 30.25 );
-        sl.setPoint( 1, &p );
-        kDebug() << "  " << sl.points().size() << " :: "
-        << sl.point(0)->ra().toHMSString() << " : " 
-        << sl.point(1)->ra().toHMSString() << endl;
-            break;
-        **/
-        /*
-    case Qt::Key_B:    // print useful debug info about memory allocation for stars
-        data->skyComposite()->getStarComponent()->printDebugInfo();
-        break;
-    case Qt::Key_F:    // verify the integrity of StarBlockLists
-        data->skyComposite()->getStarComponent()->verifySBLIntegrity();
-        break;
-    case Qt::Key_G:    // print Cache structure
-        StarComponent::m_StarBlockFactory.printStructure();
-        break;
-        */
     default:
         // We don't want to do anything in this case. Key is unknown
         return;
@@ -556,7 +499,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
             focus()->setAz( focus()->az().reduce() );
             focus()->setAlt(
-                KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90 , 90 ) );
+                KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90.0 , 90.0 ) );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             dms dRA = mousePoint()->ra().Degrees() - clickedPoint()->ra().Degrees();
@@ -564,7 +507,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             focus()->setRA( focus()->ra().Hours() - dRA.Hours() ); //move focus in opposite direction
             focus()->setRA( focus()->ra().reduce() );
             focus()->setDec(
-                KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90 , 90 ) );
+                KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90.0 , 90.0 ) );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
