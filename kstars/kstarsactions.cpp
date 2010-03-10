@@ -522,13 +522,12 @@ void KStars::slotExportImage() {
     //Warn user if file exists!
     if (QFile::exists(fileURL.path()))
     {
-        int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
-                i18n( "A file named \"%1\" already exists. "
-                      "Overwrite it?" , fileURL.fileName()),
+        int r=KMessageBox::warningContinueCancel(parentWidget(),
+                i18n( "A file named \"%1\" already exists. Overwrite it?" , fileURL.fileName()),
                 i18n( "Overwrite File?" ),
                 KStandardGuiItem::overwrite() );
-
-        if(r==KMessageBox::Cancel) return;
+        if(r == KMessageBox::Cancel)
+            return;
     }
 
     exportImage( fileURL.url(), map()->width(), map()->height() );
