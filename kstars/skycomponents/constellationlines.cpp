@@ -59,49 +59,46 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
 
     intro();
 
-    QChar mode;
-    QString line, cultureName;
     bool culture = false;
-    int HDnum;
-    uint i = 0;
     LineList *lineList(0);
     double maxPM(0.0);
+
     KSFileReader fileReader;
-    if ( ! fileReader.open( "clines.dat" ) ) return;
-
+    if ( ! fileReader.open( "clines.dat" ) )
+        return;
     while ( fileReader.hasMoreLines() ) {
-
-        line = fileReader.readLine();
-        if ( line.size() < 1 ) continue;
-        mode = line.at( 0 );
+        QString line = fileReader.readLine();
+        if( line.isEmpty() )
+            continue;
+        QChar mode = line.at( 0 );
         //ignore lines beginning with "#":
-        if ( mode == '#' ) continue;
+        if( mode == '#' )
+            continue;
         //If the first character is "M", we are starting a new series.
         //In this case, add the existing clc component to the composite,
         //then prepare a new one.
 
         if ( mode == 'C') {
-            cultureName = line.mid( 2 ).trimmed();
-            culture     = cultureName == cultures->current();
-
-            i++;
+            QString cultureName = line.mid( 2 ).trimmed();
+            culture = cultureName == cultures->current();
             continue;
         }
-
-        HDnum = line.mid( 2 ).trimmed().toInt();
 
         if ( culture ) {
             //Mode == 'M' starts a new series of line segments, joined end to end
             if ( mode == 'M' ) {
-                if ( lineList ) appendLine( lineList );
-                    lineList = new LineList();
+                if( lineList )
+                    appendLine( lineList );
+                lineList = new LineList();
             }
 
-            StarObject *star = (StarObject*) StarComponent::Instance()->findByHDIndex( HDnum );
+            int HDnum = line.mid( 2 ).trimmed().toInt();
+            StarObject *star = static_cast<StarObject*>( StarComponent::Instance()->findByHDIndex( HDnum ) );
             if ( star && lineList ) {
                 lineList->append( star );
                 double pm = star->pmMagnitude();
-                if ( maxPM < pm ) maxPM = pm;
+                if ( maxPM < pm )
+                    maxPM = pm;
             }
             else if ( ! star )
                 kWarning() << i18n( "Star HD%1 not found." , HDnum);
@@ -109,7 +106,8 @@ ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultu
     }
 
     //Add the last clc component
-    if ( lineList ) appendLine( lineList );
+    if( lineList )
+        appendLine( lineList );
 
     m_reindexInterval = StarObject::reindexInterval( maxPM );
     //printf("CLines:           maxPM = %6.1f milliarcsec/year\n", maxPM );
