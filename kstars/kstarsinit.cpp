@@ -201,7 +201,6 @@ void KStars::initActions() {
         << KShortcut( Qt::CTRL+Qt::Key_M );
 
     // ==== View Menu ================
-    kDebug() << map();
     actionCollection()->addAction( KStandardAction::ZoomIn,  "zoom_in",  map(), SLOT( slotZoomIn() ) );
     actionCollection()->addAction( KStandardAction::ZoomOut, "zoom_out", map(), SLOT( slotZoomOut() ) );
     actionCollection()->addAction("zoom_default", map(), SLOT( slotZoomDefault() ) )
