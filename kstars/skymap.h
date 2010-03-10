@@ -848,7 +848,6 @@ private:
     KStarsData *data;
     KSPopupMenu *pmenu;
     QPixmap *sky, *sky2;
-    dms HourAngle;
     SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
 

@@ -722,10 +722,6 @@ void SkyMap::setFocusAltAz(double alt, double az) {
 
     slewing = false;
 
-    double dHA = data->lst()->Hours() - focus()->ra().Hours();
-    while ( dHA < 0.0 ) dHA += 24.0;
-    HourAngle.setH( dHA );
-
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
@@ -800,9 +796,6 @@ void SkyMap::updateFocus() {
     } else {
         focus()->HorizontalToEquatorial(data->lst(), data->geo()->lat() );
     }
-
-    //Update the Hour Angle
-    HourAngle.setH( data->lst()->Hours() - focus()->ra().Hours() );
 }
 
 void SkyMap::slewFocus() {
@@ -894,7 +887,6 @@ void SkyMap::slewFocus() {
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
-        HourAngle.setH( data->lst()->Hours() - focus()->ra().Hours() );
         slewing = false;
 
         //Turn off snapNextFocus, we only want it to happen once
