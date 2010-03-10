@@ -17,9 +17,6 @@
 
 #include "kstars.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #include <QApplication>
 
 #include <KGlobal>
