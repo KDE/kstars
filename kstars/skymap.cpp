@@ -698,10 +698,6 @@ void SkyMap::setFocus( const dms &ra, const dms &dec ) {
 }
 
 void SkyMap::setFocus( double ra, double dec ) {
-    //QUATERNION
-    m_rotAxis.createFromEuler( (dec)*dms::DegToRad, (15.0*ra)*dms::DegToRad, 0.0 );
-    m_rotAxis = m_rotAxis.inverse();
-
     Focus.set( ra, dec );
     Options::setFocusRA( ra );
     Options::setFocusDec( dec );
@@ -922,22 +918,6 @@ double SkyMap::findPA( SkyObject *o, float x, float y ) {
     }
 
     return ( north + o->pa() );
-}
-
-//QUATERNION
-QPointF SkyMap::toScreenQuaternion( SkyPoint *o ) {
-    Quaternion oq = o->quat();
-    //	Quaternion invRotAxis = m_rotAxis.inverse();
-    oq.rotateAroundAxis( m_rotAxis );
-
-    //c is the cosine of the angular distance from the center.
-    //I believe this is just the z coordinate.
-    double c = oq.v[Q_Z];
-    double k = projectionK(c);
-    double zoomscale = m_Scale*Options::zoomFactor();
-
-    return QPointF( 0.5*width()  - zoomscale*k*oq.v[Q_X],
-                    0.5*height() - zoomscale*k*oq.v[Q_Y] );
 }
 
 void SkyMap::slotZoomIn() {

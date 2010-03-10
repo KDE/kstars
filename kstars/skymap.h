@@ -343,18 +343,16 @@ public:
     QPoint clipLineI( SkyPoint *p1, SkyPoint *p2 );
 
     /**Given the coordinates of the SkyPoint argument, determine the
-    	*pixel coordinates in the SkyMap.
-    	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
-    	*@param o pointer to the SkyPoint for which to calculate x, y coordinates.
-    	*@param useRefraction true = use Options::useRefraction() value.  
-    	*false = do not use refraction.  This argument is only needed 
-    	*for the Horizon, which should never be refracted.
-    	*@param onVisibleHemisphere pointer to a bool to indicate whether the point is
-        * on the visible part of the Celestial Sphere.
-    	*/
+     * pixel coordinates in the SkyMap.
+     * @return QPoint containing screen pixel x, y coordinates of SkyPoint.
+     * @param o pointer to the SkyPoint for which to calculate x, y coordinates.
+     * @param useRefraction true = use Options::useRefraction() value.  
+     *   false = do not use refraction.  This argument is only needed 
+     *   for the Horizon, which should never be refracted.
+     * @param onVisibleHemisphere pointer to a bool to indicate whether the point is
+     *   on the visible part of the Celestial Sphere.
+     */
     QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
-    QPointF toScreenQuaternion( SkyPoint *o );
-
 
     /**@return the current scale factor for drawing the map.
      * @note the scale factor should be 1.0 unless we are printing.
@@ -864,8 +862,6 @@ private:
     InfoBoxWidget* m_geoBox;
     InfoBoxWidget* m_objBox;
     InfoBoxes*     m_iboxes;
-    //QUATERNION
-    Quaternion m_rotAxis;
 
     static SkyMap* pinstance;
 
