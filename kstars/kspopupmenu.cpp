@@ -131,7 +131,7 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
     }
 }
- 
+
 void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
 	QString name = getObjectName(obj);
     QString typeName = KStarsData::Instance()->typeName( obj->type() );
@@ -169,54 +169,50 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     addFancyLabel( info );
     addFancyLabel( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( obj ) );
 
-    if( obj ) {
-        //Insert Rise/Set/Transit labels
-        SkyObject* o = obj->clone();
-        addSeparator();
-        addFancyLabel( riseSetTimeLabel(o, true),  -2 );
-        addFancyLabel( riseSetTimeLabel(o, false), -2 );
-        addFancyLabel( transitTimeLabel(o),        -2 );
-        addSeparator();
-        delete o;
-        //Insert item for centering on object
-        addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
-        //Insert item for measuring distances
-        //FIXME: add key shortcut to menu items properly!
-        addAction( i18n( "Angular Distance To...            [" ), ks->map(),
-                   SLOT( slotBeginAngularDistance() ) );
+    //Insert Rise/Set/Transit labels
+    SkyObject* o = obj->clone();
+    addSeparator();
+    addFancyLabel( riseSetTimeLabel(o, true),  -2 );
+    addFancyLabel( riseSetTimeLabel(o, false), -2 );
+    addFancyLabel( transitTimeLabel(o),        -2 );
+    addSeparator();
+    delete o;
+    //Insert item for centering on object
+    addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
+    //Insert item for measuring distances
+    //FIXME: add key shortcut to menu items properly!
+    addAction( i18n( "Angular Distance To...            [" ), ks->map(),
+               SLOT( slotBeginAngularDistance() ) );
 
-        //Insert item for Showing details dialog
-        if ( showDetails ) {
-            addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->map(),
-                       SLOT( slotDetail() ) );
-        }
-
-        //Insert "Add/Remove Label" item
-        if ( showLabel ) {
-            if ( ks->map()->isObjectLabeled( obj ) ) {
-                addAction( i18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
-            } else {
-                addAction( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
-            }
-        }
-
-        if( showObsList ) {
-            if ( ks->observingList()->contains( obj ) )
-                addAction( i18n("Remove From Observing WishList"), ks->observingList(), SLOT( slotRemoveObject() ) );
-            else
-                addAction( i18n("Add to Observing WishList"), ks->observingList(), SLOT( slotAddObject() ) );
-        }
-
-        if( showTrail ) {
-            TrailObject* t = dynamic_cast<TrailObject*>( obj );
-            if( t ) {
-                if( t->hasTrail() )
-                    addAction( i18n( "Add Trail" ), ks->map(), SLOT( slotAddPlanetTrail() ) );
-                else
-                    addAction( i18n( "Remove Trail" ), ks->map(), SLOT( slotRemovePlanetTrail() ) );
-            }
+    //Insert item for Showing details dialog
+    if ( showDetails )
+        addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->map(), SLOT( slotDetail() ) );
+    //Insert "Add/Remove Label" item
+    if ( showLabel ) {
+        if ( ks->map()->isObjectLabeled( obj ) ) {
+            addAction( i18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
+        } else {
+            addAction( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
         }
     }
+    // Should show observing list
+    if( showObsList ) {
+        if ( ks->observingList()->contains( obj ) )
+            addAction( i18n("Remove From Observing WishList"), ks->observingList(), SLOT( slotRemoveObject() ) );
+        else
+            addAction( i18n("Add to Observing WishList"), ks->observingList(), SLOT( slotAddObject() ) );
+    }
+    // Should we show trail actions
+    if( showTrail ) {
+        TrailObject* t = dynamic_cast<TrailObject*>( obj );
+        if( t ) {
+            if( t->hasTrail() )
+                    addAction( i18n( "Add Trail" ), ks->map(), SLOT( slotAddPlanetTrail() ) );
+            else
+                addAction( i18n( "Remove Trail" ), ks->map(), SLOT( slotRemovePlanetTrail() ) );
+        }
+    }
+
     addSeparator();
 #ifdef HAVE_XPLANET
     if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) {

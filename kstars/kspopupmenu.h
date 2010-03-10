@@ -124,7 +124,7 @@ public:
     	*@param nullObj pointer to dummy SkyObject, just to hold the clicked 
     	*coordinates for passing to initPopupMenu().
     	*/
-    void createEmptyMenu( SkyObject *nullObj=0 );
+    void createEmptyMenu( SkyObject *nullObj );
 
     /**Add a submenu for INDI controls (Slew, Track, Sync, etc).
     	*@return true if a valid INDI menu was added.
