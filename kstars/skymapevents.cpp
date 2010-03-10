@@ -33,6 +33,7 @@
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksutils.h"
 #include "simclock.h"
 #include "kspopupmenu.h"
 #include "skyobjects/ksplanetbase.h"
@@ -552,24 +553,18 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
             clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             dms dAz = mousePoint()->az().Degrees() - clickedPoint()->az().Degrees();
             dms dAlt = mousePoint()->alt().Degrees() - clickedPoint()->alt().Degrees();
-            focus()->setAz(  focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
-            focus()->setAlt( focus()->alt().Degrees() - dAlt.Degrees() );
-
-            if( focus()->alt().Degrees() > 90.0 )
-                focus()->setAlt( 90.0 );
-            if( focus()->alt().Degrees() < -90.0 )
-                focus()->setAlt( -90.0 );
+            focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
             focus()->setAz( focus()->az().reduce() );
+            focus()->setAlt(
+                KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90 , 90 ) );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             dms dRA = mousePoint()->ra().Degrees() - clickedPoint()->ra().Degrees();
             dms dDec = mousePoint()->dec().Degrees() - clickedPoint()->dec().Degrees();
             focus()->setRA( focus()->ra().Hours() - dRA.Hours() ); //move focus in opposite direction
-            focus()->setDec( focus()->dec().Degrees() - dDec.Degrees() );
-
-            if ( focus()->dec().Degrees() >90.0 ) focus()->setDec( 90.0 );
-            if ( focus()->dec().Degrees() <-90.0 ) focus()->setDec( -90.0 );
             focus()->setRA( focus()->ra().reduce() );
+            focus()->setDec(
+                KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90 , 90 ) );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
 
@@ -715,11 +710,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
-    if ( e->button() == Qt::LeftButton ) {
-        // break if point is unusable
-        if ( unusablePoint( e->pos() ) )
-            return;
-
+    if ( e->button() == Qt::LeftButton && !unusablePoint( e->pos() ) ) {
         mouseButtonDown = false;
         if( e->x() != width()/2 || e->y() != height()/2 )
             slotCenter();
