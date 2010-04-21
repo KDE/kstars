@@ -20,14 +20,12 @@
 
 #include <QFrame>
 #include <kdialog.h>
-#include <q3listview.h>
 #include "kstarsdatetime.h"
 #include "kstarsdata.h"
 #include "ui_wutdialog.h"
 
 #define NCATEGORY 8
 
-class KStarsData;
 class GeoLocation;
 class SkyObject;
 
