@@ -20,7 +20,6 @@
 #ifndef FITSViewer_H_
 #define FITSViewer_H_
 
-#include <QKeyEvent>
 #include <QCloseEvent>
 
 #include <kdialog.h>
@@ -40,14 +39,12 @@
 class KUndoStack;
 class FITSImage;
 class FITSHistogram;
-
+class QCloseEvent;
 
 class FITSViewer : public KXmlGuiWindow
 {
     Q_OBJECT
-
 public:
-
     friend class FITSChangeCommand;
     friend class FITSImage;
     friend class FITSHistogram;
@@ -58,8 +55,7 @@ public:
     ~FITSViewer();
 
 protected:
-
-    void closeEvent(QCloseEvent *ev);
+    virtual void closeEvent(QCloseEvent *ev);
 
 public slots:
     void fitsChange();
@@ -78,13 +74,12 @@ private slots:
 private:
     bool    initFITS();
 
-    FITSImage *image;					/* FITS image object */
-    FITSHistogram *histogram;				/* FITS Histogram */
+    FITSImage *image;           /* FITS image object */
+    FITSHistogram *histogram;   /* FITS Histogram */
 
-    KUndoStack *history;					/* History for undo/redo */
-    int Dirty;						/* Document modified? */
-    KUrl currentURL;					/* FITS File name and path */
-
+    KUndoStack *history;        /* History for undo/redo */
+    bool m_Dirty;               /* Document modified? */
+    KUrl currentURL;            /* FITS File name and path */
 };
 
 #endif
