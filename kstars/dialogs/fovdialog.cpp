@@ -38,6 +38,11 @@
 #include "kstarsdata.h"
 #include "widgets/fovwidget.h"
 
+// This is needed to make FOV work with QVariant
+Q_DECLARE_METATYPE(FOV*)
+
+int FOVDialog::fovID = -1;
+
 namespace {
     // Try to convert text in KLine edit to double
     inline double textToDouble(const KLineEdit* edit, bool* ok = 0)
@@ -57,11 +62,6 @@ namespace {
         return QString::number(x, 'f', 2).replace( '.', KGlobal::locale()->decimalSymbol() );
     }
 }
-
-// This is needed to make FOV work with QVariant
-Q_DECLARE_METATYPE(FOV*)
-
-int FOVDialog::fovID = -1;
 
 
 FOVDialogUI::FOVDialogUI( QWidget *parent ) : QFrame( parent ) {
