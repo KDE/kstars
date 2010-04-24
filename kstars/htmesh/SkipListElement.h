@@ -29,32 +29,40 @@
 #  endif
 #endif
 
-typedef int64 Key;            // key type
-typedef int Value;          // value type
+typedef int64 Key;    // key type
+typedef int Value;    // value type
 
 class SkipListElement;
 
 class LINKAGE SkipListElement{
 public:
-  SkipListElement(long level = 0, Key  key = 0, Value  value = 0);
-  ~SkipListElement();
+    SkipListElement(long level = 0, Key  key = 0, Value  value = 0);
+    ~SkipListElement();
 
-  Key getKey() const {return(myKey);}; // get key of element
-  void setKey(Key key) {myKey=key;}; // set key of element
+    /** get key of element */
+    Key getKey() const   { return myKey; };
+    /** set key of element */
+    void setKey(Key key) { myKey = key; };
   
-  Value getValue() const {return(myValue);}; // get value of element
-  void setValue(Value value) {myValue=value;}; // set value of element
+    /** get value of element */
+    Value getValue() const     { return myValue;}
+    /** set value of element */
+    void setValue(Value value) { myValue = value;}
 
-  long getLevel() const {return(myLevel);}; // get level of element
-  void setLevel(long level);
-  static void prmatrix();
-  SkipListElement* getElement(long level); // get next element in level
-  void setElement(long level, SkipListElement* element); // set next element in level
+    /** get level of element */
+    long getLevel() const {return(myLevel);};
+    /** Set level of element */
+    void setLevel(long level);
+    static void prmatrix();
+    /** get next element in level */
+    SkipListElement* getElement(long level); 
+    /** set next element in level */
+    void setElement(long level, SkipListElement* element);
   
 private:
-  long myLevel; // level of element
-  Key myKey; // key of element
-  Value myValue; // value of element
-  SkipListElement* myNext[SKIPLIST_MAXLEVEL]; // pointers to next elements
+    long myLevel;  // level of element
+    Key myKey;     // key of element
+    Value myValue; // value of element
+    SkipListElement* myNext[SKIPLIST_MAXLEVEL]; // pointers to next elements
 };
 #endif // _SkipListElement_H
