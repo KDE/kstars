@@ -1040,15 +1040,15 @@ QRect SkyMap::scaledRect() {
     return QRect( 0, 0, int(m_Scale*width()), int(m_Scale*height()) );
 }
 
-bool SkyMap::onScreen( QPoint &point ) {
+bool SkyMap::onScreen(const QPoint &point) {
     return scaledRect().contains( point );
 }
 
-bool SkyMap::onScreen( QPointF &pointF ) {
+bool SkyMap::onScreen(const QPointF &pointF) {
     return scaledRect().contains( pointF.toPoint() );
 }
 
-bool SkyMap::onScreen( QPointF &p1, QPointF &p2 ) {
+bool SkyMap::onScreen( const QPointF &p1, const QPointF &p2 ) {
     return !( ( p1.x() < 0        && p2.x() < 0 ) ||
               ( p1.y() < 0        && p2.y() < 0 ) ||
               ( p1.x() > scaledRect().width() &&
@@ -1057,7 +1057,7 @@ bool SkyMap::onScreen( QPointF &p1, QPointF &p2 ) {
                 p2.y() > scaledRect().height() ) );
 }
 
-bool SkyMap::onScreen( QPoint &p1, QPoint &p2 ) {
+bool SkyMap::onScreen( const QPoint &p1, const QPoint &p2 ) {
     return !( ( p1.x() < 0        && p2.x() < 0 ) ||
               ( p1.y() < 0        && p2.y() < 0 ) ||
               ( p1.x() > scaledRect().width() &&

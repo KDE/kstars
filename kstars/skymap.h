@@ -363,14 +363,14 @@ public:
     QRect scaledRect();
 
     /** @return whether the given QPoint is on the SkyMap. */
-    bool onScreen( QPoint &point );
+    bool onScreen(const QPoint &point );
     /** @return whether the given QPointF is on the SkyMap. */
-    bool onScreen( QPointF &pointF );
+    bool onScreen(const QPointF &pointF );
 
     /** @return true if the line connecting the two points is possibly on screen.
      * will return some false postives. */
-    bool onScreen( QPointF &p1, QPointF &p2 );
-    bool onScreen( QPoint &p1, QPoint &p2 );
+    bool onScreen(const QPointF &p1, const QPointF &p2 );
+    bool onScreen(const QPoint &p1, const QPoint &p2 );
 
     bool onscreenLine( QPointF &p1, QPointF &p2 );
 
