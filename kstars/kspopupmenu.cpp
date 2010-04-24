@@ -71,13 +71,17 @@ namespace {
     QString riseSetTimeLabel(SkyObject* o, bool isRaise) {
         KStarsData* data = KStarsData::Instance();
         QTime t = o->riseSetTime( data->ut(), data->geo(), isRaise );
-        if ( t.isValid() )
+        if ( t.isValid() ) {
             //We can round to the nearest minute by simply adding 30 seconds to the time.
-            return i18n( "Rise time: %1", KGlobal::locale()->formatTime( t.addSecs(30) ) );
-        if ( o->alt().Degrees() > 0 )
-            return i18n( "No rise time: Circumpolar" );
+            QString time = KGlobal::locale()->formatTime( t.addSecs(30) );
+            return isRaise ?
+                i18n ("Rise time: %1", time) :
+                i18nc("the time at which an object falls below the horizon", "Set time: %1" , time);
+        }
+        if( o->alt().Degrees() > 0 )
+            return isRaise ? i18n( "No rise time: Circumpolar" ) : i18n( "No set time: Circumpolar" );
         else
-            return i18n( "No rise time: Never rises" );
+            return isRaise ? i18n( "No rise time: Never rises" ) : i18n( "No set time: Never rises" );
     }
 
     // String representation for transit time for object
