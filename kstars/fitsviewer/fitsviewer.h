@@ -45,7 +45,6 @@ class FITSViewer : public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    friend class FITSChangeCommand;
     friend class FITSImage;
     friend class FITSHistogram;
     friend class FITSHistogramCommand;

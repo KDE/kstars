@@ -302,7 +302,7 @@ void FITSViewer::fileSaveAs()
 
 void FITSViewer::fitsCOPY()
 {
-    QApplication::clipboard()->setImage(*image->displayImage);
+    QApplication::clipboard()->setImage( *(image->getDisplayImage()) );
 }
 
 void FITSViewer::imageHistogram()

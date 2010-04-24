@@ -46,32 +46,21 @@ class FITSImage;
 class FITSLabel : public QLabel
 {
 public:
-
     explicit FITSLabel(FITSImage *img, QWidget *parent=NULL);
-    ~FITSLabel();
+    virtual ~FITSLabel();
 
 protected:
-    void mouseMoveEvent(QMouseEvent *e);
+    virtual void mouseMoveEvent(QMouseEvent *e);
 
 private:
     FITSImage *image;
-
 };
 
 class FITSImage : public QScrollArea
 {
     Q_OBJECT
-
 public:
-
-    friend class ContrastBrightnessDlg;
-    friend class FITSFrame;
-    friend class FITSViewer;
-    friend class FITSHistogram;
-    friend class FITSHistogramCommand;
-    friend class FITSChangeCommand;
-
-    FITSImage(QWidget * parent);
+    FITSImage(QWidget *parent = 0);
     ~FITSImage();
 
     enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
@@ -115,7 +104,10 @@ public:
         long dim[2];
     } stats;
 
-    QImage  *displayImage;				/* FITS image that is displayed in the GUI */
+public slots:
+    void fitsZoomIn();
+    void fitsZoomOut();
+    void fitsZoomDefault();
 
 private:
 
@@ -124,21 +116,16 @@ private:
 
     int calculateMinMax(bool refresh=false);
 
-    FITSViewer *viewer;				/* parent FITSViewer */
+    FITSViewer *viewer;                 /* parent FITSViewer */
     FITSLabel *image_frame;
     float *image_buffer;				/* scaled image buffer (0-255) range */
 
-    double currentWidth,currentHeight;		/* Current width and height due to zoom */
-    const double zoomFactor;			/* Image zoom factor */
-    double currentZoom;				/* Current Zoom level */
+    double currentWidth,currentHeight; /* Current width and height due to zoom */
+    const double zoomFactor;           /* Image zoom factor */
+    double currentZoom;                /* Current Zoom level */
     fitsfile* fptr;
-    int data_type;					/* FITS data type when opened */
-
-
-public slots:
-    void fitsZoomIn();
-    void fitsZoomOut();
-    void fitsZoomDefault();
+    int data_type;                     /* FITS data type when opened */
+    QImage  *displayImage;             /* FITS image that is displayed in the GUI */
 };
 
 #endif
