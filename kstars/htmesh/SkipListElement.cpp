@@ -15,16 +15,12 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 SkipListElement::SkipListElement(long level, Key key, Value value) :
-  myLevel(level),
-  myKey(key),
-  myValue(value)
+    myLevel(level),
+    myKey(key),
+    myValue(value)
 {
-  int i;
-  // init pointers to next elements
-
-  for(i=0; i<SKIPLIST_MAXLEVEL; i++) {
-    myNext[i]=NIL;
-  }
+    for(int i=0; i<SKIPLIST_MAXLEVEL; i++)
+        myNext[i]=0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,23 +32,23 @@ SkipListElement::~SkipListElement()
 SkipListElement* SkipListElement::getElement(long level)
 {
   if (level > myLevel) {
-    std::cerr << "Error in :" << "SkipListElement::getElement() level:";
-    std::cerr << level << ", my level:" << myLevel << ", max level: " << SKIPLIST_MAXLEVEL << std::endl;
-    return(this);
+      std::cerr << "Error in :" << "SkipListElement::getElement() level:";
+      std::cerr << level << ", my level:" << myLevel << ", max level: " << SKIPLIST_MAXLEVEL << std::endl;
+      return(this);
   } else {
-    return(myNext[level]);
+      return(myNext[level]);
   }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 void SkipListElement::setElement(long level, SkipListElement* element)
 {
-  if (level > myLevel) {
-    std::cerr << "Error in :" << "SkipListElement::setElement() level:";
-    std::cerr << level << ", my level:" << myLevel << ", max level: " << SKIPLIST_MAXLEVEL << std::endl;
-  } else {
-    myNext[level]=element;
-  }
+    if (level > myLevel) {
+        std::cerr << "Error in :" << "SkipListElement::setElement() level:";
+        std::cerr << level << ", my level:" << myLevel << ", max level: " << SKIPLIST_MAXLEVEL << std::endl;
+    } else {
+        myNext[level]=element;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,10 +58,10 @@ static long xMatrix[SKIPLIST_MAXLEVEL][SKIPLIST_MAXLEVEL] = {{0}};
 void SkipListElement::prmatrix()
 {
     for(int i=0; i<SKIPLIST_MAXLEVEL; i++){
-      for(int j=0; j<SKIPLIST_MAXLEVEL; j++){
-	std::cout <<std::setw(4) << xMatrix[i][j];
-      }
-      std::cout << "; " << std::endl;
+        for(int j=0; j<SKIPLIST_MAXLEVEL; j++){
+            std::cout <<std::setw(4) << xMatrix[i][j];
+        }
+        std::cout << "; " << std::endl;
     }
 }
 
@@ -81,8 +77,6 @@ void SkipListElement::setLevel(long level)
 //     std::cerr << "Panic! level decreasing!" << std::endl;
 //   }
 
-  xMatrix[myLevel][level]++;
-  myLevel=level;
-  
-    
+    xMatrix[myLevel][level]++;
+    myLevel=level;
 } // set level of element
