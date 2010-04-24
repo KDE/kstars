@@ -741,7 +741,7 @@ double SkyMap::magFactor( const int modifier ) {
 }
 
 void SkyMap::incMagLimit( const int modifier ) {
-    double limit = 2.222 * log10( Options::starDensity() ) + 0.35;
+    double limit = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
     limit += magFactor( modifier );
     if ( limit > 7.94 ) limit = 7.94;
     Options::setStarDensity( pow( 10, ( limit - 0.35 ) / 2.222) );
@@ -750,7 +750,7 @@ void SkyMap::incMagLimit( const int modifier ) {
 }
 
 void SkyMap::decMagLimit( const int modifier ) {
-    double limit = 2.222 * log10( Options::starDensity() ) + 0.35;
+    double limit = 2.222 * log10(static_cast<double>( Options::starDensity() )) + 0.35;
     limit -= magFactor( modifier );
     if ( limit < 3.55 ) limit = 3.55;
     Options::setStarDensity( pow( 10, ( limit - 0.35 ) / 2.222) );
