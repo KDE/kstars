@@ -71,7 +71,9 @@ private slots:
     void imageHistogram();
 
 private:
-    bool    initFITS();
+    /** Ask user whether he wants to save changes and save if he do. */
+    void saveUnsaved();
+    bool initFITS();
 
     FITSImage *image;           /* FITS image object */
     FITSHistogram *histogram;   /* FITS Histogram */

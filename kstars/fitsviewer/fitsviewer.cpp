@@ -104,39 +104,35 @@ FITSViewer::FITSViewer (const KUrl *url, QWidget *parent)
         return;
     } 
 
-    QFile tempFile;
     KAction *action;
-
-    if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
-    {
+    QFile tempFile;
+    if (KSUtils::openDataFile( tempFile, "histogram.png" ) ) {
         action = actionCollection()->addAction("image_histogram");
         action->setIcon(KIcon(tempFile.fileName()));
-        action->setText(i18n("Histogram"));
-        connect(action, SIGNAL(triggered(bool) ), SLOT (imageHistogram()));
-        action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_H ));
         tempFile.close();
     }
     else {
         action = actionCollection()->addAction("image_histogram");
         action->setIcon(KIcon("tools-wizard"));
-        action->setText(i18n("Histogram"));
-        connect(action, SIGNAL(triggered(bool)), SLOT (imageHistogram()));
-        action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_H ));
     }
+    action->setText(i18n("Histogram"));
+    connect(action, SIGNAL(triggered(bool)), SLOT (imageHistogram()));
+    action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_H ));
 
-    KStandardAction::open(this, SLOT(fileOpen()), actionCollection());
-    KStandardAction::save(this, SLOT(fileSave()), actionCollection());
+    KStandardAction::open(this,   SLOT(fileOpen()),   actionCollection());
+    KStandardAction::save(this,   SLOT(fileSave()),   actionCollection());
     KStandardAction::saveAs(this, SLOT(fileSaveAs()), actionCollection());
-    KStandardAction::close(this, SLOT(slotClose()), actionCollection());
-    KStandardAction::copy(this, SLOT(fitsCOPY()), actionCollection());
-    KStandardAction::zoomIn(image, SLOT(fitsZoomIn()), actionCollection());
-    KStandardAction::zoomOut(image, SLOT(fitsZoomOut()), actionCollection());
+    KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());
+    KStandardAction::copy(this,   SLOT(fitsCOPY()),   actionCollection());
+    KStandardAction::zoomIn(image,     SLOT(fitsZoomIn()),      actionCollection());
+    KStandardAction::zoomOut(image,    SLOT(fitsZoomOut()),     actionCollection());
     KStandardAction::actualSize(image, SLOT(fitsZoomDefault()), actionCollection());
 
     action = actionCollection()->addAction("image_stats");
     action->setIcon(KIcon("view-statistics"));
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(fitsStatistics()));
+    
     action = actionCollection()->addAction("fits_editor");
     action->setIcon(KIcon("document-properties"));
     action->setText(i18n( "FITS Header"));
@@ -162,47 +158,37 @@ bool FITSViewer::initFITS()
 
     /* Clear history */
     history->clear();
-
     /* Set new file caption */
     setWindowTitle(currentURL.fileName());
-
     statusBar()->changeItem( QString("%1 x %2").arg( (int) image->stats.dim[0]).arg( (int) image->stats.dim[1]), 2);
     return true;
 }
 
 void FITSViewer::slotClose()
 {
-    if (m_Dirty) {
-        QString caption = i18n( "Save Changes to FITS?" );
-        QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-        int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
-        if ( ans == KMessageBox::Yes )
-            fileSave();
-        else if ( ans == KMessageBox::No )
-        {
-            history->clear();
-            fitsRestore();
-        }
-    }
+    saveUnsaved();
     if( !m_Dirty )
         close();
 }
 
+void FITSViewer::saveUnsaved()
+{
+    if( !m_Dirty )
+        return;
+    QString caption = i18n( "Save Changes to FITS?" );
+    QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
+    int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
+    if( ans == KMessageBox::Yes )
+        fileSave();
+    if( ans == KMessageBox::No ) {
+        history->clear();
+        fitsRestore();
+    }
+}
+
 void FITSViewer::closeEvent(QCloseEvent *ev)
 {
-   if( m_Dirty ) {
-        QString caption = i18n( "Save Changes to FITS?" );
-        QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-        int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
-        if ( ans == KMessageBox::Yes )
-            fileSave();
-        else if ( ans == KMessageBox::No )
-        {
-            history->clear();
-            fitsRestore();
-        }
-    }
-
+    saveUnsaved();
     if( !m_Dirty )
         ev->accept();
     else
@@ -211,25 +197,11 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
 
 void FITSViewer::fileOpen()
 {
-    if( m_Dirty ) {
-        QString caption = i18n( "Save Changes to FITS?" );
-        QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-        int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
-        if ( ans == KMessageBox::Yes ) {
-            fileSave();
-        } else {
-            if ( ans == KMessageBox::No ) {
-                history->clear();
-                fitsRestore();
-            }
-        }
-    }
+    saveUnsaved();
 
     KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.fits *.fit *.fts|Flexible Image Transport System");
-
     if (fileURL.isEmpty())
         return;
-
     currentURL = fileURL;
 
     // Close FITS if open and delete it
@@ -239,7 +211,6 @@ void FITSViewer::fileOpen()
         histogram = NULL;
     }
     initFITS();
-
 }
 
 void FITSViewer::fileSave()
@@ -307,12 +278,9 @@ void FITSViewer::fitsCOPY()
 
 void FITSViewer::imageHistogram()
 {
-    if (histogram == NULL) {
+    if (histogram == NULL)
         histogram = new FITSHistogram(this);
-        histogram->show();
-    } else {
-        histogram->show();
-    }
+    histogram->show();
 }
 
 void FITSViewer::fitsRestore(bool clean)
