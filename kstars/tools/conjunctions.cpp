@@ -126,7 +126,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     connect( ExportButton, SIGNAL( clicked() ), this, SLOT( slotExport() ) );
     connect( OutputList, SIGNAL( doubleClicked( const QModelIndex& ) ), this, SLOT( slotGoto() ) );
     connect( ClearFilterButton, SIGNAL( clicked() ), FilterEdit, SLOT( clear() ) );
-    connect( FilterEdit, SIGNAL( userTextChanged( const QString & ) ), this, SLOT( slotFilterReg( const QString & ) ) );
+    connect( FilterEdit, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterReg( const QString & ) ) );
 
     show();
 }
