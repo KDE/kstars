@@ -1,20 +1,12 @@
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QtDebug>
-
+#include "kstarsdb.h"
 
 
 int main() {
-	QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-	db.setHostName("NGCServer");
-	db.setDatabaseName("ngcdb");
+    
+    KStarsDB* kdb = KStarsDB::Create();
+    kdb->createDefaultDatabase(QString("kstars.db"));
 
-	bool ok = db.open();
-	QSqlQuery query(db);
-
-	qDebug() << query.lastError().text();
-	query.exec();
-	db.close();
-	return 0;
+    delete kdb;
+    
+    return 0;
 }
