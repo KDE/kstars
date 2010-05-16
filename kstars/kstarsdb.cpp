@@ -16,6 +16,10 @@
  ***************************************************************************/
 
 #include "kstarsdb.h"
+#include <klocale.h>
+#include "kdebug.h"
+#include "ksfilereader.h"
+#include "dms.h"
 
 KStarsDB::KStarsDB()
 {
@@ -55,20 +59,16 @@ bool KStarsDB::createDefaultDatabase()
     if (!query.exec(QString("CREATE TABLE ctg (name TEXT, source TEXT, description TEXT)"))) {
         qDebug() << query.lastError();
     }
-
-    // Insert the NGC catalog
-    if (!query.exec(QString("INSERT INTO ctg VALUES(\"NGC\", \"www.google.com\", \"Basic KStars IC Catalog\")"))) {
-        qDebug() << query.lastError();
-    }
-
-    // Create the constellation entity
+    
+    // Create the Constellation entity
     if (!query.exec(QString("CREATE TABLE cnst (shortname TEXT, latinname TEXT, boundary TEXT, description TEXT)"))) {
         qDebug() << query.lastError();
     }
 
     // Create the Deep Sky Object entity
-    if (!query.exec(QString("CREATE TABLE dso (ra FLOAT, dec FLOAT, bmag FLOAT, angsize FLOAT, dist FLOAT, type INTEGER, minor FLOAT, major FLOAT, idCNST INTEGER, ") +
-                QString("FOREIGN KEY (idCNST) REFERENCES cnst(rowid))"))) {
+    if (!query.exec(QString("CREATE TABLE dso (rah INTEGER, ram INTEGER, ras FLOAT, ") + 
+                    QString("sgn INTEGER, decd INTEGER, decm INTEGER, decs INTEGER, ") +
+                    QString("bmag FLOAT, type INTEGER, pa FLOAT, minor FLOAT, major FLOAT, longname TEXT)"))) {
         qDebug() << query.lastError();
     }
 
@@ -78,20 +78,58 @@ bool KStarsDB::createDefaultDatabase()
         qDebug() << query.lastError();
     }
 
-    db.close();
- 
+    // Insert the NGC catalog
+    if (!query.exec(QString("INSERT INTO ctg VALUES(\"NGC\", \"ngcic.dat\", \"New General Catalogue\")"))) {
+        qDebug() << query.lastError();
+    }
+    
+    // Insert the IC catalog
+    if (!query.exec(QString("INSERT INTO ctg VALUES(\"IC\", \"ngcic.dat\", \"Index Catalogue of Nebulae and Clusters of Stars\")"))) {
+        qDebug() << query.lastError();
+    }
+    
+    // Insert the Messier catalog
+    if (!query.exec(QString("INSERT INTO ctg VALUES(\"M\", \"ngcic.dat\", \"Messier Catalogue\")"))) {
+        qDebug() << query.lastError();
+    }
+
+    // Insert the PGC catalog
+    if (!query.exec(QString("INSERT INTO ctg VALUES(\"PGC\", \"ngcic.dat\", \"Principal Galaxies Catalogue\")"))) {
+        qDebug() << query.lastError();
+    }
+    
+    // Insert the UGC catalog
+    if (!query.exec(QString("INSERT INTO ctg VALUES(\"UGC\", \"ngcic.dat\", \"Uppsala General Catalogue\")"))) {
+        qDebug() << query.lastError();
+    }
+
     return true;
 }
 
-void KStarsDB::migrateData(QString filename = "ngcic.dat")
+void KStarsDB::migrateData(QString filename)
 {
-
-    qDebug() << "GETTING HERE, DUDES!!";
-/*
+    QSqlQuery query(db);
     KSFileReader fileReader;
-    if ( ! fileReader.open( "ngcic.dat" ) ) return;
 
-    while ( fileReader.hasMoreLines() ) {
+    query.exec("SELECT * FROM dso");
+    QString s;
+    int k = 0;
+
+    while (query.next()) {
+        s = "";
+
+        for (int i = 0; i < 13; i++) {
+            s += " " + query.value(i).toString();
+        }
+
+        qDebug() << s << "\n";
+        if ( k++ == 4 )
+            break;
+    }
+
+    if (!fileReader.open(filename)) return;
+
+    while (fileReader.hasMoreLines()) {
         QString line, con, ss, name, name2, longname;
         QString cat, cat2, sgn;
         float mag(1000.0), ras, a, b;
@@ -101,6 +139,9 @@ void KStarsDB::migrateData(QString filename = "ngcic.dat")
 
         line = fileReader.readLine();
 
+        // Prepare the insert statement of the current object
+        query.prepare("INSERT INTO dso VALUES(:rah, :ram, :ras, :sign, :decd, :decm, :decs, :bmag, :type, :pa, :minor, :major, :name)");
+        
         //Ignore comment lines
         while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
 
@@ -116,32 +157,58 @@ void KStarsDB::migrateData(QString filename = "ngcic.dat")
         ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
 
-        //coordinates
+        // read the right ascension coordinates
         rah = line.mid( 6, 2 ).toInt();
         ram = line.mid( 8, 2 ).toInt();
         ras = line.mid( 10, 4 ).toFloat();
+
+        // bind the values for right ascension params
+        query.bindValue(":rah", rah);
+        query.bindValue(":ram", ram);
+        query.bindValue(":ras", ras);
+
+        // read the declination coordinates
         sgn = line.mid( 15, 1 ); //don't use at(), because it crashes on invalid index
+
+        // bine the sign in the db query (maybe will not be used anymore)
+        query.bindValue(":sign", (sgn == "-") ? -1:1);
+
         dd = line.mid( 16, 2 ).toInt();
         dm = line.mid( 18, 2 ).toInt();
         ds = line.mid( 20, 2 ).toInt();
+
+        // bind the values for declination
+        query.bindValue(":decd", dd);
+        query.bindValue(":decm", dm);
+        query.bindValue(":decs", ds);
 
         //B magnitude
         ss = line.mid( 23, 4 );
         if (ss == "    " ) { mag = 99.9f; } else { mag = ss.toFloat(); }
 
+        query.bindValue(":bmag", mag);
+
         //object type
         type = line.mid( 29, 1 ).toInt();
+
+        query.bindValue(":type", type);
 
         //major and minor axes
         ss = line.mid( 31, 5 );
         if (ss == "      " ) { a = 0.0; } else { a = ss.toFloat(); }
         ss = line.mid( 37, 5 );
         if (ss == "     " ) { b = 0.0; } else { b = ss.toFloat(); }
+
+        query.bindValue(":minor", b);
+        query.bindValue(":major", a);
+
         //position angle.  The catalog PA is zero when the Major axis
         //is horizontal.  But we want the angle measured from North, so
         //we set PA = 90 - pa.
         ss = line.mid( 43, 3 );
         if (ss == "   " ) { pa = 90; } else { pa = 90 - ss.toInt(); }
+
+        query.bindValue(":pa", pa);
 
         //PGC number
         ss = line.mid( 47, 6 );
@@ -164,6 +231,12 @@ void KStarsDB::migrateData(QString filename = "ngcic.dat")
 
         longname = line.mid( 76, line.length() ).trimmed();
 
+        // Bind the name value
+        query.bindValue(":name", longname);
+
+        // Add the DSO Object to the database
+        query.exec();
+        
         dms r;
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
@@ -195,8 +268,9 @@ void KStarsDB::migrateData(QString filename = "ngcic.dat")
                 name = i18n( "Unnamed Object" );
             }
         }
+
+//      break;
     }
-*/
 }
 
 KStarsDB* KStarsDB::Create()

@@ -33,7 +33,7 @@
 #include "skylabeler.h"
 #include "Options.h"
 #include "skymesh.h"
-
+#include "kstarsdb.h"
 
 DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
     SkyComponent(parent)
@@ -61,15 +61,22 @@ void DeepSkyComponent::update( KSNumbers* )
 
 void DeepSkyComponent::loadData()
 {
+    KStarsDB *ksdb = KStarsDB::Create();
+    ksdb->createDefaultDatabase("data/kstars.db");
+    ksdb->migrateData("ngcic.dat");
+
+    exit(1);
+/*
     KStarsData* data = KStarsData::Instance();
     //Check whether we need to concatenate a plit NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();
 
     KSFileReader fileReader;
-    if ( ! fileReader.open( "ngcic.dat" ) ) return;
+    if (!fileReader.open("ngcic.dat")) return;
 
     fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
+
 
     while ( fileReader.hasMoreLines() ) {
         QString line, con, ss, name, name2, longname;
@@ -223,6 +230,7 @@ void DeepSkyComponent::loadData()
 
         fileReader.showProgress();
     }
+*/
 }
 
 void DeepSkyComponent::mergeSplitFiles() {

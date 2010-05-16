@@ -51,7 +51,6 @@ public:
      * @return true on success
      */
     bool createDefaultDatabase(QString);
-    bool createDefaultDatabase();
 
     /** Load the database information from the standard
      * NGCIC.dat file used by KStars 
@@ -62,6 +61,8 @@ public:
     static KStarsDB *pinstance;
 
 private:
+    bool createDefaultDatabase();
+    
     QSqlDatabase db;
     QSqlQuery query;
 };
