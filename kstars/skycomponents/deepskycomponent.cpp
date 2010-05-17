@@ -66,7 +66,7 @@ void DeepSkyComponent::loadData()
     ksdb->migrateData("ngcic.dat");
 
     exit(1);
-/*
+
     KStarsData* data = KStarsData::Instance();
     //Check whether we need to concatenate a plit NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
@@ -230,7 +230,7 @@ void DeepSkyComponent::loadData()
 
         fileReader.showProgress();
     }
-*/
+
 }
 
 void DeepSkyComponent::mergeSplitFiles() {

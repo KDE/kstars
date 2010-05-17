@@ -19,6 +19,7 @@
 #include <klocale.h>
 #include "kdebug.h"
 #include "ksfilereader.h"
+#include "kstarsdata.h"
 #include "dms.h"
 
 KStarsDB::KStarsDB()
@@ -73,8 +74,8 @@ bool KStarsDB::createDefaultDatabase()
     }
 
     // Create the Object Designation entity
-    if (!query.exec(QString("CREATE TABLE od (designation TEXT, idCTG INTEGER NOT NULL, idDSO INTEGER NOT NULL, ") +
-                QString("FOREIGN KEY (idCTG) REFERENCES ctg, FOREIGN KEY (idDSO) REFERENCES dso)"))) {
+    if (!query.exec(QString("CREATE TABLE od (designation TEXT, idCTG INTEGER NOT NULL, idDSO INTEGER NOT NULL)"))) {
+//              QString("FOREIGN KEY (idCTG) REFERENCES ctg(rowid), FOREIGN KEY (idDSO) REFERENCES dso(rowid))"))) {
         qDebug() << query.lastError();
     }
 
@@ -108,26 +109,45 @@ bool KStarsDB::createDefaultDatabase()
 
 void KStarsDB::migrateData(QString filename)
 {
-    QSqlQuery query(db);
+    QSqlQuery query(db), dsoquery(db), tmpq(db);
     KSFileReader fileReader;
 
-    query.exec("SELECT * FROM dso");
+    query.exec("SELECT rowid, * FROM dso");
     QString s;
     int k = 0;
 
+    // Just some test query to show up the first 10 objects in the db
     while (query.next()) {
         s = "";
 
-        for (int i = 0; i < 13; i++) {
-            s += " " + query.value(i).toString();
+        for (int i = 0; i < 14; i++) {
+            s += query.value(i).toString() + " ";
         }
 
-        qDebug() << s << "\n";
-        if ( k++ == 4 )
+        qDebug() << s;
+        s = "Catalog object: ";
+        
+        dsoquery.prepare("SELECT designation, idCTG FROM od WHERE idDSO = :iddso");
+        dsoquery.bindValue(":iddso", query.value(0).toString().toInt());
+        dsoquery.exec();
+
+        while (dsoquery.next()) {
+            tmpq.prepare("SELECT name FROM ctg WHERE rowid = :idctg");
+            tmpq.bindValue(":idctg", dsoquery.value(1).toString().toInt());
+            tmpq.exec();
+            if (tmpq.next()) {
+                s += tmpq.value(0).toString() + " " + dsoquery.value(0).toString();
+            }
+        }
+
+        qDebug() << s;
+        if ( k++ == 10 )
             break;
     }
 
-    if (!fileReader.open(filename)) return;
+    KStarsData *data = KStarsData::Instance();
+    if (!fileReader.open(filename)) return; 
+    fileReader.setProgress( i18n("Migrating NGC/IC objects from ngcic.dat to kstars.db"), 13444, 10 );
 
     while (fileReader.hasMoreLines()) {
         QString line, con, ss, name, name2, longname;
@@ -236,7 +256,26 @@ void KStarsDB::migrateData(QString filename)
 
         // Add the DSO Object to the database
         query.exec();
-        
+
+        // Get the rowid of the object newly inserted
+        query.prepare("SELECT rowid FROM dso WHERE rah = :rah AND ram = :ram AND ras = :ras AND sgn = :sgn AND decd = :decd AND decm = :decm AND decs = :decs");
+
+        query.bindValue(":rah", rah);
+        query.bindValue(":ram", ram);
+        query.bindValue(":ras", ras);
+        query.bindValue(":sgn", (sgn == "-") ? (-1):1);
+        query.bindValue(":decd", dd);
+        query.bindValue(":decm", dm);
+        query.bindValue(":decs", ds);
+
+        query.exec();
+
+        int dsoRowID;
+
+        // Retrieve the row id of the newly inserted object
+        while (query.next())
+            dsoRowID = query.value(0).toString().toInt();
+ 
         dms r;
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
@@ -245,23 +284,103 @@ void KStarsDB::migrateData(QString filename)
 
         bool hasName = true;
         QString snum;
+
+
+        /* Normal detection of the catalogs id (use it to first determine what ids are assigned to
+         * catalogs, if you have not made them by yourself 
+         * 
+         * As for the default migration (using createDefaultDatabase method) the static numbers
+         * defined below are sufficient and assigning them manually speeds up the process
+         */
+
+        int ngcRowID = 1, icRowID = 2, mRowID = 3;
+        
+        /*
+        query.exec("SELECT rowid FROM ctg WHERE name = 'IC'");
+        if (query.next()) {
+            icRowID = query.value(0).toString().toInt();
+        } else {
+            qDebug() << "Unable to get IC catalog row id!";
+        }
+        qDebug() << "IC: " << icRowID;
+
+        query.exec("SELECT rowid FROM ctg WHERE name = 'NGC'");
+        if (query.next()) {
+            ngcRowID = query.value(0).toString().toInt();
+        } else {
+            qDebug() << "Unable to get NGC catalog row id!";
+        }
+        qDebug() << "NGC: " << ngcRowID;
+        
+        query.exec("SELECT rowid FROM ctg WHERE name = 'M'");
+        if (query.next())
+            mRowID = query.value(0).toString().toInt();
+        else {
+            qDebug() << "Unable to retrive Messier catalog row id!";
+        }
+        qDebug() << "Messier: " << mRowID;
+        */
+
+
         if ( cat=="IC" || cat=="NGC" ) {
             snum.setNum( ingc );
             name = cat + ' ' + snum;
+
+            dsoquery.prepare("INSERT INTO od VALUES (:des, :idctg, :iddso)");
+
+            if (cat == "IC") {
+                dsoquery.bindValue(":idctg", icRowID);
+            } else if (cat == "NGC") {
+                dsoquery.bindValue(":idctg", ngcRowID);
+            }
+
+            dsoquery.bindValue(":des", ingc);
+            dsoquery.bindValue(":iddso", dsoRowID);
+            dsoquery.exec();
+
+//          qDebug() << "NGC / IC error: " << dsoquery.lastError();
         } else if ( cat=="M" ) {
             snum.setNum( imess );
             name = cat + ' ' + snum;
+
+            dsoquery.prepare("INSERT INTO od VALUES (:des, :idctg, :iddso)");
+
+            dsoquery.bindValue(":des", imess);
+            dsoquery.bindValue(":idctg", mRowID);
+            dsoquery.bindValue(":iddso", dsoRowID);
+
+            dsoquery.exec();
+//          qDebug() << "Messier error: " << dsoquery.lastError();
+
             if ( cat2=="NGC" ) {
                 snum.setNum( ingc );
                 name2 = cat2 + ' ' + snum;
+
+                dsoquery.prepare("INSERT INTO od VALUES (:des, :idctg, :iddso)");
+                dsoquery.bindValue(":des", ingc);
+                dsoquery.bindValue(":idctg", ngcRowID);
+                dsoquery.bindValue(":iddso", dsoRowID);
+                dsoquery.exec();
+//              qDebug() << "NGC error: " << dsoquery.lastError();
+
             } else if ( cat2=="IC" ) {
                 snum.setNum( ingc );
                 name2 = cat2 + ' ' + snum;
+
+                dsoquery.prepare("INSERT INTO od VALUES (:des, :idctg, :iddso)");
+                dsoquery.bindValue(":des", ingc);
+                dsoquery.bindValue(":idctg", icRowID);
+                dsoquery.bindValue(":iddso", dsoRowID);
+                dsoquery.exec();
+
+//              qDebug() << "IC error: " << dsoquery.lastError();
+
             } else {
                 name2.clear();
             }
         }
         else {
+//          qDebug() << "No catalog assigned!";
             if ( ! longname.isEmpty() ) name = longname;
             else {
                 hasName = false;
