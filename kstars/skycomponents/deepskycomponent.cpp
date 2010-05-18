@@ -329,7 +329,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
     QColor color        = data->colorScheme()->colorNamed( colorString );
     QColor colorExtra = data->colorScheme()->colorNamed( "HSTColor" );
 
-    m_hideLabels =  ( map->isSlewing() && Options::hideLabels() ) ||
+    m_hideLabels =  ( map->isSlewing() && Options::hideOnSlew() ) ||
                     ! ( Options::showDeepSkyMagnitudes() || Options::showDeepSkyNames() );
 
 
@@ -387,8 +387,9 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                 double PositionAngle = map->findPA( obj, o.x(), o.y() );
 
                 //Draw Image
+                bool imgdrawn = false;
                 if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
-                    obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
+                    imgdrawn = obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
                 }
 
                 //Draw Symbol
@@ -412,7 +413,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                     }
                 }
 
-                if ( !( drawObject || drawImage )  && ( m_hideLabels || mag > labelMagLim ) ) continue;
+                if ( !( drawObject || imgdrawn )  || ( m_hideLabels || mag > labelMagLim ) ) continue;
             
                 addLabel( o, obj );
             }
