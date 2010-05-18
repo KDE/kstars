@@ -676,7 +676,7 @@
 		<entry name="DeepSkyLabelDensity" type="Double">
 			<label>Relative density for deep-sky object name labels and/or magnitudes</label>
 			<whatsthis>The relative density for drawing deep-sky object name and magnitude labels.</whatsthis>
-			<default>2.0</default>
+			<default>10.0</default>
 		</entry>
 		<entry name="DeepSkyLongLabels" type="Bool">
 			<label>Show long names in deep-sky object name labels?</label>
