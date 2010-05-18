@@ -356,7 +356,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
     }
 }
 
-void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom ) {
+bool DeepSkyObject::drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom ) {
     QImage *image = readImage();
     QImage ScaledImage;
 
@@ -380,7 +380,10 @@ void DeepSkyObject::drawImage( QPainter &psky, float x, float y, double Position
 
             psky.restore();
         }
+        return true;
     }
+    else 
+        return false;
 }
 
 double DeepSkyObject::labelOffset() const {
