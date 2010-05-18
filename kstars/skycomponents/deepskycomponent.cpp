@@ -342,7 +342,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
         maglim -= (Options::magLimitDrawDeepSky() - Options::magLimitDrawDeepSkyZoomOut() )*(0.75*lgmax - lgz)/(0.75*lgmax - lgmin);
     m_zoomMagLimit = maglim;
 
-    double labelMagLim = Options::deepSkyLabelDensity() / 3.0;
+    double labelMagLim = Options::deepSkyLabelDensity();
     labelMagLim += ( Options::magLimitDrawDeepSky() - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
     if ( labelMagLim > Options::magLimitDrawDeepSky() ) labelMagLim = Options::magLimitDrawDeepSky();
 
