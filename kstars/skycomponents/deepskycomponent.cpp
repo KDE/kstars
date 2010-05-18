@@ -294,7 +294,7 @@ void DeepSkyComponent::draw( QPainter& psky )
     drawFlag = Options::showMessier() &&
                ! ( Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag, &m_MessierIndex, "MessColor" );
+    drawDeepSkyCatalog( psky, drawFlag, &m_MessierIndex, "MessColor", Options::showMessierImages() );
 
     drawFlag = Options::showNGC() &&
                ! ( Options::hideOnSlew() && Options::hideNGC() && SkyMap::IsSlewing() );
@@ -313,9 +313,8 @@ void DeepSkyComponent::draw( QPainter& psky )
 }
 
 void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
-        DeepSkyIndex* dsIndex, const QString& colorString)
+                                           DeepSkyIndex* dsIndex, const QString& colorString, bool drawImage)
 {
-    bool drawImage =  Options::showMessierImages();
     if ( ! ( drawObject || drawImage ) ) return;
 
     SkyMap *map = SkyMap::Instance();

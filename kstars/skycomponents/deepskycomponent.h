@@ -144,7 +144,7 @@ private:
     void mergeSplitFiles();
 
     void drawDeepSkyCatalog( QPainter& psky, bool drawObject, DeepSkyIndex* dsIndex,
-                             const QString& colorString);
+                             const QString& colorString, bool drawImage = false);
 
     QList<DeepSkyObject*> m_DeepSkyList;
     QList<DeepSkyObject*> m_MessierList;
