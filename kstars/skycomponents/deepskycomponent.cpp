@@ -61,139 +61,70 @@ void DeepSkyComponent::update( KSNumbers* )
 
 void DeepSkyComponent::loadData()
 {
+
+/*
     KStarsDB *ksdb = KStarsDB::Create();
     ksdb->createDefaultDatabase("data/kstars.db");
     ksdb->migrateData("ngcic.dat");
 
     exit(1);
-
+*/
     KStarsData* data = KStarsData::Instance();
-    //Check whether we need to concatenate a plit NGC/IC catalog
-    //(i.e., if user has downloaded the Steinicke catalog)
-    mergeSplitFiles();
 
-    KSFileReader fileReader;
-    if (!fileReader.open("ngcic.dat")) return;
+    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName("data/kstars.db");
+    db.open();
 
-    fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
+    QSqlQuery query(db);
+    QSqlQuery dsoquery(db), tmpq(db);
 
-
-    while ( fileReader.hasMoreLines() ) {
-        QString line, con, ss, name, name2, longname;
-        QString cat, cat2, sgn;
-        float mag(1000.0), ras, a, b;
-        int type, ingc, imess(-1), rah, ram, dd, dm, ds, pa;
-        int pgc, ugc;
+    query.exec("SELECT *, rowid FROM dso");
+    
+    while ( query.next() ) {
+        QString line, con, ss, name[2], longname;
+        QString cat[2], sgn;
+        float mag = query.value(7).toString().toFloat(), ras = query.value(2).toString().toFloat(), a = query.value(11).toString().toFloat(), b = query.value(10).toString().toFloat();
+        int type = query.value(8).toString().toInt();
+        int ingc = 3, imess(-1), rah = query.value(0).toString().toFloat(), ram = query.value(1).toString().toInt();
+        int dd = query.value(4).toString().toInt(), dm = query.value(5).toString().toInt(), ds = query.value(6).toString().toInt(), pa = query.value(9).toString().toInt();
+        int pgc = 0, ugc = 0, k = 0;
         QChar iflag;
 
-        line = fileReader.readLine();
+        dsoquery.prepare("SELECT designation, idCTG FROM od WHERE idDSO = :iddso");
+        dsoquery.bindValue(":iddso", query.value(13).toString().toInt());
+        dsoquery.exec();
 
-        //Ignore comment lines
-        while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
+        name[0] = name[1] = "";
 
-        //Ignore lines with no coordinate values
-        while ( line.mid(6,8).trimmed().isEmpty() && fileReader.hasMoreLines() ) {
-            line = fileReader.readLine();
+        while (dsoquery.next() && k < 2) {
+            tmpq.prepare("SELECT name FROM ctg WHERE rowid = :idctg");
+            tmpq.bindValue(":idctg", dsoquery.value(1).toString().toInt());
+            tmpq.exec();
+            if (tmpq.next() && k < 2) {
+                name[k] = tmpq.value(0).toString() + " " + dsoquery.value(0).toString();
+                cat[k] = tmpq.value(0).toString();
+                k++;
+            }
         }
-
-        iflag = line.at( 0 ); //check for NGC/IC catalog flag
-        if ( iflag == 'I' ) cat = "IC";
-        else if ( iflag == 'N' ) cat = "NGC";
-
-        ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
-        if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
-
-        //coordinates
-        rah = line.mid( 6, 2 ).toInt();
-        ram = line.mid( 8, 2 ).toInt();
-        ras = line.mid( 10, 4 ).toFloat();
-        sgn = line.mid( 15, 1 ); //don't use at(), because it crashes on invalid index
-        dd = line.mid( 16, 2 ).toInt();
-        dm = line.mid( 18, 2 ).toInt();
-        ds = line.mid( 20, 2 ).toInt();
-
-        //B magnitude
-        ss = line.mid( 23, 4 );
-        if (ss == "    " ) { mag = 99.9f; } else { mag = ss.toFloat(); }
-
-        //object type
-        type = line.mid( 29, 1 ).toInt();
-
-        //major and minor axes
-        ss = line.mid( 31, 5 );
-        if (ss == "      " ) { a = 0.0; } else { a = ss.toFloat(); }
-        ss = line.mid( 37, 5 );
-        if (ss == "     " ) { b = 0.0; } else { b = ss.toFloat(); }
-        //position angle.  The catalog PA is zero when the Major axis
-        //is horizontal.  But we want the angle measured from North, so
-        //we set PA = 90 - pa.
-        ss = line.mid( 43, 3 );
-        if (ss == "   " ) { pa = 90; } else { pa = 90 - ss.toInt(); }
-
-        //PGC number
-        ss = line.mid( 47, 6 );
-        if (ss == "      " ) { pgc = 0; } else { pgc = ss.toInt(); }
-
-        //UGC number
-        if ( line.mid( 54, 3 ) == "UGC" ) {
-            ugc = line.mid( 58, 5 ).toInt();
-        } else {
-            ugc = 0;
-        }
-
-        //Messier number
-        if ( line.mid( 70,1 ) == "M" ) {
-            cat2 = cat;
-            if ( ingc==0 ) cat2.clear();
-            cat = 'M';
-            imess = line.mid( 72, 3 ).toInt();
-        }
-
-        longname = line.mid( 76, line.length() ).trimmed();
+        longname = query.value(12).toString();
 
         dms r;
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
 
-        if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-
-        bool hasName = true;
-        QString snum;
-        if ( cat=="IC" || cat=="NGC" ) {
-            snum.setNum( ingc );
-            name = cat + ' ' + snum;
-        } else if ( cat=="M" ) {
-            snum.setNum( imess );
-            name = cat + ' ' + snum;
-            if ( cat2=="NGC" ) {
-                snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
-            } else if ( cat2=="IC" ) {
-                snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
-            } else {
-                name2.clear();
-            }
-        }
-        else {
-            if ( ! longname.isEmpty() ) name = longname;
-            else {
-                hasName = false;
-                name = i18n( "Unnamed Object" );
-            }
-        }
-
+        if ( query.value(3).toString().toInt() == -1 ) { d.setD( -1.0*d.Degrees() ); }
+        
         // create new deepskyobject
         DeepSkyObject *o = 0;
         if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
-        o = new DeepSkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
+        o = new DeepSkyObject( type, r, d, mag, name[0], name[1], longname, cat[0], a, b, pa, pgc, ugc );
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
         // Add the name(s) to the nameHash for fast lookup -jbb
-        if ( hasName) {
-            nameHash[ name.toLower() ] = o;
+        if (longname != "") {
+            nameHash[ name[0].toLower() ] = o;
             if ( ! longname.isEmpty() ) nameHash[ longname.toLower() ] = o;
-            if ( ! name2.isEmpty() ) nameHash[ name2.toLower() ] = o;
+            if ( ! name[1].isEmpty() ) nameHash[ name[1].toLower() ] = o;
         }
 
         Trixel trixel = m_skyMesh->index( (SkyPoint*) o );
@@ -221,16 +152,14 @@ void DeepSkyComponent::loadData()
         }
 
         //Add name to the list of object names
-        if ( ! name.isEmpty() )
-            objectNames(type).append( name );
+        if ( ! name[0].isEmpty() )
+            objectNames(type).append( name[0] );
 
         //Add long name to the list of object names
         if ( ! longname.isEmpty() && longname != name )
             objectNames(type).append( longname );
 
-        fileReader.showProgress();
     }
-
 }
 
 void DeepSkyComponent::mergeSplitFiles() {
