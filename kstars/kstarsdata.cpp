@@ -621,7 +621,7 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
                 o = skyComposite()->findByName( name );
 
             if ( !o ) {
-                kWarning() << i18n( "Object named %1 not found", name ) ;
+                kWarning() << urlfile << i18n( "Object named %1 not found", name ) ;
             } else {
                 if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) ) {
                     if ( type==0 ) { //image URL

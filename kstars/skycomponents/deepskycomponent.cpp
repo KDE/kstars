@@ -34,6 +34,8 @@
 #include "Options.h"
 #include "skymesh.h"
 #include "kstarsdb.h"
+#include <time.h>
+#define CLOCK_TO_MILISEC(clock_time)    ((clock_time)/(CLOCKS_PER_SEC/1000)) 
 
 DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
     SkyComponent(parent)
@@ -80,6 +82,7 @@ void DeepSkyComponent::loadData()
 
     query.exec("SELECT *, rowid FROM dso");
     
+    qDebug() << "1." << CLOCK_TO_MILISEC(clock());
     while ( query.next() ) {
         QString line, con, ss, name[2], longname;
         QString cat[2], sgn;
@@ -96,18 +99,35 @@ void DeepSkyComponent::loadData()
 
         name[0] = name[1] = "";
 
+        bool hasName = true;
+        QString snum;
+
         while (dsoquery.next() && k < 2) {
             tmpq.prepare("SELECT name FROM ctg WHERE rowid = :idctg");
             tmpq.bindValue(":idctg", dsoquery.value(1).toString().toInt());
             tmpq.exec();
-            if (tmpq.next() && k < 2) {
-                name[k] = tmpq.value(0).toString() + " " + dsoquery.value(0).toString();
+        
+            if (tmpq.next()) {
+                name[k] = tmpq.value(0).toString() + ' ' + dsoquery.value(0).toString();
                 cat[k] = tmpq.value(0).toString();
                 k++;
             }
         }
-        longname = query.value(12).toString();
 
+        longname = query.value(12).toString();
+       
+        if (!longname.isEmpty()) {
+            if (name[0] == "") {
+                name[0] = longname;
+            }
+        } else if (name[0] == "" && name[1] == "") {
+            hasName = false;
+            name[0] = "Unnamed Object";
+        }
+
+ //       qDebug() << name[0] << " " << name[1];
+ //       exit(1);
+       
         dms r;
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
@@ -121,7 +141,7 @@ void DeepSkyComponent::loadData()
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
         // Add the name(s) to the nameHash for fast lookup -jbb
-        if (longname != "") {
+        if (hasName == true) {
             nameHash[ name[0].toLower() ] = o;
             if ( ! longname.isEmpty() ) nameHash[ longname.toLower() ] = o;
             if ( ! name[1].isEmpty() ) nameHash[ name[1].toLower() ] = o;
@@ -160,6 +180,7 @@ void DeepSkyComponent::loadData()
             objectNames(type).append( longname );
 
     }
+    qDebug() << "2." << CLOCK_TO_MILISEC(clock());
 }
 
 void DeepSkyComponent::mergeSplitFiles() {
