@@ -34,7 +34,7 @@
 #include "simclock.h"
 #include "dialogs/finddialog.h"
 #include "observinglist.h"
-#include "comast/execute.h"
+#include "oal/execute.h"
 
 #include "kstarsadaptor.h"
 

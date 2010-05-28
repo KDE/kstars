@@ -18,12 +18,12 @@
 #ifndef SESSION_H_
 #define SESSION_H_
 
-#include "comast/comast.h"
+#include "oal/oal.h"
 #include "kstarsdatetime.h"
 
 #include <QString>
 
-class Comast::Session {
+class OAL::Session {
     public:
        Session ( QString name, QString site, KStarsDateTime begin, KStarsDateTime end, QString weather, QString equipment, QString comment, QString lang ) { setSession( name, site, begin, end, weather, equipment, comment, lang ); }
        QString id() { return m_Id; }

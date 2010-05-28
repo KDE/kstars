@@ -16,7 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "comast/log.h"
+#include "oal/log.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
@@ -25,7 +25,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "kstarsdatetime.h"
 
-void Comast::Log::writeBegin() {
+void OAL::Log::writeBegin() {
     ks = KStars::Instance();
     output = "";
     m_targetList = ks->observingList()->sessionList();
@@ -39,7 +39,7 @@ void Comast::Log::writeBegin() {
     writer->writeAttribute("version", "2.0");
 }
 
-QString Comast::Log::writeLog( bool _native ) {
+QString OAL::Log::writeLog( bool _native ) {
     native = _native;
     writeBegin();
     if( native )
@@ -58,33 +58,33 @@ QString Comast::Log::writeLog( bool _native ) {
     return output;
 }
 
-void Comast::Log::writeEnd() {
+void OAL::Log::writeEnd() {
     writer->writeEndDocument();
     delete writer;
 }
 
-void Comast::Log::writeObservers() {
+void OAL::Log::writeObservers() {
     writer->writeStartElement( "observers" );
-    foreach( Comast::Observer *o, m_observerList )
+    foreach( OAL::Observer *o, m_observerList )
         writeObserver( o );
     writer->writeEndElement();
 }
 
-void Comast::Log::writeSites() {
+void OAL::Log::writeSites() {
     writer->writeStartElement("sites");
-    foreach( Comast::Site *o, m_siteList )
+    foreach( OAL::Site *o, m_siteList )
         writeSite( o );
     writer->writeEndElement();
 }
 
-void Comast::Log::writeSessions() {
+void OAL::Log::writeSessions() {
     writer->writeStartElement("sessions");
-    foreach( Comast::Session *o, m_sessionList )
+    foreach( OAL::Session *o, m_sessionList )
         writeSession( o );
     writer->writeEndElement();
 }
 
-void Comast::Log::writeTargets() {
+void OAL::Log::writeTargets() {
     writer->writeStartElement("targets");
     foreach( SkyObject *o, m_targetList ) {
         writeTarget( o );
@@ -92,45 +92,45 @@ void Comast::Log::writeTargets() {
     writer->writeEndElement();
 }
 
-void Comast::Log::writeScopes() {
+void OAL::Log::writeScopes() {
     writer->writeStartElement("scopes");
-    foreach( Comast::Scope *o, m_scopeList )
+    foreach( OAL::Scope *o, m_scopeList )
         writeScope( o );
     writer->writeEndElement();
 }
 
-void Comast::Log::writeEyepieces() {
+void OAL::Log::writeEyepieces() {
     writer->writeStartElement("eyepieces");
-    foreach( Comast::Eyepiece *o, m_eyepieceList )
+    foreach( OAL::Eyepiece *o, m_eyepieceList )
         writeEyepiece( o );
     writer->writeEndElement();
 }
 
-void Comast::Log::writeLenses() {
+void OAL::Log::writeLenses() {
     writer->writeStartElement("lenses");
-    foreach( Comast::Lens *o, m_lensList )
+    foreach( OAL::Lens *o, m_lensList )
         writeLens( o );
     writer->writeEndElement();
 }
 
-void Comast::Log::writeFilters() {
+void OAL::Log::writeFilters() {
     writer->writeStartElement("filters");
-    foreach( Comast::Filter *o, m_filterList )
+    foreach( OAL::Filter *o, m_filterList )
         writeFilter( o );
     writer->writeEndElement();
 }
 
-void Comast::Log::writeImagers() {
+void OAL::Log::writeImagers() {
     writer->writeStartElement("imagers");
     writer->writeEndElement();
 }
 
-void Comast::Log::writeObservations() {
-    foreach( Comast::Observation *o, m_observationList )
+void OAL::Log::writeObservations() {
+    foreach( OAL::Observation *o, m_observationList )
         writeObservation( o );
 }
 
-void Comast::Log::writeTarget( SkyObject *o ) {
+void OAL::Log::writeTarget( SkyObject *o ) {
     writer->writeStartElement( "target" );
     writer->writeAttribute("id", o->name().remove( ' ' ) );
     QString typeString;
@@ -188,7 +188,7 @@ void Comast::Log::writeTarget( SkyObject *o ) {
     writer->writeEndElement();
 }
 
-void Comast::Log::writeObserver( Comast::Observer *o ) {
+void OAL::Log::writeObserver( OAL::Observer *o ) {
     writer->writeStartElement( "observer" );
     writer->writeAttribute( "id", o->id() );
     writer->writeStartElement( "name" );
@@ -202,7 +202,7 @@ void Comast::Log::writeObserver( Comast::Observer *o ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void Comast::Log::writeSite( Comast::Site *s ) {
+void OAL::Log::writeSite( OAL::Site *s ) {
     writer->writeStartElement( "site" );
     writer->writeAttribute( "id", s->id() );
     writer->writeStartElement( "name" );
@@ -217,7 +217,7 @@ void Comast::Log::writeSite( Comast::Site *s ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void Comast::Log::writeSession( Comast::Session *s ) {
+void OAL::Log::writeSession( OAL::Session *s ) {
     writer->writeStartElement( "session" );
     writer->writeAttribute( "id", s->id() ); 
     writer->writeStartElement( "begin" );
@@ -240,7 +240,7 @@ void Comast::Log::writeSession( Comast::Session *s ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void Comast::Log::writeScope( Comast::Scope *s ) {
+void OAL::Log::writeScope( OAL::Scope *s ) {
     writer->writeStartElement( "scope" );
     writer->writeAttribute( "id", s->id() ); 
     writer->writeStartElement( "model" );
@@ -260,7 +260,7 @@ void Comast::Log::writeScope( Comast::Scope *s ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void Comast::Log::writeEyepiece( Comast::Eyepiece *ep ) {
+void OAL::Log::writeEyepiece( OAL::Eyepiece *ep ) {
     writer->writeStartElement( "eyepiece" );
     writer->writeAttribute( "id", ep->id() ); 
     writer->writeStartElement( "model" );
@@ -278,7 +278,7 @@ void Comast::Log::writeEyepiece( Comast::Eyepiece *ep ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void Comast::Log::writeLens( Comast::Lens *l ) {
+void OAL::Log::writeLens( OAL::Lens *l ) {
     writer->writeStartElement( "lens" );
     writer->writeAttribute( "id", l->id() );
     writer->writeStartElement( "model" );
@@ -293,7 +293,7 @@ void Comast::Log::writeLens( Comast::Lens *l ) {
     writer->writeEndElement();
 }
 
-void Comast::Log::writeFilter( Comast::Filter *f ) {
+void OAL::Log::writeFilter( OAL::Filter *f ) {
     writer->writeStartElement( "filter" );
     writer->writeAttribute( "id", f->id() );
     writer->writeStartElement( "model" );
@@ -311,7 +311,7 @@ void Comast::Log::writeFilter( Comast::Filter *f ) {
     writer->writeEndElement();
 }
 
-void Comast::Log::writeObservation( Comast::Observation *o ) {
+void OAL::Log::writeObservation( OAL::Observation *o ) {
     writer->writeStartElement( "observation" );
     writer->writeStartElement( "observer" );
     writer->writeCharacters( o->observer() );
@@ -355,7 +355,7 @@ void Comast::Log::writeObservation( Comast::Observation *o ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void Comast::Log::writeGeoDate() {
+void OAL::Log::writeGeoDate() {
     writer->writeStartElement( "geodate" );
     writer->writeStartElement( "name" );
     writer->writeCDATA( ks->observingList()->geoLocation()->name() );
@@ -371,7 +371,7 @@ void Comast::Log::writeGeoDate() {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void Comast::Log::readBegin( QString input ) {
+void OAL::Log::readBegin( QString input ) {
     reader = new QXmlStreamReader( input );
     ks = KStars::Instance();
     while( ! reader->atEnd() ) {
@@ -383,7 +383,7 @@ void Comast::Log::readBegin( QString input ) {
     }
 }
 
-void Comast::Log::readUnknownElement() {
+void OAL::Log::readUnknownElement() {
     while( ! reader->atEnd() ) {
         reader->readNext();
         
@@ -395,7 +395,7 @@ void Comast::Log::readUnknownElement() {
     }
 }
 
-void Comast::Log::readLog() {
+void OAL::Log::readLog() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -429,7 +429,7 @@ void Comast::Log::readLog() {
     }
 }
 
-void Comast::Log::readTargets() {
+void OAL::Log::readTargets() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -445,7 +445,7 @@ void Comast::Log::readTargets() {
     }
 }
 
-void Comast::Log::readObservers() {
+void OAL::Log::readObservers() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -461,7 +461,7 @@ void Comast::Log::readObservers() {
     }
 }
 
-void Comast::Log::readSites() {
+void OAL::Log::readSites() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -477,7 +477,7 @@ void Comast::Log::readSites() {
     }
 }
 
-void Comast::Log::readSessions() {
+void OAL::Log::readSessions() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -493,7 +493,7 @@ void Comast::Log::readSessions() {
     }
 }
 
-void Comast::Log::readScopes() {
+void OAL::Log::readScopes() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -509,7 +509,7 @@ void Comast::Log::readScopes() {
     }
 }
 
-void Comast::Log::readEyepieces() {
+void OAL::Log::readEyepieces() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -525,7 +525,7 @@ void Comast::Log::readEyepieces() {
     }
 }
 
-void Comast::Log::readLenses() {
+void OAL::Log::readLenses() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -541,7 +541,7 @@ void Comast::Log::readLenses() {
     }
 }
 
-void Comast::Log::readFilters() {
+void OAL::Log::readFilters() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -557,7 +557,7 @@ void Comast::Log::readFilters() {
     }
 }
 
-void Comast::Log::readTarget() {
+void OAL::Log::readTarget() {
     SkyObject *o = NULL;
     QString name, time, notes;
     while( ! reader->atEnd() ) {
@@ -595,7 +595,7 @@ void Comast::Log::readTarget() {
     }
 }
 
-void Comast::Log::readObserver( QString id ) {
+void OAL::Log::readObserver( QString id ) {
     QString name, surname, contact;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -614,11 +614,11 @@ void Comast::Log::readObserver( QString id ) {
                 readUnknownElement();
         }
     }
-    Comast::Observer *o= new Comast::Observer( id, name, surname, contact );
+    OAL::Observer *o= new OAL::Observer( id, name, surname, contact );
     m_observerList.append( o );
 }
 
-void Comast::Log::readSite( QString id ) {
+void OAL::Log::readSite( QString id ) {
     QString name, latUnit, lonUnit, lat, lon;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -639,11 +639,11 @@ void Comast::Log::readSite( QString id ) {
                 readUnknownElement();
         }
     }
-    Comast::Site *o= new Comast::Site( id, name, lat.toDouble(), latUnit, lon.toDouble(), lonUnit );
+    OAL::Site *o= new OAL::Site( id, name, lat.toDouble(), latUnit, lon.toDouble(), lonUnit );
     m_siteList.append( o );
 }
 
-void Comast::Log::readSession( QString id, QString lang ) {
+void OAL::Log::readSession( QString id, QString lang ) {
     QString site, weather, equipment, comments, begin, end;
     KStarsDateTime beginDT, endDT;
     while( ! reader->atEnd() ) {
@@ -671,11 +671,11 @@ void Comast::Log::readSession( QString id, QString lang ) {
                 readUnknownElement();
         }
     }
-    Comast::Session *o= new Comast::Session( id, site, beginDT, endDT, weather, equipment, comments, lang );
+    OAL::Session *o= new OAL::Session( id, site, beginDT, endDT, weather, equipment, comments, lang );
     m_sessionList.append( o );
 }
 
-void Comast::Log::readScope( QString id ) {
+void OAL::Log::readScope( QString id ) {
     QString model, focalLength, vendor, type, aperture;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -705,11 +705,11 @@ void Comast::Log::readScope( QString id ) {
         }
     }
     
-    Comast::Scope *o= new Comast::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
+    OAL::Scope *o= new OAL::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
     m_scopeList.append( o );
 }
 
-void Comast::Log::readEyepiece( QString id ) {
+void OAL::Log::readEyepiece( QString id ) {
     QString model, focalLength, vendor, fov, fovUnit;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -732,11 +732,11 @@ void Comast::Log::readEyepiece( QString id ) {
         }
     }
     
-    Comast::Eyepiece *o= new Comast::Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
+    OAL::Eyepiece *o= new OAL::Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
     m_eyepieceList.append( o );
 }
 
-void Comast::Log::readLens( QString id ) {
+void OAL::Log::readLens( QString id ) {
     QString model, factor, vendor;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -756,11 +756,11 @@ void Comast::Log::readLens( QString id ) {
         }
     }
     
-    Comast::Lens *o= new Comast::Lens( id, model, vendor, factor.toDouble() );
+    OAL::Lens *o= new OAL::Lens( id, model, vendor, factor.toDouble() );
     m_lensList.append( o );
 }
 
-void Comast::Log::readFilter( QString id ) {
+void OAL::Log::readFilter( QString id ) {
     QString model, vendor, type, color;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -781,11 +781,11 @@ void Comast::Log::readFilter( QString id ) {
                 readUnknownElement();
         }
     }
-    Comast::Filter *o= new Comast::Filter( id, model, vendor, type, color );
+    OAL::Filter *o= new OAL::Filter( id, model, vendor, type, color );
     m_filterList.append( o );
 }
 
-void Comast::Log::readPosition() {
+void OAL::Log::readPosition() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -803,7 +803,7 @@ void Comast::Log::readPosition() {
     }
 }
 
-void Comast::Log::readObservation( QString id ) {
+void OAL::Log::readObservation( QString id ) {
     QString observer, site, session, target, faintestStar, seeing, scope, eyepiece, lens, filter, result, lang;
     KStarsDateTime begin;
     while( ! reader->atEnd() ) {
@@ -840,11 +840,11 @@ void Comast::Log::readObservation( QString id ) {
                 readUnknownElement();
         }
     }
-        Comast::Observation *o = new Comast::Observation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, lens, filter, result, lang );
+        OAL::Observation *o = new OAL::Observation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, lens, filter, result, lang );
         m_observationList.append( o );
 }
 
-QString Comast::Log::readResult() {
+QString OAL::Log::readResult() {
     QString result;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -861,7 +861,7 @@ QString Comast::Log::readResult() {
     return result;
 }
 
-void Comast::Log::readGeoDate() {
+void OAL::Log::readGeoDate() {
     QString name, province, country, date;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -886,99 +886,99 @@ void Comast::Log::readGeoDate() {
     dt.setDate( QDate::fromString( date, "ddMMyyyy" ) );
 }
 
-Comast::Observer* Comast::Log::findObserverByName( QString name ) {
-    foreach( Comast::Observer *obs, *observerList() )
+OAL::Observer* OAL::Log::findObserverByName( QString name ) {
+    foreach( OAL::Observer *obs, *observerList() )
         if( obs->name() + ' ' + obs->surname() == name )
             return obs;
     return NULL;
 }
 
-Comast::Observer* Comast::Log::findObserverById( QString id ) {
-    foreach( Comast::Observer *obs, *observerList() )
+OAL::Observer* OAL::Log::findObserverById( QString id ) {
+    foreach( OAL::Observer *obs, *observerList() )
         if( obs->id() == id )
             return obs;
     return NULL;
 }
 
-Comast::Session* Comast::Log::findSessionByName( QString id ) {
-    foreach( Comast::Session *s, *sessionList() )
+OAL::Session* OAL::Log::findSessionByName( QString id ) {
+    foreach( OAL::Session *s, *sessionList() )
         if( s->id()  == id )
             return s;
     return NULL;
 }
 
-Comast::Site* Comast::Log::findSiteById( QString id ) {
-    foreach( Comast::Site *s, *siteList() )
+OAL::Site* OAL::Log::findSiteById( QString id ) {
+    foreach( OAL::Site *s, *siteList() )
         if( s->id()  == id )
             return s;
     return NULL;
 }
 
-Comast::Site* Comast::Log::findSiteByName( QString name ) {
-    foreach( Comast::Site *s, *siteList() )
+OAL::Site* OAL::Log::findSiteByName( QString name ) {
+    foreach( OAL::Site *s, *siteList() )
         if( s->name()  == name )
             return s;
     return NULL;
 }
 
-Comast::Scope* Comast::Log::findScopeById( QString id ) {
-    foreach( Comast::Scope *s, *scopeList() )
+OAL::Scope* OAL::Log::findScopeById( QString id ) {
+    foreach( OAL::Scope *s, *scopeList() )
         if( s->id()  == id )
             return s;
     return NULL;
 }
 
-Comast::Eyepiece* Comast::Log::findEyepieceById( QString id ) {
-    foreach( Comast::Eyepiece *e, *eyepieceList() )
+OAL::Eyepiece* OAL::Log::findEyepieceById( QString id ) {
+    foreach( OAL::Eyepiece *e, *eyepieceList() )
         if( e->id()  == id )
             return e;
     return NULL;
 }
 
-Comast::Lens* Comast::Log::findLensById( QString id ) {
-    foreach( Comast::Lens *l, *lensList() )
+OAL::Lens* OAL::Log::findLensById( QString id ) {
+    foreach( OAL::Lens *l, *lensList() )
         if( l->id()  == id )
             return l;
     return NULL;
 }
 
-Comast::Filter* Comast::Log::findFilterById( QString id ) {
-    foreach( Comast::Filter *f, *filterList() )
+OAL::Filter* OAL::Log::findFilterById( QString id ) {
+    foreach( OAL::Filter *f, *filterList() )
         if( f->id()  == id )
             return f;
     return NULL;
 }
 
-Comast::Scope* Comast::Log::findScopeByName( QString name ) {
-    foreach( Comast::Scope *s, *scopeList() )
+OAL::Scope* OAL::Log::findScopeByName( QString name ) {
+    foreach( OAL::Scope *s, *scopeList() )
         if( s->name()  == name )
             return s;
     return NULL;
 }
 
-Comast::Eyepiece* Comast::Log::findEyepieceByName( QString name ) {
-    foreach( Comast::Eyepiece *e, *eyepieceList() )
+OAL::Eyepiece* OAL::Log::findEyepieceByName( QString name ) {
+    foreach( OAL::Eyepiece *e, *eyepieceList() )
         if( e->name()  == name )
             return e;
     return NULL;
 }
 
-Comast::Filter* Comast::Log::findFilterByName( QString name ) {
-    foreach( Comast::Filter *f, *filterList() )
+OAL::Filter* OAL::Log::findFilterByName( QString name ) {
+    foreach( OAL::Filter *f, *filterList() )
         if( f->name()  == name )
             return f;
     return NULL;
 }
 
-Comast::Lens* Comast::Log::findLensByName( QString name ) {
-    foreach( Comast::Lens *l, *lensList() )
+OAL::Lens* OAL::Log::findLensByName( QString name ) {
+    foreach( OAL::Lens *l, *lensList() )
         if( l->name()  == name )
             return l;
     return NULL;
 }
 
-Comast::Observation* Comast::Log::findObservationByName( QString id ) {
-    foreach( Comast::Observation *o, *observationList() )
+OAL::Observation* OAL::Log::findObservationByName( QString id ) {
+    foreach( OAL::Observation *o, *observationList() )
         if( o->id()  == id )
             return o;
     return NULL;

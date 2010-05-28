@@ -16,20 +16,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "comast/execute.h"
+#include "oal/execute.h"
 
 #include <QFile>
 
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include "kstarsdata.h"
-#include "comast/observer.h"
-#include "comast/site.h"
-#include "comast/session.h"
-#include "comast/scope.h"
-#include "comast/eyepiece.h"
-#include "comast/lens.h"
-#include "comast/filter.h"
+#include "oal/observer.h"
+#include "oal/site.h"
+#include "oal/session.h"
+#include "oal/scope.h"
+#include "oal/eyepiece.h"
+#include "oal/lens.h"
+#include "oal/filter.h"
 #include "skyobjects/skyobject.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
@@ -153,11 +153,11 @@ void Execute::slotNext() {
 }
 
 bool Execute::saveSession() {
-    Comast::Site *site = logObject->findSiteByName( geo->fullName() ); 
+    OAL::Site *site = logObject->findSiteByName( geo->fullName() ); 
     if( ! site ) {
         while( logObject->findSiteById( i18n( "site_" ) + QString::number( nextSite ) ) )
             nextSite++;
-        site = new Comast::Site( geo, i18n( "site_" ) + QString::number( nextSite++ ) );
+        site = new OAL::Site( geo, i18n( "site_" ) + QString::number( nextSite++ ) );
         logObject->siteList()->append( site );
     }
     if( currentSession ){
@@ -165,7 +165,7 @@ bool Execute::saveSession() {
     } else {
         while( logObject->findSessionByName( i18n( "session_" ) + QString::number( nextSession ) ) )
             nextSession++;
-        currentSession = new Comast::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+        currentSession = new OAL::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         logObject->sessionList()->append( currentSession );
     } 
     ui.stackedWidget->setCurrentIndex( 1 ); //Move to the next page
@@ -194,19 +194,19 @@ void Execute::loadEquipment() {
     ui.Eyepiece->clear();
     ui.Lens->clear();
     ui.Filter->clear();
-    foreach( Comast::Scope *s, *( logObject->scopeList() ) )
+    foreach( OAL::Scope *s, *( logObject->scopeList() ) )
         ui.Scope->addItem( s->name() );
-    foreach( Comast::Eyepiece *e, *( logObject->eyepieceList() ) )
+    foreach( OAL::Eyepiece *e, *( logObject->eyepieceList() ) )
         ui.Eyepiece->addItem( e->name() );
-    foreach( Comast::Lens *l, *( logObject->lensList() ) )
+    foreach( OAL::Lens *l, *( logObject->lensList() ) )
         ui.Lens->addItem( l->name() );
-    foreach( Comast::Filter *f, *( logObject->filterList() ) )
+    foreach( OAL::Filter *f, *( logObject->filterList() ) )
         ui.Filter->addItem( f->name() );
 }
 
 void Execute::loadObservers() {
     ui.Observer->clear();
-    foreach( Comast::Observer *o,*( logObject->observerList() ) )
+    foreach( OAL::Observer *o,*( logObject->observerList() ) )
         ui.Observer->addItem( o->name() + ' ' + o->surname() );
 }
 
@@ -251,7 +251,7 @@ bool Execute::addObservation() {
         nextObservation++;
     KStarsDateTime dt = currentSession->begin();
     dt.setTime( ui.Time->time() );
-    Comast::Observation *o = new Comast::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver, currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(), ui.Language->text() );
+    OAL::Observation *o = new OAL::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver, currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(), ui.Language->text() );
         logObject->observationList()->append( o );
     ui.Description->clear();
     return true;

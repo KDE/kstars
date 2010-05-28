@@ -136,7 +136,7 @@ KStarsData::KStarsData() :
     TypeName[16] = i18n( "quasar" );
     TypeName[17] = i18n( "multiple star" );
 
-    m_logObject = new Comast::Log;
+    m_logObject = new OAL::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
 }

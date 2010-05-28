@@ -26,8 +26,8 @@
 
 #include "kstars.h"
 #include "geolocation.h"
-#include "comast/comast.h"
-#include "comast/session.h"
+#include "oal/oal.h"
+#include "oal/session.h"
 #include "skyobjects/skyobject.h"
 
 class KStars;
@@ -125,13 +125,13 @@ Q_OBJECT
     private:
         KStars *ks;
         Ui::Execute ui;
-        Comast::Session *currentSession;
-        Comast::Log *logObject;
-        Comast::Observer *currentObserver;
-        Comast::Scope *currentScope;
-        Comast::Eyepiece *currentEyepiece;
-        Comast::Lens *currentLens;
-        Comast::Filter *currentFilter;
+        OAL::Session *currentSession;
+        OAL::Log *logObject;
+        OAL::Observer *currentObserver;
+        OAL::Scope *currentScope;
+        OAL::Eyepiece *currentEyepiece;
+        OAL::Lens *currentLens;
+        OAL::Filter *currentFilter;
         GeoLocation *geo;
         SkyObject *currentTarget;
         int nextSession, nextObservation, nextSite;

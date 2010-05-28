@@ -16,9 +16,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "comast/observation.h"
+#include "oal/observation.h"
 
-void Comast::Observation::setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin, double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _lens, QString _filter, QString _result, QString _lang ) {
+void OAL::Observation::setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin, double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _lens, QString _filter, QString _result, QString _lang ) {
     m_Name = _id;
     m_Observer = _observer;
     m_Site = _site;

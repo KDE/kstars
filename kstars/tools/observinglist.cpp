@@ -62,9 +62,9 @@
 #include "imageviewer.h"
 #include "thumbnailpicker.h"
 #include "obslistpopupmenu.h"
-#include "comast/log.h"
-#include "comast/comast.h"
-#include "comast/execute.h"
+#include "oal/log.h"
+#include "oal/oal.h"
+#include "oal/execute.h"
 
 #include <config-kstars.h>
 
@@ -858,7 +858,7 @@ void ObservingList::slotOpenList() {
         QTextStream istream( &f );
         QString input;
         input = istream.readAll();
-        Comast::Log logObject;
+        OAL::Log logObject;
         logObject.readBegin( input );
         //Set the New TimeHash
         TimeHash = logObject.timeHash();
@@ -967,7 +967,7 @@ void ObservingList::slotSaveSession() {
     return;
     }
     QTextStream ostream( &f );
-    Comast::Log log;
+    OAL::Log log;
     ostream<< log.writeLog( nativeSave );
     f.close();
     isModified = false;//We've saved the session, so reset the modified flag.
