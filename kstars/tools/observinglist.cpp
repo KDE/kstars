@@ -1345,7 +1345,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
 
 void ObservingList::slotGoogleImage() {
     QPixmap *pm = new QPixmap;
-    QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, "Image Chooser" );
+    QPointer<ThumbnailPicker> tp = new ThumbnailPicker( currentObject(), *pm, this, 600, 600, i18n( "Image Chooser" ) );
     if ( tp->exec() == QDialog::Accepted ) {
         QFile f( CurrentImagePath );
 
