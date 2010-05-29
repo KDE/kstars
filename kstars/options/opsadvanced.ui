@@ -43,9 +43,6 @@
      <property name="toolTip" >
       <string>Correct for the effect of sun's gravity on star positions, as predicted by General Relativity, and verified by Eddington's experiment.</string>
      </property>
-     <property name="whatsThis" >
-      <string>The atmosphere bends light passing through it, like a lens.  If this item is checked, this "atmospheric refraction" will be simulated in the sky map.  Note that this correction is only applied when using the Horizontal coordinate system.</string>
-     </property>
      <property name="text" >
       <string>General Relativity effects near the sun</string>
      </property>
