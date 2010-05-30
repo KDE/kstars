@@ -177,16 +177,23 @@ bool KStarsData::initialize() {
     emit progressText(i18n("Loading sky objects" ) );
     m_SkyComposite = new SkyMapComposite(0);
     
+    /** 
+     * Note: All the deep sky related information is now stored in the 
+     * database and loaded in the method DeepSkyComponent::loadData().
+     *
+     * The files below contain only information related to other objects
+     */
+    
     //Load Image URLs//
     emit progressText( i18n("Loading Image URLs" ) );
     if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
         return false;
-
+    
     //Load Information URLs//
     emit progressText( i18n("Loading Information URLs" ) );
     if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
         return false;
-
+   
     emit progressText( i18n("Loading Variable Stars" ) );
     readINDIHosts();
     readUserLog();
@@ -625,8 +632,8 @@ bool KStarsData::readURLData( const QString &urlfile, int type, bool deepOnly ) 
             } else {
                 if ( ! deepOnly || ( o->type() > 2 && o->type() < 9 ) ) {
                     if ( type==0 ) { //image URL
-                        o->ImageList().append( url );
-                        o->ImageTitle().append( title );
+                 //     o->ImageList().append( url );
+                 //     o->ImageTitle().append( title );
                     } else if ( type==1 ) { //info URL
                         o->InfoList().append( url );
                         o->InfoTitle().append( title );

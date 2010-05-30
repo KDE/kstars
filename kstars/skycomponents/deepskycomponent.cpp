@@ -63,94 +63,134 @@ void DeepSkyComponent::update( KSNumbers* )
 
 void DeepSkyComponent::loadData()
 {
-
 /*
     KStarsDB *ksdb = KStarsDB::Create();
     ksdb->createDefaultDatabase("data/kstars.db");
     ksdb->migrateData("ngcic.dat");
+    ksdb->migrateURLData("image_url_full.dat", IMG_URL);
+    ksdb->migrateURLData("info_url_full.dat", INFO_URL);
 
     exit(1);
 */
     KStarsData* data = KStarsData::Instance();
 
+    // Database
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("data/kstars.db");
+    QString dbFile = KStandardDirs::locate("appdata", "kstars.db");
+    db.setDatabaseName(dbFile);
     db.open();
+    
+    // Variables needed to load all the data
+    QString line, con, ss, name[10], longname;
+    QString cat[10];
+
+    // Magnitude, Right Ascension (seconds), Semimajor and Semiminor axis
+    float mag, ras, a, b;
+
+    // RA Hours, Minutes, DSO Type, NGC Index, Messier Index
+    int rah, ram, type;
+
+    // Dec Degrees, Minutes, Seconds, Position Angle, Sign
+    int dd, dm, ds, pa, sgn;
+
+    // PGC Index, UGC Index, Catalogs number
+    int pgc = 0, ugc = 0, k = 0;
+
+    // Index flag, nameflag, counter
+    QChar iflag; bool hasName; int i;
+
 
     QSqlQuery query(db);
     QSqlQuery dsoquery(db), tmpq(db);
 
-    query.exec("SELECT *, rowid FROM dso");
+    query.exec("PRAGMA count_changes = false");
+    query.exec("PRAGMA synchronous = OFF");
     
+    QString queryStatement =  QString("SELECT o.rah, o.ram, o.ras, ") +
+                                QString("o.sgn, o.decd, o.decm, o.decs, ") +
+                                QString("o.bmag, o.type, o.pa, o.minor, o.major, ") +
+                                QString("o.longname, o.rowid FROM dso AS o");
+
+    if (!query.exec(queryStatement)) {
+        qDebug() << "Deep Sky select statement error: " << query.lastError();
+    }
+
     qDebug() << "1." << CLOCK_TO_MILISEC(clock());
+
     while ( query.next() ) {
-        QString line, con, ss, name[2], longname;
-        QString cat[2], sgn;
-        float mag = query.value(7).toString().toFloat(), ras = query.value(2).toString().toFloat(), a = query.value(11).toString().toFloat(), b = query.value(10).toString().toFloat();
-        int type = query.value(8).toString().toInt();
-        int ingc = 3, imess(-1), rah = query.value(0).toString().toFloat(), ram = query.value(1).toString().toInt();
-        int dd = query.value(4).toString().toInt(), dm = query.value(5).toString().toInt(), ds = query.value(6).toString().toInt(), pa = query.value(9).toString().toInt();
-        int pgc = 0, ugc = 0, k = 0;
-        QChar iflag;
+        // Right Ascension
+        ras = query.value(2).toFloat(); ram = query.value(1).toInt(); rah = query.value(0).toInt();
 
-        dsoquery.prepare("SELECT designation, idCTG FROM od WHERE idDSO = :iddso");
-        dsoquery.bindValue(":iddso", query.value(13).toString().toInt());
-        dsoquery.exec();
+        // Declination
+        dd = query.value(4).toInt(); dm = query.value(5).toInt(), ds = query.value(6).toInt();
 
-        name[0] = name[1] = "";
+        // Position Angle, Magnitude, Semimajor axis
+        pa = query.value(9).toInt(); mag = query.value(7).toFloat(); a = query.value(11).toFloat(); b = query.value(10).toFloat();
 
-        bool hasName = true;
-        QString snum;
+        // Object type, SGN
+        type = query.value(8).toInt(); sgn = query.value(3).toInt();
 
-        while (dsoquery.next() && k < 2) {
-            tmpq.prepare("SELECT name FROM ctg WHERE rowid = :idctg");
-            tmpq.bindValue(":idctg", dsoquery.value(1).toString().toInt());
-            tmpq.exec();
-        
-            if (tmpq.next()) {
-                name[k] = tmpq.value(0).toString() + ' ' + dsoquery.value(0).toString();
-                cat[k] = tmpq.value(0).toString();
-                k++;
-            }
+
+        // Inner Join to retrieve all the catalogs in which the object appears
+        dsoquery.prepare("SELECT od.designation, ctg.name FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = :iddso");
+        dsoquery.bindValue(":iddso", query.value(13).toInt());
+
+        if (!dsoquery.exec()) {
+            qDebug() << "Error on retrieving the catalog list for an object: " << dsoquery.lastError();
         }
 
+        // Parsing catalog information
+        k = 0;
+
+        while (dsoquery.next()) {
+            name[k] = dsoquery.value(1).toString() + ' ' + dsoquery.value(0).toString();
+            cat[k] = dsoquery.value(1).toString();
+            k++;
+        }
+
+        hasName = true;
         longname = query.value(12).toString();
-       
+
         if (!longname.isEmpty()) {
             if (name[0] == "") {
                 name[0] = longname;
             }
-        } else if (name[0] == "" && name[1] == "") {
+        } else if (name[0] == "") {
             hasName = false;
             name[0] = "Unnamed Object";
         }
 
- //       qDebug() << name[0] << " " << name[1];
- //       exit(1);
-       
         dms r;
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
 
-        if ( query.value(3).toString().toInt() == -1 ) { d.setD( -1.0*d.Degrees() ); }
-        
-        // create new deepskyobject
+        if ( sgn == -1 ) { d.setD( -1.0*d.Degrees() ); }
+
+        // Create new Deep Sky Object Instance
         DeepSkyObject *o = 0;
         if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
+
         o = new DeepSkyObject( type, r, d, mag, name[0], name[1], longname, cat[0], a, b, pa, pgc, ugc );
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
         // Add the name(s) to the nameHash for fast lookup -jbb
         if (hasName == true) {
-            nameHash[ name[0].toLower() ] = o;
-            if ( ! longname.isEmpty() ) nameHash[ longname.toLower() ] = o;
-            if ( ! name[1].isEmpty() ) nameHash[ name[1].toLower() ] = o;
+            // hash the default name
+            nameHash[name[0].toLower()] = o;
+            // hash the longname
+            if (!longname.isEmpty())
+                nameHash[longname.toLower()] = o;
+
+            // hash all the other names (catalog designations) of the object
+            for (i = 1; i < k; i++)
+                if (!name[i].isEmpty())
+                    nameHash[name[i].toLower()] = o;
         }
 
         Trixel trixel = m_skyMesh->index( (SkyPoint*) o );
 
-        //Assign object to general DeepSkyObjects list,
-        //and a secondary list based on its catalog.
+        // Assign object to general DeepSkyObjects list,
+        // and a secondary list based on its catalog.
         m_DeepSkyList.append( o );
         appendIndex( o, &m_DeepSkyIndex, trixel );
 
@@ -171,14 +211,35 @@ void DeepSkyComponent::loadData()
             appendIndex( o, &m_OtherIndex, trixel );
         }
 
-        //Add name to the list of object names
-        if ( ! name[0].isEmpty() )
-            objectNames(type).append( name[0] );
+        // Add name to the list of object names
+        if (!name[0].isEmpty())
+            objectNames(type).append(name[0]);
 
-        //Add long name to the list of object names
-        if ( ! longname.isEmpty() && longname != name )
-            objectNames(type).append( longname );
+        // Add longname to the list of object names
+        if (!longname.isEmpty() && longname != name)
+            objectNames(type).append(longname);
 
+        // Load the images associated to the deep sky object (this was done in KStarsData::readUrlData)
+        dsoquery.prepare("SELECT url, title, type FROM dso_url WHERE idDSO = :iddso");
+        dsoquery.bindValue(":iddso", query.value(13).toInt());
+
+        if (!dsoquery.exec()) {
+            qDebug() << "URL query error: " << dsoquery.lastError();
+        } else {
+            while (dsoquery.next()) {
+                switch (dsoquery.value(2).toInt()) {
+                    case IMG_URL:
+                        o->ImageList().append(dsoquery.value(0).toString());
+                        o->ImageTitle().append(dsoquery.value(1).toString());
+                        break;
+
+                    case INFO_URL:
+                        o->InfoList().append(dsoquery.value(0).toString());
+                        o->InfoTitle().append(dsoquery.value(1).toString());
+                        break;
+                }
+            }
+        }
     }
     qDebug() << "2." << CLOCK_TO_MILISEC(clock());
 }

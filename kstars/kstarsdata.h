@@ -32,6 +32,7 @@
 #include "simclock.h"
 #include "comast/comast.h"
 #include "comast/log.h"
+#include "kstarsdb.h"
 
 #define MINZOOM 250.
 #define MAXZOOM 5000000.
@@ -91,6 +92,7 @@ public:
     // FIXME: uses geoList and changes it.
     friend class LocationDialog;
 
+    friend class KStarsDB;
     static KStarsData* Create( );
 
     static KStarsData* Instance();

@@ -56,6 +56,11 @@ bool KStarsDB::createDefaultDatabase()
         qDebug() << query.lastError();
     }
 
+    // Disable synchronous for speed up
+    if (!query.exec("PRAGMA synchronous = OFF")) {
+        qDebug() << query.lastError();
+    }
+
     // Create the Catalog entity
     if (!query.exec(QString("CREATE TABLE ctg (name TEXT, source TEXT, description TEXT)"))) {
         qDebug() << query.lastError();
@@ -75,7 +80,36 @@ bool KStarsDB::createDefaultDatabase()
 
     // Create the Object Designation entity
     if (!query.exec(QString("CREATE TABLE od (designation TEXT, idCTG INTEGER NOT NULL, idDSO INTEGER NOT NULL)"))) {
-//              QString("FOREIGN KEY (idCTG) REFERENCES ctg(rowid), FOREIGN KEY (idDSO) REFERENCES dso(rowid))"))) {
+        qDebug() << query.lastError();
+    }
+
+    // Creating index on idCTG
+    // Justification: Searches based on the catalog id are done frequently (when loading)
+    if (!query.exec("CREATE INDEX idCTG ON od(idCTG)")) {
+        qDebug() << query.lastError();
+    }
+
+    // Creating index on idDSO
+    // Justification: Searches based on the deep sky objects are done when loading the objects
+    if (!query.exec("CREATE INDEX idDSO ON od(idDSO)")) {
+        qDebug() << query.lastError();
+    }
+
+    // Creating index on designation
+    // Searching: Sometimes, we want to retrieve an object by it's designation, (M 23) for example
+    if (!query.exec("CREATE INDEX designation ON od(designation)")) {
+        qDebug() << query.lastError();
+    }
+
+    // Create the URL Table (was data/image_url.dat and data/info_url.dat)
+    // For all DSO the information is now kept in this table
+    if (!query.exec(QString("CREATE TABLE dso_url (idDSO INTEGER NOT NULL, title TEXT, url TEXT, type INTEGER)"))) {
+        qDebug() << query.lastError();
+    }
+
+    // Creating index on idDSO in dso_url
+    // Justification: When loading deep sky objects, a search based on idDSO is made
+    if (!query.exec("CREATE INDEX idDSOURL ON dso_url(idDSO)")) {
         qDebug() << query.lastError();
     }
 
@@ -147,7 +181,7 @@ void KStarsDB::migrateData(QString filename)
 
     KStarsData *data = KStarsData::Instance();
     if (!fileReader.open(filename)) return; 
-    fileReader.setProgress( i18n("Migrating NGC/IC objects from ngcic.dat to kstars.db"), 13444, 10 );
+    fileReader.setProgress(i18n("Migrating NGC/IC objects from ngcic.dat to kstars.db"), 13444, 10 );
 
     while (fileReader.hasMoreLines()) {
         QString line, con, ss, name, name2, longname;
@@ -293,7 +327,7 @@ void KStarsDB::migrateData(QString filename)
          * defined below are sufficient and assigning them manually speeds up the process
          */
 
-        int ngcRowID = 1, icRowID = 2, mRowID = 3;
+        int ngcRowID = 1, icRowID = 2, mRowID = 3, ugcRowID = 4, pgcRowID = 5;
         
         /*
         query.exec("SELECT rowid FROM ctg WHERE name = 'IC'");
@@ -320,7 +354,6 @@ void KStarsDB::migrateData(QString filename)
         }
         qDebug() << "Messier: " << mRowID;
         */
-
 
         if ( cat=="IC" || cat=="NGC" ) {
             snum.setNum( ingc );
@@ -388,8 +421,93 @@ void KStarsDB::migrateData(QString filename)
             }
         }
 
-//      break;
+        if (ugc != 0) {
+            dsoquery.prepare("INSERT INTO od VALUES (:des, :idctg, :iddso)");
+
+            dsoquery.bindValue(":idctg", ugcRowID);
+
+            dsoquery.bindValue(":des", ugc);
+            dsoquery.bindValue(":iddso", dsoRowID);
+            if (!dsoquery.exec())
+                qDebug() << "UGC error: " << dsoquery.lastError();
+        }
+
+        if (pgc != 0) {
+            dsoquery.prepare("INSERT INTO od VALUES (:des, :idctg, :iddso)");
+
+            dsoquery.bindValue(":idctg", pgcRowID);
+
+            dsoquery.bindValue(":des", pgc);
+            dsoquery.bindValue(":iddso", dsoRowID);
+            if (!dsoquery.exec())
+                qDebug() << "PGC error: " << dsoquery.lastError();
+        }
     }
+}
+
+void KStarsDB::migrateURLData(const QString &urlfile, int type) {
+    QFile file;
+    KStarsData *data = KStarsData::Instance();
+
+    if (!data->openUrlFile(urlfile, file)) {
+        return;
+    }
+
+    QTextStream stream(&file);
+
+    QSqlQuery query(db);
+    QString ctgname, objname;
+
+    while ( !stream.atEnd() ) {
+        QString line = stream.readLine();
+
+        //ignore comment lines
+        if ( !line.startsWith('#') ) {
+            int idx = line.indexOf(':');
+            QString name = line.left( idx );
+            QString sub = line.mid( idx + 1 );
+            idx = sub.indexOf(':');
+            QString title = sub.left( idx );
+            QString url = sub.mid( idx + 1 );
+
+            idx = name.indexOf(' ');
+            ctgname = name.left(idx);
+            objname = name.mid(idx + 1);
+
+            query.prepare("SELECT rowid FROM ctg WHERE name = :ctgname");
+            query.bindValue(":ctgname", ctgname);
+            query.exec();
+
+            if (query.next()) {
+                // get catalog id
+                idx = query.value(0).toInt();
+
+                query.prepare("SELECT idDSO FROM od WHERE idCTG = :ctgid AND designation = :design");
+                query.bindValue(":ctgid", idx);
+                query.bindValue(":design", objname);
+
+                query.exec();
+
+                if (query.next()) {
+                    // Get the DSO id
+                    idx = query.value(0).toInt();
+
+                    // Insert the image into the DB
+                    query.prepare("INSERT INTO dso_url VALUES(:idDSO, :title, :url, :type)");
+                    query.bindValue(":idDSO", idx);
+                    query.bindValue(":title", title);
+                    query.bindValue(":url", url);
+                    query.bindValue(":type", type);
+
+                    if (!query.exec()) {
+                        qDebug() << "Encountered error on insert the image information";
+                    }
+                }
+            }
+        }
+    }
+
+    file.close();
 }
 
 KStarsDB* KStarsDB::Create()

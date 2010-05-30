@@ -340,7 +340,6 @@ kde4_add_executable(kstars ${kstars_SRCS})
 
 target_link_libraries(kstars
     ${KDE4_KDECORE_LIBS}
-    kdeeduui
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KDE3SUPPORT_LIBS}
 	SatLib

@@ -19,6 +19,9 @@
 #define KSTARSDB_H_
 
 #define KSTARS_DBFILE "data/kstars.db"
+#define IMG_URL  0
+#define INFO_URL 1
+
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QSqlQuery>
@@ -56,6 +59,11 @@ public:
      * NGCIC.dat file used by KStars 
      */
     void migrateData(QString);
+
+    /** 
+     * Migrate the URL Data from image_url.dat
+     */
+    void migrateURLData(const QString &, int);
 
     /** Singleton instance of the class */
     static KStarsDB *pinstance;

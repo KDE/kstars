@@ -6,6 +6,7 @@ install( FILES kstars.png geomap.png
     starnames.dat namedstars.dat unnamedstars.dat
     starlnum.idx
     ngcic.dat
+    kstars.db
     clines.dat
     cnames.dat
     milkyway.dat
@@ -14,6 +15,7 @@ install( FILES kstars.png geomap.png
     cbounds.dat
 	cbounds-3.idx  cbounds-4.idx  cbounds-5.idx  cbounds-6.idx
 	image_url.dat info_url.dat 
+	image_url_full.dat info_url_full.dat 
 	mercury.L0.vsop mercury.L1.vsop mercury.L2.vsop mercury.L3.vsop 
 	mercury.L4.vsop mercury.L5.vsop mercury.B0.vsop mercury.B1.vsop 
 	mercury.B2.vsop mercury.B3.vsop mercury.B4.vsop mercury.B5.vsop 
