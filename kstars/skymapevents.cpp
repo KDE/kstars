@@ -30,6 +30,7 @@
 #include <kio/job.h>
 
 #include "skymap.h"
+#include "skyqpainter.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -689,7 +690,7 @@ void SkyMap::paintEvent( QPaintEvent * )
     // 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
     // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
-    QPainter psky;
+    SkyQPainter psky(this);
     psky.begin( sky );
     psky.setRenderHint(QPainter::Antialiasing, (!slewing && Options::useAntialias()) );
     psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
