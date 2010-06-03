@@ -316,7 +316,7 @@ public slots:
         */
     void slotDSS() { slotGetImage( true ); }
 
-    /**@short Export a target list to the comast compliant format
+    /**@short Export a target list to the oal compliant format
         */
     void slotOALExport(); 
 

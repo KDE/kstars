@@ -30,8 +30,8 @@
 #include "colorscheme.h"
 #include "kstarsdatetime.h"
 #include "simclock.h"
-#include "comast/comast.h"
-#include "comast/log.h"
+#include "oal/oal.h"
+#include "oal/log.h"
 #include "kstarsdb.h"
 
 #define MINZOOM 250.
@@ -208,7 +208,7 @@ public:
     void syncFOV();
 
     /** Return log object */
-    Comast::Log *logObject() { return m_logObject; }
+    OAL::Log *logObject() { return m_logObject; }
 
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
@@ -350,7 +350,7 @@ private:
     SimClock Clock;
     KStarsDateTime LTime;
     ColorScheme CScheme;
-    Comast::Log *m_logObject;
+    OAL::Log *m_logObject;
 
     bool TimeRunsForward, temporaryTrail;
     // FIXME: Used in SkyMap only. Check!

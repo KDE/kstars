@@ -1,5 +1,5 @@
 /***************************************************************************
-                          eyepiece.h  -  description
+                          eyepiece.cpp  -  description
 
                              -------------------
     begin                : Wednesday July 8, 2009
@@ -15,26 +15,15 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef EYEPIECE_H_
-#define EYEPIECE_H_
 
-#include "comast/comast.h"
+#include "oal/eyepiece.h"
 
-#include <QString>
-
-class Comast::Eyepiece {
-    public:
-        Eyepiece( QString id, QString model, QString vendor, double fov, QString fovUnit, double focalLength ) { setEyepiece( id, model, vendor, fov, fovUnit, focalLength ); }
-        QString id() { return m_Id; }
-        QString name() { return m_Name; }
-        QString model() { return m_Model; }
-        QString vendor() { return m_Vendor; }
-        QString fovUnit() { return m_AppFovUnit; }
-        double appFov() { return m_AppFOV; }
-        double focalLength() { return m_FocalLength; }
-        void setEyepiece( QString _id, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength );
-    private:
-        QString m_Id, m_Model, m_AppFovUnit, m_Vendor, m_Name;
-        double m_AppFOV, m_FocalLength;
-};
-#endif
+void OAL::Eyepiece::setEyepiece( QString _id, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength ) {
+    m_Id = _id;
+    m_Model = _model;
+    m_Vendor = _vendor;
+    m_AppFovUnit = _fovUnit;
+    m_AppFOV = _fov;
+    m_FocalLength = _focalLength;
+    m_Name = _vendor + ' ' + _model + ' ' + QString::number( _focalLength ) + "mm (" + _id +  ')';
+}

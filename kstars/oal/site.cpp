@@ -1,5 +1,5 @@
 /***************************************************************************
-                          lens.cpp  -  description
+                          site.cpp  -  description
 
                              -------------------
     begin                : Wednesday July 8, 2009
@@ -16,15 +16,20 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "comast/lens.h"
+#include "oal/site.h"
 
-void Comast::Lens::setLens( QString _id, QString _model, QString _vendor, double _factor ){
+void OAL::Site::setSite(QString _id, QString _name, double _lat, QString _latUnit, double _lon, QString _lonUnit ){
     m_Id = _id;
-    m_Model = _model;
-    m_Vendor = _vendor;
-    m_Factor = _factor;
-    if( _factor > 1 )
-        m_Name = _vendor + ' ' + _model + " - " + QString::number( _factor ) + "x Barlow (" + _id + ')'; 
-    else
-        m_Name = _vendor + ' ' + _model + " - " + QString::number( _factor ) + "x Focal Reducer (" + _id + ')'; 
+    m_Name = _name;
+    m_Lat = _lat;
+    m_Lon = _lon;
+    m_LatUnit = _latUnit;
+    m_LonUnit = _lonUnit;
+}
+void OAL::Site::setSite( GeoLocation *geo, QString id ) {
+    m_Id = id;
+    m_Name = geo->name();
+    m_Lat = geo->lat()->radians();
+    m_Lon = geo->lng()->radians();
+    m_LatUnit = m_LonUnit = "rad";
 }

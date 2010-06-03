@@ -72,7 +72,7 @@
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
 #include "tools/flagmanager.h"
-#include "comast/execute.h"
+#include "oal/execute.h"
 
 #include <config-kstars.h>
 

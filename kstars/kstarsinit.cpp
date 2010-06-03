@@ -42,8 +42,8 @@
 #include "skyobjects/ksplanetbase.h"
 #include "simclock.h"
 #include "widgets/timestepbox.h"
-#include "comast/equipmentwriter.h"
-#include "comast/observeradd.h"
+#include "oal/equipmentwriter.h"
+#include "oal/observeradd.h"
 #include "skycomponents/skymapcomposite.h"
 
 #include <config-kstars.h>

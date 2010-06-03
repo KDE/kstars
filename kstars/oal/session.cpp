@@ -1,5 +1,5 @@
 /***************************************************************************
-                          filter.h  -  description
+                          session.cpp  -  description
 
                              -------------------
     begin                : Wednesday July 8, 2009
@@ -15,24 +15,16 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef FILTER_H_
-#define FILTER_H_
 
-#include "comast/comast.h"
+#include "oal/session.h"
 
-#include <QString>
-
-class Comast::Filter {
-    public:
-        Filter( QString id, QString model, QString vendor, QString type, QString color ) { setFilter( id, model, vendor, type, color ); }
-        QString id() { return m_Id; }
-        QString name() { return m_Name; }
-        QString model() { return m_Model; }
-        QString vendor() { return m_Vendor; }
-        QString type() { return m_Type; }
-        QString color() { return m_Color; }
-        void setFilter( QString _id, QString _model, QString _vendor, QString _type, QString _color );
-    private:
-        QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name;
-};
-#endif
+void OAL::Session::setSession( QString _name, QString _site, KStarsDateTime _begin, KStarsDateTime _end, QString _weather, QString _equipment, QString _comment, QString _lang ) {
+    m_Site = _site;
+    m_Begin = _begin;
+    m_End = _end;
+    m_Weather = _weather;
+    m_Equipment = _equipment;
+    m_Comment = _comment;
+    m_Lang = _lang;
+    m_Id = _name;
+}

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          scope.cpp  -  description
+                          filter.h  -  description
 
                              -------------------
     begin                : Wednesday July 8, 2009
@@ -15,14 +15,24 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef FILTER_H_
+#define FILTER_H_
 
-#include "comast/scope.h"
-void Comast::Scope::setScope( QString _id, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture ) {
-    m_Id = _id;
-    m_Model = _model;
-    m_Vendor = _vendor;
-    m_Type = _type;
-    m_FocalLength = _focalLength;
-    m_Aperture = _aperture;
-    m_Name.append ( _vendor + ' ' + _model + ' ' + QString::number( _aperture ) + "mm f/" + QString::number( (_focalLength/_aperture), 'g', 1 ) + " (" + _id + ')' ) ; 
-}
+#include "oal/oal.h"
+
+#include <QString>
+
+class OAL::Filter {
+    public:
+        Filter( QString id, QString model, QString vendor, QString type, QString color ) { setFilter( id, model, vendor, type, color ); }
+        QString id() { return m_Id; }
+        QString name() { return m_Name; }
+        QString model() { return m_Model; }
+        QString vendor() { return m_Vendor; }
+        QString type() { return m_Type; }
+        QString color() { return m_Color; }
+        void setFilter( QString _id, QString _model, QString _vendor, QString _type, QString _color );
+    private:
+        QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name;
+};
+#endif

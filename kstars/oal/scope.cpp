@@ -1,5 +1,5 @@
 /***************************************************************************
-                          site.h  -  description
+                          scope.cpp  -  description
 
                              -------------------
     begin                : Wednesday July 8, 2009
@@ -15,29 +15,14 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef SITE_H_
-#define SITE_H_
 
-#include "comast/comast.h"
-
-#include <QString>
-
-#include "geolocation.h"
-
-class Comast::Site {
-    public:
-       Site( QString id,  QString name, double lat, QString latUnit, double lon, QString lonUnit ) { setSite( id, name, lat, latUnit, lon, lonUnit ); }
-       Site( GeoLocation *geo, QString id ) { setSite( geo, id ); }
-       QString id() { return m_Id; }
-       QString name() { return m_Name; }
-       double latitude() { return m_Lat; }
-       QString latUnit() { return m_LatUnit; }
-       double longitude() { return m_Lon; }
-       QString lonUnit() { return m_LonUnit; }
-       void setSite( QString _id, QString _name, double _lat, QString _latUnit, double _lon, QString _lonUnit);
-       void setSite( GeoLocation *geo, QString id );
-    private:
-        QString m_Name, m_LatUnit, m_LonUnit, m_Id;
-        double m_Lat, m_Lon;
-};
-#endif
+#include "oal/scope.h"
+void OAL::Scope::setScope( QString _id, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture ) {
+    m_Id = _id;
+    m_Model = _model;
+    m_Vendor = _vendor;
+    m_Type = _type;
+    m_FocalLength = _focalLength;
+    m_Aperture = _aperture;
+    m_Name.append ( _vendor + ' ' + _model + ' ' + QString::number( _aperture ) + "mm f/" + QString::number( (_focalLength/_aperture), 'g', 1 ) + " (" + _id + ')' ) ; 
+}

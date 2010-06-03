@@ -43,9 +43,6 @@
      <property name="toolTip" >
       <string>Correct for the effect of sun's gravity on star positions, as predicted by General Relativity, and verified by Eddington's experiment.</string>
      </property>
-     <property name="whatsThis" >
-      <string>The atmosphere bends light passing through it, like a lens.  If this item is checked, this "atmospheric refraction" will be simulated in the sky map.  Note that this correction is only applied when using the Horizontal coordinate system.</string>
-     </property>
      <property name="text" >
       <string>General Relativity effects near the sun</string>
      </property>
@@ -163,7 +160,7 @@
       <string>Save the downloaded DSS/SDSS images?</string>
      </property>
      <property name="whatsThis" >
-      <string>When the observing list, do you want the downloaded DSS/SDSS images to be saved or discarded?</string>
+      <string>Do you want the downloaded DSS/SDSS images to be saved when closing the observing list?</string>
      </property>
      <property name="text" >
       <string>Save downloaded images on exit</string>
