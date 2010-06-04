@@ -544,6 +544,9 @@ void KStars::datainitFinished() {
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
 
+    //Initialize Object List
+    objList = new ObjectList(this);
+
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )
         data()->clock()->start();
