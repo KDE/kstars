@@ -59,6 +59,7 @@
 	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>
 		<Action name="astrocalculator" />
 		<Action name="obslist" />
+		<Action name="objlist" />
 		<Action name="lightcurvegenerator" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
