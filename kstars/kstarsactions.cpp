@@ -904,6 +904,10 @@ void KStars::slotObsList() {
     obsList->show();
 }
 
+void KStars::slotObjList() {
+    objList->show();
+}
+
 void KStars::slotEquipmentWriter() {
     eWriter->show();
 }

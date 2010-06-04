@@ -93,6 +93,7 @@ set(libkstarstools_SRCS
 	tools/modcalcsidtime.cpp
 	tools/modcalcvlsr.cpp
 	tools/observinglist.cpp
+   tools/objectlist.cpp
 	tools/obslistwizard.cpp
 	tools/planetviewer.cpp
 	tools/pvplotwidget.cpp
@@ -156,6 +157,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/modcalcsidtime.ui
 	tools/modcalcvlsr.ui
 	tools/observinglist.ui
+   tools/objectlist.ui
 	tools/obslistwizard.ui
 	tools/optionstreeview.ui
 	tools/planetviewer.ui

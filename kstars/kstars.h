@@ -23,6 +23,7 @@
 #include <config-kstars.h>
 
 #include "tools/observinglist.h"
+#include "tools/objectlist.h"
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
 
@@ -50,6 +51,7 @@ class PlanetViewer;
 class JMoonTool;
 class FlagManager;
 class ObservingList;
+class ObjectList;
 class EquipmentWriter;
 class ObserverAdd;
 class Execute;
@@ -122,6 +124,7 @@ public:
 
     ObservingList* observingList() { return obsList; }
 
+    ObjectList* objectList() { return objList; }
     Execute* getExecute();
 
     /**@return pointer to the INDI driver */
@@ -561,6 +564,7 @@ private slots:
     /**Toggle display of the observing list tool*/
     void slotObsList();
 
+    void slotObjList();
     /**Meta-slot to handle display toggles for all of the viewtoolbar buttons.
      * uses the name of the sender to identify the item to change.  */
     void slotViewToolBar();
@@ -609,6 +613,7 @@ private:
 
     //FIXME: move to KStarsData
     ObservingList *obsList;
+    ObjectList *objList;
     EquipmentWriter *eWriter;
     ObserverAdd *oAdd;
     Execute *execute;
