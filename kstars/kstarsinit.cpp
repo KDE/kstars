@@ -337,7 +337,7 @@ void KStars::initActions() {
         << i18n("Observing List...")
         << KShortcut( Qt::CTRL+Qt::Key_X );
     actionCollection()->addAction("objlist", this, SLOT( slotObjList() ) )
-        << i18n("Object List...");
+        << i18n("Object List...")
         << KShortcut( Qt::CTRL+Qt::Key_L );
     // enable action only if file was loaded and processed successfully.
     actionCollection()->addAction("lightcurvegenerator", this, SLOT( slotLCGenerator() ) )
