@@ -41,19 +41,26 @@ void SkyQPainter::drawScreenRect(float x, float y, float w, float h)
     drawRect(QRectF(x,y,w,h));
 }
 
-void SkyQPainter::drawScreenPolyLine(const QList< QPoint >& points)
+void SkyQPainter::drawScreenPolyline(const QPolygon& polyline)
 {
-    for(int i = 0; i < (points.size() -1); ++i) {
-        drawLine(points[i],points[i+1]);
-    }
+    drawPolyline(polyline);
 }
 
-void SkyQPainter::drawScreenPolyLine(const QList< QPointF >& points)
+void SkyQPainter::drawScreenPolyline(const QPolygonF& polyline)
 {
-    for(int i = 0; i < (points.size() -1); ++i) {
-        drawLine(points[i],points[i+1]);
-    }
+    drawPolyline(polyline);
 }
+
+void SkyQPainter::drawScreenPolygon(const QPolygonF& polygon)
+{
+    drawPolygon(polygon);
+}
+
+void SkyQPainter::drawScreenPolygon(const QPolygon& polygon)
+{
+    drawPolygon(polygon);
+}
+
 
 void SkyQPainter::drawScreenLine(int x1, int y1, int x2, int y2)
 {
@@ -64,6 +71,17 @@ void SkyQPainter::drawScreenLine(float x1, float y1, float x2, float y2)
 {
     drawLine(QLineF(x1,y1,x2,y2));
 }
+
+void SkyQPainter::drawScreenLine(const QPoint& a, const QPoint& b)
+{
+    drawLine(a,b);
+}
+
+void SkyQPainter::drawScreenLine(const QPointF& a, const QPointF& b)
+{
+    drawLine(a,b);
+}
+
 
 void SkyQPainter::drawScreenEllipse(int x, int y, int width, int height, float theta)
 {
@@ -90,6 +108,18 @@ void SkyQPainter::drawScreenEllipse(float x, float y, float width, float height,
     drawEllipse(QPointF(0,0),width/2,height/2);
     restore();
 }
+
+void SkyQPainter::setPen(const QPen& pen)
+{
+    QPainter::setPen(pen);
+}
+
+void SkyQPainter::setBrush(const QBrush& brush)
+{
+    QPainter::setBrush(brush);
+}
+
+
 
 
 #if 0
