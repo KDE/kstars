@@ -26,6 +26,7 @@
 #include "typedef.h"
 
 class QPainter;
+class SkyPainter;
 class LineList;
 
 /* @class LineListIndex
@@ -113,23 +114,18 @@ protected:
      * everything.  There are no filled versions of the "All" routines
      * simply because they were not needed.
      */
-    void drawAllLines( QPainter &psky );
+    void drawAllLines( SkyPainter* skyp, bool filled = false );
 
     /* @short Draws all the lines in m_listList as simple lines in float
      * mode.
      */
-    void drawLines( QPainter &psky );
-
-    /* @short Draws all the lines in m_listList as filled polygons in float
-     * mode.
-     */
-    void drawFilled( QPainter& psky );
+    void drawLines( SkyPainter* skyp, bool filled = false );
 
     /* @short Gives the subclasses access to the top of the draw() method.
      * Typically used for setting the QPen, etc. in the QPainter being
      * passed in.  Defaults to setting a thin white pen.
      */
-    virtual void preDraw( QPainter &psky );
+    virtual void preDraw( SkyPainter* skyp );
 
     /* @short a callback overridden by NoPrecessIndex so it can use the
      * drawing code with the non-reverse-precessed mesh buffer.

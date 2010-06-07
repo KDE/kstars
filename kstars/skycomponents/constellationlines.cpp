@@ -35,6 +35,9 @@
 #include "skymesh.h"
 #include "ksfilereader.h"
 
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
+
 
 ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultures ) :
     LineListIndex( parent, i18n("Constellation Lines") ),
@@ -122,11 +125,11 @@ bool ConstellationLines::selected()
            ! ( Options::hideOnSlew() && Options::hideCLines() && SkyMap::IsSlewing() );
 }
 
-void ConstellationLines::preDraw( QPainter &psky )
+void ConstellationLines::preDraw( SkyPainter* skyp )
 {
     KStarsData *data = KStarsData::Instance();
     QColor color = data->colorScheme()->colorNamed( "CLineColor" );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
 const IndexHash& ConstellationLines::getIndexHash(LineList* lineList ) {

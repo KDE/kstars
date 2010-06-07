@@ -43,7 +43,7 @@ public:
     virtual void draw( QPainter &psky );
 
 protected:
-    virtual void preDraw( QPainter& psky );
+    virtual void preDraw( SkyPainter *skyp );
     virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
         m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
     }

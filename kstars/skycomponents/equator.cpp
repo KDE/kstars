@@ -27,6 +27,9 @@
 #include "Options.h"
 #include "linelist.h"
 
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
+
 Equator::Equator(SkyComposite *parent ) :
         NoPrecessIndex( parent, i18n("Equator") ),
         m_label( LineListIndex::name() )
@@ -56,17 +59,16 @@ bool Equator::selected()
     return Options::showEquator();
 }
 
-void Equator::preDraw( QPainter &psky )
+void Equator::preDraw( SkyPainter *skyp )
 {
     KStarsData *data = KStarsData::Instance();
     QColor color( data->colorScheme()->colorNamed( "EqColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-
-    m_label.reset( psky );
+    skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
 void Equator::draw( QPainter &psky )
 {
+    m_label.reset( psky );
     NoPrecessIndex::draw( psky );
     m_label.draw( psky );
 }

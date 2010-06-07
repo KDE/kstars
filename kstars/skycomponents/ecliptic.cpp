@@ -27,6 +27,9 @@
 #include "Options.h"
 #include "linelist.h"
 
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
+
 Ecliptic::Ecliptic(SkyComposite *parent ) :
         LineListIndex( parent, i18n("Ecliptic") ),
         m_label( name() )
@@ -65,18 +68,20 @@ void Ecliptic::draw( QPainter &psky )
 {
     if ( ! selected() ) return;
 
+    SkyPainter *skyp = DirtyUglyHack::painter();
+
     KStarsData *data = KStarsData::Instance();
     QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
     m_label.reset( psky );
-
     if ( ! skyMesh()->isZoomedIn() ) {
-        drawLines( psky );
+        drawLines( skyp );
     }
     else {
-        drawAllLines( psky );
+        drawAllLines( skyp );
     }
+    //FIXME: figure out how to deal with label stuff
     m_label.draw( psky );
 }
 

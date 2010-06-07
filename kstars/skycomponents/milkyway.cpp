@@ -34,6 +34,9 @@
 
 #include "skymesh.h"
 
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
+
 
 MilkyWay::MilkyWay( SkyComposite *parent ) :
     LineListIndex( parent, i18n("Milky Way") )
@@ -70,14 +73,12 @@ void MilkyWay::draw( QPainter& psky )
     if ( !selected() )
         return;
 
+    SkyPainter *skyp = DirtyUglyHack::painter();
     QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "MWColor" );
-    psky.setPen( QPen( color, 3, Qt::SolidLine ) );
-    psky.setBrush( QBrush( color ) );
+    skyp->setPen( QPen( color, 3, Qt::SolidLine ) );
+    skyp->setBrush( QBrush( color ) );
 
-    if ( Options::fillMilkyWay() )
-        drawFilled( psky );
-    else
-        drawLines( psky );
+    drawLines( skyp, Options::fillMilkyWay() );
 }
 
 void MilkyWay::loadContours(QString fname, QString greeting) {

@@ -38,7 +38,7 @@ public:
     	*/
     CoordinateGrid( SkyComposite *parent );
 
-    void preDraw( QPainter &psky );
+    void preDraw( SkyPainter *skyp );
 
     bool selected();
 };

@@ -40,6 +40,9 @@
 
 #include "skymesh.h"
 
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
+
 ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
         : NoPrecessIndex( parent, i18n("Constellation Boundaries") )
 {
@@ -150,10 +153,10 @@ bool ConstellationBoundaryLines::selected()
            ! ( Options::hideOnSlew() && Options::hideCBounds() && SkyMap::IsSlewing() );
 }
 
-void ConstellationBoundaryLines::preDraw( QPainter &psky )
+void ConstellationBoundaryLines::preDraw( SkyPainter* skyp )
 {
     QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "CBoundColor" );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
 void ConstellationBoundaryLines::appendPoly( PolyList* polyList, KSFileReader* file, int debug)

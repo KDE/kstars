@@ -59,7 +59,7 @@ protected:
     virtual void JITupdate( LineList* lineList );
 
     /* @short Set the QColor and QPen for drawing. */
-    virtual void preDraw( QPainter &psky );
+    virtual void preDraw( SkyPainter* skyp );
 
     bool selected();
 

@@ -47,6 +47,9 @@
 #include "skymesh.h"
 #include "linelist.h"
 
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
+
 
 LineListIndex::LineListIndex( SkyComposite *parent, const QString& name ) :
     SkyComponent( parent ),
@@ -147,17 +150,18 @@ void LineListIndex::JITupdate( LineList* lineList )
 
 
 // This is a callback used in draw() below
-void LineListIndex::preDraw( QPainter &psky )
+void LineListIndex::preDraw( SkyPainter *skyp )
 {
-    psky.setPen( QPen( QBrush( QColor( "white" ) ), 1, Qt::SolidLine ) );
+    skyp->setPen( QPen( QBrush( QColor( "white" ) ), 1, Qt::SolidLine ) );
 }
 
 void LineListIndex::draw( QPainter &psky )
 {
     if ( ! selected() )
         return;
-    preDraw( psky );
-    drawLines( psky );
+    SkyPainter *skyp = DirtyUglyHack::painter();
+    preDraw( skyp );
+    drawLines( skyp );
 }
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
@@ -171,12 +175,9 @@ bool LineListIndex::skipAt( LineList *lineList, int i )
 void LineListIndex::updateLabelCandidates( const QPointF& /*o*/, LineList* /*lineList*/, int /*i*/ )
 {}
 
-void LineListIndex::drawAllLines( QPainter& psky )
+void LineListIndex::drawAllLines( SkyPainter *skyp, bool filled )
 {
-    SkyMap* map = SkyMap::Instance();
     UpdateID updateID = KStarsData::Instance()->updateID();
-
-    bool isVisible, isVisibleLast;
 
     for (int i = 0; i < m_listList.size(); i++) {
         LineList* lineList = m_listList.at( i );
@@ -185,41 +186,18 @@ void LineListIndex::drawAllLines( QPainter& psky )
             JITupdate( lineList );
 
         SkyList* points = lineList->points();
-        SkyPoint* pLast = points->first();
-        QPointF oLast = map->toScreen( pLast, true, &isVisibleLast );
-
-        for ( int j = 1 ; j < points->size() ; j++ ) {
-            SkyPoint* pThis = points->at( j );
-            QPointF   oThis = map->toScreen( pThis, true, &isVisible );
-
-            if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, j ) ) {
-                if ( isVisible && isVisibleLast ) {
-                    psky.drawLine( oLast, oThis );
-                    updateLabelCandidates( oThis, lineList, j );
-                } else if ( isVisibleLast ) {
-                    QPointF oMid = map->clipLineI( pLast, pThis );
-                    psky.drawLine( oLast, oMid );
-                } else if ( isVisible ) {
-                    QPointF oMid = map->clipLineI( pThis, pLast );
-                    psky.drawLine( oMid, oThis );
-                }
-            }
-
-            pLast = pThis;
-            oLast = oThis;
-            isVisibleLast = isVisible;
+        if( filled ) {
+            skyp->drawSkyPolygon(points);
+        } else {
+            skyp->drawSkyPolyline(points);
         }
     }
 }
 
-
-void LineListIndex::drawLines( QPainter& psky )
+void LineListIndex::drawLines( SkyPainter *skyp, bool filled )
 {
-    SkyMap *map = SkyMap::Instance();
     DrawID   drawID   = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
-
-    bool isVisible, isVisibleLast;
 
     MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
@@ -239,91 +217,13 @@ void LineListIndex::drawLines( QPainter& psky )
                 JITupdate( lineList );
 
             SkyList* points = lineList->points();
-            SkyPoint* pLast = points->first();
-            QPointF   oLast = map->toScreen( pLast, true, &isVisibleLast );
-
-            QPointF oThis, oThis2;
-            for ( int j = 1 ; j < points->size() ; j++ ) {
-                SkyPoint* pThis = points->at( j );
-                oThis2 = oThis = map->toScreen( pThis, true, &isVisible );
-
-                if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, j ) ) {
-
-                    if ( isVisible && isVisibleLast && map->onscreenLine( oLast, oThis ) ) {
-                        psky.drawLine( oLast, oThis );
-                        updateLabelCandidates( oThis, lineList, j );
-                    } else if ( isVisibleLast ) {
-                        QPointF oMid = map->clipLine( pLast, pThis );
-                        psky.drawLine( oLast, oMid );
-                    } else if ( isVisible ) {
-                        QPointF oMid = map->clipLine( pThis, pLast );
-                        psky.drawLine( oMid, oThis );
-                    }
-                }
-
-                pLast = pThis;
-                oLast = oThis2;
-                isVisibleLast = isVisible;
+            if( filled ) {
+                skyp->drawSkyPolygon(points);
+            } else {
+                skyp->drawSkyPolyline(points);
             }
         }
     }
-}
-
-
-void LineListIndex::drawFilled( QPainter& psky )
-{
-    SkyMap *map = SkyMap::Instance();
-    DrawID drawID     = skyMesh()->drawID();
-    UpdateID updateID = KStarsData::Instance()->updateID();
-
-    bool isVisible, isVisibleLast;
-
-    MeshIterator region( skyMesh(), drawBuffer() );
-    while ( region.hasNext() ) {
-
-        LineListList* lineListList =  m_polyIndex->value( region.next() );
-        if ( lineListList == 0 ) continue;
-
-        for (int i = 0; i < lineListList->size(); i++) {
-            LineList* lineList = lineListList->at( i );
-
-            // draw each Linelist at most once
-            if ( lineList->drawID == drawID ) continue;
-            lineList->drawID = drawID;
-
-            if ( lineList->updateID != updateID )
-                JITupdate( lineList );
-
-            SkyList* points = lineList->points();
-            SkyPoint* pLast = points->last();
-            QPointF   oLast = map->toScreen( pLast, true, &isVisibleLast );
-
-            QPolygonF polygon;
-            for ( int i = 0; i < points->size(); ++i ) {
-                SkyPoint* pThis = points->at( i );
-                QPointF oThis = map->toScreen( pThis, true, &isVisible );
-
-                if ( isVisible && isVisibleLast ) {
-                    polygon << oThis;
-                } else if ( isVisibleLast ) {
-                    QPointF oMid = map->clipLine( pLast, pThis );
-                    polygon << oMid;
-                } else if ( isVisible ) {
-                    QPointF oMid = map->clipLine( pThis, pLast );
-                    polygon << oMid;
-                    polygon << oThis;
-                }
-
-                pLast = pThis;
-                oLast = oThis;
-                isVisibleLast = isVisible;
-            }
-
-            if ( polygon.size() )
-                psky.drawPolygon( polygon );
-        }
-    }
-    //psky.setRenderHint(QPainter::Antialiasing, antiAlias );
 }
 
 void LineListIndex::intro()
