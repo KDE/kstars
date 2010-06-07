@@ -297,6 +297,7 @@ set(kstars_extra_SRCS
 	skypainter.cpp skyqpainter.cpp
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
+	dirtyuglyhack.cpp
 )
 
 set(comast_SRCS

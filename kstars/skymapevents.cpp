@@ -45,6 +45,7 @@
 // TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/starcomponent.h"
+#include "dirtyuglyhack.h"
 
 
 void SkyMap::resizeEvent( QResizeEvent * )
@@ -694,6 +695,15 @@ void SkyMap::paintEvent( QPaintEvent * )
     psky.begin( sky );
     psky.setRenderHint(QPainter::Antialiasing, (!slewing && Options::useAntialias()) );
     psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+
+    /* We want to refactor the painting code to use the SkyPainter API
+    instead of the QPainter API and SkyMap projection functions. But because
+    of the way that the drawing is done we would have to either rewrite it all
+    at the same time or use some kind of hack. Until it's all done, we'll use
+    this particular dirty ugly hack. We set the painter here and then pull it
+    out in the draw() methods as if it were a parameter. */
+    DirtyUglyHack::setPainter(&psky);
+    
     //Draw all sky elements
     data->skyComposite()->draw( psky );
     //Finish up
