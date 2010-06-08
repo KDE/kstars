@@ -27,6 +27,7 @@
 
 class SkyPoint;
 class SkyMap;
+class SkipList;
 
 
 /** @short Draws things on the sky, without regard to backend.
@@ -70,7 +71,7 @@ public:
                because it avoids an extra points->size() -2 projections.
         FIXME: Add support for skipping points...
         */
-    void drawSkyPolyline(SkyList* points);
+    void drawSkyPolyline(SkyList* points, SkipList *skipList = 0);
     
     /** @short Draw a polygon in the sky.
         @param points a list of points in the sky

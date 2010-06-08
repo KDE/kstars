@@ -61,7 +61,7 @@ protected:
      * subclass of LineList.  This routine allows us to use the drawing
      * code in LineListIndex instead of repeating it all here.
      */
-    virtual bool skipAt( LineList* skpiList, int i );
+    virtual SkipList* skipList(LineList* lineList);
 
 };
 #endif

@@ -21,6 +21,8 @@
 #include "skypainter.h"
 #include "skymap.h"
 
+#include "skycomponents/skiplist.h"
+
 void SkyPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {
     bool aVisible, bVisible;
@@ -41,7 +43,7 @@ void SkyPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
     } //FIXME: what if both are offscreen but the line isn't?
 }
 
-void SkyPainter::drawSkyPolyline(SkyList* points)
+void SkyPainter::drawSkyPolyline(SkyList* points, SkipList* skipList)
 {
     bool isVisible, isVisibleLast;
     SkyPoint* pLast = points->first();
@@ -51,8 +53,12 @@ void SkyPainter::drawSkyPolyline(SkyList* points)
     for ( int j = 1 ; j < points->size() ; j++ ) {
         SkyPoint* pThis = points->at( j );
         oThis2 = oThis = m_sm->toScreen( pThis, true, &isVisible );
+        bool doSkip = false;
+        if( skipList ) {
+            doSkip = skipList->skip(j);
+        }
 
-        if ( m_sm->onScreen( oThis, oLast) /*&& ! skipAt( lineList, j )*/ ) {
+        if ( m_sm->onScreen( oThis, oLast) && !doSkip ) {
 
             if ( isVisible && isVisibleLast && m_sm->onscreenLine( oLast, oThis ) ) {
                 drawScreenLine( oLast, oThis );

@@ -56,10 +56,10 @@ const IndexHash& MilkyWay::getIndexHash(LineList* lineList ) {
     return skyMesh()->indexLine( skipList->points(), skipList->skipHash() );
 }
 
-bool MilkyWay::skipAt( LineList* lineList, int i ) {
+SkipList* MilkyWay::skipList( LineList* lineList ) {
     // FIXME: EVIL!
     SkipList* skipList = (SkipList*) lineList;
-    return skipList->skip( i );
+    return skipList;
 }
 
 bool MilkyWay::selected()

@@ -165,11 +165,10 @@ void LineListIndex::draw( QPainter &psky )
 }
 
 // This is a callback used int drawLinesInt() and drawLinesFloat()
-bool LineListIndex::skipAt( LineList *lineList, int i )
+SkipList* LineListIndex::skipList( LineList *lineList )
 {
     Q_UNUSED(lineList)
-    Q_UNUSED(i)
-    return false;
+    return 0;
 }
 
 void LineListIndex::updateLabelCandidates( const QPointF& /*o*/, LineList* /*lineList*/, int /*i*/ )
@@ -189,7 +188,7 @@ void LineListIndex::drawAllLines( SkyPainter *skyp, bool filled )
         if( filled ) {
             skyp->drawSkyPolygon(points);
         } else {
-            skyp->drawSkyPolyline(points);
+            skyp->drawSkyPolyline(points, skipList(lineList));
         }
     }
 }
@@ -220,7 +219,7 @@ void LineListIndex::drawLines( SkyPainter *skyp, bool filled )
             if( filled ) {
                 skyp->drawSkyPolygon(points);
             } else {
-                skyp->drawSkyPolyline(points);
+                skyp->drawSkyPolyline(points, skipList(lineList));
             }
         }
     }

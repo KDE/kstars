@@ -28,6 +28,7 @@
 class QPainter;
 class SkyPainter;
 class LineList;
+class SkipList;
 
 /* @class LineListIndex
  * Contains almost all the code needed for indexing and drawing and clipping
@@ -144,7 +145,7 @@ protected:
      * but this was moved into the .cpp file to prevent this header file
      * from generating repeated unused parameter warnings.
      */
-    virtual bool skipAt( LineList* lineList, int i );
+    virtual SkipList* skipList( LineList* lineList );
 
     virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i );
 
