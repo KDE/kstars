@@ -155,7 +155,6 @@ public:
 
 
 private:
-    inline QPolygonF makePolyline(SkyList* points);
     SkyMap *m_sm;
 };
 

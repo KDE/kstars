@@ -41,53 +41,66 @@ void SkyPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
     } //FIXME: what if both are offscreen but the line isn't?
 }
 
-QPolygonF SkyPainter::makePolyline(SkyList* points)
-{
-    //The polyline to be returned
-    QPolygonF polyline;
-    //We need at least two points to draw.
-    //We need to check that the list is nonempty for prevPoint also.
-    if(points->size() < 2)
-        return polyline;
-    SkyPoint* prevPoint = points->at(0);
-    bool prevVisible;
-    QPointF prevScreen = m_sm->toScreen(prevPoint,true,&prevVisible);
-    if( prevVisible ) { polyline << prevScreen; }
-    
-    for(int i = 1; i < points->size(); ++i) {
-        SkyPoint* curPoint = points->at(i);
-        bool curVisible;
-        QPointF curScreen = m_sm->toScreen(curPoint,true,&curVisible);
-        //THREE CASES:
-        if( prevVisible && curVisible ) {
-            //Both visible, so add the next point:
-            polyline << curScreen;
-        } else if( prevVisible ) {
-            //Current point invisible, so add the clipped point:
-            polyline << m_sm->clipLine(prevPoint, curPoint);
-        } else if( curVisible ) {
-            //last point is invisible, so add the clipped point and the current point:
-            polyline << m_sm->clipLine(curPoint,  prevPoint);
-            polyline << curScreen;
-        } 
-        //Now update the prev* variables for the next line segment
-        prevPoint   = curPoint;
-        prevScreen  = curScreen;
-        prevVisible = curVisible;
-    }
-    return polyline;
-}
-
 void SkyPainter::drawSkyPolyline(SkyList* points)
 {
-    QPolygonF polyline = makePolyline(points);
-    drawScreenPolyline(polyline);
+    bool isVisible, isVisibleLast;
+    SkyPoint* pLast = points->first();
+    QPointF   oLast = m_sm->toScreen( pLast, true, &isVisibleLast );
+
+    QPointF oThis, oThis2;
+    for ( int j = 1 ; j < points->size() ; j++ ) {
+        SkyPoint* pThis = points->at( j );
+        oThis2 = oThis = m_sm->toScreen( pThis, true, &isVisible );
+
+        if ( m_sm->onScreen( oThis, oLast) /*&& ! skipAt( lineList, j )*/ ) {
+
+            if ( isVisible && isVisibleLast && m_sm->onscreenLine( oLast, oThis ) ) {
+                drawScreenLine( oLast, oThis );
+                //updateLabelCandidates( oThis, lineList, j );
+            } else if ( isVisibleLast ) {
+                QPointF oMid = m_sm->clipLine( pLast, pThis );
+                drawScreenLine( oLast, oMid );
+            } else if ( isVisible ) {
+                QPointF oMid = m_sm->clipLine( pThis, pLast );
+                drawScreenLine( oMid, oThis );
+            }
+        }
+
+        pLast = pThis;
+        oLast = oThis2;
+        isVisibleLast = isVisible;
+    }
 }
 
 void SkyPainter::drawSkyPolygon(SkyList* points)
 {
-    QPolygonF polygon = makePolyline(points);
-    drawScreenPolygon(polygon);
+    bool isVisible, isVisibleLast;
+    SkyPoint* pLast = points->last();
+    QPointF   oLast = m_sm->toScreen( pLast, true, &isVisibleLast );
+
+    QPolygonF polygon;
+    for ( int i = 0; i < points->size(); ++i ) {
+        SkyPoint* pThis = points->at( i );
+        QPointF oThis = m_sm->toScreen( pThis, true, &isVisible );
+
+        if ( isVisible && isVisibleLast ) {
+            polygon << oThis;
+        } else if ( isVisibleLast ) {
+            QPointF oMid = m_sm->clipLine( pLast, pThis );
+            polygon << oMid;
+        } else if ( isVisible ) {
+            QPointF oMid = m_sm->clipLine( pThis, pLast );
+            polygon << oMid;
+            polygon << oThis;
+        }
+
+        pLast = pThis;
+        oLast = oThis;
+        isVisibleLast = isVisible;
+    }
+
+    if ( polygon.size() )
+        drawScreenPolygon(polygon);
 }
 
 
