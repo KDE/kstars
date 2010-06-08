@@ -140,10 +140,11 @@ protected:
      */
     virtual const IndexHash& getIndexHash(LineList* lineList );
 
-    /* @short Also overridden by SkipListIndex.  Controls skipping inside of
-     * the draw() routines.  The default behavior is to simply return false
-     * but this was moved into the .cpp file to prevent this header file
-     * from generating repeated unused parameter warnings.
+    /** @short Also overridden by SkipListIndex.
+     * Controls skipping inside of the draw() routines.  The default behavior
+     * is to simply return a null pointer.
+     *
+     * FIXME: I don't think that the SkipListIndex class even exists -- hdevalence
      */
     virtual SkipList* skipList( LineList* lineList );
 

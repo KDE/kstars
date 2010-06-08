@@ -67,16 +67,14 @@ public:
 
     /** @short Draw a polyline in the sky.
         @param points a list of points in the sky
-        @note it's faster to use this than repeated calls to drawSkyLine(),
+        @param skipList a SkipList object used to control skipping line segments
+        @note it's more efficient to use this than repeated calls to drawSkyLine(),
                because it avoids an extra points->size() -2 projections.
-        FIXME: Add support for skipping points...
         */
     void drawSkyPolyline(SkyList* points, SkipList *skipList = 0);
     
     /** @short Draw a polygon in the sky.
         @param points a list of points in the sky
-        @note this function is identical to drawSkyPolyline() except that it
-               closes (and may fill) the polyline.
         @see drawSkyPolyline()
         */
     void drawSkyPolygon(SkyList* points);
