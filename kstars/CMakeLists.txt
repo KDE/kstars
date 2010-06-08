@@ -293,7 +293,8 @@ set(kstars_extra_SRCS
 	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
-	kstarsactions.cpp kstarsdata.cpp kstarsdb.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
+	kstarsactions.cpp kstarsdata.cpp kstarsdb.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp
+   ksobjectlist.cpp ksobjectlist.h
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
 	timezonerule.cpp 
