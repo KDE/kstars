@@ -31,6 +31,8 @@
 #include "skymap.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
 
 QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
 
@@ -147,6 +149,7 @@ void CustomCatalogComponent::draw( QPainter &psky )
 {
     if ( ! selected() ) return;
 
+    SkyPainter *skyp = DirtyUglyHack::painter();
     SkyMap *map = SkyMap::Instance();
     //    float Width  = map->scale() * map->width();
     //    float Height = map->scale() * map->height();
@@ -165,11 +168,8 @@ void CustomCatalogComponent::draw( QPainter &psky )
 
             if ( obj->type()==0 ) {
                 StarObject *starobj = (StarObject*)obj;
-                float zoomlim = 7.0 + ( Options::zoomFactor()/MINZOOM)/50.0;
-                float mag = starobj->mag();
-                float sizeFactor = 2.0;
-                int size = map->scale()*sizeFactor*(zoomlim - mag) + 1;
-                starobj->draw( psky, o, size );
+                //FIXME_SKYPAINTER
+                skyp->drawStar(starobj, starobj->mag(), starobj->spchar() );
             } else {
                 //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
                 DeepSkyObject *dso = (DeepSkyObject*)obj;

@@ -31,9 +31,8 @@ public:
     virtual ~SkyQPainter();
     virtual void setPen(const QPen& pen);
     virtual void setBrush(const QBrush& brush);
-    
-    //virtual void drawStar(SkyPoint* loc, float mag, char sp);
-protected:
+    /** Recalculates the star pixmaps. */
+    static void initImages();
     //Screen drawing functions
     virtual void drawScreenRect(int x, int y, int w, int h);
     virtual void drawScreenRect(float x, float y, float w, float h);
@@ -47,6 +46,8 @@ protected:
     virtual void drawScreenLine(float x1, float y1, float x2, float y2);
     virtual void drawScreenEllipse(int x, int y, int width, int height, float theta);
     virtual void drawScreenEllipse(float x, float y, float width, float height, float theta);
+protected:
+    virtual void drawScreenStar(const QPointF& pos, float size, char sp);
 };
 
 #endif

@@ -40,11 +40,11 @@ public:
     /** @short Constructor.
         @param sm A pointer to SkyMap object on which to paint.
         */
-    SkyPainter(SkyMap *sm) { m_sm = sm; }
-    virtual ~SkyPainter() {}
+    SkyPainter(SkyMap *sm);
+    virtual ~SkyPainter();
     
     /** @short Get the SkyMap on which the painter operates */
-    SkyMap* skyMap() const { return m_sm; }
+    SkyMap* skyMap() const;
 
     /** @short Set the pen of the painter **/
     virtual void setPen(const QPen& pen) = 0;
@@ -79,24 +79,23 @@ public:
         */
     void drawSkyPolygon(SkyList* points);
 
-    
-#if 0
-//uncomment later
     /** @short Draw a star.
         @param loc the location of the star in the sky
         @param mag the magnitude of the star
         @param sp the spectral class of the star
         */
-    virtual void drawStar(SkyPoint *loc, float mag, char sp) = 0;
-#endif
+    void drawStar(SkyPoint *loc, float mag, char sp = 'A');
 
+    /** @short Get the width of a star of magnitude mag */
+    float starWidth(float mag) const;
+
+    void setSizeMagLimit(float sizeMagLim);
 
     ////////////////////////////////////
     //                                //
     // SCREEN DRAWING FUNCTIONS:      //
     //                                //
     ////////////////////////////////////
-
 
     /** @short Draw an unprojected ellipse in screen coordinates.
         @param x the x coordinate of the centre of the ellipse
@@ -152,8 +151,16 @@ public:
     /** @see drawScreenPolygon() */
     virtual void drawScreenPolygon(const QPolygon& polygon) =0;
 
+protected:
+    /** Draw a star on screen
+        @param pos the position on screen
+        @param size the width in pixels
+        @param sp the spectral type of the star
+        */
+    virtual void drawScreenStar(const QPointF& pos, float size, char sp) =0;
 
 private:
+    float m_sizeMagLim;
     SkyMap *m_sm;
 };
 

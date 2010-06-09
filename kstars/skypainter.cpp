@@ -19,9 +19,62 @@
 */
 
 #include "skypainter.h"
-#include "skymap.h"
 
+#include "skymap.h"
+#include "Options.h"
+#include "kstarsdata.h"
 #include "skycomponents/skiplist.h"
+
+SkyPainter::SkyPainter(SkyMap* sm)
+    : m_sizeMagLim(10.),
+      m_sm(sm)
+{
+
+}
+
+SkyPainter::~SkyPainter()
+{
+
+}
+
+SkyMap* SkyPainter::skyMap() const
+{
+    return m_sm;
+}
+
+void SkyPainter::setSizeMagLimit(float sizeMagLim)
+{
+    m_sizeMagLim = sizeMagLim;
+}
+
+float SkyPainter::starWidth(float mag) const
+{
+    //adjust maglimit for ZoomLevel
+    const double maxSize = 10.0;
+
+    double lgmin = log10(MINZOOM);
+//    double lgmax = log10(MAXZOOM);
+    double lgz = log10(Options::zoomFactor());
+
+    float sizeFactor = maxSize + (lgz - lgmin);
+
+    float size = ( sizeFactor*( m_sizeMagLim - mag ) / m_sizeMagLim ) + 1.;
+    if( size <= 1.0 ) size = 1.0;
+    if( size > maxSize ) size = maxSize;
+
+    return size;
+}
+
+void SkyPainter::drawStar(SkyPoint* loc, float mag, char sp)
+{
+    //Check if it's even visible before doing anything
+    if( !m_sm->checkVisibility(loc) ) {
+        return;
+    }
+    QPointF pos = m_sm->toScreen(loc);
+    if( m_sm->onScreen(pos) ) //FIXME: is this check necessary?
+        drawScreenStar(pos,starWidth(mag),sp);
+}
 
 void SkyPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {

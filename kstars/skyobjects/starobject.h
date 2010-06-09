@@ -138,6 +138,9 @@ public:
      */
     QString sptype( void ) const;
 
+    /** Returns just the first character of the spectral type string. */
+    char spchar() const;
+
     /**Returns the genetive name of the star.
      * @return genetive name of the star
      */
@@ -217,17 +220,6 @@ public:
         */
     inline bool isVariable() const { return Variability; }
 
-    /**@short Draw star as pixmap
-     * @p psky QPainter object
-     * @p sp spetral class of star (Letter from Harvard classification)
-     * @p p position of s star
-     * @p size size of a star.
-     */
-    static void drawStar(QPainter& psky, char sp, QPointF p, float size );
-
-    /**@short Draw star */
-    inline void draw( QPainter &psky, QPointF p, float size );
-
     /* @short returns the name, the magnitude or both.
      */
     QString nameLabel( bool drawName, bool drawMag ) const;
@@ -244,9 +236,6 @@ public:
      *This takes the zoom level and the star's brightness into account.
      */
     virtual double labelOffset() const;
-
-    /** Create cached images for stars rendering. */
-    static void initImages();
 
     quint64 updateID;
     quint64 updateNumID;
@@ -267,10 +256,5 @@ private:
     bool Multiplicity, Variability;
     int HD;
 };
-
-
-inline void StarObject::draw( QPainter &psky, QPointF p, float size ) {
-    StarObject::drawStar(psky, SpType[0], p, size);
-}
 
 #endif

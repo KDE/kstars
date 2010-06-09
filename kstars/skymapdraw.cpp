@@ -37,6 +37,7 @@
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skyqpainter.h"
 
 #include <config-kstars.h>
 
@@ -549,7 +550,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
 
     //Now that we have changed the map scale, we need to re-run 
     //StarObject::initImages() to get scaled pixmaps
-    StarObject::initImages();
+    SkyQPainter::initImages();
 
     int pdWidth = int( m_Scale * width() );
     int pdHeight = int( m_Scale * height() );
@@ -571,7 +572,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
 
     //Reset scale for screen drawing
     m_Scale = 1.0;
-    StarObject::initImages();
+    SkyQPainter::initImages();
 }
 
 void SkyMap::setMapGeometry() {

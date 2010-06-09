@@ -30,6 +30,9 @@
 #include "Options.h"
 #include "skylabeler.h"
 
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
+
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)()) :
     SkyComponent( parent ),
     visible( visibleMethod ),
@@ -91,6 +94,8 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
     if( ! selected() )
         return;
 
+    //FIXME_SKYPAINTER
+    SkyPainter *skyp = DirtyUglyHack::painter();
     SkyMap *map = SkyMap::Instance();
 
     //TODO: default values for 2nd & 3rd arg. of SkyMap::checkVisibility()
@@ -128,7 +133,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
         } else {
             spType = 'B';
         }
-        StarObject::drawStar( psky, spType, o, fakeStarSize);
+        skyp->drawStar(m_Planet, m_Planet->mag(), spType);
     } else {
         //Draw planet image if:
         if ( size < sizemin )

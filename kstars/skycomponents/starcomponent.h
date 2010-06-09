@@ -85,10 +85,6 @@ public:
      * clear the LabelLists. */
     void drawLabels( QPainter& psky );
 
-    /**@short Return the size of the star as rendered by KStars
-     * @return the Size of the star's representation on the skymap in pixels */
-    float starRenderingSize( float mag ) const;
-
     static float zoomMagnitudeLimit();
 
     virtual SkyObject* objectNearest(SkyPoint *p, double &maxrad );

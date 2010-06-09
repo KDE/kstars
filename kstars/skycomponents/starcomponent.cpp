@@ -26,6 +26,9 @@
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyobjects/starobject.h"
+#include "skyqpainter.h"
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
 
 #include "skymesh.h"
 #include "skylabel.h"
@@ -72,7 +75,7 @@ StarComponent::StarComponent(SkyComposite *parent )
     loadStaticData();
     // Load any deep star catalogs that are available
     loadDeepStarCatalogs();
-    StarObject::initImages();
+    SkyQPainter::initImages();
 }
 
 StarComponent::~StarComponent() {
@@ -193,37 +196,6 @@ float StarComponent::faintMagnitude() const {
     return faintmag;
 }
 
-float StarComponent::starRenderingSize( float mag ) const {
-    //adjust maglimit for ZoomLevel
-    const double maxSize = 10.0;
-
-    double lgmin = log10(MINZOOM);
-//    double lgmax = log10(MAXZOOM);
-    double lgz = log10(Options::zoomFactor());
-
-    // Old formula:
-    //    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
-
-    // Using the maglim to compute the sizes of stars reduces
-    // discernability between brighter and fainter stars at high zoom
-    // levels. To fix that, we use an "arbitrary" constant in place of
-    // the variable star density.
-    // Not using this formula now.
-    //    float sizeMagLim = 4.444 * ( lgz - lgmin ) + 5.0;
-
-    float sizeMagLim = zoomMagnitudeLimit();
-    if( sizeMagLim > faintMagnitude() * ( 1 - 1.5/16 ) )
-        sizeMagLim = faintMagnitude() * ( 1 - 1.5/16 );
-
-    float sizeFactor = maxSize + (lgz - lgmin);
-
-    float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
-    if( size <= 1.0 ) size = 1.0;
-    if( size > maxSize ) size = maxSize;
-
-    return size;
-}
-
 float StarComponent::zoomMagnitudeLimit() {
 
     //adjust maglimit for ZoomLevel
@@ -262,6 +234,8 @@ void StarComponent::draw( QPainter& psky )
     if( !selected() )
         return;
 
+    SkyPainter *skyp  = DirtyUglyHack::painter();
+
     SkyMap *map       = SkyMap::Instance();
     KStarsData* data  = KStarsData::Instance();
     UpdateID updateID = data->updateID();
@@ -285,6 +259,22 @@ void StarComponent::draw( QPainter& psky )
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
     if( labelMagLim > 8.0 )
         labelMagLim = 8.0;
+
+    //Calculate sizeMagLim
+    // Old formula:
+    //    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
+
+    // Using the maglim to compute the sizes of stars reduces
+    // discernability between brighter and fainter stars at high zoom
+    // levels. To fix that, we use an "arbitrary" constant in place of
+    // the variable star density.
+    // Not using this formula now.
+    //    float sizeMagLim = 4.444 * ( lgz - lgmin ) + 5.0;
+
+    float sizeMagLim = zoomMagnitudeLimit();
+    if( sizeMagLim > faintMagnitude() * ( 1 - 1.5/16 ) )
+        sizeMagLim = faintMagnitude() * ( 1 - 1.5/16 );
+    skyp->setSizeMagLimit(sizeMagLim);
 
     //Loop for drawing star images
 
@@ -313,18 +303,12 @@ void StarComponent::draw( QPainter& psky )
             if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
                 break;
                  
-            if ( ! map->checkVisibility( curStar ) )
-                continue;
-            QPointF o = map->toScreen( curStar );
-            
-            if ( ! map->onScreen( o ) )
-                continue;
-
-            curStar->draw( psky, o, starRenderingSize( mag ) );
+            skyp->drawStar( curStar, mag, curStar->spchar() );
             
             if ( m_hideLabels || mag > labelMagLim )
                 continue;
-            addLabel( o, curStar );
+            //FIXME_SKYPAINTER: find a better way to do this.
+            addLabel( map->toScreen(curStar), curStar );
         }
     }
 
@@ -333,12 +317,7 @@ void StarComponent::draw( QPainter& psky )
         if ( focusStar->updateID != updateID )
             focusStar->JITupdate( data );
         float mag = focusStar->mag();
-        if ( map->checkVisibility( focusStar ) ) {
-            QPointF o = map->toScreen( focusStar );
-            if ( map->onScreen( o ) ) {
-                focusStar->draw( psky, o, starRenderingSize( mag ) );
-            }
-        }
+        skyp->drawStar(focusStar, mag, focusStar->spchar() );
     }
 
     // Now draw each of our DeepStarComponents

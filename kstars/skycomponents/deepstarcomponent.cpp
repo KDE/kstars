@@ -33,6 +33,9 @@
 #include "starblockfactory.h"
 #include "starcomponent.h"
 
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
+
 #include <kde_file.h>
 #include "byteorder.h"
 
@@ -169,6 +172,7 @@ void DeepStarComponent::update( KSNumbers * )
 void DeepStarComponent::draw( QPainter& psky ) {
     if ( !fileOpened ) return;
 
+    SkyPainter *skyp = DirtyUglyHack::painter();
     SkyMap *map = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
@@ -280,13 +284,7 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 if ( mag > maglim || ( hideFaintStars && mag > hideStarsMag ) )
                     break;
 
-                if ( ! map->checkVisibility( curStar ) )
-                    continue;
-
-                QPointF o = map->toScreen( curStar );
-                if ( ! map->onScreen( o ) )
-                    continue;
-                curStar->draw( psky, o, StarComponent::Instance()->starRenderingSize( mag ) );
+                skyp->drawStar(curStar, mag, curStar->spchar() );
                 visibleStarCount++;
             }
         }
