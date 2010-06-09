@@ -1301,6 +1301,7 @@ void ObservingList::setSaveImages() {
 }
 
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
+    /*
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             if( currentObject() ) {
@@ -1325,7 +1326,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
                     pmenu->initPopupMenu( true, true, true, showScope, true, true );
                 else
                     pmenu->initPopupMenu( true, false, false, false, true );
-                pmenu->popup( pos );
+//              pmenu->popup( pos );
                 return true;
             }
         }
@@ -1339,11 +1340,12 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
                     pmenu->initPopupMenu( false, true, true, showScope, true, true, true );
                 else
                     pmenu->initPopupMenu( false, false, false, false, true, false, true );
-                pmenu->popup( pos );
+//              pmenu->popup( pos );
                 return true;
             }
         }
     }
+    */
     return false;
 }
 

@@ -292,7 +292,7 @@ set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
-	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
+	kspopupmenu.cpp obslistpopupmenu.cpp objlistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdb.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp
    ksobjectlist.cpp ksobjectlist.h
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 

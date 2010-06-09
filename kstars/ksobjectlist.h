@@ -1,9 +1,9 @@
 /***************************************************************************
                           ksobjectlist.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed May 12 2010
+    begin                : Wed June 8 2010
     copyright            : (C) 2010 by Victor Carbune
-    email                : victor.carbune@kdemail.com
+    email                : victor.carbune@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,10 +20,23 @@
 
 #include <QTableView>
 #include <QWidget>
+#include <QPoint>
+
+#include "objlistpopupmenu.h"
 
 class KSObjectList : public QTableView
 {
-    public:
-        KSObjectList(QWidget *parent);
+    Q_OBJECT
+
+public:
+    KSObjectList(QWidget *parent);
+
+public slots:
+    void slotContextMenu(const QPoint &pos);
+    void slotNewSelection();
+
+private:
+    ObjListPopupMenu *pmenu;
+    bool singleSelection, noSelection;
 };
 #endif 
