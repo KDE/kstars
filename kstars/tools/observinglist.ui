@@ -339,6 +339,30 @@
       <layout class="QVBoxLayout">
        <item>
         <widget class="KSObjectList" name="TableView">
+         <property name="showAddToSession">
+          <set>true</set>
+         </property>
+         <property name="showAddVisibleTonight">
+          <set>true</set>
+         </property>
+         <property name="showCenter">
+          <set>true</set>
+         </property>
+         <property name="showScope">
+          <set>true</set>
+         </property>
+         <property name="showDetails">
+          <set>true</set>
+         </property>
+         <property name="showAVT">
+          <set>true</set>
+         </property>
+         <property name="showLinks">
+          <set>true</set>
+         </property>
+         <property name="showRemoveFromWishList">
+          <set>true</set>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -371,6 +395,24 @@
       <layout class="QHBoxLayout">
        <item>
         <widget class="KSObjectList" name="SessionView">
+         <property name="showCenter">
+          <set>true</set>
+         </property>
+         <property name="showScope">
+          <set>true</set>
+         </property>
+         <property name="showDetails">
+          <set>true</set>
+         </property>
+         <property name="showAVT">
+          <set>true</set>
+         </property>
+         <property name="showLinks">
+          <set>true</set>
+         </property>
+         <property name="showRemoveFromSessionPlan">
+          <set>true</set>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::NoEditTriggers</set>
          </property>
