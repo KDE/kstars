@@ -26,6 +26,7 @@
 #include "dms.h"
 #include "Options.h"
 #include "linelist.h"
+#include "skylabeler.h"
 
 #include "skypainter.h"
 #include "dirtyuglyhack.h"
@@ -81,19 +82,6 @@ void Ecliptic::draw( QPainter &psky )
     else {
         drawAllLines( skyp );
     }
-    //FIXME: figure out how to deal with label stuff
-    m_label.draw( psky );
-}
-
-
-void Ecliptic::drawLabel( QPainter& psky )
-{
-    if( !selected() )
-        return;
-
-    KStarsData *data = KStarsData::Instance();
-    QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-
+    SkyLabeler::Instance()->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
     m_label.draw( psky );
 }

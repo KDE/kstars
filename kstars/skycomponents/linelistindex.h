@@ -25,6 +25,7 @@
 #include "skymesh.h"
 #include "typedef.h"
 
+class LineListLabel;
 class QPainter;
 class SkyPainter;
 class LineList;
@@ -148,8 +149,8 @@ protected:
      */
     virtual SkipList* skipList( LineList* lineList );
 
-    virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i );
-
+    virtual LineListLabel* label() {return 0;};
+    
 private:
     QString      m_name;
 

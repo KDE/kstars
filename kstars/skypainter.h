@@ -28,6 +28,8 @@
 class SkyPoint;
 class SkyMap;
 class SkipList;
+class LineList;
+class LineListLabel;
 
 
 /** @short Draws things on the sky, without regard to backend.
@@ -66,18 +68,19 @@ public:
     void drawSkyLine(SkyPoint* a, SkyPoint* b);
 
     /** @short Draw a polyline in the sky.
-        @param points a list of points in the sky
+        @param list a list of points in the sky
         @param skipList a SkipList object used to control skipping line segments
+        @param label a pointer to the label for this line
         @note it's more efficient to use this than repeated calls to drawSkyLine(),
                because it avoids an extra points->size() -2 projections.
         */
-    void drawSkyPolyline(SkyList* points, SkipList *skipList = 0);
+    void drawSkyPolyline(LineList* list, SkipList *skipList = 0, LineListLabel *label = 0);
     
     /** @short Draw a polygon in the sky.
-        @param points a list of points in the sky
+        @param list a list of points in the sky
         @see drawSkyPolyline()
         */
-    void drawSkyPolygon(SkyList* points);
+    void drawSkyPolygon(LineList* list);
 
     /** @short Draw a star.
         @param loc the location of the star in the sky

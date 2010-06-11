@@ -24,6 +24,7 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skycomponents/skiplist.h"
+#include "skycomponents/linelistlabel.h"
 
 SkyPainter::SkyPainter(SkyMap* sm)
     : m_sizeMagLim(10.),
@@ -96,8 +97,9 @@ void SkyPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
     } //FIXME: what if both are offscreen but the line isn't?
 }
 
-void SkyPainter::drawSkyPolyline(SkyList* points, SkipList* skipList)
+void SkyPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLabel* label)
 {
+    SkyList *points = list->points();
     bool isVisible, isVisibleLast;
     SkyPoint* pLast = points->first();
     QPointF   oLast = m_sm->toScreen( pLast, true, &isVisibleLast );
@@ -115,7 +117,9 @@ void SkyPainter::drawSkyPolyline(SkyList* points, SkipList* skipList)
 
             if ( isVisible && isVisibleLast && m_sm->onscreenLine( oLast, oThis ) ) {
                 drawScreenLine( oLast, oThis );
-                //updateLabelCandidates( oThis, lineList, j );
+                if( label ) {
+                    label->updateLabelCandidates(oThis.x(), oThis.y(), list, j);
+                }
             } else if ( isVisibleLast ) {
                 QPointF oMid = m_sm->clipLine( pLast, pThis );
                 drawScreenLine( oLast, oMid );
@@ -131,8 +135,9 @@ void SkyPainter::drawSkyPolyline(SkyList* points, SkipList* skipList)
     }
 }
 
-void SkyPainter::drawSkyPolygon(SkyList* points)
+void SkyPainter::drawSkyPolygon(LineList* list)
 {
+    SkyList *points = list->points();
     bool isVisible, isVisibleLast;
     SkyPoint* pLast = points->last();
     QPointF   oLast = m_sm->toScreen( pLast, true, &isVisibleLast );

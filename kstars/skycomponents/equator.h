@@ -41,16 +41,12 @@ public:
 
     virtual bool selected();
     virtual void draw( QPainter &psky );
+    virtual LineListLabel* label() {return &m_label;};
 
 protected:
     virtual void preDraw( SkyPainter *skyp );
-    virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
-        m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
-    }
 
 private:
-    void drawLabel( QPainter& psky );
-
     LineListLabel m_label;
 };
 

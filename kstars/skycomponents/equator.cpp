@@ -26,6 +26,7 @@
 #include "dms.h"
 #include "Options.h"
 #include "linelist.h"
+#include "skylabeler.h"
 
 #include "skypainter.h"
 #include "dirtyuglyhack.h"
@@ -70,19 +71,10 @@ void Equator::draw( QPainter &psky )
 {
     m_label.reset( psky );
     NoPrecessIndex::draw( psky );
-    m_label.draw( psky );
-}
 
-void Equator::drawLabel( QPainter& psky )
-{
     KStarsData *data = KStarsData::Instance();
-
-    if ( ! selected() ) return;
-
     QColor color( data->colorScheme()->colorNamed( "EqColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-
+    SkyLabeler::Instance()->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
     m_label.draw( psky );
 }
-
 

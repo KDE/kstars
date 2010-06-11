@@ -171,8 +171,6 @@ SkipList* LineListIndex::skipList( LineList *lineList )
     return 0;
 }
 
-void LineListIndex::updateLabelCandidates( const QPointF& /*o*/, LineList* /*lineList*/, int /*i*/ )
-{}
 
 void LineListIndex::drawAllLines( SkyPainter *skyp, bool filled )
 {
@@ -184,11 +182,10 @@ void LineListIndex::drawAllLines( SkyPainter *skyp, bool filled )
         if ( lineList->updateID != updateID )
             JITupdate( lineList );
 
-        SkyList* points = lineList->points();
         if( filled ) {
-            skyp->drawSkyPolygon(points);
+            skyp->drawSkyPolygon(lineList);
         } else {
-            skyp->drawSkyPolyline(points, skipList(lineList));
+            skyp->drawSkyPolyline(lineList, skipList(lineList), label() );
         }
     }
 }
@@ -215,11 +212,10 @@ void LineListIndex::drawLines( SkyPainter *skyp, bool filled )
             if ( lineList->updateID != updateID )
                 JITupdate( lineList );
 
-            SkyList* points = lineList->points();
             if( filled ) {
-                skyp->drawSkyPolygon(points);
+                skyp->drawSkyPolygon(lineList);
             } else {
-                skyp->drawSkyPolyline(points, skipList(lineList));
+                skyp->drawSkyPolyline(lineList, skipList(lineList), label() );
             }
         }
     }
