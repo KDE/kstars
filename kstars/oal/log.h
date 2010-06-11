@@ -18,7 +18,7 @@
 #ifndef LOG_H_
 #define LOG_H_
 
-#include "comast/comast.h"
+#include "oal/oal.h"
 
 #include <QString>
 #include <QXmlStreamReader>
@@ -27,18 +27,18 @@
 #include "kstars.h"
 #include "dms.h"
 #include "skyobjects/skyobject.h"
-#include "comast/observer.h"
-#include "comast/site.h"
-#include "comast/session.h"
-#include "comast/scope.h"
-#include "comast/eyepiece.h"
-#include "comast/filter.h"
-#include "comast/lens.h"
-#include "comast/observation.h"
+#include "oal/observer.h"
+#include "oal/site.h"
+#include "oal/session.h"
+#include "oal/scope.h"
+#include "oal/eyepiece.h"
+#include "oal/filter.h"
+#include "oal/lens.h"
+#include "oal/observation.h"
 
 class KStars;
 
-class Comast::Log {
+class OAL::Log {
     public:
         QString writeLog( bool native = true );
         void writeBegin();
@@ -54,23 +54,23 @@ class Comast::Log {
         void writeImagers();
         void writeObservations();
         inline QList<SkyObject *> *targetList() { return &m_targetList; }
-        inline QList<Comast::Scope *> *scopeList() { return &m_scopeList; }
-        inline QList<Comast::Site *> *siteList() { return &m_siteList; }
-        inline QList<Comast::Session *> *sessionList() { return &m_sessionList; }
-        inline QList<Comast::Eyepiece *> *eyepieceList() { return &m_eyepieceList; }
-        inline QList<Comast::Lens *> *lensList() { return &m_lensList; }
-        inline QList<Comast::Filter *> *filterList() { return &m_filterList; }
-        inline QList<Comast::Observation *> *observationList() { return &m_observationList; }
-        inline QList<Comast::Observer *> *observerList() { return &m_observerList; }
-        void writeObserver( Comast::Observer *o );
-        void writeSite( Comast::Site *s );
-        void writeSession( Comast::Session *s );
+        inline QList<OAL::Scope *> *scopeList() { return &m_scopeList; }
+        inline QList<OAL::Site *> *siteList() { return &m_siteList; }
+        inline QList<OAL::Session *> *sessionList() { return &m_sessionList; }
+        inline QList<OAL::Eyepiece *> *eyepieceList() { return &m_eyepieceList; }
+        inline QList<OAL::Lens *> *lensList() { return &m_lensList; }
+        inline QList<OAL::Filter *> *filterList() { return &m_filterList; }
+        inline QList<OAL::Observation *> *observationList() { return &m_observationList; }
+        inline QList<OAL::Observer *> *observerList() { return &m_observerList; }
+        void writeObserver( OAL::Observer *o );
+        void writeSite( OAL::Site *s );
+        void writeSession( OAL::Session *s );
         void writeTarget( SkyObject *o );
-        void writeScope( Comast::Scope *s );
-        void writeEyepiece( Comast::Eyepiece *ep );
-        void writeLens( Comast::Lens *l );
-        void writeFilter(Comast::Filter *f );
-        void writeObservation( Comast::Observation *o );
+        void writeScope( OAL::Scope *s );
+        void writeEyepiece( OAL::Eyepiece *ep );
+        void writeLens( OAL::Lens *l );
+        void writeFilter(OAL::Filter *f );
+        void writeObservation( OAL::Observation *o );
 //        void writeImager();
         void writeEnd();
         void readBegin( QString input );
@@ -96,36 +96,36 @@ class Comast::Log {
         void readPosition();
         void readGeoDate();
         QString readResult();
-        Comast::Observer* findObserverByName( QString fullName );
-        Comast::Observer* findObserverById( QString id );
-        Comast::Site* findSiteByName( QString name );
-        Comast::Site* findSiteById( QString id );
-        Comast::Session* findSessionByName( QString id );
-        Comast::Scope* findScopeByName( QString name );
-        Comast::Scope* findScopeById( QString id );
-        Comast::Eyepiece* findEyepieceById( QString id );
-        Comast::Lens* findLensById( QString id );
-        Comast::Filter* findFilterById( QString id );
-        Comast::Eyepiece* findEyepieceByName( QString name );
-        Comast::Lens* findLensByName( QString name );
-        Comast::Filter* findFilterByName( QString name );
-        Comast::Observation* findObservationByName( QString name );
+        OAL::Observer* findObserverByName( QString fullName );
+        OAL::Observer* findObserverById( QString id );
+        OAL::Site* findSiteByName( QString name );
+        OAL::Site* findSiteById( QString id );
+        OAL::Session* findSessionByName( QString id );
+        OAL::Scope* findScopeByName( QString name );
+        OAL::Scope* findScopeById( QString id );
+        OAL::Eyepiece* findEyepieceById( QString id );
+        OAL::Lens* findLensById( QString id );
+        OAL::Filter* findFilterById( QString id );
+        OAL::Eyepiece* findEyepieceByName( QString name );
+        OAL::Lens* findLensByName( QString name );
+        OAL::Filter* findFilterByName( QString name );
+        OAL::Observation* findObservationByName( QString name );
         QHash<QString, QTime> timeHash() { return TimeHash; }
         KStarsDateTime dateTime() { return dt; }
         GeoLocation* geoLocation() { return geo; }
         inline QString writtenOutput() { return output; }
     private:
         QList<SkyObject *> m_targetList;
-        QList<Comast::Observer *> m_observerList;
-        QList<Comast::Eyepiece *> m_eyepieceList; 
-        QList<Comast::Lens *> m_lensList; 
-        QList<Comast::Filter *> m_filterList;
-//        QList<Comast::Equipment *> m_equipmentList;
-//        QList<Comast::Imager *> m_imagerList;
-        QList<Comast::Site *> m_siteList;
-        QList<Comast::Session *> m_sessionList;
-        QList<Comast::Scope *> m_scopeList;
-        QList<Comast::Observation *> m_observationList;
+        QList<OAL::Observer *> m_observerList;
+        QList<OAL::Eyepiece *> m_eyepieceList; 
+        QList<OAL::Lens *> m_lensList; 
+        QList<OAL::Filter *> m_filterList;
+//        QList<OAL::Equipment *> m_equipmentList;
+//        QList<OAL::Imager *> m_imagerList;
+        QList<OAL::Site *> m_siteList;
+        QList<OAL::Session *> m_sessionList;
+        QList<OAL::Scope *> m_scopeList;
+        QList<OAL::Observation *> m_observationList;
         QString output;
         bool native;
         dms ra, dec;

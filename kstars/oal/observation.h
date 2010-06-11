@@ -18,22 +18,22 @@
 #ifndef OBSERVATION_H_
 #define OBSERVATION_H_
 
-#include "comast/comast.h"
+#include "oal/oal.h"
 #include "kstarsdatetime.h"
 #include "skyobjects/skyobject.h"
-#include "comast/observer.h"
-#include "comast/site.h"
-#include "comast/session.h"
-#include "comast/scope.h"
-#include "comast/eyepiece.h"
-#include "comast/filter.h"
-#include "comast/lens.h"
+#include "oal/observer.h"
+#include "oal/site.h"
+#include "oal/session.h"
+#include "oal/scope.h"
+#include "oal/eyepiece.h"
+#include "oal/filter.h"
+#include "oal/lens.h"
 
 #include <QString>
 
-using namespace Comast;
+using namespace OAL;
 
-class Comast::Observation {
+class OAL::Observation {
     public:
         Observation( QString id, QString observer, QString site, QString session, QString target, KStarsDateTime begin, double faintestStar, double seeing, QString scope, QString eyepiece, QString lens, QString filter,  QString result, QString lang ) {
             setObservation( id, observer, site, session, target, begin, faintestStar, seeing, scope, eyepiece, lens, filter, result, lang );

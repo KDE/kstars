@@ -217,7 +217,7 @@ Bandar Lengeh                    :                       : Iran                 
 Bandar Seri Begawan              :                       : Brunei                :  4 : 57 :  0 : N : 114 : 56 : 12 : E : 8.0  : --
 Bandirma                         :                       : Turkey                : 40 : 18 : 32 : N :  27 : 58 : 22 : E : 2.0  : EU
 Banff                            : Alberta               : Canada                : 51 : 10 : 47 : N : 115 : 32 : 59 : W : -7.0 : US
-Bangalore                        :                       : India                 : 13 : 48 :  0 : N :  77 : 17 : 59 : E : 5.5  : --
+Bangalore                        :                       : India                 : 12 : 58 :  0 : N :  77 : 34 :  0 : E : 5.5  : --
 Bangassou                        :                      :Central African Republic:  5 :  5 :  0 : N :  23 : 33 :  0 : E :   1.0 : --
 Bangkok                          :                       : Thailand              : 13 : 49 : 59 : N : 100 : 28 : 59 : E : 7.0  : --
 Bangor                           : Maine                 : USA                   : 44 : 48 : 12 : N :  68 : 46 : 18 : W : -5.0 : US
@@ -465,7 +465,7 @@ Cadotte Lake                     : Alberta               : Canada               
 Caen                             : Calvados              : France                : 49 : 10 :  0 : N :  00 : 22 : 00 : W :  1.0 : EU
 Cagliari                         :                       : Italy                 : 39 :  8 :  2 : N :   8 : 58 : 30 : E :  1.0 : EU
 Cairo                            :                       : Egypt                 : 30 :  0 :  0 : N :  31 : 16 : 59 : E : 2.0  : EG
-Calais/Dunkirk                   : Pas-de-Calais         : France                : 50 : 57 : 36 : N :   1 : 57 :  0 : E : 1.0  : EU
+Calais                           : Pas-de-Calais         : France                : 50 : 56 : 53 : N :   1 : 51 : 23 : E : 1.0  : EU
 Calar Alto                       :                       : Spain                 : 37 : 13 :  8 : N :   2 : 32 : 15 : W :  1.0 : EU
 Kolkata                          :                       : India                 : 22 : 31 : 59 : N :  88 : 22 :  0 : E : 5.5  : --
 Caldwell                         : Idaho                 : USA                   : 43 : 39 : 53 : N : 116 : 41 : 13 : W : -7.0 : US
@@ -833,6 +833,7 @@ Duncan                           : British Columbia      : Canada               
 Dundalk                          : Maryland              : USA                   : 39 : 16 :  1 : N :  76 : 31 :  1 : W : -5.0 : US
 Dunedin                          :                       : New Zealand           : 45 : 55 : 59 : S : 170 : 11 : 59 : E : 12.0 : NZ
 Dunlap                           : Iowa                  : USA                   : 41 : 52 : 58 : N :  95 : 32 : 59 : W : -6.0 : US
+Dunkirk                          : Pas-de-Calais         : France                : 51 : 02 : 18 : N :   2 : 22 : 39 : E : 1.0  : EU
 Dunsink                          : Leinster              : Ireland               : 53 : 23 :  2 : N :   6 : 20 : 15 : W :  0.0 : EU
 Durango                          : Colorado              : USA                   : 37 : 15 :  0 : N : 107 : 55 :  1 : W : -7.0 : US
 Durban                           :                       : South Africa          : 29 : 58 :  0 : S :  30 : 57 :  0 : E :   2.0 : --

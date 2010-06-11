@@ -1,8 +1,8 @@
 /***************************************************************************
-                          comast.h  -  description
+                          filter.cpp  -  description
 
                              -------------------
-    begin                : Friday June 19, 2009
+    begin                : Wednesday July 8, 2009
     copyright            : (C) 2009 by Prakash Mohan
     email                : prakash.mohan@kdemail.net
  ***************************************************************************/
@@ -16,27 +16,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COMAST_H_
-#define COMAST_H_
+#include "oal/filter.h"
 
-#include <QString>
-#include <KLocale>
-#include <kmessagebox.h>
-namespace Comast {
-    class Log;
-    class Observer;
-    class Observation;
-    class Equipment;
-    class Eyepiece;
-    class Scope;
-    class Filter;
-    class Imager;
-    class Site;
-    class Session;
-    class Target;
-    class Lens;
-    inline int warningOverwrite( QString message ) {
-        return KMessageBox::warningYesNo( 0, message, i18n("Overwrite"), KGuiItem(i18n("Overwrite")), KGuiItem(i18n("Cancel")) );
-    }
+void OAL::Filter::setFilter( QString _id, QString _model, QString _vendor, QString _type, QString _color ){ 
+    m_Id = _id;
+    m_Model = _model;
+    m_Vendor = _vendor;
+    m_Type = _type;
+    m_Color = _color;
+    m_Name = _vendor + ' ' + _model + " - " + _type + ' ' + _color + " (" + _id + ')';  
 }
-#endif

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          scope.h  -  description
+                          observer.cpp  -  description
 
                              -------------------
     begin                : Wednesday July 8, 2009
@@ -15,26 +15,12 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef SCOPE_H_
-#define SCOPE_H_
 
-#include "comast/comast.h"
+#include "oal/observer.h"
 
-#include <QString>
-
-class Comast::Scope {
-    public:
-        Scope( QString id, QString model, QString vendor, QString type, double focalLength, double aperture ) { setScope( id, model, vendor, type, focalLength, aperture ); }
-        QString id() { return m_Id; }
-        QString model() { return m_Model; }
-        QString vendor() { return m_Vendor; }
-        QString type() { return m_Type; }
-        QString name() { return m_Name; }
-        double focalLength() { return m_FocalLength; }
-        double aperture() { return m_Aperture; }
-        void setScope( QString _id, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture );
-    private:
-        QString m_Id, m_Model, m_Vendor, m_Type, m_Name;
-        double m_FocalLength, m_Aperture;
-};
-#endif
+void OAL::Observer::setObserver( QString _id, QString _name, QString _surname, QString _contact ){
+    m_Id = _id;
+    m_Name = _name;
+    m_Surname = _surname;
+    m_Contact = _contact;
+}

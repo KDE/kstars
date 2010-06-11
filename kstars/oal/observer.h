@@ -1,5 +1,5 @@
 /***************************************************************************
-                          filter.cpp  -  description
+                          observer.h  -  description
 
                              -------------------
     begin                : Wednesday July 8, 2009
@@ -15,14 +15,22 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef OBSERVER_H_
+#define OBSERVER_H_
 
-#include "comast/filter.h"
+#include "oal/oal.h"
 
-void Comast::Filter::setFilter( QString _id, QString _model, QString _vendor, QString _type, QString _color ){ 
-    m_Id = _id;
-    m_Model = _model;
-    m_Vendor = _vendor;
-    m_Type = _type;
-    m_Color = _color;
-    m_Name = _vendor + ' ' + _model + " - " + _type + ' ' + _color + " (" + _id + ')';  
-}
+#include <QString>
+
+class OAL::Observer {
+    public:
+       QString id() { return m_Id; }
+       QString name() { return m_Name; }
+       QString surname() { return m_Surname; }
+       QString contact() { return m_Contact; }
+       Observer( QString _id,  QString _name ="", QString _surname = "", QString _contact = "" ) { setObserver( _id, _name, _surname, _contact ); }
+       void setObserver( QString _id, QString _name = "", QString _surname= "", QString _contact = "" );
+    private:
+        QString m_Name, m_Surname, m_Contact, m_Id;
+};
+#endif

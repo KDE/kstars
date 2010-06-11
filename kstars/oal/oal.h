@@ -1,8 +1,8 @@
 /***************************************************************************
-                          session.cpp  -  description
+                          oal.h  -  description
 
                              -------------------
-    begin                : Wednesday July 8, 2009
+    begin                : Friday June 19, 2009
     copyright            : (C) 2009 by Prakash Mohan
     email                : prakash.mohan@kdemail.net
  ***************************************************************************/
@@ -16,15 +16,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "comast/session.h"
+#ifndef OAL_H_
+#define OAL_H_
 
-void Comast::Session::setSession( QString _name, QString _site, KStarsDateTime _begin, KStarsDateTime _end, QString _weather, QString _equipment, QString _comment, QString _lang ) {
-    m_Site = _site;
-    m_Begin = _begin;
-    m_End = _end;
-    m_Weather = _weather;
-    m_Equipment = _equipment;
-    m_Comment = _comment;
-    m_Lang = _lang;
-    m_Id = _name;
+#include <QString>
+#include <KLocale>
+#include <kmessagebox.h>
+namespace OAL {
+    class Log;
+    class Observer;
+    class Observation;
+    class Equipment;
+    class Eyepiece;
+    class Scope;
+    class Filter;
+    class Imager;
+    class Site;
+    class Session;
+    class Target;
+    class Lens;
+    inline int warningOverwrite( QString message ) {
+        return KMessageBox::warningYesNo( 0, message, i18n("Overwrite"), KGuiItem(i18n("Overwrite")), KGuiItem(i18n("Cancel")) );
+    }
 }
+#endif

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          observer.cpp  -  description
+                          eyepiece.h  -  description
 
                              -------------------
     begin                : Wednesday July 8, 2009
@@ -15,12 +15,26 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#ifndef EYEPIECE_H_
+#define EYEPIECE_H_
 
-#include "comast/observer.h"
+#include "oal/oal.h"
 
-void Comast::Observer::setObserver( QString _id, QString _name, QString _surname, QString _contact ){
-    m_Id = _id;
-    m_Name = _name;
-    m_Surname = _surname;
-    m_Contact = _contact;
-}
+#include <QString>
+
+class OAL::Eyepiece {
+    public:
+        Eyepiece( QString id, QString model, QString vendor, double fov, QString fovUnit, double focalLength ) { setEyepiece( id, model, vendor, fov, fovUnit, focalLength ); }
+        QString id() { return m_Id; }
+        QString name() { return m_Name; }
+        QString model() { return m_Model; }
+        QString vendor() { return m_Vendor; }
+        QString fovUnit() { return m_AppFovUnit; }
+        double appFov() { return m_AppFOV; }
+        double focalLength() { return m_FocalLength; }
+        void setEyepiece( QString _id, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength );
+    private:
+        QString m_Id, m_Model, m_AppFovUnit, m_Vendor, m_Name;
+        double m_AppFOV, m_FocalLength;
+};
+#endif
