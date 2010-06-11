@@ -21,6 +21,8 @@
 #include <QTableView>
 #include <QWidget>
 #include <QPoint>
+#include <QEvent>
+#include <QMouseEvent>
 
 #include "objlistpopupmenu.h"
 

@@ -19,12 +19,14 @@
 #include <QObject>
 #include <QItemSelectionModel>
 #include "ksobjectlist.h"
+#include "kdebug.h"
 
 KSObjectList::KSObjectList(QWidget *parent):QTableView(parent)
 {
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), SLOT(slotContextMenu(const QPoint &)));
+
     pmenu = new ObjListPopupMenu();
 
     m_showAVT = true;
@@ -34,7 +36,7 @@ KSObjectList::KSObjectList(QWidget *parent):QTableView(parent)
 
 KSObjectList::~KSObjectList()
 {
-//  delete pmenu;
+    delete pmenu;
 }
 
 // Read functions for Q_PROPERTY items
@@ -81,22 +83,16 @@ void KSObjectList::slotContextMenu(const QPoint &pos)
         }
         pmenu->addSeparator();
 
-        if (m_showLinks) {
-            pmenu->showLinks();
-        }
-        pmenu->addSeparator();
-
         if (m_showRemoveFromWishList) {
             pmenu->showRemoveFromWishList();
         }
+
         if (m_showRemoveFromSessionPlan) {
             pmenu->showRemoveFromSessionPlan();
         }
 
         pmenu->popup(localPos);
-    }
-
-    if (countRows == 1) {
+    } else if (countRows == 1) {
         pmenu->init();
 
         if (m_showAddToSession) {
@@ -138,4 +134,3 @@ void KSObjectList::slotContextMenu(const QPoint &pos)
         pmenu->popup(localPos);
     }
 }
-
