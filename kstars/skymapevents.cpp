@@ -664,7 +664,7 @@ void SkyMap::paintEvent( QPaintEvent * )
         drawOverlays( sky2 );
         QPainter p;
         p.begin( this );
-        p.drawImage( 0, 0, sky2->toImage() );
+        p.drawPixmap( 0, 0, *sky2 );
         p.end();
         return ; // exit because the pixmap is repainted and that's all what we want
     }
