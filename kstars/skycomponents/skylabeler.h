@@ -133,14 +133,6 @@ public:
     static SkyLabeler* Instance();
 
     /**
-     * @short adjusts the font in psky to be smaller if we are zoomed out.
-     * This static function allows us to prevent code duplication since it
-     * can be used without a SkyLabeler instance.  This is used in SkyObject
-     * and StarObject in addition to be used in this class.
-     */
-    void setZoomFont();
-
-    /**
      * @short returns the zoom dependent label offset.  This is used in this
      * class and in SkyObject.  It is important that the offsets be the same
      * so highlighted labels are always drawn exactly on top of the normally
@@ -178,6 +170,16 @@ public:
 
 
     //----- Font Setting -----//
+
+    /**
+     * @short adjusts the font in psky to be smaller if we are zoomed out.
+     */
+    void setZoomFont();
+
+    /**
+     * @short sets the pen used for drawing labels on the sky.
+     */
+    void setPen(const QPen& pen);
 
     /**
      * @short tells the labeler the font you will be using so it can figure

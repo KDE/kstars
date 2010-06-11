@@ -152,6 +152,11 @@ void SkyLabeler::setFont( const QFont& font )
     m_fontMetrics = QFontMetrics( font );
 }
 
+void SkyLabeler::setPen(const QPen& pen)
+{
+    m_p.setPen(pen);
+}
+
 void SkyLabeler::shrinkFont( int delta )
 {
     QFont font( m_p.font() );
