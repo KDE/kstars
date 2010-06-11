@@ -115,7 +115,7 @@ void ConstellationNamesComponent::draw( QPainter& psky )
 
     SkyMap *map = SkyMap::Instance();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
-    skyLabeler->useStdFont( psky );
+    skyLabeler->useStdFont();
     psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
     QString name;
@@ -133,8 +133,8 @@ void ConstellationNamesComponent::draw( QPainter& psky )
             name = p->name2();
 
         o.setX( o.x() - 5.0 * name.length() );
-        skyLabeler->drawGuideLabel( psky, o, name, 0.0 );
+        skyLabeler->drawGuideLabel( o, name, 0.0 );
     }
 
-    skyLabeler->resetFont( psky );
+    skyLabeler->resetFont();
 }

@@ -134,6 +134,9 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
     p.begin( pm );
     p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
 
+    //draw labels
+    p.drawPixmap(0,0, SkyLabeler::Instance()->pixmap());
+
     if ( Options::showHighlightedCBound() )
         drawHighlightConstellation( p );
 
@@ -287,7 +290,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
     float Height = m_Scale * height();
 
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
-    skyLabeler->resetFont( psky );      // use the zoom dependent font
+    skyLabeler->resetFont();      // use the zoom dependent font
 
     psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
@@ -348,7 +351,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         obj->drawNameLabel( psky, o );
     }
 
-    skyLabeler->useStdFont( psky );   // use the StdFont for the guides.
+    skyLabeler->useStdFont();   // use the StdFont for the guides.
 }
 
 void SkyMap::drawTransientLabel( QPainter &p ) {

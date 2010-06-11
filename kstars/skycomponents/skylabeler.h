@@ -21,7 +21,8 @@
 #include <QFontMetricsF>
 #include <QList>
 #include <QVector>
-
+#include <QPainter>
+#include <QPixmap>
 #include <QFont>
 
 #include "skylabel.h"
@@ -29,7 +30,6 @@
 class QString;
 class QPointF;
 class SkyMap;
-class QPainter;
 struct LabelRun;
 
 typedef QList<LabelRun*>	LabelRow;
@@ -138,7 +138,7 @@ public:
      * can be used without a SkyLabeler instance.  This is used in SkyObject
      * and StarObject in addition to be used in this class.
      */
-    static void SetZoomFont( QPainter& psky );
+    void setZoomFont();
 
     /**
      * @short returns the zoom dependent label offset.  This is used in this
@@ -169,7 +169,12 @@ public:
      * screen is zoomed out.  You can mimic this setting with the static
      * method SkyLabeler::setZoomFont( psky ).
      */
-    void reset( SkyMap* skyMap, QPainter& psky );
+    void reset( SkyMap* skyMap );
+
+    /**
+     * @short Gets the pixmap on which the labels have been drawn
+     */
+    const QPixmap& pixmap() const;
 
 
     //----- Font Setting -----//
@@ -179,26 +184,26 @@ public:
      * out the height and width of the labels.  Also sets this font in the
      * psky since this is almost always what is wanted.
      */
-    void setFont( QPainter& psky, const QFont& font );
+    void setFont( const QFont& font );
 
     /**
      * @short decreases the size of the font in psky and in the SkyLabeler
      * by the delta points.  Negative deltas will increase the font size.
      */
-    void shrinkFont( QPainter& psky, int delta );
+    void shrinkFont( int delta );
 
     /**
      * @short sets the font in SkyLabeler and in psky to the font psky
      * had originally when reset() was called.  Used by ConstellationNames.
      */
-    void useStdFont(QPainter& psky);
+    void useStdFont();
 
     /**
      * @short sets the font in SkyLabeler and in psky back to the zoom
      * dependent value that was set in reset().  Also used in
      * ConstellationLines.
      */
-    void resetFont(QPainter& psky);
+    void resetFont();
 
     /**
      * @short returns the fontMetricsF we have already created.
@@ -212,7 +217,7 @@ public:
      *@short sets four margins for help in keeping labels entirely on the
      * screen.
      */
-    void getMargins( QPainter& psky, const QString& text, float *left,
+    void getMargins( const QString& text, float *left,
                      float *right, float *top, float *bot );
 
     /**
@@ -221,7 +226,7 @@ public:
      * return false, otherwise the label is drawn, its position is marked
      * and we return true.
      */
-    bool drawGuideLabel( QPainter& psky, QPointF& o, const QString& text, double angle );
+    bool drawGuideLabel( QPointF& o, const QString& text, double angle );
 
     /**
      * @short queues the label in the "type" buffer for later drawing.
@@ -234,13 +239,13 @@ public:
      * buffers are drawn.  You can also change the fonts and colors there
      * too.
      */
-    void drawQueuedLabels( QPainter& psky );
+    void drawQueuedLabels();
 
     /**
      * @short a convenience routine that draws all the labels from a single
      * buffer.  Currently this is only called from within draw() above.
      */
-    void drawQueuedLabelsType( QPainter& psky, label_t type );
+    void drawQueuedLabelsType( SkyLabeler::label_t type );
 
 
     //----- Marking Regions -----//
@@ -256,15 +261,13 @@ public:
      */
     bool markText( const QPointF& p, const QString& text);
 
-    bool markText( QPainter& psky, const QPointF& p, const QString& text);
-
     /**
      * @short Works just like markText() above but for an arbitrary
      * rectangular region bounded by top, bot, left, and right.
      */
     bool markRegion( qreal left, qreal right, qreal top, qreal bot );
 
-    bool markRect( qreal x, qreal y, qreal width, qreal height, QPainter& psky );
+    bool markRect( qreal x, qreal y, qreal width, qreal height );
 
 
     //----- Diagnostics and Information -----//
@@ -326,6 +329,9 @@ private:
 
     QFont		 m_stdFont, m_skyFont;
     QFontMetricsF m_fontMetrics;
+
+    QPainter m_p;
+    QPixmap m_pixmap;
 
     QVector<LabelList>   labelList;
 

@@ -84,7 +84,7 @@ void HorizonComponent::draw( QPainter& psky )
 
     static const QString horizonLabel = i18n("Horizon");
     float marginLeft, marginRight, marginTop, marginBot;
-    SkyLabeler::Instance()->getMargins( psky, horizonLabel, &marginLeft, &marginRight,
+    SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
                                         &marginTop, &marginBot );
 
     psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
@@ -143,7 +143,7 @@ void HorizonComponent::draw( QPainter& psky )
             psky.setPen( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
 
         QPointF pLabel( Width-30., obf.y() );
-        SkyLabeler::Instance()->drawGuideLabel( psky, pLabel, horizonLabel, 0.0 );
+        SkyLabeler::Instance()->drawGuideLabel( pLabel, horizonLabel, 0.0 );
 
         drawCompassLabels( psky );
         return;
@@ -404,7 +404,7 @@ void HorizonComponent::draw( QPainter& psky )
     if ( angle < -90.0 ) angle += 180.0;
     if ( angle >  90.0 ) angle -= 180.0;
 
-    SkyLabeler::Instance()->drawGuideLabel( psky, o1, horizonLabel, angle );
+    SkyLabeler::Instance()->drawGuideLabel( o1, horizonLabel, angle );
 
     drawCompassLabels( psky );
 }
@@ -437,7 +437,7 @@ void HorizonComponent::drawCompassLabels( QPainter& psky ) {
         if ( !Options::useAltAz() ) c.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         cpoint = map->toScreen( &c, false );
         if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
-            skyLabeler->drawGuideLabel( psky, cpoint, name[i], 0.0 );
+            skyLabeler->drawGuideLabel( cpoint, name[i], 0.0 );
         }
     }
 }

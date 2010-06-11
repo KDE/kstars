@@ -187,8 +187,8 @@ void SkyMapComposite::draw( QPainter& psky )
     }
 
     // clear marks from old labels and prep fonts
-    m_skyLabeler->reset( map, psky );
-    m_skyLabeler->useStdFont( psky );
+    m_skyLabeler->reset( map );
+    m_skyLabeler->useStdFont();
 
     // info boxes have highest label priority
     // FIXME: REGRESSION. Labeler now know nothing about infoboxes
@@ -224,7 +224,7 @@ void SkyMapComposite::draw( QPainter& psky )
 
     map->drawObjectLabels( labelObjects(), psky );
 
-    m_skyLabeler->drawQueuedLabels( psky );
+    m_skyLabeler->drawQueuedLabels();
     m_CNames->draw( psky );
     m_Stars->drawLabels( psky );
     m_DeepSky->drawLabels( psky );
