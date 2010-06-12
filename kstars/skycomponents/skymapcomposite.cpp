@@ -46,6 +46,8 @@
 
 #include "skymesh.h"
 #include "skylabeler.h"
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
 
 SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
         SkyComposite(parent), m_reindexNum( J2000 )
@@ -155,6 +157,7 @@ void SkyMapComposite::draw( QPainter& psky )
     t.start();
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
+    SkyPainter *skyp = DirtyUglyHack::painter();
 
     // We delay one draw cycle before re-indexing
     // we MUST ensure CLines do not get re-indexed while we use DRAW_BUF
@@ -214,7 +217,7 @@ void SkyMapComposite::draw( QPainter& psky )
 
     m_Stars->draw( psky );
 
-    m_SolarSystem->drawTrails( psky );
+    m_SolarSystem->drawTrails( skyp );
     m_SolarSystem->draw( psky );
 
     // TODO: Fix satellites sometime

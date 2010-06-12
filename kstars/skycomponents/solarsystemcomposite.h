@@ -56,7 +56,7 @@ public:
 
     virtual void updateMoons( KSNumbers *num );
 
-    void drawTrails( QPainter& psky );
+    void drawTrails( SkyPainter *skyp );
 
 private:
     KSPlanet *m_Earth;

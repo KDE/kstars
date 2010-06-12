@@ -29,6 +29,7 @@ class KSNumbers;
 class SkyObject;
 class SkyPoint;
 class SkyComposite;
+class SkyPainter;
 
 /**
  * @class SkyComponent
@@ -58,7 +59,7 @@ public:
     virtual void draw( QPainter& psky ) = 0;
 
     /**@short Draw trails for objects. */
-    virtual void drawTrails( QPainter & );
+    virtual void drawTrails( SkyPainter *skyp );
 
     /**
      * @short Update the sky position(s) of this component.

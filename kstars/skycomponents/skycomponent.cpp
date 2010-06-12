@@ -45,7 +45,7 @@ SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) {
     return 0;
 }
 
-void SkyComponent::drawTrails( QPainter & )
+void SkyComponent::drawTrails( SkyPainter *skyp )
 {}
 
 void SkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )

@@ -68,7 +68,7 @@ public:
     SkyObject* findByName( const QString &name );
 
 protected:
-    virtual void drawTrails( QPainter& psky );
+    virtual void drawTrails( SkyPainter* skyp );
 
 private:
     KSPlanetBase::Planets planet;

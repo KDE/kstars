@@ -168,7 +168,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
 }
 
 
-void SolarSystemSingleComponent::drawTrails( QPainter& psky ) {
+void SolarSystemSingleComponent::drawTrails( SkyPainter *skyp ) {
     if( selected() )
-        m_Planet->drawTrail(psky);
+        m_Planet->drawTrail(skyp);
 }

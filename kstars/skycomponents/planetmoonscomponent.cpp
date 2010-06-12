@@ -166,10 +166,10 @@ void PlanetMoonsComponent::draw( QPainter& psky )
     }
 }
 
-void PlanetMoonsComponent::drawTrails( QPainter& psky ) {
+void PlanetMoonsComponent::drawTrails( SkyPainter *skyp ) {
     if( ! selected() )
         return;
     int nmoons = pmoons->nMoons();
     for( int i=0; i<nmoons; ++i )
-        pmoons->moon(i)->drawTrail(psky);
+        pmoons->moon(i)->drawTrail(skyp);
 }

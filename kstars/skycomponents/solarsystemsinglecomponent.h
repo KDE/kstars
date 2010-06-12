@@ -56,7 +56,7 @@ public:
     virtual void draw( QPainter &psky );
 
 protected:
-    virtual void drawTrails( QPainter& psky );
+    virtual void drawTrails( SkyPainter* skyp );
 
 private:
     bool (*visible)();    
