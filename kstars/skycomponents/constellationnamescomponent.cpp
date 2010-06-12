@@ -116,7 +116,7 @@ void ConstellationNamesComponent::draw( QPainter& psky )
     SkyMap *map = SkyMap::Instance();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     skyLabeler->useStdFont();
-    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
+    skyLabeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
     QString name;
     foreach(SkyObject *p, m_ObjectList) {
