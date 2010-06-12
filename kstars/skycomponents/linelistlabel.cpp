@@ -35,7 +35,7 @@ LineListLabel::LineListLabel( const QString& text )
     }
 }
 
-void LineListLabel::reset( QPainter &psky )
+void LineListLabel::reset()
 {
     // These are the indices of the farthest left point, farthest right point,
     // etc.  The are data members so the drawLabels() routine can use them.
@@ -87,7 +87,7 @@ void LineListLabel::updateLabelCandidates( qreal x, qreal y, LineList* lineList,
 }
 
 
-void LineListLabel::draw( QPainter& psky )
+void LineListLabel::draw()
 {
 
     SkyMap *map = SkyMap::Instance();

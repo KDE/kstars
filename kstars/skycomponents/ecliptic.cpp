@@ -75,7 +75,7 @@ void Ecliptic::draw( QPainter &psky )
     QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
     skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-    m_label.reset( psky );
+    m_label.reset();
     if ( ! skyMesh()->isZoomedIn() ) {
         drawLines( skyp );
     }
@@ -83,5 +83,5 @@ void Ecliptic::draw( QPainter &psky )
         drawAllLines( skyp );
     }
     SkyLabeler::Instance()->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-    m_label.draw( psky );
+    m_label.draw();
 }

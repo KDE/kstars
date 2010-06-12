@@ -69,12 +69,12 @@ void Equator::preDraw( SkyPainter *skyp )
 
 void Equator::draw( QPainter &psky )
 {
-    m_label.reset( psky );
+    m_label.reset();
     NoPrecessIndex::draw( psky );
 
     KStarsData *data = KStarsData::Instance();
     QColor color( data->colorScheme()->colorNamed( "EqColor" ) );
     SkyLabeler::Instance()->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-    m_label.draw( psky );
+    m_label.draw();
 }
 

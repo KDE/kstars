@@ -44,14 +44,14 @@ public:
 
     /* @short prepare the context for selecting label position candidates.
      */
-    void reset( QPainter &psky );
+    void reset();
 
     /* @short draw the label if any.  Is currently called at the bottom of
      * draw() but that call could be removed and it could be called
      * externally AFTER draw() has been called so draw() can set up the label
      * position candidates.
      */
-    void draw( QPainter& psky );
+    void draw();
 
     void updateLabelCandidates( qreal x, qreal y,  LineList* lineList, int i );
 
