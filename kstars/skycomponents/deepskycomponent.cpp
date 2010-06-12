@@ -433,11 +433,12 @@ void DeepSkyComponent::addLabel( const QPointF& p, DeepSkyObject *obj )
     m_labelList[ idx ]->append( SkyLabel( p, obj ) );
 }
 
-void DeepSkyComponent::drawLabels( QPainter& psky )
+void DeepSkyComponent::drawLabels()
 {
     if ( m_hideLabels ) return;
 
-    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "DSNameColor" ) ) );
+    SkyLabeler *labeler = SkyLabeler::Instance();
+    labeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "DSNameColor" ) ) );
 
     int max = int( m_zoomMagLimit * 10.0 );
     if ( max < 0 ) max = 0;
@@ -446,7 +447,7 @@ void DeepSkyComponent::drawLabels( QPainter& psky )
     for ( int i = 0; i <= max; i++ ) {
         LabelList* list = m_labelList[ i ];
         for ( int j = 0; j < list->size(); j++ ) {
-            list->at(j).obj->drawNameLabel( psky, list->at(j).o );
+            labeler->drawNameLabel(list->at(j).obj, list->at(j).o);
         }
         list->clear();
     }

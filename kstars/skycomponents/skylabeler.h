@@ -233,7 +233,9 @@ public:
     /**
      * @short Tries to draw a label for an object.
      * @param obj the object to draw the label for
+     * @param _p the position of that object
      * @return true if the label was drawn
+     * //FIXME: should this just take an object pointer and do its own projection?
      */
     bool drawNameLabel( SkyObject* obj, const QPointF& _p );
 

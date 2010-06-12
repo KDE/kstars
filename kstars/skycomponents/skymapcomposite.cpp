@@ -227,7 +227,7 @@ void SkyMapComposite::draw( QPainter& psky )
     m_skyLabeler->drawQueuedLabels();
     m_CNames->draw( psky );
     m_Stars->drawLabels();
-    m_DeepSky->drawLabels( psky );
+    m_DeepSky->drawLabels();
 
     m_Flags->draw( psky );
 

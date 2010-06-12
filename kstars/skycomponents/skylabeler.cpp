@@ -463,7 +463,7 @@ void SkyLabeler::drawQueuedLabelsType( SkyLabeler::label_t type )
 {
     LabelList list = labelList[ type ];
     for ( int i = 0; i < list.size(); i ++ ) {
-        list.at(i).obj->drawNameLabel( m_p, list.at(i).o );
+        drawNameLabel( list.at(i).obj, list.at(i).o );
     }
 }
 

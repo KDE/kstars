@@ -64,7 +64,7 @@ public:
     /* @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists.
      */
-    void drawLabels( QPainter& psky );
+    void drawLabels();
 
     /**
      * @short Update the sky positions of this component.  FIXME -jbb does nothing now
