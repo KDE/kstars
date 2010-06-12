@@ -428,30 +428,6 @@ QString SkyObject::labelString() const {
     return translatedName();
 }
 
-void SkyObject::drawNameLabel( QPainter &psky, const QPointF &_p ) {
-    QString sLabel = labelString();
-    SkyLabeler *labeler = SkyLabeler::Instance();
-
-    double offset = labelOffset();
-    QPointF p( _p.x()+offset, _p.y()+offset );
-
-    if ( ! labeler->markText( p, sLabel ) ) {
-        return;
-    }
-
-    //FIXME: we shouldn't be changing the font back and forth for every object!
-//    //set the zoom-dependent font
-//    QFont stdFont( psky.font() );
-//    SkyLabeler::SetZoomFont( psky );
-
-    QRectF rect = labeler->fontMetrics().boundingRect( sLabel );
-    rect.moveTo( p.x(), p.y() );
-
-    psky.drawText( rect.topLeft(), sLabel );
-
-//    psky.setFont( stdFont );
-}
-
 //Rude name labels don't check for collisions with other labels, 
 //these get drawn no matter what.  Transient labels are rude labels.
 //To mitigate confusion from possibly "underlapping" labels, paint a 
