@@ -83,7 +83,7 @@ public:
 
     /* @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists. */
-    void drawLabels( QPainter& psky );
+    void drawLabels();
 
     static float zoomMagnitudeLimit();
 

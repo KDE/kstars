@@ -334,12 +334,13 @@ void StarComponent::addLabel( const QPointF& p, StarObject *star )
     m_labelList[ idx ]->append( SkyLabel( p, star ) );
 }
 
-void StarComponent::drawLabels( QPainter& psky )
+void StarComponent::drawLabels()
 {
     if( m_hideLabels )
         return;
 
-    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" ) ) );
+    SkyLabeler *labeler = SkyLabeler::Instance();
+    labeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" ) ) );
 
     int max = int( m_zoomMagLimit * 10.0 );
     if ( max < 0 ) max = 0;
@@ -348,7 +349,7 @@ void StarComponent::drawLabels( QPainter& psky )
     for ( int i = 0; i <= max; i++ ) {
         LabelList* list = m_labelList[ i ];
         for ( int j = 0; j < list->size(); j++ ) {
-            list->at(j).obj->drawNameLabel( psky, list->at(j).o );
+            labeler->drawNameLabel( list->at(j).obj, list->at(j).o );
         }
         list->clear();
     }

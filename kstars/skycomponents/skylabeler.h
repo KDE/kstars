@@ -231,6 +231,13 @@ public:
     bool drawGuideLabel( QPointF& o, const QString& text, double angle );
 
     /**
+     * @short Tries to draw a label for an object.
+     * @param obj the object to draw the label for
+     * @return true if the label was drawn
+     */
+    bool drawNameLabel( SkyObject* obj, const QPointF& _p );
+
+    /**
      * @short queues the label in the "type" buffer for later drawing.
      */
     void addLabel( const QPointF& p, SkyObject *obj, label_t type );

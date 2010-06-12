@@ -146,6 +146,22 @@ bool SkyLabeler::drawGuideLabel( QPointF& o, const QString& text, double angle )
     return true;
 }
 
+bool SkyLabeler::drawNameLabel(SkyObject* obj, const QPointF& _p)
+{
+    QString sLabel = obj->labelString();
+
+    double offset = obj->labelOffset();
+    QPointF p( _p.x()+offset, _p.y()+offset );
+
+    if ( !markText( p, sLabel ) ) {
+        return false;
+    } else {
+        m_p.drawText( p, sLabel );
+        return true;
+    }
+}
+
+
 void SkyLabeler::setFont( const QFont& font )
 {
     m_p.setFont( font );
