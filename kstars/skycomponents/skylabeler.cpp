@@ -191,7 +191,8 @@ void SkyLabeler::getMargins( const QString& text, float *left,
 void SkyLabeler::reset( SkyMap* skyMap )
 {
     // ----- Set up Painter -----
-    m_p.end();
+    if( m_p.isActive() )
+        m_p.end();
     if( m_pixmap.size() != skyMap->size() ) {
         m_pixmap = QPixmap(skyMap->width(), skyMap->height());
     }
