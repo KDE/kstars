@@ -292,7 +292,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     skyLabeler->resetFont();      // use the zoom dependent font
 
-    psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
+    skyLabeler->setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
     bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
     bool drawComets( drawPlanets && Options::showComets() );
@@ -307,8 +307,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
     //Attach a label to the centered object
     if ( focusObject() != NULL && Options::useAutoLabel() ) {
         QPointF o = toScreen( focusObject() );
-
-        focusObject()->drawNameLabel( psky, o );
+        skyLabeler->drawNameLabel( focusObject(), o );
     }
 
     foreach ( SkyObject *obj, labelObjects ) {
@@ -348,7 +347,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         QPointF o = toScreen( obj );
         if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
 
-        obj->drawNameLabel( psky, o );
+        skyLabeler->drawNameLabel( obj, o );
     }
 
     skyLabeler->useStdFont();   // use the StdFont for the guides.
