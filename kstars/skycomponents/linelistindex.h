@@ -116,12 +116,17 @@ protected:
      * everything.  There are no filled versions of the "All" routines
      * simply because they were not needed.
      */
-    void drawAllLines( SkyPainter* skyp, bool filled = false );
+    void drawAllLines( SkyPainter* skyp );
 
     /* @short Draws all the lines in m_listList as simple lines in float
      * mode.
      */
-    void drawLines( SkyPainter* skyp, bool filled = false );
+    void drawLines( SkyPainter* skyp );
+
+    /* @short Draws all the lines in m_listList as filled polygons in float
+     * mode.
+     */
+    void drawFilled( SkyPainter* skyp );
 
     /* @short Gives the subclasses access to the top of the draw() method.
      * Typically used for setting the QPen, etc. in the QPainter being

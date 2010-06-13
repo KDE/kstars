@@ -78,7 +78,11 @@ void MilkyWay::draw( QPainter& psky )
     skyp->setPen( QPen( color, 3, Qt::SolidLine ) );
     skyp->setBrush( QBrush( color ) );
 
-    drawLines( skyp, Options::fillMilkyWay() );
+    if( Options::fillMilkyWay() ) {
+        drawFilled(skyp);
+    } else {
+        drawLines(skyp);
+    }
 }
 
 void MilkyWay::loadContours(QString fname, QString greeting) {

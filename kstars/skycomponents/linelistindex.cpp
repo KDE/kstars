@@ -172,7 +172,7 @@ SkipList* LineListIndex::skipList( LineList *lineList )
 }
 
 
-void LineListIndex::drawAllLines( SkyPainter *skyp, bool filled )
+void LineListIndex::drawAllLines( SkyPainter *skyp )
 {
     UpdateID updateID = KStarsData::Instance()->updateID();
 
@@ -182,15 +182,11 @@ void LineListIndex::drawAllLines( SkyPainter *skyp, bool filled )
         if ( lineList->updateID != updateID )
             JITupdate( lineList );
 
-        if( filled ) {
-            skyp->drawSkyPolygon(lineList);
-        } else {
-            skyp->drawSkyPolyline(lineList, skipList(lineList), label() );
-        }
+        skyp->drawSkyPolyline(lineList, skipList(lineList), label() );
     }
 }
 
-void LineListIndex::drawLines( SkyPainter *skyp, bool filled )
+void LineListIndex::drawLines( SkyPainter *skyp )
 {
     DrawID   drawID   = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
@@ -212,11 +208,36 @@ void LineListIndex::drawLines( SkyPainter *skyp, bool filled )
             if ( lineList->updateID != updateID )
                 JITupdate( lineList );
 
-            if( filled ) {
-                skyp->drawSkyPolygon(lineList);
-            } else {
-                skyp->drawSkyPolyline(lineList, skipList(lineList), label() );
-            }
+            skyp->drawSkyPolyline(lineList, skipList(lineList), label() );
+        }
+    }
+}
+
+void LineListIndex::drawFilled( SkyPainter *skyp )
+{
+    SkyMap *map = SkyMap::Instance();
+    DrawID drawID     = skyMesh()->drawID();
+    UpdateID updateID = KStarsData::Instance()->updateID();
+
+    bool isVisible, isVisibleLast;
+
+    MeshIterator region( skyMesh(), drawBuffer() );
+    while ( region.hasNext() ) {
+
+        LineListList* lineListList =  m_polyIndex->value( region.next() );
+        if ( lineListList == 0 ) continue;
+
+        for (int i = 0; i < lineListList->size(); i++) {
+            LineList* lineList = lineListList->at( i );
+
+            // draw each Linelist at most once
+            if ( lineList->drawID == drawID ) continue;
+            lineList->drawID = drawID;
+
+            if ( lineList->updateID != updateID )
+                JITupdate( lineList );
+
+            skyp->drawSkyPolygon(lineList);
         }
     }
 }
