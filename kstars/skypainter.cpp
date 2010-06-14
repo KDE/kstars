@@ -66,15 +66,19 @@ float SkyPainter::starWidth(float mag) const
     return size;
 }
 
-void SkyPainter::drawStar(SkyPoint* loc, float mag, char sp)
+bool SkyPainter::drawStar(SkyPoint* loc, float mag, char sp)
 {
     //Check if it's even visible before doing anything
-    if( !m_sm->checkVisibility(loc) ) {
-        return;
-    }
+    if( !m_sm->checkVisibility(loc) ) return false;
+    
     QPointF pos = m_sm->toScreen(loc);
-    if( m_sm->onScreen(pos) ) //FIXME: is this check necessary?
+     //FIXME: is this check necessary?
+    if( m_sm->onScreen(pos) ) {
         drawScreenStar(pos,starWidth(mag),sp);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void SkyPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)

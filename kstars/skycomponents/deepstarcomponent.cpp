@@ -284,8 +284,8 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 if ( mag > maglim || ( hideFaintStars && mag > hideStarsMag ) )
                     break;
 
-                skyp->drawStar(curStar, mag, curStar->spchar() );
-                visibleStarCount++;
+                if( skyp->drawStar(curStar, mag, curStar->spchar() ) )
+                    visibleStarCount++;
             }
         }
 

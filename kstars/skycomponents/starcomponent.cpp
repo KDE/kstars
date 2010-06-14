@@ -303,12 +303,11 @@ void StarComponent::draw( QPainter& psky )
             if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
                 break;
                  
-            skyp->drawStar( curStar, mag, curStar->spchar() );
-            
-            if ( m_hideLabels || mag > labelMagLim )
-                continue;
+            bool drawn = skyp->drawStar( curStar, mag, curStar->spchar() );
+
             //FIXME_SKYPAINTER: find a better way to do this.
-            addLabel( map->toScreen(curStar), curStar );
+            if ( drawn && !(m_hideLabels || mag > labelMagLim) )
+                addLabel( map->toScreen(curStar), curStar );
         }
     }
 

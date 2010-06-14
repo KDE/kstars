@@ -54,6 +54,11 @@ public:
     /** @short Set the brush of the painter **/
     virtual void setBrush(const QBrush& brush) = 0;
 
+    /** @short Get the width of a star of magnitude mag */
+    float starWidth(float mag) const;
+
+    void setSizeMagLimit(float sizeMagLim);
+
     ////////////////////////////////////
     //                                //
     // SKY DRAWING FUNCTIONS:         //
@@ -86,13 +91,9 @@ public:
         @param loc the location of the star in the sky
         @param mag the magnitude of the star
         @param sp the spectral class of the star
+        @return true if a star was drawn
         */
-    void drawStar(SkyPoint *loc, float mag, char sp = 'A');
-
-    /** @short Get the width of a star of magnitude mag */
-    float starWidth(float mag) const;
-
-    void setSizeMagLimit(float sizeMagLim);
+    bool drawStar(SkyPoint *loc, float mag, char sp = 'A');
 
     ////////////////////////////////////
     //                                //
