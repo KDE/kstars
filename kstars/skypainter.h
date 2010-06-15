@@ -25,6 +25,7 @@
 
 #include "skycomponents/typedef.h"
 
+class DeepSkyObject;
 class SkyPoint;
 class SkyMap;
 class SkipList;
@@ -54,9 +55,7 @@ public:
     /** @short Set the brush of the painter **/
     virtual void setBrush(const QBrush& brush) = 0;
 
-    /** @short Get the width of a star of magnitude mag */
-    float starWidth(float mag) const;
-
+    //FIXME: find a better way to do this.
     void setSizeMagLimit(float sizeMagLim);
 
     ////////////////////////////////////
@@ -87,13 +86,20 @@ public:
         */
     void drawSkyPolygon(LineList* list);
 
-    /** @short Draw a star.
-        @param loc the location of the star in the sky
-        @param mag the magnitude of the star
-        @param sp the spectral class of the star
-        @return true if a star was drawn
+    /** @short Draw a point source (e.g., a star).
+        @param loc the location of the source in the sky
+        @param mag the magnitude of the source
+        @param sp the spectral class of the source
+        @return true if a source was drawn
         */
-    bool drawStar(SkyPoint *loc, float mag, char sp = 'A');
+    bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A');
+
+    /** @short Draw a deep sky object
+        @param obj the object to draw
+        @param drawImage if true, try to draw the image of the object
+        @return true if it was drawn
+        */
+    bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false);
 
     ////////////////////////////////////
     //                                //
@@ -142,12 +148,31 @@ public:
     virtual void drawScreenPolygon(const QPolygonF& polygon) =0;
 
 protected:
+
+    /** @short Get the width of a star of magnitude mag */
+    float starWidth(float mag) const;
+    
     /** Draw a star on screen
         @param pos the position on screen
         @param size the width in pixels
         @param sp the spectral type of the star
         */
-    virtual void drawScreenStar(const QPointF& pos, float size, char sp) =0;
+    virtual void drawScreenPointSource(const QPointF& pos, float size, char sp) =0;
+
+    /** Draw a deep sky object image on screen
+        @param pos the position on screen
+        @param obj the object to be drawn
+        @return true if an image was drawn
+        */
+    virtual bool drawScreenDeepSkyImage(const QPointF& pos, DeepSkyObject *obj,
+                                        float positionAngle) = 0;
+    
+    /** Draw a deep sky object symbol on screen
+        @param pos the position on screen
+        @param obj the object to be drawn
+        */
+    virtual void drawScreenDeepSkySymbol(const QPointF& pos, DeepSkyObject *obj,
+                                        float positionAngle) = 0;
 
 private:
     float m_sizeMagLim;

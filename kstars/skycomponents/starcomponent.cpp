@@ -303,7 +303,7 @@ void StarComponent::draw( QPainter& psky )
             if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
                 break;
                  
-            bool drawn = skyp->drawStar( curStar, mag, curStar->spchar() );
+            bool drawn = skyp->drawPointSource( curStar, mag, curStar->spchar() );
 
             //FIXME_SKYPAINTER: find a better way to do this.
             if ( drawn && !(m_hideLabels || mag > labelMagLim) )
@@ -316,7 +316,7 @@ void StarComponent::draw( QPainter& psky )
         if ( focusStar->updateID != updateID )
             focusStar->JITupdate( data );
         float mag = focusStar->mag();
-        skyp->drawStar(focusStar, mag, focusStar->spchar() );
+        skyp->drawPointSource(focusStar, mag, focusStar->spchar() );
     }
 
     // Now draw each of our DeepStarComponents

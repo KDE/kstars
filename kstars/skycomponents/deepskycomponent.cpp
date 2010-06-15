@@ -33,6 +33,8 @@
 #include "skylabeler.h"
 #include "Options.h"
 #include "skymesh.h"
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
 
 
 DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
@@ -319,12 +321,13 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
 
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
+    SkyPainter *skyp = DirtyUglyHack::painter();
 
     UpdateID updateID = data->updateID();
     UpdateID updateNumID = data->updateNumID();
 
-    psky.setPen( data->colorScheme()->colorNamed( colorString ) );
-    psky.setBrush( Qt::NoBrush );
+    skyp->setPen( data->colorScheme()->colorNamed( colorString ) );
+    skyp->setBrush( Qt::NoBrush );
     QColor color        = data->colorScheme()->colorNamed( colorString );
     QColor colorExtra = data->colorScheme()->colorNamed( "HSTColor" );
 
@@ -369,8 +372,6 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                 obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             }
 
-            if ( ! map->checkVisibility( obj ) ) continue;
-
             float mag = obj->mag();
             float size = map->scale() * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
 
@@ -378,45 +379,14 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
             //zoom > 2000.), and it's brighter than maglim (unless mag is
             //undefined (=99.9)
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
-                 ( mag < (float)maglim || obj->isCatalogIC() ) ) {
-
-                QPointF o = map->toScreen( obj );
-                if ( ! map->onScreen( o ) ) continue;
-
-                double PositionAngle = map->findPA( obj, o.x(), o.y() );
-
-                //Draw Image
-                bool imgdrawn = false;
-                if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
-                    imgdrawn = obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
-                }
-
-                //Draw Symbol
-                if ( drawObject ) {
-                    //change color if extra images are available
-                    // most objects don't have those, so we only change colors temporarily
-                    // for the few exceptions. Changing color is expensive!!!
-                    bool bColorChanged = false;
-                    if ( obj->isCatalogM() && obj->ImageList().count() > 1 ) {
-                        psky.setPen( colorExtra );
-                        bColorChanged = true;
-                    } else if ( (!obj->isCatalogM()) && obj->ImageList().count() ) {
-                        psky.setPen( colorExtra );
-                        bColorChanged = true;
-                    }
-
-                    obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
-
-                    if ( bColorChanged ) {
-                        psky.setPen( color );
-                    }
-                }
-
-                if ( !( drawObject || imgdrawn )  || ( m_hideLabels || mag > labelMagLim ) ) continue;
-            
-                addLabel( o, obj );
-            }
-            else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
+                 ( mag < (float)maglim || obj->isCatalogIC() ) )
+            {
+    
+                bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
+                if ( drawn  && !( m_hideLabels || mag > labelMagLim ) )
+                    addLabel( map->toScreen(obj), obj );
+                    //FIXME: find a better way to do above
+            } else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
                 if ( obj->image() ) {
                     obj->deleteImage();
                 }

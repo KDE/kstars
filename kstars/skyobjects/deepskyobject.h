@@ -196,18 +196,6 @@ public:
     inline bool isCatalogNone() const { return (Catalog == CAT_UNKNOWN); }
 
     /**
-      *Draw the object's symbol on the map
-    	*/
-    void drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom );
-
-    /**
-      *Draw the Object's image on the map 
-      *@return true if the object has an image, false otherwise.
-      */
-
-    bool drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom );
-
-    /**
     	*@return the pixel distance for offseting the object's name label
     	*/
     virtual double labelOffset() const;

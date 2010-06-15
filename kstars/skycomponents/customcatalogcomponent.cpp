@@ -150,33 +150,26 @@ void CustomCatalogComponent::draw( QPainter &psky )
     if ( ! selected() ) return;
 
     SkyPainter *skyp = DirtyUglyHack::painter();
-    SkyMap *map = SkyMap::Instance();
     //    float Width  = map->scale() * map->width();
     //    float Height = map->scale() * map->height();
 
-    psky.setBrush( Qt::NoBrush );
-    psky.setPen( QColor( m_catColor ) );
+    skyp->setBrush( Qt::NoBrush );
+    skyp->setPen( QColor( m_catColor ) );
 
     //Draw Custom Catalog objects
     foreach ( SkyObject *obj, m_ObjectList ) {
-
-        if ( map->checkVisibility( obj ) ) {
-            QPointF o = map->toScreen( obj );
-
-            if( ! map->onScreen( o ) )
-                continue;
-
-            if ( obj->type()==0 ) {
-                StarObject *starobj = (StarObject*)obj;
-                //FIXME_SKYPAINTER
-                skyp->drawStar(starobj, starobj->mag(), starobj->spchar() );
-            } else {
-                //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-                DeepSkyObject *dso = (DeepSkyObject*)obj;
-                double pa = 90. + map->findPA( dso, o.x(), o.y() );
-                dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
-                dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
-            }
+        if ( obj->type()==0 ) {
+            StarObject *starobj = (StarObject*)obj;
+            //FIXME_SKYPAINTER
+            skyp->drawPointSource(starobj, starobj->mag(), starobj->spchar() );
+        } else {
+            //FIXME: this PA calc is totally different from the one that was in
+            //DeepSkyComponent which is now in SkyPainter .... O_o
+            //      --hdevalence
+            //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
+            //double pa = 90. + map->findPA( dso, o.x(), o.y() );
+            DeepSkyObject *dso = (DeepSkyObject*)obj;
+            skyp->drawDeepSkyObject(dso,true);
         }
     }
 }

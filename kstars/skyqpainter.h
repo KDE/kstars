@@ -21,6 +21,8 @@
 
 #include "skypainter.h"
 
+class DeepSkyObject;
+
 /** @short The QPainter-based painting backend.
     This class implements the SkyPainter interface using a QPainter.
     For documentation, @see SkyPainter. */
@@ -41,7 +43,11 @@ public:
     virtual void drawScreenLine(float x1, float y1, float x2, float y2);
     virtual void drawScreenEllipse(float x, float y, float width, float height, float theta);
 protected:
-    virtual void drawScreenStar(const QPointF& pos, float size, char sp);
+    virtual void drawScreenPointSource(const QPointF& pos, float size, char sp);
+    virtual void drawScreenDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj,
+                                         float positionAngle);
+    virtual bool drawScreenDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
+                                         float positionAngle);
 };
 
 #endif

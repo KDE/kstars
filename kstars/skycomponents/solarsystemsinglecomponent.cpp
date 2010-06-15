@@ -133,7 +133,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
         } else {
             spType = 'B';
         }
-        skyp->drawStar(m_Planet, m_Planet->mag(), spType);
+        skyp->drawPointSource(m_Planet, m_Planet->mag(), spType);
     } else {
         //Draw planet image if:
         if ( size < sizemin )

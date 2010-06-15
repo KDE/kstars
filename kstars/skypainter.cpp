@@ -25,6 +25,7 @@
 #include "kstarsdata.h"
 #include "skycomponents/skiplist.h"
 #include "skycomponents/linelistlabel.h"
+#include "skyobjects/deepskyobject.h"
 
 SkyPainter::SkyPainter(SkyMap* sm)
     : m_sizeMagLim(10.),
@@ -66,7 +67,29 @@ float SkyPainter::starWidth(float mag) const
     return size;
 }
 
-bool SkyPainter::drawStar(SkyPoint* loc, float mag, char sp)
+bool SkyPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
+{
+    //Check if it's even visible before doing anything
+    if( !m_sm->checkVisibility(obj) ) return false;
+
+    QPointF pos = m_sm->toScreen(obj);
+     //FIXME: is this check necessary?
+    if( !m_sm->onScreen(pos) ) return false;
+
+    float positionAngle = m_sm->findPA( obj, pos.x(), pos.y() );
+
+    //Draw Image
+    bool imgdrawn = false;
+    if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
+        imgdrawn = drawScreenDeepSkyImage(pos, obj, positionAngle);
+    }
+
+    //Draw Symbol
+    drawScreenDeepSkySymbol(pos, obj, positionAngle);
+    return true;
+}
+
+bool SkyPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 {
     //Check if it's even visible before doing anything
     if( !m_sm->checkVisibility(loc) ) return false;
@@ -74,7 +97,7 @@ bool SkyPainter::drawStar(SkyPoint* loc, float mag, char sp)
     QPointF pos = m_sm->toScreen(loc);
      //FIXME: is this check necessary?
     if( m_sm->onScreen(pos) ) {
-        drawScreenStar(pos,starWidth(mag),sp);
+        drawScreenPointSource(pos,starWidth(mag),sp);
         return true;
     } else {
         return false;
