@@ -34,17 +34,11 @@ public:
     /** Recalculates the star pixmaps. */
     static void initImages();
     //Screen drawing functions
-    virtual void drawScreenRect(int x, int y, int w, int h);
     virtual void drawScreenRect(float x, float y, float w, float h);
-    virtual void drawScreenPolyline(const QPolygon& polyline);
     virtual void drawScreenPolyline(const QPolygonF& polyline);
     virtual void drawScreenPolygon(const QPolygonF& polygon);
-    virtual void drawScreenPolygon(const QPolygon& polygon);
-    virtual void drawScreenLine(int x1, int y1, int x2, int y2);
-    virtual void drawScreenLine(const QPoint& a, const QPoint& b);
     virtual void drawScreenLine(const QPointF& a, const QPointF& b);
     virtual void drawScreenLine(float x1, float y1, float x2, float y2);
-    virtual void drawScreenEllipse(int x, int y, int width, int height, float theta);
     virtual void drawScreenEllipse(float x, float y, float width, float height, float theta);
 protected:
     virtual void drawScreenStar(const QPointF& pos, float size, char sp);

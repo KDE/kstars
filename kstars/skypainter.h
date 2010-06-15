@@ -112,10 +112,6 @@ public:
     virtual void drawScreenEllipse(float x, float y,
                                       float width, float height,
                                       float theta =0) = 0;
-    /** @see drawScreenEllipse() */
-    virtual void drawScreenEllipse(int x, int y,
-                                      int width, int height,
-                                      float theta =0) = 0;
 
     /** @short Draw an unprojected line in screen coordinates.
         @param x1 the x coordinate of the first point
@@ -126,16 +122,10 @@ public:
     virtual void drawScreenLine(float x1, float y1, float x2, float y2) = 0;
     /** @see drawScreenLine() */
     virtual void drawScreenLine(const QPointF& a, const QPointF& b) = 0;
-    /** @see drawScreenLine() */
-    virtual void drawScreenLine(int x1, int y1, int x2, int y2) = 0;
-    /** @see drawScreenLine() */
-    virtual void drawScreenLine(const QPoint& a, const QPoint& b) = 0;
 
     /** @short Draw an unprojected polyline in screen coordinates.
         @param polyline a list of points that make up the polyline
         */
-    virtual void drawScreenPolyline(const QPolygon& polyline) = 0;
-    /** @see drawScreenPolyLine() */
     virtual void drawScreenPolyline(const QPolygonF& polyline) = 0;
 
     /** @short Draw an unprojected rectangle in screen coordinates.
@@ -145,15 +135,11 @@ public:
         @param h the height of the rectangle
         */
     virtual void drawScreenRect(float x, float y, float w, float h) = 0;
-    /** @see drawScreenRect() */
-    virtual void drawScreenRect(int x, int y, int w, int h) = 0;
 
     /** @short Draw an unprojected polygon in screen coordinates.
         @param polygon the polygon to be drawn.
         */
     virtual void drawScreenPolygon(const QPolygonF& polygon) =0;
-    /** @see drawScreenPolygon() */
-    virtual void drawScreenPolygon(const QPolygon& polygon) =0;
 
 protected:
     /** Draw a star on screen
