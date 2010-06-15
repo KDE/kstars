@@ -23,6 +23,7 @@
 
 class DeepSkyObject;
 
+
 /** @short The QPainter-based painting backend.
     This class implements the SkyPainter interface using a QPainter.
     For documentation, @see SkyPainter. */
@@ -49,6 +50,7 @@ protected:
     virtual bool drawScreenDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
                                          float positionAngle);
     virtual void drawScreenComet(const QPointF& pos, KSComet *comet);
+    virtual void drawScreenAsteroid(const QPointF& pos, KSAsteroid *ast);
 };
 
 #endif

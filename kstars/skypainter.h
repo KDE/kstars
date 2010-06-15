@@ -25,6 +25,7 @@
 
 #include "skycomponents/typedef.h"
 
+class KSAsteroid;
 class KSComet;
 class DeepSkyObject;
 class SkyPoint;
@@ -108,6 +109,12 @@ public:
         */
     bool drawComet(KSComet *comet);
 
+    /** @short Draw an asteroid
+        @param ast the asteroid to draw
+        @return true if it was drawn
+        */
+    bool drawAsteroid(KSAsteroid *ast);
+
     ////////////////////////////////////
     //                                //
     // SCREEN DRAWING FUNCTIONS:      //
@@ -164,6 +171,12 @@ protected:
         @param comet the comet to draw
         */
     virtual void drawScreenComet(const QPointF& pos, KSComet *comet) = 0;
+    
+    /** Draw an asteroid on screen
+        @param pos the position on screen
+        @param ast the asteroid to draw
+        */
+    virtual void drawScreenAsteroid(const QPointF& pos, KSAsteroid *ast) = 0;
     
     /** Draw a star on screen
         @param pos the position on screen

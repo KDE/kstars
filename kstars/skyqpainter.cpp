@@ -28,6 +28,7 @@
 #include "skymap.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
+#include "skyobjects/ksasteroid.h"
 
 namespace {
 
@@ -218,6 +219,15 @@ void SkyQPainter::drawScreenPointSource(const QPointF& pos, float size, char sp)
 void SkyQPainter::drawScreenComet(const QPointF& pos, KSComet* comet)
 {
     float size = comet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if ( size < 1.0 )
+        drawPoint( pos );
+    else
+        drawEllipse(pos,size,size);
+}
+
+void SkyQPainter::drawScreenAsteroid(const QPointF& pos, KSAsteroid* ast)
+{
+    float size = ast->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
     if ( size < 1.0 )
         drawPoint( pos );
     else
