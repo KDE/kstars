@@ -43,7 +43,7 @@ class MilkyWay;
 class SolarSystemComposite;
 class StarComponent;
 class DeepStarComponent;
-class SatelliteComposite;
+//class SatelliteComposite;
 
 class DeepSkyObject;
 class KSPlanetBase;
@@ -205,7 +205,7 @@ private:
     SolarSystemComposite        *m_SolarSystem;
     SkyComposite                *m_CustomCatalogs;
     StarComponent               *m_Stars;
-    SatelliteComposite          *m_Satellites;
+    //SatelliteComposite          *m_Satellites;
     FlagComponent               *m_Flags;
 
     SkyMesh*                m_skyMesh;

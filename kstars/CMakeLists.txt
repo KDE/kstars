@@ -183,8 +183,8 @@ set(libkstarscomponents_SRCS
    skycomponents/cometscomponent.cpp 
    skycomponents/planetmoonscomponent.cpp 
    skycomponents/solarsystemcomposite.cpp 
-   skycomponents/satellitecomposite.cpp
-   skycomponents/satellitecomponent.cpp
+   #skycomponents/satellitecomposite.cpp
+   #skycomponents/satellitecomponent.cpp
    skycomponents/starcomponent.cpp 
    skycomponents/deepstarcomponent.cpp
    skycomponents/deepskycomponent.cpp 
