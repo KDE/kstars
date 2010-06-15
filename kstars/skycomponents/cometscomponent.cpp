@@ -123,8 +123,9 @@ void CometsComponent::draw( QPainter& psky )
     bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
 
-    psky.setPen( QPen( QColor( "darkcyan" ) ) );
-    psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
+    //FIXME: Should these be config'able?
+    skyp->setPen( QPen( QColor( "darkcyan" ) ) );
+    skyp->setBrush( QBrush( QColor( "darkcyan" ) ) );
 
     foreach ( SkyObject *so, m_ObjectList ) {
         KSComet *com = (KSComet*)so;
