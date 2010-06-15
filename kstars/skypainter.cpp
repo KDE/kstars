@@ -26,6 +26,7 @@
 #include "skycomponents/skiplist.h"
 #include "skycomponents/linelistlabel.h"
 #include "skyobjects/deepskyobject.h"
+#include "skyobjects/kscomet.h"
 
 SkyPainter::SkyPainter(SkyMap* sm)
     : m_sizeMagLim(10.),
@@ -102,6 +103,17 @@ bool SkyPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
     } else {
         return false;
     }
+}
+
+bool SkyPainter::drawComet(KSComet* comet)
+{
+    if( !m_sm->checkVisibility(comet) ) return false;
+
+    QPointF pos = m_sm->toScreen(comet);
+     //FIXME: is this check necessary?
+    if( !m_sm->onScreen(pos) ) return false;
+
+    drawScreenComet(pos,comet);
 }
 
 void SkyPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)

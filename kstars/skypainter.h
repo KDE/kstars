@@ -25,6 +25,7 @@
 
 #include "skycomponents/typedef.h"
 
+class KSComet;
 class DeepSkyObject;
 class SkyPoint;
 class SkyMap;
@@ -101,6 +102,12 @@ public:
         */
     bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false);
 
+    /** @short Draw a comet
+        @param comet the comet to draw
+        @return true if it was drawn
+        */
+    bool drawComet(KSComet *comet);
+
     ////////////////////////////////////
     //                                //
     // SCREEN DRAWING FUNCTIONS:      //
@@ -151,6 +158,12 @@ protected:
 
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
+
+    /** Draw a comet on screen
+        @param pos the position on screen
+        @param comet the comet to draw
+        */
+    virtual void drawScreenComet(const QPointF& pos, KSComet *comet) = 0;
     
     /** Draw a star on screen
         @param pos the position on screen

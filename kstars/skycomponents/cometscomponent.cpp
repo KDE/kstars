@@ -30,6 +30,8 @@
 #include "ksfilereader.h"
 #include "skymap.h"
 #include "skylabeler.h"
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent )
@@ -116,6 +118,7 @@ void CometsComponent::draw( QPainter& psky )
         return;
 
     SkyMap *map = SkyMap::Instance();
+    SkyPainter *skyp = DirtyUglyHack::painter();
 
     bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
@@ -126,26 +129,8 @@ void CometsComponent::draw( QPainter& psky )
     foreach ( SkyObject *so, m_ObjectList ) {
         KSComet *com = (KSComet*)so;
 
-        if ( ! map->checkVisibility( com ) ) continue;
-
-        QPointF o = map->toScreen( com );
-
-        if ( ! map->onScreen( o ) ) continue;
-        //if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
-
-        float size = com->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-        if ( size < 1.0 ) {
-            psky.drawPoint( o );
-        } else {
-            float x1 = o.x() - 0.5*size;
-            float y1 = o.y() - 0.5*size;
-
-            psky.drawEllipse( QRectF( x1, y1, size, size ) );
-        }
-
-//        float tailsize = com->getTailAngSize().Degrees() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-
-        if ( hideLabels || com->rsun() >= rsunLabelLimit ) continue;
-        SkyLabeler::AddLabel( o, com, SkyLabeler::COMET_LABEL );
+        bool drawn = skyp->drawComet(com);
+        if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
+            SkyLabeler::AddLabel( map->toScreen(com), com, SkyLabeler::COMET_LABEL );
     }
 }

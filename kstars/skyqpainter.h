@@ -48,6 +48,7 @@ protected:
                                          float positionAngle);
     virtual bool drawScreenDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
                                          float positionAngle);
+    virtual void drawScreenComet(const QPointF& pos, KSComet *comet);
 };
 
 #endif

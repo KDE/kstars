@@ -27,7 +27,7 @@
 #include "Options.h"
 #include "skymap.h"
 #include "skyobjects/deepskyobject.h"
-
+#include "skyobjects/kscomet.h"
 
 namespace {
 
@@ -213,6 +213,15 @@ void SkyQPainter::drawScreenPointSource(const QPointF& pos, float size, char sp)
     QPixmap* im = imageCache[ harvardToIndex(sp) ][isize];
     float offset = 0.5 * im->width();
     drawPixmap( QPointF(pos.x()-offset, pos.y()-offset), *im );
+}
+
+void SkyQPainter::drawScreenComet(const QPointF& pos, KSComet* comet)
+{
+    float size = comet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if ( size < 1.0 )
+        drawPoint( pos );
+    else
+        drawEllipse(pos,size,size);
 }
 
 bool SkyQPainter::drawScreenDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
