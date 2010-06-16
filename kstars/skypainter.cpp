@@ -28,6 +28,7 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
+#include "skyobjects/ksplanetbase.h"
 
 SkyPainter::SkyPainter(SkyMap* sm)
     : m_sizeMagLim(10.),
@@ -118,6 +119,36 @@ bool SkyPainter::drawComet(KSComet* comet)
     return true;
 }
 
+bool SkyPainter::drawPlanet(KSPlanetBase* planet)
+{
+    if( !m_sm->checkVisibility(planet) ) return false;
+
+    QPointF pos = m_sm->toScreen(planet);
+     //FIXME: is this check necessary?
+    if( !m_sm->onScreen(pos) ) return false;
+
+    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
+    if( fakeStarSize > 15.0 )
+        fakeStarSize = 15.0;
+
+    float size = planet->angSize() * m_sm->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" ) {
+        // Draw them as bright stars of appropriate color instead of images
+        char spType;
+        //FIXME: do these need i18n?
+        if( planet->name() == i18n("Mars") ) {
+            spType = 'K';
+        } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
+            spType = 'F';
+        } else {
+            spType = 'B';
+        }
+        drawScreenPointSource(pos,fakeStarSize,spType);
+    } else {
+        drawScreenPlanet(pos,planet);
+    }
+    return true;
+}
 
 bool SkyPainter::drawAsteroid(KSAsteroid *ast)
 {

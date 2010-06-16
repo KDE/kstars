@@ -225,6 +225,35 @@ void SkyQPainter::drawScreenComet(const QPointF& pos, KSComet* comet)
         drawEllipse(pos,size,size);
 }
 
+void SkyQPainter::drawScreenPlanet(const QPointF& pos, KSPlanetBase* planet)
+{
+    float sizemin = 1.0;
+    if( planet->name() == "Sun" || planet->name() == "Moon" )
+        sizemin = 8.0;
+    sizemin *= skyMap()->scale();
+
+    float size = planet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if ( size < sizemin )
+        size = sizemin;
+    if ( Options::showPlanetImages() && !planet->image()->isNull() ) {
+        dms pa = skyMap()->findPA( planet, pos.x(), pos.y() );
+
+        //FIXME: Need to figure out why the size is sometimes NaN.
+        Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");
+
+        //Because Saturn has rings, we inflate its image size by a factor 2.5
+        if( planet->name() == "Saturn" )
+            size = int(2.5*size);
+
+        planet->scaleRotateImage( size, pa.Degrees() );
+        float x1 = pos.x() - 0.5*planet->image()->width();
+        float y1 = pos.y() - 0.5*planet->image()->height();
+        drawImage( QPointF(x1, y1), *( planet->image() ) );
+    } else { //Otherwise, draw a simple circle.
+        drawEllipse( pos, size, size );
+    }
+}
+
 void SkyQPainter::drawScreenAsteroid(const QPointF& pos, KSAsteroid* ast)
 {
     float size = ast->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;

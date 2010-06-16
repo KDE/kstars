@@ -25,6 +25,7 @@
 
 #include "skycomponents/typedef.h"
 
+class KSPlanetBase;
 class KSAsteroid;
 class KSComet;
 class DeepSkyObject;
@@ -115,6 +116,12 @@ public:
         */
     bool drawAsteroid(KSAsteroid *ast);
 
+    /** @short Draw a planet
+        @param planet the planet to draw
+        @return true if it was drawn
+        */
+    bool drawPlanet(KSPlanetBase *planet);
+
     ////////////////////////////////////
     //                                //
     // SCREEN DRAWING FUNCTIONS:      //
@@ -165,6 +172,12 @@ protected:
 
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
+
+    /** Draw a planet on screen
+        @param pos the position on screen
+        @param planet the planet to draw
+        */
+    virtual void drawScreenPlanet(const QPointF& pos, KSPlanetBase *planet) = 0;
 
     /** Draw a comet on screen
         @param pos the position on screen

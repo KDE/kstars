@@ -51,6 +51,7 @@ protected:
                                          float positionAngle);
     virtual void drawScreenComet(const QPointF& pos, KSComet *comet);
     virtual void drawScreenAsteroid(const QPointF& pos, KSAsteroid *ast);
+    virtual void drawScreenPlanet(const QPointF& pos, KSPlanetBase *planet);
 };
 
 #endif
