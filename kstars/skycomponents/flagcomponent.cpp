@@ -116,6 +116,8 @@ FlagComponent::~FlagComponent()
 
 void FlagComponent::draw( QPainter& psky )
 {
+    #warning Still have to fix FlagComponent...
+    #if 0
     if( !selected() )
         return;
 
@@ -145,6 +147,7 @@ void FlagComponent::draw( QPainter& psky )
         psky.drawText( o, m_Labels.at( i ) );
         psky.restore();
     }
+    #endif
 }
 
 
