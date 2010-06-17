@@ -211,7 +211,13 @@ void WUTDialog::init() {
     }
 
     WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1 on %2", sRise, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
-    WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
+
+    // If the moon rises and sets on the same day, this will be valid [ Unless
+    // the moon sets on the next day after staying on for over 24 hours ]
+    if( moonSet > moonRise )
+        WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KGlobal::locale()->formatDate( Evening.date(), KLocale::LongDate) ) );
+    else
+        WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1 on %2", sSet, KGlobal::locale()->formatDate( Tomorrow.date(), KLocale::LongDate) ) );
     oMoon->findPhase();
     WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
                                       int(100.0*oMoon->illum() ) ) );
