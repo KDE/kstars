@@ -29,6 +29,7 @@
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/ksplanetbase.h"
+#include "skyobjects/trailobject.h"
 
 SkyPainter::SkyPainter(SkyMap* sm)
     : m_sizeMagLim(10.),
@@ -105,6 +106,19 @@ bool SkyPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
     } else {
         return false;
     }
+}
+
+bool SkyPainter::drawPlanetMoon(TrailObject *moon)
+{
+    if( Options::zoomFactor() <= 10.*MINZOOM
+        || !m_sm->checkVisibility(moon) ) return false;
+
+    QPointF pos = m_sm->toScreen(moon);
+     //FIXME: is this check necessary?
+    if( !m_sm->onScreen(pos) ) return false;
+
+    drawScreenPlanetMoon(pos,moon);
+    return true;
 }
 
 bool SkyPainter::drawComet(KSComet* comet)

@@ -25,6 +25,7 @@
 
 #include "skycomponents/typedef.h"
 
+class TrailObject;
 class KSPlanetBase;
 class KSAsteroid;
 class KSComet;
@@ -122,6 +123,12 @@ public:
         */
     bool drawPlanet(KSPlanetBase *planet);
 
+    /** @short Draw a moon
+        @param moon the moon to draw
+        @return true if it was drawn
+        */
+    bool drawPlanetMoon(TrailObject *moon);
+
     ////////////////////////////////////
     //                                //
     // SCREEN DRAWING FUNCTIONS:      //
@@ -212,6 +219,8 @@ protected:
         */
     virtual void drawScreenDeepSkySymbol(const QPointF& pos, DeepSkyObject *obj,
                                         float positionAngle) = 0;
+
+    virtual void drawScreenPlanetMoon(const QPointF& pos, TrailObject *moon) = 0;
 
 private:
     float m_sizeMagLim;

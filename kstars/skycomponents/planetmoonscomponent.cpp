@@ -32,6 +32,8 @@
 #include "solarsystemsinglecomponent.h"
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
+#include "skypainter.h"
+#include "dirtyuglyhack.h"
 
 PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
                                             SolarSystemSingleComponent *planetComponent,
@@ -113,31 +115,20 @@ void PlanetMoonsComponent::draw( QPainter& psky )
         return;
 
     SkyMap *map = SkyMap::Instance();
-
-    float Width = map->scale() * map->width();
-    float Height = map->scale() * map->height();
-
-    psky.setPen( QPen( QColor( "white" ) ) );
-
-    if ( Options::zoomFactor() <= 10.*MINZOOM )
-        return;
-
+    SkyPainter *skyp = DirtyUglyHack::painter();
+    
     //In order to get the z-order right for the moons and the planet,
     //we need to first draw the moons that are further away than the planet,
     //then re-draw the planet, then draw the moons nearer than the planet.
-    QList<QPointF> frontMoons;
+    QList<TrailObject*> frontMoons;
     int nmoons = pmoons->nMoons();
     
     for ( int i=0; i<nmoons; ++i ) {
-        QPointF o = map->toScreen( pmoons->moon(i) );
-
-        if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
-            if ( pmoons->z(i) < 0.0 ) { //Moon is nearer than the planet
-                frontMoons.append( o );
-            } else {
-                //Draw Moons that are further than the planet
-                psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
-            }
+        if ( pmoons->z(i) < 0.0 ) { //Moon is nearer than the planet
+            frontMoons.append( pmoons->moon(i) );
+        } else {
+            //Draw Moons that are further than the planet
+            skyp->drawPlanetMoon( pmoons->moon(i) );
         }
     }
 
@@ -145,9 +136,8 @@ void PlanetMoonsComponent::draw( QPainter& psky )
     m_Planet->draw( psky );
 
     //Now draw the remaining moons, as stored in frontMoons
-    psky.setPen( QPen( QColor( "white" ) ) );
-    foreach ( const QPointF &o, frontMoons ) {
-        psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
+    foreach ( TrailObject *moon, frontMoons ) {
+        skyp->drawPlanetMoon( moon );
     }
 
     //Draw Moon name labels if at high zoom

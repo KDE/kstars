@@ -29,6 +29,7 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
+#include "skyobjects/trailobject.h"
 
 namespace {
 
@@ -206,6 +207,13 @@ void SkyQPainter::initImages()
             *pmap[size] = BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
         }
     }
+}
+
+void SkyQPainter::drawScreenPlanetMoon(const QPointF& pos, TrailObject* moon)
+{
+   setPen( QPen( QColor( "white" ) ) );
+   setBrush( Qt::NoBrush );
+   drawEllipse( pos, 2., 2. );
 }
 
 void SkyQPainter::drawScreenPointSource(const QPointF& pos, float size, char sp)
