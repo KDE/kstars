@@ -72,6 +72,7 @@ void HorizonComponent::update( KSNumbers * )
 //This is true for Equatorial or Horizontal coordinates
 void HorizonComponent::draw( QPainter& psky )
 {
+    #if 0
     if ( ! selected() ) return;
 
     SkyMap *map = SkyMap::Instance();
@@ -405,7 +406,7 @@ void HorizonComponent::draw( QPainter& psky )
     if ( angle >  90.0 ) angle -= 180.0;
 
     SkyLabeler::Instance()->drawGuideLabel( o1, horizonLabel, angle );
-
+#endif
     drawCompassLabels( psky );
 }
 
