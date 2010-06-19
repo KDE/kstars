@@ -21,7 +21,6 @@
 
 #include <QFile>
 #include <QDir>
-#include <QDebug>
 #include <QFrame>
 #include <QTextStream>
 #include <QStandardItemModel>
@@ -138,8 +137,8 @@ ObjectList::ObjectList( KStars *_ks )
     searchQuery += "WHERE dso.bmag <= 13.00";
     
     m_TableModel->setQuery(searchQuery);
-
-//  qDebug() << m_TableModel->lastError();
+    
+    kDebug() << m_TableModel->lastError();
     ui->TableView->setModel( m_TableModel );
 
     ui->TableView->verticalHeader()->hide();
@@ -177,8 +176,8 @@ void ObjectList::enqueueSearch()
     m_TableModel->setQuery(searchQuery);
 
     // for debugging purposes
-//  qDebug() << m_TableModel->lastError();
-//  qDebug() << m_TableModel->query().lastQuery();
+    kDebug() << m_TableModel->lastError();
+    kDebug() << m_TableModel->query().lastQuery();
 }
 
 QString ObjectList::processSearchText()
@@ -208,7 +207,7 @@ QString ObjectList::processSearchText()
 
 void ObjectList::selectObject(const QModelIndex &index)
 {
-//  qDebug() << m_TableModel->record(index.row()).field(2).value();
+    kDebug() << m_TableModel->record(index.row()).field(2).value();
     drawObject(m_TableModel->record(index.row()).field(2).value().toLongLong());
 
     // some additional operations might be done here
@@ -247,7 +246,7 @@ void ObjectList::drawObject(qlonglong id)
                                 QString("WHERE o.rowid = ") + QString::number(id);
 
     if (!query.exec(queryStatement)) {
-        qDebug() << "Deep Sky select statement error: " << query.lastError();
+        kDebug() << "Deep Sky select statement error: " << query.lastError();
     }
 
     while ( query.next() ) {
@@ -269,7 +268,7 @@ void ObjectList::drawObject(qlonglong id)
         dsoquery.bindValue(":iddso", query.value(13).toInt());
 
         if (!dsoquery.exec()) {
-            qDebug() << "Error on retrieving the catalog list for an object: " << dsoquery.lastError();
+            kDebug() << "Error on retrieving the catalog list for an object: " << dsoquery.lastError();
         }
 
         // Parsing catalog information
@@ -320,7 +319,7 @@ void ObjectList::drawObject(qlonglong id)
         dsoquery.bindValue(":iddso", query.value(13).toInt());
 
         if (!dsoquery.exec()) {
-            qDebug() << "URL query error: " << dsoquery.lastError();
+            kDebug() << "URL query error: " << dsoquery.lastError();
         } else {
             while (dsoquery.next()) {
                 switch (dsoquery.value(2).toInt()) {
