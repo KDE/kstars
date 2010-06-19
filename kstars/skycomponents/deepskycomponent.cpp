@@ -110,7 +110,7 @@ void DeepSkyComponent::loadData()
         if (ss == "    " ) { mag = 99.9f; } else { mag = ss.toFloat(); }
 
         //object type
-        type = line.mid( 29, 1 ).toInt();
+        type = line.mid( 28, 2 ).toInt();
 
         //major and minor axes
         ss = line.mid( 31, 5 );
