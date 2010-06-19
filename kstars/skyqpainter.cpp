@@ -18,14 +18,16 @@
 
 #include "skyqpainter.h"
 
-#include <math.h>
-#define RAD2DEG (180.0/M_PI)
-
 #include <QMap>
 
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skymap.h"
+
+#include "skycomponents/linelist.h"
+#include "skycomponents/skiplist.h"
+#include "skycomponents/linelistlabel.h"
+
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
@@ -69,44 +71,6 @@ SkyQPainter::SkyQPainter(SkyMap* sm)
 
 SkyQPainter::~SkyQPainter()
 {
-}
-
-void SkyQPainter::drawScreenRect(float x, float y, float w, float h)
-{
-    drawRect(QRectF(x,y,w,h));
-}
-
-void SkyQPainter::drawScreenPolyline(const QPolygonF& polyline)
-{
-    drawPolyline(polyline);
-}
-
-void SkyQPainter::drawScreenPolygon(const QPolygonF& polygon)
-{
-    drawPolygon(polygon);
-}
-
-void SkyQPainter::drawScreenLine(float x1, float y1, float x2, float y2)
-{
-    drawLine(QLineF(x1,y1,x2,y2));
-}
-
-void SkyQPainter::drawScreenLine(const QPointF& a, const QPointF& b)
-{
-    drawLine(a,b);
-}
-
-void SkyQPainter::drawScreenEllipse(float x, float y, float width, float height, float theta)
-{
-    if(theta == 0.0) {
-        drawEllipse(QPointF(x,y),width/2,height/2);
-        return;
-    }
-    save();
-    translate(x,y);
-    rotate(theta*RAD2DEG);
-    drawEllipse(QPointF(0,0),width/2,height/2);
-    restore();
 }
 
 void SkyQPainter::setPen(const QPen& pen)
@@ -209,14 +173,186 @@ void SkyQPainter::initImages()
     }
 }
 
-void SkyQPainter::drawScreenPlanetMoon(const QPointF& pos, TrailObject* moon)
+bool SkyQPainter::drawPlanetMoon(TrailObject *moon)
 {
-   setPen( QPen( QColor( "white" ) ) );
-   setBrush( Qt::NoBrush );
-   drawEllipse( pos, 2., 2. );
+    if( Options::zoomFactor() <= 10.*MINZOOM
+        || !m_sm->checkVisibility(moon) ) return false;
+
+    QPointF pos = m_sm->toScreen(moon);
+
+    setPen( QPen( QColor( "white" ) ) );
+    setBrush( Qt::NoBrush );
+    drawEllipse( pos, 2., 2. );
+    
+    return true;
 }
 
-void SkyQPainter::drawScreenPointSource(const QPointF& pos, float size, char sp)
+bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
+{
+    if( !m_sm->checkVisibility(planet) ) return false;
+
+    QPointF pos = m_sm->toScreen(planet);
+
+    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
+    if( fakeStarSize > 15.0 )
+        fakeStarSize = 15.0;
+
+    float size = planet->angSize() * m_sm->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" ) {
+        // Draw them as bright stars of appropriate color instead of images
+        char spType;
+        //FIXME: do these need i18n?
+        if( planet->name() == i18n("Mars") ) {
+            spType = 'K';
+        } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
+            spType = 'F';
+        } else {
+            spType = 'B';
+        }
+        drawPointSource(pos,fakeStarSize,spType);
+    } else {
+        float sizemin = 1.0;
+        if( planet->name() == "Sun" || planet->name() == "Moon" )
+            sizemin = 8.0;
+        sizemin *= skyMap()->scale();
+
+        float size = planet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
+        if ( size < sizemin )
+            size = sizemin;
+        if ( Options::showPlanetImages() && !planet->image()->isNull() ) {
+            dms pa = skyMap()->findPA( planet, pos.x(), pos.y() );
+
+            //FIXME: Need to figure out why the size is sometimes NaN.
+            Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");
+
+            //Because Saturn has rings, we inflate its image size by a factor 2.5
+            if( planet->name() == "Saturn" )
+                size = int(2.5*size);
+
+            planet->scaleRotateImage( size, pa.Degrees() );
+            float x1 = pos.x() - 0.5*planet->image()->width();
+            float y1 = pos.y() - 0.5*planet->image()->height();
+            drawImage( QPointF(x1, y1), *( planet->image() ) );
+        } else { //Otherwise, draw a simple circle.
+            drawEllipse( pos, size, size );
+        }
+    }
+    return true;
+}
+
+bool SkyQPainter::drawAsteroid(KSAsteroid *ast)
+{
+    if( !m_sm->checkVisibility(ast) ) return false;
+
+    QPointF pos = m_sm->toScreen(ast);
+
+    float size = ast->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if ( size < 1.0 )
+        drawPoint( pos );
+    else
+        drawEllipse(pos,size,size);
+    return true;
+}
+
+void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
+{
+    bool aVisible, bVisible;
+    QPointF aScreen = m_sm->toScreen(a,true,&aVisible);
+    QPointF bScreen = m_sm->toScreen(b,true,&bVisible);
+    if( !m_sm->onScreen(aScreen,bScreen) )
+        return;
+    //THREE CASES:
+    if( aVisible && bVisible ) {
+        //Both a,b visible, so paint the line normally:
+        drawLine(aScreen, bScreen);
+    } else if( aVisible ) {
+        //a is visible but b isn't:
+        drawLine(aScreen, m_sm->clipLine(a,b));
+    } else if( bVisible ) {
+        //b is visible but a isn't:
+        drawLine(bScreen, m_sm->clipLine(b,a));
+    } //FIXME: what if both are offscreen but the line isn't?
+}
+
+void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLabel* label)
+{
+    SkyList *points = list->points();
+    bool isVisible, isVisibleLast;
+    SkyPoint* pLast = points->first();
+    QPointF   oLast = m_sm->toScreen( pLast, true, &isVisibleLast );
+
+    QPointF oThis, oThis2;
+    for ( int j = 1 ; j < points->size() ; j++ ) {
+        SkyPoint* pThis = points->at( j );
+        oThis2 = oThis = m_sm->toScreen( pThis, true, &isVisible );
+        bool doSkip = false;
+        if( skipList ) {
+            doSkip = skipList->skip(j);
+        }
+
+        if ( m_sm->onScreen( oThis, oLast) && !doSkip ) {
+            if ( isVisible && isVisibleLast && m_sm->onscreenLine( oLast, oThis ) ) {
+                drawLine( oLast, oThis );
+                if( label ) {
+                    label->updateLabelCandidates(oThis.x(), oThis.y(), list, j);
+                }
+            } else if ( isVisibleLast ) {
+                QPointF oMid = m_sm->clipLine( pLast, pThis );
+                drawLine( oLast, oMid );
+            } else if ( isVisible ) {
+                QPointF oMid = m_sm->clipLine( pThis, pLast );
+                drawLine( oMid, oThis );
+            }
+        }
+
+        pLast = pThis;
+        oLast = oThis2;
+        isVisibleLast = isVisible;
+    }
+}
+
+void SkyQPainter::drawSkyPolygon(LineList* list)
+{
+    SkyList *points = list->points();
+    bool isVisible, isVisibleLast;
+    SkyPoint* pLast = points->last();
+    QPointF   oLast = m_sm->toScreen( pLast, true, &isVisibleLast );
+
+    QPolygonF polygon;
+    for ( int i = 0; i < points->size(); ++i ) {
+        SkyPoint* pThis = points->at( i );
+        QPointF oThis = m_sm->toScreen( pThis, true, &isVisible );
+
+        if ( isVisible && isVisibleLast ) {
+            polygon << oThis;
+        } else if ( isVisibleLast ) {
+            QPointF oMid = m_sm->clipLine( pLast, pThis );
+            polygon << oMid;
+        } else if ( isVisible ) {
+            QPointF oMid = m_sm->clipLine( pThis, pLast );
+            polygon << oMid;
+            polygon << oThis;
+        }
+
+        pLast = pThis;
+        oLast = oThis;
+        isVisibleLast = isVisible;
+    }
+
+    if ( polygon.size() )
+        drawPolygon(polygon);
+}
+
+bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
+{
+    //Check if it's even visible before doing anything
+    if( !m_sm->checkVisibility(loc) ) return false;
+
+    drawPointSource(m_sm->toScreen(loc), starWidth(mag), sp);
+    return true;
+}
+
+void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 {
     int isize = qMin(static_cast<int>(size), 14);
     QPixmap* im = imageCache[ harvardToIndex(sp) ][isize];
@@ -224,54 +360,38 @@ void SkyQPainter::drawScreenPointSource(const QPointF& pos, float size, char sp)
     drawPixmap( QPointF(pos.x()-offset, pos.y()-offset), *im );
 }
 
-void SkyQPainter::drawScreenComet(const QPointF& pos, KSComet* comet)
+bool SkyQPainter::drawComet(KSComet* comet)
 {
+    if( !m_sm->checkVisibility(comet) ) return false;
+
+    QPointF pos = m_sm->toScreen(comet);
+
     float size = comet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
     if ( size < 1.0 )
         drawPoint( pos );
     else
         drawEllipse(pos,size,size);
+    return true;
 }
 
-void SkyQPainter::drawScreenPlanet(const QPointF& pos, KSPlanetBase* planet)
+bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
-    float sizemin = 1.0;
-    if( planet->name() == "Sun" || planet->name() == "Moon" )
-        sizemin = 8.0;
-    sizemin *= skyMap()->scale();
+    if( !m_sm->checkVisibility(obj) ) return false;
 
-    float size = planet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if ( size < sizemin )
-        size = sizemin;
-    if ( Options::showPlanetImages() && !planet->image()->isNull() ) {
-        dms pa = skyMap()->findPA( planet, pos.x(), pos.y() );
+    QPointF pos = m_sm->toScreen(obj);
 
-        //FIXME: Need to figure out why the size is sometimes NaN.
-        Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");
+    float positionAngle = m_sm->findPA( obj, pos.x(), pos.y() );
 
-        //Because Saturn has rings, we inflate its image size by a factor 2.5
-        if( planet->name() == "Saturn" )
-            size = int(2.5*size);
+    //Draw Image
+    if ( drawImage && Options::zoomFactor() > 5.*MINZOOM )
+        drawDeepSkyImage(pos, obj, positionAngle);
 
-        planet->scaleRotateImage( size, pa.Degrees() );
-        float x1 = pos.x() - 0.5*planet->image()->width();
-        float y1 = pos.y() - 0.5*planet->image()->height();
-        drawImage( QPointF(x1, y1), *( planet->image() ) );
-    } else { //Otherwise, draw a simple circle.
-        drawEllipse( pos, size, size );
-    }
+    //Draw Symbol
+    drawDeepSkySymbol(pos, obj, positionAngle);
+    return true;
 }
 
-void SkyQPainter::drawScreenAsteroid(const QPointF& pos, KSAsteroid* ast)
-{
-    float size = ast->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if ( size < 1.0 )
-        drawPoint( pos );
-    else
-        drawEllipse(pos,size,size);
-}
-
-bool SkyQPainter::drawScreenDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
+bool SkyQPainter::drawDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
 {
     float x = pos.x();
     float y = pos.y();
@@ -303,7 +423,7 @@ bool SkyQPainter::drawScreenDeepSkyImage(const QPointF& pos, DeepSkyObject* obj,
 }
 
 //FIXME: Do we really need two versions of all of this code? (int/float)
-void SkyQPainter::drawScreenDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
+void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
 {
     float x = pos.x();
     float y = pos.y();

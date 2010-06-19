@@ -36,23 +36,25 @@ public:
     virtual void setBrush(const QBrush& brush);
     /** Recalculates the star pixmaps. */
     static void initImages();
-    //Screen drawing functions
-    virtual void drawScreenRect(float x, float y, float w, float h);
-    virtual void drawScreenPolyline(const QPolygonF& polyline);
-    virtual void drawScreenPolygon(const QPolygonF& polygon);
-    virtual void drawScreenLine(const QPointF& a, const QPointF& b);
-    virtual void drawScreenLine(float x1, float y1, float x2, float y2);
-    virtual void drawScreenEllipse(float x, float y, float width, float height, float theta);
-protected:
-    virtual void drawScreenPointSource(const QPointF& pos, float size, char sp);
-    virtual void drawScreenDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj,
+    
+    // Sky drawing functions
+    virtual void drawSkyLine(SkyPoint* a, SkyPoint* b);
+    virtual void drawSkyPolyline(LineList* list, SkipList *skipList = 0,
+                                 LineListLabel *label = 0);
+    virtual void drawSkyPolygon(LineList* list);
+    virtual bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A');
+    virtual bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false);
+    virtual bool drawComet(KSComet *comet);
+    virtual bool drawAsteroid(KSAsteroid *ast);
+    virtual bool drawPlanet(KSPlanetBase *planet);
+    virtual bool drawPlanetMoon(TrailObject *moon);
+private:
+    ///This function exists so that we can draw other objects (e.g., planets) as point sources.
+    virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');
+    virtual void drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj,
                                          float positionAngle);
-    virtual bool drawScreenDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
+    virtual bool drawDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
                                          float positionAngle);
-    virtual void drawScreenComet(const QPointF& pos, KSComet *comet);
-    virtual void drawScreenAsteroid(const QPointF& pos, KSAsteroid *ast);
-    virtual void drawScreenPlanet(const QPointF& pos, KSPlanetBase *planet);
-    virtual void drawScreenPlanetMoon(const QPointF& pos, TrailObject *moon);
 };
 
 #endif
