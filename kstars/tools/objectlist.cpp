@@ -53,8 +53,10 @@
 #include "ksutils.h"
 #include "dialogs/locationdialog.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/deepskyobject.h"
 #include "skyobjects/starobject.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skycomponents/skymesh.h"
 #include "skymap.h"
 #include "dialogs/detaildialog.h"
 #include "dialogs/finddialog.h"
@@ -205,13 +207,43 @@ QString ObjectList::processSearchText()
 
 void ObjectList::selectObject(const QModelIndex &index)
 {
-    qDebug() << m_TableModel->record(index.row()).field(2).value();
-/*
+//  qDebug() << m_TableModel->record(index.row()).field(2).value();
+    drawObject(m_TableModel->record(index.row()).field(2).value().toLongLong());
+
+    // some additional operations might be done here
+}
+
+void ObjectList::drawObject(qlonglong id)
+{
+    SkyMesh *skyMesh = SkyMesh::Instance();
+    KStarsData *data = KStarsData::Instance();
+
+    // Variables needed to load all the data
+    QString line, con, ss, name[10], longname;
+    QString cat[10];
+
+    // Magnitude, Right Ascension (seconds), Semimajor and Semiminor axis
+    float mag, ras, a, b;
+
+    // RA Hours, Minutes, DSO Type, NGC Index, Messier Index
+    int rah, ram, type;
+
+    // Dec Degrees, Minutes, Seconds, Position Angle, Sign
+    int dd, dm, ds, pa, sgn;
+
+    // PGC Index, UGC Index, Catalogs number
+    int pgc = 0, ugc = 0, k = 0;
+
+    // Index flag, nameflag, counter
+    QChar iflag; bool hasName; int i;
+
+    QSqlQuery query, dsoquery;
+
     QString queryStatement =  QString("SELECT o.rah, o.ram, o.ras, ") +
                                 QString("o.sgn, o.decd, o.decm, o.decs, ") +
                                 QString("o.bmag, o.type, o.pa, o.minor, o.major, ") +
                                 QString("o.longname, o.rowid FROM dso AS o ") +
-                                QString("WHERE o.rowid = ") + QString::number(m_TableModel->record(index.row()).field(2).value());
+                                QString("WHERE o.rowid = ") + QString::number(id);
 
     if (!query.exec(queryStatement)) {
         qDebug() << "Deep Sky select statement error: " << query.lastError();
@@ -273,51 +305,14 @@ void ObjectList::selectObject(const QModelIndex &index)
         o = new DeepSkyObject( type, r, d, mag, name[0], name[1], longname, cat[0], a, b, pa, pgc, ugc );
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
-        // Add the name(s) to the nameHash for fast lookup -jbb
-        if (hasName == true) {
-            // hash the default name
-            nameHash[name[0].toLower()] = o;
-            // hash the longname
-            if (!longname.isEmpty())
-                nameHash[longname.toLower()] = o;
+//      Trixel trixel = skyMesh->index( (SkyPoint*) o );
 
-            // hash all the other names (catalog designations) of the object
-            for (i = 1; i < k; i++)
-                if (!name[i].isEmpty())
-                    nameHash[name[i].toLower()] = o;
-        }
+        SkyMap *map = KStars::Instance()->map();
+        SkyMapComposite *skyComp = data->skyComposite();
 
-        Trixel trixel = m_skyMesh->index( (SkyPoint*) o );
-
-        // Assign object to general DeepSkyObjects list,
-        // and a secondary list based on its catalog.
-        m_DeepSkyList.append( o );
-        appendIndex( o, &m_DeepSkyIndex, trixel );
-
-        if ( o->isCatalogM()) {
-            m_MessierList.append( o );
-            appendIndex( o, &m_MessierIndex, trixel );
-        }
-        else if (o->isCatalogNGC() ) {
-            m_NGCList.append( o );
-            appendIndex( o, &m_NGCIndex, trixel );
-        }
-        else if ( o->isCatalogIC() ) {
-            m_ICList.append( o );
-            appendIndex( o, &m_ICIndex, trixel );
-        }
-        else {
-            m_OtherList.append( o );
-            appendIndex( o, &m_OtherIndex, trixel );
-        }
-
-        // Add name to the list of object names
-        if (!name[0].isEmpty())
-            objectNames(type).append(name[0]);
-
-        // Add longname to the list of object names
-        if (!longname.isEmpty() && longname != name)
-            objectNames(type).append(longname);
+        map->setClickedObject( o );
+        map->setClickedPoint( o );
+        map->slotCenter();
 
         // Load the images associated to the deep sky object (this was done in KStarsData::readUrlData)
         dsoquery.prepare("SELECT url, title, type FROM dso_url WHERE idDSO = :iddso");
@@ -340,7 +335,7 @@ void ObjectList::selectObject(const QModelIndex &index)
                 }
             }
         }
-    */
+    }
 }
 
 #include "objectlist.moc"

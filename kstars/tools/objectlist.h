@@ -94,6 +94,7 @@ public slots:
 
 private:
     QString processSearchText();
+    void drawObject(qlonglong);
 
     KStars *ks;
     ObjectListUI *ui;

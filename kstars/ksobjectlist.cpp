@@ -29,8 +29,7 @@ KSObjectList::KSObjectList(QWidget *parent):QTableView(parent)
 
     pmenu = new ObjListPopupMenu();
 
-    m_showAVT = true;
-    m_showAddToSession = m_showCenter = m_showDetails = m_showScope = m_showLinks = false;
+    m_showAVT = m_showAddToSession = m_showCenter = m_showDetails = m_showScope = m_showLinks = false;
     m_showAddVisibleTonight = m_showRemoveFromWishList = m_showRemoveFromSessionPlan = false;
 }
 
