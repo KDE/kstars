@@ -28,6 +28,7 @@
 #include "skymap.h"
 #include "skyobjects/skypoint.h"
 #include "ksfilereader.h"
+#include "skypainter.h"
 
 
 FlagComponent::FlagComponent( SkyComposite *parent )
@@ -114,7 +115,7 @@ FlagComponent::FlagComponent( SkyComposite *parent )
 FlagComponent::~FlagComponent()
 {}
 
-void FlagComponent::draw( QPainter& psky )
+void FlagComponent::draw( SkyPainter *skyp )
 {
     #warning Still have to fix FlagComponent...
     #if 0

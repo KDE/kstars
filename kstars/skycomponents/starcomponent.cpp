@@ -17,9 +17,6 @@
 
 #include "starcomponent.h"
 
-#include <QPixmap>
-#include <QPainter>
-
 #include <kglobal.h>
 
 #include "Options.h"
@@ -28,7 +25,6 @@
 #include "skyobjects/starobject.h"
 #include "skyqpainter.h"
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 #include "skymesh.h"
 #include "skylabel.h"
@@ -229,12 +225,10 @@ float StarComponent::zoomMagnitudeLimit() {
     return 3.5 + 3.7*( lgz - lgmin ) + 2.222*log10( static_cast<float>(Options::starDensity()) );
 }
 
-void StarComponent::draw( QPainter& psky )
+void StarComponent::draw( SkyPainter *skyp )
 {
     if( !selected() )
         return;
-
-    SkyPainter *skyp  = DirtyUglyHack::painter();
 
     SkyMap *map       = SkyMap::Instance();
     KStarsData* data  = KStarsData::Instance();
@@ -321,7 +315,7 @@ void StarComponent::draw( QPainter& psky )
 
     // Now draw each of our DeepStarComponents
     for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
-        m_DeepStarComponents.at( i )->draw( psky );
+        m_DeepStarComponents.at( i )->draw( skyp );
     }
 }
 

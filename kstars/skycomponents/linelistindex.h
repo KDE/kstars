@@ -26,7 +26,6 @@
 #include "typedef.h"
 
 class LineListLabel;
-class QPainter;
 class SkyPainter;
 class LineList;
 class SkipList;
@@ -55,7 +54,7 @@ public:
      * MilkyWay draw() routine calls all of the more specific draw()
      * routines below.
      */
-    virtual void draw( QPainter &psky );
+    virtual void draw( SkyPainter *skyp );
 
 protected:
     /* @short this is called from within the draw routines when the updateID

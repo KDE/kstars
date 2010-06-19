@@ -17,8 +17,6 @@
 
 #include "ecliptic.h"
 
-#include <QPainter>
-
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -29,7 +27,6 @@
 #include "skylabeler.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 Ecliptic::Ecliptic(SkyComposite *parent ) :
         LineListIndex( parent, i18n("Ecliptic") ),
@@ -65,11 +62,9 @@ bool Ecliptic::selected()
     return Options::showEcliptic();
 }
 
-void Ecliptic::draw( QPainter &psky )
+void Ecliptic::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
-
-    SkyPainter *skyp = DirtyUglyHack::painter();
 
     KStarsData *data = KStarsData::Instance();
     QColor color( data->colorScheme()->colorNamed( "EclColor" ) );

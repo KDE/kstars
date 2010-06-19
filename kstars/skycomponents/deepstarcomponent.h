@@ -60,7 +60,7 @@ public:
 
     bool selected();
 
-    void draw( QPainter& psky );
+    void draw( SkyPainter *skyp );
 
     bool loadStaticStars();
 

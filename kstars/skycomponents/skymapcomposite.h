@@ -108,7 +108,7 @@ public:
     	*@short Delegate draw requests to all sub components
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 
     /**
       *@return the object nearest a given point in the sky.

@@ -21,7 +21,6 @@
 
 
 #include <QPointF>
-#include <QPainter>
 
 class SkyLabeler;
 class SkyMap;

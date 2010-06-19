@@ -40,7 +40,7 @@ public:
     Equator( SkyComposite *parent );
 
     virtual bool selected();
-    virtual void draw( QPainter &psky );
+    virtual void draw( SkyPainter *skyp );
     virtual LineListLabel* label() {return &m_label;};
 
 protected:

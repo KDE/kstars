@@ -20,7 +20,6 @@
 #include <QList>
 #include <QPointF>
 #include <QPolygonF>
-#include <QPainter>
 
 #include <klocale.h>
 
@@ -35,7 +34,6 @@
 #include "skymesh.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 
 MilkyWay::MilkyWay( SkyComposite *parent ) :
@@ -68,12 +66,11 @@ bool MilkyWay::selected()
            ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
 }
 
-void MilkyWay::draw( QPainter& psky )
+void MilkyWay::draw( SkyPainter *skyp )
 {
     if ( !selected() )
         return;
 
-    SkyPainter *skyp = DirtyUglyHack::painter();
     QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "MWColor" );
     skyp->setPen( QPen( color, 3, Qt::SolidLine ) );
     skyp->setBrush( QBrush( color ) );

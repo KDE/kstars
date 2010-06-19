@@ -22,7 +22,6 @@
 #include <kdebug.h>
 #include "typedef.h"
 
-class QPainter;
 class QString;
 
 class KSNumbers;
@@ -54,9 +53,9 @@ public:
     virtual ~SkyComponent();
 
     /**@short Draw the object on the SkyMap
-     * @p psky Reference to the QPainter on which to paint
+     * @p skyp a pointer to the SkyPainter to use
      */
-    virtual void draw( QPainter& psky ) = 0;
+    virtual void draw( SkyPainter *skyp ) = 0;
 
     /**@short Draw trails for objects. */
     virtual void drawTrails( SkyPainter *skyp );

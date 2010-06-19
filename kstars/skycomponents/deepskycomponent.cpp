@@ -17,7 +17,6 @@
 
 #include "deepskycomponent.h"
 
-#include <QPainter>
 #include <QDir>
 #include <QFile>
 
@@ -34,7 +33,6 @@
 #include "Options.h"
 #include "skymesh.h"
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 
 DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
@@ -287,7 +285,7 @@ void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Tri
 }
 
 
-void DeepSkyComponent::draw( QPainter& psky )
+void DeepSkyComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
@@ -296,32 +294,31 @@ void DeepSkyComponent::draw( QPainter& psky )
     drawFlag = Options::showMessier() &&
                ! ( Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag, &m_MessierIndex, "MessColor", Options::showMessierImages() );
+    drawDeepSkyCatalog( skyp, drawFlag, &m_MessierIndex, "MessColor", Options::showMessierImages() );
 
     drawFlag = Options::showNGC() &&
                ! ( Options::hideOnSlew() && Options::hideNGC() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag,     &m_NGCIndex,     "NGCColor" );
+    drawDeepSkyCatalog( skyp, drawFlag,     &m_NGCIndex,     "NGCColor" );
 
     drawFlag = Options::showIC() &&
                ! ( Options::hideOnSlew() && Options::hideIC() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag,      &m_ICIndex,      "ICColor" );
+    drawDeepSkyCatalog( skyp, drawFlag,      &m_ICIndex,      "ICColor" );
 
     drawFlag = Options::showOther() &&
                ! ( Options::hideOnSlew() && Options::hideOther() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag,   &m_OtherIndex,   "NGCColor" );
+    drawDeepSkyCatalog( skyp, drawFlag,   &m_OtherIndex,   "NGCColor" );
 }
 
-void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
+void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
                                            DeepSkyIndex* dsIndex, const QString& colorString, bool drawImage)
 {
     if ( ! ( drawObject || drawImage ) ) return;
 
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
-    SkyPainter *skyp = DirtyUglyHack::painter();
 
     UpdateID updateID = data->updateID();
     UpdateID updateNumID = data->updateNumID();

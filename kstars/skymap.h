@@ -437,7 +437,7 @@ public:
      * @param psky painter for the sky
      * @note the labelObjects list is managed by the SkyMapComponents class
      */
-    void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky );
+    void drawObjectLabels( QList< SkyObject* >& labelObjects );
 
 public slots:
     //DEBUG_KIO_JOB

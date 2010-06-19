@@ -18,7 +18,6 @@
 #include "solarsystemlistcomponent.h"
 #include "solarsystemcomposite.h"
 
-#include <QPainter>
 #include <QPen>
 #include <klocale.h>
 

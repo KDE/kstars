@@ -19,7 +19,6 @@
 #include "skycomposite.h"
 
 #include <QList>
-#include <QPainter>
 
 #include "Options.h"
 #include "ksnumbers.h"

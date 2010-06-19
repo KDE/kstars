@@ -282,7 +282,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
     ****/
 }
 
-void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky ) {
+void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
     bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
     if ( checkSlewing && Options::hideLabels() ) return;
 
@@ -541,6 +541,8 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 }
 
 void SkyMap::exportSkyImage( QPaintDevice *pd ) {
+    #warning Still have to port exportSkyImage()
+    #if 0
     QPainter p;
     p.begin( pd );
     p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
@@ -575,6 +577,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     //Reset scale for screen drawing
     m_Scale = 1.0;
     SkyQPainter::initImages();
+    #endif
 }
 
 void SkyMap::setMapGeometry() {

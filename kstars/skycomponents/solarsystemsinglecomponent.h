@@ -53,7 +53,7 @@ public:
     virtual void updatePlanets( KSNumbers *num );
     virtual SkyObject* findByName( const QString &name );
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
-    virtual void draw( QPainter &psky );
+    virtual void draw( SkyPainter *skyp );
 
 protected:
     virtual void drawTrails( SkyPainter* skyp );

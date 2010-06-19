@@ -19,7 +19,6 @@
 #include "linelist.h"
 
 #include <QPen>
-#include <QPainter>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -36,7 +35,6 @@
 #include "ksfilereader.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 
 ConstellationLines::ConstellationLines( SkyComposite *parent, CultureList* cultures ) :

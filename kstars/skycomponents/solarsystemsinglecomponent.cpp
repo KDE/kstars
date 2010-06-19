@@ -19,7 +19,6 @@
 #include "solarsystemcomposite.h"
 #include "skycomponent.h"
 
-#include <QPainter>
 
 #include "dms.h"
 #include "kstarsdata.h"
@@ -31,7 +30,6 @@
 #include "skylabeler.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)()) :
     SkyComponent( parent ),
@@ -90,11 +88,10 @@ void SolarSystemSingleComponent::updatePlanets(KSNumbers *num) {
     }
 }
 
-void SolarSystemSingleComponent::draw( QPainter &psky ) {
+void SolarSystemSingleComponent::draw( SkyPainter *skyp ) {
     if( ! selected() )
         return;
 
-    SkyPainter *skyp = DirtyUglyHack::painter();
     SkyMap *map = SkyMap::Instance();
 
     skyp->setPen( m_Planet->color() );

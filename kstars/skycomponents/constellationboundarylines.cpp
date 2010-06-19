@@ -20,7 +20,6 @@
 #include <stdio.h>
 
 #include <QPen>
-#include <QPainter>
 #include <kstandarddirs.h>
 
 #include <kdebug.h>
@@ -41,7 +40,6 @@
 #include "skymesh.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 ConstellationBoundaryLines::ConstellationBoundaryLines( SkyComposite *parent )
         : NoPrecessIndex( parent, i18n("Constellation Boundaries") )

@@ -20,7 +20,6 @@
 
 #include <QFile>
 #include <QPen>
-#include <QPainter>
 #include <kglobal.h>
 
 #include "Options.h"
@@ -31,7 +30,6 @@
 #include "skymap.h"
 #include "skylabeler.h"
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent )
@@ -112,13 +110,12 @@ void CometsComponent::loadData() {
     }
 }
 
-void CometsComponent::draw( QPainter& psky )
+void CometsComponent::draw( SkyPainter *skyp )
 {
     if( !selected() || Options::zoomFactor() < 10*MINZOOM )
         return;
 
     SkyMap *map = SkyMap::Instance();
-    SkyPainter *skyp = DirtyUglyHack::painter();
 
     bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();

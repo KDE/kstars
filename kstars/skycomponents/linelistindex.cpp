@@ -34,7 +34,6 @@
 #include "linelistindex.h"
 
 #include <QBrush>
-#include <QPainter>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -48,7 +47,6 @@
 #include "linelist.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 
 LineListIndex::LineListIndex( SkyComposite *parent, const QString& name ) :
@@ -155,11 +153,10 @@ void LineListIndex::preDraw( SkyPainter *skyp )
     skyp->setPen( QPen( QBrush( QColor( "white" ) ), 1, Qt::SolidLine ) );
 }
 
-void LineListIndex::draw( QPainter &psky )
+void LineListIndex::draw( SkyPainter *skyp )
 {
     if ( ! selected() )
         return;
-    SkyPainter *skyp = DirtyUglyHack::painter();
     preDraw( skyp );
     drawLines( skyp );
 }

@@ -54,7 +54,7 @@ public:
     /**@short Delegate draw requests to all sub components
      * @p psky Reference to the QPainter on which to paint
      */
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 
     /**@short Delegate update-position requests to all sub components
      *

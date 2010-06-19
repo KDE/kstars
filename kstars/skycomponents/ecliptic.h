@@ -38,7 +38,7 @@ public:
      */
     Ecliptic( SkyComposite *parent );
 
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
     virtual bool selected();
 
     virtual LineListLabel* label() { return &m_label; }

@@ -17,8 +17,6 @@
 
 #include "equator.h"
 
-#include <QPainter>
-
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -29,7 +27,6 @@
 #include "skylabeler.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 Equator::Equator(SkyComposite *parent ) :
         NoPrecessIndex( parent, i18n("Equator") ),
@@ -67,10 +64,10 @@ void Equator::preDraw( SkyPainter *skyp )
     skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
-void Equator::draw( QPainter &psky )
+void Equator::draw( SkyPainter *skyp )
 {
     m_label.reset();
-    NoPrecessIndex::draw( psky );
+    NoPrecessIndex::draw( skyp );
 
     KStarsData *data = KStarsData::Instance();
     QColor color( data->colorScheme()->colorNamed( "EqColor" ) );

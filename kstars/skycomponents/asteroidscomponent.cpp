@@ -18,7 +18,6 @@
 #include "asteroidscomponent.h"
 
 #include <QPen>
-#include <QPainter>
 #include <kglobal.h>
 
 #include "skycomponent.h"
@@ -32,7 +31,6 @@
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent ) :
     SolarSystemListComponent(parent)
@@ -103,12 +101,11 @@ void AsteroidsComponent::loadData()
     }
 }
 
-void AsteroidsComponent::draw( QPainter& psky )
+void AsteroidsComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
     SkyMap *map = SkyMap::Instance();
-    SkyPainter *skyp = DirtyUglyHack::painter();
     bool hideLabels =  ! Options::showAsteroidNames() ||
                        ( map->isSlewing() && Options::hideLabels() );
 

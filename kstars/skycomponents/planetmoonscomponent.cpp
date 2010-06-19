@@ -19,7 +19,6 @@
 
 #include <QList>
 #include <QPoint>
-#include <QPainter>
 
 #include "skyobjects/jupitermoons.h"
 #include "skyobjects/ksplanetbase.h"
@@ -33,7 +32,6 @@
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
                                             SolarSystemSingleComponent *planetComponent,
@@ -109,13 +107,12 @@ SkyObject* PlanetMoonsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     return oBest;
 }
 
-void PlanetMoonsComponent::draw( QPainter& psky )
+void PlanetMoonsComponent::draw( SkyPainter *skyp )
 {
     if( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) )
         return;
 
     SkyMap *map = SkyMap::Instance();
-    SkyPainter *skyp = DirtyUglyHack::painter();
     
     //In order to get the z-order right for the moons and the planet,
     //we need to first draw the moons that are further away than the planet,
@@ -133,7 +130,7 @@ void PlanetMoonsComponent::draw( QPainter& psky )
     }
 
     //Now redraw the planet
-    m_Planet->draw( psky );
+    m_Planet->draw( skyp );
 
     //Now draw the remaining moons, as stored in frontMoons
     foreach ( TrailObject *moon, frontMoons ) {

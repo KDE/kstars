@@ -18,7 +18,6 @@
 #include "deepstarcomponent.h"
 
 #include <QPixmap>
-#include <QPainter>
 
 #include <QRectF>
 #include <QFontMetricsF>
@@ -34,7 +33,6 @@
 #include "starcomponent.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 #include <kde_file.h>
 #include "byteorder.h"
@@ -169,10 +167,9 @@ void DeepStarComponent::update( KSNumbers * )
 {}
 
 // TODO: Optimize draw, if it is worth it.
-void DeepStarComponent::draw( QPainter& psky ) {
+void DeepStarComponent::draw( SkyPainter *skyp ) {
     if ( !fileOpened ) return;
 
-    SkyPainter *skyp = DirtyUglyHack::painter();
     SkyMap *map = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();

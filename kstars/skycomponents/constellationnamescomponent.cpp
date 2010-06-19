@@ -16,7 +16,6 @@
  ***************************************************************************/
 #include "constellationnamescomponent.h"
 
-#include <QPainter>
 #include <QTextStream>
 
 #include "kstarsdata.h"
@@ -108,8 +107,9 @@ void ConstellationNamesComponent::update( KSNumbers* )
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void ConstellationNamesComponent::draw( QPainter& psky )
+void ConstellationNamesComponent::draw( SkyPainter *skyp )
 {
+    Q_UNUSED(skyp);
     if ( ! selected() )
         return;
 

@@ -19,7 +19,6 @@
 
 #include <QList>
 #include <QPointF>
-#include <QPainter>
 
 #include "Options.h"
 #include "kstarsdata.h"
@@ -28,6 +27,7 @@
 #include "skyobjects/skypoint.h" 
 #include "dms.h"
 #include "skylabeler.h"
+#include "skypainter.h"
 
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
@@ -70,8 +70,9 @@ void HorizonComponent::update( KSNumbers * )
 //To select the valid half, we start with the azimuth of the central focus point.
 //The valid horizon points have azimuth between this az +- 90
 //This is true for Equatorial or Horizontal coordinates
-void HorizonComponent::draw( QPainter& psky )
+void HorizonComponent::draw( SkyPainter *skyp )
 {
+    #warning Still have to port HorizonComponent::draw()
     #if 0
     if ( ! selected() ) return;
 
@@ -407,10 +408,10 @@ void HorizonComponent::draw( QPainter& psky )
 
     SkyLabeler::Instance()->drawGuideLabel( o1, horizonLabel, angle );
 #endif
-    drawCompassLabels( psky );
+    drawCompassLabels( skyp );
 }
 
-void HorizonComponent::drawCompassLabels( QPainter& psky ) {
+void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
     SkyPoint c;
     QPointF cpoint;
 

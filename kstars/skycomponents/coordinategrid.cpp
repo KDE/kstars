@@ -20,7 +20,6 @@
 #include <QPen>
 #include <QBrush>
 #include <QColor>
-#include <QPainter>
 
 #include "Options.h"
 #include "kstarsdata.h"
@@ -29,7 +28,6 @@
 #include "dms.h"
 
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 CoordinateGrid::CoordinateGrid( SkyComposite *parent )
         : NoPrecessIndex(parent, i18n("Coordinate Grid") )

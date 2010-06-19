@@ -79,7 +79,7 @@ public:
 
     bool selected();
 
-    void draw( QPainter& psky );
+    void draw( SkyPainter *skyp );
 
     /* @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists. */

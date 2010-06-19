@@ -15,6 +15,7 @@
  *																		 *
  ***************************************************************************/
 
+#include <QString>
 
 #include "linelistlabel.h"
 #include "Options.h"

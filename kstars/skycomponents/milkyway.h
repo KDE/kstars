@@ -43,7 +43,7 @@ public:
     /** Load skiplists from file */
     void loadContours(QString fname, QString greeting);
   
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
     virtual bool selected();
 
 protected:

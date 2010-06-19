@@ -51,7 +51,7 @@ public:
     	*@short Draw custom catalog objects on the sky map.
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 
     virtual void update( KSNumbers *num );
 

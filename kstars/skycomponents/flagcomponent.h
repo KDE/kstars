@@ -51,7 +51,7 @@ public:
     /** @short Destructor. */
     virtual ~FlagComponent();
 
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 
     virtual bool selected();
 

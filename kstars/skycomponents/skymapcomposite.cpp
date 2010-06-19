@@ -47,7 +47,6 @@
 #include "skymesh.h"
 #include "skylabeler.h"
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
         SkyComposite(parent), m_reindexNum( J2000 )
@@ -151,13 +150,12 @@ void SkyMapComposite::updateMoons(KSNumbers *num )
 //The order in which components are drawn naturally determines the
 //z-ordering (the layering) of the components.  Objects which
 //should appear "behind" others should be drawn first.
-void SkyMapComposite::draw( QPainter& psky )
+void SkyMapComposite::draw( SkyPainter *skyp )
 {
     QTime t;
     t.start();
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
-    SkyPainter *skyp = DirtyUglyHack::painter();
 
     // We delay one draw cycle before re-indexing
     // we MUST ensure CLines do not get re-indexed while we use DRAW_BUF
@@ -197,42 +195,42 @@ void SkyMapComposite::draw( QPainter& psky )
     // FIXME: REGRESSION. Labeler now know nothing about infoboxes
     // map->infoBoxes()->reserveBoxes( psky );
 
-    m_MilkyWay->draw( psky );
+    m_MilkyWay->draw( skyp );
 
-    m_CoordinateGrid->draw( psky );
+    m_CoordinateGrid->draw( skyp );
 
     // Draw constellation boundary lines only if we draw western constellations
     if ( m_Cultures->current() == "Western" )
-        m_CBoundLines->draw( psky );
+        m_CBoundLines->draw( skyp );
 
-    m_CLines->draw( psky );
+    m_CLines->draw( skyp );
 
-    m_Equator->draw( psky );
+    m_Equator->draw( skyp );
 
-    m_Ecliptic->draw( psky );
+    m_Ecliptic->draw( skyp );
 
-    m_DeepSky->draw( psky );
+    m_DeepSky->draw( skyp );
 
-    m_CustomCatalogs->draw( psky );
+    m_CustomCatalogs->draw( skyp );
 
-    m_Stars->draw( psky );
+    m_Stars->draw( skyp );
 
     m_SolarSystem->drawTrails( skyp );
-    m_SolarSystem->draw( psky );
+    m_SolarSystem->draw( skyp );
 
     // TODO: Fix satellites sometime
     //    m_Satellites->draw( psky );
 
-    m_Horizon->draw( psky );
+    m_Horizon->draw( skyp );
 
-    map->drawObjectLabels( labelObjects(), psky );
+    map->drawObjectLabels( labelObjects() );
 
     m_skyLabeler->drawQueuedLabels();
-    m_CNames->draw( psky );
+    m_CNames->draw( skyp );
     m_Stars->drawLabels();
     m_DeepSky->drawLabels();
 
-    m_Flags->draw( psky );
+    m_Flags->draw( skyp );
 
     m_skyMesh->inDraw( false );
 

@@ -19,7 +19,6 @@
 
 #include <QDir>
 #include <QFile>
-#include <QPainter>
 #include <QPixmap>
 #include <QTextStream>
 #include <kdebug.h>
@@ -32,7 +31,6 @@
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skypainter.h"
-#include "dirtyuglyhack.h"
 
 QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
 
@@ -145,13 +143,9 @@ void CustomCatalogComponent::update( KSNumbers * )
     }
 }
 
-void CustomCatalogComponent::draw( QPainter &psky )
+void CustomCatalogComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
-
-    SkyPainter *skyp = DirtyUglyHack::painter();
-    //    float Width  = map->scale() * map->width();
-    //    float Height = map->scale() * map->height();
 
     skyp->setBrush( Qt::NoBrush );
     skyp->setPen( QColor( m_catColor ) );
