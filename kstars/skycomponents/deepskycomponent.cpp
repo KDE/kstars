@@ -41,6 +41,7 @@ DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
     SkyComponent(parent)
 {
     m_skyMesh = SkyMesh::Instance();
+
     // Add labels
     for( int i = 0; i <= MAX_LINENUMBER_MAG; i++ )
         m_labelList[ i ] = new LabelList;
@@ -166,6 +167,7 @@ void DeepSkyComponent::loadData()
 
         if ( sgn == -1 ) { d.setD( -1.0*d.Degrees() ); }
 
+        
         // Create new Deep Sky Object Instance
         DeepSkyObject *o = 0;
         if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
@@ -240,6 +242,7 @@ void DeepSkyComponent::loadData()
                 }
             }
         }
+        
     }
     qDebug() << "2." << CLOCK_TO_MILISEC(clock());
 }

@@ -30,6 +30,7 @@ class KSObjectList : public QTableView
 {
     Q_OBJECT
 
+    Q_ENUMS ( showAddToSession );
     Q_PROPERTY ( bool showAddToSession READ showAddToSession WRITE setShowAddToSession )
     Q_PROPERTY ( bool showAddVisibleTonight READ showAddVisibleTonight WRITE setShowAddVisibleTonight )
     Q_PROPERTY ( bool showCenter READ showCenter WRITE setShowCenter )

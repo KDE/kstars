@@ -19,6 +19,7 @@
 #define OBJECTLIST_H_
 
 #include <QList>
+#include <QSqlQueryModel>
 #include <QAbstractTableModel>
 
 #include <kdialog.h>
@@ -83,17 +84,20 @@ public:
     ~ObjectList();
 
 public slots:
+    void enqueueSearch();
     /*
     void slotOALExport(); 
     
     void slotAddVisibleObj();
-
-    void selectObject( SkyObject *o );
-*/
+    */
+    void selectObject(const QModelIndex &);
 
 private:
+    QString processSearchText();
+
     KStars *ks;
     ObjectListUI *ui;
+    QSqlQueryModel *m_TableModel;
 };
 
 #endif // OBJECTLIST_H_

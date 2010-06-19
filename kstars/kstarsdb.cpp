@@ -243,7 +243,7 @@ void KStarsDB::migrateData(QString filename)
         query.bindValue(":bmag", mag);
 
         //object type
-        type = line.mid( 29, 1 ).toInt();
+        type = line.mid( 28, 2 ).toInt();
 
         query.bindValue(":type", type);
 
@@ -327,7 +327,7 @@ void KStarsDB::migrateData(QString filename)
          * defined below are sufficient and assigning them manually speeds up the process
          */
 
-        int ngcRowID = 1, icRowID = 2, mRowID = 3, ugcRowID = 4, pgcRowID = 5;
+        int ngcRowID = 1, icRowID = 2, mRowID = 3, ugcRowID = 5, pgcRowID = 4;
         
         /*
         query.exec("SELECT rowid FROM ctg WHERE name = 'IC'");

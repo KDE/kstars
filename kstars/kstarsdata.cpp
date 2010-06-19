@@ -186,13 +186,13 @@ bool KStarsData::initialize() {
     
     //Load Image URLs//
     emit progressText( i18n("Loading Image URLs" ) );
-    if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
-        return false;
+//  if( !readURLData( "image_url.dat", 0 ) && !nonFatalErrorMessage( "image_url.dat" ) )
+//      return false;
     
     //Load Information URLs//
     emit progressText( i18n("Loading Information URLs" ) );
-    if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
-        return false;
+//  if( !readURLData( "info_url.dat", 1 ) && !nonFatalErrorMessage( "info_url.dat" ) )
+//      return false;
    
     emit progressText( i18n("Loading Variable Stars" ) );
     readINDIHosts();
