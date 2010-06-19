@@ -135,7 +135,7 @@ ObjectList::ObjectList( KStars *_ks )
     // By default, just display all the objects
     m_TableModel = new QSqlQueryModel();
     QString searchQuery ="SELECT (ctg.name || \" \" || od.designation) AS design, dso.longname, dso.rowid FROM od INNER JOIN ctg ON (od.idCTG = ctg.rowid) INNER JOIN dso ON (od.idDSO = dso.rowid) ";
-    searchQuery += "WHERE dso.bmag <= 6.00";
+    searchQuery += "WHERE dso.bmag <= 13.00";
     
     m_TableModel->setQuery(searchQuery);
 
@@ -159,7 +159,7 @@ ObjectList::~ObjectList()
 void ObjectList::enqueueSearch()
 {
     QString searchedName = processSearchText();
-    QString searchQuery ="SELECT (ctg.name || \" \" || od.designation) AS design, dso.longname, dso.rowid AS lname "
+    QString searchQuery ="SELECT (ctg.name || \" \" || od.designation) AS design, dso.longname AS lname, dso.rowid "
         + QString("FROM od INNER JOIN ctg ON (od.idCTG = ctg.rowid) INNER JOIN dso ON (od.idDSO = dso.rowid) ");
     searchQuery += "WHERE (design LIKE \'%" + searchedName + "%\' OR lname LIKE \'%" + searchedName + "%\') ";
 
@@ -173,6 +173,7 @@ void ObjectList::enqueueSearch()
     searchQuery += "AND dso.bmag <= \'" + QString::number(ui->FilterMagnitude->value()) + "\' ";
 
     searchQuery += "ORDER BY ctg.name";
+
     m_TableModel->setQuery(searchQuery);
 
     // for debugging purposes
