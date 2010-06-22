@@ -83,7 +83,7 @@ void SkyQPainter::setBrush(const QBrush& brush)
     QPainter::setBrush(brush);
 }
 
-void SkyQPainter::initImages()
+void SkyQPainter::initStarImages()
 {
 
     QMap<char, QColor> ColorMap;
@@ -173,87 +173,6 @@ void SkyQPainter::initImages()
     }
 }
 
-bool SkyQPainter::drawPlanetMoon(TrailObject *moon)
-{
-    if( Options::zoomFactor() <= 10.*MINZOOM
-        || !m_sm->checkVisibility(moon) ) return false;
-
-    QPointF pos = m_sm->toScreen(moon);
-
-    setPen( QPen( QColor( "white" ) ) );
-    setBrush( Qt::NoBrush );
-    drawEllipse( pos, 2., 2. );
-    
-    return true;
-}
-
-bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
-{
-    if( !m_sm->checkVisibility(planet) ) return false;
-
-    QPointF pos = m_sm->toScreen(planet);
-
-    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
-    if( fakeStarSize > 15.0 )
-        fakeStarSize = 15.0;
-
-    float size = planet->angSize() * m_sm->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" ) {
-        // Draw them as bright stars of appropriate color instead of images
-        char spType;
-        //FIXME: do these need i18n?
-        if( planet->name() == i18n("Mars") ) {
-            spType = 'K';
-        } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
-            spType = 'F';
-        } else {
-            spType = 'B';
-        }
-        drawPointSource(pos,fakeStarSize,spType);
-    } else {
-        float sizemin = 1.0;
-        if( planet->name() == "Sun" || planet->name() == "Moon" )
-            sizemin = 8.0;
-        sizemin *= skyMap()->scale();
-
-        float size = planet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
-        if ( size < sizemin )
-            size = sizemin;
-        if ( Options::showPlanetImages() && !planet->image()->isNull() ) {
-            dms pa = skyMap()->findPA( planet, pos.x(), pos.y() );
-
-            //FIXME: Need to figure out why the size is sometimes NaN.
-            Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");
-
-            //Because Saturn has rings, we inflate its image size by a factor 2.5
-            if( planet->name() == "Saturn" )
-                size = int(2.5*size);
-
-            planet->scaleRotateImage( size, pa.Degrees() );
-            float x1 = pos.x() - 0.5*planet->image()->width();
-            float y1 = pos.y() - 0.5*planet->image()->height();
-            drawImage( QPointF(x1, y1), *( planet->image() ) );
-        } else { //Otherwise, draw a simple circle.
-            drawEllipse( pos, size, size );
-        }
-    }
-    return true;
-}
-
-bool SkyQPainter::drawAsteroid(KSAsteroid *ast)
-{
-    if( !m_sm->checkVisibility(ast) ) return false;
-
-    QPointF pos = m_sm->toScreen(ast);
-
-    float size = ast->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if ( size < 1.0 )
-        drawPoint( pos );
-    else
-        drawEllipse(pos,size,size);
-    return true;
-}
-
 void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {
     bool aVisible, bVisible;
@@ -341,6 +260,87 @@ void SkyQPainter::drawSkyPolygon(LineList* list)
 
     if ( polygon.size() )
         drawPolygon(polygon);
+}
+
+bool SkyQPainter::drawPlanetMoon(TrailObject *moon)
+{
+    if( Options::zoomFactor() <= 10.*MINZOOM
+        || !m_sm->checkVisibility(moon) ) return false;
+
+    QPointF pos = m_sm->toScreen(moon);
+
+    setPen( QPen( QColor( "white" ) ) );
+    setBrush( Qt::NoBrush );
+    drawEllipse( pos, 2., 2. );
+    
+    return true;
+}
+
+bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
+{
+    if( !m_sm->checkVisibility(planet) ) return false;
+
+    QPointF pos = m_sm->toScreen(planet);
+
+    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
+    if( fakeStarSize > 15.0 )
+        fakeStarSize = 15.0;
+
+    float size = planet->angSize() * m_sm->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" ) {
+        // Draw them as bright stars of appropriate color instead of images
+        char spType;
+        //FIXME: do these need i18n?
+        if( planet->name() == i18n("Mars") ) {
+            spType = 'K';
+        } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
+            spType = 'F';
+        } else {
+            spType = 'B';
+        }
+        drawPointSource(pos,fakeStarSize,spType);
+    } else {
+        float sizemin = 1.0;
+        if( planet->name() == "Sun" || planet->name() == "Moon" )
+            sizemin = 8.0;
+        sizemin *= skyMap()->scale();
+
+        float size = planet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
+        if ( size < sizemin )
+            size = sizemin;
+        if ( Options::showPlanetImages() && !planet->image()->isNull() ) {
+            dms pa = skyMap()->findPA( planet, pos.x(), pos.y() );
+
+            //FIXME: Need to figure out why the size is sometimes NaN.
+            Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");
+
+            //Because Saturn has rings, we inflate its image size by a factor 2.5
+            if( planet->name() == "Saturn" )
+                size = int(2.5*size);
+
+            planet->scaleRotateImage( size, pa.Degrees() );
+            float x1 = pos.x() - 0.5*planet->image()->width();
+            float y1 = pos.y() - 0.5*planet->image()->height();
+            drawImage( QPointF(x1, y1), *( planet->image() ) );
+        } else { //Otherwise, draw a simple circle.
+            drawEllipse( pos, size, size );
+        }
+    }
+    return true;
+}
+
+bool SkyQPainter::drawAsteroid(KSAsteroid *ast)
+{
+    if( !m_sm->checkVisibility(ast) ) return false;
+
+    QPointF pos = m_sm->toScreen(ast);
+
+    float size = ast->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    if ( size < 1.0 )
+        drawPoint( pos );
+    else
+        drawEllipse(pos,size,size);
+    return true;
 }
 
 bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)

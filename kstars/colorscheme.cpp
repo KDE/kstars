@@ -281,13 +281,13 @@ void ColorScheme::saveToConfig() {
 void ColorScheme::setStarColorMode( int mode ) { 
     StarColorMode = mode;
     Options::setStarColorMode( mode );
-    SkyQPainter::initImages();
+    SkyQPainter::initStarImages();
 }
 
 void ColorScheme::setStarColorIntensity( int intens ) { 
     StarColorIntensity = intens;
     Options::setStarColorIntensity( intens );
-    SkyQPainter::initImages();
+    SkyQPainter::initStarImages();
 }
 
 void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
@@ -295,5 +295,5 @@ void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
     StarColorIntensity = intens;
     Options::setStarColorMode( mode );
     Options::setStarColorIntensity( intens );
-    SkyQPainter::initImages();
+    SkyQPainter::initStarImages();
 }

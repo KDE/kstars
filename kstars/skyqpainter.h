@@ -1,4 +1,5 @@
 /*
+    (C) 2010 Henry de Valence <hdevalence@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,7 +36,7 @@ public:
     virtual void setPen(const QPen& pen);
     virtual void setBrush(const QBrush& brush);
     /** Recalculates the star pixmaps. */
-    static void initImages();
+    static void initStarImages();
     
     // Sky drawing functions
     virtual void drawSkyLine(SkyPoint* a, SkyPoint* b);
