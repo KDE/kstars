@@ -22,8 +22,10 @@
 #include <QWidget>
 #include <QPoint>
 #include <QEvent>
+#include <QList>
 #include <QMouseEvent>
 
+#include "skyobjects/skyobject.h"
 #include "objlistpopupmenu.h"
 
 class KSObjectList : public QTableView
@@ -67,11 +69,15 @@ public:
     void setShowRemoveFromWishList(const bool &);
     void setShowRemoveFromSessionPlan(const bool &);
 
+    /* Set the current selected SkyObject */
+    void setSkyObjectList(QList<SkyObject *>);
+    QList<SkyObject *> *getSkyObjectList();
 public slots:
     void slotContextMenu(const QPoint &pos);
 
 private:
     ObjListPopupMenu *pmenu;
+    QList<SkyObject *> *m_SkyObjectList;
     bool singleSelection, noSelection;
     bool m_showAddToSession, m_showCenter, m_showDetails, m_showScope, m_showLinks;
     bool m_showAddVisibleTonight, m_showAVT, m_showRemoveFromWishList, m_showRemoveFromSessionPlan;

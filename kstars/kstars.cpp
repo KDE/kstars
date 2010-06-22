@@ -114,6 +114,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 #else
     kDebug() << "Did not find glibc >= 2.1.  Will use ANSI-compliant sin()/cos() functions.";
 #endif
+    kDebug() << "Nothing!";
 }
 
 KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &startdate ) {

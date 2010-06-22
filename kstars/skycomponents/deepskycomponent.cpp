@@ -23,6 +23,8 @@
 
 #include <klocale.h>
 #include <kstandarddirs.h>
+#include <kdebug.h>
+#include "kdebug.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "dms.h"
@@ -116,7 +118,7 @@ void DeepSkyComponent::loadData()
         qDebug() << "Deep Sky select statement error: " << query.lastError();
     }
 
-    qDebug() << "1." << CLOCK_TO_MILISEC(clock());
+    kDebug() << "1." << CLOCK_TO_MILISEC(clock());
 
     while ( query.next() ) {
         // Right Ascension
@@ -244,7 +246,7 @@ void DeepSkyComponent::loadData()
         }
         
     }
-    qDebug() << "2." << CLOCK_TO_MILISEC(clock());
+    kDebug() << "2." << CLOCK_TO_MILISEC(clock());
 }
 
 void DeepSkyComponent::mergeSplitFiles() {

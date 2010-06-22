@@ -133,16 +133,19 @@ ObjectList::ObjectList( KStars *_ks )
 
     // By default, just display all the objects
     m_TableModel = new QSqlQueryModel();
-    QString searchQuery ="SELECT (ctg.name || \" \" || od.designation) AS design, dso.longname, dso.rowid FROM od INNER JOIN ctg ON (od.idCTG = ctg.rowid) INNER JOIN dso ON (od.idDSO = dso.rowid) ";
-    searchQuery += "WHERE dso.bmag <= 13.00";
+
+    QString subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations";
+    QString searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso WHERE dso.bmag <= 13.00";
     
     m_TableModel->setQuery(searchQuery);
     
     kDebug() << m_TableModel->lastError();
+    kDebug() << m_TableModel->query().lastQuery();
+
     ui->TableView->setModel( m_TableModel );
 
     ui->TableView->verticalHeader()->hide();
-    ui->TableView->horizontalHeader()->hide();
+//  ui->TableView->horizontalHeader()->hide();
 
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
@@ -158,20 +161,22 @@ ObjectList::~ObjectList()
 void ObjectList::enqueueSearch()
 {
     QString searchedName = processSearchText();
-    QString searchQuery ="SELECT (ctg.name || \" \" || od.designation) AS design, dso.longname AS lname, dso.rowid "
-        + QString("FROM od INNER JOIN ctg ON (od.idCTG = ctg.rowid) INNER JOIN dso ON (od.idDSO = dso.rowid) ");
-    searchQuery += "WHERE (design LIKE \'%" + searchedName + "%\' OR lname LIKE \'%" + searchedName + "%\') ";
+
+    QString subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations";
+    QString searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso ";
+
+    searchQuery += "WHERE (Designations LIKE \'%" + searchedName + "%\' OR Name LIKE \'%" + searchedName + "%\') ";
 
     if (ui->FilterType->currentIndex() != 0) {
-        if (ui->FilterType->currentIndex() > 11) // adjust the numbers to match the database types
-            searchQuery += "AND type = " + QString::number(ui->FilterType->currentIndex() + 2) + " ";
+        if (ui->FilterType->currentIndex() > 11) // adjust the view numbers to match the database types
+            searchQuery += "AND dso.type = " + QString::number(ui->FilterType->currentIndex() + 2) + " ";
         else
-            searchQuery += "AND type = " + QString::number(ui->FilterType->currentIndex()) + " ";
+            searchQuery += "AND dso.type = " + QString::number(ui->FilterType->currentIndex()) + " ";
     }
 
     searchQuery += "AND dso.bmag <= \'" + QString::number(ui->FilterMagnitude->value()) + "\' ";
 
-    searchQuery += "ORDER BY ctg.name";
+//  searchQuery += "ORDER BY dso.rowid";
 
     m_TableModel->setQuery(searchQuery);
 

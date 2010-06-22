@@ -22,6 +22,7 @@
 #include <kaction.h>
 
 class KStars;
+class KSObjectList;
 class StarObject;
 class SkyObject;
 class QLabel;
@@ -32,12 +33,11 @@ class ObjListPopupMenu : public KMenu
 
 public:
     /**Default constructor*/
-    ObjListPopupMenu();
+    ObjListPopupMenu(KSObjectList *);
 
     /**Destructor (empty)*/
     ~ObjListPopupMenu();
 
-    void init();
     void showAddToSession();
     void showAddVisibleTonight();
     void showCenter();
@@ -49,10 +49,11 @@ public:
     void showRemoveFromWishList();
 
     /**Initialize the popup menus*/
-    void initPopupMenu( bool showAddToSession = false, bool showCenter = false, bool showDetails = false, bool showScope = false, bool showRemove = false, bool showLinks = false, bool sessionView = false );
+    void init();
 
 private:
     KStars *ks;
+    KSObjectList *m_KSObjList;
 };
 
 #endif

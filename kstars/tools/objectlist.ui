@@ -84,7 +84,17 @@
     </layout>
    </item>
    <item>
-    <widget class="KSObjectList" name="TableView" native="true"/>
+    <widget class="KSObjectList" name="TableView" native="true">
+         <property name="showAddToSession">
+          <set>true</set>
+         </property>
+         <property name="showAddVisibleTonight">
+          <set>true</set>
+         </property>
+         <property name="showCenter">
+          <set>true</set>
+         </property>
+    </widget>
    </item>
   </layout>
  </widget>

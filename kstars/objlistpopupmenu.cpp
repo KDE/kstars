@@ -22,14 +22,17 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
+#include "ksobjectlist.h"
 #include "skyobjects/skyobject.h"
 
 #include <config-kstars.h>
 
 
-ObjListPopupMenu::ObjListPopupMenu()
+ObjListPopupMenu::ObjListPopupMenu(KSObjectList *parent)
         : KMenu( 0 )
-{}
+{
+    m_KSObjList = parent;
+}
 
 ObjListPopupMenu::~ObjListPopupMenu() { }
 
@@ -88,51 +91,6 @@ void ObjListPopupMenu::showRemoveFromWishList()
 void ObjListPopupMenu::showRemoveFromSessionPlan()
 {
     addAction( i18n("Remove from Session Plan"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
-}
-
-void ObjListPopupMenu::initPopupMenu(bool showAddToSession, bool showCenter, bool showDetails, bool showScope, bool showRemove, bool showLinks, bool sessionView ) {
-/*
-    //Insert item for adding the object to the session view
-    if( showAddToSession )
-        addAction( i18n( "Add to session plan" ), ks->observingList(), SLOT( slotAddToSession() ) );
-    if( !sessionView )
-        addAction( i18n( "Add objects visible tonight to session plan" ), ks->observingList(), SLOT( slotAddVisibleObj() ) );
-    addSeparator();
-
-    //Insert item for centering on object
-    if( showCenter )
-        addAction( i18n( "Center" ), ks->observingList(), SLOT( slotCenterObject() ) );
-
-    //Insert item for Slewing to the object
-    if( showScope )
-        addAction( i18nc( "Show the selected object in the telescope", "Scope" ), ks->observingList(), SLOT( slotSlewToObject() ) );
-    addSeparator();
-
-    //Insert item for Showing details dialog
-    if( showDetails )
-        addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->observingList(), SLOT( slotDetails() ) );
-
-    //Insert item for opening the Altitude vs time dialog
-    addAction( i18n( "Altitude vs. Time" ), ks->observingList(), SLOT( slotAVT() ) );
-    addSeparator();
-
-    //Insert item for dowloading different images
-    if( showLinks ) {
-        if( ! ks->observingList()->currentObject()->isSolarSystem() ) {
-            addAction( i18n( "Show SDSS image" ), ks->observingList(), SLOT( slotGetImage() ) );
-            addAction( i18n( "Show DSS image" ), ks->observingList(), SLOT( slotDSS() ) );
-        }
-        addAction( i18n( "Show images from web " ), ks->observingList(), SLOT( slotGoogleImage() ) );
-        addSeparator();
-    }
-    //Insert item for Removing the object(s)
-    if( showRemove ) {
-        if( ! sessionView )
-            addAction( i18n("Remove from WishList"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
-        else
-            addAction( i18n("Remove from Session Plan"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
-    }
-*/
 }
 
 #include "objlistpopupmenu.moc"

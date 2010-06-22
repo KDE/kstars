@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QDebug>
-#include <QObject>
-#include <QItemSelectionModel>
 #include "ksobjectlist.h"
 #include "kdebug.h"
 
@@ -27,7 +24,7 @@ KSObjectList::KSObjectList(QWidget *parent):QTableView(parent)
 
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), SLOT(slotContextMenu(const QPoint &)));
 
-    pmenu = new ObjListPopupMenu();
+    pmenu = new ObjListPopupMenu(this);
 
     m_showAVT = m_showAddToSession = m_showCenter = m_showDetails = m_showScope = m_showLinks = false;
     m_showAddVisibleTonight = m_showRemoveFromWishList = m_showRemoveFromSessionPlan = false;
@@ -132,4 +129,14 @@ void KSObjectList::slotContextMenu(const QPoint &pos)
 
         pmenu->popup(localPos);
     }
+}
+
+void KSObjectList::setSkyObjectList (QList<SkyObject *> l)
+{
+    m_SkyObjectList = new QList<SkyObject *>(l);
+}
+
+QList<SkyObject *> * KSObjectList::getSkyObjectList()
+{
+    return m_SkyObjectList;
 }
