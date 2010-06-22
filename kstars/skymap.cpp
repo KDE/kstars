@@ -938,8 +938,14 @@ void SkyMap::setZoomFactor(double factor) {
     emit zoomChanged();
 }
 
-QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) {
+QPointF SkyMap::toScreen(SkyPoint* o, bool useRefraction, bool* onVisibleHemisphere)
+{
+    return KSUtils::vecToPoint( toScreenVec(o, useRefraction, onVisibleHemisphere) );
+}
 
+
+Vector3f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere)
+{
     double Y, dX;
     double sindX, cosdX, sinY, cosY, sinY0, cosY0;
 
@@ -968,17 +974,19 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
 
     //Special case: Equirectangular projection is very simple
     if ( Options::projection() == Equirectangular ) {
-        QPointF p;
-        p.setX( 0.5*Width  - zoomscale*dX );
+        Vector3f p;
+        p[0] = 0.5*Width  - zoomscale*dX ;
         if ( Options::useAltAz() )
-            p.setY( 0.5*Height - zoomscale*(Y - focus()->alt().radians()) );
+            p[1] = 0.5*Height - zoomscale*(Y - focus()->alt().radians());
         else
-            p.setY( 0.5*Height - zoomscale*(Y - focus()->dec().radians()) );
+            p[1] = 0.5*Height - zoomscale*(Y - focus()->dec().radians());
 
         if ( onVisibleHemisphere != NULL ) {
-            *onVisibleHemisphere = scaledRect().contains( p.toPoint() );
+            *onVisibleHemisphere = ( p[0] >= 0. && p[0] <= Width &&
+                                     p[1] >= 0. && p[1] <= Height );
         }
-
+        //Set z-coord = 0
+        p[2] = 0.;
         return p;
     }
 
@@ -1024,16 +1032,18 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
     //The Gnomonic projection has an infinite sky horizon, so don't allow the field
     //angle to approach 90 degrees in thi scase (cut it off at c=0.2).
     if ( c < 0.0 || ( Options::projection()==Gnomonic && c < 0.2 ) ) {
-        if( onVisibleHemisphere == NULL )
-            return QPointF( -1e+7, -1e+7 );
-        else
+        if( onVisibleHemisphere == NULL ) {
+            return Vector3f(-1e+7, -1e+7, -1e+7);
+        } else {
             *onVisibleHemisphere = false;
+        }
     }
 
     double k = projectionK(c);
 
-    return QPointF( 0.5*Width  - zoomscale*k*cosY*sindX,
-                    0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
+    return Vector3f( 0.5*Width  - zoomscale*k*cosY*sindX,
+                     0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ),
+                     0 );
 }
 
 QRect SkyMap::scaledRect() {

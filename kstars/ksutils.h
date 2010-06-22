@@ -27,6 +27,9 @@
 #ifndef KSTARS_KSUTILS_H__
 #define KSTARS_KSUTILS_H__
 
+#include <Eigen/Core>
+USING_PART_OF_NAMESPACE_EIGEN
+#include <QPointF>
 
 class QFile;
 class QString;
@@ -72,6 +75,16 @@ namespace KSUtils {
         while( x < min )
             x += delta;
         return x;
+    }
+
+    /** Convert a vector to a point, discarding the z-coord. */
+    inline QPointF vecToPoint(const Vector3f& vec) {
+        return QPointF( vec[0], vec[1] );
+    }
+
+    /** Convert a point to a vector, setting z-coord as specified */
+    inline Vector3f pointToVec(const QPointF& p, float z = 0) {
+        return Vector3f(p.x(),p.y(),z);
     }
 }
 

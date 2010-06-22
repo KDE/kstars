@@ -22,7 +22,7 @@ macro_optional_find_package(Xplanet)
 macro_bool_to_01(XPLANET_FOUND HAVE_XPLANET)
 macro_log_feature(XPLANET_FOUND "XPlanet" "Renders an image of all the major planets and most satellites" "http://xplanet.sourceforge.net/" FALSE "1.0" "Gives KStars support for xplanet.")
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${EIGEN2_INCLUDE_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 
 add_subdirectory( kstars )

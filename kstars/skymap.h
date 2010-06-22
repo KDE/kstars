@@ -18,6 +18,9 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
+#include <Eigen/Core>
+USING_PART_OF_NAMESPACE_EIGEN
+
 #include <QTimer>
 #include <QWidget>
 #include <QPixmap>
@@ -353,6 +356,13 @@ public:
      *   on the visible part of the Celestial Sphere.
      */
     QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
+
+    /** Project a point like toScreen, but return a vector instead of a QPointF.
+        @see toScreen()
+        @return a vector of floats with z = 0
+        */
+    Vector3f toScreenVec( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
+        
 
     /**@return the current scale factor for drawing the map.
      * @note the scale factor should be 1.0 unless we are printing.
