@@ -212,11 +212,8 @@ void LineListIndex::drawLines( SkyPainter *skyp )
 
 void LineListIndex::drawFilled( SkyPainter *skyp )
 {
-    SkyMap *map = SkyMap::Instance();
     DrawID drawID     = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
-
-    bool isVisible, isVisibleLast;
 
     MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {

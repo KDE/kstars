@@ -32,8 +32,8 @@
 #include "skyobjects/trailobject.h"
 
 SkyPainter::SkyPainter(SkyMap* sm)
-    : m_sizeMagLim(10.),
-      m_sm(sm)
+    : m_sm(sm),
+      m_sizeMagLim(10.)
 {
 
 }
