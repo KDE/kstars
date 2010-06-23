@@ -81,6 +81,9 @@ public:
     //                                //
     ////////////////////////////////////
 
+    /** @short Draw the sky background */
+    virtual void drawSkyBackground() = 0;
+
     /** @short Draw a line between points in the sky.
         @param a the first point
         @param b the second point

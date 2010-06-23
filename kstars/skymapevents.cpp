@@ -694,9 +694,9 @@ void SkyMap::paintEvent( QPaintEvent * )
     //FIXME: we may want to move this into the components.
     psky.begin();
     psky.setRenderHint(QPainter::Antialiasing, (!slewing && Options::useAntialias()) );
-    psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
     
     //Draw all sky elements
+    psky.drawSkyBackground();
     data->skyComposite()->draw( &psky );
     //Finish up
     psky.end();

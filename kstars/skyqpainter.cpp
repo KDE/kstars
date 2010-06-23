@@ -84,6 +84,11 @@ void SkyQPainter::end()
     QPainter::end();
 }
 
+void SkyQPainter::drawSkyBackground()
+{
+    fillRect( 0, 0, m_sm->width(), m_sm->height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
+}
+
 void SkyQPainter::setPen(const QPen& pen)
 {
     QPainter::setPen(pen);
