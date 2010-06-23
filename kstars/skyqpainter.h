@@ -22,19 +22,24 @@
 
 #include "skypainter.h"
 
-class DeepSkyObject;
-
-
 /** @short The QPainter-based painting backend.
     This class implements the SkyPainter interface using a QPainter.
     For documentation, @see SkyPainter. */
 class SkyQPainter : public SkyPainter, public QPainter
 {
 public:
-    SkyQPainter(SkyMap *sm);
+    /** Constructor.
+        @param sm the SkyMap pointer
+        @param pd the painting device. If 0, then @p sm will be used.
+        */
+    SkyQPainter(SkyMap *sm, QPaintDevice *pd = 0);
     virtual ~SkyQPainter();
     virtual void setPen(const QPen& pen);
     virtual void setBrush(const QBrush& brush);
+
+    virtual void begin();
+    virtual void end();
+    
     /** Recalculates the star pixmaps. */
     static void initStarImages();
     
@@ -56,6 +61,7 @@ private:
                                          float positionAngle);
     virtual bool drawDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
                                          float positionAngle);
+    QPaintDevice *m_pd;
 };
 
 #endif

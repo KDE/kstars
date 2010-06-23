@@ -63,14 +63,25 @@ namespace {
     QPixmap* imageCache[nSPclasses][nStarSizes] = {{0}};
 }
 
-SkyQPainter::SkyQPainter(SkyMap* sm)
+SkyQPainter::SkyQPainter(SkyMap* sm, QPaintDevice *pd)
     : SkyPainter(sm), QPainter()
 {
-    //
+    //Set paint device pointer to pd or sm if pd = 0
+    m_pd = (pd ? pd : sm);
 }
 
 SkyQPainter::~SkyQPainter()
 {
+}
+
+void SkyQPainter::begin()
+{
+    QPainter::begin(m_pd);
+}
+
+void SkyQPainter::end()
+{
+    QPainter::end();
 }
 
 void SkyQPainter::setPen(const QPen& pen)

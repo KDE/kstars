@@ -62,6 +62,19 @@ public:
     //FIXME: find a better way to do this.
     void setSizeMagLimit(float sizeMagLim);
 
+    /** Begin painting.
+        @note this function <b>must</b> be called before painting anything.
+        @see end()
+        */
+    virtual void begin() =0;
+
+    /** End and finalize painting.
+        @note this function <b>must</b> be called after painting anything.
+        @note it is not guaranteed that anything will actually be drawn until end() is called.
+        @see begin();
+        */
+    virtual void end() =0;
+
     ////////////////////////////////////
     //                                //
     // SKY DRAWING FUNCTIONS:         //
