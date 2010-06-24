@@ -65,6 +65,8 @@ include_directories(
 #    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
+	${EIGEN2_INCLUDE_DIR}
+    ${OPENGL_INCLUDE_DIRS}
 )
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
@@ -294,7 +296,7 @@ set(kstars_extra_SRCS
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
-	skypainter.cpp skyqpainter.cpp
+	skypainter.cpp skyqpainter.cpp skyglpainter.cpp
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
@@ -346,6 +348,8 @@ target_link_libraries(kstars
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
+	${OPENGL_LIBRARIES}
+	${QT_QTOPENGL_LIBRARY}
         )
 
 if(NOT WIN32)

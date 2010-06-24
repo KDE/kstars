@@ -18,11 +18,17 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
+//#define USEGL
+
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
 
 #include <QTimer>
-#include <QWidget>
+#ifdef USEGL
+    #include <QGLWidget>
+#else
+    #include <QWidget>
+#endif
 #include <QPixmap>
 
 #include "skyobjects/skypoint.h"
@@ -30,7 +36,7 @@ USING_PART_OF_NAMESPACE_EIGEN
 
 #include <config-kstars.h>
 
-#define HOVER_INTERVAL 500 
+#define HOVER_INTERVAL 500
 
 class QPainter;
 class QPaintDevice;
@@ -61,7 +67,13 @@ class InfoBoxes;
 	*@version 1.0
 	*/
 
+#ifdef USEGL
+#warning USING QGLWidget
+class SkyMap : public QGLWidget  {
+#else
+#warning USING QWIDGET
 class SkyMap : public QWidget  {
+#endif
     Q_OBJECT
 
 protected:
