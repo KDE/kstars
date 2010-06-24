@@ -87,7 +87,7 @@ ObjectListUI::ObjectListUI( QWidget *p ) : QFrame( p ) {
 }
 
 //
-// ObservingList
+// ObjectList
 // ---------------------------------
 ObjectList::ObjectList( KStars *_ks )
         : KDialog( (QWidget*)_ks ),
@@ -126,17 +126,12 @@ ObjectList::ObjectList( KStars *_ks )
 
     ui->FilterType->setCurrentIndex(0);
 
-    connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
-    connect( ui->FilterMagnitude, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
-    connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( enqueueSearch() ) );
-    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex &) ), SLOT ( selectObject (const QModelIndex &) ));
-
     // By default, just display all the objects
-    m_TableModel = new QSqlQueryModel();
-
     QString subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations";
     QString searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso WHERE dso.bmag <= 13.00";
-    
+
+    m_TableModel = new QSqlQueryModel();
+
     m_TableModel->setQuery(searchQuery);
     
     kDebug() << m_TableModel->lastError();
@@ -144,8 +139,16 @@ ObjectList::ObjectList( KStars *_ks )
 
     ui->TableView->setModel( m_TableModel );
 
+    // Connections
+    connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
+    connect( ui->FilterMagnitude, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
+    connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( enqueueSearch() ) );
+    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex &) ), SLOT ( selectObject (const QModelIndex &) ));
+
+    connect ( ui->TableView->selectionModel() , SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)), SLOT (slotNewSelection()) );
+
+    // Some display options
     ui->TableView->verticalHeader()->hide();
-//  ui->TableView->horizontalHeader()->hide();
 
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
@@ -212,13 +215,40 @@ QString ObjectList::processSearchText()
 
 void ObjectList::selectObject(const QModelIndex &index)
 {
-    kDebug() << m_TableModel->record(index.row()).field(2).value();
     drawObject(m_TableModel->record(index.row()).field(2).value().toLongLong());
-
     // some additional operations might be done here
 }
 
-void ObjectList::drawObject(qlonglong id)
+void ObjectList::slotNewSelection() {
+    QModelIndexList selectedItems;
+    QModelIndex item;
+    KStarsData *data = KStarsData::Instance();
+    QList<SkyObject *> skyobjects;
+
+    qlonglong id;
+    DeepSkyObject *o;
+
+    selectedItems = ui->TableView->selectionModel()->selectedRows(2);
+
+    
+    if( selectedItems.size() == 1 ) {
+        id = selectedItems.first().data().toLongLong();
+        o = generateObject(id);
+        skyobjects.push_back(o);
+
+        ui->TableView->setSkyObjectList(skyobjects);
+    } else {
+       foreach (item, selectedItems) {
+           o = generateObject (item.data().toLongLong());
+           skyobjects.push_back(o);
+       }
+
+       ui->TableView->setSkyObjectList(skyobjects);
+    }
+}
+
+
+DeepSkyObject * ObjectList::generateObject(qlonglong id)
 {
     SkyMesh *skyMesh = SkyMesh::Instance();
     KStarsData *data = KStarsData::Instance();
@@ -312,12 +342,6 @@ void ObjectList::drawObject(qlonglong id)
 
 //      Trixel trixel = skyMesh->index( (SkyPoint*) o );
 
-        SkyMap *map = KStars::Instance()->map();
-        SkyMapComposite *skyComp = data->skyComposite();
-
-        map->setClickedObject( o );
-        map->setClickedPoint( o );
-        map->slotCenter();
 
         // Load the images associated to the deep sky object (this was done in KStarsData::readUrlData)
         dsoquery.prepare("SELECT url, title, type FROM dso_url WHERE idDSO = :iddso");
@@ -340,7 +364,23 @@ void ObjectList::drawObject(qlonglong id)
                 }
             }
         }
+        return o;
     }
+}
+
+void ObjectList::drawObject(qlonglong id)
+{
+    SkyMesh *skyMesh = SkyMesh::Instance();
+    KStarsData *data = KStarsData::Instance();
+    DeepSkyObject *o = generateObject(id);
+
+    // Focus the object
+    SkyMap *map = KStars::Instance()->map();
+    SkyMapComposite *skyComp = data->skyComposite();
+
+    map->setClickedObject( o );
+    map->setClickedPoint( o );
+    map->slotCenter();
 }
 
 #include "objectlist.moc"

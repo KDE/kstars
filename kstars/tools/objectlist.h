@@ -28,6 +28,7 @@
 #include "ui_objectlist.h"
 #include "kstarsdatetime.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/deepskyobject.h"
 
 class KStars;
 
@@ -85,16 +86,14 @@ public:
 
 public slots:
     void enqueueSearch();
-    /*
-    void slotOALExport(); 
-    
-    void slotAddVisibleObj();
-    */
+
     void selectObject(const QModelIndex &);
+    void slotNewSelection();
 
 private:
     QString processSearchText();
     void drawObject(qlonglong);
+    DeepSkyObject * generateObject(qlonglong);
 
     KStars *ks;
     ObjectListUI *ui;

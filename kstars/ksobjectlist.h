@@ -74,6 +74,7 @@ public:
     QList<SkyObject *> *getSkyObjectList();
 public slots:
     void slotContextMenu(const QPoint &pos);
+    void slotCenterObject();
 
 private:
     ObjListPopupMenu *pmenu;

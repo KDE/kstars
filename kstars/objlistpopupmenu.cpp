@@ -54,7 +54,7 @@ void ObjListPopupMenu::showAddVisibleTonight()
 
 void ObjListPopupMenu::showCenter()
 {
-    addAction( i18n( "Center" ), ks->observingList(), SLOT( slotCenterObject() ) );
+    addAction( i18n( "Center" ), m_KSObjList, SLOT( slotCenterObject() ) );
 }
 
 void ObjListPopupMenu::showScope()

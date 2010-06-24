@@ -16,10 +16,13 @@
  ***************************************************************************/
 
 #include "ksobjectlist.h"
+#include "kstars.h"
+#include "skymap.h"
 #include "kdebug.h"
 
 KSObjectList::KSObjectList(QWidget *parent):QTableView(parent)
 {
+    m_SkyObjectList = NULL;
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(this, SIGNAL(customContextMenuRequested(const QPoint &)), SLOT(slotContextMenu(const QPoint &)));
@@ -58,6 +61,17 @@ void KSObjectList::setShowRemoveFromWishList(const bool &visible) { m_showRemove
 void KSObjectList::setShowRemoveFromSessionPlan(const bool &visible) { m_showRemoveFromSessionPlan = visible; }
 
 // Public slots
+void KSObjectList::slotCenterObject()
+{
+    KStars *ks = KStars::Instance();
+
+    if (m_SkyObjectList->size() == 1) {
+        ks->map()->setClickedObject( m_SkyObjectList->first() );
+        ks->map()->setClickedPoint( m_SkyObjectList->first() );
+        ks->map()->slotCenter();
+    }
+}
+
 void KSObjectList::slotContextMenu(const QPoint &pos)
 {
     int countRows = selectionModel()->selectedRows().count();
@@ -133,6 +147,9 @@ void KSObjectList::slotContextMenu(const QPoint &pos)
 
 void KSObjectList::setSkyObjectList (QList<SkyObject *> l)
 {
+    if (m_SkyObjectList) {
+        delete m_SkyObjectList;
+    }
     m_SkyObjectList = new QList<SkyObject *>(l);
 }
 
@@ -140,3 +157,5 @@ QList<SkyObject *> * KSObjectList::getSkyObjectList()
 {
     return m_SkyObjectList;
 }
+
+
