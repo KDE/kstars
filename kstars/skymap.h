@@ -18,7 +18,7 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
-//#define USEGL
+#define USEGL
 
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
