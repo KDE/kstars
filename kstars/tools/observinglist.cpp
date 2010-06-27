@@ -581,9 +581,18 @@ void ObservingList::slotNewSelection() {
 }
 
 void ObservingList::slotCenterObject() {
-    ks->map()->setClickedObject( currentObject() );
-    ks->map()->setClickedPoint( currentObject() );
-    ks->map()->slotCenter();
+    QModelIndexList selectedItems;
+    if (sessionView) {
+        selectedItems = ui->SessionView->selectionModel()->selectedRows();
+    } else {
+        selectedItems = ui->TableView->selectionModel()->selectedRows();
+    }
+
+    if (selectedItems.size() == 1) {
+        ks->map()->setClickedObject( currentObject() );
+        ks->map()->setClickedPoint( currentObject() );
+        ks->map()->slotCenter();
+    }
 }
 
 void ObservingList::slotSlewToObject()
