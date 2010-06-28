@@ -31,6 +31,7 @@
 
 #include "skymap.h"
 #include "skyqpainter.h"
+#include "skyglpainter.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -694,7 +695,11 @@ void SkyMap::paintEvent( QPaintEvent *event )
     // 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
     // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
+    #ifdef USEGL
+    SkyGLPainter psky(this);
+    #else
     SkyQPainter psky(this, sky);
+    #endif
     //FIXME: we may want to move this into the components.
     psky.begin();
     
