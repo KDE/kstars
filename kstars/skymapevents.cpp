@@ -660,7 +660,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
     //use update() to trigger this "short" paint event; to force a full "recompute"
     //of the skymap, use forceUpdate().
     
-    /*
+
     if (!computeSkymap)
     {
         *sky2 = *sky;
@@ -671,7 +671,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
         p.drawPixmap( 0, 0, *sky2 );
         p.end();
         return ; // exit because the pixmap is repainted and that's all what we want
-    }*/
+    }
 
     // FIXME: used to to notify infobox about possible change of object coordinates
     // Not elegant at all. Should find better option
@@ -694,7 +694,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
     // 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
     // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
-    SkyQPainter psky(this, this);
+    SkyQPainter psky(this, sky);
     //FIXME: we may want to move this into the components.
     psky.begin();
     
@@ -704,7 +704,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
     //Finish up
     psky.end();
 
-    /*
+
     *sky2 = *sky;
     drawOverlays( sky2 );
     //TIMING
@@ -715,7 +715,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
     psky2.begin( this );
     psky2.drawLine(0,0,1,1); // Dummy op.
     psky2.drawPixmap( 0, 0, *sky2 );
-    psky2.end(); */
+    psky2.end();
 
     // DEBUG stuff known to "work for sure" -- copied from the Qt example
     /*
