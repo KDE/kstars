@@ -39,7 +39,6 @@
 #define DZOOM 1.189207115  // 2^(1/4)
 #define AU_KM 1.49605e8    //km in one AU
 
-#define MINDRAWSTARMAG 6.5 // min. magnitude to load all stars which are needed for constellation lines
 
 class QFile;
 
@@ -47,7 +46,6 @@ class dms;
 class SkyMap;
 class SkyMapComposite;
 class SkyObject;
-class KSPlanet;
 class FOV;
 
 class TimeZoneRule;
