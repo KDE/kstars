@@ -219,8 +219,6 @@ void LineListIndex::drawLines( QPainter& psky )
     DrawID   drawID   = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
 
-    bool isVisible, isVisibleLast;
-
     MeshIterator region( skyMesh(), drawBuffer() );
     while ( region.hasNext() ) {
 
@@ -238,6 +236,7 @@ void LineListIndex::drawLines( QPainter& psky )
             if ( lineList->updateID != updateID )
                 JITupdate( lineList );
 
+            bool isVisibleLast;
             SkyList* points = lineList->points();
             SkyPoint* pLast = points->first();
             QPointF   oLast = map->toScreen( pLast, true, &isVisibleLast );
@@ -245,8 +244,9 @@ void LineListIndex::drawLines( QPainter& psky )
             QPointF oThis, oThis2;
             for ( int j = 1 ; j < points->size() ; j++ ) {
                 SkyPoint* pThis = points->at( j );
-                oThis2 = oThis = map->toScreen( pThis, true, &isVisible );
 
+                bool isVisible;
+                oThis2 = oThis = map->toScreen( pThis, true, &isVisible );
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, j ) ) {
 
                     if ( isVisible && isVisibleLast && map->onscreenLine( oLast, oThis ) ) {
