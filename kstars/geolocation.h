@@ -192,16 +192,6 @@ public:
      */
     void setCountry( const QString &n ) { Country = n; }
 
-    /**Sets Time Zone according to argument.
-     * @param tz new timezone offset
-     */
-    void setTZ( double tz ) { TimeZone = tz; }
-
-    /**Sets DST rule pointer according to argument.
-     * @param tzr pointer to the new DST rule
-     */
-    void setTZrule( TimeZoneRule *tzr ) { TZrule = tzr; }
-
     /**Converts from cartesian coordinates in meters to longitude,
      * latitude and height on a standard geoid for the Earth. The
      * geoid is characterized by two parameters: the semimajor axis
