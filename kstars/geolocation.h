@@ -124,7 +124,7 @@ public:
     double TZ() const { if( TZrule ) return TimeZone + TZrule->deltaTZ(); return TimeZone; }
 
     /**@return pointer to time zone rule object */
-    TimeZoneRule* tzrule() const { return TZrule; }
+    TimeZoneRule* tzrule() { return TZrule; }
 
     /**Set longitude according to dms argument.
      * @param l the new longitude */

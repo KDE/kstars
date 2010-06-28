@@ -335,7 +335,7 @@ private:
     /**Reset local time to new daylight saving time. Use this function if DST has changed.
      * Used by updateTime().
      */
-    void resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange);
+    void resetToNewDST(GeoLocation *geo, const bool automaticDSTchange);
 
     QList<ADVTreeData*> ADVtreeList;
     QList<INDIHostsInfo*> INDIHostsList;
