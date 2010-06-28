@@ -144,9 +144,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
     SpatialVector p1(ra1, dec1);
     SpatialVector p2(ra2, dec2);
     SpatialVector p3(ra3, dec3);
-    RangeConvex convex((SpatialVector*) &p1,
-                       (SpatialVector*) &p2,
-                       (SpatialVector*) &p3);
+    RangeConvex convex(&p1, &p2, &p3);
 
     if ( ! performIntersection(&convex, bufNum) )
         printf("In intersect(%f, %f, %f, %f, %f, %f)\n",
@@ -176,10 +174,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
     SpatialVector p2(ra2, dec2);
     SpatialVector p3(ra3, dec3);
     SpatialVector p4(ra4, dec4);
-    RangeConvex convex((SpatialVector*) &p1,
-                       (SpatialVector*) &p2,
-                       (SpatialVector*) &p3,
-                       (SpatialVector*) &p4);
+    RangeConvex convex( &p1, &p2, &p3, &p4);
 
     if ( ! performIntersection(&convex, bufNum) )
         printf("In intersect(%f, %f, %f, %f, %f, %f, %f, %f)\n",
@@ -271,9 +266,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
     SpatialVector p1(ra1, dec1);
     SpatialVector p0(ra0, dec0);
     SpatialVector p2(ra2, dec2);
-    RangeConvex convex((SpatialVector*) &p1,
-                       (SpatialVector*) &p0,
-                       (SpatialVector*) &p2);
+    RangeConvex convex(&p1, &p0, &p2);
 
     if ( ! performIntersection(&convex, bufNum) )
         printf("In intersect(%f, %f, %f, %f)\n", ra1, dec1, ra2, dec2);
