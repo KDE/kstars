@@ -205,6 +205,11 @@ public:
     /**@return a pointer to the current Altitude. */
     inline const dms& alt() const { return Alt; }
 
+    /**@return refracted altitude. This function uses
+     * Option::useRefraction to determine whether refraction
+     * correction should be aplied */
+    dms altRefracted() const;
+
     //XYZ
     inline const Quaternion& quat() const { return m_q; }
     void syncQuaternion();
@@ -463,12 +468,16 @@ public:
      */
     SkyPoint moveAway( SkyPoint &from, double dist );
 
-
     /**
      * @short Check if this point is circumpolar at the given geographic latitude
      */
     bool checkCircumpolar( const dms *gLat );
 
+    /** Apply refraction correction to altitude. */
+    static dms refract(dms h);
+
+    /** Remove refraction correction. */
+    static dms unrefract(dms h);
 protected:
     /**Precess this SkyPoint's catalog coordinates to the epoch described by the
     	*given KSNumbers object.
