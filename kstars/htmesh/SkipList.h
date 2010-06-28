@@ -11,8 +11,6 @@
 #include <SkipListElement.h>
 
 #define SKIPLIST_NOT_FOUND -1
-// INT_MAX
-// Was: -1
 
 class SkipListElement;
 
@@ -56,10 +54,7 @@ public:
             iter = iter->getElement(0);
             n_now--;
         }
-        if (iter != NIL)
-            return iter->getKey();
-        else
-            return (Key) -1;
+        return getkey();
     }
 
     void free(const Key searchKey); // free element with key
