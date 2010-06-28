@@ -249,7 +249,7 @@ void LineListIndex::drawLines( QPainter& psky )
                 oThis2 = oThis = map->toScreen( pThis, true, &isVisible );
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, j ) ) {
 
-                    if ( isVisible && isVisibleLast && map->onscreenLine( oLast, oThis ) ) {
+                    if ( isVisible && isVisibleLast ) {
                         psky.drawLine( oLast, oThis );
                         updateLabelCandidates( oThis, lineList, j );
                     } else if ( isVisibleLast ) {
