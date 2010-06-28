@@ -175,7 +175,7 @@ public:
     void setLocationFromOptions();
 
     /** Return map for daylight saving rules. */
-    QMap<QString, TimeZoneRule> getRulebook() { return Rulebook; }
+    const QMap<QString, TimeZoneRule>& getRulebook() { return Rulebook; }
 
     /** @return whether the next Focus change will omit the slewing animation. */
     bool snapNextFocus() const { return snapToFocus; }
