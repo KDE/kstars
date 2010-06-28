@@ -372,8 +372,6 @@ public:
     bool onScreen(const QPointF &p1, const QPointF &p2 );
     bool onScreen(const QPoint &p1, const QPoint &p2 );
 
-    bool onscreenLine( QPointF &p1, QPointF &p2 );
-
     /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
      * screen pixel coordinate offsets from the center of the Sky pixmap.
      * @param the screen pixel position to convert

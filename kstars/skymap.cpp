@@ -57,16 +57,6 @@
 #endif
 
 namespace {
-    // Assign values in x1 and x2 to p1 and p2 conserving ordering with respect to X coordinate
-    void storePointsOrd(QPointF& p1, QPointF& p2, const QPointF& edge1, const QPointF& edge2) {
-        if ( ( p1.x() < p2.x() )  ==  ( edge1.x() < edge2.x() ) ) {
-            p1 = edge1;
-            p2 = edge2;
-        } else {
-            p1 = edge2;
-            p2 = edge1;
-        }
-    }
 
     // FIXME: describe what this function do and give descriptive name
     double projectionK(double c) {
@@ -1064,93 +1054,6 @@ bool SkyMap::onScreen( const QPoint &p1, const QPoint &p2 ) {
                 p2.x() > scaledRect().width() ) ||
               ( p1.y() > scaledRect().height() &&
                 p2.y() > scaledRect().height() ) );
-}
-
-bool SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
-    //If the SkyMap rect contains both points or either point is null,
-    //we can return immediately
-    bool on1 = scaledRect().contains( p1.toPoint() );
-    bool on2 = scaledRect().contains( p2.toPoint() );
-    if ( on1 && on2 )
-        return true;
-
-    //Given two points defining a line segment, determine the
-    //endpoints of the segment which is clipped by the boundaries
-    //of the SkyMap QRectF.
-    QLineF screenLine( p1, p2 );
-
-    //Define screen edges to be just beyond the scaledRect() bounds, so that clipped
-    //positions are considered "offscreen"
-    QPoint topLeft( scaledRect().left()-1, scaledRect().top()-1 );
-    QPoint bottomLeft( scaledRect().left()-1, scaledRect().top() + height()+1 );
-    QPoint topRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top()-1 );
-    QPoint bottomRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top() + height()+1 );
-    QLine topEdge( topLeft, topRight );
-    QLine bottomEdge( bottomLeft, bottomRight );
-    QLine leftEdge( topLeft, bottomLeft );
-    QLine rightEdge( topRight, bottomRight );
-
-    QPointF edgePoint1;
-    QPointF edgePoint2;
-
-    //If both points are offscreen in the same direction, return a null point.
-    if ( ( p1.x() <= topLeft.x()    && p2.x() <= topLeft.x() ) ||
-            ( p1.y() <= topLeft.y()    && p2.y() <= topLeft.y() ) ||
-            ( p1.x() >= topRight.x()   && p2.x() >= topRight.x() ) ||
-            ( p1.y() >= bottomLeft.y() && p2.y() >= bottomLeft.y() ) ) {
-        return false;
-    }
-
-    //When an intersection betwen the line and a screen edge is found, the
-    //intersection point is stored in edgePoint2.
-    //If two intersection points are found for the same line, then we'll
-    //return the line joining those two intersection points.
-    if ( screenLine.intersect( QLineF(topEdge), &edgePoint1 ) == 1 ) {
-        edgePoint2 = edgePoint1;
-    }
-
-    if ( screenLine.intersect( QLineF(leftEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return true;
-        }
-    }
-
-    if ( screenLine.intersect( QLineF(rightEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return true;
-        }
-    }
-    if ( screenLine.intersect( QLineF(bottomEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return true;
-        }
-    }
-    //If we get here, zero or one intersection point was found.
-    //If no intersection points were found, the line must be totally offscreen
-    //return a null point
-    if ( edgePoint2.isNull() ) {
-        return false;
-    }
-
-    //If one intersection point was found, then one of the original endpoints
-    //was onscreen.  Return the line that connects this point to the edgePoint
-
-    //edgePoint2 is the one defined edgePoint.
-    if ( on2 )
-        p1 = edgePoint2;
-    else
-        p2 = edgePoint2;
-
-    return true;
 }
 
 SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
