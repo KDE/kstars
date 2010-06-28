@@ -632,8 +632,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                 if( clickedObject() ) {
                     clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
                 } else {
-                    SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra().Hours(), clickedPoint()->dec().Degrees() );
-                    pmenu->createEmptyMenu( &o );
+                    pmenu->createEmptyMenu( clickedPoint() );
                     pmenu->popup( QCursor::pos() );
                 }
             }

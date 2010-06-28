@@ -23,6 +23,7 @@
 #include <kaction.h>
 
 class StarObject;
+class SkyPoint;
 class SkyObject;
 class DeepSkyObject;
 class KSMoon;
@@ -118,7 +119,7 @@ public:
     	*@param nullObj pointer to dummy SkyObject, just to hold the clicked 
     	*coordinates for passing to initPopupMenu().
     	*/
-    void createEmptyMenu( SkyObject *nullObj );
+    void createEmptyMenu( SkyPoint *nullObj );
 
     /**Add a submenu for INDI controls (Slew, Track, Sync, etc).
     	*@return true if a valid INDI menu was added.

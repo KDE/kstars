@@ -105,11 +105,12 @@ KSPopupMenu::KSPopupMenu()
 KSPopupMenu::~KSPopupMenu()
 {}
 
-void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
+void KSPopupMenu::createEmptyMenu( SkyPoint *nullObj ) {
     KStars* ks = KStars::Instance();
-    initPopupMenu( nullObj, i18n( "Empty sky" ), QString(), QString(), false, false );
+    SkyObject o( SkyObject::TYPE_UNKNOWN, nullObj->ra(), nullObj->dec() );
+    initPopupMenu( &o, i18n( "Empty sky" ), QString(), QString(), false, false );
     addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
-    addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
+    addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ),      ks->map(), SLOT( slotDSS()  ) );
 }
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
