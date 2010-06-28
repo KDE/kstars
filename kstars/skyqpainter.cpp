@@ -77,6 +77,9 @@ SkyQPainter::~SkyQPainter()
 void SkyQPainter::begin()
 {
     QPainter::begin(m_pd);
+    bool aa = !m_sm->isSlewing() && Options::useAntialias();
+    setRenderHint(QPainter::Antialiasing, aa );
+    setRenderHint(QPainter::HighQualityAntialiasing, aa);
 }
 
 void SkyQPainter::end()
