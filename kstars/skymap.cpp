@@ -1144,7 +1144,8 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
 
     //Skip objects below the horizon if using Horizontal coords,
     //and the ground is drawn
-    if ( useAltAz && Options::showHorizon() && Options::showGround() && p->alt().Degrees() < -1.0 ) return false;
+    if( useAltAz && Options::showHorizon() && Options::showGround() && p->alt().Degrees() < -1.0 )
+        return false;
 
     if ( useAltAz ) {
         dY = fabs( p->altRefracted().Degrees() - focus()->alt().Degrees() );
