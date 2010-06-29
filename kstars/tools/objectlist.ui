@@ -87,23 +87,6 @@
     </layout>
    </item>
    <item>
-    <widget class="QWidget" name="AdvancedSearch" native="true">
-     <widget class="KPushButton" name="ShowAdvancedButton">
-      <property name="geometry">
-       <rect>
-        <x>320</x>
-        <y>10</y>
-        <width>145</width>
-        <height>26</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Advanced Search</string>
-      </property>
-     </widget>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="Magnitude">
      <item>
       <widget class="QLabel" name="LowerLimitLabel">
@@ -113,7 +96,11 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="MinMagnitude"/>
+      <widget class="QDoubleSpinBox" name="MinMagnitude">
+       <property name="minimum">
+        <double>-27.000000000000000</double>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="UpperLimitLabel">
@@ -123,39 +110,40 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="MaxMagnitude"/>
+      <widget class="QDoubleSpinBox" name="MaxMagnitude"/>
      </item>
     </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="Semiaxis">
      <item>
-      <widget class="QLabel" name="SemimajorAxisLabel">
+      <widget class="QLabel" name="SemiaxisLabel">
        <property name="text">
-        <string>Semimajor axis (a):</string>
+        <string>Semiaxis lower limit</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="SemimajorAxis"/>
+      <widget class="QLabel" name="SemimajorAxisLabel">
+       <property name="text">
+        <string>(a):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="SemimajorAxis"/>
      </item>
      <item>
       <widget class="QLabel" name="SemiminorAxisLabel">
        <property name="text">
-        <string>Semiminor axis (b):</string>
+        <string>(b):</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="SeminorAxis"/>
+      <widget class="QDoubleSpinBox" name="SemiminorAxis"/>
      </item>
     </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="AdvancedSearchLayout"/>
-   </item>
-   <item>
-    <widget class="QWidget" name="SimpleSearch" native="true"/>
    </item>
    <item>
     <widget class="KSObjectList" name="TableView" native="true"/>
@@ -163,11 +151,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>

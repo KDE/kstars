@@ -100,7 +100,7 @@ ObjectList::ObjectList( KStars *_ks )
     setButtons( KDialog::Close );
 
     /*
-    DATABASE TYPES
+    The database contains the following types (the same, from the old ngcic.dat):
                 { STAR=0, CATALOG_STAR=1, PLANET=2, OPEN_CLUSTER=3, GLOBULAR_CLUSTER=4,
                 GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8,
                 COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, ASTERISM=13, 
@@ -126,27 +126,25 @@ ObjectList::ObjectList( KStars *_ks )
 
     ui->FilterType->setCurrentIndex(0);
 
-    ui->AdvancedSearch->show();
-    ui->ShowAdvancedButton->setText("Advanced Search");
+    // Default maximum magnitude (18)
+    ui->MaxMagnitude->setValue(18.00);
 
-    /* 
-     * Add the catalogs from the database, in the order of their ids
-     */
+    // Display the catalogs from the database
     QSqlQuery query;
-    if (!query.exec("SELECT name FROM ctg ORDER BY rowid")) {
+    if (!query.exec("SELECT name, rowid FROM ctg ORDER BY rowid")) {
         kDebug() << query.lastError();
     }
 
+    ui->CatalogList->addItem( i18n ("Any"), QVariant(-1) );
     while (query.next()) {
-        ui->CatalogList->addItem( query.value(0).toString() );
+        ui->CatalogList->addItem( query.value(0).toString(), query.value(1) );
     }
-    ui->CatalogList->addItem( i18n ("Any") );
 
     // By default, just display all the objects, mixing all the catalogs
     QString subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od " + 
        QString("INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations");
 
-    QString searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso WHERE dso.bmag <= 13.00";
+    QString searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso WHERE dso.bmag <= " + QString::number(ui->MaxMagnitude->value());
 
     m_TableModel = new QSqlQueryModel();
 
@@ -157,20 +155,25 @@ ObjectList::ObjectList( KStars *_ks )
 
     ui->TableView->setModel( m_TableModel );
 
-    // Connections
+    // Query change connections
     connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
-    connect( ui->ShowAdvancedButton, SIGNAL( clicked() ), SLOT( slotShowAdvanced() ));
-//  connect( ui->FilterMagnitude, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
+    connect( ui->CatalogList, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
     connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( enqueueSearch() ) );
-    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex &) ), SLOT ( slotSelectObject (const QModelIndex &) ));
+    connect( ui->SemimajorAxis, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
+    connect( ui->SemiminorAxis, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
+    connect( ui->MinMagnitude, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
+    connect( ui->MaxMagnitude, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
 
-    connect ( ui->TableView->selectionModel() , SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)), SLOT (slotNewSelection()) );
+    // Object specific connections
+    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex &) ), SLOT ( slotSelectObject (const QModelIndex &) ));
+    connect( ui->TableView->selectionModel() , SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)), SLOT (slotNewSelection()) );
+
 
     // Some display options
     ui->TableView->verticalHeader()->hide();
 
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
-    ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
+//  ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
 
     ui->TableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->TableView->setColumnHidden(2, true);
@@ -183,24 +186,50 @@ ObjectList::~ObjectList()
 void ObjectList::enqueueSearch()
 {
     QString searchedName = processSearchText();
+    qlonglong catalogID = ui->CatalogList->itemData(ui->CatalogList->currentIndex()).toInt(),
+              itemType = ui->FilterType->itemData(ui->FilterType->currentIndex()).toInt();
 
-    QString subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations";
-    QString searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso ";
+    QString subQuery, searchQuery;
 
-    searchQuery += "WHERE (Designations LIKE \'%" + searchedName + "%\' OR Name LIKE \'%" + searchedName + "%\') ";
+    // Check if magnitude constrains are consistent
+    if (ui->MinMagnitude->value() > ui->MaxMagnitude->value()) {
+        ui->MinMagnitude->setValue(ui->MaxMagnitude->value());
+    }
+    
+    // Particular catalog requested
+    if (catalogID != -1) {
+        searchQuery = "SELECT ctg.name || \" \" || od.designation AS Designations, dso.longname AS Name, dso.rowid " +
+           QString("FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid INNER JOIN dso ON od.idDSO = dso.rowid WHERE od.idCTG = ") + QString::number(catalogID) + " ";
 
-    if (ui->FilterType->itemData(ui->FilterType->currentIndex()).toInt() != - 1) {
-        searchQuery += "AND dso.type = " + QString::number(ui->FilterType->itemData(ui->FilterType->currentIndex()).toInt()) + " ";
+        searchQuery += "AND (Designations LIKE \'%" + searchedName + "%\' OR Name LIKE \'%" + searchedName + "%\') ";
+    } else {
+        subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations";
+        searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso ";
+
+        searchQuery += "WHERE (Designations LIKE \'%" + searchedName + "%\' OR Name LIKE \'%" + searchedName + "%\') ";
     }
 
-//  searchQuery += "AND dso.bmag <= \'" + QString::number(ui->FilterMagnitude->value()) + "\' ";
+    // Specific object types
+    if (itemType != -1) {
+        searchQuery += "AND dso.type = " + QString::number(itemType) + " ";
+    }
+
+    // Magnitude constraints
+    searchQuery += "AND dso.bmag <= \'" + QString::number(ui->MaxMagnitude->value()) + "\' ";
+    searchQuery += "AND dso.bmag >= " + QString::number(ui->MinMagnitude->value()) + " ";
+    
+    // Semiaxis constraints
+    searchQuery += "AND dso.minor >= \'" + QString::number(ui->SemiminorAxis->value()) + "\' ";
+    searchQuery += "AND dso.major >= \'" + QString::number(ui->SemimajorAxis->value()) + "\' ";
 
 //  searchQuery += "ORDER BY dso.rowid";
 
     m_TableModel->setQuery(searchQuery);
 
     // for debugging purposes
-//  kDebug() << m_TableModel->lastError();
+    kDebug() << m_TableModel->lastError();
+    kDebug() << searchQuery;
+//  kDebug() << m_TableModel->lastQuery();
 }
 
 QString ObjectList::processSearchText()
@@ -226,10 +255,6 @@ QString ObjectList::processSearchText()
     // Check for genetive names of stars. Example: alp CMa must go to alpha Canis Majoris
 
     return searchtext;
-}
-
-void ObjectList::slotShowAdvanced() {
-
 }
 
 void ObjectList::slotSelectObject(const QModelIndex &index)

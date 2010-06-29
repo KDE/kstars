@@ -68,7 +68,6 @@ public slots:
 
     void slotSelectObject(const QModelIndex &);
     void slotNewSelection();
-    void slotShowAdvanced();
 
 private:
     void drawObject(qlonglong);
