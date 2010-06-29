@@ -1147,7 +1147,7 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
     if ( useAltAz && Options::showHorizon() && Options::showGround() && p->alt().Degrees() < -1.0 ) return false;
 
     if ( useAltAz ) {
-        dY = p->altRefracted().Degrees() - focus()->alt().Degrees();
+        dY = fabs( p->altRefracted().Degrees() - focus()->alt().Degrees() );
     } else {
         dY = fabs( p->dec().Degrees() - focus()->dec().Degrees() );
     }
