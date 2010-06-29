@@ -290,15 +290,15 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
 
     psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
-    bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
-    bool drawComets( drawPlanets && Options::showComets() );
-    bool drawAsteroids( drawPlanets && Options::showAsteroids() );
-    bool drawMessier( Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() ) );
-    bool drawNGC( Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC() ) );
-    bool drawIC( Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC() ) );
-    bool drawOther( Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther() ) );
-    bool drawStars = ( Options::showStars() );
-    bool hideFaintStars( checkSlewing && Options::hideStars() );
+    bool drawPlanets    = Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets();
+    bool drawComets     = drawPlanets && Options::showComets();
+    bool drawAsteroids  = drawPlanets && Options::showAsteroids();
+    bool drawMessier    = Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() );
+    bool drawNGC        = Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC() );
+    bool drawIC         = Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC() );
+    bool drawOther      = Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther() );
+    bool drawStars      = Options::showStars();
+    bool hideFaintStars = checkSlewing && Options::hideStars();
 
     //Attach a label to the centered object
     if ( focusObject() != NULL && Options::useAutoLabel() ) {
