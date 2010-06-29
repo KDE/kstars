@@ -663,34 +663,25 @@ void SkyMap::slotClockSlewing() {
 }
 
 void SkyMap::setFocus( SkyPoint *p ) {
-    setFocus( p->ra().Hours(), p->dec().Degrees() );
+    setFocus( p->ra(), p->dec() );
 }
 
 void SkyMap::setFocus( const dms &ra, const dms &dec ) {
-    setFocus( ra.Hours(), dec.Degrees() );
-}
+    Options::setFocusRA(  ra.Hours() );
+    Options::setFocusDec( dec.Degrees() );
 
-void SkyMap::setFocus( double ra, double dec ) {
-    Focus.set( ra, dec );
-    Options::setFocusRA( ra );
-    Options::setFocusDec( dec );
-
+    focus()->set( ra, dec );
     focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
-    setFocusAltAz( alt.Degrees(), az.Degrees() );
-}
-
-void SkyMap::setFocusAltAz(double alt, double az) {
+    Options::setFocusRA( focus()->ra().Hours() );
+    Options::setFocusDec( focus()->dec().Degrees() );
     focus()->setAlt(alt);
     focus()->setAz(az);
     focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-    Options::setFocusRA( focus()->ra().Hours() );
-    Options::setFocusDec( focus()->dec().Degrees() );
 
     slewing = false;
-
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
@@ -725,8 +716,7 @@ void SkyMap::updateFocus() {
     if ( Options::isTracking() && focusObject() != NULL ) {
         if ( Options::useAltAz() ) {
             //Tracking any object in Alt/Az mode requires focus updates
-            double dAlt = focusObject()->altRefracted().Degrees();
-            setFocusAltAz( dAlt, focusObject()->az().Degrees() );
+            setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             setDestination( focus() );
         } else {
@@ -834,7 +824,7 @@ void SkyMap::slewFocus() {
         //Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
         //set focus=destination.
         if ( Options::useAltAz() ) {
-            setFocusAltAz( destination()->alt().Degrees(), destination()->az().Degrees() );
+            setFocusAltAz( destination()->alt(), destination()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             setFocus( destination() );

@@ -871,14 +871,14 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( arg == "w"  || arg == "west" )      az = 270.0;
                 if ( arg == "nw" || arg == "northwest" ) az = 335.0;
                 if ( az >= 0.0 ) {
-                    map->setFocusAltAz( 90.0, map->focus()->az().Degrees() );
+                    map->setFocusAltAz( dms(90.0), map->focus()->az() );
                     map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;
                 }
 
                 if ( arg == "z" || arg == "zenith" ) {
-                    map->setFocusAltAz( 90.0, map->focus()->az().Degrees() );
+                    map->setFocusAltAz( dms(90.0), map->focus()->az() );
                     map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;

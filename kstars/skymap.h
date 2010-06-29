@@ -136,31 +136,11 @@ public:
     	*/
     void setFocus( const dms &ra, const dms &dec );
 
-    /**@short sets the focus point of the sky map, using ra/dec coordinates
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param ra the new right ascension
-    	*@param dec the new declination
-    	*/
-    void setFocus(double ra, double dec);
-
     /**@short sets the focus point of the sky map, using its alt/az coordinates
     	*@param alt the new altitude
     	*@param az the new azimuth
     	*/
     void setFocusAltAz( const dms &alt, const dms & az);
-
-    /**@short sets the central focus point of the sky map, using alt/az coordinates
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param alt the new altitude
-    	*@param az the new azimuth
-    	*/
-    void setFocusAltAz(double alt, double az);
 
     /**@short sets the destination point of the sky map.
     	*@note setDestination() emits the destinationChanged() SIGNAL,
