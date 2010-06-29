@@ -107,27 +107,45 @@ ObjectList::ObjectList( KStars *_ks )
                 GALAXY_CLUSTER=14, DARK_NEBULA=15, QUASAR=16, MULT_STAR=17, TYPE_UNKNOWN };
     */
 
-    ui->FilterType->addItem( i18n ("Any") );
-    ui->FilterType->addItem( i18n ("Stars") );
-    ui->FilterType->addItem( i18n ("Solar System") );
-    ui->FilterType->addItem( i18n ("Open Clusters") );
-    ui->FilterType->addItem( i18n ("Globular Clusters") );
-    ui->FilterType->addItem( i18n ("Gaseous Nebulae") );
-    ui->FilterType->addItem( i18n ("Planetary Nebulae") );
-    ui->FilterType->addItem( i18n ("Supernova Remnant") );
-    ui->FilterType->addItem( i18n ("Galaxies") );
-    ui->FilterType->addItem( i18n ("Comets") );
-    ui->FilterType->addItem( i18n ("Asteroids") );
-    ui->FilterType->addItem( i18n ("Constellations") );
-    ui->FilterType->addItem( i18n ("Galaxy Cluster") );
-    ui->FilterType->addItem( i18n ("Dark Nebula") );
-    ui->FilterType->addItem( i18n ("Quasar") );
-    ui->FilterType->addItem( i18n ("Multiple Star") );
+    ui->FilterType->addItem( i18n ("Any"), QVariant(-1) );
+    ui->FilterType->addItem( i18n ("Stars"), QVariant(0) );
+    ui->FilterType->addItem( i18n ("Solar System"), QVariant(2) );
+    ui->FilterType->addItem( i18n ("Open Clusters"), QVariant(3) );
+    ui->FilterType->addItem( i18n ("Globular Clusters"), QVariant(4) );
+    ui->FilterType->addItem( i18n ("Gaseous Nebulae"), QVariant(5) );
+    ui->FilterType->addItem( i18n ("Planetary Nebulae"), QVariant(6) );
+    ui->FilterType->addItem( i18n ("Supernova Remnant"), QVariant(7) );
+    ui->FilterType->addItem( i18n ("Galaxies"), QVariant(8) );
+    ui->FilterType->addItem( i18n ("Comets"), QVariant(9) );
+    ui->FilterType->addItem( i18n ("Asteroids"), QVariant(10) );
+    ui->FilterType->addItem( i18n ("Constellations"), QVariant(11) );
+    ui->FilterType->addItem( i18n ("Galaxy Cluster"), QVariant(14) );
+    ui->FilterType->addItem( i18n ("Dark Nebula"), QVariant(15) );
+    ui->FilterType->addItem( i18n ("Quasar"), QVariant(16) );
+    ui->FilterType->addItem( i18n ("Multiple Star"), QVariant(17) );
 
     ui->FilterType->setCurrentIndex(0);
 
-    // By default, just display all the objects
-    QString subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations";
+    ui->AdvancedSearch->show();
+    ui->ShowAdvancedButton->setText("Advanced Search");
+
+    /* 
+     * Add the catalogs from the database, in the order of their ids
+     */
+    QSqlQuery query;
+    if (!query.exec("SELECT name FROM ctg ORDER BY rowid")) {
+        kDebug() << query.lastError();
+    }
+
+    while (query.next()) {
+        ui->CatalogList->addItem( query.value(0).toString() );
+    }
+    ui->CatalogList->addItem( i18n ("Any") );
+
+    // By default, just display all the objects, mixing all the catalogs
+    QString subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od " + 
+       QString("INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations");
+
     QString searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso WHERE dso.bmag <= 13.00";
 
     m_TableModel = new QSqlQueryModel();
@@ -141,9 +159,10 @@ ObjectList::ObjectList( KStars *_ks )
 
     // Connections
     connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
-    connect( ui->FilterMagnitude, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
+    connect( ui->ShowAdvancedButton, SIGNAL( clicked() ), SLOT( slotShowAdvanced() ));
+//  connect( ui->FilterMagnitude, SIGNAL( valueChanged( double ) ), this, SLOT( enqueueSearch() ) );
     connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( enqueueSearch() ) );
-    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex &) ), SLOT ( selectObject (const QModelIndex &) ));
+    connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex &) ), SLOT ( slotSelectObject (const QModelIndex &) ));
 
     connect ( ui->TableView->selectionModel() , SIGNAL (selectionChanged(const QItemSelection &, const QItemSelection &)), SLOT (slotNewSelection()) );
 
@@ -170,22 +189,18 @@ void ObjectList::enqueueSearch()
 
     searchQuery += "WHERE (Designations LIKE \'%" + searchedName + "%\' OR Name LIKE \'%" + searchedName + "%\') ";
 
-    if (ui->FilterType->currentIndex() != 0) {
-        if (ui->FilterType->currentIndex() > 11) // adjust the view numbers to match the database types
-            searchQuery += "AND dso.type = " + QString::number(ui->FilterType->currentIndex() + 2) + " ";
-        else
-            searchQuery += "AND dso.type = " + QString::number(ui->FilterType->currentIndex()) + " ";
+    if (ui->FilterType->itemData(ui->FilterType->currentIndex()).toInt() != - 1) {
+        searchQuery += "AND dso.type = " + QString::number(ui->FilterType->itemData(ui->FilterType->currentIndex()).toInt()) + " ";
     }
 
-    searchQuery += "AND dso.bmag <= \'" + QString::number(ui->FilterMagnitude->value()) + "\' ";
+//  searchQuery += "AND dso.bmag <= \'" + QString::number(ui->FilterMagnitude->value()) + "\' ";
 
 //  searchQuery += "ORDER BY dso.rowid";
 
     m_TableModel->setQuery(searchQuery);
 
     // for debugging purposes
-    kDebug() << m_TableModel->lastError();
-    kDebug() << m_TableModel->query().lastQuery();
+//  kDebug() << m_TableModel->lastError();
 }
 
 QString ObjectList::processSearchText()
@@ -213,7 +228,11 @@ QString ObjectList::processSearchText()
     return searchtext;
 }
 
-void ObjectList::selectObject(const QModelIndex &index)
+void ObjectList::slotShowAdvanced() {
+
+}
+
+void ObjectList::slotSelectObject(const QModelIndex &index)
 {
     drawObject(m_TableModel->record(index.row()).field(2).value().toLongLong());
     // some additional operations might be done here
@@ -222,24 +241,23 @@ void ObjectList::selectObject(const QModelIndex &index)
 void ObjectList::slotNewSelection() {
     QModelIndexList selectedItems;
     QModelIndex item;
-    KStarsData *data = KStarsData::Instance();
     QList<SkyObject *> skyobjects;
 
+
     qlonglong id;
-    DeepSkyObject *o;
+    SkyObject *o;
 
     selectedItems = ui->TableView->selectionModel()->selectedRows(2);
 
-    
     if( selectedItems.size() == 1 ) {
         id = selectedItems.first().data().toLongLong();
-        o = generateObject(id);
+        o = getObject(id);
         skyobjects.push_back(o);
 
         ui->TableView->setSkyObjectList(skyobjects);
     } else {
        foreach (item, selectedItems) {
-           o = generateObject (item.data().toLongLong());
+           o = getObject (item.data().toLongLong());
            skyobjects.push_back(o);
        }
 
@@ -248,10 +266,15 @@ void ObjectList::slotNewSelection() {
 }
 
 
-DeepSkyObject * ObjectList::generateObject(qlonglong id)
+SkyObject * ObjectList::getObject(qlonglong id)
 {
-    SkyMesh *skyMesh = SkyMesh::Instance();
+    if (objectHash.contains(id)) {
+        kDebug() << "Found a hashed object!";
+        return objectHash[id];
+    }
+    
     KStarsData *data = KStarsData::Instance();
+    SkyObject *o = NULL;
 
     // Variables needed to load all the data
     QString line, con, ss, name[10], longname;
@@ -270,7 +293,7 @@ DeepSkyObject * ObjectList::generateObject(qlonglong id)
     int pgc = 0, ugc = 0, k = 0;
 
     // Index flag, nameflag, counter
-    QChar iflag; bool hasName; int i;
+    QChar iflag; bool hasName;
 
     QSqlQuery query, dsoquery;
 
@@ -334,14 +357,10 @@ DeepSkyObject * ObjectList::generateObject(qlonglong id)
         if ( sgn == -1 ) { d.setD( -1.0*d.Degrees() ); }
 
         // Create new Deep Sky Object Instance
-        DeepSkyObject *o = 0;
         if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
 
         o = new DeepSkyObject( type, r, d, mag, name[0], name[1], longname, cat[0], a, b, pa, pgc, ugc );
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-
-//      Trixel trixel = skyMesh->index( (SkyPoint*) o );
-
 
         // Load the images associated to the deep sky object (this was done in KStarsData::readUrlData)
         dsoquery.prepare("SELECT url, title, type FROM dso_url WHERE idDSO = :iddso");
@@ -364,19 +383,20 @@ DeepSkyObject * ObjectList::generateObject(qlonglong id)
                 }
             }
         }
+        
+        objectHash[id] = o;
         return o;
     }
+
+    return 0;
 }
 
 void ObjectList::drawObject(qlonglong id)
 {
-    SkyMesh *skyMesh = SkyMesh::Instance();
-    KStarsData *data = KStarsData::Instance();
-    DeepSkyObject *o = generateObject(id);
+    SkyObject *o = getObject(id);
 
     // Focus the object
     SkyMap *map = KStars::Instance()->map();
-    SkyMapComposite *skyComp = data->skyComposite();
 
     map->setClickedObject( o );
     map->setClickedPoint( o );

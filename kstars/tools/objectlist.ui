@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>250</width>
-    <height>300</height>
+    <width>500</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -35,7 +35,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="SearchBoxLabel">
        <property name="text">
         <string>Filter by name:</string>
        </property>
@@ -47,9 +47,12 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="OtherFilters">
+    <layout class="QHBoxLayout" name="SimpleFilters">
      <property name="spacing">
       <number>6</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <property name="margin">
       <number>0</number>
@@ -65,40 +68,106 @@
       <widget class="KComboBox" name="FilterType"/>
      </item>
      <item>
-      <widget class="QLabel" name="FilterMagnitudeLabel">
-       <property name="text">
-        <string>Magnitude limit:</string>
+      <widget class="Line" name="HLine">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="FilterMagnitude">
-       <property name="minimum">
-        <double>-30.000000000000000</double>
-       </property>
-       <property name="value">
-        <double>13.000000000000000</double>
+      <widget class="QLabel" name="CatalogListLabel">
+       <property name="text">
+        <string>Catalog:</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="KComboBox" name="CatalogList"/>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="KSObjectList" name="TableView" native="true">
-         <property name="showAddToSession">
-          <set>true</set>
-         </property>
-         <property name="showAddVisibleTonight">
-          <set>true</set>
-         </property>
-         <property name="showCenter">
-          <set>true</set>
-         </property>
+    <widget class="QWidget" name="AdvancedSearch" native="true">
+     <widget class="KPushButton" name="ShowAdvancedButton">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>10</y>
+        <width>145</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Advanced Search</string>
+      </property>
+     </widget>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="Magnitude">
+     <item>
+      <widget class="QLabel" name="LowerLimitLabel">
+       <property name="text">
+        <string>Magnitude between</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KComboBox" name="MinMagnitude"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="UpperLimitLabel">
+       <property name="text">
+        <string>and</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KComboBox" name="MaxMagnitude"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="Semiaxis">
+     <item>
+      <widget class="QLabel" name="SemimajorAxisLabel">
+       <property name="text">
+        <string>Semimajor axis (a):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KComboBox" name="SemimajorAxis"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="SemiminorAxisLabel">
+       <property name="text">
+        <string>Semiminor axis (b):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KComboBox" name="SeminorAxis"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="AdvancedSearchLayout"/>
+   </item>
+   <item>
+    <widget class="QWidget" name="SimpleSearch" native="true"/>
+   </item>
+   <item>
+    <widget class="KSObjectList" name="TableView" native="true"/>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>

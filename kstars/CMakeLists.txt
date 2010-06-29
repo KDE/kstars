@@ -348,6 +348,7 @@ target_link_libraries(kstars
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
+	${QT_QTSQL_LIBRARY}
         )
 
 if(NOT WIN32)

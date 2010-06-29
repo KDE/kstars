@@ -266,6 +266,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
                     << new QStandardItem( smag )
                     << new QStandardItem( obj->typeName() );
         m_Model->appendRow( itemList );
+
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", obj->name() ), 0 );
         ui->TableView->resizeColumnsToContents(); 
@@ -451,6 +452,7 @@ void ObservingList::slotNewSelection() {
     ui->ImagePreview->clearPreview();
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
     QFile file;
+
     if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
        file.close();
        ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
@@ -459,6 +461,8 @@ void ObservingList::slotNewSelection() {
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
+    QList<SkyObject *> selObjs;
+
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     if( sessionView ) {
@@ -483,6 +487,7 @@ void ObservingList::slotNewSelection() {
         if ( selectedItems.size() == m_Model->columnCount() ) {
             newName = selectedItems[0].data().toString();
             singleSelection = true;
+
             //Find the selected object in the obsList,
             //then break the loop.  Now obsList.current()
             //points to the new selected object (until now it was the previous object)
@@ -578,12 +583,43 @@ void ObservingList::slotNewSelection() {
         saveCurrentUserLog();
         ui->NotesEdit->setPlainText("");
     }
+
+    // Set the QList<SkyObject *> on the KSObjectList
+    QList<SkyObject *> skyObjList = sessionView ? sessionList() : obsList();
+    KSObjectList *currentView = sessionView ? ui->SessionView : ui->TableView;
+    QSortFilterProxyModel *currentModel = sessionView ? m_SortModelSession : m_SortModel;
+    
+    selectedItems = currentModel->mapSelectionToSource( currentView->selectionModel()->selection() ).indexes();
+
+    if ( selectedItems.size() ) {
+        foreach ( const QModelIndex &i, selectedItems ) {
+            foreach ( SkyObject *o, skyObjList ) {
+                if ( o->name() == "star" ) { //Stars named "star" have to be matched by coordinates
+                    QString ra = m_Session->item(i.row(), 1)->text(),
+                            dc = m_Session->item(i.row(), 2)->text();
+                    if (o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc) {
+                        selObjs.append(o);
+                    }
+                } else if ( o->translatedName() == i.data().toString() ) {
+                    selObjs.append(o);
+                }
+            }
+        }
+    }
+    currentView->setSkyObjectList(selObjs);
 }
 
 void ObservingList::slotCenterObject() {
-    ks->map()->setClickedObject( currentObject() );
-    ks->map()->setClickedPoint( currentObject() );
-    ks->map()->slotCenter();
+    KSObjectList *currentView = sessionView ? ui->SessionView : ui->TableView;
+    QModelIndexList selectedItems = currentView->selectionModel()->selectedRows();
+
+    kDebug() << selectedItems.size();
+
+    if (selectedItems.size() == 1) {
+        ks->map()->setClickedObject( currentObject() );
+        ks->map()->setClickedPoint( currentObject() );
+        ks->map()->slotCenter();
+    }
 }
 
 void ObservingList::slotSlewToObject()
@@ -723,7 +759,7 @@ void ObservingList::slotDetails() {
     if ( currentObject() ) {
         QPointer<DetailDialog> dd = new DetailDialog( currentObject(), ks->data()->lt(), geo, ks );
         dd->exec();
-    	delete dd;
+        delete dd;
     }
 }
 
@@ -761,6 +797,8 @@ void ObservingList::slotFind() {
 void ObservingList::slotAVT() {
     QModelIndexList selectedItems;
     // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
+    // DONE: Improved it by checking everything when a new selection is done, and use KSObjectList
+    // (see last lines from slotNewSelection()) - Victor
     if( sessionView ) {
         QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
         for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
@@ -777,7 +815,6 @@ void ObservingList::slotAVT() {
                             avt->processObject( o );
                             break;
                         }
-    
                     } else if ( o->translatedName() == mIndex.data().toString() ) {
                         avt->processObject( o );
                         break;
@@ -786,7 +823,7 @@ void ObservingList::slotAVT() {
             }
         }
         avt->exec();
-	    delete avt;
+        delete avt;
     } else {
         selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
@@ -797,9 +834,9 @@ void ObservingList::slotAVT() {
                         avt->processObject( o );
             }
             avt->exec();
-	        delete avt;
+            delete avt;
         }
-    }       
+    }
 }
 
 //FIXME: On close, we will need to close any open Details/AVT windows

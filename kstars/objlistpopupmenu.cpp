@@ -44,13 +44,9 @@ void ObjListPopupMenu::init()
 
 void ObjListPopupMenu::showAddToSession()
 {
-    addAction( i18n( "Add to session plan" ), ks->observingList(), SLOT( slotAddToSession() ) );
+    addAction( i18n( "Add to session plan" ), m_KSObjList, SLOT( slotAddToSession() ) );
 }
 
-void ObjListPopupMenu::showAddVisibleTonight()
-{
-    addAction( i18n( "Add objects visible tonight to session plan" ), ks->observingList(), SLOT( slotAddVisibleObj() ) );
-}
 
 void ObjListPopupMenu::showCenter()
 {
@@ -59,17 +55,26 @@ void ObjListPopupMenu::showCenter()
 
 void ObjListPopupMenu::showScope()
 {
-    addAction( i18nc( "Show the selected object in the telescope", "Scope" ), ks->observingList(), SLOT( slotSlewToObject() ) );
+    addAction( i18nc( "Show the selected object in the telescope", "Scope" ), m_KSObjList, SLOT( slotSlewToObject() ) );
 }
 
 void ObjListPopupMenu::showDetails()
 {
-    addAction( i18nc( "Show Detailed Information Dialog", "Details" ), ks->observingList(), SLOT( slotDetails() ) );
+    addAction( i18nc( "Show Detailed Information Dialog", "Details" ), m_KSObjList, SLOT( slotDetails() ) );
 }
 
 void ObjListPopupMenu::showAVT()
 {
-    addAction( i18n( "Altitude vs. Time" ), ks->observingList(), SLOT( slotAVT() ) );
+    addAction( i18n( "Altitude vs. Time" ), m_KSObjList, SLOT( slotAVT() ) );
+}
+
+/* 
+ * The following actions are specific for ObservingList dialog. They have slots connected directly to
+ * the ObservingList instance from KStars. These should not be used independently outside of the ObservingList dialog.
+ */
+void ObjListPopupMenu::showAddVisibleTonight()
+{
+    addAction( i18n( "Add objects visible tonight to session plan" ), ks->observingList(), SLOT( slotAddVisibleObj() ) );
 }
 
 void ObjListPopupMenu::showLinks()
@@ -92,5 +97,7 @@ void ObjListPopupMenu::showRemoveFromSessionPlan()
 {
     addAction( i18n("Remove from Session Plan"), ks->observingList(), SLOT( slotRemoveSelectedObjects() ) );
 }
+
+/* End of ObservingList specific actions */
 
 #include "objlistpopupmenu.moc"

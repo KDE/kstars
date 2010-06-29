@@ -19,6 +19,7 @@
 #define OBJECTLIST_H_
 
 #include <QList>
+#include <QHash>
 #include <QSqlQueryModel>
 #include <QAbstractTableModel>
 
@@ -43,32 +44,10 @@ public:
 };
 
 /**@class ObservingList
-    *Tool window for managing a custom list of objects.  The window
-    *displays the Name, RA, Dec, mag, and type of each object in the list.
+    *Description will follow(just changed to adjust it for object list)
     *
-    *By selecting an object in the list, you can perform a number of functions
-    *on that object:
-    *+ Center it in the display 
-    *+ Examine its Details Window 
-    *+ Point the telescope at it 
-    *+ Attach a custom icon or name label (TBD)
-    *+ Attach a trail (solar system only) (TBD)
-    *+ Open the AltVsTime tool 
-    *
-    *The user can also save/load their observing lists, and can export 
-    *list data (TBD: as HTML table?  CSV format?  plain text?)
-    *
-    *The observing notes associated with the selected object are displayed 
-    *below the list.
-    *
-    *TODO: 
-    *+ Implement a "shaded" state, in which the UI is compressed to
-    *  make it easier to float on the KStars window.  Displays only
-    *  object names, and single-letter action buttons, and no user log.
-    *+ Implement an InfoBox version (the ultimate shaded state)
-    *
-    *@short Tool for managing a custom list of objects
-    *@author Jeff Woods, Jason Harris
+    *@short Tool for displaying the list of objects from the database
+    *@author Victor Carbune
     *@version 1.0
     */
 
@@ -87,13 +66,16 @@ public:
 public slots:
     void enqueueSearch();
 
-    void selectObject(const QModelIndex &);
+    void slotSelectObject(const QModelIndex &);
     void slotNewSelection();
+    void slotShowAdvanced();
 
 private:
-    QString processSearchText();
     void drawObject(qlonglong);
-    DeepSkyObject * generateObject(qlonglong);
+
+    QString processSearchText();
+    SkyObject * getObject(qlonglong);
+    QHash<qlonglong, SkyObject *> objectHash;
 
     KStars *ks;
     ObjectListUI *ui;

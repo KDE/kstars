@@ -25,6 +25,7 @@
 #include <QList>
 #include <QMouseEvent>
 
+#include "dialogs/detaildialog.h"
 #include "skyobjects/skyobject.h"
 #include "objlistpopupmenu.h"
 
@@ -75,10 +76,15 @@ public:
 public slots:
     void slotContextMenu(const QPoint &pos);
     void slotCenterObject();
+    void slotAddToSession();
+    void slotSlewToObject();
+    void slotDetails();
+    void slotAVT();
 
 private:
     ObjListPopupMenu *pmenu;
     QList<SkyObject *> *m_SkyObjectList;
+    KStars *ks;
     bool singleSelection, noSelection;
     bool m_showAddToSession, m_showCenter, m_showDetails, m_showScope, m_showLinks;
     bool m_showAddVisibleTonight, m_showAVT, m_showRemoveFromWishList, m_showRemoveFromSessionPlan;
