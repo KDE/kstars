@@ -621,10 +621,7 @@ void SkyMap::slotInfo() {
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {
-    foreach ( SkyObject *o, data->skyComposite()->labelObjects() ) {
-        if ( o == object ) return true;
-    }
-    return false;
+    return data->skyComposite()->labelObjects().contains( object );
 }
 
 void SkyMap::slotRemoveObjectLabel() {
@@ -894,9 +891,11 @@ double SkyMap::findPA( SkyObject *o, float x, float y ) {
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)
     //this is 5730/zoomFactor degrees
     double newDec = o->dec().Degrees() + 5730.0/Options::zoomFactor();
-    if ( newDec > 90.0 ) newDec = 90.0;
+    if ( newDec > 90.0 )
+        newDec = 90.0;
     SkyPoint test( o->ra().Hours(), newDec );
-    if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    if ( Options::useAltAz() )
+        test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     QPointF t = toScreen( &test );
     double dx = t.x() - x;
     double dy = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
