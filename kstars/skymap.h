@@ -267,18 +267,12 @@ public:
     /** Set zoom factor. */
     void setZoomFactor(double factor);
 
-    /**@return true if the angular distance measuring mode is on
-     */
-    bool isAngleMode() const {return angularDistanceMode;}
-
     bool isSlewing() const;
 
     bool isPointNull( const QPointF &p );
 
-    /**@short update the geometry of the angle ruler
-     */
+    /**@short update the geometry of the angle ruler. */
     void updateAngleRuler();
-
 
     /**@return true if the object currently has a user label attached.
     	*@note this function only checks for a label explicitly added to the object

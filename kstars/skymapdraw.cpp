@@ -142,7 +142,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 
     if ( transientObject() )
         drawTransientLabel( p );
-    if (isAngleMode()) {
+    if ( angularDistanceMode ) {
         updateAngleRuler();
         drawAngleRuler( p );
     }

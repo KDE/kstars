@@ -1280,7 +1280,7 @@ void SkyMap::addLink() {
 }
 
 void SkyMap::updateAngleRuler() {
-    if(isAngleMode() && (!pmenu || !pmenu -> isVisible()))
+    if( angularDistanceMode && (!pmenu || !pmenu->isVisible()) )
         AngularRuler.setPoint( 1, mousePoint() );
     AngularRuler.update( data );
 }
