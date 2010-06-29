@@ -461,24 +461,6 @@ public slots:
      */
     void forceUpdateNow() { forceUpdate( true ); }
 
-    /**Estimate the effect of atmospheric refraction on object positions.  Refraction
-     * affects only the Altitude angle of objects.  Also, the correction should not be applied 
-     * to the horizon, which is not beyond the atmosphere.
-     * 
-     * To estimate refraction, we use a simple analytic equation.  To save time, we store
-     * values of the correction for 0.5-degree Altitude intervals.  Individual objects are then 
-     * simply assigned the nearest stored value.  The precaclulated values are stored in the 
-     * RefractCorr1 and RefractCorr2 arrays, and these are initialized in the SkyMap constructor.
-     * 
-     * There are two cases:  the true altitude is known, and the apparent altitude is needed;
-     * or the apparent altitude is known and the true altitude is needed.
-     * @param alt The input altitude
-     * @param findApparent if true, then alt is the true altitude, and we'll find the apparent alt.
-     * @return the corrected altitude, as a dms object.
-     */
-    // FIXME: move out of SkyMap
-    static dms refract( const dms& alt, bool findApparent );
-
     /** Toggle visibility of geo infobox */
     void slotToggleGeoBox(bool);
 
@@ -831,8 +813,6 @@ private:
     bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
     bool angularDistanceMode;
     int scrollCount;
-    static double RefractCorr1[184];
-    static double RefractCorr2[184];
     double y0;
 
     double m_Scale;

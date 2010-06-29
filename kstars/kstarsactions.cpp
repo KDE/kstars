@@ -826,7 +826,7 @@ void KStars::slotCoordSys() {
             if ( map()->focusObject() ) //simply update focus to focusObject's position
                 map()->setFocus( map()->focusObject() );
             else { //need to recompute focus for unrefracted position
-                map()->setFocusAltAz( map()->refract( map()->focus()->alt(), false ).Degrees(),
+                map()->setFocusAltAz( SkyPoint::unrefract( map()->focus()->alt() ).Degrees(),
                                       map()->focus()->az().Degrees() );
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
@@ -835,7 +835,7 @@ void KStars::slotCoordSys() {
     } else {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
-            map()->setFocusAltAz( map()->refract( map()->focus()->alt(), true ).Degrees(),
+            map()->setFocusAltAz( map()->focus()->altRefracted().Degrees(),
                                   map()->focus()->az().Degrees() );
         }
         actionCollection()->action("coordsys")->setText( i18n("Horizontal &Coordinates") );
@@ -1013,9 +1013,9 @@ void KStars::slotAboutToQuit()
 
 void KStars::slotShowPositionBar(SkyPoint* p ) {
     if ( Options::showAltAzField() ) {
-        dms a( p->alt().Degrees() );
-        if ( Options::useAltAz() && Options::useRefraction() )
-            a = SkyMap::refract( p->alt(), true ); //true: compute apparent alt from true alt
+        dms a = p->alt();
+        if ( Options::useAltAz() )
+            a = p->altRefracted();
         QString s = QString("%1, %2").arg( p->az().toDMSString(true), //true: force +/- symbol
                                            a.toDMSString(true) );                 //true: force +/- symbol
         statusBar()->changeItem( s, 1 );
