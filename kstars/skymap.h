@@ -78,9 +78,13 @@ public:
     /** Destructor (empty) */
     ~SkyMap();
 
-    enum Projection { Lambert=0, AzimuthalEquidistant=1,
-                      Orthographic=2, Equirectangular=3, Stereographic=4,
-                      Gnomonic=5, UnknownProjection };
+    enum Projection { Lambert,
+                      AzimuthalEquidistant,
+                      Orthographic,
+                      Equirectangular,
+                      Stereographic,
+                      Gnomonic,
+                      UnknownProjection };
 
 
     /**@return the angular field of view of the sky map, in degrees.
