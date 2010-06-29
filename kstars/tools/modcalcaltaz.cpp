@@ -376,7 +376,7 @@ void modCalcAltAz::processLines( QTextStream &istream ) {
         jdf = KStarsDateTime(dtB,utB).djd();
         jd0 = dt.djd();
 
-        LST = KStarsDateTime(dtB,utB).gst().Degrees() + longB.Degrees();
+        LST = KStarsDateTime(dtB,utB).gst() + longB;
 
         // Equatorial coordinates are the input coords.
         if (!horInputCoords) {

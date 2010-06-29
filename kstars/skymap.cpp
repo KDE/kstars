@@ -117,8 +117,6 @@ namespace {
 
 
 SkyMap* SkyMap::pinstance = 0;
-double SkyMap::RefractCorr1[184];
-double SkyMap::RefractCorr2[184];
 
 
 SkyMap* SkyMap::Create()
@@ -173,15 +171,6 @@ SkyMap::SkyMap() :
     connect( &HoverTimer,     SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
     connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
-
-    //Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
-    //the apparent altitude from the true altitude, and RefractCorr2 is for the reverse.
-    for( int index = 0; index <184; ++index ) {
-        double alt = -1.75 + index*0.5;  //start at -1.75 degrees to get midpoint value for each interval.
-
-        RefractCorr1[index] = 1.02 / tan( dms::PI*( alt + 10.3/(alt + 5.11) )/180.0 ) / 60.0; //correction in degrees.
-        RefractCorr2[index] = -1.0 / tan( dms::PI*( alt + 7.31/(alt + 4.4) )/180.0 ) / 60.0;
-    }
 
     // Time infobox
     m_timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
@@ -306,7 +295,7 @@ void SkyMap::slotTransientLabel() {
     //Do not show a transient label if the map is in motion, or if the mouse
     //pointer is below the opaque horizon, or if the object has a permanent label
     if ( ! slewing && ! ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
-                          refract( mousePoint()->alt(), true ).Degrees() < 0.0 ) ) {
+                          SkyPoint::refract(mousePoint()->alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
         SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
 
@@ -408,10 +397,7 @@ void SkyMap::slotCenter() {
 
     //update the destination to the selected coordinates
     if ( Options::useAltAz() ) {
-        if ( Options::useRefraction() )
-            setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az().Degrees() );
-        else
-            setDestinationAltAz( focusPoint()->alt().Degrees(), focusPoint()->az().Degrees() );
+        setDestinationAltAz( focusPoint()->altRefracted(), focusPoint()->az() );
     } else {
         setDestination( focusPoint() );
     }
@@ -718,25 +704,12 @@ void SkyMap::setDestination( SkyPoint *p ) {
 }
 
 void SkyMap::setDestination( const dms &ra, const dms &dec ) {
-    Destination.set( ra, dec );
-    destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    emit destinationChanged();
-}
-
-void SkyMap::setDestination( double ra, double dec ) {
-    Destination.set( ra, dec );
+    destination()->set( ra, dec );
     destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
-    destination()->setAlt(alt);
-    destination()->setAz(az);
-    destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-    emit destinationChanged();
-}
-
-void SkyMap::setDestinationAltAz(double alt, double az) {
     destination()->setAlt(alt);
     destination()->setAz(az);
     destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
@@ -755,9 +728,7 @@ void SkyMap::updateFocus() {
     if ( Options::isTracking() && focusObject() != NULL ) {
         if ( Options::useAltAz() ) {
             //Tracking any object in Alt/Az mode requires focus updates
-            double dAlt = focusObject()->alt().Degrees();
-            if ( Options::useRefraction() )
-                dAlt = refract( focusObject()->alt(), true ).Degrees();
+            double dAlt = focusObject()->altRefracted().Degrees();
             setFocusAltAz( dAlt, focusObject()->az().Degrees() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             setDestination( focus() );
@@ -943,7 +914,7 @@ QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere)
 
     if ( Options::useAltAz() ) {
         if ( oRefract )
-            Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
+            Y = SkyPoint::refract( o->alt() ).radians(); //account for atmospheric refraction
         else
             Y = o->alt().radians();
         dX = focus()->az().reduce().radians() - o->az().reduce().radians();
@@ -1075,7 +1046,7 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
             alt.setRadians( dy + focus()->alt().radians() );
             result.setAz( az.reduce() );
             if ( Options::useRefraction() )
-                alt = refract( alt, false );  //find true alt from apparent alt
+                alt = SkyPoint::unrefract( alt );
             result.setAlt( alt );
             result.HorizontalToEquatorial( LST, lat );
             return result;
@@ -1132,7 +1103,7 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
         alt.setRadians( Y );
         az.setRadians( A + focus()->az().radians() );
         if ( Options::useRefraction() )
-            alt = refract( alt, false );  //find true alt from apparent alt
+            alt = SkyPoint::unrefract( alt );
         result.setAlt( alt );
         result.setAz( az );
         result.HorizontalToEquatorial( LST, lat );
@@ -1144,40 +1115,6 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
         result.EquatorialToHorizontal( LST, lat );
     }
 
-    return result;
-}
-
-dms SkyMap::refract( const dms& alt, bool findApparent ) {
-    if (!Options::showGround())
-        return alt;
-    if ( alt.Degrees() <= -2.000 ) return dms( alt.Degrees() );
-
-    int index = int( ( alt.Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
-    int index2( index + 1 );
-
-    //compute dx, normalized distance from nearest position in lookup table
-    double x1 = 0.5*float(index) - 1.75;
-    if ( alt.Degrees()<x1 ) index2 = index - 1;
-    if ( index2 < 0 ) index2 = index + 1;
-    if ( index2 > 183 ) index2 = index - 1;
-
-    //Failsafe: if indices are out of range, return the input altitude
-    if ( index < 0 || index > 183 || index2 < 0 || index2 > 183 ) {
-        return dms( alt.Degrees() );
-    }
-
-    double x2 = 0.5*float(index2) - 1.75;
-    double dx = (alt.Degrees() - x1)/(x2 - x1);
-
-    double y1 = RefractCorr1[index];
-    double y2 = RefractCorr1[index2];
-    if ( !findApparent ) {
-        y1 = RefractCorr2[index];
-        y2 = RefractCorr2[index2];
-    }
-
-    //linear interpolation to find refracted altitude
-    dms result( alt.Degrees() + y2*dx + y1*(1.0-dx) );
     return result;
 }
 
@@ -1221,10 +1158,7 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
     if ( useAltAz && Options::showHorizon() && Options::showGround() && p->alt().Degrees() < -1.0 ) return false;
 
     if ( useAltAz ) {
-        if ( Options::useRefraction() ) 
-            dY = fabs( refract( p->alt(), true ).Degrees() - focus()->alt().Degrees() );
-        else
-            dY = fabs( p->alt().Degrees() - focus()->alt().Degrees() );
+        dY = p->altRefracted().Degrees() - focus()->alt().Degrees();
     } else {
         dY = fabs( p->dec().Degrees() - focus()->dec().Degrees() );
     }

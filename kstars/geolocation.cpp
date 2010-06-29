@@ -21,10 +21,6 @@
 #include "timezonerule.h"
 
 
-GeoLocation::GeoLocation(){
-    GeoLocation( 0.0, 0.0 );
-}
-
 GeoLocation::GeoLocation( dms lng, dms lat,
                           const QString &name, const QString &province, const QString &country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
     Longitude = lng;

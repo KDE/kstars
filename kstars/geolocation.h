@@ -38,9 +38,6 @@
  */
 class GeoLocation {
 public:
-    /** Default constructor; sets coordinates to zero. */
-    GeoLocation();
-
     /**Constructor using dms objects to specify longitude and latitude.
      * @param lng the longitude
      * @param lat the latitude

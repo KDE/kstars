@@ -65,7 +65,7 @@ void KStars::setRaDec( double ra, double dec ) {
 }
 
 void KStars::setAltAz( double alt, double az ) {
-    map()->setDestinationAltAz(alt,az);
+    map()->setDestinationAltAz( dms(alt), dms(az) );
 }
 
 void KStars::lookTowards ( const QString &direction ) {
