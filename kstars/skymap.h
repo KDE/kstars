@@ -300,7 +300,6 @@ public:
      * between *p1 and *p2 that just clips.
      */
     QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
-    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2 );
 
     /**Given the coordinates of the SkyPoint argument, determine the
      * pixel coordinates in the SkyMap.

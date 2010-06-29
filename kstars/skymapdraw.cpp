@@ -121,10 +121,6 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
     return  oMid;
 }
 
-QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2 ) {
-    return clipLine( p1, p2 ).toPoint();
-}
-
 void SkyMap::drawOverlays( QPixmap *pm ) {
     if( !KStars::Instance() )
         return;
@@ -250,12 +246,12 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
         }
 
         else if ( isVisibleLast ) {
-            oMid = clipLineI( &pLast, &pThis );
+            oMid = clipLine( &pLast, &pThis ).toPoint();
             // -jbb printf("oMid: %4d %4d\n", oMid.x(), oMid.y());
             psky.drawLine( oLast, oMid );
         }
         else if ( isVisible ) {
-            oMid = clipLineI( &pThis, &pLast );
+            oMid = clipLine( &pThis, &pLast ).toPoint();
             psky.drawLine( oMid, oThis );
         }
 
