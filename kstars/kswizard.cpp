@@ -120,12 +120,10 @@ void KSWizard::initGeoPage() {
 
     //Populate the CityListBox
     //flag the ID of the current City
-    int index = 0;
     foreach ( GeoLocation *loc, data->getGeoList() ) {
         location->CityListBox->insertItem( loc->fullName() );
         filteredCityList.append( loc );
         if ( loc->fullName() == data->geo()->fullName() ) {
-            index = data->getGeoList().indexOf( loc );
             Geo = loc;
         }
     }
@@ -133,7 +131,7 @@ void KSWizard::initGeoPage() {
     //Sort alphabetically
     location->CityListBox->sort();
     //preset to current city
-    location->CityListBox->setCurrentItem( index );
+    location->CityListBox->setCurrentItem( location->CityListBox->findItem(QString(data->geo()->fullName()) ) );
 }
 
 void KSWizard::slotChangeCity() {

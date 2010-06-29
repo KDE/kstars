@@ -50,7 +50,7 @@
 	*@version 1.0
 	*/
 
-#include <qstring.h>
+#include <QString>
 #include "kstarsdatetime.h"
 
 class TimeZoneRule {
@@ -99,17 +99,15 @@ public:
     void reset_with_ltime( KStarsDateTime &ltime, const double TZoffset, const bool time_runs_forward,
                            const bool automaticDSTchange = false );
 
-    /**@return computed value for next DST change in universal time.
-    	*/
+    /**@return computed value for next DST change in universal time. */
     KStarsDateTime nextDSTChange() { return next_change_utc; }
 
-    /**@return computed value for next DST change in local time.
-    	*/
+    /**@return computed value for next DST change in local time. */
     KStarsDateTime nextDSTChange_LTime() { return next_change_ltime; }
 
     /**@return true if this rule is the same as the argument.
-    	*@param r the rule to check for equivalence
-    	*/
+     * @param r the rule to check for equivalence
+     */
     bool equals( TimeZoneRule *r );
 
     int StartMonth, RevertMonth;

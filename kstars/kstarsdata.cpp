@@ -305,7 +305,7 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
     setNextDSTChange( geo()->tzrule()->nextDSTChange() );
 }
 
-void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange) {
+void KStarsData::resetToNewDST(GeoLocation *geo, const bool automaticDSTchange) {
     // reset tzrules data with local time, timezone offset and time direction (forward or backward)
     // force a DST change with option true for 3. parameter
     geo->tzrule()->reset_with_ltime( LTime, geo->TZ0(), TimeRunsForward, automaticDSTchange );

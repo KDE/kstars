@@ -40,7 +40,6 @@
 #define DZOOM 1.189207115  // 2^(1/4)
 #define AU_KM 1.49605e8    //km in one AU
 
-#define MINDRAWSTARMAG 6.5 // min. magnitude to load all stars which are needed for constellation lines
 
 class QFile;
 
@@ -48,7 +47,6 @@ class dms;
 class SkyMap;
 class SkyMapComposite;
 class SkyObject;
-class KSPlanet;
 class FOV;
 
 class TimeZoneRule;
@@ -179,7 +177,7 @@ public:
     void setLocationFromOptions();
 
     /** Return map for daylight saving rules. */
-    QMap<QString, TimeZoneRule> getRulebook() { return Rulebook; }
+    const QMap<QString, TimeZoneRule>& getRulebook() { return Rulebook; }
 
     /** @return whether the next Focus change will omit the slewing animation. */
     bool snapNextFocus() const { return snapToFocus; }
@@ -339,7 +337,7 @@ private:
     /**Reset local time to new daylight saving time. Use this function if DST has changed.
      * Used by updateTime().
      */
-    void resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange);
+    void resetToNewDST(GeoLocation *geo, const bool automaticDSTchange);
 
     QList<ADVTreeData*> ADVtreeList;
     QList<INDIHostsInfo*> INDIHostsList;

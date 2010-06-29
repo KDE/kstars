@@ -48,16 +48,16 @@ TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QT
 }
 
 void TimeZoneRule::setEmpty() {
-    StartMonth = 0;
+    StartMonth  = 0;
     RevertMonth = 0;
-    StartDay = 0;
-    RevertDay = 0;
-    StartWeek = -1;
-    RevertWeek = -1;
-    StartTime = QTime();
-    RevertTime = QTime();
-    HourOffset = 0.0;
-    dTZ = 0.0;
+    StartDay    = 0;
+    RevertDay   = 0;
+    StartWeek   = -1;
+    RevertWeek  = -1;
+    StartTime   = QTime();
+    RevertTime  = QTime();
+    HourOffset  = 0.0;
+    dTZ         = 0.0;
 }
 
 void TimeZoneRule::setDST( bool activate ) {

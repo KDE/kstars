@@ -24,7 +24,6 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kdebug.h>
-#include "kdebug.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "dms.h"

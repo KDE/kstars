@@ -70,13 +70,7 @@ void Ecliptic::draw( QPainter &psky )
     psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
     m_label.reset( psky );
-
-    if ( ! skyMesh()->isZoomedIn() ) {
-        drawLines( psky );
-    }
-    else {
-        drawAllLines( psky );
-    }
+    drawLines( psky );
     m_label.draw( psky );
 }
 

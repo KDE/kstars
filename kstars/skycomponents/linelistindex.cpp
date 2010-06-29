@@ -171,59 +171,15 @@ bool LineListIndex::skipAt( LineList *lineList, int i )
 void LineListIndex::updateLabelCandidates( const QPointF& /*o*/, LineList* /*lineList*/, int /*i*/ )
 {}
 
-void LineListIndex::drawAllLines( QPainter& psky )
-{
-    SkyMap* map = SkyMap::Instance();
-    UpdateID updateID = KStarsData::Instance()->updateID();
-
-    bool isVisible, isVisibleLast;
-
-    for (int i = 0; i < m_listList.size(); i++) {
-        LineList* lineList = m_listList.at( i );
-
-        if ( lineList->updateID != updateID )
-            JITupdate( lineList );
-
-        SkyList* points = lineList->points();
-        SkyPoint* pLast = points->first();
-        QPointF oLast = map->toScreen( pLast, true, &isVisibleLast );
-
-        for ( int j = 1 ; j < points->size() ; j++ ) {
-            SkyPoint* pThis = points->at( j );
-            QPointF   oThis = map->toScreen( pThis, true, &isVisible );
-
-            if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, j ) ) {
-                if ( isVisible && isVisibleLast ) {
-                    psky.drawLine( oLast, oThis );
-                    updateLabelCandidates( oThis, lineList, j );
-                } else if ( isVisibleLast ) {
-                    QPointF oMid = map->clipLineI( pLast, pThis );
-                    psky.drawLine( oLast, oMid );
-                } else if ( isVisible ) {
-                    QPointF oMid = map->clipLineI( pThis, pLast );
-                    psky.drawLine( oMid, oThis );
-                }
-            }
-
-            pLast = pThis;
-            oLast = oThis;
-            isVisibleLast = isVisible;
-        }
-    }
-}
-
-
 void LineListIndex::drawLines( QPainter& psky )
 {
     SkyMap *map = SkyMap::Instance();
     DrawID   drawID   = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
 
-    bool isVisible, isVisibleLast;
-
     MeshIterator region( skyMesh(), drawBuffer() );
-    while ( region.hasNext() ) {
 
+    while ( region.hasNext() ) {
         LineListList* lineListList = m_lineIndex->value( region.next() );
         if ( lineListList == 0 )
             continue;
@@ -238,30 +194,23 @@ void LineListIndex::drawLines( QPainter& psky )
             if ( lineList->updateID != updateID )
                 JITupdate( lineList );
 
+            bool isVisibleLast;
             SkyList* points = lineList->points();
-            SkyPoint* pLast = points->first();
-            QPointF   oLast = map->toScreen( pLast, true, &isVisibleLast );
+            QPointF   oLast = map->toScreen( points->first(), true, &isVisibleLast );
 
             QPointF oThis, oThis2;
             for ( int j = 1 ; j < points->size() ; j++ ) {
                 SkyPoint* pThis = points->at( j );
-                oThis2 = oThis = map->toScreen( pThis, true, &isVisible );
 
+                bool isVisible;
+                oThis2 = oThis = map->toScreen( pThis, true, &isVisible );
                 if ( map->onScreen( oThis, oLast) && ! skipAt( lineList, j ) ) {
 
-                    if ( isVisible && isVisibleLast && map->onscreenLine( oLast, oThis ) ) {
-                        psky.drawLine( oLast, oThis );
+                    if( isVisible && isVisibleLast )
                         updateLabelCandidates( oThis, lineList, j );
-                    } else if ( isVisibleLast ) {
-                        QPointF oMid = map->clipLine( pLast, pThis );
-                        psky.drawLine( oLast, oMid );
-                    } else if ( isVisible ) {
-                        QPointF oMid = map->clipLine( pThis, pLast );
-                        psky.drawLine( oMid, oThis );
-                    }
+                    if( isVisible || isVisibleLast )
+                        psky.drawLine( oLast, oThis );
                 }
-
-                pLast = pThis;
                 oLast = oThis2;
                 isVisibleLast = isVisible;
             }

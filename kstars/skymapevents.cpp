@@ -632,8 +632,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                 if( clickedObject() ) {
                     clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
                 } else {
-                    SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra().Hours(), clickedPoint()->dec().Degrees() );
-                    pmenu->createEmptyMenu( &o );
+                    pmenu->createEmptyMenu( clickedPoint() );
                     pmenu->popup( QCursor::pos() );
                 }
             }
@@ -664,7 +663,7 @@ void SkyMap::paintEvent( QPaintEvent * )
         drawOverlays( sky2 );
         QPainter p;
         p.begin( this );
-        p.drawImage( 0, 0, sky2->toImage() );
+        p.drawPixmap( 0, 0, *sky2 );
         p.end();
         return ; // exit because the pixmap is repainted and that's all what we want
     }
