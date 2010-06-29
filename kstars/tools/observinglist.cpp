@@ -61,7 +61,6 @@
 #include "Options.h"
 #include "imageviewer.h"
 #include "thumbnailpicker.h"
-#include "obslistpopupmenu.h"
 #include "oal/log.h"
 #include "oal/oal.h"
 #include "oal/execute.h"
@@ -101,7 +100,6 @@ ObservingList::ObservingList( KStars *_ks )
     sessionView = false;
     nativeSave = true;
     FileName = "";
-    pmenu = new ObsListPopupMenu();
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 5, this );
     m_Session = new QStandardItemModel( 0, 5 );
@@ -753,34 +751,12 @@ void ObservingList::slotSlewToObject()
 #endif
 }
 
-//FIXME: This will open multiple Detail windows for each object;
-//Should have one window whose target object changes with selection
-void ObservingList::slotDetails() {
-    if ( currentObject() ) {
-        QPointer<DetailDialog> dd = new DetailDialog( currentObject(), ks->data()->lt(), geo, ks );
-        dd->exec();
-        delete dd;
-    }
-}
-
 void ObservingList::slotWUT() {
     KStarsDateTime lt = dt;
     lt.setTime( QTime(8,0,0) );
     QPointer<WUTDialog> w = new WUTDialog( ks, sessionView, geo, lt );
     w->exec();
     delete w;
-}
-
-void ObservingList::slotAddToSession() {
-    QModelIndexList selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-    if ( selectedItems.size() ) {
-        foreach ( const QModelIndex &i, selectedItems ) {
-            foreach ( SkyObject *o, obsList() ) {
-                if ( o->translatedName() == i.data().toString() )
-                    slotAddObject( o, true );
-                }
-        }
-    }
 }
 
 void ObservingList::slotFind() {
@@ -792,51 +768,6 @@ void ObservingList::slotFind() {
        }
    }
    delete fd;
-}
-
-void ObservingList::slotAVT() {
-    QModelIndexList selectedItems;
-    // TODO: Think and see if there's a more effecient way to do this. I can't seem to think of any, but this code looks like it could be improved. - Akarsh
-    // DONE: Improved it by checking everything when a new selection is done, and use KSObjectList
-    // (see last lines from slotNewSelection()) - Victor
-    if( sessionView ) {
-        QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
-        for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
-            if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
-                QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
-                QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
-                int irow = mIndex.row();
-                QString ra = m_Session->item(irow, 1)->text();
-                QString dc = m_Session->item(irow, 2)->text();
-                foreach ( SkyObject *o, sessionList() ) {
-                    //Stars named "star" must be matched by coordinates
-                    if ( o->name() == "star" ) {
-                        if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                            avt->processObject( o );
-                            break;
-                        }
-                    } else if ( o->translatedName() == mIndex.data().toString() ) {
-                        avt->processObject( o );
-                        break;
-                    }
-                }
-            }
-        }
-        avt->exec();
-        delete avt;
-    } else {
-        selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-        if ( selectedItems.size() ) {
-            QPointer<AltVsTime> avt = new AltVsTime( ks );//FIXME KStars class is singleton, so why pass it?
-            foreach ( const QModelIndex &i, selectedItems ) {
-                foreach ( SkyObject *o, obsList() )
-                    if ( o->translatedName() == i.data().toString() )
-                        avt->processObject( o );
-            }
-            avt->exec();
-            delete avt;
-        }
-    }
 }
 
 //FIXME: On close, we will need to close any open Details/AVT windows
@@ -1353,38 +1284,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             return true;
         }
     }
-    /*
-    if( obj == ui->TableView->viewport() && ! noSelection ) {
-        if( event->type() == QEvent::MouseButtonRelease ) {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent* >(event);
-            if( mouseEvent->button() == Qt::RightButton ) {
-                QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
-                if( singleSelection )
-                    pmenu->initPopupMenu( true, true, true, showScope, true, true );
-                else
-                    pmenu->initPopupMenu( true, false, false, false, true );
-                pmenu->popup( pos );
-                return true;
-            }
-        }
-    }
-    if( obj == ui->SessionView->viewport() && ! noSelection ) {
-        if( event->type() == QEvent::MouseButtonRelease ) {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent* >(event);
-            if( mouseEvent->button() == Qt::RightButton ) {
-                QPoint pos( mouseEvent->globalX() , mouseEvent->globalY() );
-                if( singleSelection )
-                    pmenu->initPopupMenu( false, true, true, showScope, true, true, true );
-                else
-                    pmenu->initPopupMenu( false, false, false, false, true, false, true );
-                pmenu->popup( pos );
-                return true;
-            }
-        }
-    }
-    */
     return false;
-
 }
 
 void ObservingList::slotGoogleImage() {

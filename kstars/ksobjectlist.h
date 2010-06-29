@@ -76,9 +76,21 @@ public:
 public slots:
     void slotContextMenu(const QPoint &pos);
     void slotCenterObject();
+
+    /**@short Add the object to the Session List
+        */
     void slotAddToSession();
+
+    /**@short slew the telescope to the selected object
+        */
     void slotSlewToObject();
+
+    /**@short Show the details window for the selected object
+        */
     void slotDetails();
+
+    /**@short Show the Altitude vs Time for selecteld objects
+        */
     void slotAVT();
 
 private:

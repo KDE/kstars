@@ -27,7 +27,6 @@
 #include "ui_observinglist.h"
 #include "kstarsdatetime.h"
 #include "skyobjects/skyobject.h"
-#include "obslistpopupmenu.h"
 
 class KSAlmanac;
 class QSortFilterProxyModel;
@@ -200,22 +199,10 @@ public slots:
         */
     void slotSlewToObject();
 
-    /**@short Show the details window for the selected object
-        */
-    void slotDetails();
-
-    /**@short Show the Altitude vs Time for selecteld objects
-        */
-    void slotAVT();
-
     /**@short Open the WUT dialog
     */
     void slotWUT();
     
-    /**@short Add the object to the Session List
-        */
-    void slotAddToSession();
-
     /**@short Open the Find Dialog
         */
     void slotFind();
@@ -345,7 +332,6 @@ private:
     KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
     QHash<QString, QTime> TimeHash; 
     QList<QString> ImageList;
-    ObsListPopupMenu *pmenu; 
 };
 
 #endif // OBSERVINGLIST_H_

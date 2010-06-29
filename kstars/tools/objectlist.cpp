@@ -64,7 +64,6 @@
 #include "Options.h"
 #include "imageviewer.h"
 #include "thumbnailpicker.h"
-#include "obslistpopupmenu.h"
 #include "oal/log.h"
 #include "oal/oal.h"
 #include "oal/execute.h"
