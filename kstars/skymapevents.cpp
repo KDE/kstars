@@ -331,18 +331,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
     }
 
-    //DEBUG_REFRACT
-    case Qt::Key_Q:
-        {
-            for ( double alt=-0.5; alt<30.5; alt+=1.0 ) {
-                dms a( alt );
-                dms b( refract( a, true ) ); //find apparent alt from true alt
-                dms c( refract( b, false ) );
-
-                kDebug() << a.toDMSString() << b.toDMSString() << c.toDMSString();
-            }
-            break;
-        }
     case Qt::Key_R:
         {
             // Toggle relativistic corrections
