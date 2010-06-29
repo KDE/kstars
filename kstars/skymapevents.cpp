@@ -394,7 +394,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
         scrollCount = 0;
 
         if ( Options::useAltAz() )
-            setDestinationAltAz( focus()->alt().Degrees(), focus()->az().Degrees() );
+            setDestinationAltAz( focus()->alt(), focus()->az() );
         else
             setDestination( focus() );
 
@@ -548,7 +548,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
             slewing = false;
 
             if ( Options::useAltAz() )
-                setDestinationAltAz( focus()->alt().Degrees(), focus()->az().Degrees() );
+                setDestinationAltAz( focus()->alt(), focus()->az() );
             else
                 setDestination( focus() );
         }

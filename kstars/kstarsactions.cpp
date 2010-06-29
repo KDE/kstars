@@ -693,15 +693,15 @@ void KStars::slotPointFocus() {
     map()->stopTracking();
 
     if ( sender() == actionCollection()->action("zenith") ) 
-        map()->setDestinationAltAz( 90.0, map()->focus()->az().Degrees() );
+        map()->setDestinationAltAz( dms(90.0), map()->focus()->az() );
     else if ( sender() == actionCollection()->action("north") )
-        map()->setDestinationAltAz( 15.0, 0.0001 );
+        map()->setDestinationAltAz( dms(15.0), dms(0.0001) );
     else if ( sender() == actionCollection()->action("east") )
-        map()->setDestinationAltAz( 15.0, 90.0 );
+        map()->setDestinationAltAz( dms(15.0), dms(90.0) );
     else if ( sender() == actionCollection()->action("south") )
-        map()->setDestinationAltAz( 15.0, 180.0 );
+        map()->setDestinationAltAz( dms(15.0), dms(180.0) );
     else if ( sender() == actionCollection()->action("west") )
-        map()->setDestinationAltAz( 15.0, 270.0 );
+        map()->setDestinationAltAz( dms(15.0), dms(270.0) );
 }
 
 void KStars::slotTrack() {
@@ -768,9 +768,9 @@ void KStars::slotManualFocus() {
         //automatically correct the final pointing from the intermediate offset position to the final position
         data()->setSnapNextFocus();
         if ( Options::useAltAz() ) {
-            map()->setDestinationAltAz( focusDialog->point().alt().Degrees(), focusDialog->point().az().Degrees() );
+            map()->setDestinationAltAz( focusDialog->point().alt(), focusDialog->point().az() );
         } else {
-            map()->setDestination( focusDialog->point().ra().Hours(), focusDialog->point().dec().Degrees() );
+            map()->setDestination( focusDialog->point().ra(), focusDialog->point().dec() );
         }
 
         //Now, if the requested point was near a pole, we need to reset the Alt/Dec of the focus.

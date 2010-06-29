@@ -181,31 +181,11 @@ public:
     	*/
     void setDestination( const dms &ra, const dms &dec );
 
-    /**@short sets the destination point of the sky map, using ra/dec coordinates
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param ra the new right ascension
-    	*@param dec the new declination
-    	*/
-    void setDestination(double ra, double dec);
-
     /**@short sets the destination point of the sky map, using its alt/az coordinates.
     	*@param alt the new altitude
     	*@param az the new azimuth
     	*/
     void setDestinationAltAz( const dms &alt, const dms & az);
-
-    /**@short sets the destination point of the sky map, using its alt/az coordinates.
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param alt the new altitude
-    	*@param az the new azimuth
-    	*/
-    void setDestinationAltAz(double alt, double az);
 
     /**@short set the FocusPoint; the position that is to be the next Destination.
     	*@param f a pointer to the FocusPoint SkyPoint.

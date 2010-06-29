@@ -397,7 +397,7 @@ void SkyMap::slotCenter() {
 
     //update the destination to the selected coordinates
     if ( Options::useAltAz() ) {
-        setDestinationAltAz( focusPoint()->altRefracted().Degrees(), focusPoint()->az().Degrees() );
+        setDestinationAltAz( focusPoint()->altRefracted(), focusPoint()->az() );
     } else {
         setDestination( focusPoint() );
     }
@@ -701,25 +701,12 @@ void SkyMap::setDestination( SkyPoint *p ) {
 }
 
 void SkyMap::setDestination( const dms &ra, const dms &dec ) {
-    Destination.set( ra, dec );
-    destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    emit destinationChanged();
-}
-
-void SkyMap::setDestination( double ra, double dec ) {
-    Destination.set( ra, dec );
+    destination()->set( ra, dec );
     destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
-    destination()->setAlt(alt);
-    destination()->setAz(az);
-    destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-    emit destinationChanged();
-}
-
-void SkyMap::setDestinationAltAz(double alt, double az) {
     destination()->setAlt(alt);
     destination()->setAz(az);
     destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
