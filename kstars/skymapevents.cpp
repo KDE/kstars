@@ -477,16 +477,16 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         if ( Options::useAltAz() ) {
             mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            dms dAz = mousePoint()->az().Degrees() - clickedPoint()->az().Degrees();
-            dms dAlt = mousePoint()->alt().Degrees() - clickedPoint()->alt().Degrees();
+            dms dAz  = mousePoint()->az()  - clickedPoint()->az();
+            dms dAlt = mousePoint()->alt() - clickedPoint()->alt();
             focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
             focus()->setAz( focus()->az().reduce() );
             focus()->setAlt(
                 KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90.0 , 90.0 ) );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
-            dms dRA = mousePoint()->ra().Degrees() - clickedPoint()->ra().Degrees();
-            dms dDec = mousePoint()->dec().Degrees() - clickedPoint()->dec().Degrees();
+            dms dRA  = mousePoint()->ra()  - clickedPoint()->ra();
+            dms dDec = mousePoint()->dec() - clickedPoint()->dec();
             focus()->setRA( focus()->ra().Hours() - dRA.Hours() ); //move focus in opposite direction
             focus()->setRA( focus()->ra().reduce() );
             focus()->setDec(

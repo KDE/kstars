@@ -86,8 +86,8 @@ void modCalcGeodCoord::getSphGeoCoords (void)
 void modCalcGeodCoord::slotClearGeoCoords (void)
 {
 
-    geoPlace->setLong( 0.0 );
-    geoPlace->setLat(  0.0 );
+    geoPlace->setLong( dms(0.0) );
+    geoPlace->setLat(  dms(0.0) );
     geoPlace->setHeight( 0.0 );
     LatGeoBox->clearFields();
     LongGeoBox->clearFields();

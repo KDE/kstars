@@ -367,7 +367,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
 
 
         KStarsDateTime edt( dtB, utB );
-        dms LST = edt.gst().Degrees() + longB.Degrees();
+        dms LST = edt.gst() + longB;
 
         KSNumbers num( edt.djd() );
         KSPlanet Earth( I18N_NOOP( "Earth" ));

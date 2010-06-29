@@ -61,7 +61,7 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
     double sinAlt, cosAlt;
 
-    dms HourAngle = LST->Degrees() - ra().Degrees();
+    dms HourAngle = (*LST) - ra();
 
     lat->SinCos( sinlat, coslat );
     dec().SinCos( sindec, cosdec );

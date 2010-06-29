@@ -309,7 +309,7 @@ void ObsListWizard::slotParseRegion()
     } else if ( ! olw->RA->isEmpty() && ! olw->Dec->isEmpty() && ! olw->Radius->isEmpty() ) {
         bool circOk;
         dms ra = olw->RA->createDms( false, &circOk );
-        dms dc = 0.0;
+        dms dc;
         if ( circOk )
             dc = olw->Dec->createDms( true, &circOk );
         if ( circOk ) {

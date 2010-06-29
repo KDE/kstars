@@ -45,7 +45,7 @@ public:
     double radius;
 
     /**Constructor. */
-    explicit EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
+    explicit EclipticPosition(dms plong = dms(), dms plat = dms(), double prad = 0.0) :
         longitude(plong), latitude(plat), radius(prad)
     {}
 };

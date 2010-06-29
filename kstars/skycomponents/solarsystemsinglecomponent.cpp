@@ -138,7 +138,7 @@ void SolarSystemSingleComponent::draw( QPainter &psky ) {
              !m_Planet->image()->isNull() &&  //image loaded ok,
              size < Width )  //and size isn't too big.
         {
-            dms pa = map->findPA( m_Planet, o.x(), o.y() );
+            dms pa( map->findPA( m_Planet, o.x(), o.y() ) );
 
             //FIXME: Need to figure out why the size is sometimes NaN.
             Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");

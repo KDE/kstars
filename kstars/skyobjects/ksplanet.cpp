@@ -190,9 +190,9 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
     }
 
     if ( ! odm.loadData( odc, untranslatedName() ) ) {
-        epret.longitude = 0.0;
-        epret.latitude = 0.0;
-        epret.radius = 0.0;
+        epret.longitude = dms(0.0);
+        epret.latitude  = dms(0.0);
+        epret.radius    = 0.0;
         kError() << "Could not get data for '" << name() << "'" << endl;
         return;
     }
