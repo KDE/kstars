@@ -125,7 +125,7 @@ void PlanetMoonsComponent::draw( SkyPainter *skyp )
             frontMoons.append( pmoons->moon(i) );
         } else {
             //Draw Moons that are further than the planet
-            skyp->drawPlanetMoon( pmoons->moon(i) );
+            skyp->drawPointSource( pmoons->moon(i), pmoons->moon(i)->mag() );
         }
     }
 
@@ -134,7 +134,7 @@ void PlanetMoonsComponent::draw( SkyPainter *skyp )
 
     //Now draw the remaining moons, as stored in frontMoons
     foreach ( TrailObject *moon, frontMoons ) {
-        skyp->drawPlanetMoon( moon );
+        skyp->drawPointSource( moon, moon->mag() );
     }
 
     //Draw Moon name labels if at high zoom

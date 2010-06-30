@@ -41,22 +41,7 @@ void SkyGLPainter::drawAsPoint(SkyPoint* p)
     glEnd();
 }
 
-bool SkyGLPainter::drawPlanetMoon(TrailObject* moon)
-{
-    return false;
-}
-
 bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
-{
-    return false;
-}
-
-bool SkyGLPainter::drawAsteroid(KSAsteroid* ast)
-{
-    return false;
-}
-
-bool SkyGLPainter::drawComet(KSComet* comet)
 {
     return false;
 }

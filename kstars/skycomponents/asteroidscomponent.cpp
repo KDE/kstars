@@ -125,7 +125,7 @@ void AsteroidsComponent::draw( SkyPainter *skyp )
 
         if ( ast->mag() > Options::magLimitAsteroid() ) continue;
 
-        bool drawn = skyp->drawAsteroid(ast);
+        bool drawn = skyp->drawPointSource(ast,ast->mag());
         
         if ( drawn && !( hideLabels || ast->mag() >= labelMagLimit ) )
             SkyLabeler::AddLabel( map->toScreen(ast), ast, SkyLabeler::ASTEROID_LABEL );

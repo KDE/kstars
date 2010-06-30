@@ -27,10 +27,7 @@ class SkyGLPainter : public SkyPainter
 {
 public:
     SkyGLPainter(SkyMap* sm);
-    virtual bool drawPlanetMoon(TrailObject* moon);
     virtual bool drawPlanet(KSPlanetBase* planet);
-    virtual bool drawAsteroid(KSAsteroid* ast);
-    virtual bool drawComet(KSComet* comet);
     virtual bool drawDeepSkyObject(DeepSkyObject* obj, bool drawImage = false);
     virtual bool drawPointSource(SkyPoint* loc, float mag, char sp = 'A');
     virtual void drawSkyPolygon(LineList* list);

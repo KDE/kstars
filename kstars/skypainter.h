@@ -122,29 +122,11 @@ public:
         */
     virtual bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false) =0;
 
-    /** @short Draw a comet
-        @param comet the comet to draw
-        @return true if it was drawn
-        */
-    virtual bool drawComet(KSComet *comet) =0;
-
-    /** @short Draw an asteroid
-        @param ast the asteroid to draw
-        @return true if it was drawn
-        */
-    virtual bool drawAsteroid(KSAsteroid *ast) =0;
-
     /** @short Draw a planet
         @param planet the planet to draw
         @return true if it was drawn
         */
     virtual bool drawPlanet(KSPlanetBase *planet) =0;
-
-    /** @short Draw a moon
-        @param moon the moon to draw
-        @return true if it was drawn
-        */
-    virtual bool drawPlanetMoon(TrailObject *moon) =0;
 
 protected:
 

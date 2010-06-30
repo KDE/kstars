@@ -51,10 +51,7 @@ public:
     virtual void drawSkyPolygon(LineList* list);
     virtual bool drawPointSource(SkyPoint *loc, float mag, char sp = 'A');
     virtual bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false);
-    virtual bool drawComet(KSComet *comet);
-    virtual bool drawAsteroid(KSAsteroid *ast);
     virtual bool drawPlanet(KSPlanetBase *planet);
-    virtual bool drawPlanetMoon(TrailObject *moon);
 private:
     ///This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');

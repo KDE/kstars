@@ -281,20 +281,6 @@ void SkyQPainter::drawSkyPolygon(LineList* list)
         drawPolygon(polygon);
 }
 
-bool SkyQPainter::drawPlanetMoon(TrailObject *moon)
-{
-    if( Options::zoomFactor() <= 10.*MINZOOM
-        || !m_sm->checkVisibility(moon) ) return false;
-
-    QPointF pos = m_sm->toScreen(moon);
-
-    setPen( QPen( QColor( "white" ) ) );
-    setBrush( Qt::NoBrush );
-    drawEllipse( pos, 2., 2. );
-    
-    return true;
-}
-
 bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
 {
     if( !m_sm->checkVisibility(planet) ) return false;
@@ -348,20 +334,6 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
     return true;
 }
 
-bool SkyQPainter::drawAsteroid(KSAsteroid *ast)
-{
-    if( !m_sm->checkVisibility(ast) ) return false;
-
-    QPointF pos = m_sm->toScreen(ast);
-
-    float size = ast->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if ( size < 1.0 )
-        drawPoint( pos );
-    else
-        drawEllipse(pos,size,size);
-    return true;
-}
-
 bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 {
     //Check if it's even visible before doing anything
@@ -377,20 +349,6 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
     QPixmap* im = imageCache[ harvardToIndex(sp) ][isize];
     float offset = 0.5 * im->width();
     drawPixmap( QPointF(pos.x()-offset, pos.y()-offset), *im );
-}
-
-bool SkyQPainter::drawComet(KSComet* comet)
-{
-    if( !m_sm->checkVisibility(comet) ) return false;
-
-    QPointF pos = m_sm->toScreen(comet);
-
-    float size = comet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
-    if ( size < 1.0 )
-        drawPoint( pos );
-    else
-        drawEllipse(pos,size,size);
-    return true;
 }
 
 bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
