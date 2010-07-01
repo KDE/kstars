@@ -125,28 +125,6 @@ public:
     /**@return pointer to Ecliptic Heliocentric Latitude coordinate */
     const dms* helEcLat( void ) const { return &helEcPos.latitude; }
 
-    /**@short Set Ecliptic Heliocentric Longitude according to argument.
-     * @param elong Ecliptic Longitude
-     */
-    void setHelEcLong( dms elong ) { helEcPos.longitude = elong; }
-
-    /**@short Set Ecliptic Heliocentric Longitude according to argument.
-     * Differs from above function only in argument type.
-     * @param elong Ecliptic Longitude
-     */
-    void setHelEcLong( double elong ) { helEcPos.longitude.setD( elong ); }
-
-    /**@short Set Ecliptic Heliocentric Latitude according to argument.
-     * @param elat Ecliptic Latitude
-     */
-    void setHelEcLat( dms elat ) { helEcPos.latitude = elat; }
-
-    /**@short Set Ecliptic Heliocentric Latitude according to argument.
-     * Differs from above function only in argument type.
-     * @param elat Ecliptic Latitude
-     */
-    void setHelEcLat( double elat ) { helEcPos.latitude.setD( elat ); }
-
     /**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
      */
