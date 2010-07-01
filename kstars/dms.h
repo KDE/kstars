@@ -254,6 +254,7 @@ public:
      */
     static dms fromString(const QString & s, bool deg);
 
+    dms operator - () { return dms(-D); }
 private:
     double D;
 
