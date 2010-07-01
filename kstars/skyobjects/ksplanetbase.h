@@ -91,38 +91,26 @@ public:
     }
 
     /** @return pointer to Ecliptic Longitude coordinate */
-    const dms& ecLong( void ) const { return ep.longitude; }
+    const dms& ecLong() const { return ep.longitude; }
 
     /** @return pointer to Ecliptic Latitude coordinate */
-    const dms& ecLat( void ) const { return ep.latitude; }
+    const dms& ecLat() const { return ep.latitude; }
 
     /**@short Set Ecliptic Geocentric Longitude according to argument.
      * @param elong Ecliptic Longitude
      */
     void setEcLong( dms elong ) { ep.longitude = elong; }
 
-    /**@short Set Ecliptic Geocentric Longitude according to argument.
-     * Differs from above function only in argument type.
-     * @param elong Ecliptic Longitude
-     */
-    void setEcLong( double elong ) { ep.longitude.setD( elong ); }
-
     /**@short Set Ecliptic Geocentric Latitude according to argument.
      * @param elat Ecliptic Latitude
      */
     void setEcLat( dms elat ) { ep.latitude = elat; }
 
-    /**@short Set Ecliptic Geocentric Latitude according to argument.
-     * Differs from above function only in argument type.
-     * @param elat Ecliptic Latitude
-     */
-    void setEcLat( double elat ) { ep.latitude.setD( elat ); }
-
     /**@return pointer to Ecliptic Heliocentric Longitude coordinate */
-    const dms& helEcLong( void ) const { return helEcPos.longitude; }
+    const dms& helEcLong() const { return helEcPos.longitude; }
 
     /**@return pointer to Ecliptic Heliocentric Latitude coordinate */
-    const dms& helEcLat( void ) const { return helEcPos.latitude; }
+    const dms& helEcLat() const { return helEcPos.latitude; }
 
     /**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
@@ -135,13 +123,13 @@ public:
     void EquatorialToEcliptic( const dms *Obliquity );
 
     /** @return pointer to image of planet */
-    QImage* image( void ) { return &Image; }
+    QImage* image() { return &Image; }
 
     /**@return pointer to unrotated image of planet */
-    QImage* image0( void ) { return &Image0; }
+    QImage* image0() { return &Image0; }
 
     /**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance) */
-    double rsun( void ) const { return ep.radius; }
+    double rsun() const { return ep.radius; }
 
     /**@short Set the solar distance in AU.
      * @param r the new solar distance in AU

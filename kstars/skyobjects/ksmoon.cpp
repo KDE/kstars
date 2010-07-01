@@ -203,8 +203,8 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     sumB += ( -2235.0*sin( L ) + 382.0*sin( A3 ) + 175.0*sin( A1-F ) + 175.0*sin( A1+F ) + 127.0*sin( L-M1 ) - 115.0*sin( L+M1 ) );
 
     //Geocentric coordinates
-    setEcLong( sumL/1000000.0 + L * 180.0 / dms::PI ); //convert radians to degrees
-    setEcLat(  sumB/1000000.0 );
+    setEcLong( dms( sumL/1000000.0 + L * 180.0 / dms::PI) ); //convert radians to degrees
+    setEcLat(  dms( sumB/1000000.0 ) );
     Rearth = ( 385000.56 + sumR/1000.0 )/AU_KM; //distance from Earth, in AU
 
     EclipticToEquatorial( num->obliquity() );
