@@ -85,10 +85,7 @@ public:
 
     static QVector<QColor> planetColor;
 
-    virtual bool loadData() {
-        kDebug() << "no loadData() implementation for " << name() << endl; 
-        return false;
-    }
+    virtual bool loadData() = 0;
 
     /** @return pointer to Ecliptic Longitude coordinate */
     const dms& ecLong() const { return ep.longitude; }
