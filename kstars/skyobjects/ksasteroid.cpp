@@ -97,8 +97,8 @@ bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBas
     if ( Earth ) {
         //xe, ye, ze are the Earth's heliocentric cartesian coords
         double cosBe, sinBe, cosLe, sinLe;
-        Earth->ecLong()->SinCos( sinLe, cosLe );
-        Earth->ecLat()->SinCos( sinBe, cosBe );
+        Earth->ecLong().SinCos( sinLe, cosLe );
+        Earth->ecLat().SinCos( sinBe, cosBe );
 
         double xe = Earth->rsun() * cosBe * cosLe;
         double ye = Earth->rsun() * cosBe * sinLe;

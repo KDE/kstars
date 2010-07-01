@@ -62,7 +62,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         pEarth->calcEcliptic(num->julianMillenia() - delay, trialpos);
 
         setEcLong( trialpos.longitude.Degrees() + 180.0 );
-        setEcLong( ecLong()->reduce().Degrees() );
+        setEcLong( ecLong().reduce().Degrees() );
         setEcLat( -1.0*trialpos.latitude.Degrees() );
 
         setRearth( Earth->rsun() );
@@ -122,7 +122,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         setRearth( ep.radius );
 
         setEcLong( EarthLong.Degrees() + 180.0 );
-        setEcLong( ecLong()->reduce().Degrees() );
+        setEcLong( ecLong().reduce().Degrees() );
         setEcLat( -1.0*EarthLat.Degrees() );
     }
 

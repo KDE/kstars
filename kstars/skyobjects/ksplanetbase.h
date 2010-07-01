@@ -28,7 +28,6 @@
 
 #include "trailobject.h"
 
-class QPoint;
 class KSNumbers;
 class KSPopupMenu;
 
@@ -92,10 +91,10 @@ public:
     }
 
     /** @return pointer to Ecliptic Longitude coordinate */
-    const dms* ecLong( void ) const { return &ep.longitude; }
+    const dms& ecLong( void ) const { return ep.longitude; }
 
     /** @return pointer to Ecliptic Latitude coordinate */
-    const dms* ecLat( void ) const { return &ep.latitude; }
+    const dms& ecLat( void ) const { return ep.latitude; }
 
     /**@short Set Ecliptic Geocentric Longitude according to argument.
      * @param elong Ecliptic Longitude
@@ -120,10 +119,10 @@ public:
     void setEcLat( double elat ) { ep.latitude.setD( elat ); }
 
     /**@return pointer to Ecliptic Heliocentric Longitude coordinate */
-    const dms* helEcLong( void ) const { return &helEcPos.longitude; }
+    const dms& helEcLong( void ) const { return helEcPos.longitude; }
 
     /**@return pointer to Ecliptic Heliocentric Latitude coordinate */
-    const dms* helEcLat( void ) const { return &helEcPos.latitude; }
+    const dms& helEcLat( void ) const { return helEcPos.latitude; }
 
     /**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)

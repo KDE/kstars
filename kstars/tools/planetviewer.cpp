@@ -174,8 +174,8 @@ void PlanetViewer::updatePlanets() {
             p->findPosition( &num );
 
             double s, c, s2, c2;
-            p->helEcLong()->SinCos( s, c );
-            p->helEcLat()->SinCos( s2, c2 );
+            p->helEcLong().SinCos( s, c );
+            p->helEcLat().SinCos( s2, c2 );
             QList<KPlotPoint*> points = planet[i]->points();
             points.at(0)->setX( p->rsun()*c*c2 );
             points.at(0)->setY( p->rsun()*s*c2 );
@@ -242,7 +242,7 @@ void PlanetViewer::initPlotObjects() {
         planet[i] = new KPlotObject( p->color(), KPlotObject::Points, 6, KPlotObject::Circle );
 
         double s, c;
-        p->helEcLong()->SinCos( s, c );
+        p->helEcLong().SinCos( s, c );
 
         planet[i]->addPoint( p->rsun()*c, p->rsun()*s, p->translatedName() );
         pw->map->addPlotObject( planet[i] );
