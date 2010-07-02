@@ -83,13 +83,8 @@ void SkyGLPainter::end()
 
 void SkyGLPainter::begin()
 {
-    //Set various parameters
-    glDisable(GL_LIGHTING);
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_DEPTH_TEST);
-    glDepthMask(GL_FALSE);
-
     //Load ortho projection
+    glViewport(0,0,m_sm->width(),m_sm->height());
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0,m_sm->width(), m_sm->height(),0, -1,1);
@@ -97,6 +92,12 @@ void SkyGLPainter::begin()
     //reset modelview matrix
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
+
+    //Set various parameters
+    glDisable(GL_LIGHTING);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
+    glDepthMask(GL_FALSE);
 
     //fill with color
     glClearColor(1.,0.4,0.7,1);

@@ -653,6 +653,31 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
     }
 }
 
+#ifdef USEGL
+void SkyMap::initializeGL()
+{
+}
+
+void SkyMap::resizeGL(int width, int height)
+{
+    Q_UNUSED(width)
+    Q_UNUSED(height)
+    //do nothing since we resize in SkyGLPainter::paintGL()
+}
+
+void SkyMap::paintGL()
+{
+    SkyGLPainter psky(this);
+    //FIXME: we may want to move this into the components.
+    psky.begin();
+
+    //Draw all sky elements
+    psky.drawSkyBackground();
+    data->skyComposite()->draw( &psky );
+    //Finish up
+    psky.end();
+}
+#else
 void SkyMap::paintEvent( QPaintEvent *event )
 {
     //If computeSkymap is false, then we just refresh the window using the stored sky pixmap
@@ -672,7 +697,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
         p.drawPixmap( 0, 0, *sky2 );
         p.end();
         return ; // exit because the pixmap is repainted and that's all what we want
-    }
+    } 
 
     // FIXME: used to to notify infobox about possible change of object coordinates
     // Not elegant at all. Should find better option
@@ -695,11 +720,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
     // 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
     // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
-    #ifdef USEGL
-    SkyGLPainter psky(this);
-    #else
     SkyQPainter psky(this, sky);
-    #endif
     //FIXME: we may want to move this into the components.
     psky.begin();
     
@@ -782,6 +803,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
     */
     computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }
+#endif
 
 double SkyMap::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 

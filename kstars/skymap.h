@@ -652,8 +652,14 @@ signals:
     void mousePointChanged(SkyPoint*);
 
 protected:
+    #ifdef USEGL
+    virtual void resizeGL(int width, int height);
+    virtual void initializeGL();
+    virtual void paintGL();
+    #else
     /**Draw the Sky, and all objects in it. */
     virtual void paintEvent( QPaintEvent *e );
+    #endif
 
     /**Process keystrokes:
      * @li arrow keys  Slew the map
