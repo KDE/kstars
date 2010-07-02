@@ -77,14 +77,14 @@ namespace KSUtils {
         return x;
     }
 
-    /** Convert a vector to a point, discarding the z-coord. */
-    inline QPointF vecToPoint(const Vector3f& vec) {
+    /** Convert a vector to a point */
+    inline QPointF vecToPoint(const Vector2f& vec) {
         return QPointF( vec[0], vec[1] );
     }
 
-    /** Convert a point to a vector, setting z-coord as specified */
-    inline Vector3f pointToVec(const QPointF& p, float z = 0) {
-        return Vector3f(p.x(),p.y(),z);
+    /** Convert a point to a vector */
+    inline Vector2f pointToVec(const QPointF& p) {
+        return Vector2f(p.x(),p.y());
     }
 }
 

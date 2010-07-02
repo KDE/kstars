@@ -45,11 +45,11 @@ SkyGLPainter::SkyGLPainter(SkyMap* sm)
 
 void SkyGLPainter::drawAsPoint(SkyPoint* p)
 {
-    Vector3f vec = m_sm->toScreenVec(p);
+    Vector2f vec = m_sm->toScreenVec(p);
     //FIXME: not so inefficient...
     glBegin(GL_POINTS);
     glColor3f(1.,1.,1.);
-    glVertex3fv(vec.data());
+    glVertex2fv(vec.data());
     glEnd();
 }
 
@@ -76,7 +76,7 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     SkyList *points = list->points();
     glBegin(GL_POLYGON);
     for(int i = 0; i < points->size(); ++i) {
-        glVertex3fv(m_sm->toScreenVec(points->at(i)).data());
+        glVertex2fv(m_sm->toScreenVec(points->at(i)).data());
     }
     glEnd();
 }
@@ -89,10 +89,10 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
     glBegin(GL_LINE_STRIP);
     for(int i = 0; i < points->size(); ++i) {
         SkyPoint* p = points->at(i);
-        Vector3f vec = m_sm->toScreenVec(p,true,&isVisible);
+        Vector2f vec = m_sm->toScreenVec(p,true,&isVisible);
         bool doSkip = (skipList ? skipList->skip(i) : false);
         if( !doSkip ) {
-            glVertex3fv(vec.data());
+            glVertex2fv(vec.data());
             //FIXME: check whether this actually works when the labels are fixed.
             if ( isVisible && isVisibleLast && label ) {
                 label->updateLabelCandidates(vec[0], vec[1], list, i);

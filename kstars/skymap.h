@@ -371,9 +371,8 @@ public:
 
     /** Project a point like toScreen, but return a vector instead of a QPointF.
         @see toScreen()
-        @return a vector of floats with z = 0
         */
-    Vector3f toScreenVec( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
+    Vector2f toScreenVec( SkyPoint* o, bool oRefract = true, bool* onVisibleHemisphere = 0);
         
 
     /**@return the current scale factor for drawing the map.

@@ -948,7 +948,7 @@ QPointF SkyMap::toScreen(SkyPoint* o, bool useRefraction, bool* onVisibleHemisph
 }
 
 
-Vector3f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere)
+Vector2f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere)
 {
     double Y, dX;
     double sindX, cosdX, sinY, cosY, sinY0, cosY0;
@@ -978,7 +978,7 @@ Vector3f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphe
 
     //Special case: Equirectangular projection is very simple
     if ( Options::projection() == Equirectangular ) {
-        Vector3f p;
+        Vector2f p;
         p[0] = 0.5*Width  - zoomscale*dX ;
         if ( Options::useAltAz() )
             p[1] = 0.5*Height - zoomscale*(Y - focus()->alt().radians());
@@ -989,8 +989,6 @@ Vector3f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphe
             *onVisibleHemisphere = ( p[0] >= 0. && p[0] <= Width &&
                                      p[1] >= 0. && p[1] <= Height );
         }
-        //Set z-coord = 0
-        p[2] = 0.;
         return p;
     }
 
@@ -1037,7 +1035,7 @@ Vector3f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphe
     //angle to approach 90 degrees in thi scase (cut it off at c=0.2).
     if ( c < 0.0 || ( Options::projection()==Gnomonic && c < 0.2 ) ) {
         if( onVisibleHemisphere == NULL ) {
-            return Vector3f(-1e+7, -1e+7, -1e+7);
+            return Vector2f(-1e+7, -1e+7);
         } else {
             *onVisibleHemisphere = false;
         }
@@ -1045,9 +1043,8 @@ Vector3f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphe
 
     double k = projectionK(c);
 
-    return Vector3f( 0.5*Width  - zoomscale*k*cosY*sindX,
-                     0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ),
-                     0 );
+    return Vector2f( 0.5*Width  - zoomscale*k*cosY*sindX,
+                     0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
 }
 
 QRect SkyMap::scaledRect() {
