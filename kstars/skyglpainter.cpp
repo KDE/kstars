@@ -91,12 +91,14 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
         SkyPoint* p = points->at(i);
         Vector2f vec = m_sm->toScreenVec(p,true,&isVisible);
         bool doSkip = (skipList ? skipList->skip(i) : false);
-        if( !doSkip ) {
-            glVertex2fv(vec.data());
-            //FIXME: check whether this actually works when the labels are fixed.
-            if ( isVisible && isVisibleLast && label ) {
-                label->updateLabelCandidates(vec[0], vec[1], list, i);
-            }
+        if( doSkip ) {
+            glEnd();
+            glBegin(GL_LINE_STRIP);
+        }
+        glVertex2fv(vec.data());
+        //FIXME: check whether this actually works when the labels are fixed.
+        if ( isVisible && isVisibleLast && label ) {
+            label->updateLabelCandidates(vec[0], vec[1], list, i);
         }
         isVisibleLast = isVisible;
     }
@@ -137,8 +139,11 @@ void SkyGLPainter::begin()
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
     glDepthMask(GL_FALSE);
+    glPointSize(1.);
     glEnable(GL_POINT_SMOOTH);
-    glPointSize(3.);
+    glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_POLYGON_SMOOTH);
+    glLineStipple(1,0xCCCC);
 }
 
 void SkyGLPainter::setBrush(const QBrush& brush)
@@ -151,5 +156,12 @@ void SkyGLPainter::setPen(const QPen& pen)
 {
     QColor c = pen.color();
     glColor4f( c.redF(), c.greenF(), c.blueF(), c.alphaF() );
+    glLineWidth(pen.widthF());
+    if( pen.style() != Qt::SolidLine ) {
+        glEnable(GL_LINE_STIPPLE);
+    } else {
+        glDisable(GL_LINE_STIPPLE);
+    }
+
 }
 

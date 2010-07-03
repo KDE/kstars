@@ -1033,12 +1033,9 @@ Vector2f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphe
     //and should not be drawn.
     //The Gnomonic projection has an infinite sky horizon, so don't allow the field
     //angle to approach 90 degrees in thi scase (cut it off at c=0.2).
-    if ( c < 0.0 || ( Options::projection()==Gnomonic && c < 0.2 ) ) {
-        if( onVisibleHemisphere == NULL ) {
-            return Vector2f(-1e+7, -1e+7);
-        } else {
-            *onVisibleHemisphere = false;
-        }
+    //Just set the flag, don't return a garbage value... --hdevalence
+    if( onVisibleHemisphere && ( c < 0.0 || ( Options::projection()==Gnomonic && c < 0.2 ) ) ) {
+        *onVisibleHemisphere = false;
     }
 
     double k = projectionK(c);
