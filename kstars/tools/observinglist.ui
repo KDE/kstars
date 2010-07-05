@@ -281,7 +281,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="DeleteImages">
+      <widget class="QPushButton" name="DeleteAllImages">
        <property name="toolTip">
         <string>Deletes all the stored DSS/SDSS images</string>
        </property>

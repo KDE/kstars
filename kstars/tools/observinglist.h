@@ -306,11 +306,11 @@ public slots:
 
     /**@short Remove the current image
         */
-    void slotDeleteImage();
+    void slotDeleteCurrentImage();
 
     /**@short Removes all the save DSS/SDSS images from the disk.
         */
-    void slotDeleteImages();
+    void slotDeleteAllImages();
 
     /**@short download the DSS image and show it
         */

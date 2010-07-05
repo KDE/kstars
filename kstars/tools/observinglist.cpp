@@ -174,7 +174,7 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->SaveImage, SIGNAL( clicked() ),
              this, SLOT( slotSaveImage() ) );
     connect( ui->DeleteImage, SIGNAL( clicked() ),
-             this, SLOT( slotDeleteImage() ) );
+             this, SLOT( slotDeleteCurrentImage() ) );
     connect( ui->GoogleImage, SIGNAL( clicked() ),
              this, SLOT( slotGoogleImage() ) );
     connect( ui->SetTime, SIGNAL( clicked() ),
@@ -183,8 +183,8 @@ ObservingList::ObservingList( KStars *_ks )
              this, SLOT( slotChangeTab(int) ) );
     connect( ui->saveImages, SIGNAL( clicked() ),
              this, SLOT( slotSaveImages() ) );
-    connect( ui->DeleteImages, SIGNAL( clicked() ),
-             this, SLOT( slotDeleteImages() ) );
+    connect( ui->DeleteAllImages, SIGNAL( clicked() ),
+             this, SLOT( slotDeleteAllImages() ) );
     connect( ui->OALExport, SIGNAL( clicked() ),
              this, SLOT( slotOALExport() ) );  
     //Add icons to Push Buttons
@@ -1274,7 +1274,7 @@ void ObservingList::slotImageViewer() {
         iv->show();
 }
 
-void ObservingList::slotDeleteImages() {
+void ObservingList::slotDeleteAllImages() {
     if( KMessageBox::warningYesNo( 0, i18n( "This will delete all saved images. Are you sure you want to do this?" ), i18n( "Delete All Images" ) ) == KMessageBox::No )
         return;
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
@@ -1373,7 +1373,7 @@ void ObservingList::slotGoogleImage() {
     delete tp;
 }
 
-void ObservingList::slotDeleteImage() {
+void ObservingList::slotDeleteCurrentImage() {
     QFile::remove( CurrentImagePath );
     QFile::remove( CurrentTempPath );
     slotNewSelection();
