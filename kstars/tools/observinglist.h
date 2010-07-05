@@ -170,6 +170,10 @@ public:
      */
     SkyObject* findObjectByName( QString name );
 
+    /**@short make a selection in the session view 
+     */
+    void selectObject( SkyObject *o );
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list
@@ -322,7 +326,6 @@ public slots:
 
     void slotAddVisibleObj();
 
-    void selectObject( SkyObject *o );
 
 protected slots:
     void slotClose();
