@@ -137,7 +137,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->ImagePreview->installEventFilter( this );
     ui->TableView->viewport()->installEventFilter( this );
     ui->SessionView->viewport()->installEventFilter( this );
-    setDefaultImage();
+    // setDefaultImage();
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
@@ -445,7 +445,6 @@ void ObservingList::slotNewSelection() {
     showScope = false;
     ui->ImagePreview->clearPreview();
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
-    setDefaultImage();
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
@@ -490,6 +489,7 @@ void ObservingList::slotNewSelection() {
         #ifdef HAVE_INDI_H
             showScope = true;
         #endif
+        setDefaultImage();
         if ( found ) {
             m_CurrentObject = o;
             QPoint pos(0,0);
