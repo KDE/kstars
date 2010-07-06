@@ -119,7 +119,7 @@ public:
        *@p o pointer to the object to be plotted
        */
     void plot( SkyObject *o );
-    
+
     /**@short Return the altitude of the given SkyObject for the given hour.
         *@p p pointer to the SkyObject 
         *@p hour time at which altitude has to be found
@@ -143,7 +143,7 @@ public:
 
     /**@short decides on whether to enable the SaveImages button or not
         */
-    void setSaveImages();
+    void setSaveImagesButton();
 
     /**@short This is the declaration of the event filter function
      * which is installed on the KImageFilePreview and the TabeView
@@ -164,7 +164,7 @@ public:
     GeoLocation* geoLocation() { return geo; }
 
     KStarsDateTime dateTime() { return dt; }
-    
+
     /**@short return the object with the name as the passed
      * QString from the Session List, return null otherwise
      */
@@ -215,7 +215,7 @@ public slots:
     /**@short Open the WUT dialog
     */
     void slotWUT();
-    
+
     /**@short Add the object to the Session List
         */
     void slotAddToSession();
@@ -291,10 +291,10 @@ public slots:
         *Note: This downloads the SDSS image, checks if the size is > default image
         *and gets the DSS image if thats the case
         */
-    void slotSaveImages();
-    
+    void slotSaveAllImages();
+
     /**@short saves the image syncronously from a given URL into a given file
-        *@p url the url from whih the image has to be downloaded
+        *@p url the url from which the image has to be downloaded
         *@p filename the file onto which the url has to be copied to
         *NOTE: This is not a generic image saver, it is specific to the current object
         */

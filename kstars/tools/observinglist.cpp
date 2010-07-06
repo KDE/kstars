@@ -182,7 +182,7 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
              this, SLOT( slotChangeTab(int) ) );
     connect( ui->saveImages, SIGNAL( clicked() ),
-             this, SLOT( slotSaveImages() ) );
+             this, SLOT( slotSaveAllImages() ) );
     connect( ui->DeleteAllImages, SIGNAL( clicked() ),
              this, SLOT( slotDeleteAllImages() ) );
     connect( ui->OALExport, SIGNAL( clicked() ),
@@ -207,7 +207,7 @@ ObservingList::ObservingList( KStars *_ks )
 
     slotLoadWishList(); //Load the wishlist from disk if present
     m_CurrentObject = 0;
-    setSaveImages();
+    setSaveImagesButton();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
 //    ui->MiniButton->hide();
 }
@@ -303,7 +303,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to session list.", obj->name() ), 0 );
     }
-    setSaveImages();
+    setSaveImagesButton();
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) {
@@ -439,7 +439,7 @@ void ObservingList::slotRemoveSelectedObjects() {
         //we've removed all selected objects, so clear the selection
         ui->TableView->selectionModel()->clear();
     }
-    setSaveImages();
+    setSaveImagesButton();
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
 }
 
@@ -1098,7 +1098,7 @@ void ObservingList::slotChangeTab(int index) {
     } else {
         sessionView = false;
     }
-    setSaveImages();
+    setSaveImagesButton();
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
     ui->OALExport->setEnabled( sessionView );
     //Clear the selection in the Tables
@@ -1213,7 +1213,7 @@ void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
     SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
 }
 
-void ObservingList::slotSaveImages() {
+void ObservingList::slotSaveAllImages() {
     ui->GoogleImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
@@ -1298,7 +1298,7 @@ void ObservingList::slotDeleteAllImages() {
     }
 }
 
-void ObservingList::setSaveImages() {
+void ObservingList::setSaveImagesButton() {
     ui->saveImages->setEnabled( false );
     if( sessionView ) {
         if( ! sessionList().isEmpty() )
