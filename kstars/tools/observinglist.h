@@ -174,6 +174,10 @@ public:
      */
     void selectObject( SkyObject *o );
 
+    /**@short set the default image in the image preview.
+     */
+    void setDefaultImage();
+
 public slots:
     /**@short add a new object to list
         *@p o pointer to the object to add to the list

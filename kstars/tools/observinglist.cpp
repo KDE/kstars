@@ -137,12 +137,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->ImagePreview->installEventFilter( this );
     ui->TableView->viewport()->installEventFilter( this );
     ui->SessionView->viewport()->installEventFilter( this );
-    QFile file;
-    if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
-       file.close();
-       ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
-    } else
-        ui->ImagePreview->hide();
+    setDefaultImage();
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
@@ -450,12 +445,7 @@ void ObservingList::slotNewSelection() {
     showScope = false;
     ui->ImagePreview->clearPreview();
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
-    QFile file;
-    if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
-       file.close();
-       ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
-    } else
-        ui->ImagePreview->hide();
+    setDefaultImage();
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
@@ -1429,4 +1419,12 @@ void ObservingList::selectObject( SkyObject *o ) {
     }
 }
 
+void ObservingList::setDefaultImage() {
+    QFile file;
+    if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
+       file.close();
+       ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
+    } else
+        ui->ImagePreview->hide();
+}
 #include "observinglist.moc"
