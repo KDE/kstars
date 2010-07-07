@@ -61,9 +61,8 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         EclipticPosition trialpos;
         pEarth->calcEcliptic(num->julianMillenia() - delay, trialpos);
 
-        setEcLong( trialpos.longitude.Degrees() + 180.0 );
-        setEcLong( ecLong()->reduce().Degrees() );
-        setEcLat( -1.0*trialpos.latitude.Degrees() );
+        setEcLong( (trialpos.longitude + dms(180.0)).reduce() );
+        setEcLat( -trialpos.latitude );
 
         setRearth( Earth->rsun() );
 
@@ -94,7 +93,7 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
 
         EarthLong.setRadians( sum[0] + sum[1] + sum[2] +
                               sum[3] + sum[4] + sum[5] );
-        EarthLong.setD( EarthLong.reduce().Degrees() );
+        EarthLong = EarthLong.reduce();
 
         //Compute Ecliptic Latitude
         for (int i=0; i<6; ++i) {
@@ -121,9 +120,8 @@ bool KSSun::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Ea
         ep.radius = sum[0] + sum[1] + sum[2] + sum[3] + sum[4] + sum[5];
         setRearth( ep.radius );
 
-        setEcLong( EarthLong.Degrees() + 180.0 );
-        setEcLong( ecLong()->reduce().Degrees() );
-        setEcLat( -1.0*EarthLat.Degrees() );
+        setEcLong( (EarthLong + dms(180.0)).reduce() );
+        setEcLat( -EarthLat );
     }
 
     //Finally, convert Ecliptic coords to Ra, Dec.  Ecliptic latitude is zero, by definition

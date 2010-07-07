@@ -71,71 +71,82 @@ bool KStarsDB::createDefaultDatabase()
         qDebug() << query.lastError();
     }
 
+    /*
     // Create the Deep Sky Object entity
     if (!query.exec(QString("CREATE TABLE dso (rah INTEGER, ram INTEGER, ras FLOAT, ") + 
                     QString("sgn INTEGER, decd INTEGER, decm INTEGER, decs INTEGER, ") +
                     QString("bmag FLOAT, type INTEGER, pa FLOAT, minor FLOAT, major FLOAT, longname TEXT)"))) {
         qDebug() << query.lastError();
     }
+    */
 
+    
+    // Create the Deep Sky Object entity
+    if (!query.exec(QString("CREATE TABLE dso (ra TEXT, dec TEXT, ") +
+                    QString("sgn INTEGER, ") +
+                    QString("bmag FLOAT, type INTEGER, pa FLOAT, minor FLOAT, major FLOAT, longname TEXT)"))) {
+        kDebug() << query.lastError();
+    }
+
+    
     // Create the Object Designation entity
     if (!query.exec(QString("CREATE TABLE od (designation TEXT, idCTG INTEGER NOT NULL, idDSO INTEGER NOT NULL)"))) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
 
     // Creating index on idCTG
     // Justification: Searches based on the catalog id are done frequently (when loading)
     if (!query.exec("CREATE INDEX idCTG ON od(idCTG)")) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
 
     // Creating index on idDSO
     // Justification: Searches based on the deep sky objects are done when loading the objects
     if (!query.exec("CREATE INDEX idDSO ON od(idDSO)")) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
 
     // Creating index on designation
     // Searching: Sometimes, we want to retrieve an object by it's designation, (M 23) for example
     if (!query.exec("CREATE INDEX designation ON od(designation)")) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
 
     // Create the URL Table (was data/image_url.dat and data/info_url.dat)
     // For all DSO the information is now kept in this table
     if (!query.exec(QString("CREATE TABLE dso_url (idDSO INTEGER NOT NULL, title TEXT, url TEXT, type INTEGER)"))) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
 
     // Creating index on idDSO in dso_url
     // Justification: When loading deep sky objects, a search based on idDSO is made
     if (!query.exec("CREATE INDEX idDSOURL ON dso_url(idDSO)")) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
 
     // Insert the NGC catalog
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"NGC\", \"ngcic.dat\", \"New General Catalogue\")"))) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
     
     // Insert the IC catalog
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"IC\", \"ngcic.dat\", \"Index Catalogue of Nebulae and Clusters of Stars\")"))) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
     
     // Insert the Messier catalog
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"M\", \"ngcic.dat\", \"Messier Catalogue\")"))) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
 
     // Insert the PGC catalog
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"PGC\", \"ngcic.dat\", \"Principal Galaxies Catalogue\")"))) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
     
     // Insert the UGC catalog
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"UGC\", \"ngcic.dat\", \"Uppsala General Catalogue\")"))) {
-        qDebug() << query.lastError();
+        kDebug() << query.lastError();
     }
 
     return true;
@@ -147,7 +158,7 @@ void KStarsDB::migrateData(QString filename)
     KSFileReader fileReader;
 
     query.exec("SELECT rowid, * FROM dso");
-    QString s;
+    QString s, ra, dec;
     int k = 0;
 
     // Just some test query to show up the first 10 objects in the db
@@ -158,7 +169,7 @@ void KStarsDB::migrateData(QString filename)
             s += query.value(i).toString() + " ";
         }
 
-        qDebug() << s;
+        kDebug() << s;
         s = "Catalog object: ";
         
         dsoquery.prepare("SELECT designation, idCTG FROM od WHERE idDSO = :iddso");
@@ -174,7 +185,7 @@ void KStarsDB::migrateData(QString filename)
             }
         }
 
-        qDebug() << s;
+        kDebug() << s;
         if ( k++ == 10 )
             break;
     }
@@ -194,8 +205,8 @@ void KStarsDB::migrateData(QString filename)
         line = fileReader.readLine();
 
         // Prepare the insert statement of the current object
-        query.prepare("INSERT INTO dso VALUES(:rah, :ram, :ras, :sign, :decd, :decm, :decs, :bmag, :type, :pa, :minor, :major, :name)");
-        
+        query.prepare("INSERT INTO dso VALUES(:ra, :dec, :sign, :bmag, :type, :pa, :minor, :major, :name)");
+
         //Ignore comment lines
         while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
 
@@ -211,15 +222,23 @@ void KStarsDB::migrateData(QString filename)
         ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
 
+        /*
         // read the right ascension coordinates
         rah = line.mid( 6, 2 ).toInt();
         ram = line.mid( 8, 2 ).toInt();
         ras = line.mid( 10, 4 ).toFloat();
+        */
 
+        ra = line.mid( 6, 8 );
+
+        /*
         // bind the values for right ascension params
         query.bindValue(":rah", rah);
         query.bindValue(":ram", ram);
         query.bindValue(":ras", ras);
+        */
+
+        query.bindValue(":ra", ra);
 
         // read the declination coordinates
         sgn = line.mid( 15, 1 ); //don't use at(), because it crashes on invalid index
@@ -227,14 +246,20 @@ void KStarsDB::migrateData(QString filename)
         // bine the sign in the db query (maybe will not be used anymore)
         query.bindValue(":sign", (sgn == "-") ? -1:1);
 
+        /*
         dd = line.mid( 16, 2 ).toInt();
         dm = line.mid( 18, 2 ).toInt();
         ds = line.mid( 20, 2 ).toInt();
-
+        
         // bind the values for declination
         query.bindValue(":decd", dd);
         query.bindValue(":decm", dm);
         query.bindValue(":decs", ds);
+        */
+
+        dec = line.mid(16, 6);
+
+        query.bindValue(":dec", dec);
 
         //B magnitude
         ss = line.mid( 23, 4 );
@@ -291,9 +316,13 @@ void KStarsDB::migrateData(QString filename)
         // Add the DSO Object to the database
         query.exec();
 
+        /*
         // Get the rowid of the object newly inserted
         query.prepare("SELECT rowid FROM dso WHERE rah = :rah AND ram = :ram AND ras = :ras AND sgn = :sgn AND decd = :decd AND decm = :decm AND decs = :decs");
+        */
+        query.prepare("SELECT rowid FROM dso WHERE ra = :ra AND sgn = :sgn AND dec = :dec");
 
+        /*
         query.bindValue(":rah", rah);
         query.bindValue(":ram", ram);
         query.bindValue(":ras", ras);
@@ -301,6 +330,11 @@ void KStarsDB::migrateData(QString filename)
         query.bindValue(":decd", dd);
         query.bindValue(":decm", dm);
         query.bindValue(":decs", ds);
+        */
+
+        query.bindValue(":ra", ra);
+        query.bindValue(":sgn", (sgn == "-") ? (-1):1);
+        query.bindValue(":dec", dec);
 
         query.exec();
 
@@ -428,6 +462,7 @@ void KStarsDB::migrateData(QString filename)
 
             dsoquery.bindValue(":des", ugc);
             dsoquery.bindValue(":iddso", dsoRowID);
+
             if (!dsoquery.exec())
                 qDebug() << "UGC error: " << dsoquery.lastError();
         }

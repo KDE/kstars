@@ -296,9 +296,11 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     Pos->RA->setText( selectedObject->ra().toHMSString() );
     Pos->Dec->setText( selectedObject->dec().toDMSString() );
     Pos->Az->setText( selectedObject->az().toDMSString() );
-    dms a( selectedObject->alt().Degrees() );
-    if ( Options::useAltAz() && Options::useRefraction() )
-        a = KStars::Instance()->map()->refract( selectedObject->alt(), true ); //true: compute apparent alt from true alt
+    dms a;
+    if( Options::useAltAz() )
+        a = selectedObject->alt();
+    else
+        a = selectedObject->altRefracted();
     Pos->Alt->setText( a.toDMSString() );
 
     //Hour Angle can be negative, but dms HMS expressions cannot.

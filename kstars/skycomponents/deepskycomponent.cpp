@@ -91,6 +91,7 @@ void DeepSkyComponent::loadData()
 
     // RA Hours, Minutes, DSO Type, NGC Index, Messier Index
     int rah, ram, type;
+    QString ra, dec;
 
     // Dec Degrees, Minutes, Seconds, Position Angle, Sign
     int dd, dm, ds, pa, sgn;
@@ -108,8 +109,8 @@ void DeepSkyComponent::loadData()
     query.exec("PRAGMA count_changes = false");
     query.exec("PRAGMA synchronous = OFF");
     
-    QString queryStatement =  QString("SELECT o.rah, o.ram, o.ras, ") +
-                                QString("o.sgn, o.decd, o.decm, o.decs, ") +
+    QString queryStatement =  QString("SELECT o.ra, o.dec, ") +
+                                QString("o.sgn, ") +
                                 QString("o.bmag, o.type, o.pa, o.minor, o.major, ") +
                                 QString("o.longname, o.rowid FROM dso AS o");
 
@@ -121,21 +122,30 @@ void DeepSkyComponent::loadData()
 
     while ( query.next() ) {
         // Right Ascension
-        ras = query.value(2).toFloat(); ram = query.value(1).toInt(); rah = query.value(0).toInt();
+        ras = query.value(0).toString().mid(0, 2).toInt();
+        ram = query.value(0).toString().mid(2, 2).toInt();
+        rah = query.value(0).toString().mid(4, 4).toFloat();
+//      kDebug() << ras << ram << rah;
+
+//        ras = query.value(2).toFloat(); ram = query.value(1).toInt(); rah = query.value(0).toInt();
 
         // Declination
-        dd = query.value(4).toInt(); dm = query.value(5).toInt(), ds = query.value(6).toInt();
+        dd = query.value(2).toString().mid(0, 2).toInt();
+        dm = query.value(2).toString().mid(2, 2).toInt();
+        ds = query.value(2).toString().mid(4, 2).toInt();
+
+//        dd = query.value(4).toInt(); dm = query.value(5).toInt(), ds = query.value(6).toInt();
 
         // Position Angle, Magnitude, Semimajor axis
-        pa = query.value(9).toInt(); mag = query.value(7).toFloat(); a = query.value(11).toFloat(); b = query.value(10).toFloat();
+        pa = query.value(5).toInt(); mag = query.value(3).toFloat(); a = query.value(7).toFloat(); b = query.value(6).toFloat();
 
         // Object type, SGN
-        type = query.value(8).toInt(); sgn = query.value(3).toInt();
+        type = query.value(4).toInt(); sgn = query.value(1).toInt();
 
 
         // Inner Join to retrieve all the catalogs in which the object appears
         dsoquery.prepare("SELECT od.designation, ctg.name FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = :iddso");
-        dsoquery.bindValue(":iddso", query.value(13).toInt());
+        dsoquery.bindValue(":iddso", query.value(9).toInt());
 
         if (!dsoquery.exec()) {
             qDebug() << "Error on retrieving the catalog list for an object: " << dsoquery.lastError();
@@ -151,7 +161,7 @@ void DeepSkyComponent::loadData()
         }
 
         hasName = true;
-        longname = query.value(12).toString();
+        longname = query.value(8).toString();
 
         if (!longname.isEmpty()) {
             if (name[0] == "") {
@@ -224,7 +234,7 @@ void DeepSkyComponent::loadData()
 
         // Load the images associated to the deep sky object (this was done in KStarsData::readUrlData)
         dsoquery.prepare("SELECT url, title, type FROM dso_url WHERE idDSO = :iddso");
-        dsoquery.bindValue(":iddso", query.value(13).toInt());
+        dsoquery.bindValue(":iddso", query.value(9).toInt());
 
         if (!dsoquery.exec()) {
             qDebug() << "URL query error: " << dsoquery.lastError();

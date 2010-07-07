@@ -78,9 +78,13 @@ public:
     /** Destructor (empty) */
     ~SkyMap();
 
-    enum Projection { Lambert=0, AzimuthalEquidistant=1,
-                      Orthographic=2, Equirectangular=3, Stereographic=4,
-                      Gnomonic=5, UnknownProjection };
+    enum Projection { Lambert,
+                      AzimuthalEquidistant,
+                      Orthographic,
+                      Equirectangular,
+                      Stereographic,
+                      Gnomonic,
+                      UnknownProjection };
 
 
     /**@return the angular field of view of the sky map, in degrees.
@@ -136,31 +140,11 @@ public:
     	*/
     void setFocus( const dms &ra, const dms &dec );
 
-    /**@short sets the focus point of the sky map, using ra/dec coordinates
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param ra the new right ascension
-    	*@param dec the new declination
-    	*/
-    void setFocus(double ra, double dec);
-
     /**@short sets the focus point of the sky map, using its alt/az coordinates
     	*@param alt the new altitude
     	*@param az the new azimuth
     	*/
     void setFocusAltAz( const dms &alt, const dms & az);
-
-    /**@short sets the central focus point of the sky map, using alt/az coordinates
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param alt the new altitude
-    	*@param az the new azimuth
-    	*/
-    void setFocusAltAz(double alt, double az);
 
     /**@short sets the destination point of the sky map.
     	*@note setDestination() emits the destinationChanged() SIGNAL,
@@ -283,18 +267,12 @@ public:
     /** Set zoom factor. */
     void setZoomFactor(double factor);
 
-    /**@return true if the angular distance measuring mode is on
-     */
-    bool isAngleMode() const {return angularDistanceMode;}
-
     bool isSlewing() const;
 
     bool isPointNull( const QPointF &p );
 
-    /**@short update the geometry of the angle ruler
-     */
+    /**@short update the geometry of the angle ruler. */
     void updateAngleRuler();
-
 
     /**@return true if the object currently has a user label attached.
     	*@note this function only checks for a label explicitly added to the object
@@ -320,7 +298,6 @@ public:
      * between *p1 and *p2 that just clips.
      */
     QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
-    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2 );
 
     /**Given the coordinates of the SkyPoint argument, determine the
      * pixel coordinates in the SkyMap.

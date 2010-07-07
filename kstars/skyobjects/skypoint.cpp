@@ -752,10 +752,10 @@ dms SkyPoint::unrefract(dms h) {
     const double alt = h.Degrees();
 
     double h0 = alt;
-    double h1 = h0 - refractionCorr(h0);
+    double h1 = alt - refractionCorr(h0);
     while( fabs(h1 - h0) > 1e-4 ) {
         h0 = h1;
-        h1 = h0 - refractionCorr(h0);
+        h1 = alt - refractionCorr(h0);
     }
     return dms(h1);
 }

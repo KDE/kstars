@@ -203,8 +203,8 @@ bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* )
     sumB += ( -2235.0*sin( L ) + 382.0*sin( A3 ) + 175.0*sin( A1-F ) + 175.0*sin( A1+F ) + 127.0*sin( L-M1 ) - 115.0*sin( L+M1 ) );
 
     //Geocentric coordinates
-    setEcLong( sumL/1000000.0 + L * 180.0 / dms::PI ); //convert radians to degrees
-    setEcLat(  sumB/1000000.0 );
+    setEcLong( dms( sumL/1000000.0 + L * 180.0 / dms::PI) ); //convert radians to degrees
+    setEcLat(  dms( sumB/1000000.0 ) );
     Rearth = ( 385000.56 + sumR/1000.0 )/AU_KM; //distance from Earth, in AU
 
     EclipticToEquatorial( num->obliquity() );
@@ -233,7 +233,7 @@ void KSMoon::findMagnitude(const KSNumbers*)
 
 void KSMoon::findPhase() {
     KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" );
-    Phase = ecLong()->Degrees() - Sun->ecLong()->Degrees(); // Phase is obviously in degrees
+    Phase = (ecLong()- Sun->ecLong()).Degrees(); // Phase is obviously in degrees
     double DegPhase = dms( Phase ).reduce().Degrees();
     int iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
     QString imName = QString().sprintf("moon%02d.png", iPhase);

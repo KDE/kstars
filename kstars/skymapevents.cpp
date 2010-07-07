@@ -211,14 +211,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
 
     case Qt::Key_BracketLeft:   // Begin measuring angular distance
-        if ( !isAngleMode() ) {
+        if( !angularDistanceMode )
             slotBeginAngularDistance();
-        }
         break;
     case Qt::Key_Escape:        // Cancel angular distance measurement
-        if  (isAngleMode() ) {
+        if( angularDistanceMode )
             slotCancelAngularDistance();
-        }
         break;
     case Qt::Key_Comma:  //advance one step backward in time
     case Qt::Key_Less:
@@ -331,18 +329,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
     }
 
-    //DEBUG_REFRACT
-    case Qt::Key_Q:
-        {
-            for ( double alt=-0.5; alt<30.5; alt+=1.0 ) {
-                dms a( alt );
-                dms b( refract( a, true ) ); //find apparent alt from true alt
-                dms c( refract( b, false ) );
-
-                kDebug() << a.toDMSString() << b.toDMSString() << c.toDMSString();
-            }
-            break;
-        }
     case Qt::Key_R:
         {
             // Toggle relativistic corrections

@@ -826,8 +826,8 @@ void KStars::slotCoordSys() {
             if ( map()->focusObject() ) //simply update focus to focusObject's position
                 map()->setFocus( map()->focusObject() );
             else { //need to recompute focus for unrefracted position
-                map()->setFocusAltAz( SkyPoint::unrefract( map()->focus()->alt() ).Degrees(),
-                                      map()->focus()->az().Degrees() );
+                map()->setFocusAltAz( SkyPoint::unrefract( map()->focus()->alt() ),
+                                      map()->focus()->az() );
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
@@ -835,8 +835,7 @@ void KStars::slotCoordSys() {
     } else {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
-            map()->setFocusAltAz( map()->focus()->altRefracted().Degrees(),
-                                  map()->focus()->az().Degrees() );
+            map()->setFocusAltAz( map()->focus()->altRefracted(), map()->focus()->az() );
         }
         actionCollection()->action("coordsys")->setText( i18n("Horizontal &Coordinates") );
     }
