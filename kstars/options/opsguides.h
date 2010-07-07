@@ -32,7 +32,6 @@ public:
 private slots:
     void slotToggleConstellOptions();
     void slotToggleMilkyWayOptions();
-    void slotToggleHorizonLine();
 
 private:
     KStars *ksw;
