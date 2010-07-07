@@ -29,6 +29,8 @@ OpsGuides::OpsGuides( KStars *_ks )
              this, SLOT( slotToggleConstellOptions() ) );
     connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ),
              this, SLOT( slotToggleMilkyWayOptions() ) );
+    connect( kcfg_ShowHorizon, SIGNAL( clicked() ),
+             this, SLOT( slotToggleHorizonLine() ) );
 
     foreach( QString item,  ksw->data()->skyComposite()->getCultureNames() )
         kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toUtf8().constData() ) );
@@ -45,5 +47,11 @@ void OpsGuides::slotToggleConstellOptions() {
 void OpsGuides::slotToggleMilkyWayOptions() {
     kcfg_FillMilkyWay->setEnabled( kcfg_ShowMilkyWay->isChecked() );
 }
+
+void OpsGuides::slotToggleHorizonLine() {
+    // When the horizon line is not drawn, the ground should not be drawn
+    kcfg_ShowGround->setCheckState( Qt::Unchecked );
+    kcfg_ShowGround->setEnabled( kcfg_ShowHorizon->isChecked() );
+}   
 
 #include "opsguides.moc"
