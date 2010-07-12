@@ -321,8 +321,8 @@ SkyObject * ObjectList::getObject(qlonglong id)
 
     QSqlQuery query, dsoquery;
 
-    QString queryStatement =  QString("SELECT o.rah, o.ram, o.ras, ") +
-                                QString("o.sgn, o.decd, o.decm, o.decs, ") +
+    QString queryStatement =  QString("SELECT o.ra, o.dec, ") +
+                                QString("o.sgn, ") +
                                 QString("o.bmag, o.type, o.pa, o.minor, o.major, ") +
                                 QString("o.longname, o.rowid FROM dso AS o ") +
                                 QString("WHERE o.rowid = ") + QString::number(id);
@@ -333,16 +333,21 @@ SkyObject * ObjectList::getObject(qlonglong id)
 
     while ( query.next() ) {
         // Right Ascension
-        ras = query.value(2).toFloat(); ram = query.value(1).toInt(); rah = query.value(0).toInt();
+        ras = query.value(0).toString().mid(0, 2).toInt();
+        ram = query.value(0).toString().mid(2, 2).toInt();
+        rah = query.value(0).toString().mid(4, 4).toFloat();
 
         // Declination
-        dd = query.value(4).toInt(); dm = query.value(5).toInt(), ds = query.value(6).toInt();
+        dd = query.value(1).toString().mid(0, 2).toInt();
+        dm = query.value(1).toString().mid(2, 2).toInt();
+        ds = query.value(1).toString().mid(4, 2).toInt();
 
         // Position Angle, Magnitude, Semimajor axis
-        pa = query.value(9).toInt(); mag = query.value(7).toFloat(); a = query.value(11).toFloat(); b = query.value(10).toFloat();
+        pa = query.value(5).toInt(); mag = query.value(3).toFloat(); a = query.value(7).toFloat(); b = query.value(6).toFloat();
 
         // Object type, SGN
-        type = query.value(8).toInt(); sgn = query.value(3).toInt();
+        type = query.value(4).toInt(); sgn = query.value(2).toInt();
+
 
 
         // Inner Join to retrieve all the catalogs in which the object appears
@@ -417,6 +422,8 @@ SkyObject * ObjectList::getObject(qlonglong id)
 
 void ObjectList::drawObject(qlonglong id)
 {
+    kDebug() << id;
+
     SkyObject *o = getObject(id);
 
     // Focus the object

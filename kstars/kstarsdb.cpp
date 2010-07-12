@@ -316,11 +316,12 @@ void KStarsDB::migrateData(QString filename)
         // Add the DSO Object to the database
         query.exec();
 
+
         /*
         // Get the rowid of the object newly inserted
         query.prepare("SELECT rowid FROM dso WHERE rah = :rah AND ram = :ram AND ras = :ras AND sgn = :sgn AND decd = :decd AND decm = :decm AND decs = :decs");
         */
-        query.prepare("SELECT rowid FROM dso WHERE ra = :ra AND sgn = :sgn AND dec = :dec");
+        query.prepare("SELECT rowid, ra, dec FROM dso WHERE ra = :ra AND sgn = :sgn AND dec = :dec");
 
         /*
         query.bindValue(":rah", rah);
@@ -341,9 +342,11 @@ void KStarsDB::migrateData(QString filename)
         int dsoRowID;
 
         // Retrieve the row id of the newly inserted object
-        while (query.next())
+        while (query.next()) {
+       //   kDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString();
             dsoRowID = query.value(0).toString().toInt();
- 
+        }
+
         dms r;
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );

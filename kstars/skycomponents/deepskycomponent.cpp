@@ -125,14 +125,16 @@ void DeepSkyComponent::loadData()
         ras = query.value(0).toString().mid(0, 2).toInt();
         ram = query.value(0).toString().mid(2, 2).toInt();
         rah = query.value(0).toString().mid(4, 4).toFloat();
-//      kDebug() << ras << ram << rah;
+
+//        kDebug() << "RA: " << ras << ram << rah;
 
 //        ras = query.value(2).toFloat(); ram = query.value(1).toInt(); rah = query.value(0).toInt();
 
         // Declination
-        dd = query.value(2).toString().mid(0, 2).toInt();
-        dm = query.value(2).toString().mid(2, 2).toInt();
-        ds = query.value(2).toString().mid(4, 2).toInt();
+        dd = query.value(1).toString().mid(0, 2).toInt();
+        dm = query.value(1).toString().mid(2, 2).toInt();
+        ds = query.value(1).toString().mid(4, 2).toInt();
+//        kDebug() << "DEC: " << dd << dm << ds;
 
 //        dd = query.value(4).toInt(); dm = query.value(5).toInt(), ds = query.value(6).toInt();
 
@@ -140,7 +142,7 @@ void DeepSkyComponent::loadData()
         pa = query.value(5).toInt(); mag = query.value(3).toFloat(); a = query.value(7).toFloat(); b = query.value(6).toFloat();
 
         // Object type, SGN
-        type = query.value(4).toInt(); sgn = query.value(1).toInt();
+        type = query.value(4).toInt(); sgn = query.value(2).toInt();
 
 
         // Inner Join to retrieve all the catalogs in which the object appears
