@@ -107,16 +107,16 @@ void SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
     m_vertex[type][i + 4] = vec + Vector2f( w,-w);
     m_vertex[type][i + 5] = vec + Vector2f( w, w);
 
-    Vector3f c(0.,1.,1.);
+    Vector3f c(1.,1.,1.);
     switch(sp) {
-        case 'o': case 'O': c = Vector3f( 0.,  0.,  1.); break;
-        case 'b': case 'B': c = Vector3f( 0., 0.8,  1.); break;
-        case 'a': case 'A': c = Vector3f( 0.,  1.,  1.); break;
-        case 'f': case 'F': c = Vector3f(0.8,  1., 0.4); break;
-        case 'g': case 'G': c = Vector3f( 1.,  1.,  0.); break;
-        case 'k': case 'K': c = Vector3f( 1., 0.4,  0.); break;
-        case 'm': case 'M': c = Vector3f( 1.,  0.,  0.); break;
-    }
+        case 'o': case 'O': c = Vector3f( 153./255., 153./255., 255./255.); break;
+        case 'b': case 'B': c = Vector3f( 151./255., 233./255., 255./255.); break;
+        case 'a': case 'A': c = Vector3f( 153./255., 255./255., 255./255.); break;
+        case 'f': case 'F': c = Vector3f( 219./255., 255./255., 135./255.); break;
+        case 'g': case 'G': c = Vector3f( 255./255., 255./255., 153./255.); break;
+        case 'k': case 'K': c = Vector3f( 255./255., 193./255., 153./255.); break;
+        case 'm': case 'M': c = Vector3f( 255./255., 153./255., 153./255.); break;
+    } 
 
     for(int j = 0; j < 6; ++j) {
         m_color[type][i+j] = c;
