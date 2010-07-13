@@ -29,6 +29,7 @@
 
 #include "Options.h"
 #include "kstarsdata.h"
+#include "kstarsdb.h"
 #include "kstarssplash.h"
 #include "skymap.h"
 #include "simclock.h"
@@ -76,6 +77,10 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     Q_ASSERT( kstarsData );
     //Set Geographic Location from Options
     kstarsData->setLocationFromOptions();
+
+    //Initialize the database
+    kstarsDB = KStarsDB::Create();
+    Q_ASSERT( kstarsDB );
 
     //Initialize Time and Date
     KStarsDateTime startDate = KStarsDateTime::fromString( StartDateString );

@@ -26,8 +26,11 @@
 #include <QDebug>
 #include <QSqlQuery>
 #include <QString>
+#include <QHash>
 #include <QSqlError>
 #include <QVariant>
+#include "skyobjects/skyobject.h"
+
 
 class KStarsDB
 {
@@ -65,10 +68,24 @@ public:
      */
     void migrateURLData(const QString &, int);
 
+    /**
+     * Get the SkyObject * for the object having the provided id
+     */
+    SkyObject *getObject(qlonglong);
+
+    /**
+     * Get the object id for the provided id
+     */
+    qlonglong getSkyObjectIDByName(QString);
+
     /** Singleton instance of the class */
     static KStarsDB *pinstance;
 
+
 private:
+    /** Hash of SkyObjects (database id) */
+    QHash<qlonglong, SkyObject *> objectHash;
+
     bool createDefaultDatabase();
     
     QSqlDatabase db;

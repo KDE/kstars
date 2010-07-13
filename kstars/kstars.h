@@ -33,6 +33,7 @@ class KActionMenu;
 
 class dms;
 class KStarsData;
+class KStarsDB;
 class SkyMap;
 class GeoLocation;
 class FindDialog;
@@ -118,6 +119,9 @@ public:
 
     /**@return pointer to KStarsData object which contains application data. */
     KStarsData* data() { return kstarsData; }
+
+    /**@return pointer to KStarsDB object which contains database data. */
+    KStarsDB* db() { return kstarsDB; }
 
     /**@return pointer to SkyMap object which is the sky display widget. */
     SkyMap* map() { return skymap; }
@@ -602,6 +606,7 @@ private:
     void buildGUI();
 
     KStarsData *kstarsData;
+    KStarsDB *kstarsDB;
     SkyMap *skymap;
 
     TimeStepBox *TimeStep;

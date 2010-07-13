@@ -48,6 +48,7 @@
 #include "ksalmanac.h"
 #include "obslistwizard.h"
 #include "kstars.h"
+#include "kstarsdb.h"
 #include "kstarsdata.h"
 #include "ksutils.h"
 #include "dialogs/locationdialog.h"
@@ -267,6 +268,7 @@ void ObjectList::slotNewSelection() {
     QModelIndex item;
     QList<SkyObject *> skyobjects;
 
+    KStarsDB *ksdb = KStarsDB::Instance();
 
     qlonglong id;
     SkyObject *o;
@@ -275,13 +277,13 @@ void ObjectList::slotNewSelection() {
 
     if( selectedItems.size() == 1 ) {
         id = selectedItems.first().data().toLongLong();
-        o = getObject(id);
+        o = ksdb->getObject(id);
         skyobjects.push_back(o);
 
         ui->TableView->setSkyObjectList(skyobjects);
     } else {
        foreach (item, selectedItems) {
-           o = getObject (item.data().toLongLong());
+           o = ksdb->getObject (item.data().toLongLong());
            skyobjects.push_back(o);
        }
 
@@ -289,7 +291,7 @@ void ObjectList::slotNewSelection() {
     }
 }
 
-
+/*
 SkyObject * ObjectList::getObject(qlonglong id)
 {
     if (objectHash.contains(id)) {
@@ -419,12 +421,13 @@ SkyObject * ObjectList::getObject(qlonglong id)
 
     return 0;
 }
+*/
 
 void ObjectList::drawObject(qlonglong id)
 {
     kDebug() << id;
-
-    SkyObject *o = getObject(id);
+    KStarsDB* ksdb = KStarsDB::Instance();
+    SkyObject *o = ksdb->getObject(id);
 
     // Focus the object
     SkyMap *map = KStars::Instance()->map();

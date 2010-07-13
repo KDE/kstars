@@ -20,11 +20,14 @@
 #include "kdebug.h"
 #include "ksfilereader.h"
 #include "kstarsdata.h"
+#include "kstarsdb.h"
 #include "dms.h"
+#include "skyobjects/deepskyobject.h"
 
 KStarsDB::KStarsDB()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
+    kDebug() << "WTF" << objectHash.contains(1);
 }
 
 KStarsDB* KStarsDB::pinstance = 0;
@@ -190,15 +193,14 @@ void KStarsDB::migrateData(QString filename)
             break;
     }
 
-    KStarsData *data = KStarsData::Instance();
     if (!fileReader.open(filename)) return; 
     fileReader.setProgress(i18n("Migrating NGC/IC objects from ngcic.dat to kstars.db"), 13444, 10 );
 
     while (fileReader.hasMoreLines()) {
         QString line, con, ss, name, name2, longname;
         QString cat, cat2, sgn;
-        float mag(1000.0), ras, a, b;
-        int type, ingc, imess(-1), rah, ram, dd, dm, ds, pa;
+        float mag(1000.0), a, b;
+        int type, ingc, imess(-1), pa; // , rah, ram, dd, dm, ds;
         int pgc, ugc;
         QChar iflag;
 
@@ -339,20 +341,20 @@ void KStarsDB::migrateData(QString filename)
 
         query.exec();
 
-        int dsoRowID;
+        int dsoRowID = -1;
 
         // Retrieve the row id of the newly inserted object
         while (query.next()) {
        //   kDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString();
             dsoRowID = query.value(0).toString().toInt();
         }
-
+/*
         dms r;
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
 
         if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-
+*/
         bool hasName = true;
         QString snum;
 
@@ -558,4 +560,211 @@ KStarsDB* KStarsDB::Create()
 KStarsDB* KStarsDB::Instance()
 {
     return pinstance;
+}
+
+SkyObject * KStarsDB::getObject(qlonglong id)
+{
+    kDebug() << "Works!" << id;
+
+    if (objectHash.contains(id)) {
+        kDebug() << "Found a hashed object!";
+        return objectHash[id];
+    }
+
+    kDebug() << "Definfajdiwa";
+
+    KStarsData *data = KStarsData::Instance();
+    SkyObject *o = NULL;
+
+    // Variables needed to load all the data
+    QString line, con, ss, name[10], longname;
+    QString cat[10];
+
+    // Magnitude, Right Ascension (seconds), Semimajor and Semiminor axis
+    float mag, ras, a, b;
+
+    // RA Hours, Minutes, DSO Type, NGC Index, Messier Index
+    int rah, ram, type;
+
+    // Dec Degrees, Minutes, Seconds, Position Angle, Sign
+    int dd, dm, ds, pa, sgn;
+
+    // PGC Index, UGC Index, Catalogs number
+    int pgc = 0, ugc = 0, k = 0;
+
+    // Index flag, nameflag, counter
+    QChar iflag; bool hasName;
+
+    QSqlQuery query, dsoquery;
+
+    QString queryStatement =  QString("SELECT o.ra, o.dec, ") +
+                                QString("o.sgn, ") +
+                                QString("o.bmag, o.type, o.pa, o.minor, o.major, ") +
+                                QString("o.longname, o.rowid FROM dso AS o ") +
+                                QString("WHERE o.rowid = ") + QString::number(id);
+
+    if (!query.exec(queryStatement)) {
+        kDebug() << "Deep Sky select statement error: " << query.lastError();
+    }
+
+    while ( query.next() ) {
+        // Right Ascension
+        ras = query.value(0).toString().mid(0, 2).toInt();
+        ram = query.value(0).toString().mid(2, 2).toInt();
+        rah = query.value(0).toString().mid(4, 4).toFloat();
+
+        // Declination
+        dd = query.value(1).toString().mid(0, 2).toInt();
+        dm = query.value(1).toString().mid(2, 2).toInt();
+        ds = query.value(1).toString().mid(4, 2).toInt();
+
+        // Position Angle, Magnitude, Semimajor axis
+        pa = query.value(5).toInt(); mag = query.value(3).toFloat(); a = query.value(7).toFloat(); b = query.value(6).toFloat();
+
+        // Object type, SGN
+        type = query.value(4).toInt(); sgn = query.value(2).toInt();
+
+
+        // Inner join to retrieve all the catalogs in which the object appears
+        dsoquery.prepare("SELECT od.designation, ctg.name FROM od INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = :iddso");
+        dsoquery.bindValue(":iddso", query.value(9).toInt());
+
+        if (!dsoquery.exec()) {
+            qDebug() << "Error on retrieving the catalog list for an object: " << dsoquery.lastError();
+        }
+
+        // Parsing catalog information
+        k = 0;
+
+        while (dsoquery.next()) {
+            name[k] = dsoquery.value(1).toString() + ' ' + dsoquery.value(0).toString();
+            cat[k] = dsoquery.value(1).toString();
+            k++;
+        }
+
+        hasName = true;
+        longname = query.value(8).toString();
+
+        if (!longname.isEmpty()) {
+            if (name[0] == "") {
+                name[0] = longname;
+            }
+        } else if (name[0] == "") {
+            hasName = false;
+            name[0] = "Unnamed Object";
+        }
+
+        dms r;
+        r.setH( rah, ram, int(ras) );
+        dms d( dd, dm, ds );
+
+        if ( sgn == -1 ) { d.setD( -1.0*d.Degrees() ); }
+
+        // Create new Deep Sky Object Instance
+        if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
+
+        o = new DeepSkyObject( type, r, d, mag, name[0], name[1], longname, cat[0], a, b, pa, pgc, ugc );
+        o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+
+        /*
+        // Add the name(s) to the nameHash for fast lookup -jbb
+        if (hasName == true) {
+            // hash the default name
+            nameHash[name[0].toLower()] = o;
+            // hash the longname
+            if (!longname.isEmpty())
+                nameHash[longname.toLower()] = o;
+
+            // hash all the other names (catalog designations) of the object
+            for (i = 1; i < k; i++)
+                if (!name[i].isEmpty())
+                    nameHash[name[i].toLower()] = o;
+        }
+        */
+
+        /*
+        Trixel trixel = m_skyMesh->index( (SkyPoint*) o );
+
+        // Assign object to general DeepSkyObjects list,
+        // and a secondary list based on its catalog.
+        m_DeepSkyList.append( o );
+        appendIndex( o, &m_DeepSkyIndex, trixel );
+        */
+        /*
+        if ( o->isCatalogM()) {
+            m_MessierList.append( o );
+            appendIndex( o, &m_MessierIndex, trixel );
+        }
+        else if (o->isCatalogNGC() ) {
+            m_NGCList.append( o );
+            appendIndex( o, &m_NGCIndex, trixel );
+        }
+        else if ( o->isCatalogIC() ) {
+            m_ICList.append( o );
+            appendIndex( o, &m_ICIndex, trixel );
+        }
+        else {
+            m_OtherList.append( o );
+            appendIndex( o, &m_OtherIndex, trixel );
+        }
+
+        // Add name to the list of object names
+        if (!name[0].isEmpty())
+            objectNames(type).append(name[0]);
+
+        // Add longname to the list of object names
+        if (!longname.isEmpty() && longname != name)
+            objectNames(type).append(longname);
+        */
+
+        // Load the images associated to the deep sky object (this was done in KStarsData::readUrlData)
+        dsoquery.prepare("SELECT url, title, type FROM dso_url WHERE idDSO = :iddso");
+        dsoquery.bindValue(":iddso", query.value(9).toInt());
+
+        if (!dsoquery.exec()) {
+            qDebug() << "URL query error: " << dsoquery.lastError();
+        } else {
+            while (dsoquery.next()) {
+                switch (dsoquery.value(2).toInt()) {
+                    case IMG_URL:
+                        o->ImageList().append(dsoquery.value(0).toString());
+                        o->ImageTitle().append(dsoquery.value(1).toString());
+                        break;
+
+                    case INFO_URL:
+                        o->InfoList().append(dsoquery.value(0).toString());
+                        o->InfoTitle().append(dsoquery.value(1).toString());
+                        break;
+                }
+            }
+        }
+
+        kDebug() << "GETTTING HERE!";
+        kDebug() << query.lastError() << dsoquery.lastError();
+        objectHash[id] = o;
+        kDebug() << "GeTJIS";
+        return o;
+    }
+
+    return 0;
+}
+
+qlonglong KStarsDB::getSkyObjectIDByName(QString searchedName)
+{
+    QSqlQuery db;
+
+    // By default, just display all the objects, mixing all the catalogs
+    QString subQuery = "(SELECT group_concat(ctg.name || \" \" || od.designation) FROM od " + 
+       QString("INNER JOIN ctg ON od.idCTG = ctg.rowid WHERE od.idDSO = dso.rowid) AS Designations");
+    
+    QString searchQuery = "SELECT " + subQuery + ", dso.longname AS Name, dso.rowid FROM dso " + 
+       QString("WHERE Designations LIKE \'%" + searchedName + "%\' OR Name LIKE \'%" + searchedName + "%\') ");
+
+    db.exec(searchQuery);
+
+    while (db.next()) {
+        return db.value(2).toLongLong();
+    }
+
+    return -1;
 }

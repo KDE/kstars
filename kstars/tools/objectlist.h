@@ -73,8 +73,6 @@ private:
     void drawObject(qlonglong);
 
     QString processSearchText();
-    SkyObject * getObject(qlonglong);
-    QHash<qlonglong, SkyObject *> objectHash;
 
     KStars *ks;
     ObjectListUI *ui;
