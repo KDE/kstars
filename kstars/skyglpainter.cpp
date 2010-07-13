@@ -66,6 +66,7 @@ void SkyGLPainter::drawBuffer(int type)
     //printf("Drawing buffer for type %d, has %d objects\n", type, m_idx[type]);
     if( m_idx[type] == 0 ) return;
 
+    glEnable(GL_TEXTURE_2D);
     Texture *tex = TextureManager::getTexture("star");
     tex->bind();
     
@@ -145,6 +146,7 @@ bool SkyGLPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 
 void SkyGLPainter::drawSkyPolygon(LineList* list)
 {
+    glDisable(GL_TEXTURE_2D);
     SkyList *points = list->points();
     glBegin(GL_POLYGON);
     for(int i = 0; i < points->size(); ++i) {
@@ -155,6 +157,7 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
 
 void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLabel* label)
 {
+    glDisable(GL_TEXTURE_2D);
     SkyList *points = list->points();
     bool isVisible = false;
     bool isVisibleLast = false;
@@ -184,6 +187,7 @@ void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 
 void SkyGLPainter::drawSkyBackground()
 {
+    glDisable(GL_TEXTURE_2D);
     QColor bg = KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" );
     glClearColor( bg.redF(), bg.greenF(), bg.blueF(), bg.alphaF() );
     glClear(GL_COLOR_BUFFER_BIT);
