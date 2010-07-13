@@ -42,10 +42,12 @@ public:
     virtual void setBrush(const QBrush& brush);
     virtual void setPen(const QPen& pen);
 private:
-    void drawAsPoint(SkyPoint* p, int type);
+    void addItem(SkyPoint* p, int type, float width, char sp = 'a');
     void drawBuffer(int type);
     static const int BUFSIZE = 512;
-    static Vector2f m_buf[(int)SkyObject::TYPE_UNKNOWN][BUFSIZE];
+    static Vector2f m_vertex[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
+    static Vector2f m_texcoord[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
+    static Vector3f m_color[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
     static int m_idx[(int)SkyObject::TYPE_UNKNOWN];
 };
 

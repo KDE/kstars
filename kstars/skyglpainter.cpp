@@ -40,7 +40,9 @@ USING_PART_OF_NAMESPACE_EIGEN
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
 
-Vector2f SkyGLPainter::m_buf[(int)SkyObject::TYPE_UNKNOWN][BUFSIZE];
+Vector2f SkyGLPainter::m_vertex[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
+Vector2f SkyGLPainter::m_texcoord[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
+Vector3f SkyGLPainter::m_color[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
 int      SkyGLPainter::m_idx[SkyObject::TYPE_UNKNOWN];
 
 SkyGLPainter::SkyGLPainter(SkyMap* sm)
@@ -48,6 +50,14 @@ SkyGLPainter::SkyGLPainter(SkyMap* sm)
 {
     for(int i = 0; i < SkyObject::TYPE_UNKNOWN; ++i) {
         m_idx[i] = 0;
+        for(int j = 0; j < BUFSIZE; ++j) {
+            m_texcoord[i][6*j +0] = Vector2f(0,0);
+            m_texcoord[i][6*j +1] = Vector2f(1,0);
+            m_texcoord[i][6*j +2] = Vector2f(0,1);
+            m_texcoord[i][6*j +3] = Vector2f(0,1);
+            m_texcoord[i][6*j +4] = Vector2f(1,0);
+            m_texcoord[i][6*j +5] = Vector2f(1,1);
+        }
     }
 }
 
@@ -55,14 +65,27 @@ void SkyGLPainter::drawBuffer(int type)
 {
     //printf("Drawing buffer for type %d, has %d objects\n", type, m_idx[type]);
     if( m_idx[type] == 0 ) return;
-    glColor3f(1.,1.,1.);
+
+    Texture *tex = TextureManager::getTexture("star");
+    tex->bind();
+    
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(2,GL_FLOAT,0, &m_buf[type]);
-    glDrawArrays(GL_POINTS,0,m_idx[type]);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    glVertexPointer  (2,GL_FLOAT,0, &m_vertex[type]);
+    glTexCoordPointer(2,GL_FLOAT,0, &m_texcoord[type]);
+    glColorPointer   (3,GL_FLOAT,0, &m_color[type]);
+    
+    glDrawArrays(GL_TRIANGLES, 0, 6*m_idx[type]);
     m_idx[type] = 0;
+    
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void SkyGLPainter::drawAsPoint(SkyPoint* p, int type)
+void SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
 {
     bool visible = false;
     Vector2f vec = m_sm->toScreenVec(p,true,&visible);
@@ -72,25 +95,51 @@ void SkyGLPainter::drawAsPoint(SkyPoint* p, int type)
     if(m_idx[type] == BUFSIZE) {
         drawBuffer(type);
     }
-    m_buf[type][m_idx[type]] = vec;
+
+    int i = 6*m_idx[type];
+    float w = width/2.;
+    
+    m_vertex[type][i + 0] = vec + Vector2f(-w,-w);
+    m_vertex[type][i + 1] = vec + Vector2f( w,-w);
+    m_vertex[type][i + 2] = vec + Vector2f(-w, w);
+    m_vertex[type][i + 3] = vec + Vector2f(-w, w);
+    m_vertex[type][i + 4] = vec + Vector2f( w,-w);
+    m_vertex[type][i + 5] = vec + Vector2f( w, w);
+
+    Vector3f c(0.,1.,1.);
+    switch(sp) {
+        case 'o': case 'O': c = Vector3f( 0.,  0.,  1.); break;
+        case 'b': case 'B': c = Vector3f( 0., 0.8,  1.); break;
+        case 'a': case 'A': c = Vector3f( 0.,  1.,  1.); break;
+        case 'f': case 'F': c = Vector3f(0.8,  1., 0.4); break;
+        case 'g': case 'G': c = Vector3f( 1.,  1.,  0.); break;
+        case 'k': case 'K': c = Vector3f( 1., 0.4,  0.); break;
+        case 'm': case 'M': c = Vector3f( 1.,  0.,  0.); break;
+    }
+
+    for(int j = 0; j < 6; ++j) {
+        m_color[type][i+j] = c;
+    }
+    
     ++m_idx[type];
 }
 
 bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 {
-    drawAsPoint(planet, planet->type());
+    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
+    addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.));
     return true;
 }
 
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
-    drawAsPoint(obj, obj->type());
+    addItem(obj, obj->type(), starWidth(obj->mag()));
     return true;
 }
 
 bool SkyGLPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 {
-    drawAsPoint(loc, SkyObject::STAR);
+    addItem(loc, SkyObject::STAR, starWidth(mag), sp);
     return true;
 }
 
