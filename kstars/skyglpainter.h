@@ -20,7 +20,10 @@
 #ifndef SKYGLPAINTER_H
 #define SKYGLPAINTER_H
 
-#include <skypainter.h>
+#include "skypainter.h"
+#include "skyobjects/skyobject.h"
+#include <Eigen/Core>
+USING_PART_OF_NAMESPACE_EIGEN
 
 
 class SkyGLPainter : public SkyPainter
@@ -39,7 +42,11 @@ public:
     virtual void setBrush(const QBrush& brush);
     virtual void setPen(const QPen& pen);
 private:
-    void drawAsPoint(SkyPoint *p);
+    void drawAsPoint(SkyPoint* p, int type);
+    void drawBuffer(int type);
+    static const int BUFSIZE = 512;
+    static Vector2f m_buf[(int)SkyObject::TYPE_UNKNOWN][BUFSIZE];
+    static int m_idx[(int)SkyObject::TYPE_UNKNOWN];
 };
 
 #endif // SKYGLPAINTER_H

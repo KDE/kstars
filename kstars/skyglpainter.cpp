@@ -37,37 +37,57 @@ USING_PART_OF_NAMESPACE_EIGEN
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
 
+Vector2f SkyGLPainter::m_buf[(int)SkyObject::TYPE_UNKNOWN][BUFSIZE];
+int      SkyGLPainter::m_idx[SkyObject::TYPE_UNKNOWN];
+
 SkyGLPainter::SkyGLPainter(SkyMap* sm)
     : SkyPainter(sm)
 {
-
+    for(int i = 0; i < SkyObject::TYPE_UNKNOWN; ++i) {
+        m_idx[i] = 0;
+    }
 }
 
-void SkyGLPainter::drawAsPoint(SkyPoint* p)
+void SkyGLPainter::drawBuffer(int type)
 {
-    Vector2f vec = m_sm->toScreenVec(p);
-    //FIXME: not so inefficient...
-    glBegin(GL_POINTS);
+    //printf("Drawing buffer for type %d, has %d objects\n", type, m_idx[type]);
+    if( m_idx[type] == 0 ) return;
     glColor3f(1.,1.,1.);
-    glVertex2fv(vec.data());
-    glEnd();
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2,GL_FLOAT,0, &m_buf[type]);
+    glDrawArrays(GL_POINTS,0,m_idx[type]);
+    m_idx[type] = 0;
+}
+
+void SkyGLPainter::drawAsPoint(SkyPoint* p, int type)
+{
+    bool visible = false;
+    Vector2f vec = m_sm->toScreenVec(p,true,&visible);
+    if(!visible) return;
+    
+    //If the buffer is full, flush it
+    if(m_idx[type] == BUFSIZE) {
+        drawBuffer(type);
+    }
+    m_buf[type][m_idx[type]] = vec;
+    ++m_idx[type];
 }
 
 bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 {
-    drawAsPoint(planet);
+    drawAsPoint(planet, planet->type());
     return true;
 }
 
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
-    drawAsPoint(obj);
+    drawAsPoint(obj, obj->type());
     return true;
 }
 
 bool SkyGLPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 {
-    drawAsPoint(loc);
+    drawAsPoint(loc, SkyObject::STAR);
     return true;
 }
 
@@ -119,7 +139,9 @@ void SkyGLPainter::drawSkyBackground()
 
 void SkyGLPainter::end()
 {
-
+    for(int i = 0; i < SkyObject::TYPE_UNKNOWN; ++i) {
+        drawBuffer(i);
+    }
 }
 
 void SkyGLPainter::begin()
