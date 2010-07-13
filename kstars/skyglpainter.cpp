@@ -28,6 +28,9 @@ USING_PART_OF_NAMESPACE_EIGEN
 #include "kstarsdata.h"
 #include "Options.h"
 
+#include "texturemanager.h"
+#include "texture.h"
+
 #include "skycomponents/linelist.h"
 #include "skycomponents/skiplist.h"
 #include "skycomponents/linelistlabel.h"
@@ -142,6 +145,21 @@ void SkyGLPainter::end()
     for(int i = 0; i < SkyObject::TYPE_UNKNOWN; ++i) {
         drawBuffer(i);
     }
+    /*
+    glEnable(GL_TEXTURE_2D);
+    Texture *tex = TextureManager::getTexture("star");
+    tex->bind();
+    glBegin(GL_QUADS);
+    glTexCoord2f(0,0);
+    glVertex2f(100,100);
+    glTexCoord2f(1,0);
+    glVertex2f(200,100);
+    glTexCoord2f(1,1);
+    glVertex2f(200,200);
+    glTexCoord2f(0,1);
+    glVertex2f(100,200);
+    glEnd();
+    glDisable(GL_TEXTURE_2D); */
 }
 
 void SkyGLPainter::begin()
@@ -166,6 +184,9 @@ void SkyGLPainter::begin()
     glEnable(GL_LINE_SMOOTH);
     glEnable(GL_POLYGON_SMOOTH);
     glLineStipple(1,0xCCCC);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
+    
 }
 
 void SkyGLPainter::setBrush(const QBrush& brush)

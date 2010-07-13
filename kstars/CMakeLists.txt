@@ -297,6 +297,7 @@ set(kstars_extra_SRCS
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp skyglpainter.cpp
+	texture.cpp texturemanager.cpp
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )

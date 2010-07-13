@@ -71,5 +71,9 @@ install( FILES kstars.png geomap.png
 	DESTINATION  ${DATA_INSTALL_DIR}/kstars 
 )
 
+install( FILES textures/star.png
+	 DESTINATION ${DATA_INSTALL_DIR}/kstars/textures )
+
+
 
 
