@@ -42,15 +42,15 @@ using Eigen::Rotation2Df;
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
 
-Vector2f SkyGLPainter::m_vertex[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
-Vector2f SkyGLPainter::m_texcoord[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
-Vector3f SkyGLPainter::m_color[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
-int      SkyGLPainter::m_idx[SkyObject::TYPE_UNKNOWN];
+Vector2f SkyGLPainter::m_vertex[NUMTYPES][6*BUFSIZE];
+Vector2f SkyGLPainter::m_texcoord[NUMTYPES][6*BUFSIZE];
+Vector3f SkyGLPainter::m_color[NUMTYPES][6*BUFSIZE];
+int      SkyGLPainter::m_idx[NUMTYPES];
 
 SkyGLPainter::SkyGLPainter(SkyMap* sm)
     : SkyPainter(sm)
 {
-    for(int i = 0; i < SkyObject::TYPE_UNKNOWN; ++i) {
+    for(int i = 0; i < NUMTYPES; ++i) {
         m_idx[i] = 0;
         for(int j = 0; j < BUFSIZE; ++j) {
             m_texcoord[i][6*j +0] = Vector2f(0,0);
@@ -242,7 +242,7 @@ void SkyGLPainter::drawSkyBackground()
 
 void SkyGLPainter::end()
 {
-    for(int i = 0; i < SkyObject::TYPE_UNKNOWN; ++i) {
+    for(int i = 0; i < NUMTYPES; ++i) {
         drawBuffer(i);
     }
     /*

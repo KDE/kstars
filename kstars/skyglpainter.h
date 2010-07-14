@@ -46,10 +46,12 @@ private:
     void drawBuffer(int type);
     Vector4f m_pen;
     static const int BUFSIZE = 512;
-    static Vector2f m_vertex[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
-    static Vector2f m_texcoord[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
-    static Vector3f m_color[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
-    static int m_idx[(int)SkyObject::TYPE_UNKNOWN];
+    ///FIXME: what kind of TYPE_UNKNOWN objects are there?
+    static const int NUMTYPES = (int)SkyObject::TYPE_UNKNOWN + 1;
+    static Vector2f m_vertex[NUMTYPES][6*BUFSIZE];
+    static Vector2f m_texcoord[NUMTYPES][6*BUFSIZE];
+    static Vector3f m_color[NUMTYPES][6*BUFSIZE];
+    static int m_idx[NUMTYPES];
 };
 
 #endif // SKYGLPAINTER_H
