@@ -96,11 +96,11 @@ void SkyGLPainter::drawBuffer(int type)
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-void SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
+bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
 {
     bool visible = false;
     Vector2f vec = m_sm->toScreenVec(p,true,&visible);
-    if(!visible) return;
+    if(!visible) return false;
     
     //If the buffer is full, flush it
     if(m_idx[type] == BUFSIZE) {
@@ -134,13 +134,13 @@ void SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
     }
     
     ++m_idx[type];
+    return true;
 }
 
 bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 {
     float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
-    addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.));
-    return true;
+    return addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.));
 }
 
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
@@ -150,7 +150,7 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     
     //If it's a star, add it like a star
     if( type < 2 ) {
-        addItem(obj, type, starWidth(obj->mag()));
+        return addItem(obj, type, starWidth(obj->mag()));
     } else {
         bool visible = false;
         Vector2f vec = m_sm->toScreenVec(obj,true,&visible);
@@ -182,14 +182,13 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
         }
 
         ++m_idx[type];
+        return true;
     }
-    return true;
 }
 
 bool SkyGLPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 {
-    addItem(loc, SkyObject::STAR, starWidth(mag), sp);
-    return true;
+    return addItem(loc, SkyObject::STAR, starWidth(mag), sp);
 }
 
 void SkyGLPainter::drawSkyPolygon(LineList* list)

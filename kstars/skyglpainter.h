@@ -42,7 +42,7 @@ public:
     virtual void setBrush(const QBrush& brush);
     virtual void setPen(const QPen& pen);
 private:
-    void addItem(SkyPoint* p, int type, float width, char sp = 'a');
+    bool addItem(SkyPoint* p, int type, float width, char sp = 'a');
     void drawBuffer(int type);
     Vector4f m_pen;
     static const int BUFSIZE = 512;
