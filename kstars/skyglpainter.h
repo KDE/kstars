@@ -44,6 +44,7 @@ public:
 private:
     void addItem(SkyPoint* p, int type, float width, char sp = 'a');
     void drawBuffer(int type);
+    Vector4f m_pen;
     static const int BUFSIZE = 512;
     static Vector2f m_vertex[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];
     static Vector2f m_texcoord[(int)SkyObject::TYPE_UNKNOWN][6*BUFSIZE];

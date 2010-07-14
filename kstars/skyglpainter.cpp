@@ -20,6 +20,7 @@
 #include "skyglpainter.h"
 
 #include <Eigen/Core>
+#include <Eigen/Geometry>
 USING_PART_OF_NAMESPACE_EIGEN
 
 #include <GL/gl.h>
@@ -63,11 +64,19 @@ SkyGLPainter::SkyGLPainter(SkyMap* sm)
 
 void SkyGLPainter::drawBuffer(int type)
 {
-    //printf("Drawing buffer for type %d, has %d objects\n", type, m_idx[type]);
+    printf("Drawing buffer for type %d, has %d objects\n", type, m_idx[type]);
     if( m_idx[type] == 0 ) return;
 
     glEnable(GL_TEXTURE_2D);
-    Texture *tex = TextureManager::getTexture("star");
+    Texture *tex = 0;
+    switch( type ) {
+        case 3: case 13:          tex = TextureManager::getTexture("open-cluster"); break;
+        case 4: case 7:           tex = TextureManager::getTexture("globular-cluster"); break;
+        case 5: case 6: case 15:  tex = TextureManager::getTexture("gaseous-nebula"); break;
+        case 8: case 16:          tex = TextureManager::getTexture("galaxy"); break;
+        case 14:                  tex = TextureManager::getTexture("galaxy-cluster"); break;
+        case 0: case 1: default:  tex = TextureManager::getTexture("star"); break;
+    }
     tex->bind();
     
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -116,6 +125,7 @@ void SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
         case 'g': case 'G': c = Vector3f( 255./255., 255./255., 153./255.); break;
         case 'k': case 'K': c = Vector3f( 255./255., 193./255., 153./255.); break;
         case 'm': case 'M': c = Vector3f( 255./255., 153./255., 153./255.); break;
+        case 'x':           c = Vector3f( m_pen[0], m_pen[1], m_pen[2]   ); break;
     } 
 
     for(int j = 0; j < 6; ++j) {
@@ -134,7 +144,42 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
-    addItem(obj, obj->type(), starWidth(obj->mag()));
+    int type = obj->type();
+    //addItem(obj, type, obj->a() * dms::PI * Options::zoomFactor() / 10800.0);
+    
+    //If it's a star, add it like a star
+    if( type < 2 ) {
+        addItem(obj, type, starWidth(obj->mag()));
+    } else {
+        bool visible = false;
+        Vector2f vec = m_sm->toScreenVec(obj,true,&visible);
+        if(!visible) return false;
+
+        //If the buffer is full, flush it
+        if(m_idx[type] == BUFSIZE) {
+            drawBuffer(type);
+        }
+
+        const int i = 6*m_idx[type];
+        float width = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+        float w = width/2.;
+        float h = w;
+
+        m_vertex[type][i + 0] = vec + Vector2f(-w,-h);
+        m_vertex[type][i + 1] = vec + Vector2f( w,-h);
+        m_vertex[type][i + 2] = vec + Vector2f(-w, h);
+        m_vertex[type][i + 3] = vec + Vector2f(-w, h);
+        m_vertex[type][i + 4] = vec + Vector2f( w,-h);
+        m_vertex[type][i + 5] = vec + Vector2f( w, h);
+
+        Vector3f c( m_pen[0], m_pen[1], m_pen[2]   );
+
+        for(int j = 0; j < 6; ++j) {
+            m_color[type][i+j] = c;
+        }
+
+        ++m_idx[type];
+    }
     return true;
 }
 
@@ -244,14 +289,18 @@ void SkyGLPainter::begin()
 
 void SkyGLPainter::setBrush(const QBrush& brush)
 {
+    /*
     QColor c = brush.color();
-    glColor4f( c.redF(), c.greenF(), c.blueF(), c.alphaF() );
+    m_pen = Vector4f( c.redF(), c.greenF(), c.blueF(), c.alphaF() );
+    glColor4fv( m_pen.data() );
+    */
 }
 
 void SkyGLPainter::setPen(const QPen& pen)
 {
     QColor c = pen.color();
-    glColor4f( c.redF(), c.greenF(), c.blueF(), c.alphaF() );
+    m_pen = Vector4f( c.redF(), c.greenF(), c.blueF(), c.alphaF() );
+    glColor4fv( m_pen.data() );
     glLineWidth(pen.widthF());
     if( pen.style() != Qt::SolidLine ) {
         glEnable(GL_LINE_STIPPLE);

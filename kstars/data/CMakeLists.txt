@@ -71,7 +71,12 @@ install( FILES kstars.png geomap.png
 	DESTINATION  ${DATA_INSTALL_DIR}/kstars 
 )
 
-install( FILES textures/star.png
+install( FILES textures/star.png 
+               textures/galaxy.png
+               textures/open-cluster.png 
+               textures/globular-cluster.png
+               textures/galaxy-cluster.png
+               textures/gaseous-nebula.png
 	 DESTINATION ${DATA_INSTALL_DIR}/kstars/textures )
 
 
