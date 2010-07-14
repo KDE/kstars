@@ -22,6 +22,7 @@
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 USING_PART_OF_NAMESPACE_EIGEN
+using Eigen::Rotation2Df;
 
 #include <GL/gl.h>
 
@@ -64,7 +65,7 @@ SkyGLPainter::SkyGLPainter(SkyMap* sm)
 
 void SkyGLPainter::drawBuffer(int type)
 {
-    printf("Drawing buffer for type %d, has %d objects\n", type, m_idx[type]);
+    //printf("Drawing buffer for type %d, has %d objects\n", type, m_idx[type]);
     if( m_idx[type] == 0 ) return;
 
     glEnable(GL_TEXTURE_2D);
@@ -162,15 +163,17 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
         const int i = 6*m_idx[type];
         float width = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+        float pa = m_sm->findPA(obj, vec[0], vec[1]) * (M_PI/180.0);
+        Rotation2Df r(pa);
         float w = width/2.;
-        float h = w;
+        float h = w * obj->e();
 
-        m_vertex[type][i + 0] = vec + Vector2f(-w,-h);
-        m_vertex[type][i + 1] = vec + Vector2f( w,-h);
-        m_vertex[type][i + 2] = vec + Vector2f(-w, h);
-        m_vertex[type][i + 3] = vec + Vector2f(-w, h);
-        m_vertex[type][i + 4] = vec + Vector2f( w,-h);
-        m_vertex[type][i + 5] = vec + Vector2f( w, h);
+        m_vertex[type][i + 0] = vec + r* Vector2f(-w,-h);
+        m_vertex[type][i + 1] = vec + r* Vector2f( w,-h);
+        m_vertex[type][i + 2] = vec + r* Vector2f(-w, h);
+        m_vertex[type][i + 3] = vec + r* Vector2f(-w, h);
+        m_vertex[type][i + 4] = vec + r* Vector2f( w,-h);
+        m_vertex[type][i + 5] = vec + r* Vector2f( w, h);
 
         Vector3f c( m_pen[0], m_pen[1], m_pen[2]   );
 
