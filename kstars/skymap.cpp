@@ -237,6 +237,12 @@ SkyMap::SkyMap() :
 
     m_fpstime.start();
     m_framecount = 0;
+
+    //The update timer will be destructed when SkyMap is..
+    QTimer *update = new QTimer(this);
+    update->setInterval(30);
+    connect(update, SIGNAL(timeout()), this, SLOT(updateGL()) );
+    update->start();
 }
 
 void SkyMap::slotToggleGeoBox(bool flag) {
