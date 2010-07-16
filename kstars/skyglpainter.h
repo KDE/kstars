@@ -52,6 +52,7 @@ private:
     static Vector2f m_texcoord[NUMTYPES][6*BUFSIZE];
     static Vector3f m_color[NUMTYPES][6*BUFSIZE];
     static int m_idx[NUMTYPES];
+    static bool m_init; ///< keep track of whether we have filled the texcoord array
 };
 
 #endif // SKYGLPAINTER_H

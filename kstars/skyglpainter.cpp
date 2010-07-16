@@ -46,20 +46,25 @@ Vector2f SkyGLPainter::m_vertex[NUMTYPES][6*BUFSIZE];
 Vector2f SkyGLPainter::m_texcoord[NUMTYPES][6*BUFSIZE];
 Vector3f SkyGLPainter::m_color[NUMTYPES][6*BUFSIZE];
 int      SkyGLPainter::m_idx[NUMTYPES];
+bool     SkyGLPainter::m_init = false;
 
 SkyGLPainter::SkyGLPainter(SkyMap* sm)
     : SkyPainter(sm)
 {
-    for(int i = 0; i < NUMTYPES; ++i) {
-        m_idx[i] = 0;
-        for(int j = 0; j < BUFSIZE; ++j) {
-            m_texcoord[i][6*j +0] = Vector2f(0,0);
-            m_texcoord[i][6*j +1] = Vector2f(1,0);
-            m_texcoord[i][6*j +2] = Vector2f(0,1);
-            m_texcoord[i][6*j +3] = Vector2f(0,1);
-            m_texcoord[i][6*j +4] = Vector2f(1,0);
-            m_texcoord[i][6*j +5] = Vector2f(1,1);
+    if( !m_init ) {
+        printf("Initializing texcoord arrays...\n");
+        for(int i = 0; i < NUMTYPES; ++i) {
+            m_idx[i] = 0;
+            for(int j = 0; j < BUFSIZE; ++j) {
+                m_texcoord[i][6*j +0] = Vector2f(0,0);
+                m_texcoord[i][6*j +1] = Vector2f(1,0);
+                m_texcoord[i][6*j +2] = Vector2f(0,1);
+                m_texcoord[i][6*j +3] = Vector2f(0,1);
+                m_texcoord[i][6*j +4] = Vector2f(1,0);
+                m_texcoord[i][6*j +5] = Vector2f(1,1);
+            }
         }
+        m_init = true;
     }
 }
 
