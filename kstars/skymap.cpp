@@ -234,6 +234,9 @@ SkyMap::SkyMap() :
     m_iboxes->addInfoBox(m_timeBox);
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
+
+    m_fpstime.start();
+    m_framecount = 0;
 }
 
 void SkyMap::slotToggleGeoBox(bool flag) {

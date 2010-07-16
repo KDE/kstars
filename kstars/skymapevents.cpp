@@ -667,6 +667,12 @@ void SkyMap::resizeGL(int width, int height)
 
 void SkyMap::paintGL()
 {
+    if(m_framecount == 25) {
+        float sec = m_fpstime.elapsed()/1000.;
+        printf("FPS: %.2f\n", m_framecount/sec);
+        m_framecount = 0;
+        m_fpstime.restart();
+    }
     SkyGLPainter psky(this);
     //FIXME: we may want to move this into the components.
     psky.begin();
@@ -676,6 +682,7 @@ void SkyMap::paintGL()
     data->skyComposite()->draw( &psky );
     //Finish up
     psky.end();
+    ++m_framecount;
 }
 #else
 void SkyMap::paintEvent( QPaintEvent *event )

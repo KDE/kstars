@@ -30,6 +30,7 @@ USING_PART_OF_NAMESPACE_EIGEN
     #include <QWidget>
 #endif
 #include <QPixmap>
+#include <QTime>
 
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
@@ -892,6 +893,8 @@ private:
 
     static SkyMap* pinstance;
 
+    QTime m_fpstime;
+    int m_framecount;
 };
 
 #endif
