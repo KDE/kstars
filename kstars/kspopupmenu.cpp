@@ -149,13 +149,13 @@ void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     QString info = magToStr( p->mag() );
 	QString type = i18n("Solar system object");;
-    initPopupMenu( p, p->translatedName(), type, info, true);
+    initPopupMenu( p, p->translatedName(), type, info);
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
 void KSPopupMenu::createMoonMenu( KSMoon *moon ) {
     QString info = QString("%1, %2").arg( magToStr(moon->mag()), moon->phaseName() );
-    initPopupMenu( moon, moon->translatedName(), QString(), info, true);
+    initPopupMenu( moon, moon->translatedName(), QString(), info);
     addLinksToMenu( moon, false ); //don't offer DSS images for planets
 }
 
