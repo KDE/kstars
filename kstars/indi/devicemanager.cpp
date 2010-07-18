@@ -446,7 +446,11 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 
     if (!message) return;
 
+    // Prepend to the log viewer
     txt_w->insertPlainText( QString(valuXMLAtt(message)) + QString("\n"));
+    QTextCursor c = txt_w->textCursor();
+    c.movePosition(QTextCursor::Start);
+    txt_w->setTextCursor(c); 
 
     if ( Options::showINDIMessages() )
         parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);
