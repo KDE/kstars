@@ -13,8 +13,6 @@ enum InclusionType {
   
 class LINKAGE HtmRange {
 public:
-    static int HIGHS;
-    static int LOWS;
     int getNext(Key &lo, Key &hi);
     int getNext(Key *lo, Key *hi);
 
@@ -32,6 +30,8 @@ public:
 protected:
     InclusionType tinside(const Key mid) const;
 private:
+    static int HIGHS;
+    static int LOWS;
     SkipList *my_los;
     SkipList *my_his;
 };
