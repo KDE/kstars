@@ -18,23 +18,9 @@ public:
     int getNext(Key &lo, Key &hi);
     int getNext(Key *lo, Key *hi);
 
-    void setSymbolic(bool flag);
-
-    void addRange(const Key lo, const Key hi);
     void mergeRange(const Key lo, const Key hi);
-    void defrag();
-    void defrag(Key gap);
-    void levelto(int level);
     void purge();
-    int isIn(Key key);
-    int isIn(Key lo, Key hi);
-    int isIn(HtmRange & otherRange);
-    Key bestgap(Key desiredSize);
-    int stats(int desiredSize);
-    int nranges();
     void reset();
-
-    int compare(const HtmRange & other) const;
 
     HtmRange();
     ~HtmRange(){
@@ -45,8 +31,6 @@ public:
   
 protected:
     InclusionType tinside(const Key mid) const;
-    // const char buffer[256];
-    bool symbolicOutput;
 private:
     SkipList *my_los;
     SkipList *my_his;
