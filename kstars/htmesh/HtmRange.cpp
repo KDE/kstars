@@ -16,6 +16,14 @@ HtmRange::HtmRange()
     my_his = new SkipList;
 }
 
+HtmRange::~HtmRange()
+{
+    my_los->freeRange(-1, KEY_MAX);
+    my_his->freeRange(-1, KEY_MAX);
+    delete my_los;
+    delete my_his;
+}
+
 InclusionType HtmRange::tinside(const Key mid) const
 {
     // clearly out, inside, share a bounday, off by one to some boundary
@@ -107,17 +115,10 @@ void HtmRange::mergeRange(const Key lo, const Key hi)
 //   }
 }
 
-void HtmRange::purge()
-{
-    my_los->freeRange(-1, KEY_MAX);
-    my_his->freeRange(-1, KEY_MAX);
-}
-
 void HtmRange::reset()
 {
     my_los->reset();
     my_his->reset();
-
 }
 
 int HtmRange::getNext(Key &lo, Key &hi)

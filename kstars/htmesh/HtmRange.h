@@ -17,15 +17,10 @@ public:
     int getNext(Key *lo, Key *hi);
 
     void mergeRange(const Key lo, const Key hi);
-    void purge();
     void reset();
 
     HtmRange();
-    ~HtmRange(){
-        purge();
-        delete my_los;
-        delete my_his;
-    };
+    ~HtmRange();
   
 protected:
     InclusionType tinside(const Key mid) const;
