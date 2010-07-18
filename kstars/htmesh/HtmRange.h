@@ -13,14 +13,13 @@ enum InclusionType {
   
 class LINKAGE HtmRange {
 public:
-    int getNext(Key &lo, Key &hi);
+    HtmRange();
+    ~HtmRange();
+
     int getNext(Key *lo, Key *hi);
 
     void mergeRange(const Key lo, const Key hi);
     void reset();
-
-    HtmRange();
-    ~HtmRange();
   
 protected:
     InclusionType tinside(const Key mid) const;

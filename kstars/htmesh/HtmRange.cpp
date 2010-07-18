@@ -121,18 +121,6 @@ void HtmRange::reset()
     my_his->reset();
 }
 
-int HtmRange::getNext(Key &lo, Key &hi)
-{
-	lo = my_los->getkey();
-	if (lo <= (Key) 0){
-		hi = lo = (Key) 0;
-		return 0;
-	}
-	hi = my_his->getkey();
-	my_his->step();
-	my_los->step();
-	return 1;
-}
 int HtmRange::getNext(Key *lo, Key *hi)
 {
 	*lo = my_los->getkey();
