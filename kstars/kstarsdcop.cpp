@@ -263,7 +263,7 @@ void KStars::writeConfig() {
     Options::self()->writeConfig();
 
     //Store current simulation time
-    data()->StoredDate.setDJD( data()->lt().djd() );
+    data()->StoredDate = data()->lt();
 }
 
 QString KStars::getOption( const QString &name ) {
