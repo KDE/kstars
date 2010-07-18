@@ -249,8 +249,9 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     if ( showDSS ) {
         addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-        addSeparator();
-    } else if ( obj->ImageList().count() )
+    }
+
+    if( obj->ImageList().count() || showDSS )
         addSeparator();
 
     itList  = obj->InfoList().constBegin();
