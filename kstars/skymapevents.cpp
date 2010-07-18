@@ -220,10 +220,11 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
     case Qt::Key_Comma:  //advance one step backward in time
     case Qt::Key_Less:
-        if ( data->clock()->isActive() ) data->clock()->stop();
-        data->clock()->setScale( -1.0 * data->clock()->scale() ); //temporarily need negative time step
+        if ( data->clock()->isActive() )
+            data->clock()->stop();
+        data->clock()->setClockScale( -1.0 * data->clock()->scale() ); //temporarily need negative time step
         data->clock()->manualTick( true );
-        data->clock()->setScale( -1.0 * data->clock()->scale() ); //reset original sign of time step
+        data->clock()->setClockScale( -1.0 * data->clock()->scale() ); //reset original sign of time step
         update();
         qApp->processEvents();
         break;

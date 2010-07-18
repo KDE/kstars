@@ -528,7 +528,7 @@ void KStars::datainitFinished() {
     connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ),
-             data()->clock(), SLOT( setScale( float )) );
+             data()->clock(), SLOT( setClockScale( float )) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
 

@@ -169,7 +169,7 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
     }
 }
 
-void SimClock::setScale(float s) {
+void SimClock::setClockScale(float s) {
     if (Scale != s ) {
         kDebug() << i18n( "New clock scale: %1 sec", s );
         Scale = s;
@@ -180,10 +180,6 @@ void SimClock::setScale(float s) {
         }
         emit scaleChanged(s);
     }
-}
-
-void SimClock::setClockScale(float s) {
-    setScale(s);
 }
 
 #include "simclock.moc"
