@@ -159,21 +159,6 @@ public:
     inline long double djd() const { return DJD; }
 
     /**
-     *@return the fraction of the Julian Day corresponding to the current time.
-     *Because the integer Julian Day value jd() is referenced to Noon on the current date,
-     *jdFrac() ranges between values of -0.5 and +0.5 for the previous and next midnights,
-     *respectively.
-     */
-    inline double jdFrac() const { return ((time().hour()-12) + (time().minute()
-                                        + (time().second() + time().msec()/1000.)/60.)/60.)/24.; }
-
-    /**
-     *@return the Julian Day value for the current date, but at 0h UT.  
-     *@note the returned value is always an integer value + 0.5.
-     */
-    inline long double JDat0hUT() const { return int( djd() - 0.5 ) + 0.5; }
-
-    /**
      *@return The Greenwich Sidereal Time
      *The Greenwich sidereal time is the Right Ascension coordinate that is currently transiting 
      *the Prime Meridian at the Royal Observatory in Greenwich, UK (longitude=0.0)
