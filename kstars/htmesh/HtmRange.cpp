@@ -133,6 +133,3 @@ int HtmRange::getNext(Key *lo, Key *hi)
 	my_los->step();
 	return 1;
 }
-
-int HtmRange::LOWS = 1;
-int HtmRange::HIGHS = 2;

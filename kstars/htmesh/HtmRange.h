@@ -24,8 +24,6 @@ public:
 protected:
     InclusionType tinside(const Key mid) const;
 private:
-    static int HIGHS;
-    static int LOWS;
     SkipList *my_los;
     SkipList *my_his;
 };
