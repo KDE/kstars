@@ -26,6 +26,7 @@ class StreamWG;
 class KProgressDialog;
 class KDirLister;
 class SkyObject;
+class SkyPoint;
 
 
 /* This class implmements standard properties on the device level*/
@@ -57,6 +58,8 @@ public:
     bool handleNonSidereal();
     void streamDisabled();
 
+    /* INDI STD: Slew to a point */
+    bool slew_scope(SkyPoint *scope_target);
     /* INDI STD: Updates device time */
     void updateTime();
     /* INDI STD: Updates device location */
