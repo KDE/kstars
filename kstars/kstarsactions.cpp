@@ -831,13 +831,13 @@ void KStars::slotCoordSys() {
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
-        actionCollection()->action("coordsys")->setText( i18n("Equatorial &Coordinates") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to horizonal view (Horizontal &Coordinates)") );
     } else {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
             map()->setFocusAltAz( map()->focus()->altRefracted(), map()->focus()->az() );
         }
-        actionCollection()->action("coordsys")->setText( i18n("Horizontal &Coordinates") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to star globe view (Equatorial &Coordinates)") );
     }
     map()->forceUpdate();
 }

@@ -151,7 +151,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     }
 
     actionCollection()->action("coordsys")->setText(
-        Options::useAltAz() ? i18n("Horizontal &Coordinates") : i18n("Equatorial &Coordinates") );
+        Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)") );
 
     actionCollection()->action("show_time_box"    )->setChecked( Options::showTimeBox() );
     actionCollection()->action("show_location_box")->setChecked( Options::showGeoBox() );
