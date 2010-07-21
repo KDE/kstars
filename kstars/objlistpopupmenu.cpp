@@ -22,11 +22,12 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "ksobjectlist.h"
+//#include "widgets/ksobjectlist.h"
 #include "skyobjects/skyobject.h"
 
 #include <config-kstars.h>
 
+class KSObjectList;
 
 ObjListPopupMenu::ObjListPopupMenu(KSObjectList *parent)
         : KMenu( 0 )

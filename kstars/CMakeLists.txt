@@ -209,6 +209,7 @@ set(libkstarscomponents_SRCS
 )
 
 set(libkstarswidgets_SRCS
+   widgets/ksobjectlist.cpp
 	widgets/clicklabel.cpp 
 	widgets/dmsbox.cpp 
 	widgets/draglistbox.cpp 
@@ -294,7 +295,6 @@ set(kstars_extra_SRCS
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp objlistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdb.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp
-   ksobjectlist.cpp ksobjectlist.h
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
 	timezonerule.cpp 

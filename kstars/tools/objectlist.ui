@@ -164,7 +164,7 @@
   <customwidget>
    <class>KSObjectList</class>
    <extends>QWidget</extends>
-   <header>ksobjectlist.h</header>
+   <header>widgets/ksobjectlist.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
