@@ -190,9 +190,9 @@ void KSPlanet::calcEcliptic(double Tau, EclipticPosition &epret) const {
     }
 
     if ( ! odm.loadData( odc, untranslatedName() ) ) {
-        epret.longitude = 0.0;
-        epret.latitude = 0.0;
-        epret.radius = 0.0;
+        epret.longitude = dms(0.0);
+        epret.latitude  = dms(0.0);
+        epret.radius    = 0.0;
         kError() << "Could not get data for '" << name() << "'" << endl;
         return;
     }
@@ -259,8 +259,8 @@ bool KSPlanet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase 
 
         double jm = num->julianMillenia();
 
-        Earth->ecLong()->SinCos( sinL0, cosL0 );
-        Earth->ecLat()->SinCos( sinB0, cosB0 );
+        Earth->ecLong().SinCos( sinL0, cosL0 );
+        Earth->ecLat().SinCos( sinB0, cosB0 );
 
         double eX = Earth->rsun()*cosB0*cosL0;
         double eY = Earth->rsun()*cosB0*sinL0;

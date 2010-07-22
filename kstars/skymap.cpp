@@ -57,16 +57,6 @@
 #endif
 
 namespace {
-    // Assign values in x1 and x2 to p1 and p2 conserving ordering with respect to X coordinate
-    void storePointsOrd(QPointF& p1, QPointF& p2, const QPointF& edge1, const QPointF& edge2) {
-        if ( ( p1.x() < p2.x() )  ==  ( edge1.x() < edge2.x() ) ) {
-            p1 = edge1;
-            p2 = edge2;
-        } else {
-            p1 = edge2;
-            p2 = edge1;
-        }
-    }
 
     // FIXME: describe what this function do and give descriptive name
     double projectionK(double c) {
@@ -127,8 +117,6 @@ namespace {
 
 
 SkyMap* SkyMap::pinstance = 0;
-double SkyMap::RefractCorr1[184];
-double SkyMap::RefractCorr2[184];
 
 
 SkyMap* SkyMap::Create()
@@ -187,15 +175,6 @@ SkyMap::SkyMap() :
     connect( &HoverTimer,     SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
     connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
-
-    //Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
-    //the apparent altitude from the true altitude, and RefractCorr2 is for the reverse.
-    for( int index = 0; index <184; ++index ) {
-        double alt = -1.75 + index*0.5;  //start at -1.75 degrees to get midpoint value for each interval.
-
-        RefractCorr1[index] = 1.02 / tan( dms::PI*( alt + 10.3/(alt + 5.11) )/180.0 ) / 60.0; //correction in degrees.
-        RefractCorr2[index] = -1.0 / tan( dms::PI*( alt + 7.31/(alt + 4.4) )/180.0 ) / 60.0;
-    }
 
     // Time infobox
     m_timeBox = new InfoBoxWidget( Options::shadeTimeBox(),
@@ -329,7 +308,7 @@ void SkyMap::slotTransientLabel() {
     //Do not show a transient label if the map is in motion, or if the mouse
     //pointer is below the opaque horizon, or if the object has a permanent label
     if ( ! slewing && ! ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
-                          refract( mousePoint()->alt(), true ).Degrees() < 0.0 ) ) {
+                          SkyPoint::refract(mousePoint()->alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
         SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
 
@@ -431,10 +410,7 @@ void SkyMap::slotCenter() {
 
     //update the destination to the selected coordinates
     if ( Options::useAltAz() ) {
-        if ( Options::useRefraction() )
-            setDestinationAltAz( refract( focusPoint()->alt(), true ).Degrees(), focusPoint()->az().Degrees() );
-        else
-            setDestinationAltAz( focusPoint()->alt().Degrees(), focusPoint()->az().Degrees() );
+        setDestinationAltAz( focusPoint()->altRefracted(), focusPoint()->az() );
     } else {
         setDestination( focusPoint() );
     }
@@ -644,10 +620,7 @@ void SkyMap::slotInfo() {
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {
-    foreach ( SkyObject *o, data->skyComposite()->labelObjects() ) {
-        if ( o == object ) return true;
-    }
-    return false;
+    return data->skyComposite()->labelObjects().contains( object );
 }
 
 void SkyMap::slotRemoveObjectLabel() {
@@ -703,34 +676,25 @@ void SkyMap::slotClockSlewing() {
 }
 
 void SkyMap::setFocus( SkyPoint *p ) {
-    setFocus( p->ra().Hours(), p->dec().Degrees() );
+    setFocus( p->ra(), p->dec() );
 }
 
 void SkyMap::setFocus( const dms &ra, const dms &dec ) {
-    setFocus( ra.Hours(), dec.Degrees() );
-}
+    Options::setFocusRA(  ra.Hours() );
+    Options::setFocusDec( dec.Degrees() );
 
-void SkyMap::setFocus( double ra, double dec ) {
-    Focus.set( ra, dec );
-    Options::setFocusRA( ra );
-    Options::setFocusDec( dec );
-
+    focus()->set( ra, dec );
     focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
 void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
-    setFocusAltAz( alt.Degrees(), az.Degrees() );
-}
-
-void SkyMap::setFocusAltAz(double alt, double az) {
+    Options::setFocusRA( focus()->ra().Hours() );
+    Options::setFocusDec( focus()->dec().Degrees() );
     focus()->setAlt(alt);
     focus()->setAz(az);
     focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-    Options::setFocusRA( focus()->ra().Hours() );
-    Options::setFocusDec( focus()->dec().Degrees() );
 
     slewing = false;
-
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
@@ -741,25 +705,12 @@ void SkyMap::setDestination( SkyPoint *p ) {
 }
 
 void SkyMap::setDestination( const dms &ra, const dms &dec ) {
-    Destination.set( ra, dec );
-    destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    emit destinationChanged();
-}
-
-void SkyMap::setDestination( double ra, double dec ) {
-    Destination.set( ra, dec );
+    destination()->set( ra, dec );
     destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     emit destinationChanged();
 }
 
 void SkyMap::setDestinationAltAz( const dms &alt, const dms &az) {
-    destination()->setAlt(alt);
-    destination()->setAz(az);
-    destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-    emit destinationChanged();
-}
-
-void SkyMap::setDestinationAltAz(double alt, double az) {
     destination()->setAlt(alt);
     destination()->setAz(az);
     destination()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
@@ -778,10 +729,7 @@ void SkyMap::updateFocus() {
     if ( Options::isTracking() && focusObject() != NULL ) {
         if ( Options::useAltAz() ) {
             //Tracking any object in Alt/Az mode requires focus updates
-            double dAlt = focusObject()->alt().Degrees();
-            if ( Options::useRefraction() )
-                dAlt = refract( focusObject()->alt(), true ).Degrees();
-            setFocusAltAz( dAlt, focusObject()->az().Degrees() );
+            setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
             setDestination( focus() );
         } else {
@@ -889,7 +837,7 @@ void SkyMap::slewFocus() {
         //Either useAnimatedSlewing==false, or we have slewed, and are within one step of destination
         //set focus=destination.
         if ( Options::useAltAz() ) {
-            setFocusAltAz( destination()->alt().Degrees(), destination()->az().Degrees() );
+            setFocusAltAz( destination()->alt(), destination()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
             setFocus( destination() );
@@ -917,9 +865,11 @@ double SkyMap::findPA( SkyObject *o, float x, float y ) {
     //displace by 100/zoomFactor radians (so distance is always 100 pixels)
     //this is 5730/zoomFactor degrees
     double newDec = o->dec().Degrees() + 5730.0/Options::zoomFactor();
-    if ( newDec > 90.0 ) newDec = 90.0;
+    if ( newDec > 90.0 )
+        newDec = 90.0;
     SkyPoint test( o->ra().Hours(), newDec );
-    if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    if ( Options::useAltAz() )
+        test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
     QPointF t = toScreen( &test );
     double dx = t.x() - x;
     double dy = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
@@ -972,7 +922,7 @@ Vector2f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphe
 
     if ( Options::useAltAz() ) {
         if ( oRefract )
-            Y = refract( o->alt(), true ).radians(); //account for atmospheric refraction
+            Y = SkyPoint::refract( o->alt() ).radians(); //account for atmospheric refraction
         else
             Y = o->alt().radians();
         dX = focus()->az().reduce().radians() - o->az().reduce().radians();
@@ -1083,93 +1033,6 @@ bool SkyMap::onScreen( const QPoint &p1, const QPoint &p2 ) {
                 p2.y() > scaledRect().height() ) );
 }
 
-bool SkyMap::onscreenLine( QPointF &p1, QPointF &p2 ) {
-    //If the SkyMap rect contains both points or either point is null,
-    //we can return immediately
-    bool on1 = scaledRect().contains( p1.toPoint() );
-    bool on2 = scaledRect().contains( p2.toPoint() );
-    if ( on1 && on2 )
-        return true;
-
-    //Given two points defining a line segment, determine the
-    //endpoints of the segment which is clipped by the boundaries
-    //of the SkyMap QRectF.
-    QLineF screenLine( p1, p2 );
-
-    //Define screen edges to be just beyond the scaledRect() bounds, so that clipped
-    //positions are considered "offscreen"
-    QPoint topLeft( scaledRect().left()-1, scaledRect().top()-1 );
-    QPoint bottomLeft( scaledRect().left()-1, scaledRect().top() + height()+1 );
-    QPoint topRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top()-1 );
-    QPoint bottomRight( scaledRect().left() + scaledRect().width()+1, scaledRect().top() + height()+1 );
-    QLine topEdge( topLeft, topRight );
-    QLine bottomEdge( bottomLeft, bottomRight );
-    QLine leftEdge( topLeft, bottomLeft );
-    QLine rightEdge( topRight, bottomRight );
-
-    QPointF edgePoint1;
-    QPointF edgePoint2;
-
-    //If both points are offscreen in the same direction, return a null point.
-    if ( ( p1.x() <= topLeft.x()    && p2.x() <= topLeft.x() ) ||
-            ( p1.y() <= topLeft.y()    && p2.y() <= topLeft.y() ) ||
-            ( p1.x() >= topRight.x()   && p2.x() >= topRight.x() ) ||
-            ( p1.y() >= bottomLeft.y() && p2.y() >= bottomLeft.y() ) ) {
-        return false;
-    }
-
-    //When an intersection betwen the line and a screen edge is found, the
-    //intersection point is stored in edgePoint2.
-    //If two intersection points are found for the same line, then we'll
-    //return the line joining those two intersection points.
-    if ( screenLine.intersect( QLineF(topEdge), &edgePoint1 ) == 1 ) {
-        edgePoint2 = edgePoint1;
-    }
-
-    if ( screenLine.intersect( QLineF(leftEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return true;
-        }
-    }
-
-    if ( screenLine.intersect( QLineF(rightEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return true;
-        }
-    }
-    if ( screenLine.intersect( QLineF(bottomEdge), &edgePoint1 ) == 1 ) {
-        if ( edgePoint2.isNull() )
-            edgePoint2 = edgePoint1;
-        else {
-            storePointsOrd(p1, p2, edgePoint1, edgePoint2);
-            return true;
-        }
-    }
-    //If we get here, zero or one intersection point was found.
-    //If no intersection points were found, the line must be totally offscreen
-    //return a null point
-    if ( edgePoint2.isNull() ) {
-        return false;
-    }
-
-    //If one intersection point was found, then one of the original endpoints
-    //was onscreen.  Return the line that connects this point to the edgePoint
-
-    //edgePoint2 is the one defined edgePoint.
-    if ( on2 )
-        p1 = edgePoint2;
-    else
-        p2 = edgePoint2;
-
-    return true;
-}
-
 SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
     //Determine RA and Dec of a point, given (dx, dy): its pixel
     //coordinates in the SkyMap with the center of the map as the origin.
@@ -1189,7 +1052,7 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
             alt.setRadians( dy + focus()->alt().radians() );
             result.setAz( az.reduce() );
             if ( Options::useRefraction() )
-                alt = refract( alt, false );  //find true alt from apparent alt
+                alt = SkyPoint::unrefract( alt );
             result.setAlt( alt );
             result.HorizontalToEquatorial( LST, lat );
             return result;
@@ -1246,7 +1109,7 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
         alt.setRadians( Y );
         az.setRadians( A + focus()->az().radians() );
         if ( Options::useRefraction() )
-            alt = refract( alt, false );  //find true alt from apparent alt
+            alt = SkyPoint::unrefract( alt );
         result.setAlt( alt );
         result.setAz( az );
         result.HorizontalToEquatorial( LST, lat );
@@ -1258,40 +1121,6 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
         result.EquatorialToHorizontal( LST, lat );
     }
 
-    return result;
-}
-
-dms SkyMap::refract( const dms& alt, bool findApparent ) {
-    if (!Options::showGround())
-        return alt;
-    if ( alt.Degrees() <= -2.000 ) return dms( alt.Degrees() );
-
-    int index = int( ( alt.Degrees() + 2.0 )*2. );  //RefractCorr arrays start at alt=-2.0 degrees.
-    int index2( index + 1 );
-
-    //compute dx, normalized distance from nearest position in lookup table
-    double x1 = 0.5*float(index) - 1.75;
-    if ( alt.Degrees()<x1 ) index2 = index - 1;
-    if ( index2 < 0 ) index2 = index + 1;
-    if ( index2 > 183 ) index2 = index - 1;
-
-    //Failsafe: if indices are out of range, return the input altitude
-    if ( index < 0 || index > 183 || index2 < 0 || index2 > 183 ) {
-        return dms( alt.Degrees() );
-    }
-
-    double x2 = 0.5*float(index2) - 1.75;
-    double dx = (alt.Degrees() - x1)/(x2 - x1);
-
-    double y1 = RefractCorr1[index];
-    double y2 = RefractCorr1[index2];
-    if ( !findApparent ) {
-        y1 = RefractCorr2[index];
-        y2 = RefractCorr2[index2];
-    }
-
-    //linear interpolation to find refracted altitude
-    dms result( alt.Degrees() + y2*dx + y1*(1.0-dx) );
     return result;
 }
 
@@ -1332,13 +1161,11 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
 
     //Skip objects below the horizon if using Horizontal coords,
     //and the ground is drawn
-    if ( useAltAz && Options::showHorizon() && Options::showGround() && p->alt().Degrees() < -1.0 ) return false;
+    if( useAltAz && Options::showHorizon() && Options::showGround() && p->alt().Degrees() < -1.0 )
+        return false;
 
     if ( useAltAz ) {
-        if ( Options::useRefraction() ) 
-            dY = fabs( refract( p->alt(), true ).Degrees() - focus()->alt().Degrees() );
-        else
-            dY = fabs( p->alt().Degrees() - focus()->alt().Degrees() );
+        dY = fabs( p->altRefracted().Degrees() - focus()->alt().Degrees() );
     } else {
         dY = fabs( p->dec().Degrees() - focus()->dec().Degrees() );
     }
@@ -1471,7 +1298,7 @@ void SkyMap::addLink() {
 }
 
 void SkyMap::updateAngleRuler() {
-    if(isAngleMode() && (!pmenu || !pmenu -> isVisible()))
+    if( angularDistanceMode && (!pmenu || !pmenu->isVisible()) )
         AngularRuler.setPoint( 1, mousePoint() );
     AngularRuler.update( data );
 }

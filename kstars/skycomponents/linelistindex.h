@@ -109,14 +109,6 @@ protected:
      */
     void appendBoth( LineList* lineList, int debug=0 );
 
-    /* @short Draws all the lines without making use of the index.  Used by
-     * NoPrecessIndex for cases when the screen is zoomed out and creating
-     * the 2nd mesh buffer would be more expensive than just drawing
-     * everything.  There are no filled versions of the "All" routines
-     * simply because they were not needed.
-     */
-    void drawAllLines( SkyPainter* skyp );
-
     /* @short Draws all the lines in m_listList as simple lines in float
      * mode.
      */

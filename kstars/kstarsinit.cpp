@@ -215,7 +215,7 @@ void KStars::initActions() {
     actionCollection()->addAction( KStandardAction::FullScreen, this, SLOT( slotFullScreen() ) );
 
     actionCollection()->addAction("coordsys", this, SLOT( slotCoordSys() ) )
-        << (Options::useAltAz() ? i18n("Horizontal &Coordinates") : i18n("Equatorial &Coordinates"))
+        << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)"))
         << KShortcut("Space" );
 
     actionCollection()->addAction("project_lambert", this, SLOT( slotMapProjection() ) )
@@ -528,7 +528,7 @@ void KStars::datainitFinished() {
     connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ),
-             data()->clock(), SLOT( setScale( float )) );
+             data()->clock(), SLOT( setClockScale( float )) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
 

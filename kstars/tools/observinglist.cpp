@@ -137,12 +137,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->ImagePreview->installEventFilter( this );
     ui->TableView->viewport()->installEventFilter( this );
     ui->SessionView->viewport()->installEventFilter( this );
-    QFile file;
-    if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
-       file.close();
-       ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
-    } else
-        ui->ImagePreview->hide();
+    // setDefaultImage();
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
     connect( ui->TableView, SIGNAL( doubleClicked( const QModelIndex& ) ),
@@ -174,7 +169,7 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->SaveImage, SIGNAL( clicked() ),
              this, SLOT( slotSaveImage() ) );
     connect( ui->DeleteImage, SIGNAL( clicked() ),
-             this, SLOT( slotDeleteImage() ) );
+             this, SLOT( slotDeleteCurrentImage() ) );
     connect( ui->GoogleImage, SIGNAL( clicked() ),
              this, SLOT( slotGoogleImage() ) );
     connect( ui->SetTime, SIGNAL( clicked() ),
@@ -182,9 +177,9 @@ ObservingList::ObservingList( KStars *_ks )
     connect( ui->tabWidget, SIGNAL( currentChanged(int) ),
              this, SLOT( slotChangeTab(int) ) );
     connect( ui->saveImages, SIGNAL( clicked() ),
-             this, SLOT( slotSaveImages() ) );
-    connect( ui->DeleteImages, SIGNAL( clicked() ),
-             this, SLOT( slotDeleteImages() ) );
+             this, SLOT( slotSaveAllImages() ) );
+    connect( ui->DeleteAllImages, SIGNAL( clicked() ),
+             this, SLOT( slotDeleteAllImages() ) );
     connect( ui->OALExport, SIGNAL( clicked() ),
              this, SLOT( slotOALExport() ) );  
     //Add icons to Push Buttons
@@ -207,7 +202,7 @@ ObservingList::ObservingList( KStars *_ks )
 
     slotLoadWishList(); //Load the wishlist from disk if present
     m_CurrentObject = 0;
-    setSaveImages();
+    setSaveImagesButton();
     //Hide the MiniButton until I can figure out how to resize the Dialog!
 //    ui->MiniButton->hide();
 }
@@ -303,7 +298,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to session list.", obj->name() ), 0 );
     }
-    setSaveImages();
+    setSaveImagesButton();
 }
 
 void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) {
@@ -439,7 +434,7 @@ void ObservingList::slotRemoveSelectedObjects() {
         //we've removed all selected objects, so clear the selection
         ui->TableView->selectionModel()->clear();
     }
-    setSaveImages();
+    setSaveImagesButton();
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
 }
 
@@ -450,12 +445,6 @@ void ObservingList::slotNewSelection() {
     showScope = false;
     ui->ImagePreview->clearPreview();
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
-    QFile file;
-    if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
-       file.close();
-       ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
-    } else
-        ui->ImagePreview->hide();
     QModelIndexList selectedItems;
     QString newName;
     SkyObject *o;
@@ -500,6 +489,7 @@ void ObservingList::slotNewSelection() {
         #ifdef HAVE_INDI_H
             showScope = true;
         #endif
+        setDefaultImage();
         if ( found ) {
             m_CurrentObject = o;
             QPoint pos(0,0);
@@ -581,9 +571,18 @@ void ObservingList::slotNewSelection() {
 }
 
 void ObservingList::slotCenterObject() {
-    ks->map()->setClickedObject( currentObject() );
-    ks->map()->setClickedPoint( currentObject() );
-    ks->map()->slotCenter();
+    QModelIndexList selectedItems;
+    if (sessionView) {
+        selectedItems = ui->SessionView->selectionModel()->selectedRows();
+    } else {
+        selectedItems = ui->TableView->selectionModel()->selectedRows();
+    }
+
+    if (selectedItems.size() == 1) {
+        ks->map()->setClickedObject( currentObject() );
+        ks->map()->setClickedPoint( currentObject() );
+        ks->map()->slotCenter();
+    }
 }
 
 void ObservingList::slotSlewToObject()
@@ -591,11 +590,7 @@ void ObservingList::slotSlewToObject()
 #ifdef HAVE_INDI_H
 
     INDI_D *indidev(NULL);
-    INDI_P *prop(NULL), *onset(NULL);
-    INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *ConnectEle(NULL), *nameEle(NULL);
-    bool useJ2000( false);
-    int selectedCoord(0);
-    SkyPoint sp;
+    INDI_E *ConnectEle(NULL);
 
     // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
     // i.e. the first telescope we find!
@@ -606,23 +601,6 @@ void ObservingList::slotSlewToObject()
         for (int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++)
         {
             indidev = imenu->managers.at(i)->indi_dev.at(j);
-            indidev->stdDev->currentObject = NULL;
-            prop = indidev->findProp("EQUATORIAL_EOD_COORD");
-            if (prop == NULL)
-            {
-                prop = indidev->findProp("EQUATORIAL_COORD");
-                if (prop == NULL)
-                {
-                    prop = indidev->findProp("HORIZONTAL_COORD");
-                    if (prop == NULL)
-                        continue;
-                    else
-                        selectedCoord = 1;      /* Select horizontal */
-                }
-                else
-                    useJ2000 = true;
-            }
-
             ConnectEle = indidev->findElem("CONNECT");
             if (!ConnectEle) continue;
 
@@ -632,88 +610,15 @@ void ObservingList::slotSlewToObject()
                 return;
             }
 
-            switch (selectedCoord)
-            {
-                // Equatorial
-            case 0:
-                if (prop->perm == PP_RO) continue;
-                RAEle  = prop->findElement("RA");
-                if (!RAEle) continue;
-                DecEle = prop->findElement("DEC");
-                if (!DecEle) continue;
-                break;
+	    if (!indidev->stdDev->slew_scope(static_cast<SkyPoint *> (currentObject())))
+		continue;
 
-                // Horizontal
-            case 1:
-                if (prop->perm == PP_RO) continue;
-                AzEle = prop->findElement("AZ");
-                if (!AzEle) continue;
-                AltEle = prop->findElement("ALT");
-                if (!AltEle) continue;
-                break;
-            }
-
-            onset = indidev->findProp("ON_COORD_SET");
-            if (!onset) continue;
-
-            onset->activateSwitch("SLEW");
-
-            indidev->stdDev->currentObject = currentObject();
-
-            /* Send object name if available */
-            if (indidev->stdDev->currentObject)
-            {
-                nameEle = indidev->findElem("OBJECT_NAME");
-                if (nameEle && nameEle->pp->perm != PP_RO)
-                {
-                    nameEle->write_w->setText(indidev->stdDev->currentObject->name());
-                    nameEle->pp->newText();
-                }
-            }
-
-            switch (selectedCoord)
-            {
-            case 0:
-                if (indidev->stdDev->currentObject)
-                    sp = *indidev->stdDev->currentObject;
-                else
-                    sp = *ks->map()->clickedPoint();
-
-                if (useJ2000)
-                    sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
-
-                RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra().hour()).arg(sp.ra().minute()).arg(sp.ra().second()));
-                DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec().degree()).arg(sp.dec().arcmin()).arg(sp.dec().arcsec()));
-
-                break;
-
-            case 1:
-                if (indidev->stdDev->currentObject)
-                {
-                    sp.setAz( indidev->stdDev->currentObject->az());
-                    sp.setAlt(indidev->stdDev->currentObject->alt());
-                }
-                else
-                {
-                    sp.setAz( ks->map()->clickedPoint()->az());
-                    sp.setAlt(ks->map()->clickedPoint()->alt());
-                }
-
-                AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az().degree()).arg(sp.az().arcmin()).arg(sp.az().arcsec()));
-                AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt().degree()).arg(sp.alt().arcmin()).arg(sp.alt().arcsec()));
-
-                break;
-            }
-
-            prop->newText();
-
-            return;
+	    return;
         }
     }
 
     // We didn't find any telescopes
     KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
-
 #endif
 }
 
@@ -1089,7 +994,7 @@ void ObservingList::slotChangeTab(int index) {
     } else {
         sessionView = false;
     }
-    setSaveImages();
+    setSaveImagesButton();
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
     ui->OALExport->setEnabled( sessionView );
     //Clear the selection in the Tables
@@ -1204,7 +1109,7 @@ void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
     SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
 }
 
-void ObservingList::slotSaveImages() {
+void ObservingList::slotSaveAllImages() {
     ui->GoogleImage->setEnabled( false );
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
@@ -1265,7 +1170,7 @@ void ObservingList::slotImageViewer() {
         iv->show();
 }
 
-void ObservingList::slotDeleteImages() {
+void ObservingList::slotDeleteAllImages() {
     if( KMessageBox::warningYesNo( 0, i18n( "This will delete all saved images. Are you sure you want to do this?" ), i18n( "Delete All Images" ) ) == KMessageBox::No )
         return;
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
@@ -1289,7 +1194,7 @@ void ObservingList::slotDeleteImages() {
     }
 }
 
-void ObservingList::setSaveImages() {
+void ObservingList::setSaveImagesButton() {
     ui->saveImages->setEnabled( false );
     if( sessionView ) {
         if( ! sessionList().isEmpty() )
@@ -1364,7 +1269,7 @@ void ObservingList::slotGoogleImage() {
     delete tp;
 }
 
-void ObservingList::slotDeleteImage() {
+void ObservingList::slotDeleteCurrentImage() {
     QFile::remove( CurrentImagePath );
     QFile::remove( CurrentTempPath );
     slotNewSelection();
@@ -1420,4 +1325,12 @@ void ObservingList::selectObject( SkyObject *o ) {
     }
 }
 
+void ObservingList::setDefaultImage() {
+    QFile file;
+    if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
+       file.close();
+       ui->ImagePreview->showPreview( KUrl( file.fileName() ) );
+    } else
+        ui->ImagePreview->hide();
+}
 #include "observinglist.moc"

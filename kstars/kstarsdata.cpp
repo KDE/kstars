@@ -111,6 +111,7 @@ KStarsData* KStarsData::Instance( )
 
 KStarsData::KStarsData() :
     m_SkyComposite(0),
+    m_Geo(dms(0), dms(0)),
     temporaryTrail( false ),
     locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
@@ -298,7 +299,7 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
     setNextDSTChange( geo()->tzrule()->nextDSTChange() );
 }
 
-void KStarsData::resetToNewDST(const GeoLocation *geo, const bool automaticDSTchange) {
+void KStarsData::resetToNewDST(GeoLocation *geo, const bool automaticDSTchange) {
     // reset tzrules data with local time, timezone offset and time direction (forward or backward)
     // force a DST change with option true for 3. parameter
     geo->tzrule()->reset_with_ltime( LTime, geo->TZ0(), TimeRunsForward, automaticDSTchange );
@@ -324,15 +325,15 @@ GeoLocation* KStarsData::locationNamed( const QString &city, const QString &prov
 }
 
 void KStarsData::setLocationFromOptions() {
-    setLocation( GeoLocation ( Options::longitude(), Options::latitude(),
+    setLocation( GeoLocation ( dms(Options::longitude()), dms(Options::latitude()),
                                Options::cityName(), Options::provinceName(), Options::countryName(),
                                Options::timeZone(), &(Rulebook[ Options::dST() ]), 4, Options::elevation() ) );
 }
 
 void KStarsData::setLocation( const GeoLocation &l ) {
     m_Geo = GeoLocation(l);
-    if ( m_Geo.lat()->Degrees() >=  90.0 ) m_Geo.setLat( 89.99 );
-    if ( m_Geo.lat()->Degrees() <= -90.0 ) m_Geo.setLat( -89.99 );
+    if ( m_Geo.lat()->Degrees() >=  90.0 ) m_Geo.setLat( dms(89.99) );
+    if ( m_Geo.lat()->Degrees() <= -90.0 ) m_Geo.setLat( dms(-89.99) );
 
     //store data in the Options objects
     Options::setCityName( m_Geo.name() );
@@ -445,7 +446,7 @@ bool KStarsData::processCity( const QString& line ) {
     if ( fields[11].isEmpty() || ('x' == fields[11].at(0)) ) {
         TZ = int(lng/15.0);
     } else {
-        bool doubleCheck = true;
+        bool doubleCheck;
         TZ = fields[11].toDouble( &doubleCheck);
         if ( !doubleCheck ) {
             kDebug() << fields[11] << i18n( "\nCities.dat: Bad time zone.  Line was:\n" ) << line;
@@ -458,7 +459,7 @@ bool KStarsData::processCity( const QString& line ) {
     TZrule = &( Rulebook[ fields[12] ] );
 
     // appends city names to list
-    geoList.append ( new GeoLocation( lng, lat, name, province, country, TZ, TZrule ));
+    geoList.append ( new GeoLocation( dms(lng), dms(lat), name, province, country, TZ, TZrule ));
     return true;
 }
 
@@ -870,14 +871,14 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( arg == "w"  || arg == "west" )      az = 270.0;
                 if ( arg == "nw" || arg == "northwest" ) az = 335.0;
                 if ( az >= 0.0 ) {
-                    map->setFocusAltAz( 90.0, map->focus()->az().Degrees() );
+                    map->setFocusAltAz( dms(90.0), map->focus()->az() );
                     map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;
                 }
 
                 if ( arg == "z" || arg == "zenith" ) {
-                    map->setFocusAltAz( 90.0, map->focus()->az().Degrees() );
+                    map->setFocusAltAz( dms(90.0), map->focus()->az() );
                     map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
                     map->setDestination( map->focus() );
                     cmdCount++;

@@ -122,10 +122,6 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
     return  oMid;
 }
 
-QPoint SkyMap::clipLineI( SkyPoint *p1, SkyPoint *p2 ) {
-    return clipLine( p1, p2 ).toPoint();
-}
-
 void SkyMap::drawOverlays( QPixmap *pm ) {
     if( !KStars::Instance() )
         return;
@@ -150,7 +146,7 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 
     if ( transientObject() )
         drawTransientLabel( p );
-    if (isAngleMode()) {
+    if ( angularDistanceMode ) {
         updateAngleRuler();
         drawAngleRuler( p );
     }
@@ -254,12 +250,12 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
         }
 
         else if ( isVisibleLast ) {
-            oMid = clipLineI( &pLast, &pThis );
+            oMid = clipLine( &pLast, &pThis ).toPoint();
             // -jbb printf("oMid: %4d %4d\n", oMid.x(), oMid.y());
             psky.drawLine( oLast, oMid );
         }
         else if ( isVisible ) {
-            oMid = clipLineI( &pThis, &pLast );
+            oMid = clipLine( &pThis, &pLast ).toPoint();
             psky.drawLine( oMid, oThis );
         }
 
@@ -294,15 +290,15 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
 
     skyLabeler->setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
-    bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
-    bool drawComets( drawPlanets && Options::showComets() );
-    bool drawAsteroids( drawPlanets && Options::showAsteroids() );
-    bool drawMessier( Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() ) );
-    bool drawNGC( Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC() ) );
-    bool drawIC( Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC() ) );
-    bool drawOther( Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther() ) );
-    bool drawStars = ( Options::showStars() );
-    bool hideFaintStars( checkSlewing && Options::hideStars() );
+    bool drawPlanets    = Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets());
+    bool drawComets     = drawPlanets && Options::showComets();
+    bool drawAsteroids  = drawPlanets && Options::showAsteroids();
+    bool drawMessier    = Options::showDeepSky() && ( Options::showMessier() || Options::showMessierImages() ) && !(checkSlewing && Options::hideMessier() );
+    bool drawNGC        = Options::showDeepSky() && Options::showNGC() && !(checkSlewing && Options::hideNGC() );
+    bool drawIC         = Options::showDeepSky() && Options::showIC() && !(checkSlewing && Options::hideIC() );
+    bool drawOther      = Options::showDeepSky() && Options::showOther() && !(checkSlewing && Options::hideOther() );
+    bool drawStars      = Options::showStars();
+    bool hideFaintStars = checkSlewing && Options::hideStars();
 
     //Attach a label to the centered object
     if ( focusObject() != NULL && Options::useAutoLabel() ) {

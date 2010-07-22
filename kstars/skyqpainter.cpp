@@ -216,8 +216,7 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
 {
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
-    SkyPoint* pLast = points->first();
-    QPointF   oLast = m_sm->toScreen( pLast, true, &isVisibleLast );
+    QPointF   oLast = m_sm->toScreen( points->first(), true, &isVisibleLast );
 
     QPointF oThis, oThis2;
     for ( int j = 1 ; j < points->size() ; j++ ) {
@@ -227,23 +226,14 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
         if( skipList ) {
             doSkip = skipList->skip(j);
         }
-
+        //FIXME: check whether this works.
         if ( m_sm->onScreen( oThis, oLast) && !doSkip ) {
-            if ( isVisible && isVisibleLast && m_sm->onscreenLine( oLast, oThis ) ) {
-                drawLine( oLast, oThis );
-                if( label ) {
-                    label->updateLabelCandidates(oThis.x(), oThis.y(), list, j);
-                }
-            } else if ( isVisibleLast ) {
-                QPointF oMid = m_sm->clipLine( pLast, pThis );
-                drawLine( oLast, oMid );
-            } else if ( isVisible ) {
-                QPointF oMid = m_sm->clipLine( pThis, pLast );
-                drawLine( oMid, oThis );
-            }
+            if ( isVisible && isVisibleLast && label )
+                label->updateLabelCandidates(oThis.x(), oThis.y(), list, j);
+            if ( isVisible || isVisibleLast )
+                drawLine( oLast, oThis);
         }
 
-        pLast = pThis;
         oLast = oThis2;
         isVisibleLast = isVisible;
     }
@@ -314,7 +304,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
         if ( size < sizemin )
             size = sizemin;
         if ( Options::showPlanetImages() && !planet->image()->isNull() ) {
-            dms pa = skyMap()->findPA( planet, pos.x(), pos.y() );
+            dms pa( skyMap()->findPA( planet, pos.x(), pos.y() ) );
 
             //FIXME: Need to figure out why the size is sometimes NaN.
             Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");

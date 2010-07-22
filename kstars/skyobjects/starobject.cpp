@@ -302,7 +302,8 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 
 double StarObject::pmMagnitude()
 {
-    return sqrt( pmRA() * pmRA() + pmDec() * pmDec() );
+    double cosDec = dec().cos();
+    return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
 }
 
 void StarObject::JITupdate( KStarsData* data )

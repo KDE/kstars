@@ -28,7 +28,6 @@
 
 #include "trailobject.h"
 
-class QPoint;
 class KSNumbers;
 class KSPopupMenu;
 
@@ -45,7 +44,7 @@ public:
     double radius;
 
     /**Constructor. */
-    explicit EclipticPosition(dms plong = 0.0, dms plat = 0.0, double prad = 0.0) :
+    explicit EclipticPosition(dms plong = dms(), dms plat = dms(), double prad = 0.0) :
         longitude(plong), latitude(plat), radius(prad)
     {}
 };
@@ -86,66 +85,29 @@ public:
 
     static QVector<QColor> planetColor;
 
-    virtual bool loadData() {
-        kDebug() << "no loadData() implementation for " << name() << endl; 
-        return false;
-    }
+    virtual bool loadData() = 0;
 
     /** @return pointer to Ecliptic Longitude coordinate */
-    const dms* ecLong( void ) const { return &ep.longitude; }
+    const dms& ecLong() const { return ep.longitude; }
 
     /** @return pointer to Ecliptic Latitude coordinate */
-    const dms* ecLat( void ) const { return &ep.latitude; }
+    const dms& ecLat() const { return ep.latitude; }
 
     /**@short Set Ecliptic Geocentric Longitude according to argument.
      * @param elong Ecliptic Longitude
      */
     void setEcLong( dms elong ) { ep.longitude = elong; }
 
-    /**@short Set Ecliptic Geocentric Longitude according to argument.
-     * Differs from above function only in argument type.
-     * @param elong Ecliptic Longitude
-     */
-    void setEcLong( double elong ) { ep.longitude.setD( elong ); }
-
     /**@short Set Ecliptic Geocentric Latitude according to argument.
      * @param elat Ecliptic Latitude
      */
     void setEcLat( dms elat ) { ep.latitude = elat; }
 
-    /**@short Set Ecliptic Geocentric Latitude according to argument.
-     * Differs from above function only in argument type.
-     * @param elat Ecliptic Latitude
-     */
-    void setEcLat( double elat ) { ep.latitude.setD( elat ); }
-
     /**@return pointer to Ecliptic Heliocentric Longitude coordinate */
-    const dms* helEcLong( void ) const { return &helEcPos.longitude; }
+    const dms& helEcLong() const { return helEcPos.longitude; }
 
     /**@return pointer to Ecliptic Heliocentric Latitude coordinate */
-    const dms* helEcLat( void ) const { return &helEcPos.latitude; }
-
-    /**@short Set Ecliptic Heliocentric Longitude according to argument.
-     * @param elong Ecliptic Longitude
-     */
-    void setHelEcLong( dms elong ) { helEcPos.longitude = elong; }
-
-    /**@short Set Ecliptic Heliocentric Longitude according to argument.
-     * Differs from above function only in argument type.
-     * @param elong Ecliptic Longitude
-     */
-    void setHelEcLong( double elong ) { helEcPos.longitude.setD( elong ); }
-
-    /**@short Set Ecliptic Heliocentric Latitude according to argument.
-     * @param elat Ecliptic Latitude
-     */
-    void setHelEcLat( dms elat ) { helEcPos.latitude = elat; }
-
-    /**@short Set Ecliptic Heliocentric Latitude according to argument.
-     * Differs from above function only in argument type.
-     * @param elat Ecliptic Latitude
-     */
-    void setHelEcLat( double elat ) { helEcPos.latitude.setD( elat ); }
+    const dms& helEcLat() const { return helEcPos.latitude; }
 
     /**@short Convert Ecliptic logitude/latitude to Right Ascension/Declination.
      * @param Obliquity current Obliquity of the Ecliptic (angle from Equator)
@@ -158,13 +120,13 @@ public:
     void EquatorialToEcliptic( const dms *Obliquity );
 
     /** @return pointer to image of planet */
-    QImage* image( void ) { return &Image; }
+    QImage* image() { return &Image; }
 
     /**@return pointer to unrotated image of planet */
-    QImage* image0( void ) { return &Image0; }
+    QImage* image0() { return &Image0; }
 
     /**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance) */
-    double rsun( void ) const { return ep.radius; }
+    double rsun() const { return ep.radius; }
 
     /**@short Set the solar distance in AU.
      * @param r the new solar distance in AU

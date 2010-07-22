@@ -54,7 +54,7 @@ public:
      * Creates an angle whose value in Degrees is equal to the argument.
      * @param x angle expressed as a floating-point number (in degrees)
      */
-    dms( const double &x ) : D(x) {}
+    explicit dms( const double &x ) : D(x) {}
 
     /**@short Construct an angle from a string representation.
      *
@@ -254,9 +254,23 @@ public:
      */
     static dms fromString(const QString & s, bool deg);
 
+    dms operator - () { return dms(-D); }
 private:
     double D;
+
+    friend dms operator+(dms, dms);
+    friend dms operator-(dms, dms); 
 };
+
+/// Add two angles
+inline dms operator + (dms a, dms b) {
+    return dms( a.D + b.D);
+}
+
+/// Subtract angles
+inline dms operator - (dms a, dms b) {
+    return dms( a.D - b.D);
+}
 
 // Inline sincos
 inline void dms::SinCos(double& s, double& c) const {

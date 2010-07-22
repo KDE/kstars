@@ -136,8 +136,8 @@ void modCalcPlanets::slotComputePosition (void)
 
 void modCalcPlanets::showCoordinates( const KSPlanetBase &ksp)
 {
-    showHeliocentricEclipticCoords(*ksp.helEcLong(), *ksp.helEcLat(), ksp.rsun() );
-    showGeocentricEclipticCoords(*ksp.ecLong(), *ksp.ecLat(), ksp.rearth() );
+    showHeliocentricEclipticCoords(ksp.helEcLong(), ksp.helEcLat(), ksp.rsun() );
+    showGeocentricEclipticCoords(ksp.ecLong(), ksp.ecLat(), ksp.rearth() );
     showEquatorialCoords(ksp.ra(), ksp.dec() );
     showTopocentricCoords(ksp.az(), ksp.alt() );
 }
@@ -367,7 +367,7 @@ void modCalcPlanets::processLines( QTextStream &istream )
 
 
         KStarsDateTime edt( dtB, utB );
-        dms LST = edt.gst().Degrees() + longB.Degrees();
+        dms LST = edt.gst() + longB;
 
         KSNumbers num( edt.djd() );
         KSPlanet Earth( I18N_NOOP( "Earth" ));
@@ -388,19 +388,19 @@ void modCalcPlanets::processLines( QTextStream &istream )
         kspb->EquatorialToHorizontal( &LST, &latB );
 
         // Heliocentric Ecl. coords.
-        hlongB.setD( kspb->helEcLong()->Degrees());
-        hlatB.setD( kspb->helEcLat()->Degrees());
-        rSunB = kspb->rsun();
+        hlongB  = kspb->helEcLong();
+        hlatB   = kspb->helEcLat();
+        rSunB   = kspb->rsun();
         // Geocentric Ecl. coords.
-        glongB.setD( kspb->ecLong()->Degrees() );
-        glatB.setD( kspb->ecLat()->Degrees() );
+        glongB  = kspb->ecLong();
+        glatB   = kspb->ecLat();
         rEarthB = kspb->rearth();
         // Equatorial coords.
-        decB.setD( kspb->dec().Degrees() );
-        raB.setD( kspb->ra().Degrees() );
+        decB    = kspb->dec();
+        raB     = kspb->ra();
         // Topocentric Coords.
-        azmB.setD( kspb->az().Degrees() );
-        altB.setD( kspb->alt().Degrees() );
+        azmB    = kspb->az();
+        altB    = kspb->alt();
 
         ostream << lineToWrite;
 

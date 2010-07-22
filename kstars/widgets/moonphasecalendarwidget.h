@@ -1,0 +1,105 @@
+/***************************************************************************
+              moonphasecalendarwidget.h  -  K Desktop Planetarium
+                             -------------------
+    begin                : Sat Jun 26 2010
+    copyright            : (C) 2010 by Akarsh Simha
+    email                : akarshsimha@gmail.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef _MOONPHASECALENDARWIDGET_H_
+#define _MOONPHASECALENDARWIDGET_H_
+
+#include <QWidget>
+#include <KDateTable>
+
+#include "skyobjects/ksmoon.h"
+
+
+class MoonPhaseCalendar : public KDateTable {
+
+    Q_OBJECT
+
+ public:
+    
+    MoonPhaseCalendar( KSMoon &moon, QWidget *parent = 0 );
+    ~MoonPhaseCalendar();
+
+    /**
+     * @return a suggested size for the widget
+     */
+    virtual QSize sizeHint() const;
+
+ public slots:
+    
+    /**
+     * Set the geometry of the moon phase calendar (overloaded from QWidget).
+     * Resizes the cells so as to fill the space of the calendar.
+     * @note This is called automatically by resize events.
+     * @p x the x-position of the widget
+     * @p y the y-position of the widget
+     * @p w the width of the widget
+     * @p h the height of the widget
+     */
+
+    virtual void setGeometry( int x, int y, int w, int h );
+    
+    virtual void setGeometry( const QRect &r );
+
+ protected:
+
+    /**
+     * Overrides KDateTable::paintEvent() to draw moon phases on the
+     * calendar cells by calling this->paintCell()
+     * @note Most of this code is copied from KDateTable::paintEvent()
+     */
+    virtual void paintEvent( QPaintEvent *e );
+
+    /**
+     * Replaces KDateTable::paintCell() to draw moon phases on the calendar cells
+     * @note Most of this code is copied from KDateTable::paintCell()
+     */
+    void paintCell( QPainter *painter, int row, int col, const KColorScheme &colorScheme );
+
+    /**
+     * @short Loads the moon images, appropriately resized depending
+     * on the current cell size.
+     * 
+     * @note This method is very slow and one must avoid calling it more than once.
+     */
+    void loadImages();
+
+    /**
+     * @short Computes the optimum moon image size
+     */
+    void computeMoonImageSize();
+    
+ private:
+    
+    /**
+     * @short Computes the moon phase for the given date.
+     * @param date  Date / Time of the computation
+     * @return the _integer_ phase for the given date
+     */
+    unsigned short computeMoonPhase( const KStarsDateTime &date );
+
+    QPixmap *m_Images[36]; // Array storing moon images against integer phase
+
+    double cellWidth, cellHeight;
+    int numWeekRows;
+    int numDayColumns;
+    int MoonImageSize;
+    bool imagesLoaded;
+
+    KSMoon &m_Moon;
+};
+
+#endif

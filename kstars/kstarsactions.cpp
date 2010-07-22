@@ -693,15 +693,15 @@ void KStars::slotPointFocus() {
     map()->stopTracking();
 
     if ( sender() == actionCollection()->action("zenith") ) 
-        map()->setDestinationAltAz( 90.0, map()->focus()->az().Degrees() );
+        map()->setDestinationAltAz( dms(90.0), map()->focus()->az() );
     else if ( sender() == actionCollection()->action("north") )
-        map()->setDestinationAltAz( 15.0, 0.0001 );
+        map()->setDestinationAltAz( dms(15.0), dms(0.0001) );
     else if ( sender() == actionCollection()->action("east") )
-        map()->setDestinationAltAz( 15.0, 90.0 );
+        map()->setDestinationAltAz( dms(15.0), dms(90.0) );
     else if ( sender() == actionCollection()->action("south") )
-        map()->setDestinationAltAz( 15.0, 180.0 );
+        map()->setDestinationAltAz( dms(15.0), dms(180.0) );
     else if ( sender() == actionCollection()->action("west") )
-        map()->setDestinationAltAz( 15.0, 270.0 );
+        map()->setDestinationAltAz( dms(15.0), dms(270.0) );
 }
 
 void KStars::slotTrack() {
@@ -768,9 +768,9 @@ void KStars::slotManualFocus() {
         //automatically correct the final pointing from the intermediate offset position to the final position
         data()->setSnapNextFocus();
         if ( Options::useAltAz() ) {
-            map()->setDestinationAltAz( focusDialog->point().alt().Degrees(), focusDialog->point().az().Degrees() );
+            map()->setDestinationAltAz( focusDialog->point().alt(), focusDialog->point().az() );
         } else {
-            map()->setDestination( focusDialog->point().ra().Hours(), focusDialog->point().dec().Degrees() );
+            map()->setDestination( focusDialog->point().ra(), focusDialog->point().dec() );
         }
 
         //Now, if the requested point was near a pole, we need to reset the Alt/Dec of the focus.
@@ -826,19 +826,18 @@ void KStars::slotCoordSys() {
             if ( map()->focusObject() ) //simply update focus to focusObject's position
                 map()->setFocus( map()->focusObject() );
             else { //need to recompute focus for unrefracted position
-                map()->setFocusAltAz( map()->refract( map()->focus()->alt(), false ).Degrees(),
-                                      map()->focus()->az().Degrees() );
+                map()->setFocusAltAz( SkyPoint::unrefract( map()->focus()->alt() ),
+                                      map()->focus()->az() );
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
-        actionCollection()->action("coordsys")->setText( i18n("Equatorial &Coordinates") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to horizonal view (Horizontal &Coordinates)") );
     } else {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
-            map()->setFocusAltAz( map()->refract( map()->focus()->alt(), true ).Degrees(),
-                                  map()->focus()->az().Degrees() );
+            map()->setFocusAltAz( map()->focus()->altRefracted(), map()->focus()->az() );
         }
-        actionCollection()->action("coordsys")->setText( i18n("Horizontal &Coordinates") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to star globe view (Equatorial &Coordinates)") );
     }
     map()->forceUpdate();
 }
@@ -1013,9 +1012,9 @@ void KStars::slotAboutToQuit()
 
 void KStars::slotShowPositionBar(SkyPoint* p ) {
     if ( Options::showAltAzField() ) {
-        dms a( p->alt().Degrees() );
-        if ( Options::useAltAz() && Options::useRefraction() )
-            a = SkyMap::refract( p->alt(), true ); //true: compute apparent alt from true alt
+        dms a = p->alt();
+        if ( Options::useAltAz() )
+            a = p->altRefracted();
         QString s = QString("%1, %2").arg( p->az().toDMSString(true), //true: force +/- symbol
                                            a.toDMSString(true) );                 //true: force +/- symbol
         statusBar()->changeItem( s, 1 );

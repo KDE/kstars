@@ -40,7 +40,7 @@ modCalcGeodCoord::modCalcGeodCoord(QWidget *parentSplit)
 
     spheRadio->setChecked(true);
     ellipsoidBox->insertItems(5,ellipsoidList);
-    geoPlace = new GeoLocation();
+    geoPlace = new GeoLocation( dms(0), dms(0));
     showLongLat();
     setEllipsoid(0);
     show();
@@ -86,8 +86,8 @@ void modCalcGeodCoord::getSphGeoCoords (void)
 void modCalcGeodCoord::slotClearGeoCoords (void)
 {
 
-    geoPlace->setLong( 0.0 );
-    geoPlace->setLat(  0.0 );
+    geoPlace->setLong( dms(0.0) );
+    geoPlace->setLat(  dms(0.0) );
     geoPlace->setHeight( 0.0 );
     LatGeoBox->clearFields();
     LongGeoBox->clearFields();
@@ -262,7 +262,7 @@ void modCalcGeodCoord::processLines( QTextStream &istream ) {
     QString line;
     QChar space = ' ';
     int i = 0;
-    GeoLocation geoPl;
+    GeoLocation geoPl( dms(0), dms(0) );
     geoPl.setEllipsoid(0);
 
     double xB, yB, zB, hB;

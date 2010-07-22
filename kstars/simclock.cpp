@@ -44,9 +44,6 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
     ManualActive = false;
 
     QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
-
-    QObject::connect(this, SIGNAL(clockStarted()), this, SLOT(slotClockStarted()));
-    QObject::connect(this, SIGNAL(clockStopped()), this, SLOT(slotClockStopped()));
 }
 
 void SimClock::tick() {
@@ -107,13 +104,13 @@ bool SimClock::isActive() {
 void SimClock::stop() {
     if ( ManualMode && ManualActive ) {
         ManualActive = false;
-        emit clockStopped();
+        emit clockToggled(true);
     }
 
     if (!ManualMode && tmr.isActive()) {
         kDebug() << i18n( "Stopping the timer" );
         tmr.stop();
-        emit clockStopped();
+        emit clockToggled(true);
     }
 }
 
@@ -123,29 +120,17 @@ void SimClock::start() {
         sysmark.start();
         julianmark = UTC.djd();
         lastelapsed = 0;
-        emit clockStarted();
+        emit clockToggled( false );
         //emit timeChanged() in order to restart calls to updateTime()
         emit timeChanged();
-    }
-
-    if (! ManualMode && ! tmr.isActive()) {
+    } else if ( !ManualMode && !tmr.isActive()) {
         kDebug() << i18n( "Starting the timer" );
         sysmark.start();
         julianmark = UTC.djd();
         lastelapsed = 0;
         tmr.start(TimerInterval);
-        emit clockStarted();
+        emit clockToggled( false );
     }
-}
-
-void SimClock::slotClockStarted() {
-    kDebug() << "Emitting clockToggled( false )";
-    emit clockToggled( false );
-}
-
-void SimClock::slotClockStopped() {
-    kDebug() << "Emitting clockToggled( true )";
-    emit clockToggled( true );
 }
 
 void SimClock::setUTC(const KStarsDateTime &newtime) {
@@ -169,7 +154,7 @@ void SimClock::setUTC(const KStarsDateTime &newtime) {
     }
 }
 
-void SimClock::setScale(float s) {
+void SimClock::setClockScale(float s) {
     if (Scale != s ) {
         kDebug() << i18n( "New clock scale: %1 sec", s );
         Scale = s;
@@ -180,10 +165,6 @@ void SimClock::setScale(float s) {
         }
         emit scaleChanged(s);
     }
-}
-
-void SimClock::setClockScale(float s) {
-    setScale(s);
 }
 
 #include "simclock.moc"

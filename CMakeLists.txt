@@ -11,7 +11,7 @@ macro_log_feature(CFITSIO_FOUND "libcfitsio0" "A library for reading and writing
 IF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 macro_optional_find_package(INDI)
 macro_bool_to_01(INDI_FOUND HAVE_INDI_H)
-macro_log_feature(INDI_FOUND "libindi" "A framework for controlling astronomical devices such as telescopes, CCDs, filter wheels..etc." "http://indi.sf.net" FALSE "0.6.1" "Gives KStars support for controlling astronomical devices.")
+macro_log_feature(INDI_FOUND "libindi" "A framework for controlling astronomical devices such as telescopes, CCDs, filter wheels..etc." "http://www.indilib.org" FALSE "0.6.2" "Gives KStars support for controlling astronomical devices.")
 ENDIF(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
 
 check_include_files(linux/videodev2.h HAVE_LINUX_VIDEODEV2_H)

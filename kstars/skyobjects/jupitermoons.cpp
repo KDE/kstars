@@ -66,11 +66,11 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupit
     double A5[5], B5[5], C5[5];
     double A6[5], B6[5], C6[5];
 
-    Jupiter->ecLong()->SinCos( sinJL, cosJL );
-    Jupiter->ecLat()->SinCos( sinJB, cosJB );
+    Jupiter->ecLong().SinCos( sinJL, cosJL );
+    Jupiter->ecLat().SinCos( sinJB, cosJB );
 
-    Sun->ecLong()->SinCos( sinSL, cosSL );
-    Sun->ecLat()->SinCos( sinSB, cosSB );
+    Sun->ecLong().SinCos( sinSL, cosSL );
+    Sun->ecLat().SinCos( sinSB, cosSB );
 
     //Geocentric Rectangular coordinates of Jupiter:
     Xj = Jupiter->rsun() * cosJB *cosJL + Sun->rsun() * cosSL;

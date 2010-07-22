@@ -11,8 +11,6 @@
 #include <SkipListElement.h>
 
 #define SKIPLIST_NOT_FOUND -1
-// INT_MAX
-// Was: -1
 
 class SkipListElement;
 
@@ -21,12 +19,18 @@ public:
     SkipList(float probability = 0.5);
     ~SkipList();
 
-    void insert(const Key searchKey, const Value value); // insert new element
-    Value searchAlt(const Key searchKey); // search element with key
-    Value search(const Key searchKey, const int iterator_flag); // search element with key
-    Value search(const Key searchKey); // search element with key
-    Key findMAX(const Key searchKey) const; // search element with key NGT searchKey
-    Key findMIN(const Key searchKey) const; // search element with key NLT searchKey
+    /// insert new element
+    void insert(const Key searchKey, const Value value);
+    /// search element with key
+    Value searchAlt(const Key searchKey); 
+    /// search element with key
+    Value search(const Key searchKey, const int iterator_flag); 
+    /// search element with key
+    Value search(const Key searchKey); 
+    /// search element with key NGT searchKey
+    Key findMAX(const Key searchKey) const; 
+    /// search element with key NLT searchKey
+    Key findMIN(const Key searchKey) const; 
     /* ITERATOR SUPPRT */
     void reset() {iter = myHeader->getElement(0);}
     int step() {
@@ -56,24 +60,24 @@ public:
             iter = iter->getElement(0);
             n_now--;
         }
-        if (iter != NIL)
-            return iter->getKey();
-        else
-            return (Key) -1;
+        return getkey();
     }
 
-    void free(const Key searchKey); // free element with key
+    /// free element with key
+    void free(const Key searchKey); 
     void freeRange(const Key loKey, const Key hiKey);
     void freeAll();
 
-    void stat(); // statistics;
+    /// statistics;
+    void stat(); 
     long getLength() {
         return myLength;
     }
 
 private:
     float myProbability;
-    SkipListElement* myHeader; // the header (first) list element
+    /// the header (first) list element
+    SkipListElement* myHeader;
     SkipListElement* iter;
     long myLength;
 };

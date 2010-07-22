@@ -71,12 +71,7 @@ void Ecliptic::draw( SkyPainter *skyp )
     skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
     m_label.reset();
-    if ( ! skyMesh()->isZoomedIn() ) {
-        drawLines( skyp );
-    }
-    else {
-        drawAllLines( skyp );
-    }
+    drawLines( skyp );
     SkyLabeler::Instance()->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
     m_label.draw();
 }

@@ -280,7 +280,7 @@ bool LocationDialog::addCity( ) {
             file.close();
 
             //Add city to geoList...don't need to insert it alphabetically, since we always sort GeoList
-            GeoLocation *g = new GeoLocation( lng.Degrees(), lat.Degrees(),
+            GeoLocation *g = new GeoLocation( lng, lat,
                                               ui->NewCityName->text(), ui->NewProvinceName->text(), ui->NewCountryName->text(),
                                               TZ, &data->Rulebook[ TZrule ] );
             // FIXME: Uses friendship

@@ -94,9 +94,13 @@ public:
     /** Destructor (empty) */
     ~SkyMap();
 
-    enum Projection { Lambert=0, AzimuthalEquidistant=1,
-                      Orthographic=2, Equirectangular=3, Stereographic=4,
-                      Gnomonic=5, UnknownProjection };
+    enum Projection { Lambert,
+                      AzimuthalEquidistant,
+                      Orthographic,
+                      Equirectangular,
+                      Stereographic,
+                      Gnomonic,
+                      UnknownProjection };
 
 
     /**@return the angular field of view of the sky map, in degrees.
@@ -152,31 +156,11 @@ public:
     	*/
     void setFocus( const dms &ra, const dms &dec );
 
-    /**@short sets the focus point of the sky map, using ra/dec coordinates
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param ra the new right ascension
-    	*@param dec the new declination
-    	*/
-    void setFocus(double ra, double dec);
-
     /**@short sets the focus point of the sky map, using its alt/az coordinates
     	*@param alt the new altitude
     	*@param az the new azimuth
     	*/
     void setFocusAltAz( const dms &alt, const dms & az);
-
-    /**@short sets the central focus point of the sky map, using alt/az coordinates
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param alt the new altitude
-    	*@param az the new azimuth
-    	*/
-    void setFocusAltAz(double alt, double az);
 
     /**@short sets the destination point of the sky map.
     	*@note setDestination() emits the destinationChanged() SIGNAL,
@@ -197,31 +181,11 @@ public:
     	*/
     void setDestination( const dms &ra, const dms &dec );
 
-    /**@short sets the destination point of the sky map, using ra/dec coordinates
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param ra the new right ascension
-    	*@param dec the new declination
-    	*/
-    void setDestination(double ra, double dec);
-
     /**@short sets the destination point of the sky map, using its alt/az coordinates.
     	*@param alt the new altitude
     	*@param az the new azimuth
     	*/
     void setDestinationAltAz( const dms &alt, const dms & az);
-
-    /**@short sets the destination point of the sky map, using its alt/az coordinates.
-    	*
-    	*@note This function behaves essentially like the above function.  
-    	*It differs only in the data types of its arguments.
-    	*
-    	*@param alt the new altitude
-    	*@param az the new azimuth
-    	*/
-    void setDestinationAltAz(double alt, double az);
 
     /**@short set the FocusPoint; the position that is to be the next Destination.
     	*@param f a pointer to the FocusPoint SkyPoint.
@@ -319,18 +283,12 @@ public:
     /** Set zoom factor. */
     void setZoomFactor(double factor);
 
-    /**@return true if the angular distance measuring mode is on
-     */
-    bool isAngleMode() const {return angularDistanceMode;}
-
     bool isSlewing() const;
 
     bool isPointNull( const QPointF &p );
 
-    /**@short update the geometry of the angle ruler
-     */
+    /**@short update the geometry of the angle ruler. */
     void updateAngleRuler();
-
 
     /**@return true if the object currently has a user label attached.
     	*@note this function only checks for a label explicitly added to the object
@@ -356,7 +314,6 @@ public:
      * between *p1 and *p2 that just clips.
      */
     QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
-    QPoint clipLineI( SkyPoint *p1, SkyPoint *p2 );
 
     /**Given the coordinates of the SkyPoint argument, determine the
      * pixel coordinates in the SkyMap.
@@ -393,8 +350,6 @@ public:
      * will return some false postives. */
     bool onScreen(const QPointF &p1, const QPointF &p2 );
     bool onScreen(const QPoint &p1, const QPoint &p2 );
-
-    bool onscreenLine( QPointF &p1, QPointF &p2 );
 
     /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
      * screen pixel coordinate offsets from the center of the Sky pixmap.
@@ -484,24 +439,6 @@ public slots:
      * @see forceUpdate()
      */
     void forceUpdateNow() { forceUpdate( true ); }
-
-    /**Estimate the effect of atmospheric refraction on object positions.  Refraction
-     * affects only the Altitude angle of objects.  Also, the correction should not be applied 
-     * to the horizon, which is not beyond the atmosphere.
-     * 
-     * To estimate refraction, we use a simple analytic equation.  To save time, we store
-     * values of the correction for 0.5-degree Altitude intervals.  Individual objects are then 
-     * simply assigned the nearest stored value.  The precaclulated values are stored in the 
-     * RefractCorr1 and RefractCorr2 arrays, and these are initialized in the SkyMap constructor.
-     * 
-     * There are two cases:  the true altitude is known, and the apparent altitude is needed;
-     * or the apparent altitude is known and the true altitude is needed.
-     * @param alt The input altitude
-     * @param findApparent if true, then alt is the true altitude, and we'll find the apparent alt.
-     * @return the corrected altitude, as a dms object.
-     */
-    // FIXME: move out of SkyMap
-    static dms refract( const dms& alt, bool findApparent );
 
     /** Toggle visibility of geo infobox */
     void slotToggleGeoBox(bool);
@@ -861,8 +798,6 @@ private:
     bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
     bool angularDistanceMode;
     int scrollCount;
-    static double RefractCorr1[184];
-    static double RefractCorr2[184];
     double y0;
 
     double m_Scale;

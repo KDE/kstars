@@ -38,9 +38,6 @@
  */
 class GeoLocation {
 public:
-    /** Default constructor; sets coordinates to zero. */
-    GeoLocation();
-
     /**Constructor using dms objects to specify longitude and latitude.
      * @param lng the longitude
      * @param lat the latitude
@@ -124,7 +121,7 @@ public:
     double TZ() const { if( TZrule ) return TimeZone + TZrule->deltaTZ(); return TimeZone; }
 
     /**@return pointer to time zone rule object */
-    TimeZoneRule* tzrule() const { return TZrule; }
+    TimeZoneRule* tzrule() { return TZrule; }
 
     /**Set longitude according to dms argument.
      * @param l the new longitude */
@@ -191,16 +188,6 @@ public:
      * @param n new country name
      */
     void setCountry( const QString &n ) { Country = n; }
-
-    /**Sets Time Zone according to argument.
-     * @param tz new timezone offset
-     */
-    void setTZ( double tz ) { TimeZone = tz; }
-
-    /**Sets DST rule pointer according to argument.
-     * @param tzr pointer to the new DST rule
-     */
-    void setTZrule( TimeZoneRule *tzr ) { TZrule = tzr; }
 
     /**Converts from cartesian coordinates in meters to longitude,
      * latitude and height on a standard geoid for the Earth. The

@@ -966,55 +966,34 @@ bool INDIStdProperty::newSwitch(INDI_E* el)
 }
 
 /*******************************************************************************/
-/* INDI Standard Property is triggered from the context menu                   */
+/* Move Telescope to targetted location			                       */
 /*******************************************************************************/
-bool INDIStdProperty::actionTriggered(INDI_E *lp)
+bool INDIStdDevice::slew_scope(SkyPoint *scope_target)
 {
 
-    INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *nameEle(NULL);
-    INDI_P * prop;
-    SkyPoint sp;
+    INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *trackEle(NULL);
+    INDI_P *prop(NULL);
     int selectedCoord=0;				/* 0 for Equatorial, 1 for Horizontal */
     bool useJ2000 (false);
 
-    switch (pp->stdID)
+    prop = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
+    if (prop == NULL)
     {
-        /* Handle Slew/Track/Sync */
-    case ON_COORD_SET:
-        // #1 set current object to NULL
-        stdDev->currentObject = NULL;
-        // #2 Deactivate timer if present
-        if (stdDev->devTimer->isActive())
-            stdDev->devTimer->stop();
+	// J2000 Property
+        prop = dp->findProp("EQUATORIAL_COORD_REQUEST");
 
-        prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
         if (prop == NULL)
         {
-	    // Backward compatibility
-            prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
-            if (prop == NULL)
-            {
-		// J2000 Property
-                prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
 
-                if (prop == NULL)
-                {
-
-                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
+                    prop = dp->findProp("HORIZONTAL_COORD_REQUEST");
                     if (prop == NULL)
-		    {
-  		        // Backward compatibility
-			prop = pp->pg->dp->findProp("HORIZONTAL_COORD");
-			if (prop == NULL)
                         	return false;
-		    }
 
                     selectedCoord = 1;		/* Select horizontal */
-                }
+        }
                 else
                     useJ2000 = true;
-            }
-        }
+     }
 
         switch (selectedCoord)
         {
@@ -1037,70 +1016,80 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
             break;
         }
 
-        stdDev->currentObject = ksw->map()->clickedObject();
-        // Track is similar to slew, except that for non-sidereal objects
-        // it tracks the objects automatically via a timer.
-        if ((lp->name == "TRACK"))
-            if (stdDev->handleNonSidereal())
-                return true;
-
-        /* Send object name if available */
-        if (stdDev->currentObject)
-        {
-            nameEle = pp->pg->dp->findElem("OBJECT_NAME");
-            if (nameEle && nameEle->pp->perm != PP_RO)
-            {
-                nameEle->write_w->setText(stdDev->currentObject->name());
-                nameEle->pp->newText();
-            }
-        }
+        kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
 
         switch (selectedCoord)
         {
         case 0:
-            if (stdDev->currentObject)
-            {
-                kDebug() << "standard object - RA: " << stdDev->currentObject->ra().toHMSString()
-                         << " DEC: " << stdDev->currentObject->dec().toDMSString();
-                sp = *stdDev->currentObject;
-            }
-            else
-            {
-               sp = *ksw->map()->clickedPoint();
-               kDebug() << "Skymap click - RA: " << sp.ra().toHMSString() <<
-                   " DEC: " << sp.dec().toDMSString();
-            }
-
             if (useJ2000)
-                sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+                scope_target->apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
-            RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra().hour()).arg(sp.ra().minute()).arg(sp.ra().second()));
-            DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec().degree()).arg(sp.dec().arcmin()).arg(sp.dec().arcsec()));
+            RAEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->ra().hour()).arg(scope_target->ra().minute()).arg(scope_target->ra().second()));
+            DecEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->dec().degree()).arg(scope_target->dec().arcmin()).arg(scope_target->dec().arcsec()));
 
             break;
 
         case 1:
-            if (stdDev->currentObject)
-            {
-                sp.setAz( stdDev->currentObject->az());
-                sp.setAlt(stdDev->currentObject->alt());
-            }
-            else
-            {
-                sp.setAz( ksw->map()->clickedPoint()->az());
-                sp.setAlt(ksw->map()->clickedPoint()->alt());
-            }
 
-            AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az().degree()).arg(sp.az().arcmin()).arg(sp.az().arcsec()));
-            AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt().degree()).arg(sp.alt().arcmin()).arg(sp.alt().arcsec()));
+            AzEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->az().degree()).arg(scope_target->az().arcmin()).arg(scope_target->az().arcsec()));
+            AltEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->alt().degree()).arg(scope_target->alt().arcmin()).arg(scope_target->alt().arcsec()));
 
             break;
         }
 
-        pp->newSwitch(lp);
+        trackEle = dp->findElem("TRACK");
+        if (trackEle == NULL)
+        {
+	   trackEle = dp->findElem("SLEW");
+	   if (trackEle == NULL)
+		return false;
+	}
+
+        trackEle->pp->newSwitch(trackEle);
         prop->newText();
 
-        return true;
+	return true;
+}
+
+/*******************************************************************************/
+/* INDI Standard Property is triggered from the context menu                   */
+/*******************************************************************************/
+bool INDIStdProperty::actionTriggered(INDI_E *lp)
+{
+    INDI_E * nameEle(NULL);
+
+    switch (pp->stdID)
+    {
+        /* Handle Slew/Track/Sync */
+    case ON_COORD_SET:
+        // #1 set current object to NULL
+        stdDev->currentObject = NULL;
+        // #2 Deactivate timer if present
+        if (stdDev->devTimer->isActive())
+            stdDev->devTimer->stop();
+
+        stdDev->currentObject = ksw->map()->clickedObject();
+
+	if (stdDev->currentObject == NULL)
+		return stdDev->slew_scope(ksw->map()->clickedPoint());
+	else
+	{
+	        // Track is similar to slew, except that for non-sidereal objects
+	        // it tracks the objects automatically via a timer.
+	        if ((lp->name == "TRACK"))
+	            if (stdDev->handleNonSidereal())
+	                return true;
+
+	           nameEle = stdDev->dp->findElem("OBJECT_NAME");
+        	   if (nameEle && nameEle->pp->perm != PP_RO)
+	           {
+	               nameEle->write_w->setText(stdDev->currentObject->name());
+	               nameEle->pp->newText();
+	           }
+
+	      return stdDev->slew_scope(static_cast<SkyPoint *> (stdDev->currentObject));
+         }
+
         break;
 
         /* Handle Abort */

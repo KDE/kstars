@@ -228,14 +228,14 @@ void KSPlanetBase::setRearth( const KSPlanetBase *Earth ) {
         return;
     }
 
-    Earth->ecLong()->SinCos( sinL0, cosL0 );
-    Earth->ecLat()->SinCos( sinB0, cosB0 );
+    Earth->ecLong().SinCos( sinL0, cosL0 );
+    Earth->ecLat().SinCos( sinB0, cosB0 );
     double eX = Earth->rsun()*cosB0*cosL0;
     double eY = Earth->rsun()*cosB0*sinL0;
     double eZ = Earth->rsun()*sinB0;
 
-    helEcLong()->SinCos( sinL, cosL );
-    helEcLat()->SinCos( sinB, cosB );
+    helEcLong().SinCos( sinL, cosL );
+    helEcLat().SinCos( sinB, cosB );
     x = rsun()*cosB*cosL - eX;
     y = rsun()*cosB*sinL - eY;
     z = rsun()*sinB - eZ;
@@ -251,8 +251,8 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     //the Ecliptic, which is only roughly correct).
     //Displace a point along +Ecliptic Latitude by 1 degree
     SkyPoint test;
-    dms newELat( ecLat()->Degrees() + 1.0 );
-    test.setFromEcliptic( num->obliquity(), ecLong(), &newELat );
+    dms newELat( ecLat().Degrees() + 1.0 );
+    test.setFromEcliptic( num->obliquity(), &ecLong(), &newELat );
     double dx = ra().Degrees() - test.ra().Degrees(); 
     double dy = test.dec().Degrees() - dec().Degrees();
     double pa;

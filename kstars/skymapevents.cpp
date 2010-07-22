@@ -213,21 +213,20 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
 
     case Qt::Key_BracketLeft:   // Begin measuring angular distance
-        if ( !isAngleMode() ) {
+        if( !angularDistanceMode )
             slotBeginAngularDistance();
-        }
         break;
     case Qt::Key_Escape:        // Cancel angular distance measurement
-        if  (isAngleMode() ) {
+        if( angularDistanceMode )
             slotCancelAngularDistance();
-        }
         break;
     case Qt::Key_Comma:  //advance one step backward in time
     case Qt::Key_Less:
-        if ( data->clock()->isActive() ) data->clock()->stop();
-        data->clock()->setScale( -1.0 * data->clock()->scale() ); //temporarily need negative time step
+        if ( data->clock()->isActive() )
+            data->clock()->stop();
+        data->clock()->setClockScale( -1.0 * data->clock()->scale() ); //temporarily need negative time step
         data->clock()->manualTick( true );
-        data->clock()->setScale( -1.0 * data->clock()->scale() ); //reset original sign of time step
+        data->clock()->setClockScale( -1.0 * data->clock()->scale() ); //reset original sign of time step
         update();
         qApp->processEvents();
         break;
@@ -333,18 +332,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
     }
 
-    //DEBUG_REFRACT
-    case Qt::Key_Q:
-        {
-            for ( double alt=-0.5; alt<30.5; alt+=1.0 ) {
-                dms a( alt );
-                dms b( refract( a, true ) ); //find apparent alt from true alt
-                dms c( refract( b, false ) );
-
-                kDebug() << a.toDMSString() << b.toDMSString() << c.toDMSString();
-            }
-            break;
-        }
     case Qt::Key_R:
         {
             // Toggle relativistic corrections
@@ -408,7 +395,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
         scrollCount = 0;
 
         if ( Options::useAltAz() )
-            setDestinationAltAz( focus()->alt().Degrees(), focus()->az().Degrees() );
+            setDestinationAltAz( focus()->alt(), focus()->az() );
         else
             setDestination( focus() );
 
@@ -491,16 +478,16 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         if ( Options::useAltAz() ) {
             mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            dms dAz = mousePoint()->az().Degrees() - clickedPoint()->az().Degrees();
-            dms dAlt = mousePoint()->alt().Degrees() - clickedPoint()->alt().Degrees();
+            dms dAz  = mousePoint()->az()  - clickedPoint()->az();
+            dms dAlt = mousePoint()->alt() - clickedPoint()->alt();
             focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
             focus()->setAz( focus()->az().reduce() );
             focus()->setAlt(
                 KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90.0 , 90.0 ) );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
-            dms dRA = mousePoint()->ra().Degrees() - clickedPoint()->ra().Degrees();
-            dms dDec = mousePoint()->dec().Degrees() - clickedPoint()->dec().Degrees();
+            dms dRA  = mousePoint()->ra()  - clickedPoint()->ra();
+            dms dDec = mousePoint()->dec() - clickedPoint()->dec();
             focus()->setRA( focus()->ra().Hours() - dRA.Hours() ); //move focus in opposite direction
             focus()->setRA( focus()->ra().reduce() );
             focus()->setDec(
@@ -562,7 +549,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
             slewing = false;
 
             if ( Options::useAltAz() )
-                setDestinationAltAz( focus()->alt().Degrees(), focus()->az().Degrees() );
+                setDestinationAltAz( focus()->alt(), focus()->az() );
             else
                 setDestination( focus() );
         }
@@ -634,8 +621,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
                 if( clickedObject() ) {
                     clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
                 } else {
-                    SkyObject o( SkyObject::TYPE_UNKNOWN, clickedPoint()->ra().Hours(), clickedPoint()->dec().Degrees() );
-                    pmenu->createEmptyMenu( &o );
+                    pmenu->createEmptyMenu( clickedPoint() );
                     pmenu->popup( QCursor::pos() );
                 }
             }

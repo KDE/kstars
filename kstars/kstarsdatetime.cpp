@@ -27,15 +27,19 @@ KStarsDateTime::KStarsDateTime() : KDateTime() {
     setDJD( J2000 );
 }
 
-KStarsDateTime::KStarsDateTime( long int _jd ) : KDateTime(){
+KStarsDateTime::KStarsDateTime( long int _jd )
+{
     setDJD( (long double)( _jd ) );
 }
 
-KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : KDateTime() {
+KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt )
+{
     setDJD( kdt.djd() );
 }
 
-KStarsDateTime::KStarsDateTime( const KDateTime &kdt ) : KDateTime( kdt ) {
+KStarsDateTime::KStarsDateTime( const KDateTime &kdt ) :
+    KDateTime( kdt )
+{
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
     QTime _t = kdt.time();
     QDate _d = kdt.date();
@@ -43,15 +47,18 @@ KStarsDateTime::KStarsDateTime( const KDateTime &kdt ) : KDateTime( kdt ) {
     DJD = (long double)( _d.toJulianDay() ) + jdFrac;
 }
 
-KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) : KDateTime( qdt, KDateTime::Spec::UTC() ) {
+KStarsDateTime::KStarsDateTime( const QDateTime &qdt ) :
+    KDateTime( qdt, KDateTime::Spec::UTC() )
+{
     QTime _t = qdt.time();
     QDate _d = qdt.date();
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
     DJD = (long double)( _d.toJulianDay() ) + jdFrac;
 }
 
-KStarsDateTime::KStarsDateTime( const QDate &_d, const QTime &_t )
- : KDateTime( _d, _t, KDateTime::Spec::UTC() ) {
+KStarsDateTime::KStarsDateTime( const QDate &_d, const QTime &_t ) :
+    KDateTime( _d, _t, KDateTime::Spec::UTC() )
+{
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
     DJD = (long double)( _d.toJulianDay() ) + jdFrac;
@@ -78,13 +85,16 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     kDebug() << "Date string: " << s;
 
     KStarsDateTime dtResult = KDateTime::fromString( s, KDateTime::QtTextDate );
-    if ( dtResult.isValid() ) return dtResult;
+    if ( dtResult.isValid() )
+        return dtResult;
 
     dtResult = KDateTime::fromString( s, KDateTime::ISODate );
-    if ( dtResult.isValid() ) return dtResult;
+    if ( dtResult.isValid() )
+        return dtResult;
 
     dtResult = KDateTime::fromString( s, KDateTime::RFCDate );
-    if ( dtResult.isValid() ) return dtResult;
+    if ( dtResult.isValid() )
+        return dtResult;
 
     kWarning() << i18n( "Could not parse Date/Time string: " ) << s ;
     kWarning() << i18n( "Valid date formats: " ) ;
@@ -92,7 +102,6 @@ KStarsDateTime KStarsDateTime::fromString( const QString &s ) {
     kWarning() << "  25 Feb 1950  ;  25 Feb 1950 05:30:00" ;
     kWarning() << "  Sat Feb 25 1950  ;  Sat Feb 25 05:30:00 1950";
     return KStarsDateTime( KDateTime() ); //invalid
-
 }
 
 void KStarsDateTime::setDJD( long double _jd ) {
@@ -192,13 +201,12 @@ QTime KStarsDateTime::GSTtoUT( dms GST ) const {
 }
 
 bool KStarsDateTime::setFromEpoch( double epoch ) {
-    bool result( false );
     if (epoch == 1950.0) {
         setDJD( 2433282.4235 );
-        result = true;
+        return true;
     } else if ( epoch == 2000.0 ) {
         setDJD( J2000 );
-        result = true;
+        return true;
     } else {
         int year = int( epoch );
         KStarsDateTime dt( QDate( year, 1, 1 ), QTime( 0, 0, 0 ) );
@@ -207,17 +215,16 @@ bool KStarsDateTime::setFromEpoch( double epoch ) {
 
         if ( dt.isValid() ) {
             setDJD( dt.djd() );
-            result = true;
+            return true;
         } else
-            result = false;
+            return false;
     }
-
-    return result;
 }
 
 bool KStarsDateTime::setFromEpoch( const QString &eName ) {
-    bool result( false );
+    bool result;
     double epoch = eName.toDouble(&result);
-    if ( !result ) return false;
+    if( !result )
+        return false;
     return setFromEpoch( epoch );
 }

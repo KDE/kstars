@@ -75,7 +75,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
     emit madeProgress( progress );
     
     Dist = findDistance(jd, &Object1, &Object2);
-    Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
+    Sign = sgn(Dist - prevDist); 
     //	kDebug() << "Dist = " << Dist.toDMSString() << "; prevDist = " << prevDist.toDMSString() << "; Difference = " << (Dist.Degrees() - prevDist.Degrees()) << "; Step = " << step;
 
     //How close are we to a conjunction, and how fast are we approaching one?
@@ -94,7 +94,7 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
             Sign = prevSign;
             while ( jd <= stopJD ) {
                 Dist = findDistance(jd, &Object1, &Object2);
-                Sign = sgn(Dist.Degrees() - prevDist.Degrees()); 
+                Sign = sgn(Dist - prevDist); 
                 //	kDebug() << "Dist=" << Dist.toDMSString() << "; prevDist=" << prevDist.toDMSString() << "; Diff=" << (Dist.Degrees() - prevDist.Degrees()) << "djd=" << (int)(jd - startJD);
                 if ( Sign != prevSign ) break;
                 
@@ -171,7 +171,7 @@ bool KSConjunct::findPrecise(QPair<long double, dms> *out, SkyObject *Object1, K
       else
         return false;
     }
-    Sign = sgn(Dist.Degrees() - prevDist.Degrees());
+    Sign = sgn(Dist - prevDist);
     if(Sign != prevSign) {
       step = -step / 2.0;
       Sign = -Sign;

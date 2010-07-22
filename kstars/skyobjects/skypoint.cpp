@@ -61,7 +61,7 @@ void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
     double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
     double sinAlt, cosAlt;
 
-    dms HourAngle = LST->Degrees() - ra().Degrees();
+    dms HourAngle = (*LST) - ra();
 
     lat->SinCos( sinlat, coslat );
     dec().SinCos( sindec, cosdec );
@@ -720,5 +720,42 @@ bool SkyPoint::checkCircumpolar( const dms *gLat ) {
     return fabs(dec().Degrees())  >  (90 - fabs(gLat->Degrees()));
 }
 
+dms SkyPoint::altRefracted() const {
+    if( Options::useRefraction() )
+        return refract(Alt);
+    else
+        return Alt;
+}
 
+// Calculate refraction correction. Parameter and return value are in degrees
+static double refractionCorr(double alt) {
+    return 1.02 / tan(dms::DegToRad * ( alt + 10.3/(alt + 5.11) )) / 60;
+}
+// Critical height. Below this height formula produce meaningless
+// results and correction value is just interpolated
+static const double altCrit  = -1;
+static const double corrCrit = refractionCorr( altCrit );
 
+dms SkyPoint::refract(dms h) {
+    const double alt = h.Degrees();
+    if( alt > altCrit )
+        return dms( alt + refractionCorr(alt) );
+    else
+        return dms( alt + corrCrit * (alt + 90) / (altCrit + 90) );
+}
+
+// Found uncorrected value by solving equation. This is OK since
+// unrefract is never called in loops.
+//
+// Convergence is quite fast just a few iterations.
+dms SkyPoint::unrefract(dms h) {
+    const double alt = h.Degrees();
+
+    double h0 = alt;
+    double h1 = alt - refractionCorr(h0);
+    while( fabs(h1 - h0) > 1e-4 ) {
+        h0 = h1;
+        h1 = alt - refractionCorr(h0);
+    }
+    return dms(h1);
+}

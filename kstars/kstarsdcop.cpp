@@ -65,7 +65,7 @@ void KStars::setRaDec( double ra, double dec ) {
 }
 
 void KStars::setAltAz( double alt, double az ) {
-    map()->setDestinationAltAz(alt,az);
+    map()->setDestinationAltAz( dms(alt), dms(az) );
 }
 
 void KStars::lookTowards ( const QString &direction ) {
@@ -263,7 +263,7 @@ void KStars::writeConfig() {
     Options::self()->writeConfig();
 
     //Store current simulation time
-    data()->StoredDate.setDJD( data()->lt().djd() );
+    data()->StoredDate = data()->lt();
 }
 
 QString KStars::getOption( const QString &name ) {

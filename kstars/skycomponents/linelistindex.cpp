@@ -168,29 +168,14 @@ SkipList* LineListIndex::skipList( LineList *lineList )
     return 0;
 }
 
-
-void LineListIndex::drawAllLines( SkyPainter *skyp )
-{
-    UpdateID updateID = KStarsData::Instance()->updateID();
-
-    for (int i = 0; i < m_listList.size(); i++) {
-        LineList* lineList = m_listList.at( i );
-
-        if ( lineList->updateID != updateID )
-            JITupdate( lineList );
-
-        skyp->drawSkyPolyline(lineList, skipList(lineList), label() );
-    }
-}
-
 void LineListIndex::drawLines( SkyPainter *skyp )
 {
     DrawID   drawID   = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
 
     MeshIterator region( skyMesh(), drawBuffer() );
-    while ( region.hasNext() ) {
 
+    while ( region.hasNext() ) {
         LineListList* lineListList = m_lineIndex->value( region.next() );
         if ( lineListList == 0 )
             continue;

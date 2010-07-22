@@ -34,7 +34,7 @@ HTMesh::HTMesh(int level, int buildLevel, int numBuffers) :
 
     edge = 2. / 3.14;              //  inverse of roughly 1/4 circle
     numTrixels = 8;
-    for (int i = m_level; i--;) {
+    for(int i = m_level; i--;) {
         numTrixels *= 4;
         edge *= 2.0;
     }
@@ -60,7 +60,8 @@ HTMesh::HTMesh(int level, int buildLevel, int numBuffers) :
 HTMesh::~HTMesh()
 {
     delete htm;
-    for ( BufNum i=0; i < m_numBuffers; i++) delete m_meshBuffer[i];
+    for ( BufNum i=0; i < m_numBuffers; i++)
+        delete m_meshBuffer[i];
     free(m_meshBuffer);
 }
 
@@ -93,7 +94,8 @@ void HTMesh::fillBuffer(BufNum bufNum)
 
 bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
 
-    if ( ! validBufNum(bufNum) ) return false;
+    if ( ! validBufNum(bufNum) )
+        return false;
 
     convex->setOlevel(m_level);
     HtmRange range;
@@ -144,9 +146,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
     SpatialVector p1(ra1, dec1);
     SpatialVector p2(ra2, dec2);
     SpatialVector p3(ra3, dec3);
-    RangeConvex convex((SpatialVector*) &p1,
-                       (SpatialVector*) &p2,
-                       (SpatialVector*) &p3);
+    RangeConvex convex(&p1, &p2, &p3);
 
     if ( ! performIntersection(&convex, bufNum) )
         printf("In intersect(%f, %f, %f, %f, %f, %f)\n",
@@ -176,10 +176,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
     SpatialVector p2(ra2, dec2);
     SpatialVector p3(ra3, dec3);
     SpatialVector p4(ra4, dec4);
-    RangeConvex convex((SpatialVector*) &p1,
-                       (SpatialVector*) &p2,
-                       (SpatialVector*) &p3,
-                       (SpatialVector*) &p4);
+    RangeConvex convex( &p1, &p2, &p3, &p4);
 
     if ( ! performIntersection(&convex, bufNum) )
         printf("In intersect(%f, %f, %f, %f, %f, %f, %f, %f)\n",
@@ -252,14 +249,14 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
     cy *= norm;
     cz *= norm;
 
-   if ( htmDebug > 0 ) printf("cpn  = (%f, %f, %f)\n", cx, cy, cz);
+    if ( htmDebug > 0 ) printf("cpn  = (%f, %f, %f)\n", cx, cy, cz);
 
     // add it to (ra1, dec1)
     cx += x1;
     cy += y1;
     cz += z1;
 
-   if ( htmDebug > 0 ) printf("cpf  = (%f, %f, %f)\n", cx, cy, cz);
+    if ( htmDebug > 0 ) printf("cpf  = (%f, %f, %f)\n", cx, cy, cz);
 
     // back to spherical
     norm = sqrt( cx*cx + cy*cy + cz*cz);
@@ -271,9 +268,7 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
     SpatialVector p1(ra1, dec1);
     SpatialVector p0(ra0, dec0);
     SpatialVector p2(ra2, dec2);
-    RangeConvex convex((SpatialVector*) &p1,
-                       (SpatialVector*) &p0,
-                       (SpatialVector*) &p2);
+    RangeConvex convex(&p1, &p0, &p2);
 
     if ( ! performIntersection(&convex, bufNum) )
         printf("In intersect(%f, %f, %f, %f)\n", ra1, dec1, ra2, dec2);
@@ -282,14 +277,16 @@ void HTMesh::intersect(double ra1, double dec1, double ra2, double dec2,
 
 MeshBuffer* HTMesh::meshBuffer(BufNum bufNum)
 {
-    if ( ! validBufNum(bufNum) ) return 0;
+    if ( ! validBufNum(bufNum) )
+        return 0;
     return m_meshBuffer[ bufNum ];
 }
 
 
 int HTMesh::intersectSize(BufNum bufNum)
 {
-    if ( ! validBufNum(bufNum) )return 0;
+    if ( ! validBufNum(bufNum) )
+        return 0;
     return m_meshBuffer[ bufNum ]->size();
 }
 
