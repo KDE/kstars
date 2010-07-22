@@ -31,6 +31,7 @@ class DeviceManager : public QObject
     Q_OBJECT
 public:
     enum ManagerMode { M_LOCAL, M_SERVER, M_CLIENT };
+    enum { INDI_DEVICE_NOT_FOUND=-1, INDI_PROPERTY_INVALID=-2, INDI_PROPERTY_DUPLICATED = -3, INDI_DISPATCH_ERROR=-4 };
 
     DeviceManager(INDIMenu *INDIparent, QString inHost, uint inPort, ManagerMode inMode);
       ~DeviceManager();

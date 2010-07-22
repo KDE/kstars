@@ -779,6 +779,7 @@ int INDI_D::crackSwitchState (char *name, PState *psp)
 int INDI_D::buildTextGUI(XMLEle *root, QString & errmsg)
 {
     INDI_P *pp = NULL;
+    int err_code=0;
     PPerm p;
     bool isGroupVisible=false;
 
@@ -786,13 +787,13 @@ int INDI_D::buildTextGUI(XMLEle *root, QString & errmsg)
     pp = addProperty (root, errmsg);
 
     if (pp == NULL)
-        return (-1);
+        return DeviceManager::INDI_PROPERTY_DUPLICATED;
 
     /* get the permission, it will determine layout issues */
     if (findPerm (pp, root, &p, errmsg))
     {
         delete(pp);
-        return (-1);
+        return DeviceManager::INDI_PROPERTY_INVALID;
     }
 
     /* we know it will be a general text GUI */
@@ -805,10 +806,10 @@ int INDI_D::buildTextGUI(XMLEle *root, QString & errmsg)
         pp->pg->dp->parent->mainTabWidget->hide();
     }
 
-    if (pp->buildTextGUI(root, errmsg) < 0)
+    if ( (err_code = pp->buildTextGUI(root, errmsg)) < 0)
     {
         delete (pp);
-        return (-1);
+        return err_code;
     }
 
     pp->pg->addProperty(pp);
@@ -825,6 +826,7 @@ int INDI_D::buildTextGUI(XMLEle *root, QString & errmsg)
 int INDI_D::buildNumberGUI (XMLEle *root, QString & errmsg)
 {
     INDI_P *pp = NULL;
+    int err_code=0;
     PPerm p;
     bool isGroupVisible=false;
 
@@ -832,13 +834,13 @@ int INDI_D::buildNumberGUI (XMLEle *root, QString & errmsg)
     pp = addProperty (root, errmsg);
 
     if (pp == NULL)
-        return (-1);
+        return DeviceManager::INDI_PROPERTY_DUPLICATED;
 
     /* get the permission, it will determine layout issues */
     if (findPerm (pp, root, &p, errmsg))
     {
         delete(pp);
-        return (-1);
+        return DeviceManager::INDI_PROPERTY_INVALID;
     }
 
     /* we know it will be a number GUI */
@@ -851,10 +853,10 @@ int INDI_D::buildNumberGUI (XMLEle *root, QString & errmsg)
         pp->pg->dp->parent->mainTabWidget->hide();
     }
 
-    if (pp->buildNumberGUI(root, errmsg) < 0)
+    if ( (err_code = pp->buildNumberGUI(root, errmsg)) < 0)
     {
         delete (pp);
-        return (-1);
+        return err_code;
     }
 
     pp->pg->addProperty(pp);
@@ -881,13 +883,13 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, QString & errmsg)
     /* build a new property */
     pp = addProperty (root, errmsg);
     if (!pp)
-        return (-1);
+        return DeviceManager::INDI_PROPERTY_DUPLICATED;
 
     ap = findAtt (root, "rule", errmsg);
     if (!ap)
     {
         delete(pp);
-        return (-1);
+        return DeviceManager::INDI_PROPERTY_INVALID;
     }
 
     /* decide GUI. might use MENU if OneOf but too many for button array */
@@ -967,7 +969,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, QString & errmsg)
     errmsg = QString("INDI: <%1> unknown rule %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(pp->name);
 
     delete(pp);
-    return (-1);
+    return DeviceManager::INDI_PROPERTY_INVALID;
 }
 
 
@@ -977,12 +979,13 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, QString & errmsg)
 int INDI_D::buildLightsGUI (XMLEle *root, QString & errmsg)
 {
     INDI_P *pp;
+    int err_code=0;
     bool isGroupVisible=false;
 
     // build a new property
     pp = addProperty (root, errmsg);
     if (!pp)
-        return (-1);
+       return DeviceManager::INDI_PROPERTY_DUPLICATED;
 
     pp->guitype = PG_LIGHTS;
 
@@ -992,10 +995,10 @@ int INDI_D::buildLightsGUI (XMLEle *root, QString & errmsg)
         pp->pg->dp->parent->mainTabWidget->hide();
     }
 
-    if (pp->buildLightsGUI(root, errmsg) < 0)
+    if ( (err_code = pp->buildLightsGUI(root, errmsg)) < 0)
     {
         delete (pp);
-        return (-1);
+        return err_code;
     }
 
     pp->pg->addProperty(pp);
@@ -1011,19 +1014,20 @@ int INDI_D::buildLightsGUI (XMLEle *root, QString & errmsg)
 int INDI_D::buildBLOBGUI  (XMLEle *root, QString & errmsg)
 {
     INDI_P *pp;
+    int err_code=0;
     PPerm p;
     bool isGroupVisible=false;
 
     // build a new property
     pp = addProperty (root, errmsg);
     if (!pp)
-        return (-1);
+       return DeviceManager::INDI_PROPERTY_DUPLICATED;
 
     /* get the permission, it will determine layout issues */
     if (findPerm (pp, root, &p, errmsg))
     {
         delete(pp);
-        return (-1);
+        return DeviceManager::INDI_PROPERTY_INVALID;
     }
 
     /* we know it will be a number GUI */
@@ -1036,10 +1040,10 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, QString & errmsg)
         pp->pg->dp->parent->mainTabWidget->hide();
     }
 
-    if (pp->buildBLOBGUI(root, errmsg) < 0)
+    if ( (err_code = pp->buildBLOBGUI(root, errmsg)) < 0)
     {
         delete (pp);
-        return (-1);
+        return err_code;
     }
 
     pp->pg->addProperty(pp);
