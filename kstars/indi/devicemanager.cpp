@@ -175,7 +175,7 @@ void DeviceManager::processStandardError()
 void DeviceManager::dataReceived()
 {
     char errmsg[ERRMSG_SIZE];
-    int nr=0;
+    int nr=0, err_code=0;
     QTextStream serverFP(&serverSocket);
     QString ibuf, err_cmd;
   
@@ -191,10 +191,14 @@ void DeviceManager::dataReceived()
            XMLEle *root = readXMLEle (XMLParser, ibuf[i].toAscii(), errmsg);
            if (root)
            {
-                if (dispatchCommand(root, err_cmd) < 0)
+                if ( (err_code = dispatchCommand(root, err_cmd)) < 0)
                 {
-                    kDebug() << "Dispatch command error: " << err_cmd << endl;
-                    prXMLEle (stdout, root, 0);
+		     // Silenty ignore property duplication errors
+		     if (err_code != INDI_PROPERTY_DUPLICATED)
+		     {
+	                    kDebug() << "Dispatch command error: " << err_cmd << endl;
+	       	            prXMLEle (stderr, root, 0);
+                     }
                 }
 
                 delXMLEle (root);
@@ -219,7 +223,7 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
     if (dp == NULL)
     {
 	errmsg = "No device available and none was created";
-        return -1;
+        return INDI_DEVICE_NOT_FOUND;
     }
 
     if (!strcmp (tagXMLEle(root), "defTextVector"))
@@ -239,7 +243,7 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
              !strcmp (tagXMLEle(root), "setBLOBVector"))
         return dp->setAnyCmd(root, errmsg);
 
-    return (-1);
+    return INDI_DISPATCH_ERROR;
 }
 
 /* delete the property in the given device, including widgets and data structs.
@@ -256,7 +260,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
     /* dig out device and optional property name */
     dp = findDev (root, 0, errmsg);
     if (!dp)
-        return (-1);
+        return INDI_DEVICE_NOT_FOUND;
 
     checkMsg(root, dp);
 
@@ -270,7 +274,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
         if(pp)
             return dp->removeProperty(pp);
         else
-            return (-1);
+            return INDI_PROPERTY_INVALID;
     }
     // delete the whole device
     else
@@ -296,7 +300,7 @@ int DeviceManager::removeDevice( const QString &devName, QString & errmsg )
     }
 
     errmsg = QString("Device %1 not found").arg(devName);
-    return -1;
+    return INDI_DEVICE_NOT_FOUND;
 }
 
 INDI_D * DeviceManager::findDev( const QString &devName, QString & errmsg )

@@ -70,11 +70,7 @@ namespace KSUtils {
     template<typename T>
     inline T reduceAngle(T x, T min, T max) {
         T delta = max - min;
-        while( x > max )
-            x -= delta;
-        while( x < min )
-            x += delta;
-        return x;
+        return x - delta*floor( (x-min)/delta );
     }
 
     /** Convert a vector to a point */

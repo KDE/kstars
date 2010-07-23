@@ -208,49 +208,6 @@ void INDI_P::newText()
 
 }
 
-#if 0
-void INDI_P::actionTriggered(QAction *action)
-{
-
-    INDI_E *lp;
-    int switchIndex=0;
-
-    // & are automagically added to action names by KDE for easy shortcut access,
-    // but we need to remove them to be able to parse them properly. Is this a KDE Bug??
-    QString menuAction(action->text().remove("&"));
-
-    /* Special case is CCD_EXPOSE_DURATION, not a switch */
-    if (stdID == CCD_EXPOSURE && action->text() == label)
-    {
-        newText();
-        return;
-    }
-
-    lp = findElement(menuAction);
-
-    if (!lp)
-        return;
-
-
-    for (int i=0; i < el.size(); i++)
-    {
-        if (el[i]->label == menuAction)
-        {
-            switchIndex = i;
-            break;
-        }
-    }
-
-    // If INDI Standard can handle the swtich then process and return, otherwise
-    // Just issue a new generic switch.
-    if (indistd->convertSwitch(switchIndex, lp))
-        return;
-    else if (lp->state == PS_OFF)
-        newSwitch(switchIndex);
-
-}
-#endif
-
 void INDI_P::newAbstractButton(QAbstractButton *button)
 {
     foreach(INDI_E *lp, el)
@@ -489,7 +446,7 @@ int INDI_P::buildTextGUI(XMLEle *root, QString & errmsg)
         if (!ap)
         {
             errmsg = QString("Error: unable to find attribute 'name' for property %1").arg(name);
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
         }
 
         textName = valuXMLAtt(ap);
@@ -557,7 +514,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
         if (!ap)
         {
             errmsg = QString("Error: unable to find attribute 'name' for property %1").arg(name);
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
         }
 
         numberName = valuXMLAtt(ap);
@@ -568,7 +525,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
         if (!ap)
         {
             errmsg = QString("Error: unable to find attribute 'label' for property %1").arg(name);
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
         }
 
         numberLabel = valuXMLAtt(ap);
@@ -648,7 +605,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
         /* find name  */
         ap = findAtt (sep, "name", errmsg);
         if (!ap)
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
 
         switchName = valuXMLAtt(ap);
         switchName.truncate(MAXINDINAME);
@@ -656,7 +613,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
         /* find label */
         ap = findAtt (sep, "label", errmsg);
         if (!ap)
-            return (-1);
+	   return DeviceManager::INDI_PROPERTY_INVALID;
 
         switchLabel = valuXMLAtt(ap);
 
@@ -670,7 +627,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
         if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
         {
             errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(lp->name).arg(name);
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
         }
 
         menuOptions.append(switchLabel);
@@ -680,7 +637,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
             if (onItem != -1)
             {
                 errmsg = QString("INDI: <%1> %2 %3 has multiple On switches").arg(tagXMLEle(root)).arg(name).arg(lp->name);
-                return (-1);
+                return DeviceManager::INDI_PROPERTY_INVALID;
             }
 
             onItem = i;
@@ -730,7 +687,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
         /* find name  */
         ap = findAtt (sep, "name", errmsg);
         if (!ap)
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
 
         switchName = valuXMLAtt(ap);
         switchName.truncate(MAXINDINAME);
@@ -738,7 +695,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
         /* find label */
         ap = findAtt (sep, "label", errmsg);
         if (!ap)
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
 
         switchLabel = valuXMLAtt(ap);
 
@@ -752,7 +709,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
         if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
         {
             errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(name).arg(lp->name);
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
         }
 
         j++;
@@ -807,7 +764,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
     }
 
     if (j < 0)
-        return (-1);
+        return DeviceManager::INDI_PROPERTY_INVALID;
 
     HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
 
@@ -830,14 +787,14 @@ int INDI_P::buildLightsGUI(XMLEle *root, QString & errmsg)
 
         /* find name  */
         ap = findAtt (lep, "name", errmsg);
-        if (!ap) return (-1);
+        if (!ap) return DeviceManager::INDI_PROPERTY_INVALID;
 
         sname = valuXMLAtt(ap);
         sname.truncate(MAXINDINAME);
 
         /* find label */
         ap = findAtt (lep, "label", errmsg);
-        if (!ap) return (-1);
+        if (!ap) return DeviceManager::INDI_PROPERTY_INVALID;
 
         slabel = valuXMLAtt(ap);
         if (slabel.isEmpty())
@@ -850,7 +807,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, QString & errmsg)
         if (pg->dp->crackLightState (pcdataXMLEle(lep), &lp->state) < 0)
         {
             errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pg->dp->name).arg(name).arg(sname);
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
         }
 
         lp->buildLightGUI();
@@ -882,7 +839,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, QString & errmsg)
         if (!ap)
         {
             errmsg = QString("Error: unable to find attribute 'name' for property %1").arg(name);
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
         }
 
         blobName = valuXMLAtt(ap);
@@ -893,7 +850,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, QString & errmsg)
         if (!ap)
         {
             errmsg = QString("Error: unable to find attribute 'label' for property %1").arg(name);
-            return (-1);
+            return DeviceManager::INDI_PROPERTY_INVALID;
         }
 
         blobLabel = valuXMLAtt(ap);
