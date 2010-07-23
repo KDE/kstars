@@ -200,13 +200,39 @@ bool SkyGLPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 
 void SkyGLPainter::drawSkyPolygon(LineList* list)
 {
-    glDisable(GL_TEXTURE_2D);
     SkyList *points = list->points();
-    glBegin(GL_POLYGON);
-    for(int i = 0; i < points->size(); ++i) {
-        glVertex2fv(m_sm->toScreenVec(points->at(i)).data());
+    bool isVisible, isVisibleLast;
+    SkyPoint* pLast = points->last();
+    Vector2f  oLast = m_sm->toScreenVec( pLast, true, &isVisibleLast );
+
+    QVector<Vector2f> polygon;
+    for ( int i = 0; i < points->size(); ++i ) {
+        SkyPoint* pThis = points->at( i );
+        Vector2f oThis = m_sm->toScreenVec( pThis, true, &isVisible );
+
+        if ( isVisible && isVisibleLast ) {
+            polygon << oThis;
+        } else if ( isVisibleLast ) {
+            Vector2f oMid = m_sm->clipLineVec( pLast, pThis );
+            polygon << oMid;
+        } else if ( isVisible ) {
+            Vector2f oMid = m_sm->clipLineVec( pThis, pLast );
+            polygon << oMid;
+            polygon << oThis;
+        }
+
+        pLast = pThis;
+        oLast = oThis;
+        isVisibleLast = isVisible;
     }
-    glEnd();
+
+    if ( polygon.size() ) {
+        glDisable(GL_TEXTURE_2D);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2,GL_FLOAT,0, polygon.data() );
+        glDrawArrays(GL_POLYGON, 0, polygon.size() );
+        glDisableClientState(GL_VERTEX_ARRAY);
+    }
 }
 
 void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLabel* label)
