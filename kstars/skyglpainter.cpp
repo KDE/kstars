@@ -263,26 +263,51 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     }
 }
 
+//This implementation is *correct* but slow.
 void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLabel* label)
 {
     glDisable(GL_TEXTURE_2D);
-    SkyList *points = list->points();
-    bool isVisible = false;
-    bool isVisibleLast = false;
     glBegin(GL_LINE_STRIP);
-    for(int i = 0; i < points->size(); ++i) {
-        SkyPoint* p = points->at(i);
-        Vector2f vec = m_sm->toScreenVec(p,true,&isVisible);
+    SkyList *points = list->points();
+    bool isVisible, isVisibleLast;
+    Vector2f oLast = m_sm->toScreenVec(points->first(), true, &isVisibleLast);
+    if( isVisibleLast ) { glVertex2fv(oLast.data()); }
+
+    for(int i = 1; i < points->size(); ++i) {
+        Vector2f oThis = m_sm->toScreenVec( points->at(i), true, &isVisible);
+
         bool doSkip = (skipList ? skipList->skip(i) : false);
-        if( doSkip ) {
+        //This tells us whether we need to end the current line or whether we
+        //are to keep drawing into it. If we skip, then we are going to have to end.
+        bool shouldEnd = doSkip;
+
+        if( !doSkip ) {
+            if( isVisible && isVisibleLast ) {
+                glVertex2fv(oThis.data());
+                if( label ) {
+                    label->updateLabelCandidates(oThis.x(), oThis.y(), list, i);
+                }
+            } else if( isVisibleLast ) {
+                Vector2f oMid = m_sm->clipLineVec( points->at(i-1), points->at(i) );
+                glVertex2fv(oMid.data());
+                //If the last point was visible but this one isn't we are at
+                //the end of a strip, so we need to end
+                shouldEnd = true;
+            } else if( isVisible ) {
+                Vector2f oMid = m_sm->clipLineVec( points->at(i), points->at(i-1) );
+                glVertex2fv(oMid.data());
+                glVertex2fv(oThis.data());
+            }
+        }
+
+        if(shouldEnd) {
             glEnd();
             glBegin(GL_LINE_STRIP);
+            if( isVisible ) {
+                glVertex2fv(oThis.data());
+            }
         }
-        glVertex2fv(vec.data());
-        //FIXME: check whether this actually works when the labels are fixed.
-        if ( isVisible && isVisibleLast && label ) {
-            label->updateLabelCandidates(vec[0], vec[1], list, i);
-        }
+
         isVisibleLast = isVisible;
     }
     glEnd();
