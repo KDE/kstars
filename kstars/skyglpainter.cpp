@@ -226,12 +226,40 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
         isVisibleLast = isVisible;
     }
 
+    //#define MAKE_KSTARS_SLOW TRUE
     if ( polygon.size() ) {
         glDisable(GL_TEXTURE_2D);
+        #ifdef MAKE_KSTARS_SLOW
+        //Set up the stencil buffer and disable the color buffer
+        glClear(GL_STENCIL_BUFFER_BIT);
+        glColorMask(0,0,0,0);
+        glEnable(GL_STENCIL_TEST);
+        glStencilFunc(GL_ALWAYS, 0, 0);
+        glStencilOp(GL_INVERT, GL_INVERT, GL_INVERT);
+        //Now draw a triangle fan. Because of the GL_INVERT,
+        //this will fill the stencil buffer with odd-even fill.
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(2,GL_FLOAT,0, polygon.data() );
-        glDrawArrays(GL_POLYGON, 0, polygon.size() );
+        glDrawArrays(GL_TRIANGLE_FAN, 0, polygon.size());
         glDisableClientState(GL_VERTEX_ARRAY);
+
+        //Now draw the stencil:
+        glStencilFunc(GL_NOTEQUAL, 0, 0xffffffff);
+        glColorMask(1,1,1,1);
+        glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+        glBegin(GL_QUADS);
+        glVertex2f(0,0);
+        glVertex2f(0,m_sm->height());
+        glVertex2f(m_sm->width(),m_sm->height());
+        glVertex2f(m_sm->width(),0);
+        glEnd();
+        glDisable(GL_STENCIL_TEST);
+        #else
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2,GL_FLOAT,0, polygon.data() );
+        glDrawArrays(GL_POLYGON, 0, polygon.size());
+        glDisableClientState(GL_VERTEX_ARRAY);
+        #endif
     }
 }
 
@@ -319,7 +347,7 @@ void SkyGLPainter::begin()
     glLineStipple(1,0xCCCC);
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
-    
+    glClearStencil(0);
 }
 
 void SkyGLPainter::setBrush(const QBrush& brush)
