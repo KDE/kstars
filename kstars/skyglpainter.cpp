@@ -205,7 +205,9 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     SkyPoint* pLast = points->last();
     Vector2f  oLast = m_sm->toScreenVec( pLast, true, &isVisibleLast );
 
+    //Guess that we will require around the same number of items as in points.
     QVector<Vector2f> polygon;
+    polygon.reserve(points->size());
     for ( int i = 0; i < points->size(); ++i ) {
         SkyPoint* pThis = points->at( i );
         Vector2f oThis = m_sm->toScreenVec( pThis, true, &isVisible );
