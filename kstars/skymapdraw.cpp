@@ -28,6 +28,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
+#include "ksutils.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/starobject.h"
@@ -63,6 +64,11 @@ namespace {
 
 QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
 {
+    return KSUtils::vecToPoint( clipLineVec(p1,p2));
+}
+
+Vector2f SkyMap::clipLineVec( SkyPoint *p1, SkyPoint *p2 )
+{
     /* ASSUMES p1 was not clipped but p2 was.
      * Return the QPoint that barely clips in the line twixt p1 and p2.
      */              
@@ -70,7 +76,7 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
     // 2^interations should be >= max pixels/line
     bool isVisible = true;       // so we start at midpoint
     SkyPoint mid;
-    QPointF oMid;
+    Vector2f oMid;
     double x, y, z, dx, dy, dz, ra, dec;
     int newx, newy, oldx, oldy;
     oldx = oldy = -10000;        // any old value that is not the first omid
@@ -108,7 +114,7 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
         mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
         mid.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
-        oMid = toScreen( &mid, false, &isVisible );
+        oMid = toScreenVec( &mid, false, &isVisible );
         newx = (int) oMid.x();
         newy = (int) oMid.y();
 

@@ -314,6 +314,11 @@ public:
      * between *p1 and *p2 that just clips.
      */
     QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
+    
+    /**ASSUMES *p1 did not clip but *p2 did.  Returns the Vector2f on the line
+     * between *p1 and *p2 that just clips.
+     */
+    Vector2f clipLineVec( SkyPoint *p1, SkyPoint *p2 );
 
     /**Given the coordinates of the SkyPoint argument, determine the
      * pixel coordinates in the SkyMap.
