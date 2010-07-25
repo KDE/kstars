@@ -104,7 +104,7 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 4, this );
     m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Conjunction/Opposition" ) 
-            << i18n( "Date & Time (UT)" ) << i18n( "Object" ) << i18n( "Separation" ) );
+            << i18n( "Date && Time (UT)" ) << i18n( "Object" ) << i18n( "Separation" ) );
     m_SortModel = new QSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     OutputList->setModel( m_SortModel );
