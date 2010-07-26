@@ -53,7 +53,7 @@ HorizonComponent::~HorizonComponent()
 
 bool HorizonComponent::selected()
 {
-    return Options::showHorizon();
+    return ( Options::showHorizon() || Options::showGround() );
 }
 
 void HorizonComponent::update( KSNumbers * )
@@ -89,10 +89,12 @@ void HorizonComponent::draw( QPainter& psky )
 
     psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
-    if ( Options::useAltAz() && Options::showGround() )
+    if ( Options::useAltAz() && Options::showGround() ) {
         psky.setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
-    else
+    }
+    else {
         psky.setBrush( Qt::NoBrush );
+    }
 
     double daz = 90.;
     if ( Options::useAltAz() ) {

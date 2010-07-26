@@ -19,31 +19,43 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skycomponents/skymapcomposite.h"
+#include "Options.h"
 
 OpsGuides::OpsGuides( KStars *_ks )
         : QFrame( _ks ), ksw(_ks)
 {
     setupUi( this );
-
-    connect( kcfg_ShowCNames, SIGNAL( clicked() ),
-             this, SLOT( slotToggleConstellOptions() ) );
-    connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ),
-             this, SLOT( slotToggleMilkyWayOptions() ) );
+    connect( kcfg_ShowCNames, SIGNAL( toggled( bool ) ),
+             this, SLOT( slotToggleConstellOptions( bool ) ) );
+    connect( kcfg_ShowMilkyWay, SIGNAL( toggled( bool ) ),
+             this, SLOT( slotToggleMilkyWayOptions( bool ) ) );
+    connect( kcfg_ShowGround, SIGNAL( toggled( bool ) ),
+             this, SLOT( slotToggleOpaqueGround( bool ) ) );
 
     foreach( QString item,  ksw->data()->skyComposite()->getCultureNames() )
         kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toUtf8().constData() ) );
+
+    // When setting up the widget, update the enabled status of the
+    // checkboxes depending on the options.
+    slotToggleOpaqueGround( Options::showGround() ); 
+    slotToggleConstellOptions( Options::showCNames() );
+    slotToggleMilkyWayOptions( Options::showMilkyWay() );
 
 }
 
 OpsGuides::~OpsGuides()
 {}
 
-void OpsGuides::slotToggleConstellOptions() {
-    ConstellOptions->setEnabled( kcfg_ShowCNames->isChecked() );
+void OpsGuides::slotToggleConstellOptions( bool state ) {
+    ConstellOptions->setEnabled( state );
 }
 
-void OpsGuides::slotToggleMilkyWayOptions() {
-    kcfg_FillMilkyWay->setEnabled( kcfg_ShowMilkyWay->isChecked() );
+void OpsGuides::slotToggleMilkyWayOptions( bool state ) {
+    kcfg_FillMilkyWay->setEnabled( state );
+}
+
+void OpsGuides::slotToggleOpaqueGround( bool state ) {
+    kcfg_ShowHorizon->setEnabled( !state );
 }
 
 #include "opsguides.moc"
