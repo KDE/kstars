@@ -264,6 +264,8 @@ void ColorScheme::loadFromConfig() {
         setColor( KeyName.at(i), cg.readEntry( KeyName.at(i).toUtf8().constData(), Default.at( i ) ) );
 
     setStarColorModeIntensity( cg.readEntry( "StarColorMode", 0 ), cg.readEntry( "StarColorIntensity", 5 ) );
+
+    FileName = cg.readEntry( "ColorSchemeFile", "classic.colors" );
 }
 
 void ColorScheme::saveToConfig() {

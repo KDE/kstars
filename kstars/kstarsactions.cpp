@@ -971,6 +971,11 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
     kta->setActionGroup( cschemeGroup );
     connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
     colorActionMenu->addAction( kta );
+
+    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+    if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "classic.colors" ).remove( ".colors" ) ) {
+        kta->setChecked( true );
+    }
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {
