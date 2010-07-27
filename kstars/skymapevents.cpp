@@ -41,6 +41,8 @@
 #include "skyobjects/ksplanetbase.h"
 #include "widgets/infoboxwidget.h"
 
+#include "projections/projector.h"
+
 #include "skycomponents/skymapcomposite.h"
 
 // TODO: Remove if debug key binding is removed
@@ -446,10 +448,10 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         }
     }
 
-    if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
+    if ( projector()->unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     //determine RA, Dec of mouse pointer
-    setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+    setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
     mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     double dyPix = 0.5*height() - e->y();
@@ -502,7 +504,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         }
 
         //redetermine RA, Dec of mouse pointer, using new focus
-        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
 
@@ -528,7 +530,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
         stopTracking();
 
-        SkyPoint newcenter = fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
+        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
 
         setFocus( &newcenter );
         setDestination( &newcenter );
@@ -574,7 +576,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
     QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
 
     // break if point is unusable
-    if ( unusablePoint( e->pos() ) )
+    if ( projector()->unusablePoint( e->pos() ) )
         return;
 
     if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
@@ -589,7 +591,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         }
 
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
         clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -632,7 +634,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
-    if ( e->button() == Qt::LeftButton && !unusablePoint( e->pos() ) ) {
+    if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) ) {
         mouseButtonDown = false;
         if( e->x() != width()/2 || e->y() != height()/2 )
             slotCenter();
@@ -653,6 +655,7 @@ void SkyMap::resizeGL(int width, int height)
 
 void SkyMap::paintGL()
 {
+    setMapGeometry();
     if(m_framecount == 25) {
         float sec = m_fpstime.elapsed()/1000.;
         printf("FPS: %.2f\n", m_framecount/sec);

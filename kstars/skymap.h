@@ -19,6 +19,7 @@
 #define SKYMAP_H_
 
 #define USEGL
+#define SMPROJ 0
 
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
@@ -52,6 +53,7 @@ class KSPopupMenu;
 class SkyObject;
 class InfoBoxWidget;
 class InfoBoxes;
+class Projector;
 
 /**@class SkyMap
 	*
@@ -298,6 +300,7 @@ public:
     	*/
     bool isObjectLabeled( SkyObject *o );
 
+
     /**@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
     	*/
     void stopTracking();
@@ -314,11 +317,13 @@ public:
      * between *p1 and *p2 that just clips.
      */
     QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
-    
+
+    #if SMPROJ
     /**ASSUMES *p1 did not clip but *p2 did.  Returns the Vector2f on the line
      * between *p1 and *p2 that just clips.
      */
     Vector2f clipLineVec( SkyPoint *p1, SkyPoint *p2 );
+    #endif
 
     /**Given the coordinates of the SkyPoint argument, determine the
      * pixel coordinates in the SkyMap.
@@ -332,10 +337,12 @@ public:
      */
     QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
 
+    #if SMPROJ
     /** Project a point like toScreen, but return a vector instead of a QPointF.
         @see toScreen()
         */
     Vector2f toScreenVec( SkyPoint* o, bool oRefract = true, bool* onVisibleHemisphere = 0);
+    #endif
         
 
     /**@return the current scale factor for drawing the map.
@@ -356,6 +363,11 @@ public:
     bool onScreen(const QPointF &p1, const QPointF &p2 );
     bool onScreen(const QPoint &p1, const QPoint &p2 );
 
+    /** Get the current projector.
+        @return a pointer to the current projector. */
+    const Projector * projector() const;
+
+    #if SMPROJ
     /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
      * screen pixel coordinate offsets from the center of the Sky pixmap.
      * @param the screen pixel position to convert
@@ -363,6 +375,7 @@ public:
      * @param lat pointer to the current geographic laitude, as a dms object
      */
     SkyPoint fromScreen( const QPointF &p, dms *LST, const dms *lat );
+    #endif
 
     /**@short Determine if the skypoint p is likely to be visible in the display
      * window.
@@ -745,12 +758,14 @@ private:
     	*/
     void setZoomMouseCursor();
 
+    #if SMPROJ
     /**Check if the current point on screen is a valid point on the sky. This is needed
     	*to avoid a crash of the program if the user clicks on a point outside the sky (the
     	*corners of the sky map at the lowest zoom level are the invalid points).  
     	*@param p the screen pixel position
     	*/
     bool unusablePoint ( const QPointF &p );
+    #endif
 
     /** Calculate the zoom factor for the given keyboard modifier
      * @param modifier
@@ -816,6 +831,8 @@ private:
     QPixmap *sky, *sky2;
     SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
+
+    Projector *m_proj;
 
     SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.

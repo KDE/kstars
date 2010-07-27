@@ -20,11 +20,12 @@
 #ifndef SKYGLPAINTER_H
 #define SKYGLPAINTER_H
 
-#include "skypainter.h"
-#include "skyobjects/skyobject.h"
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
 
+#include "skypainter.h"
+#include "skyobjects/skyobject.h"
+#include "projections/projector.h"
 
 class SkyGLPainter : public SkyPainter
 {
@@ -44,6 +45,9 @@ public:
 private:
     bool addItem(SkyPoint* p, int type, float width, char sp = 'a');
     void drawBuffer(int type);
+
+    const Projector *m_proj;
+    
     Vector4f m_pen;
     static const int BUFSIZE = 512;
     ///FIXME: what kind of TYPE_UNKNOWN objects are there?

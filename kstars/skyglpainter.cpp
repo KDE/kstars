@@ -106,7 +106,7 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
     //don't draw things that are too small
     if( width < 1.5 ) return false;
     bool visible = false;
-    Vector2f vec = m_sm->toScreenVec(p,true,&visible);
+    Vector2f vec = m_proj->toScreenVec(p,true,&visible);
     if(!visible) return false;
     
     //If the buffer is full, flush it
@@ -160,7 +160,7 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
         return addItem(obj, type, starWidth(obj->mag()));
     } else {
         bool visible = false;
-        Vector2f vec = m_sm->toScreenVec(obj,true,&visible);
+        Vector2f vec = m_proj->toScreenVec(obj,true,&visible);
         if(!visible) return false;
 
         //If the buffer is full, flush it
@@ -203,22 +203,22 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
     SkyPoint* pLast = points->last();
-    Vector2f  oLast = m_sm->toScreenVec( pLast, true, &isVisibleLast );
+    Vector2f  oLast = m_proj->toScreenVec( pLast, true, &isVisibleLast );
 
     //Guess that we will require around the same number of items as in points.
     QVector<Vector2f> polygon;
     polygon.reserve(points->size());
     for ( int i = 0; i < points->size(); ++i ) {
         SkyPoint* pThis = points->at( i );
-        Vector2f oThis = m_sm->toScreenVec( pThis, true, &isVisible );
+        Vector2f oThis = m_proj->toScreenVec( pThis, true, &isVisible );
 
         if ( isVisible && isVisibleLast ) {
             polygon << oThis;
         } else if ( isVisibleLast ) {
-            Vector2f oMid = m_sm->clipLineVec( pLast, pThis );
+            Vector2f oMid = m_proj->clipLineVec( pLast, pThis );
             polygon << oMid;
         } else if ( isVisible ) {
-            Vector2f oMid = m_sm->clipLineVec( pThis, pLast );
+            Vector2f oMid = m_proj->clipLineVec( pThis, pLast );
             polygon << oMid;
             polygon << oThis;
         }
@@ -272,11 +272,11 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
     glBegin(GL_LINE_STRIP);
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
-    Vector2f oLast = m_sm->toScreenVec(points->first(), true, &isVisibleLast);
+    Vector2f oLast = m_proj->toScreenVec(points->first(), true, &isVisibleLast);
     if( isVisibleLast ) { glVertex2fv(oLast.data()); }
 
     for(int i = 1; i < points->size(); ++i) {
-        Vector2f oThis = m_sm->toScreenVec( points->at(i), true, &isVisible);
+        Vector2f oThis = m_proj->toScreenVec( points->at(i), true, &isVisible);
 
         bool doSkip = (skipList ? skipList->skip(i) : false);
         //This tells us whether we need to end the current line or whether we
@@ -290,13 +290,13 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
                     label->updateLabelCandidates(oThis.x(), oThis.y(), list, i);
                 }
             } else if( isVisibleLast ) {
-                Vector2f oMid = m_sm->clipLineVec( points->at(i-1), points->at(i) );
+                Vector2f oMid = m_proj->clipLineVec( points->at(i-1), points->at(i) );
                 glVertex2fv(oMid.data());
                 //If the last point was visible but this one isn't we are at
                 //the end of a strip, so we need to end
                 shouldEnd = true;
             } else if( isVisible ) {
-                Vector2f oMid = m_sm->clipLineVec( points->at(i), points->at(i-1) );
+                Vector2f oMid = m_proj->clipLineVec( points->at(i), points->at(i-1) );
                 glVertex2fv(oMid.data());
                 glVertex2fv(oThis.data());
             }
@@ -352,6 +352,8 @@ void SkyGLPainter::end()
 
 void SkyGLPainter::begin()
 {
+    m_proj = m_sm->projector();
+    
     //Load ortho projection
     glViewport(0,0,m_sm->width(),m_sm->height());
     glMatrixMode(GL_PROJECTION);

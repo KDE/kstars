@@ -50,6 +50,8 @@
 #include "skyobjects/ksplanetbase.h"
 #include "skycomponents/skymapcomposite.h"
 #include "widgets/infoboxwidget.h"
+#include "projections/projector.h"
+#include "projections/lambertprojector.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
@@ -139,7 +141,7 @@ SkyMap::SkyMap() :
 #endif
     computeSkymap(true), angularDistanceMode(false), scrollCount(0),
     data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0),
-    ClickedObject(0), FocusObject(0), TransientObject(0)
+    ClickedObject(0), FocusObject(0), TransientObject(0), m_proj(0)
 {
     m_Scale = 1.0;
 
@@ -167,6 +169,8 @@ SkyMap::SkyMap() :
     sky   = new QPixmap( width(),  height() );
     sky2  = new QPixmap( width(),  height() );
     pmenu = new KSPopupMenu();
+
+    setMapGeometry();
 
     //Initialize Transient label stuff
     TransientTimeout = 100; //fade label color every 0.1 sec
@@ -272,6 +276,8 @@ SkyMap::~SkyMap() {
     delete sky;
     delete sky2;
     delete pmenu;
+
+    delete m_proj;
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
@@ -870,7 +876,7 @@ double SkyMap::findPA( SkyObject *o, float x, float y ) {
     SkyPoint test( o->ra().Hours(), newDec );
     if ( Options::useAltAz() )
         test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    QPointF t = toScreen( &test );
+    QPointF t = m_proj->toScreen( &test );
     double dx = t.x() - x;
     double dy = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
     double north;
@@ -903,10 +909,10 @@ void SkyMap::setZoomFactor(double factor) {
 
 QPointF SkyMap::toScreen(SkyPoint* o, bool useRefraction, bool* onVisibleHemisphere)
 {
-    return KSUtils::vecToPoint( toScreenVec(o, useRefraction, onVisibleHemisphere) );
+    return m_proj->toScreen(o, useRefraction, onVisibleHemisphere);
 }
 
-
+#if SMPROJ
 Vector2f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere)
 {
     double Y, dX;
@@ -1002,6 +1008,7 @@ Vector2f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphe
     return Vector2f( 0.5*Width  - zoomscale*k*cosY*sindX,
                      0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
 }
+#endif
 
 QRect SkyMap::scaledRect() {
     return QRect( 0, 0, int(m_Scale*width()), int(m_Scale*height()) );
@@ -1033,6 +1040,12 @@ bool SkyMap::onScreen( const QPoint &p1, const QPoint &p2 ) {
                 p2.y() > scaledRect().height() ) );
 }
 
+const Projector * SkyMap::projector() const
+{
+    return m_proj;
+}
+
+#if SMPROJ
 SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
     //Determine RA and Dec of a point, given (dx, dy): its pixel
     //coordinates in the SkyMap with the center of the map as the origin.
@@ -1123,6 +1136,7 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
 
     return result;
 }
+#endif
 
 //---------------------------------------------------------------------------
 
@@ -1133,9 +1147,9 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
 void SkyMap::forceUpdate( bool now )
 {
     QPoint mp( mapFromGlobal( QCursor::pos() ) );
-    if (! unusablePoint ( mp )) {
+    if (! projector()->unusablePoint( mp )) {
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( mp, data->lst(), data->geo()->lat() ) );
+        setMousePoint( projector()->fromScreen( mp, data->lst(), data->geo()->lat() ) );
     }
 
     computeSkymap = true;
@@ -1187,6 +1201,7 @@ bool SkyMap::checkVisibility( SkyPoint *p ) {
     return dX < XRange;
 }
 
+#if SMPROJ
 bool SkyMap::unusablePoint( const QPointF &p )
 {
     double r0;
@@ -1221,6 +1236,7 @@ bool SkyMap::unusablePoint( const QPointF &p )
 
     return (dx*dx + dy*dy) > r0*r0;
 }
+#endif
 
 void SkyMap::setZoomMouseCursor()
 {

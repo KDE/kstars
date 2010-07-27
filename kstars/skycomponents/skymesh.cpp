@@ -341,6 +341,8 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
 
 void SkyMesh::draw(QPainter& psky, MeshBufNum_t bufNum)
 {
+    #warning PORT SKYMESH DRAW
+    #if 0
     SkyMap*     map  = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
 
@@ -363,6 +365,7 @@ void SkyMesh::draw(QPainter& psky, MeshBufNum_t bufNum)
         psky.drawLine( q2, q3 );
         psky.drawLine( q3, q1 );
     }
+    #endif
 }
 
 const SkyRegion& SkyMesh::skyRegion( const SkyPoint& _p1, const SkyPoint& _p2 )

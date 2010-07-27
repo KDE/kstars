@@ -112,7 +112,8 @@ void PlanetMoonsComponent::draw( SkyPainter *skyp )
     if( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) )
         return;
 
-    SkyMap *map = SkyMap::Instance();
+    SkyMap *map      = SkyMap::Instance();
+    const Projector *proj  = map->projector();
     
     //In order to get the z-order right for the moons and the planet,
     //we need to first draw the moons that are further away than the planet,

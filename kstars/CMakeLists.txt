@@ -288,6 +288,11 @@ set(kstars_dialogsui_SRCS
   dialogs/newfov.ui
 )
 
+set(kstars_projection_SRCS
+    projections/projector.cpp
+    projections/lambertprojector.cpp
+)
+
 set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp
@@ -318,7 +323,8 @@ set(oal_SRCS
 )
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
-	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
+	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
+	${kstars_extra_SRCS}  ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
 )
 

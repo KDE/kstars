@@ -39,6 +39,8 @@
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skyqpainter.h"
+#include "projections/projector.h"
+#include "projections/lambertprojector.h"
 
 #include <config-kstars.h>
 
@@ -64,9 +66,10 @@ namespace {
 
 QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
 {
-    return KSUtils::vecToPoint( clipLineVec(p1,p2));
+    return m_proj->clipLine(p1,p2);
 }
 
+#if SMPROJ
 Vector2f SkyMap::clipLineVec( SkyPoint *p1, SkyPoint *p2 )
 {
     /* ASSUMES p1 was not clipped but p2 was.
@@ -127,6 +130,7 @@ Vector2f SkyMap::clipLineVec( SkyPoint *p1, SkyPoint *p2 )
     }
     return  oMid;
 }
+#endif
 
 void SkyMap::drawOverlays( QPixmap *pm ) {
     if( !KStars::Instance() )
@@ -174,6 +178,7 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 }
 
 void SkyMap::drawHighlightConstellation( QPainter &psky ) {
+    #ifdef WTF_IS_THIS_DOING_HERE
     const QPolygonF* cbound =
         KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationPoly( focus() );
     if ( ! cbound )
@@ -282,6 +287,7 @@ void SkyMap::drawHighlightConstellation( QPainter &psky ) {
 
     	psky.drawPolygon( poly );
     ****/
+    #endif
 }
 
 void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
@@ -592,4 +598,20 @@ void SkyMap::setMapGeometry() {
         Ymax = fabs( focus()->dec().Degrees() ) + fov();
     }
     isPoleVisible = Ymax >= 90.0;
+    //Update View Parameters for projection
+    ViewParams p;
+    p.focus         = focus();
+    p.height        = height();
+    p.width         = width();
+    p.useAltAz      = Options::useAltAz();
+    p.useRefraction = Options::useRefraction();
+    p.zoomFactor    = Options::zoomFactor();
+    //Check if we need a new projector
+    if( m_proj && Options::projection() == m_proj->type() )
+        m_proj->setViewParams(p);
+    else {
+        delete m_proj;
+        //TODO: implement other projection classes
+        m_proj = new LambertProjector(p);
+    }
 }

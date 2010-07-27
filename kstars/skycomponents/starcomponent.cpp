@@ -34,6 +34,8 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 
+#include "projections/projector.h"
+
 
 #if defined(Q_OS_FREEBSD) || defined(Q_OS_NETBSD)
 #include <sys/endian.h>
@@ -230,9 +232,10 @@ void StarComponent::draw( SkyPainter *skyp )
     if( !selected() )
         return;
 
-    SkyMap *map       = SkyMap::Instance();
-    KStarsData* data  = KStarsData::Instance();
-    UpdateID updateID = data->updateID();
+    SkyMap *map             = SkyMap::Instance();
+    const Projector *proj   = map->projector();
+    KStarsData* data        = KStarsData::Instance();
+    UpdateID updateID       = data->updateID();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
     m_hideLabels = checkSlewing || !( Options::showStarMagnitudes() || Options::showStarNames() );
@@ -301,7 +304,7 @@ void StarComponent::draw( SkyPainter *skyp )
 
             //FIXME_SKYPAINTER: find a better way to do this.
             if ( drawn && !(m_hideLabels || mag > labelMagLim) )
-                addLabel( map->toScreen(curStar), curStar );
+                addLabel( proj->toScreen(curStar), curStar );
         }
     }
 
