@@ -50,6 +50,10 @@ SkyPoint LambertProjector::fromScreen(const QPointF& p, dms* LST, const dms* lat
 {
     dms c;
     double sinc, cosc;
+    /** N.B. We don't cache these sin/cos values in the inverse
+      * projection because it causes 'shaking' when moving the sky.
+      */
+    double sinY0, cosY0;
     //Convert pixel position to x and y offsets in radians
     double dx = (0.5*m_vp.width  - p.x())/m_vp.zoomFactor;
     double dy = (0.5*m_vp.height - p.y())/m_vp.zoomFactor;
@@ -60,11 +64,14 @@ SkyPoint LambertProjector::fromScreen(const QPointF& p, dms* LST, const dms* lat
 
     if( m_vp.useAltAz ) {
         dx = -1.0*dx; //Azimuth goes in opposite direction compared to RA
+        m_vp.focus->alt().SinCos( sinY0, cosY0 );
+    } else {
+        m_vp.focus->dec().SinCos( sinY0, cosY0 );
     }
 
-    double Y = asin( cosc*m_sinY0 + ( dy*sinc*m_cosY0 )/r );
+    double Y = asin( cosc*sinY0 + ( dy*sinc*cosY0 )/r );
     double atop = dx*sinc;
-    double abot = r*m_cosY0*cosc - dy*m_sinY0*sinc;
+    double abot = r*cosY0*cosc - dy*sinY0*sinc;
     double A = atan2( atop, abot );
 
     SkyPoint result;
