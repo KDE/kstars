@@ -72,9 +72,9 @@ EquipmentWriter::EquipmentWriter() {
 }
 
 void EquipmentWriter::slotAddScope() {
-    while ( ks->data()->logObject()->findScopeById( i18nc( "prefix for ID number identifying a telescope (optional)", "scope" ) + '_' + QString::number( nextScope ) ) )
+    while ( ks->data()->logObject()->findScopeById( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope ) ) )
     nextScope++;
-    OAL::Scope *s = new OAL::Scope( i18nc( "prefix for ID number identifying a telescope (optional)", "scope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
+    OAL::Scope *s = new OAL::Scope( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
     ks->data()->logObject()->scopeList()->append( s );
     saveEquipment(); //Save the new list.
     ui.Model->clear();

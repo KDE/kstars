@@ -27,7 +27,7 @@
      </property>
      <widget class="QWidget" name="Scope">
       <attribute name="title">
-       <string>Scope</string>
+       <string>Telescope</string>
       </attribute>
       <layout class="QHBoxLayout" name="_3">
        <item>
@@ -195,7 +195,7 @@
            <item>
             <widget class="QPushButton" name="AddScope">
              <property name="text">
-              <string>Save Scope</string>
+              <string>Save Telescope</string>
              </property>
             </widget>
            </item>
