@@ -406,7 +406,7 @@ void KStars::initActions() {
 #endif
 
     //Help Menu:
-    //	KStandardAction::tipOfDay(this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
+    //    ka = actionCollection()->addAction( KStandardAction::TipofDay, this, SLOT( slotTipOfDay() ) );
 
     //	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
 
@@ -620,7 +620,7 @@ void KStars::initFocus() {
     map()->showFocusCoords();
 
     //Check whether initial position is below the horizon.
-    if ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
+    if ( Options::useAltAz() && Options::showGround() &&
             map()->focus()->alt().Degrees() < -1.0 ) {
         QString caption = i18n( "Initial Position is Below Horizon" );
         QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
