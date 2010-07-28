@@ -104,6 +104,11 @@ public:
      * between *p1 and *p2 that just clips.
      */
     Vector2f clipLineVec( SkyPoint *p1, SkyPoint *p2 ) const;
+
+    /** Check whether the projected point is on-screen */
+    bool onScreen( const QPointF& p ) const;
+    bool onScreen( const Vector2f& p ) const;
+    
 protected:
     KStarsData *m_data;
     ViewParams m_vp;

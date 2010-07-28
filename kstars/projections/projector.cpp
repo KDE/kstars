@@ -63,6 +63,17 @@ QPointF Projector::toScreen(SkyPoint* o, bool oRefract, bool* onVisibleHemispher
     return KSUtils::vecToPoint( toScreenVec(o, oRefract, onVisibleHemisphere) );
 }
 
+bool Projector::onScreen(const QPointF& p) const
+{
+    return (0 <= p.x() && p.x() <= m_vp.width &&
+            0 <= p.y() && p.y() <= m_vp.height);
+}
+
+bool Projector::onScreen(const Vector2f& p) const
+{
+    return (0 <= p.x() && p.x() <= m_vp.width &&
+            0 <= p.y() && p.y() <= m_vp.height);
+}
 
 QPointF Projector::clipLine( SkyPoint *p1, SkyPoint *p2 ) const
 {
