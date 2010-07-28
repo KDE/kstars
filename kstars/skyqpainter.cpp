@@ -33,6 +33,8 @@
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
 
+#include "projections/projector.h"
+
 namespace {
 
     // Convert spectral class to numerical index.
@@ -80,6 +82,7 @@ void SkyQPainter::begin()
     bool aa = !m_sm->isSlewing() && Options::useAntialias();
     setRenderHint(QPainter::Antialiasing, aa );
     setRenderHint(QPainter::HighQualityAntialiasing, aa);
+    m_proj = m_sm->projector();
 }
 
 void SkyQPainter::end()
@@ -89,6 +92,7 @@ void SkyQPainter::end()
 
 void SkyQPainter::drawSkyBackground()
 {
+    //FIXME use projctor
     fillRect( 0, 0, m_sm->width(), m_sm->height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
 }
 
@@ -195,20 +199,18 @@ void SkyQPainter::initStarImages()
 void SkyQPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {
     bool aVisible, bVisible;
-    QPointF aScreen = m_sm->toScreen(a,true,&aVisible);
-    QPointF bScreen = m_sm->toScreen(b,true,&bVisible);
-    if( !m_sm->onScreen(aScreen,bScreen) )
-        return;
+    QPointF aScreen = m_proj->toScreen(a,true,&aVisible);
+    QPointF bScreen = m_proj->toScreen(b,true,&bVisible);
     //THREE CASES:
     if( aVisible && bVisible ) {
         //Both a,b visible, so paint the line normally:
         drawLine(aScreen, bScreen);
     } else if( aVisible ) {
         //a is visible but b isn't:
-        drawLine(aScreen, m_sm->clipLine(a,b));
+        drawLine(aScreen, m_proj->clipLine(a,b));
     } else if( bVisible ) {
         //b is visible but a isn't:
-        drawLine(bScreen, m_sm->clipLine(b,a));
+        drawLine(bScreen, m_proj->clipLine(b,a));
     } //FIXME: what if both are offscreen but the line isn't?
 }
 
@@ -216,12 +218,12 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
 {
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
-    QPointF   oLast = m_sm->toScreen( points->first(), true, &isVisibleLast );
+    QPointF   oLast = m_proj->toScreen( points->first(), true, &isVisibleLast );
 
     QPointF oThis, oThis2;
     for ( int j = 1 ; j < points->size() ; j++ ) {
         SkyPoint* pThis = points->at( j );
-        oThis2 = oThis = m_sm->toScreen( pThis, true, &isVisible );
+        oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
         bool doSkip = false;
         if( skipList ) {
             doSkip = skipList->skip(j);
@@ -244,20 +246,20 @@ void SkyQPainter::drawSkyPolygon(LineList* list)
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
     SkyPoint* pLast = points->last();
-    QPointF   oLast = m_sm->toScreen( pLast, true, &isVisibleLast );
+    QPointF   oLast = m_proj->toScreen( pLast, true, &isVisibleLast );
 
     QPolygonF polygon;
     for ( int i = 0; i < points->size(); ++i ) {
         SkyPoint* pThis = points->at( i );
-        QPointF oThis = m_sm->toScreen( pThis, true, &isVisible );
+        QPointF oThis = m_proj->toScreen( pThis, true, &isVisible );
 
         if ( isVisible && isVisibleLast ) {
             polygon << oThis;
         } else if ( isVisibleLast ) {
-            QPointF oMid = m_sm->clipLine( pLast, pThis );
+            QPointF oMid = m_proj->clipLine( pLast, pThis );
             polygon << oMid;
         } else if ( isVisible ) {
-            QPointF oMid = m_sm->clipLine( pThis, pLast );
+            QPointF oMid = m_proj->clipLine( pThis, pLast );
             polygon << oMid;
             polygon << oThis;
         }
@@ -275,7 +277,8 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
 {
     if( !m_sm->checkVisibility(planet) ) return false;
 
-    QPointF pos = m_sm->toScreen(planet);
+    QPointF pos = m_proj->toScreen(planet);
+    if( !m_proj->onScreen(pos) ) return false;
 
     float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
     if( fakeStarSize > 15.0 )
@@ -329,8 +332,13 @@ bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
     //Check if it's even visible before doing anything
     if( !m_sm->checkVisibility(loc) ) return false;
 
-    drawPointSource(m_sm->toScreen(loc), starWidth(mag), sp);
-    return true;
+    QPointF pos = m_proj->toScreen(loc);
+    if( m_proj->onScreen(pos) ) {
+        drawPointSource(pos, starWidth(mag), sp);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
@@ -345,7 +353,7 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
     if( !m_sm->checkVisibility(obj) ) return false;
 
-    QPointF pos = m_sm->toScreen(obj);
+    QPointF pos = m_proj->toScreen(obj);
 
     float positionAngle = m_sm->findPA( obj, pos.x(), pos.y() );
 

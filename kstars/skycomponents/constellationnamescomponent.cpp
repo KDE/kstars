@@ -26,6 +26,7 @@
 
 #include "ksfilereader.h"
 #include "skylabeler.h"
+#include "projections/projector.h"
 
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList* cultures )
         : ListComponent(parent )
@@ -113,18 +114,19 @@ void ConstellationNamesComponent::draw( SkyPainter *skyp )
     if ( ! selected() )
         return;
 
-    SkyMap *map = SkyMap::Instance();
+    const Projector *proj = SkyMap::Instance()->projector();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     skyLabeler->useStdFont();
     skyLabeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
     QString name;
     foreach(SkyObject *p, m_ObjectList) {
+        /* FIXME: put checkVisibility into projector 
         if( ! map->checkVisibility( p ) )
-            continue;
+            continue; */
 
-        QPointF o = map->toScreen( p );
-        if( ! map->onScreen( o ) )
+        QPointF o = proj->toScreen( p );
+        if( ! proj->onScreen( o ) )
             continue;
 
         if( Options::useLatinConstellNames() || Options::useLocalConstellNames() )

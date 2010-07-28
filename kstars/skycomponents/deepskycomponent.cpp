@@ -33,6 +33,7 @@
 #include "Options.h"
 #include "skymesh.h"
 #include "skypainter.h"
+#include "projections/projector.h"
 
 
 DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
@@ -318,6 +319,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
     if ( ! ( drawObject || drawImage ) ) return;
 
     SkyMap *map = SkyMap::Instance();
+    const Projector *proj = map->projector();
     KStarsData *data = KStarsData::Instance();
 
     UpdateID updateID = data->updateID();
@@ -381,7 +383,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
     
                 bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
                 if ( drawn  && !( m_hideLabels || mag > labelMagLim ) )
-                    addLabel( map->toScreen(obj), obj );
+                    addLabel( proj->toScreen(obj), obj );
                     //FIXME: find a better way to do above
             } else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
                 if ( obj->image() ) {

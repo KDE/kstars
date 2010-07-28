@@ -30,6 +30,7 @@
 #include "skylabeler.h"
 
 #include "skypainter.h"
+#include "projections/projector.h"
 
 SolarSystemSingleComponent::SolarSystemSingleComponent(SolarSystemComposite *parent, KSPlanetBase *kspb, bool (*visibleMethod)()) :
     SkyComponent( parent ),
@@ -92,14 +93,13 @@ void SolarSystemSingleComponent::draw( SkyPainter *skyp ) {
     if( ! selected() )
         return;
 
-    SkyMap *map = SkyMap::Instance();
-
     skyp->setPen( m_Planet->color() );
     skyp->setBrush( m_Planet->color() );
 
     bool drawn = skyp->drawPlanet(m_Planet);
     if ( drawn && Options::showPlanetNames() )
-        SkyLabeler::AddLabel( map->toScreen(m_Planet), m_Planet, SkyLabeler::PLANET_LABEL );
+        SkyLabeler::AddLabel( SkyMap::Instance()->projector()->toScreen(m_Planet),
+                              m_Planet, SkyLabeler::PLANET_LABEL );
 }
 
 

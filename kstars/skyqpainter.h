@@ -22,6 +22,8 @@
 
 #include "skypainter.h"
 
+class Projector;
+
 /** @short The QPainter-based painting backend.
     This class implements the SkyPainter interface using a QPainter.
     For documentation, @see SkyPainter. */
@@ -60,6 +62,7 @@ private:
     virtual bool drawDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
                                          float positionAngle);
     QPaintDevice *m_pd;
+    const Projector* m_proj;
 };
 
 #endif

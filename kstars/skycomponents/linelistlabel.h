@@ -23,7 +23,7 @@
 #include <QPointF>
 
 class SkyLabeler;
-class SkyMap;
+class Projector;
 class LineList;
 
 /**
@@ -71,7 +71,7 @@ private:
      *
      *	   1 <= i < pointList.size().
      */
-    QPointF angleAt( SkyMap* map, LineList* list, int i,
+    QPointF angleAt( const Projector *proj, LineList* list, int i,
                      double *angle );
 };
 

@@ -29,6 +29,8 @@
 #include "skylabeler.h"
 #include "skypainter.h"
 
+#include "projections/projector.h"
+
 #define NCIRCLE 360   //number of points used to define equator, ecliptic and horizon
 
 HorizonComponent::HorizonComponent(SkyComposite *parent )
@@ -415,12 +417,11 @@ void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
     SkyPoint c;
     QPointF cpoint;
 
-    SkyMap *map = SkyMap::Instance();
+    const Projector *proj = SkyMap::Instance()->projector();
     KStarsData *data = KStarsData::Instance();
-
-    float Width = map->scale() * map->width();
-    float Height = map->scale() * map->height();
+    
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
+    
     double az = -0.01;
     static QString name[8];
     name[0] = i18nc( "Northeast", "NE" );
@@ -436,9 +437,11 @@ void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
         az += 45.0;
         c.setAz( az );
         c.setAlt( 0.0 );
-        if ( !Options::useAltAz() ) c.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-        cpoint = map->toScreen( &c, false );
-        if (cpoint.x() > 0. && cpoint.x() < Width && cpoint.y() > 0. && cpoint.y() < Height ) {
+        if ( !Options::useAltAz() ) {
+            c.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+        }
+        cpoint = proj->toScreen( &c, false );
+        if ( proj->onScreen(cpoint) ) {
             skyLabeler->drawGuideLabel( cpoint, name[i], 0.0 );
         }
     }

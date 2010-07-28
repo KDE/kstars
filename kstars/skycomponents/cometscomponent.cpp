@@ -30,6 +30,7 @@
 #include "skymap.h"
 #include "skylabeler.h"
 #include "skypainter.h"
+#include "projections/projector.h"
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent )
@@ -116,6 +117,7 @@ void CometsComponent::draw( SkyPainter *skyp )
         return;
 
     SkyMap *map = SkyMap::Instance();
+    const Projector *proj = map->projector();
 
     bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
@@ -129,6 +131,6 @@ void CometsComponent::draw( SkyPainter *skyp )
 
         bool drawn = skyp->drawPointSource(com,com->mag());
         if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
-            SkyLabeler::AddLabel( map->toScreen(com), com, SkyLabeler::COMET_LABEL );
+            SkyLabeler::AddLabel( proj->toScreen(com), com, SkyLabeler::COMET_LABEL );
     }
 }

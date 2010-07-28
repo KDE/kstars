@@ -23,6 +23,7 @@
 #include "skymap.h"
 #include "skylabeler.h"
 #include "linelist.h"
+#include "projections/projector.h"
 
 LineListLabel::LineListLabel( const QString& text )
         : m_text( text )
@@ -92,6 +93,7 @@ void LineListLabel::draw()
 {
 
     SkyMap *map = SkyMap::Instance();
+    const Projector *proj = SkyMap::Instance()->projector();
 
     double comfyAngle = 40.0;  // the first valid candidate with an angle
     // smaller than this gets displayed.  If you set
@@ -131,7 +133,7 @@ void LineListLabel::draw()
     // Try the points in order and print the label if we can draw it at
     // a comfortable angle for viewing;
     for ( int j = first; j < 4; j++ ) {
-        o[j] = angleAt( map, list[j], idx[j], &a[j] );
+        o[j] = angleAt( proj, list[j], idx[j], &a[j] );
 
         if ( ! idx[j] || ! map->checkVisibility( list[j]->at( idx[j] ) ) ) {
             okay[j] = false;
@@ -169,19 +171,20 @@ void LineListLabel::draw()
 }
 
 
-QPointF LineListLabel::angleAt( SkyMap* map, LineList* list, int i, double *angle )
+QPointF LineListLabel::angleAt( const Projector *proj, LineList* list, int i, double *angle )
 {
     SkyPoint* pThis = list->at( i );
     SkyPoint* pLast = list->at( i - 1 );
 
-    QPointF oThis = map->toScreen( pThis );
-    QPointF oLast = map->toScreen( pLast );
+    QPointF oThis = proj->toScreen( pThis );
+    QPointF oLast = proj->toScreen( pLast );
 
     double sx = double( oThis.x() - oLast.x() );
     double sy = double( oThis.y() - oLast.y() );
 
     *angle = atan2( sy, sx ) * 180.0 / dms::PI;
 
+    // FIXME: use clamp in KSUtils
     // Never draw the label upside down
     if ( *angle < -90.0 ) *angle += 180.0;
     if ( *angle >  90.0 ) *angle -= 180.0;

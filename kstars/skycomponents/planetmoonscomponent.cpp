@@ -33,6 +33,8 @@
 #include "skylabeler.h"
 #include "skypainter.h"
 
+#include "projections/projector.h"
+
 PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
                                             SolarSystemSingleComponent *planetComponent,
                                             KSPlanetBase::Planets _planet ) :
@@ -141,9 +143,9 @@ void PlanetMoonsComponent::draw( SkyPainter *skyp )
     //Draw Moon name labels if at high zoom
     if ( ! (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM) ) return;
     for ( int i=0; i<nmoons; ++i ) {
-        QPointF o = map->toScreen( pmoons->moon(i) );
+        QPointF o = proj->toScreen( pmoons->moon(i) );
 
-        if ( ! map->onScreen( o ) )
+        if ( ! proj->onScreen( o ) )
             continue;
         /*
         if (planet ==KSPlanetBase::SATURN)
