@@ -252,6 +252,7 @@ void ConjunctionsTool::slotCompute (void)
     }
     Object2 = KSPlanetBase::createPlanet( Obj2ComboBox->currentIndex() );
     if( FilterTypeComboBox->currentIndex() == 0 && Object1->name() == Object2->name() ) {
+        // FIXME: Must free the created Objects
     	KMessageBox::sorry( 0 , i18n("Please select two different objects to check conjunctions with.") );
     	return;
     }
