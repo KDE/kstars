@@ -275,7 +275,7 @@ void SkyQPainter::drawSkyPolygon(LineList* list)
 
 bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
 {
-    if( !m_sm->checkVisibility(planet) ) return false;
+    if( !m_proj->checkVisibility(planet) ) return false;
 
     QPointF pos = m_proj->toScreen(planet);
     if( !m_proj->onScreen(pos) ) return false;
@@ -330,7 +330,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
 bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 {
     //Check if it's even visible before doing anything
-    if( !m_sm->checkVisibility(loc) ) return false;
+    if( !m_proj->checkVisibility(loc) ) return false;
 
     QPointF pos = m_proj->toScreen(loc);
     if( m_proj->onScreen(pos) ) {
@@ -351,7 +351,7 @@ void SkyQPainter::drawPointSource(const QPointF& pos, float size, char sp)
 
 bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
-    if( !m_sm->checkVisibility(obj) ) return false;
+    if( !m_proj->checkVisibility(obj) ) return false;
 
     QPointF pos = m_proj->toScreen(obj);
 

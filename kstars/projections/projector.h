@@ -36,7 +36,9 @@ class ViewParams
 public:
     float width, height;
     float zoomFactor;
-    bool useRefraction, useAltAz;
+    bool useRefraction;
+    bool useAltAz;
+    bool fillGround; ///<If the ground is filled, then points below horizon are invisible
     SkyPoint *focus;
 };
 
@@ -56,6 +58,9 @@ public:
 
     /** Return the type of this projection */
     virtual SkyMap::Projection type() const = 0;
+
+    /** Return the FOV of this projection */
+    double fov() const;
 
     /**Check if the current point on screen is a valid point on the sky. This is needed
         *to avoid a crash of the program if the user clicks on a point outside the sky (the
@@ -108,11 +113,55 @@ public:
     /** Check whether the projected point is on-screen */
     bool onScreen( const QPointF& p ) const;
     bool onScreen( const Vector2f& p ) const;
+
+    /**@short Determine if the skypoint p is likely to be visible in the display
+     * window.
+     *
+     * checkVisibility() is an optimization function.  It determines whether an object
+     * appears within the bounds of the skymap window, and therefore should be drawn.
+     * The idea is to save time by skipping objects which are off-screen, so it is
+     * absolutely essential that checkVisibility() is significantly faster than
+     * the computations required to draw the object to the screen.
+     *
+     * The function first checks the difference between the Declination/Altitude
+     * coordinate of the Focus position, and that of the point p.  If the absolute
+     * value of this difference is larger than fov, then the function returns false.
+     * For most configurations of the sky map window, this simple check is enough to
+     * exclude a large number of objects.
+     *
+     * Next, it determines if one of the poles of the current Coordinate System
+     * (Equatorial or Horizontal) is currently inside the sky map window.  This is
+     * stored in the member variable 'bool SkyMap::isPoleVisible, and is set by the
+     * function SkyMap::setMapGeometry(), which is called by SkyMap::paintEvent().
+     * If a Pole is visible, then it will return true immediately.  The idea is that
+     * when a pole is on-screen it is computationally expensive to determine whether
+     * a particular position is on-screen or not: for many valid Dec/Alt values, *all*
+     * values of RA/Az will indeed be onscreen, but for other valid Dec/Alt values,
+     * only *most* RA/Az values are onscreen.  It is cheaper to simply accept all
+     * "horizontal" RA/Az values, since we have already determined that they are
+     * on-screen in the "vertical" Dec/Alt coordinate.
+     *
+     * Finally, if no Pole is onscreen, it checks the difference between the Focus
+     * position's RA/Az coordinate and that of the point p.  If the absolute value of
+     * this difference is larger than XMax, the function returns false.  Otherwise,
+     * it returns true.
+     *
+     * @param p pointer to the skypoint to be checked.
+     * @return true if the point p was found to be inside the Sky map window.
+     * @see SkyMap::setMapGeometry()
+     * @see SkyMap::fov()
+     */
+    bool checkVisibility( SkyPoint *p ) const;
     
 protected:
     KStarsData *m_data;
     ViewParams m_vp;
     double m_sinY0, m_cosY0;
+    double m_fov;
+private:
+    //Used by CheckVisibility
+    double m_xrange;
+    bool m_isPoleVisible;
 };
 
 #endif // PROJECTOR_H

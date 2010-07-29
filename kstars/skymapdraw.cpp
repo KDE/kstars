@@ -606,6 +606,7 @@ void SkyMap::setMapGeometry() {
     p.useAltAz      = Options::useAltAz();
     p.useRefraction = Options::useRefraction();
     p.zoomFactor    = Options::zoomFactor();
+    p.fillGround    = Options::showHorizon() && Options::showGround();
     //Check if we need a new projector
     if( m_proj && Options::projection() == m_proj->type() )
         m_proj->setViewParams(p);

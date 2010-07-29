@@ -135,7 +135,7 @@ void LineListLabel::draw()
     for ( int j = first; j < 4; j++ ) {
         o[j] = angleAt( proj, list[j], idx[j], &a[j] );
 
-        if ( ! idx[j] || ! map->checkVisibility( list[j]->at( idx[j] ) ) ) {
+        if ( ! idx[j] || ! proj->checkVisibility( list[j]->at( idx[j] ) ) ) {
             okay[j] = false;
             continue;
         }

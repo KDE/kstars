@@ -48,14 +48,34 @@ Projector::~Projector()
 void Projector::setViewParams(const ViewParams& p)
 {
     m_vp = p;
+
+    /** Precompute cached values */
+    //Find Sin/Cos for focus point
     m_sinY0 = 0;
     m_cosY0 = 0;
-    //Precompute Sin/Cos for focus point
     if( m_vp.useAltAz ) {
         m_vp.focus->alt().SinCos( m_sinY0, m_cosY0 );
     } else {
         m_vp.focus->dec().SinCos( m_sinY0, m_cosY0 );
     }
+    //Find FOV in radians
+    m_fov = sqrt( m_vp.width*m_vp.width + m_vp.height*m_vp.height )
+                    / ( 2 * m_vp.zoomFactor * dms::DegToRad );
+    //Set checkVisibility variables
+    double Ymax;
+    if ( m_vp.useAltAz ) {
+        m_xrange = 1.2*m_fov/cos( m_vp.focus->alt().radians() );
+        Ymax = fabs( m_vp.focus->alt().Degrees() ) + m_fov;
+    } else {
+        m_xrange = 1.2*m_fov/cos( m_vp.focus->dec().radians() );
+        Ymax = fabs( m_vp.focus->dec().Degrees() ) + m_fov;
+    }
+    m_isPoleVisible = (Ymax >= 90.0);
+}
+
+double Projector::fov() const
+{
+    return m_fov;
 }
 
 QPointF Projector::toScreen(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere) const
@@ -142,4 +162,40 @@ Vector2f Projector::clipLineVec( SkyPoint *p1, SkyPoint *p2 ) const
         oldy = newy;
     }
     return  oMid;
+}
+
+bool Projector::checkVisibility( SkyPoint *p ) const
+{
+    //TODO deal with alternate projections
+    //not clear how this depends on projection
+    //FIXME do these heuristics actually work?
+    
+    double dX, dY;
+
+    //Skip objects below the horizon if using Horizontal coords,
+    //and the ground is drawn
+    if( m_vp.useAltAz && m_vp.fillGround && p->alt().Degrees() < -1.0 )
+        return false;
+
+    if ( m_vp.useAltAz ) {
+        dY = fabs( p->altRefracted().Degrees() - m_vp.focus->alt().Degrees() );
+    } else {
+        dY = fabs( p->dec().Degrees() - m_vp.focus->dec().Degrees() );
+    }
+    if( m_isPoleVisible )
+        dY *= 0.75; //increase effective FOV when pole visible.
+    if( dY > m_fov )
+        return false;
+    if( m_isPoleVisible )
+        return true;
+
+    if ( m_vp.useAltAz ) {
+        dX = fabs( p->az().Degrees() - m_vp.focus->az().Degrees() );
+    } else {
+        dX = fabs( p->ra().Degrees() - m_vp.focus->ra().Degrees() );
+    }
+    if ( dX > 180.0 )
+        dX = 360.0 - dX; // take shorter distance around sky
+
+    return dX < m_xrange;
 }
