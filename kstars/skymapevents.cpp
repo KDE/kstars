@@ -681,8 +681,15 @@ void SkyMap::paintEvent( QPaintEvent *event )
     //without needing to recompute the entire skymap.
     //use update() to trigger this "short" paint event; to force a full "recompute"
     //of the skymap, use forceUpdate().
-    
 
+    if(m_framecount == 25) {
+        float sec = m_fpstime.elapsed()/1000.;
+        printf("FPS: %.2f\n", m_framecount/sec);
+        m_framecount = 0;
+        m_fpstime.restart();
+    }
+
+    ++m_framecount;
     if (!computeSkymap)
     {
         *sky2 = *sky;
@@ -693,29 +700,13 @@ void SkyMap::paintEvent( QPaintEvent *event )
         p.drawPixmap( 0, 0, *sky2 );
         p.end();
         return ; // exit because the pixmap is repainted and that's all what we want
-    } 
+    }
 
     // FIXME: used to to notify infobox about possible change of object coordinates
     // Not elegant at all. Should find better option
     showFocusCoords();
-
     setMapGeometry();
-
-    //FIXME: What to do about the visibility logic?
-    // 	//checkSlewing combines the slewing flag (which is true when the display is actually in motion),
-    // 	//the hideOnSlew option (which is true if slewing should hide objects),
-    // 	//and clockSlewing (which is true if the timescale exceeds Options::slewTimeScale)
-    // 	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
-    // 				&& Options::hideOnSlew() );
-    //
-    // 	//shortcuts to inform whether to draw different objects
-    // 	bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
-    // 	bool drawMW( Options::showMilkyWay() && !(checkSlewing && Options::hideMilkyWay() ) );
-    // 	bool drawCNames( Options::showCNames() && !(checkSlewing && Options::hideCNames() ) );
-    // 	bool drawCLines( Options::showCLines() &&!(checkSlewing && Options::hideCLines() ) );
-    // 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
-    // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
-
+    
     SkyQPainter psky(this, sky);
     //FIXME: we may want to move this into the components.
     psky.begin();
@@ -726,12 +717,8 @@ void SkyMap::paintEvent( QPaintEvent *event )
     //Finish up
     psky.end();
 
-
     *sky2 = *sky;
     drawOverlays( sky2 );
-    //TIMING
-    //	t2.start();
-
     
     QPainter psky2;
     psky2.begin( this );
@@ -739,64 +726,6 @@ void SkyMap::paintEvent( QPaintEvent *event )
     psky2.drawPixmap( 0, 0, *sky2 );
     psky2.end();
 
-    // DEBUG stuff known to "work for sure" -- copied from the Qt example
-    /*
-    kDebug() << "HERE!";
-
-    QLinearGradient gradient(QPointF(50, -20), QPointF(80, 20));
-    gradient.setColorAt(0.0, Qt::white);
-    gradient.setColorAt(1.0, QColor(0xa6, 0xce, 0x39));
-
-    QBrush background = QBrush(QColor(64, 32, 64));
-
-    QBrush circleBrush = QBrush(gradient);
-    QPen circlePen = QPen(Qt::black);
-    circlePen.setWidth(1);
-    QPen textPen = QPen(Qt::white);
-    QFont textFont;
-    textFont.setPixelSize(50);
-
-    QPainter *painter = new QPainter();
-
-    painter->begin(this);
-    painter->setRenderHint(QPainter::Antialiasing);
-
-    //    painter->fillRect(QRect(0,0,1,1), background);
-    painter->drawPixmap(0, 0, *sky2);
-
-    painter->translate(100, 100);
-//! [1]
-
-//! [2]
-    painter->save();
-    painter->setBrush(circleBrush);
-    painter->setPen(circlePen);
-    painter->rotate(100 * 0.030);
-
-    qreal r = 100/1000.0;
-    int n = 30;
-    for (int i = 0; i < n; ++i) {
-        painter->rotate(30);
-        qreal radius = 0 + 120.0*((i+r)/n);
-        qreal circleRadius = 1 + ((i+r)/n)*20;
-        painter->drawEllipse(QRectF(radius, -circleRadius,
-                                    circleRadius*2, circleRadius*2));
-    }
-    painter->restore();
-//! [2]
-
-//! [3]
-    painter->setPen(textPen);
-    painter->setFont(textFont);
-    painter->drawText(QRect(-50, -50, 100, 100), Qt::AlignCenter, "Qt");
-
-
-
-    painter->end();
-
-    delete painter;
-    kDebug() << "DONE!";
-    */
     computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }
 #endif
