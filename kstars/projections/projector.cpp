@@ -19,6 +19,8 @@
 
 #include "projector.h"
 
+#include <math.h>
+
 #include "ksutils.h"
 #include "kstarsdata.h"
 
@@ -199,3 +201,29 @@ bool Projector::checkVisibility( SkyPoint *p ) const
 
     return dX < m_xrange;
 }
+
+double Projector::findPA( SkyObject *o, float x, float y ) const
+{
+    //Find position angle of North using a test point displaced to the north
+    //displace by 100/zoomFactor radians (so distance is always 100 pixels)
+    //this is 5730/zoomFactor degrees
+    KStarsData *data = KStarsData::Instance();
+    double newDec = o->dec().Degrees() + 5730.0/m_vp.zoomFactor;
+    if ( newDec > 90.0 )
+        newDec = 90.0;
+    SkyPoint test( o->ra().Hours(), newDec );
+    if ( m_vp.useAltAz )
+        test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    Vector2f t = toScreenVec( &test );
+    float dx = t.x() - x;
+    float dy = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
+    float north;
+    if ( dy ) {
+        north = atan2f( dx, dy )*180.0/dms::PI;
+    } else {
+        north = (dx > 0.0 ? -90.0 : 90.0);
+    }
+
+    return ( north + o->pa() );
+}
+

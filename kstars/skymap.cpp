@@ -866,29 +866,6 @@ void SkyMap::slewFocus() {
     }
 }
 
-double SkyMap::findPA( SkyObject *o, float x, float y ) {
-    //Find position angle of North using a test point displaced to the north
-    //displace by 100/zoomFactor radians (so distance is always 100 pixels)
-    //this is 5730/zoomFactor degrees
-    double newDec = o->dec().Degrees() + 5730.0/Options::zoomFactor();
-    if ( newDec > 90.0 )
-        newDec = 90.0;
-    SkyPoint test( o->ra().Hours(), newDec );
-    if ( Options::useAltAz() )
-        test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    QPointF t = m_proj->toScreen( &test );
-    double dx = t.x() - x;
-    double dy = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
-    double north;
-    if ( dy ) {
-        north = atan2( dx, dy )*180.0/dms::PI;
-    } else {
-        north = (dx > 0.0 ? -90.0 : 90.0);
-    }
-
-    return ( north + o->pa() );
-}
-
 void SkyMap::slotZoomIn() {
     setZoomFactor( Options::zoomFactor() * DZOOM );
 }

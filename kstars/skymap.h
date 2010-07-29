@@ -416,15 +416,6 @@ public:
      */
     bool checkVisibility( SkyPoint *p );
 
-    /**Determine the on-screen position angle of a SkyObject.  This is the sum
-     * of the object's sky position angle (w.r.t. North), and the position angle
-     * of "North" at the position of the object (w.r.t. the screen Y-axis).  
-     * The latter is determined by constructing a test point with the same RA but 
-     * a slightly increased Dec as the object, and calculating the angle w.r.t. the 
-     * Y-axis of the line connecing the object to its test point. 
-     */
-    double findPA( SkyObject *o, float x, float y );
-
     /**@short Draw "user labels".  User labels are name labels attached to objects manually with
      * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
      * is true.

@@ -307,7 +307,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
         if ( size < sizemin )
             size = sizemin;
         if ( Options::showPlanetImages() && !planet->image()->isNull() ) {
-            dms pa( skyMap()->findPA( planet, pos.x(), pos.y() ) );
+            dms pa( m_proj->findPA( planet, pos.x(), pos.y() ) );
 
             //FIXME: Need to figure out why the size is sometimes NaN.
             Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");
@@ -355,7 +355,7 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
     QPointF pos = m_proj->toScreen(obj);
 
-    float positionAngle = m_sm->findPA( obj, pos.x(), pos.y() );
+    float positionAngle = m_proj->findPA( obj, pos.x(), pos.y() );
 
     //Draw Image
     if ( drawImage && Options::zoomFactor() > 5.*MINZOOM )

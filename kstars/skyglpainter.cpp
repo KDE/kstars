@@ -170,7 +170,7 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
         const int i = 6*m_idx[type];
         float width = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
-        float pa = m_sm->findPA(obj, vec[0], vec[1]) * (M_PI/180.0);
+        float pa = m_proj->findPA(obj, vec[0], vec[1]) * (M_PI/180.0);
         Rotation2Df r(pa);
         float w = width/2.;
         float h = w * obj->e();
