@@ -1145,6 +1145,36 @@ float SkyMap::fov() {
     return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
 }
 
+void SkyMap::setMapGeometry() {
+    //FIXME remove this section when checkVisibility is nuked
+    double Ymax;
+    if ( Options::useAltAz() ) {
+        XRange = 1.2*fov()/cos( focus()->alt().radians() );
+        Ymax = fabs( focus()->alt().Degrees() ) + fov();
+    } else {
+        XRange = 1.2*fov()/cos( focus()->dec().radians() );
+        Ymax = fabs( focus()->dec().Degrees() ) + fov();
+    }
+    isPoleVisible = Ymax >= 90.0;
+    //Update View Parameters for projection
+    ViewParams p;
+    p.focus         = focus();
+    p.height        = height();
+    p.width         = width();
+    p.useAltAz      = Options::useAltAz();
+    p.useRefraction = Options::useRefraction();
+    p.zoomFactor    = Options::zoomFactor();
+    p.fillGround    = Options::showHorizon() && Options::showGround();
+    //Check if we need a new projector
+    if( m_proj && Options::projection() == m_proj->type() )
+        m_proj->setViewParams(p);
+    else {
+        delete m_proj;
+        //TODO: implement other projection classes
+        m_proj = new LambertProjector(p);
+    }
+}
+
 bool SkyMap::checkVisibility( SkyPoint *p ) {
     //TODO deal with alternate projections
     double dX, dY;

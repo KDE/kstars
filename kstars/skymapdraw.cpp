@@ -52,85 +52,10 @@
 #include "indi/indidevice.h"
 #endif
 
-namespace {
-    void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
-        double sinRa, sinDec, cosRa, cosDec;
-
-        p->ra().SinCos(  sinRa,  cosRa );
-        p->dec().SinCos( sinDec, cosDec );
-        *x = cosDec * cosRa;
-        *y = cosDec * sinRa;
-        *z = sinDec;
-    }
-}
-
 QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
 {
     return m_proj->clipLine(p1,p2);
 }
-
-#if SMPROJ
-Vector2f SkyMap::clipLineVec( SkyPoint *p1, SkyPoint *p2 )
-{
-    /* ASSUMES p1 was not clipped but p2 was.
-     * Return the QPoint that barely clips in the line twixt p1 and p2.
-     */              
-    int iteration = 15;          // For "perfect" clipping:
-    // 2^interations should be >= max pixels/line
-    bool isVisible = true;       // so we start at midpoint
-    SkyPoint mid;
-    Vector2f oMid;
-    double x, y, z, dx, dy, dz, ra, dec;
-    int newx, newy, oldx, oldy;
-    oldx = oldy = -10000;        // any old value that is not the first omid
-
-    toXYZ( p1, &x, &y, &z );
-    // -jbb printf("\np1: %6.4f %6.4f %6.4f\n", x, y, z);
-
-    toXYZ( p2, &dx, &dy, &dz );
-
-    // -jbb printf("p2: %6.4f %6.4f %6.4f\n", dx, dy, dz);
-    dx -= x;
-    dy -= y;
-    dz -= z;
-    // Successive approximation to point on line that just clips.
-    while(iteration-- > 0) {
-        dx *= .5;
-        dy *= .5;
-        dz *= .5;
-        if ( ! isVisible ) {              // move back toward visible p1
-            x -= dx;
-            y -= dy;
-            z -= dz;
-        }
-        else {                        // move out toward clipped p2
-            x += dx;
-            y += dy;
-            z += dz;
-        }
-
-        // -jbb printf("  : %6.4f %6.4f %6.4f\n", x, y, z);
-        // [x, y, z] => [ra, dec]
-        ra = atan2( y, x );
-        dec = asin( z / sqrt(x*x + y*y + z*z) );
-
-        mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
-        mid.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-
-        oMid = toScreenVec( &mid, false, &isVisible );
-        newx = (int) oMid.x();
-        newy = (int) oMid.y();
-
-        // -jbb printf("new x/y: %4d %4d", newx, newy);
-        if ( (oldx == newx) && (oldy == newy) ) {
-            break;
-        }
-        oldx = newx;
-        oldy = newy;
-    }
-    return  oMid;
-}
-#endif
 
 void SkyMap::drawOverlays( QPixmap *pm ) {
     if( !KStars::Instance() )
@@ -588,31 +513,3 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     #endif
 }
 
-void SkyMap::setMapGeometry() {
-    double Ymax;
-    if ( Options::useAltAz() ) {
-        XRange = 1.2*fov()/cos( focus()->alt().radians() );
-        Ymax = fabs( focus()->alt().Degrees() ) + fov();
-    } else {
-        XRange = 1.2*fov()/cos( focus()->dec().radians() );
-        Ymax = fabs( focus()->dec().Degrees() ) + fov();
-    }
-    isPoleVisible = Ymax >= 90.0;
-    //Update View Parameters for projection
-    ViewParams p;
-    p.focus         = focus();
-    p.height        = height();
-    p.width         = width();
-    p.useAltAz      = Options::useAltAz();
-    p.useRefraction = Options::useRefraction();
-    p.zoomFactor    = Options::zoomFactor();
-    p.fillGround    = Options::showHorizon() && Options::showGround();
-    //Check if we need a new projector
-    if( m_proj && Options::projection() == m_proj->type() )
-        m_proj->setViewParams(p);
-    else {
-        delete m_proj;
-        //TODO: implement other projection classes
-        m_proj = new LambertProjector(p);
-    }
-}
