@@ -16,8 +16,8 @@
 
 #include <stdlib.h> //needed for abs() on some platforms
 
-#include <qfile.h>
-#include <qlayout.h>
+#include <tqfile.h>
+#include <tqlayout.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kglobal.h>
@@ -35,11 +35,11 @@
 
 #define AUMAX 48
 
-PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
+PlanetViewer::PlanetViewer(TQWidget *parent, const char *name)
  : KDialogBase( KDialogBase::Plain, i18n("Solar System Viewer"), Close, Close, parent, name ), PCat( ((KStars*)parent)->data() ), scale(1.0), isClockRunning(false), tmr(this)
 {
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
+	TQFrame *page = plainPage();
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, spacingHint() );
 	pw = new PlanetViewerUI( page );
 	pw->map->setLimits( -48.0, 48.0, -48.0, 48.0 );
 	pw->map->setXAxisLabel( i18n( "axis label for x-coordinate of solar system viewer.  AU means astronomical unit.", "X-position (AU)" ) );
@@ -53,7 +53,7 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	
 	vlay->addWidget( pw );
 	resize( 500, 500 );
-	pw->map->QWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
+	pw->map->TQWidget::setFocus(); //give keyboard focus to the plot widget for key and mouse events
 	
 	pName[0] = "Mercury"; pColor[0] = "SlateBlue1";
 	pName[1] = "Venus";   pColor[1] = "LightGreen";
@@ -86,13 +86,13 @@ PlanetViewer::PlanetViewer(QWidget *parent, const char *name)
 	UpdateInterval[7] = 75;
 	UpdateInterval[8] = 113;
 
-	QTimer::singleShot( 0, this, SLOT( initPlotObjects() ) );
+	TQTimer::singleShot( 0, this, TQT_SLOT( initPlotObjects() ) );
 
-	connect( &tmr, SIGNAL( timeout() ), SLOT( tick() ) );
-	connect( pw->timeStep, SIGNAL( scaleChanged(float) ), SLOT( setTimeScale(float) ) );
-	connect( pw->RunButton, SIGNAL( clicked() ), SLOT( slotRunClock() ) );
-	connect( pw->dateBox, SIGNAL( valueChanged( const ExtDate & ) ), SLOT( slotChangeDate( const ExtDate & ) ) );
-	connect( pw->TodayButton, SIGNAL( clicked() ), SLOT( slotToday() ) );
+	connect( &tmr, TQT_SIGNAL( timeout() ), TQT_SLOT( tick() ) );
+	connect( pw->timeStep, TQT_SIGNAL( scaleChanged(float) ), TQT_SLOT( setTimeScale(float) ) );
+	connect( pw->RunButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotRunClock() ) );
+	connect( pw->dateBox, TQT_SIGNAL( valueChanged( const ExtDate & ) ), TQT_SLOT( slotChangeDate( const ExtDate & ) ) );
+	connect( pw->TodayButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotToday() ) );
 }
 
 PlanetViewer::~PlanetViewer()
@@ -172,7 +172,7 @@ void PlanetViewer::slotToday() {
 	pw->dateBox->setDate( ks->data()->lt().date() );
 }
 
-void PlanetViewer::paintEvent( QPaintEvent* ) {
+void PlanetViewer::paintEvent( TQPaintEvent* ) {
 	pw->map->update();
 }
 
@@ -187,9 +187,9 @@ void PlanetViewer::initPlotObjects() {
 	for ( unsigned int i=0; i<9; ++i ) {
 		orbit[i] = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 		
-		QFile orbitFile;
+		TQFile orbitFile;
 		if ( KSUtils::openDataFile( orbitFile, pName[i].lower() + ".orbit" ) ) {
-			QTextStream orbitStream( &orbitFile );
+			TQTextStream orbitStream( &orbitFile );
 			double x, y, z;
 			while ( !orbitStream.eof() ) {
 				orbitStream >> x >> y >> z;
@@ -217,7 +217,7 @@ void PlanetViewer::initPlotObjects() {
 	update();
 }
 
-void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
+void PlanetViewer::keyPressEvent( TQKeyEvent *e ) {
 	switch ( e->key() ) {
 		case Key_Escape:
 			close();
@@ -228,25 +228,25 @@ void PlanetViewer::keyPressEvent( QKeyEvent *e ) {
 	}
 }
 
-PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, QWidget *par, const char *name ) :
+PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, TQWidget *par, const char *name ) :
 			KStarsPlotWidget( x1, x2, y1, y2, par, name ), 
 			mouseButtonDown(false), oldx(0), oldy(0) {
-	setFocusPolicy( QWidget::StrongFocus );
+	setFocusPolicy( TQWidget::StrongFocus );
 	setMouseTracking (true);
 	pv = (PlanetViewer*)topLevelWidget();
 }
 
-PVPlotWidget::PVPlotWidget( QWidget *parent, const char *name ) :
+PVPlotWidget::PVPlotWidget( TQWidget *parent, const char *name ) :
 			KStarsPlotWidget( 0.0, 1.0, 0.0, 1.0, parent, name ), 
 			mouseButtonDown(false), oldx(0), oldy(0) {
-	setFocusPolicy( QWidget::StrongFocus );
+	setFocusPolicy( TQWidget::StrongFocus );
 	setMouseTracking (true);
 	pv = (PlanetViewer*)topLevelWidget();
 }
 
 PVPlotWidget::~ PVPlotWidget() {}
  
-void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
+void PVPlotWidget::keyPressEvent( TQKeyEvent *e ) {
 	double xc = (x2() + x())*0.5;
 	double yc = (y2() + y())*0.5;
 	double xstep = 0.01*(x2() - x());
@@ -390,18 +390,18 @@ void PVPlotWidget::keyPressEvent( QKeyEvent *e ) {
 	}
 }
 
-void PVPlotWidget::mousePressEvent( QMouseEvent *e ) {
+void PVPlotWidget::mousePressEvent( TQMouseEvent *e ) {
 	mouseButtonDown = true;
 	oldx = e->x();
 	oldy = e->y();
 }
 
-void PVPlotWidget::mouseReleaseEvent( QMouseEvent * ) {
+void PVPlotWidget::mouseReleaseEvent( TQMouseEvent * ) {
 	mouseButtonDown = false;
 	update();
 }
 
-void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
+void PVPlotWidget::mouseMoveEvent( TQMouseEvent *e ) {
 	if ( mouseButtonDown ) {
 		//Determine how far we've moved
 		double xc = (x2() + x())*0.5;
@@ -424,7 +424,7 @@ void PVPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	}
 }
 
-void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
+void PVPlotWidget::mouseDoubleClickEvent( TQMouseEvent *e ) {
 	double xscale = dataWidth()/( width() - leftPadding() - rightPadding() );
 	double yscale = dataHeight()/( height() - topPadding() - bottomPadding() );
 	
@@ -449,7 +449,7 @@ void PVPlotWidget::mouseDoubleClickEvent( QMouseEvent *e ) {
 	}
 }
 
-void PVPlotWidget::wheelEvent( QWheelEvent *e ) {
+void PVPlotWidget::wheelEvent( TQWheelEvent *e ) {
 	if ( e->delta() > 0 ) slotZoomIn();
 	else slotZoomOut();
 }

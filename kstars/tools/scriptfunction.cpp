@@ -20,9 +20,9 @@
 #include "scriptfunction.h"
 
 
-ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
-		QString at1, QString an1, QString at2, QString an2, QString at3, QString an3,
-		QString at4, QString an4, QString at5, QString an5, QString at6, QString an6 ) : INDIProp("") {
+ScriptFunction::ScriptFunction( TQString name, TQString desc, bool clockfcn,
+		TQString at1, TQString an1, TQString at2, TQString an2, TQString at3, TQString an3,
+		TQString at4, TQString an4, TQString at5, TQString an5, TQString at6, TQString an6 ) : INDIProp("") {
 	Name = name;
 	ClockFunction = clockfcn;
 
@@ -34,9 +34,9 @@ ScriptFunction::ScriptFunction( QString name, QString desc, bool clockfcn,
 	ArgType[5] = at6;  ArgName[5] = an6;
 
 	//Construct a richtext description of the function
-	QString nameStyle  = "<span style=\"font-family:monospace;font-weight:600\">%1</span>";  //bold
-	QString typeStyle  = "<span style=\"font-family:monospace;color:#009d00\">%1</span>";    //green
-	QString paramStyle = "<span style=\"font-family:monospace;color:#00007f\">%1</span>";    //blue
+	TQString nameStyle  = "<span style=\"font-family:monospace;font-weight:600\">%1</span>";  //bold
+	TQString typeStyle  = "<span style=\"font-family:monospace;color:#009d00\">%1</span>";    //green
+	TQString paramStyle = "<span style=\"font-family:monospace;color:#00007f\">%1</span>";    //blue
 
 	Description =  "<html><head><meta name=\"qrichtext\" content=\"1\" /></head>";
 	Description += "<body style=\"font-size:11pt;font-family:sans\">";
@@ -160,8 +160,8 @@ ScriptFunction::~ScriptFunction()
 {
 }
 
-QString ScriptFunction::prototype() const {
-	QString p = Name + "(";
+TQString ScriptFunction::prototype() const {
+	TQString p = Name + "(";
 
 	bool args( false );
 	if ( ! ArgType[0].isEmpty() && ! ArgName[0].isEmpty() ) {
@@ -201,8 +201,8 @@ QString ScriptFunction::prototype() const {
 	return p;
 }
 
-QString ScriptFunction::scriptLine() const {
-	QString out( Name );
+TQString ScriptFunction::scriptLine() const {
+	TQString out( Name );
 	unsigned int i=0;
 	while ( ! ArgName[i].isEmpty() && i < 6 ) {
 		// Wrap arg in quotes if it contains a space

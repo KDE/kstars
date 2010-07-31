@@ -40,11 +40,11 @@ Q_OBJECT
 
 public:
 
-	modCalcSidTime(QWidget *p, const char *n);
+	modCalcSidTime(TQWidget *p, const char *n);
 	~modCalcSidTime();
 
-	QTime computeUTtoST (QTime u, ExtDate d, dms l);
-	QTime computeSTtoUT (QTime s, ExtDate d, dms l);
+	TQTime computeUTtoST (TQTime u, ExtDate d, dms l);
+	TQTime computeSTtoUT (TQTime s, ExtDate d, dms l);
 
 public slots:	
 	
@@ -62,12 +62,12 @@ public slots:
 	void slotInputFile();
 	void slotOutputFile();
 	void slotRunBatch();
-	void processLines( QTextStream &istream );
+	void processLines( TQTextStream &istream );
 
 private:
 
-	void showUT ( QTime ut );
-	void showST ( QTime st );
+	void showUT ( TQTime ut );
+	void showST ( TQTime st );
 
 	/* Fills the UT, Date boxes with the current time 
 	 * and date and the longitude box with the current Geo location 
@@ -77,8 +77,8 @@ private:
 	void sidNoCheck();
 	void utNoCheck();
 
-	QTime getUT (void);
-	QTime getST (void);
+	TQTime getUT (void);
+	TQTime getST (void);
 	ExtDate getDate (void);
 	dms getLongitude (void);
 	bool stInputTime;

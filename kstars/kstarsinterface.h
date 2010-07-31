@@ -52,7 +52,7 @@ class KStarsInterface : virtual public DCOPObject
 			*@li zenith, z
 			*
 			*/
-		virtual ASYNC lookTowards( const QString direction ) = 0;
+		virtual ASYNC lookTowards( const TQString direction ) = 0;
 		
 		/**Set the zoomFactor.  The zoomFactor is equal to the number of 
 			*pixels which subtend one radian of angle.
@@ -102,7 +102,7 @@ class KStarsInterface : virtual public DCOPObject
 		/**Pause execution of the script until a key is pressed
 			*@param k the key which will resume the script 
 			*/
-		virtual ASYNC waitForKey( const QString k ) = 0;
+		virtual ASYNC waitForKey( const TQString k ) = 0;
 		
 		/**Turn tracking mode on or off.  If tracking is on, then the coordinates at 
 			*the center of the screen remain fixed with time.  If tracking is off, then
@@ -122,25 +122,25 @@ class KStarsInterface : virtual public DCOPObject
 		/**@return the value of an option in the config file
 			*@param name the name of the option to be read
 			*/
-		virtual QString getOption( const QString &name ) = 0;
+		virtual TQString getOption( const TQString &name ) = 0;
 
 		/**Reset a View option.  There are dozens of view options which can be adjusted 
 			*with this function.  See the ScriptBuilder tool for a hierarchical list, or
 			*see the kstarsrc config file.  Different options require different data types
-			*for their argument.  The value parameter will be recast from a QString to the 
+			*for their argument.  The value parameter will be recast from a TQString to the 
 			*correct data type for the specified option.  If the value cannot be recast, 
 			*then the option will not be changed.
 			*@param option the name of the option to change
 			*@param value the new value for the option
 			*/
-		virtual ASYNC changeViewOption( const QString option, const QString value ) = 0;
+		virtual ASYNC changeViewOption( const TQString option, const TQString value ) = 0;
 		
 		/**Show a message in a popup window (NOT YET IMPLEMENTED)
 			*@param x the X-coordinate of the window
 			*@param y the Y-coordinate of the window
 			*@param message the text to be displayed
 			*/
-		virtual ASYNC popupMessage( int x, int y, const QString message ) = 0;
+		virtual ASYNC popupMessage( int x, int y, const TQString message ) = 0;
 		
 		/**Draw a line on the sky map (NOT YET IMPLEMENTED)
 			*@param x1 the x-coordinate of the starting point of the line
@@ -157,18 +157,18 @@ class KStarsInterface : virtual public DCOPObject
 			*@param province the name of the province or US state
 			*@param country the name of the country
 			*/
-		virtual ASYNC setGeoLocation( const QString city, const QString province, const QString country ) = 0;
+		virtual ASYNC setGeoLocation( const TQString city, const TQString province, const TQString country ) = 0;
 		
 		/**Adjust one of the color settings.
 			*@param colorName The name of the color to change (see one of the *.colors files, or colorscheme.cpp)
 			*@param value The new color setting
 			*/
-		virtual ASYNC setColor( const QString colorName, const QString value ) = 0;
+		virtual ASYNC setColor( const TQString colorName, const TQString value ) = 0;
 		
 		/**Load a color scheme
 			*@param name The name of the color scheme to be loaded
 			*/
-		virtual ASYNC loadColorScheme( const QString name ) = 0;
+		virtual ASYNC loadColorScheme( const TQString name ) = 0;
 		
 		/**Export an image of the current sky to a file on disk.
 			*@param filename The filename for the exported image (the image type 
@@ -177,7 +177,7 @@ class KStarsInterface : virtual public DCOPObject
 			*@param width the width of the image
 			*@param height the height of the image
 			*/
-		virtual ASYNC exportImage( const QString filename, int width, int height ) = 0;
+		virtual ASYNC exportImage( const TQString filename, int width, int height ) = 0;
 		
 		/**Print the current sky map.  Options to show the Print Dialog and to use Star Chart colors.
 			*/
@@ -189,38 +189,38 @@ class KStarsInterface : virtual public DCOPObject
 		 *@param deviceName The INDI device name
 		 *@param useLocal If true, starts the device in local mode. Otherwise, in server mode.
 		*/
-		virtual ASYNC startINDI (QString deviceName, bool useLocal) = 0;
+		virtual ASYNC startINDI (TQString deviceName, bool useLocal) = 0;
 		
 		/**Shotdown a device
 		 *@param deviceName The INDI device name
 		*/
-		virtual ASYNC shutdownINDI (QString deviceName) = 0;
+		virtual ASYNC shutdownINDI (TQString deviceName) = 0;
 		
 		/**Turn the INDI device on/off
 		 *@param deviceName The INDI device name
 		 *@param turnOn If true, the device is switched on, otherwise it is switches off.
 		*/
-		virtual ASYNC switchINDI(QString deviceName, bool turnOn) = 0;
+		virtual ASYNC switchINDI(TQString deviceName, bool turnOn) = 0;
 		
 		/**Set INDI connection port
 		 *@param deviceName The INDI device name
 		 *@param port The connection port (e.g. /dev/ttyS0)
 		*/
-		virtual ASYNC setINDIPort(QString deviceName, QString port) = 0;
+		virtual ASYNC setINDIPort(TQString deviceName, TQString port) = 0;
 		
 		/**Set INDI device action. This action is an element of a valid switch
 		 * property in the device.
 		 *@param deviceName The INDI device name
 		 *@param action The generic action to invoke
 		 */
-		virtual ASYNC setINDIAction(QString deviceName, QString action) = 0;
+		virtual ASYNC setINDIAction(TQString deviceName, TQString action) = 0;
 		
 		/** Wait for action to complete (state changed to OK or IDLE)
 		 *@param deviceName The INDI device name
 		 *@param action The action. The action can be any valid device property.
 		 *               script will pause until the property status becomes OK.
 		 */
-		virtual ASYNC waitForINDIAction(QString deviceName, QString action) = 0;
+		virtual ASYNC waitForINDIAction(TQString deviceName, TQString action) = 0;
 		
 		
 		// Telescope Functions
@@ -229,32 +229,32 @@ class KStarsInterface : virtual public DCOPObject
 		 *@param RA Target's right ascension in JNOW
 		 *@param DEC Target's declination in JNOW
 		 */
-		virtual ASYNC setINDITargetCoord(QString deviceName, double RA, double DEC) = 0;
+		virtual ASYNC setINDITargetCoord(TQString deviceName, double RA, double DEC) = 0;
 		
 		/**Set telescope target
 		 *@param deviceName The INDI device name
 		 *@param objectName Object's name as found in KStars
 		*/
-		virtual ASYNC setINDITargetName(QString deviceName, QString objectName) = 0;
+		virtual ASYNC setINDITargetName(TQString deviceName, TQString objectName) = 0;
 		
 		/**Set telescope action
 		 *@param deviceName The INDI device name
 		 *@param action The specfic action to perform. Either SLEW, TRACK, SYNC, PARK, or ABORT.
 		 */
-		virtual ASYNC setINDIScopeAction(QString deviceName, QString action) = 0;
+		virtual ASYNC setINDIScopeAction(TQString deviceName, TQString action) = 0;
 		
 		/** Set INDI geographical location
 		 *@param deviceName The INDI device name
 		 *@param longitude Longitude expressed in double. E of N
 		 *@param latitude Latitude expressed in double.
 		 */
-		virtual ASYNC setINDIGeoLocation(QString deviceName, double longitude, double latitude) = 0;
+		virtual ASYNC setINDIGeoLocation(TQString deviceName, double longitude, double latitude) = 0;
 		
 		/** Start INDI UTC date and time in ISO 8601 format
 		 *@param deviceName The INDI device name
 		 *@param UTCDateTime UTC date and time in ISO 8601 format.
 		 */
-		virtual ASYNC setINDIUTC(QString deviceName, QString UTCDateTime) = 0;
+		virtual ASYNC setINDIUTC(TQString deviceName, TQString UTCDateTime) = 0;
 		
 		
 		// Focus Functions
@@ -266,26 +266,26 @@ class KStarsInterface : virtual public DCOPObject
 		 *
 		 *@todo Be more explicit about allowed action strings.
 		*/
-		virtual ASYNC setINDIFocusSpeed(QString deviceName, unsigned int speed) = 0;
+		virtual ASYNC setINDIFocusSpeed(TQString deviceName, unsigned int speed) = 0;
 		
 		/** Set INDI focus timeout
 		 *@param deviceName The INDI device name
 		 *@param timeout Number of seconds to perform focusing.
 		*/
-		virtual ASYNC setINDIFocusTimeout(QString deviceName, int timeout) = 0;
+		virtual ASYNC setINDIFocusTimeout(TQString deviceName, int timeout) = 0;
 		
 		/** Start INDI focus operation in the selected direction
 		 *@param deviceName The INDI device name
 		 *@param focusDir Focus direction. If 0, focus in, if 1 focus out
 		 */
-		virtual ASYNC startINDIFocus(QString deviceName, int focusDir) = 0;
+		virtual ASYNC startINDIFocus(TQString deviceName, int focusDir) = 0;
 		
 		// Filter Functions
 		/** Sets the Filter position
 		 *@param deviceName The INDI device name
 		 *@param filter_num The filter position (0-20)
 		 */
-		virtual ASYNC setINDIFilterNum(QString deviceName, int filter_num) = 0;
+		virtual ASYNC setINDIFilterNum(TQString deviceName, int filter_num) = 0;
 
 		// Camera CCD Functions
 		
@@ -294,19 +294,19 @@ class KStarsInterface : virtual public DCOPObject
 		 *@param type The frame type can be either FRAME_LIGHT, FRAME_DARK,
 		 *             FRAME_BIAS, or FRAME_FLAT
 		 */
-		virtual ASYNC setINDIFrameType(QString deviceName, QString type) = 0;
+		virtual ASYNC setINDIFrameType(TQString deviceName, TQString type) = 0;
 		
 		/** Set CCD target temperature
 		 *@param deviceName The INDI device name
 		 *@param temp The target CCD temperature.
 		 */
-		virtual ASYNC setINDICCDTemp(QString deviceName, int temp) = 0;
+		virtual ASYNC setINDICCDTemp(TQString deviceName, int temp) = 0;
 		
 		/** Start camera exposure
 		 *@param deviceName The INDI device name
 		 *@param timeout Number of seconds to perform exposure.
 		*/
-		virtual ASYNC startINDIExposure(QString deviceName, int timeout) = 0;
+		virtual ASYNC startINDIExposure(TQString deviceName, int timeout) = 0;
 		
 };
 

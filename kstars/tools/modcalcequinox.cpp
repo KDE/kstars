@@ -25,15 +25,15 @@
 #include "kssun.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <qcombobox.h>
-#include <qstring.h>
-#include <qtextstream.h>
+#include <tqcombobox.h>
+#include <tqstring.h>
+#include <tqtextstream.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
+#include <tqcheckbox.h>
+#include <tqradiobutton.h>
 
-modCalcEquinox::modCalcEquinox(QWidget *parentSplit, const char *name) 
+modCalcEquinox::modCalcEquinox(TQWidget *parentSplit, const char *name) 
 		: modCalcEquinoxDlg (parentSplit,name) {
 	showCurrentYear();
 	show();
@@ -42,7 +42,7 @@ modCalcEquinox::modCalcEquinox(QWidget *parentSplit, const char *name)
 modCalcEquinox::~modCalcEquinox(){
 }
 
-int modCalcEquinox::getYear (QString eName)
+int modCalcEquinox::getYear (TQString eName)
 {
 	bool ok = FALSE;
 	int equinoxYear = eName.toInt(&ok);
@@ -57,7 +57,7 @@ int modCalcEquinox::getYear (QString eName)
 void modCalcEquinox::showCurrentYear (void)
 {
 	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
-	yearEdit->setText( QString( "%1").arg( dt.date().year() ) );
+	yearEdit->setText( TQString( "%1").arg( dt.date().year() ) );
 }
 
 void modCalcEquinox::slotComputeEquinoxesAndSolstices (void)
@@ -104,7 +104,7 @@ void modCalcEquinox::showStartDateTime(long double jd)
 
 void modCalcEquinox::showSeasonDuration(float deltaJd)
 {
-	seasonDuration->setText( QString( "%1").arg( deltaJd ) );
+	seasonDuration->setText( TQString( "%1").arg( deltaJd ) );
 }
 
 void modCalcEquinox::slotYearCheckedBatch(){
@@ -116,41 +116,41 @@ void modCalcEquinox::slotYearCheckedBatch(){
 }
 
 void modCalcEquinox::slotInputFile() {
-	QString inputFileName;
+	TQString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcEquinox::slotOutputFile() {
-	QString outputFileName;
+	TQString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 }
 
 void modCalcEquinox::slotRunBatch() {
 
-	QString inputFileName;
+	TQString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
 
 	// We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
+	if ( TQFile::exists(inputFileName) ) {
+		TQFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			TQString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;
 		}
 
 //		processLines(&f);
-		QTextStream istream(&f);
+		TQTextStream istream(&f);
 		processLines(istream);
 //		readFile( istream );
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		TQString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
 		InputLineEditBatch->setText( inputFileName );
@@ -158,19 +158,19 @@ void modCalcEquinox::slotRunBatch() {
 	}
 }
 
-void modCalcEquinox::processLines( QTextStream &istream ) {
+void modCalcEquinox::processLines( TQTextStream &istream ) {
 
 	// we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
+//	TQTextStream istream(&fIn);
+	TQString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
+	TQFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
-	QTextStream ostream(&fOut);
+	TQTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
+	TQString line;
+	TQString space = " ";
 	int yearB;
 	int i = 0;
 	long double jdsp = 0., jdsu = 0., jdau = 0., jdwin = 0., jdsp1 = 0.;
@@ -183,7 +183,7 @@ void modCalcEquinox::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		TQStringList fields = TQStringList::split( " ", line );
 
 		i = 0;
 

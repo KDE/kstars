@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
+#include <tqfile.h>
 #include <kconfig.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -25,11 +25,11 @@
 #include "ksutils.h"
 #include "colorscheme.h"
 
-typedef QStringList::const_iterator SL_it;
+typedef TQStringList::const_iterator SL_it;
 
 ColorScheme::ColorScheme() : FileName() {
 	//Each color has two names associated with it.  The KeyName is its
-	//identification in the QMap, the *.colors file, and the config file.
+	//identification in the TQMap, the *.colors file, and the config file.
 	//The Name is what appears in the ViewOpsDialog ListBox.
 	//In addition, we define default RGB strings for each item.
 	//To add another color to the Palette, just add an entry for KeyName,
@@ -141,8 +141,8 @@ void ColorScheme::copy( const ColorScheme &cs ) {
 	FileName = cs.FileName;
 }
 
-QString ColorScheme::colorNamed( const QString &name ) const {
-	//QString color( Palette[ name ] );
+TQString ColorScheme::colorNamed( const TQString &name ) const {
+	//TQString color( Palette[ name ] );
 	if ( ! hasColorNamed( name ) ) {
 		kdWarning() << i18n( "No color named \"%1\" found in color scheme." ).arg( name ) << endl;
 		//color = "#FFFFFF"; //set to white if no color found
@@ -152,39 +152,39 @@ QString ColorScheme::colorNamed( const QString &name ) const {
 	return Palette[ name ];
 }
 
-QString ColorScheme::colorAt( int i ) const {
+TQString ColorScheme::colorAt( int i ) const {
 	SL_it it = KeyName.at(i);
-	return Palette[ QString(*it) ];
+	return Palette[ TQString(*it) ];
 }
 
-QString ColorScheme::nameAt( int i ) const {
+TQString ColorScheme::nameAt( int i ) const {
 	SL_it it = Name.at(i);
-	return QString(*it);
+	return TQString(*it);
 }
 
-QString ColorScheme::keyAt( int i ) const {
+TQString ColorScheme::keyAt( int i ) const {
 	SL_it it = KeyName.at(i);
-	return QString(*it);
+	return TQString(*it);
 }
 
-QString ColorScheme::nameFromKey( const QString &key ) const {
+TQString ColorScheme::nameFromKey( const TQString &key ) const {
 	return nameAt( KeyName.findIndex( key ) );
 }
 
-void ColorScheme::setColor( const QString &key, const QString &color ) {
+void ColorScheme::setColor( const TQString &key, const TQString &color ) {
 	//We can blindly insert() the new value; if the key exists, the old value is replaced
 	Palette.insert( key, color );
 }
 
-bool ColorScheme::load( const QString &filename ) {
-	QFile file;
+bool ColorScheme::load( const TQString &filename ) {
+	TQFile file;
 	int inew(0),iold(0);
 
 	if ( !KSUtils::openDataFile( file, filename ) ) 
 		return false;
 
-	QTextStream stream( &file );
-	QString line;
+	TQTextStream stream( &file );
+	TQString line;
 
 	//first line is the star-color mode and star color intensity
   line = stream.readLine();
@@ -206,13 +206,13 @@ bool ColorScheme::load( const QString &filename ) {
 			if ( iold ) return false; //we read at least one line without a colon...file is corrupted.
 
 //If this line has a valid Key, set the color.
-			QString tkey = line.mid( line.find(':')+1 ).stripWhiteSpace();
-			QString tname = line.left( line.find(':')-1 );
+			TQString tkey = line.mid( line.find(':')+1 ).stripWhiteSpace();
+			TQString tname = line.left( line.find(':')-1 );
 
 			if ( KeyName.contains( tkey ) ) {
 				setColor( tkey, tname );
 			} else { //attempt to translate from old color ID
-				QString k( line.mid( 5 ).stripWhiteSpace() + "Color" );
+				TQString k( line.mid( 5 ).stripWhiteSpace() + "Color" );
 				if ( KeyName.contains( k ) ) {
 					setColor( k, tname );
 				} else {
@@ -229,10 +229,10 @@ bool ColorScheme::load( const QString &filename ) {
 			//Assuming the old *.colors format.  Loop through the KeyName list,
 			//and assign each color.  Note that order matters here, but only here
 			//(so if you don't use the old format, then order doesn't ever matter)
-			QStringList::Iterator it = KeyName.begin();
-			QStringList::Iterator it_end = KeyName.end();
+			TQStringList::Iterator it = KeyName.begin();
+			TQStringList::Iterator it_end = KeyName.end();
 			for ( ; it != it_end; ++it )
-				setColor( QString(*it), line.left( 7 ) );
+				setColor( TQString(*it), line.left( 7 ) );
 		}
 	}
 
@@ -240,12 +240,12 @@ bool ColorScheme::load( const QString &filename ) {
 	return true;
 }
 
-bool ColorScheme::save( const QString &name ) {
-	QFile file;
+bool ColorScheme::save( const TQString &name ) {
+	TQFile file;
 
 	//Construct a file name from the scheme name.  Make lowercase, replace spaces with "-",
 	//and append ".colors".
-	QString filename = name.lower().stripWhiteSpace();
+	TQString filename = name.lower().stripWhiteSpace();
 	if ( !filename.isEmpty() ) {
 		for( unsigned int i=0; i<filename.length(); ++i)
 			if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
@@ -254,15 +254,15 @@ bool ColorScheme::save( const QString &name ) {
 		file.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 
 		if ( file.exists() || !file.open( IO_ReadWrite | IO_Append ) ) {
-			QString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
+			TQString message = i18n( "Local color scheme file could not be opened.\nScheme cannot be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return false;
 		} else {
-			QTextStream stream( &file );
+			TQTextStream stream( &file );
 			stream << StarColorMode << ":" << StarColorIntensity << endl;
 
-			QStringList::Iterator it = KeyName.begin();
-			QStringList::Iterator it_end = KeyName.end();
+			TQStringList::Iterator it = KeyName.begin();
+			TQStringList::Iterator it_end = KeyName.end();
 			for ( ; it != it_end; ++it )
 				stream << Palette[ (*it) ] << " :" << (*it) << endl;
 
@@ -272,16 +272,16 @@ bool ColorScheme::save( const QString &name ) {
 		file.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-			QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
+			TQString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return false;
 		} else {
-			QTextStream stream( &file );
+			TQTextStream stream( &file );
 			stream << name << ":" << filename << endl;
 			file.close();
 		}
 	} else {
-		QString message = i18n( "Invalid filename requested.\nScheme cannot be recorded." );
+		TQString message = i18n( "Invalid filename requested.\nScheme cannot be recorded." );
 		KMessageBox::sorry( 0, message, i18n( "Invalid Filename" ) );
 		return false;
 	}
@@ -291,20 +291,20 @@ bool ColorScheme::save( const QString &name ) {
 }
 
 void ColorScheme::loadFromConfig( KConfig *conf ) {
-	QStringList::Iterator it = KeyName.begin();
-	QStringList::Iterator it_end = KeyName.end();
+	TQStringList::Iterator it = KeyName.begin();
+	TQStringList::Iterator it_end = KeyName.end();
 	for ( ; it != it_end; ++it )
-		setColor( QString(*it), conf->readEntry( QString(*it), QString( *Default.at( KeyName.findIndex(*it) ) ) ) );
+		setColor( TQString(*it), conf->readEntry( TQString(*it), TQString( *Default.at( KeyName.findIndex(*it) ) ) ) );
 
 	setStarColorMode( conf->readNumEntry( "StarColorMode", 0 ) );
 	setStarColorIntensity( conf->readNumEntry( "StarColorIntensity", 5 ) );
 }
 
 void ColorScheme::saveToConfig( KConfig *conf ) {
-	QStringList::Iterator it = KeyName.begin();
-	QStringList::Iterator it_end = KeyName.end();
+	TQStringList::Iterator it = KeyName.begin();
+	TQStringList::Iterator it_end = KeyName.end();
 	for ( ; it != it_end; ++it )
-		conf->writeEntry( QString(*it), colorNamed( QString(*it) ) );
+		conf->writeEntry( TQString(*it), colorNamed( TQString(*it) ) );
 
 	conf->writeEntry( "StarColorMode", starColorMode() );
 	conf->writeEntry( "StarColorIntensity", starColorIntensity() );

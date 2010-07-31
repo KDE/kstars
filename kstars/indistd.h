@@ -12,7 +12,7 @@
  #ifndef INDISTD_H
  #define INDISTD_H
  
- #include <qobject.h>
+ #include <tqobject.h>
  #include <indi/lilxml.h>
  #include <kfileitem.h>
  
@@ -43,7 +43,7 @@
    StreamWG             *streamWindow;
    CCDPreviewWG    *CCDPreviewWindow;
    SkyObject   		*currentObject;
-   QTimer      		*devTimer;	
+   TQTimer      		*devTimer;	
    KProgressDialog      *downloadDialog;
    
     
@@ -52,7 +52,7 @@
    void setTextValue(INDI_P *pp);
    void setLabelState(INDI_P *pp);
    void registerProperty(INDI_P *pp);
-   void handleBLOB(unsigned char *buffer, int bufferSize, QString dataFormat);
+   void handleBLOB(unsigned char *buffer, int bufferSize, TQString dataFormat);
     
    /* Device options */
    void initDeviceOptions();
@@ -66,7 +66,7 @@
     /* INDI STD: Updates device location */
    void updateLocation();
    /* Update image prefix */
-   void updateSequencePrefix(QString newPrefix);
+   void updateSequencePrefix(TQString newPrefix);
    
    int                  dataType;
    int 			initDevCounter;
@@ -89,7 +89,7 @@
    signals:
    void linkRejected();
    void linkAccepted();
-   void FITSReceived(QString deviceLabel);
+   void FITSReceived(TQString deviceLabel);
  
  };
  

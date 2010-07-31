@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
-#include <qptrvector.h>
-#include <qdict.h>
+#include <tqstring.h>
+#include <tqptrvector.h>
+#include <tqdict.h>
 
 #include "ksplanetbase.h"
 #include "dms.h"
@@ -52,7 +52,7 @@ public:
 	*
 	*@todo figure out what @p kd does.
 	*/
-	KSPlanet( KStarsData *kd, QString s="unnamed", QString image_file="", double pSize=0 );
+	KSPlanet( KStarsData *kd, TQString s="unnamed", TQString image_file="", double pSize=0 );
 
 /**Destructor (empty)
 	*/
@@ -101,9 +101,9 @@ protected:
 			double A, B, C;
 	};
 
-	typedef QPtrVector<OrbitData> OBArray[6];
+	typedef TQPtrVector<OrbitData> OBArray[6];
 
-/**OrbitDataColl contains three groups of six QPtrVectors.  Each QPtrVector is a
+/**OrbitDataColl contains three groups of six QPtrVectors.  Each TQPtrVector is a
 	*list of OrbitData objects, representing a single sum used in computing
 	*the planet's position.  A set of six of these vectors comprises the large
 	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.
@@ -139,7 +139,7 @@ protected:
 				*@p n the name of the planet whose data is to be loaded from disk.
 				*@return pointer to the OrbitDataColl containing the planet's orbital data.
 				*/
-			OrbitDataColl *loadData(QString n);
+			OrbitDataColl *loadData(TQString n);
 
 		private:
 			/**Read a single orbital data file from disk into an OrbitData vector.
@@ -148,9 +148,9 @@ protected:
 			*@p fname the filename to be read.
 			*@p vector pointer to the OrbitData vector to be filled with these data.
 			*/
-			bool readOrbitData(QString fname, QPtrVector<KSPlanet::OrbitData> *vector);
+			bool readOrbitData(TQString fname, TQPtrVector<KSPlanet::OrbitData> *vector);
 			
-			QDict<OrbitDataColl> dict;
+			TQDict<OrbitDataColl> dict;
 	};
 
 	static OrbitDataManager odm;

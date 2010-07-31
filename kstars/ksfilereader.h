@@ -18,11 +18,11 @@
 #ifndef KSFILEREADER_H
 #define KSFILEREADER_H
 
-#include <qobject.h>
-#include <qstringlist.h>
+#include <tqobject.h>
+#include <tqstringlist.h>
 
 /**@class KSFileReader
-	*This class will read an entire file into a QStringList, where each item
+	*This class will read an entire file into a TQStringList, where each item
 	*in the list is a line in the file.  It can then access each line in the 
 	*list very quickly.
 	*@author Heiko Evermann
@@ -32,13 +32,13 @@
 class QFile;
 class QString;
 
-class KSFileReader : public QObject  {
+class KSFileReader : public TQObject  {
 	Q_OBJECT
 public:
-	/**Constructor.  Read an entire file into a QStringList object.
+	/**Constructor.  Read an entire file into a TQStringList object.
 		*@p file the file to be read
 		*/
-	KSFileReader( QFile& file);
+	KSFileReader( TQFile& file);
 	
 	/**Destructor*/
 	~KSFileReader();
@@ -48,9 +48,9 @@ public:
 	bool hasMoreLines();
 	
 	/**Read a line from the file, and increment the "current line" counter.
-		*@return the line that we read, as a QString.
+		*@return the line that we read, as a TQString.
 		*/
-	QString& readLine();
+	TQString& readLine();
 
 	/**Go to a specific line in the file.
 		*@p i the line number to skip to.
@@ -59,7 +59,7 @@ public:
 
 private:
 	/** After loading the whole file, we split it into lines and keep them here. */
-	QStringList lines;
+	TQStringList lines;
 	/** How many lines do we have in the file? */
 	int numLines;
 	/** Which line are we at? */

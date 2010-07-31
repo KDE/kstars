@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include <qfile.h>
+#include <tqfile.h>
 
 #include "ksnumbers.h"
 #include "ksutils.h"
@@ -36,22 +36,22 @@ KSMoon::~KSMoon() {
 }
 
 bool KSMoon::data_loaded = false;
-QPtrList<KSMoon::MoonLRData> KSMoon::LRData;
-QPtrList<KSMoon::MoonBData> KSMoon::BData;
+TQPtrList<KSMoon::MoonLRData> KSMoon::LRData;
+TQPtrList<KSMoon::MoonBData> KSMoon::BData;
 
 bool KSMoon::loadData() {
 	if (data_loaded) return true;
 
-	QString line;
-	QFile f;
+	TQString line;
+	TQFile f;
 	int nd, nm, nm1, nf;
 	double Li, Ri, Bi; //coefficients of the sums
 
 	if ( KSUtils::openDataFile( f, "moonLR.dat" ) ) {
-		QTextStream stream( &f );
+		TQTextStream stream( &f );
 		while ( !stream.eof() ) {
 			line = stream.readLine();
-			QTextIStream instream( &line );
+			TQTextIStream instream( &line );
 			instream >> nd >> nm >> nm1 >> nf >> Li >> Ri;
 			LRData.append(new MoonLRData(nd, nm, nm1, nf, Li, Ri));
 		}
@@ -61,10 +61,10 @@ bool KSMoon::loadData() {
 
 
 	if ( KSUtils::openDataFile( f, "moonB.dat" ) ) {
-		QTextStream stream( &f );
+		TQTextStream stream( &f );
 		while ( !stream.eof() ) {
 			line = stream.readLine();
-			QTextIStream instream( &line );
+			TQTextIStream instream( &line );
 			instream >> nd >> nm >> nm1 >> nf >> Bi;
 			BData.append(new MoonBData(nd, nm, nm1, nf, Bi));
 		}
@@ -78,8 +78,8 @@ bool KSMoon::loadData() {
 bool KSMoon::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase* ) {
 	//Algorithms in this subroutine are taken from Chapter 45 of "Astronomical Algorithms"
   //by Jean Meeus (1991, Willmann-Bell, Inc. ISBN 0-943396-35-2.  http://www.willbell.com/math/mc1.htm)
-	QString fname, snum, line;
-	QFile f;
+	TQString fname, snum, line;
+	TQFile f;
 	double DegtoRad;
 	double T, L, D, M, M1, F, E, A1, A2, A3;
 	double sumL, sumR, sumB;
@@ -182,11 +182,11 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 	Phase.setD( Phase.reduce().Degrees() );
 	int iPhase = int( 0.1*Phase.Degrees()+0.5 );
 	if (iPhase==36) iPhase = 0;
-	QString sPhase;
+	TQString sPhase;
 	sPhase = sPhase.sprintf( "%02d", iPhase );
-	QString imName = "moon" + sPhase + ".png";
+	TQString imName = "moon" + sPhase + ".png";
 
-	QFile imFile;
+	TQFile imFile;
 	if ( KSUtils::openDataFile( imFile, imName ) ) {
 		imFile.close();
 		image0()->load( imFile.name() );
@@ -195,7 +195,7 @@ void KSMoon::findPhase( const KSSun *Sun ) {
 	}
 }
 
-QString KSMoon::phaseName() const {
+TQString KSMoon::phaseName() const {
 	double f = illum();
 	double p = phase().Degrees();
 	

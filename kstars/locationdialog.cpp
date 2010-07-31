@@ -22,13 +22,13 @@
 #include <kstandarddirs.h>
 #include <klineedit.h>
 
-#include <qlayout.h>
-#include <qpushbutton.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
-#include <qlistbox.h>
-#include <qcombobox.h>
-#include <qfile.h>
+#include <tqlayout.h>
+#include <tqpushbutton.h>
+#include <tqgroupbox.h>
+#include <tqlabel.h>
+#include <tqlistbox.h>
+#include <tqcombobox.h>
+#include <tqfile.h>
 
 #include "locationdialog.h"
 #include "kstars.h"
@@ -36,64 +36,64 @@
 #include "mapcanvas.h"
 #include "dmsbox.h"
 
-LocationDialog::LocationDialog( QWidget* parent )
+LocationDialog::LocationDialog( TQWidget* parent )
     : KDialogBase( KDialogBase::Plain, i18n( "Set Geographic Location" ), Ok|Cancel, Ok, parent ) {
 
 	KStars *p = (KStars *)parent;
 
-	QFrame *page = plainPage();
-	CityBox = new QGroupBox( page, "CityBox" );
-	CoordBox = new QGroupBox( page, "CoordBox" );
+	TQFrame *page = plainPage();
+	CityBox = new TQGroupBox( page, "CityBox" );
+	CoordBox = new TQGroupBox( page, "CoordBox" );
 	CityBox->setTitle( i18n( "Choose City" ) );
 	CoordBox->setTitle( i18n( "Choose/Modify Coordinates" ) );
 
 //Create Layout managers
-	RootLay = new QVBoxLayout( page, 4, 4 ); //root mgr for dialog
-	CityLay = new QVBoxLayout( CityBox, 6, 4 ); //root mgr for CityBox
+	RootLay = new TQVBoxLayout( page, 4, 4 ); //root mgr for dialog
+	CityLay = new TQVBoxLayout( CityBox, 6, 4 ); //root mgr for CityBox
 	CityLay->setSpacing( 6 );
 	CityLay->setMargin( 6 );
-	hlay = new QHBoxLayout( 2 ); //this layout will be added to CityLay
-	vlay = new QVBoxLayout( 2 ); //this layout will be added to hlay
-	glay = new QGridLayout( 3, 2, 6 ); //this layout will be added to vlay
+	hlay = new TQHBoxLayout( 2 ); //this layout will be added to CityLay
+	vlay = new TQVBoxLayout( 2 ); //this layout will be added to hlay
+	glay = new TQGridLayout( 3, 2, 6 ); //this layout will be added to vlay
 
-	CoordLay = new QVBoxLayout( CoordBox, 6, 4 ); //root mgr for coordbox
+	CoordLay = new TQVBoxLayout( CoordBox, 6, 4 ); //root mgr for coordbox
 	CoordLay->setSpacing( 6 );
 	CoordLay->setMargin( 6 );
-	glay2 = new QGridLayout( 3, 4, 4 ); //this layout will be added to CoordLay
-	hlayCoord   = new QHBoxLayout( 2 ); //this layout will be added to glay2
-	hlayTZ      = new QHBoxLayout( 2 ); //this layout will be added to glay2
-	hlayButtons = new QHBoxLayout( 2 ); //this layout will be added to glay2
-	hlay3       = new QHBoxLayout( 2 ); //this layout will be added to CoordLay
+	glay2 = new TQGridLayout( 3, 4, 4 ); //this layout will be added to CoordLay
+	hlayCoord   = new TQHBoxLayout( 2 ); //this layout will be added to glay2
+	hlayTZ      = new TQHBoxLayout( 2 ); //this layout will be added to glay2
+	hlayButtons = new TQHBoxLayout( 2 ); //this layout will be added to glay2
+	hlay3       = new TQHBoxLayout( 2 ); //this layout will be added to CoordLay
 
 //Create widgets
-  CityFiltLabel = new QLabel( CityBox );
+  CityFiltLabel = new TQLabel( CityBox );
   CityFiltLabel->setText( i18n( "City filter:"  ) );
-  ProvinceFiltLabel = new QLabel( CityBox );
+  ProvinceFiltLabel = new TQLabel( CityBox );
   ProvinceFiltLabel->setText( i18n( "Province filter:"  ) );
-  CountryFiltLabel = new QLabel( CityBox );
+  CountryFiltLabel = new TQLabel( CityBox );
   CountryFiltLabel->setText( i18n( "Country filter:"  ) );
 
-  CountLabel = new QLabel( CityBox );
+  CountLabel = new TQLabel( CityBox );
 
   CityFilter = new KLineEdit( CityBox );
   CityFilter->setFocus();  // set focus to city inputline
   ProvinceFilter = new KLineEdit( CityBox );
   CountryFilter = new KLineEdit( CityBox );
 
-  GeoBox = new QListBox( CityBox );
-  GeoBox->setVScrollBarMode( QListBox::AlwaysOn );
-  GeoBox->setHScrollBarMode( QListBox::AlwaysOff );
+  GeoBox = new TQListBox( CityBox );
+  GeoBox->setVScrollBarMode( TQListBox::AlwaysOn );
+  GeoBox->setHScrollBarMode( TQListBox::AlwaysOff );
 
 	MapView = new MapCanvas( CityBox );
 	MapView->setFixedSize( 360, 180 ); //each pixel 1 deg x 2 deg
 
-	NewCityLabel = new QLabel( i18n( "City:" ), CoordBox );
-	NewProvinceLabel = new QLabel( i18n( "State/Province:" ), CoordBox );
-	NewCountryLabel = new QLabel( i18n( "Country:" ), CoordBox );
-	LongLabel = new QLabel( i18n( "Longitude:" ), CoordBox );
-	LatLabel = new QLabel( i18n( "Latitude:" ), CoordBox );
-	TZLabel = new QLabel( i18n( "timezone offset from universal time", "UT offset:" ), CoordBox );
-	TZRuleLabel = new QLabel( i18n( "daylight savings time rule", "DST rule:" ), CoordBox );
+	NewCityLabel = new TQLabel( i18n( "City:" ), CoordBox );
+	NewProvinceLabel = new TQLabel( i18n( "State/Province:" ), CoordBox );
+	NewCountryLabel = new TQLabel( i18n( "Country:" ), CoordBox );
+	LongLabel = new TQLabel( i18n( "Longitude:" ), CoordBox );
+	LatLabel = new TQLabel( i18n( "Latitude:" ), CoordBox );
+	TZLabel = new TQLabel( i18n( "timezone offset from universal time", "UT offset:" ), CoordBox );
+	TZRuleLabel = new TQLabel( i18n( "daylight savings time rule", "DST rule:" ), CoordBox );
 
 	NewCityName = new KLineEdit( CoordBox );
 	NewProvinceName = new KLineEdit( CoordBox );
@@ -101,8 +101,8 @@ LocationDialog::LocationDialog( QWidget* parent )
 	NewLong = new dmsBox( CoordBox );
 	NewLat = new dmsBox( CoordBox );
 
-	TZBox = new QComboBox( CoordBox );
-	TZRuleBox = new QComboBox( CoordBox );
+	TZBox = new TQComboBox( CoordBox );
+	TZRuleBox = new TQComboBox( CoordBox );
 	TZBox->setMinimumWidth( 16 );
 	TZRuleBox->setMinimumWidth( 16 );
 	TZBox->setEditable( true );
@@ -111,16 +111,16 @@ LocationDialog::LocationDialog( QWidget* parent )
 	for ( int i=0; i<25; ++i )
 		TZBox->insertItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
 
-	QMap<QString, TimeZoneRule>::Iterator it = p->data()->Rulebook.begin();
-	QMap<QString, TimeZoneRule>::Iterator itEnd = p->data()->Rulebook.end();
+	TQMap<TQString, TimeZoneRule>::Iterator it = p->data()->Rulebook.begin();
+	TQMap<TQString, TimeZoneRule>::Iterator itEnd = p->data()->Rulebook.end();
 	for ( ; it != itEnd; ++it )
 		if ( it.key().length() )
 			TZRuleBox->insertItem( it.key() );
 
-	ClearFields = new QPushButton( i18n( "Clear Fields" ), CoordBox, "ClearFields" );
-	ShowTZRules = new QPushButton( i18n( "Explain DST Rules" ), CoordBox, "ShowDSTRules" );
+	ClearFields = new TQPushButton( i18n( "Clear Fields" ), CoordBox, "ClearFields" );
+	ShowTZRules = new TQPushButton( i18n( "Explain DST Rules" ), CoordBox, "ShowDSTRules" );
 
-	AddCityButton = new QPushButton( i18n ( "Add to List" ), CoordBox, "AddCityButton" );
+	AddCityButton = new TQPushButton( i18n ( "Add to List" ), CoordBox, "AddCityButton" );
 
 //Pack the widgets into the layouts
 	RootLay->addWidget( CityBox, 0, 0 );
@@ -180,21 +180,21 @@ LocationDialog::LocationDialog( QWidget* parent )
 	CoordLay->activate();
 	RootLay->activate();
 
-	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
-	connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
-	connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
-	connect( CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterCity() ) );
-	connect( NewCityName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
-	connect( NewProvinceName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
-	connect( NewCountryName, SIGNAL( textChanged( const QString & ) ), this, SLOT( nameChanged() ) );
-	connect( NewLong, SIGNAL( textChanged( const QString & ) ), this, SLOT( dataChanged() ) );
-	connect( NewLat, SIGNAL( textChanged( const QString & ) ), this, SLOT( dataChanged() ) );
-	connect( TZBox, SIGNAL( activated(int) ), this, SLOT( dataChanged() ) );
-	connect( TZRuleBox, SIGNAL( activated(int) ), this, SLOT( dataChanged() ) );
-	connect( GeoBox, SIGNAL( selectionChanged() ), this, SLOT( changeCity() ) );
-	connect( AddCityButton, SIGNAL( clicked() ), this, SLOT( addCity() ) );
-	connect( ClearFields, SIGNAL( clicked() ), this, SLOT( clearFields() ) );
-	connect( ShowTZRules, SIGNAL( clicked() ), this, SLOT( showTZRules() ) );
+	connect( this, TQT_SIGNAL( cancelClicked() ), this, TQT_SLOT( reject() ) );
+	connect( CityFilter, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( filterCity() ) );
+	connect( ProvinceFilter, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( filterCity() ) );
+	connect( CountryFilter, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( filterCity() ) );
+	connect( NewCityName, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( nameChanged() ) );
+	connect( NewProvinceName, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( nameChanged() ) );
+	connect( NewCountryName, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( nameChanged() ) );
+	connect( NewLong, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( dataChanged() ) );
+	connect( NewLat, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( dataChanged() ) );
+	connect( TZBox, TQT_SIGNAL( activated(int) ), this, TQT_SLOT( dataChanged() ) );
+	connect( TZRuleBox, TQT_SIGNAL( activated(int) ), this, TQT_SLOT( dataChanged() ) );
+	connect( GeoBox, TQT_SIGNAL( selectionChanged() ), this, TQT_SLOT( changeCity() ) );
+	connect( AddCityButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( addCity() ) );
+	connect( ClearFields, TQT_SIGNAL( clicked() ), this, TQT_SLOT( clearFields() ) );
+	connect( ShowTZRules, TQT_SIGNAL( clicked() ), this, TQT_SLOT( showTZRules() ) );
 
 	dataModified = false;
 	nameModified = false;
@@ -261,9 +261,9 @@ void LocationDialog::filterCity( void ) {
 	AddCityButton->setEnabled( false );
 
 	for (GeoLocation *loc = p->data()->geoList.first(); loc; loc = p->data()->geoList.next()) {
-		QString sc( loc->translatedName() );
-		QString ss( loc->translatedCountry() );
-		QString sp = "";
+		TQString sc( loc->translatedName() );
+		TQString ss( loc->translatedCountry() );
+		TQString sp = "";
 		if ( !loc->province().isEmpty() )
 			sp = loc->translatedProvince();
 
@@ -332,7 +332,7 @@ void LocationDialog::addCity( void ) {
 	bCityAdded = false;
 
 	if ( !nameModified && !dataModified ) {
-		QString message = i18n( "This City already exists in the database." );
+		TQString message = i18n( "This City already exists in the database." );
 		KMessageBox::sorry( 0, message, i18n( "Error: Duplicate Entry" ) );
 		return;
 	}
@@ -343,41 +343,41 @@ void LocationDialog::addCity( void ) {
 	double TZ = TZBox->lineEdit()->text().toDouble( &tzOk );
 
 	if ( NewCityName->text().isEmpty() || NewCountryName->text().isEmpty() ) {
-		QString message = i18n( "All fields (except province) must be filled to add this location." );
+		TQString message = i18n( "All fields (except province) must be filled to add this location." );
 		KMessageBox::sorry( 0, message, i18n( "Fields are Empty" ) );
 		return;
 
 	//FIXME after strings freeze lifts, separate TZ check from lat/long check
 	} else if ( ! latOk || ! lngOk || ! tzOk ) {
-		QString message = i18n( "Could not parse coordinates." );
+		TQString message = i18n( "Could not parse coordinates." );
 		KMessageBox::sorry( 0, message, i18n( "Bad Coordinates" ) );
 		return;
 	} else {
 		if ( !nameModified ) {
-			QString message = i18n( "Really override original data for this city?" );
+			TQString message = i18n( "Really override original data for this city?" );
 			if ( KMessageBox::questionYesNo( 0, message, i18n( "Override Existing Data?" ), i18n("Override Data"), i18n("Do Not Override")) == KMessageBox::No )
 				return; //user answered No.
 		}
 
-		QString entry;
-		QFile file;
+		TQString entry;
+		TQFile file;
 
 		//Strip off white space
-		QString name = NewCityName->text().stripWhiteSpace();
-		QString province = NewProvinceName->text().stripWhiteSpace();
-		QString country = NewCountryName->text().stripWhiteSpace();
+		TQString name = NewCityName->text().stripWhiteSpace();
+		TQString province = NewProvinceName->text().stripWhiteSpace();
+		TQString country = NewCountryName->text().stripWhiteSpace();
 
 		//check for user's city database.  If it doesn't exist, create it.
 		file.setName( locateLocal( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
 
 		if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-			QString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );
+			TQString message = i18n( "Local cities database could not be opened.\nLocation will not be recorded." );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
 		} else {
 			char ltsgn = 'N'; if ( lat.degree()<0 ) ltsgn = 'S';
 			char lgsgn = 'E'; if ( lng.degree()<0 ) lgsgn = 'W';
-			QString TZrule = TZRuleBox->currentText();
+			TQString TZrule = TZRuleBox->currentText();
 
 			entry = entry.sprintf( "%-32s : %-21s : %-21s : %2d : %2d : %2d : %c : %3d : %2d : %2d : %c : %5.1f : %2s\n",
 						name.local8Bit().data(), province.local8Bit().data(), country.local8Bit().data(),
@@ -385,7 +385,7 @@ void LocationDialog::addCity( void ) {
 						abs(lng.degree()), lng.arcmin(), lat.arcsec(), lgsgn,
 						TZ, TZrule.local8Bit().data() );
 
-			QTextStream stream( &file );
+			TQTextStream stream( &file );
 			stream << entry;
 			file.close();
 
@@ -473,7 +473,7 @@ void LocationDialog::clearFields( void ) {
 }
 
 void LocationDialog::showTZRules( void ) {
-	QStringList lines;
+	TQStringList lines;
 	lines.append( i18n( " Start Date (Start Time)  /  Revert Date (Revert Time)" ) );
 	lines.append( " " );
 	lines.append( i18n( "--: No DST correction" ) );
@@ -503,7 +503,7 @@ void LocationDialog::showTZRules( void ) {
 	lines.append( i18n( "US:  1st Sun in Apr. (02:00) / Last Sun in Oct. (02:00)" ) );
 	lines.append( i18n( "ZN: Apr. 1 (01:00) / Oct. 1 (00:00)" ) );
 
-	QString message = i18n( "Daylight Saving Time Rules" );
+	TQString message = i18n( "Daylight Saving Time Rules" );
 	KMessageBox::informationList( 0, message, lines, message );
 }
 

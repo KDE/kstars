@@ -18,19 +18,19 @@
 #ifndef COLORSCHEME_H
 #define COLORSCHEME_H
 
-#include <qmap.h>
-#include <qstringlist.h>
+#include <tqmap.h>
+#include <tqstringlist.h>
 
 class KConfig;
 
 /**
 	*@class ColorScheme
 	*This class stores all of the adjustable colors in KStars, in 
-	*a QMap object keyed by the names of the colors.  It also stores
+	*a TQMap object keyed by the names of the colors.  It also stores
 	*information on how stars are to be rendered in the map
 	*(with realistic colors, or as solid red/whit/black circles).
 	*In addition to the brief "Key names" used to index the colors in 
-	*the QMap, each color has a "long name" description that is a bit 
+	*the TQMap, each color has a "long name" description that is a bit 
 	*more verbose, and suitable for UI display.
 	*@author Jason Harris
 	*@version 1.0
@@ -41,7 +41,7 @@ class ColorScheme {
 	public:
 
 	/**Constructor.  Enter all adjustable colors and their default 
-		*values into the QMap.  Also assign the corresponding long names.
+		*values into the TQMap.  Also assign the corresponding long names.
 		*/
 		ColorScheme();
 
@@ -55,57 +55,57 @@ class ColorScheme {
 
 	/**@return true if the Palette contains the given key name
 		*/
-		bool hasColorNamed( const QString &name ) const { return ( ! Palette[ name ].isEmpty() ); }
+		bool hasColorNamed( const TQString &name ) const { return ( ! Palette[ name ].isEmpty() ); }
 		
 	/**
 		*@short Retrieve a color by name.  
 		*@p name the key name of the color to be retrieved.
 		*@return the requested color, or "#FFFFFF" (white) if color name not found. 
 		*/
-		QString colorNamed( const QString &name ) const;
+		TQString colorNamed( const TQString &name ) const;
 		
 	/**@p i the index of the color to retrieve
 		*@return a color by its index in the QMap
 		*/
-		QString colorAt( int i ) const;
+		TQString colorAt( int i ) const;
 		
 	/**@p i the index of the long name to retrieve
 		*@return the name of the color at index i
 		*/
-		QString nameAt( int i ) const;
+		TQString nameAt( int i ) const;
 		
 	/**@p i the index of the key name to retrieve
 		*@return the key name of the color at index i
 		*/
-		QString keyAt( int i ) const;
+		TQString keyAt( int i ) const;
 		
 	/**
 		*@return the long name of the color whose key name is given
 		*@p key the key name identifying the color.
 		*/
-		QString nameFromKey( const QString &key ) const;
+		TQString nameFromKey( const TQString &key ) const;
 		
 	/**Change the color with the given key to the given value
 		*@p key the key-name of the color to be changed
 		*@p color the new color value
 		*/
-		void setColor( const QString &key, const QString &color );
+		void setColor( const TQString &key, const TQString &color );
 
 	/**Load a color scheme from a *.colors file
 		*@p filename the filename of the color scheme to be loaded.
 		*@return TRUE if the scheme was successfully loaded
 		*/
-		bool load( const QString &filename );
+		bool load( const TQString &filename );
 		
 	/**Save the current color scheme to a *.colors file.
 		*@p name the filename to create
 		*@return TRUE if the color scheme is successfully writeen to a file
 		*/
-		bool save( const QString &name );
+		bool save( const TQString &name );
 		
 	/**@return the Filename associated with the color scheme.
 		*/
-		QString fileName() const { return FileName; }
+		TQString fileName() const { return FileName; }
 		
 	/**Copy a color scheme
 		*@p cs the color scheme to be copied into this object
@@ -137,9 +137,9 @@ class ColorScheme {
 
 	private:
 		int StarColorMode, StarColorIntensity;
-		QString FileName;
-		QStringList KeyName, Name, Default;
-		QMap<QString,QString> Palette;
+		TQString FileName;
+		TQStringList KeyName, Name, Default;
+		TQMap<TQString,TQString> Palette;
 
 };
 

@@ -21,8 +21,8 @@
 #include <math.h> //log10()
 #include <iostream>
 
-#include <qpaintdevicemetrics.h>
-#include <qpainter.h>
+#include <tqpaintdevicemetrics.h>
+#include <tqpainter.h>
 
 #include "skymap.h"
 #include "Options.h"
@@ -47,9 +47,9 @@
 #include "indielement.h"
 #include "indidevice.h"
 
-void SkyMap::drawOverlays( QPixmap *pm ) {
+void SkyMap::drawOverlays( TQPixmap *pm ) {
 	if ( ksw ) { //only if we are drawing in the GUI window
-		QPainter p;
+		TQPainter p;
 		p.begin( pm );
 
 		showFocusCoords( true );
@@ -68,25 +68,25 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 	}
 }
 
-void SkyMap::drawAngleRuler( QPainter &p ) {
-	p.setPen( QPen( data->colorScheme()->colorNamed( "AngularRuler" ), 1, DotLine ) );
+void SkyMap::drawAngleRuler( TQPainter &p ) {
+	p.setPen( TQPen( data->colorScheme()->colorNamed( "AngularRuler" ), 1, DotLine ) );
 	p.drawLine( beginRulerPoint, endRulerPoint );
 }
 
-void SkyMap::drawZoomBox( QPainter &p ) {
+void SkyMap::drawZoomBox( TQPainter &p ) {
 	//draw the manual zoom-box, if it exists
 	if ( ZoomRect.isValid() ) {
-		p.setPen( QPen( "white", 1, DotLine ) );
+		p.setPen( TQPen( "white", 1, DotLine ) );
 		p.drawRect( ZoomRect.x(), ZoomRect.y(), ZoomRect.width(), ZoomRect.height() );
 	}
 }
 
-void SkyMap::drawTransientLabel( QPainter &p ) {
+void SkyMap::drawTransientLabel( TQPainter &p ) {
 	if ( transientObject() ) {
 		p.setPen( TransientColor );
 
 		if ( checkVisibility( transientObject(), fov(), XRange ) ) {
-			QPoint o = getXY( transientObject(), Options::useAltAz(), Options::useRefraction(), 1.0 );
+			TQPoint o = getXY( transientObject(), Options::useAltAz(), Options::useRefraction(), 1.0 );
 			if ( o.x() >= 0 && o.x() <= width() && o.y() >= 0 && o.y() <= height() ) {
 				drawNameLabel( p, transientObject(), o.x(), o.y(), 1.0 );
 			}
@@ -94,7 +94,7 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
 	}
 }
 
-void SkyMap::drawBoxes( QPainter &p ) {
+void SkyMap::drawBoxes( TQPainter &p ) {
 	if ( ksw ) { //only if we are drawing in the GUI window
 		ksw->infoBoxes()->drawBoxes( p,
 				data->colorScheme()->colorNamed( "BoxTextColor" ),
@@ -103,14 +103,14 @@ void SkyMap::drawBoxes( QPainter &p ) {
 	}
 }
 
-void SkyMap::drawObservingList( QPainter &psky, double scale ) {
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1 ) );
+void SkyMap::drawObservingList( TQPainter &psky, double scale ) {
+	psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1 ) );
 
 	if ( ksw && ksw->observingList()->count() ) {
 		for ( SkyObject* obj = ksw->observingList()->first(); obj; obj = ksw->observingList()->next() ) {
 			
 			if ( checkVisibility( obj, fov(), XRange ) ) {
-				QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction() );
+				TQPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction() );
 
 				// label object if it is currently on screen
 				if (o.x() >= 0 && o.x() <= width() && o.y() >=0 && o.y() <= height() ) {
@@ -130,7 +130,7 @@ void SkyMap::drawObservingList( QPainter &psky, double scale ) {
 	}
 }
 
-void SkyMap::drawTelescopeSymbols(QPainter &psky) {
+void SkyMap::drawTelescopeSymbols(TQPainter &psky) {
 
 	if ( ksw ) { //ksw doesn't exist in non-GUI mode!
 		INDI_P *eqNum;
@@ -143,7 +143,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 		if (!Options::indiCrosshairs() || devMenu == NULL)
 			return;
 
-		psky.setPen( QPen( QColor( data->colorScheme()->colorNamed("TargetColor" ) ) ) );
+		psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed("TargetColor" ) ) ) );
 		psky.setBrush( NoBrush );
 		int pxperdegree = int(Options::zoomFactor()/57.3);
 
@@ -239,7 +239,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 
 						}
 
-						QPoint P = getXY( &indi_sp, Options::useAltAz(), Options::useRefraction() );
+						TQPoint P = getXY( &indi_sp, Options::useAltAz(), Options::useRefraction() );
 
 						int s1 = pxperdegree/2;
 						int s2 = pxperdegree;
@@ -259,7 +259,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 						psky.drawEllipse( x1, y1, s1, s1 );
 						psky.drawEllipse( x2, y2, s2, s2 );
 
-						psky.drawText( x0+s2 + 2 , y0, QString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
+						psky.drawText( x0+s2 + 2 , y0, TQString(devMenu->mgr.at(i)->indi_dev.at(j)->label) );
 
 					}
 				}
@@ -269,7 +269,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky) {
 
 }
 
-void SkyMap::drawMilkyWay( QPainter& psky, double scale )
+void SkyMap::drawMilkyWay( TQPainter& psky, double scale )
 {
 	int ptsCount = 0;
 	int mwmax = int( scale * Options::zoomFactor()/100.);
@@ -279,8 +279,8 @@ void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 	int thick(1);
 	if ( ! Options::fillMilkyWay() ) thick=3;
 
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "MWColor" ) ), thick, SolidLine ) );
-	psky.setBrush( QBrush( QColor( data->colorScheme()->colorNamed( "MWColor" ) ) ) );
+	psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed( "MWColor" ) ), thick, SolidLine ) );
+	psky.setBrush( TQBrush( TQColor( data->colorScheme()->colorNamed( "MWColor" ) ) ) );
 	bool offscreen, lastoffscreen=false;
 
 	for ( register unsigned int j=0; j<11; ++j ) {
@@ -288,7 +288,7 @@ void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 			ptsCount = 0;
 			bool partVisible = false;
 
-			QPoint o = getXY( data->MilkyWay[j].at(0), Options::useAltAz(), Options::useRefraction(), scale );
+			TQPoint o = getXY( data->MilkyWay[j].at(0), Options::useAltAz(), Options::useRefraction(), scale );
 			if ( o.x() != -10000000 && o.y() != -10000000 ) pts->setPoint( ptsCount++, o.x(), o.y() );
 			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) partVisible = true;
 
@@ -299,10 +299,10 @@ void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 			}
 
 			if ( ptsCount && partVisible ) {
-				psky.drawPolygon( (  const QPointArray ) *pts, false, 0, ptsCount );
+				psky.drawPolygon( (  const TQPointArray ) *pts, false, 0, ptsCount );
 			}
 		} else {
-			QPoint o = getXY( data->MilkyWay[j].at(0), Options::useAltAz(), Options::useRefraction(), scale );
+			TQPoint o = getXY( data->MilkyWay[j].at(0), Options::useAltAz(), Options::useRefraction(), scale );
 			if (o.x()==-10000000 && o.y()==-10000000) offscreen = true;
 			else offscreen = false;
 
@@ -327,20 +327,20 @@ void SkyMap::drawMilkyWay( QPainter& psky, double scale )
 	}
 }
 
-void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
+void SkyMap::drawCoordinateGrid( TQPainter& psky, double scale )
 {
-	QPoint cur;
+	TQPoint cur;
 
 	//Draw coordinate grid
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to GridColor
+	psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed( "GridColor" ) ), 1, DotLine ) ); //change to GridColor
 
 	//First, the parallels
 	for ( register double Dec=-80.; Dec<=80.; Dec += 20. ) {
 		bool newlyVisible = false;
 		sp->set( 0.0, Dec );
 		if ( Options::useAltAz() ) sp->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		QPoint o = getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
-		QPoint o1 = o;
+		TQPoint o = getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
+		TQPoint o1 = o;
 		cur = o;
 		psky.moveTo( o.x(), o.y() );
 
@@ -353,7 +353,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 				o = getXY( sp, Options::useAltAz(), Options::useRefraction(), scale );
 
 				//When drawing on the printer, the psky.pos() point does NOT get updated
-				//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
+				//when lineTo or moveTo are called.  Grrr.  Need to store current position in TQPoint cur.
 				int dx = cur.x() - o.x();
 				int dy = cur.y() - o.y();
 				cur = o;
@@ -386,7 +386,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 		bool newlyVisible = false;
 		SkyPoint *sp1 = new SkyPoint( RA, -90. );
 		if ( Options::useAltAz() ) sp1->EquatorialToHorizontal( data->LST, data->geo()->lat() );
-		QPoint o = getXY( sp1, Options::useAltAz(), Options::useRefraction(), scale );
+		TQPoint o = getXY( sp1, Options::useAltAz(), Options::useRefraction(), scale );
 		cur = o;
 		psky.moveTo( o.x(), o.y() );
 
@@ -399,7 +399,7 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 				o = getXY( sp1, Options::useAltAz(), Options::useRefraction(), scale );
 
 				//When drawing on the printer, the psky.pos() point does NOT get updated
-				//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
+				//when lineTo or moveTo are called.  Grrr.  Need to store current position in TQPoint cur.
 				int dx = cur.x() - o.x();
 				int dy = cur.y() - o.y();
 				cur = o;
@@ -420,17 +420,17 @@ void SkyMap::drawCoordinateGrid( QPainter& psky, double scale )
 	}
 }
 
-void SkyMap::drawEquator( QPainter& psky, double scale )
+void SkyMap::drawEquator( TQPainter& psky, double scale )
 {
 	//Draw Equator (currently can't be hidden on slew)
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
+	psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed( "EqColor" ) ), 1, SolidLine ) );
 
 	SkyPoint *p = data->Equator.first();
-	QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-	QPoint o1 = o;
-	QPoint last = o;
-	QPoint cur = o;
-	QPoint o2;
+	TQPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+	TQPoint o1 = o;
+	TQPoint last = o;
+	TQPoint cur = o;
+	TQPoint o2;
 	psky.moveTo( o.x(), o.y() );
 	bool newlyVisible = false;
 
@@ -454,7 +454,7 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 			}
 
 			//When drawing on the printer, the psky.pos() point does NOT get updated
-			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
+			//when lineTo or moveTo are called.  Grrr.  Need to store current position in TQPoint cur.
 			int dx = cur.x() - o.x();
 			int dy = cur.y() - o.y();
 			cur = o;
@@ -564,20 +564,20 @@ void SkyMap::drawEquator( QPainter& psky, double scale )
 	}
 }
 
-void SkyMap::drawEcliptic( QPainter& psky, double scale )
+void SkyMap::drawEcliptic( TQPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
 	//Draw Ecliptic (currently can't be hidden on slew)
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) );
+	psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed( "EclColor" ) ), 1, SolidLine ) );
 
 	SkyPoint *p = data->Ecliptic.first();
-	QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-	QPoint o2 = o;
-	QPoint o1 = o;
-	QPoint last = o;
-	QPoint cur = o;
+	TQPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+	TQPoint o2 = o;
+	TQPoint o1 = o;
+	TQPoint last = o;
+	TQPoint cur = o;
 	psky.moveTo( o.x(), o.y() );
 
 	//index of point near the right or top/bottom edge
@@ -601,7 +601,7 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 			}
 
 			//When drawing on the printer, the psky.pos() point does NOT get updated
-			//when lineTo or moveTo are called.  Grrr.  Need to store current position in QPoint cur.
+			//when lineTo or moveTo are called.  Grrr.  Need to store current position in TQPoint cur.
 			int dx = cur.x() - o.x();
 			int dy = cur.y() - o.y();
 			cur = o;
@@ -722,22 +722,22 @@ void SkyMap::drawEcliptic( QPainter& psky, double scale )
 	}
 }
 
-void SkyMap::drawHorizon( QPainter& psky, double scale )
+void SkyMap::drawHorizon( TQPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	QPtrList<QPoint> points;
+	TQPtrList<TQPoint> points;
 	points.setAutoDelete(true);
-	QPoint o, o2;
+	TQPoint o, o2;
 
 	//Draw Horizon
 	//The horizon should not be corrected for atmospheric refraction, so getXY has doRefract=false...
 	if (Options::showHorizon() || Options::showGround() ) {
-		QPoint OutLeft(0,0), OutRight(0,0);
+		TQPoint OutLeft(0,0), OutRight(0,0);
 
-		psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 1, SolidLine ) );
-		psky.setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+		psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 1, SolidLine ) );
+		psky.setBrush( TQColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
 		int ptsCount = 0;
 		int maxdist = int(Options::zoomFactor()/4);
 
@@ -760,7 +760,7 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 				}
 			}
 
-			//Use the QPtrList of points to pre-sort visible horizon points
+			//Use the TQPtrList of points to pre-sort visible horizon points
 			if ( o.x() > -100 && o.x() < Width + 100 && o.y() > -100 && o.y() < Height + 100 ) {
 				if ( Options::useAltAz() ) {
 					register unsigned int j;
@@ -771,12 +771,12 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 						}
 					}
 					if ( found ) {
-						points.insert( j, new QPoint(o) );
+						points.insert( j, new TQPoint(o) );
 					} else {
-						points.append( new QPoint(o) );
+						points.append( new TQPoint(o) );
 					}
 				} else {
-					points.append( new QPoint(o) );
+					points.append( new TQPoint(o) );
 				}
 			} else {  //find the out-of-bounds points closest to the left and right borders
 				if ( ( OutLeft.x() == 0 || o.x() > OutLeft.x() ) && o.x() < -100 ) {
@@ -806,7 +806,7 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 				int xtotal = ( points.at( 0 )->x() - OutLeft.x() );
 				int xx = ( points.at( 0 )->x() + 100 ) / xtotal;
 				int yp = xx*OutRight.y() + (1-xx)*points.at( 0 )->y();  //interpolated left-edge y value
-				QPoint *LeftEdge = new QPoint( -100, yp );
+				TQPoint *LeftEdge = new TQPoint( -100, yp );
 				points.insert( 0, LeftEdge ); //Prepend LeftEdge to the beginning of points
 	
 				//Interpolate from the last sorted onscreen point to ()+100,
@@ -814,7 +814,7 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 				xtotal = ( OutRight.x() - points.at( points.count() - 1 )->x() );
 				xx = ( Width + 100 - points.at( points.count() - 1 )->x() ) / xtotal;
 				yp = xx*OutRight.y() + (1-xx)*points.at( points.count() - 1 )->y(); //interpolated right-edge y value
-				QPoint *RightEdge = new QPoint( Width+100, yp );
+				TQPoint *RightEdge = new TQPoint( Width+100, yp );
 				points.append( RightEdge );
 			}
 		//If there are no horizon points, then either the horizon doesn't pass through the screen
@@ -828,13 +828,13 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 			int xtotal = ( OutRight.x() - OutLeft.x() );
 			int xx = ( OutRight.x() + 100 ) / xtotal;
 			int yp = xx*OutLeft.y() + (1-xx)*OutRight.y();  //interpolated left-edge y value
-//			QPoint *LeftEdge = new QPoint( -100, yp );
-			points.append( new QPoint( -100, yp ) );
+//			TQPoint *LeftEdge = new TQPoint( -100, yp );
+			points.append( new TQPoint( -100, yp ) );
 
 			xx = ( Width + 100 - OutLeft.x() ) / xtotal;
 			yp = xx*OutRight.y() + (1-xx)*OutLeft.y(); //interpolated right-edge y value
-//			QPoint *RightEdge = new QPoint( Width+100, yp );
-			points.append( new QPoint( Width+100, yp ) );
+//			TQPoint *RightEdge = new TQPoint( Width+100, yp );
+			points.append( new TQPoint( Width+100, yp ) );
  		}
 
 		if ( points.count() ) {
@@ -872,7 +872,7 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 					double r0 = 2.0*sin(0.25*dms::PI);
 					
 //					//Second QPointsArray for blocking the region outside the sky circle
-//					QPointArray bpts( 100 ); //need 90 points along sky circle, plus 4 to complete polygon
+//					TQPointArray bpts( 100 ); //need 90 points along sky circle, plus 4 to complete polygon
 //					uint bpCount(0);
 					
 					if ( dx > r0 ) { //sky edge is visible
@@ -892,12 +892,12 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 //						bpts.setPoint( bpCount++,        -100, Height + 100 );
 //						bpts.setPoint( bpCount++, Width + 100, Height + 100 );
 //						bpts.setPoint( bpCount++, Width + 100, Height/2     );
-//						psky.setPen( QColor ( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-//						psky.setBrush( QColor ( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+//						psky.setPen( TQColor ( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+//						psky.setBrush( TQColor ( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 //						psky.drawPolygon( bpts, false, 0, bpCount );
 //						//Reset colors for Horizon polygon
-//						psky.setPen( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
-//						psky.setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+//						psky.setPen( TQColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+//						psky.setBrush( TQColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
 					
 					} else {
 						pts->setPoint( ptsCount++, Width+100, Height+100 );   //bottom right corner
@@ -905,7 +905,7 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 					}
 						
 					//Draw the Horizon polygon
-					psky.drawPolygon( ( const QPointArray ) *pts, false, 0, ptsCount );
+					psky.drawPolygon( ( const TQPointArray ) *pts, false, 0, ptsCount );
 
 					//remove all items in points list
 					for ( register unsigned int i=0; i<points.count(); ++i ) {
@@ -915,12 +915,12 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 
 //	Draw compass heading labels along horizon
 				SkyPoint *c = new SkyPoint;
-				QPoint cpoint;
+				TQPoint cpoint;
 
 				if ( Options::showGround() )
-					psky.setPen( QColor ( data->colorScheme()->colorNamed( "CompassColor" ) ) );
+					psky.setPen( TQColor ( data->colorScheme()->colorNamed( "CompassColor" ) ) );
 				else
-					psky.setPen( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+					psky.setPen( TQColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
 
 		//North
 				c->setAz( 359.99 );
@@ -1025,8 +1025,8 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 				if ( data->Horizon.count() &&  index2 > data->Horizon.count() - 1 ) index2 -= data->Horizon.count();
 				SkyPoint *p2 = data->Horizon.at(index2);
 
-				QPoint o1 = getXY( p, Options::useAltAz(), false, scale );
-				QPoint o2 = getXY( p2, Options::useAltAz(), false, scale );
+				TQPoint o1 = getXY( p, Options::useAltAz(), false, scale );
+				TQPoint o2 = getXY( p2, Options::useAltAz(), false, scale );
 
 				double x1, x2;
 				//there are 3 possibilities:  (o2.x() > width()); (o2.y() < 0); (o2.y() > height())
@@ -1100,17 +1100,17 @@ void SkyMap::drawHorizon( QPainter& psky, double scale )
 	}  //endif drawing horizon
 }
 
-void SkyMap::drawConstellationLines( QPainter& psky, double scale )
+void SkyMap::drawConstellationLines( TQPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
 	//Draw Constellation Lines
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
+	psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed( "CLineColor" ) ), 1, SolidLine ) ); //change to colorGrid
 	int iLast = -1;
 
 	for ( SkyPoint *p = data->clineList.first(); p; p = data->clineList.next() ) {
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+		TQPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 			if ( data->clineModeList.at(data->clineList.at())->latin1()=='M' ) {
@@ -1127,23 +1127,23 @@ void SkyMap::drawConstellationLines( QPainter& psky, double scale )
   }
 }
 
-void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
+void SkyMap::drawConstellationBoundaries( TQPainter &psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) );
+	psky.setPen( TQPen( TQColor( data->colorScheme()->colorNamed( "CBoundColor" ) ), 1, SolidLine ) );
 
 	for ( CSegment *seg = data->csegmentList.first(); seg; seg = data->csegmentList.next() ) {
 		bool started( false );
 		SkyPoint *p = seg->firstNode();
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+		TQPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 		if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 			psky.moveTo( o.x(), o.y() );
 			started = true;
 		}
 
 		for ( p = seg->nextNode(); p; p = seg->nextNode() ) {
-			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			TQPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 				if ( started ) {
@@ -1159,15 +1159,15 @@ void SkyMap::drawConstellationBoundaries( QPainter &psky, double scale ) {
 	}
 }
 
-void SkyMap::drawConstellationNames( QPainter& psky, double scale ) {
+void SkyMap::drawConstellationNames( TQPainter& psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
 	//Draw Constellation Names
-	psky.setPen( QColor( data->colorScheme()->colorNamed( "CNameColor" ) ) );
+	psky.setPen( TQColor( data->colorScheme()->colorNamed( "CNameColor" ) ) );
 	for ( SkyObject *p = data->cnameList.first(); p; p = data->cnameList.next() ) {
 		if ( checkVisibility( p, fov(), XRange ) ) {
-			QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+			TQPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 			if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
 				if ( Options::useLatinConstellNames() ) {
 					int dx = 5*p->name().length();
@@ -1185,7 +1185,7 @@ void SkyMap::drawConstellationNames( QPainter& psky, double scale ) {
   }
 }
 
-void SkyMap::drawStars( QPainter& psky, double scale ) {
+void SkyMap::drawStars( TQPainter& psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
@@ -1210,15 +1210,15 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 			if ( curStar->mag() > maglim || ( hideFaintStars && curStar->mag() > Options::magLimitHideStar() ) ) break;
 
 			if ( checkVisibility( curStar, fov(), XRange ) ) {
-				QPoint o = getXY( curStar, Options::useAltAz(), Options::useRefraction(), scale );
+				TQPoint o = getXY( curStar, Options::useAltAz(), Options::useRefraction(), scale );
 
 				// draw star if currently on screen
 				if (o.x() >= 0 && o.x() <= Width && o.y() >=0 && o.y() <= Height ) {
 					int size = int( scale * ( sizeFactor*( maglim - curStar->mag())/maglim ) + 1 );
 
 					if ( size > 0 ) {
-						QChar c = curStar->color();
-						QPixmap *spixmap = starpix->getPixmap( &c, size );
+						TQChar c = curStar->color();
+						TQPixmap *spixmap = starpix->getPixmap( &c, size );
 						curStar->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
 
 						// now that we have drawn the star, we can display some extra info
@@ -1227,9 +1227,9 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 						if ( !checkSlewing && (curStar->mag() <= Options::magLimitDrawStarInfo() )
 								&& ( drawName || Options::showStarMagnitudes() ) ) {
 
-							psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
-							QFont stdFont( psky.font() );
-							QFont smallFont( stdFont );
+							psky.setPen( TQColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
+							TQFont stdFont( psky.font() );
+							TQFont smallFont( stdFont );
 							smallFont.setPointSize( stdFont.pointSize() - 2 );
 							if ( Options::zoomFactor() < 10.*MINZOOM ) {
 								psky.setFont( smallFont );
@@ -1250,7 +1250,7 @@ void SkyMap::drawStars( QPainter& psky, double scale ) {
 	}
 }
 
-void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color,
+void SkyMap::drawDeepSkyCatalog( TQPainter& psky, TQPtrList<DeepSkyObject>& catalog, TQColor& color,
 			bool drawObject, bool drawImage, double scale )
 {
 	if ( drawObject || drawImage ) {  //don't do anything if nothing is to be drawn!
@@ -1260,7 +1260,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 		// Set color once
 		psky.setPen( color );
 		psky.setBrush( NoBrush );
-		QColor colorHST  = data->colorScheme()->colorNamed( "HSTColor" );
+		TQColor colorHST  = data->colorScheme()->colorNamed( "HSTColor" );
 
 		double maglim = Options::magLimitDrawDeepSky();
 
@@ -1279,7 +1279,7 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 				float mag = obj->mag();
 				//only draw objects if flags set and its brighter than maglim (unless mag is undefined (=99.9)
 				if ( mag > 90.0 || mag < (float)maglim ) {
-					QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
+					TQPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 						double PositionAngle = findPA( obj, o.x(), o.y(), scale );
 
@@ -1320,12 +1320,12 @@ void SkyMap::drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalo
 	}
 }
 
-void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
+void SkyMap::drawDeepSkyObjects( TQPainter& psky, double scale )
 {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
-	QImage ScaledImage;
+	TQImage ScaledImage;
 
 	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
 				&& Options::hideOnSlew() );
@@ -1338,9 +1338,9 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 	bool drawImages( Options::showMessierImages() );
 
 	// calculate color objects once, outside the loop
-	QColor colorMess = data->colorScheme()->colorNamed( "MessColor" );
-	QColor colorIC  = data->colorScheme()->colorNamed( "ICColor" );
-	QColor colorNGC  = data->colorScheme()->colorNamed( "NGCColor" );
+	TQColor colorMess = data->colorScheme()->colorNamed( "MessColor" );
+	TQColor colorIC  = data->colorScheme()->colorNamed( "ICColor" );
+	TQColor colorNGC  = data->colorScheme()->colorNamed( "NGCColor" );
 
 	// draw Messier catalog
 	if ( drawMess ) {
@@ -1366,12 +1366,12 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 	//Draw Custom Catalogs
 	for ( register unsigned int i=0; i<data->CustomCatalogs.count(); ++i ) { 
 		if ( Options::showCatalog()[i] ) {
-			QPtrList<SkyObject> cat = data->CustomCatalogs.at(i)->objList();
+			TQPtrList<SkyObject> cat = data->CustomCatalogs.at(i)->objList();
 
 			for ( SkyObject *obj = cat.first(); obj; obj = cat.next() ) {
 
 				if ( checkVisibility( obj, fov(), XRange ) ) {
-					QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
+					TQPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 
 					if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 
@@ -1383,11 +1383,11 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 							int size = int( sizeFactor*(zoomlim - mag) ) + 1;
 							if (size>23) size=23;
 							if ( size > 0 ) {
-								QChar c = starobj->color();
-								QPixmap *spixmap = starpix->getPixmap( &c, size );
+								TQChar c = starobj->color();
+								TQPixmap *spixmap = starpix->getPixmap( &c, size );
 
 								// Try to paint with the selected color
-								spixmap->fill(QColor( data->CustomCatalogs.at(i)->color() ));
+								spixmap->fill(TQColor( data->CustomCatalogs.at(i)->color() ));
 								starobj->draw( psky, sky, spixmap, o.x(), o.y(), true, scale );
 								// After drawing the star we display some extra info like
 								// the name ...
@@ -1395,9 +1395,9 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 								if ( !checkSlewing && (starobj->mag() <= Options::magLimitDrawStarInfo() )
 										&& ( drawName || Options::showStarMagnitudes() ) ) {
 
-											psky.setPen( QColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
-											QFont stdFont( psky.font() );
-											QFont smallFont( stdFont );
+											psky.setPen( TQColor( data->colorScheme()->colorNamed( "SNameColor" ) ) );
+											TQFont stdFont( psky.font() );
+											TQFont smallFont( stdFont );
 											smallFont.setPointSize( stdFont.pointSize() - 2 );
 											if ( Options::zoomFactor() < 10.*MINZOOM ) {
 												psky.setFont( smallFont );
@@ -1417,7 +1417,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 							dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 
 							psky.setBrush( NoBrush );
-							psky.setPen( QColor( data->CustomCatalogs.at(i)->color() ) );
+							psky.setPen( TQColor( data->CustomCatalogs.at(i)->color() ) );
 
 							dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
 						}
@@ -1428,7 +1428,7 @@ void SkyMap::drawDeepSkyObjects( QPainter& psky, double scale )
 	}
 }
 
-void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
+void SkyMap::drawAttachedLabels( TQPainter &psky, double scale ) {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
 
@@ -1476,7 +1476,7 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 		if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) return;
 
 		if ( checkVisibility( obj, fov(), XRange ) ) {
-			QPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
+			TQPoint o = getXY( obj, Options::useAltAz(), Options::useRefraction(), scale );
 			if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
 				drawNameLabel( psky, obj, o.x(), o.y(), scale );
 			}
@@ -1485,17 +1485,17 @@ void SkyMap::drawAttachedLabels( QPainter &psky, double scale ) {
 
 	//Attach a label to the centered object
 	if ( focusObject() != NULL && Options::useAutoLabel() ) {
-		QPoint o = getXY( focusObject(), Options::useAltAz(), Options::useRefraction(), scale );
+		TQPoint o = getXY( focusObject(), Options::useAltAz(), Options::useRefraction(), scale );
 		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height )
 			drawNameLabel( psky, focusObject(), o.x(), o.y(), scale );
 	}
 }
 
-void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale ) {
+void SkyMap::drawNameLabel( TQPainter &psky, SkyObject *obj, int x, int y, double scale ) {
 	int size(0);
 
-	QFont stdFont( psky.font() );
-	QFont smallFont( stdFont );
+	TQFont stdFont( psky.font() );
+	TQFont smallFont( stdFont );
 	smallFont.setPointSize( stdFont.pointSize() - 2 );
 	if ( Options::zoomFactor() < 10.*MINZOOM ) {
 		psky.setFont( smallFont );
@@ -1540,18 +1540,18 @@ void SkyMap::drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double
 	psky.setFont( stdFont );
 }
 
-void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
+void SkyMap::drawPlanetTrail( TQPainter& psky, KSPlanetBase *ksp, double scale )
 {
 	if ( ksp->hasTrail() ) {
 		int Width = int( scale * width() );
 		int Height = int( scale * height() );
 
-		QColor tcolor1 = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-		QColor tcolor2 = QColor( data->colorScheme()->colorNamed( "SkyColor" ) );
+		TQColor tcolor1 = TQColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
+		TQColor tcolor2 = TQColor( data->colorScheme()->colorNamed( "SkyColor" ) );
 
 		SkyPoint *p = ksp->trail()->first();
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
-		QPoint cur( o );
+		TQPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+		TQPoint cur( o );
 
 		bool doDrawLine(false);
 		int i = 0;
@@ -1562,16 +1562,16 @@ void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 			doDrawLine = true;
 		}
 
-		psky.setPen( QPen( tcolor1, 1 ) );
+		psky.setPen( TQPen( tcolor1, 1 ) );
 		for ( p = ksp->trail()->next(); p; p = ksp->trail()->next() ) {
 			if ( Options::fadePlanetTrails() ) {
 				//Define interpolated color
-				QColor tcolor = QColor(
+				TQColor tcolor = TQColor(
 							(i*tcolor1.red()   + (n-i)*tcolor2.red())/n,
 							(i*tcolor1.green() + (n-i)*tcolor2.green())/n,
 							(i*tcolor1.blue()  + (n-i)*tcolor2.blue())/n );
 				++i;
-				psky.setPen( QPen( tcolor, 1 ) );
+				psky.setPen( TQPen( tcolor, 1 ) );
 			}
 
 			o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
@@ -1592,7 +1592,7 @@ void SkyMap::drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale )
 	}
 }
 
-void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
+void SkyMap::drawSolarSystem( TQPainter& psky, bool drawPlanets, double scale )
 {
 	int Width = int( scale * width() );
 	int Height = int( scale * height() );
@@ -1629,9 +1629,9 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 				if ( ast->mag() > Options::magLimitAsteroid() ) break;
 
 				if ( checkVisibility( ast, fov(), XRange ) ) {
-					psky.setPen( QPen( QColor( "gray" ) ) );
-					psky.setBrush( QBrush( QColor( "gray" ) ) );
-					QPoint o = getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
+					psky.setPen( TQPen( TQColor( "gray" ) ) );
+					psky.setBrush( TQBrush( TQColor( "gray" ) ) );
+					TQPoint o = getXY( ast, Options::useAltAz(), Options::useRefraction(), scale );
 
 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 						int size = int( ast->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
@@ -1642,7 +1642,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 						//draw Name
 						if ( Options::showAsteroidNames() && ast->mag() < Options::magLimitAsteroidName() ) {
-							psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+							psky.setPen( TQColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
 							drawNameLabel( psky, ast, o.x(), o.y(), scale );
 						}
 					}
@@ -1654,9 +1654,9 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 		if ( Options::showComets() ) {
 			for ( KSComet *com = data->cometList.first(); com; com = data->cometList.next() ) {
 				if ( checkVisibility( com, fov(), XRange ) ) {
-					psky.setPen( QPen( QColor( "cyan4" ) ) );
-					psky.setBrush( QBrush( QColor( "cyan4" ) ) );
-					QPoint o = getXY( com, Options::useAltAz(), Options::useRefraction(), scale );
+					psky.setPen( TQPen( TQColor( "cyan4" ) ) );
+					psky.setBrush( TQBrush( TQColor( "cyan4" ) ) );
+					TQPoint o = getXY( com, Options::useAltAz(), Options::useRefraction(), scale );
 
 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 						int size = int( com->angSize() * scale * dms::PI * Options::zoomFactor()/10800.0 );
@@ -1667,7 +1667,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 						//draw Name
 						if ( Options::showCometNames() && com->rsun() < Options::maxRadCometName() ) {
-							psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+							psky.setPen( TQColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
 							drawNameLabel( psky, com, o.x(), o.y(), scale );
 						}
 					}
@@ -1677,50 +1677,50 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 		//Draw Pluto
 		if ( Options::showPluto() ) {
-			drawPlanet(psky, data->PCat->findByName("Pluto"), QColor( "gray" ), 50.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Pluto"), TQColor( "gray" ), 50.*MINZOOM, 1, scale );
 		}
 
 		//Draw Neptune
 		if ( Options::showNeptune() ) {
-			drawPlanet(psky, data->PCat->findByName("Neptune"), QColor( "SkyBlue" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Neptune"), TQColor( "SkyBlue" ), 20.*MINZOOM, 1, scale );
 		}
 
 		//Draw Uranus
 		if ( Options::showUranus() ) {
-			drawPlanet(psky, data->PCat->findByName("Uranus"), QColor( "LightSeaGreen" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Uranus"), TQColor( "LightSeaGreen" ), 20.*MINZOOM, 1, scale );
 		}
 
 		//Draw Saturn
 		if ( Options::showSaturn() ) {
-			drawPlanet(psky, data->PCat->findByName("Saturn"), QColor( "LightYellow2" ), 20.*MINZOOM, 2, scale );
+			drawPlanet(psky, data->PCat->findByName("Saturn"), TQColor( "LightYellow2" ), 20.*MINZOOM, 2, scale );
 		}
 
 		//Draw Jupiter and its moons.
 		//Draw all moons first, then Jupiter, then redraw moons that are in front of Jupiter.
 		if ( Options::showJupiter() ) {
 			//Draw Jovian moons
-			psky.setPen( QPen( QColor( "white" ) ) );
+			psky.setPen( TQPen( TQColor( "white" ) ) );
 			if ( Options::zoomFactor() > 10.*MINZOOM ) {
 				for ( unsigned int i=0; i<4; ++i ) {
-					QPoint o = getXY( data->jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
+					TQPoint o = getXY( data->jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 						psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
 					}
 				}
 			}
 
-			drawPlanet(psky, data->PCat->findByName("Jupiter"), QColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Jupiter"), TQColor( "Goldenrod" ), 20.*MINZOOM, 1, scale );
 
 			//Re-draw Jovian moons which are in front of Jupiter, also draw all 4 moon labels.
-			psky.setPen( QPen( QColor( "white" ) ) );
+			psky.setPen( TQPen( TQColor( "white" ) ) );
 			if ( Options::zoomFactor() > 10.*MINZOOM ) {
-				QFont pfont = psky.font();
-				QFont moonFont = psky.font();
+				TQFont pfont = psky.font();
+				TQFont moonFont = psky.font();
 				moonFont.setPointSize( pfont.pointSize() - 2 );
 				psky.setFont( moonFont );
 
 				for ( unsigned int i=0; i<4; ++i ) {
-					QPoint o = getXY( data->jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
+					TQPoint o = getXY( data->jmoons->pos(i), Options::useAltAz(), Options::useRefraction(), scale );
 					if ( ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) ) {
 						if ( data->jmoons->z(i) < 0.0 ) //Moon is nearer than Jupiter
 							psky.drawEllipse( o.x()-1, o.y()-1, 2, 2 );
@@ -1740,7 +1740,7 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 
 		//Draw Mars
 		if ( Options::showMars() ) {
-			drawPlanet(psky, data->PCat->findByName("Mars"), QColor( "Red" ), 20.*MINZOOM, 1, scale );
+			drawPlanet(psky, data->PCat->findByName("Mars"), TQColor( "Red" ), 20.*MINZOOM, 1, scale );
 		}
 
 		//For the inner planets, we need to determine the distance-order
@@ -1760,29 +1760,29 @@ void SkyMap::drawSolarSystem( QPainter& psky, bool drawPlanets, double scale )
 			if ( i==is ) {
 				//Draw Sun
 				if ( Options::showSun() ) {
-					drawPlanet(psky, data->PCat->findByName("Sun"), QColor( "Yellow" ), MINZOOM, 1, scale );
+					drawPlanet(psky, data->PCat->findByName("Sun"), TQColor( "Yellow" ), MINZOOM, 1, scale );
 				}
 			} else if ( i==im ) {
 				//Draw Mercury
 				if ( Options::showMercury() ) {
-					drawPlanet(psky, data->PCat->findByName("Mercury"), QColor( "SlateBlue1" ), 20.*MINZOOM, 1, scale );
+					drawPlanet(psky, data->PCat->findByName("Mercury"), TQColor( "SlateBlue1" ), 20.*MINZOOM, 1, scale );
 				}
 			} else if ( i==iv ) {
 				//Draw Venus
 				if ( Options::showVenus() ) {
-					drawPlanet(psky, data->PCat->findByName("Venus"), QColor( "LightGreen" ), 20.*MINZOOM, 1, scale );
+					drawPlanet(psky, data->PCat->findByName("Venus"), TQColor( "LightGreen" ), 20.*MINZOOM, 1, scale );
 				}
 			}
 		}
 
 		//Draw Moon
 		if ( Options::showMoon() ) {
-			drawPlanet(psky, data->Moon, QColor( "White" ), MINZOOM, 1, scale );
+			drawPlanet(psky, data->Moon, TQColor( "White" ), MINZOOM, 1, scale );
 		}
 	}
 }
 
-void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
+void SkyMap::drawPlanet( TQPainter &psky, KSPlanetBase *p, TQColor c,
 		double zoommin, int resize_mult, double scale ) {
 
 	if ( checkVisibility( p, fov(), XRange ) ) {
@@ -1795,7 +1795,7 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 
 		psky.setPen( c );
 		psky.setBrush( c );
-		QPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
+		TQPoint o = getXY( p, Options::useAltAz(), Options::useRefraction(), scale );
 
 		//Is planet onscreen?
 		if ( o.x() >= 0 && o.x() <= Width && o.y() >= 0 && o.y() <= Height ) {
@@ -1841,15 +1841,15 @@ void SkyMap::drawPlanet( QPainter &psky, KSPlanetBase *p, QColor c,
 
 			//draw Name
 			if ( Options::showPlanetNames() ) {
-				psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+				psky.setPen( TQColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
 				drawNameLabel( psky, p, o.x(), o.y(), scale );
 			}
 		}
 	}
 }
 
-void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
-	QPainter p;
+void SkyMap::exportSkyImage( const TQPaintDevice *pd ) {
+	TQPainter p;
 
 	//shortcuts to inform wheter to draw different objects
 	bool drawPlanets( Options::showPlanets() );
@@ -1860,7 +1860,7 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	bool drawGrid( Options::showGrid() );
 
 	p.begin( pd );
-	QPaintDeviceMetrics pdm( p.device() );
+	TQPaintDeviceMetrics pdm( p.device() );
 
 	//scale image such that it fills 90% of the x or y dimension on the paint device
 	double xscale = double(pdm.width()) / double(width());
@@ -1872,11 +1872,11 @@ void SkyMap::exportSkyImage( const QPaintDevice *pd ) {
 	int x1 = int( 0.5*(pdm.width()  - pdWidth) );
 	int y1 = int( 0.5*(pdm.height()  - pdHeight) );
 
-	p.setClipRect( QRect( x1, y1, pdWidth, pdHeight ) );
+	p.setClipRect( TQRect( x1, y1, pdWidth, pdHeight ) );
 	p.setClipping( true );
 
 	//Fill background with sky color
-	p.fillRect( x1, y1, pdWidth, pdHeight, QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+	p.fillRect( x1, y1, pdWidth, pdHeight, TQBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
 	if ( x1 || y1 ) p.translate( x1, y1 );
 

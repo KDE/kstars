@@ -38,7 +38,7 @@ class modCalcApCoord : public modCalcApCoordDlg  {
 Q_OBJECT
 public:
 /**Constructor. */
-	modCalcApCoord(QWidget *p, const char *n);
+	modCalcApCoord(TQWidget *p, const char *n);
 /**Destructor. */
 	~modCalcApCoord();
 
@@ -49,8 +49,8 @@ public:
 	SkyPoint apparentCoordinates (dms r0, dms d0, long double j0, long double jf);
 
 	/** Process Lines **/
-//	void processLines( const QFile * f );
-	void processLines( QTextStream &istream );
+//	void processLines( const TQFile * f );
+	void processLines( TQTextStream &istream );
 public slots:
 
 
@@ -78,7 +78,7 @@ private:
 	KStarsDateTime getDateTime (void);
 
 /**Parse the string argument as a double */
-	double getEpoch (QString eName);
+	double getEpoch (TQString eName);
 
 /**Fill the RA and Dec dmsBoxes with values of the SkyPoint argument. */
 	void showEquCoords ( SkyPoint sp );

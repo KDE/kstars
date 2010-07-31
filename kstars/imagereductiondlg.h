@@ -25,7 +25,7 @@
    Q_OBJECT
 
     public:
-     ImageReductionDlg(QWidget * parent, const char * name = 0);
+     ImageReductionDlg(TQWidget * parent, const char * name = 0);
      ~ImageReductionDlg();
 
 

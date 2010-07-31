@@ -18,13 +18,13 @@
 #include "skyobjectname.h"
 #include "skyobject.h"
 
-SkyObjectName::SkyObjectName( const QString &str, SkyObject *obj )
+SkyObjectName::SkyObjectName( const TQString &str, SkyObject *obj )
 	: skyobject ( obj ), Text ( str )
 {
 }
 
-SkyObjectNameListItem::SkyObjectNameListItem ( QListBox *parent, SkyObjectName *obj )
-	: QListBoxText ( parent ), object ( obj )
+SkyObjectNameListItem::SkyObjectNameListItem ( TQListBox *parent, SkyObjectName *obj )
+	: TQListBoxText ( parent ), object ( obj )
 {
 	setText( obj->text() );
 }

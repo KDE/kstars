@@ -31,17 +31,17 @@ class JMoonTool : public KDialogBase
 {
 Q_OBJECT
 public:
-	JMoonTool(QWidget *parent = 0, const char *name = 0);
+	JMoonTool(TQWidget *parent = 0, const char *name = 0);
 	~JMoonTool();
 
 protected:
-	virtual void keyPressEvent( QKeyEvent *e );
+	virtual void keyPressEvent( TQKeyEvent *e );
 
 private:
 	void initPlotObjects();
 	KStarsPlotWidget *pw;
 	KStars *ksw;
-	QString colJp, colIo, colEu, colGn, colCa;
+	TQString colJp, colIo, colEu, colGn, colCa;
 };
 
 #endif

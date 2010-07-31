@@ -18,7 +18,7 @@
 #ifndef DEEPSKYOBJECT_H
 #define DEEPSKYOBJECT_H
 
-#include <qpoint.h>
+#include <tqpoint.h>
 
 #include "skyobject.h"
 #include "dms.h"
@@ -57,8 +57,8 @@ public:
 	*@param ugc UGC catalog number
 	*/
 	DeepSkyObject( int t=SkyObject::STAR, dms r=dms(0.0), dms d=dms(0.0), 
-			float m=0.0, QString n="unnamed", QString n2="", 
-			QString lname="", QString cat="", 
+			float m=0.0, TQString n="unnamed", TQString n2="", 
+			TQString lname="", TQString cat="", 
 			float a=0.0, float b=0.0, double pa=0.0, 
 			int pgc=0, int ugc=0 );
 
@@ -79,8 +79,8 @@ public:
 	*@param ugc UGC catalog number
 	*/
 	DeepSkyObject( int t, double r, double d, float m=0.0,
-			QString n="unnamed", QString n2="", QString lname="", 
-			QString cat="", float a=0.0, float b=0.0,
+			TQString n="unnamed", TQString n2="", TQString lname="", 
+			TQString cat="", float a=0.0, float b=0.0,
 			double pa=0.0, int pgc=0, int ugc=0 );
 
 /**Copy constructor.
@@ -98,14 +98,14 @@ public:
 	*/
 	enum CATALOG { CAT_MESSIER=0, CAT_NGC=1, CAT_IC=2, CAT_UNKNOWN };
 
-/**@return a QString identifying the object's primary catalog.
+/**@return a TQString identifying the object's primary catalog.
 	*@warning this is only used for deep-sky objects.  Possible values are:
 	*- "M" for Messier catalog
 	*- "NGC" for NGC catalog
 	*- "IC" for IC catalog
 	*- empty string is presumed to be an object in a custom catalog
 	*/
-	QString catalog( void ) const;
+	TQString catalog( void ) const;
 
 /**Set the internal Catalog value according to the QString
 	*argument:
@@ -113,7 +113,7 @@ public:
 	* "NGC" : CAT_NGC
 	* "IC"  : CAT_IC
 	*/
-	void setCatalog( const QString &s );
+	void setCatalog( const TQString &s );
 
 /**@return the object's major axis length, in arcminute.
 	*/
@@ -143,12 +143,12 @@ public:
 /**Read in this object's image from disk, unless it already exists in memory.
 	*@returns pointer to newly-created image.
 	*/
-	QImage *readImage();
+	TQImage *readImage();
 
 /**@return pointer to the object's inline image.  If it is currently
 	*a null pointer, it loads the image from disk.
 	*/
-	QImage *image() const { return Image; }
+	TQImage *image() const { return Image; }
 
 /**delete the Image pointer, and set it to 0.
 	*/
@@ -172,25 +172,25 @@ public:
 
 /**Draw the object's symbol on the map
 	*/
-	void drawSymbol( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale=1.0 );
+	void drawSymbol( TQPainter &psky, int x, int y, double PositionAngle, double zoom, double scale=1.0 );
 
 /**Draw the Object's image on the map
 	*/
-	void drawImage( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale=1.0 );
+	void drawImage( TQPainter &psky, int x, int y, double PositionAngle, double zoom, double scale=1.0 );
 
 /**Show Deep-sky object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()
 	*@param pmenu pointer to the KSPopupMenu object
 	*@param pos QPojnt holding the x,y coordinates for the menu
 	*/
-	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos ); }
+	virtual void showPopupMenu( KSPopupMenu *pmenu, TQPoint pos ) { pmenu->createDeepSkyObjectMenu( this ); pmenu->popup( pos ); }
 
 private:
 	unsigned char Catalog; 
         double PositionAngle;
 	int UGC, PGC;
 	float MajorAxis, MinorAxis;
-	QImage *Image;
+	TQImage *Image;
 };
 
 #endif

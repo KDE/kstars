@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfont.h>
+#include <tqfont.h>
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -29,7 +29,7 @@
 
 #include <kapplication.h>
 
-ImageViewer::ImageViewer (const KURL *url, const QString &capText, QWidget *parent, const char *name)
+ImageViewer::ImageViewer (const KURL *url, const TQString &capText, TQWidget *parent, const char *name)
 	: KMainWindow (parent, name), imageURL (*url), fileIsImage (false),
 	  ctrl (false), key_s (false), key_q (false), downloadJob(0)
 {
@@ -37,14 +37,14 @@ ImageViewer::ImageViewer (const KURL *url, const QString &capText, QWidget *pare
 // JH: easier to just disable its mobility
 	toolBar()->setMovingEnabled( false );
 
-	KAction *action = new KAction (i18n ("Close Window"), "fileclose", CTRL+Key_Q, this, SLOT (close()), actionCollection());
+	KAction *action = new KAction (i18n ("Close Window"), "fileclose", CTRL+Key_Q, this, TQT_SLOT (close()), actionCollection());
 	action->plug (toolBar());
-	action = new KAction (i18n ("Save Image"), "filesave", CTRL+Key_S, this, SLOT (saveFileToDisc()), actionCollection());
+	action = new KAction (i18n ("Save Image"), "filesave", CTRL+Key_S, this, TQT_SLOT (saveFileToDisc()), actionCollection());
 	action->plug (toolBar());
 
 	statusBar()->insertItem( capText, 0, 1, true );
 	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
-	QFont fnt = statusBar()->font();
+	TQFont fnt = statusBar()->font();
 	fnt.setPointSize( fnt.pointSize() - 2 );
 	statusBar()->setFont( fnt );
 	
@@ -60,9 +60,9 @@ ImageViewer::~ImageViewer() {
 
 	if (!file->remove())		// if the file was not complete downloaded the suffix is  ".part"
 	{
-            kdDebug()<<QString("remove of %1 failed").arg(file->name())<<endl;
+            kdDebug()<<TQString("remove of %1 failed").arg(file->name())<<endl;
 		file->setName (file->name() + ".part");		// set new suffix to filename
-                kdDebug()<<QString("try to remove %1").arg( file->name())<<endl;
+                kdDebug()<<TQString("try to remove %1").arg( file->name())<<endl;
 		if (file->remove())
                     kdDebug()<<"file removed\n";
 		else
@@ -70,20 +70,20 @@ ImageViewer::~ImageViewer() {
 	}
 }
 
-void ImageViewer::paintEvent (QPaintEvent */*ev*/)
+void ImageViewer::paintEvent (TQPaintEvent */*ev*/)
 {
 	bitBlt (this, 0, toolBar()->height() + 1, &pix);
 }
 
-void ImageViewer::resizeEvent (QResizeEvent */*ev*/)
+void ImageViewer::resizeEvent (TQResizeEvent */*ev*/)
 {
 	if ( !downloadJob )  // only if image is loaded
-		pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() - statusBar()->height() ) );	// convert QImage to QPixmap (fastest method)
+		pix = kpix.convertToPixmap ( image.smoothScale ( size().width() , size().height() - toolBar()->height() - statusBar()->height() ) );	// convert TQImage to TQPixmap (fastest method)
 
 	update();
 }
 
-void ImageViewer::closeEvent (QCloseEvent *ev)
+void ImageViewer::closeEvent (TQCloseEvent *ev)
 {
 	if (ev)	// not if closeEvent (0) is called, because segfault
 		ev->accept();	// parent-widgets should not get this event, so it will be filtered
@@ -91,7 +91,7 @@ void ImageViewer::closeEvent (QCloseEvent *ev)
 }
 
 
-void ImageViewer::keyPressEvent (QKeyEvent *ev)
+void ImageViewer::keyPressEvent (TQKeyEvent *ev)
 {
 	ev->accept();  //make sure key press events are captured.
 	switch (ev->key())
@@ -111,7 +111,7 @@ void ImageViewer::keyPressEvent (QKeyEvent *ev)
 	}
 }
 
-void ImageViewer::keyReleaseEvent (QKeyEvent *ev)
+void ImageViewer::keyReleaseEvent (TQKeyEvent *ev)
 {
 	ev->accept();
 	switch (ev->key())
@@ -132,7 +132,7 @@ void ImageViewer::loadImageFromURL()
             kdDebug()<<"tempfile-URL is malformed\n";
 
 	downloadJob = KIO::copy (imageURL, saveURL);	// starts the download asynchron
-	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+	connect (downloadJob, TQT_SIGNAL (result (KIO::Job *)), TQT_SLOT (downloadReady (KIO::Job *)));
 }
 
 void ImageViewer::downloadReady (KIO::Job *job)
@@ -161,7 +161,7 @@ void ImageViewer::showImage()
 {
 	if (!image.load (file->name()))		// if loading failed
 	{
-		QString text = i18n ("Loading of the image %1 failed.");
+		TQString text = i18n ("Loading of the image %1 failed.");
 		KMessageBox::error (this, text.arg (imageURL.prettyURL() ));
 		closeEvent (0);
 		return;
@@ -173,7 +173,7 @@ void ImageViewer::showImage()
 		image.smoothScale ( statusBar()->width() , image.height() * statusBar()->width() / image.width() );
 	}
 	
-	QRect deskRect = kapp->desktop()->availableGeometry();
+	TQRect deskRect = kapp->desktop()->availableGeometry();
 	int w = deskRect.width(); // screen width
 	int h = deskRect.height(); // screen height
 	int h2 = image.height() + toolBar()->height() + statusBar()->height(); //height required for ImageViewer
@@ -205,10 +205,10 @@ void ImageViewer::saveFileToDisc()
 	KURL newURL = KFileDialog::getSaveURL(imageURL.fileName());  // save-dialog with default filename
 	if (!newURL.isEmpty())
 	{
-		QFile f (newURL.directory() + "/" +  newURL.fileName());
+		TQFile f (newURL.directory() + "/" +  newURL.fileName());
 		if (f.exists())
 		{
-			int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
+			int r=KMessageBox::warningContinueCancel(static_cast<TQWidget *>(parent()),
 									i18n( "A file named \"%1\" already exists. "
 											"Overwrite it?" ).arg(newURL.fileName()),
 									i18n( "Overwrite File?" ),
@@ -223,9 +223,9 @@ void ImageViewer::saveFileToDisc()
 
 void ImageViewer::saveFile (KURL &url) {
 // synchronous Access to prevent segfaults
-	if (!KIO::NetAccess::copy (KURL (file->name()), url, (QWidget*) 0))
+	if (!KIO::NetAccess::copy (KURL (file->name()), url, (TQWidget*) 0))
 	{
-		QString text = i18n ("Saving of the image %1 failed.");
+		TQString text = i18n ("Saving of the image %1 failed.");
 		KMessageBox::error (this, text.arg (url.prettyURL() ));
 	}
 }

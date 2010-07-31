@@ -22,16 +22,16 @@
 #include "dms.h"
 #include "kstarsdatetime.h"
 
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qtextstream.h>
+#include <tqcheckbox.h>
+#include <tqradiobutton.h>
+#include <tqtextstream.h>
 #include <klocale.h>
 #include <klineedit.h>
 #include <kapplication.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
-modCalcPrec::modCalcPrec(QWidget *parentSplit, const char *name) : modCalcPrecDlg(parentSplit,name) {
+modCalcPrec::modCalcPrec(TQWidget *parentSplit, const char *name) : modCalcPrecDlg(parentSplit,name) {
 
 	ra0Box->setDegType(FALSE);
 	rafBox->setDegType(FALSE);
@@ -54,10 +54,10 @@ SkyPoint modCalcPrec::getEquCoords (void) {
 	return sp;
 }
 
-QString modCalcPrec:: showCurrentEpoch () {
+TQString modCalcPrec:: showCurrentEpoch () {
 
 	double epoch = setCurrentEpoch();
-	QString eName = QString("%1").arg(epoch,7,'f',2);
+	TQString eName = TQString("%1").arg(epoch,7,'f',2);
 
 	return eName;
 }
@@ -66,7 +66,7 @@ double modCalcPrec::setCurrentEpoch () {
 	return KStarsDateTime::currentDateTime().epoch();
 }
 
-double modCalcPrec::getEpoch (QString eName) {
+double modCalcPrec::getEpoch (TQString eName) {
 	bool ok = false;
 	double epoch = eName.toDouble(&ok);
 
@@ -152,13 +152,13 @@ void modCalcPrec::slotTargetEpochCheckedBatch(){
 }
 
 void modCalcPrec::slotInputFile() {
-	QString inputFileName;
+	TQString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcPrec::slotOutputFile() {
-	QString outputFileName;
+	TQString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 
@@ -167,28 +167,28 @@ void modCalcPrec::slotOutputFile() {
 
 void modCalcPrec::slotRunBatch() {
 
-	QString inputFileName;
+	TQString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
 
 	// We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
+	if ( TQFile::exists(inputFileName) ) {
+		TQFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			TQString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;
 		}
 
 //		processLines(&f);
-		QTextStream istream(&f);
+		TQTextStream istream(&f);
 		processLines(istream);
 //		readFile( istream );
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		TQString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
 		InputLineEditBatch->setText( inputFileName );
@@ -196,19 +196,19 @@ void modCalcPrec::slotRunBatch() {
 	}
 }
 
-void modCalcPrec::processLines( QTextStream &istream ) {
+void modCalcPrec::processLines( TQTextStream &istream ) {
 
 	// we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
+//	TQTextStream istream(&fIn);
+	TQString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
+	TQFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
-	QTextStream ostream(&fOut);
+	TQTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
+	TQString line;
+	TQString space = " ";
 	int i = 0;
 	long double jd0, jdf;
 	SkyPoint sp;
@@ -222,7 +222,7 @@ void modCalcPrec::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		TQStringList fields = TQStringList::split( " ", line );
 
 		i = 0;
 

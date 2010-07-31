@@ -16,12 +16,12 @@
  ***************************************************************************/
 
 #include <stdio.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qstringlist.h>
-#include <qwidgetstack.h>
+#include <tqfile.h>
+#include <tqdir.h>
+#include <tqlabel.h>
+#include <tqlayout.h>
+#include <tqstringlist.h>
+#include <tqwidgetstack.h>
 #include <klistview.h>
 #include <kpushbutton.h>
 #include <kstatusbar.h>
@@ -53,13 +53,13 @@
 #include "devicemanager.h"
 #include "indistd.h"
 
-ObservingList::ObservingList( KStars *_ks, QWidget* parent )
+ObservingList::ObservingList( KStars *_ks, TQWidget* parent )
 		: KDialogBase( KDialogBase::Plain, i18n( "Observing List" ), 
 				Close, Close, parent, "observinglist", false ), ks( _ks ), LogObject(0), oCurrent(0), 
 				noNameStars(0), isModified(false), bIsLarge(true)
 {
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	TQFrame *page = plainPage();
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, 0 );
 	ui = new ObservingListUI( page );
 	vlay->addWidget( ui );
 
@@ -67,40 +67,40 @@ ObservingList::ObservingList( KStars *_ks, QWidget* parent )
 	ui->MiniButton->hide();
 
 	//Connections
-	connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
-	connect( ui->TableStack, SIGNAL( aboutToShow( QWidget* ) ), 
-			this, SLOT( slotPrepTable( QWidget* ) ) );
-	connect( ui->FullTable, SIGNAL( selectionChanged() ), 
-			this, SLOT( slotNewSelection() ) );
-	connect( ui->TinyTable, SIGNAL( selectionChanged() ), 
-			this, SLOT( slotNewSelection() ) );
-	connect( ui->FullTable, SIGNAL( doubleClicked( QListViewItem*, const QPoint&, int) ), 
-			this, SLOT( slotCenterObject() ) );
-	connect( ui->TinyTable, SIGNAL( doubleClicked( QListBoxItem* ) ), 
-			this, SLOT( slotCenterObject() ) );
-	connect( ui->RemoveButton, SIGNAL( clicked() ), 
-			this, SLOT( slotRemoveObjects() ) );
-	connect( ui->CenterButton, SIGNAL( clicked() ), 
-			this, SLOT( slotCenterObject() ) );
-	connect( ui->ScopeButton, SIGNAL( clicked() ), 
-			this, SLOT( slotSlewToObject() ) );
-	connect( ui->DetailsButton, SIGNAL( clicked() ), 
-			this, SLOT( slotDetails() ) );
-	connect( ui->AVTButton, SIGNAL( clicked() ), 
-			this, SLOT( slotAVT() ) );
+	connect( this, TQT_SIGNAL( closeClicked() ), this, TQT_SLOT( slotClose() ) );
+	connect( ui->TableStack, TQT_SIGNAL( aboutToShow( TQWidget* ) ), 
+			this, TQT_SLOT( slotPrepTable( TQWidget* ) ) );
+	connect( ui->FullTable, TQT_SIGNAL( selectionChanged() ), 
+			this, TQT_SLOT( slotNewSelection() ) );
+	connect( ui->TinyTable, TQT_SIGNAL( selectionChanged() ), 
+			this, TQT_SLOT( slotNewSelection() ) );
+	connect( ui->FullTable, TQT_SIGNAL( doubleClicked( TQListViewItem*, const TQPoint&, int) ), 
+			this, TQT_SLOT( slotCenterObject() ) );
+	connect( ui->TinyTable, TQT_SIGNAL( doubleClicked( TQListBoxItem* ) ), 
+			this, TQT_SLOT( slotCenterObject() ) );
+	connect( ui->RemoveButton, TQT_SIGNAL( clicked() ), 
+			this, TQT_SLOT( slotRemoveObjects() ) );
+	connect( ui->CenterButton, TQT_SIGNAL( clicked() ), 
+			this, TQT_SLOT( slotCenterObject() ) );
+	connect( ui->ScopeButton, TQT_SIGNAL( clicked() ), 
+			this, TQT_SLOT( slotSlewToObject() ) );
+	connect( ui->DetailsButton, TQT_SIGNAL( clicked() ), 
+			this, TQT_SLOT( slotDetails() ) );
+	connect( ui->AVTButton, TQT_SIGNAL( clicked() ), 
+			this, TQT_SLOT( slotAVT() ) );
 
-	connect( ui->OpenButton, SIGNAL( clicked() ), 
-			this, SLOT( slotOpenList() ) );
-	connect( ui->SaveButton, SIGNAL( clicked() ),
-			this, SLOT( slotSaveList() ) );
-	connect( ui->SaveAsButton, SIGNAL( clicked() ),
-			this, SLOT( slotSaveListAs() ) );
-	connect( ui->WizardButton, SIGNAL( clicked() ),
-			this, SLOT( slotWizard() ) );
+	connect( ui->OpenButton, TQT_SIGNAL( clicked() ), 
+			this, TQT_SLOT( slotOpenList() ) );
+	connect( ui->SaveButton, TQT_SIGNAL( clicked() ),
+			this, TQT_SLOT( slotSaveList() ) );
+	connect( ui->SaveAsButton, TQT_SIGNAL( clicked() ),
+			this, TQT_SLOT( slotSaveListAs() ) );
+	connect( ui->WizardButton, TQT_SIGNAL( clicked() ),
+			this, TQT_SLOT( slotWizard() ) );
 
 	//FIXME: enable MiniButton
-// 	connect( ui->MiniButton, SIGNAL( clicked() ),
-// 			this, SLOT( slotToggleSize() ) );
+// 	connect( ui->MiniButton, TQT_SIGNAL( clicked() ),
+// 			this, TQT_SLOT( slotToggleSize() ) );
 
 	obsList.setAutoDelete( false ); //do NOT delete removed pointers!
 	
@@ -131,7 +131,7 @@ bool ObservingList::contains( const SkyObject *q ) {
 
 
 //SLOTS
-void ObservingList::slotPrepTable( QWidget *tab ) {
+void ObservingList::slotPrepTable( TQWidget *tab ) {
 	if ( tab == ui->FullTable ) {
 	} else {
 	}
@@ -154,8 +154,8 @@ void ObservingList::slotAddObject( SkyObject *obj ) {
 	if ( ! isModified ) isModified = true; 
 
 	//Insert object entry in FullTable and TinyTable
-	QString smag("--");
-	if ( obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 );
+	TQString smag("--");
+	if ( obj->mag() < 90.0 ) smag = TQString::number( obj->mag(), 'g', 2 );
 	new KListViewItem( ui->FullTable, obj->translatedName(), 
 			obj->ra()->toHMSString(),
 			obj->dec()->toDMSString(),
@@ -179,9 +179,9 @@ void ObservingList::slotRemoveObject( SkyObject *o ) {
 		
 	//Remove entry from FullTable
 	bool objectFound = false;
-	QListViewItemIterator it( ui->FullTable );
+	TQListViewItemIterator it( ui->FullTable );
 	while ( it.current() ) {
-		QListViewItem *item = it.current();
+		TQListViewItem *item = it.current();
 
 		//If the object is named "star" then match coordinates instead of name
 		if ( o->translatedName() == i18n( "star" ) ) {
@@ -227,7 +227,7 @@ void ObservingList::slotNewSelection() {
 
 	//Construct list of selected objects
 	SelectedObjects.clear();
-	QListViewItemIterator it( ui->FullTable, QListViewItemIterator::Selected ); //loop over selected items
+	TQListViewItemIterator it( ui->FullTable, TQListViewItemIterator::Selected ); //loop over selected items
 	while ( it.current() ) {
 		for ( SkyObject *o = obsList.first(); o; o = obsList.next() ) {
 			if ( it.current()->text(0) == i18n("star") ) {
@@ -246,8 +246,8 @@ void ObservingList::slotNewSelection() {
 	
 	//Enable widgets when one object selected
 	if ( SelectedObjects.count() == 1 ) {
-		QString newName( SelectedObjects.first()->translatedName() );
-		QString oldName( obsList.current()->translatedName() );
+		TQString newName( SelectedObjects.first()->translatedName() );
+		TQString oldName( obsList.current()->translatedName() );
 		
 		//Enable buttons
 		ui->CenterButton->setEnabled( true );
@@ -432,8 +432,8 @@ void ObservingList::slotSlewToObject()
       	if (useJ2000)
 	    sp.apparentCoord(ks->data()->ut().djd(), (long double) J2000);
 
-    	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
-	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+    	   RAEle->write_w->setText(TQString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+	   DecEle->write_w->setText(TQString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
 
           break;
 
@@ -449,8 +449,8 @@ void ObservingList::slotSlewToObject()
            sp.setAlt(*ks->map()->clickedPoint()->alt());
          }
 
-          AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
-          AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+          AzEle->write_w->setText(TQString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
+          AltEle->write_w->setText(TQString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
 
          break;
        }
@@ -510,8 +510,8 @@ void ObservingList::saveCurrentUserLog() {
 }
 
 void ObservingList::slotOpenList() {
-	KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.obslist|KStars Observing List (*.obslist)" );
-	QFile f;
+	KURL fileURL = KFileDialog::getOpenURL( TQDir::homeDirPath(), "*.obslist|KStars Observing List (*.obslist)" );
+	TQFile f;
 
 	if ( fileURL.isValid() ) {
 		if ( ! fileURL.isLocalFile() ) {
@@ -528,7 +528,7 @@ void ObservingList::slotOpenList() {
 		}
 
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1" ).arg( f.name() );
+			TQString message = i18n( "Could not open file %1" ).arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
 		}
@@ -536,8 +536,8 @@ void ObservingList::slotOpenList() {
 		saveCurrentList();
 		//First line is the name of the list.  The rest of the file should 
 		//be object names, one per line.
-		QTextStream istream(&f);
-		QString line;
+		TQTextStream istream(&f);
+		TQString line;
 		ListName = istream.readLine();
 
 		while ( ! istream.eof() ) {
@@ -548,7 +548,7 @@ void ObservingList::slotOpenList() {
 			//If the object is named "star", add it by coordinates
 			SkyObject *o = 0;
 			if ( line.startsWith( "star" ) ) {
-				QStringList fields = QStringList::split( " ", line );
+				TQStringList fields = TQStringList::split( " ", line );
 				//DEBUG
 				kdDebug() << fields << endl;
 
@@ -579,7 +579,7 @@ void ObservingList::slotOpenList() {
 		f.close();
 
 	} else if ( fileURL.path() != "" ) {
-		QString message = i18n( "The specified file is invalid.  Try another file?" );
+		TQString message = i18n( "The specified file is invalid.  Try another file?" );
 		if ( KMessageBox::warningYesNo( this, message, i18n("Invalid File"), i18n("Try Another"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
 			slotOpenList();
 		}
@@ -591,7 +591,7 @@ void ObservingList::saveCurrentList() {
 	//Assume that if the list is empty, then there's no need to save
 	if ( obsList.count() ) {
 		if ( isModified ) {
-			QString message = i18n( "Do you want to save the current list before opening a new list?" );
+			TQString message = i18n( "Do you want to save the current list before opening a new list?" );
 			if ( KMessageBox::questionYesNo( this, message, 
 					i18n( "Save Current List?" ), KStdGuiItem::save(), KStdGuiItem::discard() ) == KMessageBox::Yes )
 				slotSaveList();
@@ -610,7 +610,7 @@ void ObservingList::slotSaveListAs() {
 			i18n( "List name:" ), "", &ok );
 
 	if ( ok ) {
-		KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.obslist|KStars Observing List (*.obslist)" );
+		KURL fileURL = KFileDialog::getSaveURL( TQDir::homeDirPath(), "*.obslist|KStars Observing List (*.obslist)" );
 
 		if ( fileURL.isValid() ) 
 			FileName = fileURL.path();
@@ -625,9 +625,9 @@ void ObservingList::slotSaveList() {
 		return;
 	}
 
-	QFile f( FileName );
+	TQFile f( FileName );
 	if ( !f.open( IO_WriteOnly) ) {
-		QString message = i18n( "Could not open file %1.  Try a different filename?" ).arg( f.name() );
+		TQString message = i18n( "Could not open file %1.  Try a different filename?" ).arg( f.name() );
 		
 		if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), i18n("Try Different"), i18n("Do Not Try") ) == KMessageBox::Yes ) {
 			FileName == "";
@@ -636,7 +636,7 @@ void ObservingList::slotSaveList() {
 		return;
 	}
 	
-	QTextStream ostream(&f);
+	TQTextStream ostream(&f);
 	ostream << ListName << endl;
 
 	//Save objects to the list using their name.  If it's a star with a genetive name 
@@ -664,7 +664,7 @@ void ObservingList::slotSaveList() {
 
 void ObservingList::slotWizard() {
 	ObsListWizard wizard( ks );
-	if ( wizard.exec() == QDialog::Accepted ) {
+	if ( wizard.exec() == TQDialog::Accepted ) {
 		//Make sure current list is saved
 		saveCurrentList();
 
@@ -722,14 +722,14 @@ void ObservingList::slotToggleSize() {
 void ObservingList::syncTableSelection( bool syncFullTable ) {
 	if ( syncFullTable ) {
 		int i=0;
-		QListViewItem *it =  ui->FullTable->firstChild();
+		TQListViewItem *it =  ui->FullTable->firstChild();
 		while ( it ) {
 			it->setSelected( ui->TinyTable->isSelected( i++ ) );
 			it->nextSibling();
 		}
 	} else {
 		int i=0;
-		QListViewItem *it =  ui->FullTable->firstChild();
+		TQListViewItem *it =  ui->FullTable->firstChild();
 		while ( it ) {
 			ui->TinyTable->setSelected( i++, it->isSelected() );
 			it->nextSibling();

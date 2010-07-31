@@ -10,7 +10,7 @@
 #ifndef TELESCOPEWIZARDPROCESS_H
 #define TELESCOPEWIZARDPROCESS_H
 
-#include <qstringlist.h>
+#include <tqstringlist.h>
 
 #include "telescopewizard.h"
 
@@ -28,7 +28,7 @@ class telescopeWizardProcess : public telescopeWizard
 Q_OBJECT
 
 public:
-	telescopeWizardProcess( QWidget* parent = 0, const char* name = 0);
+	telescopeWizardProcess( TQWidget* parent = 0, const char* name = 0);
 	~telescopeWizardProcess();
 
 	unsigned int currentPage;
@@ -38,14 +38,14 @@ private:
 	KStars * ksw;
 	INDIMenu   *indimenu;
 	INDIDriver *indidriver;
-	QTimer *newDeviceTimer;
+	TQTimer *newDeviceTimer;
 
 	INDI_D *indiDev;
 
 	KProgressDialog *progressScan;
 
-	QStringList portList;
-	QString currentDevice;
+	TQStringList portList;
+	TQString currentDevice;
 
 	int currentPort;
 	int timeOutCount;

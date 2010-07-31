@@ -35,8 +35,8 @@
 #include <kpopupmenu.h>
 #include <kstatusbar.h>
 #include <kprocess.h>
-#include <qcheckbox.h>
-#include <qdir.h>
+#include <tqcheckbox.h>
+#include <tqdir.h>
 #include <kdeversion.h>
 //FIXME GLSOSSARY (uncomment these when content is added)
 //#include <libkdeedu/kdeeduui/kdeeduglossary.h>
@@ -93,23 +93,23 @@
 
 void KStars::slotViewToolBar() {
 
-	if ( sender()->name() == QString( "show_stars" ) ) {
+	if ( sender()->name() == TQString( "show_stars" ) ) {
 		Options::setShowStars( !Options::showStars() );
-	} else if ( sender()->name() == QString( "show_deepsky" ) ) {
+	} else if ( sender()->name() == TQString( "show_deepsky" ) ) {
 		Options::setShowDeepSky( ! Options::showDeepSky() );
-	} else if ( sender()->name() == QString( "show_planets" ) ) {
+	} else if ( sender()->name() == TQString( "show_planets" ) ) {
 		Options::setShowPlanets( ! Options::showPlanets() );
-	} else if ( sender()->name() == QString( "show_clines" ) ) {
+	} else if ( sender()->name() == TQString( "show_clines" ) ) {
 		Options::setShowCLines( !Options::showCLines() );
-	} else if ( sender()->name() == QString( "show_cnames" ) ) {
+	} else if ( sender()->name() == TQString( "show_cnames" ) ) {
 		Options::setShowCNames( !Options::showCNames() );
-	} else if ( sender()->name() == QString( "show_cbounds" ) ) {
+	} else if ( sender()->name() == TQString( "show_cbounds" ) ) {
 		Options::setShowCBounds( !Options::showCBounds() );
-	} else if ( sender()->name() == QString( "show_mw" ) ) {
+	} else if ( sender()->name() == TQString( "show_mw" ) ) {
 		Options::setShowMilkyWay( !Options::showMilkyWay() );
-	} else if ( sender()->name() == QString( "show_grid" ) ) {
+	} else if ( sender()->name() == TQString( "show_grid" ) ) {
 		Options::setShowGrid( !Options::showGrid() );
-	} else if ( sender()->name() == QString( "show_horizon" ) ) {
+	} else if ( sender()->name() == TQString( "show_horizon" ) ) {
 		Options::setShowGround( !Options::showGround() );
 	}
 
@@ -130,7 +130,7 @@ void KStars::slotCalculator() {
 
 void KStars::slotWizard() {
 	KSWizard wizard(this);
-	if ( wizard.exec() == QDialog::Accepted ) {
+	if ( wizard.exec() == TQDialog::Accepted ) {
 		Options::setRunStartupWizard( false );  //don't run on startup next time
 
 		data()->setLocation( wizard.geo() );
@@ -199,7 +199,7 @@ void KStars::slotWUT() {
 //FIXME GLOSSARY
 // void KStars::slotGlossary(){
 // 	GlossaryDialog *dlg = new GlossaryDialog( true, this, "glossary" );
-// 	QString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
+// 	TQString glossaryfile =data()->stdDirs->findResource( "data", "kstars/glossary.xml" );
 // 	KURL u = glossaryfile;
 // 	Glossary *g = Glossary::readFromXML( u );
 // 	g->setName( i18n( "Knowledge" ) );
@@ -262,7 +262,7 @@ void KStars::slotINDIConf() {
    INDIFITSConf indioptions(this);
 
     indioptions.loadOptions();
-   /*QStringList filterList;
+   /*TQStringList filterList;
  
    
    indiconf.timeCheck->setChecked( Options::indiAutoTime() );
@@ -275,7 +275,7 @@ void KStars::slotINDIConf() {
 
    if (Options::fitsSaveDirectory().isEmpty())
    {
-     indiconf.fitsDIR_IN->setText (QDir:: homeDirPath());
+     indiconf.fitsDIR_IN->setText (TQDir:: homeDirPath());
      Options::setFitsSaveDirectory( indiconf.fitsDIR_IN->text());
    }
    else
@@ -288,7 +288,7 @@ void KStars::slotINDIConf() {
         indiconf.filterCombo->insertStringList(filterList);
    }*/
 
-   if (indioptions.exec() == QDialog::Accepted)
+   if (indioptions.exec() == TQDialog::Accepted)
    {
      /*Options::setIndiAutoTime( indiconf.timeCheck->isChecked() );
      Options::setIndiAutoGeo( indiconf.GeoCheck->isChecked() );
@@ -306,7 +306,7 @@ void KStars::slotINDIConf() {
 
 void KStars::slotGeoLocator() {
 	LocationDialog locationdialog (this);
-	if ( locationdialog.exec() == QDialog::Accepted ) {
+	if ( locationdialog.exec() == TQDialog::Accepted ) {
 		GeoLocation *newLocation = locationdialog.selectedCity();
 		if ( newLocation ) {
 			// set new location in options
@@ -356,8 +356,8 @@ void KStars::slotViewOps() {
 	KConfigDialog* dialog = new KConfigDialog( this, "settings",
 					     Options::self() );
 
-	connect( dialog, SIGNAL( applyClicked() ), this, SLOT( slotApplySettings() ) );
-	connect( dialog, SIGNAL( okClicked() ), this, SLOT( slotApplySettings() ) );
+	connect( dialog, TQT_SIGNAL( applyClicked() ), this, TQT_SLOT( slotApplySettings() ) );
+	connect( dialog, TQT_SIGNAL( okClicked() ), this, TQT_SLOT( slotApplySettings() ) );
 
 	OpsCatalog *opcatalog    = new OpsCatalog( this, "catalogs" );
 	OpsGuides  *opguides     = new OpsGuides( this, "guides" );
@@ -384,7 +384,7 @@ void KStars::slotApplyConfigChanges() {
 void KStars::slotSetTime() {
 	TimeDialog timedialog ( data()->lt(), this );
 
-	if ( timedialog.exec() == QDialog::Accepted ) {
+	if ( timedialog.exec() == TQDialog::Accepted ) {
 		data()->changeDateTime( geo()->LTtoUT( timedialog.selectedDateTime() ) );
 
 		if ( Options::useAltAz() ) {
@@ -408,7 +408,7 @@ void KStars::slotFind() {
 
 	if ( !findDialog ) kdWarning() << i18n( "KStars::slotFind() - Not enough memory for dialog" ) << endl;
 
-	if ( findDialog->exec() == QDialog::Accepted && findDialog->currentItem() ) {
+	if ( findDialog->exec() == TQDialog::Accepted && findDialog->currentItem() ) {
 		map()->setClickedObject( findDialog->currentItem()->objName()->skyObject() );
 		map()->setClickedPoint( map()->clickedObject() );
 		map()->slotCenter();
@@ -434,7 +434,7 @@ void KStars::closeWindow() {
 void KStars::slotOpenFITS()
 {
 
-  KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
+  KURL fileURL = KFileDialog::getOpenURL( TQDir::homeDirPath(), "*.fits *.fit *.fts|Flexible Image Transport System");
 
   if (fileURL.isEmpty())
     return;
@@ -445,12 +445,12 @@ void KStars::slotOpenFITS()
 }
 
 void KStars::slotExportImage() {
-	KURL fileURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
+	KURL fileURL = KFileDialog::getSaveURL( TQDir::homeDirPath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/x-bmp" );
 
 	//Warn user if file exists!
-	if (QFile::exists(fileURL.path()))
+	if (TQFile::exists(fileURL.path()))
 	{
-		int r=KMessageBox::warningContinueCancel(static_cast<QWidget *>(parent()),
+		int r=KMessageBox::warningContinueCancel(static_cast<TQWidget *>(parent()),
 								i18n( "A file named \"%1\" already exists. "
 										"Overwrite it?" ).arg(fileURL.fileName()),
 								i18n( "Overwrite File?" ),
@@ -463,14 +463,14 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
-	KURL fileURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
-	QFile f;
-	QString fname;
+	KURL fileURL = KFileDialog::getOpenURL( TQDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+	TQFile f;
+	TQString fname;
 
 	if ( fileURL.isValid() ) {
 		if ( ! fileURL.isLocalFile() ) {
 			//Warn the user about executing remote code.
-			QString message = i18n( "Warning:  You are about to execute a remote shell script on your machine. " );
+			TQString message = i18n( "Warning:  You are about to execute a remote shell script on your machine. " );
 			message += i18n( "If you absolutely trust the source of this script, press Continue to execute the script; " );
 			message += i18n( "to save the file without executing it, press Save; " );
 			message += i18n( "to cancel the download, press Cancel. " );
@@ -480,14 +480,14 @@ void KStars::slotRunScript() {
 
 			if ( result == KMessageBox::Cancel ) return;
 			if ( result == KMessageBox::No ) { //save file
-				KURL saveURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+				KURL saveURL = KFileDialog::getSaveURL( TQDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
 				KTempFile tmpfile;
 				tmpfile.setAutoDelete(true);
 
 				while ( ! saveURL.isValid() ) {
 					message = i18n( "Save location is invalid. Try another location?" );
 					if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), i18n("Try Another"), i18n("Do Not Try") ) == KMessageBox::No ) return;
-					saveURL = KFileDialog::getSaveURL( QDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
+					saveURL = KFileDialog::getSaveURL( TQDir::homeDirPath(), "*.kstars|KStars Scripts (*.kstars)" );
 				}
 
 				if ( saveURL.isLocalFile() ) {
@@ -501,7 +501,7 @@ void KStars::slotRunScript() {
 
 					if ( tmpfile.name() == fname ) { //upload to remote location
 						if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
-							QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
+							TQString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
 							KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 						}
 					}
@@ -528,7 +528,7 @@ void KStars::slotRunScript() {
 		}
 
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1" ).arg( f.name() );
+			TQString message = i18n( "Could not open file %1" ).arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			return;
 		}
@@ -536,8 +536,8 @@ void KStars::slotRunScript() {
 		// Before we run the script, make sure that it's safe.  Each line must either begin with "#"
 		// or begin with "dcop $KSTARS".  Otherwise, the line must be equal to one of the following:
 		// "KSTARS=`dcopfind -a 'kstars*'`";  "MAIN=KStarsInterface";  or "CLOCK=clock#1"
-		QTextStream istream(&f);
-		QString line;
+		TQTextStream istream(&f);
+		TQString line;
 		bool fileOK( true );
 
 		while (  ! istream.eof() ) {
@@ -578,7 +578,7 @@ void KStars::slotPrint() {
 
 	//Suggest Chart color scheme
 	if ( data()->colorScheme()->colorNamed( "SkyColor" ) != "#FFFFFF" ) {
-		QString message = i18n( "You can save printer ink by using the \"Star Chart\" "
+		TQString message = i18n( "You can save printer ink by using the \"Star Chart\" "
 				"color scheme, which uses a white background. Would you like to "
 				"temporarily switch to the Star Chart color scheme for printing?" );
 
@@ -623,7 +623,7 @@ void KStars::slotToggleTimer() {
 
 //Focus
 void KStars::slotPointFocus() {
-	QString sentFrom( sender()->name() );
+	TQString sentFrom( sender()->name() );
 
 	if ( sentFrom == "zenith" )
 		map()->invokeKey( KKey( "Z" ).keyCodeQt() );
@@ -667,7 +667,7 @@ void KStars::slotManualFocus() {
 	FocusDialog focusDialog( this ); // = new FocusDialog( this );
 	if ( Options::useAltAz() ) focusDialog.activateAzAltPage();
 
-	if ( focusDialog.exec() == QDialog::Accepted ) {
+	if ( focusDialog.exec() == TQDialog::Accepted ) {
 		//If the requested position is very near the pole, we need to point first
 		//to an intermediate location just below the pole in order to get the longitudinal
 		//position (RA/Az) right.
@@ -813,12 +813,12 @@ void KStars::slotCoordSys() {
 //Settings Menu:
 void KStars::slotColorScheme() {
 	//use mid(3) to exclude the leading "cs_" prefix from the action name
-	QString filename = QString( sender()->name() ).mid(3) + ".colors";
+	TQString filename = TQString( sender()->name() ).mid(3) + ".colors";
 	loadColorScheme( filename );
 }
 
 void KStars::slotTargetSymbol() {
-	QString symbolName( sender()->name() );
+	TQString symbolName( sender()->name() );
 	FOV f( symbolName ); //read data from fov.dat
 
 	Options::setFOVName( f.name() );
@@ -839,9 +839,9 @@ void KStars::slotTargetSymbol() {
 
 void KStars::slotFOVEdit() {
 	FOVDialog fovdlg( this );
-	if ( fovdlg.exec() == QDialog::Accepted ) {
+	if ( fovdlg.exec() == TQDialog::Accepted ) {
 		//replace existing fov.dat with data from the FOVDialog
-		QFile f;
+		TQFile f;
 		f.setName( locateLocal( "appdata", "fov.dat" ) );
 
 		//rebuild fov.dat if FOVList is empty
@@ -852,11 +852,11 @@ void KStars::slotFOVEdit() {
 			if ( ! f.open( IO_WriteOnly ) ) {
 				kdDebug() << i18n( "Could not open fov.dat for writing." ) << endl;
 			} else {
-				QTextStream ostream(&f);
+				TQTextStream ostream(&f);
 
 				for ( FOV *fov = fovdlg.FOVList.first(); fov; fov = fovdlg.FOVList.next() )
 					ostream << fov->name() << ":" << fov->size()
-							<< ":" << QString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
+							<< ":" << TQString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
 
 				f.close();
 			}
@@ -866,14 +866,14 @@ void KStars::slotFOVEdit() {
 		fovActionMenu->popupMenu()->clear();
 
 		if ( f.open( IO_ReadOnly ) ) {
-			QTextStream stream( &f );
+			TQTextStream stream( &f );
 			while ( !stream.eof() ) {
-				QString line = stream.readLine();
-				QStringList fields = QStringList::split( ":", line );
+				TQString line = stream.readLine();
+				TQStringList fields = TQStringList::split( ":", line );
 
 				if ( fields.count() == 4 ) {
-					QString nm = fields[0].stripWhiteSpace();
-					KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ),
+					TQString nm = fields[0].stripWhiteSpace();
+					KToggleAction *kta = new KToggleAction( nm, 0, this, TQT_SLOT( slotTargetSymbol() ),
 							actionCollection(), nm.utf8() );
 					kta->setExclusiveGroup( "fovsymbol" );
 					fovActionMenu->insert( kta );
@@ -885,7 +885,7 @@ void KStars::slotFOVEdit() {
 
 		fovActionMenu->popupMenu()->insertSeparator();
 		fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this,
-				SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
+				TQT_SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
 
 		//set FOV to whatever was highlighted in FOV dialog
 		if ( fovdlg.FOVList.count() > 0 ) {
@@ -955,31 +955,31 @@ void KStars::slotClearAllTrails() {
 //toggle display of GUI Items on/off
 void KStars::slotShowGUIItem( bool show ) {
 //Toolbars
-	if ( sender()->name() == QString( "show_mainToolBar" ) ) {
+	if ( sender()->name() == TQString( "show_mainToolBar" ) ) {
 		Options::setShowMainToolBar( show );
 		if ( show ) toolBar( "mainToolBar" )->show();
 		else toolBar( "mainToolBar" )->hide();
 	}
-	if ( sender()->name() == QString( "show_viewToolBar" ) ) {
+	if ( sender()->name() == TQString( "show_viewToolBar" ) ) {
 		Options::setShowViewToolBar( show );
 		if ( show ) toolBar( "viewToolBar" )->show();
 		else toolBar( "viewToolBar" )->hide();
 	}
 
-	if ( sender()->name() == QString( "show_statusBar" ) ) {
+	if ( sender()->name() == TQString( "show_statusBar" ) ) {
 		Options::setShowStatusBar( show );
 		if ( show ) statusBar()->show();
 		else  statusBar()->hide();
 	}
 
-	if ( sender()->name() == QString( "show_sbAzAlt" ) ) {
+	if ( sender()->name() == TQString( "show_sbAzAlt" ) ) {
 		Options::setShowAltAzField( show );
 		if ( show ) {
 			//To preserve the order (AzAlt before RADec), we have to remove
 			//the RADec field and then add both back.
 			if ( Options::showRADecField() ) statusBar()->removeItem( 2 );
 
-			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
+			TQString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertFixedItem( s, 1, true );
 			statusBar()->setItemAlignment( 1, AlignRight | AlignVCenter );
 			statusBar()->changeItem( "", 1 );
@@ -994,10 +994,10 @@ void KStars::slotShowGUIItem( bool show ) {
 		}
 	}
 
-	if ( sender()->name() == QString( "show_sbRADec" ) ) {
+	if ( sender()->name() == TQString( "show_sbRADec" ) ) {
 		Options::setShowRADecField( show );
 		if ( show ) {
-			QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
+			TQString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 			statusBar()->insertFixedItem( s, 2, true );
 			statusBar()->setItemAlignment( 2, AlignRight | AlignVCenter );
 			statusBar()->changeItem( "", 2 );
@@ -1008,22 +1008,22 @@ void KStars::slotShowGUIItem( bool show ) {
 
 //InfoBoxes: we only change options here; these are also connected to slots in
 //InfoBoxes that actually toggle the display.
-	if ( sender()->name() == QString( "show_boxes" ) )
+	if ( sender()->name() == TQString( "show_boxes" ) )
 		Options::setShowInfoBoxes( show );
-	if ( sender()->name() == QString( "show_time_box" ) )
+	if ( sender()->name() == TQString( "show_time_box" ) )
 		Options::setShowTimeBox( show );
-	if ( sender()->name() == QString( "show_location_box" ) )
+	if ( sender()->name() == TQString( "show_location_box" ) )
 		Options::setShowGeoBox( show );
-	if ( sender()->name() == QString( "show_focus_box" ) )
+	if ( sender()->name() == TQString( "show_focus_box" ) )
 		Options::setShowFocusBox( show );
 }
 
-void KStars::addColorMenuItem( QString name, QString actionName ) {
+void KStars::addColorMenuItem( TQString name, TQString actionName ) {
 	colorActionMenu->insert( new KAction( name, 0,
-			this, SLOT( slotColorScheme() ), actionCollection(), actionName.local8Bit() ) );
+			this, TQT_SLOT( slotColorScheme() ), actionCollection(), actionName.local8Bit() ) );
 }
 
-void KStars::removeColorMenuItem( QString actionName ) {
+void KStars::removeColorMenuItem( TQString actionName ) {
 	kdDebug() << "removing " << actionName << endl;
 	colorActionMenu->remove( actionCollection()->action( actionName.local8Bit() ) );
 }

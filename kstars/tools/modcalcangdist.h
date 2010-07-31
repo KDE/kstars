@@ -36,7 +36,7 @@ class modCalcAngDist : public modCalcAngDistDlg  {
 Q_OBJECT
 public:
 /**Constructor. */
-	modCalcAngDist(QWidget *p, const char *n);
+	modCalcAngDist(TQWidget *p, const char *n);
 /**Destructor. */
 	~modCalcAngDist();
 
@@ -49,7 +49,7 @@ public slots:
 
 private:
 	/** Process Lines **/
-	void processLines( QTextStream &istream );
+	void processLines( TQTextStream &istream );
 
 	/**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
 	SkyPoint getCoords(dmsBox * rBox, dmsBox* dBox);

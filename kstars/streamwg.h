@@ -12,11 +12,11 @@
  #ifndef STREAMWG_H
  #define STREAMWG_H
  
- #include <qpixmap.h>
+ #include <tqpixmap.h>
  #include <kpixmapio.h>
   
  #include "streamformui.h"
- #include "qframe.h"
+ #include "tqframe.h"
  
  
  class QImage;
@@ -31,7 +31,7 @@
    Q_OBJECT
    
     public:
-      StreamWG(INDIStdDevice *inStdDev, QWidget * parent =0, const char * name =0);
+      StreamWG(INDIStdDevice *inStdDev, TQWidget * parent =0, const char * name =0);
       ~StreamWG();
  
    friend class VideoWG;
@@ -48,12 +48,12 @@
       
    private:
    INDIStdDevice        *stdDev;
-   QPixmap               playPix, pausePix, capturePix;
-   QVBoxLayout           *videoFrameLayout;
+   TQPixmap               playPix, pausePix, capturePix;
+   TQVBoxLayout           *videoFrameLayout;
    
    protected:
-   void closeEvent ( QCloseEvent * e );
-   void resizeEvent(QResizeEvent *ev);
+   void closeEvent ( TQCloseEvent * e );
+   void resizeEvent(TQResizeEvent *ev);
    
    
    public slots: 
@@ -68,7 +68,7 @@
       Q_OBJECT
    
     public:
-      VideoWG(QWidget * parent =0, const char * name =0);
+      VideoWG(TQWidget * parent =0, const char * name =0);
       ~VideoWG();
       
       friend class StreamWG;
@@ -83,7 +83,7 @@
       KPixmapIO		 kPixIO;
       
     protected:
-     void paintEvent(QPaintEvent *ev);
+     void paintEvent(TQPaintEvent *ev);
      
 };
 

@@ -72,8 +72,8 @@ int main(int argc, char *argv[])
 
 		//parse filename and image format
 		const char* format = "PNG";
-		QString fname = args->getOption( "filename" );
-		QString ext = fname.mid( fname.findRev(".")+1 );
+		TQString fname = args->getOption( "filename" );
+		TQString ext = fname.mid( fname.findRev(".")+1 );
 		if ( ext.lower() == "png" ) { format = "PNG"; }
 		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
 		else if ( ext.lower() == "gif" ) { format = "GIF"; }
@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 		}
 
 		KStarsData *dat = new KStarsData();
-		QObject::connect( dat, SIGNAL( progressText(QString) ), dat, SLOT( slotConsoleMessage(QString) ) );
+		TQObject::connect( dat, TQT_SIGNAL( progressText(TQString) ), dat, TQT_SLOT( slotConsoleMessage(TQString) ) );
 		dat->initialize();
 		while (!dat->startupComplete) { kapp->processEvents(50); }
 
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
 
 		//set clock now that we have a location:
 		//Check to see if user provided a date/time string.  If not, use current CPU time
-		QString datestring = args->getOption( "date" );
+		TQString datestring = args->getOption( "date" );
 		KStarsDateTime kdt;
 		if ( ! datestring.isEmpty() ) {
 			if ( datestring.contains( "-" ) ) { //assume ISODate format
@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 					kdt = KStarsDateTime::fromString( datestring, Qt::ISODate );
 				} else { //string probably contains date only
 					kdt.setDate( ExtDate::fromString( datestring, Qt::ISODate ) );
-					kdt.setTime( QTime( 0, 0, 0 ) );
+					kdt.setTime( TQTime( 0, 0, 0 ) );
 				}
 			} else { //assume Text format for date string
 				kdt = dat->geo()->LTtoUT( KStarsDateTime::fromString( datestring, Qt::TextDate ) );
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 
 		SkyMap *map = new SkyMap( dat );
 		map->resize( w, h );
-		QPixmap sky( w, h );
+		TQPixmap sky( w, h );
 
 		map->setDestination( new SkyPoint( Options::focusRA(), Options::focusDec() ) );
 		map->destination()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
@@ -148,7 +148,7 @@ int main(int argc, char *argv[])
 		map->focus()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
 
 		//Execute the specified script
-		QString scriptfile = args->getOption( "script" );
+		TQString scriptfile = args->getOption( "script" );
 		if ( ! scriptfile.isEmpty() ) {
 			if ( dat->executeScript( scriptfile, map ) ) {
 				std::cout << i18n( "Script executed." ).utf8() << std::endl;
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 	//start up normally in GUI mode
 	
 	//Try to parse the given date string
-	QString datestring = args->getOption( "date" );
+	TQString datestring = args->getOption( "date" );
 
 	if ( ! datestring.isEmpty() && ! KStarsDateTime::fromString( datestring ).isValid() ) {
 		kdWarning() << i18n("Specified date (%1) is invalid.  Will use current CPU date instead." ).arg( datestring ) << endl;
@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
 	
 	new KStars( true, ! args->isSet( "paused" ), datestring );
 	args->clear();
-	QObject::connect(kapp, SIGNAL(lastWindowClosed()), kapp, SLOT(quit()));
+	TQObject::connect(kapp, TQT_SIGNAL(lastWindowClosed()), kapp, TQT_SLOT(quit()));
 	return a.exec();
 
 }

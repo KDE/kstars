@@ -17,14 +17,14 @@
 
 #include "timebox.h"
 #include "libkdeedu/extdate/extdatetime.h"
-#include <qdatetime.h>  //needed for QTime
-#include <qregexp.h>
+#include <tqdatetime.h>  //needed for QTime
+#include <tqregexp.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <stdlib.h>
 #include <kdebug.h>
 
-timeBox::timeBox(QWidget *parent, const char *name, bool tt) : QLineEdit(parent,name) 
+timeBox::timeBox(TQWidget *parent, const char *name, bool tt) : TQLineEdit(parent,name) 
 { 
 
 	if (tt) { 
@@ -39,7 +39,7 @@ timeBox::timeBox(QWidget *parent, const char *name, bool tt) : QLineEdit(parent,
 	timet = tt;
 }
 
-void timeBox::showTime (QTime t)
+void timeBox::showTime (TQTime t)
 {
 	setEntry( t.toString("hh:mm:ss") );
 }
@@ -50,26 +50,26 @@ void timeBox::showDate (ExtDate t)
 
 }
 
-QTime timeBox::createTime ( bool *ok )
+TQTime timeBox::createTime ( bool *ok )
 {
-//	QString entry;
+//	TQString entry;
 	int h = 0, m = 0, is = 0;
 	double s = 0.0;
-	QTime qt;
+	TQTime qt;
 	bool valueFound = false, badEntry = false , checkValue = false;
 
 //Initialize bool for result
 	if ( ok != NULL ) *ok = false;
 
-//	QString errMsg = i18n( "Unable to parse %1 entry. Specify a %1 value as a simple integer, a floating-point number, or a triplet of values using colons or spaces as separators." );
+//	TQString errMsg = i18n( "Unable to parse %1 entry. Specify a %1 value as a simple integer, a floating-point number, or a triplet of values using colons or spaces as separators." );
 
-	QString entry = text().stripWhiteSpace();
+	TQString entry = text().stripWhiteSpace();
 
 	//Try simplest cases: integer or double representation
 
 	h = entry.toInt( &checkValue );
 	if ( checkValue ) {
-		qt = QTime( h, 0, 0 );
+		qt = TQTime( h, 0, 0 );
 		valueFound = true;
 		if ( ok != NULL ) *ok = true;
 		return qt;
@@ -77,7 +77,7 @@ QTime timeBox::createTime ( bool *ok )
 		double x = entry.toDouble( &checkValue );
 		if ( checkValue ) {
 			int seconds = int(x * 3600);
-			QTime qt(0,0,0);
+			TQTime qt(0,0,0);
 			qt.addSecs(seconds);
 			valueFound = true;
 			if ( ok != NULL ) *ok = true;
@@ -88,12 +88,12 @@ QTime timeBox::createTime ( bool *ok )
 	//no success yet...try assuming multiple fields
 
 	if ( !valueFound ) { 
-		QStringList fields;
+		TQStringList fields;
 		
 		//check for colon-delimiters or space-delimiters
 		if ( entry.contains(':') ) 
-			fields = QStringList::split( ':', entry );
-		else fields = QStringList::split( " ", entry ); 
+			fields = TQStringList::split( ':', entry );
+		else fields = TQStringList::split( " ", entry ); 
 
 		// If two fields we will add a third one, and then parse with 
 		// the 3-field code block. If field[1] is a double, convert 
@@ -102,10 +102,10 @@ QTime timeBox::createTime ( bool *ok )
 		if ( fields.count() == 2 ) {
 			double mx = fields[1].toDouble( &checkValue );
 			if ( checkValue ) {
-				fields[1] = QString("%1").arg( int(mx) );
-				fields.append( QString("%1").arg( int( 60.0*(mx - int(mx)) ) ) );
+				fields[1] = TQString("%1").arg( int(mx) );
+				fields.append( TQString("%1").arg( int( 60.0*(mx - int(mx)) ) ) );
 			} else {
-				fields.append( QString( "0" ) );
+				fields.append( TQString( "0" ) );
 			}
 		}
 		
@@ -113,9 +113,9 @@ QTime timeBox::createTime ( bool *ok )
 		// ignore all after 3rd field
 
 		if ( fields.count() >= 3 ) {
-			fields[0].replace( QRegExp("h"), "" );
-			fields[1].replace( QRegExp("m"), "" );
-			fields[2].replace( QRegExp("s"), "" );
+			fields[0].replace( TQRegExp("h"), "" );
+			fields[1].replace( TQRegExp("m"), "" );
+			fields[2].replace( TQRegExp("s"), "" );
 		}
 		//See if first two fields parse as integers.
 		//
@@ -132,7 +132,7 @@ QTime timeBox::createTime ( bool *ok )
 
 			if ( ok != NULL ) *ok = true;
 
-			QTime qt(h,m,is);
+			TQTime qt(h,m,is);
 			return qt;
 
 		} else {
@@ -151,7 +151,7 @@ QTime timeBox::createTime ( bool *ok )
 ExtDate timeBox::createDate (bool */*ok*/)
 {
 	
-	QString entry = text().stripWhiteSpace();
+	TQString entry = text().stripWhiteSpace();
 
 	// if entry is an empty string or invalid date use current date
 

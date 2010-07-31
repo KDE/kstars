@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qframe.h>
-#include <qimage.h>
-#include <qlayout.h>
-#include <qpainter.h>
-#include <qpoint.h>
+#include <tqframe.h>
+#include <tqimage.h>
+#include <tqlayout.h>
+#include <tqpainter.h>
+#include <tqpoint.h>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -29,13 +29,13 @@
 #include "thumbnaileditorui.h"
 #include "thumbnailpicker.h"
 
-ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
+ThumbnailEditor::ThumbnailEditor( TQWidget *parent, const char *name )
  : KDialogBase( KDialogBase::Plain, i18n( "Edit Thumbnail Image" ), Ok|Cancel, Ok, parent, name )
 {
 	tp = (ThumbnailPicker*)parent;
 
-	QFrame *page = plainPage();
-	QHBoxLayout *hlay = new QHBoxLayout( page, 0, 0 );
+	TQFrame *page = plainPage();
+	TQHBoxLayout *hlay = new TQHBoxLayout( page, 0, 0 );
 	ui = new ThumbnailEditorUI( page );
 	hlay->addWidget( ui );
 
@@ -43,7 +43,7 @@ ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
 		tp->imageRect()->width(), tp->imageRect()->height() );
 	ui->ImageCanvas->setImage( tp->currentListImage() );
 
-	connect( ui->ImageCanvas, SIGNAL(cropRegionModified()), SLOT( slotUpdateCropLabel() ) );
+	connect( ui->ImageCanvas, TQT_SIGNAL(cropRegionModified()), TQT_SLOT( slotUpdateCropLabel() ) );
 	slotUpdateCropLabel();
 
 	update();
@@ -52,22 +52,22 @@ ThumbnailEditor::ThumbnailEditor( QWidget *parent, const char *name )
 ThumbnailEditor::~ThumbnailEditor()
 {}
 
-QPixmap ThumbnailEditor::thumbnail() {
-	QImage im = ui->ImageCanvas->croppedImage().convertToImage();
+TQPixmap ThumbnailEditor::thumbnail() {
+	TQImage im = ui->ImageCanvas->croppedImage().convertToImage();
 	im = im.smoothScale( 200, 200 );
-	QPixmap pm;
+	TQPixmap pm;
 	pm.convertFromImage( im );
 	return pm;
 }
 
 void ThumbnailEditor::slotUpdateCropLabel() {
-	QRect *r = ui->ImageCanvas->cropRect();
+	TQRect *r = ui->ImageCanvas->cropRect();
 	ui->CropLabel->setText( i18n( "Crop region: [%1,%2  %3x%4]" )
 			.arg( r->left() ).arg( r->top() ).arg( r->width() ).arg( r->height() ) );
 }
 
-QPixmap ThumbImage::croppedImage() {
-	QPixmap result( CropRect->width(), CropRect->height() );
+TQPixmap ThumbImage::croppedImage() {
+	TQPixmap result( CropRect->width(), CropRect->height() );
 	bitBlt( &result, 0, 0, Image, 
 			CropRect->left(), CropRect->top(),
 			CropRect->width(), CropRect->height() );
@@ -75,9 +75,9 @@ QPixmap ThumbImage::croppedImage() {
 	return result;
 }
 
-ThumbImage::ThumbImage( QWidget *parent, const char *name ) : QLabel( parent, name )
+ThumbImage::ThumbImage( TQWidget *parent, const char *name ) : TQLabel( parent, name )
 {
-	setBackgroundMode( QWidget::NoBackground );
+	setBackgroundMode( TQWidget::NoBackground );
 	bMouseButtonDown = false;
 	bTopLeftGrab = false;
 	bTopRightGrab = false;
@@ -85,51 +85,51 @@ ThumbImage::ThumbImage( QWidget *parent, const char *name ) : QLabel( parent, na
 	bBottomRightGrab = false;
 	HandleSize = 10;
 
-	CropRect = new QRect();
-	Anchor = new QPoint();
-	Image = new QPixmap();
+	CropRect = new TQRect();
+	Anchor = new TQPoint();
+	Image = new TQPixmap();
 }
 
 ThumbImage::~ThumbImage()
 {}
 
-void ThumbImage::paintEvent( QPaintEvent* ) {
-	QPixmap c( *Image );
-	QPainter p;
+void ThumbImage::paintEvent( TQPaintEvent* ) {
+	TQPixmap c( *Image );
+	TQPainter p;
 	p.begin( &c );
-	p.setPen( QPen( QColor( "Grey" ), 2 ) );
+	p.setPen( TQPen( TQColor( "Grey" ), 2 ) );
 
 	p.drawRect( *CropRect );
 
-	p.setPen( QPen( QColor( "Grey" ), 0 ) );
-	p.drawRect( QRect( CropRect->left(), CropRect->top(), 
+	p.setPen( TQPen( TQColor( "Grey" ), 0 ) );
+	p.drawRect( TQRect( CropRect->left(), CropRect->top(), 
 		HandleSize, HandleSize ) );
-	p.drawRect( QRect( CropRect->right() - HandleSize, CropRect->top(), 
+	p.drawRect( TQRect( CropRect->right() - HandleSize, CropRect->top(), 
 		HandleSize, HandleSize ) );
-	p.drawRect( QRect( CropRect->left(), CropRect->bottom() - HandleSize, 
+	p.drawRect( TQRect( CropRect->left(), CropRect->bottom() - HandleSize, 
 		HandleSize, HandleSize ) );
-	p.drawRect( QRect( CropRect->right() - HandleSize, CropRect->bottom() - HandleSize, 
+	p.drawRect( TQRect( CropRect->right() - HandleSize, CropRect->bottom() - HandleSize, 
 		HandleSize, HandleSize ) );
 
 	if ( CropRect->x() > 0 ) 
 		p.fillRect( 0, 0, CropRect->x(), c.height(), 
-				QBrush( QColor("white"), Dense3Pattern ) );
+				TQBrush( TQColor("white"), Dense3Pattern ) );
 	if ( CropRect->right() < c.width() ) 
 		p.fillRect( CropRect->right(), 0, (c.width() - CropRect->right()), c.height(), 
-				QBrush( QColor("white"), Dense3Pattern ) );
+				TQBrush( TQColor("white"), Dense3Pattern ) );
 	if ( CropRect->y() > 0 ) 
 		p.fillRect( 0, 0, c.width(), CropRect->y(), 
-				QBrush( QColor("white"), Dense3Pattern ) );
+				TQBrush( TQColor("white"), Dense3Pattern ) );
 	if ( CropRect->bottom() < c.height() ) 
 		p.fillRect( 0, CropRect->bottom(), c.width(), (c.height() - CropRect->bottom()), 
-				QBrush( QColor("white"), Dense3Pattern ) );
+				TQBrush( TQColor("white"), Dense3Pattern ) );
 
 	p.end();
 
 	bitBlt( this, 0, 0, &c );
 }
 
-void ThumbImage::mousePressEvent( QMouseEvent *e ) {
+void ThumbImage::mousePressEvent( TQMouseEvent *e ) {
 	if ( e->button() == LeftButton && CropRect->contains( e->pos() ) ) {
 		bMouseButtonDown = true;
 
@@ -156,7 +156,7 @@ void ThumbImage::mousePressEvent( QMouseEvent *e ) {
 	}
 }
 
-void ThumbImage::mouseReleaseEvent( QMouseEvent *e ) {
+void ThumbImage::mouseReleaseEvent( TQMouseEvent *e ) {
 	if ( bMouseButtonDown ) bMouseButtonDown = false;
 	if ( bTopLeftGrab ) bTopLeftGrab = false;
 	if ( bTopRightGrab ) bTopRightGrab = false;
@@ -164,7 +164,7 @@ void ThumbImage::mouseReleaseEvent( QMouseEvent *e ) {
 	if ( bBottomRightGrab ) bBottomRightGrab = false;
 }
 
-void ThumbImage::mouseMoveEvent( QMouseEvent *e ) {
+void ThumbImage::mouseMoveEvent( TQMouseEvent *e ) {
 	if ( bMouseButtonDown ) {
 
 		//If a corner was grabbed, we are resizing the box
@@ -197,7 +197,7 @@ void ThumbImage::mouseMoveEvent( QMouseEvent *e ) {
 			if ( CropRect->width() < 200 ) CropRect->setRight( CropRect->right() + 200 - CropRect->width() );
 			if ( CropRect->height() < 200 ) CropRect->setBottom( CropRect->bottom() + 200 - CropRect->height() );
 		} else { //no corner grabbed; move croprect
-			CropRect->moveTopLeft( QPoint( e->x() - Anchor->x(), e->y() - Anchor->y() ) );
+			CropRect->moveTopLeft( TQPoint( e->x() - Anchor->x(), e->y() - Anchor->y() ) );
 			if ( CropRect->left() < 0 ) CropRect->moveLeft( 0 );
 			if ( CropRect->right() > width() ) CropRect->moveRight( width() );
 			if ( CropRect->top() < 0 ) CropRect->moveTop( 0 );

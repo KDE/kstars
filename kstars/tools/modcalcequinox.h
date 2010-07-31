@@ -19,7 +19,7 @@
 #define MODCALCEQUINOX_H
 
 #include <kapplication.h>
-#include <qwidget.h>
+#include <tqwidget.h>
 #include "modcalcequinoxdlg.h"
 
 class QWidget;
@@ -34,7 +34,7 @@ class modCalcEquinox : public modCalcEquinoxDlg  {
 Q_OBJECT
 
 public: 
-	modCalcEquinox(QWidget *p, const char *n);
+	modCalcEquinox(TQWidget *p, const char *n);
 	~modCalcEquinox();
 	
 public slots:
@@ -48,11 +48,11 @@ public slots:
 
 private:
 
-	int getYear (QString eName);
+	int getYear (TQString eName);
 	void showCurrentYear (void);
 	void showStartDateTime(long double jd);
 	void showSeasonDuration(float deltaJd);
-	void processLines( QTextStream &istream );
+	void processLines( TQTextStream &istream );
   
 };
 

@@ -28,13 +28,13 @@
 #include <kurl.h>
 #include <klineedit.h>
 
-#include <qsocketnotifier.h>
-#include <qimage.h>
-#include <qpainter.h>
-#include <qstringlist.h>
-#include <qdir.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <tqsocketnotifier.h>
+#include <tqimage.h>
+#include <tqpainter.h>
+#include <tqstringlist.h>
+#include <tqdir.h>
+#include <tqlayout.h>
+#include <tqlabel.h>
 
 
 #include <stdlib.h>
@@ -49,7 +49,7 @@
 
 FILE *CCDwfp;
 
- CCDPreviewWG::CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : CCDPreviewForm(parent, name)
+ CCDPreviewWG::CCDPreviewWG(INDIStdDevice *inStdDev, TQWidget * parent, const char * name) : CCDPreviewForm(parent, name)
  {
  
    stdDev         = inStdDev;
@@ -74,14 +74,14 @@ FILE *CCDwfp;
   playB->setPixmap(pausePix);	
   captureB->setPixmap(capturePix);
   
-  imgFormatCombo->insertStrList(QImage::outputFormats());
+  imgFormatCombo->insertStrList(TQImage::outputFormats());
   
-  connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
-  connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
-  connect(brightnessBar, SIGNAL(valueChanged(int)), this, SLOT(brightnessChanged(int)));
-  connect(contrastBar, SIGNAL(valueChanged(int)), this, SLOT(contrastChanged(int)));
-  connect(gammaBar, SIGNAL(valueChanged(int)), this, SLOT(gammaChanged(int)));
-  connect(focalEdit, SIGNAL(returnPressed()), this, SLOT(updateFWHM()));
+  connect(playB, TQT_SIGNAL(clicked()), this, TQT_SLOT(playPressed()));
+  connect(captureB, TQT_SIGNAL(clicked()), this, TQT_SLOT(captureImage()));
+  connect(brightnessBar, TQT_SIGNAL(valueChanged(int)), this, TQT_SLOT(brightnessChanged(int)));
+  connect(contrastBar, TQT_SIGNAL(valueChanged(int)), this, TQT_SLOT(contrastChanged(int)));
+  connect(gammaBar, TQT_SIGNAL(valueChanged(int)), this, TQT_SLOT(gammaChanged(int)));
+  connect(focalEdit, TQT_SIGNAL(returnPressed()), this, TQT_SLOT(updateFWHM()));
  }
  
 CCDPreviewWG::~CCDPreviewWG()
@@ -89,7 +89,7 @@ CCDPreviewWG::~CCDPreviewWG()
 
 }
 
-void CCDPreviewWG::closeEvent ( QCloseEvent * e )
+void CCDPreviewWG::closeEvent ( TQCloseEvent * e )
 {
   stdDev->streamDisabled();
   processStream = false;
@@ -101,12 +101,12 @@ void CCDPreviewWG::setColorFrame(bool color)
   colorFrame = color;
 }
 
-/*void CCDPreviewWG::establishDataChannel(QString host, int port)
+/*void CCDPreviewWG::establishDataChannel(TQString host, int port)
 {
-        QString errMsg;
+        TQString errMsg;
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
-	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
+	errMsg = TQString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
 	
 	memset(&pin, 0, sizeof(pin));
 	pin.sin_family 		= AF_INET;
@@ -127,8 +127,8 @@ void CCDPreviewWG::setColorFrame(bool color)
 	}
 
 	// callback notified
-	sNotifier = new QSocketNotifier( streamFD, QSocketNotifier::Read, this);
-        QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(streamReceived()));
+	sNotifier = new TQSocketNotifier( streamFD, TQSocketNotifier::Read, this);
+        TQObject::connect( sNotifier, TQT_SIGNAL(activated(int)), this, TQT_SLOT(streamReceived()));
 }*/
 
 void CCDPreviewWG::enableStream(bool enable)
@@ -197,12 +197,12 @@ void CCDPreviewWG::updateFWHM()
 
   fwhm_arcsec = (206.26 / focal_length) * fwhm * mu;
 
-  FWHMLabel->setText(QString("%1").arg(fwhm_arcsec, 0, 'g', 3));
+  FWHMLabel->setText(TQString("%1").arg(fwhm_arcsec, 0, 'g', 3));
   
 }
 
 
-void CCDPreviewWG::resizeEvent(QResizeEvent *ev)
+void CCDPreviewWG::resizeEvent(TQResizeEvent *ev)
 {
   streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 2 - layout()->spacing());
 }
@@ -225,10 +225,10 @@ void CCDPreviewWG::playPressed()
 
 void CCDPreviewWG::captureImage()
 {
-  QString fname;
-  QString fmt;
+  TQString fname;
+  TQString fmt;
   KURL currentFileURL;
-  QString currentDir = Options::fitsSaveDirectory();
+  TQString currentDir = Options::fitsSaveDirectory();
   KTempFile tmpfile;
   tmpfile.setAutoDelete(true);
 
@@ -261,23 +261,23 @@ void CCDPreviewWG::captureImage()
 	if ( tmpfile.name() == fname )
 	{ //need to upload to remote location
 	
-	  if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) )
+	  if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (TQWidget*) 0 ) )
 	  {
-		QString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
+		TQString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
 		KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 	  }
 	}
   }
   else
   {
-		QString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
+		TQString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
 		KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
   }
 
 }
 
 
-CCDVideoWG::CCDVideoWG(QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
+CCDVideoWG::CCDVideoWG(TQWidget * parent, const char * name) : TQFrame(parent, name, Qt::WNoAutoErase)
 {
   streamImage    = NULL;
   streamBuffer	  = NULL;
@@ -333,9 +333,9 @@ void CCDVideoWG::newFrame(unsigned char *buffer, int buffSize, int w, int h)
   }
   streamBufferPos=i;
   /*if (buffSize > totalBaseCount)
-     streamImage = new QImage(buffer, w, h, 32, 0, 0, QImage::BigEndian);
+     streamImage = new TQImage(buffer, w, h, 32, 0, 0, TQImage::BigEndian);
    else
-    streamImage = new QImage(streamBuffer, w, h, 8, grayTable, 256, QImage::IgnoreEndian);
+    streamImage = new TQImage(streamBuffer, w, h, 8, grayTable, 256, TQImage::IgnoreEndian);
    update();
   */
   redrawVideoWG();
@@ -383,12 +383,12 @@ void CCDVideoWG::redrawVideoWG(void)
       }	
     }
   }  
-  streamImage = new QImage(displayBuffer, Width, Height, 8, grayTable, 256, QImage::IgnoreEndian);
+  streamImage = new TQImage(displayBuffer, Width, Height, 8, grayTable, 256, TQImage::IgnoreEndian);
   update();
 }
 
 
-void CCDVideoWG::paintEvent(QPaintEvent */*ev*/)
+void CCDVideoWG::paintEvent(TQPaintEvent */*ev*/)
 {
   	
    if (streamImage)

@@ -18,7 +18,7 @@
 #ifndef SKYOBJECTNAME_H
 #define SKYOBJECTNAME_H
 
-#include <qstring.h>
+#include <tqstring.h>
 #include <klistbox.h>
 #include <klocale.h>
 
@@ -37,16 +37,16 @@ class SkyObjectName {
 	
 	public:
 	/**Constructor*/
-		SkyObjectName (const QString &str = QString::null, SkyObject *obj = 0);
+		SkyObjectName (const TQString &str = TQString::null, SkyObject *obj = 0);
 
 	/**Destructor (empty)*/
 		~SkyObjectName() {}
 
 	/**@return the name of the SkyObject*/
-		QString text() { return Text; }
+		TQString text() { return Text; }
 
 	/**@return translated version of the SkyObject's name*/
-		QString translatedText() { return i18n( Text.local8Bit().data()); }
+		TQString translatedText() { return i18n( Text.local8Bit().data()); }
 
 	/**@return pointer to the SkyObject*/
 		SkyObject *skyObject() { return skyobject; }
@@ -62,24 +62,24 @@ class SkyObjectName {
 	private:
 	
 		SkyObject *skyobject;
-		QString Text;
+		TQString Text;
 };
 
 
 /**Class for filling list of named objects in the Find Object dialog (FindDialog).
-	*The class is derived from QListBoxText, and adds a SkyObjectName* member variable,
+	*The class is derived from TQListBoxText, and adds a SkyObjectName* member variable,
 	*and a method to retrieve this variable (a pointer).  This makes it very easy
-	*to add these items to the FindDialog's QListBox, and to sort and filter them.
-	*@short Derivative of QListBoxItem specifically for SkyObjects
+	*to add these items to the FindDialog's TQListBox, and to sort and filter them.
+	*@short Derivative of TQListBoxItem specifically for SkyObjects
 	*@author Thomas Kabelmann
 	*@version 0.9
 	*/
 
-class SkyObjectNameListItem : public QListBoxText  {
+class SkyObjectNameListItem : public TQListBoxText  {
 	
 	public:
 	/**Constructor */
-		SkyObjectNameListItem (QListBox *parent, SkyObjectName *name );
+		SkyObjectNameListItem (TQListBox *parent, SkyObjectName *name );
 
 	/**Destructor (empty)*/
 		~SkyObjectNameListItem() {}

@@ -18,7 +18,7 @@
 #ifndef MODCALCJD_H
 #define MODCALCJD_H
 
-#include <qvbox.h>
+#include <tqvbox.h>
 
 #include <kapplication.h>
 #include "modcalcjddlg.h"
@@ -40,7 +40,7 @@ class modCalcJD : public modCalcJdDlg
 {
 Q_OBJECT
 public:
-	modCalcJD(QWidget *p, const char *n);
+	modCalcJD(TQWidget *p, const char *n);
 	~modCalcJD();
 	
 	void computeFromCalendar (void);

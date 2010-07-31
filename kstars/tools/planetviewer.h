@@ -19,7 +19,7 @@
 
 #include <kdialogbase.h>
 #include <kpushbutton.h>
-#include <qtimer.h>
+#include <tqtimer.h>
 
 #include "kstarsplotwidget.h"
 #include "planetviewerui.h"
@@ -35,18 +35,18 @@ class PlanetViewer : public KDialogBase
 {
 Q_OBJECT
 public:
-	PlanetViewer(QWidget *parent = 0, const char *name = 0);
+	PlanetViewer(TQWidget *parent = 0, const char *name = 0);
 	~PlanetViewer();
 
-	QString centerPlanet() const { return CenterPlanet; }
-	void setCenterPlanet( const QString &cp ) { CenterPlanet = cp; }
+	TQString centerPlanet() const { return CenterPlanet; }
+	void setCenterPlanet( const TQString &cp ) { CenterPlanet = cp; }
 	
 	KPlotObject* planetObject(uint i) const { return planet[i]; }
-	QString planetName(uint i) const { return pName[i]; }
+	TQString planetName(uint i) const { return pName[i]; }
 
 protected:
-	virtual void keyPressEvent( QKeyEvent *e );
-	virtual void paintEvent( QPaintEvent* );
+	virtual void keyPressEvent( TQKeyEvent *e );
+	virtual void paintEvent( TQPaintEvent* );
 
 private slots:
 	void initPlotObjects();
@@ -64,10 +64,10 @@ private:
 	PlanetCatalog PCat;
 	double scale;
 	bool isClockRunning;
-	QTimer tmr;
+	TQTimer tmr;
 	int UpdateInterval[9], LastUpdate[9];
-	QString pName[9], pColor[9];
-	QString CenterPlanet;
+	TQString pName[9], pColor[9];
+	TQString CenterPlanet;
 
 	KPlotObject *ksun;
 	KPlotObject *planet[9];
@@ -79,8 +79,8 @@ class PVPlotWidget : public KStarsPlotWidget
 Q_OBJECT
 public:
 	PVPlotWidget( double x1, double x2, double y1, double y2, 
-			QWidget *parent=0, const char *name=0 );
-	PVPlotWidget( QWidget *parent=0, const char *name=0 );
+			TQWidget *parent=0, const char *name=0 );
+	PVPlotWidget( TQWidget *parent=0, const char *name=0 );
 	~PVPlotWidget();
 
 public slots:
@@ -91,12 +91,12 @@ signals:
 	void doubleClicked( double, double );
 
 protected:
-	virtual void keyPressEvent( QKeyEvent *e );
-	virtual void mousePressEvent( QMouseEvent *e );
-	virtual void mouseMoveEvent( QMouseEvent *e );
-	virtual void mouseReleaseEvent( QMouseEvent * );
-	virtual void mouseDoubleClickEvent( QMouseEvent *e );
-	virtual void wheelEvent( QWheelEvent *e );
+	virtual void keyPressEvent( TQKeyEvent *e );
+	virtual void mousePressEvent( TQMouseEvent *e );
+	virtual void mouseMoveEvent( TQMouseEvent *e );
+	virtual void mouseReleaseEvent( TQMouseEvent * );
+	virtual void mouseDoubleClickEvent( TQMouseEvent *e );
+	virtual void wheelEvent( TQWheelEvent *e );
 
 private:
 	bool mouseButtonDown;

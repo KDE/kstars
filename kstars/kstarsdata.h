@@ -18,9 +18,9 @@
 #ifndef KSTARSDATA_H
 #define KSTARSDATA_H
 
-#include <qmap.h>
-#include <qptrlist.h>
-#include <qstring.h>
+#include <tqmap.h>
+#include <tqptrlist.h>
+#include <tqstring.h>
 
 #include <kshortcut.h>
 
@@ -154,7 +154,7 @@ public:
 		*@return true if location successfully parsed; otherwise false.
 		*@see KStarsData::readCityData()
 		*/
-	bool processCity( QString& line );
+	bool processCity( TQString& line );
 
 	/**Populate list of star objects from the stars database file.
 		*Each line in the file provides the information required to construct a
@@ -195,7 +195,7 @@ public:
 		*@param reloadMode makes additional calculations in reload mode, not needed at start up
 		*@see KStarsData::readStarData()
 		*/
-	void processStar( QString *line, bool reloadMode = false );
+	void processStar( TQString *line, bool reloadMode = false );
 
 	/**Populate the list of deep-sky objects from the database file.
 		*Each line in the file is parsed according to column position:
@@ -361,14 +361,14 @@ public:
 		*@short Read in image and information URLs.
 		*@return true if data files were successfully read.
 		*/
-	bool readURLData( QString url, int type=0, bool deepOnly=false );
+	bool readURLData( TQString url, int type=0, bool deepOnly=false );
 
 	/**@short open a file containing URL links.
 		*@param urlfile string representation of the filename to open
-		*@param file reference to the QFile object which will be opened to this file.
+		*@param file reference to the TQFile object which will be opened to this file.
 		*@return TRUE if file successfully opened. 
 		*/
-	bool openURLFile(QString urlfile, QFile& file);
+	bool openURLFile(TQString urlfile, TQFile& file);
 
 	/**Initialize custom object catalogs from the files listed in the config file
 		*/
@@ -377,7 +377,7 @@ public:
 	/**Add a user-defined object catalog to the list of custom catalogs.
 		*(Basically just calls createCustomCatalog() )
 		*/
-	bool addCatalog( QString filename );
+	bool addCatalog( TQString filename );
 
 	/**Remove a user-defined object catalog from the list of custom catalogs.
 		*Also removes the objects from the ObjNames list.
@@ -391,7 +391,7 @@ public:
 		*@param showerrs show GUI window summarizing parsing errors
 		*@return pointer to the new catalog
 		*/
-	CustomCatalog* createCustomCatalog( QString filename, bool showerrs = false );
+	CustomCatalog* createCustomCatalog( TQString filename, bool showerrs = false );
 
 	/**@short Parse the header of the custom object catalog.
 		*@param lines string list containing the lines from the custom catalog file
@@ -404,9 +404,9 @@ public:
 		*@param showerrs if true, notify user of problems parsing the header.
 		*@param errs reference to the cumulative list of error reports
 		*/
-	bool parseCustomDataHeader( QStringList lines, QStringList &Columns, 
-			QString &catName, QString &catPrefix, QString &catColor, float &catEpoch, int &iStart, 
-			bool showerrs, QStringList &errs );
+	bool parseCustomDataHeader( TQStringList lines, TQStringList &Columns, 
+			TQString &catName, TQString &catPrefix, TQString &catColor, float &catEpoch, int &iStart, 
+			bool showerrs, TQStringList &errs );
 
 	/**@short Parse a line from custom object catalog.  If parsing is successful, add
 		*the object to the object list
@@ -418,8 +418,8 @@ public:
 		*@param showerrs if true, notify user of problems parsing the header.
 		*@param errs reference to the cumulative list of error reports
 		*/
-	bool processCustomDataLine( int num, QStringList d, QStringList Columns, 
-			QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs );
+	bool processCustomDataLine( int num, TQStringList d, TQStringList Columns, 
+			TQString Prefix, TQPtrList<SkyObject> &objList, bool showerrs, TQStringList &errs );
 
 	/**@short reset the faint limit for the stellar database
 		*@param newMagnitude the new faint limit.
@@ -452,7 +452,7 @@ public:
 		*@param name Object name to find
 		*@return pointer to SkyObject matching this name
 		*/
-	SkyObject* objectNamed( const QString &name );
+	SkyObject* objectNamed( const TQString &name );
 
 	/**The Sky is updated more frequently than the moon, which is updated more frequently
 		*than the planets.  The date of the last update for each category is recorded so we
@@ -504,7 +504,7 @@ public:
 	
 	/**@return reference to the CustomCatalogs list
 		*/
-	QPtrList<CustomCatalog>& customCatalogs() { return CustomCatalogs; }
+	TQPtrList<CustomCatalog>& customCatalogs() { return CustomCatalogs; }
  
 	/**Set the GeoLocation according to the argument.
 		*@param l reference to the new GeoLocation
@@ -537,7 +537,7 @@ public:
 		*@param map pointer to the SkyMap object.
 		*@return TRUE if the script was successfully parsed.
 		*/
-	bool executeScript( const QString &name, SkyMap *map );
+	bool executeScript( const TQString &name, SkyMap *map );
 
 	/**@short Initialize celestial equator, horizon and ecliptic.
 		*@param num pointer to a KSNumbers object to use.
@@ -554,7 +554,7 @@ public:
 signals:
 	/**Signal that specifies the text that should be drawn in the KStarsSplash window.
 		*/
-	void progressText(QString);
+	void progressText(TQString);
 
 	/**Signal that the Data initialization has finished.
 		*/
@@ -576,7 +576,7 @@ public slots:
 	void initialize();
 
 	/**@short send a message to the console*/
-	void slotConsoleMessage( QString s ) { std::cout << s.utf8() << std::endl; }
+	void slotConsoleMessage( TQString s ) { std::cout << s.utf8() << std::endl; }
 
 	/**Update the Simulation Clock.  Update positions of Planets.  Update
 		*Alt/Az coordinates of objects.  Update precession.  Update Focus position.
@@ -612,17 +612,17 @@ public slots:
 	/**@short Save the screen position of the Time infobox.
 		*@param p the position of the box
 		*/
-	void saveTimeBoxPos( QPoint p );
+	void saveTimeBoxPos( TQPoint p );
 
 	/**@short Save the screen position of the Time infobox.
 		*@param p the position of the box
 		*/
-	void saveGeoBoxPos( QPoint p );
+	void saveGeoBoxPos( TQPoint p );
 
 	/**@short Save the screen position of the Time infobox.
 		*@param p the position of the box
 		*/
-	void saveFocusBoxPos( QPoint p );
+	void saveFocusBoxPos( TQPoint p );
 
 private slots:
 	/**This function runs while the splash screen is displayed as KStars is
@@ -658,7 +658,7 @@ private:
 	*@param required if TRUE, then the error message is more severe, and the program 
 	*exits when the messagebox is closed.
 	*/
-	void initError(QString fn, bool required);
+	void initError(TQString fn, bool required);
 
 /**Reset local time to new daylight saving time. Use this function if DST has changed.
 	*Used by updateTime().
@@ -681,49 +681,49 @@ private:
 /*	bool openSAOFile(int i);*/
 	bool openStarFile(int i);
 
-	static QPtrList<GeoLocation> geoList;
-	QPtrList<SkyObject> objList;
+	static TQPtrList<GeoLocation> geoList;
+	TQPtrList<SkyObject> objList;
 
-	QPtrList<StarObject> starList;
+	TQPtrList<StarObject> starList;
 
 	unsigned int StarCount;
 
   /** List of all deep sky objects */
-	QPtrList<DeepSkyObject> deepSkyList;
+	TQPtrList<DeepSkyObject> deepSkyList;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<DeepSkyObject> deepSkyListMessier;
+	TQPtrList<DeepSkyObject> deepSkyListMessier;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<DeepSkyObject> deepSkyListNGC;
+	TQPtrList<DeepSkyObject> deepSkyListNGC;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<DeepSkyObject> deepSkyListIC;
+	TQPtrList<DeepSkyObject> deepSkyListIC;
   /** List of all deep sky objects per type, to speed up drawing the sky map */
-	QPtrList<DeepSkyObject> deepSkyListOther;
+	TQPtrList<DeepSkyObject> deepSkyListOther;
 
-	QPtrList<KSAsteroid> asteroidList;
-	QPtrList<KSComet> cometList;
+	TQPtrList<KSAsteroid> asteroidList;
+	TQPtrList<KSComet> cometList;
 
-	QPtrList<SkyPoint> MilkyWay[NMWFILES];
+	TQPtrList<SkyPoint> MilkyWay[NMWFILES];
 
-	QPtrList<SkyPoint> clineList;
-	QPtrList<CSegment> csegmentList;
-	QPtrList<QChar> clineModeList;
-	QPtrList<SkyObject> cnameList;
-	QPtrList<SkyObject> ObjLabelList;
+	TQPtrList<SkyPoint> clineList;
+	TQPtrList<CSegment> csegmentList;
+	TQPtrList<TQChar> clineModeList;
+	TQPtrList<SkyObject> cnameList;
+	TQPtrList<SkyObject> ObjLabelList;
 
-	QPtrList<SkyPoint> Equator;
-	QPtrList<SkyPoint> Ecliptic;
-	QPtrList<SkyPoint> Horizon;
-	QPtrList<VariableStarInfo> VariableStarsList;
-	QPtrList<ADVTreeData> ADVtreeList;
-	QPtrList<INDIHostsInfo> INDIHostsList;
-	QPtrList<SkyObject> INDITelescopeList;
+	TQPtrList<SkyPoint> Equator;
+	TQPtrList<SkyPoint> Ecliptic;
+	TQPtrList<SkyPoint> Horizon;
+	TQPtrList<VariableStarInfo> VariableStarsList;
+	TQPtrList<ADVTreeData> ADVtreeList;
+	TQPtrList<INDIHostsInfo> INDIHostsList;
+	TQPtrList<SkyObject> INDITelescopeList;
 	
-	QPtrList<CustomCatalog> CustomCatalogs;
+	TQPtrList<CustomCatalog> CustomCatalogs;
 
 	ObjectNameList ObjNames;
 
-	static QMap<QString, TimeZoneRule> Rulebook;
-	static QStringList CustomColumns;
+	static TQMap<TQString, TimeZoneRule> Rulebook;
+	static TQStringList CustomColumns;
 	
 	GeoLocation Geo;
 	SimClock Clock;
@@ -733,13 +733,13 @@ private:
 
 	bool TimeRunsForward, temporaryTrail, snapToFocus;
 
-	QString cnameFile;
+	TQString cnameFile;
 	KStandardDirs *stdDirs;
 	KLocale *locale;
 
 	dms *LST, *HourAngle;
 
-	QString TypeName[NTYPENAME];
+	TQString TypeName[NTYPENAME];
 	KKey resumeKey;
 
 	PlanetCatalog *PCat;
@@ -755,16 +755,16 @@ private:
 	KStarsDateTime NextDSTChange;
 	KStarsDateTime StoredDate;
 
-	QTimer *initTimer;
+	TQTimer *initTimer;
 	int initCounter;
 
 /**
 	*Reloading of star data asynchronous:
-	*QDataPump connects FileSource and StarDataSink and starts data transmission.
+	*TQDataPump connects FileSource and StarDataSink and starts data transmission.
 	*/
 	FileSource *source;
 	StarDataSink *loader;
-	QDataPump *pump;
+	TQDataPump *pump;
 
 /**
 	*Count the number of KStarsData objects.

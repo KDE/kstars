@@ -18,7 +18,7 @@
 #ifndef FOV_H
 #define FOV_H
 
-#include <qstring.h>
+#include <tqstring.h>
 #include <klocale.h>
 
 /**@class FOV A simple class encapulating a Field-of-View symbol
@@ -31,29 +31,29 @@ class QPainter;
 class FOV {
 	public:
 		FOV();
-		FOV( QString name );  //in this case, read params from fov.dat
-		FOV( QString name, float size, int shape=0, QString color="#FFFFFF" );
+		FOV( TQString name );  //in this case, read params from fov.dat
+		FOV( TQString name, float size, int shape=0, TQString color="#FFFFFF" );
 		~FOV() {}
 
 //			enum SHAPE { FOV_SQUARE=0, FOV_CIRCLE=1, FOV_CROSSHAIRS=2, FOV_BULLSEYE=3, FOV_UNKNOWN };
 
-		QString name() const { return Name; }
-		void setName( const QString &n ) { Name = n; }
+		TQString name() const { return Name; }
+		void setName( const TQString &n ) { Name = n; }
 		int shape() const { return Shape; }
 		void setShape( int s ) { Shape = s; }
 		float size() const { return Size; }
 		void setSize( float s ) { Size = s; }
-		QString color() const { return Color; }
-		void setColor( const QString &c ) { Color = c; }
+		TQString color() const { return Color; }
+		void setColor( const TQString &c ) { Color = c; }
 
 	/**@short draw the FOV symbol on a QPainter
-		*@param p reference to the target QPainter.  The painter should already be started.
+		*@param p reference to the target TQPainter.  The painter should already be started.
 		*@param size the size of the target symbol, in pixels.
 		*/
-		void draw( QPainter &p, float size );
+		void draw( TQPainter &p, float size );
 
 	private:
-		QString Name, Color;
+		TQString Name, Color;
 		float Size;
 		int Shape;
 };

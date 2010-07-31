@@ -26,18 +26,18 @@
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qdatetimeedit.h>  //needed for QTimeEdit
+#include <tqcheckbox.h>
+#include <tqradiobutton.h>
+#include <tqdatetimeedit.h>  //needed for QTimeEdit
 #include <klineedit.h>
-#include <qtextstream.h>
+#include <tqtextstream.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
 //#include <kapplication.h> ..already included in modcalcapcoord.h
 
-modCalcApCoord::modCalcApCoord(QWidget *parentSplit, const char *name) : modCalcApCoordDlg(parentSplit,name) {
+modCalcApCoord::modCalcApCoord(TQWidget *parentSplit, const char *name) : modCalcApCoordDlg(parentSplit,name) {
 
 	showCurrentTime();
 	ra0Box->setDegType(FALSE);
@@ -74,7 +74,7 @@ KStarsDateTime modCalcApCoord::getDateTime (void)
 	return KStarsDateTime( datBox->date() , timBox->time() );
 }
 
-double modCalcApCoord::getEpoch (QString eName) {
+double modCalcApCoord::getEpoch (TQString eName) {
 	bool ok = false;
 	double epoch = eName.toDouble(&ok);
 
@@ -99,7 +99,7 @@ void modCalcApCoord::slotClearCoords(){
 	decfBox->clearFields();
 	epoch0Name->setText("");
 	datBox->setDate(ExtDate::currentDate());
-	timBox->setTime(QTime(0,0,0));
+	timBox->setTime(TQTime(0,0,0));
 }
 
 void modCalcApCoord::slotComputeCoords(){
@@ -160,41 +160,41 @@ void modCalcApCoord::slotEpochCheckedBatch(){
 }
 
 void modCalcApCoord::slotInputFile() {
-	QString inputFileName;
+	TQString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcApCoord::slotOutputFile() {
-	QString outputFileName;
+	TQString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 }
 
 void modCalcApCoord::slotRunBatch() {
 
-	QString inputFileName;
+	TQString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
 
 	// We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
+	if ( TQFile::exists(inputFileName) ) {
+		TQFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			TQString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;
 		}
 
 //		processLines(&f);
-		QTextStream istream(&f);
+		TQTextStream istream(&f);
 		processLines(istream);
 //		readFile( istream );
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		TQString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
 		InputLineEditBatch->setText( inputFileName );
@@ -202,24 +202,24 @@ void modCalcApCoord::slotRunBatch() {
 	}
 }
 
-//void modCalcApCoord::processLines( const QFile * fIn ) {
-void modCalcApCoord::processLines( QTextStream &istream ) {
+//void modCalcApCoord::processLines( const TQFile * fIn ) {
+void modCalcApCoord::processLines( TQTextStream &istream ) {
 
 	// we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
+//	TQTextStream istream(&fIn);
+	TQString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
+	TQFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
-	QTextStream ostream(&fOut);
+	TQTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
+	TQString line;
+	TQString space = " ";
 	int i = 0;
 	long double jd, jd0;
 	SkyPoint sp;
-	QTime utB;
+	TQTime utB;
 	ExtDate dtB;
 	dms raB, decB;
 	double epoch0B;
@@ -230,14 +230,14 @@ void modCalcApCoord::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		TQStringList fields = TQStringList::split( " ", line );
 
 		i = 0;
 
 		// Read Ut and write in ostream if corresponds
 
 		if(utCheckBatch->isChecked() ) {
-			utB = QTime::fromString( fields[i] );
+			utB = TQTime::fromString( fields[i] );
 			i++;
 		} else
 			utB = utBoxBatch->time();

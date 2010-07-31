@@ -20,14 +20,14 @@
 #ifndef FITSIMAGE_H
 #define FITSIMAGE_H
 
-#include <qwidget.h>
-#include <qstring.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qframe.h>
-#include <qrect.h> 
-#include <qptrlist.h>
-#include <qscrollview.h>
+#include <tqwidget.h>
+#include <tqstring.h>
+#include <tqimage.h>
+#include <tqpixmap.h>
+#include <tqframe.h>
+#include <tqrect.h> 
+#include <tqptrlist.h>
+#include <tqscrollview.h>
 
 #include <kpixmapio.h>
 #include <kpixmap.h>
@@ -42,7 +42,7 @@ class QScrollView;
 class FITSViewer;
 class FITSFrame;
 
-class FITSImage : public QScrollView  {
+class FITSImage : public TQScrollView  {
 	Q_OBJECT
 
 	public:
@@ -56,15 +56,15 @@ class FITSImage : public QScrollView  {
 	friend class FITSChangeCommand;
 	friend class FITSProcessCommand;
 	
-	FITSImage(QWidget * parent, const char * name = 0);
+	FITSImage(TQWidget * parent, const char * name = 0);
 	~FITSImage();
 	
 	enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
 	
 	/**Bitblt the image onto the viewer widget */
-	/*void paintEvent (QPaintEvent *ev);*/
+	/*void paintEvent (TQPaintEvent *ev);*/
 	/* Resize event */
-	void resizeEvent (QResizeEvent *ev);
+	void resizeEvent (TQResizeEvent *ev);
 	/* Loads FITS image, scales it, and displays it in the GUI */
 	int  loadFits(const char *filename);
 	/* Convert current image to a pixmap */
@@ -75,11 +75,11 @@ class FITSImage : public QScrollView  {
 	private:
 	FITSViewer *viewer;					/* parent FITSViewer */
 	FITSFrame  *imgFrame;					/* Frame holding the image */
-	QImage  *displayImage;					/* FITS image that is displayed in the GUI */
-	QImage  *templateImage;					/* backup image for currentImage */
-	QPixmap qpix; 						/* Pixmap for drawing */
+	TQImage  *displayImage;					/* FITS image that is displayed in the GUI */
+	TQImage  *templateImage;					/* backup image for currentImage */
+	TQPixmap qpix; 						/* Pixmap for drawing */
 	KPixmapIO kpix;						/* Pixmap IO for fast converting */
-	QRect currentRect;					/* Current rectangle encapsulating the image */
+	TQRect currentRect;					/* Current rectangle encapsulating the image */
 	int bitpix, bpp;					/* bits per pixel and bytes per pixels for FITS */
 	int width, height;					/* Original FITS dimensions */
 	double currentWidth,currentHeight;			/* Current width and height due to zoom */
@@ -95,9 +95,9 @@ class FITSImage : public QScrollView  {
 	void zoomToCurrent();					/* Zoom the image to current zoom level without modifying it */
 	
 	protected:
-	/*void drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph );*/
-	void contentsMouseMoveEvent ( QMouseEvent * e );
-	void viewportResizeEvent ( QResizeEvent * e) ;
+	/*void drawContents ( TQPainter * p, int clipx, int clipy, int clipw, int cliph );*/
+	void contentsMouseMoveEvent ( TQMouseEvent * e );
+	void viewportResizeEvent ( TQResizeEvent * e) ;
 	
 	public slots:
 	void fitsZoomIn();
@@ -110,14 +110,14 @@ class FITSFrame : public QFrame
   Q_OBJECT
   
     public:
-      FITSFrame(FITSImage * img, QWidget * parent = 0, const char * name = 0);
+      FITSFrame(FITSImage * img, TQWidget * parent = 0, const char * name = 0);
       ~FITSFrame();
     
     private:
       FITSImage *image;
       
     protected:
-      void paintEvent( QPaintEvent * e);
+      void paintEvent( TQPaintEvent * e);
       
 };
 

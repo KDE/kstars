@@ -36,11 +36,11 @@ class MagnitudeSpinBox  : public KDoubleNumInput
 
 /**Default Constructor.
 	*/
-	MagnitudeSpinBox( QWidget* parent = 0, const char* name = 0);
+	MagnitudeSpinBox( TQWidget* parent = 0, const char* name = 0);
 
 /**Constructor.  Set minimum and maximum values for the spinbox.
 	*/
-	MagnitudeSpinBox( double minValue, double maxValue, QWidget* parent = 0, const char* name = 0);
+	MagnitudeSpinBox( double minValue, double maxValue, TQWidget* parent = 0, const char* name = 0);
 };
 
 

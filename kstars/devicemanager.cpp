@@ -21,8 +21,8 @@
 #include "kstars.h"
 #include "kstarsdatetime.h"
 
-#include <qsocketnotifier.h>
-#include <qtextedit.h>
+#include <tqsocketnotifier.h>
+#include <tqtextedit.h>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -80,14 +80,14 @@ DeviceManager::~DeviceManager()
 
 }
 
-bool DeviceManager::indiConnect(QString inHost, QString inPort)
+bool DeviceManager::indiConnect(TQString inHost, TQString inPort)
 {
         host = inHost;
 	port = inPort;
-	QString errMsg;
+	TQString errMsg;
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
-	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
+	errMsg = TQString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
 
 	memset(&pin, 0, sizeof(pin));
 	pin.sin_family 		= AF_INET;
@@ -108,8 +108,8 @@ bool DeviceManager::indiConnect(QString inHost, QString inPort)
 	}
 
 	// callback notified
-	sNotifier = new QSocketNotifier( serverFD, QSocketNotifier::Read, this);
-        QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(dataReceived()));
+	sNotifier = new TQSocketNotifier( serverFD, TQSocketNotifier::Read, this);
+        TQObject::connect( sNotifier, TQT_SIGNAL(activated(int)), this, TQT_SLOT(dataReceived()));
 
 	if (XMLParser)
 	   delLilXML(XMLParser);
@@ -155,7 +155,7 @@ void DeviceManager::dataReceived()
 	    sNotifier->disconnect();
 	    close(serverFD);
 	    parent->removeDeviceMgr(mgrID);
-	    KMessageBox::error(0, QString::fromLatin1(errmsg));
+	    KMessageBox::error(0, TQString::fromLatin1(errmsg));
 
             return;
 	}
@@ -244,7 +244,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, char errmsg[])
 	/* Delete property if it exists, otherwise, delete the whole device */
 	if (ap)
 	{
-	  pp = dp->findProp(QString(valuXMLAtt(ap)));
+	  pp = dp->findProp(TQString(valuXMLAtt(ap)));
 
 	 if(pp)
 	 return dp->removeProperty(pp);
@@ -257,7 +257,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, char errmsg[])
 
 }
 
-int DeviceManager::removeDevice(QString devName, char errmsg[])
+int DeviceManager::removeDevice(TQString devName, char errmsg[])
 {
 
     // remove all devices if devName == NULL
@@ -281,7 +281,7 @@ int DeviceManager::removeDevice(QString devName, char errmsg[])
    return -1;
 }
 
-INDI_D * DeviceManager::findDev (QString devName, char errmsg[])
+INDI_D * DeviceManager::findDev (TQString devName, char errmsg[])
 {
 	/* search for existing */
 	for (unsigned int i = 0; i < indi_dev.count(); i++)
@@ -312,7 +312,7 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, char errmsg[])
 	if (parent->currentLabel.isEmpty())
 	 parent->setCustomLabel(valuXMLAtt(ap));
 
-	dp = new INDI_D(parent, this, QString(valuXMLAtt(ap)), parent->currentLabel);
+	dp = new INDI_D(parent, this, TQString(valuXMLAtt(ap)), parent->currentLabel);
 
 	indi_dev.append(dp);
 	
@@ -339,7 +339,7 @@ INDI_D * DeviceManager::findDev (XMLEle *root, int create, char errmsg[])
 	/* search for existing */
 	for (uint i = 0; i < indi_dev.count(); i++)
 	{
-	    if (indi_dev.at(i)->name == QString(dn))
+	    if (indi_dev.at(i)->name == TQString(dn))
 		return (indi_dev.at(i));
 	}
 
@@ -379,7 +379,7 @@ void DeviceManager::checkMsg (XMLEle *root, INDI_D *dp)
  */
 void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 {
-	QTextEdit *txt_w;
+	TQTextEdit *txt_w;
 	XMLAtt *message;
 	XMLAtt *timestamp;
 
@@ -395,17 +395,17 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 	timestamp = findXMLAtt (msg, "timestamp");
 	
 	if (timestamp)
-	   txt_w->insert(QString(valuXMLAtt(timestamp)) + QString(" "));
+	   txt_w->insert(TQString(valuXMLAtt(timestamp)) + TQString(" "));
 	else
 	   txt_w->insert( KStarsDateTime::currentDateTime().toString("yyyy/mm/dd - h:m:s ap "));
 	
 	/* finally! the msg */
         message = findXMLAtt(msg, "message");
 	
-       txt_w->insert( QString(valuXMLAtt(message)) + QString("\n"));
+       txt_w->insert( TQString(valuXMLAtt(message)) + TQString("\n"));
        
        if ( Options::indiMessages() )
-	    	parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);
+	    	parent->ksw->statusBar()->changeItem( TQString(valuXMLAtt(message)), 0);
 
 }
 
@@ -468,7 +468,7 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, int index)
 	
 }
 
-void DeviceManager::startBlob (QString devName, QString propName, QString timestamp)
+void DeviceManager::startBlob (TQString devName, TQString propName, TQString timestamp)
 {
 
    fprintf (serverFP, "<newBLOBVector\n");
@@ -478,7 +478,7 @@ void DeviceManager::startBlob (QString devName, QString propName, QString timest
 
 }
 
-void DeviceManager::sendOneBlob(QString blobName, unsigned int blobSize, QString blobFormat, unsigned char * blobBuffer)
+void DeviceManager::sendOneBlob(TQString blobName, unsigned int blobSize, TQString blobFormat, unsigned char * blobBuffer)
 {
 
  fprintf (serverFP, "  <oneBLOB\n");

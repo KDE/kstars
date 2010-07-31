@@ -20,9 +20,9 @@
 #include <stdlib.h>
 #include <math.h> //using fabs()
 
-#include <qcursor.h>
-#include <qpainter.h>
-#include <qfile.h>
+#include <tqcursor.h>
+#include <tqpainter.h>
+#include <tqfile.h>
 
 #include <kiconloader.h>
 #include <kstatusbar.h>
@@ -39,7 +39,7 @@
 #include "kspopupmenu.h"
 #include "ksmoon.h"
 
-void SkyMap::resizeEvent( QResizeEvent * )
+void SkyMap::resizeEvent( TQResizeEvent * )
 {
 	computeSkymap = true; // skymap must be new computed
 	if ( testWState(WState_AutoMask) ) updateMask();
@@ -52,8 +52,8 @@ void SkyMap::resizeEvent( QResizeEvent * )
 	sky2->resize( width(), height() );
 }
 
-void SkyMap::keyPressEvent( QKeyEvent *e ) {
-	QString s;
+void SkyMap::keyPressEvent( TQKeyEvent *e ) {
+	TQString s;
 	bool arrowKeyPressed( false );
 	bool shiftPressed( false );
 	float step = 1.0;
@@ -274,7 +274,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_P: //Show Popup menu for Clicked/Centered object
 			if ( shiftPressed ) setClickedObject( focusObject() );
 			if ( clickedObject() ) 
-				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+				clickedObject()->showPopupMenu( pmenu, TQCursor::pos() );
 			break;
 
 		case Key_O: //Add object to Observing List
@@ -310,67 +310,67 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 		case Key_G: //loop through all cities
 		{
 
-      QFile file;
+      TQFile file;
      	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
         KSFileReader fileReader( file );
         int nCount = 0;
         while (fileReader.hasMoreLines()) {
-          QString line = fileReader.readLine();
+          TQString line = fileReader.readLine();
           nCount++;
     			kdDebug() << "Line " << nCount << " : " << line;
         }
       }
 
-			QTime t1;
+			TQTime t1;
 			t1.start();
       for (int i=0;i<10;i++) {
       	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
-          QString sAll( file.readAll() );
-          QStringList lines = QStringList::split( "\n", sAll );
+          TQString sAll( file.readAll() );
+          TQStringList lines = TQStringList::split( "\n", sAll );
           int nSize = lines.size();
           for ( int i=0; i<nSize; i++ ) {
-            QString& line = lines[i];
+            TQString& line = lines[i];
           }
       		file.close();
         }
       }
 			kdDebug() << "time taken for reading city data via read all (10 times): (msec): " << t1.elapsed() << endl;
 
-			QTime t2;
+			TQTime t2;
 			t2.start();
       for (int i=0;i<10;i++) {
       	if ( KSUtils::openDataFile( file, "Cities.dat" ) ) {
-      		QTextStream stream( &file );
+      		TQTextStream stream( &file );
         	while ( !stream.eof() ) {
-      			QString line = stream.readLine();
+      			TQString line = stream.readLine();
       		}
       		file.close();
       	}
       }
 			kdDebug() << "time taken for reading city data old code (10 times): (msec): " << t2.elapsed() << endl;
 
-			QTime t3;
+			TQTime t3;
 			t3.start();
       for (int i=0;i<1;i++) {
       	if ( KSUtils::openDataFile( file, "ngcic.dat" ) ) {
-          QString sAll( file.readAll() );
-          QStringList lines = QStringList::split( "\n", sAll );
+          TQString sAll( file.readAll() );
+          TQStringList lines = TQStringList::split( "\n", sAll );
           int nSize = lines.size();
           for ( int i=0; i<nSize; i++ ) {
-            QString& line = lines[i];
+            TQString& line = lines[i];
           }
       		file.close();
         }
       }
 			kdDebug() << "time taken for reading deep sky data via read all (1 times): (msec): " << t3.elapsed() << endl;
 
-			QTime t4;
+			TQTime t4;
 			t4.start();
       for (int i=0;i<1;i++) {
       	if ( KSUtils::openDataFile( file, "ngcic.dat" ) ) {
-      		QTextStream stream( &file );
+      		TQTextStream stream( &file );
         	while ( !stream.eof() ) {
-      			QString line = stream.readLine();
+      			TQString line = stream.readLine();
       		}
       		file.close();
       	}
@@ -409,7 +409,7 @@ void SkyMap::stopTracking() {
 	if ( ksw && Options::isTracking() ) ksw->slotTrack();
 }
 
-void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
+void SkyMap::keyReleaseEvent( TQKeyEvent *e ) {
 	switch ( e->key() ) {
 		case Key_Left :  //no break; continue to Key_Down
 		case Key_Right :  //no break; continue to Key_Down
@@ -429,7 +429,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 	}
 }
 
-void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
+void SkyMap::mouseMoveEvent( TQMouseEvent *e ) {
 	if ( Options::useHoverLabel() ) {
 		//First of all, if the transientObject() pointer is not NULL, then 
 		//we just moved off of a hovered object.  Begin fading the label.
@@ -453,11 +453,11 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	if ( ZoomRect.center().x() > 0 && ZoomRect.center().y() > 0 ) {
 		//cancel operation if the user let go of CTRL
 		if ( !( e->state() & ControlButton ) ) {
-			ZoomRect = QRect(); //invalidate ZoomRect
+			ZoomRect = TQRect(); //invalidate ZoomRect
 			update();
 		} else {
 			//Resize the rectangle so that it passes through the cursor position
-			QPoint pcenter = ZoomRect.center();
+			TQPoint pcenter = ZoomRect.center();
 			int dx = abs(e->x() - pcenter.x());
 			int dy = abs(e->y() - pcenter.y());
 			if ( dx == 0 || float(dy)/float(dx) > float(height())/float(width()) ) {
@@ -554,7 +554,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	} else {
 
 		if ( ksw ) {
-			QString sX, sY, s;
+			TQString sX, sY, s;
 			sX = mousePoint()->az()->toDMSString(true);  //true = force +/- symbol
 			sY = mousePoint()->alt()->toDMSString(true); //true=force +/- symbol
 			if ( Options::useAltAz() && Options::useRefraction() ) 
@@ -571,12 +571,12 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 	}
 }
 
-void SkyMap::wheelEvent( QWheelEvent *e ) {
+void SkyMap::wheelEvent( TQWheelEvent *e ) {
 	if ( ksw && e->delta() > 0 ) ksw->slotZoomIn();
 	else if ( ksw ) ksw->slotZoomOut();
 }
 
-void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
+void SkyMap::mouseReleaseEvent( TQMouseEvent * ) {
 	if ( infoBoxes()->unGrabBox() ) {
 		update();
 		return;
@@ -600,11 +600,11 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 		ksw->zoom( Options::zoomFactor() * factor );
 		
 		setDefaultMouseCursor();
-		ZoomRect = QRect(); //invalidate ZoomRect
+		ZoomRect = TQRect(); //invalidate ZoomRect
 		forceUpdate();
 	} else {
 		setDefaultMouseCursor();
-		ZoomRect = QRect(); //just in case user Ctrl+clicked + released w/o dragging...
+		ZoomRect = TQRect(); //just in case user Ctrl+clicked + released w/o dragging...
 	}
 
 	if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
@@ -627,7 +627,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 	scrollCount = 0;
 }
 
-void SkyMap::mousePressEvent( QMouseEvent *e ) {
+void SkyMap::mousePressEvent( TQMouseEvent *e ) {
 	//did we Grab an infoBox?
 	if ( e->button() == LeftButton && infoBoxes()->grabBox( e ) ) {
 		update(); //refresh without redrawing skymap
@@ -642,8 +642,8 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	}
 
 	// if button is down and cursor is not moved set the move cursor after 500 ms
-	QTimer t;
-	t.singleShot (500, this, SLOT (setMouseMoveCursor()));
+	TQTimer t;
+	t.singleShot (500, this, TQT_SLOT (setMouseMoveCursor()));
 
 	double dx = ( 0.5*width()  - e->x() )/Options::zoomFactor();
 	double dy = ( 0.5*height() - e->y() )/Options::zoomFactor();
@@ -672,7 +672,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 			setClickedPoint( clickedObject() );
 			
 			if ( e->button() == RightButton ) {
-				clickedObject()->showPopupMenu( pmenu, QCursor::pos() );
+				clickedObject()->showPopupMenu( pmenu, TQCursor::pos() );
 			}
 			
 			if ( ksw && e->button() == LeftButton ) {
@@ -693,7 +693,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 					pmenu->createEmptyMenu( nullObj );
 					delete nullObj;
 					
-					pmenu->popup(  QCursor::pos() );
+					pmenu->popup(  TQCursor::pos() );
 					break;
 				}
 				
@@ -704,7 +704,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 	}
 }
 
-void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
+void SkyMap::mouseDoubleClickEvent( TQMouseEvent *e ) {
 	//Was the event inside an infoBox?  If so, shade the box.
 	if ( e->button() == LeftButton ) {
 		if ( infoBoxes()->shadeBox( e ) ) {
@@ -721,7 +721,7 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
 	}
 }
 
-void SkyMap::paintEvent( QPaintEvent * )
+void SkyMap::paintEvent( TQPaintEvent * )
 {
 	//If computeSkymap is false, then we just refresh the window using the stored sky pixmap 
 	//and draw the "overlays" on top.  This lets us update the overlay information rapidly
@@ -736,7 +736,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 		return ; // exit because the pixmap is repainted and that's all what we want
 	}
 
-	QPainter psky;
+	TQPainter psky;
 	setMapGeometry();
 
 	//checkSlewing combines the slewing flag (which is true when the display is actually in motion),
@@ -754,7 +754,7 @@ void SkyMap::paintEvent( QPaintEvent * )
 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
 
 	psky.begin( sky );
-	psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+	psky.fillRect( 0, 0, width(), height(), TQBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
 
 	if ( drawMW ) drawMilkyWay( psky );
 	if ( drawGrid ) drawCoordinateGrid( psky );

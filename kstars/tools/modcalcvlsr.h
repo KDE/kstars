@@ -19,7 +19,7 @@
 #define MODCALCVLSR_H
 
 #include <kapplication.h>
-#include <qwidget.h>
+#include <tqwidget.h>
 #include "modcalcvlsrdlg.h"
 
 class QWidget;
@@ -40,7 +40,7 @@ class modCalcVlsr : public modCalcVlsrDlg  {
 Q_OBJECT
 
 public: 
-	modCalcVlsr(QWidget *p, const char *n);
+	modCalcVlsr(TQWidget *p, const char *n);
 	~modCalcVlsr();
 	
 public slots:
@@ -89,7 +89,7 @@ private:
 	 * @param eName    String from which the epoch is to be constructed
 	 *                 once it is converted to a double
 	 */
-	double getEpoch (QString eName);
+	double getEpoch (TQString eName);
 
 	/* Creates a dms object from the latitude box */
 	dms getLatitude (void);
@@ -141,7 +141,7 @@ private:
 
 	/* Method to process the lines from a file
 	 */
-	void processLines( QTextStream &istream );
+	void processLines( TQTextStream &istream );
   
 	GeoLocation *geoPlace;
 

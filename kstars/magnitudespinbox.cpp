@@ -17,13 +17,13 @@
 
 #include "magnitudespinbox.h"
 
-MagnitudeSpinBox::MagnitudeSpinBox( QWidget * parent , const char * name )
+MagnitudeSpinBox::MagnitudeSpinBox( TQWidget * parent , const char * name )
 	: KDoubleNumInput( 0.0, 10.0, 0.0, 0.1 /*step*/, 1 /*precision*/, parent, name)
 {
 }
 
 MagnitudeSpinBox::MagnitudeSpinBox( double minValue, double maxValue,
-	QWidget * parent , const char * name )
+	TQWidget * parent , const char * name )
 	: KDoubleNumInput( minValue, maxValue, minValue, 0.1 /* step */, 1, parent, name)
 {
 }

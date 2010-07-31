@@ -50,17 +50,17 @@ FileSource::~FileSource() {
 int FileSource::readyToSend() {
 	// readyToSend ==  0 -> no data but not end of stream
 	// readyToSend  >  0 -> data ready to send
-	// readyToSend == -1 -> end of stream, QDataPump will destroy this FileSource object
+	// readyToSend == -1 -> end of stream, TQDataPump will destroy this FileSource object
 	if (readingData == true)
 		return 1;
 	else
 		return -1;
 }
 
-void FileSource::sendTo(QDataSink *sink, int) {
+void FileSource::sendTo(TQDataSink *sink, int) {
 	counter = 0;
 	while (data->starFileReader->hasMoreLines() && counter < maxLines) {
-		QString line = data->starFileReader->readLine();
+		TQString line = data->starFileReader->readLine();
 		float mag = line.mid( 46, 5 ).toFloat();  // check magnitude
 //		kdDebug() << "mag=" << mag << " maxmag=" << maxMagnitude << endl;
 		if (mag > maxMagnitude) {

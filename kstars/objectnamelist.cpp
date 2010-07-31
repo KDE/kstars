@@ -20,7 +20,7 @@
 #include "skyobject.h"
 #include "starobject.h"
 
-#include <qstring.h>
+#include <tqstring.h>
 #include <kdebug.h>
 
 ObjectNameList::ObjectNameList() {
@@ -55,14 +55,14 @@ void ObjectNameList::setMode( Mode m ) {
 void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 	amount++;
 	// create name string and init with longname if forced by parameter else default name
-	QString name = ( useLongName ) ? object->longname() : object->name();
+	TQString name = ( useLongName ) ? object->longname() : object->name();
 
 	//if star's name is it's genetive name, make sure we don't use the Greek charcter here
 	if ( object->type() == 0 && name == ((StarObject*)object)->gname() )
 		name = ((StarObject*)object)->gname( false );
 	
 	// create string with translated name
-	QString iName;
+	TQString iName;
 
 	if ( object->type() == -1 ) {  // constellation
 		iName = i18n( "Constellation name (optional)", name.local8Bit().data() );
@@ -94,7 +94,7 @@ void ObjectNameList::append( SkyObject *object, bool useLongName ) {
 	unsorted[currentIndex] = true;
 }
 
-SkyObjectName* ObjectNameList::first( const QString &name ) {
+SkyObjectName* ObjectNameList::first( const TQString &name ) {
 	sort();
 	SkyObjectName *soName = 0;
 	// set mode: string is empty set mode to all lists
@@ -138,13 +138,13 @@ SkyObjectName* ObjectNameList::next() {
 	return soName;
 }
 
-int ObjectNameList::getIndex( const QString &name ) {
+int ObjectNameList::getIndex( const TQString &name ) {
 	//	default index is 0 if object name starts with a number
 	int index = 0;
 
 	// if object name starts with a letter, so get index number between 1 and 26
 	if ( !name.isEmpty() ) {
-		QChar firstLetter = name[0];
+		TQChar firstLetter = name[0];
 		if ( firstLetter ) {
 			if ( firstLetter.isLetter() ) {
 				const unsigned char letter = (unsigned char) firstLetter.lower();
@@ -179,7 +179,7 @@ void ObjectNameList::sort() {
 	}
 }
 
-void ObjectNameList::remove ( const QString &name ) {
+void ObjectNameList::remove ( const TQString &name ) {
 	setMode(oneList);
 	int index = getIndex(name);
 	SortedList <SkyObjectName> *l = &(list[language][index]);
@@ -188,14 +188,14 @@ void ObjectNameList::remove ( const QString &name ) {
 	if ( son ) l->remove( son );
 }
 
-SkyObjectName* ObjectNameList::find(const QString &name) {
+SkyObjectName* ObjectNameList::find(const TQString &name) {
 	sort();
 	if (name.isNull()) return 0;
 	// find works only in one list and not in all lists
 	setMode(oneList);
 
 	// items are stored translated (JH: Why?  this whole class is confusing...)
-	QString translatedName = i18n(name.utf8());
+	TQString translatedName = i18n(name.utf8());
 
 	int index = getIndex(name);
 

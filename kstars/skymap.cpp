@@ -23,11 +23,11 @@
 #include <kaction.h>
 #include <kstandarddirs.h>
 
-#include <qmemarray.h>
-#include <qpointarray.h>
-#include <qcursor.h>
-#include <qbitmap.h>
-#include <qpainter.h>
+#include <tqmemarray.h>
+#include <tqpointarray.h>
+#include <tqcursor.h>
+#include <tqbitmap.h>
+#include <tqpainter.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -51,8 +51,8 @@
 #include "starobject.h"
 #include "customcatalog.h"
 
-SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
-	: QWidget (parent,name), computeSkymap(true), angularDistanceMode(false),
+SkyMap::SkyMap(KStarsData *d, TQWidget *parent, const char *name )
+	: TQWidget (parent,name), computeSkymap(true), angularDistanceMode(false),
 		ksw(0), data(d), pmenu(0), sky(0), sky2(0), IBoxes(0), 
 		ClickedObject(0), FocusObject(0), TransientObject(0),
 		starpix(0), pts(0), sp(0)
@@ -60,21 +60,21 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	if ( parent ) ksw = (KStars*) parent->parent();
 	else ksw = 0;
 	
-	pts = new QPointArray( 2000 );  // points for milkyway and horizon
+	pts = new TQPointArray( 2000 );  // points for milkyway and horizon
 	sp = new SkyPoint();            // needed by coordinate grid
 
-	ZoomRect = QRect();
+	ZoomRect = TQRect();
 
 	setDefaultMouseCursor();	// set the cross cursor
 
 	// load the pixmaps of stars
 	starpix = new StarPixmap( data->colorScheme()->starColorMode(), data->colorScheme()->starColorIntensity() );
 
-	setBackgroundColor( QColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-	setBackgroundMode( QWidget::NoBackground );
-	setFocusPolicy( QWidget::StrongFocus );
+	setBackgroundColor( TQColor( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+	setBackgroundMode( TQWidget::NoBackground );
+	setFocusPolicy( TQWidget::StrongFocus );
 	setMinimumSize( 380, 250 );
-	setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
+	setSizePolicy( TQSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Expanding ) );
 
 	setMouseTracking (true); //Generate MouseMove events!
 	midMouseButtonDown = false;
@@ -85,14 +85,14 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 	ClickedObject = NULL;
 	FocusObject = NULL;
 
-	sky = new QPixmap();
-	sky2 = new QPixmap();
+	sky = new TQPixmap();
+	sky2 = new TQPixmap();
 	pmenu = new KSPopupMenu( ksw );
 	
 	//Initialize Transient label stuff
 	TransientTimeout = 100; //fade label color every 0.2 sec
-	connect( &HoverTimer, SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
-	connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
+	connect( &HoverTimer, TQT_SIGNAL( timeout() ), this, TQT_SLOT( slotTransientLabel() ) );
+	connect( &TransientTimer, TQT_SIGNAL( timeout() ), this, TQT_SLOT( slotTransientTimeout() ) );
 	
 	IBoxes = new InfoBoxes( Options::windowWidth(), Options::windowHeight(),
 			Options::positionTimeBox(), Options::shadeTimeBox(),
@@ -111,14 +111,14 @@ SkyMap::SkyMap(KStarsData *d, QWidget *parent, const char *name )
 
 	IBoxes->geoChanged( data->geo() );
 
-	connect( IBoxes->timeBox(),  SIGNAL( shaded(bool) ), data, SLOT( saveTimeBoxShaded(bool) ) );
-	connect( IBoxes->geoBox(),   SIGNAL( shaded(bool) ), data, SLOT( saveGeoBoxShaded(bool) ) );
-	connect( IBoxes->focusBox(), SIGNAL( shaded(bool) ), data, SLOT( saveFocusBoxShaded(bool) ) );
-	connect( IBoxes->timeBox(),  SIGNAL( moved(QPoint) ), data, SLOT( saveTimeBoxPos(QPoint) ) );
-	connect( IBoxes->geoBox(),   SIGNAL( moved(QPoint) ), data, SLOT( saveGeoBoxPos(QPoint) ) );
-	connect( IBoxes->focusBox(), SIGNAL( moved(QPoint) ), data, SLOT( saveFocusBoxPos(QPoint) ) );
+	connect( IBoxes->timeBox(),  TQT_SIGNAL( shaded(bool) ), data, TQT_SLOT( saveTimeBoxShaded(bool) ) );
+	connect( IBoxes->geoBox(),   TQT_SIGNAL( shaded(bool) ), data, TQT_SLOT( saveGeoBoxShaded(bool) ) );
+	connect( IBoxes->focusBox(), TQT_SIGNAL( shaded(bool) ), data, TQT_SLOT( saveFocusBoxShaded(bool) ) );
+	connect( IBoxes->timeBox(),  TQT_SIGNAL( moved(TQPoint) ), data, TQT_SLOT( saveTimeBoxPos(TQPoint) ) );
+	connect( IBoxes->geoBox(),   TQT_SIGNAL( moved(TQPoint) ), data, TQT_SLOT( saveGeoBoxPos(TQPoint) ) );
+	connect( IBoxes->focusBox(), TQT_SIGNAL( moved(TQPoint) ), data, TQT_SLOT( saveFocusBoxPos(TQPoint) ) );
 
-	connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
+	connect( this, TQT_SIGNAL( destinationChanged() ), this, TQT_SLOT( slewFocus() ) );
 
 	//Initialize Refraction correction lookup table arrays.  RefractCorr1 is for calculating
 	//the apparent altitude from the true altitude, and RefractCorr2 is for the reverse.
@@ -156,13 +156,13 @@ SkyMap::~SkyMap() {
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
-	QWidget::setGeometry( x, y, w, h );
+	TQWidget::setGeometry( x, y, w, h );
 	sky->resize( w, h );
 	sky2->resize( w, h );
 }
 
-void SkyMap::setGeometry( const QRect &r ) {
-	QWidget::setGeometry( r );
+void SkyMap::setGeometry( const TQRect &r ) {
+	TQWidget::setGeometry( r );
 	sky->resize( r.width(), r.height() );
 	sky2->resize( r.width(), r.height() );
 }
@@ -171,7 +171,7 @@ void SkyMap::setGeometry( const QRect &r ) {
 void SkyMap::showFocusCoords( bool coordsOnly ) {
 	if ( ! coordsOnly ) {
 		//display object info in infoBoxes
-		QString oname;
+		TQString oname;
 		oname = i18n( "nothing" );
 		if ( focusObject() != NULL && Options::isTracking() ) 
 			oname = focusObject()->translatedLongName();
@@ -325,7 +325,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 
 	for ( register unsigned int j=0; j< data->CustomCatalogs.count(); ++j ) {
 		if ( Options::showCatalog()[j] ) {
-			QPtrList<SkyObject> catList = data->CustomCatalogs.at(j)->objList();
+			TQPtrList<SkyObject> catList = data->CustomCatalogs.at(j)->objList();
 
 			for ( register unsigned int i=0; i<catList.count(); ++i ) {
 				//test RA and dec to see if this object is roughly nearby
@@ -393,7 +393,7 @@ SkyObject* SkyMap::objectNearest( SkyPoint *p ) {
 		icat = 3; //set catalog to solar system
 	}
 
-	QPtrList<SkyObject> cat;
+	TQPtrList<SkyObject> cat;
 
 	switch (icat) {
 		case 0: //star
@@ -458,8 +458,8 @@ void SkyMap::slotTransientTimeout( void ) {
 	}
 
 	//to fade the labels, we will need to smoothly transition from UserLabelColor to SkyColor.
-	QColor c1 = data->colorScheme()->colorNamed( "UserLabelColor" );
-	QColor c2 = data->colorScheme()->colorNamed( "SkyColor" );
+	TQColor c1 = data->colorScheme()->colorNamed( "UserLabelColor" );
+	TQColor c2 = data->colorScheme()->colorNamed( "SkyColor" );
 	
 	int dRed =   ( c2.red()   - c1.red()   )/20;
 	int dGreen = ( c2.green() - c1.green() )/20;
@@ -505,8 +505,8 @@ void SkyMap::slotCenter( void ) {
 	if ( Options::useAltAz() && Options::showGround() &&
 			focus()->alt()->Degrees() > -1.0 && focusPoint()->alt()->Degrees() < -1.0 ) {
 
-		QString caption = i18n( "Requested Position Below Horizon" );
-		QString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
+		TQString caption = i18n( "Requested Position Below Horizon" );
+		TQString message = i18n( "The requested position is below the horizon.\nWould you like to go there anyway?" );
 		if ( KMessageBox::warningYesNo( this, message, caption,
 				i18n("Go Anyway"), i18n("Keep Position"), "dag_focus_below_horiz" )==KMessageBox::No ) {
 			setClickedObject( NULL );
@@ -549,11 +549,11 @@ void SkyMap::slotCenter( void ) {
 
 	//display coordinates in statusBar
 	if ( ksw ) {
-		QString sX = focusPoint()->az()->toDMSString();
-		QString sY = focusPoint()->alt()->toDMSString(true);
+		TQString sX = focusPoint()->az()->toDMSString();
+		TQString sY = focusPoint()->alt()->toDMSString(true);
 		if ( Options::useAltAz() && Options::useRefraction() )
 			sY = refract( focusPoint()->alt(), true ).toDMSString(true);
-		QString s = sX + ",  " + sY;
+		TQString s = sX + ",  " + sY;
 		ksw->statusBar()->changeItem( s, 1 );
 		s = focusPoint()->ra()->toHMSString() + ",  " + focusPoint()->dec()->toDMSString(true);
 		ksw->statusBar()->changeItem( s, 2 );
@@ -563,10 +563,10 @@ void SkyMap::slotCenter( void ) {
 }
 
 void SkyMap::slotDSS( void ) {
-	QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
-	QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+	TQString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
+	TQString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
 	dms ra(0.0), dec(0.0);
-	QString RAString, DecString;
+	TQString RAString, DecString;
 	char decsgn;
 
 	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
@@ -599,15 +599,15 @@ void SkyMap::slotDSS( void ) {
 	//concat all the segments into the kview command line:
 	KURL url (URLprefix + RAString + DecString + URLsuffix);
 	
-	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute." );
+	TQString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute." );
 	new ImageViewer (&url, message, this);
 }
 
 void SkyMap::slotDSS2( void ) {
-	QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=2r" );
-	QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+	TQString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=2r" );
+	TQString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
 	dms ra(0.0), dec(0.0);
-	QString RAString, DecString;
+	TQString RAString, DecString;
 	char decsgn;
 
 	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
@@ -641,13 +641,13 @@ void SkyMap::slotDSS2( void ) {
 	//concat all the segments into the kview command line:
 	KURL url (URLprefix + RAString + DecString + URLsuffix);
 	
-	QString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute." );
+	TQString message = i18n( "Digitized Sky Survey image provided by the Space Telescope Science Institute." );
 	new ImageViewer (&url, message, this);
 }
 
 void SkyMap::slotInfo( int id ) {
-	QStringList::Iterator it = clickedObject()->InfoList.at(id-200);
-	QString sURL = (*it);
+	TQStringList::Iterator it = clickedObject()->InfoList.at(id-200);
+	TQString sURL = (*it);
 	KURL url ( sURL );
 	if (!url.isEmpty())
 		kapp->invokeBrowser(sURL);
@@ -657,7 +657,7 @@ void SkyMap::slotBeginAngularDistance(void) {
 	setPreviousClickedPoint( mousePoint() );
 	angularDistanceMode = true;
 	beginRulerPoint = getXY( previousClickedPoint(), Options::useAltAz(), Options::useRefraction() );
-	endRulerPoint =  QPoint( beginRulerPoint.x(),beginRulerPoint.y() );
+	endRulerPoint =  TQPoint( beginRulerPoint.x(),beginRulerPoint.y() );
 }
 
 void SkyMap::slotEndAngularDistance(void) {
@@ -683,10 +683,10 @@ void SkyMap::slotCancelAngularDistance(void) {
 }
 
 void SkyMap::slotImage( int id ) {
-	QStringList::Iterator it = clickedObject()->ImageList.at(id-100);
-	QStringList::Iterator it2 = clickedObject()->ImageTitle.at(id-100);
-	QString sURL = (*it);
-	QString message = (*it2);
+	TQStringList::Iterator it = clickedObject()->ImageList.at(id-100);
+	TQStringList::Iterator it2 = clickedObject()->ImageTitle.at(id-100);
+	TQString sURL = (*it);
+	TQString message = (*it2);
 	KURL url ( sURL );
 	if (!url.isEmpty())
 		new ImageViewer (&url, clickedObject()->messageFromTitle(message), this);
@@ -971,7 +971,7 @@ void SkyMap::slewFocus( void ) {
 }
 
 void SkyMap::invokeKey( int key ) {
-	QKeyEvent *e = new QKeyEvent( QEvent::KeyPress, key, 0, 0 );
+	TQKeyEvent *e = new TQKeyEvent( TQEvent::KeyPress, key, 0, 0 );
 	keyPressEvent( e );
 	delete e;
 }
@@ -984,9 +984,9 @@ double SkyMap::findPA( SkyObject *o, int x, int y, double scale ) {
 	if ( newDec > 90.0 ) newDec = 90.0;
 	SkyPoint test( o->ra()->Hours(), newDec );
 	if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->LST, data->geo()->lat() );
-	QPoint t = getXY( &test, Options::useAltAz(), Options::useRefraction(), scale );
+	TQPoint t = getXY( &test, Options::useAltAz(), Options::useRefraction(), scale );
 	double dx = double( t.x() - x );  
-	double dy = double( y - t.y() );  //backwards because QWidget Y-axis increases to the bottom
+	double dy = double( y - t.y() );  //backwards because TQWidget Y-axis increases to the bottom
 	double north;
 	if ( dy ) {
 		north = atan( dx/dy )*180.0/dms::PI;
@@ -1001,8 +1001,8 @@ double SkyMap::findPA( SkyObject *o, int x, int y, double scale ) {
 	return ( north + o->pa() );
 }
 
-QPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale ) {
-	QPoint p;
+TQPoint SkyMap::getXY( SkyPoint *o, bool Horiz, bool doRefraction, double scale ) {
+	TQPoint p;
 
 	double Y, dX;
 	double sindX, cosdX, sinY, cosY, sinY0, cosY0;
@@ -1169,7 +1169,7 @@ dms SkyMap::refract( const dms *alt, bool findApparent ) {
 // also, determine new coordinates of mouse cursor.
 void SkyMap::forceUpdate( bool now )
 {
-	QPoint mp( mapFromGlobal( QCursor::pos() ) );
+	TQPoint mp( mapFromGlobal( TQCursor::pos() ) );
 	double dx = ( 0.5*width()  - mp.x() )/Options::zoomFactor();
 	double dy = ( 0.5*height() - mp.y() )/Options::zoomFactor();
 
@@ -1238,33 +1238,33 @@ void SkyMap::setZoomMouseCursor()
 {
 	mouseMoveCursor = false;	// no mousemove cursor
 	
-	QPainter p;
-	QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
+	TQPainter p;
+	TQPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
 // the center of the pixmap
 	int mx = cursorPix.	width() / 2;
 	int my = cursorPix.	height() / 2;
 
 	cursorPix.fill (white);  // white background
 	p.begin (&cursorPix);
-	p.setPen (QPen (black, 2));	// black lines
+	p.setPen (TQPen (black, 2));	// black lines
 
 	p.drawEllipse( mx - 7, my - 7, 14, 14 );
 	p.drawLine( mx + 5, my + 5, mx + 11, my + 11 );
 	p.end();
 
 // create a mask to make parts of the pixmap invisible
-	QBitmap mask (32, 32);
+	TQBitmap mask (32, 32);
 	mask.fill (color0);	// all is invisible
 
 	p.begin (&mask);
 // paint over the parts which should be visible
-	p.setPen (QPen (color1, 3));
+	p.setPen (TQPen (color1, 3));
 	p.drawEllipse( mx - 7, my - 7, 14, 14 );
 	p.drawLine( mx + 5, my + 5, mx + 12, my + 12 );
 	p.end();
 	
 	cursorPix.setMask (mask);	// set the mask
-	QCursor cursor (cursorPix);
+	TQCursor cursor (cursorPix);
 	setCursor (cursor);
 }
 
@@ -1272,15 +1272,15 @@ void SkyMap::setDefaultMouseCursor()
 {
 	mouseMoveCursor = false;	// no mousemove cursor
 	
-	QPainter p;
-	QPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
+	TQPainter p;
+	TQPixmap cursorPix (32, 32); // size 32x32 (this size is compatible to all systems)
 // the center of the pixmap
 	int mx = cursorPix.	width() / 2;
 	int my = cursorPix.	height() / 2;
 
 	cursorPix.fill (white);  // white background
 	p.begin (&cursorPix);
-	p.setPen (QPen (black, 2));	// black lines
+	p.setPen (TQPen (black, 2));	// black lines
 // 1. diagonal
 	p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
 	p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
@@ -1290,12 +1290,12 @@ void SkyMap::setDefaultMouseCursor()
 	p.end();
 
 // create a mask to make parts of the pixmap invisible
-	QBitmap mask (32, 32);
+	TQBitmap mask (32, 32);
 	mask.fill (color0);	// all is invisible
 
 	p.begin (&mask);
 // paint over the parts which should be visible
-	p.setPen (QPen (color1, 3));
+	p.setPen (TQPen (color1, 3));
 // 1. diagonal
 	p.drawLine (mx - 2, my - 2, mx - 8, mx - 8);
 	p.drawLine (mx + 2, my + 2, mx + 8, mx + 8);
@@ -1305,7 +1305,7 @@ void SkyMap::setDefaultMouseCursor()
 	p.end();
 
 	cursorPix.setMask (mask);	// set the mask
-	QCursor cursor (cursorPix);
+	TQCursor cursor (cursorPix);
 	setCursor (cursor);
 }
 
@@ -1320,10 +1320,10 @@ void SkyMap::setMouseMoveCursor()
 
 void SkyMap::addLink( void ) {
 	AddLinkDialog adialog( this, clickedObject()->name() );
-	QString entry;
-  QFile file;
+	TQString entry;
+  TQFile file;
 
-	if ( adialog.exec()==QDialog::Accepted ) {
+	if ( adialog.exec()==TQDialog::Accepted ) {
 		if ( adialog.isImageLink() ) {
 			//Add link to object's ImageList, and descriptive text to its ImageTitle list
 			clickedObject()->ImageList.append( adialog.url() );
@@ -1334,12 +1334,12 @@ void SkyMap::addLink( void ) {
 			file.setName( locateLocal( "appdata", "image_url.dat" ) ); //determine filename in local user KDE directory tree.
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-				QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
+				TQString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
 				KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 				return;
 			} else {
 				entry = clickedObject()->name() + ":" + adialog.desc() + ":" + adialog.url();
-				QTextStream stream( &file );
+				TQTextStream stream( &file );
 				stream << entry << endl;
 				file.close();
 				emit linkAdded();
@@ -1352,11 +1352,11 @@ void SkyMap::addLink( void ) {
 			file.setName( locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
 
 			if ( !file.open( IO_ReadWrite | IO_Append ) ) {
-				QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+				TQString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 				return;
 			} else {
 				entry = clickedObject()->name() + ":" + adialog.desc() + ":" + adialog.url();
-				QTextStream stream( &file );
+				TQTextStream stream( &file );
 				stream << entry << endl;
 				file.close();
 				emit linkAdded();
@@ -1369,8 +1369,8 @@ void SkyMap::updateAngleRuler() {
 	if ( Options::useAltAz() ) PreviousClickedPoint.EquatorialToHorizontal( data->LST, data->geo()->lat() );
 	beginRulerPoint = getXY( previousClickedPoint(), Options::useAltAz(), Options::useRefraction() );
 
-//	endRulerPoint =  QPoint(e->x(), e->y());
-	endRulerPoint = mapFromGlobal( QCursor::pos() );
+//	endRulerPoint =  TQPoint(e->x(), e->y());
+	endRulerPoint = mapFromGlobal( TQCursor::pos() );
 }
 
 #include "skymap.moc"

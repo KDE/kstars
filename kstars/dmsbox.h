@@ -51,7 +51,7 @@ public:
 		*@param deg if TRUE use deg/arcmin/arcsec; otherwise 
 		*           use hours/min/sec.
 		*/
-	dmsBox(QWidget *parent, const char *ni=0, bool deg=TRUE);
+	dmsBox(TQWidget *parent, const char *ni=0, bool deg=TRUE);
 
 	/**Destructor (empty)*/
 	~dmsBox();
@@ -99,7 +99,7 @@ public:
 		*@note JH: Why don't we just use KLineEdit::setText() instead?
 		*@param s the string to display (it need not be a valid angle value).
 		*/
-	void setDMS(QString s) { setText(s); }
+	void setDMS(TQString s) { setText(s); }
 
 	/**Parse the text in the dmsBox as an angle.  The text may be an integer
 		*or double value, or it may be a triplet of integer values (separated by spaces
@@ -128,11 +128,11 @@ public:
 	void clearFields (void) { setDMS(""); }
 
 protected:
-	void focusInEvent( QFocusEvent *e );
-	void focusOutEvent( QFocusEvent *e );
+	void focusInEvent( TQFocusEvent *e );
+	void focusOutEvent( TQFocusEvent *e );
 
 private slots:
-	void slotTextChanged( const QString &t );
+	void slotTextChanged( const TQString &t );
 
 private:
 	void setEmptyText();

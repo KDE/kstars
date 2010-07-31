@@ -18,13 +18,13 @@
 #ifndef TIMESTEPBOX_H
 #define TIMESTEPBOX_H
 
-#include <qframe.h>
-#include <qlayout.h>
+#include <tqframe.h>
+#include <tqlayout.h>
 #include "timespinbox.h"
 #include "timeunitbox.h"
 
 /**@class TimeStepBox 
-	*This composite widget consists of a TimeSpinBox (a QSpinBox), coupled with a 
+	*This composite widget consists of a TimeSpinBox (a TQSpinBox), coupled with a 
 	*TimeUnitBox (a second pair of up/down buttons).
 	*The second set of buttons makes larger steps through the 82 possible 
 	*time-step values, skipping to the next even unit of time.
@@ -33,11 +33,11 @@
 	*@version 1.0
 	*/
 
-class TimeStepBox : public QFrame  {
+class TimeStepBox : public TQFrame  {
 Q_OBJECT
 public:
 	/**Constructor. */
-	TimeStepBox( QWidget *parent=0, const char* name=0, bool daysonly=false );
+	TimeStepBox( TQWidget *parent=0, const char* name=0, bool daysonly=false );
 	/**Destructor. (empty)*/
 	~TimeStepBox() {}
 
@@ -63,7 +63,7 @@ private slots:
 	void syncUnits( int );
 private:
 	bool DaysOnly;
-	QHBoxLayout *hlay;
+	TQHBoxLayout *hlay;
 	TimeSpinBox *timeBox;
 	TimeUnitBox *unitBox;
 };

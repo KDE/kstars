@@ -18,7 +18,7 @@
 #ifndef _KSTARSPLOTWIDGET_H_
 #define _KSTARSPLOTWIDGET_H_
 
-#include <qwidget.h>
+#include <tqwidget.h>
 #include <libkdeedu/kdeeduplot/kplotwidget.h>
 
 #define BIGTICKSIZE 10
@@ -41,7 +41,7 @@ class KStarsPlotWidget : public KPlotWidget {
 public:
 /**Constructor
 	*/
-	KStarsPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0, const char* name=0 );
+	KStarsPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, TQWidget *parent=0, const char* name=0 );
 
 /**Destructor (empty)
 	*/
@@ -95,12 +95,12 @@ public:
 		*@param xlabel a short string describing the data plotted on the x-axis.
 		*Set the label to an empty string to omit the axis label.
 		*/
-	virtual void setXAxisLabel2( QString xlabel ) { XAxisLabel2 = xlabel; }
+	virtual void setXAxisLabel2( TQString xlabel ) { XAxisLabel2 = xlabel; }
 	/**@short set the secondary Y-axis label
 		*@param ylabel a short string describing the data plotted on the y-axis.
 		*Set the label to an empty string to omit the axis label.
 		*/
-	virtual void setYAxisLabel2( QString ylabel ) { YAxisLabel2 = ylabel; }
+	virtual void setYAxisLabel2( TQString ylabel ) { YAxisLabel2 = ylabel; }
 
 	/**@returns the number of pixels to the right of the plot area.
 		*Padding values are set to -1 by default; if unchanged, this function will try to guess
@@ -114,7 +114,7 @@ public:
 	int topPadding()    const;
 
 protected:
-	void drawBox( QPainter *p );
+	void drawBox( TQPainter *p );
 
 	double dXtick2, dYtick2;
 	int nmajX2, nminX2, nmajY2, nminY2;
@@ -122,7 +122,7 @@ protected:
 	double XScaleFactor, YScaleFactor;
 	DRect DataRect2;
 
-	QString XAxisLabel2, YAxisLabel2;
+	TQString XAxisLabel2, YAxisLabel2;
 };
 
 #endif

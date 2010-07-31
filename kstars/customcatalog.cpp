@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
+#include <tqstring.h>
 
 #include "customcatalog.h"
 
@@ -23,8 +23,8 @@ CustomCatalog::CustomCatalog() : m_Name( i18n("Custom") ), m_Prefix( "CC" ),
 		m_Color( "#FF0000" ), m_Epoch( 2000.0 ), m_ObjList() {
 }
 
-CustomCatalog::CustomCatalog( QString nm, QString px, QString co, float ep, 
-		QPtrList<SkyObject> ol ) : m_Name(nm), m_Prefix(px), m_Color(co), 
+CustomCatalog::CustomCatalog( TQString nm, TQString px, TQString co, float ep, 
+		TQPtrList<SkyObject> ol ) : m_Name(nm), m_Prefix(px), m_Color(co), 
 		m_Epoch(ep), m_ObjList( ol ) {
 
 }

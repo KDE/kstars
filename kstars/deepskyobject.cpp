@@ -17,11 +17,11 @@
 
 #include <kglobal.h>
 
-#include <qfile.h>
-#include <qregexp.h>
-#include <qpainter.h>
-#include <qimage.h>
-#include <qstring.h>
+#include <tqfile.h>
+#include <tqregexp.h>
+#include <tqpainter.h>
+#include <tqimage.h>
+#include <tqstring.h>
 
 #include "deepskyobject.h"
 #include "kstarsdata.h"
@@ -41,7 +41,7 @@ DeepSkyObject::DeepSkyObject( DeepSkyObject &o )
 }
 
 DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
-			QString n, QString n2, QString lname, QString cat,
+			TQString n, TQString n2, TQString lname, TQString cat,
 			float a, float b, double pa, int pgc, int ugc )
 	: SkyObject( t, r, d, m, n, n2, lname ) {
 	MajorAxis = a;
@@ -54,7 +54,7 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
 }
 
 DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
-			QString n, QString n2, QString lname, QString cat,
+			TQString n, TQString n2, TQString lname, TQString cat,
 			float a, float b, double pa, int pgc, int ugc )
 	: SkyObject( t, r, d, m, n, n2, lname ) {
 	MajorAxis = a;
@@ -71,28 +71,28 @@ float DeepSkyObject::e( void ) const {
 	return MinorAxis / MajorAxis;
 }
 
-QString DeepSkyObject::catalog() const {
-	if ( isCatalogM() ) return QString("M");
-	if ( isCatalogNGC() ) return QString("NGC");
-	if ( isCatalogIC() ) return QString("IC");
-	return QString("");
+TQString DeepSkyObject::catalog() const {
+	if ( isCatalogM() ) return TQString("M");
+	if ( isCatalogNGC() ) return TQString("NGC");
+	if ( isCatalogIC() ) return TQString("IC");
+	return TQString("");
 }
 
-void DeepSkyObject::setCatalog( const QString &cat ) {
+void DeepSkyObject::setCatalog( const TQString &cat ) {
 	if ( cat.upper() == "M" ) Catalog = (unsigned char)CAT_MESSIER;
 	else if ( cat.upper() == "NGC" ) Catalog = (unsigned char)CAT_NGC;
 	else if ( cat.upper() == "IC"  ) Catalog = (unsigned char)CAT_IC;
 	else Catalog = (unsigned char)CAT_UNKNOWN;
 }
 
-QImage* DeepSkyObject::readImage( void ) {
-	QFile file;
+TQImage* DeepSkyObject::readImage( void ) {
+	TQFile file;
 	if ( Image==0 ) { //Image not currently set; try to load it from disk.
-		QString fname = name().lower().replace( QRegExp(" "), "" ) + ".png";
+		TQString fname = name().lower().replace( TQRegExp(" "), "" ) + ".png";
 
 		if ( KSUtils::openDataFile( file, fname ) ) {
 			file.close();
-			Image = new QImage( file.name(), "PNG" );
+			Image = new TQImage( file.name(), "PNG" );
 		}
 	}
 
@@ -101,7 +101,7 @@ QImage* DeepSkyObject::readImage( void ) {
 
 void DeepSkyObject::deleteImage() { delete Image; Image = 0; }
 
-void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale ) {
+void DeepSkyObject::drawSymbol( TQPainter &psky, int x, int y, double PositionAngle, double zoom, double scale ) {
 	// if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
 	// if we use size 0.0 the star wouldn't be drawn
 	float majorAxis = a();
@@ -128,7 +128,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, double PositionAng
 
 	int psize;
 
-	QBrush tempBrush;
+	TQBrush tempBrush;
 	
 	switch ( type() ) {
 		case 0:
@@ -223,9 +223,9 @@ void DeepSkyObject::drawSymbol( QPainter &psky, int x, int y, double PositionAng
 	}
 }
 
-void DeepSkyObject::drawImage( QPainter &psky, int x, int y, double PositionAngle, double zoom, double scale ) {
-	QImage *image = readImage();
-	QImage ScaledImage;
+void DeepSkyObject::drawImage( TQPainter &psky, int x, int y, double PositionAngle, double zoom, double scale ) {
+	TQImage *image = readImage();
+	TQImage ScaledImage;
 	
 	if ( image ) {
 		int w = int( a() * scale * dms::PI * zoom/10800.0 );

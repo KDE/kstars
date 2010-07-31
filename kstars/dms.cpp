@@ -20,7 +20,7 @@
 #include "dms.h"
 #include <kglobal.h>
 #include <klocale.h>
-#include <qregexp.h>
+#include <tqregexp.h>
 
 void dms::setD( const double &x ) {
 	D = x;
@@ -51,26 +51,26 @@ void dms::setRadians( const double &Rad ) {
 	Radians = Rad;
 }
 
-bool dms::setFromString( const QString &str, bool isDeg ) {
+bool dms::setFromString( const TQString &str, bool isDeg ) {
 	int d(0), m(0);
 	double s(0.0);
 	bool checkValue( false ), badEntry( false ), negative( false );
-	QString entry = str.stripWhiteSpace();
+	TQString entry = str.stripWhiteSpace();
 
 	//remove any instances of unit characters.
 	//h, d, m, s, ', ", or the degree symbol (ASCII 176)
-	entry.replace( QRegExp("h"), "" );
-	entry.replace( QRegExp("d"), "" );
-	entry.replace( QRegExp("m"), "" );
-	entry.replace( QRegExp("s"), "" );
-	QString sdeg;
+	entry.replace( TQRegExp("h"), "" );
+	entry.replace( TQRegExp("d"), "" );
+	entry.replace( TQRegExp("m"), "" );
+	entry.replace( TQRegExp("s"), "" );
+	TQString sdeg;
 	sdeg.sprintf("%c", 176);
-	entry.replace( QRegExp(sdeg), "" );
-	entry.replace( QRegExp("\'"), "" );
-	entry.replace( QRegExp("\""), "" );
+	entry.replace( TQRegExp(sdeg), "" );
+	entry.replace( TQRegExp("\'"), "" );
+	entry.replace( TQRegExp("\""), "" );
 
 	//Account for localized decimal-point settings
-	//QString::toDouble() requires that the decimal symbol is "."
+	//TQString::toDouble() requires that the decimal symbol is "."
 	entry.replace( KGlobal::locale()->decimalSymbol(), "." );
  
 	//empty entry returns false
@@ -96,12 +96,12 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 	}
 
 	//try parsing multiple fields.
-	QStringList fields;
+	TQStringList fields;
 
 	//check for colon-delimiters or space-delimiters
 	if ( entry.contains(':') )
-		fields = QStringList::split( ':', entry );
-	else fields = QStringList::split( " ", entry );
+		fields = TQStringList::split( ':', entry );
+	else fields = TQStringList::split( " ", entry );
 
 	//anything with one field is invalid!
 	if ( fields.count() == 1 ) {
@@ -116,12 +116,12 @@ bool dms::setFromString( const QString &str, bool isDeg ) {
 	//If field[1] is neither int nor double, return false.
 	if ( fields.count() == 2 ) {
 		m = fields[1].toInt( &checkValue );
-		if ( checkValue ) fields.append( QString( "0" ) );
+		if ( checkValue ) fields.append( TQString( "0" ) );
 		else {
 			double mx = fields[1].toDouble( &checkValue );
 			if ( checkValue ) {
-				fields[1] = QString("%1").arg( int(mx) );
-				fields.append( QString("%1").arg( int( 60.0*(mx - int(mx)) ) ) );
+				fields[1] = TQString("%1").arg( int(mx) );
+				fields.append( TQString("%1").arg( int( 60.0*(mx - int(mx)) ) ) );
 			} else {
 				setD( 0.0 );
 				return false;
@@ -277,8 +277,8 @@ const dms dms::reduce( void ) const {
 	return dms( a );
 }
 
-const QString dms::toDMSString(bool forceSign) const {
-	QString dummy;
+const TQString dms::toDMSString(bool forceSign) const {
+	TQString dummy;
 	char pm(' ');
 	int dd = abs(degree());
 	int dm = abs(arcmin());
@@ -287,19 +287,19 @@ const QString dms::toDMSString(bool forceSign) const {
 	if ( Degrees() < 0.0 ) pm = '-';
 	else if (forceSign && Degrees() > 0.0 ) pm = '+';
 
-	QString format( "%c%3d%c %02d\' %02d\"" );
+	TQString format( "%c%3d%c %02d\' %02d\"" );
 	if ( dd < 100 ) format = "%c%2d%c %02d\' %02d\"";
 	if ( dd < 10  ) format = "%c%1d%c %02d\' %02d\"";
 
 	return dummy.sprintf(format.local8Bit(), pm, dd, 176, dm, ds);
 }
 
-const QString dms::toHMSString() const {
-	QString dummy;
+const TQString dms::toHMSString() const {
+	TQString dummy;
 	return dummy.sprintf("%02dh %02dm %02ds", hour(), minute(), second());
 }
 
-dms dms::fromString(QString & st, bool deg) {
+dms dms::fromString(TQString & st, bool deg) {
 	dms result;
 	bool ok( false );
 

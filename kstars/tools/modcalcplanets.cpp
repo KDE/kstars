@@ -28,17 +28,17 @@
 #include "libkdeedu/extdate/extdatetimeedit.h"
 #include "ksnumbers.h"
 
-#include <qcombobox.h>
-#include <qdatetimeedit.h>
-#include <qstring.h>
-#include <qtextstream.h>
+#include <tqcombobox.h>
+#include <tqdatetimeedit.h>
+#include <tqstring.h>
+#include <tqtextstream.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
+#include <tqcheckbox.h>
+#include <tqradiobutton.h>
 
 
-modCalcPlanets::modCalcPlanets(QWidget *parentSplit, const char *name) : modCalcPlanetsDlg (parentSplit,name) {
+modCalcPlanets::modCalcPlanets(TQWidget *parentSplit, const char *name) : modCalcPlanetsDlg (parentSplit,name) {
 	showCurrentDateTime();
 	showLongLat();
 	raBox->setDegType(FALSE);
@@ -288,39 +288,39 @@ void modCalcPlanets::slotLatCheckedBatch(){
 }
 
 void modCalcPlanets::slotInputFile() {
-	QString inputFileName;
+	TQString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcPlanets::slotOutputFile() {
-	QString outputFileName;
+	TQString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 }
 
 void modCalcPlanets::slotRunBatch() {
 
-	QString inputFileName;
+	TQString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
 
 	// We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
+	if ( TQFile::exists(inputFileName) ) {
+		TQFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			TQString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;
 		}
 
-		QTextStream istream(&f);
+		TQTextStream istream(&f);
 		processLines(istream);
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		TQString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
 		InputLineEditBatch->setText( inputFileName );
@@ -346,23 +346,23 @@ unsigned int modCalcPlanets::requiredBatchFields(void) {
 	
 }
 
-void modCalcPlanets::processLines( QTextStream &istream ) {
+void modCalcPlanets::processLines( TQTextStream &istream ) {
 
 	// we open the output file
 
-	QString outputFileName, lineToWrite;
+	TQString outputFileName, lineToWrite;
 	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
+	TQFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
-	QTextStream ostream(&fOut);
+	TQTextStream ostream(&fOut);
 	bool lineIsValid = true;
-	QString message;
+	TQString message;
 
-	QString line;
-	QString space = " ";
-	QString planetB;
+	TQString line;
+	TQString space = " ";
+	TQString planetB;
 	unsigned int i = 0, nline = 0;
-	QTime utB;
+	TQTime utB;
 	ExtDate dtB;
 	dms longB, latB, hlongB, hlatB, glongB, glatB, raB, decB, azmB, altB;
 	double rSunB(0.0), rEarthB(0.0);
@@ -370,7 +370,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	PlanetCatalog PCat( kd ); 
 	PCat.initialize();
 
-	QString pName[11], pNamei18n[11];
+	TQString pName[11], pNamei18n[11];
 
 	pName[0] = "Mercury";  pNamei18n[0]= i18n("Mercury"); 
 	pName[1] = "Venus";    pNamei18n[1]= i18n("Venus");
@@ -393,7 +393,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		TQStringList fields = TQStringList::split( " ", line );
 
 		if (fields.count() != numberOfRequiredFields ) {
 			lineIsValid = false;
@@ -411,7 +411,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 			int j = 0;
 			while (j < 11) {
 			//while (result != 0 && j < 11) {
-				result = QString::compare( pNamei18n[j] , planetB );
+				result = TQString::compare( pNamei18n[j] , planetB );
 				if (result == 0)
 					break;
 				j++;
@@ -439,7 +439,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		// Read Ut and write in ostream if corresponds
 		
 		if(utCheckBatch->isChecked() ) {
-			utB = QTime::fromString( fields[i] );
+			utB = TQTime::fromString( fields[i] );
 			if ( !utB.isValid() ) {
 				kdWarning() << i18n( "Line %1 contains an invalid time" ).arg(nline) << endl;
 				lineIsValid=false;
@@ -522,7 +522,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 		int jp = -1;
 		while (result != 0 && jp < 10) {
 			jp++;
-			result = QString::compare( pNamei18n[jp] , planetB );
+			result = TQString::compare( pNamei18n[jp] , planetB );
 		}
 		
 		if (jp < 11) {
@@ -583,7 +583,7 @@ void modCalcPlanets::processLines( QTextStream &istream ) {
 	}
 
 	if (!lineIsValid) { 
-		QString message = i18n("Errors found while parsing some lines in the input file");
+		TQString message = i18n("Errors found while parsing some lines in the input file");
 		KMessageBox::sorry( 0, message, i18n( "Errors in lines" ) );
 	}
 

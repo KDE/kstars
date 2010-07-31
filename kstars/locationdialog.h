@@ -33,7 +33,7 @@
 	*
 	*The bottom section allows the location to be specified manually.
 	*The Longitude, Latitude, City name, Province/State name, and Country name
-	*are entered into KLineEdits.  There is also a QPushButton for adding the
+	*are entered into KLineEdits.  There is also a TQPushButton for adding the
 	*location to the custom Cities database.  If the user selects "Add" without
 	*filling in all of the manual entry fields, an error message is displayed.
 	*@short Geographic Location dialog
@@ -64,7 +64,7 @@ public:
 	*Constructor.  Create all widgets, and pack them into QLayouts.
 	*Connect Signals to Slots.  Run initCityList().
 	*/
-	LocationDialog( QWidget* parent = 0 );
+	LocationDialog( TQWidget* parent = 0 );
 /**
 	*Destructor (empty)
 	*/
@@ -83,7 +83,7 @@ public:
 	
 /**@return pointer to the List of filtered city pointers.
  */
-	QPtrList<GeoLocation>* filteredList() { return &filteredCityList; }
+	TQPtrList<GeoLocation>* filteredList() { return &filteredCityList; }
 	
 /**@short Show only cities within 3 degrees of point specified by arguments
 	*@param longitude the longitude of the search point (int)
@@ -93,15 +93,15 @@ public:
 
 /**@return the city name of the selected location.
 	*/
-	QString selectedCityName( void ) const { return SelectedCity->translatedName(); }
+	TQString selectedCityName( void ) const { return SelectedCity->translatedName(); }
 
 /**@return the province name of the selected location.
 	*/
-	QString selectedProvinceName( void ) const { return SelectedCity->translatedProvince(); }
+	TQString selectedProvinceName( void ) const { return SelectedCity->translatedProvince(); }
 
 /**@return the country name of the selected location.
 	*/
-	QString selectedCountryName( void ) const { return SelectedCity->translatedCountry(); }
+	TQString selectedCountryName( void ) const { return SelectedCity->translatedCountry(); }
 
 /**@return true if the AddCityBUtton is enabled
 	*/
@@ -111,18 +111,18 @@ public slots:
 /**
 	*When text is entered in the City/Province/Country Filter KLineEdits,
 	*the List of cities is trimmed to show only cities beginning with the entered text.
-	*Also, the QMemArray of ID numbers is kept in sync with the filtered list.
+	*Also, the TQMemArray of ID numbers is kept in sync with the filtered list.
 	*/
   void filterCity( void );
 
 /**
-	*When the selected city in the QListBox changes, repaint the MapCanvas
+	*When the selected city in the TQListBox changes, repaint the MapCanvas
 	*so that the crosshairs icon appears on the newly selected city.
 	*/
 	void changeCity( void );
 
 /**
-	*When the "Add new city" QPushButton is clicked, add the manually-entered
+	*When the "Add new city" TQPushButton is clicked, add the manually-entered
 	*city information to the user's custom city database.
 	*/
 	void addCity( void );
@@ -141,24 +141,24 @@ private:
 	bool checkLongLat( void );
 	
 	bool dataModified, nameModified, bCityAdded;
-	QGridLayout *glay, *glay2;
-	QHBoxLayout *hlay, *hlayCoord, *hlayTZ, *hlayButtons, *hlay3;
-	QVBoxLayout *RootLay, *CityLay, *CoordLay, *vlay;
-	QGroupBox *CityBox, *CoordBox;
-	QLabel *CityFiltLabel, *ProvinceFiltLabel, *CountryFiltLabel;
-	QLabel *NewCityLabel, *NewProvinceLabel, *NewCountryLabel;
-	QLabel *LongLabel, *LatLabel, *CountLabel;
-	QLabel *TZLabel, *TZRuleLabel;
+	TQGridLayout *glay, *glay2;
+	TQHBoxLayout *hlay, *hlayCoord, *hlayTZ, *hlayButtons, *hlay3;
+	TQVBoxLayout *RootLay, *CityLay, *CoordLay, *vlay;
+	TQGroupBox *CityBox, *CoordBox;
+	TQLabel *CityFiltLabel, *ProvinceFiltLabel, *CountryFiltLabel;
+	TQLabel *NewCityLabel, *NewProvinceLabel, *NewCountryLabel;
+	TQLabel *LongLabel, *LatLabel, *CountLabel;
+	TQLabel *TZLabel, *TZRuleLabel;
 	KLineEdit *NewCityName, *NewProvinceName, *NewCountryName;
 	KLineEdit *CityFilter, *ProvinceFilter, *CountryFilter;
 	dmsBox *NewLong, *NewLat;
-	QComboBox *TZBox, *TZRuleBox;
-	QPushButton *AddCityButton, *ClearFields, *ShowTZRules;
+	TQComboBox *TZBox, *TZRuleBox;
+	TQPushButton *AddCityButton, *ClearFields, *ShowTZRules;
 	MapCanvas *MapView;
-	QListBox *GeoBox;
+	TQListBox *GeoBox;
 
 	GeoLocation *SelectedCity;
-	QPtrList<GeoLocation> filteredCityList;
+	TQPtrList<GeoLocation> filteredCityList;
 };
 
 #endif

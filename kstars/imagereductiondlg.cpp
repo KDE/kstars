@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
  
- #include <qlistview.h>
- #include <qpushbutton.h>
+ #include <tqlistview.h>
+ #include <tqpushbutton.h>
  
  #include <kurl.h>
  #include <kfiledialog.h>
@@ -24,17 +24,17 @@
  
  #include "imagereductiondlg.h"
  
- ImageReductionDlg::ImageReductionDlg(QWidget * parent, const char * name) : imageReductionUI(parent, name)
+ ImageReductionDlg::ImageReductionDlg(TQWidget * parent, const char * name) : imageReductionUI(parent, name)
 {
-  connect(darkAddB, SIGNAL(clicked()), this, SLOT(addDarkFile()));
-  connect(flatAddB, SIGNAL(clicked()), this, SLOT(addFlatFile()));
-  connect(darkRemoveB, SIGNAL(clicked()), this, SLOT(removeDarkFile()));
-  connect(flatRemoveB, SIGNAL(clicked()), this, SLOT(removeFlatFile()));
-  connect(darkDetailsB, SIGNAL(clicked()), this, SLOT(detailsDarkFile()));
-  connect(flatDetailsB, SIGNAL(clicked()), this, SLOT(detailsFlatFile()));
-  connect(darkflatAddB, SIGNAL(clicked()), this, SLOT(addDarkFlatFile()));
-  connect(darkflatRemoveB, SIGNAL(clicked()), this, SLOT(removeDarkFlatFile()));
-  connect(darkflatDetailsB, SIGNAL(clicked()), this, SLOT(detailsDarkFlatFile()));
+  connect(darkAddB, TQT_SIGNAL(clicked()), this, TQT_SLOT(addDarkFile()));
+  connect(flatAddB, TQT_SIGNAL(clicked()), this, TQT_SLOT(addFlatFile()));
+  connect(darkRemoveB, TQT_SIGNAL(clicked()), this, TQT_SLOT(removeDarkFile()));
+  connect(flatRemoveB, TQT_SIGNAL(clicked()), this, TQT_SLOT(removeFlatFile()));
+  connect(darkDetailsB, TQT_SIGNAL(clicked()), this, TQT_SLOT(detailsDarkFile()));
+  connect(flatDetailsB, TQT_SIGNAL(clicked()), this, TQT_SLOT(detailsFlatFile()));
+  connect(darkflatAddB, TQT_SIGNAL(clicked()), this, TQT_SLOT(addDarkFlatFile()));
+  connect(darkflatRemoveB, TQT_SIGNAL(clicked()), this, TQT_SLOT(removeDarkFlatFile()));
+  connect(darkflatDetailsB, TQT_SIGNAL(clicked()), this, TQT_SLOT(detailsDarkFlatFile()));
   
   darkListView->setSorting(-1);
   flatListView->setSorting(-1);
@@ -52,11 +52,11 @@ ImageReductionDlg::~ImageReductionDlg()
 
 void ImageReductionDlg::addDarkFile()
 {
-   KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Frames"));
+   KURL::List fileURLs = KFileDialog::getOpenURLs( TQString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Frames"));
   
   const int limit = (int) fileURLs.size();
   for (int i=0; i < limit ; ++i)
-  	new QListViewItem( darkListView, fileURLs[i].path());
+  	new TQListViewItem( darkListView, fileURLs[i].path());
   
   darkRemoveB->setEnabled(true);
   darkDetailsB->setEnabled(true);
@@ -65,12 +65,12 @@ void ImageReductionDlg::addDarkFile()
 
 void ImageReductionDlg::addFlatFile()
 {
-   KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Flat Frames"));
+   KURL::List fileURLs = KFileDialog::getOpenURLs( TQString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Flat Frames"));
   
   const int limit = (int) fileURLs.size();
   
   for (int i=0; i < limit; ++i) 
-  	new QListViewItem( flatListView, fileURLs[i].path());
+  	new TQListViewItem( flatListView, fileURLs[i].path());
   
   flatRemoveB->setEnabled(true);
   flatDetailsB->setEnabled(true);
@@ -79,11 +79,11 @@ void ImageReductionDlg::addFlatFile()
 
 void ImageReductionDlg::addDarkFlatFile()
 {
-     KURL::List fileURLs = KFileDialog::getOpenURLs( QString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Flat Frames"));
+     KURL::List fileURLs = KFileDialog::getOpenURLs( TQString::null, "*.fits *.fit *.fts|Flexible Image Transport System", 0, i18n("Dark Flat Frames"));
   
      const int limit = (int) fileURLs.size();
      for (int i=0; i < limit; ++i) 
-  	new QListViewItem( darkflatListView, fileURLs[i].path());
+  	new TQListViewItem( darkflatListView, fileURLs[i].path());
   
   darkflatRemoveB->setEnabled(true);
   darkflatDetailsB->setEnabled(true);

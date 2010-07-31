@@ -27,7 +27,7 @@ void CSegment::addPoint( double ra, double dec ) {
 	Nodes.append( p );
 }
 
-bool CSegment::setNames( QString n1, QString n2 ) {
+bool CSegment::setNames( TQString n1, TQString n2 ) {
 	if ( n1.length() == 3 && n2.length() == 3 ) {
 		Name1 = n1; 
 		Name2 = n2;
@@ -37,7 +37,7 @@ bool CSegment::setNames( QString n1, QString n2 ) {
 	}
 }
 
-bool CSegment::borders( QString cname ) {
+bool CSegment::borders( TQString cname ) {
 	if ( Name1 == cname || Name2 == cname ) return true;
 	return false;
 }

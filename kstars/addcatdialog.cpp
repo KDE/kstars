@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlabel.h>
-#include <qlayout.h>
+#include <tqlabel.h>
+#include <tqlayout.h>
 #include <kcolorbutton.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -30,22 +30,22 @@
 
 #include "addcatdialog.h"
 
-AddCatDialog::AddCatDialog( QWidget *parent )
+AddCatDialog::AddCatDialog( TQWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Import Catalog" ), Help|Ok|Cancel, Ok, parent ) {
 
-	QFrame *page = plainPage();
+	TQFrame *page = plainPage();
 	setMainWidget(page);
-	QDir::setCurrent( QDir::homeDirPath() );
+	TQDir::setCurrent( TQDir::homeDirPath() );
 
-	vlay = new QVBoxLayout( page, 0, spacingHint() );
+	vlay = new TQVBoxLayout( page, 0, spacingHint() );
 	acd = new AddCatDialogUI(page);
 	vlay->addWidget( acd );
 	
-	connect( acd->DataURL->lineEdit(), SIGNAL( lostFocus() ), this, SLOT( slotShowDataFile() ) );
-	connect( acd->DataURL, SIGNAL( urlSelected( const QString & ) ), 
-			this, SLOT( slotShowDataFile() ) );
-	connect( acd->PreviewButton, SIGNAL( clicked() ), this, SLOT( slotPreviewCatalog() ) );
-	connect( this, SIGNAL( okClicked() ), this, SLOT( slotCreateCatalog() ) );
+	connect( acd->DataURL->lineEdit(), TQT_SIGNAL( lostFocus() ), this, TQT_SLOT( slotShowDataFile() ) );
+	connect( acd->DataURL, TQT_SIGNAL( urlSelected( const TQString & ) ), 
+			this, TQT_SLOT( slotShowDataFile() ) );
+	connect( acd->PreviewButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotPreviewCatalog() ) );
+	connect( this, TQT_SIGNAL( okClicked() ), this, TQT_SLOT( slotCreateCatalog() ) );
 
 	acd->FieldList->insertItem( i18n( "ID Number" ) );
 	acd->FieldList->insertItem( i18n( "Right Ascension" ) );
@@ -65,7 +65,7 @@ AddCatDialog::~AddCatDialog(){
 
 void AddCatDialog::slotOk() {
 //Overriding slotOk() so that custom data file can be validated before
-//QDialog::accept() is emitted and the window is closed.
+//TQDialog::accept() is emitted and the window is closed.
 
 //the validation code needs to be aware of AddCatDialog members, so I will just
 //emit the okClicked() signal, which is connected to AddCatDialog::validateFile()
@@ -73,7 +73,7 @@ void AddCatDialog::slotOk() {
 }
 
 void AddCatDialog::slotHelp() {
-	QString message = 
+	TQString message = 
 			i18n( "A valid custom catalog file has one line per object, "
 						"with the following fields in each line:") + "\n\t" +
 			i18n( "1. Type identifier.  Must be one of: 0 (star), 3 (open cluster), 4 (globular cluster), "
@@ -112,9 +112,9 @@ bool AddCatDialog::validateDataFile() {
 	CatalogContents = writeCatalogHeader();
 
 	//Next, the data lines (fill from user-specified file)
-	QFile dataFile( acd->DataURL->url() );
+	TQFile dataFile( acd->DataURL->url() );
 	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( IO_ReadOnly ) ) {
-		QTextStream dataStream( &dataFile );
+		TQTextStream dataStream( &dataFile );
 		CatalogContents += dataStream.read();
 
 		dataFile.close();
@@ -122,10 +122,10 @@ bool AddCatDialog::validateDataFile() {
 
 	//Now create a temporary file for the Catalog, and attempt to parse it into a CustomCatalog
 	KTempFile ktf;
-	QFile tmpFile( ktf.name() );
+	TQFile tmpFile( ktf.name() );
 	ktf.unlink(); //just need filename
 	if ( tmpFile.open( IO_WriteOnly ) ) {
-		QTextStream ostream( &tmpFile );
+		TQTextStream ostream( &tmpFile );
 		ostream << CatalogContents;
 		tmpFile.close();
 		CustomCatalog *newCat;
@@ -141,18 +141,18 @@ bool AddCatDialog::validateDataFile() {
 	return false;
 }
 
-QString AddCatDialog::writeCatalogHeader() {
-	QString name = ( acd->CatalogName->text().isEmpty() ? i18n("Custom") : acd->CatalogName->text() );
-	QString pre = ( acd->Prefix->text().isEmpty() ? "CC" : acd->Prefix->text() );
+TQString AddCatDialog::writeCatalogHeader() {
+	TQString name = ( acd->CatalogName->text().isEmpty() ? i18n("Custom") : acd->CatalogName->text() );
+	TQString pre = ( acd->Prefix->text().isEmpty() ? "CC" : acd->Prefix->text() );
 
-	QString h = QString("# Name: %1\n").arg( name );
-	h += QString("# Prefix: %1\n").arg( pre );
-	h += QString("# Color: %1\n").arg( acd->ColorButton->color().name() );
-	h += QString("# Epoch: %1\n").arg( acd->Epoch->value() );
-	h += QString("# ");
+	TQString h = TQString("# Name: %1\n").arg( name );
+	h += TQString("# Prefix: %1\n").arg( pre );
+	h += TQString("# Color: %1\n").arg( acd->ColorButton->color().name() );
+	h += TQString("# Epoch: %1\n").arg( acd->Epoch->value() );
+	h += TQString("# ");
 
 	for ( uint i=0; i < acd->FieldList->count(); ++i ) {
-		QString f = acd->FieldList->text( i );
+		TQString f = acd->FieldList->text( i );
 
 		if ( f == i18n( "ID Number" ) ) {
 			h += "ID  ";
@@ -183,11 +183,11 @@ QString AddCatDialog::writeCatalogHeader() {
 }
 
 void AddCatDialog::slotShowDataFile() {
-	QFile dataFile( acd->DataURL->url() );
+	TQFile dataFile( acd->DataURL->url() );
 	if ( ! acd->DataURL->url().isEmpty() && dataFile.open( IO_ReadOnly ) ) {
 		acd->DataFileBox->clear();
-		QTextStream dataStream( &dataFile );
-		acd->DataFileBox->insertStringList( QStringList::split( "\n", dataStream.read(), TRUE ) );
+		TQTextStream dataStream( &dataFile );
+		acd->DataFileBox->insertStringList( TQStringList::split( "\n", dataStream.read(), TRUE ) );
 		dataFile.close();
 	}
 }
@@ -195,7 +195,7 @@ void AddCatDialog::slotShowDataFile() {
 void AddCatDialog::slotPreviewCatalog() {
 	if ( validateDataFile() ) {
 		KMessageBox::informationList( 0, i18n( "Preview of %1" ).arg( acd->CatalogName->text() ),
-			QStringList::split( "\n", CatalogContents ), i18n( "Catalog Preview" ) );
+			TQStringList::split( "\n", CatalogContents ), i18n( "Catalog Preview" ) );
 	}
 }
 
@@ -205,7 +205,7 @@ void AddCatDialog::slotCreateCatalog() {
 		//and objList contains the parsed objects
 
 		//Warn user if file exists!
-		if ( QFile::exists( acd->CatalogURL->url() ) )
+		if ( TQFile::exists( acd->CatalogURL->url() ) )
 		{
 			KURL u( acd->CatalogURL->url() );
 			int r=KMessageBox::warningContinueCancel( 0,
@@ -217,17 +217,17 @@ void AddCatDialog::slotCreateCatalog() {
 			if(r==KMessageBox::Cancel) return;
 		}
 
-		QFile OutFile( acd->CatalogURL->url() );
+		TQFile OutFile( acd->CatalogURL->url() );
 		if ( ! OutFile.open( IO_WriteOnly ) ) {
 			KMessageBox::sorry( 0, 
 				i18n( "Could not open the file %1 for writing." ).arg( acd->CatalogURL->url() ), 
 				i18n( "Error Opening Output File" ) );
 		} else {
-			QTextStream outStream( &OutFile );
+			TQTextStream outStream( &OutFile );
 			outStream << CatalogContents;
 			OutFile.close();
 
-			emit QDialog::accept();
+			emit TQDialog::accept();
 			close();
 		}
 	}

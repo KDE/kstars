@@ -18,8 +18,8 @@
 #ifndef CSEGMENT_H
 #define CSEGMENT_H
 
-#include <qstring.h>
-#include <qptrlist.h>
+#include <tqstring.h>
+#include <tqptrlist.h>
 
 /**@class CSegment
 	*A segment of a constellation boundary.  The segment consists
@@ -53,24 +53,24 @@ public:
 	/**@return the name of one of the constellations
 		*that borders this boundary segment.
 		*/
-	QString name1() const { return Name1; }
+	TQString name1() const { return Name1; }
 	
 	/**@return the name of one of the constellations
 		*that borders this boundary segment.
 		*/
-	QString name2() const { return Name2; }
+	TQString name2() const { return Name2; }
 	
 	/**Set the names of the bounding constellations.  Use the IAU
 		*three-letter abbreviations.
 		*@p n1 IAU name of one bounding constellation
 		*@p n2 IAU name of the other bounding constellation
 		*/
-	bool setNames( QString n1, QString n2 );
+	bool setNames( TQString n1, TQString n2 );
 	
 	/**Determine if a given constellation borders this boundary segment
 		*@p cname the IAU code of the constellation to be tested.
 		*/
-	bool borders( QString cname );
+	bool borders( TQString cname );
 
 	/**@return pointer to the first node in the segment
 		*/
@@ -81,11 +81,11 @@ public:
 	SkyPoint* nextNode() { return Nodes.next(); }
 
 	/**@return pointer to the list of nodes*/
-	QPtrList<SkyPoint>* nodes() { return &Nodes; }
+	TQPtrList<SkyPoint>* nodes() { return &Nodes; }
 
 private:
-	QPtrList<SkyPoint> Nodes;
-	QString Name1, Name2;
+	TQPtrList<SkyPoint> Nodes;
+	TQString Name1, Name2;
 };
 
 #endif

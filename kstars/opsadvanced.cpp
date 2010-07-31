@@ -15,16 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qgroupbox.h>
+#include <tqlabel.h>
+#include <tqcheckbox.h>
+#include <tqgroupbox.h>
 
 #include "opsadvanced.h"
 #include "Options.h"
 #include "kstars.h"
 #include "timestepbox.h"
 
-OpsAdvanced::OpsAdvanced( QWidget *p, const char *name, WFlags fl ) 
+OpsAdvanced::OpsAdvanced( TQWidget *p, const char *name, WFlags fl ) 
 	: OpsAdvancedUI( p, name, fl ) 
 {
 	ksw = (KStars *)p;
@@ -32,9 +32,9 @@ OpsAdvanced::OpsAdvanced( QWidget *p, const char *name, WFlags fl )
 	//Initialize the timestep value
 	SlewTimeScale->tsbox()->changeScale( Options::slewTimeScale() );
 
-	connect( SlewTimeScale, SIGNAL( scaleChanged( float ) ), this, SLOT( slotChangeTimeScale( float ) ) );
+	connect( SlewTimeScale, TQT_SIGNAL( scaleChanged( float ) ), this, TQT_SLOT( slotChangeTimeScale( float ) ) );
 
-	connect( kcfg_HideOnSlew, SIGNAL( clicked() ), this, SLOT( slotToggleHideOptions() ) );
+	connect( kcfg_HideOnSlew, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotToggleHideOptions() ) );
 }
 
 OpsAdvanced::~OpsAdvanced() {}

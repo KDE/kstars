@@ -20,7 +20,7 @@
 
 
 /**@class ObjectNameList
-	*This class provides an interface like a QPtrList, but sorts objects internally
+	*This class provides an interface like a TQPtrList, but sorts objects internally
 	*in 27 lists. The objects are sorted alphabetically. List 0 contains all objects
 	*beginning not with a letter. List 1 - 26 contains objects beginning with a letter.
 	*The number of the list is similar to positon of letter in alphabet. (A = 1 .. Z = 26 )
@@ -29,17 +29,17 @@
 	*/
 
 
-#include <qglobal.h>
-#include <qptrlist.h>
-#include <qstring.h>
+#include <tqglobal.h>
+#include <tqptrlist.h>
+#include <tqstring.h>
 
 class SkyObject;
 class SkyObjectName;
 
-/**Reimplemented from QPtrList for sorting objects in the list. */
-template <class T> class SortedList : public QPtrList <T> {
+/**Reimplemented from TQPtrList for sorting objects in the list. */
+template <class T> class SortedList : public TQPtrList <T> {
  protected:
-  int compareItems(QPtrCollection::Item item1, QPtrCollection::Item item2) {
+  int compareItems(TQPtrCollection::Item item1, TQPtrCollection::Item item2) {
     if ( *((T*)item1) == *((T*)item2) ) return 0;
     return ( *((T*)item1) < *((T*)item2) ) ? -1 : 1;
   }
@@ -71,7 +71,7 @@ class ObjectNameList {
 		*@return pointer to the first object in the selected list.
 		*@param name the name to use in selecting a list.
 		*/
-		SkyObjectName* first(const QString &name = QString::null);
+		SkyObjectName* first(const TQString &name = TQString::null);
 
 	/**Returns next object in the currently selected list.
 		*@return pointer to the next object in the current list, or NULL if 
@@ -87,13 +87,13 @@ class ObjectNameList {
 		*@param name name of object to find. 
 		*@return pointer to object with the given name
 		*/
-		SkyObjectName* find(const QString &name = QString::null);
+		SkyObjectName* find(const TQString &name = TQString::null);
 
 	/**@short remove the named object from the list.
 		*@param name the name of the object to be removed.
 		*@note If the object is not found, then nothing happens.
 		*/
-		void remove( const QString &name = QString::null );
+		void remove( const TQString &name = TQString::null );
 
 	/**Define the language which should be used for constellation names
 		*/
@@ -128,7 +128,7 @@ class ObjectNameList {
 		*of the list itself.
 		*@param name the name of the object whose index is to be found
 		*/
-		int getIndex( const QString &name = QString::null );
+		int getIndex( const TQString &name = TQString::null );
 
 	/**Two modes are available:
 		*allLists = loop through the whole list if next() is called
@@ -158,7 +158,7 @@ class ObjectNameList {
 		*are in first list too. We just have to delete objects which are not in first list. These objects
 		*will stored in this list.
 		*/
-		QPtrList <SkyObjectName> constellations;
+		TQPtrList <SkyObjectName> constellations;
 
 	/**
 		*Which list was accessed last time by first() or next()

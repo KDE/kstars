@@ -38,7 +38,7 @@ JupiterMoons::JupiterMoons(){
 JupiterMoons::~JupiterMoons(){
 }
 
-int JupiterMoons::moonNamed( const QString &name ) const {
+int JupiterMoons::moonNamed( const TQString &name ) const {
 	for ( int i=0; i<4; ++i ) {
 		if ( Name[i] == name ) return i;
 	}

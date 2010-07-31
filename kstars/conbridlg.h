@@ -30,10 +30,10 @@
 class ContrastBrightnessDlg : public KDialogBase {
 	Q_OBJECT
  public:
-   ContrastBrightnessDlg(QWidget *parent=0);
+   ContrastBrightnessDlg(TQWidget *parent=0);
    ~ContrastBrightnessDlg();
    
-  QSize sizeHint() const;
+  TQSize sizeHint() const;
   void range(int min, int max, int & num);
   void range(float min, float max, float & num);
   
@@ -50,8 +50,8 @@ class ContrastBrightnessDlg : public KDialogBase {
   ConBriForm *ConBriDlg;
   //unsigned char *localImgBuffer;
   
-  QImage *displayImage;
-  QImage *tempImage;
+  TQImage *displayImage;
+  TQImage *tempImage;
   
   public slots:
   void setContrast(int contrastValue);

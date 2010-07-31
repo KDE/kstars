@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qtabwidget.h>
-#include <qlayout.h>
+#include <tqtabwidget.h>
+#include <tqlayout.h>
 
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 
-#include <qstring.h>
+#include <tqstring.h>
 #include <knumvalidator.h>
 
 #include "kstars.h"
@@ -32,24 +32,24 @@
 #include "dmsbox.h"
 #include "focusdialog.h"
 
-FocusDialog::FocusDialog( QWidget *parent )
+FocusDialog::FocusDialog( TQWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Set Focus Manually" ), Ok|Cancel, Ok, parent ) {
 
 	Point = 0; //initialize pointer to null
 	UsedAltAz = false; //assume RA/Dec by default
 
-	QFrame *page = plainPage();
+	TQFrame *page = plainPage();
 	setMainWidget(page);
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, spacingHint() );
 	fdlg = new FocusDialogDlg(page);
 	fdlg->epochName->setValidator( new KDoubleValidator( fdlg->epochName ) );
 	vlay->addWidget( fdlg );
 	
-	connect( fdlg->raBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( fdlg->decBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( fdlg->azBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( fdlg->altBox, SIGNAL(textChanged( const QString & ) ), this, SLOT( checkLineEdits() ) );
-	connect( this, SIGNAL( okClicked() ), this, SLOT( validatePoint() ) );
+	connect( fdlg->raBox, TQT_SIGNAL(textChanged( const TQString & ) ), this, TQT_SLOT( checkLineEdits() ) );
+	connect( fdlg->decBox, TQT_SIGNAL(textChanged( const TQString & ) ), this, TQT_SLOT( checkLineEdits() ) );
+	connect( fdlg->azBox, TQT_SIGNAL(textChanged( const TQString & ) ), this, TQT_SLOT( checkLineEdits() ) );
+	connect( fdlg->altBox, TQT_SIGNAL(textChanged( const TQString & ) ), this, TQT_SLOT( checkLineEdits() ) );
+	connect( this, TQT_SIGNAL( okClicked() ), this, TQT_SLOT( validatePoint() ) );
 
 	fdlg->raBox->setDegType(false); //RA box should be HMS-style
 	fdlg->raBox->setFocus(); //set input focus
@@ -79,7 +79,7 @@ void FocusDialog::validatePoint() {
 	bool raOk(false), decOk(false), azOk(false), altOk(false);
 	dms ra( fdlg->raBox->createDms( false, &raOk ) ); //false means expressed in hours
 	dms dec( fdlg->decBox->createDms( true, &decOk ) );
-	QString message;
+	TQString message;
 
 	KStars *ks = (KStars*) parent();
 
@@ -99,7 +99,7 @@ void FocusDialog::validatePoint() {
 		long double jd0 = epochToJd ( epoch0 );
 		Point->apparentCoord(jd0, ks->data()->ut().djd() );
 
-		QDialog::accept();
+		TQDialog::accept();
 	} else {
 		dms az(  fdlg->azBox->createDms( true, &azOk ) );
 		dms alt( fdlg->altBox->createDms( true, &altOk ) );
@@ -120,14 +120,14 @@ void FocusDialog::validatePoint() {
 			Point->setAlt( alt );
 			UsedAltAz = true;
 
-			QDialog::accept();
+			TQDialog::accept();
 		} else {
-			QDialog::reject();
+			TQDialog::reject();
 		}
 	}
 }
 
-double FocusDialog::getEpoch (QString eName) {
+double FocusDialog::getEpoch (TQString eName) {
 	//If eName is empty (or not a number) assume 2000.0
 	bool ok(false);
 	double epoch = eName.toDouble( &ok );
@@ -152,9 +152,9 @@ long double FocusDialog::epochToJd (double epoch) {
 }
 
 
-QSize FocusDialog::sizeHint() const
+TQSize FocusDialog::sizeHint() const
 {
-  return QSize(240,210);
+  return TQSize(240,210);
 }
 
 void FocusDialog::activateAzAltPage() {

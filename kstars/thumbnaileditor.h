@@ -19,7 +19,7 @@
 #define THUMBNAILEDITOR_H
 
 #include <kdialogbase.h>
-#include <qlabel.h>
+#include <tqlabel.h>
 
 class ThumbnailEditorUI;
 class ThumbnailPicker;
@@ -29,30 +29,30 @@ class ThumbImage : public QLabel
 {
 Q_OBJECT
 public:
-	ThumbImage( QWidget *parent, const char *name = 0 );
+	ThumbImage( TQWidget *parent, const char *name = 0 );
 	~ThumbImage();
 
-	void setImage( QPixmap *pm ) { Image = pm; setFixedSize( Image->width(), Image->height() ); }
-	QPixmap* image() { return Image; }
-	QPixmap croppedImage();
+	void setImage( TQPixmap *pm ) { Image = pm; setFixedSize( Image->width(), Image->height() ); }
+	TQPixmap* image() { return Image; }
+	TQPixmap croppedImage();
 
 	void setCropRect( int x, int y, int w, int h ) { CropRect->setRect( x, y, w, h ); }
-	QRect* cropRect() const { return CropRect; }
+	TQRect* cropRect() const { return CropRect; }
 
 signals:
 	void cropRegionModified();
 
 protected:
-//	void resizeEvent( QResizeEvent *e);
-	void paintEvent( QPaintEvent *);
-	void mousePressEvent( QMouseEvent *e );
-	void mouseReleaseEvent( QMouseEvent *e );
-	void mouseMoveEvent( QMouseEvent *e );
+//	void resizeEvent( TQResizeEvent *e);
+	void paintEvent( TQPaintEvent *);
+	void mousePressEvent( TQMouseEvent *e );
+	void mouseReleaseEvent( TQMouseEvent *e );
+	void mouseMoveEvent( TQMouseEvent *e );
 
 private:
-	QRect *CropRect;
-	QPoint *Anchor;
-	QPixmap *Image;
+	TQRect *CropRect;
+	TQPoint *Anchor;
+	TQPixmap *Image;
 	
 	bool bMouseButtonDown;
 	bool bTopLeftGrab, bBottomLeftGrab, bTopRightGrab, bBottomRightGrab;
@@ -63,9 +63,9 @@ class ThumbnailEditor : public KDialogBase
 {
 Q_OBJECT
 public:
-	ThumbnailEditor( QWidget *parent, const char *name=0 );
+	ThumbnailEditor( TQWidget *parent, const char *name=0 );
 	~ThumbnailEditor();
-	QPixmap thumbnail();
+	TQPixmap thumbnail();
 
 private slots:
 	void slotUpdateCropLabel();

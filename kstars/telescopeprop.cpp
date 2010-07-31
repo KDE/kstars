@@ -29,7 +29,7 @@
 #include "indimenu.h"
 #include "indidriver.h"
 
-telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, WFlags fl)
+telescopeProp::telescopeProp(TQWidget* parent, const char* name, bool modal, WFlags fl)
 : scopeProp(parent,name, modal,fl)
 {
 
@@ -39,11 +39,11 @@ telescopeProp::telescopeProp(QWidget* parent, const char* name, bool modal, WFla
   indi_driver = ksw->getINDIDriver();
   newScopePending = false;
 
-  connect (newB, SIGNAL(clicked()), this, SLOT(newScope()));
-  connect (saveB, SIGNAL(clicked()), this, SLOT(saveScope()));
-  connect (removeB, SIGNAL(clicked()), this, SLOT(removeScope()));
-  connect (telescopeListBox, SIGNAL(highlighted(int)),this, SLOT(updateScopeDetails(int)));
-  connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
+  connect (newB, TQT_SIGNAL(clicked()), this, TQT_SLOT(newScope()));
+  connect (saveB, TQT_SIGNAL(clicked()), this, TQT_SLOT(saveScope()));
+  connect (removeB, TQT_SIGNAL(clicked()), this, TQT_SLOT(removeScope()));
+  connect (telescopeListBox, TQT_SIGNAL(highlighted(int)),this, TQT_SLOT(updateScopeDetails(int)));
+  connect(closeB, TQT_SIGNAL(clicked()), this, TQT_SLOT(close()));
 
   // Fill the combo box with drivers
   driverCombo->insertStringList(indi_driver->driversList);
@@ -213,10 +213,10 @@ void telescopeProp::updateScopeDetails(int index)
   versionEdit->setText(indi_driver->devices[finalIndex]->version);
 
   if (indi_driver->devices[finalIndex]->focal_length != -1)
-  	focalEdit->setText(QString("%1").arg(indi_driver->devices[finalIndex]->focal_length));
+  	focalEdit->setText(TQString("%1").arg(indi_driver->devices[finalIndex]->focal_length));
 
   if (indi_driver->devices[finalIndex]->aperture != -1)
-        apertureEdit->setText(QString("%1").arg(indi_driver->devices[finalIndex]->aperture));
+        apertureEdit->setText(TQString("%1").arg(indi_driver->devices[finalIndex]->aperture));
 
 }
 

@@ -18,11 +18,11 @@
 #ifndef INFOBOX_H
 #define INFOBOX_H
 
-#include <qobject.h>
-#include <qpoint.h>
-#include <qrect.h>
-#include <qsize.h>
-#include <qstring.h>
+#include <tqobject.h>
+#include <tqpoint.h>
+#include <tqrect.h>
+#include <tqsize.h>
+#include <tqstring.h>
 
 /**@class InfoBox 
 	*InfoBoxencapsulates a lightweight floating "window" to be drawn directly 
@@ -35,7 +35,7 @@
 
 class QPainter;
 
-class InfoBox : public QObject {
+class InfoBox : public TQObject {
 	Q_OBJECT
 public:
 	/**default constructor.  Creates an infobox with empty text string
@@ -51,7 +51,7 @@ public:
 		*@param t2 The second line of text
 		*@param t3 The third line of text
 		*/
-	InfoBox( int x, int y, bool shade, QString t1="", QString t2="", QString t3="" );
+	InfoBox( int x, int y, bool shade, TQString t1="", TQString t2="", TQString t3="" );
 	
 	/**General constructor.  Specify The text string, x,y position and size.
 		*This behaves just like the above function.  It differs only in the data types
@@ -62,20 +62,20 @@ public:
 		*@param t2 The second line of text
 		*@param t3 The third line of text
 		*/
-	InfoBox( QPoint p, bool shade, QString t1="", QString t2="", QString t3="" );
+	InfoBox( TQPoint p, bool shade, TQString t1="", TQString t2="", TQString t3="" );
 
 	/**Destructor (empty)*/
 	~InfoBox();
 
 	/**Draw the InfoBox.  First calls updateSize() and constrain() to make sure 
 		*the box is onscreen and the correct size.
-		*@param p reference to the QPainter on which to draw the box
+		*@param p reference to the TQPainter on which to draw the box
 		*@param BGColor the background color to be used
 		*@param BGMode the background mode (0=none; 1=semi-transparent; 2=opaque)
 		*@see InfoBox::updateSize()
 		*@see InfoBox::constrain()
 		*/
-	void draw( QPainter &p, QColor BGColor, unsigned int BGMode );
+	void draw( TQPainter &p, TQColor BGColor, unsigned int BGMode );
 
 	/**Toggle the Shaded state of the box.
 		*/
@@ -92,7 +92,7 @@ public:
 		*only in the data type of its arguments.
 		*@param p the new (X,Y) position
 		*/
-	void move( QPoint p );
+	void move( TQPoint p );
 
 	/**Reset the width and height.
 		*@param w the new width
@@ -104,33 +104,33 @@ public:
 		*function.  It differs only in the data type of its arguments.
 		*@param s the new size
 		*/
-	void resize( QSize s ) { Size.setWidth( s.width() ); Size.setHeight( s.height() ); }
+	void resize( TQSize s ) { Size.setWidth( s.width() ); Size.setHeight( s.height() ); }
 
 	/**Set the size of the box to fit the current displayed text */
 	void updateSize();
 
-	/**Make sure the InfoBox is inside (or outside) the QRect r.
+	/**Make sure the InfoBox is inside (or outside) the TQRect r.
 		*@return true if the function was able to obey the constraint.
 		*@param r the Rect which the box must lie completely inside/outside of.
 		*@param inside if TRUE (the default), the box must lie inside the rect r.  
 		*Otherwise, the box must lie *outside* rect r.
 		*/
-	bool constrain( QRect r, bool inside=true );
+	bool constrain( TQRect r, bool inside=true );
 
 	/**Reset the first text string
 		*@param newt the new text.
 		*/
-	void setText1( QString newt ) { Text1 = newt; }
+	void setText1( TQString newt ) { Text1 = newt; }
 
 	/**Reset the second text string
 		*@param newt the new text.
 		*/
-	void setText2( QString newt ) { Text2 = newt; }
+	void setText2( TQString newt ) { Text2 = newt; }
 
 	/**Reset the third text string
 		*@param newt the new text.
 		*/
-	void setText3( QString newt ) { Text3 = newt; }
+	void setText3( TQString newt ) { Text3 = newt; }
 
 	//temporarily, padx() and pady() simply return a constant
 	int padx() const { return 6; }
@@ -146,7 +146,7 @@ public:
 	int y() const { return Pos.y(); }
 
 	/**@return the (X,Y) position of the box*/
-	QPoint pos() const { return Pos; }
+	TQPoint pos() const { return Pos; }
 
 	/**@return the width of the box*/
 	int width() const { return Size.width(); }
@@ -155,22 +155,22 @@ public:
 	int height() const { return Size.height(); }
 
 	/**@return the size of the box*/
-	QSize size() const { return Size; }
+	TQSize size() const { return Size; }
 
 	/**@return whether the box is visible */
 	bool isVisible() const { return Visible; }
 
 	/**@return the first line of text*/
-	QString text1() const { return Text1; }
+	TQString text1() const { return Text1; }
 
 	/**@return the second line of text*/
-	QString text2() const { return Text2; }
+	TQString text2() const { return Text2; }
 
 	/**@return the third line of text*/
-	QString text3() const { return Text3; }
+	TQString text3() const { return Text3; }
 
 	/**@return the geometry of the box*/
-	QRect rect() const;
+	TQRect rect() const;
 
 	/**@return TRUE if the box is anchored to the right window edge*/
 	bool anchorRight() const { return ( AnchorFlag & AnchorRight ); }
@@ -202,7 +202,7 @@ signals:
 		*@param p the new (X,Y) position
 		*@see InfoBox::move()
 		*/
-	void moved( QPoint p );
+	void moved( TQPoint p );
 	
 	/**Signal emitted when the box's shaded-state is toggled
 		*@param s the new shaded state
@@ -217,9 +217,9 @@ private:
 	int FullTextWidth, FullTextHeight;
 	int ShadedTextWidth, ShadedTextHeight;
 	int AnchorFlag;
-	QPoint Pos;
-	QSize Size;
-	QString Text1, Text2, Text3;
+	TQPoint Pos;
+	TQSize Size;
+	TQString Text1, Text2, Text3;
 };
 
 #endif

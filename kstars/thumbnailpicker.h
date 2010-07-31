@@ -38,13 +38,13 @@ class ThumbnailPicker : public KDialogBase
 {
 Q_OBJECT
 public:
-	ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent=0, const char *name=0 );
+	ThumbnailPicker( SkyObject *o, const TQPixmap &current, TQWidget *parent=0, const char *name=0 );
 	~ThumbnailPicker();
 
-	QPixmap* image() { return Image; }
-	QPixmap* currentListImage() { return PixList.at( SelectedImageIndex ); }
+	TQPixmap* image() { return Image; }
+	TQPixmap* currentListImage() { return PixList.at( SelectedImageIndex ); }
 	bool imageFound() const { return bImageFound; }
-	QRect* imageRect() const { return ImageRect; }
+	TQRect* imageRect() const { return ImageRect; }
 
 private slots:
 	void slotEditImage();
@@ -57,18 +57,18 @@ private slots:
 	void downloadReady (KIO::Job *);
 
 private:
-	QPixmap shrinkImage( QPixmap *original, int newSize, bool setImage=false );
-	void parseGooglePage( QStringList &ImList, QString URL );
+	TQPixmap shrinkImage( TQPixmap *original, int newSize, bool setImage=false );
+	void parseGooglePage( TQStringList &ImList, TQString URL );
 
 	int SelectedImageIndex;
 	ThumbnailPickerUI *ui;
-	QPixmap *Image;
+	TQPixmap *Image;
 	DetailDialog *dd;
 	SkyObject *Object;
-	QPtrList<KIO::Job> JobList;
-	QPtrList<QPixmap> PixList;
+	TQPtrList<KIO::Job> JobList;
+	TQPtrList<TQPixmap> PixList;
 	bool bImageFound;
-	QRect *ImageRect;
+	TQRect *ImageRect;
 };
 
 #endif

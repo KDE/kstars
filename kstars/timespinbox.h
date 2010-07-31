@@ -18,8 +18,8 @@
 #ifndef TIMESPINBOX_H
 #define TIMESPINBOX_H
 
-#include <qspinbox.h>
-#include <qstringlist.h>
+#include <tqspinbox.h>
+#include <tqstringlist.h>
 
 /**@class TimeSpinBox 
 	*Custom spinbox to handle selection of timestep values with variable units.
@@ -28,11 +28,11 @@
 	*@version 1.0
 	*/
 
-class TimeSpinBox : public QSpinBox  {
+class TimeSpinBox : public TQSpinBox  {
 Q_OBJECT
 public:
 /**Constructor */
-	TimeSpinBox( QWidget *parent, const char* name=0, bool daysOnly = false );
+	TimeSpinBox( TQWidget *parent, const char* name=0, bool daysOnly = false );
 /**Destructor (empty)*/
 	~TimeSpinBox() {}
 
@@ -41,7 +41,7 @@ public:
 		*@p value the internal value to convert to a display string
 		*@return the display string
 		*/
-	virtual QString mapValueToText( int value );
+	virtual TQString mapValueToText( int value );
 	
 	/**Convert the displayed string to an internal value.
 		*@note reimplemented from QSpinBox
@@ -68,7 +68,7 @@ protected slots:
 private:
 	bool DaysOnly;
 	float TimeScale[42];
-	QStringList TimeString;
+	TQStringList TimeString;
 };
 
 #endif

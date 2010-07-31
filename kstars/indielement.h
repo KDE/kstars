@@ -14,8 +14,8 @@
 
 #include <kdialogbase.h>
 #include <unistd.h>
-#include <qstring.h>
-#include <qptrlist.h>
+#include <tqstring.h>
+#include <tqptrlist.h>
 
 #include "indi/lilxml.h"
 
@@ -90,14 +90,14 @@ class INDI_E : public QObject
 {
  Q_OBJECT
  public:
-  INDI_E(INDI_P *parentProperty, QString inName, QString inLabel);
+  INDI_E(INDI_P *parentProperty, TQString inName, TQString inLabel);
   ~INDI_E();
-    QString name;			/*  name */
-    QString label;			/* label is the name by default, unless specefied */
+    TQString name;			/*  name */
+    TQString label;			/* label is the name by default, unless specefied */
     PState state;			/* control on/off t/f etc */
     INDI_P *pp;				/* parent property */
 
-    QHBoxLayout    *EHBox;   		/* Horizontal layout */
+    TQHBoxLayout    *EHBox;   		/* Horizontal layout */
     
     /* GUI widgets, only malloced when needed */
     KSqueezedTextLabel *label_w;	// label
@@ -108,16 +108,16 @@ class INDI_E : public QObject
     QSlider	   *slider_w;		// Slider
     KPushButton    *push_w;		// push button
     KPushButton    *browse_w;		// browse button
-    QCheckBox      *check_w;		// check box
-    QSpacerItem    *hSpacer;		// Horizontal spacer
+    TQCheckBox      *check_w;		// check box
+    TQSpacerItem    *hSpacer;		// Horizontal spacer
     
     double min, max, step;		// params for scale
     double value;			// current value
     double targetValue;			// target value
-    QString text;			// current text
-    QString format;			// number format, if applicable
+    TQString text;			// current text
+    TQString format;			// number format, if applicable
     
-   int buildTextGUI    (QString initText);
+   int buildTextGUI    (TQString initText);
    int buildNumberGUI  (double initValue);
    int buildLightGUI();
    int buildBLOBGUI();

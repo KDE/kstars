@@ -49,7 +49,7 @@ class INDIMenu : public KDialogBase
 {
   Q_OBJECT
  public:
-   INDIMenu(QWidget * parent = 0 , const char *name = 0);
+   INDIMenu(TQWidget * parent = 0 , const char *name = 0);
    ~INDIMenu();
 
    /*****************************************************************
@@ -57,25 +57,25 @@ class INDIMenu : public KDialogBase
    ******************************************************************/
    QVBoxLayout	*mainLayout;
    QTabWidget	*deviceContainer;
-   QTextEdit 	*msgST_w;
+   TQTextEdit 	*msgST_w;
    QWidget	*tab;
-   QPushButton  *clear;
+   TQPushButton  *clear;
    QString	currentLabel;
 
    KStars *ksw;
 
-   QPtrList<DeviceManager> mgr;
+   TQPtrList<DeviceManager> mgr;
 
    void updateStatus();
-   //bool removeDevice(QString devName);
+   //bool removeDevice(TQString devName);
    void removeDeviceMgr(int mgrID);
-   void setCustomLabel(QString deviceName);
+   void setCustomLabel(TQString deviceName);
 
    int mgrCounter;
    bool processServer();
-   int processClient(QString hostname, QString portnumber);
-   INDI_D * findDevice(QString deviceName);
-   INDI_D * findDeviceByLabel(QString label);
+   int processClient(TQString hostname, TQString portnumber);
+   INDI_D * findDevice(TQString deviceName);
+   INDI_D * findDeviceByLabel(TQString label);
 
 
    public slots:

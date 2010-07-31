@@ -23,13 +23,13 @@
  #include <math.h>
  #include <stdlib.h>
  
- #include <qpainter.h>
- #include <qslider.h>
- #include <qcursor.h>
- #include <qpen.h>
- #include <qpixmap.h>
- #include <qradiobutton.h>
- #include <qpushbutton.h>
+ #include <tqpainter.h>
+ #include <tqslider.h>
+ #include <tqcursor.h>
+ #include <tqpen.h>
+ #include <tqpixmap.h>
+ #include <tqradiobutton.h>
+ #include <tqpushbutton.h>
  
  #include <kdebug.h>
  #include <klineedit.h>
@@ -37,7 +37,7 @@
  
  
  
- FITSHistogram::FITSHistogram(QWidget *parent, const char * name) : histDialog(parent, name)
+ FITSHistogram::FITSHistogram(TQWidget *parent, const char * name) : histDialog(parent, name)
  {
    viewer = (FITSViewer *) parent;
    
@@ -58,11 +58,11 @@
    histFrame->setMouseTracking(true);
    setMouseTracking(true);
    
-   connect(minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
-   connect(minSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
-   connect(maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateBoxes()));
-   connect(maxSlider, SIGNAL(valueChanged(int)), this, SLOT(updateIntenFreq(int )));
-   connect(applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
+   connect(minSlider, TQT_SIGNAL(valueChanged(int)), this, TQT_SLOT(updateBoxes()));
+   connect(minSlider, TQT_SIGNAL(valueChanged(int)), this, TQT_SLOT(updateIntenFreq(int )));
+   connect(maxSlider, TQT_SIGNAL(valueChanged(int)), this, TQT_SLOT(updateBoxes()));
+   connect(maxSlider, TQT_SIGNAL(valueChanged(int)), this, TQT_SLOT(updateIntenFreq(int )));
+   connect(applyB, TQT_SIGNAL(clicked()), this, TQT_SLOT(applyScale()));
 
    constructHistogram(viewer->imgBuffer);
    
@@ -75,14 +75,14 @@
 void FITSHistogram::updateBoxes()
 {
         if (minSlider->value() == BARS)
-	 minOUT->setText(QString("%1").arg((int) viewer->stats.max));
+	 minOUT->setText(TQString("%1").arg((int) viewer->stats.max));
 	else
-   	 minOUT->setText(QString("%1").arg( (int) ( ceil (minSlider->value() * binSize) + viewer->stats.min)));
+   	 minOUT->setText(TQString("%1").arg( (int) ( ceil (minSlider->value() * binSize) + viewer->stats.min)));
 	 
 	if (maxSlider->value() == BARS)
-	 maxOUT->setText(QString("%1").arg((int) viewer->stats.max));
+	 maxOUT->setText(TQString("%1").arg((int) viewer->stats.max));
 	else
-   	 maxOUT->setText(QString("%1").arg( (int) ( ceil (maxSlider->value() * binSize) + viewer->stats.min)));
+   	 maxOUT->setText(TQString("%1").arg( (int) ( ceil (maxSlider->value() * binSize) + viewer->stats.min)));
 
         update();
 }
@@ -164,10 +164,10 @@ void FITSHistogram::constructHistogram(float * buffer)
  
  kdDebug() << "Maximum height is " << maxHeight << " -- binsize " << binSize << endl;
  
- histogram = new QPixmap(500, 150, 1);
+ histogram = new TQPixmap(500, 150, 1);
  histogram->fill(Qt::black);
- QPainter p(histogram);
- QPen pen( white, 1);
+ TQPainter p(histogram);
+ TQPen pen( white, 1);
  p.setPen(pen);
    
  for (int i=0; i < BARS; i++)
@@ -175,13 +175,13 @@ void FITSHistogram::constructHistogram(float * buffer)
   
 }
 
-void FITSHistogram::paintEvent( QPaintEvent */*e*/)
+void FITSHistogram::paintEvent( TQPaintEvent */*e*/)
 {
   int height    = histFrame->height(); 
   int xMin = minSlider->value(), xMax = maxSlider->value();
   
-  QPainter p(histFrame);
-  QPen pen;
+  TQPainter p(histFrame);
+  TQPen pen;
   pen.setWidth(1);
   
   bitBlt(histFrame, 0, 0, histogram);
@@ -197,7 +197,7 @@ void FITSHistogram::paintEvent( QPaintEvent */*e*/)
   
 }
 
-void FITSHistogram::mouseMoveEvent( QMouseEvent *e)
+void FITSHistogram::mouseMoveEvent( TQMouseEvent *e)
 {
   int x = e->x();
   int y = e->y();
@@ -217,9 +217,9 @@ void FITSHistogram::updateIntenFreq(int x)
 
   int index = (int) ceil(x * binSize);
     
-  intensityOUT->setText(QString("%1").arg((int) ( index + viewer->stats.min)));
+  intensityOUT->setText(TQString("%1").arg((int) ( index + viewer->stats.min)));
   
-  frequencyOUT->setText(QString("%1").arg(histArray[x]));
+  frequencyOUT->setText(TQString("%1").arg(histArray[x]));
   
 }
 
@@ -234,12 +234,12 @@ int FITSHistogram::findMax()
   return max;
 }
 
-FITSHistogramCommand::FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax)
+FITSHistogramCommand::FITSHistogramCommand(TQWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax)
 {
   viewer    = (FITSViewer *) parent;
   type      = newType;
   histo     = inHisto;
-  oldImage  = new QImage();
+  oldImage  = new TQImage();
   // TODO apply maximum compression against this buffer
   buffer = (float *) malloc (viewer->image->width * viewer->image->height * sizeof(float));
    
@@ -387,7 +387,7 @@ void FITSHistogramCommand::unexecute()
   }
 }
 
-QString FITSHistogramCommand::name() const
+TQString FITSHistogramCommand::name() const
 {
 
  switch (type)

@@ -24,7 +24,7 @@ class OpsGuides : public OpsGuidesUI
 	Q_OBJECT
 
 public:
-	OpsGuides( QWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
+	OpsGuides( TQWidget* parent = 0, const char* name = 0, WFlags fl = 0 );
 	~OpsGuides();
 
 private slots:

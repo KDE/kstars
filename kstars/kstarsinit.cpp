@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qfile.h>
-#include <qdir.h>
+#include <tqlayout.h>
+#include <tqfile.h>
+#include <tqdir.h>
 #include <dcopclient.h>
 #include <kshortcut.h>
 #include <kiconloader.h>
@@ -49,66 +49,66 @@
 void KStars::initActions() {
 //File Menu:
 	new KAction(i18n("&New Window"), "window_new", KShortcut( "Ctrl+N"  ),
-			this, SLOT( newWindow() ), actionCollection(), "new_window");
+			this, TQT_SLOT( newWindow() ), actionCollection(), "new_window");
 	new KAction(i18n("&Close Window"), "fileclose", KShortcut( "Ctrl+W"  ),
-			this, SLOT( closeWindow() ), actionCollection(), "close_window");
+			this, TQT_SLOT( closeWindow() ), actionCollection(), "close_window");
 	new KAction( i18n( "&Download Data..." ), "knewstuff", KShortcut( "Ctrl+D" ),
-			this, SLOT( slotDownload() ), actionCollection(), "get_data" );
-	new KAction( i18n( "Open FITS..."), "fileopen", KShortcut( "Ctrl+O"), this, SLOT( slotOpenFITS()), actionCollection(), "open_file");
+			this, TQT_SLOT( slotDownload() ), actionCollection(), "get_data" );
+	new KAction( i18n( "Open FITS..."), "fileopen", KShortcut( "Ctrl+O"), this, TQT_SLOT( slotOpenFITS()), actionCollection(), "open_file");
 	new KAction( i18n( "&Save Sky Image..." ), "fileexport", KShortcut( "Ctrl+I" ),
-			this, SLOT( slotExportImage() ), actionCollection(), "export_image" );
+			this, TQT_SLOT( slotExportImage() ), actionCollection(), "export_image" );
 	new KAction( i18n( "&Run Script..." ), "launch", KShortcut( "Ctrl+R" ),
-			this, SLOT( slotRunScript() ), actionCollection(), "run_script" );
-	KStdAction::print(this, SLOT( slotPrint() ), actionCollection(), "print" );
-	KStdAction::quit(this, SLOT( close() ), actionCollection(), "quit" );
+			this, TQT_SLOT( slotRunScript() ), actionCollection(), "run_script" );
+	KStdAction::print(this, TQT_SLOT( slotPrint() ), actionCollection(), "print" );
+	KStdAction::quit(this, TQT_SLOT( close() ), actionCollection(), "quit" );
 
 //Time Menu:
 	new KAction( i18n( "Set Time to &Now" ), KShortcut( "Ctrl+E"  ),
-		this, SLOT( slotSetTimeToNow() ), actionCollection(), "time_to_now" );
+		this, TQT_SLOT( slotSetTimeToNow() ), actionCollection(), "time_to_now" );
 	new KAction( i18n( "set Clock to New Time", "&Set Time..." ), "clock", KShortcut( "Ctrl+S"  ),
-		this, SLOT( slotSetTime() ), actionCollection(), "time_dialog" );
+		this, TQT_SLOT( slotSetTime() ), actionCollection(), "time_dialog" );
 	ToggleAction *actTimeRun = new ToggleAction( i18n( "Stop &Clock" ), BarIcon("player_pause"),
 				i18n("Start &Clock"), BarIcon("1rightarrow"),
-				0, this, SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
+				0, this, TQT_SLOT( slotToggleTimer() ), actionCollection(), "timer_control" );
 	actTimeRun->setOffToolTip( i18n( "Start Clock" ) );
 	actTimeRun->setOnToolTip( i18n( "Stop Clock" ) );
-	QObject::connect(data()->clock(), SIGNAL(clockStarted()), actTimeRun, SLOT(turnOn()) );
-	QObject::connect(data()->clock(), SIGNAL(clockStopped()), actTimeRun, SLOT(turnOff()) );
+	TQObject::connect(data()->clock(), TQT_SIGNAL(clockStarted()), actTimeRun, TQT_SLOT(turnOn()) );
+	TQObject::connect(data()->clock(), TQT_SIGNAL(clockStopped()), actTimeRun, TQT_SLOT(turnOff()) );
 //UpdateTime() if clock is stopped (so hidden objects get drawn)
-	QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
+	TQObject::connect(data()->clock(), TQT_SIGNAL(clockStopped()), this, TQT_SLOT(updateTime()) );
 
 //Focus Menu:
 	new KAction(i18n( "&Zenith" ), KShortcut( "Z" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "zenith");
+			this, TQT_SLOT( slotPointFocus() ),  actionCollection(), "zenith");
 	new KAction(i18n( "&North" ), KShortcut( "N" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "north");
+			this, TQT_SLOT( slotPointFocus() ),  actionCollection(), "north");
 	new KAction(i18n( "&East" ), KShortcut( "E" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "east");
+			this, TQT_SLOT( slotPointFocus() ),  actionCollection(), "east");
 	new KAction(i18n( "&South" ), KShortcut( "S" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "south");
+			this, TQT_SLOT( slotPointFocus() ),  actionCollection(), "south");
 	new KAction(i18n( "&West" ), KShortcut( "W" ),
-			this, SLOT( slotPointFocus() ),  actionCollection(), "west");
-	KAction *tmpAction = KStdAction::find( this, SLOT( slotFind() ),
+			this, TQT_SLOT( slotPointFocus() ),  actionCollection(), "west");
+	KAction *tmpAction = KStdAction::find( this, TQT_SLOT( slotFind() ),
 												actionCollection(), "find_object" );
 	tmpAction->setText( i18n( "&Find Object..." ) );
 	tmpAction->setToolTip( i18n( "Find object" ) );
 
 	new KAction( i18n( "Engage &Tracking" ), "decrypted", KShortcut( "Ctrl+T"  ),
-		this, SLOT( slotTrack() ), actionCollection(), "track_object" );
+		this, TQT_SLOT( slotTrack() ), actionCollection(), "track_object" );
 
 	new KAction( i18n( "Set Focus &Manually..." ), KShortcut( "Ctrl+M" ),
-			this, SLOT( slotManualFocus() ),  actionCollection(), "manual_focus" );
+			this, TQT_SLOT( slotManualFocus() ),  actionCollection(), "manual_focus" );
 
 //View Menu:
-	KStdAction::zoomIn(this, SLOT( slotZoomIn() ), actionCollection(), "zoom_in" );
-	KStdAction::zoomOut(this, SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
+	KStdAction::zoomIn(this, TQT_SLOT( slotZoomIn() ), actionCollection(), "zoom_in" );
+	KStdAction::zoomOut(this, TQT_SLOT( slotZoomOut() ), actionCollection(), "zoom_out" );
 	new KAction( i18n( "&Default Zoom" ), "viewmagfit.png", KShortcut( "Ctrl+Z" ),
-		this, SLOT( slotDefaultZoom() ), actionCollection(), "zoom_default" );
+		this, TQT_SLOT( slotDefaultZoom() ), actionCollection(), "zoom_default" );
 	new KAction( i18n( "&Zoom to Angular Size..." ), "viewmag.png", KShortcut( "Ctrl+Shift+Z" ),
-		this, SLOT( slotSetZoom() ), actionCollection(), "zoom_set" );
+		this, TQT_SLOT( slotSetZoom() ), actionCollection(), "zoom_set" );
 	actCoordSys = new ToggleAction( i18n("Horizontal &Coordinates"), i18n( "Equatorial &Coordinates" ),
-			Key_Space, this, SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
-	KStdAction::fullScreen( this, SLOT( slotFullScreen() ), actionCollection(), 0 );
+			Key_Space, this, TQT_SLOT( slotCoordSys() ), actionCollection(), "coordsys" );
+	KStdAction::fullScreen( this, TQT_SLOT( slotFullScreen() ), actionCollection(), 0 );
 
 
 //Settings Menu:
@@ -122,45 +122,45 @@ void KStars::initActions() {
 	KToggleAction *a = new KToggleAction(i18n( "Show the information boxes", "Show &Info Boxes"),
 			0, 0, 0, actionCollection(), "show_boxes");
 	a->setChecked( Options::showInfoBoxes() );
-	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(setVisible(bool)));
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), infoBoxes(), TQT_SLOT(setVisible(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show time-related info box", "Show &Time Box"),
 			0, 0, 0, actionCollection(), "show_time_box");
-	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showTimeBox(bool)));
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), infoBoxes(), TQT_SLOT(showTimeBox(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show focus-related info box", "Show &Focus Box"),
 			0, 0, 0, actionCollection(), "show_focus_box");
-	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showFocusBox(bool)));
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), infoBoxes(), TQT_SLOT(showFocusBox(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show location-related info box", "Show &Location Box"),
 			0, 0, 0, actionCollection(), "show_location_box");
-	QObject::connect(a, SIGNAL( toggled(bool) ), infoBoxes(), SLOT(showGeoBox(bool)));
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), infoBoxes(), TQT_SLOT(showGeoBox(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 //Toolbar view options
 	a = new KToggleAction(i18n( "Show Main Toolbar" ),
 			0, 0, 0, actionCollection(), "show_mainToolBar");
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show View Toolbar" ),
 			0, 0, 0, actionCollection(), "show_viewToolBar");
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 //Statusbar view options
 	a = new KToggleAction(i18n( "Show Statusbar" ),
 			0, 0, 0, actionCollection(), "show_statusBar");
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show Az/Alt Field" ),
 			0, 0, 0, actionCollection(), "show_sbAzAlt");
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 	a = new KToggleAction(i18n( "Show RA/Dec Field" ),
 			0, 0, 0, actionCollection(), "show_sbRADec");
-	QObject::connect(a, SIGNAL( toggled(bool) ), this, SLOT(slotShowGUIItem(bool)));
+	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
 //Color scheme actions.  These are added to the "colorschemes" KActionMenu.
 	colorActionMenu = new KActionMenu( i18n( "C&olor Schemes" ), actionCollection(), "colorschemes" );
@@ -170,11 +170,11 @@ void KStars::initActions() {
 	addColorMenuItem( i18n( "&Moonless Night" ), "cs_moonless-night" );
 
 //Add any user-defined color schemes:
-	QFile file;
-	QString line, schemeName, filename;
+	TQFile file;
+	TQString line, schemeName, filename;
 	file.setName( locate( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.exists() && file.open( IO_ReadOnly ) ) {
-		QTextStream stream( &file );
+		TQTextStream stream( &file );
 
 		while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -192,61 +192,61 @@ void KStars::initActions() {
 
 	new KAction( i18n( "Location on Earth", "&Geographic..." ), 
 			"kstars_geo", KShortcut( "Ctrl+G"  ), this, 
-			SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
+			TQT_SLOT( slotGeoLocator() ), actionCollection(), "geolocation" );
 
-	KStdAction::preferences( this, SLOT( slotViewOps() ), actionCollection(), "configure" );
+	KStdAction::preferences( this, TQT_SLOT( slotViewOps() ), actionCollection(), "configure" );
 
 	new KAction(i18n( "Startup Wizard..." ), "wizard", KShortcut(), 
-			this, SLOT( slotWizard() ), actionCollection(), "startwizard" );
+			this, TQT_SLOT( slotWizard() ), actionCollection(), "startwizard" );
 
 //Tools Menu:
 	new KAction(i18n( "Calculator..."), KShortcut( "Ctrl+C"),
-			this, SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
+			this, TQT_SLOT( slotCalculator() ), actionCollection(), "astrocalculator");
 
 	new KAction(i18n( "Observing List..."), KShortcut( "Ctrl+L"),
-			this, SLOT( slotObsList() ), actionCollection(), "obslist");
+			this, TQT_SLOT( slotObsList() ), actionCollection(), "obslist");
 
 	// enable action only if file was loaded and processed successfully.
 	if (!data()->VariableStarsList.isEmpty())
 		new KAction(i18n( "AAVSO Light Curves..."), KShortcut( "Ctrl+V"),
-						this, SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
+						this, TQT_SLOT( slotLCGenerator() ), actionCollection(), "lightcurvegenerator");
 
 	new KAction(i18n( "Altitude vs. Time..."), KShortcut( "Ctrl+A"),
-						this, SLOT( slotAVT() ), actionCollection(), "altitude_vs_time");
+						this, TQT_SLOT( slotAVT() ), actionCollection(), "altitude_vs_time");
 	new KAction(i18n( "What's up Tonight..."), KShortcut("Ctrl+U"),
-						this, SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
+						this, TQT_SLOT(slotWUT()), actionCollection(), "whats_up_tonight");
 //FIXME GLOSSARY
 //	new KAction(i18n( "Glossary..."), KShortcut("Ctrl+K"),
-//						this, SLOT(slotGlossary()), actionCollection(), "glossary");
+//						this, TQT_SLOT(slotGlossary()), actionCollection(), "glossary");
 	new KAction(i18n( "Script Builder..."), KShortcut("Ctrl+B"),
-						this, SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
+						this, TQT_SLOT(slotScriptBuilder()), actionCollection(), "scriptbuilder");
 	new KAction(i18n( "Solar System..."), KShortcut("Ctrl+Y"),
-						this, SLOT(slotSolarSystem()), actionCollection(), "solarsystem");
+						this, TQT_SLOT(slotSolarSystem()), actionCollection(), "solarsystem");
 	new KAction(i18n( "Jupiter's Moons..."), KShortcut("Ctrl+J"),
-						this, SLOT(slotJMoonTool()), actionCollection(), "jmoontool");
+						this, TQT_SLOT(slotJMoonTool()), actionCollection(), "jmoontool");
 
 // devices Menu
-	new KAction(i18n("Telescope Wizard..."), 0, this, SLOT(slotTelescopeWizard()), actionCollection(), "telescope_wizard");
-	new KAction(i18n("Telescope Properties..."), 0, this, SLOT(slotTelescopeProperties()), actionCollection(), "telescope_properties");
-	new KAction(i18n("Device Manager..."), 0, this, SLOT(slotINDIDriver()), actionCollection(), "device_manager");
+	new KAction(i18n("Telescope Wizard..."), 0, this, TQT_SLOT(slotTelescopeWizard()), actionCollection(), "telescope_wizard");
+	new KAction(i18n("Telescope Properties..."), 0, this, TQT_SLOT(slotTelescopeProperties()), actionCollection(), "telescope_properties");
+	new KAction(i18n("Device Manager..."), 0, this, TQT_SLOT(slotINDIDriver()), actionCollection(), "device_manager");
 	
-	tmpAction = new KAction(i18n("Capture Image Sequence..."), 0, this, SLOT(slotImageSequence()), actionCollection(), "capture_sequence");
+	tmpAction = new KAction(i18n("Capture Image Sequence..."), 0, this, TQT_SLOT(slotImageSequence()), actionCollection(), "capture_sequence");
 	tmpAction->setEnabled(false);
 	
-	tmpAction = new KAction(i18n("INDI Control Panel..."), 0, this, SLOT(slotINDIPanel()), actionCollection(), "indi_control_panel");
+	tmpAction = new KAction(i18n("INDI Control Panel..."), 0, this, TQT_SLOT(slotINDIPanel()), actionCollection(), "indi_control_panel");
 	tmpAction->setEnabled(false);
 	
-	new KAction(i18n("Configure INDI..."), 0, this, SLOT(slotINDIConf()), actionCollection(), "configure_indi");
+	new KAction(i18n("Configure INDI..."), 0, this, TQT_SLOT(slotINDIConf()), actionCollection(), "configure_indi");
 
 
 
 //Help Menu:
 	new KAction( i18n( "Tip of the Day" ), "idea", 0,
-			this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
+			this, TQT_SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
 
 //Handbook toolBar item:
 	new KAction( i18n( "&Handbook" ), "contents", KShortcut( "F1"  ),
-			this, SLOT( appHelpActivated() ), actionCollection(), "handbook" );
+			this, TQT_SLOT( appHelpActivated() ), actionCollection(), "handbook" );
 
 //
 //viewToolBar actions:
@@ -254,50 +254,50 @@ void KStars::initActions() {
 
 //show_stars:
 	a = new KToggleAction( i18n( "Toggle Stars" ), "kstars_stars", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_stars" );
 
 //show_deepsky:
 	a = new KToggleAction( i18n( "Toggle Deep Sky Objects" ), "kstars_deepsky", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_deepsky" );
 
 //show_planets:
 	a = new KToggleAction( i18n( "Toggle Solar System" ), "kstars_planets", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_planets" );
 
 //show_clines:
 	a = new KToggleAction( i18n( "Toggle Constellation Lines" ), "kstars_clines", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_clines" );
 
 //show_cnames:
 	a = new KToggleAction( i18n( "Toggle Constellation Names" ), "kstars_cnames", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_cnames" );
 
 //show_cbound:
 	a = new KToggleAction( i18n( "Toggle Constellation Boundaries" ), "kstars_cbound", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_cbounds" );
 
 //show_mw:
 	a = new KToggleAction( i18n( "Toggle Milky Way" ), "kstars_mw", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_mw" );
 
 //show_grid:
 	a = new KToggleAction( i18n( "Toggle Coordinate Grid" ), "kstars_grid", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_grid" );
 
 //show_horizon:
 	a = new KToggleAction( i18n( "Toggle Ground" ), "kstars_horizon", 
-		0, this, SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
+		0, this, TQT_SLOT( slotViewToolBar() ), actionCollection(), "show_horizon" );
 	
 	if (Options::fitsSaveDirectory().isEmpty())
-			Options::setFitsSaveDirectory(QDir:: homeDirPath());
+			Options::setFitsSaveDirectory(TQDir:: homeDirPath());
 }
 
 void KStars::initFOV() {
 	//Read in the user's fov.dat and populate the FOV menu with its symbols.  If no fov.dat exists, populate
 	//create a default version.
-	QFile f;
-	QStringList fields;
-	QString nm;
+	TQFile f;
+	TQStringList fields;
+	TQString nm;
 
 	f.setName( locateLocal( "appdata", "fov.dat" ) );
 
@@ -308,7 +308,7 @@ void KStars::initFOV() {
 		if ( ! f.open( IO_WriteOnly ) ) {
 			kdDebug() << i18n( "Could not open fov.dat." ) << endl;
 		} else {
-			QTextStream ostream(&f);
+			TQTextStream ostream(&f);
 			ostream << i18n( "Do not use a field-of-view indicator", "No FOV" ) <<  ":0.0:0:#AAAAAA" << endl;
 			ostream << i18n( "use field-of-view for binoculars", "7x35 Binoculars" ) << ":558:1:#AAAAAA" << endl;
 			ostream << i18n( "use 1-degree field-of-view indicator", "One Degree" ) << ":60:2:#AAAAAA" << endl;
@@ -320,14 +320,14 @@ void KStars::initFOV() {
 
 	//just populate the FOV menu with items, don't need to fully parse the lines
 	if ( f.open( IO_ReadOnly ) ) {
-		QTextStream stream( &f );
+		TQTextStream stream( &f );
 		while ( !stream.eof() ) {
-			QString line = stream.readLine();
-			fields = QStringList::split( ":", line );
+			TQString line = stream.readLine();
+			fields = TQStringList::split( ":", line );
 
 			if ( fields.count() == 4 ) {
 				nm = fields[0].stripWhiteSpace();
-				KToggleAction *kta = new KToggleAction( nm, 0, this, SLOT( slotTargetSymbol() ), 
+				KToggleAction *kta = new KToggleAction( nm, 0, this, TQT_SLOT( slotTargetSymbol() ), 
 						actionCollection(), nm.utf8() );
 				kta->setExclusiveGroup( "fovsymbol" );
 				if ( nm == Options::fOVName() ) kta->setChecked( true );
@@ -339,14 +339,14 @@ void KStars::initFOV() {
 	}
 
 	fovActionMenu->popupMenu()->insertSeparator();
-	fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
+	fovActionMenu->insert( new KAction( i18n( "Edit FOV Symbols..." ), 0, this, TQT_SLOT( slotFOVEdit() ), actionCollection(), "edit_fov" ) );
 }
 
 void KStars::initStatusBar() {
 	statusBar()->insertItem( i18n( " Welcome to KStars " ), 0, 1, true );
 	statusBar()->setItemAlignment( 0, AlignLeft | AlignVCenter );
 
-	QString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
+	TQString s = "000d 00m 00s,   +00d 00\' 00\""; //only need this to set the width
 
 	if ( Options::showAltAzField() ) {
 		statusBar()->insertFixedItem( s, 1, true );
@@ -404,8 +404,8 @@ void KStars::datainitFinished(bool worked) {
 	//it simply exits.  Very strange.
 	if ( Options::useAltAz() && Options::showGround() &&
 			map()->focus()->alt()->Degrees() < -1.0 ) {
-		QString caption = i18n( "Initial Position is Below Horizon" );
-		QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
+		TQString caption = i18n( "Initial Position is Below Horizon" );
+		TQString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
 		if ( KMessageBox::warningYesNo( this, message, caption,
 				i18n("Reset Position"), i18n("Do Not Reset"), "dag_start_below_horiz" ) == KMessageBox::Yes ) {
 			map()->setClickedObject( NULL );
@@ -442,7 +442,7 @@ void KStars::datainitFinished(bool worked) {
 
 void KStars::privatedata::buildGUI() {
 	//create the widgets
-	ks->centralWidget = new QWidget( ks );
+	ks->centralWidget = new TQWidget( ks );
 	ks->setCentralWidget( ks->centralWidget );
 
 	//set AAVSO modaless dialog pointer to 0
@@ -459,16 +459,16 @@ void KStars::privatedata::buildGUI() {
 
 	ks->skymap = new SkyMap( ks->data(), ks->centralWidget );
 	// update skymap if KStarsData send update signal
-	QObject::connect(kstarsData, SIGNAL( update() ), ks->skymap, SLOT( forceUpdateNow() ) );
+	TQObject::connect(kstarsData, TQT_SIGNAL( update() ), ks->skymap, TQT_SLOT( forceUpdateNow() ) );
 
 	// get focus of keyboard and mouse actions (for example zoom in with +)
-	ks->map()->QWidget::setFocus();
+	ks->map()->TQWidget::setFocus();
 
 	ks->initStatusBar();
 	ks->initActions();
 
 	// create the layout of the central widget
-	ks->topLayout = new QVBoxLayout( ks->centralWidget );
+	ks->topLayout = new TQVBoxLayout( ks->centralWidget );
 	ks->topLayout->addWidget( ks->skymap );
 
 	// 2nd parameter must be false, or plugActionList won't work!
@@ -484,11 +484,11 @@ void KStars::privatedata::buildGUI() {
 
 //Changing the timestep needs to propagate to the clock, check if slew mode should be
 //(dis)engaged, and return input focus to the skymap.
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->data(), SLOT( setTimeDirection( float ) ) );
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->data()->clock(), SLOT( setScale( float )) );
-//	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks->skymap, SLOT( slotClockSlewing() ) );
-	connect( ks->data()->clock(), SIGNAL( scaleChanged( float ) ), ks->map(), SLOT( slotClockSlewing() ) );
-	connect( ks->TimeStep, SIGNAL( scaleChanged( float ) ), ks, SLOT( mapGetsFocus() ) );
+	connect( ks->TimeStep, TQT_SIGNAL( scaleChanged( float ) ), ks->data(), TQT_SLOT( setTimeDirection( float ) ) );
+	connect( ks->TimeStep, TQT_SIGNAL( scaleChanged( float ) ), ks->data()->clock(), TQT_SLOT( setScale( float )) );
+//	connect( ks->TimeStep, TQT_SIGNAL( scaleChanged( float ) ), ks->skymap, TQT_SLOT( slotClockSlewing() ) );
+	connect( ks->data()->clock(), TQT_SIGNAL( scaleChanged( float ) ), ks->map(), TQT_SLOT( slotClockSlewing() ) );
+	connect( ks->TimeStep, TQT_SIGNAL( scaleChanged( float ) ), ks, TQT_SLOT( mapGetsFocus() ) );
 
 	ks->resize( Options::windowWidth(), Options::windowHeight() );
 
@@ -507,11 +507,11 @@ void KStars::privatedata::buildGUI() {
 	ks->data()->initGuides(&tempnum);
 
 	//Connect the clock.
-	QObject::connect( ks->data()->clock(), SIGNAL( timeAdvanced() ), ks, SLOT( updateTime() ) );
-	QObject::connect( ks->data()->clock(), SIGNAL( timeChanged() ), ks, SLOT( updateTime() ) );
+	TQObject::connect( ks->data()->clock(), TQT_SIGNAL( timeAdvanced() ), ks, TQT_SLOT( updateTime() ) );
+	TQObject::connect( ks->data()->clock(), TQT_SIGNAL( timeChanged() ), ks, TQT_SLOT( updateTime() ) );
 
 	// Connect cache function
-	QObject::connect( kstarsData, SIGNAL( clearCache() ), ks, SLOT( clearCachedFindDialog() ) );
+	TQObject::connect( kstarsData, TQT_SIGNAL( clearCache() ), ks, TQT_SLOT( clearCachedFindDialog() ) );
 
 	SkyPoint newPoint;
 	if ( ks->data()->useDefaultOptions ) {

@@ -33,11 +33,11 @@
 #include <kprogress.h>
 #include <kstatusbar.h>
 
-#include <qfile.h>
-#include <qvbox.h>
-#include <qcursor.h>
-#include <qpixmap.h>
-#include <qframe.h>
+#include <tqfile.h>
+#include <tqvbox.h>
+#include <tqcursor.h>
+#include <tqpixmap.h>
+#include <tqframe.h>
 
 #include <math.h>
 #include <unistd.h>
@@ -64,7 +64,7 @@ static FITSLoadVals plvals =
   0         /* Dont compose images */
 };
 
-FITSImage::FITSImage(QWidget * parent, const char * name) : QScrollView(parent, name), zoomFactor(1.2)
+FITSImage::FITSImage(TQWidget * parent, const char * name) : TQScrollView(parent, name), zoomFactor(1.2)
 {
   viewer = (FITSViewer *) parent;
   reducedImgBuffer = NULL;
@@ -89,7 +89,7 @@ FITSImage::~FITSImage()
   delete(displayImage);
 }
 	
-/*void FITSImage::drawContents ( QPainter * p, int clipx, int clipy, int clipw, int cliph )
+/*void FITSImage::drawContents ( TQPainter * p, int clipx, int clipy, int clipw, int cliph )
 {
   //kdDebug() << "in draw contents " << endl;
   //imgFrame->update();
@@ -97,19 +97,19 @@ FITSImage::~FITSImage()
 }*/
 
 /**Bitblt the image onto the viewer widget */
-/*void FITSImage::paintEvent (QPaintEvent *ev)
+/*void FITSImage::paintEvent (TQPaintEvent *ev)
 {
  //kdDebug() << "in paint event " << endl;
  //bitBlt(imgFrame, 0, 0, &qpix);
 }*/
 
 /* Resize event */
-void FITSImage::resizeEvent (QResizeEvent */*ev*/)
+void FITSImage::resizeEvent (TQResizeEvent */*ev*/)
 {
 	updateScrollBars();
 }
 
-void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
+void FITSImage::contentsMouseMoveEvent ( TQMouseEvent * e )
 {
 
   double x,y;
@@ -161,18 +161,18 @@ void FITSImage::contentsMouseMoveEvent ( QMouseEvent * e )
   
   if (validPoint)
   {
-  viewer->statusBar()->changeItem(QString("%1 , %2").arg( (int) x).arg( (int) y), 0);
+  viewer->statusBar()->changeItem(TQString("%1 , %2").arg( (int) x).arg( (int) y), 0);
 	viewer->statusBar()->changeItem( KGlobal::locale()->formatNumber( viewer->imgBuffer[(int) (y * width + x)], 3 ), 1 );
   setCursor(Qt::CrossCursor);
   }
   else
   {
-  //viewer->statusBar()->changeItem(QString("(X,Y)"), 0);
+  //viewer->statusBar()->changeItem(TQString("(X,Y)"), 0);
   setCursor(Qt::ArrowCursor);
   }
 }
 
-void FITSImage::viewportResizeEvent ( QResizeEvent * /*e*/)
+void FITSImage::viewportResizeEvent ( TQResizeEvent * /*e*/)
 {
         int w, h, conW, conH, x, y;
 	if (!displayImage) return;
@@ -204,7 +204,7 @@ void FITSImage::reLoadTemplateImage()
 
 void FITSImage::saveTemplateImage()
 {
-  templateImage = new QImage(displayImage->copy());
+  templateImage = new TQImage(displayImage->copy());
 }
 
 void FITSImage::destroyTemplateImage()
@@ -258,7 +258,7 @@ int FITSImage::loadFits (const char *filename)
    return (-1);
  }
 
- //displayImage  = new QImage();
+ //displayImage  = new TQImage();
  KProgressDialog fitsProgress(this, 0, i18n("FITS Viewer"), i18n("Loading FITS..."));
  
  hdl = fits_seek_image (ifp, 1);
@@ -314,10 +314,10 @@ int FITSImage::loadFits (const char *filename)
 
  delete (displayImage);
  
- displayImage = new QImage(width, height, 8, 256, QImage::IgnoreEndian);
+ displayImage = new TQImage(width, height, 8, 256, TQImage::IgnoreEndian);
  for (int i=0; i < 256; i++)
    displayImage->setColor(i, grayTable[i]);
-//displayImage = new QImage();
+//displayImage = new TQImage();
 //displayImage->create(width, height, 32);
 
 
@@ -356,7 +356,7 @@ int FITSImage::loadFits (const char *filename)
  fits_record_list * FRList = hdl->header_record_list;
  while (FRList != NULL)
  {
-   viewer->record << QString((char *) FRList->data); 
+   viewer->record << TQString((char *) FRList->data); 
    FRList = FRList->next_record;
  }
  //memcpy(viewer->record, hdl->header_record_list->data , FITS_RECORD_SIZE);
@@ -459,7 +459,7 @@ void FITSImage::fitsZoomDefault()
 
 }
 
-FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
+FITSFrame::FITSFrame(FITSImage * img, TQWidget * parent, const char * name) : TQFrame(parent, name, Qt::WNoAutoErase)
 {
   image = img;
   setPaletteBackgroundColor(image->viewport()->paletteBackgroundColor());
@@ -467,7 +467,7 @@ FITSFrame::FITSFrame(FITSImage * img, QWidget * parent, const char * name) : QFr
 
 FITSFrame::~FITSFrame() {}
 
-void FITSFrame::paintEvent(QPaintEvent * /*e*/)
+void FITSFrame::paintEvent(TQPaintEvent * /*e*/)
 {
  
  bitBlt(this, 20, 20, &(image->qpix));

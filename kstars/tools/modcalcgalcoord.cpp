@@ -22,11 +22,11 @@
 #include "modcalcgalcoord.moc"
 #include "kstarsdatetime.h"
 
-#include <qradiobutton.h>
-#include <qstring.h>
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qtextstream.h>
+#include <tqradiobutton.h>
+#include <tqstring.h>
+#include <tqcheckbox.h>
+#include <tqradiobutton.h>
+#include <tqtextstream.h>
 #include <klocale.h>
 #include <klineedit.h>
 #include <kapplication.h>
@@ -34,7 +34,7 @@
 #include <kmessagebox.h>
 
 
-modCalcGalCoord::modCalcGalCoord(QWidget *parentSplit, const char *name) : modCalcGalCoordDlg(parentSplit,name) {
+modCalcGalCoord::modCalcGalCoord(TQWidget *parentSplit, const char *name) : modCalcGalCoordDlg(parentSplit,name) {
 
 	equRadio->setChecked(TRUE);
 	raBox->setDegType(FALSE);
@@ -58,7 +58,7 @@ void modCalcGalCoord::getEquCoords (void) {
 	epoch = getEpoch( epochName->text() );
 }
 
-double modCalcGalCoord::getEpoch (QString eName) {
+double modCalcGalCoord::getEpoch (TQString eName) {
 
 	double epoch = eName.toDouble();
 
@@ -203,41 +203,41 @@ void modCalcGalCoord::slotGalLongCheckedBatch(){
 }
 
 void modCalcGalCoord::slotInputFile() {
-	QString inputFileName;
+	TQString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcGalCoord::slotOutputFile() {
-	QString outputFileName;
+	TQString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 }
 
 void modCalcGalCoord::slotRunBatch() {
 
-	QString inputFileName;
+	TQString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
 
 	// We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
+	if ( TQFile::exists(inputFileName) ) {
+		TQFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			TQString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;
 		}
 
 //		processLines(&f);
-		QTextStream istream(&f);
+		TQTextStream istream(&f);
 		processLines(istream);
 //		readFile( istream );
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		TQString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
 		InputLineEditBatch->setText( inputFileName );
@@ -245,19 +245,19 @@ void modCalcGalCoord::slotRunBatch() {
 	}
 }
 
-void modCalcGalCoord::processLines( QTextStream &istream ) {
+void modCalcGalCoord::processLines( TQTextStream &istream ) {
 
 	// we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
+//	TQTextStream istream(&fIn);
+	TQString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
+	TQFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
-	QTextStream ostream(&fOut);
+	TQTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
+	TQString line;
+	TQString space = " ";
 	int i = 0;
 	SkyPoint sp;
 	dms raB, decB, galLatB, galLongB;
@@ -270,7 +270,7 @@ void modCalcGalCoord::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		TQStringList fields = TQStringList::split( " ", line );
 
 		i = 0;
 

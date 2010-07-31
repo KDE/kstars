@@ -23,7 +23,7 @@
 #include "ksutils.h"
 #include "kstarsdata.h"
 
-KSAsteroid::KSAsteroid( KStarsData *_kd, QString s, QString imfile,
+KSAsteroid::KSAsteroid( KStarsData *_kd, TQString s, TQString imfile,
 		long double _JD, double _a, double _e, dms _i, dms _w, dms _Node, dms _M, double _H )
  : KSPlanetBase(_kd, s, imfile), kd(_kd), JD(_JD), a(_a), e(_e), H(_H), i(_i), w(_w), M(_M), N(_Node) {
 

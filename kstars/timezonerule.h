@@ -29,7 +29,7 @@
 	*on startup; each line in the file creates a TimeZoneRule object.
 	*
 	*TimeZoneRule consists of QStrings identifying the months and days on which
-	*DST starts and ends, QTime objects identifying the time at which the
+	*DST starts and ends, TQTime objects identifying the time at which the
 	*changes occur, and a double indicating the size of the offset in hours
 	*(probably always 1.00).
 	*
@@ -50,7 +50,7 @@
 	*@version 1.0
 	*/
 
-#include <qstring.h>
+#include <tqstring.h>
 #include "kstarsdatetime.h"
 
 class TimeZoneRule {
@@ -67,8 +67,8 @@ public:
 		*@p rtime the time at which DST reverts
 		*@p offset the offset between normal time and DS time (always 1.00?)
 		*/
-	TimeZoneRule( const QString &smonth, const QString &sday, const QTime &stime, 
-		const QString &rmonth, const QString &rday, const QTime &rtime, const double &offset=1.00 );
+	TimeZoneRule( const TQString &smonth, const TQString &sday, const TQTime &stime, 
+		const TQString &rmonth, const TQString &rday, const TQTime &rtime, const double &offset=1.00 );
 
 	/**Destructor. (empty)*/
 	~TimeZoneRule();
@@ -137,7 +137,7 @@ private:
 	/**Interpret the string as a month of the year; 
 		*@return the month integer (1=jan ... 12=dec) 
 		*/
-	int initMonth( const QString &m );
+	int initMonth( const TQString &m );
 
 	/**Interpret the day string as a week ID and a day-of-week ID.  The day-of-week
 		*is an integer between 1 (sunday) and 7 (saturday); the week integer can
@@ -146,7 +146,7 @@ private:
 		*@p week the week integer is returned by reference through this value
 		*@return TRUE if the day string was successfully parsed 
 		*/
-	bool initDay( const QString &d, int &day, int &week );
+	bool initDay( const TQString &d, int &day, int &week );
 
 	/**Find the calendar date on which DST starts for the calendar year
 		*of the given KStarsDateTime.
@@ -162,7 +162,7 @@ private:
 
 	int StartDay, RevertDay;
 	int StartWeek, RevertWeek;
-	QTime StartTime, RevertTime;
+	TQTime StartTime, RevertTime;
 	KStarsDateTime next_change_utc, next_change_ltime;
 	double dTZ, HourOffset;
 	

@@ -18,7 +18,7 @@
 #ifndef KSWIZARD_H
 #define KSWIZARD_H
 
-#include <qmemarray.h>
+#include <tqmemarray.h>
 #include "kswizardui.h"
 
 class GeoLocation;
@@ -45,7 +45,7 @@ public:
 		*@p parent pointer to the parent widget
 		*@p name name for the KSWizard object
 		*/
-	KSWizard( QWidget *parent=0, const char *name=0 );
+	KSWizard( TQWidget *parent=0, const char *name=0 );
 
 	/**Destructor */
 	~KSWizard();
@@ -81,9 +81,9 @@ private:
 	void initGeoPage();
 	
 	KStars *ksw;
-	QMemArray<int> GeoID;
+	TQMemArray<int> GeoID;
 	GeoLocation *Geo;
-	QPtrList<GeoLocation> filteredCityList;
+	TQPtrList<GeoLocation> filteredCityList;
 };
 
 #endif

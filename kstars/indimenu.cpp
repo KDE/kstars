@@ -26,18 +26,18 @@
 
 #include <stdlib.h>
 
-#include <qlineedit.h>
-#include <qtextedit.h>
-#include <qframe.h>
-#include <qtabwidget.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qsocketnotifier.h>
-#include <qdatetime.h>
-#include <qvbox.h>
-#include <qtimer.h>
+#include <tqlineedit.h>
+#include <tqtextedit.h>
+#include <tqframe.h>
+#include <tqtabwidget.h>
+#include <tqcheckbox.h>
+#include <tqlabel.h>
+#include <tqpushbutton.h>
+#include <tqlayout.h>
+#include <tqsocketnotifier.h>
+#include <tqdatetime.h>
+#include <tqvbox.h>
+#include <tqtimer.h>
 
 #include <kled.h>
 #include <klineedit.h>
@@ -59,7 +59,7 @@
 ** INDI Menu: Handles communication to server and fetching basic XML
 ** data.
 *******************************************************************/
-INDIMenu::INDIMenu(QWidget *parent, const char *name ) : KDialogBase(KDialogBase::Tabbed, i18n("INDI Control Panel"), 0, KDialogBase::Default, parent, name, false)
+INDIMenu::INDIMenu(TQWidget *parent, const char *name ) : KDialogBase(KDialogBase::Tabbed, i18n("INDI Control Panel"), 0, KDialogBase::Default, parent, name, false)
 {
 
  ksw = (KStars *) parent;
@@ -122,13 +122,13 @@ DeviceManager *dev;
       if (drivers->devices[i]->state && drivers->devices[i]->managed == false && drivers->devices[i]->mode == IDevice::M_LOCAL)
       {
         dev = new DeviceManager(this, mgrCounter);
-    	if  (dev->indiConnect("localhost", QString("%1").arg(drivers->devices[i]->indiPort)))
+    	if  (dev->indiConnect("localhost", TQString("%1").arg(drivers->devices[i]->indiPort)))
 	{
 	        drivers->devices[i]->mgrID   = mgrCounter;
 	        drivers->devices[i]->managed = true;
       		mgr.append(dev);
-		connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
-                connect(dev, SIGNAL(newDevice()), this, SLOT(discoverDevice()));
+		connect(dev, TQT_SIGNAL(newDevice()), drivers, TQT_SLOT(updateMenuActions()));
+                connect(dev, TQT_SIGNAL(newDevice()), this, TQT_SLOT(discoverDevice()));
 
 		mgrCounter++;
 
@@ -153,7 +153,7 @@ DeviceManager *dev;
 
   }
 
-int INDIMenu::processClient(QString hostname, QString portnumber)
+int INDIMenu::processClient(TQString hostname, TQString portnumber)
 {
 
   DeviceManager *dev;
@@ -165,8 +165,8 @@ int INDIMenu::processClient(QString hostname, QString portnumber)
       mgr.append(dev);
       if (drivers)
 	{
-      	connect(dev, SIGNAL(newDevice()), drivers, SLOT(updateMenuActions()));
-        connect(dev, SIGNAL(newDevice()), this, SLOT(discoverDevice()));
+      	connect(dev, TQT_SIGNAL(newDevice()), drivers, TQT_SLOT(updateMenuActions()));
+        connect(dev, TQT_SIGNAL(newDevice()), this, TQT_SLOT(discoverDevice()));
 	}
   }
   else
@@ -191,7 +191,7 @@ void INDIMenu::removeDeviceMgr(int mgrID)
  }
 }
 
-INDI_D * INDIMenu::findDevice(QString deviceName)
+INDI_D * INDIMenu::findDevice(TQString deviceName)
 {
   for (unsigned int i=0; i < mgr.count(); i++)
   {
@@ -202,7 +202,7 @@ INDI_D * INDIMenu::findDevice(QString deviceName)
   return NULL;
 }
 
-INDI_D * INDIMenu::findDeviceByLabel(QString label)
+INDI_D * INDIMenu::findDeviceByLabel(TQString label)
 {
   for (unsigned int i=0; i < mgr.count(); i++)
   {
@@ -215,7 +215,7 @@ INDI_D * INDIMenu::findDeviceByLabel(QString label)
 }
 
 
-void INDIMenu::setCustomLabel(QString deviceName)
+void INDIMenu::setCustomLabel(TQString deviceName)
 {
 
  int nset=0;
@@ -226,7 +226,7 @@ for (unsigned int i=0; i < mgr.count(); i++)
 	 	nset++;
 
 if (nset)
- currentLabel = deviceName + QString(" %1").arg(nset+1);
+ currentLabel = deviceName + TQString(" %1").arg(nset+1);
 else
  currentLabel = deviceName;
 
@@ -234,7 +234,7 @@ else
 
 void INDIMenu::discoverDevice()
 {
-  QTimer::singleShot( 1000, this, SLOT(announceDevice()) );
+  TQTimer::singleShot( 1000, this, TQT_SLOT(announceDevice()) );
 }
 
 void INDIMenu::announceDevice()

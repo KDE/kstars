@@ -18,10 +18,10 @@
 #ifndef INFOBOXES_H
 #define INFOBOXES_H
 
-#include <qobject.h>
-#include <qcolor.h>
-#include <qevent.h>
-#include <qpoint.h>
+#include <tqobject.h>
+#include <tqcolor.h>
+#include <tqevent.h>
+#include <tqpoint.h>
 #include <kdebug.h>
 
 #include "infobox.h"
@@ -43,7 +43,7 @@ class dms;
 class InfoBox;
 class KStarsDateTime;
 
-class InfoBoxes : public QObject {
+class InfoBoxes : public TQObject {
 Q_OBJECT
 public:
 /**Constructor.  Create three infoboxes and place them in the skymap.
@@ -65,7 +65,7 @@ public:
 	*"grabbed" by the user
 	*@param colorBG The background color for infoboxes
 	*
-	*@todo Use Qt::white as default color instead of QColor("white"),
+	*@todo Use Qt::white as default color instead of TQColor("white"),
 	*      for default values of colorText, colorGrab and colorBG,
 	*      since that's considerably faster.
 	*/
@@ -73,9 +73,9 @@ public:
 			int tx=0, int ty=0, bool tshade=false,
 			int gx=0, int gy=600, bool gshade=false,
 			int fx=600, int fy=0, bool fshade=false,
-			QColor colorText=QColor("white"),
-			QColor colorGrab=QColor("red"),
-			QColor colorBG=QColor("black") );
+			TQColor colorText=TQColor("white"),
+			TQColor colorGrab=TQColor("red"),
+			TQColor colorBG=TQColor("black") );
 
 /**Constructor.  Create three infoboxes and place them in the skymap.
 	*Differs from the above function only in the types of its arguments.
@@ -95,12 +95,12 @@ public:
 	*@param colorBG The background color for infoboxes
 	*/
 	InfoBoxes( int w, int h,
-			QPoint tp, bool tshade,
-			QPoint gp, bool gshade,
-			QPoint fp, bool fshade,
-			QColor colorText=QColor("white"),
-			QColor colorGrab=QColor("red"),
-			QColor colorBG=QColor("black") );
+			TQPoint tp, bool tshade,
+			TQPoint gp, bool gshade,
+			TQPoint fp, bool fshade,
+			TQColor colorText=TQColor("white"),
+			TQColor colorGrab=TQColor("red"),
+			TQColor colorBG=TQColor("black") );
 
 /**Destructor (empty)*/
 	~InfoBoxes();
@@ -132,14 +132,14 @@ public:
 	int height() const { return Height; }
 	
 /**Draw the boxes on a Qpainter object (representing the SkyMap).
-	*@param p The QPainter on which to draw the boxes.
+	*@param p The TQPainter on which to draw the boxes.
 	*@param FGColor The foreground color (Pen color) to use when drawing boxes.
 	*@param grabColor The foreground color to use if the box is "grabbed" by the user.
 	*@param BGColor The background color (brush color) to use
 	*@param BGMode: 0=no BG fill; 1=transparent BG fill; 2=Opaque BG fill.
 	*/
-	void drawBoxes( QPainter &p, QColor FGColor=QColor("white"),
-			QColor grabColor=QColor("red"), QColor BGColor=QColor("black"),
+	void drawBoxes( TQPainter &p, TQColor FGColor=TQColor("white"),
+			TQColor grabColor=TQColor("red"), TQColor BGColor=TQColor("black"),
 			unsigned int BGMode=0 );
 	
 /**Determine whether a mouse click occurred inside one of the infoboxes.
@@ -149,7 +149,7 @@ public:
 	*@param e The mouse event to check (it's a mousePressEvent)
 	*@return true if the mouse press occurred inside one of the infoboxes.
 	*/
-	bool grabBox( QMouseEvent *e );
+	bool grabBox( TQMouseEvent *e );
 	
 /**Set the internal variable GrabBox to 0, indicating that no box is currently 
 	*grabbed.  Also determine if any box should be anchored to an edge.  (This
@@ -165,7 +165,7 @@ public:
 	*@param e The mouse event which contains the new mouse cursor position
 	*@return false if no box is grabbed; otherwise, moves the grabbed box and returns true.
 	*/
-	bool dragBox( QMouseEvent *e );
+	bool dragBox( TQMouseEvent *e );
 	
 /**Toggle the shade-state of the infobox in which the user double-clicked.
 	*After shading the box, call fixCollisions() on the other two boxes.
@@ -174,7 +174,7 @@ public:
 	*@return false if the double-click was not inside any box; otherwise shade the
 	*target box and return true.
 	*/
-	bool shadeBox( QMouseEvent *e );
+	bool shadeBox( TQMouseEvent *e );
 	
 /**Make sure the target Infobox lies within the SkyMap boundaries, and that it does
 	*not overlap with the other two Infoboxes.  If an overlap is detected, the target
@@ -240,7 +240,7 @@ public slots:
 	*@param n The object name
 	*@return true if values have changed
 	*/
-	bool focusObjChanged(const QString &n);
+	bool focusObjChanged(const TQString &n);
 
 /**Check if boxes are anchored with bottom or right border.
 	@param resetToDefault reset all borders of boxes to false before checking borders.
@@ -251,8 +251,8 @@ private:
 	int Width, Height;
 	int GrabbedBox;
 	bool Visible;
-	const QColor boxColor, grabColor, bgColor;
-	QPoint GrabPos;
+	const TQColor boxColor, grabColor, bgColor;
+	TQPoint GrabPos;
 	InfoBox *GeoBox, *FocusBox, *TimeBox;
 };
 

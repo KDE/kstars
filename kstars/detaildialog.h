@@ -18,9 +18,9 @@
 #ifndef DETAILDIALOG_H
 #define DETAILDIALOG_H
 
-#include <qfile.h>
-#include <qlabel.h>
-#include <qptrlist.h>
+#include <tqfile.h>
+#include <tqlabel.h>
+#include <tqptrlist.h>
 #include <kdialogbase.h>
 #include <ktextedit.h>
 
@@ -44,8 +44,8 @@ class DetailsLogUI;
 
 struct ADVTreeData
 {
-	QString Name;
-	QString Link;
+	TQString Name;
+	TQString Link;
 	int Type;
 };
 
@@ -57,31 +57,31 @@ struct ADVTreeData
 class LogEdit : public KTextEdit {
 	Q_OBJECT
 public:
-	LogEdit( QWidget *parent=0, const char *name=0 );
+	LogEdit( TQWidget *parent=0, const char *name=0 );
 	~LogEdit() {}
 	
 signals:
 	void focusOut();
 	
 protected:
-	void focusOutEvent( QFocusEvent *e );
+	void focusOutEvent( TQFocusEvent *e );
 };
 
-/**@class ClickLabel is a QLabel with a clicked() signal.
+/**@class ClickLabel is a TQLabel with a clicked() signal.
 	*@author Jason Harris
 	*@version 1.0
 	*/
-class ClickLabel : public QLabel {
+class ClickLabel : public TQLabel {
 	Q_OBJECT
 public:
-	ClickLabel( QWidget *parent=0, const char *name=0 );
+	ClickLabel( TQWidget *parent=0, const char *name=0 );
 	~ClickLabel() {}
 	
 signals:
 	void clicked();
 	
 protected:
-	void mousePressEvent( QMouseEvent *e ) { if ( e->button() == LeftButton ) emit clicked(); }
+	void mousePressEvent( TQMouseEvent *e ) { if ( e->button() == LeftButton ) emit clicked(); }
 };
 
 /**@class DetailDialog is a window showing detailed information for a selected object.
@@ -107,13 +107,13 @@ class DetailDialog : public KDialogBase  {
 public: 
 /**Constructor
 	*/
-	DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent=0, const char *name=0);
+	DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, TQWidget *parent=0, const char *name=0);
 	
 /**Destructor (empty)
 	*/
 	~DetailDialog() {}
 
-	QPixmap* thumbnail() { return Thumbnail; }
+	TQPixmap* thumbnail() { return Thumbnail; }
 
 public slots:
 /**@short Add this object to the observing list.
@@ -177,12 +177,12 @@ public slots:
 private:
 
 /**Read in the user's customized URL file (either images or info webpages),
-	*and store the file's lines in a QStringList.
+	*and store the file's lines in a TQStringList.
 	*@param type 0=Image URLs; 1=Info URLs
 	*/
 	bool readUserFile(int type);
 
-/**Parse the QStringList containing the User's URLs.
+/**Parse the TQStringList containing the User's URLs.
 	*@param type 0=Image URLs; 1=Info URLs
 	*/
 	bool verifyUserData(int type);
@@ -211,32 +211,32 @@ private:
 
 /**Populate the TreeView of known astronomical databases in the Advanced Tab
 	*/
-	void populateADVTree(QListViewItem *parent);
+	void populateADVTree(TQListViewItem *parent);
 
 /**For the databases TreeView
 	*/
-	void forkTree(QListViewItem *parent);
+	void forkTree(TQListViewItem *parent);
 
 /**Data for the Advanced Tab TreeView is stored in the file advinterface.dat.
 	*This function parses advinterface.dat.
 	*/
-	QString parseADVData(QString link);
+	TQString parseADVData(TQString link);
 	
 
 	SkyObject *selectedObject;
 	KStars* ksw;
 
 	// Edit Link Dialog
-	QHBoxLayout *editLinkLayout;
-	QLabel *editLinkURL;
-	QLineEdit *editLinkField;
-	QFile file;
-	QPixmap *Thumbnail;
+	TQHBoxLayout *editLinkLayout;
+	TQLabel *editLinkURL;
+	TQLineEdit *editLinkField;
+	TQFile file;
+	TQPixmap *Thumbnail;
 	int currentItemIndex;
-	QString currentItemURL, currentItemTitle;
-	QStringList dataList;
+	TQString currentItemURL, currentItemTitle;
+	TQStringList dataList;
 
-	QPtrListIterator<ADVTreeData> * treeIt;
+	TQPtrListIterator<ADVTreeData> * treeIt;
 
 	DetailsDataUI *Data;
 	DetailsPositionUI *Pos;

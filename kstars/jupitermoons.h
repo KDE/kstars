@@ -77,13 +77,13 @@ public:
 	/**@return the name of a moon.
 		*@param id which moon?  0=Io, 1=Europa, 2=Ganymede, 3=Callisto
 		*/
-	QString name( int id ) const { return Name[id]; }
+	TQString name( int id ) const { return Name[id]; }
 	
 	/**@return ID number of a moon, given its name:
 		*0=Io, 1=Europa, 2=Ganymede, 3=Callisto.  
 		*Return -1 if the name does not match one of these.
 		*/
-	int moonNamed( const QString &name ) const;
+	int moonNamed( const TQString &name ) const;
 	
 	/**Convert the RA,Dec coordinates of each moon to Az,Alt
 		*@param LSTh pointer to the current local sidereal time
@@ -107,7 +107,7 @@ public:
 	double z( int i ) const { return ZJ[i]; }
 private:
 	SkyPoint Pos[4];
-	QString Name[4];
+	TQString Name[4];
 	bool InFront[4];
 	//the rectangular position, relative to Jupiter.  X-axis is equator of Jupiter; usints are Jup. Radius
 	double XJ[4], YJ[4], ZJ[4];

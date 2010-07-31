@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
+#include <tqstring.h>
 
 #include "planetcatalog.h"
 #include "dms.h"
@@ -97,7 +97,7 @@ bool PlanetCatalog::initialize() {
 }
 
 void PlanetCatalog::addObject( ObjectNameList &ObjNames ) const {
-	QPtrListIterator<KSPlanetBase> it(planets);
+	TQPtrListIterator<KSPlanetBase> it(planets);
 
 	for (KSPlanetBase *ksp = it.toFirst(); ksp != 0; ksp = ++it) {
 		ObjNames.append( ksp );
@@ -122,7 +122,7 @@ bool PlanetCatalog::isPlanet(SkyObject *so) const {
 	if (so == Earth)
 		return true;
 
-	QPtrListIterator<KSPlanetBase> it(planets);
+	TQPtrListIterator<KSPlanetBase> it(planets);
 
 	for (KSPlanetBase *ksp = it.toFirst(); ksp != 0; ksp = ++it) {
 		if (so == ksp)
@@ -132,11 +132,11 @@ bool PlanetCatalog::isPlanet(SkyObject *so) const {
 	return false;
 }
 
-KSPlanetBase *PlanetCatalog::findByName( const QString n) const {
+KSPlanetBase *PlanetCatalog::findByName( const TQString n) const {
 	if (n == "Earth")
 		return Earth;
 
-	QPtrListIterator<KSPlanetBase> it(planets);
+	TQPtrListIterator<KSPlanetBase> it(planets);
 
 	for (KSPlanetBase *ksp = it.toFirst(); ksp != 0; ksp = ++it) {
 		if (ksp->name() == n)
@@ -157,7 +157,7 @@ static double dist_squared(const SkyPoint *a, const SkyPoint *b) {
 }
 
 SkyObject *PlanetCatalog::findClosest(const SkyPoint *p, double &r) const {
-	QPtrListIterator<KSPlanetBase> it(planets);
+	TQPtrListIterator<KSPlanetBase> it(planets);
 	SkyObject *found = 0;
 	double trialr = 0.0;
 	double rmin = 100000.0;

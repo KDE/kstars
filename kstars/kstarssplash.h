@@ -37,7 +37,7 @@ class KStarsSplash : public KDialogBase
 	public:
 	/**Constructor. Create widgets.  Load KStars logo.  Start load timer.
 		*/
-		KStarsSplash( QWidget *parent, const char* name );
+		KStarsSplash( TQWidget *parent, const char* name );
 
 	/**Destructor
 		*/
@@ -45,8 +45,8 @@ class KStarsSplash : public KDialogBase
 
 	public slots:
 	/**Display the text argument in the Splash Screen's status label.
-		*This is connected to KStarsData::progressText(QString)*/
-		void setMessage(QString s);
+		*This is connected to KStarsData::progressText(TQString)*/
+		void setMessage(TQString s);
 
 	protected:
 	/**Paint event to redraw the widgets.  This only gets called when the timer fires.
@@ -54,20 +54,20 @@ class KStarsSplash : public KDialogBase
 		*this may be difficult to implement (it may be that the program is too busy loading data
 		*to notice that a redraw is required).
 		*/
-		virtual void paintEvent( QPaintEvent* );
+		virtual void paintEvent( TQPaintEvent* );
 
 	/**If the user clicks on the "X" close-window button, then abort loading 
 		*as soon as possible and shut down the program.
 		*/
-		void closeEvent( QCloseEvent *e );
+		void closeEvent( TQCloseEvent *e );
 
 		signals:
 			void closeWindow();
 
 	private:
-		QLabel *textCurrentStatus, *label;
-		QWidget *Banner;
-		QPixmap *splashImage;
+		TQLabel *textCurrentStatus, *label;
+		TQWidget *Banner;
+		TQPixmap *splashImage;
 };
 
 #endif

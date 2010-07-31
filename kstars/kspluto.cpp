@@ -17,7 +17,7 @@
 
 #include <math.h>
 
-#include <qfile.h>
+#include <tqfile.h>
 #include <kdebug.h>
 
 #include "kspluto.h"
@@ -29,7 +29,7 @@
 #undef B0
 #endif
 
-KSPluto::KSPluto(KStarsData *kd, QString fn, double pSize ) 
+KSPluto::KSPluto(KStarsData *kd, TQString fn, double pSize ) 
 		: KSAsteroid( kd, I18N_NOOP( "Pluto" ), fn, J2000, 
 			39.48168677, 0.24880766, dms(17.14175), dms(113.76329),
 			dms(110.30347), dms(14.86205), 1.0 ) {

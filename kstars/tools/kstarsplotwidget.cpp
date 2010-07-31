@@ -19,16 +19,16 @@
 #include <kdebug.h>
 #include <kglobal.h>
 #include <klocale.h>
-#include <qcolor.h>
-#include <qpainter.h>
-#include <qpixmap.h>
-#include <qstring.h>
+#include <tqcolor.h>
+#include <tqpainter.h>
+#include <tqpixmap.h>
+#include <tqstring.h>
 
 #include "kstarsplotwidget.h"
 
 
 
-KStarsPlotWidget::KStarsPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
+KStarsPlotWidget::KStarsPlotWidget( double x1, double x2, double y1, double y2, TQWidget *parent, const char* name )
  : KPlotWidget( x1, x2, y1, y2, parent, name ),
    dXtick2(0.0), dYtick2(0.0),
    nmajX2(0), nminX2(0), nmajY2(0), nminY2(0),
@@ -280,7 +280,7 @@ void KStarsPlotWidget::updateTickmarks() {
 	} //end for iaxis
 }
 
-void KStarsPlotWidget::drawBox( QPainter *p ) {
+void KStarsPlotWidget::drawBox( TQPainter *p ) {
 	int pW = PixRect.width(), pH = PixRect.height();
 
 	//First, fill in padding region with bgColor() to mask out-of-bounds plot data
@@ -334,7 +334,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		if ( dataHeight2() > 0.0 && ( yb() != y() || yb2() != y2() ) ) secondaryYLimits = true;
 
 		//set small font for tick labels
-		QFont f = p->font();
+		TQFont f = p->font();
 		int s = f.pointSize();
 		f.setPointSize( s - 2 );
 		p->setFont( f );
@@ -358,13 +358,13 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 				switch ( xAxisType() ) {
 					case DOUBLE :
 					{
-						QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+						TQString str = TQString( "%1" ).arg( lab, 0, 'g', 2 );
 						int idot = str.find( '.' );
 						if ( idot >= 0 ) 
 							str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
 						
 						if ( px > 0 && px < pW ) {
-							QRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+							TQRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 						}
 						break;
@@ -376,18 +376,18 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						while ( h > 24 ) { h -= 24; }
 						while ( h <  0 ) { h += 24; }
 
-						QString str = QString().sprintf( "%02d:%02d", h, m );
+						TQString str = TQString().sprintf( "%02d:%02d", h, m );
 						if ( px > 0 && px < pW ) {
-							QRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+							TQRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 						}
 						break;
 					}
 					case ANGLE :
 					{
-						QString str = QString().sprintf( "%d%c", int(lab), 176 );
+						TQString str = TQString().sprintf( "%d%c", int(lab), 176 );
 						if ( px > 0 && px < pW ) {
-							QRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+							TQRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 						}
 						break;
@@ -426,13 +426,13 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 				switch ( yAxisType() ) {
 					case DOUBLE :
 					{
-						QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+						TQString str = TQString( "%1" ).arg( lab, 0, 'g', 2 );
 						int idot = str.find( '.' );
 						if ( idot >= 0 ) 
 							str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
 						
 						if ( py > 0 && py < pH ) {
-							QRect r( -2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
+							TQRect r( -2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 						}
 						break;
@@ -444,18 +444,18 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 						while ( h > 24 ) { h -= 24; }
 						while ( h <  0 ) { h += 24; }
 
-						QString str = QString().sprintf( "%02d:%02d", h, m );
+						TQString str = TQString().sprintf( "%02d:%02d", h, m );
 						if ( py > 0 && py < pH ) {
-							QRect r( -3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
+							TQRect r( -3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 						}
 						break;
 					}
 					case ANGLE :
 					{
-						QString str = QString().sprintf( "%d%c", int(lab), 176 );
+						TQString str = TQString().sprintf( "%d%c", int(lab), 176 );
 						if ( py > 0 && py < pH ) {
-							QRect r( -3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
+							TQRect r( -3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
 							p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 						}
 						break;
@@ -492,13 +492,13 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 					switch ( xAxisType() ) {
 						case DOUBLE :
 						{
-							QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+							TQString str = TQString( "%1" ).arg( lab, 0, 'g', 2 );
 							int idot = str.find( '.' );
 							if ( idot >= 0 ) 
 								str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
 							
 							if ( px > 0 && px < pW ) {
-								QRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+								TQRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 							}
 							break;
@@ -510,18 +510,18 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 							while ( h > 24 ) { h -= 24; }
 							while ( h <  0 ) { h += 24; }
 
-							QString str = QString().sprintf( "%02d:%02d", h, m );
+							TQString str = TQString().sprintf( "%02d:%02d", h, m );
 							if ( px > 0 && px < pW ) {
-								QRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+								TQRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 							}
 							break;
 						}
 						case ANGLE :
 						{
-							QString str = QString().sprintf( "%d%c", int(lab), 176 );
+							TQString str = TQString().sprintf( "%d%c", int(lab), 176 );
 							if ( px > 0 && px < pW ) {
-								QRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+								TQRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
 								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 							}
 							break;
@@ -556,13 +556,13 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 					switch ( yAxisType() ) {
 						case DOUBLE :
 						{
-							QString str = QString( "%1" ).arg( lab, 0, 'g', 2 );
+							TQString str = TQString( "%1" ).arg( lab, 0, 'g', 2 );
 							int idot = str.find( '.' );
 							if ( idot >= 0 ) 
 								str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
 							
 							if ( py > 0 && py < pH ) {
-								QRect r( pW + 2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
+								TQRect r( pW + 2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
 								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 							}
 							break;
@@ -574,18 +574,18 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 							while ( h > 24 ) { h -= 24; }
 							while ( h <  0 ) { h += 24; }
 
-							QString str = QString().sprintf( "%02d:%02d", h, m );
+							TQString str = TQString().sprintf( "%02d:%02d", h, m );
 							if ( py > 0 && py < pH ) {
-								QRect r( pW + 2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
+								TQRect r( pW + 2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
 								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 							}
 							break;
 						}
 						case ANGLE :
 						{
-							QString str = QString().sprintf( "%d%c", int(lab), 176 );
+							TQString str = TQString().sprintf( "%d%c", int(lab), 176 );
 							if ( py > 0 && py < pH ) {
-								QRect r( pW + 3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
+								TQRect r( pW + 3*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
 								p->drawText( r, Qt::AlignCenter | Qt::DontClip, str );
 							}
 							break;
@@ -610,11 +610,11 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 
 	//Draw X Axis Label(s)
 	if ( ! BottomAxis.label().isEmpty() ) {
-		QRect r( 0, PixRect.height() + 2*YPADDING, PixRect.width(), YPADDING );
+		TQRect r( 0, PixRect.height() + 2*YPADDING, PixRect.width(), YPADDING );
 		p->drawText( r, Qt::AlignCenter | Qt::DontClip, BottomAxis.label() );
 	}
 	if ( ! XAxisLabel2.isEmpty() ) {
-		QRect r( 0, -3*YPADDING, PixRect.width(), YPADDING );
+		TQRect r( 0, -3*YPADDING, PixRect.width(), YPADDING );
 		p->drawText( r, Qt::AlignCenter | Qt::DontClip, XAxisLabel2 );
 	}
 
@@ -627,7 +627,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		p->translate( -3*XPADDING, PixRect.height() );
 		p->rotate( -90.0 );
 
-		QRect r( 0, 0, PixRect.height(), XPADDING );
+		TQRect r( 0, 0, PixRect.height(), XPADDING );
 		p->drawText( r, Qt::AlignCenter | Qt::DontClip, LeftAxis.label() ); //draw the label, now that we are sideways
 
 		p->restore();  //restore translation/rotation state
@@ -640,7 +640,7 @@ void KStarsPlotWidget::drawBox( QPainter *p ) {
 		p->translate( PixRect.width() + 2*XPADDING, PixRect.height() );
 		p->rotate( -90.0 );
 
-		QRect r( 0, 0, PixRect.height(), XPADDING );
+		TQRect r( 0, 0, PixRect.height(), XPADDING );
 		p->drawText( r, Qt::AlignCenter | Qt::DontClip, YAxisLabel2 ); //draw the label, now that we are sideways
 
 		p->restore();  //restore translation/rotation state

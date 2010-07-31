@@ -19,27 +19,27 @@
 #include <kurl.h>
 #include <kmessagebox.h>
 #include <kpushbutton.h>
-#include <qbuttongroup.h>
-#include <qlayout.h>
+#include <tqbuttongroup.h>
+#include <tqlayout.h>
 
 #include "addlinkdialog.h"
 #include "skyobject.h"
 
-AddLinkDialog::AddLinkDialog( QWidget *parent, const QString &oname )
+AddLinkDialog::AddLinkDialog( TQWidget *parent, const TQString &oname )
 	: KDialogBase( KDialogBase::Plain, i18n( "Add Custom URL to %1" ).arg( oname ), Ok|Cancel, Ok, parent ), ObjectName( oname ) {
 
-	QFrame *page = plainPage();
+	TQFrame *page = plainPage();
 	setMainWidget(page);
 
-	vlay = new QVBoxLayout( page, 0, spacingHint() );
+	vlay = new TQVBoxLayout( page, 0, spacingHint() );
 	ald = new AddLinkDialogUI(page);
 
 	vlay->addWidget( ald );
 	vlay->activate();
 
 	//connect signals to slots
-	connect( ald->URLButton, SIGNAL( clicked() ), this, SLOT( checkURL() ) );
-	connect( ald->TypeBox, SIGNAL( clicked( int ) ), this, SLOT( changeDefaultDescription( int ) ) );
+	connect( ald->URLButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( checkURL() ) );
+	connect( ald->TypeBox, TQT_SIGNAL( clicked( int ) ), this, TQT_SLOT( changeDefaultDescription( int ) ) );
 
 	ald->ImageRadio->setChecked(true);
 	ald->DescBox->setText( i18n( "Show image of " ) + ObjectName );
@@ -50,8 +50,8 @@ void AddLinkDialog::checkURL( void ) {
 	if ( _url.isValid() ) {   //Is the string a valid URL?
 		kapp->invokeBrowser( _url.url() );   //If so, launch the browser to see if it's the correct document
 	} else {   //If not, print a warning message box that offers to open the browser to a search engine.
-		QString message = i18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
-		QString caption = i18n( "Invalid URL" );
+		TQString message = i18n( "The URL is not valid. Would you like to open a browser window\nto the Google search engine?" );
+		TQString caption = i18n( "Invalid URL" );
 		if ( KMessageBox::warningYesNo( 0, message, caption, i18n("Browse Google"), i18n("Do Not Browse") )==KMessageBox::Yes ) {
 			kapp->invokeBrowser( "http://www.google.com" );
 		}

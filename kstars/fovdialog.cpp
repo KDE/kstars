@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qfile.h>
-#include <qframe.h>
-#include <qpainter.h>
-#include <qstringlist.h>
+#include <tqlayout.h>
+#include <tqfile.h>
+#include <tqframe.h>
+#include <tqpainter.h>
+#include <tqstringlist.h>
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -39,20 +39,20 @@
 
 
 //---------FOVDialog---------------//
-FOVDialog::FOVDialog( QWidget *parent )
+FOVDialog::FOVDialog( TQWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "Set FOV Indicator" ), Ok|Cancel, Ok, parent ) {
 
 	ks = (KStars*)parent;
 
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	TQFrame *page = plainPage();
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, 0 );
 	fov = new FOVDialogUI( page );
 	vlay->addWidget( fov );
 
-	connect( fov->FOVListBox, SIGNAL( currentChanged( QListBoxItem* ) ), SLOT( slotSelect( QListBoxItem* ) ) );
-	connect( fov->NewButton, SIGNAL( clicked() ), SLOT( slotNewFOV() ) );
-	connect( fov->EditButton, SIGNAL( clicked() ), SLOT( slotEditFOV() ) );
-	connect( fov->RemoveButton, SIGNAL( clicked() ), SLOT( slotRemoveFOV() ) );
+	connect( fov->FOVListBox, TQT_SIGNAL( currentChanged( TQListBoxItem* ) ), TQT_SLOT( slotSelect( TQListBoxItem* ) ) );
+	connect( fov->NewButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotNewFOV() ) );
+	connect( fov->EditButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotEditFOV() ) );
+	connect( fov->RemoveButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotRemoveFOV() ) );
 
 	FOVList.setAutoDelete( true );
 	initList();
@@ -62,21 +62,21 @@ FOVDialog::~FOVDialog()
 {}
 
 void FOVDialog::initList() {
-	QStringList fields;
-	QFile f;
+	TQStringList fields;
+	TQFile f;
 
-	QString nm, cl;
+	TQString nm, cl;
 	int sh(0);
 	float sz(0.0);
 
 	f.setName( locate( "appdata", "fov.dat" ) );
 
 	if ( f.exists() && f.open( IO_ReadOnly ) ) {
-		QListBoxItem *item = 0;
+		TQListBoxItem *item = 0;
 
-		QTextStream stream( &f );
+		TQTextStream stream( &f );
 		while ( !stream.eof() ) {
-			fields = QStringList::split( ":", stream.readLine() );
+			fields = TQStringList::split( ":", stream.readLine() );
 			bool ok( false );
 
 			if ( fields.count() == 4 ) {
@@ -108,7 +108,7 @@ void FOVDialog::initList() {
 	}
 }
 
-void FOVDialog::slotSelect(QListBoxItem *item) {
+void FOVDialog::slotSelect(TQListBoxItem *item) {
 	if ( item == 0 ) { //no item selected
 		fov->RemoveButton->setEnabled( false );
 		fov->EditButton->setEnabled( false );
@@ -121,17 +121,17 @@ void FOVDialog::slotSelect(QListBoxItem *item) {
 	update();
 }
 
-void FOVDialog::paintEvent( QPaintEvent * ) {
+void FOVDialog::paintEvent( TQPaintEvent * ) {
 	//Draw the selected target symbol in the pixmap.
-	QPainter p;
+	TQPainter p;
 	p.begin( fov->ViewBox );
-	p.fillRect( fov->ViewBox->contentsRect(), QColor( "black" ) );
+	p.fillRect( fov->ViewBox->contentsRect(), TQColor( "black" ) );
 
 	if ( fov->FOVListBox->currentItem() >= 0 ) {
 		FOV *f = FOVList.at( fov->FOVListBox->currentItem() );
 		if ( f->size() > 0 ) {
 			f->draw( p, (float)( 0.3*fov->ViewBox->contentsRect().width() ) );
-			QFont smallFont = p.font();
+			TQFont smallFont = p.font();
 			smallFont.setPointSize( p.font().pointSize() - 2 );
 			p.setFont( smallFont );
 			p.drawText( 0, fov->ViewBox->contentsRect().height(), i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( f->size() ), 3 ) );
@@ -144,7 +144,7 @@ void FOVDialog::paintEvent( QPaintEvent * ) {
 void FOVDialog::slotNewFOV() {
 	NewFOV newfdlg( this );
 
-	if ( newfdlg.exec() == QDialog::Accepted ) {
+	if ( newfdlg.exec() == TQDialog::Accepted ) {
 		FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
 				newfdlg.ui->ShapeBox->currentItem(), newfdlg.ui->ColorButton->color().name() );
 		fov->FOVListBox->insertItem( newfdlg.ui->FOVName->text() );
@@ -163,11 +163,11 @@ void FOVDialog::slotEditFOV() {
 
 	newfdlg.ui->FOVName->setText( f->name() );
 	newfdlg.ui->FOVEdit->setText( KGlobal::locale()->formatNumber( f->size(), 3 ) );
-	newfdlg.ui->ColorButton->setColor( QColor( f->color() ) );
+	newfdlg.ui->ColorButton->setColor( TQColor( f->color() ) );
 	newfdlg.ui->ShapeBox->setCurrentItem( f->shape() );
 	newfdlg.slotUpdateFOV();
 
-	if ( newfdlg.exec() == QDialog::Accepted ) {
+	if ( newfdlg.exec() == TQDialog::Accepted ) {
 		FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
 				newfdlg.ui->ShapeBox->currentItem(), newfdlg.ui->ColorButton->color().name() );
 		fov->FOVListBox->changeItem( newfdlg.ui->FOVName->text(), fov->FOVListBox->currentItem() );
@@ -184,7 +184,7 @@ void FOVDialog::slotRemoveFOV() {
 	fov->FOVListBox->update();
 	
 	if ( FOVList.isEmpty() ) {
-		QString message( i18n( "You have removed all FOV symbols.  If the list remains empty when you exit this tool, the default symbols will be regenerated." ) );
+		TQString message( i18n( "You have removed all FOV symbols.  If the list remains empty when you exit this tool, the default symbols will be regenerated." ) );
 		KMessageBox::information( 0, message, i18n( "FOV list is empty" ), "dontShowFOVMessage" );
 	}
 
@@ -192,20 +192,20 @@ void FOVDialog::slotRemoveFOV() {
 }
 
 //-------------NewFOV------------------//
-NewFOV::NewFOV( QWidget *parent )
+NewFOV::NewFOV( TQWidget *parent )
 	: KDialogBase( KDialogBase::Plain, i18n( "New FOV Indicator" ), Ok|Cancel, Ok, parent ), f() {
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	TQFrame *page = plainPage();
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, 0 );
 	ui = new NewFOVUI( page );
 	vlay->addWidget( ui );
 
-	connect( ui->FOVName, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-	connect( ui->FOVEdit, SIGNAL( textChanged( const QString & ) ), SLOT( slotUpdateFOV() ) );
-	connect( ui->ColorButton, SIGNAL( changed( const QColor & ) ), SLOT( slotUpdateFOV() ) );
-	connect( ui->ShapeBox, SIGNAL( activated( int ) ), SLOT( slotUpdateFOV() ) );
-	connect( ui->ComputeEyeFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
-	connect( ui->ComputeCameraFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
-	connect( ui->ComputeHPBW, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+	connect( ui->FOVName, TQT_SIGNAL( textChanged( const TQString & ) ), TQT_SLOT( slotUpdateFOV() ) );
+	connect( ui->FOVEdit, TQT_SIGNAL( textChanged( const TQString & ) ), TQT_SLOT( slotUpdateFOV() ) );
+	connect( ui->ColorButton, TQT_SIGNAL( changed( const TQColor & ) ), TQT_SLOT( slotUpdateFOV() ) );
+	connect( ui->ShapeBox, TQT_SIGNAL( activated( int ) ), TQT_SLOT( slotUpdateFOV() ) );
+	connect( ui->ComputeEyeFOV, TQT_SIGNAL( clicked() ), TQT_SLOT( slotComputeFOV() ) );
+	connect( ui->ComputeCameraFOV, TQT_SIGNAL( clicked() ), TQT_SLOT( slotComputeFOV() ) );
+	connect( ui->ComputeHPBW, TQT_SIGNAL( clicked() ), TQT_SLOT( slotComputeFOV() ) );
 
 	slotUpdateFOV();
 }
@@ -226,10 +226,10 @@ void NewFOV::slotUpdateFOV() {
 	update();
 }
 
-void NewFOV::paintEvent( QPaintEvent * ) {
-	QPainter p;
+void NewFOV::paintEvent( TQPaintEvent * ) {
+	TQPainter p;
 	p.begin( ui->ViewBox );
-	p.fillRect( ui->ViewBox->contentsRect(), QColor( "black" ) );
+	p.fillRect( ui->ViewBox->contentsRect(), TQColor( "black" ) );
 	f.draw( p, (float)( 0.3*ui->ViewBox->contentsRect().width() ) );
 	p.drawText( 0, 0, i18n("angular size in arcminutes", "%1 arcmin").arg( KGlobal::locale()->formatNumber( f.size() ), 3 ) );
 	p.end();
@@ -238,14 +238,14 @@ void NewFOV::paintEvent( QPaintEvent * ) {
 void NewFOV::slotComputeFOV() {
 	//DEBUG
 	kdDebug() << ":" << sender()->name() << ":" << endl;
-	if ( sender()->name() == QString( "ComputeEyeFOV" ) ) kdDebug() << "A" << endl;
-	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kdDebug() << "B" << endl;
+	if ( sender()->name() == TQString( "ComputeEyeFOV" ) ) kdDebug() << "A" << endl;
+	if ( sender()->name() == TQString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 ) kdDebug() << "B" << endl;
 
-	if ( sender()->name() == QString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 )
+	if ( sender()->name() == TQString( "ComputeEyeFOV" ) && ui->TLength1->value() > 0.0 )
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->EyeFOV->value() * ui->EyeLength->value() / ui->TLength1->value() ) );
-	else if ( sender()->name() == QString( "ComputeCameraFOV" ) && ui->TLength2->value() > 0.0 )
+	else if ( sender()->name() == TQString( "ComputeCameraFOV" ) && ui->TLength2->value() > 0.0 )
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( ui->ChipSize->value() * 3438.0 / ui->TLength2->value() ) );
-	else if ( sender()->name() == QString( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
+	else if ( sender()->name() == TQString( "ComputeHPBW" ) && ui->RTDiameter->value() > 0.0 && ui->WaveLength->value() > 0.0 ) {
 		ui->FOVEdit->setText( KGlobal::locale()->formatNumber( 34.34 * 1.2 * ui->WaveLength->value() / ui->RTDiameter->value() ) );
 		// Beam width for an antenna is usually a circle on the sky.
 		ui->ShapeBox->setCurrentItem(4);

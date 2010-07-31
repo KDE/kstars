@@ -24,12 +24,12 @@
 #include <kcombobox.h>
 #include <kurl.h>
 
-#include <qsocketnotifier.h>
-#include <qimage.h>
-#include <qpainter.h>
-#include <qstringlist.h>
-#include <qdir.h>
-#include <qlayout.h>
+#include <tqsocketnotifier.h>
+#include <tqimage.h>
+#include <tqpainter.h>
+#include <tqstringlist.h>
+#include <tqdir.h>
+#include <tqlayout.h>
 
 
 #include <stdlib.h>
@@ -40,7 +40,7 @@
 
 FILE *wfp;
 
- StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent, const char * name) : streamForm(parent, name)
+ StreamWG::StreamWG(INDIStdDevice *inStdDev, TQWidget * parent, const char * name) : streamForm(parent, name)
  {
  
    stdDev         = inStdDev;
@@ -49,7 +49,7 @@ FILE *wfp;
 //   streamFD       = -1;
    processStream  = colorFrame = false;
    
-   //videoFrameLayout = new QVBoxLayout(videoFrame, 0, 0); 
+   //videoFrameLayout = new TQVBoxLayout(videoFrame, 0, 0); 
    streamFrame      = new VideoWG(videoFrame);
       
   KIconLoader *icons = KGlobal::iconLoader();
@@ -61,10 +61,10 @@ FILE *wfp;
   playB->setPixmap(pausePix);	
   captureB->setPixmap(capturePix);
   
-  imgFormatCombo->insertStrList(QImage::outputFormats());
+  imgFormatCombo->insertStrList(TQImage::outputFormats());
   
-  connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
-  connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
+  connect(playB, TQT_SIGNAL(clicked()), this, TQT_SLOT(playPressed()));
+  connect(captureB, TQT_SIGNAL(clicked()), this, TQT_SLOT(captureImage()));
    
  }
  
@@ -73,7 +73,7 @@ StreamWG::~StreamWG()
 //  delete streamBuffer;
 }
 
-void StreamWG::closeEvent ( QCloseEvent * e )
+void StreamWG::closeEvent ( TQCloseEvent * e )
 {
   stdDev->streamDisabled();
   processStream = false;
@@ -85,12 +85,12 @@ void StreamWG::setColorFrame(bool color)
   colorFrame = color;
 }
 
-/*void StreamWG::establishDataChannel(QString host, int port)
+/*void StreamWG::establishDataChannel(TQString host, int port)
 {
-        QString errMsg;
+        TQString errMsg;
 	struct sockaddr_in pin;
 	struct hostent *serverHostName = gethostbyname(host.ascii());
-	errMsg = QString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
+	errMsg = TQString("Connection to INDI host at %1 on port %2 failed.").arg(host).arg(port);
 	
 	memset(&pin, 0, sizeof(pin));
 	pin.sin_family 		= AF_INET;
@@ -111,8 +111,8 @@ void StreamWG::setColorFrame(bool color)
 	}
 
 	// callback notified
-	sNotifier = new QSocketNotifier( streamFD, QSocketNotifier::Read, this);
-        QObject::connect( sNotifier, SIGNAL(activated(int)), this, SLOT(streamReceived()));
+	sNotifier = new TQSocketNotifier( streamFD, TQSocketNotifier::Read, this);
+        TQObject::connect( sNotifier, TQT_SIGNAL(activated(int)), this, TQT_SLOT(streamReceived()));
 }*/
 
 void StreamWG::enableStream(bool enable)
@@ -142,7 +142,7 @@ void StreamWG::setSize(int wd, int ht)
   streamFrame->resize(wd, ht);
 }
 
-void StreamWG::resizeEvent(QResizeEvent *ev)
+void StreamWG::resizeEvent(TQResizeEvent *ev)
 {
 
   streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 2 - layout()->spacing());
@@ -186,7 +186,7 @@ void StreamWG::streamReceived()
 
 	    stdDev->sNotifier->disconnect();
 	    close(stdDev->streamFD);
-	    KMessageBox::error(0, QString(msg));
+	    KMessageBox::error(0, TQString(msg));
             return;
 	   }
 	}
@@ -216,10 +216,10 @@ void StreamWG::playPressed()
 
 void StreamWG::captureImage()
 {
-  QString fname;
-  QString fmt;
+  TQString fname;
+  TQString fmt;
   KURL currentFileURL;
-  QString currentDir = Options::fitsSaveDirectory();
+  TQString currentDir = Options::fitsSaveDirectory();
   KTempFile tmpfile;
   tmpfile.setAutoDelete(true);
 
@@ -252,23 +252,23 @@ void StreamWG::captureImage()
 	if ( tmpfile.name() == fname )
 	{ //need to upload to remote location
 	
-	  if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (QWidget*) 0 ) )
+	  if ( ! KIO::NetAccess::upload( tmpfile.name(), currentFileURL, (TQWidget*) 0 ) )
 	  {
-		QString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
+		TQString message = i18n( "Could not upload image to remote location: %1" ).arg( currentFileURL.prettyURL() );
 		KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 	  }
 	}
   }
   else
   {
-		QString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
+		TQString message = i18n( "Invalid URL: %1" ).arg( currentFileURL.url() );
 		KMessageBox::sorry( 0, message, i18n( "Invalid URL" ) );
   }
 
 }
 
 
-VideoWG::VideoWG(QWidget * parent, const char * name) : QFrame(parent, name, Qt::WNoAutoErase)
+VideoWG::VideoWG(TQWidget * parent, const char * name) : TQFrame(parent, name, Qt::WNoAutoErase)
 {
   streamImage    = NULL;
   grayTable=new QRgb[256];
@@ -289,16 +289,16 @@ void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
   
   //if (color)
   if (buffSiz > totalBaseCount)
-     streamImage = new QImage(buffer, w, h, 32, 0, 0, QImage::BigEndian);
+     streamImage = new TQImage(buffer, w, h, 32, 0, 0, TQImage::BigEndian);
    else
    
-    streamImage = new QImage(buffer, w, h, 8, grayTable, 256, QImage::IgnoreEndian);
+    streamImage = new TQImage(buffer, w, h, 8, grayTable, 256, TQImage::IgnoreEndian);
     
    update();
     
 }
 
-void VideoWG::paintEvent(QPaintEvent */*ev*/)
+void VideoWG::paintEvent(TQPaintEvent */*ev*/)
 {
   	
    if (streamImage)

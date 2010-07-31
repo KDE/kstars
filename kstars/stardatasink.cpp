@@ -20,7 +20,7 @@
 #include "dms.h"
 #include "kstarsdata.h"
 
-StarDataSink::StarDataSink(KStarsData *parent, const char *name) : QObject(parent, name) {
+StarDataSink::StarDataSink(KStarsData *parent, const char *name) : TQObject(parent, name) {
 	ksData = parent;
 	receivedBlocks = 0;
 	nameListCount = ksData->ObjNames.count();
@@ -45,8 +45,8 @@ void StarDataSink::eof() {
 
 void StarDataSink::receive( const uchar *data, int entries ) {
 	receivedBlocks++;
-	// Pointer was send as const uchar* so it must be converted explicitly to QString*
-	QString *line = (QString *) data;
+	// Pointer was send as const uchar* so it must be converted explicitly to TQString*
+	TQString *line = (TQString *) data;
 	int counter = -1;
 	while (++counter < entries) {  // run counter from 0 to entries -1
 		ksData->processStar(line, true);

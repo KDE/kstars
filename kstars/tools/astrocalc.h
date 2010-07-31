@@ -22,7 +22,7 @@
 #include <config.h>
 #endif
 
-#include <qwidget.h>
+#include <tqwidget.h>
 #include <kdialogbase.h>
 
 #include <kapplication.h>
@@ -60,7 +60,7 @@ class AstroCalc : public KDialogBase
 Q_OBJECT 
 	public:
     /** construtor */
-	AstroCalc(QWidget *parent = 0);
+	AstroCalc(TQWidget *parent = 0);
 
     /** destructor */
 	~AstroCalc();
@@ -120,22 +120,22 @@ Q_OBJECT
 		void delRightPanel(void);
 
 		/**@returns suggested size of calculator window. */
-		QSize sizeHint() const;
+		TQSize sizeHint() const;
 
 	public slots:
-		/**Determine which item is selected in the function menu QListBox.
+		/**Determine which item is selected in the function menu TQListBox.
 			*Generate the corresponding calculator module.
 			*/
-		void slotItemSelection(QListViewItem *it);
+		void slotItemSelection(TQListViewItem *it);
 		
 	private:
 		
-		QSplitter *split;
-		QListView *navigationPanel, *auxiliar;
-		QTextView *splashScreen;
-//		QListViewItem *timeItem, *coordItem, *jdItem, *stItem, *dayItem;
-		QVBox *vbox, *rightBox;
-		QString previousElection;
+		TQSplitter *split;
+		TQListView *navigationPanel, *auxiliar;
+		TQTextView *splashScreen;
+//		TQListViewItem *timeItem, *coordItem, *jdItem, *stItem, *dayItem;
+		TQVBox *vbox, *rightBox;
+		TQString previousElection;
 
 		enum typeOfPanel {GenText, TimeText, GeoText, SolarText, CoordText, JD, SidTime, DayLength, Equinox, GeoCoord, Galactic, Precessor, Apparent, Azel, Planets, Ecliptic, AngDist, Vlsr};
 		typeOfPanel rightPanel;

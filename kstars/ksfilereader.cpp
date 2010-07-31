@@ -15,17 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-#include <qstring.h>
+#include <tqfile.h>
+#include <tqstring.h>
 
 #include "ksfilereader.h"
 
-KSFileReader::KSFileReader(QFile& file) {
+KSFileReader::KSFileReader(TQFile& file) {
 	// read the whole file at once. This works well at least for the smaller files.
-	QByteArray data = file.readAll();
-	QString sAll = QString::fromUtf8( data.data(), data.size() );
+	TQByteArray data = file.readAll();
+	TQString sAll = TQString::fromUtf8( data.data(), data.size() );
 	// split into list of lines
-	lines = QStringList::split( "\n", sAll );
+	lines = TQStringList::split( "\n", sAll );
 	// how many lines did we get?
 	numLines = lines.size();
 	// set index to start
@@ -41,7 +41,7 @@ bool KSFileReader::hasMoreLines() {
 	return (curLine < numLines);
 }
 
-QString& KSFileReader::readLine(){
+TQString& KSFileReader::readLine(){
 	// hint: use curLine as index, after that increment curLine
 	// This means that the programming language c++ should better be renamed to ++c,
 	// otherwise the name means: improve the c programming language, but use it the

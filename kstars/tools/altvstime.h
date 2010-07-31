@@ -51,7 +51,7 @@ class AVTPlotWidget : public KStarsPlotWidget
 public:
 /**Constructor
 	*/
-	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, QWidget *parent=0, const char* name=0 );
+	AVTPlotWidget( double x1=0.0, double x2=1.0, double y1=0.0, double y2=1.0, TQWidget *parent=0, const char* name=0 );
 
 /**Set the fractional positions of the Sunrise and Sunset positions, 
 	*in units where last midnight was 0.0, and next midnight is 1.0.  
@@ -68,15 +68,15 @@ protected:
 	*draw crosshair lines centered at the cursor position.  This 
 	*allows the user to pinpoint specific position sin the plot.
 	*/
-	void mouseMoveEvent( QMouseEvent *e );
+	void mouseMoveEvent( TQMouseEvent *e );
 	
 /**Simply calls mouseMoveEvent().
 	*/
-	void mousePressEvent( QMouseEvent *e );
+	void mousePressEvent( TQMouseEvent *e );
 	
 /**Redraw the plot.
 	*/
-	void paintEvent( QPaintEvent *e );
+	void paintEvent( TQPaintEvent *e );
 
 private: 
 	double SunRise, SunSet;
@@ -97,7 +97,7 @@ class AltVsTime : public KDialogBase
 public:
 /**Constructor
 	*/
-	AltVsTime( QWidget* parent = 0);
+	AltVsTime( TQWidget* parent = 0);
 	
 /**Destructor
 	*/
@@ -133,7 +133,7 @@ public:
 	*@param eName the epoch string to be parsed
 	*@return the epoch number
 	*/
-	double getEpoch (QString eName);
+	double getEpoch (TQString eName);
 	
 /**@short Add a SkyObject to the display.
 	*Constructs a PLotObject representing the Alt-vs-time curve for the object.
@@ -162,7 +162,7 @@ public:
 /**@return a pointer to the list of SkyPoints representing the 
 	*objects being displayed.
 	*/
-	QPtrList<SkyPoint>* skyPointList() { return &pList; }
+	TQPtrList<SkyPoint>* skyPointList() { return &pList; }
 
 public slots:
 /**@short Update the plot to reflec new Date and Location settings.
@@ -207,12 +207,12 @@ public slots:
 private:
 	AVTPlotWidget *View;
 	AltVsTimeUI *avtUI;
-	QVBoxLayout *topLayout;
+	TQVBoxLayout *topLayout;
 
 	GeoLocation *geo;
 	KStars *ks;
-	QPtrList<SkyPoint> pList;
-	QPtrList<SkyPoint> deleteList;
+	TQPtrList<SkyPoint> pList;
+	TQPtrList<SkyPoint> deleteList;
 
 	int DayOffset;
 	bool dirtyFlag;

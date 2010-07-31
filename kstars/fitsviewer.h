@@ -20,15 +20,15 @@
 #ifndef FITSViewer_H
 #define FITSViewer_H
 
-#include <qwidget.h>
-#include <qstring.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qframe.h>
-#include <qrect.h> 
-#include <qptrlist.h>
-#include <qstringlist.h>
-#include <qscrollview.h>
+#include <tqwidget.h>
+#include <tqstring.h>
+#include <tqimage.h>
+#include <tqpixmap.h>
+#include <tqframe.h>
+#include <tqrect.h> 
+#include <tqptrlist.h>
+#include <tqstringlist.h>
+#include <tqscrollview.h>
 
 #include <kpixmapio.h>
 #include <kpixmap.h>
@@ -59,7 +59,7 @@ class FITSViewer : public KMainWindow  {
 	friend class FITSProcessCommand;
 	
 	/**Constructor. */
-	FITSViewer (const KURL *imageName, QWidget *parent, const char *name = 0);
+	FITSViewer (const KURL *imageName, TQWidget *parent, const char *name = 0);
 	~FITSViewer();
 
 	
@@ -68,10 +68,10 @@ class FITSViewer : public KMainWindow  {
 			
 	protected:
 	/* key press event */
-	void keyPressEvent (QKeyEvent *ev);
+	void keyPressEvent (TQKeyEvent *ev);
 	/* Calculate stats */
 	void calculateStats();
-	void closeEvent(QCloseEvent *ev);
+	void closeEvent(TQCloseEvent *ev);
 	
 	public slots:
 	void fitsChange();
@@ -106,7 +106,7 @@ class FITSViewer : public KMainWindow  {
 	KURL currentURL;					/* FITS File name and path */
 	float *imgBuffer;					/* Main unmodified FITS data buffer */
 	KCommandHistory *history;				/* History for undo/redo */
-	QStringList record;					/* FITS records */
+	TQStringList record;					/* FITS records */
 	FITSHistogram *histo;
 	
 	/* stats struct to hold statisical data about the FITS data */
@@ -124,20 +124,20 @@ class FITSViewer : public KMainWindow  {
 class FITSChangeCommand : public KCommand
 {
   public:
-        FITSChangeCommand(QWidget * parent, int inType, QImage *newIMG, QImage *oldIMG);
+        FITSChangeCommand(TQWidget * parent, int inType, TQImage *newIMG, TQImage *oldIMG);
 	~FITSChangeCommand();
             
         void execute();
         void unexecute();
-        QString name() const;
+        TQString name() const;
 
     private:
         int type;
 	
     protected:
         FITSViewer *viewer;
-        QImage *newImage;
-	QImage *oldImage;
+        TQImage *newImage;
+	TQImage *oldImage;
 };
 
 

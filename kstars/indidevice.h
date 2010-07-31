@@ -13,7 +13,7 @@
 
 #include <kdialogbase.h>
 #include <unistd.h>
-#include <qptrlist.h>
+#include <tqptrlist.h>
 
 #include "indielement.h"
 
@@ -71,26 +71,26 @@ class INDI_D : public KDialogBase
 {
  Q_OBJECT
   public:
-   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, QString inName, QString inLabel);
+   INDI_D(INDIMenu *parentMenu, DeviceManager *parentManager, TQString inName, TQString inLabel);
    ~INDI_D();
 
-    QString 	name;			/* device name */
+    TQString 	name;			/* device name */
     QString	label;			/* device label */
     QVBox	*deviceVBox;		/* device tab frame */
-    QTabWidget  *groupContainer;	/* Groups within the device */
+    TQTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     unsigned char *dataBuffer;          /* Generic buffer */
-    //QScrollView *sv;			/* Scroll view */
-    //QVBoxLayout *mainLayout;
-    //QVBox       *propertyLayout;
-    //QSpacerItem *vSpacer;
-    //QSpacerItem *hSpacer;
+    //TQScrollView *sv;			/* Scroll view */
+    //TQVBoxLayout *mainLayout;
+    //TQVBox       *propertyLayout;
+    //TQSpacerItem *vSpacer;
+    //TQSpacerItem *hSpacer;
 
-    //QPushButton  *clear;
-    //QHBoxLayout  *buttonLayout;
+    //TQPushButton  *clear;
+    //TQHBoxLayout  *buttonLayout;
     INDIStdDevice  *stdDev;
 
-    QPtrList<INDI_G> gl;		/* list of pointers to groups */
+    TQPtrList<INDI_G> gl;		/* list of pointers to groups */
   
     INDI_G        *curGroup;
     bool	  INDIStdSupport;
@@ -118,9 +118,9 @@ class INDI_D : public KDialogBase
    /*****************************************************************
    * Find
    ******************************************************************/
-   INDI_P *   findProp    (QString name);
-   INDI_E *   findElem    (QString name);
-   INDI_G *   findGroup   (QString grouptag, int create, char errmsg[]);
+   INDI_P *   findProp    (TQString name);
+   INDI_E *   findElem    (TQString name);
+   INDI_G *   findGroup   (TQString grouptag, int create, char errmsg[]);
    int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, char errmsg[]);
 
    /*****************************************************************

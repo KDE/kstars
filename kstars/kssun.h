@@ -18,7 +18,7 @@
 #ifndef KSSUN_H
 #define KSSUN_H
 
-#include <qstring.h>
+#include <tqstring.h>
 #include "ksplanet.h"
 
 /**@class KSSun
@@ -38,7 +38,7 @@ public:
 	*@param fn filename of Sun image
 	*@param pSize physical diameter of the Sun, in km
 	*/
-	KSSun(KStarsData *kd, QString fn = "", double pSize=0 );
+	KSSun(KStarsData *kd, TQString fn = "", double pSize=0 );
 
 /**Destructor (empty)
 	*/

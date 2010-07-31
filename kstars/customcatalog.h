@@ -18,7 +18,7 @@
 #ifndef CUSTOM_CATALOG_H
 #define CUSTOM_CATALOG_H
 
-#include <qptrlist.h>
+#include <tqptrlist.h>
 #include "skyobject.h"
 
 class QString;
@@ -29,25 +29,25 @@ class QString;
 class CustomCatalog {
 public:
 	CustomCatalog();
-	CustomCatalog( QString nm, QString px, QString co, float ep, QPtrList<SkyObject> ol );
+	CustomCatalog( TQString nm, TQString px, TQString co, float ep, TQPtrList<SkyObject> ol );
 	~CustomCatalog();
 
-	QString name() const { return m_Name; }
-	QString prefix() const { return m_Prefix; }
-	QString color() const { return m_Color; }
+	TQString name() const { return m_Name; }
+	TQString prefix() const { return m_Prefix; }
+	TQString color() const { return m_Color; }
 	float epoch() const { return m_Epoch; }
-	QPtrList<SkyObject> objList() const { return m_ObjList; }
+	TQPtrList<SkyObject> objList() const { return m_ObjList; }
 
-	void setName( const QString &name ) { m_Name = name; }
-	void setPrefix( const QString &prefix ) { m_Prefix = prefix; }
-	void setColor( const QString &color ) { m_Color = color; }
+	void setName( const TQString &name ) { m_Name = name; }
+	void setPrefix( const TQString &prefix ) { m_Prefix = prefix; }
+	void setColor( const TQString &color ) { m_Color = color; }
 	void setEpoch( float epoch ) { m_Epoch = epoch; }
-	void setObjectList( QPtrList<SkyObject> ol ) { m_ObjList = ol; }
+	void setObjectList( TQPtrList<SkyObject> ol ) { m_ObjList = ol; }
 
 private:
-	QString m_Name, m_Prefix, m_Color;
+	TQString m_Name, m_Prefix, m_Color;
 	float m_Epoch;
-	QPtrList<SkyObject> m_ObjList;
+	TQPtrList<SkyObject> m_ObjList;
 };
 
 #endif //CUSTOM_CATALOG_H

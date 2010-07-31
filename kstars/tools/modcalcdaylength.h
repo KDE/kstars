@@ -32,7 +32,7 @@ class modCalcDayLength : public modCalcDayLengthDlg  {
 Q_OBJECT
 public: 
 /**Constructor. */
-	modCalcDayLength(QWidget *p, const char *n);
+	modCalcDayLength(TQWidget *p, const char *n);
 /**Destructor. */
 	~modCalcDayLength();
 
@@ -44,7 +44,7 @@ public slots:
 
 private:
 /**@returns a SkyPoint constructed from the coordinates in the RA and Dec dmsBoxes. */
-	QTime lengthOfDay(QTime setQTime, QTime riseQTime);
+	TQTime lengthOfDay(TQTime setQTime, TQTime riseQTime);
 
 /**Fills the Date fields with the current values from the current date. */
 	void showCurrentDate(void);

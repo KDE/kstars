@@ -25,11 +25,11 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
-#include <qfile.h>
-#include <qvaluelist.h>
-#include <qcstring.h>
-#include <qradiobutton.h>
-#include <qtextedit.h>
+#include <tqfile.h>
+#include <tqvaluelist.h>
+#include <tqcstring.h>
+#include <tqradiobutton.h>
+#include <tqtextedit.h>
 
 #include <kiconloader.h>
 #include <klistview.h>
@@ -48,7 +48,7 @@
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  TRUE to construct a modal dialog.
  */
-INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
+INDIDriver::INDIDriver(TQWidget *parent) : devManager( parent )
 
 {
 
@@ -86,7 +86,7 @@ INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
 
   for (uint i = 0; i < ksw->data()->INDIHostsList.count(); i++)
   {
-  	QListViewItem *item = new QListViewItem(clientListView, lastGroup);
+  	TQListViewItem *item = new TQListViewItem(clientListView, lastGroup);
 	lastGroup = item;
 	item->setPixmap(0, disconnected);
         item->setText(1, ksw->data()->INDIHostsList.at(i)->name);
@@ -96,28 +96,28 @@ INDIDriver::INDIDriver(QWidget *parent) : devManager( parent )
 
   lastGroup = NULL;
 
-  QObject::connect(addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
-  QObject::connect(modifyB, SIGNAL(clicked()), this, SLOT(modifyINDIHost()));
-  QObject::connect(removeB, SIGNAL(clicked()), this, SLOT(removeINDIHost()));
+  TQObject::connect(addB, TQT_SIGNAL(clicked()), this, TQT_SLOT(addINDIHost()));
+  TQObject::connect(modifyB, TQT_SIGNAL(clicked()), this, TQT_SLOT(modifyINDIHost()));
+  TQObject::connect(removeB, TQT_SIGNAL(clicked()), this, TQT_SLOT(removeINDIHost()));
 
-  QObject::connect(clientListView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )), this, SLOT(ClientprocessRightButton( QListViewItem *, const QPoint &, int )));
+  TQObject::connect(clientListView, TQT_SIGNAL(rightButtonPressed ( TQListViewItem *, const TQPoint &, int )), this, TQT_SLOT(ClientprocessRightButton( TQListViewItem *, const TQPoint &, int )));
 
-QObject::connect(ClientpopMenu, SIGNAL(activated(int)), this, SLOT(processHostStatus(int)));
+TQObject::connect(ClientpopMenu, TQT_SIGNAL(activated(int)), this, TQT_SLOT(processHostStatus(int)));
 
-QObject::connect(localListView, SIGNAL(rightButtonPressed ( QListViewItem *, const QPoint &, int )), this, SLOT(LocalprocessRightButton( QListViewItem *, const QPoint &, int )));
+TQObject::connect(localListView, TQT_SIGNAL(rightButtonPressed ( TQListViewItem *, const TQPoint &, int )), this, TQT_SLOT(LocalprocessRightButton( TQListViewItem *, const TQPoint &, int )));
 
-QObject::connect(LocalpopMenu, SIGNAL(activated(int)), this, SLOT(processDeviceStatus(int)));
+TQObject::connect(LocalpopMenu, TQT_SIGNAL(activated(int)), this, TQT_SLOT(processDeviceStatus(int)));
 
-QObject::connect(ksw->getINDIMenu(), SIGNAL(driverDisconnected(int)), this, SLOT(shutdownHost(int)));
+TQObject::connect(ksw->getINDIMenu(), TQT_SIGNAL(driverDisconnected(int)), this, TQT_SLOT(shutdownHost(int)));
 
-QObject::connect(connectHostB, SIGNAL(clicked()), this, SLOT(activateHostConnection()));
-QObject::connect(disconnectHostB, SIGNAL(clicked()), this, SLOT(activateHostDisconnection()));
+TQObject::connect(connectHostB, TQT_SIGNAL(clicked()), this, TQT_SLOT(activateHostConnection()));
+TQObject::connect(disconnectHostB, TQT_SIGNAL(clicked()), this, TQT_SLOT(activateHostDisconnection()));
 
-QObject::connect(runServiceB, SIGNAL(clicked()), this, SLOT(activateRunService()));
-QObject::connect(stopServiceB, SIGNAL(clicked()), this, SLOT(activateStopService()));
+TQObject::connect(runServiceB, TQT_SIGNAL(clicked()), this, TQT_SLOT(activateRunService()));
+TQObject::connect(stopServiceB, TQT_SIGNAL(clicked()), this, TQT_SLOT(activateStopService()));
 
-QObject::connect(localListView, SIGNAL(selectionChanged()), this, SLOT(updateLocalButtons()));
-QObject::connect(clientListView, SIGNAL(selectionChanged()), this, SLOT(updateClientButtons()));
+TQObject::connect(localListView, TQT_SIGNAL(selectionChanged()), this, TQT_SLOT(updateLocalButtons()));
+TQObject::connect(clientListView, TQT_SIGNAL(selectionChanged()), this, TQT_SLOT(updateClientButtons()));
 
 readXMLDriver();
 resize( 500, 300);
@@ -126,7 +126,7 @@ resize( 500, 300);
 
 void INDIDriver::shutdownHost(int mgrID)
 {
-  QListViewItem *affectedItem;
+  TQListViewItem *affectedItem;
 
 for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
 {
@@ -150,7 +150,7 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
       if (!affectedItem) return;
       affectedItem->setPixmap(1, stopPix);
       affectedItem->setPixmap(2, NULL);
-      affectedItem->setText(4, QString(""));
+      affectedItem->setText(4, TQString(""));
       runServiceB->setEnabled(true);
       stopServiceB->setEnabled(false);
       devices[i]->managed = false;
@@ -163,7 +163,7 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
           
 }
 
-void INDIDriver::ClientprocessRightButton( QListViewItem *item, const QPoint &p, int column)
+void INDIDriver::ClientprocessRightButton( TQListViewItem *item, const TQPoint &p, int column)
 {
 
   column = 0;
@@ -172,7 +172,7 @@ void INDIDriver::ClientprocessRightButton( QListViewItem *item, const QPoint &p,
   	ClientpopMenu->popup(p);
 }
 
-void INDIDriver::LocalprocessRightButton( QListViewItem *item, const QPoint &p, int column)
+void INDIDriver::LocalprocessRightButton( TQListViewItem *item, const TQPoint &p, int column)
 {
 
   column = 0;
@@ -215,7 +215,7 @@ void INDIDriver::updateLocalButtons()
 	
 	serverLogText->clear();
 	
-	for ( QStringList::Iterator it = devices[i]->serverBuffer.begin(); it != devices[i]->serverBuffer.end(); ++it )
+	for ( TQStringList::Iterator it = devices[i]->serverBuffer.begin(); it != devices[i]->serverBuffer.end(); ++it )
 	   serverLogText->insert(*it);
 	
 	break;
@@ -280,7 +280,7 @@ void INDIDriver::processDeviceStatus(int id)
 	  }
 
 	  localListView->selectedItem()->setPixmap(1, runningPix);
-	  localListView->selectedItem()->setText(4, QString("%1").arg(devices[i]->indiPort));
+	  localListView->selectedItem()->setText(4, TQString("%1").arg(devices[i]->indiPort));
 	  runServiceB->setEnabled(false);
 	  stopServiceB->setEnabled(true);
 	  
@@ -292,7 +292,7 @@ void INDIDriver::processDeviceStatus(int id)
 		
 	  localListView->selectedItem()->setPixmap(1, stopPix);
 	  localListView->selectedItem()->setPixmap(2, NULL);
-	  localListView->selectedItem()->setText(4, QString(""));
+	  localListView->selectedItem()->setText(4, TQString(""));
 	  runServiceB->setEnabled(true);
 	  stopServiceB->setEnabled(false);
 	  devices[i]->restart();
@@ -305,7 +305,7 @@ void INDIDriver::processHostStatus(int id)
 {
    int mgrID;
    bool toConnect = (id == 0);
-   QListViewItem *currentItem = clientListView->selectedItem();
+   TQListViewItem *currentItem = clientListView->selectedItem();
    if (!currentItem) return;
    INDIHostsInfo *hostInfo;
 
@@ -405,7 +405,7 @@ bool INDIDriver::runDevice(IDevice *dev)
   dev->proc = new KProcess;
   
   *dev->proc << "indiserver";
-  *dev->proc << "-v" << "-r" << "0" << "-p" << QString("%1").arg(dev->indiPort) << dev->driver;
+  *dev->proc << "-v" << "-r" << "0" << "-p" << TQString("%1").arg(dev->indiPort) << dev->driver;
   
   // Check Mode
   dev->mode = localR->isChecked() ? IDevice::M_LOCAL : IDevice::M_SERVER;
@@ -415,7 +415,7 @@ bool INDIDriver::runDevice(IDevice *dev)
   else
     localListView->selectedItem()->setPixmap(2, serverMode);
 
-  connect(dev->proc, SIGNAL(receivedStderr (KProcess *, char *, int)),  dev, SLOT(processstd(KProcess *, char*, int)));
+  connect(dev->proc, TQT_SIGNAL(receivedStderr (KProcess *, char *, int)),  dev, TQT_SLOT(processstd(KProcess *, char*, int)));
 
   dev->proc->start(KProcess::NotifyOnExit, KProcess::Stderr);
   //dev->proc->start();
@@ -431,7 +431,7 @@ void INDIDriver::removeDevice(IDevice *dev)
      	devices[i]->restart();
 }
 
-void INDIDriver::removeDevice(QString deviceLabel)
+void INDIDriver::removeDevice(TQString deviceLabel)
 {
   for (unsigned int i=0 ; i < devices.size(); i++)
      if (deviceLabel == devices[i]->label)
@@ -442,19 +442,19 @@ void INDIDriver::removeDevice(QString deviceLabel)
 void INDIDriver::saveDevicesToDisk()
 {
 
- QFile file;
- QString elementData;
+ TQFile file;
+ TQString elementData;
 
  file.setName( locateLocal( "appdata", "drivers.xml" ) ); //determine filename in local user KDE directory tree.
 
  if ( !file.open( IO_WriteOnly))
  {
-  QString message = i18n( "unable to write to file 'drivers.xml'\nAny changes to INDI device drivers will not be saved." );
+  TQString message = i18n( "unable to write to file 'drivers.xml'\nAny changes to INDI device drivers will not be saved." );
  KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
   return;
  }
 
- QTextStream outstream(&file);
+ TQTextStream outstream(&file);
 
  // Let's write drivers first
  outstream << "<ScopeDrivers>" << endl;
@@ -471,7 +471,7 @@ void INDIDriver::saveDevicesToDisk()
   {
      if (devices[i]->deviceType == KSTARS_TELESCOPE)
      {
-	outstream << QString("<device label='%1' focal_length='%2' aperture='%3'>").arg(devices[i]->label).arg(devices[i]->focal_length > 0 ? devices[i]->focal_length : -1).arg(devices[i]->aperture > 0 ? devices[i]->aperture : -1) << endl;
+	outstream << TQString("<device label='%1' focal_length='%2' aperture='%3'>").arg(devices[i]->label).arg(devices[i]->focal_length > 0 ? devices[i]->focal_length : -1).arg(devices[i]->aperture > 0 ? devices[i]->aperture : -1) << endl;
 
 	outstream << "       <driver>" << devices[i]->driver << "</driver>" << endl;
 	outstream << "       <version>" << devices[i]->version << "</version>" << endl;
@@ -486,7 +486,7 @@ void INDIDriver::saveDevicesToDisk()
    {
      if (devices[i]->deviceType == KSTARS_CCD)
      {
-	outstream << QString("<device label='%1'>").arg(devices[i]->label) << endl;
+	outstream << TQString("<device label='%1'>").arg(devices[i]->label) << endl;
 	outstream << "       <driver>" << devices[i]->driver << "</driver>" << endl;
 	outstream << "       <version>" << devices[i]->version << "</version>" << endl;
         outstream << "</device>" << endl;
@@ -500,7 +500,7 @@ void INDIDriver::saveDevicesToDisk()
    {
      if (devices[i]->deviceType == KSTARS_FILTER)
      {
-	outstream << QString("<device label='%1'>").arg(devices[i]->label) << endl;
+	outstream << TQString("<device label='%1'>").arg(devices[i]->label) << endl;
 	outstream << "       <driver>" << devices[i]->driver << "</driver>" << endl;
 	outstream << "       <version>" << devices[i]->version << "</version>" << endl;
         outstream << "</device>" << endl;
@@ -514,7 +514,7 @@ void INDIDriver::saveDevicesToDisk()
    {
      if (devices[i]->deviceType == KSTARS_VIDEO)
      {
-	outstream << QString("<device label='%1'>").arg(devices[i]->label) << endl;
+	outstream << TQString("<device label='%1'>").arg(devices[i]->label) << endl;
 	outstream << "       <driver>" << devices[i]->driver << "</driver>" << endl;
 	outstream << "       <version>" << devices[i]->version << "</version>" << endl;
         outstream << "</device>" << endl;
@@ -526,7 +526,7 @@ void INDIDriver::saveDevicesToDisk()
 
 }
 
-bool INDIDriver::isDeviceRunning(QString deviceLabel)
+bool INDIDriver::isDeviceRunning(TQString deviceLabel)
 {
 
     for (unsigned int i=0 ; i < devices.size(); i++)
@@ -546,7 +546,7 @@ int INDIDriver::getINDIPort()
 
   lastPort+=5;
 
-  KExtendedSocket ks(QString::null, lastPort, KExtendedSocket::passiveSocket | KExtendedSocket::noResolve);
+  KExtendedSocket ks(TQString::null, lastPort, KExtendedSocket::passiveSocket | KExtendedSocket::noResolve);
 
   for (uint i=0 ; i < 10; i++)
   {
@@ -564,8 +564,8 @@ int INDIDriver::getINDIPort()
 
 bool INDIDriver::readXMLDriver()
 {
-  QString indiFile("drivers.xml");
-  QFile file;
+  TQString indiFile("drivers.xml");
+  TQFile file;
   char errmsg[1024];
 
   if ( !KSUtils::openDataFile( file, indiFile ) )
@@ -592,7 +592,7 @@ bool INDIDriver::readXMLDriver()
     }
     else if (errmsg[0])
     {
-      kdDebug() << QString(errmsg);
+      kdDebug() << TQString(errmsg);
       return false;
     }
   }
@@ -619,7 +619,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
   XMLAtt *ap;
   XMLEle *ep;
-  QString groupName;
+  TQString groupName;
   int groupType = KSTARS_TELESCOPE;
 
   if (!strcmp(tagXMLEle(root), "ScopeDrivers"))
@@ -657,7 +657,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
 
 
   //KListViewItem *group = new KListViewItem(topItem, lastGroup);
-  QListViewItem *group = new QListViewItem(localListView, lastGroup);
+  TQListViewItem *group = new TQListViewItem(localListView, lastGroup);
   group->setText(0, groupName);
   lastGroup = group;
   //group->setOpen(true);
@@ -671,14 +671,14 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
   return true;
 }
 
-bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int groupType, char errmsg[])
+bool INDIDriver::buildDriverElement(XMLEle *root, TQListViewItem *DGroup, int groupType, char errmsg[])
 {
   XMLAtt *ap;
   XMLEle *el;
   IDevice *dv;
-  QString label;
-  QString driver;
-  QString version;
+  TQString label;
+  TQString driver;
+  TQString version;
   double focal_length (-1), aperture (-1);
 
   ap = findXMLAtt(root, "label");
@@ -693,11 +693,11 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int gro
   // Let's look for telescope-specfic attributes: focal length and aperture
   ap = findXMLAtt(root, "focal_length");
   if (ap)
-   focal_length = QString(valuXMLAtt(ap)).toDouble();
+   focal_length = TQString(valuXMLAtt(ap)).toDouble();
 
   ap = findXMLAtt(root, "aperture");
   if (ap)
-   aperture = QString(valuXMLAtt(ap)).toDouble();
+   aperture = TQString(valuXMLAtt(ap)).toDouble();
 
 
   el = findXMLEle(root, "driver");
@@ -714,17 +714,17 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QListViewItem *DGroup, int gro
 
   version = pcdataXMLEle(el);
 
-  QListViewItem *device = new QListViewItem(DGroup, lastDevice);
+  TQListViewItem *device = new TQListViewItem(DGroup, lastDevice);
 
-  device->setText(0, QString(label));
+  device->setText(0, TQString(label));
   device->setPixmap(1, stopPix);
-  device->setText(3, QString(version));
+  device->setText(3, TQString(version));
 
   lastDevice = device;
 
   dv = new IDevice(label, driver, version);
   dv->deviceType = groupType;
-  connect(dv, SIGNAL(newServerInput()), this, SLOT(updateLocalButtons()));
+  connect(dv, TQT_SIGNAL(newServerInput()), this, TQT_SLOT(updateLocalButtons()));
   if (focal_length > 0)
    dv->focal_length = focal_length;
   if (aperture > 0)
@@ -759,7 +759,7 @@ void INDIDriver::addINDIHost()
   hostConf.setCaption(i18n("Add Host"));
   bool portOk = false;
 
-  if (hostConf.exec() == QDialog::Accepted)
+  if (hostConf.exec() == TQDialog::Accepted)
   {
     INDIHostsInfo *hostItem = new INDIHostsInfo;
     hostItem->name        = hostConf.nameIN->text();
@@ -787,7 +787,7 @@ void INDIDriver::addINDIHost()
 
     ksw->data()->INDIHostsList.append(hostItem);
 
-    QListViewItem *item = new QListViewItem(clientListView);
+    TQListViewItem *item = new TQListViewItem(clientListView);
     item->setPixmap(0, disconnected);
     item->setText(1, hostConf.nameIN->text());
     item->setText(2, hostConf.portnumber->text());
@@ -805,7 +805,7 @@ void INDIDriver::modifyINDIHost()
   INDIHostConf hostConf(this);
   hostConf.setCaption(i18n("Modify Host"));
 
-  QListViewItem *currentItem = clientListView->currentItem();
+  TQListViewItem *currentItem = clientListView->currentItem();
 
   if (currentItem == NULL)
    return;
@@ -819,7 +819,7 @@ void INDIDriver::modifyINDIHost()
   	hostConf.hostname->setText(ksw->data()->INDIHostsList.at(i)->hostname);
   	hostConf.portnumber->setText(ksw->data()->INDIHostsList.at(i)->portnumber);
 
-  	if (hostConf.exec() == QDialog::Accepted)
+  	if (hostConf.exec() == TQDialog::Accepted)
   	{
     	INDIHostsInfo *hostItem = new INDIHostsInfo;
 	hostItem->name       = hostConf.nameIN->text();
@@ -870,19 +870,19 @@ void INDIDriver::removeINDIHost()
 void INDIDriver::saveHosts()
 {
 
- QFile file;
- QString hostData;
+ TQFile file;
+ TQString hostData;
 
  file.setName( locateLocal( "appdata", "indihosts.xml" ) ); //determine filename in local user KDE directory tree.
 
  if ( !file.open( IO_WriteOnly))
  {
-  QString message = i18n( "unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
+  TQString message = i18n( "unable to write to file 'indihosts.xml'\nAny changes to INDI hosts configurations will not be saved." );
  KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
   return;
  }
 
- QTextStream outstream(&file);
+ TQTextStream outstream(&file);
 
  for (uint i= 0; i < ksw->data()->INDIHostsList.count(); i++)
  {
@@ -911,7 +911,7 @@ INDIDriver::~INDIDriver()
 
 }
 
-IDevice::IDevice(QString inLabel, QString inDriver, QString inVersion)
+IDevice::IDevice(TQString inLabel, TQString inDriver, TQString inVersion)
 {
   label = inLabel;;
   driver = inDriver;;

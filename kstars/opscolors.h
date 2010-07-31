@@ -17,7 +17,7 @@
 #ifndef OPSCOLORS_H
 #define OPSCOLORS_H
 
-#include <qstringlist.h>
+#include <tqstringlist.h>
 
 #include "opscolorsui.h"
 
@@ -43,11 +43,11 @@ class OpsColors : public OpsColorsUI
 	Q_OBJECT
 
 public:
-	OpsColors( QWidget *parent=0, const char *name=0, WFlags fl = 0 );
+	OpsColors( TQWidget *parent=0, const char *name=0, WFlags fl = 0 );
 	~OpsColors();
 
 private slots:
-	void newColor( QListBoxItem* item );
+	void newColor( TQListBoxItem* item );
 	void slotPreset( int i );
 	void slotAddPreset();
 	void slotRemovePreset();
@@ -55,11 +55,11 @@ private slots:
 	void slotStarColorIntensity( int );
 
 private:
-	bool setColors( QString filename );
+	bool setColors( TQString filename );
 
 	KStars *ksw;
 
-	QStringList PresetFileList;
+	TQStringList PresetFileList;
 };
 
 #endif  //OPSCOLORS_H

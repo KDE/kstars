@@ -19,9 +19,9 @@
 #include "starpixmap.h"
 
 #include <kimageeffect.h>
-#include <qbitmap.h>
-#include <qimage.h>
-#include <qpainter.h>
+#include <tqbitmap.h>
+#include <tqimage.h>
+#include <tqpainter.h>
 
 #define STARSIZE 24
 
@@ -31,7 +31,7 @@ StarPixmap::StarPixmap (int starColorMode, int starColorIntensity)
 	loadPixmaps (starColorMode, starColorIntensity);
 }
 
-QPixmap* StarPixmap::getPixmap (QChar *color, int size) {
+TQPixmap* StarPixmap::getPixmap (TQChar *color, int size) {
 	int c;
 //	the colors from blue to red	+, O, B, A, F, G, K, M, N, P
 // if *color is '+' use white star
@@ -68,22 +68,22 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 
 	if (colorIntensity < 0) colorIntensity = 0;	// min
 
-	QPixmap pix (STARSIZE, STARSIZE);
-	QBitmap mask (STARSIZE, STARSIZE);
-	QImage image;
-	QPainter p;
-	QMemArray<QColor> starColor;
+	TQPixmap pix (STARSIZE, STARSIZE);
+	TQBitmap mask (STARSIZE, STARSIZE);
+	TQImage image;
+	TQPainter p;
+	TQMemArray<TQColor> starColor;
 	starColor.resize( 8 );
 	image.setAlphaBuffer(true);
 
-	starColor[0] = QColor( 255, 255, 255 );   //default to white
-	starColor[1] = QColor(   0,   0, 255 );   //type O
-	starColor[2] = QColor(   0, 200, 255 );   //type B
-	starColor[3] = QColor(   0, 255, 255 );   //type A
-	starColor[4] = QColor( 200, 255, 100 );   //type F
-	starColor[5] = QColor( 255, 255,   0 );   //type G
-	starColor[6] = QColor( 255, 100,   0 );   //type K
-	starColor[7] = QColor( 255,   0,   0 );   //type M
+	starColor[0] = TQColor( 255, 255, 255 );   //default to white
+	starColor[1] = TQColor(   0,   0, 255 );   //type O
+	starColor[2] = TQColor(   0, 200, 255 );   //type B
+	starColor[3] = TQColor(   0, 255, 255 );   //type A
+	starColor[4] = TQColor( 200, 255, 100 );   //type F
+	starColor[5] = TQColor( 255, 255,   0 );   //type G
+	starColor[6] = TQColor( 255, 100,   0 );   //type K
+	starColor[7] = TQColor( 255,   0,   0 );   //type M
 
 // background of the star
 	if ( colorMode==1 ) // night colors (fill red, no temperature colors)
@@ -99,7 +99,7 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 
 		if (colorMode==0)	{
 			p.begin (&pix);
-			p.setPen (QPen (starColor[ic], colorIntensity));	// the intensity of color determines the width of the pen
+			p.setPen (TQPen (starColor[ic], colorIntensity));	// the intensity of color determines the width of the pen
 			p.drawEllipse (0, 0, STARSIZE, STARSIZE);
 			p.end();
 		}
@@ -107,14 +107,14 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 		mask.fill (Qt::color0);
 
 		p.begin (&mask);
-		p.setPen (QPen ( Qt::color1, 1));
-		p.setBrush( QBrush( Qt::color1 ) );
+		p.setPen (TQPen ( Qt::color1, 1));
+		p.setBrush( TQBrush( Qt::color1 ) );
 		p.drawEllipse(0, 0, STARSIZE, STARSIZE);
 		p.end();
 
 		//BLUR!! ugliness-- requires temporary conversion to pixmap, then back again.
 		//       if we defer the blur until the end, we lose the transparency.  Bleh.
-		QImage tmp = pix.convertToImage();
+		TQImage tmp = pix.convertToImage();
 		pix.convertFromImage( KImageEffect::blur( tmp, 100.0 ) );
 
 		pix.setMask (mask);	// set the mask

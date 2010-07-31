@@ -26,9 +26,9 @@
 #include <kdirwatch.h>
 #include <kprogress.h>
 #include <ktar.h>
-#include <qdir.h>
-#include <qcursor.h>
-#include <qregexp.h>
+#include <tqdir.h>
+#include <tqcursor.h>
+#include <tqregexp.h>
 
 #include "ksnewstuff.h"
 #include "kstars.h"
@@ -37,15 +37,15 @@
 #include "objectnamelist.h"
 #include "skymap.h"
 
-KSNewStuff::KSNewStuff( QWidget *parent ) :
-  QObject(), KNewStuff( "kstars", parent ), NGCUpdated( false )
+KSNewStuff::KSNewStuff( TQWidget *parent ) :
+  TQObject(), KNewStuff( "kstars", parent ), NGCUpdated( false )
 {
 	ks = (KStars*)parent;
 	kdw = new KDirWatch( this );
 	kdw->addDir( KGlobal::dirs()->saveLocation("data", kapp->instanceName(), true) );
 }
 
-bool KSNewStuff::install( const QString &fileName )
+bool KSNewStuff::install( const TQString &fileName )
 {
 	kdDebug() << "KSNewStuff::install(): " << fileName << endl;
 	
@@ -54,11 +54,11 @@ bool KSNewStuff::install( const QString &fileName )
 			return false;
 	
 	const KArchiveDirectory *archiveDir = archive.directory();
-	const QString destDir = KGlobal::dirs()->saveLocation("data", kapp->instanceName(), true);      
+	const TQString destDir = KGlobal::dirs()->saveLocation("data", kapp->instanceName(), true);      
 	KStandardDirs::makeDir( destDir );
 
 	//monitor destDir for changes; inform updateData when files are created.
-	connect( kdw, SIGNAL( dirty( const QString & ) ), this, SLOT( updateData( const QString & ) ) );
+	connect( kdw, TQT_SIGNAL( dirty( const TQString & ) ), this, TQT_SLOT( updateData( const TQString & ) ) );
 
 	archiveDir->copyTo(destDir);
 	archive.close();
@@ -69,13 +69,13 @@ bool KSNewStuff::install( const QString &fileName )
 	return true;
 }
 
-void KSNewStuff::updateData( const QString &path ) {
-	QDir qd( path );
-	qd.setSorting( QDir::Time );
-	qd.setFilter( QDir::Files );
+void KSNewStuff::updateData( const TQString &path ) {
+	TQDir qd( path );
+	qd.setSorting( TQDir::Time );
+	qd.setFilter( TQDir::Files );
 
 	//Show the Wait cursor
-	ks->setCursor(QCursor(Qt::WaitCursor));
+	ks->setCursor(TQCursor(Qt::WaitCursor));
 	
 	
 	//Handle the Steinicke NGC/IC catalog
@@ -105,8 +105,8 @@ void KSNewStuff::updateData( const QString &path ) {
 		ks->data()->deepSkyList.clear();
 		
 		//Send progress messages to the console
-		connect( ks->data(), SIGNAL( progressText(QString) ), ks->data(), SLOT( slotConsoleMessage(QString) ) );
-		connect( ks->data(), SIGNAL( progressText(QString) ), ks->data(), SLOT( slotProcessEvents() ) );
+		connect( ks->data(), TQT_SIGNAL( progressText(TQString) ), ks->data(), TQT_SLOT( slotConsoleMessage(TQString) ) );
+		connect( ks->data(), TQT_SIGNAL( progressText(TQString) ), ks->data(), TQT_SLOT( slotProcessEvents() ) );
 		
 		//We are now ready to read the new NGC/IC catalog
 		ks->data()->readDeepSkyData();
@@ -150,7 +150,7 @@ void KSNewStuff::updateData( const QString &path ) {
 		ks->data()->cometList.clear();
 		
 		//Send progress messages to the console
-		connect( ks->data(), SIGNAL( progressText(QString) ), ks->data(), SLOT( slotConsoleMessage(QString) ) );
+		connect( ks->data(), TQT_SIGNAL( progressText(TQString) ), ks->data(), TQT_SLOT( slotConsoleMessage(TQString) ) );
 		
 		//add new asteroids and comets
 		ks->data()->readAsteroidData();
@@ -163,7 +163,7 @@ void KSNewStuff::updateData( const QString &path ) {
 	}
 
 	//Restore arrow cursor
-	ks->setCursor(QCursor(Qt::ArrowCursor));
+	ks->setCursor(TQCursor(Qt::ArrowCursor));
 }
 
 void KSNewStuff::slotProcessEvents() { kapp->processEvents( 500 ); }

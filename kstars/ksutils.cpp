@@ -16,12 +16,12 @@
  ***************************************************************************/
 
 #include <kstandarddirs.h>
-#include <qfile.h>
+#include <tqfile.h>
 #include "ksutils.h"
 
-bool KSUtils::openDataFile( QFile &file, const QString &s ) {
+bool KSUtils::openDataFile( TQFile &file, const TQString &s ) {
 	bool result;
-	QString FileName = locate( "appdata", s );
+	TQString FileName = locate( "appdata", s );
 
 	if ( !FileName.isNull() ) {
 		file.setName( FileName );

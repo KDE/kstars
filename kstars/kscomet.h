@@ -60,7 +60,7 @@ class KSComet : public KSPlanetBase
 			*@p M the mean anomaly for the Julian Day
 			*@p Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
 			*/
-		KSComet( KStarsData *kd, QString s, QString image_file,
+		KSComet( KStarsData *kd, TQString s, TQString image_file,
 			long double JD, double q, double e, dms i, dms w, dms N, double Tp );
 
 		/**Destructor (empty)*/

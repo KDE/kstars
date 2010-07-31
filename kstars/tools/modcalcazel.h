@@ -19,7 +19,7 @@
 #define MODCALCAZEL_H
 
 #include <kapplication.h>
-#include <qwidget.h>
+#include <tqwidget.h>
 #include "modcalcazeldlg.h"
 
 class QWidget;
@@ -37,7 +37,7 @@ class modCalcAzel : public modCalcAzelDlg  {
 Q_OBJECT
 
 public: 
-	modCalcAzel(QWidget *p, const char *n);
+	modCalcAzel(TQWidget *p, const char *n);
 	~modCalcAzel();
 	
 public slots:
@@ -80,7 +80,7 @@ private:
 	 * @param eName    String from which the epoch is to be constructed
 	 *                 once it is converted to a double
 	 */
-	double getEpoch (QString eName);
+	double getEpoch (TQString eName);
 
 	/**Fill the Az and El dmsBoxes with values of the SkyPoint argument.
 	 * @param sp   SkypPoint object which contains the coordinates to 
@@ -114,7 +114,7 @@ private:
 
 	void horNoCheck();
 	void equNoCheck();
-	void processLines( QTextStream &istream );
+	void processLines( TQTextStream &istream );
   
 	GeoLocation *geoPlace;
 	bool horInputCoords;

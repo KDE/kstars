@@ -37,7 +37,7 @@ class FocusDialog : public KDialogBase {
 	Q_OBJECT
 public:
 	/**Constructor. */
-	FocusDialog( QWidget *parent=0 );
+	FocusDialog( TQWidget *parent=0 );
 
 	/**Destructor (empty). */
 	~FocusDialog();
@@ -46,7 +46,7 @@ public:
 	SkyPoint* point() const { return Point; }
 
 	/**@return suggested size of focus window. */
-	QSize sizeHint() const;
+	TQSize sizeHint() const;
 
 	/**@return whether user set the AltAz coords */
 	bool usedAltAz() const { return UsedAltAz; }
@@ -54,7 +54,7 @@ public:
 	void activateAzAltPage();
 	long double epochToJd (double epoch);
 
-	double getEpoch (QString eName);
+	double getEpoch (TQString eName);
 
 public slots:
 	/**If text has been entered in both KLineEdits, enable the Ok button. */
@@ -67,8 +67,8 @@ public slots:
 	void slotOk();
 
 private:
-	QVBoxLayout *vlay;
-	QHBoxLayout *hlayRA, *hlayDec;
+	TQVBoxLayout *vlay;
+	TQHBoxLayout *hlayRA, *hlayDec;
 	KLineEdit *editRA, *editDec;
 	SkyPoint *Point;
 	FocusDialogDlg *fdlg;

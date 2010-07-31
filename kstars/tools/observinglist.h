@@ -62,7 +62,7 @@ class ObservingList : public KDialogBase
 public:
 /**@short Cunstructor
 	*/
-	ObservingList( KStars *_ks, QWidget* parent = 0 );
+	ObservingList( KStars *_ks, TQWidget* parent = 0 );
 /**@short Destuctor (empty)
 	*/
 	~ObservingList() {}
@@ -89,7 +89,7 @@ public slots:
 /**@short about to switch the visible table in the widget stack
 	*@p tab pointer to the table which is about to be shown
 	*/
-	void slotPrepTable( QWidget *tab );
+	void slotPrepTable( TQWidget *tab );
  
 /**@short add a new object to list
 	*@p o pointer to the object to add to the list
@@ -163,13 +163,13 @@ private:
 
 	KStars *ks;
 	ObservingListUI *ui;
-	QPtrList<SkyObject> obsList;
-	QPtrList<SkyObject> SelectedObjects;
+	TQPtrList<SkyObject> obsList;
+	TQPtrList<SkyObject> SelectedObjects;
 	SkyObject *LogObject, *oCurrent;
 	uint noNameStars;
 
 	bool isModified, bIsLarge;
-	QString ListName, FileName;
+	TQString ListName, FileName;
 };
 
 #endif // OBSERVINGLIST_H

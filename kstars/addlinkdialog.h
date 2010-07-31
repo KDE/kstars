@@ -21,7 +21,7 @@
 #include <kdialogbase.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <qradiobutton.h>
+#include <tqradiobutton.h>
 
 #include "addlinkdialogui.h"
 
@@ -38,26 +38,26 @@ class AddLinkDialog : public KDialogBase  {
 	Q_OBJECT
 public:
 /**Constructor. */
-	AddLinkDialog( QWidget* parent = 0, const QString &oname=i18n("object") );
+	AddLinkDialog( TQWidget* parent = 0, const TQString &oname=i18n("object") );
 
 /**Destructor (empty) */
 	~AddLinkDialog() {}
 
-/**@return QString of the entered URL */
-	QString url() const { return ald->URLBox->text(); }
+/**@return TQString of the entered URL */
+	TQString url() const { return ald->URLBox->text(); }
 
 /**@short Set the URL text
 	*@param s the new URL text
 	*/
-	void setURL( const QString &s ) { ald->URLBox->setText( s ); }
+	void setURL( const TQString &s ) { ald->URLBox->setText( s ); }
 	
-/**@return QString of the entered menu entry text */
-	QString desc() const { return ald->DescBox->text(); }
+/**@return TQString of the entered menu entry text */
+	TQString desc() const { return ald->DescBox->text(); }
 
 /**@short Set the Description text
 	*@param s the new description text
 	*/
-	void setDesc( const QString &s ) { ald->DescBox->setText( s ); }
+	void setDesc( const TQString &s ) { ald->DescBox->setText( s ); }
 	
 /**@return TRUE if user declared the link is an image */
 	bool isImageLink() const { return ald->ImageRadio->isChecked(); }
@@ -80,8 +80,8 @@ private slots:
 	void changeDefaultDescription( int id );
 
 private:
-	QString ObjectName;
-	QVBoxLayout *vlay;
+	TQString ObjectName;
+	TQVBoxLayout *vlay;
 	AddLinkDialogUI *ald;
 };
 

@@ -17,9 +17,9 @@
 
 #include "toggleaction.h"
 
-ToggleAction::ToggleAction(const QString& ontext, const QIconSet& onpix,
-	const QString& offtext, const QIconSet& offpix,
-	int accel, const QObject* receiver, const char* slot, QObject* parent, const char* name ) :
+ToggleAction::ToggleAction(const TQString& ontext, const TQIconSet& onpix,
+	const TQString& offtext, const TQIconSet& offpix,
+	int accel, const TQObject* receiver, const char* slot, TQObject* parent, const char* name ) :
 		KAction(ontext, onpix, accel, receiver, slot, parent, name),
 		officon(offpix),
 		onicon(onpix),
@@ -28,8 +28,8 @@ ToggleAction::ToggleAction(const QString& ontext, const QIconSet& onpix,
 		state(true)
 {}
 
-ToggleAction::ToggleAction(const QString& ontext, const QString& offtext,
-	int accel, const QObject* receiver, const char* slot, QObject* parent, const char* name ) :
+ToggleAction::ToggleAction(const TQString& ontext, const TQString& offtext,
+	int accel, const TQObject* receiver, const char* slot, TQObject* parent, const char* name ) :
 		KAction(ontext, accel, receiver, slot, parent, name),
 		officon(),
 		onicon(),
@@ -52,13 +52,13 @@ void ToggleAction::turnOn() {
 	state = true;
 }
 
-void ToggleAction::setOnToolTip(QString tip) {
+void ToggleAction::setOnToolTip(TQString tip) {
 	onTip = tip;
 	if (state)
 		setToolTip(tip);
 }
 
-void ToggleAction::setOffToolTip(QString tip) {
+void ToggleAction::setOffToolTip(TQString tip) {
 	offTip = tip;
 	if (!state)
 		setToolTip(tip);

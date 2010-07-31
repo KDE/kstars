@@ -17,7 +17,7 @@
 #ifndef INDIDRIVER_H
 #define INDIDRIVER_H
 
-#include <qstringlist.h>
+#include <tqstringlist.h>
 #include <kdialogbase.h>
 #include <unistd.h>
 #include <vector>
@@ -33,9 +33,9 @@ class KProcess;
 
 struct INDIHostsInfo
 {
-  QString name;
-  QString hostname;
-  QString portnumber;
+  TQString name;
+  TQString hostname;
+  TQString portnumber;
   bool isConnected;
   int mgrID;
 };
@@ -45,14 +45,14 @@ class IDevice : public QObject
      Q_OBJECT
      
      public:
-        IDevice(QString inLabel, QString inDriver, QString inVersion);
+        IDevice(TQString inLabel, TQString inDriver, TQString inVersion);
 	~IDevice();
 
       enum ServeMODE { M_LOCAL, M_SERVER };
-      QString label;
-      QString driver;
-      QString version;
-      QStringList serverBuffer;
+      TQString label;
+      TQString driver;
+      TQString version;
+      TQStringList serverBuffer;
       int state;
       int mode;
       int indiPort;
@@ -82,7 +82,7 @@ class INDIDriver : public devManager
 
    public:
 
-   INDIDriver(QWidget * parent = 0);
+   INDIDriver(TQWidget * parent = 0);
    ~INDIDriver();
 
     KListView* deviceContainer;
@@ -91,20 +91,20 @@ class INDIDriver : public devManager
 
     bool buildDriversList( XMLEle *root, char errmsg[]);
     bool buildDeviceGroup  (XMLEle *root, char errmsg[]);
-    bool buildDriverElement(XMLEle *root, QListViewItem *DGroup, int groupType, char errmsg[]);
+    bool buildDriverElement(XMLEle *root, TQListViewItem *DGroup, int groupType, char errmsg[]);
 
-    QListViewItem *lastGroup;
-    QListViewItem *lastDevice;
+    TQListViewItem *lastGroup;
+    TQListViewItem *lastDevice;
 
-    QStringList driversList;
+    TQStringList driversList;
 
-    QPixmap runningPix;
-    QPixmap stopPix;
-    QPixmap connected;
-    QPixmap disconnected;
-    QPixmap establishConnection;
-    QPixmap localMode;
-    QPixmap serverMode;
+    TQPixmap runningPix;
+    TQPixmap stopPix;
+    TQPixmap connected;
+    TQPixmap disconnected;
+    TQPixmap establishConnection;
+    TQPixmap localMode;
+    TQPixmap serverMode;
 
     KPopupMenu *ClientpopMenu;
     KPopupMenu *LocalpopMenu;
@@ -113,11 +113,11 @@ class INDIDriver : public devManager
 
     bool runDevice(IDevice *dev);
     void removeDevice(IDevice *dev);
-    void removeDevice(QString deviceLabel);
+    void removeDevice(TQString deviceLabel);
     void saveDevicesToDisk();
     int getINDIPort();
     int activeDriverCount();
-    bool isDeviceRunning(QString deviceLabel);
+    bool isDeviceRunning(TQString deviceLabel);
 
     void saveHosts();
 
@@ -128,8 +128,8 @@ class INDIDriver : public devManager
 
 public slots:
     void updateMenuActions();
-    void ClientprocessRightButton( QListViewItem *, const QPoint &, int );
-    void LocalprocessRightButton( QListViewItem *, const QPoint &, int );
+    void ClientprocessRightButton( TQListViewItem *, const TQPoint &, int );
+    void LocalprocessRightButton( TQListViewItem *, const TQPoint &, int );
     void processDeviceStatus(int);
     void processHostStatus(int);
     void addINDIHost();

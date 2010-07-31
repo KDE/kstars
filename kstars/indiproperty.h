@@ -35,11 +35,11 @@ class INDI_P : public QObject
 {
   Q_OBJECT
    public:
-   INDI_P(INDI_G *parentGroup, QString inName);
+   INDI_P(INDI_G *parentGroup, TQString inName);
    ~INDI_P();
 
     QString	name;			/* property name */
-    QString     label;			/* property label */
+    TQString     label;			/* property label */
     
     INDI_G	*pg;			/* parent group */
     KPopupMenu  *assosiatedPopup;	/* assosiated popup menu, if any */
@@ -53,17 +53,17 @@ class INDI_P : public QObject
     
     int 	stdID;			/* Standard property ID, if any */
     
-    QLabel      *label_w;		/* Label widget */
-    QPushButton *set_w;		        /* set button */
+    TQLabel      *label_w;		/* Label widget */
+    TQPushButton *set_w;		        /* set button */
     
-    QSpacerItem    *HorSpacer;		/* Horizontal spacer */
-    QHBoxLayout    *PHBox;   		/* Horizontal container */
-    QVBoxLayout    *PVBox;   		/* Vertical container */
+    TQSpacerItem    *HorSpacer;		/* Horizontal spacer */
+    TQHBoxLayout    *PHBox;   		/* Horizontal container */
+    TQVBoxLayout    *PVBox;   		/* Vertical container */
     
-    QButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
+    TQButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
     KComboBox      *om_w;		/* Combo box for menu */
     
-    QPtrList<INDI_E> el;		/* list of elements */
+    TQPtrList<INDI_E> el;		/* list of elements */
 
     /* Draw state LED */
     void drawLt(PState lstate);
@@ -75,9 +75,9 @@ class INDI_P : public QObject
     void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
     
     /* Find an element within the property */
-    INDI_E * findElement(QString elementName);
+    INDI_E * findElement(TQString elementName);
     /* Search for an element, and if found, evaluate its state */
-    bool isOn(QString component);	
+    bool isOn(TQString component);	
    
    /* Build Functions */ 
    int buildTextGUI    (XMLEle *root, char errmsg[]);
@@ -88,10 +88,10 @@ class INDI_P : public QObject
    int buildBLOBGUI    (XMLEle *root, char errmsg[]);
       
    /* Setup the 'set' button in the property */
-    void setupSetButton(QString caption);
+    void setupSetButton(TQString caption);
     
    /* Turn a switch on */
-    void activateSwitch(QString name);
+    void activateSwitch(TQString name);
     
     public slots:
     void newText();

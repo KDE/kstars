@@ -24,8 +24,8 @@
 //27-32: 1 month, 2, 3, 4, 6, 9 months
 //33-41: 1 year, 2, 3, 4, 5, 10, 25, 50, 100 years
 
-#include <qlineedit.h>
-#include <qfontmetrics.h>
+#include <tqlineedit.h>
+#include <tqfontmetrics.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <stdlib.h>
@@ -37,17 +37,17 @@
 #define SIDEREAL_YEAR 31558149.77
 #define TROPICAL_YEAR 31556925.19
 
-TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name, bool _daysonly )
-	: QSpinBox ( -41, 41, 1 /* step */, parent, name )
+TimeSpinBox::TimeSpinBox( TQWidget *parent, const char *name, bool _daysonly )
+	: TQSpinBox ( -41, 41, 1 /* step */, parent, name )
 {
 	setValidator( 0 );
-	setButtonSymbols( QSpinBox::PlusMinus );
+	setButtonSymbols( TQSpinBox::PlusMinus );
 	editor()->setReadOnly( true );
 	setValue( 4 ); //1 second (real time)
 	setDaysOnly( _daysonly );
 
 	//Set width:
-	QFontMetrics fm( font() );
+	TQFontMetrics fm( font() );
 	int extra = width() - editor()->width();
 	uint wmax = 0;
 	for ( int i=0; i < maxValue(); ++i ) {
@@ -56,7 +56,7 @@ TimeSpinBox::TimeSpinBox( QWidget *parent, const char *name, bool _daysonly )
 	}
 	setFixedWidth( wmax + extra );
 
-	connect( this, SIGNAL( valueChanged( int ) ), this, SLOT( reportChange() ) );
+	connect( this, TQT_SIGNAL( valueChanged( int ) ), this, TQT_SLOT( reportChange() ) );
 	updateDisplay();
 }
 
@@ -176,8 +176,8 @@ int TimeSpinBox::mapTextToValue( bool *ok ) {
 	return 0;
 }
 
-QString TimeSpinBox::mapValueToText( int value ) {
-	QString neg("-"), result;
+TQString TimeSpinBox::mapValueToText( int value ) {
+	TQString neg("-"), result;
 	int posval( abs( value ) );
 
 	result = TimeString[ posval ];

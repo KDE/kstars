@@ -14,23 +14,23 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <qcheckbox.h>
-#include <qlabel.h>
+#include <tqcheckbox.h>
+#include <tqlabel.h>
 #include <kpushbutton.h>
 #include "opssolarsystem.h"
 #include "kstars.h"
 #include "magnitudespinbox.h"
 
-OpsSolarSystem::OpsSolarSystem( QWidget *parent, const char *name, WFlags fl )
+OpsSolarSystem::OpsSolarSystem( TQWidget *parent, const char *name, WFlags fl )
  : OpsSolarSystemUI( parent, name, fl )
 {
 	ksw = (KStars *)parent;
 	
-	connect( kcfg_ShowAsteroids, SIGNAL( toggled(bool) ), SLOT( slotAsteroidWidgets(bool) ) );
-	connect( kcfg_ShowComets, SIGNAL( toggled(bool) ), SLOT( slotCometWidgets(bool) ) );
-	connect( ClearAllTrails, SIGNAL( clicked() ), ksw, SLOT( slotClearAllTrails() ) );
-	connect( showAllPlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
-	connect( showNonePlanets, SIGNAL( clicked() ), this, SLOT( slotSelectPlanets() ) );
+	connect( kcfg_ShowAsteroids, TQT_SIGNAL( toggled(bool) ), TQT_SLOT( slotAsteroidWidgets(bool) ) );
+	connect( kcfg_ShowComets, TQT_SIGNAL( toggled(bool) ), TQT_SLOT( slotCometWidgets(bool) ) );
+	connect( ClearAllTrails, TQT_SIGNAL( clicked() ), ksw, TQT_SLOT( slotClearAllTrails() ) );
+	connect( showAllPlanets, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotSelectPlanets() ) );
+	connect( showNonePlanets, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotSelectPlanets() ) );
 
 	slotAsteroidWidgets( kcfg_ShowAsteroids->isChecked() );
 	slotCometWidgets( kcfg_ShowComets->isChecked() );
@@ -58,7 +58,7 @@ void OpsSolarSystem::slotCometWidgets( bool on ) {
 
 void OpsSolarSystem::slotSelectPlanets() {
 	bool b=true;
-	if ( sender()->name() == QString( "showNonePlanets" ) ) b = false;
+	if ( sender()->name() == TQString( "showNonePlanets" ) ) b = false;
 	
 	kcfg_ShowSun->setChecked( b );
 	kcfg_ShowMoon->setChecked( b );

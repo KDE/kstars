@@ -17,8 +17,8 @@
 
 #include <kglobal.h>
 #include <kdebug.h>
-//#include <qpen.h>
-#include <qpainter.h>
+//#include <tqpen.h>
+#include <tqpainter.h>
 
 #include "infoboxes.h"
 #include "kstarsdatetime.h"
@@ -26,9 +26,9 @@
 #include "geolocation.h"
 #include "skypoint.h"
 
-InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
-		QPoint gp, bool gshade, QPoint fp, bool fshade,
-		QColor colorText, QColor colorGrab, QColor colorBG ) :
+InfoBoxes::InfoBoxes( int w, int h, TQPoint tp, bool tshade,
+		TQPoint gp, bool gshade, TQPoint fp, bool fshade,
+		TQColor colorText, TQColor colorGrab, TQColor colorBG ) :
 		boxColor(colorText), grabColor(colorGrab), bgColor(colorBG),
 		GeoBox(0), FocusBox(0), TimeBox(0)
 {
@@ -41,7 +41,7 @@ InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 	int fy = fp.y();
 
 	GrabbedBox = 0;
-	GrabPos = QPoint( 0, 0 );
+	GrabPos = TQPoint( 0, 0 );
 	Visible = true;
 
 	Width = w;
@@ -60,11 +60,11 @@ InfoBoxes::InfoBoxes( int w, int h, QPoint tp, bool tshade,
 
 InfoBoxes::InfoBoxes( int w, int h, int tx, int ty, bool tshade,
 		int gx, int gy, bool gshade, int fx, int fy, bool fshade,
-		QColor colorText, QColor colorGrab, QColor colorBG ) :
+		TQColor colorText, TQColor colorGrab, TQColor colorBG ) :
 		boxColor(colorText), grabColor(colorGrab), bgColor(colorBG) {
 
 	GrabbedBox = 0;
-	GrabPos = QPoint( 0, 0 );
+	GrabPos = TQPoint( 0, 0 );
 	Visible = true;
 
 	Width = w;
@@ -93,31 +93,31 @@ void InfoBoxes::resize( int w, int h ) {
 	checkBorders(false);
 }
 
-void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
-		QColor BGColor, unsigned int BGMode ) {
+void InfoBoxes::drawBoxes( TQPainter &p, TQColor FGColor, TQColor grabColor,
+		TQColor BGColor, unsigned int BGMode ) {
 	if ( isVisible() ) {
 		if ( GeoBox->isVisible() ) {
-			p.setPen( QPen( FGColor ) );
+			p.setPen( TQPen( FGColor ) );
 			if ( GrabbedBox == 1 ) {
-				p.setPen( QPen( grabColor ) );
+				p.setPen( TQPen( grabColor ) );
 				p.drawRect( GeoBox->x(), GeoBox->y(), GeoBox->width(), GeoBox->height() );
 			}
 			GeoBox->draw( p, BGColor, BGMode );
 		}
 
 		if ( TimeBox->isVisible() ) {
-			p.setPen( QPen( FGColor ) );
+			p.setPen( TQPen( FGColor ) );
 			if ( GrabbedBox == 2 ) {
-				p.setPen( QPen( grabColor ) );
+				p.setPen( TQPen( grabColor ) );
 				p.drawRect( TimeBox->x(), TimeBox->y(), TimeBox->width(), TimeBox->height() );
 			}
 			TimeBox->draw( p, BGColor, BGMode );
 		}
 
 		if ( FocusBox->isVisible() ) {
-			p.setPen( QPen( FGColor ) );
+			p.setPen( TQPen( FGColor ) );
 			if ( GrabbedBox == 3 ) {
-				p.setPen( QPen( grabColor ) );
+				p.setPen( TQPen( grabColor ) );
 				p.drawRect( FocusBox->x(), FocusBox->y(), FocusBox->width(), FocusBox->height() );
 			}
 			FocusBox->draw( p, BGColor, BGMode );
@@ -125,7 +125,7 @@ void InfoBoxes::drawBoxes( QPainter &p, QColor FGColor, QColor grabColor,
 	}
 }
 
-bool InfoBoxes::grabBox( QMouseEvent *e ) {
+bool InfoBoxes::grabBox( TQMouseEvent *e ) {
 	if ( GeoBox->rect().contains( e->pos() ) ) {
 		GrabbedBox = 1;
 		GrabPos.setX( e->x() - GeoBox->x() );
@@ -157,7 +157,7 @@ bool InfoBoxes::unGrabBox( void ) {
 	}
 }
 
-bool InfoBoxes::dragBox( QMouseEvent *e ) {
+bool InfoBoxes::dragBox( TQMouseEvent *e ) {
 	switch( GrabbedBox ) {
 		case 1: //GeoBox
 			GeoBox->move( e->x() - GrabPos.x(), e->y() - GrabPos.y() );
@@ -179,7 +179,7 @@ bool InfoBoxes::dragBox( QMouseEvent *e ) {
 	}
 }
 
-bool InfoBoxes::shadeBox( QMouseEvent *e ) {
+bool InfoBoxes::shadeBox( TQMouseEvent *e ) {
 	if ( GeoBox->rect().contains( e->pos() ) ) {
 		GeoBox->toggleShade();
 		if ( GeoBox->rect().bottom() > height() ) GeoBox->move( GeoBox->x(), height() - GeoBox->height() );
@@ -213,32 +213,32 @@ bool InfoBoxes::shadeBox( QMouseEvent *e ) {
 
 bool InfoBoxes::fixCollisions( InfoBox *target ) {
 	int dLeft(0), dRight(0), dUp(0), dDown(0);
-	QRect area = QRect( 0, 0, Width, Height );
-	QRect t = target->rect();
-	QRect Box1, Box2;
+	TQRect area = TQRect( 0, 0, Width, Height );
+	TQRect t = target->rect();
+	TQRect Box1, Box2;
 	
 //Set Box1 and Box2 to the rects of the other two InfoBoxes, unless
-//they are not visible (if so, set a null QRect)
+//they are not visible (if so, set a null TQRect)
 	if ( target == GeoBox ) {
 		if ( FocusBox->isVisible() ) Box1 = FocusBox->rect();
-		else Box1 = QRect(0,0,0,0);
+		else Box1 = TQRect(0,0,0,0);
 
 		if ( TimeBox->isVisible() ) Box2 = TimeBox->rect();
-		else Box2 = QRect(0,0,0,0);
+		else Box2 = TQRect(0,0,0,0);
 
 	} else if ( target == FocusBox ) {
 		if ( GeoBox->isVisible() ) Box1 = GeoBox->rect();
-		else Box1 = QRect(0,0,0,0);
+		else Box1 = TQRect(0,0,0,0);
 
 		if ( TimeBox->isVisible() ) Box2 = TimeBox->rect();
-		else Box2 = QRect(0,0,0,0);
+		else Box2 = TQRect(0,0,0,0);
 
 	} else if ( target == TimeBox ) {
 		if ( FocusBox->isVisible() ) Box1 = FocusBox->rect();
-		else Box1 = QRect(0,0,0,0);
+		else Box1 = TQRect(0,0,0,0);
 
 		if ( GeoBox->isVisible() ) Box2 = GeoBox->rect();
-		else Box2 = QRect(0,0,0,0);
+		else Box2 = TQRect(0,0,0,0);
 
 	} else { return false; } //none of the Boxes match target!
 
@@ -266,10 +266,10 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		t = target->rect();
 	}
 
-	QRect upRect = t;
-	QRect downRect = t;
-	QRect leftRect = t;
-	QRect rightRect = t;
+	TQRect upRect = t;
+	TQRect downRect = t;
+	TQRect leftRect = t;
+	TQRect rightRect = t;
 
 //Fix collisions
 	if ( t.intersects( Box1 ) || t.intersects( Box2 ) ) {
@@ -277,26 +277,26 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 		//intersection with Box1 or Box2.
 		while ( leftRect.intersects( Box1 ) || leftRect.intersects( Box2 ) ) {
 			++dLeft;
-			leftRect.moveTopLeft( QPoint( t.x() - dLeft, t.y() ) );
+			leftRect.moveTopLeft( TQPoint( t.x() - dLeft, t.y() ) );
 		}
 		//If leftRect is outside area, set dLeft to a nonsense large value
 		if ( !area.contains( leftRect ) ) { dLeft = 100000; }
 		//repeat for right, up and down directions.
 		while ( rightRect.intersects( Box1 ) || rightRect.intersects( Box2 ) ) {
 			++dRight;
-			rightRect.moveTopLeft( QPoint( t.x() + dRight, t.y() ) );
+			rightRect.moveTopLeft( TQPoint( t.x() + dRight, t.y() ) );
 		}
 		if ( !area.contains( rightRect ) ) { dRight = 100000; }
 
 		while ( upRect.intersects( Box1 ) || upRect.intersects( Box2 ) ) {
 			++dUp;
-			upRect.moveTopLeft( QPoint( t.x(), t.y() - dUp ) );
+			upRect.moveTopLeft( TQPoint( t.x(), t.y() - dUp ) );
 		}
 		if ( !area.contains( upRect ) ) { dUp = 100000; }
 
 		while ( downRect.intersects( Box1 ) || downRect.intersects( Box2 ) ) {
 			++dDown;
-			downRect.moveTopLeft( QPoint( t.x(), t.y() + dDown ) );
+			downRect.moveTopLeft( TQPoint( t.x(), t.y() + dDown ) );
 		}
 		if ( !area.contains( downRect ) ) { dDown = 100000; }
 
@@ -336,21 +336,21 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 }
 
 bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt, dms *lst ) {
-	QString ot1 = TimeBox->text1();
-	QString ot2 = TimeBox->text2();
-	QString ot3 = TimeBox->text3();
+	TQString ot1 = TimeBox->text1();
+	TQString ot2 = TimeBox->text2();
+	TQString ot3 = TimeBox->text3();
 	
 	TimeBox->setText1( i18n( "Local Time", "LT: " ) + lt.time().toString()
 		+ "   " + lt.date().toString( "%d %b %Y" ) );
 	TimeBox->setText2( i18n( "Universal Time", "UT: " ) + ut.time().toString()
 		+ "   " + ut.date().toString( "%d %b %Y" ) );
 	
-	QString STString;
+	TQString STString;
 	STString = STString.sprintf( "%02d:%02d:%02d   ", lst->hour(), lst->minute(), lst->second() );
 	
 	//Don't use KLocale::formatNumber() for Julian Day because we don't want 
 	//thousands-place separators
-	QString JDString = QString::number( ut.djd(), 'f', 2 );
+	TQString JDString = TQString::number( ut.djd(), 'f', 2 );
 	JDString.replace( ".", KGlobal::locale()->decimalSymbol() );
 	
 	TimeBox->setText3( i18n( "Sidereal Time", "ST: " ) + STString +
@@ -366,10 +366,10 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
 }
 
 bool InfoBoxes::geoChanged(const GeoLocation *geo) {
-	QString ot1 = GeoBox->text1();
-	QString ot2 = GeoBox->text2();
+	TQString ot1 = GeoBox->text1();
+	TQString ot2 = GeoBox->text2();
 	
-	QString name = geo->translatedName() + ", ";
+	TQString name = geo->translatedName() + ", ";
 	if ( ! geo->province().isEmpty() ) name += geo->translatedProvince() + ",  ";
 	name += geo->translatedCountry();
 	GeoBox->setText1( name );
@@ -387,8 +387,8 @@ bool InfoBoxes::geoChanged(const GeoLocation *geo) {
 	}
 }
 
-bool InfoBoxes::focusObjChanged( const QString &n ) {
-	QString ot1 = FocusBox->text1();
+bool InfoBoxes::focusObjChanged( const TQString &n ) {
+	TQString ot1 = FocusBox->text1();
 	
 	FocusBox->setText1( i18n( "Focused on: " ) + n );
 	if ( ot1 == FocusBox->text1() ) return false;
@@ -399,8 +399,8 @@ bool InfoBoxes::focusObjChanged( const QString &n ) {
 }
 
 bool InfoBoxes::focusCoordChanged(const SkyPoint *p) {
-	QString ot2 = FocusBox->text2();
-	QString ot3 = FocusBox->text3();
+	TQString ot2 = FocusBox->text2();
+	TQString ot3 = FocusBox->text3();
 	
 	FocusBox->setText2( i18n( "Right Ascension", "RA" ) + ": " + p->ra()->toHMSString() +
 		"  " + i18n( "Declination", "Dec" ) +  ": " + p->dec()->toDMSString(true) );

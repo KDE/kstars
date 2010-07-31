@@ -15,8 +15,8 @@
 #define INDIGROUP_H
 
 #include "indielement.h"
-#include <qptrlist.h>
-#include <qstring.h>
+#include <tqptrlist.h>
+#include <tqstring.h>
 
 class INDI_P;
 class INDI_D;
@@ -28,16 +28,16 @@ class QVBoxLayout;
 class INDI_G
 {
   public:
-  INDI_G(INDI_D *parentDevice, QString inName);
+  INDI_G(INDI_D *parentDevice, TQString inName);
   ~INDI_G();
 
-  QString       name;			/* Group name */
+  TQString       name;			/* Group name */
   INDI_D 	*dp;			/* Parent device */
-  QFrame        *propertyContainer;	/* Properties container */
-  QVBoxLayout   *propertyLayout;        /* Properties layout */
-  QSpacerItem   *VerticalSpacer;	/* Vertical spacer */
+  TQFrame        *propertyContainer;	/* Properties container */
+  TQVBoxLayout   *propertyLayout;        /* Properties layout */
+  TQSpacerItem   *VerticalSpacer;	/* Vertical spacer */
 
-  QPtrList<INDI_P> pl;			/* malloced list of pointers to properties */
+  TQPtrList<INDI_P> pl;			/* malloced list of pointers to properties */
   
   void addProperty(INDI_P *pp);
   bool removeProperty(INDI_P *pp);

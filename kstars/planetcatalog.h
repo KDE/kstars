@@ -19,9 +19,9 @@
 #define PLANETCATALOG_H
 
 /**@class PlanetCatalog
-	*This class contains a QPtrList of the eight major planets, as well as pointers
+	*This class contains a TQPtrList of the eight major planets, as well as pointers
 	*to objects representing the Earth and Sun.  Note that the Sun also exists
-	*in the QPtrList, the external pointer is just for convenience.
+	*in the TQPtrList, the external pointer is just for convenience.
 	*There are methods to search
 	*the collection by name, identify if a given object pointer is a planet,
 	*find the coordinates of a planet, and find the planet closest to a given
@@ -31,9 +31,9 @@
 	*@version 1.0
 	*/
 
-#include <qglobal.h>
-#include <qobject.h>
-#include <qptrlist.h>
+#include <tqglobal.h>
+#include <tqobject.h>
+#include <tqptrlist.h>
 
 class QString;
 class KStarsData;
@@ -46,14 +46,14 @@ class SkyObject;
 class ObjectNameList;
 class dms;
 
-class PlanetCatalog : public QObject {
+class PlanetCatalog : public TQObject {
 	Q_OBJECT
 
 	public:
 	/**Constructor. */
 		PlanetCatalog(KStarsData *dat);
 
-	/**Destructor. Delete the Earth object (all others auto-deleted by QPtrList)*/
+	/**Destructor. Delete the Earth object (all others auto-deleted by TQPtrList)*/
 		~PlanetCatalog();
 
 	/**Loads all planetary data from files on disk into the appropriate objects. */
@@ -92,7 +92,7 @@ class PlanetCatalog : public QObject {
 		*@p n the name of the planet to point to
 		*@note if no planet with this name is found, return the NULL pointer.
 		*/
-		KSPlanetBase *findByName( const QString n) const;
+		KSPlanetBase *findByName( const TQString n) const;
 
 	/**@return a pointer to the planet closest to the given SkyPoint 
 		*(within a maximum angular search radius) 
@@ -102,7 +102,7 @@ class PlanetCatalog : public QObject {
 		SkyObject *findClosest(const SkyPoint *p, double &r) const;
 
 	private:
-		QPtrList<KSPlanetBase> planets;
+		TQPtrList<KSPlanetBase> planets;
 		KSPlanet *Earth;
 		KSSun *Sun;
 		KStarsData *kd;

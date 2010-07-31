@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qpainter.h>
+#include <tqlayout.h>
+#include <tqpainter.h>
 #include <klocale.h>
 #include <klineedit.h>
 #include <klistbox.h>
@@ -41,19 +41,19 @@
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-AltVsTime::AltVsTime( QWidget* parent)  :
+AltVsTime::AltVsTime( TQWidget* parent)  :
 	KDialogBase( KDialogBase::Plain, i18n( "Altitude vs. Time" ), Close, Close, parent )
 {
 	ks = (KStars*) parent;
 
-	QFrame *page = plainPage();
+	TQFrame *page = plainPage();
 
 	setMainWidget(page);
-	topLayout = new QVBoxLayout( page, 0, spacingHint() );
+	topLayout = new TQVBoxLayout( page, 0, spacingHint() );
 
 	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page );
 	View->setMinimumSize( 400, 400 );
-	View->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding );
+	View->setSizePolicy( TQSizePolicy::MinimumExpanding, TQSizePolicy::MinimumExpanding );
 	View->setXAxisType( KStarsPlotWidget::TIME );
 	View->setYAxisType( KStarsPlotWidget::ANGLE );
 	View->setShowGrid( false );
@@ -87,18 +87,18 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 	setLSTLimits();
 	View->updateTickmarks();
 
-	connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
-	connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
-	connect( avtUI->updateButton, SIGNAL( clicked() ), this, SLOT( slotUpdateDateLoc() ) );
-	connect( avtUI->clearButton, SIGNAL( clicked() ), this, SLOT( slotClear() ) );
-	connect( avtUI->addButton,   SIGNAL( clicked() ), this, SLOT( slotAddSource() ) );
-	connect( avtUI->nameBox, SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
-	connect( avtUI->raBox,   SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
-	connect( avtUI->decBox,  SIGNAL( returnPressed() ), this, SLOT( slotAddSource() ) );
-	connect( avtUI->clearFieldsButton, SIGNAL( clicked() ), this, SLOT( slotClearBoxes() ) );
-	connect( avtUI->longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
-	connect( avtUI->PlotList, SIGNAL( highlighted(int) ), this, SLOT( slotHighlight() ) );
+	connect( avtUI->browseButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotBrowseObject() ) );
+	connect( avtUI->cityButton,   TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotChooseCity() ) );
+	connect( avtUI->updateButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotUpdateDateLoc() ) );
+	connect( avtUI->clearButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotClear() ) );
+	connect( avtUI->addButton,   TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotAddSource() ) );
+	connect( avtUI->nameBox, TQT_SIGNAL( returnPressed() ), this, TQT_SLOT( slotAddSource() ) );
+	connect( avtUI->raBox,   TQT_SIGNAL( returnPressed() ), this, TQT_SLOT( slotAddSource() ) );
+	connect( avtUI->decBox,  TQT_SIGNAL( returnPressed() ), this, TQT_SLOT( slotAddSource() ) );
+	connect( avtUI->clearFieldsButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotClearBoxes() ) );
+	connect( avtUI->longBox, TQT_SIGNAL( returnPressed() ), this, TQT_SLOT( slotAdvanceFocus() ) );
+	connect( avtUI->latBox,  TQT_SIGNAL( returnPressed() ), this, TQT_SLOT( slotAdvanceFocus() ) );
+	connect( avtUI->PlotList, TQT_SIGNAL( highlighted(int) ), this, TQT_SLOT( slotHighlight() ) );
 
 	pList.setAutoDelete(FALSE);
 	deleteList.setAutoDelete(TRUE); //needed for skypoints which may be created in this class
@@ -122,7 +122,7 @@ void AltVsTime::slotAddSource(void) {
 	//First, attempt to find the object name in the list of known objects
 	if ( ! avtUI->nameBox->text().isEmpty() ) {
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
-		QString text = avtUI->nameBox->text().lower();
+		TQString text = avtUI->nameBox->text().lower();
 
 		for( SkyObjectName *name = ObjNames.first( text ); name; name = ObjNames.next() ) {
 			if ( name->text().lower() == text ) {
@@ -181,13 +181,13 @@ void AltVsTime::slotAddSource(void) {
 	//If the Ra and Dec boxes are filled, but the name field is empty,
 	//move input focus to nameBox`
 	} else if ( avtUI->nameBox->text().isEmpty() && ! avtUI->raBox->text().isEmpty() && ! avtUI->decBox->text().isEmpty() ) {
-		avtUI->nameBox->QWidget::setFocus();
+		avtUI->nameBox->TQWidget::setFocus();
 
 	//nameBox is empty, and one of the ra or dec fields is empty.  Move input focus to empty coord box
 	} else if ( avtUI->raBox->text().isEmpty() ) {
-		avtUI->raBox->QWidget::setFocus();
+		avtUI->raBox->TQWidget::setFocus();
 	} else if ( avtUI->decBox->text().isEmpty() ) {
-		avtUI->decBox->QWidget::setFocus();
+		avtUI->decBox->TQWidget::setFocus();
 	}
 
 	View->repaint(false);
@@ -196,7 +196,7 @@ void AltVsTime::slotAddSource(void) {
 //Use find dialog to choose an object
 void AltVsTime::slotBrowseObject(void) {
 	FindDialog fd(ks);
-	if ( fd.exec() == QDialog::Accepted ) {
+	if ( fd.exec() == TQDialog::Accepted ) {
 		SkyObject *o = fd.currentItem()->objName()->skyObject();
 		processObject( o );
 	}
@@ -252,7 +252,7 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
 		avtUI->nameBox->setText(o->translatedName() );
 
 		//Set epochName to epoch shown in date tab
-		avtUI->epochName->setText( QString().setNum( getDate().epoch() ) );
+		avtUI->epochName->setText( TQString().setNum( getDate().epoch() ) );
 	}
 	kdDebug() << "Currently, there are " << View->objectCount() << " objects displayed." << endl;
 
@@ -307,11 +307,11 @@ void AltVsTime::slotHighlight(void) {
 
 //move input focus to the next logical widget
 void AltVsTime::slotAdvanceFocus(void) {
-	if ( sender()->name() == QString( "nameBox" ) ) avtUI->addButton->setFocus();
-	if ( sender()->name() == QString( "raBox" ) ) avtUI->decBox->setFocus();
-	if ( sender()->name() == QString( "decbox" ) ) avtUI->addButton->setFocus();
-	if ( sender()->name() == QString( "longBox" ) ) avtUI->latBox->setFocus();
-	if ( sender()->name() == QString( "latBox" ) ) avtUI->updateButton->setFocus();
+	if ( sender()->name() == TQString( "nameBox" ) ) avtUI->addButton->setFocus();
+	if ( sender()->name() == TQString( "raBox" ) ) avtUI->decBox->setFocus();
+	if ( sender()->name() == TQString( "decbox" ) ) avtUI->addButton->setFocus();
+	if ( sender()->name() == TQString( "longBox" ) ) avtUI->latBox->setFocus();
+	if ( sender()->name() == TQString( "latBox" ) ) avtUI->updateButton->setFocus();
 }
 
 void AltVsTime::slotClear(void) {
@@ -339,8 +339,8 @@ void AltVsTime::computeSunRiseSetTimes() {
 	KStarsDateTime today = getDate();
 
 	SkyObject *oSun = (SkyObject*) ks->data()->PCat->planetSun();
-	double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(QTime()) / 86400.0;
-	double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(QTime()) / 86400.0;
+	double sunRise = -1.0 * oSun->riseSetTime( today.djd() + 1.0, geo, true ).secsTo(TQTime()) / 86400.0;
+	double sunSet = -1.0 * oSun->riseSetTime( today.djd(), geo, false ).secsTo(TQTime()) / 86400.0;
 
 	//check to see if Sun is circumpolar
 	//requires temporary repositioning of Sun to target date
@@ -381,7 +381,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 	computeSunRiseSetTimes();
 
 	for ( unsigned int i = 0; i < avtUI->PlotList->count(); ++i ) {
-		QString oName = avtUI->PlotList->text( i ).lower();
+		TQString oName = avtUI->PlotList->text( i ).lower();
 		ObjectNameList &ObjNames = ks->data()->ObjNames;
 		bool objFound(false);
 
@@ -444,7 +444,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 
 void AltVsTime::slotChooseCity(void) {
 	LocationDialog ld(ks);
-	if ( ld.exec() == QDialog::Accepted ) {
+	if ( ld.exec() == TQDialog::Accepted ) {
 		GeoLocation *newGeo = ld.selectedCity();
 		if ( newGeo ) {
 			geo = newGeo;
@@ -469,19 +469,19 @@ void AltVsTime::setLSTLimits(void) {
 void AltVsTime::showCurrentDate (void)
 {
 	KStarsDateTime dt = KStarsDateTime::currentDateTime();
-	if ( dt.time() > QTime( 12, 0, 0 ) ) dt = dt.addDays( 1 );
+	if ( dt.time() > TQTime( 12, 0, 0 ) ) dt = dt.addDays( 1 );
 	avtUI->dateBox->setDate( dt.date() );
 }
 
 KStarsDateTime AltVsTime::getDate (void)
 {
 	//convert midnight local time to UT:
-	KStarsDateTime dt( avtUI->dateBox->date(), QTime() );
+	KStarsDateTime dt( avtUI->dateBox->date(), TQTime() );
 	dt = geo->LTtoUT( dt );
 	return dt;
 }
 
-double AltVsTime::getEpoch (QString eName)
+double AltVsTime::getEpoch (TQString eName)
 {
 	//If Epoch field not a double, assume J2000
 	bool ok(false);
@@ -495,7 +495,7 @@ double AltVsTime::getEpoch (QString eName)
 	return epoch;
 }
 
-AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidget *parent, const char* name )
+AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, TQWidget *parent, const char* name )
 	: KStarsPlotWidget( x1, x2, y1, y2, parent, name )
 {
 	//Default SunRise/SunSet values
@@ -503,12 +503,12 @@ AVTPlotWidget::AVTPlotWidget( double x1, double x2, double y1, double y2, QWidge
 	SunSet = 0.75;
 }
 
-void AVTPlotWidget::mousePressEvent( QMouseEvent *e ) {
+void AVTPlotWidget::mousePressEvent( TQMouseEvent *e ) {
 	mouseMoveEvent( e );
 }
 
-void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
-	QRect checkRect( leftPadding(), topPadding(), PixRect.width(), PixRect.height() );
+void AVTPlotWidget::mouseMoveEvent( TQMouseEvent *e ) {
+	TQRect checkRect( leftPadding(), topPadding(), PixRect.width(), PixRect.height() );
 	int Xcursor = e->x();
 	int Ycursor = e->y();
 
@@ -522,19 +522,19 @@ void AVTPlotWidget::mouseMoveEvent( QMouseEvent *e ) {
 	Xcursor -= leftPadding();
 	Ycursor -= topPadding();
 
-	QPixmap buffer2( *buffer );
-	QPainter p;
+	TQPixmap buffer2( *buffer );
+	TQPainter p;
 	p.begin( &buffer2 );
 	p.translate( leftPadding(), topPadding() );
-	p.setPen( QPen( "grey", 1, SolidLine ) );
+	p.setPen( TQPen( "grey", 1, SolidLine ) );
 	p.drawLine( Xcursor, 0, Xcursor, PixRect.height() );
 	p.drawLine( 0, Ycursor, PixRect.width(), Ycursor );
 	p.end();
 	bitBlt( this, 0, 0, &buffer2 );
 }
 
-void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
-	QPainter p;
+void AVTPlotWidget::paintEvent( TQPaintEvent */*e*/ ) {
+	TQPainter p;
 
 	p.begin( buffer );
 	p.fillRect( 0, 0, width(), height(), bgColor() );
@@ -549,18 +549,18 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	if ( SunSet != -1.0 ) {
 		//If Sun does not set, then just fill the daytime sky color
 		if ( SunSet == 1.0 ) {
-			p.fillRect( 0, 0, pW, int(0.5*pH), QColor( 0, 100, 200 ) );
+			p.fillRect( 0, 0, pW, int(0.5*pH), TQColor( 0, 100, 200 ) );
 		} else {
 			//Display centered on midnight, so need to modulate dawn/dusk by 0.5
 			int dawn = int(pW*(0.5 + SunRise));
 			int dusk = int(pW*(SunSet - 0.5));
-			p.fillRect( 0, 0, dusk, int(0.5*pH), QColor( 0, 100, 200 ) );
-			p.fillRect( dawn, 0, pW - dawn, int(0.5*pH), QColor( 0, 100, 200 ) );
+			p.fillRect( 0, 0, dusk, int(0.5*pH), TQColor( 0, 100, 200 ) );
+			p.fillRect( dawn, 0, pW - dawn, int(0.5*pH), TQColor( 0, 100, 200 ) );
 
 			//draw twilight gradients
 			unsigned short int W = 40;
 			for ( unsigned short int i=0; i<W; ++i ) {
-				p.setPen( QColor( 0, int(100*i/W), 200*i/W ) );
+				p.setPen( TQColor( 0, int(100*i/W), 200*i/W ) );
 				p.drawLine( dusk - (i-20), 0, dusk - (i-20), pH );
 				p.drawLine( dawn + (i-20), 0, dawn + (i-20), pH );
 			}
@@ -568,17 +568,17 @@ void AVTPlotWidget::paintEvent( QPaintEvent */*e*/ ) {
 	}
 
 	//draw ground
-	p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
+	p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), TQColor( "#002200" ) );
 
 	drawBox( &p );
 	drawObjects( &p );
 
 	//Add vertical line indicating "now"
-	QTime t = QTime::currentTime();
+	TQTime t = TQTime::currentTime();
 	double x = 12.0 + t.hour() + t.minute()/60.0 + t.second()/3600.0;
 	while ( x > 24.0 ) x -= 24.0;
 	int ix = int(x*pW/24.0); //convert to screen pixel coords
-	p.setPen( QPen( "white", 2, DotLine ) );
+	p.setPen( TQPen( "white", 2, DotLine ) );
 	p.drawLine( ix, 0, ix, pH );
 
 	p.end();

@@ -29,14 +29,14 @@ TimeZoneRule::TimeZoneRule() {
 	RevertDay = 0;
 	StartWeek = -1;
 	RevertWeek = -1;
-	StartTime = QTime();
-	RevertTime = QTime();
+	StartTime = TQTime();
+	RevertTime = TQTime();
 	HourOffset = 0.0;
 	dTZ = 0.0;
 }
 
-TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QTime &stime,
-			const QString &rmonth, const QString &rday, const QTime &rtime, const double &dh ) {
+TimeZoneRule::TimeZoneRule( const TQString &smonth, const TQString &sday, const TQTime &stime,
+			const TQString &rmonth, const TQString &rday, const TQTime &rtime, const double &dh ) {
 	dTZ = 0.0;
 	if ( smonth != "0" ) {
 		StartMonth = initMonth( smonth );
@@ -55,8 +55,8 @@ TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QT
 			RevertDay = 0;
 			StartWeek = -1;
 			RevertWeek = -1;
-			StartTime = QTime();
-			RevertTime = QTime();
+			StartTime = TQTime();
+			RevertTime = TQTime();
 			HourOffset = 0.0;
 		}
 	} else { //Empty rule
@@ -66,8 +66,8 @@ TimeZoneRule::TimeZoneRule( const QString &smonth, const QString &sday, const QT
 		RevertDay = 0;
 		StartWeek = -1;
 		RevertWeek = -1;
-		StartTime = QTime();
-		RevertTime = QTime();
+		StartTime = TQTime();
+		RevertTime = TQTime();
 		HourOffset = 0.0;
 	}
 }
@@ -85,9 +85,9 @@ void TimeZoneRule::setDST( bool activate ) {
 	}
 }
 
-int TimeZoneRule::initMonth( const QString &mn ) {
+int TimeZoneRule::initMonth( const TQString &mn ) {
 //Check whether the argument is a three-letter English month code.
-	QString ml = mn.lower();
+	TQString ml = mn.lower();
 	if ( ml == "jan" ) return 1;
 	else if ( ml == "feb" ) return 2;
 	else if ( ml == "mar" ) return 3;
@@ -105,7 +105,7 @@ int TimeZoneRule::initMonth( const QString &mn ) {
 	return false;
 }
 
-bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
+bool TimeZoneRule::initDay( const TQString &dy, int &Day, int &Week ) {
 //Three possible ways to express a day.
 //1. simple integer; the calendar date...set Week=0 to indicate that Date is not the day of the week
 	bool ok;
@@ -116,7 +116,7 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
 		return true;
 	}
 
-	QString dl = dy.lower();
+	TQString dl = dy.lower();
 //2. 3-letter day of week string, indicating the last of that day of the month
 //   ...set Week to 5 to indicate the last weekday of the month
 	if ( dl == "mon" ) { Day = 1; Week = 5; return true; }
@@ -131,7 +131,7 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
 //   the (1st/2nd/3rd) weekday of the month.
 	int wn = dl.left(1).toInt();
 	if ( wn >0 && wn <4 ) {
-		QString dm = dl.mid( 1, dl.length() ).lower();
+		TQString dm = dl.mid( 1, dl.length() ).lower();
 		if ( dm == "mon" ) { Day = 1; Week = wn; return true; }
 		else if ( dm == "tue" ) { Day = 2; Week = wn; return true; }
 		else if ( dm == "wed" ) { Day = 3; Week = wn; return true; }

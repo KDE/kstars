@@ -61,7 +61,7 @@ public:
 	
 	/**@return a short string describing the moon's phase
 		*/
-	QString phaseName( void ) const;
+	TQString phaseName( void ) const;
 
 	/** reimplemented from KSPlanetBase
 		*/
@@ -106,7 +106,7 @@ private:
 				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Li(pLi), Ri(pRi) {}
 	};
 
-	static QPtrList<MoonLRData> LRData;
+	static TQPtrList<MoonLRData> LRData;
 
 /**@class MoonBData
 	*Encapsulates the Latitude terms of the sums
@@ -127,7 +127,7 @@ private:
 				nd(pnd), nm(pnm), nm1(pnm1), nf(pnf), Bi(pBi) {}
 	};
 
-	static QPtrList<MoonBData> BData;
+	static TQPtrList<MoonBData> BData;
 };
 
 #endif

@@ -13,11 +13,11 @@
  #ifndef CCDPREVIEWWG_H
  #define CCDPREVIEWWG_H
  
- #include <qpixmap.h>
+ #include <tqpixmap.h>
  #include <kpixmapio.h>
   
  #include "ccdpreviewui.h"
- #include "qframe.h"
+ #include "tqframe.h"
  
 enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
 
@@ -33,7 +33,7 @@ enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
    Q_OBJECT
    
     public:
-      CCDPreviewWG(INDIStdDevice *inStdDev, QWidget * parent =0, const char * name =0);
+      CCDPreviewWG(INDIStdDevice *inStdDev, TQWidget * parent =0, const char * name =0);
       ~CCDPreviewWG();
  
    friend class CCDVideoWG;
@@ -51,14 +51,14 @@ enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
    
    private:
    INDIStdDevice        *stdDev;
-   QPixmap               playPix, pausePix, capturePix;
-   QVBoxLayout           *videoFrameLayout;
+   TQPixmap               playPix, pausePix, capturePix;
+   TQVBoxLayout           *videoFrameLayout;
    double fwhm;
    int mu;
    
    protected:
-   void closeEvent ( QCloseEvent * e );
-   void resizeEvent(QResizeEvent *ev);
+   void closeEvent ( TQCloseEvent * e );
+   void resizeEvent(TQResizeEvent *ev);
    
    
    public slots: 
@@ -75,7 +75,7 @@ enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
       Q_OBJECT
    
     public:
-      CCDVideoWG(QWidget * parent =0, const char * name =0);
+      CCDVideoWG(TQWidget * parent =0, const char * name =0);
       ~CCDVideoWG();
       
       friend class CCDPreviewWG;
@@ -97,7 +97,7 @@ enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
       int Width, Height;
       unsigned long maxGoodData;
     protected:
-     void paintEvent(QPaintEvent *ev);
+     void paintEvent(TQPaintEvent *ev);
 
    public slots: 
 };

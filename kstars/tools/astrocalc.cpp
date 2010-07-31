@@ -34,21 +34,21 @@
 #include "modcalcvlsr.h"
 
 #include <klocale.h>
-#include <qlistview.h>
-#include <qtextview.h>
+#include <tqlistview.h>
+#include <tqtextview.h>
 
 
-AstroCalc::AstroCalc( QWidget* parent ) :
+AstroCalc::AstroCalc( TQWidget* parent ) :
 	KDialogBase( parent, "starscalculator", true, i18n("Calculator"), Close ),
 	JDFrame(0), GeodCoordFrame(0), GalFrame(0), SidFrame(0), PrecFrame(0),
 	AppFrame(0), DayFrame(0), AzelFrame(0), PlanetsFrame(0), EquinoxFrame(0),
 	EclFrame(0), AngDistFrame(0)
 {
-	split = new QSplitter ( this );
+	split = new TQSplitter ( this );
 	setMainWidget(split);
 
-	navigationPanel = new QListView (split,"NavigationPanel");
-	splashScreen = new QTextView (i18n("<H2>KStars Astrocalculator</H2>"),"",split);
+	navigationPanel = new TQListView (split,"NavigationPanel");
+	splashScreen = new TQTextView (i18n("<H2>KStars Astrocalculator</H2>"),"",split);
 
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
@@ -58,51 +58,51 @@ AstroCalc::AstroCalc( QWidget* parent ) :
 	navigationPanel->addColumn("Section");
 	navigationPanel->setRootIsDecorated(1);
 
-	QPixmap jdIcon = QPixmap ("jd.png");
-	QPixmap geodIcon = QPixmap ("geodetic.png");
-	QPixmap solarIcon = QPixmap ("geodetic.png");
-	QPixmap sunsetIcon = QPixmap ("sunset.png");
-	QPixmap timeIcon = QPixmap ("sunclock.png");
+	TQPixmap jdIcon = TQPixmap ("jd.png");
+	TQPixmap geodIcon = TQPixmap ("geodetic.png");
+	TQPixmap solarIcon = TQPixmap ("geodetic.png");
+	TQPixmap sunsetIcon = TQPixmap ("sunset.png");
+	TQPixmap timeIcon = TQPixmap ("sunclock.png");
 
-	QListViewItem * timeItem = new QListViewItem(navigationPanel,i18n("Time Calculators"));
+	TQListViewItem * timeItem = new TQListViewItem(navigationPanel,i18n("Time Calculators"));
 	timeItem->setPixmap(0,timeIcon);
 
-	QListViewItem * jdItem = new QListViewItem(timeItem,i18n("Julian Day"));
+	TQListViewItem * jdItem = new TQListViewItem(timeItem,i18n("Julian Day"));
 	jdItem->setPixmap(0,jdIcon);
 
-	new QListViewItem(timeItem,i18n("Sidereal Time"));
-	new QListViewItem(timeItem,i18n("Day Duration"));
-	new QListViewItem(timeItem,i18n("Equinoxes & Solstices"));
+	new TQListViewItem(timeItem,i18n("Sidereal Time"));
+	new TQListViewItem(timeItem,i18n("Day Duration"));
+	new TQListViewItem(timeItem,i18n("Equinoxes & Solstices"));
 //	dayItem->setPixmap(0,sunsetIcon);
 
-	QListViewItem * coordItem = new QListViewItem(navigationPanel,i18n("Celestial Coordinates"));
-	new QListViewItem(coordItem,i18n("Galactic Coordinates"));
-	new QListViewItem(coordItem,i18n("Precession"));
-	new QListViewItem(coordItem,i18n("Apparent Coordinates"));
-	new QListViewItem(coordItem,i18n("Horizontal Coordinates"));
-	new QListViewItem(coordItem,i18n("Ecliptic Coordinates"));
-	new QListViewItem(coordItem,i18n("Angular Distance"));
-	new QListViewItem(coordItem,i18n("LSR Velocity"));
+	TQListViewItem * coordItem = new TQListViewItem(navigationPanel,i18n("Celestial Coordinates"));
+	new TQListViewItem(coordItem,i18n("Galactic Coordinates"));
+	new TQListViewItem(coordItem,i18n("Precession"));
+	new TQListViewItem(coordItem,i18n("Apparent Coordinates"));
+	new TQListViewItem(coordItem,i18n("Horizontal Coordinates"));
+	new TQListViewItem(coordItem,i18n("Ecliptic Coordinates"));
+	new TQListViewItem(coordItem,i18n("Angular Distance"));
+	new TQListViewItem(coordItem,i18n("LSR Velocity"));
 
-	QListViewItem * geoItem = new QListViewItem(navigationPanel,i18n("Earth Coordinates"));
+	TQListViewItem * geoItem = new TQListViewItem(navigationPanel,i18n("Earth Coordinates"));
 	geoItem->setPixmap(0,geodIcon);
-	/*QListViewItem * cartItem = */new QListViewItem(geoItem,i18n("Geodetic Coordinates"));
+	/*TQListViewItem * cartItem = */new TQListViewItem(geoItem,i18n("Geodetic Coordinates"));
 
-	QListViewItem * solarItem = new QListViewItem(navigationPanel,i18n("Solar System"));
+	TQListViewItem * solarItem = new TQListViewItem(navigationPanel,i18n("Solar System"));
 	solarItem->setPixmap(0,solarIcon);
-	/*QListViewItem * planetsItem = */new QListViewItem(solarItem,i18n("Planets Coordinates"));
+	/*TQListViewItem * planetsItem = */new TQListViewItem(solarItem,i18n("Planets Coordinates"));
 
-	connect(navigationPanel, SIGNAL(clicked(QListViewItem *)), this,
-		SLOT(slotItemSelection(QListViewItem *)));
+	connect(navigationPanel, TQT_SIGNAL(clicked(TQListViewItem *)), this,
+		TQT_SLOT(slotItemSelection(TQListViewItem *)));
 }
 
 AstroCalc::~AstroCalc()
 {
 }
 
-void AstroCalc::slotItemSelection(QListViewItem *item)
+void AstroCalc::slotItemSelection(TQListViewItem *item)
 {
-	QString election;
+	TQString election;
 
 	if (item==0L) return;
 
@@ -150,7 +150,7 @@ void AstroCalc::genTimeText(void)
 {
 
 	delRightPanel();
-	splashScreen = new QTextView ("","",split);
+	splashScreen = new TQTextView ("","",split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -177,7 +177,7 @@ void AstroCalc::genTimeText(void)
 void AstroCalc::genCoordText(void)
 {
 	delRightPanel();
-	splashScreen = new QTextView ("","",split);
+	splashScreen = new TQTextView ("","",split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -213,7 +213,7 @@ void AstroCalc::genCoordText(void)
 void AstroCalc::genGeodText(void)
 {
 	delRightPanel();
-	splashScreen = new QTextView ("","",split);
+	splashScreen = new TQTextView ("","",split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -232,7 +232,7 @@ void AstroCalc::genGeodText(void)
 void AstroCalc::genSolarText(void)
 {
 	delRightPanel();
-	splashScreen = new QTextView ("","",split);
+	splashScreen = new TQTextView ("","",split);
 	splashScreen->setMaximumWidth(550);
 	splashScreen->setMinimumWidth(400);
 	splashScreen->show();
@@ -374,7 +374,7 @@ void AstroCalc::genVlsrFrame(void)
 	rightPanel = Vlsr;
 }
 
-QSize AstroCalc::sizeHint() const
+TQSize AstroCalc::sizeHint() const
 {
-  return QSize(640,430);
+  return TQSize(640,430);
 }

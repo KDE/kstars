@@ -26,7 +26,7 @@
 #include <kdebug.h>
 #include <kactioncollection.h>
 #include <kiconloader.h>
-#include <qpalette.h>
+#include <tqpalette.h>
 #include <kstatusbar.h>
 
 #include "Options.h"
@@ -46,7 +46,7 @@
 #include "indimenu.h"
 #include "indidriver.h"
 
-KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
+KStars::KStars( bool doSplash, bool clockrun, const TQString &startdate ) :
 	DCOPObject("KStarsInterface"), KMainWindow(),
 	skymap(0), centralWidget(0), topLayout(0), viewToolBar(0), TimeStep(0),
 	actCoordSys(0), colorActionMenu(0), fovActionMenu(0),
@@ -61,13 +61,13 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 
 	if ( doSplash ) {
 		pd->kstarsData = new KStarsData();
-		QObject::connect(pd->kstarsData, SIGNAL( initFinished(bool) ),
-				this, SLOT( datainitFinished(bool) ) );
+		TQObject::connect(pd->kstarsData, TQT_SIGNAL( initFinished(bool) ),
+				this, TQT_SLOT( datainitFinished(bool) ) );
 
 		pd->splash = new KStarsSplash(0, "Splash");
-		QObject::connect(pd->splash, SIGNAL( closeWindow() ), kapp, SLOT( quit() ) );
-		QObject::connect(pd->kstarsData, SIGNAL( progressText(QString) ),
-				pd->splash, SLOT( setMessage(QString) ));
+		TQObject::connect(pd->splash, TQT_SIGNAL( closeWindow() ), kapp, TQT_SLOT( quit() ) );
+		TQObject::connect(pd->kstarsData, TQT_SIGNAL( progressText(TQString) ),
+				pd->splash, TQT_SLOT( setMessage(TQString) ));
 		pd->splash->show();
 	}
 
@@ -80,13 +80,13 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 	if ( ! StartClockRunning ) pd->kstarsData->clock()->stop();
 	
 	//set up Dark color scheme for application windows
-	DarkPalette = QPalette(QColor("red4"), QColor("DarkRed"));
-	DarkPalette.setColor( QPalette::Normal, QColorGroup::Base, QColor( "black" ) );
-	DarkPalette.setColor( QPalette::Normal, QColorGroup::Text, QColor( "red2" ) );
-	DarkPalette.setColor( QPalette::Normal, QColorGroup::Highlight, QColor( "red2" ) );
-	DarkPalette.setColor( QPalette::Normal, QColorGroup::HighlightedText, QColor( "black" ) );
+	DarkPalette = TQPalette(TQColor("red4"), TQColor("DarkRed"));
+	DarkPalette.setColor( TQPalette::Normal, TQColorGroup::Base, TQColor( "black" ) );
+	DarkPalette.setColor( TQPalette::Normal, TQColorGroup::Text, TQColor( "red2" ) );
+	DarkPalette.setColor( TQPalette::Normal, TQColorGroup::Highlight, TQColor( "red2" ) );
+	DarkPalette.setColor( TQPalette::Normal, TQColorGroup::HighlightedText, TQColor( "black" ) );
 	//store original color scheme
-	OriginalPalette = QApplication::palette();
+	OriginalPalette = TQApplication::palette();
 
 	#if ( __GLIBC__ >= 2 &&__GLIBC_MINOR__ >= 1 && !defined(__UCLIBC__))
 	kdDebug() << "glibc >= 2.1 detected.  Using GNU extension sincos()" << endl;
@@ -184,9 +184,9 @@ void KStars::applyConfig() {
 	//color scheme
 	pd->kstarsData->colorScheme()->loadFromConfig( kapp->config() );
 	if ( Options::darkAppColors() ) {
-		QApplication::setPalette( DarkPalette, true );
+		TQApplication::setPalette( DarkPalette, true );
 	} else {
-		QApplication::setPalette( OriginalPalette, true );
+		TQApplication::setPalette( OriginalPalette, true );
 	}
 
 	//Infoboxes, toolbars, statusbars
@@ -243,7 +243,7 @@ void KStars::updateTime( const bool automaticDSTchange ) {
 	//Wrap the call to manualTick() in a singleshot timer so that it doesn't get called until
 	//the skymap has been completely updated.
 	if ( Data->clock()->isManualMode() && Data->clock()->isActive() ) {
-		QTimer::singleShot( 0, Data->clock(), SLOT( manualTick() ) );
+		TQTimer::singleShot( 0, Data->clock(), TQT_SLOT( manualTick() ) );
 	}
 }
 
@@ -255,7 +255,7 @@ InfoBoxes* KStars::infoBoxes( void )  { return map()->infoBoxes(); }
 
 GeoLocation* KStars::geo() { return data()->geo(); }
 
-void KStars::mapGetsFocus() { map()->QWidget::setFocus(); }
+void KStars::mapGetsFocus() { map()->TQWidget::setFocus(); }
 
 dms* KStars::LST() { return data()->LST; }
 

@@ -34,14 +34,14 @@ class ObsListWizard : public KDialogBase
 	public:
 	/**@short Constructor
 		*/
-		ObsListWizard( QWidget *parent = 0, const char *name = 0 );
+		ObsListWizard( TQWidget *parent = 0, const char *name = 0 );
 	/**@short Destructor
 		*/
 		~ObsListWizard();
 
-	/**@return reference to QPtrList of objects selected by the wizard
+	/**@return reference to TQPtrList of objects selected by the wizard
 		*/
-		QPtrList<SkyObject>& obsList() { return ObsList; }
+		TQPtrList<SkyObject>& obsList() { return ObsList; }
 
 	private slots:
 		void slotAllButton();
@@ -49,7 +49,7 @@ class ObsListWizard : public KDialogBase
 		void slotDeepSkyButton();
 		void slotSolarSystemButton();
 		void slotChangeLocation();
-		void slotShowStackWidget(QListViewItem*);
+		void slotShowStackWidget(TQListViewItem*);
 		void slotEnableConstellationPage(bool);
 		void slotEnableRectPage(bool);
 		void slotEnableCircPage(bool);
@@ -66,7 +66,7 @@ class ObsListWizard : public KDialogBase
 		void applyFilters( bool doBuildList );
 		void applyRegionFilter( SkyObject *o, bool doBuildList, bool doAdjustCount=true );
 
-		QPtrList<SkyObject> ObsList;
+		TQPtrList<SkyObject> ObsList;
 		KStars *ksw;
 		ObsListWizardUI *olw;
 		uint ObjectCount, StarCount, PlanetCount, CometCount, AsteroidCount;

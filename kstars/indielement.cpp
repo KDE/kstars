@@ -16,13 +16,13 @@
 
 #include "indi/indicom.h"
 
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qstring.h>
-#include <qptrlist.h>
-#include <qslider.h>
-#include <qdir.h>
+#include <tqcheckbox.h>
+#include <tqlabel.h>
+#include <tqlayout.h>
+#include <tqstring.h>
+#include <tqptrlist.h>
+#include <tqslider.h>
+#include <tqdir.h>
 
 #include <kurl.h>
 #include <kfiledialog.h>
@@ -66,14 +66,14 @@ XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, char errmsg[])
 /*******************************************************************
 ** INDI Element
 *******************************************************************/
-INDI_E::INDI_E(INDI_P *parentProperty, QString inName, QString inLabel)
+INDI_E::INDI_E(INDI_P *parentProperty, TQString inName, TQString inLabel)
 {
   name = inName;
   label = inLabel;
 
   pp = parentProperty;
 
-  EHBox     = new QHBoxLayout(0, 0, KDialog::spacingHint());
+  EHBox     = new TQHBoxLayout(0, 0, KDialog::spacingHint());
   label_w   = NULL;
   read_w    = NULL;
   write_w   = NULL;
@@ -108,13 +108,13 @@ label_w = new KSqueezedTextLabel(pp->pg->propertyContainer);
 label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
 label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
 label_w->setFrameShape( KSqueezedTextLabel::Box );
-label_w->setPaletteBackgroundColor( QColor( 224, 232, 238 ) );
-label_w->setTextFormat( QLabel::RichText );
-label_w->setAlignment( int( QLabel::WordBreak | QLabel::AlignCenter ) );
+label_w->setPaletteBackgroundColor( TQColor( 224, 232, 238 ) );
+label_w->setTextFormat( TQLabel::RichText );
+label_w->setAlignment( int( TQLabel::WordBreak | TQLabel::AlignCenter ) );
 
 if (label.length() > MAX_LABEL_LENGTH)
 {
-  QFont tempFont(  label_w->font() );
+  TQFont tempFont(  label_w->font() );
   tempFont.setPointSize( tempFont.pointSize() - MED_INDI_FONT );
   label_w->setFont( tempFont );
 }
@@ -124,7 +124,7 @@ label_w->setText(label);
 EHBox->addWidget(label_w);
 }
 
-int INDI_E::buildTextGUI(QString initText)
+int INDI_E::buildTextGUI(TQString initText)
 {
 
   setupElementLabel();  
@@ -287,17 +287,17 @@ void INDI_E::setupElementScale(int length)
 
 int steps = (int) ((max - min) / step);
 spin_w    = new KDoubleSpinBox(min, max, step, value, 2, pp->pg->propertyContainer );
-slider_w  = new QSlider(0, steps, 1, (int) ((value - min) / step),  Qt::Horizontal, pp->pg->propertyContainer );
+slider_w  = new TQSlider(0, steps, 1, (int) ((value - min) / step),  Qt::Horizontal, pp->pg->propertyContainer );
 
-connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
-connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
+connect(spin_w, TQT_SIGNAL(valueChanged(double)), this, TQT_SLOT(spinChanged(double )));
+connect(slider_w, TQT_SIGNAL(sliderMoved(int)), this, TQT_SLOT(sliderChanged(int )));
 
 //kdDebug() << "For element " << label << " we have step of " << step << endl;
 
   if (length == ELEMENT_FULL_WIDTH)
-	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)7, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
+	spin_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)7, (TQSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
   else
-	spin_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
+	spin_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
 	
 spin_w->setMinimumWidth( (int) (length * 0.45) );
 slider_w->setMinimumWidth( (int) (length * 0.55) );
@@ -359,11 +359,11 @@ void INDI_E::setMax (double inMax)
 void INDI_E::setupElementWrite(int length)
 {
     write_w = new KLineEdit( pp->pg->propertyContainer);
-    write_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)0, 0, 0, write_w->sizePolicy().hasHeightForWidth() ));
+    write_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)0, 0, 0, write_w->sizePolicy().hasHeightForWidth() ));
     write_w->setMinimumWidth( length );
     write_w->setMaximumWidth( length);
     
-    QObject::connect(write_w, SIGNAL(returnPressed()), pp, SLOT(newText()));
+    TQObject::connect(write_w, TQT_SIGNAL(returnPressed()), pp, TQT_SLOT(newText()));
     EHBox->addWidget(write_w);
 }
 
@@ -388,12 +388,12 @@ void INDI_E::setupElementRead(int length)
 void INDI_E::setupBrowseButton()
 {
    browse_w = new KPushButton("...", pp->pg->propertyContainer);
-   browse_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0, 0, 0, browse_w->sizePolicy().hasHeightForWidth() ) );
+   browse_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)5, (TQSizePolicy::SizeType)0, 0, 0, browse_w->sizePolicy().hasHeightForWidth() ) );
    browse_w->setMinimumWidth( MIN_SET_WIDTH );
    browse_w->setMaximumWidth( MAX_SET_WIDTH );
 
    EHBox->addWidget(browse_w);
-   QObject::connect(browse_w, SIGNAL(clicked()), this, SLOT(browseBlob()));
+   TQObject::connect(browse_w, TQT_SIGNAL(clicked()), this, TQT_SLOT(browseBlob()));
 }
 
 
@@ -410,7 +410,7 @@ void INDI_E::browseBlob()
 
   KURL currentURL;
 
-  currentURL = KFileDialog::getOpenURL( QDir::homeDirPath(), "*");
+  currentURL = KFileDialog::getOpenURL( TQDir::homeDirPath(), "*");
 
   // if user presses cancel
   if (currentURL.isEmpty())

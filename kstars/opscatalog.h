@@ -41,7 +41,7 @@ class OpsCatalog : public OpsCatalogUI
 	Q_OBJECT
 
 public:
-	OpsCatalog( QWidget *parent=0, const char *name=0, WFlags fl = 0 );
+	OpsCatalog( TQWidget *parent=0, const char *name=0, WFlags fl = 0 );
 	~OpsCatalog();
 
 private slots:
@@ -55,9 +55,9 @@ private slots:
 	void slotStarWidgets(bool on);
 	
 private:
-	void insertCatalog( const QString & filename );
+	void insertCatalog( const TQString & filename );
 
-	QCheckListItem *showMessier, *showMessImages, *showNGC, *showIC;
+	TQCheckListItem *showMessier, *showMessImages, *showNGC, *showIC;
 	KStars *ksw;
 };
 

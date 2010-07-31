@@ -26,7 +26,7 @@
 	*@version 1.0
 	*/
 
-#include <qiconset.h>
+#include <tqiconset.h>
 #include <kaction.h>
 
 class ToggleAction : public KAction {
@@ -34,19 +34,19 @@ class ToggleAction : public KAction {
 		
 	public:
 		/**Constructor. */
-		ToggleAction(const QString& ontext, const QIconSet& onpix, const QString& offtext, const QIconSet& offpix, int accel, const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0 ) ;
+		ToggleAction(const TQString& ontext, const TQIconSet& onpix, const TQString& offtext, const TQIconSet& offpix, int accel, const TQObject* receiver, const char* slot, TQObject* parent = 0, const char* name = 0 ) ;
 		/**Constructor. Same as above, but without icons. */
-		ToggleAction(const QString& ontext, const QString& offtext, int accel, const QObject* receiver, const char* slot, QObject* parent = 0, const char* name = 0 ) ;
+		ToggleAction(const TQString& ontext, const TQString& offtext, int accel, const TQObject* receiver, const char* slot, TQObject* parent = 0, const char* name = 0 ) ;
 
 		/**Sets the ToolTip text for the "on" state. 
 			*@p tip the tooltip string
 			*/
-		void setOnToolTip(QString tip);
+		void setOnToolTip(TQString tip);
 
 		/**Sets the ToolTip text for the "off" state. 
 			*@p tip the tooltip string
 			*/
-		void setOffToolTip(QString tip);
+		void setOffToolTip(TQString tip);
 
 	public slots:
 		/**Put the Action in the "off" state.  Update the icon and tooltip. */
@@ -55,12 +55,12 @@ class ToggleAction : public KAction {
 		void turnOn();
 
 	private:
-		QIconSet officon;
-		QIconSet onicon;
-		QString offcap;
-		QString oncap;
-		QString onTip;
-		QString offTip;
+		TQIconSet officon;
+		TQIconSet onicon;
+		TQString offcap;
+		TQString oncap;
+		TQString onTip;
+		TQString offTip;
 		bool state;
 };
 

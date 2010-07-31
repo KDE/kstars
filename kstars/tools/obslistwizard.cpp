@@ -14,10 +14,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qwidgetstack.h>
+#include <tqcheckbox.h>
+#include <tqlabel.h>
+#include <tqlayout.h>
+#include <tqwidgetstack.h>
 #include <knuminput.h>
 #include <klistbox.h>
 #include <klistview.h>
@@ -34,45 +34,45 @@
 
 #include "obslistwizard.h"
 
-ObsListWizard::ObsListWizard( QWidget *parent, const char *name ) 
+ObsListWizard::ObsListWizard( TQWidget *parent, const char *name ) 
   : KDialogBase( KDialogBase::Plain, i18n("Observing List Wizard"), Ok|Cancel, Ok, parent, name )
 {
 	ksw = (KStars*)parent;
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	TQFrame *page = plainPage();
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, 0 );
 
 	olw = new ObsListWizardUI( page );
 	vlay->addWidget( olw );
 
-	connect( olw->AllButton, SIGNAL( clicked() ), this, SLOT( slotAllButton() ) );
-	connect( olw->NoneButton, SIGNAL( clicked() ), this, SLOT( slotNoneButton() ) );
-	connect( olw->DeepSkyButton, SIGNAL( clicked() ), this, SLOT( slotDeepSkyButton() ) );
-	connect( olw->SolarSystemButton, SIGNAL( clicked() ), this, SLOT( slotSolarSystemButton() ) );
-	connect( olw->LocationButton, SIGNAL( clicked() ), this, SLOT( slotChangeLocation() ) );
+	connect( olw->AllButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotAllButton() ) );
+	connect( olw->NoneButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotNoneButton() ) );
+	connect( olw->DeepSkyButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotDeepSkyButton() ) );
+	connect( olw->SolarSystemButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotSolarSystemButton() ) );
+	connect( olw->LocationButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotChangeLocation() ) );
 
-	connect( olw->FilterList, SIGNAL( clicked(QListViewItem*) ), this, SLOT( slotShowStackWidget(QListViewItem*) ) );
+	connect( olw->FilterList, TQT_SIGNAL( clicked(TQListViewItem*) ), this, TQT_SLOT( slotShowStackWidget(TQListViewItem*) ) );
 
 	//Update the selected observing list when certain UI elements are modified
-	connect( olw->TypeList, SIGNAL( selectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->ConstellationList, SIGNAL( selectionChanged() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->RAMin, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->RAMax, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->DecMin, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->DecMax, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->RA, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->Dec, SIGNAL( lostFocus() ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->Radius, SIGNAL( valueChanged(double) ), this, SLOT( slotUpdateObjectCount() ) );
-//	connect( olw->Date, SIGNAL( valueChanged( const ExtDate& ) ), this, SLOT( slotApplyFilters() ) );
-	connect( olw->Mag, SIGNAL( valueChanged( double ) ), this, SLOT( slotUpdateObjectCount() ) );
-	connect( olw->ExcludeNoMag, SIGNAL( clicked() ), this, SLOT( slotUpdateObjectCount() ) );
+	connect( olw->TypeList, TQT_SIGNAL( selectionChanged() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->ConstellationList, TQT_SIGNAL( selectionChanged() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->RAMin, TQT_SIGNAL( lostFocus() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->RAMax, TQT_SIGNAL( lostFocus() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->DecMin, TQT_SIGNAL( lostFocus() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->DecMax, TQT_SIGNAL( lostFocus() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->RA, TQT_SIGNAL( lostFocus() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->Dec, TQT_SIGNAL( lostFocus() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->Radius, TQT_SIGNAL( valueChanged(double) ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+//	connect( olw->Date, TQT_SIGNAL( valueChanged( const ExtDate& ) ), this, TQT_SLOT( slotApplyFilters() ) );
+	connect( olw->Mag, TQT_SIGNAL( valueChanged( double ) ), this, TQT_SLOT( slotUpdateObjectCount() ) );
+	connect( olw->ExcludeNoMag, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotUpdateObjectCount() ) );
 
-	connect( olw->SelectByConstellation, SIGNAL( toggled(bool) ), this, SLOT( slotEnableConstellationPage(bool) ) );
-	connect( olw->SelectByRect, SIGNAL( toggled(bool) ), this, SLOT( slotEnableRectPage(bool) ) );
-	connect( olw->SelectByCirc, SIGNAL( toggled(bool) ), this, SLOT( slotEnableCircPage(bool) ) );
-//	connect( olw->SelectByDate, SIGNAL( toggled(bool) ), this, SLOT( slotEnableDatePage(bool) ) );
-	connect( olw->SelectByMag,  SIGNAL( toggled(bool) ), this, SLOT( slotEnableMagPage(bool) ) );
+	connect( olw->SelectByConstellation, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT( slotEnableConstellationPage(bool) ) );
+	connect( olw->SelectByRect, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT( slotEnableRectPage(bool) ) );
+	connect( olw->SelectByCirc, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT( slotEnableCircPage(bool) ) );
+//	connect( olw->SelectByDate, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT( slotEnableDatePage(bool) ) );
+	connect( olw->SelectByMag,  TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT( slotEnableMagPage(bool) ) );
 
-	connect( this, SIGNAL( okClicked() ), this, SLOT( slotApplyFilters() ) );
+	connect( this, TQT_SIGNAL( okClicked() ), this, TQT_SLOT( slotApplyFilters() ) );
 
 	initialize();
 }
@@ -190,10 +190,10 @@ void ObsListWizard::slotEnableMagPage( bool t ) {
 	slotUpdateObjectCount();
 }
 
-void ObsListWizard::slotShowStackWidget( QListViewItem *i )
+void ObsListWizard::slotShowStackWidget( TQListViewItem *i )
 {
 	if ( i ) {
-		QString t = i->text(0);
+		TQString t = i->text(0);
 	
 		if ( t.contains( i18n( "Object type(s)" ) ) )      olw->FilterStack->raiseWidget( olw->ObjTypePage );
 		if ( t.contains( i18n( "Region" ) ) )              olw->FilterStack->raiseWidget( olw->RegionPage );
@@ -227,7 +227,7 @@ void ObsListWizard::slotChangeLocation()
 {
 	LocationDialog ld( ksw );
 
-	if ( ld.exec() == QDialog::Accepted ) {
+	if ( ld.exec() == TQDialog::Accepted ) {
 		//set geographic location
 	}
 }
@@ -417,8 +417,8 @@ void ObsListWizard::applyFilters( bool doBuildList )
 void ObsListWizard::applyRegionFilter( SkyObject *o, bool doBuildList, bool doAdjustCount ) {
 	//select by constellation
 	if ( olw->SelectByConstellation->isChecked() ) {
-		QString c( o->constellation( ksw->data()->csegmentList, ksw->data()->cnameList ) );
-		QListBoxItem *it = olw->ConstellationList->findItem( c );
+		TQString c( o->constellation( ksw->data()->csegmentList, ksw->data()->cnameList ) );
+		TQListBoxItem *it = olw->ConstellationList->findItem( c );
 
 		if ( it && it->isSelected() ) { 
 			if ( doBuildList ) obsList().append ( o );

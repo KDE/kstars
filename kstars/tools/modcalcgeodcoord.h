@@ -40,7 +40,7 @@ class modCalcGeodCoord : public modCalcGeodCoordDlg {
 	Q_OBJECT
 	public:
 	
-		modCalcGeodCoord(QWidget *p, const char *n);
+		modCalcGeodCoord(TQWidget *p, const char *n);
 		~modCalcGeodCoord();
 	
 		void genGeoCoords(void);
@@ -67,12 +67,12 @@ class modCalcGeodCoord : public modCalcGeodCoordDlg {
 		void geoCheck(void);
 		void xyzCheck(void);
 		void showLongLat(void);
-		void processLines( QTextStream &istream );
+		void processLines( TQTextStream &istream );
 		void slotRunBatch(void);
 
-//		QRadioButton *cartRadio, *spheRadio;
-//		QVBox *vbox, *rightBox;
-//		QLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
+//		TQRadioButton *cartRadio, *spheRadio;
+//		TQVBox *vbox, *rightBox;
+//		TQLineEdit *xGeoName, *yGeoName, *zGeoName, *altGeoName;
 //		dmsBox *timeBox, *dateBox, *lonGeoBox, *latGeoBox;
 
 		GeoLocation *geoPlace;

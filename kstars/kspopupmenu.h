@@ -41,7 +41,7 @@ class KSPopupMenu : public KPopupMenu
 Q_OBJECT
 public:
 /**Default constructor*/
-	KSPopupMenu( QWidget *parent = 0, const char *name = 0 );
+	KSPopupMenu( TQWidget *parent = 0, const char *name = 0 );
 	
 /**Destructor (empty)*/
 	~KSPopupMenu();
@@ -62,7 +62,7 @@ public:
 	*@param showAngularDistance if true, the Angular Distance item is added.
 	*@param showObsList if true, the Add to List/Remove from List item is added.
  */
-	void initPopupMenu( SkyObject *obj, QString name1, QString name2, QString type,
+	void initPopupMenu( SkyObject *obj, TQString name1, TQString name2, TQString type,
 			bool showRiseSet=true, bool showCenterTrack=true,
 			bool showDetails=true, bool showTrail=false, 
 			bool addTrail=false, bool showAngularDistance=true,
@@ -150,8 +150,8 @@ public:
 
 private:
 	KStars *ksw;
-	QLabel *pmTitle, *pmTitle2, *pmType, *pmConstellation;
-	QLabel *pmRiseTime, *pmSetTime, *pmTransitTime;
+	TQLabel *pmTitle, *pmTitle2, *pmType, *pmConstellation;
+	TQLabel *pmRiseTime, *pmSetTime, *pmTransitTime;
 
 };
 

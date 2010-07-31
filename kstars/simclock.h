@@ -19,7 +19,7 @@
 #define KSTARS_SIMCLOCK_H_
 
 #include <time.h>
-#include <qtimer.h>
+#include <tqtimer.h>
 
 #include "simclockinterface.h"
 #include "kstarsdatetime.h"
@@ -30,7 +30,7 @@
 	*@version 1.0
 	*/
 
-class SimClock : public QObject, public SimClockInterface {
+class SimClock : public TQObject, public SimClockInterface {
 	Q_OBJECT
 
 	public:
@@ -39,7 +39,7 @@ class SimClock : public QObject, public SimClockInterface {
 		 * @param parent parent object for the clock
 		 * @param when the date/time to which the SimClock should be initialized in UTC
 		 */
-		SimClock(QObject *parent = 0, const KStarsDateTime &when = KStarsDateTime::currentDateTime() );
+		SimClock(TQObject *parent = 0, const KStarsDateTime &when = KStarsDateTime::currentDateTime() );
 		/**
 		 * Constructor
 		 * @param old a SimClock to initialize from.
@@ -95,7 +95,7 @@ class SimClock : public QObject, public SimClockInterface {
 		/**Adjust the clock timescale*/
 		void setScale(float s);
 
-		/**Respond to the QTimer::timeout signal */
+		/**Respond to the TQTimer::timeout signal */
 		void tick();
 
 		/**Equivalent of tick() for manual mode.
@@ -126,9 +126,9 @@ class SimClock : public QObject, public SimClockInterface {
 	private:
 		long double julianmark;
 		KStarsDateTime UTC;
-		QTimer tmr;
+		TQTimer tmr;
 		double Scale;
-		QTime sysmark;
+		TQTime sysmark;
 		int lastelapsed;
 		bool ManualMode, ManualActive;
 

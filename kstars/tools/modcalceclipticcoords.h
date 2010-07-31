@@ -37,12 +37,12 @@ Q_OBJECT
 
 public:
 	
-	modCalcEclCoords(QWidget *p, const char *n);
+	modCalcEclCoords(TQWidget *p, const char *n);
 	~modCalcEclCoords();
 
 	void getEclCoords (void);
 	void getEquCoords (void);
-	double getEpoch( QString t );
+	double getEpoch( TQString t );
 	void showEquCoords(void);
 	void showEclCoords(void);
 	void EclToEqu(void);
@@ -64,7 +64,7 @@ public slots:
 private:
 	void equCheck(void);
 	void eclCheck(void);
-	void processLines( QTextStream &is );
+	void processLines( TQTextStream &is );
 
 	dms eclipLong, eclipLat, raCoord, decCoord;
 	double epoch;

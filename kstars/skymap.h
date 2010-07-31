@@ -18,8 +18,8 @@
 #ifndef SKYMAP_H
 #define SKYMAP_H
 
-#include <qtimer.h>
-#include <qwidget.h>
+#include <tqtimer.h>
+#include <tqwidget.h>
 
 #include "skypoint.h"
 #include "starpixmap.h"
@@ -56,14 +56,14 @@ class DeepSkyObject;
 	*@version 1.0
 	*/
 
-class SkyMap : public QWidget  {
+class SkyMap : public TQWidget  {
    Q_OBJECT
 public:
 /**
 	*Constructor.  Read stored settings from KConfig object (focus position,
 	*zoom factor, sky color, etc.).  Run initPopupMenus().
 	*/
-	SkyMap( KStarsData *d, QWidget *parent=0, const char *name=0);
+	SkyMap( KStarsData *d, TQWidget *parent=0, const char *name=0);
 
 /**
 	*Destructor (empty)
@@ -161,7 +161,7 @@ public:
 
 /**@short sets the destination point of the sky map.
 	*@note setDestination() emits the destinationChanged() SIGNAL,
-	*which triggers the SLOT function SkyMap::slewFocus().  This
+	*which triggers the TQT_SLOT function SkyMap::slewFocus().  This
 	*function iteratively steps the Focus point toward Destination, 
 	*repainting the sky at each step (if Options::useAnimatedSlewing()==true).
 	*@param f a pointer to the SkyPoint the map should slew to
@@ -388,12 +388,12 @@ public:
 /**@short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
 	*
 	*Each of the draw functions is called, with a value for the Scale parameter computed to fit the 
-	*geometry of the QPaintDevice.
-	*@param pd pointer to the QPaintDevice on which to draw.  
+	*geometry of the TQPaintDevice.
+	*@param pd pointer to the TQPaintDevice on which to draw.  
 	*@see KStars::slotExportImage()
 	*@see KStars::slotPrint()
 	*/
-	void exportSkyImage( const QPaintDevice *pd );
+	void exportSkyImage( const TQPaintDevice *pd );
 
 public slots:
 /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size.
@@ -404,7 +404,7 @@ public slots:
 	*
 	*This function behaves essentially like the above function.  It differs only in the data types 	*of its arguments.
 	*/
-	virtual void setGeometry( const QRect &r );
+	virtual void setGeometry( const TQRect &r );
 
 /**Recalculates the positions of objects in the sky, and then repaints the sky map.
 	*If the positions don't need to be recalculated, use update() instead of forceUpdate().
@@ -547,7 +547,7 @@ signals:
 
 protected:
 /**Draw the Sky, and all objects in it. */
-	virtual void paintEvent( QPaintEvent *e );
+	virtual void paintEvent( TQPaintEvent *e );
 
 /**Process keystrokes: 
 	*@li arrow keys  Slew the map
@@ -562,11 +562,11 @@ protected:
 	*@li ,/<  Step backward one time step
 	*@li ./>  Step forward one time step
 	*/
-	virtual void keyPressEvent( QKeyEvent *e );
+	virtual void keyPressEvent( TQKeyEvent *e );
 
 /**When keyRelease is triggered, just set the "slewing" flag to false,
 	*and update the display (to draw objects that are hidden when slewing==true). */
-	virtual void keyReleaseEvent( QKeyEvent *e );
+	virtual void keyReleaseEvent( TQKeyEvent *e );
 
 /**Determine RA, Dec coordinates of clicked location.  Find the SkyObject
 	*which is nearest to the clicked location.
@@ -575,13 +575,13 @@ protected:
 	*nearest object name in status bar.
 	*If right-clicked: display popup menu appropriate for nearest object.
 	*/
-	virtual void mousePressEvent( QMouseEvent *e );
+	virtual void mousePressEvent( TQMouseEvent *e );
 
 /**set mouseButtonDown==false, slewing==false */
-	virtual void mouseReleaseEvent( QMouseEvent *e );
+	virtual void mouseReleaseEvent( TQMouseEvent *e );
 
 /**Center SkyMap at double-clicked location  */
-	virtual void mouseDoubleClickEvent( QMouseEvent *e );
+	virtual void mouseDoubleClickEvent( TQMouseEvent *e );
 
 /**This function does several different things depending on the state of the program:
 	*@li If Angle-measurement mode is active, update the end-ruler point to the mouse cursor,
@@ -593,16 +593,16 @@ protected:
 	*cursor remains constant. 
 	*@li If just moving the mouse, simply update the curso coordinates in the status bar.
 	*/
-	virtual void mouseMoveEvent( QMouseEvent *e );
+	virtual void mouseMoveEvent( TQMouseEvent *e );
 
 /**Zoom in and out with the mouse wheel. */
-	virtual void wheelEvent( QWheelEvent *e );
+	virtual void wheelEvent( TQWheelEvent *e );
 
 /**If the skymap will be resized, the sky must be new computed. So this 
 	*function calls explicitly new computing of the skymap.
 	*It also repositions the InfoBoxes, if they are anchored to a window edge. 
 	*/
-	virtual void resizeEvent( QResizeEvent * );
+	virtual void resizeEvent( TQResizeEvent * );
 
 private slots:
 /**Gradually fade the Transient Hover Label into the background sky color, and
@@ -626,112 +626,112 @@ private slots:
 	void setMouseMoveCursor();
 
 private:
-// Drawing functions.  Each takes a QPainter reference and a scaling factor as arguments.
-// The QPainter is usually the Sky pixmap, but it can also be the Export-to-Image pixmap, or the 
+// Drawing functions.  Each takes a TQPainter reference and a scaling factor as arguments.
+// The TQPainter is usually the Sky pixmap, but it can also be the Export-to-Image pixmap, or the 
 // Printer device.  The scaling factors are 1.0 by default (for screen images).  The scale factor
 // is used to resize the image to fit the page when printing or exporting to a file.
 
 /**@short Draw the Milky Way contour.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawMilkyWay( QPainter& psky, double scale = 1.0 );
+	void drawMilkyWay( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the coordinate system grid lines.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawCoordinateGrid( QPainter& psky, double scale = 1.0 );
+	void drawCoordinateGrid( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Celestial Equator line.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawEquator( QPainter& psky, double scale = 1.0 );
+	void drawEquator( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Ecliptic line.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawEcliptic( QPainter& psky, double scale = 1.0 );
+	void drawEcliptic( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Horizon Line, the compass point labels, and the opaque ground.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
 	
-	void drawHorizon( QPainter& psky, double scale = 1.0 );
+	void drawHorizon( TQPainter& psky, double scale = 1.0 );
 /**@short Draw the Constellation Lines.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawConstellationLines( QPainter& psky, double scale = 1.0 );
+	void drawConstellationLines( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Constellation Boundaries.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawConstellationBoundaries( QPainter& psky, double scale = 1.0 );
+	void drawConstellationBoundaries( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Constellation Names.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawConstellationNames( QPainter& psky, double scale = 1.0 );
+	void drawConstellationNames( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Stars.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawStars( QPainter& psky, double scale = 1.0 );
+	void drawStars( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw the Deep-Sky Objects.  
 	*
 	*Calls drawDeepSkyCatalog() for each catalog (Messier/NGC/IC/Custom)
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*@see SkyMap::drawDeepSkyCatalog()
 	*/
-	void drawDeepSkyObjects( QPainter& psky, double scale = 1.0 );
+	void drawDeepSkyObjects( TQPainter& psky, double scale = 1.0 );
 	
 /**@short Draw a Deep-Sky Catalog.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param catalog List of pointers to the objects in a particular deep-sky catalog.
 	*@param color The color to be used when drawing the symbols for this catalog.
 	*@param drawObject if TRUE, the object symbols will be drawn
 	*@param drawImage if TRUE, the object images will be drawn
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawDeepSkyCatalog( QPainter& psky, QPtrList<DeepSkyObject>& catalog, QColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
+	void drawDeepSkyCatalog( TQPainter& psky, TQPtrList<DeepSkyObject>& catalog, TQColor& color, bool drawObject, bool drawImage, double scale = 1.0 );
 	
 /**@short Draw the Planet Trails.
 	*
 	*"Planet Trails" can be attached to any solar system body; they are lists of SkyPoints
 	*tracing the path of a body across the sky.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param ksp pointer to the solar-system bosy whose trail is to be drawn.
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawPlanetTrail( QPainter& psky, KSPlanetBase *ksp, double scale = 1.0 );
+	void drawPlanetTrail( TQPainter& psky, KSPlanetBase *ksp, double scale = 1.0 );
 	
 /**@short Draw all solar system bodies: Sun, Moon, 8 planets, comets, asteroids.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param drawPlanets if FALSE, do nothing
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawSolarSystem( QPainter& psky, bool drawPlanets, double scale = 1.0 );
+	void drawSolarSystem( TQPainter& psky, bool drawPlanets, double scale = 1.0 );
 	
 /**@short Draw "User Labels".  User labels are name labels attached to objects manually with 
 	*the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
 	*is TRUE.
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param scale the scaling factor.  We use the default value (1.0) everywhere, except when printing.
 	*/
-	void drawAttachedLabels( QPainter &psky, double scale = 1.0 );
+	void drawAttachedLabels( TQPainter &psky, double scale = 1.0 );
 	
 /**@short Attach a name label to a SkyObject.  This Function is called by the object-specific 
 	*draw functions and also by drawAttachedLabels().
-	*@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+	*@param psky reference to the TQPainter on which to draw (either the sky pixmap or printer device)
 	*@param obj pointer to the SkyObject which is to be labeled.
 	*@param x The screen X-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
 	*@param y The screen Y-coordinate for the label (in pixels; typically as found by SkyMap::getXY())
@@ -739,13 +739,13 @@ private:
 	*@see SkyMap::drawAttachedLabels()
 	*@see SkyMap::getXY()
 	*/
-	void drawNameLabel( QPainter &psky, SkyObject *obj, int x, int y, double scale );
+	void drawNameLabel( TQPainter &psky, SkyObject *obj, int x, int y, double scale );
 
 /**Draw a planet.  This is an image if the planet image is loaded, the zoomlevel
 	*is high enough (but not so high that the image fills the screen), and the
 	*user has selected that planet images be shown.  If one of these conditions
 	*is false, then a simple colored circle is drawn instead.  
-	*@param psky reference to the QPainter on which to draw
+	*@param psky reference to the TQPainter on which to draw
 	*@param p pointer to the KSPlanetBase to be drawn
 	*@param c the color of the circle to be used if not plotting an image of the planet
 	*@param zoommin the minimum zoomlevel for drawing the planet image
@@ -754,7 +754,7 @@ private:
 	*(there's probably a better way to handle this)
 	*@param scale the scale factor used for printing the sky image.
 	*/
-	void drawPlanet(QPainter &psky, KSPlanetBase *p, QColor c,
+	void drawPlanet(TQPainter &psky, KSPlanetBase *p, TQColor c,
 			double zoommin, int resize_mult = 1, double scale = 1.0 );
 	
 /**Draw the overlays on top of the sky map.  These include the infoboxes,
@@ -766,59 +766,59 @@ private:
 	*drawOverlays() to refresh the overlays.
 	*@param pm pointer to the Sky pixmap
 	*/
-	void drawOverlays( QPixmap *pm );
+	void drawOverlays( TQPixmap *pm );
 	
 /**Draw the Focus, Geo and Time InfoBoxes.  This is called by drawOverlays().
-	*@param p reference to the QPainter on which to draw (this should be the Sky pixmap).
+	*@param p reference to the TQPainter on which to draw (this should be the Sky pixmap).
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*@see SkyMap::drawOverlays()
 	*/
-	void drawBoxes( QPainter &p );
+	void drawBoxes( TQPainter &p );
 	
 /**Draw symbols at the position of each Telescope currently being controlled by KStars.
 	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
-	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
+	*@param psky reference to the TQPainter on which to draw (this should be the Sky pixmap). 
 	*/
-	void drawTelescopeSymbols(QPainter &psky);
+	void drawTelescopeSymbols(TQPainter &psky);
 	
 /**@short Draw symbols for objects in the observing list.
-	*@param psky reference to the QPainter on which to draw (this should be the sky pixmap)
+	*@param psky reference to the TQPainter on which to draw (this should be the sky pixmap)
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*/
-	void drawObservingList( QPainter &psky, double scale = 1.0 );
+	void drawObservingList( TQPainter &psky, double scale = 1.0 );
 
 /**Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
-	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
+	*@param psky reference to the TQPainter on which to draw (this should be the Sky pixmap). 
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*/
-	void drawZoomBox( QPainter &psky);
+	void drawZoomBox( TQPainter &psky);
 	
 /**Draw the current TransientLabel.  TransientLabels are triggered when the mouse 
 	*hovers on an object.
-	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
+	*@param psky reference to the TQPainter on which to draw (this should be the Sky pixmap). 
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
 	*/
-	void drawTransientLabel( QPainter &psky );
+	void drawTransientLabel( TQPainter &psky );
 
 /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
 	*when in Angular-Ruler mode.
-	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
+	*@param psky reference to the TQPainter on which to draw (this should be the Sky pixmap). 
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*/
-	void drawAngleRuler( QPainter &psky );
+	void drawAngleRuler( TQPainter &psky );
 
 
 /**Given the coordinates of the SkyPoint argument, determine the
 	*pixel coordinates in the SkyMap.
-	*@return QPoint containing screen pixel x, y coordinates of SkyPoint.
+	*@return TQPoint containing screen pixel x, y coordinates of SkyPoint.
 	*@param o pointer to the SkyPoint for which to calculate x, y coordinates.
 	*@param Horiz if TRUE, use Alt/Az coordinates.
 	*@param doRefraction if TRUE, correct for atmospheric refraction
 	*@param scale scaling factor (unused?)
 	*/
-	QPoint getXY( SkyPoint *o, bool Horiz, bool doRefraction=true, double scale = 1.0 );
+	TQPoint getXY( SkyPoint *o, bool Horiz, bool doRefraction=true, double scale = 1.0 );
 
 /**Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
 	*screen pixel coordinate offsets from the center of the Sky pixmap.
@@ -884,7 +884,7 @@ private:
 	*NULL pointer, and the TransientTimer is not already active.  These conditions 
 	*are met when the mouse did not move for HOVER_INTERVAL msec (triggering a 
 	*TransientLabel), but the mouse has since been moved, thus ending the Hover event.  
-	*This function merely starts the TransientTimer, whose timeout SIGNAL is 
+	*This function merely starts the TransientTimer, whose timeout TQT_SIGNAL is 
 	*connected to the slotTransientTimeout() SLOT, which handles the actual fading 
 	*of the transient label, and eventually resets TransientObject to NULL.
 	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
@@ -934,26 +934,26 @@ private:
 	double XRange, Ymax;
 	double guideXRange;
 
-	QString sURL;
+	TQString sURL;
 	
 	KStars *ksw;
 	KStarsData *data;
 	KSPopupMenu *pmenu;
-	QPixmap *sky, *sky2;
+	TQPixmap *sky, *sky2;
 	InfoBoxes  *IBoxes;
 	SkyPoint  Focus, OldFocus, ClickedPoint, FocusPoint, MousePoint, Destination, PreviousClickedPoint;
 	SkyObject *ClickedObject, *FocusObject, *TransientObject;
 	StarPixmap *starpix;	// the pixmap of the stars
 
-	QPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
+	TQPointArray *pts;	// needed in paintEvent() so it should not every event call reallocated (save time)
 	SkyPoint *sp;			// see line above
 
-	QPoint beginRulerPoint, endRulerPoint;  // used in angle mode
-	QRect ZoomRect; //The manual-focus circle.
+	TQPoint beginRulerPoint, endRulerPoint;  // used in angle mode
+	TQRect ZoomRect; //The manual-focus circle.
 
 	//data for transient object labels
-	QTimer TransientTimer, HoverTimer;
-	QColor TransientColor;
+	TQTimer TransientTimer, HoverTimer;
+	TQColor TransientColor;
 	unsigned int TransientTimeout;
 };
 

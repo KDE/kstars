@@ -62,7 +62,7 @@ class V4L1_PWC : public V4L1_Base
 	int    setWhiteBalanceBlue(int val, char *errmsg);
 	
 	/* TODO consider the SC modded cam after this
-	void setLongExposureTime(const QString& str);
+	void setLongExposureTime(const TQString& str);
 	void setFrameRateMultiplicateur(int value);*/
 
 

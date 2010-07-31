@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
-#include <qlayout.h> //still needed for secondary dialogs
-#include <qlineedit.h>
-#include <qimage.h>
-#include <qregexp.h>
+#include <tqstring.h>
+#include <tqlayout.h> //still needed for secondary dialogs
+#include <tqlineedit.h>
+#include <tqimage.h>
+#include <tqregexp.h>
 
 #include <kapplication.h>
 #include <kstandarddirs.h>
@@ -57,32 +57,32 @@
 #include "devicemanager.h"
 #include "indistd.h"
 
-LogEdit::LogEdit( QWidget *parent, const char *name ) : KTextEdit( parent, name ) 
+LogEdit::LogEdit( TQWidget *parent, const char *name ) : KTextEdit( parent, name ) 
 {
-	setFrameStyle( QFrame::StyledPanel );
-	setFrameShadow( QFrame::Plain );
+	setFrameStyle( TQFrame::StyledPanel );
+	setFrameShadow( TQFrame::Plain );
 	setLineWidth( 4 );
 }
 
-void LogEdit::focusOutEvent( QFocusEvent *e ) {
+void LogEdit::focusOutEvent( TQFocusEvent *e ) {
 	emit focusOut();
-	QWidget::focusOutEvent(e);
+	TQWidget::focusOutEvent(e);
 }
 
-ClickLabel::ClickLabel( QWidget *parent, const char *name ) : QLabel( parent, name ) 
+ClickLabel::ClickLabel( TQWidget *parent, const char *name ) : TQLabel( parent, name ) 
 {}
 
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, 
-		QWidget *parent, const char *name ) : 
+		TQWidget *parent, const char *name ) : 
 		KDialogBase( KDialogBase::Tabbed, i18n( "Object Details" ), Close, Close, parent, name ) ,
 		selectedObject(o), ksw((KStars*)parent), Data(0), Pos(0), Links(0), Adv(0), Log(0)
 {
 	//Modify color palette
-	setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
-	setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
+	setPaletteBackgroundColor( palette().color( TQPalette::Active, TQColorGroup::Base ) );
+	setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::Text ) );
 
 	//Create thumbnail image
-	Thumbnail = new QPixmap( 200, 200 );
+	Thumbnail = new TQPixmap( 200, 200 );
 
 	createGeneralTab();
 	createPositionTab( ut, geo );
@@ -91,21 +91,21 @@ DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *
 	createLogTab();
 
 	//Connections
-	connect( Data->ObsListButton, SIGNAL( clicked() ), this, SLOT( addToObservingList() ) );
-	connect( Data->CenterButton, SIGNAL( clicked() ), this, SLOT( centerMap() ) );
-	connect( Data->ScopeButton, SIGNAL( clicked() ), this, SLOT( centerTelescope() ) );
-	connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
+	connect( Data->ObsListButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( addToObservingList() ) );
+	connect( Data->CenterButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( centerMap() ) );
+	connect( Data->ScopeButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( centerTelescope() ) );
+	connect( Data->Image, TQT_SIGNAL( clicked() ), this, TQT_SLOT( updateThumbnail() ) );
 }
 
 void DetailDialog::createGeneralTab()
 {
-	QFrame *DataTab = addPage(i18n("General"));
+	TQFrame *DataTab = addPage(i18n("General"));
 	Data = new DetailsDataUI( DataTab, "general_data_tab" );
  
 	//Modify colors
-	Data->Names->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Data->Names->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	Data->DataFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Data->Names->setPaletteBackgroundColor( palette().color( TQPalette::Active, TQColorGroup::Highlight ) );
+	Data->Names->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::HighlightedText ) );
+	Data->DataFrame->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::Highlight ) );
 	Data->Type->setPalette( palette() );
 	Data->Constellation->setPalette( palette() );
 	Data->Mag->setPalette( palette() );
@@ -119,7 +119,7 @@ void DetailDialog::createGeneralTab()
 	//Show object thumbnail image
 	showThumbnail();
 
-	QVBoxLayout *vlay = new QVBoxLayout( DataTab, 0, 0 );
+	TQVBoxLayout *vlay = new TQVBoxLayout( DataTab, 0, 0 );
 	vlay->addWidget( Data );
 
 	//Fill in the data fields
@@ -127,7 +127,7 @@ void DetailDialog::createGeneralTab()
 	StarObject *s = 0L;
 	DeepSkyObject *dso = 0L;
 	KSPlanetBase *ps = 0L;
-	QString pname(""), oname("");
+	TQString pname(""), oname("");
 
 	switch ( selectedObject->type() ) {
 	case 0: //stars
@@ -140,10 +140,10 @@ void DetailDialog::createGeneralTab()
 
 		//distance
 		if ( s->distance() > 2000. || s->distance() < 0. )  // parallax < 0.5 mas 
-			Data->Distance->setText( QString(i18n("larger than 2000 parsecs", "> 2000 pc") ) );
+			Data->Distance->setText( TQString(i18n("larger than 2000 parsecs", "> 2000 pc") ) );
 		else if ( s->distance() > 50.0 ) //show to nearest integer
 			Data->Distance->setText( i18n( "number in parsecs", "%1 pc" ).arg(
-					QString::number( int( s->distance() + 0.5 ) ) ) );
+					TQString::number( int( s->distance() + 0.5 ) ) ) );
 		else if ( s->distance() > 10.0 ) //show to tenths place
 			Data->Distance->setText( i18n( "number in parsecs", "%1 pc" ).arg(
 					KGlobal::locale()->formatNumber( s->distance(), 1 ) ) );
@@ -183,7 +183,7 @@ void DetailDialog::createGeneralTab()
 		//Magnitude: The moon displays illumination fraction instead
 		if ( selectedObject->name() == "Moon" ) {
 			Data->MagLabel->setText( i18n("Illumination:") );
-			Data->Mag->setText( QString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
+			Data->Mag->setText( TQString("%1 %").arg( int( ((KSMoon *)selectedObject)->illum()*100. ) ) );
 		} else {
 			Data->Mag->setText( i18n( "number in magnitudes", "%1 mag" ).arg(
 					KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
@@ -230,11 +230,11 @@ void DetailDialog::createGeneralTab()
 
 		if ( dso->ugc() != 0 ) {
 			if ( ! oname.isEmpty() ) oname += ", ";
-			oname += "UGC " + QString("%1").arg( dso->ugc() );
+			oname += "UGC " + TQString("%1").arg( dso->ugc() );
 		}
 		if ( dso->pgc() != 0 ) {
 			if ( ! oname.isEmpty() ) oname += ", ";
-			oname += "PGC " + QString("%1").arg( dso->pgc() );
+			oname += "PGC " + TQString("%1").arg( dso->pgc() );
 		}
 		
 		if ( ! oname.isEmpty() ) pname += ", " + oname;
@@ -270,16 +270,16 @@ void DetailDialog::createGeneralTab()
 }
 
 void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo ) {
-	QFrame *PosTab = addPage( i18n("Position") );
+	TQFrame *PosTab = addPage( i18n("Position") );
 	Pos = new DetailsPositionUI( PosTab, "position_tab" );
 
 	//Modify colors
-	Pos->CoordTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Pos->CoordTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	Pos->CoordFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Pos->RSTTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
-	Pos->RSTTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::HighlightedText ) );
-	Pos->RSTFrame->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	Pos->CoordTitle->setPaletteBackgroundColor( palette().color( TQPalette::Active, TQColorGroup::Highlight ) );
+	Pos->CoordTitle->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::HighlightedText ) );
+	Pos->CoordFrame->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::Highlight ) );
+	Pos->RSTTitle->setPaletteBackgroundColor( palette().color( TQPalette::Active, TQColorGroup::Highlight ) );
+	Pos->RSTTitle->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::HighlightedText ) );
+	Pos->RSTFrame->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::Highlight ) );
 	Pos->RA->setPalette( palette() );
 	Pos->Dec->setPalette( palette() );
 	Pos->Az->setPalette( palette() );
@@ -305,13 +305,13 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	Pos->AltTransitLabel->setPalette( palette() );
 	Pos->AzSetLabel->setPalette( palette() );
 
-	QVBoxLayout *vlay = new QVBoxLayout( PosTab, 0, 0 );
+	TQVBoxLayout *vlay = new TQVBoxLayout( PosTab, 0, 0 );
 	vlay->addWidget( Pos );
 	
 	//Coordinates Section:
 	//Don't use KLocale::formatNumber() for the epoch string,
 	//because we don't want a thousands-place separator!
-	QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
+	TQString sEpoch = TQString::number( ut.epoch(), 'f', 1 );
 	//Replace the decimal point with localized decimal symbol
 	sEpoch.replace( ".", KGlobal::locale()->decimalSymbol() );
 
@@ -326,12 +326,12 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	//Here's a kludgy workaround:
 	dms lst = geo->GSTtoLST( ut.gst() );
 	dms ha( lst.Degrees() - selectedObject->ra()->Degrees() );
-	QChar sgn('+');
+	TQChar sgn('+');
 	if ( ha.Hours() > 12.0 ) {
 		ha.setH( 24.0 - ha.Hours() );
 		sgn = '-';
 	}
-	Pos->HA->setText( QString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
+	Pos->HA->setText( TQString("%1%2").arg(sgn).arg( ha.toHMSString() ) );
 
 	//Airmass is approximated as the secant of the zenith distance,
 	//equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
@@ -344,11 +344,11 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	//Rise/Set/Transit Section:
 
 	//Prepare time/position variables
-	QTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
+	TQTime rt = selectedObject->riseSetTime( ut, geo, true ); //true = use rise time
 	dms raz = selectedObject->riseSetTimeAz( ut, geo, true ); //true = use rise time
 
 	//If transit time is before rise time, use transit time for tomorrow
-	QTime tt = selectedObject->transitTime( ut, geo );
+	TQTime tt = selectedObject->transitTime( ut, geo );
 	dms talt = selectedObject->transitAltitude( ut, geo );
 	if ( tt < rt ) {
 		tt = selectedObject->transitTime( ut.addDays( 1 ), geo );
@@ -356,7 +356,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	}
 
 	//If set time is before rise time, use set time for tomorrow
-	QTime st = selectedObject->riseSetTime(  ut, geo, false ); //false = use set time
+	TQTime st = selectedObject->riseSetTime(  ut, geo, false ); //false = use set time
 	dms saz = selectedObject->riseSetTimeAz( ut, geo, false ); //false = use set time
 	if ( st < rt ) {
 		st = selectedObject->riseSetTime( ut.addDays( 1 ), geo, false ); //false = use set time
@@ -364,8 +364,8 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	}
 
 	if ( rt.isValid() ) {
-		Pos->TimeRise->setText( QString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ) );
-		Pos->TimeSet->setText( QString().sprintf( "%02d:%02d", st.hour(), st.minute() ) );
+		Pos->TimeRise->setText( TQString().sprintf( "%02d:%02d", rt.hour(), rt.minute() ) );
+		Pos->TimeSet->setText( TQString().sprintf( "%02d:%02d", st.hour(), st.minute() ) );
 		Pos->AzRise->setText( raz.toDMSString() );
 		Pos->AzSet->setText( saz.toDMSString() );
 	} else {
@@ -381,39 +381,39 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 		Pos->AzSet->setText( i18n( "Not Applicable", "N/A" ) );
 	}
 
-	Pos->TimeTransit->setText( QString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
+	Pos->TimeTransit->setText( TQString().sprintf( "%02d:%02d", tt.hour(), tt.minute() ) );
 	Pos->AltTransit->setText( talt.toDMSString() );
 }
 
 void DetailDialog::createLinksTab()
 {
 	// don't create a link tab for an unnamed star
-	if (selectedObject->name() == QString("star"))
+	if (selectedObject->name() == TQString("star"))
 		return;
 
-	QFrame *LinksTab = addPage( i18n( "Links" ) );
+	TQFrame *LinksTab = addPage( i18n( "Links" ) );
 	Links = new DetailsLinksUI( LinksTab, "links_tab" );
 
 	//Modify colors
-	Links->InfoTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	Links->InfoTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
-	Links->ImagesTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	Links->ImagesTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
+	Links->InfoTitle->setPaletteBackgroundColor( palette().color( TQPalette::Active, TQColorGroup::Text ) );
+	Links->InfoTitle->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::Base ) );
+	Links->ImagesTitle->setPaletteBackgroundColor( palette().color( TQPalette::Active, TQColorGroup::Text ) );
+	Links->ImagesTitle->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::Base ) );
 
-	QPalette p = palette();
-	p.setColor( QPalette::Active, QColorGroup::Dark, palette().color( QPalette::Active, QColorGroup::Highlight ) );
+	TQPalette p = palette();
+	p.setColor( TQPalette::Active, TQColorGroup::Dark, palette().color( TQPalette::Active, TQColorGroup::Highlight ) );
 	Links->InfoList->setPalette( p );
 	Links->ImagesList->setPalette( p );
 
-	QVBoxLayout *vlay = new QVBoxLayout( LinksTab, 0, 0 );
+	TQVBoxLayout *vlay = new TQVBoxLayout( LinksTab, 0, 0 );
 	vlay->addWidget( Links );
 
-	QStringList::Iterator itList = selectedObject->InfoList.begin();
-	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
-	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
+	TQStringList::Iterator itList = selectedObject->InfoList.begin();
+	TQStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
+	TQStringList::Iterator itListEnd = selectedObject->InfoList.end();
 
 	for ( ; itList != itListEnd; ++itList ) {
-		Links->InfoList->insertItem(QString(*itTitle));
+		Links->InfoList->insertItem(TQString(*itTitle));
 		itTitle++;
 	}
 
@@ -424,7 +424,7 @@ void DetailDialog::createLinksTab()
 	itListEnd  = selectedObject->ImageList.end();
 
 	for ( ; itList != itListEnd; ++itList ) {
-		Links->ImagesList->insertItem(QString(*itTitle));
+		Links->ImagesList->insertItem(TQString(*itTitle));
 		itTitle++;
 	}
 
@@ -434,34 +434,34 @@ void DetailDialog::createLinksTab()
 	}
 
 	// Signals/Slots
-	connect( Links->ViewButton, SIGNAL(clicked()), this, SLOT( viewLink() ) );
-	connect( Links->AddLinkButton, SIGNAL(clicked()), ksw->map(), SLOT( addLink() ) );
-	connect( Links->EditLinkButton, SIGNAL(clicked()), this, SLOT( editLinkDialog() ) );
-	connect( Links->RemoveLinkButton, SIGNAL(clicked()), this, SLOT( removeLinkDialog() ) );
-	connect( Links->InfoList, SIGNAL(highlighted(int)), this, SLOT( unselectImagesList() ) );
-	connect( Links->ImagesList, SIGNAL(highlighted(int)), this, SLOT( unselectInfoList() ) );
-	connect( ksw->map(), SIGNAL(linkAdded()), this, SLOT( updateLists() ) );
+	connect( Links->ViewButton, TQT_SIGNAL(clicked()), this, TQT_SLOT( viewLink() ) );
+	connect( Links->AddLinkButton, TQT_SIGNAL(clicked()), ksw->map(), TQT_SLOT( addLink() ) );
+	connect( Links->EditLinkButton, TQT_SIGNAL(clicked()), this, TQT_SLOT( editLinkDialog() ) );
+	connect( Links->RemoveLinkButton, TQT_SIGNAL(clicked()), this, TQT_SLOT( removeLinkDialog() ) );
+	connect( Links->InfoList, TQT_SIGNAL(highlighted(int)), this, TQT_SLOT( unselectImagesList() ) );
+	connect( Links->ImagesList, TQT_SIGNAL(highlighted(int)), this, TQT_SLOT( unselectInfoList() ) );
+	connect( ksw->map(), TQT_SIGNAL(linkAdded()), this, TQT_SLOT( updateLists() ) );
 }
 
 void DetailDialog::createAdvancedTab()
 {
 	// Don't create an adv tab for an unnamed star or if advinterface file failed loading
 	// We also don't need adv dialog for solar system objects.
-   if (selectedObject->name() == QString("star") || 
+   if (selectedObject->name() == TQString("star") || 
 				ksw->data()->ADVtreeList.isEmpty() || 
 				selectedObject->type() == SkyObject::PLANET || 
 				selectedObject->type() == SkyObject::COMET || 
 				selectedObject->type() == SkyObject::ASTEROID )
 		return;
 
-	QFrame *AdvancedTab = addPage(i18n("Advanced"));
+	TQFrame *AdvancedTab = addPage(i18n("Advanced"));
 	Adv = new DetailsDatabaseUI( AdvancedTab, "database_tab" );
-//	Adv->setPaletteBackgroundColor( QColor( "white" ) );
-	QVBoxLayout *vlay = new QVBoxLayout( AdvancedTab, 0, 0 );
+//	Adv->setPaletteBackgroundColor( TQColor( "white" ) );
+	TQVBoxLayout *vlay = new TQVBoxLayout( AdvancedTab, 0, 0 );
 	vlay->addWidget( Adv );
 
-	treeIt = new QPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
-	connect( Adv->ADVTree, SIGNAL(doubleClicked(QListViewItem*)), this, SLOT(viewADVData()));
+	treeIt = new TQPtrListIterator<ADVTreeData> (ksw->data()->ADVtreeList);
+	connect( Adv->ADVTree, TQT_SIGNAL(doubleClicked(TQListViewItem*)), this, TQT_SLOT(viewADVData()));
 
 	populateADVTree(NULL);
 }
@@ -469,18 +469,18 @@ void DetailDialog::createAdvancedTab()
 void DetailDialog::createLogTab()
 {
 	//Don't create a a log tab for an unnamed star
-	if (selectedObject->name() == QString("star"))
+	if (selectedObject->name() == TQString("star"))
 		return;
 
 	// Log Tab
-	QFrame *LogTab = addPage(i18n("Log"));
+	TQFrame *LogTab = addPage(i18n("Log"));
 	Log = new DetailsLogUI( LogTab, "log_tab" );
 
 	//Modify colors
-	Log->LogTitle->setPaletteBackgroundColor( palette().color( QPalette::Active, QColorGroup::Text ) );
-	Log->LogTitle->setPaletteForegroundColor( palette().color( QPalette::Active, QColorGroup::Base ) );
+	Log->LogTitle->setPaletteBackgroundColor( palette().color( TQPalette::Active, TQColorGroup::Text ) );
+	Log->LogTitle->setPaletteForegroundColor( palette().color( TQPalette::Active, TQColorGroup::Base ) );
 
-	QVBoxLayout *vlay = new QVBoxLayout( LogTab, 0, 0 );
+	TQVBoxLayout *vlay = new TQVBoxLayout( LogTab, 0, 0 );
 	vlay->addWidget( Log );
 
 	if ( selectedObject->userLog.isEmpty() )
@@ -489,7 +489,7 @@ void DetailDialog::createLogTab()
 		Log->UserLog->setText(selectedObject->userLog);
 
 	//Automatically save the log contents when the widget loses focus
-	connect( Log->UserLog, SIGNAL( focusOut() ), this, SLOT( saveLogData() ) );
+	connect( Log->UserLog, TQT_SIGNAL( focusOut() ), this, TQT_SLOT( saveLogData() ) );
 }
 
 
@@ -505,13 +505,13 @@ void DetailDialog::unselectImagesList()
 
 void DetailDialog::viewLink()
 {
-	QString URL;
+	TQString URL;
 
 	if ( Links->InfoList->currentItem() != -1 && 
 			Links->InfoList->isSelected( Links->InfoList->currentItem() ) )
-		URL = QString( *selectedObject->InfoList.at( Links->InfoList->currentItem() ) );
+		URL = TQString( *selectedObject->InfoList.at( Links->InfoList->currentItem() ) );
 	else if ( Links->ImagesList->currentItem() != -1 )
-		URL = QString( *selectedObject->ImageList.at( Links->ImagesList->currentItem() ) );
+		URL = TQString( *selectedObject->ImageList.at( Links->ImagesList->currentItem() ) );
 
 	if (!URL.isEmpty())
 		kapp->invokeBrowser(URL);
@@ -522,12 +522,12 @@ void DetailDialog::updateLists()
 	Links->InfoList->clear();
 	Links->ImagesList->clear();
 	
-	QStringList::Iterator itList = selectedObject->InfoList.begin();
-	QStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
-	QStringList::Iterator itListEnd = selectedObject->InfoList.end();
+	TQStringList::Iterator itList = selectedObject->InfoList.begin();
+	TQStringList::Iterator itTitle = selectedObject->InfoTitle.begin();
+	TQStringList::Iterator itListEnd = selectedObject->InfoList.end();
 	
 	for ( ; itList != itListEnd; ++itList ) {
-		Links->InfoList->insertItem(QString(*itTitle));
+		Links->InfoList->insertItem(TQString(*itTitle));
 		itTitle++;
 	}
 
@@ -537,7 +537,7 @@ void DetailDialog::updateLists()
 	itListEnd = selectedObject->ImageList.end();
 
 	for ( ; itList != itListEnd; ++itList ) {
-		Links->ImagesList->insertItem(QString(*itTitle));
+		Links->ImagesList->insertItem(TQString(*itTitle));
 		itTitle++;
 	}
 }
@@ -546,17 +546,17 @@ void DetailDialog::editLinkDialog()
 {
 	int type;
 	uint i;
-	QString defaultURL , entry;
-	QFile newFile;
+	TQString defaultURL , entry;
+	TQFile newFile;
 	
 	KDialogBase editDialog(KDialogBase::Plain, i18n("Edit Link"), Ok|Cancel, Ok , this, "editlink", false);
-	QFrame *editFrame = editDialog.plainPage();
+	TQFrame *editFrame = editDialog.plainPage();
 	
-	editLinkURL = new QLabel(i18n("URL:"), editFrame);
-	editLinkField = new QLineEdit(editFrame, "lineedit");
+	editLinkURL = new TQLabel(i18n("URL:"), editFrame);
+	editLinkField = new TQLineEdit(editFrame, "lineedit");
 	editLinkField->setMinimumWidth(300);
 	editLinkField->home(false);
-	editLinkLayout = new QHBoxLayout(editFrame, 6, 6, "editlinklayout");
+	editLinkLayout = new TQHBoxLayout(editFrame, 6, 6, "editlinklayout");
 	editLinkLayout->addWidget(editLinkURL);
 	editLinkLayout->addWidget(editLinkField);
 	
@@ -579,7 +579,7 @@ void DetailDialog::editLinkDialog()
 	else return;
 
 	// If user presses cancel then return
-	if (!editDialog.exec() == QDialog::Accepted)
+	if (!editDialog.exec() == TQDialog::Accepted)
 		return;
 	// if it wasn't edit, don't do anything
 	if (!editLinkField->edited())
@@ -609,7 +609,7 @@ void DetailDialog::editLinkDialog()
 	newFile.setName(file.name());
 	newFile.open(IO_WriteOnly);
 
-	QTextStream newStream(&newFile);
+	TQTextStream newStream(&newFile);
 
 	for (i=0; i<dataList.count(); i++)
 	{
@@ -639,8 +639,8 @@ void DetailDialog::removeLinkDialog()
 {
 	int type;
 	uint i;
-	QString defaultURL, entry;
-	QFile newFile;
+	TQString defaultURL, entry;
+	TQFile newFile;
 	
 	currentItemIndex = Links->InfoList->currentItem();
 	
@@ -682,7 +682,7 @@ void DetailDialog::removeLinkDialog()
 	newFile.setName(file.name());
 	newFile.open(IO_WriteOnly);
 
-	QTextStream newStream(&newFile);
+	TQTextStream newStream(&newFile);
 
 	for (i=0; i<dataList.count(); i++)
 		newStream << dataList[i] << endl;
@@ -694,7 +694,7 @@ void DetailDialog::removeLinkDialog()
 
 bool DetailDialog::verifyUserData(int type)
 {
-	QString line, name, sub, title;
+	TQString line, name, sub, title;
 	bool ObjectFound = false;
 	uint i;
 	
@@ -763,7 +763,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 
 	// Must reset file
 	file.reset();
-	QTextStream stream(&file);
+	TQTextStream stream(&file);
 
 	dataList.clear();
 	
@@ -774,7 +774,7 @@ bool DetailDialog::readUserFile(int type)//, int sourceFileType)
 	return true;
 }
 
-void DetailDialog::populateADVTree(QListViewItem *parent)
+void DetailDialog::populateADVTree(TQListViewItem *parent)
 {
 	// list done
 	if (!treeIt->current())
@@ -795,21 +795,21 @@ void DetailDialog::populateADVTree(QListViewItem *parent)
 			break;
 
 		if (parent)
-			new QListViewItem( parent, treeIt->current()->Name);
+			new TQListViewItem( parent, treeIt->current()->Name);
 		else
-			new QListViewItem( Adv->ADVTree, treeIt->current()->Name);
+			new TQListViewItem( Adv->ADVTree, treeIt->current()->Name);
 
 		++(*treeIt);
 	}
 }
 
-void DetailDialog::forkTree(QListViewItem *parent)
+void DetailDialog::forkTree(TQListViewItem *parent)
 {
-	QListViewItem *current = 0;
+	TQListViewItem *current = 0;
 	if (parent)
-		current = new QListViewItem(parent, treeIt->current()->Name);
+		current = new TQListViewItem(parent, treeIt->current()->Name);
 	else
-		current = new QListViewItem(Adv->ADVTree, treeIt->current()->Name);
+		current = new TQListViewItem(Adv->ADVTree, treeIt->current()->Name);
 
 	// we need to increment the iterator before and after populating the tree
 	++(*treeIt);
@@ -819,8 +819,8 @@ void DetailDialog::forkTree(QListViewItem *parent)
 
 void  DetailDialog::viewADVData()
 {
-	QString link;
-	QListViewItem * current = Adv->ADVTree->currentItem();
+	TQString link;
+	TQListViewItem * current = Adv->ADVTree->currentItem();
 
 	if (!current)  return;
 
@@ -840,9 +840,9 @@ void  DetailDialog::viewADVData()
 	kapp->invokeBrowser(link);
 }
 
-QString DetailDialog::parseADVData(QString link)
+TQString DetailDialog::parseADVData(TQString link)
 {
-	QString subLink;
+	TQString subLink;
 	int index;
 	
 	if ( (index = link.find("KSOBJ")) != -1)
@@ -854,7 +854,7 @@ QString DetailDialog::parseADVData(QString link)
 	if ( (index = link.find("KSRA")) != -1)
 	{
 		link.remove(index, 4);
-		subLink = QString().sprintf("%02d%02d%02d", selectedObject->ra0()->hour(), selectedObject->ra0()->minute(), selectedObject->ra0()->second());
+		subLink = TQString().sprintf("%02d%02d%02d", selectedObject->ra0()->hour(), selectedObject->ra0()->minute(), selectedObject->ra0()->second());
 		subLink = subLink.insert(2, "%20");
 		subLink = subLink.insert(7, "%20");
 
@@ -865,13 +865,13 @@ QString DetailDialog::parseADVData(QString link)
 		link.remove(index, 5);
 		if (selectedObject->dec()->degree() < 0)
 		{
-			subLink = QString().sprintf("%03d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
+			subLink = TQString().sprintf("%03d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
 			subLink = subLink.insert(3, "%20");
 			subLink = subLink.insert(8, "%20");
 		}
 		else
 		{
-			subLink = QString().sprintf("%02d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
+			subLink = TQString().sprintf("%02d%02d%02d", selectedObject->dec0()->degree(), selectedObject->dec0()->arcmin(), selectedObject->dec0()->arcsec());
 			subLink = subLink.insert(0, "%2B");
 			subLink = subLink.insert(5, "%20");
 			subLink = subLink.insert(10, "%20");
@@ -992,8 +992,8 @@ void DetailDialog::centerTelescope()
       	 if (useJ2000)
 	    sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
-    	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
-	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+    	   RAEle->write_w->setText(TQString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+	   DecEle->write_w->setText(TQString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
 
           break;
 
@@ -1009,8 +1009,8 @@ void DetailDialog::centerTelescope()
            sp.setAlt(*ksw->map()->clickedPoint()->alt());
          }
 
-          AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
-          AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+          AzEle->write_w->setText(TQString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
+          AltEle->write_w->setText(TQString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
 
          break;
        }
@@ -1039,8 +1039,8 @@ void DetailDialog::showThumbnail() {
 	//Try to load the object's image from disk
 	//If no image found, load "no image" image
 	//If that isn't found, make it blank.
-	QFile file;
-	QString fname = "thumb-" + selectedObject->name().lower().replace( QRegExp(" "), "" ) + ".png";
+	TQFile file;
+	TQString fname = "thumb-" + selectedObject->name().lower().replace( TQRegExp(" "), "" ) + ".png";
 	if ( KSUtils::openDataFile( file, fname ) ) {
 		file.close();
 		Thumbnail->load( file.name(), "PNG" );
@@ -1058,9 +1058,9 @@ void DetailDialog::showThumbnail() {
 void DetailDialog::updateThumbnail() {
 	ThumbnailPicker tp( selectedObject, *Thumbnail, this, "thumbnaileditor" );
 	
-	if ( tp.exec() == QDialog::Accepted ) {
-		QString fname = locateLocal( "appdata", "thumb-" 
-				+ selectedObject->name().lower().replace( QRegExp(" "), "" ) + ".png" );
+	if ( tp.exec() == TQDialog::Accepted ) {
+		TQString fname = locateLocal( "appdata", "thumb-" 
+				+ selectedObject->name().lower().replace( TQRegExp(" "), "" ) + ".png" );
 
 		Data->Image->setPixmap( *(tp.image()) );
 
@@ -1070,7 +1070,7 @@ void DetailDialog::updateThumbnail() {
 			Data->Image->pixmap()->save( fname, "PNG" );
 			*Thumbnail = *(Data->Image->pixmap());
 		} else {
-			QFile f;
+			TQFile f;
 			f.setName( fname );
 			f.remove();
 		}

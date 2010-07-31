@@ -27,17 +27,17 @@
 #include <kprogress.h>
 #include <knuminput.h>
 
-#include <qtimer.h>
-#include <qcombobox.h>
-#include <qpushbutton.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qstringlist.h>
+#include <tqtimer.h>
+#include <tqcombobox.h>
+#include <tqpushbutton.h>
+#include <tqlabel.h>
+#include <tqcheckbox.h>
+#include <tqstringlist.h>
 
 #define RETRY_MAX	12
 #define RETRY_PERIOD	5000
 
-imagesequence::imagesequence(QWidget* parent, const char* name, bool modal, WFlags fl)
+imagesequence::imagesequence(TQWidget* parent, const char* name, bool modal, WFlags fl)
 : imgSequenceDlg(parent,name, modal,fl)
 {
   
@@ -46,21 +46,21 @@ imagesequence::imagesequence(QWidget* parent, const char* name, bool modal, WFla
 
   if (devMenu)
   {
-   connect (devMenu, SIGNAL(newDevice()), this, SLOT(newCCD()));
-   connect (devMenu, SIGNAL(newDevice()), this, SLOT(newFilter()));
+   connect (devMenu, TQT_SIGNAL(newDevice()), this, TQT_SLOT(newCCD()));
+   connect (devMenu, TQT_SIGNAL(newDevice()), this, TQT_SLOT(newFilter()));
   }
 
-  seqTimer = new QTimer(this);
+  seqTimer = new TQTimer(this);
   
   setModal(false);
   
   // Connect signals and slots
-  connect(startB, SIGNAL(clicked()), this, SLOT(startSequence()));
-  connect(stopB, SIGNAL(clicked()), this, SLOT(stopSequence()));
-  connect(closeB, SIGNAL(clicked()), this, SLOT(close()));
-  connect(seqTimer, SIGNAL(timeout()), this, SLOT(prepareCapture()));
-  connect(CCDCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
-  connect(filterCombo, SIGNAL(activated(int)), this, SLOT(updateFilterCombo(int)));
+  connect(startB, TQT_SIGNAL(clicked()), this, TQT_SLOT(startSequence()));
+  connect(stopB, TQT_SIGNAL(clicked()), this, TQT_SLOT(stopSequence()));
+  connect(closeB, TQT_SIGNAL(clicked()), this, TQT_SLOT(close()));
+  connect(seqTimer, TQT_SIGNAL(timeout()), this, TQT_SLOT(prepareCapture()));
+  connect(CCDCombo, TQT_SIGNAL(activated(int)), this, TQT_SLOT(checkCCD(int)));
+  connect(filterCombo, TQT_SIGNAL(activated(int)), this, TQT_SLOT(updateFilterCombo(int)));
   
   active 		= false;
   ISOStamp		= false;
@@ -249,11 +249,11 @@ void imagesequence::startSequence()
   currentFilter         = filterCombo->currentText();
   lastFilter            = filterCombo->currentItem();
   
-  fullImgCountOUT->setText( QString("%1").arg(seqTotalCount));
-  currentImgCountOUT->setText(QString("%1").arg(seqCurrentCount));
+  fullImgCountOUT->setText( TQString("%1").arg(seqTotalCount));
+  currentImgCountOUT->setText(TQString("%1").arg(seqCurrentCount));
   
   // Ok, now let's connect signals and slots for this device
-  connect(stdDevCCD, SIGNAL(FITSReceived(QString)), this, SLOT(newFITS(QString)));
+  connect(stdDevCCD, TQT_SIGNAL(FITSReceived(TQString)), this, TQT_SLOT(newFITS(TQString)));
   
   // set the progress info
   imgProgress->setEnabled(true);
@@ -294,7 +294,7 @@ void imagesequence::stopSequence()
     stdDevCCD->batchMode    = false;
     stdDevCCD->ISOMode      = false;
     
-    stdDevCCD->disconnect( SIGNAL(FITSReceived(QString)));
+    stdDevCCD->disconnect( TQT_SIGNAL(FITSReceived(TQString)));
   }
 
 }
@@ -302,7 +302,7 @@ void imagesequence::stopSequence()
 void imagesequence::checkCCD(int ccdNum)
 {
   INDI_D *idevice = NULL;
-  QString targetCCD = CCDCombo->text(ccdNum);
+  TQString targetCCD = CCDCombo->text(ccdNum);
 
   INDIMenu *imenu = ksw->getINDIMenu();
   if (!imenu)
@@ -335,7 +335,7 @@ void imagesequence::checkCCD(int ccdNum)
 
 }
 
-void imagesequence::newFITS(QString deviceLabel)
+void imagesequence::newFITS(TQString deviceLabel)
 {
   // If the FITS is not for our device, simply ignore
   if (deviceLabel != currentCCD)
@@ -344,7 +344,7 @@ void imagesequence::newFITS(QString deviceLabel)
   seqCurrentCount++;
   imgProgress->setProgress(seqCurrentCount);
   
-  currentImgCountOUT->setText( QString("%1").arg(seqCurrentCount));
+  currentImgCountOUT->setText( TQString("%1").arg(seqCurrentCount));
   
   // if we're done
   if (seqCurrentCount == seqTotalCount)
@@ -358,7 +358,7 @@ void imagesequence::newFITS(QString deviceLabel)
     seqTimer->stop();
     
     if (stdDevCCD)
-    	stdDevCCD->disconnect( SIGNAL(FITSReceived(QString)));
+    	stdDevCCD->disconnect( TQT_SIGNAL(FITSReceived(TQString)));
     
     resetButtons();
   }
@@ -371,7 +371,7 @@ void imagesequence::newFITS(QString deviceLabel)
 bool imagesequence::verifyCCDIntegrity()
 {
   
-  QString targetCCD;
+  TQString targetCCD;
   INDI_D *idevice = NULL;
   INDI_P *exposeProp;
   INDI_E *exposeElem;
@@ -430,7 +430,7 @@ bool imagesequence::verifyCCDIntegrity()
 bool imagesequence::verifyFilterIntegrity()
 {
 
-  QString targetFilter;
+  TQString targetFilter;
   INDIMenu *devMenu = ksw->getINDIMenu();
   INDI_D *filterDevice (NULL);
   INDI_E *filterElem(NULL);
@@ -469,7 +469,7 @@ bool imagesequence::verifyFilterIntegrity()
        return false;
   }
 
-  // #3 Make sure it has FILTER_SLOT std property by searching for its SLOT element
+  // #3 Make sure it has FILTER_SLOT std property by searching for its TQT_SLOT element
   filterElem = filterDevice->findElem("SLOT");
   if (filterElem == NULL)
   {
@@ -507,7 +507,7 @@ void imagesequence::prepareCapture()
 
      if ( stdDevFilter && ((tempProp = stdDevFilter->dp->findProp("FILTER_SLOT")) != NULL))
      {
-     connect (tempProp, SIGNAL(okState()), this, SLOT(captureImage()));
+     connect (tempProp, TQT_SIGNAL(okState()), this, TQT_SLOT(captureImage()));
      selectFilter();
      }
      else
@@ -531,7 +531,7 @@ void imagesequence::captureImage()
   // D. The property has been lost.
   
   if ( stdDevFilter && ((tempProp = stdDevFilter->dp->findProp("FILTER_SLOT")) != NULL))
-    	tempProp->disconnect( SIGNAL (okState()));
+    	tempProp->disconnect( TQT_SIGNAL (okState()));
 
   if (!verifyCCDIntegrity())
   {
@@ -580,7 +580,7 @@ void imagesequence::captureImage()
       exposeElem->spinChanged(seqExpose);
     }
     else
-     exposeElem->write_w->setText( QString("%1").arg(seqExpose));
+     exposeElem->write_w->setText( TQString("%1").arg(seqExpose));
      
   }
       
@@ -592,7 +592,7 @@ void imagesequence::captureImage()
 void imagesequence::updateFilterCombo(int filterNum)
 {
   INDIMenu *devMenu = ksw->getINDIMenu();
-  QStringList filterList;
+  TQStringList filterList;
   INDI_E *filterElem;
   unsigned int filterMax;
 
@@ -609,19 +609,19 @@ void imagesequence::updateFilterCombo(int filterNum)
 
   if (filterList.empty())
    for (unsigned int i=0; i <= filterMax; i++)
-      filterList << QString("%1").arg(i);
+      filterList << TQString("%1").arg(i);
 
   // Fill filter combo
   if (filterList.count() <= filterMax)
   {
       filterPosCombo->insertStringList(filterList);
       for (unsigned int i = filterList.count() ; i <= filterMax ; i++)
-          filterPosCombo->insertItem(QString("%1").arg(i));
+          filterPosCombo->insertItem(TQString("%1").arg(i));
   } else
   {
       // filterMax < filterList.count()
       for (unsigned int i = 0 ; i <= filterMax ; i++)
-        filterPosCombo->insertItem(QString("%1").arg(filterList[i]));
+        filterPosCombo->insertItem(TQString("%1").arg(filterList[i]));
    
   }
  
@@ -668,7 +668,7 @@ void imagesequence::selectFilter()
       filterElem->spinChanged(filterElem->targetValue);
     }
     else
-     filterElem->write_w->setText(QString("%1").arg(filterElem->targetValue));
+     filterElem->write_w->setText(TQString("%1").arg(filterElem->targetValue));
       
     // We're done! Send it to the driver
     filterProp->newText();

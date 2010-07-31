@@ -18,7 +18,7 @@
 #ifndef WUTDIALOG_H
 #define WUTDIALOG_H
 
-#include <qwidget.h>
+#include <tqwidget.h>
 #include <kdialogbase.h>
 #include "kstarsdatetime.h"
 
@@ -64,7 +64,7 @@ class WUTDialog : public KDialogBase  {
 
 		/**@short display the rise/transit/set times for selected object 
 			*/
-		void slotDisplayObject(QListBoxItem *item);
+		void slotDisplayObject(TQListBoxItem *item);
 
 		/**@short Apply user's choice of what part of the night should 
 			*be examined:
@@ -96,7 +96,7 @@ class WUTDialog : public KDialogBase  {
 		KStars *kstars;
 		WUTDialogUI *WUT;
 		
-		/**@short Initialize all SIGNAL/SLOT connections, used in constructor */
+		/**@short Initialize all SIGNAL/TQT_SLOT connections, used in constructor */
 		void makeConnections();
 		
 		/**@short Initialize catgory list, used in constructor */
@@ -116,14 +116,14 @@ class WUTDialog : public KDialogBase  {
 
 		ObjectNameList *objectList;
 
-		QTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
+		TQTime sunRiseTomorrow, sunSetToday, sunRiseToday, moonRise, moonSet;
 		KStarsDateTime T0, UT0, Tomorrow, TomorrowUT, Evening, EveningUT;
 
 		GeoLocation *geo;
 		int EveningFlag;
 		
 		struct List {
-			QPtrList <SkyObjectName> visibleList[NCATEGORY];
+			TQPtrList <SkyObjectName> visibleList[NCATEGORY];
 			bool initialized[NCATEGORY];
 		} lists;
 

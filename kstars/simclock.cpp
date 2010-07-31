@@ -25,9 +25,9 @@ int SimClock::idgen = 1;
 
 int SimClock::TimerInterval = 100; //msec
 
-SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
-		DCOPObject("clock#" + QCString().setNum(idgen++)),
-		QObject(parent),
+SimClock::SimClock(TQObject *parent, const KStarsDateTime &when) :
+		DCOPObject("clock#" + TQCString().setNum(idgen++)),
+		TQObject(parent),
 		tmr(this)
 {
 	if (! when.isValid() ) tmr.stop();
@@ -38,12 +38,12 @@ SimClock::SimClock(QObject *parent, const KStarsDateTime &when) :
 	ManualMode = false;
 	ManualActive = false;
 	
-	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
+	TQObject::connect(&tmr, TQT_SIGNAL(timeout()), this, TQT_SLOT(tick()));
 }
 
 SimClock::SimClock (const SimClock &old) :
-		DCOPObject("clock#" + QCString().setNum(idgen++)),
-		QObject(old.parent()),
+		DCOPObject("clock#" + TQCString().setNum(idgen++)),
+		TQObject(old.parent()),
 		SimClockInterface(),
 		tmr(this)
 {
@@ -54,7 +54,7 @@ SimClock::SimClock (const SimClock &old) :
 	ManualMode = old.ManualMode;
 	ManualActive = old.ManualActive;
 	
-	QObject::connect(&tmr, SIGNAL(timeout()), this, SLOT(tick()));
+	TQObject::connect(&tmr, TQT_SIGNAL(timeout()), this, TQT_SLOT(tick()));
 }
 
 void SimClock::tick() {

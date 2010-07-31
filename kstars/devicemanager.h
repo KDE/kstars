@@ -32,13 +32,13 @@ class DeviceManager : public QObject
 
    INDIMenu *parent;
 
-   QPtrList<INDI_D> indi_dev;
+   TQPtrList<INDI_D> indi_dev;
 
    int			mgrID;
    int			serverFD;
    FILE			*serverFP;
    LilXML		*XMLParser;
-   QSocketNotifier 	*sNotifier;
+   TQSocketNotifier 	*sNotifier;
    QString		host;
    QString		port;
 
@@ -53,22 +53,22 @@ class DeviceManager : public QObject
    void sendNewText    (INDI_P *pp);
    void sendNewNumber  (INDI_P *pp);
    void sendNewSwitch  (INDI_P *pp, int index);
-   void startBlob (QString devName, QString propName, QString timestamp);
-   void sendOneBlob(QString blobName, unsigned int blobSize, QString blobFormat, unsigned char * blobBuffer);
+   void startBlob (TQString devName, TQString propName, TQString timestamp);
+   void sendOneBlob(TQString blobName, unsigned int blobSize, TQString blobFormat, unsigned char * blobBuffer);
    void finishBlob();
 
    /*****************************************************************
    * Misc.
    ******************************************************************/
    int  delPropertyCmd (XMLEle *root, char errmsg[]);
-   int  removeDevice   (QString devName, char errmsg[]);
-   INDI_D *  findDev   (QString devName, char errmsg[]);
+   int  removeDevice   (TQString devName, char errmsg[]);
+   INDI_D *  findDev   (TQString devName, char errmsg[]);
 
    int  messageCmd     (XMLEle *root, char errmsg[]);
    void checkMsg       (XMLEle *root, INDI_D *dp);
    void doMsg          (XMLEle *msg , INDI_D *dp);
 
-   bool indiConnect    (QString inHost, QString inPort);
+   bool indiConnect    (TQString inHost, TQString inPort);
 
   public slots:
    void dataReceived();

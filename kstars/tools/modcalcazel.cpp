@@ -27,16 +27,16 @@
 #include "kstarsdatetime.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <qdatetimeedit.h>  //need for QTimeEdit
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qstring.h>
-#include <qtextstream.h>
+#include <tqdatetimeedit.h>  //need for QTimeEdit
+#include <tqcheckbox.h>
+#include <tqradiobutton.h>
+#include <tqstring.h>
+#include <tqtextstream.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
 
-modCalcAzel::modCalcAzel(QWidget *parentSplit, const char *name) : modCalcAzelDlg (parentSplit,name) {
+modCalcAzel::modCalcAzel(TQWidget *parentSplit, const char *name) : modCalcAzelDlg (parentSplit,name) {
 
 	showCurrentDateTime();
  	initGeo();
@@ -94,7 +94,7 @@ KStarsDateTime modCalcAzel::getDateTime (void)
 	return KStarsDateTime( datBox->date() , timBox->time() );
 }
 
-double modCalcAzel::getEpoch (QString eName)
+double modCalcAzel::getEpoch (TQString eName)
 {
 	bool ok = false;
 	double epoch = eName.toDouble(&ok);
@@ -180,7 +180,7 @@ void modCalcAzel::slotClearCoords()
 	epochName->setText("");
 
 	datBox->setDate(ExtDate::currentDate());
-	timBox->setTime(QTime(0,0,0));
+	timBox->setTime(TQTime(0,0,0));
 
 }
 
@@ -307,40 +307,40 @@ void modCalcAzel::equNoCheck() {
 
 
 void modCalcAzel::slotInputFile() {
-	QString inputFileName;
+	TQString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcAzel::slotOutputFile() {
-	QString outputFileName;
+	TQString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 }
 
 void modCalcAzel::slotRunBatch() {
-	QString inputFileName;
+	TQString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
 
 	// We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
+	if ( TQFile::exists(inputFileName) ) {
+		TQFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			TQString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;
 		}
 
 //		processLines(&f);
-		QTextStream istream(&f);
+		TQTextStream istream(&f);
 		processLines(istream);
 //		readFile( istream );
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		TQString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
 		InputLineEditBatch->setText( inputFileName );
@@ -348,26 +348,26 @@ void modCalcAzel::slotRunBatch() {
 	}
 }
 
-void modCalcAzel::processLines( QTextStream &istream ) {
+void modCalcAzel::processLines( TQTextStream &istream ) {
 
 	// we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
+//	TQTextStream istream(&fIn);
+	TQString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
+	TQFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
-	QTextStream ostream(&fOut);
+	TQTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
+	TQString line;
+	TQString space = " ";
 	int i = 0;
 	long double jd0, jdf;
 	dms LST;
 	SkyPoint sp;
 	dms raB, decB, latB, longB, azB, elB;
 	double epoch0B;
-	QTime utB;
+	TQTime utB;
 	ExtDate dtB;
 
 	while ( ! istream.eof() ) {
@@ -376,14 +376,14 @@ void modCalcAzel::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		TQStringList fields = TQStringList::split( " ", line );
 
 		i = 0;
 
 		// Read Ut and write in ostream if corresponds
 		
 		if(utCheckBatch->isChecked() ) {
-			utB = QTime::fromString( fields[i] );
+			utB = TQTime::fromString( fields[i] );
 			i++;
 		} else
 			utB = utBoxBatch->time();

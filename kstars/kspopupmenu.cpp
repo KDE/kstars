@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlabel.h>
+#include <tqlabel.h>
 
 #include "kspopupmenu.h"
 #include "kstars.h"
@@ -32,7 +32,7 @@
 #include "indigroup.h"
 #include "indiproperty.h"
 
-KSPopupMenu::KSPopupMenu( QWidget *parent, const char *name )
+KSPopupMenu::KSPopupMenu( TQWidget *parent, const char *name )
  : KPopupMenu( parent, name )
 {
 	ksw = ( KStars* )parent;
@@ -43,10 +43,10 @@ KSPopupMenu::~KSPopupMenu()
 }
 
 void KSPopupMenu::createEmptyMenu( SkyObject *nullObj ) {
-	initPopupMenu( nullObj, i18n( "Empty sky" ), QString::null, QString::null, true, true, false, false, false, true, false );
+	initPopupMenu( nullObj, i18n( "Empty sky" ), TQString::null, TQString::null, true, true, false, false, false, true, false );
 
-	insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
-	insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );
+	insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), TQT_SLOT( slotDSS() ) );
+	insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), TQT_SLOT( slotDSS2() ) );
 }
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
@@ -58,14 +58,14 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 	if ( star->name() != "star" ) {
 		addLinksToMenu( star );
 	} else {
-		insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
-		insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );
+		insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), TQT_SLOT( slotDSS() ) );
+		insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), TQT_SLOT( slotDSS2() ) );
 	}
 }
 
 void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
-	QString TypeName = ksw->data()->TypeName[ obj->type() ];
-	QString secondName = obj->translatedName2();
+	TQString TypeName = ksw->data()->TypeName[ obj->type() ];
+	TQString secondName = obj->translatedName2();
 	if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
 
 	initPopupMenu( obj, obj->translatedName(), secondName, TypeName );
@@ -73,8 +73,8 @@ void KSPopupMenu::createDeepSkyObjectMenu( SkyObject *obj ) {
 }
 
 void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
-	QString TypeName = ksw->data()->TypeName[ obj->type() ];
-	QString secondName = obj->translatedName2();
+	TQString TypeName = ksw->data()->TypeName[ obj->type() ];
+	TQString secondName = obj->translatedName2();
 	if ( obj->longname() != obj->name() ) secondName = obj->translatedLongName();
 
 	initPopupMenu( obj, obj->translatedName(), secondName, TypeName );
@@ -84,7 +84,7 @@ void KSPopupMenu::createCustomObjectMenu( SkyObject *obj ) {
 
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 	bool addTrail( ! ((KSPlanetBase*)p)->hasTrail() );
-	QString oname = "";
+	TQString oname = "";
 	if ( p->name() == "Moon" ) {
 		oname = ((KSMoon *)p)->phaseName();
 	}
@@ -93,8 +93,8 @@ void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
 }
 
 void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom ) {
-	QString sURL;
-	QStringList::Iterator itList, itTitle, itListEnd;
+	TQString sURL;
+	TQStringList::Iterator itList, itTitle, itListEnd;
 
 	itList  = obj->ImageList.begin();
 	itTitle = obj->ImageTitle.begin();
@@ -102,15 +102,15 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 
 	int id = 100;
 	for ( ; itList != itListEnd; ++itList ) {
-		QString t = QString(*itTitle);
-		sURL = QString(*itList);
-		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), SLOT( slotImage( int ) ), 0, id++ );
+		TQString t = TQString(*itTitle);
+		sURL = TQString(*itList);
+		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), TQT_SLOT( slotImage( int ) ), 0, id++ );
 		++itTitle;
 	}
 
 	if ( showDSS ) {
-	  insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), SLOT( slotDSS() ) );
-	  insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), SLOT( slotDSS2() ) );
+	  insertItem( i18n( "First Generation Digitized Sky Survey", "Show 1st-Gen DSS Image" ), ksw->map(), TQT_SLOT( slotDSS() ) );
+	  insertItem( i18n( "Second Generation Digitized Sky Survey", "Show 2nd-Gen DSS Image" ), ksw->map(), TQT_SLOT( slotDSS2() ) );
 	  insertSeparator();
 	}
 	else if ( obj->ImageList.count() ) insertSeparator();
@@ -121,15 +121,15 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS, bool allowCustom
 
 	id = 200;
 	for ( ; itList != itListEnd; ++itList ) {
-		QString t = QString(*itTitle);
-		sURL = QString(*itList);
-		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), SLOT( slotInfo( int ) ), 0, id++ );
+		TQString t = TQString(*itTitle);
+		sURL = TQString(*itList);
+		insertItem( i18n( "Image/info menu item (should be translated)", t.local8Bit() ), ksw->map(), TQT_SLOT( slotInfo( int ) ), 0, id++ );
 		++itTitle;
 	}
 
 	if ( allowCustom ) {
 		insertSeparator();
-		insertItem( i18n( "Add Link..." ), ksw->map(), SLOT( addLink() ), 0, id++ );
+		insertItem( i18n( "Add Link..." ), ksw->map(), TQT_SLOT( addLink() ), 0, id++ );
 	}
 }
 
@@ -201,7 +201,7 @@ bool KSPopupMenu::addINDI(void)
 	     }
 	     }
 
-	     QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT (convertSwitch(int)));
+	     TQObject::connect(menuDevice, TQT_SIGNAL(activated(int)), prop, TQT_SLOT (convertSwitch(int)));
 	    
 	    } // end property
 	  } // end group
@@ -217,7 +217,7 @@ bool KSPopupMenu::addINDI(void)
 			prop = dev->findElem("ALT")->pp;
 
 		prop->assosiatedPopup = menuDevice;
-		QObject::connect(menuDevice, SIGNAL(activated(int)), prop, SLOT(convertSwitch(int)));	
+		TQObject::connect(menuDevice, TQT_SIGNAL(activated(int)), prop, TQT_SLOT(convertSwitch(int)));	
 	}
        } // end device
 	
@@ -226,7 +226,7 @@ bool KSPopupMenu::addINDI(void)
  return true;
 }
 
-void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString s3,
+void KSPopupMenu::initPopupMenu( SkyObject *obj, TQString s1, TQString s2, TQString s3,
 		bool showRiseSet, bool showCenterTrack, bool showDetails, bool showTrail, bool addTrail, 
 		bool showAngularDistance, bool showObsList ) {
 	
@@ -236,47 +236,47 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	bool showLabel( true );
 	if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
 
-	pmTitle = new QLabel( s1, this );
+	pmTitle = new TQLabel( s1, this );
 	pmTitle->setAlignment( AlignCenter );
-	QPalette pal( pmTitle->palette() );
-	pal.setColor( QPalette::Normal, QColorGroup::Background, pal.color( QPalette::Normal, QColorGroup::Base ) );
-	pal.setColor( QPalette::Normal, QColorGroup::Foreground, pal.color( QPalette::Normal, QColorGroup::Text ) );
+	TQPalette pal( pmTitle->palette() );
+	pal.setColor( TQPalette::Normal, TQColorGroup::Background, pal.color( TQPalette::Normal, TQColorGroup::Base ) );
+	pal.setColor( TQPalette::Normal, TQColorGroup::Foreground, pal.color( TQPalette::Normal, TQColorGroup::Text ) );
 	pmTitle->setPalette( pal );
 	insertItem( pmTitle );
 
 	if ( ! s2.isEmpty() ) {
-		pmTitle2 = new QLabel( s2, this );
+		pmTitle2 = new TQLabel( s2, this );
 		pmTitle2->setAlignment( AlignCenter );
 		pmTitle2->setPalette( pal );
 		insertItem( pmTitle2 );
 	}
 
 	if ( ! s3.isEmpty() ) {
-		pmType = new QLabel( s3, this );
+		pmType = new TQLabel( s3, this );
 		pmType->setAlignment( AlignCenter );
 		pmType->setPalette( pal );
 		insertItem( pmType );
 	}
 
-	QString c = obj->constellation( ksw->data()->csegmentList, ksw->data()->cnameList );
-	pmConstellation = new QLabel( c, this );
+	TQString c = obj->constellation( ksw->data()->csegmentList, ksw->data()->cnameList );
+	pmConstellation = new TQLabel( c, this );
 	pmConstellation->setAlignment( AlignCenter );
 	pmConstellation->setPalette( pal );
 	insertItem( pmConstellation );
 	
 	//Insert Rise/Set/Transit labels
 	if ( showRiseSet && obj ) {
-		pmRiseTime = new QLabel( i18n( "Rise time: 00:00" ), this );
+		pmRiseTime = new TQLabel( i18n( "Rise time: 00:00" ), this );
 		pmRiseTime->setAlignment( AlignCenter );
 		pmRiseTime->setPalette( pal );
-		QFont rsFont = pmRiseTime->font();
+		TQFont rsFont = pmRiseTime->font();
 		rsFont.setPointSize( rsFont.pointSize() - 2 );
 		pmRiseTime->setFont( rsFont );
-		pmSetTime = new QLabel( i18n( "the time at which an object falls below the horizon", "Set time:" ) + " 00:00", this );
+		pmSetTime = new TQLabel( i18n( "the time at which an object falls below the horizon", "Set time:" ) + " 00:00", this );
 		pmSetTime->setAlignment( AlignCenter );
 		pmSetTime->setPalette( pal );
 		pmSetTime->setFont( rsFont );
-		pmTransitTime = new QLabel( i18n( "Transit time: 00:00" ), this );
+		pmTransitTime = new TQLabel( i18n( "Transit time: 00:00" ), this );
 		pmTransitTime->setAlignment( AlignCenter );
 		pmTransitTime->setPalette( pal );
 		pmTransitTime->setFont( rsFont );
@@ -291,15 +291,15 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 	//Insert item for centering on object
 	if ( showCenterTrack && obj ) {
 		insertSeparator();
-		insertItem( i18n( "Center && Track" ), ksw->map(), SLOT( slotCenter() ) );
+		insertItem( i18n( "Center && Track" ), ksw->map(), TQT_SLOT( slotCenter() ) );
 	}
 	
 	//Insert item for measuring distances
 	if ( showAngularDistance && obj ) {
 		if (! (ksw->map()->isAngleMode()) ) {
-			insertItem( i18n( "Angular Distance To...            [" ), ksw->map(), SLOT( slotBeginAngularDistance() ) );
+			insertItem( i18n( "Angular Distance To...            [" ), ksw->map(), TQT_SLOT( slotBeginAngularDistance() ) );
 		} else {
-			insertItem( i18n( "Compute Angular Distance          ]" ), ksw->map(), SLOT( slotEndAngularDistance() ) );
+			insertItem( i18n( "Compute Angular Distance          ]" ), ksw->map(), TQT_SLOT( slotEndAngularDistance() ) );
 		}
 
 	}
@@ -307,30 +307,30 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 
 	//Insert item for Showing details dialog
 	if ( showDetails && obj ) {
-		insertItem( i18n( "Show Detailed Information Dialog", "Details" ), ksw->map(), SLOT( slotDetail() ) );
+		insertItem( i18n( "Show Detailed Information Dialog", "Details" ), ksw->map(), TQT_SLOT( slotDetail() ) );
 	}
 
 	//Insert "Add/Remove Label" item
 	if ( showLabel && obj ) {
 		if ( ksw->map()->isObjectLabeled( obj ) ) {
-			insertItem( i18n( "Remove Label" ), ksw->map(), SLOT( slotRemoveObjectLabel() ) );
+			insertItem( i18n( "Remove Label" ), ksw->map(), TQT_SLOT( slotRemoveObjectLabel() ) );
 		} else {
-			insertItem( i18n( "Attach Label" ), ksw->map(), SLOT( slotAddObjectLabel() ) );
+			insertItem( i18n( "Attach Label" ), ksw->map(), TQT_SLOT( slotAddObjectLabel() ) );
 		}
 	}
 
 	if ( showObsList && obj ) {
 		if ( ksw->observingList()->contains( obj ) )
-			insertItem( i18n("Remove From List"), ksw->observingList(), SLOT( slotRemoveObject() ) );
+			insertItem( i18n("Remove From List"), ksw->observingList(), TQT_SLOT( slotRemoveObject() ) );
 		else 
-			insertItem( i18n("Add to List"), ksw->observingList(), SLOT( slotAddObject() ) );
+			insertItem( i18n("Add to List"), ksw->observingList(), TQT_SLOT( slotAddObject() ) );
 	}
 	
 	if ( showTrail && obj && obj->isSolarSystem() ) {
 		if ( addTrail ) {
-			insertItem( i18n( "Add Trail" ), ksw->map(), SLOT( slotAddPlanetTrail() ) );
+			insertItem( i18n( "Add Trail" ), ksw->map(), TQT_SLOT( slotAddPlanetTrail() ) );
 		} else {
-			insertItem( i18n( "Remove Trail" ), ksw->map(), SLOT( slotRemovePlanetTrail() ) );
+			insertItem( i18n( "Remove Trail" ), ksw->map(), TQT_SLOT( slotRemovePlanetTrail() ) );
 		}
 	}
 
@@ -343,8 +343,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString s1, QString s2, QString
 void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 	if ( ! obj ) return;
 	
-	QString rt, rt2, rt3;
-	QTime rtime = obj->riseSetTime( ksw->data()->ut(), ksw->geo(), true );
+	TQString rt, rt2, rt3;
+	TQTime rtime = obj->riseSetTime( ksw->data()->ut(), ksw->geo(), true );
 	dms rAz = obj->riseSetTimeAz( ksw->data()->ut(), ksw->geo(), true );
 
 	if ( rtime.isValid() ) {
@@ -358,9 +358,9 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 	}
 
 	KStarsDateTime dt = ksw->data()->ut();
-	QTime stime = obj->riseSetTime( dt, ksw->geo(), false );
+	TQTime stime = obj->riseSetTime( dt, ksw->geo(), false );
 
-	QString st, st2, st3;
+	TQString st, st2, st3;
 	dms sAz = obj->riseSetTimeAz( dt,  ksw->geo(), false );
 	
 	if ( stime.isValid() ) {
@@ -373,9 +373,9 @@ void KSPopupMenu::setRiseSetLabels( SkyObject *obj ) {
 		st = i18n( "No set time: Never rises" );
 	}
 
-	QTime ttime = obj->transitTime( dt, ksw->geo() );
+	TQTime ttime = obj->transitTime( dt, ksw->geo() );
 	dms trAlt = obj->transitAltitude( dt, ksw->geo() );
-	QString tt, tt2, tt3;
+	TQString tt, tt2, tt3;
 
 	if ( ttime.isValid() ) {
 		//We can round to the nearest minute by simply adding 30 seconds to the time.

@@ -64,7 +64,7 @@ public:
 	*@param iEllips type of geodetic ellipsoid model
 	*@param hght the elevation above sea level (in meters?)
 	*/
-	GeoLocation( dms lng, dms lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
+	GeoLocation( dms lng, dms lat, TQString name="Nowhere", TQString province="Nowhere", TQString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
 
 /**Constructor using doubles to specify longitude and latitude.
 	*@param lng the longitude
@@ -77,7 +77,7 @@ public:
 	*@param iEllips type of geodetic ellipsoid model
 	*@param hght the elevation above sea level (in meters?)
 	*/
-	GeoLocation( double lng, double lat, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
+	GeoLocation( double lng, double lat, TQString name="Nowhere", TQString province="Nowhere", TQString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4, double hght=-10 );
 
 /**Constructor using doubles to specify X, Y and Z referred to the center of the Earth.
 	*@param x the x-position, in m
@@ -90,7 +90,7 @@ public:
 	*@param TZrule pointer to the daylight savings time rule
 	*@param iEllips type of geodetic ellipsoid model
 	*/
-	GeoLocation( double x, double y, double z, QString name="Nowhere", QString province="Nowhere", QString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4 );
+	GeoLocation( double x, double y, double z, TQString name="Nowhere", TQString province="Nowhere", TQString country="Nowhere", double TZ=0, TimeZoneRule *TZrule=NULL, int iEllips=4 );
 
 
 /**Destructor (empty)
@@ -121,26 +121,26 @@ public:
 
 /**@return untranslated City name
 	*/
-	QString name() const { return Name; }
+	TQString name() const { return Name; }
 /**@return translated City name
 	*/
-	QString translatedName() const { return i18n("City name (optional, probably does not need a translation)", Name.utf8().data()); }
+	TQString translatedName() const { return i18n("City name (optional, probably does not need a translation)", Name.utf8().data()); }
 /**@return untranslated Province name
 	*/
-	QString province() const { return Province; }
+	TQString province() const { return Province; }
 /**@return translated Province name
 	*/
-	QString translatedProvince() const { return i18n("Region/state name (optional, rarely needs a translation)", Province.utf8().data()); }
+	TQString translatedProvince() const { return i18n("Region/state name (optional, rarely needs a translation)", Province.utf8().data()); }
 /**@return untranslated Country name
 	*/
-	QString country() const { return Country; }
+	TQString country() const { return Country; }
 /**@return translated Country name
  */
-	QString translatedCountry() const { return i18n("Country name (optional, but should be translated)", Country.utf8().data()); }
+	TQString translatedCountry() const { return i18n("Country name (optional, but should be translated)", Country.utf8().data()); }
 
 /**@return comma-separated city, province, country names (each localized)
  */
-	QString fullName() const;
+	TQString fullName() const;
 
 /**@return time zone without DST correction
 	*/
@@ -226,17 +226,17 @@ public:
 /**Set City name according to argument.
 	*@p n new city name
 	*/
-	void setName( const QString &n ) { Name = n; }
+	void setName( const TQString &n ) { Name = n; }
 
 /**Set Province name according to argument.
 	*@p n new province name
 	*/
-	void setProvince( const QString &n ) { Province = n; }
+	void setProvince( const TQString &n ) { Province = n; }
 
 /**Set Country name according to argument.
 	*@p n new country name
 	*/
-	void setCountry( const QString &n ) { Country = n; }
+	void setCountry( const TQString &n ) { Country = n; }
 
 /**Sets Time Zone according to argument.
 	*@p tz new timezone offset
@@ -312,7 +312,7 @@ public:
 
 private:
 	dms Longitude, Latitude;
-	QString Name, Province, Country;
+	TQString Name, Province, Country;
 	TimeZoneRule *TZrule;
 	double TimeZone, Height;
 	double axis, flattening;

@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlistview.h> //QCheckListItem
-#include <qcheckbox.h>
-#include <qlabel.h>
+#include <tqlistview.h> //QCheckListItem
+#include <tqcheckbox.h>
+#include <tqlabel.h>
 #include <kfiledialog.h>
 
 #include "opscatalog.h"
@@ -29,22 +29,22 @@
 #include "magnitudespinbox.h"
 #include "customcatalog.h"
 
-OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl ) 
+OpsCatalog::OpsCatalog( TQWidget *p, const char *name, WFlags fl ) 
 	: OpsCatalogUI( p, name, fl ) 
 {
 	ksw = (KStars *)p;
 
 	//Populate CatalogList
-	showIC = new QCheckListItem( CatalogList, i18n( "Index Catalog (IC)" ), QCheckListItem::CheckBox );
+	showIC = new TQCheckListItem( CatalogList, i18n( "Index Catalog (IC)" ), TQCheckListItem::CheckBox );
 	showIC->setOn( Options::showIC() );
 
-	showNGC = new QCheckListItem( CatalogList, i18n( "New General Catalog (NGC)" ), QCheckListItem::CheckBox );
+	showNGC = new TQCheckListItem( CatalogList, i18n( "New General Catalog (NGC)" ), TQCheckListItem::CheckBox );
 	showNGC->setOn( Options::showNGC() );
 
-	showMessImages = new QCheckListItem( CatalogList, i18n( "Messier Catalog (images)" ), QCheckListItem::CheckBox );
+	showMessImages = new TQCheckListItem( CatalogList, i18n( "Messier Catalog (images)" ), TQCheckListItem::CheckBox );
 	showMessImages->setOn( Options::showMessierImages() );
 
-	showMessier = new QCheckListItem( CatalogList, i18n( "Messier Catalog (symbols)" ), QCheckListItem::CheckBox );
+	showMessier = new TQCheckListItem( CatalogList, i18n( "Messier Catalog (symbols)" ), TQCheckListItem::CheckBox );
 	showMessier->setOn( Options::showMessier() );
 
 	kcfg_MagLimitDrawStar->setValue( Options::magLimitDrawStar() );
@@ -60,21 +60,21 @@ OpsCatalog::OpsCatalog( QWidget *p, const char *name, WFlags fl )
 	
 	//Add custom catalogs, if necessary
 	for ( unsigned int i=0; i<ksw->data()->customCatalogs().count(); ++i ) { //loop over custom catalogs
-		QCheckListItem *newItem = new QCheckListItem( CatalogList, ksw->data()->customCatalogs().at(i)->name(), QCheckListItem::CheckBox );
+		TQCheckListItem *newItem = new TQCheckListItem( CatalogList, ksw->data()->customCatalogs().at(i)->name(), TQCheckListItem::CheckBox );
 		newItem->setOn( Options::showCatalog()[i] );
 	}
 
-	connect( CatalogList, SIGNAL( clicked( QListViewItem* ) ), this, SLOT( updateDisplay() ) );
-	connect( CatalogList, SIGNAL( selectionChanged() ), this, SLOT( selectCatalog() ) );
-	connect( AddCatalog, SIGNAL( clicked() ), this, SLOT( slotAddCatalog() ) );
-	connect( LoadCatalog, SIGNAL( clicked() ), this, SLOT( slotLoadCatalog() ) );
-	connect( RemoveCatalog, SIGNAL( clicked() ), this, SLOT( slotRemoveCatalog() ) );
+	connect( CatalogList, TQT_SIGNAL( clicked( TQListViewItem* ) ), this, TQT_SLOT( updateDisplay() ) );
+	connect( CatalogList, TQT_SIGNAL( selectionChanged() ), this, TQT_SLOT( selectCatalog() ) );
+	connect( AddCatalog, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotAddCatalog() ) );
+	connect( LoadCatalog, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotLoadCatalog() ) );
+	connect( RemoveCatalog, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotRemoveCatalog() ) );
 
-	connect( kcfg_MagLimitDrawStar, SIGNAL( valueChanged(double) ),
-		SLOT( slotSetDrawStarMagnitude(double) ) );
-	connect( kcfg_MagLimitDrawStarZoomOut, SIGNAL( valueChanged(double) ),
-		SLOT( slotSetDrawStarZoomOutMagnitude(double) ) );
-	connect( kcfg_ShowStars, SIGNAL( toggled(bool) ), SLOT( slotStarWidgets(bool) ) );
+	connect( kcfg_MagLimitDrawStar, TQT_SIGNAL( valueChanged(double) ),
+		TQT_SLOT( slotSetDrawStarMagnitude(double) ) );
+	connect( kcfg_MagLimitDrawStarZoomOut, TQT_SIGNAL( valueChanged(double) ),
+		TQT_SLOT( slotSetDrawStarZoomOutMagnitude(double) ) );
+	connect( kcfg_ShowStars, TQT_SIGNAL( toggled(bool) ), TQT_SLOT( slotStarWidgets(bool) ) );
 }
 
 //empty destructor
@@ -82,7 +82,7 @@ OpsCatalog::~OpsCatalog() {}
 
 void OpsCatalog::updateDisplay() {
 	//Modify display according to settings in the CatalogList
-	if ( sender()->name() == QString( "CatalogList" ) )
+	if ( sender()->name() == TQString( "CatalogList" ) )
 		Options::setShowDeepSky( true );
 
 	Options::setShowMessier( showMessier->isOn() );
@@ -90,7 +90,7 @@ void OpsCatalog::updateDisplay() {
 	Options::setShowNGC( showNGC->isOn() );
 	Options::setShowIC( showIC->isOn() );
 	for ( unsigned int i=0; i<ksw->data()->customCatalogs().count(); ++i ) {
-		QCheckListItem *item = (QCheckListItem*)( CatalogList->findItem( ksw->data()->customCatalogs().at(i)->name(), 0 ));
+		TQCheckListItem *item = (TQCheckListItem*)( CatalogList->findItem( ksw->data()->customCatalogs().at(i)->name(), 0 ));
 		Options::showCatalog()[i] = item->isOn();
 	}
 
@@ -114,13 +114,13 @@ void OpsCatalog::selectCatalog() {
 
 void OpsCatalog::slotAddCatalog() {
 	AddCatDialog ac(this);
-	if ( ac.exec()==QDialog::Accepted ) 
+	if ( ac.exec()==TQDialog::Accepted ) 
 		insertCatalog( ac.filename() );
 }
 
 void OpsCatalog::slotLoadCatalog() {
 	//Get the filename from the user
-	QString filename = KFileDialog::getOpenFileName( QDir::homeDirPath(), "*");
+	TQString filename = KFileDialog::getOpenFileName( TQDir::homeDirPath(), "*");
 	if ( ! filename.isEmpty() ) {
 		//test integrity of file before trying to add it
 		CustomCatalog *newCat = ksw->data()->createCustomCatalog( filename, true ); //true = show errors
@@ -133,19 +133,19 @@ void OpsCatalog::slotLoadCatalog() {
 	}
 }
 
-void OpsCatalog::insertCatalog( const QString &filename ) {
+void OpsCatalog::insertCatalog( const TQString &filename ) {
 	//Add new custom catalog, based on the list of SkyObjects we just parsed
 	ksw->data()->addCatalog( filename );
 
 	//Get the new catalog's name, add entry to the listbox
-	QString name = ksw->data()->customCatalogs().current()->name();
-	QCheckListItem *newCat = new QCheckListItem( CatalogList, name, QCheckListItem::CheckBox );
+	TQString name = ksw->data()->customCatalogs().current()->name();
+	TQCheckListItem *newCat = new TQCheckListItem( CatalogList, name, TQCheckListItem::CheckBox );
 	newCat->setOn( true );
 	CatalogList->insertItem( newCat );
 
 	//update Options object
-	QStringList tFileList = Options::catalogFile();
-	QValueList<int> tShowList = Options::showCatalog();
+	TQStringList tFileList = Options::catalogFile();
+	TQValueList<int> tShowList = Options::showCatalog();
 	tFileList.append( filename );
 	tShowList.append( true );
 	Options::setCatalogFile( tFileList );
@@ -162,8 +162,8 @@ void OpsCatalog::slotRemoveCatalog() {
 			ksw->data()->removeCatalog( i );
 
 			//Update Options object
-			QStringList tFileList = Options::catalogFile();
-			QValueList<int> tShowList = Options::showCatalog();
+			TQStringList tFileList = Options::catalogFile();
+			TQValueList<int> tShowList = Options::showCatalog();
 			tFileList.remove( tFileList[i] );
 			tShowList.remove( tShowList[i] );
 			Options::setCatalogFile( tFileList );

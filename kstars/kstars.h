@@ -24,7 +24,7 @@
 #include <dcopclient.h>
 #include <kapplication.h>
 #include <kmainwindow.h>
-#include <qwidget.h>
+#include <tqwidget.h>
 
 #include "kstarsinterface.h"
 #include "observinglist.h"
@@ -78,7 +78,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*
 		* @todo Refer to documentation on date format.
 		*/
-		KStars( bool doSplash, bool startClockRunning = true, const QString &startDateString = "" );
+		KStars( bool doSplash, bool startClockRunning = true, const TQString &startDateString = "" );
 
 	/**Destructor.  Synchs config file.  Deletes objects.
 		*/
@@ -122,12 +122,12 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@param name The name to use in the menu
 		*@param actionName The internal name for the action (derived from filename)
 		*/
-		void addColorMenuItem( QString name, QString actionName );
+		void addColorMenuItem( TQString name, TQString actionName );
 
 	/**Remove an item from the color-scheme action manu
 		*@param actionName The internal name of the action (derived from filename)
 		*/
-		void removeColorMenuItem( QString actionName );
+		void removeColorMenuItem( TQString actionName );
 
 	/**DCOP interface function.  
 		*Set focus to given Ra/Dec coordinates 
@@ -147,7 +147,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*Point in the direction described by the string argument.  
 		*@p direction either an object name, a compass direction (e.g., "north"), or "zenith"
 		*/
-		ASYNC lookTowards( const QString direction );
+		ASYNC lookTowards( const TQString direction );
 
 	/**DCOP interface function.  Zoom in one step. */
 		ASYNC zoomIn(void) { slotZoomIn(); }
@@ -181,7 +181,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 	/**DCOP interface function.  Pause further DCOP execution until a key is pressed. 
 		*@p k the key which will resume DCOP execution
 		*/
-		ASYNC waitForKey( const QString k );
+		ASYNC waitForKey( const TQString k );
 
 	/**DCOP interface function.  Toggle tracking. 
 		*@p track engage tracking if true; else disengage tracking
@@ -192,13 +192,13 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@p option the name of the option to be modified
 		*@p value the option's new value
 		*/
-		ASYNC changeViewOption( const QString option, const QString value );
+		ASYNC changeViewOption( const TQString option, const TQString value );
 
 	/**DCOP interface function.
 		*@p name the name of the option to query
 		*@return the current value of the named option
 		*/
-		QString getOption( const QString &name );
+		TQString getOption( const TQString &name );
 
 	/**DCOP interface function.  Read config file. 
 		*This function is useful for restoring the user settings from the config file, 
@@ -220,7 +220,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@p y y-coordinate for message window
 		*@p message the text to display in the message window
 		*/
-		ASYNC popupMessage( int x, int y, const QString message );
+		ASYNC popupMessage( int x, int y, const TQString message );
 
 	/**DCOP interface function.  Draw a line on the sky map. 
 		*@note Not Yet Implemented
@@ -237,25 +237,25 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@p province the province name of the location
 		*@p country the country name of the location
 		*/
-		ASYNC setGeoLocation( const QString city, const QString province, const QString country );
+		ASYNC setGeoLocation( const TQString city, const TQString province, const TQString country );
 
 	/**DCOP interface function.  Modify a color. 
 		*@p colorName the name of the color to be modified (e.g., "SkyColor")
 		*@p value the new color to use
 		*/
-		ASYNC setColor( const QString colorName, const QString value );
+		ASYNC setColor( const TQString colorName, const TQString value );
 
 	/**DCOP interface function.  Load a color scheme. 
 		*@p name the name of the color scheme to load (e.g., "Moonless Night")
 		*/
-		ASYNC loadColorScheme( const QString name );
+		ASYNC loadColorScheme( const TQString name );
 
 	/**DCOP interface function.  Export the sky image to a file. 
 		*@p filename the filename for the exported image
 		*@p width the width for the exported image
 		*@p height the height for the exported image
 		*/
-		ASYNC exportImage( const QString filename, int width, int height );
+		ASYNC exportImage( const TQString filename, int width, int height );
 
 	/**DCOP interface function.  Print the sky image. 
 		*@p usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used
@@ -267,110 +267,110 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*@p driverName the name of the driver to be established
 		*@p useLocal establish driver locally?
 		*/
-		ASYNC startINDI (QString driverName, bool useLocal);
+		ASYNC startINDI (TQString driverName, bool useLocal);
 		
 	/**DCOP interface function. Shutdown an INDI driver. 
 		*@p driverName the name of the driver to be shut down
 		*/
-		ASYNC shutdownINDI (QString driverName);
+		ASYNC shutdownINDI (TQString driverName);
 		
 	/**DCOP interface function.  Turn INDI driver on/off. 
 		*@p driverName the name of the driver to be switched on/off
 		*@p turnOn if true, turn driver on; otherwise turn off
 		*/
-		ASYNC switchINDI(QString driverName, bool turnOn);
+		ASYNC switchINDI(TQString driverName, bool turnOn);
 	
 	/**DCOP interface function.  Set INDI connection port. 
 		*@p driverName the name of the driver for which the port will be set
 		*@p port the port identifier
 		*/
-		ASYNC setINDIPort(QString driverName, QString port);
+		ASYNC setINDIPort(TQString driverName, TQString port);
 	
 	/**DCOP interface function.  Set INDI target RA/DEC coordinates
 		*@p driverName the name of the driver 
 		*@p RA the target's Right Ascension coordinate (in Hours) 
 		*@p DEC the target's Declination coordinate (in Degrees) 
 		*/
-		ASYNC setINDITargetCoord(QString driverName, double RA, double DEC);
+		ASYNC setINDITargetCoord(TQString driverName, double RA, double DEC);
 	
 	/**DCOP interface function.  Set INDI target to a named object. 
 		*@p driverName the name of the driver 
 		*@p objectName the name of the object to be targeted
 		*/
-		ASYNC setINDITargetName(QString driverName, QString objectName);
+		ASYNC setINDITargetName(TQString driverName, TQString objectName);
 	
 	/**DCOP interface function.  Set INDI action. 
 		*@p driverName the name of the driver 
 		*@p action the action to set
 		*/
-		ASYNC setINDIAction(QString driverName, QString action);
+		ASYNC setINDIAction(TQString driverName, TQString action);
 	
 	/**DCOP interface function.  Pause DCOP execution until named INDI action is completed. 
 		*@p driverName the name of the driver 
 		*@p action the action which is to be completed before resuming DCOP execution
 		*/
-		ASYNC waitForINDIAction(QString driverName, QString action);
+		ASYNC waitForINDIAction(TQString driverName, TQString action);
 	
 	/**DCOP interface function.  Set INDI focus speed. 
 		*@p driverName the name of the driver 
 		*@p action the name of the action (??)
 		*/
-		ASYNC setINDIFocusSpeed(QString driverName,unsigned int speed);
+		ASYNC setINDIFocusSpeed(TQString driverName,unsigned int speed);
 	
 	/**DCOP interface function.  Set INDI focus direction and focus. 
 		*@p driverName the name of the driver 
 		*@p focusDir 0 = focus in; 1 = focus out
 		*/
-		ASYNC startINDIFocus(QString driverName, int focusDir);
+		ASYNC startINDIFocus(TQString driverName, int focusDir);
 	
 	/**DCOP interface function.  Set INDI geographical information. 
 		*@p driverName the name of the driver 
 		*@p longitude the longitude to set, in Degrees
 		*@p latitude the latitude to set, in Degrees
 		*/
-		ASYNC setINDIGeoLocation(QString driverName, double longitude, double latitude);
+		ASYNC setINDIGeoLocation(TQString driverName, double longitude, double latitude);
 	
 	/**DCOP interface function.  Sets focus operation timeout. 
 		*@p driverName the name of the driver 
 		*@p timeout the timeout interval, in seconds (?)
 		*/
-		ASYNC setINDIFocusTimeout(QString driverName, int timeout);
+		ASYNC setINDIFocusTimeout(TQString driverName, int timeout);
 	
 	/**DCOP interface function.  Start camera exposure with a timeout. 
 		*@p driverName the name of the driver 
 		*@p timeout the exposure time, in seconds (?)
 		*/
-		ASYNC startINDIExposure(QString driverName, int timeout);
+		ASYNC startINDIExposure(TQString driverName, int timeout);
 		
 	/**DCOP interface function.  Set INDI UTC date and time. 
 		*@p driverName the name of the driver 
 		*@p UTCDateTime the UTC date and time (e.g., "23 June 2004 12:30:00" ?)
 		*/
-		ASYNC setINDIUTC(QString driverName, QString UTCDateTime);
+		ASYNC setINDIUTC(TQString driverName, TQString UTCDateTime);
 	
 	/**DCOP interface function. Set INDI Telescope action. 
 		*@p deviceName the name of the telescope device 
 		*@p action the action to set
 		*/
-		ASYNC setINDIScopeAction(QString deviceName, QString action);
+		ASYNC setINDIScopeAction(TQString deviceName, TQString action);
 		
 	/**DCOP interface function. Set CCD camera frame type. 
 		*@p deviceName the name of the CCD device 
 		*@p type the frame type
 		*/
-		ASYNC setINDIFrameType(QString deviceName, QString type);
+		ASYNC setINDIFrameType(TQString deviceName, TQString type);
 		
 	/**DCOP interface function. Set CCD filter. 
 		*@p deviceName the name of the CCD device 
 		*@p filter_num identifier of the CCD filter
 		*/
-		ASYNC setINDIFilterNum(QString deviceName, int filter_num);
+		ASYNC setINDIFilterNum(TQString deviceName, int filter_num);
 
 	/**DCOP interface function. Set CCD target temperature. 
 		*@p deviceName the name of the CCD device 
 		*@p temp the target CCD temperature (in Celsius ?)
 		*/
-		ASYNC setINDICCDTemp(QString deviceName, int temp);
+		ASYNC setINDICCDTemp(TQString deviceName, int temp);
 		
 
 	/**@short Apply config options throughout the program.
@@ -630,8 +630,8 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 		SkyMap *skymap;
 
-		QWidget *centralWidget;
-		QVBoxLayout *topLayout;
+		TQWidget *centralWidget;
+		TQVBoxLayout *topLayout;
 
 		KToolBar *viewToolBar;
 		TimeStepBox *TimeStep;
@@ -651,9 +651,9 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		int idSpinBox;
 		bool DialogIsObsolete;
 		bool StartClockRunning;
-		QString StartDateString;
+		TQString StartDateString;
 
-		QPalette OriginalPalette, DarkPalette;
+		TQPalette OriginalPalette, DarkPalette;
 
 		class privatedata;
 		friend class privatedata;

@@ -27,7 +27,7 @@
 #ifndef LCGENERATOR_H
 #define LCGENERATOR_H
 
-#include <qvariant.h>
+#include <tqvariant.h>
 #include <kdialogbase.h>
 #include <kio/job.h>
 
@@ -47,8 +47,8 @@ class KStars;
 
 struct VariableStarInfo
 {
-  QString Name;
-  QString Designation;
+  TQString Name;
+  TQString Designation;
 };
 
 class LCGenerator : public KDialogBase
@@ -59,7 +59,7 @@ public:
 /**Constructor 
 	*@p parent pointer to the parent widget
 	*/
-	LCGenerator( QWidget* parent = 0);
+	LCGenerator( TQWidget* parent = 0);
 /**Destructor */
 	~LCGenerator();
 
@@ -74,7 +74,7 @@ private:
 	*@param JDType start or end JD
 	*@returns true if conversion is successful
 	*/
-	bool setJD(QString date, QString * JD, int JDType);
+	bool setJD(TQString date, TQString * JD, int JDType);
 
 /** Parses star information and connects to the AAVSO server with the information embedded in the URL
 	*@param FinalStartDate The start date in Julian days
@@ -82,57 +82,57 @@ private:
 	*@param FinalDesignation The AAVSO star designation
 	*@param AverageDay Number of average days for binning the light curve
 	*/
-	void DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay);
+	void DownloadCurve(TQString FinalStartDate, TQString FinalEndDate, TQString FinalDesignation, TQString AverageDay);
 
 
 	KStars *ksw;
-	const QString Hostprefix;
+	const TQString Hostprefix;
 	const int JDCutOff;
 	
-	QGroupBox* StarInfoBox;
-	QLabel* desigLabel;
+	TQGroupBox* StarInfoBox;
+	TQLabel* desigLabel;
 	KListBox* DesignationIn;
-	QLabel* nameLabel;
+	TQLabel* nameLabel;
 	KListBox* NameIn;
-	QLabel* startLabel;
+	TQLabel* startLabel;
 	KLineEdit* StartDateIn;
-	QLabel* endLabel;
+	TQLabel* endLabel;
 	KLineEdit* EndDateIn;
-	QGroupBox* DataSelectBox;
-	QCheckBox* VisualCheck;
-	QCheckBox* FainterCheck;
-	QCheckBox* DiscrepantCheck;
-	QCheckBox* CCDBCheck;
-	QCheckBox* CCDVCheck;
-	QCheckBox* CCDRCheck;
-	QCheckBox* CCDICheck;
-	QLabel* plotLabel;
+	TQGroupBox* DataSelectBox;
+	TQCheckBox* VisualCheck;
+	TQCheckBox* FainterCheck;
+	TQCheckBox* DiscrepantCheck;
+	TQCheckBox* CCDBCheck;
+	TQCheckBox* CCDVCheck;
+	TQCheckBox* CCDRCheck;
+	TQCheckBox* CCDICheck;
+	TQLabel* plotLabel;
 	KLineEdit* AverageDayIn;
-	QLabel* daysLabel;
+	TQLabel* daysLabel;
 	KPushButton* GetCurveButton;
 	KPushButton* UpdateListButton;
 	KPushButton* CloseButton;
 
-	QVBoxLayout* LCGeneratorDialogLayout;
-	QHBoxLayout* SDLayout;
-	QVBoxLayout* StarInfoBoxLayout;
-	QHBoxLayout* DesignHLayout;
-	QHBoxLayout* NameHLayout;
-	QHBoxLayout* StartHLayout;
-	QHBoxLayout* EndHLayout;
-	QVBoxLayout* DataSelectBoxLayout;
-	QHBoxLayout* PlotHLayout;
-	QHBoxLayout* ButtonHLayout; 
+	TQVBoxLayout* LCGeneratorDialogLayout;
+	TQHBoxLayout* SDLayout;
+	TQVBoxLayout* StarInfoBoxLayout;
+	TQHBoxLayout* DesignHLayout;
+	TQHBoxLayout* NameHLayout;
+	TQHBoxLayout* StartHLayout;
+	TQHBoxLayout* EndHLayout;
+	TQVBoxLayout* DataSelectBoxLayout;
+	TQHBoxLayout* PlotHLayout;
+	TQHBoxLayout* ButtonHLayout; 
 	
 	
 	KIO::Job *downloadJob;  // download job of image -> 0 == no job is running
 	
-	QFile *file;
+	TQFile *file;
 	
 /**Make sure all events have been processed before closing the dialog 
-	*@p ev pointer to the QCloseEvent object
+	*@p ev pointer to the TQCloseEvent object
 	*/
-	void closeEvent (QCloseEvent *ev);
+	void closeEvent (TQCloseEvent *ev);
 
 public slots:
 /** Checks if a star name or designation exists in the database, 

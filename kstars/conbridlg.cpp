@@ -20,9 +20,9 @@
  #include <kimageeffect.h> 
  #include <kdebug.h>
  
- #include <qslider.h>
- #include <qimage.h>
- #include <qdatetime.h>
+ #include <tqslider.h>
+ #include <tqimage.h>
+ #include <tqdatetime.h>
  #include <knuminput.h>
  
  #include <stdlib.h>
@@ -36,7 +36,7 @@
  
 //TODO find a better and faster way to implement this, this operation can be memory and CPU intensive.
 
-ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
+ContrastBrightnessDlg::ContrastBrightnessDlg(TQWidget *parent) :
     KDialogBase(KDialogBase::Plain, i18n( "Brightness/Contrast" ), Ok|Cancel, Ok, parent )
 {
     
@@ -44,7 +44,7 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   contrast = brightness = 0;
   viewer = (FITSViewer *) parent;
   displayImage = viewer->image->displayImage;
-  tempImage    = new QImage(displayImage->copy());
+  tempImage    = new TQImage(displayImage->copy());
   width  = displayImage->width();
   height = displayImage->height();
   
@@ -68,8 +68,8 @@ ContrastBrightnessDlg::ContrastBrightnessDlg(QWidget *parent) :
   setMainWidget(ConBriDlg);
   show();
   
-  connect(ConBriDlg->conSlider, SIGNAL( valueChanged(int)), this, SLOT (setContrast(int )));
-  connect(ConBriDlg->briSlider, SIGNAL( valueChanged(int)), this, SLOT (setBrightness(int)));
+  connect(ConBriDlg->conSlider, TQT_SIGNAL( valueChanged(int)), this, TQT_SLOT (setContrast(int )));
+  connect(ConBriDlg->briSlider, TQT_SIGNAL( valueChanged(int)), this, TQT_SLOT (setBrightness(int)));
   
 }
 
@@ -98,7 +98,7 @@ void ContrastBrightnessDlg::setContrast(int contrastValue)
   int val = 0, index=0, totalPix = width * height;
   int min = (int) viewer->imgBuffer[0], max = 0;
   if (!viewer) return;
-  QColor myCol;
+  TQColor myCol;
   contrast = contrastValue;
 
  
@@ -167,7 +167,7 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
   int val = 0, index=0, totalPix = width * height;
   int min = (int) viewer->imgBuffer[0], max = 0;
   if (!viewer) return;
-  QColor myCol;
+  TQColor myCol;
   brightness = brightnessValue;
 
   // Apply Contrast and brightness
@@ -231,9 +231,9 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
  
 }
 
-QSize ContrastBrightnessDlg::sizeHint() const
+TQSize ContrastBrightnessDlg::sizeHint() const
 {
-  return QSize(400,130);
+  return TQSize(400,130);
 }
 
 #include "conbridlg.moc"

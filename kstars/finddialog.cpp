@@ -15,12 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qlineedit.h>
-#include <qlabel.h>
-#include <qcombobox.h>
-#include <qlistbox.h>
-#include <qtimer.h>
+#include <tqlayout.h>
+#include <tqlineedit.h>
+#include <tqlabel.h>
+#include <tqcombobox.h>
+#include <tqlistbox.h>
+#include <tqtimer.h>
 
 #include <kmessagebox.h>
 
@@ -33,25 +33,25 @@
 #include "objectnamelist.h"
 
 
-FindDialog::FindDialog( QWidget* parent ) :
+FindDialog::FindDialog( TQWidget* parent ) :
 		KDialogBase( KDialogBase::Plain, i18n( "Find Object" ), Ok|Cancel, Ok, parent ),
 		vlay(0), hlay(0), SearchList(0), SearchBox(0), filterTypeLabel(0), filterType(0),
 		currentitem(0)
 {
-	QFrame *page = plainPage();
+	TQFrame *page = plainPage();
 
 //Create Layout managers
-	vlay = new QVBoxLayout( page, 2, 2 );
-	hlay = new QHBoxLayout( 2 ); //this mgr will be added to vlay
+	vlay = new TQVBoxLayout( page, 2, 2 );
+	hlay = new TQHBoxLayout( 2 ); //this mgr will be added to vlay
 
 //Create Widgets
-	SearchBox = new QLineEdit( page, "SearchBox" );
+	SearchBox = new TQLineEdit( page, "SearchBox" );
 
-	filterTypeLabel = new QLabel( page, "filterTypeLabel" );
+	filterTypeLabel = new TQLabel( page, "filterTypeLabel" );
 	filterTypeLabel->setAlignment( AlignRight );
 	filterTypeLabel->setText( i18n( "Filter by type: " ) );
 
-	filterType = new QComboBox( page, "filterType" );
+	filterType = new TQComboBox( page, "filterType" );
 	filterType->setEditable( false );
 	filterType->insertItem( i18n ("Any") );
 	filterType->insertItem( i18n ("Stars") );
@@ -67,11 +67,11 @@ FindDialog::FindDialog( QWidget* parent ) :
 	filterType->insertItem( i18n ("Asteroids") );
 	filterType->insertItem( i18n ("Constellations") );
 
-	SearchList = new QListBox( page, "SearchList" );
+	SearchList = new TQListBox( page, "SearchList" );
 	SearchList->setMinimumWidth( 256 );
 	SearchList->setMinimumHeight( 320 );
-	SearchList->setVScrollBarMode( QListBox::AlwaysOn );
-	SearchList->setHScrollBarMode( QListBox::AlwaysOff );
+	SearchList->setVScrollBarMode( TQListBox::AlwaysOn );
+	SearchList->setHScrollBarMode( TQListBox::AlwaysOff );
 
 //Pack Widgets into layout manager
 	hlay->addWidget( filterTypeLabel, 0, 0 );
@@ -91,16 +91,16 @@ FindDialog::FindDialog( QWidget* parent ) :
 	Filter = 0;
 
 //Connect signals to slots
-//	connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ) ) ;
-	connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
-	connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
-	connect( SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
-	connect( filterType, SIGNAL( activated( int ) ), this, SLOT( setFilter( int ) ) );
-	connect( SearchList, SIGNAL (selectionChanged  (QListBoxItem *)), SLOT (updateSelection (QListBoxItem *)));
-	connect( SearchList, SIGNAL( doubleClicked ( QListBoxItem *  ) ), SLOT( slotOk() ) );
+//	connect( this, TQT_SIGNAL( okClicked() ), this, TQT_SLOT( accept() ) ) ;
+	connect( this, TQT_SIGNAL( cancelClicked() ), this, TQT_SLOT( reject() ) );
+	connect( SearchBox, TQT_SIGNAL( textChanged( const TQString & ) ), TQT_SLOT( filter() ) );
+	connect( SearchBox, TQT_SIGNAL( returnPressed() ), TQT_SLOT( slotOk() ) );
+	connect( filterType, TQT_SIGNAL( activated( int ) ), this, TQT_SLOT( setFilter( int ) ) );
+	connect( SearchList, TQT_SIGNAL (selectionChanged  (TQListBoxItem *)), TQT_SLOT (updateSelection (TQListBoxItem *)));
+	connect( SearchList, TQT_SIGNAL( doubleClicked ( TQListBoxItem *  ) ), TQT_SLOT( slotOk() ) );
 
 	// first create and paint dialog and then load list
-	QTimer::singleShot(0, this, SLOT( init() ));
+	TQTimer::singleShot(0, this, TQT_SLOT( init() ));
 }
 
 FindDialog::~FindDialog() {
@@ -121,7 +121,7 @@ void FindDialog::filter() {  //Filter the list of names with the string in the S
 	// check if latin names are used
 	ObjNames.setLanguage( Options::useLatinConstellNames() );
 
-	QString searchFor = SearchBox->text().lower();
+	TQString searchFor = SearchBox->text().lower();
 		for ( SkyObjectName *name = ObjNames.first( searchFor ); name; name = ObjNames.next() ) {
 			if ( name->text().lower().startsWith( searchFor ) ) {
 				new SkyObjectNameListItem ( SearchList, name );
@@ -139,7 +139,7 @@ void FindDialog::filterByType() {
 	KStars *p = (KStars *)parent();
 
 	SearchList->clear();	// QListBox
-	QString searchFor = SearchBox->text().lower();  // search string
+	TQString searchFor = SearchBox->text().lower();  // search string
 
 	ObjectNameList &ObjNames = p->data()->ObjNames;
 	// check if latin names are used
@@ -167,7 +167,7 @@ void FindDialog::setListItemEnabled() {
 		updateSelection (0);
 }
 
-void FindDialog::updateSelection (QListBoxItem *it) {
+void FindDialog::updateSelection (TQListBoxItem *it) {
 	currentitem = (SkyObjectNameListItem *) it;
 	SearchBox->setFocus();  // set cursor to QLineEdit
 }
@@ -182,14 +182,14 @@ void FindDialog::setFilter( int f ) {
 		Filter = f2;
 		if ( Filter == 0 ) {  // any type will shown
 		// delete old connections and create new connections
-			disconnect( SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filterByType() ) );
-			connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filter() ) );
+			disconnect( SearchBox, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( filterByType() ) );
+			connect( SearchBox, TQT_SIGNAL( textChanged( const TQString & ) ), TQT_SLOT( filter() ) );
 			filter();
 		}
 		else {
 		// delete old connections and create new connections
-			disconnect( SearchBox, SIGNAL( textChanged( const QString & ) ), this, SLOT( filter() ) );
-			connect( SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( filterByType() ) );
+			disconnect( SearchBox, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( filter() ) );
+			connect( SearchBox, TQT_SIGNAL( textChanged( const TQString & ) ), TQT_SLOT( filterByType() ) );
 			filterByType();
 		}
 	}
@@ -198,14 +198,14 @@ void FindDialog::setFilter( int f ) {
 void FindDialog::slotOk() {
 	//If no valid object selected, show a sorry-box.  Otherwise, emit accept()
 	if ( currentItem() == 0 ) {
-		QString message = i18n( "No object named %1 found." ).arg( SearchBox->text() );
+		TQString message = i18n( "No object named %1 found." ).arg( SearchBox->text() );
 		KMessageBox::sorry( 0, message, i18n( "Bad object name" ) );
 	} else {
 		accept();
 	}
 }
 
-void FindDialog::keyPressEvent( QKeyEvent *e ) {
+void FindDialog::keyPressEvent( TQKeyEvent *e ) {
 	switch( e->key() ) {
 		case Key_Down :
 			if ( SearchList->currentItem() < ((int) SearchList->count()) - 1 )

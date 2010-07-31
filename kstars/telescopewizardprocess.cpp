@@ -7,16 +7,16 @@
     version 2 of the License, or (at your option) any later version.
  */
 
-#include <qfile.h>
-#include <qpixmap.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qwidgetstack.h>
-#include <qstring.h>
-#include <qtimer.h>
-#include <qtable.h>
-#include <qtextedit.h>
-#include <qradiobutton.h>
+#include <tqfile.h>
+#include <tqpixmap.h>
+#include <tqlabel.h>
+#include <tqpushbutton.h>
+#include <tqwidgetstack.h>
+#include <tqstring.h>
+#include <tqtimer.h>
+#include <tqtable.h>
+#include <tqtextedit.h>
+#include <tqradiobutton.h>
 
 #include <klistview.h>
 #include <klineedit.h>
@@ -40,7 +40,7 @@
 
 #define TIMEOUT_THRESHHOLD	20
 
-telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* name ) : telescopeWizard(parent, name)
+telescopeWizardProcess::telescopeWizardProcess( TQWidget* parent, const char* name ) : telescopeWizard(parent, name)
 {
    currentPort  = -1;
    timeOutCount = 0;
@@ -48,11 +48,11 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
    progressScan = NULL;
    linkRejected = false;
 
-   QString locStr;
-   QFile sideIMG;
+   TQString locStr;
+   TQFile sideIMG;
 
    if (KSUtils::openDataFile(sideIMG, "wizardside.png"))
-       wizardPix->setPixmap(QPixmap(sideIMG.name()));
+       wizardPix->setPixmap(TQPixmap(sideIMG.name()));
 
    backB->hide();
    currentPage = INTRO_P;
@@ -67,16 +67,16 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
    INDIMessageBar = Options::indiMessages();
    Options::setIndiMessages( false );
 
-  QTime newTime( ksw->data()->lt().time() );
+  TQTime newTime( ksw->data()->lt().time() );
   ExtDate newDate( ksw->data()->lt().date() );
 
-  timeOut->setText( QString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
-  dateOut->setText( QString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
+  timeOut->setText( TQString().sprintf("%02d:%02d:%02d", newTime.hour(), newTime.minute(), newTime.second()));
+  dateOut->setText( TQString().sprintf("%d-%02d-%02d", newDate.year(), newDate.month(), newDate.day()));
 
   if (ksw->geo()->translatedProvince().isEmpty())
-  	locationOut->setText( QString("%1, %2").arg(ksw->geo()->translatedName()).arg(ksw->geo()->translatedCountry()));
+  	locationOut->setText( TQString("%1, %2").arg(ksw->geo()->translatedName()).arg(ksw->geo()->translatedCountry()));
   else
-  	locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
+  	locationOut->setText( TQString("%1, %2, %3").arg(ksw->geo()->translatedName())
   						     .arg(ksw->geo()->translatedProvince())
 						     .arg(ksw->geo()->translatedCountry()));
 
@@ -91,14 +91,14 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* nam
     portList << "/dev/ttyS0" <<  "/dev/ttyS1" << "/dev/ttyS2" << "/dev/ttyS3" << "/dev/ttyS4"
              << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";// << "/dev/ttyUSB4";
 
-   connect(helpB, SIGNAL(clicked()), parent, SLOT(appHelpActivated()));
-   connect(nextB, SIGNAL(clicked()), this, SLOT(processNext()));
-   connect(backB, SIGNAL(clicked()), this, SLOT(processBack()));
-   connect(setTimeB, SIGNAL(clicked()), this, SLOT(newTime()));
-   connect(setLocationB, SIGNAL(clicked()), this, SLOT(newLocation()));
+   connect(helpB, TQT_SIGNAL(clicked()), parent, TQT_SLOT(appHelpActivated()));
+   connect(nextB, TQT_SIGNAL(clicked()), this, TQT_SLOT(processNext()));
+   connect(backB, TQT_SIGNAL(clicked()), this, TQT_SLOT(processBack()));
+   connect(setTimeB, TQT_SIGNAL(clicked()), this, TQT_SLOT(newTime()));
+   connect(setLocationB, TQT_SIGNAL(clicked()), this, TQT_SLOT(newLocation()));
 
-   newDeviceTimer = new QTimer(this);
-   QObject::connect( newDeviceTimer, SIGNAL(timeout()), this, SLOT(processPort()) );
+   newDeviceTimer = new TQTimer(this);
+   TQObject::connect( newDeviceTimer, TQT_SIGNAL(timeout()), this, TQT_SLOT(processPort()) );
 
 }
 
@@ -196,13 +196,13 @@ void telescopeWizardProcess::newTime()
 {
 	TimeDialog timedialog (ksw->data()->lt(), ksw);
 
-	if ( timedialog.exec() == QDialog::Accepted )
+	if ( timedialog.exec() == TQDialog::Accepted )
 	{
 		KStarsDateTime dt( timedialog.selectedDate(), timedialog.selectedTime() );
 		ksw->data()->changeDateTime( dt );
 
-		timeOut->setText( QString().sprintf("%02d:%02d:%02d", dt.time().hour(), dt.time().minute(), dt.time().second()));
-		dateOut->setText( QString().sprintf("%d-%02d-%02d", dt.date().year(), dt.date().month(), dt.date().day()));
+		timeOut->setText( TQString().sprintf("%02d:%02d:%02d", dt.time().hour(), dt.time().minute(), dt.time().second()));
+		dateOut->setText( TQString().sprintf("%d-%02d-%02d", dt.date().year(), dt.date().month(), dt.date().day()));
 	}
 }
 
@@ -211,12 +211,12 @@ void telescopeWizardProcess::newLocation()
 
    ksw->slotGeoLocator();
 
-   locationOut->setText( QString("%1, %2, %3").arg(ksw->geo()->translatedName())
+   locationOut->setText( TQString("%1, %2, %3").arg(ksw->geo()->translatedName())
   					     .arg(ksw->geo()->translatedProvince())
 					     .arg(ksw->geo()->translatedCountry()));
-   timeOut->setText( QString().sprintf("%02d:%02d:%02d", ksw->data()->lt().time().hour(), ksw->data()->lt().time().minute(), ksw->data()->lt().time().second()));
+   timeOut->setText( TQString().sprintf("%02d:%02d:%02d", ksw->data()->lt().time().hour(), ksw->data()->lt().time().minute(), ksw->data()->lt().time().second()));
 
-  dateOut->setText( QString().sprintf("%d-%02d-%02d", ksw->data()->lt().date().year(),
+  dateOut->setText( TQString().sprintf("%d-%02d-%02d", ksw->data()->lt().date().year(),
   ksw->data()->lt().date().month() ,ksw->data()->lt().date().day()));
 
 
@@ -229,7 +229,7 @@ int telescopeWizardProcess::establishLink()
 	if (!indidriver || !indimenu)
 	  return (0);
 	  
-	QListViewItem *driverItem = NULL;
+	TQListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(telescopeCombo->currentText(), 0);
 	if (driverItem == NULL) return -1;
 
@@ -289,8 +289,8 @@ void telescopeWizardProcess::processPort()
      {
        newDeviceTimer->stop();
        linkRejected = false;
-       connect(indiDev->stdDev, SIGNAL(linkRejected()), this, SLOT(scanPorts()));
-       connect(indiDev->stdDev, SIGNAL(linkAccepted()), this, SLOT(linkSuccess()));
+       connect(indiDev->stdDev, TQT_SIGNAL(linkRejected()), this, TQT_SLOT(scanPorts()));
+       connect(indiDev->stdDev, TQT_SIGNAL(linkAccepted()), this, TQT_SLOT(linkSuccess()));
        scanPorts();
        return;
      }

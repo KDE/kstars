@@ -19,10 +19,10 @@
 
 #include <kglobal.h>
 #include <kstandarddirs.h>
-#include <qpoint.h>
-#include <qregexp.h>
-#include <qfile.h>
-#include <qtextstream.h>
+#include <tqpoint.h>
+#include <tqregexp.h>
+#include <tqfile.h>
+#include <tqtextstream.h>
 
 #include "skyobject.h"
 #include "starobject.h" //needed in saveUserLog()
@@ -31,10 +31,10 @@
 #include "geolocation.h"
 #include "kstarsdatetime.h"
 
-QString SkyObject::emptyString = QString("");
-QString SkyObject::unnamedString = QString(i18n("unnamed"));
-QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
-QString SkyObject::starString = QString("star");
+TQString SkyObject::emptyString = TQString("");
+TQString SkyObject::unnamedString = TQString(i18n("unnamed"));
+TQString SkyObject::unnamedObjectString = TQString(i18n("unnamed object"));
+TQString SkyObject::starString = TQString("star");
 
 SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 	setType( o.type() );
@@ -49,7 +49,7 @@ SkyObject::SkyObject( SkyObject &o ) : SkyPoint( o ) {
 }
 
 SkyObject::SkyObject( int t, dms r, dms d, float m,
-						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
+						TQString n, TQString n2, TQString lname ) : SkyPoint( r, d) {
 	setType( t );
 	Magnitude = m;
 	Name = 0;
@@ -61,7 +61,7 @@ SkyObject::SkyObject( int t, dms r, dms d, float m,
 }
 
 SkyObject::SkyObject( int t, double r, double d, float m,
-						QString n, QString n2, QString lname ) : SkyPoint( r, d) {
+						TQString n, TQString n2, TQString lname ) : SkyPoint( r, d) {
 	setType( t );
 	Magnitude = m;
 	Name = 0;
@@ -78,24 +78,24 @@ SkyObject::~SkyObject() {
 	delete LongName;
 }
 
-void SkyObject::setLongName( const QString &longname ) {
+void SkyObject::setLongName( const TQString &longname ) {
 	delete LongName;
 	if ( longname.isEmpty() ) {
 		if ( hasName() )
-			LongName = new QString(translatedName());
+			LongName = new TQString(translatedName());
 		else if ( hasName2() )
-			LongName = new QString(*Name2);
+			LongName = new TQString(*Name2);
 		else
 			LongName = 0;
 	} else {
-		LongName = new QString(longname);
+		LongName = new TQString(longname);
 	}
 }
 
-QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst ) {
+TQTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst ) {
 	//this object does not rise or set; return an invalid time
 	if ( checkCircumpolar(geo->lat()) )
-		return QTime( 25, 0, 0 );
+		return TQTime( 25, 0, 0 );
 
 	//First of all, if the object is below the horizon at date/time dt, adjust the time 
 	//to bring it above the horizon
@@ -113,9 +113,9 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
 	return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst ) ) ).time();
 }
 
-QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) {
+TQTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT ) {
 	// First trial to calculate UT
-	QTime UT = auxRiseSetTimeUT( dt, geo, ra(), dec(), riseT );
+	TQTime UT = auxRiseSetTimeUT( dt, geo, ra(), dec(), riseT );
 	
 	// We iterate once more using the calculated UT to compute again
 	// the ra and dec for that time and hence the rise/set time.
@@ -144,7 +144,7 @@ dms SkyObject::riseSetTimeLST( const KStarsDateTime &dt, const GeoLocation *geo,
 	return geo->GSTtoLST( rst.gst() );
 }
 
-QTime SkyObject::auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo,
+TQTime SkyObject::auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo,
 			const dms *righta, const dms *decl, bool riseT) {
 	dms LST = auxRiseSetTimeLST( geo->lat(), righta, decl, riseT );
 	return dt.GSTtoUT( geo->LSTtoGST( LST ) );
@@ -170,7 +170,7 @@ dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, 
 	double sindec, cosdec, sinlat, coslat, sinHA, cosHA;
 	double sinAlt, cosAlt;
 
-	QTime UT = riseSetTimeUT( dt, geo, riseT );
+	TQTime UT = riseSetTimeUT( dt, geo, riseT );
 	KStarsDateTime dt0 = dt;
 	dt0.setTime( UT );
 	SkyPoint sp = recomputeCoords( dt0, geo );
@@ -195,7 +195,7 @@ dms SkyObject::riseSetTimeAz( const KStarsDateTime &dt, const GeoLocation *geo, 
 	return Azimuth;
 }
 
-QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo ) {
+TQTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo ) {
 	dms LST = geo->GSTtoLST( dt.gst() );
 
 	//dSec is the number of seconds until the object transits.
@@ -216,13 +216,13 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
 	return dt.addSecs( dSec ).time();
 }
 
-QTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation *geo ) {
+TQTime SkyObject::transitTime( const KStarsDateTime &dt, const GeoLocation *geo ) {
 	return geo->UTtoLT( KStarsDateTime( dt.date(), transitTimeUT( dt, geo ) ) ).time();
 }
 
 dms SkyObject::transitAltitude( const KStarsDateTime &dt, const GeoLocation *geo ) {
 	KStarsDateTime dt0 = dt;
-	QTime UT = transitTimeUT( dt, geo );
+	TQTime UT = transitTimeUT( dt, geo );
 	dt0.setTime( UT );
 	SkyPoint sp = recomputeCoords( dt0, geo );
 	const dms *decm = sp.dec0();
@@ -307,7 +307,7 @@ bool SkyObject::checkCircumpolar( const dms *gLat ) {
 		return false;
 }
 
-QString SkyObject::typeName( void ) const {
+TQString SkyObject::typeName( void ) const {
 	if ( Type==0 ) return i18n( "Star" );
 	else if ( Type==1 ) return i18n( "Catalog Star" );
 	else if ( Type==2 ) return i18n( "Planet" );
@@ -321,25 +321,25 @@ QString SkyObject::typeName( void ) const {
 	else if ( Type==10 ) return i18n( "Asteroid" );
 	else return i18n( "Unknown Type" );
 }
-void SkyObject::setName( const QString &name ) {
+void SkyObject::setName( const TQString &name ) {
 //	if (name == "star" ) kdDebug() << "name == star" << endl;
 	delete Name;
 	if (!name.isEmpty())
-		Name = new QString(name);
+		Name = new TQString(name);
 	else
 		{ Name = 0; /*kdDebug() << "name saved" << endl;*/ }
 }
 
-void SkyObject::setName2( const QString &name2 ) {
+void SkyObject::setName2( const TQString &name2 ) {
 	delete Name2;
 	if (!name2.isEmpty())
-		Name2 = new QString(name2);
+		Name2 = new TQString(name2);
 	else
 		{ Name2 = 0; /*kdDebug() << "name2 saved" << endl;*/ }
 }
 
-QString SkyObject::messageFromTitle( const QString &imageTitle ) {
-	QString message = imageTitle;
+TQString SkyObject::messageFromTitle( const TQString &imageTitle ) {
+	TQString message = imageTitle;
 
 	//HST Image
 	if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.contains("HST") ) {
@@ -377,9 +377,9 @@ QString SkyObject::messageFromTitle( const QString &imageTitle ) {
 //New saveUserLog, moved from DetailDialog.  
 //Should create a special UserLog widget that encapsulates the "default"
 //message in the widget when no log exists (much like we do with dmsBox now)
-void SkyObject::saveUserLog( const QString &newLog ) {
-	QFile file;
-	QString logs; //existing logs
+void SkyObject::saveUserLog( const TQString &newLog ) {
+	TQFile file;
+	TQString logs; //existing logs
 	
 	//Do nothing if new log is the "default" message
 	//(keep going if new log is empty; we'll want to delete its current entry)
@@ -387,7 +387,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 		return;
 
 	// header label
-	QString KSLabel ="[KSLABEL:" + name() + "]";
+	TQString KSLabel ="[KSLABEL:" + name() + "]";
 	//However, we can't accept a star name if it has a greek letter in it:
 	if ( type() == STAR ) {
 		StarObject *star = (StarObject*)this;
@@ -397,7 +397,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	
 	file.setName( locateLocal( "appdata", "userlog.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.open( IO_ReadOnly)) {
-		QTextStream instream(&file);
+		TQTextStream instream(&file);
 		// read all data into memory
 		logs = instream.read();
 		file.close();
@@ -406,7 +406,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	//Remove old log entry from the logs text
 	if ( ! userLog.isEmpty() ) {
 		int startIndex, endIndex;
-		QString sub;
+		TQString sub;
 	
 		startIndex = logs.find(KSLabel);
 		sub = logs.mid (startIndex);
@@ -428,7 +428,7 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 	}
 	
 	//Write new logs text
-	QTextStream outstream(&file);
+	TQTextStream outstream(&file);
 	outstream << logs;
 	
 	//Set the log text in the object itself.

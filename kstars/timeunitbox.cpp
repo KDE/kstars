@@ -19,23 +19,23 @@
 #include <kdebug.h>
 #include "timeunitbox.h"
 #include "timeunitbox.moc"
-#include <qpushbutton.h>
+#include <tqpushbutton.h>
 
 
-TimeUnitBox::TimeUnitBox(QWidget *parent, const char *name, bool daysonly )
-	: QVBox( parent, name ) {
+TimeUnitBox::TimeUnitBox(TQWidget *parent, const char *name, bool daysonly )
+	: TQVBox( parent, name ) {
 
-	UpButton = new QPushButton( "+", this );
+	UpButton = new TQPushButton( "+", this );
 	UpButton->setMaximumWidth( 22 );
 	UpButton->setMaximumHeight( 10 );
-	DownButton = new QPushButton( "-", this );
+	DownButton = new TQPushButton( "-", this );
 	DownButton->setMaximumWidth( 22 );
 	DownButton->setMaximumHeight( 10 );
 
 	setDaysOnly( daysonly );
 
-	connect( UpButton, SIGNAL( clicked() ), this, SLOT( increase() ) );
-	connect( DownButton, SIGNAL( clicked() ), this, SLOT( decrease() ) );
+	connect( UpButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( increase() ) );
+	connect( DownButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( decrease() ) );
 }
 
 TimeUnitBox::~TimeUnitBox(){

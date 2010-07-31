@@ -18,12 +18,12 @@
  #ifndef FITSPROCESS_H
  #define FITSPROCESS_H
  
- #include <qptrlist.h>
- #include <qstringlist.h>
+ #include <tqptrlist.h>
+ #include <tqstringlist.h>
  #include <kcommand.h>
  
- /*1. QPtrList<unsigned int *> darkFrames;
-      2. QPtrList<unsigned int *> flatFrames;
+ /*1. TQPtrList<unsigned int *> darkFrames;
+      2. TQPtrList<unsigned int *> flatFrames;
       3. The class reads the hdu of each FITS, the size of each frame must match the original frame, if not, abort and inform the user.
       4. Ignore the EXPOSURE (time in milliseconds) differences for now. We need to compensate for differences by employing different methods of extrapolation later. 
       5. void combine(int mode); mode is either FITS_AVERAGE or FITS_MEDIAN.
@@ -36,12 +36,12 @@ class QImage;
 class FITSProcess
 {
    public:
-     FITSProcess(FITSViewer *parent, QStringList darkFiles, QStringList flatFiles, QStringList darkflatFiles, int darkMode, int flatMode, int darkflatMode);
+     FITSProcess(FITSViewer *parent, TQStringList darkFiles, TQStringList flatFiles, TQStringList darkflatFiles, int darkMode, int flatMode, int darkflatMode);
      ~FITSProcess();
      
-     QPtrList<float> darkFrames;
-     QPtrList<float> flatFrames;
-     QPtrList<float> darkflatFrames;
+     TQPtrList<float> darkFrames;
+     TQPtrList<float> flatFrames;
+     TQPtrList<float> darkflatFrames;
      FITSViewer *viewer;
      
      int npix;
@@ -52,7 +52,7 @@ class FITSProcess
      float *finalFlat;
      float *finalDarkFlat;
      
-     float * combine(QPtrList<float> & frames, int mode);
+     float * combine(TQPtrList<float> & frames, int mode);
      void subtract(float * img1, float * img2);
      void divide(float * img1, float * img2);
      void reduce();
@@ -72,12 +72,12 @@ class FITSProcessCommand : public KCommand
  
   void execute();
   void unexecute();
-  QString name() const;
+  TQString name() const;
   
   private:
   FITSViewer *viewer;
   float * buffer;
-  QImage *oldImage;
+  TQImage *oldImage;
  
 };
  

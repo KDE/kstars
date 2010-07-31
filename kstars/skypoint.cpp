@@ -537,7 +537,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 	return angDist;
 }
 
-QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyObject> &cnameList ) const {
+TQString SkyPoint::constellation( TQPtrList<CSegment> &csegmentList, TQPtrList<SkyObject> &cnameList ) const {
 	//Identify the constellation that contains point p.
 	//First, find all CSegments that bracket the RA of p.
 	//Then, identify the pair of these bracketing segments which bracket p in the Dec direction.
@@ -548,9 +548,9 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 	//Corner case 2: it is possible that *both* cnames are shared between the two segments.
 	//In this case, we have to do more work to decide which is truly correct.
 	
-	QPtrList<SkyPoint> p1List, p2List;
-	QStringList name1List, name2List;
-	QString abbrev("");
+	TQPtrList<SkyPoint> p1List, p2List;
+	TQStringList name1List, name2List;
+	TQString abbrev("");
 
 	double pdc = dec()->Degrees();
 	double pra(0.0); //defined in the loop, because we may modify it there
@@ -768,7 +768,7 @@ QString SkyPoint::constellation( QPtrList<CSegment> &csegmentList, QPtrList<SkyO
 	//Finally, match the abbreviated name to the full constellation name, and return that name
 	for ( SkyObject *o = cnameList.first(); o; o = cnameList.next() ) {
 		if ( abbrev.lower() == o->name2().lower() ) {
-			QString r = i18n( "Constellation name (optional)", o->name().local8Bit().data() );
+			TQString r = i18n( "Constellation name (optional)", o->name().local8Bit().data() );
 			r = r.left(1) + r.mid(1).lower(); //lowercase letters (except first letter)
 			int i = r.find(" ");
 			i++;

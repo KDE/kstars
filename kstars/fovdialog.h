@@ -18,7 +18,7 @@
 #ifndef FOVDIALOG_H
 #define FOVDIALOG_H
 
-#include <qptrlist.h>
+#include <tqptrlist.h>
 #include <kdialogbase.h>
 #include "fov.h"
 
@@ -35,19 +35,19 @@ class FOVDialog : public KDialogBase
 {
 	Q_OBJECT
 public:
-	FOVDialog( QWidget *parent=0 );
+	FOVDialog( TQWidget *parent=0 );
 	~FOVDialog();
 	unsigned int currentItem() const;
-	QPtrList<FOV> FOVList;
+	TQPtrList<FOV> FOVList;
 
 protected:
-	void paintEvent( QPaintEvent * );
+	void paintEvent( TQPaintEvent * );
 
 private slots:
 	void slotNewFOV();
 	void slotEditFOV();
 	void slotRemoveFOV();
-	void slotSelect(QListBoxItem*);
+	void slotSelect(TQListBoxItem*);
 
 private:
 	void initList();
@@ -64,7 +64,7 @@ class NewFOV : public KDialogBase
 {
 	Q_OBJECT
 public:
-	NewFOV( QWidget *parent=0 );
+	NewFOV( TQWidget *parent=0 );
 	~NewFOV() {}
 	NewFOVUI *ui;
 
@@ -73,7 +73,7 @@ public slots:
 	void slotComputeFOV();
 
 protected:
-	void paintEvent( QPaintEvent * );
+	void paintEvent( TQPaintEvent * );
 
 private:
 	FOV f;

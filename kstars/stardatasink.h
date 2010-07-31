@@ -26,14 +26,14 @@
 	*@version 1.0
 	*/
 
-#include <qobject.h>
-#include <qasyncio.h>
+#include <tqobject.h>
+#include <tqasyncio.h>
 
-#include <qglobal.h>
+#include <tqglobal.h>
 
 class KStarsData;
 
-class StarDataSink : public QObject, public QDataSink {
+class StarDataSink : public TQObject, public TQDataSink {
 /**
 	*class needs signals
 	*/

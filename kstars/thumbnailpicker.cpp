@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qframe.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qimage.h>
-#include <qpixmap.h>
-#include <qfile.h>
-#include <qrect.h>
-#include <qstyle.h>
+#include <tqframe.h>
+#include <tqlayout.h>
+#include <tqlabel.h>
+#include <tqimage.h>
+#include <tqpixmap.h>
+#include <tqfile.h>
+#include <tqrect.h>
+#include <tqstyle.h>
 
 #include <kapplication.h>
 #include <kdeversion.h>
@@ -43,15 +43,15 @@
 #include "detaildialog.h"
 #include "skyobject.h"
 
-ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget *parent, const char *name )
+ThumbnailPicker::ThumbnailPicker( SkyObject *o, const TQPixmap &current, TQWidget *parent, const char *name )
  : KDialogBase( KDialogBase::Plain, i18n( "Choose Thumbnail Image" ), Ok|Cancel, Ok, parent, name ),
 		SelectedImageIndex(-1), dd((DetailDialog*)parent), Object(o), bImageFound( false )
 {
-	Image = new QPixmap( current );
-	ImageRect = new QRect( 0, 0, 200, 200 );
+	Image = new TQPixmap( current );
+	ImageRect = new TQRect( 0, 0, 200, 200 );
 
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	TQFrame *page = plainPage();
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, 0 );
 	ui = new ThumbnailPickerUI( page );
 	vlay->addWidget( ui );
 
@@ -59,14 +59,14 @@ ThumbnailPicker::ThumbnailPicker( SkyObject *o, const QPixmap &current, QWidget 
 
 	PixList.setAutoDelete( true );
 
-	connect( ui->EditButton, SIGNAL( clicked() ), this, SLOT( slotEditImage() ) );
-	connect( ui->UnsetButton, SIGNAL( clicked() ), this, SLOT( slotUnsetImage() ) );
-	connect( ui->ImageList, SIGNAL( highlighted( int ) ),
-						this, SLOT( slotSetFromList( int ) ) );
-	connect( ui->ImageURLBox, SIGNAL( urlSelected( const QString& ) ),
-						this, SLOT( slotSetFromURL() ) );
-	connect( ui->ImageURLBox, SIGNAL( returnPressed() ),
-						this, SLOT( slotSetFromURL() ) );
+	connect( ui->EditButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotEditImage() ) );
+	connect( ui->UnsetButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotUnsetImage() ) );
+	connect( ui->ImageList, TQT_SIGNAL( highlighted( int ) ),
+						this, TQT_SLOT( slotSetFromList( int ) ) );
+	connect( ui->ImageURLBox, TQT_SIGNAL( urlSelected( const TQString& ) ),
+						this, TQT_SLOT( slotSetFromURL() ) );
+	connect( ui->ImageURLBox, TQT_SIGNAL( returnPressed() ),
+						this, TQT_SLOT( slotSetFromURL() ) );
 
 	ui->ImageURLBox->lineEdit()->setTrapReturnKey( true );
 	ui->EditButton->setEnabled( false );
@@ -80,14 +80,14 @@ ThumbnailPicker::~ThumbnailPicker()
 //Query online sources for images of the object
 void ThumbnailPicker::slotFillList() {
 	//Preload list with object's ImageList:
-	QStringList ImageList( Object->ImageList );
+	TQStringList ImageList( Object->ImageList );
 
 	//Query Google Image Search:
 	KURL gURL( "http://images.google.com/images" );
 	//Search for the primary name, or longname and primary name
-	QString sName = QString("\"%1\"").arg( Object->name() );
+	TQString sName = TQString("\"%1\"").arg( Object->name() );
 	if ( Object->longname() != Object->name() ) {
-		sName = QString("\"%1\" ").arg( Object->longname() ) + sName;
+		sName = TQString("\"%1\" ").arg( Object->longname() ) + sName;
 	}
 	gURL.addQueryItem( "q", sName ); //add the Google-image query string
 
@@ -102,34 +102,34 @@ void ThumbnailPicker::slotFillList() {
 	}
 
 	//Add images from the ImageList
-	QStringList::Iterator itList  = ImageList.begin();
-	QStringList::Iterator itListEnd = ImageList.end();
+	TQStringList::Iterator itList  = ImageList.begin();
+	TQStringList::Iterator itListEnd = ImageList.end();
 	for ( ; itList != itListEnd; ++itList ) {
-		QString s( *itList );
+		TQString s( *itList );
 		KURL u( s );
 		if ( u.isValid() && KIO::NetAccess::exists(u, true, this) ) {
 			KTempFile ktf;
-			QFile *tmpFile = ktf.file();
+			TQFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
 			JobList.append( KIO::copy( u, KURL( tmpFile->name() ), false ) ); //false = no progress window
 #if KDE_IS_VERSION( 3, 3, 90 )
 			((KIO::CopyJob*)JobList.current())->setInteractive( false ); // suppress error dialogs
 #endif
-			connect (JobList.current(), SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+			connect (JobList.current(), TQT_SIGNAL (result(KIO::Job *)), TQT_SLOT (downloadReady (KIO::Job *)));
 
 		}
 	}
 }
 
-void ThumbnailPicker::parseGooglePage( QStringList &ImList, QString URL ) {
-	QString tmpFile;
-	QString PageHTML;
+void ThumbnailPicker::parseGooglePage( TQStringList &ImList, TQString URL ) {
+	TQString tmpFile;
+	TQString PageHTML;
 
-	//Read the google image page's HTML into the PageHTML QString:
+	//Read the google image page's HTML into the PageHTML TQString:
 	if ( KIO::NetAccess::exists(URL, true, this) && KIO::NetAccess::download( URL, tmpFile ) ) {
-		QFile file( tmpFile );
+		TQFile file( tmpFile );
 		if ( file.open( IO_ReadOnly ) ) {
-			QTextStream instream(&file);
+			TQTextStream instream(&file);
 			PageHTML = instream.read();
 			file.close();
 		} else {
@@ -171,16 +171,16 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 	}
 
 	KIO::CopyJob *cjob = (KIO::CopyJob*)job;
-	QFile tmp( cjob->destURL().path() );
+	TQFile tmp( cjob->destURL().path() );
 	tmp.close(); // to get the newest information of the file
 
 	//Add image to list
 	//If image is taller than desktop, rescale it.
-	//I tried to use kapp->style().pixelMetric( QStyle::PM_TitleBarHeight )
+	//I tried to use kapp->style().pixelMetric( TQStyle::PM_TitleBarHeight )
 	//for the titlebar height, but this returned zero.
 	//Hard-coding 25 instead :(
 	if ( tmp.exists() ) {
-		QImage im( tmp.name() );
+		TQImage im( tmp.name() );
 
 		if ( im.isNull() ) { 
 		  //KMessageBox::sorry( 0, i18n("Failed to load image"), 
@@ -195,12 +195,12 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 
 //	this returns zero...
 // 		//DEBUG
-// 		kdDebug() << "Title bar height: " << kapp->style().pixelMetric( QStyle::PM_TitleBarHeight ) << endl;
+// 		kdDebug() << "Title bar height: " << kapp->style().pixelMetric( TQStyle::PM_TitleBarHeight ) << endl;
 
 		if ( h > hDesk ) 
 			im = im.smoothScale( w*hDesk/h, hDesk );
 
-		PixList.append( new QPixmap( im ) );
+		PixList.append( new TQPixmap( im ) );
 
 		//Add 50x50 image and URL to listbox
 		ui->ImageList->insertItem( shrinkImage( PixList.current(), 50 ),
@@ -208,11 +208,11 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 	}
 }
 
-QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
+TQPixmap ThumbnailPicker::shrinkImage( TQPixmap *pm, int size, bool setImage ) {
 	int w( pm->width() ), h( pm->height() );
 	int bigSize( w );
 	int rx(0), ry(0), sx(0), sy(0), bx(0), by(0);
-	if ( size == 0 ) return QPixmap();
+	if ( size == 0 ) return TQPixmap();
 
 	//Prepare variables for rescaling image (if it is larger than 'size')
 	if ( w > size && w >= h ) {
@@ -229,12 +229,12 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 
 	if ( setImage ) bigSize = int( 200.*float(pm->width())/float(w) );
 
-	QPixmap result( size, size );
-	result.fill( QColor( "white" ) ); //in case final image is smaller than 'size'
+	TQPixmap result( size, size );
+	result.fill( TQColor( "white" ) ); //in case final image is smaller than 'size'
 
 	if ( pm->width() > size || pm->height() > size ) { //image larger than 'size'?
-		//convert to QImage so we can smoothscale it
-		QImage im( pm->convertToImage() );
+		//convert to TQImage so we can smoothscale it
+		TQImage im( pm->convertToImage() );
 		im = im.smoothScale( w, h );
 		
 		//bitBlt sizexsize square section of image
@@ -259,8 +259,8 @@ QPixmap ThumbnailPicker::shrinkImage( QPixmap *pm, int size, bool setImage ) {
 
 void ThumbnailPicker::slotEditImage() {
 	ThumbnailEditor te( this );
-	if ( te.exec() == QDialog::Accepted ) {
-		QPixmap pm = te.thumbnail();
+	if ( te.exec() == TQDialog::Accepted ) {
+		TQPixmap pm = te.thumbnail();
 		*Image = pm;
 		ui->CurrentImage->setPixmap( pm );
 		ui->CurrentImage->update();
@@ -268,7 +268,7 @@ void ThumbnailPicker::slotEditImage() {
 }
 
 void ThumbnailPicker::slotUnsetImage() {
-	QFile file;
+	TQFile file;
 	if ( KSUtils::openDataFile( file, "noimage.png" ) ) {
 		file.close();
 		Image->load( file.name(), "PNG" );
@@ -286,7 +286,7 @@ void ThumbnailPicker::slotUnsetImage() {
 
 void ThumbnailPicker::slotSetFromList( int i ) {
 	//Display image in preview pane
-	QPixmap pm;
+	TQPixmap pm;
 	pm = shrinkImage( PixList.at(i), 200, true ); //scale image
 	SelectedImageIndex = i;
 
@@ -305,11 +305,11 @@ void ThumbnailPicker::slotSetFromURL() {
 
 	if ( u.isValid() ) {
 		if ( u.isLocalFile() ) {
-			QFile localFile( u.path() );
+			TQFile localFile( u.path() );
 
 			//Add image to list
 			//If image is taller than desktop, rescale it.
-			QImage im( localFile.name() );
+			TQImage im( localFile.name() );
 
 			if ( im.isNull() ) {
 				KMessageBox::sorry( 0, 
@@ -327,7 +327,7 @@ void ThumbnailPicker::slotSetFromURL() {
 				im = im.smoothScale( w*hDesk/h, hDesk );
 
 			//Add Image to top of list and 50x50 thumbnail image and URL to top of listbox
-			PixList.insert( 0, new QPixmap( im ) );
+			PixList.insert( 0, new TQPixmap( im ) );
 			ui->ImageList->insertItem( shrinkImage( PixList.current(), 50 ),
 					u.prettyURL(), 0 );
 
@@ -337,13 +337,13 @@ void ThumbnailPicker::slotSetFromURL() {
 
 		} else if ( KIO::NetAccess::exists(u, true, this) ) {
 			KTempFile ktf;
-			QFile *tmpFile = ktf.file();
+			TQFile *tmpFile = ktf.file();
 			ktf.unlink(); //just need filename
 			JobList.append( KIO::copy( u, KURL( tmpFile->name() ), false ) ); //false = no progress window
 #if KDE_IS_VERSION( 3, 3, 90 )
 			((KIO::CopyJob*)JobList.current())->setInteractive( false ); // suppress error dialogs
 #endif
-			connect (JobList.current(), SIGNAL (result(KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+			connect (JobList.current(), TQT_SIGNAL (result(KIO::Job *)), TQT_SLOT (downloadReady (KIO::Job *)));
 
 			//
 		}

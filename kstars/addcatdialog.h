@@ -18,8 +18,8 @@
 #ifndef ADDCATDIALOG_H
 #define ADDCATDIALOG_H
 
-#include <qglobal.h>
-#include <qptrlist.h>
+#include <tqglobal.h>
+#include <tqptrlist.h>
 
 #include <kdialogbase.h>
 #include <klineedit.h>
@@ -39,7 +39,7 @@ class AddCatDialog : public KDialogBase  {
 public:
 /**Default constructor
 	*/
-	AddCatDialog( QWidget *parent=0 );
+	AddCatDialog( TQWidget *parent=0 );
 
 /**Destructor (empty)
 	*/
@@ -47,11 +47,11 @@ public:
 
 /**@return the name for the custom catalog.
 	*/
-	QString name() const { return acd->CatalogName->text(); }
+	TQString name() const { return acd->CatalogName->text(); }
 
 /**@return the filename of the custom catalog.
 	*/
-	QString filename() const { return acd->CatalogURL->url(); }
+	TQString filename() const { return acd->CatalogURL->url(); }
 
 private slots:
 /**Display contents of the import file.
@@ -86,11 +86,11 @@ private:
 /**Write a header line describing the data fields in the catalog, and 
 	*defining the catalog name, ID prefix, and coordinate epoch.
 	*/
-	QString writeCatalogHeader();
+	TQString writeCatalogHeader();
 
-	QVBoxLayout *vlay;
+	TQVBoxLayout *vlay;
 	AddCatDialogUI *acd;
-	QString CatalogContents;
+	TQString CatalogContents;
 };
 
 #endif

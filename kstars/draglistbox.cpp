@@ -15,13 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdragobject.h>
+#include <tqdragobject.h>
 #include <klocale.h>
 #include <kdebug.h>
 
 #include "draglistbox.h"
 
-DragListBox::DragListBox( QWidget *parent, const char *name, WFlags f ) 
+DragListBox::DragListBox( TQWidget *parent, const char *name, WFlags f ) 
 		: KListBox( parent, name, f ) {
 
 	setAcceptDrops( TRUE );
@@ -30,36 +30,36 @@ DragListBox::DragListBox( QWidget *parent, const char *name, WFlags f )
 
 DragListBox::~DragListBox() {}
 
-void DragListBox::dragEnterEvent( QDragEnterEvent *evt )
+void DragListBox::dragEnterEvent( TQDragEnterEvent *evt )
 {
-	if ( QTextDrag::canDecode( evt ) ) 
+	if ( TQTextDrag::canDecode( evt ) ) 
 		evt->accept();
 }
 
-bool DragListBox::contains( const QString &s ) const {
+bool DragListBox::contains( const TQString &s ) const {
 	for ( uint i=0; i<count(); ++i )
 		if ( text(i) == s ) return true;
 
 	return false;
 }
 
-void DragListBox::dropEvent( QDropEvent *evt ) {
-	QString text;
+void DragListBox::dropEvent( TQDropEvent *evt ) {
+	TQString text;
 
 	int i = int( float(evt->pos().y())/float(itemHeight()) + 0.5 ) + topItem();
 	if ( i > count() + 1 ) i = count() + 1;
 
-	if ( QTextDrag::decode( evt, text ) ) {
+	if ( TQTextDrag::decode( evt, text ) ) {
 		//If we dragged an "Ignore item from the FieldList to the FieldPool, then we don't
 		//need to insert the item, because FieldPool already has a persistent Ignore item.
-		if ( !( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldList" && 
+		if ( !( text == i18n("Ignore" ) && TQString(evt->source()->name()) == "FieldList" && 
 				evt->source() != this )) {
 			insertItem( text, i );
 		}
 
 		//If we dragged the "Ignore" item from FieldPool to FieldList, then we don't
 		//want to remove the item from the FieldPool
-		if ( !( text == i18n("Ignore" ) && QString(evt->source()->name()) == "FieldPool" && 
+		if ( !( text == i18n("Ignore" ) && TQString(evt->source()->name()) == "FieldPool" && 
 				evt->source() != this ) ) {
 			DragListBox *fp = (DragListBox*)evt->source();
 			fp->removeItem( fp->currentItem() );
@@ -68,8 +68,8 @@ void DragListBox::dropEvent( QDropEvent *evt ) {
 }
 
 
-void DragListBox::mousePressEvent( QMouseEvent *evt ) {
-	QListBox::mousePressEvent( evt );
+void DragListBox::mousePressEvent( TQMouseEvent *evt ) {
+	TQListBox::mousePressEvent( evt );
 	dragging = TRUE;
 	
 	//Record position of the Ignore item; we may have to restore it.
@@ -80,10 +80,10 @@ void DragListBox::mousePressEvent( QMouseEvent *evt ) {
 }
 
 
-void DragListBox::mouseMoveEvent( QMouseEvent * )
+void DragListBox::mouseMoveEvent( TQMouseEvent * )
 {
 	if ( dragging ) {
-		QDragObject *drag = new QTextDrag( currentText(), this );
+		TQDragObject *drag = new TQTextDrag( currentText(), this );
 		drag->dragMove();
 		dragging = FALSE;
 	}

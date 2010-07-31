@@ -19,7 +19,7 @@
 #define DMS_H
 
 #include <math.h>
-#include <qstring.h>
+#include <tqstring.h>
 #include <kdebug.h>
 
 //TODO: Remove these when KStarsDateTime is added!
@@ -75,7 +75,7 @@ public:
 	*@param isDeg if true, value is in degrees; if false, value is in hours.
 	*@sa setFromString()
 	*/
-	dms( const QString &s, bool isDeg=true ) { setFromString( s, isDeg ); }
+	dms( const TQString &s, bool isDeg=true ) { setFromString( s, isDeg ); }
 
 /**Destructor (empty).
 	*/
@@ -234,7 +234,7 @@ public:
 	*@return true if sting was parsed successfully.  Otherwise, set the dms value
 	*to 0.0 and return false.
 	*/
-	bool setFromString( const QString &s, bool isDeg=true );
+	bool setFromString( const TQString &s, bool isDeg=true );
 
 /**
 	*Addition operator.  Add two dms objects.
@@ -320,12 +320,12 @@ public:
 /**@return a nicely-formatted string representation of the angle
 	*in degrees, arcminutes, and arcseconds.
 	*/
-	const QString toDMSString(const bool forceSign = false) const;
+	const TQString toDMSString(const bool forceSign = false) const;
 
 /**@return a nicely-formatted string representation of the angle
 	*in hours, minutes, and seconds.
 	*/
-	const QString toHMSString() const;
+	const TQString toHMSString() const;
 
 /**PI is a const static member; it's public so that it can be used anywhere,
 	*as long as dms.h is included.
@@ -337,7 +337,7 @@ public:
 	*/
 	static const double DegToRad;
 
-/**@short Static function to create a DMS object from a QString.
+/**@short Static function to create a DMS object from a TQString.
 	*
 	*There are several ways to specify the angle:
 	*@li Integer numbers  ( 5 or -33 )
@@ -351,7 +351,7 @@ public:
 	*@param deg if TRUE, s is expressed in degrees; if FALSE, s is expressed in hours
 	*@return a dms object whose value is parsed from the string argument
 	*/
-	static dms fromString(QString & s, bool deg);
+	static dms fromString(TQString & s, bool deg);
 
 private:
 	double D;

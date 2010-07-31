@@ -18,8 +18,8 @@
 #ifndef TIMEUNITBOX_H
 #define TIMEUNITBOX_H
 
-#include <qvbox.h>
-#include <qwidget.h>
+#include <tqvbox.h>
+#include <tqwidget.h>
 
 #define ALLUNITS 8
 #define DAYUNITS 5
@@ -43,11 +43,11 @@
 
 class QPushButton;
 
-class TimeUnitBox : public QVBox {
+class TimeUnitBox : public TQVBox {
    Q_OBJECT
 public:
 	/**Constructor*/
-	TimeUnitBox(QWidget *parent=0, const char *name=0, bool daysonly = false);
+	TimeUnitBox(TQWidget *parent=0, const char *name=0, bool daysonly = false);
 	/**Destructor (empty)*/
 	~TimeUnitBox();
 	/**@return the value of UnitStep for the current spinbox value() */
@@ -96,7 +96,7 @@ private slots:
 
 private:
 	bool DaysOnly;
-	QPushButton *UpButton, *DownButton;
+	TQPushButton *UpButton, *DownButton;
 	int MinimumValue, MaximumValue, Value, UnitStep[ ALLUNITS ];
 };
 

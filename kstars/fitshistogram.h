@@ -31,7 +31,7 @@
    Q_OBJECT
    
    public:
-    FITSHistogram(QWidget *parent, const char * name = 0);
+    FITSHistogram(TQWidget *parent, const char * name = 0);
     ~FITSHistogram();
     
     void constructHistogram(float *buffer);
@@ -44,12 +44,12 @@
     double binSize;
 
     FITSViewer * viewer;
-    QPixmap *histogram;
+    TQPixmap *histogram;
        
     
     protected:
-    void paintEvent( QPaintEvent *e);
-    void mouseMoveEvent( QMouseEvent *e);
+    void paintEvent( TQPaintEvent *e);
+    void mouseMoveEvent( TQMouseEvent *e);
     
     
     public slots:
@@ -63,12 +63,12 @@
  class FITSHistogramCommand : public KCommand
 {
   public:
-        FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);
+        FITSHistogramCommand(TQWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);
 	~FITSHistogramCommand();
             
         void execute();
         void unexecute();
-        QString name() const;
+        TQString name() const;
 
     
     private:
@@ -77,7 +77,7 @@
 	int min, max;
 	float *buffer;
         FITSViewer *viewer;
-	QImage *oldImage;
+	TQImage *oldImage;
 };
  
  

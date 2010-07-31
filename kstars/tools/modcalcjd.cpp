@@ -22,8 +22,8 @@
 #include "geolocation.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-#include <qdatetimeedit.h>  //need for QTimeEdit
-#include <qradiobutton.h>
+#include <tqdatetimeedit.h>  //need for QTimeEdit
+#include <tqradiobutton.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kglobal.h>
@@ -32,7 +32,7 @@
 
 #define MJD0 2400000.5
 
-modCalcJD::modCalcJD(QWidget *parentSplit, const char *name) : modCalcJdDlg(parentSplit,name) {
+modCalcJD::modCalcJD(TQWidget *parentSplit, const char *name) : modCalcJdDlg(parentSplit,name) {
 	
 	showCurrentTime();
 	show();
@@ -96,7 +96,7 @@ void modCalcJD::slotClearTime (void)
 	JdName->setText ("");
 	MjdName->setText ("");
 	datBox->setDate( ExtDate::currentDate() );
-	timBox->setTime(QTime(0,0,0));
+	timBox->setTime(TQTime(0,0,0));
 }
 
 void modCalcJD::showCurrentTime (void)

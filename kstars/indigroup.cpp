@@ -18,17 +18,17 @@
  
  #include <klocale.h>
  
- #include <qlayout.h>
- #include <qframe.h>
- #include <qtimer.h>
- #include <qtabwidget.h> 
+ #include <tqlayout.h>
+ #include <tqframe.h>
+ #include <tqtimer.h>
+ #include <tqtabwidget.h> 
  
  /*******************************************************************
 ** INDI Group: a tab widget for common properties. All properties
 ** belong to a group, whether they have one or not but how the group
 ** is displayed differs
 *******************************************************************/
-INDI_G::INDI_G(INDI_D *parentDevice, QString inName)
+INDI_G::INDI_G(INDI_D *parentDevice, TQString inName)
 {
   dp = parentDevice;
   
@@ -38,12 +38,12 @@ INDI_G::INDI_G(INDI_D *parentDevice, QString inName)
   
   // FIXME what's the parent exactly?
   // You can do this eaither way:
-  // 1. Propertycontainer is a QFrame, then you make QVBoxLayout for it (check form1.cpp)
-  // 2. Keep it as QVBox and let it handle its children.
+  // 1. Propertycontainer is a TQFrame, then you make TQVBoxLayout for it (check form1.cpp)
+  // 2. Keep it as TQVBox and let it handle its children.
   // Depends on which one works best.
-  propertyContainer = new QFrame(dp->groupContainer);
-  propertyLayout    = new QVBoxLayout(propertyContainer, 20, KDialog::spacingHint() );
-  VerticalSpacer    = new QSpacerItem( 20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding );
+  propertyContainer = new TQFrame(dp->groupContainer);
+  propertyLayout    = new TQVBoxLayout(propertyContainer, 20, KDialog::spacingHint() );
+  VerticalSpacer    = new TQSpacerItem( 20, 20, TQSizePolicy::Minimum, TQSizePolicy::Expanding );
   
   propertyLayout->addItem(VerticalSpacer); 
     

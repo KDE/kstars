@@ -35,19 +35,19 @@ class DragListBox : public KListBox {
 public:
 /**@short Default constructor
  */
-	DragListBox( QWidget *parent = 0, const char *name = 0, WFlags = 0 );
+	DragListBox( TQWidget *parent = 0, const char *name = 0, WFlags = 0 );
 
 /**@short Default destructor
  */
 	~DragListBox();
 
 	int ignoreIndex() const { return IgnoreIndex; }
-	bool contains( const QString &s ) const;
+	bool contains( const TQString &s ) const;
 
-	void dragEnterEvent( QDragEnterEvent *evt );
-	void dropEvent( QDropEvent *evt );
-	void mousePressEvent( QMouseEvent *evt );
-	void mouseMoveEvent( QMouseEvent * );
+	void dragEnterEvent( TQDragEnterEvent *evt );
+	void dropEvent( TQDropEvent *evt );
+	void mousePressEvent( TQMouseEvent *evt );
+	void mouseMoveEvent( TQMouseEvent * );
 private:
 	bool dragging;
 	int IgnoreIndex;

@@ -18,15 +18,15 @@
 #ifndef TIMEBOX_H
 #define TIMEBOX_H
 
-#include <qhbox.h>
-#include <qlineedit.h>
-#include <qstring.h>
+#include <tqhbox.h>
+#include <tqlineedit.h>
+#include <tqstring.h>
 
 class QTime;
 class ExtDate;
 
 /**@class timeBox
-	* This class creates a QHBox with 3 QLineEdit Fields which will contain
+	* This class creates a TQHBox with 3 TQLineEdit Fields which will contain
 	* either Time (Hour, Minute, Second) or Date (Day, Month, Year).
 	*
 	* Inherits QHBox
@@ -34,7 +34,7 @@ class ExtDate;
 	*@version 1.0
 	*/
 
-class timeBox : public QLineEdit  {
+class timeBox : public TQLineEdit  {
 public:
 	/**
 	 * Constructor for the timeBox object.
@@ -43,28 +43,28 @@ public:
 	 * @param tt boolean. true means that the object will hold a Time.
 	 * false means that the object will hold a Date.
 	 */
-	timeBox(QWidget *parent, const char *n, bool tt=TRUE);
+	timeBox(TQWidget *parent, const char *n, bool tt=TRUE);
 
 	~timeBox();
 
 	/**
-	* Fills the QLineEdit fields of the timebox object from a QTime object
+	* Fills the TQLineEdit fields of the timebox object from a TQTime object
 	* showing hours, minutes and seconds.
-	* @param t QTime object from which to fill the entry fields
+	* @param t TQTime object from which to fill the entry fields
 	*/
-	void showTime(QTime t);
+	void showTime(TQTime t);
 
 	/**
-	* Fills the QLineEdit fields of the timebox object from a QTime object
+	* Fills the TQLineEdit fields of the timebox object from a TQTime object
 	* showing hours, minutes and seconds.
-	* @param t QTime object from which to fill the entry fields
+	* @param t TQTime object from which to fill the entry fields
 	*/
 	void showDate(ExtDate t);
 
 	/**
-	* returns a QTime object constructed from the fields of the timebox
+	* returns a TQTime object constructed from the fields of the timebox
 	*/
-	QTime createTime(bool *ok=0);
+	TQTime createTime(bool *ok=0);
 
 	/**
 	* returns a ExtDate object constructed from the fields of the timebox
@@ -75,7 +75,7 @@ public:
 	/**
 	* Fills the degrees entry field with string @p s
 	*                 */
-	void setEntry(QString s) { setText(s); }
+	void setEntry(TQString s) { setText(s); }
 
 	/**
 	* returns a boolean. True indicates that the object holds a

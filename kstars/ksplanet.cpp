@@ -17,7 +17,7 @@
 
 #include <math.h>
 #include <kdebug.h>
-#include <qfile.h>
+#include <tqfile.h>
 
 #include "ksplanet.h"
 #include "ksnumbers.h"
@@ -41,28 +41,28 @@ KSPlanet::OrbitDataManager::OrbitDataManager() : dict(31, true) {
 	dict.setAutoDelete(true);
 }
 
-bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
-		QPtrVector<KSPlanet::OrbitData> *vector) {
-	QString line;
-	QFile f;
+bool KSPlanet::OrbitDataManager::readOrbitData(TQString fname,
+		TQPtrVector<KSPlanet::OrbitData> *vector) {
+	TQString line;
+	TQFile f;
 	double A, B, C;
 
-	QPtrList<OrbitData> DData;
+	TQPtrList<OrbitData> DData;
 
 	if ( KSUtils::openDataFile( f, fname ) ) {
 		KSFileReader fileReader( f ); // close file is included
     while ( fileReader.hasMoreLines() ) {
       line = fileReader.readLine();
-			QTextIStream instream( &line );
+			TQTextIStream instream( &line );
 			instream >> A >> B >> C;
 			DData.append(new OrbitData(A, B, C));
 
 		}
 /* old code
-		QTextStream stream( &f );
+		TQTextStream stream( &f );
 		while ( !stream.eof() ) {
 			line = stream.readLine();
-			QTextIStream instream( &line );
+			TQTextIStream instream( &line );
 			instream >> A >> B >> C;
 			DData.append(new OrbitData(A, B, C));
 
@@ -78,9 +78,9 @@ bool KSPlanet::OrbitDataManager::readOrbitData(QString fname,
 	return true;
 }
 
-KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
-	QString fname, snum, line;
-	QFile f;
+KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(TQString n) {
+	TQString fname, snum, line;
+	TQFile f;
 	int nCount = 0;
 	OrbitDataColl *ret;
 
@@ -144,7 +144,7 @@ KSPlanet::OrbitDataColl *KSPlanet::OrbitDataManager::loadData(QString n) {
 	return ret;
 }
 
-KSPlanet::KSPlanet( KStarsData *kd, QString s, QString imfile, double pSize )
+KSPlanet::KSPlanet( KStarsData *kd, TQString s, TQString imfile, double pSize )
  : KSPlanetBase(kd, s, imfile, pSize ), data_loaded(false) {
 }
 

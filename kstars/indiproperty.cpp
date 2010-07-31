@@ -34,14 +34,14 @@
  #include <kdebug.h>
  #include <kmessagebox.h>
  
- #include <qbuttongroup.h> 
- #include <qcheckbox.h>
- #include <qlabel.h>
- #include <qlayout.h>
- #include <qtimer.h>
- #include <qfile.h>
- #include <qdatastream.h>
- #include <qtooltip.h>
+ #include <tqbuttongroup.h> 
+ #include <tqcheckbox.h>
+ #include <tqlabel.h>
+ #include <tqlayout.h>
+ #include <tqtimer.h>
+ #include <tqfile.h>
+ #include <tqdatastream.h>
+ #include <tqtooltip.h>
 
  #include <unistd.h>
  #include <stdlib.h>
@@ -49,7 +49,7 @@
 /*******************************************************************
 ** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
-INDI_P::INDI_P(INDI_G *parentGroup, QString inName)
+INDI_P::INDI_P(INDI_G *parentGroup, TQString inName)
 {
   name = inName;
 
@@ -61,8 +61,8 @@ INDI_P::INDI_P(INDI_G *parentGroup, QString inName)
   
   indistd 	  = new INDIStdProperty(this, pg->dp->parent->ksw, pg->dp->stdDev);
   
-  PHBox           = new QHBoxLayout(0, 0, KDialogBase::spacingHint());
-  PVBox           = new QVBoxLayout(0, 0, KDialogBase::spacingHint());
+  PHBox           = new TQHBoxLayout(0, 0, KDialogBase::spacingHint());
+  PVBox           = new TQVBoxLayout(0, 0, KDialogBase::spacingHint());
   light           = NULL;
   label_w         = NULL;
   set_w           = NULL;
@@ -83,7 +83,7 @@ INDI_P::~INDI_P()
       delete (groupB);
 }
 
-bool INDI_P::isOn(QString component)
+bool INDI_P::isOn(TQString component)
 {
 
   INDI_E *lp;
@@ -101,7 +101,7 @@ bool INDI_P::isOn(QString component)
   return false;
 }
 
-INDI_E * INDI_P::findElement(QString elementName)
+INDI_E * INDI_P::findElement(TQString elementName)
 {
   INDI_E *element = NULL;
   
@@ -126,7 +126,7 @@ void INDI_P::drawLt(PState lstate)
 	  case PS_OK:
 	  light->setColor(Qt::green);
 	  emit okState();
-	  disconnect( this, SIGNAL(okState()), 0, 0 );
+	  disconnect( this, TQT_SIGNAL(okState()), 0, 0 );
 	  break;
 
 	  case PS_BUSY:
@@ -203,7 +203,7 @@ void INDI_P::convertSwitch(int id)
 {
  
  INDI_E *lp;
- QString mLabel;
+ TQString mLabel;
  int switchIndex=0;
  
  if (assosiatedPopup == NULL)
@@ -254,7 +254,7 @@ void INDI_P::convertSwitch(int id)
 void INDI_P::newSwitch(int id)
 {
 
-  QFont buttonFont;
+  TQFont buttonFont;
   INDI_E *lp;
 
   lp = el.at(id);
@@ -318,10 +318,10 @@ void INDI_P::newSwitch(int id)
  */
 void INDI_P::newBlob()
 {
- QFile fp;
- QString filename;
- QString format;
- QDataStream binaryStream;
+ TQFile fp;
+ TQString filename;
+ TQString format;
+ TQDataStream binaryStream;
  int data64_size=0, pos=0;
  char *data_file;
  unsigned char *data, *data64;
@@ -379,7 +379,7 @@ void INDI_P::newBlob()
     if (sending == false)
     {
         sending = true;
-	pg->dp->parentMgr->startBlob (pg->dp->name, name, QString(timestamp()));
+	pg->dp->parentMgr->startBlob (pg->dp->name, name, TQString(timestamp()));
     }
 
     pg->dp->parentMgr->sendOneBlob(el.at(i)->name, data64_size, format, data64);
@@ -433,17 +433,17 @@ void INDI_P::addGUI (XMLEle *root)
 	if (label.isEmpty())
 	{
 	   label = name;
-	   label_w = new QLabel(label, pg->propertyContainer);
+	   label_w = new TQLabel(label, pg->propertyContainer);
 	}
 	else
-	   label_w = new QLabel(label, pg->propertyContainer);
+	   label_w = new TQLabel(label, pg->propertyContainer);
 	 
-	   label_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)0, (QSizePolicy::SizeType)5, 0, 0, label_w->sizePolicy().hasHeightForWidth() ) );
-	   label_w->setFrameShape( QLabel::GroupBoxPanel );
+	   label_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)5, 0, 0, label_w->sizePolicy().hasHeightForWidth() ) );
+	   label_w->setFrameShape( TQLabel::GroupBoxPanel );
 	   label_w->setMinimumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setMaximumWidth(PROPERTY_LABEL_WIDTH);
-	   label_w->setTextFormat( QLabel::RichText );
-	   label_w->setAlignment( int( QLabel::WordBreak | QLabel::AlignVCenter | QLabel::AlignHCenter) );
+	   label_w->setTextFormat( TQLabel::RichText );
+	   label_w->setAlignment( int( TQLabel::WordBreak | TQLabel::AlignVCenter | TQLabel::AlignHCenter) );
 	   
 	   PHBox->addWidget(label_w);
 	 
@@ -459,7 +459,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
         INDI_E *lp;
 	XMLEle *text;
 	XMLAtt *ap;
-        QString textName, textLabel;
+        TQString textName, textLabel;
 	errmsg=errmsg;
 	
         for (text = nextXMLEle (root, 1); text != NULL; text = nextXMLEle (root, 0))
@@ -495,7 +495,7 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	     
              lp = new INDI_E(this, textName, textLabel);
 
-	     lp->buildTextGUI(QString(pcdataXMLEle(text)));
+	     lp->buildTextGUI(TQString(pcdataXMLEle(text)));
 	     
 	     el.append(lp);
 	     
@@ -508,12 +508,12 @@ int INDI_P::buildTextGUI(XMLEle *root, char errmsg[])
 	 if (name == "TIME")
 	 {
 	        setupSetButton("Time");
-	     	QObject::connect(set_w, SIGNAL(clicked()), indistd, SLOT(newTime()));
+	     	TQObject::connect(set_w, TQT_SIGNAL(clicked()), indistd, TQT_SLOT(newTime()));
 	 }
 	 else
 	 {
 		setupSetButton("Set");
-        	QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
+        	TQObject::connect(set_w, TQT_SIGNAL(clicked()), this, TQT_SLOT(newText()));
          }
 	 
 	 return 0;
@@ -527,7 +527,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 	XMLEle *number;
 	XMLAtt *ap;
 	INDI_E *lp;
-	QString numberName, numberLabel;
+	TQString numberName, numberLabel;
 	errmsg=errmsg;
 	
 	for (number = nextXMLEle (root, 1); number != NULL; number = nextXMLEle (root, 0))
@@ -591,16 +591,16 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
         else
 		  setupSetButton("Set");
 		  
-	QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
+	TQObject::connect(set_w, TQT_SIGNAL(clicked()), this, TQT_SLOT(newText()));
 		   
 	return (0);
 }
 
 
-void INDI_P::setupSetButton(QString caption)
+void INDI_P::setupSetButton(TQString caption)
 {
-	set_w = new QPushButton(caption, pg->propertyContainer);
-	set_w->setSizePolicy( QSizePolicy( (QSizePolicy::SizeType)5, (QSizePolicy::SizeType)0, 0, 0, set_w->sizePolicy().hasHeightForWidth() ) );
+	set_w = new TQPushButton(caption, pg->propertyContainer);
+	set_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)5, (TQSizePolicy::SizeType)0, 0, 0, set_w->sizePolicy().hasHeightForWidth() ) );
 	set_w->setMinimumWidth( MIN_SET_WIDTH );
 	set_w->setMaximumWidth( MAX_SET_WIDTH );
 
@@ -612,8 +612,8 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 	XMLEle *sep = NULL;
 	XMLAtt *ap;
 	INDI_E *lp;
-	QString switchName, switchLabel;
-	QStringList menuOptions;
+	TQString switchName, switchLabel;
+	TQStringList menuOptions;
 	int i=0, onItem=-1;
 
 	guitype = PG_MENU;
@@ -677,12 +677,12 @@ int INDI_P::buildMenuGUI(XMLEle *root, char errmsg[])
 	om_w->insertStringList(menuOptions);
 	om_w->setCurrentItem(onItem);
 	
-	HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+	HorSpacer = new TQSpacerItem( 20, 20, TQSizePolicy::Expanding, TQSizePolicy::Minimum );
 	
 	PHBox->addWidget(om_w);
 	PHBox->addItem(HorSpacer);
 
-	QObject::connect(om_w, SIGNAL(activated(int)), this, SLOT(newSwitch(int)));
+	TQObject::connect(om_w, TQT_SIGNAL(activated(int)), this, TQT_SLOT(newSwitch(int)));
 
        	return (0);
 }
@@ -693,17 +693,17 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	XMLAtt *ap;
 	INDI_E *lp;
 	KPushButton *button(NULL);
-	QCheckBox   *checkbox;
-	QFont buttonFont;
-	QString switchName, switchLabel;
+	TQCheckBox   *checkbox;
+	TQFont buttonFont;
+	TQString switchName, switchLabel;
 	int j;
 
-	groupB = new QButtonGroup(0);
-        groupB->setFrameShape(QFrame::NoFrame);
+	groupB = new TQButtonGroup(0);
+        groupB->setFrameShape(TQFrame::NoFrame);
 	if (guitype == PG_BUTTONS)
 	  groupB->setExclusive(true);
 	  
-	QObject::connect(groupB, SIGNAL(clicked(int)), this, SLOT(newSwitch(int)));
+	TQObject::connect(groupB, TQT_SIGNAL(clicked(int)), this, TQT_SLOT(newSwitch(int)));
 
        for (sep = nextXMLEle (root, 1), j=-1; sep != NULL; sep = nextXMLEle (root, 0))
        {
@@ -767,7 +767,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
 	      break;
 
 	      case PG_RADIO:
-	      checkbox = new QCheckBox(switchLabel, pg->propertyContainer);
+	      checkbox = new TQCheckBox(switchLabel, pg->propertyContainer);
 	      groupB->insert(checkbox, j);
 
 	      if (lp->state == PS_ON)
@@ -792,7 +792,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, char errmsg[])
         if (j < 0)
 	 return (-1);
 	 
-        HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+        HorSpacer = new TQSpacerItem( 20, 20, TQSizePolicy::Expanding, TQSizePolicy::Minimum );
 	
 	PHBox->addItem(HorSpacer);
 
@@ -804,7 +804,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
         XMLEle *lep;
 	XMLAtt *ap;
 	INDI_E *lp;
-	QString sname, slabel;
+	TQString sname, slabel;
 	
    	for (lep = nextXMLEle (root, 1); lep != NULL; lep = nextXMLEle (root, 0))
     	{
@@ -841,7 +841,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, char errmsg[])
            el.append(lp);
 	}
 	
-	HorSpacer = new QSpacerItem( 20, 20, QSizePolicy::Expanding, QSizePolicy::Minimum );
+	HorSpacer = new TQSpacerItem( 20, 20, TQSizePolicy::Expanding, TQSizePolicy::Minimum );
 	
 	PHBox->addItem(HorSpacer);
 
@@ -855,7 +855,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
   INDI_E *lp;
   XMLEle *blob;
   XMLAtt *ap;
-  QString blobName, blobLabel ;
+  TQString blobName, blobLabel ;
   errmsg=errmsg;
 	
   for (blob = nextXMLEle (root, 1); blob != NULL; blob = nextXMLEle (root, 0))
@@ -900,13 +900,13 @@ int INDI_P::buildBLOBGUI(XMLEle *root, char errmsg[])
     return 0;
 	
    setupSetButton(i18n("Upload"));
-   QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newBlob()));
+   TQObject::connect(set_w, TQT_SIGNAL(clicked()), this, TQT_SLOT(newBlob()));
 
   return 0;
 	 
 }
 
-void INDI_P::activateSwitch(QString name)
+void INDI_P::activateSwitch(TQString name)
 {
   int iCounter = 0;
   INDI_E *element;

@@ -18,10 +18,10 @@
 
 #include <klocale.h>
 
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qspinbox.h>
-#include <qlayout.h>
+#include <tqlabel.h>
+#include <tqpushbutton.h>
+#include <tqspinbox.h>
+#include <tqlayout.h>
 
 #include "timedialog.h"
 #include "kstars.h"
@@ -29,49 +29,49 @@
 #include "simclock.h"
 #include "libkdeedu/extdate/extdatepicker.h"
 
-TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget* parent )
+TimeDialog::TimeDialog( const KStarsDateTime &now, TQWidget* parent )
     : KDialogBase( KDialogBase::Plain, i18n( "set clock to a new time", "Set Time" ), Ok|Cancel, Ok, parent )
 {
 	ksw = (KStars*) parent;
-	QFrame *page = plainPage();
+	TQFrame *page = plainPage();
 
-	vlay = new QVBoxLayout( page, 2, 2 );
-	hlay = new QHBoxLayout( 2 ); //this layout will be added to the VLayout
+	vlay = new TQVBoxLayout( page, 2, 2 );
+	hlay = new TQHBoxLayout( 2 ); //this layout will be added to the VLayout
 	dPicker = new ExtDatePicker( page );
 	dPicker->setDate( now.date() );
 
-	HourBox = new QSpinBox( page, "HourBox" );
-	QFont Box_font(  HourBox->font() );
+	HourBox = new TQSpinBox( page, "HourBox" );
+	TQFont Box_font(  HourBox->font() );
 	Box_font.setBold( TRUE );
 	HourBox->setFont( Box_font );
 	HourBox->setWrapping( TRUE );
 	HourBox->setMaxValue( 23 );
-	HourBox->setButtonSymbols( QSpinBox::PlusMinus );
+	HourBox->setButtonSymbols( TQSpinBox::PlusMinus );
 	HourBox->setValue( now.time().hour() );
 
-	TextLabel1 = new QLabel( page, "TextLabel1" );
+	TextLabel1 = new TQLabel( page, "TextLabel1" );
 	TextLabel1->setText( " :" );
 	TextLabel1->setFont( Box_font );
 	
-	MinuteBox = new QSpinBox( page, "MinuteBox" );
-	QFont MinuteBox_font(  MinuteBox->font() );
+	MinuteBox = new TQSpinBox( page, "MinuteBox" );
+	TQFont MinuteBox_font(  MinuteBox->font() );
 	MinuteBox->setFont( Box_font );
 	MinuteBox->setWrapping( TRUE );
 	MinuteBox->setMaxValue( 59 );
-	MinuteBox->setButtonSymbols( QSpinBox::PlusMinus );
+	MinuteBox->setButtonSymbols( TQSpinBox::PlusMinus );
 	MinuteBox->setValue( now.time().minute() );
 	
-	TextLabel1_2 = new QLabel( page, "TextLabel1_2" );
+	TextLabel1_2 = new TQLabel( page, "TextLabel1_2" );
 	TextLabel1_2->setFont( Box_font );
 	
-	SecondBox = new QSpinBox( page, "SecondBox" );
+	SecondBox = new TQSpinBox( page, "SecondBox" );
 	SecondBox->setFont( Box_font );
 	SecondBox->setMaxValue( 59 );
 	SecondBox->setWrapping( TRUE );
-	SecondBox->setButtonSymbols( QSpinBox::PlusMinus );
+	SecondBox->setButtonSymbols( TQSpinBox::PlusMinus );
 	SecondBox->setValue( now.time().second() );
 	
-	NowButton = new QPushButton( page, "NowButton" );
+	NowButton = new TQPushButton( page, "NowButton" );
 	NowButton->setText( i18n( "Now"  ) );
 	NowButton->setFont( Box_font );
 	
@@ -87,18 +87,18 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, QWidget* parent )
 	
 	vlay->activate();
 	
-	QObject::connect( this, SIGNAL( okClicked() ), this, SLOT( accept() ));
-	QObject::connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ));
-	QObject::connect( NowButton, SIGNAL( clicked() ), this, SLOT( setNow() ));
-	QObject::connect( HourBox, SIGNAL( valueChanged( int ) ), this, SLOT( HourPrefix( int ) ));
-	QObject::connect( MinuteBox, SIGNAL( valueChanged( int ) ), this, SLOT( MinutePrefix( int ) ));
-	QObject::connect( SecondBox, SIGNAL( valueChanged( int ) ), this, SLOT( SecondPrefix( int ) ));
+	TQObject::connect( this, TQT_SIGNAL( okClicked() ), this, TQT_SLOT( accept() ));
+	TQObject::connect( this, TQT_SIGNAL( cancelClicked() ), this, TQT_SLOT( reject() ));
+	TQObject::connect( NowButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( setNow() ));
+	TQObject::connect( HourBox, TQT_SIGNAL( valueChanged( int ) ), this, TQT_SLOT( HourPrefix( int ) ));
+	TQObject::connect( MinuteBox, TQT_SIGNAL( valueChanged( int ) ), this, TQT_SLOT( MinutePrefix( int ) ));
+	TQObject::connect( SecondBox, TQT_SIGNAL( valueChanged( int ) ), this, TQT_SLOT( SecondPrefix( int ) ));
 }
 
 //Add handler for Escape key to close window
 //Use keyReleaseEvent because keyPressEvents are already consumed
 //by the ExtDatePicker.
-void TimeDialog::keyReleaseEvent( QKeyEvent *kev ) {
+void TimeDialog::keyReleaseEvent( TQKeyEvent *kev ) {
 	switch( kev->key() ) {
 		case Key_Escape:
 		{
@@ -115,7 +115,7 @@ void TimeDialog::setNow( void )
   KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
   dPicker->setDate( dt.date() );
-  QTime t = dt.time();
+  TQTime t = dt.time();
 
   HourBox->setValue( t.hour() );
   MinuteBox->setValue( t.minute() );
@@ -137,8 +137,8 @@ void TimeDialog::SecondPrefix( int value ) {
 	if ( value < 10 ) SecondBox->setPrefix( "0" );
 }
 
-QTime TimeDialog::selectedTime( void ) {
-	QTime t( HourBox->value(), MinuteBox->value(), SecondBox->value() );
+TQTime TimeDialog::selectedTime( void ) {
+	TQTime t( HourBox->value(), MinuteBox->value(), SecondBox->value() );
 	return t;
 }
 

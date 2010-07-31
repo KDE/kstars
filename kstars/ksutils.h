@@ -31,17 +31,17 @@ class QFile;
 
 class KSUtils {
 	public:
-	/**Attempt to open the data file named filename, using the QFile object "file".
+	/**Attempt to open the data file named filename, using the TQFile object "file".
 		*First look in the standard KDE directories, then look in a local "data"
 		*subdirectory.  If the data file cannot be found or opened, display a warning
 		*messagebox.
 		*@short Open a data file.
-		*@param &file The QFile object to be opened
+		*@param &file The TQFile object to be opened
 		*@param filename The name of the data file.
 		*@returns bool Returns true if data file was opened successfully.
 		*@returns a reference to the opened file.
 		*/
-		static bool openDataFile( QFile &file, const QString &filename );
+		static bool openDataFile( TQFile &file, const TQString &filename );
 
 	/** Lagrange interpolation using a maximum number of 10 points.
 	 	*@param x[] double array with x values

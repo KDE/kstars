@@ -39,7 +39,7 @@ class modCalcPrec : public modCalcPrecDlg  {
 
 Q_OBJECT
 public: 
-	modCalcPrec(QWidget *p, const char *n); 
+	modCalcPrec(TQWidget *p, const char *n); 
 	~modCalcPrec();
 	SkyPoint precess (dms ra0, dms dec0, double e0, double ef);
 
@@ -56,11 +56,11 @@ public slots:
 
 private:
 	SkyPoint getEquCoords(void);
-	QString  showCurrentEpoch(void);
+	TQString  showCurrentEpoch(void);
 	double setCurrentEpoch(void);
-	double getEpoch (QString eName);
+	double getEpoch (TQString eName);
 	void showEquCoords ( SkyPoint sp );
-	void processLines( QTextStream &istream );
+	void processLines( TQTextStream &istream );
 
 };
 

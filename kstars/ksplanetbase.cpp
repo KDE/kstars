@@ -17,9 +17,9 @@
 
 #include <math.h>
 
-#include <qfile.h>
-#include <qpoint.h>
-#include <qwmatrix.h>
+#include <tqfile.h>
+#include <tqpoint.h>
+#include <tqwmatrix.h>
 
 #include "ksplanetbase.h"
 #include "ksplanet.h"
@@ -29,11 +29,11 @@
 #include "kspopupmenu.h"
 
 
-KSPlanetBase::KSPlanetBase( KStarsData *kd, QString s, QString image_file, double pSize )
+KSPlanetBase::KSPlanetBase( KStarsData *kd, TQString s, TQString image_file, double pSize )
  : SkyObject( 2, 0.0, 0.0, 0.0, s, "" ), Rearth(0.0), Image(0), data(kd) {
 
 	 if (! image_file.isEmpty()) {
-		QFile imFile;
+		TQFile imFile;
 
 		if ( KSUtils::openDataFile( imFile, image_file ) ) {
 			imFile.close();
@@ -185,14 +185,14 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
 
 void KSPlanetBase::rotateImage( double imAngle ) {
 	ImageAngle = imAngle;
-	QWMatrix m;
+	TQWMatrix m;
 	m.rotate( ImageAngle );
 	Image = Image0.xForm( m );
 }
 
 void KSPlanetBase::scaleRotateImage( int scale, double imAngle ) {
 	ImageAngle = imAngle;
-	QWMatrix m;
+	TQWMatrix m;
 	m.rotate( ImageAngle );
 	Image = Image0.xForm( m ).smoothScale( scale, scale );
 }

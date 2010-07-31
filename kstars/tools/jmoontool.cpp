@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qlayout.h>
-#include <qlabel.h>
+#include <tqlayout.h>
+#include <tqlabel.h>
 
 #include <kdebug.h>
 #include <klocale.h>
@@ -30,13 +30,13 @@
 #include "dms.h"
 #include "ksnumbers.h"
 
-JMoonTool::JMoonTool(QWidget *parent, const char *name)
+JMoonTool::JMoonTool(TQWidget *parent, const char *name)
  : KDialogBase( KDialogBase::Plain, i18n("Jupiter Moons Tool"), Close, Close, parent, name )
 {
 	ksw = (KStars*)parent;
 	
-	QFrame *page = plainPage();
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, 0 );
+	TQFrame *page = plainPage();
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, 0 );
 	
 	colJp = "White";
 	colIo = "Red";
@@ -44,15 +44,15 @@ JMoonTool::JMoonTool(QWidget *parent, const char *name)
 	colGn = "Orange";
 	colCa = "YellowGreen";
 	
-	QLabel *labIo = new QLabel( "Io", page );
-	QLabel *labEu = new QLabel( "Europa", page );
-	QLabel *labGn = new QLabel( "Ganymede", page );
-	QLabel *labCa = new QLabel( "Callisto", page );
+	TQLabel *labIo = new TQLabel( "Io", page );
+	TQLabel *labEu = new TQLabel( "Europa", page );
+	TQLabel *labGn = new TQLabel( "Ganymede", page );
+	TQLabel *labCa = new TQLabel( "Callisto", page );
 	
-	labIo->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-	labEu->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-	labGn->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
-	labCa->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Fixed );
+	labIo->setSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
+	labEu->setSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
+	labGn->setSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
+	labCa->setSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
 	labIo->setAlignment( AlignHCenter );
 	labEu->setAlignment( AlignHCenter );
 	labGn->setAlignment( AlignHCenter );
@@ -67,7 +67,7 @@ JMoonTool::JMoonTool(QWidget *parent, const char *name)
 	labGn->setPaletteBackgroundColor( "Black" );
 	labCa->setPaletteBackgroundColor( "Black" );
 	
-	QGridLayout *glay = new QGridLayout( 2, 2, 0 );
+	TQGridLayout *glay = new TQGridLayout( 2, 2, 0 );
 	glay->addWidget( labIo, 0, 0 );
 	glay->addWidget( labEu, 1, 0 );
 	glay->addWidget( labGn, 0, 1 );
@@ -128,7 +128,7 @@ void JMoonTool::initPlotObjects() {
 	pw->addObject( jpath );
 }
 
-void JMoonTool::keyPressEvent( QKeyEvent *e ) {
+void JMoonTool::keyPressEvent( TQKeyEvent *e ) {
 	switch ( e->key() ) {
 		case Key_BracketRight:
 		{

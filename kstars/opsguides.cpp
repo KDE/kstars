@@ -14,17 +14,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qbuttongroup.h>
-#include <qcheckbox.h>
+#include <tqbuttongroup.h>
+#include <tqcheckbox.h>
 #include "opsguides.h"
 
-OpsGuides::OpsGuides( QWidget* parent, const char* name, WFlags fl )
+OpsGuides::OpsGuides( TQWidget* parent, const char* name, WFlags fl )
     : OpsGuidesUI( parent, name, fl )
 {
-	connect( kcfg_ShowCNames, SIGNAL( clicked() ), 
-					 this, SLOT( slotToggleConstellOptions() ) );
-	connect( kcfg_ShowMilkyWay, SIGNAL( clicked() ), 
-					 this, SLOT( slotToggleMilkyWayOptions() ) );
+	connect( kcfg_ShowCNames, TQT_SIGNAL( clicked() ), 
+					 this, TQT_SLOT( slotToggleConstellOptions() ) );
+	connect( kcfg_ShowMilkyWay, TQT_SIGNAL( clicked() ), 
+					 this, TQT_SLOT( slotToggleMilkyWayOptions() ) );
 }
 
 OpsGuides::~OpsGuides()

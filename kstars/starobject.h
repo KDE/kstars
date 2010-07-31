@@ -18,7 +18,7 @@
 #ifndef STAROBJECT_H
 #define STAROBJECT_H
 
-#include <qpoint.h>
+#include <tqpoint.h>
 
 #include "skyobject.h"
 
@@ -59,8 +59,8 @@ class StarObject : public SkyObject {
 	*@param mult Multiplicity flag (false=dingle star; true=multiple star)
 	*@param var Variability flag (true if star is a known periodic variable)
 	*/
-	StarObject( dms r=dms(0.0), dms d=dms(0.0), float m=0.0, QString n="",
-				QString n2="", QString sptype="--", double pmra=0.0, double pmdec=0.0,
+	StarObject( dms r=dms(0.0), dms d=dms(0.0), float m=0.0, TQString n="",
+				TQString n2="", TQString sptype="--", double pmra=0.0, double pmdec=0.0,
 				double par=0.0, bool mult=false, bool var=false );
 /**
 	*Constructor.  Sets sky coordinates, magnitude, latin name, genetive name, and
@@ -77,8 +77,8 @@ class StarObject : public SkyObject {
 	*@param mult Multiplicity flag (false=dingle star; true=multiple star)
 	*@param var Variability flag (true if star is a known periodic variable)
 	*/
-	StarObject( double r, double d, float m=0.0, QString n="",
-				QString n2="", QString sptype="--", double pmra=0.0, double pmdec=0.0,
+	StarObject( double r, double d, float m=0.0, TQString n="",
+				TQString n2="", TQString sptype="--", double pmra=0.0, double pmdec=0.0,
 				double par=0.0, bool mult=false, bool var=false );
 
 /**
@@ -89,41 +89,41 @@ class StarObject : public SkyObject {
 /**
 	*If star is unnamed return "star" otherwise return the name
 	*/
-	virtual QString name( void ) const { return hasName() ? *Name : starString;}
+	virtual TQString name( void ) const { return hasName() ? *Name : starString;}
 
 /**
 	*If star is unnamed return "star" otherwise return the longname
 	*/
-	virtual QString longname( void ) const { return hasLongName() ? *LongName : starString; }
+	virtual TQString longname( void ) const { return hasLongName() ? *LongName : starString; }
 /**
 	*Returns first character of Spectral Type string, which is used to
 	*select the temperature-color of the star.
 	*@return first character of Spectral Type string
 	*/
-	QChar color( void ) const { return SpType.at(0); }
+	TQChar color( void ) const { return SpType.at(0); }
 
 /**
 	*Returns entire spectral type string
 	*@return Spectral Type string
 	*/
-	QString sptype( void ) const;
+	TQString sptype( void ) const;
 
 /**
 	*Returns the genetive name of the star.
 	*@return genetive name of the star
 	*/
-	QString gname( bool useGreekChars=true ) const;
+	TQString gname( bool useGreekChars=true ) const;
 
 /**
 	*Returns the greek letter portion of the star's genetive name.
 	*Returns empty string if star has no genetive name defined.
 	*@return greek letter portion of genetive name
 	*/
-	QString greekLetter( bool useGreekChars=true ) const;
+	TQString greekLetter( bool useGreekChars=true ) const;
 
 /**@return the genitive form of the star's constellation.
 	*/
-	QString constell( void ) const;
+	TQString constell( void ) const;
 
 /**Determine the current coordinates (RA, Dec) from the catalog
 	*coordinates (RA0, Dec0), accounting for both precession and nutation.
@@ -198,20 +198,20 @@ class StarObject : public SkyObject {
 //	*/
 //	double vperiod() const { return VPeriod; }
 
-	void draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, int y, bool drawMultiple=true, double scale=1.0 );
+	void draw( TQPainter &psky, TQPixmap *sky, TQPixmap *starpix, int x, int y, bool drawMultiple=true, double scale=1.0 );
 
 	//overloaded from SkyObject
-	void drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale );
+	void drawLabel( TQPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale );
 
 /**Show star object popup menu.  Overloaded from virtual 
 	*SkyObject::showPopupMenu()
 	*@param pmenu pointer to the KSPopupMenu object
 	*@param pos QPojnt holding the x,y coordinates for the menu
 	*/
-	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createStarMenu( this ); pmenu->popup( pos ); }
+	virtual void showPopupMenu( KSPopupMenu *pmenu, TQPoint pos ) { pmenu->createStarMenu( this ); pmenu->popup( pos ); }
 
 private:
-	QString SpType;
+	TQString SpType;
 
 	double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;
 	bool Multiplicity, Variability;

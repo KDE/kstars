@@ -16,14 +16,14 @@
  ***************************************************************************/
 
 #include <math.h>
-#include <qdatetime.h>
+#include <tqdatetime.h>
 
 #include "kssun.h"
 #include "ksutils.h"
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 
-KSSun::KSSun( KStarsData *kd, QString fn, double pSize ) : KSPlanet( kd, I18N_NOOP( "Sun" ), fn, pSize ) {
+KSSun::KSSun( KStarsData *kd, TQString fn, double pSize ) : KSPlanet( kd, I18N_NOOP( "Sun" ), fn, pSize ) {
 	/*
 	JD0 = 2447892.5; //Jan 1, 1990
 	eclong0 = 279.403303; //mean ecliptic longitude at JD0
@@ -156,7 +156,7 @@ long double KSSun::equinox(int year, int d, int m, double angle) {
 	long double eclipticLongitude[5];
 	
 	for(int i = 0; i<5; ++i) {
-		jd0[i] = KStarsDateTime( ExtDate(year,m,d+i), QTime(0,0,0) ).djd();
+		jd0[i] = KStarsDateTime( ExtDate(year,m,d+i), TQTime(0,0,0) ).djd();
 		KSNumbers *ksn = new KSNumbers(jd0[i]);
 		//FIXME this is the Earth position
 		findGeocentricPosition( ksn );

@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
-#include <qpixmap.h>
-#include <qlabel.h>
+#include <tqfile.h>
+#include <tqpixmap.h>
+#include <tqlabel.h>
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
@@ -31,7 +31,7 @@
 #include "kswizardui.h"
 #include "kswizard.h"
 
-KSWizard::KSWizard( QWidget *parent, const char *name )
+KSWizard::KSWizard( TQWidget *parent, const char *name )
  : KSWizardUI( parent, name )
 {
 	ksw = (KStars *)parent;
@@ -54,8 +54,8 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	setNextEnabled( page( pageCount() - 1 ), false );
 
 	//Load images into banner frames.
-	QFile imFile;
-	QPixmap im = QPixmap();
+	TQFile imFile;
+	TQPixmap im = TQPixmap();
 	
 	if ( KSUtils::openDataFile( imFile, "wzstars.png" ) ) {
 		imFile.close(); //Just need the filename...
@@ -86,14 +86,14 @@ KSWizard::KSWizard( QWidget *parent, const char *name )
 	#endif
 
 	//connect signals/slots
-	connect( CityListBox, SIGNAL( selectionChanged() ), this, SLOT( slotChangeCity() ) );
-	connect( CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
-	connect( ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
-	connect( CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
+	connect( CityListBox, TQT_SIGNAL( selectionChanged() ), this, TQT_SLOT( slotChangeCity() ) );
+	connect( CityFilter, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( slotFilterCities() ) );
+	connect( ProvinceFilter, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( slotFilterCities() ) );
+	connect( CountryFilter, TQT_SIGNAL( textChanged( const TQString & ) ), this, TQT_SLOT( slotFilterCities() ) );
 //Uncomment if we ever need the telescope page...
-//	connect( TelescopeWizardButton, SIGNAL( clicked() ), this, SLOT( slotTelescopeSetup() ) );
+//	connect( TelescopeWizardButton, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotTelescopeSetup() ) );
 	#if ( KDE_IS_VERSION( 3, 2, 90 ) )
-	connect( DownloadButton, SIGNAL( clicked() ), ksw, SLOT( slotDownload() ) );
+	connect( DownloadButton, TQT_SIGNAL( clicked() ), ksw, TQT_SLOT( slotDownload() ) );
 	#endif
 	
 	//Initialize Geographic Location page
@@ -149,9 +149,9 @@ void KSWizard::slotFilterCities() {
 	filteredCityList.clear();
 
 	for (GeoLocation *loc = ksw->data()->geoList.first(); loc; loc = ksw->data()->geoList.next()) {
-		QString sc( loc->translatedName() );
-		QString ss( loc->translatedCountry() );
-		QString sp = "";
+		TQString sc( loc->translatedName() );
+		TQString ss( loc->translatedCountry() );
+		TQString sp = "";
 		if ( !loc->province().isEmpty() )
 			sp = loc->translatedProvince();
 

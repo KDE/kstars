@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
-#include <qpainter.h>
+#include <tqpainter.h>
 
 #include "infobox.h"
 
@@ -36,7 +36,7 @@ InfoBox::InfoBox(){
 	Shaded = false;
 }
 
-InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 ) {
+InfoBox::InfoBox( int x, int y, bool shade, TQString t1, TQString t2, TQString t3 ) {
 	setText1( t1 );
 	setText2( t2 );
 	setText3( t3 );
@@ -52,7 +52,7 @@ InfoBox::InfoBox( int x, int y, bool shade, QString t1, QString t2, QString t3 )
 	Visible = true;
 }
 
-InfoBox::InfoBox( QPoint pt, bool shade, QString t1, QString t2, QString t3 ) {
+InfoBox::InfoBox( TQPoint pt, bool shade, TQString t1, TQString t2, TQString t3 ) {
 	setText1( t1 );
 	setText2( t2 );
 	setText3( t3 );
@@ -97,21 +97,21 @@ void InfoBox::updateSize() {
 //	kdDebug() << "Size=" << Size.width() << "," << Size.height() << endl;
 }
 
-bool InfoBox::constrain( QRect r, bool inside ) {
+bool InfoBox::constrain( TQRect r, bool inside ) {
 	if ( inside ) {
-		//Place InfoBox within QRect r:
+		//Place InfoBox within TQRect r:
 		if ( x() < r.x() ) move( r.x(), y() );
 		if ( y() < r.y() ) move( x(), r.y() );
 		if ( x() + width() > r.right() ) move( r.right() - width(), y() );
 		if ( y() + height() > r.bottom() ) move( x(), r.bottom() - height() );
-		//The InfoBox is now within the bounds of QRect r, unless it is bigger than r.
+		//The InfoBox is now within the bounds of TQRect r, unless it is bigger than r.
 		//In that case, we cannot obey the constraint, but the current position is as
 		//close as we can get.  Return false in this case.
 		if ( width() > r.width() || height() > r.height() ) return false;
 		else return true;
 	} else {
 //FIXME...
-		//Place InfoBox outside QRect r.  First, determine if InfoBox is within r:
+		//Place InfoBox outside TQRect r.  First, determine if InfoBox is within r:
 //		if ( rect().intersects( r ) ) {
 			//Move the InfoBox in all four directions until it no longer intersects r.
 			//Determine which displacement is shortest
@@ -120,8 +120,8 @@ bool InfoBox::constrain( QRect r, bool inside ) {
 	}
 }
 
-void InfoBox::draw( QPainter &p, QColor BGColor, unsigned int BGMode ) {
-	QRect r;
+void InfoBox::draw( TQPainter &p, TQColor BGColor, unsigned int BGMode ) {
+	TQRect r;
 	int w,h;
 
 	r = p.boundingRect( x(), y(), p.window().width(), p.window().height(), Qt::AlignCenter, text1() );
@@ -147,11 +147,11 @@ void InfoBox::draw( QPainter &p, QColor BGColor, unsigned int BGMode ) {
 	FullTextHeight = h;
 
 	updateSize();
-	constrain( QRect( 0, 0, p.window().width(), p.window().height() ) );
+	constrain( TQRect( 0, 0, p.window().width(), p.window().height() ) );
 
 //Draw the box boundary and the text
-	if ( BGMode==1 ) p.fillRect( x(), y(), width(), height(), QBrush( BGColor, Dense4Pattern ) );
-	if ( BGMode==2 ) p.fillRect( x(), y(), width(), height(), QBrush( BGColor ) );
+	if ( BGMode==1 ) p.fillRect( x(), y(), width(), height(), TQBrush( BGColor, Dense4Pattern ) );
+	if ( BGMode==2 ) p.fillRect( x(), y(), width(), height(), TQBrush( BGColor ) );
 
 	p.drawText( x() + padx(), y() + ShadedTextHeight/2 + pady(), text1() );
 
@@ -161,16 +161,16 @@ void InfoBox::draw( QPainter &p, QColor BGColor, unsigned int BGMode ) {
 	}
 }
 
-QRect InfoBox::rect() const {
-	return QRect( pos(), size() );
+TQRect InfoBox::rect() const {
+	return TQRect( pos(), size() );
 }
 
 void InfoBox::move( int x, int y ) {
-	Pos.setX( x ); Pos.setY( y ); emit moved( QPoint(x,y) );
+	Pos.setX( x ); Pos.setY( y ); emit moved( TQPoint(x,y) );
 }
 
-void InfoBox::move( QPoint p ) {
-	move( p.x(), p.y() ); emit moved( QPoint( p.x(), p.y() ) );
+void InfoBox::move( TQPoint p ) {
+	move( p.x(), p.y() ); emit moved( TQPoint( p.x(), p.y() ) );
 }
 
 #include "infobox.moc"

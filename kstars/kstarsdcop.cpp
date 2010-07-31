@@ -17,9 +17,9 @@
 
 //KStars DCOP functions
 
-#include <qdir.h>
-#include <qlistview.h>
-#include <qradiobutton.h>
+#include <tqdir.h>
+#include <tqlistview.h>
+#include <tqradiobutton.h>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
@@ -56,8 +56,8 @@ void KStars::setAltAz( double alt, double az ) {
  	map()->setDestinationAltAz(alt,az);
 }
 
-void KStars::lookTowards ( const QString direction ) {
-  QString dir = direction.lower();
+void KStars::lookTowards ( const TQString direction ) {
+  TQString dir = direction.lower();
 	if (dir == "zenith" || dir=="z") map()->invokeKey( KKey( "Z" ).keyCodeQt() );
 	else if (dir == "north" || dir=="n") map()->invokeKey( KKey( "N" ).keyCodeQt() );
 	else if (dir == "east"  || dir=="e") map()->invokeKey( KKey( "E" ).keyCodeQt() );
@@ -101,15 +101,15 @@ void KStars::zoom( double z ) {
 }
 
 void KStars::setLocalTime(int yr, int mth, int day, int hr, int min, int sec) {
-	data()->changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) ) );
+	data()->changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), TQTime(hr,min,sec) ) ) );
 }
 
 void KStars::waitFor( double t ) {
 	kapp->dcopClient()->suspend();
-	QTimer::singleShot( int( 1000.*t ), this, SLOT( resumeDCOP() ) );
+	TQTimer::singleShot( int( 1000.*t ), this, TQT_SLOT( resumeDCOP() ) );
 }
 
-void KStars::waitForKey( const QString k ) {
+void KStars::waitForKey( const TQString k ) {
 	data()->resumeKey = KKey( k );
 	if ( ! data()->resumeKey.isNull() ) {
 		kapp->dcopClient()->suspend();
@@ -122,7 +122,7 @@ void KStars::setTracking( bool track ) {
 	if ( track != Options::isTracking() ) slotTrack();
 }
 
-void KStars::popupMessage( int /*x*/, int /*y*/, QString /*message*/ ){
+void KStars::popupMessage( int /*x*/, int /*y*/, TQString /*message*/ ){
 	//Show a small popup window at (x,y) with a text message
 }
 
@@ -130,7 +130,7 @@ void KStars::drawLine( int /*x1*/, int /*y1*/, int /*x2*/, int /*y2*/, int /*spe
 	//Draw a line on the skymap display
 }
 
-void KStars::setGeoLocation( QString city, QString province, QString country ) {
+void KStars::setGeoLocation( TQString city, TQString province, TQString country ) {
 	//Set the geographic location
 	bool cityFound( false );
 
@@ -204,18 +204,18 @@ void KStars::writeConfig() {
 	data()->StoredDate.setDJD( data()->lt().djd() );
 }
 
-QString KStars::getOption( const QString &name ) {
+TQString KStars::getOption( const TQString &name ) {
 	//Some config items are not stored in the Options object while 
 	//the program is running; catch these here and returntheir current value.
-	if ( name == "FocusRA" ) { return QString::number( map()->focus()->ra()->Hours(), 'f', 6 ); }
-	if ( name == "FocusDec" ) { return QString::number( map()->focus()->dec()->Degrees(), 'f', 6 ); }
+	if ( name == "FocusRA" ) { return TQString::number( map()->focus()->ra()->Hours(), 'f', 6 ); }
+	if ( name == "FocusDec" ) { return TQString::number( map()->focus()->dec()->Degrees(), 'f', 6 ); }
 
 	KConfigSkeletonItem *it = Options::self()->findItem( name );
 	if ( it ) return it->property().toString();
-	else return QString::null;
+	else return TQString::null;
 }
 
-void KStars::changeViewOption( const QString op, const QString val ) {
+void KStars::changeViewOption( const TQString op, const TQString val ) {
 	bool bOk(false), nOk(false), dOk(false);
 
 	//parse bool value
@@ -332,7 +332,7 @@ void KStars::changeViewOption( const QString op, const QString val ) {
 	map()->forceUpdate();
 }
 
-void KStars::setColor( const QString name, const QString value ) {
+void KStars::setColor( const TQString name, const TQString value ) {
 	ColorScheme *cs = data()->colorScheme();
 	if ( cs->hasColorNamed( name ) ) {
 		cs->setColor( name, value );
@@ -340,9 +340,9 @@ void KStars::setColor( const QString name, const QString value ) {
 	}
 }
 
-void KStars::loadColorScheme( const QString _name ) {
-	QString name( _name );
-	QString filename = name.lower().stripWhiteSpace();
+void KStars::loadColorScheme( const TQString _name ) {
+	TQString name( _name );
+	TQString filename = name.lower().stripWhiteSpace();
 	bool ok( false );
 	
 	//Parse default names which don't follow the regular file-naming scheme
@@ -375,32 +375,32 @@ void KStars::loadColorScheme( const QString _name ) {
 		//set the application colors for the Night Vision scheme
 		if ( Options::darkAppColors() == false && filename == "night.colors" )  {
 			Options::setDarkAppColors( true );
-			OriginalPalette = QApplication::palette();
-			QApplication::setPalette( DarkPalette, true );
+			OriginalPalette = TQApplication::palette();
+			TQApplication::setPalette( DarkPalette, true );
 		}
 		
 		if ( Options::darkAppColors() && filename != "night.colors" ) {
 			Options::setDarkAppColors( false );
-			QApplication::setPalette( OriginalPalette, true );
+			TQApplication::setPalette( OriginalPalette, true );
 		}
 		
 		map()->forceUpdate();
 	}
 }
 
-void KStars::exportImage( const QString url, int w, int h ) {
+void KStars::exportImage( const TQString url, int w, int h ) {
 	//If the filename string contains no "/" separators, assume the 
 	//user wanted to place a file in their home directory.
 	KURL fileURL;
-	if ( ! url.contains( "/" ) ) fileURL = QDir::homeDirPath() + "/" + url;
+	if ( ! url.contains( "/" ) ) fileURL = TQDir::homeDirPath() + "/" + url;
 	else fileURL = url;
 
 	KTempFile tmpfile;
-	QString fname;
+	TQString fname;
 	tmpfile.setAutoDelete(true);
 	
-	QPixmap skyimage( map()->width(), map()->height() );
-	QPixmap outimage( w, h );
+	TQPixmap skyimage( map()->width(), map()->height() );
+	TQPixmap outimage( w, h );
 	outimage.fill();
 	
 	if ( fileURL.isValid() ) {
@@ -411,7 +411,7 @@ void KStars::exportImage( const QString url, int w, int h ) {
 		}
 
 		//Determine desired image format from filename extension
-		QString ext = fname.mid( fname.findRev(".")+1 );
+		TQString ext = fname.mid( fname.findRev(".")+1 );
 		const char* format = "PNG";
 		if ( ext.lower() == "png" ) { format = "PNG"; }
 		else if ( ext.lower() == "jpg" || ext.lower() == "jpeg" ) { format = "JPG"; }
@@ -452,7 +452,7 @@ void KStars::exportImage( const QString url, int w, int h ) {
 
 		if ( tmpfile.name() == fname ) { //attempt to upload image to remote location
 			if ( ! KIO::NetAccess::upload( tmpfile.name(), fileURL, this ) ) {
-				QString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
+				TQString message = i18n( "Could not upload image to remote location: %1" ).arg( fileURL.prettyURL() );
 				KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
 			}
 		}
@@ -460,7 +460,7 @@ void KStars::exportImage( const QString url, int w, int h ) {
 }
 
 void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
-	KPrinter printer( true, QPrinter::HighResolution );
+	KPrinter printer( true, TQPrinter::HighResolution );
 	printer.setFullPage( false );
 	
 	//Set up the printer (either with the Print Dialog, 
@@ -500,7 +500,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
 	}
 }
 
-void KStars::startINDI (QString deviceName, bool useLocal)
+void KStars::startINDI (TQString deviceName, bool useLocal)
 {
 
   establishINDI();
@@ -511,7 +511,7 @@ void KStars::startINDI (QString deviceName, bool useLocal)
     return;
   }
 	  
-	QListViewItem *driverItem = NULL;
+	TQListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(deviceName, 0);
 	if (driverItem == NULL)
 	{
@@ -542,7 +542,7 @@ void KStars::startINDI (QString deviceName, bool useLocal)
 
 }
 
-void KStars::shutdownINDI (QString deviceName)
+void KStars::shutdownINDI (TQString deviceName)
 {
   if (!indidriver || !indimenu)
   {
@@ -550,7 +550,7 @@ void KStars::shutdownINDI (QString deviceName)
     return;
   }
 	  
-	QListViewItem *driverItem = NULL;
+	TQListViewItem *driverItem = NULL;
 	driverItem = indidriver->localListView->findItem(deviceName, 0);
 	if (driverItem == NULL)
 	{
@@ -563,7 +563,7 @@ void KStars::shutdownINDI (QString deviceName)
 }
 
 
-void KStars::switchINDI(QString deviceName, bool turnOn)
+void KStars::switchINDI(TQString deviceName, bool turnOn)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -597,7 +597,7 @@ void KStars::switchINDI(QString deviceName, bool turnOn)
 }
 
 	
-void KStars::setINDIPort(QString deviceName, QString port)
+void KStars::setINDIPort(TQString deviceName, TQString port)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -633,7 +633,7 @@ void KStars::setINDIPort(QString deviceName, QString port)
 }
 
 	
-void KStars::setINDITargetCoord(QString deviceName, double RA, double DEC)
+void KStars::setINDITargetCoord(TQString deviceName, double RA, double DEC)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -661,20 +661,20 @@ void KStars::setINDITargetCoord(QString deviceName, double RA, double DEC)
   if (!el) return;
   if (!el->write_w) return;
   
-  el->write_w->setText(QString("%1").arg(RA));
+  el->write_w->setText(TQString("%1").arg(RA));
   
   el  = prop->findElement("DEC");
   if (!el) return;
   if (!el->write_w) return;
   
-  el->write_w->setText(QString("%1").arg(DEC));
+  el->write_w->setText(TQString("%1").arg(DEC));
   
   prop->newText();
   
 }
 
 	
-void KStars::setINDITargetName(QString deviceName, QString objectName)
+void KStars::setINDITargetName(TQString deviceName, TQString objectName)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -705,20 +705,20 @@ void KStars::setINDITargetName(QString deviceName, QString objectName)
   if (!el) return;
   if (!el->write_w) return;
   
-  el->write_w->setText(QString("%1").arg(target->ra()->Hours()));
+  el->write_w->setText(TQString("%1").arg(target->ra()->Hours()));
   
   el  = prop->findElement("DEC");
   if (!el) return;
   if (!el->write_w) return;
   
-  el->write_w->setText(QString("%1").arg(target->dec()->Degrees()));
+  el->write_w->setText(TQString("%1").arg(target->dec()->Degrees()));
   
   prop->newText();
 
 }
 
 	
-void KStars::setINDIAction(QString deviceName, QString action)
+void KStars::setINDIAction(TQString deviceName, TQString action)
 {
   INDI_D *dev;
   INDI_E *el;
@@ -746,7 +746,7 @@ void KStars::setINDIAction(QString deviceName, QString action)
 }
 
 	
-void KStars::waitForINDIAction(QString deviceName, QString action)
+void KStars::waitForINDIAction(TQString deviceName, TQString action)
 {
 
   INDI_D *dev;
@@ -775,17 +775,17 @@ void KStars::waitForINDIAction(QString deviceName, QString action)
     el = dev->findElem(action);
     if (!el) return;
     
-    QObject::connect(el->pp, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
+    TQObject::connect(el->pp, TQT_SIGNAL(okState()), this, TQT_SLOT(resumeDCOP(void )));
   }
   else
-    QObject::connect(prop, SIGNAL(okState()), this, SLOT(resumeDCOP(void )));
+    TQObject::connect(prop, TQT_SIGNAL(okState()), this, TQT_SLOT(resumeDCOP(void )));
   
   kapp->dcopClient()->suspend();
   
 }
 
 	
-void KStars::setINDIFocusSpeed(QString deviceName, unsigned int speed)
+void KStars::setINDIFocusSpeed(TQString deviceName, unsigned int speed)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -813,14 +813,14 @@ void KStars::setINDIFocusSpeed(QString deviceName, unsigned int speed)
   if (!el) return;
   if (!el->write_w) return;
   
-  el->write_w->setText(QString("%1").arg(speed));
+  el->write_w->setText(TQString("%1").arg(speed));
 
   prop->newText();
 
 }
 
 	
-void KStars::startINDIFocus(QString deviceName, int focusDir)
+void KStars::startINDIFocus(TQString deviceName, int focusDir)
 {
   if (!indidriver || !indimenu)
   {
@@ -836,7 +836,7 @@ void KStars::startINDIFocus(QString deviceName, int focusDir)
 }
 
 	
-void KStars::setINDIGeoLocation(QString deviceName, double longitude, double latitude)
+void KStars::setINDIGeoLocation(TQString deviceName, double longitude, double latitude)
 {
   
   INDI_D *dev;
@@ -865,20 +865,20 @@ void KStars::setINDIGeoLocation(QString deviceName, double longitude, double lat
   if (!el) return;
   if (!el->write_w) return;
   
-  el->write_w->setText(QString("%1").arg(longitude));
+  el->write_w->setText(TQString("%1").arg(longitude));
   
   el  = prop->findElement("LAT");
   if (!el) return;
   if (!el->write_w) return;
   
-  el->write_w->setText(QString("%1").arg(latitude));
+  el->write_w->setText(TQString("%1").arg(latitude));
   
   prop->newText();
 
 }
 
 	
-void KStars::setINDIFocusTimeout(QString deviceName, int timeout)
+void KStars::setINDIFocusTimeout(TQString deviceName, int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -907,7 +907,7 @@ void KStars::setINDIFocusTimeout(QString deviceName, int timeout)
   if (!el) return;
   
   if (el->write_w)
-    el->write_w->setText(QString("%1").arg(timeout));
+    el->write_w->setText(TQString("%1").arg(timeout));
   else if (el->spin_w)
     el->spin_w->setValue(timeout);
   
@@ -916,7 +916,7 @@ void KStars::setINDIFocusTimeout(QString deviceName, int timeout)
 }
 
 	
-void KStars::startINDIExposure(QString deviceName, int timeout)
+void KStars::startINDIExposure(TQString deviceName, int timeout)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -944,7 +944,7 @@ void KStars::startINDIExposure(QString deviceName, int timeout)
   if (!el) return;
   
   if (el->write_w)
-    el->write_w->setText(QString("%1").arg(timeout));
+    el->write_w->setText(TQString("%1").arg(timeout));
   else if (el->spin_w)
     el->spin_w->setValue(timeout);
   
@@ -953,7 +953,7 @@ void KStars::startINDIExposure(QString deviceName, int timeout)
   
 }
 
-void KStars::setINDIFilterNum(QString deviceName, int filter_num)
+void KStars::setINDIFilterNum(TQString deviceName, int filter_num)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -981,7 +981,7 @@ void KStars::setINDIFilterNum(QString deviceName, int filter_num)
   if (!el) return;
   
   if (el->write_w)
-    el->write_w->setText(QString("%1").arg(filter_num));
+    el->write_w->setText(TQString("%1").arg(filter_num));
   else if (el->spin_w)
     el->spin_w->setValue(filter_num);
   
@@ -989,7 +989,7 @@ void KStars::setINDIFilterNum(QString deviceName, int filter_num)
   
 }
 		
-void KStars::setINDIUTC(QString deviceName, QString UTCDateTime)
+void KStars::setINDIUTC(TQString deviceName, TQString UTCDateTime)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -1023,17 +1023,17 @@ void KStars::setINDIUTC(QString deviceName, QString UTCDateTime)
 
 }
 
-void KStars::setINDIScopeAction(QString deviceName, QString action)
+void KStars::setINDIScopeAction(TQString deviceName, TQString action)
 {
   setINDIAction(deviceName, action);
 }
 		
-void KStars::setINDIFrameType(QString deviceName, QString type)
+void KStars::setINDIFrameType(TQString deviceName, TQString type)
 {
   setINDIAction(deviceName, type);
 }
 
-void KStars::setINDICCDTemp(QString deviceName, int temp)
+void KStars::setINDICCDTemp(TQString deviceName, int temp)
 {
   INDI_D *dev;
   INDI_P *prop;
@@ -1061,7 +1061,7 @@ void KStars::setINDICCDTemp(QString deviceName, int temp)
   if (!el) return;
   
   if (el->write_w)
-    el->write_w->setText(QString("%1").arg(temp));
+    el->write_w->setText(TQString("%1").arg(temp));
   else if (el->spin_w)
     el->spin_w->setValue(temp);
   

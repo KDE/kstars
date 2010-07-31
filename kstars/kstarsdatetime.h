@@ -88,9 +88,9 @@ public:
 	*@short Constructor
 	*Create a KStarsDateTimne based on the specified Date and Time.
 	*@p _d The ExtDate to assign
-	*@p _t The QTime to assign
+	*@p _t The TQTime to assign
 	*/
-	KStarsDateTime( const ExtDate &_d, const QTime &_t );
+	KStarsDateTime( const ExtDate &_d, const TQTime &_t );
 
 /**
 	*Assign the (long double) Julian Day value, which includes the time of day
@@ -106,10 +106,10 @@ public:
 	void setDate( const ExtDate &d );
 
 /**
-	*Assign the Time according to a QTime object.
-	*@p t the QTime to assign
+	*Assign the Time according to a TQTime object.
+	*@p t the TQTime to assign
 	*/
-	void setTime( const QTime &t ); 
+	void setTime( const TQTime &t ); 
 	
 /**
 	*Modify the Date/Time by adding a number of seconds.  
@@ -167,7 +167,7 @@ public:
 	*Convert a given Greenwich Sidereal Time to Universal Time (=Greenwich Mean Time).
 	*@p GST the Greenwich Sidereal Time to convert to Universal Time.
 	*/
-	QTime GSTtoUT( dms GST ) const;
+	TQTime GSTtoUT( dms GST ) const;
 	
 
 /**

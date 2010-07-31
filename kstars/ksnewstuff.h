@@ -36,14 +36,14 @@
 
 #include <klocale.h>
 #include <kdebug.h>
-#include <qobject.h>
+#include <tqobject.h>
 
 #include <knewstuff/knewstuff.h>
 
 class KDirWatch;
 class KStars;
 
-class KSNewStuff : public QObject, public KNewStuff
+class KSNewStuff : public TQObject, public KNewStuff
 {
 	Q_OBJECT
 	public:
@@ -51,21 +51,21 @@ class KSNewStuff : public QObject, public KNewStuff
 		*Constructor
 		*@p parent pointer to the parent widget
 		*/
-		KSNewStuff( QWidget *parent = 0 );
+		KSNewStuff( TQWidget *parent = 0 );
 
 	/**
 		*Install new application data
 		*@p fileName the name of the file to be installed
 		*@note overloaded from KNewStuff
 		*/
-		bool install( const QString &fileName );
+		bool install( const TQString &fileName );
 
 	/**
 		*Upload a data file
 		*@p fileName The file to upload
 		*@note this function is not yet implemented, and is just a placeholder
 		*/
-		bool createUploadFile( const QString & /*fileName*/ ) {
+		bool createUploadFile( const TQString & /*fileName*/ ) {
 			kdDebug() << i18n( "Uploading data is not possible yet!" );
 			return false;
 		}
@@ -76,7 +76,7 @@ class KSNewStuff : public QObject, public KNewStuff
 		*This slot is called whenever files are added to the data directory
 		*@p newFile The name of the file that was just added to the data directory
 		*/
-		void updateData( const QString &newFile );
+		void updateData( const TQString &newFile );
 
 	/**
 		*Simply calls kapp->processEvents(), to make the UI responsive while 

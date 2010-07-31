@@ -34,7 +34,7 @@ class OpsSolarSystem : public OpsSolarSystemUI
 	Q_OBJECT
 
 public:
-	OpsSolarSystem( QWidget *parent=0, const char *name=0, WFlags fl = 0 );
+	OpsSolarSystem( TQWidget *parent=0, const char *name=0, WFlags fl = 0 );
 	~OpsSolarSystem();
 
 private slots:

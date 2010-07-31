@@ -18,8 +18,8 @@
 #ifndef SKYOBJECT_H
 #define SKYOBJECT_H
 
-#include <qstring.h>
-#include <qstringlist.h>
+#include <tqstring.h>
+#include <tqstringlist.h>
 
 #include <klocale.h>
 
@@ -52,7 +52,7 @@ public:
 	*@param lname Long name (common name)
 	*/
 	SkyObject( int t=TYPE_UNKNOWN, dms r=dms(0.0), dms d=dms(0.0),
-						float m=0.0, QString n="", QString n2="", QString lname="" );
+						float m=0.0, TQString n="", TQString n2="", TQString lname="" );
 /**
 	*Constructor.  Set SkyObject data according to arguments.  Differs from
 	*above function only in data type of RA and Dec.
@@ -65,7 +65,7 @@ public:
 	*@param lname Long name (common name)
 	*/
 	SkyObject( int t, double r, double d, float m=0.0,
-						QString n="", QString n2="", QString lname="" );
+						TQString n="", TQString n2="", TQString lname="" );
 
 /**Copy constructor.
 	*@param o SkyObject from which to copy data
@@ -86,42 +86,42 @@ public:
 
 /**@return object's primary name.
 	*/
-	virtual QString name( void ) const { return hasName() ? *Name : unnamedString;}
+	virtual TQString name( void ) const { return hasName() ? *Name : unnamedString;}
 
 /**@return object's primary name, translated to local language.
 	*/
-	QString translatedName() const { return i18n( name().utf8() );}
+	TQString translatedName() const { return i18n( name().utf8() );}
 
 /**Set the object's primary name.
 	*@param name the object's primary name
 	*/
-	void setName( const QString &name );
+	void setName( const TQString &name );
 
 /**@return object's secondary name
 	*/
-	QString name2( void ) const { return hasName2() ? *Name2 : emptyString; }
+	TQString name2( void ) const { return hasName2() ? *Name2 : emptyString; }
 
 /**@return object's secondary name, translated to local language.
 	*/
-	QString translatedName2() const { return i18n( name2().utf8() );}
+	TQString translatedName2() const { return i18n( name2().utf8() );}
 
 /**Set the object's secondary name.
 	*@param name2 the object's secondary name.
 	*/
-	void setName2( const QString &name2="" );
+	void setName2( const TQString &name2="" );
 
 /**@return object's common (long) name
 	*/
-	virtual QString longname( void ) const { return hasLongName() ? *LongName : unnamedObjectString; }
+	virtual TQString longname( void ) const { return hasLongName() ? *LongName : unnamedObjectString; }
 
 /**@return object's common (long) name, translated to local language.
 	*/
-	QString translatedLongName() const { return i18n( longname().utf8() );}
+	TQString translatedLongName() const { return i18n( longname().utf8() );}
 
 /**Set the object's long name.
 	*@param longname the object's long name.
 	*/
-	void setLongName( const QString &longname="" );
+	void setLongName( const TQString &longname="" );
 
 /**@return object's type identifier (int)
 	*@see enum TYPE
@@ -136,7 +136,7 @@ public:
 
 /**@return a string describing object's type.
 	*/
-	QString typeName( void ) const;
+	TQString typeName( void ) const;
 
 /**@return object's magnitude
 	*/
@@ -161,7 +161,7 @@ public:
 	*function gets called.  By overloading the function, we don't have to check the 
 	*object type when we need the menu.
 	*/
-	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createEmptyMenu( this ); pmenu->popup( pos ); }
+	virtual void showPopupMenu( KSPopupMenu *pmenu, TQPoint pos ) { pmenu->createEmptyMenu( this ); pmenu->popup( pos ); }
 
 /**Determine the time at which the point will rise or set.  Because solar system
 	*objects move across the sky, it is necessary to iterate on the solution.
@@ -174,7 +174,7 @@ public:
 	*@param geo current geographic location
 	*@param rst If TRUE, compute rise time. If FALSE, compute set time.
 	*/
-	QTime riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst );
+	TQTime riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, bool rst );
 
 /**@return the UT time when the object will rise or set
 	*@param dt  target date/time
@@ -182,7 +182,7 @@ public:
 	*@param rst Boolean. If TRUE will compute rise time. If FALSE
 	*       will compute set time.
 	*/
-	QTime riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool rst);
+	TQTime riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool rst);
 
 /**@return the LST time when the object will rise or set
   *@param dt  target date/time
@@ -206,13 +206,13 @@ public:
 	*@param dt  target date/time
 	*@param geo pointer to the geographic location
 	*/
-	QTime transitTime( const KStarsDateTime &dt, const GeoLocation *geo );
+	TQTime transitTime( const KStarsDateTime &dt, const GeoLocation *geo );
 
 /**@return the universal time that the object will transit the meridian.
 	*@param dt   target date/time
 	*@param geo pointer to the geographic location
 	*/
-	QTime transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo );
+	TQTime transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo );
 
 /**@return the altitude of the object at the moment it transits the meridian.
 	*@param dt  target date/time
@@ -242,15 +242,15 @@ public:
 	
 /**@short Given the Image title from a URL file, try to convert it to an image credit string.
 	*/
-	QString messageFromTitle( const QString &imageTitle );
+	TQString messageFromTitle( const TQString &imageTitle );
 
 /**@short Save new user log text
   */
-	void saveUserLog( const QString &newLog );
+	void saveUserLog( const TQString &newLog );
 
-	QStringList ImageList, ImageTitle;
-	QStringList InfoList, InfoTitle;
-	QString userLog;
+	TQStringList ImageList, ImageTitle;
+	TQStringList InfoList, InfoTitle;
+	TQString userLog;
 
 private:
 
@@ -266,7 +266,7 @@ private:
 	*              will compute set time.
 	*@return the time at which the given position will rise or set.
 	*/
-	QTime auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo,
+	TQTime auxRiseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo,
 				const dms *righta, const dms *decl, bool riseT);
 
 /**Compute the LST time when the object will rise or set. It is an auxiliary
@@ -311,13 +311,13 @@ private:
 
 protected:
 
-	QString *Name, *Name2, *LongName;
+	TQString *Name, *Name2, *LongName;
 
 	// store often used name strings in static variables
-	static QString emptyString;
-	static QString unnamedString;
-	static QString unnamedObjectString;
-	static QString starString;
+	static TQString emptyString;
+	static TQString unnamedString;
+	static TQString unnamedObjectString;
+	static TQString starString;
 };
 
 #endif

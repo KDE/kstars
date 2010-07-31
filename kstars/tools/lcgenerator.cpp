@@ -15,18 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qvariant.h>
+#include <tqvariant.h>
 #include <klineedit.h>
 #include <klistbox.h>
 #include <kpushbutton.h>
-#include <qcheckbox.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h>
-#include <qfile.h>
+#include <tqcheckbox.h>
+#include <tqgroupbox.h>
+#include <tqlabel.h>
+#include <tqpushbutton.h>
+#include <tqlayout.h>
+#include <tqtooltip.h>
+#include <tqwhatsthis.h>
+#include <tqfile.h>
 
 #include <kio/netaccess.h>
 #include <kmessagebox.h>
@@ -39,7 +39,7 @@
 
 #include <kapplication.h>
 
-LCGenerator::LCGenerator( QWidget* parent)
+LCGenerator::LCGenerator( TQWidget* parent)
     : KDialogBase( parent, "lcgenerator", false, i18n( "AAVSO Light Curve Generator"),0) , Hostprefix("http://www.aavso.org/cgi-bin/kstar.pl"), JDCutOff(2437600)
 {
 
@@ -48,7 +48,7 @@ LCGenerator::LCGenerator( QWidget* parent)
   
   downloadJob = 0;
   
-  file = new QFile();
+  file = new TQFile();
 }
 
 LCGenerator::~LCGenerator()
@@ -60,24 +60,24 @@ LCGenerator::~LCGenerator()
 void LCGenerator::createGUI()
 {
 
-    QWidget *page = new QWidget(this);
+    TQWidget *page = new TQWidget(this);
     setMainWidget(page);
     
-    LCGeneratorDialogLayout = new QVBoxLayout( page, 11, 6, "LCGeneratorDialogLayout"); 
+    LCGeneratorDialogLayout = new TQVBoxLayout( page, 11, 6, "LCGeneratorDialogLayout"); 
 
-    SDLayout = new QHBoxLayout( 0, 0, 6, "SDLayout"); 
+    SDLayout = new TQHBoxLayout( 0, 0, 6, "SDLayout"); 
 
-    StarInfoBox = new QGroupBox( page, "StarInfoBox" );
+    StarInfoBox = new TQGroupBox( page, "StarInfoBox" );
     StarInfoBox->setColumnLayout(0, Qt::Vertical );
     StarInfoBox->layout()->setSpacing( 6 );
     StarInfoBox->layout()->setMargin( 11 );
-    StarInfoBoxLayout = new QVBoxLayout( StarInfoBox->layout() );
+    StarInfoBoxLayout = new TQVBoxLayout( StarInfoBox->layout() );
     StarInfoBoxLayout->setAlignment( Qt::AlignTop );
 
-    DesignHLayout = new QHBoxLayout( 0, 0, 6, "DesignHLayout"); 
+    DesignHLayout = new TQHBoxLayout( 0, 0, 6, "DesignHLayout"); 
 
-    desigLabel = new QLabel( StarInfoBox, "desigLabel" );
-    desigLabel->setMinimumSize( QSize( 70, 0 ) );
+    desigLabel = new TQLabel( StarInfoBox, "desigLabel" );
+    desigLabel->setMinimumSize( TQSize( 70, 0 ) );
     DesignHLayout->addWidget( desigLabel );
 
     DesignationIn = new KListBox( StarInfoBox, "DesignationIn" );
@@ -88,10 +88,10 @@ void LCGenerator::createGUI()
     for (uint i=0; i< (ksw->data()->VariableStarsList.count()); i++)
      DesignationIn->insertItem(ksw->data()->VariableStarsList.at(i)->Designation);
 
-    NameHLayout = new QHBoxLayout( 0, 0, 6, "NameHLayout"); 
+    NameHLayout = new TQHBoxLayout( 0, 0, 6, "NameHLayout"); 
 
-    nameLabel = new QLabel( StarInfoBox, "nameLabel" );
-    nameLabel->setMinimumSize( QSize( 70, 0 ) );
+    nameLabel = new TQLabel( StarInfoBox, "nameLabel" );
+    nameLabel->setMinimumSize( TQSize( 70, 0 ) );
     NameHLayout->addWidget( nameLabel );
 
     NameIn = new KListBox( StarInfoBox, "NameIn" );
@@ -102,20 +102,20 @@ void LCGenerator::createGUI()
     for (uint i=0; i<ksw->data()->VariableStarsList.count(); i++)
      NameIn->insertItem(ksw->data()->VariableStarsList.at(i)->Name);
 
-    StartHLayout = new QHBoxLayout( 0, 0, 6, "StartHLayout"); 
+    StartHLayout = new TQHBoxLayout( 0, 0, 6, "StartHLayout"); 
 
-    startLabel = new QLabel( StarInfoBox, "startLabel" );
-    startLabel->setMinimumSize( QSize( 70, 0 ) );
+    startLabel = new TQLabel( StarInfoBox, "startLabel" );
+    startLabel->setMinimumSize( TQSize( 70, 0 ) );
     StartHLayout->addWidget( startLabel );
 
     StartDateIn = new KLineEdit( StarInfoBox, "StartDateIn" );
     StartHLayout->addWidget( StartDateIn );
     StarInfoBoxLayout->addLayout( StartHLayout );
 
-    EndHLayout = new QHBoxLayout( 0, 0, 6, "EndHLayout"); 
+    EndHLayout = new TQHBoxLayout( 0, 0, 6, "EndHLayout"); 
 
-    endLabel = new QLabel( StarInfoBox, "endLabel" );
-    endLabel->setMinimumSize( QSize( 70, 0 ) );
+    endLabel = new TQLabel( StarInfoBox, "endLabel" );
+    endLabel->setMinimumSize( TQSize( 70, 0 ) );
     EndHLayout->addWidget( endLabel );
 
     EndDateIn = new KLineEdit( StarInfoBox, "EndDateIn" );
@@ -123,62 +123,62 @@ void LCGenerator::createGUI()
     StarInfoBoxLayout->addLayout( EndHLayout );
     SDLayout->addWidget( StarInfoBox );
 
-    DataSelectBox = new QGroupBox( page, "DataSelectBox" );
+    DataSelectBox = new TQGroupBox( page, "DataSelectBox" );
     DataSelectBox->setColumnLayout(0, Qt::Vertical );
     DataSelectBox->layout()->setSpacing( 6 );
     DataSelectBox->layout()->setMargin( 11 );
-    DataSelectBoxLayout = new QVBoxLayout( DataSelectBox->layout() );
+    DataSelectBoxLayout = new TQVBoxLayout( DataSelectBox->layout() );
     DataSelectBoxLayout->setAlignment( Qt::AlignTop );
 
-    VisualCheck = new QCheckBox( DataSelectBox, "VisualCheck" );
+    VisualCheck = new TQCheckBox( DataSelectBox, "VisualCheck" );
     VisualCheck->setChecked( TRUE );
     DataSelectBoxLayout->addWidget( VisualCheck );
 
-    FainterCheck = new QCheckBox( DataSelectBox, "FainterCheck" );
+    FainterCheck = new TQCheckBox( DataSelectBox, "FainterCheck" );
     FainterCheck->setChecked( TRUE );
     DataSelectBoxLayout->addWidget( FainterCheck );
 
-    DiscrepantCheck = new QCheckBox( DataSelectBox, "DiscrepantCheck" );
+    DiscrepantCheck = new TQCheckBox( DataSelectBox, "DiscrepantCheck" );
     DataSelectBoxLayout->addWidget( DiscrepantCheck );
 
-    CCDBCheck = new QCheckBox( DataSelectBox, "CCDBCheck" );
+    CCDBCheck = new TQCheckBox( DataSelectBox, "CCDBCheck" );
     CCDBCheck->setChecked( TRUE );
     DataSelectBoxLayout->addWidget( CCDBCheck );
 
-    CCDVCheck = new QCheckBox( DataSelectBox, "CCDVCheck" );
+    CCDVCheck = new TQCheckBox( DataSelectBox, "CCDVCheck" );
     CCDVCheck->setChecked( TRUE );
     DataSelectBoxLayout->addWidget( CCDVCheck );
 
-    CCDRCheck = new QCheckBox( DataSelectBox, "CCDRCheck" );
+    CCDRCheck = new TQCheckBox( DataSelectBox, "CCDRCheck" );
     CCDRCheck->setChecked( TRUE );
     DataSelectBoxLayout->addWidget( CCDRCheck );
 
-    CCDICheck = new QCheckBox( DataSelectBox, "CCDICheck" );
+    CCDICheck = new TQCheckBox( DataSelectBox, "CCDICheck" );
     CCDICheck->setChecked( TRUE );
     DataSelectBoxLayout->addWidget( CCDICheck );
 
-    PlotHLayout = new QHBoxLayout( 0, 0, 6, "PlotHLayout"); 
+    PlotHLayout = new TQHBoxLayout( 0, 0, 6, "PlotHLayout"); 
 
-    plotLabel = new QLabel( DataSelectBox, "plotLabel" );
+    plotLabel = new TQLabel( DataSelectBox, "plotLabel" );
     PlotHLayout->addWidget( plotLabel );
 
     AverageDayIn = new KLineEdit( DataSelectBox, "AverageDayIn" );
     PlotHLayout->addWidget( AverageDayIn );
 
-    daysLabel = new QLabel( DataSelectBox, "daysLabel" );
+    daysLabel = new TQLabel( DataSelectBox, "daysLabel" );
     PlotHLayout->addWidget( daysLabel );
     DataSelectBoxLayout->addLayout( PlotHLayout );
     SDLayout->addWidget( DataSelectBox );
     LCGeneratorDialogLayout->addLayout( SDLayout );
 
-    ButtonHLayout = new QHBoxLayout( 0, 0, 6, "ButtonHLayout"); 
+    ButtonHLayout = new TQHBoxLayout( 0, 0, 6, "ButtonHLayout"); 
 
     GetCurveButton = new KPushButton( page, "GetCurveButton" );
     ButtonHLayout->addWidget( GetCurveButton );
 
     UpdateListButton = new KPushButton( page, "UpdateListButton" );
     ButtonHLayout->addWidget( UpdateListButton );
-    QSpacerItem* spacer = new QSpacerItem( 128, 16, QSizePolicy::Expanding, QSizePolicy::Minimum );
+    TQSpacerItem* spacer = new TQSpacerItem( 128, 16, TQSizePolicy::Expanding, TQSizePolicy::Minimum );
     ButtonHLayout->addItem( spacer );
 
     CloseButton = new KPushButton( page, "closeButton" );
@@ -190,9 +190,9 @@ void LCGenerator::createGUI()
     desigLabel->setText( i18n( "Designation:" ) );
     nameLabel->setText( i18n( "Or name:" ) );
     startLabel->setText( i18n( "Start date:" ) );
-    QWhatsThis::add( startLabel, i18n( "Start date for the light curve plot in mm/dd/yy or JD" ) );
+    TQWhatsThis::add( startLabel, i18n( "Start date for the light curve plot in mm/dd/yy or JD" ) );
     endLabel->setText( i18n( "End date:" ) );
-    QWhatsThis::add( endLabel, i18n( "End date for the light curve plot in mm/dd/yy or JD" ) );
+    TQWhatsThis::add( endLabel, i18n( "End date for the light curve plot in mm/dd/yy or JD" ) );
     StartDateIn->setText( i18n( "default" ) );
     EndDateIn->setText( i18n( "default" ) );
     DataSelectBox->setTitle( i18n( "Data Selection" ) );
@@ -209,22 +209,22 @@ void LCGenerator::createGUI()
     UpdateListButton->setText( i18n( "Update List" ) );
     CloseButton->setText( i18n( "Close" ) );
     
-    resize( QSize(500, 360) );
+    resize( TQSize(500, 360) );
         
     // Signals/Slots
-    QObject::connect(CloseButton, SIGNAL(clicked()), this, SLOT(close()));
-    QObject::connect(GetCurveButton, SIGNAL(clicked()), this, SLOT(VerifyData()));
-    QObject::connect(UpdateListButton, SIGNAL(clicked()), this, SLOT(updateStarList()));
-    QObject::connect(DesignationIn, SIGNAL(highlighted(int)), this, SLOT(updateNameList(int)));
-    QObject::connect(NameIn, SIGNAL(highlighted(int)), this, SLOT(updateDesigList(int)));
+    TQObject::connect(CloseButton, TQT_SIGNAL(clicked()), this, TQT_SLOT(close()));
+    TQObject::connect(GetCurveButton, TQT_SIGNAL(clicked()), this, TQT_SLOT(VerifyData()));
+    TQObject::connect(UpdateListButton, TQT_SIGNAL(clicked()), this, TQT_SLOT(updateStarList()));
+    TQObject::connect(DesignationIn, TQT_SIGNAL(highlighted(int)), this, TQT_SLOT(updateNameList(int)));
+    TQObject::connect(NameIn, TQT_SIGNAL(highlighted(int)), this, TQT_SLOT(updateDesigList(int)));
       
     
 }
 
 void LCGenerator::VerifyData()
 {
-    QString InitialStartDate, InitialEndDate;
-    QString FinalDesignation, FinalStartDate, FinalEndDate, AverageDays;
+    TQString InitialStartDate, InitialEndDate;
+    TQString FinalDesignation, FinalStartDate, FinalEndDate, AverageDays;
     bool AverageDaysOK;
 
     // Get initial user input
@@ -266,14 +266,14 @@ void LCGenerator::VerifyData()
 	 }
 	  
    }
-   else AverageDays = QString("default");
+   else AverageDays = TQString("default");
 
     //Download the curve!
    DownloadCurve(FinalStartDate, FinalEndDate, FinalDesignation, AverageDays);
   
 }
 
-bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
+bool LCGenerator::setJD(TQString Date, TQString *JD, int JDType)
 {
     uint i=0;
     int TempJD=0;
@@ -283,9 +283,9 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
     int dateFormat[3];
     bool isNumber;
     
-    const QString invalidFormatStartJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves for the past 500 days."));
-    const QString invalidFormatENDJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves until today."));
-    QString invalidFormatMsg(JDType ? invalidFormatENDJD : invalidFormatStartJD);
+    const TQString invalidFormatStartJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves for the past 500 days."));
+    const TQString invalidFormatENDJD(i18n("Invalid date format. Correct format is mm/dd/yyyy or JD, leave 'default' to generate light curves until today."));
+    TQString invalidFormatMsg(JDType ? invalidFormatENDJD : invalidFormatStartJD);
     
 
     // check for "default" date
@@ -325,7 +325,7 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
         else
         {
              const char* invalidJD = I18N_NOOP("No data available for JD prior to %d");
-             KMessageBox::error(this, QString().sprintf(invalidJD, JDCutOff));
+             KMessageBox::error(this, TQString().sprintf(invalidJD, JDCutOff));
              return false;
         }
     }
@@ -361,18 +361,18 @@ bool LCGenerator::setJD(QString Date, QString *JD, int JDType)
         else
         {
              const char* invalidJD = I18N_NOOP("No data available for JD prior to %d");
-             KMessageBox::error(this, QString().sprintf(invalidJD, JDCutOff));
+             KMessageBox::error(this, TQString().sprintf(invalidJD, JDCutOff));
              return false;
         }
   
 }
 
-void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QString FinalDesignation, QString AverageDay)
+void LCGenerator::DownloadCurve(TQString FinalStartDate, TQString FinalEndDate, TQString FinalDesignation, TQString AverageDay)
 {
 
-	QString buf(Hostprefix);
-	QString Yes("yes");
-	QString No("no");
+	TQString buf(Hostprefix);
+	TQString Yes("yes");
+	TQString No("no");
 	
 	//FainterCheck;
 	//CCDVCheck;
@@ -397,7 +397,7 @@ void LCGenerator::DownloadCurve(QString FinalStartDate, QString FinalEndDate, QS
 	
 
 	KURL url(buf);
-	QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
+	TQString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
 	// parent of imageview is KStars
 	new ImageViewer(&url, message, ksw, "lightcurve");
         
@@ -427,7 +427,7 @@ void LCGenerator::updateStarList()
 	KURL saveFile (file->name());
 	
 	downloadJob = KIO::file_copy (AAVSOFile, saveFile, -1, true);
-	connect (downloadJob, SIGNAL (result (KIO::Job *)), SLOT (downloadReady (KIO::Job *)));
+	connect (downloadJob, TQT_SIGNAL (result (KIO::Job *)), TQT_SLOT (downloadReady (KIO::Job *)));
 }
 
 void LCGenerator::downloadReady(KIO::Job * job)
@@ -468,7 +468,7 @@ downloadJob = 0;
 
 }
 
-void LCGenerator::closeEvent (QCloseEvent *ev)
+void LCGenerator::closeEvent (TQCloseEvent *ev)
 {
 	if (ev)	// not if closeEvent (0) is called, because segfault
 		ev->accept();	// parent-widgets should not get this event, so it will be filtered

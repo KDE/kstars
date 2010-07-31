@@ -20,8 +20,8 @@
 #ifndef SKYPOINT_H
 #define SKYPOINT_H
 
-#include <qstring.h>
-#include <qptrlist.h>
+#include <tqstring.h>
+#include <tqptrlist.h>
 
 #include "dms.h"
 
@@ -478,7 +478,7 @@ public:
 //// 6. Constellation Identification
 //// =====================================
 
-	QString constellation( QPtrList<CSegment> &seglist, QPtrList<SkyObject> &cnames ) const;
+	TQString constellation( TQPtrList<CSegment> &seglist, TQPtrList<SkyObject> &cnames ) const;
 
 
 protected:

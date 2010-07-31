@@ -19,7 +19,7 @@
 #define MODCALCPLANETS_H
 
 #include <kapplication.h>
-#include <qwidget.h>
+#include <tqwidget.h>
 #include "modcalcplanetsdlg.h"
 #include "geolocation.h"
 #include "kstarsdatetime.h"
@@ -40,7 +40,7 @@ class modCalcPlanets : public modCalcPlanetsDlg  {
 Q_OBJECT
 
 public: 
-	modCalcPlanets(QWidget *p, const char *n);
+	modCalcPlanets(TQWidget *p, const char *n);
 	~modCalcPlanets();
 	
 public slots:
@@ -55,7 +55,7 @@ public slots:
 	void slotInputFile();
 	void slotOutputFile();
 	void slotRunBatch();
-	void processLines( QTextStream &istream );
+	void processLines( TQTextStream &istream );
 	//void slotInputFile();
 	//void slotOutputFile();
 	//void slotRunBatch();
@@ -76,7 +76,7 @@ private:
 	void showTopocentricCoords( const dms *az, const dms *el);
 	unsigned int requiredBatchFields(void);
 
-	// void processLines( QTextStream &istream );
+	// void processLines( TQTextStream &istream );
   
 };
 

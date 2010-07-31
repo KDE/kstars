@@ -23,7 +23,7 @@
  #include <kprogress.h>
  #include <kapplication.h>
  
- #include <qimage.h>
+ #include <tqimage.h>
  
  #include "fitsprocess.h"
  #include "fitsviewer.h"
@@ -31,7 +31,7 @@
  
  #define ELEM_SWAP(a,b) { register float t=(a);(a)=(b);(b)=t; }
  
- FITSProcess::FITSProcess(FITSViewer *parent, QStringList darkFiles, QStringList flatFiles, QStringList darkflatFiles, int darkMode, int flatMode, int darkflatMode)
+ FITSProcess::FITSProcess(FITSViewer *parent, TQStringList darkFiles, TQStringList flatFiles, TQStringList darkflatFiles, int darkMode, int flatMode, int darkflatMode)
  {
    float * buffer      = NULL;
    darkCombineMode     = darkMode;
@@ -101,7 +101,7 @@
 
  FITSProcess::~FITSProcess() {}
  
-float * FITSProcess::combine(QPtrList<float> & frames, int mode)
+float * FITSProcess::combine(TQPtrList<float> & frames, int mode)
  {
     int nframes = frames.count();
     float *dest;
@@ -315,7 +315,7 @@ FITSProcessCommand::FITSProcessCommand(FITSViewer *parent)
 {
  
    viewer  = parent;
-   oldImage  = new QImage();
+   oldImage  = new TQImage();
    // TODO apply maximum compression against this buffer
    buffer = (float *) malloc (viewer->image->width * viewer->image->height * sizeof(float));
    memcpy(buffer, viewer->imgBuffer, viewer->image->width * viewer->image->height * sizeof(float));
@@ -344,7 +344,7 @@ void FITSProcessCommand::unexecute()
  
 }
   
-QString FITSProcessCommand::name() const
+TQString FITSProcessCommand::name() const
 {
   return i18n("Image Reduction");
 }

@@ -19,7 +19,7 @@
 #define TIMEDIALOG_H
 
 #include <kdialogbase.h>
-#include <qvariant.h>
+#include <tqvariant.h>
 
 #include "kstarsdatetime.h"
 
@@ -48,16 +48,16 @@ public:
 	*Constructor.  Creates widgets and packs them into QLayouts.
 	*Connects	Signals and Slots.
 	*/
-	TimeDialog( const KStarsDateTime &now, QWidget* parent = 0 );
+	TimeDialog( const KStarsDateTime &now, TQWidget* parent = 0 );
 
 /**
 	*Destructor (empty)
 	*/
 	~TimeDialog() {}
 
-/**@returns a QTime object with the selected time
+/**@returns a TQTime object with the selected time
 	*/
-	QTime selectedTime( void );
+	TQTime selectedTime( void );
 
 /**@returns a ExtDate object with the selected date
 	*/
@@ -69,7 +69,7 @@ public:
 
 public slots:
 /**
-	*When the "Now" QPushButton is pressed, read the time and date
+	*When the "Now" TQPushButton is pressed, read the time and date
 	*from the system clock.  Change the selected date in the ExtDatePicker
 	*to the system's date, and the displayed Hour, Minute and Second
 	*to the system time.
@@ -77,7 +77,7 @@ public slots:
   void setNow( void );
 
 /**
-	*When the value of the HourBox QSpinBox is changed, prefix a "0" to
+	*When the value of the HourBox TQSpinBox is changed, prefix a "0" to
 	*the displayed text, if the value is less than 10.
 	*
 	*It would be nice if I could use one slot for these three widgets;
@@ -87,32 +87,32 @@ public slots:
 	void HourPrefix( int value );
 
 /**
-	*When the value of the MinuteBox QSpinBox is changed, prefix a "0" to
+	*When the value of the MinuteBox TQSpinBox is changed, prefix a "0" to
 	*the displayed text, if the value is less than 10.
 	*/
 	void MinutePrefix( int value );
 
 /**
-	*When the value of the SecondBox QSpinBox is changed, prefix a "0" to
+	*When the value of the SecondBox TQSpinBox is changed, prefix a "0" to
 	*the displayed text, if the value is less than 10.
 	*/
 	void SecondPrefix( int value );
 
 protected:
-	void keyReleaseEvent( QKeyEvent* );
+	void keyReleaseEvent( TQKeyEvent* );
 
 private:
   KStars *ksw;
   bool UTCNow;
-  QHBoxLayout *hlay;
-  QVBoxLayout *vlay;
+  TQHBoxLayout *hlay;
+  TQVBoxLayout *vlay;
   ExtDatePicker *dPicker;
-  QSpinBox* HourBox;
-  QLabel* TextLabel1;
-  QSpinBox* MinuteBox;
-  QLabel* TextLabel1_2;
-  QSpinBox* SecondBox;
-  QPushButton* NowButton;
+  TQSpinBox* HourBox;
+  TQLabel* TextLabel1;
+  TQSpinBox* MinuteBox;
+  TQLabel* TextLabel1_2;
+  TQSpinBox* SecondBox;
+  TQPushButton* NowButton;
 };
 
 #endif

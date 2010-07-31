@@ -36,7 +36,7 @@ class SkyObjectNameListItem;
 
 /**@class FindDialog
 	*Dialog window for finding SkyObjects by name.  The dialog contains
-	*a QListBox showing the list of named objects, a QLineEdit for filtering
+	*a TQListBox showing the list of named objects, a TQLineEdit for filtering
 	*the list by name, and a QCombobox for filtering the list by object type.
 	*
 	*@short Find Object Dialog
@@ -51,7 +51,7 @@ public:
 /**Constructor. Creates all widgets and packs them in QLayouts.  Connects
 	*Signals and Slots.  Runs initObjectList().
 	*/
-	FindDialog( QWidget* parent = 0 );
+	FindDialog( TQWidget* parent = 0 );
 
 /**Destructor
 	*/
@@ -62,12 +62,12 @@ public:
 	SkyObjectNameListItem * currentItem() const { return currentitem; }
 
 public slots:
-/**When Text is entered in the QLineEdit, filter the List of objects
+/**When Text is entered in the TQLineEdit, filter the List of objects
 	*so that only objects which start with the filter text are shown.
 	*/
 	void filter();
 
-/**When the selection of the object type QComboBox is changed, filter 
+/**When the selection of the object type TQComboBox is changed, filter 
 	*the List of objects so that only objects of the selected Type are shown.
 	*/
 	void filterByType();
@@ -85,7 +85,7 @@ private slots:
 
 /**Set the selected item in the list to the item specified.
 	*/
-	void updateSelection (QListBoxItem *);
+	void updateSelection (TQListBoxItem *);
 
 /**Change current filter options.
 	*/
@@ -94,9 +94,9 @@ private slots:
 protected:
 /**Process Keystrokes.  The Up and Down arrow keys are used to select the 
 	*Previous/Next item in the listbox of named objects.
-	*@param e The QKeyEvent pointer 
+	*@param e The TQKeyEvent pointer 
 	*/
-	void keyPressEvent( QKeyEvent *e );
+	void keyPressEvent( TQKeyEvent *e );
 
 private:
 /**
@@ -104,12 +104,12 @@ private:
 	*/
 	void setListItemEnabled();
 	
-	QVBoxLayout *vlay;
-	QHBoxLayout *hlay;
-	QListBox *SearchList;
-	QLineEdit *SearchBox;
-	QLabel *filterTypeLabel;
-	QComboBox *filterType;
+	TQVBoxLayout *vlay;
+	TQHBoxLayout *hlay;
+	TQListBox *SearchList;
+	TQLineEdit *SearchBox;
+	TQLabel *filterTypeLabel;
+	TQComboBox *filterType;
 
 	SkyObjectNameListItem *currentitem;
 	

@@ -36,7 +36,7 @@ Q_OBJECT
 
 public:
 	
-	modCalcGalCoord(QWidget *p, const char *n);
+	modCalcGalCoord(TQWidget *p, const char *n);
 	~modCalcGalCoord();
 	/**
 	* Obtains the galactic coords. from the Box.
@@ -44,7 +44,7 @@ public:
 	void getGalCoords (void);
 	void getEquCoords (void);
 	void getEpoch (void);
-	double getEpoch( QString t );
+	double getEpoch( TQString t );
 	void showEquCoords(void);
 	void showGalCoords(void);
 	void GalToEqu(void);
@@ -66,7 +66,7 @@ public slots:
 private:
 	void equCheck(void);
 	void galCheck(void);
-	void processLines( QTextStream &is );
+	void processLines( TQTextStream &is );
 
 	dms galLong, galLat, raCoord, decCoord;
 	double epoch;

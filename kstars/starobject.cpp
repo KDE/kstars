@@ -19,8 +19,8 @@
 #include "kspopupmenu.h"
 #include "ksnumbers.h"
 
-#include <qpainter.h>
-#include <qstring.h>
+#include <tqpainter.h>
+#include <tqstring.h>
 #include <kdebug.h>
 
 StarObject::StarObject( StarObject &o )
@@ -36,12 +36,12 @@ StarObject::StarObject( StarObject &o )
 	Variability = o.isVariable();
 }
 
-StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sptype,
+StarObject::StarObject( dms r, dms d, float m, TQString n, TQString n2, TQString sptype,
 		double pmra, double pmdec, double par, bool mult, bool var )
 	: SkyObject (SkyObject::STAR, r, d, m, n, n2, ""), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
 		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
-	QString lname;
+	TQString lname;
 	if ( hasName() ) {
 		lname = n;
 		if ( hasName2() ) lname += " (" + gname() + ")";
@@ -56,12 +56,12 @@ StarObject::StarObject( dms r, dms d, float m, QString n, QString n2, QString sp
 	setLongName(lname);
 }
 
-StarObject::StarObject( double r, double d, float m, QString n, QString n2, QString sptype,
+StarObject::StarObject( double r, double d, float m, TQString n, TQString n2, TQString sptype,
 		double pmra, double pmdec, double par, bool mult, bool var )
 	: SkyObject (SkyObject::STAR, r, d, m, n, n2, ""), SpType(sptype), PM_RA(pmra), PM_Dec(pmdec),
 		Parallax(par), Multiplicity(mult), Variability(var) // SONAME deprecated //, soName( 0 )
 {
-	QString lname;
+	TQString lname;
 	if ( hasName() ) {
 		lname = n;
 		if ( hasName2() )lname += n + " (" + gname() + ")";
@@ -82,45 +82,45 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 	setDec( dec()->Degrees() + pmDec()*num->julianMillenia()/3600. );
 }
 
-QString StarObject::sptype( void ) const {
+TQString StarObject::sptype( void ) const {
 	return SpType;
 }
 
-QString StarObject::gname( bool useGreekChars ) const {
+TQString StarObject::gname( bool useGreekChars ) const {
 	return greekLetter( useGreekChars ) + " " + constell();
 }
 
-QString StarObject::greekLetter( bool gchar ) const {
-	QString code = name2().left(3);
-	QString letter = code;  //in case genitive name is *not* a Greek letter
+TQString StarObject::greekLetter( bool gchar ) const {
+	TQString code = name2().left(3);
+	TQString letter = code;  //in case genitive name is *not* a Greek letter
 	int alpha = 0x03B1;
 
-	if ( code == "alp" ) gchar ? letter = QString( QChar(alpha + 0) ) : letter = i18n("alpha");
-	if ( code == "bet" ) gchar ? letter = QString( QChar(alpha + 1) ) : letter = i18n("beta");
-	if ( code == "gam" ) gchar ? letter = QString( QChar(alpha + 2) ) : letter = i18n("gamma");
-	if ( code == "del" ) gchar ? letter = QString( QChar(alpha + 3) ) : letter = i18n("delta");
-	if ( code == "eps" ) gchar ? letter = QString( QChar(alpha + 4) ) : letter = i18n("epsilon");
-	if ( code == "zet" ) gchar ? letter = QString( QChar(alpha + 5) ) : letter = i18n("zeta");
-	if ( code == "eta" ) gchar ? letter = QString( QChar(alpha + 6) ) : letter = i18n("eta");
-	if ( code == "the" ) gchar ? letter = QString( QChar(alpha + 7) ) : letter = i18n("theta");
-	if ( code == "iot" ) gchar ? letter = QString( QChar(alpha + 8) ) : letter = i18n("iota");
-	if ( code == "kap" ) gchar ? letter = QString( QChar(alpha + 9) ) : letter = i18n("kappa");
-	if ( code == "lam" ) gchar ? letter = QString( QChar(alpha +10) ) : letter = i18n("lambda");
-	if ( code == "mu " ) gchar ? letter = QString( QChar(alpha +11) ) : letter = i18n("mu");
-	if ( code == "nu " ) gchar ? letter = QString( QChar(alpha +12) ) : letter = i18n("nu");
-	if ( code == "xi " ) gchar ? letter = QString( QChar(alpha +13) ) : letter = i18n("xi");
-	if ( code == "omi" ) gchar ? letter = QString( QChar(alpha +14) ) : letter = i18n("omicron");
-	if ( code == "pi " ) gchar ? letter = QString( QChar(alpha +15) ) : letter = i18n("pi");
-	if ( code == "rho" ) gchar ? letter = QString( QChar(alpha +16) ) : letter = i18n("rho");
+	if ( code == "alp" ) gchar ? letter = TQString( TQChar(alpha + 0) ) : letter = i18n("alpha");
+	if ( code == "bet" ) gchar ? letter = TQString( TQChar(alpha + 1) ) : letter = i18n("beta");
+	if ( code == "gam" ) gchar ? letter = TQString( TQChar(alpha + 2) ) : letter = i18n("gamma");
+	if ( code == "del" ) gchar ? letter = TQString( TQChar(alpha + 3) ) : letter = i18n("delta");
+	if ( code == "eps" ) gchar ? letter = TQString( TQChar(alpha + 4) ) : letter = i18n("epsilon");
+	if ( code == "zet" ) gchar ? letter = TQString( TQChar(alpha + 5) ) : letter = i18n("zeta");
+	if ( code == "eta" ) gchar ? letter = TQString( TQChar(alpha + 6) ) : letter = i18n("eta");
+	if ( code == "the" ) gchar ? letter = TQString( TQChar(alpha + 7) ) : letter = i18n("theta");
+	if ( code == "iot" ) gchar ? letter = TQString( TQChar(alpha + 8) ) : letter = i18n("iota");
+	if ( code == "kap" ) gchar ? letter = TQString( TQChar(alpha + 9) ) : letter = i18n("kappa");
+	if ( code == "lam" ) gchar ? letter = TQString( TQChar(alpha +10) ) : letter = i18n("lambda");
+	if ( code == "mu " ) gchar ? letter = TQString( TQChar(alpha +11) ) : letter = i18n("mu");
+	if ( code == "nu " ) gchar ? letter = TQString( TQChar(alpha +12) ) : letter = i18n("nu");
+	if ( code == "xi " ) gchar ? letter = TQString( TQChar(alpha +13) ) : letter = i18n("xi");
+	if ( code == "omi" ) gchar ? letter = TQString( TQChar(alpha +14) ) : letter = i18n("omicron");
+	if ( code == "pi " ) gchar ? letter = TQString( TQChar(alpha +15) ) : letter = i18n("pi");
+	if ( code == "rho" ) gchar ? letter = TQString( TQChar(alpha +16) ) : letter = i18n("rho");
 	//there are two unicode symbols for sigma;
 	//skip the first one, the second is more widely used
-	if ( code == "sig" ) gchar ? letter = QString( QChar(alpha +18) ) : letter = i18n("sigma");
-	if ( code == "tau" ) gchar ? letter = QString( QChar(alpha +19) ) : letter = i18n("tau");
-	if ( code == "ups" ) gchar ? letter = QString( QChar(alpha +20) ) : letter = i18n("upsilon");
-	if ( code == "phi" ) gchar ? letter = QString( QChar(alpha +21) ) : letter = i18n("phi");
-	if ( code == "chi" ) gchar ? letter = QString( QChar(alpha +22) ) : letter = i18n("chi");
-	if ( code == "psi" ) gchar ? letter = QString( QChar(alpha +23) ) : letter = i18n("psi");
-	if ( code == "ome" ) gchar ? letter = QString( QChar(alpha +24) ) : letter = i18n("omega");
+	if ( code == "sig" ) gchar ? letter = TQString( TQChar(alpha +18) ) : letter = i18n("sigma");
+	if ( code == "tau" ) gchar ? letter = TQString( TQChar(alpha +19) ) : letter = i18n("tau");
+	if ( code == "ups" ) gchar ? letter = TQString( TQChar(alpha +20) ) : letter = i18n("upsilon");
+	if ( code == "phi" ) gchar ? letter = TQString( TQChar(alpha +21) ) : letter = i18n("phi");
+	if ( code == "chi" ) gchar ? letter = TQString( TQChar(alpha +22) ) : letter = i18n("chi");
+	if ( code == "psi" ) gchar ? letter = TQString( TQChar(alpha +23) ) : letter = i18n("psi");
+	if ( code == "ome" ) gchar ? letter = TQString( TQChar(alpha +24) ) : letter = i18n("omega");
 
 	if ( name2().length() && name2().mid(3,1) != " " )
 		letter += "[" + name2().mid(3,1) + "]";
@@ -128,101 +128,101 @@ QString StarObject::greekLetter( bool gchar ) const {
 	return letter;
 }
 
-QString StarObject::constell( void ) const {
-	QString code = name2().mid(4,3);
-	if ( code == "And" ) return QString("Andromedae");
-	if ( code == "Ant" ) return QString("Antliae");
-	if ( code == "Aps" ) return QString("Apodis");
-	if ( code == "Aqr" ) return QString("Aquarii");
-	if ( code == "Aql" ) return QString("Aquilae");
-	if ( code == "Ara" ) return QString("Arae");
-	if ( code == "Ari" ) return QString("Arietis");
-	if ( code == "Aur" ) return QString("Aurigae");
-	if ( code == "Boo" ) return QString("Bootis");
-	if ( code == "Cae" ) return QString("Caeli");
-	if ( code == "Cam" ) return QString("Camelopardalis");
-	if ( code == "Cnc" ) return QString("Cancri");
-	if ( code == "CVn" ) return QString("Canum Venaticorum");
-	if ( code == "CMa" ) return QString("Canis Majoris");
-	if ( code == "CMi" ) return QString("Canis Minoris");
-	if ( code == "Cap" ) return QString("Capricorni");
-	if ( code == "Car" ) return QString("Carinae");
-	if ( code == "Cas" ) return QString("Cassiopeiae");
-	if ( code == "Cen" ) return QString("Centauri");
-	if ( code == "Cep" ) return QString("Cephei");
-	if ( code == "Cet" ) return QString("Ceti");
-	if ( code == "Cha" ) return QString("Chamaeleontis");
-	if ( code == "Cir" ) return QString("Circini");
-	if ( code == "Col" ) return QString("Columbae");
-	if ( code == "Com" ) return QString("Comae Berenices");
-	if ( code == "CrA" ) return QString("Coronae Austrinae");
-	if ( code == "CrB" ) return QString("Coronae Borealis");
-	if ( code == "Crv" ) return QString("Corvi");
-	if ( code == "Crt" ) return QString("Crateris");
-	if ( code == "Cru" ) return QString("Crucis");
-	if ( code == "Cyg" ) return QString("Cygni");
-	if ( code == "Del" ) return QString("Delphini");
-	if ( code == "Dor" ) return QString("Doradus");
-	if ( code == "Dra" ) return QString("Draconis");
-	if ( code == "Equ" ) return QString("Equulei");
-	if ( code == "Eri" ) return QString("Eridani");
-	if ( code == "For" ) return QString("Fornacis");
-	if ( code == "Gem" ) return QString("Geminorum");
-	if ( code == "Gru" ) return QString("Gruis");
-	if ( code == "Her" ) return QString("Herculis");
-	if ( code == "Hor" ) return QString("Horologii");
-	if ( code == "Hya" ) return QString("Hydrae");
-	if ( code == "Hyi" ) return QString("Hydri");
-	if ( code == "Ind" ) return QString("Indi");
-	if ( code == "Lac" ) return QString("Lacertae");
-	if ( code == "Leo" ) return QString("Leonis");
-	if ( code == "LMi" ) return QString("Leonis Minoris");
-	if ( code == "Lep" ) return QString("Leporis");
-	if ( code == "Lib" ) return QString("Librae");
-	if ( code == "Lup" ) return QString("Lupi");
-	if ( code == "Lyn" ) return QString("Lyncis");
-	if ( code == "Lyr" ) return QString("Lyrae");
-	if ( code == "Men" ) return QString("Mensae");
-	if ( code == "Mic" ) return QString("Microscopii");
-	if ( code == "Mon" ) return QString("Monocerotis");
-	if ( code == "Mus" ) return QString("Muscae");
-	if ( code == "Nor" ) return QString("Normae");
-	if ( code == "Oct" ) return QString("Octantis");
-	if ( code == "Oph" ) return QString("Ophiuchi");
-	if ( code == "Ori" ) return QString("Orionis");
-	if ( code == "Pav" ) return QString("Pavonis");
-	if ( code == "Peg" ) return QString("Pegasi");
-	if ( code == "Per" ) return QString("Persei");
-	if ( code == "Phe" ) return QString("Phoenicis");
-	if ( code == "Pic" ) return QString("Pictoris");
-	if ( code == "Psc" ) return QString("Piscium");
-	if ( code == "PsA" ) return QString("Piscis Austrini");
-	if ( code == "Pup" ) return QString("Puppis");
-	if ( code == "Pyx" ) return QString("Pyxidis");
-	if ( code == "Ret" ) return QString("Reticuli");
-	if ( code == "Sge" ) return QString("Sagittae");
-	if ( code == "Sgr" ) return QString("Sagittarii");
-	if ( code == "Sco" ) return QString("Scorpii");
-	if ( code == "Scl" ) return QString("Sculptoris");
-	if ( code == "Sct" ) return QString("Scuti");
-	if ( code == "Ser" ) return QString("Serpentis");
-	if ( code == "Sex" ) return QString("Sextantis");
-	if ( code == "Tau" ) return QString("Tauri");
-	if ( code == "Tel" ) return QString("Telescopii");
-	if ( code == "Tri" ) return QString("Trianguli");
-	if ( code == "TrA" ) return QString("Trianguli Australis");
-	if ( code == "Tuc" ) return QString("Tucanae");
-	if ( code == "UMa" ) return QString("Ursae Majoris");
-	if ( code == "UMi" ) return QString("Ursae Minoris");
-	if ( code == "Vel" ) return QString("Velorum");
-	if ( code == "Vir" ) return QString("Virginis");
-	if ( code == "Vol" ) return QString("Volantis");
-	if ( code == "Vul" ) return QString("Vulpeculae");
+TQString StarObject::constell( void ) const {
+	TQString code = name2().mid(4,3);
+	if ( code == "And" ) return TQString("Andromedae");
+	if ( code == "Ant" ) return TQString("Antliae");
+	if ( code == "Aps" ) return TQString("Apodis");
+	if ( code == "Aqr" ) return TQString("Aquarii");
+	if ( code == "Aql" ) return TQString("Aquilae");
+	if ( code == "Ara" ) return TQString("Arae");
+	if ( code == "Ari" ) return TQString("Arietis");
+	if ( code == "Aur" ) return TQString("Aurigae");
+	if ( code == "Boo" ) return TQString("Bootis");
+	if ( code == "Cae" ) return TQString("Caeli");
+	if ( code == "Cam" ) return TQString("Camelopardalis");
+	if ( code == "Cnc" ) return TQString("Cancri");
+	if ( code == "CVn" ) return TQString("Canum Venaticorum");
+	if ( code == "CMa" ) return TQString("Canis Majoris");
+	if ( code == "CMi" ) return TQString("Canis Minoris");
+	if ( code == "Cap" ) return TQString("Capricorni");
+	if ( code == "Car" ) return TQString("Carinae");
+	if ( code == "Cas" ) return TQString("Cassiopeiae");
+	if ( code == "Cen" ) return TQString("Centauri");
+	if ( code == "Cep" ) return TQString("Cephei");
+	if ( code == "Cet" ) return TQString("Ceti");
+	if ( code == "Cha" ) return TQString("Chamaeleontis");
+	if ( code == "Cir" ) return TQString("Circini");
+	if ( code == "Col" ) return TQString("Columbae");
+	if ( code == "Com" ) return TQString("Comae Berenices");
+	if ( code == "CrA" ) return TQString("Coronae Austrinae");
+	if ( code == "CrB" ) return TQString("Coronae Borealis");
+	if ( code == "Crv" ) return TQString("Corvi");
+	if ( code == "Crt" ) return TQString("Crateris");
+	if ( code == "Cru" ) return TQString("Crucis");
+	if ( code == "Cyg" ) return TQString("Cygni");
+	if ( code == "Del" ) return TQString("Delphini");
+	if ( code == "Dor" ) return TQString("Doradus");
+	if ( code == "Dra" ) return TQString("Draconis");
+	if ( code == "Equ" ) return TQString("Equulei");
+	if ( code == "Eri" ) return TQString("Eridani");
+	if ( code == "For" ) return TQString("Fornacis");
+	if ( code == "Gem" ) return TQString("Geminorum");
+	if ( code == "Gru" ) return TQString("Gruis");
+	if ( code == "Her" ) return TQString("Herculis");
+	if ( code == "Hor" ) return TQString("Horologii");
+	if ( code == "Hya" ) return TQString("Hydrae");
+	if ( code == "Hyi" ) return TQString("Hydri");
+	if ( code == "Ind" ) return TQString("Indi");
+	if ( code == "Lac" ) return TQString("Lacertae");
+	if ( code == "Leo" ) return TQString("Leonis");
+	if ( code == "LMi" ) return TQString("Leonis Minoris");
+	if ( code == "Lep" ) return TQString("Leporis");
+	if ( code == "Lib" ) return TQString("Librae");
+	if ( code == "Lup" ) return TQString("Lupi");
+	if ( code == "Lyn" ) return TQString("Lyncis");
+	if ( code == "Lyr" ) return TQString("Lyrae");
+	if ( code == "Men" ) return TQString("Mensae");
+	if ( code == "Mic" ) return TQString("Microscopii");
+	if ( code == "Mon" ) return TQString("Monocerotis");
+	if ( code == "Mus" ) return TQString("Muscae");
+	if ( code == "Nor" ) return TQString("Normae");
+	if ( code == "Oct" ) return TQString("Octantis");
+	if ( code == "Oph" ) return TQString("Ophiuchi");
+	if ( code == "Ori" ) return TQString("Orionis");
+	if ( code == "Pav" ) return TQString("Pavonis");
+	if ( code == "Peg" ) return TQString("Pegasi");
+	if ( code == "Per" ) return TQString("Persei");
+	if ( code == "Phe" ) return TQString("Phoenicis");
+	if ( code == "Pic" ) return TQString("Pictoris");
+	if ( code == "Psc" ) return TQString("Piscium");
+	if ( code == "PsA" ) return TQString("Piscis Austrini");
+	if ( code == "Pup" ) return TQString("Puppis");
+	if ( code == "Pyx" ) return TQString("Pyxidis");
+	if ( code == "Ret" ) return TQString("Reticuli");
+	if ( code == "Sge" ) return TQString("Sagittae");
+	if ( code == "Sgr" ) return TQString("Sagittarii");
+	if ( code == "Sco" ) return TQString("Scorpii");
+	if ( code == "Scl" ) return TQString("Sculptoris");
+	if ( code == "Sct" ) return TQString("Scuti");
+	if ( code == "Ser" ) return TQString("Serpentis");
+	if ( code == "Sex" ) return TQString("Sextantis");
+	if ( code == "Tau" ) return TQString("Tauri");
+	if ( code == "Tel" ) return TQString("Telescopii");
+	if ( code == "Tri" ) return TQString("Trianguli");
+	if ( code == "TrA" ) return TQString("Trianguli Australis");
+	if ( code == "Tuc" ) return TQString("Tucanae");
+	if ( code == "UMa" ) return TQString("Ursae Majoris");
+	if ( code == "UMi" ) return TQString("Ursae Minoris");
+	if ( code == "Vel" ) return TQString("Velorum");
+	if ( code == "Vir" ) return TQString("Virginis");
+	if ( code == "Vol" ) return TQString("Volantis");
+	if ( code == "Vul" ) return TQString("Vulpeculae");
 
-	return QString("");
+	return TQString("");
 }
 
-void StarObject::draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, int y, bool /*showMultiple*/, double /*scale*/ ) {
+void StarObject::draw( TQPainter &psky, TQPixmap *sky, TQPixmap *starpix, int x, int y, bool /*showMultiple*/, double /*scale*/ ) {
 	//Indicate multiple stars with a short horizontal line
 	//(only draw this for stars larger than 3 pixels)
 //Commenting out for now...
@@ -233,23 +233,23 @@ void StarObject::draw( QPainter &psky, QPixmap *sky, QPixmap *starpix, int x, in
 
 	//Only bitBlt() if we are drawing to the sky pixmap
 	if ( psky.device() == sky )
-		bitBlt ((QPaintDevice *) sky, x - starpix->width()/2, y - starpix->height()/2, starpix );
+		bitBlt ((TQPaintDevice *) sky, x - starpix->width()/2, y - starpix->height()/2, starpix );
 	else
 		psky.drawPixmap( x - starpix->width()/2, y - starpix->height()/2, *starpix );
 
 }
 
-void StarObject::drawLabel( QPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale ) {
-	QString sName( i18n("star") + " " );
+void StarObject::drawLabel( TQPainter &psky, int x, int y, double zoom, bool drawName, bool drawMag, double scale ) {
+	TQString sName( i18n("star") + " " );
 	if ( drawName ) {
 		if ( name() != "star" ) sName = translatedName() + " ";
 		else if ( longname() != "star" ) sName = translatedLongName() + " ";
 	}
 	if ( drawMag ) {
 		if ( drawName )
-			sName += QString().sprintf("%.1f", mag() );
+			sName += TQString().sprintf("%.1f", mag() );
 		else 
-			sName = QString().sprintf("%.1f", mag() );
+			sName = TQString().sprintf("%.1f", mag() );
 	}
 
 	int offset = int( scale * (6 + int(0.5*(5.0-mag())) + int(0.01*( zoom/500. )) ));

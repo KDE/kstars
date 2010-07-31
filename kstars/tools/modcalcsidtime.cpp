@@ -15,11 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qdatetimeedit.h>  //need for QTimeEdit
-#include <qradiobutton.h>
-#include <qcheckbox.h>
-#include <qstring.h>
-#include <qtextstream.h>
+#include <tqdatetimeedit.h>  //need for QTimeEdit
+#include <tqradiobutton.h>
+#include <tqcheckbox.h>
+#include <tqstring.h>
+#include <tqtextstream.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
@@ -32,7 +32,7 @@
 #include "simclock.h"
 #include "libkdeedu/extdate/extdatetimeedit.h"
 
-modCalcSidTime::modCalcSidTime(QWidget *parentSplit, const char *name) : modCalcSidTimeDlg (parentSplit,name) {
+modCalcSidTime::modCalcSidTime(TQWidget *parentSplit, const char *name) : modCalcSidTimeDlg (parentSplit,name) {
 
 	showCurrentTimeAndLong();
 	show();		
@@ -53,37 +53,37 @@ void modCalcSidTime::showCurrentTimeAndLong (void)
 	longBox->show( ks->geo()->lng() );
 }
 
-QTime modCalcSidTime::computeUTtoST (QTime ut, ExtDate dt, dms longitude)
+TQTime modCalcSidTime::computeUTtoST (TQTime ut, ExtDate dt, dms longitude)
 {
 	KStarsDateTime utdt = KStarsDateTime( dt, ut);
 	dms st = longitude.Degrees() + utdt.gst().Degrees();
-	return QTime( st.hour(), st.minute(), st.second() );
+	return TQTime( st.hour(), st.minute(), st.second() );
 }
 
-QTime modCalcSidTime::computeSTtoUT (QTime st, ExtDate dt, dms longitude)
+TQTime modCalcSidTime::computeSTtoUT (TQTime st, ExtDate dt, dms longitude)
 {
-	KStarsDateTime dtt = KStarsDateTime( dt, QTime());
+	KStarsDateTime dtt = KStarsDateTime( dt, TQTime());
 	dms lst(st.hour(), st.minute(), st.second());
 	dms gst( lst.Degrees() - longitude.Degrees() );
 	return dtt.GSTtoUT( gst );
 }
 
-void modCalcSidTime::showUT( QTime dt )
+void modCalcSidTime::showUT( TQTime dt )
 {
 	UtBox->setTime( dt );
 }
 
-void modCalcSidTime::showST( QTime st )
+void modCalcSidTime::showST( TQTime st )
 {
 	StBox->setTime( st );
 }
 
-QTime modCalcSidTime::getUT( void ) 
+TQTime modCalcSidTime::getUT( void ) 
 {
 	return UtBox->time();
 }
 
-QTime modCalcSidTime::getST( void ) 
+TQTime modCalcSidTime::getST( void ) 
 {
 	return StBox->time();
 }
@@ -100,13 +100,13 @@ dms modCalcSidTime::getLongitude( void )
 
 void modCalcSidTime::slotClearFields(){
 	datBox->setDate(ExtDate::currentDate());
-	QTime time(0,0,0);
+	TQTime time(0,0,0);
 	UtBox->setTime(time);
 	StBox->setTime(time);
 }
 
 void modCalcSidTime::slotComputeTime(){
-	QTime ut, st;
+	TQTime ut, st;
 
 	ExtDate dt = getDate();
 	dms longitude = getLongitude();
@@ -169,13 +169,13 @@ void modCalcSidTime::utNoCheck() {
 }
 
 void modCalcSidTime::slotInputFile() {
-	QString inputFileName;
+	TQString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcSidTime::slotOutputFile() {
-	QString outputFileName;
+	TQString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 }
@@ -183,28 +183,28 @@ void modCalcSidTime::slotOutputFile() {
 
 void modCalcSidTime::slotRunBatch() {
 
-	QString inputFileName;
+	TQString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
 
 	// We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
+	if ( TQFile::exists(inputFileName) ) {
+		TQFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			TQString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;
 		}
 
 //		processLines(&f);
-		QTextStream istream(&f);
+		TQTextStream istream(&f);
 		processLines(istream);
 //		readFile( istream );
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		TQString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
 		InputLineEditBatch->setText( inputFileName );
@@ -212,24 +212,24 @@ void modCalcSidTime::slotRunBatch() {
 	}
 }
 
-void modCalcSidTime::processLines( QTextStream &istream ) {
+void modCalcSidTime::processLines( TQTextStream &istream ) {
 
 	// we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
+//	TQTextStream istream(&fIn);
+	TQString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
+	TQFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
-	QTextStream ostream(&fOut);
+	TQTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
+	TQString line;
+	TQString space = " ";
 	int i = 0;
 	long double jd0, jdf;
 	dms longB, LST;
 	double epoch0B(0.0);
-	QTime utB, stB;
+	TQTime utB, stB;
 	ExtDate dtB;
 
 	while ( ! istream.eof() ) {
@@ -238,7 +238,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		TQStringList fields = TQStringList::split( " ", line );
 
 		i = 0;
 		
@@ -284,7 +284,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 		// Read Ut and write in ostream if corresponds
 		
 			if(utCheckBatch->isChecked() ) {
-				utB = QTime::fromString( fields[i] );
+				utB = TQTime::fromString( fields[i] );
 				i++;
 			} else
 				utB = utBoxBatch->time();
@@ -304,7 +304,7 @@ void modCalcSidTime::processLines( QTextStream &istream ) {
 		} else {
 
 			if(stCheckBatch->isChecked() ) {
-				stB = QTime::fromString( fields[i] );
+				stB = TQTime::fromString( fields[i] );
 				i++;
 			} else
 				stB = stBoxBatch->time();

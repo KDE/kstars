@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qpainter.h>
-#include <qfile.h>
+#include <tqpainter.h>
+#include <tqfile.h>
 #include <kdebug.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
@@ -24,23 +24,23 @@
 #include "fov.h"
 
 //------------FOV-----------------//
-FOV::FOV( QString n, float sz, int sh, QString col ) : Name( n ), Color( col ), Size( sz ), Shape( sh )
+FOV::FOV( TQString n, float sz, int sh, TQString col ) : Name( n ), Color( col ), Size( sz ), Shape( sh )
 {}
 
 FOV::FOV() : Name( i18n( "No FOV" ) ), Color( "#FFFFFF" ), Size( 0.0 ), Shape( 0 )
 {}
 
-FOV::FOV( QString sname ) {
-	QFile f;
+FOV::FOV( TQString sname ) {
+	TQFile f;
 	f.setName( locate( "appdata", "fov.dat" ) );
 	
 	int sh;
 	float sz;
 
 	if ( f.exists() && f.open( IO_ReadOnly ) ) {
-		QTextStream stream( &f );
+		TQTextStream stream( &f );
 		while ( !stream.eof() ) {
-			QStringList fields = QStringList::split( ":", stream.readLine() );
+			TQStringList fields = TQStringList::split( ":", stream.readLine() );
 			bool ok( false );
 
 			if ( fields.count() == 4 ) {
@@ -71,8 +71,8 @@ FOV::FOV( QString sname ) {
 	Color = "#FFFFFF";
 }
 
-void FOV::draw( QPainter &p, float pixelsize ) {
-	p.setPen( QColor( color() ) );
+void FOV::draw( TQPainter &p, float pixelsize ) {
+	p.setPen( TQColor( color() ) );
 	p.setBrush( Qt::NoBrush );
 	int w = p.viewport().width();
 	int h = p.viewport().height();
@@ -128,7 +128,7 @@ void FOV::draw( QPainter &p, float pixelsize ) {
 		}
 		case 4: { // Solid Circle
 			int s = int( pixelsize );
-			p.setBrush( QBrush ( QColor( color() ), Qt::Dense4Pattern) );
+			p.setBrush( TQBrush ( TQColor( color() ), Qt::Dense4Pattern) );
 			p.drawEllipse( (w - s)/2, (h - s)/2, s, s );
 			p.setBrush(Qt::NoBrush);
 			break;

@@ -35,13 +35,13 @@ KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : ExtDateTime() {
 
 KStarsDateTime::KStarsDateTime( const ExtDateTime &edt ) : ExtDateTime( edt ) {
 	//don't call setDJD() because we don't need to compute the time; just set DJD directly
-	QTime _t = edt.time();
+	TQTime _t = edt.time();
 	ExtDate _d = edt.date();
 	long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
 	DJD = (long double)( _d.jd() ) + jdFrac;
 }
 
-KStarsDateTime::KStarsDateTime( const ExtDate &_d, const QTime &_t ) : ExtDateTime( _d, _t ) {
+KStarsDateTime::KStarsDateTime( const ExtDate &_d, const TQTime &_t ) : ExtDateTime( _d, _t ) {
 	//don't call setDJD() because we don't need to compute the time; just set DJD directly
 	long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
 	DJD = (long double)( _d.jd() ) + jdFrac;
@@ -56,7 +56,7 @@ KStarsDateTime::KStarsDateTime( long double _jd ) : ExtDateTime() {
 }
 
 KStarsDateTime KStarsDateTime::currentDateTime() {
-	KStarsDateTime dt( ExtDate::currentDate(), QTime::currentTime() );
+	KStarsDateTime dt( ExtDate::currentDate(), TQTime::currentTime() );
 	if ( dt.time().hour()==0 && dt.time().minute()==0 ) // midnight or right after?
 			dt.setDate( ExtDate::currentDate() );         // fetch date again
 	
@@ -78,7 +78,7 @@ void KStarsDateTime::setDJD( long double _jd ) {
 	int s = int( 60.*(60.*(hour - h) - m) );
 	int ms = int( 1000.*(60.*(60.*(hour - h) - m) - s) );
 
-	ExtDateTime::setTime( QTime( h, m, s, ms ) );
+	ExtDateTime::setTime( TQTime( h, m, s, ms ) );
 }
 
 void KStarsDateTime::setDate( const ExtDate &_d ) {
@@ -89,7 +89,7 @@ void KStarsDateTime::setDate( const ExtDate &_d ) {
 	setDJD( (long double)_d.jd() + jdFrac );
 }
 
-void KStarsDateTime::setTime( const QTime &_t ) {
+void KStarsDateTime::setTime( const TQTime &_t ) {
 	KStarsDateTime _dt( date(), _t );
 	setDJD( _dt.djd() );
 }
@@ -110,7 +110,7 @@ dms KStarsDateTime::GSTat0hUT() const {
 	double sinOb, cosOb;
 
 	// Mean greenwich sidereal time
-	KStarsDateTime t0( date(), QTime( 0, 0, 0 ) );
+	KStarsDateTime t0( date(), TQTime( 0, 0, 0 ) );
 	long double s = t0.djd() - J2000;
 	double t = s/36525.0;
 	double t1 = 6.697374558 + 2400.051336*t + 0.000025862*t*t +
@@ -132,7 +132,7 @@ dms KStarsDateTime::GSTat0hUT() const {
 	return gst.reduce();
 }
 
-QTime KStarsDateTime::GSTtoUT( dms GST ) const {
+TQTime KStarsDateTime::GSTtoUT( dms GST ) const {
 	dms gst0 = GSTat0hUT();
 
 	//dt is the number of sidereal hours since UT 0h.
@@ -148,7 +148,7 @@ QTime KStarsDateTime::GSTtoUT( dms GST ) const {
 	int sc = int( 60.0*( 60.0*( dt - double( hr ) ) - double( mn ) ) );
 	int ms = int( 1000.0*( 60.0*( 60.0*( dt - double(hr) ) - double(mn) ) - double(sc) ) );
 	
-	return( QTime( hr, mn, sc, ms ) );
+	return( TQTime( hr, mn, sc, ms ) );
 }
 
 void KStarsDateTime::setFromEpoch( double epoch ) {
@@ -158,7 +158,7 @@ void KStarsDateTime::setFromEpoch( double epoch ) {
 		setDJD( J2000 );
 	} else {
 		int year = int( epoch );
-		KStarsDateTime dt( ExtDate( year, 1, 1 ), QTime( 0, 0, 0 ) );
+		KStarsDateTime dt( ExtDate( year, 1, 1 ), TQTime( 0, 0, 0 ) );
 		double days = (double)(dt.date().daysInYear())*( epoch - (double)year );
 		dt = dt.addSecs( days*86400. ); //set date and time based on the number of days into the year
 		setDJD( dt.djd() );

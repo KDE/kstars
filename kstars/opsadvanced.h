@@ -38,7 +38,7 @@ class OpsAdvanced : public OpsAdvancedUI
 	Q_OBJECT
 
 public:
-	OpsAdvanced( QWidget *parent=0, const char *name=0, WFlags fl = 0 );
+	OpsAdvanced( TQWidget *parent=0, const char *name=0, WFlags fl = 0 );
 	~OpsAdvanced();
 
 private slots:

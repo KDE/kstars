@@ -17,23 +17,23 @@
 
 #include <stdlib.h>
 #include <kstandarddirs.h>
-#include <qpainter.h>
-#include <qpixmap.h>
+#include <tqpainter.h>
+#include <tqpixmap.h>
 
 #include "mapcanvas.h"
 #include "locationdialog.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 
-MapCanvas::MapCanvas(QWidget *parent, const char *name ) : QWidget(parent,name) {
+MapCanvas::MapCanvas(TQWidget *parent, const char *name ) : TQWidget(parent,name) {
 	BGColor = "#33A";
-	setBackgroundColor( QColor( BGColor ) );
-	setBackgroundMode( QWidget::NoBackground );
-	Canvas = new QPixmap();
-	bgImage = new QPixmap();
+	setBackgroundColor( TQColor( BGColor ) );
+	setBackgroundMode( TQWidget::NoBackground );
+	Canvas = new TQPixmap();
+	bgImage = new TQPixmap();
 	LocationDialog *ld = (LocationDialog *)topLevelWidget();
 	KStars *ks = (KStars *)ld->parent();
-	QString bgFile = ks->data()->stdDirs->findResource( "data", "kstars/geomap.png" );
+	TQString bgFile = ks->data()->stdDirs->findResource( "data", "kstars/geomap.png" );
 	bgImage->load( bgFile, "PNG" );
 }
 
@@ -43,20 +43,20 @@ MapCanvas::~MapCanvas(){
 }
 
 void MapCanvas::setGeometry( int x, int y, int w, int h ) {
-	QWidget::setGeometry( x, y, w, h );
+	TQWidget::setGeometry( x, y, w, h );
 	Canvas->resize( w, h );
 	origin.setX( w/2 );
 	origin.setY( h/2 );
 }
 
-void MapCanvas::setGeometry( const QRect &r ) {
-	QWidget::setGeometry( r );
+void MapCanvas::setGeometry( const TQRect &r ) {
+	TQWidget::setGeometry( r );
 	Canvas->resize( r.width(), r.height() );
 	origin.setX( r.width()/2 );
 	origin.setY( r.height()/2 );
 }
 
-void MapCanvas::mousePressEvent( QMouseEvent *e ) {
+void MapCanvas::mousePressEvent( TQMouseEvent *e ) {
 	LocationDialog *ld = (LocationDialog *)topLevelWidget();
 
 	//Determine Lat/Long corresponding to event press
@@ -66,20 +66,20 @@ void MapCanvas::mousePressEvent( QMouseEvent *e ) {
 	ld->findCitiesNear( lng, lat );
 }
 
-void MapCanvas::paintEvent( QPaintEvent * ) {
-	QPainter pcanvas;
+void MapCanvas::paintEvent( TQPaintEvent * ) {
+	TQPainter pcanvas;
 	LocationDialog *ld = (LocationDialog *)topLevelWidget();
   KStars *ks = (KStars *)ld->parent();
 
 	//prepare the canvas
 	pcanvas.begin( Canvas );
-//	pcanvas.fillRect( 0, 0, width(), height(), QBrush( QColor( BGColor ) ) );
+//	pcanvas.fillRect( 0, 0, width(), height(), TQBrush( TQColor( BGColor ) ) );
 	pcanvas.drawPixmap( 0, 0, *bgImage );
 //	pcanvas.setBrush( white );
-	pcanvas.setPen( QPen( QColor( "SlateGrey" ) ) );
+	pcanvas.setPen( TQPen( TQColor( "SlateGrey" ) ) );
 
 	//Draw cities
-	QPoint o;
+	TQPoint o;
 
 	for ( GeoLocation *g=ks->data()->geoList.first(); g; g = ks->data()->geoList.next() ) {
 		o.setX( int( g->lng()->Degrees() + origin.x() ) );

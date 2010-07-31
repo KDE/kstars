@@ -24,7 +24,7 @@
 #include "kscomet.h"
 
 
-KSComet::KSComet( KStarsData *_kd, QString _s, QString imfile,
+KSComet::KSComet( KStarsData *_kd, TQString _s, TQString imfile,
 		long double _JD, double _q, double _e, dms _i, dms _w, dms _Node, double Tp )
  : KSPlanetBase(_kd, _s, imfile), kd(_kd), JD(_JD), q(_q), e(_e), i(_i), w(_w), N(_Node) {
 
@@ -40,7 +40,7 @@ KSComet::KSComet( KStarsData *_kd, QString _s, QString imfile,
 	int m = int( 60.0 * ( Hour - h ) );
 	int s = int( 60.0 * ( 60.0 * ( Hour - h) - m ) );
 
-	JDp = KStarsDateTime( ExtDate( year, month, day ), QTime( h, m, s ) ).djd();
+	JDp = KStarsDateTime( ExtDate( year, month, day ), TQTime( h, m, s ) ).djd();
 
 	//compute the semi-major axis, a:
 	a = q/(1.0-e);

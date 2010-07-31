@@ -30,7 +30,7 @@
 
 #include <kapplication.h> 
 
-modCalcDayLength::modCalcDayLength(QWidget *parentSplit, const char *name) : modCalcDayLengthDlg(parentSplit,name) {
+modCalcDayLength::modCalcDayLength(TQWidget *parentSplit, const char *name) : modCalcDayLengthDlg(parentSplit,name) {
 	showCurrentDate();
 	initGeo();
 	show();
@@ -61,7 +61,7 @@ void modCalcDayLength::getGeoLocation (void)
 
 KStarsDateTime modCalcDayLength::getDateTime (void)
 {
-	return KStarsDateTime( datBox->date() , QTime(8,0,0) );
+	return KStarsDateTime( datBox->date() , TQTime(8,0,0) );
 }
 
 void modCalcDayLength::slotClearCoords(){
@@ -82,10 +82,10 @@ void modCalcDayLength::slotClearCoords(){
 	dayLBox->clearFields();
 }
 
-QTime modCalcDayLength::lengthOfDay(QTime setQTime, QTime riseQTime){
-	QTime dL(0,0,0);
+TQTime modCalcDayLength::lengthOfDay(TQTime setQTime, TQTime riseQTime){
+	TQTime dL(0,0,0);
 	int dds = riseQTime.secsTo(setQTime);
-	QTime dLength = dL.addSecs( dds );
+	TQTime dLength = dL.addSecs( dds );
 
 	return dLength;
 }
@@ -99,9 +99,9 @@ void modCalcDayLength::slotComputePosTime()
 	KSSun *Sun = new KSSun(((KStars*) parent()->parent()->parent())->data());
 	Sun->findPosition(num);
 
-	QTime setQtime = Sun->riseSetTime( jd0 , geoPlace, false );
-	QTime riseQtime = Sun->riseSetTime( jd0 , geoPlace, true );
-	QTime transitQtime = Sun->transitTime(jd0 , geoPlace);
+	TQTime setQtime = Sun->riseSetTime( jd0 , geoPlace, false );
+	TQTime riseQtime = Sun->riseSetTime( jd0 , geoPlace, true );
+	TQTime transitQtime = Sun->transitTime(jd0 , geoPlace);
 
 	dms setAz = Sun->riseSetTimeAz(jd0, geoPlace, false);
 	dms riseAz = Sun->riseSetTimeAz(jd0, geoPlace, true);
@@ -116,7 +116,7 @@ void modCalcDayLength::slotComputePosTime()
 		riseTimeBox->showTime( riseQtime );
 		transitTimeBox->showTime( transitQtime );
 
-		QTime dayLQtime = lengthOfDay (setQtime,riseQtime);
+		TQTime dayLQtime = lengthOfDay (setQtime,riseQtime);
 
 		dayLBox->showTime( dayLQtime );
 	} else if (transAlt.Degrees() > 0. ) {
@@ -139,7 +139,7 @@ void modCalcDayLength::slotComputePosTime()
 		riseTimeBox->clearFields();
 		transitTimeBox->clearFields();
 
-		dayLBox->showTime( QTime(0,0,0) );
+		dayLBox->showTime( TQTime(0,0,0) );
 	}
 
 	delete num;

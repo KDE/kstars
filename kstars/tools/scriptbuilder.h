@@ -69,15 +69,15 @@ class ScriptBuilder : public KDialogBase
 {
 Q_OBJECT
 public:
-	ScriptBuilder( QWidget *parent, const char *name=0 );
+	ScriptBuilder( TQWidget *parent, const char *name=0 );
 	~ScriptBuilder();
 
 	bool unsavedChanges() const { return UnsavedChanges; }
 	void setUnsavedChanges( bool b=true );
 	void saveWarning();
-	void readScript( QTextStream &istream );
-	void writeScript( QTextStream &ostream );
-	bool parseFunction( QStringList &fn );
+	void readScript( TQTextStream &istream );
+	void writeScript( TQTextStream &ostream );
+	bool parseFunction( TQStringList &fn );
 
 public slots:
 	void slotAddFunction();
@@ -119,7 +119,7 @@ public slots:
 	void slotPrintImage();
 	void slotChangeColor();
 	void slotChangeColorName();
-	void slotLoadColorScheme(QListBoxItem*);
+	void slotLoadColorScheme(TQListBoxItem*);
 	
 	void slotEnableScriptNameOK();
 	
@@ -169,12 +169,12 @@ private:
 	ScriptBuilderUI *sb;
 
 	KStars *ks; //parent needed for sub-dialogs
-	QPtrList<ScriptFunction> KStarsFunctionList;
-	QPtrList<ScriptFunction> INDIFunctionList;
-	QPtrList<ScriptFunction> ScriptList;
-	QVBoxLayout *vlay;
+	TQPtrList<ScriptFunction> KStarsFunctionList;
+	TQPtrList<ScriptFunction> INDIFunctionList;
+	TQPtrList<ScriptFunction> ScriptList;
+	TQVBoxLayout *vlay;
 
-	QWidget *argBlank;
+	TQWidget *argBlank;
 	ArgLookToward *argLookToward;
 	ArgSetRaDec *argSetRaDec;
 	ArgSetAltAz *argSetAltAz;
@@ -212,13 +212,13 @@ private:
 	ScriptNameDialog *snd;
 	OptionsTreeView *otv;
 
-	QListViewItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
+	TQListViewItem *opsGUI, *opsToolbar, *opsShowObj, *opsShowOther, *opsCName, *opsHide, *opsSkymap, *opsLimit;
 
 	bool UnsavedChanges;
 	KURL currentFileURL;
-	QString currentDir;
-	QString currentScriptName, currentAuthor;
-	QString lastINDIDeviceName;
+	TQString currentDir;
+	TQString currentScriptName, currentAuthor;
+	TQString lastINDIDeviceName;
 };
 
 #endif

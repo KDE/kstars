@@ -61,7 +61,7 @@ class KSAsteroid : public KSPlanetBase
 			*@p M the mean anomaly for the Julian Day
 			*@p H absolute magnitude
 			*/
-		KSAsteroid( KStarsData *kd, QString s, QString image_file,
+		KSAsteroid( KStarsData *kd, TQString s, TQString image_file,
 			long double JD, double a, double e, dms i, dms w, dms N, dms M, double H );
 
 		/**Destructor (empty)*/

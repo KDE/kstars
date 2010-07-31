@@ -23,7 +23,7 @@ class imagesequence : public imgSequenceDlg
   Q_OBJECT
 
 public:
-  imagesequence(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+  imagesequence(TQWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
   ~imagesequence();
   
 
@@ -31,7 +31,7 @@ bool updateStatus();
 
 private:
 KStars *ksw;
-QTimer *seqTimer;
+TQTimer *seqTimer;
 INDIStdDevice *stdDevCCD;
 INDIStdDevice *stdDevFilter;
 
@@ -44,8 +44,8 @@ int	seqDelay;
 int     retries;
 int     lastCCD;
 int     lastFilter;
-QString currentCCD;
-QString currentFilter;
+TQString currentCCD;
+TQString currentFilter;
 
 bool	verifyCCDIntegrity();
 bool    verifyFilterIntegrity();
@@ -62,7 +62,7 @@ public slots:
  void stopSequence();
  void captureImage();
  void prepareCapture();
- void newFITS(QString deviceLabel);
+ void newFITS(TQString deviceLabel);
  void checkCCD(int CCDNum);
  void updateFilterCombo(int filterNum);
 

@@ -18,8 +18,8 @@
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
 
-#include <qimage.h>
-#include <qpixmap.h>
+#include <tqimage.h>
+#include <tqpixmap.h>
 
 #include <kpixmapio.h>
 #include <kio/job.h>
@@ -32,10 +32,10 @@
 	*@version 1.0
 	*
 	*This image-viewer automatically resizes the picture. The output 
-	*works with kio-slaves and not directly with the QImage save-routines 
+	*works with kio-slaves and not directly with the TQImage save-routines 
 	*because normally the image-files are in GIF-format and QT does not 
 	*save these files. For other formats, like PNG, this is not so important 
-	*because they can directly saved by QImage.
+	*because they can directly saved by TQImage.
 	*
 	*The download-slave works asynchron so the parent-widget can be used at 
 	*this time. The save-slave works synchronously, but this is not important 
@@ -50,34 +50,34 @@ class ImageViewer : public KMainWindow  {
 
 	public:
 	/**Constructor. */
-		ImageViewer (const KURL *imageName, const QString &capText, QWidget *parent, const char *name = 0);
+		ImageViewer (const KURL *imageName, const TQString &capText, TQWidget *parent, const char *name = 0);
 
 	/**Destructor. If there is a partially downloaded image file, delete it.*/
 		~ImageViewer();
 
 	protected:
 	/**Bitblt the image onto the viewer widget */
-		void paintEvent (QPaintEvent *ev);
+		void paintEvent (TQPaintEvent *ev);
 
 	/**The window is resized when a file finishes downloading, before it is displayed.
-		*The resizeEvent converts the downloaded QImage to a QPixmap 
+		*The resizeEvent converts the downloaded TQImage to a TQPixmap 
 		*@note (JH: not sure why this conversion is not done in showImage)
 		*/
-		void resizeEvent (QResizeEvent *ev);
+		void resizeEvent (TQResizeEvent *ev);
 
 	/**Make sure all events have been processed before closing the dialog */
-		void closeEvent (QCloseEvent *ev);
+		void closeEvent (TQCloseEvent *ev);
 
 	/**Keyboard shortcuts for saving files and closing the window
 		*@note (this should be deprecated; instead just assign KAccel 
 		*to the close/save buttons)
 		*/
-		void keyPressEvent (QKeyEvent *ev);
+		void keyPressEvent (TQKeyEvent *ev);
 
 	/**Unset the bool variables that indicate keys were pressed.
 		*(this should be deprecated; see above)
 		*/
-		void keyReleaseEvent (QKeyEvent *ev);
+		void keyReleaseEvent (TQKeyEvent *ev);
 
 	private:
 	/**Display the downloaded image.  Resize the window to fit the image,  If the image is
@@ -98,15 +98,15 @@ class ImageViewer : public KMainWindow  {
 		*/
 		void checkJob();
 
-		QImage image;
-		QPixmap pix;
+		TQImage image;
+		TQPixmap pix;
 		KPixmapIO kpix;
 		KTempFile tempfile;
-		QFile *file;
+		TQFile *file;
 		
 		const KURL imageURL;
 		bool fileIsImage;
-		QString filename;
+		TQString filename;
 		bool ctrl, key_s, key_q;	// the keys
 
 		KIO::Job *downloadJob;  // download job of image -> 0 == no job is running

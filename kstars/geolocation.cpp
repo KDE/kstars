@@ -17,7 +17,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
+#include <tqstring.h>
 
 #include "geolocation.h"
 #include "timezonerule.h"
@@ -56,7 +56,7 @@ GeoLocation::GeoLocation( GeoLocation *g ) {
 }
 
 GeoLocation::GeoLocation( dms lng, dms lat,
-				QString name, QString province, QString country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
+				TQString name, TQString province, TQString country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
 	Longitude = lng;
 	Latitude = lat;
 	Name = name;
@@ -71,7 +71,7 @@ GeoLocation::GeoLocation( dms lng, dms lat,
 }
 
 GeoLocation::GeoLocation( double lng, double lat,
-				QString name, QString province, QString country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
+				TQString name, TQString province, TQString country, double tz, TimeZoneRule *tzrule, int iEllips, double hght ) {
 	Longitude.set( lng );
 	Latitude.set( lat );
 	Name = name;
@@ -85,7 +85,7 @@ GeoLocation::GeoLocation( double lng, double lat,
 	geodToCart();
 }
 
-GeoLocation::GeoLocation( double x, double y, double z, QString name, QString province, QString country, double TZ, TimeZoneRule *tzrule, int iEllips ) {
+GeoLocation::GeoLocation( double x, double y, double z, TQString name, TQString province, TQString country, double TZ, TimeZoneRule *tzrule, int iEllips ) {
 	PosCartX = x;
 	PosCartY = y;
 	PosCartZ = z;
@@ -99,8 +99,8 @@ GeoLocation::GeoLocation( double x, double y, double z, QString name, QString pr
 	cartToGeod();
 }
 
-QString GeoLocation::fullName() const {
-	QString s;
+TQString GeoLocation::fullName() const {
+	TQString s;
 	if ( province().isEmpty() ) {
 		s = translatedName() + ", " + translatedCountry();
 	} else {

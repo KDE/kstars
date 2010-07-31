@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfile.h>
+#include <tqfile.h>
 
 #include <klocale.h>
 #include <knuminput.h>
@@ -32,15 +32,15 @@
 #include "skymap.h"
 #include "colorscheme.h"
 
-OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl ) 
+OpsColors::OpsColors( TQWidget *p, const char *name, WFlags fl ) 
 	: OpsColorsUI( p, name, fl ) 
 {
 	ksw = (KStars *)p;
 
 	//Populate list of adjustable colors
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
-		QPixmap col( 30, 20 );
-		col.fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
+		TQPixmap col( 30, 20 );
+		col.fill( TQColor( ksw->data()->colorScheme()->colorAt( i ) ) );
 		ColorPalette->insertItem( col, ksw->data()->colorScheme()->nameAt( i ) );
 	}
 
@@ -54,11 +54,11 @@ OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl )
 	PresetFileList.append( "night.colors" );
 	PresetFileList.append( "moonless-night.colors" );
 
-	QFile file;
-	QString line, schemeName, filename;
+	TQFile file;
+	TQString line, schemeName, filename;
 	file.setName( locate( "appdata", "colors.dat" ) );
 	if ( file.exists() && file.open( IO_ReadOnly ) ) {
-		QTextStream stream( &file );
+		TQTextStream stream( &file );
 
   	while ( !stream.eof() ) {
 			line = stream.readLine();
@@ -82,12 +82,12 @@ OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl )
 	else
 		kcfg_StarColorIntensity->setEnabled( true );
 		
-	connect( ColorPalette, SIGNAL( clicked( QListBoxItem* ) ), this, SLOT( newColor( QListBoxItem* ) ) );
-	connect( kcfg_StarColorIntensity, SIGNAL( valueChanged( int ) ), this, SLOT( slotStarColorIntensity( int ) ) );
-	connect( kcfg_StarColorMode, SIGNAL( activated( int ) ), this, SLOT( slotStarColorMode( int ) ) );
-	connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
-	connect( AddPreset, SIGNAL( clicked() ), this, SLOT( slotAddPreset() ) );
-	connect( RemovePreset, SIGNAL( clicked() ), this, SLOT( slotRemovePreset() ) );
+	connect( ColorPalette, TQT_SIGNAL( clicked( TQListBoxItem* ) ), this, TQT_SLOT( newColor( TQListBoxItem* ) ) );
+	connect( kcfg_StarColorIntensity, TQT_SIGNAL( valueChanged( int ) ), this, TQT_SLOT( slotStarColorIntensity( int ) ) );
+	connect( kcfg_StarColorMode, TQT_SIGNAL( activated( int ) ), this, TQT_SLOT( slotStarColorMode( int ) ) );
+	connect( PresetBox, TQT_SIGNAL( highlighted( int ) ), this, TQT_SLOT( slotPreset( int ) ) );
+	connect( AddPreset, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotAddPreset() ) );
+	connect( RemovePreset, TQT_SIGNAL( clicked() ), this, TQT_SLOT( slotRemovePreset() ) );
 
 	RemovePreset->setEnabled( false );
 }
@@ -95,14 +95,14 @@ OpsColors::OpsColors( QWidget *p, const char *name, WFlags fl )
 //empty destructor
 OpsColors::~OpsColors() {}
 
-void OpsColors::newColor( QListBoxItem *item ) {
-	QPixmap pixmap( 30, 20 );
-	QColor NewColor;
+void OpsColors::newColor( TQListBoxItem *item ) {
+	TQPixmap pixmap( 30, 20 );
+	TQColor NewColor;
 	unsigned int i;
 
 	for ( i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
 		if ( item->text() == ksw->data()->colorScheme()->nameAt( i ) ) {
-			QColor col( ksw->data()->colorScheme()->colorAt( i ) );
+			TQColor col( ksw->data()->colorScheme()->colorAt( i ) );
 
 			if(KColorDialog::getColor( col )) NewColor = col;
 			break;
@@ -120,19 +120,19 @@ void OpsColors::newColor( QListBoxItem *item ) {
 }
 
 void OpsColors::slotPreset( int index ) {
-	QStringList::Iterator it = PresetFileList.at( index );
+	TQStringList::Iterator it = PresetFileList.at( index );
 	bool result = setColors( *it );
 	if (!result) {
-		QString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt." ).arg( QString(*it) );
+		TQString message = i18n( "The specified color scheme file (%1) could not be found, or was corrupt." ).arg( TQString(*it) );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Set Color Scheme" ) );
 	}
 }
 
-bool OpsColors::setColors( QString filename ) {
-	QPixmap *temp = new QPixmap( 30, 20 );
+bool OpsColors::setColors( TQString filename ) {
+	TQPixmap *temp = new TQPixmap( 30, 20 );
 
 	//just checking if colorscheme is removable...
-	QFile test;
+	TQFile test;
 	test.setName( locateLocal( "appdata", filename ) ); //try filename in local user KDE directory tree.
 	if ( test.exists() ) RemovePreset->setEnabled( true );
 	else RemovePreset->setEnabled( false );
@@ -149,7 +149,7 @@ bool OpsColors::setColors( QString filename ) {
 		ksw->map()->setStarColorIntensity( ksw->data()->colorScheme()->starColorIntensity() );
 
 	for ( unsigned int i=0; i < ksw->data()->colorScheme()->numberOfColors(); ++i ) {
-		temp->fill( QColor( ksw->data()->colorScheme()->colorAt( i ) ) );
+		temp->fill( TQColor( ksw->data()->colorScheme()->colorAt( i ) ) );
 		ColorPalette->changeItem( *temp, ksw->data()->colorScheme()->nameAt( i ), i );
 	}
 
@@ -159,72 +159,72 @@ bool OpsColors::setColors( QString filename ) {
 
 void OpsColors::slotAddPreset() {
 	bool okPressed = false;
-	QString schemename = KInputDialog::getText( i18n( "New Color Scheme" ),
+	TQString schemename = KInputDialog::getText( i18n( "New Color Scheme" ),
 						    i18n( "Enter a name for the new color scheme:" ),
-						    QString::null, &okPressed, 0 );
+						    TQString::null, &okPressed, 0 );
 
 	if ( okPressed && ! schemename.isEmpty() ) {
 		if ( ksw->data()->colorScheme()->save( schemename ) ) {
 			PresetBox->insertItem( schemename );
 			PresetBox->setCurrentItem( PresetBox->findItem( schemename ) );
-			QString fname = ksw->data()->colorScheme()->fileName();
+			TQString fname = ksw->data()->colorScheme()->fileName();
 			PresetFileList.append( fname );
-			ksw->addColorMenuItem( schemename, QString("cs_" + fname.left(fname.find(".colors"))).utf8() );
+			ksw->addColorMenuItem( schemename, TQString("cs_" + fname.left(fname.find(".colors"))).utf8() );
 		}
 	}
 }
 
 void OpsColors::slotRemovePreset() {
-	QString name = PresetBox->currentText();
-	QString filename = PresetFileList[ PresetBox->currentItem() ];
-	QFile cdatFile;
+	TQString name = PresetBox->currentText();
+	TQString filename = PresetFileList[ PresetBox->currentItem() ];
+	TQFile cdatFile;
 	cdatFile.setName( locateLocal( "appdata", "colors.dat" ) ); //determine filename in local user KDE directory tree.
 
 	//Remove action from color-schemes menu
-	ksw->removeColorMenuItem( QString("cs_" + filename.left( filename.find(".colors"))).utf8() );
+	ksw->removeColorMenuItem( TQString("cs_" + filename.left( filename.find(".colors"))).utf8() );
 
 	if ( !cdatFile.exists() || !cdatFile.open( IO_ReadWrite ) ) {
-		QString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
+		TQString message = i18n( "Local color scheme index file could not be opened.\nScheme cannot be removed." );
 		KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 	} else {
-		//Remove entry from the ListBox and from the QStringList holding filenames.
+		//Remove entry from the ListBox and from the TQStringList holding filenames.
 		//We don't want another color scheme to be selected, so first
 		//temporarily disconnect the "highlighted" signal.
-		disconnect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
+		disconnect( PresetBox, TQT_SIGNAL( highlighted( int ) ), this, TQT_SLOT( slotPreset( int ) ) );
 		PresetBox->removeItem( PresetBox->currentItem() );
 		PresetBox->setCurrentItem( -1 );
 		RemovePreset->setEnabled( false );
 		
 		//Reconnect the "highlighted" signal
-		connect( PresetBox, SIGNAL( highlighted( int ) ), this, SLOT( slotPreset( int ) ) );
+		connect( PresetBox, TQT_SIGNAL( highlighted( int ) ), this, TQT_SLOT( slotPreset( int ) ) );
 
-		//Read the contents of colors.dat into a QStringList, except for the entry to be removed.
-		QTextStream stream( &cdatFile );
-		QStringList slist;
+		//Read the contents of colors.dat into a TQStringList, except for the entry to be removed.
+		TQTextStream stream( &cdatFile );
+		TQStringList slist;
 		bool removed = false;
 
 		while ( !stream.eof() ) {
-			QString line = stream.readLine();
+			TQString line = stream.readLine();
 			if ( line.left( line.find(':') ) != name ) slist.append( line );
 			else removed = true;
 		}
 
 		if ( removed ) { //Entry was removed; delete the corresponding .colors file.
-			QFile colorFile;
+			TQFile colorFile;
 			colorFile.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.
 			if ( !colorFile.remove() ) {
-				QString message = i18n( "Could not delete the file: %1" ).arg( colorFile.name() );
+				TQString message = i18n( "Could not delete the file: %1" ).arg( colorFile.name() );
 				KMessageBox::sorry( 0, message, i18n( "Error Deleting File" ) );
 			}
 
 			//remove the old colors.dat file, and rebuild it with the modified string list.
 			cdatFile.remove();
 			cdatFile.open( IO_ReadWrite );
-			QTextStream stream2( &cdatFile );
+			TQTextStream stream2( &cdatFile );
 			for( unsigned int i=0; i<slist.count(); ++i )
 				stream << slist[i] << endl;
 		} else {
-			QString message = i18n( "Could not find an entry named %1 in colors.dat." ).arg( name );
+			TQString message = i18n( "Could not find an entry named %1 in colors.dat." ).arg( name );
 			KMessageBox::sorry( 0, message, i18n( "Scheme Not Found" ) );
 		}
 		cdatFile.close();

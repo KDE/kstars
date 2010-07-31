@@ -35,11 +35,11 @@
  #include <zlib.h>
  #include <stdlib.h>
  
- #include <qtimer.h>
- #include <qlabel.h>
- #include <qfont.h>
- #include <qeventloop.h>
- #include <qsocketnotifier.h>
+ #include <tqtimer.h>
+ #include <tqlabel.h>
+ #include <tqfont.h>
+ #include <tqeventloop.h>
+ #include <tqsocketnotifier.h>
  
  #include <klocale.h>
  #include <kdebug.h>
@@ -71,14 +71,14 @@
    streamWindow   	= new StreamWG(this, ksw);
    CCDPreviewWindow   	= new CCDPreviewWG(this, ksw);
 	 
-   devTimer 		= new QTimer(this);
+   devTimer 		= new TQTimer(this);
    seqLister		= new KDirLister();
    
    telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
    ksw->data()->appendTelescopeObject(telescopeSkyObject);
 	
-   connect( devTimer, SIGNAL(timeout()), this, SLOT(timerDone()) );
-   connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
+   connect( devTimer, TQT_SIGNAL(timeout()), this, TQT_SLOT(timerDone()) );
+   connect( seqLister, TQT_SIGNAL(newItems (const KFileItemList & )), this, TQT_SLOT(checkSeqBoundary(const KFileItemList &)));
    
    downloadDialog = new KProgressDialog(NULL, 0, i18n("INDI"), i18n("Downloading Data..."));
    downloadDialog->cancel();
@@ -96,7 +96,7 @@
    delete (seqLister);
  }
  
-void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString dataFormat)
+void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, TQString dataFormat)
 {
 
   if (dataFormat == ".fits") dataType = DATA_FITS;
@@ -124,7 +124,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
     char filename[256];
     FILE *fitsTempFile;
     int fd, nr, n=0;
-    QString currentDir = Options::fitsSaveDirectory();
+    TQString currentDir = Options::fitsSaveDirectory();
        
     streamWindow->close();
         
@@ -220,7 +220,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
    double fwhm;
    int d, m, y, min, sec, hour;
    ExtDate indiDate;
-   QTime indiTime;
+   TQTime indiTime;
    KStarsDateTime indiDateTime;
    
   switch (pp->stdID)
@@ -347,7 +347,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
     INDI_P *imgProp;
     KAction *tmpAction;
     INDIDriver *drivers = ksw->getINDIDriver();
-    QFont buttonFont;
+    TQFont buttonFont;
     
     switch (pp->stdID)
     {
@@ -441,11 +441,11 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
    
 }
  
- void INDIStdDevice::updateSequencePrefix(QString newPrefix)
+ void INDIStdDevice::updateSequencePrefix(TQString newPrefix)
  {
     seqPrefix = newPrefix;
     
-    seqLister->setNameFilter(QString("%1_*.fits").arg(seqPrefix));
+    seqLister->setNameFilter(TQString("%1_*.fits").arg(seqPrefix));
     
     seqCount = 0;
     
@@ -460,7 +460,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
  void INDIStdDevice::checkSeqBoundary(const KFileItemList & items)
  {
     int newFileIndex;
-    QString tempName;
+    TQString tempName;
     char *tempPrefix = new char[64];
     
     // No need to check when in ISO mode
@@ -506,10 +506,10 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, QString da
   
   if (!lp) return;
   
-  QTime newTime( ksw->data()->ut().time());
+  TQTime newTime( ksw->data()->ut().time());
   ExtDate newDate( ksw->data()->ut().date());
 
-  lp->write_w->setText(QString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
+  lp->write_w->setText(TQString("%1-%2-%3T%4:%5:%6").arg(newDate.year()).arg(newDate.month())
 					.arg(newDate.day()).arg(newTime.hour())
 					.arg(newTime.minute()).arg(newTime.second()));
   pp->newText();
@@ -543,8 +543,8 @@ void INDIStdDevice::updateLocation()
     longEle = pp->findElement("LONG");
     if (!longEle) return;
     
-    longEle->write_w->setText(QString("%1:%2:%3").arg(tempLong.degree()).arg(tempLong.arcmin()).arg(tempLong.arcsec()));
-    latEle->write_w->setText(QString("%1:%2:%3").arg(geo->lat()->degree()).arg(geo->lat()->arcmin()).arg(geo->lat()->arcsec()));
+    longEle->write_w->setText(TQString("%1:%2:%3").arg(tempLong.degree()).arg(tempLong.arcmin()).arg(tempLong.arcsec()));
+    latEle->write_w->setText(TQString("%1:%2:%3").arg(geo->lat()->degree()).arg(geo->lat()->arcmin()).arg(geo->lat()->arcsec()));
     
     pp->newText();
 }
@@ -554,7 +554,7 @@ void INDIStdDevice::updateLocation()
  {
    INDI_E * portEle;
    INDIDriver *drivers = ksw->getINDIDriver();
-   QString str;
+   TQString str;
  
    switch (pp->stdID)
    {
@@ -661,8 +661,8 @@ bool INDIStdDevice::handleNonSidereal()
   // then we take advantage of it. Otherwise, we send RA/DEC to the telescope and start a timer
   // based on the object type. Objects with high proper motions will require faster updates.
   // handle Non Sideral is ONLY called when tracking an object, not slewing.
-  INDI_P *prop = dp->findProp(QString("SOLAR_SYSTEM"));
-  INDI_P *setMode = dp->findProp(QString("ON_COORD_SET"));
+  INDI_P *prop = dp->findProp(TQString("SOLAR_SYSTEM"));
+  INDI_P *setMode = dp->findProp(TQString("ON_COORD_SET"));
 
   // If the device support it
   if (prop && setMode)
@@ -779,10 +779,10 @@ void INDIStdDevice::timerDone()
        DecEle = prop->findElement("DEC");
        if (!DecEle) return;
      
-       RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour())
+       RAEle->write_w->setText(TQString("%1:%2:%3").arg(sp.ra()->hour())
         						 .arg(sp.ra()->minute())
 							 .arg(sp.ra()->second()));
-        DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree())
+        DecEle->write_w->setText(TQString("%1:%2:%3").arg(sp.dec()->degree())
                                                          .arg(sp.dec()->arcmin())
 							 .arg(sp.dec()->arcsec()));
 	prop->newText();
@@ -928,8 +928,8 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
       	 if (useJ2000)
             sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
-    	   RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
-	   DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
+    	   RAEle->write_w->setText(TQString("%1:%2:%3").arg(sp.ra()->hour()).arg(sp.ra()->minute()).arg(sp.ra()->second()));
+	   DecEle->write_w->setText(TQString("%1:%2:%3").arg(sp.dec()->degree()).arg(sp.dec()->arcmin()).arg(sp.dec()->arcsec()));
 
           break;
 
@@ -945,8 +945,8 @@ INDIStdProperty::INDIStdProperty(INDI_P *associatedProperty, KStars * kswPtr, IN
            sp.setAlt(*ksw->map()->clickedPoint()->alt());
          }
 
-          AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
-          AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
+          AzEle->write_w->setText(TQString("%1:%2:%3").arg(sp.az()->degree()).arg(sp.az()->arcmin()).arg(sp.az()->arcsec()));
+          AltEle->write_w->setText(TQString("%1:%2:%3").arg(sp.alt()->degree()).arg(sp.alt()->arcmin()).arg(sp.alt()->arcsec()));
 
          break;
        }
@@ -1020,12 +1020,12 @@ void INDIStdProperty::newTime()
    
    TimeDialog timedialog ( ksw->data()->ut(), ksw );
 
-	if ( timedialog.exec() == QDialog::Accepted )
+	if ( timedialog.exec() == TQDialog::Accepted )
 	{
-		QTime newTime( timedialog.selectedTime() );
+		TQTime newTime( timedialog.selectedTime() );
 		ExtDate newDate( timedialog.selectedDate() );
 
-                timeEle->write_w->setText(QString("%1-%2-%3T%4:%5:%6")
+                timeEle->write_w->setText(TQString("%1-%2-%3T%4:%5:%6")
 					.arg(newDate.year()).arg(newDate.month())
 					.arg(newDate.day()).arg(newTime.hour())
 					.arg(newTime.minute()).arg(newTime.second()));

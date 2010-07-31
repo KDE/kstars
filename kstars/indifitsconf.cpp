@@ -17,20 +17,20 @@
 #include <kfiledialog.h>
 #include <klineedit.h>
 
-#include <qcheckbox.h>
-#include <qstringlist.h>
-#include <qcombobox.h>
+#include <tqcheckbox.h>
+#include <tqstringlist.h>
+#include <tqcombobox.h>
 
 #include "Options.h"
 
-INDIFITSConf::INDIFITSConf(QWidget* parent, const char* name, bool modal, WFlags fl)
+INDIFITSConf::INDIFITSConf(TQWidget* parent, const char* name, bool modal, WFlags fl)
 : INDIConf(parent,name, modal,fl)
 {
 
   KIconLoader *icons = KGlobal::iconLoader();
   selectDirB->setPixmap( icons->loadIcon( "fileopen", KIcon::Toolbar ) );
-  connect(selectDirB, SIGNAL(clicked()), this, SLOT(saveFITSDirectory()));
-  connect(filterCombo, SIGNAL(activated (int)), this, SLOT(comboUpdate(int)));
+  connect(selectDirB, TQT_SIGNAL(clicked()), this, TQT_SLOT(saveFITSDirectory()));
+  connect(filterCombo, TQT_SIGNAL(activated (int)), this, TQT_SLOT(comboUpdate(int)));
 }
 
 
@@ -42,7 +42,7 @@ INDIFITSConf::~INDIFITSConf()
 
 void INDIFITSConf::saveFITSDirectory()
 {
-  QString dir = KFileDialog::getExistingDirectory(fitsDIR_IN->text());
+  TQString dir = KFileDialog::getExistingDirectory(fitsDIR_IN->text());
   
   if (!dir.isEmpty())
   	fitsDIR_IN->setText(dir);
@@ -50,7 +50,7 @@ void INDIFITSConf::saveFITSDirectory()
 
 void INDIFITSConf::loadOptions()
 {
-   QStringList filterNumbers;
+   TQStringList filterNumbers;
    lastIndex = 0;
 
    filterNumbers << "0" << "1" << "2" << "3" << "4" << "5" << "6" << "7" << "8" << "9";
@@ -66,7 +66,7 @@ void INDIFITSConf::loadOptions()
 
    if (Options::fitsSaveDirectory().isEmpty())
    {
-     fitsDIR_IN->setText (QDir:: homeDirPath());
+     fitsDIR_IN->setText (TQDir:: homeDirPath());
      Options::setFitsSaveDirectory( fitsDIR_IN->text());
    }
    else

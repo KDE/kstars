@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qregexp.h>
-#include <qdir.h>
-#include <qfile.h>
+#include <tqregexp.h>
+#include <tqdir.h>
+#include <tqfile.h>
 
 #include <kapplication.h>
 #include <kmessagebox.h>
@@ -55,9 +55,9 @@
 #include "csegment.h"
 #include "customcatalog.h"
 
-QPtrList<GeoLocation> KStarsData::geoList = QPtrList<GeoLocation>();
-QMap<QString, TimeZoneRule> KStarsData::Rulebook = QMap<QString, TimeZoneRule>();
-QStringList KStarsData::CustomColumns = QStringList::split( " ", "ID RA Dc Tp Nm Mg Mj Mn PA Ig" );
+TQPtrList<GeoLocation> KStarsData::geoList = TQPtrList<GeoLocation>();
+TQMap<TQString, TimeZoneRule> KStarsData::Rulebook = TQMap<TQString, TimeZoneRule>();
+TQStringList KStarsData::CustomColumns = TQStringList::split( " ", "ID RA Dc Tp Nm Mg Mj Mn PA Ig" );
 int KStarsData::objects = 0;
 
 KStarsData::KStarsData() : stdDirs(0), locale(0), 
@@ -75,8 +75,8 @@ KStarsData::KStarsData() : stdDirs(0), locale(0),
 
 	//Check to see if config file already exists.  If not, set 
 	//useDefaultOptions = true
-	QString fname = locateLocal( "config", "kstarsrc" );
-	useDefaultOptions = ! ( QFile(fname).exists() );
+	TQString fname = locateLocal( "config", "kstarsrc" );
+	useDefaultOptions = ! ( TQFile(fname).exists() );
 
 	//Instantiate LST and HourAngle
 	LST = new dms();
@@ -163,10 +163,10 @@ KStarsData::~KStarsData() {
 }
 
 bool KStarsData::readMWData( void ) {
-	QFile file;
+	TQFile file;
 
 	for ( unsigned int i=0; i<11; ++i ) {
-		QString snum, fname, szero;
+		TQString snum, fname, szero;
 		snum = snum.setNum( i+1 );
 		if ( i+1 < 10 ) szero = "0"; else szero = "";
 		fname = "mw" + szero + snum + ".dat";
@@ -174,7 +174,7 @@ bool KStarsData::readMWData( void ) {
 		if ( KSUtils::openDataFile( file, fname ) ) {
 			KSFileReader fileReader( file ); // close file is included
 			while ( fileReader.hasMoreLines() ) {
-				QString line;
+				TQString line;
 				double ra, dec;
 
 				line = fileReader.readLine();
@@ -195,18 +195,18 @@ bool KStarsData::readMWData( void ) {
 bool KStarsData::readADVTreeData(void)
 {
 
-  QFile file;
-  QString Interface;
+  TQFile file;
+  TQString Interface;
 
   if (!KSUtils::openDataFile(file, "advinterface.dat"))
    return false;
 
-   QTextStream stream(&file);
-   QString Line;
+   TQTextStream stream(&file);
+   TQString Line;
 
   while  (!stream.atEnd())
   {
-    QString Name, Link, subName;
+    TQString Name, Link, subName;
     int Type, interfaceIndex;
 
     Line = stream.readLine();
@@ -236,7 +236,7 @@ bool KStarsData::readADVTreeData(void)
          subName = Name;
          interfaceIndex = Link.find("KSINTERFACE");
          Link.remove(interfaceIndex, 11);
-         Link = Link.insert(interfaceIndex, subName.replace( QRegExp(" "), "+"));
+         Link = Link.insert(interfaceIndex, subName.replace( TQRegExp(" "), "+"));
 
        }
 
@@ -260,9 +260,9 @@ bool KStarsData::readADVTreeData(void)
 
 bool KStarsData::readVARData(void)
 {
-  QString varFile("valaav.txt");
-  QFile localeFile;
-  QFile file;
+  TQString varFile("valaav.txt");
+  TQFile localeFile;
+  TQFile file;
 
   file.setName( locateLocal( "appdata", varFile ) );
 		if ( !file.open( IO_ReadOnly ) )
@@ -275,8 +275,8 @@ bool KStarsData::readVARData(void)
 
 				if (localeFile.open(IO_WriteOnly))
 				{
-				    QTextStream readStream(&file);
-				    QTextStream writeStream(&localeFile);
+				    TQTextStream readStream(&file);
+				    TQTextStream writeStream(&localeFile);
 				    writeStream <<  readStream.read();
 				    localeFile.close();
 				    file.reset();
@@ -287,19 +287,19 @@ bool KStarsData::readVARData(void)
 		}
 
 
-   QTextStream stream(&file);
+   TQTextStream stream(&file);
 
   stream.readLine();
 
   while  (!stream.atEnd())
   {
-    QString Name;
-    QString Designation;
-    QString Line;
+    TQString Name;
+    TQString Designation;
+    TQString Line;
 
     Line = stream.readLine();
 
-    if (Line[0] == QChar('*'))
+    if (Line[0] == TQChar('*'))
      break;
 
     Designation = Line.mid(0,8).stripWhiteSpace();
@@ -319,9 +319,9 @@ bool KStarsData::readVARData(void)
 
 bool KStarsData::readINDIHosts(void)
 {
-  QString indiFile("indihosts.xml");
-  QFile localeFile;
-  QFile file;
+  TQString indiFile("indihosts.xml");
+  TQFile localeFile;
+  TQFile file;
   char errmsg[1024];
   signed char c;
   LilXML *xmlParser = newLilXML();
@@ -348,7 +348,7 @@ bool KStarsData::readINDIHosts(void)
 
        INDIHostsInfo *VInfo = new INDIHostsInfo;
 
-       VInfo->name = QString(valuXMLAtt(ap));
+       VInfo->name = TQString(valuXMLAtt(ap));
 
       // Get host name
       ap = findXMLAtt(root, "hostname");
@@ -358,7 +358,7 @@ bool KStarsData::readINDIHosts(void)
 	return false;
       }
 
-    VInfo->hostname = QString(valuXMLAtt(ap));
+    VInfo->hostname = TQString(valuXMLAtt(ap));
 
     ap = findXMLAtt(root, "port");
 
@@ -367,7 +367,7 @@ bool KStarsData::readINDIHosts(void)
       return false;
     }
 
-    VInfo->portnumber = QString(valuXMLAtt(ap));
+    VInfo->portnumber = TQString(valuXMLAtt(ap));
 
     VInfo->isConnected = false;
     VInfo->mgrID = -1;
@@ -394,7 +394,7 @@ bool KStarsData::readCLineData( void ) {
 	//of abbreviated genetive star names in the same format as they 
 	//appear in the star data files (hipNNN.dat).  
 	//
-	//Each constellation consists of a QPtrList of SkyPoints, 
+	//Each constellation consists of a TQPtrList of SkyPoints, 
 	//corresponding to the stars at each "node" of the constellation.
 	//These are pointers to the starobjects themselves, so the nodes 
 	//will automatically be fixed to the stars even as the star 
@@ -402,13 +402,13 @@ bool KStarsData::readCLineData( void ) {
 	//has a corresponding flag that determines whether a line should 
 	//connect this node and the previous one.
 	
-	QFile file;
+	TQFile file;
 	if ( KSUtils::openDataFile( file, "clines.dat" ) ) {
-	  QTextStream stream( &file );
+	  TQTextStream stream( &file );
 
 		while ( !stream.eof() ) {
-			QString line, name;
-			QChar *mode;
+			TQString line, name;
+			TQChar *mode;
 
 			line = stream.readLine();
 
@@ -426,7 +426,7 @@ bool KStarsData::readCLineData( void ) {
 						starFound = true;
 						clineList.append( (SkyPoint *)( oname->skyObject() ) );
 						
-						mode = new QChar( line.at( 0 ) );
+						mode = new TQChar( line.at( 0 ) );
 						clineModeList.append( mode );
 						break;
 					}
@@ -445,16 +445,16 @@ bool KStarsData::readCLineData( void ) {
 }
 
 bool KStarsData::readCNameData( void ) {
-	QFile file;
+	TQFile file;
 	cnameFile = "cnames.dat";
 
 	if ( KSUtils::openDataFile( file, cnameFile ) ) {
-		QTextStream stream( &file );
+		TQTextStream stream( &file );
 
 		while ( !stream.eof() ) {
-			QString line, name, abbrev;
+			TQString line, name, abbrev;
 			int rah, ram, ras, dd, dm, ds;
-			QChar sgn;
+			TQChar sgn;
 
 			line = stream.readLine();
 
@@ -488,14 +488,14 @@ bool KStarsData::readCNameData( void ) {
 }
 
 bool KStarsData::readCBoundData( void ) {
-	QFile file;
+	TQFile file;
 
 	if ( KSUtils::openDataFile( file, "cbound.dat" ) ) {
-		QTextStream stream( &file );
+		TQTextStream stream( &file );
 
 		unsigned int nn(0);
 		double ra(0.0), dec(0.0);
-		QString d1, d2;
+		TQString d1, d2;
 		bool ok(false), comment(false);
 		
 		//read the stream one field at a time.  Individual segments can span
@@ -564,9 +564,9 @@ bool KStarsData::readCBoundData( void ) {
 
 bool KStarsData::openStarFile( int i ) {
 	if (starFileReader != 0) delete starFileReader;
-	QFile file;
-	QString snum, fname;
-	snum = QString().sprintf("%03d", i);
+	TQFile file;
+	TQString snum, fname;
+	snum = TQString().sprintf("%03d", i);
 	fname = "hip" + snum + ".dat";
 	if (KSUtils::openDataFile(file, fname)) {
 		starFileReader = new KSFileReader(file); // close file is included
@@ -588,7 +588,7 @@ bool KStarsData::readStarData( void ) {
 		
 		if (openStarFile(i) == true) {
 			while (starFileReader->hasMoreLines()) {
-				QString line;
+				TQString line;
 				float mag;
 
 				line = starFileReader->readLine();
@@ -619,11 +619,11 @@ bool KStarsData::readStarData( void ) {
 	return true;
 }
 
-void KStarsData::processStar( QString *line, bool reloadMode ) {
-	QString name, gname, SpType;
+void KStarsData::processStar( TQString *line, bool reloadMode ) {
+	TQString name, gname, SpType;
 	int rah, ram, ras, ras2, dd, dm, ds, ds2;
 	bool mult, var;
-	QChar sgn;
+	TQChar sgn;
 	double mag, bv, dmag, vper;
 	double pmra, pmdec, plx;
 
@@ -703,13 +703,13 @@ void KStarsData::processStar( QString *line, bool reloadMode ) {
 }
 
 bool KStarsData::readAsteroidData( void ) {
-	QFile file;
+	TQFile file;
 
 	if ( KSUtils::openDataFile( file, "asteroids.dat" ) ) {
 		KSFileReader fileReader( file );
 
 		while( fileReader.hasMoreLines() ) {
-			QString line, name;
+			TQString line, name;
 			int mJD;
 			double a, e, dble_i, dble_w, dble_N, dble_M, H;
 			long double JD;
@@ -741,13 +741,13 @@ bool KStarsData::readAsteroidData( void ) {
 }
 
 bool KStarsData::readCometData( void ) {
-	QFile file;
+	TQFile file;
 
 	if ( KSUtils::openDataFile( file, "comets.dat" ) ) {
 		KSFileReader fileReader( file );
 
 		while( fileReader.hasMoreLines() ) {
-			QString line, name;
+			TQString line, name;
 			int mJD;
 			double q, e, dble_i, dble_w, dble_N, Tp;
 			long double JD;
@@ -781,11 +781,11 @@ bool KStarsData::readCometData( void ) {
 
 //02/2003: NEW: split data files, using Heiko's new KSFileReader.
 bool KStarsData::readDeepSkyData( void ) {
-	QFile file;
+	TQFile file;
 
 	for ( unsigned int i=0; i<NNGCFILES; ++i ) {
-		QString snum, fname;
-		snum = QString().sprintf( "%02d", i+1 );
+		TQString snum, fname;
+		snum = TQString().sprintf( "%02d", i+1 );
 		fname = "ngcic" + snum + ".dat";
 
 		emit progressText( i18n( "Loading NGC/IC Data (%1%)" ).arg( int(100.*float(i)/float(NNGCFILES)) ) );
@@ -793,12 +793,12 @@ bool KStarsData::readDeepSkyData( void ) {
 		if ( KSUtils::openDataFile( file, fname ) ) {
 			KSFileReader fileReader( file ); // close file is included
 			while ( fileReader.hasMoreLines() ) {
-				QString line, con, ss, name, name2, longname;
-				QString cat, cat2;
+				TQString line, con, ss, name, name2, longname;
+				TQString cat, cat2;
 				float mag(1000.0), ras, a, b;
 				int type, ingc, imess(-1), rah, ram, dd, dm, ds, pa;
 				int pgc, ugc;
-				QChar sgn, iflag;
+				TQChar sgn, iflag;
 
 				line = fileReader.readLine();
 				//Ignore comment lines
@@ -867,7 +867,7 @@ bool KStarsData::readDeepSkyData( void ) {
 
 				if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
 
-//				QString snum;
+//				TQString snum;
 				if ( cat=="IC" || cat=="NGC" ) {
 					snum.setNum( ingc );
 					name = cat + " " + snum;
@@ -923,11 +923,11 @@ bool KStarsData::readDeepSkyData( void ) {
 	return true;
 }
 
-bool KStarsData::openURLFile(QString urlfile, QFile & file) {
-	//QFile file;
-	QString localFile;
+bool KStarsData::openURLFile(TQString urlfile, TQFile & file) {
+	//TQFile file;
+	TQString localFile;
 	bool fileFound = false;
-	QFile localeFile;
+	TQFile localeFile;
 
 	if ( locale->language() != "en_US" )
 		localFile = locale->language() + "/" + urlfile;
@@ -941,27 +941,27 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 			//local file found.  Now, if global file has newer timestamp, then merge the two files.
 			//First load local file into QStringList
 			bool newDataFound( false );
-			QStringList urlData;
-			QTextStream lStream( &file );
+			TQStringList urlData;
+			TQTextStream lStream( &file );
 			while ( ! lStream.eof() ) urlData.append( lStream.readLine() );
 
 			//Find global file(s) in findAllResources() list.
-			QFileInfo fi_local( file.name() );
-			QStringList flist = KGlobal::instance()->dirs()->findAllResources( "appdata", urlfile );
+			TQFileInfo fi_local( file.name() );
+			TQStringList flist = KGlobal::instance()->dirs()->findAllResources( "appdata", urlfile );
 			for ( unsigned int i=0; i< flist.count(); i++ ) {
 				if ( flist[i] != file.name() ) {
-					QFileInfo fi_global( flist[i] );
+					TQFileInfo fi_global( flist[i] );
 
 					//Is this global file newer than the local file?
 					if ( fi_global.lastModified() > fi_local.lastModified() ) {
 						//Global file has newer timestamp than local.  Add lines in global file that don't already exist in local file.
 						//be smart about this; in some cases the URL is updated but the image is probably the same if its
 						//label string is the same.  So only check strings up to last ":"
-						QFile globalFile( flist[i] );
+						TQFile globalFile( flist[i] );
 						if ( globalFile.open( IO_ReadOnly ) ) {
-							QTextStream gStream( &globalFile );
+							TQTextStream gStream( &globalFile );
 							while ( ! gStream.eof() ) {
-								QString line = gStream.readLine();
+								TQString line = gStream.readLine();
 
 								//If global-file line begins with "XXX:" then this line should be removed from the local file.
 								if ( line.left( 4 ) == "XXX:"  && urlData.contains( line.mid( 4 ) ) ) {
@@ -996,7 +996,7 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 			//(possibly) write appended local file
 			if ( newDataFound ) {
 				if ( file.open( IO_WriteOnly ) ) {
-					QTextStream outStream( &file );
+					TQTextStream outStream( &file );
 					for ( unsigned int i=0; i<urlData.count(); i++ ) {
 						outStream << urlData[i] << endl;
 					}
@@ -1012,10 +1012,10 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 				// we found urlfile, we need to copy it to locale
 				localeFile.setName( locateLocal( "appdata", urlfile ) );
 				if (localeFile.open(IO_WriteOnly)) {
-					QTextStream readStream(&file);
-					QTextStream writeStream(&localeFile);
+					TQTextStream readStream(&file);
+					TQTextStream writeStream(&localeFile);
 					while ( ! readStream.eof() ) {
-						QString line = readStream.readLine();
+						TQString line = readStream.readLine();
 						if ( line.left( 4 ) != "XXX:" ) //do not write "deleted" lines
 							writeStream << line << endl;
 					}
@@ -1034,13 +1034,13 @@ bool KStarsData::openURLFile(QString urlfile, QFile & file) {
 
 bool KStarsData::readUserLog(void)
 {
-	QFile file;
-	QString buffer;
-	QString sub, name, data;
+	TQFile file;
+	TQString buffer;
+	TQString sub, name, data;
 
 	if (!KSUtils::openDataFile( file, "userlog.dat" )) return false;
 
-	QTextStream stream(&file);
+	TQTextStream stream(&file);
 
 	if (!stream.eof()) buffer = stream.read();
 
@@ -1073,21 +1073,21 @@ bool KStarsData::readUserLog(void)
 	return true;
 }
 
-bool KStarsData::readURLData( QString urlfile, int type, bool deepOnly ) {
-	QFile file;
+bool KStarsData::readURLData( TQString urlfile, int type, bool deepOnly ) {
+	TQFile file;
 	if (!openURLFile(urlfile, file)) return false;
 
-	QTextStream stream(&file);
+	TQTextStream stream(&file);
 
 	while ( !stream.eof() ) {
-		QString line = stream.readLine();
+		TQString line = stream.readLine();
 
 		//ignore comment lines
 		if ( line.left(1) != "#" ) {
-			QString name = line.mid( 0, line.find(':') );
-			QString sub = line.mid( line.find(':')+1 );
-			QString title = sub.mid( 0, sub.find(':') );
-			QString url = sub.mid( sub.find(':')+1 );
+			TQString name = line.mid( 0, line.find(':') );
+			TQString sub = line.mid( line.find(':')+1 );
+			TQString title = sub.mid( 0, sub.find(':') );
+			TQString url = sub.mid( sub.find(':')+1 );
 	
 			SkyObjectName *sonm = ObjNames.find(name);
 			
@@ -1121,7 +1121,7 @@ bool KStarsData::readCustomCatalogs() {
 	return result;
 }
 
-bool KStarsData::addCatalog( QString filename ) {
+bool KStarsData::addCatalog( TQString filename ) {
 	CustomCatalog *newCat = createCustomCatalog( filename, false );
 	if ( newCat ) {
 		CustomCatalogs.append( newCat );
@@ -1150,7 +1150,7 @@ bool KStarsData::addCatalog( QString filename ) {
 bool KStarsData::removeCatalog( int i ) {
 	if ( ! CustomCatalogs.at(i) ) return false;
 
-	QPtrList<SkyObject> cat = CustomCatalogs.at(i)->objList();
+	TQPtrList<SkyObject> cat = CustomCatalogs.at(i)->objList();
 
 	for ( SkyObject *o=cat.first(); o; o=cat.next() ) {
 		ObjNames.remove( o->name() );
@@ -1163,35 +1163,35 @@ bool KStarsData::removeCatalog( int i ) {
 	return true;
 }
 
-CustomCatalog* KStarsData::createCustomCatalog( QString filename, bool showerrs ) {
-	QDir::setCurrent( QDir::homeDirPath() );  //for files with relative path
-	QPtrList<SkyObject> objList;
-	QString CatalogName, CatalogPrefix, CatalogColor;
+CustomCatalog* KStarsData::createCustomCatalog( TQString filename, bool showerrs ) {
+	TQDir::setCurrent( TQDir::homeDirPath() );  //for files with relative path
+	TQPtrList<SkyObject> objList;
+	TQString CatalogName, CatalogPrefix, CatalogColor;
 	float CatalogEpoch;
 
 	//If the filename begins with "~", replace the "~" with the user's home directory
 	//(otherwise, the file will not successfully open)
 	if ( filename.at(0)=='~' )
-		filename = QDir::homeDirPath() + filename.mid( 1, filename.length() );
-	QFile ccFile( filename );
+		filename = TQDir::homeDirPath() + filename.mid( 1, filename.length() );
+	TQFile ccFile( filename );
 
 	if ( ccFile.open( IO_ReadOnly ) ) {
 		int iStart(0); //the line number of the first non-header line
-		QStringList errs; //list of error messages 
-		QStringList Columns; //list of data column descriptors in the header
+		TQStringList errs; //list of error messages 
+		TQStringList Columns; //list of data column descriptors in the header
 
-		QTextStream stream( &ccFile );
-		QStringList lines = QStringList::split( "\n", stream.read() );
+		TQTextStream stream( &ccFile );
+		TQStringList lines = TQStringList::split( "\n", stream.read() );
 
 		if ( parseCustomDataHeader( lines, Columns, CatalogName, CatalogPrefix, 
 				CatalogColor, CatalogEpoch, iStart, showerrs, errs ) ) {
 	
-			QStringList::Iterator it = lines.begin();
-			QStringList::Iterator itEnd  = lines.end();
+			TQStringList::Iterator it = lines.begin();
+			TQStringList::Iterator itEnd  = lines.end();
 			it += iStart; //jump ahead past header
 		
 			for ( uint i=iStart; i < lines.count(); i++ ) {
-				QStringList d = QStringList::split( " ", lines[i] );
+				TQStringList d = TQStringList::split( " ", lines[i] );
 	
 				//Now, if one of the columns is the "Name" field, the name may contain spaces.
 				//In this case, the name field will need to be surrounded by quotes.  
@@ -1227,7 +1227,7 @@ CustomCatalog* KStarsData::createCustomCatalog( QString filename, bool showerrs 
 
 		if ( objList.count() ) {
 			if ( errs.count() > 0 ) { //some data parsed, but there are errs to report
-				QString message( i18n( "Some lines in the custom catalog could not be parsed; see error messages below." ) + "\n" +
+				TQString message( i18n( "Some lines in the custom catalog could not be parsed; see error messages below." ) + "\n" +
 												i18n( "To reject the file, press Cancel. " ) +
 												i18n( "To accept the file (ignoring unparsed lines), press Accept." ) );
 				if ( KMessageBox::warningContinueCancelList( 0, message, errs,
@@ -1237,7 +1237,7 @@ CustomCatalog* KStarsData::createCustomCatalog( QString filename, bool showerrs 
 			}
 		} else { //objList.count() == 0
 			if ( showerrs ) {
-				QString message( i18n( "No lines could be parsed from the specified file, see error messages below." ) );
+				TQString message( i18n( "No lines could be parsed from the specified file, see error messages below." ) );
 				KMessageBox::informationList( 0, message, errs,
 						i18n( "No Valid Data Found in File" ) );
 			}
@@ -1260,14 +1260,14 @@ CustomCatalog* KStarsData::createCustomCatalog( QString filename, bool showerrs 
 }
 
 
-bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Columns, 
-		QString Prefix, QPtrList<SkyObject> &objList, bool showerrs, QStringList &errs ) {
+bool KStarsData::processCustomDataLine( int lnum, TQStringList d, TQStringList Columns, 
+		TQString Prefix, TQPtrList<SkyObject> &objList, bool showerrs, TQStringList &errs ) {
 
 	//object data
 	unsigned char iType(0);
 	dms RA, Dec;
 	float mag(0.0), a(0.0), b(0.0), PA(0.0);
-	QString name(""); QString lname("");
+	TQString name(""); TQString lname("");
 
 	for ( uint i=0; i<Columns.count(); i++ ) {
 		if ( Columns[i] == "ID" ) 
@@ -1370,22 +1370,22 @@ bool KStarsData::processCustomDataLine( int lnum, QStringList d, QStringList Col
 	return true;
 }
 
-bool KStarsData::parseCustomDataHeader( QStringList lines, QStringList &Columns, 
-			QString &CatalogName, QString &CatalogPrefix, QString &CatalogColor, float &CatalogEpoch,
-			int &iStart, bool showerrs, QStringList &errs ) {
+bool KStarsData::parseCustomDataHeader( TQStringList lines, TQStringList &Columns, 
+			TQString &CatalogName, TQString &CatalogPrefix, TQString &CatalogColor, float &CatalogEpoch,
+			int &iStart, bool showerrs, TQStringList &errs ) {
 
 	bool foundDataColumns( false ); //set to true if description of data columns found
 	int ncol( 0 );
 
-	QStringList::Iterator it = lines.begin();
-	QStringList::Iterator itEnd  = lines.end();
+	TQStringList::Iterator it = lines.begin();
+	TQStringList::Iterator itEnd  = lines.end();
 
 	CatalogName = "";
 	CatalogPrefix = "";
 	CatalogColor = "";
 	CatalogEpoch = 0.;
 	for ( ; it != itEnd; it++ ) {
-		QString d( *it ); //current data line
+		TQString d( *it ); //current data line
 		if ( d.left(1) != "#" ) break;  //no longer in header!
 
 		int iname   = d.find( "# Name: " );
@@ -1438,20 +1438,20 @@ bool KStarsData::parseCustomDataHeader( QStringList lines, QStringList &Columns,
 			}
 		} else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
 			//Chomp off leading "#" character
-			d = d.replace( QRegExp( "#" ), "" );
+			d = d.replace( TQRegExp( "#" ), "" );
 
-			QStringList fields = QStringList::split( " ", d ); //split on whitespace
+			TQStringList fields = TQStringList::split( " ", d ); //split on whitespace
 
 			//we need a copy of the master list of data fields, so we can 
 			//remove fields from it as they are encountered in the "fields" list.
 			//this allows us to detect duplicate entries
-			QStringList master( KStarsData::CustomColumns ); 
+			TQStringList master( KStarsData::CustomColumns ); 
 
-			QStringList::Iterator itf    = fields.begin();
-			QStringList::Iterator itfEnd = fields.end();
+			TQStringList::Iterator itf    = fields.begin();
+			TQStringList::Iterator itfEnd = fields.end();
 
 			for ( ; itf != itfEnd; itf++ ) {
-				QString s( *itf );
+				TQString s( *itf );
 				if ( master.contains( s ) ) {
 					//add the data field
 					Columns.append( s );
@@ -1514,15 +1514,15 @@ bool KStarsData::parseCustomDataHeader( QStringList lines, QStringList &Columns,
 		}
 
 		//the it iterator now points to the first line past the header
-		iStart = lines.findIndex( QString( *it ) );
+		iStart = lines.findIndex( TQString( *it ) );
 		return true;
 	}
 }
 
-bool KStarsData::processCity( QString& line ) {
-	QString totalLine;
-	QString name, province, country;
-	QStringList fields;
+bool KStarsData::processCity( TQString& line ) {
+	TQString totalLine;
+	TQString name, province, country;
+	TQStringList fields;
 	TimeZoneRule *TZrule;
 	bool intCheck = true;
 	char latsgn, lngsgn;
@@ -1534,7 +1534,7 @@ bool KStarsData::processCity( QString& line ) {
 	totalLine = line;
 
 	// separate fields
-	fields = QStringList::split( ":", line );
+	fields = TQStringList::split( ":", line );
 
 	for ( unsigned int i=0; i< fields.count(); ++i )
 		fields[i] = fields[i].stripWhiteSpace();
@@ -1574,7 +1574,7 @@ bool KStarsData::processCity( QString& line ) {
 		return false;
 	}
 
-	QChar ctemp = fields[6].at(0);
+	TQChar ctemp = fields[6].at(0);
 	latsgn = ctemp;
 	if (latsgn != 'N' && latsgn != 'S') {
 		kdDebug() << latsgn << i18n( "\nCities.dat: Invalid latitude sign.  Line was:\n" ) << totalLine << endl;
@@ -1635,20 +1635,20 @@ bool KStarsData::processCity( QString& line ) {
 }
 
 bool KStarsData::readTimeZoneRulebook( void ) {
-	QFile file;
-	QString id;
+	TQFile file;
+	TQString id;
 
 	if ( KSUtils::openDataFile( file, "TZrules.dat" ) ) {
-		QTextStream stream( &file );
+		TQTextStream stream( &file );
 
 		while ( !stream.eof() ) {
-			QString line = stream.readLine().stripWhiteSpace();
+			TQString line = stream.readLine().stripWhiteSpace();
 			if ( line.left(1) != "#" && line.length() ) { //ignore commented and blank lines
-				QStringList fields = QStringList::split( " ", line );
+				TQStringList fields = TQStringList::split( " ", line );
 				id = fields[0];
-				QTime stime = QTime( fields[3].left( fields[3].find(':')).toInt() ,
+				TQTime stime = TQTime( fields[3].left( fields[3].find(':')).toInt() ,
 								fields[3].mid( fields[3].find(':')+1, fields[3].length()).toInt() );
-				QTime rtime = QTime( fields[6].left( fields[6].find(':')).toInt(),
+				TQTime rtime = TQTime( fields[6].left( fields[6].find(':')).toInt(),
 								fields[6].mid( fields[6].find(':')+1, fields[6].length()).toInt() );
 
 				Rulebook[ id ] = TimeZoneRule( fields[1], fields[2], stime, fields[4], fields[5], rtime );
@@ -1661,7 +1661,7 @@ bool KStarsData::readTimeZoneRulebook( void ) {
 }
 
 bool KStarsData::readCityData( void ) {
-	QFile file;
+	TQFile file;
 	bool citiesFound = false;
 
 // begin new code
@@ -1676,10 +1676,10 @@ bool KStarsData::readCityData( void ) {
 	//check for local cities database, but don't require it.
 	file.setName( locate( "appdata", "mycities.dat" ) ); //determine filename in local user KDE directory tree.
 	if ( file.exists() && file.open( IO_ReadOnly ) ) {
-		QTextStream stream( &file );
+		TQTextStream stream( &file );
 
   	while ( !stream.eof() ) {
-			QString line = stream.readLine();
+			TQString line = stream.readLine();
 			citiesFound |= processCity( line );
 		}	// while ( !stream.eof() )
 		file.close();
@@ -1698,11 +1698,11 @@ void KStarsData::setMagnitude( float newMagnitude, bool forceReload ) {
 		if (reloadingData() == false) {  // if not already reloading data
 			source = new FileSource(this, newMagnitude);
 			loader = new StarDataSink(this);
-			connect(loader, SIGNAL(done()), this, SLOT(checkDataPumpAction()));
-			connect(loader, SIGNAL(updateSkymap()), this, SLOT(updateSkymap()));
-			connect(loader, SIGNAL(clearCache()), this, SLOT(sendClearCache()));
+			connect(loader, TQT_SIGNAL(done()), this, TQT_SLOT(checkDataPumpAction()));
+			connect(loader, TQT_SIGNAL(updateSkymap()), this, TQT_SLOT(updateSkymap()));
+			connect(loader, TQT_SIGNAL(clearCache()), this, TQT_SLOT(sendClearCache()));
 			// start reloading
-			pump = new QDataPump (source, (QDataSink*) loader);
+			pump = new TQDataPump (source, (TQDataSink*) loader);
 		}
 	} /*else if ( newMagnitude < maxSetMagnitude ) {
 		StarObject *lastStar = starList.last();
@@ -1762,21 +1762,21 @@ void KStarsData::initialize() {
 	if (startupComplete) return;
 
 	initTimer = new QTimer;
-	QObject::connect(initTimer, SIGNAL(timeout()), this, SLOT( slotInitialize() ) );
+	TQObject::connect(initTimer, TQT_SIGNAL(timeout()), this, TQT_SLOT( slotInitialize() ) );
 	initCounter = 0;
 	initTimer->start(1);
 }
 
-void KStarsData::initError(QString s, bool required = false) {
-	QString message, caption;
+void KStarsData::initError(TQString s, bool required = false) {
+	TQString message, caption;
 	initTimer->stop();
 	if (required) {
 		message = i18n( "The file %1 could not be found. "
 				"KStars cannot run properly without this file. "
 				"To continue loading, place the file in one of the "
 				"following locations, then press Retry:\n\n" ).arg( s )
-				+ QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
-				+ QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s ) 
+				+ TQString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
+				+ TQString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s ) 
 				+ i18n( "Otherwise, press Cancel to shutdown." );
 		caption = i18n( "Critical File Not Found: %1" ).arg( s );
 	} else {
@@ -1784,8 +1784,8 @@ void KStarsData::initError(QString s, bool required = false) {
 				"KStars can still run without this file. "
 				"However, to avoid seeing this message in the future, you can "
 				"place the file in one of the following locations, then press Retry:\n\n" ).arg( s )
-				+ QString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
-				+ QString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
+				+ TQString( "\t$(KDEDIR)/share/apps/kstars/%1\n" ).arg( s )
+				+ TQString( "\t~/.kde/share/apps/kstars/%1\n\n" ).arg( s )
 				+ i18n( "Otherwise, press Cancel to continue loading without this file." ).arg( s );
 		caption = i18n( "Non-Critical File Not Found: %1" ).arg( s );
 	}
@@ -1805,8 +1805,8 @@ void KStarsData::initError(QString s, bool required = false) {
 }
 
 void KStarsData::slotInitialize() {
-	QFile imFile;
-	QString ImageName;
+	TQFile imFile;
+	TQString ImageName;
 
 	kapp->flush(); // flush all paint events before loading data
 
@@ -2154,7 +2154,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 
 		//Custom Catalogs
 		for ( unsigned int j=0; j< CustomCatalogs.count(); ++j ) {
-			QPtrList<SkyObject> cat = CustomCatalogs.at(j)->objList();
+			TQPtrList<SkyObject> cat = CustomCatalogs.at(j)->objList();
 			if ( Options::showCatalog()[j] ) {
                                  for ( SkyObject *o = cat.first(); o; o = cat.next() ) {
 					if (needNewCoords) o->updateCoords( &num );
@@ -2219,7 +2219,7 @@ void KStarsData::updateTime( GeoLocation *geo, SkyMap *skymap, const bool automa
 		skymap->updateFocus();
 
 		if ( clock()->isManualMode() )
-			QTimer::singleShot( 0, skymap, SLOT( forceUpdateNow() ) );
+			TQTimer::singleShot( 0, skymap, TQT_SLOT( forceUpdateNow() ) );
 		else skymap->forceUpdate();
 	}
 }
@@ -2236,7 +2236,7 @@ void KStarsData::setFullTimeUpdate() {
 }
 
 void KStarsData::setLocationFromOptions() {
-	QMap<QString, TimeZoneRule>::Iterator it = Rulebook.find( Options::dST() );
+	TQMap<TQString, TimeZoneRule>::Iterator it = Rulebook.find( Options::dST() );
 	setLocation( GeoLocation ( Options::longitude(), Options::latitude(), 
 			Options::cityName(), Options::provinceName(), Options::countryName(), 
 			Options::timeZone(), &(it.data()), 4, Options::elevation() ) );
@@ -2282,7 +2282,7 @@ void KStarsData::changeDateTime( const KStarsDateTime &newDate ) {
 	setNextDSTChange( geo()->tzrule()->nextDSTChange() );
 }
 
-SkyObject* KStarsData::objectNamed( const QString &name ) {
+SkyObject* KStarsData::objectNamed( const TQString &name ) {
 	if ( (name== "star") || (name== "nothing") || name.isEmpty() ) return NULL;
 	if ( name== Moon->name() ) return Moon;
 
@@ -2323,7 +2323,7 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
 
        //Custom catalogs. 
         for ( unsigned int i=0; i<CustomCatalogs.count(); ++i ) {
-                QPtrList<SkyObject> custCatObjs = CustomCatalogs.at(i)->objList();
+                TQPtrList<SkyObject> custCatObjs = CustomCatalogs.at(i)->objList();
                 for ( unsigned int j = 0; j < custCatObjs.count(); ++j ) {
                         if ( name==custCatObjs.at(j)->name() ) return custCatObjs.at(j);
                 }
@@ -2340,27 +2340,27 @@ SkyObject* KStarsData::objectNamed( const QString &name ) {
 //also, even functions that do make sense in this context have aspects that should
 //be modified or ignored.  For example, we don't need to call slotCenter() on recentering
 //commands, just setDestination().  (sltoCenter() does additional things that we dont need).
-bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
+bool KStarsData::executeScript( const TQString &scriptname, SkyMap *map ) {
 	int cmdCount(0);
 
-	QFile f( scriptname );
+	TQFile f( scriptname );
 	if ( !f.open( IO_ReadOnly) ) {
 		kdDebug() << i18n( "Could not open file %1" ).arg( f.name() ) << endl;
 		return false;
 	}
 
-	QTextStream istream(&f);
+	TQTextStream istream(&f);
 	while ( ! istream.eof() ) {
-		QString line = istream.readLine();
+		TQString line = istream.readLine();
 
 		//found a dcop line
 		if ( line.left(4) == "dcop" ) {
 			line = line.mid( 20 );  //strip away leading characters
-			QStringList fn = QStringList::split( " ", line );
+			TQStringList fn = TQStringList::split( " ", line );
 
 			if ( fn[0] == "lookTowards" && fn.count() >= 2 ) {
 				double az(-1.0);
-				QString arg = fn[1].lower();
+				TQString arg = fn[1].lower();
 				if ( arg == "n"  || arg == "north" )     az =   0.0;
 				if ( arg == "ne" || arg == "northeast" ) az =  45.0;
 				if ( arg == "e"  || arg == "east" )      az =  90.0;
@@ -2441,7 +2441,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 				if ( ok ) min = fn[5].toInt(&ok);
 				if ( ok ) sec = fn[6].toInt(&ok);
 				if ( ok ) {
-					changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), QTime(hr,min,sec) ) ) );
+					changeDateTime( geo()->LTtoUT( KStarsDateTime( ExtDate(yr, mth, day), TQTime(hr,min,sec) ) ) );
 					cmdCount++;
 				} else {
 					kdWarning() << i18n( "Could not set time: %1 / %2 / %3 ; %4:%5:%6" )
@@ -2539,7 +2539,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
 					cmdCount++;
 				}
 			} else if ( fn[0] == "setGeoLocation" && ( fn.count() == 3 || fn.count() == 4 ) ) {
-				QString city( fn[1] ), province( "" ), country( fn[2] );
+				TQString city( fn[1] ), province( "" ), country( fn[2] );
 				if ( fn.count() == 4 ) {
 					province = fn[2];
 					country = fn[3];
@@ -2576,8 +2576,8 @@ void KStarsData::appendTelescopeObject(SkyObject * object)
 void KStarsData::saveTimeBoxShaded( bool b ) { Options::setShadeTimeBox( b ); }
 void KStarsData::saveGeoBoxShaded( bool b ) { Options::setShadeGeoBox( b ); }
 void KStarsData::saveFocusBoxShaded( bool b ) { Options::setShadeFocusBox( b ); }
-void KStarsData::saveTimeBoxPos( QPoint p ) { Options::setPositionTimeBox( p ); }
-void KStarsData::saveGeoBoxPos( QPoint p ) { Options::setPositionGeoBox( p ); }
-void KStarsData::saveFocusBoxPos( QPoint p ) { Options::setPositionFocusBox( p ); }
+void KStarsData::saveTimeBoxPos( TQPoint p ) { Options::setPositionTimeBox( p ); }
+void KStarsData::saveGeoBoxPos( TQPoint p ) { Options::setPositionGeoBox( p ); }
+void KStarsData::saveFocusBoxPos( TQPoint p ) { Options::setPositionFocusBox( p ); }
 
 #include "kstarsdata.moc"

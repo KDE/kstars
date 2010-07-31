@@ -21,8 +21,8 @@
 #ifndef MAPCANVAS_H
 #define MAPCANVAS_H
 
-#include <qwidget.h>
-#include <qpoint.h>
+#include <tqwidget.h>
+#include <tqpoint.h>
 
 /**@class MapCanvas
 	*Used in LocationDialog for displaying a map of the Earth.
@@ -36,22 +36,22 @@
 
 class QPixmap;
 
-class MapCanvas : public QWidget  {
+class MapCanvas : public TQWidget  {
 	Q_OBJECT
 public: 
 	/**Default constructor.  Initialize the widget: create pixmaps, load the
 		*world map bitmap, set pointers to the main window and the
 		*LocationDialog parent.
 		*/
-	MapCanvas(QWidget *parent=0, const char *name=0);
+	MapCanvas(TQWidget *parent=0, const char *name=0);
 	/**Destructor (empty)
 		*/
 	~MapCanvas();
 	
 public slots:
-	/**Set the geometry of the map widget (overloaded from QWidget).
+	/**Set the geometry of the map widget (overloaded from TQWidget).
 		*Resizes the size of the map pixmap to match the widget, and resets
-		*the Origin QPoint so it remains at the center of the widget.
+		*the Origin TQPoint so it remains at the center of the widget.
 		*@note this is called automatically by resize events.
 		*@p x the x-position of the widget
 		*@p y the y-position of the widget
@@ -60,15 +60,15 @@ public slots:
 		*/
 	virtual void setGeometry( int x, int y, int w, int h );
 	
-	/**Set the geometry of the map widget (overloaded from QWidget).
+	/**Set the geometry of the map widget (overloaded from TQWidget).
 		*Resizes the size of the map pixmap to match the widget, and resets
-		*the Origin QPoint so it remains at the center of the widget.
+		*the Origin TQPoint so it remains at the center of the widget.
 		*This function behaves just like the above function.  It differs
 		*only in the data type of its argument.
 		*@note this is called automatically by resize events.
-		*@p r QRect describing geometry
+		*@p r TQRect describing geometry
 		*/
-	virtual void setGeometry( const QRect &r );
+	virtual void setGeometry( const TQRect &r );
 
 protected:
 	/**Draw the map.  Draw grey dots on the locations of all cities, 
@@ -77,18 +77,18 @@ protected:
 		*currently-selected city.
 		*@see LocationDialog
 		*/
-	virtual void paintEvent( QPaintEvent *e );
+	virtual void paintEvent( TQPaintEvent *e );
 	
 	/**Trim the list of cities so that only those within 2 degrees
 		*of the mouse click are shown in the list.
 		*@see LocationDialog
 		*/
-	virtual void mousePressEvent( QMouseEvent *e );
+	virtual void mousePressEvent( TQMouseEvent *e );
 
 private:
-	QPixmap *Canvas, *bgImage;
-	QString BGColor;
-	QPoint origin;
+	TQPixmap *Canvas, *bgImage;
+	TQString BGColor;
+	TQPoint origin;
 };
 
 #endif

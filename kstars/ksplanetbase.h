@@ -19,9 +19,9 @@
 #ifndef KSPLANETBASE_H
 #define KSPLANETBASE_H
 
-#include <qstring.h>
-#include <qptrlist.h>
-#include <qimage.h>
+#include <tqstring.h>
+#include <tqptrlist.h>
+#include <tqimage.h>
 
 #include <kdebug.h>
 
@@ -80,7 +80,7 @@ public:
 	*
 	*@todo Figure out what @p kd does.
 	*/
-	KSPlanetBase( KStarsData *kd, QString s = i18n("unnamed"), QString image_file="", double pSize=0 );
+	KSPlanetBase( KStarsData *kd, TQString s = i18n("unnamed"), TQString image_file="", double pSize=0 );
 
 /**
 	*Destructor (empty)
@@ -166,11 +166,11 @@ public:
 
 /**@return pointer to image of planet
 	*/
-	QImage* image( void ) { return &Image; }
+	TQImage* image( void ) { return &Image; }
 
 /**@return pointer to unrotated image of planet
 	*/
-	QImage* image0( void ) { return &Image0; }
+	TQImage* image0( void ) { return &Image0; }
 
 /**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance)
 	*/
@@ -249,7 +249,7 @@ public:
 
 /**@return a reference to the planet's trail
 	*/
-		QPtrList<SkyPoint>* trail() { return &Trail; }
+		TQPtrList<SkyPoint>* trail() { return &Trail; }
 
 /**@short adds a point to the planet's trail
 	*/
@@ -283,10 +283,10 @@ public:
 	*@param pmenu pointer to the KSPopupMenu object
 	*@param pos QPojnt holding the x,y coordinates for the menu
 	*/
-	virtual void showPopupMenu( KSPopupMenu *pmenu, QPoint pos ) { pmenu->createPlanetMenu( this ); pmenu->popup( pos ); }
+	virtual void showPopupMenu( KSPopupMenu *pmenu, TQPoint pos ) { pmenu->createPlanetMenu( this ); pmenu->popup( pos ); }
 
 protected:
-	virtual bool loadData(QString n) {
+	virtual bool loadData(TQString n) {
 		kdDebug() << "didn't reimplement for " << n << endl; return false;
 	}
 
@@ -311,7 +311,7 @@ protected:
 	// Heliocentric ecliptic position referred to the equinox of the epoch 
 	// as obtained from VSOP.
 	EclipticPosition helEcPos;
-	QPtrList<SkyPoint> Trail;
+	TQPtrList<SkyPoint> Trail;
 	double  Rearth;
 
 private:
@@ -333,7 +333,7 @@ private:
 	 */
 	void findMagnitude(const KSNumbers *num);
 
-	QImage Image0, Image;
+	TQImage Image0, Image;
 	double PositionAngle, ImageAngle, AngularSize, PhysicalSize;
 	KStarsData *data;
 };

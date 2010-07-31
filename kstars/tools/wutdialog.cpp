@@ -36,21 +36,21 @@
 #include <klistbox.h>
 #include <kpushbutton.h>
 
-#include <qgroupbox.h>
-#include <qlabel.h>
-#include <qlayout.h>
-#include <qframe.h>
-#include <qtabbar.h>
-#include <qtimer.h>
-#include <qcursor.h>
+#include <tqgroupbox.h>
+#include <tqlabel.h>
+#include <tqlayout.h>
+#include <tqframe.h>
+#include <tqtabbar.h>
+#include <tqtimer.h>
+#include <tqcursor.h>
 
 WUTDialog::WUTDialog(KStars *ks) :
-	KDialogBase (KDialogBase::Plain, i18n("What's up Tonight"), Close, Close, (QWidget*)ks),
+	KDialogBase (KDialogBase::Plain, i18n("What's up Tonight"), Close, Close, (TQWidget*)ks),
 	kstars(ks), EveningFlag(0) {
 
-	QFrame *page = plainPage();
+	TQFrame *page = plainPage();
 	setMainWidget(page);
-	QVBoxLayout *vlay = new QVBoxLayout( page, 0, spacingHint() );
+	TQVBoxLayout *vlay = new TQVBoxLayout( page, 0, spacingHint() );
 	WUT = new WUTDialogUI( page );
 	vlay->addWidget( WUT );
 
@@ -66,7 +66,7 @@ WUTDialog::WUTDialog(KStars *ks) :
 		T0 = T0.addDays( -1 );
 
 	//Now, set time T0 to midnight (of the following day)
-	T0.setTime( QTime( 0, 0, 0 ) );
+	T0.setTime( TQTime( 0, 0, 0 ) );
 	T0 = T0.addDays( 1 );
 	UT0 = geo->LTtoUT( T0 );
 	
@@ -78,7 +78,7 @@ WUTDialog::WUTDialog(KStars *ks) :
 	Evening = T0.addSecs( -6*3600 );
 	EveningUT = geo->LTtoUT( Evening );
 	
-	QString sGeo = geo->translatedName();
+	TQString sGeo = geo->translatedName();
 	if ( ! geo->translatedProvince().isEmpty() ) sGeo += ", " + geo->translatedProvince();
 	sGeo += ", " + geo->translatedCountry();
 	WUT->LocationLabel->setText( i18n( "at %1" ).arg( sGeo ) );
@@ -88,21 +88,21 @@ WUTDialog::WUTDialog(KStars *ks) :
 
 	makeConnections();
 
-	QTimer::singleShot(0, this, SLOT(init()));
+	TQTimer::singleShot(0, this, TQT_SLOT(init()));
 }
 
 WUTDialog::~WUTDialog(){
 }
 
 void WUTDialog::makeConnections() {
-	connect( WUT->DateButton, SIGNAL( clicked() ), SLOT( slotChangeDate() ) );
-	connect( WUT->LocationButton, SIGNAL( clicked() ), SLOT( slotChangeLocation() ) );
-	connect( WUT->CenterButton, SIGNAL( clicked() ), SLOT( slotCenter() ) );
-	connect( WUT->DetailButton, SIGNAL( clicked() ), SLOT( slotDetails() ) );
-	connect( WUT->CategoryListBox, SIGNAL( highlighted(int) ), SLOT( slotLoadList(int) ) );
-	connect( WUT->ObjectListBox, SIGNAL( selectionChanged(QListBoxItem*) ),
-			SLOT( slotDisplayObject(QListBoxItem*) ) );
-	connect( WUT->EveningMorningBox, SIGNAL( activated(int) ), SLOT( slotEveningMorning(int) ) );
+	connect( WUT->DateButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotChangeDate() ) );
+	connect( WUT->LocationButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotChangeLocation() ) );
+	connect( WUT->CenterButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotCenter() ) );
+	connect( WUT->DetailButton, TQT_SIGNAL( clicked() ), TQT_SLOT( slotDetails() ) );
+	connect( WUT->CategoryListBox, TQT_SIGNAL( highlighted(int) ), TQT_SLOT( slotLoadList(int) ) );
+	connect( WUT->ObjectListBox, TQT_SIGNAL( selectionChanged(TQListBoxItem*) ),
+			TQT_SLOT( slotDisplayObject(TQListBoxItem*) ) );
+	connect( WUT->EveningMorningBox, TQT_SIGNAL( activated(int) ), TQT_SLOT( slotEveningMorning(int) ) );
 }
 
 void WUTDialog::initCategories() {
@@ -118,7 +118,7 @@ void WUTDialog::initCategories() {
 }
 
 void WUTDialog::init() {
-	QString sRise, sSet, sDuration;
+	TQString sRise, sSet, sDuration;
 
 	// reset all lists
 	for (int i=0; i<NCATEGORY; i++) {
@@ -161,7 +161,7 @@ void WUTDialog::init() {
 				- (float)sunSetToday.second()/3600.0;
 		int hDur = int(Dur);
 		int mDur = int(60.0*(Dur - (float)hDur));
-		sDuration = QString().sprintf( "%02d:%02d", hDur, mDur );
+		sDuration = TQString().sprintf( "%02d:%02d", hDur, mDur );
 	}
 
 	WUT->SunSetLabel->setText( i18n( "Sunset: %1" ).arg(sSet) );
@@ -192,7 +192,7 @@ void WUTDialog::init() {
 	WUT->MoonRiseLabel->setText( i18n( "Moon rises at: %1" ).arg( sRise ) );
 	WUT->MoonSetLabel->setText( i18n( "Moon sets at: %1" ).arg( sSet ) );
 	oMoon->findPhase( oSun ); 
-	WUT->MoonIllumLabel->setText( oMoon->phaseName() + QString( " (%1%)" ).arg(
+	WUT->MoonIllumLabel->setText( oMoon->phaseName() + TQString( " (%1%)" ).arg(
 			int(100.0*oMoon->illum() ) ) );
 
 	//Restore Sun's and Moon's coordinates, and recompute Moon's original Phase
@@ -242,8 +242,8 @@ void WUTDialog::appendToList(SkyObjectName *o) {
 
 void WUTDialog::slotLoadList(int i) {
 	WUT->ObjectListBox->clear();
-	setCursor(QCursor(Qt::WaitCursor));
-	QPtrList <SkyObjectName> invisibleList;
+	setCursor(TQCursor(Qt::WaitCursor));
+	TQPtrList <SkyObjectName> invisibleList;
 	for (SkyObjectName *oname=lists.visibleList[i].first(); oname; oname=lists.visibleList[i].next()) {
 		bool visible = true;
 		if (lists.initialized[i] == false) {
@@ -265,7 +265,7 @@ void WUTDialog::slotLoadList(int i) {
 			lists.visibleList[i].removeRef(o);
 		}
 	}
-	setCursor(QCursor(Qt::ArrowCursor));
+	setCursor(TQCursor(Qt::ArrowCursor));
 	lists.initialized[i] = true;
 
 	// highlight first item
@@ -310,9 +310,9 @@ bool WUTDialog::checkVisibility(SkyObjectName *oname) {
 	return visible;
 }
 
-void WUTDialog::slotDisplayObject(QListBoxItem *item) {
-	QTime tRise, tSet, tTransit;
-	QString sRise, sTransit, sSet;
+void WUTDialog::slotDisplayObject(TQListBoxItem *item) {
+	TQTime tRise, tSet, tTransit;
+	TQString sRise, sTransit, sSet;
 
 	if ( item==0 ) { //no object selected
 		WUT->ObjectBox->setTitle( i18n( "No Object Selected" ) );
@@ -339,15 +339,15 @@ void WUTDialog::slotDisplayObject(QListBoxItem *item) {
 //			if ( tSet < tRise ) 
 //				tSet = o->riseSetTime( JDTomorrow, geo, false );
 			
-			sRise = QString().sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
-			sSet = QString().sprintf( "%02d:%02d", tSet.hour(), tSet.minute() );
+			sRise = TQString().sprintf( "%02d:%02d", tRise.hour(), tRise.minute() );
+			sSet = TQString().sprintf( "%02d:%02d", tSet.hour(), tSet.minute() );
 		}
 
 		tTransit = o->transitTime( T0, geo );
 //		if ( tTransit < tRise ) 
 //			tTransit = o->transitTime( JDTomorrow, geo );
 		
-		sTransit = QString().sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
+		sTransit = TQString().sprintf( "%02d:%02d", tTransit.hour(), tTransit.minute() );
 
 		WUT->DetailButton->setEnabled( true );
 	}
@@ -384,14 +384,14 @@ void WUTDialog::slotDetails() {
 
 void WUTDialog::slotChangeDate() {
 	TimeDialog td( T0, this );
-	if ( td.exec() == QDialog::Accepted ) {
+	if ( td.exec() == TQDialog::Accepted ) {
 		T0 = td.selectedDateTime();
 		//If the Time is earlier than 6:00 am, assume the user wants the night of the previous date
 		if ( T0.time().hour() < 6 ) 
 			T0 = T0.addDays( -1 );
 		
 		//Now, set time T0 to midnight (of the following day)
-		T0.setTime( QTime( 0, 0, 0 ) );
+		T0.setTime( TQTime( 0, 0, 0 ) );
 		T0 = T0.addDays( 1 );
 		UT0 = geo->LTtoUT( T0 );
 		
@@ -413,7 +413,7 @@ void WUTDialog::slotChangeDate() {
 
 void WUTDialog::slotChangeLocation() {
 	LocationDialog ld( kstars );
-	if ( ld.exec() == QDialog::Accepted ) {
+	if ( ld.exec() == TQDialog::Accepted ) {
 		GeoLocation *newGeo = ld.selectedCity();
 		if ( newGeo ) {
 			geo = newGeo;

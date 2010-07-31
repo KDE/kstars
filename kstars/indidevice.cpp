@@ -44,24 +44,24 @@
 #include <termios.h>
 #include <zlib.h>
 
-#include <qlineedit.h>
-#include <qtextedit.h>
-#include <qframe.h>
-#include <qtabwidget.h>
-#include <qcheckbox.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qlayout.h>
-#include <qtooltip.h>
-#include <qwhatsthis.h>
-#include <qbuttongroup.h>
-#include <qscrollview.h>
-#include <qsocketnotifier.h>
-#include <qvbox.h>
-#include <qdatetime.h>
-#include <qtable.h>
-#include <qstring.h>
-#include <qptrlist.h>
+#include <tqlineedit.h>
+#include <tqtextedit.h>
+#include <tqframe.h>
+#include <tqtabwidget.h>
+#include <tqcheckbox.h>
+#include <tqlabel.h>
+#include <tqpushbutton.h>
+#include <tqlayout.h>
+#include <tqtooltip.h>
+#include <tqwhatsthis.h>
+#include <tqbuttongroup.h>
+#include <tqscrollview.h>
+#include <tqsocketnotifier.h>
+#include <tqvbox.h>
+#include <tqdatetime.h>
+#include <tqtable.h>
+#include <tqstring.h>
+#include <tqptrlist.h>
 
 #include <kled.h>
 #include <klineedit.h>
@@ -87,7 +87,7 @@ const char * indi_std[NINDI_STD] =
 ** INDI Device: The work-horse. Responsible for handling its
 ** child properties and managing signal and changes.
 *******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inName, QString inLabel) 
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, TQString inName, TQString inLabel) 
 {
   name      = inName;
   label     = inLabel;
@@ -97,9 +97,9 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *parentManager, QString inNam
   gl.setAutoDelete(true);
 
  deviceVBox     = menuParent->addVBoxPage(inLabel);
- groupContainer = new QTabWidget(deviceVBox);
+ groupContainer = new TQTabWidget(deviceVBox);
  
- msgST_w        = new QTextEdit(deviceVBox);
+ msgST_w        = new TQTextEdit(deviceVBox);
  msgST_w->setReadOnly(true);
  msgST_w->setMaximumHeight(100);
 
@@ -253,7 +253,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	XMLEle *ep;
 	XMLAtt *ap;
 	INDI_E *lp;
-	QString elementName;
+	TQString elementName;
 	char iNumber[32];
 	double min, max;
 	
@@ -286,7 +286,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 	   case PP_RO:
 	     if (pp->guitype == PG_TEXT)
 	     {
-	     	lp->text = QString(pcdataXMLEle(ep));
+	     	lp->text = TQString(pcdataXMLEle(ep));
 		lp->read_w->setText(lp->text);
              }
 	     else if (pp->guitype == PG_NUMERIC)
@@ -312,7 +312,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, char errmsg[])
 
 	case PP_WO:
 	    if (pp->guitype == PG_TEXT)
-	      lp->write_w->setText(QString(pcdataXMLEle(ep)));
+	      lp->write_w->setText(TQString(pcdataXMLEle(ep)));
 	    else if (pp->guitype == PG_NUMERIC)
 	    {
 	      lp->value = atof(pcdataXMLEle(ep));
@@ -385,7 +385,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 
 	    /* find matching label */
 	    //fprintf(stderr, "Find matching label. Name from XML is %s\n", valuXMLAtt(ap));
-	    lp = pp->findElement(QString(valuXMLAtt(ap)));
+	    lp = pp->findElement(TQString(valuXMLAtt(ap)));
 
 	    if (!lp)
 	    {
@@ -394,7 +394,7 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, char errmsg[])
 		return (-1);
 	    }
 
-	    QFont buttonFont;
+	    TQFont buttonFont;
 	    /* engage new state */
 	    lp->state = state;
 
@@ -457,7 +457,7 @@ int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, char errmsg[])
     if (strcmp(tagXMLEle(ep), "oneBLOB") == 0)
     {
       
-      blobEL = pp->findElement(QString(findXMLAttValu (ep, "name")));
+      blobEL = pp->findElement(TQString(findXMLAttValu (ep, "name")));
       
       if (blobEL)
 	return processBlob(blobEL, ep, errmsg);
@@ -481,7 +481,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
   XMLAtt *ap;
   int blobSize=0, r=0, dataType=0;
   uLongf dataSize=0;
-  QString dataFormat;
+  TQString dataFormat;
   char *baseBuffer;
   unsigned char *blobBuffer(NULL);
   bool iscomp(false);
@@ -502,7 +502,7 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, char errmsg[])
     return (-1);
   }
   
-  dataFormat = QString(valuXMLAtt(ap));
+  dataFormat = TQString(valuXMLAtt(ap));
   
   baseBuffer = (char *) malloc ( (3*pcdatalenXMLEle(ep)/4) * sizeof (char));
   blobSize   = from64tobits (baseBuffer, pcdataXMLEle(ep));
@@ -567,11 +567,11 @@ bool INDI_D::isOn()
 
   INDI_P *prop;
 
-  prop = findProp(QString("CONNECTION"));
+  prop = findProp(TQString("CONNECTION"));
   if (!prop)
    return false;
 
-  return (prop->isOn(QString("CONNECT")));
+  return (prop->isOn(TQString("CONNECT")));
 }
 
 INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
@@ -584,11 +584,11 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	ap = findAtt (root, "group", errmsg);
         if (!ap)
         {
-                kdDebug() << QString(errmsg) << endl;
+                kdDebug() << TQString(errmsg) << endl;
                 return NULL;
         }
 	// Find an existing group, if none found, create one
-        pg = findGroup(QString(valuXMLAtt(ap)), 1, errmsg);
+        pg = findGroup(TQString(valuXMLAtt(ap)), 1, errmsg);
 
 	if (!pg)
 	 return NULL;
@@ -610,7 +610,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	  * properties */
 	pg->propertyLayout->removeItem(pg->VerticalSpacer);
 	
-	pp = new INDI_P(pg, QString(valuXMLAtt(ap)));
+	pp = new INDI_P(pg, TQString(valuXMLAtt(ap)));
 
 	/* init state */
 	ap = findAtt (root, "state", errmsg);
@@ -642,7 +642,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	return (pp);
 }
 
-INDI_P * INDI_D::findProp (QString name)
+INDI_P * INDI_D::findProp (TQString name)
 {
        for (unsigned int i = 0; i < gl.count(); i++)
 	for (unsigned int j = 0; j < gl.at(i)->pl.count(); j++)
@@ -652,7 +652,7 @@ INDI_P * INDI_D::findProp (QString name)
 	return NULL;
 }
 
-INDI_G *  INDI_D::findGroup (QString grouptag, int create, char errmsg[])
+INDI_G *  INDI_D::findGroup (TQString grouptag, int create, char errmsg[])
 {
   INDI_G *ig;
   
@@ -976,7 +976,7 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
   return (0);
 }
 
-INDI_E * INDI_D::findElem(QString name)
+INDI_E * INDI_D::findElem(TQString name)
 {
   INDI_G *grp;
   INDI_P *prop;

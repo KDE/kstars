@@ -21,16 +21,16 @@
 #include "dmsbox.h"
 #include "skypoint.h"
 
-#include <qcheckbox.h>
-#include <qradiobutton.h>
-#include <qtextstream.h>
+#include <tqcheckbox.h>
+#include <tqradiobutton.h>
+#include <tqtextstream.h>
 #include <klocale.h>
 #include <kfiledialog.h>
 #include <kmessagebox.h>
 
 //#include <kapplication.h> ..already included in modcalcapcoord.h
 
-modCalcAngDist::modCalcAngDist(QWidget *parentSplit, const char *name) : modCalcAngDistDlg(parentSplit,name) {
+modCalcAngDist::modCalcAngDist(TQWidget *parentSplit, const char *name) : modCalcAngDistDlg(parentSplit,name) {
 
 	ra0Box->setDegType(FALSE);
 	ra1Box->setDegType(FALSE);
@@ -76,41 +76,41 @@ void modCalcAngDist::slotComputeDist(){
 }
 
 void modCalcAngDist::slotInputFile() {
-	QString inputFileName;
+	TQString inputFileName;
 	inputFileName = KFileDialog::getOpenFileName( );
 	InputLineEditBatch->setText( inputFileName );
 }
 
 void modCalcAngDist::slotOutputFile() {
-	QString outputFileName;
+	TQString outputFileName;
 	outputFileName = KFileDialog::getSaveFileName( );
 	OutputLineEditBatch->setText( outputFileName );
 }
 
 void modCalcAngDist::slotRunBatch() {
 
-	QString inputFileName;
+	TQString inputFileName;
 
 	inputFileName = InputLineEditBatch->text();
 
 	// We open the input file and read its content
 
-	if ( QFile::exists(inputFileName) ) {
-		QFile f( inputFileName );
+	if ( TQFile::exists(inputFileName) ) {
+		TQFile f( inputFileName );
 		if ( !f.open( IO_ReadOnly) ) {
-			QString message = i18n( "Could not open file %1.").arg( f.name() );
+			TQString message = i18n( "Could not open file %1.").arg( f.name() );
 			KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
 			inputFileName = "";
 			return;
 		}
 
 //		processLines(&f);
-		QTextStream istream(&f);
+		TQTextStream istream(&f);
 		processLines(istream);
 //		readFile( istream );
 		f.close();
 	} else  {
-		QString message = i18n( "Invalid file: %1" ).arg( inputFileName );
+		TQString message = i18n( "Invalid file: %1" ).arg( inputFileName );
 		KMessageBox::sorry( 0, message, i18n( "Invalid file" ) );
 		inputFileName = "";
 		InputLineEditBatch->setText( inputFileName );
@@ -118,20 +118,20 @@ void modCalcAngDist::slotRunBatch() {
 	}
 }
 
-//void modCalcAngDist::processLines( const QFile * fIn ) {
-void modCalcAngDist::processLines( QTextStream &istream ) {
+//void modCalcAngDist::processLines( const TQFile * fIn ) {
+void modCalcAngDist::processLines( TQTextStream &istream ) {
 
 	// we open the output file
 
-//	QTextStream istream(&fIn);
-	QString outputFileName;
+//	TQTextStream istream(&fIn);
+	TQString outputFileName;
 	outputFileName = OutputLineEditBatch->text();
-	QFile fOut( outputFileName );
+	TQFile fOut( outputFileName );
 	fOut.open(IO_WriteOnly);
-	QTextStream ostream(&fOut);
+	TQTextStream ostream(&fOut);
 
-	QString line;
-	QString space = " ";
+	TQString line;
+	TQString space = " ";
 	int i = 0;
 	SkyPoint sp0, sp1;
 	dms ra0B, dec0B, ra1B, dec1B, dist;
@@ -142,7 +142,7 @@ void modCalcAngDist::processLines( QTextStream &istream ) {
 
 		//Go through the line, looking for parameters
 
-		QStringList fields = QStringList::split( " ", line );
+		TQStringList fields = TQStringList::split( " ", line );
 
 		i = 0;
 

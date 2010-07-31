@@ -17,7 +17,7 @@ class INDIFITSConf : public INDIConf
   Q_OBJECT
 
 public:
-  INDIFITSConf(QWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
+  INDIFITSConf(TQWidget* parent = 0, const char* name = 0, bool modal = FALSE, WFlags fl = 0 );
   ~INDIFITSConf();
   /*$PUBLIC_FUNCTIONS$*/
 
@@ -30,7 +30,7 @@ public slots:
 
  private:
  int lastIndex;
- QStringList filterList;
+ TQStringList filterList;
 
 
 };
