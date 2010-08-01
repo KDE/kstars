@@ -68,9 +68,6 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
     //draw labels
     p.drawPixmap(0,0, SkyLabeler::Instance()->pixmap());
 
-    if ( Options::showHighlightedCBound() )
-        drawHighlightConstellation( p );
-
     //draw FOV symbol
     foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {
         fov->draw(p, Options::zoomFactor());
@@ -97,119 +94,6 @@ void SkyMap::drawZoomBox( QPainter &p ) {
         p.setPen( QPen( Qt::white, 1.0, Qt::DotLine ) );
         p.drawRect( ZoomRect.x(), ZoomRect.y(), ZoomRect.width(), ZoomRect.height() );
     }
-}
-
-void SkyMap::drawHighlightConstellation( QPainter &psky ) {
-    #ifdef WTF_IS_THIS_DOING_HERE
-    const QPolygonF* cbound =
-        KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationPoly( focus() );
-    if ( ! cbound )
-        return;
-
-    psky.setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CBoundHighColor" ) ),
-                       3, Qt::SolidLine ) );
-
-    QPolygonF clippedPoly;
-    bool needClip( false );
-    //If the solid ground is being drawn, then we may need to clip the
-    //polygon at the Horizon.  cbound will be the clipped polygon
-    if ( Options::useAltAz() && Options::showGround() ) {
-        QPolygonF horizPolygon;
-
-        for ( int i = 0; i < cbound->size(); i++ ) {
-            QPointF node = cbound->at( i );
-            SkyPoint sp( node.x(), node.y() );
-            sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            horizPolygon << QPointF( sp.az().Degrees(), sp.alt().Degrees() );
-        }
-
-        QRectF rBound = horizPolygon.boundingRect();
-        //If the bounding rectangle's top edge is below the horizon,
-        //then we don't draw the polygon at all.  Note that the rectangle's
-        //top edge is returned by the bottom() function!
-        if ( rBound.bottom() < 0.0 )
-            return;
-
-        //We need to clip if the bounding rect intersects the horizon
-        if ( rBound.contains( QPointF( rBound.center().x(), 0.0 ) ) ) {
-            needClip = true;
-            QPolygonF clipper;
-            clipper << QPointF( rBound.left(), -0.5 ) << QPointF( rBound.right(), -0.5 )
-            << QPointF( rBound.right(), rBound.top() ) //top() is bottom ;)
-            << QPointF( rBound.left(), rBound.top() );
-
-            horizPolygon = horizPolygon.subtracted( clipper );
-
-            //Now, convert the clipped horizPolygon vertices back to equatorial
-            //coordinates, and store them back in cbound
-
-            foreach ( const QPointF &node, horizPolygon ) {
-                SkyPoint sp;
-                sp.setAz( node.x() );
-                sp.setAlt( node.y() );
-                sp.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-                clippedPoly << QPointF( sp.ra().Hours(), sp.dec().Degrees() );
-            }
-        }
-    }
-
-    //Transform the constellation boundary polygon to the screen and clip
-    // against the celestial horizon
-
-    const QPolygonF* bound = needClip ? &clippedPoly : cbound;
-
-    if (bound->size() < 2) return;
-
-    bool isVisible, isVisibleLast;
-    SkyPoint pThis, pLast;
-    QPointF oThis, oLast, oMid;
-
-    QPointF node = bound->at( 0 );
-    pLast.set( node.x(), node.y() );
-
-    pLast.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    oLast = toScreen( &pLast, Options::useRefraction(), &isVisibleLast );
-
-    int limit = bound->size();
-
-    for ( int i=1 ; i < limit ; i++ ) {
-        node = bound->at( i );
-        pThis.set( node.x(), node.y() );
-        pThis.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        oThis = toScreen( &pThis, Options::useRefraction(), &isVisible );
-
-        if ( isVisible && isVisibleLast ) {
-            psky.drawLine( oLast, oThis );
-        }
-
-        else if ( isVisibleLast ) {
-            oMid = clipLine( &pLast, &pThis ).toPoint();
-            // -jbb printf("oMid: %4d %4d\n", oMid.x(), oMid.y());
-            psky.drawLine( oLast, oMid );
-        }
-        else if ( isVisible ) {
-            oMid = clipLine( &pThis, &pLast ).toPoint();
-            psky.drawLine( oMid, oThis );
-        }
-
-        pLast = pThis;
-        oLast = oThis;
-        isVisibleLast = isVisible;
-    }
-    /****
-    	QPolygonF poly;
-        bool isVisible;
-    	foreach ( const QPointF &node, cbound ) {
-    		SkyPoint sp( node.x(), node.y() );
-    		sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    		QPointF v = toScreen( &sp, scale, Options::useRefraction() );
-
-    		poly << v;
-    	}
-
-    	psky.drawPolygon( poly );
-    ****/
-    #endif
 }
 
 void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {

@@ -695,12 +695,6 @@ private:
     	*/
     void drawZoomBox( QPainter &psky );
 
-    /**
-    	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawHighlightConstellation( QPainter &psky );
-
     /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
     	*when in Angular-Ruler mode.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
