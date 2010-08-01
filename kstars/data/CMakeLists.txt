@@ -77,6 +77,7 @@ install( FILES textures/star.png
                textures/globular-cluster.png
                textures/galaxy-cluster.png
                textures/gaseous-nebula.png
+	       textures/obslistsymbol.png
 	 DESTINATION ${DATA_INSTALL_DIR}/kstars/textures )
 
 

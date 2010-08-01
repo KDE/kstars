@@ -31,6 +31,7 @@ class KSAsteroid;
 class KSComet;
 class DeepSkyObject;
 class SkyPoint;
+class SkyObject;
 class SkyMap;
 class SkipList;
 class LineList;
@@ -127,6 +128,11 @@ public:
         @return true if it was drawn
         */
     virtual bool drawPlanet(KSPlanetBase *planet) =0;
+
+    /** @short Draw the symbols for the observing list
+        @param obs the oberving list
+        */
+    virtual void drawObservingList( const QList<SkyObject*>& obs ) = 0;
 
 protected:
 

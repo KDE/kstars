@@ -195,6 +195,11 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     // FIXME: REGRESSION. Labeler now know nothing about infoboxes
     // map->infoBoxes()->reserveBoxes( psky );
 
+    const QList<SkyObject*> obsList = KStars::Instance()->observingList()->sessionList();
+    /* //FIXME: change labeler API
+    foreach( SkyObject* obj, obsList ) {
+    } */
+
     m_MilkyWay->draw( skyp );
 
     m_CoordinateGrid->draw( skyp );
@@ -229,6 +234,11 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_CNames->draw( skyp );
     m_Stars->drawLabels();
     m_DeepSky->drawLabels();
+
+    if( Options::obsListSymbol() && obsList.size() ) {
+        skyp->setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1. ));
+        skyp->drawObservingList( obsList );
+    }
 
     m_Flags->draw( skyp );
 

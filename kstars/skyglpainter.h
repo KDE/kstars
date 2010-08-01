@@ -38,6 +38,7 @@ public:
     virtual void drawSkyPolyline(LineList* list, SkipList* skipList = 0, LineListLabel* label = 0);
     virtual void drawSkyLine(SkyPoint* a, SkyPoint* b);
     virtual void drawSkyBackground();
+    virtual void drawObservingList(const QList<SkyObject*>& obs);
     virtual void end();
     virtual void begin();
     virtual void setBrush(const QBrush& brush);

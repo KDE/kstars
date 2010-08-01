@@ -315,6 +315,46 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
     glEnd();
 }
 
+//FIXME: implement these two
+
+void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
+{
+    QVector<Vector2f> buffer( 6*obs.size() );
+    int i = 0;
+    foreach( SkyObject *obj, obs ) {
+        bool visible;
+        Vector2f vec = m_proj->toScreenVec(obj, true, &visible);
+        if( !visible || !m_proj->onScreen(vec) ) continue;
+
+        const float w = 16.;
+        const float h = 16.;
+        
+        buffer[i + 0] = vec + Vector2f(-w,-h);
+        buffer[i + 1] = vec + Vector2f( w,-h);
+        buffer[i + 2] = vec + Vector2f(-w, h);
+        buffer[i + 3] = vec + Vector2f(-w, h);
+        buffer[i + 4] = vec + Vector2f( w,-h);
+        buffer[i + 5] = vec + Vector2f( w, h);
+
+        ++i;
+    }
+
+    Texture *tex = TextureManager::getTexture("obslistsymbol");
+    tex->bind();
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glVertexPointer  (2,GL_FLOAT,0, buffer.data());
+    glTexCoordPointer(2,GL_FLOAT,0, &m_texcoord[0]);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6*i);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+}
+
+
 void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {
 
@@ -333,21 +373,6 @@ void SkyGLPainter::end()
     for(int i = 0; i < NUMTYPES; ++i) {
         drawBuffer(i);
     }
-    /*
-    glEnable(GL_TEXTURE_2D);
-    Texture *tex = TextureManager::getTexture("star");
-    tex->bind();
-    glBegin(GL_QUADS);
-    glTexCoord2f(0,0);
-    glVertex2f(100,100);
-    glTexCoord2f(1,0);
-    glVertex2f(200,100);
-    glTexCoord2f(1,1);
-    glVertex2f(200,200);
-    glTexCoord2f(0,1);
-    glVertex2f(100,200);
-    glEnd();
-    glDisable(GL_TEXTURE_2D); */
 }
 
 void SkyGLPainter::begin()

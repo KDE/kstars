@@ -638,3 +638,18 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, floa
         break;
     }
 }
+
+void SkyQPainter::drawObservingList(const QList< SkyObject* >& obs)
+{
+    foreach ( SkyObject* obj, obs ) {
+        bool visible = false;
+        QPointF o = m_proj->toScreen( obj, true, &visible );
+        if( !visible || !m_proj->onScreen(o) ) continue;
+        
+        float size = 20.;
+        float x1 = o.x() - 0.5*size;
+        float y1 = o.y() - 0.5*size;
+        drawArc( QRectF(x1, y1, size, size), -60*16, 120*16 );
+        drawArc( QRectF(x1, y1, size, size), 120*16, 120*16 );
+    }
+}
