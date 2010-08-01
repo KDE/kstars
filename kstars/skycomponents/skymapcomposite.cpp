@@ -196,9 +196,11 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     // map->infoBoxes()->reserveBoxes( psky );
 
     const QList<SkyObject*> obsList = KStars::Instance()->observingList()->sessionList();
-    /* //FIXME: change labeler API
-    foreach( SkyObject* obj, obsList ) {
-    } */
+    if( Options::obsListText() )
+        foreach( SkyObject* obj, obsList ) {
+            SkyLabeler::AddLabel( obj, SkyLabeler::RUDE_LABEL );
+        }
+        
 
     m_MilkyWay->draw( skyp );
 
@@ -239,6 +241,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
         skyp->setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1. ));
         skyp->drawObservingList( obsList );
     }
+    if( map->transientObject() )
+        SkyLabeler::AddLabel( map->transientObject(), SkyLabeler::RUDE_LABEL );
 
     m_Flags->draw( skyp );
 

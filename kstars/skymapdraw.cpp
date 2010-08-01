@@ -78,8 +78,6 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
     drawTelescopeSymbols( p );
     drawZoomBox( p );
 
-    if ( transientObject() )
-        drawTransientLabel( p );
     if ( angularDistanceMode ) {
         updateAngleRuler();
         drawAngleRuler( p );
@@ -283,17 +281,6 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
     }
 
     skyLabeler->useStdFont();   // use the StdFont for the guides.
-}
-
-void SkyMap::drawTransientLabel( QPainter &p ) {
-    if( !transientObject() || !checkVisibility( transientObject() ) )
-        return;
-    QPointF o = toScreen( transientObject() );
-    if( !onScreen( o ) )
-        return;
-
-    p.setPen( TransientColor );
-    transientObject()->drawRudeNameLabel( p, o );
 }
 
 void SkyMap::drawTelescopeSymbols(QPainter &psky)

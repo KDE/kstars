@@ -428,29 +428,6 @@ QString SkyObject::labelString() const {
     return translatedName();
 }
 
-//Rude name labels don't check for collisions with other labels, 
-//these get drawn no matter what.  Transient labels are rude labels.
-//To mitigate confusion from possibly "underlapping" labels, paint a 
-//semi-transparent background.
-void SkyObject::drawRudeNameLabel( QPainter &psky, const QPointF &p ) {
-    QString sLabel = labelString();
-    double offset = labelOffset();
-    QRectF rect = psky.fontMetrics().boundingRect( sLabel );
-    rect.moveTo( p.x()+offset, p.y()+offset );
-
-    //Interestingly, the fontMetric boundingRect isn't where you might think...
-    //We need to tweak rect to get the BG rectangle rect2
-    QRectF rect2 = rect;
-    rect2.moveTop( rect.top() - 0.6*rect.height() );
-    rect2.setHeight( 0.8*rect.height() );
-
-    //FIXME: Implement label background options
-    QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
-    color.setAlpha( psky.pen().color().alpha() ); //same transparency for the text and the background
-    psky.fillRect( rect2, QBrush( color ) );
-    psky.drawText( rect.topLeft(), sLabel );
-}
-
 double SkyObject::labelOffset() const {
     return SkyLabeler::ZoomOffset();
 }

@@ -701,13 +701,6 @@ private:
     	*/
     void drawHighlightConstellation( QPainter &psky );
 
-    /**Draw the current TransientLabel.  TransientLabels are triggered when the mouse
-    	*hovers on an object.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
-    	*/
-    void drawTransientLabel( QPainter &psky );
-
     /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
     	*when in Angular-Ruler mode.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 

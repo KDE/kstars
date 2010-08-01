@@ -269,14 +269,6 @@ public:
     void saveUserLog( const QString &newLog );
 
     /**
-     *@short draw the object's name label on the map, without checking for
-     *overlap with other labels.
-     *@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-     *@param p The screen position for the label (in pixels; typically as found by SkyMap::toScreen())
-     */
-    virtual void drawRudeNameLabel( QPainter &psky, const QPointF &p );
-
-    /**
      *@return the pixel distance for offseting the object's name label
      *@note overridden in StarObject, DeepSkyObject, KSPlanetBase
      */

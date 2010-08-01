@@ -445,7 +445,7 @@ void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
 void SkyLabeler::drawQueuedLabels()
 {
     KStarsData* data = KStarsData::Instance();
-
+    
     resetFont();
     m_p.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
     drawQueuedLabelsType( PLANET_LABEL );
@@ -465,6 +465,12 @@ void SkyLabeler::drawQueuedLabels()
     drawQueuedLabelsType( ASTEROID_LABEL );
     drawQueuedLabelsType( COMET_LABEL );
 
+
+    LabelList list = labelList[ RUDE_LABEL ];
+    for ( int i = 0; i < list.size(); i ++ ) {
+        drawRudeNameLabel( list.at(i).obj, list.at(i).o );
+    }
+
 }
 
 void SkyLabeler::drawQueuedLabelsType( SkyLabeler::label_t type )
@@ -474,6 +480,31 @@ void SkyLabeler::drawQueuedLabelsType( SkyLabeler::label_t type )
         drawNameLabel( list.at(i).obj, list.at(i).o );
     }
 }
+
+//Rude name labels don't check for collisions with other labels,
+//these get drawn no matter what.  Transient labels are rude labels.
+//To mitigate confusion from possibly "underlapping" labels, paint a
+//semi-transparent background.
+void SkyLabeler::drawRudeNameLabel( SkyObject *obj, const QPointF &p )
+{
+    QString sLabel = obj->labelString();
+    double offset = obj->labelOffset();
+    QRectF rect = m_p.fontMetrics().boundingRect( sLabel );
+    rect.moveTo( p.x()+offset, p.y()+offset );
+
+    //Interestingly, the fontMetric boundingRect isn't where you might think...
+    //We need to tweak rect to get the BG rectangle rect2
+    QRectF rect2 = rect;
+    rect2.moveTop( rect.top() - 0.6*rect.height() );
+    rect2.setHeight( 0.8*rect.height() );
+
+    //FIXME: Implement label background options
+    QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
+    color.setAlpha( m_p.pen().color().alpha() ); //same transparency for the text and the background
+    m_p.fillRect( rect2, QBrush( color ) );
+    m_p.drawText( rect.topLeft(), sLabel );
+}
+
 
 //----- Diagnostic and information routines -----
 

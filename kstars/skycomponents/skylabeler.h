@@ -125,6 +125,7 @@ public:
 	SATURN_MOON_LABEL,
         DEEP_SKY_LABEL,
         CONSTEL_NAME_LABEL,
+        RUDE_LABEL, ///Rude labels block other labels FIXME: find a better solution
         NUM_LABEL_TYPES
     } ;
 
@@ -239,6 +240,14 @@ public:
      * //FIXME: should this just take an object pointer and do its own projection?
      */
     bool drawNameLabel( SkyObject* obj, const QPointF& _p );
+
+    /**
+     *@short draw the object's name label on the map, without checking for
+     *overlap with other labels.
+     *@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+     *@param p The screen position for the label (in pixels; typically as found by SkyMap::toScreen())
+     */
+    void drawRudeNameLabel( SkyObject* obj, const QPointF& _p );
 
     /**
      * @short queues the label in the "type" buffer for later drawing.
