@@ -116,10 +116,7 @@ void CometsComponent::draw( SkyPainter *skyp )
     if( !selected() || Options::zoomFactor() < 10*MINZOOM )
         return;
 
-    SkyMap *map = SkyMap::Instance();
-    const Projector *proj = map->projector();
-
-    bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
+    bool hideLabels =  ! Options::showCometNames() || (SkyMap::Instance()->isSlewing() && Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
 
     //FIXME: Should these be config'able?
@@ -128,9 +125,8 @@ void CometsComponent::draw( SkyPainter *skyp )
 
     foreach ( SkyObject *so, m_ObjectList ) {
         KSComet *com = (KSComet*)so;
-
         bool drawn = skyp->drawPointSource(com,com->mag());
         if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
-            SkyLabeler::AddLabel( proj->toScreen(com), com, SkyLabeler::COMET_LABEL );
+            SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
     }
 }

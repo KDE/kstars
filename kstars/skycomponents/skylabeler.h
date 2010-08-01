@@ -30,6 +30,7 @@
 class QString;
 class QPointF;
 class SkyMap;
+class Projector;
 struct LabelRun;
 
 typedef QList<LabelRun*>	LabelRow;
@@ -143,9 +144,9 @@ public:
     /**
      * @short static version of addLabel() below.
      */
-    inline static void AddLabel( const QPointF& p, SkyObject *obj, label_t type )
+    inline static void AddLabel(SkyObject *obj, label_t type)
     {
-        pinstance->addLabel( p, obj, type );
+        pinstance->addLabel( obj, type );
     }
 
 
@@ -242,7 +243,7 @@ public:
     /**
      * @short queues the label in the "type" buffer for later drawing.
      */
-    void addLabel( const QPointF& p, SkyObject *obj, label_t type );
+    void addLabel( SkyObject *obj, label_t type );
 
     /**
      *@short draws the labels stored in all the buffers.  You can change the
@@ -345,6 +346,8 @@ private:
     QPixmap m_pixmap;
 
     QVector<LabelList>   labelList;
+
+    const Projector* m_proj;
 
     static SkyLabeler* pinstance;
 };

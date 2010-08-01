@@ -106,10 +106,8 @@ void AsteroidsComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = SkyMap::Instance();
-    const Projector* proj = map->projector();
     bool hideLabels =  ! Options::showAsteroidNames() ||
-                       ( map->isSlewing() && Options::hideLabels() );
+                       ( SkyMap::Instance()->isSlewing() && Options::hideLabels() );
 
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
@@ -130,7 +128,7 @@ void AsteroidsComponent::draw( SkyPainter *skyp )
         bool drawn = skyp->drawPointSource(ast,ast->mag());
         
         if ( drawn && !( hideLabels || ast->mag() >= labelMagLimit ) )
-            SkyLabeler::AddLabel( proj->toScreen(ast), ast, SkyLabeler::ASTEROID_LABEL );
+            SkyLabeler::AddLabel( ast, SkyLabeler::ASTEROID_LABEL );
     }
 }
 

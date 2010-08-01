@@ -113,9 +113,6 @@ void PlanetMoonsComponent::draw( SkyPainter *skyp )
 {
     if( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) )
         return;
-
-    SkyMap *map      = SkyMap::Instance();
-    const Projector *proj  = map->projector();
     
     //In order to get the z-order right for the moons and the planet,
     //we need to first draw the moons that are further away than the planet,
@@ -143,16 +140,12 @@ void PlanetMoonsComponent::draw( SkyPainter *skyp )
     //Draw Moon name labels if at high zoom
     if ( ! (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM) ) return;
     for ( int i=0; i<nmoons; ++i ) {
-        QPointF o = proj->toScreen( pmoons->moon(i) );
-
-        if ( ! proj->onScreen( o ) )
-            continue;
         /*
         if (planet ==KSPlanetBase::SATURN)
-            SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::SATURN_MOON_LABEL );
+            SkyLabeler::AddLabel( pmoons->moon(i), SkyLabeler::SATURN_MOON_LABEL );
         else
         */
-        SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::JUPITER_MOON_LABEL );
+        SkyLabeler::AddLabel( pmoons->moon(i), SkyLabeler::JUPITER_MOON_LABEL );
     }
 }
 

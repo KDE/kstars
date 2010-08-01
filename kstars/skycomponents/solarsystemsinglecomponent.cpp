@@ -98,8 +98,7 @@ void SolarSystemSingleComponent::draw( SkyPainter *skyp ) {
 
     bool drawn = skyp->drawPlanet(m_Planet);
     if ( drawn && Options::showPlanetNames() )
-        SkyLabeler::AddLabel( SkyMap::Instance()->projector()->toScreen(m_Planet),
-                              m_Planet, SkyLabeler::PLANET_LABEL );
+        SkyLabeler::AddLabel( m_Planet, SkyLabeler::PLANET_LABEL );
 }
 
 

@@ -25,6 +25,7 @@
 #include "Options.h"
 #include "kstarsdata.h"   // MINZOOM
 #include "skymap.h"
+#include "projections/projector.h"
 
 //---------------------------------------------------------------------------//
 // A Little data container class
@@ -76,7 +77,11 @@ double SkyLabeler::ZoomOffset()
 
 //----- Constructor ---------------------------------------------------------//
 
-SkyLabeler::SkyLabeler() : m_maxY(0), m_size(0), m_fontMetrics( QFont() ),
+SkyLabeler::SkyLabeler() :
+        m_maxY(0),
+        m_size(0),
+        m_proj(0),
+        m_fontMetrics( QFont() ),
         labelList( NUM_LABEL_TYPES )
 {
     m_errors = 0;
@@ -206,6 +211,8 @@ void SkyLabeler::getMargins( const QString& text, float *left,
 
 void SkyLabeler::reset( SkyMap* skyMap )
 {
+    // ----- Set up Projector ---
+    m_proj = skyMap->projector();
     // ----- Set up Painter -----
     if( m_p.isActive() )
         m_p.end();
@@ -428,9 +435,10 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 }
 
 
-void SkyLabeler::addLabel( const QPointF& p, SkyObject *obj, SkyLabeler::label_t type )
+void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
 {
-    if ( obj->translatedName().isEmpty() ) return;
+    QPointF p = m_proj->toScreen(obj);
+    if ( !m_proj->onScreen(p) || obj->translatedName().isEmpty() ) return;
     labelList[ (int)type ].append( SkyLabel( p, obj ) );
 }
 
