@@ -31,7 +31,7 @@
   */
 
 class dms;
-class QTime;
+class TQTime;
 class ExtDate;
 
 class modCalcSidTime : public modCalcSidTimeDlg  {

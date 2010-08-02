@@ -30,7 +30,7 @@ class GeoLocation;
 class SkyObject;
 class SkyObjectName;
 class WUTDialogUI;
-class QFrame;
+class TQFrame;
 
 /**@class WUTDialog
 	*What's up tonight dialog is a window which lists all skyobjects that will

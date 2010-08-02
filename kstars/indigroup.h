@@ -21,8 +21,8 @@
 class INDI_P;
 class INDI_D;
 
-class QFrame;
-class QVBoxLayout;
+class TQFrame;
+class TQVBoxLayout;
 
 /* INDI group */
 class INDI_G

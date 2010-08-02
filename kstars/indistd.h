@@ -23,7 +23,7 @@
  class SkyObject;
  class StreamWG;
  class CCDPreviewWG;
- class QSocketNotifier;
+ class TQSocketNotifier;
  class KProgressDialog;
  class KDirLister;
  class SkyObject;

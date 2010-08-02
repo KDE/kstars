@@ -31,7 +31,7 @@
       7. void divide(unsigned int * img1, unsigned int * img2); we know numOfPixels already.*/
 
 class FITSViewer;
-class QImage;
+class TQImage;
 
 class FITSProcess
 {

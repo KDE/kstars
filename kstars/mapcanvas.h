@@ -34,7 +34,7 @@
 	*@version 1.0
 	*/
 
-class QPixmap;
+class TQPixmap;
 
 class MapCanvas : public TQWidget  {
 	Q_OBJECT

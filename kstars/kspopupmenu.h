@@ -34,7 +34,7 @@
 class KStars;
 class StarObject;
 class SkyObject;
-class QLabel;
+class TQLabel;
 
 class KSPopupMenu : public KPopupMenu
 {

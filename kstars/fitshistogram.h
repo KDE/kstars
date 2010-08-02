@@ -24,7 +24,7 @@
  #define BARS 500
  
  class FITSViewer;
- class QPixmap;
+ class TQPixmap;
  
  class FITSHistogram : public histDialog
  {

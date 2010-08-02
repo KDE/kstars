@@ -72,12 +72,12 @@ class KPushButton;
 class KCheckBox;
 class KSqueezedTextLabel;
 
-class QLabel;
-class QHBoxLayout;
-class QVBoxLayout;
-class QSpacerItem;
-class QCheckBox;
-class QSlider;
+class TQLabel;
+class TQHBoxLayout;
+class TQVBoxLayout;
+class TQSpacerItem;
+class TQCheckBox;
+class TQSlider;
 
 class INDI_P;
 

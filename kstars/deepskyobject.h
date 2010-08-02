@@ -34,9 +34,9 @@
 	*@version 1.0
 	*/
 
-class QPainter;
-class QImage;
-class QString;
+class TQPainter;
+class TQImage;
+class TQString;
 class KSPopupMenu;
 
 class DeepSkyObject : public SkyObject {

@@ -24,8 +24,8 @@
 #include "geolocation.h"
 #include "kstarsdatetime.h"
 
-class QWidget;
-class QTextStream;
+class TQWidget;
+class TQTextStream;
 class KSPlanet;
 class KSMoon;
 class KSSun;

@@ -31,7 +31,7 @@ class dms;
 class dmsBox;
 class SkyPoint;
 class KStarsDateTime;
-class QTextStream;
+class TQTextStream;
 
 class modCalcApCoord : public modCalcApCoordDlg  {
 

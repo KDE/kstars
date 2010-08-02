@@ -24,7 +24,7 @@
  
  class ConBriForm;
  class FITSViewer;
- class QImage;
+ class TQImage;
 
   
 class ContrastBrightnessDlg : public KDialogBase {

@@ -21,8 +21,8 @@
 #include <kdialogbase.h>
 #include "focusdialogdlg.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
+class TQVBoxLayout;
+class TQHBoxLayout;
 class KLineEdit;
 class SkyPoint;
 class FocusDialogDlg;

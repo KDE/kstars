@@ -22,7 +22,7 @@
 #include <tqlineedit.h>
 #include <tqstring.h>
 
-class QTime;
+class TQTime;
 class ExtDate;
 
 /**@class timeBox

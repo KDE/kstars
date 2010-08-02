@@ -28,7 +28,7 @@
 	*@version 1.0
 	*/
 
-class QLabel;
+class TQLabel;
 
 class KStarsSplash : public KDialogBase
 {

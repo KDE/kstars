@@ -20,7 +20,7 @@
 
 #include <klistbox.h>
 
-class QDragEnterEvent;
+class TQDragEnterEvent;
 class QDragDropEvent;
 
 /**@class DragListBox

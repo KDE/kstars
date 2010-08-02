@@ -21,7 +21,7 @@
 #include <tqptrlist.h>
 #include "skyobject.h"
 
-class QString;
+class TQString;
  
 /**@class CustomCatalog
 	*@short Object catalog added by the user.

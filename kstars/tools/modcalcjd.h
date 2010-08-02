@@ -32,7 +32,7 @@
 	*@version 0.9
   */
 
-class QWidget;
+class TQWidget;
 class VBox;
 class KStarsDateTime;
 

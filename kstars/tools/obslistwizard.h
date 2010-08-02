@@ -22,7 +22,7 @@
 #include "obslistwizardui.h"
 
 class KStars;
-class QListViewItem;
+class TQListViewItem;
 
 /**@class ObsListWizard
  *@short Wizard for constructing observing lists

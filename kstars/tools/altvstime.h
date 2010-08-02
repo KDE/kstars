@@ -21,9 +21,9 @@
 #include "kstarsplotwidget.h"
 
 class KStarsDateTime;
-class QTime;
-class QVariant;
-class QVBoxLayout;
+class TQTime;
+class TQVariant;
+class TQVBoxLayout;
 class KDialogBase;
 class KLocale;
 class SkyObject;

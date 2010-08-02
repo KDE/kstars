@@ -35,7 +35,7 @@
 #include <tqobject.h>
 #include <tqptrlist.h>
 
-class QString;
+class TQString;
 class KStarsData;
 class KSNumbers;
 class KSPlanetBase;

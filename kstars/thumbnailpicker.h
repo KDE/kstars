@@ -24,9 +24,9 @@
 
 class ThumbnailPickerUI;
 class ThumbnailEditor;
-class QPixmap;
-class QFile;
-class QRect;
+class TQPixmap;
+class TQFile;
+class TQRect;
 class DetailDialog;
 class SkyObject;
 

@@ -22,7 +22,7 @@
 #include <tqwidget.h>
 #include "modcalcazeldlg.h"
 
-class QWidget;
+class TQWidget;
 class SkyPoint;
 class KStarsDateTime;
 class GeoLocation;

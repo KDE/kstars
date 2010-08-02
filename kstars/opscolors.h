@@ -35,7 +35,7 @@
 	*@version 1.0
 	*/
 
-class QWidget;
+class TQWidget;
 class KStars;
 
 class OpsColors : public OpsColorsUI

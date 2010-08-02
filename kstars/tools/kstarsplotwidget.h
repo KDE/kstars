@@ -26,8 +26,8 @@
 #define XPADDING 20
 #define YPADDING 20
 
-class QColor;
-class QPixmap;
+class TQColor;
+class TQPixmap;
 
 /**@class KStarsPlotWidget
 	*@short A plotting widget for KStars tools, derived from the more generic class KPlotWidget.

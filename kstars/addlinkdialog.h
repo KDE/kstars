@@ -25,8 +25,8 @@
 
 #include "addlinkdialogui.h"
 
-class QLayout;
-class QString;
+class TQLayout;
+class TQString;
 class SkyMap;
 
 /**@class Simple dialog for adding a custom URL to a popup menu.

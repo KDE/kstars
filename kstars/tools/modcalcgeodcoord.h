@@ -29,9 +29,9 @@
 	*@version 0.9
   */
 
-//class QWidget;
-//class QLineEdit;
-//class QRadioButton;
+//class TQWidget;
+//class TQLineEdit;
+//class TQRadioButton;
 //class dmsBox;
 class GeoLocation;
 

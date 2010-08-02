@@ -19,12 +19,12 @@
  #include "tqframe.h"
  
  
- class QImage;
- class QSocketNotifier;
+ class TQImage;
+ class TQSocketNotifier;
  class VideoWG;
  class INDIStdDevice;
- class QPainter;
- class QVBoxLayout;
+ class TQPainter;
+ class TQVBoxLayout;
  
  class StreamWG : public streamForm
  {

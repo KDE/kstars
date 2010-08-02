@@ -26,7 +26,7 @@
 	*@version 1.0
 	*/
 
-class QPainter;
+class TQPainter;
 
 class FOV {
 	public:

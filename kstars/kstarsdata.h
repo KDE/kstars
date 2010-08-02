@@ -49,9 +49,9 @@
 
 #define MINDRAWSTARMAG 6.5 // min. magnitude to load all stars which are needed for constellation lines
 
-class QDataPump;
-class QFile;
-class QTimer;
+class TQDataPump;
+class TQFile;
+class TQTimer;
 
 class KStandardDirs;
 

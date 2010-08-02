@@ -22,11 +22,11 @@ class KPopupMenu;
 class KComboBox;
 class KLed;
 
-class QLabel;
-class QPushButton;
-class QHBoxLayout;
-class QVBoxLayout;
-class QButtonGroup;
+class TQLabel;
+class TQPushButton;
+class TQHBoxLayout;
+class TQVBoxLayout;
+class TQButtonGroup;
 
 
 

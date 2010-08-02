@@ -21,12 +21,12 @@
  
 enum Pixelorder {PIXELORDER_NORMAL=1, PIXELORDER_DUAL=2};
 
- class QImage;
- class QSocketNotifier;
+ class TQImage;
+ class TQSocketNotifier;
  class CCDVideoWG;
  class INDIStdDevice;
- class QPainter;
- class QVBoxLayout;
+ class TQPainter;
+ class TQVBoxLayout;
  
  class CCDPreviewWG : public CCDPreviewForm
  {

@@ -22,8 +22,8 @@
 
 #include "skyobject.h"
 
-class QPainter;
-class QString;
+class TQPainter;
+class TQString;
 class KSPopupMenu;
 
 /**@class StarObject 

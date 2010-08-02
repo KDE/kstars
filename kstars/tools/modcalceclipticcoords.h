@@ -21,7 +21,7 @@
 #include "modcalceclipticcoordsdlg.h"
 #include "dms.h"
 
-class QString;
+class TQString;
 
 /**
   * Class which implements the KStars calculator module to compute

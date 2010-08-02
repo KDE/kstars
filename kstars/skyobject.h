@@ -36,7 +36,7 @@
 	*@version 1.0
 	*/
 
-class QPoint;
+class TQPoint;
 class GeoLocation;
 class KStarsDateTime;
 

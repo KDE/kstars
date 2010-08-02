@@ -30,8 +30,8 @@
 #include "observinglist.h"
 
 // forward declaration is enough. We only need pointers
-class QPalette;
-class QVBoxLayout;
+class TQPalette;
+class TQVBoxLayout;
 class KActionMenu;
 class KDialogBase;
 class KKey;

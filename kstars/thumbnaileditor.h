@@ -23,7 +23,7 @@
 
 class ThumbnailEditorUI;
 class ThumbnailPicker;
-class QPoint;
+class TQPoint;
 
 class ThumbImage : public QLabel
 {

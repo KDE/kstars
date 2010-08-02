@@ -27,12 +27,12 @@
 #include "skyobject.h"
 
 class GeoLocation;
-class QHBoxLayout;
-class QLineEdit;
-class QFile;
-class QPixmap;
-class QString;
-class QStringList;
+class TQHBoxLayout;
+class TQLineEdit;
+class TQFile;
+class TQPixmap;
+class TQString;
+class TQStringList;
 class KStars;
 class KStarsDateTime;
 

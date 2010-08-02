@@ -43,15 +43,15 @@
 #include <kdialogbase.h>
 #include "geolocation.h"
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QGroupBox;
-class QLabel;
-class QListBox;
-class QListBoxItem;
-class QPushButton;
-class QComboBox;
+class TQVBoxLayout;
+class TQHBoxLayout;
+class TQGridLayout;
+class TQGroupBox;
+class TQLabel;
+class TQListBox;
+class TQListBoxItem;
+class TQPushButton;
+class TQComboBox;
 class KLineEdit;
 class MapCanvas;
 class dmsBox;

@@ -33,23 +33,23 @@ class KDoubleSpinBox;
 class KPushButton;
 class KPopupMenu;
 
-class QTable;
-class QLabel;
-class QHBoxLayout;
-class QVBoxLayout;
-class QFrame;
-class QLineEdit;
-class QString;
-class QTextEdit;
-class QListView;
-class QTabWidget;
-class QSpacerItem;
-class QGridLayout;
-class QButtonGroup;
-class QCheckBox;
-class QScrollView;
-class QSocketNotifier;
-class QVBox;
+class TQTable;
+class TQLabel;
+class TQHBoxLayout;
+class TQVBoxLayout;
+class TQFrame;
+class TQLineEdit;
+class TQString;
+class TQTextEdit;
+class TQListView;
+class TQTabWidget;
+class TQSpacerItem;
+class TQGridLayout;
+class TQButtonGroup;
+class TQCheckBox;
+class TQScrollView;
+class TQSocketNotifier;
+class TQVBox;
 
 /*************************************************************************
 ** The INDI Tree

@@ -30,7 +30,7 @@
 
 #define MAXTRAIL 400  //maximum number of points in a planet trail
 
-class QPoint;
+class TQPoint;
 class KSNumbers;
 class KSPopupMenu;
 

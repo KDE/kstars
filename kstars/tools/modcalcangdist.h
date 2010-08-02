@@ -29,7 +29,7 @@
 class dms;
 class dmsBox;
 class SkyPoint;
-class QTextStream;
+class TQTextStream;
 
 class modCalcAngDist : public modCalcAngDistDlg  {
 

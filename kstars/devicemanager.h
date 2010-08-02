@@ -20,7 +20,7 @@
  class INDI_P;
  class INDI_D;
  
- class QSocketNotifier;
+ class TQSocketNotifier;
  
  // INDI device manager
 class DeviceManager : public QObject

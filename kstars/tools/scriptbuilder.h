@@ -19,9 +19,9 @@
 #define SCRIPTBUILDER_H
 
 class KStars;
-class QListViewItem;
-class QWidget;
-class QLayout;
+class TQListViewItem;
+class TQWidget;
+class TQLayout;
 class KURL;
 class ScriptFunction;
 class ScriptBuilderUI;

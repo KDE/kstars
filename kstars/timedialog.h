@@ -23,12 +23,12 @@
 
 #include "kstarsdatetime.h"
 
-class QHBoxLayout;
-class QVBoxLayout;
+class TQHBoxLayout;
+class TQVBoxLayout;
 class ExtDatePicker;
-class QSpinBox;
-class QLabel;
-class QPushButton;
+class TQSpinBox;
+class TQLabel;
+class TQPushButton;
 class KStars;
 
 /**@class TimeDialog 

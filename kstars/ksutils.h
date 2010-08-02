@@ -27,7 +27,7 @@
 #ifndef KSTARS_KSUTILS_H_
 #define KSTARS_KSUTILS_H_
 
-class QFile;
+class TQFile;
 
 class KSUtils {
 	public:

@@ -31,17 +31,17 @@
 #include <kdialogbase.h>
 #include <kio/job.h>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QFile;
+class TQVBoxLayout;
+class TQHBoxLayout;
+class TQGridLayout;
+class TQFile;
 class KLineEdit;
 class KListBox;
 class KPushButton;
-class QCheckBox;
-class QGroupBox;
-class QLabel;
-class QListBoxItem;
+class TQCheckBox;
+class TQGroupBox;
+class TQLabel;
+class TQListBoxItem;
 
 class KStars;
 

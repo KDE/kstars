@@ -26,11 +26,11 @@
 
 #define HOVER_INTERVAL 500 
 
-class QPainter;
-class QPaintDevice;
-class QPoint;
-class QPointArray;
-class QPixmap;
+class TQPainter;
+class TQPaintDevice;
+class TQPoint;
+class TQPointArray;
+class TQPixmap;
 
 class dms;
 class InfoBoxes;

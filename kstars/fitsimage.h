@@ -38,7 +38,7 @@
 #include "indi/fitsrw.h"
 
 class KCommandHistory;
-class QScrollView;
+class TQScrollView;
 class FITSViewer;
 class FITSFrame;
 

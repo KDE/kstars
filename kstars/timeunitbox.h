@@ -41,7 +41,7 @@
 	*@version 1.0
 	*/
 
-class QPushButton;
+class TQPushButton;
 
 class TimeUnitBox : public TQVBox {
    Q_OBJECT

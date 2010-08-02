@@ -28,7 +28,7 @@
 
 #include <knuminput.h>
 
-class QWidget;
+class TQWidget;
 
 class MagnitudeSpinBox  : public KDoubleNumInput
 {

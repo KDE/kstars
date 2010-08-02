@@ -23,15 +23,15 @@
 
 #include <kdialogbase.h>
 
-class QVBoxLayout;
-class QHBoxLayout;
-class QGridLayout;
-class QLabel;
-class QLineEdit;
-class QComboBox;
-class QListBox;
-class QListBoxItem;
-//class QStringList;
+class TQVBoxLayout;
+class TQHBoxLayout;
+class TQGridLayout;
+class TQLabel;
+class TQLineEdit;
+class TQComboBox;
+class TQListBox;
+class TQListBoxItem;
+//class TQStringList;
 class SkyObjectNameListItem;
 
 /**@class FindDialog

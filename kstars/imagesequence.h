@@ -15,7 +15,7 @@
 #include "imgsequencedlgui.h"
 
 class KStars;
-class QTimer;
+class TQTimer;
 class INDIStdDevice;
 
 class imagesequence : public imgSequenceDlg

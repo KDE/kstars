@@ -36,7 +36,7 @@
 	*@version 1.0
 	*/
 
-class QPainter;
+class TQPainter;
 class GeoLocation;
 class SkyPoint;
 class dms;

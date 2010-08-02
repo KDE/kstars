@@ -17,7 +17,7 @@
 class KStars;
 class INDIMenu;
 class INDIDriver;
-class QTimer;
+class TQTimer;
 class INDI_D;
 
 class KProgressDialog;

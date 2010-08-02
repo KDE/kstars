@@ -22,8 +22,8 @@
 #include <tqwidget.h>
 #include "modcalcequinoxdlg.h"
 
-class QWidget;
-class QTextStream;
+class TQWidget;
+class TQTextStream;
 
 /**
   *@author Pablo de Vicente

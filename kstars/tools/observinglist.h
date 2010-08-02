@@ -23,7 +23,7 @@
 
 class KStars;
 class ObservingListUI;
-class QStringList;
+class TQStringList;
 
 /**@class ObservingList
 	*Tool window for managing a custom list of objects.  The window

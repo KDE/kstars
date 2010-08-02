@@ -29,8 +29,8 @@
 	*@version 1.0
 	*/
 
-class QFile;
-class QString;
+class TQFile;
+class TQString;
 
 class KSFileReader : public TQObject  {
 	Q_OBJECT

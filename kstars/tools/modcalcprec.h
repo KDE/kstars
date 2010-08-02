@@ -31,7 +31,7 @@
 	*@version 0.9
   */
 
-class QString;
+class TQString;
 class dms;
 class SkyPoint;
 

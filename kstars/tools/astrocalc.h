@@ -29,12 +29,12 @@
 
 #include "dms.h"
 
-class QSplitter;
-class QListView;
-class QTextView;
-class QListViewItem;
-class QVBox;
-class QString;
+class TQSplitter;
+class TQListView;
+class TQTextView;
+class TQListViewItem;
+class TQVBox;
+class TQString;
 class modCalcJD;
 class modCalcGeodCoord;
 class modCalcGalCoord;

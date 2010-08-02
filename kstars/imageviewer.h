@@ -43,7 +43,7 @@
 	*/
 
 class KURL;
-class QFile;
+class TQFile;
 
 class ImageViewer : public KMainWindow  {
 	Q_OBJECT

@@ -1761,7 +1761,7 @@ void KStarsData::sendClearCache() {
 void KStarsData::initialize() {
 	if (startupComplete) return;
 
-	initTimer = new QTimer;
+	initTimer = new TQTimer;
 	TQObject::connect(initTimer, TQT_SIGNAL(timeout()), this, TQT_SLOT( slotInitialize() ) );
 	initCounter = 0;
 	initTimer->start(1);
