@@ -161,6 +161,18 @@ public:
      * Y-axis of the line connecing the object to its test point.
      */
     double findPA( SkyObject *o, float x, float y ) const;
+
+    /** Get the radius of this projection's sky circle.
+        @return the radius or 0 if not applicable (e.g. Equirectangular)
+        */
+    virtual double radius() const = 0;
+
+    /** Get the ground polygon
+        @param labelpoint This point will be set to something suitable for attaching a label
+        @param drawLabel this tells whether to draw a label.
+        @return the ground polygon
+        */
+    virtual QVector<Vector2f> groundPoly( SkyPoint* labelpoint = 0, bool* drawLabel = 0 ) const;
     
 protected:
     KStarsData *m_data;

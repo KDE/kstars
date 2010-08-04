@@ -34,6 +34,7 @@ public:
     virtual SkyPoint fromScreen(const QPointF& p, dms* LST, const dms* lat) const;
     virtual Vector2f toScreenVec(SkyPoint* o, bool oRefract = true, bool* onVisibleHemisphere = 0) const;
     virtual bool unusablePoint( const QPointF& p ) const;
+    virtual double radius() const;
 };
 
 #endif // LAMBERTPROJECTOR_H

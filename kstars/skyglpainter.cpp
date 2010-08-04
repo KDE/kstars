@@ -377,6 +377,17 @@ void SkyGLPainter::end()
     for(int i = 0; i < NUMTYPES; ++i) {
         drawBuffer(i);
     }
+
+    //draw horiz poly HACK TEST FIXME
+    QVector<Vector2f> ground = m_proj->groundPoly();
+    glDisable(GL_TEXTURE_2D);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor3f( 1.0,1.0,1.0 );
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2,GL_FLOAT,0, ground.data() );
+    glDrawArrays(GL_LINE_LOOP, 0, ground.size());
+    glDisableClientState(GL_VERTEX_ARRAY);
+    
 }
 
 void SkyGLPainter::begin()

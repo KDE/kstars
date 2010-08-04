@@ -23,6 +23,7 @@
 
 #include "ksutils.h"
 #include "kstarsdata.h"
+#include "skycomponents/skylabeler.h"
 
 namespace {
     void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
@@ -33,6 +34,14 @@ namespace {
         *x = cosDec * cosRa;
         *y = cosDec * sinRa;
         *z = sinDec;
+    }
+
+    inline SkyPoint pointAt(double az, KStarsData* data) {
+        SkyPoint p;
+        p.setAz( az );
+        p.setAlt( 0.0 );
+        p.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+        return p;
     }
 }
 
@@ -227,3 +236,87 @@ double Projector::findPA( SkyObject *o, float x, float y ) const
     return ( north + o->pa() );
 }
 
+QVector< Vector2f > Projector::groundPoly(SkyPoint* labelpoint, bool *drawLabel) const
+{
+    KStarsData *data = KStarsData::Instance();
+    QVector<Vector2f> ground;
+    
+    static const QString horizonLabel = i18n("Horizon");
+    float marginLeft, marginRight, marginTop, marginBot;
+    SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
+                                        &marginTop, &marginBot );
+
+    //daz is 1/2 the width of the sky in degrees
+    double daz = 90.;
+    if ( m_vp.useAltAz ) {
+        daz = 0.5*m_vp.width*57.3/m_vp.zoomFactor; //center to edge, in degrees
+        if ( type() == SkyMap::Orthographic ) {
+            daz = daz * 1.4;
+        }
+        daz = qMin(90.0, daz);
+    }
+
+    double faz = m_vp.focus->az().Degrees();
+    double az1 = faz -daz;
+    double az2 = faz +daz;
+
+    bool allGround = true;
+    bool allSky = true;
+
+    double inc = 1.0;
+    //Add points along horizon
+    for(double az = az1; az <= az2 + inc; az += inc) {
+        SkyPoint p = pointAt(az,data);
+        bool visible = false;
+        Vector2f o = toScreenVec(&p, false, &visible);
+        if( visible ) {
+            ground.append( o );
+            //Set the label point if this point is onscreen
+            if ( labelpoint && o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
+                *labelpoint = p;
+            
+            if ( o.y() > 0. ) allGround = false;
+            if ( o.y() < m_vp.height ) allSky = false;
+        }
+    }
+
+    if( allSky ) {
+        if( drawLabel)
+            *drawLabel = false;
+        return QVector<Vector2f>();
+    }
+
+    if( allGround ) {
+        ground.clear();
+        ground.append( Vector2f( -10., -10. ) );
+        ground.append( Vector2f( m_vp.width +10., -10. ) );
+        ground.append( Vector2f( m_vp.width +10., m_vp.height +10. ) );
+        ground.append( Vector2f( -10., m_vp.height +10. ) );
+        if( drawLabel)
+            *drawLabel = false;
+        return ground;
+    }
+
+    //In Gnomonic projection, or if sufficiently zoomed in, we can complete
+    //the ground polygon by simply adding offscreen points
+    if ( daz < 25.0 || type() == SkyMap::Gnomonic ) {
+        ground.append( Vector2f( m_vp.width + 10.f, ground.last().y() ) );
+        ground.append( Vector2f( m_vp.width + 10.f, m_vp.height + 10.f ) );
+        ground.append( Vector2f( -10.f, m_vp.height + 10.f ) );
+        ground.append( Vector2f( -10.f, ground.first().y() ) );
+    } else {
+        double r = radius();
+        double t1 = atan2( -1.*(ground.last().y() - 0.5*m_vp.height), ground.last().x() - 0.5*m_vp.width )/dms::DegToRad;
+        double t2 = t1 - 180.;
+        for ( double t=t1; t >= t2; t -= inc ) {  //step along circumference
+            dms a( t );
+            double sa(0.), ca(0.);
+            a.SinCos( sa, ca );
+            ground.append( Vector2f( 0.5*m_vp.width + r*ca, 0.5*m_vp.height - r*sa) );
+        }
+    }
+
+    if( drawLabel)
+        *drawLabel = true;
+    return ground;
+}

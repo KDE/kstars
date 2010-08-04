@@ -31,6 +31,11 @@ SkyMap::Projection LambertProjector::type() const
     return SkyMap::Lambert;
 }
 
+double LambertProjector::radius() const
+{
+    return m_vp.zoomFactor*1.41421356;
+}
+
 bool LambertProjector::unusablePoint(const QPointF& p) const
 {
     //r0 is the angular size of the sky horizon, in radians
