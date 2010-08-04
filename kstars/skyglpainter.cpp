@@ -84,7 +84,8 @@ void SkyGLPainter::drawBuffer(int type)
         case 0: case 1: default:  tex = TextureManager::getTexture("star"); break;
     }
     tex->bind();
-    
+
+    glBlendFunc(GL_ONE, GL_ONE);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -231,6 +232,7 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     //#define MAKE_KSTARS_SLOW TRUE
     if ( polygon.size() ) {
         glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         #ifdef MAKE_KSTARS_SLOW
         //Set up the stencil buffer and disable the color buffer
         glClear(GL_STENCIL_BUFFER_BIT);
@@ -269,6 +271,7 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
 void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLabel* label)
 {
     glDisable(GL_TEXTURE_2D);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glBegin(GL_LINE_STRIP);
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
@@ -342,6 +345,7 @@ void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
     Texture *tex = TextureManager::getTexture("obslistsymbol");
     tex->bind();
 
+    glBlendFunc(GL_ONE, GL_ONE);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -400,7 +404,7 @@ void SkyGLPainter::begin()
     glEnable(GL_POLYGON_SMOOTH);
     glLineStipple(1,0xCCCC);
     glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
+    
     glClearStencil(0);
 }
 
