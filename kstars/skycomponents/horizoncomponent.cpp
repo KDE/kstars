@@ -74,6 +74,29 @@ void HorizonComponent::update( KSNumbers * )
 //This is true for Equatorial or Horizontal coordinates
 void HorizonComponent::draw( SkyPainter *skyp )
 {
+    if( !selected() ) return;
+
+    KStarsData *data = KStarsData::Instance();
+    
+    SkyPoint labelPoint;
+    bool drawLabel;
+
+    skyp->setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
+
+    if ( Options::showGround() )
+        skyp->setBrush( QColor ( data->colorScheme()->colorNamed( "HorzColor" ) ) );
+    else
+        skyp->setBrush( Qt::NoBrush );
+
+    skyp->drawHorizon( Options::showGround(), &labelPoint, &drawLabel );
+
+    if( drawLabel ) {
+        SkyPoint labelPoint2;
+        labelPoint2.setAlt(0.0);
+        labelPoint2.setAz( labelPoint.az().Degrees() + 1.0 );
+        labelPoint2.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+    }
+        
     #warning Still have to port HorizonComponent::draw()
     #if 0
     if ( ! selected() ) return;

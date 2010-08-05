@@ -55,6 +55,7 @@ public:
     virtual bool drawDeepSkyObject(DeepSkyObject *obj, bool drawImage = false);
     virtual bool drawPlanet(KSPlanetBase *planet);
     virtual void drawObservingList(const QList<SkyObject*>& obs);
+    virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
 private:
     ///This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');

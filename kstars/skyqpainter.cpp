@@ -34,6 +34,7 @@
 #include "skyobjects/trailobject.h"
 
 #include "projections/projector.h"
+#include "ksutils.h"
 
 namespace {
 
@@ -653,3 +654,18 @@ void SkyQPainter::drawObservingList(const QList< SkyObject* >& obs)
         drawArc( QRectF(x1, y1, size, size), 120*16, 120*16 );
     }
 }
+
+void SkyQPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel)
+{
+    QVector<Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
+    QPolygonF groundPoly(ground.size());
+    for(int i = 0; i < ground.size(); ++i)
+        groundPoly[i] = KSUtils::vecToPoint(ground[i]);
+    if( filled )
+        drawPolygon(groundPoly);
+    else {
+        groundPoly.append( groundPoly.first() );
+        drawPolyline(groundPoly);
+    }
+}
+

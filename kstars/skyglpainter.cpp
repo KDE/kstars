@@ -231,9 +231,23 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
 
     //#define MAKE_KSTARS_SLOW TRUE
     if ( polygon.size() ) {
-        glDisable(GL_TEXTURE_2D);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         #ifdef MAKE_KSTARS_SLOW
+        drawPolygon(polygon, true);
+        #else
+        drawPolygon(polygon, false);
+        #endif
+    }
+}
+
+void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex)
+{
+    //Flush all buffers
+    for(int i = 0; i < NUMTYPES; ++i) {
+        drawBuffer(i);
+    }
+    glDisable(GL_TEXTURE_2D);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    if( !convex ) {
         //Set up the stencil buffer and disable the color buffer
         glClear(GL_STENCIL_BUFFER_BIT);
         glColorMask(0,0,0,0);
@@ -258,12 +272,26 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
         glVertex2f(m_sm->width(),0);
         glEnd();
         glDisable(GL_STENCIL_TEST);
-        #else
+    } else {
         glEnableClientState(GL_VERTEX_ARRAY);
         glVertexPointer(2,GL_FLOAT,0, polygon.data() );
         glDrawArrays(GL_POLYGON, 0, polygon.size());
         glDisableClientState(GL_VERTEX_ARRAY);
-        #endif
+    }
+}
+
+void SkyGLPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel)
+{
+    QVector<Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
+    if(filled) {
+        drawPolygon(ground,true);
+    } else {
+        glDisable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2,GL_FLOAT,0, ground.data() );
+        glDrawArrays(GL_LINE_LOOP, 0, ground.size());
+        glDisableClientState(GL_VERTEX_ARRAY);
     }
 }
 
@@ -377,17 +405,6 @@ void SkyGLPainter::end()
     for(int i = 0; i < NUMTYPES; ++i) {
         drawBuffer(i);
     }
-
-    //draw horiz poly HACK TEST FIXME
-    QVector<Vector2f> ground = m_proj->groundPoly();
-    glDisable(GL_TEXTURE_2D);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glColor3f( 1.0,1.0,1.0 );
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(2,GL_FLOAT,0, ground.data() );
-    glDrawArrays(GL_LINE_LOOP, 0, ground.size());
-    glDisableClientState(GL_VERTEX_ARRAY);
-    
 }
 
 void SkyGLPainter::begin()

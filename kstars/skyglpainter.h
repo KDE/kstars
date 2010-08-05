@@ -43,9 +43,11 @@ public:
     virtual void begin();
     virtual void setBrush(const QBrush& brush);
     virtual void setPen(const QPen& pen);
+    virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
 private:
     bool addItem(SkyPoint* p, int type, float width, char sp = 'a');
     void drawBuffer(int type);
+    void drawPolygon(const QVector< Vector2f >& poly, bool convex = true);
 
     const Projector *m_proj;
     

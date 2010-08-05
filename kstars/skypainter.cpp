@@ -71,4 +71,3 @@ float SkyPainter::starWidth(float mag) const
     return size;
 }
 
-

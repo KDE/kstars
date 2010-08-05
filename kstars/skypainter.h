@@ -134,6 +134,8 @@ public:
         */
     virtual void drawObservingList( const QList<SkyObject*>& obs ) = 0;
 
+    virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) = 0;
+
 protected:
 
     /** @short Get the width of a star of magnitude mag */
