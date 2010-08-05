@@ -135,7 +135,7 @@ SkyMap* SkyMap::Instance( )
 
 SkyMap::SkyMap() :
 #ifdef USEGL
-    QGLWidget( QGLFormat(), KStars::Instance() ),
+    QGLWidget( QGLFormat( QGL::SampleBuffers ), KStars::Instance() ),
 #else 
     QWidget( KStars::Instance() ),
 #endif
