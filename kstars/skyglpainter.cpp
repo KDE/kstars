@@ -232,9 +232,10 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     //#define MAKE_KSTARS_SLOW TRUE
     if ( polygon.size() ) {
         #ifdef MAKE_KSTARS_SLOW
-        drawPolygon(polygon, true);
-        #else
         drawPolygon(polygon, false);
+        #else
+        //Assume convexity
+        drawPolygon(polygon, true);
         #endif
     }
 }
@@ -284,7 +285,7 @@ void SkyGLPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabe
 {
     QVector<Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
     if(filled) {
-        drawPolygon(ground,true);
+        drawPolygon(ground,false);
     } else {
         glDisable(GL_TEXTURE_2D);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
