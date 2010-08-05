@@ -437,8 +437,9 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 
 void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
 {
-    QPointF p = m_proj->toScreen(obj);
-    if ( !m_proj->onScreen(p) || obj->translatedName().isEmpty() ) return;
+    bool visible = false;
+    QPointF p = m_proj->toScreen(obj, true, &visible);
+    if ( !visible || !m_proj->onScreen(p) || obj->translatedName().isEmpty() ) return;
     labelList[ (int)type ].append( SkyLabel( p, obj ) );
 }
 

@@ -278,8 +278,9 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
 {
     if( !m_proj->checkVisibility(planet) ) return false;
 
-    QPointF pos = m_proj->toScreen(planet);
-    if( !m_proj->onScreen(pos) ) return false;
+    bool visible = false;
+    QPointF pos = m_proj->toScreen(planet,true,&visible);
+    if( !visible || !m_proj->onScreen(pos) ) return false;
 
     float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
     if( fakeStarSize > 15.0 )
@@ -333,8 +334,9 @@ bool SkyQPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
     //Check if it's even visible before doing anything
     if( !m_proj->checkVisibility(loc) ) return false;
 
-    QPointF pos = m_proj->toScreen(loc);
-    if( m_proj->onScreen(pos) ) {
+    bool visible = false;
+    QPointF pos = m_proj->toScreen(loc,true,&visible);
+    if( visible && m_proj->onScreen(pos) ) {
         drawPointSource(pos, starWidth(mag), sp);
         return true;
     } else {
@@ -354,7 +356,9 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
     if( !m_proj->checkVisibility(obj) ) return false;
 
-    QPointF pos = m_proj->toScreen(obj);
+    bool visible = false;
+    QPointF pos = m_proj->toScreen(obj, true, &visible);
+    if( !visible || !m_proj->onScreen(pos) ) return false;
 
     float positionAngle = m_proj->findPA( obj, pos.x(), pos.y() );
 
