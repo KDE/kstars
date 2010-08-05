@@ -80,9 +80,9 @@ double SkyLabeler::ZoomOffset()
 SkyLabeler::SkyLabeler() :
         m_maxY(0),
         m_size(0),
-        m_proj(0),
         m_fontMetrics( QFont() ),
-        labelList( NUM_LABEL_TYPES )
+        labelList( NUM_LABEL_TYPES ),
+        m_proj(0)
 {
     m_errors = 0;
     m_minDeltaX = 30;    // when to merge two adjacent regions
