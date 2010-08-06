@@ -291,6 +291,7 @@ set(kstars_dialogsui_SRCS
 set(kstars_projection_SRCS
     projections/projector.cpp
     projections/lambertprojector.cpp
+    projections/gnomonicprojector.cpp
 )
 
 set(kstars_extra_SRCS

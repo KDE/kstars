@@ -52,6 +52,7 @@
 #include "widgets/infoboxwidget.h"
 #include "projections/projector.h"
 #include "projections/lambertprojector.h"
+#include "projections/gnomonicprojector.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
@@ -1177,8 +1178,15 @@ void SkyMap::setMapGeometry() {
         m_proj->setViewParams(p);
     else {
         delete m_proj;
-        //TODO: implement other projection classes
-        m_proj = new LambertProjector(p);
+        switch( Options::projection() ) {
+            case Gnomonic:
+                m_proj = new GnomonicProjector(p);
+                break;
+            case Lambert: default:
+                //TODO: implement other projection classes
+                m_proj = new LambertProjector(p);
+                break;
+        }
     }
 }
 
