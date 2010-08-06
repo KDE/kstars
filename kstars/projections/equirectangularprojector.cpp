@@ -100,6 +100,13 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF& p, dms* LST, const 
         }
 }
 
+bool EquirectangularProjector::unusablePoint(const QPointF& p) const
+{
+    double dx = (0.5*m_vp.width  - p.x())/m_vp.zoomFactor;
+    double dy = (0.5*m_vp.height - p.y())/m_vp.zoomFactor;
+    return (dx*dx > M_PI*M_PI/4.0) || (dy*dy > M_PI*M_PI/4.0);
+}
+
 QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, bool* drawLabel) const
 {
     float dX = m_vp.zoomFactor*M_PI/2;

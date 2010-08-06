@@ -30,6 +30,7 @@ public:
     EquirectangularProjector(const ViewParams& p);
     virtual SkyMap::Projection type() const;
     virtual double radius() const;
+    virtual bool unusablePoint( const QPointF& p) const;
     virtual Vector2f toScreenVec(SkyPoint* o, bool oRefract = true, bool* onVisibleHemisphere = 0) const;
     virtual SkyPoint fromScreen(const QPointF& p, dms* LST, const dms* lat) const;
     virtual QVector< Vector2f > groundPoly(SkyPoint* labelpoint = 0, bool* drawLabel = 0) const;
