@@ -56,6 +56,7 @@
 #include "projections/stereographicprojector.h"
 #include "projections/orthographicprojector.h"
 #include "projections/azimuthalequidistantprojector.h"
+#include "projections/equirectangularprojector.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
@@ -1193,6 +1194,9 @@ void SkyMap::setMapGeometry() {
                 break;
             case AzimuthalEquidistant:
                 m_proj = new AzimuthalEquidistantProjector(p);
+                break;
+            case Equirectangular:
+                m_proj = new EquirectangularProjector(p);
                 break;
             case Lambert: default:
                 //TODO: implement other projection classes

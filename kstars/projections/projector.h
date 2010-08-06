@@ -178,9 +178,9 @@ public:
     double findPA( SkyObject *o, float x, float y ) const;
 
     /** Get the radius of this projection's sky circle.
-        @return the radius (can be infinity)
+        @return the radius in radians
         */
-    virtual double radius() const { return HUGE_VAL; }
+    virtual double radius() const { return 2*M_PI; }
 
     /** This function handles some of the projection-specific code.
         @see toScreen()
@@ -193,7 +193,7 @@ public:
     virtual double projectionL(double x) const { return x; }
 
     /** This function returns the cosine of the maximum field angle,
-        i.e., the maximum anglular distance from the focus for
+        i.e., the maximum angular distance from the focus for
         which a point should be projected.
         Default is 0, i.e., 90 degrees.
         */

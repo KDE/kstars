@@ -295,6 +295,7 @@ set(kstars_projection_SRCS
     projections/stereographicprojector.cpp
     projections/orthographicprojector.cpp
     projections/azimuthalequidistantprojector.cpp
+    projections/equirectangularprojector.cpp
 )
 
 set(kstars_extra_SRCS
