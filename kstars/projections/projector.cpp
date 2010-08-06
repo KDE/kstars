@@ -184,10 +184,18 @@ bool Projector::checkVisibility( SkyPoint *p ) const
     
     double dX, dY;
 
-    //Skip objects below the horizon if using Horizontal coords,
-    //and the ground is drawn
-    if( m_vp.useAltAz && m_vp.fillGround && p->alt().Degrees() < -1.0 )
-        return false;
+    //Skip objects below the horizon if the ground is drawn
+    /* Is the cost of this conversion actually less than drawing it anyways?
+     * EquatorialToHorizontal takes 3 SinCos calls -- so 6 trig calls if not using GNU exts.
+     */
+    /*
+    if( m_vp.fillGround  ) {
+        if( !m_vp.useAltAz )
+            p->EquatorialToHorizontal( m_data->lst(), m_data->geo()->lat() );
+        if( p->alt().Degrees() < -1.0 ) return false;
+    }
+    */
+    if( m_vp.fillGround && m_vp.useAltAz && p->alt().Degrees() < -1.0 ) return false;
 
     if ( m_vp.useAltAz ) {
         dY = fabs( p->altRefracted().Degrees() - m_vp.focus->alt().Degrees() );
