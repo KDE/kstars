@@ -18,22 +18,21 @@
 
 */
 
-#ifndef GNOMONICPROJECTOR_H
-#define GNOMONICPROJECTOR_H
+#ifndef STEREOGRAPHICPROJECTOR_H
+#define STEREOGRAPHICPROJECTOR_H
 
 #include "projector.h"
 
 
-class GnomonicProjector : public Projector
+class StereographicProjector : public Projector
 {
 
 public:
-    GnomonicProjector(const ViewParams& p);
+    StereographicProjector(const ViewParams& p);
     virtual SkyMap::Projection type() const;
     virtual double radius() const;
     virtual double projectionK(double x) const;
     virtual double projectionL(double x) const;
-    virtual double cosMaxFieldAngle() const;
 };
 
-#endif // GNOMONICPROJECTOR_H
+#endif // STEREOGRAPHICPROJECTOR_H
