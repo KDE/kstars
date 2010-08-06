@@ -163,6 +163,8 @@ Vector2f Projector::clipLineVec( SkyPoint *p1, SkyPoint *p2 ) const
         mid.EquatorialToHorizontal( m_data->lst(), m_data->geo()->lat() );
 
         oMid = toScreenVec( &mid, false, &isVisible );
+        //AND the result with checkVisibility to clip things going below horizon
+        isVisible &= checkVisibility(&mid);
         newx = (int) oMid.x();
         newy = (int) oMid.y();
 

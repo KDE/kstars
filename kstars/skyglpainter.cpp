@@ -221,6 +221,8 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     bool isVisible, isVisibleLast;
     SkyPoint* pLast = points->last();
     Vector2f  oLast = m_proj->toScreenVec( pLast, true, &isVisibleLast );
+    // & with the result of checkVisibility to clip away things below horizon
+    isVisibleLast &= m_proj->checkVisibility(pLast);
 
     //Guess that we will require around the same number of items as in points.
     QVector<Vector2f> polygon;
@@ -228,6 +230,8 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     for ( int i = 0; i < points->size(); ++i ) {
         SkyPoint* pThis = points->at( i );
         Vector2f oThis = m_proj->toScreenVec( pThis, true, &isVisible );
+        // & with the result of checkVisibility to clip away things below horizon
+        isVisible &= m_proj->checkVisibility(pThis);
 
         if ( isVisible && isVisibleLast ) {
             polygon << oThis;
@@ -321,10 +325,14 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
     Vector2f oLast = m_proj->toScreenVec(points->first(), true, &isVisibleLast);
+    // & with the result of checkVisibility to clip away things below horizon
+    isVisibleLast &= m_proj->checkVisibility(points->first());
     if( isVisibleLast ) { glVertex2fv(oLast.data()); }
 
     for(int i = 1; i < points->size(); ++i) {
         Vector2f oThis = m_proj->toScreenVec( points->at(i), true, &isVisible);
+        // & with the result of checkVisibility to clip away things below horizon
+        isVisible &= m_proj->checkVisibility(points->at(i));
 
         bool doSkip = (skipList ? skipList->skip(i) : false);
         //This tells us whether we need to end the current line or whether we

@@ -220,11 +220,15 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
     QPointF   oLast = m_proj->toScreen( points->first(), true, &isVisibleLast );
+    // & with the result of checkVisibility to clip away things below horizon
+    isVisibleLast &= m_proj->checkVisibility( points->first() );
 
     QPointF oThis, oThis2;
     for ( int j = 1 ; j < points->size() ; j++ ) {
         SkyPoint* pThis = points->at( j );
         oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
+        // & with the result of checkVisibility to clip away things below horizon
+        isVisible &= m_proj->checkVisibility(pThis);
         bool doSkip = false;
         if( skipList ) {
             doSkip = skipList->skip(j);
@@ -248,11 +252,17 @@ void SkyQPainter::drawSkyPolygon(LineList* list)
     bool isVisible, isVisibleLast;
     SkyPoint* pLast = points->last();
     QPointF   oLast = m_proj->toScreen( pLast, true, &isVisibleLast );
+    // & with the result of checkVisibility to clip away things below horizon
+    isVisibleLast &= m_proj->checkVisibility(pLast);
+
 
     QPolygonF polygon;
     for ( int i = 0; i < points->size(); ++i ) {
         SkyPoint* pThis = points->at( i );
         QPointF oThis = m_proj->toScreen( pThis, true, &isVisible );
+        // & with the result of checkVisibility to clip away things below horizon
+        isVisible &= m_proj->checkVisibility(pThis);
+
 
         if ( isVisible && isVisibleLast ) {
             polygon << oThis;
