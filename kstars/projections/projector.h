@@ -23,6 +23,8 @@
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
 
+#include <math.h>
+
 #include <QPointF>
 
 #include "skyobjects/skypoint.h"
@@ -67,10 +69,23 @@ public:
         *corners of the sky map at the lowest zoom level are the invalid points).
         *@param p the screen pixel position
         */
-    virtual bool unusablePoint( const QPointF &p ) const = 0;
+    virtual bool unusablePoint( const QPointF &p ) const;
     
     /**Given the coordinates of the SkyPoint argument, determine the
      * pixel coordinates in the SkyMap.
+     *
+     * Since most of the projections used by KStars are very similar,
+     * if this function were to be reimplemented in each projection subclass
+     * we would end up changing maybe 5 or 6 lines out of 150.
+     * Instead, we have a default implementation that uses the projectionK
+     * and projectionL functions to take care of the differences between
+     * e.g. Orthographic and Stereographic. There is also the cosMaxFieldAngle
+     * function, which is used for testing whether a point is on the visible
+     * part of the projection, and the radius function which gives the radius of
+     * the projection in screen coordinates.
+     *
+     * While this seems ugly, it is less ugly than duplicating 150 loc to change 5.
+     *
      * @return Vector2f containing screen pixel x, y coordinates of SkyPoint.
      * @param o pointer to the SkyPoint for which to calculate x, y coordinates.
      * @param useRefraction true = use Options::useRefraction() value.
@@ -81,7 +96,7 @@ public:
      */
     virtual Vector2f toScreenVec( SkyPoint *o,
                                   bool oRefract = true,
-                                  bool* onVisibleHemisphere = 0) const = 0;
+                                  bool* onVisibleHemisphere = 0) const;
 
     /** This is exactly the same as toScreenVec but it returns a QPointF.
         It just calls toScreenVec and converts the result.
@@ -97,7 +112,7 @@ public:
      * @param LST pointer to the local sidereal time, as a dms object.
      * @param lat pointer to the current geographic laitude, as a dms object
      */
-    virtual SkyPoint fromScreen( const QPointF &p, dms *LST, const dms *lat ) const = 0;
+    virtual SkyPoint fromScreen( const QPointF &p, dms *LST, const dms *lat ) const;
 
 
     /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
@@ -163,9 +178,26 @@ public:
     double findPA( SkyObject *o, float x, float y ) const;
 
     /** Get the radius of this projection's sky circle.
-        @return the radius or 0 if not applicable (e.g. Equirectangular)
+        @return the radius (can be infinity)
         */
-    virtual double radius() const = 0;
+    virtual double radius() const { return HUGE_VAL; }
+
+    /** This function handles some of the projection-specific code.
+        @see toScreen()
+        */
+    virtual double projectionK(double x) const { return x; }
+
+    /** This function handles some of the projection-specific code.
+        @see toScreen()
+        */
+    virtual double projectionL(double x) const { return x; }
+
+    /** This function returns the cosine of the maximum field angle,
+        i.e., the maximum anglular distance from the focus for
+        which a point should be projected.
+        Default is 0, i.e., 90 degrees.
+        */
+    virtual double cosMaxFieldAngle() const { return 0; }
 
     /** Get the ground polygon
         @param labelpoint This point will be set to something suitable for attaching a label

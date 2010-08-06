@@ -31,10 +31,9 @@ public:
     LambertProjector(const ViewParams& p);
     virtual ~LambertProjector() {}
     virtual SkyMap::Projection type() const;
-    virtual SkyPoint fromScreen(const QPointF& p, dms* LST, const dms* lat) const;
-    virtual Vector2f toScreenVec(SkyPoint* o, bool oRefract = true, bool* onVisibleHemisphere = 0) const;
-    virtual bool unusablePoint( const QPointF& p ) const;
     virtual double radius() const;
+    virtual double projectionK(double x) const;
+    virtual double projectionL(double x) const;
 };
 
 #endif // LAMBERTPROJECTOR_H

@@ -135,7 +135,7 @@ SkyMap* SkyMap::Instance( )
 
 SkyMap::SkyMap() :
 #ifdef USEGL
-    QGLWidget( QGLFormat( QGL::SampleBuffers ), KStars::Instance() ),
+    QGLWidget( QGLFormat(QGL::SampleBuffers), KStars::Instance() ),
 #else 
     QWidget( KStars::Instance() ),
 #endif
@@ -221,11 +221,18 @@ SkyMap::SkyMap() :
     m_fpstime.start();
     m_framecount = 0;
 
+    #ifdef USEGL
     //The update timer will be destructed when SkyMap is..
     QTimer *update = new QTimer(this);
     update->setInterval(30);
     connect(update, SIGNAL(timeout()), this, SLOT(updateGL()) );
     update->start();
+
+    if( !format().testOption( QGL::SampleBuffers ) )
+        qWarning() << "No sample buffer; can't use multisampling (antialiasing)";
+    if( !format().testOption( QGL::StencilBuffer ) )
+        qWarning() << "No stencil buffer; can't draw concave polygons";
+    #endif
 }
 
 void SkyMap::slotToggleGeoBox(bool flag) {
