@@ -18,21 +18,32 @@
 
 */
 
-#ifndef ORTHOGRAPHICPROJECTOR_H
-#define ORTHOGRAPHICPROJECTOR_H
+#include "azimuthalequidistantprojector.h"
 
-#include "projector.h"
-
-
-class OrthographicProjector : public Projector
+AzimuthalEquidistantProjector::AzimuthalEquidistantProjector(const ViewParams& p)
+    : Projector(p)
 {
 
-public:
-    OrthographicProjector(const ViewParams& p);
-    virtual SkyMap::Projection type() const;
-    virtual double radius() const;
-    virtual double projectionK(double x) const;
-    virtual double projectionL(double x) const;
-};
+}
 
-#endif // ORTHOGRAPHICPROJECTOR_H
+SkyMap::Projection AzimuthalEquidistantProjector::type() const
+{
+    return SkyMap::AzimuthalEquidistant;
+}
+
+double AzimuthalEquidistantProjector::radius() const
+{
+    return 1.57079633;
+}
+
+double AzimuthalEquidistantProjector::projectionK(double x) const
+{
+    double crad = acos(x);
+    return crad/sin(crad);
+}
+
+double AzimuthalEquidistantProjector::projectionL(double x) const
+{
+    return x;
+}
+

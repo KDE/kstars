@@ -18,21 +18,21 @@
 
 */
 
-#ifndef ORTHOGRAPHICPROJECTOR_H
-#define ORTHOGRAPHICPROJECTOR_H
+#ifndef AZIMUTHALEQUIDISTANTPROJECTOR_H
+#define AZIMUTHALEQUIDISTANTPROJECTOR_H
 
 #include "projector.h"
 
 
-class OrthographicProjector : public Projector
+class AzimuthalEquidistantProjector : public Projector
 {
 
 public:
-    OrthographicProjector(const ViewParams& p);
+    AzimuthalEquidistantProjector(const ViewParams& p);
     virtual SkyMap::Projection type() const;
     virtual double radius() const;
     virtual double projectionK(double x) const;
     virtual double projectionL(double x) const;
 };
 
-#endif // ORTHOGRAPHICPROJECTOR_H
+#endif // AZIMUTHALEQUIDISTANTPROJECTOR_H
