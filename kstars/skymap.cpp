@@ -54,6 +54,7 @@
 #include "projections/lambertprojector.h"
 #include "projections/gnomonicprojector.h"
 #include "projections/stereographicprojector.h"
+#include "projections/orthographicprojector.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
@@ -1185,6 +1186,9 @@ void SkyMap::setMapGeometry() {
                 break;
             case Stereographic:
                 m_proj = new StereographicProjector(p);
+                break;
+            case Orthographic:
+                m_proj = new OrthographicProjector(p);
                 break;
             case Lambert: default:
                 //TODO: implement other projection classes

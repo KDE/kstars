@@ -293,6 +293,7 @@ set(kstars_projection_SRCS
     projections/lambertprojector.cpp
     projections/gnomonicprojector.cpp
     projections/stereographicprojector.cpp
+    projections/orthographicprojector.cpp
 )
 
 set(kstars_extra_SRCS
