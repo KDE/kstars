@@ -148,7 +148,17 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
 bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 {
     float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
-    return addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.));
+    // Draw them as bright stars of appropriate color instead of images
+    char spType;
+    //FIXME: do these need i18n?
+    if( planet->name() == i18n("Mars") ) {
+        spType = 'K';
+    } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
+        spType = 'F';
+    } else {
+        spType = 'B';
+    }
+    return addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.),spType);
 }
 
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
