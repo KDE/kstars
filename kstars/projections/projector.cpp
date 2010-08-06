@@ -35,14 +35,15 @@ namespace {
         *y = cosDec * sinRa;
         *z = sinDec;
     }
+}
 
-    inline SkyPoint pointAt(double az, KStarsData* data) {
-        SkyPoint p;
-        p.setAz( az );
-        p.setAlt( 0.0 );
-        p.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-        return p;
-    }
+SkyPoint Projector::pointAt(double az, KStarsData* data)
+{
+    SkyPoint p;
+    p.setAz( az );
+    p.setAlt( 0.0 );
+    p.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+    return p;
 }
 
 Projector::Projector(const ViewParams& p)

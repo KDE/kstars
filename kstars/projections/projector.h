@@ -177,6 +177,15 @@ public:
      */
     double findPA( SkyObject *o, float x, float y ) const;
 
+
+    /** Get the ground polygon
+        @param labelpoint This point will be set to something suitable for attaching a label
+        @param drawLabel this tells whether to draw a label.
+        @return the ground polygon
+        */
+    virtual QVector<Vector2f> groundPoly( SkyPoint* labelpoint = 0, bool* drawLabel = 0 ) const;
+
+protected:
     /** Get the radius of this projection's sky circle.
         @return the radius in radians
         */
@@ -199,14 +208,11 @@ public:
         */
     virtual double cosMaxFieldAngle() const { return 0; }
 
-    /** Get the ground polygon
-        @param labelpoint This point will be set to something suitable for attaching a label
-        @param drawLabel this tells whether to draw a label.
-        @return the ground polygon
+    /** Helper function for drawing ground.
+        @return the point with Alt = 0, az = @p az
         */
-    virtual QVector<Vector2f> groundPoly( SkyPoint* labelpoint = 0, bool* drawLabel = 0 ) const;
+    static SkyPoint pointAt(double az, KStarsData* data);
     
-protected:
     KStarsData *m_data;
     ViewParams m_vp;
     double m_sinY0, m_cosY0;

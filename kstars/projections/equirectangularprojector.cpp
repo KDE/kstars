@@ -102,6 +102,10 @@ SkyPoint EquirectangularProjector::fromScreen(const QPointF& p, dms* LST, const 
 
 QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, bool* drawLabel) const
 {
+    float dX = m_vp.zoomFactor*M_PI/2;
+    float dY = m_vp.zoomFactor*M_PI/2;
+    float x0 = m_vp.width/2.;
+    float y0 = m_vp.width/2.;
     if( m_vp.useAltAz ) {
         SkyPoint belowFocus;
         belowFocus.setAz( m_vp.focus->az().Degrees() );
@@ -125,13 +129,13 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
 
         QVector<Vector2f> ground;
         //Construct the ground polygon, which is a simple rectangle in this case
-        ground << Vector2f( -10.f, obf.y() )
-               << Vector2f( m_vp.width + 10.f, obf.y() )
-               << Vector2f( m_vp.width + 10.f, m_vp.height + 10.f )
-               << Vector2f( -10.f, m_vp.height + 10.f );
+        ground << Vector2f( x0 - dX, obf.y() )
+               << Vector2f( x0 + dX, obf.y() )
+               << Vector2f( x0 + dX, y0 + dY )
+               << Vector2f( x0 - dX, y0 + dY );
 
         if( labelpoint ) {
-            QPointF pLabel( m_vp.width-30., obf.y() );
+            QPointF pLabel( x0 -dX -50., obf.y() );
             KStarsData *data = KStarsData::Instance();
             *labelpoint = fromScreen(pLabel, data->lst(), data->geo()->lat());
         }
@@ -140,7 +144,69 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
         
         return ground;
     } else {
-        return Projector::groundPoly(labelpoint, drawLabel);
+        KStarsData *data = KStarsData::Instance();
+        QVector<Vector2f> ground;
+
+        static const QString horizonLabel = i18n("Horizon");
+        float marginLeft, marginRight, marginTop, marginBot;
+        SkyLabeler::Instance()->getMargins( horizonLabel, &marginLeft, &marginRight,
+                                            &marginTop, &marginBot );
+        double daz = 90.;
+        double faz = m_vp.focus->az().Degrees();
+        double az1 = faz -daz;
+        double az2 = faz +daz;
+
+        bool allGround = true;
+        bool allSky = true;
+
+        double inc = 1.0;
+        //Add points along horizon
+        for(double az = az1; az <= az2 + inc; az += inc) {
+            SkyPoint p = pointAt(az,data);
+            bool visible = false;
+            Vector2f o = toScreenVec(&p, false, &visible);
+            if( visible ) {
+                ground.append( o );
+                //Set the label point if this point is onscreen
+                if ( labelpoint && o.x() < marginRight && o.y() > marginTop && o.y() < marginBot )
+                    *labelpoint = p;
+
+                if ( o.y() > 0. ) allGround = false;
+                if ( o.y() < m_vp.height ) allSky = false;
+            }
+        }
+
+        if( allSky ) {
+            if( drawLabel)
+                *drawLabel = false;
+            return QVector<Vector2f>();
+        }
+
+        if( allGround ) {
+            ground.clear();
+            ground.append( Vector2f( x0 - dX, y0 - dY ) );
+            ground.append( Vector2f( x0 + dX, y0 - dY ) );
+            ground.append( Vector2f( x0 + dX, y0 + dY ) );
+            ground.append( Vector2f( x0 - dX, y0 + dY ) );
+            if( drawLabel)
+                *drawLabel = false;
+            return ground;
+        }
+
+        if( labelpoint ) {
+            QPointF pLabel( x0 -dX -50., ground.last().y() );
+            KStarsData *data = KStarsData::Instance();
+            *labelpoint = fromScreen(pLabel, data->lst(), data->geo()->lat());
+        }
+        if( drawLabel )
+            *drawLabel = true;
+        
+        //Now add points along the ground 
+        ground.append( Vector2f( x0 + dX, ground.last().y() ) );
+        ground.append( Vector2f( x0 + dX, y0 + dY ) );
+        ground.append( Vector2f( x0 - dX, y0 + dY ) );
+        ground.append( Vector2f( x0 - dX, ground.first().y() ) );
+        return ground;
     }
 }
 
