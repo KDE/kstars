@@ -147,6 +147,8 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
 
 bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 {
+    //If it's surely not visible, just stop now
+    if( !m_proj->checkVisibility(planet) ) return false;
     float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
     // Draw them as bright stars of appropriate color instead of images
     char spType;
@@ -163,6 +165,8 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
+    //If it's surely not visible, just stop now
+    if( !m_proj->checkVisibility(obj) ) return false;
     int type = obj->type();
     //addItem(obj, type, obj->a() * dms::PI * Options::zoomFactor() / 10800.0);
     
@@ -206,6 +210,8 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
 bool SkyGLPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
 {
+    //If it's surely not visible, just stop now
+    if( !m_proj->checkVisibility(loc) ) return false;
     return addItem(loc, SkyObject::STAR, starWidth(mag), sp);
 }
 
@@ -364,6 +370,7 @@ void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
     QVector<Vector2f> buffer( 6*obs.size() );
     int i = 0;
     foreach( SkyObject *obj, obs ) {
+        if( !m_proj->checkVisibility(obj) ) continue;
         bool visible;
         Vector2f vec = m_proj->toScreenVec(obj, true, &visible);
         if( !visible || !m_proj->onScreen(vec) ) continue;
