@@ -138,7 +138,14 @@ public:
      * absolutely essential that checkVisibility() is significantly faster than
      * the computations required to draw the object to the screen.
      *
-     * The function first checks the difference between the Declination/Altitude
+     * If the ground is to be filled, the function first checks whether the point is
+     * below the horizon, because they will be covered by the ground anyways.
+     * Importantly, it does not call the expensive EquatorialToHorizontal function.
+     * This means that the horizontal coordinates MUST BE CORRECT! The vast majority
+     * of points are already synchronized, so recomputing the horizontal coordinates is
+     * a waste.
+     *
+     * The function then checks the difference between the Declination/Altitude
      * coordinate of the Focus position, and that of the point p.  If the absolute
      * value of this difference is larger than fov, then the function returns false.
      * For most configurations of the sky map window, this simple check is enough to
@@ -165,6 +172,8 @@ public:
      * @return true if the point p was found to be inside the Sky map window.
      * @see SkyMap::setMapGeometry()
      * @see SkyMap::fov()
+     * @note If you are creating skypoints using equatorial coordinates, then
+     * YOU MUST CALL EQUATORIALTOHORIZONTAL BEFORE THIS FUNCTION!
      */
     bool checkVisibility( SkyPoint *p ) const;
 

@@ -196,8 +196,8 @@ bool Projector::checkVisibility( SkyPoint *p ) const
             p->EquatorialToHorizontal( m_data->lst(), m_data->geo()->lat() );
         if( p->alt().Degrees() < -1.0 ) return false;
     }
-    */
-    if( m_vp.fillGround && m_vp.useAltAz && p->alt().Degrees() < -1.0 ) return false;
+    */ //Here we hope that the point has already been 'synchronized'
+    if( m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0 ) return false;
 
     if ( m_vp.useAltAz ) {
         dY = fabs( p->altRefracted().Degrees() - m_vp.focus->alt().Degrees() );
