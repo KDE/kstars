@@ -18,7 +18,7 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
-//#define USEGL
+#define USEGL
 #define SMPROJ 0
 
 #include <Eigen/Core>
@@ -593,11 +593,10 @@ protected:
     #ifdef USEGL
     virtual void resizeGL(int width, int height);
     virtual void initializeGL();
-    virtual void paintGL();
-    #else
+    //virtual void paintGL();
+    #endif
     /**Draw the Sky, and all objects in it. */
     virtual void paintEvent( QPaintEvent *e );
-    #endif
 
     /**Process keystrokes:
      * @li arrow keys  Slew the map

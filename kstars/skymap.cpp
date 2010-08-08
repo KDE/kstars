@@ -230,7 +230,7 @@ SkyMap::SkyMap() :
     //The update timer will be destructed when SkyMap is..
     QTimer *update = new QTimer(this);
     update->setInterval(30);
-    connect(update, SIGNAL(timeout()), this, SLOT(updateGL()) );
+    connect(update, SIGNAL(timeout()), this, SLOT(update()) );
     update->start();
 
     if( !format().testOption( QGL::SampleBuffers ) )

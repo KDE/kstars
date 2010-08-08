@@ -653,8 +653,12 @@ void SkyMap::resizeGL(int width, int height)
     //do nothing since we resize in SkyGLPainter::paintGL()
 }
 
-void SkyMap::paintGL()
+void SkyMap::paintEvent( QPaintEvent *event )
 {
+    QPainter p;
+    p.begin(this);
+    p.beginNativePainting();
+
     setMapGeometry();
     if(m_framecount == 25) {
         float sec = m_fpstime.elapsed()/1000.;
@@ -671,6 +675,11 @@ void SkyMap::paintGL()
     data->skyComposite()->draw( &psky );
     //Finish up
     psky.end();
+    
+    p.endNativePainting();
+    drawOverlays(p);
+    p.end();
+
     ++m_framecount;
 }
 #else
