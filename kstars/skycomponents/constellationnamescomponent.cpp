@@ -121,12 +121,12 @@ void ConstellationNamesComponent::draw( SkyPainter *skyp )
 
     QString name;
     foreach(SkyObject *p, m_ObjectList) {
-        /* FIXME: put checkVisibility into projector 
-        if( ! map->checkVisibility( p ) )
-            continue; */
+        if( ! proj->checkVisibility( p ) )
+            continue; 
 
-        QPointF o = proj->toScreen( p );
-        if( ! proj->onScreen( o ) )
+        bool visible = false;
+        QPointF o = proj->toScreen( p, false, &visible );
+        if( !visible || !proj->onScreen( o ) )
             continue;
 
         if( Options::useLatinConstellNames() || Options::useLocalConstellNames() )
