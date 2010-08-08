@@ -18,7 +18,7 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
-#define USEGL
+//#define USEGL
 #define SMPROJ 0
 
 #include <Eigen/Core>
@@ -681,7 +681,7 @@ private:
     	*drawOverlays() to refresh the overlays.
     	*@param pm pointer to the Sky pixmap
     	*/
-    void drawOverlays( QPixmap *pm );
+    void drawOverlays( QPainter& p );
 
     /**Draw symbols at the position of each Telescope currently being controlled by KStars.
     	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.

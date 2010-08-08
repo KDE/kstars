@@ -692,12 +692,11 @@ void SkyMap::paintEvent( QPaintEvent *event )
     ++m_framecount;
     if (!computeSkymap)
     {
-        *sky2 = *sky;
-        drawOverlays( sky2 );
         QPainter p;
         p.begin( this );
         p.drawLine(0,0,1,1); // Dummy operation to circumvent bug
-        p.drawPixmap( 0, 0, *sky2 );
+        p.drawPixmap( 0, 0, *sky );
+        drawOverlays(p);
         p.end();
         return ; // exit because the pixmap is repainted and that's all what we want
     }
@@ -717,13 +716,11 @@ void SkyMap::paintEvent( QPaintEvent *event )
     //Finish up
     psky.end();
 
-    *sky2 = *sky;
-    drawOverlays( sky2 );
-    
     QPainter psky2;
     psky2.begin( this );
     psky2.drawLine(0,0,1,1); // Dummy op.
-    psky2.drawPixmap( 0, 0, *sky2 );
+    psky2.drawPixmap( 0, 0, *sky );
+    drawOverlays(psky2);
     psky2.end();
 
     computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown

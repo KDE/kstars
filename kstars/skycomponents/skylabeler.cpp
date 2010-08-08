@@ -82,6 +82,7 @@ SkyLabeler::SkyLabeler() :
         m_size(0),
         m_fontMetrics( QFont() ),
         labelList( NUM_LABEL_TYPES ),
+        m_picture(-1),
         m_proj(0)
 {
     m_errors = 0;
@@ -89,7 +90,6 @@ SkyLabeler::SkyLabeler() :
     m_yDensity  = 1.0;   // controls vertical resolution
 
     m_marks = m_hits = m_misses = m_elements = 0;
-    m_pixmap = QPixmap(0,0);
 }
 
 
@@ -216,11 +216,12 @@ void SkyLabeler::reset( SkyMap* skyMap )
     // ----- Set up Painter -----
     if( m_p.isActive() )
         m_p.end();
-    if( m_pixmap.size() != skyMap->size() ) {
-        m_pixmap = QPixmap(skyMap->width(), skyMap->height());
-    }
-    m_pixmap.fill( Qt::transparent );
-    m_p.begin(&m_pixmap);
+    m_picture = QPicture();
+    m_p.begin(&m_picture);
+    //This works around BUG 10496 in Qt
+    m_p.drawLine(0,0, 100,1000);
+    m_p.drawPoint( 0, 0 );
+    m_p.drawPoint( skyMap->width() + 1, skyMap->height() + 1);
     // ----- Set up Zoom Dependent Font -----
 
     m_stdFont = QFont( m_p.font() );
@@ -274,9 +275,11 @@ void SkyLabeler::reset( SkyMap* skyMap )
     }
 }
 
-const QPixmap& SkyLabeler::pixmap() const
+void SkyLabeler::draw(QPainter& p)
 {
-    return m_pixmap;
+    m_p.end();
+    m_picture.play(&p); //can't replay while it's being painted on
+    m_p.begin(&m_picture);
 }
 
 // We use Run Length Encoding to hold the information instead of an array of

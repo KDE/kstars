@@ -22,7 +22,7 @@
 #include <QList>
 #include <QVector>
 #include <QPainter>
-#include <QPixmap>
+#include <QPicture>
 #include <QFont>
 
 #include "skylabel.h"
@@ -166,10 +166,10 @@ public:
     void reset( SkyMap* skyMap );
 
     /**
-     * @short Gets the pixmap on which the labels have been drawn
+     * @short Draws labels using the given painter
+     * @param p the painter to draw labels with
      */
-    const QPixmap& pixmap() const;
-
+    void draw(QPainter& p);
 
     //----- Font Setting -----//
 
@@ -352,7 +352,7 @@ private:
     QFontMetricsF m_fontMetrics;
 
     QPainter m_p;
-    QPixmap m_pixmap;
+    QPicture m_picture;
 
     QVector<LabelList>   labelList;
 

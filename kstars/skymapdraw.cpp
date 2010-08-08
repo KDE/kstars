@@ -57,16 +57,12 @@ QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
     return m_proj->clipLine(p1,p2);
 }
 
-void SkyMap::drawOverlays( QPixmap *pm ) {
+void SkyMap::drawOverlays( QPainter& p ) {
     if( !KStars::Instance() )
         return;
 
-    QPainter p;
-    p.begin( pm );
-    p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
-
     //draw labels
-    p.drawPixmap(0,0, SkyLabeler::Instance()->pixmap());
+    SkyLabeler::Instance()->draw(p);
 
     //draw FOV symbol
     foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {
