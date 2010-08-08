@@ -659,7 +659,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
     p.begin(this);
     p.beginNativePainting();
 
-    setMapGeometry();
+    setupProjector();
     if(m_framecount == 25) {
         float sec = m_fpstime.elapsed()/1000.;
         printf("FPS: %.2f\n", m_framecount/sec);

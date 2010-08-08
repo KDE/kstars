@@ -31,6 +31,7 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 #include "starcomponent.h"
+#include "projections/projector.h"
 
 #include "skypainter.h"
 
@@ -174,7 +175,8 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
 
-    float radius = map->fov();
+    //FIXME_FOV -- maybe not clamp like that...
+    float radius = map->projector()->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
     if ( m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw() ) {

@@ -47,6 +47,7 @@
 #include "skymesh.h"
 #include "skylabeler.h"
 #include "skypainter.h"
+#include "projections/projector.h"
 
 SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
         SkyComposite(parent), m_reindexNum( J2000 )
@@ -169,7 +170,9 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     data->syncUpdateIDs();
 
     // prepare the aperture
-    float radius = map->fov();
+    // FIXME_FOV: We may want to rejigger this to allow
+    // wide-angle views --hdevalence
+    float radius = map->projector()->fov();
     if ( radius > 90.0 )
         radius = 90.0;
 

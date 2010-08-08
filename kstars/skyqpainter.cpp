@@ -233,8 +233,8 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
         if( skipList ) {
             doSkip = skipList->skip(j);
         }
-        //FIXME: check whether this works.
-        if ( m_sm->onScreen( oThis, oLast) && !doSkip ) {
+        //FIXME: check whether this works. (it doesn't)
+        if ( !doSkip ) {
             if ( isVisible && isVisibleLast && label )
                 label->updateLabelCandidates(oThis.x(), oThis.y(), list, j);
             if ( isVisible || isVisibleLast )

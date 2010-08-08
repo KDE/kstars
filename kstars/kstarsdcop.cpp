@@ -535,7 +535,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
             loadColorScheme( "chart.colors" );
         }
 
-        map()->setMapGeometry();
+        map()->setupProjector();
         map()->exportSkyImage( &printer );
 
         //Restore old color scheme if necessary

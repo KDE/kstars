@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
         }
 
         qApp->processEvents();
-        map->setMapGeometry();
+        map->setupProjector();
         map->exportSkyImage( &sky );
         qApp->processEvents();
 

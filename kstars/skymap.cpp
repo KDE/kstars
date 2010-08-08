@@ -175,7 +175,7 @@ SkyMap::SkyMap() :
     sky2  = new QPixmap( width(),  height() );
     pmenu = new KSPopupMenu();
 
-    setMapGeometry();
+    setupProjector();
 
     //Initialize Transient label stuff
     TransientTimeout = 100; //fade label color every 0.1 sec
@@ -896,239 +896,10 @@ void SkyMap::setZoomFactor(double factor) {
     emit zoomChanged();
 }
 
-QPointF SkyMap::toScreen(SkyPoint* o, bool useRefraction, bool* onVisibleHemisphere)
-{
-    return m_proj->toScreen(o, useRefraction, onVisibleHemisphere);
-}
-
-#if SMPROJ
-Vector2f SkyMap::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere)
-{
-    double Y, dX;
-    double sindX, cosdX, sinY, cosY, sinY0, cosY0;
-
-    float Width  = width()  * m_Scale;
-    float Height = height() * m_Scale;
-    double zoomscale = Options::zoomFactor() * m_Scale;
-
-    //oRefract == true  means listen to Options::useRefraction()
-    //oRefract == false means do not use refraction
-    oRefract &= Options::useRefraction();
-
-    if ( Options::useAltAz() ) {
-        if ( oRefract )
-            Y = SkyPoint::refract( o->alt() ).radians(); //account for atmospheric refraction
-        else
-            Y = o->alt().radians();
-        dX = focus()->az().reduce().radians() - o->az().reduce().radians();
-        focus()->alt().SinCos( sinY0, cosY0 );
-
-    } else {
-        dX = o->ra().reduce().radians() - focus()->ra().reduce().radians();
-        Y = o->dec().radians();
-        focus()->dec().SinCos( sinY0, cosY0 );
-    }
-    dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
-
-    //Special case: Equirectangular projection is very simple
-    if ( Options::projection() == Equirectangular ) {
-        Vector2f p;
-        p[0] = 0.5*Width  - zoomscale*dX ;
-        if ( Options::useAltAz() )
-            p[1] = 0.5*Height - zoomscale*(Y - focus()->alt().radians());
-        else
-            p[1] = 0.5*Height - zoomscale*(Y - focus()->dec().radians());
-
-        if ( onVisibleHemisphere != NULL ) {
-            *onVisibleHemisphere = ( p[0] >= 0. && p[0] <= Width &&
-                                     p[1] >= 0. && p[1] <= Height );
-        }
-        return p;
-    }
-
-    //Convert dX, Y coords to screen pixel coords.
-	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
-    //GNU version
-    sincos( dX, &sindX, &cosdX );
-    sincos( Y, &sinY, &cosY );
-	#else
-    //ANSI version
-    sindX = sin(dX);
-    cosdX = cos(dX);
-    sinY  = sin(Y);
-    cosY  = cos(Y);
-	#endif
-
-    // Reference for these map projections: Wolfram MathWorld
-    // Lambert Azimuthal Equal-Area:
-    // http://mathworld.wolfram.com/LambertAzimuthalEqual-AreaProjection.html
-    // 
-    // Azimuthal Equidistant:
-    // http://mathworld.wolfram.com/AzimuthalEquidistantProjection.html
-    //
-    // Orthographic:
-    // http://mathworld.wolfram.com/OrthographicProjection.html
-    //
-    // Stereographic:
-    // http://mathworld.wolfram.com/StereographicProjection.html
-    //
-    // Gnomonic:
-    // http://mathworld.wolfram.com/GnomonicProjection.html
-
-    //c is the cosine of the angular distance from the center
-    double c = sinY0*sinY + cosY0*cosY*cosdX;
-
-    if (onVisibleHemisphere != NULL) {
-        *onVisibleHemisphere = true;
-    }
-
-    //If c is less than 0.0, then the "field angle" (angular distance from the focus) 
-    //is more than 90 degrees.  This is on the "back side" of the celestial sphere 
-    //and should not be drawn.
-    //The Gnomonic projection has an infinite sky horizon, so don't allow the field
-    //angle to approach 90 degrees in thi scase (cut it off at c=0.2).
-    //Just set the flag, don't return a garbage value... --hdevalence
-    if( onVisibleHemisphere && ( c < 0.0 || ( Options::projection()==Gnomonic && c < 0.2 ) ) ) {
-        *onVisibleHemisphere = false;
-    }
-
-    double k = projectionK(c);
-
-    return Vector2f( 0.5*Width  - zoomscale*k*cosY*sindX,
-                     0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
-}
-#endif
-
-QRect SkyMap::scaledRect() {
-    return QRect( 0, 0, int(m_Scale*width()), int(m_Scale*height()) );
-}
-
-bool SkyMap::onScreen(const QPoint &point) {
-    return scaledRect().contains( point );
-}
-
-bool SkyMap::onScreen(const QPointF &pointF) {
-    return scaledRect().contains( pointF.toPoint() );
-}
-
-bool SkyMap::onScreen( const QPointF &p1, const QPointF &p2 ) {
-    return !( ( p1.x() < 0        && p2.x() < 0 ) ||
-              ( p1.y() < 0        && p2.y() < 0 ) ||
-              ( p1.x() > scaledRect().width() &&
-                p2.x() > scaledRect().width() ) ||
-              ( p1.y() > scaledRect().height() &&
-                p2.y() > scaledRect().height() ) );
-}
-
-bool SkyMap::onScreen( const QPoint &p1, const QPoint &p2 ) {
-    return !( ( p1.x() < 0        && p2.x() < 0 ) ||
-              ( p1.y() < 0        && p2.y() < 0 ) ||
-              ( p1.x() > scaledRect().width() &&
-                p2.x() > scaledRect().width() ) ||
-              ( p1.y() > scaledRect().height() &&
-                p2.y() > scaledRect().height() ) );
-}
-
 const Projector * SkyMap::projector() const
 {
     return m_proj;
 }
-
-#if SMPROJ
-SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
-    //Determine RA and Dec of a point, given (dx, dy): its pixel
-    //coordinates in the SkyMap with the center of the map as the origin.
-    SkyPoint result;
-    double sinY0, cosY0, sinc, cosc;
-
-    //Convert pixel position to x and y offsets in radians
-    double dx = ( 0.5*width()  - p.x() )/Options::zoomFactor();
-    double dy = ( 0.5*height() - p.y() )/Options::zoomFactor();
-
-    //Special case: Equirectangular
-    if ( Options::projection() == Equirectangular ) {
-        if ( Options::useAltAz() ) {
-            dms az, alt;
-            dx = -1.0*dx;  //Azimuth goes in opposite direction compared to RA
-            az.setRadians( dx + focus()->az().radians() );
-            alt.setRadians( dy + focus()->alt().radians() );
-            result.setAz( az.reduce() );
-            if ( Options::useRefraction() )
-                alt = SkyPoint::unrefract( alt );
-            result.setAlt( alt );
-            result.HorizontalToEquatorial( LST, lat );
-            return result;
-        } else {
-            dms ra, dec;
-            ra.setRadians( dx + focus()->ra().radians() );
-            dec.setRadians( dy + focus()->dec().radians() );
-            result.set( ra.reduce(), dec );
-            result.EquatorialToHorizontal( LST, lat );
-            return result;
-        }
-    }
-
-    double r  = sqrt( dx*dx + dy*dy );
-    dms c;
-    switch( Options::projection() ) {
-    case Lambert:
-        c.setRadians( 2.0*asin(0.5*r) );
-        break;
-    case AzimuthalEquidistant:
-        c.setRadians( r );
-        break;
-    case Orthographic:
-        c.setRadians( asin( r ) );
-        break;
-    case Stereographic:
-        c.setRadians( 2.0*atan2( r, 2.0 ) );
-        break;
-    case Gnomonic:
-        c.setRadians( atan( r ) );
-        break;
-    default: //should never get here
-        kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
-        c.setRadians( asin( r ) );  //just default to Orthographic
-        break;
-    }
-    c.SinCos( sinc, cosc );
-
-    if ( Options::useAltAz() ) {
-        focus()->alt().SinCos( sinY0, cosY0 );
-        dx = -1.0*dx; //Azimuth goes in opposite direction compared to RA
-    } else
-        focus()->dec().SinCos( sinY0, cosY0 );
-
-    double Y, A, atop, abot; //A = atan( atop/abot )
-
-    Y = asin( cosc*sinY0 + ( dy*sinc*cosY0 )/r );
-    atop = dx*sinc;
-    abot = r*cosY0*cosc - dy*sinY0*sinc;
-    A = atan2( atop, abot );
-
-    if ( Options::useAltAz() ) {
-        dms alt, az;
-        alt.setRadians( Y );
-        az.setRadians( A + focus()->az().radians() );
-        if ( Options::useRefraction() )
-            alt = SkyPoint::unrefract( alt );
-        result.setAlt( alt );
-        result.setAz( az );
-        result.HorizontalToEquatorial( LST, lat );
-    } else {
-        dms ra, dec;
-        dec.setRadians( Y );
-        ra.setRadians( A + focus()->ra().radians() );
-        result.set( ra.reduce(), dec );
-        result.EquatorialToHorizontal( LST, lat );
-    }
-
-    return result;
-}
-#endif
-
-//---------------------------------------------------------------------------
-
 
 // force a new calculation of the skymap (used instead of update(), which may skip the redraw)
 // if now=true, SkyMap::paintEvent() is run immediately, rather than being added to the event queue
@@ -1152,22 +923,7 @@ void SkyMap::forceUpdate( bool now )
         update();
 }
 
-float SkyMap::fov() {
-    float diagonalPixels = sqrt(static_cast<double>( width() * width() + height() * height() ));
-    return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
-}
-
-void SkyMap::setMapGeometry() {
-    //FIXME remove this section when checkVisibility is nuked
-    double Ymax;
-    if ( Options::useAltAz() ) {
-        XRange = 1.2*fov()/cos( focus()->alt().radians() );
-        Ymax = fabs( focus()->alt().Degrees() ) + fov();
-    } else {
-        XRange = 1.2*fov()/cos( focus()->dec().radians() );
-        Ymax = fabs( focus()->dec().Degrees() ) + fov();
-    }
-    isPoleVisible = Ymax >= 90.0;
+void SkyMap::setupProjector() {
     //Update View Parameters for projection
     ViewParams p;
     p.focus         = focus();
@@ -1205,76 +961,6 @@ void SkyMap::setMapGeometry() {
         }
     }
 }
-
-bool SkyMap::checkVisibility( SkyPoint *p ) {
-    //TODO deal with alternate projections
-    double dX, dY;
-    bool useAltAz = Options::useAltAz();
-
-    //Skip objects below the horizon if using Horizontal coords,
-    //and the ground is drawn
-    if( useAltAz && Options::showHorizon() && Options::showGround() && p->alt().Degrees() < -1.0 )
-        return false;
-
-    if ( useAltAz ) {
-        dY = fabs( p->altRefracted().Degrees() - focus()->alt().Degrees() );
-    } else {
-        dY = fabs( p->dec().Degrees() - focus()->dec().Degrees() );
-    }
-    if( isPoleVisible )
-        dY *= 0.75; //increase effective FOV when pole visible.
-    if( dY > fov() )
-        return false;
-    if( isPoleVisible )
-        return true;
-
-    if ( useAltAz ) {
-        dX = fabs( p->az().Degrees() - focus()->az().Degrees() );
-    } else {
-        dX = fabs( p->ra().Degrees() - focus()->ra().Degrees() );
-    }
-    if ( dX > 180.0 )
-        dX = 360.0 - dX; // take shorter distance around sky
-
-    return dX < XRange;
-}
-
-#if SMPROJ
-bool SkyMap::unusablePoint( const QPointF &p )
-{
-    double r0;
-    //r0 is the angular size of the sky horizon, in radians
-    //See HorizonComponent::draw() for documentation of these values
-    switch ( Options::projection() ) {
-    case Lambert:
-        r0 = 1.41421356; break;
-    case AzimuthalEquidistant:
-        r0 = 1.57079633; break;
-    case Stereographic:
-        r0 = 2.0; break;
-    case Gnomonic:
-        r0 = 6.28318531; break; //Gnomonic has an infinite horizon; this is 2*PI
-    case Orthographic:
-    default:
-        r0 = 1.0;
-        break;
-    }
-
-    //If the zoom is high enough, all points are usable
-    //The center-to-corner distance, in radians
-    double r = 0.5*1.41421356*width() / Options::zoomFactor();
-    if ( r < r0 ) {
-        return false;
-    }
-
-    //At low zoom, we have to determine whether the point is beyond the sky horizon
-    //Convert pixel position to x and y offsets in radians
-    double dx = ( 0.5*width()  - p.x() )/Options::zoomFactor();
-    double dy = ( 0.5*height() - p.y() )/Options::zoomFactor();
-
-    return (dx*dx + dy*dy) > r0*r0;
-}
-#endif
 
 void SkyMap::setZoomMouseCursor()
 {
@@ -1359,10 +1045,6 @@ void SkyMap::updateAngleRuler() {
 
 bool SkyMap::isSlewing() const  {
     return (slewing || ( clockSlewing && data->clock()->isActive() ) );
-}
-
-bool SkyMap::isPointNull( const QPointF &p ) {
-    return p.x() < -100000.0;
 }
 
 #ifdef HAVE_XPLANET

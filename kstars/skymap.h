@@ -104,13 +104,6 @@ public:
                       Gnomonic,
                       UnknownProjection };
 
-
-    /**@return the angular field of view of the sky map, in degrees.
-    	*@note it must use either the height or the width of the window to calculate the 
-    	*FOV angle.  It chooses whichever is larger.
-    	*/
-    float fov();
-
     /**@short Update object name and coordinates in the Focus InfoBox */
     void showFocusCoords();
 
@@ -268,19 +261,9 @@ public:
     	*/
     void setTransientObject( SkyObject *o ) { TransientObject = o; }
 
-    /**@short set up variables for the checkVisibility function.
-    	*
-    	*checkVisibility() uses some variables to assist it in determining whether points are 
-    	*on-screen or not.  The values of these variables do not depend on which object is being tested,
-    	*so we save a lot of time by bringing the code which sets their values outside of checkVisibility()
-    	*(which must be run for each and every SkyPoint).  setMapGeometry() is called once in paintEvent().
-    	*The variables set by setMapGeometry are:
-    	*@li isPoleVisible true if a coordinate Pole is on-screen
-    	*@li XMax the horizontal center-to-edge angular distance
-    	*@see SkyMap::checkVisibility()
-    	*@see SkyMap::paintEvent()
-    	*/
-    void setMapGeometry();
+    /** @short Call to set up the projector before a draw cycle.
+      */
+    void setupProjector();
 
     /** Set zoom factor. */
     void setZoomFactor(double factor);
@@ -300,7 +283,6 @@ public:
     	*/
     bool isObjectLabeled( SkyObject *o );
 
-
     /**@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
     	*/
     void stopTracking();
@@ -313,100 +295,14 @@ public:
     	*/
     void exportSkyImage( QPaintDevice *pd );
 
-    /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
-     * between *p1 and *p2 that just clips.
-     */
-    QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
-
-    /**Given the coordinates of the SkyPoint argument, determine the
-     * pixel coordinates in the SkyMap.
-     * @return QPoint containing screen pixel x, y coordinates of SkyPoint.
-     * @param o pointer to the SkyPoint for which to calculate x, y coordinates.
-     * @param useRefraction true = use Options::useRefraction() value.  
-     *   false = do not use refraction.  This argument is only needed 
-     *   for the Horizon, which should never be refracted.
-     * @param onVisibleHemisphere pointer to a bool to indicate whether the point is
-     *   on the visible part of the Celestial Sphere.
-     */
-    QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
-
-    #if SMPROJ
-    /** Project a point like toScreen, but return a vector instead of a QPointF.
-        @see toScreen()
-        */
-    Vector2f toScreenVec( SkyPoint* o, bool oRefract = true, bool* onVisibleHemisphere = 0);
-    #endif
-
     /**@return the current scale factor for drawing the map.
      * @note the scale factor should be 1.0 unless we are printing.
      */
     inline double scale() { return m_Scale; }
 
-    /** @return the bounding rectangle of the skymap, scaled by the current scale factor */
-    QRect scaledRect();
-
-    /** @return whether the given QPoint is on the SkyMap. */
-    bool onScreen(const QPoint &point );
-    /** @return whether the given QPointF is on the SkyMap. */
-    bool onScreen(const QPointF &pointF );
-
-    /** @return true if the line connecting the two points is possibly on screen.
-     * will return some false postives. */
-    bool onScreen(const QPointF &p1, const QPointF &p2 );
-    bool onScreen(const QPoint &p1, const QPoint &p2 );
-
     /** Get the current projector.
         @return a pointer to the current projector. */
     const Projector * projector() const;
-
-    #if SMPROJ
-    /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
-     * screen pixel coordinate offsets from the center of the Sky pixmap.
-     * @param the screen pixel position to convert
-     * @param LST pointer to the local sidereal time, as a dms object.
-     * @param lat pointer to the current geographic laitude, as a dms object
-     */
-    SkyPoint fromScreen( const QPointF &p, dms *LST, const dms *lat );
-    #endif
-
-    /**@short Determine if the skypoint p is likely to be visible in the display
-     * window.
-     * 
-     * checkVisibility() is an optimization function.  It determines whether an object
-     * appears within the bounds of the skymap window, and therefore should be drawn.
-     * The idea is to save time by skipping objects which are off-screen, so it is 
-     * absolutely essential that checkVisibility() is significantly faster than
-     * the computations required to draw the object to the screen.
-     * 
-     * The function first checks the difference between the Declination/Altitude
-     * coordinate of the Focus position, and that of the point p.  If the absolute 
-     * value of this difference is larger than fov, then the function returns false.
-     * For most configurations of the sky map window, this simple check is enough to 
-     * exclude a large number of objects.
-     * 
-     * Next, it determines if one of the poles of the current Coordinate System 
-     * (Equatorial or Horizontal) is currently inside the sky map window.  This is
-     * stored in the member variable 'bool SkyMap::isPoleVisible, and is set by the 
-     * function SkyMap::setMapGeometry(), which is called by SkyMap::paintEvent().
-     * If a Pole is visible, then it will return true immediately.  The idea is that
-     * when a pole is on-screen it is computationally expensive to determine whether 
-     * a particular position is on-screen or not: for many valid Dec/Alt values, *all* 
-     * values of RA/Az will indeed be onscreen, but for other valid Dec/Alt values, 
-     * only *most* RA/Az values are onscreen.  It is cheaper to simply accept all 
-     * "horizontal" RA/Az values, since we have already determined that they are 
-     * on-screen in the "vertical" Dec/Alt coordinate.
-     * 
-     * Finally, if no Pole is onscreen, it checks the difference between the Focus 
-     * position's RA/Az coordinate and that of the point p.  If the absolute value of 
-     * this difference is larger than XMax, the function returns false.  Otherwise,
-     * it returns true.
-     *     
-     * @param p pointer to the skypoint to be checked.
-     * @return true if the point p was found to be inside the Sky map window.
-     * @see SkyMap::setMapGeometry()
-     * @see SkyMap::fov()
-     */
-    bool checkVisibility( SkyPoint *p );
 
     /**@short Draw "user labels".  User labels are name labels attached to objects manually with
      * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
@@ -721,15 +617,6 @@ private:
     	*/
     void setZoomMouseCursor();
 
-    #if SMPROJ
-    /**Check if the current point on screen is a valid point on the sky. This is needed
-    	*to avoid a crash of the program if the user clicks on a point outside the sky (the
-    	*corners of the sky map at the lowest zoom level are the invalid points).  
-    	*@param p the screen pixel position
-    	*/
-    bool unusablePoint ( const QPointF &p );
-    #endif
-
     /** Calculate the zoom factor for the given keyboard modifier
      * @param modifier
      */
@@ -784,10 +671,6 @@ private:
     double y0;
 
     double m_Scale;
-
-    //data for checkVisibility
-    bool isPoleVisible;
-    double XRange;
 
     KStarsData *data;
     KSPopupMenu *pmenu;

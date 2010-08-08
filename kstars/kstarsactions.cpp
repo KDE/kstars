@@ -73,6 +73,7 @@
 #include "tools/jmoontool.h"
 #include "tools/flagmanager.h"
 #include "oal/execute.h"
+#include "projections/projector.h"
 
 #include <config-kstars.h>
 
@@ -789,7 +790,7 @@ void KStars::slotZoomChanged() {
     actionCollection()->action("zoom_out")->setEnabled( Options::zoomFactor() > MINZOOM );
     actionCollection()->action("zoom_in" )->setEnabled( Options::zoomFactor() < MAXZOOM );
     // Update status bar
-    float fov = map()->fov();
+    float fov = map()->projector()->fov();
     QString fovunits = i18n( "degrees" );
     if ( fov < 1.0 ) {
         fov = fov * 60.0;

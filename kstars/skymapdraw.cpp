@@ -52,11 +52,6 @@
 #include "indi/indidevice.h"
 #endif
 
-QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
-{
-    return m_proj->clipLine(p1,p2);
-}
-
 void SkyMap::drawOverlays( QPainter& p ) {
     if( !KStars::Instance() )
         return;
@@ -78,10 +73,11 @@ void SkyMap::drawOverlays( QPainter& p ) {
 }
 
 void SkyMap::drawAngleRuler( QPainter &p ) {
+    //FIXME use sky painter.
     p.setPen( QPen( data->colorScheme()->colorNamed( "AngularRuler" ), 3.0, Qt::DotLine ) );
     p.drawLine(
-        toScreen( AngularRuler.point(0) ),
-        toScreen( AngularRuler.point(1) ) );
+        m_proj->toScreen( AngularRuler.point(0) ),
+        m_proj->toScreen( AngularRuler.point(1) ) );
 }
 
 void SkyMap::drawZoomBox( QPainter &p ) {
@@ -95,9 +91,6 @@ void SkyMap::drawZoomBox( QPainter &p ) {
 void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
     bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
     if ( checkSlewing && Options::hideLabels() ) return;
-
-    float Width = m_Scale * width();
-    float Height = m_Scale * height();
 
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     skyLabeler->resetFont();      // use the zoom dependent font
@@ -116,7 +109,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
 
     //Attach a label to the centered object
     if ( focusObject() != NULL && Options::useAutoLabel() ) {
-        QPointF o = toScreen( focusObject() );
+        QPointF o = m_proj->toScreen( focusObject() );
         skyLabeler->drawNameLabel( focusObject(), o );
     }
 
@@ -153,9 +146,9 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
         if ( obj->type() == SkyObject::COMET && ! drawComets ) continue;
         if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) continue;
 
-        if ( ! checkVisibility( obj ) ) continue;
-        QPointF o = toScreen( obj );
-        if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
+        if ( ! m_proj->checkVisibility( obj ) ) continue;
+        QPointF o = m_proj->toScreen( obj );
+        if ( ! m_proj->onScreen(o) ) continue;
 
         skyLabeler->drawNameLabel( obj, o );
     }
@@ -254,7 +247,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
                             indi_sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                     }
 
-                    QPointF P = toScreen( &indi_sp );
+                    QPointF P = m_proj->toScreen( &indi_sp );
                     if ( Options::useAntialias() ) {
                         float s1 = 0.5*pxperdegree;
                         float s2 = pxperdegree;
