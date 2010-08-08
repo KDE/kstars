@@ -200,7 +200,9 @@ bool Projector::checkVisibility( SkyPoint *p ) const
     if( m_vp.fillGround /*&& m_vp.useAltAz*/ && p->alt().Degrees() < -1.0 ) return false;
 
     if ( m_vp.useAltAz ) {
-        dY = fabs( p->altRefracted().Degrees() - m_vp.focus->alt().Degrees() );
+        /** To avoid calculating refraction, we just use the unrefracted
+            altitude and add a 2-degree 'safety factor' */
+        dY = fabs( p->alt().Degrees() - m_vp.focus->alt().Degrees() ) -2.;
     } else {
         dY = fabs( p->dec().Degrees() - m_vp.focus->dec().Degrees() );
     }
