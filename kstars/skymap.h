@@ -71,10 +71,8 @@ class Projector;
 	*/
 
 #ifdef USEGL
-#warning USING QGLWidget
 class SkyMap : public QGLWidget  {
 #else
-#warning USING QWIDGET
 class SkyMap : public QWidget  {
 #endif
     Q_OBJECT
