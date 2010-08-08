@@ -313,9 +313,8 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
         float sizemin = 1.0;
         if( planet->name() == "Sun" || planet->name() == "Moon" )
             sizemin = 8.0;
-        sizemin *= skyMap()->scale();
 
-        float size = planet->angSize() * skyMap()->scale() * dms::PI * Options::zoomFactor()/10800.0;
+        float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
         if ( size < sizemin )
             size = sizemin;
         if ( Options::showPlanetImages() && !planet->image()->isNull() ) {

@@ -74,7 +74,7 @@ void SkyGLPainter::drawBuffer(int type)
     if( m_idx[type] == 0 ) return;
 
     glEnable(GL_TEXTURE_2D);
-    Texture *tex = 0;
+    const Texture *tex = 0;
     switch( type ) {
         case 3: case 13:          tex = TextureManager::getTexture("open-cluster"); break;
         case 4: case 7:           tex = TextureManager::getTexture("globular-cluster"); break;
@@ -398,7 +398,7 @@ void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
         ++i;
     }
 
-    Texture *tex = TextureManager::getTexture("obslistsymbol");
+    const Texture *tex = TextureManager::getTexture("obslistsymbol");
     tex->bind();
 
     glBlendFunc(GL_ONE, GL_ONE);

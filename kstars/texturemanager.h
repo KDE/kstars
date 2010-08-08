@@ -30,7 +30,7 @@ class TextureManager : public QObject
 {
     Q_OBJECT
 public:
-    static Texture* getTexture(const QString& name);
+    static const Texture* getTexture(const QString& name);
 protected:
     TextureManager(QObject* parent = 0);
     static TextureManager* m_p;

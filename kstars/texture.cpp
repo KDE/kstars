@@ -25,7 +25,7 @@ Texture::Texture(QObject* parent): QObject(parent)
     m_ready = false;
 }
 
-bool Texture::bind()
+bool Texture::bind() const
 {
 
     #ifdef USEGL
@@ -37,12 +37,12 @@ bool Texture::bind()
         return false;
 }
 
-QImage* Texture::getImage()
+const QImage& Texture::image() const
 {
-    return &m_image;
+    return m_image;
 }
 
-bool Texture::isReady()
+bool Texture::isReady() const
 {
     return m_ready;
 }
@@ -50,7 +50,7 @@ bool Texture::isReady()
 void Texture::setImage(const QImage& img)
 {
     m_image = img;
-    #warning Figure out a suitable fix for the Texture stuff
+    //FIXME do proper mipmapping
     #ifdef USEGL
     m_tid = SkyMap::Instance()->bindTexture(m_image, GL_TEXTURE_2D, GL_RGBA, QGLContext::DefaultBindOption);
     #endif

@@ -25,7 +25,7 @@
 
 TextureManager* TextureManager::m_p;
 
-Texture* TextureManager::getTexture(const QString& name)
+const Texture* TextureManager::getTexture(const QString& name)
 {
     if(!m_p) {
         m_p = new TextureManager(SkyMap::Instance());

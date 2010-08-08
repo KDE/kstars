@@ -30,11 +30,11 @@ class Texture : public QObject
     friend class TextureManager;
 public:
     ///Returns true if the texture is ready to be used. If false, don't try to use the texture.
-    bool isReady();
+    bool isReady() const;
     ///Get a pointer to the image associated with this texture
-    QImage* getImage();
+    const QImage& image() const;
     ///Bind the texture for use with GL -- return true if successful
-    bool bind();
+    bool bind() const;
     
 protected:
     Texture(QObject *parent = 0);
