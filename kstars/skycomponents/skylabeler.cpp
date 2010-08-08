@@ -277,9 +277,14 @@ void SkyLabeler::reset( SkyMap* skyMap )
 
 void SkyLabeler::draw(QPainter& p)
 {
-    m_p.end();
+    //FIXME: need a better soln. Apparently starting a painter
+    //clears the picture.
+    // But it's not like that's something that should be in the docs, right?
+    // No, that's definitely better to leave to people to figure out on their own.
+    if( m_p.isActive() ) { m_p.end(); }
     m_picture.play(&p); //can't replay while it's being painted on
-    m_p.begin(&m_picture);
+                        //this is also undocumented btw.
+    //m_p.begin(&m_picture);
 }
 
 // We use Run Length Encoding to hold the information instead of an array of
