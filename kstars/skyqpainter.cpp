@@ -672,14 +672,16 @@ void SkyQPainter::drawObservingList(const QList< SkyObject* >& obs)
 void SkyQPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel)
 {
     QVector<Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
-    QPolygonF groundPoly(ground.size());
-    for(int i = 0; i < ground.size(); ++i)
-        groundPoly[i] = KSUtils::vecToPoint(ground[i]);
-    if( filled )
-        drawPolygon(groundPoly);
-    else {
-        groundPoly.append( groundPoly.first() );
-        drawPolyline(groundPoly);
+    if( ground.size() ) {
+        QPolygonF groundPoly(ground.size());
+        for(int i = 0; i < ground.size(); ++i)
+            groundPoly[i] = KSUtils::vecToPoint(ground[i]);
+        if( filled )
+            drawPolygon(groundPoly);
+        else {
+            groundPoly.append( groundPoly.first() );
+            drawPolyline(groundPoly);
+        }
     }
 }
 
