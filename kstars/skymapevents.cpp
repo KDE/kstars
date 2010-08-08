@@ -713,7 +713,7 @@ void SkyMap::paintEvent( QPaintEvent *event )
     // FIXME: used to to notify infobox about possible change of object coordinates
     // Not elegant at all. Should find better option
     showFocusCoords();
-    setMapGeometry();
+    setupProjector();
     
     SkyQPainter psky(this, sky);
     //FIXME: we may want to move this into the components.

@@ -122,25 +122,25 @@ KSPlanet::KSPlanet( int n )
 {
     switch ( n ) {
         case MERCURY:
-            KSPlanetBase::init( i18n("Mercury"), "mercury.png", KSPlanetBase::planetColor[KSPlanetBase::MERCURY], 4879.4 );
+            KSPlanetBase::init( i18n("Mercury"), "mercury", KSPlanetBase::planetColor[KSPlanetBase::MERCURY], 4879.4 );
             break;
         case VENUS:
-            KSPlanetBase::init( i18n("Venus"), "venus.png", KSPlanetBase::planetColor[KSPlanetBase::VENUS], 12103.6 );
+            KSPlanetBase::init( i18n("Venus"), "venus", KSPlanetBase::planetColor[KSPlanetBase::VENUS], 12103.6 );
             break;
         case MARS:
-            KSPlanetBase::init( i18n("Mars"), "mars.png", KSPlanetBase::planetColor[KSPlanetBase::MARS], 6792.4 );
+            KSPlanetBase::init( i18n("Mars"), "mars", KSPlanetBase::planetColor[KSPlanetBase::MARS], 6792.4 );
             break;
         case JUPITER:
-            KSPlanetBase::init( i18n("Jupiter"), "jupiter.png", KSPlanetBase::planetColor[KSPlanetBase::JUPITER], 142984. );
+            KSPlanetBase::init( i18n("Jupiter"), "jupiter", KSPlanetBase::planetColor[KSPlanetBase::JUPITER], 142984. );
             break;
         case SATURN:
-            KSPlanetBase::init( i18n("Saturn"), "saturn.png", KSPlanetBase::planetColor[KSPlanetBase::SATURN], 120536. );
+            KSPlanetBase::init( i18n("Saturn"), "saturn", KSPlanetBase::planetColor[KSPlanetBase::SATURN], 120536. );
             break;
         case URANUS:
-            KSPlanetBase::init( i18n("Uranus"), "uranus.png", KSPlanetBase::planetColor[KSPlanetBase::URANUS], 51118. );
+            KSPlanetBase::init( i18n("Uranus"), "uranus", KSPlanetBase::planetColor[KSPlanetBase::URANUS], 51118. );
             break;
         case NEPTUNE:
-            KSPlanetBase::init( i18n("Neptune"), "neptune.png", KSPlanetBase::planetColor[KSPlanetBase::NEPTUNE], 49572. );
+            KSPlanetBase::init( i18n("Neptune"), "neptune", KSPlanetBase::planetColor[KSPlanetBase::NEPTUNE], 49572. );
             break;
         default:
             kDebug() << i18n("Error: Illegal identifier in KSPlanet constructor: %1", n) << endl;

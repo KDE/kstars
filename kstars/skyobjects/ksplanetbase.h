@@ -28,6 +28,7 @@
 
 #include "trailobject.h"
 
+class Texture;
 class KSNumbers;
 class KSPopupMenu;
 
@@ -119,11 +120,8 @@ public:
      */
     void EquatorialToEcliptic( const dms *Obliquity );
 
-    /** @return pointer to image of planet */
-    QImage* image() { return &Image; }
-
-    /**@return pointer to unrotated image of planet */
-    QImage* image0() { return &Image0; }
+    /** @return pointer to this planet's texture */
+    const Texture* texture() { return m_tex; }
 
     /**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance) */
     double rsun() const { return ep.radius; }
@@ -198,12 +196,6 @@ public:
     /** @return true if the KSPlanet is one of the eight major planets */
     bool isMajorPlanet() const;
 
-    /**@short scale and rotate Planet image
-     * @param scale desired planet diameter in pixels
-     * @param imageAngle angle in degrees to rotate image
-     */
-    void scaleRotateImage( float scale, double imageAngle );
-
     /** @return the pixel distance for offseting the object's name label */
     virtual double labelOffset() const;
 
@@ -252,6 +244,8 @@ protected:
     double  Rearth;
     double Phase;
 
+    const Texture *m_tex;
+
 private:
     /**
      * @short correct the position for the fact that the location is not at the center of the Earth,
@@ -264,7 +258,6 @@ private:
      */
     void localizeCoords( const KSNumbers *num, const dms *lat, const dms *LST );
 
-    QImage Image0, Image;
     double PositionAngle, AngularSize, PhysicalSize;
     QColor m_Color;
 };

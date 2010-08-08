@@ -35,6 +35,7 @@
 #include "kssun.h"
 #include "ksmoon.h"
 #include "skycomponents/skymapcomposite.h"
+#include "texturemanager.h"
 
 QVector<QColor> KSPlanetBase::planetColor = QVector<QColor>() <<
   QColor("slateblue") << //Mercury
@@ -56,22 +57,13 @@ const SkyObject::UID KSPlanetBase::UID_SOL_COMET    = 2;
 KSPlanetBase::KSPlanetBase( const QString &s, const QString &image_file, const QColor &c, double pSize ) :
     TrailObject( 2, 0.0, 0.0, 0.0, s ),
     Rearth(0.0),
-    Image()
+    m_tex(0)
 {
     init( s, image_file, c, pSize );
 }
 
 void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
-    if (! image_file.isEmpty()) {
-        QFile imFile;
-
-        if ( KSUtils::openDataFile( imFile, image_file ) ) {
-            imFile.close();
-            Image0.load( imFile.fileName() );
-            Image = Image0.convertToFormat( QImage::Format_ARGB32 );
-            Image0 = Image;
-        }
-    }
+    m_tex = TextureManager::getTexture(image_file);
     PositionAngle = 0.0;
     PhysicalSize = pSize;
     m_Color = c;
@@ -282,14 +274,6 @@ double KSPlanetBase::labelOffset() const {
         size = int(2.5*size);
 
     return 0.5*size + 4.;
-}
-
-void KSPlanetBase::scaleRotateImage( float size, double imAngle ) {
-    QMatrix m;
-    m.rotate( imAngle );
-    double scale = size / Image0.width();
-    m.scale( scale, scale );
-    Image = Image0.transformed( m );
 }
 
 void KSPlanetBase::findPhase() {

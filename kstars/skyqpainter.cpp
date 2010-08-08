@@ -23,6 +23,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skymap.h"
+#include "texture.h"
 
 #include "skycomponents/linelist.h"
 #include "skycomponents/skiplist.h"
@@ -317,20 +318,17 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
         float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
         if ( size < sizemin )
             size = sizemin;
-        if ( Options::showPlanetImages() && !planet->image()->isNull() ) {
-            dms pa( m_proj->findPA( planet, pos.x(), pos.y() ) );
-
-            //FIXME: Need to figure out why the size is sometimes NaN.
-            Q_ASSERT( !isnan( size ) && "Core dumps are good for you NaNs");
-
+        if ( Options::showPlanetImages() && planet->texture()->isReady() ) {
             //Because Saturn has rings, we inflate its image size by a factor 2.5
             if( planet->name() == "Saturn" )
                 size = int(2.5*size);
-
-            planet->scaleRotateImage( size, pa.Degrees() );
-            float x1 = pos.x() - 0.5*planet->image()->width();
-            float y1 = pos.y() - 0.5*planet->image()->height();
-            drawImage( QPointF(x1, y1), *( planet->image() ) );
+            
+            save();
+            translate(pos);
+            rotate( m_proj->findPA( planet, pos.x(), pos.y() ) );
+            drawImage( QRect(-0.5*size, -0.5*size, size, size),
+                       planet->texture()->image() );
+            restore();
         } else { //Otherwise, draw a simple circle.
             drawEllipse( pos, size, size );
         }

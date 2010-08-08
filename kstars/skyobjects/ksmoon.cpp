@@ -29,6 +29,7 @@
 #include "kstarsdata.h"
 #include "kspopupmenu.h"
 #include "skycomponents/skymapcomposite.h"
+#include "texturemanager.h"
 
 namespace {
     // Convert degrees to radians and put it into [0,2*pi] range
@@ -236,14 +237,11 @@ void KSMoon::findPhase() {
     Phase = (ecLong()- Sun->ecLong()).Degrees(); // Phase is obviously in degrees
     double DegPhase = dms( Phase ).reduce().Degrees();
     int iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
-    QString imName = QString().sprintf("moon%02d.png", iPhase);
 
-    QFile imFile;
-    if ( KSUtils::openDataFile( imFile, imName ) ) {
-        imFile.close();
-        image0()->load( imFile.fileName() );
-        image()->load( imFile.fileName() );
-    }
+    QString textureName = QString("moon%1").arg(iPhase,2,10,QChar('0'));
+    qDebug() << textureName;
+
+    m_tex = TextureManager::getTexture(textureName);
 }
 
 QString KSMoon::phaseName() const {

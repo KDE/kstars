@@ -30,8 +30,12 @@ const Texture* TextureManager::getTexture(const QString& name)
     if(!m_p) {
         m_p = new TextureManager(SkyMap::Instance());
     }
+    
     Texture *tex = m_p->m_textures.value(name,0);
     if( !tex ) {
+        qDebug() << "Trying to load texture" << name;
+        qDebug() << "Current textures loaded:";
+        qDebug() << m_p->m_textures.keys();
         QString filename = KStandardDirs::locate("appdata",QString("textures/%1.png").arg(name));
         tex = new Texture(m_p);
         if( !filename.isNull() ) {
