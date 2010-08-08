@@ -219,7 +219,6 @@ void SkyLabeler::reset( SkyMap* skyMap )
     m_picture = QPicture();
     m_p.begin(&m_picture);
     //This works around BUG 10496 in Qt
-    m_p.drawLine(0,0, 100,1000);
     m_p.drawPoint( 0, 0 );
     m_p.drawPoint( skyMap->width() + 1, skyMap->height() + 1);
     // ----- Set up Zoom Dependent Font -----
