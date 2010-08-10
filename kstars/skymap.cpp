@@ -226,17 +226,18 @@ SkyMap::SkyMap() :
     m_fpstime.start();
     m_framecount = 0;
 
-    #ifdef USEGL
     //The update timer will be destructed when SkyMap is..
     QTimer *update = new QTimer(this);
     update->setInterval(30);
     connect(update, SIGNAL(timeout()), this, SLOT(update()) );
     update->start();
 
+    #ifdef USEGL
     if( !format().testOption( QGL::SampleBuffers ) )
         qWarning() << "No sample buffer; can't use multisampling (antialiasing)";
     if( !format().testOption( QGL::StencilBuffer ) )
         qWarning() << "No stencil buffer; can't draw concave polygons";
+
     #endif
 }
 

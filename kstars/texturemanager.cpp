@@ -22,13 +22,14 @@
 #include <kstandarddirs.h>
 
 #include "skymap.h"
+#include "kstars.h"
 
 TextureManager* TextureManager::m_p;
 
 const Texture* TextureManager::getTexture(const QString& name)
 {
     if(!m_p) {
-        m_p = new TextureManager(SkyMap::Instance());
+        m_p = new TextureManager(KStars::Instance());
     }
     
     Texture *tex = m_p->m_textures.value(name,0);
@@ -47,6 +48,26 @@ const Texture* TextureManager::getTexture(const QString& name)
         m_p->m_textures.insert(name,tex);
     }
     return tex;
+}
+
+void TextureManager::genTextures()
+{
+    //If there's no instance, there are no textures to bind!
+    if(!m_p) return;
+    
+    for( QHash<QString, Texture*>::const_iterator it = m_p->m_textures.begin();
+         it != m_p->m_textures.end();
+         ++it )
+    {
+        qDebug() << (*it)->image().isNull();
+        qDebug() << (*it)->image().size();
+        qDebug() << (*it)->isReady();
+        qDebug() << (*it)->m_tid;
+        if( !(*it)->isReady() )
+            (*it)->genTexture();
+        qDebug() << (*it)->isReady();
+        qDebug() << (*it)->m_tid;
+    }
 }
 
 TextureManager::TextureManager(QObject* parent): QObject(parent)

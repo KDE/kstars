@@ -30,7 +30,15 @@ class TextureManager : public QObject
 {
     Q_OBJECT
 public:
+    /** Gets and/or loads a texture
+        @param name the name of the texture
+        @return a pointer to the texture
+        */
     static const Texture* getTexture(const QString& name);
+    /** If there exist textures that have a QImage loaded
+        but which have not yet been set up for use with GL,
+        this function will set them up. */
+    static void genTextures();
 protected:
     TextureManager(QObject* parent = 0);
     static TextureManager* m_p;

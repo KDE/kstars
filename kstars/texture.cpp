@@ -23,6 +23,7 @@
 Texture::Texture(QObject* parent): QObject(parent)
 {
     m_ready = false;
+    m_tid = 0;
 }
 
 bool Texture::bind() const
@@ -50,11 +51,21 @@ bool Texture::isReady() const
 void Texture::setImage(const QImage& img)
 {
     m_image = img;
+    m_ready = true;
+    genTexture();
+}
+
+void Texture::genTexture()
+{
     //FIXME do proper mipmapping
     #ifdef USEGL
-    m_tid = SkyMap::Instance()->bindTexture(m_image, GL_TEXTURE_2D, GL_RGBA, QGLContext::DefaultBindOption);
+    if( SkyMap::Instance() && !m_image.isNull() ) {
+        m_tid = SkyMap::Instance()->bindTexture(m_image, GL_TEXTURE_2D, GL_RGBA, QGLContext::DefaultBindOption);
+        m_ready = (m_tid != 0);
+    } else
+        m_ready = false;
     #endif
-    m_ready = true;
 }
+
 
 

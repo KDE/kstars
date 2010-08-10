@@ -38,6 +38,7 @@ public:
     
 protected:
     Texture(QObject *parent = 0);
+    void genTexture();
 protected slots:
     void setImage(const QImage& img);
 private:

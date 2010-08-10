@@ -64,6 +64,8 @@ SkyGLPainter::SkyGLPainter(SkyMap* sm)
                 m_texcoord[i][6*j +5] = Vector2f(1,1);
             }
         }
+        //Generate textures that were loaded before the SkyMap was
+        TextureManager::genTextures();
         m_init = true;
     }
 }
@@ -149,18 +151,69 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 {
     //If it's surely not visible, just stop now
     if( !m_proj->checkVisibility(planet) ) return false;
-    float fakeStarSize = ( 10.0 + log10( Options::zoomFactor() ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
-    // Draw them as bright stars of appropriate color instead of images
-    char spType;
-    //FIXME: do these need i18n?
-    if( planet->name() == i18n("Mars") ) {
-        spType = 'K';
-    } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
-        spType = 'F';
+
+    float zoom = Options::zoomFactor();
+    float fakeStarSize = ( 10.0 + log10( zoom ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
+    fakeStarSize = qMin(fakeStarSize,20.f);
+    
+    float size = planet->angSize() * dms::PI * zoom/10800.0;
+    float sizemin = 1.0;
+    if( planet->name() == "Sun" || planet->name() == "Moon" )
+        sizemin = 8.0;
+    
+    if( size < fakeStarSize || !planet->texture()->isReady() )
+    {
+        // Draw them as bright stars of appropriate color instead of images
+        char spType;
+        //FIXME: do these need i18n?
+        if( planet->name() == i18n("Mars") ) {
+            spType = 'K';
+        } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
+            spType = 'F';
+        } else {
+            spType = 'B';
+        }
+        return addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.),spType);
     } else {
-        spType = 'B';
+        //Draw images
+        Q_ASSERT(planet->texture()->isReady());
+        bool visible = false;
+        Vector2f pos = m_proj->toScreenVec(planet,true,&visible);
+        if( !visible ) return false;
+        
+        //Because Saturn has rings, we inflate its image size by a factor 2.5
+        if( planet->name() == "Saturn" )
+            size *= 2.5;
+
+        float s = size/2.;
+        Rotation2Df rot( m_proj->findPA(planet, pos.x(), pos.y()) * (M_PI/180.0) );
+        Vector2f vec;
+        
+        glBlendFunc(GL_ONE, GL_ONE);
+        glEnable(GL_TEXTURE_2D);
+
+        bool bound = planet->texture()->bind();
+        if( !bound ) return false;
+        
+        glBegin(GL_QUADS);
+            vec = pos + rot*Vector2f(-s,-s);
+            glTexCoord2f(0.,0.);
+            glVertex2fv(vec.data());
+            
+            vec = pos + rot*Vector2f( s,-s);
+            glTexCoord2f(1.,0.);
+            glVertex2fv(vec.data());
+            
+            vec = pos + rot*Vector2f( s, s);
+            glTexCoord2f(1.,1.);
+            glVertex2fv(vec.data());
+            
+            vec = pos + rot*Vector2f(-s, s);
+            glTexCoord2f(0.,1.);
+            glVertex2fv(vec.data());
+        glEnd();
+        return true;
     }
-    return addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.),spType);
 }
 
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
