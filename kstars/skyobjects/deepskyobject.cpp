@@ -32,6 +32,7 @@
 #include "kspopupmenu.h"
 #include "Options.h"
 #include "skymap.h"
+#include "texturemanager.h"
 
 DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
     SkyObject( o ),
@@ -40,9 +41,9 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
     UGC( o.UGC ),
     PGC( o.PGC ),
     MajorAxis( o.MajorAxis ),
-    MinorAxis( o.MinorAxis )
+    MinorAxis( o.MinorAxis ),
+    m_texture( o.texture() )
 {
-    Image = o.Image ? new QImage(*o.Image) : 0;
     updateID = updateNumID = 0;
 }
 
@@ -57,8 +58,8 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     PGC = pgc;
     UGC = ugc;
     setCatalog( cat );
-    Image = 0;
     updateID = updateNumID = 0;
+    m_texture = 0;
 }
 
 DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
@@ -72,8 +73,8 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
     PGC = pgc;
     UGC = ugc;
     setCatalog( cat );
-    Image = 0;
     updateID = updateNumID = 0;
+    m_texture = 0;
 }
 
 DeepSkyObject* DeepSkyObject::clone() const
@@ -105,18 +106,14 @@ void DeepSkyObject::setCatalog( const QString &cat ) {
     else Catalog = (unsigned char)CAT_UNKNOWN;
 }
 
-QImage* DeepSkyObject::readImage( void ) {
-    QFile file;
-    if ( Image==0 ) { //Image not currently set; try to load it from disk.
-        QString fname = name().toLower().remove( ' ' ) + ".png";
+void DeepSkyObject::loadTexture()
+{
+    m_texture = TextureManager::getTexture( name().toLower().remove(' ') );
+}
 
-        if ( KSUtils::openDataFile( file, fname ) ) {
-            file.close();
-            Image = new QImage( file.fileName(), "PNG" );
-        }
-    }
-
-    return Image;
+const Texture* DeepSkyObject::texture() const
+{
+    return m_texture;
 }
 
 double DeepSkyObject::labelOffset() const {

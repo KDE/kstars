@@ -385,10 +385,6 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
                 if ( drawn  && !( m_hideLabels || mag > labelMagLim ) )
                     addLabel( proj->toScreen(obj), obj );
                     //FIXME: find a better way to do above
-            } else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
-                if ( obj->image() ) {
-                    obj->deleteImage();
-                }
             }
         }
     }

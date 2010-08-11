@@ -34,9 +34,6 @@ const Texture* TextureManager::getTexture(const QString& name)
     
     Texture *tex = m_p->m_textures.value(name,0);
     if( !tex ) {
-        qDebug() << "Trying to load texture" << name;
-        qDebug() << "Current textures loaded:";
-        qDebug() << m_p->m_textures.keys();
         QString filename = KStandardDirs::locate("appdata",QString("textures/%1.png").arg(name));
         tex = new Texture(m_p);
         if( !filename.isNull() ) {
@@ -59,14 +56,8 @@ void TextureManager::genTextures()
          it != m_p->m_textures.end();
          ++it )
     {
-        qDebug() << (*it)->image().isNull();
-        qDebug() << (*it)->image().size();
-        qDebug() << (*it)->isReady();
-        qDebug() << (*it)->m_tid;
         if( !(*it)->isReady() )
             (*it)->genTexture();
-        qDebug() << (*it)->isReady();
-        qDebug() << (*it)->m_tid;
     }
 }
 

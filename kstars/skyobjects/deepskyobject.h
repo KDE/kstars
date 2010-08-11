@@ -24,10 +24,10 @@
 #include "skyobject.h"
 #include "dms.h"
 
-class QPainter;
 class QImage;
 class QString;
 class KSPopupMenu;
+class Texture;
 
 /**
   *@class DeepSkyObject
@@ -98,7 +98,7 @@ public:
     virtual SkyObject::UID getUID() const;
     
     /** *Destructor */
-    virtual ~DeepSkyObject() { delete Image; }
+    virtual ~DeepSkyObject() { }
 
     /**
       *@enum CATALOG
@@ -159,21 +159,15 @@ public:
     inline int pgc() const { return PGC; }
 
     /**
-      *Read in this object's image from disk, unless it already exists in memory.
-    	*@return a pointer to the image.
-    	*/
-    QImage *readImage();
+     * @return a pointer to the object's texture.
+     * @note do check for null pointers...
+     */
+    const Texture* texture() const;
 
     /**
-      *@return pointer to the object's inline image.  If it is currently
-    	*a null pointer, it first loads the image from disk.
-    	*/
-    inline QImage *image() const { return Image; }
-
-    /**
-      *@short delete the Image pointer, and set it to 0.
-    	*/
-    inline void deleteImage() { delete Image; Image = 0; }
+     * Try to load the object's texture
+     */
+    void loadTexture();
 
     /**
       *@return true if the object is in the Messier catalog
@@ -210,7 +204,7 @@ private:
     double PositionAngle;
     int UGC, PGC;
     float MajorAxis, MinorAxis;
-    QImage *Image;
+    const Texture *m_texture;
 };
 
 #endif

@@ -367,6 +367,7 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     QPointF pos = m_proj->toScreen(obj, true, &visible);
     if( !visible || !m_proj->onScreen(pos) ) return false;
 
+    //FIXME: this is probably incorrect
     float positionAngle = m_proj->findPA( obj, pos.x(), pos.y() );
 
     //Draw Image
@@ -380,31 +381,19 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
 bool SkyQPainter::drawDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
 {
-    float x = pos.x();
-    float y = pos.y();
-    QImage *image = obj->readImage();
-    QImage ScaledImage;
-
-    if ( !image ) return false;
+    if ( !obj->texture() ) obj->loadTexture();
+    if ( !obj->texture()->isReady() ) return false;
     
-    float zoom = Options::zoomFactor();
-    float w = obj->a() * dms::PI * zoom/10800.0;
+    double zoom = Options::zoomFactor();
+    double w = obj->a() * dms::PI * zoom/10800.0;
+    double h = obj->e() * w;
 
-    float h = w*image->height()/image->width(); //preserve image's aspect ratio
-    float dx = 0.5*w;
-    float dy = 0.5*h;
-    ScaledImage = image->scaled( int(w), int(h) );
     save();
-    translate( x, y );
-    rotate( positionAngle );  //rotate the coordinate system
-
-    if ( Options::useAntialias() )
-        drawImage( QPointF( -dx, -dy ), ScaledImage );
-    else
-        drawImage( QPoint( -1*int(dx), -1*int(dy) ), ScaledImage );
-
+    translate(pos);
+    rotate( positionAngle );
+    drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->texture()->image() );
     restore();
-        
+
     return true;
 }
 
