@@ -297,7 +297,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
     if( fakeStarSize > 15.0 )
         fakeStarSize = 15.0;
 
-    float size = planet->angSize() * m_sm->scale() * dms::PI * Options::zoomFactor()/10800.0;
+    float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
     if( size < fakeStarSize && planet->name() != "Sun" && planet->name() != "Moon" ) {
         // Draw them as bright stars of appropriate color instead of images
         char spType;
@@ -387,9 +387,8 @@ bool SkyQPainter::drawDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float
 
     if ( !image ) return false;
     
-    double scale = skyMap()->scale();
     float zoom = Options::zoomFactor();
-    float w = obj->a() * scale * dms::PI * zoom/10800.0;
+    float w = obj->a() * dms::PI * zoom/10800.0;
 
     float h = w*image->height()/image->width(); //preserve image's aspect ratio
     float dx = 0.5*w;
@@ -420,8 +419,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, floa
     float majorAxis = obj->a();
     if ( majorAxis == 0.0 ) {   majorAxis = 1.0; }
 
-    double scale = SkyMap::Instance()->scale();
-    float size = scale * majorAxis * dms::PI * zoom / 10800.0;
+    float size = majorAxis * dms::PI * zoom / 10800.0;
     int isize = int(size);
 
     float dx1 = -0.5*size;

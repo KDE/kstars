@@ -297,42 +297,20 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 }
 
 void SkyMap::exportSkyImage( QPaintDevice *pd ) {
-    #warning Still have to port exportSkyImage()
-    #if 0
-    QPainter p;
-    p.begin( pd );
+    SkyQPainter p(this,pd);
+    p.begin();
     p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
 
     //scale image such that it fills 90% of the x or y dimension on the paint device
     double xscale = double(p.device()->width()) / double(width());
     double yscale = double(p.device()->height()) / double(height());
-    m_Scale = (xscale < yscale) ? xscale : yscale;
+    double scale = qMin(xscale,yscale);
 
-    //Now that we have changed the map scale, we need to re-run 
-    //StarObject::initImages() to get scaled pixmaps
-    SkyQPainter::initImages();
+    p.scale(scale,scale);
 
-    int pdWidth = int( m_Scale * width() );
-    int pdHeight = int( m_Scale * height() );
-    int x1 = int( 0.5*(p.device()->width()  - pdWidth) );
-    int y1 = int( 0.5*(p.device()->height()  - pdHeight) );
-
-    p.setClipRect( QRect( x1, y1, pdWidth, pdHeight ) );
-    p.setClipping( true );
-
-    //Fill background with sky color
-    p.fillRect( x1, y1, pdWidth, pdHeight, QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-
-    if ( x1 || y1 ) p.translate( x1, y1 );
-
-    data->skyComposite()->draw( p );
-    drawObservingList( p );
-
+    p.drawSkyBackground();
+    data->skyComposite()->draw( &p );
+    drawOverlays( p );
     p.end();
-
-    //Reset scale for screen drawing
-    m_Scale = 1.0;
-    SkyQPainter::initImages();
-    #endif
 }
 

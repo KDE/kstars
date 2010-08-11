@@ -372,7 +372,7 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
             }
 
             float mag = obj->mag();
-            float size = map->scale() * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+            float size = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
 
             //only draw objects if flags set, it's bigger than 1 pixel (unless
             //zoom > 2000.), and it's brighter than maglim (unless mag is

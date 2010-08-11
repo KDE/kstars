@@ -517,8 +517,7 @@ QString StarObject::labelString() const {
 }
 
 double StarObject::labelOffset() const {
-    return SkyMap::Instance()->scale() * 
-        (6. + 0.5*( 5.0 - mag() ) + 0.01*( Options::zoomFactor()/500. ) );
+    return (6. + 0.5*( 5.0 - mag() ) + 0.01*( Options::zoomFactor()/500. ) );
 }
 
 SkyObject::UID StarObject::getUID() const

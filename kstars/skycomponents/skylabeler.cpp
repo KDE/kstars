@@ -70,8 +70,7 @@ void SkyLabeler::setZoomFont()
 
 double SkyLabeler::ZoomOffset()
 {
-    double scale = SkyMap::Instance()->scale();
-    double offset = scale * dms::PI * Options::zoomFactor()/10800.0/3600.0;
+    double offset = dms::PI * Options::zoomFactor()/10800.0/3600.0;
     return 4.0 + offset * 0.5;
 }
 

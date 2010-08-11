@@ -257,8 +257,7 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
 }
 
 double KSPlanetBase::labelOffset() const {
-    double scale = SkyMap::Instance()->scale();
-    double size = angSize() * scale * dms::PI * Options::zoomFactor()/10800.0;
+    double size = angSize() * dms::PI * Options::zoomFactor()/10800.0;
 
     //Determine minimum size for offset
     double minsize = 4.;

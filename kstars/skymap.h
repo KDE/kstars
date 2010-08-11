@@ -293,11 +293,6 @@ public:
     	*/
     void exportSkyImage( QPaintDevice *pd );
 
-    /**@return the current scale factor for drawing the map.
-     * @note the scale factor should be 1.0 unless we are printing.
-     */
-    inline double scale() { return m_Scale; }
-
     /** Get the current projector.
         @return a pointer to the current projector. */
     const Projector * projector() const;
