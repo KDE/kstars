@@ -188,8 +188,8 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
         float s = size/2.;
         Rotation2Df rot( m_proj->findPA(planet, pos.x(), pos.y()) * (M_PI/180.0) );
         Vector2f vec;
-        
-        glBlendFunc(GL_ONE, GL_ONE);
+
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_TEXTURE_2D);
 
         bool bound = planet->texture()->bind();
@@ -224,41 +224,63 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     //addItem(obj, type, obj->a() * dms::PI * Options::zoomFactor() / 10800.0);
     
     //If it's a star, add it like a star
-    if( type < 2 ) {
+    if( type < 2 )
         return addItem(obj, type, starWidth(obj->mag()));
-    } else {
-        bool visible = false;
-        Vector2f vec = m_proj->toScreenVec(obj,true,&visible);
-        if(!visible) return false;
 
+    bool visible = false;
+    Vector2f vec = m_proj->toScreenVec(obj,true,&visible);
+    if(!visible) return false;
+
+    float width = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+    float pa = m_proj->findPA(obj, vec[0], vec[1]) * (M_PI/180.0);
+    Rotation2Df r(pa);
+    float w = width/2.;
+    float h = w * obj->e();
+
+    //Init texture if it doesn't exist and we would be drawing it anyways
+    if( drawImage && !obj->texture() )
+        obj->loadTexture();
+    const Texture *tex = obj->texture();
+
+    if( drawImage && tex && tex->isReady() ) {
+        glEnable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        Vector2f vertex;
+        tex->bind();
+        glBegin(GL_QUADS);
+            vertex = vec + r*Vector2f(-w,-h);
+            glTexCoord2f(0.,0.);
+            glVertex2fv(vertex.data());
+            vertex = vec + r*Vector2f( w,-h);
+            glTexCoord2f(1.,0.);
+            glVertex2fv(vertex.data());
+            vertex = vec + r*Vector2f( w, h);
+            glTexCoord2f(1.,1.);
+            glVertex2fv(vertex.data());
+            vertex = vec + r*Vector2f(-w, h);
+            glTexCoord2f(0.,1.);
+            glVertex2fv(vertex.data());
+        glEnd();
+    } else {
         //If the buffer is full, flush it
-        if(m_idx[type] == BUFSIZE) {
+        if(m_idx[type] == BUFSIZE)
             drawBuffer(type);
-        }
 
         const int i = 6*m_idx[type];
-        float width = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
-        float pa = m_proj->findPA(obj, vec[0], vec[1]) * (M_PI/180.0);
-        Rotation2Df r(pa);
-        float w = width/2.;
-        float h = w * obj->e();
-
         m_vertex[type][i + 0] = vec + r* Vector2f(-w,-h);
         m_vertex[type][i + 1] = vec + r* Vector2f( w,-h);
         m_vertex[type][i + 2] = vec + r* Vector2f(-w, h);
         m_vertex[type][i + 3] = vec + r* Vector2f(-w, h);
         m_vertex[type][i + 4] = vec + r* Vector2f( w,-h);
         m_vertex[type][i + 5] = vec + r* Vector2f( w, h);
+        Vector3f c( m_pen[0], m_pen[1], m_pen[2] );
 
-        Vector3f c( m_pen[0], m_pen[1], m_pen[2]   );
-
-        for(int j = 0; j < 6; ++j) {
+        for(int j = 0; j < 6; ++j)
             m_color[type][i+j] = c;
-        }
-
+        
         ++m_idx[type];
-        return true;
     }
+    return true;
 }
 
 bool SkyGLPainter::drawPointSource(SkyPoint* loc, float mag, char sp)
@@ -302,7 +324,7 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
         isVisibleLast = isVisible;
     }
 
-    //#define MAKE_KSTARS_SLOW TRUE
+    #define MAKE_KSTARS_SLOW TRUE
     if ( polygon.size() ) {
         #ifdef MAKE_KSTARS_SLOW
         drawPolygon(polygon, false);
@@ -504,6 +526,7 @@ void SkyGLPainter::begin()
 
     //Set various parameters
     glDisable(GL_LIGHTING);
+    glDisable(GL_COLOR_MATERIAL);
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
     glDepthMask(GL_FALSE);

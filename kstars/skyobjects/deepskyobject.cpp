@@ -108,7 +108,8 @@ void DeepSkyObject::setCatalog( const QString &cat ) {
 
 void DeepSkyObject::loadTexture()
 {
-    m_texture = TextureManager::getTexture( name().toLower().remove(' ') );
+    QString tname = name().toLower().remove(' ');
+    m_texture = TextureManager::getTexture( tname );
 }
 
 const Texture* DeepSkyObject::texture() const
