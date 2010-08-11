@@ -88,6 +88,7 @@ void SkyGLPainter::drawBuffer(int type)
     tex->bind();
 
     glBlendFunc(GL_ONE, GL_ONE);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -190,6 +191,7 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
         Vector2f vec;
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
         glEnable(GL_TEXTURE_2D);
 
         bool bound = planet->texture()->bind();
@@ -245,6 +247,7 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     if( drawImage && tex && tex->isReady() ) {
         glEnable(GL_TEXTURE_2D);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
         Vector2f vertex;
         tex->bind();
         glBegin(GL_QUADS);
