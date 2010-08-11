@@ -20,9 +20,6 @@
 
 //#define USEGL
 
-#include <Eigen/Core>
-USING_PART_OF_NAMESPACE_EIGEN
-
 #include <QTimer>
 #ifdef USEGL
     #include <QGLWidget>
