@@ -235,12 +235,13 @@ void KSMoon::findPhase() {
     KSSun *Sun = (KSSun*)KStarsData::Instance()->skyComposite()->findByName( "Sun" );
     Phase = (ecLong()- Sun->ecLong()).Degrees(); // Phase is obviously in degrees
     double DegPhase = dms( Phase ).reduce().Degrees();
-    int iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
+    iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
     QString imName = QString().sprintf("moon%02d.png", iPhase);
 
     QFile imFile;
     if ( KSUtils::openDataFile( imFile, imName ) ) {
         imFile.close();
+        imFileName = imFile.fileName();
         image0()->load( imFile.fileName() );
         image()->load( imFile.fileName() );
     }
