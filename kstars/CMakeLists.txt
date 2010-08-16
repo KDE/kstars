@@ -99,7 +99,7 @@ set(libkstarstools_SRCS
 	tools/scriptargwidgets.cpp
 	tools/scriptbuilder.cpp
 	tools/scriptfunction.cpp
-    tools/skycalendar.cpp
+	tools/skycalendar.cpp
 	tools/wutdialog.cpp
 	tools/flagmanager.cpp
 
