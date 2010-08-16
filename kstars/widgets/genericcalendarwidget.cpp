@@ -46,10 +46,6 @@ GenericCalendarWidget::GenericCalendarWidget( KDateTable &datetable, QWidget *pa
         previousMonth->setIcon( KIcon( QLatin1String( "arrow-left" ) ) );
     }
 
-    selectMonth->setCurrentIndex( date().month() - 1 );
-    selectYear->setValue( date().year() );
-    m_Date = date();
-
     // Connects
     connect( &m_DateTable, SIGNAL( dateChanged( const QDate& ) ), SLOT( dateChangedSlot( const QDate& ) ) );
     connect( nextMonth, SIGNAL( clicked() ), SLOT( nextMonthClicked() ) );
@@ -64,6 +60,10 @@ GenericCalendarWidget::GenericCalendarWidget( KDateTable &datetable, QWidget *pa
     populateMonthNames();
 
     //    kDebug() << calendar()->monthName( date(), KCalendarSystem::LongName );
+
+    selectMonth->setCurrentIndex( date().month() - 1 );
+    selectYear->setValue( date().year() );
+    m_Date = date();
 
     show();
 
