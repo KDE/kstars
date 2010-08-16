@@ -102,7 +102,7 @@ set(libkstarstools_SRCS
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
 	tools/flagmanager.cpp
-
+	tools/moonphasetool.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
@@ -219,6 +219,12 @@ set(libkstarswidgets_SRCS
 	widgets/timestepbox.cpp 
 	widgets/timeunitbox.cpp
 	widgets/infoboxwidget.cpp
+	widgets/genericcalendarwidget.cpp
+	widgets/moonphasecalendarwidget.cpp
+)
+
+kde4_add_ui_files(libkstarswidgets_SRCS
+  widgets/genericcalendarwidget.ui
 )
 
 set( kstars_KCFG_SRCS Options.kcfgc )
