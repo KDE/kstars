@@ -831,7 +831,7 @@ void KStars::slotCoordSys() {
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
-        actionCollection()->action("coordsys")->setText( i18n("Switch to horiztonal view (Horizontal &Coordinates)") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to horizonal view (Horizontal &Coordinates)") );
     } else {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
