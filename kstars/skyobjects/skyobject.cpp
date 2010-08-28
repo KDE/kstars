@@ -325,6 +325,7 @@ QString SkyObject::typeName( void ) const {
     else if ( Type==8 ) return i18n( "Galaxy" );
     else if ( Type==9 ) return i18n( "Comet" );
     else if ( Type==10 ) return i18n( "Asteroid" );
+    else if ( Type == 18) return i18n("Radio Source");
     else return i18n( "Unknown Type" );
 }
 

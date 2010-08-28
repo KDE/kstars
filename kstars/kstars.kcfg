@@ -431,7 +431,7 @@
 		<entry name="ShowOther" type="Bool">
 			<label>Draw extra deep-sky objects in the sky map?</label>
 			<whatsthis>Toggle whether extra objects are drawn in the sky map.</whatsthis>
-			<default>false</default>
+			<default>true</default>
 		</entry>
 		<entry name="ShowMilkyWay" type="Bool">
 			<label>Draw Milky Way contour in the sky map?</label>

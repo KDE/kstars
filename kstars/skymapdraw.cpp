@@ -326,7 +326,8 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         }
         if ( (obj->type() >= SkyObject::OPEN_CLUSTER && obj->type() <= SkyObject::GALAXY) ||
              (obj->type() >= SkyObject::ASTERISM) ||
-             (obj->type() <= SkyObject::QUASAR) )
+             (obj->type() <= SkyObject::QUASAR) ||
+             (obj->type() <= SkyObject::RADIO_SOURCE))
         {
             if ( ((DeepSkyObject*)obj)->isCatalogM() && ! drawMessier ) continue;
             if ( ((DeepSkyObject*)obj)->isCatalogNGC() && ! drawNGC ) continue;

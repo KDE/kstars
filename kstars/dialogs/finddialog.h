@@ -81,6 +81,8 @@ private slots:
 
     void enqueueSearch();
 
+    void slotDetails();
+
 protected:
     /**Process Keystrokes.  The Up and Down arrow keys are used to select the
      * Previous/Next item in the listbox of named objects.  The Esc key closes

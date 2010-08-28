@@ -31,6 +31,7 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skycomponents/customcatalogcomponent.h"
+#include "skycomponents/skymapcomposite.h"
 
 AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi(this);
@@ -61,6 +62,7 @@ AddCatDialog::AddCatDialog( KStars *_ks )
 
     acd->FieldPool->addItem( i18n( "Common Name" ) );
     acd->FieldPool->addItem( i18n( "Magnitude" ) );
+    acd->FieldPool->addItem( i18n( "Flux" ) );
     acd->FieldPool->addItem( i18n( "Major Axis" ) );
     acd->FieldPool->addItem( i18n( "Minor Axis" ) );
     acd->FieldPool->addItem( i18n( "Position Angle" ) );
@@ -88,8 +90,9 @@ void AddCatDialog::slotHelp() {
         i18n( "2. Right Ascension (floating-point value)" ) + "\n\t" +
         i18n( "3. Declination (floating-point value)" ) + "\n\t" +
         i18n( "4. Magnitude (floating-point value)" ) + "\n\t" +
-        i18n( "5. Spectral type (if type=0); otherwise object's catalog name" ) + "\n\t" +
-        i18n( "6. Star name (if type=0); otherwise object's common name. [field 6 is optional]" ) + "\n\n" +
+        i18n( "5. Integrated Flux (floating-point value); frequency and units are set seprately in the catalog file." ) + "\n\t" +
+        i18n( "6. Spectral type (if type=0); otherwise object's catalog name" ) + "\n\t" +
+        i18n( "7. Star name (if type=0); otherwise object's common name. [field 7 is optional]" ) + "\n\n" +
 
         i18n( "The fields should be separated by whitespace.  In addition, the catalog "
               "may contain comment lines beginning with \'#\'." );
@@ -116,27 +119,22 @@ bool AddCatDialog::validateDataFile() {
     //Create the catalog file contents: first the header
     CatalogContents = writeCatalogHeader();
 
+    // Check if the URL is empty
+    if (acd->DataURL->url().isEmpty())
+	return false;
+
     //Next, the data lines (fill from user-specified file)
     QFile dataFile( acd->DataURL->url().toLocalFile() );
-    if ( ! acd->DataURL->url().isEmpty() && dataFile.open( QIODevice::ReadOnly ) ) {
+    if (dataFile.open( QIODevice::ReadOnly ) ) {
         QTextStream dataStream( &dataFile );
         CatalogContents += dataStream.readAll();
 
         dataFile.close();
+        return true;
     }
 
-    //Now create a temporary file for the Catalog, and attempt to parse it
-    //into a temporary CustomCatalogComponent
-    KTemporaryFile tmpFile;
-    if ( tmpFile.open() ) {
-        QTextStream ostream( &tmpFile );
-        ostream << CatalogContents;
-        ostream.flush();
-        CustomCatalogComponent newCat( 0, tmpFile.fileName(), true, 0 );
-        if( newCat.objectList().size() )
-            return true;
-    }
     return false;
+
 }
 
 QString AddCatDialog::writeCatalogHeader() {
@@ -164,6 +162,8 @@ QString AddCatDialog::writeCatalogHeader() {
             h += "Nm  ";
         } else if ( f == i18n( "Magnitude" ) ) {
             h += "Mg  ";
+        } else if ( f == i18n( "Flux" ) ) {
+            h += "Flux  ";
         } else if ( f == i18n( "Major Axis" ) ) {
             h += "Mj  ";
         } else if ( f == i18n( "Minor Axis" ) ) {
@@ -198,6 +198,7 @@ void AddCatDialog::slotPreviewCatalog() {
 }
 
 void AddCatDialog::slotCreateCatalog() {
+
     if ( validateDataFile() ) {
         //CatalogContents now contains the text for the catalog file,
         //and objList contains the parsed objects
@@ -224,6 +225,8 @@ void AddCatDialog::slotCreateCatalog() {
             QTextStream outStream( &OutFile );
             outStream << CatalogContents;
             OutFile.close();
+
+            KStarsData::Instance()->skyComposite()->addCustomCatalog(OutFile.fileName(), 0);
 
             emit KDialog::accept();
             close();

@@ -43,6 +43,8 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
     MinorAxis( o.MinorAxis )
 {
     Image = o.Image ? new QImage(*o.Image) : 0;
+    customCat = NULL;
+    Flux = 0;
     updateID = updateNumID = 0;
 }
 
@@ -59,6 +61,8 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     setCatalog( cat );
     Image = 0;
     updateID = updateNumID = 0;
+    customCat = NULL;
+    Flux = 0;
 }
 
 DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
@@ -74,6 +78,8 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
     setCatalog( cat );
     Image = 0;
     updateID = updateNumID = 0;
+    customCat = NULL;
+    Flux = 0;
 }
 
 DeepSkyObject* DeepSkyObject::clone() const
@@ -103,7 +109,7 @@ void DeepSkyObject::setCatalog( const QString &cat ) {
     else if ( cat.toUpper() == "NGC" ) Catalog = (unsigned char)CAT_NGC;
     else if ( cat.toUpper() == "IC"  ) Catalog = (unsigned char)CAT_IC;
     else Catalog = (unsigned char)CAT_UNKNOWN;
-}
+}   
 
 QImage* DeepSkyObject::readImage( void ) {
     QFile file;
@@ -286,6 +292,7 @@ void DeepSkyObject::drawSymbol( QPainter &psky, float x, float y, double Positio
         break;
     case 8: //Galaxy
     case 16: // Quasar
+    case 18: // Radio Source
         if ( size <1. && zoom > 20*MINZOOM ) size = 3.; //force ellipse above zoomFactor 20
         if ( size <1. && zoom > 5*MINZOOM ) size = 1.; //force points above zoomFactor 5
         if ( size>2. ) {
