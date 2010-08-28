@@ -66,12 +66,25 @@ public:
 
     bool openDataFile();
 
+    /**
+     *@return true if this DeepStarComponent has static stars (that are not dynamically loaded)
+     */
     inline bool hasStaticStars() { return staticStars; }
 
+    /**
+     *@return return the estimated faint magnitude limit of this DeepStarComponent
+     */
     float faintMagnitude() const { return m_FaintMagnitude; }
 
+    /**
+     *@param HDnum Henry-Draper catalog number of the desired star
+     *@return A star matching the given Henry-Draper catalog number
+     */
     SkyObject* findByHDIndex( int HDnum );
 
+    /**
+     *@return Nearest star within maxrad of SkyPoint p, or NULL if not found
+     */
     SkyObject* objectNearest(SkyPoint *p, double &maxrad );
 
     inline bool fileOpen() { return fileOpened; }
