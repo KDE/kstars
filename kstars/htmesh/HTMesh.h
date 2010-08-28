@@ -96,9 +96,12 @@ public:
 
         /**
          *@short finds the trixels that cover the specified circle
-         *@param ra Central ra
-         *@param dec Central dec
+         *@param ra Central ra in degrees
+         *@param dec Central dec in degrees
          *@param radius Radius of the circle in degrees
+         *@note You will need to supply unprecessed (ra, dec) in most
+         * situations. Please see SkyMesh::aperture()'s code before
+         * messing with this method.
          */
         void intersect(double ra, double dec, double radius,
                        BufNum bufNum=0); 
