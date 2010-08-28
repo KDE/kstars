@@ -93,6 +93,24 @@ public:
 
     bool verifySBLIntegrity();
 
+    /**
+     *@short Add to the given list, the stars from this component,
+     * that lie within the specified circular aperture, and that are
+     * brighter than the limiting magnitude specified.
+     *@p center The center point of the aperture
+     *@p radius The radius around the center point that defines the
+     * aperture
+     *@p maglim Optional parameter indicating the limiting magnitude. 
+     * If magnitude limit is numerically < -28, the limiting magnitude
+     * is assumed to be the limiting magnitude of the catalog (i.e. no
+     * magnitude limit) 
+     *@p list The list to operate on
+     *@return false if the limiting magnitude is brighter than the
+     * trigger magnitude of the DeepStarComponent
+     */
+    bool starsInAperture( QList<StarObject*> &list, const SkyPoint &center, float radius, float maglim=-29 );
+
+
     // TODO: Find the right place for this method
     static void byteSwap( deepStarData *stardata );
     static void byteSwap( starData *stardata );

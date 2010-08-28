@@ -626,6 +626,33 @@ SkyObject* StarComponent::objectNearest( SkyPoint *p, double &maxrad )
     return oBest;
 }
 
+void StarComponent::starsInAperture( QList<StarObject*> &list, const SkyPoint &center, float radius, float maglim )
+{
+    m_skyMesh->intersect( center.ra0().Degrees(), center.dec0().Degrees(), radius, (BufNum) OBJ_NEAREST_BUF );
+
+    MeshIterator region( m_skyMesh, OBJ_NEAREST_BUF );
+
+    if( maglim < -28 )
+        maglim = m_FaintMagnitude;
+    
+    while ( region.hasNext() ) {
+        Trixel currentRegion = region.next();
+        StarList* starList = m_starIndex->at( currentRegion );
+        for (int i=0; i < starList->size(); ++i) {
+            StarObject* star =  starList->at( i );
+            if( !star ) continue;
+            if ( star->mag() > m_FaintMagnitude ) continue;
+            if( star->angularDistanceTo( &center ).Degrees() <= radius )
+                list.append( star );
+        }
+    }
+    
+    // Add stars from the DeepStarComponents as well
+    for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
+        m_DeepStarComponents.at( i )->starsInAperture( list, center, radius, maglim );
+    }
+}
+
 void StarComponent::byteSwap( starData *stardata ) {
     stardata->RA = bswap_32( stardata->RA );
     stardata->Dec = bswap_32( stardata->Dec );
