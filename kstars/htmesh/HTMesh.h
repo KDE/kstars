@@ -94,7 +94,11 @@ public:
          * the results by supplying an optional integer bufNum parameter.
          */
 
-        /* @short finds the trixels that cover the specified circle
+        /**
+         *@short finds the trixels that cover the specified circle
+         *@param ra Central ra
+         *@param dec Central dec
+         *@param radius Radius of the circle in degrees
          */
         void intersect(double ra, double dec, double radius,
                        BufNum bufNum=0); 

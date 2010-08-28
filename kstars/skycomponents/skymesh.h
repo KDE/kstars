@@ -120,13 +120,18 @@ public:
      */
     static SkyMesh* Instance( int level );
 
-    /**@short finds the set of trixels that cover the circular aperture
+    /**
+     *@short finds the set of trixels that cover the circular aperture
      * specified after first performing a reverse precession correction on
      * the center so we don't have to re-index objects simply due to
      * precession.  The drawID also gets incremented which is useful for
      * drawing extended objects.  Typically a safety factor of about one
      * degree is added to the radius to account for proper motion,
      * refraction and other imperfections.
+     *@param center Center of the aperture
+     *@param radius Radius of the aperture in degrees
+     *@param bufNum Buffer to use
+     *@note See HTMesh.h for more
      */
     void aperture( SkyPoint *center, double radius, MeshBufNum_t bufNum=DRAW_BUF );
 
