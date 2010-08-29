@@ -500,9 +500,6 @@ private slots:
     /** action slot: open Telescope wizard */
     void slotTelescopeWizard();
 
-    /** action slot: open Telescope wizard */
-    void slotTelescopeProperties();
-
     /** action slot: open Image Sequence dialog */
     void slotImageSequence();
 

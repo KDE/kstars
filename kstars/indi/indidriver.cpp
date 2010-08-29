@@ -41,11 +41,12 @@
 
 #include <kstandarddirs.h>
 
+#include "oal/log.h"
+#include "oal/scope.h"
 #include "indimenu.h"
 #include "ui_indihostconf.h"
 #include "devicemanager.h"
 #include "indidevice.h"
-//#include "indi/libs/indicom.h"
 #include "Options.h"
 
 #include "kstars.h"
@@ -84,7 +85,6 @@ INDIDriver::INDIDriver( KStars *_ks )
     currentPort = Options::serverPortStart().toInt()-1;
     lastGroup = NULL;
     lastDevice = NULL;
-    primary_xml = false;
 
     ui = new DeviceManagerUI( this );
     setMainWidget( ui );
@@ -410,120 +410,6 @@ void INDIDriver::updateMenuActions()
 
 }
 
-void INDIDriver::saveDevicesToDisk()
-{
-
-    QFile file;
-    QString elementData;
-
-    file.setFileName( KStandardDirs::locateLocal( "appdata", "drivers.xml" ) ); //determine filename in local user KDE directory tree.
-
-    if ( !file.open( QIODevice::WriteOnly))
-    {
-        QString message = i18n( "unable to write to file 'drivers.xml'\nAny changes to INDI device drivers will not be saved." );
-        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
-        return;
-    }
-
-    QTextStream outstream(&file);
-
-    // Next we write devices, in the following order:
-    // Telescopes, CCDs, Filter Wheels, Video, Dome, GPS
-    // #1 Telescopes
-    outstream << "<devGroup group='Telescopes'>" << endl;
-    //for (unsigned i=0; i < devices.size(); i++)
-    foreach (IDevice *dev, devices)
-    {
-	// We only write devices that were contained orignally in drivers.xml
-	if (dev->primary_xml == false)
-		continue;
-
-        if (dev->deviceType == KSTARS_TELESCOPE)
-        {
-//            outstream << QString("<device label='%1' focal_length='%2' aperture='%3'>").arg(dev->tree_label).arg(dev->focal_length > 0 ? dev->focal_length : -1).arg(dev->aperture > 0 ? dev->aperture : -1) << endl;
-
-            outstream << QString("<device label='%1'").arg(dev->tree_label);
-	    if (dev->focal_length > 0)
-	            outstream << QString(" focal_length='%1'").arg(dev->focal_length);
-	    if (dev->aperture > 0)
-	            outstream << QString(" aperture='%1'").arg(dev->aperture);
-	    outstream << QString(">") << endl;
-	
-
-            outstream << "       <driver name='" << dev->driver_class << "'>" << dev->driver << "</driver>" << endl;
-            outstream << "       <version>" << dev->version << "</version>" << endl;
-            outstream << "</device>" << endl;
-        }
-    }
-    outstream << "</devGroup>" << endl;
-
-#ifdef HAVE_CFITSIO_H
-    // #2 CCDs
-    outstream << "<devGroup group='CCDs'>" << endl;
-    //for (unsigned i=0; i < devices.size(); i++)
-    foreach (IDevice *dev, devices)
-    {
-	// We only write devices that were contained orignally in drivers.xml
-	if (dev->primary_xml == false)
-		continue;
-
-        if (dev->deviceType == KSTARS_CCD)
-        {
-            outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
-            outstream << "       <driver name='" << dev->driver_class << "'>" << dev->driver << "</driver>" << endl;
-            outstream << "       <version>" << dev->version << "</version>" << endl;
-            outstream << "</device>" << endl;
-        }
-    }
-    outstream << "</devGroup>" << endl;
-#endif
-
-    // #3 Filter wheels
-    outstream << "<devGroup group='Filter Wheels'>" << endl;
-
-    foreach (IDevice *dev, devices)
-    //for (unsigned i=0; i < devices.size(); i++)
-    {
-	// We only write devices that were contained orignally in drivers.xml
-	if (dev->primary_xml == false)
-		continue;
-
-        if (dev->deviceType == KSTARS_FILTER)
-        {
-            outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
-            outstream << "       <driver name='" << dev->driver_class << "'>" << dev->driver << "</driver>" << endl;
-            outstream << "       <version>" << dev->version << "</version>" << endl;
-            outstream << "</device>" << endl;
-        }
-    }
-    outstream << "</devGroup>" << endl;
-
-#ifdef HAVE_CFITSIO_H
-    // #4 Video
-    outstream << "<devGroup group='Video'>" << endl;
-
-    foreach (IDevice *dev, devices)
-    //for (unsigned i=0; i < devices.size(); i++)
-    {
-	// We only write devices that were contained orignally in drivers.xml
-	if (dev->primary_xml == false)
-		continue;
-
-        if (dev->deviceType == KSTARS_VIDEO)
-        {
-            outstream << QString("<device label='%1'>").arg(dev->tree_label) << endl;
-            outstream << "       <driver name='" << dev->driver_class << "'>" << dev->driver << "</driver>" << endl;
-            outstream << "       <version>" << dev->version << "</version>" << endl;
-            outstream << "</device>" << endl;
-        }
-    }
-    outstream << "</devGroup>" << endl;
-#endif
-
-    file.close();
-
-}
-
 bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
 {
     foreach(IDevice *dev, devices) {
@@ -608,7 +494,10 @@ void INDIDriver::processXMLDriver(QString & driverName)
     LilXML *xmlParser = newLilXML();
     XMLEle *root = NULL;
 
-    primary_xml = driverName.endsWith("drivers.xml");
+    if (driverName.endsWith("drivers.xml"))
+        xmlSource = IDevice::PRIMARY_XML;
+    else
+        xmlSource = IDevice::THIRD_PARTY_XML;
 
     while ( file.getChar(&c))
     {
@@ -697,6 +586,7 @@ bool INDIDriver::buildDeviceGroup(XMLEle *root, char errmsg[])
     return true;
 }
 
+
 bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int groupType, char errmsg[])
 {
     XMLAtt *ap;
@@ -708,48 +598,50 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
     QString name;
     double focal_length (-1), aperture (-1);
 
-    ap = findXMLAtt(root, "label");
-    if (!ap)
-    {
-        snprintf(errmsg, ERRMSG_SIZE, "Tag %.64s does not have a label attribute", tagXMLEle(root));
-        return false;
-    }
 
-    label = valuXMLAtt(ap);
+        ap = findXMLAtt(root, "label");
+        if (!ap)
+        {
+            snprintf(errmsg, ERRMSG_SIZE, "Tag %.64s does not have a label attribute", tagXMLEle(root));
+            return false;
+        }
 
-    // Let's look for telescope-specific attributes: focal length and aperture
-    ap = findXMLAtt(root, "focal_length");
-    if (ap)
-        focal_length = QString(valuXMLAtt(ap)).toDouble();
+        label = valuXMLAtt(ap);
 
-    ap = findXMLAtt(root, "aperture");
-    if (ap)
-        aperture = QString(valuXMLAtt(ap)).toDouble();
+        // Let's look for telescope-specific attributes: focal length and aperture
+        ap = findXMLAtt(root, "focal_length");
+        if (ap)
+            focal_length = QString(valuXMLAtt(ap)).toDouble();
 
-    el = findXMLEle(root, "driver");
+        ap = findXMLAtt(root, "aperture");
+        if (ap)
+            aperture = QString(valuXMLAtt(ap)).toDouble();
 
-    if (!el)
-        return false;
+        el = findXMLEle(root, "driver");
 
-    driver = pcdataXMLEle(el);
+        if (!el)
+            return false;
 
-    ap = findXMLAtt(el, "name");
-    if (!ap)
-    {
-        snprintf(errmsg, ERRMSG_SIZE, "Tag %.64s does not have a name attribute", tagXMLEle(el));
-        return false;
-    }
+        driver = pcdataXMLEle(el);
 
-    name = valuXMLAtt(ap);
+        ap = findXMLAtt(el, "name");
+        if (!ap)
+        {
+            snprintf(errmsg, ERRMSG_SIZE, "Tag %.64s does not have a name attribute", tagXMLEle(el));
+            return false;
+        }
 
-    el = findXMLEle(root, "version");
+        name = valuXMLAtt(ap);
 
-    if (!el)
-        return false;
+        el = findXMLEle(root, "version");
 
-  version = pcdataXMLEle(el);
+        if (!el)
+            return false;
 
-    QTreeWidgetItem *device = new QTreeWidgetItem(DGroup, lastDevice);
+        version = pcdataXMLEle(el);
+
+        QTreeWidgetItem *device = new QTreeWidgetItem(DGroup, lastDevice);
+
 
     device->setText(0, QString(label));
     device->setIcon(1, ui->stopPix);
@@ -757,12 +649,12 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
     lastDevice = device;
 
-    if (primary_xml && driversList.contains(driver) == false)
-	driversList << driver;
+    if ((xmlSource == IDevice::PRIMARY_XML) && driversList.contains(driver) == false)
+        driversList.insert(driver, name);
 
     dv = new IDevice(name, label, driver, version);
     dv->deviceType = groupType;
-    dv->primary_xml = primary_xml;
+    dv->xmlSource = xmlSource;
     //connect(dv, SIGNAL(newServerInput()), this, SLOT(updateLocalTab()));
     if (focal_length > 0)
         dv->focal_length = focal_length;
@@ -773,6 +665,83 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
     // SLOTS/SIGNAL, pop menu, indi server logic
     return true;
+}
+
+void INDIDriver::updateCustomDrivers()
+{
+    QString label;
+    QString driver;
+    QString version;
+    QString name;
+    IDevice *dv;
+    QTreeWidgetItem *group, *widgetDev;
+    double focal_length (-1), aperture (-1);
+
+    // Find if the group already exists
+    QList<QTreeWidgetItem *> treeList = ui->localTreeWidget->findItems("Telescopes", Qt::MatchExactly);
+    if (!treeList.isEmpty())
+        group = treeList[0];
+    else return;
+
+
+        // Find custom telescope to ADD
+    foreach(OAL::Scope *s, *(KStarsData::Instance()->logObject()->scopeList()))
+        {
+            label = s->vendor() + " " + s->model();
+
+            if (s->driver() == i18n("None") || findDeviceByLabel(label))
+                continue;
+
+            QHash<QString, QString>::const_iterator i = driversList.find(s->driver());
+            if (i.key() == s->driver())
+                name  = i.value();
+            else
+                return;
+            focal_length = s->focalLength();
+            aperture = s->aperture();
+            driver = s->driver();
+            version = QString("1.0");
+
+            QTreeWidgetItem *device = new QTreeWidgetItem(group, lastDevice);
+            device->setText(0, QString(label));
+            device->setIcon(1, ui->stopPix);
+            device->setText(3, QString(version));
+
+            lastDevice = device;
+
+            dv = new IDevice(name, label, driver, version);
+            dv->deviceType = KSTARS_TELESCOPE;
+            dv->xmlSource = IDevice::EM_XML;
+            dv->focal_length = focal_length;
+            dv->aperture = aperture;
+            dv->id = s->id();
+            devices.append(dv);
+        }
+
+        // Find custom telescope to REMOVE
+        foreach(IDevice *dev, devices)
+        {
+            // If it's from primary xml file or it is in a running state, continue.
+            if (dev->xmlSource != IDevice::EM_XML || dev->state == IDevice::DEV_START)
+                continue;
+
+            // See if log object has the device, if not delete it
+            if (KStarsData::Instance()->logObject()->findScopeById(dev->id))
+                continue;
+
+            // Find if the group already exists
+            QList<QTreeWidgetItem *> devList = ui->localTreeWidget->findItems(dev->tree_label, Qt::MatchExactly  | Qt::MatchRecursive);
+            if (!devList.isEmpty())
+            {
+                widgetDev = devList[0];
+                group->removeChild(widgetDev);
+            }
+            else return;
+
+            devices.removeOne(dev);
+            delete (dev);
+        }
+
 }
 
 void INDIDriver::addINDIHost()
@@ -932,6 +901,15 @@ void INDIDriver::saveHosts()
 
 }
 
+IDevice * INDIDriver::findDeviceByLabel(const QString &label)
+{
+    foreach(IDevice *dev, devices)
+        if (dev->tree_label == label)
+            return dev;
+
+    return NULL;
+}
+
 INDIDriver::~INDIDriver()
 {
 
@@ -944,13 +922,13 @@ INDIDriver::~INDIDriver()
 
 IDevice::IDevice(const QString &inName, const QString &inLabel, const QString &inDriver, const QString &inVersion)
 {
-    tree_label	 = inLabel;;
+    tree_label	 = inLabel;
     unique_label.clear();
     driver_class = inName;
     driver	 = inDriver;
     version	 = inVersion;
 
-    primary_xml  = false;
+    xmlSource  = PRIMARY_XML;
   
       // Initially off
     state = IDevice::DEV_TERMINATE;

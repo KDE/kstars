@@ -81,7 +81,6 @@
 #include "indi/indimenu.h"
 #include "indi/indidriver.h"
 #include "indi/telescopewizardprocess.h"
-#include "indi/telescopeprop.h"
 #include "indi/opsindi.h"
 #include "indi/imagesequence.h"
 #endif
@@ -307,15 +306,6 @@ void KStars::slotTelescopeWizard()
     QPointer<telescopeWizardProcess> twiz = new telescopeWizardProcess(this);
     twiz->exec();
     delete twiz;
-#endif
-}
-
-void KStars::slotTelescopeProperties()
-{
-#ifdef HAVE_INDI_H
-    QPointer<telescopeProp> scopeProp = new telescopeProp(this);
-    scopeProp->exec();
-    delete scopeProp;
 #endif
 }
 

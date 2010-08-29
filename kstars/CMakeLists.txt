@@ -34,7 +34,6 @@ if (INDI_FOUND)
 	indi/indistd.cpp
 	indi/streamwg.cpp
 	indi/telescopewizardprocess.cpp
-	indi/telescopeprop.cpp
 	indi/imagesequence.cpp
 )
 set(indiui_SRCS
@@ -44,7 +43,6 @@ set(indiui_SRCS
         indi/indihostconf.ui
         indi/streamform.ui
         indi/telescopewizard.ui
-        indi/telescopeprop.ui
 )
 
   include_directories(${INDI_INCLUDE_DIR})

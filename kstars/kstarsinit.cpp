@@ -388,8 +388,6 @@ void KStars::initActions() {
     actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
         << i18n("Telescope Wizard...")
         << KIcon("tools-wizard" );
-    actionCollection()->addAction("telescope_properties", this, SLOT( slotTelescopeProperties() ) )
-        << i18n("Telescope Properties...");
     actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
         << i18n("Device Manager...")
         << KIcon("network-server" );
@@ -535,12 +533,17 @@ void KStars::datainitFinished() {
     #ifdef HAVE_INDI_H
     //Initialize INDIMenu
     indimenu = new INDIMenu(this);
+    indidriver = new INDIDriver(this);
     #endif
 
     //Initialize Observing List
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
+
+    #ifdef HAVE_INDI_H
+    indidriver->updateCustomDrivers();
+    #endif
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )
