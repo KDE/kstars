@@ -90,7 +90,7 @@ void AddCatDialog::slotHelp() {
         i18n( "2. Right Ascension (floating-point value)" ) + "\n\t" +
         i18n( "3. Declination (floating-point value)" ) + "\n\t" +
         i18n( "4. Magnitude (floating-point value)" ) + "\n\t" +
-        i18n( "5. Integrated Flux (floating-point value); frequency and units are set seprately in the catalog file." ) + "\n\t" +
+        i18n( "5. Integrated Flux (floating-point value); frequency and units are set separately in the catalog file." ) + "\n\t" +
         i18n( "6. Spectral type (if type=0); otherwise object's catalog name" ) + "\n\t" +
         i18n( "7. Star name (if type=0); otherwise object's common name. [field 7 is optional]" ) + "\n\n" +
 
