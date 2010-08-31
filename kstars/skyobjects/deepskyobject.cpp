@@ -44,6 +44,8 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
     MinorAxis( o.MinorAxis ),
     m_texture( o.texture() )
 {
+    customCat = NULL;
+    Flux = 0;
     updateID = updateNumID = 0;
 }
 
@@ -60,6 +62,8 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     setCatalog( cat );
     updateID = updateNumID = 0;
     m_texture = 0;
+    customCat = NULL;
+    Flux = 0;
 }
 
 DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
@@ -75,6 +79,8 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
     setCatalog( cat );
     updateID = updateNumID = 0;
     m_texture = 0;
+    customCat = NULL;
+    Flux = 0;
 }
 
 DeepSkyObject* DeepSkyObject::clone() const
@@ -104,7 +110,7 @@ void DeepSkyObject::setCatalog( const QString &cat ) {
     else if ( cat.toUpper() == "NGC" ) Catalog = (unsigned char)CAT_NGC;
     else if ( cat.toUpper() == "IC"  ) Catalog = (unsigned char)CAT_IC;
     else Catalog = (unsigned char)CAT_UNKNOWN;
-}
+}   
 
 void DeepSkyObject::loadTexture()
 {

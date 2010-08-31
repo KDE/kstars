@@ -48,7 +48,7 @@ for stars:
 type(0 for stars), RA, Dec, mag, SpType, name(optional)
 
 other types:
-type(3-8), RA, Dec, mag, name(optional)
+type(3-8), RA, Dec, mag (optional), flux(optional), name(optional)
 
 The types are:
 0: star
@@ -60,6 +60,7 @@ The types are:
 6: planetary nebula
 7: supernova remnant
 8: galaxy
+18: radio source
 
 The SpType is a short string for the spectral type.  For example, "B5" or "G2"
 The coordinates should be given as floating-point values, in the J2000.0 epoch.
@@ -85,6 +86,23 @@ Configuration window, and pressing the "Remove Custom Catalog" button (this
 button is only active if a custom catalog is highlighted in the list
 of checkboxes).
 
++ Radio Sources Catalogs:
+
+For radio sources catalogs, you must include the flux frequency and units. For example:
+
+# Flux Frequency: 1420 Mhz
+# Flux Unit: mJy
+
+The following is a simple catalog file:
+
+# Name: my_catalog
+# Prefix: et_radio
+# Color: #00ff00
+# Epoch: 2000
+# Flux Frequency: 1420 Mhz
+# Flux Unit: mJy
+# ID  RA  Dc  Tp  Mj  Mn  PA  Nm  Flux
+J0001 12:31:23.1 +11:29:34 18 180.60 360.30   45  my_radio_source   70
 
 4. URL Links
 

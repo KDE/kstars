@@ -579,7 +579,7 @@ void SkyPoint::subtractEterms(void) {
     Dec.setD( Dec.Degrees() - spd.dec().Degrees() );
 }
 
-dms SkyPoint::angularDistanceTo(const SkyPoint *sp) {
+dms SkyPoint::angularDistanceTo(const SkyPoint *sp) const {
 
     double dalpha = ra().radians() - sp->ra().radians() ;
     double ddelta = dec().radians() - sp->dec().radians() ;

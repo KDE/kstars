@@ -82,7 +82,6 @@
 #include "indi/indimenu.h"
 #include "indi/indidriver.h"
 #include "indi/telescopewizardprocess.h"
-#include "indi/telescopeprop.h"
 #include "indi/opsindi.h"
 #include "indi/imagesequence.h"
 #endif
@@ -308,15 +307,6 @@ void KStars::slotTelescopeWizard()
     QPointer<telescopeWizardProcess> twiz = new telescopeWizardProcess(this);
     twiz->exec();
     delete twiz;
-#endif
-}
-
-void KStars::slotTelescopeProperties()
-{
-#ifdef HAVE_INDI_H
-    QPointer<telescopeProp> scopeProp = new telescopeProp(this);
-    scopeProp->exec();
-    delete scopeProp;
 #endif
 }
 
@@ -972,6 +962,11 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
     kta->setActionGroup( cschemeGroup );
     connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
     colorActionMenu->addAction( kta );
+
+    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+    if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "classic.colors" ).remove( ".colors" ) ) {
+        kta->setChecked( true );
+    }
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {

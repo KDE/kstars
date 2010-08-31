@@ -34,7 +34,6 @@ if (INDI_FOUND)
 	indi/indistd.cpp
 	indi/streamwg.cpp
 	indi/telescopewizardprocess.cpp
-	indi/telescopeprop.cpp
 	indi/imagesequence.cpp
 )
 set(indiui_SRCS
@@ -44,7 +43,6 @@ set(indiui_SRCS
         indi/indihostconf.ui
         indi/streamform.ui
         indi/telescopewizard.ui
-        indi/telescopeprop.ui
 )
 
   include_directories(${INDI_INCLUDE_DIR})
@@ -61,6 +59,8 @@ endif ( XPLANET_FOUND )
 
 include_directories(
     ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
+    ${CMAKE_SOURCE_DIR}/kstars/kstars/skyobjects
+    ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents
 	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
 #    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
@@ -101,10 +101,10 @@ set(libkstarstools_SRCS
 	tools/scriptargwidgets.cpp
 	tools/scriptbuilder.cpp
 	tools/scriptfunction.cpp
-    tools/skycalendar.cpp
+	tools/skycalendar.cpp
 	tools/wutdialog.cpp
 	tools/flagmanager.cpp
-
+	tools/moonphasetool.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
@@ -221,6 +221,12 @@ set(libkstarswidgets_SRCS
 	widgets/timestepbox.cpp 
 	widgets/timeunitbox.cpp
 	widgets/infoboxwidget.cpp
+	widgets/genericcalendarwidget.cpp
+	widgets/moonphasecalendarwidget.cpp
+)
+
+kde4_add_ui_files(libkstarswidgets_SRCS
+  widgets/genericcalendarwidget.ui
 )
 
 set( kstars_KCFG_SRCS Options.kcfgc )

@@ -136,6 +136,7 @@ KStarsData::KStarsData() :
     TypeName[15] = i18n( "dark nebula" );
     TypeName[16] = i18n( "quasar" );
     TypeName[17] = i18n( "multiple star" );
+    TypeName[18] = i18n( "radio source");
 
     m_logObject = new OAL::Log;
     // at startup times run forward
@@ -154,7 +155,7 @@ KStarsData::~KStarsData() {
 }
 
 QString KStarsData::typeName( int i ) {
-    if ( i >= 0 && i < 12 )
+    if ( i >= 0 && i < 19 )
         return TypeName[i];
     return i18n( "no type" );
 }

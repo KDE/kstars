@@ -968,7 +968,7 @@ bool INDIStdProperty::newSwitch(INDI_E* el)
 /*******************************************************************************/
 /* Move Telescope to targetted location			                       */
 /*******************************************************************************/
-bool INDIStdDevice::slew_scope(SkyPoint *scope_target)
+bool INDIStdDevice::slew_scope(SkyPoint *scope_target, INDI_E *lp)
 {
 
     INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *trackEle(NULL);
@@ -979,6 +979,10 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target)
     prop = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
     if (prop == NULL)
     {
+	// Backward compatibility
+	prop = dp->findProp("EQUATORIAL_EOD_COORD");
+	if (prop == NULL)
+	{
 	// J2000 Property
         prop = dp->findProp("EQUATORIAL_COORD_REQUEST");
 
@@ -990,6 +994,7 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target)
                         	return false;
 
                     selectedCoord = 1;		/* Select horizontal */
+        }
         }
                 else
                     useJ2000 = true;
@@ -1037,13 +1042,17 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target)
             break;
         }
 
-        trackEle = dp->findElem("TRACK");
+	trackEle = lp;
         if (trackEle == NULL)
-        {
-	   trackEle = dp->findElem("SLEW");
-	   if (trackEle == NULL)
-		return false;
-	}
+	{
+	        trackEle = dp->findElem("TRACK");
+	        if (trackEle == NULL)
+	        {
+		   trackEle = dp->findElem("SLEW");
+		   if (trackEle == NULL)
+			return false;
+		}
+         }
 
         trackEle->pp->newSwitch(trackEle);
         prop->newText();
@@ -1070,25 +1079,27 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
 
         stdDev->currentObject = ksw->map()->clickedObject();
 
-	if (stdDev->currentObject == NULL)
-		return stdDev->slew_scope(ksw->map()->clickedPoint());
-	else
-	{
-	        // Track is similar to slew, except that for non-sidereal objects
-	        // it tracks the objects automatically via a timer.
-	        if ((lp->name == "TRACK"))
-	            if (stdDev->handleNonSidereal())
-	                return true;
+        // Track is similar to slew, except that for non-sidereal objects
+        // it tracks the objects automatically via a timer.
+        if ((lp->name == "TRACK"))
+            if (stdDev->handleNonSidereal())
+                return true;
 
-	           nameEle = stdDev->dp->findElem("OBJECT_NAME");
-        	   if (nameEle && nameEle->pp->perm != PP_RO)
-	           {
-	               nameEle->write_w->setText(stdDev->currentObject->name());
-	               nameEle->pp->newText();
-	           }
+           nameEle = stdDev->dp->findElem("OBJECT_NAME");
+       	   if (nameEle && nameEle->pp->perm != PP_RO)
+           {
+               if (stdDev->currentObject == NULL)
+			nameEle->write_w->setText("--");
+		else
+			nameEle->write_w->setText(stdDev->currentObject->name());
+               nameEle->pp->newText();
+           }
 
-	      return stdDev->slew_scope(static_cast<SkyPoint *> (stdDev->currentObject));
-         }
+	        if (stdDev->currentObject == NULL)
+		  return stdDev->slew_scope(ksw->map()->clickedPoint(), lp);
+		else
+		  return stdDev->slew_scope(static_cast<SkyPoint *> (stdDev->currentObject), lp);
+
 
         break;
 

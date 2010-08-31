@@ -154,8 +154,8 @@ void KSWizard::slotFilterCities() {
 
     foreach ( GeoLocation *loc, KStarsData::Instance()->getGeoList() ) {
         if( hasPrefix( loc->translatedName(),     location->CityFilter->text()     ) &&
-            hasPrefix( loc->translatedCountry(),  location->ProvinceFilter->text() ) &&
-            hasPrefix( loc->translatedProvince(), location->CountryFilter->text()  )
+            hasPrefix( loc->translatedCountry(),  location->CountryFilter->text() ) &&
+            hasPrefix( loc->translatedProvince(), location->ProvinceFilter->text()  )
             )
         {
             location->CityListBox->insertItem( loc->fullName() );

@@ -30,11 +30,13 @@ class OAL::Scope {
         QString vendor() { return m_Vendor; }
         QString type() { return m_Type; }
         QString name() { return m_Name; }
+        QString driver() { return m_INDIDriver; }
         double focalLength() { return m_FocalLength; }
         double aperture() { return m_Aperture; }
         void setScope( QString _id, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture );
+        inline void setINDIDriver(const QString &driver) { m_INDIDriver = driver; }
     private:
-        QString m_Id, m_Model, m_Vendor, m_Type, m_Name;
+        QString m_Id, m_Model, m_Vendor, m_Type, m_Name, m_INDIDriver;
         double m_FocalLength, m_Aperture;
 };
 #endif

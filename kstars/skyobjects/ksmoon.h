@@ -65,7 +65,16 @@ public:
     	*/
     virtual bool loadData();
 
-protected:
+    /**
+     * @return iPhase, which is used as a key to find the right image file
+     */
+    inline short int getIPhase() { return iPhase; }
+
+    /**
+     * @return the file name for the correct moon image
+     */
+    inline QString getImageFileName() { return imFileName; }
+
     /**Reimplemented from KSPlanetBase, this function employs unique algorithms for
     	*estimating the lunar coordinates.  Finding the position of the moon is
     	*much more difficult than the other planets.  For one thing, the Moon is
@@ -122,7 +131,8 @@ private:
     };
 
     static QList<MoonBData> BData;
-
+    QString imFileName;
+    unsigned int iPhase;
 };
 
 #endif

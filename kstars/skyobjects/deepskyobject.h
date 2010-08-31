@@ -28,6 +28,7 @@ class QImage;
 class QString;
 class KSPopupMenu;
 class Texture;
+class CustomCatalogComponent;
 
 /**
   *@class DeepSkyObject
@@ -128,6 +129,27 @@ public:
     void setCatalog( const QString &s );
 
     /**
+      *Set the the refrence to the custom catalog component, if any
+      *@sa customCatalog()
+      */
+    inline void setCustomCatalog(CustomCatalogComponent *s) { customCat = s; }
+
+    /**
+      *@return a pointer to a custom catalog component
+    */
+    inline CustomCatalogComponent * customCatalog() { return customCat; }
+
+    /**
+      *Set the integrated flux value of the object
+      */
+    inline void setFlux(const float &f) { Flux = f; }
+
+    /**
+      *@return the object's integrated flux, unit value is stored in the custom catalog component.
+        */
+    inline float flux() const { return Flux; }
+
+    /**
       *@return the object's major axis length, in arcminutes.
     	*/
     inline float a() const { return MajorAxis; }
@@ -203,8 +225,9 @@ private:
     unsigned char Catalog;
     double PositionAngle;
     int UGC, PGC;
-    float MajorAxis, MinorAxis;
+    float MajorAxis, MinorAxis, Flux;
     const Texture *m_texture;
+    CustomCatalogComponent *customCat;
 };
 
 #endif

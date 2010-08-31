@@ -1,9 +1,9 @@
 /***************************************************************************
-                          telescopeprop.cpp  -  description
+                  moonphasetool.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed June 8th 2005
-    copyright            : (C) 2005 by Jasem Mutlaq
-    email                : mutlaqja@ikarustech.com
+    begin                : Sat Jun 26 2010
+    copyright            : (C) 2010 by Akarsh Simha
+    email                : akarshsimha@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,38 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TELESCOPEPROP_H_
-#define TELESCOPEPROP_H_
+#include "moonphasetool.h"
 
-class KStars;
-class INDIDriver;
+#include "kstarsdata.h"
+#include "skyobjects/ksplanetbase.h"
 
-#include "ui_telescopeprop.h"
+MoonPhaseTool::MoonPhaseTool(QWidget *parentSplit)
+    : QFrame(parentSplit) {
 
-class telescopeProp : public QDialog
-{
-    Q_OBJECT
+    KStarsData *kd = KStarsData::Instance();
+    KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
+    m_Moon = (KSMoon *) KSPlanetBase::createPlanet( KSPlanetBase::MOON );
+    mpc = new MoonPhaseCalendar( *m_Moon );
+    gcw = new GenericCalendarWidget( *mpc, this );
 
-public:
-    explicit telescopeProp(QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WFlags fl = 0 );
-    ~telescopeProp();
+}
 
-public slots:
-    void newScope();
-    void saveScope();
-    void updateScopeDetails(int index);
-    void removeScope();
-    void restoreDefault();
 
-private:
-    int findDeviceIndex(int listIndex);
-    Ui::scopeProp *ui;
-
-    bool newScopePending;
-    KStars *ksw;
-    INDIDriver *indi_driver;
-
-};
-
-#endif
-
+MoonPhaseTool::~MoonPhaseTool() {
+    delete m_Moon;
+    delete mpc;
+}

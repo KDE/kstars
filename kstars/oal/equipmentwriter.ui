@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>411</width>
-    <height>279</height>
+    <height>324</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="_2">
@@ -27,7 +27,7 @@
      </property>
      <widget class="QWidget" name="Scope">
       <attribute name="title">
-       <string>Scope</string>
+       <string>Telescope</string>
       </attribute>
       <layout class="QHBoxLayout" name="_3">
        <item>
@@ -67,14 +67,24 @@
            <item row="2" column="1">
             <widget class="KLineEdit" name="Vendor"/>
            </item>
-           <item row="4" column="0">
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Model:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="KLineEdit" name="Model"/>
+           </item>
+           <item row="5" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
               <string>Type:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="5" column="1">
             <widget class="KComboBox" name="Type">
              <item>
               <property name="text">
@@ -108,17 +118,17 @@
              </item>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="label_13">
              <property name="text">
               <string>Aperture:</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="6" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="KDoubleNumInput" name="Aperture">
+              <widget class="KDoubleNumInput" name="Aperture" native="true">
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
                </property>
@@ -133,17 +143,17 @@
              </item>
             </layout>
            </item>
-           <item row="6" column="0">
+           <item row="7" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
               <string>Focal Length:</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
+           <item row="7" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="KDoubleNumInput" name="FocalLength">
+              <widget class="KDoubleNumInput" name="FocalLength" native="true">
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
                </property>
@@ -158,14 +168,20 @@
              </item>
             </layout>
            </item>
-           <item row="3" column="1">
-            <widget class="KLineEdit" name="Model"/>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_2">
+           <item row="4" column="0">
+            <widget class="QLabel" name="driverLabel">
              <property name="text">
-              <string>Model:</string>
+              <string>Driver:</string>
              </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="driverComboBox">
+             <item>
+              <property name="text">
+               <string>None</string>
+              </property>
+             </item>
             </widget>
            </item>
           </layout>
@@ -195,7 +211,7 @@
            <item>
             <widget class="QPushButton" name="AddScope">
              <property name="text">
-              <string>Save Scope</string>
+              <string>Save Telescope</string>
              </property>
             </widget>
            </item>
@@ -257,7 +273,7 @@
            <item row="4" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="KDoubleNumInput" name="e_focalLength">
+              <widget class="KDoubleNumInput" name="e_focalLength" native="true">
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
                </property>
@@ -301,7 +317,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KDoubleNumInput" name="Fov">
+            <widget class="KDoubleNumInput" name="Fov" native="true">
              <property name="focusPolicy">
               <enum>Qt::TabFocus</enum>
              </property>
@@ -451,7 +467,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KDoubleNumInput" name="l_Factor">
+            <widget class="KDoubleNumInput" name="l_Factor" native="true">
              <property name="focusPolicy">
               <enum>Qt::TabFocus</enum>
              </property>
@@ -633,16 +649,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
@@ -652,13 +658,23 @@
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
   </customwidget>
+  <customwidget>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
   <tabstop>ScopeList</tabstop>
-  <tabstop>Id</tabstop>
   <tabstop>Vendor</tabstop>
   <tabstop>Model</tabstop>
+  <tabstop>driverComboBox</tabstop>
   <tabstop>Type</tabstop>
   <tabstop>Aperture</tabstop>
   <tabstop>FocalLength</tabstop>
@@ -666,7 +682,6 @@
   <tabstop>AddScope</tabstop>
   <tabstop>RemoveScope</tabstop>
   <tabstop>EyepieceList</tabstop>
-  <tabstop>e_Id</tabstop>
   <tabstop>e_Vendor</tabstop>
   <tabstop>e_Model</tabstop>
   <tabstop>e_focalLength</tabstop>
@@ -676,7 +691,6 @@
   <tabstop>AddEyepiece</tabstop>
   <tabstop>RemoveEyepiece</tabstop>
   <tabstop>LensList</tabstop>
-  <tabstop>l_Id</tabstop>
   <tabstop>l_Vendor</tabstop>
   <tabstop>l_Model</tabstop>
   <tabstop>l_Factor</tabstop>
@@ -684,7 +698,6 @@
   <tabstop>AddLens</tabstop>
   <tabstop>RemoveLens</tabstop>
   <tabstop>FilterList</tabstop>
-  <tabstop>f_Id</tabstop>
   <tabstop>f_Vendor</tabstop>
   <tabstop>f_Model</tabstop>
   <tabstop>f_Type</tabstop>

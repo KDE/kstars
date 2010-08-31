@@ -18,6 +18,7 @@
 #define INDIDRIVER_H_
 
 #include <QFrame>
+#include <QHash>
 #include <qstringlist.h>
 #include <kdialog.h>
 #include <unistd.h>
@@ -51,14 +52,16 @@ public:
       ~IDevice();
   
     enum DeviceStatus { DEV_START, DEV_TERMINATE };
+    enum XMLSource { PRIMARY_XML, THIRD_PARTY_XML, EM_XML };
 
     QString tree_label;
     QString unique_label;
     QString driver_class;
     QString driver;
     QString version;
+    QString id;
     DeviceStatus state;
-    bool primary_xml;
+    XMLSource xmlSource;
 
     DeviceManager *deviceManager;
     int deviceType;
@@ -109,11 +112,10 @@ public:
     QTreeWidgetItem *lastGroup;
     QTreeWidgetItem *lastDevice;
   
-    QStringList driversList;
+    QHash<QString, QString> driversList;
     int currentPort;
-    bool primary_xml;
+    IDevice::XMLSource xmlSource;
   
-    void saveDevicesToDisk();
     int getINDIPort();
     bool isDeviceRunning(const QString &deviceLabel);
   
@@ -121,6 +123,7 @@ public:
   
     void processLocalTree(IDevice::DeviceStatus dev_request);
     void processRemoteTree(IDevice::DeviceStatus dev_request);
+    IDevice * findDeviceByLabel(const QString &label);
   
     
 
@@ -143,6 +146,7 @@ public:
     void activateHostDisconnection();
     void newTelescopeDiscovered();
     void newCCDDiscovered();
+    void updateCustomDrivers();
 
 signals:
     void newDevice();

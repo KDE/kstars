@@ -44,6 +44,7 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/ksmoon.h"
+#include "skycomponents/customcatalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
 
@@ -245,7 +246,13 @@ void DetailDialog::createGeneralTab()
 
         objecttyp = dso->typeName();
 
-        if ( dso->mag() > 90.0 )
+        if (dso->type() == SkyObject::RADIO_SOURCE)
+        {
+            Data->MagLabel->setText(i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency()));
+            Data->Magnitude->setText( i18nc( "integrated flux value", "%1 %2" ,
+                                             KGlobal::locale()->formatNumber( dso->flux(), 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
+        }
+        else if ( dso->mag() > 90.0 )
             Data->Magnitude->setText( "--" );
         else
             Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,

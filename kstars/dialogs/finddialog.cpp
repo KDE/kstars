@@ -25,6 +25,7 @@
 
 #include "kstarsdata.h"
 #include "Options.h"
+#include "detaildialog.h"
 #include "skyobjects/skyobject.h"
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/skymapcomposite.h"
@@ -55,7 +56,7 @@ FindDialog::FindDialog( QWidget* parent ) :
     ui = new FindDialogUI( this );
     setMainWidget( ui );
     setCaption( i18n( "Find Object" ) );
-    setButtons( KDialog::Ok|KDialog::Cancel );
+    setButtons( KDialog::Ok|KDialog::User1|KDialog::Cancel );
     ui->FilterType->setCurrentIndex(0);  // show all types of objects
 
     fModel = new QStringListModel( this );
@@ -64,10 +65,12 @@ FindDialog::FindDialog( QWidget* parent ) :
     ui->SearchList->setModel( sortModel );
     sortModel->setSourceModel( fModel );
     ui->SearchList->setModel( sortModel );
+    setButtonText(KDialog::User1, i18n("Details..."));
 
     //Connect signals to slots
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotOk() ) );
     connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
+    connect(this, SIGNAL(user1Clicked()), this, SLOT(slotDetails()));
     connect( ui->SearchBox, SIGNAL( textChanged( const QString & ) ), SLOT( enqueueSearch() ) );
     connect( ui->SearchBox, SIGNAL( returnPressed() ), SLOT( slotOk() ) );
     connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
@@ -322,6 +325,16 @@ void FindDialog::keyPressEvent( QKeyEvent *e ) {
         break;
     }
     }
+}
+
+void FindDialog::slotDetails()
+{
+    if ( selectedObject() ) {
+        QPointer<DetailDialog> dd = new DetailDialog( selectedObject(), KStarsData::Instance()->lt(), KStarsData::Instance()->geo(), KStars::Instance());
+        dd->exec();
+        delete dd;
+    }
+
 }
 
 #include "finddialog.moc"

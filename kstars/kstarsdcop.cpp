@@ -422,6 +422,8 @@ void KStars::loadColorScheme( const QString &name ) {
             QApplication::setPalette( OriginalPalette );
         }
 
+        Options::setColorSchemeFile( name );
+
         map()->forceUpdate();
     }
 }

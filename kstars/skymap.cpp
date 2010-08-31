@@ -326,7 +326,7 @@ void SkyMap::slotTransientLabel() {
     //
     //Do not show a transient label if the map is in motion, or if the mouse
     //pointer is below the opaque horizon, or if the object has a permanent label
-    if ( ! slewing && ! ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
+    if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
                           SkyPoint::refract(mousePoint()->alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
         SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
@@ -396,7 +396,7 @@ void SkyMap::slotCenter() {
 
     //If the requested object is below the opaque horizon, issue a warning message
     //(unless user is already pointed below the horizon)
-    if ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
+    if ( Options::useAltAz() && Options::showGround() &&
             focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 ) {
 
         QString caption = i18n( "Requested Position Below Horizon" );

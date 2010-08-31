@@ -30,9 +30,16 @@
 #include "oal/lens.h"
 #include "oal/filter.h"
 
+#include <config-kstars.h>
+
+#ifdef HAVE_INDI_H
+#include "indi/indidriver.h"
+#endif
+
 EquipmentWriter::EquipmentWriter() {
     QWidget *widget = new QWidget;
     ui.setupUi( widget );
+    ui.tabWidget->setCurrentIndex(0);
     setMainWidget( widget );
     setCaption( i18n( "Define Equipment" ) );
     setButtons( KDialog::Close );
@@ -46,6 +53,10 @@ EquipmentWriter::EquipmentWriter() {
     newEyepiece = true;
     newLens = true;
     newFilter = true;
+
+    #ifdef HAVE_INDI_H
+    ui.driverComboBox->insertItems(1, KStars::Instance()->indiDriver()->driversList.keys());
+    #endif
 
     //make connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
@@ -72,18 +83,20 @@ EquipmentWriter::EquipmentWriter() {
 }
 
 void EquipmentWriter::slotAddScope() {
-    while ( ks->data()->logObject()->findScopeById( i18nc( "prefix for ID number identifying a telescope (optional)", "scope" ) + '_' + QString::number( nextScope ) ) )
+    while ( ks->data()->logObject()->findScopeById( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope ) ) )
     nextScope++;
-    OAL::Scope *s = new OAL::Scope( i18nc( "prefix for ID number identifying a telescope (optional)", "scope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
+    OAL::Scope *s = new OAL::Scope( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
     ks->data()->logObject()->scopeList()->append( s );
+    s->setINDIDriver(ui.driverComboBox->currentText());
     saveEquipment(); //Save the new list.
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
+    ui.driverComboBox->setCurrentIndex(0);
 }
 
 void EquipmentWriter::slotRemoveScope() {
-    OAL::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
+    OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
     ks->data()->logObject()->scopeList()->removeAll( s );
     saveEquipment(); //Save the new list.
     ui.Model->clear();
@@ -95,9 +108,10 @@ void EquipmentWriter::slotRemoveScope() {
 }
 
 void EquipmentWriter::slotSaveScope() {
-    OAL::Scope *s = ks->data()->logObject()->findScopeByName( ui.Id->text() );
+    OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
     if( s ) {
         s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
+        s->setINDIDriver(ui.driverComboBox->currentText());
     }
     saveEquipment(); //Save the new list.
 }
@@ -111,6 +125,7 @@ void EquipmentWriter::slotSetScope( QString name) {
         ui.Type->setCurrentIndex( ui.Type->findText( s->type() ) );
         ui.FocalLength->setValue( s->focalLength() );
         ui.Aperture->setValue( s->aperture() );
+        ui.driverComboBox->setCurrentIndex(ui.driverComboBox->findText(s->driver()));
         newScope = false;
     }
 }
@@ -119,6 +134,7 @@ void EquipmentWriter::slotNewScope() {
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
+    ui.driverComboBox->setCurrentIndex(0);
     ui.ScopeList->selectionModel()->clear();
     newScope = true;
 }
@@ -307,6 +323,11 @@ void EquipmentWriter::saveEquipment() {
     ks->data()->logObject()->writeEnd();
     ostream << ks->data()->logObject()->writtenOutput();
     f.close();
+
+#ifdef HAVE_INDI_H
+  KStars::Instance()->indiDriver()->updateCustomDrivers();
+#endif
+
 }
 
 void EquipmentWriter::loadEquipment() {
@@ -375,4 +396,10 @@ void EquipmentWriter::slotSave() {
         }
     }
 }
+
+void EquipmentWriter::slotClose()
+{
+   hide();
+}
+
 #include "equipmentwriter.moc"

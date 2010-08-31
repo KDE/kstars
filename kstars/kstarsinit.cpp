@@ -388,8 +388,6 @@ void KStars::initActions() {
     actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
         << i18n("Telescope Wizard...")
         << KIcon("tools-wizard" );
-    actionCollection()->addAction("telescope_properties", this, SLOT( slotTelescopeProperties() ) )
-        << i18n("Telescope Properties...");
     actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
         << i18n("Device Manager...")
         << KIcon("network-server" );
@@ -406,7 +404,7 @@ void KStars::initActions() {
 #endif
 
     //Help Menu:
-    //	KStandardAction::tipOfDay(this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
+    //    ka = actionCollection()->addAction( KStandardAction::TipofDay, this, SLOT( slotTipOfDay() ) );
 
     //	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
 
@@ -535,12 +533,17 @@ void KStars::datainitFinished() {
     #ifdef HAVE_INDI_H
     //Initialize INDIMenu
     indimenu = new INDIMenu(this);
+    indidriver = new INDIDriver(this);
     #endif
 
     //Initialize Observing List
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
+
+    #ifdef HAVE_INDI_H
+    indidriver->updateCustomDrivers();
+    #endif
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )
@@ -620,7 +623,7 @@ void KStars::initFocus() {
     map()->showFocusCoords();
 
     //Check whether initial position is below the horizon.
-    if ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
+    if ( Options::useAltAz() && Options::showGround() &&
             map()->focus()->alt().Degrees() < -1.0 ) {
         QString caption = i18n( "Initial Position is Below Horizon" );
         QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );

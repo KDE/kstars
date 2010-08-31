@@ -56,7 +56,7 @@ Q_OBJECT
         void slotNewEyepiece();
         void slotNewLens();
         void slotNewFilter();
-        void slotClose() { hide(); }
+        void slotClose();
         void slotSave();
 
     private:

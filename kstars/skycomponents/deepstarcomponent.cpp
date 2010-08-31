@@ -399,6 +399,47 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
     return oBest;
 }
 
+bool DeepStarComponent::starsInAperture( QList<StarObject *> &list, const SkyPoint &center, float radius, float maglim )
+{
+
+    if( maglim < triggerMag )
+        return false;
+
+    // For DeepStarComponents, whether we use ra0() and dec0(), or
+    // ra() and dec(), should not matter, because the stars are
+    // repeated in all trixels that they will pass through, although
+    // the factuality of this statement needs to be verified
+
+    Q_ASSERT( center.ra0().Degrees() != 0 );
+    Q_ASSERT( center.dec0().Degrees() != 0 );
+    m_skyMesh->intersect( center.ra0().Degrees(), center.dec0().Degrees(), radius, (BufNum) OBJ_NEAREST_BUF );
+
+    MeshIterator region( m_skyMesh, OBJ_NEAREST_BUF );
+
+    if( maglim < -28 )
+        maglim = m_FaintMagnitude;
+
+    while ( region.hasNext() ) {
+        Trixel currentRegion = region.next();
+        // FIXME: Build a better way to iterate over all stars.
+        // Ideally, StarBlockList should have such a facility.
+        StarBlockList *sbl = m_starBlockList[ currentRegion ];
+        sbl->fillToMag( maglim );
+        for( int i = 0; i < sbl->getBlockCount(); ++i ) {
+            StarBlock *block = sbl->block( i );
+            for( int j = 0; j < block->getStarCount(); ++j ) {
+                StarObject *star = block->star( i );
+                if( star->mag() > maglim )
+                    break; // Stars are organized by magnitude, so this should work
+                if( star->angularDistanceTo( &center ).Degrees() <= radius )
+                    list.append( star );
+            }
+        }
+    }
+
+    return true;
+}
+
 void DeepStarComponent::byteSwap( deepStarData *stardata ) {
     stardata->RA = bswap_32( stardata->RA );
     stardata->Dec = bswap_32( stardata->Dec );

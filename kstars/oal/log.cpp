@@ -252,6 +252,12 @@ void OAL::Log::writeScope( OAL::Scope *s ) {
     writer->writeStartElement( "vendor" );
     writer->writeCDATA( s->vendor() );
     writer->writeEndElement();
+    if (s->driver() != i18n("None"))
+    {
+        writer->writeStartElement( "driver" );
+        writer->writeCharacters( s->driver());
+        writer->writeEndElement();
+    }
     writer->writeStartElement( "aperture" );
     writer->writeCharacters( QString::number( s->aperture() ) );
     writer->writeEndElement();
@@ -259,6 +265,8 @@ void OAL::Log::writeScope( OAL::Scope *s ) {
     writer->writeCharacters( QString::number( s->focalLength() ) );
     writer->writeEndElement();
     writer->writeEndElement();
+
+
 }
 void OAL::Log::writeEyepiece( OAL::Eyepiece *ep ) {
     writer->writeStartElement( "eyepiece" );
@@ -676,7 +684,7 @@ void OAL::Log::readSession( QString id, QString lang ) {
 }
 
 void OAL::Log::readScope( QString id ) {
-    QString model, focalLength, vendor, type, aperture;
+    QString model, focalLength, vendor, type, aperture, driver = i18n("None");
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -698,14 +706,17 @@ void OAL::Log::readScope( QString id ) {
                 if( type == "C" ) type = "Cassegrain";
             } else if( reader->name() == "focalLength" ) {
                 focalLength = reader->readElementText() ;
-            } else if( reader->name() == "aperture" ) {
+            } else if( reader->name() == "aperture" )
                 aperture = reader->readElementText() ;
-            } else
+              else if ( reader->name() == "driver")
+                 driver = reader->readElementText();
+              else
                 readUnknownElement();
         }
     }
     
     OAL::Scope *o= new OAL::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
+    o->setINDIDriver(driver);
     m_scopeList.append( o );
 }
 

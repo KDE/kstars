@@ -342,6 +342,12 @@ void telescopeWizardProcess::scanPorts()
     if (!indiDev || !indidriver || !indimenu || linkRejected)
         return;
 
+    if (progressScan == NULL)
+    {
+        close();
+        return;
+    }
+
     currentPort++;
 
     if (progressScan->wasCancelled())

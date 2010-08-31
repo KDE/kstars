@@ -124,6 +124,22 @@ public:
     // FIXME: check whether return type should be StarObject*
     SkyObject* findByHDIndex( int HDnum );
 
+    /**
+     *@short Add to the given list, the stars from this component,
+     * that lie within the specified circular aperture, and that are
+     * brighter than the limiting magnitude specified.
+     *@p center The center point of the aperture
+     *@p radius The radius around the center point that defines the
+     * aperture
+     *@p maglim Optional parameter indicating the limiting magnitude. 
+     * If magnitude limit is numerically < -28, the limiting magnitude
+     * is assumed to be the limiting magnitude of the catalog (i.e. no
+     * magnitude limit) 
+     *@p list The list to operate on
+     */
+    void starsInAperture( QList<StarObject*> &list, const SkyPoint &center, float radius, float maglim=-29 );
+
+
     // TODO: Make byteSwap a template method and put it in byteorder.h
     // It should ideally handle 32-bit, 16-bit fields and starData and
     // deepStarData fields

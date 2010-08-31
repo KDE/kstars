@@ -58,6 +58,12 @@ public:
     /** @return the name of the catalog */
     QString name() const { return m_catName; }
 
+    /** @return the frequency of the flux readings in the catalog, if any */
+    QString fluxFrequency() const { return m_catFluxFreq; }
+
+    /** @return the unit of the flux measurements in the catalog, if any */
+    QString fluxUnit() const { return m_catFluxUnit; }
+
     /**
      *@return true if visibility Option is set for this catalog
      *@note this is complicated for custom catalogs, because 
@@ -119,7 +125,7 @@ private:
                                 int &iStart, bool showerrs, QStringList &errs);
 
     QString m_Filename;
-    QString m_catName, m_catPrefix, m_catColor;
+    QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
     float m_catEpoch;
     bool m_Showerrs;
     int m_ccIndex;

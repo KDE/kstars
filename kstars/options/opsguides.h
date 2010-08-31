@@ -30,8 +30,9 @@ public:
     ~OpsGuides();
 
 private slots:
-    void slotToggleConstellOptions();
-    void slotToggleMilkyWayOptions();
+    void slotToggleConstellOptions( bool state );
+    void slotToggleMilkyWayOptions( bool state );
+    void slotToggleOpaqueGround( bool state ); 
 
 private:
     KStars *ksw;

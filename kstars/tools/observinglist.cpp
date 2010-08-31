@@ -97,6 +97,7 @@ ObservingList::ObservingList( KStars *_ks )
     setCaption( i18n( "Observing List" ) );
     setButtons( KDialog::Close );
     dt = KStarsDateTime::currentDateTime();
+    setFocusPolicy(Qt::StrongFocus);
     geo = ks->data()->geo();
     sessionView = false;
     nativeSave = true;
@@ -136,7 +137,9 @@ ObservingList::ObservingList( KStars *_ks )
     ui->SetLocation->setText( geo -> fullName() );
     ui->ImagePreview->installEventFilter( this );
     ui->TableView->viewport()->installEventFilter( this );
+    ui->TableView->installEventFilter( this );
     ui->SessionView->viewport()->installEventFilter( this );
+    ui->SessionView->installEventFilter( this );
     // setDefaultImage();
     //Connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
@@ -1235,7 +1238,8 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             }
         }
     }
-    if( obj == ui->SessionView->viewport() && ! noSelection ) {
+
+    if( obj == ui->TableView->viewport() && ! noSelection ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             QMouseEvent *mouseEvent = static_cast<QMouseEvent* >(event);
             if( mouseEvent->button() == Qt::RightButton ) {
@@ -1249,6 +1253,19 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             }
         }
     }
+
+    if( obj == ui->TableView || obj == ui->SessionView)
+    {
+        if (event->type() == QEvent::KeyPress)
+        {
+                QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+                if (keyEvent->key() == Qt::Key_Delete)
+                    slotRemoveSelectedObjects();
+                return true;
+         } else
+                return false;
+    }
+
     return false;
 }
 
@@ -1333,4 +1350,5 @@ void ObservingList::setDefaultImage() {
     } else
         ui->ImagePreview->hide();
 }
+
 #include "observinglist.moc"

@@ -366,7 +366,7 @@ private:
     // FIXME: Used in kstarsdcop.cpp only
     KStarsDateTime StoredDate;
 
-    QString TypeName[18];
+    QString TypeName[19];
 
     QList<GeoLocation*> geoList;
     QMap<QString, TimeZoneRule> Rulebook;

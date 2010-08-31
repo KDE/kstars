@@ -57,10 +57,8 @@
 	</Menu>
 
 	<Menu name="devices" noMerge="1"><text>&amp;Devices</text>
-		<Action name="telescope_properties" />
 		<Action name="telescope_wizard" />
 		<Action name="device_manager" />
-		
 		<Separator />
 		<Action name="indi_cpl" />
 		<Action name="capture_sequence" />
@@ -119,6 +117,8 @@
 		<Action name="help_whats_this"/>
 		<Separator/>
 		<Action name="help_report_bug"/>
+		<Separator/>
+		<Action name="switch_application_language"/>
 		<Separator/>
 		<Action name="help_about_app"/>
 		<Action name="help_about_kde"/>

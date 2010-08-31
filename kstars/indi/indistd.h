@@ -59,7 +59,7 @@ public:
     void streamDisabled();
 
     /* INDI STD: Slew to a point */
-    bool slew_scope(SkyPoint *scope_target);
+    bool slew_scope(SkyPoint *scope_target, INDI_E *lp=NULL);
     /* INDI STD: Updates device time */
     void updateTime();
     /* INDI STD: Updates device location */

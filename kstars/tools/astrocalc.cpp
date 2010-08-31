@@ -39,6 +39,7 @@
 #include "modcalcvizequinox.h"
 #include "modcalcvlsr.h"
 #include "conjunctions.h"
+#include "moonphasetool.h"
 
 AstroCalc::AstroCalc( QWidget* parent ) :
         KDialog( parent )
@@ -168,6 +169,7 @@ AstroCalc::AstroCalc( QWidget* parent ) :
     solarItem->setIcon(0,solarIcon);
     addTreeItem<modCalcPlanets>  (solarItem, i18n("Planets Coordinates"));
     addTreeItem<ConjunctionsTool>(solarItem, i18n("Conjunctions"));
+    addTreeItem<MoonPhaseTool>(solarItem, i18n("Moon Phase Almanac"));
     
     acStack->setCurrentWidget( splashScreen );
     connect(navigationPanel, SIGNAL(itemClicked(QTreeWidgetItem *, int)),
