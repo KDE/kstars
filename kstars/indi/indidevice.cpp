@@ -476,7 +476,8 @@ int INDI_D::setBLOB(INDI_P *pp, XMLEle * root, QString & errmsg)
 int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
 {
     XMLAtt *ap = NULL;
-    int blobSize=0, r=0, dataType=0;
+    int blobSize=0, r=0;
+    DTypes dataType;
     uLongf dataSize=0;
     QString dataFormat;
     char *baseBuffer=NULL;
@@ -531,8 +532,9 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
     dataFormat.remove(".z");
 
     if (dataFormat == ".fits") dataType = DATA_FITS;
-    else if (dataFormat == ".stream") dataType = DATA_STREAM;
+    else if (dataFormat == ".stream") dataType = VIDEO_STREAM;
     else if (dataFormat == ".ccdpreview") dataType = DATA_CCDPREVIEW;
+    else if (dataFormat.contains("ascii")) dataType = ASCII_DATA_STREAM;
     else dataType = DATA_OTHER;
 
     //kDebug() << "We're getting data with size " << dataSize;
@@ -567,7 +569,18 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
         memcpy(dataBuffer, blobBuffer, dataSize);
     }
 
-    stdDev->handleBLOB(dataBuffer, dataSize, dataFormat);
+    if (dataType == ASCII_DATA_STREAM && blobEL->pp->state != PS_BUSY)
+    {
+        stdDev->asciiFileDirty = true;
+
+        if (blobEL->pp->state == PS_IDLE)
+        {
+            free (blobBuffer);
+            return(0);
+        }
+    }
+
+    stdDev->handleBLOB(dataBuffer, dataSize, dataFormat, dataType);
 
     free (blobBuffer);
 
