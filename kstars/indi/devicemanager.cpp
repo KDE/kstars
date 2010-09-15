@@ -128,6 +128,16 @@ void DeviceManager::connectToServer()
    connectionError();
   }
   
+void DeviceManager::enableBLOB(bool enable)
+{
+    QTextStream serverFP(&serverSocket);
+
+    if (enable)
+        serverFP << QString("<enableBLOB>Also</enableBLOB>\n");
+    else
+        serverFP << QString("<enableBLOB>Never</enableBLOB>\n");
+}
+
 void DeviceManager::connectionSuccess()
 {
    QTextStream serverFP(&serverSocket);
@@ -139,7 +149,8 @@ void DeviceManager::connectionSuccess()
         delLilXML(XMLParser);
     XMLParser = newLilXML();
 
-    serverFP << QString("<enableBLOB>Also</enableBLOB>\n");
+    enableBLOB(true);
+
     serverFP << QString("<getProperties version='%1'/>\n").arg(INDIVERSION);
 }
 
