@@ -102,7 +102,7 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QStri
 
     enableBLOBC = new QCheckBox(i18n("Binary Transfer"));
     enableBLOBC->setChecked(true);
-    enableBLOBC->setToolTip(i18n("Enable binary data transfer from driver to KStars and vica versa"));
+    enableBLOBC->setToolTip(i18n("Enable binary data transfer from driver to KStars and vice-versa."));
 
     connect(enableBLOBC, SIGNAL(stateChanged(int)), this, SLOT(setBLOBOption(int)));
   
