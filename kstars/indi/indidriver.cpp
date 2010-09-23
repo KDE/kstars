@@ -692,8 +692,8 @@ void INDIDriver::updateCustomDrivers()
             if (s->driver() == i18n("None") || findDeviceByLabel(label))
                 continue;
 
-            QHash<QString, QString>::const_iterator i = driversList.find(s->driver());
-            if (i.key() == s->driver())
+            QHash<QString, QString>::const_iterator i = driversList.constFind(s->driver());
+            if (i != driversList.constEnd() && i.key() == s->driver())
                 name  = i.value();
             else
                 return;
