@@ -37,8 +37,8 @@
 #include "skycomponents/skylabeler.h"
 
 QString SkyObject::emptyString;
-QString SkyObject::unnamedString = QString(i18n("unnamed"));
-QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
+QString SkyObject::unnamedString = QString(I18N_NOOP("unnamed"));
+QString SkyObject::unnamedObjectString = QString(I18N_NOOP("unnamed object"));
 QString SkyObject::starString = QString("star");
 
 const SkyObject::UID SkyObject::invalidUID   = ~0;
