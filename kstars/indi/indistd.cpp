@@ -163,7 +163,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 	    filename += QString("file_") + ts + '.' + dataFormat;
     }
 
-    kDebug() << "Final file name is " << filename;
+    //kDebug() << "Final file name is " << filename;
 
     if (dataType == INDI_D::ASCII_DATA_STREAM)
     {
