@@ -124,7 +124,6 @@ void LCGenerator::DownloadCurve(const QDate &StartDate, const QDate &EndDate, co
     buf.append('?'+ (lcg->VisualCheck->isChecked() ? Yes : No));
     buf.append('?'+ (lcg->DiscrepantCheck->isChecked() ? Yes : No));
 
-
     KUrl url(buf);
     QString message = i18n( "Light Curve produced by the American Amateur Variable Star Observers" );
 
