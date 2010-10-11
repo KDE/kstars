@@ -122,7 +122,7 @@ public:
     int currentPort;
     IDevice::XMLSource xmlSource;
   
-    int getINDIPort();
+    int getINDIPort(int customPort);
     bool isDeviceRunning(const QString &deviceLabel);
   
     void saveHosts();

@@ -84,7 +84,9 @@ void DeviceManagerUI::makePortEditable(QTreeWidgetItem* selectedItem, int column
 {
     // If it's the port column, then make it user-editable
     if (column == INDIDriver::LOCAL_PORT_COLUMN)
-        selectedItem->setFlags(Qt::ItemIsEditable);
+        selectedItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEditable|Qt::ItemIsEnabled);
+
+    localTreeWidget->editItem(selectedItem, INDIDriver::LOCAL_PORT_COLUMN);
 }
 
 INDIDriver::INDIDriver( KStars *_ks )
@@ -295,7 +297,7 @@ void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
                         // N.B. If multipe devices are selected to run under one device manager
                         // then we select the port for the first device that has a valid port
                         // entry, the rest are ignored.
-                        if (port != 0 && item->text(LOCAL_PORT_COLUMN).isEmpty() == false)
+                        if (port == 0 && item->text(LOCAL_PORT_COLUMN).isEmpty() == false)
                         {
                             port = item->text(LOCAL_PORT_COLUMN).toInt(&portOK);
                             // If we encounter conversion error, we abort
@@ -312,8 +314,7 @@ void INDIDriver::processLocalTree(IDevice::DeviceStatus dev_request)
    if (processed_devices.empty()) return;
 
    // Select random port within range is none specified.
-   if (port == 0)
-       port = getINDIPort();
+    port = getINDIPort(port);
 
    if (dev_request == IDevice::DEV_START)
    {
@@ -449,19 +450,33 @@ bool INDIDriver::isDeviceRunning(const QString &deviceLabel)
     return false;
 }
 
-int INDIDriver::getINDIPort()
+int INDIDriver::getINDIPort(int customPort)
 {
 
     int lastPort  = Options::serverPortEnd().toInt();;
+    bool success = false;
     currentPort++;
 
     // recycle
     if (currentPort > lastPort) currentPort = Options::serverPortStart().toInt();
 
     QTcpServer temp_server;
+
+    if (customPort != 0)
+    {
+        success = temp_server.listen(QHostAddress::LocalHost, customPort);
+        if (success)
+        {
+            temp_server.close();
+            return customPort;
+        }
+        else
+            return -1;
+    }
+
     for(; currentPort <= lastPort; currentPort++)
     {
-        bool success = temp_server.listen(QHostAddress::LocalHost, currentPort);
+            success = temp_server.listen(QHostAddress::LocalHost, currentPort);
         if(success)
         {
             temp_server.close();
