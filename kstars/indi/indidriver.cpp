@@ -206,7 +206,7 @@ void INDIDriver::disableDevice(INDI_D *indi_device)
 			{
                                 item->setIcon(LOCAL_STATUS_COLUMN, ui->stopPix);
                                 item->setIcon(LOCAL_MODE_COLUMN, QIcon());
-                                item->setText(LOCAL_PORT_COLUMN, QString());
+                                item->setText(LOCAL_PORT_COLUMN, device->port);
 			}
 			
 			device->clear();
@@ -641,6 +641,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
     QString driver;
     QString version;
     QString name;
+    QString port;
     double focal_length (-1), aperture (-1);
 
 
@@ -652,6 +653,11 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
         }
 
         label = valuXMLAtt(ap);
+
+        // Search for optional port attribute
+        ap = findXMLAtt(root, "port");
+        if (ap)
+            port = valuXMLAtt(ap);
 
         // Let's look for telescope-specific attributes: focal length and aperture
         ap = findXMLAtt(root, "focal_length");
@@ -687,10 +693,10 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
 
         QTreeWidgetItem *device = new QTreeWidgetItem(DGroup, lastDevice);
 
-
-    device->setText(LOCAL_NAME_COLUMN, QString(label));
+    device->setText(LOCAL_NAME_COLUMN, label);
     device->setIcon(LOCAL_STATUS_COLUMN, ui->stopPix);
-    device->setText(LOCAL_VERSION_COLUMN, QString(version));
+    device->setText(LOCAL_VERSION_COLUMN, version);
+    device->setText(LOCAL_PORT_COLUMN, port);
 
     lastDevice = device;
 
@@ -705,6 +711,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
         dv->focal_length = focal_length;
     if (aperture > 0)
         dv->aperture = aperture;
+    dv->port = port;
 
     devices.append(dv);
 

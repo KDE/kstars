@@ -60,6 +60,7 @@ public:
     QString driver;
     QString version;
     QString id;
+    QString port;
     DeviceStatus state;
     XMLSource xmlSource;
 
