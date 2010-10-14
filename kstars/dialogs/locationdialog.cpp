@@ -46,7 +46,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
         ui->TZBox->addItem( KGlobal::locale()->formatNumber( (double)(i-12) ) );
 
     //Populate DSTRuleBox
-    foreach( QString key, data->getRulebook().keys() ) {
+    foreach( const QString& key, data->getRulebook().keys() ) {
         if( !key.isEmpty() )
             ui->DSTRuleBox->addItem( key );
     }
@@ -87,6 +87,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
 
 //Do NOT delete members of filteredCityList! They are not created by LocationDialog
 LocationDialog::~LocationDialog(){
+    delete ui;
 }
 
 void LocationDialog::initCityList() {
