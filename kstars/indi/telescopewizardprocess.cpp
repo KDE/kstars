@@ -101,7 +101,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
 telescopeWizardProcess::~telescopeWizardProcess()
 {
     Options::setShowINDIMessages( INDIMessageBar );
-
+    delete ui;
     //Reset();
 }
 
