@@ -64,6 +64,8 @@ void TargetListComponent::draw( QPainter &psky ) {
     psky.setPen( pen );
     if( drawSymbols && !(*drawSymbols)() )
         return;
+    if( !list || list->count() <= 0 )
+        return;
     foreach( SkyObject *obj, *list ) {
         drawTargetSymbol( psky, obj );
     }

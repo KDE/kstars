@@ -92,7 +92,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_SolarSystem = new SolarSystemComposite( this ));
     addComponent( m_Flags       = new FlagComponent( this ));
 
-    addComponent( m_ObservingList = new TargetListComponent( this , &KStars::Instance()->observingList()->sessionList(), QPen(),
+    addComponent( m_ObservingList = new TargetListComponent( this , 0, QPen(),
                                                              &Options::obsListSymbol, &Options::obsListText ) );
         
     connect( this, SIGNAL( progressText( const QString & ) ),
@@ -239,6 +239,8 @@ void SkyMapComposite::draw( QPainter& psky )
     m_Flags->draw( psky );
 
     m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), int(SkyMap::Instance()->scale()) );
+    if( !m_ObservingList->list )
+        m_ObservingList->list = &KStars::Instance()->observingList()->sessionList();
     m_ObservingList->draw( psky );
 
     m_skyMesh->inDraw( false );
