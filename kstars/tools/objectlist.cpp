@@ -1,9 +1,9 @@
 /***************************************************************************
-                          observinglist.cpp  -  K Desktop Planetarium
+                          objectlist.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 29 Nov 2004
-    copyright            : (C) 2004 by Jeff Woods, Jason Harris
-    email                : jcwoods@bellsouth.net, jharris@30doradus.org
+    begin                : 
+    copyright            : (C) 2010 by Victor Carbune
+    email                : victor.carbune@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
