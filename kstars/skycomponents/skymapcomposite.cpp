@@ -27,6 +27,7 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanet.h"
 
+#include "targetlistcomponent.h"
 #include "constellationboundarylines.h"
 #include "constellationlines.h"
 #include "culturelist.h"
@@ -44,8 +45,11 @@
 #include "satellitecomposite.h"
 #include "flagcomponent.h"
 
+
 #include "skymesh.h"
 #include "skylabeler.h"
+
+#include "typedef.h"
 
 SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
         SkyComposite(parent), m_reindexNum( J2000 )
@@ -88,6 +92,9 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_SolarSystem = new SolarSystemComposite( this ));
     addComponent( m_Flags       = new FlagComponent( this ));
 
+    addComponent( m_ObservingList = new TargetListComponent( this , &KStars::Instance()->observingList()->sessionList(), QPen(),
+                                                             &Options::obsListSymbol, &Options::obsListText ) );
+        
     connect( this, SIGNAL( progressText( const QString & ) ),
              KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
 }
@@ -230,6 +237,9 @@ void SkyMapComposite::draw( QPainter& psky )
     m_DeepSky->drawLabels( psky );
 
     m_Flags->draw( psky );
+
+    m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), int(SkyMap::Instance()->scale()) );
+    m_ObservingList->draw( psky );
 
     m_skyMesh->inDraw( false );
 

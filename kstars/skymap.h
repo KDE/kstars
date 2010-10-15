@@ -661,12 +661,6 @@ private:
     void drawTelescopeSymbols(QPainter &psky);
 
     /**
-    	*@short Draw symbols for objects in the observing list.
-    	*@param psky reference to the QPainter on which to draw (this should be the sky pixmap)
-    	*/
-    void drawObservingList( QPainter &psky );
-
-    /**
     	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
     	*/

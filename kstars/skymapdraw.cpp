@@ -137,7 +137,6 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
         fov->draw(p, Options::zoomFactor());
     }
     drawTelescopeSymbols( p );
-    drawObservingList( p );
     drawZoomBox( p );
 
     if ( transientObject() )
@@ -358,42 +357,6 @@ void SkyMap::drawTransientLabel( QPainter &p ) {
     transientObject()->drawRudeNameLabel( p, o );
 }
 
-void SkyMap::drawObservingList( QPainter &psky ) {
-    int penWidth = int(m_Scale);
-    psky.setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), penWidth ) );
-
-    KStars* kstars = KStars::Instance();
-    if ( kstars && kstars->observingList()->sessionList().size() ) {
-        foreach ( SkyObject* obj, kstars->observingList()->sessionList() ) {
-            if ( checkVisibility( obj ) ) {
-                QPointF o = toScreen( obj );
-
-                // label object if it is currently on screen
-                if (o.x() >= 0. && o.x() <= width()*m_Scale && o.y() >=0. && o.y() <= height()*m_Scale ) {
-                    if ( Options::obsListSymbol() ) {
-                        if ( Options::useAntialias() ) {
-                            float size = 20.*m_Scale;
-                            float x1 = o.x() - 0.5*size;
-                            float y1 = o.y() - 0.5*size;
-                            psky.drawArc( QRectF(x1, y1, size, size), -60*16, 120*16 );
-                            psky.drawArc( QRectF(x1, y1, size, size), 120*16, 120*16 );
-                        } else {
-                            int size = 20*int(m_Scale);
-                            int x1 = int(o.x()) - size/2;
-                            int y1 = int(o.y()) - size/2;
-                            psky.drawArc( QRect(x1, y1, size, size), -60*16, 120*16 );
-                            psky.drawArc( QRect(x1, y1, size, size), 120*16, 120*16 );
-                        }
-                    }
-                    if ( Options::obsListText() ) {
-                        obj->drawRudeNameLabel( psky, o );
-                    }
-                }
-            }
-        }
-    }
-}
-
 void SkyMap::drawTelescopeSymbols(QPainter &psky)
 {
 #ifdef HAVE_INDI_H
@@ -562,7 +525,6 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     if ( x1 || y1 ) p.translate( x1, y1 );
 
     data->skyComposite()->draw( p );
-    drawObservingList( p );
 
     p.end();
 
