@@ -169,7 +169,7 @@ void KStars::initActions() {
     QObject::connect( ka, SIGNAL( triggered() ), this, SLOT( slotToggleTimer() ) );
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)) );
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
-    QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
+    QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()) );
 
     // ==== Pointing Menu ================
     actionCollection()->addAction("zenith", this, SLOT( slotPointFocus() ) )
