@@ -1113,9 +1113,9 @@ void INDI_D::setBLOBOption(int state)
         return;
 
     if (state == Qt::Checked)
-        deviceManager->enableBLOB(true);
+        deviceManager->enableBLOB(true, name);
     else
-        deviceManager->enableBLOB(false);
+        deviceManager->enableBLOB(false, name);
 }
 
 #include "indidevice.moc"

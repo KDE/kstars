@@ -139,6 +139,7 @@ void INDIDriver::enableDevice(INDI_D *indi_device)
    {
    	foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
     	{
+
 	        if (host->deviceManager == indi_device->deviceManager && host->isConnected == false)
 	        {
 	    		foreach (QTreeWidgetItem *item, ui->clientTreeWidget->findItems(host->name, Qt::MatchExactly, 1))
@@ -351,7 +352,7 @@ void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
      bool toConnect = (dev_request == IDevice::DEV_START);
 
     foreach (INDIHostsInfo * host, ksw->data()->INDIHostsList)
-        //hostInfo = ksw->data()->INDIHostsList.at(i);
+     {
         if (currentItem->text(HOST_NAME_COLUMN) == host->name && currentItem->text(HOST_PORT_COLUMN) == host->portnumber)
         {
             // Nothing changed, return
@@ -378,6 +379,7 @@ void INDIDriver::processRemoteTree(IDevice::DeviceStatus dev_request)
   
 		return;
 	  }
+    }
 }
 
 void INDIDriver::newTelescopeDiscovered()

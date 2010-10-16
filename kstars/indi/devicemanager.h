@@ -77,7 +77,7 @@ public:
     void appendManagedDevices(QList<IDevice *> & processed_devices);
     void startServer();
     void connectToServer();
-    void enableBLOB(bool enable);
+    void enableBLOB(bool enable, QString device = QString(), QString property = QString());
 
     QString getServerBuffer() { return serverBuffer; }
 
