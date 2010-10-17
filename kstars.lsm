@@ -1,0 +1,14 @@
+Begin3
+Title:          KStars 
+Version:        0.9
+Entered-date:   22/04/02
+Description:    A K Desktop Planetarium
+Keywords:       Science Astronomy
+Author:         Jason Harris <kstars@30doradus.org> 
+Maintained-by:  Jason Harris <kstars@30doradus.org> 
+Primary-site:   	        
+Home-page:      http://edu.kde.org/kstars
+Original-site:  
+Platforms:       Linux and other Unices
+Copying-policy: GNU Public License
+End

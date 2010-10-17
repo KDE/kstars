@@ -1,0 +1,113 @@
+README.timekeeping:  Keeping time in KStars
+copyright 2002 by Jason Harris and the KStars team.
+This document is licensed under the terms of the GNU Free Documentation License
+-------------------------------------------------------------------------------
+
+
+1. The Basics
+
+Timekeeping is handled by the SimClock class.  SimClock stores the 
+simulation time as the Julian Day, in a long double variable 
+("julian").  A long double is required to provide sub-second resolution 
+in the Julian Day value.  The date can be converted to a calendar date 
+(QDateTime object) with the UTC() function.  julian is updated every 
+0.1 sec by an internal QTimer, using the SimClock::tick() SLOT, 
+connected to the internal QTimer's timeout() SIGNAL.
+
+We make a distinction between "system time" and "simulation time".  
+System time is real time, according to the computer's CPU clock.  
+Simulation time is the time according to KStars; since the time and 
+date are adjustable, system time and simulation time can have an 
+arbitrary offset.  Furthermore, SimClock has an adjustable Scale 
+parameter that determines how many seconds of simulation time pass for 
+each second of system time.  Scale can even be negative, indicating 
+that the simulation clock is running backwards.
+
+The simplest way to advance the simulation time would be to add 
+(0.1*Scale) seconds to julian every time tick() is called.  However, 
+this is not accurate, because there is always some error associated 
+with the time it takes to execute tick(), and these errors would 
+accumulate during each cycle.  Instead, tick() measures the elapsed 
+time since some fixed system-time marker ("sysmark"), and adds 
+(elapsed_time*Scale) seconds to "julianmark", a fixed simulation-time 
+marker that was the exact simulation time at the moment the system-time 
+marker was set.  This is much more accurate, because any errors in 
+tick() do not accumulate.  Any time the clock is started, or its 
+scale changed, the sysmark and julianmark markers are reset (they are 
+also reset if they have not changed in more than 24 hours of real time).
+
+tick() emits the timeAdvanced() signal, which is connected to 
+KStarsData::updateTime(), which takes care of updating object 
+coordinates and drawing the skymap (see below for details).
+
+Note also that the SimClock class only handles the Julian Day and the 
+Universal Time, not the local time.  Time zone corrections and daylight
+savings time are handled by KStarsData::updateTime().
+
+
+2. Manual Mode
+
+The above procedure works well, as long as tick() takes less than 0.1 sec, 
+on average (including the time taken by KStarsData::updateTime()).  In 
+practice, large values of Scale cause more calls to updateTime() than the 
+CPU is able to handle.  This results in some time steps being skipped 
+altogether, which makes the simulation seem jerky.
+
+To compensate for this, we implemented a "Manual Mode" for SimClock.  In 
+Manual mode, the internal QTimer is stopped, so that tick() is not 
+triggered every 0.1 seconds.  Instead, a similar function (manualTick()) 
+is called whenever KStarsData::updateTime() has finished.  manualTick()
+adds Scale seconds to the simulation time.  So, the Scale parameter has
+a slightly different meaning in Manual mode.  The simulation time
+no longer runs at strictly Scale seconds per real-time second; rather, 
+every update of the simulation occurs exactly Scale simulation-seconds 
+after the previous update, no matter how long the update takes.
+
+There are two bool variables in SimClock, ManualMode and ManualActive. 
+The first controls whether the clock is using Manual Mode (accessed by 
+isManualMode()); the second controls whether the clock is running in 
+Manual Mode (recall that the internal timer is halted when in Manual 
+Mode).  The function isActive() returns whether the clock is running, 
+for both the standard mode and Manual Mode.
+
+
+3. KStarsData::updateTime()
+
+updateTime() is a SLOT connected to the SimClock's timeAdvanced() 
+SIGNAL, which is emitted every tick() or manualTick().
+
+KStarsData keeps its own representation of the universal time as a 
+QDateTime object (UTime); the first thing that updateTime() does is to
+reset this with clock->UTC().  It then sets the local time QDateTime 
+object (LTime) by adding 3600*geo->TZ() seconds to UTime.  It then 
+checks if it has reached the next daylight savings time change point, 
+and adjusts the Time Zone offset, if necessary.
+
+There is a group of time-dependent numbers such as the obliquity and 
+the sun's mean anomaly; these are kept in the KSNumbers class.  The next 
+thing updateTime() does is create a KSNumbers object appropriate for the 
+current julian day value [we may be able to save some time by keeping a 
+persistent KSNumbers object, and not updating it on every call to 
+updateTime(), as the values stored there don't change very quickly].
+
+There are several things that don't need to be updated on every call to
+updateTime().  To save time, we only update them if a certain amount of 
+time has passed since the last update.  For example, the LastNumUpdate 
+variable stores the julian day of the last time object coordinates were 
+updated for precession/nutation/aberration.  This needs to happen once 
+per simulation day, so whenever (CurrentDate-LastNumUpdate) exceeds 1.0,
+it signals the update (by setting needNewCoords=true) and resets 
+LastNumUpdate to CurrentDate.  Similarly, we use LastPlanetUpdate to 
+update planet coordinates 100 times per day.  LastSkyUpdate monitors
+the last time the horizontal coordinates were updated (the update 
+interval is dependent on the current zoom setting).  
+
+Next, we update the focus position.  If no object is being tracked, and
+useAltAz=true, then the focus RA needs to advance at the sidereal rate 
+(one second on the sky per sidereal second of time).  If the simulation 
+is tracking an object, then the focus is set to the object's coordinates.
+(See README.skymap for details on the focus position and animated 
+slewing)
+
+Finally, the last thing updateTime() does is to re-draw the sky by calling
+SkyMap::update(); see README.skymap for details.

@@ -1,0 +1,59 @@
+README.i18n:  Instructions for Translating KStars
+copyright 2002 by Jason Harris and the KStars team.
+This document is licensed under the terms of the GNU Free Documentation License
+-------------------------------------------------------------------------------
+
+
+Some parts of i18n in KStars are a bit complicated, so we provide 
+this document to answer some questions you might have.
+
++ Strings in data files.
+
+  KStars has many data files that contain strings that you may want 
+  to translate:  cities.dat, cnames.dat, image_url.dat, info_url.dat
+
+  We have modified our Makefile to automatically parse these files 
+  and generate a "dummy" source file that only contains the translatable
+  strings from our data files.  The file is called "kstars-i18n.cpp".
+  Once the kstars.pot file is generated, this file is destroyed.
+
+  The advantage to this is that it requires no special effort on the 
+  part of the translation teams; the data file strings are automatically 
+  added to our POT file.  The disadvantage is that our POT file is now 
+  quite large!  Especially because of the city names.  Probably, most of 
+  the city names won't need to be translated.  We added a comment to 
+  these strings indicating that they are optional.
+
+  cnames.dat contains constellation names, in Latin.  We include
+  an option in the program to display "Localized" names instead of
+  Latin names; if you want this to work for your language, you'll 
+  need to provide translations for the strings in the POT file which 
+  have a comment like: "Constellation name (optional)".  
+
+
++ Alternate internet URL lists
+
+  KStars provides many internet links to images and information on
+  specific objects in the sky.  The links appear in an object's 
+  right-click popup menu.  The POT file already provides the link 
+  text for translation, but there's still a problem:  the websites 
+  that the links go to are all in English!
+
+  If you want to provide internet links that point to websites 
+  in your native language, you can.  Add a file to the CVS tree at:
+  kde-i18n/<lang>/data/kdeedu/kstars/info_url.dat (where <lang> is 
+  the two-letter code for your language).  This file should contain 
+  the list of internet links you want KStars to use when localized 
+  for your language.  You can look at the default info_url.dat to
+  figure out the file format; briefly, it's a colon-delimited line
+  with fields: object name, link text, link URL
+
+  Note that your alternate info_url.dat file will completely replace 
+  the default, so if you want to include some links from the original,
+  you will need to copy them over.  Some of the sites we link to provide
+  versions of their pages in other languages (e.g., seds.org).  So
+  for these sites, you can just modify the URLs from the default file.
+
+  (you can also provide a localized version of image_url.dat, but this
+  is probably unnecessary since these are only image links).
+
