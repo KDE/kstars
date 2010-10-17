@@ -1,2 +1,1 @@
-SKIP /kstars/indi/\|/kstars/satlib/\|/kstars/htmesh/
-
+IGNORESUBS tools
