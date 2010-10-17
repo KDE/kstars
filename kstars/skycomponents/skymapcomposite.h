@@ -44,6 +44,7 @@ class SolarSystemComposite;
 class StarComponent;
 class DeepStarComponent;
 //class SatelliteComposite;
+class TargetListComponent;
 
 class DeepSkyObject;
 class KSPlanetBase;
@@ -207,6 +208,7 @@ private:
     StarComponent               *m_Stars;
     //SatelliteComposite          *m_Satellites;
     FlagComponent               *m_Flags;
+    TargetListComponent         *m_ObservingList;
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;

@@ -60,6 +60,7 @@ public:
     QString driver;
     QString version;
     QString id;
+    QString port;
     DeviceStatus state;
     XMLSource xmlSource;
 
@@ -89,6 +90,9 @@ public:
     QIcon localMode;
     QIcon serverMode;
 
+public slots:
+    void makePortEditable(QTreeWidgetItem* selectedItem, int column);
+
 };
 
 class INDIDriver : public KDialog
@@ -97,6 +101,9 @@ class INDIDriver : public KDialog
     Q_OBJECT
 
 public:
+
+    enum { LOCAL_NAME_COLUMN=0, LOCAL_STATUS_COLUMN, LOCAL_MODE_COLUMN, LOCAL_VERSION_COLUMN, LOCAL_PORT_COLUMN };
+    enum { HOST_STATUS_COLUMN=0, HOST_NAME_COLUMN, HOST_PORT_COLUMN };
 
     INDIDriver(KStars *ks);
     ~INDIDriver();
@@ -116,7 +123,7 @@ public:
     int currentPort;
     IDevice::XMLSource xmlSource;
   
-    int getINDIPort();
+    int getINDIPort(int customPort);
     bool isDeviceRunning(const QString &deviceLabel);
   
     void saveHosts();

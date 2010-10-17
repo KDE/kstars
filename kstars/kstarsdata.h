@@ -162,7 +162,7 @@ public:
     /** @return list of all geographic locations */
     QList<GeoLocation*> getGeoList() { return geoList; }
 
-    GeoLocation *locationNamed( const QString &city, const QString &province=0, const QString &country=0 );
+    GeoLocation *locationNamed( const QString &city, const QString &province=QString(), const QString &country= QString() );
 
     QString typeName( int );
 

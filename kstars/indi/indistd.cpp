@@ -72,12 +72,14 @@ INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
     ISOMode   		  = false;
     driverLocationUpdated = false;
     driverTimeUpdated     = false;
+    asciiFileDirty        = true;
 
     currentObject  	= NULL;
     streamWindow   	= new StreamWG(this, NULL);
 
     devTimer 		= new QTimer(this);
     seqLister		= new KDirLister();
+    ascii_data_file     = new QFile();
 
     telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
 
@@ -100,14 +102,10 @@ INDIStdDevice::~INDIStdDevice()
     delete (seqLister);
 }
 
-void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat)
+void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat, INDI_D::DTypes dataType)
 {
 
-    if (dataFormat == ".fits") dataType = DATA_FITS;
-    else if (dataFormat == ".stream") dataType = DATA_STREAM;
-    else dataType = DATA_OTHER;
-
-    if (dataType == DATA_STREAM)
+    if (dataType == INDI_D::VIDEO_STREAM)
     {
         if (!streamWindow->processStream)
             return;
@@ -129,7 +127,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 
     streamWindow->close();
 
-    if (dataType == DATA_FITS && !batchMode && Options::showFITS())
+    if (dataType == INDI_D::DATA_FITS && !batchMode && Options::showFITS())
     {
         strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
         if ((fd = mkstemp(file_template)) < 0)
@@ -145,7 +143,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
     {
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-        if (dataType == DATA_FITS)
+        if (dataType == INDI_D::DATA_FITS)
         {
             if ( batchMode)
 	    {
@@ -154,59 +152,68 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 		else
 			filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(seqCount, 2).arg(ts);
 	    }
-                //snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount);
-            else /*if (!Options::indiFITSDisplay())*/
-            {
-		filename += QString("file_") + ts + ".fits";
-                //strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-                //snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
-            }/*
             else
-            {
-		filename += QString("%1_%2_%3.fits").arg(seqPrefix).arg(seqCount, 2).arg(ts);
-                //strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-                //snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount, ts);
-            }*/
+		filename += QString("file_") + ts + ".fits";
 
             seqCount++;
         }
+        else if (dataType == INDI_D::ASCII_DATA_STREAM)
+            filename += QString("file_") + ts + dataFormat;
         else
-        {
 	    filename += QString("file_") + ts + '.' + dataFormat;
-	    //filename = currentDir + QString("/%1_%2_%3.fits").arg(seqPrefix).arg(seqCount, 2).arg(ts);
-            //strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
-            //strncat(filename, ts, sizeof(ts));
-            //strncat(filename, dataFormat.toAscii().data(), 10);
+    }
+
+    //kDebug() << "Final file name is " << filename;
+
+    if (dataType == INDI_D::ASCII_DATA_STREAM)
+    {
+        if (asciiFileDirty)
+        {
+            asciiFileDirty = false;
+            ascii_data_file->close();
+            ascii_data_file->setFileName(filename);
+            if (!ascii_data_file->open(QIODevice::WriteOnly))
+            {
+                        kDebug() << "Error: Unable to open " << ascii_data_file->fileName() << endl;
+                        return;
+            }
         }
-    }
 
-    kDebug() << "Final file name is " << filename;
+           QDataStream out(ascii_data_file);
+           for (nr=0; nr < (int) bufferSize; nr += n)
+               n = out.writeRawData( (const char *) (buffer+nr), bufferSize - nr);
 
-    QFile fits_temp_file(filename);
-    if (!fits_temp_file.open(QIODevice::WriteOnly))
+           out.writeRawData( (const char *) "\n" , 1);
+           ascii_data_file->flush();
+
+     }
+    else
     {
-		kDebug() << "Error: Unable to open fits_temp_file";
+        QFile fits_temp_file(filename);
+        if (!fits_temp_file.open(QIODevice::WriteOnly))
+        {
+                kDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
 		return;
+        }
+
+        QDataStream out(&fits_temp_file);
+
+        for (nr=0; nr < (int) bufferSize; nr += n)
+            n = out.writeRawData( (const char *) (buffer+nr), bufferSize - nr);
+
+        fits_temp_file.close();
     }
 
-    QDataStream out(&fits_temp_file);
 
-    for (nr=0; nr < (int) bufferSize; nr += n)
-        n = out.writeRawData( (const char *) (buffer+nr), bufferSize - nr);
-
-    fits_temp_file.close();
-
-    //fwrite( ((unsigned char *) buffer) + nr, 1, bufferSize - nr, fitsTempFile);
-    //fclose(fitsTempFile);
-
-    // We're done if we have DATA_OTHER or DATA_FITS if CFITSIO is not enabled.
-    if (dataType == DATA_OTHER)
+    // We're done if we have DATA_OTHER or DATA_STREAM or DATA_FITS if CFITSIO is not enabled.
+    if (dataType == INDI_D::DATA_OTHER || dataType == INDI_D::ASCII_DATA_STREAM)
     {
-        ksw->statusBar()->changeItem( i18n("Data file saved to %1", filename ), 0);
+        if (dataType == INDI_D::DATA_OTHER)
+            ksw->statusBar()->changeItem( i18n("Data file saved to %1", filename ), 0);
         return;
     }
 
-    if (dataType == DATA_FITS && (batchMode || !Options::showFITS()))
+    if (dataType == INDI_D::DATA_FITS && (batchMode || !Options::showFITS()))
     {
         ksw->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
         emit FITSReceived(dp->label);

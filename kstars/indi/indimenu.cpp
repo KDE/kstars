@@ -71,14 +71,13 @@ INDIMenu::INDIMenu(QWidget *parent) : QWidget(parent, Qt::Window)
     setWindowTitle(i18n("INDI Control Panel"));
     setAttribute(Qt::WA_ShowModal, false);
 
-    clearB= new QPushButton(i18n("Clear"));
-    closeB= new QPushButton(i18n("Close"));
+    clearB      = new QPushButton(i18n("Clear"));
+    closeB      = new QPushButton(i18n("Close"));
 
     QHBoxLayout *buttonLayout = new QHBoxLayout;
     buttonLayout->insertStretch(0);
     buttonLayout->addWidget(clearB, 0, Qt::AlignRight);
     buttonLayout->addWidget(closeB, 0, Qt::AlignRight);
-
     
     mainLayout->addLayout(buttonLayout);
 
@@ -204,5 +203,6 @@ void INDIMenu::clearLog()
 	dev->msgST_w->clear();
 
 }
+
 
 #include "indimenu.moc"

@@ -206,6 +206,7 @@ set(libkstarscomponents_SRCS
    skycomponents/starblockfactory.cpp
    skycomponents/culturelist.cpp
    skycomponents/flagcomponent.cpp
+   skycomponents/targetlistcomponent.cpp
 )
 
 set(libkstarswidgets_SRCS

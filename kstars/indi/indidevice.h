@@ -70,6 +70,7 @@ public:
     QTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     unsigned char *dataBuffer;          /* Generic buffer */
+    QCheckBox    *enableBLOBC;
 
     INDIStdDevice  *stdDev;
 
@@ -81,7 +82,7 @@ public:
     INDIMenu      *parent;
     DeviceManager *deviceManager;
 
-    enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
+    enum DTypes { DATA_FITS, ASCII_DATA_STREAM, VIDEO_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
 
     /*****************************************************************
     * Build
@@ -142,6 +143,7 @@ public:
 
 public slots:
     void engageTracking();
+    void setBLOBOption(int state);
 
 
 
