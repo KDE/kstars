@@ -979,74 +979,63 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target, INDI_E *lp)
 {
 
     INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *trackEle(NULL);
-    INDI_P *prop(NULL);
-    int selectedCoord=0;				/* 0 for Equatorial, 1 for Horizontal */
+    INDI_P *EqProp(NULL), *HorProp(NULL);
     bool useJ2000 (false);
 
-    prop = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
-    if (prop == NULL)
+    EqProp = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
+    if (EqProp == NULL)
     {
 	// Backward compatibility
-	prop = dp->findProp("EQUATORIAL_EOD_COORD");
-	if (prop == NULL)
+        EqProp = dp->findProp("EQUATORIAL_EOD_COORD");
+        if (EqProp == NULL)
 	{
 	// J2000 Property
-        prop = dp->findProp("EQUATORIAL_COORD_REQUEST");
-
-        if (prop == NULL)
-        {
-
-                    prop = dp->findProp("HORIZONTAL_COORD_REQUEST");
-                    if (prop == NULL)
-                        	return false;
-
-                    selectedCoord = 1;		/* Select horizontal */
+        EqProp = dp->findProp("EQUATORIAL_COORD_REQUEST");
+        if (EqProp)
+            useJ2000 = true;
         }
-        }
-                else
-                    useJ2000 = true;
-     }
+    }
 
-        switch (selectedCoord)
+    HorProp = dp->findProp("HORIZONTAL_COORD_REQUEST");
+
+    /* Could not find either properties! */
+    if (EqProp == NULL && HorProp == NULL)
+        return false;
+
+        if (EqProp)
         {
-            // Equatorial
-        case 0:
-            if (prop->perm == PP_RO) return false;
-            RAEle  = prop->findElement("RA");
+            if (EqProp->perm == PP_RO) return false;
+            RAEle  = EqProp->findElement("RA");
             if (!RAEle) return false;
-            DecEle = prop->findElement("DEC");
+            DecEle = EqProp->findElement("DEC");
             if (!DecEle) return false;
-            break;
+        }
 
-            // Horizontal
-        case 1:
-            if (prop->perm == PP_RO) return false;
-            AzEle = prop->findElement("AZ");
+        if (HorProp)
+        {
+            if (HorProp->perm == PP_RO) return false;
+            AzEle = HorProp->findElement("AZ");
             if (!AzEle) return false;
-            AltEle = prop->findElement("ALT");
+            AltEle = HorProp->findElement("ALT");
             if (!AltEle) return false;
-            break;
         }
 
         kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
 
-        switch (selectedCoord)
+       if (EqProp)
         {
-        case 0:
-            if (useJ2000)
+
+           if (useJ2000)
                 scope_target->apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
             RAEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->ra().hour()).arg(scope_target->ra().minute()).arg(scope_target->ra().second()));
             DecEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->dec().degree()).arg(scope_target->dec().arcmin()).arg(scope_target->dec().arcsec()));
+        }
 
-            break;
-
-        case 1:
-
+       if (HorProp)
+       {
             AzEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->az().degree()).arg(scope_target->az().arcmin()).arg(scope_target->az().arcsec()));
             AltEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->alt().degree()).arg(scope_target->alt().arcmin()).arg(scope_target->alt().arcsec()));
-
-            break;
         }
 
 	trackEle = lp;
@@ -1062,7 +1051,10 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target, INDI_E *lp)
          }
 
         trackEle->pp->newSwitch(trackEle);
-        prop->newText();
+        if (EqProp)
+            EqProp->newText();
+        if (HorProp)
+            HorProp->newText();
 
 	return true;
 }
