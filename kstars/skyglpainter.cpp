@@ -455,6 +455,11 @@ void SkyGLPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListL
 
 void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
 {
+
+    // TODO: Generalize to drawTargetList or something like that. Make
+    // texture changeable etc.
+    // TODO: Draw labels when required
+
     QVector<Vector2f> buffer( 6*obs.size() );
     int i = 0;
     foreach( SkyObject *obj, obs ) {

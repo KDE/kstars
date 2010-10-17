@@ -246,20 +246,16 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_Stars->drawLabels();
     m_DeepSky->drawLabels();
 
-    if( Options::obsListSymbol() && obsList.size() ) {
-        skyp->setPen( QPen( QColor( data->colorScheme()->colorNamed( "ObsListColor" ) ), 1. ));
-        skyp->drawObservingList( obsList );
-    }
+    m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), 1. );
+    if( !m_ObservingList->list )
+        m_ObservingList->list = &KStars::Instance()->observingList()->sessionList();
+    m_ObservingList->draw( skyp );
+
     if( map->transientObject() )
         SkyLabeler::AddLabel( map->transientObject(), SkyLabeler::RUDE_LABEL );
 
 
     m_Flags->draw( skyp );
-
-    m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), int(SkyMap::Instance()->scale()) );
-    if( !m_ObservingList->list )
-        m_ObservingList->list = &KStars::Instance()->observingList()->sessionList();
-    m_ObservingList->draw( psky );
 
     m_skyMesh->inDraw( false );
 
