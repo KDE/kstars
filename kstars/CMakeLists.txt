@@ -368,7 +368,7 @@ install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
 ########### install files ###############
-install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kstars.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
 if (INDI_FOUND)
