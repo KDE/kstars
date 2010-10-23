@@ -27,6 +27,9 @@
 #ifndef KSTARS_KSUTILS_H__
 #define KSTARS_KSUTILS_H__
 
+#include <Eigen/Core>
+USING_PART_OF_NAMESPACE_EIGEN
+#include <QPointF>
 
 class QFile;
 class QString;
@@ -68,6 +71,16 @@ namespace KSUtils {
     inline T reduceAngle(T x, T min, T max) {
         T delta = max - min;
         return x - delta*floor( (x-min)/delta );
+    }
+
+    /** Convert a vector to a point */
+    inline QPointF vecToPoint(const Vector2f& vec) {
+        return QPointF( vec[0], vec[1] );
+    }
+
+    /** Convert a point to a vector */
+    inline Vector2f pointToVec(const QPointF& p) {
+        return Vector2f(p.x(),p.y());
     }
 }
 

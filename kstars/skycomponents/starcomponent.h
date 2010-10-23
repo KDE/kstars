@@ -79,15 +79,11 @@ public:
 
     bool selected();
 
-    void draw( QPainter& psky );
+    void draw( SkyPainter *skyp );
 
     /* @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists. */
-    void drawLabels( QPainter& psky );
-
-    /**@short Return the size of the star as rendered by KStars
-     * @return the Size of the star's representation on the skymap in pixels */
-    float starRenderingSize( float mag ) const;
+    void drawLabels();
 
     static float zoomMagnitudeLimit();
 

@@ -20,7 +20,6 @@
 #include <QList>
 #include <QPointF>
 #include <QPolygonF>
-#include <QPainter>
 
 #include <klocale.h>
 
@@ -33,6 +32,8 @@
 #include "skycomponents/skiplist.h"
 
 #include "skymesh.h"
+
+#include "skypainter.h"
 
 
 MilkyWay::MilkyWay( SkyComposite *parent ) :
@@ -53,10 +54,10 @@ const IndexHash& MilkyWay::getIndexHash(LineList* lineList ) {
     return skyMesh()->indexLine( skipList->points(), skipList->skipHash() );
 }
 
-bool MilkyWay::skipAt( LineList* lineList, int i ) {
+SkipList* MilkyWay::skipList( LineList* lineList ) {
     // FIXME: EVIL!
     SkipList* skipList = (SkipList*) lineList;
-    return skipList->skip( i );
+    return skipList;
 }
 
 bool MilkyWay::selected()
@@ -65,19 +66,20 @@ bool MilkyWay::selected()
            ! ( Options::hideOnSlew() && Options::hideMilkyWay() && SkyMap::IsSlewing() );
 }
 
-void MilkyWay::draw( QPainter& psky )
+void MilkyWay::draw( SkyPainter *skyp )
 {
     if ( !selected() )
         return;
 
     QColor color = KStarsData::Instance()->colorScheme()->colorNamed( "MWColor" );
-    psky.setPen( QPen( color, 3, Qt::SolidLine ) );
-    psky.setBrush( QBrush( color ) );
+    skyp->setPen( QPen( color, 3, Qt::SolidLine ) );
+    skyp->setBrush( QBrush( color ) );
 
-    if ( Options::fillMilkyWay() )
-        drawFilled( psky );
-    else
-        drawLines( psky );
+    if( Options::fillMilkyWay() ) {
+        drawFilled(skyp);
+    } else {
+        drawLines(skyp);
+    }
 }
 
 void MilkyWay::loadContours(QString fname, QString greeting) {

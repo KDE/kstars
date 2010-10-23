@@ -34,7 +34,13 @@ TargetListComponent::TargetListComponent( SkyComposite *parent, SkyObjectList *o
     drawLabels = optionDrawLabels;
 }
 
-void TargetListComponent::drawTargetSymbol( QPainter &psky, SkyObject *obj ) {
+/**
+
+// This method is now implemented in SkyPainter subclasses, and hence is redundant.
+// But I'd let this method stick around for a while, before I get rid of it altogether
+// - Akarsh
+
+void TargetListComponent::drawTargetSymbol( SkyPainter *skyp, SkyObject *obj ) {
     SkyMap *map = SkyMap::Instance(); // FIXME: Replace with projector upon merger of Harry's code
     if ( ! map->checkVisibility( obj ) )
         return;
@@ -59,14 +65,19 @@ void TargetListComponent::drawTargetSymbol( QPainter &psky, SkyObject *obj ) {
         }
     }
 }
+*/
 
-void TargetListComponent::draw( QPainter &psky ) {
-    psky.setPen( pen );
+void TargetListComponent::draw( SkyPainter *skyp ) {
     if( drawSymbols && !(*drawSymbols)() )
         return;
     if( !list || list->count() <= 0 )
         return;
+    /*
+      // Superceded by SkyPainter::drawObservingList()
     foreach( SkyObject *obj, *list ) {
         drawTargetSymbol( psky, obj );
     }
+    */
+    skyp->setPen( pen );
+    skyp->drawObservingList( *list );
 }

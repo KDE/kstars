@@ -42,12 +42,14 @@
 #include "solarsystemcomposite.h"
 #include "starcomponent.h"
 #include "deepstarcomponent.h"
-#include "satellitecomposite.h"
+//#include "satellitecomposite.h"
 #include "flagcomponent.h"
 
 
 #include "skymesh.h"
 #include "skylabeler.h"
+#include "skypainter.h"
+#include "projections/projector.h"
 
 #include "typedef.h"
 
@@ -94,7 +96,6 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
 
     addComponent( m_ObservingList = new TargetListComponent( this , 0, QPen(),
                                                              &Options::obsListSymbol, &Options::obsListText ) );
-        
     connect( this, SIGNAL( progressText( const QString & ) ),
              KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
 }
@@ -156,7 +157,7 @@ void SkyMapComposite::updateMoons(KSNumbers *num )
 //The order in which components are drawn naturally determines the
 //z-ordering (the layering) of the components.  Objects which
 //should appear "behind" others should be drawn first.
-void SkyMapComposite::draw( QPainter& psky )
+void SkyMapComposite::draw( SkyPainter *skyp )
 {
     QTime t;
     t.start();
@@ -175,7 +176,9 @@ void SkyMapComposite::draw( QPainter& psky )
     data->syncUpdateIDs();
 
     // prepare the aperture
-    float radius = map->fov();
+    // FIXME_FOV: We may want to rejigger this to allow
+    // wide-angle views --hdevalence
+    float radius = map->projector()->fov();
     if ( radius > 90.0 )
         radius = 90.0;
 
@@ -194,54 +197,65 @@ void SkyMapComposite::draw( QPainter& psky )
     }
 
     // clear marks from old labels and prep fonts
-    m_skyLabeler->reset( map, psky );
-    m_skyLabeler->useStdFont( psky );
+    m_skyLabeler->reset( map );
+    m_skyLabeler->useStdFont();
 
     // info boxes have highest label priority
     // FIXME: REGRESSION. Labeler now know nothing about infoboxes
     // map->infoBoxes()->reserveBoxes( psky );
 
-    m_MilkyWay->draw( psky );
+    const QList<SkyObject*> obsList = KStars::Instance()->observingList()->sessionList();
+    if( Options::obsListText() )
+        foreach( SkyObject* obj, obsList ) {
+            SkyLabeler::AddLabel( obj, SkyLabeler::RUDE_LABEL );
+        }
+        
 
-    m_CoordinateGrid->draw( psky );
+    m_MilkyWay->draw( skyp );
+
+    m_CoordinateGrid->draw( skyp );
 
     // Draw constellation boundary lines only if we draw western constellations
     if ( m_Cultures->current() == "Western" )
-        m_CBoundLines->draw( psky );
+        m_CBoundLines->draw( skyp );
 
-    m_CLines->draw( psky );
+    m_CLines->draw( skyp );
 
-    m_Equator->draw( psky );
+    m_Equator->draw( skyp );
 
-    m_Ecliptic->draw( psky );
+    m_Ecliptic->draw( skyp );
 
-    m_DeepSky->draw( psky );
+    m_DeepSky->draw( skyp );
 
-    m_CustomCatalogs->draw( psky );
+    m_CustomCatalogs->draw( skyp );
 
-    m_Stars->draw( psky );
+    m_Stars->draw( skyp );
 
-    m_SolarSystem->drawTrails( psky );
-    m_SolarSystem->draw( psky );
+    m_SolarSystem->drawTrails( skyp );
+    m_SolarSystem->draw( skyp );
 
     // TODO: Fix satellites sometime
     //    m_Satellites->draw( psky );
 
-    m_Horizon->draw( psky );
+    m_Horizon->draw( skyp );
 
-    map->drawObjectLabels( labelObjects(), psky );
+    map->drawObjectLabels( labelObjects() );
 
-    m_skyLabeler->drawQueuedLabels( psky );
-    m_CNames->draw( psky );
-    m_Stars->drawLabels( psky );
-    m_DeepSky->drawLabels( psky );
+    m_skyLabeler->drawQueuedLabels();
+    m_CNames->draw( skyp );
+    m_Stars->drawLabels();
+    m_DeepSky->drawLabels();
 
-    m_Flags->draw( psky );
-
-    m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), int(SkyMap::Instance()->scale()) );
+    m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), 1. );
     if( !m_ObservingList->list )
         m_ObservingList->list = &KStars::Instance()->observingList()->sessionList();
-    m_ObservingList->draw( psky );
+    m_ObservingList->draw( skyp );
+
+    if( map->transientObject() )
+        SkyLabeler::AddLabel( map->transientObject(), SkyLabeler::RUDE_LABEL );
+
+
+    m_Flags->draw( skyp );
 
     m_skyMesh->inDraw( false );
 

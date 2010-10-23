@@ -17,8 +17,6 @@
 
 #include "ecliptic.h"
 
-#include <QPainter>
-
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -26,6 +24,9 @@
 #include "dms.h"
 #include "Options.h"
 #include "linelist.h"
+#include "skylabeler.h"
+
+#include "skypainter.h"
 
 Ecliptic::Ecliptic(SkyComposite *parent ) :
         LineListIndex( parent, i18n("Ecliptic") ),
@@ -61,28 +62,16 @@ bool Ecliptic::selected()
     return Options::showEcliptic();
 }
 
-void Ecliptic::draw( QPainter &psky )
+void Ecliptic::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
     KStarsData *data = KStarsData::Instance();
     QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 
-    m_label.reset( psky );
-    drawLines( psky );
-    m_label.draw( psky );
-}
-
-
-void Ecliptic::drawLabel( QPainter& psky )
-{
-    if( !selected() )
-        return;
-
-    KStarsData *data = KStarsData::Instance();
-    QColor color( data->colorScheme()->colorNamed( "EclColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-
-    m_label.draw( psky );
+    m_label.reset();
+    drawLines( skyp );
+    SkyLabeler::Instance()->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    m_label.draw();
 }

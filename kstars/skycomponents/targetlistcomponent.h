@@ -18,12 +18,10 @@
 #ifndef TARGETLISTCOMPONENT_H
 #define TARGETLISTCOMPONENT_H
 
+#include "skypainter.h"
 #include "skycomponent.h"
 #include "typedef.h"
 #include "skyobject.h"
-
-#include <QPainter>
-#include <QPen>
 
 /**
  *@class TargetListComponent
@@ -71,7 +69,7 @@ class TargetListComponent : public SkyComponent {
      * the objects on the list. So this must be called only after the
      * objects are drawn in a given draw cycle.
      */
-    virtual void draw( QPainter &psky );
+    virtual void draw( SkyPainter *skyp );
 
     // FIXME: Maybe we should make these member objects private / protected?
     SkyObjectList *list; // Pointer to list of objects to draw
@@ -94,7 +92,14 @@ class TargetListComponent : public SkyComponent {
      *@short Draws a target symbol around the object, and also draws labels if requested
      *@note Does not update the positions of the objects. See the note on draw() for details.
      */
-    virtual void drawTargetSymbol( QPainter &psky, SkyObject *obj );
+    /*
+
+    // This method is superseded by the definitions in SkyPainter
+    // and might need to be reinstated only while generalizing the
+    // class to draw other textures.
+
+    virtual void drawTargetSymbol( SkyPainter *skyp, SkyObject *obj );
+    */
 };
 
 #endif

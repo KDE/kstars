@@ -38,16 +38,12 @@ public:
      */
     Ecliptic( SkyComposite *parent );
 
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
     virtual bool selected();
 
-protected:
-    virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i ) {
-        m_label.updateLabelCandidates( o.x(), o.y(), lineList, i );
-    }
+    virtual LineListLabel* label() { return &m_label; }
 
 private:
-    void drawLabel( QPainter& psky );
     LineListLabel m_label;
 };
 

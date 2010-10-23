@@ -56,20 +56,67 @@ install( FILES kstars.png geomap.png
 	mercury.orbit venus.orbit earth.orbit mars.orbit jupiter.orbit 
 	saturn.orbit uranus.orbit neptune.orbit pluto.orbit 
 	asteroids.dat comets.dat 
-	sun.png mercury.png venus.png mars.png jupiter.png saturn.png 
-	uranus.png neptune.png pluto.png 
-	moon00.png moon01.png moon02.png moon03.png moon04.png moon05.png 
-	moon06.png moon07.png moon08.png moon09.png moon10.png moon11.png 
-	moon12.png moon13.png moon14.png moon15.png moon16.png moon17.png 
-	moon18.png moon19.png moon20.png moon21.png moon22.png moon23.png 
-	moon24.png moon25.png moon26.png moon27.png moon28.png moon29.png 
-	moon30.png moon31.png moon32.png moon33.png moon34.png moon35.png 
 	wzstars.png wzgeo.png wzscope.png wzdownload.png chart.colors
         classic.colors moonless-night.colors night.colors 
 	tips TZrules.dat valaav.txt advinterface.dat satellites.dat
 	histogram.png noimage.png glossary.xml defaultflag.gif
 	DESTINATION  ${DATA_INSTALL_DIR}/kstars 
 )
+
+install( FILES textures/star.png 
+               textures/galaxy.png
+               textures/open-cluster.png 
+               textures/globular-cluster.png
+               textures/galaxy-cluster.png
+               textures/gaseous-nebula.png
+	       textures/obslistsymbol.png
+               textures/sun.png 
+	       textures/mercury.png 
+	       textures/venus.png 
+	       textures/mars.png 
+	       textures/jupiter.png 
+	       textures/saturn.png 
+	       textures/uranus.png 
+	       textures/neptune.png 
+	       textures/pluto.png 
+	       textures/moon00.png 
+	       textures/moon01.png 
+	       textures/moon02.png 
+	       textures/moon03.png 
+	       textures/moon04.png 
+	       textures/moon05.png 
+	       textures/moon06.png 
+	       textures/moon07.png 
+	       textures/moon08.png 
+	       textures/moon09.png 
+	       textures/moon10.png 
+	       textures/moon11.png 
+	       textures/moon12.png 
+	       textures/moon13.png 
+	       textures/moon14.png 
+	       textures/moon15.png 
+	       textures/moon16.png 
+	       textures/moon17.png 
+	       textures/moon18.png 
+	       textures/moon19.png 
+	       textures/moon20.png 
+	       textures/moon21.png 
+	       textures/moon22.png 
+	       textures/moon23.png 
+	       textures/moon24.png 
+	       textures/moon25.png 
+	       textures/moon26.png 
+	       textures/moon27.png 
+	       textures/moon28.png 
+	       textures/moon29.png 
+	       textures/moon30.png 
+	       textures/moon31.png 
+	       textures/moon32.png 
+	       textures/moon33.png 
+	       textures/moon34.png 
+	       textures/moon35.png 
+         DESTINATION ${DATA_INSTALL_DIR}/kstars/textures )
+
 
 
 

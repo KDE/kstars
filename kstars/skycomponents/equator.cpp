@@ -17,8 +17,6 @@
 
 #include "equator.h"
 
-#include <QPainter>
-
 #include "ksnumbers.h"
 #include "kstarsdata.h"
 #include "skymap.h"
@@ -26,6 +24,9 @@
 #include "dms.h"
 #include "Options.h"
 #include "linelist.h"
+#include "skylabeler.h"
+
+#include "skypainter.h"
 
 Equator::Equator(SkyComposite *parent ) :
         NoPrecessIndex( parent, i18n("Equator") ),
@@ -56,31 +57,21 @@ bool Equator::selected()
     return Options::showEquator();
 }
 
-void Equator::preDraw( QPainter &psky )
+void Equator::preDraw( SkyPainter *skyp )
 {
     KStarsData *data = KStarsData::Instance();
     QColor color( data->colorScheme()->colorNamed( "EqColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-
-    m_label.reset( psky );
+    skyp->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
 }
 
-void Equator::draw( QPainter &psky )
+void Equator::draw( SkyPainter *skyp )
 {
-    NoPrecessIndex::draw( psky );
-    m_label.draw( psky );
-}
+    m_label.reset();
+    NoPrecessIndex::draw( skyp );
 
-void Equator::drawLabel( QPainter& psky )
-{
     KStarsData *data = KStarsData::Instance();
-
-    if ( ! selected() ) return;
-
     QColor color( data->colorScheme()->colorNamed( "EqColor" ) );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
-
-    m_label.draw( psky );
+    SkyLabeler::Instance()->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
+    m_label.draw();
 }
-
 

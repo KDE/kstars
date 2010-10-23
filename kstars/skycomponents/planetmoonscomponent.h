@@ -53,7 +53,7 @@ public:
     ~PlanetMoonsComponent();
 
     virtual bool selected();
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
     virtual void update( KSNumbers *num );
     virtual void updateMoons( KSNumbers *num );
 
@@ -68,7 +68,7 @@ public:
     SkyObject* findByName( const QString &name );
 
 protected:
-    virtual void drawTrails( QPainter& psky );
+    virtual void drawTrails( SkyPainter* skyp );
 
 private:
     KSPlanetBase::Planets planet;

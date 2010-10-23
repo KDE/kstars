@@ -60,7 +60,7 @@ public:
 
     virtual bool selected();
 
-    virtual void preDraw( QPainter &psky );
+    virtual void preDraw( SkyPainter *skyp );
 private:
     void appendPoly( PolyList* polyList, int debug=0);
 

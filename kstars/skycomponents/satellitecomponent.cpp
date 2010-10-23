@@ -303,7 +303,7 @@ void SatelliteComponent::drawLabels( QPainter& psky )
     for ( int j = firstI; j < 4; j++ ) {
         o[j] = angleAt( map, i[j], &a[j] );
         if ( fabs( a[j] ) > comfyAngle ) continue;
-        if ( m_skyLabeler->drawGuideLabel( psky, o[j], Label, a[j] ) )
+        if ( m_skyLabeler->drawGuideLabel( o[j], Label, a[j] ) )
             return;
         okay[j] = false;
     }
@@ -326,7 +326,7 @@ void SatelliteComponent::drawLabels( QPainter& psky )
         if ( i[j] && okay[j] && fabs(a[j]) < fabs(a[bestI]) ) bestI = j;
     }
 
-    m_skyLabeler->drawGuideLabel( psky, o[bestI], Label, a[bestI] );
+    m_skyLabeler->drawGuideLabel( o[bestI], Label, a[bestI] );
 }
 
 

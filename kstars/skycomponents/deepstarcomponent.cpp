@@ -18,7 +18,6 @@
 #include "deepstarcomponent.h"
 
 #include <QPixmap>
-#include <QPainter>
 
 #include <QRectF>
 #include <QFontMetricsF>
@@ -32,6 +31,9 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 #include "starcomponent.h"
+#include "projections/projector.h"
+
+#include "skypainter.h"
 
 #include <kde_file.h>
 #include "byteorder.h"
@@ -166,14 +168,15 @@ void DeepStarComponent::update( KSNumbers * )
 {}
 
 // TODO: Optimize draw, if it is worth it.
-void DeepStarComponent::draw( QPainter& psky ) {
+void DeepStarComponent::draw( SkyPainter *skyp ) {
     if ( !fileOpened ) return;
 
     SkyMap *map = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
 
-    float radius = map->fov();
+    //FIXME_FOV -- maybe not clamp like that...
+    float radius = map->projector()->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
     if ( m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw() ) {
@@ -280,14 +283,8 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 if ( mag > maglim || ( hideFaintStars && mag > hideStarsMag ) )
                     break;
 
-                if ( ! map->checkVisibility( curStar ) )
-                    continue;
-
-                QPointF o = map->toScreen( curStar );
-                if ( ! map->onScreen( o ) )
-                    continue;
-                curStar->draw( psky, o, StarComponent::Instance()->starRenderingSize( mag ) );
-                visibleStarCount++;
+                if( skyp->drawPointSource(curStar, mag, curStar->spchar() ) )
+                    visibleStarCount++;
             }
         }
 

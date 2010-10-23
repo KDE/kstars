@@ -21,7 +21,8 @@
 #include <QFontMetricsF>
 #include <QList>
 #include <QVector>
-
+#include <QPainter>
+#include <QPicture>
 #include <QFont>
 
 #include "skylabel.h"
@@ -29,7 +30,7 @@
 class QString;
 class QPointF;
 class SkyMap;
-class QPainter;
+class Projector;
 struct LabelRun;
 
 typedef QList<LabelRun*>	LabelRow;
@@ -124,6 +125,7 @@ public:
 	SATURN_MOON_LABEL,
         DEEP_SKY_LABEL,
         CONSTEL_NAME_LABEL,
+        RUDE_LABEL, ///Rude labels block other labels FIXME: find a better solution
         NUM_LABEL_TYPES
     } ;
 
@@ -131,14 +133,6 @@ public:
     //----- Static Methods ----------------------------------------------//
 
     static SkyLabeler* Instance();
-
-    /**
-     * @short adjusts the font in psky to be smaller if we are zoomed out.
-     * This static function allows us to prevent code duplication since it
-     * can be used without a SkyLabeler instance.  This is used in SkyObject
-     * and StarObject in addition to be used in this class.
-     */
-    static void SetZoomFont( QPainter& psky );
 
     /**
      * @short returns the zoom dependent label offset.  This is used in this
@@ -151,9 +145,9 @@ public:
     /**
      * @short static version of addLabel() below.
      */
-    inline static void AddLabel( const QPointF& p, SkyObject *obj, label_t type )
+    inline static void AddLabel(SkyObject *obj, label_t type)
     {
-        pinstance->addLabel( p, obj, type );
+        pinstance->addLabel( obj, type );
     }
 
 
@@ -169,36 +163,51 @@ public:
      * screen is zoomed out.  You can mimic this setting with the static
      * method SkyLabeler::setZoomFont( psky ).
      */
-    void reset( SkyMap* skyMap, QPainter& psky );
+    void reset( SkyMap* skyMap );
 
+    /**
+     * @short Draws labels using the given painter
+     * @param p the painter to draw labels with
+     */
+    void draw(QPainter& p);
 
     //----- Font Setting -----//
+
+    /**
+     * @short adjusts the font in psky to be smaller if we are zoomed out.
+     */
+    void setZoomFont();
+
+    /**
+     * @short sets the pen used for drawing labels on the sky.
+     */
+    void setPen(const QPen& pen);
 
     /**
      * @short tells the labeler the font you will be using so it can figure
      * out the height and width of the labels.  Also sets this font in the
      * psky since this is almost always what is wanted.
      */
-    void setFont( QPainter& psky, const QFont& font );
+    void setFont( const QFont& font );
 
     /**
      * @short decreases the size of the font in psky and in the SkyLabeler
      * by the delta points.  Negative deltas will increase the font size.
      */
-    void shrinkFont( QPainter& psky, int delta );
+    void shrinkFont( int delta );
 
     /**
      * @short sets the font in SkyLabeler and in psky to the font psky
      * had originally when reset() was called.  Used by ConstellationNames.
      */
-    void useStdFont(QPainter& psky);
+    void useStdFont();
 
     /**
      * @short sets the font in SkyLabeler and in psky back to the zoom
      * dependent value that was set in reset().  Also used in
      * ConstellationLines.
      */
-    void resetFont(QPainter& psky);
+    void resetFont();
 
     /**
      * @short returns the fontMetricsF we have already created.
@@ -212,7 +221,7 @@ public:
      *@short sets four margins for help in keeping labels entirely on the
      * screen.
      */
-    void getMargins( QPainter& psky, const QString& text, float *left,
+    void getMargins( const QString& text, float *left,
                      float *right, float *top, float *bot );
 
     /**
@@ -221,12 +230,29 @@ public:
      * return false, otherwise the label is drawn, its position is marked
      * and we return true.
      */
-    bool drawGuideLabel( QPainter& psky, QPointF& o, const QString& text, double angle );
+    bool drawGuideLabel( QPointF& o, const QString& text, double angle );
+
+    /**
+     * @short Tries to draw a label for an object.
+     * @param obj the object to draw the label for
+     * @param _p the position of that object
+     * @return true if the label was drawn
+     * //FIXME: should this just take an object pointer and do its own projection?
+     */
+    bool drawNameLabel( SkyObject* obj, const QPointF& _p );
+
+    /**
+     *@short draw the object's name label on the map, without checking for
+     *overlap with other labels.
+     *@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
+     *@param p The screen position for the label (in pixels; typically as found by SkyMap::toScreen())
+     */
+    void drawRudeNameLabel( SkyObject* obj, const QPointF& _p );
 
     /**
      * @short queues the label in the "type" buffer for later drawing.
      */
-    void addLabel( const QPointF& p, SkyObject *obj, label_t type );
+    void addLabel( SkyObject *obj, label_t type );
 
     /**
      *@short draws the labels stored in all the buffers.  You can change the
@@ -234,13 +260,13 @@ public:
      * buffers are drawn.  You can also change the fonts and colors there
      * too.
      */
-    void drawQueuedLabels( QPainter& psky );
+    void drawQueuedLabels();
 
     /**
      * @short a convenience routine that draws all the labels from a single
      * buffer.  Currently this is only called from within draw() above.
      */
-    void drawQueuedLabelsType( QPainter& psky, label_t type );
+    void drawQueuedLabelsType( SkyLabeler::label_t type );
 
 
     //----- Marking Regions -----//
@@ -256,15 +282,13 @@ public:
      */
     bool markText( const QPointF& p, const QString& text);
 
-    bool markText( QPainter& psky, const QPointF& p, const QString& text);
-
     /**
      * @short Works just like markText() above but for an arbitrary
      * rectangular region bounded by top, bot, left, and right.
      */
     bool markRegion( qreal left, qreal right, qreal top, qreal bot );
 
-    bool markRect( qreal x, qreal y, qreal width, qreal height, QPainter& psky );
+    bool markRect( qreal x, qreal y, qreal width, qreal height );
 
 
     //----- Diagnostics and Information -----//
@@ -327,7 +351,12 @@ private:
     QFont		 m_stdFont, m_skyFont;
     QFontMetricsF m_fontMetrics;
 
+    QPainter m_p;
+    QPicture m_picture;
+
     QVector<LabelList>   labelList;
+
+    const Projector* m_proj;
 
     static SkyLabeler* pinstance;
 };

@@ -43,7 +43,8 @@ class MilkyWay;
 class SolarSystemComposite;
 class StarComponent;
 class DeepStarComponent;
-class SatelliteComposite;
+//class SatelliteComposite;
+class TargetListComponent;
 class TargetListComponent;
 
 class DeepSkyObject;
@@ -109,7 +110,7 @@ public:
     	*@short Delegate draw requests to all sub components
     	*@p psky Reference to the QPainter on which to paint
     	*/
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 
     /**
       *@return the object nearest a given point in the sky.
@@ -206,7 +207,7 @@ private:
     SolarSystemComposite        *m_SolarSystem;
     SkyComposite                *m_CustomCatalogs;
     StarComponent               *m_Stars;
-    SatelliteComposite          *m_Satellites;
+    //SatelliteComposite          *m_Satellites;
     FlagComponent               *m_Flags;
     TargetListComponent         *m_ObservingList;
 

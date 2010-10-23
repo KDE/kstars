@@ -17,15 +17,14 @@
 
 #include "starcomponent.h"
 
-#include <QPixmap>
-#include <QPainter>
-
 #include <kglobal.h>
 
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyobjects/starobject.h"
+#include "skyqpainter.h"
+#include "skypainter.h"
 
 #include "skymesh.h"
 #include "skylabel.h"
@@ -34,6 +33,8 @@
 
 #include "binfilehelper.h"
 #include "starblockfactory.h"
+
+#include "projections/projector.h"
 
 
 #if defined(Q_OS_FREEBSD) || defined(Q_OS_NETBSD)
@@ -72,7 +73,7 @@ StarComponent::StarComponent(SkyComposite *parent )
     loadStaticData();
     // Load any deep star catalogs that are available
     loadDeepStarCatalogs();
-    StarObject::initImages();
+    SkyQPainter::initStarImages();
 }
 
 StarComponent::~StarComponent() {
@@ -193,37 +194,6 @@ float StarComponent::faintMagnitude() const {
     return faintmag;
 }
 
-float StarComponent::starRenderingSize( float mag ) const {
-    //adjust maglimit for ZoomLevel
-    const double maxSize = 10.0;
-
-    double lgmin = log10(MINZOOM);
-//    double lgmax = log10(MAXZOOM);
-    double lgz = log10(Options::zoomFactor());
-
-    // Old formula:
-    //    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
-
-    // Using the maglim to compute the sizes of stars reduces
-    // discernability between brighter and fainter stars at high zoom
-    // levels. To fix that, we use an "arbitrary" constant in place of
-    // the variable star density.
-    // Not using this formula now.
-    //    float sizeMagLim = 4.444 * ( lgz - lgmin ) + 5.0;
-
-    float sizeMagLim = zoomMagnitudeLimit();
-    if( sizeMagLim > faintMagnitude() * ( 1 - 1.5/16 ) )
-        sizeMagLim = faintMagnitude() * ( 1 - 1.5/16 );
-
-    float sizeFactor = maxSize + (lgz - lgmin);
-
-    float size = ( sizeFactor*( sizeMagLim - mag ) / sizeMagLim ) + 1.;
-    if( size <= 1.0 ) size = 1.0;
-    if( size > maxSize ) size = maxSize;
-
-    return size;
-}
-
 float StarComponent::zoomMagnitudeLimit() {
 
     //adjust maglimit for ZoomLevel
@@ -257,14 +227,15 @@ float StarComponent::zoomMagnitudeLimit() {
     return 3.5 + 3.7*( lgz - lgmin ) + 2.222*log10( static_cast<float>(Options::starDensity()) );
 }
 
-void StarComponent::draw( QPainter& psky )
+void StarComponent::draw( SkyPainter *skyp )
 {
     if( !selected() )
         return;
 
-    SkyMap *map       = SkyMap::Instance();
-    KStarsData* data  = KStarsData::Instance();
-    UpdateID updateID = data->updateID();
+    SkyMap *map             = SkyMap::Instance();
+    const Projector *proj   = map->projector();
+    KStarsData* data        = KStarsData::Instance();
+    UpdateID updateID       = data->updateID();
 
     bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
     m_hideLabels = checkSlewing || !( Options::showStarMagnitudes() || Options::showStarNames() );
@@ -285,6 +256,22 @@ void StarComponent::draw( QPainter& psky )
     labelMagLim += ( 12.0 - labelMagLim ) * ( lgz - lgmin) / (lgmax - lgmin );
     if( labelMagLim > 8.0 )
         labelMagLim = 8.0;
+
+    //Calculate sizeMagLim
+    // Old formula:
+    //    float sizeMagLim = ( 2.000 + 2.444 * Options::memUsage() / 10.0 ) * ( lgz - lgmin ) + 5.8;
+
+    // Using the maglim to compute the sizes of stars reduces
+    // discernability between brighter and fainter stars at high zoom
+    // levels. To fix that, we use an "arbitrary" constant in place of
+    // the variable star density.
+    // Not using this formula now.
+    //    float sizeMagLim = 4.444 * ( lgz - lgmin ) + 5.0;
+
+    float sizeMagLim = zoomMagnitudeLimit();
+    if( sizeMagLim > faintMagnitude() * ( 1 - 1.5/16 ) )
+        sizeMagLim = faintMagnitude() * ( 1 - 1.5/16 );
+    skyp->setSizeMagLimit(sizeMagLim);
 
     //Loop for drawing star images
 
@@ -313,18 +300,11 @@ void StarComponent::draw( QPainter& psky )
             if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
                 break;
                  
-            if ( ! map->checkVisibility( curStar ) )
-                continue;
-            QPointF o = map->toScreen( curStar );
-            
-            if ( ! map->onScreen( o ) )
-                continue;
+            bool drawn = skyp->drawPointSource( curStar, mag, curStar->spchar() );
 
-            curStar->draw( psky, o, starRenderingSize( mag ) );
-            
-            if ( m_hideLabels || mag > labelMagLim )
-                continue;
-            addLabel( o, curStar );
+            //FIXME_SKYPAINTER: find a better way to do this.
+            if ( drawn && !(m_hideLabels || mag > labelMagLim) )
+                addLabel( proj->toScreen(curStar), curStar );
         }
     }
 
@@ -333,17 +313,12 @@ void StarComponent::draw( QPainter& psky )
         if ( focusStar->updateID != updateID )
             focusStar->JITupdate( data );
         float mag = focusStar->mag();
-        if ( map->checkVisibility( focusStar ) ) {
-            QPointF o = map->toScreen( focusStar );
-            if ( map->onScreen( o ) ) {
-                focusStar->draw( psky, o, starRenderingSize( mag ) );
-            }
-        }
+        skyp->drawPointSource(focusStar, mag, focusStar->spchar() );
     }
 
     // Now draw each of our DeepStarComponents
     for( int i =0; i < m_DeepStarComponents.size(); ++i ) {
-        m_DeepStarComponents.at( i )->draw( psky );
+        m_DeepStarComponents.at( i )->draw( skyp );
     }
 }
 
@@ -355,12 +330,13 @@ void StarComponent::addLabel( const QPointF& p, StarObject *star )
     m_labelList[ idx ]->append( SkyLabel( p, star ) );
 }
 
-void StarComponent::drawLabels( QPainter& psky )
+void StarComponent::drawLabels()
 {
     if( m_hideLabels )
         return;
 
-    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" ) ) );
+    SkyLabeler *labeler = SkyLabeler::Instance();
+    labeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "SNameColor" ) ) );
 
     int max = int( m_zoomMagLimit * 10.0 );
     if ( max < 0 ) max = 0;
@@ -369,7 +345,7 @@ void StarComponent::drawLabels( QPainter& psky )
     for ( int i = 0; i <= max; i++ ) {
         LabelList* list = m_labelList[ i ];
         for ( int j = 0; j < list->size(); j++ ) {
-            list->at(j).obj->drawNameLabel( psky, list->at(j).o );
+            labeler->drawNameLabel( list->at(j).obj, list->at(j).o );
         }
         list->clear();
     }

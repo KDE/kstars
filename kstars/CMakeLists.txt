@@ -65,6 +65,8 @@ include_directories(
 #    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
+	${EIGEN2_INCLUDE_DIR}
+    ${OPENGL_INCLUDE_DIRS}
 )
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
@@ -183,8 +185,8 @@ set(libkstarscomponents_SRCS
    skycomponents/cometscomponent.cpp 
    skycomponents/planetmoonscomponent.cpp 
    skycomponents/solarsystemcomposite.cpp 
-   skycomponents/satellitecomposite.cpp
-   skycomponents/satellitecomponent.cpp
+   #skycomponents/satellitecomposite.cpp
+   #skycomponents/satellitecomponent.cpp
    skycomponents/starcomponent.cpp 
    skycomponents/deepstarcomponent.cpp
    skycomponents/deepskycomponent.cpp 
@@ -293,6 +295,16 @@ set(kstars_dialogsui_SRCS
   dialogs/newfov.ui
 )
 
+set(kstars_projection_SRCS
+    projections/projector.cpp
+    projections/lambertprojector.cpp
+    projections/gnomonicprojector.cpp
+    projections/stereographicprojector.cpp
+    projections/orthographicprojector.cpp
+    projections/azimuthalequidistantprojector.cpp
+    projections/equirectangularprojector.cpp
+)
+
 set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp
@@ -301,6 +313,8 @@ set(kstars_extra_SRCS
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
+	skypainter.cpp skyqpainter.cpp skyglpainter.cpp
+	texture.cpp texturemanager.cpp
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
@@ -321,7 +335,8 @@ set(oal_SRCS
 )
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
-	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
+	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
+	${kstars_extra_SRCS}  ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
 )
 
@@ -352,6 +367,8 @@ target_link_libraries(kstars
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
+	${OPENGL_LIBRARIES}
+	${QT_QTOPENGL_LIBRARY}
         )
 
 if(NOT WIN32)

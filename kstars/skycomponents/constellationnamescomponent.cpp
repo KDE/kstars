@@ -16,7 +16,6 @@
  ***************************************************************************/
 #include "constellationnamescomponent.h"
 
-#include <QPainter>
 #include <QTextStream>
 
 #include "kstarsdata.h"
@@ -27,6 +26,7 @@
 
 #include "ksfilereader.h"
 #include "skylabeler.h"
+#include "projections/projector.h"
 
 ConstellationNamesComponent::ConstellationNamesComponent(SkyComposite *parent, CultureList* cultures )
         : ListComponent(parent )
@@ -108,23 +108,25 @@ void ConstellationNamesComponent::update( KSNumbers* )
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 }
 
-void ConstellationNamesComponent::draw( QPainter& psky )
+void ConstellationNamesComponent::draw( SkyPainter *skyp )
 {
+    Q_UNUSED(skyp);
     if ( ! selected() )
         return;
 
-    SkyMap *map = SkyMap::Instance();
+    const Projector *proj = SkyMap::Instance()->projector();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
-    skyLabeler->useStdFont( psky );
-    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
+    skyLabeler->useStdFont();
+    skyLabeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CNameColor" ) ) );
 
     QString name;
     foreach(SkyObject *p, m_ObjectList) {
-        if( ! map->checkVisibility( p ) )
-            continue;
+        if( ! proj->checkVisibility( p ) )
+            continue; 
 
-        QPointF o = map->toScreen( p );
-        if( ! map->onScreen( o ) )
+        bool visible = false;
+        QPointF o = proj->toScreen( p, false, &visible );
+        if( !visible || !proj->onScreen( o ) )
             continue;
 
         if( Options::useLatinConstellNames() || Options::useLocalConstellNames() )
@@ -133,8 +135,8 @@ void ConstellationNamesComponent::draw( QPainter& psky )
             name = p->name2();
 
         o.setX( o.x() - 5.0 * name.length() );
-        skyLabeler->drawGuideLabel( psky, o, name, 0.0 );
+        skyLabeler->drawGuideLabel( o, name, 0.0 );
     }
 
-    skyLabeler->resetFont( psky );
+    skyLabeler->resetFont();
 }

@@ -51,14 +51,14 @@ public:
      *@p map Pointer to the SkyMap object
      *@p psky Reference to the QPainter on which to paint
      */
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 
     virtual void update( KSNumbers* );
 
     bool selected();
 
 private:
-    void drawCompassLabels( QPainter& psky );
+    void drawCompassLabels( SkyPainter *skyp );
 };
 
 #endif

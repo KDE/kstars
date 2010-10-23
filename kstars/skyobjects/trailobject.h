@@ -22,6 +22,8 @@
 
 #include "skyobject.h"
 
+class SkyPainter;
+
 #define MAXTRAIL 400
 
 /**
@@ -64,7 +66,7 @@ public:
      * parameter. It has SkyObject type for generality. */
     static void clearTrailsExcept(SkyObject* o);
 
-    void drawTrail(QPainter& psky) const;
+    void drawTrail(SkyPainter *skyp) const;
 
 protected:
     QList<SkyPoint> Trail;

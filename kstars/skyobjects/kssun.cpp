@@ -24,7 +24,7 @@
 #include "kstarsdatetime.h"
 
 KSSun::KSSun( )
-        : KSPlanet( I18N_NOOP( "Sun" ), "sun.png", Qt::yellow, 1392000. /*diameter in km*/  )
+        : KSPlanet( I18N_NOOP( "Sun" ), "sun", Qt::yellow, 1392000. /*diameter in km*/  )
 {
     setMag( -26.73 );
 }

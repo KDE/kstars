@@ -30,6 +30,8 @@
 #include <kio/job.h>
 
 #include "skymap.h"
+#include "skyqpainter.h"
+#include "skyglpainter.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -38,6 +40,8 @@
 #include "kspopupmenu.h"
 #include "skyobjects/ksplanetbase.h"
 #include "widgets/infoboxwidget.h"
+
+#include "projections/projector.h"
 
 #include "skycomponents/skymapcomposite.h"
 
@@ -444,10 +448,10 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         }
     }
 
-    if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
+    if ( projector()->unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     //determine RA, Dec of mouse pointer
-    setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+    setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
     mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     double dyPix = 0.5*height() - e->y();
@@ -500,7 +504,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         }
 
         //redetermine RA, Dec of mouse pointer, using new focus
-        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
 
@@ -526,7 +530,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
         stopTracking();
 
-        SkyPoint newcenter = fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
+        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
 
         setFocus( &newcenter );
         setDestination( &newcenter );
@@ -572,7 +576,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
     QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
 
     // break if point is unusable
-    if ( unusablePoint( e->pos() ) )
+    if ( projector()->unusablePoint( e->pos() ) )
         return;
 
     if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
@@ -587,7 +591,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         }
 
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
         clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -630,72 +634,107 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
-    if ( e->button() == Qt::LeftButton && !unusablePoint( e->pos() ) ) {
+    if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) ) {
         mouseButtonDown = false;
         if( e->x() != width()/2 || e->y() != height()/2 )
             slotCenter();
     }
 }
 
-void SkyMap::paintEvent( QPaintEvent * )
+#ifdef USEGL
+void SkyMap::initializeGL()
+{
+}
+
+void SkyMap::resizeGL(int width, int height)
+{
+    Q_UNUSED(width)
+    Q_UNUSED(height)
+    //do nothing since we resize in SkyGLPainter::paintGL()
+}
+
+void SkyMap::paintEvent( QPaintEvent *event )
+{
+    QPainter p;
+    p.begin(this);
+    p.beginNativePainting();
+
+    setupProjector();
+    if(m_framecount == 25) {
+        float sec = m_fpstime.elapsed()/1000.;
+        printf("FPS: %.2f\n", m_framecount/sec);
+        m_framecount = 0;
+        m_fpstime.restart();
+    }
+    SkyGLPainter psky(this);
+    //FIXME: we may want to move this into the components.
+    psky.begin();
+
+    //Draw all sky elements
+    psky.drawSkyBackground();
+    data->skyComposite()->draw( &psky );
+    //Finish up
+    psky.end();
+    
+    p.endNativePainting();
+    drawOverlays(p);
+    p.end();
+
+    ++m_framecount;
+}
+#else
+void SkyMap::paintEvent( QPaintEvent *event )
 {
     //If computeSkymap is false, then we just refresh the window using the stored sky pixmap
     //and draw the "overlays" on top.  This lets us update the overlay information rapidly
     //without needing to recompute the entire skymap.
     //use update() to trigger this "short" paint event; to force a full "recompute"
     //of the skymap, use forceUpdate().
+
+    if(m_framecount == 25) {
+        float sec = m_fpstime.elapsed()/1000.;
+        printf("FPS: %.2f\n", m_framecount/sec);
+        m_framecount = 0;
+        m_fpstime.restart();
+    }
+
+    ++m_framecount;
     if (!computeSkymap)
     {
-        *sky2 = *sky;
-        drawOverlays( sky2 );
         QPainter p;
         p.begin( this );
-        p.drawPixmap( 0, 0, *sky2 );
+        p.drawLine(0,0,1,1); // Dummy operation to circumvent bug
+        p.drawPixmap( 0, 0, *sky );
+        drawOverlays(p);
         p.end();
         return ; // exit because the pixmap is repainted and that's all what we want
     }
+
     // FIXME: used to to notify infobox about possible change of object coordinates
     // Not elegant at all. Should find better option
     showFocusCoords();
-
-    setMapGeometry();
-
-    //FIXME: What to do about the visibility logic?
-    // 	//checkSlewing combines the slewing flag (which is true when the display is actually in motion),
-    // 	//the hideOnSlew option (which is true if slewing should hide objects),
-    // 	//and clockSlewing (which is true if the timescale exceeds Options::slewTimeScale)
-    // 	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
-    // 				&& Options::hideOnSlew() );
-    //
-    // 	//shortcuts to inform whether to draw different objects
-    // 	bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
-    // 	bool drawMW( Options::showMilkyWay() && !(checkSlewing && Options::hideMilkyWay() ) );
-    // 	bool drawCNames( Options::showCNames() && !(checkSlewing && Options::hideCNames() ) );
-    // 	bool drawCLines( Options::showCLines() &&!(checkSlewing && Options::hideCLines() ) );
-    // 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
-    // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
-
-    QPainter psky;
-    psky.begin( sky );
-    psky.setRenderHint(QPainter::Antialiasing, (!slewing && Options::useAntialias()) );
-    psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
+    setupProjector();
+    
+    SkyQPainter psky(this, sky);
+    //FIXME: we may want to move this into the components.
+    psky.begin();
+    
     //Draw all sky elements
-    data->skyComposite()->draw( psky );
+    psky.drawSkyBackground();
+    data->skyComposite()->draw( &psky );
     //Finish up
     psky.end();
 
-    *sky2 = *sky;
-    drawOverlays( sky2 );
-    //TIMING
-    //	t2.start();
-
     QPainter psky2;
     psky2.begin( this );
-    psky2.drawPixmap( 0, 0, *sky2 );
+    psky2.drawLine(0,0,1,1); // Dummy op.
+    psky2.drawPixmap( 0, 0, *sky );
+    drawOverlays(psky2);
     psky2.end();
 
     computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }
+#endif
 
 double SkyMap::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 

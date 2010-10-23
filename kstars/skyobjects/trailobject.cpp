@@ -22,6 +22,7 @@
 #include "skymap.h"
 #include "kspopupmenu.h"
 #include "trailobject.h"
+#include "skypainter.h"
 
 QSet<TrailObject*> TrailObject::trailObjects;
 
@@ -81,58 +82,22 @@ void TrailObject::clearTrailsExcept(SkyObject* o) {
         trailObjects.insert( keep );
 }
 
-void TrailObject::drawTrail(QPainter& psky) const {
+void TrailObject::drawTrail(SkyPainter* skyp) const {
     if( !Trail.size() )
         return;
 
-    SkyMap     *map  = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
 
-    float Width  = map->scale() * map->width();
-    float Height = map->scale() * map->height();
-
-    SkyPoint p = Trail.first();
-    QPointF o = map->toScreen( &p );
-    QPointF oLast( o );
-
-    int i = 0;
-    int n = Trail.size();
-
-    bool doDrawLine =
-        o.x() >= -1000.0      &&
-        o.x() <= Width+1000.0 &&
-        o.y() >= -1000.       &&
-        o.y() <= Height+1000.;
-    bool firstPoint = true;
-
     QColor tcolor = QColor( data->colorScheme()->colorNamed( "PlanetTrailColor" ) );
-    psky.setPen( QPen( tcolor, 1 ) );
-    foreach( p, Trail ) {
-        //skip first point
-        if( firstPoint ) {
-            firstPoint = false;
-            continue;
-        }
-
+    skyp->setPen( QPen(tcolor, 1) );
+    int n = Trail.size();
+    for(int i = 1; i < n; ++i) {
         if ( Options::fadePlanetTrails() ) {
             tcolor.setAlphaF(static_cast<qreal>(i)/static_cast<qreal>(n));
-            ++i;
-            psky.setPen( QPen( tcolor, 1 ) );
+            skyp->setPen( QPen( tcolor, 1 ) );
         }
-
-        o = map->toScreen( &p );
-        if( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
-
-            //Want to disable line-drawing if this point and the last are both outside bounds of display.
-            //FIXME: map->rect() should return QRectF
-            if( !map->rect().contains( o.toPoint() ) && ! map->rect().contains( oLast.toPoint() ) )
-                doDrawLine = false;
-
-            if ( doDrawLine )
-                psky.drawLine( oLast, o );
-            else
-                doDrawLine = true;
-        }
-        oLast = o;
+        SkyPoint a = Trail[i-1];
+        SkyPoint b = Trail[i];
+        skyp->drawSkyLine(&a, &b);
     }
 }

@@ -30,6 +30,7 @@
 #include "ksutils.h"
 #include "Options.h"
 #include "skyobjects/starobject.h"
+#include "skyqpainter.h"
 
 ColorScheme::ColorScheme() : FileName() {
     //Each color has two names associated with it.  The KeyName is its
@@ -282,13 +283,13 @@ void ColorScheme::saveToConfig() {
 void ColorScheme::setStarColorMode( int mode ) { 
     StarColorMode = mode;
     Options::setStarColorMode( mode );
-    StarObject::initImages();
+    SkyQPainter::initStarImages();
 }
 
 void ColorScheme::setStarColorIntensity( int intens ) { 
     StarColorIntensity = intens;
     Options::setStarColorIntensity( intens );
-    StarObject::initImages();
+    SkyQPainter::initStarImages();
 }
 
 void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
@@ -296,5 +297,5 @@ void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
     StarColorIntensity = intens;
     Options::setStarColorMode( mode );
     Options::setStarColorIntensity( intens );
-    StarObject::initImages();
+    SkyQPainter::initStarImages();
 }

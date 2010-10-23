@@ -59,12 +59,12 @@ public:
 
     ~DeepSkyComponent();
 
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 
     /* @short draw all the labels in the prioritized LabelLists and then
      * clear the LabelLists.
      */
-    void drawLabels( QPainter& psky );
+    void drawLabels();
 
     /**
      * @short Update the sky positions of this component.  FIXME -jbb does nothing now
@@ -143,7 +143,7 @@ private:
 
     void mergeSplitFiles();
 
-    void drawDeepSkyCatalog( QPainter& psky, bool drawObject, DeepSkyIndex* dsIndex,
+    void drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject, DeepSkyIndex* dsIndex,
                              const QString& colorString, bool drawImage = false);
 
     QList<DeepSkyObject*> m_DeepSkyList;

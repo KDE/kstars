@@ -25,8 +25,10 @@
 #include "skymesh.h"
 #include "typedef.h"
 
-class QPainter;
+class LineListLabel;
+class SkyPainter;
 class LineList;
+class SkipList;
 
 /* @class LineListIndex
  * Contains almost all the code needed for indexing and drawing and clipping
@@ -52,7 +54,7 @@ public:
      * MilkyWay draw() routine calls all of the more specific draw()
      * routines below.
      */
-    virtual void draw( QPainter &psky );
+    virtual void draw( SkyPainter *skyp );
 
 protected:
     /* @short this is called from within the draw routines when the updateID
@@ -110,18 +112,18 @@ protected:
     /* @short Draws all the lines in m_listList as simple lines in float
      * mode.
      */
-    void drawLines( QPainter &psky );
+    void drawLines( SkyPainter* skyp );
 
     /* @short Draws all the lines in m_listList as filled polygons in float
      * mode.
      */
-    void drawFilled( QPainter& psky );
+    void drawFilled( SkyPainter* skyp );
 
     /* @short Gives the subclasses access to the top of the draw() method.
      * Typically used for setting the QPen, etc. in the QPainter being
      * passed in.  Defaults to setting a thin white pen.
      */
-    virtual void preDraw( QPainter &psky );
+    virtual void preDraw( SkyPainter* skyp );
 
     /* @short a callback overridden by NoPrecessIndex so it can use the
      * drawing code with the non-reverse-precessed mesh buffer.
@@ -135,15 +137,16 @@ protected:
      */
     virtual const IndexHash& getIndexHash(LineList* lineList );
 
-    /* @short Also overridden by SkipListIndex.  Controls skipping inside of
-     * the draw() routines.  The default behavior is to simply return false
-     * but this was moved into the .cpp file to prevent this header file
-     * from generating repeated unused parameter warnings.
+    /** @short Also overridden by SkipListIndex.
+     * Controls skipping inside of the draw() routines.  The default behavior
+     * is to simply return a null pointer.
+     *
+     * FIXME: I don't think that the SkipListIndex class even exists -- hdevalence
      */
-    virtual bool skipAt( LineList* lineList, int i );
+    virtual SkipList* skipList( LineList* lineList );
 
-    virtual void updateLabelCandidates( const QPointF& o, LineList* lineList, int i );
-
+    virtual LineListLabel* label() {return 0;};
+    
 private:
     QString      m_name;
 

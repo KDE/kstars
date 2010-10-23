@@ -28,6 +28,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "ksnumbers.h"
+#include "ksutils.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/starobject.h"
@@ -37,6 +38,9 @@
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skyqpainter.h"
+#include "projections/projector.h"
+#include "projections/lambertprojector.h"
 
 #include <config-kstars.h>
 
@@ -48,89 +52,12 @@
 #include "indi/indidevice.h"
 #endif
 
-namespace {
-    void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
-        double sinRa, sinDec, cosRa, cosDec;
-
-        p->ra().SinCos(  sinRa,  cosRa );
-        p->dec().SinCos( sinDec, cosDec );
-        *x = cosDec * cosRa;
-        *y = cosDec * sinRa;
-        *z = sinDec;
-    }
-}
-
-QPointF SkyMap::clipLine( SkyPoint *p1, SkyPoint *p2 )
-{
-    /* ASSUMES p1 was not clipped but p2 was.
-     * Return the QPoint that barely clips in the line twixt p1 and p2.
-     */              
-    int iteration = 15;          // For "perfect" clipping:
-    // 2^interations should be >= max pixels/line
-    bool isVisible = true;       // so we start at midpoint
-    SkyPoint mid;
-    QPointF oMid;
-    double x, y, z, dx, dy, dz, ra, dec;
-    int newx, newy, oldx, oldy;
-    oldx = oldy = -10000;        // any old value that is not the first omid
-
-    toXYZ( p1, &x, &y, &z );
-    // -jbb printf("\np1: %6.4f %6.4f %6.4f\n", x, y, z);
-
-    toXYZ( p2, &dx, &dy, &dz );
-
-    // -jbb printf("p2: %6.4f %6.4f %6.4f\n", dx, dy, dz);
-    dx -= x;
-    dy -= y;
-    dz -= z;
-    // Successive approximation to point on line that just clips.
-    while(iteration-- > 0) {
-        dx *= .5;
-        dy *= .5;
-        dz *= .5;
-        if ( ! isVisible ) {              // move back toward visible p1
-            x -= dx;
-            y -= dy;
-            z -= dz;
-        }
-        else {                        // move out toward clipped p2
-            x += dx;
-            y += dy;
-            z += dz;
-        }
-
-        // -jbb printf("  : %6.4f %6.4f %6.4f\n", x, y, z);
-        // [x, y, z] => [ra, dec]
-        ra = atan2( y, x );
-        dec = asin( z / sqrt(x*x + y*y + z*z) );
-
-        mid = SkyPoint( ra * 12. / dms::PI, dec * 180. / dms::PI );
-        mid.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-
-        oMid = toScreen( &mid, false, &isVisible );
-        newx = (int) oMid.x();
-        newy = (int) oMid.y();
-
-        // -jbb printf("new x/y: %4d %4d", newx, newy);
-        if ( (oldx == newx) && (oldy == newy) ) {
-            break;
-        }
-        oldx = newx;
-        oldy = newy;
-    }
-    return  oMid;
-}
-
-void SkyMap::drawOverlays( QPixmap *pm ) {
+void SkyMap::drawOverlays( QPainter& p ) {
     if( !KStars::Instance() )
         return;
 
-    QPainter p;
-    p.begin( pm );
-    p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
-
-    if ( Options::showHighlightedCBound() )
-        drawHighlightConstellation( p );
+    //draw labels
+    SkyLabeler::Instance()->draw(p);
 
     //draw FOV symbol
     foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {
@@ -139,8 +66,6 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
     drawTelescopeSymbols( p );
     drawZoomBox( p );
 
-    if ( transientObject() )
-        drawTransientLabel( p );
     if ( angularDistanceMode ) {
         updateAngleRuler();
         drawAngleRuler( p );
@@ -148,10 +73,11 @@ void SkyMap::drawOverlays( QPixmap *pm ) {
 }
 
 void SkyMap::drawAngleRuler( QPainter &p ) {
+    //FIXME use sky painter.
     p.setPen( QPen( data->colorScheme()->colorNamed( "AngularRuler" ), 3.0, Qt::DotLine ) );
     p.drawLine(
-        toScreen( AngularRuler.point(0) ),
-        toScreen( AngularRuler.point(1) ) );
+        m_proj->toScreen( AngularRuler.point(0) ),
+        m_proj->toScreen( AngularRuler.point(1) ) );
 }
 
 void SkyMap::drawZoomBox( QPainter &p ) {
@@ -162,128 +88,14 @@ void SkyMap::drawZoomBox( QPainter &p ) {
     }
 }
 
-void SkyMap::drawHighlightConstellation( QPainter &psky ) {
-    const QPolygonF* cbound =
-        KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationPoly( focus() );
-    if ( ! cbound )
-        return;
-
-    psky.setPen( QPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "CBoundHighColor" ) ),
-                       3, Qt::SolidLine ) );
-
-    QPolygonF clippedPoly;
-    bool needClip( false );
-    //If the solid ground is being drawn, then we may need to clip the
-    //polygon at the Horizon.  cbound will be the clipped polygon
-    if ( Options::useAltAz() && Options::showGround() ) {
-        QPolygonF horizPolygon;
-
-        for ( int i = 0; i < cbound->size(); i++ ) {
-            QPointF node = cbound->at( i );
-            SkyPoint sp( node.x(), node.y() );
-            sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            horizPolygon << QPointF( sp.az().Degrees(), sp.alt().Degrees() );
-        }
-
-        QRectF rBound = horizPolygon.boundingRect();
-        //If the bounding rectangle's top edge is below the horizon,
-        //then we don't draw the polygon at all.  Note that the rectangle's
-        //top edge is returned by the bottom() function!
-        if ( rBound.bottom() < 0.0 )
-            return;
-
-        //We need to clip if the bounding rect intersects the horizon
-        if ( rBound.contains( QPointF( rBound.center().x(), 0.0 ) ) ) {
-            needClip = true;
-            QPolygonF clipper;
-            clipper << QPointF( rBound.left(), -0.5 ) << QPointF( rBound.right(), -0.5 )
-            << QPointF( rBound.right(), rBound.top() ) //top() is bottom ;)
-            << QPointF( rBound.left(), rBound.top() );
-
-            horizPolygon = horizPolygon.subtracted( clipper );
-
-            //Now, convert the clipped horizPolygon vertices back to equatorial
-            //coordinates, and store them back in cbound
-
-            foreach ( const QPointF &node, horizPolygon ) {
-                SkyPoint sp;
-                sp.setAz( node.x() );
-                sp.setAlt( node.y() );
-                sp.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-                clippedPoly << QPointF( sp.ra().Hours(), sp.dec().Degrees() );
-            }
-        }
-    }
-
-    //Transform the constellation boundary polygon to the screen and clip
-    // against the celestial horizon
-
-    const QPolygonF* bound = needClip ? &clippedPoly : cbound;
-
-    if (bound->size() < 2) return;
-
-    bool isVisible, isVisibleLast;
-    SkyPoint pThis, pLast;
-    QPointF oThis, oLast, oMid;
-
-    QPointF node = bound->at( 0 );
-    pLast.set( node.x(), node.y() );
-
-    pLast.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    oLast = toScreen( &pLast, Options::useRefraction(), &isVisibleLast );
-
-    int limit = bound->size();
-
-    for ( int i=1 ; i < limit ; i++ ) {
-        node = bound->at( i );
-        pThis.set( node.x(), node.y() );
-        pThis.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        oThis = toScreen( &pThis, Options::useRefraction(), &isVisible );
-
-        if ( isVisible && isVisibleLast ) {
-            psky.drawLine( oLast, oThis );
-        }
-
-        else if ( isVisibleLast ) {
-            oMid = clipLine( &pLast, &pThis ).toPoint();
-            // -jbb printf("oMid: %4d %4d\n", oMid.x(), oMid.y());
-            psky.drawLine( oLast, oMid );
-        }
-        else if ( isVisible ) {
-            oMid = clipLine( &pThis, &pLast ).toPoint();
-            psky.drawLine( oMid, oThis );
-        }
-
-        pLast = pThis;
-        oLast = oThis;
-        isVisibleLast = isVisible;
-    }
-    /****
-    	QPolygonF poly;
-        bool isVisible;
-    	foreach ( const QPointF &node, cbound ) {
-    		SkyPoint sp( node.x(), node.y() );
-    		sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    		QPointF v = toScreen( &sp, scale, Options::useRefraction() );
-
-    		poly << v;
-    	}
-
-    	psky.drawPolygon( poly );
-    ****/
-}
-
-void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky ) {
+void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
     bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
     if ( checkSlewing && Options::hideLabels() ) return;
 
-    float Width = m_Scale * width();
-    float Height = m_Scale * height();
-
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
-    skyLabeler->resetFont( psky );      // use the zoom dependent font
+    skyLabeler->resetFont();      // use the zoom dependent font
 
-    psky.setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
+    skyLabeler->setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
 
     bool drawPlanets    = Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets());
     bool drawComets     = drawPlanets && Options::showComets();
@@ -297,9 +109,8 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
 
     //Attach a label to the centered object
     if ( focusObject() != NULL && Options::useAutoLabel() ) {
-        QPointF o = toScreen( focusObject() );
-
-        focusObject()->drawNameLabel( psky, o );
+        QPointF o = m_proj->toScreen( focusObject() );
+        skyLabeler->drawNameLabel( focusObject(), o );
     }
 
     foreach ( SkyObject *obj, labelObjects ) {
@@ -336,25 +147,14 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky )
         if ( obj->type() == SkyObject::COMET && ! drawComets ) continue;
         if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) continue;
 
-        if ( ! checkVisibility( obj ) ) continue;
-        QPointF o = toScreen( obj );
-        if ( ! (o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) continue;
+        if ( ! m_proj->checkVisibility( obj ) ) continue;
+        QPointF o = m_proj->toScreen( obj );
+        if ( ! m_proj->onScreen(o) ) continue;
 
-        obj->drawNameLabel( psky, o );
+        skyLabeler->drawNameLabel( obj, o );
     }
 
-    skyLabeler->useStdFont( psky );   // use the StdFont for the guides.
-}
-
-void SkyMap::drawTransientLabel( QPainter &p ) {
-    if( !transientObject() || !checkVisibility( transientObject() ) )
-        return;
-    QPointF o = toScreen( transientObject() );
-    if( !onScreen( o ) )
-        return;
-
-    p.setPen( TransientColor );
-    transientObject()->drawRudeNameLabel( p, o );
+    skyLabeler->useStdFont();   // use the StdFont for the guides.
 }
 
 void SkyMap::drawTelescopeSymbols(QPainter &psky)
@@ -448,7 +248,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
                             indi_sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                     }
 
-                    QPointF P = toScreen( &indi_sp );
+                    QPointF P = m_proj->toScreen( &indi_sp );
                     if ( Options::useAntialias() ) {
                         float s1 = 0.5*pxperdegree;
                         float s2 = pxperdegree;
@@ -498,6 +298,26 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 }
 
 void SkyMap::exportSkyImage( QPaintDevice *pd ) {
+    SkyQPainter p(this,pd);
+    p.begin();
+    p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
+
+    //scale image such that it fills 90% of the x or y dimension on the paint device
+    double xscale = double(p.device()->width()) / double(width());
+    double yscale = double(p.device()->height()) / double(height());
+    double scale = qMin(xscale,yscale);
+
+    p.scale(scale,scale);
+
+    p.drawSkyBackground();
+    data->skyComposite()->draw( &p );
+    drawOverlays( p );
+    p.end();
+}
+
+/*
+// Older trunk version of the above method
+void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     QPainter p;
     p.begin( pd );
     p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
@@ -507,7 +327,7 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     double yscale = double(p.device()->height()) / double(height());
     m_Scale = (xscale < yscale) ? xscale : yscale;
 
-    //Now that we have changed the map scale, we need to re-run 
+    //Now that we have changed the map scale, we need to re-run
     //StarObject::initImages() to get scaled pixmaps
     StarObject::initImages();
 
@@ -532,15 +352,4 @@ void SkyMap::exportSkyImage( QPaintDevice *pd ) {
     m_Scale = 1.0;
     StarObject::initImages();
 }
-
-void SkyMap::setMapGeometry() {
-    double Ymax;
-    if ( Options::useAltAz() ) {
-        XRange = 1.2*fov()/cos( focus()->alt().radians() );
-        Ymax = fabs( focus()->alt().Degrees() ) + fov();
-    } else {
-        XRange = 1.2*fov()/cos( focus()->dec().radians() );
-        Ymax = fabs( focus()->dec().Degrees() ) + fov();
-    }
-    isPoleVisible = Ymax >= 90.0;
-}
+*/

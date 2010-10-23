@@ -19,7 +19,6 @@
 
 #include <QDir>
 #include <QFile>
-#include <QPainter>
 #include <QPixmap>
 #include <QTextStream>
 #include <kdebug.h>
@@ -31,6 +30,7 @@
 #include "skymap.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
+#include "skypainter.h"
 
 QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
 
@@ -143,42 +143,27 @@ void CustomCatalogComponent::update( KSNumbers * )
     }
 }
 
-void CustomCatalogComponent::draw( QPainter &psky )
+void CustomCatalogComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = SkyMap::Instance();
-    //    float Width  = map->scale() * map->width();
-    //    float Height = map->scale() * map->height();
-
-    psky.setBrush( Qt::NoBrush );
-    psky.setPen( QColor( m_catColor ) );
+    skyp->setBrush( Qt::NoBrush );
+    skyp->setPen( QColor( m_catColor ) );
 
     //Draw Custom Catalog objects
     foreach ( SkyObject *obj, m_ObjectList ) {
-
-        if ( map->checkVisibility( obj ) ) {
-            QPointF o = map->toScreen( obj );
-
-            if( ! map->onScreen( o ) )
-                continue;
-
-            if ( obj->type()==0 ) {
-                StarObject *starobj = (StarObject*)obj;
-                float zoomlim = 7.0 + ( Options::zoomFactor()/MINZOOM)/50.0;
-                float mag = starobj->mag();
-                float sizeFactor = 2.0;
-                int size = map->scale()*sizeFactor*(zoomlim - mag) + 1;
-                starobj->draw( psky, o, size );
-            } else {
-                //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-                DeepSkyObject *dso = (DeepSkyObject*)obj;
-                double pa = 90. + map->findPA( dso, o.x(), o.y() );
-                dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
-                dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
-                if (Options::showDeepSkyNames())
-                    dso->drawNameLabel(psky, o);
-            }
+        if ( obj->type()==0 ) {
+            StarObject *starobj = (StarObject*)obj;
+            //FIXME_SKYPAINTER
+            skyp->drawPointSource(starobj, starobj->mag(), starobj->spchar() );
+        } else {
+            //FIXME: this PA calc is totally different from the one that was in
+            //DeepSkyComponent which is now in SkyPainter .... O_o
+            //      --hdevalence
+            //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
+            //double pa = 90. + map->findPA( dso, o.x(), o.y() );
+            DeepSkyObject *dso = (DeepSkyObject*)obj;
+            skyp->drawDeepSkyObject(dso,true);
         }
     }
 }
