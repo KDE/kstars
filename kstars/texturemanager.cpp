@@ -52,8 +52,8 @@ void TextureManager::genTextures()
     //If there's no instance, there are no textures to bind!
     if(!m_p) return;
     
-    for( QHash<QString, Texture*>::const_iterator it = m_p->m_textures.begin();
-         it != m_p->m_textures.end();
+    for( QHash<QString, Texture*>::const_iterator it = m_p->m_textures.constBegin();
+         it != m_p->m_textures.constEnd();
          ++it )
     {
         if( !(*it)->isReady() )
