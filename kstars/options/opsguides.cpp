@@ -32,7 +32,7 @@ OpsGuides::OpsGuides( KStars *_ks )
     connect( kcfg_ShowGround, SIGNAL( toggled( bool ) ),
              this, SLOT( slotToggleOpaqueGround( bool ) ) );
 
-    foreach( QString item,  ksw->data()->skyComposite()->getCultureNames() )
+    foreach( const QString& item,  ksw->data()->skyComposite()->getCultureNames() )
         kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toUtf8().constData() ) );
 
     // When setting up the widget, update the enabled status of the

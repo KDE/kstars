@@ -1001,7 +1001,7 @@ void KStars::slotAboutToQuit()
     writeConfig();
 
     if( !Options::obsListSaveImage() ) {
-        foreach ( QString file, obsList->imageList() )
+        foreach ( const QString& file, obsList->imageList() )
             QFile::remove( KStandardDirs::locateLocal( "appdata", file ) );
     }
 }
