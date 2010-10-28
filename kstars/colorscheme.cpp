@@ -201,7 +201,7 @@ bool ColorScheme::load( const QString &name ) {
             //Assuming the old *.colors format.  Loop through the KeyName list,
             //and assign each color.  Note that order matters here, but only here
             //(so if you don't use the old format, then order doesn't ever matter)
-            foreach(QString key, KeyName)
+            foreach(const QString& key, KeyName)
                 setColor( key, line.left( 7 ) );
         }
     }
@@ -231,7 +231,7 @@ bool ColorScheme::save( const QString &name ) {
             QTextStream stream( &file );
             stream << StarColorMode << ":" << StarColorIntensity << endl;
 
-            foreach(QString key, KeyName )
+            foreach(const QString& key, KeyName )
                 stream << Palette[ key ] << " :" << key << endl;
             file.close();
         }
