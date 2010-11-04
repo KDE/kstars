@@ -924,6 +924,11 @@ void SkyMap::forceUpdate( bool now )
         update();
 }
 
+float SkyMap::fov() {
+     float diagonalPixels = sqrt(static_cast<double>( width() * width() + height() * height() ));
+     return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
+}
+
 void SkyMap::setupProjector() {
     //Update View Parameters for projection
     ViewParams p;

@@ -97,6 +97,12 @@ public:
                       Stereographic,
                       Gnomonic,
                       UnknownProjection };
+		      
+    /**@return the angular field of view of the sky map, in degrees. 	 
+    *@note it must use either the height or the width of the window to calculate the 	 
+    *FOV angle.  It chooses whichever is larger. 	 
+    */ 	 
+    float fov();
 
     /**@short Update object name and coordinates in the Focus InfoBox */
     void showFocusCoords();
