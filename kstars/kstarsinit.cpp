@@ -404,7 +404,8 @@ void KStars::initActions() {
 #endif
 
     //Help Menu:
-    //    ka = actionCollection()->addAction( KStandardAction::TipofDay, this, SLOT( slotTipOfDay() ) );
+    actionCollection()->addAction( KStandardAction::TipofDay, "help_tipofday", this, SLOT( slotTipOfDay() ) )
+	->setWhatsThis(i18n("Displays the Tip of the Day"));
 
     //	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
 
