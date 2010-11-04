@@ -691,11 +691,11 @@
 	</group>
 
 	<group name="Colors">
-        <entry name="ColorSchemeFile" type="String">
-            <label>The name of the color scheme</label>
-            <whatsthis>The name of the color scheme</whatsthis>
-            <default>classic.colors</default>
-        </entry>
+		<entry name="ColorSchemeFile" type="String">
+		    <label>The name of the color scheme</label>
+		    <whatsthis>The name of the color scheme</whatsthis>
+		    <default>classic.colors</default>
+		</entry>
 		<entry name="DarkAppColors" type="Bool">
 			<label>Use Dark colors for KStars windows?</label>
 			<whatsthis>If true, then the application window colors will be switched to a dark red theme, for better night vision.</whatsthis>
