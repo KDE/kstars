@@ -109,14 +109,12 @@ telescopeWizardProcess::~telescopeWizardProcess()
 //Called when cancel is clicked, gives a warning if past the first couple of steps
 void telescopeWizardProcess::cancelCheck(void)
 {
-    int answer;
-    
     switch (currentPage)
     {
     case TELESCOPE_P:
     case LOCAL_P:
     case PORT_P:
-	if (KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == 3)
+	if ( KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Yes )
 	    emit reject();
 	break;
     default:
