@@ -136,7 +136,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb = new ScriptBuilderUI(this);
     setMainWidget(sb);
     setCaption( i18n( "Script Builder" ) );
-    setButtons( KDialog::Close );
+    setButtons( KDialog::User1 );
+    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Close"), "dialog-close", i18n("Close the dialog") ) );
 
     sb->FuncDoc->setTextInteractionFlags( Qt::NoTextInteraction );
 
@@ -425,7 +426,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     otv->resizeColumns();
 
     //connect widgets in ScriptBuilderUI
-    connect( this, SIGNAL(closeClicked()), this, SLOT(slotClose()));
+    connect( this, SIGNAL(user1Clicked()), this, SLOT(slotClose()));
     connect( sb->FunctionTree, SIGNAL( itemDoubleClicked(QTreeWidgetItem *, int )), this, SLOT( slotAddFunction() ) );
     connect( sb->FunctionTree, SIGNAL( itemClicked(QTreeWidgetItem*, int) ), this, SLOT( slotShowDoc() ) );
     connect( sb->UpButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionUp() ) );
