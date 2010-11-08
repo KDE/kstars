@@ -51,8 +51,6 @@ public slots:
     void slotLatChecked();
     void slotAzChecked();
     void slotElChecked();
-    void slotInputFile();
-    void slotOutputFile();
     void slotRunBatch();
 
 private:

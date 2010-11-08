@@ -59,8 +59,6 @@ modCalcAltAz::modCalcAltAz(QWidget *parentSplit)
     connect(Alt, SIGNAL(editingFinished()), this, SLOT(slotCompute()));
 
     connect(runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()));
-    connect(InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()));
-    connect(OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()));
     connect(utCheckBatch, SIGNAL(clicked()), this, SLOT(slotUtChecked()));
     connect(dateCheckBatch, SIGNAL(clicked()), this, SLOT(slotDateChecked()));
     connect(azCheckBatch, SIGNAL(clicked()), this, SLOT(slotAzChecked()));
@@ -227,22 +225,9 @@ void modCalcAltAz::equNoCheck() {
 }
 
 
-void modCalcAltAz::slotInputFile() {
-    QString inputFileName;
-    inputFileName = KFileDialog::getOpenFileName( );
-    InputLineEditBatch->setText( inputFileName );
-}
-
-void modCalcAltAz::slotOutputFile() {
-    QString outputFileName;
-    outputFileName = KFileDialog::getSaveFileName( );
-    OutputLineEditBatch->setText( outputFileName );
-}
-
 void modCalcAltAz::slotRunBatch() {
-    QString inputFileName;
 
-    inputFileName = InputLineEditBatch->text();
+    QString inputFileName = InputLineEditBatch->url().toLocalFile();
 
     // We open the input file and read its content
 
