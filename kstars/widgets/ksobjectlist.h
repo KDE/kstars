@@ -29,6 +29,11 @@
 #include "skyobjects/skyobject.h"
 #include "objlistpopupmenu.h"
 
+/*
+class DetailDialog;
+class SkyObject;
+class ObjListPopupMenu;
+*/
 class KSObjectList : public QTableView
 {
     Q_OBJECT

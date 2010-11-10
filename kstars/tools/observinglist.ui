@@ -660,6 +660,12 @@
    <header>kseparator.h</header>
   </customwidget>
   <customwidget>
+   <class>KSObjectList</class>
+   <extends>QTableView</extends>
+   <header>widgets/ksobjectlist.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>KTextEdit</class>
    <extends>QTextEdit</extends>
    <header>ktextedit.h</header>

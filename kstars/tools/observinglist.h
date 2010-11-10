@@ -27,6 +27,7 @@
 #include "ui_observinglist.h"
 #include "kstarsdatetime.h"
 #include "skyobjects/skyobject.h"
+#include "widgets/ksobjectlist.h"
 
 class KSAlmanac;
 class QSortFilterProxyModel;
@@ -34,7 +35,6 @@ class QStandardItemModel;
 class KStars;
 class KStarsDateTime;
 class GeoLocation;
-
 
 class ObservingListUI : public QFrame, public Ui::ObservingList {
     Q_OBJECT
