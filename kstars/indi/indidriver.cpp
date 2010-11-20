@@ -505,6 +505,10 @@ bool INDIDriver::readXMLDrivers()
 
     foreach (QFileInfo fileInfo, list)
     {
+        // libindi 0.7.1: Skip skeleton files
+        if (fileInfo.fileName().endsWith("_sk.xml"))
+            continue;
+
 	if (fileInfo.fileName() == "drivers.xml")
 	{ 
 	    // Let first attempt to load the local version of drivers.xml
