@@ -1002,40 +1002,39 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target, INDI_E *lp)
     if (EqProp == NULL && HorProp == NULL)
         return false;
 
+    if (EqProp->perm == PP_RO) 
+		EqProp = NULL;
+
+    if (HorProp->perm == PP_RO)
+          	HorProp = NULL;
+
+    kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
+
         if (EqProp)
         {
-            if (EqProp->perm == PP_RO) return false;
-            RAEle  = EqProp->findElement("RA");
-            if (!RAEle) return false;
-            DecEle = EqProp->findElement("DEC");
-            if (!DecEle) return false;
-        }
-
-        if (HorProp)
-        {
-            if (HorProp->perm == PP_RO) return false;
-            AzEle = HorProp->findElement("AZ");
-            if (!AzEle) return false;
-            AltEle = HorProp->findElement("ALT");
-            if (!AltEle) return false;
-        }
-
-        kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
-
-       if (EqProp)
-        {
+	            RAEle  = EqProp->findElement("RA");
+	            if (!RAEle) return false;
+	            DecEle = EqProp->findElement("DEC");
+               	    if (!DecEle) return false;
 
            if (useJ2000)
                 scope_target->apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
-            RAEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->ra().hour()).arg(scope_target->ra().minute()).arg(scope_target->ra().second()));
-            DecEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->dec().degree()).arg(scope_target->dec().arcmin()).arg(scope_target->dec().arcsec()));
-        }
+              RAEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->ra().hour()).arg(scope_target->ra().minute()).arg(scope_target->ra().second()));
+              DecEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->dec().degree()).arg(scope_target->dec().arcmin()).arg(scope_target->dec().arcsec()));
 
-       if (HorProp)
-       {
+       }
+
+        if (HorProp)
+        {
+	            AzEle = HorProp->findElement("AZ");
+	            if (!AzEle) return false;
+	            AltEle = HorProp->findElement("ALT");
+	            if (!AltEle) return false;
+
             AzEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->az().degree()).arg(scope_target->az().arcmin()).arg(scope_target->az().arcsec()));
             AltEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->alt().degree()).arg(scope_target->alt().arcmin()).arg(scope_target->alt().arcsec()));
+
         }
 
 	trackEle = lp;
