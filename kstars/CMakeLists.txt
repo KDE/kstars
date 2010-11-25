@@ -1,6 +1,6 @@
 add_subdirectory( data ) 
 add_subdirectory( icons ) 
-add_subdirectory( satlib ) 
+#add_subdirectory( satlib ) 
 add_subdirectory( htmesh ) 
 
 Find_package(ZLIB REQUIRED)
