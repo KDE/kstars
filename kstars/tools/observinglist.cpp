@@ -251,18 +251,24 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         m_ObservingList.append( obj );
         m_CurrentObject = obj;
         QList<QStandardItem*> itemList;
-        if(obj->name() == "star" )
-            itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( obj->ra0().toHMSString() ) 
-                    << new QStandardItem( obj->dec0().toDMSString() ) 
-                    << new QStandardItem( smag )
-                    << new QStandardItem( obj->typeName() );
-        else
-            itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( p.ra().toHMSString() ) 
-                    << new QStandardItem( p.dec().toDMSString() ) 
-                    << new QStandardItem( smag )
-                    << new QStandardItem( obj->typeName() );
+
+        QString ra, dec;
+
+        if(obj->name() == "star" ) {
+            ra = obj->ra0().toHMSString();
+            dec = obj->dec0().toDMSString();
+        }
+        else {
+            ra = p.ra().toHMSString();
+            dec = p.dec().toDMSString();
+        }
+
+        itemList << new QStandardItem( obj->translatedName() )
+                << new QStandardItem( ra )
+                << new QStandardItem( dec )
+                << new QStandardItem( smag )
+                << new QStandardItem( obj->typeName() );
+
         m_Model->appendRow( itemList );
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to observing list.", obj->name() ), 0 );
@@ -276,24 +282,30 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
         dms lst(geo->GSTtoLST( dt.gst() ));
         p.EquatorialToHorizontal( &lst, geo->lat() );
         QList<QStandardItem*> itemList;
-        if(obj->name() == "star" )
-            itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( obj->ra0().toHMSString() ) 
-                    << new QStandardItem( obj->dec0().toDMSString() ) 
-                    << new QStandardItem( smag )
-                    << new QStandardItem( obj->typeName() )
-                    << new QStandardItem( "--"  )
-                    << new QStandardItem( "--"  )
-                    << new QStandardItem( "--"  );
-        else
-            itemList << new QStandardItem( obj->translatedName() ) 
-                    << new QStandardItem( p.ra().toHMSString() ) 
-                    << new QStandardItem( p.dec().toDMSString() ) 
-                    << new QStandardItem( smag )
-                    << new QStandardItem( obj->typeName() )
-                    << new QStandardItem( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "HH:mm" ) )
-                    << new QStandardItem( p.alt().toDMSString() )
-                    << new QStandardItem( p.az().toDMSString() );
+
+        QString ra, dec, time = "--", alt = "--", az = "--";
+
+        if(obj->name() == "star" ) {
+            ra = obj->ra0().toHMSString();
+            dec = obj->dec0().toDMSString();
+        }
+        else {
+            ra = p.ra().toHMSString();
+            dec = p.dec().toDMSString();
+            time = TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "HH:mm" );
+            alt = p.alt().toDMSString();
+            az = p.az().toDMSString();
+        }
+
+        itemList << new QStandardItem( obj->translatedName() )
+                << new QStandardItem( ra )
+                << new QStandardItem( dec )
+                << new QStandardItem( smag )
+                << new QStandardItem( obj->typeName() )
+                << new QStandardItem( time )
+                << new QStandardItem( alt )
+                << new QStandardItem( az );
+
         m_Session->appendRow( itemList );
         //Adding an object should trigger the modified flag
         if ( ! isModified ) isModified = true;
@@ -311,64 +323,51 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
         else if( sessionView ) //else if is needed as clickedObject should not be removed from the session list.
             session = true;
     }
-    if( ! session ) {
-        int k = obsList().indexOf( o );
-        if ( o == LogObject ) saveCurrentUserLog();
-        //Remove row from the TableView model
-        bool found(false);
-        if ( o->name() == "star" ) {
-            //Find object in table by RA and Dec
-            for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
-                QString ra = m_Model->item(irow, 1)->text();
-                QString dc = m_Model->item(irow, 2)->text();
-                if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                    m_Model->removeRow(irow);
-                    found = true;
-                    break;
-                }
-            }
-        } else { // name is not "star"
-            //Find object in table by name
-            for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
-                QString name = m_Model->item(irow, 0)->text();
-                if ( o->translatedName() == name ) {
-                    m_Model->removeRow(irow);
-                    found = true;
-                    break;
-                }
+
+    QStandardItemModel *currentModel;
+
+    int k;
+    if (! session) {
+        currentModel = m_Model;
+        k = obsList().indexOf( o );
+    }
+    else {
+        currentModel = m_Session;
+        k = sessionList().indexOf( o );
+    }
+
+    if ( o == LogObject ) saveCurrentUserLog();
+    //Remove row from the TableView model
+    bool found(false);
+    if ( o->name() == "star" ) {
+        //Find object in table by RA and Dec
+        for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
+            QString ra = currentModel->item(irow, 1)->text();
+            QString dc = currentModel->item(irow, 2)->text();
+            if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
+                currentModel->removeRow(irow);
+                found = true;
+                break;
             }
         }
+    } else { // name is not "star"
+        //Find object in table by name
+        for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
+            QString name = currentModel->item(irow, 0)->text();
+            if ( o->translatedName() == name ) {
+                currentModel->removeRow(irow);
+                found = true;
+                break;
+            }
+        }
+    }
+
+    if( ! session ) {
         obsList().removeAt(k);
         ui->View->removeAllPlotObjects();
         ui->TableView->resizeColumnsToContents();
         if( ! update ) slotSaveList();
     } else {
-        int k = sessionList().indexOf( o );
-        if ( o == LogObject ) saveCurrentUserLog();
-        //Remove row from the Session View model
-        bool found(false);
-        if ( o->name() == "star" ) {
-            //Find object in table by RA and Dec
-            for ( int irow = 0; irow < m_Model->rowCount(); ++irow ) {
-                QString ra = m_Session->item(irow, 1)->text();
-                QString dc = m_Session->item(irow, 2)->text();
-                if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                    m_Session->removeRow(irow);
-                    found = true;
-                    break;
-                }
-            }
-        } else { // name is not "star"
-            //Find object in table by name
-            for ( int irow = 0; irow < m_Session->rowCount(); ++irow ) {
-                QString name = m_Session->item(irow, 0)->text();
-                if ( o->translatedName() == name ) {
-                    m_Session->removeRow(irow);
-                    found = true;
-                    break;
-                }
-            }
-        }
         if( ! update )
             TimeHash.remove( o->name() );
         sessionList().removeAt(k);//Remove from the session list
@@ -378,65 +377,71 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
     }
 }
 
+void ObservingList::removeObject(SkyObject *o, bool sessionView) {
+    if ( sessionView )
+        slotRemoveObject( o, true );
+    else
+        slotRemoveObject( o );
+}
+
 void ObservingList::slotRemoveSelectedObjects() {
-    if( sessionView )
-    {
-        //Find each object by name in the session list, and remove it
-        //Go backwards so item alignment doesn't get screwed up as rows are removed.
-        for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
-            if ( ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
-                QModelIndex mSortIndex = m_SortModelSession->index( irow, 0 );
-                QModelIndex mIndex = m_SortModelSession->mapToSource( mSortIndex );
-                int irow = mIndex.row();
-                QString ra = m_Session->item(irow, 1)->text();
-                QString dc = m_Session->item(irow, 2)->text();
-                foreach ( SkyObject *o, sessionList() ) {
-                    //Stars named "star" must be matched by coordinates
-                    if ( o->name() == "star" ) {
-                        if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                            slotRemoveObject( o, true );
-                            break;
-                        }
-    
-                    } else if ( o->translatedName() == mIndex.data().toString() ) {
-                        slotRemoveObject( o, true );
+    QStandardItemModel *currentModel;
+//    ObservingListUI local_ui;
+    if ( sessionView )    
+        currentModel = m_Session;
+    else
+        currentModel = m_Model;
+
+    //Find each object by name in the session list, and remove it
+    //Go backwards so item alignment doesn't get screwed up as rows are removed.
+    for ( int irow = currentModel->rowCount()-1; irow >= 0; --irow ) {
+        bool rowSelected;
+        if ( sessionView )
+            rowSelected = ui->SessionView->selectionModel()->isRowSelected( irow, QModelIndex() );
+        else
+            rowSelected = ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() );
+
+        if ( rowSelected ) {
+            QList<SkyObject*> currList;
+            QModelIndex mSortIndex, mIndex;
+             if ( sessionView ) {
+                mSortIndex = m_SortModelSession->index( irow, 0 );
+                mIndex = m_SortModelSession->mapToSource( mSortIndex );
+                currList = sessionList();
+            } else {
+                mSortIndex = m_SortModel->index( irow, 0 );
+                mIndex = m_SortModel->mapToSource( mSortIndex );
+                currList = obsList();
+            }
+
+            int irow = mIndex.row();
+            QString ra = currentModel->item(irow, 1)->text();
+            QString dc = currentModel->item(irow, 2)->text();
+
+            foreach ( SkyObject *o, currList ) {
+                //Stars named "star" must be matched by coordinates
+                if ( o->name() == "star" ) {
+                    if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
+                        removeObject(o, sessionView);
+                        break;
+                    }
+                } else {
+                    if ( o->translatedName() == mIndex.data().toString() ) {
+                        removeObject(o, sessionView);
                         break;
                     }
                 }
             }
         }
+    }
+
+    if (sessionView) {
         //we've removed all selected objects, so clear the selection
         ui->SessionView->selectionModel()->clear();
         //Update the lists in the Execute window as well
         ks->getExecute()->init();
-    } else {
-         //Find each object by name in the observing list, and remove it
-         //Go backwards so item alignment doesn't get screwed up as rows are removed.
-         for ( int irow = m_Model->rowCount()-1; irow >= 0; --irow ) {
-             if ( ui->TableView->selectionModel()->isRowSelected( irow, QModelIndex() ) ) {
-                 QModelIndex mSortIndex = m_SortModel->index( irow, 0 );
-                 QModelIndex mIndex = m_SortModel->mapToSource( mSortIndex );
-                 int irow = mIndex.row();
-                 QString ra = m_Model->item(irow, 1)->text();
-                 QString dc = m_Model->item(irow, 2)->text(); 
-                 foreach ( SkyObject *o, obsList() ) {
-                     //Stars named "star" must be matched by coordinates
-                     if ( o->name() == "star" ) {
-                         if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                             slotRemoveObject( o );
-                             break;
-                         }
-     
-                     } else if ( o->translatedName() == mIndex.data().toString() ) {
-                         slotRemoveObject( o );
-                         break;
-                     }
-                 }
-             }
-         }
-        //we've removed all selected objects, so clear the selection
-        ui->TableView->selectionModel()->clear();
     }
+
     setSaveImagesButton();
     ui->ImagePreview->setCursor( Qt::ArrowCursor );
 }
@@ -453,39 +458,34 @@ void ObservingList::slotNewSelection() {
     SkyObject *o;
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
-    if( sessionView ) {
+
+    QStandardItemModel *currentModel;
+    QList<SkyObject*> currList;
+
+    if ( sessionView ) {
         selectedItems = m_SortModelSession->mapSelectionToSource( ui->SessionView->selectionModel()->selection() ).indexes();
-        //When one object is selected
-        if ( selectedItems.size() == m_Session->columnCount() ) {
-            newName = selectedItems[0].data().toString();
-            singleSelection = true;
-            //Find the selected object in the SessionList,
-            //then break the loop.  Now SessionList.current()
-            //points to the new selected object (until now it was the previous object)
-            foreach ( o, sessionList() ) {
-                if ( o->translatedName() == newName ) {
-                    found = true;
-                    break;
-                }
-            }
-        }
+        currentModel = m_Session;
+        currList = sessionList();
     } else {
         selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
-        //When one object is selected
-        if ( selectedItems.size() == m_Model->columnCount() ) {
-            newName = selectedItems[0].data().toString();
-            singleSelection = true;
-            //Find the selected object in the obsList,
-            //then break the loop.  Now obsList.current()
-            //points to the new selected object (until now it was the previous object)
-            foreach ( o, obsList() ) {
-                if ( o->translatedName() == newName ) {
-                    found = true;
+        currentModel = m_Model;
+        currList = obsList();
+    }
+
+    if ( selectedItems.size() == currentModel->columnCount() ) {
+        newName = selectedItems[0].data().toString();
+        singleSelection = true;
+        //Find the selected object in the SessionList,
+        //then break the loop.  Now SessionList.current()
+        //points to the new selected object (until now it was the previous object)
+        foreach ( o, currList ) {
+            if ( o->translatedName() == newName ) {
+                found = true;
                 break;
-                }
             }
         }
     }
+
     if( singleSelection ) {
         //Enable buttons
         ui->ImagePreview->setCursor( Qt::PointingHandCursor );
@@ -542,34 +542,36 @@ void ObservingList::slotNewSelection() {
         } else {
             kDebug() << i18n( "Object %1 not found in list.", newName );
         } 
-    } else if ( selectedItems.size() == 0 ) {//Nothing selected
-        //Disable buttons
-        noSelection = true;
-        ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
-        ui->NotesLabel->setEnabled( false );
-        ui->NotesEdit->setEnabled( false );
-        m_CurrentObject = 0;
-        ui->TimeEdit->setEnabled( false );
-        ui->SetTime->setEnabled( false );
-        ui->GoogleImage->setEnabled( false );
-        //Clear the user log text box.
-        saveCurrentUserLog();
-        ui->NotesEdit->setPlainText("");
-        //Clear the plot in the AVTPlotwidget
-        ui->View->removeAllPlotObjects();
-    } else { //more than one object selected.
-        ui->NotesLabel->setText( i18n( "Select a single object to record notes on it here:" ) );
-        ui->NotesLabel->setEnabled( false );
-        ui->NotesEdit->setEnabled( false );
-        ui->TimeEdit->setEnabled( false );
-        ui->SetTime->setEnabled( false );
-        ui->GoogleImage->setEnabled( false );
-        m_CurrentObject = 0;
-        //Clear the plot in the AVTPlotwidget
-        ui->View->removeAllPlotObjects();
-        //Clear the user log text box.
-        saveCurrentUserLog();
-        ui->NotesEdit->setPlainText("");
+    } else {
+        if ( selectedItems.size() == 0 ) {//Nothing selected
+            //Disable buttons
+            noSelection = true;
+            ui->NotesLabel->setText( i18n( "Select an object to record notes on it here:" ) );
+            ui->NotesLabel->setEnabled( false );
+            ui->NotesEdit->setEnabled( false );
+            m_CurrentObject = 0;
+            ui->TimeEdit->setEnabled( false );
+            ui->SetTime->setEnabled( false );
+            ui->GoogleImage->setEnabled( false );
+            //Clear the user log text box.
+            saveCurrentUserLog();
+            ui->NotesEdit->setPlainText("");
+            //Clear the plot in the AVTPlotwidget
+            ui->View->removeAllPlotObjects();
+        } else { //more than one object selected.
+            ui->NotesLabel->setText( i18n( "Select a single object to record notes on it here:" ) );
+            ui->NotesLabel->setEnabled( false );
+            ui->NotesEdit->setEnabled( false );
+            ui->TimeEdit->setEnabled( false );
+            ui->SetTime->setEnabled( false );
+            ui->GoogleImage->setEnabled( false );
+            m_CurrentObject = 0;
+            //Clear the plot in the AVTPlotwidget
+            ui->View->removeAllPlotObjects();
+            //Clear the user log text box.
+            saveCurrentUserLog();
+            ui->NotesEdit->setPlainText("");
+        }
     }
 }
 
@@ -613,10 +615,10 @@ void ObservingList::slotSlewToObject()
                 return;
             }
 
-	    if (!indidev->stdDev->slew_scope(static_cast<SkyPoint *> (currentObject())))
-		continue;
+        if (!indidev->stdDev->slew_scope(static_cast<SkyPoint *> (currentObject())))
+        continue;
 
-	    return;
+        return;
         }
     }
 
@@ -631,7 +633,7 @@ void ObservingList::slotDetails() {
     if ( currentObject() ) {
         QPointer<DetailDialog> dd = new DetailDialog( currentObject(), ks->data()->lt(), geo, ks );
         dd->exec();
-    	delete dd;
+        delete dd;
     }
 }
 
@@ -694,7 +696,7 @@ void ObservingList::slotAVT() {
             }
         }
         avt->exec();
-	    delete avt;
+        delete avt;
     } else {
         selectedItems = m_SortModel->mapSelectionToSource( ui->TableView->selectionModel()->selection() ).indexes();
         if ( selectedItems.size() ) {
@@ -705,7 +707,7 @@ void ObservingList::slotAVT() {
                         avt->processObject( o );
             }
             avt->exec();
-	        delete avt;
+            delete avt;
         }
     }       
 }
@@ -773,7 +775,7 @@ void ObservingList::slotOpenList() {
         geo = logObject.geoLocation();
         dt = logObject.dateTime();
         foreach( SkyObject *o, *( logObject.targetList() ) )
-            slotAddObject( o, true );
+        slotAddObject( o, true );
         //Update the location and user set times from file
         slotUpdate();
         //Newly-opened list should not trigger isModified flag
@@ -1121,22 +1123,18 @@ void ObservingList::slotSaveAllImages() {
     ui->TableView->clearSelection();
     ui->SessionView->clearSelection();
 
-    if( sessionView ) {
-        foreach( SkyObject *o, sessionList() ) {
-            setCurrentImage( o );
-            QString img( CurrentImagePath  );
-            KUrl url( SDSSUrl );
-            if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
-                saveImage( url, img );
-        }
-    } else {
-        foreach( SkyObject *o, obsList() ) {
-            setCurrentImage( o );
-            QString img( CurrentImagePath  );
-            KUrl url( SDSSUrl );
-            if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
-                saveImage( url, img );
-        }
+    QList<SkyObject*> currList;
+    if ( sessionView )
+        currList = sessionList();
+    else
+        currList = obsList();
+
+    foreach( SkyObject *o, currList ) {
+        setCurrentImage( o );
+        QString img( CurrentImagePath  );
+        KUrl url( SDSSUrl );
+        if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
+            saveImage( url, img );
     }
 }
 
@@ -1239,7 +1237,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
         }
     }
 
-    if( obj == ui->TableView->viewport() && ! noSelection ) {
+    if( obj == ui->SessionView->viewport() && ! noSelection ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             QMouseEvent *mouseEvent = static_cast<QMouseEvent* >(event);
             if( mouseEvent->button() == Qt::RightButton ) {
