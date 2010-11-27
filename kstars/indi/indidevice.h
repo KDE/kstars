@@ -70,7 +70,6 @@ public:
     QTabWidget  *groupContainer;	/* Groups within the device */
     QTextEdit	*msgST_w;		/* scrolled text for messages */
     unsigned char *dataBuffer;          /* Generic buffer */
-    QCheckBox    *enableBLOBC;
 
     INDIStdDevice  *stdDev;
 
@@ -143,9 +142,6 @@ public:
 
 public slots:
     void engageTracking();
-    void setBLOBOption(int state);
-
-
 
 };
 

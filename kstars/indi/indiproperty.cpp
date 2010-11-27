@@ -868,11 +868,22 @@ int INDI_P::buildBLOBGUI(XMLEle *root, QString & errmsg)
 
     }
 
-    if (perm == PP_RO)
-        return 0;
+    enableBLOBC = new QCheckBox();
+    enableBLOBC->setIcon(KIcon("modem"));
+    enableBLOBC->setChecked(true);
+    enableBLOBC->setToolTip(i18n("Enable binary data transfer from this property to KStars and vice-versa."));
 
-    setupSetButton(i18n("Upload"));
-    QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newBlob()));
+    PHBox->addWidget(enableBLOBC);
+
+    connect(enableBLOBC, SIGNAL(stateChanged(int)), this, SLOT(setBLOBOption(int)));
+
+    if (perm != PP_RO)
+    {
+        setupSetButton(i18n("Upload"));
+        QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newBlob()));
+    }
+
+
 
     return 0;
 
@@ -888,6 +899,17 @@ void INDI_P::activateSwitch(const QString &name)
             break;
         }
     }
+}
+
+void INDI_P::setBLOBOption(int state)
+{
+    if (pg->dp->deviceManager== NULL)
+        return;
+
+    if (state == Qt::Checked)
+        pg->dp->deviceManager->enableBLOB(true, pg->dp->name, name);
+    else
+        pg->dp->deviceManager->enableBLOB(false, pg->dp->name, name);
 }
 
 #include "indiproperty.moc"

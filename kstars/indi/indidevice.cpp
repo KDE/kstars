@@ -99,12 +99,6 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QStri
   
     msgST_w        	= new KTextEdit();
     msgST_w->setReadOnly(true);
-
-    enableBLOBC = new QCheckBox(i18n("Binary Transfer"));
-    enableBLOBC->setChecked(true);
-    enableBLOBC->setToolTip(i18n("Enable binary data transfer from driver to KStars and vice-versa."));
-
-    connect(enableBLOBC, SIGNAL(stateChanged(int)), this, SLOT(setBLOBOption(int)));
   
     dataBuffer 		= (unsigned char *) malloc (1);
   
@@ -116,7 +110,6 @@ INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QStri
 
     deviceVBox->addWidget(groupContainer);
     deviceVBox->addWidget(msgST_w);
-    deviceVBox->addWidget(enableBLOBC);
 
     parent->mainTabWidget->addTab(deviceVBox, label);
 }
@@ -1107,15 +1100,5 @@ void INDI_D::engageTracking()
 
 }
 
-void INDI_D::setBLOBOption(int state)
-{
-    if (deviceManager == NULL)
-        return;
-
-    if (state == Qt::Checked)
-        deviceManager->enableBLOB(true, name);
-    else
-        deviceManager->enableBLOB(false, name);
-}
 
 #include "indidevice.moc"
