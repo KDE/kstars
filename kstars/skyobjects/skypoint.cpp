@@ -727,21 +727,20 @@ dms SkyPoint::altRefracted() const {
         return Alt;
 }
 
-// Calculate refraction correction. Parameter and return value are in degrees
-static double refractionCorr(double alt) {
+double SkyPoint::refractionCorr(double alt) {
     return 1.02 / tan(dms::DegToRad * ( alt + 10.3/(alt + 5.11) )) / 60;
 }
 // Critical height. Below this height formula produce meaningless
 // results and correction value is just interpolated
-static const double altCrit  = -1;
-static const double corrCrit = refractionCorr( altCrit );
 
 dms SkyPoint::refract(dms h) {
     const double alt = h.Degrees();
-    if( alt > altCrit )
-        return dms( alt + refractionCorr(alt) );
+    const double corrCrit = SkyPoint::refractionCorr( SkyPoint::altCrit );
+
+    if( alt > SkyPoint::altCrit )
+        return dms( alt + SkyPoint::refractionCorr(alt) );
     else
-        return dms( alt + corrCrit * (alt + 90) / (altCrit + 90) );
+        return dms( alt + corrCrit * (alt + 90) / (SkyPoint::altCrit + 90) );
 }
 
 // Found uncorrected value by solving equation. This is OK since

@@ -473,11 +473,17 @@ public:
      */
     bool checkCircumpolar( const dms *gLat );
 
+    /** Calculate refraction correction. Parameter and return value are in degrees */
+    static double refractionCorr( double alt );
+
     /** Apply refraction correction to altitude. */
     static dms refract(dms h);
 
     /** Remove refraction correction. */
     static dms unrefract(dms h);
+
+    static const double altCrit  = -1;
+
 protected:
     /**Precess this SkyPoint's catalog coordinates to the epoch described by the
     	*given KSNumbers object.
