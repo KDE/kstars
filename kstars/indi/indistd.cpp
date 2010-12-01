@@ -724,6 +724,9 @@ bool INDIStdDevice::handleNonSidereal()
 
     INDI_E *nameEle = NULL, *tracklp = NULL;
 
+    if (currentObject == NULL || currentObject->isSolarSystem() == false)
+        return false;
+
     kDebug() << "Object of type " << currentObject->typeName();
 
     // Only Meade Classic will offer an explicit SOLAR_SYSTEM property. If such a property exists
@@ -998,17 +1001,13 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target, INDI_E *lp)
 
     HorProp = dp->findProp("HORIZONTAL_COORD_REQUEST");
 
-    /* Could not find either properties! */
-    if (EqProp == NULL && HorProp == NULL)
-        return false;
-
-    if (EqProp->perm == PP_RO) 
+    if (EqProp && EqProp->perm == PP_RO)
 		EqProp = NULL;
 
-    if (HorProp->perm == PP_RO)
+    if (HorProp && HorProp->perm == PP_RO)
           	HorProp = NULL;
 
-    kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
+    //kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
 
         if (EqProp)
         {
@@ -1036,6 +1035,10 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target, INDI_E *lp)
             AltEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->alt().degree()).arg(scope_target->alt().arcmin()).arg(scope_target->alt().arcsec()));
 
         }
+
+        /* Could not find either properties! */
+        if (EqProp == NULL && HorProp == NULL)
+            return false;
 
 	trackEle = lp;
         if (trackEle == NULL)

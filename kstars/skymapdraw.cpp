@@ -227,7 +227,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 
                         // express hours in degrees on the celestial sphere
                         dms raDMS(lp->value);
-                        raDMS.setD ( raDMS.Degrees() * 15.0);
+                        raDMS.setH(lp->value);
 
                         lp = eqNum->findElement("DEC");
                         if (!lp)
