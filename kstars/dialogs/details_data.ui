@@ -226,9 +226,12 @@
              </widget>
             </item>
             <item row="0" column="0">
-             <widget class="QLabel" name="MagLabel">
+             <widget class="KSHelpLabel" name="MagLabel">
               <property name="text">
                <string>Magnitude:</string>
+              </property>
+              <property name="anchor">
+               <string notr="true">magnitude</string>
               </property>
              </widget>
             </item>
@@ -272,6 +275,9 @@
              <widget class="QLabel" name="IllumLabel">
               <property name="text">
                <string>Illumination:</string>
+              </property>
+              <property name="openExternalLinks">
+               <bool>false</bool>
               </property>
              </widget>
             </item>
@@ -373,6 +379,22 @@
               </property>
              </widget>
             </item>
+            <item>
+             <spacer>
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::Fixed</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>21</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </item>
           <item>
@@ -403,6 +425,11 @@
    <extends>QFrame</extends>
    <header>widgets/clicklabel.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KSHelpLabel</class>
+   <extends>QLabel</extends>
+   <header>widgets/kshelplabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
