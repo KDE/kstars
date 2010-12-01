@@ -47,6 +47,7 @@
 #include "skycomponents/customcatalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
+#include "widgets/kshelplabel.h"
 
 #include <config-kstars.h>
 
