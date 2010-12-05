@@ -124,7 +124,7 @@
        </layout>
       </item>
       <item>
-       <widget class="K3ListBox" native="1" name="GeoBox" />
+       <widget class="QListWidget" native="1" name="GeoBox" />
       </item>
      </layout>
     </widget>
@@ -407,11 +407,6 @@
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>K3ListBox</class>
-   <extends></extends>
-   <header>k3listbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

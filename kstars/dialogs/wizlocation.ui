@@ -212,7 +212,7 @@
     </layout>
    </item>
    <item>
-    <widget class="K3ListBox" name="CityListBox" native="true">
+    <widget class="QListWidget" name="CityListBox" native="true">
      <property name="minimumSize">
       <size>
        <width>180</width>
@@ -236,11 +236,6 @@
    <class>dmsBox</class>
    <extends>KLineEdit</extends>
    <header>widgets/dmsbox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>K3ListBox</class>
-   <extends></extends>
-   <header>k3listbox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

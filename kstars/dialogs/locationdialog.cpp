@@ -62,7 +62,7 @@ LocationDialog::LocationDialog( QWidget* parent ) :
     connect( ui->NewLat, SIGNAL( textChanged( const QString & ) ), this, SLOT( dataChanged() ) );
     connect( ui->TZBox, SIGNAL( activated(int) ), this, SLOT( dataChanged() ) );
     connect( ui->DSTRuleBox, SIGNAL( activated(int) ), this, SLOT( dataChanged() ) );
-    connect( ui->GeoBox, SIGNAL( selectionChanged() ), this, SLOT( changeCity() ) );
+    connect( ui->GeoBox, SIGNAL( itemSelectionChanged () ), this, SLOT( changeCity() ) );
     connect( ui->AddCityButton, SIGNAL( clicked() ), this, SLOT( addCity() ) );
     connect( ui->ClearFieldsButton, SIGNAL( clicked() ), this, SLOT( clearFields() ) );
 
@@ -94,7 +94,7 @@ void LocationDialog::initCityList() {
     KStarsData* data = KStarsData::Instance();
     foreach ( GeoLocation *loc, data->getGeoList() )
     {
-        ui->GeoBox->insertItem( loc->fullName() );
+        ui->GeoBox->addItem( loc->fullName() );
         filteredCityList.append( loc );
 
         //If TZ is not an even integer value, add it to listbox
@@ -109,7 +109,7 @@ void LocationDialog::initCityList() {
     }
 
     //Sort the list of Cities alphabetically...note that filteredCityList may now have a different ordering!
-    ui->GeoBox->sort();
+    ui->GeoBox->sortItems();
 
     ui->CountLabel->setText( i18np("One city matches search criteria","%1 cities match search criteria", ui->GeoBox->count()) );
 
@@ -117,7 +117,7 @@ void LocationDialog::initCityList() {
     ui->GeoBox->setCurrentItem( 0 );
     for( uint i=0; i < ui->GeoBox->count(); i++ ) {
         if ( ui->GeoBox->item(i)->text() == data->geo()->fullName() ) {
-            ui->GeoBox->setCurrentItem( i );
+            ui->GeoBox->setCurrentRow( i );
             break;
         }
     }
@@ -133,7 +133,6 @@ void LocationDialog::enqueueFilterCity() {
     }
     timer->start( 500 );
 }
-
 
 void LocationDialog::filterCity() {
     KStarsData* data = KStarsData::Instance();
@@ -157,17 +156,17 @@ void LocationDialog::filterCity() {
                 sp.toLower().startsWith( ui->ProvinceFilter->text().toLower() ) &&
                 ss.toLower().startsWith( ui->CountryFilter->text().toLower() ) ) {
 
-            ui->GeoBox->insertItem( loc->fullName() );
+            ui->GeoBox->addItem( loc->fullName() );
             filteredCityList.append( loc );
         }
     }
 
-    ui->GeoBox->sort();
+    ui->GeoBox->sortItems();
 
     ui->CountLabel->setText( i18np("One city matches search criteria","%1 cities match search criteria", ui->GeoBox->count()) );
 
-    if ( ui->GeoBox->firstItem() )		// set first item in list as selected
-        ui->GeoBox->setCurrentItem( ui->GeoBox->firstItem() );
+    if ( ui->GeoBox->count() > 0 )		// set first item in list as selected
+        ui->GeoBox->setCurrentItem( ui->GeoBox->item(0) );
 
     ui->MapView->repaint();
 }
@@ -179,7 +178,7 @@ void LocationDialog::changeCity() {
     if ( ui->GeoBox->currentItem() >= 0 ) {
         for ( int i=0; i < filteredCityList.size(); ++i ) {
             GeoLocation *loc = filteredCityList.at(i);
-            if ( loc->fullName() == ui->GeoBox->currentText() ) {
+            if ( loc->fullName() == ui->GeoBox->currentItem()->text()) {
                 SelectedCity = loc;
                 break;
             }
@@ -295,7 +294,7 @@ bool LocationDialog::addCity( ) {
             if ( ui->GeoBox->count() ) {
                 for ( uint i=0; i<ui->GeoBox->count(); i++ ) {
                     if ( ui->GeoBox->item(i)->text() == g->fullName() ) {
-                        ui->GeoBox->setCurrentItem( i );
+                        ui->GeoBox->setCurrentRow( i );
                         break;
                     }
                 }
@@ -317,16 +316,16 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
         if ( ( abs(	lng - int( loc->lng()->Degrees() ) ) < 3 ) &&
                 ( abs( lat - int( loc->lat()->Degrees() ) ) < 3 ) ) {
 
-            ui->GeoBox->insertItem( loc->fullName() );
+            ui->GeoBox->addItem( loc->fullName() );
             filteredCityList.append( loc );
         }
     }
 
-    ui->GeoBox->sort();
+    ui->GeoBox->sortItems();
     ui->CountLabel->setText( i18np("One city matches search criteria","%1 cities match search criteria", ui->GeoBox->count()) );
 
-    if ( ui->GeoBox->firstItem() )		// set first item in list as selected
-        ui->GeoBox->setCurrentItem( ui->GeoBox->firstItem() );
+    if ( ui->GeoBox->count() > 0 )		// set first item in list as selected
+        ui->GeoBox->setCurrentItem( ui->GeoBox->item(0) );
 
     repaint();
 }

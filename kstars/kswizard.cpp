@@ -81,7 +81,7 @@ KSWizard::KSWizard( QWidget *parent ) :
     //connect signals/slots
     connect( this, SIGNAL( user1Clicked() ), this, SLOT( slotNextPage() ) );
     connect( this, SIGNAL( user2Clicked() ), this, SLOT( slotPrevPage() ) );
-    connect( location->CityListBox, SIGNAL( selectionChanged() ), this, SLOT( slotChangeCity() ) );
+    connect( location->CityListBox, SIGNAL( itemSelectionChanged () ), this, SLOT( slotChangeCity() ) );
     connect( location->CityFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
     connect( location->ProvinceFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
     connect( location->CountryFilter, SIGNAL( textChanged( const QString & ) ), this, SLOT( slotFilterCities() ) );
@@ -121,7 +121,7 @@ void KSWizard::initGeoPage() {
     //Populate the CityListBox
     //flag the ID of the current City
     foreach ( GeoLocation *loc, data->getGeoList() ) {
-        location->CityListBox->insertItem( loc->fullName() );
+        location->CityListBox->addItem( loc->fullName() );
         filteredCityList.append( loc );
         if ( loc->fullName() == data->geo()->fullName() ) {
             Geo = loc;
@@ -129,15 +129,16 @@ void KSWizard::initGeoPage() {
     }
 
     //Sort alphabetically
-    location->CityListBox->sort();
+    location->CityListBox->sortItems();
     //preset to current city
-    location->CityListBox->setCurrentItem( location->CityListBox->findItem(QString(data->geo()->fullName()) ) );
+    location->CityListBox->setCurrentItem(location->CityListBox->findItems(QString(data->geo()->fullName()),
+									   Qt::MatchExactly).at(0));
 }
 
 void KSWizard::slotChangeCity() {
     if ( location->CityListBox->currentItem() >= 0 ) {
         for ( int i=0; i < filteredCityList.size(); ++i ) {
-            if ( filteredCityList[i]->fullName() == location->CityListBox->currentText() ) {
+            if ( filteredCityList[i]->fullName() == location->CityListBox->currentItem()->text() ) {
                 Geo = filteredCityList[i];
                 break;
             }
@@ -158,14 +159,14 @@ void KSWizard::slotFilterCities() {
             hasPrefix( loc->translatedProvince(), location->ProvinceFilter->text()  )
             )
         {
-            location->CityListBox->insertItem( loc->fullName() );
+            location->CityListBox->addItem( loc->fullName() );
             filteredCityList.append( loc );
         }
     }
-    location->CityListBox->sort();
+    location->CityListBox->sortItems();
 
-    if ( location->CityListBox->firstItem() )  // set first item in list as selected
-        location->CityListBox->setCurrentItem( location->CityListBox->firstItem() );
+    if ( location->CityListBox->count() > 0 )  // set first item in list as selected
+        location->CityListBox->setCurrentItem( location->CityListBox->item(0) );
 }
 
 void KSWizard::slotDownload() {

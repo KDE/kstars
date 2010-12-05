@@ -69,8 +69,6 @@ include_directories(
     ${OPENGL_INCLUDE_DIRS}
 )
 
-add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
-
 ########### next target ###############
 set(libkstarstools_SRCS 
 	tools/altvstime.cpp
@@ -363,7 +361,6 @@ kde4_add_executable(kstars ${kstars_SRCS})
 target_link_libraries(kstars
     ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
-	${KDE4_KDE3SUPPORT_LIBS}
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
