@@ -361,6 +361,7 @@ kde4_add_executable(kstars ${kstars_SRCS})
 target_link_libraries(kstars
     ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
+	${KDE4_KIO_LIBS}
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
