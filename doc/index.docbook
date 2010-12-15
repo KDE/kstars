@@ -51,6 +51,7 @@
   <!ENTITY skycoords SYSTEM "skycoords.docbook">
   <!ENTITY spiralgal SYSTEM "spiralgalaxies.docbook">
   <!ENTITY stars SYSTEM "stars.docbook">
+  <!ENTITY telescopes SYSTEM "telescopes.docbook">
   <!ENTITY timezones SYSTEM "timezones.docbook">
   <!ENTITY tool-aavso SYSTEM "lightcurves.docbook">
   <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
