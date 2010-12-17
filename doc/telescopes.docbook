@@ -12,7 +12,7 @@
 <para>
 Invented in Holland at the beginning of the 17th century, telescopes are the tools used by astronomers
 and astrophysicists for their observations. With the development of modern science, telescopes are
-nowadays used for observing in all ranges of the electromagnetic spectrum, inside and outside Earth’s
+nowadays used for observing in all ranges of the electromagnetic spectrum, inside and outside Earth's
 atmosphere. Telescopes work by collecting light with a large surface aerie called objective that makes
 the incoming light to converge. The final image will be viewed by using an eyepiece.
 </para>
@@ -31,7 +31,7 @@ the bigger the aperture, the brighter the image. The ratio of the focal length <
 describes the light gathering power of a telescope. <quote>Fast</quote> telescopes have smaller focal ratios, as they 
 obtain brighter images in a smaller exposure time. As the focal ratio gets bigger, the telescope needs 
 more exposure time in order to obtain a bright image, which is why it is <quote>slower</quote>. The focal ratio is
-usually noted as <quote>f/n</quote>, where n is the ratio of the focal length to the aperture.
+usually denoted as <quote>f/n</quote>, where n is the ratio of the focal length to the aperture.
 </para>
 </sect2>
 
@@ -41,13 +41,13 @@ usually noted as <quote>f/n</quote>, where n is the ratio of the focal length to
 </indexterm>
 
 <para>
-In order to obtain an image, telescopes use lenses or mirrors. Unfortunately, using both of them results
-in image distortions known as <firstterm>aberrations</firstterm>. Some aberrations are common for both 
+In order to obtain an image, telescopes use lenses or mirrors. Unfortunately, if we use both of them we obtain
+image distortions known as <firstterm>aberrations</firstterm>. Some aberrations are common for both 
 lenses and mirrors, like <firstterm>astigmatism</firstterm> and <firstterm>curvature of field</firstterm>.
 
 <firstterm>Astigmatism</firstterm> appears when different parts of the lens or mirror make the rays of the incoming 
 light to converge in slightly different locations on the focal plane. When corrected for astigmatism, <firstterm>curvature 
-of field</firstterm> may appear on the surface of the lens/ mirror, which results in the converging of light on a curve
+of field</firstterm> may appear on the surface of the lens/ mirror, which makes the light to converge on a curve
 rather than on a plane.
 
 Still, there are also lens specific aberrations and mirror specific aberrations.
@@ -58,7 +58,7 @@ from that of the red light. This results in a blurred image. The effect of chrom
 diminished by adding correcting lenses into the system. <firstterm>Spherical</firstterm> aberration may also 
 be a problem for lenses, resulting from their shape. Spheroid surfaces will not make the incoming light to converge to
 a single point, which is why other optical surfaces like paraboloids are preferred. Even by using them
-we aren’t still out of trouble, as a coma aberration appears in this case. It results from the dependence
+we aren't still out of trouble, as coma aberration appears in this case. It results from the dependence
 of the focal length on the angle between the direction of the incoming ray and the optical axis of the
 system. Thus, images of points that lie off the optical axis are elongated, rather than being simple
 points, as it would be normal.
@@ -73,9 +73,9 @@ points, as it would be normal.
 </indexterm>
 
 <para>
-<firstterm>Magnification</firstterm> is described as the ratio between the focal length of the objective and the 
+<firstterm>Magnification</firstterm>, the increase in angular size of an object as viewed in a telescope, is described as the ratio of the focal length of the objective to the 
 focal length of the eyepiece. So the greater the focal length of the objective, the greater the magnification. If 
-you want to have a large image then you will need a long focal length objective and a short focal length eyepiece.
+you want to have a large image then you need a long focal length objective and a short focal length eyepiece.
 
 As an example, if you have a 500 mm objective and a 25 mm eyepiece the resulting magnification will be
 500 / 25, which is 20, or 20X.
@@ -83,13 +83,13 @@ As an example, if you have a 500 mm objective and a 25 mm eyepiece the resulting
 </sect2>
 
 <sect2 id="field">
-<title>Field of view</title>
+<title>Field of View</title>
 <indexterm><primary>Telescopes</primary>
 </indexterm>
 
 <para>
-<firstterm>The apparent</firstterm> field of view of a telescope is determined only by the eyepiece. It is a 
-specific characteristic of the eyepiece, usually around 52 degrees. In order to find the <firstterm>true field 
+The field of view is the angle covered on the sky by the telescope.<firstterm>The apparent</firstterm> field of view of a telescope is determined only by the eyepiece. It is a 
+specific characteristic of it, usually around 52 degrees. In order to find the <firstterm>true field 
 of view</firstterm> of a telescope, you need to divide the apparent field of view by the magnification. The true 
 field of view is the actual angle covered on the sky by the telescope.
 </para>
@@ -118,27 +118,21 @@ again, click the menu item again.
 
 
 <sect2 id="types">
-<title>Types of telescopes</title>
+<title>Types of Telescopes</title>
 <indexterm><primary>Telescopes</primary>
 </indexterm>
 
 <para>
 As telescopes are used in observations over the entire electromagnetic spectrum, they are classified in
-Optical Telescopes, Ultraviolet, Gamma Ray, X-Ray, Infrared and Radio Telescopes. Each one of them is
-important for a detailed analysis of a celestial object.
+Optical Telescopes, Ultraviolet, Gamma Ray, X-Ray, Infrared and Radio Telescopes. Each one of them has its
+own, well defined role in obtaining a detailed analysis of a celestial object.
 </para>
 </sect2>
 
 <sect2 id="optical">
-<title>Optical telescopes</title>
+<title>Optical Telescopes</title>
 <indexterm><primary>Telescopes</primary>
 </indexterm>
-
-<para>
-As telescopes are used in observations over the entire electromagnetic spectrum, they are classified in
-Optical Telescopes, Ultraviolet, Gamma Ray, X-Ray, Infrared and Radio Telescopes. Each one of them is
-important for a detailed analysis of a celestial object.
-</para>
 
 <para>
 Used for observations in the visible field of view, Optical Telescopes are mainly Refractors and
@@ -169,7 +163,7 @@ focus of the telescope. Other types of reflecting telescopes are <firstterm>Newt
 <para>
 <firstterm>The Newtonian</firstterm> one uses an additional flat mirror placed in the vicinity of the prime focus, in the path
 of the reflected light. This results in moving the focal point to a different location, on one of the sides of
-the telescope, more accessible for observing. Of course, a mirror place in the path of the reflected light
+the telescope, more accessible for observing. Of course, a mirror placed in the path of the reflected light
 will also block part of the incoming one, but if the ratio of the surface aeries of the primary mirror to the
 second one is big enough, the amount of the blocked incoming light is negligible.
 </para>
@@ -177,7 +171,7 @@ second one is big enough, the amount of the blocked incoming light is negligible
 <para>
 <firstterm>The Cassegrain</firstterm> telescope is similar to the Newtonian one but this time the secondary mirror reflects
 light to the bottom of the telescope. There is a hole at the center of the primary mirror that lets the
-reflected light to go on its way until it converges in the focal point. The secondary mirror needs to be
+reflected light to go on its way until it converges to the focal point. The secondary mirror needs to be
 convex, as it is increasing the focal length of the optical system. The primary mirror of a Cassegrain
 Telescope is a paraboloid. By replacing it with a hyperboloid we obtain a Ritchey-Chretien telescope. The
 advantage of using a <firstterm>Ritchey-Chretien</firstterm> telescope is that it removes the coma of the classical reflectors.
@@ -187,7 +181,7 @@ advantage of using a <firstterm>Ritchey-Chretien</firstterm> telescope is that i
 <firstterm>The Coude</firstterm> type consists of more than one mirror that reflects the light to a special room, the Coude
 room, which is located below the telescope. The advantages of using a Coude telescope are varied, from
 obtaining a long focal length useful in different fields of astronomy and astrophysics, like spectroscopy
-or just avoid using a massive instrument. But there are also disadvantages to using a Coude telescope, as
+to avoiding the usage of a massive instrument. But there are also disadvantages in using a Coude telescope, because
 the more mirrors are placed in the system, the less amount of light arrives at the detector. This happens
 because by using Aluminum mirrors, only 80 % of the incident light gets reflected.
 </para>
@@ -205,7 +199,7 @@ lens with the primary mirror, this time their surfaces being concentric.
 </sect2>
 
 <sect2 id="other">
-<title>Other wavelengths of telescopes</title>
+<title>Observations in Other Wavelengths</title>
 <indexterm><primary>Telescopes</primary>
 </indexterm>
 
@@ -219,9 +213,9 @@ So for a good resolution we need a diameter as big as possible. The biggest radi
 is the Arecibo telescope from Puerto Rico that uses a huge dish of 300 m diameter. In order to solve
 the problem for resolutions, astronomers have developed a new technique called interferometry. The
 basic principal of interferometry is that by observing the same object with two distinct telescopes we
-can obtain a final image by “connecting” the two initial ones. Nowadays, the most efficient observatory
+can obtain a final image by "connecting" the two initial ones. Nowadays, the most efficient observatory
 that uses interferometry is the Very Large Array located near Socorro, New Mexico. It uses 27 telescopes
-placed in a “Y” shape, with 25 m aperture each. There also exists a technique called Very Long Baseline
+placed in a "Y" shape, with 25 m aperture each. There also exists a technique called Very Long Baseline
 Interferometry (VLBI) that allows astronomers to resolve images over the size of continents. The biggest
 project of the century in this domain is the building of the Atacama Large Military Array (ALMA), which
 will be using 50 telescopes placed in the United States, Europe and Japan.
@@ -229,12 +223,12 @@ will be using 50 telescopes placed in the United States, Europe and Japan.
 </sect2>
 
 <sect2 id="space">
-<title>Other wavelengths of telescopes</title>
+<title>Space-Based Observations</title>
 <indexterm><primary>Telescopes</primary>
 </indexterm>
 
 <para>
-Because Earth-based observations are affected by extinction due Earth’s atmosphere, observations
+Because Earth-based observations are affected by extinction due Earth's atmosphere, observations
 carried out in space are more successful. We mention the <firstterm>Hubble Space Telescope (HST)</firstterm> that has a 2.4,
 f/24 primary mirror, the smoothest mirror ever constructed. The Hubble Space Telescope is placed on a
 low-orbit around Earth and because of the lack of atmosphere it can observe very faint objects.
@@ -243,7 +237,7 @@ It will have a 6m primary mirror and it will orbit around a gravitation stable p
 known as the Second Lagrange Point (L2). Here the gravitational attractions due to both Sun and Earth
 balances the centrifugal force of an object set in motion around the Sun. This point has the special
 property that if an object is placed here, it is in equilibrium with respect to the Sun-Earth system.
-The second Lagrange Point lies on the line connecting Sun and Earth, on the other side of Earth. So a
+The second Lagrange Point lies on the line connecting Sun and Earth, on the other side of the Earth. So a
 telescope placed here will receive less thermal radiation, which will improve Infrared Observations.
 </para>
 </sect2>
