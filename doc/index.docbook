@@ -62,7 +62,7 @@
   <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
   <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
-  <!ENTITY tool-observinglist SYSTEM "observinglist.docbook">
+  <!ENTITY tool-obsplanner SYSTEM "obsplanner.docbook">
   <!ENTITY tool-fitsviewer SYSTEM "fitsviewer.docbook">
   <!ENTITY tools SYSTEM "tools.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
@@ -235,9 +235,10 @@ plot curves representing the Altitude as a function of time for any
 group of objects.  If that is too much detail, we also provide a
 <link linkend="tool-whatsup">What's Up Tonight?</link> tool that
 summarizes the objects that you will be able to see from your location
-on any given night.  You can add your favorite objects to the <link
-linkend="tool-observinglist">Observing List</link> tool, which 
-provides convenient access to common actions for a list of objects.
+on any given night.  You can add your favorite objects to your
+observing wish-list using
+the <link linkend="tool-obsplanner">Observation Planner</link> tool,
+which allows you to plan your observation sessions professionally.
 </para>
 <para>
 &kstars; also provides a <link linkend="tool-solarsys">Solar System

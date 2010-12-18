@@ -1046,7 +1046,7 @@ tool</para></listitem>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo></term>
-<listitem><para>Open the <link linkend="tool-observinglist">Observing List</link> 
+<listitem><para>Open the <link linkend="tool-obsplanner">Observation Planner</link> 
 tool</para></listitem>
 </varlistentry>
 
