@@ -328,7 +328,7 @@ for the selected object</para>
 <term><keycap>O</keycap></term>
 <listitem>
 <para>Add the selected object to the 
-<link linkend="tool-observinglist">Observing List</link></para>
+<link linkend="tool-obsplanner">Observing wish-list</link></para>
 </listitem>
 </varlistentry>
 
