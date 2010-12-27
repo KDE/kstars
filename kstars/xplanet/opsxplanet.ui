@@ -790,7 +790,7 @@
               <string>Longitude in degrees</string>
              </property>
              <property name="whatsThis">
-              <string>Place the observer above the specified longitude (in degrees).  Longitude is positive going east, negative going west (for the earth and moon), so for example Los Angeles is at  -118  or 242.  The default value is 0.</string>
+              <string>Place the observer above the specified longitude (in degrees).  Longitude is positive going east, negative going west (for the earth and moon), so for example Los Angeles is at -118 or 242.  The default value is 0.</string>
              </property>
              <property name="minimum">
               <number>-360</number>
