@@ -18,7 +18,8 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
-#define USEGL
+// Disable GL for KDE 4.6 release at the moment.
+// #define USEGL
 
 #include <QTimer>
 #ifdef USEGL
