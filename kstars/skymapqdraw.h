@@ -1,7 +1,7 @@
 /***************************************************************************
-                 skymapdrawabstract.h  -  K Desktop Planetarium
+                   skymapqdraw.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Mon Dec 20 2010 05:04 AM UTC-6
+    begin                : Tue Dec 21 2010 07:10 AM UTC-6
     copyright            : (C) 2010 Akarsh Simha
     email                : akarsh.simha@kdemail.net
  ***************************************************************************/
@@ -15,34 +15,36 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYMAPDRAWABSTRACT_H_
-#define SKYMAPDRAWABSTRACT_H_
+#ifndef SKYMAPQDRAW_H_
+#define SKYMAPQDRAW_H_
+
+#include "skymapdrawabstract.h"
 
 /**
- *@short This class defines the methods that both rendering engines
- *       (GLPainter and QPainter) must implement. This also allows us to add
- *       more rendering engines if required.
+ *@short This class draws the SkyMap using native QPainter. It
+ * implements SkyMapDrawAbstract
  *@version 1.0
  *@author Akarsh Simha <akarsh.simha@kdemail.net>
  */
 
-// In summary, this is a class created by stealing all the
-// drawing-related methods from the old SkyMap class
-
-class SkyMapDrawAbstract {
+class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract {
+    
+    Q_OBJECT;
 
  public:
+    /**
+     *@short Constructor
+     */
+    SkyMapQDraw( SkyMap *parent );
 
+ protected:
 
-    // *********************** "IMPURE" VIRTUAL METHODS ******************* //
-    // NOTE: The following methods are implemented using native
-    //   QPainter in both cases. So it's virtual, but not pure virtual
+    virtual void paintEvent( QPaintEvent *e );
+    
+    virtual void resizeEvent( QResizeEvent *e );
 
-    /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
-    	*when in Angular-Ruler mode.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawAngleRuler( QPainter &psky );
+    QPixmap *m_SkyPixmap, *m_SkyPixmap2;
+    
+};
 
-
-
+#endif

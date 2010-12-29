@@ -25,6 +25,7 @@
 #include <QFile>
 #include <QPointF>
 #include <QApplication>
+#include <QGraphicsScene>
 
 #include <kactioncollection.h>
 #include <kconfig.h>
@@ -57,6 +58,8 @@
 #include "projections/orthographicprojector.h"
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
+
+#include "skymapqdraw.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
@@ -138,15 +141,18 @@ SkyMap* SkyMap::Instance( )
     return pinstance;
 }
 
-SkyMap::SkyMap() :
+SkyMap::SkyMap() : 
+    QGraphicsView( KStars::Instance() ),
+    /*
 #ifdef USEGL
     QGLWidget( QGLFormat(QGL::SampleBuffers), KStars::Instance() ),
 #else 
     QWidget( KStars::Instance() ),
 #endif
+    */
     computeSkymap(true), angularDistanceMode(false), scrollCount(0),
-    data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0),
-    ClickedObject(0), FocusObject(0), TransientObject(0), m_proj(0)
+    data( KStarsData::Instance() ), pmenu(0),
+    ClickedObject(0), FocusObject(0), TransientObject(0), m_proj(0), m_SkyMapDraw(NULL)
 {
     m_Scale = 1.0;
 
@@ -171,8 +177,6 @@ SkyMap::SkyMap() :
     ClickedObject = NULL;
     FocusObject = NULL;
 
-    sky   = new QPixmap( width(),  height() );
-    sky2  = new QPixmap( width(),  height() );
     pmenu = new KSPopupMenu();
 
     setupProjector();
@@ -223,8 +227,24 @@ SkyMap::SkyMap() :
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
 
-    m_fpstime.start();
-    m_framecount = 0;
+    // TODO: Pick the render enging from Options. For now, we will
+    // hardcode it here, for testing purposes only!
+    SkyMapQDraw *smqd = new SkyMapQDraw( this ); 
+    m_SkyMapDraw = smqd;
+    m_SkyMapDrawWidget = smqd;
+
+    // DEBUG: Okay. None of this seems to work. So I'm going to do it
+    // the stupid way -- where I just add the SkyMapQDraw (QWidget) as
+    // a child of this QGV.
+    /*
+    m_SkyScene = new QGraphicsScene( this );
+    m_SkyScene->addWidget( smqd );
+    setCacheMode( QGraphicsView::CacheNone );
+    smqd->show();
+    setScene( m_SkyScene );
+    */
+    smqd->setParent( this->viewport() );
+    smqd->show();
 
     //The update timer will be destructed when SkyMap is..
     QTimer *update = new QTimer(this);
@@ -232,13 +252,14 @@ SkyMap::SkyMap() :
     connect(update, SIGNAL(timeout()), this, SLOT(update()) );
     update->start();
 
+    /*
     #ifdef USEGL
     if( !format().testOption( QGL::SampleBuffers ) )
         qWarning() << "No sample buffer; can't use multisampling (antialiasing)";
     if( !format().testOption( QGL::StencilBuffer ) )
         qWarning() << "No stencil buffer; can't draw concave polygons";
-
     #endif
+    */
 }
 
 void SkyMap::slotToggleGeoBox(bool flag) {
@@ -286,23 +307,17 @@ SkyMap::~SkyMap() {
         Options::setFocusDec( focus()->dec().Degrees() );
     }
 
-    delete sky;
-    delete sky2;
     delete pmenu;
 
     delete m_proj;
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
-    QWidget::setGeometry( x, y, w, h );
-    *sky = sky->scaled( w, h );
-    *sky2 = sky2->scaled( w, h );
+    QGraphicsView::setGeometry( x, y, w, h );
 }
 
 void SkyMap::setGeometry( const QRect &r ) {
-    QWidget::setGeometry( r );
-    *sky = sky->scaled( r.width(), r.height() );
-    *sky2 = sky2->scaled( r.width(), r.height() );
+    QGraphicsView::setGeometry( r );
 }
 
 
@@ -894,6 +909,7 @@ void SkyMap::slotZoomDefault() {
 void SkyMap::setZoomFactor(double factor) {
     Options::setZoomFactor(  KSUtils::clamp(factor, MINZOOM, MAXZOOM)  );
     forceUpdate();
+    kDebug() << "Z00m CHANGED! CALLING forceUpdate()";
     emit zoomChanged();
 }
 
@@ -914,14 +930,18 @@ void SkyMap::forceUpdate( bool now )
     }
 
     computeSkymap = true;
-    
+
+    kDebug() << "FORCING UPDATE!";
+
     // Ensure that stars are recomputed
     data->incUpdateID();
-
+    /*
     if( now )
         repaint();
     else
         update();
+    */
+    m_SkyMapDrawWidget->repaint(); // DEBUG: Testing.
 }
 
 float SkyMap::fov() {

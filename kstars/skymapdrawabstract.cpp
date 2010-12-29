@@ -1,5 +1,5 @@
 /***************************************************************************
-                          skymapdraw.cpp  -  K Desktop Planetarium
+                 skymapdrawabstract.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Sun Mar 2 2003
     copyright            : (C) 2001 by Jason Harris
@@ -15,7 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-//This file contains drawing functions SkyMap class.
+// This file implements the class SkyMapDrawAbstract, and is almost
+// identical to the older skymapdraw.cpp file, written by Jason Harris
 
 #include <iostream>
 
@@ -52,7 +53,13 @@
 #include "indi/indidevice.h"
 #endif
 
-void SkyMap::drawOverlays( QPainter& p ) {
+SkyMapDrawAbstract::SkyMapDrawAbstract( SkyMap *sm ) : 
+    m_KStarsData( KStarsData::Instance() ), m_SkyMap( sm ) {
+    m_fpstime.start();
+    m_framecount = 0;
+}
+
+void SkyMapDrawAbstract::drawOverlays( QPainter& p ) {
     if( !KStars::Instance() )
         return;
 
@@ -60,42 +67,47 @@ void SkyMap::drawOverlays( QPainter& p ) {
     SkyLabeler::Instance()->draw(p);
 
     //draw FOV symbol
-    foreach( FOV* fov, KStarsData::Instance()->visibleFOVs ) {
+    foreach( FOV* fov, m_KStarsData->getVisibleFOVs() ) {
         fov->draw(p, Options::zoomFactor());
     }
     drawTelescopeSymbols( p );
     drawZoomBox( p );
 
-    if ( angularDistanceMode ) {
-        updateAngleRuler();
+    // FIXME: Maybe we should take care of this differently. Maybe
+    // drawOverlays should remain in SkyMap, since it just calls
+    // certain drawing functions which are implemented in
+    // SkyMapDrawAbstract. Really, it doesn't draw anything on its
+    // own.
+    if ( m_SkyMap->angularDistanceMode ) {
+        m_SkyMap->updateAngleRuler();
         drawAngleRuler( p );
     }
 }
 
-void SkyMap::drawAngleRuler( QPainter &p ) {
+void SkyMapDrawAbstract::drawAngleRuler( QPainter &p ) {
     //FIXME use sky painter.
-    p.setPen( QPen( data->colorScheme()->colorNamed( "AngularRuler" ), 3.0, Qt::DotLine ) );
+    p.setPen( QPen( m_KStarsData->colorScheme()->colorNamed( "AngularRuler" ), 3.0, Qt::DotLine ) );
     p.drawLine(
-        m_proj->toScreen( AngularRuler.point(0) ),
-        m_proj->toScreen( AngularRuler.point(1) ) );
+               m_SkyMap->m_proj->toScreen( m_SkyMap->AngularRuler.point(0) ), // FIXME: More ugliness. m_proj should probably be a single-instance class, or we should have our own instance etc.
+               m_SkyMap->m_proj->toScreen( m_SkyMap->AngularRuler.point(1) ) ); // FIXME: Again, AngularRuler should be something better -- maybe a class in itself. After all it's used for more than one thing after we integrate the StarHop feature.
 }
 
-void SkyMap::drawZoomBox( QPainter &p ) {
+void SkyMapDrawAbstract::drawZoomBox( QPainter &p ) {
     //draw the manual zoom-box, if it exists
-    if ( ZoomRect.isValid() ) {
+    if ( m_SkyMap->ZoomRect.isValid() ) {
         p.setPen( QPen( Qt::white, 1.0, Qt::DotLine ) );
-        p.drawRect( ZoomRect.x(), ZoomRect.y(), ZoomRect.width(), ZoomRect.height() );
+        p.drawRect( m_SkyMap->ZoomRect.x(), m_SkyMap->ZoomRect.y(), m_SkyMap->ZoomRect.width(), m_SkyMap->ZoomRect.height() );
     }
 }
 
-void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
-    bool checkSlewing = ( slewing || ( clockSlewing && data->clock()->isActive() ) ) && Options::hideOnSlew();
+void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
+    bool checkSlewing = ( m_SkyMap->slewing || ( m_SkyMap->clockSlewing && m_KStarsData->clock()->isActive() ) ) && Options::hideOnSlew();
     if ( checkSlewing && Options::hideLabels() ) return;
 
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     skyLabeler->resetFont();      // use the zoom dependent font
 
-    skyLabeler->setPen( data->colorScheme()->colorNamed( "UserLabelColor" ) );
+    skyLabeler->setPen( m_KStarsData->colorScheme()->colorNamed( "UserLabelColor" ) );
 
     bool drawPlanets    = Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets());
     bool drawComets     = drawPlanets && Options::showComets();
@@ -108,9 +120,9 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
     bool hideFaintStars = checkSlewing && Options::hideStars();
 
     //Attach a label to the centered object
-    if ( focusObject() != NULL && Options::useAutoLabel() ) {
-        QPointF o = m_proj->toScreen( focusObject() );
-        skyLabeler->drawNameLabel( focusObject(), o );
+    if ( m_SkyMap->focusObject() != NULL && Options::useAutoLabel() ) {
+        QPointF o = m_SkyMap->m_proj->toScreen( m_SkyMap->focusObject() ); // FIXME: Same thing. m_proj should be accessible here.
+        skyLabeler->drawNameLabel( m_SkyMap->focusObject(), o );
     }
 
     foreach ( SkyObject *obj, labelObjects ) {
@@ -147,9 +159,9 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
         if ( obj->type() == SkyObject::COMET && ! drawComets ) continue;
         if ( obj->type() == SkyObject::ASTEROID && ! drawAsteroids ) continue;
 
-        if ( ! m_proj->checkVisibility( obj ) ) continue;
-        QPointF o = m_proj->toScreen( obj );
-        if ( ! m_proj->onScreen(o) ) continue;
+        if ( ! m_SkyMap->m_proj->checkVisibility( obj ) ) continue; // FIXME: m_proj should be a member of this class.
+        QPointF o = m_SkyMap->m_proj->toScreen( obj );
+        if ( ! m_SkyMap->m_proj->onScreen(o) ) continue;
 
         skyLabeler->drawNameLabel( obj, o );
     }
@@ -157,7 +169,7 @@ void SkyMap::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
     skyLabeler->useStdFont();   // use the StdFont for the guides.
 }
 
-void SkyMap::drawTelescopeSymbols(QPainter &psky)
+void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 {
 #ifdef HAVE_INDI_H
     KStars* kstars = KStars::Instance();
@@ -173,7 +185,7 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
     if (!Options::showTargetCrosshair() || devMenu == NULL)
         return;
 
-    psky.setPen( QPen( QColor( data->colorScheme()->colorNamed("TargetColor" ) ) ) );
+    psky.setPen( QPen( QColor( m_KStarsData->colorScheme()->colorNamed("TargetColor" ) ) ) );
     psky.setBrush( Qt::NoBrush );
     float pxperdegree = Options::zoomFactor()/57.3;
 
@@ -241,14 +253,14 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
                         if (useJ2000) {
                             indi_sp.setRA0(raDMS);
                             indi_sp.setDec0(decDMS);
-                            indi_sp.apparentCoord( (double) J2000, data->ut().djd());
+                            indi_sp.apparentCoord( (double) J2000, m_KStarsData->ut().djd());
                         }
 
                         if ( Options::useAltAz() )
-                            indi_sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                            indi_sp.EquatorialToHorizontal( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
                     }
 
-                    QPointF P = m_proj->toScreen( &indi_sp );
+                    QPointF P = m_SkyMap->m_proj->toScreen( &indi_sp );
                     if ( Options::useAntialias() ) {
                         float s1 = 0.5*pxperdegree;
                         float s2 = pxperdegree;
@@ -297,59 +309,23 @@ void SkyMap::drawTelescopeSymbols(QPainter &psky)
 #endif
 }
 
-void SkyMap::exportSkyImage( QPaintDevice *pd ) {
-    SkyQPainter p(this,pd);
+void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd ) {
+    SkyQPainter p(m_SkyMap, pd); // FIXME: Really, we should be doing this differently. We shouldn't be passing m_SkyMap, but rather, this widget.
     p.begin();
     p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
 
     //scale image such that it fills 90% of the x or y dimension on the paint device
-    double xscale = double(p.device()->width()) / double(width());
-    double yscale = double(p.device()->height()) / double(height());
+    double xscale = double(p.device()->width()) / double(m_SkyMap->width());
+    double yscale = double(p.device()->height()) / double(m_SkyMap->height());
     double scale = qMin(xscale,yscale);
 
     p.scale(scale,scale);
 
     p.drawSkyBackground();
-    data->skyComposite()->draw( &p );
+    m_KStarsData->skyComposite()->draw( &p );
     drawOverlays( p );
     p.end();
 }
 
-/*
-// Older trunk version of the above method
-void SkyMap::exportSkyImage( QPaintDevice *pd ) {
-    QPainter p;
-    p.begin( pd );
-    p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
 
-    //scale image such that it fills 90% of the x or y dimension on the paint device
-    double xscale = double(p.device()->width()) / double(width());
-    double yscale = double(p.device()->height()) / double(height());
-    m_Scale = (xscale < yscale) ? xscale : yscale;
 
-    //Now that we have changed the map scale, we need to re-run
-    //StarObject::initImages() to get scaled pixmaps
-    StarObject::initImages();
-
-    int pdWidth = int( m_Scale * width() );
-    int pdHeight = int( m_Scale * height() );
-    int x1 = int( 0.5*(p.device()->width()  - pdWidth) );
-    int y1 = int( 0.5*(p.device()->height()  - pdHeight) );
-
-    p.setClipRect( QRect( x1, y1, pdWidth, pdHeight ) );
-    p.setClipping( true );
-
-    //Fill background with sky color
-    p.fillRect( x1, y1, pdWidth, pdHeight, QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-
-    if ( x1 || y1 ) p.translate( x1, y1 );
-
-    data->skyComposite()->draw( p );
-
-    p.end();
-
-    //Reset scale for screen drawing
-    m_Scale = 1.0;
-    StarObject::initImages();
-}
-*/

@@ -57,8 +57,9 @@ void SkyMap::resizeEvent( QResizeEvent * )
     //FIXME: No equivalent for this line in Qt4 ??
     //	if ( testWState( Qt::WState_AutoMask ) ) updateMask();
 
-    *sky  = sky->scaled( width(), height() );
-    *sky2 = sky2->scaled( width(), height() );
+    // TODO: Hopefully the child QWidget / QGLWidget will scale automatically...
+    // No, it doesn't seem to:
+    m_SkyMapDrawWidget->resize( size() );
 
     // Resize infoboxes container.
     // FIXME: this is not really pretty. Maybe there are some better way to this???
@@ -641,7 +642,7 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
     }
 }
 
-#ifdef USEGL
+/*
 void SkyMap::initializeGL()
 {
 }
@@ -682,59 +683,12 @@ void SkyMap::paintEvent( QPaintEvent *event )
 
     ++m_framecount;
 }
-#else
-void SkyMap::paintEvent( QPaintEvent *event )
-{
-    //If computeSkymap is false, then we just refresh the window using the stored sky pixmap
-    //and draw the "overlays" on top.  This lets us update the overlay information rapidly
-    //without needing to recompute the entire skymap.
-    //use update() to trigger this "short" paint event; to force a full "recompute"
-    //of the skymap, use forceUpdate().
+*/
 
-    if(m_framecount == 25) {
-        float sec = m_fpstime.elapsed()/1000.;
-        printf("FPS: %.2f\n", m_framecount/sec);
-        m_framecount = 0;
-        m_fpstime.restart();
-    }
-
-    ++m_framecount;
-    if (!computeSkymap)
-    {
-        QPainter p;
-        p.begin( this );
-        p.drawLine(0,0,1,1); // Dummy operation to circumvent bug
-        p.drawPixmap( 0, 0, *sky );
-        drawOverlays(p);
-        p.end();
-        return ; // exit because the pixmap is repainted and that's all what we want
-    }
-
-    // FIXME: used to to notify infobox about possible change of object coordinates
-    // Not elegant at all. Should find better option
-    showFocusCoords();
-    setupProjector();
-    
-    SkyQPainter psky(this, sky);
-    //FIXME: we may want to move this into the components.
-    psky.begin();
-    
-    //Draw all sky elements
-    psky.drawSkyBackground();
-    data->skyComposite()->draw( &psky );
-    //Finish up
-    psky.end();
-
-    QPainter psky2;
-    psky2.begin( this );
-    psky2.drawLine(0,0,1,1); // Dummy op.
-    psky2.drawPixmap( 0, 0, *sky );
-    drawOverlays(psky2);
-    psky2.end();
-
-    computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
+void SkyMap::paintEvent( QPaintEvent *e ) {
+    // Do nothing for now.
+    kDebug() << "Was here";
 }
-#endif
 
 double SkyMap::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 
