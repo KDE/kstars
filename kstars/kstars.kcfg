@@ -688,6 +688,12 @@
 			<whatsthis>The maximum solar distance for drawing comets.</whatsthis>
 			<default>3.0</default>
 		</entry>
+		<!-- TODO: Hilarious label and whatsthis strings used to preserve "translation invariance". Please fix in 4.7 -->
+		<entry name="UseGL" type="Bool">
+		        <label>Switch to OpenGL backend</label>
+			<whatsthis>This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?</whatsthis>
+			<default>false</default>
+		</entry>
 	</group>
 
 	<group name="Colors">

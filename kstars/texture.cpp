@@ -20,8 +20,11 @@
 #include "texture.h"
 #include "texturemanager.h"
 #include "skymap.h"
+#include "Options.h"
 
+#if HAVE_OPENGL
 #include <QGLContext>
+#endif
 
 Texture::Texture(QObject* parent): QObject(parent)
 {
@@ -31,9 +34,8 @@ Texture::Texture(QObject* parent): QObject(parent)
 
 bool Texture::bind() const
 {
-
-    #ifdef USEGL
-    if( m_ready ) {
+    #ifdef HAVE_OPENGL
+    if( m_ready && Options::useGL() ) {
         glBindTexture(GL_TEXTURE_2D, m_tid);
         return true;
     } else
@@ -58,17 +60,21 @@ void Texture::setImage(const QImage& img)
     genTexture();
 }
 
+#ifdef HAVE_OPENGL
 void Texture::genTexture()
 {
     //FIXME do proper mipmapping
-    #ifdef USEGL
-    if( SkyMap::Instance() && !m_image.isNull() ) {
-        m_tid = SkyMap::Instance()->bindTexture(m_image, GL_TEXTURE_2D, GL_RGBA, QGLContext::DefaultBindOption);
-        m_ready = (m_tid != 0);
-    } else
-        m_ready = false;
-    #endif
+    if( Options::useGL() ) {
+        if( !m_image.isNull() ) {
+            Q_ASSERT( TextureManager::getContext() );
+            m_tid = TextureManager::getContext()->bindTexture(m_image, GL_TEXTURE_2D, GL_RGBA, QGLContext::DefaultBindOption);
+            m_ready = (m_tid != 0);
+            Q_ASSERT( m_ready );
+        } else
+            m_ready = false;
+    }
 }
+#endif
 
 
 

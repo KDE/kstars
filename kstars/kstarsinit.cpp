@@ -219,6 +219,13 @@ void KStars::initActions() {
         << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)"))
         << KShortcut("Space" );
 
+    #ifdef HAVE_OPENGL
+    Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
+    actionCollection()->addAction("opengl", SkyMap::Instance(), SLOT( slotToggleGL() ) )
+        << (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend"));
+    kDebug() << "We have OpenGL! Do you?";
+    #endif
+
     actionCollection()->addAction("project_lambert", this, SLOT( slotMapProjection() ) )
         << i18n("&Lambert Azimuthal Equal-area" )
         << KShortcut("F5" )
