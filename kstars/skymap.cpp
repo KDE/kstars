@@ -940,6 +940,12 @@ void SkyMap::forceUpdate( bool now )
         update();
     */
     m_SkyMapDrawWidget->repaint(); // DEBUG: Testing.
+    /*
+    // DEBUG: For GL, here's something to try
+    QGLWidget *w = dynamic_cast<QGLWidget *>( m_SkyMapDrawWidget );
+    w->updateGL();
+    */
+    
 }
 
 float SkyMap::fov() {
