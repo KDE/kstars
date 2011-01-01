@@ -22,7 +22,10 @@
 SkyMapQDraw::SkyMapQDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QWidget( sm ) {
     // TODO: Any construction to be done?
     m_SkyPixmap = new QPixmap( width(), height() );
-    m_SkyPixmap2 = NULL;
+}
+
+SkyMapQDraw::~SkyMapQDraw() {
+    delete m_SkyPixmap;
 }
 
 void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
