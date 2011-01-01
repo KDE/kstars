@@ -910,7 +910,6 @@ void SkyMap::slotZoomDefault() {
 void SkyMap::setZoomFactor(double factor) {
     Options::setZoomFactor(  KSUtils::clamp(factor, MINZOOM, MAXZOOM)  );
     forceUpdate();
-    kDebug() << "Z00m CHANGED! CALLING forceUpdate()";
     emit zoomChanged();
 }
 
@@ -931,8 +930,6 @@ void SkyMap::forceUpdate( bool now )
     }
 
     computeSkymap = true;
-
-    kDebug() << "FORCING UPDATE!";
 
     // Ensure that stars are recomputed
     data->incUpdateID();
