@@ -23,10 +23,12 @@
 
 #include <kstandarddirs.h>
 
+#ifdef HAVE_OPENGL
 #include <QGLWidget>
+QGLContext* TextureManager::m_context = 0;
+#endif
 
 TextureManager* TextureManager::m_p;
-QGLContext* TextureManager::m_context = 0;
 
 const Texture* TextureManager::getTexture(const QString& name)
 {
@@ -48,6 +50,7 @@ const Texture* TextureManager::getTexture(const QString& name)
     return tex;
 }
 
+#ifdef HAVE_OPENGL
 void TextureManager::genTextures()
 {
     //If there's no instance, there are no textures to bind!
@@ -61,12 +64,15 @@ void TextureManager::genTextures()
             (*it)->genTexture();
     }
 }
+#endif
 
 TextureManager *TextureManager::Create() {
     if( !m_p )
         m_p = new TextureManager( KStars::Instance() );
+#ifdef HAVE_OPENGL
     if( !m_context )
         m_context = new QGLContext( QGLFormat(QGL::SampleBuffers) );
+#endif
     return m_p;
 }
 

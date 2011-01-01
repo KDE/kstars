@@ -56,7 +56,9 @@ protected slots:
 private:
     QImage m_image;
     bool m_ready;
+    #ifdef HAVE_OPENGL
     GLuint m_tid;
+    #endif
 };
 
 #endif // KSTEXTURE_H
