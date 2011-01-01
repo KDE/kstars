@@ -223,14 +223,6 @@ SkyMap::SkyMap() :
     connect(this,     SIGNAL( positionChanged( SkyPoint*) ),
             m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
 
-
-    m_iboxes = new InfoBoxes(this);
-    m_iboxes->setVisible( Options::showInfoBoxes() );
-    m_iboxes->setMouseTracking( true ); // Required to generate mouse move events
-    m_iboxes->addInfoBox(m_timeBox);
-    m_iboxes->addInfoBox(m_geoBox);
-    m_iboxes->addInfoBox(m_objBox);
-
 #ifdef HAVE_OPENGL
 
     Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
@@ -253,6 +245,23 @@ SkyMap::SkyMap() :
     
     m_SkyMapDraw->setParent( this->viewport() );
     m_SkyMapDraw->show();
+
+    /*
+    m_Scene = new QGraphicsScene( rect() );
+    setScene( m_Scene );
+    */
+    m_iboxes = new InfoBoxes( m_SkyMapDraw );
+    m_iboxes->setVisible( Options::showInfoBoxes() );
+    m_iboxes->setMouseTracking( false ); // DEBUG: Changed this to false. Why should we generate mouse move events, actually?
+    m_iboxes->setAutoFillBackground( false );
+    m_iboxes->setBackgroundRole( QPalette::NoRole );
+    m_iboxes->addInfoBox(m_timeBox);
+    m_iboxes->addInfoBox(m_geoBox);
+    m_iboxes->addInfoBox(m_objBox);
+    /*
+    ( m_Scene->addWidget( m_iboxes ) )->setAcceptedMouseButtons( Qt::NoButton );
+    */
+
 
     //The update timer will be destructed when SkyMap is..
     QTimer *update = new QTimer(this);
