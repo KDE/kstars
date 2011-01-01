@@ -53,6 +53,11 @@ class Projector;
 
 class QGraphicsScene;
 
+#ifdef HAVE_OPENGL
+class SkyMapGLDraw;
+class SkyMapQDraw;
+#endif
+
 /**@class SkyMap
 	*
 	*This is the canvas on which the sky is painted.  It's the main widget for KStars.
@@ -294,15 +299,16 @@ class SkyMap : public QGraphicsView {
         @return a pointer to the current projector. */
     const Projector * projector() const;
 
+    // NOTE: These dynamic casts must not segfault. If they do, it's good because we know that there is a problem.
     /**
      *@short Proxy method for SkyMapDrawAbstract::exportSkyImage()
      */
-    void exportSkyImage( QPaintDevice *pd ) { m_SkyMapDraw->exportSkyImage( pd ); }
+    inline void exportSkyImage( QPaintDevice *pd ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( pd ); }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
      */
-    void drawObjectLabels( QList< SkyObject* >& labelObjects ) { m_SkyMapDraw->drawObjectLabels( labelObjects ); }
+    inline void drawObjectLabels( QList< SkyObject* >& labelObjects ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->drawObjectLabels( labelObjects ); }
 
 
 
@@ -662,9 +668,14 @@ private:
     InfoBoxWidget* m_objBox;
     InfoBoxes*     m_iboxes;
 
-    // Note: These two point to the same stuff
-    SkyMapDrawAbstract *m_SkyMapDraw;
-    QWidget *m_SkyMapDrawWidget;
+
+    QWidget *m_SkyMapDraw; // Can be dynamic_cast<> to SkyMapDrawAbstract
+
+    // NOTE: These are pointers to the individual widgets
+    #ifdef HAVE_OPENGL
+    SkyMapQDraw *m_SkyMapQDraw;
+    SkyMapGLDraw *m_SkyMapGLDraw;
+    #endif
 
     QGraphicsScene *m_SkyScene;
 

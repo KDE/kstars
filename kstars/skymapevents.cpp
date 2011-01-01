@@ -59,7 +59,7 @@ void SkyMap::resizeEvent( QResizeEvent * )
 
     // TODO: Hopefully the child QWidget / QGLWidget will scale automatically...
     // No, it doesn't seem to:
-    m_SkyMapDrawWidget->resize( size() );
+    m_SkyMapDraw->resize( size() );
 
     // Resize infoboxes container.
     // FIXME: this is not really pretty. Maybe there are some better way to this???
