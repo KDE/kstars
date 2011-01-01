@@ -259,9 +259,6 @@ SkyMap::SkyMap() :
 #endif
 
     m_iboxes->setVisible( Options::showInfoBoxes() );
-    m_iboxes->setMouseTracking( false ); // DEBUG: Changed this to false. Why should we generate mouse move events, actually?
-    m_iboxes->setAutoFillBackground( false );
-    m_iboxes->setBackgroundRole( QPalette::NoRole );
     m_iboxes->addInfoBox(m_timeBox);
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
