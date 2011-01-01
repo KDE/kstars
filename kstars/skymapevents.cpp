@@ -57,8 +57,8 @@ void SkyMap::resizeEvent( QResizeEvent * )
     //FIXME: No equivalent for this line in Qt4 ??
     //	if ( testWState( Qt::WState_AutoMask ) ) updateMask();
 
-    // TODO: Hopefully the child QWidget / QGLWidget will scale automatically...
-    // No, it doesn't seem to:
+    // Resize the widget that draws the sky map.
+    // FIXME: The resize event doesn't pass to children. Any better way of doing this?
     m_SkyMapDraw->resize( size() );
 
     // Resize infoboxes container.
@@ -641,49 +641,6 @@ void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
             slotCenter();
     }
 }
-
-/*
-void SkyMap::initializeGL()
-{
-}
-
-void SkyMap::resizeGL(int width, int height)
-{
-    Q_UNUSED(width)
-    Q_UNUSED(height)
-    //do nothing since we resize in SkyGLPainter::paintGL()
-}
-
-void SkyMap::paintEvent( QPaintEvent *event )
-{
-    QPainter p;
-    p.begin(this);
-    p.beginNativePainting();
-
-    setupProjector();
-    if(m_framecount == 25) {
-        float sec = m_fpstime.elapsed()/1000.;
-        printf("FPS: %.2f\n", m_framecount/sec);
-        m_framecount = 0;
-        m_fpstime.restart();
-    }
-    SkyGLPainter psky(this);
-    //FIXME: we may want to move this into the components.
-    psky.begin();
-
-    //Draw all sky elements
-    psky.drawSkyBackground();
-    data->skyComposite()->draw( &psky );
-    //Finish up
-    psky.end();
-    
-    p.endNativePainting();
-    drawOverlays(p);
-    p.end();
-
-    ++m_framecount;
-}
-*/
 
 double SkyMap::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 
