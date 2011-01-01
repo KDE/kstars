@@ -55,7 +55,7 @@ void SkyMapGLDraw::paintEvent( QPaintEvent *event )
 
     makeCurrent();
 
-    SkyGLPainter psky( m_SkyMap );
+    SkyGLPainter psky( this );
     //FIXME: we may want to move this into the components.
     psky.begin();
 

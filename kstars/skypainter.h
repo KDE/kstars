@@ -46,9 +46,12 @@ class SkyPainter
 {
 public:
     /** @short Constructor.
-        @param sm A pointer to SkyMap object on which to paint.
         */
-    SkyPainter(SkyMap *sm);
+    SkyPainter();
+
+    /**
+     *@short Destructor
+     */
     virtual ~SkyPainter();
     
     /** @short Get the SkyMap on which the painter operates */

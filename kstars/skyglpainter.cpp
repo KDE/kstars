@@ -25,6 +25,7 @@ USING_PART_OF_NAMESPACE_EIGEN
 using Eigen::Rotation2Df;
 
 #include <GL/gl.h>
+#include <QGLWidget>
 
 #include "skymap.h"
 #include "kstarsdata.h"
@@ -48,9 +49,9 @@ Vector3f SkyGLPainter::m_color[NUMTYPES][6*BUFSIZE];
 int      SkyGLPainter::m_idx[NUMTYPES];
 bool     SkyGLPainter::m_init = false;
 
-SkyGLPainter::SkyGLPainter(SkyMap* sm)
-    : SkyPainter(sm)
+SkyGLPainter::SkyGLPainter( const QGLWidget *widget ) : SkyPainter()
 {
+    m_widget = widget;
     if( !m_init ) {
         printf("Initializing texcoord arrays...\n");
         for(int i = 0; i < NUMTYPES; ++i) {
@@ -366,9 +367,9 @@ void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex)
         glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
         glBegin(GL_QUADS);
         glVertex2f(0,0);
-        glVertex2f(0,m_sm->height());
-        glVertex2f(m_sm->width(),m_sm->height());
-        glVertex2f(m_sm->width(),0);
+        glVertex2f(0,m_widget->height());
+        glVertex2f(m_widget->width(),m_widget->height());
+        glVertex2f(m_widget->width(),0);
         glEnd();
         glDisable(GL_STENCIL_TEST);
     } else {
@@ -523,10 +524,10 @@ void SkyGLPainter::begin()
     m_proj = m_sm->projector();
     
     //Load ortho projection
-    glViewport(0,0,m_sm->width(),m_sm->height());
+    glViewport(0,0,m_widget->width(),m_widget->height());
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0,m_sm->width(), m_sm->height(),0, -1,1);
+    glOrtho(0,m_widget->width(), m_widget->height(),0, -1,1);
 
     //reset modelview matrix
     glMatrixMode(GL_MODELVIEW);

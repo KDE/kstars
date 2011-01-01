@@ -23,6 +23,7 @@
 #include "skypainter.h"
 
 class Projector;
+class QWidget;
 
 /** @short The QPainter-based painting backend.
     This class implements the SkyPainter interface using a QPainter.
@@ -31,10 +32,10 @@ class SkyQPainter : public SkyPainter, public QPainter
 {
 public:
     /** Constructor.
-        @param sm the SkyMap pointer
+        @param widget the QWidget that provides the paint device (used to query height, width etc)
         @param pd the painting device. If 0, then @p sm will be used.
         */
-    SkyQPainter(SkyMap *sm, QPaintDevice *pd = 0);
+    SkyQPainter( QWidget *widget, QPaintDevice *pd = 0 );
     virtual ~SkyQPainter();
     virtual void setPen(const QPen& pen);
     virtual void setBrush(const QBrush& brush);
@@ -65,6 +66,7 @@ private:
                                          float positionAngle);
     QPaintDevice *m_pd;
     const Projector* m_proj;
+    const QWidget *m_widget;
 };
 
 #endif
