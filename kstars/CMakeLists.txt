@@ -57,6 +57,17 @@ if ( XPLANET_FOUND )
     )
 endif ( XPLANET_FOUND )
 
+if ( OPENGL_FOUND )
+  include_directories( ${OPENGL_INCLUDE_DIRS} )
+  set(kstars_gl_SRCS
+    skyglpainter.cpp skymapgldraw.cpp
+    )
+  add_definitions(-DHAVE_OPENGL)
+endif( OPENGL_FOUND )
+
+
+
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
     ${CMAKE_SOURCE_DIR}/kstars/kstars/skyobjects
@@ -66,7 +77,6 @@ include_directories(
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
 	${EIGEN2_INCLUDE_DIR}
-    ${OPENGL_INCLUDE_DIRS}
 )
 
 ########### next target ###############
@@ -311,7 +321,7 @@ set(kstars_extra_SRCS
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
-	skypainter.cpp skyqpainter.cpp skyglpainter.cpp skymapgldraw.cpp # TODO: Build GL stuff only if OpenGL is present.
+	skypainter.cpp skyqpainter.cpp
 	texture.cpp texturemanager.cpp
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
@@ -334,7 +344,7 @@ set(oal_SRCS
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
-	${kstars_extra_SRCS}  ${kstars_projection_SRCS} ${xplanet_SRCS}
+	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
 )
 
@@ -365,8 +375,6 @@ target_link_libraries(kstars
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
-	${OPENGL_LIBRARIES}
-	${QT_QTOPENGL_LIBRARY}
         )
 
 if(NOT WIN32)
@@ -378,6 +386,14 @@ endif (CFITSIO_FOUND)
 if (INDI_FOUND)
   target_link_libraries(kstars ${INDI_LIBRARIES})
 endif (INDI_FOUND)
+
+if( OPENGL_FOUND )
+    target_link_libraries(kstars
+    ${OPENGL_LIBRARIES}
+    ${QT_QTOPENGL_LIBRARY}
+    )
+endif( OPENGL_FOUND )
+
 
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
