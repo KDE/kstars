@@ -223,7 +223,6 @@ void KStars::initActions() {
     Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
     actionCollection()->addAction("opengl", SkyMap::Instance(), SLOT( slotToggleGL() ) )
         << (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend"));
-    kDebug() << "We have OpenGL! Do you?";
     #endif
 
     actionCollection()->addAction("project_lambert", this, SLOT( slotMapProjection() ) )
