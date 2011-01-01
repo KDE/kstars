@@ -18,7 +18,10 @@
 */
 
 #include "texture.h"
+#include "texturemanager.h"
 #include "skymap.h"
+
+#include <QGLContext>
 
 Texture::Texture(QObject* parent): QObject(parent)
 {

@@ -18,7 +18,7 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
-// #define USEGL
+#define USEGL
 
 #include <QTimer>
 #include <QGraphicsView>
