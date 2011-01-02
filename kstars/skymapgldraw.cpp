@@ -51,6 +51,9 @@ void SkyMapGLDraw::paintEvent( QPaintEvent *event )
         m_framecount = 0;
         m_fpstime.restart();
     }
+
+    makeCurrent();
+
     SkyGLPainter psky( m_SkyMap );
     //FIXME: we may want to move this into the components.
     psky.begin();
