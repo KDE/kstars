@@ -37,13 +37,18 @@ class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract {
      */
     SkyMapQDraw( SkyMap *parent );
 
+    /**
+     *@short Destructor
+     */
+    ~SkyMapDraw();
+
  protected:
 
     virtual void paintEvent( QPaintEvent *e );
     
     virtual void resizeEvent( QResizeEvent *e );
 
-    QPixmap *m_SkyPixmap, *m_SkyPixmap2;
+    QPixmap *m_SkyPixmap;
     
 };
 
