@@ -437,6 +437,10 @@ public slots:
      * in the status bar */
     void slotCancelAngularDistance();
 
+#ifdef HAVE_OPENGL
+    void slotToggleGL();
+#endif
+
 #ifdef HAVE_XPLANET
     /**Run Xplanet to print a view on the screen*/
     void slotXplanetToScreen();

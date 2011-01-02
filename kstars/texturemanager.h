@@ -25,6 +25,8 @@
 
 #include "texture.h"
 
+#include <config-kstars.h>
+
 class QGLContext;
 
 /** @brief a singleton class to manage texture loading/retrieval */

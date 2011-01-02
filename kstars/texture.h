@@ -20,7 +20,11 @@
 #ifndef KSTEXTURE_H
 #define KSTEXTURE_H
 
+#include <config-kstars.h>
+
+#ifdef HAVE_OPENGL
 #include <GL/gl.h>
+#endif
 
 #include <QImage>
 
@@ -28,19 +32,27 @@ class Texture : public QObject
 {
     Q_OBJECT
     friend class TextureManager;
+
 public:
     ///Returns true if the texture is ready to be used. If false, don't try to use the texture.
     bool isReady() const;
     ///Get a pointer to the image associated with this texture
     const QImage& image() const;
     ///Bind the texture for use with GL -- return true if successful
+    #ifdef HAVE_OPENGL
     bool bind() const;
+    #endif
     
 protected:
     Texture(QObject *parent = 0);
+
+    #ifdef HAVE_OPENGL
     void genTexture();
+    #endif
+
 protected slots:
     void setImage(const QImage& img);
+
 private:
     QImage m_image;
     bool m_ready;

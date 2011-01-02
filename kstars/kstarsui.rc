@@ -87,6 +87,7 @@
 		</Menu>
 		<Action name="colorschemes" /> <!--This is a KMenuAction-->
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
+		<Action name="opengl" />
 		<Separator />
         <Action name="ewriter"/>
         <Action name="obsadd"/>

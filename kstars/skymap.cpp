@@ -172,6 +172,9 @@ SkyMap::SkyMap() :
     ClickedObject = NULL;
     FocusObject = NULL;
 
+    m_SkyMapDraw = 0;
+    m_SkyMapDrawWidget = 0;
+
     pmenu = new KSPopupMenu();
 
     setupProjector();
@@ -223,39 +226,32 @@ SkyMap::SkyMap() :
     m_iboxes->addInfoBox(m_objBox);
 
 
-    // TODO: Pick the render enging from Options. For now, we will
-    // hardcode it here, for testing purposes only!
-    /*
-    // HARDCODE NATIVE ENGINE
-    SkyMapQDraw *smqd = new SkyMapQDraw( this ); 
-    m_SkyMapDraw = smqd;
-    m_SkyMapDrawWidget = smqd;
-    */
+    // TODO: Duplicated code. Please do something better
 
-    // HARDCODE GL ENGINE
-    Q_ASSERT( TextureManager::getContext() );
-    SkyMapGLDraw *smgld = new SkyMapGLDraw( this );
-    m_SkyMapDraw = smgld;
-    m_SkyMapDrawWidget = smgld;
+    #ifdef HAVE_OPENGL
+    kDebug() << "We have OpenGL! Do you?";
+    // TODO: Can this code be written more elegantly? Or is it a bad idea to cast?
+    if( !Options::useGL() ) {
+        SkyMapQDraw *smqd = new SkyMapQDraw( this );
+        // NOTE: Two different kinds of casts here
+        m_SkyMapDrawWidget = smqd;
+        m_SkyMapDraw = smqd;
+        
+        smqd->setParent( this->viewport() );
+        smqd->show();
+    }
+    else 
+    #endif
+    {
+        SkyMapGLDraw *smgld = new SkyMapGLDraw( this );
+        Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
+        // NOTE: Two different kinds of casts here
+        m_SkyMapDrawWidget = smgld;
+        m_SkyMapDraw = smgld;
 
-
-
-    // FIXME: Okay. None of this seems to work. So I'm going to do it
-    // the stupid way -- where I just add the SkyMapQDraw (QWidget) as
-    // a child of this QGV.
-    /*
-    m_SkyScene = new QGraphicsScene( this );
-    m_SkyScene->addWidget( smqd );
-    setCacheMode( QGraphicsView::CacheNone );
-    smqd->show();
-    setScene( m_SkyScene );
-    */
-    /*
-    smqd->setParent( this->viewport() );
-    smqd->show();
-    */
-    smgld->setParent( this->viewport() );
-    smgld->show();
+        smgld->setParent( this->viewport() );
+        smgld->show();
+    }
 
     //The update timer will be destructed when SkyMap is..
     QTimer *update = new QTimer(this);
@@ -309,6 +305,8 @@ SkyMap::~SkyMap() {
         Options::setFocusRA(  focus()->ra().Hours() );
         Options::setFocusDec( focus()->dec().Degrees() );
     }
+
+    delete m_SkyMapDrawWidget;
 
     delete pmenu;
 
@@ -1078,6 +1076,45 @@ void SkyMap::updateAngleRuler() {
 bool SkyMap::isSlewing() const  {
     return (slewing || ( clockSlewing && data->clock()->isActive() ) );
 }
+
+#ifdef HAVE_OPENGL
+void SkyMap::slotToggleGL() {
+    kDebug() << "We have OpenGL! Do you?";
+
+    delete m_SkyMapDrawWidget;
+
+    // TODO: Can this code be written more elegantly? Or is it a bad idea to cast?
+    if( Options::useGL() ) {
+        Options::setUseGL( false );
+
+        SkyMapQDraw *smqd = new SkyMapQDraw( this );
+        // NOTE: Two different kinds of casts here
+        m_SkyMapDrawWidget = smqd;
+        m_SkyMapDraw = smqd;
+        
+        smqd->setParent( this->viewport() );
+        smqd->show();
+        
+        KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to OpenGL backend"));
+    }
+    else {
+        Options::setUseGL( true );
+
+        SkyMapGLDraw *smgld = new SkyMapGLDraw( this );
+        Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
+        // NOTE: Two different kinds of casts here
+        m_SkyMapDrawWidget = smgld;
+        m_SkyMapDraw = smgld;
+
+        smgld->setParent( this->viewport() );
+        smgld->show();
+
+        KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to QPainter backend"));
+    }
+}
+#endif
+    
+    
 
 #ifdef HAVE_XPLANET
 void SkyMap::startXplanet( const QString & outputFile ) {

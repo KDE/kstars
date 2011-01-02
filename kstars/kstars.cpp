@@ -153,6 +153,13 @@ void KStars::applyConfig( bool doApplyFocus ) {
     actionCollection()->action("coordsys")->setText(
         Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)") );
 
+    #ifdef HAVE_OPENGL
+    Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
+    actionCollection()->action("opengl")->setText( (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend")) );
+    kDebug() << "We have OpenGL! Do you?";
+    #endif
+
+
     actionCollection()->action("show_time_box"    )->setChecked( Options::showTimeBox() );
     actionCollection()->action("show_location_box")->setChecked( Options::showGeoBox() );
     actionCollection()->action("show_focus_box"   )->setChecked( Options::showFocusBox() );
