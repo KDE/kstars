@@ -685,11 +685,6 @@ void SkyMap::paintEvent( QPaintEvent *event )
 }
 */
 
-void SkyMap::paintEvent( QPaintEvent *e ) {
-    // Do nothing for now.
-    kDebug() << "Was here";
-}
-
 double SkyMap::zoomFactor( const int modifier ) {
     double factor = ( modifier & Qt::ControlModifier) ? DZOOM : 2.0; 
     if ( modifier & Qt::ShiftModifier ) 

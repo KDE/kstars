@@ -542,11 +542,6 @@ protected:
      */
     virtual void resizeEvent( QResizeEvent * );
 
-    /**
-     *@short Asks the SkyMapDrawWidget to repaint itself
-     */
-    virtual void paintEvent( QPaintEvent *e );
-
 private slots:
     /**Gradually fade the Transient Hover Label into the background sky color, and
     	*redraw the screen after each color change.  Once it has faded fully, set the 
