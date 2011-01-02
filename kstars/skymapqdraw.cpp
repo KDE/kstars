@@ -58,7 +58,7 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
     m_SkyMap->showFocusCoords();
     m_SkyMap->setupProjector();
     
-    SkyQPainter psky(m_SkyMap, m_SkyPixmap); // FIXME: Again, we shouldn't be passing m_SkyMap, but rather, we should pass this widget instead.
+    SkyQPainter psky(this, m_SkyPixmap); 
     //FIXME: we may want to move this into the components.
     psky.begin();
     

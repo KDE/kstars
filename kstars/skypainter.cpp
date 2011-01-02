@@ -31,11 +31,10 @@
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/trailobject.h"
 
-SkyPainter::SkyPainter(SkyMap* sm)
-    : m_sm(sm),
-      m_sizeMagLim(10.)
+SkyPainter::SkyPainter()
+    : m_sizeMagLim(10.)
 {
-
+    m_sm = SkyMap::Instance();
 }
 
 SkyPainter::~SkyPainter()

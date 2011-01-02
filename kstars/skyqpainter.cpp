@@ -19,6 +19,7 @@
 #include "skyqpainter.h"
 
 #include <QMap>
+#include <QWidget>
 
 #include "kstarsdata.h"
 #include "Options.h"
@@ -67,11 +68,12 @@ namespace {
     QPixmap* imageCache[nSPclasses][nStarSizes] = {{0}};
 }
 
-SkyQPainter::SkyQPainter(SkyMap* sm, QPaintDevice *pd)
-    : SkyPainter(sm), QPainter()
+SkyQPainter::SkyQPainter( QWidget *widget, QPaintDevice *pd )
+    : SkyPainter(), QPainter()
 {
-    //Set paint device pointer to pd or sm if pd = 0
-    m_pd = (pd ? pd : sm);
+    // Set paint device pointer to pd or to the widget if pd = 0
+    m_pd = ( pd ? pd : widget );
+    m_widget = widget;
 }
 
 SkyQPainter::~SkyQPainter()
@@ -94,8 +96,8 @@ void SkyQPainter::end()
 
 void SkyQPainter::drawSkyBackground()
 {
-    //FIXME use projctor
-    fillRect( 0, 0, m_sm->width(), m_sm->height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
+    //FIXME use projector
+    fillRect( 0, 0, m_widget->width(), m_widget->height(), KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
 }
 
 void SkyQPainter::setPen(const QPen& pen)
