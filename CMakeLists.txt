@@ -22,6 +22,10 @@ macro_optional_find_package(Xplanet)
 macro_bool_to_01(XPLANET_FOUND HAVE_XPLANET)
 macro_log_feature(XPLANET_FOUND "XPlanet" "Renders an image of all the major planets and most satellites" "http://xplanet.sourceforge.net/" FALSE "1.0" "Gives KStars support for xplanet.")
 
+macro_optional_find_package(OpenGL)
+macro_bool_to_01(OPENGL_FOUND HAVE_OPENGL)
+macro_log_feature(OPENGL_FOUND "OpenGL" "3D Graphics Library" "http://www.opengl.org/" FALSE "" "Allows for OpenGL rendering in KStars, which is generally faster on hardware with graphics acceleration.")
+
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 

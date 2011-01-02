@@ -239,7 +239,9 @@ SkyMap::SkyMap() :
         m_SkyMapDraw = m_SkyMapQDraw;
 
 #else
+
     m_SkyMapDraw = new SkyMapQDraw( this );
+
 #endif
     
     m_SkyMapDraw->setParent( this->viewport() );
