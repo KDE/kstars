@@ -311,7 +311,7 @@ set(kstars_extra_SRCS
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
-	skypainter.cpp skyqpainter.cpp skyglpainter.cpp
+	skypainter.cpp skyqpainter.cpp skyglpainter.cpp skymapgldraw.cpp # TODO: Build GL stuff only if OpenGL is present.
 	texture.cpp texturemanager.cpp
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
