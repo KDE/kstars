@@ -20,6 +20,8 @@
 
 #include "skymapdrawabstract.h"
 
+#include<QWidget>
+
 /**
  *@short This class draws the SkyMap using native QPainter. It
  * implements SkyMapDrawAbstract
@@ -40,7 +42,7 @@ class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract {
     /**
      *@short Destructor
      */
-    ~SkyMapDraw();
+    ~SkyMapQDraw();
 
  protected:
 
