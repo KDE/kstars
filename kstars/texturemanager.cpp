@@ -18,20 +18,21 @@
 */
 
 #include "texturemanager.h"
-
-#include <kstandarddirs.h>
-
 #include "skymap.h"
 #include "kstars.h"
 
+#include <kstandarddirs.h>
+
+#include <QGLWidget>
+
 TextureManager* TextureManager::m_p;
+QGLContext* TextureManager::m_context = 0;
 
 const Texture* TextureManager::getTexture(const QString& name)
 {
-    if(!m_p) {
-        m_p = new TextureManager(KStars::Instance());
-    }
-    
+
+    Create();
+
     Texture *tex = m_p->m_textures.value(name,0);
     if( !tex ) {
         QString filename = KStandardDirs::locate("appdata",QString("textures/%1.png").arg(name));
@@ -61,9 +62,16 @@ void TextureManager::genTextures()
     }
 }
 
-TextureManager::TextureManager(QObject* parent): QObject(parent)
-{
-    
+TextureManager *TextureManager::Create() {
+    if( !m_p )
+        m_p = new TextureManager( KStars::Instance() );
+    if( !m_context )
+        m_context = new QGLContext( QGLFormat(QGL::SampleBuffers) );
+    return m_p;
 }
 
+TextureManager::TextureManager(QObject* parent): QObject(parent)
+{
+
+}
 

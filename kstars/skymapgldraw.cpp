@@ -14,12 +14,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "texturemanager.h"
 #include "skymapcomposite.h"
 #include "skyglpainter.h"
 #include "skymapgldraw.h"
 #include "skymap.h"
 
-SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QGLWidget( QGLFormat(QGL::SampleBuffers), sm ) {
+
+SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QGLWidget( TextureManager::getContext(), sm ) {
     // TODO: Any construction to be done?
     if( !format().testOption( QGL::SampleBuffers ) )
         qWarning() << "No sample buffer; can't use multisampling (antialiasing)";

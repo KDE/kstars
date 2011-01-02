@@ -25,6 +25,8 @@
 
 #include "texture.h"
 
+class QGLContext;
+
 /** @brief a singleton class to manage texture loading/retrieval */
 class TextureManager : public QObject
 {
@@ -39,10 +41,22 @@ public:
         but which have not yet been set up for use with GL,
         this function will set them up. */
     static void genTextures();
+
+    /**
+     *@return the QGLContext that is used for the textures
+     */
+    static inline QGLContext* getContext() { return (m_p ? m_p->m_context : 0); }
+
+    /**
+     *@short Create the instance of TextureManager
+     */
+    static TextureManager *Create();
+
 protected:
     TextureManager(QObject* parent = 0);
     static TextureManager* m_p;
     QHash<QString,Texture*> m_textures;
+    static QGLContext *m_context; // GL Context to bind textures to.
 };
 
 #endif // KSTEXTUREMANAGER_H

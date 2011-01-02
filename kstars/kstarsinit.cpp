@@ -45,6 +45,7 @@
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
 #include "skycomponents/skymapcomposite.h"
+#include "texturemanager.h"
 
 #include <config-kstars.h>
 
@@ -653,6 +654,8 @@ void KStars::initFocus() {
 }
 
 void KStars::buildGUI() {
+    //create the texture manager
+    TextureManager::Create();
     //create the skymap
     skymap = SkyMap::Create();
     connect(skymap, SIGNAL(mousePointChanged(SkyPoint*)), SLOT(slotShowPositionBar(SkyPoint*)));

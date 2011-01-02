@@ -58,6 +58,7 @@
 #include "projections/orthographicprojector.h"
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
+#include "texturemanager.h"
 
 #include "skymapqdraw.h"
 #include "skymapgldraw.h"
@@ -232,6 +233,7 @@ SkyMap::SkyMap() :
     */
 
     // HARDCODE GL ENGINE
+    Q_ASSERT( TextureManager::getContext() );
     SkyMapGLDraw *smgld = new SkyMapGLDraw( this );
     m_SkyMapDraw = smgld;
     m_SkyMapDrawWidget = smgld;
