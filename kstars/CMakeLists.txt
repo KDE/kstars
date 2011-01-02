@@ -23,37 +23,37 @@ endif(CFITSIO_FOUND)
 
 if (INDI_FOUND)
   set (indi_SRCS
-	indi/devicemanager.cpp
-	indi/indidevice.cpp
-	indi/indidriver.cpp
-	indi/indielement.cpp
-	indi/opsindi.cpp
-	indi/indigroup.cpp
-	indi/indimenu.cpp
-	indi/indiproperty.cpp
-	indi/indistd.cpp
-	indi/streamwg.cpp
-	indi/telescopewizardprocess.cpp
-	indi/imagesequence.cpp
-)
-set(indiui_SRCS
-	indi/devmanager.ui
-        indi/imgsequencedlg.ui
-        indi/opsindi.ui
-        indi/indihostconf.ui
-        indi/streamform.ui
-        indi/telescopewizard.ui
-)
-
+    indi/devicemanager.cpp
+    indi/indidevice.cpp
+    indi/indidriver.cpp
+    indi/indielement.cpp
+    indi/opsindi.cpp
+    indi/indigroup.cpp
+    indi/indimenu.cpp
+    indi/indiproperty.cpp
+    indi/indistd.cpp
+    indi/streamwg.cpp
+    indi/telescopewizardprocess.cpp
+    indi/imagesequence.cpp
+    )
+  set(indiui_SRCS
+    indi/devmanager.ui
+    indi/imgsequencedlg.ui
+    indi/opsindi.ui
+    indi/indihostconf.ui
+    indi/streamform.ui
+    indi/telescopewizard.ui
+    )
+  
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
 
 if ( XPLANET_FOUND )
-    set (xplanet_SRCS
-        xplanet/opsxplanet.cpp
+  set (xplanet_SRCS
+    xplanet/opsxplanet.cpp
     )
-    set(xplanetui_SRCS
-        xplanet/opsxplanet.ui
+  set(xplanetui_SRCS
+    xplanet/opsxplanet.ui
     )
 endif ( XPLANET_FOUND )
 
@@ -61,7 +61,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
     ${CMAKE_SOURCE_DIR}/kstars/kstars/skyobjects
     ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents
-	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
+    ${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
 #    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
