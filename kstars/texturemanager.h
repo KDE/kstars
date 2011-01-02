@@ -39,6 +39,8 @@ public:
         @return a pointer to the texture
         */
     static const Texture* getTexture(const QString& name);
+
+#ifdef HAVE_OPENGL
     /** If there exist textures that have a QImage loaded
         but which have not yet been set up for use with GL,
         this function will set them up. */
@@ -48,6 +50,7 @@ public:
      *@return the QGLContext that is used for the textures
      */
     static inline QGLContext* getContext() { return (m_p ? m_p->m_context : 0); }
+#endif
 
     /**
      *@short Create the instance of TextureManager
@@ -58,7 +61,11 @@ protected:
     TextureManager(QObject* parent = 0);
     static TextureManager* m_p;
     QHash<QString,Texture*> m_textures;
+
+#ifdef HAVE_OPENGL
     static QGLContext *m_context; // GL Context to bind textures to.
+#endif
+
 };
 
 #endif // KSTEXTUREMANAGER_H

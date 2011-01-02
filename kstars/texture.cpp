@@ -22,26 +22,28 @@
 #include "skymap.h"
 #include "Options.h"
 
-#if HAVE_OPENGL
+#ifdef HAVE_OPENGL
 #include <QGLContext>
 #endif
 
 Texture::Texture(QObject* parent): QObject(parent)
 {
     m_ready = false;
+#ifdef HAVE_OPENGL
     m_tid = 0;
+#endif
 }
 
+#ifdef HAVE_OPENGL
 bool Texture::bind() const
 {
-    #ifdef HAVE_OPENGL
     if( m_ready && Options::useGL() ) {
         glBindTexture(GL_TEXTURE_2D, m_tid);
         return true;
     } else
-    #endif
         return false;
 }
+#endif
 
 const QImage& Texture::image() const
 {
@@ -57,7 +59,9 @@ void Texture::setImage(const QImage& img)
 {
     m_image = img;
     m_ready = true;
+#ifdef HAVE_OPENGL
     genTexture();
+#endif
 }
 
 #ifdef HAVE_OPENGL

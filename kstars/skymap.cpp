@@ -61,7 +61,10 @@
 #include "texturemanager.h"
 
 #include "skymapqdraw.h"
+
+#ifdef HAVE_OPENGL
 #include "skymapgldraw.h"
+#endif
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
