@@ -165,6 +165,9 @@ SkyMap::SkyMap() :
     setFocusPolicy( Qt::StrongFocus );
     setMinimumSize( 380, 250 );
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
+    setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    setStyleSheet( "QGraphicsView { border-style: none; }" ); 
 
     setMouseTracking (true); //Generate MouseMove events!
     midMouseButtonDown = false;
@@ -219,6 +222,7 @@ SkyMap::SkyMap() :
             m_objBox, SLOT(   slotObjectChanged( SkyObject*) ) );
     connect(this,     SIGNAL( positionChanged( SkyPoint*) ),
             m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
+
 
     m_iboxes = new InfoBoxes(this);
     m_iboxes->setVisible( Options::showInfoBoxes() );

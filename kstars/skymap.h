@@ -677,7 +677,7 @@ private:
     SkyMapGLDraw *m_SkyMapGLDraw;
     #endif
 
-    QGraphicsScene *m_SkyScene;
+    QGraphicsScene *m_Scene;
 
     static SkyMap* pinstance;
 
