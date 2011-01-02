@@ -231,7 +231,7 @@ SkyMap::SkyMap() :
     m_SkyMapGLDraw = new SkyMapGLDraw( this );
     m_SkyMapGLDraw->hide();
     m_SkyMapQDraw->hide();
-    
+
     if( Options::useGL() )
         m_SkyMapDraw = m_SkyMapGLDraw;
     else
@@ -1110,12 +1110,27 @@ void SkyMap::slotToggleGL() {
     }
     else {
         // Use GL
-        Options::setUseGL( true );
+        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
 
-        Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
+        int result = KMessageBox::warningYesNo( this, message,
+                                                i18n("Switch to OpenGL backend"),
+                                                KStandardGuiItem::yes(),
+                                                KStandardGuiItem::no(),
+                                                "dag_opengl_switch" );
 
-        m_SkyMapDraw = m_SkyMapGLDraw;
-        KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to QPainter backend"));
+        if ( result == KMessageBox::Yes ) {
+
+            KMessageBox::information( this, i18n("Infoboxes will be disabled as they do not work correctly when using OpenGL backends as of this version"),
+                                      i18n("Switch to OpenGL backend"),
+                                      "dag_opengl_infoboxes" );
+
+            Options::setUseGL( true );
+
+            Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
+
+            m_SkyMapDraw = m_SkyMapGLDraw;
+            KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to QPainter backend"));
+        }
     }
     m_SkyMapDraw->setParent( viewport() );
     m_SkyMapDraw->show();
