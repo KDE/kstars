@@ -203,6 +203,11 @@ public:
     /** Synchronize list of visible FOVs and list of selected FOVs in Options */
     void syncFOV();
 
+    /**
+     *@return the list of visible FOVs
+     */
+    inline const QList<FOV*> getVisibleFOVs() const { return visibleFOVs; }
+
     /** Return log object */
     OAL::Log *logObject() { return m_logObject; }
 

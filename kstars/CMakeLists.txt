@@ -310,7 +310,7 @@ set(kstars_extra_SRCS
 	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
-	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
+	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp skyglpainter.cpp
 	texture.cpp texturemanager.cpp
 	timezonerule.cpp 

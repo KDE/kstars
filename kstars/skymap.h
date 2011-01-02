@@ -18,19 +18,19 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
-#define USEGL
+// #define USEGL
 
 #include <QTimer>
-#ifdef USEGL
-    #include <QGLWidget>
-#else
-    #include <QWidget>
-#endif
+#include <QGraphicsView>
 #include <QPixmap>
 #include <QTime>
 
+
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
+
+#include "skymapdrawabstract.h"
+#include "skymapqdraw.h"
 
 #include <config-kstars.h>
 
@@ -51,6 +51,8 @@ class InfoBoxWidget;
 class InfoBoxes;
 class Projector;
 
+class QGraphicsScene;
+
 /**@class SkyMap
 	*
 	*This is the canvas on which the sky is painted.  It's the main widget for KStars.
@@ -66,18 +68,21 @@ class Projector;
 	*@version 1.0
 	*/
 
-class SkyMap::QGraphicsView {
+class SkyMap : public QGraphicsView {
 
-    Q_OBJECT
+    Q_OBJECT;
+        
+    friend class SkyMapDrawAbstract;
+    friend class SkyMapQDraw; // FIXME: This is the ugliest thing I've done in my life. Please, please, do something else.
 
-protected:
+ protected:
     /**
     *Constructor.  Read stored settings from KConfig object (focus position,
     *zoom factor, sky color, etc.).  Run initPopupMenus().
     */
     explicit SkyMap();
 
-public:
+ public:
     static SkyMap* Create();
 
     static SkyMap* Instance();
@@ -269,6 +274,7 @@ public:
 
     bool isPointNull( const QPointF &p );
 
+    // NOTE: This method is draw-backend independent.
     /**@short update the geometry of the angle ruler. */
     void updateAngleRuler();
 
@@ -280,34 +286,25 @@ public:
     	*/
     bool isObjectLabeled( SkyObject *o );
 
-    /**@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
+    /*@*@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
     	*/
     void stopTracking();
-
-    // TODO: Decide the fate of this method. This method should
-    // probably be implemented only in the SkyMapQDraw class, and should be
-    // called out of that class, since it uses QPainter.
-
-    /**@short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
-    	*
-    	*@param pd pointer to the QPaintDevice on which to draw.  
-    	*@see KStars::slotExportImage()
-    	*@see KStars::slotPrint()
-    	*/
-    void exportSkyImage( QPaintDevice *pd );
 
     /** Get the current projector.
         @return a pointer to the current projector. */
     const Projector * projector() const;
 
-    /**@short Draw "user labels".  User labels are name labels attached to objects manually with
-     * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
-     * is true.
-     * @param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
-     * @param psky painter for the sky
-     * @note the labelObjects list is managed by the SkyMapComponents class
+    /**
+     *@short Proxy method for SkyMapDrawAbstract::exportSkyImage()
      */
-    void drawObjectLabels( QList< SkyObject* >& labelObjects );
+    void exportSkyImage( QPaintDevice *pd ) { m_SkyMapDraw->exportSkyImage( pd ); }
+
+    /**
+     *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
+     */
+    void drawObjectLabels( QList< SkyObject* >& labelObjects ) { m_SkyMapDraw->drawObjectLabels( labelObjects ); }
+
+
 
 public slots:
     //DEBUG_KIO_JOB
@@ -421,11 +418,13 @@ public slots:
      */
     void slotClockSlewing();
 
+    // NOTE: This method is draw-backend independent.
     /**Enables the angular distance measuring mode. It saves the first
      * position of the ruler in a SkyPoint. It makes difference between
      * having clicked on the skymap and not having done so */
     void slotBeginAngularDistance();
 
+    // NOTE: This method is draw-backend independent.
     /**Computes the angular distance, prints the result in the status
      * bar and disables the angular distance measuring mode
      * If the user has clicked on the map the status bar shows the 
@@ -482,14 +481,6 @@ signals:
     void mousePointChanged(SkyPoint*);
 
 protected:
-    #ifdef USEGL
-    virtual void resizeGL(int width, int height);
-    virtual void initializeGL();
-    //virtual void paintGL();
-    #endif
-    /**Draw the Sky, and all objects in it. */
-    virtual void paintEvent( QPaintEvent *e );
-
     /**Process keystrokes:
      * @li arrow keys  Slew the map
      * @li +/- keys  Zoom in and out
@@ -541,6 +532,11 @@ protected:
      */
     virtual void resizeEvent( QResizeEvent * );
 
+    /**
+     *@short Asks the SkyMapDrawWidget to repaint itself
+     */
+    virtual void paintEvent( QPaintEvent *e );
+
 private slots:
     /**Gradually fade the Transient Hover Label into the background sky color, and
     	*redraw the screen after each color change.  Once it has faded fully, set the 
@@ -548,6 +544,7 @@ private slots:
     	*/
     void slotTransientTimeout();
 
+    // NOTE: Akarsh believes that this method is backend-independent, and is pretty confident about that, but he thinks that it really requires a second inspection.
     /**@short attach transient label to object nearest the mouse cursor.
     	*This slot is connected to the timeout() signal of the HoverTimer, which is restarted
     	*in every mouseMoveEvent().  So this slot is executed only if the mouse does not move for 
@@ -563,28 +560,6 @@ private slots:
     void setMouseMoveCursor();
 
 private:
-    /**Draw the overlays on top of the sky map.  These include the infoboxes,
-    	*field-of-view indicator, telescope symbols, zoom box and any other
-    	*user-interaction graphics.
-    	*
-    	*The overlays can be updated rapidly, without having to recompute the entire SkyMap.
-    	*The stored Sky image is simply blitted onto the SkyMap widget, and then we call
-    	*drawOverlays() to refresh the overlays.
-    	*@param pm pointer to the Sky pixmap
-    	*/
-    void drawOverlays( QPainter& p );
-
-    /**Draw symbols at the position of each Telescope currently being controlled by KStars.
-    	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawTelescopeSymbols(QPainter &psky);
-
-    /**
-    	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawZoomBox( QPainter &psky );
 
     /**@short Begin fading out the name label attached to TransientObject.
     	*
@@ -664,7 +639,6 @@ private:
 
     KStarsData *data;
     KSPopupMenu *pmenu;
-    QPixmap *sky, *sky2;
     SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
 
@@ -684,10 +658,14 @@ private:
     InfoBoxWidget* m_objBox;
     InfoBoxes*     m_iboxes;
 
+    // Note: These two point to the same stuff
+    SkyMapDrawAbstract *m_SkyMapDraw;
+    QWidget *m_SkyMapDrawWidget;
+
+    QGraphicsScene *m_SkyScene;
+
     static SkyMap* pinstance;
 
-    QTime m_fpstime;
-    int m_framecount;
 };
 
 #endif

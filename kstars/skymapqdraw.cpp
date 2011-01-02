@@ -1,0 +1,87 @@
+/***************************************************************************
+                  skymapqdraw.cpp  -  K Desktop Planetarium
+                             -------------------
+    begin                : Tue Dec 21 2010 08:36 AM UTC-6
+    copyright            : (C) 2010 Akarsh Simha
+    email                : akarsh.simha@kdemail.net
+ ***************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include "skymapcomposite.h"
+#include "skyqpainter.h"
+#include "skymapqdraw.h"
+#include "skymap.h"
+
+SkyMapQDraw::SkyMapQDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QWidget( sm ) {
+    // TODO: Any construction to be done?
+    m_SkyPixmap = new QPixmap( width(), height() );
+    m_SkyPixmap2 = NULL;
+}
+
+void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
+    //If computeSkymap is false, then we just refresh the window using the stored sky pixmap
+    //and draw the "overlays" on top.  This lets us update the overlay information rapidly
+    //without needing to recompute the entire skymap.
+    //use update() to trigger this "short" paint event; to force a full "recompute"
+    //of the skymap, use forceUpdate().
+
+    kDebug() << "Was here!";
+
+    if(m_framecount == 25) {
+        float sec = m_fpstime.elapsed()/1000.;
+        printf("FPS: %.2f\n", m_framecount/sec);
+        m_framecount = 0;
+        m_fpstime.restart();
+    }
+
+    ++m_framecount;
+    if (!m_SkyMap->computeSkymap)
+        {
+            QPainter p;
+            p.begin( this );
+            p.drawLine(0,0,1,1); // Dummy operation to circumvent bug. TODO: Add details
+            p.drawPixmap( 0, 0, *m_SkyPixmap ); 
+            drawOverlays(p);
+            p.end();
+            return ; // exit because the pixmap is repainted and that's all what we want
+        }
+
+    // FIXME: used to to notify infobox about possible change of object coordinates
+    // Not elegant at all. Should find better option
+    m_SkyMap->showFocusCoords();
+    m_SkyMap->setupProjector();
+    
+    SkyQPainter psky(m_SkyMap, m_SkyPixmap); // FIXME: Again, we shouldn't be passing m_SkyMap, but rather, we should pass this widget instead.
+    //FIXME: we may want to move this into the components.
+    psky.begin();
+    
+    //Draw all sky elements
+    psky.drawSkyBackground();
+    m_KStarsData->skyComposite()->draw( &psky );
+    //Finish up
+    psky.end();
+    
+    QPainter psky2;
+    psky2.begin( this );
+    psky2.drawLine(0,0,1,1); // Dummy op.
+    psky2.drawPixmap( 0, 0, *m_SkyPixmap );
+    drawOverlays(psky2);
+    psky2.end();
+    
+    m_SkyMap->computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
+    kDebug() << "Finished with paint!";
+
+}
+
+void SkyMapQDraw::resizeEvent( QResizeEvent *e ) {
+    kDebug() << "In resize!";
+    delete m_SkyPixmap;
+    m_SkyPixmap = new QPixmap( width(), height() );
+}
