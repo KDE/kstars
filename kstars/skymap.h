@@ -66,11 +66,8 @@ class Projector;
 	*@version 1.0
 	*/
 
-#ifdef USEGL
-class SkyMap : public QGLWidget  {
-#else
-class SkyMap : public QWidget  {
-#endif
+class SkyMap::QGraphicsView {
+
     Q_OBJECT
 
 protected:
@@ -286,6 +283,10 @@ public:
     /**@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
     	*/
     void stopTracking();
+
+    // TODO: Decide the fate of this method. This method should
+    // probably be implemented only in the SkyMapQDraw class, and should be
+    // called out of that class, since it uses QPainter.
 
     /**@short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
     	*
@@ -584,12 +585,6 @@ private:
     	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
     	*/
     void drawZoomBox( QPainter &psky );
-
-    /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
-    	*when in Angular-Ruler mode.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawAngleRuler( QPainter &psky );
 
     /**@short Begin fading out the name label attached to TransientObject.
     	*
