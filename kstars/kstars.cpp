@@ -156,7 +156,6 @@ void KStars::applyConfig( bool doApplyFocus ) {
     #ifdef HAVE_OPENGL
     Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
     actionCollection()->action("opengl")->setText( (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend")) );
-    kDebug() << "We have OpenGL! Do you?";
     #endif
 
 
