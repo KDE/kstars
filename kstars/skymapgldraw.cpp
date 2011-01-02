@@ -22,7 +22,6 @@
 
 
 SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QGLWidget( TextureManager::getContext(), sm ) {
-    // TODO: Any construction to be done?
     if( !format().testOption( QGL::SampleBuffers ) )
         qWarning() << "No sample buffer; can't use multisampling (antialiasing)";
     if( !format().testOption( QGL::StencilBuffer ) )
