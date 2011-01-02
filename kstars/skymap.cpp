@@ -250,7 +250,14 @@ SkyMap::SkyMap() :
     m_Scene = new QGraphicsScene( rect() );
     setScene( m_Scene );
     */
+
+#ifdef HAVE_OPENGL
+    // If GL is enabled, the InfoBoxes work only with native painting.
+    m_iboxes = new InfoBoxes( m_SkyMapQDraw );
+#else
     m_iboxes = new InfoBoxes( m_SkyMapDraw );
+#endif
+
     m_iboxes->setVisible( Options::showInfoBoxes() );
     m_iboxes->setMouseTracking( false ); // DEBUG: Changed this to false. Why should we generate mouse move events, actually?
     m_iboxes->setAutoFillBackground( false );
