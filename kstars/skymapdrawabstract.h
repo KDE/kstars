@@ -42,7 +42,7 @@ class SkyMapDrawAbstract {
     /**
      *@short Virtual Destructor
      */
-    virtual ~SkyMapDrawAbstract() { }; // FIXME: Really, when you are in a mood to think, decide whether this should be empty or not, and what it should be.
+    virtual ~SkyMapDrawAbstract() { };
 
  public:
 
