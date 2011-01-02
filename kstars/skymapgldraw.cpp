@@ -19,8 +19,12 @@
 #include "skymapgldraw.h"
 #include "skymap.h"
 
-SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QGLWidget( sm ) {
+SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QGLWidget( QGLFormat(QGL::SampleBuffers), sm ) {
     // TODO: Any construction to be done?
+    if( !format().testOption( QGL::SampleBuffers ) )
+        qWarning() << "No sample buffer; can't use multisampling (antialiasing)";
+    if( !format().testOption( QGL::StencilBuffer ) )
+        qWarning() << "No stencil buffer; can't draw concave polygons";
 }
 
 void SkyMapGLDraw::initializeGL()

@@ -60,6 +60,7 @@
 #include "projections/equirectangularprojector.h"
 
 #include "skymapqdraw.h"
+#include "skymapgldraw.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
@@ -143,13 +144,6 @@ SkyMap* SkyMap::Instance( )
 
 SkyMap::SkyMap() : 
     QGraphicsView( KStars::Instance() ),
-    /*
-#ifdef USEGL
-    QGLWidget( QGLFormat(QGL::SampleBuffers), KStars::Instance() ),
-#else 
-    QWidget( KStars::Instance() ),
-#endif
-    */
     computeSkymap(true), angularDistanceMode(false), scrollCount(0),
     data( KStarsData::Instance() ), pmenu(0),
     ClickedObject(0), FocusObject(0), TransientObject(0), m_proj(0), m_SkyMapDraw(NULL)
@@ -227,13 +221,24 @@ SkyMap::SkyMap() :
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
 
+
     // TODO: Pick the render enging from Options. For now, we will
     // hardcode it here, for testing purposes only!
+    /*
+    // HARDCODE NATIVE ENGINE
     SkyMapQDraw *smqd = new SkyMapQDraw( this ); 
     m_SkyMapDraw = smqd;
     m_SkyMapDrawWidget = smqd;
+    */
 
-    // DEBUG: Okay. None of this seems to work. So I'm going to do it
+    // HARDCODE GL ENGINE
+    SkyMapGLDraw *smgld = new SkyMapGLDraw( this );
+    m_SkyMapDraw = smgld;
+    m_SkyMapDrawWidget = smgld;
+
+
+
+    // FIXME: Okay. None of this seems to work. So I'm going to do it
     // the stupid way -- where I just add the SkyMapQDraw (QWidget) as
     // a child of this QGV.
     /*
@@ -243,8 +248,12 @@ SkyMap::SkyMap() :
     smqd->show();
     setScene( m_SkyScene );
     */
+    /*
     smqd->setParent( this->viewport() );
     smqd->show();
+    */
+    smgld->setParent( this->viewport() );
+    smgld->show();
 
     //The update timer will be destructed when SkyMap is..
     QTimer *update = new QTimer(this);
@@ -252,14 +261,6 @@ SkyMap::SkyMap() :
     connect(update, SIGNAL(timeout()), this, SLOT(update()) );
     update->start();
 
-    /*
-    #ifdef USEGL
-    if( !format().testOption( QGL::SampleBuffers ) )
-        qWarning() << "No sample buffer; can't use multisampling (antialiasing)";
-    if( !format().testOption( QGL::StencilBuffer ) )
-        qWarning() << "No stencil buffer; can't draw concave polygons";
-    #endif
-    */
 }
 
 void SkyMap::slotToggleGeoBox(bool flag) {
