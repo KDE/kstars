@@ -113,6 +113,7 @@ set(libkstarstools_SRCS
 	tools/wutdialog.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
+	tools/starhopper.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
