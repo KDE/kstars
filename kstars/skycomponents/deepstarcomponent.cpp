@@ -410,8 +410,10 @@ bool DeepStarComponent::starsInAperture( QList<StarObject *> &list, const SkyPoi
     // repeated in all trixels that they will pass through, although
     // the factuality of this statement needs to be verified
 
-    Q_ASSERT( center.ra0().Degrees() != 0 );
-    Q_ASSERT( center.dec0().Degrees() != 0 );
+    // Ensure that we have deprecessed the (RA, Dec) to (RA0, Dec0)
+    Q_ASSERT( center.ra0().Degrees() >= 0.0 );
+    Q_ASSERT( center.dec0().Degrees() <= 90.0 );
+
     m_skyMesh->intersect( center.ra0().Degrees(), center.dec0().Degrees(), radius, (BufNum) OBJ_NEAREST_BUF );
 
     MeshIterator region( m_skyMesh, OBJ_NEAREST_BUF );
