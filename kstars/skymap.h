@@ -430,6 +430,8 @@ public slots:
      * having clicked on the skymap and not having done so */
     void slotBeginAngularDistance();
 
+    void slotBeginStarHop(); // TODO: Add docs
+    
     // NOTE: This method is draw-backend independent.
     /**Computes the angular distance, prints the result in the status
      * bar and disables the angular distance measuring mode
@@ -437,11 +439,11 @@ public slots:
      * name of the clicked object plus the angular distance. If 
      * the user did not clicked on the map, just pressed ], only 
      * the angular distance is printed */
-    void slotEndAngularDistance();
+    void slotEndRulerMode();
 
     /**Disables the angular distance measuring mode. Nothing is printed
      * in the status bar */
-    void slotCancelAngularDistance();
+    void slotCancelRulerMode();
 
 #ifdef HAVE_OPENGL
     void slotToggleGL();
@@ -624,6 +626,9 @@ private:
      */
     void zoomOutOrMagStep( const int modifier );
 
+    void beginRulerMode( bool starHopRuler ); // TODO: Add docs
+
+
 #ifdef HAVE_XPLANET
     /**
      * @short Strart xplanet.
@@ -636,7 +641,8 @@ private:
     bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool slewing, clockSlewing;
     bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
-    bool angularDistanceMode;
+    bool rulerMode; // True if we are either looking for angular distance or star hopping directions
+    bool starHopDefineMode; // True only if we are looking for star hopping directions. If false while rulerMode is true, it means we are measuring angular distance. FIXME: Find a better way to do this
     int scrollCount;
     double y0;
 

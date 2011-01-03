@@ -66,6 +66,8 @@
 #include "skymapgldraw.h"
 #endif
 
+#include "starhopper.h"
+
 #ifdef HAVE_XPLANET
 #include <KProcess>
 #include <kfiledialog.h>
@@ -148,7 +150,7 @@ SkyMap* SkyMap::Instance( )
 
 SkyMap::SkyMap() : 
     QGraphicsView( KStars::Instance() ),
-    computeSkymap(true), angularDistanceMode(false), scrollCount(0),
+    computeSkymap(true), rulerMode(false), scrollCount(0),
     data( KStarsData::Instance() ), pmenu(0),
     ClickedObject(0), FocusObject(0), TransientObject(0), m_proj(0)
 {
@@ -560,7 +562,16 @@ void SkyMap::slotSDSS() {
 }
 
 void SkyMap::slotBeginAngularDistance() {
-    angularDistanceMode = true;
+    beginRulerMode( false );
+}
+
+void SkyMap::slotBeginStarHop() {
+    beginRulerMode( true );
+}
+
+void SkyMap::beginRulerMode( bool starHopRuler ) {
+    rulerMode = true;
+    starHopDefineMode = starHopRuler;
     AngularRuler.clear();
 
     //If the cursor is near a SkyObject, reset the AngularRuler's 
@@ -578,8 +589,10 @@ void SkyMap::slotBeginAngularDistance() {
     AngularRuler.update( data );
 }
 
-void SkyMap::slotEndAngularDistance() {
-    if( angularDistanceMode ) {
+void SkyMap::slotEndRulerMode() {
+    if( !rulerMode )
+        return;
+    if( !starHopDefineMode ) { // Angular Ruler
         QString sbMessage;
 
         //If the cursor is near a SkyObject, reset the AngularRuler's
@@ -593,7 +606,7 @@ void SkyMap::slotEndAngularDistance() {
             AngularRuler.setPoint( 1, clickedPoint() );
         }
 
-        angularDistanceMode=false;
+        rulerMode=false;
         AngularRuler.update( data );
         dms angularDistance = AngularRuler.angularSize();
         AngularRuler.clear();
@@ -609,10 +622,20 @@ void SkyMap::slotEndAngularDistance() {
         box->adjust();
         box->show();
     }
+    else { // Star Hop
+        StarHopper hopper;
+        QList<const StarObject *> path = hopper.computePath( *AngularRuler.point( 0 ), *AngularRuler.points().last(), 1.0, 9.0 ); // FIXME: Hardcoded FOV and magnitude limits for testing
+        kDebug() << "path count: " << path.count();
+        foreach( const StarObject *conststar, path ) {
+            
+        }
+        rulerMode = false;
+    }
+    
 }
 
-void SkyMap::slotCancelAngularDistance(void) {
-    angularDistanceMode=false;
+void SkyMap::slotCancelRulerMode(void) {
+    rulerMode = false;
     AngularRuler.clear();
 }
 
@@ -1081,7 +1104,7 @@ void SkyMap::addLink() {
 }
 
 void SkyMap::updateAngleRuler() {
-    if( angularDistanceMode && (!pmenu || !pmenu->isVisible()) )
+    if( rulerMode && (!pmenu || !pmenu->isVisible()) )
         AngularRuler.setPoint( 1, mousePoint() );
     AngularRuler.update( data );
 }

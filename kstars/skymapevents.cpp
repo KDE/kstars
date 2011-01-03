@@ -216,12 +216,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
 
     case Qt::Key_BracketLeft:   // Begin measuring angular distance
-        if( !angularDistanceMode )
+        if( !rulerMode )
             slotBeginAngularDistance();
         break;
     case Qt::Key_Escape:        // Cancel angular distance measurement
-        if( angularDistanceMode )
-            slotCancelAngularDistance();
+        if( rulerMode )
+            slotCancelRulerMode();
         break;
     case Qt::Key_Comma:  //advance one step backward in time
     case Qt::Key_Less:
@@ -616,9 +616,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
             }
             break;
         case Qt::RightButton:
-            if( angularDistanceMode ) {
+            if( rulerMode ) {
                 // Compute angular distance.
-                slotEndAngularDistance();
+                slotEndRulerMode();
             } else {
                 // Show popup menu
                 if( clickedObject() ) {

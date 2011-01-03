@@ -187,7 +187,9 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
     addAction( i18n( "Angular Distance To...            [" ), ks->map(),
-               SLOT( slotBeginAngularDistance() ) );
+               SLOT(slotBeginAngularDistance()) );
+    addAction( i18n( "Starhop from here to...            " ), ks->map(),
+               SLOT(slotBeginStarHop()) ); 
 
     //Insert item for Showing details dialog
     if ( showDetails )

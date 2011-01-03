@@ -78,8 +78,8 @@ void SkyMapDrawAbstract::drawOverlays( QPainter& p ) {
     // certain drawing functions which are implemented in
     // SkyMapDrawAbstract. Really, it doesn't draw anything on its
     // own.
-    if ( m_SkyMap->angularDistanceMode ) {
-        m_SkyMap->updateAngleRuler();
+    if ( m_SkyMap->rulerMode ) {
+        updateAngleRuler();
         drawAngleRuler( p );
     }
 }
