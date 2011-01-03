@@ -79,7 +79,7 @@ void SkyMapDrawAbstract::drawOverlays( QPainter& p ) {
     // SkyMapDrawAbstract. Really, it doesn't draw anything on its
     // own.
     if ( m_SkyMap->rulerMode ) {
-        updateAngleRuler();
+        m_SkyMap->updateAngleRuler();
         drawAngleRuler( p );
     }
 }
