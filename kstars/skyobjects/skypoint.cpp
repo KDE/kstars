@@ -207,6 +207,7 @@ SkyPoint SkyPoint::deprecess( const KSNumbers *num, long double epoch ) const {
         RA0 = p1.ra();
         Dec0 = p1.dec();
     }
+    return p1;
 }
 
 void SkyPoint::nutate(const KSNumbers *num) {
