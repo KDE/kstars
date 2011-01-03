@@ -259,8 +259,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_Flags->draw( skyp );
 
-    m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), int(SkyMap::Instance()->scale()) );
-    m_StarHopRouteList->draw( psky );
+    m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), 1. );
+    m_StarHopRouteList->draw( skyp );
 
     m_skyMesh->inDraw( false );
 
