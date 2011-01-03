@@ -428,7 +428,7 @@ bool DeepStarComponent::starsInAperture( QList<StarObject *> &list, const SkyPoi
         for( int i = 0; i < sbl->getBlockCount(); ++i ) {
             StarBlock *block = sbl->block( i );
             for( int j = 0; j < block->getStarCount(); ++j ) {
-                StarObject *star = block->star( i );
+                StarObject *star = block->star( j );
                 if( star->mag() > maglim )
                     break; // Stars are organized by magnitude, so this should work
                 if( star->angularDistanceTo( &center ).Degrees() <= radius )
