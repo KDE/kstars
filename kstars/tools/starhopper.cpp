@@ -20,6 +20,9 @@
 #include "skyobjects/skyobject.h"
 #include "skyobjects/starobject.h"
 #include "starcomponent.h"
+
+#include "kstarsdata.h"
+
 #include <QList>
 
 
@@ -48,31 +51,48 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
     f_score[ &src ] = h_score[ &src ];
     
     while( !oSet.isEmpty() ) {
-        
+        kDebug() << "Next step";
         // Find the node with the lowest f_score value
         SkyPoint const *curr_node = NULL;
-        double lowfscore = 1e8;
+        double lowfscore = 1.0e8;
         foreach( const SkyPoint *sp, oSet ) {
             if( f_score[ sp ] < lowfscore ) {
                 lowfscore = f_score[ sp ];
                 curr_node = sp;
             }
         }
-        
-        if( curr_node == &dest ) {
+        kDebug() << "Lowest fscore is " << lowfscore;
+        if( curr_node == &dest || (curr_node != &src && h_score[ curr_node ] < 0.5 * fov) ) {
             // We are at destination
             reconstructPath( came_from[ curr_node ] );
+            kDebug() << "Result path count: " << result_path.count();
             return result_path;
         }
         
         oSet.removeOne( curr_node );
         cSet.append( curr_node );
+
+        // FIXME: Make sense. If current node ---> dest distance is
+        // larger than src --> dest distance by more than 20%, don't
+        // even bother considering it.
+
+        if( h_score[ curr_node ] > h_score[ &src ] * 1.2 )
+            continue;
+
         SkyPoint const *nhd_node;
 
         // Get the list of stars that are neighbours of this node
         QList<StarObject *> neighbors;
-        StarComponent::Instance()->starsInAperture( neighbors, *curr_node, fov, maglim );
 
+        // FIXME: Actually, this should be done in
+        // HorizontalToEquatorial, but we do it here because SkyPoint
+        // needs a lot of fixing to handle unprecessed and precessed,
+        // equatorial and horizontal coordinates nicely
+        SkyPoint *CurrentNode = const_cast<SkyPoint *>(curr_node);
+        CurrentNode->deprecess( KStarsData::Instance()->updateNum() );
+        kDebug() << "Calling starsInAperture";
+        StarComponent::Instance()->starsInAperture( neighbors, *curr_node, fov, maglim );
+        kDebug() << "Choosing next node from a set of " << neighbors.count();
         // Look for the potential next node
         double curr_g_score = g_score[ curr_node ];
         foreach( nhd_node, neighbors ) {
@@ -95,9 +115,11 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
                 came_from[ nhd_node ] = curr_node;
                 g_score[ nhd_node ] = tentative_g_score;
                 h_score[ nhd_node ] = nhd_node->angularDistanceTo( &dest ).Degrees();
+                f_score[ nhd_node ] = g_score[ nhd_node ] + h_score[ nhd_node ];
             }
         }
     }
+    kDebug() << "REGRET! Returning empty list!";
     return QList<StarObject const *>(); // Return an empty QList
 }
 
@@ -133,7 +155,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
         Q_ASSERT( nextstar );
 
         // Test 1: How bright is the star?
-        nextstar->mag(); // The brighter, the better
+        magcost = nextstar->mag() - 7.0 + log( fov ); // The brighter, the better. FIXME: 8.0 is now an arbitrary reference to the average faint star. Should actually depend on FOV, something like log( FOV ).
     
         // Test 2: Is the star strikingly red / yellow coloured?
         QString SpType = nextstar->sptype();
@@ -160,11 +182,20 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
     }
         
     // Test 4: How far is the hop?
-    double distcost = (curr->angularDistanceTo( next ).Degrees()*60 / fov); // 1 "magnitude" inc. for 1 FOV
+    double distcost = (curr->angularDistanceTo( next ).Degrees() / fov); // 1 "magnitude" inc. for 1 FOV
 
     // Test 5: How effective is the hop? [Might not be required with A*]
     //    double distredcost = -((src->angularDistanceTo( dest ).Degrees() - next->angularDistanceTo( dest ).Degrees()) * 60 / fov)*3; // 3 "magnitudes" for 1 FOV closer
 
-    netcost = magcost + speccost + distcost;
+    // Test 5: Is this an asterism, or are there bright stars clustered nearby?
+    QList<StarObject *> localNeighbors;
+    StarComponent::Instance()->starsInAperture( localNeighbors, *curr, fov/10, maglim + 1.0 );
+    double stardensitycost = 1 - localNeighbors.count();
+
+    netcost = magcost /*+ speccost*/ + distcost + stardensitycost;
+    if( netcost < 0 )
+        netcost = 0.1; // FIXME: Heuristics aren't supposed to be entirely random. This one is.
+    kDebug() << "Mag cost: " << magcost << "; Spec Cost: " << speccost << "; Dist Cost: " << distcost << "; Net cost: " << netcost;
+
     return netcost;
 }
