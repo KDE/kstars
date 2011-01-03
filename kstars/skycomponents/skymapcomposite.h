@@ -187,6 +187,7 @@ public:
     QList<SkyComponent*> customCatalogs();
 
     ConstellationBoundaryLines* getConstellationBoundary() { return m_CBoundLines; }
+    inline TargetListComponent *getStarHopRouteList() { return m_StarHopRouteList; }
 
 signals:
     void progressText( const QString &message );
@@ -210,6 +211,7 @@ private:
     //SatelliteComposite          *m_Satellites;
     FlagComponent               *m_Flags;
     TargetListComponent         *m_ObservingList;
+    TargetListComponent         *m_StarHopRouteList;
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;

@@ -58,6 +58,7 @@
 #include "projections/orthographicprojector.h"
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
+
 #include "texturemanager.h"
 
 #include "skymapqdraw.h"
@@ -65,6 +66,9 @@
 #ifdef HAVE_OPENGL
 #include "skymapgldraw.h"
 #endif
+
+// DEBUG TODO: Remove later -- required to display starhop results for debug.
+#include "skycomponents/targetlistcomponent.h"
 
 #include "starhopper.h"
 
@@ -625,10 +629,19 @@ void SkyMap::slotEndRulerMode() {
     else { // Star Hop
         StarHopper hopper;
         QList<const StarObject *> path = hopper.computePath( *AngularRuler.point( 0 ), *AngularRuler.points().last(), 1.0, 9.0 ); // FIXME: Hardcoded FOV and magnitude limits for testing
+
+        QList<SkyObject *> *mutablestarlist = new QList<SkyObject *>(); // FIXME: Memory leak
         kDebug() << "path count: " << path.count();
         foreach( const StarObject *conststar, path ) {
-            
+            StarObject *mutablestar = const_cast<StarObject *>(conststar); // FIXME: Ugly const_cast
+            mutablestarlist->append( mutablestar );
+            kDebug() << "Added star!";
         }
+
+        TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
+        delete t->list;
+        t->list = mutablestarlist;
+
         rulerMode = false;
     }
     

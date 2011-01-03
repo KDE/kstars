@@ -96,6 +96,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
 
     addComponent( m_ObservingList = new TargetListComponent( this , 0, QPen(),
                                                              &Options::obsListSymbol, &Options::obsListText ) );
+    addComponent( m_StarHopRouteList = new TargetListComponent( this , 0, QPen() ) );
+
     connect( this, SIGNAL( progressText( const QString & ) ),
              KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
 }
@@ -256,6 +258,9 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
 
     m_Flags->draw( skyp );
+
+    m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), int(SkyMap::Instance()->scale()) );
+    m_StarHopRouteList->draw( psky );
 
     m_skyMesh->inDraw( false );
 
