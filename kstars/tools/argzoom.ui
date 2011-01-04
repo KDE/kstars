@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ArgZoom</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -18,7 +18,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout2</cstring>
+                <cstring>tqlayout2</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -56,7 +56,7 @@ The Zoom level specifies the number of pixels which span one radian of arc.  Rea
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>30</width>
                             <height>20</height>
@@ -75,7 +75,7 @@ The Zoom level specifies the number of pixels which span one radian of arc.  Rea
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>20</width>
                     <height>40</height>
@@ -86,7 +86,7 @@ The Zoom level specifies the number of pixels which span one radian of arc.  Rea
 </widget>
 <customwidgets>
 </customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
 </includehints>

@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ArgSetTrack</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -18,7 +18,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout24</cstring>
+                <cstring>tqlayout24</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -50,7 +50,7 @@ If unchecked, then Tracking will be forced off, even if an object has been cente
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>40</width>
                             <height>20</height>
@@ -69,7 +69,7 @@ If unchecked, then Tracking will be forced off, even if an object has been cente
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>20</width>
                     <height>40</height>
@@ -78,5 +78,5 @@ If unchecked, then Tracking will be forced off, even if an object has been cente
         </spacer>
     </vbox>
 </widget>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 </UI>

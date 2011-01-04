@@ -162,7 +162,7 @@ public:
 	*to the box position equal to GrabPos. (this is called by SkyMap::mouseMoveEvent() ).
 	*Once the box has been moved, we call fixCollisions() to make sure the boxes don't
 	*overlap or exceed the SkyMap boundaries.
-	*@param e The mouse event which contains the new mouse cursor position
+	*@param e The mouse event which tqcontains the new mouse cursor position
 	*@return false if no box is grabbed; otherwise, moves the grabbed box and returns true.
 	*/
 	bool dragBox( TQMouseEvent *e );

@@ -32,14 +32,14 @@ class FOV {
 	public:
 		FOV();
 		FOV( TQString name );  //in this case, read params from fov.dat
-		FOV( TQString name, float size, int shape=0, TQString color="#FFFFFF" );
+		FOV( TQString name, float size, int tqshape=0, TQString color="#FFFFFF" );
 		~FOV() {}
 
 //			enum SHAPE { FOV_SQUARE=0, FOV_CIRCLE=1, FOV_CROSSHAIRS=2, FOV_BULLSEYE=3, FOV_UNKNOWN };
 
 		TQString name() const { return Name; }
 		void setName( const TQString &n ) { Name = n; }
-		int shape() const { return Shape; }
+		int tqshape() const { return Shape; }
 		void setShape( int s ) { Shape = s; }
 		float size() const { return Size; }
 		void setSize( float s ) { Size = s; }

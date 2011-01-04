@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>NewFOVUI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -21,7 +21,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout6</cstring>
+                <cstring>tqlayout6</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -74,7 +74,7 @@
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout16</cstring>
+                            <cstring>tqlayout16</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -82,7 +82,7 @@
                             </property>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>layout11</cstring>
+                                    <cstring>tqlayout11</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -116,7 +116,7 @@
                             </widget>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>layout15</cstring>
+                                    <cstring>tqlayout15</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -124,7 +124,7 @@
                                     </property>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout12</cstring>
+                                            <cstring>tqlayout12</cstring>
                                         </property>
                                         <hbox>
                                             <property name="name">
@@ -160,7 +160,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                     </widget>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout13</cstring>
+                                            <cstring>tqlayout13</cstring>
                                         </property>
                                         <hbox>
                                             <property name="name">
@@ -196,7 +196,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                     </widget>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout14</cstring>
+                                            <cstring>tqlayout14</cstring>
                                         </property>
                                         <hbox>
                                             <property name="name">
@@ -244,7 +244,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>20</width>
                                 <height>21</height>
@@ -253,7 +253,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                     </spacer>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout14</cstring>
+                            <cstring>tqlayout14</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -269,7 +269,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>152</width>
                                         <height>20</height>
@@ -333,7 +333,7 @@ The computed FOV angle (in arcminutes) will be displayed in the "Field of view" 
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>180</width>
                                 <height>20</height>
@@ -350,7 +350,7 @@ The computed FOV angle (in arcminutes) will be displayed in the "Field of view" 
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>20</width>
                                 <height>22</height>
@@ -367,7 +367,7 @@ The computed FOV angle (in arcminutes) will be displayed in the "Field of view" 
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>20</width>
                                 <height>22</height>
@@ -376,7 +376,7 @@ The computed FOV angle (in arcminutes) will be displayed in the "Field of view" 
                     </spacer>
                     <widget class="QLayoutWidget" row="0" column="0" rowspan="1" colspan="2">
                         <property name="name">
-                            <cstring>layout26</cstring>
+                            <cstring>tqlayout26</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -384,7 +384,7 @@ The computed FOV angle (in arcminutes) will be displayed in the "Field of view" 
                             </property>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>layout25</cstring>
+                                    <cstring>tqlayout25</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -410,7 +410,7 @@ The computed FOV angle (in arcminutes) will be displayed in the "Field of view" 
                             </widget>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>layout24</cstring>
+                                    <cstring>tqlayout24</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -418,7 +418,7 @@ The computed FOV angle (in arcminutes) will be displayed in the "Field of view" 
                                     </property>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout15</cstring>
+                                            <cstring>tqlayout15</cstring>
                                         </property>
                                         <hbox>
                                             <property name="name">
@@ -441,7 +441,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                 <property name="name">
                                                     <cstring>textLabel6_2_3</cstring>
                                                 </property>
-                                                <property name="minimumSize">
+                                                <property name="tqminimumSize">
                                                     <size>
                                                         <width>60</width>
                                                         <height>0</height>
@@ -460,7 +460,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                     </widget>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout16</cstring>
+                                            <cstring>tqlayout16</cstring>
                                         </property>
                                         <hbox>
                                             <property name="name">
@@ -513,7 +513,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout26_3</cstring>
+                            <cstring>tqlayout26_3</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -521,7 +521,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                             </property>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>layout25_3</cstring>
+                                    <cstring>tqlayout25_3</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -547,7 +547,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                             </widget>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>layout24_3</cstring>
+                                    <cstring>tqlayout24_3</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -555,7 +555,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                     </property>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout15_4</cstring>
+                                            <cstring>tqlayout15_4</cstring>
                                         </property>
                                         <hbox>
                                             <property name="name">
@@ -578,7 +578,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                                 <property name="name">
                                                     <cstring>textLabel6_2_3_4</cstring>
                                                 </property>
-                                                <property name="minimumSize">
+                                                <property name="tqminimumSize">
                                                     <size>
                                                         <width>60</width>
                                                         <height>0</height>
@@ -597,7 +597,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                     </widget>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>layout16_4</cstring>
+                                            <cstring>tqlayout16_4</cstring>
                                         </property>
                                         <hbox>
                                             <property name="name">
@@ -645,7 +645,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>21</width>
                                 <height>51</height>
@@ -654,7 +654,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                     </spacer>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout36</cstring>
+                            <cstring>tqlayout36</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -670,7 +670,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>281</width>
                                         <height>21</height>
@@ -703,7 +703,7 @@ The computed HPBW angle (in arcminutes) will be displayed in the "Field of view"
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout14</cstring>
+                <cstring>tqlayout14</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -742,7 +742,7 @@ You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>298</width>
                     <height>20</height>
@@ -751,7 +751,7 @@ You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to
         </spacer>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout11</cstring>
+                <cstring>tqlayout11</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -759,7 +759,7 @@ You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout3</cstring>
+                        <cstring>tqlayout3</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -767,7 +767,7 @@ You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to
                         </property>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout2</cstring>
+                                <cstring>tqlayout2</cstring>
                             </property>
                             <grid>
                                 <property name="name">
@@ -832,10 +832,10 @@ You can either enter a value directly, or use the "Eyepiece" or "Camera" Tabs to
                                         <cstring>ShapeBox</cstring>
                                     </property>
                                     <property name="toolTip" stdset="0">
-                                        <string>Select a shape for the field-of-view symbol</string>
+                                        <string>Select a tqshape for the field-of-view symbol</string>
                                     </property>
                                     <property name="whatsThis" stdset="0">
-                                        <string>Select a shape for the field-of-view (FOV) symbol.  The possible shapes are:
+                                        <string>Select a tqshape for the field-of-view (FOV) symbol.  The possible tqshapes are:
 
 Circle, Square, Crosshairs, Bullseye.</string>
                                     </property>
@@ -854,7 +854,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout10</cstring>
+                        <cstring>tqlayout10</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -872,7 +872,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
                                     <verstretch>0</verstretch>
                                 </sizepolicy>
                             </property>
-                            <property name="minimumSize">
+                            <property name="tqminimumSize">
                                 <size>
                                     <width>80</width>
                                     <height>80</height>
@@ -921,7 +921,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
     <tabstop>ShapeBox</tabstop>
     <tabstop>ColorButton</tabstop>
 </tabstops>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>knuminput.h</includehint>

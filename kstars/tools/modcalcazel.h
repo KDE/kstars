@@ -83,12 +83,12 @@ private:
 	double getEpoch (TQString eName);
 
 	/**Fill the Az and El dmsBoxes with values of the SkyPoint argument.
-	 * @param sp   SkypPoint object which contains the coordinates to 
+	 * @param sp   SkypPoint object which tqcontains the coordinates to 
 	 *             be displayed */
 	void showHorCoords ( SkyPoint sp );
 
 	/**Fill the Az and El dmsBoxes with values of the SkyPoint argument. 
-	 * @param sp   SkypPoint object which contains the coordinates to 
+	 * @param sp   SkypPoint object which tqcontains the coordinates to 
 	 *             be displayed 
 	 * @param jd   Julian day for which the conversion has been performed
 	 *             The epoch is constructed for that day

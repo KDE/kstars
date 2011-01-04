@@ -54,7 +54,7 @@ extern int MaxReticleFlashRate;
 //    bool setObjAz(int degrees, int minutes);
 
 
-static ISwitch FanStatusS[]		= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_OFF, 0, 0}};
+static ISwitch FantqStatusS[]		= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_OFF, 0, 0}};
 static ISwitch HomeSearchS[]		= { {"Save home", "", ISS_OFF, 0, 0} , {"Set home", "", ISS_OFF, 0, 0}};
 static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_OFF,0 ,0}};
 //static ISwitch SlewAltAzS[]		= { {"Slew To Alt/Az",  ISS_ON}};
@@ -65,7 +65,7 @@ static ISwitch FieldDeRotatorS[]	= { {"On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_
 #define	MAXINDIGROUP	32
 #define	MAXINDIFORMAT	32
 
-static ISwitchVectorProperty FanStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FanStatusS, NARRAY(FanStatusS), "", 0};
+static ISwitchVectorProperty FantqStatusSw	= { mydev, "Fan", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, FantqStatusS, NARRAY(FantqStatusS), "", 0};
 
 static ISwitchVectorProperty HomeSearchSw	= { mydev, "Park", "", LX16GROUP, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, HomeSearchS, NARRAY(HomeSearchS), "", 0};
 
@@ -85,7 +85,7 @@ static INumberVectorProperty horNum = {
 void changeLX200_16DeviceName(const char * newName)
 {
   strcpy(horNum.device, newName);
-  strcpy(FanStatusSw.device, newName);
+  strcpy(FantqStatusSw.device, newName);
   strcpy(HomeSearchSw.device, newName);
   strcpy(FieldDeRotatorSw.device,newName);
 }
@@ -106,7 +106,7 @@ if (dev && strcmp (thisDevice, dev))
 
   IDDefNumber (&horNum, NULL);
 
-  IDDefSwitch (&FanStatusSw, NULL);
+  IDDefSwitch (&FantqStatusSw, NULL);
   IDDefSwitch (&HomeSearchSw, NULL);
   IDDefSwitch (&FieldDeRotatorSw, NULL);
 
@@ -196,20 +196,20 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
   if (strcmp (dev, thisDevice))
     return;
 
-   if (!strcmp(name, FanStatusSw.name))
+   if (!strcmp(name, FantqStatusSw.name))
    {
-      if (checkPower(&FanStatusSw))
+      if (checkPower(&FantqStatusSw))
        return;
 
-          IUResetSwitches(&FanStatusSw);
-          IUUpdateSwitches(&FanStatusSw, states, names, n);
-          index = getOnSwitch(&FanStatusSw);
+          IUResetSwitches(&FantqStatusSw);
+          IUUpdateSwitches(&FantqStatusSw, states, names, n);
+          index = getOnSwitch(&FantqStatusSw);
 
 	  if (index == 0)
 	  {
 	    if ( (err = turnFanOn()) < 0)
 	    {
-	      handleError(&FanStatusSw, err, "Changing fan status");
+	      handleError(&FantqStatusSw, err, "Changing fan status");
 	      return;
 	    }
 	  }
@@ -217,13 +217,13 @@ void LX200_16::ISNewSwitch (const char *dev, const char *name, ISState *states, 
 	  {
 	    if ( (err = turnFanOff()) < 0)
 	    {
-	      handleError(&FanStatusSw, err, "Changing fan status");
+	      handleError(&FantqStatusSw, err, "Changing fan status");
 	      return;
 	    }
 	  }
 	  
-	  FanStatusSw.s = IPS_OK;
-	  IDSetSwitch (&FanStatusSw, index == 0 ? "Fan is ON" : "Fan is OFF");
+	  FantqStatusSw.s = IPS_OK;
+	  IDSetSwitch (&FantqStatusSw, index == 0 ? "Fan is ON" : "Fan is OFF");
 	  return;
    }
 
@@ -304,7 +304,7 @@ void LX200_16::handleAltAzSlew()
 
 	case IPS_BUSY:
 
-	    if ( (err = getHomeSearchStatus(&searchResult)) < 0)
+	    if ( (err = getHomeSearchtqStatus(&searchResult)) < 0)
 	    {
 	      handleError(&HomeSearchSw, err, "Home search");
 	      return;

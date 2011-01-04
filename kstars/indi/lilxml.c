@@ -532,7 +532,7 @@ oneXMLchar (LilXML *lp, int c, char errmsg[])
 
 	case INCON:			/* reading content */
 	    if (c == '<') {
-		/* if text contains a nl trim trailing blanks.
+		/* if text tqcontains a nl trim trailing blanks.
 		 * chomp trailing nl if only one.
 		 */
 		char *nl = strpbrk (lp->ce->pcdata, "\n\r");

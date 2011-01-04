@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>OpsColorsUI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -43,7 +43,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout4</cstring>
+                        <cstring>tqlayout4</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -81,7 +81,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout10</cstring>
+                        <cstring>tqlayout10</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -113,7 +113,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout11</cstring>
+                        <cstring>tqlayout11</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -169,7 +169,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout9</cstring>
+                        <cstring>tqlayout9</cstring>
                     </property>
                     <grid>
                         <property name="name">
@@ -185,7 +185,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>40</width>
                                     <height>20</height>
@@ -216,7 +216,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>40</width>
                                     <height>20</height>
@@ -233,7 +233,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>40</width>
                                     <height>20</height>
@@ -250,7 +250,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>40</width>
                                     <height>20</height>
@@ -285,5 +285,5 @@
     <tabstop>AddPreset</tabstop>
     <tabstop>RemovePreset</tabstop>
 </tabstops>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 </UI>

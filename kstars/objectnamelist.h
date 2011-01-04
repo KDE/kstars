@@ -21,8 +21,8 @@
 
 /**@class ObjectNameList
 	*This class provides an interface like a TQPtrList, but sorts objects internally
-	*in 27 lists. The objects are sorted alphabetically. List 0 contains all objects
-	*beginning not with a letter. List 1 - 26 contains objects beginning with a letter.
+	*in 27 lists. The objects are sorted alphabetically. List 0 tqcontains all objects
+	*beginning not with a letter. List 1 - 26 tqcontains objects beginning with a letter.
 	*The number of the list is similar to positon of letter in alphabet. (A = 1 .. Z = 26 )
 	*@author Thomas Kabelmann
 	*@version 1.0
@@ -61,7 +61,7 @@ class ObjectNameList {
 		*/
 		void append(SkyObject *object, bool useLongName=false);
 
-	/**Select the list which contains objects whose names begin with the 
+	/**Select the list which tqcontains objects whose names begin with the 
 		*same letter as the argument.  The selected list ID is recorded in 
 		*an internal variable, so it is persistent.
 		*@note This function is case insensitive.
@@ -123,7 +123,7 @@ class ObjectNameList {
 		void sort();
 
 
-	/**@return the list index which contains the object whose name matches the argument. 
+	/**@return the list index which tqcontains the object whose name matches the argument. 
 		*@note this does not return the position within a list of names; it returns the ID 
 		*of the list itself.
 		*@param name the name of the object whose index is to be found

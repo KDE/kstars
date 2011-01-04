@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ArgSetRaDec</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -18,7 +18,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout13</cstring>
+                <cstring>tqlayout13</cstring>
             </property>
             <grid>
                 <property name="name">
@@ -100,7 +100,7 @@ Right Ascension is one of the coordinates in the Equatorial coordinate system.  
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>20</width>
                     <height>40</height>
@@ -136,7 +136,7 @@ Right Ascension is one of the coordinates in the Equatorial coordinate system.  
     <tabstop>RaBox</tabstop>
     <tabstop>DecBox</tabstop>
 </tabstops>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>

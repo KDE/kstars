@@ -538,7 +538,7 @@ dms SkyPoint::angularDistanceTo(SkyPoint *sp) {
 }
 
 TQString SkyPoint::constellation( TQPtrList<CSegment> &csegmentList, TQPtrList<SkyObject> &cnameList ) const {
-	//Identify the constellation that contains point p.
+	//Identify the constellation that tqcontains point p.
 	//First, find all CSegments that bracket the RA of p.
 	//Then, identify the pair of these bracketing segments which bracket p in the Dec direction.
 	//Each segment has two cnames, identifying the 2 constellations which the segment delineates.

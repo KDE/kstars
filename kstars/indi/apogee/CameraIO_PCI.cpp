@@ -65,8 +65,8 @@ long CCameraIO_PCI::Read(unsigned short reg, unsigned short& val)
 	case Reg_TempData:
 		RegNumber = RegPCI_TempData;
 		break;
-	case Reg_Status:
-		RegNumber = RegPCI_Status;
+	case Reg_tqStatus:
+		RegNumber = RegPCI_tqStatus;
 		break;
 	case Reg_CommandReadback:
 		RegNumber = RegPCI_CommandReadback;
@@ -268,7 +268,7 @@ long CCameraIO_PCI::ReadLine( long SkipPixels, long Pixels, unsigned short* pLin
 		while ( true )
 		{
 			unsigned short val = 0;
-			Read( Reg_Status, val );
+			Read( Reg_tqStatus, val );
 			if ( ( val & RegBit_LineDone ) != 0 ) break;// Line done
 			
 			if ( clock() > StopTime ) return 1;		// Timed out

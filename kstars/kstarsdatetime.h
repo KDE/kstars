@@ -134,7 +134,7 @@ public:
 	*@return the date and time according to the CPU clock (note that this is not
 	*necessarily UT)
 	*/
-	static KStarsDateTime currentDateTime();
+	static KStarsDateTime tqcurrentDateTime();
 	
 /**
 	*@return the julian day as a long double, including the time as the fractional portion.

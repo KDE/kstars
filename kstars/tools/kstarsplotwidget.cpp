@@ -283,7 +283,7 @@ void KStarsPlotWidget::updateTickmarks() {
 void KStarsPlotWidget::drawBox( TQPainter *p ) {
 	int pW = PixRect.width(), pH = PixRect.height();
 
-	//First, fill in padding region with bgColor() to mask out-of-bounds plot data
+	//First, fill in padding region with bgColor() to tqmask out-of-bounds plot data
 	p->setPen( bgColor() );
 	p->setBrush( bgColor() );
 
@@ -361,7 +361,7 @@ void KStarsPlotWidget::drawBox( TQPainter *p ) {
 						TQString str = TQString( "%1" ).arg( lab, 0, 'g', 2 );
 						int idot = str.find( '.' );
 						if ( idot >= 0 ) 
-							str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
+							str = str.tqreplace( idot, 1, KGlobal::locale()->decimalSymbol() );
 						
 						if ( px > 0 && px < pW ) {
 							TQRect r( px - BIGTICKSIZE, pH+BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
@@ -429,7 +429,7 @@ void KStarsPlotWidget::drawBox( TQPainter *p ) {
 						TQString str = TQString( "%1" ).arg( lab, 0, 'g', 2 );
 						int idot = str.find( '.' );
 						if ( idot >= 0 ) 
-							str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
+							str = str.tqreplace( idot, 1, KGlobal::locale()->decimalSymbol() );
 						
 						if ( py > 0 && py < pH ) {
 							TQRect r( -2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );
@@ -495,7 +495,7 @@ void KStarsPlotWidget::drawBox( TQPainter *p ) {
 							TQString str = TQString( "%1" ).arg( lab, 0, 'g', 2 );
 							int idot = str.find( '.' );
 							if ( idot >= 0 ) 
-								str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
+								str = str.tqreplace( idot, 1, KGlobal::locale()->decimalSymbol() );
 							
 							if ( px > 0 && px < pW ) {
 								TQRect r( px - BIGTICKSIZE, -2*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
@@ -559,7 +559,7 @@ void KStarsPlotWidget::drawBox( TQPainter *p ) {
 							TQString str = TQString( "%1" ).arg( lab, 0, 'g', 2 );
 							int idot = str.find( '.' );
 							if ( idot >= 0 ) 
-								str = str.replace( idot, 1, KGlobal::locale()->decimalSymbol() );
+								str = str.tqreplace( idot, 1, KGlobal::locale()->decimalSymbol() );
 							
 							if ( py > 0 && py < pH ) {
 								TQRect r( pW + 2*BIGTICKSIZE, py-SMALLTICKSIZE, 2*BIGTICKSIZE, 2*SMALLTICKSIZE );

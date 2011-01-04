@@ -649,7 +649,7 @@ void ScriptBuilder::initViewOptions() {
 	new TQListViewItem( opsSkymap, "UseAltAz", i18n( "Use Horizontal coordinates? (otherwise, use Equatorial)" ), i18n( "bool" ) );
 	new TQListViewItem( opsSkymap, "ZoomFactor", i18n( "Set the Zoom Factor" ), i18n( "double" ) );
 	new TQListViewItem( opsSkymap, "FOV Size", i18n( "Select angular size for the FOV symbol (in arcmin)" ), i18n( "double" ) );
-	new TQListViewItem( opsSkymap, "FOV Shape", i18n( "Select shape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ), i18n( "int" ) );
+	new TQListViewItem( opsSkymap, "FOV Shape", i18n( "Select tqshape for the FOV symbol (0=Square, 1=Circle, 2=Crosshairs, 4=Bullseye)" ), i18n( "int" ) );
 	new TQListViewItem( opsSkymap, "FOV Color", i18n( "Select color for the FOV symbol" ), i18n( "string" ) );
 	new TQListViewItem( opsSkymap, "AnimateSlewing", i18n( "Use animated slewing? (otherwise, \"snap\" to new focus)" ), i18n( "bool" ) );
 	new TQListViewItem( opsSkymap, "UseRefraction", i18n( "Correct for atmospheric refraction?" ), i18n( "bool" ) );
@@ -920,7 +920,7 @@ void ScriptBuilder::writeScript( TQTextStream &ostream ) {
 	ostream << "#!/bin/bash" << endl;
 	ostream << "#KStars DCOP script: " << currentScriptName << endl;
 	ostream << "#by " << currentAuthor << endl;
-	ostream << "#last modified: " << KStarsDateTime::currentDateTime().toString() << endl;
+	ostream << "#last modified: " << KStarsDateTime::tqcurrentDateTime().toString() << endl;
 	ostream << "#" << endl;
 	ostream << "KSTARS=`dcopfind -a 'kstars*'`" << endl;
 	ostream << "MAIN=KStarsInterface" << endl;
@@ -946,7 +946,7 @@ void ScriptBuilder::writeScript( TQTextStream &ostream ) {
 			      sf->setINDIProperty("PARK");
 			  }
 			  
-			  if ( sf->argVal(0).contains(" ")) 
+			  if ( sf->argVal(0).tqcontains(" ")) 
 			    ostream << mainpre << "waitForINDIAction " << "\"" << sf->argVal(0) << "\" " << sf->INDIProperty() << endl;
 			  else
 			    ostream << mainpre << "waitForINDIAction " << sf->argVal(0) << " " << sf->INDIProperty() << endl;
@@ -965,11 +965,11 @@ void ScriptBuilder::readScript( TQTextStream &istream ) {
 		line = istream.readLine();
 
 		//look for name of script
-		if ( line.contains( "#KStars DCOP script: " ) )
+		if ( line.tqcontains( "#KStars DCOP script: " ) )
 			currentScriptName = line.mid( 21 ).stripWhiteSpace();
 
 		//look for author of scriptbuilder
-		if ( line.contains( "#by " ) )
+		if ( line.tqcontains( "#by " ) )
 			currentAuthor = line.mid( 4 ).stripWhiteSpace();
 
 		//Actual script functions
@@ -977,7 +977,7 @@ void ScriptBuilder::readScript( TQTextStream &istream ) {
 
 		//is ClockFunction?
 			bool clockfcn( false );
-			if ( line.contains( "$CLOCK" ) ) clockfcn = true;
+			if ( line.tqcontains( "$CLOCK" ) ) clockfcn = true;
 
 			//remove leading dcop prefix
 			line = line.mid( 20 );
@@ -1322,7 +1322,7 @@ void ScriptBuilder::slotArgWidget() {
 			if (ok) month = sf->argVal(1).toInt(&ok);
 			if (ok) day   = sf->argVal(2).toInt(&ok);
 			if (ok) argSetLocalTime->DateBox->setDate( ExtDate( year, month, day ) );
-			else argSetLocalTime->DateBox->setDate( ExtDate::currentDate() );
+			else argSetLocalTime->DateBox->setDate( ExtDate::tqcurrentDate() );
 
 			hour = sf->argVal(3).toInt(&ok);
 			if ( sf->argVal(3).isEmpty() ) ok = false;

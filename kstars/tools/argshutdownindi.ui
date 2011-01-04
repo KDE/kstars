@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ArgShutdownINDI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -18,7 +18,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout5</cstring>
+                <cstring>tqlayout5</cstring>
             </property>
             <grid>
                 <property name="name">
@@ -26,7 +26,7 @@
                 </property>
                 <widget class="QLayoutWidget" row="0" column="0">
                     <property name="name">
-                        <cstring>layout4</cstring>
+                        <cstring>tqlayout4</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -59,7 +59,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>20</width>
                     <height>33</height>
@@ -68,7 +68,7 @@
         </spacer>
     </vbox>
 </widget>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
 </includehints>

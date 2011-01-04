@@ -191,7 +191,7 @@ void KStars::readConfig() {
 	//Reset date, if one was stored
 	if ( data()->StoredDate.isValid() ) {
 		data()->changeDateTime( geo()->LTtoUT( data()->StoredDate ) );
-		data()->StoredDate.setDJD( (long double)INVALID_DAY ); //invalidate StoredDate
+		data()->StoredDate.setDJD( (long double)INVALID_DAY ); //tqinvalidate StoredDate
 	}
 
 	map()->forceUpdate();
@@ -359,7 +359,7 @@ void KStars::loadColorScheme( const TQString _name ) {
 	if ( ! ok ) {
 		if ( !filename.isEmpty() ) {
 			for( unsigned int i=0; i<filename.length(); ++i)
-				if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
+				if ( filename.at(i)==' ' ) filename.tqreplace( i, 1, "-" );
 			
 			filename = filename.append( ".colors" );
 			ok = data()->colorScheme()->load( filename );
@@ -389,10 +389,10 @@ void KStars::loadColorScheme( const TQString _name ) {
 }
 
 void KStars::exportImage( const TQString url, int w, int h ) {
-	//If the filename string contains no "/" separators, assume the 
+	//If the filename string tqcontains no "/" separators, assume the 
 	//user wanted to place a file in their home directory.
 	KURL fileURL;
-	if ( ! url.contains( "/" ) ) fileURL = TQDir::homeDirPath() + "/" + url;
+	if ( ! url.tqcontains( "/" ) ) fileURL = TQDir::homeDirPath() + "/" + url;
 	else fileURL = url;
 
 	KTempFile tmpfile;
@@ -523,7 +523,7 @@ void KStars::startINDI (TQString deviceName, bool useLocal)
 	if (indidriver->isDeviceRunning(deviceName))
 	{
 		indidriver->localListView->setSelected(driverItem, true);
-		indidriver->processDeviceStatus(1);
+		indidriver->processDevicetqStatus(1);
 	}
 	   
 	// Set custome label for device
@@ -538,7 +538,7 @@ void KStars::startINDI (TQString deviceName, bool useLocal)
 		indidriver->serverR->setChecked(true);
 	
 	// Run it
-	indidriver->processDeviceStatus(0);
+	indidriver->processDevicetqStatus(0);
 
 }
 
@@ -558,7 +558,7 @@ void KStars::shutdownINDI (TQString deviceName)
 	   return;
 	}
 
-	indidriver->processDeviceStatus(1);
+	indidriver->processDevicetqStatus(1);
 
 }
 

@@ -342,11 +342,11 @@ TQString SkyObject::messageFromTitle( const TQString &imageTitle ) {
 	TQString message = imageTitle;
 
 	//HST Image
-	if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.contains("HST") ) {
+	if ( imageTitle == i18n( "Show HST Image" ) || imageTitle.tqcontains("HST") ) {
 		message = i18n( "%1: Hubble Space Telescope, operated by STScI for NASA [public domain]" ).arg( longname() );  
 
 	//Spitzer Image
-	} else if ( imageTitle.contains( i18n( "Show Spitzer Image" ) ) ) {
+	} else if ( imageTitle.tqcontains( i18n( "Show Spitzer Image" ) ) ) {
 		message = i18n( "%1: Spitzer Space Telescope, courtesy NASA/JPL-Caltech [public domain]" ).arg( longname() );  
 
 	//SEDS Image
@@ -358,11 +358,11 @@ TQString SkyObject::messageFromTitle( const TQString &imageTitle ) {
 		message = i18n( "%1: Advanced Observing Program at Kitt Peak National Observatory [free for non-commercial use; no physical reproductions]" ).arg( longname() );
 
 	//NOAO Image
-	} else if ( imageTitle.contains( i18n( "Show NOAO Image" ) ) ) {
+	} else if ( imageTitle.tqcontains( i18n( "Show NOAO Image" ) ) ) {
 		message = i18n( "%1: National Optical Astronomy Observatories and AURA [free for non-commercial use]" ).arg( longname() );
 
 	//VLT Image
-	} else if ( imageTitle.contains( "VLT" ) ) {
+	} else if ( imageTitle.tqcontains( "VLT" ) ) {
 		message = i18n( "%1: Very Large Telescope, operated by the European Southern Observatory [free for non-commercial use; no reproductions]" ).arg( longname() );
 
 	//All others

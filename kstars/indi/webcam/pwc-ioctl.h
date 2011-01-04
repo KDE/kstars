@@ -43,7 +43,7 @@
 
 /* The frame rate is encoded in the video_window.flags parameter using
    the upper 16 bits, since some flags are defined nowadays. The following
-   defines provide a mask and shift to filter out this value.
+   defines provide a tqmask and shift to filter out this value.
    
    In 'Snapshot' mode the camera freezes its automatic exposure and colour 
    balance controls.

@@ -237,7 +237,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, TQString s1, TQString s2, TQStr
 	if ( s1 == i18n( "star" ) || s1 == i18n( "Empty sky" ) ) showLabel = false;
 
 	pmTitle = new TQLabel( s1, this );
-	pmTitle->setAlignment( AlignCenter );
+	pmTitle->tqsetAlignment( AlignCenter );
 	TQPalette pal( pmTitle->palette() );
 	pal.setColor( TQPalette::Normal, TQColorGroup::Background, pal.color( TQPalette::Normal, TQColorGroup::Base ) );
 	pal.setColor( TQPalette::Normal, TQColorGroup::Foreground, pal.color( TQPalette::Normal, TQColorGroup::Text ) );
@@ -246,38 +246,38 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, TQString s1, TQString s2, TQStr
 
 	if ( ! s2.isEmpty() ) {
 		pmTitle2 = new TQLabel( s2, this );
-		pmTitle2->setAlignment( AlignCenter );
+		pmTitle2->tqsetAlignment( AlignCenter );
 		pmTitle2->setPalette( pal );
 		insertItem( pmTitle2 );
 	}
 
 	if ( ! s3.isEmpty() ) {
 		pmType = new TQLabel( s3, this );
-		pmType->setAlignment( AlignCenter );
+		pmType->tqsetAlignment( AlignCenter );
 		pmType->setPalette( pal );
 		insertItem( pmType );
 	}
 
 	TQString c = obj->constellation( ksw->data()->csegmentList, ksw->data()->cnameList );
 	pmConstellation = new TQLabel( c, this );
-	pmConstellation->setAlignment( AlignCenter );
+	pmConstellation->tqsetAlignment( AlignCenter );
 	pmConstellation->setPalette( pal );
 	insertItem( pmConstellation );
 	
 	//Insert Rise/Set/Transit labels
 	if ( showRiseSet && obj ) {
 		pmRiseTime = new TQLabel( i18n( "Rise time: 00:00" ), this );
-		pmRiseTime->setAlignment( AlignCenter );
+		pmRiseTime->tqsetAlignment( AlignCenter );
 		pmRiseTime->setPalette( pal );
 		TQFont rsFont = pmRiseTime->font();
 		rsFont.setPointSize( rsFont.pointSize() - 2 );
 		pmRiseTime->setFont( rsFont );
 		pmSetTime = new TQLabel( i18n( "the time at which an object falls below the horizon", "Set time:" ) + " 00:00", this );
-		pmSetTime->setAlignment( AlignCenter );
+		pmSetTime->tqsetAlignment( AlignCenter );
 		pmSetTime->setPalette( pal );
 		pmSetTime->setFont( rsFont );
 		pmTransitTime = new TQLabel( i18n( "Transit time: 00:00" ), this );
-		pmTransitTime->setAlignment( AlignCenter );
+		pmTransitTime->tqsetAlignment( AlignCenter );
 		pmTransitTime->setPalette( pal );
 		pmTransitTime->setFont( rsFont );
 		insertSeparator();
@@ -320,7 +320,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, TQString s1, TQString s2, TQStr
 	}
 
 	if ( showObsList && obj ) {
-		if ( ksw->observingList()->contains( obj ) )
+		if ( ksw->observingList()->tqcontains( obj ) )
 			insertItem( i18n("Remove From List"), ksw->observingList(), TQT_SLOT( slotRemoveObject() ) );
 		else 
 			insertItem( i18n("Add to List"), ksw->observingList(), TQT_SLOT( slotAddObject() ) );

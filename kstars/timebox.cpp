@@ -91,7 +91,7 @@ TQTime timeBox::createTime ( bool *ok )
 		TQStringList fields;
 		
 		//check for colon-delimiters or space-delimiters
-		if ( entry.contains(':') ) 
+		if ( entry.tqcontains(':') ) 
 			fields = TQStringList::split( ':', entry );
 		else fields = TQStringList::split( " ", entry ); 
 
@@ -113,9 +113,9 @@ TQTime timeBox::createTime ( bool *ok )
 		// ignore all after 3rd field
 
 		if ( fields.count() >= 3 ) {
-			fields[0].replace( TQRegExp("h"), "" );
-			fields[1].replace( TQRegExp("m"), "" );
-			fields[2].replace( TQRegExp("s"), "" );
+			fields[0].tqreplace( TQRegExp("h"), "" );
+			fields[1].tqreplace( TQRegExp("m"), "" );
+			fields[2].tqreplace( TQRegExp("s"), "" );
 		}
 		//See if first two fields parse as integers.
 		//
@@ -159,9 +159,9 @@ ExtDate timeBox::createDate (bool */*ok*/)
 
 	if ( !date.isValid() ) {
 		kdDebug() << k_funcinfo << "Invalid date" << endl;
-		showDate(ExtDate::currentDate());
+		showDate(ExtDate::tqcurrentDate());
 		entry = text().stripWhiteSpace();
-		return ExtDate::currentDate();
+		return ExtDate::tqcurrentDate();
 	} else {
 		return date;
 	}

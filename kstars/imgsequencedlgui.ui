@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>imgSequenceDlg</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -38,7 +38,7 @@
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout25</cstring>
+                        <cstring>tqlayout25</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -46,7 +46,7 @@
                         </property>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout24</cstring>
+                                <cstring>tqlayout24</cstring>
                             </property>
                             <hbox>
                                 <property name="name">
@@ -64,7 +64,7 @@
                                     <property name="name">
                                         <cstring>currentImgCountOUT</cstring>
                                     </property>
-                                    <property name="minimumSize">
+                                    <property name="tqminimumSize">
                                         <size>
                                             <width>50</width>
                                             <height>0</height>
@@ -89,7 +89,7 @@
                                     <property name="name">
                                         <cstring>fullImgCountOUT</cstring>
                                     </property>
-                                    <property name="minimumSize">
+                                    <property name="tqminimumSize">
                                         <size>
                                             <width>50</width>
                                             <height>0</height>
@@ -141,7 +141,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>51</width>
                             <height>20</height>
@@ -152,7 +152,7 @@
         </widget>
         <widget class="QLayoutWidget" row="2" column="0">
             <property name="name">
-                <cstring>layout9</cstring>
+                <cstring>tqlayout9</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -168,7 +168,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>270</width>
                             <height>20</height>
@@ -221,7 +221,7 @@
         </widget>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layout10</cstring>
+                <cstring>tqlayout10</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -240,7 +240,7 @@
                         </property>
                         <widget class="QLayoutWidget" row="0" column="0">
                             <property name="name">
-                                <cstring>layout30</cstring>
+                                <cstring>tqlayout30</cstring>
                             </property>
                             <hbox>
                                 <property name="name">
@@ -248,7 +248,7 @@
                                 </property>
                                 <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>layout29</cstring>
+                                        <cstring>tqlayout29</cstring>
                                     </property>
                                     <vbox>
                                         <property name="name">
@@ -328,7 +328,7 @@
                                 </widget>
                                 <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>layout28</cstring>
+                                        <cstring>tqlayout28</cstring>
                                     </property>
                                     <vbox>
                                         <property name="name">
@@ -404,7 +404,7 @@
                         </property>
                         <widget class="QLayoutWidget" row="0" column="0" rowspan="2" colspan="1">
                             <property name="name">
-                                <cstring>layout29_2</cstring>
+                                <cstring>tqlayout29_2</cstring>
                             </property>
                             <vbox>
                                 <property name="name">
@@ -460,7 +460,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>21</width>
                                     <height>81</height>
@@ -483,7 +483,7 @@
     <tabstop>stopB</tabstop>
     <tabstop>closeB</tabstop>
 </tabstops>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kprogress.h</includehint>
     <includehint>klineedit.h</includehint>

@@ -213,7 +213,7 @@ APN_USB_TYPE ApnUsbWriteRegMultiMRMD( unsigned short FpgaReg[],
 }
 
 
-APN_USB_TYPE ApnUsbReadStatusRegs( unsigned short *StatusReg,
+APN_USB_TYPE ApnUsbReadtqStatusRegs( unsigned short *tqStatusReg,
 				   unsigned short *HeatsinkTempReg,
 				   unsigned short *CcdTempReg,
 				   unsigned short *CoolerDriveReg,
@@ -226,15 +226,15 @@ APN_USB_TYPE ApnUsbReadStatusRegs( unsigned short *StatusReg,
         unsigned short RegNumber;
         struct apIOparam request;
 	unsigned short *Data;
-	unsigned char	StatusData[21];	
+	unsigned char	tqStatusData[21];	
 	
         request.reg = 0;  //check this *******************
-        request.param1=(unsigned long)&StatusData;
+        request.param1=(unsigned long)&tqStatusData;
         Success=ioctl(g_hSysDriver,APUSB_READ_STATUS,(unsigned long)&request);
 
 //	if ( !Success )
 //		return APN_USB_ERR_STATUS;
-	Data = (unsigned short *)StatusData;
+	Data = (unsigned short *)tqStatusData;
 
 	*HeatsinkTempReg	= Data[0];
 	*CcdTempReg		= Data[1];
@@ -242,11 +242,11 @@ APN_USB_TYPE ApnUsbReadStatusRegs( unsigned short *StatusReg,
 	*VoltageReg		= Data[3];
 	*TdiCounter		= Data[4];
 	*SequenceCounter	= Data[5];
-	*StatusReg		= Data[6];
+	*tqStatusReg		= Data[6];
 
-	if ( (StatusData[20] & 0x01) != 0 )
+	if ( (tqStatusData[20] & 0x01) != 0 )
 	{
-		*StatusReg |= 0x8;
+		*tqStatusReg |= 0x8;
 	}
 
 	return APN_USB_SUCCESS;

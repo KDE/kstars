@@ -8,7 +8,7 @@
 #include "ccvt_types.h"
 
 /* by suitable definition of PIXTYPE, can do yuv to rgb or bgr, with or
-without word alignment */
+without word tqalignment */
 
 /* This doesn't exactly earn a prize in a programming beauty contest. */
 

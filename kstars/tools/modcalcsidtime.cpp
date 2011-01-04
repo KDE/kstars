@@ -99,7 +99,7 @@ dms modCalcSidTime::getLongitude( void )
 }
 
 void modCalcSidTime::slotClearFields(){
-	datBox->setDate(ExtDate::currentDate());
+	datBox->setDate(ExtDate::tqcurrentDate());
 	TQTime time(0,0,0);
 	UtBox->setTime(time);
 	StBox->setTime(time);

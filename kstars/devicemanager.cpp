@@ -155,7 +155,7 @@ void DeviceManager::dataReceived()
 	    sNotifier->disconnect();
 	    close(serverFD);
 	    parent->removeDeviceMgr(mgrID);
-	    KMessageBox::error(0, TQString::fromLatin1(errmsg));
+	    KMessageBox::error(0, TQString::tqfromLatin1(errmsg));
 
             return;
 	}
@@ -397,7 +397,7 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 	if (timestamp)
 	   txt_w->insert(TQString(valuXMLAtt(timestamp)) + TQString(" "));
 	else
-	   txt_w->insert( KStarsDateTime::currentDateTime().toString("yyyy/mm/dd - h:m:s ap "));
+	   txt_w->insert( KStarsDateTime::tqcurrentDateTime().toString("yyyy/mm/dd - h:m:s ap "));
 	
 	/* finally! the msg */
         message = findXMLAtt(msg, "message");

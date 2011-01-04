@@ -236,7 +236,7 @@ bool KStarsData::readADVTreeData(void)
          subName = Name;
          interfaceIndex = Link.find("KSINTERFACE");
          Link.remove(interfaceIndex, 11);
-         Link = Link.insert(interfaceIndex, subName.replace( TQRegExp(" "), "+"));
+         Link = Link.insert(interfaceIndex, subName.tqreplace( TQRegExp(" "), "+"));
 
        }
 
@@ -390,7 +390,7 @@ bool KStarsData::readINDIHosts(void)
 }
 
 bool KStarsData::readCLineData( void ) {
-	//The constellation lines data file (clines.dat) contains lists
+	//The constellation lines data file (clines.dat) tqcontains lists
 	//of abbreviated genetive star names in the same format as they 
 	//appear in the star data files (hipNNN.dat).  
 	//
@@ -664,7 +664,7 @@ void KStarsData::processStar( TQString *line, bool reloadMode ) {
 
 	//parse name(s)
 	name = line->mid( 72 ).stripWhiteSpace(); //the rest of the line
-	if (name.contains( ':' )) { //genetive form exists
+	if (name.tqcontains( ':' )) { //genetive form exists
 		gname = name.mid( name.find(':')+1 ).stripWhiteSpace();
 		name = name.mid( 0, name.find(':') ).stripWhiteSpace();
 	}
@@ -964,15 +964,15 @@ bool KStarsData::openURLFile(TQString urlfile, TQFile & file) {
 								TQString line = gStream.readLine();
 
 								//If global-file line begins with "XXX:" then this line should be removed from the local file.
-								if ( line.left( 4 ) == "XXX:"  && urlData.contains( line.mid( 4 ) ) ) {
+								if ( line.left( 4 ) == "XXX:"  && urlData.tqcontains( line.mid( 4 ) ) ) {
 									urlData.remove( urlData.find( line.mid( 4 ) ) );
 								} else {
 									//does local file contain the current global file line, up to second ':' ?
 
 									bool linefound( false );
 									for ( unsigned int j=0; j< urlData.count(); ++j ) {
-										if ( urlData[j].contains( line.left( line.find( ':', line.find( ':' ) + 1 ) ) ) ) {
-											//replace line in urlData with its equivalent in the newer global file.
+										if ( urlData[j].tqcontains( line.left( line.find( ':', line.find( ':' ) + 1 ) ) ) ) {
+											//tqreplace line in urlData with its equivalent in the newer global file.
 											urlData.remove( urlData.at(j) );
 											urlData.insert( urlData.at(j), line );
 											if ( !newDataFound ) newDataFound = true;
@@ -1169,7 +1169,7 @@ CustomCatalog* KStarsData::createCustomCatalog( TQString filename, bool showerrs
 	TQString CatalogName, CatalogPrefix, CatalogColor;
 	float CatalogEpoch;
 
-	//If the filename begins with "~", replace the "~" with the user's home directory
+	//If the filename begins with "~", tqreplace the "~" with the user's home directory
 	//(otherwise, the file will not successfully open)
 	if ( filename.at(0)=='~' )
 		filename = TQDir::homeDirPath() + filename.mid( 1, filename.length() );
@@ -1393,7 +1393,7 @@ bool KStarsData::parseCustomDataHeader( TQStringList lines, TQStringList &Column
 		int icolor  = d.find( "# Color: " );
 		int iepoch  = d.find( "# Epoch: " );
 
-		if ( iname == 0 ) { //line contains catalog name
+		if ( iname == 0 ) { //line tqcontains catalog name
 			iname = d.find(":")+2;
 			if ( CatalogName.isEmpty() ) { 
 				CatalogName = d.mid( iname );
@@ -1402,7 +1402,7 @@ bool KStarsData::parseCustomDataHeader( TQStringList lines, TQStringList &Column
 					errs.append( i18n( "Parsing header: " ) + 
 							i18n( "Extra Name field in header: %1.  Will be ignored" ).arg( d.mid(iname) ) );
 			}
-		} else if ( iprefix == 0 ) { //line contains catalog prefix
+		} else if ( iprefix == 0 ) { //line tqcontains catalog prefix
 			iprefix = d.find(":")+2;
 			if ( CatalogPrefix.isEmpty() ) { 
 				CatalogPrefix = d.mid( iprefix );
@@ -1411,7 +1411,7 @@ bool KStarsData::parseCustomDataHeader( TQStringList lines, TQStringList &Column
 					errs.append( i18n( "Parsing header: " ) + 
 							i18n( "Extra Prefix field in header: %1.  Will be ignored" ).arg( d.mid(iprefix) ) );
 			}
-		} else if ( icolor == 0 ) { //line contains catalog prefix
+		} else if ( icolor == 0 ) { //line tqcontains catalog prefix
 			icolor = d.find(":")+2;
 			if ( CatalogColor.isEmpty() ) { 
 				CatalogColor = d.mid( icolor );
@@ -1420,7 +1420,7 @@ bool KStarsData::parseCustomDataHeader( TQStringList lines, TQStringList &Column
 					errs.append( i18n( "Parsing header: " ) + 
 							i18n( "Extra Color field in header: %1.  Will be ignored" ).arg( d.mid(icolor) ) );
 			}
-		} else if ( iepoch == 0 ) { //line contains catalog epoch
+		} else if ( iepoch == 0 ) { //line tqcontains catalog epoch
 			iepoch = d.find(":")+2;
 			if ( CatalogEpoch == 0. ) {
 				bool ok( false );
@@ -1438,7 +1438,7 @@ bool KStarsData::parseCustomDataHeader( TQStringList lines, TQStringList &Column
 			}
 		} else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
 			//Chomp off leading "#" character
-			d = d.replace( TQRegExp( "#" ), "" );
+			d = d.tqreplace( TQRegExp( "#" ), "" );
 
 			TQStringList fields = TQStringList::split( " ", d ); //split on whitespace
 
@@ -1452,7 +1452,7 @@ bool KStarsData::parseCustomDataHeader( TQStringList lines, TQStringList &Column
 
 			for ( ; itf != itfEnd; itf++ ) {
 				TQString s( *itf );
-				if ( master.contains( s ) ) {
+				if ( master.tqcontains( s ) ) {
 					//add the data field
 					Columns.append( s );
 
@@ -1462,7 +1462,7 @@ bool KStarsData::parseCustomDataHeader( TQStringList lines, TQStringList &Column
 						master.remove( master.find( s ) );
 						ncol++;
 					}
-				} else if ( fields.contains( s ) ) { //duplicate field
+				} else if ( fields.tqcontains( s ) ) { //duplicate field
 					fields.append( "Ig" ); //skip this column
 					if ( showerrs )
 						errs.append( i18n( "Parsing header: " ) + 

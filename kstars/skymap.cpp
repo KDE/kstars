@@ -74,7 +74,7 @@ SkyMap::SkyMap(KStarsData *d, TQWidget *parent, const char *name )
 	setBackgroundMode( TQWidget::NoBackground );
 	setFocusPolicy( TQWidget::StrongFocus );
 	setMinimumSize( 380, 250 );
-	setSizePolicy( TQSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Expanding ) );
+	tqsetSizePolicy( TQSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Expanding ) );
 
 	setMouseTracking (true); //Generate MouseMove events!
 	midMouseButtonDown = false;
@@ -1179,7 +1179,7 @@ void SkyMap::forceUpdate( bool now )
 	}
 
 	computeSkymap = true;
-	if ( now ) repaint();
+	if ( now ) tqrepaint();
 	else update();
 }
 
@@ -1252,18 +1252,18 @@ void SkyMap::setZoomMouseCursor()
 	p.drawLine( mx + 5, my + 5, mx + 11, my + 11 );
 	p.end();
 
-// create a mask to make parts of the pixmap invisible
-	TQBitmap mask (32, 32);
-	mask.fill (color0);	// all is invisible
+// create a tqmask to make parts of the pixmap invisible
+	TQBitmap tqmask (32, 32);
+	tqmask.fill (color0);	// all is invisible
 
-	p.begin (&mask);
+	p.begin (&tqmask);
 // paint over the parts which should be visible
 	p.setPen (TQPen (color1, 3));
 	p.drawEllipse( mx - 7, my - 7, 14, 14 );
 	p.drawLine( mx + 5, my + 5, mx + 12, my + 12 );
 	p.end();
 	
-	cursorPix.setMask (mask);	// set the mask
+	cursorPix.setMask (tqmask);	// set the tqmask
 	TQCursor cursor (cursorPix);
 	setCursor (cursor);
 }
@@ -1289,11 +1289,11 @@ void SkyMap::setDefaultMouseCursor()
 	p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
 	p.end();
 
-// create a mask to make parts of the pixmap invisible
-	TQBitmap mask (32, 32);
-	mask.fill (color0);	// all is invisible
+// create a tqmask to make parts of the pixmap invisible
+	TQBitmap tqmask (32, 32);
+	tqmask.fill (color0);	// all is invisible
 
-	p.begin (&mask);
+	p.begin (&tqmask);
 // paint over the parts which should be visible
 	p.setPen (TQPen (color1, 3));
 // 1. diagonal
@@ -1304,7 +1304,7 @@ void SkyMap::setDefaultMouseCursor()
 	p.drawLine (mx + 2, my - 2, mx + 8, mx - 8);
 	p.end();
 
-	cursorPix.setMask (mask);	// set the mask
+	cursorPix.setMask (tqmask);	// set the tqmask
 	TQCursor cursor (cursorPix);
 	setCursor (cursor);
 }
@@ -1313,7 +1313,7 @@ void SkyMap::setMouseMoveCursor()
 {
 	if (mouseButtonDown)
 	{
-		setCursor (9);	// cursor shape defined in qt
+		setCursor (9);	// cursor tqshape defined in qt
 		mouseMoveCursor = true;
 	}
 }

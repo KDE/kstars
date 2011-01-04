@@ -34,7 +34,7 @@ class INDI_G
   TQString       name;			/* Group name */
   INDI_D 	*dp;			/* Parent device */
   TQFrame        *propertyContainer;	/* Properties container */
-  TQVBoxLayout   *propertyLayout;        /* Properties layout */
+  TQVBoxLayout   *propertyLayout;        /* Properties tqlayout */
   TQSpacerItem   *VerticalSpacer;	/* Vertical spacer */
 
   TQPtrList<INDI_P> pl;			/* malloced list of pointers to properties */

@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>modCalcAngDistDlg</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -36,7 +36,7 @@
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout8</cstring>
+                            <cstring>tqlayout8</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -57,7 +57,7 @@
                                         <property name="name">
                                             <cstring>ra0Box</cstring>
                                         </property>
-                                        <property name="minimumSize">
+                                        <property name="tqminimumSize">
                                             <size>
                                                 <width>100</width>
                                                 <height>0</height>
@@ -71,7 +71,7 @@
                                         <property name="name">
                                             <cstring>dec0Box</cstring>
                                         </property>
-                                        <property name="minimumSize">
+                                        <property name="tqminimumSize">
                                             <size>
                                                 <width>100</width>
                                                 <height>0</height>
@@ -114,7 +114,7 @@
                                         <property name="name">
                                             <cstring>ra1Box</cstring>
                                         </property>
-                                        <property name="minimumSize">
+                                        <property name="tqminimumSize">
                                             <size>
                                                 <width>100</width>
                                                 <height>0</height>
@@ -128,7 +128,7 @@
                                         <property name="name">
                                             <cstring>dec1Box</cstring>
                                         </property>
-                                        <property name="minimumSize">
+                                        <property name="tqminimumSize">
                                             <size>
                                                 <width>100</width>
                                                 <height>0</height>
@@ -160,7 +160,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout7</cstring>
+                            <cstring>tqlayout7</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -176,7 +176,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>145</width>
                                         <height>20</height>
@@ -201,7 +201,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>146</width>
                                         <height>20</height>
@@ -226,7 +226,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>145</width>
                                         <height>20</height>
@@ -256,7 +256,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>102</width>
                                         <height>20</height>
@@ -275,7 +275,7 @@
                                 <property name="name">
                                     <cstring>distBox</cstring>
                                 </property>
-                                <property name="minimumSize">
+                                <property name="tqminimumSize">
                                     <size>
                                         <width>100</width>
                                         <height>0</height>
@@ -295,7 +295,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>70</width>
                                         <height>20</height>
@@ -314,7 +314,7 @@
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>21</width>
                                 <height>171</height>
@@ -525,7 +525,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout14</cstring>
+                            <cstring>tqlayout14</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -541,7 +541,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>151</width>
                                         <height>21</height>
@@ -574,7 +574,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>131</width>
                                         <height>21</height>
@@ -593,7 +593,7 @@
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="sizeHint">
+                        <property name="tqsizeHint">
                             <size>
                                 <width>20</width>
                                 <height>21</height>
@@ -667,7 +667,7 @@
     <slot>slotOutputFile()</slot>
     <slot>slotRunBatch()</slot>
 </slots>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>dmsbox.h</includehint>
     <includehint>dmsbox.h</includehint>

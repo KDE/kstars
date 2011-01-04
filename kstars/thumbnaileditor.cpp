@@ -130,7 +130,7 @@ void ThumbImage::paintEvent( TQPaintEvent* ) {
 }
 
 void ThumbImage::mousePressEvent( TQMouseEvent *e ) {
-	if ( e->button() == LeftButton && CropRect->contains( e->pos() ) ) {
+	if ( e->button() == LeftButton && CropRect->tqcontains( e->pos() ) ) {
 		bMouseButtonDown = true;
 
 		//The Anchor tells how far from the CropRect corner we clicked

@@ -77,7 +77,7 @@ void FOV::draw( TQPainter &p, float pixelsize ) {
 	int w = p.viewport().width();
 	int h = p.viewport().height();
 
-	switch ( shape() ) {
+	switch ( tqshape() ) {
 		case 0: { //Square
 			int s = int( pixelsize );
 			p.drawRect( (w - s)/2, (h - s)/2, s, s );

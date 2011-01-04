@@ -56,7 +56,7 @@ public:
 						 unsigned short val[], 
 						 unsigned short count );
 
-	long QueryStatusRegs( unsigned short& StatusReg,
+	long QuerytqStatusRegs( unsigned short& tqStatusReg,
 						  unsigned short& HeatsinkTempReg,
 						  unsigned short& CcdTempReg,
 						  unsigned short& CoolerDriveReg,

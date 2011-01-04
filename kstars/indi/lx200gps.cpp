@@ -32,7 +32,7 @@ extern LX200Generic *telescope;
 extern int MaxReticleFlashRate;
 
 static ISwitch GPSPowerS[]		= {{ "On", "", ISS_OFF, 0, 0}, {"Off", "", ISS_ON, 0, 0}};
-static ISwitch GPSStatusS[]	  	= {{ "Sleep", "", ISS_OFF, 0, 0}, {"Wake up", "", ISS_OFF, 0 ,0}, {"Restart", "", ISS_OFF, 0, 0}};
+static ISwitch GPStqStatusS[]	  	= {{ "Sleep", "", ISS_OFF, 0, 0}, {"Wake up", "", ISS_OFF, 0 ,0}, {"Restart", "", ISS_OFF, 0, 0}};
 static ISwitch GPSUpdateS[]	  	= { {"Update", "", ISS_OFF, 0, 0}};
 static ISwitch AltDecPecS[]		= {{ "Enable", "", ISS_OFF, 0 ,0}, {"Disable", "", ISS_OFF, 0 ,0}};
 static ISwitch AzRaPecS[]		= {{ "Enable", "", ISS_OFF, 0, 0}, {"Disable", "", ISS_OFF, 0 ,0}};
@@ -42,7 +42,7 @@ static ISwitch AzRaBackSlashS[]		= {{ "Activate", "", ISS_OFF, 0, 0}};
 static ISwitch OTAUpdateS[]		= {{ "Update", "", ISS_OFF, 0, 0}};
 
 static ISwitchVectorProperty GPSPowerSw	   = { mydev, "GPS Power", "", GPSGroup, IP_RW, ISR_1OFMANY, 0 , IPS_IDLE, GPSPowerS, NARRAY(GPSPowerS), "", 0};
-static ISwitchVectorProperty GPSStatusSw   = { mydev, "GPS Status", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSStatusS, NARRAY(GPSStatusS), "", 0};
+static ISwitchVectorProperty GPStqStatusSw   = { mydev, "GPS tqStatus", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPStqStatusS, NARRAY(GPStqStatusS), "", 0};
 static ISwitchVectorProperty GPSUpdateSw   = { mydev, "GPS System", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, GPSUpdateS, NARRAY(GPSUpdateS), "", 0};
 static ISwitchVectorProperty AltDecPecSw   = { mydev, "Alt/Dec PEC", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AltDecPecS, NARRAY(AltDecPecS), "", 0};
 static ISwitchVectorProperty AzRaPecSw	   = { mydev, "Az/Ra PEC", "", GPSGroup, IP_RW, ISR_1OFMANY, 0, IPS_IDLE, AzRaPecS, NARRAY(AzRaPecS), "", 0};
@@ -59,7 +59,7 @@ void updateTemp(void * /*p*/);
 void changeLX200GPSDeviceName(const char *newName)
 {
  strcpy(GPSPowerSw.device, newName);
- strcpy(GPSStatusSw.device, newName );
+ strcpy(GPStqStatusSw.device, newName );
  strcpy(GPSUpdateSw.device, newName  );
  strcpy(AltDecPecSw.device, newName );
  strcpy(AzRaPecSw.device,newName  );
@@ -87,7 +87,7 @@ if (dev && strcmp (thisDevice, dev))
    LX200_16::ISGetProperties(dev);
 
 IDDefSwitch (&GPSPowerSw, NULL);
-IDDefSwitch (&GPSStatusSw, NULL);
+IDDefSwitch (&GPStqStatusSw, NULL);
 IDDefSwitch (&GPSUpdateSw, NULL);
 IDDefSwitch (&AltDecPecSw, NULL);
 IDDefSwitch (&AzRaPecSw, NULL);
@@ -139,15 +139,15 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
       return;
     }
 
-    /* GPS Status Update */
-    if (!strcmp(name,GPSStatusSw.name))
+    /* GPS tqStatus Update */
+    if (!strcmp(name,GPStqStatusSw.name))
     {
-       if (checkPower(&GPSStatusSw))
+       if (checkPower(&GPStqStatusSw))
        return;
 
-      IUResetSwitches(&GPSStatusSw);
-      IUUpdateSwitches(&GPSStatusSw, states, names, n);
-      index = getOnSwitch(&GPSStatusSw);
+      IUResetSwitches(&GPStqStatusSw);
+      IUUpdateSwitches(&GPStqStatusSw, states, names, n);
+      index = getOnSwitch(&GPStqStatusSw);
 
       if (index == 0)
       {
@@ -167,8 +167,8 @@ void LX200GPS::ISNewNumber (const char *dev, const char *name, double values[], 
 	   updateLocation();
       }
 
-	GPSStatusSw.s = IPS_OK;
-	IDSetSwitch (&GPSStatusSw, "%s", msg);
+	GPStqStatusSw.s = IPS_OK;
+	IDSetSwitch (&GPStqStatusSw, "%s", msg);
 	return;
 
     }

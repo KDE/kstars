@@ -48,7 +48,7 @@ FindDialog::FindDialog( TQWidget* parent ) :
 	SearchBox = new TQLineEdit( page, "SearchBox" );
 
 	filterTypeLabel = new TQLabel( page, "filterTypeLabel" );
-	filterTypeLabel->setAlignment( AlignRight );
+	filterTypeLabel->tqsetAlignment( AlignRight );
 	filterTypeLabel->setText( i18n( "Filter by type: " ) );
 
 	filterType = new TQComboBox( page, "filterType" );
@@ -73,7 +73,7 @@ FindDialog::FindDialog( TQWidget* parent ) :
 	SearchList->setVScrollBarMode( TQListBox::AlwaysOn );
 	SearchList->setHScrollBarMode( TQListBox::AlwaysOff );
 
-//Pack Widgets into layout manager
+//Pack Widgets into tqlayout manager
 	hlay->addWidget( filterTypeLabel, 0, 0 );
 	hlay->addWidget( filterType, 0, 0 );
 

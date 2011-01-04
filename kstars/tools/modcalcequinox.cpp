@@ -56,7 +56,7 @@ int modCalcEquinox::getYear (TQString eName)
 
 void modCalcEquinox::showCurrentYear (void)
 {
-	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
+	KStarsDateTime dt( KStarsDateTime::tqcurrentDateTime() );
 	yearEdit->setText( TQString( "%1").arg( dt.date().year() ) );
 }
 

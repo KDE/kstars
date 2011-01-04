@@ -59,19 +59,19 @@ bool dms::setFromString( const TQString &str, bool isDeg ) {
 
 	//remove any instances of unit characters.
 	//h, d, m, s, ', ", or the degree symbol (ASCII 176)
-	entry.replace( TQRegExp("h"), "" );
-	entry.replace( TQRegExp("d"), "" );
-	entry.replace( TQRegExp("m"), "" );
-	entry.replace( TQRegExp("s"), "" );
+	entry.tqreplace( TQRegExp("h"), "" );
+	entry.tqreplace( TQRegExp("d"), "" );
+	entry.tqreplace( TQRegExp("m"), "" );
+	entry.tqreplace( TQRegExp("s"), "" );
 	TQString sdeg;
 	sdeg.sprintf("%c", 176);
-	entry.replace( TQRegExp(sdeg), "" );
-	entry.replace( TQRegExp("\'"), "" );
-	entry.replace( TQRegExp("\""), "" );
+	entry.tqreplace( TQRegExp(sdeg), "" );
+	entry.tqreplace( TQRegExp("\'"), "" );
+	entry.tqreplace( TQRegExp("\""), "" );
 
 	//Account for localized decimal-point settings
 	//TQString::toDouble() requires that the decimal symbol is "."
-	entry.replace( KGlobal::locale()->decimalSymbol(), "." );
+	entry.tqreplace( KGlobal::locale()->decimalSymbol(), "." );
  
 	//empty entry returns false
 	if ( entry.isEmpty() ) {
@@ -99,7 +99,7 @@ bool dms::setFromString( const TQString &str, bool isDeg ) {
 	TQStringList fields;
 
 	//check for colon-delimiters or space-delimiters
-	if ( entry.contains(':') )
+	if ( entry.tqcontains(':') )
 		fields = TQStringList::split( ':', entry );
 	else fields = TQStringList::split( " ", entry );
 

@@ -87,10 +87,10 @@ ScriptFunction::ScriptFunction( TQString name, TQString desc, bool clockfcn,
 	if ( NumArgs ) Description += " ";
 	Description += nameStyle.arg( ")" ) + "</p><p>";
 
-	//before adding description, replace any '%n' instances with the corresponding
+	//before adding description, tqreplace any '%n' instances with the corresponding
 	//argument name in color.  For now, assume that the %n's occur in order, with no skips.
 	//Also assume that '%' is *only* used to indicate argument instances
-	int narg = desc.contains( '%' );
+	int narg = desc.tqcontains( '%' );
 	switch (narg ) {
 		case 1:
 			Description += desc.arg( paramStyle.arg( an1 ) );
@@ -205,8 +205,8 @@ TQString ScriptFunction::scriptLine() const {
 	TQString out( Name );
 	unsigned int i=0;
 	while ( ! ArgName[i].isEmpty() && i < 6 ) {
-		// Wrap arg in quotes if it contains a space
-		if ( ArgVal[i].contains(" ") ) {
+		// Wrap arg in quotes if it tqcontains a space
+		if ( ArgVal[i].tqcontains(" ") ) {
 			out += " \"" + ArgVal[i] + "\"";
 		} else {
 			out += " " + ArgVal[i];

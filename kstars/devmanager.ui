@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>devManager</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -51,7 +51,7 @@
                         </column>
                         <column>
                             <property name="text">
-                                <string>Status</string>
+                                <string>tqStatus</string>
                             </property>
                             <property name="clickable">
                                 <bool>true</bool>
@@ -104,7 +104,7 @@
                                 <verstretch>0</verstretch>
                             </sizepolicy>
                         </property>
-                        <property name="minimumSize">
+                        <property name="tqminimumSize">
                             <size>
                                 <width>0</width>
                                 <height>125</height>
@@ -126,7 +126,7 @@
                                 <property name="name">
                                     <cstring>serverLogText</cstring>
                                 </property>
-                                <property name="minimumSize">
+                                <property name="tqminimumSize">
                                     <size>
                                         <width>0</width>
                                         <height>90</height>
@@ -178,7 +178,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout6</cstring>
+                            <cstring>tqlayout6</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -216,7 +216,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>61</width>
                                         <height>20</height>
@@ -241,7 +241,7 @@
                     <widget class="KListView">
                         <column>
                             <property name="text">
-                                <string>Status</string>
+                                <string>tqStatus</string>
                             </property>
                             <property name="clickable">
                                 <bool>true</bool>
@@ -278,7 +278,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>layout5_2</cstring>
+                            <cstring>tqlayout5_2</cstring>
                         </property>
                         <vbox>
                             <property name="name">
@@ -366,7 +366,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="sizeHint">
+                                <property name="tqsizeHint">
                                     <size>
                                         <width>20</width>
                                         <height>31</height>
@@ -380,7 +380,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout6</cstring>
+                <cstring>tqlayout6</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -396,7 +396,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>289</width>
                             <height>20</height>
@@ -426,7 +426,7 @@
         <slot>close()</slot>
     </connection>
 </connections>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klistview.h</includehint>
     <includehint>kpushbutton.h</includehint>

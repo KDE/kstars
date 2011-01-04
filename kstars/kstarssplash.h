@@ -50,7 +50,7 @@ class KStarsSplash : public KDialogBase
 
 	protected:
 	/**Paint event to redraw the widgets.  This only gets called when the timer fires.
-		*It should also repaint if another window was on top of the splash screen, but
+		*It should also tqrepaint if another window was on top of the splash screen, but
 		*this may be difficult to implement (it may be that the program is too busy loading data
 		*to notice that a redraw is required).
 		*/
@@ -65,7 +65,7 @@ class KStarsSplash : public KDialogBase
 			void closeWindow();
 
 	private:
-		TQLabel *textCurrentStatus, *label;
+		TQLabel *textCurrentqStatus, *label;
 		TQWidget *Banner;
 		TQPixmap *splashImage;
 };

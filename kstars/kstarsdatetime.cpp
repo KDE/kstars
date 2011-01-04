@@ -55,10 +55,10 @@ KStarsDateTime::KStarsDateTime( long double _jd ) : ExtDateTime() {
 	setDJD( _jd );
 }
 
-KStarsDateTime KStarsDateTime::currentDateTime() {
-	KStarsDateTime dt( ExtDate::currentDate(), TQTime::currentTime() );
+KStarsDateTime KStarsDateTime::tqcurrentDateTime() {
+	KStarsDateTime dt( ExtDate::tqcurrentDate(), TQTime::currentTime() );
 	if ( dt.time().hour()==0 && dt.time().minute()==0 ) // midnight or right after?
-			dt.setDate( ExtDate::currentDate() );         // fetch date again
+			dt.setDate( ExtDate::tqcurrentDate() );         // fetch date again
 	
 	return dt;
 }

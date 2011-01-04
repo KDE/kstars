@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-//This file contains Event handlers for the SkyMap class.
+//This file tqcontains Event handlers for the SkyMap class.
 
 #include <stdlib.h>
 #include <math.h> //using fabs()
@@ -453,7 +453,7 @@ void SkyMap::mouseMoveEvent( TQMouseEvent *e ) {
 	if ( ZoomRect.center().x() > 0 && ZoomRect.center().y() > 0 ) {
 		//cancel operation if the user let go of CTRL
 		if ( !( e->state() & ControlButton ) ) {
-			ZoomRect = TQRect(); //invalidate ZoomRect
+			ZoomRect = TQRect(); //tqinvalidate ZoomRect
 			update();
 		} else {
 			//Resize the rectangle so that it passes through the cursor position
@@ -600,7 +600,7 @@ void SkyMap::mouseReleaseEvent( TQMouseEvent * ) {
 		ksw->zoom( Options::zoomFactor() * factor );
 		
 		setDefaultMouseCursor();
-		ZoomRect = TQRect(); //invalidate ZoomRect
+		ZoomRect = TQRect(); //tqinvalidate ZoomRect
 		forceUpdate();
 	} else {
 		setDefaultMouseCursor();
@@ -733,7 +733,7 @@ void SkyMap::paintEvent( TQPaintEvent * )
 		*sky2 = *sky;
 		drawOverlays( sky2 );
 		bitBlt( this, 0, 0, sky2 );
-		return ; // exit because the pixmap is repainted and that's all what we want
+		return ; // exit because the pixmap is tqrepainted and that's all what we want
 	}
 
 	TQPainter psky;

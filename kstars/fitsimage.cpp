@@ -52,7 +52,7 @@
 /* Load info */
 typedef struct
 {
-  uint replace;    /* replacement for blank/NaN-values */
+  uint tqreplace;    /* tqreplacement for blank/NaN-values */
   uint use_datamin;/* Use DATAMIN/MAX-scaling if possible */
   uint compose;    /* compose images with naxis==3 */
 } FITSLoadVals;
@@ -76,7 +76,7 @@ FITSImage::FITSImage(TQWidget * parent, const char * name) : TQScrollView(parent
   currentZoom = 0.0;
   grayTable=new QRgb[256];
   for (int i=0;i<256;i++)
-        grayTable[i]=qRgb(i,i,i);
+        grayTable[i]=tqRgb(i,i,i);
   
   viewport()->setMouseTracking(true);
   imgFrame->setMouseTracking(true);
@@ -299,7 +299,7 @@ int FITSImage::loadFits (const char *filename)
  }
  trans.datamin = 0.0;
  trans.datamax = 255.0;
- trans.replacement = plvals.replace;
+ trans.tqreplacement = plvals.tqreplace;
  trans.dsttyp = 'c';
  
  //displayImage->create(width, height, 32); 
@@ -338,7 +338,7 @@ int FITSImage::loadFits (const char *filename)
      //for (j=0; j < width; j++)
      //{
        //val = dest[j];
-       //displayImage->setPixel(j, i, qRgb(val, val, val));
+       //displayImage->setPixel(j, i, tqRgb(val, val, val));
      //}
        for (j = 0 ; j < width; j++)
          displayImage->setPixel(j, i, dest[j]);

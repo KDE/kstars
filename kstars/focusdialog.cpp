@@ -152,7 +152,7 @@ long double FocusDialog::epochToJd (double epoch) {
 }
 
 
-TQSize FocusDialog::sizeHint() const
+TQSize FocusDialog::tqsizeHint() const
 {
   return TQSize(240,210);
 }

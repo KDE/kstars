@@ -31,7 +31,7 @@ MapCanvas::MapCanvas(TQWidget *parent, const char *name ) : TQWidget(parent,name
 	setBackgroundMode( TQWidget::NoBackground );
 	Canvas = new TQPixmap();
 	bgImage = new TQPixmap();
-	LocationDialog *ld = (LocationDialog *)topLevelWidget();
+	LocationDialog *ld = (LocationDialog *)tqtopLevelWidget();
 	KStars *ks = (KStars *)ld->parent();
 	TQString bgFile = ks->data()->stdDirs->findResource( "data", "kstars/geomap.png" );
 	bgImage->load( bgFile, "PNG" );
@@ -57,7 +57,7 @@ void MapCanvas::setGeometry( const TQRect &r ) {
 }
 
 void MapCanvas::mousePressEvent( TQMouseEvent *e ) {
-	LocationDialog *ld = (LocationDialog *)topLevelWidget();
+	LocationDialog *ld = (LocationDialog *)tqtopLevelWidget();
 
 	//Determine Lat/Long corresponding to event press
 	int lng = ( e->x() - origin.x() );
@@ -68,7 +68,7 @@ void MapCanvas::mousePressEvent( TQMouseEvent *e ) {
 
 void MapCanvas::paintEvent( TQPaintEvent * ) {
 	TQPainter pcanvas;
-	LocationDialog *ld = (LocationDialog *)topLevelWidget();
+	LocationDialog *ld = (LocationDialog *)tqtopLevelWidget();
   KStars *ks = (KStars *)ld->parent();
 
 	//prepare the canvas

@@ -30,7 +30,7 @@
 	*(Earth and Pluto have their own specialized classes derived from KSPlanetBase).  
 	*@note The Sun is subclassed from KSPlanet.
 	*
-	*KSPlanet contains internal classes to manage the computations of a planet's position.
+	*KSPlanet tqcontains internal classes to manage the computations of a planet's position.
 	*The position is computed as a series of sinusoidal sums, similar to a Fourier
 	*transform.  See "Astronomical Algorithms" by Jean Meeus or the file README.planetmath
 	*for details.
@@ -83,7 +83,7 @@ protected:
 	virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
 /**@class OrbitData 
-	*This class contains doubles A,B,C which represent a single term in a planet's
+	*This class tqcontains doubles A,B,C which represent a single term in a planet's
 	*positional expansion sums (each sum-term is A*COS(B+C*T)).
 	*@author Mark Hollomon
 	*@version 1.0
@@ -103,7 +103,7 @@ protected:
 
 	typedef TQPtrVector<OrbitData> OBArray[6];
 
-/**OrbitDataColl contains three groups of six QPtrVectors.  Each TQPtrVector is a
+/**OrbitDataColl tqcontains three groups of six QPtrVectors.  Each TQPtrVector is a
 	*list of OrbitData objects, representing a single sum used in computing
 	*the planet's position.  A set of six of these vectors comprises the large
 	*"meta-sum" which yields the planet's Longitude, Latitude, or Distance value.

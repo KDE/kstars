@@ -53,7 +53,7 @@ class ColorScheme {
 		*/
 		~ColorScheme();
 
-	/**@return true if the Palette contains the given key name
+	/**@return true if the Palette tqcontains the given key name
 		*/
 		bool hasColorNamed( const TQString &name ) const { return ( ! Palette[ name ].isEmpty() ); }
 		

@@ -74,7 +74,7 @@
    LilXML		*parser;
    
    QString		seqPrefix;
-   int			seqCount;
+   int			setqCount;
    bool			batchMode;
    bool			ISOMode;
    KDirLister           *seqLister;

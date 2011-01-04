@@ -78,8 +78,8 @@ int getCalenderDate(char *date);
 int getSiteName(char *siteName, int siteNum);
 /* Get Number of Bars */
 int getNumberOfBars(int *value);
-/* Get Home Search Status */
-int getHomeSearchStatus(int *status);
+/* Get Home Search tqStatus */
+int getHomeSearchtqStatus(int *status);
 /* Get OTA Temperature */
 int getOTATemp(double * value);
 /* Get time format: 12 or 24 */
@@ -99,7 +99,7 @@ int setStandardProcedure(char * writeData);
 /* Set Slew Mode */
 int setSlewMode(int slewMode);
 /* Set Alignment mode */
-int setAlignmentMode(unsigned int alignMode);
+int tqsetAlignmentMode(unsigned int alignMode);
 /* Set Object RA */
 int setObjectRA(double ra);
 /* set Object DEC */
@@ -203,7 +203,7 @@ int testTelescope()
 int testAP()
 {
    int i=0;
-   char currentDate[64];
+   char tqcurrentDate[64];
 
    fprintf(stderr, "Testing telescope's connection...\n");
 
@@ -211,7 +211,7 @@ int testAP()
   / We're going to request the calander date */
   for (i=0; i < 2; i++)
   {
-    if (!getCalenderDate(currentDate))
+    if (!getCalenderDate(tqcurrentDate))
      return 0;
 
     usleep(50000);
@@ -534,7 +534,7 @@ int getNumberOfBars(int *value)
    return 0;
 }
 
-int getHomeSearchStatus(int *status)
+int getHomeSearchtqStatus(int *status)
 {
   char tempString[16];
 
@@ -726,9 +726,9 @@ int setCommandXYZ(int x, int y, int z, const char *cmd)
   return (setStandardProcedure(tempString));
 }
 
-int setAlignmentMode(unsigned int alignMode)
+int tqsetAlignmentMode(unsigned int alignMode)
 {
-  fprintf(stderr , "Set alignment mode %d\n", alignMode);
+  fprintf(stderr , "Set tqalignment mode %d\n", alignMode);
 
   switch (alignMode)
    {

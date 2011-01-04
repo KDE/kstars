@@ -104,8 +104,8 @@ const long Reg_TempData = 9;				// Register 10
 const unsigned short RegBitShift_TempData = 0;	// Bit 0
 const unsigned short RegBitMask_TempData = 0xFF;	// 8 bits
 
-const long RegISA_Status = 0x006;			// Register 11 in firmware
-const long Reg_Status = 10;					// Register 11
+const long RegISA_tqStatus = 0x006;			// Register 11 in firmware
+const long Reg_tqStatus = 10;					// Register 11
 const unsigned short RegBit_Exposing = 0x1;			// Bit 0
 const unsigned short RegBit_LineDone = 0x2;			// Bit 1
 const unsigned short RegBit_CacheReadOK = 0x4;		// Bit 2
@@ -139,7 +139,7 @@ const long RegPCI_BICCounter            = 0x01C;        // Register 8 in PCI fir
 const long RegPCI_BICCounterRead        = 0x03C;
 const long RegPCI_ImageData = 0x000;            // Register 9 in PCI firmware
 const long RegPCI_TempData = 0x004;                     // Register 10 in PCI firmware
-const long RegPCI_Status = 0x00C;                       // Register 11 in firmware
+const long RegPCI_tqStatus = 0x00C;                       // Register 11 in firmware
 const long RegPCI_CommandReadback = 0x010;      // Register 12 in PCI firmware
 
 
@@ -161,7 +161,7 @@ public:
 	////////////////////////////////////////////////////////////
 	// Camera Settings
 
-	Camera_Status read_Status();		// Current camera state
+	Camera_tqStatus read_tqStatus();		// Current camera state
 										// <0: error codes
 										// 0: idle
 										// 1: flushing
@@ -223,7 +223,7 @@ public:
 	double read_CoolerSetPoint();				// Returns/sets setpoint temperature in degrees
 	void write_CoolerSetPoint( double val );	// Celcius.
 
-	Camera_CoolerStatus read_CoolerStatus();	// Returns current cooler status
+	Camera_CoolertqStatus read_CoolertqStatus();	// Returns current cooler status
 
 	Camera_CoolerMode read_CoolerMode();		// Returns/sets current cooler operation mode.
 	void write_CoolerMode( Camera_CoolerMode val );
@@ -271,8 +271,8 @@ public:
 	// Mask user requested set of IRQS
 //	void MaskIrqs();
 
-	// Restore default IRQ mask
-//	void UnmaskIrqs();
+	// Restore default IRQ tqmask
+//	void UntqmaskIrqs();
 
 	// Starts flushing the camera (which should be the normal idle state)
 	// If Rows is non-negative, only the specified number of rows are flushed,
@@ -300,7 +300,7 @@ public:
 
 	// The Duration parameter is the exposure time in seconds. The Light parameter controls
 	// the status of the shutter during the exposure, Light = True opens the shutter, Light
-	// = False closes the shutter. Returns immediately after invocation, poll the CameraStatus
+	// = False closes the shutter. Returns immediately after invocation, poll the CameratqStatus
 	// property to determine the start time of a triggered exposure and the end of an exposure.
 	bool Expose( double Duration, bool Light );
 
@@ -314,7 +314,7 @@ public:
 	// Drift scan methods
 
 	// Begins clocking and digitization of a single line of data begining with a vertical clock
-	// sequence and ending with a buffer full of line data. Poll the CameraStatus property to
+	// sequence and ending with a buffer full of line data. Poll the CameratqStatus property to
 	// determine when the data is ready for download.
 	bool DigitizeLine();
 
@@ -346,7 +346,7 @@ public:
 	short m_FilterStepPos;		// Current filter position in our internal array
 
 	bool m_Shutter;				// Last known shutter state
-	Camera_Status m_Status;		// Last known camera status
+	Camera_tqStatus m_tqStatus;		// Last known camera status
 
 	Camera_Interface m_Interface;		// String acronyms may be used in INI file.
 										// 0 or ISA: Industry Standard Architecture bus
@@ -356,8 +356,8 @@ public:
 	Camera_SensorType m_SensorType;		// 0 or CCD: Charge Coupled Device
 										// 1 or CMOS: Complementary Metal-Oxide-Silicon
 
-	Camera_CoolerStatus m_CoolerStatus;		// Last known cooler status.
-	unsigned int m_IRQMask;     	// Set of IRQs masked on user request										// 0: Off
+	Camera_CoolertqStatus m_CoolertqStatus;		// Last known cooler status.
+	unsigned int m_IRQMask;     	// Set of IRQs tqmasked on user request										// 0: Off
 											// 1: Ramping to set point
 											// 2: Correcting
 											// 3: Ramping to ambient

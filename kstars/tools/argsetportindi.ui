@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ArgSetPortINDI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -18,7 +18,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout23</cstring>
+                <cstring>tqlayout23</cstring>
             </property>
             <grid>
                 <property name="name">
@@ -62,7 +62,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>20</width>
                     <height>9</height>
@@ -71,7 +71,7 @@
         </spacer>
     </vbox>
 </widget>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

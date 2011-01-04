@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ArgSetFilterNumINDI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -21,7 +21,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout64</cstring>
+                <cstring>tqlayout64</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -29,7 +29,7 @@
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout63</cstring>
+                        <cstring>tqlayout63</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -55,7 +55,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout62</cstring>
+                        <cstring>tqlayout62</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -89,7 +89,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>27</width>
                             <height>21</height>
@@ -108,7 +108,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>20</width>
                     <height>9</height>
@@ -117,7 +117,7 @@
         </spacer>
     </vbox>
 </widget>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>knuminput.h</includehint>

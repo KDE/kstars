@@ -295,9 +295,9 @@ long config_load( char* cfgname, short BaseAddress, short RegOffset )
 		}
 
 		/////////////////////////////////////////////////////////////////////////////////
-		// Necessary geometry settings
+		// Necessary tqgeometry settings
 
-		if (CfgGet (inifp, "geometry", "rows", retbuf, sizeof(retbuf), &plen))
+		if (CfgGet (inifp, "tqgeometry", "rows", retbuf, sizeof(retbuf), &plen))
 		{
 			short val = hextoi(retbuf);
 			if ( val >= 1 && val <= MAXTOTALROWS ) cam->m_Rows = val;
@@ -310,7 +310,7 @@ long config_load( char* cfgname, short BaseAddress, short RegOffset )
 			return CCD_OPEN_CFGDATA;           // rows MUST be defined
 		}
 
-		if (CfgGet (inifp, "geometry", "columns", retbuf, sizeof(retbuf), &plen))
+		if (CfgGet (inifp, "tqgeometry", "columns", retbuf, sizeof(retbuf), &plen))
 		{
 			short val = hextoi(retbuf);
 			if ( val >= 1 && val <= MAXTOTALCOLUMNS ) cam->m_Columns = val;
@@ -490,31 +490,31 @@ long config_load( char* cfgname, short BaseAddress, short RegOffset )
 	/////////////////////////////////////////////////////////////////////////////////
     // Geometry
 
-    if (CfgGet (inifp, "geometry", "bic", retbuf, sizeof(retbuf), &plen))
+    if (CfgGet (inifp, "tqgeometry", "bic", retbuf, sizeof(retbuf), &plen))
 	{
         short val = hextoi(retbuf);
         if ( val >= 1 && val <= MAXCOLUMNS ) cam->m_BIC = val;
 	}
 
-    if (CfgGet (inifp, "geometry", "bir", retbuf, sizeof(retbuf), &plen))
+    if (CfgGet (inifp, "tqgeometry", "bir", retbuf, sizeof(retbuf), &plen))
 	{
         short val = hextoi(retbuf);
         if ( val >= 1 && val <= MAXROWS ) cam->m_BIR = val;
 	}
 
-	if (CfgGet (inifp, "geometry", "skipc", retbuf, sizeof(retbuf), &plen))
+	if (CfgGet (inifp, "tqgeometry", "skipc", retbuf, sizeof(retbuf), &plen))
 	{
         short val = hextoi(retbuf);
         if ( val >= 0 && val <= MAXCOLUMNS ) cam->m_SkipC = val;
 	}
 
-	if (CfgGet (inifp, "geometry", "skipr", retbuf, sizeof(retbuf), &plen))
+	if (CfgGet (inifp, "tqgeometry", "skipr", retbuf, sizeof(retbuf), &plen))
 	{
         short val = hextoi(retbuf);
         if ( val >= 0 && val <= MAXROWS ) cam->m_SkipR = val;
 	}
 
-    if (CfgGet (inifp, "geometry", "imgcols", retbuf, sizeof(retbuf), &plen))
+    if (CfgGet (inifp, "tqgeometry", "imgcols", retbuf, sizeof(retbuf), &plen))
 	{
         short val = hextoi(retbuf);
         if ( val >= 1 && val <= MAXTOTALCOLUMNS ) cam->m_ImgColumns = val;
@@ -522,7 +522,7 @@ long config_load( char* cfgname, short BaseAddress, short RegOffset )
 	else
 		cam->m_ImgColumns = cam->m_Columns - cam->m_BIC - cam->m_SkipC;
 
-    if (CfgGet (inifp, "geometry", "imgrows", retbuf, sizeof(retbuf), &plen))
+    if (CfgGet (inifp, "tqgeometry", "imgrows", retbuf, sizeof(retbuf), &plen))
 	{
         short val = hextoi(retbuf);
         if ( val >= 1 && val <= MAXTOTALROWS ) cam->m_ImgRows = val;
@@ -530,13 +530,13 @@ long config_load( char* cfgname, short BaseAddress, short RegOffset )
 	else
 		cam->m_ImgRows = cam->m_Rows - cam->m_BIR - cam->m_SkipR;
 
-    if (CfgGet (inifp, "geometry", "hflush", retbuf, sizeof(retbuf), &plen))
+    if (CfgGet (inifp, "tqgeometry", "hflush", retbuf, sizeof(retbuf), &plen))
 	{
         short val = hextoi(retbuf);
         if ( val >= 1 && val <= MAXHBIN ) cam->m_HFlush = val;
 	}
 
-    if (CfgGet (inifp, "geometry", "vflush", retbuf, sizeof(retbuf), &plen))
+    if (CfgGet (inifp, "tqgeometry", "vflush", retbuf, sizeof(retbuf), &plen))
 	{
         short val = hextoi(retbuf);
         if ( val >= 1 && val <= MAXVBIN ) cam->m_VFlush = val;

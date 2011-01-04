@@ -393,7 +393,7 @@ void ApogeeCam::ISNewNumber (const char */*dev*/, const char *name, double value
 void ApogeeCam::ISPoll()
 {
   static int mtc=5;
-  int readStatus=0;
+  int readtqStatus=0;
   double ccdTemp;
 
   if (!isCCDConnected())
@@ -407,16 +407,16 @@ void ApogeeCam::ISPoll()
 	    
     case IPS_BUSY:
       
-      readStatus = cam->read_Status();
-      if (readStatus < 0)
+      readtqStatus = cam->read_tqStatus();
+      if (readtqStatus < 0)
       {
-	IDLog("Error in exposure! Read status: %d\n", readStatus);
+	IDLog("Error in exposure! Read status: %d\n", readtqStatus);
 	ExposeTimeNP.s = IPS_ALERT;
 	ExposeTimeN[0].value = 0;
-	IDSetNumber(&ExposeTimeNP, "Error in exposure procedure. Read states: %d", readStatus);
+	IDSetNumber(&ExposeTimeNP, "Error in exposure procedure. Read states: %d", readtqStatus);
 	return;
       }
-      else if (readStatus == Camera_Status_ImageReady)
+      else if (readtqStatus == Camera_tqStatus_ImageReady)
       {
 	ExposeTimeN[0].value = 0;
 	ExposeTimeNP.s = IPS_OK;
@@ -891,7 +891,7 @@ bool ApogeeCam::initCamera()
 {
   LilXML *XMLParser = newLilXML();
   XMLEle *root = NULL, *camera = NULL, *ele = NULL;
-  XMLEle *system = NULL, *geometry = NULL, *temp = NULL, *ccd = NULL;
+  XMLEle *system = NULL, *tqgeometry = NULL, *temp = NULL, *ccd = NULL;
   XMLAtt *ap;
   FILE *spFile = NULL;
   char errmsg[1024];
@@ -948,7 +948,7 @@ bool ApogeeCam::initCamera()
   
   // Let's get the subsections now
   system   = findXMLEle(camera, "System");
-  geometry = findXMLEle(camera, "Geometry");
+  tqgeometry = findXMLEle(camera, "Geometry");
   temp     = findXMLEle(camera, "Temp");
   ccd      = findXMLEle(camera, "CCD");
   
@@ -960,7 +960,7 @@ bool ApogeeCam::initCamera()
     return false;
   }
   
-  if (geometry == NULL)
+  if (tqgeometry == NULL)
   {
     IDLog("Error: Unable to find Geometry element in camera.\n");
     IDMessage(mydev, "Error: Unable to find Geometry element in camera.");
@@ -1000,7 +1000,7 @@ bool ApogeeCam::initCamera()
   bAddr = hextoi(valuXMLAtt(findXMLAtt(system, "Base"))) & 0xFFF;
   
   // Rows
-  ap = findXMLAtt(geometry, "Rows");
+  ap = findXMLAtt(tqgeometry, "Rows");
   if (!ap)
   {
     IDLog("Error: Unable to find attribute Rows.\n");
@@ -1012,7 +1012,7 @@ bool ApogeeCam::initCamera()
   cam->m_Rows = hextoi(valuXMLAtt(ap));
   
   // Columns
-  ap = findXMLAtt(geometry, "Columns");
+  ap = findXMLAtt(tqgeometry, "Columns");
   if (!ap)
   {
     IDLog("Error: Unable to find attribute Columns.\n");
@@ -1210,7 +1210,7 @@ bool ApogeeCam::initCamera()
  }
  
  // BIC
-  ele = findXMLEle(geometry, "BIC");
+  ele = findXMLEle(tqgeometry, "BIC");
   if (ele)
   {
     val = hextoi(pcdataXMLEle(ele));
@@ -1219,7 +1219,7 @@ bool ApogeeCam::initCamera()
   }
   
    // BIR
-  ele = findXMLEle(geometry, "BIR");
+  ele = findXMLEle(tqgeometry, "BIR");
   if (ele)
   {
     val = hextoi(pcdataXMLEle(ele));
@@ -1228,7 +1228,7 @@ bool ApogeeCam::initCamera()
   }
   
   // SKIPC
-  ele = findXMLEle(geometry, "SKIPC");
+  ele = findXMLEle(tqgeometry, "SKIPC");
   if (ele)
   {
     val = hextoi(pcdataXMLEle(ele));
@@ -1237,7 +1237,7 @@ bool ApogeeCam::initCamera()
   }
   
   // SKIPR
-  ele = findXMLEle(geometry, "SKIPR");
+  ele = findXMLEle(tqgeometry, "SKIPR");
   if (ele)
   {
     val = hextoi(pcdataXMLEle(ele));
@@ -1246,7 +1246,7 @@ bool ApogeeCam::initCamera()
   }
   
   // IMG COlS
-  ele = findXMLEle(geometry, "ImgCols");
+  ele = findXMLEle(tqgeometry, "ImgCols");
   if (ele)
   {
     val = hextoi(pcdataXMLEle(ele));
@@ -1257,7 +1257,7 @@ bool ApogeeCam::initCamera()
     cam->m_ImgColumns = cam->m_Columns - cam->m_BIC - cam->m_SkipC;
   
   // IMG ROWS
-  ele = findXMLEle(geometry, "ImgRows");
+  ele = findXMLEle(tqgeometry, "ImgRows");
   if (ele)
   {
     val = hextoi(pcdataXMLEle(ele));
@@ -1268,7 +1268,7 @@ bool ApogeeCam::initCamera()
     cam->m_ImgRows = cam->m_Rows - cam->m_BIR - cam->m_SkipR;
   
   // Hor Flush
-  ele = findXMLEle(geometry, "HFlush");
+  ele = findXMLEle(tqgeometry, "HFlush");
   if (ele)
   {
     val = hextoi(pcdataXMLEle(ele));
@@ -1277,7 +1277,7 @@ bool ApogeeCam::initCamera()
   }
   
   // Ver Flush
-  ele = findXMLEle(geometry, "VFlush");
+  ele = findXMLEle(tqgeometry, "VFlush");
   if (ele)
   {
     val = hextoi(pcdataXMLEle(ele));

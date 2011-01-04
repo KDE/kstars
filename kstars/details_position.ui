@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>DetailsPositionUI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -21,7 +21,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout56</cstring>
+                <cstring>tqlayout56</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -70,7 +70,7 @@
                         </property>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout54</cstring>
+                                <cstring>tqlayout54</cstring>
                             </property>
                             <hbox>
                                 <property name="name">
@@ -78,7 +78,7 @@
                                 </property>
                                 <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>layout50</cstring>
+                                        <cstring>tqlayout50</cstring>
                                     </property>
                                     <grid>
                                         <property name="name">
@@ -154,7 +154,7 @@
                                             <property name="text">
                                                 <string>Dec (2000.0):</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -178,7 +178,7 @@
                                             <property name="text">
                                                 <string>RA (2000.0):</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -194,7 +194,7 @@
                                     <property name="sizeType">
                                         <enum>Expanding</enum>
                                     </property>
-                                    <property name="sizeHint">
+                                    <property name="tqsizeHint">
                                         <size>
                                             <width>90</width>
                                             <height>16</height>
@@ -203,7 +203,7 @@
                                 </spacer>
                                 <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>layout50_2</cstring>
+                                        <cstring>tqlayout50_2</cstring>
                                     </property>
                                     <grid>
                                         <property name="name">
@@ -279,7 +279,7 @@
                                             <property name="text">
                                                 <string>Altitude:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -303,7 +303,7 @@
                                             <property name="text">
                                                 <string>Azimuth:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -321,7 +321,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>20</width>
                                     <height>0</height>
@@ -330,7 +330,7 @@
                         </spacer>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout55</cstring>
+                                <cstring>tqlayout55</cstring>
                             </property>
                             <hbox>
                                 <property name="name">
@@ -338,7 +338,7 @@
                                 </property>
                                 <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>layout53</cstring>
+                                        <cstring>tqlayout53</cstring>
                                     </property>
                                     <hbox>
                                         <property name="name">
@@ -364,7 +364,7 @@
                                             <property name="text">
                                                 <string>Hour angle:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -405,7 +405,7 @@
                                     <property name="sizeType">
                                         <enum>Expanding</enum>
                                     </property>
-                                    <property name="sizeHint">
+                                    <property name="tqsizeHint">
                                         <size>
                                             <width>170</width>
                                             <height>20</height>
@@ -414,7 +414,7 @@
                                 </spacer>
                                 <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>layout52</cstring>
+                                        <cstring>tqlayout52</cstring>
                                     </property>
                                     <hbox>
                                         <property name="name">
@@ -440,7 +440,7 @@
                                             <property name="text">
                                                 <string>Airmass:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -487,7 +487,7 @@
             <property name="sizeType">
                 <enum>Fixed</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>20</width>
                     <height>16</height>
@@ -496,7 +496,7 @@
         </spacer>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout76</cstring>
+                <cstring>tqlayout76</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -545,7 +545,7 @@
                         </property>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout142</cstring>
+                                <cstring>tqlayout142</cstring>
                             </property>
                             <hbox>
                                 <property name="name">
@@ -553,7 +553,7 @@
                                 </property>
                                 <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>layout141</cstring>
+                                        <cstring>tqlayout141</cstring>
                                     </property>
                                     <grid>
                                         <property name="name">
@@ -629,7 +629,7 @@
                                             <property name="text">
                                                 <string>Set time:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -653,7 +653,7 @@
                                             <property name="text">
                                                 <string>Transit time:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -677,7 +677,7 @@
                                             <property name="text">
                                                 <string>Rise time:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -718,7 +718,7 @@
                                     <property name="sizeType">
                                         <enum>Expanding</enum>
                                     </property>
-                                    <property name="sizeHint">
+                                    <property name="tqsizeHint">
                                         <size>
                                             <width>83</width>
                                             <height>20</height>
@@ -727,7 +727,7 @@
                                 </spacer>
                                 <widget class="QLayoutWidget">
                                     <property name="name">
-                                        <cstring>layout140</cstring>
+                                        <cstring>tqlayout140</cstring>
                                     </property>
                                     <grid>
                                         <property name="name">
@@ -778,7 +778,7 @@
                                             <property name="text">
                                                 <string>Azimuth at set:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -802,7 +802,7 @@
                                             <property name="text">
                                                 <string>Altitude at transit:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -876,7 +876,7 @@
                                             <property name="text">
                                                 <string>Azimuth at rise:</string>
                                             </property>
-                                            <property name="alignment">
+                                            <property name="tqalignment">
                                                 <set>AlignTop</set>
                                             </property>
                                         </widget>
@@ -894,7 +894,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>20</width>
                                     <height>0</height>
@@ -909,7 +909,7 @@
 </widget>
 <customwidgets>
 </customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kactivelabel.h</includehint>
     <includehint>kactivelabel.h</includehint>

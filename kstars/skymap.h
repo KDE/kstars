@@ -47,7 +47,7 @@ class DeepSkyObject;
 	*Contains SkyPoint members for the map's Focus (current central position), Destination
 	*(requested central position), FocusPoint (next queued position to be focused),
 	*MousePoint (position of mouse cursor), and ClickedPoint (position of last mouse click).
-	*Also contains the InfoBoxes for on-screen data display.
+	*Also tqcontains the InfoBoxes for on-screen data display.
 	*
 	*SkyMap handles most user interaction events (both mouse and keyboard).
 	*
@@ -163,7 +163,7 @@ public:
 	*@note setDestination() emits the destinationChanged() SIGNAL,
 	*which triggers the TQT_SLOT function SkyMap::slewFocus().  This
 	*function iteratively steps the Focus point toward Destination, 
-	*repainting the sky at each step (if Options::useAnimatedSlewing()==true).
+	*tqrepainting the sky at each step (if Options::useAnimatedSlewing()==true).
 	*@param f a pointer to the SkyPoint the map should slew to
 	*/
 	void setDestination( SkyPoint *f );
@@ -368,7 +368,7 @@ public:
  */
 	bool isAngleMode() const {return angularDistanceMode;}
 
-/**@short update the geometry of the angle ruler
+/**@short update the tqgeometry of the angle ruler
  */
 	void updateAngleRuler();
 
@@ -388,7 +388,7 @@ public:
 /**@short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
 	*
 	*Each of the draw functions is called, with a value for the Scale parameter computed to fit the 
-	*geometry of the TQPaintDevice.
+	*tqgeometry of the TQPaintDevice.
 	*@param pd pointer to the TQPaintDevice on which to draw.  
 	*@see KStars::slotExportImage()
 	*@see KStars::slotPrint()
@@ -406,7 +406,7 @@ public slots:
 	*/
 	virtual void setGeometry( const TQRect &r );
 
-/**Recalculates the positions of objects in the sky, and then repaints the sky map.
+/**Recalculates the positions of objects in the sky, and then tqrepaints the sky map.
 	*If the positions don't need to be recalculated, use update() instead of forceUpdate().
 	*This saves a lot of CPU time.
 	*@param now if true, paintEvent() is run immediately.  Otherwise, it is added to the event queue
@@ -622,7 +622,7 @@ private slots:
 	*/
 	void slotTransientLabel();
 
-/**Set the shape of mouse cursor to a cross with 4 arrows. */
+/**Set the tqshape of mouse cursor to a cross with 4 arrows. */
 	void setMouseMoveCursor();
 
 private:
@@ -776,7 +776,7 @@ private:
 	void drawBoxes( TQPainter &p );
 	
 /**Draw symbols at the position of each Telescope currently being controlled by KStars.
-	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
+	*@note The tqshape of the Telescope symbol is currently a hard-coded bullseye.
 	*@note there is no scale factor because this is only used for drawing onto the screen, not printing.
 	*@param psky reference to the TQPainter on which to draw (this should be the Sky pixmap). 
 	*/
@@ -900,11 +900,11 @@ private:
 	*/
 	double findPA( SkyObject *o, int x, int y, double scale=1.0 );
 
-/**@short Sets the shape of the default mouse cursor to a cross.  
+/**@short Sets the tqshape of the default mouse cursor to a cross.  
 	*/
 	void setDefaultMouseCursor();
 
-/**@short Sets the shape of the mouse cursor to a magnifying glass.  
+/**@short Sets the tqshape of the mouse cursor to a magnifying glass.  
 	*/
 	void setZoomMouseCursor();
 
@@ -919,7 +919,7 @@ private:
 	bool mouseButtonDown, midMouseButtonDown;
 	bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor
 	bool slewing, clockSlewing;
-	bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
+	bool computeSkymap;  //if false only old pixmap will tqrepainted with bitBlt(), this saves a lot of cpu usage
 	bool angularDistanceMode;
 	int idSolInfo, idMessHST, idMoonInfo, idMoonImages, idMessInfo, idNGCHST;
 	int scrollCount;

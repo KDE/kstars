@@ -130,8 +130,8 @@ public slots:
     void updateMenuActions();
     void ClientprocessRightButton( TQListViewItem *, const TQPoint &, int );
     void LocalprocessRightButton( TQListViewItem *, const TQPoint &, int );
-    void processDeviceStatus(int);
-    void processHostStatus(int);
+    void processDevicetqStatus(int);
+    void processHostqStatus(int);
     void addINDIHost();
     void modifyINDIHost();
     void removeINDIHost();

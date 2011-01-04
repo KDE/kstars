@@ -95,7 +95,7 @@ void modCalcJD::slotClearTime (void)
 {
 	JdName->setText ("");
 	MjdName->setText ("");
-	datBox->setDate( ExtDate::currentDate() );
+	datBox->setDate( ExtDate::tqcurrentDate() );
 	timBox->setTime(TQTime(0,0,0));
 }
 
@@ -103,7 +103,7 @@ void modCalcJD::showCurrentTime (void)
 {
 	KStars *ks = (KStars*) parent()->parent()->parent();
 
-	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
+	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::tqcurrentDateTime() );
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
 	computeFromCalendar();

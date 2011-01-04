@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>OpsCatalogUI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -52,7 +52,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout8</cstring>
+                        <cstring>tqlayout8</cstring>
                     </property>
                     <grid>
                         <property name="name">
@@ -132,7 +132,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>65</width>
                                     <height>20</height>
@@ -149,7 +149,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>65</width>
                                     <height>20</height>
@@ -168,7 +168,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>20</width>
                             <height>16</height>
@@ -177,7 +177,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                 </spacer>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout9</cstring>
+                        <cstring>tqlayout9</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -223,7 +223,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>40</width>
                                     <height>20</height>
@@ -234,7 +234,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout7</cstring>
+                        <cstring>tqlayout7</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -250,7 +250,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                             <property name="sizeType">
                                 <enum>Fixed</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>20</width>
                                     <height>20</height>
@@ -275,7 +275,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout8</cstring>
+                        <cstring>tqlayout8</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -291,7 +291,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                             <property name="sizeType">
                                 <enum>Fixed</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>20</width>
                                     <height>20</height>
@@ -329,7 +329,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout15</cstring>
+                        <cstring>tqlayout15</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -362,7 +362,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                         </widget>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout14</cstring>
+                                <cstring>tqlayout14</cstring>
                             </property>
                             <vbox>
                                 <property name="name">
@@ -423,7 +423,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                                     <property name="sizeType">
                                         <enum>Expanding</enum>
                                     </property>
-                                    <property name="sizeHint">
+                                    <property name="tqsizeHint">
                                         <size>
                                             <width>20</width>
                                             <height>68</height>
@@ -436,7 +436,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout8_2</cstring>
+                        <cstring>tqlayout8_2</cstring>
                     </property>
                     <grid>
                         <property name="name">
@@ -522,7 +522,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>65</width>
                                     <height>20</height>
@@ -539,7 +539,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>65</width>
                                     <height>20</height>
@@ -560,7 +560,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="sizeHint">
+            <property name="tqsizeHint">
                 <size>
                     <width>20</width>
                     <height>16</height>
@@ -593,7 +593,7 @@ Magnitude is a measure of brightness; the larger the number, the fainter the obj
         <data format="XBM.GZ" length="79">789c534e494dcbcc4b554829cdcdad8c2fcf4c29c95030e0524611cd48cd4ccf28010a1797249664262b2467241641a592324b8aa363156c15aab914146aadb90067111b1f</data>
     </image>
 </images>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>magnitudespinbox.h</includehint>
     <includehint>magnitudespinbox.h</includehint>

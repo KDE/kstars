@@ -23,7 +23,7 @@
 #include <klocale.h>
 
 /**@class SkyObjectName
-	*Convenience class which contains a SkyObject's name and a pointer to the SkyObject
+	*Convenience class which tqcontains a SkyObject's name and a pointer to the SkyObject
 	*itself.  This class is used to construct the List of named objects that may be
 	*located with the FindDialog.
 	*@short convenience class for indexing SkyObjects by name.

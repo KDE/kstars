@@ -130,11 +130,11 @@ public:
 		*/
 	bool readCityData( void );
 
-	/**Read the data file that contains daylight savings time rules.
+	/**Read the data file that tqcontains daylight savings time rules.
 		*/
 	bool readTimeZoneRulebook( void );
 
-	/**Parse one line from a locations database file.  The line contains 10 or 11 fields
+	/**Parse one line from a locations database file.  The line tqcontains 10 or 11 fields
 		*separated by colons (":").  The fields are:
 		*@li City Name [string]
 		*@li Province Name (optional) [string]
@@ -351,7 +351,7 @@ public:
 	/**Read in URLs to be attached to a named object's right-click popup menu.  At this
 		*point, there is no way to attach URLs to unnamed objects.  There are two
 		*kinds of URLs, each with its own data file: image links and webpage links.  In addition,
-		*there may be user-specific versions with custom URLs.  Each line contains 3 fields
+		*there may be user-specific versions with custom URLs.  Each line tqcontains 3 fields
 		*separated by colons (":").  Note that the last field is the URL, and as such it will
 		*generally contain a colon itself.  Only the first two colons encountered are treated
 		*as field separators.  The fields are:

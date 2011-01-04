@@ -110,7 +110,7 @@ label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
 label_w->setFrameShape( KSqueezedTextLabel::Box );
 label_w->setPaletteBackgroundColor( TQColor( 224, 232, 238 ) );
 label_w->setTextFormat( TQLabel::RichText );
-label_w->setAlignment( int( TQLabel::WordBreak | TQLabel::AlignCenter ) );
+label_w->tqsetAlignment( int( TQLabel::WordBreak | TQLabel::AlignCenter ) );
 
 if (label.length() > MAX_LABEL_LENGTH)
 {
@@ -295,9 +295,9 @@ connect(slider_w, TQT_SIGNAL(sliderMoved(int)), this, TQT_SLOT(sliderChanged(int
 //kdDebug() << "For element " << label << " we have step of " << step << endl;
 
   if (length == ELEMENT_FULL_WIDTH)
-	spin_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)7, (TQSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
+	spin_w->tqsetSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)7, (TQSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
   else
-	spin_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
+	spin_w->tqsetSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)0, 0, 0, spin_w->sizePolicy().hasHeightForWidth() ) );
 	
 spin_w->setMinimumWidth( (int) (length * 0.45) );
 slider_w->setMinimumWidth( (int) (length * 0.55) );
@@ -359,7 +359,7 @@ void INDI_E::setMax (double inMax)
 void INDI_E::setupElementWrite(int length)
 {
     write_w = new KLineEdit( pp->pg->propertyContainer);
-    write_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)0, 0, 0, write_w->sizePolicy().hasHeightForWidth() ));
+    write_w->tqsetSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)0, 0, 0, write_w->sizePolicy().hasHeightForWidth() ));
     write_w->setMinimumWidth( length );
     write_w->setMaximumWidth( length);
     
@@ -377,7 +377,7 @@ void INDI_E::setupElementRead(int length)
   read_w->setFrameShape( KLineEdit::GroupBoxPanel );
   read_w->setFrameShadow( KLineEdit::Plain );
   read_w->setCursorPosition( 0 );
-  read_w->setAlignment( int( KLineEdit::AlignHCenter ) );
+  read_w->tqsetAlignment( int( KLineEdit::AlignHCenter ) );
   read_w->setReadOnly( TRUE );
   read_w->setText(text);
   
@@ -388,7 +388,7 @@ void INDI_E::setupElementRead(int length)
 void INDI_E::setupBrowseButton()
 {
    browse_w = new KPushButton("...", pp->pg->propertyContainer);
-   browse_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)5, (TQSizePolicy::SizeType)0, 0, 0, browse_w->sizePolicy().hasHeightForWidth() ) );
+   browse_w->tqsetSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)5, (TQSizePolicy::SizeType)0, 0, 0, browse_w->sizePolicy().hasHeightForWidth() ) );
    browse_w->setMinimumWidth( MIN_SET_WIDTH );
    browse_w->setMaximumWidth( MAX_SET_WIDTH );
 

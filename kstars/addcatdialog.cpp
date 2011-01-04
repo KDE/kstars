@@ -99,14 +99,14 @@ void AddCatDialog::slotHelp() {
  * Right Ascension: colon-delimited hh:mm:ss.s or floating-point value
  * Declination: colon-delimited dd:mm:ss.s or floating-point value
  * Object type: integer value, one of [ 0,1,2,3,4,5,6,7,8 ]
- * Common name: string value (if it contains a space, it *must* be enclosed in quotes!)
+ * Common name: string value (if it tqcontains a space, it *must* be enclosed in quotes!)
  * Magnitude: floating-point value
  * Major axis: floating-point value (length of major axis in arcmin)
  * Minor axis: floating-point value (length of minor axis in arcmin)
  * Position angle: floating-point value (position angle, in degrees)
  */
 bool AddCatDialog::validateDataFile() {
-	KStars *ksw = (KStars*) topLevelWidget()->parent(); 
+	KStars *ksw = (KStars*) tqtopLevelWidget()->parent(); 
 
 	//Create the catalog file contents: first the header
 	CatalogContents = writeCatalogHeader();
@@ -201,8 +201,8 @@ void AddCatDialog::slotPreviewCatalog() {
 
 void AddCatDialog::slotCreateCatalog() {
 	if ( validateDataFile() ) {
-		//CatalogContents now contains the text for the catalog file,
-		//and objList contains the parsed objects
+		//CatalogContents now tqcontains the text for the catalog file,
+		//and objList tqcontains the parsed objects
 
 		//Warn user if file exists!
 		if ( TQFile::exists( acd->CatalogURL->url() ) )

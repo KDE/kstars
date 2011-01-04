@@ -27,7 +27,7 @@ FileSource::FileSource(KStarsData *ksdata, float magnitude)
 //	kdDebug() << "count()=" << data->starList.count() << endl;
 	fileNumber = ksdata->starList.count() / 1000 + 1;
 	lineNumber = ksdata->starList.count() % 1000;
-	// the first file contains 12 comment lines at the beginning which must skipped
+	// the first file tqcontains 12 comment lines at the beginning which must skipped
 	if (fileNumber == 1) { lineNumber += 12; }
 //	kdDebug() << "fileNumber=" << fileNumber << " lineNumber=" << lineNumber << endl;
 

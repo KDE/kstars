@@ -710,7 +710,7 @@ send2Clients (ClInfo *notme, XMLEle *root, char *dev)
 	pthread_mutex_unlock (&client_m);
 }
 
-/* free Msg mp and everything it contains */
+/* free Msg mp and everything it tqcontains */
 static void
 freeMsg (Msg *mp)
 {

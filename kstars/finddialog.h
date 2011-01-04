@@ -35,7 +35,7 @@ class TQListBoxItem;
 class SkyObjectNameListItem;
 
 /**@class FindDialog
-	*Dialog window for finding SkyObjects by name.  The dialog contains
+	*Dialog window for finding SkyObjects by name.  The dialog tqcontains
 	*a TQListBox showing the list of named objects, a TQLineEdit for filtering
 	*the list by name, and a QCombobox for filtering the list by object type.
 	*

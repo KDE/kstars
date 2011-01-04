@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>histDialog</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -20,13 +20,13 @@
             <verstretch>0</verstretch>
         </sizepolicy>
     </property>
-    <property name="minimumSize">
+    <property name="tqminimumSize">
         <size>
             <width>640</width>
             <height>325</height>
         </size>
     </property>
-    <property name="maximumSize">
+    <property name="tqmaximumSize">
         <size>
             <width>640</width>
             <height>325</height>
@@ -44,7 +44,7 @@
         </property>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>layout17</cstring>
+                <cstring>tqlayout17</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -70,13 +70,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>500</width>
                             <height>150</height>
                         </size>
                     </property>
-                    <property name="maximumSize">
+                    <property name="tqmaximumSize">
                         <size>
                             <width>500</width>
                             <height>150</height>
@@ -101,7 +101,7 @@
         </widget>
         <widget class="QLayoutWidget" row="1" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>layout5</cstring>
+                <cstring>tqlayout5</cstring>
             </property>
             <grid>
                 <property name="name">
@@ -141,7 +141,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>130</width>
                             <height>20</height>
@@ -224,7 +224,7 @@
         </widget>
         <widget class="QLayoutWidget" row="2" column="0" rowspan="1" colspan="2">
             <property name="name">
-                <cstring>layout13</cstring>
+                <cstring>tqlayout13</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -240,7 +240,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>270</width>
                             <height>20</height>
@@ -332,7 +332,7 @@
         <slot>reject()</slot>
     </connection>
 </connections>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

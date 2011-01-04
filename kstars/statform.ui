@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>statForm</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -176,5 +176,5 @@
     <tabstop>meanOUT</tabstop>
     <tabstop>stddevOUT</tabstop>
 </tabstops>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 </UI>

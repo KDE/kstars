@@ -282,7 +282,7 @@ public:
 	*/
 	void geodToCart (void);
 
-/**The geoid is an elliposid which fits the shape of the Earth. It is
+/**The geoid is an elliposid which fits the tqshape of the Earth. It is
 	*characterized by two parameters: the semimajor axis and the
 	*flattening.
 	*

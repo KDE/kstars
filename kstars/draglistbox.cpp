@@ -36,7 +36,7 @@ void DragListBox::dragEnterEvent( TQDragEnterEvent *evt )
 		evt->accept();
 }
 
-bool DragListBox::contains( const TQString &s ) const {
+bool DragListBox::tqcontains( const TQString &s ) const {
 	for ( uint i=0; i<count(); ++i )
 		if ( text(i) == s ) return true;
 

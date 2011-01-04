@@ -92,7 +92,7 @@ bool CApnCamera::GetImageData( unsigned short *pImageBuffer,
 	while ( !ImageReady() )
 	{
 		Sleep( 50 );
-		read_ImagingStatus();
+		read_ImagingtqStatus();
 	}
 
 	Width	= m_pvtWidth;
@@ -238,7 +238,7 @@ long CApnCamera::WriteMultiMRMD( unsigned short reg[], unsigned short val[], uns
 }
 
 
-long CApnCamera::QueryStatusRegs( unsigned short& StatusReg,
+long CApnCamera::QuerytqStatusRegs( unsigned short& tqStatusReg,
 									  unsigned short& HeatsinkTempReg,
 									  unsigned short& CcdTempReg,
 									  unsigned short& CoolerDriveReg,
@@ -262,7 +262,7 @@ long CApnCamera::QueryStatusRegs( unsigned short& StatusReg,
 		return 1;
 	}
 
-	StatusReg		= RegData[0];
+	tqStatusReg		= RegData[0];
 	HeatsinkTempReg	= RegData[1];
 	CcdTempReg		= RegData[2];
 	CoolerDriveReg	= RegData[3];

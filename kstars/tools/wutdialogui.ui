@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>WUTDialogUI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -21,7 +21,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout25</cstring>
+                <cstring>tqlayout25</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -29,7 +29,7 @@
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout24</cstring>
+                        <cstring>tqlayout24</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -37,7 +37,7 @@
                         </property>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout23</cstring>
+                                <cstring>tqlayout23</cstring>
                             </property>
                             <grid>
                                 <property name="name">
@@ -47,7 +47,7 @@
                                     <property name="name">
                                         <cstring>LocationLabel</cstring>
                                     </property>
-                                    <property name="minimumSize">
+                                    <property name="tqminimumSize">
                                         <size>
                                             <width>200</width>
                                             <height>0</height>
@@ -78,7 +78,7 @@
                                     <property name="sizeType">
                                         <enum>Expanding</enum>
                                     </property>
-                                    <property name="sizeHint">
+                                    <property name="tqsizeHint">
                                         <size>
                                             <width>30</width>
                                             <height>20</height>
@@ -95,7 +95,7 @@
                                     <property name="sizeType">
                                         <enum>Expanding</enum>
                                     </property>
-                                    <property name="sizeHint">
+                                    <property name="tqsizeHint">
                                         <size>
                                             <width>20</width>
                                             <height>20</height>
@@ -106,7 +106,7 @@
                                     <property name="name">
                                         <cstring>DateLabel</cstring>
                                     </property>
-                                    <property name="minimumSize">
+                                    <property name="tqminimumSize">
                                         <size>
                                             <width>200</width>
                                             <height>0</height>
@@ -125,7 +125,7 @@
                         </widget>
                         <widget class="QLayoutWidget">
                             <property name="name">
-                                <cstring>layout13</cstring>
+                                <cstring>tqlayout13</cstring>
                             </property>
                             <hbox>
                                 <property name="name">
@@ -141,7 +141,7 @@
                                     <property name="sizeType">
                                         <enum>Expanding</enum>
                                     </property>
-                                    <property name="sizeHint">
+                                    <property name="tqsizeHint">
                                         <size>
                                             <width>108</width>
                                             <height>20</height>
@@ -162,7 +162,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>layout9</cstring>
+                        <cstring>tqlayout9</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -241,7 +241,7 @@
                     <property name="name">
                         <cstring>SunRiseLabel</cstring>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>0</width>
                             <height>20</height>
@@ -261,7 +261,7 @@
                     <property name="name">
                         <cstring>MoonRiseLabel</cstring>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>0</width>
                             <height>20</height>
@@ -281,7 +281,7 @@
                     <property name="name">
                         <cstring>MoonSetLabel</cstring>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>0</width>
                             <height>20</height>
@@ -301,7 +301,7 @@
                     <property name="name">
                         <cstring>SunSetLabel</cstring>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>0</width>
                             <height>20</height>
@@ -321,7 +321,7 @@
                     <property name="name">
                         <cstring>NightDurationLabel</cstring>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>0</width>
                             <height>20</height>
@@ -341,7 +341,7 @@
                     <property name="name">
                         <cstring>MoonIllumLabel</cstring>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>0</width>
                             <height>20</height>
@@ -361,7 +361,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>layout10</cstring>
+                <cstring>tqlayout10</cstring>
             </property>
             <grid>
                 <property name="name">
@@ -377,7 +377,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="sizeHint">
+                    <property name="tqsizeHint">
                         <size>
                             <width>164</width>
                             <height>12</height>
@@ -402,7 +402,7 @@
                     <property name="name">
                         <cstring>ObjectListBox</cstring>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>150</width>
                             <height>0</height>
@@ -433,7 +433,7 @@
                             <property name="text">
                                 <string>Rises at:  22:12</string>
                             </property>
-                            <property name="alignment">
+                            <property name="tqalignment">
                                 <set>AlignVCenter</set>
                             </property>
                             <property name="whatsThis" stdset="0">
@@ -447,7 +447,7 @@
                             <property name="text">
                                 <string>Transits at:  03:45</string>
                             </property>
-                            <property name="alignment">
+                            <property name="tqalignment">
                                 <set>AlignVCenter</set>
                             </property>
                             <property name="whatsThis" stdset="0">
@@ -461,7 +461,7 @@
                             <property name="text">
                                 <string>Sets at:  08:22</string>
                             </property>
-                            <property name="alignment">
+                            <property name="tqalignment">
                                 <set>AlignVCenter</set>
                             </property>
                             <property name="whatsThis" stdset="0">
@@ -478,7 +478,7 @@
                             <property name="sizeType">
                                 <enum>Fixed</enum>
                             </property>
-                            <property name="sizeHint">
+                            <property name="tqsizeHint">
                                 <size>
                                     <width>20</width>
                                     <height>40</height>
@@ -519,7 +519,7 @@
                     <property name="name">
                         <cstring>CategoryListBox</cstring>
                     </property>
-                    <property name="minimumSize">
+                    <property name="tqminimumSize">
                         <size>
                             <width>100</width>
                             <height>0</height>
@@ -552,7 +552,7 @@
 </widget>
 <customwidgets>
 </customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>

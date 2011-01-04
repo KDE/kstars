@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>DetailsDatabaseUI</cstring>
     </property>
-    <property name="geometry">
+    <property name="tqgeometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -48,7 +48,7 @@
 </widget>
 <customwidgets>
 </customwidgets>
-<layoutdefaults spacing="6" margin="11"/>
+<tqlayoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klistview.h</includehint>
 </includehints>

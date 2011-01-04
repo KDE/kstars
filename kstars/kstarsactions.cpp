@@ -87,7 +87,7 @@
 #endif  // KDE >= 3.2.90
 #include "imagesequence.h"
 
-//This file contains function definitions for Actions declared in kstars.h
+//This file tqcontains function definitions for Actions declared in kstars.h
 
 /** ViewToolBar Action.  All of the viewToolBar buttons are connected to this slot. **/
 
@@ -227,7 +227,7 @@ void KStars::slotImageSequence()
   if (indiseq == NULL)
     indiseq = new imagesequence(this);
 
-  if (indiseq->updateStatus())
+  if (indiseq->updatetqStatus())
     indiseq->show();
 }
 
@@ -248,7 +248,7 @@ void KStars::slotINDIPanel() {
    if (indimenu == NULL)
      indimenu = new INDIMenu(this);
 
-   indimenu->updateStatus();
+   indimenu->updatetqStatus();
 }
 
 void KStars::slotINDIDriver() {
@@ -553,7 +553,7 @@ void KStars::slotRunScript() {
 
 		if ( ! fileOK ) {
 			int answer;
-			answer = KMessageBox::warningContinueCancel( 0, i18n( "The selected script contains unrecognized elements,"
+			answer = KMessageBox::warningContinueCancel( 0, i18n( "The selected script tqcontains unrecognized elements,"
 				"indicating that it was not created using the KStars script builder. "
 				"This script may not function properly, and it may even contain malicious code. "
 				"Would you like to execute it anyway?" ),
@@ -595,7 +595,7 @@ void KStars::slotPrint() {
 
 //Set Time to CPU clock
 void KStars::slotSetTimeToNow() {
-	data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::currentDateTime() ) );
+	data()->changeDateTime( geo()->LTtoUT( KStarsDateTime::tqcurrentDateTime() ) );
 
 	if ( Options::useAltAz() ) {
 		map()->focus()->HorizontalToEquatorial( LST(), geo()->lat() );
@@ -823,7 +823,7 @@ void KStars::slotTargetSymbol() {
 
 	Options::setFOVName( f.name() );
 	Options::setFOVSize( f.size() );
-	Options::setFOVShape( f.shape() );
+	Options::setFOVShape( f.tqshape() );
 	Options::setFOVColor( f.color() );
 	data()->fovSymbol.setName( Options::fOVName() );
 	data()->fovSymbol.setSize( Options::fOVSize() );
@@ -840,7 +840,7 @@ void KStars::slotTargetSymbol() {
 void KStars::slotFOVEdit() {
 	FOVDialog fovdlg( this );
 	if ( fovdlg.exec() == TQDialog::Accepted ) {
-		//replace existing fov.dat with data from the FOVDialog
+		//tqreplace existing fov.dat with data from the FOVDialog
 		TQFile f;
 		f.setName( locateLocal( "appdata", "fov.dat" ) );
 
@@ -856,7 +856,7 @@ void KStars::slotFOVEdit() {
 
 				for ( FOV *fov = fovdlg.FOVList.first(); fov; fov = fovdlg.FOVList.next() )
 					ostream << fov->name() << ":" << fov->size()
-							<< ":" << TQString("%1").arg( fov->shape() ) << ":" << fov->color() << endl;
+							<< ":" << TQString("%1").arg( fov->tqshape() ) << ":" << fov->color() << endl;
 
 				f.close();
 			}
@@ -914,11 +914,11 @@ void KStars::slotTipOfDay() {
 // Toggle to and from full screen mode
 void KStars::slotFullScreen()
 {
-  if ( topLevelWidget()->isFullScreen() ) {
-    topLevelWidget()->showNormal();
+  if ( tqtopLevelWidget()->isFullScreen() ) {
+    tqtopLevelWidget()->showNormal();
     }
   else {
-    topLevelWidget()->showFullScreen();
+    tqtopLevelWidget()->showFullScreen();
     }
 }
 

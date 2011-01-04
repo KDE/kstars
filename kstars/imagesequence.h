@@ -27,7 +27,7 @@ public:
   ~imagesequence();
   
 
-bool updateStatus();
+bool updatetqStatus();
 
 private:
 KStars *ksw;

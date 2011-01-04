@@ -48,8 +48,8 @@ KSComet::KSComet( KStarsData *_kd, TQString _s, TQString imfile,
 	//Compute the orbital Period from Kepler's 3rd law:
 	P = 365.2568984 * pow(a, 1.5); //period in days
 
-	//If the name contains a "/", make this name2 and make name a truncated version without the leading "P/" or "C/"
-	if ( name().contains( "/" ) ) {
+	//If the name tqcontains a "/", make this name2 and make name a truncated version without the leading "P/" or "C/"
+	if ( name().tqcontains( "/" ) ) {
 		setLongName( name() );
 		setName( name().mid( name().find("/") + 1 ) );
 	}

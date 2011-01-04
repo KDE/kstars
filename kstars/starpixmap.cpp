@@ -69,7 +69,7 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 	if (colorIntensity < 0) colorIntensity = 0;	// min
 
 	TQPixmap pix (STARSIZE, STARSIZE);
-	TQBitmap mask (STARSIZE, STARSIZE);
+	TQBitmap tqmask (STARSIZE, STARSIZE);
 	TQImage image;
 	TQPainter p;
 	TQMemArray<TQColor> starColor;
@@ -104,9 +104,9 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 			p.end();
 		}
 
-		mask.fill (Qt::color0);
+		tqmask.fill (Qt::color0);
 
-		p.begin (&mask);
+		p.begin (&tqmask);
 		p.setPen (TQPen ( Qt::color1, 1));
 		p.setBrush( TQBrush( Qt::color1 ) );
 		p.drawEllipse(0, 0, STARSIZE, STARSIZE);
@@ -117,7 +117,7 @@ void StarPixmap::loadPixmaps (int newColorMode, int newColorIntensity) {
 		TQImage tmp = pix.convertToImage();
 		pix.convertFromImage( KImageEffect::blur( tmp, 100.0 ) );
 
-		pix.setMask (mask);	// set the mask
+		pix.setMask (tqmask);	// set the tqmask
 		image = pix.convertToImage();	// create the image for smoothScale()
 
 		for (int i = 0; i < 26; i++)

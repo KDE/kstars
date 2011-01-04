@@ -109,10 +109,10 @@ int main(int argc, char *argv[])
 		TQString datestring = args->getOption( "date" );
 		KStarsDateTime kdt;
 		if ( ! datestring.isEmpty() ) {
-			if ( datestring.contains( "-" ) ) { //assume ISODate format
-				if ( datestring.contains( ":" ) ) { //also includes time
+			if ( datestring.tqcontains( "-" ) ) { //assume ISODate format
+				if ( datestring.tqcontains( ":" ) ) { //also includes time
 					kdt = KStarsDateTime::fromString( datestring, Qt::ISODate );
-				} else { //string probably contains date only
+				} else { //string probably tqcontains date only
 					kdt.setDate( ExtDate::fromString( datestring, Qt::ISODate ) );
 					kdt.setTime( TQTime( 0, 0, 0 ) );
 				}
@@ -128,10 +128,10 @@ int main(int argc, char *argv[])
 				kdWarning() << "  25 Feb 1950 ;  25 Feb 1950 05:30:00" << endl;
 				kdWarning() << i18n( "Using CPU date/time instead." ) << endl;
 				
-				kdt = dat->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
+				kdt = dat->geo()->LTtoUT( KStarsDateTime::tqcurrentDateTime() );
 			}
 		} else { 
-			kdt = dat->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
+			kdt = dat->geo()->LTtoUT( KStarsDateTime::tqcurrentDateTime() );
 		}
 		dat->clock()->setUTC( kdt );
 		

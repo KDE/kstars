@@ -1676,7 +1676,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
 {double offs, scale;
  double datadiff, pixdiff;
  unsigned char pixbuffer[4096], *pix, *cdata;
- unsigned char creplace;
+ unsigned char ctqreplace;
  int transcount = 0;
  long tdata, tmin, tmax;
  int maxelem;
@@ -1706,7 +1706,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
  if (tmax < 0) tmax = 0; else if (tmax > 255) tmax = 255;
 
  cdata = (unsigned char *)buf;
- creplace = (unsigned char)trans->replacement;
+ ctqreplace = (unsigned char)trans->tqreplacement;
 
  switch (hdulist->bitpix)
  {
@@ -1727,7 +1727,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
          {
            bp8 = (FITS_BITPIX8)*(pix++);
            if (bp8 == bp8blank)      /* Is it a blank pixel ? */
-             *(cdata++) = creplace;
+             *(cdata++) = ctqreplace;
            else                      /* Do transform */
            {
              tdata = (long)(bp8 * scale + offs);
@@ -1770,7 +1770,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
          {
            FITS_GETBITPIX16 (pix, bp16);
            if (bp16 == bp16blank)
-             *(cdata++) = creplace;
+             *(cdata++) = ctqreplace;
            else
            {
              tdata = (long)(bp16 * scale + offs);
@@ -1815,7 +1815,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
          {
            FITS_GETBITPIX32 (pix, bp32);
            if (bp32 == bp32blank)
-             *(cdata++) = creplace;
+             *(cdata++) = ctqreplace;
            else
            {
              tdata = (long)(bp32 * scale + offs);
@@ -1856,7 +1856,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
        while (maxelem--)
        {
          if (fits_nan_32 (pix))    /* An IEEE special value ? */
-           *(cdata++) = creplace;
+           *(cdata++) = ctqreplace;
          else                      /* Do transform */
          {
            FITS_GETBITPIXM32 (pix, bpm32);
@@ -1884,7 +1884,7 @@ int fits_read_pixel (FITS_FILE *ff, FITS_HDU_LIST *hdulist, int npix,
        while (maxelem--)
        {
          if (fits_nan_64 (pix))
-           *(cdata++) = creplace;
+           *(cdata++) = ctqreplace;
          else
          {
            FITS_GETBITPIXM64 (pix, bpm64);
@@ -1953,7 +1953,7 @@ int fits_to_pgmraw (char *fitsfile, char *pgmfile)
  trans.pixmax = hdu->pixmax;
  trans.datamin = 0.0;
  trans.datamax = 255.0;
- trans.replacement = 0.0;  /* Blank/NaN replacement value */
+ trans.tqreplacement = 0.0;  /* Blank/NaN tqreplacement value */
  trans.dsttyp = 'c';       /* Output type is character */
 
  nbytes = hdu->naxisn[0]*hdu->naxisn[1];

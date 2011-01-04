@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-//This file contains drawing functions SkyMap class.
+//This file tqcontains drawing functions SkyMap class.
 
 #include <stdlib.h> // abs
 #include <math.h> //log10()
@@ -1578,7 +1578,7 @@ void SkyMap::drawPlanetTrail( TQPainter& psky, KSPlanetBase *ksp, double scale )
 			if ( ( o.x() >= -1000 && o.x() <= Width+1000 && o.y() >=-1000 && o.y() <= Height+1000 ) ) {
 
 				//Want to disable line-drawing if this point and the last are both outside bounds of display.
-				if ( ! rect().contains( o ) && ! rect().contains( cur ) ) doDrawLine = false;
+				if ( ! rect().tqcontains( o ) && ! rect().tqcontains( cur ) ) doDrawLine = false;
 				cur = o;
 
 				if ( doDrawLine ) {

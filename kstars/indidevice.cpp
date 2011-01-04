@@ -605,7 +605,7 @@ INDI_P * INDI_D::addProperty (XMLEle *root, char errmsg[])
 	    return NULL;
 	}
 
-	/* Remove Vertical spacer from group layout, this is done everytime
+	/* Remove Vertical spacer from group tqlayout, this is done everytime
 	  * a new property arrives. The spacer is then appended to the end of the 
 	  * properties */
 	pg->propertyLayout->removeItem(pg->VerticalSpacer);
@@ -775,7 +775,7 @@ int INDI_D::buildTextGUI(XMLEle *root, char errmsg[])
 	if (pp == NULL)
 	    return (-1);
 
-	/* get the permission, it will determine layout issues */
+	/* get the permission, it will determine tqlayout issues */
 	if (findPerm (pp, root, &p, errmsg))
 	{
 	    delete(pp);
@@ -811,7 +811,7 @@ int INDI_D::buildNumberGUI (XMLEle *root, char *errmsg)
 	if (pp == NULL)
 	    return (-1);
 
-	/* get the permission, it will determine layout issues */
+	/* get the permission, it will determine tqlayout issues */
 	if (findPerm (pp, root, &p, errmsg))
 	{
 	    delete(pp);
@@ -879,7 +879,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 		return (err);
 	    }
 
-	    /* otherwise, build 1-4 button layout */
+	    /* otherwise, build 1-4 button tqlayout */
 	    pp->guitype = PG_BUTTONS;
 	    
 	    err = pp->buildSwitchesGUI(root, errmsg);
@@ -896,7 +896,7 @@ int INDI_D::buildSwitchesGUI (XMLEle *root, char errmsg[])
 	}
 	else if (!strcmp (valuXMLAtt(ap), "AnyOfMany"))
 	{
-	    /* 1-4 checkboxes layout */
+	    /* 1-4 checkboxes tqlayout */
 	    pp->guitype = PG_RADIO;
 	    
 	    err = pp->buildSwitchesGUI(root, errmsg);
@@ -955,7 +955,7 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, char errmsg[])
   if (!pp)
     return (-1);
 
-  /* get the permission, it will determine layout issues */
+  /* get the permission, it will determine tqlayout issues */
   if (findPerm (pp, root, &p, errmsg))
   {
     delete(pp);

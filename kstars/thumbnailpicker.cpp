@@ -176,7 +176,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 
 	//Add image to list
 	//If image is taller than desktop, rescale it.
-	//I tried to use kapp->style().pixelMetric( TQStyle::PM_TitleBarHeight )
+	//I tried to use kapp->style().tqpixelMetric( TQStyle::PM_TitleBarHeight )
 	//for the titlebar height, but this returned zero.
 	//Hard-coding 25 instead :(
 	if ( tmp.exists() ) {
@@ -195,7 +195,7 @@ void ThumbnailPicker::downloadReady(KIO::Job *job) {
 
 //	this returns zero...
 // 		//DEBUG
-// 		kdDebug() << "Title bar height: " << kapp->style().pixelMetric( TQStyle::PM_TitleBarHeight ) << endl;
+// 		kdDebug() << "Title bar height: " << kapp->style().tqpixelMetric( TQStyle::PM_TitleBarHeight ) << endl;
 
 		if ( h > hDesk ) 
 			im = im.smoothScale( w*hDesk/h, hDesk );

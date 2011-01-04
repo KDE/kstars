@@ -46,7 +46,7 @@ public:
 	SkyPoint* point() const { return Point; }
 
 	/**@return suggested size of focus window. */
-	TQSize sizeHint() const;
+	TQSize tqsizeHint() const;
 
 	/**@return whether user set the AltAz coords */
 	bool usedAltAz() const { return UsedAltAz; }

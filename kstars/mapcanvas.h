@@ -49,7 +49,7 @@ public:
 	~MapCanvas();
 	
 public slots:
-	/**Set the geometry of the map widget (overloaded from TQWidget).
+	/**Set the tqgeometry of the map widget (overloaded from TQWidget).
 		*Resizes the size of the map pixmap to match the widget, and resets
 		*the Origin TQPoint so it remains at the center of the widget.
 		*@note this is called automatically by resize events.
@@ -60,13 +60,13 @@ public slots:
 		*/
 	virtual void setGeometry( int x, int y, int w, int h );
 	
-	/**Set the geometry of the map widget (overloaded from TQWidget).
+	/**Set the tqgeometry of the map widget (overloaded from TQWidget).
 		*Resizes the size of the map pixmap to match the widget, and resets
 		*the Origin TQPoint so it remains at the center of the widget.
 		*This function behaves just like the above function.  It differs
 		*only in the data type of its argument.
 		*@note this is called automatically by resize events.
-		*@p r TQRect describing geometry
+		*@p r TQRect describing tqgeometry
 		*/
 	virtual void setGeometry( const TQRect &r );
 

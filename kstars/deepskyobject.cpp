@@ -88,7 +88,7 @@ void DeepSkyObject::setCatalog( const TQString &cat ) {
 TQImage* DeepSkyObject::readImage( void ) {
 	TQFile file;
 	if ( Image==0 ) { //Image not currently set; try to load it from disk.
-		TQString fname = name().lower().replace( TQRegExp(" "), "" ) + ".png";
+		TQString fname = name().lower().tqreplace( TQRegExp(" "), "" ) + ".png";
 
 		if ( KSUtils::openDataFile( file, fname ) ) {
 			file.close();

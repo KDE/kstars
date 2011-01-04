@@ -19,7 +19,7 @@
 #define PLANETCATALOG_H
 
 /**@class PlanetCatalog
-	*This class contains a TQPtrList of the eight major planets, as well as pointers
+	*This class tqcontains a TQPtrList of the eight major planets, as well as pointers
 	*to objects representing the Earth and Sun.  Note that the Sun also exists
 	*in the TQPtrList, the external pointer is just for convenience.
 	*There are methods to search

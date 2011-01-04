@@ -233,7 +233,7 @@ PVPlotWidget::PVPlotWidget( double x1, double x2, double y1, double y2, TQWidget
 			mouseButtonDown(false), oldx(0), oldy(0) {
 	setFocusPolicy( TQWidget::StrongFocus );
 	setMouseTracking (true);
-	pv = (PlanetViewer*)topLevelWidget();
+	pv = (PlanetViewer*)tqtopLevelWidget();
 }
 
 PVPlotWidget::PVPlotWidget( TQWidget *parent, const char *name ) :
@@ -241,7 +241,7 @@ PVPlotWidget::PVPlotWidget( TQWidget *parent, const char *name ) :
 			mouseButtonDown(false), oldx(0), oldy(0) {
 	setFocusPolicy( TQWidget::StrongFocus );
 	setMouseTracking (true);
-	pv = (PlanetViewer*)topLevelWidget();
+	pv = (PlanetViewer*)tqtopLevelWidget();
 }
 
 PVPlotWidget::~ PVPlotWidget() {}

@@ -53,7 +53,7 @@ AltVsTime::AltVsTime( TQWidget* parent)  :
 
 	View = new AVTPlotWidget( -12.0, 12.0, -90.0, 90.0, page );
 	View->setMinimumSize( 400, 400 );
-	View->setSizePolicy( TQSizePolicy::MinimumExpanding, TQSizePolicy::MinimumExpanding );
+	View->tqsetSizePolicy( TQSizePolicy::MinimumExpanding, TQSizePolicy::MinimumExpanding );
 	View->setXAxisType( KStarsPlotWidget::TIME );
 	View->setYAxisType( KStarsPlotWidget::ANGLE );
 	View->setShowGrid( false );
@@ -190,7 +190,7 @@ void AltVsTime::slotAddSource(void) {
 		avtUI->decBox->TQWidget::setFocus();
 	}
 
-	View->repaint(false);
+	View->tqrepaint(false);
 }
 
 //Use find dialog to choose an object
@@ -201,7 +201,7 @@ void AltVsTime::slotBrowseObject(void) {
 		processObject( o );
 	}
 
-	View->repaint();
+	View->tqrepaint();
 }
 
 void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
@@ -323,7 +323,7 @@ void AltVsTime::slotClear(void) {
 	avtUI->decBox->clear();
         avtUI->epochName->clear();
 	View->clearObjectList();
-	View->repaint();
+	View->tqrepaint();
 }
 
 void AltVsTime::slotClearBoxes(void) {
@@ -400,13 +400,13 @@ void AltVsTime::slotUpdateDateLoc(void) {
 				o->updateCoords( num );
 
 				//update pList entry
-				pList.replace( i, (SkyPoint*)o );
+				pList.tqreplace( i, (SkyPoint*)o );
 
 				KPlotObject *po = new KPlotObject( "", "white", KPlotObject::CURVE, 1, KPlotObject::SOLID );
 				for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 					po->addPoint( new DPoint( h, findAltitude( o, h ) ) );
 				}
-				View->replaceObject( i, po );
+				View->tqreplaceObject( i, po );
 
 				//restore original position
 				if ( o->isSolarSystem() ) {
@@ -428,7 +428,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 			for ( double h=-12.0; h<=12.0; h+=0.5 ) {
 				po->addPoint( new DPoint( h, findAltitude( pList.at(i), h ) ) );
 			}
-			View->replaceObject( i, po );
+			View->tqreplaceObject( i, po );
 		}
 	}
 
@@ -437,7 +437,7 @@ void AltVsTime::slotUpdateDateLoc(void) {
 
 	setLSTLimits();
 	slotHighlight();
-	View->repaint();
+	View->tqrepaint();
 
 	delete num;
 }
@@ -468,7 +468,7 @@ void AltVsTime::setLSTLimits(void) {
 
 void AltVsTime::showCurrentDate (void)
 {
-	KStarsDateTime dt = KStarsDateTime::currentDateTime();
+	KStarsDateTime dt = KStarsDateTime::tqcurrentDateTime();
 	if ( dt.time() > TQTime( 12, 0, 0 ) ) dt = dt.addDays( 1 );
 	avtUI->dateBox->setDate( dt.date() );
 }
@@ -512,7 +512,7 @@ void AVTPlotWidget::mouseMoveEvent( TQMouseEvent *e ) {
 	int Xcursor = e->x();
 	int Ycursor = e->y();
 
-	if ( ! checkRect.contains( e->x(), e->y() ) ) {
+	if ( ! checkRect.tqcontains( e->x(), e->y() ) ) {
 		if ( e->x() < checkRect.left() )   Xcursor = checkRect.left();
 		if ( e->x() > checkRect.right() )  Xcursor = checkRect.right();
 		if ( e->y() < checkRect.top() )    Ycursor = checkRect.top();

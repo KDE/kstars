@@ -59,19 +59,19 @@ KStarsSplash::KStarsSplash( TQWidget *parent, const char* name )
 	pal.setColor( TQPalette::Normal, TQColorGroup::Foreground, TQColor( "White" ) );
 	pal.setColor( TQPalette::Inactive, TQColorGroup::Foreground, TQColor( "White" ) );
 	label->setPalette( pal );
-	label->setAlignment( AlignHCenter );
+	label->tqsetAlignment( AlignHCenter );
 	label->setText( i18n( "Welcome to KStars. Please stand by while loading..." ) );
 	topLayout->addWidget( label );
 
 //initialize the progress message label
-	textCurrentStatus = new TQLabel( page, "label2" );
-	textCurrentStatus->setPalette( pal );
-	textCurrentStatus->setAlignment( AlignHCenter );
-	topLayout->addWidget( textCurrentStatus );
+	textCurrentqStatus = new TQLabel( page, "label2" );
+	textCurrentqStatus->setPalette( pal );
+	textCurrentqStatus->tqsetAlignment( AlignHCenter );
+	topLayout->addWidget( textCurrentqStatus );
 
 	topLayout->activate();
 	disableResize();
-	setMessage(TQString::null);  // force repaint of widget with no text
+	setMessage(TQString::null);  // force tqrepaint of widget with no text
 }
 
 KStarsSplash::~KStarsSplash() {
@@ -80,8 +80,8 @@ KStarsSplash::~KStarsSplash() {
 
 void KStarsSplash::paintEvent( TQPaintEvent* ) {
 	bitBlt( Banner, 0, 0, splashImage, 0, 0, -1, -1 );
-	label->repaint();  // standard text label
-	textCurrentStatus->repaint();  // status text label
+	label->tqrepaint();  // standard text label
+	textCurrentqStatus->tqrepaint();  // status text label
 }
 
 void KStarsSplash::closeEvent( TQCloseEvent *e ) {
@@ -90,11 +90,11 @@ void KStarsSplash::closeEvent( TQCloseEvent *e ) {
 }
 
 void KStarsSplash::setMessage( TQString s ) {
-	textCurrentStatus->setText( s );
-	repaint();  // repaint splash screen
+	textCurrentqStatus->setText( s );
+	tqrepaint();  // tqrepaint splash screen
 /**
 	*Flush all event data. This is needed because events will buffered and
-	*repaint call will queued in event buffer. With flush all X11 events of
+	*tqrepaint call will queued in event buffer. With flush all X11 events of
 	*this application will flushed.
 	*/
 	kapp->flush();
