@@ -125,6 +125,8 @@ KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &sta
 
 KStars::~KStars()
 {
+    Q_ASSERT( pinstance );
+
     delete kstarsData;
     pinstance = 0;
 }

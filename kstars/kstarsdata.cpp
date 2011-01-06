@@ -144,6 +144,9 @@ KStarsData::KStarsData() :
 }
 
 KStarsData::~KStarsData() {
+
+    Q_ASSERT( pinstance );
+
     delete locale;
     delete m_logObject;
 
