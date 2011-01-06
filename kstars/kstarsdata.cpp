@@ -152,6 +152,8 @@ KStarsData::~KStarsData() {
     qDeleteAll( INDIHostsList );
 #endif
     qDeleteAll( ADVtreeList );
+
+    pinstance = 0;
 }
 
 QString KStarsData::typeName( int i ) {

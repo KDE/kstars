@@ -126,6 +126,7 @@ KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &sta
 KStars::~KStars()
 {
     delete kstarsData;
+    pinstance = 0;
 }
 
 void KStars::clearCachedFindDialog() {
