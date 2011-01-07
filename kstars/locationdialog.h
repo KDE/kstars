@@ -23,7 +23,7 @@
 	*dialog is divided into two sections.
 	*
 	*The top section allows the location to be selected from a database
-	*of 2000 cities.  It tqcontains a MapCanvas (showing map of the globe
+	*of 2000 cities.  It contains a MapCanvas (showing map of the globe
 	*with cities overlaid, with a handler for mouse clicks), a QListBox
 	*containing the names of cities in the database, and three KLineEdit
 	*widgets, which allow the user to filter the List by the name of the
@@ -116,7 +116,7 @@ public slots:
   void filterCity( void );
 
 /**
-	*When the selected city in the TQListBox changes, tqrepaint the MapCanvas
+	*When the selected city in the TQListBox changes, repaint the MapCanvas
 	*so that the crosshairs icon appears on the newly selected city.
 	*/
 	void changeCity( void );

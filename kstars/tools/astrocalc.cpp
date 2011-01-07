@@ -374,7 +374,7 @@ void AstroCalc::genVlsrFrame(void)
 	rightPanel = Vlsr;
 }
 
-TQSize AstroCalc::tqsizeHint() const
+TQSize AstroCalc::sizeHint() const
 {
   return TQSize(640,430);
 }

@@ -195,13 +195,13 @@ void ObsListWizard::slotShowStackWidget( TQListViewItem *i )
 	if ( i ) {
 		TQString t = i->text(0);
 	
-		if ( t.tqcontains( i18n( "Object type(s)" ) ) )      olw->FilterStack->raiseWidget( olw->ObjTypePage );
-		if ( t.tqcontains( i18n( "Region" ) ) )              olw->FilterStack->raiseWidget( olw->RegionPage );
-		if ( t.tqcontains( i18n( "In constellation(s)" ) ) ) olw->FilterStack->raiseWidget( olw->ConstellationPage );
-		if ( t.tqcontains( i18n( "Circular" ) ) )            olw->FilterStack->raiseWidget( olw->CircRegionPage );
-		if ( t.tqcontains( i18n( "Rectangular" ) ) )         olw->FilterStack->raiseWidget( olw->RectRegionPage );
-//		if ( t.tqcontains( i18n( "Observable on date" ) ) )  olw->FilterStack->raiseWidget( olw->ObsDatePage );
-		if ( t.tqcontains( i18n( "Magnitude limit" ) ) )     olw->FilterStack->raiseWidget( olw->MagLimitPage );
+		if ( t.contains( i18n( "Object type(s)" ) ) )      olw->FilterStack->raiseWidget( olw->ObjTypePage );
+		if ( t.contains( i18n( "Region" ) ) )              olw->FilterStack->raiseWidget( olw->RegionPage );
+		if ( t.contains( i18n( "In constellation(s)" ) ) ) olw->FilterStack->raiseWidget( olw->ConstellationPage );
+		if ( t.contains( i18n( "Circular" ) ) )            olw->FilterStack->raiseWidget( olw->CircRegionPage );
+		if ( t.contains( i18n( "Rectangular" ) ) )         olw->FilterStack->raiseWidget( olw->RectRegionPage );
+//		if ( t.contains( i18n( "Observable on date" ) ) )  olw->FilterStack->raiseWidget( olw->ObsDatePage );
+		if ( t.contains( i18n( "Magnitude limit" ) ) )     olw->FilterStack->raiseWidget( olw->MagLimitPage );
 	}
 }
 

@@ -27,7 +27,7 @@
  CCMAIL: kstars-devel@kde.org
 
  Revision 1.3  2004/06/26 23:12:03  mutlaqja
- Hopefully this will fix compile issues on 64bit archs, and FreeBSD, among others. The assembly code is tqreplaced with a more portable, albeit slower C implementation. I imported the videodev.h header after cleaning it for user space.
+ Hopefully this will fix compile issues on 64bit archs, and FreeBSD, among others. The assembly code is replaced with a more portable, albeit slower C implementation. I imported the videodev.h header after cleaning it for user space.
 
  Anyone who has problems compiling this, please report the problem to kstars-devel@kde.org
 

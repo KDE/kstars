@@ -63,7 +63,7 @@
    dp			= associatedDevice;
    ksw  		= kswPtr;
    initDevCounter	= 0;
-   setqCount		= 0;
+   seqCount		= 0;
    batchMode 		= false;
    ISOMode   		= false;
    
@@ -158,7 +158,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, TQString d
 	strncpy(tempFileStr, filename, 256);
 	    
 	if ( batchMode && !ISOMode)
-	  snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), setqCount);
+	  snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.ascii(), seqCount);
 	else if (!batchMode && !Options::indiFITSDisplay())
 	{
 	  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
@@ -167,10 +167,10 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, TQString d
 	else
 	{
 	  strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-	  snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.ascii(), setqCount, ts);
+	  snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.ascii(), seqCount, ts);
 	}
 	     
-	setqCount++;
+	seqCount++;
       }
       else
       {
@@ -447,7 +447,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, TQString d
     
     seqLister->setNameFilter(TQString("%1_*.fits").arg(seqPrefix));
     
-    setqCount = 0;
+    seqCount = 0;
     
     if (ISOMode) return;
     
@@ -486,8 +486,8 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, TQString d
        
        newFileIndex = strtol(t, NULL, 10);
        
-        if (newFileIndex >= setqCount)
-	  setqCount = newFileIndex + 1;
+        if (newFileIndex >= seqCount)
+	  seqCount = newFileIndex + 1;
    }
    
    delete [] (tempPrefix);

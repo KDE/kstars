@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ObservingListUI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -21,7 +21,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout68</cstring>
+                <cstring>layout68</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -39,13 +39,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -73,13 +73,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -107,13 +107,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -141,13 +141,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -173,7 +173,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>350</width>
                             <height>20</height>
@@ -192,13 +192,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -218,7 +218,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout4</cstring>
+                <cstring>layout4</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -350,7 +350,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>40</width>
                             <height>20</height>
@@ -488,7 +488,7 @@
                                 <verstretch>4</verstretch>
                             </sizepolicy>
                         </property>
-                        <property name="tqminimumSize">
+                        <property name="minimumSize">
                             <size>
                                 <width>0</width>
                                 <height>100</height>
@@ -518,7 +518,7 @@
             <property name="text">
                 <string>observing notes for object:</string>
             </property>
-            <property name="tqalignment">
+            <property name="alignment">
                 <set>AlignVCenter</set>
             </property>
         </widget>
@@ -534,13 +534,13 @@
                     <verstretch>1</verstretch>
                 </sizepolicy>
             </property>
-            <property name="tqminimumSize">
+            <property name="minimumSize">
                 <size>
                     <width>0</width>
                     <height>100</height>
                 </size>
             </property>
-            <property name="tqmaximumSize">
+            <property name="maximumSize">
                 <size>
                     <width>32767</width>
                     <height>160</height>
@@ -554,7 +554,7 @@
 </widget>
 <customwidgets>
 </customwidgets>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>

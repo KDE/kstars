@@ -79,7 +79,7 @@ imagesequence::~imagesequence()
 {
 }
 
-bool imagesequence::updatetqStatus()
+bool imagesequence::updateStatus()
 {
   bool result;
 
@@ -290,7 +290,7 @@ void imagesequence::stopSequence()
   
   if (stdDevCCD)
   {
-    stdDevCCD->setqCount     = 0;
+    stdDevCCD->seqCount     = 0;
     stdDevCCD->batchMode    = false;
     stdDevCCD->ISOMode      = false;
     

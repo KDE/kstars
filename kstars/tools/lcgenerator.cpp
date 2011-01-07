@@ -69,10 +69,10 @@ void LCGenerator::createGUI()
 
     StarInfoBox = new TQGroupBox( page, "StarInfoBox" );
     StarInfoBox->setColumnLayout(0, Qt::Vertical );
-    StarInfoBox->tqlayout()->setSpacing( 6 );
-    StarInfoBox->tqlayout()->setMargin( 11 );
-    StarInfoBoxLayout = new TQVBoxLayout( StarInfoBox->tqlayout() );
-    StarInfoBoxLayout->tqsetAlignment( Qt::AlignTop );
+    StarInfoBox->layout()->setSpacing( 6 );
+    StarInfoBox->layout()->setMargin( 11 );
+    StarInfoBoxLayout = new TQVBoxLayout( StarInfoBox->layout() );
+    StarInfoBoxLayout->setAlignment( Qt::AlignTop );
 
     DesignHLayout = new TQHBoxLayout( 0, 0, 6, "DesignHLayout"); 
 
@@ -125,10 +125,10 @@ void LCGenerator::createGUI()
 
     DataSelectBox = new TQGroupBox( page, "DataSelectBox" );
     DataSelectBox->setColumnLayout(0, Qt::Vertical );
-    DataSelectBox->tqlayout()->setSpacing( 6 );
-    DataSelectBox->tqlayout()->setMargin( 11 );
-    DataSelectBoxLayout = new TQVBoxLayout( DataSelectBox->tqlayout() );
-    DataSelectBoxLayout->tqsetAlignment( Qt::AlignTop );
+    DataSelectBox->layout()->setSpacing( 6 );
+    DataSelectBox->layout()->setMargin( 11 );
+    DataSelectBoxLayout = new TQVBoxLayout( DataSelectBox->layout() );
+    DataSelectBoxLayout->setAlignment( Qt::AlignTop );
 
     VisualCheck = new TQCheckBox( DataSelectBox, "VisualCheck" );
     VisualCheck->setChecked( TRUE );

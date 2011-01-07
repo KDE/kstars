@@ -58,8 +58,8 @@ class imagesequence;
 /**
 	*@class KStars
 	*@short This is the main window for KStars.
-	*In addition to the GUI elements, the class tqcontains the program clock,
-	*KStarsData, and SkyMap objects.  It also tqcontains functions for the DCOP interface.
+	*In addition to the GUI elements, the class contains the program clock,
+	*KStarsData, and SkyMap objects.  It also contains functions for the DCOP interface.
 	*@author Jason Harris
 	*@version 1.0
 	*/
@@ -84,7 +84,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		*/
 		~KStars();
 
-	/**@return pointer to KStarsData object which tqcontains application data.
+	/**@return pointer to KStarsData object which contains application data.
 		*/
 		KStarsData* data();
 
@@ -381,7 +381,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 
 	public slots:
 		/**
-			*Update time-dependent data and (possibly) tqrepaint the sky map.
+			*Update time-dependent data and (possibly) repaint the sky map.
 			*@p automaticDSTchange change DST status automatically?
 			*/
 		void updateTime( const bool automaticDSTchange = true );
@@ -624,7 +624,7 @@ class KStars : public KMainWindow, virtual public KStarsInterface
 		void initFOV();
 
 		/**
-			*Initialize tqStatus bar.
+			*Initialize Status bar.
 			*/
 		void initStatusBar();
 

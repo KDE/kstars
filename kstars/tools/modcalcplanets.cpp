@@ -51,7 +51,7 @@ modCalcPlanets::~modCalcPlanets(){
 void modCalcPlanets::showCurrentDateTime (void)
 {
 	KStars *ks = (KStars*) parent()->parent()->parent(); // QSplitter->AstroCalc->KStars
-	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::tqcurrentDateTime() );
+	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 
 	dateBox->setDate( dt.date() );
 	timeBox->setTime( dt.time() );
@@ -441,7 +441,7 @@ void modCalcPlanets::processLines( TQTextStream &istream ) {
 		if(utCheckBatch->isChecked() ) {
 			utB = TQTime::fromString( fields[i] );
 			if ( !utB.isValid() ) {
-				kdWarning() << i18n( "Line %1 tqcontains an invalid time" ).arg(nline) << endl;
+				kdWarning() << i18n( "Line %1 contains an invalid time" ).arg(nline) << endl;
 				lineIsValid=false;
 				nline++;
 				continue;
@@ -461,7 +461,7 @@ void modCalcPlanets::processLines( TQTextStream &istream ) {
 		if(dateCheckBatch->isChecked() ) {
 			dtB = ExtDate::fromString( fields[i], Qt::ISODate );
 			if ( !dtB.isValid() ) {
-				kdWarning() << i18n( "Line %1 tqcontains an invalid date: " ).arg(nline) << 
+				kdWarning() << i18n( "Line %1 contains an invalid date: " ).arg(nline) << 
 				fields[i] << endl ;
 				lineIsValid=false;
 				nline++;

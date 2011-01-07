@@ -164,14 +164,14 @@ void FOVDialog::slotEditFOV() {
 	newfdlg.ui->FOVName->setText( f->name() );
 	newfdlg.ui->FOVEdit->setText( KGlobal::locale()->formatNumber( f->size(), 3 ) );
 	newfdlg.ui->ColorButton->setColor( TQColor( f->color() ) );
-	newfdlg.ui->ShapeBox->setCurrentItem( f->tqshape() );
+	newfdlg.ui->ShapeBox->setCurrentItem( f->shape() );
 	newfdlg.slotUpdateFOV();
 
 	if ( newfdlg.exec() == TQDialog::Accepted ) {
 		FOV *newfov = new FOV( newfdlg.ui->FOVName->text(), newfdlg.ui->FOVEdit->text().toDouble(),
 				newfdlg.ui->ShapeBox->currentItem(), newfdlg.ui->ColorButton->color().name() );
 		fov->FOVListBox->changeItem( newfdlg.ui->FOVName->text(), fov->FOVListBox->currentItem() );
-		FOVList.tqreplace( fov->FOVListBox->currentItem(), newfov );
+		FOVList.replace( fov->FOVListBox->currentItem(), newfov );
 	}
 }
 

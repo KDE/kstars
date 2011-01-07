@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>FOVDialogUI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -23,7 +23,7 @@
             <property name="name">
                 <cstring>FOVListBox</cstring>
             </property>
-            <property name="tqminimumSize">
+            <property name="minimumSize">
                 <size>
                     <width>160</width>
                     <height>0</height>
@@ -38,7 +38,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout4</cstring>
+                <cstring>layout4</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -55,7 +55,7 @@
                         <string>Add a new FOV symbol</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Add a new field-of-view (FOV) symbol to the list.  You can define the size, tqshape, and color of the new symbol.</string>
+                        <string>Add a new field-of-view (FOV) symbol to the list.  You can define the size, shape, and color of the new symbol.</string>
                     </property>
                 </widget>
                 <spacer>
@@ -68,7 +68,7 @@
                     <property name="sizeType">
                         <enum>Fixed</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>16</height>
@@ -86,7 +86,7 @@
                         <string>Modify the highlighted FOV symbol</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>Press this button to modify the highlighted FOV symbol.  You can change its size, tqshape and color.</string>
+                        <string>Press this button to modify the highlighted FOV symbol.  You can change its size, shape and color.</string>
                     </property>
                 </widget>
                 <widget class="KPushButton">
@@ -113,7 +113,7 @@
                     <property name="sizeType">
                         <enum>Fixed</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>20</height>
@@ -132,7 +132,7 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>80</width>
                             <height>80</height>
@@ -169,7 +169,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>60</height>
@@ -182,7 +182,7 @@
 </widget>
 <customwidgets>
 </customwidgets>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klistbox.h</includehint>
     <includehint>kpushbutton.h</includehint>

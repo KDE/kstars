@@ -42,7 +42,7 @@ public:
 	~DragListBox();
 
 	int ignoreIndex() const { return IgnoreIndex; }
-	bool tqcontains( const TQString &s ) const;
+	bool contains( const TQString &s ) const;
 
 	void dragEnterEvent( TQDragEnterEvent *evt );
 	void dropEvent( TQDropEvent *evt );

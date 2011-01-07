@@ -176,7 +176,7 @@ LIBFLIAPI FLISetHBin(flidev_t dev, long hbin);
 LIBFLIAPI FLISetVBin(flidev_t dev, long vbin);
 LIBFLIAPI FLISetFrameType(flidev_t dev, fliframe_t frametype);
 LIBFLIAPI FLICancelExposure(flidev_t dev);
-LIBFLIAPI FLIGetExposuretqStatus(flidev_t dev, long *timeleft);
+LIBFLIAPI FLIGetExposureStatus(flidev_t dev, long *timeleft);
 LIBFLIAPI FLISetTemperature(flidev_t dev, double temperature);
 LIBFLIAPI FLIGetTemperature(flidev_t dev, double *temperature);
 LIBFLIAPI FLIGrabRow(flidev_t dev, void *buff, size_t width);

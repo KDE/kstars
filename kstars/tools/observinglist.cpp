@@ -121,7 +121,7 @@ ObservingList::ObservingList( KStars *_ks, TQWidget* parent )
 	ui->NotesEdit->setEnabled( false );
 }
 
-bool ObservingList::tqcontains( const SkyObject *q ) {
+bool ObservingList::contains( const SkyObject *q ) {
 	for ( SkyObject* o = obsList.first(); o; o = obsList.next() ) {
 		if ( o == q ) return true;
 	}

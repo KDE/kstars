@@ -906,9 +906,9 @@ void LX200Generic::ISNewSwitch (const char *dev, const char *name, ISState *stat
 	  IUUpdateSwitches(&AlignmentSw, states, names, n);
 	  index = getOnSwitch(&AlignmentSw);
 
-	  if ( ( err = tqsetAlignmentMode(index) < 0) )
+	  if ( ( err = setAlignmentMode(index) < 0) )
 	  {
-	     handleError(&AlignmentSw, err, "Setting tqalignment");
+	     handleError(&AlignmentSw, err, "Setting alignment");
              return;
 	  }
 	  
@@ -1789,7 +1789,7 @@ void LX200Generic::getAlignment()
    signed char align = ACK();
    if (align < 0)
    {
-     IDSetSwitch (&AlignmentSw, "Failed to get telescope tqalignment.");
+     IDSetSwitch (&AlignmentSw, "Failed to get telescope alignment.");
      return;
    }
 

@@ -112,7 +112,7 @@ TQString StarObject::greekLetter( bool gchar ) const {
 	if ( code == "omi" ) gchar ? letter = TQString( TQChar(alpha +14) ) : letter = i18n("omicron");
 	if ( code == "pi " ) gchar ? letter = TQString( TQChar(alpha +15) ) : letter = i18n("pi");
 	if ( code == "rho" ) gchar ? letter = TQString( TQChar(alpha +16) ) : letter = i18n("rho");
-	//there are two tqunicode symbols for sigma;
+	//there are two unicode symbols for sigma;
 	//skip the first one, the second is more widely used
 	if ( code == "sig" ) gchar ? letter = TQString( TQChar(alpha +18) ) : letter = i18n("sigma");
 	if ( code == "tau" ) gchar ? letter = TQString( TQChar(alpha +19) ) : letter = i18n("tau");

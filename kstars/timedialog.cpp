@@ -36,7 +36,7 @@ TimeDialog::TimeDialog( const KStarsDateTime &now, TQWidget* parent )
 	TQFrame *page = plainPage();
 
 	vlay = new TQVBoxLayout( page, 2, 2 );
-	hlay = new TQHBoxLayout( 2 ); //this tqlayout will be added to the VLayout
+	hlay = new TQHBoxLayout( 2 ); //this layout will be added to the VLayout
 	dPicker = new ExtDatePicker( page );
 	dPicker->setDate( now.date() );
 
@@ -112,7 +112,7 @@ void TimeDialog::keyReleaseEvent( TQKeyEvent *kev ) {
 
 void TimeDialog::setNow( void )
 {
-  KStarsDateTime dt( KStarsDateTime::tqcurrentDateTime() );
+  KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 
   dPicker->setDate( dt.date() );
   TQTime t = dt.time();

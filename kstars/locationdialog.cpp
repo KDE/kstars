@@ -52,18 +52,18 @@ LocationDialog::LocationDialog( TQWidget* parent )
 	CityLay = new TQVBoxLayout( CityBox, 6, 4 ); //root mgr for CityBox
 	CityLay->setSpacing( 6 );
 	CityLay->setMargin( 6 );
-	hlay = new TQHBoxLayout( 2 ); //this tqlayout will be added to CityLay
-	vlay = new TQVBoxLayout( 2 ); //this tqlayout will be added to hlay
-	glay = new TQGridLayout( 3, 2, 6 ); //this tqlayout will be added to vlay
+	hlay = new TQHBoxLayout( 2 ); //this layout will be added to CityLay
+	vlay = new TQVBoxLayout( 2 ); //this layout will be added to hlay
+	glay = new TQGridLayout( 3, 2, 6 ); //this layout will be added to vlay
 
 	CoordLay = new TQVBoxLayout( CoordBox, 6, 4 ); //root mgr for coordbox
 	CoordLay->setSpacing( 6 );
 	CoordLay->setMargin( 6 );
-	glay2 = new TQGridLayout( 3, 4, 4 ); //this tqlayout will be added to CoordLay
-	hlayCoord   = new TQHBoxLayout( 2 ); //this tqlayout will be added to glay2
-	hlayTZ      = new TQHBoxLayout( 2 ); //this tqlayout will be added to glay2
-	hlayButtons = new TQHBoxLayout( 2 ); //this tqlayout will be added to glay2
-	hlay3       = new TQHBoxLayout( 2 ); //this tqlayout will be added to CoordLay
+	glay2 = new TQGridLayout( 3, 4, 4 ); //this layout will be added to CoordLay
+	hlayCoord   = new TQHBoxLayout( 2 ); //this layout will be added to glay2
+	hlayTZ      = new TQHBoxLayout( 2 ); //this layout will be added to glay2
+	hlayButtons = new TQHBoxLayout( 2 ); //this layout will be added to glay2
+	hlay3       = new TQHBoxLayout( 2 ); //this layout will be added to CoordLay
 
 //Create widgets
   CityFiltLabel = new TQLabel( CityBox );
@@ -122,7 +122,7 @@ LocationDialog::LocationDialog( TQWidget* parent )
 
 	AddCityButton = new TQPushButton( i18n ( "Add to List" ), CoordBox, "AddCityButton" );
 
-//Pack the widgets into the tqlayouts
+//Pack the widgets into the layouts
 	RootLay->addWidget( CityBox, 0, 0 );
 	RootLay->addWidget( CoordBox, 0, 0 );
 
@@ -283,7 +283,7 @@ void LocationDialog::filterCity( void ) {
 	if ( GeoBox->firstItem() )		// set first item in list as selected
 		GeoBox->setCurrentItem( GeoBox->firstItem() );
 
-	MapView->tqrepaint();
+	MapView->repaint();
 }
 
 void LocationDialog::changeCity( void ) {
@@ -298,7 +298,7 @@ void LocationDialog::changeCity( void ) {
 		}
 	}
 	
-	MapView->tqrepaint();
+	MapView->repaint();
 
 	//Fill the fields at the bottom of the window with the selected city's data.
 	if ( SelectedCity ) {
@@ -437,7 +437,7 @@ void LocationDialog::findCitiesNear( int lng, int lat ) {
 	if ( GeoBox->firstItem() )		// set first item in list as selected
 		GeoBox->setCurrentItem( GeoBox->firstItem() );
 
-	tqrepaint();
+	repaint();
 }
 
 bool LocationDialog::checkLongLat( void ) {

@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ArgSetTargetNameINDI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -18,7 +18,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout44</cstring>
+                <cstring>layout44</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -26,7 +26,7 @@
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout40</cstring>
+                        <cstring>layout40</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -52,7 +52,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout41</cstring>
+                        <cstring>layout41</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -72,7 +72,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout42</cstring>
+                        <cstring>layout42</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -88,7 +88,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="tqsizeHint">
+                            <property name="sizeHint">
                                 <size>
                                     <width>52</width>
                                     <height>20</height>
@@ -128,7 +128,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>8</height>
@@ -139,7 +139,7 @@
 </widget>
 <customwidgets>
 </customwidgets>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
     <includehint>klineedit.h</includehint>

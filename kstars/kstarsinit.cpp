@@ -43,7 +43,7 @@
 #include "simclock.h"
 #include "timestepbox.h"
 
-//This file tqcontains functions that kstars calls at startup (except constructors).
+//This file contains functions that kstars calls at startup (except constructors).
 //These functions are declared in kstars.h
 
 void KStars::initActions() {
@@ -149,8 +149,8 @@ void KStars::initActions() {
 			0, 0, 0, actionCollection(), "show_viewToolBar");
 	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
-//tqStatusbar view options
-	a = new KToggleAction(i18n( "Show tqStatusbar" ),
+//Statusbar view options
+	a = new KToggleAction(i18n( "Show Statusbar" ),
 			0, 0, 0, actionCollection(), "show_statusBar");
 	TQObject::connect(a, TQT_SIGNAL( toggled(bool) ), this, TQT_SLOT(slotShowGUIItem(bool)));
 
@@ -467,7 +467,7 @@ void KStars::privatedata::buildGUI() {
 	ks->initStatusBar();
 	ks->initActions();
 
-	// create the tqlayout of the central widget
+	// create the layout of the central widget
 	ks->topLayout = new TQVBoxLayout( ks->centralWidget );
 	ks->topLayout->addWidget( ks->skymap );
 

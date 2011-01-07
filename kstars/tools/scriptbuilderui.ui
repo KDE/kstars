@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ScriptBuilderUI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -21,7 +21,7 @@
         </property>
         <widget class="QLayoutWidget" row="0" column="0">
             <property name="name">
-                <cstring>tqlayout5</cstring>
+                <cstring>layout5</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -39,13 +39,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -73,13 +73,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -107,13 +107,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -141,13 +141,13 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -167,13 +167,13 @@
                     <property name="name">
                         <cstring>RunButton</cstring>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
                         </size>
                     </property>
-                    <property name="tqmaximumSize">
+                    <property name="maximumSize">
                         <size>
                             <width>32</width>
                             <height>32</height>
@@ -199,7 +199,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>490</width>
                             <height>20</height>
@@ -240,7 +240,7 @@
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout6</cstring>
+                            <cstring>layout6</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -267,7 +267,7 @@
                             </widget>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>tqlayout5</cstring>
+                                    <cstring>layout5</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -277,13 +277,13 @@
                                         <property name="name">
                                             <cstring>AddButton</cstring>
                                         </property>
-                                        <property name="tqminimumSize">
+                                        <property name="minimumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
                                             </size>
                                         </property>
-                                        <property name="tqmaximumSize">
+                                        <property name="maximumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
@@ -304,13 +304,13 @@
                                         <property name="name">
                                             <cstring>RemoveButton</cstring>
                                         </property>
-                                        <property name="tqminimumSize">
+                                        <property name="minimumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
                                             </size>
                                         </property>
-                                        <property name="tqmaximumSize">
+                                        <property name="maximumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
@@ -330,13 +330,13 @@
                                         <property name="name">
                                             <cstring>CopyButton</cstring>
                                         </property>
-                                        <property name="tqminimumSize">
+                                        <property name="minimumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
                                             </size>
                                         </property>
-                                        <property name="tqmaximumSize">
+                                        <property name="maximumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
@@ -356,13 +356,13 @@
                                         <property name="name">
                                             <cstring>UpButton</cstring>
                                         </property>
-                                        <property name="tqminimumSize">
+                                        <property name="minimumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
                                             </size>
                                         </property>
-                                        <property name="tqmaximumSize">
+                                        <property name="maximumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
@@ -382,13 +382,13 @@
                                         <property name="name">
                                             <cstring>DownButton</cstring>
                                         </property>
-                                        <property name="tqminimumSize">
+                                        <property name="minimumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
                                             </size>
                                         </property>
-                                        <property name="tqmaximumSize">
+                                        <property name="maximumSize">
                                             <size>
                                                 <width>32</width>
                                                 <height>32</height>
@@ -414,7 +414,7 @@
                                         <property name="sizeType">
                                             <enum>Expanding</enum>
                                         </property>
-                                        <property name="tqsizeHint">
+                                        <property name="sizeHint">
                                             <size>
                                                 <width>20</width>
                                                 <height>118</height>
@@ -437,7 +437,7 @@
                                 <verstretch>1</verstretch>
                             </sizepolicy>
                         </property>
-                        <property name="tqminimumSize">
+                        <property name="minimumSize">
                             <size>
                                 <width>200</width>
                                 <height>140</height>
@@ -554,7 +554,7 @@
         </widget>
         <widget class="QLayoutWidget" row="2" column="0">
             <property name="name">
-                <cstring>tqlayout11</cstring>
+                <cstring>layout11</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -562,7 +562,7 @@
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout10</cstring>
+                        <cstring>layout10</cstring>
                     </property>
                     <vbox>
                         <property name="name">
@@ -602,7 +602,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>91</width>
                             <height>20</height>
@@ -627,7 +627,7 @@
     <slot>slotRemoveFunction()</slot>
     <slot>slotRunScript()</slot>
 </slots>
-<tqlayoutdefaults spacing="6" margin="4"/>
+<layoutdefaults spacing="6" margin="4"/>
 <includehints>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>

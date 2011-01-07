@@ -168,8 +168,8 @@ void CCDPreviewWG::setCtrl(int wd, int ht,int po, int bpp,unsigned long mgd)
   for (i=0;i<streamFrame->totalBaseCount;i++) {
     streamFrame->streamBuffer[i]=0;
   }
-  resize(wd + tqlayout()->margin() * 2 , ht + playB->height() + brightnessLabel->height()
-      + contrastLabel->height() + gammaLabel->height() + focalEdit->height() + FWHMLabel->height() + tqlayout()->margin() * 2 + tqlayout()->spacing()*6);  
+  resize(wd + layout()->margin() * 2 , ht + playB->height() + brightnessLabel->height()
+      + contrastLabel->height() + gammaLabel->height() + focalEdit->height() + FWHMLabel->height() + layout()->margin() * 2 + layout()->spacing()*6);  
   streamFrame->resize(wd, ht);
 }
 
@@ -204,7 +204,7 @@ void CCDPreviewWG::updateFWHM()
 
 void CCDPreviewWG::resizeEvent(TQResizeEvent *ev)
 {
-  streamFrame->resize(ev->size().width() - tqlayout()->margin() * 2, ev->size().height() - playB->height() - tqlayout()->margin() * 2 - tqlayout()->spacing());
+  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 2 - layout()->spacing());
 }
  
 void CCDPreviewWG::playPressed()
@@ -284,9 +284,9 @@ CCDVideoWG::CCDVideoWG(TQWidget * parent, const char * name) : TQFrame(parent, n
   displayBuffer    = NULL;
   grayTable=new QRgb[256];
   for (int i=0;i<256;i++) {
-        grayTable[i]=tqRgb(i,i,i);
+        grayTable[i]=qRgb(i,i,i);
   }
-  grayTable[255]=tqRgb(255,0,0);
+  grayTable[255]=qRgb(255,0,0);
 }
       
 CCDVideoWG::~CCDVideoWG() 
@@ -375,7 +375,7 @@ void CCDVideoWG::redrawVideoWG(void)
         if (val>255.0) {
           val=255.0; 
 	}
-	val=tqRound(val*(254.0/255.0));
+	val=qRound(val*(254.0/255.0));
 	displayBuffer[Width*y+x]=(int) val;
      }	
      else {

@@ -138,14 +138,14 @@ void StreamWG::setSize(int wd, int ht)
   
   streamFrame->totalBaseCount = wd * ht;
   
-  resize(wd + tqlayout()->margin() * 2 , ht + playB->height() + tqlayout()->margin() * 2 + tqlayout()->spacing());  
+  resize(wd + layout()->margin() * 2 , ht + playB->height() + layout()->margin() * 2 + layout()->spacing());  
   streamFrame->resize(wd, ht);
 }
 
 void StreamWG::resizeEvent(TQResizeEvent *ev)
 {
 
-  streamFrame->resize(ev->size().width() - tqlayout()->margin() * 2, ev->size().height() - playB->height() - tqlayout()->margin() * 2 - tqlayout()->spacing());
+  streamFrame->resize(ev->size().width() - layout()->margin() * 2, ev->size().height() - playB->height() - layout()->margin() * 2 - layout()->spacing());
 
 }
  /*
@@ -273,7 +273,7 @@ VideoWG::VideoWG(TQWidget * parent, const char * name) : TQFrame(parent, name, Q
   streamImage    = NULL;
   grayTable=new QRgb[256];
   for (int i=0;i<256;i++)
-        grayTable[i]=tqRgb(i,i,i);
+        grayTable[i]=qRgb(i,i,i);
 }
       
 VideoWG::~VideoWG() 

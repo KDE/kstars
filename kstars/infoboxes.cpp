@@ -126,17 +126,17 @@ void InfoBoxes::drawBoxes( TQPainter &p, TQColor FGColor, TQColor grabColor,
 }
 
 bool InfoBoxes::grabBox( TQMouseEvent *e ) {
-	if ( GeoBox->rect().tqcontains( e->pos() ) ) {
+	if ( GeoBox->rect().contains( e->pos() ) ) {
 		GrabbedBox = 1;
 		GrabPos.setX( e->x() - GeoBox->x() );
 		GrabPos.setY( e->y() - GeoBox->y() );
 		return true;
-	} else if ( TimeBox->rect().tqcontains( e->pos() ) ) {
+	} else if ( TimeBox->rect().contains( e->pos() ) ) {
 		GrabbedBox = 2;
 		GrabPos.setX( e->x() - TimeBox->x() );
 		GrabPos.setY( e->y() - TimeBox->y() );
 		return true;
-	} else if ( FocusBox->rect().tqcontains( e->pos() ) ) {
+	} else if ( FocusBox->rect().contains( e->pos() ) ) {
 		GrabbedBox = 3;
 		GrabPos.setX( e->x() - FocusBox->x() );
 		GrabPos.setY( e->y() - FocusBox->y() );
@@ -180,7 +180,7 @@ bool InfoBoxes::dragBox( TQMouseEvent *e ) {
 }
 
 bool InfoBoxes::shadeBox( TQMouseEvent *e ) {
-	if ( GeoBox->rect().tqcontains( e->pos() ) ) {
+	if ( GeoBox->rect().contains( e->pos() ) ) {
 		GeoBox->toggleShade();
 		if ( GeoBox->rect().bottom() > height() ) GeoBox->move( GeoBox->x(), height() - GeoBox->height() );
 		if ( GeoBox->rect().right() > width() ) GeoBox->move( width() - GeoBox->width(), GeoBox->y() );
@@ -189,7 +189,7 @@ bool InfoBoxes::shadeBox( TQMouseEvent *e ) {
 		fixCollisions( TimeBox );
 		fixCollisions( FocusBox );
 		return true;
-	} else if ( TimeBox->rect().tqcontains( e->pos() ) ) {
+	} else if ( TimeBox->rect().contains( e->pos() ) ) {
 		TimeBox->toggleShade();
 		if ( TimeBox->rect().bottom() > height() ) TimeBox->move( TimeBox->x(), height() - TimeBox->height() );
 		if ( TimeBox->rect().right() > width() ) TimeBox->move( width() - TimeBox->width(), TimeBox->y() );
@@ -198,7 +198,7 @@ bool InfoBoxes::shadeBox( TQMouseEvent *e ) {
 		fixCollisions( GeoBox );
 		fixCollisions( FocusBox );
 		return true;
-	} else if ( FocusBox->rect().tqcontains( e->pos() ) ) {
+	} else if ( FocusBox->rect().contains( e->pos() ) ) {
 		FocusBox->toggleShade();
 		if ( FocusBox->rect().bottom() > height() ) FocusBox->move( FocusBox->x(), height() - FocusBox->height() );
 		if ( FocusBox->rect().right() > width() ) FocusBox->move( width() - FocusBox->width(), FocusBox->y() );
@@ -248,7 +248,7 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 	if ( Box2.width() ) Box2.setCoords( Box2.left()+1, Box2.top()+1, Box2.right()-1, Box2.bottom()-1 );
 
 //First, make sure target box is within area rect.
-	if ( ! area.tqcontains( t ) ) {
+	if ( ! area.contains( t ) ) {
 /*		if ( t.x() < area.x() ) target->move( area.x(), t.y() );
 		if ( t.y() < area.y() ) target->move( t.x(), area.y() );
 		if ( t.right() > area.right() ){ target->move( area.right() - t.width(), t.y() ); }
@@ -280,25 +280,25 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 			leftRect.moveTopLeft( TQPoint( t.x() - dLeft, t.y() ) );
 		}
 		//If leftRect is outside area, set dLeft to a nonsense large value
-		if ( !area.tqcontains( leftRect ) ) { dLeft = 100000; }
+		if ( !area.contains( leftRect ) ) { dLeft = 100000; }
 		//repeat for right, up and down directions.
 		while ( rightRect.intersects( Box1 ) || rightRect.intersects( Box2 ) ) {
 			++dRight;
 			rightRect.moveTopLeft( TQPoint( t.x() + dRight, t.y() ) );
 		}
-		if ( !area.tqcontains( rightRect ) ) { dRight = 100000; }
+		if ( !area.contains( rightRect ) ) { dRight = 100000; }
 
 		while ( upRect.intersects( Box1 ) || upRect.intersects( Box2 ) ) {
 			++dUp;
 			upRect.moveTopLeft( TQPoint( t.x(), t.y() - dUp ) );
 		}
-		if ( !area.tqcontains( upRect ) ) { dUp = 100000; }
+		if ( !area.contains( upRect ) ) { dUp = 100000; }
 
 		while ( downRect.intersects( Box1 ) || downRect.intersects( Box2 ) ) {
 			++dDown;
 			downRect.moveTopLeft( TQPoint( t.x(), t.y() + dDown ) );
 		}
-		if ( !area.tqcontains( downRect ) ) { dDown = 100000; }
+		if ( !area.contains( downRect ) ) { dDown = 100000; }
 
 
 		//find the smallest displacement, and move the target box there.
@@ -331,7 +331,7 @@ bool InfoBoxes::fixCollisions( InfoBox *target ) {
 
 	//Final check to see if we're still inside area (we may not be if target
 	//is bigger than area)
-	if ( area.tqcontains( target->rect() ) ) return true;
+	if ( area.contains( target->rect() ) ) return true;
 	else return false;
 }
 
@@ -351,7 +351,7 @@ bool InfoBoxes::timeChanged( const KStarsDateTime &ut, const KStarsDateTime &lt,
 	//Don't use KLocale::formatNumber() for Julian Day because we don't want 
 	//thousands-place separators
 	TQString JDString = TQString::number( ut.djd(), 'f', 2 );
-	JDString.tqreplace( ".", KGlobal::locale()->decimalSymbol() );
+	JDString.replace( ".", KGlobal::locale()->decimalSymbol() );
 	
 	TimeBox->setText3( i18n( "Sidereal Time", "ST: " ) + STString +
 			i18n( "Julian Day", "JD: " ) + JDString );

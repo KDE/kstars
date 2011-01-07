@@ -61,7 +61,7 @@ APN_USB_TYPE ApnUsbWriteRegMultiMRMD( unsigned short FpgaReg[],
 									  unsigned short RegCount );
 
 
-APN_USB_TYPE ApnUsbReadtqStatusRegs( unsigned short *tqStatusReg,
+APN_USB_TYPE ApnUsbReadStatusRegs( unsigned short *StatusReg,
 			 					   unsigned short *HeatsinkTempReg,
 								   unsigned short *CcdTempReg,
 								   unsigned short *CoolerDriveReg,

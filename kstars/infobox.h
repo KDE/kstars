@@ -26,7 +26,7 @@
 
 /**@class InfoBox 
 	*InfoBoxencapsulates a lightweight floating "window" to be drawn directly 
-	*on a pixmap.  The window tqcontains three lines of text, and it can 
+	*on a pixmap.  The window contains three lines of text, and it can 
 	*be "shaded" to show only the top line.  The window resizes itself 
 	*automatically to contain the text within it.
 	*@author Jason Harris
@@ -39,7 +39,7 @@ class InfoBox : public TQObject {
 	Q_OBJECT
 public:
 	/**default constructor.  Creates an infobox with empty text string
-		*and default tqgeometry
+		*and default geometry
 		*/
 	InfoBox();
 	
@@ -169,7 +169,7 @@ public:
 	/**@return the third line of text*/
 	TQString text3() const { return Text3; }
 
-	/**@return the tqgeometry of the box*/
+	/**@return the geometry of the box*/
 	TQRect rect() const;
 
 	/**@return TRUE if the box is anchored to the right window edge*/
@@ -184,10 +184,10 @@ public:
 	/**Set the box to be anchored to the bottom window edge*/
 	void setAnchorBottom( const bool ab );
 
-	/**@return the box's anchor flag bitqmask.*/
+	/**@return the box's anchor flag bitmask.*/
 	int  anchorFlag() const { return AnchorFlag; }
 
-	/**Set the box's anchor flag bitqmask*/
+	/**Set the box's anchor flag bitmask*/
 	void setAnchorFlag( const int af ) { AnchorFlag = af; }
 
 	enum AnchorType { 

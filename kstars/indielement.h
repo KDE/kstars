@@ -21,7 +21,7 @@
 
 #define	INDIVERSION	1.5	/* we support this or less */
 
-/* GUI tqlayout */
+/* GUI layout */
 #define PROPERTY_LABEL_WIDTH	80
 #define ELEMENT_LABEL_WIDTH	175
 #define ELEMENT_READ_WIDTH	175
@@ -97,7 +97,7 @@ class INDI_E : public QObject
     PState state;			/* control on/off t/f etc */
     INDI_P *pp;				/* parent property */
 
-    TQHBoxLayout    *EHBox;   		/* Horizontal tqlayout */
+    TQHBoxLayout    *EHBox;   		/* Horizontal layout */
     
     /* GUI widgets, only malloced when needed */
     KSqueezedTextLabel *label_w;	// label

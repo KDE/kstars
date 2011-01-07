@@ -172,7 +172,7 @@ TQString ColorScheme::nameFromKey( const TQString &key ) const {
 }
 
 void ColorScheme::setColor( const TQString &key, const TQString &color ) {
-	//We can blindly insert() the new value; if the key exists, the old value is tqreplaced
+	//We can blindly insert() the new value; if the key exists, the old value is replaced
 	Palette.insert( key, color );
 }
 
@@ -191,7 +191,7 @@ bool ColorScheme::load( const TQString &filename ) {
 	bool ok(false);
 	int newmode = line.left(1).toInt( &ok );
 	if ( ok ) setStarColorMode( newmode );
-	if ( line.tqcontains(':') ) {
+	if ( line.contains(':') ) {
 		int newintens = line.mid( line.find(':')+1, 2 ).toInt( &ok );
 		if ( ok ) setStarColorIntensity( newintens );
 	}
@@ -201,7 +201,7 @@ bool ColorScheme::load( const TQString &filename ) {
 	while ( !stream.eof() ) {
 		line = stream.readLine();
 
-		if ( line.tqcontains(':')==1 ) { //the new color preset format tqcontains a ":" in each line, followed by the name of the color
+		if ( line.contains(':')==1 ) { //the new color preset format contains a ":" in each line, followed by the name of the color
       ++inew;
 			if ( iold ) return false; //we read at least one line without a colon...file is corrupted.
 
@@ -209,11 +209,11 @@ bool ColorScheme::load( const TQString &filename ) {
 			TQString tkey = line.mid( line.find(':')+1 ).stripWhiteSpace();
 			TQString tname = line.left( line.find(':')-1 );
 
-			if ( KeyName.tqcontains( tkey ) ) {
+			if ( KeyName.contains( tkey ) ) {
 				setColor( tkey, tname );
 			} else { //attempt to translate from old color ID
 				TQString k( line.mid( 5 ).stripWhiteSpace() + "Color" );
-				if ( KeyName.tqcontains( k ) ) {
+				if ( KeyName.contains( k ) ) {
 					setColor( k, tname );
 				} else {
 					kdWarning() << "Could not use the key \"" << tkey <<
@@ -243,12 +243,12 @@ bool ColorScheme::load( const TQString &filename ) {
 bool ColorScheme::save( const TQString &name ) {
 	TQFile file;
 
-	//Construct a file name from the scheme name.  Make lowercase, tqreplace spaces with "-",
+	//Construct a file name from the scheme name.  Make lowercase, replace spaces with "-",
 	//and append ".colors".
 	TQString filename = name.lower().stripWhiteSpace();
 	if ( !filename.isEmpty() ) {
 		for( unsigned int i=0; i<filename.length(); ++i)
-			if ( filename.at(i)==' ' ) filename.tqreplace( i, 1, "-" );
+			if ( filename.at(i)==' ' ) filename.replace( i, 1, "-" );
 
 		filename = filename.append( ".colors" );
 		file.setName( locateLocal( "appdata", filename ) ); //determine filename in local user KDE directory tree.

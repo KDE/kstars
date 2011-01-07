@@ -29,15 +29,15 @@
 #define	Apn_CameraMode_ExternalTrigger 3
 #define	Apn_CameraMode_ExternalShutter 4
 
-#define	Apn_tqStatus int
-#define	Apn_tqStatus_DataError -2
-#define	Apn_tqStatus_PatternError	 -1
-#define	Apn_tqStatus_Idle	 0
-#define	Apn_tqStatus_Exposing  1
-#define	Apn_tqStatus_ImagingActive  2
-#define	Apn_tqStatus_ImageReady  3
-#define	Apn_tqStatus_Flushing  4
-#define	Apn_tqStatus_WaitingOnTrigger 5
+#define	Apn_Status int
+#define	Apn_Status_DataError -2
+#define	Apn_Status_PatternError	 -1
+#define	Apn_Status_Idle	 0
+#define	Apn_Status_Exposing  1
+#define	Apn_Status_ImagingActive  2
+#define	Apn_Status_ImageReady  3
+#define	Apn_Status_Flushing  4
+#define	Apn_Status_WaitingOnTrigger 5
 
 #define	Apn_LedMode int
 #define	Apn_LedMode_DisableAll 0
@@ -54,11 +54,11 @@
 #define	Apn_LedState_ExtStartReadout 6
 #define	Apn_LedState_AtTemp 7
 
-#define	Apn_CoolertqStatus int
-#define	Apn_CoolertqStatus_Off 0
-#define	Apn_CoolertqStatus_RampingToSetPoint 1
-#define	Apn_CoolertqStatus_AtSetPoint 2
-#define	Apn_CoolertqStatus_Revision 3
+#define	Apn_CoolerStatus int
+#define	Apn_CoolerStatus_Off 0
+#define	Apn_CoolerStatus_RampingToSetPoint 1
+#define	Apn_CoolerStatus_AtSetPoint 2
+#define	Apn_CoolerStatus_Revision 3
 
 #define	Apn_FanMode int
 #define	Apn_FanMode_Off	0
@@ -67,24 +67,24 @@
 #define	Apn_FanMode_High 3
 
 
-#define	Camera_tqStatus int
-#define	Camera_tqStatus_Idle 0
-#define	Camera_tqStatus_Waiting 1
-#define	Camera_tqStatus_Exposing 2
-#define	Camera_tqStatus_Downloading 3
-#define	Camera_tqStatus_LineReady 4
-#define	Camera_tqStatus_ImageReady 5
-#define	Camera_tqStatus_Flushing 6
+#define	Camera_Status int
+#define	Camera_Status_Idle 0
+#define	Camera_Status_Waiting 1
+#define	Camera_Status_Exposing 2
+#define	Camera_Status_Downloading 3
+#define	Camera_Status_LineReady 4
+#define	Camera_Status_ImageReady 5
+#define	Camera_Status_Flushing 6
 
-#define	Camera_CoolertqStatus int
-#define	Camera_CoolertqStatus_Off	 0
-#define	Camera_CoolertqStatus_RampingToSetPoint 1
-#define	Camera_CoolertqStatus_Correcting 2
-#define	Camera_CoolertqStatus_RampingToAmbient 3
-#define	Camera_CoolertqStatus_AtAmbient 4
-#define	Camera_CoolertqStatus_AtMax 5
-#define	Camera_CoolertqStatus_AtMin 6 
-#define	Camera_CoolertqStatus_AtSetPoint 7
+#define	Camera_CoolerStatus int
+#define	Camera_CoolerStatus_Off	 0
+#define	Camera_CoolerStatus_RampingToSetPoint 1
+#define	Camera_CoolerStatus_Correcting 2
+#define	Camera_CoolerStatus_RampingToAmbient 3
+#define	Camera_CoolerStatus_AtAmbient 4
+#define	Camera_CoolerStatus_AtMax 5
+#define	Camera_CoolerStatus_AtMin 6 
+#define	Camera_CoolerStatus_AtSetPoint 7
 
 #define	Camera_CoolerMode int
 #define	Camera_CoolerMode_Off 0

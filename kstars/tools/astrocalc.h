@@ -120,7 +120,7 @@ Q_OBJECT
 		void delRightPanel(void);
 
 		/**@returns suggested size of calculator window. */
-		TQSize tqsizeHint() const;
+		TQSize sizeHint() const;
 
 	public slots:
 		/**Determine which item is selected in the function menu TQListBox.

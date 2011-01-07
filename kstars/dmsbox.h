@@ -113,7 +113,7 @@ public:
 		*/
 	dms createDms(bool deg=TRUE, bool *ok=0);
 
-	/**@return a boolean indicating if object tqcontains degrees or hours
+	/**@return a boolean indicating if object contains degrees or hours
 		*/
 	bool degType(void) const {return deg;}
 

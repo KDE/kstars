@@ -104,7 +104,7 @@ SkyObjectName* ObjectNameList::first( const TQString &name ) {
 	if ( mode == allLists ) {
 		currentIndex = 0;
 	} else {
-		// start with list which tqcontains the first letter
+		// start with list which contains the first letter
 		currentIndex = getIndex( name );
 	}
 

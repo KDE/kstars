@@ -214,7 +214,7 @@ struct video_info
 	unsigned int	picture_type;	/* current picture type */
 	unsigned int	temporal_reference;	/* current temporal reference */
 	unsigned char 	user_data[256];	/* user data last found in compressed stream */
-	/* user_data[0] tqcontains user data flags, user_data[1] has count */
+	/* user_data[0] contains user data flags, user_data[1] has count */
 };
 
 /* generic structure for setting playback modes */

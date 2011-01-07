@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>scopeProp</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -32,7 +32,7 @@
         </widget>
         <widget class="QLayoutWidget" row="3" column="0" rowspan="1" colspan="3">
             <property name="name">
-                <cstring>tqlayout12</cstring>
+                <cstring>layout12</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -72,7 +72,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>236</width>
                             <height>20</height>
@@ -101,7 +101,7 @@
                     <verstretch>0</verstretch>
                 </sizepolicy>
             </property>
-            <property name="tqminimumSize">
+            <property name="minimumSize">
                 <size>
                     <width>130</width>
                     <height>0</height>
@@ -110,7 +110,7 @@
         </widget>
         <widget class="QLayoutWidget" row="1" column="1">
             <property name="name">
-                <cstring>tqlayout8</cstring>
+                <cstring>layout8</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -160,7 +160,7 @@
         </widget>
         <widget class="QLayoutWidget" row="1" column="2">
             <property name="name">
-                <cstring>tqlayout9</cstring>
+                <cstring>layout9</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -186,7 +186,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout5</cstring>
+                        <cstring>layout5</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -209,7 +209,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout6</cstring>
+                        <cstring>layout6</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -242,7 +242,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>21</width>
                     <height>190</height>
@@ -251,7 +251,7 @@
         </spacer>
     </grid>
 </widget>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>kpushbutton.h</includehint>
     <includehint>kpushbutton.h</includehint>

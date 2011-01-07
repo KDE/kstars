@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>ArgWaitForKey</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -18,7 +18,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout18</cstring>
+                <cstring>layout18</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -55,7 +55,7 @@ Only simple keys can currently be used; you cannot use modifier keys such as Ctr
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>40</width>
                             <height>20</height>
@@ -74,7 +74,7 @@ Only simple keys can currently be used; you cannot use modifier keys such as Ctr
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>40</height>
@@ -85,7 +85,7 @@ Only simple keys can currently be used; you cannot use modifier keys such as Ctr
 </widget>
 <customwidgets>
 </customwidgets>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klineedit.h</includehint>
 </includehints>

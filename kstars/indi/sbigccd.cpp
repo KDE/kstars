@@ -326,7 +326,7 @@ void SBIGCam::ISStaticPoll(void *p)
 void SBIGCam::ISPoll()
 {
   static int mtc=5;
-  int readtqStatus=0;
+  int readStatus=0;
   double ccdTemp (0);
 	
   switch (ExposeTimeNP.s)
@@ -340,8 +340,8 @@ void SBIGCam::ISPoll()
       // JM: Here we check the status of the camera (whether it's still capturing an image or has finished that)
       // ISPoll is called once per second. e.g. below for how we do this for Apogee Cameras
       /*
-      readtqStatus = cam->read_tqStatus();
-      if (readtqStatus < 0)
+      readStatus = cam->read_Status();
+      if (readStatus < 0)
       {
 	IDLog("Error in exposure!\n");
 	ExposeTimeNP.s = IPS_IDLE;
@@ -349,7 +349,7 @@ void SBIGCam::ISPoll()
 	IDSetNumber(&ExposeTimeNP, "Error in exposure procedure.");
 	return;
       }
-      else if (readtqStatus == Camera_tqStatus_ImageReady)
+      else if (readStatus == Camera_Status_ImageReady)
       {
 	ExposeTimeN[0].value = 0;
 	ExposeTimeNP.s = IPS_OK;

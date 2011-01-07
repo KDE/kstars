@@ -49,14 +49,14 @@ JMoonTool::JMoonTool(TQWidget *parent, const char *name)
 	TQLabel *labGn = new TQLabel( "Ganymede", page );
 	TQLabel *labCa = new TQLabel( "Callisto", page );
 	
-	labIo->tqsetSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
-	labEu->tqsetSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
-	labGn->tqsetSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
-	labCa->tqsetSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
-	labIo->tqsetAlignment( AlignHCenter );
-	labEu->tqsetAlignment( AlignHCenter );
-	labGn->tqsetAlignment( AlignHCenter );
-	labCa->tqsetAlignment( AlignHCenter );
+	labIo->setSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
+	labEu->setSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
+	labGn->setSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
+	labCa->setSizePolicy( TQSizePolicy::Expanding, TQSizePolicy::Fixed );
+	labIo->setAlignment( AlignHCenter );
+	labEu->setAlignment( AlignHCenter );
+	labGn->setAlignment( AlignHCenter );
+	labCa->setAlignment( AlignHCenter );
 
 	labIo->setPaletteForegroundColor( colIo );
 	labEu->setPaletteForegroundColor( colEu );

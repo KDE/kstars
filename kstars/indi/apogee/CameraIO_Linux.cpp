@@ -56,8 +56,8 @@ CCameraIO::CCameraIO()
 	m_WaitingforLine = false;
 
 	m_WaitingforTrigger = false;
-	m_tqStatus = Camera_tqStatus_Idle;
-	m_CoolertqStatus = Camera_CoolertqStatus_Off;	
+	m_Status = Camera_Status_Idle;
+	m_CoolerStatus = Camera_CoolerStatus_Off;	
 
 	m_ExposureBinX = 0;
 	m_ExposureBinY = 0;		
@@ -240,7 +240,7 @@ bool CCameraIO::FilterHome()
 
 		// Check for strobe
 		unsigned short val = 0;
-		Read( Reg_tqStatus, val );
+		Read( Reg_Status, val );
 		if ( val & RegBit_GotTrigger )
 		{
 			// Cycle all the way around if it's on the first time
@@ -268,13 +268,13 @@ bool CCameraIO::FilterHome()
 				Sleep ( STEP_DELAY );
 
 				val = 0;
-				Read( Reg_tqStatus, val );
+				Read( Reg_Status, val );
 				if ( val & RegBit_GotTrigger )
 				{
 					Sleep ( 10 );
 					
 					val = 0;
-					Read( Reg_tqStatus, val );
+					Read( Reg_Status, val );
 					if ( val & RegBit_GotTrigger )
 					{
 						// Restore normal priority
@@ -502,12 +502,12 @@ bool CCameraIO::GetImage( unsigned short* pImageData, short& xSize, short& ySize
         int i;
 	unsigned short BIC = m_ExposureBIC + m_ExposureStartX;
 
-	// Update internal variables in case application did not poll read_tqStatus
+	// Update internal variables in case application did not poll read_Status
 	m_WaitingforTrigger = false;
 	m_WaitingforLine = false;
 
 	if ( m_WaitingforImage )
-	{	// In case application did not poll read_tqStatus
+	{	// In case application did not poll read_Status
 		m_WaitingforImage = false;
 
 		/////////////////////////////////////
@@ -516,7 +516,7 @@ bool CCameraIO::GetImage( unsigned short* pImageData, short& xSize, short& ySize
 		while ( true )
 		{
 			unsigned short val = 0;
-			Read( Reg_tqStatus, val );
+			Read( Reg_Status, val );
 			if ( ( val & RegBit_FrameDone ) != 0 ) break;
 			
 			if ( clock() > StopTime ) return false;		// Timed out
@@ -553,7 +553,7 @@ bool CCameraIO::GetImage( unsigned short* pImageData, short& xSize, short& ySize
 		while ( true )
 		{
 			unsigned short val = 0;
-			Read( Reg_tqStatus, val );
+			Read( Reg_Status, val );
 			if ( ( val & RegBit_LineDone ) != 0 ) break;	// Line done
 			
 			if ( clock() > StopTime )
@@ -611,7 +611,7 @@ bool CCameraIO::GetImage( unsigned short* pImageData, short& xSize, short& ySize
 		if ( m_HighPriority ) SetPriorityClass ( hProcess, Class );
 	}
 
-//        UntqmaskIrqs();
+//        UnmaskIrqs();
 
 	if ( ret )
 	{	// We were successfull
@@ -679,7 +679,7 @@ bool CCameraIO::GetLine( unsigned short* pLineData, short& xSize )
         int i;
 
 	if ( m_WaitingforLine )
-	{	// In case application did not poll read_tqStatus
+	{	// In case application did not poll read_Status
 		m_WaitingforLine = false;
 		
 		/////////////////////////////////////
@@ -688,7 +688,7 @@ bool CCameraIO::GetLine( unsigned short* pLineData, short& xSize )
 		while ( true )
 		{
 			unsigned short val = 0;
-			Read( Reg_tqStatus, val );
+			Read( Reg_Status, val );
 			if ( ( val & RegBit_LineDone ) != 0 ) break;	// Line done
 			
 			if ( clock() > StopTime )
@@ -746,7 +746,7 @@ bool CCameraIO::GetLine( unsigned short* pLineData, short& xSize )
 		if ( m_HighPriority ) SetPriorityClass ( hProcess, Class );
 	}
 	
-//        UntqmaskIrqs();
+//        UnmaskIrqs();
 	return ret;
 }
 
@@ -763,11 +763,11 @@ bool CCameraIO::Snap( double Duration, bool Light, unsigned short* pImageData, s
 
 	if ( m_WaitingforTrigger )
 	{
-		Camera_tqStatus stat;
+		Camera_Status stat;
 		while ( true )
 		{	// This will wait forever if no trigger happens
-			stat = read_tqStatus();
-			if ( stat == Camera_tqStatus_Exposing ) break;
+			stat = read_Status();
+			if ( stat == Camera_Status_Exposing ) break;
 			Sleep( 220 );	// dont bog down the CPU while polling
 		}
 		m_WaitingforTrigger = false;
@@ -778,8 +778,8 @@ bool CCameraIO::Snap( double Duration, bool Light, unsigned short* pImageData, s
 	clock_t StopTime = clock() + long( ( 1.2 * Duration + m_Timeout ) * CLOCKS_PER_SEC );
 	while ( true )
 	{
-		Camera_tqStatus stat = read_tqStatus();
-		if ( stat == Camera_tqStatus_ImageReady ) break;
+		Camera_Status stat = read_Status();
+		if ( stat == Camera_Status_ImageReady ) break;
 		
 		if ( clock() > StopTime ) return false;	// Timed out, no image available
 		Sleep( 220 );	// dont bog down the CPU while polling
@@ -791,43 +791,43 @@ bool CCameraIO::Snap( double Duration, bool Light, unsigned short* pImageData, s
 ////////////////////////////////////////////////////////////
 // Camera Settings
 
-Camera_tqStatus CCameraIO::read_tqStatus()
+Camera_Status CCameraIO::read_Status()
 {
 	unsigned short val = 0;
-	Read( Reg_tqStatus, val );
+	Read( Reg_Status, val );
 
 	if ( val & RegBit_Exposing )		//11.0
 	{
 		ATLTRACE( "Exposing\r\n" );
 		m_WaitingforTrigger = false;
-		m_tqStatus = Camera_tqStatus_Exposing;
+		m_Status = Camera_Status_Exposing;
 	}
 
 	else if ( m_WaitingforTrigger )
-		m_tqStatus = Camera_tqStatus_Waiting;
+		m_Status = Camera_Status_Waiting;
 
 	else if ( m_WaitingforImage && ( val & RegBit_FrameDone ) )	//11.11
 	{
 		ATLTRACE( "ImageReady\r\n" );
 		m_WaitingforImage = false;
-		m_tqStatus = Camera_tqStatus_ImageReady;
+		m_Status = Camera_Status_ImageReady;
 	}
 
 	else if ( m_WaitingforLine && ( val & RegBit_LineDone ) )	//11.1
 	{
 		ATLTRACE( "LineReady\r\n" );
 		m_WaitingforLine = false;
-		m_tqStatus = Camera_tqStatus_LineReady;
+		m_Status = Camera_Status_LineReady;
 	}
 	else if ( m_WaitingforImage || m_WaitingforLine )
 	{
 		ATLTRACE( "Flushing\r\n" );
-		m_tqStatus = Camera_tqStatus_Flushing;
+		m_Status = Camera_Status_Flushing;
 	}
 	else
-		m_tqStatus = Camera_tqStatus_Idle;
+		m_Status = Camera_Status_Idle;
 
-	return m_tqStatus;
+	return m_Status;
 }
 
 bool CCameraIO::read_Present()
@@ -839,13 +839,13 @@ bool CCameraIO::read_Present()
 
 	bool FailedLoopback = false;
 	unsigned short val = 0;
-	Read( Reg_tqStatus, val );
+	Read( Reg_Status, val );
 	if ( !( val & RegBit_LoopbackTest ) ) FailedLoopback = true;
 
 	m_RegShadow[ Reg_BICCounter ] &= ~RegBit_LoopbackTest;	// clear bit to 0
 	Write( Reg_BICCounter, m_RegShadow[ Reg_BICCounter ] );
 
-	Read( Reg_tqStatus, val );
+	Read( Reg_Status, val );
 	if ( val & RegBit_LoopbackTest ) FailedLoopback = true;
 */
 
@@ -884,7 +884,7 @@ bool CCameraIO::read_Present()
 bool CCameraIO::read_Shutter()
 {
 	unsigned short regval = 0;
-	Read( Reg_tqStatus, regval );
+	Read( Reg_Status, regval );
 	if ( !( regval & RegBit_Exposing ) )
 	{	// We are not exposing, but might have finnshed an exposure
 		// and have not called GetImage yet, so update our internal variable
@@ -917,7 +917,7 @@ void CCameraIO::write_ForceShutterOpen( bool val )
 		m_RegShadow[ Reg_Command ] &= ~RegBit_ShutterOverride;	// clear bit to 0
 
 		unsigned short regval = 0;
-		Read( Reg_tqStatus, regval );
+		Read( Reg_Status, regval );
 		if ( ( regval & RegBit_Exposing ) )
 		{	
 			// Shutter will remain open if a Light frame is being taken
@@ -1076,7 +1076,7 @@ void CCameraIO::write_CoolerSetPoint( double val )
 	Write( Reg_TempSetPoint, m_RegShadow[ Reg_TempSetPoint ] );
 }
 
-Camera_CoolertqStatus CCameraIO::read_CoolertqStatus()
+Camera_CoolerStatus CCameraIO::read_CoolerStatus()
 {
 	unsigned short val = 0;
 	Read( Reg_CommandReadback, val );
@@ -1084,34 +1084,34 @@ Camera_CoolertqStatus CCameraIO::read_CoolertqStatus()
 	if ( val & RegBit_CoolerEnable )				//12.15
 	{
 		unsigned short val2 = 0;
-		Read( Reg_tqStatus, val2 );
+		Read( Reg_Status, val2 );
 		
 		if ( val & RegBit_CoolerShutdown )			//12.8
 		{
 			if ( val2 & RegBit_ShutdownComplete )	//11.6
-				m_CoolertqStatus = Camera_CoolertqStatus_AtAmbient;
+				m_CoolerStatus = Camera_CoolerStatus_AtAmbient;
 			else
-				m_CoolertqStatus = Camera_CoolertqStatus_RampingToAmbient;
+				m_CoolerStatus = Camera_CoolerStatus_RampingToAmbient;
 		}
 		else
 		{
 			if ( val2 & RegBit_TempAtMax )			//11.5
-				m_CoolertqStatus = Camera_CoolertqStatus_AtMax;
+				m_CoolerStatus = Camera_CoolerStatus_AtMax;
 			else if ( val2 & RegBit_TempAtMin )		//11.4
-				m_CoolertqStatus = Camera_CoolertqStatus_AtMin;
+				m_CoolerStatus = Camera_CoolerStatus_AtMin;
 			else if ( val2 & RegBit_TempAtSetPoint )	//11.7
-				m_CoolertqStatus = Camera_CoolertqStatus_AtSetPoint;
+				m_CoolerStatus = Camera_CoolerStatus_AtSetPoint;
 			// Check against last known cooler status
-			else if ( m_CoolertqStatus == Camera_CoolertqStatus_AtSetPoint )
-				m_CoolertqStatus = Camera_CoolertqStatus_Correcting;
+			else if ( m_CoolerStatus == Camera_CoolerStatus_AtSetPoint )
+				m_CoolerStatus = Camera_CoolerStatus_Correcting;
 			else
-				m_CoolertqStatus = Camera_CoolertqStatus_RampingToSetPoint;
+				m_CoolerStatus = Camera_CoolerStatus_RampingToSetPoint;
 		}
 	}
 	else
-		m_CoolertqStatus = Camera_CoolertqStatus_Off;
+		m_CoolerStatus = Camera_CoolerStatus_Off;
 
-	return m_CoolertqStatus;
+	return m_CoolerStatus;
 }
 
 Camera_CoolerMode CCameraIO::read_CoolerMode()
@@ -1319,7 +1319,7 @@ void CCameraIO::Flush( short Rows )
 		while ( true )
 		{
 			unsigned short val = 0;
-			Read( Reg_tqStatus, val );
+			Read( Reg_Status, val );
 			if ( ( val & RegBit_FrameDone ) != 0 ) break;
 			
 			if ( clock() > StopTime ) break;		// Timed out

@@ -82,7 +82,7 @@ INDIMenu::~INDIMenu()
 ** Traverse the drivers list, check for updated drivers and take
 ** appropriate action
 *********************************************************************/
-void INDIMenu::updatetqStatus()
+void INDIMenu::updateStatus()
 {
    INDIDriver *drivers = ksw->getINDIDriver();
 

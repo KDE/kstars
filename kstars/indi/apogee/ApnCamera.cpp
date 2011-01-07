@@ -45,7 +45,7 @@ bool CApnCamera::Expose( double Duration, bool Light )
 	unsigned short	TotalVPixels;
 
 
-	while ( read_ImagingtqStatus() != Apn_tqStatus_Flushing )
+	while ( read_ImagingStatus() != Apn_Status_Flushing )
 	{
 		Sleep( 20 );
 	}
@@ -128,7 +128,7 @@ bool CApnCamera::Expose( double Duration, bool Light )
 		PostRoiRows	= 1;
 	}
 
-        // Set up the tqgeometry for a full frame device
+        // Set up the geometry for a full frame device
         if ( m_ApnSensorInfo->m_EnableSingleRowOffset )
         {
                 PreRoiVBinning  += PreRoiRows;
@@ -296,7 +296,7 @@ unsigned short CApnCamera::GetExposurePixelsV()
 
 double CApnCamera::read_InputVoltage()
 {
-	UpdateGeneraltqStatus();
+	UpdateGeneralStatus();
 
 	return m_pvtInputVoltage;
 }
@@ -329,7 +329,7 @@ unsigned short CApnCamera::read_FirmwareVersion()
 
 bool CApnCamera::read_ShutterState()
 {
-	UpdateGeneraltqStatus();
+	UpdateGeneralStatus();
 
 	return m_pvtShutterState;
 }
@@ -559,15 +559,15 @@ void CApnCamera::write_DataBits( Apn_Resolution BitResolution )
 	}
 }
 
-Apn_tqStatus CApnCamera::read_ImagingtqStatus()
+Apn_Status CApnCamera::read_ImagingStatus()
 {
 	bool Exposing, Active, Done, Flushing, WaitOnTrigger;
 	bool DataHalted, RamError;
 
 
-	UpdateGeneraltqStatus();
+	UpdateGeneralStatus();
 
-	// Update the ImagingtqStatus
+	// Update the ImagingStatus
 	Exposing		= false;
 	Active			= false;
 	Done			= false;
@@ -576,65 +576,65 @@ Apn_tqStatus CApnCamera::read_ImagingtqStatus()
 	DataHalted		= false;
 	RamError		= false;
 
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_IMAGING_ACTIVE) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_IMAGING_ACTIVE) != 0 )
 		Active = true;
 	
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_IMAGE_EXPOSING) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_IMAGE_EXPOSING) != 0 )
 		Exposing = true;
 	
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_IMAGE_DONE) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_IMAGE_DONE) != 0 )
 		Done = true;
 	
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_FLUSHING) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_FLUSHING) != 0 )
 		Flushing = true;
 	
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_WAITING_TRIGGER) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_WAITING_TRIGGER) != 0 )
 		WaitOnTrigger = true;
 
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_DATA_HALTED) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_DATA_HALTED) != 0 )
 		DataHalted = true;
 
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_PATTERN_ERROR) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_PATTERN_ERROR) != 0 )
 		RamError = true;
 
 	if ( RamError )
 	{
-		m_pvtImagingtqStatus = Apn_tqStatus_PatternError;
+		m_pvtImagingStatus = Apn_Status_PatternError;
 	}
 	else
 	{
 		if ( DataHalted )
 		{
-			m_pvtImagingtqStatus = Apn_tqStatus_DataError;
+			m_pvtImagingStatus = Apn_Status_DataError;
 		}
 		else
 		{
 			if ( WaitOnTrigger )
 			{
-				m_pvtImagingtqStatus = Apn_tqStatus_WaitingOnTrigger;
+				m_pvtImagingStatus = Apn_Status_WaitingOnTrigger;
 			}
 			else
 			{
 				if ( Done && m_pvtImageInProgress )
 				{
 					m_pvtImageReady			= true;
-					m_pvtImagingtqStatus		= Apn_tqStatus_ImageReady;
+					m_pvtImagingStatus		= Apn_Status_ImageReady;
 				}
 				else
 				{
 					if ( Active )
 					{
 						if ( Exposing )
-							m_pvtImagingtqStatus = Apn_tqStatus_Exposing;
+							m_pvtImagingStatus = Apn_Status_Exposing;
 						else
-							m_pvtImagingtqStatus = Apn_tqStatus_ImagingActive;
+							m_pvtImagingStatus = Apn_Status_ImagingActive;
 					}
 					else
 					{
 						if ( Flushing )
-							m_pvtImagingtqStatus = Apn_tqStatus_Flushing;
+							m_pvtImagingStatus = Apn_Status_Flushing;
 						else
-							m_pvtImagingtqStatus = Apn_tqStatus_Idle;
+							m_pvtImagingStatus = Apn_Status_Idle;
 					}
 				}
 			}
@@ -642,39 +642,39 @@ Apn_tqStatus CApnCamera::read_ImagingtqStatus()
 	}
 
 	/*
-	switch( m_pvtImagingtqStatus )
+	switch( m_pvtImagingStatus )
 	{
-	case Apn_tqStatus_DataError:
-		OutputDebugString( "ImagingtqStatus: Apn_tqStatus_DataError" );
+	case Apn_Status_DataError:
+		OutputDebugString( "ImagingStatus: Apn_Status_DataError" );
 		break;
-	case Apn_tqStatus_PatternError:
-		OutputDebugString( "ImagingtqStatus: Apn_tqStatus_PatternError" );
+	case Apn_Status_PatternError:
+		OutputDebugString( "ImagingStatus: Apn_Status_PatternError" );
 		break;
-	case Apn_tqStatus_Idle:
-		OutputDebugString( "ImagingtqStatus: Apn_tqStatus_Idle" );
+	case Apn_Status_Idle:
+		OutputDebugString( "ImagingStatus: Apn_Status_Idle" );
 		break;
-	case Apn_tqStatus_Exposing:
-		OutputDebugString( "ImagingtqStatus: Apn_tqStatus_Exposing" );
+	case Apn_Status_Exposing:
+		OutputDebugString( "ImagingStatus: Apn_Status_Exposing" );
 		break;
-	case Apn_tqStatus_ImagingActive:
-		OutputDebugString( "ImagingtqStatus: Apn_tqStatus_ImagingActive" );
+	case Apn_Status_ImagingActive:
+		OutputDebugString( "ImagingStatus: Apn_Status_ImagingActive" );
 		break;
-        case Apn_tqStatus_ImageReady:
-                OutputDebugString( "ImagingtqStatus: Apn_tqStatus_ImageReady" );
+        case Apn_Status_ImageReady:
+                OutputDebugString( "ImagingStatus: Apn_Status_ImageReady" );
                 break;
-	case Apn_tqStatus_Flushing:
-		OutputDebugString( "ImagingtqStatus: Apn_tqStatus_Flushing" );
+	case Apn_Status_Flushing:
+		OutputDebugString( "ImagingStatus: Apn_Status_Flushing" );
 		break;
-	case Apn_tqStatus_WaitingOnTrigger:
-		OutputDebugString( "ImagingtqStatus: Apn_tqStatus_WaitingOnTrigger" );
+	case Apn_Status_WaitingOnTrigger:
+		OutputDebugString( "ImagingStatus: Apn_Status_WaitingOnTrigger" );
 		break;
 	default:
-		OutputDebugString( "ImagingtqStatus: UNDEFINED!!" );
+		OutputDebugString( "ImagingStatus: UNDEFINED!!" );
 		break;
 	}
 	*/
 
-	return m_pvtImagingtqStatus;
+	return m_pvtImagingStatus;
 }
 
 Apn_LedMode CApnCamera::read_LedMode()
@@ -763,51 +763,51 @@ void CApnCamera::write_CoolerEnable( bool CoolerEnable )
 	m_pvtCoolerEnable = CoolerEnable;
 }
 
-Apn_CoolertqStatus CApnCamera::read_CoolertqStatus()
+Apn_CoolerStatus CApnCamera::read_CoolerStatus()
 {
 	bool CoolerAtTemp;
 	bool CoolerActive;
 	bool CoolerTempRevised;
 
 
-	UpdateGeneraltqStatus();
+	UpdateGeneralStatus();
 
-	// Update CoolertqStatus
+	// Update CoolerStatus
 	CoolerActive		= false;
 	CoolerAtTemp		= false;
 	CoolerTempRevised	= false;
 
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_TEMP_AT_TEMP) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_TEMP_AT_TEMP) != 0 )
 		CoolerAtTemp = true;
 	
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_TEMP_ACTIVE) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_TEMP_ACTIVE) != 0 )
 		CoolerActive = true;
 
-	if ( (m_pvtqStatusReg & FPGA_BIT_STATUS_TEMP_REVISION) != 0 )
+	if ( (m_pvtStatusReg & FPGA_BIT_STATUS_TEMP_REVISION) != 0 )
 		CoolerTempRevised = true;
 
 	// Now derive our cooler state
 	if ( !CoolerActive )
 	{
-		m_pvtCoolertqStatus = Apn_CoolertqStatus_Off;
+		m_pvtCoolerStatus = Apn_CoolerStatus_Off;
 	}
 	else
 	{
 		if ( CoolerTempRevised )
 		{
-			m_pvtCoolertqStatus = Apn_CoolertqStatus_Revision;
+			m_pvtCoolerStatus = Apn_CoolerStatus_Revision;
 		}
 		else
 		{
 			if ( CoolerAtTemp )
-				m_pvtCoolertqStatus = Apn_CoolertqStatus_AtSetPoint;
+				m_pvtCoolerStatus = Apn_CoolerStatus_AtSetPoint;
 			else
-				m_pvtCoolertqStatus = Apn_CoolertqStatus_RampingToSetPoint;
+				m_pvtCoolerStatus = Apn_CoolerStatus_RampingToSetPoint;
 
 		}
 	}
 
-	return m_pvtCoolertqStatus;
+	return m_pvtCoolerStatus;
 }
 
 double CApnCamera::read_CoolerSetPoint()
@@ -874,14 +874,14 @@ void CApnCamera::write_CoolerBackoffPoint( double BackoffPoint )
 
 double CApnCamera::read_CoolerDrive()
 {
-	UpdateGeneraltqStatus();
+	UpdateGeneralStatus();
 
 	return m_pvtCoolerDrive;
 }
 
 double CApnCamera::read_TempCCD()
 {
-	// UpdateGeneraltqStatus();
+	// UpdateGeneralStatus();
 
 	unsigned short	TempReg;
 	unsigned short	TempAvg;
@@ -910,7 +910,7 @@ double CApnCamera::read_TempCCD()
 
 double CApnCamera::read_TempHeatsink()
 {
-	// UpdateGeneraltqStatus();
+	// UpdateGeneralStatus();
 
 	unsigned short	TempReg;
 	unsigned short	TempAvg;
@@ -1782,8 +1782,8 @@ long CApnCamera::InitDefaults()
 	Write( FPGA_REG_TEMP_RAMP_DOWN_A,	m_ApnSensorInfo->m_TempRampRateOne );
 	Write( FPGA_REG_TEMP_RAMP_DOWN_B,	m_ApnSensorInfo->m_TempRampRateTwo );
 	// the collor code not only determines the m_pvtCoolerEnable state, but
-	// also implicitly calls UpdateGeneraltqStatus() as part of read_CoolertqStatus()
-	if ( read_CoolertqStatus() == Apn_CoolertqStatus_Off )
+	// also implicitly calls UpdateGeneralStatus() as part of read_CoolerStatus()
+	if ( read_CoolerStatus() == Apn_CoolerStatus_Off )
 		m_pvtCoolerEnable = false;
 	else
 		m_pvtCoolerEnable = true;
@@ -1827,9 +1827,9 @@ long CApnCamera::WriteTwelveBitOffset()
 	return 0;
 }
 
-void CApnCamera::UpdateGeneraltqStatus()
+void CApnCamera::UpdateGeneralStatus()
 {
-	unsigned short	tqStatusReg;
+	unsigned short	StatusReg;
 	unsigned short	HeatsinkTempReg;
 	unsigned short	CcdTempReg;
 	unsigned short	CoolerDriveReg;
@@ -1840,7 +1840,7 @@ void CApnCamera::UpdateGeneraltqStatus()
 
 
 	// Read the general status register of the device
-	QuerytqStatusRegs( tqStatusReg, 
+	QueryStatusRegs( StatusReg, 
 					 HeatsinkTempReg, 
 					 CcdTempReg, 
 					 CoolerDriveReg,
@@ -1848,7 +1848,7 @@ void CApnCamera::UpdateGeneraltqStatus()
 					 TdiCounterReg,
 					 SequenceCounterReg );
 
-	m_pvtqStatusReg	= tqStatusReg;
+	m_pvtStatusReg	= StatusReg;
 
 	HeatsinkTempReg &= FPGA_MASK_TEMP_PARAMS;
 	CcdTempReg		&= FPGA_MASK_TEMP_PARAMS;
@@ -1869,7 +1869,7 @@ void CApnCamera::UpdateGeneraltqStatus()
 	m_pvtInputVoltage			= VoltageReg * APN_VOLTAGE_RESOLUTION;
 
 	// Update ShutterState
-	m_pvtShutterState = ( (m_pvtqStatusReg & FPGA_BIT_STATUS_SHUTTER_OPEN) != 0 );
+	m_pvtShutterState = ( (m_pvtStatusReg & FPGA_BIT_STATUS_SHUTTER_OPEN) != 0 );
 }
 
 

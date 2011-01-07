@@ -40,7 +40,7 @@ modCalcDayLength::~modCalcDayLength() {}
 
 void modCalcDayLength::showCurrentDate (void)
 {
-	KStarsDateTime dt( KStarsDateTime::tqcurrentDateTime() );
+	KStarsDateTime dt( KStarsDateTime::currentDateTime() );
 	datBox->setDate( dt.date() );
 }
 
@@ -71,7 +71,7 @@ void modCalcDayLength::slotClearCoords(){
 	elTransitBox->clearFields();
 
 	// reset to current date
-	datBox->setDate(ExtDate::tqcurrentDate());
+	datBox->setDate(ExtDate::currentDate());
 
 // reset times to 00:00:00
 	setTimeBox->clearFields();

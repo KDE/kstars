@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>AltVsTimeUI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -44,7 +44,7 @@
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout30</cstring>
+                            <cstring>layout30</cstring>
                         </property>
                         <grid>
                             <property name="name">
@@ -108,7 +108,7 @@
                                 <property name="text">
                                     <string>RA:</string>
                                 </property>
-                                <property name="tqalignment">
+                                <property name="alignment">
                                     <set>AlignVCenter</set>
                                 </property>
                             </widget>
@@ -150,13 +150,13 @@
                                 <property name="name">
                                     <cstring>epochName</cstring>
                                 </property>
-                                <property name="tqminimumSize">
+                                <property name="minimumSize">
                                     <size>
                                         <width>80</width>
                                         <height>0</height>
                                     </size>
                                 </property>
-                                <property name="tqmaximumSize">
+                                <property name="maximumSize">
                                     <size>
                                         <width>80</width>
                                         <height>32767</height>
@@ -175,7 +175,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout6</cstring>
+                            <cstring>layout6</cstring>
                         </property>
                         <vbox>
                             <property name="name">
@@ -228,7 +228,7 @@
                                         <verstretch>0</verstretch>
                                     </sizepolicy>
                                 </property>
-                                <property name="tqminimumSize">
+                                <property name="minimumSize">
                                     <size>
                                         <width>100</width>
                                         <height>0</height>
@@ -260,7 +260,7 @@
                         <property name="name">
                             <cstring>PlotList</cstring>
                         </property>
-                        <property name="tqminimumSize">
+                        <property name="minimumSize">
                             <size>
                                 <width>100</width>
                                 <height>0</height>
@@ -285,7 +285,7 @@
                     </property>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout57</cstring>
+                            <cstring>layout57</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -303,7 +303,7 @@
                                 <property name="name">
                                     <cstring>dateBox</cstring>
                                 </property>
-                                <property name="tqminimumSize">
+                                <property name="minimumSize">
                                     <size>
                                         <width>90</width>
                                         <height>0</height>
@@ -320,7 +320,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="tqsizeHint">
+                                <property name="sizeHint">
                                     <size>
                                         <width>257</width>
                                         <height>20</height>
@@ -331,7 +331,7 @@
                     </widget>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout25</cstring>
+                            <cstring>layout25</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -421,7 +421,7 @@
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>16</height>
@@ -430,7 +430,7 @@
                     </spacer>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout26</cstring>
+                            <cstring>layout26</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -446,7 +446,7 @@
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="tqsizeHint">
+                                <property name="sizeHint">
                                     <size>
                                         <width>40</width>
                                         <height>20</height>
@@ -526,7 +526,7 @@
     <tabstop>latBox</tabstop>
     <tabstop>updateButton</tabstop>
 </tabstops>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>dmsbox.h</includehint>
 </includehints>

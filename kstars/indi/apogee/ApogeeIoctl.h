@@ -4,7 +4,7 @@
 //
 //Portions Copyright (c) 2000 The Random Factory.
 //
-// Define the IOCTL codes we will use.  The IOCTL code tqcontains a command
+// Define the IOCTL codes we will use.  The IOCTL code contains a command
 // identifier, plus other information about the device, the type of access
 // with which the file must have been opened, and the type of buffering.
 //

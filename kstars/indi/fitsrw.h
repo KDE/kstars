@@ -82,7 +82,7 @@ typedef enum {
 typedef struct {
  double pixmin, pixmax;    /** The pixel values [pixmin,pixmax] that should be mapped */
  double datamin, datamax;  /** The data values [datamin,datamax] that the pixel values should be mapped to*/
- double tqreplacement;       /** datavalue to use for blank or NaN pixels */
+ double replacement;       /** datavalue to use for blank or NaN pixels */
  char dsttyp;              /** Destination typ ('c' = char) */
 } FITS_PIX_TRANSFORM;
 
@@ -110,7 +110,7 @@ typedef struct fits_record_list {
 /** \struct FITS_HDU_LIST
     \brief Header and Data Unit List.
     
-* The structure hold header and data unit lists. The \p used struct tqcontains flags specifying if some cards are used.
+* The structure hold header and data unit lists. The \p used struct contains flags specifying if some cards are used.
 */
 typedef struct fits_hdu_list {    
  long header_offset;              /** Offset of header in the file */

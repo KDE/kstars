@@ -47,7 +47,7 @@
  #include <stdlib.h>
  
 /*******************************************************************
-** INDI Property: tqcontains widgets, labels, and their status
+** INDI Property: contains widgets, labels, and their status
 *******************************************************************/
 INDI_P::INDI_P(INDI_G *parentGroup, TQString inName)
 {
@@ -209,7 +209,7 @@ void INDI_P::convertSwitch(int id)
  if (assosiatedPopup == NULL)
   return;
 
-  mLabel = assosiatedPopup->text(id).tqreplace("&", "");
+  mLabel = assosiatedPopup->text(id).replace("&", "");
 
   //kdDebug() << "Name: " << name << " ID: " << id << endl;
  /* Special case is CCD_EXPOSE_DURATION, not a switch */
@@ -438,19 +438,19 @@ void INDI_P::addGUI (XMLEle *root)
 	else
 	   label_w = new TQLabel(label, pg->propertyContainer);
 	 
-	   label_w->tqsetSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)5, 0, 0, label_w->sizePolicy().hasHeightForWidth() ) );
+	   label_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)0, (TQSizePolicy::SizeType)5, 0, 0, label_w->sizePolicy().hasHeightForWidth() ) );
 	   label_w->setFrameShape( TQLabel::GroupBoxPanel );
 	   label_w->setMinimumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setMaximumWidth(PROPERTY_LABEL_WIDTH);
 	   label_w->setTextFormat( TQLabel::RichText );
-	   label_w->tqsetAlignment( int( TQLabel::WordBreak | TQLabel::AlignVCenter | TQLabel::AlignHCenter) );
+	   label_w->setAlignment( int( TQLabel::WordBreak | TQLabel::AlignVCenter | TQLabel::AlignHCenter) );
 	   
 	   PHBox->addWidget(label_w);
 	 
          light->show();
 	 label_w->show();
 	 
-	 /* #3 Add the Vertical tqlayout thay may contain several elements */
+	 /* #3 Add the Vertical layout thay may contain several elements */
 	 PHBox->addLayout(PVBox);
 }
 
@@ -600,7 +600,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, char errmsg[])
 void INDI_P::setupSetButton(TQString caption)
 {
 	set_w = new TQPushButton(caption, pg->propertyContainer);
-	set_w->tqsetSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)5, (TQSizePolicy::SizeType)0, 0, 0, set_w->sizePolicy().hasHeightForWidth() ) );
+	set_w->setSizePolicy( TQSizePolicy( (TQSizePolicy::SizeType)5, (TQSizePolicy::SizeType)0, 0, 0, set_w->sizePolicy().hasHeightForWidth() ) );
 	set_w->setMinimumWidth( MIN_SET_WIDTH );
 	set_w->setMaximumWidth( MAX_SET_WIDTH );
 

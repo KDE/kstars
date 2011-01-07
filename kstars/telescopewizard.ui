@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>telescopeWizard</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>1</y>
@@ -20,13 +20,13 @@
             <verstretch>0</verstretch>
         </sizepolicy>
     </property>
-    <property name="tqminimumSize">
+    <property name="minimumSize">
         <size>
             <width>500</width>
             <height>300</height>
         </size>
     </property>
-    <property name="tqmaximumSize">
+    <property name="maximumSize">
         <size>
             <width>800</width>
             <height>300</height>
@@ -44,7 +44,7 @@
         </property>
         <widget class="QLayoutWidget" row="1" column="1">
             <property name="name">
-                <cstring>tqlayout12</cstring>
+                <cstring>layout12</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -74,7 +74,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>56</width>
                             <height>11</height>
@@ -141,7 +141,7 @@ This Wizard will help you to connect to your telescope and control it from KStar
 &lt;br&gt;&lt;br&gt;
 Please click next to continue.</string>
                         </property>
-                        <property name="tqalignment">
+                        <property name="alignment">
                             <set>WordBreak|AlignVCenter</set>
                         </property>
                     </widget>
@@ -167,7 +167,7 @@ Please click next to continue.</string>
 
 Please select your telescope model from the list below. Click next after selecting a model.</string>
                         </property>
-                        <property name="tqalignment">
+                        <property name="alignment">
                             <set>WordBreak|AlignTop</set>
                         </property>
                     </widget>
@@ -181,7 +181,7 @@ Please select your telescope model from the list below. Click next after selecti
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>25</height>
@@ -190,7 +190,7 @@ Please select your telescope model from the list below. Click next after selecti
                     </spacer>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout10</cstring>
+                            <cstring>layout10</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -211,7 +211,7 @@ Please select your telescope model from the list below. Click next after selecti
                                 <property name="sizeType">
                                     <enum>Minimum</enum>
                                 </property>
-                                <property name="tqsizeHint">
+                                <property name="sizeHint">
                                     <size>
                                         <width>196</width>
                                         <height>16</height>
@@ -230,7 +230,7 @@ Please select your telescope model from the list below. Click next after selecti
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>25</height>
@@ -274,12 +274,12 @@ Please select your telescope model from the list below. Click next after selecti
                         <property name="text">
                             <string>&lt;h3&gt;2. Align Your Telescope&lt;/h3&gt;
 
-You need to align your telescope before you can control it properly from KStars. Please refer to your telescope manual for tqalignment instructions.
+You need to align your telescope before you can control it properly from KStars. Please refer to your telescope manual for alignment instructions.
 &lt;br&gt;&lt;br&gt;
-After a successful tqalignment, connect your telescope's RS232 interface to your computer's serial or USB port.
+After a successful alignment, connect your telescope's RS232 interface to your computer's serial or USB port.
 &lt;br&gt;&lt;br&gt;&lt;br&gt;Click next to continue.</string>
                         </property>
-                        <property name="tqalignment">
+                        <property name="alignment">
                             <set>WordBreak|AlignTop</set>
                         </property>
                     </widget>
@@ -306,7 +306,7 @@ After a successful tqalignment, connect your telescope's RS232 interface to your
 Verify if the following time, date, and location settings are correct. If any of the settings are incorrect, you can correct them via the &lt;tt&gt;Set time&lt;/tt&gt; and &lt;tt&gt;Set Location&lt;/tt&gt; buttons.
 </string>
                         </property>
-                        <property name="tqalignment">
+                        <property name="alignment">
                             <set>WordBreak|AlignTop</set>
                         </property>
                     </widget>
@@ -320,7 +320,7 @@ Verify if the following time, date, and location settings are correct. If any of
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>20</height>
@@ -329,7 +329,7 @@ Verify if the following time, date, and location settings are correct. If any of
                     </spacer>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout14</cstring>
+                            <cstring>layout14</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -337,7 +337,7 @@ Verify if the following time, date, and location settings are correct. If any of
                             </property>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>tqlayout13</cstring>
+                                    <cstring>layout13</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -345,7 +345,7 @@ Verify if the following time, date, and location settings are correct. If any of
                                     </property>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>tqlayout6</cstring>
+                                            <cstring>layout6</cstring>
                                         </property>
                                         <vbox>
                                             <property name="name">
@@ -353,7 +353,7 @@ Verify if the following time, date, and location settings are correct. If any of
                                             </property>
                                             <widget class="QLayoutWidget">
                                                 <property name="name">
-                                                    <cstring>tqlayout2</cstring>
+                                                    <cstring>layout2</cstring>
                                                 </property>
                                                 <hbox>
                                                     <property name="name">
@@ -384,7 +384,7 @@ Verify if the following time, date, and location settings are correct. If any of
                                             </widget>
                                             <widget class="QLayoutWidget">
                                                 <property name="name">
-                                                    <cstring>tqlayout3</cstring>
+                                                    <cstring>layout3</cstring>
                                                 </property>
                                                 <hbox>
                                                     <property name="name">
@@ -417,7 +417,7 @@ Verify if the following time, date, and location settings are correct. If any of
                                     </widget>
                                     <widget class="QLayoutWidget">
                                         <property name="name">
-                                            <cstring>tqlayout4</cstring>
+                                            <cstring>layout4</cstring>
                                         </property>
                                         <hbox>
                                             <property name="name">
@@ -450,7 +450,7 @@ Verify if the following time, date, and location settings are correct. If any of
                             </widget>
                             <widget class="QLayoutWidget">
                                 <property name="name">
-                                    <cstring>tqlayout11</cstring>
+                                    <cstring>layout11</cstring>
                                 </property>
                                 <vbox>
                                     <property name="name">
@@ -486,7 +486,7 @@ Verify if the following time, date, and location settings are correct. If any of
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>40</height>
@@ -524,7 +524,7 @@ Verify if the following time, date, and location settings are correct. If any of
 Enter the port number your telescope is connected to. If you only have one serial port in your computer, the port is usually &lt;tt&gt;/dev/ttyS0&lt;/tt&gt;
 &lt;br&gt;&lt;br&gt;If you are unsure about the port number, you can leave the field empty and KStars will try to scan the ports for attached telescopes. Beware that the autoscan process might take a few minutes to complete. </string>
                         </property>
-                        <property name="tqalignment">
+                        <property name="alignment">
                             <set>WordBreak|AlignTop</set>
                         </property>
                     </widget>
@@ -538,7 +538,7 @@ Enter the port number your telescope is connected to. If you only have one seria
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>25</height>
@@ -547,7 +547,7 @@ Enter the port number your telescope is connected to. If you only have one seria
                     </spacer>
                     <widget class="QLayoutWidget">
                         <property name="name">
-                            <cstring>tqlayout17</cstring>
+                            <cstring>layout17</cstring>
                         </property>
                         <hbox>
                             <property name="name">
@@ -576,7 +576,7 @@ Enter the port number your telescope is connected to. If you only have one seria
                                 <property name="sizeType">
                                     <enum>Expanding</enum>
                                 </property>
-                                <property name="tqsizeHint">
+                                <property name="sizeHint">
                                     <size>
                                         <width>141</width>
                                         <height>16</height>
@@ -595,7 +595,7 @@ Enter the port number your telescope is connected to. If you only have one seria
                         <property name="sizeType">
                             <enum>Expanding</enum>
                         </property>
-                        <property name="tqsizeHint">
+                        <property name="sizeHint">
                             <size>
                                 <width>20</width>
                                 <height>25</height>
@@ -617,7 +617,7 @@ Enter the port number your telescope is connected to. If you only have one seria
 </widget>
 <customwidgets>
 </customwidgets>
-<tqlayoutdefaults spacing="6" margin="0"/>
+<layoutdefaults spacing="6" margin="0"/>
 <includehints>
     <includehint>klineedit.h</includehint>
 </includehints>

@@ -157,8 +157,8 @@ int getCalenderDate(char *date);
 int getSiteName(char *siteName, int siteNum);
 /* Get Number of Bars */
 int getNumberOfBars(int *value);
-/* Get Home Search tqStatus */
-int getHomeSearchtqStatus(int *status);
+/* Get Home Search Status */
+int getHomeSearchStatus(int *status);
 /* Get OTA Temperature */
 int getOTATemp(double * value);
 /* Get time format: 12 or 24 */
@@ -178,7 +178,7 @@ int setStandardProcedure(char * writeData);
 /* Set Slew Mode */
 int setSlewMode(int slewMode);
 /* Set Alignment mode */
-int tqsetAlignmentMode(unsigned int alignMode);
+int setAlignmentMode(unsigned int alignMode);
 /* Set Object RA */
 int setObjectRA(double ra);
 /* set Object DEC */

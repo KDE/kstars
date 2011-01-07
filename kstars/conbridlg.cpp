@@ -231,7 +231,7 @@ void ContrastBrightnessDlg::setBrightness(int brightnessValue)
  
 }
 
-TQSize ContrastBrightnessDlg::tqsizeHint() const
+TQSize ContrastBrightnessDlg::sizeHint() const
 {
   return TQSize(400,130);
 }

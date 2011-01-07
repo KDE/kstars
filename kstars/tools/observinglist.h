@@ -70,7 +70,7 @@ public:
 /**@return true if the object is in the observing list
 	*@p o pointer to the object to test.
 	*/
-	bool tqcontains( const SkyObject *o );
+	bool contains( const SkyObject *o );
 
 	SkyObject* first() { return obsList.first(); }
 	SkyObject* next() { return obsList.next(); }

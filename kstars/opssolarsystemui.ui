@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>OpsSolarSystemUI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -32,7 +32,7 @@
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout20</cstring>
+                        <cstring>layout20</cstring>
                     </property>
                     <grid>
                         <property name="name">
@@ -230,7 +230,7 @@
                             <property name="sizeType">
                                 <enum>Fixed</enum>
                             </property>
-                            <property name="tqsizeHint">
+                            <property name="sizeHint">
                                 <size>
                                     <width>100</width>
                                     <height>20</height>
@@ -263,7 +263,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>40</height>
@@ -307,7 +307,7 @@
                     <property name="sizeType">
                         <enum>Fixed</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>20</width>
                             <height>16</height>
@@ -462,7 +462,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout12</cstring>
+                        <cstring>layout12</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -492,7 +492,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="tqsizeHint">
+                            <property name="sizeHint">
                                 <size>
                                     <width>40</width>
                                     <height>20</height>
@@ -569,7 +569,7 @@
     <tabstop>kcfg_FadePlanetTrails</tabstop>
     <tabstop>ClearAllTrails</tabstop>
 </tabstops>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>knuminput.h</includehint>
     <includehint>magnitudespinbox.h</includehint>

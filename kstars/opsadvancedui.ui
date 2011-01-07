@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>OpsAdvancedUI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -117,7 +117,7 @@
             <property name="sizeType">
                 <enum>Fixed</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>20</height>
@@ -140,7 +140,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout16</cstring>
+                <cstring>layout16</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -175,7 +175,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>40</width>
                             <height>20</height>
@@ -200,7 +200,7 @@
                 </property>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout20</cstring>
+                        <cstring>layout20</cstring>
                     </property>
                     <hbox>
                         <property name="name">
@@ -224,7 +224,7 @@
                             <property name="name">
                                 <cstring>kcfg_MagLimitHideStar</cstring>
                             </property>
-                            <property name="tqminimumSize">
+                            <property name="minimumSize">
                                 <size>
                                     <width>40</width>
                                     <height>0</height>
@@ -258,7 +258,7 @@
                             <property name="sizeType">
                                 <enum>Expanding</enum>
                             </property>
-                            <property name="tqsizeHint">
+                            <property name="sizeHint">
                                 <size>
                                     <width>240</width>
                                     <height>20</height>
@@ -269,7 +269,7 @@
                 </widget>
                 <widget class="QLayoutWidget">
                     <property name="name">
-                        <cstring>tqlayout4</cstring>
+                        <cstring>layout4</cstring>
                     </property>
                     <grid>
                         <property name="name">
@@ -409,7 +409,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>16</height>
@@ -478,7 +478,7 @@
     <tabstop>kcfg_HideCLines</tabstop>
     <tabstop>kcfg_HideGrid</tabstop>
 </tabstops>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>timestepbox.h</includehint>
     <includehint>magnitudespinbox.h</includehint>

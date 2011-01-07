@@ -79,7 +79,7 @@ void KSNewStuff::updateData( const TQString &path ) {
 	
 	
 	//Handle the Steinicke NGC/IC catalog
-	if ( !NGCUpdated && qd[0].tqcontains( "ngcic" ) ) {
+	if ( !NGCUpdated && qd[0].contains( "ngcic" ) ) {
 		//Build a progress dialog to show during data installation.
 		KProgressDialog prog( 0, "newstuffprogdialog", 
 				i18n( "Please Wait" ), i18n( "Installing Steinicke NGC/IC catalog..." ), false /*modal*/ );

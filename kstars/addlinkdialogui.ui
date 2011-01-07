@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>AddLinkDialogUI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -47,7 +47,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout2</cstring>
+                <cstring>layout2</cstring>
             </property>
             <grid>
                 <property name="name">
@@ -86,7 +86,7 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="tqminimumSize">
+                    <property name="minimumSize">
                         <size>
                             <width>450</width>
                             <height>0</height>
@@ -97,7 +97,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout1</cstring>
+                <cstring>layout1</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -113,7 +113,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>40</width>
                             <height>20</height>
@@ -140,7 +140,7 @@
             <property name="sizeType">
                 <enum>Expanding</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>40</height>
@@ -149,5 +149,5 @@
         </spacer>
     </vbox>
 </widget>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 </UI>

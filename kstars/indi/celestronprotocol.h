@@ -2,7 +2,7 @@
 * Header File for the Telescope Control protocols for the Meade LX200
 * Author:  John Kielkopf (kielkopf@louisville.edu)
 *
-* This file tqcontains header information used in common with xmtel.
+* This file contains header information used in common with xmtel.
 *
 * 15 May 2003 -- Version 2.00
 *

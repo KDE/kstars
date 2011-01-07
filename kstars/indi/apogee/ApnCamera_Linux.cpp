@@ -16,14 +16,14 @@ bool CApnCamera::read_Present()
 {
 	// OutputDebugString( "read_Present()" );
 
-	USHORT AptqStatus;
+	USHORT ApStatus;
 	USHORT DatumA;
 	USHORT DatumB;
 	char	szMsg[80];
 
 	DatumA		= 0x0;
 	DatumB		= 0x0;
-	AptqStatus	= 0;
+	ApStatus	= 0;
 
 	Write( FPGA_REG_SCRATCH, 0x8086 );
 	Read( FPGA_REG_SCRATCH, DatumA );

@@ -4,7 +4,7 @@
     <property name="name">
         <cstring>DetailsLinksUI</cstring>
     </property>
-    <property name="tqgeometry">
+    <property name="geometry">
         <rect>
             <x>0</x>
             <y>0</y>
@@ -21,7 +21,7 @@
         </property>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout79</cstring>
+                <cstring>layout79</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -66,7 +66,7 @@
             <property name="sizeType">
                 <enum>Fixed</enum>
             </property>
-            <property name="tqsizeHint">
+            <property name="sizeHint">
                 <size>
                     <width>20</width>
                     <height>16</height>
@@ -75,7 +75,7 @@
         </spacer>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout80</cstring>
+                <cstring>layout80</cstring>
             </property>
             <vbox>
                 <property name="name">
@@ -115,7 +115,7 @@
         </widget>
         <widget class="QLayoutWidget">
             <property name="name">
-                <cstring>tqlayout91</cstring>
+                <cstring>layout91</cstring>
             </property>
             <hbox>
                 <property name="name">
@@ -163,7 +163,7 @@
                     <property name="sizeType">
                         <enum>Expanding</enum>
                     </property>
-                    <property name="tqsizeHint">
+                    <property name="sizeHint">
                         <size>
                             <width>40</width>
                             <height>20</height>
@@ -176,7 +176,7 @@
 </widget>
 <customwidgets>
 </customwidgets>
-<tqlayoutdefaults spacing="6" margin="11"/>
+<layoutdefaults spacing="6" margin="11"/>
 <includehints>
     <includehint>klistbox.h</includehint>
     <includehint>klistbox.h</includehint>

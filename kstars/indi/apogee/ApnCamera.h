@@ -83,7 +83,7 @@ public:
 								 unsigned short val[], 
 								 unsigned short count );
 	
-	long QuerytqStatusRegs( unsigned short& tqStatusReg,
+	long QueryStatusRegs( unsigned short& StatusReg,
 								  unsigned short& HeatsinkTempReg,
 								  unsigned short& CcdTempReg,
 								  unsigned short& CoolerDriveReg,
@@ -129,7 +129,7 @@ public:
 
 	void				write_DataBits( Apn_Resolution BitResolution );
 
-	Apn_tqStatus			read_ImagingtqStatus();
+	Apn_Status			read_ImagingStatus();
 
 	Apn_LedMode			read_LedMode();
 	void				write_LedMode( Apn_LedMode LedMode );
@@ -138,7 +138,7 @@ public:
 
 	bool				read_CoolerEnable();
 	void				write_CoolerEnable( bool CoolerEnable );
-	Apn_CoolertqStatus	read_CoolertqStatus();
+	Apn_CoolerStatus	read_CoolerStatus();
 	double				read_CoolerSetPoint();
 	void				write_CoolerSetPoint( double SetPoint );
 	double				read_CoolerBackoffPoint();
@@ -231,7 +231,7 @@ public:
 	long InitTwelveBitAD();
 	long WriteTwelveBitOffset();
 
-	void UpdateGeneraltqStatus();
+	void UpdateGeneralStatus();
 
 	// Internal private variables
 	bool			m_ResetVerticalArrays;
@@ -264,13 +264,13 @@ public:
 
 	double			m_pvtCoolerBackoffPoint;
 
-	Apn_CoolertqStatus	m_pvtCoolertqStatus;
-	Apn_tqStatus			m_pvtImagingtqStatus;
+	Apn_CoolerStatus	m_pvtCoolerStatus;
+	Apn_Status			m_pvtImagingStatus;
 	bool				m_pvtShutterState;
 	bool				m_pvtImageInProgress;
 	bool				m_pvtImageReady;
 
-	unsigned short	m_pvtqStatusReg;
+	unsigned short	m_pvtStatusReg;
 
 	double			m_pvtCoolerDrive;
 	double			m_pvtCurrentHeatsinkTemp;

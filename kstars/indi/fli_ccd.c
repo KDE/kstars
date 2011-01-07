@@ -610,13 +610,13 @@ void ISPoll(void *p)
 	    break;
 	    
 	  case IPS_BUSY:
-	    if ( (err = FLIGetExposuretqStatus(fli_dev, &timeleft)))
+	    if ( (err = FLIGetExposureStatus(fli_dev, &timeleft)))
 	    { 
 	      ExposeTimeNP.s = IPS_IDLE; 
 	      ExposeTimeN[0].value = 0;
 	      
-	      IDSetNumber(&ExposeTimeNP, "FLIGetExposuretqStatus() failed. %s.", strerror((int)-err));
-	      IDLog("FLIGetExposuretqStatus() failed. %s.\n", strerror((int)-err));
+	      IDSetNumber(&ExposeTimeNP, "FLIGetExposureStatus() failed. %s.", strerror((int)-err));
+	      IDLog("FLIGetExposureStatus() failed. %s.\n", strerror((int)-err));
 	      break;
 	    }
 	    

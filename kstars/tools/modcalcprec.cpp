@@ -63,7 +63,7 @@ TQString modCalcPrec:: showCurrentEpoch () {
 }
 
 double modCalcPrec::setCurrentEpoch () {
-	return KStarsDateTime::tqcurrentDateTime().epoch();
+	return KStarsDateTime::currentDateTime().epoch();
 }
 
 double modCalcPrec::getEpoch (TQString eName) {

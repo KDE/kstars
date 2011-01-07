@@ -489,7 +489,7 @@ LIBFLIAPI FLIGetVisibleArea(flidev_t dev, long* ul_x, long* ul_y,
 
    @see FLIExposeFrame
    @see FLICancelExposure
-   @see FLIGetExposuretqStatus
+   @see FLIGetExposureStatus
 */
 LIBFLIAPI FLISetExposureTime(flidev_t dev, long exptime)
 {
@@ -626,7 +626,7 @@ LIBFLIAPI FLISetFrameType(flidev_t dev, fliframe_t frametype)
    @return Non-zero on failure.
 
    @see FLIExposeFrame
-   @see FLIGetExposuretqStatus
+   @see FLIGetExposureStatus
    @see FLISetExposureTime
 */
 LIBFLIAPI FLICancelExposure(flidev_t dev)
@@ -652,7 +652,7 @@ LIBFLIAPI FLICancelExposure(flidev_t dev)
    @see FLICancelExposure
    @see FLISetExposureTime
 */
-LIBFLIAPI FLIGetExposuretqStatus(flidev_t dev, long *timeleft)
+LIBFLIAPI FLIGetExposureStatus(flidev_t dev, long *timeleft)
 {
   CHKDEVICE(dev);
 
@@ -752,7 +752,7 @@ LIBFLIAPI FLIGrabRow(flidev_t dev, void *buff, size_t width)
    @see FLISetBitDepth
    @see FLIGrabFrame
    @see FLICancelExposure
-   @see FLIGetExposuretqStatus
+   @see FLIGetExposureStatus
 */
 LIBFLIAPI FLIExposeFrame(flidev_t dev)
 {

@@ -313,7 +313,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 	//because we don't want a thousands-place separator!
 	TQString sEpoch = TQString::number( ut.epoch(), 'f', 1 );
 	//Replace the decimal point with localized decimal symbol
-	sEpoch.tqreplace( ".", KGlobal::locale()->decimalSymbol() );
+	sEpoch.replace( ".", KGlobal::locale()->decimalSymbol() );
 
 	Pos->RALabel->setText( i18n( "RA (%1):" ).arg( sEpoch ) );
 	Pos->DecLabel->setText( i18n( "Dec (%1):" ).arg( sEpoch ) );
@@ -556,7 +556,7 @@ void DetailDialog::editLinkDialog()
 	editLinkField = new TQLineEdit(editFrame, "lineedit");
 	editLinkField->setMinimumWidth(300);
 	editLinkField->home(false);
-	editLinkLayout = new TQHBoxLayout(editFrame, 6, 6, "editlinktqlayout");
+	editLinkLayout = new TQHBoxLayout(editFrame, 6, 6, "editlinklayout");
 	editLinkLayout->addWidget(editLinkURL);
 	editLinkLayout->addWidget(editLinkField);
 	
@@ -1040,7 +1040,7 @@ void DetailDialog::showThumbnail() {
 	//If no image found, load "no image" image
 	//If that isn't found, make it blank.
 	TQFile file;
-	TQString fname = "thumb-" + selectedObject->name().lower().tqreplace( TQRegExp(" "), "" ) + ".png";
+	TQString fname = "thumb-" + selectedObject->name().lower().replace( TQRegExp(" "), "" ) + ".png";
 	if ( KSUtils::openDataFile( file, fname ) ) {
 		file.close();
 		Thumbnail->load( file.name(), "PNG" );
@@ -1060,7 +1060,7 @@ void DetailDialog::updateThumbnail() {
 	
 	if ( tp.exec() == TQDialog::Accepted ) {
 		TQString fname = locateLocal( "appdata", "thumb-" 
-				+ selectedObject->name().lower().tqreplace( TQRegExp(" "), "" ) + ".png" );
+				+ selectedObject->name().lower().replace( TQRegExp(" "), "" ) + ".png" );
 
 		Data->Image->setPixmap( *(tp.image()) );
 

@@ -549,7 +549,7 @@ void FITSViewer::fileSave()
 	  currentURL = backupCurrent;
 	  return;
 	}
-	if (currentURL.path().tqcontains('.') == 0) currentURL.setPath(currentURL.path() + ".fits");
+	if (currentURL.path().contains('.') == 0) currentURL.setPath(currentURL.path() + ".fits");
 	
 	if (TQFile::exists(currentURL.path()))
         {
@@ -589,7 +589,7 @@ void FITSViewer::fileSave()
 	  recordList = record[j];
 	  
 	  if ( (index = recordList.find("BITPIX")) != -1)
-	  	recordList.tqreplace(index, FITS_CARD_SIZE, bitpixRec);
+	  	recordList.replace(index, FITS_CARD_SIZE, bitpixRec);
 	
 	  fwrite(recordList.ascii(), 1, FITS_RECORD_SIZE, ifp->fp);
         }
@@ -918,7 +918,7 @@ void FITSViewer::fitsHeader()
 	       
 	       if (equal == -1)
 	       {
-	        if (property.tqcontains(" ") != FITS_CARD_SIZE)
+	        if (property.contains(" ") != FITS_CARD_SIZE)
 	         	cards << property << "" << "";
 		 recordList.remove(0, FITS_CARD_SIZE);
 		 if (property.find("END") != -1)

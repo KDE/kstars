@@ -102,11 +102,11 @@ INDIDriver::INDIDriver(TQWidget *parent) : devManager( parent )
 
   TQObject::connect(clientListView, TQT_SIGNAL(rightButtonPressed ( TQListViewItem *, const TQPoint &, int )), this, TQT_SLOT(ClientprocessRightButton( TQListViewItem *, const TQPoint &, int )));
 
-TQObject::connect(ClientpopMenu, TQT_SIGNAL(activated(int)), this, TQT_SLOT(processHostqStatus(int)));
+TQObject::connect(ClientpopMenu, TQT_SIGNAL(activated(int)), this, TQT_SLOT(processHostStatus(int)));
 
 TQObject::connect(localListView, TQT_SIGNAL(rightButtonPressed ( TQListViewItem *, const TQPoint &, int )), this, TQT_SLOT(LocalprocessRightButton( TQListViewItem *, const TQPoint &, int )));
 
-TQObject::connect(LocalpopMenu, TQT_SIGNAL(activated(int)), this, TQT_SLOT(processDevicetqStatus(int)));
+TQObject::connect(LocalpopMenu, TQT_SIGNAL(activated(int)), this, TQT_SLOT(processDeviceStatus(int)));
 
 TQObject::connect(ksw->getINDIMenu(), TQT_SIGNAL(driverDisconnected(int)), this, TQT_SLOT(shutdownHost(int)));
 
@@ -183,22 +183,22 @@ void INDIDriver::LocalprocessRightButton( TQListViewItem *item, const TQPoint &p
 
 void INDIDriver::activateRunService()
 {
-  processDevicetqStatus(0);
+  processDeviceStatus(0);
 }
 
 void INDIDriver::activateStopService()
 {
-  processDevicetqStatus(1);
+  processDeviceStatus(1);
 }
 
 void INDIDriver::activateHostConnection()
 {
-  processHostqStatus(0);
+  processHostStatus(0);
 }
 
 void INDIDriver::activateHostDisconnection()
 {
-  processHostqStatus(1);
+  processHostStatus(1);
 }
     
 void INDIDriver::updateLocalButtons()
@@ -244,7 +244,7 @@ for (uint i=0; i < ksw->data()->INDIHostsList.count(); i++)
 }
 
     
-void INDIDriver::processDevicetqStatus(int id)
+void INDIDriver::processDeviceStatus(int id)
 {
   if (localListView->selectedItem() == NULL)
     return;
@@ -301,7 +301,7 @@ void INDIDriver::processDevicetqStatus(int id)
      }
 }
 
-void INDIDriver::processHostqStatus(int id)
+void INDIDriver::processHostStatus(int id)
 {
    int mgrID;
    bool toConnect = (id == 0);
@@ -829,7 +829,7 @@ void INDIDriver::modifyINDIHost()
     	currentItem->setText(1, hostConf.nameIN->text());
     	currentItem->setText(2, hostConf.portnumber->text());
 
-    	ksw->data()->INDIHostsList.tqreplace(clientListView->itemIndex(currentItem), hostItem);
+    	ksw->data()->INDIHostsList.replace(clientListView->itemIndex(currentItem), hostItem);
 
     	saveHosts();
   	}

@@ -728,9 +728,9 @@ void APMount::ISNewSwitch (const char *dev, const char *name, ISState *states, c
 	  IUUpdateSwitches(&AlignmentSP, states, names, n);
 	  index = getOnSwitch(&AlignmentSP);
 
-	  if ( ( err = tqsetAlignmentMode(index) < 0) )
+	  if ( ( err = setAlignmentMode(index) < 0) )
 	  {
-	     handleError(&AlignmentSP, err, "Setting tqalignment");
+	     handleError(&AlignmentSP, err, "Setting alignment");
              return;
 	  }
 	  

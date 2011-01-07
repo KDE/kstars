@@ -192,7 +192,7 @@ APN_USB_TYPE ApnUsbWriteRegMultiMRMD( unsigned short FpgaReg[],
 }
 
 
-APN_USB_TYPE ApnUsbReadtqStatusRegs( unsigned short *tqStatusReg,
+APN_USB_TYPE ApnUsbReadStatusRegs( unsigned short *StatusReg,
 				   unsigned short *HeatsinkTempReg,
 				   unsigned short *CcdTempReg,
 				   unsigned short *CoolerDriveReg,
@@ -203,15 +203,15 @@ APN_USB_TYPE ApnUsbReadtqStatusRegs( unsigned short *tqStatusReg,
 	BOOLEAN		Success;
 	/*unsigned int	BytesReceived;*/
 	unsigned short *Data;
-	unsigned char	tqStatusData[21];	
+	unsigned char	StatusData[21];	
 	
 	Success = usb_control_msg(g_hSysDriver,
                                   USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,  VND_APOGEE_STATUS,
-                                    0, 0, (char *)&tqStatusData, 21, 3000);
+                                    0, 0, (char *)&StatusData, 21, 3000);
 
 //	if ( !Success )
 //		return APN_USB_ERR_STATUS;
-	Data = (unsigned short *)tqStatusData;
+	Data = (unsigned short *)StatusData;
 
 	*HeatsinkTempReg	= Data[0];
 	*CcdTempReg		= Data[1];
@@ -219,11 +219,11 @@ APN_USB_TYPE ApnUsbReadtqStatusRegs( unsigned short *tqStatusReg,
 	*VoltageReg		= Data[3];
 	*TdiCounter		= Data[4];
 	*SequenceCounter	= Data[5];
-	*tqStatusReg		= Data[6];
+	*StatusReg		= Data[6];
 
-	if ( (tqStatusData[20] & 0x01) != 0 )
+	if ( (StatusData[20] & 0x01) != 0 )
 	{
-		*tqStatusReg |= 0x8;
+		*StatusReg |= 0x8;
 	}
 
 	return APN_USB_SUCCESS;

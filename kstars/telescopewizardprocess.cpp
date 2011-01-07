@@ -106,7 +106,7 @@ telescopeWizardProcess::~telescopeWizardProcess()
 {
   if (progressScan)
     if (progressScan->wasCancelled())
-      indidriver->processDevicetqStatus(1);
+      indidriver->processDeviceStatus(1);
 
     Options::setIndiMessages( INDIMessageBar );
 
@@ -237,7 +237,7 @@ int telescopeWizardProcess::establishLink()
 	if (indidriver->isDeviceRunning(telescopeCombo->currentText()))
 	{
 		indidriver->localListView->setSelected(driverItem, true);
-		indidriver->processDevicetqStatus(1);
+		indidriver->processDeviceStatus(1);
 	}
 	   
 	// Set custome label for device
@@ -248,7 +248,7 @@ int telescopeWizardProcess::establishLink()
 	// Make sure we start is locally
 	indidriver->localR->setChecked(true);
 	// Run it
-	indidriver->processDevicetqStatus(0);
+	indidriver->processDeviceStatus(0);
 
 	if (!indidriver->isDeviceRunning(telescopeCombo->currentText()))
 	 return (3);
@@ -274,7 +274,7 @@ void telescopeWizardProcess::processPort()
 
      if (timeOutCount >= TIMEOUT_THRESHHOLD)
      {
-       indidriver->processDevicetqStatus(1);
+       indidriver->processDeviceStatus(1);
        Reset();
        KMessageBox::error(0, i18n("Error: connection timeout. Unable to communicate with an INDI server"));
        close();
@@ -335,7 +335,7 @@ void telescopeWizardProcess::scanPorts()
      {
       KMessageBox::sorry(0, i18n("Sorry. KStars failed to detect any attached telescopes, please check your settings and try again."));
       linkRejected = true;
-      indidriver->processDevicetqStatus(1);
+      indidriver->processDeviceStatus(1);
       Reset();
       return;
      }

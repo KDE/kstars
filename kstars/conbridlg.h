@@ -33,7 +33,7 @@ class ContrastBrightnessDlg : public KDialogBase {
    ContrastBrightnessDlg(TQWidget *parent=0);
    ~ContrastBrightnessDlg();
    
-  TQSize tqsizeHint() const;
+  TQSize sizeHint() const;
   void range(int min, int max, int & num);
   void range(float min, float max, float & num);
   

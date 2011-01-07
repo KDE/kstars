@@ -81,7 +81,7 @@ void modCalcAzel::showCurrentDateTime (void)
 {
 	KStars *ks = (KStars*) parent()->parent()->parent();
 
-	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::tqcurrentDateTime() );
+	KStarsDateTime dt = ks->data()->geo()->LTtoUT( KStarsDateTime::currentDateTime() );
 
 	datBox->setDate( dt.date() );
 	timBox->setTime( dt.time() );
@@ -179,7 +179,7 @@ void modCalcAzel::slotClearCoords()
 	elBox->clearFields();
 	epochName->setText("");
 
-	datBox->setDate(ExtDate::tqcurrentDate());
+	datBox->setDate(ExtDate::currentDate());
 	timBox->setTime(TQTime(0,0,0));
 
 }

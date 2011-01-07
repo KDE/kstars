@@ -66,7 +66,7 @@ class INDIMenu : public KDialogBase
 
    TQPtrList<DeviceManager> mgr;
 
-   void updatetqStatus();
+   void updateStatus();
    //bool removeDevice(TQString devName);
    void removeDeviceMgr(int mgrID);
    void setCustomLabel(TQString deviceName);
