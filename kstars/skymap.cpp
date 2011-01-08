@@ -337,6 +337,8 @@ SkyMap::~SkyMap() {
     delete pmenu;
 
     delete m_proj;
+
+    pinstance = 0;
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
