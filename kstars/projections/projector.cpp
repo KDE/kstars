@@ -26,7 +26,7 @@
 #include "skycomponents/skylabeler.h"
 
 namespace {
-    void toXYZ(SkyPoint* p, double *x, double *y, double *z) {
+    void toXYZ(const SkyPoint* p, double *x, double *y, double *z) {
         double sinRa, sinDec, cosRa, cosDec;
 
         p->ra().SinCos(  sinRa,  cosRa );
@@ -90,7 +90,7 @@ double Projector::fov() const
     return m_fov;
 }
 
-QPointF Projector::toScreen(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere) const
+QPointF Projector::toScreen(const SkyPoint* o, bool oRefract, bool* onVisibleHemisphere) const
 {
     return KSUtils::vecToPoint( toScreenVec(o, oRefract, onVisibleHemisphere) );
 }
@@ -399,7 +399,7 @@ SkyPoint Projector::fromScreen(const QPointF& p, dms* LST, const dms* lat) const
     return result;
 }
 
-Vector2f Projector::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere) const
+Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibleHemisphere) const
 {
     double Y, dX;
     double sindX, cosdX, sinY, cosY;

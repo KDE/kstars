@@ -94,7 +94,7 @@ public:
      * @param onVisibleHemisphere pointer to a bool to indicate whether the point is
      *   on the visible part of the Celestial Sphere.
      */
-    virtual Vector2f toScreenVec( SkyPoint *o,
+    virtual Vector2f toScreenVec( const SkyPoint *o,
                                   bool oRefract = true,
                                   bool* onVisibleHemisphere = 0) const;
 
@@ -102,7 +102,7 @@ public:
         It just calls toScreenVec and converts the result.
         @see toScreenVec()
       */
-    QPointF toScreen( SkyPoint *o,
+    QPointF toScreen( const SkyPoint *o,
                       bool oRefract = true,
                       bool* onVisibleHemisphere = 0) const;
 
