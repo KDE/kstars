@@ -23,6 +23,7 @@
 #include <QPainter>
 #include <QPixmap>
 
+#include "skymapdrawabstract.h"
 #include "skymap.h"
 #include "Options.h"
 #include "fov.h"
