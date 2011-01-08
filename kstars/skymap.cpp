@@ -142,7 +142,7 @@ SkyMap* SkyMap::pinstance = 0;
 
 SkyMap* SkyMap::Create()
 {
-    if ( pinstance ) delete pinstance;
+    delete pinstance;
     pinstance = new SkyMap();
     return pinstance;
 }
