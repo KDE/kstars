@@ -31,11 +31,17 @@
 #include "Options.h"
 #include "skycomponents/skymapcomposite.h"
 
+SkyPoint::SkyPoint() {
+    // Default constructor. Set nonsense values
+    RA0.setD(-1); // RA >= 0 always :-)
+    Dec0.setD(180); // Dec is between -90 and 90 Degrees :-)
+    RA = RA0;
+    Dec = Dec0;
+}
+
 void SkyPoint::set( const dms& r, const dms& d ) {
-    RA  = RA0  = r;
-    Dec = Dec0 = d;
-    //Quaternion
-    syncQuaternion();
+    RA0 = RA = r;
+    Dec0 = Dec = d;
 }
 
 void SkyPoint::set( double r, double d ) {
@@ -190,6 +196,18 @@ void SkyPoint::precess( const KSNumbers *num) {
     RA.setRadians( atan2( v[1], v[0] ) );
     RA.reduce();
     Dec.setRadians( asin( v[2] ) );
+}
+
+SkyPoint SkyPoint::deprecess( const KSNumbers *num, long double epoch ) const {
+    SkyPoint p1( RA, Dec );
+    long double now = num->julianDay();
+    p1.precessFromAnyEpoch( now, epoch );
+    if( RA0.Degrees() < 0.0 || Dec0.Degrees() > 90.0 ) {
+        // We have invalid RA0 and Dec0, so set them.
+        RA0 = p1.ra();
+        Dec0 = p1.dec();
+    }
+    return p1;
 }
 
 void SkyPoint::nutate(const KSNumbers *num) {
@@ -579,7 +597,7 @@ void SkyPoint::subtractEterms(void) {
     Dec.setD( Dec.Degrees() - spd.dec().Degrees() );
 }
 
-dms SkyPoint::angularDistanceTo(const SkyPoint *sp) {
+dms SkyPoint::angularDistanceTo(const SkyPoint *sp) const {
 
     double dalpha = ra().radians() - sp->ra().radians() ;
     double ddelta = dec().radians() - sp->dec().radians() ;
@@ -727,21 +745,20 @@ dms SkyPoint::altRefracted() const {
         return Alt;
 }
 
-// Calculate refraction correction. Parameter and return value are in degrees
-static double refractionCorr(double alt) {
+double SkyPoint::refractionCorr(double alt) {
     return 1.02 / tan(dms::DegToRad * ( alt + 10.3/(alt + 5.11) )) / 60;
 }
 // Critical height. Below this height formula produce meaningless
 // results and correction value is just interpolated
-static const double altCrit  = -1;
-static const double corrCrit = refractionCorr( altCrit );
 
 dms SkyPoint::refract(dms h) {
     const double alt = h.Degrees();
-    if( alt > altCrit )
-        return dms( alt + refractionCorr(alt) );
+    const double corrCrit = SkyPoint::refractionCorr( SkyPoint::altCrit );
+
+    if( alt > SkyPoint::altCrit )
+        return dms( alt + SkyPoint::refractionCorr(alt) );
     else
-        return dms( alt + corrCrit * (alt + 90) / (altCrit + 90) );
+        return dms( alt + corrCrit * (alt + 90) / (SkyPoint::altCrit + 90) );
 }
 
 // Found uncorrected value by solving equation. This is OK since

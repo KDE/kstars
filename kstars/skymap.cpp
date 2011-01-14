@@ -25,6 +25,7 @@
 #include <QFile>
 #include <QPointF>
 #include <QApplication>
+#include <QGraphicsScene>
 
 #include <kactioncollection.h>
 #include <kconfig.h>
@@ -50,6 +51,26 @@
 #include "skyobjects/ksplanetbase.h"
 #include "skycomponents/skymapcomposite.h"
 #include "widgets/infoboxwidget.h"
+#include "projections/projector.h"
+#include "projections/lambertprojector.h"
+#include "projections/gnomonicprojector.h"
+#include "projections/stereographicprojector.h"
+#include "projections/orthographicprojector.h"
+#include "projections/azimuthalequidistantprojector.h"
+#include "projections/equirectangularprojector.h"
+
+#include "texturemanager.h"
+
+#include "skymapqdraw.h"
+
+#ifdef HAVE_OPENGL
+#include "skymapgldraw.h"
+#endif
+
+// DEBUG TODO: Remove later -- required to display starhop results for debug.
+#include "skycomponents/targetlistcomponent.h"
+
+#include "starhopper.h"
 
 #ifdef HAVE_XPLANET
 #include <KProcess>
@@ -121,7 +142,7 @@ SkyMap* SkyMap::pinstance = 0;
 
 SkyMap* SkyMap::Create()
 {
-    if ( pinstance ) delete pinstance;
+    delete pinstance;
     pinstance = new SkyMap();
     return pinstance;
 }
@@ -131,11 +152,11 @@ SkyMap* SkyMap::Instance( )
     return pinstance;
 }
 
-SkyMap::SkyMap() :
-    QWidget( KStars::Instance() ),
-    computeSkymap(true), angularDistanceMode(false), scrollCount(0),
-    data( KStarsData::Instance() ), pmenu(0), sky(0), sky2(0),
-    ClickedObject(0), FocusObject(0), TransientObject(0)
+SkyMap::SkyMap() : 
+    QGraphicsView( KStars::Instance() ),
+    computeSkymap(true), rulerMode(false), scrollCount(0),
+    data( KStarsData::Instance() ), pmenu(0),
+    ClickedObject(0), FocusObject(0), TransientObject(0), m_proj(0)
 {
     m_Scale = 1.0;
 
@@ -150,6 +171,9 @@ SkyMap::SkyMap() :
     setFocusPolicy( Qt::StrongFocus );
     setMinimumSize( 380, 250 );
     setSizePolicy( QSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding ) );
+    setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    setStyleSheet( "QGraphicsView { border-style: none; }" ); 
 
     setMouseTracking (true); //Generate MouseMove events!
     midMouseButtonDown = false;
@@ -160,9 +184,11 @@ SkyMap::SkyMap() :
     ClickedObject = NULL;
     FocusObject = NULL;
 
-    sky   = new QPixmap( width(),  height() );
-    sky2  = new QPixmap( width(),  height() );
+    m_SkyMapDraw = 0;
+
     pmenu = new KSPopupMenu();
+
+    setupProjector();
 
     //Initialize Transient label stuff
     TransientTimeout = 100; //fade label color every 0.1 sec
@@ -203,12 +229,56 @@ SkyMap::SkyMap() :
     connect(this,     SIGNAL( positionChanged( SkyPoint*) ),
             m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
 
-    m_iboxes = new InfoBoxes(this);
+#ifdef HAVE_OPENGL
+
+    Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
+    
+    m_SkyMapQDraw = new SkyMapQDraw( this );
+    m_SkyMapGLDraw = new SkyMapGLDraw( this );
+    m_SkyMapGLDraw->hide();
+    m_SkyMapQDraw->hide();
+
+    if( Options::useGL() )
+        m_SkyMapDraw = m_SkyMapGLDraw;
+    else
+        m_SkyMapDraw = m_SkyMapQDraw;
+
+#else
+
+    m_SkyMapDraw = new SkyMapQDraw( this );
+
+#endif
+    
+    m_SkyMapDraw->setParent( this->viewport() );
+    m_SkyMapDraw->show();
+
+    /*
+    m_Scene = new QGraphicsScene( rect() );
+    setScene( m_Scene );
+    */
+
+#ifdef HAVE_OPENGL
+    // If GL is enabled, the InfoBoxes work only with native painting.
+    m_iboxes = new InfoBoxes( m_SkyMapQDraw );
+#else
+    m_iboxes = new InfoBoxes( m_SkyMapDraw );
+#endif
+
     m_iboxes->setVisible( Options::showInfoBoxes() );
-    m_iboxes->setMouseTracking( true ); // Required to generate mouse move events
     m_iboxes->addInfoBox(m_timeBox);
     m_iboxes->addInfoBox(m_geoBox);
     m_iboxes->addInfoBox(m_objBox);
+    /*
+    ( m_Scene->addWidget( m_iboxes ) )->setAcceptedMouseButtons( Qt::NoButton );
+    */
+
+
+    //The update timer will be destructed when SkyMap is..
+    QTimer *update = new QTimer(this);
+    update->setInterval(30);
+    connect(update, SIGNAL(timeout()), this, SLOT(update()) );
+    update->start();
+
 }
 
 void SkyMap::slotToggleGeoBox(bool flag) {
@@ -256,21 +326,27 @@ SkyMap::~SkyMap() {
         Options::setFocusDec( focus()->dec().Degrees() );
     }
 
-    delete sky;
-    delete sky2;
+#ifdef HAVE_OPENGL
+    delete m_SkyMapGLDraw;
+    delete m_SkyMapQDraw;
+    m_SkyMapDraw = 0; // Just a formality
+#else
+    delete m_SkyMapDraw;
+#endif
+
     delete pmenu;
+
+    delete m_proj;
+
+    pinstance = 0;
 }
 
 void SkyMap::setGeometry( int x, int y, int w, int h ) {
-    QWidget::setGeometry( x, y, w, h );
-    *sky = sky->scaled( w, h );
-    *sky2 = sky2->scaled( w, h );
+    QGraphicsView::setGeometry( x, y, w, h );
 }
 
 void SkyMap::setGeometry( const QRect &r ) {
-    QWidget::setGeometry( r );
-    *sky = sky->scaled( r.width(), r.height() );
-    *sky2 = sky2->scaled( r.width(), r.height() );
+    QGraphicsView::setGeometry( r );
 }
 
 
@@ -294,7 +370,7 @@ void SkyMap::slotTransientLabel() {
     //
     //Do not show a transient label if the map is in motion, or if the mouse
     //pointer is below the opaque horizon, or if the object has a permanent label
-    if ( ! slewing && ! ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
+    if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
                           SkyPoint::refract(mousePoint()->alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
         SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
@@ -364,7 +440,7 @@ void SkyMap::slotCenter() {
 
     //If the requested object is below the opaque horizon, issue a warning message
     //(unless user is already pointed below the horizon)
-    if ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
+    if ( Options::useAltAz() && Options::showGround() &&
             focus()->alt().Degrees() > -1.0 && focusPoint()->alt().Degrees() < -1.0 ) {
 
         QString caption = i18n( "Requested Position Below Horizon" );
@@ -492,7 +568,16 @@ void SkyMap::slotSDSS() {
 }
 
 void SkyMap::slotBeginAngularDistance() {
-    angularDistanceMode = true;
+    beginRulerMode( false );
+}
+
+void SkyMap::slotBeginStarHop() {
+    beginRulerMode( true );
+}
+
+void SkyMap::beginRulerMode( bool starHopRuler ) {
+    rulerMode = true;
+    starHopDefineMode = starHopRuler;
     AngularRuler.clear();
 
     //If the cursor is near a SkyObject, reset the AngularRuler's 
@@ -510,8 +595,10 @@ void SkyMap::slotBeginAngularDistance() {
     AngularRuler.update( data );
 }
 
-void SkyMap::slotEndAngularDistance() {
-    if( angularDistanceMode ) {
+void SkyMap::slotEndRulerMode() {
+    if( !rulerMode )
+        return;
+    if( !starHopDefineMode ) { // Angular Ruler
         QString sbMessage;
 
         //If the cursor is near a SkyObject, reset the AngularRuler's
@@ -525,7 +612,7 @@ void SkyMap::slotEndAngularDistance() {
             AngularRuler.setPoint( 1, clickedPoint() );
         }
 
-        angularDistanceMode=false;
+        rulerMode=false;
         AngularRuler.update( data );
         dms angularDistance = AngularRuler.angularSize();
         AngularRuler.clear();
@@ -541,10 +628,29 @@ void SkyMap::slotEndAngularDistance() {
         box->adjust();
         box->show();
     }
+    else { // Star Hop
+        StarHopper hopper;
+        QList<const StarObject *> path = hopper.computePath( *AngularRuler.point( 0 ), *AngularRuler.points().last(), 1.0, 9.0 ); // FIXME: Hardcoded FOV and magnitude limits for testing
+
+        QList<SkyObject *> *mutablestarlist = new QList<SkyObject *>(); // FIXME: Memory leak
+        kDebug() << "path count: " << path.count();
+        foreach( const StarObject *conststar, path ) {
+            StarObject *mutablestar = const_cast<StarObject *>(conststar); // FIXME: Ugly const_cast
+            mutablestarlist->append( mutablestar );
+            kDebug() << "Added star!";
+        }
+
+        TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
+        delete t->list;
+        t->list = mutablestarlist;
+
+        rulerMode = false;
+    }
+    
 }
 
-void SkyMap::slotCancelAngularDistance(void) {
-    angularDistanceMode=false;
+void SkyMap::slotCancelRulerMode(void) {
+    rulerMode = false;
     AngularRuler.clear();
 }
 
@@ -607,10 +713,7 @@ void SkyMap::slotInfo() {
 }
 
 bool SkyMap::isObjectLabeled( SkyObject *object ) {
-    foreach ( SkyObject *o, data->skyComposite()->labelObjects() ) {
-        if ( o == object ) return true;
-    }
-    return false;
+    return data->skyComposite()->labelObjects().contains( object );
 }
 
 void SkyMap::slotRemoveObjectLabel() {
@@ -850,27 +953,6 @@ void SkyMap::slewFocus() {
     }
 }
 
-double SkyMap::findPA( SkyObject *o, float x, float y ) {
-    //Find position angle of North using a test point displaced to the north
-    //displace by 100/zoomFactor radians (so distance is always 100 pixels)
-    //this is 5730/zoomFactor degrees
-    double newDec = o->dec().Degrees() + 5730.0/Options::zoomFactor();
-    if ( newDec > 90.0 ) newDec = 90.0;
-    SkyPoint test( o->ra().Hours(), newDec );
-    if ( Options::useAltAz() ) test.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    QPointF t = toScreen( &test );
-    double dx = t.x() - x;
-    double dy = y - t.y(); //backwards because QWidget Y-axis increases to the bottom
-    double north;
-    if ( dy ) {
-        north = atan2( dx, dy )*180.0/dms::PI;
-    } else {
-        north = (dx > 0.0 ? -90.0 : 90.0);
-    }
-
-    return ( north + o->pa() );
-}
-
 void SkyMap::slotZoomIn() {
     setZoomFactor( Options::zoomFactor() * DZOOM );
 }
@@ -889,227 +971,10 @@ void SkyMap::setZoomFactor(double factor) {
     emit zoomChanged();
 }
 
-QPointF SkyMap::toScreen( SkyPoint *o, bool oRefract, bool *onVisibleHemisphere) {
-
-    double Y, dX;
-    double sindX, cosdX, sinY, cosY, sinY0, cosY0;
-
-    float Width  = width()  * m_Scale;
-    float Height = height() * m_Scale;
-    double zoomscale = Options::zoomFactor() * m_Scale;
-
-    //oRefract == true  means listen to Options::useRefraction()
-    //oRefract == false means do not use refraction
-    oRefract &= Options::useRefraction();
-
-    if ( Options::useAltAz() ) {
-        if ( oRefract )
-            Y = SkyPoint::refract( o->alt() ).radians(); //account for atmospheric refraction
-        else
-            Y = o->alt().radians();
-        dX = focus()->az().reduce().radians() - o->az().reduce().radians();
-        focus()->alt().SinCos( sinY0, cosY0 );
-
-    } else {
-        dX = o->ra().reduce().radians() - focus()->ra().reduce().radians();
-        Y = o->dec().radians();
-        focus()->dec().SinCos( sinY0, cosY0 );
-    }
-    dX = KSUtils::reduceAngle(dX, -dms::PI, dms::PI);
-
-    //Special case: Equirectangular projection is very simple
-    if ( Options::projection() == Equirectangular ) {
-        QPointF p;
-        p.setX( 0.5*Width  - zoomscale*dX );
-        if ( Options::useAltAz() )
-            p.setY( 0.5*Height - zoomscale*(Y - focus()->alt().radians()) );
-        else
-            p.setY( 0.5*Height - zoomscale*(Y - focus()->dec().radians()) );
-
-        if ( onVisibleHemisphere != NULL ) {
-            *onVisibleHemisphere = scaledRect().contains( p.toPoint() );
-        }
-
-        return p;
-    }
-
-    //Convert dX, Y coords to screen pixel coords.
-	#if ( __GLIBC__ >= 2 && __GLIBC_MINOR__ >=1 )
-    //GNU version
-    sincos( dX, &sindX, &cosdX );
-    sincos( Y, &sinY, &cosY );
-	#else
-    //ANSI version
-    sindX = sin(dX);
-    cosdX = cos(dX);
-    sinY  = sin(Y);
-    cosY  = cos(Y);
-	#endif
-
-    // Reference for these map projections: Wolfram MathWorld
-    // Lambert Azimuthal Equal-Area:
-    // http://mathworld.wolfram.com/LambertAzimuthalEqual-AreaProjection.html
-    // 
-    // Azimuthal Equidistant:
-    // http://mathworld.wolfram.com/AzimuthalEquidistantProjection.html
-    //
-    // Orthographic:
-    // http://mathworld.wolfram.com/OrthographicProjection.html
-    //
-    // Stereographic:
-    // http://mathworld.wolfram.com/StereographicProjection.html
-    //
-    // Gnomonic:
-    // http://mathworld.wolfram.com/GnomonicProjection.html
-
-    //c is the cosine of the angular distance from the center
-    double c = sinY0*sinY + cosY0*cosY*cosdX;
-
-    if (onVisibleHemisphere != NULL) {
-        *onVisibleHemisphere = true;
-    }
-
-    //If c is less than 0.0, then the "field angle" (angular distance from the focus) 
-    //is more than 90 degrees.  This is on the "back side" of the celestial sphere 
-    //and should not be drawn.
-    //The Gnomonic projection has an infinite sky horizon, so don't allow the field
-    //angle to approach 90 degrees in thi scase (cut it off at c=0.2).
-    if ( c < 0.0 || ( Options::projection()==Gnomonic && c < 0.2 ) ) {
-        if( onVisibleHemisphere == NULL )
-            return QPointF( -1e+7, -1e+7 );
-        else
-            *onVisibleHemisphere = false;
-    }
-
-    double k = projectionK(c);
-
-    return QPointF( 0.5*Width  - zoomscale*k*cosY*sindX,
-                    0.5*Height - zoomscale*k*( cosY0*sinY - sinY0*cosY*cosdX ) );
+const Projector * SkyMap::projector() const
+{
+    return m_proj;
 }
-
-QRect SkyMap::scaledRect() {
-    return QRect( 0, 0, int(m_Scale*width()), int(m_Scale*height()) );
-}
-
-bool SkyMap::onScreen(const QPoint &point) {
-    return scaledRect().contains( point );
-}
-
-bool SkyMap::onScreen(const QPointF &pointF) {
-    return scaledRect().contains( pointF.toPoint() );
-}
-
-bool SkyMap::onScreen( const QPointF &p1, const QPointF &p2 ) {
-    return !( ( p1.x() < 0        && p2.x() < 0 ) ||
-              ( p1.y() < 0        && p2.y() < 0 ) ||
-              ( p1.x() > scaledRect().width() &&
-                p2.x() > scaledRect().width() ) ||
-              ( p1.y() > scaledRect().height() &&
-                p2.y() > scaledRect().height() ) );
-}
-
-bool SkyMap::onScreen( const QPoint &p1, const QPoint &p2 ) {
-    return !( ( p1.x() < 0        && p2.x() < 0 ) ||
-              ( p1.y() < 0        && p2.y() < 0 ) ||
-              ( p1.x() > scaledRect().width() &&
-                p2.x() > scaledRect().width() ) ||
-              ( p1.y() > scaledRect().height() &&
-                p2.y() > scaledRect().height() ) );
-}
-
-SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
-    //Determine RA and Dec of a point, given (dx, dy): its pixel
-    //coordinates in the SkyMap with the center of the map as the origin.
-    SkyPoint result;
-    double sinY0, cosY0, sinc, cosc;
-
-    //Convert pixel position to x and y offsets in radians
-    double dx = ( 0.5*width()  - p.x() )/Options::zoomFactor();
-    double dy = ( 0.5*height() - p.y() )/Options::zoomFactor();
-
-    //Special case: Equirectangular
-    if ( Options::projection() == Equirectangular ) {
-        if ( Options::useAltAz() ) {
-            dms az, alt;
-            dx = -1.0*dx;  //Azimuth goes in opposite direction compared to RA
-            az.setRadians( dx + focus()->az().radians() );
-            alt.setRadians( dy + focus()->alt().radians() );
-            result.setAz( az.reduce() );
-            if ( Options::useRefraction() )
-                alt = SkyPoint::unrefract( alt );
-            result.setAlt( alt );
-            result.HorizontalToEquatorial( LST, lat );
-            return result;
-        } else {
-            dms ra, dec;
-            ra.setRadians( dx + focus()->ra().radians() );
-            dec.setRadians( dy + focus()->dec().radians() );
-            result.set( ra.reduce(), dec );
-            result.EquatorialToHorizontal( LST, lat );
-            return result;
-        }
-    }
-
-    double r  = sqrt( dx*dx + dy*dy );
-    dms c;
-    switch( Options::projection() ) {
-    case Lambert:
-        c.setRadians( 2.0*asin(0.5*r) );
-        break;
-    case AzimuthalEquidistant:
-        c.setRadians( r );
-        break;
-    case Orthographic:
-        c.setRadians( asin( r ) );
-        break;
-    case Stereographic:
-        c.setRadians( 2.0*atan2( r, 2.0 ) );
-        break;
-    case Gnomonic:
-        c.setRadians( atan( r ) );
-        break;
-    default: //should never get here
-        kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection() ;
-        c.setRadians( asin( r ) );  //just default to Orthographic
-        break;
-    }
-    c.SinCos( sinc, cosc );
-
-    if ( Options::useAltAz() ) {
-        focus()->alt().SinCos( sinY0, cosY0 );
-        dx = -1.0*dx; //Azimuth goes in opposite direction compared to RA
-    } else
-        focus()->dec().SinCos( sinY0, cosY0 );
-
-    double Y, A, atop, abot; //A = atan( atop/abot )
-
-    Y = asin( cosc*sinY0 + ( dy*sinc*cosY0 )/r );
-    atop = dx*sinc;
-    abot = r*cosY0*cosc - dy*sinY0*sinc;
-    A = atan2( atop, abot );
-
-    if ( Options::useAltAz() ) {
-        dms alt, az;
-        alt.setRadians( Y );
-        az.setRadians( A + focus()->az().radians() );
-        if ( Options::useRefraction() )
-            alt = SkyPoint::unrefract( alt );
-        result.setAlt( alt );
-        result.setAz( az );
-        result.HorizontalToEquatorial( LST, lat );
-    } else {
-        dms ra, dec;
-        dec.setRadians( Y );
-        ra.setRadians( A + focus()->ra().radians() );
-        result.set( ra.reduce(), dec );
-        result.EquatorialToHorizontal( LST, lat );
-    }
-
-    return result;
-}
-
-//---------------------------------------------------------------------------
-
 
 // force a new calculation of the skymap (used instead of update(), which may skip the redraw)
 // if now=true, SkyMap::paintEvent() is run immediately, rather than being added to the event queue
@@ -1117,93 +982,65 @@ SkyPoint SkyMap::fromScreen( const QPointF &p, dms *LST, const dms *lat ) {
 void SkyMap::forceUpdate( bool now )
 {
     QPoint mp( mapFromGlobal( QCursor::pos() ) );
-    if (! unusablePoint ( mp )) {
+    if (! projector()->unusablePoint( mp )) {
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( mp, data->lst(), data->geo()->lat() ) );
+        setMousePoint( projector()->fromScreen( mp, data->lst(), data->geo()->lat() ) );
     }
 
     computeSkymap = true;
-    
+
     // Ensure that stars are recomputed
     data->incUpdateID();
 
     if( now )
-        repaint();
+        m_SkyMapDraw->repaint();
     else
-        update();
+        m_SkyMapDraw->update();
+    
 }
 
 float SkyMap::fov() {
-    float diagonalPixels = sqrt(static_cast<double>( width() * width() + height() * height() ));
-    return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
+     float diagonalPixels = sqrt(static_cast<double>( width() * width() + height() * height() ));
+     return diagonalPixels / ( 2 * Options::zoomFactor() * dms::DegToRad );
 }
 
-bool SkyMap::checkVisibility( SkyPoint *p ) {
-    //TODO deal with alternate projections
-    double dX, dY;
-    bool useAltAz = Options::useAltAz();
-
-    //Skip objects below the horizon if using Horizontal coords,
-    //and the ground is drawn
-    if( useAltAz && Options::showHorizon() && Options::showGround() && p->alt().Degrees() < -1.0 )
-        return false;
-
-    if ( useAltAz ) {
-        dY = fabs( p->altRefracted().Degrees() - focus()->alt().Degrees() );
-    } else {
-        dY = fabs( p->dec().Degrees() - focus()->dec().Degrees() );
+void SkyMap::setupProjector() {
+    //Update View Parameters for projection
+    ViewParams p;
+    p.focus         = focus();
+    p.height        = height();
+    p.width         = width();
+    p.useAltAz      = Options::useAltAz();
+    p.useRefraction = Options::useRefraction();
+    p.zoomFactor    = Options::zoomFactor();
+    p.fillGround    = Options::showHorizon() && Options::showGround();
+    //Check if we need a new projector
+    if( m_proj && Options::projection() == m_proj->type() )
+        m_proj->setViewParams(p);
+    else {
+        delete m_proj;
+        switch( Options::projection() ) {
+            case Gnomonic:
+                m_proj = new GnomonicProjector(p);
+                break;
+            case Stereographic:
+                m_proj = new StereographicProjector(p);
+                break;
+            case Orthographic:
+                m_proj = new OrthographicProjector(p);
+                break;
+            case AzimuthalEquidistant:
+                m_proj = new AzimuthalEquidistantProjector(p);
+                break;
+            case Equirectangular:
+                m_proj = new EquirectangularProjector(p);
+                break;
+            case Lambert: default:
+                //TODO: implement other projection classes
+                m_proj = new LambertProjector(p);
+                break;
+        }
     }
-    if( isPoleVisible )
-        dY *= 0.75; //increase effective FOV when pole visible.
-    if( dY > fov() )
-        return false;
-    if( isPoleVisible )
-        return true;
-
-    if ( useAltAz ) {
-        dX = fabs( p->az().Degrees() - focus()->az().Degrees() );
-    } else {
-        dX = fabs( p->ra().Degrees() - focus()->ra().Degrees() );
-    }
-    if ( dX > 180.0 )
-        dX = 360.0 - dX; // take shorter distance around sky
-
-    return dX < XRange;
-}
-
-bool SkyMap::unusablePoint( const QPointF &p )
-{
-    double r0;
-    //r0 is the angular size of the sky horizon, in radians
-    //See HorizonComponent::draw() for documentation of these values
-    switch ( Options::projection() ) {
-    case Lambert:
-        r0 = 1.41421356; break;
-    case AzimuthalEquidistant:
-        r0 = 1.57079633; break;
-    case Stereographic:
-        r0 = 2.0; break;
-    case Gnomonic:
-        r0 = 6.28318531; break; //Gnomonic has an infinite horizon; this is 2*PI
-    case Orthographic:
-    default:
-        r0 = 1.0;
-        break;
-    }
-
-    //If the zoom is high enough, all points are usable
-    //The center-to-corner distance, in radians
-    double r = 0.5*1.41421356*width() / Options::zoomFactor();
-    if ( r < r0 ) {
-        return false;
-    }
-
-    //At low zoom, we have to determine whether the point is beyond the sky horizon
-    //Convert pixel position to x and y offsets in radians
-    double dx = ( 0.5*width()  - p.x() )/Options::zoomFactor();
-    double dy = ( 0.5*height() - p.y() )/Options::zoomFactor();
-
-    return (dx*dx + dy*dy) > r0*r0;
 }
 
 void SkyMap::setZoomMouseCursor()
@@ -1282,7 +1119,7 @@ void SkyMap::addLink() {
 }
 
 void SkyMap::updateAngleRuler() {
-    if( angularDistanceMode && (!pmenu || !pmenu->isVisible()) )
+    if( rulerMode && (!pmenu || !pmenu->isVisible()) )
         AngularRuler.setPoint( 1, mousePoint() );
     AngularRuler.update( data );
 }
@@ -1291,9 +1128,50 @@ bool SkyMap::isSlewing() const  {
     return (slewing || ( clockSlewing && data->clock()->isActive() ) );
 }
 
-bool SkyMap::isPointNull( const QPointF &p ) {
-    return p.x() < -100000.0;
+#ifdef HAVE_OPENGL
+void SkyMap::slotToggleGL() {
+
+    Q_ASSERT( m_SkyMapGLDraw );
+    Q_ASSERT( m_SkyMapQDraw );
+
+    m_SkyMapDraw->setParent( 0 );
+    m_SkyMapDraw->hide();
+
+    if( Options::useGL() ) {
+        // Do NOT use GL
+        Options::setUseGL( false );
+        m_SkyMapDraw = m_SkyMapQDraw;
+        KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to OpenGL backend"));
+    }
+    else {
+        // Use GL
+        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
+
+        int result = KMessageBox::warningYesNo( this, message,
+                                                i18n("Switch to OpenGL backend"),
+                                                KStandardGuiItem::yes(),
+                                                KStandardGuiItem::no(),
+                                                "dag_opengl_switch" );
+
+        if ( result == KMessageBox::Yes ) {
+
+            KMessageBox::information( this, i18n("Infoboxes will be disabled as they do not work correctly when using OpenGL backends as of this version"),
+                                      i18n("Switch to OpenGL backend"),
+                                      "dag_opengl_infoboxes" );
+
+            Options::setUseGL( true );
+
+            Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
+
+            m_SkyMapDraw = m_SkyMapGLDraw;
+            KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to QPainter backend"));
+        }
+    }
+    m_SkyMapDraw->setParent( viewport() );
+    m_SkyMapDraw->show();
+    m_SkyMapDraw->resize( size() );
 }
+#endif
 
 #ifdef HAVE_XPLANET
 void SkyMap::startXplanet( const QString & outputFile ) {

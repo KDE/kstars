@@ -18,7 +18,6 @@
 #include "asteroidscomponent.h"
 
 #include <QPen>
-#include <QPainter>
 #include <kglobal.h>
 
 #include "skycomponent.h"
@@ -31,6 +30,8 @@
 
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
+#include "skypainter.h"
+#include "projections/projector.h"
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent ) :
     SolarSystemListComponent(parent)
@@ -101,13 +102,12 @@ void AsteroidsComponent::loadData()
     }
 }
 
-void AsteroidsComponent::draw( QPainter& psky )
+void AsteroidsComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = SkyMap::Instance();
     bool hideLabels =  ! Options::showAsteroidNames() ||
-                       ( map->isSlewing() && Options::hideLabels() );
+                       ( SkyMap::Instance()->isSlewing() && Options::hideLabels() );
 
     double lgmin = log10(MINZOOM);
     double lgmax = log10(MAXZOOM);
@@ -117,32 +117,18 @@ void AsteroidsComponent::draw( QPainter& psky )
     if ( labelMagLimit > 10.0 ) labelMagLimit = 10.0;
     //printf("labelMagLim = %.1f\n", labelMagLimit );
 
-    float sizeFactor = map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-
-    psky.setBrush( QBrush( QColor( "gray" ) ) );
+    skyp->setBrush( QBrush( QColor( "gray" ) ) );
 
     foreach ( SkyObject *so, m_ObjectList ) {
         // FIXME: God help us!
         KSAsteroid *ast = (KSAsteroid*) so;
 
         if ( ast->mag() > Options::magLimitAsteroid() ) continue;
-        if ( ! map->checkVisibility( ast ) ) continue;
 
-        QPointF o = map->toScreen( ast );
-        if ( ! map->onScreen( o ) ) continue;
-
-        float size = ast->angSize() * sizeFactor;
-        if ( size < 1.0 ) {
-            psky.drawPoint( o );
-	} else {
-            float x1 = o.x() - 0.5 * size;
-            float y1 = o.y() - 0.5 * size;
-
-            psky.drawEllipse( QRectF( x1, y1, size, size ) );
-	}
-
-        if ( hideLabels || ast->mag() >= labelMagLimit ) continue;
-        SkyLabeler::AddLabel( o, ast, SkyLabeler::ASTEROID_LABEL );
+        bool drawn = skyp->drawPointSource(ast,ast->mag());
+        
+        if ( drawn && !( hideLabels || ast->mag() >= labelMagLimit ) )
+            SkyLabeler::AddLabel( ast, SkyLabeler::ASTEROID_LABEL );
     }
 }
 

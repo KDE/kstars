@@ -263,7 +263,7 @@ void KStars::writeConfig() {
     Options::self()->writeConfig();
 
     //Store current simulation time
-    data()->StoredDate.setDJD( data()->lt().djd() );
+    data()->StoredDate = data()->lt();
 }
 
 QString KStars::getOption( const QString &name ) {
@@ -422,6 +422,8 @@ void KStars::loadColorScheme( const QString &name ) {
             QApplication::setPalette( OriginalPalette );
         }
 
+        Options::setColorSchemeFile( name );
+
         map()->forceUpdate();
     }
 }
@@ -535,7 +537,7 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
             loadColorScheme( "chart.colors" );
         }
 
-        map()->setMapGeometry();
+        map()->setupProjector();
         map()->exportSkyImage( &printer );
 
         //Restore old color scheme if necessary

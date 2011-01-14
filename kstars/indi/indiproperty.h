@@ -51,6 +51,7 @@ public:
     KLed	*light;			/* state LED */
     PPerm       perm;		        /* permissions wrt client */
     PGui        guitype;		/* type of GUI, if any */
+    QCheckBox    *enableBLOBC;
 
 
     int 	stdID;			/* Standard property ID, if any */
@@ -101,6 +102,7 @@ public slots:
     void newAbstractButton(QAbstractButton *button);
     void newComboBoxItem(const QString &item);
     void newBlob();
+    void setBLOBOption(int state);
     /*void actionTriggered(QAction* action);*/
 
 signals:

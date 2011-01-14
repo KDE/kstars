@@ -17,6 +17,9 @@
 
 #include <lilxml.h>
 
+#include "indidevice.h"
+
+class QFile;
 class INDI_E;
 class INDI_P;
 class INDI_D;
@@ -26,6 +29,7 @@ class StreamWG;
 class KProgressDialog;
 class KDirLister;
 class SkyObject;
+class SkyPoint;
 
 
 /* This class implmements standard properties on the device level*/
@@ -44,12 +48,10 @@ public:
     QTimer      	*devTimer;
     KProgressDialog     *downloadDialog;
 
-    enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
-
     void setTextValue(INDI_P *pp);
     void setLabelState(INDI_P *pp);
     void registerProperty(INDI_P *pp);
-    void handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat);
+    void handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat, INDI_D::DTypes dataType);
 
     /* Device options */
     void createDeviceInit();
@@ -57,6 +59,8 @@ public:
     bool handleNonSidereal();
     void streamDisabled();
 
+    /* INDI STD: Slew to a point */
+    bool slew_scope(SkyPoint *scope_target, INDI_E *lp=NULL);
     /* INDI STD: Updates device time */
     void updateTime();
     /* INDI STD: Updates device location */
@@ -64,15 +68,15 @@ public:
     /* Update image prefix */
     void updateSequencePrefix(const QString &newPrefix);
 
-    int                  dataType;
-    QString		dataExt;
+    INDI_D::DTypes      dataType;
     LilXML		*parser;
 
+    QFile               *ascii_data_file;
     QString		seqPrefix;
     int			seqCount;
     bool		batchMode;
     bool		ISOMode;
-    bool		driverLocationUpdated, driverTimeUpdated;
+    bool		driverLocationUpdated, driverTimeUpdated, asciiFileDirty;
     KDirLister          *seqLister;
     SkyObject		*telescopeSkyObject;
 

@@ -45,6 +45,7 @@
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
 #include "skycomponents/skymapcomposite.h"
+#include "texturemanager.h"
 
 #include <config-kstars.h>
 
@@ -169,7 +170,7 @@ void KStars::initActions() {
     QObject::connect( ka, SIGNAL( triggered() ), this, SLOT( slotToggleTimer() ) );
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)) );
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
-    QObject::connect(data()->clock(), SIGNAL(clockStopped()), this, SLOT(updateTime()) );
+    QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()) );
 
     // ==== Pointing Menu ================
     actionCollection()->addAction("zenith", this, SLOT( slotPointFocus() ) )
@@ -215,8 +216,14 @@ void KStars::initActions() {
     actionCollection()->addAction( KStandardAction::FullScreen, this, SLOT( slotFullScreen() ) );
 
     actionCollection()->addAction("coordsys", this, SLOT( slotCoordSys() ) )
-        << (Options::useAltAz() ? i18n("Horizontal &Coordinates") : i18n("Equatorial &Coordinates"))
+        << (Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)"))
         << KShortcut("Space" );
+
+    #ifdef HAVE_OPENGL
+    Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
+    actionCollection()->addAction("opengl", SkyMap::Instance(), SLOT( slotToggleGL() ) )
+        << (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend"));
+    #endif
 
     actionCollection()->addAction("project_lambert", this, SLOT( slotMapProjection() ) )
         << i18n("&Lambert Azimuthal Equal-area" )
@@ -390,8 +397,6 @@ void KStars::initActions() {
     actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
         << i18n("Telescope Wizard...")
         << KIcon("tools-wizard" );
-    actionCollection()->addAction("telescope_properties", this, SLOT( slotTelescopeProperties() ) )
-        << i18n("Telescope Properties...");
     actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
         << i18n("Device Manager...")
         << KIcon("network-server" );
@@ -408,7 +413,8 @@ void KStars::initActions() {
 #endif
 
     //Help Menu:
-    //	KStandardAction::tipOfDay(this, SLOT( slotTipOfDay() ), actionCollection(), "help_tipofday" );
+    actionCollection()->addAction( KStandardAction::TipofDay, "help_tipofday", this, SLOT( slotTipOfDay() ) )
+	->setWhatsThis(i18n("Displays the Tip of the Day"));
 
     //	KStandardAction::help(this, SLOT( appHelpActivated() ), actionCollection(), "help_contents" );
 
@@ -530,13 +536,14 @@ void KStars::datainitFinished() {
     connect( data(),   SIGNAL( update() ),            map(),  SLOT( forceUpdateNow() ) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ), data(), SLOT( setTimeDirection( float ) ) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ),
-             data()->clock(), SLOT( setScale( float )) );
+             data()->clock(), SLOT( setClockScale( float )) );
     connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
 
     #ifdef HAVE_INDI_H
     //Initialize INDIMenu
     indimenu = new INDIMenu(this);
+    indidriver = new INDIDriver(this);
     #endif
 
     //Initialize Observing List
@@ -546,6 +553,10 @@ void KStars::datainitFinished() {
 
     //Initialize Object List
     objList = new ObjectList(this);
+
+    #ifdef HAVE_INDI_H
+    indidriver->updateCustomDrivers();
+    #endif
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )
@@ -625,7 +636,7 @@ void KStars::initFocus() {
     map()->showFocusCoords();
 
     //Check whether initial position is below the horizon.
-    if ( Options::useAltAz() && Options::showHorizon() && Options::showGround() &&
+    if ( Options::useAltAz() && Options::showGround() &&
             map()->focus()->alt().Degrees() < -1.0 ) {
         QString caption = i18n( "Initial Position is Below Horizon" );
         QString message = i18n( "The initial position is below the horizon.\nWould you like to reset to the default position?" );
@@ -654,6 +665,8 @@ void KStars::initFocus() {
 }
 
 void KStars::buildGUI() {
+    //create the texture manager
+    TextureManager::Create();
     //create the skymap
     skymap = SkyMap::Create();
     connect(skymap, SIGNAL(mousePointChanged(SkyPoint*)), SLOT(slotShowPositionBar(SkyPoint*)));

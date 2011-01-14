@@ -42,8 +42,6 @@ public slots:
     void slotValidatePositions();
     void slotObjectButton();
     void slotResetTitle();
-    void slotInputFile();
-    void slotOutputFile();
     void slotRunBatch();
 
 private:

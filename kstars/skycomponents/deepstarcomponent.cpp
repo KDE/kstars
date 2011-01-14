@@ -18,7 +18,6 @@
 #include "deepstarcomponent.h"
 
 #include <QPixmap>
-#include <QPainter>
 
 #include <QRectF>
 #include <QFontMetricsF>
@@ -32,6 +31,9 @@
 #include "binfilehelper.h"
 #include "starblockfactory.h"
 #include "starcomponent.h"
+#include "projections/projector.h"
+
+#include "skypainter.h"
 
 #include <kde_file.h>
 #include "byteorder.h"
@@ -166,14 +168,15 @@ void DeepStarComponent::update( KSNumbers * )
 {}
 
 // TODO: Optimize draw, if it is worth it.
-void DeepStarComponent::draw( QPainter& psky ) {
+void DeepStarComponent::draw( SkyPainter *skyp ) {
     if ( !fileOpened ) return;
 
     SkyMap *map = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
     UpdateID updateID = data->updateID();
 
-    float radius = map->fov();
+    //FIXME_FOV -- maybe not clamp like that...
+    float radius = map->projector()->fov();
     if ( radius > 90.0 ) radius = 90.0;
 
     if ( m_skyMesh != SkyMesh::Instance() && m_skyMesh->inDraw() ) {
@@ -280,14 +283,8 @@ void DeepStarComponent::draw( QPainter& psky ) {
                 if ( mag > maglim || ( hideFaintStars && mag > hideStarsMag ) )
                     break;
 
-                if ( ! map->checkVisibility( curStar ) )
-                    continue;
-
-                QPointF o = map->toScreen( curStar );
-                if ( ! map->onScreen( o ) )
-                    continue;
-                curStar->draw( psky, o, StarComponent::Instance()->starRenderingSize( mag ) );
-                visibleStarCount++;
+                if( skyp->drawPointSource(curStar, mag, curStar->spchar() ) )
+                    visibleStarCount++;
             }
         }
 
@@ -400,6 +397,49 @@ SkyObject* DeepStarComponent::objectNearest( SkyPoint *p, double &maxrad )
     // called.
     
     return oBest;
+}
+
+bool DeepStarComponent::starsInAperture( QList<StarObject *> &list, const SkyPoint &center, float radius, float maglim )
+{
+
+    if( maglim < triggerMag )
+        return false;
+
+    // For DeepStarComponents, whether we use ra0() and dec0(), or
+    // ra() and dec(), should not matter, because the stars are
+    // repeated in all trixels that they will pass through, although
+    // the factuality of this statement needs to be verified
+
+    // Ensure that we have deprecessed the (RA, Dec) to (RA0, Dec0)
+    Q_ASSERT( center.ra0().Degrees() >= 0.0 );
+    Q_ASSERT( center.dec0().Degrees() <= 90.0 );
+
+    m_skyMesh->intersect( center.ra0().Degrees(), center.dec0().Degrees(), radius, (BufNum) OBJ_NEAREST_BUF );
+
+    MeshIterator region( m_skyMesh, OBJ_NEAREST_BUF );
+
+    if( maglim < -28 )
+        maglim = m_FaintMagnitude;
+
+    while ( region.hasNext() ) {
+        Trixel currentRegion = region.next();
+        // FIXME: Build a better way to iterate over all stars.
+        // Ideally, StarBlockList should have such a facility.
+        StarBlockList *sbl = m_starBlockList[ currentRegion ];
+        sbl->fillToMag( maglim );
+        for( int i = 0; i < sbl->getBlockCount(); ++i ) {
+            StarBlock *block = sbl->block( i );
+            for( int j = 0; j < block->getStarCount(); ++j ) {
+                StarObject *star = block->star( j );
+                if( star->mag() > maglim )
+                    break; // Stars are organized by magnitude, so this should work
+                if( star->angularDistanceTo( &center ).Degrees() <= radius )
+                    list.append( star );
+            }
+        }
+    }
+
+    return true;
 }
 
 void DeepStarComponent::byteSwap( deepStarData *stardata ) {

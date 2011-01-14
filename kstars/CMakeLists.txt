@@ -23,51 +23,61 @@ endif(CFITSIO_FOUND)
 
 if (INDI_FOUND)
   set (indi_SRCS
-	indi/devicemanager.cpp
-	indi/indidevice.cpp
-	indi/indidriver.cpp
-	indi/indielement.cpp
-	indi/opsindi.cpp
-	indi/indigroup.cpp
-	indi/indimenu.cpp
-	indi/indiproperty.cpp
-	indi/indistd.cpp
-	indi/streamwg.cpp
-	indi/telescopewizardprocess.cpp
-	indi/telescopeprop.cpp
-	indi/imagesequence.cpp
-)
-set(indiui_SRCS
-	indi/devmanager.ui
-        indi/imgsequencedlg.ui
-        indi/opsindi.ui
-        indi/indihostconf.ui
-        indi/streamform.ui
-        indi/telescopewizard.ui
-        indi/telescopeprop.ui
-)
-
+    indi/devicemanager.cpp
+    indi/indidevice.cpp
+    indi/indidriver.cpp
+    indi/indielement.cpp
+    indi/opsindi.cpp
+    indi/indigroup.cpp
+    indi/indimenu.cpp
+    indi/indiproperty.cpp
+    indi/indistd.cpp
+    indi/streamwg.cpp
+    indi/telescopewizardprocess.cpp
+    indi/imagesequence.cpp
+    )
+  set(indiui_SRCS
+    indi/devmanager.ui
+    indi/imgsequencedlg.ui
+    indi/opsindi.ui
+    indi/indihostconf.ui
+    indi/streamform.ui
+    indi/telescopewizard.ui
+    )
+  
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
 
 if ( XPLANET_FOUND )
-    set (xplanet_SRCS
-        xplanet/opsxplanet.cpp
+  set (xplanet_SRCS
+    xplanet/opsxplanet.cpp
     )
-    set(xplanetui_SRCS
-        xplanet/opsxplanet.ui
+  set(xplanetui_SRCS
+    xplanet/opsxplanet.ui
     )
 endif ( XPLANET_FOUND )
 
+if ( OPENGL_FOUND )
+  include_directories( ${OPENGL_INCLUDE_DIRS} )
+  set(kstars_gl_SRCS
+    skyglpainter.cpp skymapgldraw.cpp
+    )
+  add_definitions(-DHAVE_OPENGL)
+endif( OPENGL_FOUND )
+
+
+
+
 include_directories(
     ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
+    ${CMAKE_SOURCE_DIR}/kstars/kstars/skyobjects
+    ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents
+    ${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
 #    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
+	${EIGEN2_INCLUDE_DIR}
 )
-
-add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 ########### next target ###############
 set(libkstarstools_SRCS 
@@ -100,10 +110,11 @@ set(libkstarstools_SRCS
 	tools/scriptargwidgets.cpp
 	tools/scriptbuilder.cpp
 	tools/scriptfunction.cpp
-    tools/skycalendar.cpp
+	tools/skycalendar.cpp
 	tools/wutdialog.cpp
 	tools/flagmanager.cpp
-
+	tools/moonphasetool.cpp
+	tools/starhopper.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
@@ -185,8 +196,8 @@ set(libkstarscomponents_SRCS
    skycomponents/cometscomponent.cpp 
    skycomponents/planetmoonscomponent.cpp 
    skycomponents/solarsystemcomposite.cpp 
-   skycomponents/satellitecomposite.cpp
-   skycomponents/satellitecomponent.cpp
+   #skycomponents/satellitecomposite.cpp
+   #skycomponents/satellitecomponent.cpp
    skycomponents/starcomponent.cpp 
    skycomponents/deepstarcomponent.cpp
    skycomponents/deepskycomponent.cpp 
@@ -206,6 +217,7 @@ set(libkstarscomponents_SRCS
    skycomponents/starblockfactory.cpp
    skycomponents/culturelist.cpp
    skycomponents/flagcomponent.cpp
+   skycomponents/targetlistcomponent.cpp
 )
 
 set(libkstarswidgets_SRCS
@@ -222,6 +234,12 @@ set(libkstarswidgets_SRCS
 	widgets/timestepbox.cpp 
 	widgets/timeunitbox.cpp
 	widgets/infoboxwidget.cpp
+	widgets/genericcalendarwidget.cpp
+	widgets/moonphasecalendarwidget.cpp
+)
+
+kde4_add_ui_files(libkstarswidgets_SRCS
+  widgets/genericcalendarwidget.ui
 )
 
 set( kstars_KCFG_SRCS Options.kcfgc )
@@ -289,6 +307,16 @@ set(kstars_dialogsui_SRCS
   dialogs/newfov.ui
 )
 
+set(kstars_projection_SRCS
+    projections/projector.cpp
+    projections/lambertprojector.cpp
+    projections/gnomonicprojector.cpp
+    projections/stereographicprojector.cpp
+    projections/orthographicprojector.cpp
+    projections/azimuthalequidistantprojector.cpp
+    projections/equirectangularprojector.cpp
+)
+
 set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp
@@ -296,7 +324,9 @@ set(kstars_extra_SRCS
 	kspopupmenu.cpp objlistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp kstarsdb.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
-	simclock.cpp skymap.cpp skymapdraw.cpp skymapevents.cpp
+	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
+	skypainter.cpp skyqpainter.cpp
+	texture.cpp texturemanager.cpp
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
 )
@@ -317,7 +347,8 @@ set(oal_SRCS
 )
 
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
-	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} ${kstars_extra_SRCS} ${xplanet_SRCS}
+	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
+	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
 )
 
@@ -344,7 +375,7 @@ kde4_add_executable(kstars ${kstars_SRCS})
 target_link_libraries(kstars
     ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
-	${KDE4_KDE3SUPPORT_LIBS}
+	${KDE4_KIO_LIBS}
 	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
@@ -361,11 +392,19 @@ if (INDI_FOUND)
   target_link_libraries(kstars ${INDI_LIBRARIES})
 endif (INDI_FOUND)
 
+if( OPENGL_FOUND )
+    target_link_libraries(kstars
+    ${OPENGL_LIBRARIES}
+    ${QT_QTOPENGL_LIBRARY}
+    )
+endif( OPENGL_FOUND )
+
+
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
 ########### install files ###############
-install( FILES kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS kstars.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES kstars.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES kstars.knsrc  DESTINATION  ${CONFIG_INSTALL_DIR} )
 if (INDI_FOUND)

@@ -35,7 +35,6 @@ class SimClock : public QObject
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.kstars.SimClock")
-
 public:
     /**
      * Constructor
@@ -76,35 +75,29 @@ public:
     void setManualMode( bool on=true );
 
 public Q_SLOTS:
-
-    /**DCOP function to stop the SimClock. */
+    /** DBUS function to stop the SimClock. */
     Q_SCRIPTABLE Q_NOREPLY void stop();
 
-    /**DCOP function to start the SimClock. */
+    /** DBUS function to start the SimClock. */
     Q_SCRIPTABLE Q_NOREPLY void start();
 
-    /**DCOP function to set the time of the SimClock. */
+    /** DBUS function to set the time of the SimClock. */
     Q_SCRIPTABLE Q_NOREPLY void setUTC(const KStarsDateTime &newtime);
 
-    /**DCOP function to set scale of simclock.  Calls setScale().
-    	*/
+    /** DBUS function to set scale of simclock. */
     Q_SCRIPTABLE Q_NOREPLY void setClockScale(float s);
-
-    /**Adjust the clock timescale*/
-    void setScale(float s);
 
     /**Respond to the QTimer::timeout signal */
     void tick();
 
     /**Equivalent of tick() for manual mode.
-    	*If ManualActive is true, add Scale seconds to the SimClock time.
-    	*(we may want to modify this slightly...e.g., the number of seconds in a
-    	*year is not constant (leap years), so it is better to increment the
-    	*year, instead of adding 31 million seconds. */
+     * If ManualActive is true, add Scale seconds to the SimClock time.
+     * (we may want to modify this slightly...e.g., the number of seconds in a
+     * year is not constant (leap years), so it is better to increment the
+     * year, instead of adding 31 million seconds. */
     void manualTick( bool force=false );
 
 signals:
-
     /**The time has changed (emitted by setUTC() ) */
     void timeChanged();
 
@@ -114,20 +107,12 @@ signals:
     /**The timestep has changed*/
     void scaleChanged(float);
 
-
-    /**The clock has started */
-    void clockStarted();
-
-    /**The clock has stopped */
-    void clockStopped();
-
     /** This is an signal that is called on either clock start or
         clock stop with an appropriate boolean argument. Required so
         that we can bind it to KToggleAction::slotToggled(bool) */
     void clockToggled(bool);
 
 private:
-
     long double julianmark;
     KStarsDateTime UTC;
     QTimer tmr;
@@ -141,16 +126,7 @@ private:
     // how often to update
     static int TimerInterval;
 
-private slots:
-    
-    /** These two slots subscribe to the clockStarted() and
-        clockStopped() signals and call the corresponding
-        clockToggled(bool) signal */
-
-    void slotClockStarted();
-
-    void slotClockStopped();
-private:
+    // Disallow copying
     SimClock(const SimClock&);
     SimClock& operator = (const SimClock&);
 };

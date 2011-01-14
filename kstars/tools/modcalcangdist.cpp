@@ -47,8 +47,6 @@ modCalcAngDist::modCalcAngDist(QWidget *parentSplit)
     connect( SecondDec, SIGNAL(textEdited(QString)), this, SLOT(slotResetTitle()) );
     connect( FirstObjectButton, SIGNAL(clicked()), this, SLOT(slotObjectButton()) );
     connect( SecondObjectButton, SIGNAL(clicked()), this, SLOT(slotObjectButton()) );
-    connect( InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()) );
-    connect( OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()) );
     connect( runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
 
     show();
@@ -117,23 +115,9 @@ void modCalcAngDist::slotResetTitle() {
         SecondPositionBox->setTitle( i18n("Second position") );
 }
 
-void modCalcAngDist::slotInputFile() {
-    QString inputFileName;
-    inputFileName = KFileDialog::getOpenFileName( );
-    InputLineEditBatch->setText( inputFileName );
-}
-
-void modCalcAngDist::slotOutputFile() {
-    QString outputFileName;
-    outputFileName = KFileDialog::getSaveFileName( );
-    OutputLineEditBatch->setText( outputFileName );
-}
-
 void modCalcAngDist::slotRunBatch() {
 
-    QString inputFileName;
-
-    inputFileName = InputLineEditBatch->text();
+    QString inputFileName = InputLineEditBatch->url().toLocalFile();
 
     // We open the input file and read its content
 

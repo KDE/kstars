@@ -122,10 +122,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
 }
 
 KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &startdate ) {
-    if( pinstance ) {
-        delete pinstance;
-        pinstance = 0;
-    }
+    delete pinstance;
     // pinstance is set directly in constructor.
     new KStars( doSplash, clockrun, startdate );
     Q_ASSERT( pinstance && "pinstance must be non NULL");
@@ -134,7 +131,10 @@ KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &sta
 
 KStars::~KStars()
 {
+    Q_ASSERT( pinstance );
+
     delete kstarsData;
+    pinstance = 0;
 }
 
 void KStars::clearCachedFindDialog() {
@@ -157,7 +157,13 @@ void KStars::applyConfig( bool doApplyFocus ) {
     }
 
     actionCollection()->action("coordsys")->setText(
-        Options::useAltAz() ? i18n("Horizontal &Coordinates") : i18n("Equatorial &Coordinates") );
+        Options::useAltAz() ? i18n("Switch to star globe view (Equatorial &Coordinates)"): i18n("Switch to horizonal view (Horizontal &Coordinates)") );
+
+    #ifdef HAVE_OPENGL
+    Q_ASSERT( SkyMap::Instance() ); // This assert should not fail, because SkyMap is already created by now. Just throwing it in anyway.
+    actionCollection()->action("opengl")->setText( (Options::useGL() ? i18n("Switch to QPainter backend"): i18n("Switch to OpenGL backend")) );
+    #endif
+
 
     actionCollection()->action("show_time_box"    )->setChecked( Options::showTimeBox() );
     actionCollection()->action("show_location_box")->setChecked( Options::showGeoBox() );

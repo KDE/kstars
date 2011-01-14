@@ -61,7 +61,7 @@ InfoBoxWidget::~InfoBoxWidget()
 void InfoBoxWidget::updateSize() {
     QFontMetrics fm(font());
     int w = 0;
-    foreach(QString str, m_strings)
+    foreach(const QString& str, m_strings)
         w = qMax(w, fm.width(str));
     int h = fm.height() * (m_shaded ? 1 : m_strings.size());
     // Add padding
@@ -181,7 +181,7 @@ void InfoBoxWidget::paintEvent(QPaintEvent*)
     int h = QFontMetrics( font() ).height();
     int y = 0;
     p.setPen( cs->colorNamed( "BoxTextColor" ) );
-    foreach(QString str, m_strings) {
+    foreach(const QString& str, m_strings) {
         y += h;
         p.drawText( padX, padY + y, str);
     }

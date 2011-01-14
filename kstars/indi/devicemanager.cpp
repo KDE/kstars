@@ -128,18 +128,37 @@ void DeviceManager::connectToServer()
    connectionError();
   }
   
+void DeviceManager::enableBLOB(bool enable, QString device, QString property)
+{
+    QTextStream serverFP(&serverSocket);
+    QString openTag;
+
+    if (device.isEmpty() == false)
+    {
+        if (property.isEmpty() == false)
+            openTag = QString("<enableBLOB device='%1' name='%2'>").arg(device).arg(property);
+        else
+            openTag = QString("<enableBLOB device='%1'>").arg(device);
+    }
+    else
+        openTag = QString("<enableBLOB>");
+
+    if (enable)
+        serverFP << QString("%1Also</enableBLOB>\n").arg(openTag);
+    else
+        serverFP << QString("%1Never</enableBLOB>\n").arg(openTag);
+}
+
 void DeviceManager::connectionSuccess()
 {
    QTextStream serverFP(&serverSocket);
    
-   //foreach (IDevice *device, managed_devices)
-   		//device->state = IDevice::DEV_START;
-  
    if (XMLParser)
         delLilXML(XMLParser);
     XMLParser = newLilXML();
 
-    serverFP << QString("<enableBLOB>Also</enableBLOB>\n");
+    enableBLOB(true);
+
     serverFP << QString("<getProperties version='%1'/>\n").arg(INDIVERSION);
 }
 
@@ -175,7 +194,7 @@ void DeviceManager::processStandardError()
 void DeviceManager::dataReceived()
 {
     char errmsg[ERRMSG_SIZE];
-    int nr=0;
+    int nr=0, err_code=0;
     QTextStream serverFP(&serverSocket);
     QString ibuf, err_cmd;
   
@@ -191,10 +210,14 @@ void DeviceManager::dataReceived()
            XMLEle *root = readXMLEle (XMLParser, ibuf[i].toAscii(), errmsg);
            if (root)
            {
-                if (dispatchCommand(root, err_cmd) < 0)
+                if ( (err_code = dispatchCommand(root, err_cmd)) < 0)
                 {
-                    kDebug() << "Dispatch command error: " << err_cmd << endl;
-                    prXMLEle (stdout, root, 0);
+		     // Silenty ignore property duplication errors
+		     if (err_code != INDI_PROPERTY_DUPLICATED)
+		     {
+	                    kDebug() << "Dispatch command error: " << err_cmd << endl;
+	       	            prXMLEle (stderr, root, 0);
+                     }
                 }
 
                 delXMLEle (root);
@@ -219,7 +242,7 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
     if (dp == NULL)
     {
 	errmsg = "No device available and none was created";
-        return -1;
+        return INDI_DEVICE_NOT_FOUND;
     }
 
     if (!strcmp (tagXMLEle(root), "defTextVector"))
@@ -239,7 +262,7 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
              !strcmp (tagXMLEle(root), "setBLOBVector"))
         return dp->setAnyCmd(root, errmsg);
 
-    return (-1);
+    return INDI_DISPATCH_ERROR;
 }
 
 /* delete the property in the given device, including widgets and data structs.
@@ -256,7 +279,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
     /* dig out device and optional property name */
     dp = findDev (root, 0, errmsg);
     if (!dp)
-        return (-1);
+        return INDI_DEVICE_NOT_FOUND;
 
     checkMsg(root, dp);
 
@@ -270,7 +293,7 @@ int DeviceManager::delPropertyCmd (XMLEle *root, QString & errmsg)
         if(pp)
             return dp->removeProperty(pp);
         else
-            return (-1);
+            return INDI_PROPERTY_INVALID;
     }
     // delete the whole device
     else
@@ -296,7 +319,7 @@ int DeviceManager::removeDevice( const QString &devName, QString & errmsg )
     }
 
     errmsg = QString("Device %1 not found").arg(devName);
-    return -1;
+    return INDI_DEVICE_NOT_FOUND;
 }
 
 INDI_D * DeviceManager::findDev( const QString &devName, QString & errmsg )
@@ -357,7 +380,7 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
     	dp = new INDI_D(parent, this, device_name, unique_label);
 	indi_dev.append(dp);
 	emit newDevice(dp);
-		
+
 	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()), Qt::QueuedConnection);
 
     	/* ok */
@@ -446,7 +469,11 @@ void DeviceManager::doMsg (XMLEle *msg, INDI_D *dp)
 
     if (!message) return;
 
+    // Prepend to the log viewer
     txt_w->insertPlainText( QString(valuXMLAtt(message)) + QString("\n"));
+    QTextCursor c = txt_w->textCursor();
+    c.movePosition(QTextCursor::Start);
+    txt_w->setTextCursor(c); 
 
     if ( Options::showINDIMessages() )
         parent->ksw->statusBar()->changeItem( QString(valuXMLAtt(message)), 0);

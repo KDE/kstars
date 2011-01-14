@@ -44,6 +44,7 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/ksmoon.h"
+#include "skycomponents/customcatalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
 
@@ -245,7 +246,13 @@ void DetailDialog::createGeneralTab()
 
         objecttyp = dso->typeName();
 
-        if ( dso->mag() > 90.0 )
+        if (dso->type() == SkyObject::RADIO_SOURCE)
+        {
+            Data->MagLabel->setText(i18nc("integrated flux at a frequency", "Flux(%1):", dso->customCatalog()->fluxFrequency()));
+            Data->Magnitude->setText( i18nc( "integrated flux value", "%1 %2" ,
+                                             KGlobal::locale()->formatNumber( dso->flux(), 1 ), dso->customCatalog()->fluxUnit()) );  //show to tenths place
+        }
+        else if ( dso->mag() > 90.0 )
             Data->Magnitude->setText( "--" );
         else
             Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
@@ -844,40 +851,19 @@ void DetailDialog::centerMap() {
 void DetailDialog::centerTelescope()
 {
 #ifdef HAVE_INDI_H
+
     INDI_D *indidev(NULL);
-    INDI_P *prop(NULL), *onset(NULL);
-    INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *ConnectEle(NULL), *nameEle(NULL);
-    bool useJ2000( false);
-    int selectedCoord(0);
-    SkyPoint sp;
-    SkyMap* map = KStars::Instance()->map();
-    
+    INDI_E *ConnectEle(NULL);
+
     // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
     // i.e. the first telescope we find!
-
     INDIMenu *imenu = KStars::Instance()->indiMenu();
-    for ( int i=0; i < imenu->managers.size() ; i++ )
+
+    for (int i=0; i < imenu->managers.size() ; i++)
     {
-        for ( int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++ )
+        for (int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++)
         {
             indidev = imenu->managers.at(i)->indi_dev.at(j);
-            indidev->stdDev->currentObject = NULL;
-            prop = indidev->findProp("EQUATORIAL_EOD_COORD_REQUEST");
-            if (prop == NULL)
-            {
-                prop = indidev->findProp("EQUATORIAL_EOD_COORD");
-                if (prop == NULL)
-                {
-                    prop = indidev->findProp("HORIZONTAL_COORD");
-                    if (prop == NULL)
-                        continue;
-                    else
-                        selectedCoord = 1;		/* Select horizontal */
-                }
-                else
-                    useJ2000 = true;
-            }
-
             ConnectEle = indidev->findElem("CONNECT");
             if (!ConnectEle) continue;
 
@@ -887,82 +873,10 @@ void DetailDialog::centerTelescope()
                 return;
             }
 
-            switch (selectedCoord)
-            {
-                // Equatorial
-            case 0:
-                if (prop->perm == PP_RO) continue;
-                RAEle  = prop->findElement("RA");
-                if (!RAEle) continue;
-                DecEle = prop->findElement("DEC");
-                if (!DecEle) continue;
-                break;
+	    if (!indidev->stdDev->slew_scope(static_cast<SkyPoint *> (selectedObject)))
+		continue;
 
-                // Horizontal
-            case 1:
-                if (prop->perm == PP_RO) continue;
-                AzEle = prop->findElement("AZ");
-                if (!AzEle) continue;
-                AltEle = prop->findElement("ALT");
-                if (!AltEle) continue;
-                break;
-            }
-
-            onset = indidev->findProp("ON_COORD_SET");
-            if (!onset) continue;
-
-            onset->activateSwitch("SLEW");
-
-            indidev->stdDev->currentObject = selectedObject;
-
-            /* Send object name if available */
-            if (indidev->stdDev->currentObject)
-            {
-                nameEle = indidev->findElem("OBJECT_NAME");
-                if (nameEle && nameEle->pp->perm != PP_RO)
-                {
-                    nameEle->write_w->setText(indidev->stdDev->currentObject->name());
-                    nameEle->pp->newText();
-                }
-            }
-
-            switch (selectedCoord)
-            {
-            case 0:
-                if (indidev->stdDev->currentObject)
-                    sp = *( indidev->stdDev->currentObject );
-                else
-                    sp = *( map->clickedPoint() );
-
-                if (useJ2000)
-                    sp.apparentCoord(KStarsData::Instance()->ut().djd(), (long double) J2000);
-
-                RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra().hour()).arg(sp.ra().minute()).arg(sp.ra().second()));
-                DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec().degree()).arg(sp.dec().arcmin()).arg(sp.dec().arcsec()));
-
-                break;
-
-            case 1:
-                if (indidev->stdDev->currentObject)
-                {
-                    sp.setAz( indidev->stdDev->currentObject->az());
-                    sp.setAlt(indidev->stdDev->currentObject->alt());
-                }
-                else
-                {
-                    sp.setAz( map->clickedPoint()->az());
-                    sp.setAlt(map->clickedPoint()->alt());
-                }
-
-                AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az().degree()).arg(sp.az().arcmin()).arg(sp.az().arcsec()));
-                AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt().degree()).arg(sp.alt().arcmin()).arg(sp.alt().arcsec()));
-
-                break;
-            }
-
-            prop->newText();
-
-            return;
+	    return;
         }
     }
 

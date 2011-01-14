@@ -197,10 +197,7 @@ int dms::msecond( void ) const {
 
 
 const dms dms::reduce( void ) const {
-    double a = D;
-    while (a<0.0) {a += 360.0;}
-    while (a>=360.0) {a -= 360.0;}
-    return dms( a );
+    return dms( D - 360.0*floor(D/360.0) );
 }
 
 const QString dms::toDMSString(const bool forceSign) const {

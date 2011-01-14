@@ -72,12 +72,14 @@ INDIStdDevice::INDIStdDevice(INDI_D *associatedDevice, KStars * kswPtr)
     ISOMode   		  = false;
     driverLocationUpdated = false;
     driverTimeUpdated     = false;
+    asciiFileDirty        = true;
 
     currentObject  	= NULL;
     streamWindow   	= new StreamWG(this, NULL);
 
     devTimer 		= new QTimer(this);
     seqLister		= new KDirLister();
+    ascii_data_file     = new QFile();
 
     telescopeSkyObject   = new SkyObject(0, 0, 0, 0, i18n("Telescope"));
 
@@ -100,14 +102,10 @@ INDIStdDevice::~INDIStdDevice()
     delete (seqLister);
 }
 
-void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat)
+void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QString &dataFormat, INDI_D::DTypes dataType)
 {
 
-    if (dataFormat == ".fits") dataType = DATA_FITS;
-    else if (dataFormat == ".stream") dataType = DATA_STREAM;
-    else dataType = DATA_OTHER;
-
-    if (dataType == DATA_STREAM)
+    if (dataType == INDI_D::VIDEO_STREAM)
     {
         if (!streamWindow->processStream)
             return;
@@ -129,7 +127,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 
     streamWindow->close();
 
-    if (dataType == DATA_FITS && !batchMode && Options::showFITS())
+    if (dataType == INDI_D::DATA_FITS && !batchMode && Options::showFITS())
     {
         strncpy(file_template, "/tmp/fitsXXXXXX", MAX_FILENAME_LEN);
         if ((fd = mkstemp(file_template)) < 0)
@@ -145,7 +143,7 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
     {
          QString ts = QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
 
-        if (dataType == DATA_FITS)
+        if (dataType == INDI_D::DATA_FITS)
         {
             if ( batchMode)
 	    {
@@ -154,59 +152,68 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
 		else
 			filename += seqPrefix + (seqPrefix.isEmpty() ? "" : "_") + QString("%1_%2.fits").arg(seqCount, 2).arg(ts);
 	    }
-                //snprintf(filename, sizeof(filename), "%s/%s_%02d.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount);
-            else /*if (!Options::indiFITSDisplay())*/
-            {
-		filename += QString("file_") + ts + ".fits";
-                //strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-                //snprintf(filename, sizeof(filename), "%s/file_%s.fits", tempFileStr, ts);
-            }/*
             else
-            {
-		filename += QString("%1_%2_%3.fits").arg(seqPrefix).arg(seqCount, 2).arg(ts);
-                //strftime (ts, sizeof(ts), "%Y-%m-%dT%H:%M:%S", tp);
-                //snprintf(filename, sizeof(filename), "%s/%s_%02d_%s.fits", tempFileStr, seqPrefix.toAscii().data(), seqCount, ts);
-            }*/
+		filename += QString("file_") + ts + ".fits";
 
             seqCount++;
         }
+        else if (dataType == INDI_D::ASCII_DATA_STREAM)
+            filename += QString("file_") + ts + dataFormat;
         else
-        {
 	    filename += QString("file_") + ts + '.' + dataFormat;
-	    //filename = currentDir + QString("/%1_%2_%3.fits").arg(seqPrefix).arg(seqCount, 2).arg(ts);
-            //strftime (ts, sizeof(ts), "/file-%Y-%m-%dT%H:%M:%S.", tp);
-            //strncat(filename, ts, sizeof(ts));
-            //strncat(filename, dataFormat.toAscii().data(), 10);
+    }
+
+    //kDebug() << "Final file name is " << filename;
+
+    if (dataType == INDI_D::ASCII_DATA_STREAM)
+    {
+        if (asciiFileDirty)
+        {
+            asciiFileDirty = false;
+            ascii_data_file->close();
+            ascii_data_file->setFileName(filename);
+            if (!ascii_data_file->open(QIODevice::WriteOnly))
+            {
+                        kDebug() << "Error: Unable to open " << ascii_data_file->fileName() << endl;
+                        return;
+            }
         }
-    }
 
-    kDebug() << "Final file name is " << filename;
+           QDataStream out(ascii_data_file);
+           for (nr=0; nr < (int) bufferSize; nr += n)
+               n = out.writeRawData( (const char *) (buffer+nr), bufferSize - nr);
 
-    QFile fits_temp_file(filename);
-    if (!fits_temp_file.open(QIODevice::WriteOnly))
+           out.writeRawData( (const char *) "\n" , 1);
+           ascii_data_file->flush();
+
+     }
+    else
     {
-		kDebug() << "Error: Unable to open fits_temp_file";
+        QFile fits_temp_file(filename);
+        if (!fits_temp_file.open(QIODevice::WriteOnly))
+        {
+                kDebug() << "Error: Unable to open " << fits_temp_file.fileName() << endl;
 		return;
+        }
+
+        QDataStream out(&fits_temp_file);
+
+        for (nr=0; nr < (int) bufferSize; nr += n)
+            n = out.writeRawData( (const char *) (buffer+nr), bufferSize - nr);
+
+        fits_temp_file.close();
     }
 
-    QDataStream out(&fits_temp_file);
 
-    for (nr=0; nr < (int) bufferSize; nr += n)
-        n = out.writeRawData( (const char *) (buffer+nr), bufferSize - nr);
-
-    fits_temp_file.close();
-
-    //fwrite( ((unsigned char *) buffer) + nr, 1, bufferSize - nr, fitsTempFile);
-    //fclose(fitsTempFile);
-
-    // We're done if we have DATA_OTHER or DATA_FITS if CFITSIO is not enabled.
-    if (dataType == DATA_OTHER)
+    // We're done if we have DATA_OTHER or DATA_STREAM or DATA_FITS if CFITSIO is not enabled.
+    if (dataType == INDI_D::DATA_OTHER || dataType == INDI_D::ASCII_DATA_STREAM)
     {
-        ksw->statusBar()->changeItem( i18n("Data file saved to %1", filename ), 0);
+        if (dataType == INDI_D::DATA_OTHER)
+            ksw->statusBar()->changeItem( i18n("Data file saved to %1", filename ), 0);
         return;
     }
 
-    if (dataType == DATA_FITS && (batchMode || !Options::showFITS()))
+    if (dataType == INDI_D::DATA_FITS && (batchMode || !Options::showFITS()))
     {
         ksw->statusBar()->changeItem( i18n("FITS file saved to %1", filename ), 0);
         emit FITSReceived(dp->label);
@@ -717,6 +724,9 @@ bool INDIStdDevice::handleNonSidereal()
 
     INDI_E *nameEle = NULL, *tracklp = NULL;
 
+    if (currentObject == NULL || currentObject->isSolarSystem() == false)
+        return false;
+
     kDebug() << "Object of type " << currentObject->typeName();
 
     // Only Meade Classic will offer an explicit SOLAR_SYSTEM property. If such a property exists
@@ -966,16 +976,97 @@ bool INDIStdProperty::newSwitch(INDI_E* el)
 }
 
 /*******************************************************************************/
+/* Move Telescope to targetted location			                       */
+/*******************************************************************************/
+bool INDIStdDevice::slew_scope(SkyPoint *scope_target, INDI_E *lp)
+{
+
+    INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *trackEle(NULL);
+    INDI_P *EqProp(NULL), *HorProp(NULL);
+    bool useJ2000 (false);
+
+    EqProp = dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
+    if (EqProp == NULL)
+    {
+	// Backward compatibility
+        EqProp = dp->findProp("EQUATORIAL_EOD_COORD");
+        if (EqProp == NULL)
+	{
+	// J2000 Property
+        EqProp = dp->findProp("EQUATORIAL_COORD_REQUEST");
+        if (EqProp)
+            useJ2000 = true;
+        }
+    }
+
+    HorProp = dp->findProp("HORIZONTAL_COORD_REQUEST");
+
+    if (EqProp && EqProp->perm == PP_RO)
+		EqProp = NULL;
+
+    if (HorProp && HorProp->perm == PP_RO)
+          	HorProp = NULL;
+
+    //kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
+
+        if (EqProp)
+        {
+	            RAEle  = EqProp->findElement("RA");
+	            if (!RAEle) return false;
+	            DecEle = EqProp->findElement("DEC");
+               	    if (!DecEle) return false;
+
+           if (useJ2000)
+                scope_target->apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
+
+              RAEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->ra().hour()).arg(scope_target->ra().minute()).arg(scope_target->ra().second()));
+              DecEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->dec().degree()).arg(scope_target->dec().arcmin()).arg(scope_target->dec().arcsec()));
+
+       }
+
+        if (HorProp)
+        {
+	            AzEle = HorProp->findElement("AZ");
+	            if (!AzEle) return false;
+	            AltEle = HorProp->findElement("ALT");
+	            if (!AltEle) return false;
+
+            AzEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->az().degree()).arg(scope_target->az().arcmin()).arg(scope_target->az().arcsec()));
+            AltEle->write_w->setText(QString("%1:%2:%3").arg(scope_target->alt().degree()).arg(scope_target->alt().arcmin()).arg(scope_target->alt().arcsec()));
+
+        }
+
+        /* Could not find either properties! */
+        if (EqProp == NULL && HorProp == NULL)
+            return false;
+
+	trackEle = lp;
+        if (trackEle == NULL)
+	{
+	        trackEle = dp->findElem("TRACK");
+	        if (trackEle == NULL)
+	        {
+		   trackEle = dp->findElem("SLEW");
+		   if (trackEle == NULL)
+			return false;
+		}
+         }
+
+        trackEle->pp->newSwitch(trackEle);
+        if (EqProp)
+            EqProp->newText();
+        if (HorProp)
+            HorProp->newText();
+
+	return true;
+}
+
+/*******************************************************************************/
 /* INDI Standard Property is triggered from the context menu                   */
 /*******************************************************************************/
 bool INDIStdProperty::actionTriggered(INDI_E *lp)
 {
-
-    INDI_E *RAEle(NULL), *DecEle(NULL), *AzEle(NULL), *AltEle(NULL), *nameEle(NULL);
-    INDI_P * prop;
-    SkyPoint sp;
-    int selectedCoord=0;				/* 0 for Equatorial, 1 for Horizontal */
-    bool useJ2000 (false);
+    INDI_E * nameEle(NULL);
 
     switch (pp->stdID)
     {
@@ -987,120 +1078,30 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
         if (stdDev->devTimer->isActive())
             stdDev->devTimer->stop();
 
-        prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD_REQUEST");
-        if (prop == NULL)
-        {
-	    // Backward compatibility
-            prop = pp->pg->dp->findProp("EQUATORIAL_EOD_COORD");
-            if (prop == NULL)
-            {
-		// J2000 Property
-                prop = pp->pg->dp->findProp("EQUATORIAL_COORD");
-
-                if (prop == NULL)
-                {
-
-                    prop = pp->pg->dp->findProp("HORIZONTAL_COORD_REQUEST");
-                    if (prop == NULL)
-		    {
-  		        // Backward compatibility
-			prop = pp->pg->dp->findProp("HORIZONTAL_COORD");
-			if (prop == NULL)
-                        	return false;
-		    }
-
-                    selectedCoord = 1;		/* Select horizontal */
-                }
-                else
-                    useJ2000 = true;
-            }
-        }
-
-        switch (selectedCoord)
-        {
-            // Equatorial
-        case 0:
-            if (prop->perm == PP_RO) return false;
-            RAEle  = prop->findElement("RA");
-            if (!RAEle) return false;
-            DecEle = prop->findElement("DEC");
-            if (!DecEle) return false;
-            break;
-
-            // Horizontal
-        case 1:
-            if (prop->perm == PP_RO) return false;
-            AzEle = prop->findElement("AZ");
-            if (!AzEle) return false;
-            AltEle = prop->findElement("ALT");
-            if (!AltEle) return false;
-            break;
-        }
-
         stdDev->currentObject = ksw->map()->clickedObject();
+
         // Track is similar to slew, except that for non-sidereal objects
         // it tracks the objects automatically via a timer.
         if ((lp->name == "TRACK"))
             if (stdDev->handleNonSidereal())
                 return true;
 
-        /* Send object name if available */
-        if (stdDev->currentObject)
-        {
-            nameEle = pp->pg->dp->findElem("OBJECT_NAME");
-            if (nameEle && nameEle->pp->perm != PP_RO)
-            {
-                nameEle->write_w->setText(stdDev->currentObject->name());
-                nameEle->pp->newText();
-            }
-        }
+           nameEle = stdDev->dp->findElem("OBJECT_NAME");
+       	   if (nameEle && nameEle->pp->perm != PP_RO)
+           {
+               if (stdDev->currentObject == NULL)
+			nameEle->write_w->setText("--");
+		else
+			nameEle->write_w->setText(stdDev->currentObject->name());
+               nameEle->pp->newText();
+           }
 
-        switch (selectedCoord)
-        {
-        case 0:
-            if (stdDev->currentObject)
-            {
-                kDebug() << "standard object - RA: " << stdDev->currentObject->ra().toHMSString()
-                         << " DEC: " << stdDev->currentObject->dec().toDMSString();
-                sp = *stdDev->currentObject;
-            }
-            else
-            {
-               sp = *ksw->map()->clickedPoint();
-               kDebug() << "Skymap click - RA: " << sp.ra().toHMSString() <<
-                   " DEC: " << sp.dec().toDMSString();
-            }
+	        if (stdDev->currentObject == NULL)
+		  return stdDev->slew_scope(ksw->map()->clickedPoint(), lp);
+		else
+		  return stdDev->slew_scope(static_cast<SkyPoint *> (stdDev->currentObject), lp);
 
-            if (useJ2000)
-                sp.apparentCoord(ksw->data()->ut().djd(), (long double) J2000);
 
-            RAEle->write_w->setText(QString("%1:%2:%3").arg(sp.ra().hour()).arg(sp.ra().minute()).arg(sp.ra().second()));
-            DecEle->write_w->setText(QString("%1:%2:%3").arg(sp.dec().degree()).arg(sp.dec().arcmin()).arg(sp.dec().arcsec()));
-
-            break;
-
-        case 1:
-            if (stdDev->currentObject)
-            {
-                sp.setAz( stdDev->currentObject->az());
-                sp.setAlt(stdDev->currentObject->alt());
-            }
-            else
-            {
-                sp.setAz( ksw->map()->clickedPoint()->az());
-                sp.setAlt(ksw->map()->clickedPoint()->alt());
-            }
-
-            AzEle->write_w->setText(QString("%1:%2:%3").arg(sp.az().degree()).arg(sp.az().arcmin()).arg(sp.az().arcsec()));
-            AltEle->write_w->setText(QString("%1:%2:%3").arg(sp.alt().degree()).arg(sp.alt().arcmin()).arg(sp.alt().arcsec()));
-
-            break;
-        }
-
-        pp->newSwitch(lp);
-        prop->newText();
-
-        return true;
         break;
 
         /* Handle Abort */
@@ -1130,3 +1131,4 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
 }
 
 #include "indistd.moc"
+

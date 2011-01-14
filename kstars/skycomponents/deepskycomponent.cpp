@@ -17,7 +17,6 @@
 
 #include "deepskycomponent.h"
 
-#include <QPainter>
 #include <QDir>
 #include <QFile>
 
@@ -37,6 +36,8 @@
 #include "kstarsdb.h"
 #include <time.h>
 #define CLOCK_TO_MILISEC(clock_time)    ((clock_time)/(CLOCKS_PER_SEC/1000)) 
+#include "skypainter.h"
+#include "projections/projector.h"
 
 DeepSkyComponent::DeepSkyComponent( SkyComposite *parent ) :
     SkyComponent(parent)
@@ -119,6 +120,8 @@ void DeepSkyComponent::loadData()
     }
 
     kDebug() << "1." << CLOCK_TO_MILISEC(clock());
+        //object type
+        type = line.mid( 28, 2 ).toInt();
 
     while ( query.next() ) {
         // Right Ascension
@@ -320,7 +323,7 @@ void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Tri
 }
 
 
-void DeepSkyComponent::draw( QPainter& psky )
+void DeepSkyComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
@@ -329,37 +332,38 @@ void DeepSkyComponent::draw( QPainter& psky )
     drawFlag = Options::showMessier() &&
                ! ( Options::hideOnSlew() && Options::hideMessier() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag, &m_MessierIndex, "MessColor", Options::showMessierImages() );
+    drawDeepSkyCatalog( skyp, drawFlag, &m_MessierIndex, "MessColor", Options::showMessierImages() );
 
     drawFlag = Options::showNGC() &&
                ! ( Options::hideOnSlew() && Options::hideNGC() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag,     &m_NGCIndex,     "NGCColor" );
+    drawDeepSkyCatalog( skyp, drawFlag,     &m_NGCIndex,     "NGCColor" );
 
     drawFlag = Options::showIC() &&
                ! ( Options::hideOnSlew() && Options::hideIC() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag,      &m_ICIndex,      "ICColor" );
+    drawDeepSkyCatalog( skyp, drawFlag,      &m_ICIndex,      "ICColor" );
 
     drawFlag = Options::showOther() &&
                ! ( Options::hideOnSlew() && Options::hideOther() && SkyMap::IsSlewing() );
 
-    drawDeepSkyCatalog( psky, drawFlag,   &m_OtherIndex,   "NGCColor" );
+    drawDeepSkyCatalog( skyp, drawFlag,   &m_OtherIndex,   "NGCColor" );
 }
 
-void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
+void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
                                            DeepSkyIndex* dsIndex, const QString& colorString, bool drawImage)
 {
     if ( ! ( drawObject || drawImage ) ) return;
 
     SkyMap *map = SkyMap::Instance();
+    const Projector *proj = map->projector();
     KStarsData *data = KStarsData::Instance();
 
     UpdateID updateID = data->updateID();
     UpdateID updateNumID = data->updateNumID();
 
-    psky.setPen( data->colorScheme()->colorNamed( colorString ) );
-    psky.setBrush( Qt::NoBrush );
+    skyp->setPen( data->colorScheme()->colorNamed( colorString ) );
+    skyp->setBrush( Qt::NoBrush );
     QColor color        = data->colorScheme()->colorNamed( colorString );
     QColor colorExtra = data->colorScheme()->colorNamed( "HSTColor" );
 
@@ -404,57 +408,20 @@ void DeepSkyComponent::drawDeepSkyCatalog( QPainter& psky, bool drawObject,
                 obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             }
 
-            if ( ! map->checkVisibility( obj ) ) continue;
-
             float mag = obj->mag();
-            float size = map->scale() * obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
+            float size = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
 
             //only draw objects if flags set, it's bigger than 1 pixel (unless
             //zoom > 2000.), and it's brighter than maglim (unless mag is
             //undefined (=99.9)
             if ( (size > 1.0 || Options::zoomFactor() > 2000.) &&
-                 ( mag < (float)maglim || obj->isCatalogIC() ) ) {
-
-                QPointF o = map->toScreen( obj );
-                if ( ! map->onScreen( o ) ) continue;
-
-                double PositionAngle = map->findPA( obj, o.x(), o.y() );
-
-                //Draw Image
-                bool imgdrawn = false;
-                if ( drawImage && Options::zoomFactor() > 5.*MINZOOM ) {
-                    imgdrawn = obj->drawImage( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
-                }
-
-                //Draw Symbol
-                if ( drawObject ) {
-                    //change color if extra images are available
-                    // most objects don't have those, so we only change colors temporarily
-                    // for the few exceptions. Changing color is expensive!!!
-                    bool bColorChanged = false;
-                    if ( obj->isCatalogM() && obj->ImageList().count() > 1 ) {
-                        psky.setPen( colorExtra );
-                        bColorChanged = true;
-                    } else if ( (!obj->isCatalogM()) && obj->ImageList().count() ) {
-                        psky.setPen( colorExtra );
-                        bColorChanged = true;
-                    }
-
-                    obj->drawSymbol( psky, o.x(), o.y(), PositionAngle, Options::zoomFactor() );
-
-                    if ( bColorChanged ) {
-                        psky.setPen( color );
-                    }
-                }
-
-                if ( !( drawObject || imgdrawn )  || ( m_hideLabels || mag > labelMagLim ) ) continue;
-            
-                addLabel( o, obj );
-            }
-            else { //Object failed checkVisible(); delete it's Image pointer, if it exists.
-                if ( obj->image() ) {
-                    obj->deleteImage();
-                }
+                 ( mag < (float)maglim || obj->isCatalogIC() ) )
+            {
+    
+                bool drawn = skyp->drawDeepSkyObject(obj, drawImage);
+                if ( drawn  && !( m_hideLabels || mag > labelMagLim ) )
+                    addLabel( proj->toScreen(obj), obj );
+                    //FIXME: find a better way to do above
             }
         }
     }
@@ -468,11 +435,12 @@ void DeepSkyComponent::addLabel( const QPointF& p, DeepSkyObject *obj )
     m_labelList[ idx ]->append( SkyLabel( p, obj ) );
 }
 
-void DeepSkyComponent::drawLabels( QPainter& psky )
+void DeepSkyComponent::drawLabels()
 {
     if ( m_hideLabels ) return;
 
-    psky.setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "DSNameColor" ) ) );
+    SkyLabeler *labeler = SkyLabeler::Instance();
+    labeler->setPen( QColor( KStarsData::Instance()->colorScheme()->colorNamed( "DSNameColor" ) ) );
 
     int max = int( m_zoomMagLimit * 10.0 );
     if ( max < 0 ) max = 0;
@@ -481,7 +449,7 @@ void DeepSkyComponent::drawLabels( QPainter& psky )
     for ( int i = 0; i <= max; i++ ) {
         LabelList* list = m_labelList[ i ];
         for ( int j = 0; j < list->size(); j++ ) {
-            list->at(j).obj->drawNameLabel( psky, list->at(j).o );
+            labeler->drawNameLabel(list->at(j).obj, list->at(j).o);
         }
         list->clear();
     }

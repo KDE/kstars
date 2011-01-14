@@ -21,6 +21,7 @@
 #include <QList>
 #include <QHash>
 #include <QSqlQueryModel>
+#include <QSqlRecord>
 #include <QAbstractTableModel>
 
 #include <kdialog.h>

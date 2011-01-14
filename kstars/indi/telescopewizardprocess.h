@@ -56,6 +56,7 @@ private:
     void Reset();
 
 public slots:
+    void cancelCheck();
     void processNext();
     void processBack();
     void newTime();

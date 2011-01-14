@@ -57,7 +57,7 @@ public:
     /**@short Draw constellation names on the sky map.
      * @p psky Reference to the QPainter on which to paint
      */
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 
     /**@short we need a custom routine (for now) so we don't
      * precess the locations of the names.

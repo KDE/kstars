@@ -25,6 +25,7 @@
 
 #include "dms.h"
 #include "quaternion.h"
+#include "kstarsdatetime.h"
 
 class KSNumbers;
 class SkyObject;
@@ -54,25 +55,29 @@ public:
     	*@param r Right Ascension
     	*@param d Declination
     	*/
-    SkyPoint( const dms& r, const dms& d ) :
-        RA0(r), Dec0(d),
+ SkyPoint( const dms& r, const dms& d ) :
+    RA0(r), Dec0(d),
         RA(r),  Dec(d)
     {
         syncQuaternion();
     }
-
+    
     /**Alternate constructor using double arguments, for convenience.
-    	*It behaves essentially like the default constructor.
-    	*@param r Right Ascension, expressed as a double
-    	*@param d Declination, expressed as a double
-    	*/
+     *It behaves essentially like the default constructor.
+     *@param r Right Ascension, expressed as a double
+     *@param d Declination, expressed as a double
+     */
     //FIXME: this (*15.0) thing is somewhat hacky.
-    explicit SkyPoint( double r=0.0, double d=0.0 ) :
-        RA0(r*15.0), Dec0(d),
-        RA(r*15.0),  Dec(d)
+    explicit SkyPoint( double r, double d ) :
+    RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d)
     {
         syncQuaternion();
     }
+    
+    /**
+     *@short Default constructor. Sets nonsense values for RA, Dec etc
+     */
+    SkyPoint();
 
     /** Empty destructor. */
     virtual ~SkyPoint();
@@ -85,6 +90,7 @@ public:
      * Does not set Altitude or Azimuth.
      * @param r Right Ascension
      * @param d Declination
+     * @note This function also sets RA0 and Dec0 to the same values, so call at your own peril!
      */
     void set( const dms& r, const dms& d );
 
@@ -92,6 +98,7 @@ public:
      * It behaves essentially like the above function.
      * @param r Right Ascension
      * @param d Declination
+     * @note This function also sets RA0 and Dec0 to the same values, so call at your own peril!
      */
     void set( double r, double d );
     
@@ -298,6 +305,12 @@ public:
      */
     bool bendlight();
 
+    /**
+     *@short Obtain a Skypoint with RA0 and Dec0 set from the RA, Dec
+     * of this skypoint. Also set the RA0, Dec0 of this SkyPoint if not
+     * set already.
+     */
+    SkyPoint deprecess( const KSNumbers *num, long double epoch=J2000 ) const;
 
     /**Determine the effects of aberration for this SkyPoint.
     	*@param num pointer to KSNumbers object containing current values of
@@ -376,7 +389,7 @@ public:
      *  @param sp SkyPoint to which distance is to be calculated
      *  @return dms angle representing angular separation.
      **/
-    dms angularDistanceTo(const SkyPoint *sp);
+    dms angularDistanceTo(const SkyPoint *sp) const;
 
     inline bool operator == ( SkyPoint &p ) { return ( ra() == p.ra() && dec() == p.dec() ); }
 
@@ -473,11 +486,17 @@ public:
      */
     bool checkCircumpolar( const dms *gLat );
 
+    /** Calculate refraction correction. Parameter and return value are in degrees */
+    static double refractionCorr( double alt );
+
     /** Apply refraction correction to altitude. */
     static dms refract(dms h);
 
     /** Remove refraction correction. */
     static dms unrefract(dms h);
+
+    static const double altCrit  = -1;
+
 protected:
     /**Precess this SkyPoint's catalog coordinates to the epoch described by the
     	*given KSNumbers object.
@@ -487,7 +506,7 @@ protected:
 
 
 private:
-    dms RA0, Dec0; //catalog coordinates
+    mutable dms RA0, Dec0; //catalog coordinates
     dms RA, Dec; //current true sky coordinates
     dms Alt, Az;
     Quaternion m_q;  //quaternion representation of the point

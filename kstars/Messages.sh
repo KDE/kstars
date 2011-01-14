@@ -67,7 +67,7 @@ rm -f image_url.tmp
 rm -f info_url.tmp
 rm -f tips.cpp
 
-$EXTRACTRC xplanet/*.ui *.ui tools/*.ui dialogs/*.ui fitsviewer/*.ui indi/*.ui options/*.ui oal/*.ui *.rc >> rc.cpp || exit 11
+$EXTRACTRC xplanet/*.ui *.ui tools/*.ui dialogs/*.ui fitsviewer/*.ui indi/*.ui options/*.ui oal/*.ui *.rc *.kcfg >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
 $XGETTEXT *.cpp *.h tools/*.cpp tools/*.h skycomponents/*.cpp widgets/*.cpp dialogs/*.cpp dialogs/*.h fitsviewer/*.cpp fitsviewer/*.h indi/*.cpp indi/*.h options/*.cpp options/*.h skyobjects/*.cpp skyobjects/*.h xplanet/*.cpp oal/*.h oal/*.cpp -o $podir/kstars.pot
 rm -f tips.cpp

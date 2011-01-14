@@ -37,7 +37,7 @@ public:
     AsteroidsComponent(SolarSystemComposite *parent);
 
     virtual ~AsteroidsComponent();
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
     virtual bool selected();
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
 private:

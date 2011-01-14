@@ -73,6 +73,7 @@
 #include "tools/jmoontool.h"
 #include "tools/flagmanager.h"
 #include "oal/execute.h"
+#include "projections/projector.h"
 
 #include <config-kstars.h>
 
@@ -81,7 +82,6 @@
 #include "indi/indimenu.h"
 #include "indi/indidriver.h"
 #include "indi/telescopewizardprocess.h"
-#include "indi/telescopeprop.h"
 #include "indi/opsindi.h"
 #include "indi/imagesequence.h"
 #endif
@@ -307,15 +307,6 @@ void KStars::slotTelescopeWizard()
     QPointer<telescopeWizardProcess> twiz = new telescopeWizardProcess(this);
     twiz->exec();
     delete twiz;
-#endif
-}
-
-void KStars::slotTelescopeProperties()
-{
-#ifdef HAVE_INDI_H
-    QPointer<telescopeProp> scopeProp = new telescopeProp(this);
-    scopeProp->exec();
-    delete scopeProp;
 #endif
 }
 
@@ -789,7 +780,7 @@ void KStars::slotZoomChanged() {
     actionCollection()->action("zoom_out")->setEnabled( Options::zoomFactor() > MINZOOM );
     actionCollection()->action("zoom_in" )->setEnabled( Options::zoomFactor() < MAXZOOM );
     // Update status bar
-    float fov = map()->fov();
+    float fov = map()->projector()->fov();
     QString fovunits = i18n( "degrees" );
     if ( fov < 1.0 ) {
         fov = fov * 60.0;
@@ -831,13 +822,13 @@ void KStars::slotCoordSys() {
                 map()->focus()->HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
             }
         }
-        actionCollection()->action("coordsys")->setText( i18n("Equatorial &Coordinates") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to horizonal view (Horizontal &Coordinates)") );
     } else {
         Options::setUseAltAz( true );
         if ( Options::useRefraction() ) {
             map()->setFocusAltAz( map()->focus()->altRefracted(), map()->focus()->az() );
         }
-        actionCollection()->action("coordsys")->setText( i18n("Horizontal &Coordinates") );
+        actionCollection()->action("coordsys")->setText( i18n("Switch to star globe view (Equatorial &Coordinates)") );
     }
     map()->forceUpdate();
 }
@@ -975,6 +966,11 @@ void KStars::addColorMenuItem( const QString &name, const QString &actionName ) 
     kta->setActionGroup( cschemeGroup );
     connect( kta, SIGNAL( toggled( bool ) ), this, SLOT( slotColorScheme() ) );
     colorActionMenu->addAction( kta );
+
+    KConfigGroup cg = KGlobal::config()->group( "Colors" );
+    if ( actionName.mid( 3 ) == cg.readEntry( "ColorSchemeFile", "classic.colors" ).remove( ".colors" ) ) {
+        kta->setChecked( true );
+    }
 }
 
 void KStars::removeColorMenuItem( const QString &actionName ) {
@@ -1009,7 +1005,7 @@ void KStars::slotAboutToQuit()
     writeConfig();
 
     if( !Options::obsListSaveImage() ) {
-        foreach ( QString file, obsList->imageList() )
+        foreach ( const QString& file, obsList->imageList() )
             QFile::remove( KStandardDirs::locateLocal( "appdata", file ) );
     }
 }

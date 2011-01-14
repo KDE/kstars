@@ -547,31 +547,25 @@
           <property name="spacing" >
            <number>6</number>
           </property>
+	  <item row="0" column="1" >
+           <widget class="KUrlRequester" name="InputLineEditBatch" />
+          </item>
+	  <item row="1" column="1" >
+           <widget class="KUrlRequester" name="OutputLineEditBatch" />
+          </item>
+	  <item row="0" column="0" >
+           <widget class="QLabel" name="label_3" >
+            <property name="text" >
+             <string>Input File:</string>
+            </property>
+           </widget>
+          </item>
           <item row="1" column="0" >
-           <widget class="QPushButton" name="OutputButtonBatch" >
-            <property name="toolTip" >
-             <string>File for the output data</string>
-            </property>
+           <widget class="QLabel" name="label_4" >
             <property name="text" >
-             <string>Output File...</string>
+             <string>Output File:</string>
             </property>
            </widget>
-          </item>
-          <item row="0" column="1" >
-           <widget class="KLineEdit" name="InputLineEditBatch" />
-          </item>
-          <item row="0" column="0" >
-           <widget class="QPushButton" name="InputButtonBatch" >
-            <property name="toolTip" >
-             <string>File with the input data</string>
-            </property>
-            <property name="text" >
-             <string>Input File...</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1" >
-           <widget class="KLineEdit" name="OutputLineEditBatch" />
           </item>
          </layout>
         </widget>
@@ -690,11 +684,9 @@
   <tabstop>NowButton</tabstop>
   <tabstop>UT</tabstop>
   <tabstop>InputLineEditBatch</tabstop>
-  <tabstop>OutputButtonBatch</tabstop>
   <tabstop>decCheckBatch</tabstop>
   <tabstop>OutputLineEditBatch</tabstop>
   <tabstop>runButtonBatch</tabstop>
-  <tabstop>InputButtonBatch</tabstop>
   <tabstop>inputRadioBatch</tabstop>
   <tabstop>raCheckBatch</tabstop>
   <tabstop>dateCheckBatch</tabstop>

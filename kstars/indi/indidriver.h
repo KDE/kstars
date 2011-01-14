@@ -18,6 +18,7 @@
 #define INDIDRIVER_H_
 
 #include <QFrame>
+#include <QHash>
 #include <qstringlist.h>
 #include <kdialog.h>
 #include <unistd.h>
@@ -51,14 +52,17 @@ public:
       ~IDevice();
   
     enum DeviceStatus { DEV_START, DEV_TERMINATE };
+    enum XMLSource { PRIMARY_XML, THIRD_PARTY_XML, EM_XML };
 
     QString tree_label;
     QString unique_label;
     QString driver_class;
     QString driver;
     QString version;
+    QString id;
+    QString port;
     DeviceStatus state;
-    bool primary_xml;
+    XMLSource xmlSource;
 
     DeviceManager *deviceManager;
     int deviceType;
@@ -86,6 +90,9 @@ public:
     QIcon localMode;
     QIcon serverMode;
 
+public slots:
+    void makePortEditable(QTreeWidgetItem* selectedItem, int column);
+
 };
 
 class INDIDriver : public KDialog
@@ -94,6 +101,9 @@ class INDIDriver : public KDialog
     Q_OBJECT
 
 public:
+
+    enum { LOCAL_NAME_COLUMN=0, LOCAL_STATUS_COLUMN, LOCAL_MODE_COLUMN, LOCAL_VERSION_COLUMN, LOCAL_PORT_COLUMN };
+    enum { HOST_STATUS_COLUMN=0, HOST_NAME_COLUMN, HOST_PORT_COLUMN };
 
     INDIDriver(KStars *ks);
     ~INDIDriver();
@@ -109,18 +119,18 @@ public:
     QTreeWidgetItem *lastGroup;
     QTreeWidgetItem *lastDevice;
   
-    QStringList driversList;
+    QHash<QString, QString> driversList;
     int currentPort;
-    bool primary_xml;
+    IDevice::XMLSource xmlSource;
   
-    void saveDevicesToDisk();
-    int getINDIPort();
+    int getINDIPort(int customPort);
     bool isDeviceRunning(const QString &deviceLabel);
   
     void saveHosts();
   
     void processLocalTree(IDevice::DeviceStatus dev_request);
     void processRemoteTree(IDevice::DeviceStatus dev_request);
+    IDevice * findDeviceByLabel(const QString &label);
   
     
 
@@ -143,6 +153,7 @@ public:
     void activateHostDisconnection();
     void newTelescopeDiscovered();
     void newCCDDiscovered();
+    void updateCustomDrivers();
 
 signals:
     void newDevice();

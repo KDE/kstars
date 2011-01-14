@@ -30,6 +30,7 @@
 #include "ksutils.h"
 #include "Options.h"
 #include "skyobjects/starobject.h"
+#include "skyqpainter.h"
 
 ColorScheme::ColorScheme() : FileName() {
     //Each color has two names associated with it.  The KeyName is its
@@ -71,6 +72,7 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("PlanetTrailColor", i18n("Planet Trails"),          "#993311");
     appendItem("AngularRuler",     i18n("Angular Distance Ruler"), "#445566");
     appendItem("ObsListColor",     i18n("Observing List Label"),   "#FF0000");
+    appendItem("StarHopRouteColor", i18n("Star-Hop Route"),        "#00FFFF");
     appendItem("SatColor",         i18n("Satellite Track"),        "#007777");
 
     //Load colors from config object
@@ -200,7 +202,7 @@ bool ColorScheme::load( const QString &name ) {
             //Assuming the old *.colors format.  Loop through the KeyName list,
             //and assign each color.  Note that order matters here, but only here
             //(so if you don't use the old format, then order doesn't ever matter)
-            foreach(QString key, KeyName)
+            foreach(const QString& key, KeyName)
                 setColor( key, line.left( 7 ) );
         }
     }
@@ -230,7 +232,7 @@ bool ColorScheme::save( const QString &name ) {
             QTextStream stream( &file );
             stream << StarColorMode << ":" << StarColorIntensity << endl;
 
-            foreach(QString key, KeyName )
+            foreach(const QString& key, KeyName )
                 stream << Palette[ key ] << " :" << key << endl;
             file.close();
         }
@@ -264,6 +266,8 @@ void ColorScheme::loadFromConfig() {
         setColor( KeyName.at(i), cg.readEntry( KeyName.at(i).toUtf8().constData(), Default.at( i ) ) );
 
     setStarColorModeIntensity( cg.readEntry( "StarColorMode", 0 ), cg.readEntry( "StarColorIntensity", 5 ) );
+
+    FileName = cg.readEntry( "ColorSchemeFile", "classic.colors" );
 }
 
 void ColorScheme::saveToConfig() {
@@ -280,13 +284,13 @@ void ColorScheme::saveToConfig() {
 void ColorScheme::setStarColorMode( int mode ) { 
     StarColorMode = mode;
     Options::setStarColorMode( mode );
-    StarObject::initImages();
+    SkyQPainter::initStarImages();
 }
 
 void ColorScheme::setStarColorIntensity( int intens ) { 
     StarColorIntensity = intens;
     Options::setStarColorIntensity( intens );
-    StarObject::initImages();
+    SkyQPainter::initStarImages();
 }
 
 void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
@@ -294,5 +298,5 @@ void ColorScheme::setStarColorModeIntensity( int mode, int intens) {
     StarColorIntensity = intens;
     Options::setStarColorMode( mode );
     Options::setStarColorIntensity( intens );
-    StarObject::initImages();
+    SkyQPainter::initStarImages();
 }

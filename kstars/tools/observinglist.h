@@ -118,7 +118,7 @@ public:
        *@p o pointer to the object to be plotted
        */
     void plot( SkyObject *o );
-    
+
     /**@short Return the altitude of the given SkyObject for the given hour.
         *@p p pointer to the SkyObject 
         *@p hour time at which altitude has to be found
@@ -135,6 +135,13 @@ public:
         */
     void setCurrentImage( SkyObject *o, bool temp = false );
 
+    /**@short Chooses how to call slotRemoveObject according to sessionView
+        *@p o Pointer to the SkyObject to be removed
+        *@p sessionView Flag to tell it whether to remove the object
+        *from the sessionlist or from the wishlist
+        */
+    void removeObject(SkyObject *o, bool sessionView);
+
     /**@short Save the user log text to a file.
         *@note the log is attached to the current object in obsList.
         */
@@ -142,7 +149,7 @@ public:
 
     /**@short decides on whether to enable the SaveImages button or not
         */
-    void setSaveImages();
+    void setSaveImagesButton();
 
     /**@short This is the declaration of the event filter function
      * which is installed on the KImageFilePreview and the TabeView
@@ -163,11 +170,19 @@ public:
     GeoLocation* geoLocation() { return geo; }
 
     KStarsDateTime dateTime() { return dt; }
-    
+
     /**@short return the object with the name as the passed
      * QString from the Session List, return null otherwise
      */
     SkyObject* findObjectByName( QString name );
+
+    /**@short make a selection in the session view 
+     */
+    void selectObject( SkyObject *o );
+
+    /**@short set the default image in the image preview.
+     */
+    void setDefaultImage();
 
 public slots:
     /**@short add a new object to list
@@ -202,7 +217,7 @@ public slots:
     /**@short Open the WUT dialog
     */
     void slotWUT();
-    
+
     /**@short Open the Find Dialog
         */
     void slotFind();
@@ -274,10 +289,10 @@ public slots:
         *Note: This downloads the SDSS image, checks if the size is > default image
         *and gets the DSS image if thats the case
         */
-    void slotSaveImages();
-    
+    void slotSaveAllImages();
+
     /**@short saves the image syncronously from a given URL into a given file
-        *@p url the url from whih the image has to be downloaded
+        *@p url the url from which the image has to be downloaded
         *@p filename the file onto which the url has to be copied to
         *NOTE: This is not a generic image saver, it is specific to the current object
         */
@@ -293,11 +308,11 @@ public slots:
 
     /**@short Remove the current image
         */
-    void slotDeleteImage();
+    void slotDeleteCurrentImage();
 
     /**@short Removes all the save DSS/SDSS images from the disk.
         */
-    void slotDeleteImages();
+    void slotDeleteAllImages();
 
     /**@short download the DSS image and show it
         */
@@ -309,7 +324,6 @@ public slots:
 
     void slotAddVisibleObj();
 
-    void selectObject( SkyObject *o );
 
 protected slots:
     void slotClose();

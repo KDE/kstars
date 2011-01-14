@@ -20,13 +20,14 @@
 #include <QPen>
 #include <QBrush>
 #include <QColor>
-#include <QPainter>
 
 #include "Options.h"
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "linelist.h"
 #include "dms.h"
+
+#include "skypainter.h"
 
 CoordinateGrid::CoordinateGrid( SkyComposite *parent )
         : NoPrecessIndex(parent, i18n("Coordinate Grid") )
@@ -91,9 +92,9 @@ bool CoordinateGrid::selected()
            ! ( Options::hideOnSlew() && Options::hideGrid() && SkyMap::IsSlewing() );
 }
 
-void CoordinateGrid::preDraw( QPainter &psky )
+void CoordinateGrid::preDraw( SkyPainter* skyp )
 {
     KStarsData *data = KStarsData::Instance();
     QColor color = data->colorScheme()->colorNamed( "GridColor" );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::DotLine ) );
+    skyp->setPen( QPen( QBrush( color ), 1, Qt::DotLine ) );
 }

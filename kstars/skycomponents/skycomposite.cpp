@@ -40,11 +40,11 @@ void SkyComposite::removeComponent(SkyComponent *component)
         delete components().takeAt(index);
 }
 
-void SkyComposite::draw( QPainter& psky )
+void SkyComposite::draw( SkyPainter *skyp )
 {
     if( selected() )
         foreach ( SkyComponent *component, components() )
-            component->draw( psky );
+            component->draw( skyp );
 }
 
 void SkyComposite::update( KSNumbers *num )

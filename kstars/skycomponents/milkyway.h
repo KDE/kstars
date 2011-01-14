@@ -43,7 +43,7 @@ public:
     /** Load skiplists from file */
     void loadContours(QString fname, QString greeting);
   
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
     virtual bool selected();
 
 protected:
@@ -61,7 +61,7 @@ protected:
      * subclass of LineList.  This routine allows us to use the drawing
      * code in LineListIndex instead of repeating it all here.
      */
-    virtual bool skipAt( LineList* skpiList, int i );
+    virtual SkipList* skipList(LineList* lineList);
 
 };
 #endif

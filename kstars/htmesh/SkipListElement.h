@@ -22,7 +22,7 @@
 #ifdef _WIN32
 #define KEY_MAX _I64_MAX
 #else
-#  if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || ( defined(__SUNPRO_CC) && defined(__sun) )
+#  if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__) || ( defined(__SUNPRO_CC) && defined(__sun) )
 #    define KEY_MAX LLONG_MAX
 #  else
 #    define KEY_MAX LONG_LONG_MAX

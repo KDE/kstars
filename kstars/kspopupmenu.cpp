@@ -149,13 +149,13 @@ void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
 void KSPopupMenu::createPlanetMenu( SkyObject *p ) {
     QString info = magToStr( p->mag() );
 	QString type = i18n("Solar system object");;
-    initPopupMenu( p, p->translatedName(), type, info, true);
+    initPopupMenu( p, p->translatedName(), type, info);
     addLinksToMenu( p, false ); //don't offer DSS images for planets
 }
 
 void KSPopupMenu::createMoonMenu( KSMoon *moon ) {
     QString info = QString("%1, %2").arg( magToStr(moon->mag()), moon->phaseName() );
-    initPopupMenu( moon, moon->translatedName(), QString(), info, true);
+    initPopupMenu( moon, moon->translatedName(), QString(), info);
     addLinksToMenu( moon, false ); //don't offer DSS images for planets
 }
 
@@ -187,7 +187,9 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
     addAction( i18n( "Angular Distance To...            [" ), ks->map(),
-               SLOT( slotBeginAngularDistance() ) );
+               SLOT(slotBeginAngularDistance()) );
+    addAction( i18n( "Starhop from here to...            " ), ks->map(),
+               SLOT(slotBeginStarHop()) ); 
 
     //Insert item for Showing details dialog
     if ( showDetails )
@@ -249,8 +251,9 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
     if ( showDSS ) {
         addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
         addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ), ks->map(), SLOT( slotDSS() ) );
-        addSeparator();
-    } else if ( obj->ImageList().count() )
+    }
+
+    if( obj->ImageList().count() || showDSS )
         addSeparator();
 
     itList  = obj->InfoList().constBegin();

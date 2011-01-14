@@ -107,7 +107,7 @@ public:
     enum TYPE { STAR=0, CATALOG_STAR=1, PLANET=2, OPEN_CLUSTER=3, GLOBULAR_CLUSTER=4,
                 GASEOUS_NEBULA=5, PLANETARY_NEBULA=6, SUPERNOVA_REMNANT=7, GALAXY=8,
                 COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, ASTERISM=13, 
-                GALAXY_CLUSTER=14, DARK_NEBULA=15, QUASAR=16, MULT_STAR=17, TYPE_UNKNOWN };
+                GALAXY_CLUSTER=14, DARK_NEBULA=15, QUASAR=16, MULT_STAR=17, RADIO_SOURCE=18, TYPE_UNKNOWN };
 
     /**
      *@return object's primary name.
@@ -267,24 +267,6 @@ public:
      *@short Save new user log text
       */
     void saveUserLog( const QString &newLog );
-
-    /**
-     *@short draw the object's name label on the map, if it will not overlap with 
-     *existing labels.
-     *@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-     *@param p The screen position for the label (in pixels; typically as found by SkyMap::toScreen())
-     *@param drawBox If true, the bounding box of the label will be drawn on the map.
-     *@note overridden in StarObject
-     */
-    virtual void drawNameLabel( QPainter &psky, const QPointF &p );
-
-    /**
-     *@short draw the object's name label on the map, without checking for
-     *overlap with other labels.
-     *@param psky reference to the QPainter on which to draw (either the sky pixmap or printer device)
-     *@param p The screen position for the label (in pixels; typically as found by SkyMap::toScreen())
-     */
-    virtual void drawRudeNameLabel( QPainter &psky, const QPointF &p );
 
     /**
      *@return the pixel distance for offseting the object's name label

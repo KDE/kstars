@@ -39,7 +39,7 @@ public:
 
     virtual ~CometsComponent();
     virtual bool selected();
-    virtual void draw( QPainter& psky );
+    virtual void draw( SkyPainter *skyp );
 private:
     void loadData();
 };

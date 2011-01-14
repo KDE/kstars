@@ -51,8 +51,6 @@ modCalcApCoord::modCalcApCoord(QWidget *parentSplit)
     connect( raCheckBatch, SIGNAL(clicked()), this, SLOT(slotRaCheckedBatch()) );
     connect( decCheckBatch, SIGNAL(clicked()), this, SLOT(slotDecCheckedBatch()) );
     connect( epochCheckBatch, SIGNAL(clicked()), this, SLOT(slotEpochCheckedBatch()) );
-    connect( InputButtonBatch, SIGNAL(clicked()), this, SLOT(slotInputFile()) );
-    connect( OutputButtonBatch, SIGNAL(clicked()), this, SLOT(slotOutputFile()) );
     connect( runButtonBatch, SIGNAL(clicked()), this, SLOT(slotRunBatch()) );
 
     show();
@@ -140,23 +138,9 @@ void modCalcApCoord::slotEpochCheckedBatch(){
     }
 }
 
-void modCalcApCoord::slotInputFile() {
-    QString inputFileName;
-    inputFileName = KFileDialog::getOpenFileName( );
-    InputLineEditBatch->setText( inputFileName );
-}
-
-void modCalcApCoord::slotOutputFile() {
-    QString outputFileName;
-    outputFileName = KFileDialog::getSaveFileName( );
-    OutputLineEditBatch->setText( outputFileName );
-}
-
 void modCalcApCoord::slotRunBatch() {
 
-    QString inputFileName;
-
-    inputFileName = InputLineEditBatch->text();
+    QString inputFileName = InputLineEditBatch->url().toLocalFile();
 
     // We open the input file and read its content
 

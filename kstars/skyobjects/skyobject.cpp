@@ -37,8 +37,8 @@
 #include "skycomponents/skylabeler.h"
 
 QString SkyObject::emptyString;
-QString SkyObject::unnamedString = QString(i18n("unnamed"));
-QString SkyObject::unnamedObjectString = QString(i18n("unnamed object"));
+QString SkyObject::unnamedString = QString(I18N_NOOP("unnamed"));
+QString SkyObject::unnamedObjectString = QString(I18N_NOOP("unnamed object"));
 QString SkyObject::starString = QString("star");
 
 const SkyObject::UID SkyObject::invalidUID   = ~0;
@@ -325,6 +325,7 @@ QString SkyObject::typeName( void ) const {
     else if ( Type==8 ) return i18n( "Galaxy" );
     else if ( Type==9 ) return i18n( "Comet" );
     else if ( Type==10 ) return i18n( "Asteroid" );
+    else if ( Type == 18) return i18n("Radio Source");
     else return i18n( "Unknown Type" );
 }
 
@@ -426,53 +427,6 @@ void SkyObject::saveUserLog( const QString &newLog ) {
 
 QString SkyObject::labelString() const {
     return translatedName();
-}
-
-void SkyObject::drawNameLabel( QPainter &psky, const QPointF &_p ) {
-    QString sLabel = labelString();
-    SkyLabeler *labeler = SkyLabeler::Instance();
-
-    double offset = labelOffset();
-    QPointF p( _p.x()+offset, _p.y()+offset );
-
-    if ( ! labeler->markText( p, sLabel ) ) {
-        return;
-    }
-
-    //FIXME: we shouldn't be changing the font back and forth for every object!
-//    //set the zoom-dependent font
-//    QFont stdFont( psky.font() );
-//    SkyLabeler::SetZoomFont( psky );
-
-    QRectF rect = labeler->fontMetrics().boundingRect( sLabel );
-    rect.moveTo( p.x(), p.y() );
-
-    psky.drawText( rect.topLeft(), sLabel );
-
-//    psky.setFont( stdFont );
-}
-
-//Rude name labels don't check for collisions with other labels, 
-//these get drawn no matter what.  Transient labels are rude labels.
-//To mitigate confusion from possibly "underlapping" labels, paint a 
-//semi-transparent background.
-void SkyObject::drawRudeNameLabel( QPainter &psky, const QPointF &p ) {
-    QString sLabel = labelString();
-    double offset = labelOffset();
-    QRectF rect = psky.fontMetrics().boundingRect( sLabel );
-    rect.moveTo( p.x()+offset, p.y()+offset );
-
-    //Interestingly, the fontMetric boundingRect isn't where you might think...
-    //We need to tweak rect to get the BG rectangle rect2
-    QRectF rect2 = rect;
-    rect2.moveTop( rect.top() - 0.6*rect.height() );
-    rect2.setHeight( 0.8*rect.height() );
-
-    //FIXME: Implement label background options
-    QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
-    color.setAlpha( psky.pen().color().alpha() ); //same transparency for the text and the background
-    psky.fillRect( rect2, QBrush( color ) );
-    psky.drawText( rect.topLeft(), sLabel );
 }
 
 double SkyObject::labelOffset() const {

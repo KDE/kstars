@@ -19,7 +19,6 @@
 
 #include <QList>
 #include <QPoint>
-#include <QPainter>
 
 #include "skyobjects/jupitermoons.h"
 #include "skyobjects/ksplanetbase.h"
@@ -32,6 +31,9 @@
 #include "solarsystemsinglecomponent.h"
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
+#include "skypainter.h"
+
+#include "projections/projector.h"
 
 PlanetMoonsComponent::PlanetMoonsComponent( SkyComposite *p,
                                             SolarSystemSingleComponent *planetComponent,
@@ -107,69 +109,50 @@ SkyObject* PlanetMoonsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     return oBest;
 }
 
-void PlanetMoonsComponent::draw( QPainter& psky )
+void PlanetMoonsComponent::draw( SkyPainter *skyp )
 {
     if( !(planet == KSPlanetBase::JUPITER && Options::showJupiter() ) )
         return;
-
-    SkyMap *map = SkyMap::Instance();
-
-    float Width = map->scale() * map->width();
-    float Height = map->scale() * map->height();
-
-    psky.setPen( QPen( QColor( "white" ) ) );
-
-    if ( Options::zoomFactor() <= 10.*MINZOOM )
-        return;
-
+    
     //In order to get the z-order right for the moons and the planet,
     //we need to first draw the moons that are further away than the planet,
     //then re-draw the planet, then draw the moons nearer than the planet.
-    QList<QPointF> frontMoons;
+    QList<TrailObject*> frontMoons;
     int nmoons = pmoons->nMoons();
     
     for ( int i=0; i<nmoons; ++i ) {
-        QPointF o = map->toScreen( pmoons->moon(i) );
-
-        if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) ) {
-            if ( pmoons->z(i) < 0.0 ) { //Moon is nearer than the planet
-                frontMoons.append( o );
-            } else {
-                //Draw Moons that are further than the planet
-                psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
-            }
+        if ( pmoons->z(i) < 0.0 ) { //Moon is nearer than the planet
+            frontMoons.append( pmoons->moon(i) );
+        } else {
+            //Draw Moons that are further than the planet
+            skyp->drawPointSource( pmoons->moon(i), pmoons->moon(i)->mag() );
         }
     }
 
     //Now redraw the planet
-    m_Planet->draw( psky );
+    m_Planet->draw( skyp );
 
     //Now draw the remaining moons, as stored in frontMoons
-    psky.setPen( QPen( QColor( "white" ) ) );
-    foreach ( const QPointF &o, frontMoons ) {
-        psky.drawEllipse( QRectF( o.x()-1., o.y()-1., 2., 2. ) );
+    foreach ( TrailObject *moon, frontMoons ) {
+        skyp->drawPointSource( moon, moon->mag() );
     }
 
     //Draw Moon name labels if at high zoom
     if ( ! (Options::showPlanetNames() && Options::zoomFactor() > 50.*MINZOOM) ) return;
     for ( int i=0; i<nmoons; ++i ) {
-        QPointF o = map->toScreen( pmoons->moon(i) );
-
-        if ( ! map->onScreen( o ) )
-            continue;
         /*
         if (planet ==KSPlanetBase::SATURN)
-            SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::SATURN_MOON_LABEL );
+            SkyLabeler::AddLabel( pmoons->moon(i), SkyLabeler::SATURN_MOON_LABEL );
         else
         */
-        SkyLabeler::AddLabel( o, pmoons->moon(i), SkyLabeler::JUPITER_MOON_LABEL );
+        SkyLabeler::AddLabel( pmoons->moon(i), SkyLabeler::JUPITER_MOON_LABEL );
     }
 }
 
-void PlanetMoonsComponent::drawTrails( QPainter& psky ) {
+void PlanetMoonsComponent::drawTrails( SkyPainter *skyp ) {
     if( ! selected() )
         return;
     int nmoons = pmoons->nMoons();
     for( int i=0; i<nmoons; ++i )
-        pmoons->moon(i)->drawTrail(psky);
+        pmoons->moon(i)->drawTrail(skyp);
 }

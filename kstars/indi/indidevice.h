@@ -81,7 +81,7 @@ public:
     INDIMenu      *parent;
     DeviceManager *deviceManager;
 
-    enum DTypes { DATA_FITS, DATA_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
+    enum DTypes { DATA_FITS, ASCII_DATA_STREAM, VIDEO_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
 
     /*****************************************************************
     * Build
@@ -142,8 +142,6 @@ public:
 
 public slots:
     void engageTracking();
-
-
 
 };
 

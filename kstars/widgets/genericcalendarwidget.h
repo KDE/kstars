@@ -1,0 +1,133 @@
+/***************************************************************************
+             genericcalendarwidget.h  -  K Desktop Planetarium
+                             -------------------
+    begin                : Mon Jun 28 2010
+    copyright            : (C) 2010 by Akarsh Simha
+    email                : akarshsimha@gmail.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef _GENERICCALENDARWIDGET_H_
+#define _GENERICCALENDARWIDGET_H_
+
+#include "ui_genericcalendarwidget.h"
+
+#include <KDateTable>
+
+#include <QDate>
+
+/**
+ *@class GenericCalendarWidget
+ *@author Akarsh Simha
+ *@version 1.0
+ *@short Uses any KDateTable subclass for the date table and provides a calendar with options to choose a month / year.
+ *@note This supports only the Gregorian calendar system for simplicity.
+ *@note This shouldn't be the way to do things in the first place, but
+ *      this is until KDatePicker starts supporting overriden
+ *      KDateTables and the like
+ */
+
+class GenericCalendarWidget : public QWidget, public Ui::GenericCalendarWidgetUi {
+
+    Q_OBJECT
+
+ public:
+    /**
+     *@short Constructor. Sets up the Ui, connects signals to slots etc.
+     */
+    GenericCalendarWidget( KDateTable &dateTable, QWidget *parent = 0 );
+
+    /**
+     *@short Empty destructor
+     */
+    ~GenericCalendarWidget() { }
+
+    /**
+     *@short Returns the selected date
+     */
+    const QDate &date() const;
+
+ public slots:
+    /**
+     *@short Set the month
+     *@param month  The month to choose
+     */
+    bool setMonth( int month );
+
+    /**
+     *@short Set the year
+     *@param year  The year to choose
+     */
+    bool setYear( int year );
+
+    /**
+     *@short Set the selected day of month
+     *@param date The date of the month to choose
+     */
+    bool setDate( int date_ );
+
+    /**
+     *@short Set the selected date
+     *@param date The date to set
+     */
+    bool setDate( const QDate &date_ );
+
+ signals:
+    /**
+     *@short Emitted when the date has been changed
+     *@note Emitted by dateTableDateChanged() which subscribes to KDateTable::dateChanged()
+     */
+    void dateChanged( const QDate &date_ );
+
+ private slots:
+
+    /**
+     *@short Called when the previous / next year / month buttons are clicked
+     */
+    void previousYearClicked();
+    void nextYearClicked();
+    void previousMonthClicked();
+    void nextMonthClicked();
+
+    /**
+     *@short Called when the year changes through the spin box
+     */
+    void yearChanged( int year );
+
+    /**
+     *@short Called when the month changes through the combo box
+     */
+    void monthChanged( int month );
+
+    /**
+     *@short Subscribes to KDateTable::dateChanged() and echoes it by emitting this widget's dateChanged signals
+     *@note For details on parameters, see KDateTable::dateChanged()
+     */
+    void dateChangedSlot( const QDate &date_ );
+
+ private:
+    KDateTable &m_DateTable;
+
+    /**
+     *@short Fills the month combo box with month names
+     */
+    void populateMonthNames();
+
+    /**
+     *@short Returns a link to the KCalendarSystem in use
+     */
+    const KCalendarSystem *calendar() const;
+
+    QDate m_Date;
+};
+
+#endif
+

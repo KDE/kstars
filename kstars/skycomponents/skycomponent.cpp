@@ -19,7 +19,6 @@
 #include "skycomposite.h"
 
 #include <QList>
-#include <QPainter>
 
 #include "Options.h"
 #include "ksnumbers.h"
@@ -45,7 +44,7 @@ SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) {
     return 0;
 }
 
-void SkyComponent::drawTrails( QPainter & )
+void SkyComponent::drawTrails( SkyPainter *skyp )
 {}
 
 void SkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )

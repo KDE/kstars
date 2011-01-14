@@ -35,37 +35,6 @@
 
 #include "skycomponents/skylabeler.h"
 
-namespace {
-
-    // Convert spectral class to numerical index.
-    // If spectral class is invalid return index for white star (A class)
-    int harvardToIndex(char c) {
-        switch( c ) {
-        case 'o': case 'O': return 0;
-        case 'b': case 'B': return 1;
-        case 'a': case 'A': return 2;
-        case 'f': case 'F': return 3;
-        case 'g': case 'G': return 4;
-        case 'k': case 'K': return 5;
-        case 'm': case 'M': return 6;
-        // For unknown spectral class assume A class (white star)
-        default: return 2;
-        }
-    }
-
-    // Total number of sizes of stars.
-    const int nStarSizes = 15;
-    // Total number of specatral classes
-    // N.B. Must be in sync with harvardToIndex
-    const int nSPclasses = 7;
-
-    // Cache for star images.
-    //
-    // These pixmaps are never deallocated. Not really good...
-    QPixmap* imageCache[nSPclasses][nStarSizes] = {{0}};
-}
-
-
 // DEBUG EDIT. Uncomment for testing Proper Motion
 // You will also need to uncomment all related blocks
 // from this file, starobject.h and also the trixel-boundaries
@@ -263,95 +232,6 @@ void StarObject::setNames( QString name, QString name2 ) {
     setLongName(lname);
 }
 
-
-void StarObject::initImages() {
-    QMap<char, QColor> ColorMap;
-    const int starColorIntensity = Options::starColorIntensity();
-
-    switch( Options::starColorMode() ) {
-    case 1: // Red stars.
-        ColorMap.insert( 'O', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'B', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'A', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'F', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'G', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'K', QColor::fromRgb( 255,   0,   0 ) );
-        ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
-        break;
-    case 2: // Black stars.
-        ColorMap.insert( 'O', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'B', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'A', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'F', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'G', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'K', QColor::fromRgb(   0,   0,   0 ) );
-        ColorMap.insert( 'M', QColor::fromRgb(   0,   0,   0 ) );
-        break;
-    case 3: // White stars
-        ColorMap.insert( 'O', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'B', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'A', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'F', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'G', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'K', QColor::fromRgb( 255, 255, 255 ) );
-        ColorMap.insert( 'M', QColor::fromRgb( 255, 255, 255 ) );
-    case 0:  // Real color
-    default: // And use real color for everything else
-        ColorMap.insert( 'O', QColor::fromRgb(   0,   0, 255 ) );
-        ColorMap.insert( 'B', QColor::fromRgb(   0, 200, 255 ) );
-        ColorMap.insert( 'A', QColor::fromRgb(   0, 255, 255 ) );
-        ColorMap.insert( 'F', QColor::fromRgb( 200, 255, 100 ) );
-        ColorMap.insert( 'G', QColor::fromRgb( 255, 255,   0 ) );
-        ColorMap.insert( 'K', QColor::fromRgb( 255, 100,   0 ) );
-        ColorMap.insert( 'M', QColor::fromRgb( 255,   0,   0 ) );
-    }
-
-    foreach( char color, ColorMap.keys() ) {
-        QPixmap BigImage( 15, 15 );
-        BigImage.fill( Qt::transparent );
-
-        QPainter p;
-        p.begin( &BigImage );
-
-        if ( Options::starColorMode() == 0 ) {
-            qreal h, s, v, a;
-            p.setRenderHint( QPainter::Antialiasing, false );
-            QColor starColor = ColorMap[color];
-            starColor.getHsvF(&h, &s, &v, &a);
-            for (int i = 0; i < 8; i++ ) {
-                for (int j = 0; j < 8; j++ ) {
-                    qreal x = i - 7;
-                    qreal y = j - 7;
-                    qreal dist = sqrt( x*x + y*y ) / 7.0;
-                    starColor.setHsvF(h,
-                                      qMin( qreal(1), dist < (10-starColorIntensity)/10.0 ? 0 : dist ),
-                                      v,
-                                      qMax( qreal(0), dist < (10-starColorIntensity)/20.0 ? 1 : 1-dist ) );
-                    p.setPen( starColor );
-                    p.drawPoint( i, j );
-                    p.drawPoint( 14-i, j );
-                    p.drawPoint( i, 14-j );
-                    p.drawPoint (14-i, 14-j);
-                }
-            }
-        } else {
-            p.setRenderHint(QPainter::Antialiasing, true );
-            p.setPen( QPen(ColorMap[color], 2.0 ) );
-            p.setBrush( p.pen().color() );
-            p.drawEllipse( QRectF( 2, 2, 10, 10 ) );
-        }
-        p.end();
-
-        // Cahce array slice 
-        QPixmap** pmap = imageCache[ harvardToIndex(color) ];
-        for( int size = 1; size < nStarSizes; size++ ) {
-            if( !pmap[size] )
-                pmap[size] = new QPixmap();
-            *pmap[size] = BigImage.scaled( size, size, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-        }
-    }
-}
-
 void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
     pmenu->createStarMenu( this );
 }
@@ -438,6 +318,11 @@ void StarObject::JITupdate( KStarsData* data )
 
 QString StarObject::sptype( void ) const {
     return QString( QByteArray(SpType, 2) );
+}
+
+char StarObject::spchar() const
+{
+    return SpType[0];
 }
 
 QString StarObject::gname( bool useGreekChars ) const {
@@ -579,13 +464,6 @@ QString StarObject::constell() const {
     return QString();
 }
 
-void StarObject::drawStar( QPainter &psky, char spType, QPointF p, float size ) {
-    int isize = qMin(static_cast<int>(size), 14);
-    QPixmap* im = imageCache[ harvardToIndex(spType) ][isize];
-    float offset = 0.5 * im->width();
-    psky.drawPixmap( QPointF(p.x()-offset, p.y()-offset), *im );
-}   
-
 // The two routines below seem overly complicated but at least they are doing
 // the right thing now.  Please resist the temptation to simplify them unless
 // you are prepared to ensure there is no ugly label overlap for all 8 cases
@@ -639,8 +517,7 @@ QString StarObject::labelString() const {
 }
 
 double StarObject::labelOffset() const {
-    return SkyMap::Instance()->scale() * 
-        (6. + 0.5*( 5.0 - mag() ) + 0.01*( Options::zoomFactor()/500. ) );
+    return (6. + 0.5*( 5.0 - mag() ) + 0.01*( Options::zoomFactor()/500. ) );
 }
 
 SkyObject::UID StarObject::getUID() const

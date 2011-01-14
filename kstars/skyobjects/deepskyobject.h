@@ -24,10 +24,11 @@
 #include "skyobject.h"
 #include "dms.h"
 
-class QPainter;
 class QImage;
 class QString;
 class KSPopupMenu;
+class Texture;
+class CustomCatalogComponent;
 
 /**
   *@class DeepSkyObject
@@ -98,7 +99,7 @@ public:
     virtual SkyObject::UID getUID() const;
     
     /** *Destructor */
-    virtual ~DeepSkyObject() { delete Image; }
+    virtual ~DeepSkyObject() { }
 
     /**
       *@enum CATALOG
@@ -126,6 +127,27 @@ public:
     	*@sa catalog()
     	*/
     void setCatalog( const QString &s );
+
+    /**
+      *Set the the refrence to the custom catalog component, if any
+      *@sa customCatalog()
+      */
+    inline void setCustomCatalog(CustomCatalogComponent *s) { customCat = s; }
+
+    /**
+      *@return a pointer to a custom catalog component
+    */
+    inline CustomCatalogComponent * customCatalog() { return customCat; }
+
+    /**
+      *Set the integrated flux value of the object
+      */
+    inline void setFlux(const float &f) { Flux = f; }
+
+    /**
+      *@return the object's integrated flux, unit value is stored in the custom catalog component.
+        */
+    inline float flux() const { return Flux; }
 
     /**
       *@return the object's major axis length, in arcminutes.
@@ -159,21 +181,15 @@ public:
     inline int pgc() const { return PGC; }
 
     /**
-      *Read in this object's image from disk, unless it already exists in memory.
-    	*@return a pointer to the image.
-    	*/
-    QImage *readImage();
+     * @return a pointer to the object's texture.
+     * @note do check for null pointers...
+     */
+    const Texture* texture() const;
 
     /**
-      *@return pointer to the object's inline image.  If it is currently
-    	*a null pointer, it first loads the image from disk.
-    	*/
-    inline QImage *image() const { return Image; }
-
-    /**
-      *@short delete the Image pointer, and set it to 0.
-    	*/
-    inline void deleteImage() { delete Image; Image = 0; }
+     * Try to load the object's texture
+     */
+    void loadTexture();
 
     /**
       *@return true if the object is in the Messier catalog
@@ -196,18 +212,6 @@ public:
     inline bool isCatalogNone() const { return (Catalog == CAT_UNKNOWN); }
 
     /**
-      *Draw the object's symbol on the map
-    	*/
-    void drawSymbol( QPainter &psky, float x, float y, double PositionAngle, double zoom );
-
-    /**
-      *Draw the Object's image on the map 
-      *@return true if the object has an image, false otherwise.
-      */
-
-    bool drawImage( QPainter &psky, float x, float y, double PositionAngle, double zoom );
-
-    /**
     	*@return the pixel distance for offseting the object's name label
     	*/
     virtual double labelOffset() const;
@@ -221,8 +225,9 @@ private:
     unsigned char Catalog;
     double PositionAngle;
     int UGC, PGC;
-    float MajorAxis, MinorAxis;
-    QImage *Image;
+    float MajorAxis, MinorAxis, Flux;
+    const Texture *m_texture;
+    CustomCatalogComponent *customCat;
 };
 
 #endif

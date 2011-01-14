@@ -19,7 +19,6 @@
 
 #include <QDir>
 #include <QFile>
-#include <QPainter>
 #include <QPixmap>
 #include <QTextStream>
 #include <kdebug.h>
@@ -31,8 +30,9 @@
 #include "skymap.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
+#include "skypainter.h"
 
-QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
+QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
 
 CustomCatalogComponent::CustomCatalogComponent(SkyComposite *parent, const QString &fname, bool showerrs, int index) :
     ListComponent(parent),
@@ -143,40 +143,27 @@ void CustomCatalogComponent::update( KSNumbers * )
     }
 }
 
-void CustomCatalogComponent::draw( QPainter &psky )
+void CustomCatalogComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
-    SkyMap *map = SkyMap::Instance();
-    //    float Width  = map->scale() * map->width();
-    //    float Height = map->scale() * map->height();
-
-    psky.setBrush( Qt::NoBrush );
-    psky.setPen( QColor( m_catColor ) );
+    skyp->setBrush( Qt::NoBrush );
+    skyp->setPen( QColor( m_catColor ) );
 
     //Draw Custom Catalog objects
     foreach ( SkyObject *obj, m_ObjectList ) {
-
-        if ( map->checkVisibility( obj ) ) {
-            QPointF o = map->toScreen( obj );
-
-            if( ! map->onScreen( o ) )
-                continue;
-
-            if ( obj->type()==0 ) {
-                StarObject *starobj = (StarObject*)obj;
-                float zoomlim = 7.0 + ( Options::zoomFactor()/MINZOOM)/50.0;
-                float mag = starobj->mag();
-                float sizeFactor = 2.0;
-                int size = map->scale()*sizeFactor*(zoomlim - mag) + 1;
-                starobj->draw( psky, o, size );
-            } else {
-                //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
-                DeepSkyObject *dso = (DeepSkyObject*)obj;
-                double pa = 90. + map->findPA( dso, o.x(), o.y() );
-                dso->drawImage( psky, o.x(), o.y(), pa, Options::zoomFactor() );
-                dso->drawSymbol( psky, o.x(), o.y(), pa, Options::zoomFactor() );
-            }
+        if ( obj->type()==0 ) {
+            StarObject *starobj = (StarObject*)obj;
+            //FIXME_SKYPAINTER
+            skyp->drawPointSource(starobj, starobj->mag(), starobj->spchar() );
+        } else {
+            //FIXME: this PA calc is totally different from the one that was in
+            //DeepSkyComponent which is now in SkyPainter .... O_o
+            //      --hdevalence
+            //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
+            //double pa = 90. + map->findPA( dso, o.x(), o.y() );
+            DeepSkyObject *dso = (DeepSkyObject*)obj;
+            skyp->drawDeepSkyObject(dso,true);
         }
     }
 }
@@ -190,16 +177,20 @@ bool CustomCatalogComponent::parseCustomDataHeader( const QStringList &lines, QS
     m_catName.clear();
     m_catPrefix.clear();
     m_catColor.clear();
+    m_catFluxFreq.clear();
+    m_catFluxUnit.clear();
     m_catEpoch = 0.;
     int i=0;
     for ( ; i < lines.size(); ++i ) {
         QString d( lines.at(i) ); //current data line
         if ( d.left(1) != "#" ) break;  //no longer in header!
 
-        int iname   = d.indexOf( "# Name: " );
-        int iprefix = d.indexOf( "# Prefix: " );
-        int icolor  = d.indexOf( "# Color: " );
-        int iepoch  = d.indexOf( "# Epoch: " );
+        int iname      = d.indexOf( "# Name: " );
+        int iprefix    = d.indexOf( "# Prefix: " );
+        int icolor     = d.indexOf( "# Color: " );
+        int iepoch     = d.indexOf( "# Epoch: " );
+        int ifluxfreq  = d.indexOf( "# Flux Frequency: ");
+        int ifluxunit  = d.indexOf( "# Flux Unit: ");
 
         if ( iname == 0 ) { //line contains catalog name
             iname = d.indexOf(":")+2;
@@ -239,15 +230,35 @@ bool CustomCatalogComponent::parseCustomDataHeader( const QStringList &lines, QS
                                      i18n( "Could not convert Epoch to float: %1.  Using 2000. instead", d.mid(iepoch) ) );
                     m_catEpoch = 2000.; //adopt default value
                 }
-            } else { //duplicate epoch in header
+            }
+        } else if ( ifluxfreq == 0 )
+        { //line contains catalog flux frequnecy
+            ifluxfreq = d.indexOf(":")+2;
+            if ( m_catFluxFreq.isEmpty() )
+            {
+                m_catFluxFreq = d.mid( ifluxfreq );
+            } else { //duplicate prefix in header
                 if ( showerrs )
                     errs.append( i18n( "Parsing header: " ) +
-                                 i18n( "Extra Epoch field in header: %1.  Will be ignored", d.mid(iepoch) ) );
+                                 i18n( "Extra Flux Frequency field in header: %1.  Will be ignored", d.mid(ifluxfreq) ) );
             }
+        } else if ( ifluxunit == 0 )
+            { //line contains catalog flux unit
+                       ifluxunit = d.indexOf(":")+2;
+                       if ( m_catFluxUnit.isEmpty() )
+                       {
+                           m_catFluxUnit = d.mid( ifluxunit );
+                       } else { //duplicate prefix in header
+                           if ( showerrs )
+                               errs.append( i18n( "Parsing header: " ) +
+                                            i18n( "Extra Flux Unit field in header: %1.  Will be ignored", d.mid(ifluxunit) ) );
+             }
+
         } else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
             //Chomp off leading "#" character
             d = d.remove( '#' );
 
+            Columns.clear();
             QStringList fields = d.split( ' ', QString::SkipEmptyParts ); //split on whitespace
 
             //we need a copy of the master list of data fields, so we can
@@ -330,7 +341,7 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
     //object data
     unsigned char iType(0);
     dms RA, Dec;
-    float mag(0.0), a(0.0), b(0.0), PA(0.0);
+    float mag(0.0), a(0.0), b(0.0), PA(0.0), flux(0.0);
     QString name, lname;
 
     for ( int i=0; i<Columns.size(); i++ ) {
@@ -362,11 +373,11 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
             bool ok(false);
             iType = d.at(i).toUInt( &ok );
             if ( ok ) {
-                if ( iType == 2 || iType > 8 ) {
+                if ( iType == 2 || (iType > 8 && iType != 18)) {
                     if ( showerrs )
                         errs.append( i18n( "Line %1, field %2: Invalid object type: %3" ,
                                            lnum, i, d.at(i) ) +
-                                     i18n( "Must be one of 0, 1, 3, 4, 5, 6, 7, 8." ) );
+                                     i18n( "Must be one of 0, 1, 3, 4, 5, 6, 7, 8, 18" ) );
                     return false;
                 }
             } else {
@@ -383,6 +394,17 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
             if ( ! ok ) {
                 if ( showerrs )
                     errs.append( i18n( "Line %1, field %2: Unable to parse Magnitude: %3" ,
+                                       lnum, i, d.at(i) ) );
+                return false;
+            }
+        }
+
+        if ( Columns.at(i) == "Flux" ) {
+            bool ok(false);
+            flux = d.at(i).toFloat( &ok );
+            if ( ! ok ) {
+                if ( showerrs )
+                    errs.append( i18n( "Line %1, field %2: Unable to parse Flux: %3" ,
                                        lnum, i, d.at(i) ) );
                 return false;
             }
@@ -428,6 +450,9 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
     } else { //Add a deep-sky object
         DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag,
                                               name, QString(), lname, m_catPrefix, a, b, PA );
+        o->setFlux(flux);
+        o->setCustomCatalog(this);
+
         m_ObjectList.append( o );
 
         //Add name to the list of object names

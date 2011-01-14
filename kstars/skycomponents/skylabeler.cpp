@@ -20,10 +20,12 @@
 #include <stdio.h>
 
 #include <QPainter>
+#include <QPixmap>
 
 #include "Options.h"
 #include "kstarsdata.h"   // MINZOOM
 #include "skymap.h"
+#include "projections/projector.h"
 
 //---------------------------------------------------------------------------//
 // A Little data container class
@@ -51,9 +53,9 @@ SkyLabeler* SkyLabeler::Instance( )
 }
 
 
-void SkyLabeler::SetZoomFont( QPainter& psky )
+void SkyLabeler::setZoomFont()
 {
-    QFont font( psky.font() );
+    QFont font( m_p.font() );
     int deltaSize = 0;
     if ( Options::zoomFactor() < 2.0 * MINZOOM )
         deltaSize = 2;
@@ -62,21 +64,25 @@ void SkyLabeler::SetZoomFont( QPainter& psky )
 
     if ( deltaSize ) {
         font.setPointSize( font.pointSize() - deltaSize );
-        psky.setFont( font );
+        m_p.setFont( font );
     }
 }
 
 double SkyLabeler::ZoomOffset()
 {
-    double scale = SkyMap::Instance()->scale();
-    double offset = scale * dms::PI * Options::zoomFactor()/10800.0/3600.0;
+    double offset = dms::PI * Options::zoomFactor()/10800.0/3600.0;
     return 4.0 + offset * 0.5;
 }
 
 //----- Constructor ---------------------------------------------------------//
 
-SkyLabeler::SkyLabeler() : m_maxY(0), m_size(0), m_fontMetrics( QFont() ),
-        labelList( NUM_LABEL_TYPES )
+SkyLabeler::SkyLabeler() :
+        m_maxY(0),
+        m_size(0),
+        m_fontMetrics( QFont() ),
+        labelList( NUM_LABEL_TYPES ),
+        m_picture(-1),
+        m_proj(0)
 {
     m_errors = 0;
     m_minDeltaX = 30;    // when to merge two adjacent regions
@@ -97,8 +103,7 @@ SkyLabeler::~SkyLabeler()
     }
 }
 
-bool SkyLabeler::drawGuideLabel( QPainter& psky, QPointF& o, const QString& text,
-                            double angle )
+bool SkyLabeler::drawGuideLabel( QPointF& o, const QString& text, double angle )
 {
     // Create bounding rectangle by rotating the (height x width) rectangle
     qreal h = m_fontMetrics.height();
@@ -135,40 +140,61 @@ bool SkyLabeler::drawGuideLabel( QPainter& psky, QPointF& o, const QString& text
     //psky.drawLine( QPointF( left,  bot ), QPointF( left,  top ) );
 
     // otherwise draw the label and return true
-    psky.save();
-    psky.translate( o );
+    m_p.save();
+    m_p.translate( o );
 
-    psky.rotate( angle );                        //rotate the coordinate system
-    psky.drawText( QPointF( -w2, h ), text );
-    psky.restore();                              //reset coordinate system
+    m_p.rotate( angle );                        //rotate the coordinate system
+    m_p.drawText( QPointF( -w2, h ), text );
+    m_p.restore();                              //reset coordinate system
 
     return true;
 }
 
-void SkyLabeler::setFont( QPainter& psky, const QFont& font )
+bool SkyLabeler::drawNameLabel(SkyObject* obj, const QPointF& _p)
 {
-    psky.setFont( font );
+    QString sLabel = obj->labelString();
+
+    double offset = obj->labelOffset();
+    QPointF p( _p.x()+offset, _p.y()+offset );
+
+    if ( !markText( p, sLabel ) ) {
+        return false;
+    } else {
+        m_p.drawText( p, sLabel );
+        return true;
+    }
+}
+
+
+void SkyLabeler::setFont( const QFont& font )
+{
+    m_p.setFont( font );
     m_fontMetrics = QFontMetrics( font );
 }
 
-void SkyLabeler::shrinkFont( QPainter& psky, int delta )
+void SkyLabeler::setPen(const QPen& pen)
 {
-    QFont font( psky.font() );
+    m_p.setPen(pen);
+}
+
+void SkyLabeler::shrinkFont( int delta )
+{
+    QFont font( m_p.font() );
     font.setPointSize( font.pointSize() - delta );
-    setFont( psky, font );
+    setFont( font );
 }
 
-void SkyLabeler::useStdFont(QPainter& psky)
+void SkyLabeler::useStdFont()
 {
-    setFont( psky, m_stdFont );
+    setFont( m_stdFont );
 }
 
-void SkyLabeler::resetFont(QPainter& psky)
+void SkyLabeler::resetFont()
 {
-    setFont( psky, m_skyFont );
+    setFont( m_skyFont );
 }
 
-void SkyLabeler::getMargins( QPainter& psky, const QString& text, float *left,
+void SkyLabeler::getMargins( const QString& text, float *left,
                              float *right, float *top, float *bot )
 {
     float height     = m_fontMetrics.height();
@@ -176,19 +202,29 @@ void SkyLabeler::getMargins( QPainter& psky, const QString& text, float *left,
     float sideMargin = m_fontMetrics.width("MM") + width / 2.0;
 
     // Create the margins within which it is okay to draw the label
-    *right = psky.window().width() - sideMargin;
+    *right = m_p.window().width() - sideMargin;
     *left  = sideMargin;
     *top   = height;
-    *bot   = psky.window().height() - 2.0 * height;
+    *bot   = m_p.window().height() - 2.0 * height;
 }
 
-void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky )
+void SkyLabeler::reset( SkyMap* skyMap )
 {
+    // ----- Set up Projector ---
+    m_proj = skyMap->projector();
+    // ----- Set up Painter -----
+    if( m_p.isActive() )
+        m_p.end();
+    m_picture = QPicture();
+    m_p.begin(&m_picture);
+    //This works around BUG 10496 in Qt
+    m_p.drawPoint( 0, 0 );
+    m_p.drawPoint( skyMap->width() + 1, skyMap->height() + 1);
     // ----- Set up Zoom Dependent Font -----
 
-    m_stdFont = QFont( psky.font() );
-    SkyLabeler::SetZoomFont( psky );
-    m_skyFont = psky.font( );
+    m_stdFont = QFont( m_p.font() );
+    setZoomFont();
+    m_skyFont = m_p.font();
     m_fontMetrics = QFontMetrics( m_skyFont );
     m_minDeltaX = (int) m_fontMetrics.width("MMMMM");
 
@@ -237,6 +273,17 @@ void SkyLabeler::reset( SkyMap* skyMap, QPainter& psky )
     }
 }
 
+void SkyLabeler::draw(QPainter& p)
+{
+    //FIXME: need a better soln. Apparently starting a painter
+    //clears the picture.
+    // But it's not like that's something that should be in the docs, right?
+    // No, that's definitely better to leave to people to figure out on their own.
+    if( m_p.isActive() ) { m_p.end(); }
+    m_picture.play(&p); //can't replay while it's being painted on
+                        //this is also undocumented btw.
+    //m_p.begin(&m_picture);
+}
 
 // We use Run Length Encoding to hold the information instead of an array of
 // chars.  This is both faster and smaller but the code is more complicated.
@@ -251,26 +298,7 @@ bool SkyLabeler::markText( const QPointF& p, const QString& text )
     return markRegion( p.x(), maxX, p.y(), minY );
 }
 
-bool SkyLabeler::markText( QPainter &psky, const QPointF& p, const 
-QString& text )
-{
-    qreal maxX =  p.x() + m_fontMetrics.width( text );
-    qreal minY = p.y() - m_fontMetrics.height();
-    bool mark =  markRegion( p.x(), maxX, p.y(), minY );
-    if ( ! mark ) return mark;
-
-    qreal x = p.x();
-    qreal y = p.y();
-    qreal x2 = maxX;
-    qreal y2 = minY;
-    psky.drawLine( QPointF(x,  y),  QPointF(x2, y));
-    psky.drawLine( QPointF(x2, y),  QPointF(x2, y2));
-    psky.drawLine( QPointF(x2, y2), QPointF(x,  y2));
-    psky.drawLine( QPointF(x,  y2), QPointF(x,  y));
-    return mark;
-}
-
-bool SkyLabeler::markRect( qreal x, qreal y, qreal width, qreal height, QPainter& psky )
+bool SkyLabeler::markRect( qreal x, qreal y, qreal width, qreal height )
 {
     /***
     QColor color( "red" );
@@ -283,7 +311,6 @@ bool SkyLabeler::markRect( qreal x, qreal y, qreal width, qreal height, QPainter
     psky.drawLine( QPointF( x2, y2 ),QPointF( x, y2 ));
     psky.drawLine( QPointF( x, y2 ), QPointF( x,y ));
     ***/
-    Q_UNUSED(psky)
     return markRegion( x, x + width, y + height, y );
 }
 bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
@@ -414,44 +441,77 @@ bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 }
 
 
-void SkyLabeler::addLabel( const QPointF& p, SkyObject *obj, SkyLabeler::label_t type )
+void SkyLabeler::addLabel( SkyObject *obj, SkyLabeler::label_t type )
 {
-    if ( obj->translatedName().isEmpty() ) return;
+    bool visible = false;
+    QPointF p = m_proj->toScreen(obj, true, &visible);
+    if ( !visible || !m_proj->onScreen(p) || obj->translatedName().isEmpty() ) return;
     labelList[ (int)type ].append( SkyLabel( p, obj ) );
 }
 
-void SkyLabeler::drawQueuedLabels( QPainter& psky )
+void SkyLabeler::drawQueuedLabels()
 {
     KStarsData* data = KStarsData::Instance();
-
-    resetFont( psky );
-    psky.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
-    drawQueuedLabelsType( psky, PLANET_LABEL );
+    
+    resetFont();
+    m_p.setPen( QColor( data->colorScheme()->colorNamed( "PNameColor" ) ) );
+    drawQueuedLabelsType( PLANET_LABEL );
 
     if ( labelList[ SATURN_MOON_LABEL ].size() > 0 ) {
-        shrinkFont( psky, 2 );
-        drawQueuedLabelsType( psky, SATURN_MOON_LABEL );
-        resetFont( psky );
+        shrinkFont( 2 );
+        drawQueuedLabelsType( SATURN_MOON_LABEL );
+        resetFont();
     }
 
     if ( labelList[ JUPITER_MOON_LABEL ].size() > 0 ) {
-        shrinkFont( psky, 2 );
-        drawQueuedLabelsType( psky, JUPITER_MOON_LABEL );
-        resetFont( psky );
+        shrinkFont( 2 );
+        drawQueuedLabelsType( JUPITER_MOON_LABEL );
+        resetFont();
     }
 
-    drawQueuedLabelsType( psky, ASTEROID_LABEL );
-    drawQueuedLabelsType( psky, COMET_LABEL );
+    drawQueuedLabelsType( ASTEROID_LABEL );
+    drawQueuedLabelsType( COMET_LABEL );
+
+
+    LabelList list = labelList[ RUDE_LABEL ];
+    for ( int i = 0; i < list.size(); i ++ ) {
+        drawRudeNameLabel( list.at(i).obj, list.at(i).o );
+    }
 
 }
 
-void SkyLabeler::drawQueuedLabelsType( QPainter& psky, SkyLabeler::label_t type )
+void SkyLabeler::drawQueuedLabelsType( SkyLabeler::label_t type )
 {
     LabelList list = labelList[ type ];
     for ( int i = 0; i < list.size(); i ++ ) {
-        list.at(i).obj->drawNameLabel( psky, list.at(i).o );
+        drawNameLabel( list.at(i).obj, list.at(i).o );
     }
 }
+
+//Rude name labels don't check for collisions with other labels,
+//these get drawn no matter what.  Transient labels are rude labels.
+//To mitigate confusion from possibly "underlapping" labels, paint a
+//semi-transparent background.
+void SkyLabeler::drawRudeNameLabel( SkyObject *obj, const QPointF &p )
+{
+    QString sLabel = obj->labelString();
+    double offset = obj->labelOffset();
+    QRectF rect = m_p.fontMetrics().boundingRect( sLabel );
+    rect.moveTo( p.x()+offset, p.y()+offset );
+
+    //Interestingly, the fontMetric boundingRect isn't where you might think...
+    //We need to tweak rect to get the BG rectangle rect2
+    QRectF rect2 = rect;
+    rect2.moveTop( rect.top() - 0.6*rect.height() );
+    rect2.setHeight( 0.8*rect.height() );
+
+    //FIXME: Implement label background options
+    QColor color( KStarsData::Instance()->colorScheme()->colorNamed( "SkyColor" ) );
+    color.setAlpha( m_p.pen().color().alpha() ); //same transparency for the text and the background
+    m_p.fillRect( rect2, QBrush( color ) );
+    m_p.drawText( rect.topLeft(), sLabel );
+}
+
 
 //----- Diagnostic and information routines -----
 

@@ -18,16 +18,23 @@
 #ifndef SKYMAP_H_
 #define SKYMAP_H_
 
+#define USEGL
+
 #include <QTimer>
-#include <QWidget>
+#include <QGraphicsView>
 #include <QPixmap>
+#include <QTime>
+
 
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyline.h"
 
+#include "skymapdrawabstract.h"
+#include "skymapqdraw.h"
+
 #include <config-kstars.h>
 
-#define HOVER_INTERVAL 500 
+#define HOVER_INTERVAL 500
 
 class QPainter;
 class QPaintDevice;
@@ -42,6 +49,14 @@ class KSPopupMenu;
 class SkyObject;
 class InfoBoxWidget;
 class InfoBoxes;
+class Projector;
+
+class QGraphicsScene;
+
+#ifdef HAVE_OPENGL
+class SkyMapGLDraw;
+class SkyMapQDraw;
+#endif
 
 /**@class SkyMap
 	*
@@ -58,17 +73,21 @@ class InfoBoxes;
 	*@version 1.0
 	*/
 
-class SkyMap : public QWidget  {
-    Q_OBJECT
+class SkyMap : public QGraphicsView {
 
-protected:
+    Q_OBJECT;
+        
+    friend class SkyMapDrawAbstract; // FIXME: SkyMapDrawAbstract requires a lot of access to SkyMap
+    friend class SkyMapQDraw; // FIXME: SkyMapQDraw requires access to computeSkymap
+
+ protected:
     /**
     *Constructor.  Read stored settings from KConfig object (focus position,
     *zoom factor, sky color, etc.).  Run initPopupMenus().
     */
     explicit SkyMap();
 
-public:
+ public:
     static SkyMap* Create();
 
     static SkyMap* Instance();
@@ -85,12 +104,11 @@ public:
                       Stereographic,
                       Gnomonic,
                       UnknownProjection };
-
-
-    /**@return the angular field of view of the sky map, in degrees.
-    	*@note it must use either the height or the width of the window to calculate the 
-    	*FOV angle.  It chooses whichever is larger.
-    	*/
+		      
+    /**@return the angular field of view of the sky map, in degrees. 	 
+    *@note it must use either the height or the width of the window to calculate the 	 
+    *FOV angle.  It chooses whichever is larger. 	 
+    */ 	 
     float fov();
 
     /**@short Update object name and coordinates in the Focus InfoBox */
@@ -250,19 +268,9 @@ public:
     	*/
     void setTransientObject( SkyObject *o ) { TransientObject = o; }
 
-    /**@short set up variables for the checkVisibility function.
-    	*
-    	*checkVisibility() uses some variables to assist it in determining whether points are 
-    	*on-screen or not.  The values of these variables do not depend on which object is being tested,
-    	*so we save a lot of time by bringing the code which sets their values outside of checkVisibility()
-    	*(which must be run for each and every SkyPoint).  setMapGeometry() is called once in paintEvent().
-    	*The variables set by setMapGeometry are:
-    	*@li isPoleVisible true if a coordinate Pole is on-screen
-    	*@li XMax the horizontal center-to-edge angular distance
-    	*@see SkyMap::checkVisibility()
-    	*@see SkyMap::paintEvent()
-    	*/
-    void setMapGeometry();
+    /** @short Call to set up the projector before a draw cycle.
+      */
+    void setupProjector();
 
     /** Set zoom factor. */
     void setZoomFactor(double factor);
@@ -271,6 +279,7 @@ public:
 
     bool isPointNull( const QPointF &p );
 
+    // NOTE: This method is draw-backend independent.
     /**@short update the geometry of the angle ruler. */
     void updateAngleRuler();
 
@@ -282,117 +291,26 @@ public:
     	*/
     bool isObjectLabeled( SkyObject *o );
 
-    /**@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
+    /*@*@short Convenience function for shutting off tracking mode.  Just calls KStars::slotTrack().
     	*/
     void stopTracking();
 
-    /**@short Draw the current Sky map to a pixmap which is to be printed or exported to a file.
-    	*
-    	*@param pd pointer to the QPaintDevice on which to draw.  
-    	*@see KStars::slotExportImage()
-    	*@see KStars::slotPrint()
-    	*/
-    void exportSkyImage( QPaintDevice *pd );
+    /** Get the current projector.
+        @return a pointer to the current projector. */
+    const Projector * projector() const;
 
-    /**ASSUMES *p1 did not clip but *p2 did.  Returns the QPointF on the line
-     * between *p1 and *p2 that just clips.
+    // NOTE: These dynamic casts must not segfault. If they do, it's good because we know that there is a problem.
+    /**
+     *@short Proxy method for SkyMapDrawAbstract::exportSkyImage()
      */
-    QPointF clipLine( SkyPoint *p1, SkyPoint *p2 );
+    inline void exportSkyImage( QPaintDevice *pd ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( pd ); }
 
-    /**Given the coordinates of the SkyPoint argument, determine the
-     * pixel coordinates in the SkyMap.
-     * @return QPoint containing screen pixel x, y coordinates of SkyPoint.
-     * @param o pointer to the SkyPoint for which to calculate x, y coordinates.
-     * @param useRefraction true = use Options::useRefraction() value.  
-     *   false = do not use refraction.  This argument is only needed 
-     *   for the Horizon, which should never be refracted.
-     * @param onVisibleHemisphere pointer to a bool to indicate whether the point is
-     *   on the visible part of the Celestial Sphere.
+    /**
+     *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
      */
-    QPointF toScreen( SkyPoint *o, bool useRefraction=true, bool *onVisibleHemisphere=NULL);
+    inline void drawObjectLabels( QList< SkyObject* >& labelObjects ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->drawObjectLabels( labelObjects ); }
 
-    /**@return the current scale factor for drawing the map.
-     * @note the scale factor should be 1.0 unless we are printing.
-     */
-    inline double scale() { return m_Scale; }
 
-    /** @return the bounding rectangle of the skymap, scaled by the current scale factor */
-    QRect scaledRect();
-
-    /** @return whether the given QPoint is on the SkyMap. */
-    bool onScreen(const QPoint &point );
-    /** @return whether the given QPointF is on the SkyMap. */
-    bool onScreen(const QPointF &pointF );
-
-    /** @return true if the line connecting the two points is possibly on screen.
-     * will return some false postives. */
-    bool onScreen(const QPointF &p1, const QPointF &p2 );
-    bool onScreen(const QPoint &p1, const QPoint &p2 );
-
-    /**@short Determine RA, Dec coordinates of the pixel at (dx, dy), which are the
-     * screen pixel coordinate offsets from the center of the Sky pixmap.
-     * @param the screen pixel position to convert
-     * @param LST pointer to the local sidereal time, as a dms object.
-     * @param lat pointer to the current geographic laitude, as a dms object
-     */
-    SkyPoint fromScreen( const QPointF &p, dms *LST, const dms *lat );
-
-    /**@short Determine if the skypoint p is likely to be visible in the display
-     * window.
-     * 
-     * checkVisibility() is an optimization function.  It determines whether an object
-     * appears within the bounds of the skymap window, and therefore should be drawn.
-     * The idea is to save time by skipping objects which are off-screen, so it is 
-     * absolutely essential that checkVisibility() is significantly faster than
-     * the computations required to draw the object to the screen.
-     * 
-     * The function first checks the difference between the Declination/Altitude
-     * coordinate of the Focus position, and that of the point p.  If the absolute 
-     * value of this difference is larger than fov, then the function returns false.
-     * For most configurations of the sky map window, this simple check is enough to 
-     * exclude a large number of objects.
-     * 
-     * Next, it determines if one of the poles of the current Coordinate System 
-     * (Equatorial or Horizontal) is currently inside the sky map window.  This is
-     * stored in the member variable 'bool SkyMap::isPoleVisible, and is set by the 
-     * function SkyMap::setMapGeometry(), which is called by SkyMap::paintEvent().
-     * If a Pole is visible, then it will return true immediately.  The idea is that
-     * when a pole is on-screen it is computationally expensive to determine whether 
-     * a particular position is on-screen or not: for many valid Dec/Alt values, *all* 
-     * values of RA/Az will indeed be onscreen, but for other valid Dec/Alt values, 
-     * only *most* RA/Az values are onscreen.  It is cheaper to simply accept all 
-     * "horizontal" RA/Az values, since we have already determined that they are 
-     * on-screen in the "vertical" Dec/Alt coordinate.
-     * 
-     * Finally, if no Pole is onscreen, it checks the difference between the Focus 
-     * position's RA/Az coordinate and that of the point p.  If the absolute value of 
-     * this difference is larger than XMax, the function returns false.  Otherwise,
-     * it returns true.
-     *     
-     * @param p pointer to the skypoint to be checked.
-     * @return true if the point p was found to be inside the Sky map window.
-     * @see SkyMap::setMapGeometry()
-     * @see SkyMap::fov()
-     */
-    bool checkVisibility( SkyPoint *p );
-
-    /**Determine the on-screen position angle of a SkyObject.  This is the sum
-     * of the object's sky position angle (w.r.t. North), and the position angle
-     * of "North" at the position of the object (w.r.t. the screen Y-axis).  
-     * The latter is determined by constructing a test point with the same RA but 
-     * a slightly increased Dec as the object, and calculating the angle w.r.t. the 
-     * Y-axis of the line connecing the object to its test point. 
-     */
-    double findPA( SkyObject *o, float x, float y );
-
-    /**@short Draw "user labels".  User labels are name labels attached to objects manually with
-     * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel
-     * is true.
-     * @param labelObjects QList of pointers to the objects which need labels (excluding the centered object)
-     * @param psky painter for the sky
-     * @note the labelObjects list is managed by the SkyMapComponents class
-     */
-    void drawObjectLabels( QList<SkyObject*>& labelObjects, QPainter &psky );
 
 public slots:
     //DEBUG_KIO_JOB
@@ -506,22 +424,30 @@ public slots:
      */
     void slotClockSlewing();
 
+    // NOTE: This method is draw-backend independent.
     /**Enables the angular distance measuring mode. It saves the first
      * position of the ruler in a SkyPoint. It makes difference between
      * having clicked on the skymap and not having done so */
     void slotBeginAngularDistance();
 
+    void slotBeginStarHop(); // TODO: Add docs
+    
+    // NOTE: This method is draw-backend independent.
     /**Computes the angular distance, prints the result in the status
      * bar and disables the angular distance measuring mode
      * If the user has clicked on the map the status bar shows the 
      * name of the clicked object plus the angular distance. If 
      * the user did not clicked on the map, just pressed ], only 
      * the angular distance is printed */
-    void slotEndAngularDistance();
+    void slotEndRulerMode();
 
     /**Disables the angular distance measuring mode. Nothing is printed
      * in the status bar */
-    void slotCancelAngularDistance();
+    void slotCancelRulerMode();
+
+#ifdef HAVE_OPENGL
+    void slotToggleGL();
+#endif
 
 #ifdef HAVE_XPLANET
     /**Run Xplanet to print a view on the screen*/
@@ -567,9 +493,6 @@ signals:
     void mousePointChanged(SkyPoint*);
 
 protected:
-    /**Draw the Sky, and all objects in it. */
-    virtual void paintEvent( QPaintEvent *e );
-
     /**Process keystrokes:
      * @li arrow keys  Slew the map
      * @li +/- keys  Zoom in and out
@@ -628,6 +551,7 @@ private slots:
     	*/
     void slotTransientTimeout();
 
+    // NOTE: Akarsh believes that this method is backend-independent, and is pretty confident about that, but he thinks that it really requires a second inspection.
     /**@short attach transient label to object nearest the mouse cursor.
     	*This slot is connected to the timeout() signal of the HoverTimer, which is restarted
     	*in every mouseMoveEvent().  So this slot is executed only if the mouse does not move for 
@@ -643,53 +567,6 @@ private slots:
     void setMouseMoveCursor();
 
 private:
-    /**Draw the overlays on top of the sky map.  These include the infoboxes,
-    	*field-of-view indicator, telescope symbols, zoom box and any other
-    	*user-interaction graphics.
-    	*
-    	*The overlays can be updated rapidly, without having to recompute the entire SkyMap.
-    	*The stored Sky image is simply blitted onto the SkyMap widget, and then we call
-    	*drawOverlays() to refresh the overlays.
-    	*@param pm pointer to the Sky pixmap
-    	*/
-    void drawOverlays( QPixmap *pm );
-
-    /**Draw symbols at the position of each Telescope currently being controlled by KStars.
-    	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawTelescopeSymbols(QPainter &psky);
-
-    /**
-    	*@short Draw symbols for objects in the observing list.
-    	*@param psky reference to the QPainter on which to draw (this should be the sky pixmap)
-    	*/
-    void drawObservingList( QPainter &psky );
-
-    /**
-    	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawZoomBox( QPainter &psky );
-
-    /**
-    	*@short Draw a dotted-line rectangle which traces the potential new field-of-view in ZoomBox mode.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawHighlightConstellation( QPainter &psky );
-
-    /**Draw the current TransientLabel.  TransientLabels are triggered when the mouse
-    	*hovers on an object.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
-    	*/
-    void drawTransientLabel( QPainter &psky );
-
-    /**Draw a dashed line from the Angular-Ruler start point to the current mouse cursor,
-    	*when in Angular-Ruler mode.
-    	*@param psky reference to the QPainter on which to draw (this should be the Sky pixmap). 
-    	*/
-    void drawAngleRuler( QPainter &psky );
 
     /**@short Begin fading out the name label attached to TransientObject.
     	*
@@ -711,13 +588,6 @@ private:
     /**@short Sets the shape of the mouse cursor to a magnifying glass.
     	*/
     void setZoomMouseCursor();
-
-    /**Check if the current point on screen is a valid point on the sky. This is needed
-    	*to avoid a crash of the program if the user clicks on a point outside the sky (the
-    	*corners of the sky map at the lowest zoom level are the invalid points).  
-    	*@param p the screen pixel position
-    	*/
-    bool unusablePoint ( const QPointF &p );
 
     /** Calculate the zoom factor for the given keyboard modifier
      * @param modifier
@@ -756,6 +626,9 @@ private:
      */
     void zoomOutOrMagStep( const int modifier );
 
+    void beginRulerMode( bool starHopRuler ); // TODO: Add docs
+
+
 #ifdef HAVE_XPLANET
     /**
      * @short Strart xplanet.
@@ -768,21 +641,19 @@ private:
     bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor
     bool slewing, clockSlewing;
     bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
-    bool angularDistanceMode;
+    bool rulerMode; // True if we are either looking for angular distance or star hopping directions
+    bool starHopDefineMode; // True only if we are looking for star hopping directions. If false while rulerMode is true, it means we are measuring angular distance. FIXME: Find a better way to do this
     int scrollCount;
     double y0;
 
     double m_Scale;
 
-    //data for checkVisibility
-    bool isPoleVisible;
-    double XRange;
-
     KStarsData *data;
     KSPopupMenu *pmenu;
-    QPixmap *sky, *sky2;
     SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
+
+    Projector *m_proj;
 
     SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.
@@ -797,6 +668,17 @@ private:
     InfoBoxWidget* m_geoBox;
     InfoBoxWidget* m_objBox;
     InfoBoxes*     m_iboxes;
+
+
+    QWidget *m_SkyMapDraw; // Can be dynamic_cast<> to SkyMapDrawAbstract
+
+    // NOTE: These are pointers to the individual widgets
+    #ifdef HAVE_OPENGL
+    SkyMapQDraw *m_SkyMapQDraw;
+    SkyMapGLDraw *m_SkyMapGLDraw;
+    #endif
+
+    QGraphicsScene *m_Scene;
 
     static SkyMap* pinstance;
 

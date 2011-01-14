@@ -164,7 +164,7 @@ public:
     /** @return list of all geographic locations */
     QList<GeoLocation*> getGeoList() { return geoList; }
 
-    GeoLocation *locationNamed( const QString &city, const QString &province=0, const QString &country=0 );
+    GeoLocation *locationNamed( const QString &city, const QString &province=QString(), const QString &country= QString() );
 
     QString typeName( int );
 
@@ -204,6 +204,11 @@ public:
 
     /** Synchronize list of visible FOVs and list of selected FOVs in Options */
     void syncFOV();
+
+    /**
+     *@return the list of visible FOVs
+     */
+    inline const QList<FOV*> getVisibleFOVs() const { return visibleFOVs; }
 
     /** Return log object */
     OAL::Log *logObject() { return m_logObject; }
@@ -368,7 +373,7 @@ private:
     // FIXME: Used in kstarsdcop.cpp only
     KStarsDateTime StoredDate;
 
-    QString TypeName[18];
+    QString TypeName[19];
 
     QList<GeoLocation*> geoList;
     QMap<QString, TimeZoneRule> Rulebook;

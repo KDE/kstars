@@ -47,20 +47,6 @@ public:
     /**Destructor (empty)*/
     ~KSPopupMenu();
 
-    /**Initialize the popup menus. Adds name and type labels, and possibly
-     * Rise/Set/Transit labels, Center/Track item, and Show Details item.
-     * @short initialize the right-click popup menu
-     * @param obj pointer to the skyobject which the menu describes
-     * @param name The object name
-     * @param type a string identifying the object type
-     * @param type short information about object
-     * @param showDetails if true, the Show-Details item is added
-     * @param showObsList if true, the Add to List/Remove from List item is added.
-     */
-    void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
-                        bool showDetails=true,
-                        bool showObsList=true );
-
     /**Add an item to the popup menu for each of the URL links associated with
      * this object.  URL links appear in two categories: images and information pages.
      * For some objects, a link to Digitized Sky Survey images will automatically be added
@@ -70,6 +56,7 @@ public:
      * @param obj pointer to the skyobject which the menu describes
      * @param showDSS if true, include DSS Image links
      */
+
     void addLinksToMenu( SkyObject *obj, bool showDSS=true );
 
     /**@short Create a popup menu for a star.
@@ -121,6 +108,20 @@ public:
     void createEmptyMenu( SkyPoint *nullObj );
 
 private:
+    /**Initialize the popup menus. Adds name and type labels, and possibly
+     * Rise/Set/Transit labels, Center/Track item, and Show Details item.
+     * @short initialize the right-click popup menu
+     * @param obj pointer to the skyobject which the menu describes
+     * @param name The object name
+     * @param type a string identifying the object type
+     * @param type short information about object
+     * @param showDetails if true, the Show-Details item is added
+     * @param showObsList if true, the Add to List/Remove from List item is added.
+     */
+    void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
+                        bool showDetails=true,
+                        bool showObsList=true );
+
     /**Add a submenu for INDI controls (Slew, Track, Sync, etc).
      * @return true if a valid INDI menu was added.
      */

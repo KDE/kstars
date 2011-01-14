@@ -20,7 +20,6 @@
 
 #include <QFile>
 #include <QPen>
-#include <QPainter>
 #include <kglobal.h>
 
 #include "Options.h"
@@ -30,6 +29,8 @@
 #include "ksfilereader.h"
 #include "skymap.h"
 #include "skylabeler.h"
+#include "skypainter.h"
+#include "projections/projector.h"
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent )
@@ -110,42 +111,22 @@ void CometsComponent::loadData() {
     }
 }
 
-void CometsComponent::draw( QPainter& psky )
+void CometsComponent::draw( SkyPainter *skyp )
 {
     if( !selected() || Options::zoomFactor() < 10*MINZOOM )
         return;
 
-    SkyMap *map = SkyMap::Instance();
-
-    bool hideLabels =  ! Options::showCometNames() || (map->isSlewing() && Options::hideLabels() );
+    bool hideLabels =  ! Options::showCometNames() || (SkyMap::Instance()->isSlewing() && Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
 
-    psky.setPen( QPen( QColor( "darkcyan" ) ) );
-    psky.setBrush( QBrush( QColor( "darkcyan" ) ) );
+    //FIXME: Should these be config'able?
+    skyp->setPen( QPen( QColor( "darkcyan" ) ) );
+    skyp->setBrush( QBrush( QColor( "darkcyan" ) ) );
 
     foreach ( SkyObject *so, m_ObjectList ) {
         KSComet *com = (KSComet*)so;
-
-        if ( ! map->checkVisibility( com ) ) continue;
-
-        QPointF o = map->toScreen( com );
-
-        if ( ! map->onScreen( o ) ) continue;
-        //if ( ( o.x() >= 0. && o.x() <= Width && o.y() >= 0. && o.y() <= Height ) )
-
-        float size = com->angSize() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-        if ( size < 1.0 ) {
-            psky.drawPoint( o );
-        } else {
-            float x1 = o.x() - 0.5*size;
-            float y1 = o.y() - 0.5*size;
-
-            psky.drawEllipse( QRectF( x1, y1, size, size ) );
-        }
-
-//        float tailsize = com->getTailAngSize().Degrees() * map->scale() * dms::PI * Options::zoomFactor()/10800.0;
-
-        if ( hideLabels || com->rsun() >= rsunLabelLimit ) continue;
-        SkyLabeler::AddLabel( o, com, SkyLabeler::COMET_LABEL );
+        bool drawn = skyp->drawPointSource(com,com->mag());
+        if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
+            SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
     }
 }

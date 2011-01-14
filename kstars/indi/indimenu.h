@@ -68,12 +68,8 @@ public:
     void stopDeviceManager(QList<IDevice *> &processed_devices);
 
   private:
-
-
     QPushButton  *clearB;
     QPushButton  *closeB;
-
-
     QString currentDevice;
   
   public slots:

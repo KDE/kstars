@@ -136,7 +136,8 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     sb = new ScriptBuilderUI(this);
     setMainWidget(sb);
     setCaption( i18n( "Script Builder" ) );
-    setButtons( KDialog::Close );
+    setButtons( KDialog::User1 );
+    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Close"), "dialog-close", i18n("Close the dialog") ) );
 
     sb->FuncDoc->setTextInteractionFlags( Qt::NoTextInteraction );
 
@@ -425,7 +426,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     otv->resizeColumns();
 
     //connect widgets in ScriptBuilderUI
-    connect( this, SIGNAL(closeClicked()), this, SLOT(slotClose()));
+    connect( this, SIGNAL(user1Clicked()), this, SLOT(slotClose()));
     connect( sb->FunctionTree, SIGNAL( itemDoubleClicked(QTreeWidgetItem *, int )), this, SLOT( slotAddFunction() ) );
     connect( sb->FunctionTree, SIGNAL( itemClicked(QTreeWidgetItem*, int) ), this, SLOT( slotShowDoc() ) );
     connect( sb->UpButton, SIGNAL( clicked() ), this, SLOT( slotMoveFunctionUp() ) );
@@ -470,7 +471,7 @@ ScriptBuilder::ScriptBuilder( QWidget *parent )
     connect( argPrintImage->UseChartColors, SIGNAL( toggled(bool) ), this, SLOT( slotPrintImage() ) );
     connect( argSetColor->ColorName, SIGNAL( activated(const QString &) ), this, SLOT( slotChangeColorName() ) );
     connect( argSetColor->ColorValue, SIGNAL( changed(const QColor &) ), this, SLOT( slotChangeColor() ) );
-    connect( argLoadColorScheme->SchemeList, SIGNAL( clicked( Q3ListBoxItem* ) ), this, SLOT( slotLoadColorScheme() ) );
+    connect( argLoadColorScheme->SchemeList, SIGNAL( itemClicked ( QListWidgetItem * )), this, SLOT( slotLoadColorScheme() ) );
 
     //connect( sb->AppendINDIWait, SIGNAL ( toggled(bool) ), this, SLOT(slotINDIWaitCheck(bool)));
 
@@ -925,10 +926,10 @@ void ScriptBuilder::initViewOptions() {
     }
 
     //init list of color scheme names
-    argLoadColorScheme->SchemeList->insertItem( i18nc( "use default color scheme", "Default Colors" ) );
-    argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
-    argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
-    argLoadColorScheme->SchemeList->insertItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
+    argLoadColorScheme->SchemeList->addItem( i18nc( "use default color scheme", "Default Colors" ) );
+    argLoadColorScheme->SchemeList->addItem( i18nc( "use 'star chart' color scheme", "Star Chart" ) );
+    argLoadColorScheme->SchemeList->addItem( i18nc( "use 'night vision' color scheme", "Night Vision" ) );
+    argLoadColorScheme->SchemeList->addItem( i18nc( "use 'moonless night' color scheme", "Moonless Night" ) );
 
     QFile file;
     QString line;
@@ -938,7 +939,7 @@ void ScriptBuilder::initViewOptions() {
 
         while ( !stream.atEnd() ) {
             line = stream.readLine();
-            argLoadColorScheme->SchemeList->insertItem( line.left( line.indexOf( ':' ) ) );
+            argLoadColorScheme->SchemeList->addItem( line.left( line.indexOf( ':' ) ) );
         }
         file.close();
     }
@@ -1699,7 +1700,7 @@ void ScriptBuilder::slotArgWidget() {
 
         } else if ( sf->name() == "loadColorScheme" ) {
             sb->ArgStack->setCurrentWidget( argLoadColorScheme );
-            argLoadColorScheme->SchemeList->setCurrentItem( argLoadColorScheme->SchemeList->findItem( sf->argVal(0).remove('\"'), 0 ) );
+            argLoadColorScheme->SchemeList->setCurrentItem( argLoadColorScheme->SchemeList->findItems( sf->argVal(0).remove('\"'), Qt::MatchExactly ).at(0) );
 
         } else if ( sf->name() == "stop" ) {
             sb->ArgStack->setCurrentWidget( argBlank );
@@ -2430,7 +2431,7 @@ void ScriptBuilder::slotLoadColorScheme() {
     if ( sf->name() == "loadColorScheme" ) {
         setUnsavedChanges( true );
 
-        sf->setArg( 0, '\"' + argLoadColorScheme->SchemeList->currentText() + '\"' );
+        sf->setArg( 0, '\"' + argLoadColorScheme->SchemeList->currentItem()->text() + '\"' );
         sf->setValid( true );
     } else {
         warningMismatch( "loadColorScheme" );

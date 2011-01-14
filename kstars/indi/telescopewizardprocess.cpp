@@ -88,6 +88,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
     << "/dev/ttyUSB0" << "/dev/ttyUSB1" << "/dev/ttyUSB2" << "/dev/ttyUSB3";
 
     connect(ui->helpB, SIGNAL(clicked()), parent, SLOT(appHelpActivated()));
+    connect(ui->cancelB, SIGNAL(clicked()), this, SLOT(cancelCheck()));
     connect(ui->nextB, SIGNAL(clicked()), this, SLOT(processNext()));
     connect(ui->backB, SIGNAL(clicked()), this, SLOT(processBack()));
     connect(ui->setTimeB, SIGNAL(clicked()), this, SLOT(newTime()));
@@ -101,8 +102,25 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
 telescopeWizardProcess::~telescopeWizardProcess()
 {
     Options::setShowINDIMessages( INDIMessageBar );
-
+    delete ui;
     //Reset();
+}
+
+//Called when cancel is clicked, gives a warning if past the first couple of steps
+void telescopeWizardProcess::cancelCheck(void)
+{
+    switch (currentPage)
+    {
+    case TELESCOPE_P:
+    case LOCAL_P:
+    case PORT_P:
+	if ( KMessageBox::warningYesNo(0, i18n("Are you sure you want to cancel?")) == KMessageBox::Yes )
+	    emit reject();
+	break;
+    default:
+	emit reject();
+	break;
+    }
 }
 
 void telescopeWizardProcess::processNext(void)
@@ -341,6 +359,12 @@ void telescopeWizardProcess::scanPorts()
 
     if (!indiDev || !indidriver || !indimenu || linkRejected)
         return;
+
+    if (progressScan == NULL)
+    {
+        close();
+        return;
+    }
 
     currentPort++;
 

@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 
-<kpartgui name="KStars" version="2">
+<kpartgui name="KStars" version="3">
 <MenuBar noMerge="1">
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="new_window" />
@@ -88,6 +88,7 @@
 		</Menu>
 		<Action name="colorschemes" /> <!--This is a KMenuAction-->
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
+		<Action name="opengl" />
 		<Separator />
         <Action name="ewriter"/>
         <Action name="obsadd"/>
@@ -102,7 +103,9 @@
 
 	<Menu name="oal" noMerge="1"><text>&amp;Observation</text>
         <Action name="execute"/>
-    </Menu>
+        </Menu>
+
+        <Separator />
 
 	<Menu name="help"><text>&amp;Help</text>
 		<Action name="help_contents"/>
@@ -110,6 +113,8 @@
 		<Action name="help_whats_this"/>
 		<Separator/>
 		<Action name="help_report_bug"/>
+		<Separator/>
+		<Action name="switch_application_language"/>
 		<Separator/>
 		<Action name="help_about_app"/>
 		<Action name="help_about_kde"/>

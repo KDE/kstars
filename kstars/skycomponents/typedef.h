@@ -35,6 +35,7 @@ class SkyPoint;
 class LineList;
 class StarObject;
 class StarBlock;
+class SkyObject;
 
 typedef quint32                        DrawID;
 typedef quint32                        UpdateID;
@@ -48,5 +49,6 @@ typedef QList< StarObject*>            StarList;
 typedef QVector< StarList*>            StarIndex;
 typedef QVector< LineList*>            LineListList;
 typedef QHash< Trixel, LineListList*>  LineListHash;  // Wanted LineListIndex, but that is used by a class
+typedef QList< SkyObject *>            SkyObjectList;
 
 #endif

@@ -30,6 +30,8 @@
 #include <kio/job.h>
 
 #include "skymap.h"
+#include "skyqpainter.h"
+#include "skyglpainter.h"
 #include "Options.h"
 #include "kstars.h"
 #include "kstarsdata.h"
@@ -38,6 +40,8 @@
 #include "kspopupmenu.h"
 #include "skyobjects/ksplanetbase.h"
 #include "widgets/infoboxwidget.h"
+
+#include "projections/projector.h"
 
 #include "skycomponents/skymapcomposite.h"
 
@@ -53,8 +57,9 @@ void SkyMap::resizeEvent( QResizeEvent * )
     //FIXME: No equivalent for this line in Qt4 ??
     //	if ( testWState( Qt::WState_AutoMask ) ) updateMask();
 
-    *sky  = sky->scaled( width(), height() );
-    *sky2 = sky2->scaled( width(), height() );
+    // Resize the widget that draws the sky map.
+    // FIXME: The resize event doesn't pass to children. Any better way of doing this?
+    m_SkyMapDraw->resize( size() );
 
     // Resize infoboxes container.
     // FIXME: this is not really pretty. Maybe there are some better way to this???
@@ -211,19 +216,20 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         break;
 
     case Qt::Key_BracketLeft:   // Begin measuring angular distance
-        if( !angularDistanceMode )
+        if( !rulerMode )
             slotBeginAngularDistance();
         break;
     case Qt::Key_Escape:        // Cancel angular distance measurement
-        if( angularDistanceMode )
-            slotCancelAngularDistance();
+        if( rulerMode )
+            slotCancelRulerMode();
         break;
     case Qt::Key_Comma:  //advance one step backward in time
     case Qt::Key_Less:
-        if ( data->clock()->isActive() ) data->clock()->stop();
-        data->clock()->setScale( -1.0 * data->clock()->scale() ); //temporarily need negative time step
+        if ( data->clock()->isActive() )
+            data->clock()->stop();
+        data->clock()->setClockScale( -1.0 * data->clock()->scale() ); //temporarily need negative time step
         data->clock()->manualTick( true );
-        data->clock()->setScale( -1.0 * data->clock()->scale() ); //reset original sign of time step
+        data->clock()->setClockScale( -1.0 * data->clock()->scale() ); //reset original sign of time step
         update();
         qApp->processEvents();
         break;
@@ -443,10 +449,10 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         }
     }
 
-    if ( unusablePoint( e->pos() ) ) return;  // break if point is unusable
+    if ( projector()->unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     //determine RA, Dec of mouse pointer
-    setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+    setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
     mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     double dyPix = 0.5*height() - e->y();
@@ -499,7 +505,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         }
 
         //redetermine RA, Dec of mouse pointer, using new focus
-        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
 
@@ -525,7 +531,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
 
         stopTracking();
 
-        SkyPoint newcenter = fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
+        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
 
         setFocus( &newcenter );
         setDestination( &newcenter );
@@ -571,7 +577,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
     QTimer::singleShot(500, this, SLOT (setMouseMoveCursor()));
 
     // break if point is unusable
-    if ( unusablePoint( e->pos() ) )
+    if ( projector()->unusablePoint( e->pos() ) )
         return;
 
     if ( !midMouseButtonDown && e->button() == Qt::MidButton ) {
@@ -586,7 +592,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         }
 
         //determine RA, Dec of mouse pointer
-        setMousePoint( fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
+        setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
         mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( mousePoint() );
         clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -610,9 +616,9 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
             }
             break;
         case Qt::RightButton:
-            if( angularDistanceMode ) {
+            if( rulerMode ) {
                 // Compute angular distance.
-                slotEndAngularDistance();
+                slotEndRulerMode();
             } else {
                 // Show popup menu
                 if( clickedObject() ) {
@@ -629,71 +635,11 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 }
 
 void SkyMap::mouseDoubleClickEvent( QMouseEvent *e ) {
-    if ( e->button() == Qt::LeftButton && !unusablePoint( e->pos() ) ) {
+    if ( e->button() == Qt::LeftButton && !projector()->unusablePoint( e->pos() ) ) {
         mouseButtonDown = false;
         if( e->x() != width()/2 || e->y() != height()/2 )
             slotCenter();
     }
-}
-
-void SkyMap::paintEvent( QPaintEvent * )
-{
-    //If computeSkymap is false, then we just refresh the window using the stored sky pixmap
-    //and draw the "overlays" on top.  This lets us update the overlay information rapidly
-    //without needing to recompute the entire skymap.
-    //use update() to trigger this "short" paint event; to force a full "recompute"
-    //of the skymap, use forceUpdate().
-    if (!computeSkymap)
-    {
-        *sky2 = *sky;
-        drawOverlays( sky2 );
-        QPainter p;
-        p.begin( this );
-        p.drawPixmap( 0, 0, *sky2 );
-        p.end();
-        return ; // exit because the pixmap is repainted and that's all what we want
-    }
-    // FIXME: used to to notify infobox about possible change of object coordinates
-    // Not elegant at all. Should find better option
-    showFocusCoords();
-
-    setMapGeometry();
-
-    //FIXME: What to do about the visibility logic?
-    // 	//checkSlewing combines the slewing flag (which is true when the display is actually in motion),
-    // 	//the hideOnSlew option (which is true if slewing should hide objects),
-    // 	//and clockSlewing (which is true if the timescale exceeds Options::slewTimeScale)
-    // 	bool checkSlewing = ( ( slewing || ( clockSlewing && data->clock()->isActive() ) )
-    // 				&& Options::hideOnSlew() );
-    //
-    // 	//shortcuts to inform whether to draw different objects
-    // 	bool drawPlanets( Options::showSolarSystem() && !(checkSlewing && Options::hidePlanets() ) );
-    // 	bool drawMW( Options::showMilkyWay() && !(checkSlewing && Options::hideMilkyWay() ) );
-    // 	bool drawCNames( Options::showCNames() && !(checkSlewing && Options::hideCNames() ) );
-    // 	bool drawCLines( Options::showCLines() &&!(checkSlewing && Options::hideCLines() ) );
-    // 	bool drawCBounds( Options::showCBounds() &&!(checkSlewing && Options::hideCBounds() ) );
-    // 	bool drawGrid( Options::showGrid() && !(checkSlewing && Options::hideGrid() ) );
-
-    QPainter psky;
-    psky.begin( sky );
-    psky.setRenderHint(QPainter::Antialiasing, (!slewing && Options::useAntialias()) );
-    psky.fillRect( 0, 0, width(), height(), QBrush( data->colorScheme()->colorNamed( "SkyColor" ) ) );
-    //Draw all sky elements
-    data->skyComposite()->draw( psky );
-    //Finish up
-    psky.end();
-
-    *sky2 = *sky;
-    drawOverlays( sky2 );
-    //TIMING
-    //	t2.start();
-
-    QPainter psky2;
-    psky2.begin( this );
-    psky2.drawPixmap( 0, 0, *sky2 );
-    psky2.end();
-
-    computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 }
 
 double SkyMap::zoomFactor( const int modifier ) {
@@ -710,7 +656,6 @@ void SkyMap::zoomInOrMagStep( const int modifier ) {
         setZoomFactor( Options::zoomFactor() * zoomFactor( modifier ) );
 }
 
-    
 void SkyMap::zoomOutOrMagStep( const int modifier ) {
     if ( modifier & Qt::AltModifier )
         decMagLimit( modifier );

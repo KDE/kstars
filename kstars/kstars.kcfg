@@ -91,11 +91,11 @@
 		</entry>
 		<entry name="WindowWidth" type="UInt">
 			<label>Width of main window, in pixels</label>
-			<default>600</default>
+			<default>1024</default>
 		</entry>
 		<entry name="WindowHeight" type="UInt">
 			<label>Height of main window, in pixels</label>
-			<default>600</default>
+			<default>768</default>
 		</entry>
 		<entry name="RunStartupWizard" type="Bool">
 			<label>Run Startup Wizard when KStars launches?</label>
@@ -336,27 +336,27 @@
 		<entry name="ShowAsteroids" type="Bool">
 			<label>Draw asteroids in the sky map?</label>
 			<whatsthis>Toggle whether asteroids are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowAsteroidNames" type="Bool">
 			<label>Label asteroid names in the sky map?</label>
 			<whatsthis>Toggle whether asteroid name labels are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowComets" type="Bool">
 			<label>Draw comets in the sky map?</label>
 			<whatsthis>Toggle whether comets are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowCometNames" type="Bool">
 			<label>Label comet names in the sky map?</label>
 			<whatsthis>Toggle whether comet name labels are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowCBounds" type="Bool">
 			<label>Draw constellation boundaries in the sky map?</label>
 			<whatsthis>Toggle whether constellation boundaries are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowHighlightedCBound" type="Bool">
 			<label>Highlight the central constellation boundary in the sky map?</label>
@@ -366,12 +366,12 @@
 		<entry name="ShowCLines" type="Bool">
 			<label>Draw constellation lines in the sky map?</label>
 			<whatsthis>Toggle whether constellation lines are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowCNames" type="Bool">
 			<label>Draw constellation names in the sky map?</label>
 			<whatsthis>Toggle whether constellation name labels are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowDeepSky" type="Bool">
 			<label>Draw "deep sky" objects in the sky map?</label>
@@ -381,17 +381,17 @@
 		<entry name="ShowEcliptic" type="Bool">
 			<label>Draw ecliptic line in the sky map?</label>
 			<whatsthis>Toggle whether the ecliptic line is drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowEquator" type="Bool">
 			<label>Draw equator line in the sky map?</label>
 			<whatsthis>Toggle whether the equator line is drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowGrid" type="Bool">
 			<label>Draw coordinate grid in the sky map?</label>
 			<whatsthis>Toggle whether the coordinate grid is drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowGround" type="Bool">
 			<label>Draw opaque ground in the sky map?</label>
@@ -411,7 +411,7 @@
 		<entry name="ShowIC" type="Bool">
 			<label>Draw IC objects in the sky map?</label>
 			<whatsthis>Toggle whether IC objects are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowNGC" type="Bool">
 			<label>Draw NGC objects in the sky map?</label>
@@ -511,7 +511,7 @@
 		<entry name="ShowSatellites" type="Bool">
 			<label>Draw satellite tracks in the sky map?</label>
 			<whatsthis>Toggle whether satellite tracks are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowStars" type="Bool">
 			<label>Draw stars in the sky map?</label>
@@ -521,7 +521,7 @@
 		<entry name="ShowStarMagnitudes" type="Bool">
 			<label>Label star magnitudes in the sky map?</label>
 			<whatsthis>Toggle whether star magnitude (brightness) labels are shown in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowStarNames" type="Bool">
 			<label>Label star names in the sky map?</label>
@@ -531,12 +531,12 @@
 		<entry name="ShowDeepSkyMagnitudes" type="Bool">
 			<label>Label deep-sky object magnitudes in the sky map?</label>
 			<whatsthis>Toggle whether deep-sky object magnitude (brightness) labels are shown in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowDeepSkyNames" type="Bool">
 			<label>Label deep-sky objects in the sky map?</label>
 			<whatsthis>Toggle whether deep-sky object name labels are shown in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="SlewTimeScale" type="Double">
 			<label>Minimum timescale for forced-slewing mode</label>
@@ -551,7 +551,7 @@
 		<entry name="Projection" type="UInt">
 			<label>Mapping projection algorithm</label>
 			<whatsthis>Algorithm for the mapping projection.</whatsthis>
-			<default>0</default>
+			<default>5</default>
 		</entry>
 		<entry name="UseAbbrevConstellNames" type="Bool">
 			<label>Use abbreviated constellation names?</label>
@@ -642,7 +642,7 @@
 		<entry name="MagLimitDrawDeepSkyZoomOut" type="Double">
 			<label>Faint limit for deep-sky objects when zoomed out</label>
 			<whatsthis>The faint magnitude limit for drawing deep-sky objects, when fully zoomed out.</whatsthis>
-			<default>16.0</default>
+			<default>5.0</default>
 		</entry>
 <!--
 		<entry name="MagLimitDrawStar" type="Double">
@@ -654,7 +654,7 @@
 		<entry name="StarDensity" type="Int">
 			<label>Density of stars in the field of view</label>
 			<whatsthis>Sets the density of stars in the field of view</whatsthis>
-			<default>15</default>
+			<default>5</default>
 		</entry>
 
 <!--		<entry name="MagLimitDrawStarZoomOut" type="Double">
@@ -676,7 +676,7 @@
 		<entry name="DeepSkyLabelDensity" type="Double">
 			<label>Relative density for deep-sky object name labels and/or magnitudes</label>
 			<whatsthis>The relative density for drawing deep-sky object name and magnitude labels.</whatsthis>
-			<default>10.0</default>
+			<default>5.0</default>
 		</entry>
 		<entry name="DeepSkyLongLabels" type="Bool">
 			<label>Show long names in deep-sky object name labels?</label>
@@ -688,9 +688,20 @@
 			<whatsthis>The maximum solar distance for drawing comets.</whatsthis>
 			<default>3.0</default>
 		</entry>
+		<!-- TODO: Hilarious label and whatsthis strings used to preserve "translation invariance". Please fix in 4.7 -->
+		<entry name="UseGL" type="Bool">
+		        <label>Switch to OpenGL backend</label>
+			<whatsthis>This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?</whatsthis>
+			<default>false</default>
+		</entry>
 	</group>
 
 	<group name="Colors">
+		<entry name="ColorSchemeFile" type="String">
+		    <label>The name of the color scheme</label>
+		    <whatsthis>The name of the color scheme</whatsthis>
+		    <default>classic.colors</default>
+		</entry>
 		<entry name="DarkAppColors" type="Bool">
 			<label>Use Dark colors for KStars windows?</label>
 			<whatsthis>If true, then the application window colors will be switched to a dark red theme, for better night vision.</whatsthis>
