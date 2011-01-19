@@ -137,7 +137,7 @@ Project</link>; a series of short, hyperlinked articles about
 astronomical topics that can be explored and illustrated with &kstars;.
 AstroInfo is a community effort, like GNUpedia or Everything2.  If
 you'd like to contribute to AstroInfo, please join our mailing list:
-<email>kstars-info@lists.sourceforge.net</email>.
+<email>kstars-devel@lists.kde.org</email>.
 </para>
 </answer>
 </qandaentry>
@@ -257,7 +257,7 @@ It depends on the image, but many of the images restrict against commercial usag
 Yes, definitely!  Introduce yourself on our mailing list:
 <email>kstars-devel@kde.org</email>.  If you want to
 help with the coding, download the latest <ulink
-url="http://edu.kde.org/kstars/cvs.html">CVS</ulink> version of the
+url="http://edu.kde.org/kstars/svn.php">SVN</ulink> version of the
 code and dive right in.  There are several README files in the
 distribution that explain some of the code's subsystems.  If you
 need ideas of what to work on, see the TODO file.  You can submit
