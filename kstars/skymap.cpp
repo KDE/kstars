@@ -1050,6 +1050,7 @@ void SkyMap::addLink() {
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
                 QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
                 KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+		delete adialog;
                 return;
             } else {
                 entry = clickedObject()->name() + ':' + adialog->desc() + ':' + adialog->url();
@@ -1067,6 +1068,7 @@ void SkyMap::addLink() {
 
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
                 QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+		delete adialog;
                 return;
             } else {
                 entry = clickedObject()->name() + ':' + adialog->desc() + ':' + adialog->url();
