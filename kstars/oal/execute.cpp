@@ -264,6 +264,12 @@ void Execute::slotEndSession() {
                                     ui.Comment->toPlainText(), ui.Language->text() );
 
         KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml" );
+
+        if( fileURL.isEmpty() ) {
+            // Cancel
+            return;
+        }
+
         if( fileURL.isValid() ) {
 
             QFile f( fileURL.path() );
