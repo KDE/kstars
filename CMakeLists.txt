@@ -29,4 +29,5 @@ macro_log_feature(OPENGL_FOUND "OpenGL" "3D Graphics Library" "http://www.opengl
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 
+add_subdirectory( doc )
 add_subdirectory( kstars )
