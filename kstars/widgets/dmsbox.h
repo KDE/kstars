@@ -99,7 +99,7 @@ public:
     	*@note JH: Why don't we just use KLineEdit::setText() instead?
     	*@param s the string to display (it need not be a valid angle value).
     	*/
-    void setDMS(QString s) { setText(s); }
+    void setDMS(const QString& s) { setText(s); }
 
     /**Parse the text in the dmsBox as an angle.  The text may be an integer
     	*or double value, or it may be a triplet of integer values (separated by spaces
