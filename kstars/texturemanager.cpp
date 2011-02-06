@@ -76,8 +76,31 @@ TextureManager *TextureManager::Create() {
     return m_p;
 }
 
+Texture* TextureManager::createTexture( QImage image )
+{
+    int longest, tex_size = 2;
+    Texture *texture = new Texture( m_p );
+
+    // Resize image if necessary and create texture
+    if ( image.width() != image.height() || ( image.width() & ( image.width() - 1 ) ) ) {
+        // Compute texture size
+        if ( image.width() > image.height() )
+            longest = image.width();
+        else
+            longest = image.height();
+
+        while ( tex_size < longest ) {
+            tex_size *= 2;
+        }
+
+        texture->setImage( image.scaled( tex_size, tex_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ) );
+    } else
+        texture->setImage( image );
+
+    return texture;
+}
+
 TextureManager::TextureManager(QObject* parent): QObject(parent)
 {
 
 }
-

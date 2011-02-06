@@ -37,6 +37,8 @@ using Eigen::Rotation2Df;
 #include "skycomponents/linelist.h"
 #include "skycomponents/skiplist.h"
 #include "skycomponents/linelistlabel.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skycomponents/flagcomponent.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
@@ -498,6 +500,123 @@ void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
+void SkyGLPainter::drawFlags()
+{
+    KStarsData *data = KStarsData::Instance();
+    SkyPoint* point;
+    QImage image;
+    const Texture *tex;
+    const QString label;
+    bool visible = false;
+    Vector2f vec;
+    int i;
+
+    for ( i=0; i<data->skyComposite()->flags()->size(); i++ ) {
+        point = data->skyComposite()->flags()->pointList().at( i );
+        image = data->skyComposite()->flags()->image( i );
+
+        // Set Horizontal coordinates
+        point->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+
+        // Get flag position on screen
+        vec = m_proj->toScreenVec( point, true, &visible );
+
+        // Return if flag is not visible
+        if( !visible || !m_proj->onScreen( vec ) ) continue;
+
+        // Get texture from TextureManager
+        if ( data->skyComposite()->flags()->imageName( i ) == "Default" )
+            tex = TextureManager::getTexture("defaultflag");
+        else
+            tex = TextureManager::createTexture( image );
+        
+        tex->bind();
+
+        // Draw image
+        if( tex->isReady() ) {
+            glEnable(GL_TEXTURE_2D);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+            Vector2f vertex;
+            glBegin(GL_QUADS);
+                vertex = vec + Vector2f( image.width()/2 * -1, image.height()/2 );
+                glTexCoord2f(0.,0.);
+                glVertex2fv(vertex.data());
+                vertex = vec + Vector2f( image.width()/2, image.height()/2 );
+                glTexCoord2f(1.,0.);
+                glVertex2fv(vertex.data());
+                vertex = vec + Vector2f( image.width()/2, image.height()/2 * -1  );
+                glTexCoord2f(1.,1.);
+                glVertex2fv(vertex.data());
+                vertex = vec + Vector2f( image.width()/2 * -1, image.height()/2 * -1 );
+                glTexCoord2f(0.,1.);
+                glVertex2fv(vertex.data());
+            glEnd();
+        }
+
+        // Draw label
+        drawText( vec.x(), vec.y(), data->skyComposite()->flags()->label( i ), QFont( "Courier New", 10, QFont::Bold ), data->skyComposite()->flags()->labelColor( i ) );
+    }
+}
+
+void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColor color )
+{
+    // Return if text is empty
+    if ( text.isEmpty() )
+        return;
+
+    int longest, tex_size = 2;
+    
+    // Get size of text
+    QFontMetrics fm( font );
+    const QRect bounding_rect = fm.boundingRect( text );
+
+    // Compute texture size
+    if ( bounding_rect.width() > bounding_rect.height() )
+        longest = bounding_rect.width();
+    else
+        longest = bounding_rect.height();
+
+    while ( tex_size < longest ) {
+        tex_size *= 2;
+    }
+
+    // Create image of text
+    QImage text_image( tex_size, tex_size, QImage::Format_ARGB32 );
+    text_image.fill( Qt::transparent );
+    QPainter p( &text_image );
+    p.setFont( font );
+    p.setPen( color );
+    p.drawText( 0, tex_size/2, text );
+    p.end();
+
+    // Create texture
+    Texture *texture = TextureManager::createTexture( text_image );
+    texture->bind();
+
+    // Render image
+    if( texture->isReady() ) {
+        glEnable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        Vector2f vec( x, y );
+        Vector2f vertex;
+        glBegin(GL_QUADS);
+            vertex = vec + Vector2f( 10, text_image.height()/2 -10 );
+            glTexCoord2f(0.,0.);
+            glVertex2fv(vertex.data());
+            vertex = vec + Vector2f( text_image.width() + 10, text_image.height()/2 -10 );
+            glTexCoord2f(1.,0.);
+            glVertex2fv(vertex.data());
+            vertex = vec + Vector2f( text_image.width() + 10, text_image.height()/2*(-1) - 10 );
+            glTexCoord2f(1.,1.);
+            glVertex2fv(vertex.data());
+            vertex = vec + Vector2f( 10, text_image.height()/2*(-1) - 10 );;
+            glTexCoord2f(0.,1.);
+            glVertex2fv(vertex.data());
+        glEnd();
+    }
+}
 
 void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {

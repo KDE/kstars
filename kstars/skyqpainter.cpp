@@ -29,6 +29,8 @@
 #include "skycomponents/linelist.h"
 #include "skycomponents/skiplist.h"
 #include "skycomponents/linelistlabel.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skycomponents/flagcomponent.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
@@ -652,6 +654,38 @@ void SkyQPainter::drawObservingList(const QList< SkyObject* >& obs)
         float y1 = o.y() - 0.5*size;
         drawArc( QRectF(x1, y1, size, size), -60*16, 120*16 );
         drawArc( QRectF(x1, y1, size, size), 120*16, 120*16 );
+    }
+}
+
+void SkyQPainter::drawFlags()
+{
+    KStarsData *data = KStarsData::Instance();
+    SkyPoint* point;
+    QImage image;
+    bool visible = false;
+    QPointF pos;
+    int i;
+
+    for ( i=0;i<data->skyComposite()->flags()->size();i++ ) {
+        point = data->skyComposite()->flags()->pointList().at( i );
+        image = data->skyComposite()->flags()->image( i );
+
+        // Set Horizontal coordinates
+        point->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+
+        // Get flag position on screen
+        pos = m_proj->toScreen( point, true, &visible );
+
+        // Return if flag is not visible
+        if( !visible || !m_proj->onScreen( pos ) ) continue;
+
+        // Draw flag image
+        drawImage( pos.x()-0.5*image.width(), pos.y()-0.5*image.height(), image );
+
+        // Draw flag label
+        setPen( data->skyComposite()->flags()->labelColor( i ) );
+        setFont( QFont( "Courier New", 10, QFont::Bold ) );
+        drawText( pos.x()+10, pos.y()-10, data->skyComposite()->flags()->label( i ) );
     }
 }
 

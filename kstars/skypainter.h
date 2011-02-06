@@ -137,6 +137,10 @@ public:
         */
     virtual void drawObservingList( const QList<SkyObject*>& obs ) = 0;
 
+    /** @short Draw flags
+        */
+    virtual void drawFlags() = 0;
+
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) = 0;
 
 protected:
