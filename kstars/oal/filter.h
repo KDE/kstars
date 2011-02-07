@@ -24,14 +24,14 @@
 
 class OAL::Filter {
     public:
-        Filter( QString id, QString model, QString vendor, QString type, QString color ) { setFilter( id, model, vendor, type, color ); }
-        QString id() { return m_Id; }
-        QString name() { return m_Name; }
-        QString model() { return m_Model; }
-        QString vendor() { return m_Vendor; }
-        QString type() { return m_Type; }
-        QString color() { return m_Color; }
-        void setFilter( QString _id, QString _model, QString _vendor, QString _type, QString _color );
+        Filter( const QString& id, const QString& model, const QString& vendor, const QString& type, const QString& color ) { setFilter( id, model, vendor, type, color ); }
+        QString id() const { return m_Id; }
+        QString name() const { return m_Name; }
+        QString model() const { return m_Model; }
+        QString vendor() const { return m_Vendor; }
+        QString type() const { return m_Type; }
+        QString color() const { return m_Color; }
+        void setFilter( const QString& _id, const QString &_model, const QString& _vendor, const QString &_type, const QString& _color );
     private:
         QString m_Id, m_Model, m_Vendor, m_Type, m_Color, m_Name;
 };

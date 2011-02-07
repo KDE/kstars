@@ -39,20 +39,20 @@ class OAL::Observation {
             setObservation( id, observer, site, session, target, begin, faintestStar, seeing, scope, eyepiece, lens, filter, result, lang );
         }
         Observation( QString id, Observer* observer, Session* session, SkyObject* target, KStarsDateTime begin, double faintestStar, double seeing, Scope* scope, Eyepiece* eyepiece, Lens* lens, Filter* filter,  QString result, QString lang );
-        QString id() { return m_Name; }
-        QString target() { return m_Target; }
-        QString observer() { return m_Observer; }
-        QString site() { return m_Site; }
-        QString session() { return m_Session; }
-        QString scope() { return m_Scope; }
-        QString eyepiece() { return m_Eyepiece; }
-        QString lens() { return m_Lens; }
-        QString filter() { return m_Filter; }
-        QString lang() { return m_Lang; }
-        QString result() { return m_Result; }
-        double seeing() { return m_Seeing; }
-        double faintestStar() { return m_FaintestStar; }
-        KStarsDateTime begin() { return m_Begin; }
+        QString id() const { return m_Name; }
+        QString target() const { return m_Target; }
+        QString observer() const { return m_Observer; }
+        QString site() const { return m_Site; }
+        QString session() const { return m_Session; }
+        QString scope() const { return m_Scope; }
+        QString eyepiece() const { return m_Eyepiece; }
+        QString lens() const { return m_Lens; }
+        QString filter() const { return m_Filter; }
+        QString lang() const { return m_Lang; }
+        QString result() const { return m_Result; }
+        double seeing() const { return m_Seeing; }
+        double faintestStar() const{ return m_FaintestStar; }
+        KStarsDateTime begin() const { return m_Begin; }
         void setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin, double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _lens, QString _filter, QString _result, QString _lang =  "en" );
     private:
         QString m_Name; 
