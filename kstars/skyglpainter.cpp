@@ -341,11 +341,13 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     }
 }
 
-void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex)
+void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex, bool flush_buffers)
 {
     //Flush all buffers
-    for(int i = 0; i < NUMTYPES; ++i) {
-        drawBuffer(i);
+    if( flush_buffers ) {
+        for(int i = 0; i < NUMTYPES; ++i) {
+            drawBuffer(i);
+        }
     }
     glDisable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -384,17 +386,19 @@ void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex)
 
 void SkyGLPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel)
 {
-    QVector<Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
+    QVector<Vector2f> ground = m_proj->groundPoly( labelPoint, drawLabel );
+
     if( ground.size() ) {
-        if(filled) {
-            drawPolygon(ground,false);
+        if( filled ) {
+            glDisableClientState( GL_COLOR_ARRAY );
+            drawPolygon( ground, false, false );
         } else {
-            glDisable(GL_TEXTURE_2D);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(2,GL_FLOAT,0, ground.data() );
-            glDrawArrays(GL_LINE_LOOP, 0, ground.size());
-            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisable( GL_TEXTURE_2D );
+            glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+            glEnableClientState( GL_VERTEX_ARRAY );
+            glVertexPointer( 2, GL_FLOAT, 0, ground.data() );
+            glDrawArrays( GL_LINE_LOOP, 0, ground.size() );
+            glDisableClientState( GL_VERTEX_ARRAY );
         }
     }
 }

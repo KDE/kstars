@@ -51,7 +51,7 @@ public:
 private:
     bool addItem(SkyPoint* p, int type, float width, char sp = 'a');
     void drawBuffer(int type);
-    void drawPolygon(const QVector< Vector2f >& poly, bool convex = true);
+    void drawPolygon(const QVector< Vector2f >& poly, bool convex = true, bool flush_buffers = true);
 
     const Projector *m_proj;
     
