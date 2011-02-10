@@ -441,6 +441,7 @@ void HorizonComponent::draw( SkyPainter *skyp )
 void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
     SkyPoint c;
     QPointF cpoint;
+    bool visible;
 
     const Projector *proj = SkyMap::Instance()->projector();
     KStarsData *data = KStarsData::Instance();
@@ -465,8 +466,9 @@ void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
         if ( !Options::useAltAz() ) {
             c.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         }
-        cpoint = proj->toScreen( &c, false );
-        if ( proj->onScreen(cpoint) ) {
+        
+        cpoint = proj->toScreen( &c, false, &visible );
+        if ( visible && proj->onScreen(cpoint) ) {
             skyLabeler->drawGuideLabel( cpoint, name[i], 0.0 );
         }
     }
