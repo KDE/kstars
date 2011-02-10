@@ -1,5 +1,12 @@
 project(kstars)
 
+find_package(KDE4 REQUIRED)
+include(KDE4Defaults)
+
+include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} ${QT4_INCLUDES})
+
+set(CMAKE_MODULE_PATH ${kstars_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+
 # some configure checks needed for kstars
 include(CheckIncludeFiles)
 
