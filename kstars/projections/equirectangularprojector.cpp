@@ -40,7 +40,7 @@ double EquirectangularProjector::radius() const
     return 1.0;
 }
 
-Vector2f EquirectangularProjector::toScreenVec(SkyPoint* o, bool oRefract, bool* onVisibleHemisphere) const
+Vector2f EquirectangularProjector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibleHemisphere) const
 {
     double Y, dX;
     Vector2f p;
@@ -65,8 +65,7 @@ Vector2f EquirectangularProjector::toScreenVec(SkyPoint* o, bool oRefract, bool*
     p[0] = 0.5*m_vp.width - m_vp.zoomFactor*dX;
     
     if ( onVisibleHemisphere )
-        //Is fabs(dX) < M_PI/2?
-        *onVisibleHemisphere = dX*dX < M_PI*M_PI/4.;
+        *onVisibleHemisphere = true;
 
     return p;
 }
