@@ -175,7 +175,7 @@ void LocationDialog::changeCity() {
     KStarsData* data = KStarsData::Instance();
     //when the selected city changes, set newCity, and redraw map
     SelectedCity = 0L;
-    if ( ui->GeoBox->currentItem() >= 0 ) {
+    if ( ui->GeoBox->currentItem() ) {
         for ( int i=0; i < filteredCityList.size(); ++i ) {
             GeoLocation *loc = filteredCityList.at(i);
             if ( loc->fullName() == ui->GeoBox->currentItem()->text()) {
