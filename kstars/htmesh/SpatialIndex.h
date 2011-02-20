@@ -63,7 +63,6 @@ public:
       i.e. the depth to keep in memory.  if maxlevel - buildlevel > 0
       , that many levels are generated on the fly each time the index
       is called. */
-  SpatialIndex() {};
   SpatialIndex(size_t maxlevel, size_t buildlevel =5);
 
   /// NodeName conversion to integer ID
