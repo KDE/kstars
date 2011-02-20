@@ -185,6 +185,9 @@ and could be both deep and shallow.
 
 6.2.1. Creation of unnamed StarObjects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+TODO: This is outdated. Stars are now created differently.
+
 IMPORTANT: Unnamed stars, for fast loading, are not constructed!!!
 	   They are allocated in memory (using malloc) and data is
 	   copied directly (using memcpy) onto them.
