@@ -37,7 +37,6 @@ class SkipListElement;
 class LINKAGE SkipListElement{
 public:
     SkipListElement(long level = 0, Key  key = 0, Value  value = 0);
-    ~SkipListElement();
 
     /** get key of element */
     Key getKey() const   { return myKey; };
@@ -53,7 +52,7 @@ public:
     long getLevel() const {return(myLevel);};
     /** Set level of element */
     void setLevel(long level);
-    static void prmatrix();
+
     /** get next element in level */
     SkipListElement* getElement(long level); 
     /** set next element in level */
