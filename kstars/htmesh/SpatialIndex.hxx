@@ -10,14 +10,6 @@
 //#                     The Johns Hopkins University
 //#
 
-/////////////leafCount//////////////////////////////////////
-// leafCount: return number of leaf nodes
-inline uint64
-SpatialIndex::leafCount() const
-{
-  return leaves_;
-}
-
 /////////////NVERTICES////////////////////////////////////
 // nVertices: return number of vertices
 inline size_t
@@ -27,26 +19,8 @@ SpatialIndex::nVertices() const
 	return vertices_.size();
 }
 
-//////////////////IDBYLEAFNUMBER///////////////////////////////////////////
-//
-inline uint64
-SpatialIndex::idByLeafNumber(uint32 n) const{
-  uint64 l = leafCount();
-  l += n;
-  return l;
-}
-
-//////////////////NAMEBYLEAFNUMBER////////////////////////////////////////
-//
-inline char *
-SpatialIndex::nameByLeafNumber(uint32 n, char * name) const{
-  return nameById(idByLeafNumber(n), name);
-}
-
 //////////////////IDBYPOINT////////////////////////////////////////////////
 // Find a leaf node where a ra/dec points to
-//
-
 inline uint64
 SpatialIndex::idByPoint(const float64 & ra, const float64 & dec) const {
   SpatialVector v(ra,dec);
@@ -70,9 +44,4 @@ SpatialIndex::nameByPoint(const float64 & ra, const float64 & dec,
 inline char*
 SpatialIndex::nameByPoint(SpatialVector & vector, char* name) const {
   return nameById(idByPoint(vector),name);
-}
-//////////////////// setMaxlevel /////////////////////////
-inline void
-SpatialIndex::setMaxlevel(int level) {
-	this->maxlevel_ = level;
 }

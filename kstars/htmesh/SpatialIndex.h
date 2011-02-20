@@ -61,9 +61,6 @@
 
 class LINKAGE SpatialIndex {
 public:
-    size_t getMaxlevel(){return maxlevel_;};		// the depth of the Layer
-    size_t getBildLevel(){return buildlevel_;};	// the depth of the Layer storedbuildlevel_;
-
   /** Constructor.
       Give the level of the index and optionally the level to build -
       i.e. the depth to keep in memory.  if maxlevel - buildlevel > 0
@@ -86,15 +83,6 @@ public:
       ascending starting from S0000.. to N3333...  */
   static char * nameById(uint64 ID, char * name = 0);
 
-  /** Return leaf id for a certain bitlist index. 
-      Same as the function above */
-  uint64 idByLeafNumber(uint32 n) const ;
-
-  /** return name for a certain leaf index (to be used for name lookup
-      from a bitlist).  This function is simply shorthand for
-      nameById(n + leafCount()).  */
-  char * nameByLeafNumber(uint32 n, char * name = 0) const;
-
   /** find the vector to the centroid of a triangle represented by 
 	  the ID */
   void pointById(SpatialVector & vector, uint64 ID) const;
@@ -114,19 +102,8 @@ public:
   char* nameByPoint(const float64 & ra, const float64 & dec, 
 		    char* s=NULL) const;
 
-  /// return number of leaf nodes
-  uint64 leafCount() const;
-
   /// return number of vertices
   size_t nVertices() const;
-
-  /// The area in steradians for a given index ID
-  float64 area(uint64 ID) const;
-
-  /// The area in steradians for a given spatial triangle
-  float64 area(const SpatialVector & v1, 
-	       const SpatialVector & v2, 
-	       const SpatialVector & v3) const;
 
   /// return the actual vertex vectors
   void nodeVertex(const uint64 id, 
@@ -137,9 +114,6 @@ public:
   /// return index of vertices for a node
   void nodeVertex(const size_t idx, 
 		  size_t & v1, size_t & v2, size_t & v3) const; 
-
-  /// set the maximum depth of the layer
-  void setMaxlevel(int level);
 
 private:
 

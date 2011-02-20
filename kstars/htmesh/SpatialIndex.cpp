@@ -240,47 +240,6 @@ SpatialIndex::newNode(size_t v1, size_t v2,size_t v3,uint64 id,uint64 parent)
   return index_++;
 }
 
-
-float64
-SpatialIndex::area(uint64 ID) const
-{
-
-  SpatialVector n0;
-  SpatialVector n1;
-  SpatialVector n2;
-
-  nodeVertex(ID, n0, n1, n2);
-  return area(n0,n1,n2);
-}
-
-
-/////////////AREA////////////////////////////////////////
-// area: routine to precompute the area of a node using
-//
-//   AREA = 4*arctan sqrt(tan(s/2)tan((s-a)/2)tan((s-b)/2)tan((s-c)/2))
-//
-//   with s = (a+b+c)/2
-//
-// (with many thanks to Eduard Masana, emasana@pchpc10.am.ub.es )
-//
-float64
-SpatialIndex::area(const SpatialVector & v0, 
-		   const SpatialVector & v1,
-		   const SpatialVector & v2) const {
-
-  float64 a = acos( v0 * v1);
-  float64 b = acos( v1 * v2);
-  float64 c = acos( v2 * v0);
-
-  float64 s = (a + b + c)/2.0;
-
-  float64 area = 4.0*atan(sqrt(tan(s/2.0)*
-			       tan((s-a)/2.0)*
-			       tan((s-b)/2.0)*
-			       tan((s-c)/2.0)));        
-  return area;
-}
-
 /////////////VMAX/////////////////////////////////////////
 // vMax: compute the maximum number of vertices for the
 //       polyhedron after buildlevel of subdivisions and
