@@ -736,15 +736,7 @@ RangeConvex::testNode(uint64 id)
   m = indexNode->v_[2];
   v2 = &index_->vertices_[m];
 
-
-  // testNode(V(NV(0)),V(NV(1)),V(NV(2)));
-  // #define NV(m)   indexNode.v_[(m)]			// the vertices of n
-  // #define NV(m)   index_->nodes_[id].v_[(m)]		// the vertices of n
-  // #define V(m)    index_->vertices_[(m)]		// the vertex vector m
-
   // Start with testing the vertices for the QuadNode with this convex.
-
-
   int vsum = testVertex(v0) + testVertex(v1) + testVertex(v2);
 
   SpatialMarkup mark =
