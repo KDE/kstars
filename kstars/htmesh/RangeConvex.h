@@ -140,13 +140,6 @@ protected:
 			     const SpatialVector & v2,
 			     int vsum);
 
-  // fillChildren: Mark the child nodes as markup.
-  // [ed:gyuri: typo? should say full instead of markup.
-  // Markup is a typedef enum, no?
-  // void XXfillChildren(uint64 nodeIndex);
-
-
-
   // test a triangle's subtriangles whether they are partial.
   // If level is nonzero, recurse: subdivide the
   // triangle according to our rules and test each subdivision.

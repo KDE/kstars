@@ -636,7 +636,6 @@ RangeConvex::testTrixel(uint64 id)
     tid = N(id).id_;
 
     saveTrixel(tid);  //was:  plist_->push_back(tid);
-    // fillChildren(id); // [ed:NEW]
 
     return mark;
   case rEJECT:
