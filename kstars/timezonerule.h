@@ -110,8 +110,6 @@ public:
      */
     bool equals( TimeZoneRule *r );
 
-    int StartMonth, RevertMonth;
-
 private:
 
     /**@return the KStarsDateTime of the moment when the next DST change will occur in local time
@@ -158,12 +156,14 @@ private:
     	*@return the calendar date, an integer between 1 and 31. */
     int findRevertDay( const KStarsDateTime &d );
 
-    int StartDay, RevertDay;
-    int StartWeek, RevertWeek;
-    QTime StartTime, RevertTime;
-    KStarsDateTime next_change_utc, next_change_ltime;
-    double dTZ, HourOffset;
-
+    int   StartDay,   RevertDay;
+    int   StartMonth, RevertMonth;
+    int   StartWeek , RevertWeek;
+    QTime StartTime,  RevertTime;
+    KStarsDateTime next_change_utc;
+    KStarsDateTime next_change_ltime;
+    double dTZ;
+    double HourOffset;
 };
 
 #endif
