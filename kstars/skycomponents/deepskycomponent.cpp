@@ -190,7 +190,7 @@ void DeepSkyComponent::loadData()
             if ( ! name2.isEmpty() ) nameHash[ name2.toLower() ] = o;
         }
 
-        Trixel trixel = m_skyMesh->index( (SkyPoint*) o );
+        Trixel trixel = m_skyMesh->index(o);
 
         //Assign object to general DeepSkyObjects list,
         //and a secondary list based on its catalog.
