@@ -219,10 +219,6 @@ protected:
   SpatialConstraint boundingCircle_; // For zERO convexes, the bc.
   size_t addlevel_;		// additional levels to calculate
   ValueVectorUint64 * plist_;	// list of partial node ids
-
-
-  friend class SpatialDomain;
-  friend class SpatialConstraint;
 };
 
 #endif
