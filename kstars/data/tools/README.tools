@@ -3,38 +3,41 @@ This directory contains tools used to analyse the data
 DESCRIPTIONS OF FILES:
 ----------------------
 
-read-hippo.pl       Reads the Hipparcos catalog files
+read-hippo.pl        Reads the Hipparcos catalog files
 
-reformat-hip.pl     Converts old format star data files into the new format,
-                    where the fixed length Genetive name comes before the
-                    variable length long name
+reformat-hip.pl      Converts old format star data files into the new format,
+                     where the fixed length Genetive name comes before the
+                     variable length long name
 
-mag-linenum.pl      Write the line number magnitude index file
+mag-linenum.pl       Write the line number magnitude index file
 
-max-length.pl       Find the longest line in a file
+max-length.pl        Find the longest line in a file
 
-sort-hip-by-pm.pl   Sort the Hipparcos catalog data by proper motion
+sort-hip-by-pm.pl    Sort the Hipparcos catalog data by proper motion
 
-hipdatatomysql.pl   Reads Hipparcos star catalog text files and puts them into 
-                    a MySQL database (server on localhost). CAUTION: This script 
-                    will empty the table that it is writing into.
+hipdatatomysql.pl    Reads Hipparcos star catalog text files and puts them into
+                     a MySQL database (server on localhost). CAUTION: This script
+                     will empty the table that it is writing into.
 
-tycdatatomysql.pl   The Tycho star catalog text files used by KStars are in a
-                    different format from the Hipparcos catalog files. This script
-                    puts the data from the Tycho star catalog into a MySQL 
-                    database. It's just a modified version of hipdatatomysql.pl
+tycdatatomysql.pl    The Tycho star catalog text files used by KStars are in a
+                     different format from the Hipparcos catalog files. This script
+                     puts the data from the Tycho star catalog into a MySQL
+                     database. It's just a modified version of hipdatatomysql.pl
 
-binfiletester.c     C Program to test KStars' star data in binary format
+binfiletester.c      C Program to test KStars' star data in binary format
 
-mysql2bin.c         C Program to put data from the MySQL database (generated
-		    using datatomysql.pl) into the binary data format defined
-		    by KStars. [See README.fileformat in the kstars/data 
-		    directory]. To make this, you will need to have the
-		    libmysqlclient-dev package or equivalent installed
+nomadbinfiletester.c C Program to test KStars' deep star data from the
+		     NOMAD catalog in binary format
 
-nomaddatatomysql.pl Reads the NOMAD catalog data in ASCII format and puts it into a 
-                    MySQL database for easy processing. This is just a modified 
-                    version of tycdatatomysql.pl
+mysql2bin.c          C Program to put data from the MySQL database (generated
+		     using datatomysql.pl) into the binary data format defined
+		     by KStars. [See README.fileformat in the kstars/data
+		     directory]. To make this, you will need to have the
+		     libmysqlclient-dev package or equivalent installed
+
+nomaddatatomysql.pl  Reads the NOMAD catalog data in ASCII format and puts it into a
+                     MySQL database for easy processing. This is just a modified
+                     version of tycdatatomysql.pl
 
 
 BUILDING THE PROGRAMS:
