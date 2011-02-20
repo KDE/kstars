@@ -10,7 +10,7 @@
 */
 
 #include <iostream> // cout
-#include <iomanip> // setw()
+#include <iomanip> // setw
 #include <stdlib.h> // rand(), drand48()
 
 
@@ -156,29 +156,7 @@ Key SkipList::findMAX(const Key searchKey) const
     return((Key) KEY_MAX);
 }
 
-Value SkipList::searchAlt(const Key searchKey)
-{
-  int i;
-  SkipListElement* element;
-  SkipListElement* nextElement;
 
-  element = myHeader;
-  for(i=myHeader->getLevel(); i>=0; i--) {
-    nextElement = element->getElement(i);
-    while( (nextElement != NIL) && (nextElement->getKey() < searchKey) ) {
-      element=nextElement;
-      nextElement = element->getElement(i);
-    }
-  }
-
-  element=element->getElement(0); // key is < searchKey
-
-  // if key exists return value else ERROR
-  if( (element != NIL) && (element->getKey() == searchKey) )
-    return(element->getValue());
-  else
-    return(SKIPLIST_NOT_FOUND);
-}
 Key SkipList::findMIN(const Key searchKey) const
   // smallest greater than searchKey.. almost completely, but not
   // quite entirely unlike a search ...
@@ -206,57 +184,6 @@ Key SkipList::findMIN(const Key searchKey) const
   }
   else
     return((Key) KEY_MAX);
-}
-
-Value SkipList::search(const Key searchKey, const int iterator_flag)
-{
-  int i;
-  SkipListElement* element;
-  SkipListElement* nextElement;
-
-  element = myHeader;
-  for(i=myHeader->getLevel(); i>=0; i--) {
-    nextElement = element->getElement(i);
-    while( (nextElement != NIL) && (nextElement->getKey() < searchKey) ) {
-      element=nextElement;
-      nextElement = element->getElement(i);
-    }
-  }
-
-  element=element->getElement(0); // key is < searchKey
-
-  // if key exists return value else ERROR
-  if( (element != NIL) && (element->getKey() == searchKey) ) {
-    if (iterator_flag > 0){
-      iter = element;
-    }
-    return(element->getValue());
-  }
-  else
-    return(SKIPLIST_NOT_FOUND);
-}
-Value SkipList::search(const Key searchKey)
-{
-  int i;
-  SkipListElement* element;
-  SkipListElement* nextElement;
-
-  element = myHeader;
-  for(i=myHeader->getLevel(); i>=0; i--) {
-    nextElement = element->getElement(i);
-    while( (nextElement != NIL) && (nextElement->getKey() < searchKey) ) {
-      element=nextElement;
-      nextElement = element->getElement(i);
-    }
-  }
-
-  element=element->getElement(0); // key is < searchKey
-
-  // if key exists return value else ERROR
-  if( (element != NIL) && (element->getKey() == searchKey) )
-    return(element->getValue());
-  else
-    return(SKIPLIST_NOT_FOUND);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -332,23 +259,6 @@ void SkipList::free(const Key searchKey)
     while ( (myHeader->getLevel() > 0) && (myHeader->getElement(myHeader->getLevel()) == NIL) ) {
       myHeader->setLevel(myHeader->getLevel()-1);
     }
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-void SkipList::freeAll()
-{
-  /* Very similar to free, but frees all */
-
-  SkipListElement* element;
-  SkipListElement* nextElement;
-
-  element = myHeader;
-  element=element->getElement(0);
-  while( (element != NIL)  ) {
-    nextElement = element->getElement(0);
-    free(element->getKey());
-    element = nextElement;
   }
 }
 
