@@ -65,23 +65,9 @@ HTMesh::~HTMesh()
     free(m_meshBuffer);
 }
 
-
 Trixel HTMesh::index(double ra, double dec) const
 {
     return (Trixel) htm->idByPoint(ra, dec) - magicNum;
-}
-
-
-const char* HTMesh::indexName(double ra, double dec) const
-{
-    Trixel trixel = index(ra, dec);
-    return indexToName(trixel);
-}
-
-
-const char* HTMesh::indexToName(Trixel trixel) const
-{
-    return htm->nameById(trixel + magicNum);
 }
 
 bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
