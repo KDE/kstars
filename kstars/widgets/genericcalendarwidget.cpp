@@ -80,7 +80,7 @@ const KCalendarSystem *GenericCalendarWidget::calendar() const {
 void GenericCalendarWidget::populateMonthNames() {
     // Populate the combobox with month names -- can change by year / calendar type
     selectMonth->clear();
-    for ( int m = 1; m <= calendar()->monthsInYear( calendar()->year( date() ) ); m++ ) {
+    for ( int m = 1; m <= calendar()->monthsInYear( date() ); m++ ) {
         selectMonth->addItem( calendar()->monthName( m, calendar()->year( date() ) ) );
     }
 }
