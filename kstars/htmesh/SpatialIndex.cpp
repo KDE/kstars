@@ -509,7 +509,7 @@ SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const {
 //
 
 uint64
-SpatialIndex::idByPoint(SpatialVector & v) const {
+SpatialIndex::idByPoint(const SpatialVector & v) const {
     uint64 index;
 	uint64 ID;
 

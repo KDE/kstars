@@ -86,7 +86,7 @@ public:
 
   /** find a node by giving a vector. 
       The ID of the node is returned. */
-  uint64 idByPoint(SpatialVector & vector) const;
+  uint64 idByPoint(const SpatialVector & vector) const;
 
   /// find a node by giving a ra,dec in degrees.
   uint64 idByPoint(const float64 & ra, const float64 & dec) const;
