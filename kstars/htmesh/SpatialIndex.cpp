@@ -570,14 +570,7 @@ SpatialIndex::idByPoint(SpatialVector & v) const {
 		}
     }
     name[len] = '\0';
-	ID = idByName(name);
-	if(0){
-		SpatialVector vec;
-		pointById(vec, ID);
-		//cerr << "pointById: ----------------" << endl;
-		//vec.show();
-	}    
-	return ID;
+    return idByName(name);
 }
 
 //////////////////ISINSIDE/////////////////////////////////////////////////
