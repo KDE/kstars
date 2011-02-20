@@ -126,7 +126,6 @@ private:
   void updateRaDec();
 
   friend class SpatialIndex;
-  friend class SpatialDomain;
 };
 
 #include "SpatialVector.hxx"

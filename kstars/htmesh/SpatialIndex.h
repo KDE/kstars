@@ -202,8 +202,6 @@ private:
   friend class SpatialEdge;
   friend class SpatialConvex;
   friend class RangeConvex;
-  friend class SpatialDomain;
-  friend class htmInterface;
 };
 
 

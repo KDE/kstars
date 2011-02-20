@@ -108,7 +108,6 @@ private:
     friend class SpatialIndex;
     friend class SpatialConvex;
     friend class RangeConvex;
-    friend class SpatialDomain;
 };
 
 #include "SpatialConstraint.hxx"
