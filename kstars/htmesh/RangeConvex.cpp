@@ -3,7 +3,7 @@
 //# # Date: October 23, 1998 # # Copyright (C) 2000 Peter Z. Kunszt,
 //Alex S. Szalay, Aniruddha R. Thakar # The Johns Hopkins University #
 //# Modification History: # # Oct 18, 2001 : Dennis C. Dinge --
-//Replaced ValVec with std::vector # #define DIAGNOSE
+//Replaced ValVec with std::vector
 
 
 #include "SpatialGeneral.h"
@@ -390,12 +390,6 @@ RangeConvex::simplify0() {
 	  if(boundingCircle_.d_ > d) boundingCircle_ = SpatialConstraint(v,d);
 	}
   }
-
-#ifdef DIAGNOSE
-  for(i = 0; i < corners_.size(); i++) {
-    cout << corners_[i].ra() << "," << corners_[i].dec() << ":" << corners_[i] << endl;
-  }
-#endif
 }
 
 /////////////SIMPLIFY/////////////////////////////////////
@@ -783,31 +777,8 @@ RangeConvex::testNode(uint64 id)
 
   int vsum = testVertex(v0) + testVertex(v1) + testVertex(v2);
 
-#ifdef DIAGNOSE
-  char name[10];
-  SpatialVector v = v0 + v1 + v2;
-  cout << index_->nameById(index_->idByPoint(v),name)
-       << " " << vsum << " " << endl;
-#endif
-
   SpatialMarkup mark =
     testTriangle( *v0, *v1, *v2, vsum);
-
-
-#ifdef DIAGNOSE
-  cout << ( mark == pARTIAL ? " partial " :
-	    ( mark ==  fULL ? " full " :
-	      ( mark == rEJECT ? " reject " :
-		" dontknow " ) ) ) << name << endl;
-    /*
-       << v0 << "," << v1 << "," << v2 << " " << endl;
-       << V(NV(0)) << " , " << V(NV(1)) << " , " << V(NV(2)) << endl
-       << " (" << V(NV(0)).ra() << "," << V(NV(0)).dec() << ")"
-       << " (" << V(NV(1)).ra() << "," << V(NV(1)).dec() << ")"
-       << " (" << V(NV(2)).ra() << "," << V(NV(2)).dec() << ")"
-       << endl;
-    */
-#endif
 
   // since we cannot play games using the on-the-fly triangles,
   // substitute dontknow with partial.
@@ -824,31 +795,8 @@ RangeConvex::testNode(const SpatialVector & v0,
 
   int vsum = testVertex(v0) + testVertex(v1) + testVertex(v2);
 
-#ifdef DIAGNOSE
-  char name[10];
-  SpatialVector v = v0 + v1 + v2;
-  cout << index_->nameById(index_->idByPoint(v),name)
-       << " " << vsum << " " << endl;
-#endif
-
   SpatialMarkup mark =
     testTriangle( v0, v1, v2, vsum);
-
-
-#ifdef DIAGNOSE
-  cout << ( mark == pARTIAL ? " partial " :
-	    ( mark ==  fULL ? " full " :
-	      ( mark == rEJECT ? " reject " :
-		" dontknow " ) ) ) << name << endl;
-    /*
-       << v0 << "," << v1 << "," << v2 << " " << endl;
-       << V(NV(0)) << " , " << V(NV(1)) << " , " << V(NV(2)) << endl
-       << " (" << V(NV(0)).ra() << "," << V(NV(0)).dec() << ")"
-       << " (" << V(NV(1)).ra() << "," << V(NV(1)).dec() << ")"
-       << " (" << V(NV(2)).ra() << "," << V(NV(2)).dec() << ")"
-       << endl;
-    */
-#endif
 
   // since we cannot play games using the on-the-fly triangles,
   // substitute dontknow with partial.
