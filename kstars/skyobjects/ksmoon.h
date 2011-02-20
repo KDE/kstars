@@ -53,13 +53,11 @@ public:
      */
     virtual void findPhase();
 
-    /**@return the illuminated fraction of the Moon as seen from Earth
-    	*/
-    double illum( void ) const { return 0.5*(1.0 - cos( Phase * dms::PI / 180.0 ) ); }
+    /**@return the illuminated fraction of the Moon as seen from Earth */
+    double illum() const { return 0.5*(1.0 - cos( Phase * dms::PI / 180.0 ) ); }
 
-    /**@return a short string describing the moon's phase
-    	*/
-    QString phaseName( void ) const;
+    /**@return a short string describing the moon's phase */
+    QString phaseName() const;
 
     /** reimplemented from KSPlanetBase */
     virtual bool loadData();
