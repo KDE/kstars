@@ -23,11 +23,8 @@
 #include <SpatialGeneral.h>
 #include <SpatialVector.h>
 #include <SpatialEdge.h>
-#include <SpatialException.h>
-  // begin add dcd
+
 #include <vector>
-#include <string>
-#include <algorithm>
 
 
 //########################################################################
@@ -94,23 +91,12 @@ public:
   /// find a node by giving a ra,dec in degrees.
   uint64 idByPoint(const float64 & ra, const float64 & dec) const;
 
-  /// find a node by giving a vector. 
-  /**@return The ID of the node is returned. */
-  char* nameByPoint(SpatialVector & vector, char* s=NULL) const;
-
-  /// find a node by giving a ra,dec in degrees.
-  char* nameByPoint(const float64 & ra, const float64 & dec, 
-		    char* s=NULL) const;
-
-  /// return number of vertices
-  size_t nVertices() const;
-
   /// return the actual vertex vectors
   void nodeVertex(const uint64 id, 
-     		  SpatialVector & v1, 
-		  SpatialVector & v2, 
-		  SpatialVector & v3) const; 
-
+                  SpatialVector & v1, 
+                  SpatialVector & v2, 
+                  SpatialVector & v3) const; 
+  
   /// return index of vertices for a node
   void nodeVertex(const size_t idx, 
 		  size_t & v1, size_t & v2, size_t & v3) const; 

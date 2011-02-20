@@ -16,6 +16,7 @@
 //#
 
 #include "SpatialIndex.h"
+#include "SpatialException.h"
 
 #ifdef _WIN32
 #include <malloc.h>

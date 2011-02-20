@@ -10,38 +10,10 @@
 //#                     The Johns Hopkins University
 //#
 
-/////////////NVERTICES////////////////////////////////////
-// nVertices: return number of vertices
-inline size_t
-SpatialIndex::nVertices() const
-{
-  //dcdtmp return vertices_.length();
-	return vertices_.size();
-}
-
 //////////////////IDBYPOINT////////////////////////////////////////////////
 // Find a leaf node where a ra/dec points to
 inline uint64
 SpatialIndex::idByPoint(const float64 & ra, const float64 & dec) const {
   SpatialVector v(ra,dec);
   return idByPoint(v);
-}
-
-//////////////////NAMEBYPOINT//////////////////////////////////////////////
-// Find a leaf node where a ra/dec points to, return its name
-//
-
-inline char*
-SpatialIndex::nameByPoint(const float64 & ra, const float64 & dec, 
-			  char* name) const {
-  return nameById(idByPoint(ra,dec), name);
-}
-
-//////////////////NAMEBYPOINT//////////////////////////////////////////////
-// Find a leaf node where v points to, return its name
-//
-
-inline char*
-SpatialIndex::nameByPoint(SpatialVector & vector, char* name) const {
-  return nameById(idByPoint(vector),name);
 }
