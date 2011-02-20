@@ -72,34 +72,16 @@ public:
 		const SpatialVector * v3,
 		const SpatialVector * v4);
 
-  /// Copy constructor
-  RangeConvex(const RangeConvex &);
-
-  /// Assignment
-  RangeConvex& operator =(const RangeConvex &);
-
   /// Add a constraint
   void add(SpatialConstraint &);
 
   /// Simplify the convex, remove redundancies
   void simplify();
 
-  /** 
-      Intersect with index.
-      result is given in a list of nodes.
-  */
+  /** Intersect with index. Result is given in a list of nodes. */
   void intersect(const SpatialIndex * index, HtmRange *hr, bool varlen);
 
-  /** 
-      Intersect with index.
-      Now only a single list of IDs is returned. The IDs need not be
-      level.
-  */
-  void intersect(const SpatialIndex * index,
-		 ValueVectorUint64 * idList);
-
   void setOlevel(int level) { olevel = level; };
-  int getOlevel()           { return olevel;  };
 
 protected:
   HtmRange *hr;
@@ -121,8 +103,8 @@ protected:
   // test each quadnode for intersections. Calls testTriangle after having
   // tested the vertices using testVertex.
   SpatialMarkup testNode(uint64 id);
-  // SpatialMarkup testNode(const struct SpatialIndex::QuadNode *indexNode);
 
+  // SpatialMarkup testNode(const struct SpatialIndex::QuadNode *indexNode);
   SpatialMarkup testNode(const SpatialVector & v0, 
 			 const SpatialVector & v1, 
 			 const SpatialVector & v2);
@@ -219,6 +201,10 @@ protected:
   SpatialConstraint boundingCircle_; // For zERO convexes, the bc.
   size_t addlevel_;		// additional levels to calculate
   ValueVectorUint64 * plist_;	// list of partial node ids
+private:
+  // Disallow copying and assignemnt
+  RangeConvex(const RangeConvex &);
+  RangeConvex& operator =(const RangeConvex &);
 };
 
 #endif

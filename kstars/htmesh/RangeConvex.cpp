@@ -28,36 +28,6 @@ RangeConvex::RangeConvex()
   varlen_ = false;
 }
 
-RangeConvex::RangeConvex(const RangeConvex & c) :
-  index_(c.index_),
-  boundingCircle_(c.boundingCircle_),
-  addlevel_(c.addlevel_),
-  plist_(c.plist_)
-{
-  varlen_       = c.varlen_;
-  constraints_	= c.constraints_;
-  corners_		= c.corners_;
-  sign_			= c.sign_;
-}
-
-/////////////ASSIGNMENT///////////////////////////////////
-//
-RangeConvex&
-RangeConvex::operator =(const RangeConvex & c)
-{
-  if(&c == this) return *this;
-
-  varlen_       = c.varlen_;
-  index_	= c.index_;
-  addlevel_ = c.addlevel_;
-  plist_	= c.plist_;
-  boundingCircle_ = c.boundingCircle_;
-  constraints_	= c.constraints_;
-  corners_		= c.corners_;
-  sign_			= c.sign_;
-  return *this;
-}
-
 /////////////CONSTRUCTOR FROM A TRIANGLE//////////////////
 //
 // Initialize convex from a triangle. The corners of these vectors
