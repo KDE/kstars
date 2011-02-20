@@ -15,8 +15,6 @@
 #include <SpatialGeneral.h>
 
 #define SKIPLIST_MAXLEVEL 6 // maximum node level
-#define OS_DEFAULT_WIDTH 3  // width for keys, values for output
-#define OS_INDEX_WIDTH 2    // width for index
 #define NIL 0               // invalid pointer
 
 #ifdef _WIN32

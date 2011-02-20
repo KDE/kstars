@@ -13,8 +13,6 @@
 #include <iomanip> // setw
 #include <stdlib.h> // rand(), drand48()
 
-
-// #include "SkipListMacro.h" // NIL, SKIPLIST_MAXLEVEL, OS_DEFAULT_WIDTH 
 #include "SkipListElement.h" 
 #include "SkipList.h"
 
