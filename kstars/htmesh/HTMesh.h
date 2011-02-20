@@ -148,10 +148,6 @@ public:
          */
         MeshBuffer* meshBuffer(BufNum bufNum=0);
 
-        /* @short fills the buffer with consecutive integers.
-         */
-        void fillBuffer(BufNum bufNum=0);
-
         void vertices(Trixel id, double *ra1, double *dec1,
                                  double *ra2, double *dec2,
                                  double *ra3, double *dec3);

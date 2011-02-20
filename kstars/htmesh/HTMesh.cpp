@@ -84,14 +84,6 @@ const char* HTMesh::indexToName(Trixel trixel) const
     return htm->nameById(trixel + magicNum);
 }
 
-void HTMesh::fillBuffer(BufNum bufNum)
-{
-    
-    if ( ! validBufNum(bufNum) )    // is this correct?
-        m_meshBuffer[bufNum]->fill();
-}
-
-
 bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
 
     if ( ! validBufNum(bufNum) )
