@@ -279,7 +279,7 @@ SpatialIndex::vMax(size_t *nodes, size_t *vertices) {
 //            All the rest of the nodes is at the end.
 void
 SpatialIndex::sortIndex() {
-  ValueVectorQuad oldnodes(nodes_); // create a copy of the node list
+  std::vector<QuadNode> oldnodes(nodes_); // create a copy of the node list
   size_t index;
   size_t nonleaf;
   size_t leaf;

@@ -123,9 +123,6 @@ private:
     uint64	id_;			// numeric id -> name
   };
 
-  // add quadnode vector
-  typedef std::vector<QuadNode> ValueVectorQuad;
-
   // FUNCTIONS
 
   // insert a new node_[] into the list. The vertex indices are given by
@@ -152,11 +149,10 @@ private:
   size_t 	    buildlevel_;	// the depth of the Layer stored
   uint64		leaves_;		// number of leaf nodes
   uint64		storedleaves_;	// number of stored leaf nodes
-  ValueVectorQuad   nodes_;		// the array of nodes 
+  std::vector<QuadNode> nodes_; // the array of nodes
   std::vector<Layer> layers_;	// array of layers
 
-  typedef std::vector<SpatialVector> ValueVectorSpvec;
-  ValueVectorSpvec vertices_;
+  std::vector<SpatialVector> vertices_;
   uint64 		index_;			// the current index_ of vertices
 
   friend class SpatialEdge;
