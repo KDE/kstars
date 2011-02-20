@@ -93,8 +93,6 @@ private:
     float64       d_;			// distance from origin
     float64       s_;			// cone angle in radians
 
-    friend class SpatialIndex;
-    friend class SpatialConvex;
     friend class RangeConvex;
 };
 
