@@ -27,16 +27,6 @@ SpatialIndex::nVertices() const
 	return vertices_.size();
 }
 
-//////////////////LEAFNUMBERBYID///////////////////////////////////////////
-//
-inline uint32
-SpatialIndex::leafNumberById(uint64 id) const{
-  if(maxlevel_ > HTMMAXBIT)
-    throw SpatialInterfaceError("SpatialIndex:leafNumberById","BitList may only be used up to level HTMMAXBIT deep");
-
-  return (uint32)(id - leafCount());
-}
-
 //////////////////IDBYLEAFNUMBER///////////////////////////////////////////
 //
 inline uint64

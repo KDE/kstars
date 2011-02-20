@@ -86,11 +86,6 @@ public:
       ascending starting from S0000.. to N3333...  */
   static char * nameById(uint64 ID, char * name = 0);
 
-  /** Return leaf number in bitlist for a certain ID.  Since the ID
-      here means the number computed from the name, this is simply
-      returning ID -leafCount().  Bitlists only work until level 14.*/
-  uint32 leafNumberById(uint64 ID) const;
-
   /** Return leaf id for a certain bitlist index. 
       Same as the function above */
   uint64 idByLeafNumber(uint32 n) const ;
