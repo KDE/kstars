@@ -81,23 +81,11 @@ public:
     /// Initialization constructor
     SpatialConstraint(SpatialVector, float64);
 
-    /// set vector
-    void setVector(SpatialVector &);
-
-    /// set distance
-    void setDistance(float64);
-
-    /// Invert
-    void invert();
-
     /// check whether a vector is inside this
     bool contains(const SpatialVector v);
 
     /// give back vector
-    SpatialVector & v() ;
-
-    /// give back distance
-    float64 d() const ;
+    SpatialVector & v() { return a_; }
 
 private:
     Sign          sign_;
@@ -110,5 +98,4 @@ private:
     friend class RangeConvex;
 };
 
-#include "SpatialConstraint.hxx"
 #endif

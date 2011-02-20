@@ -43,14 +43,3 @@ SpatialConstraint::SpatialConstraint(SpatialVector a, float64 d) :
 bool SpatialConstraint::contains(const SpatialVector v) {
     return acos(v * a_) < s_;
 }
-
-/////////////INVERT///////////////////////////////////////
-//
-void SpatialConstraint::invert() {
-  d_ = -d_;
-  s_ = acos(d_);
-  if(sign_ == nEG)
-      sign_ = pOS;
-  if(sign_ == pOS)
-      sign_ = nEG;
-}
