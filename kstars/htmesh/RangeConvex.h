@@ -98,14 +98,9 @@ public:
   void intersect(const SpatialIndex * index,
 		 ValueVectorUint64 * idList);
 
-  /// Return the number of constraints
-  size_t numConstraints();
+  void setOlevel(int level) { olevel = level; };
+  int getOlevel()           { return olevel;  };
 
-  /// [] operator: give back constraint
-  SpatialConstraint & operator [](size_t i);
-
-  void setOlevel(int level){olevel = level;};
-  int getOlevel(void){return olevel;};
 protected:
   HtmRange *hr;
   int olevel;
@@ -229,7 +224,5 @@ protected:
   friend class SpatialDomain;
   friend class SpatialConstraint;
 };
-
-#include "RangeConvex.hxx"
 
 #endif
