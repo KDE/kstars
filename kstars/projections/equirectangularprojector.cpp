@@ -65,7 +65,7 @@ Vector2f EquirectangularProjector::toScreenVec(const SkyPoint* o, bool oRefract,
     p[0] = 0.5*m_vp.width - m_vp.zoomFactor*dX;
     
     if ( onVisibleHemisphere )
-        *onVisibleHemisphere = true;
+        *onVisibleHemisphere = dX*dX < M_PI*M_PI/4.;
 
     return p;
 }
