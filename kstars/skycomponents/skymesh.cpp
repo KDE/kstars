@@ -97,7 +97,7 @@ bool SkyMesh::isZoomedIn( int percent )
     return ( intersectSize( DRAW_BUF ) * 100 < percent * size() );
 }
 
-Trixel SkyMesh::index(SkyPoint *p)
+Trixel SkyMesh::index(const SkyPoint* p)
 {
     return HTMesh::index( p->ra0().Degrees(), p->dec0().Degrees() );
 }
@@ -118,7 +118,7 @@ void SkyMesh::indexStar( StarObject* star1, StarObject* star2 )
 }
 
 
-void SkyMesh::index(SkyPoint *p, double radius, MeshBufNum_t bufNum )
+void SkyMesh::index(const SkyPoint *p, double radius, MeshBufNum_t bufNum )
 {
     HTMesh::intersect( p->ra().Degrees(), p->dec().Degrees(), radius, (BufNum) bufNum );
 
@@ -127,20 +127,20 @@ void SkyMesh::index(SkyPoint *p, double radius, MeshBufNum_t bufNum )
         printf("Warining: overlapping buffer: %d\n", bufNum);
 }
 
-void SkyMesh::index( SkyPoint* p1, SkyPoint* p2 )
+void SkyMesh::index( const SkyPoint* p1, const SkyPoint* p2 )
 {
     HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
                        p2->ra0().Degrees(), p2->dec0().Degrees() );
 }
 
-void SkyMesh::index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3 )
+void SkyMesh::index( const SkyPoint* p1, const SkyPoint* p2, const SkyPoint* p3 )
 {
     HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
                        p2->ra0().Degrees(), p2->dec0().Degrees(),
                        p3->ra0().Degrees(), p3->dec0().Degrees() );
 }
 
-void SkyMesh::index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3, SkyPoint* p4 )
+void SkyMesh::index( const SkyPoint* p1, const SkyPoint* p2, const SkyPoint* p3, const SkyPoint* p4 )
 {
     HTMesh::intersect( p1->ra0().Degrees(), p1->dec0().Degrees(),
                        p2->ra0().Degrees(), p2->dec0().Degrees(),
