@@ -209,7 +209,7 @@ public:
     inline bool isMultiple() const { return Multiplicity; }
 
     /**@return the star's HD index */
-    inline int getHDIndex() { return HD; }
+    inline int getHDIndex() const { return HD; }
 
     /**@short set the star's variability flag
         *@param v true if star is variable
