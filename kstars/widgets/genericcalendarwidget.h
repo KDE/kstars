@@ -31,7 +31,7 @@
  *@short Uses any KDateTable subclass for the date table and provides a calendar with options to choose a month / year.
  *@note This supports only the Gregorian calendar system for simplicity.
  *@note This shouldn't be the way to do things in the first place, but
- *      this is until KDatePicker starts supporting overriden
+ *      this is until KDatePicker starts supporting overridden
  *      KDateTables and the like
  */
 
