@@ -427,13 +427,13 @@ SkyObject* DeepSkyComponent::findByName( const QString &name ) {
 
 void DeepSkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region ) 
 {
-    for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); it++ )
+    for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); ++it )
     {
         Trixel trixel = it.key();
         if( m_DeepSkyIndex.contains( trixel ) )
         {
             DeepSkyList* dsoList = m_DeepSkyIndex.value(trixel);
-            for( DeepSkyList::iterator dsit = dsoList->begin(); dsit != dsoList->end(); dsit++ )
+            for( DeepSkyList::iterator dsit = dsoList->begin(); dsit != dsoList->end(); ++dsit )
                 list.append( *dsit );
         }
     }
