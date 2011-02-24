@@ -91,8 +91,6 @@ void LineListLabel::updateLabelCandidates( qreal x, qreal y, LineList* lineList,
 
 void LineListLabel::draw()
 {
-
-    SkyMap *map = SkyMap::Instance();
     const Projector *proj = SkyMap::Instance()->projector();
 
     double comfyAngle = 40.0;  // the first valid candidate with an angle
