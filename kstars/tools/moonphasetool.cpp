@@ -21,14 +21,12 @@
 #include "skyobjects/ksplanetbase.h"
 
 MoonPhaseTool::MoonPhaseTool(QWidget *parentSplit)
-    : QFrame(parentSplit) {
-
-    KStarsData *kd = KStarsData::Instance();
+    : QFrame(parentSplit)
+{
     KStarsDateTime dtStart ( KStarsDateTime::currentDateTime() );
     m_Moon = (KSMoon *) KSPlanetBase::createPlanet( KSPlanetBase::MOON );
     mpc = new MoonPhaseCalendar( *m_Moon );
     gcw = new GenericCalendarWidget( *mpc, this );
-
 }
 
 
