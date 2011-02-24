@@ -25,14 +25,13 @@
  *@author Akarsh Simha
  *@version 1.0
  */
-
-typedef struct deepStarData {
+struct deepStarData {
     qint32 RA;
     qint32 Dec;
     qint16 dRA;
     qint16 dDec;
     qint16 B;
     qint16 V;
-} deepStarData;
+};
 
 #endif
