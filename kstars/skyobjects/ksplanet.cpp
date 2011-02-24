@@ -39,20 +39,20 @@ KSPlanet::OrbitDataManager::OrbitDataManager() {
 }
 
 bool KSPlanet::OrbitDataManager::readOrbitData(const QString &fname,
-        QVector<OrbitData> *vector) {
-    QStringList fields;
+        QVector<OrbitData> *vector)
+{
     QFile f;
-    double A, B, C;
 
     if ( KSUtils::openDataFile( f, fname ) ) {
         KSFileReader fileReader( f ); // close file is included
+        QStringList  fields;
         while ( fileReader.hasMoreLines() ) {
             fields = fileReader.readLine().split( ' ', QString::SkipEmptyParts );
 
             if ( fields.size() == 3 ) {
-                A = fields[0].toDouble();
-                B = fields[1].toDouble();
-                C = fields[2].toDouble();
+                double A = fields[0].toDouble();
+                double B = fields[1].toDouble();
+                double C = fields[2].toDouble();
                 vector->append( OrbitData(A, B, C) );
             }
         }
