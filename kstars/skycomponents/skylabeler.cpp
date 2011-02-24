@@ -80,8 +80,8 @@ SkyLabeler::SkyLabeler() :
         m_maxY(0),
         m_size(0),
         m_fontMetrics( QFont() ),
-        labelList( NUM_LABEL_TYPES ),
         m_picture(-1),
+        labelList( NUM_LABEL_TYPES ),
         m_proj(0)
 {
     m_errors = 0;
