@@ -141,13 +141,11 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
     KSPlanetBase *ksp = KStarsData::Instance()->skyComposite()->planet( nPlanet );
     QColor pColor = KSPlanetBase::planetColor[nPlanet];
     QVector<QPointF> vRise, vSet, vTransit;
-    
+
     for( KStarsDateTime kdt( QDate( year(), 1, 1 ), QTime( 12, 0, 0 ) );
-         kdt.date().year() == y;
+         kdt.date().year() == year();
          kdt = kdt.addDays( 7 ))
     {
-        float dy = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
-
         //Compute rise/set/transit times.  If they occur before noon, 
         //recompute for the following day
         QTime rtime = ksp->riseSetTime( kdt, geo, true, true );//rise time, exact
@@ -163,6 +161,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             ttime = ksp->transitTime( kdt.addDays( 1 ), geo );
         }
 
+        float dy = kdt.date().daysInYear() - kdt.date().dayOfYear();
         vRise    << QPointF( timeToHours( rtime ), dy );
         vSet     << QPointF( timeToHours( stime ), dy );
         vTransit << QPointF( timeToHours( ttime ), dy );
