@@ -44,6 +44,17 @@ namespace {
             h -= 24.0;
         return h;
     }
+
+    // Check that axis has been crossed
+    inline bool isAxisCrossed(const QVector<QPointF>& vec, int i) {
+        return i > 0  &&  vec.at(i-1).x() * vec.at(i).x() <= 0;
+    }
+    // Check that we are at maximum
+    inline bool isAtExtremum(const QVector<QPointF>& vec, int i) {
+        return
+            i > 0 && i < vec.size() - 1 &&
+            (vec.at(i-1).x() - vec.at(i).x()) * (vec.at(i).x() - vec.at(i+1).x()) < 0;
+    }
 }
 
 SkyCalendarUI::SkyCalendarUI( QWidget *parent )
@@ -186,31 +197,18 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             scUI->CalendarView->update();
         }
         
-        bool setLabel     = false;
-        bool riseLabel    = false;
-        bool transitLabel = false;
-        if( i > 0 ) {
-            // Draw a label when a line crosses the Y-Axis
-            if( vRise.at( i - 1 ).x() * vRise.at( i ).x() <= 0 )
-                riseLabel = true;
-            if( vSet.at( i - 1 ).x() * vSet.at( i ).x() <= 0 )
-                setLabel = true;
-            if( vTransit.at( i - 1 ).x() * vTransit.at( i ).x() <= 0 )
-                transitLabel = true;
-            
-            // Draw a label when a line reaches a maximum / minimum
-            if( i < vRise.size() - 1 ) {
-                if( ( vRise.at( i - 1 ).x() - vRise.at( i ).x() ) * ( vRise.at( i ).x() - vRise.at( i + 1 ).x() ) < 0 )
-                    riseLabel = true;
-                if( ( vSet.at( i - 1 ).x() - vSet.at( i ).x() ) * ( vSet.at( i ).x() - vSet.at( i + 1 ).x() ) < 0 )
-                    setLabel = true;
-                if( ( vTransit.at( i - 1 ).x() - vTransit.at( i ).x() ) * ( vTransit.at( i ).x() - vTransit.at( i + 1 ).x() ) < 0 )
-                    transitLabel = true;
-            }                
-        }
-        oRise->addPoint( vRise.at(i), riseLabel ? i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() ) : QString() );
-        oSet->addPoint( vSet.at(i), setLabel ? i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() ) : QString() );
-        oTransit->addPoint( vTransit.at(i), transitLabel ? i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() ) : QString() );
+        bool riseLabel    = isAxisCrossed(vRise,    i)  || isAtExtremum(vRise,    i);
+        bool transitLabel = isAxisCrossed(vTransit, i)  || isAtExtremum(vTransit, i);
+        bool setLabel     = isAxisCrossed(vSet,     i)  || isAtExtremum(vSet,     i);
+        oRise->addPoint(
+            vRise.at(i),
+            riseLabel ? i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() ) : QString() );
+        oSet->addPoint(
+            vSet.at(i),
+            setLabel ? i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() ) : QString() );
+        oTransit->addPoint(
+            vTransit.at(i),
+            transitLabel ? i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() ) : QString() );
     }
     
     scUI->CalendarView->addPlotObject( oRise );
