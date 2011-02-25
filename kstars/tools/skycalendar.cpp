@@ -140,11 +140,14 @@ void SkyCalendar::drawEventLabel( float x1, float y1, float x2, float y2, QStrin
 void SkyCalendar::addPlanetEvents( int nPlanet ) {
     KSPlanetBase *ksp = KStarsData::Instance()->skyComposite()->planet( nPlanet );
     int y = scUI->Year->value();
-    KStarsDateTime kdt( QDate( y, 1, 1 ), QTime( 12, 0, 0 ) );
     QColor pColor = KSPlanetBase::planetColor[nPlanet];
 
     QVector<QPointF> vRise, vSet, vTransit;
-    while( kdt.date().year() == y ) {
+    
+    for( KStarsDateTime kdt( QDate( y, 1, 1 ), QTime( 12, 0, 0 ) );
+         kdt.date().year() == y;
+         kdt = kdt.addDays( 7 ))
+    {
         float dy = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
 
         //Compute rise/set/transit times.  If they occur before noon, 
@@ -165,8 +168,6 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
         vRise    << QPointF( timeToHours( rtime ), dy );
         vSet     << QPointF( timeToHours( stime ), dy );
         vTransit << QPointF( timeToHours( ttime ), dy );
-
-        kdt = kdt.addDays( 7 );
     }
 
     //Now, find continuous segments in each QVector and add each segment 
