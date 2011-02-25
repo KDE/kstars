@@ -164,13 +164,10 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
     //as a separate KPlotObject
 
     // Flags to indicate whether the set / rise / transit labels should be drawn
-    bool setLabel, riseLabel, transitLabel;
 
     KPlotObject *oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-
-    setLabel = riseLabel = transitLabel = false;
 
     for ( int i=0; i<vRise.size(); ++i ) {
         if ( i > 0 && fabs(vRise.at(i).x() - vRise.at(i-1).x()) > 6.0 ) { 
@@ -189,6 +186,9 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             scUI->CalendarView->update();
         }
         
+        bool setLabel     = false;
+        bool riseLabel    = false;
+        bool transitLabel = false;
         if( i > 0 ) {
             // Draw a label when a line crosses the Y-Axis
             if( vRise.at( i - 1 ).x() * vRise.at( i ).x() <= 0 )
@@ -211,7 +211,6 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
         oRise->addPoint( vRise.at(i), riseLabel ? i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() ) : QString() );
         oSet->addPoint( vSet.at(i), setLabel ? i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() ) : QString() );
         oTransit->addPoint( vTransit.at(i), transitLabel ? i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() ) : QString() );
-        setLabel = riseLabel = transitLabel = false;
     }
     
     scUI->CalendarView->addPlotObject( oRise );
