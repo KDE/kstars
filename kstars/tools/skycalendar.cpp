@@ -144,7 +144,6 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
     QColor pColor = KSPlanetBase::planetColor[nPlanet];
 
     QVector<QPointF> vRise, vSet, vTransit;
-    int iweek = 0;
     while( kdt.date().year() == y ) {
         float dy = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
 
@@ -166,7 +165,6 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
         vRise    << QPointF( timeToHours( rtime ), dy );
         vSet     << QPointF( timeToHours( stime ), dy );
         vTransit << QPointF( timeToHours( ttime ), dy );
-        ++iweek;
 
         kdt = kdt.addDays( 7 );
     }
