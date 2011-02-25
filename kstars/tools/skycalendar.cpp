@@ -139,7 +139,7 @@ void SkyCalendar::drawEventLabel( float x1, float y1, float x2, float y2, QStrin
 
 void SkyCalendar::addPlanetEvents( int nPlanet ) {
     KSPlanetBase *ksp = KStarsData::Instance()->skyComposite()->planet( nPlanet );
-    QColor pColor = KSPlanetBase::planetColor[nPlanet];
+    QColor pColor = ksp->color();
     QVector<QPointF> vRise, vSet, vTransit;
 
     for( KStarsDateTime kdt( QDate( year(), 1, 1 ), QTime( 12, 0, 0 ) );
