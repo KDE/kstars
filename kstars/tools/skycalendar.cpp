@@ -225,7 +225,6 @@ void SkyCalendar::slotPrint() {
     QPrinter printer;           // Our printer object
     QString str_legend;         // Text legend
     QString str_year;           // Calendar's year
-    bool ok( false );           // True if the user click "Print" button in print dialog
     int text_height = 200;      // Height of legend text zone in points
     QSize calendar_size;        // Initial calendar widget size
     QFont calendar_font;        // Initial calendar font
@@ -235,15 +234,9 @@ void SkyCalendar::slotPrint() {
     printer.setResolution( 300 );
 
     // Open print dialog
-    QPrintDialog *dialog = KdePrint::createPrintDialog( &printer, this );
+    QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
     dialog->setWindowTitle( i18n( "Print sky calendar" ) );
     if ( dialog->exec() == QDialog::Accepted ) {
-        ok = true;
-    }
-    delete dialog;
-
-    // If the user click on "Print" button
-    if ( ok ) {
         // Change mouse cursor
         QApplication::setOverrideCursor( Qt::WaitCursor );
 
@@ -293,6 +286,7 @@ void SkyCalendar::slotPrint() {
         // Restore mouse cursor
         QApplication::restoreOverrideCursor();
     }
+    delete dialog;
 }
 
 void SkyCalendar::slotLocation() {
