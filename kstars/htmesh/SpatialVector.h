@@ -71,13 +71,13 @@ public:
   float64 length() const;
 
   /// return x (only as rvalue)
-  float64 x() const;
+  float64 x() const { return x_; }
 
   /// return y
-  float64 y() const;
+  float64 y() const { return y_; }
 
   /// return z
-  float64 z() const;
+  float64 z() const { return z_; }
 
   /// return ra - this norms the vector to 1 if not already done so
   float64 ra();
@@ -128,7 +128,11 @@ private:
   friend class SpatialIndex;
 };
 
-#include "SpatialVector.hxx"
+// Friend operators
+SpatialVector operator *(float64, const SpatialVector&);
+SpatialVector operator *(int, const SpatialVector&);
+SpatialVector operator *(const SpatialVector&, float64);
+SpatialVector operator *(const SpatialVector&, int);
 
 #endif
 
