@@ -77,7 +77,7 @@ bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
 
     convex->setOlevel(m_level);
     HtmRange range;
-    convex->intersect(htm, &range, false);
+    convex->intersect(htm, &range);
     HtmRangeIterator iterator(&range);
 
     MeshBuffer* buffer = m_meshBuffer[bufNum];

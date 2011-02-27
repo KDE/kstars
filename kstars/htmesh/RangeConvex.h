@@ -79,7 +79,7 @@ public:
   void simplify();
 
   /** Intersect with index. Result is given in a list of nodes. */
-  void intersect(const SpatialIndex * index, HtmRange *hr, bool varlen);
+  void intersect(const SpatialIndex * index, HtmRange *hr);
 
   void setOlevel(int level) { olevel = level; };
 

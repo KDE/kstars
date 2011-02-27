@@ -514,11 +514,11 @@ RangeConvex::testConstraints(size_t i, size_t j) {
 // used by intersect.cpp application
 //
 void
-RangeConvex::intersect(const SpatialIndex * idx, HtmRange * htmrange, bool varlen)
+RangeConvex::intersect(const SpatialIndex * idx, HtmRange * htmrange)
 {
   hr = htmrange;
   index_ = idx;
-  varlen_ = varlen;
+  varlen_ = false;
   addlevel_ = idx->maxlevel_ - idx->buildlevel_;
 
   simplify();				// don't work too hard...
