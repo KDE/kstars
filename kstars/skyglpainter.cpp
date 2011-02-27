@@ -624,7 +624,30 @@ void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColo
 
 void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {
+    bool aVisible, bVisible;
+    Vector2f aScreen = m_proj->toScreenVec( a, true, &aVisible );
+    Vector2f bScreen = m_proj->toScreenVec( b, true, &bVisible );
 
+    glDisable( GL_TEXTURE_2D );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    glBegin( GL_LINE_STRIP );
+    
+    //THREE CASES:
+    if( aVisible && bVisible ) {
+        //Both a,b visible, so paint the line normally:
+        glVertex2fv( aScreen.data() );
+        glVertex2fv( bScreen.data() );
+    } else if( aVisible ) {
+        //a is visible but b isn't:
+        glVertex2fv( aScreen.data() );
+        glVertex2fv( m_proj->clipLineVec( a, b ).data() );
+    } else if( bVisible ) {
+        //b is visible but a isn't:
+        glVertex2fv( bScreen.data() );
+        glVertex2fv( m_proj->clipLineVec( b, a ).data() );
+    } //FIXME: what if both are offscreen but the line isn't?
+
+    glEnd();
 }
 
 void SkyGLPainter::drawSkyBackground()
