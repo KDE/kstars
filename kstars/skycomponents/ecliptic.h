@@ -39,6 +39,7 @@ public:
     Ecliptic( SkyComposite *parent );
 
     virtual void draw( SkyPainter *skyp );
+    virtual void drawCompassLabels();
     virtual bool selected();
 
     virtual LineListLabel* label() { return &m_label; }
