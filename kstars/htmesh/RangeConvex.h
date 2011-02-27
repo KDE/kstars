@@ -194,7 +194,6 @@ protected:
 
   typedef std::vector <SpatialConstraint> ValueVectorSpvecCon;
   ValueVectorSpvecCon constraints_; // The vector of constraints
-  bool varlen_;
   const SpatialIndex * index_;	// A pointer to the index
   typedef std::vector<SpatialVector> ValueVectorSpvec;
   ValueVectorSpvec corners_; 

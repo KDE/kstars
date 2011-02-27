@@ -24,9 +24,7 @@
 // ===========================================================================
 
 RangeConvex::RangeConvex()
-{
-  varlen_ = false;
-}
+{}
 
 /////////////CONSTRUCTOR FROM A TRIANGLE//////////////////
 //
@@ -518,7 +516,6 @@ RangeConvex::intersect(const SpatialIndex * idx, HtmRange * htmrange)
 {
   hr = htmrange;
   index_ = idx;
-  varlen_ = false;
   addlevel_ = idx->maxlevel_ - idx->buildlevel_;
 
   simplify();				// don't work too hard...
@@ -546,10 +543,6 @@ inline void RangeConvex::saveTrixel(uint64 htmid)
   IDHIGHBIT = IDHIGHBIT << 63;
   IDHIGHBIT2 = IDHIGHBIT2 << 62;
 #endif
-  if(varlen_){
-    hr->mergeRange(htmid, htmid);
-    return;
-  }
 
   for(i = 0; i < IDSIZE; i+=2) {
     if ( (htmid << i) & IDHIGHBIT ) break;
