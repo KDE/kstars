@@ -183,9 +183,8 @@ RangeConvex::simplify0() {
 
   size_t i,j,k;
   SpatialVector vi1, vi2;
-  typedef std::vector<size_t> ValueVectorSzt;
-  ValueVectorSzt cornerConstr1, cornerConstr2, removeConstr;
-  ValueVectorSpvec corner;
+  std::vector<size_t> cornerConstr1, cornerConstr2, removeConstr;
+  std::vector<SpatialVector> corner;
   if (constraints_.size() == 1) { // for one constraint, it is itself the BC
     boundingCircle_ = constraints_[0];
     return;

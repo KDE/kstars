@@ -192,11 +192,9 @@ protected:
 			const SpatialVector & v2, 
 			SpatialVector & v);
 
-  typedef std::vector <SpatialConstraint> ValueVectorSpvecCon;
-  ValueVectorSpvecCon constraints_; // The vector of constraints
+  std::vector<SpatialConstraint> constraints_; // The vector of constraints
   const SpatialIndex * index_;	// A pointer to the index
-  typedef std::vector<SpatialVector> ValueVectorSpvec;
-  ValueVectorSpvec corners_; 
+  std::vector<SpatialVector> corners_; 
   SpatialConstraint boundingCircle_; // For zERO convexes, the bc.
   size_t addlevel_;		// additional levels to calculate
   ValueVectorUint64 * plist_;	// list of partial node ids
