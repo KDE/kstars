@@ -95,15 +95,12 @@ void Ecliptic::drawCompassLabels() {
         elng.setH( ra );
         SkyPoint* o = new SkyPoint();
         o->setFromEcliptic( num.obliquity(), &elng, &elat );
-        o->setRA0( o->ra().Hours() );
-        o->setDec0( o->dec().Degrees() );
+        o->setRA0(  o->ra()  );
+        o->setDec0( o->dec() );
         o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         cpoint = proj->toScreen( o, false, &visible );
         if ( proj->checkVisibility( o ) && visible ) {
-            if ( o->ra().Degrees() < 0 )
-                label.setNum( o->ra().Degrees() + 360 );
-            else
-                label.setNum( o->ra().Degrees() );
+            label.setNum( o->ra().reduce().Degrees() );
             skyLabeler->drawGuideLabel( cpoint, label, 0.0 );
         }
     }
