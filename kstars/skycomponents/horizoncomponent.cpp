@@ -55,7 +55,7 @@ HorizonComponent::~HorizonComponent()
 
 bool HorizonComponent::selected()
 {
-    return ( Options::showHorizon() || Options::showGround() );
+    return Options::showHorizon() || Options::showGround();
 }
 
 void HorizonComponent::update( KSNumbers * )
@@ -74,7 +74,8 @@ void HorizonComponent::update( KSNumbers * )
 //This is true for Equatorial or Horizontal coordinates
 void HorizonComponent::draw( SkyPainter *skyp )
 {
-    if( !selected() ) return;
+    if( !selected() )
+        return;
 
     KStarsData *data = KStarsData::Instance();
     
