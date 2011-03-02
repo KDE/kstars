@@ -93,10 +93,6 @@ public:
                   SpatialVector & v2, 
                   SpatialVector & v3) const; 
   
-  /// return index of vertices for a node
-  void nodeVertex(const size_t idx, 
-		  size_t & v1, size_t & v2, size_t & v3) const; 
-
 private:
 
   // STRUCTURES

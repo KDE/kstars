@@ -116,16 +116,6 @@ SpatialIndex::SpatialIndex(size_t maxlevel, size_t buildlevel) : maxlevel_(maxle
 }
 
 /////////////NODEVERTEX///////////////////////////////////
-// nodeVertex: return index of vertices for a node
-void 
-SpatialIndex::nodeVertex(const size_t idx, 
-			 size_t & v1, size_t & v2, size_t & v3) const {
- v1 = nodes_[idx].v_[0];
- v2 = nodes_[idx].v_[1];
- v3 = nodes_[idx].v_[2];
-}
-
-/////////////NODEVERTEX///////////////////////////////////
 // nodeVertex: return the vectors of the vertices, based on the ID
 // 
 void 
