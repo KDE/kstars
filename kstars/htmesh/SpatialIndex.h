@@ -87,9 +87,6 @@ public:
       The ID of the node is returned. */
   uint64 idByPoint(const SpatialVector & vector) const;
 
-  /// find a node by giving a ra,dec in degrees.
-  uint64 idByPoint(const float64 & ra, const float64 & dec) const;
-
   /// return the actual vertex vectors
   void nodeVertex(const uint64 id, 
                   SpatialVector & v1, 
@@ -159,6 +156,4 @@ private:
   friend class RangeConvex;
 };
 
-
-#include "SpatialIndex.hxx"
 #endif

@@ -67,7 +67,7 @@ HTMesh::~HTMesh()
 
 Trixel HTMesh::index(double ra, double dec) const
 {
-    return (Trixel) htm->idByPoint(ra, dec) - magicNum;
+    return (Trixel) htm->idByPoint( SpatialVector(ra, dec) ) - magicNum;
 }
 
 bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
