@@ -80,27 +80,24 @@ void Ecliptic::draw( SkyPainter *skyp )
 }
 
 void Ecliptic::drawCompassLabels() {
-    QPointF cpoint;
-    bool visible;
-    QString label;
-
-    const Projector *proj = SkyMap::Instance()->projector();
-    KStarsData *data = KStarsData::Instance();
+    const Projector*  proj = SkyMap::Instance()->projector();
+    KStarsData*       data = KStarsData::Instance();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
     
     KSNumbers num( data->ut().djd() );
     dms elat(0.0), elng(0.0);
-
+    QString label;
     for( int ra = 0; ra < 23; ra += 6 ) {
         elng.setH( ra );
-        SkyPoint* o = new SkyPoint();
-        o->setFromEcliptic( num.obliquity(), &elng, &elat );
-        o->setRA0(  o->ra()  );
-        o->setDec0( o->dec() );
-        o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        cpoint = proj->toScreen( o, false, &visible );
-        if ( proj->checkVisibility( o ) && visible ) {
-            label.setNum( o->ra().reduce().Degrees() );
+        SkyPoint o;
+        o.setFromEcliptic( num.obliquity(), &elng, &elat );
+        o.setRA0(  o.ra()  );
+        o.setDec0( o.dec() );
+        o.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        bool visible;
+        QPointF cpoint = proj->toScreen( &o, false, &visible );
+        if( visible && proj->checkVisibility( &o ) ) {
+            label.setNum( o.ra().reduce().Degrees() );
             skyLabeler->drawGuideLabel( cpoint, label, 0.0 );
         }
     }

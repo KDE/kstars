@@ -81,7 +81,6 @@ void Equator::draw( SkyPainter *skyp )
 }
 
 void Equator::drawCompassLabels() {
-    QPointF cpoint;
     QString label;
 
     const Projector *proj  = SkyMap::Instance()->projector();
@@ -91,12 +90,12 @@ void Equator::drawCompassLabels() {
     KSNumbers num( data->ut().djd() );
 
     for( int ra = 0; ra < 23; ra += 2 ) {
-        SkyPoint* o = new SkyPoint( ra, 0.0 );
-        o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        SkyPoint o( ra, 0.0 );
+        o.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         bool visible;
-        cpoint = proj->toScreen( o, false, &visible );
-        if ( visible && proj->checkVisibility( o ) ) {
-            label.setNum( o->ra().hour() );
+        QPointF cpoint = proj->toScreen( &o, false, &visible );
+        if ( visible && proj->checkVisibility( &o ) ) {
+            label.setNum( o.ra().hour() );
             skyLabeler->drawGuideLabel( cpoint, label, 0.0 );
         }
     }
