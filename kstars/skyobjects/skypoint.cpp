@@ -159,10 +159,10 @@ void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
     EcLat.setRadians( asin( sinDec*cosOb - cosDec*sinOb*sinRA ) );
 }
 
-void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms *EcLong, const dms *EcLat ) {
+void SkyPoint::setFromEcliptic( const dms *Obliquity, const dms& EcLong, const dms& EcLat ) {
     double sinLong, cosLong, sinLat, cosLat, sinObliq, cosObliq;
-    EcLong->SinCos( sinLong, cosLong );
-    EcLat->SinCos( sinLat, cosLat );
+    EcLong.SinCos( sinLong, cosLong );
+    EcLat.SinCos( sinLat, cosLat );
     Obliquity->SinCos( sinObliq, cosObliq );
 
     double sinDec = sinLat*cosObliq + cosLat*sinObliq*sinLong;
@@ -234,7 +234,7 @@ void SkyPoint::nutate(const KSNumbers *num) {
 
         //Add dEcLong to the Ecliptic Longitude
         dms newLong( EcLong.Degrees() + num->dEcLong() );
-        setFromEcliptic( num->obliquity(), &newLong, &EcLat );
+        setFromEcliptic( num->obliquity(), newLong, EcLat );
     }
 }
 

@@ -48,7 +48,7 @@ Ecliptic::Ecliptic(SkyComposite *parent ) :
         for(double ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
             elng.setH( ra2 );
             SkyPoint* o = new SkyPoint();
-            o->setFromEcliptic( num.obliquity(), &elng, &elat );
+            o->setFromEcliptic( num.obliquity(), elng, elat );
             o->setRA0( o->ra().Hours() );
             o->setDec0( o->dec().Degrees() );
             o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -90,7 +90,7 @@ void Ecliptic::drawCompassLabels() {
     for( int ra = 0; ra < 23; ra += 6 ) {
         elng.setH( ra );
         SkyPoint o;
-        o.setFromEcliptic( num.obliquity(), &elng, &elat );
+        o.setFromEcliptic( num.obliquity(), elng, elat );
         o.setRA0(  o.ra()  );
         o.setDec0( o.dec() );
         o.EquatorialToHorizontal( data->lst(), data->geo()->lat() );

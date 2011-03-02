@@ -98,7 +98,7 @@ void modCalcEclCoords::slotCompute(void) {
         if ( ok ) elat = EcLat->createDms( true, &ok );
         if ( ok ) {
             SkyPoint sp;
-            sp.setFromEcliptic( num.obliquity(), &elong, &elat );
+            sp.setFromEcliptic( num.obliquity(), elong, elat );
             RA->showInHours( sp.ra() );
             Dec->showInDegrees( sp.dec() );
         }
