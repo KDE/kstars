@@ -448,7 +448,10 @@ void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
     KStarsData *data = KStarsData::Instance();
     
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
-    
+    // Set proper color for labels
+    QColor color( data->colorScheme()->colorNamed( "CompassColor" ) );
+    skyLabeler->setPen( QPen( QBrush(color), 1, Qt::SolidLine) );
+
     double az = -0.01;
     static QString name[8];
     name[0] = i18nc( "Northeast", "NE" );

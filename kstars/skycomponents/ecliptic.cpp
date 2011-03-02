@@ -83,7 +83,10 @@ void Ecliptic::drawCompassLabels() {
     const Projector*  proj = SkyMap::Instance()->projector();
     KStarsData*       data = KStarsData::Instance();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
-    
+    // Set proper color for labels
+    QColor color( data->colorScheme()->colorNamed( "CompassColor" ) );
+    skyLabeler->setPen( QPen( QBrush(color), 1, Qt::SolidLine) );
+
     KSNumbers num( data->ut().djd() );
     dms elat(0.0), elng(0.0);
     QString label;

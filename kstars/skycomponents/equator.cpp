@@ -86,9 +86,11 @@ void Equator::drawCompassLabels() {
     const Projector *proj  = SkyMap::Instance()->projector();
     KStarsData *data       = KStarsData::Instance();
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
+    // Set proper color for labels
+    QColor color( data->colorScheme()->colorNamed( "CompassColor" ) );
+    skyLabeler->setPen( QPen( QBrush(color), 1, Qt::SolidLine) );
 
     KSNumbers num( data->ut().djd() );
-
     for( int ra = 0; ra < 23; ra += 2 ) {
         SkyPoint o( ra, 0.0 );
         o.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
