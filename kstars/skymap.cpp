@@ -233,8 +233,10 @@ SkyMap::SkyMap() :
 
     Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
     
-    m_SkyMapQDraw = new SkyMapQDraw( this );
+    m_SkyMapQDraw  = new SkyMapQDraw( this );
+    m_SkyMapQDraw->setMouseTracking( true );
     m_SkyMapGLDraw = new SkyMapGLDraw( this );
+    m_SkyMapGLDraw->setMouseTracking( true );
     m_SkyMapGLDraw->hide();
     m_SkyMapQDraw->hide();
 
@@ -246,7 +248,7 @@ SkyMap::SkyMap() :
 #else
 
     m_SkyMapDraw = new SkyMapQDraw( this );
-
+    m_SkyMapDraw->setMouseTracking( true );
 #endif
     
     m_SkyMapDraw->setParent( this->viewport() );
