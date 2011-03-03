@@ -79,28 +79,6 @@
 
 namespace {
 
-    // FIXME: describe what this function do and give descriptive name
-    double projectionK(double c) {
-        switch ( Options::projection() ) {
-        case SkyMap::Lambert:
-            return sqrt( 2.0/( 1.0 + c ) );
-        case SkyMap:: AzimuthalEquidistant: {
-            double crad = acos(c);
-            return crad/sin(crad);
-        }
-        case SkyMap:: Orthographic:
-            return 1.0;
-        case SkyMap:: Stereographic:
-            return 2.0/(1.0 + c);
-        case SkyMap:: Gnomonic:
-            return 1.0/c;
-        default: //should never get here
-            kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection();
-        }
-        // Default to orthographic
-        return 1.0;
-    }
-
     // Draw bitmap for zoom cursor. Width is size of pen to draw with.
     QBitmap zoomCursorBitmap(int width) {
         QBitmap b(32, 32);
