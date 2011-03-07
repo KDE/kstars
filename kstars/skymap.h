@@ -277,8 +277,6 @@ class SkyMap : public QGraphicsView {
 
     bool isSlewing() const;
 
-    bool isPointNull( const QPointF &p );
-
     // NOTE: This method is draw-backend independent.
     /**@short update the geometry of the angle ruler. */
     void updateAngleRuler();
