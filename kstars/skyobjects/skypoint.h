@@ -27,7 +27,6 @@
 #include "kstarsdatetime.h"
 
 class KSNumbers;
-class SkyObject;
 
 /**@class SkyPoint
 	*
