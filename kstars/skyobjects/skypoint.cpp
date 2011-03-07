@@ -668,8 +668,7 @@ double SkyPoint::vREarth(long double jd0)
     * the current values
     */
 
-    SkyPoint aux;
-    aux.set(RA0,Dec0);
+    SkyPoint aux( RA0, Dec0 );
 
     aux.precessFromAnyEpoch(jd0, J2000);
 
