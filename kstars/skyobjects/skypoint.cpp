@@ -409,12 +409,11 @@ void SkyPoint::precessFromAnyEpoch(long double jd0, long double jdf){
 
 void SkyPoint::apparentCoord(long double jd0, long double jdf){
     precessFromAnyEpoch(jd0,jdf);
-    KSNumbers *num = new KSNumbers (jdf);
-    nutate(num);
+    KSNumbers num(jdf);
+    nutate( &num );
     if(Options::useRelativistic())
         bendlight();
-    aberrate(num);
-    delete num;
+    aberrate( &num );
 }
 
 void SkyPoint::Equatorial1950ToGalactic(dms &galLong, dms &galLat) {
@@ -461,7 +460,7 @@ void SkyPoint::B1950ToJ2000(void) {
     double v[3], s[3];
 
     // 1984 January 1 0h
-    KSNumbers *num = new KSNumbers (2445700.5);
+    KSNumbers num(2445700.5);
 
     // Eterms due to aberration
     addEterms();
@@ -473,8 +472,9 @@ void SkyPoint::B1950ToJ2000(void) {
     s[1] = sinRA*cosDec;
     s[2] = sinDec;
     for ( unsigned int i=0; i<3; ++i ) {
-        v[i] = num->p2b( 0, i )*s[0] + num->p2b( 1, i )*s[1] +
-               num->p2b( 2, i )*s[2];
+        v[i] = num.p2b( 0, i )*s[0]
+             + num.p2b( 1, i )*s[1]
+             + num.p2b( 2, i )*s[2];
     }
 
     // RA zero-point correction at 1984 day 1, 0h.
@@ -492,15 +492,13 @@ void SkyPoint::B1950ToJ2000(void) {
     // Precession from 1984 to J2000.
 
     for ( unsigned int i=0; i<3; ++i ) {
-        v[i] = num->p1( 0, i )*s[0] +
-               num->p1( 1, i )*s[1] +
-               num->p1( 2, i )*s[2];
+        v[i] = num.p1( 0, i )*s[0] +
+               num.p1( 1, i )*s[1] +
+               num.p1( 2, i )*s[2];
     }
 
     RA.setRadians( atan2( v[1],v[0] ) );
     Dec.setRadians( asin( v[2] ) );
-
-    delete num;
 }
 
 void SkyPoint::J2000ToB1950(void) {
@@ -509,7 +507,7 @@ void SkyPoint::J2000ToB1950(void) {
     double v[3], s[3];
 
     // 1984 January 1 0h
-    KSNumbers *num = new KSNumbers (2445700.5);
+    KSNumbers num(2445700.5);
 
     RA.SinCos( sinRA, cosRA );
     Dec.SinCos( sinDec, cosDec );
@@ -521,9 +519,9 @@ void SkyPoint::J2000ToB1950(void) {
     // Precession from J2000 to 1984 day, 0h.
 
     for ( unsigned int i=0; i<3; ++i ) {
-        v[i] = num->p2( 0, i )*s[0] +
-               num->p2( 1, i )*s[1] +
-               num->p2( 2, i )*s[2];
+        v[i] = num.p2( 0, i )*s[0] +
+               num.p2( 1, i )*s[1] +
+               num.p2( 2, i )*s[2];
     }
 
     RA.setRadians( atan2( v[1],v[0] ) );
@@ -541,8 +539,9 @@ void SkyPoint::J2000ToB1950(void) {
     s[1] = sinRA*cosDec;
     s[2] = sinDec;
     for ( unsigned int i=0; i<3; ++i ) {
-        v[i] = num->p1b( 0, i )*s[0] + num->p1b( 1, i )*s[1] +
-               num->p1b( 2, i )*s[2];
+        v[i] = num.p1b( 0, i )*s[0]
+             + num.p1b( 1, i )*s[1]
+             + num.p1b( 2, i )*s[2];
     }
 
     RA.setRadians( atan2( v[1],v[0] ) );
@@ -550,8 +549,6 @@ void SkyPoint::J2000ToB1950(void) {
 
     // Eterms due to aberration
     subtractEterms();
-
-    delete num;
 }
 
 SkyPoint SkyPoint::Eterms(void) {
