@@ -566,9 +566,7 @@ SkyPoint SkyPoint::Eterms(void) {
     raDelta.setH( 0.0227*sinEterm/(3600.*cd) );
     decDelta.setD( 0.341*cosEterm*sd/3600. + 0.029*cd/3600. );
 
-    SkyPoint spDelta = SkyPoint (raDelta, decDelta);
-
-    return spDelta;
+    return SkyPoint(raDelta, decDelta);
 }
 
 void SkyPoint::addEterms(void) {
