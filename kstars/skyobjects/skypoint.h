@@ -302,7 +302,7 @@ public:
      * of this skypoint. Also set the RA0, Dec0 of this SkyPoint if not
      * set already.
      */
-    SkyPoint deprecess( const KSNumbers *num, long double epoch=J2000 ) const;
+    SkyPoint deprecess( const KSNumbers *num, long double epoch=J2000 );
 
     /**Determine the effects of aberration for this SkyPoint.
     	*@param num pointer to KSNumbers object containing current values of
@@ -498,7 +498,7 @@ protected:
 
 
 private:
-    mutable dms RA0, Dec0; //catalog coordinates
+    dms RA0, Dec0; //catalog coordinates
     dms RA, Dec; //current true sky coordinates
     dms Alt, Az;
 };

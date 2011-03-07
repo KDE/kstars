@@ -189,7 +189,7 @@ void SkyPoint::precess( const KSNumbers *num) {
     Dec.setRadians( asin( v[2] ) );
 }
 
-SkyPoint SkyPoint::deprecess( const KSNumbers *num, long double epoch ) const {
+SkyPoint SkyPoint::deprecess( const KSNumbers *num, long double epoch ) {
     SkyPoint p1( RA, Dec );
     long double now = num->julianDay();
     p1.precessFromAnyEpoch( now, epoch );
