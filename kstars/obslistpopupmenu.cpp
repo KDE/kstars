@@ -40,7 +40,8 @@ void ObsListPopupMenu::initPopupMenu( bool showAddToSession,
                                       bool showLinks,
                                       bool sessionView )
 {
-    ks = KStars::Instance();
+    KStars* ks = KStars::Instance();
+
     clear();
     //Insert item for adding the object to the session view
     if( showAddToSession )

@@ -20,12 +20,6 @@
 #define OBSLISTPOPUPMENU_H_
 
 #include <kmenu.h>
-#include <kaction.h>
-
-class KStars;
-class StarObject;
-class SkyObject;
-class QLabel;
 
 /**@class ObsListPopupMenu
 	*The Popup Menu for the observing list in KStars. The menu is sensitive to the 
@@ -51,9 +45,6 @@ public:
                         bool showRemove       = false,
                         bool showLinks        = false,
                         bool sessionView      = false );
-
-private:
-    KStars *ks;
 };
 
 #endif
