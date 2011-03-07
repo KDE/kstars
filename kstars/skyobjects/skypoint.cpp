@@ -240,8 +240,8 @@ SkyPoint SkyPoint::moveAway( SkyPoint &from, double dist ){
     double dst = fabs( dist * dms::DegToRad / 3600.0 ); // In radian
     
     // Compute the bearing angle w.r.t. the RA axis ("latitude")
-    dms dRA( ra().Degrees() - from.ra().Degrees() );
-    dms dDec( dec().Degrees() - from.dec().Degrees() );
+    dms dRA(  ra()  - from.ra()  );
+    dms dDec( dec() - from.dec() );
     double bearing = atan2( dRA.sin() / dRA.cos(), dDec.sin() ); // Do not use dRA = PI / 2!!
     //double bearing = atan2( dDec.radians() , dRA.radians() );
     
@@ -254,8 +254,7 @@ SkyPoint SkyPoint::moveAway( SkyPoint &from, double dist ){
     dtheta.setRadians( atan2( sin( dir0 ) * sin( dst ) * dec().cos(),
                               cos( dst ) - dec().sin() * lat1.sin() ) );
     
-    dms finalRA( ra().Degrees() + dtheta.Degrees() );
-    return SkyPoint( finalRA, lat1 );
+    return SkyPoint( ra() + dtheta, lat1 );
 }
 
 bool SkyPoint::bendlight() {
@@ -570,17 +569,16 @@ void SkyPoint::addEterms(void) {
 
     SkyPoint spd = Eterms();
 
-    RA.setD( RA.Degrees() + spd.ra().Degrees() );
-    Dec.setD( Dec.Degrees() + spd.dec().Degrees() );
-
+    RA  = RA  + spd.ra();
+    Dec = Dec + spd.dec();
 }
 
 void SkyPoint::subtractEterms(void) {
 
     SkyPoint spd = Eterms();
 
-    RA.setD( RA.Degrees() - spd.ra().Degrees() );
-    Dec.setD( Dec.Degrees() - spd.dec().Degrees() );
+    RA  = RA  - spd.ra();
+    Dec = Dec - spd.dec();
 }
 
 dms SkyPoint::angularDistanceTo(const SkyPoint *sp) const {
