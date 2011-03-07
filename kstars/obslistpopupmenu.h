@@ -41,11 +41,16 @@ public:
     ObsListPopupMenu();
 
     /**Destructor (empty)*/
-    ~ObsListPopupMenu();
+    virtual ~ObsListPopupMenu();
 
-    /**Initialize the popup menus.
-        */
-    void initPopupMenu( bool showAddToSession = false, bool showCenter = false, bool showDetails = false, bool showScope = false, bool showRemove = false, bool showLinks = false, bool sessionView = false );
+    /**Initialize the popup menus. */
+    void initPopupMenu( bool showAddToSession = false,
+                        bool showCenter       = false,
+                        bool showDetails      = false,
+                        bool showScope        = false,
+                        bool showRemove       = false,
+                        bool showLinks        = false,
+                        bool sessionView      = false );
 
 private:
     KStars *ks;

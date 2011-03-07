@@ -32,8 +32,14 @@ ObsListPopupMenu::ObsListPopupMenu()
 
 ObsListPopupMenu::~ObsListPopupMenu() { }
 
-void ObsListPopupMenu::initPopupMenu( bool showAddToSession, bool showCenter, bool showDetails, bool showScope, bool showRemove, bool showLinks, bool sessionView ) {
-
+void ObsListPopupMenu::initPopupMenu( bool showAddToSession,
+                                      bool showCenter,
+                                      bool showDetails,
+                                      bool showScope,
+                                      bool showRemove,
+                                      bool showLinks,
+                                      bool sessionView )
+{
     ks = KStars::Instance();
     clear();
     //Insert item for adding the object to the session view
