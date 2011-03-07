@@ -49,16 +49,9 @@ void SkyPoint::set( double r, double d ) {
     Dec0.setD( d );
     RA.setH( r );
     Dec.setD( d );
-    //Quaternion
-    syncQuaternion();
 }
 
 SkyPoint::~SkyPoint(){
-}
-
-//Quaternion
-void SkyPoint::syncQuaternion() {
-    m_q = Quaternion( RA.radians(), Dec.radians() );
 }
 
 void SkyPoint::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
@@ -141,8 +134,6 @@ void SkyPoint::HorizontalToEquatorial( const dms *LST, const dms *lat ) {
 
     RA.setRadians( LST->radians() - HARad );
     RA.setD( RA.reduce().Degrees() );  // 0 <= RA < 24
-
-    syncQuaternion();
 }
 
 void SkyPoint::findEcliptic( const dms *Obliquity, dms &EcLong, dms &EcLat ) {
