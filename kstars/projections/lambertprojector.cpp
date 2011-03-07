@@ -20,8 +20,6 @@
 
 #include "lambertprojector.h"
 
-#include "ksutils.h"
-
 LambertProjector::LambertProjector(const ViewParams& p) : Projector(p)
 {
 }
