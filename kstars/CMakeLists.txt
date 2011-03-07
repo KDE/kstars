@@ -325,7 +325,7 @@ set(kstars_extra_SRCS
 	skypainter.cpp skyqpainter.cpp
 	texture.cpp texturemanager.cpp
 	timezonerule.cpp 
-	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
+	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 )
 
 set(oal_SRCS
