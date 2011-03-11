@@ -208,22 +208,6 @@ class SkyMap : public QGraphicsView {
     	*/
     void setClickedPoint( SkyPoint *f );
 
-    /**@short Retrieve a pointer to MousePoint, the sky coordinates of the mouse cursor.
-    	*
-    	*When the user moves the mouse in the sky map, the sky coordinates of the mouse
-    	*cursor are continually stored in MousePoint by the function mouseMoveEvent().  
-    	*@return a pointer to MousePoint, the current sky coordinates of the mouse cursor.
-    	*/
-    SkyPoint* mousePoint() { return &MousePoint; }
-
-    /**@short Set the MousePoint to the skypoint given as an argument.
-    	*@note In this function, the argument is a SkyPoint, not a pointer to a SkyPoint.
-    	*This is because setMousePoint always uses the function dXdYToRaDec() for the 
-    	*argument, and this function returns by value.
-    	*@param f the new MousePoint (typically the output of dXdYToRaDec()).
-    	*/
-    void setMousePoint( SkyPoint f ) { MousePoint = f; }
-
     /**@short Retrieve the object nearest to a mouse click event.
     	*
     	*If the user clicks on the sky map, a pointer to the nearest SkyObject is stored in
@@ -648,7 +632,25 @@ private:
 
     KStarsData *data;
     KSPopupMenu *pmenu;
-    SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
+
+    /**@short Retrieve a pointer to MousePoint, the sky coordinates of the mouse cursor.
+    	*
+    	*When the user moves the mouse in the sky map, the sky coordinates of the mouse
+    	*cursor are continually stored in MousePoint by the function mouseMoveEvent().  
+    	*@return a pointer to MousePoint, the current sky coordinates of the mouse cursor.
+    	*/
+    SkyPoint* mousePoint() { return &m_MousePoint; }
+
+    /**@short Set the MousePoint to the skypoint given as an argument.
+    	*@note In this function, the argument is a SkyPoint, not a pointer to a SkyPoint.
+    	*This is because setMousePoint always uses the function dXdYToRaDec() for the 
+    	*argument, and this function returns by value.
+    	*@param f the new MousePoint (typically the output of dXdYToRaDec()).
+    	*/
+    void setMousePoint( SkyPoint f ) { m_MousePoint = f; }
+    SkyPoint m_MousePoint;
+    
+    SkyPoint  Focus, ClickedPoint, FocusPoint, Destination;
     SkyObject *ClickedObject, *FocusObject, *TransientObject;
 
     Projector *m_proj;
