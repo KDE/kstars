@@ -351,9 +351,9 @@ void SkyMap::slotTransientLabel() {
     //Do not show a transient label if the map is in motion, or if the mouse
     //pointer is below the opaque horizon, or if the object has a permanent label
     if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
-                          SkyPoint::refract(mousePoint()->alt()).Degrees() < 0.0 ) ) {
+                          SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
-        SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
+        SkyObject *so = data->skyComposite()->objectNearest( &m_MousePoint, maxrad );
 
         if ( so && ! isObjectLabeled( so ) ) {
             setTransientObject( so );
@@ -964,7 +964,7 @@ void SkyMap::forceUpdate( bool now )
     QPoint mp( mapFromGlobal( QCursor::pos() ) );
     if (! projector()->unusablePoint( mp )) {
         //determine RA, Dec of mouse pointer
-        setMousePoint( projector()->fromScreen( mp, data->lst(), data->geo()->lat() ) );
+        m_MousePoint = projector()->fromScreen( mp, data->lst(), data->geo()->lat() );
     }
 
     computeSkymap = true;
@@ -1102,7 +1102,7 @@ void SkyMap::addLink() {
 
 void SkyMap::updateAngleRuler() {
     if( rulerMode && (!pmenu || !pmenu->isVisible()) )
-        AngularRuler.setPoint( 1, mousePoint() );
+        AngularRuler.setPoint( 1, &m_MousePoint );
     AngularRuler.update( data );
 }
 

@@ -620,11 +620,18 @@ private:
 #endif
 
     bool mouseButtonDown, midMouseButtonDown;
-    bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor
+    // true if mouseMoveEvent; needed by setMouseMoveCursor
+    bool mouseMoveCursor;
     bool slewing, clockSlewing;
-    bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
-    bool rulerMode; // True if we are either looking for angular distance or star hopping directions
-    bool starHopDefineMode; // True only if we are looking for star hopping directions. If false while rulerMode is true, it means we are measuring angular distance. FIXME: Find a better way to do this
+    //if false only old pixmap will repainted with bitBlt(), this
+    // saves a lot of cpu usage
+    bool computeSkymap;
+    // True if we are either looking for angular distance or star hopping directions
+    bool rulerMode;
+    // True only if we are looking for star hopping directions. If
+    // false while rulerMode is true, it means we are measuring angular
+    // distance. FIXME: Find a better way to do this
+    bool starHopDefineMode;
     int scrollCount;
     double y0;
 
@@ -633,21 +640,9 @@ private:
     KStarsData *data;
     KSPopupMenu *pmenu;
 
-    /**@short Retrieve a pointer to MousePoint, the sky coordinates of the mouse cursor.
-    	*
-    	*When the user moves the mouse in the sky map, the sky coordinates of the mouse
-    	*cursor are continually stored in MousePoint by the function mouseMoveEvent().  
-    	*@return a pointer to MousePoint, the current sky coordinates of the mouse cursor.
-    	*/
-    SkyPoint* mousePoint() { return &m_MousePoint; }
-
-    /**@short Set the MousePoint to the skypoint given as an argument.
-    	*@note In this function, the argument is a SkyPoint, not a pointer to a SkyPoint.
-    	*This is because setMousePoint always uses the function dXdYToRaDec() for the 
-    	*argument, and this function returns by value.
-    	*@param f the new MousePoint (typically the output of dXdYToRaDec()).
-    	*/
-    void setMousePoint( SkyPoint f ) { m_MousePoint = f; }
+    /**@short Coordinates of point under cursor. It's update in
+     * function mouseMoveEvent
+     */
     SkyPoint m_MousePoint;
     
     SkyPoint  Focus, ClickedPoint, FocusPoint, Destination;
