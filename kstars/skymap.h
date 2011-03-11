@@ -527,22 +527,15 @@ protected:
     virtual void resizeEvent( QResizeEvent * );
 
 private slots:
-    /**Gradually fade the Transient Hover Label into the background sky color, and
-    	*redraw the screen after each color change.  Once it has faded fully, set the 
-    	*TransientObject pointer to NULL to remove the label.
-    	*/
-    void slotTransientTimeout();
-
-    // NOTE: Akarsh believes that this method is backend-independent, and is pretty confident about that, but he thinks that it really requires a second inspection.
     /**@short attach transient label to object nearest the mouse cursor.
-    	*This slot is connected to the timeout() signal of the HoverTimer, which is restarted
-    	*in every mouseMoveEvent().  So this slot is executed only if the mouse does not move for 
-    	*HOVER_INTERVAL msec.  It points TransientObject at the SkyObject nearest the 
-    	*mouse cursor, and the TransientObject is subsequently labeled in paintEvent().
-    	*Note that when TransientObject is not NULL, the next mouseMoveEvent() calls 
-    	*fadeTransientLabel(), which fades the label color and then sets TransientLabel to NULL.
-    	*@sa mouseMoveEvent(), paintEvent(), slotTransientTimeout(), fadeTransientLabel()
-    	*/
+     * This slot is connected to the timeout() signal of the HoverTimer, which is restarted
+     * in every mouseMoveEvent().  So this slot is executed only if the mouse does not move for 
+     * HOVER_INTERVAL msec.  It points TransientObject at the SkyObject nearest the 
+     * mouse cursor, and the TransientObject is subsequently labeled in paintEvent().
+     * Note that when TransientObject is not NULL, the next mouseMoveEvent() calls 
+     * fadeTransientLabel(), which fades the label color and then sets TransientLabel to NULL.
+     * @sa mouseMoveEvent(), paintEvent(), slotTransientTimeout(), fadeTransientLabel()
+     */
     void slotTransientLabel();
 
     /**Set the shape of mouse cursor to a cross with 4 arrows. */
@@ -550,35 +543,18 @@ private slots:
 
 private:
 
-    /**@short Begin fading out the name label attached to TransientObject.
-    	*
-    	*mouseMoveEvent() will call fadeTransientLabel() when TransientObject is not a 
-    	*NULL pointer, and the TransientTimer is not already active.  These conditions 
-    	*are met when the mouse did not move for HOVER_INTERVAL msec (triggering a 
-    	*TransientLabel), but the mouse has since been moved, thus ending the Hover event.  
-    	*This function merely starts the TransientTimer, whose timeout SIGNAL is 
-    	*connected to the slotTransientTimeout() SLOT, which handles the actual fading 
-    	*of the transient label, and eventually resets TransientObject to NULL.
-    	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
-    	*/
-    void fadeTransientLabel() { TransientTimer.start( TransientTimeout ); }
-
-    /**@short Sets the shape of the default mouse cursor to a cross.
-    	*/
+    /**@short Sets the shape of the default mouse cursor to a cross. */
     void setDefaultMouseCursor();
 
-    /**@short Sets the shape of the mouse cursor to a magnifying glass.
-    	*/
+    /**@short Sets the shape of the mouse cursor to a magnifying glass. */
     void setZoomMouseCursor();
 
     /** Calculate the zoom factor for the given keyboard modifier
-     * @param modifier
      */
     double zoomFactor( const int modifier );
 
     /** calculate the magnitude factor (1, .5, .2, or .1) for the given
      * keyboard modifier.
-     * @param modifier
      */
     double magFactor( const int modifier );
 
@@ -653,10 +629,8 @@ private:
     SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.
 
-    //data for transient object labels
-    QTimer TransientTimer, HoverTimer;
-    QColor TransientColor;
-    unsigned int TransientTimeout;
+    // data for transient object labels
+    QTimer HoverTimer;
 
     // InfoBoxes. Used in desctructor to save state
     InfoBoxWidget* m_timeBox;

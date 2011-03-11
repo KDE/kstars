@@ -21,6 +21,7 @@
 #include <QBitmap>
 #include <QPainter>
 #include <QPixmap>
+#include <QToolTip>
 #include <QTextStream>
 #include <QFile>
 #include <QPointF>
@@ -169,11 +170,10 @@ SkyMap::SkyMap() :
     setupProjector();
 
     //Initialize Transient label stuff
-    TransientTimeout = 100; //fade label color every 0.1 sec
+    HoverTimer.setInterval( 500 );
     HoverTimer.setSingleShot( true ); // using this timer as a single shot timer
 
     connect( &HoverTimer,     SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
-    connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
     // Time infobox
@@ -356,41 +356,19 @@ void SkyMap::slotTransientLabel() {
         SkyObject *so = data->skyComposite()->objectNearest( &m_MousePoint, maxrad );
 
         if ( so && ! isObjectLabeled( so ) ) {
+            QToolTip::showText(
+                QCursor::pos(),
+                i18n("%1: %2<sup>m</sup>",
+                     so->translatedLongName(),
+                     QString::number(so->mag(), 'f', 1)),
+                this);
             setTransientObject( so );
-
-            TransientColor = data->colorScheme()->colorNamed( "UserLabelColor" );
-            if ( TransientTimer.isActive() ) TransientTimer.stop();
-            update();
         }
     }
 }
 
 
 //Slots
-
-void SkyMap::slotTransientTimeout() {
-    //Don't fade label if the transientObject is now the focusObject!
-    if ( transientObject() == focusObject() && Options::useAutoLabel() ) {
-        setTransientObject( NULL );
-        TransientTimer.stop();
-        return;
-    }
-
-    //to fade the labels, we will need to smoothly transition the alpha
-    //channel from opaque (255) to transparent (0) by step of stepAlpha
-    static const int stepAlpha = 12;
-
-    //Check to see if next step produces a transparent label
-    //If so, point TransientObject to NULL.
-    if ( TransientColor.alpha() <= stepAlpha ) {
-        setTransientObject( NULL );
-        TransientTimer.stop();
-    } else {
-        TransientColor.setAlpha(TransientColor.alpha()-stepAlpha);
-    }
-
-    update();
-}
 
 void SkyMap::setClickedObject( SkyObject *o ) {
 	  ClickedObject = o;
@@ -878,9 +856,6 @@ void SkyMap::slewFocus() {
                 }
 
                 slewing = true;
-                //since we are slewing, fade out the transient label
-                if ( transientObject() && ! TransientTimer.isActive() )
-                    fadeTransientLabel();
 
                 forceUpdate();
                 qApp->processEvents(); //keep up with other stuff

@@ -25,6 +25,7 @@
 #include <QKeyEvent>
 #include <QKeySequence>
 #include <QPaintEvent>
+#include <QToolTip>
 
 #include <kstatusbar.h>
 #include <kio/job.h>
@@ -410,16 +411,11 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 
 void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
     if ( Options::useHoverLabel() ) {
-        //First of all, if the transientObject() pointer is not NULL, then
-        //we just moved off of a hovered object.  Begin fading the label.
-        if ( transientObject() && ! TransientTimer.isActive() ) {
-            fadeTransientLabel();
-        }
-
         //Start a single-shot timer to monitor whether we are currently hovering.
         //The idea is that whenever a moveEvent occurs, the timer is reset.  It
         //will only timeout if there are no move events for HOVER_INTERVAL ms
         HoverTimer.start( HOVER_INTERVAL );
+        QToolTip::hideText();
     }
 
     //Are we defining a ZoomRect?
