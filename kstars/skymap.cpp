@@ -170,10 +170,9 @@ SkyMap::SkyMap() :
     setupProjector();
 
     //Initialize Transient label stuff
-    HoverTimer.setInterval( 500 );
-    HoverTimer.setSingleShot( true ); // using this timer as a single shot timer
+    m_HoverTimer.setSingleShot( true ); // using this timer as a single shot timer
 
-    connect( &HoverTimer,     SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
+    connect( &m_HoverTimer,   SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
     // Time infobox
@@ -341,15 +340,6 @@ void SkyMap::slotTransientLabel() {
     //This function is only called if the HoverTimer manages to timeout.
     //(HoverTimer is restarted with every mouseMoveEvent; so if it times
     //out, that means there was no mouse movement for HOVER_INTERVAL msec.)
-    //Identify the object nearest to the mouse cursor as the
-    //TransientObject.  The TransientObject is automatically labeled
-    //in SkyMap::paintEvent().
-    //Note that when the TransientObject pointer is not NULL, the next
-    //mouseMoveEvent calls fadeTransientLabel(), which will fade out the
-    //TransientLabel and then set TransientObject to NULL.
-    //
-    //Do not show a transient label if the map is in motion, or if the mouse
-    //pointer is below the opaque horizon, or if the object has a permanent label
     if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
                           SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
@@ -898,7 +888,7 @@ void SkyMap::slewFocus() {
         //Start the HoverTimer. if the user leaves the mouse in place after a slew,
         //we want to attach a label to the nearest object.
         if ( Options::useHoverLabel() )
-            HoverTimer.start( HOVER_INTERVAL );
+            m_HoverTimer.start( HOVER_INTERVAL );
 
         forceUpdate();
     }

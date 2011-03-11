@@ -34,8 +34,6 @@
 
 #include <config-kstars.h>
 
-#define HOVER_INTERVAL 500
-
 class QPainter;
 class QPaintDevice;
 class QPixmap;
@@ -511,14 +509,8 @@ protected:
     virtual void resizeEvent( QResizeEvent * );
 
 private slots:
-    /**@short attach transient label to object nearest the mouse cursor.
-     * This slot is connected to the timeout() signal of the HoverTimer, which is restarted
-     * in every mouseMoveEvent().  So this slot is executed only if the mouse does not move for 
-     * HOVER_INTERVAL msec.  It points TransientObject at the SkyObject nearest the 
-     * mouse cursor, and the TransientObject is subsequently labeled in paintEvent().
-     * Note that when TransientObject is not NULL, the next mouseMoveEvent() calls 
-     * fadeTransientLabel(), which fades the label color and then sets TransientLabel to NULL.
-     * @sa mouseMoveEvent(), paintEvent(), slotTransientTimeout(), fadeTransientLabel()
+    /** @short display tooltip for object under cursor. It's called by m_HoverTimer.
+     *  if mouse didn't moved for last HOVER_INTERVAL milliseconds.
      */
     void slotTransientLabel();
 
@@ -613,8 +605,10 @@ private:
     SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.
 
-    // data for transient object labels
-    QTimer HoverTimer;
+    // Mouse should not move for that interval to display tooltip
+    static const int HOVER_INTERVAL = 500;
+    // Timer for tooltips
+    QTimer m_HoverTimer;
 
     // InfoBoxes. Used in desctructor to save state
     InfoBoxWidget* m_timeBox;

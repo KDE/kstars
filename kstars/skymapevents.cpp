@@ -51,6 +51,7 @@
 #include "skycomponents/starcomponent.h"
 
 
+
 void SkyMap::resizeEvent( QResizeEvent * )
 {
     computeSkymap = true; // skymap must be new computed
@@ -414,7 +415,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
         //Start a single-shot timer to monitor whether we are currently hovering.
         //The idea is that whenever a moveEvent occurs, the timer is reset.  It
         //will only timeout if there are no move events for HOVER_INTERVAL ms
-        HoverTimer.start( HOVER_INTERVAL );
+        m_HoverTimer.start( HOVER_INTERVAL );
         QToolTip::hideText();
     }
 
