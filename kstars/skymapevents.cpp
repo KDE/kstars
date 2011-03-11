@@ -538,13 +538,11 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
     setDefaultMouseCursor();
     ZoomRect = QRect(); //invalidate ZoomRect
 
-    if( mouseMoveCursor )
-        setDefaultMouseCursor();	// set default cursor
-    if (mouseButtonDown) { //false if double-clicked, because it's unset there.
+    //false if double-clicked, because it's unset there.
+    if (mouseButtonDown) {
         mouseButtonDown = false;
         if ( slewing ) {
             slewing = false;
-
             if ( Options::useAltAz() )
                 setDestinationAltAz( focus()->alt(), focus()->az() );
             else
