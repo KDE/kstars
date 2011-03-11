@@ -253,10 +253,6 @@ void SkyMapComposite::draw( SkyPainter *skyp )
         m_ObservingList->list = &KStars::Instance()->observingList()->sessionList();
     m_ObservingList->draw( skyp );
 
-    if( map->transientObject() )
-        SkyLabeler::AddLabel( map->transientObject(), SkyLabeler::RUDE_LABEL );
-
-
     m_Flags->draw( skyp );
 
     m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), 1. );

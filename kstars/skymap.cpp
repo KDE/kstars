@@ -135,7 +135,7 @@ SkyMap::SkyMap() :
     QGraphicsView( KStars::Instance() ),
     computeSkymap(true), rulerMode(false), scrollCount(0),
     data( KStarsData::Instance() ), pmenu(0),
-    ClickedObject(0), FocusObject(0), TransientObject(0), m_proj(0)
+    ClickedObject(0), FocusObject(0), m_proj(0)
 {
     m_Scale = 1.0;
 
@@ -362,7 +362,6 @@ void SkyMap::slotTransientLabel() {
                      so->translatedLongName(),
                      QString::number(so->mag(), 'f', 1)),
                 this);
-            setTransientObject( so );
         }
     }
 }
@@ -681,9 +680,6 @@ void SkyMap::slotRemoveObjectLabel() {
 
 void SkyMap::slotAddObjectLabel() {
     data->skyComposite()->addNameLabel( clickedObject() );
-    //Since we just added a permanent label, we don't want it to fade away!
-    if ( transientObject() == clickedObject() )
-        setTransientObject( NULL );
     forceUpdate();
 }
 

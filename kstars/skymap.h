@@ -237,23 +237,7 @@ class SkyMap : public QGraphicsView {
     	*/
     void setFocusObject( SkyObject *o );
 
-    /**@short Retrieve the object nearest to the point at which the mouse has hovered.
-    	*
-    	*When the mouse hovers near an object, it is set as the TransientObject (so named
-    	*because a transient name label will be attached to it).  This function returns 
-    	*a pointer to the current TransientObject, or NULL if no TransientObject is set.
-    	*@return pointer to the SkyObject nearest to the mouse hover position.
-    	*@see SkyMap::slotTransientLabel()
-    	*/
-    SkyObject* transientObject() const { return TransientObject; }
-
-    /**@short Set the TransientObject pointer to the argument.
-    	*@param o pointer to the SkyObject to be assigned as the TransientObject.
-    	*/
-    void setTransientObject( SkyObject *o ) { TransientObject = o; }
-
-    /** @short Call to set up the projector before a draw cycle.
-      */
+    /** @short Call to set up the projector before a draw cycle. */
     void setupProjector();
 
     /** Set zoom factor. */
@@ -622,7 +606,7 @@ private:
     SkyPoint m_MousePoint;
     
     SkyPoint  Focus, ClickedPoint, FocusPoint, Destination;
-    SkyObject *ClickedObject, *FocusObject, *TransientObject;
+    SkyObject *ClickedObject, *FocusObject;
 
     Projector *m_proj;
 
