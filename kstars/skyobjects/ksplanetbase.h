@@ -208,7 +208,7 @@ protected:
     static const UID UID_SOL_COMET;
 
     /** Compute high 32-bits of UID. */
-    inline UID solarsysUID(UID type) const { return (SkyObject::UID_SOLARSYS << 60) | (type << 52); }
+    inline UID solarsysUID(UID type) const { return (SkyObject::UID_SOLARSYS << 60) | (type << 56); }
    
     /**@short find the object's current geocentric equatorial coordinates (RA and Dec)
      * This function is pure virtual; it must be overloaded by subclasses.
