@@ -525,27 +525,21 @@ void SkyMap::wheelEvent( QWheelEvent *e ) {
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
     if ( ZoomRect.isValid() ) {
+        stopTracking();
+        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
+        setFocus( &newcenter );
+        setDestination( &newcenter );
+
         //Zoom in on center of Zoom Circle, by a factor equal to the ratio
         //of the sky pixmap's width to the Zoom Circle's diameter
         float factor = float(width()) / float(ZoomRect.width());
-
-        stopTracking();
-
-        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
-
-        setFocus( &newcenter );
-        setDestination( &newcenter );
-        setDefaultMouseCursor();
-
         setZoomFactor( Options::zoomFactor() * factor );
-
-        ZoomRect = QRect(); //invalidate ZoomRect
-    } else {
-        setDefaultMouseCursor();
-        ZoomRect = QRect(); //just in case user Ctrl+clicked + released w/o dragging...
     }
+    setDefaultMouseCursor();
+    ZoomRect = QRect(); //invalidate ZoomRect
 
-    if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
+    if( mouseMoveCursor )
+        setDefaultMouseCursor();	// set default cursor
     if (mouseButtonDown) { //false if double-clicked, because it's unset there.
         mouseButtonDown = false;
         if ( slewing ) {
@@ -558,7 +552,8 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
         }
         forceUpdate();	// is needed because after moving the sky not all stars are shown
     }
-    if ( midMouseButtonDown ) midMouseButtonDown = false;  // if middle button was pressed unset here
+    // if middle button was pressed unset here
+    midMouseButtonDown = false;
 
     scrollCount = 0;
 }
