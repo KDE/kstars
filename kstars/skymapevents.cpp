@@ -98,7 +98,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
         arrowKeyPressed = true;
         slewing = true;
-        ++scrollCount;
         break;
 
     case Qt::Key_Right :
@@ -112,7 +111,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
         arrowKeyPressed = true;
         slewing = true;
-        ++scrollCount;
         break;
 
     case Qt::Key_Up :
@@ -128,7 +126,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
         arrowKeyPressed = true;
         slewing = true;
-        ++scrollCount;
         break;
 
     case Qt::Key_Down:
@@ -144,7 +141,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
         arrowKeyPressed = true;
         slewing = true;
-        ++scrollCount;
         break;
 
     case Qt::Key_Plus:   //Zoom in
@@ -357,10 +353,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     if ( arrowKeyPressed ) {
         stopTracking();
-        if ( scrollCount > 10 ) {
-            setDestination( *focus() );
-            scrollCount = 0;
-        }
+        setDestination( *focus() );
     }
 
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
@@ -397,7 +390,6 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
     case Qt::Key_Up :  //no break; continue to Qt::Key_Down
     case Qt::Key_Down :
         slewing = false;
-        scrollCount = 0;
 
         if ( Options::useAltAz() )
             setDestinationAltAz( focus()->alt(), focus()->az() );
@@ -493,12 +485,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
                 KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90.0 , 90.0 ) );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
-
-        ++scrollCount;
-        if ( scrollCount > 4 ) {
-            showFocusCoords();
-            scrollCount = 0;
-        }
+        showFocusCoords();
 
         //redetermine RA, Dec of mouse pointer, using new focus
         m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
@@ -547,8 +534,6 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
     }
     // if middle button was pressed unset here
     midMouseButtonDown = false;
-
-    scrollCount = 0;
 }
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
@@ -576,7 +561,6 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
     if ( !mouseButtonDown ) {
         if ( e->button() == Qt::LeftButton ) {
             mouseButtonDown = true;
-            scrollCount = 0;
         }
 
         //determine RA, Dec of mouse pointer

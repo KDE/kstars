@@ -584,7 +584,6 @@ private:
     // false while rulerMode is true, it means we are measuring angular
     // distance. FIXME: Find a better way to do this
     bool starHopDefineMode;
-    int scrollCount;
     double y0;
 
     double m_Scale;

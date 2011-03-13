@@ -133,7 +133,7 @@ SkyMap* SkyMap::Instance( )
 
 SkyMap::SkyMap() : 
     QGraphicsView( KStars::Instance() ),
-    computeSkymap(true), rulerMode(false), scrollCount(0),
+    computeSkymap(true), rulerMode(false),
     data( KStarsData::Instance() ), pmenu(0),
     ClickedObject(0), FocusObject(0), m_proj(0)
 {
