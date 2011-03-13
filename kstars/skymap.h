@@ -38,9 +38,6 @@ class QPainter;
 class QPaintDevice;
 class QPixmap;
 
-//DEBUG_KIO_JOB
-class KJob;
-
 class dms;
 class KStarsData;
 class KSPopupMenu;
@@ -277,9 +274,6 @@ class SkyMap : public QGraphicsView {
 
 
 public slots:
-    //DEBUG_KIO_JOB
-    void slotJobResult( KJob *j );
-
     /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size. */
     virtual void setGeometry( int x, int y, int w, int h );
 

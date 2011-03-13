@@ -28,7 +28,6 @@
 #include <QToolTip>
 
 #include <kstatusbar.h>
-#include <kio/job.h>
 
 #include "skymap.h"
 #include "skyqpainter.h"
@@ -357,18 +356,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     }
 
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
-}
-
-//DEBUG_KIO_JOB
-void SkyMap::slotJobResult( KJob *job ) {
-    KIO::StoredTransferJob *stjob = (KIO::StoredTransferJob*)job;
-
-    QPixmap pm;
-    pm.loadFromData( stjob->data() );
-
-    //DEBUG
-    kDebug() << "Pixmap: " << pm.width() << "x" << pm.height();
-
 }
 
 void SkyMap::stopTracking() {
