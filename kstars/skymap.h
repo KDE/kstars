@@ -169,7 +169,7 @@ class SkyMap : public QGraphicsView {
     	*repainting the sky at each step (if Options::useAnimatedSlewing()==true).
     	*@param f a pointer to the SkyPoint the map should slew to
     	*/
-    void setDestination( SkyPoint *f );
+    void setDestination( const SkyPoint& f );
 
     /**@short sets the destination point of the skymap, using ra/dec coordinates.
     	*

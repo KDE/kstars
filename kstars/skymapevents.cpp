@@ -358,7 +358,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
     if ( arrowKeyPressed ) {
         stopTracking();
         if ( scrollCount > 10 ) {
-            setDestination( focus() );
+            setDestination( *focus() );
             scrollCount = 0;
         }
     }
@@ -402,7 +402,7 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
         if ( Options::useAltAz() )
             setDestinationAltAz( focus()->alt(), focus()->az() );
         else
-            setDestination( focus() );
+            setDestination( *focus() );
 
         showFocusCoords();
         forceUpdate();  // Need a full update to draw faint objects that are not drawn while slewing.
@@ -523,7 +523,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
         stopTracking();
         SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
         setFocus( &newcenter );
-        setDestination( &newcenter );
+        setDestination( newcenter );
 
         //Zoom in on center of Zoom Circle, by a factor equal to the ratio
         //of the sky pixmap's width to the Zoom Circle's diameter
@@ -541,7 +541,7 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
             if ( Options::useAltAz() )
                 setDestinationAltAz( focus()->alt(), focus()->az() );
             else
-                setDestination( focus() );
+                setDestination( *focus() );
         }
         forceUpdate();	// is needed because after moving the sky not all stars are shown
     }

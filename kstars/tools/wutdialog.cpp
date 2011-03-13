@@ -442,7 +442,7 @@ void WUTDialog::slotCenter() {
     if (o != 0) {
         kstars->map()->setFocusPoint( o );
         kstars->map()->setFocusObject( o );
-        kstars->map()->setDestination( kstars->map()->focusPoint() );
+        kstars->map()->setDestination( *kstars->map()->focusPoint() );
     }
 }
 

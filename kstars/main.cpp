@@ -145,7 +145,8 @@ int main(int argc, char *argv[])
         dat->setFullTimeUpdate();
         dat->updateTime(dat->geo(), map );
 
-        map->setDestination( new SkyPoint( Options::focusRA(), Options::focusDec() ) );
+        SkyPoint dest( Options::focusRA(), Options::focusDec() );
+        map->setDestination( dest );
         map->destination()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );
         map->setFocus( map->destination() );
         map->focus()->EquatorialToHorizontal( dat->lst(), dat->geo()->lat() );

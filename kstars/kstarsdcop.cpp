@@ -61,7 +61,7 @@
 
 void KStars::setRaDec( double ra, double dec ) {
     SkyPoint p( ra, dec );
-    map()->setDestination( &p );
+    map()->setDestination( p );
 }
 
 void KStars::setAltAz( double alt, double az ) {

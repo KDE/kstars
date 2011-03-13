@@ -625,7 +625,7 @@ void KStars::initFocus() {
         map()->setFocusPoint( &pFocus );
     }
     data()->setSnapNextFocus();
-    map()->setDestination( map()->focusPoint() );
+    map()->setDestination( *map()->focusPoint() );
     map()->setFocus( map()->destination() );
 
     map()->showFocusCoords();
@@ -647,7 +647,7 @@ void KStars::initFocus() {
             DefaultFocus.setAz( 180.0 );
             DefaultFocus.setAlt( 45.0 );
             DefaultFocus.HorizontalToEquatorial( data()->lst(), data()->geo()->lat() );
-            map()->setDestination( &DefaultFocus );
+            map()->setDestination( DefaultFocus );
         }
     }
 

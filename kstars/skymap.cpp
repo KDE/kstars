@@ -422,7 +422,7 @@ void SkyMap::slotCenter() {
     if ( Options::useAltAz() ) {
         setDestinationAltAz( focusPoint()->altRefracted(), focusPoint()->az() );
     } else {
-        setDestination( focusPoint() );
+        setDestination( *focusPoint() );
     }
 
     focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -735,10 +735,8 @@ void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
-void SkyMap::setDestination( SkyPoint *p ) {
-    Destination = *p;
-    destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    emit destinationChanged();
+void SkyMap::setDestination( const SkyPoint& p ) {
+    setDestination( p.ra(), p.dec() );
 }
 
 void SkyMap::setDestination( const dms &ra, const dms &dec ) {
@@ -768,12 +766,12 @@ void SkyMap::updateFocus() {
             //Tracking any object in Alt/Az mode requires focus updates
             setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-            setDestination( focus() );
+            setDestination( *focus() );
         } else {
             //Tracking in equatorial coords
             setFocus( focusObject() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            setDestination( focus() );
+            setDestination( *focus() );
         }
 
     //Tracking on empty sky
@@ -782,7 +780,7 @@ void SkyMap::updateFocus() {
             //Tracking on empty sky in Alt/Az mode
             setFocus( focusPoint() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            setDestination( focus() );
+            setDestination( *focus() );
         }
 
     // Not tracking and not slewing, let sky drift by

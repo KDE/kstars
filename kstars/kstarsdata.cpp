@@ -879,14 +879,14 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( az >= 0.0 ) {
                     map->setFocusAltAz( dms(90.0), map->focus()->az() );
                     map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
-                    map->setDestination( map->focus() );
+                    map->setDestination( *map->focus() );
                     cmdCount++;
                 }
 
                 if ( arg == "z" || arg == "zenith" ) {
                     map->setFocusAltAz( dms(90.0), map->focus()->az() );
                     map->focus()->HorizontalToEquatorial( &LST, geo()->lat() );
-                    map->setDestination( map->focus() );
+                    map->setDestination( *map->focus() );
                     cmdCount++;
                 }
 
@@ -898,7 +898,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( target ) { 
                     map->setFocus( target );
                     map->focus()->EquatorialToHorizontal( &LST, geo()->lat() );
-                    map->setDestination( map->focus() );
+                    map->setDestination( *map->focus() );
                     cmdCount++;
                 }
 
