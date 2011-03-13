@@ -782,21 +782,15 @@ void SkyMap::updateFocus() {
 }
 
 void SkyMap::slewFocus() {
-    double dX, dY, fX, fY, r, r0;
-    double step0 = 0.5;
-    double step = step0;
-    double maxstep = 10.0;
-    
-    SkyPoint newFocus;
-
     //Don't slew if the mouse button is pressed
     //Also, no animated slews if the Manual Clock is active
     //08/2002: added possibility for one-time skipping of slew with snapNextFocus
     if ( !mouseButtonDown ) {
-        bool goSlew = ( Options::useAnimatedSlewing() &&
-                        ! data->snapNextFocus() ) &&
+        bool goSlew =  ( Options::useAnimatedSlewing() && ! data->snapNextFocus() ) &&
                       !( data->clock()->isManualMode() && data->clock()->isActive() );
         if ( goSlew  ) {
+            double dX, dY;
+            double maxstep = 10.0;
             if ( Options::useAltAz() ) {
                 dX = destination()->az().Degrees() - focus()->az().Degrees();
                 dY = destination()->alt().Degrees() - focus()->alt().Degrees();
@@ -808,16 +802,17 @@ void SkyMap::slewFocus() {
             //switch directions to go the short way around the celestial sphere, if necessary.
             dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
 
-            r0 = sqrt( dX*dX + dY*dY );
-            r = r0;
+            double r0 = sqrt( dX*dX + dY*dY );
             if ( r0 < 20.0 ) { //smaller slews have smaller maxstep
                 maxstep *= (10.0 + 0.5*r0)/20.0;
             }
+            double step  = 0.5;
+            double r  = r0;
             while ( r > step ) {
                 //DEBUG
                 kDebug() << step << ": " << r << ": " << r0 << endl;
-                fX = dX / r;
-                fY = dY / r;
+                double fX = dX / r;
+                double fY = dY / r;
 
                 if ( Options::useAltAz() ) {
                     focus()->setAlt( focus()->alt().Degrees() + fY*step );
@@ -825,7 +820,7 @@ void SkyMap::slewFocus() {
                     focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
                 } else {
                     fX = fX/15.; //convert RA degrees to hours
-                    newFocus.set( focus()->ra().Hours() + fX*step, focus()->dec().Degrees() + fY*step );
+                    SkyPoint newFocus( focus()->ra().Hours() + fX*step, focus()->dec().Degrees() + fY*step );
                     setFocus( &newFocus );
                     focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 }
