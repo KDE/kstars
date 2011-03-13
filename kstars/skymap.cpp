@@ -320,15 +320,6 @@ SkyMap::~SkyMap() {
     pinstance = 0;
 }
 
-void SkyMap::setGeometry( int x, int y, int w, int h ) {
-    QGraphicsView::setGeometry( x, y, w, h );
-}
-
-void SkyMap::setGeometry( const QRect &r ) {
-    QGraphicsView::setGeometry( r );
-}
-
-
 void SkyMap::showFocusCoords() {
     if( focusObject() && Options::isTracking() )
         emit objectChanged( focusObject() );

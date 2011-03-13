@@ -274,14 +274,6 @@ class SkyMap : public QGraphicsView {
 
 
 public slots:
-    /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size. */
-    virtual void setGeometry( int x, int y, int w, int h );
-
-    /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size.
-     * This function behaves essentially like the above function.  It differs only in the data types 	*of its arguments.
-     */
-    virtual void setGeometry( const QRect &r );
-
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().
      * This saves a lot of CPU time.
