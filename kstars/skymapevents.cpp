@@ -450,7 +450,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
     //determine RA, Dec of mouse pointer
     m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
-    m_MousePoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
     double dyPix = 0.5*height() - e->y();
     if ( midMouseButtonDown ) { //zoom according to y-offset
@@ -503,7 +502,6 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
         //redetermine RA, Dec of mouse pointer, using new focus
         m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
-        m_MousePoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( &m_MousePoint );
 
         forceUpdate();  // must be new computed
@@ -583,9 +581,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
 
         //determine RA, Dec of mouse pointer
         m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
-        m_MousePoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         setClickedPoint( &m_MousePoint );
-        clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();
