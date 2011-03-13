@@ -42,22 +42,3 @@ void SkipListElement::setElement(long level, SkipListElement* element)
         myNext[level]=element;
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-static long xMatrix[SKIPLIST_MAXLEVEL][SKIPLIST_MAXLEVEL] = {{0}};
-
-void SkipListElement::setLevel(long level)
-{
-//    if(xFlag){ // do this once only
-//      xFlag = 0;
-//      // SkipListElement::prmatrix();
-//    }
-//  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //
-//   if (myLevel > level){
-//     std::cerr << "Panic! level decreasing!" << std::endl;
-//   }
-
-    xMatrix[myLevel][level]++;
-    myLevel=level;
-} // set level of element

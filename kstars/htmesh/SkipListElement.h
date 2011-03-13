@@ -49,7 +49,7 @@ public:
     /** get level of element */
     long getLevel() const {return(myLevel);};
     /** Set level of element */
-    void setLevel(long level);
+    void setLevel(long level) { myLevel = level; }
 
     /** get next element in level */
     SkipListElement* getElement(long level); 
