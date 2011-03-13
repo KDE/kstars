@@ -486,8 +486,8 @@ void SkyMap::slotSDSS() {
 		dec = clickedPoint()->dec();
 
 		//restore coords from present epoch
-		clickedPoint()->setRA( clickedPoint()->ra0().Hours() );
-		clickedPoint()->setDec( clickedPoint()->dec0().Degrees() );
+		clickedPoint()->setRA(  clickedPoint()->ra0() );
+		clickedPoint()->setDec( clickedPoint()->dec0() );
 	}
 
 	RAString = RAString.sprintf( "ra=%f", ra.Degrees() );
