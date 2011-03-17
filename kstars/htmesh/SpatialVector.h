@@ -43,12 +43,6 @@ public:
   SpatialVector(float64 ra,
 		float64 dec);
 
-  /// Copy constructor
-  SpatialVector(const SpatialVector &);
-
-  /// Assignment
-  SpatialVector& operator =(const SpatialVector &);
-
   /// Set member function: set values - always normed to 1
   void set(const float64 &x,
 	   const float64 &y,
