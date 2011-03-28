@@ -206,11 +206,13 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     // FIXME: REGRESSION. Labeler now know nothing about infoboxes
     // map->infoBoxes()->reserveBoxes( psky );
 
-    const QList<SkyObject*> obsList = KStars::Instance()->observingList()->sessionList();
-    if( Options::obsListText() )
-        foreach( SkyObject* obj, obsList ) {
-            SkyLabeler::AddLabel( obj, SkyLabeler::RUDE_LABEL );
-        }
+    if( KStars::Instance() ) {
+        const QList<SkyObject*> obsList = KStars::Instance()->observingList()->sessionList();
+        if( Options::obsListText() )
+            foreach( SkyObject* obj, obsList ) {
+                SkyLabeler::AddLabel( obj, SkyLabeler::RUDE_LABEL );
+            }
+    }
         
 
     m_MilkyWay->draw( skyp );
@@ -249,9 +251,10 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_DeepSky->drawLabels();
 
     m_ObservingList->pen = QPen( QColor(data->colorScheme()->colorNamed( "ObsListColor" )), 1. );
-    if( !m_ObservingList->list )
+    if( KStars::Instance() && !m_ObservingList->list )
         m_ObservingList->list = &KStars::Instance()->observingList()->sessionList();
-    m_ObservingList->draw( skyp );
+    if( m_ObservingList )
+        m_ObservingList->draw( skyp );
 
     m_Flags->draw( skyp );
 
