@@ -1,6 +1,6 @@
 ## SatLib Library ###
 set(SatLib_LIB_SRCS 
-	${CMAKE_SOURCE_DIR}/kstars/kstars/satlib/SatLib.c
+	${kstars_SOURCE_DIR}/kstars/satlib/SatLib.c
 )
 
 add_definitions(-DUSE_KDEWIN32_LIB -DBUILD_DLL)
