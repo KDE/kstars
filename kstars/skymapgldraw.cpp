@@ -22,6 +22,11 @@
 
 
 SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QGLWidget( TextureManager::getContext(), sm ) {
+
+    // We must have the context ready before we create our
+    // GLWidget. This is a check on that.
+    Q_ASSERT( TextureManager::getContext() );
+
     if( !format().testOption( QGL::SampleBuffers ) )
         qWarning() << "No sample buffer; can't use multisampling (antialiasing)";
     if( !format().testOption( QGL::StencilBuffer ) )
