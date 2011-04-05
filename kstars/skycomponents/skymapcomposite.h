@@ -43,9 +43,9 @@ class MilkyWay;
 class SolarSystemComposite;
 class StarComponent;
 class DeepStarComponent;
-//class SatelliteComposite;
 class TargetListComponent;
 class TargetListComponent;
+class SatellitesComponent;
 
 class DeepSkyObject;
 class KSPlanetBase;
@@ -164,6 +164,7 @@ public:
     void reloadCNames();
 
     FlagComponent* flags();
+    SatellitesComponent* satellites();
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -212,6 +213,7 @@ private:
     FlagComponent               *m_Flags;
     TargetListComponent         *m_ObservingList;
     TargetListComponent         *m_StarHopRouteList;
+    SatellitesComponent         *m_Satellites;
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;

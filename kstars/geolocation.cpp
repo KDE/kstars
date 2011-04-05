@@ -153,3 +153,20 @@ void GeoLocation::TopocentricVelocity(double vtopo[], dms gst) {
     vtopo[1] = d0 * Wearth * ce /1000.;
     vtopo[2] = 0.;
 }
+
+double GeoLocation::LMST( double jd )
+{
+    int divresult;
+    double ut, tu, gmst, theta;
+
+    ut = ( jd + 0.5 ) - floor( jd + 0.5 );
+    jd -= ut;
+    tu = ( jd - 2451545. ) / 36525.;
+    
+    gmst = 24110.54841 + tu * ( 8640184.812866 + tu * ( 0.093104 - tu * 6.2e-6 ) );
+    divresult = (int)( ( gmst + 8.6400e4 * 1.00273790934 * ut ) / 8.6400e4 );
+    gmst = ( gmst + 8.6400e4 * 1.00273790934 * ut ) - (double)divresult * 8.6400e4;
+    theta = 2. * dms::PI * gmst / (24. * 60. * 60.);
+    divresult = (int)( ( theta + Longitude.radians() ) / ( 2. * dms::PI ) );
+    return( ( theta + Longitude.radians() ) - (double)divresult * 2. * dms::PI );
+}

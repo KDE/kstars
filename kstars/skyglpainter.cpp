@@ -39,11 +39,13 @@ using Eigen::Rotation2Df;
 #include "skycomponents/linelistlabel.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
+#include "skycomponents/satellitescomponent.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
+#include "skyobjects/satellite.h"
 
 Vector2f SkyGLPainter::m_vertex[NUMTYPES][6*BUFSIZE];
 Vector2f SkyGLPainter::m_texcoord[NUMTYPES][6*BUFSIZE];
@@ -720,3 +722,42 @@ void SkyGLPainter::setPen(const QPen& pen)
 
 }
 
+void SkyGLPainter::drawSatellite( Satellite* sat ) {
+    KStarsData *data = KStarsData::Instance();
+    bool visible = false;
+    Vector2f pos, vertex;
+
+    sat->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+
+    pos = m_proj->toScreenVec( sat, true, &visible );
+
+    if( !visible || !m_proj->onScreen( pos ) )
+        return;
+
+    if ( Options::drawSatellitesLikeStars() ) {
+        drawPointSource(sat, 3.5, 'B');
+    } else {
+        if ( sat->isVisible() )
+            setPen( data->colorScheme()->colorNamed( "VisibleSatColor" ) );
+        else
+            setPen( data->colorScheme()->colorNamed( "SatColor" ) );
+
+        glDisable( GL_TEXTURE_2D );
+        glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+        glBegin( GL_QUADS );
+
+        vertex = pos + Vector2f( -1.0, -1.0 );
+        glVertex2fv(vertex.data());
+        vertex = pos + Vector2f(  1.0, -1.0 );
+        glVertex2fv(vertex.data());
+        vertex = pos + Vector2f(  1.0,  1.0 );
+        glVertex2fv(vertex.data());
+        vertex = pos + Vector2f( -1.0,  1.0 );
+        glVertex2fv(vertex.data());
+
+        glEnd();
+    }
+
+    if ( Options::showSatellitesLabels() )
+        data->skyComposite()->satellites()->drawLabel( sat, QPointF( pos.x(), pos.y() ) );
+}

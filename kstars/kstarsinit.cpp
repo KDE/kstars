@@ -467,6 +467,10 @@ void KStars::initActions() {
         << i18nc("Toggle flags in the display", "Flags" )
         << KIcon("kstars_flag" )
         << ToolTip( i18n("Toggle flags") );
+    actionCollection()->add<KToggleAction>("show_satellites", this, SLOT( slotViewToolBar() ) )
+        << i18nc("Toggle satellites in the display", "Satellites" )
+        << KIcon("kstars_satellites" )
+        << ToolTip( i18n("Toggle satellites") );
 
     setXMLFile("kstarsui.rc" );
 

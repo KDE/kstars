@@ -25,4 +25,6 @@
 #993311 :PlanetTrailColor
 #445566 :AngularRuler
 #FF0000 :ObsListColor
-#007777 :SatColor
+#00FF00 :VisibleSatColor
+#FF0000 :SatColor
+#640000 :SatLabelColor

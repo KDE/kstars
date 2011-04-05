@@ -196,6 +196,7 @@ set(libkstarscomponents_SRCS
    skycomponents/solarsystemcomposite.cpp 
    #skycomponents/satellitecomposite.cpp
    #skycomponents/satellitecomponent.cpp
+   skycomponents/satellitescomponent.cpp
    skycomponents/starcomponent.cpp 
    skycomponents/deepstarcomponent.cpp
    skycomponents/deepskycomponent.cpp 
@@ -246,7 +247,8 @@ set(kstars_options_SRCS
   options/opscatalog.cpp
   options/opscolors.cpp
   options/opsguides.cpp
-  options/opssolarsystem.cpp 
+  options/opssolarsystem.cpp
+  options/opssatellites.cpp
 )
 
 set(kstars_optionsui_SRCS
@@ -254,7 +256,8 @@ set(kstars_optionsui_SRCS
   options/opscatalog.ui
   options/opscolors.ui
   options/opsguides.ui
-  options/opssolarsystem.ui 
+  options/opssolarsystem.ui
+  options/opssatellites.ui
 )
 
 set(kstars_skyobjects_SRCS
@@ -273,6 +276,7 @@ set(kstars_skyobjects_SRCS
   skyobjects/skypoint.cpp
   skyobjects/starobject.cpp
   skyobjects/trailobject.cpp
+  skyobjects/satellite.cpp
 )
 
 set(kstars_dialogs_SRCS
@@ -326,6 +330,7 @@ set(kstars_extra_SRCS
 	texture.cpp texturemanager.cpp
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
+	satellitegroup.cpp
 )
 
 set(oal_SRCS

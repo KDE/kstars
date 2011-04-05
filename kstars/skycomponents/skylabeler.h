@@ -122,9 +122,10 @@ public:
         COMET_LABEL,
         PLANET_LABEL,
         JUPITER_MOON_LABEL,
-	SATURN_MOON_LABEL,
+        SATURN_MOON_LABEL,
         DEEP_SKY_LABEL,
         CONSTEL_NAME_LABEL,
+        SATELLITE_LABEL,
         RUDE_LABEL, ///Rude labels block other labels FIXME: find a better solution
         NUM_LABEL_TYPES
     } ;

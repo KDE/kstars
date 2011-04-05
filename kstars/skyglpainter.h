@@ -47,6 +47,7 @@ public:
     virtual void setBrush(const QBrush& brush);
     virtual void setPen(const QPen& pen);
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
+    virtual void drawSatellite( Satellite* sat );
     void drawText( int x, int y, const QString text, QFont font, QColor color );
 private:
     bool addItem(SkyPoint* p, int type, float width, char sp = 'a');

@@ -245,6 +245,11 @@ public:
      */
     void TopocentricVelocity(double vtopo[], dms gt);
 
+    /**@Return Local Mean Sidereal Time.
+     * @param jd Julian date
+     */
+    double LMST( double jd );
+
 private:
     dms Longitude, Latitude;
     QString Name, Province, Country;

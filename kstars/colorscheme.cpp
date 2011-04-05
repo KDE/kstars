@@ -73,7 +73,9 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("AngularRuler",     i18n("Angular Distance Ruler"), "#445566");
     appendItem("ObsListColor",     i18n("Observing List Label"),   "#FF0000");
     appendItem("StarHopRouteColor", i18n("Star-Hop Route"),        "#00FFFF");
-    appendItem("SatColor",         i18n("Satellite Track"),        "#007777");
+    appendItem("VisibleSatColor",  i18n("Visible Satellites"),     "#00FF00");
+    appendItem("SatColor",         i18n("Satellites"),             "#FF0000");
+    appendItem("SatLabelColor",    i18n("Satellites Labels"),      "#640000");
 
     //Load colors from config object
     loadFromConfig();
