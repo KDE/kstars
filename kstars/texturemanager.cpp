@@ -78,17 +78,12 @@ TextureManager *TextureManager::Create() {
 
 Texture* TextureManager::createTexture( QImage image )
 {
-    int longest, tex_size = 2;
     Texture *texture = new Texture( m_p );
-
     // Resize image if necessary and create texture
     if ( image.width() != image.height() || ( image.width() & ( image.width() - 1 ) ) ) {
         // Compute texture size
-        if ( image.width() > image.height() )
-            longest = image.width();
-        else
-            longest = image.height();
-
+        int longest  = qMax( image.width(), image.height() );
+        int tex_size = 2;
         while ( tex_size < longest ) {
             tex_size *= 2;
         }
