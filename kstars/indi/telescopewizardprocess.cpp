@@ -254,13 +254,6 @@ void telescopeWizardProcess::establishLink()
     indidriver->ui->localR->setChecked(true);
     // Connect new device discovered with process ports
     connect (indidriver, SIGNAL(newTelescope()), this, SLOT(processPort()), Qt::QueuedConnection);
-    // Run it
-    indidriver->processLocalTree(IDevice::DEV_START);
-    
-//    kDebug() << "Processing device tree for " << ui->telescopeCombo->currentText();
-
-    if (!indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
-        return;
 
     currentPort = -1;
 
@@ -286,6 +279,14 @@ void telescopeWizardProcess::establishLink()
     progressScan->progressBar()->setMinimum(0);
     progressScan->progressBar()->setMaximum(portList.count());
     progressScan->show();
+
+    // Run it
+    indidriver->processLocalTree(IDevice::DEV_START);
+
+//    kDebug() << "Processing device tree for " << ui->telescopeCombo->currentText();
+
+    if (!indidriver->isDeviceRunning(ui->telescopeCombo->currentText()))
+        return;
 
 }
 
