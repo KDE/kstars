@@ -73,40 +73,45 @@ void CometsComponent::loadData() {
         KSFileReader fileReader( file );
         while( fileReader.hasMoreLines() ) {
             QString line, name;
+            QStringList fields;
+            bool ok;
             int mJD;
             double q, e, dble_i, dble_w, dble_N, Tp;
-            float H, G;
-            bool ok;
             long double JD;
+            float H, G;
             KSComet *com = 0;
 
             line = fileReader.readLine();
 
-            name = line.mid( 0, 38 ).trimmed();
-            mJD  = line.mid( 38, 5 ).toInt();
-            q    = line.mid( 44, 10 ).toDouble();
-            e    = line.mid( 55, 10 ).toDouble();
-            dble_i = line.mid( 66, 9 ).toDouble();
-            dble_w = line.mid( 76, 9 ).toDouble();
-            dble_N = line.mid( 86, 9 ).toDouble();
-            Tp = line.mid( 96, 14 ).toDouble();
+            // Ignore comments and too short lines
+            if ( line.at( 0 ) == '#' || line.size() < 8 )
+                continue;
 
-            // Read the Absolute Magnitude (H) and Slope Parameter (G).
-            // These might not be available in the data file always and we must be open to that fact
-            H = line.mid( 124, 4 ).toFloat( &ok );
-            if( !ok ) H = -101.0; // Any absolute mag brighter than -100 should be treated as nonsense
-            G = line.mid( 129, 4 ).toFloat( &ok );
-            if( !ok ) G = -101.0; // Same with slope parameter.
+            fields = line.split( "," );
+
+            name   = fields.at( 0 );
+            name   = name.remove( '"' ).trimmed();
+            mJD    = fields.at( 1 ).toInt();
+            q      = fields.at( 2 ).toDouble();
+            e      = fields.at( 3 ).toDouble();
+            dble_i = fields.at( 4 ).toDouble();
+            dble_w = fields.at( 5 ).toDouble();
+            dble_N = fields.at( 6 ).toDouble();
+            Tp     = fields.at( 7 ).toDouble();
+            H      = fields.at( 9 ).toFloat( &ok );
+            if ( !ok ) H = -101.0; // Any absolute mag brighter than -100 should be treated as nonsense
+            G      = fields.at( 10 ).toFloat( &ok );
+            if ( !ok ) G = -101.0; // Same with slope parameter.
 
             JD = double( mJD ) + 2400000.5;
 
-            com = new KSComet( name, QString(), JD, q, e, dms(dble_i), dms(dble_w), dms(dble_N), Tp, H, G );
+            com = new KSComet( name, QString(), JD, q, e, dms( dble_i ), dms( dble_w ), dms( dble_N ), Tp, H, G );
             com->setAngularSize( 0.005 );
 
             m_ObjectList.append( com );
 
             //Add *short* name to the list of object names
-            objectNames(SkyObject::COMET).append( com->name() );
+            objectNames( SkyObject::COMET ).append( com->name() );
         }
     }
 }
