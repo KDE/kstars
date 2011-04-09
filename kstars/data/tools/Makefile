@@ -16,7 +16,10 @@ KSTARS_MYSQL_DB_TBL=tycho2
 KSTARS_NOMAD_MYSQL_DB_TBL=nomad
 
 
-all: mysql2bin binfiletester nomadbinfiletester nomadmysql2bin-merge nomadmysql2bin-split
+all: dat2sqlite mysql2bin binfiletester nomadbinfiletester nomadmysql2bin-merge nomadmysql2bin-split
+
+dat2sqlite: dat2sqlite.c
+	$(CC) $(CFLAGS) -lsqlite3 $@.c -o $@
 
 mysql2bin: mysql2bin.c
 	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
@@ -40,8 +43,11 @@ readnomadbindump: readnomadbindump.c
 	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
 
 clean:
-	-rm binfiletester mysql2bin nomadmysql2bin nomadmysql2bin-split nomadbinfiletester readnomadbindump
+	-rm dat2sqlite binfiletester mysql2bin nomadmysql2bin nomadmysql2bin-split nomadbinfiletester readnomadbindump
 	-rm ushf usdf nshf nsdf nf dsdf dshf
+db: dat2sqlite
+	echo "Generating kstars.db from the ngcic.dat file, using kstarsdb.sql configuration file"
+	./dat2sqlite ../ngcic.dat ../kstars.db kstarsdb.sql
 
 datafiles: mysql2bin
 	echo "If this step hangs, please reduce the value of MYSQL_STARS_PER_QUERY in mysql2bin.c and try again."
