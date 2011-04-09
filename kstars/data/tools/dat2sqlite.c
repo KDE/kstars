@@ -19,7 +19,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <QSqlDatabase>
+#include "ksfilereader.h"
+
 #define MAX_LINE_LENGTH 200
+
+#define CTG_NGC	0
+#define CTG_IC	1
+#define CTG_M	2
+#define CTG_UGC	3
+#define CTG_PGC	4
+
+#define CTG_NO	5
+/**
+ * Global array providing correlation between catalogs and indexes in
+ * the database. Example catalogues[CTG_NGC] represents the ID in the
+ * database of the NGC catalogue.
+ */
+int catalogues[5];
 
 /**
  * Open the database where the information will be copied.
@@ -78,15 +95,38 @@ void initialize_kstarsdb(sqlite3 *db, const char *sql_file)
 	} while (p != NULL);
 }
 
+int register_catalogue(void *catalogues, int columns, char **x, char **y)
+{
+
+
+	return 0;
+}
+
+void initialize_catalogues(sqlite3 *db)
+{
+	int rc;
+	char *err_msg;
+
+	rc = sqlite3_exec(db, "SELECT id, name FROM ctg", register_catalogue,
+			NULL, &err_msg);
+
+
+}
+
 /**
  * Convert an entry from a KStars .dat file to an SQL insert query.
  */
-int convert_entry(const char *dat_entry, int *catalogues_id, char *sql)
+int insert_entry(char *dat_entry, sqlite3 *db)
 {
 	/* Check if the entry is actually a comment */
 	if (dat_entry[0] == '#')
 		return 0;
-	
+
+	char *p = dat_entry;
+
+	if (p[0] == 'N') {
+	}
+
 	return 0;
 }
 /**
@@ -96,23 +136,18 @@ void load_ngcic(const char *ngcic_filename, sqlite3 *db)
 {
 	FILE *ngcic_file = fopen(ngcic_filename, "r");
 	char *p, line[MAX_LINE_LENGTH], *sql;
-	int catalogues_id[5];
-
-	sql = malloc(MAX_LINE_LENGTH);
 
 	do {
 		p = fgets(line, MAX_LINE_LENGTH, ngcic_file);
-
-		// TODO: parse line and insert it to the database
-		convert_entry(line, catalogues_id, sql);
-
-		configure_kstarsdb(db, sql);
+		insert_entry(line, db);
 	} while (p != NULL);
 
 	fclose(ngcic_file);
 }
 
 int main(int argc, char *argv[]) {
+	KSFileReader x;
+
 	sqlite3 *kstarsdb;
 
 	if (argc != 4) {
@@ -121,7 +156,9 @@ int main(int argc, char *argv[]) {
 	}
 
 	kstarsdb = open_database(argv[2]);
+
 	initialize_kstarsdb(kstarsdb, argv[3]);
+	initialize_catalogues(kstarsdb);
 
 	sqlite3_close(kstarsdb);
 
