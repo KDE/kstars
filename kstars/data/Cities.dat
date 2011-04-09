@@ -36,7 +36,7 @@ Airdrie                          : Alberta               : Canada               
 Ajaccio                          : Corse du Sud          : France                : 41 : 55 : 00 : N :  08 : 40 : 00 : E :  1.0 : EU
 Ajo                              : Arizona               : USA                   : 32 : 19 : 58 : N : 112 : 55 :  1 : W : -7.0 : --
 Akron                            : Ohio                  : USA                   : 41 :  4 : 59 : N :  81 : 30 : 43 : W : -5.0 : US
-Al Jawf                          :                       : Lybia                 : 24 : 13 :  0 : N :  23 : 18 :  0 : E :  1.0 : --
+Al Jawf                          :                       : Libya                 : 24 : 13 :  0 : N :  23 : 18 :  0 : E :  1.0 : --
 Al Manamah                       :                       : Bahrain               : 26 :  1 :  0 : N :  50 : 32 : 59 : E :  3.0 : --
 Alameda                          : California            : USA                   : 37 : 45 : 47 : N : 122 : 14 : 34 : W : -8.0 : US
 Alamo                            : Nevada                : USA                   : 37 : 22 :  1 : N : 115 : 10 :  1 : W : -8.0 : US
@@ -292,7 +292,7 @@ Ben Guerir                       :                       : Morocco              
 Bend                             : Oregon                : USA                   : 44 :  4 :  1 : N : 121 : 16 : 58 : W : -8.0 : US
 Bender Cassim                    :                       : Somalia               : 11 : 16 :  0 : N :  49 : 10 :  0 : E :   3.0 : --
 Bendigo                          : Victoria              : Australia             : 36 : 45 : 59 : S : 144 : 16 : 59 : E : 10.0 : AU
-Benghazi                         :                       : Lybia                 : 32 :  5 :  0 : N :  20 : 16 :  0 : E :   1.0 : --
+Benghazi                         :                       : Libya                 : 32 :  5 :  0 : N :  20 : 16 :  0 : E :   1.0 : --
 Bennington                       : Vermont               : USA                   : 42 : 52 : 48 : N :  73 : 11 : 48 : W : -5.0 : US
 Benton                           : Arkansas              : USA                   : 34 : 33 : 53 : N :  92 : 35 : 12 : W : -6.0 : US
 Berbera                          :                       : Somalia               : 10 : 25 :  0 : N :  45 : 01 :  0 : E :   3.0 : --
@@ -1450,7 +1450,7 @@ Kannapolis                       : North Carolina        : USA                  
 Kano                             :                       : Nigeria               : 12 :  3 :  0 : N :   8 : 31 : 30 : E : 1.0  : --
 Kansas City                      : Kansas                : USA                   : 39 :  7 :  4 : N :  94 : 38 : 24 : W : -6.0 : US
 Kansas City                      : Missouri              : USA                   : 39 :  4 : 55 : N :  94 : 35 : 20 : W : -6.0 : US
-Kanzelheohe                      :                       : Austria               : 46 : 40 :  7 : N :  13 : 54 : 29 : E :  1.0 : EU
+Kanzelhoehe                      :                       : Austria               : 46 : 40 :  7 : N :  13 : 54 : 29 : E :  1.0 : EU
 Kaolack                          :                       : Senegal               : 14 : 15 :  0 : N :  16 : 10 :  0 : W :   0.0 : --
 Kapaa                            : Hawaii                : USA                   : 22 :  6 :  0 : N : 159 : 19 : 58 : W :-10.0 : --
 Kapalua                          : Hawaii                : USA                   : 20 : 57 : 57 : N : 156 : 40 : 37 : W :-10.0 : --
@@ -1978,7 +1978,7 @@ Mirnyi                           : Far East              : Russia               
 Miryang                          : Gyeongnam             : Korea                 : 35 : 29 :  0 : N : 128 : 45 :  0 : E : 9.0  : SK
 Mishawaka                        : Indiana               : USA                   : 41 : 42 : 46 : N :  86 : 11 :  4 : W : -5.0 : --
 Miskolc                          : Borsod-Abaúj-Zemplén  : Hungary               : 48 :  6 : 15 : N :  20 : 47 : 15 : E : 1.0 : EU
-Misratah                         :                       : Lybia                 : 32 : 19 :  0 : N :  15 : 03 :  0 : E :   1.0 : --
+Misratah                         :                       : Libya                 : 32 : 19 :  0 : N :  15 : 03 :  0 : E :   1.0 : --
 Mississauga                      : Ontario               : Canada                : 43 : 35 : 24 : N :  79 : 27 : 35 : W : -5.0 : US
 Missoula                         : Montana               : USA                   : 46 : 51 : 42 : N : 114 :  0 : 28 : W : -7.0 : US
 Mitchell                         : South Dakota          : USA                   : 43 : 32 : 35 : N :  98 :  1 : 30 : W : -6.0 : US
@@ -3038,7 +3038,7 @@ Tinian Island                    :                       : US Territory         
 Tlemcen                          :                       : Algeria               : 35 :  1 :  0 : N :   1 : 28 :  0 : W :   1.0 : --
 Toamasina                        :                       : Madagascar            : 18 : 15 :  0 : S :  49 : 40 :  0 : E :   3.0 : --
 Tobermory                        : Ontario               : Canada                : 45 : 15 : 00 : N : 81  : 40 : 00 : W : -5.0 : US
-Tobruk                           :                       : Lybia                 : 32 :  6 :  0 : N :  23 : 55 :  0 : E :   1.0 : --
+Tobruk                           :                       : Libya                 : 32 :  6 :  0 : N :  23 : 55 :  0 : E :   1.0 : --
 Toender                          : Jylland               : Denmark               : 54 : 55 : 58 : N :   8 : 54 : 58 : E :   1.0 : EU
 Tofino                           : British Columbia      : Canada                : 49 : 07 : 00 : N : 125 : 53 : 00 : W : -8.0 : US
 Tokyo                            :                       : Japan                 : 35 : 40 : 59 : N : 139 : 43 : 59 : E : 9.0  : --

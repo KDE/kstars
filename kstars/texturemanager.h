@@ -57,6 +57,11 @@ public:
      */
     static TextureManager *Create();
 
+    /**
+     *@short Create a texture from image
+     */
+    static Texture* createTexture( QImage image );
+
 protected:
     TextureManager(QObject* parent = 0);
     static TextureManager* m_p;

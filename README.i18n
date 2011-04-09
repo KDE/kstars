@@ -40,8 +40,8 @@ this document to answer some questions you might have.
   that the links go to are all in English!
 
   If you want to provide internet links that point to websites 
-  in your native language, you can.  Add a file to the CVS tree at:
-  kde-i18n/<lang>/data/kdeedu/kstars/info_url.dat (where <lang> is 
+  in your native language, you can.  Add a file to the SVN tree at:
+  l10n-kde4/<lang>/data/kdeedu/kstars/info_url.dat (where <lang> is
   the two-letter code for your language).  This file should contain 
   the list of internet links you want KStars to use when localized 
   for your language.  You can look at the default info_url.dat to

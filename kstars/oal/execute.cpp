@@ -258,9 +258,20 @@ bool Execute::addObservation() {
 }
 void Execute::slotEndSession() {
     if( currentSession ) {
-        currentSession->setSession( currentSession->id(), currentSession->site(), ui.Begin->dateTime(), KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+
+        currentSession->setSession( currentSession->id(), currentSession->site(), ui.Begin->dateTime(),
+                                    KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
+                                    ui.Comment->toPlainText(), ui.Language->text() );
+
         KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml" );
+
+        if( fileURL.isEmpty() ) {
+            // Cancel
+            return;
+        }
+
         if( fileURL.isValid() ) {
+
             QFile f( fileURL.path() );
             if( ! f.open( QIODevice::WriteOnly ) ) {
                 QString message = i18n( "Could not open file %1", f.fileName() );
@@ -271,14 +282,15 @@ void Execute::slotEndSession() {
             ostream<< logObject->writeLog( false );
             f.close();
         }
+
     }
-        hide();
-        ui.stackedWidget->setCurrentIndex(0);
-        logObject->observationList()->clear();
-        logObject->sessionList()->clear();
-        delete currentSession;
-        currentTarget = NULL;
-        currentSession = NULL;
+    hide();
+    ui.stackedWidget->setCurrentIndex(0);
+    logObject->observationList()->clear();
+    logObject->sessionList()->clear();
+    delete currentSession;
+    currentTarget = NULL;
+    currentSession = NULL;
 }
 
 void Execute::slotSetTarget( QString name ) { 

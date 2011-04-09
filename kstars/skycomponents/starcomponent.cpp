@@ -507,7 +507,7 @@ SkyObject* StarComponent::findByName( const QString &name ) {
 
 void StarComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region ) 
 {
-    for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); it++ )
+    for( SkyRegion::const_iterator it = region.constBegin(); it != region.constEnd(); ++it )
     {
         Trixel trixel = it.key();
         StarList* starlist = m_starIndex->at( trixel );

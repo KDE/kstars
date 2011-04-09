@@ -34,14 +34,9 @@
 
 #include <config-kstars.h>
 
-#define HOVER_INTERVAL 500
-
 class QPainter;
 class QPaintDevice;
 class QPixmap;
-
-//DEBUG_KIO_JOB
-class KJob;
 
 class dms;
 class KStarsData;
@@ -171,7 +166,7 @@ class SkyMap : public QGraphicsView {
     	*repainting the sky at each step (if Options::useAnimatedSlewing()==true).
     	*@param f a pointer to the SkyPoint the map should slew to
     	*/
-    void setDestination( SkyPoint *f );
+    void setDestination( const SkyPoint& f );
 
     /**@short sets the destination point of the skymap, using ra/dec coordinates.
     	*
@@ -208,22 +203,6 @@ class SkyMap : public QGraphicsView {
     	*/
     void setClickedPoint( SkyPoint *f );
 
-    /**@short Retrieve a pointer to MousePoint, the sky coordinates of the mouse cursor.
-    	*
-    	*When the user moves the mouse in the sky map, the sky coordinates of the mouse
-    	*cursor are continually stored in MousePoint by the function mouseMoveEvent().  
-    	*@return a pointer to MousePoint, the current sky coordinates of the mouse cursor.
-    	*/
-    SkyPoint* mousePoint() { return &MousePoint; }
-
-    /**@short Set the MousePoint to the skypoint given as an argument.
-    	*@note In this function, the argument is a SkyPoint, not a pointer to a SkyPoint.
-    	*This is because setMousePoint always uses the function dXdYToRaDec() for the 
-    	*argument, and this function returns by value.
-    	*@param f the new MousePoint (typically the output of dXdYToRaDec()).
-    	*/
-    void setMousePoint( SkyPoint f ) { MousePoint = f; }
-
     /**@short Retrieve the object nearest to a mouse click event.
     	*
     	*If the user clicks on the sky map, a pointer to the nearest SkyObject is stored in
@@ -253,31 +232,13 @@ class SkyMap : public QGraphicsView {
     	*/
     void setFocusObject( SkyObject *o );
 
-    /**@short Retrieve the object nearest to the point at which the mouse has hovered.
-    	*
-    	*When the mouse hovers near an object, it is set as the TransientObject (so named
-    	*because a transient name label will be attached to it).  This function returns 
-    	*a pointer to the current TransientObject, or NULL if no TransientObject is set.
-    	*@return pointer to the SkyObject nearest to the mouse hover position.
-    	*@see SkyMap::slotTransientLabel()
-    	*/
-    SkyObject* transientObject() const { return TransientObject; }
-
-    /**@short Set the TransientObject pointer to the argument.
-    	*@param o pointer to the SkyObject to be assigned as the TransientObject.
-    	*/
-    void setTransientObject( SkyObject *o ) { TransientObject = o; }
-
-    /** @short Call to set up the projector before a draw cycle.
-      */
+    /** @short Call to set up the projector before a draw cycle. */
     void setupProjector();
 
     /** Set zoom factor. */
     void setZoomFactor(double factor);
 
     bool isSlewing() const;
-
-    bool isPointNull( const QPointF &p );
 
     // NOTE: This method is draw-backend independent.
     /**@short update the geometry of the angle ruler. */
@@ -313,17 +274,6 @@ class SkyMap : public QGraphicsView {
 
 
 public slots:
-    //DEBUG_KIO_JOB
-    void slotJobResult( KJob *j );
-
-    /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size. */
-    virtual void setGeometry( int x, int y, int w, int h );
-
-    /**@short This overloaded function is used internally to resize the Sky pixmap to match the window size.
-     * This function behaves essentially like the above function.  It differs only in the data types 	*of its arguments.
-     */
-    virtual void setGeometry( const QRect &r );
-
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().
      * This saves a lot of CPU time.
@@ -545,22 +495,9 @@ protected:
     virtual void resizeEvent( QResizeEvent * );
 
 private slots:
-    /**Gradually fade the Transient Hover Label into the background sky color, and
-    	*redraw the screen after each color change.  Once it has faded fully, set the 
-    	*TransientObject pointer to NULL to remove the label.
-    	*/
-    void slotTransientTimeout();
-
-    // NOTE: Akarsh believes that this method is backend-independent, and is pretty confident about that, but he thinks that it really requires a second inspection.
-    /**@short attach transient label to object nearest the mouse cursor.
-    	*This slot is connected to the timeout() signal of the HoverTimer, which is restarted
-    	*in every mouseMoveEvent().  So this slot is executed only if the mouse does not move for 
-    	*HOVER_INTERVAL msec.  It points TransientObject at the SkyObject nearest the 
-    	*mouse cursor, and the TransientObject is subsequently labeled in paintEvent().
-    	*Note that when TransientObject is not NULL, the next mouseMoveEvent() calls 
-    	*fadeTransientLabel(), which fades the label color and then sets TransientLabel to NULL.
-    	*@sa mouseMoveEvent(), paintEvent(), slotTransientTimeout(), fadeTransientLabel()
-    	*/
+    /** @short display tooltip for object under cursor. It's called by m_HoverTimer.
+     *  if mouse didn't moved for last HOVER_INTERVAL milliseconds.
+     */
     void slotTransientLabel();
 
     /**Set the shape of mouse cursor to a cross with 4 arrows. */
@@ -568,35 +505,18 @@ private slots:
 
 private:
 
-    /**@short Begin fading out the name label attached to TransientObject.
-    	*
-    	*mouseMoveEvent() will call fadeTransientLabel() when TransientObject is not a 
-    	*NULL pointer, and the TransientTimer is not already active.  These conditions 
-    	*are met when the mouse did not move for HOVER_INTERVAL msec (triggering a 
-    	*TransientLabel), but the mouse has since been moved, thus ending the Hover event.  
-    	*This function merely starts the TransientTimer, whose timeout SIGNAL is 
-    	*connected to the slotTransientTimeout() SLOT, which handles the actual fading 
-    	*of the transient label, and eventually resets TransientObject to NULL.
-    	*@sa SkyMap::slotTransientLabel(), SkyMap::slotTransientTimeout()
-    	*/
-    void fadeTransientLabel() { TransientTimer.start( TransientTimeout ); }
-
-    /**@short Sets the shape of the default mouse cursor to a cross.
-    	*/
+    /**@short Sets the shape of the default mouse cursor to a cross. */
     void setDefaultMouseCursor();
 
-    /**@short Sets the shape of the mouse cursor to a magnifying glass.
-    	*/
+    /**@short Sets the shape of the mouse cursor to a magnifying glass. */
     void setZoomMouseCursor();
 
     /** Calculate the zoom factor for the given keyboard modifier
-     * @param modifier
      */
     double zoomFactor( const int modifier );
 
     /** calculate the magnitude factor (1, .5, .2, or .1) for the given
      * keyboard modifier.
-     * @param modifier
      */
     double magFactor( const int modifier );
 
@@ -638,30 +558,42 @@ private:
 #endif
 
     bool mouseButtonDown, midMouseButtonDown;
-    bool mouseMoveCursor;  // true if mouseMoveEvent; needed by setMouseMoveCursor
+    // true if mouseMoveEvent; needed by setMouseMoveCursor
+    bool mouseMoveCursor;
     bool slewing, clockSlewing;
-    bool computeSkymap;  //if false only old pixmap will repainted with bitBlt(), this saves a lot of cpu usage
-    bool rulerMode; // True if we are either looking for angular distance or star hopping directions
-    bool starHopDefineMode; // True only if we are looking for star hopping directions. If false while rulerMode is true, it means we are measuring angular distance. FIXME: Find a better way to do this
-    int scrollCount;
+    //if false only old pixmap will repainted with bitBlt(), this
+    // saves a lot of cpu usage
+    bool computeSkymap;
+    // True if we are either looking for angular distance or star hopping directions
+    bool rulerMode;
+    // True only if we are looking for star hopping directions. If
+    // false while rulerMode is true, it means we are measuring angular
+    // distance. FIXME: Find a better way to do this
+    bool starHopDefineMode;
     double y0;
 
     double m_Scale;
 
     KStarsData *data;
     KSPopupMenu *pmenu;
-    SkyPoint  Focus, ClickedPoint, FocusPoint, MousePoint, Destination;
-    SkyObject *ClickedObject, *FocusObject, *TransientObject;
+
+    /**@short Coordinates of point under cursor. It's update in
+     * function mouseMoveEvent
+     */
+    SkyPoint m_MousePoint;
+    
+    SkyPoint  Focus, ClickedPoint, FocusPoint, Destination;
+    SkyObject *ClickedObject, *FocusObject;
 
     Projector *m_proj;
 
     SkyLine AngularRuler; //The line for measuring angles in the map
     QRect ZoomRect; //The manual-focus circle.
 
-    //data for transient object labels
-    QTimer TransientTimer, HoverTimer;
-    QColor TransientColor;
-    unsigned int TransientTimeout;
+    // Mouse should not move for that interval to display tooltip
+    static const int HOVER_INTERVAL = 500;
+    // Timer for tooltips
+    QTimer m_HoverTimer;
 
     // InfoBoxes. Used in desctructor to save state
     InfoBoxWidget* m_timeBox;

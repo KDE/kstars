@@ -21,9 +21,7 @@
 // Macro definitions for readability
 //
 // ===========================================================================
-#define V(x) tree_.vertices_[tree_.nodes_[index].v_[(x)]]
 #define IV(x) tree_.nodes_[index].v_[(x)]
-#define W(x) tree_.vertices_[tree_.nodes_[index].w_[(x)]]
 #define IW(x) tree_.nodes_[index].w_[(x)]
 #define LAYER tree_.layers_[layerindex_]
 

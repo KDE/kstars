@@ -142,6 +142,7 @@ private:
     float H, G;
     dms i, w, N;
 
+    qint64 uidPart; // Part of UID 
 };
 
 #endif

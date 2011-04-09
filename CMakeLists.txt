@@ -1,7 +1,18 @@
 project(kstars)
 
+find_package(KDE4 REQUIRED)
+include(KDE4Defaults)
+
+include_directories (${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${KDE4_INCLUDES} ${QT4_INCLUDES})
+
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
+
 # some configure checks needed for kstars
 include(CheckIncludeFiles)
+
+macro_optional_find_package(Eigen2 2.0.3)
+macro_log_feature(EIGEN2_FOUND "Eigen2" "A generic C++ template library for dense and sparse matrices" "http://eigen.tuxfamily.org" FALSE "2.0.3" "Required to build Step and KStars.")
+if( EIGEN2_FOUND )
 
 macro_optional_find_package(CFitsio)
 macro_bool_to_01(CFITSIO_FOUND HAVE_CFITSIO_H)
@@ -29,4 +40,7 @@ macro_log_feature(OPENGL_FOUND "OpenGL" "3D Graphics Library" "http://www.opengl
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 
+add_subdirectory( doc )
 add_subdirectory( kstars )
+
+endif( EIGEN2_FOUND )

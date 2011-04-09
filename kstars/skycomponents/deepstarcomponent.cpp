@@ -1,9 +1,9 @@
 /***************************************************************************
-                          starcomponent.cpp  -  K Desktop Planetarium
+                        deepstarcomponent.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 2005/14/08
-    copyright            : (C) 2005 by Thomas Kabelmann
-    email                : thomas.kabelmann@gmx.de
+    begin                : Fri 1st Aug 2008
+    copyright            : (C) 2008 Akarsh Simha, Thomas Kabelmann
+    email                : akarshsimha@gmail.com, thomas.kabelmann@gmx.de
  ***************************************************************************/
 
 /***************************************************************************

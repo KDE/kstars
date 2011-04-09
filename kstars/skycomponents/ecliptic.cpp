@@ -27,6 +27,7 @@
 #include "skylabeler.h"
 
 #include "skypainter.h"
+#include "projections/projector.h"
 
 Ecliptic::Ecliptic(SkyComposite *parent ) :
         LineListIndex( parent, i18n("Ecliptic") ),
@@ -47,7 +48,7 @@ Ecliptic::Ecliptic(SkyComposite *parent ) :
         for(double ra2 = ra; ra2 <= ra + dRa + eps; ra2 += dRa2 ) {
             elng.setH( ra2 );
             SkyPoint* o = new SkyPoint();
-            o->setFromEcliptic( num.obliquity(), &elng, &elat );
+            o->setFromEcliptic( num.obliquity(), elng, elat );
             o->setRA0( o->ra().Hours() );
             o->setDec0( o->dec().Degrees() );
             o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -74,4 +75,33 @@ void Ecliptic::draw( SkyPainter *skyp )
     drawLines( skyp );
     SkyLabeler::Instance()->setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );
     m_label.draw();
+
+    drawCompassLabels();
+}
+
+void Ecliptic::drawCompassLabels() {
+    const Projector*  proj = SkyMap::Instance()->projector();
+    KStarsData*       data = KStarsData::Instance();
+    SkyLabeler* skyLabeler = SkyLabeler::Instance();
+    // Set proper color for labels
+    QColor color( data->colorScheme()->colorNamed( "CompassColor" ) );
+    skyLabeler->setPen( QPen( QBrush(color), 1, Qt::SolidLine) );
+
+    KSNumbers num( data->ut().djd() );
+    dms elat(0.0), elng(0.0);
+    QString label;
+    for( int ra = 0; ra < 23; ra += 6 ) {
+        elng.setH( ra );
+        SkyPoint o;
+        o.setFromEcliptic( num.obliquity(), elng, elat );
+        o.setRA0(  o.ra()  );
+        o.setDec0( o.dec() );
+        o.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        bool visible;
+        QPointF cpoint = proj->toScreen( &o, false, &visible );
+        if( visible && proj->checkVisibility( &o ) ) {
+            label.setNum( o.ra().reduce().Degrees() );
+            skyLabeler->drawGuideLabel( cpoint, label, 0.0 );
+        }
+    }
 }

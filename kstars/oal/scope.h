@@ -24,16 +24,16 @@
 
 class OAL::Scope {
     public:
-        Scope( QString id, QString model, QString vendor, QString type, double focalLength, double aperture ) { setScope( id, model, vendor, type, focalLength, aperture ); }
-        QString id() { return m_Id; }
-        QString model() { return m_Model; }
-        QString vendor() { return m_Vendor; }
-        QString type() { return m_Type; }
-        QString name() { return m_Name; }
-        QString driver() { return m_INDIDriver; }
-        double focalLength() { return m_FocalLength; }
-        double aperture() { return m_Aperture; }
-        void setScope( QString _id, QString _model, QString _vendor, QString _type, double _focalLength, double _aperture );
+        Scope( const QString& id, const QString& model, const QString& vendor, const QString& type, double focalLength, double aperture ) { setScope( id, model, vendor, type, focalLength, aperture ); }
+        QString id() const { return m_Id; }
+        QString model() const { return m_Model; }
+        QString vendor() const { return m_Vendor; }
+        QString type() const { return m_Type; }
+        QString name() const { return m_Name; }
+        QString driver() const { return m_INDIDriver; }
+        double focalLength() const { return m_FocalLength; }
+        double aperture() const { return m_Aperture; }
+        void setScope( const QString& _id, const QString& _model, const QString& _vendor, const QString& _type, double _focalLength, double _aperture );
         inline void setINDIDriver(const QString &driver) { m_INDIDriver = driver; }
     private:
         QString m_Id, m_Model, m_Vendor, m_Type, m_Name, m_INDIDriver;

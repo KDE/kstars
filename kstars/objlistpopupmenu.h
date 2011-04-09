@@ -36,7 +36,7 @@ public:
     ObjListPopupMenu(KSObjectList *);
 
     /**Destructor (empty)*/
-    ~ObjListPopupMenu();
+    virtual ~ObjListPopupMenu();
 
     void showAddToSession();
     void showAddVisibleTonight();

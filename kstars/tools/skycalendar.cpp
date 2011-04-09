@@ -44,6 +44,17 @@ namespace {
             h -= 24.0;
         return h;
     }
+
+    // Check that axis has been crossed
+    inline bool isAxisCrossed(const QVector<QPointF>& vec, int i) {
+        return i > 0  &&  vec.at(i-1).x() * vec.at(i).x() <= 0;
+    }
+    // Check that we are at maximum
+    inline bool isAtExtremum(const QVector<QPointF>& vec, int i) {
+        return
+            i > 0 && i < vec.size() - 1 &&
+            (vec.at(i-1).x() - vec.at(i).x()) * (vec.at(i).x() - vec.at(i+1).x()) < 0;
+    }
 }
 
 SkyCalendarUI::SkyCalendarUI( QWidget *parent )
@@ -128,15 +139,13 @@ void SkyCalendar::drawEventLabel( float x1, float y1, float x2, float y2, QStrin
 
 void SkyCalendar::addPlanetEvents( int nPlanet ) {
     KSPlanetBase *ksp = KStarsData::Instance()->skyComposite()->planet( nPlanet );
-    int y = scUI->Year->value();
-    KStarsDateTime kdt( QDate( y, 1, 1 ), QTime( 12, 0, 0 ) );
-    QColor pColor = KSPlanetBase::planetColor[nPlanet];
-
+    QColor pColor = ksp->color();
     QVector<QPointF> vRise, vSet, vTransit;
-    int iweek = 0;
-    while( kdt.date().year() == y ) {
-        float dy = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
 
+    for( KStarsDateTime kdt( QDate( year(), 1, 1 ), QTime( 12, 0, 0 ) );
+         kdt.date().year() == year();
+         kdt = kdt.addDays( 7 ))
+    {
         //Compute rise/set/transit times.  If they occur before noon, 
         //recompute for the following day
         QTime rtime = ksp->riseSetTime( kdt, geo, true, true );//rise time, exact
@@ -152,25 +161,20 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             ttime = ksp->transitTime( kdt.addDays( 1 ), geo );
         }
 
+        float dy = kdt.date().daysInYear() - kdt.date().dayOfYear();
         vRise    << QPointF( timeToHours( rtime ), dy );
         vSet     << QPointF( timeToHours( stime ), dy );
         vTransit << QPointF( timeToHours( ttime ), dy );
-        ++iweek;
-
-        kdt = kdt.addDays( 7 );
     }
 
     //Now, find continuous segments in each QVector and add each segment 
     //as a separate KPlotObject
 
     // Flags to indicate whether the set / rise / transit labels should be drawn
-    bool setLabel, riseLabel, transitLabel;
 
     KPlotObject *oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-
-    setLabel = riseLabel = transitLabel = false;
 
     for ( int i=0; i<vRise.size(); ++i ) {
         if ( i > 0 && fabs(vRise.at(i).x() - vRise.at(i-1).x()) > 6.0 ) { 
@@ -189,29 +193,18 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             scUI->CalendarView->update();
         }
         
-        if( i > 0 ) {
-            // Draw a label when a line crosses the Y-Axis
-            if( vRise.at( i - 1 ).x() * vRise.at( i ).x() <= 0 )
-                riseLabel = true;
-            if( vSet.at( i - 1 ).x() * vSet.at( i ).x() <= 0 )
-                setLabel = true;
-            if( vTransit.at( i - 1 ).x() * vTransit.at( i ).x() <= 0 )
-                transitLabel = true;
-            
-            // Draw a label when a line reaches a maximum / minimum
-            if( i < vRise.size() - 1 ) {
-                if( ( vRise.at( i - 1 ).x() - vRise.at( i ).x() ) * ( vRise.at( i ).x() - vRise.at( i + 1 ).x() ) < 0 )
-                    riseLabel = true;
-                if( ( vSet.at( i - 1 ).x() - vSet.at( i ).x() ) * ( vSet.at( i ).x() - vSet.at( i + 1 ).x() ) < 0 )
-                    setLabel = true;
-                if( ( vTransit.at( i - 1 ).x() - vTransit.at( i ).x() ) * ( vTransit.at( i ).x() - vTransit.at( i + 1 ).x() ) < 0 )
-                    transitLabel = true;
-            }                
-        }
-        oRise->addPoint( vRise.at(i), riseLabel ? i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() ) : QString() );
-        oSet->addPoint( vSet.at(i), setLabel ? i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() ) : QString() );
-        oTransit->addPoint( vTransit.at(i), transitLabel ? i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() ) : QString() );
-        setLabel = riseLabel = transitLabel = false;
+        bool riseLabel    = isAxisCrossed(vRise,    i)  || isAtExtremum(vRise,    i);
+        bool transitLabel = isAxisCrossed(vTransit, i)  || isAtExtremum(vTransit, i);
+        bool setLabel     = isAxisCrossed(vSet,     i)  || isAtExtremum(vSet,     i);
+        oRise->addPoint(
+            vRise.at(i),
+            riseLabel ? i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() ) : QString() );
+        oSet->addPoint(
+            vSet.at(i),
+            setLabel ? i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() ) : QString() );
+        oTransit->addPoint(
+            vTransit.at(i),
+            transitLabel ? i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() ) : QString() );
     }
     
     scUI->CalendarView->addPlotObject( oRise );
@@ -225,7 +218,6 @@ void SkyCalendar::slotPrint() {
     QPrinter printer;           // Our printer object
     QString str_legend;         // Text legend
     QString str_year;           // Calendar's year
-    bool ok( false );           // True if the user click "Print" button in print dialog
     int text_height = 200;      // Height of legend text zone in points
     QSize calendar_size;        // Initial calendar widget size
     QFont calendar_font;        // Initial calendar font
@@ -235,15 +227,9 @@ void SkyCalendar::slotPrint() {
     printer.setResolution( 300 );
 
     // Open print dialog
-    QPrintDialog *dialog = KdePrint::createPrintDialog( &printer, this );
+    QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
     dialog->setWindowTitle( i18n( "Print sky calendar" ) );
     if ( dialog->exec() == QDialog::Accepted ) {
-        ok = true;
-    }
-    delete dialog;
-
-    // If the user click on "Print" button
-    if ( ok ) {
         // Change mouse cursor
         QApplication::setOverrideCursor( Qt::WaitCursor );
 
@@ -293,6 +279,7 @@ void SkyCalendar::slotPrint() {
         // Restore mouse cursor
         QApplication::restoreOverrideCursor();
     }
+    delete dialog;
 }
 
 void SkyCalendar::slotLocation() {

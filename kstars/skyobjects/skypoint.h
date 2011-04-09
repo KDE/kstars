@@ -24,11 +24,9 @@
 #include <QList>
 
 #include "dms.h"
-#include "quaternion.h"
 #include "kstarsdatetime.h"
 
 class KSNumbers;
-class SkyObject;
 
 /**@class SkyPoint
 	*
@@ -55,12 +53,11 @@ public:
     	*@param r Right Ascension
     	*@param d Declination
     	*/
- SkyPoint( const dms& r, const dms& d ) :
-    RA0(r), Dec0(d),
+    SkyPoint( const dms& r, const dms& d ) :
+        RA0(r), Dec0(d),
         RA(r),  Dec(d)
-    {
-        syncQuaternion();
-    }
+    {}
+
     
     /**Alternate constructor using double arguments, for convenience.
      *It behaves essentially like the default constructor.
@@ -69,10 +66,8 @@ public:
      */
     //FIXME: this (*15.0) thing is somewhat hacky.
     explicit SkyPoint( double r, double d ) :
-    RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d)
-    {
-        syncQuaternion();
-    }
+        RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d)
+    {}
     
     /**
      *@short Default constructor. Sets nonsense values for RA, Dec etc
@@ -127,24 +122,24 @@ public:
     /**Sets RA, the current Right Ascension.
     	*@param r Right Ascension.
     	*/
-    inline void setRA( dms r ) { RA = r; syncQuaternion(); }
+    inline void setRA( dms r ) { RA = r; }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param r Right Ascension, expressed as a double.
     	*/
-    inline void setRA( double r ) { RA.setH( r ); syncQuaternion(); }
+    inline void setRA( double r ) { RA.setH( r ); }
 
     /**Sets Dec, the current Declination
     	*@param d Declination.
     	*/
-    inline void setDec( dms d ) { Dec = d; syncQuaternion(); }
+    inline void setDec( dms d ) { Dec = d; }
 
     /**Overloaded member function, provided for convenience.
     	*It behaves essentially like the above function.
     	*@param d Declination, expressed as a double.
     	*/
-    inline void setDec( double d ) { Dec.setD( d ); syncQuaternion(); }
+    inline void setDec( double d ) { Dec.setD( d ); }
 
     /**Sets Alt, the Altitude.
     	*@param alt Altitude.
@@ -217,10 +212,6 @@ public:
      * correction should be aplied */
     dms altRefracted() const;
 
-    //XYZ
-    inline const Quaternion& quat() const { return m_q; }
-    void syncQuaternion();
-
     ////
     //// 3. Coordinate conversions.
     //// ==========================
@@ -251,7 +242,7 @@ public:
     	*SkyPoint, given pointers to its Ecliptic (Long, Lat) coordinates, and
     	*to the current obliquity angle (the angle between the equator and ecliptic).
     	*/
-    void setFromEcliptic( const dms *Obliquity, const dms *EcLong, const dms *EcLat );
+    void setFromEcliptic( const dms *Obliquity, const dms& EcLong, const dms& EcLat );
 
     /** Computes galactic coordinates from equatorial coordinates referred to
     	* epoch 1950. RA and Dec are, therefore assumed to be B1950
@@ -310,7 +301,7 @@ public:
      * of this skypoint. Also set the RA0, Dec0 of this SkyPoint if not
      * set already.
      */
-    SkyPoint deprecess( const KSNumbers *num, long double epoch=J2000 ) const;
+    SkyPoint deprecess( const KSNumbers *num, long double epoch=J2000 );
 
     /**Determine the effects of aberration for this SkyPoint.
     	*@param num pointer to KSNumbers object containing current values of
@@ -506,10 +497,9 @@ protected:
 
 
 private:
-    mutable dms RA0, Dec0; //catalog coordinates
+    dms RA0, Dec0; //catalog coordinates
     dms RA, Dec; //current true sky coordinates
     dms Alt, Az;
-    Quaternion m_q;  //quaternion representation of the point
 };
 
 #endif

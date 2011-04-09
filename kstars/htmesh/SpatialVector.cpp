@@ -43,27 +43,6 @@ SpatialVector::SpatialVector(float64 ra, float64 dec) :
   updateRaDec();
 }
 
-/////////////COPY CONSTRUCTOR/////////////////////////////
-//
-SpatialVector::SpatialVector(const SpatialVector & vv) :
-  x_(vv.x_), y_(vv.y_), z_(vv.z_), ra_(vv.ra_), dec_(vv.dec_), 
-  okRaDec_(vv.okRaDec_) {
-}
-
-/////////////ASSIGNMENT///////////////////////////////////
-//
-SpatialVector&
-SpatialVector::operator =(const SpatialVector & vv)
-{
-  x_ = vv.x_;
-  y_ = vv.y_;
-  z_ = vv.z_;
-  ra_ = vv.ra_;
-  dec_ = vv.dec_;
-  okRaDec_ = vv.okRaDec_;
-  return *this;
-}
-
 /////////////SET//////////////////////////////////////////
 //
 void

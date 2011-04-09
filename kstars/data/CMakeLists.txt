@@ -116,7 +116,8 @@ install( FILES textures/star.png
 	       textures/moon32.png 
 	       textures/moon33.png 
 	       textures/moon34.png 
-	       textures/moon35.png 
+	       textures/moon35.png
+	       textures/defaultflag.png 
          DESTINATION ${DATA_INSTALL_DIR}/kstars/textures )
 
 

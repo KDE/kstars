@@ -22,9 +22,8 @@
 
 #include "kstars.h"
 #include "kstarsdata.h"
-#include "skyobjects/starobject.h"
-#include "skyobjects/ksmoon.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/starobject.h"
 #include "skyobjects/trailobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksmoon.h"

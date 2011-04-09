@@ -41,6 +41,7 @@ public:
 
     virtual bool selected();
     virtual void draw( SkyPainter *skyp );
+    virtual void drawCompassLabels();
     virtual LineListLabel* label() {return &m_label;};
 
 protected:

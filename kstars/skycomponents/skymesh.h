@@ -137,7 +137,7 @@ public:
 
     /* @short returns the index of the trixel containing p.
      */
-    Trixel index( SkyPoint *p );
+    Trixel index( const SkyPoint *p );
 
     /**
      * @short returns the sky region needed to cover the rectangle defined by two
@@ -202,22 +202,22 @@ public:
     /* @short finds the indices of the trixels covering the circle specified
      * by center and radius.
      */
-    void index( SkyPoint *center, double radius, MeshBufNum_t bufNum=DRAW_BUF );
+    void index( const SkyPoint *center, double radius, MeshBufNum_t bufNum=DRAW_BUF );
 
     /* @short finds the indices of the trixels covering the line segment
      * connecting p1 and p2.
      */
-    void index( SkyPoint* p1, SkyPoint* p2 );
+    void index( const SkyPoint* p1, const SkyPoint* p2 );
 
     /* @short finds the indices of the trixels covering the triangle
      * specified by vertices: p1, p2, and p3.
      */
-    void index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3 );
+    void index( const SkyPoint* p1, const SkyPoint* p2, const SkyPoint* p3 );
 
     /* @short finds the indices of the trixels covering the quadralateral
      * specified by the vertices: p1, p2, p3, and p4.
      */
-    void index( SkyPoint* p1, SkyPoint* p2, SkyPoint* p3, SkyPoint* p4 );
+    void index( const SkyPoint* p1, const SkyPoint* p2, const SkyPoint* p3, const SkyPoint* p4 );
 
 
     //----- IndexHash Routines -----

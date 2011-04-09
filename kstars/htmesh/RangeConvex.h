@@ -72,40 +72,17 @@ public:
 		const SpatialVector * v3,
 		const SpatialVector * v4);
 
-  /// Copy constructor
-  RangeConvex(const RangeConvex &);
-
-  /// Assignment
-  RangeConvex& operator =(const RangeConvex &);
-
   /// Add a constraint
   void add(SpatialConstraint &);
 
   /// Simplify the convex, remove redundancies
   void simplify();
 
-  /** 
-      Intersect with index.
-      result is given in a list of nodes.
-  */
-  void intersect(const SpatialIndex * index, HtmRange *hr, bool varlen);
+  /** Intersect with index. Result is given in a list of nodes. */
+  void intersect(const SpatialIndex * index, HtmRange *hr);
 
-  /** 
-      Intersect with index.
-      Now only a single list of IDs is returned. The IDs need not be
-      level.
-  */
-  void intersect(const SpatialIndex * index,
-		 ValueVectorUint64 * idList);
+  void setOlevel(int level) { olevel = level; };
 
-  /// Return the number of constraints
-  size_t numConstraints();
-
-  /// [] operator: give back constraint
-  SpatialConstraint & operator [](size_t i);
-
-  void setOlevel(int level){olevel = level;};
-  int getOlevel(void){return olevel;};
 protected:
   HtmRange *hr;
   int olevel;
@@ -126,8 +103,8 @@ protected:
   // test each quadnode for intersections. Calls testTriangle after having
   // tested the vertices using testVertex.
   SpatialMarkup testNode(uint64 id);
-  // SpatialMarkup testNode(const struct SpatialIndex::QuadNode *indexNode);
 
+  // SpatialMarkup testNode(const struct SpatialIndex::QuadNode *indexNode);
   SpatialMarkup testNode(const SpatialVector & v0, 
 			 const SpatialVector & v1, 
 			 const SpatialVector & v2);
@@ -139,13 +116,6 @@ protected:
 			     const SpatialVector & v1, 
 			     const SpatialVector & v2,
 			     int vsum);
-
-  // fillChildren: Mark the child nodes as markup.
-  // [ed:gyuri: typo? should say full instead of markup.
-  // Markup is a typedef enum, no?
-  // void XXfillChildren(uint64 nodeIndex);
-
-
 
   // test a triangle's subtriangles whether they are partial.
   // If level is nonzero, recurse: subdivide the
@@ -222,21 +192,16 @@ protected:
 			const SpatialVector & v2, 
 			SpatialVector & v);
 
-  typedef std::vector <SpatialConstraint> ValueVectorSpvecCon;
-  ValueVectorSpvecCon constraints_; // The vector of constraints
-  bool varlen_;
+  std::vector<SpatialConstraint> constraints_; // The vector of constraints
   const SpatialIndex * index_;	// A pointer to the index
-  typedef std::vector<SpatialVector> ValueVectorSpvec;
-  ValueVectorSpvec corners_; 
+  std::vector<SpatialVector> corners_; 
   SpatialConstraint boundingCircle_; // For zERO convexes, the bc.
   size_t addlevel_;		// additional levels to calculate
   ValueVectorUint64 * plist_;	// list of partial node ids
-
-
-  friend class SpatialDomain;
-  friend class SpatialConstraint;
+private:
+  // Disallow copying and assignemnt
+  RangeConvex(const RangeConvex &);
+  RangeConvex& operator =(const RangeConvex &);
 };
-
-#include "RangeConvex.hxx"
 
 #endif

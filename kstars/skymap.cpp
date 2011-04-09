@@ -21,6 +21,7 @@
 #include <QBitmap>
 #include <QPainter>
 #include <QPixmap>
+#include <QToolTip>
 #include <QTextStream>
 #include <QFile>
 #include <QPointF>
@@ -79,28 +80,6 @@
 
 namespace {
 
-    // FIXME: describe what this function do and give descriptive name
-    double projectionK(double c) {
-        switch ( Options::projection() ) {
-        case SkyMap::Lambert:
-            return sqrt( 2.0/( 1.0 + c ) );
-        case SkyMap:: AzimuthalEquidistant: {
-            double crad = acos(c);
-            return crad/sin(crad);
-        }
-        case SkyMap:: Orthographic:
-            return 1.0;
-        case SkyMap:: Stereographic:
-            return 2.0/(1.0 + c);
-        case SkyMap:: Gnomonic:
-            return 1.0/c;
-        default: //should never get here
-            kWarning() << i18n("Unrecognized coordinate projection: ") << Options::projection();
-        }
-        // Default to orthographic
-        return 1.0;
-    }
-
     // Draw bitmap for zoom cursor. Width is size of pen to draw with.
     QBitmap zoomCursorBitmap(int width) {
         QBitmap b(32, 32);
@@ -154,9 +133,9 @@ SkyMap* SkyMap::Instance( )
 
 SkyMap::SkyMap() : 
     QGraphicsView( KStars::Instance() ),
-    computeSkymap(true), rulerMode(false), scrollCount(0),
+    computeSkymap(true), rulerMode(false),
     data( KStarsData::Instance() ), pmenu(0),
-    ClickedObject(0), FocusObject(0), TransientObject(0), m_proj(0)
+    ClickedObject(0), FocusObject(0), m_proj(0)
 {
     m_Scale = 1.0;
 
@@ -191,11 +170,9 @@ SkyMap::SkyMap() :
     setupProjector();
 
     //Initialize Transient label stuff
-    TransientTimeout = 100; //fade label color every 0.1 sec
-    HoverTimer.setSingleShot( true ); // using this timer as a single shot timer
+    m_HoverTimer.setSingleShot( true ); // using this timer as a single shot timer
 
-    connect( &HoverTimer,     SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
-    connect( &TransientTimer, SIGNAL( timeout() ), this, SLOT( slotTransientTimeout() ) );
+    connect( &m_HoverTimer,   SIGNAL( timeout() ), this, SLOT( slotTransientLabel() ) );
     connect( this, SIGNAL( destinationChanged() ), this, SLOT( slewFocus() ) );
 
     // Time infobox
@@ -233,8 +210,10 @@ SkyMap::SkyMap() :
 
     Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
     
-    m_SkyMapQDraw = new SkyMapQDraw( this );
+    m_SkyMapQDraw  = new SkyMapQDraw( this );
+    m_SkyMapQDraw->setMouseTracking( true );
     m_SkyMapGLDraw = new SkyMapGLDraw( this );
+    m_SkyMapGLDraw->setMouseTracking( true );
     m_SkyMapGLDraw->hide();
     m_SkyMapQDraw->hide();
 
@@ -246,7 +225,7 @@ SkyMap::SkyMap() :
 #else
 
     m_SkyMapDraw = new SkyMapQDraw( this );
-
+    m_SkyMapDraw->setMouseTracking( true );
 #endif
     
     m_SkyMapDraw->setParent( this->viewport() );
@@ -341,15 +320,6 @@ SkyMap::~SkyMap() {
     pinstance = 0;
 }
 
-void SkyMap::setGeometry( int x, int y, int w, int h ) {
-    QGraphicsView::setGeometry( x, y, w, h );
-}
-
-void SkyMap::setGeometry( const QRect &r ) {
-    QGraphicsView::setGeometry( r );
-}
-
-
 void SkyMap::showFocusCoords() {
     if( focusObject() && Options::isTracking() )
         emit objectChanged( focusObject() );
@@ -361,56 +331,24 @@ void SkyMap::slotTransientLabel() {
     //This function is only called if the HoverTimer manages to timeout.
     //(HoverTimer is restarted with every mouseMoveEvent; so if it times
     //out, that means there was no mouse movement for HOVER_INTERVAL msec.)
-    //Identify the object nearest to the mouse cursor as the
-    //TransientObject.  The TransientObject is automatically labeled
-    //in SkyMap::paintEvent().
-    //Note that when the TransientObject pointer is not NULL, the next
-    //mouseMoveEvent calls fadeTransientLabel(), which will fade out the
-    //TransientLabel and then set TransientObject to NULL.
-    //
-    //Do not show a transient label if the map is in motion, or if the mouse
-    //pointer is below the opaque horizon, or if the object has a permanent label
     if ( ! slewing && ! ( Options::useAltAz() && Options::showGround() &&
-                          SkyPoint::refract(mousePoint()->alt()).Degrees() < 0.0 ) ) {
+                          SkyPoint::refract(m_MousePoint.alt()).Degrees() < 0.0 ) ) {
         double maxrad = 1000.0/Options::zoomFactor();
-        SkyObject *so = data->skyComposite()->objectNearest( mousePoint(), maxrad );
+        SkyObject *so = data->skyComposite()->objectNearest( &m_MousePoint, maxrad );
 
         if ( so && ! isObjectLabeled( so ) ) {
-            setTransientObject( so );
-
-            TransientColor = data->colorScheme()->colorNamed( "UserLabelColor" );
-            if ( TransientTimer.isActive() ) TransientTimer.stop();
-            update();
+            QToolTip::showText(
+                QCursor::pos(),
+                i18n("%1: %2<sup>m</sup>",
+                     so->translatedLongName(),
+                     QString::number(so->mag(), 'f', 1)),
+                this);
         }
     }
 }
 
 
 //Slots
-
-void SkyMap::slotTransientTimeout() {
-    //Don't fade label if the transientObject is now the focusObject!
-    if ( transientObject() == focusObject() && Options::useAutoLabel() ) {
-        setTransientObject( NULL );
-        TransientTimer.stop();
-        return;
-    }
-
-    //to fade the labels, we will need to smoothly transition the alpha
-    //channel from opaque (255) to transparent (0) by step of stepAlpha
-    static const int stepAlpha = 12;
-
-    //Check to see if next step produces a transparent label
-    //If so, point TransientObject to NULL.
-    if ( TransientColor.alpha() <= stepAlpha ) {
-        setTransientObject( NULL );
-        TransientTimer.stop();
-    } else {
-        TransientColor.setAlpha(TransientColor.alpha()-stepAlpha);
-    }
-
-    update();
-}
 
 void SkyMap::setClickedObject( SkyObject *o ) {
 	  ClickedObject = o;
@@ -475,7 +413,7 @@ void SkyMap::slotCenter() {
     if ( Options::useAltAz() ) {
         setDestinationAltAz( focusPoint()->altRefracted(), focusPoint()->az() );
     } else {
-        setDestination( focusPoint() );
+        setDestination( *focusPoint() );
     }
 
     focusPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
@@ -548,8 +486,8 @@ void SkyMap::slotSDSS() {
 		dec = clickedPoint()->dec();
 
 		//restore coords from present epoch
-		clickedPoint()->setRA( clickedPoint()->ra0().Hours() );
-		clickedPoint()->setDec( clickedPoint()->dec0().Degrees() );
+		clickedPoint()->setRA(  clickedPoint()->ra0() );
+		clickedPoint()->setDec( clickedPoint()->dec0() );
 	}
 
 	RAString = RAString.sprintf( "ra=%f", ra.Degrees() );
@@ -723,9 +661,6 @@ void SkyMap::slotRemoveObjectLabel() {
 
 void SkyMap::slotAddObjectLabel() {
     data->skyComposite()->addNameLabel( clickedObject() );
-    //Since we just added a permanent label, we don't want it to fade away!
-    if ( transientObject() == clickedObject() )
-        setTransientObject( NULL );
     forceUpdate();
 }
 
@@ -791,10 +726,8 @@ void SkyMap::setFocusAltAz( const dms &alt, const dms &az) {
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
 }
 
-void SkyMap::setDestination( SkyPoint *p ) {
-    Destination = *p;
-    destination()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-    emit destinationChanged();
+void SkyMap::setDestination( const SkyPoint& p ) {
+    setDestination( p.ra(), p.dec() );
 }
 
 void SkyMap::setDestination( const dms &ra, const dms &dec ) {
@@ -824,12 +757,12 @@ void SkyMap::updateFocus() {
             //Tracking any object in Alt/Az mode requires focus updates
             setFocusAltAz( focusObject()->altRefracted(), focusObject()->az() );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
-            setDestination( focus() );
+            setDestination( *focus() );
         } else {
             //Tracking in equatorial coords
             setFocus( focusObject() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            setDestination( focus() );
+            setDestination( *focus() );
         }
 
     //Tracking on empty sky
@@ -838,7 +771,7 @@ void SkyMap::updateFocus() {
             //Tracking on empty sky in Alt/Az mode
             setFocus( focusPoint() );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            setDestination( focus() );
+            setDestination( *focus() );
         }
 
     // Not tracking and not slewing, let sky drift by
@@ -849,21 +782,15 @@ void SkyMap::updateFocus() {
 }
 
 void SkyMap::slewFocus() {
-    double dX, dY, fX, fY, r, r0;
-    double step0 = 0.5;
-    double step = step0;
-    double maxstep = 10.0;
-    
-    SkyPoint newFocus;
-
     //Don't slew if the mouse button is pressed
     //Also, no animated slews if the Manual Clock is active
     //08/2002: added possibility for one-time skipping of slew with snapNextFocus
     if ( !mouseButtonDown ) {
-        bool goSlew = ( Options::useAnimatedSlewing() &&
-                        ! data->snapNextFocus() ) &&
+        bool goSlew =  ( Options::useAnimatedSlewing() && ! data->snapNextFocus() ) &&
                       !( data->clock()->isManualMode() && data->clock()->isActive() );
         if ( goSlew  ) {
+            double dX, dY;
+            double maxstep = 10.0;
             if ( Options::useAltAz() ) {
                 dX = destination()->az().Degrees() - focus()->az().Degrees();
                 dY = destination()->alt().Degrees() - focus()->alt().Degrees();
@@ -875,16 +802,17 @@ void SkyMap::slewFocus() {
             //switch directions to go the short way around the celestial sphere, if necessary.
             dX = KSUtils::reduceAngle(dX, -180.0, 180.0);
 
-            r0 = sqrt( dX*dX + dY*dY );
-            r = r0;
+            double r0 = sqrt( dX*dX + dY*dY );
             if ( r0 < 20.0 ) { //smaller slews have smaller maxstep
                 maxstep *= (10.0 + 0.5*r0)/20.0;
             }
+            double step  = 0.5;
+            double r  = r0;
             while ( r > step ) {
                 //DEBUG
                 kDebug() << step << ": " << r << ": " << r0 << endl;
-                fX = dX / r;
-                fY = dY / r;
+                double fX = dX / r;
+                double fY = dY / r;
 
                 if ( Options::useAltAz() ) {
                     focus()->setAlt( focus()->alt().Degrees() + fY*step );
@@ -892,15 +820,12 @@ void SkyMap::slewFocus() {
                     focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
                 } else {
                     fX = fX/15.; //convert RA degrees to hours
-                    newFocus.set( focus()->ra().Hours() + fX*step, focus()->dec().Degrees() + fY*step );
+                    SkyPoint newFocus( focus()->ra().Hours() + fX*step, focus()->dec().Degrees() + fY*step );
                     setFocus( &newFocus );
                     focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
                 }
 
                 slewing = true;
-                //since we are slewing, fade out the transient label
-                if ( transientObject() && ! TransientTimer.isActive() )
-                    fadeTransientLabel();
 
                 forceUpdate();
                 qApp->processEvents(); //keep up with other stuff
@@ -947,7 +872,7 @@ void SkyMap::slewFocus() {
         //Start the HoverTimer. if the user leaves the mouse in place after a slew,
         //we want to attach a label to the nearest object.
         if ( Options::useHoverLabel() )
-            HoverTimer.start( HOVER_INTERVAL );
+            m_HoverTimer.start( HOVER_INTERVAL );
 
         forceUpdate();
     }
@@ -984,7 +909,7 @@ void SkyMap::forceUpdate( bool now )
     QPoint mp( mapFromGlobal( QCursor::pos() ) );
     if (! projector()->unusablePoint( mp )) {
         //determine RA, Dec of mouse pointer
-        setMousePoint( projector()->fromScreen( mp, data->lst(), data->geo()->lat() ) );
+        m_MousePoint = projector()->fromScreen( mp, data->lst(), data->geo()->lat() );
     }
 
     computeSkymap = true;
@@ -1088,6 +1013,7 @@ void SkyMap::addLink() {
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
                 QString message = i18n( "Custom image-links file could not be opened.\nLink cannot be recorded for future sessions." );
                 KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+		delete adialog;
                 return;
             } else {
                 entry = clickedObject()->name() + ':' + adialog->desc() + ':' + adialog->url();
@@ -1105,6 +1031,7 @@ void SkyMap::addLink() {
 
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
                 QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+		delete adialog;
                 return;
             } else {
                 entry = clickedObject()->name() + ':' + adialog->desc() + ':' + adialog->url();
@@ -1120,7 +1047,7 @@ void SkyMap::addLink() {
 
 void SkyMap::updateAngleRuler() {
     if( rulerMode && (!pmenu || !pmenu->isVisible()) )
-        AngularRuler.setPoint( 1, mousePoint() );
+        AngularRuler.setPoint( 1, &m_MousePoint );
     AngularRuler.update( data );
 }
 

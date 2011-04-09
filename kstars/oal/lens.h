@@ -24,13 +24,13 @@
 
 class OAL::Lens {
     public:
-        Lens( QString id, QString model, QString vendor, double factor ) { setLens( id, model, vendor, factor ); }
-        QString id() { return m_Id; }
-        QString name() { return m_Name; }
-        QString model() { return m_Model; }
-        QString vendor() { return m_Vendor; }
-        double factor() { return m_Factor; }
-        void setLens( QString _id, QString _model, QString _vendor, double _factor );
+        Lens( const QString &id, const QString& model, const QString &vendor, double factor ) { setLens( id, model, vendor, factor ); }
+        QString id() const { return m_Id; }
+        QString name() const { return m_Name; }
+        QString model() const { return m_Model; }
+        QString vendor() const { return m_Vendor; }
+        double factor() const { return m_Factor; }
+        void setLens( const QString& _id, const QString& _model, const QString& _vendor, double _factor );
     private:
         QString m_Id, m_Model, m_Vendor, m_Name;
         double m_Factor;

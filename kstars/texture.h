@@ -39,16 +39,16 @@ public:
     ///Get a pointer to the image associated with this texture
     const QImage& image() const;
     ///Bind the texture for use with GL -- return true if successful
-    #ifdef HAVE_OPENGL
+#ifdef HAVE_OPENGL
     bool bind() const;
-    #endif
+#endif
     
 protected:
     Texture(QObject *parent = 0);
 
-    #ifdef HAVE_OPENGL
+#ifdef HAVE_OPENGL
     void genTexture();
-    #endif
+#endif
 
 protected slots:
     void setImage(const QImage& img);
@@ -56,9 +56,9 @@ protected slots:
 private:
     QImage m_image;
     bool m_ready;
-    #ifdef HAVE_OPENGL
+#ifdef HAVE_OPENGL
     GLuint m_tid;
-    #endif
+#endif
 };
 
 #endif // KSTEXTURE_H

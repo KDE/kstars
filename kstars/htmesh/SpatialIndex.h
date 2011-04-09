@@ -23,11 +23,8 @@
 #include <SpatialGeneral.h>
 #include <SpatialVector.h>
 #include <SpatialEdge.h>
-#include <SpatialException.h>
-  // begin add dcd
+
 #include <vector>
-#include <string>
-#include <algorithm>
 
 
 //########################################################################
@@ -61,15 +58,11 @@
 
 class LINKAGE SpatialIndex {
 public:
-    size_t getMaxlevel(){return maxlevel_;};		// the depth of the Layer
-    size_t getBildLevel(){return buildlevel_;};	// the depth of the Layer storedbuildlevel_;
-
   /** Constructor.
       Give the level of the index and optionally the level to build -
       i.e. the depth to keep in memory.  if maxlevel - buildlevel > 0
       , that many levels are generated on the fly each time the index
       is called. */
-  SpatialIndex() {};
   SpatialIndex(size_t maxlevel, size_t buildlevel =5);
 
   /// NodeName conversion to integer ID
@@ -86,66 +79,20 @@ public:
       ascending starting from S0000.. to N3333...  */
   static char * nameById(uint64 ID, char * name = 0);
 
-  /** Return leaf number in bitlist for a certain ID.  Since the ID
-      here means the number computed from the name, this is simply
-      returning ID -leafCount().  Bitlists only work until level 14.*/
-  uint32 leafNumberById(uint64 ID) const;
-
-  /** Return leaf id for a certain bitlist index. 
-      Same as the function above */
-  uint64 idByLeafNumber(uint32 n) const ;
-
-  /** return name for a certain leaf index (to be used for name lookup
-      from a bitlist).  This function is simply shorthand for
-      nameById(n + leafCount()).  */
-  char * nameByLeafNumber(uint32 n, char * name = 0) const;
-
   /** find the vector to the centroid of a triangle represented by 
 	  the ID */
   void pointById(SpatialVector & vector, uint64 ID) const;
 
   /** find a node by giving a vector. 
       The ID of the node is returned. */
-  uint64 idByPoint(SpatialVector & vector) const;
-
-  /// find a node by giving a ra,dec in degrees.
-  uint64 idByPoint(const float64 & ra, const float64 & dec) const;
-
-  /// find a node by giving a vector. 
-  /**@return The ID of the node is returned. */
-  char* nameByPoint(SpatialVector & vector, char* s=NULL) const;
-
-  /// find a node by giving a ra,dec in degrees.
-  char* nameByPoint(const float64 & ra, const float64 & dec, 
-		    char* s=NULL) const;
-
-  /// return number of leaf nodes
-  uint64 leafCount() const;
-
-  /// return number of vertices
-  size_t nVertices() const;
-
-  /// The area in steradians for a given index ID
-  float64 area(uint64 ID) const;
-
-  /// The area in steradians for a given spatial triangle
-  float64 area(const SpatialVector & v1, 
-	       const SpatialVector & v2, 
-	       const SpatialVector & v3) const;
+  uint64 idByPoint(const SpatialVector & vector) const;
 
   /// return the actual vertex vectors
   void nodeVertex(const uint64 id, 
-     		  SpatialVector & v1, 
-		  SpatialVector & v2, 
-		  SpatialVector & v3) const; 
-
-  /// return index of vertices for a node
-  void nodeVertex(const size_t idx, 
-		  size_t & v1, size_t & v2, size_t & v3) const; 
-
-  /// set the maximum depth of the layer
-  void setMaxlevel(int level);
-
+                  SpatialVector & v1, 
+                  SpatialVector & v2, 
+                  SpatialVector & v3) const; 
+  
 private:
 
   // STRUCTURES
@@ -167,9 +114,6 @@ private:
     uint64	parent_;		// id of the parent node (needed for sorting)
     uint64	id_;			// numeric id -> name
   };
-
-  // add quadnode vector
-  typedef std::vector<QuadNode> ValueVectorQuad;
 
   // FUNCTIONS
 
@@ -197,20 +141,15 @@ private:
   size_t 	    buildlevel_;	// the depth of the Layer stored
   uint64		leaves_;		// number of leaf nodes
   uint64		storedleaves_;	// number of stored leaf nodes
-  ValueVectorQuad   nodes_;		// the array of nodes 
+  std::vector<QuadNode> nodes_; // the array of nodes
   std::vector<Layer> layers_;	// array of layers
 
-  typedef std::vector<SpatialVector> ValueVectorSpvec;
-  ValueVectorSpvec vertices_;
+  std::vector<SpatialVector> vertices_;
   uint64 		index_;			// the current index_ of vertices
 
   friend class SpatialEdge;
   friend class SpatialConvex;
   friend class RangeConvex;
-  friend class SpatialDomain;
-  friend class htmInterface;
 };
 
-
-#include "SpatialIndex.hxx"
 #endif

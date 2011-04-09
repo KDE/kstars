@@ -5,19 +5,19 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-htmesh.h.cmake ${CMAKE_CURRENT
 
 ### HTMesh library
 set(HTMesh_LIB_SRCS
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HtmRange.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HtmRangeIterator.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/RangeConvex.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SkipList.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SkipListElement.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialConstraint.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialEdge.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialException.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialIndex.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/SpatialVector.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/HTMesh.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/MeshBuffer.cpp
-	${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh/MeshIterator.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/HtmRange.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/HtmRangeIterator.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/RangeConvex.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/SkipList.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/SkipListElement.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialConstraint.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialEdge.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialException.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialIndex.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/SpatialVector.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/HTMesh.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/MeshBuffer.cpp
+	${kstars_SOURCE_DIR}/kstars/htmesh/MeshIterator.cpp
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")

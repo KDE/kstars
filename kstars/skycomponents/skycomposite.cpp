@@ -54,25 +54,21 @@ void SkyComposite::update( KSNumbers *num )
 }
 
 SkyObject* SkyComposite::findByName( const QString &name ) {
-    SkyObject *o = 0;
     foreach ( SkyComponent *comp, components() ) {
-        o = comp->findByName( name );
+        SkyObject* o = comp->findByName( name );
         if ( o ) return o;
     }
     return 0;
 }
 
 SkyObject* SkyComposite::objectNearest( SkyPoint *p, double &maxrad ) {
-
-    if ( ! selected() ) return 0;
-
-    SkyObject *oTry = 0;
+    if ( !selected() )
+        return 0;
     SkyObject *oBest = 0;
-
-    foreach ( SkyComponent *comp, components() ) {
-        oTry = comp->objectNearest( p, maxrad );
-        if ( oTry ) oBest = oTry; //found a closer object
+    foreach( SkyComponent *comp, components() ) {
+        SkyObject* oTry = comp->objectNearest( p, maxrad );
+        if ( oTry )
+            oBest = oTry; //found a closer object
     }
-
     return oBest; //will be 0 if no object nearer than maxrad was found
 }

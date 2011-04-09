@@ -18,7 +18,7 @@
 
 #include "oal/lens.h"
 
-void OAL::Lens::setLens( QString _id, QString _model, QString _vendor, double _factor ){
+void OAL::Lens::setLens( const QString& _id, const QString& _model, const QString& _vendor, double _factor ){
     m_Id = _id;
     m_Model = _model;
     m_Vendor = _vendor;

@@ -16,6 +16,7 @@
 //#
 
 #include "SpatialIndex.h"
+#include "SpatialException.h"
 
 #ifdef _WIN32
 #include <malloc.h>
@@ -112,16 +113,6 @@ SpatialIndex::SpatialIndex(size_t maxlevel, size_t buildlevel) : maxlevel_(maxle
   }
 
   sortIndex();
-}
-
-/////////////NODEVERTEX///////////////////////////////////
-// nodeVertex: return index of vertices for a node
-void 
-SpatialIndex::nodeVertex(const size_t idx, 
-			 size_t & v1, size_t & v2, size_t & v3) const {
- v1 = nodes_[idx].v_[0];
- v2 = nodes_[idx].v_[1];
- v3 = nodes_[idx].v_[2];
 }
 
 /////////////NODEVERTEX///////////////////////////////////
@@ -240,47 +231,6 @@ SpatialIndex::newNode(size_t v1, size_t v2,size_t v3,uint64 id,uint64 parent)
   return index_++;
 }
 
-
-float64
-SpatialIndex::area(uint64 ID) const
-{
-
-  SpatialVector n0;
-  SpatialVector n1;
-  SpatialVector n2;
-
-  nodeVertex(ID, n0, n1, n2);
-  return area(n0,n1,n2);
-}
-
-
-/////////////AREA////////////////////////////////////////
-// area: routine to precompute the area of a node using
-//
-//   AREA = 4*arctan sqrt(tan(s/2)tan((s-a)/2)tan((s-b)/2)tan((s-c)/2))
-//
-//   with s = (a+b+c)/2
-//
-// (with many thanks to Eduard Masana, emasana@pchpc10.am.ub.es )
-//
-float64
-SpatialIndex::area(const SpatialVector & v0, 
-		   const SpatialVector & v1,
-		   const SpatialVector & v2) const {
-
-  float64 a = acos( v0 * v1);
-  float64 b = acos( v1 * v2);
-  float64 c = acos( v2 * v0);
-
-  float64 s = (a + b + c)/2.0;
-
-  float64 area = 4.0*atan(sqrt(tan(s/2.0)*
-			       tan((s-a)/2.0)*
-			       tan((s-b)/2.0)*
-			       tan((s-c)/2.0)));        
-  return area;
-}
-
 /////////////VMAX/////////////////////////////////////////
 // vMax: compute the maximum number of vertices for the
 //       polyhedron after buildlevel of subdivisions and
@@ -319,7 +269,7 @@ SpatialIndex::vMax(size_t *nodes, size_t *vertices) {
 //            All the rest of the nodes is at the end.
 void
 SpatialIndex::sortIndex() {
-  ValueVectorQuad oldnodes(nodes_); // create a copy of the node list
+  std::vector<QuadNode> oldnodes(nodes_); // create a copy of the node list
   size_t index;
   size_t nonleaf;
   size_t leaf;
@@ -549,7 +499,7 @@ SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const {
 //
 
 uint64
-SpatialIndex::idByPoint(SpatialVector & v) const {
+SpatialIndex::idByPoint(const SpatialVector & v) const {
     uint64 index;
 	uint64 ID;
 
@@ -610,14 +560,7 @@ SpatialIndex::idByPoint(SpatialVector & v) const {
 		}
     }
     name[len] = '\0';
-	ID = idByName(name);
-	if(0){
-		SpatialVector vec;
-		pointById(vec, ID);
-		//cerr << "pointById: ----------------" << endl;
-		//vec.show();
-	}    
-	return ID;
+    return idByName(name);
 }
 
 //////////////////ISINSIDE/////////////////////////////////////////////////

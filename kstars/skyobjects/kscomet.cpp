@@ -17,19 +17,46 @@
 
 #include "kscomet.h"
 
+#include <QRegExp>
 #include <kdebug.h>
+#include <QMap>
 
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
 #include "dms.h"
 
+namespace {
+    int letterToNum(QChar c)
+    {
+        char l = c.toAscii();
+        if( l < 'A' || l > 'Z' || l == 'I')
+            return 0;
+        if( l > 'I' )
+            return l - 'A';
+        return l - 'A' + 1;
+    }
+    // Convert letter designation like "AZ" to number.
+    int letterDesigToN(QString s) {
+        int n = 0;
+        foreach(QChar c, s) {
+            int nl = letterToNum(c);
+            if( nl == 0 )
+                return 0;
+            n = n*25 + nl;
+        }
+        return n;
+    }
+
+    QMap<QChar,qint64> cometType;
+}
+
 KSComet::KSComet( const QString &_s, const QString &imfile,
                   long double _JD, double _q, double _e, dms _i, dms _w, dms _Node, double Tp, float _H, float _G )
     : KSPlanetBase(_s, imfile),
       JD(_JD), q(_q), e(_e), H(_H), G(_G), i(_i), w(_w), N(_Node)
 {
-    setType( 9 ); //Comet
+    setType( SkyObject::COMET );
 
     //Find the Julian Day of Perihelion from Tp
     //Tp is a double which encodes a date like: YYYYMMDD.DDDDD (e.g., 19730521.33333
@@ -55,6 +82,52 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
         setName( name().mid( name().indexOf("/") + 1 ) );
     }
 
+    // Try to calculate UID for comets. It's derived from comet designation.
+    // To parge name string regular exressions are used. Not really readable.
+    // And its make strong assumtions about format of comets' names.
+    // Probably come better algotrithm should be used. 
+
+    // Periodic comet. Designation like: 12P or 12P-C
+    QRegExp rePer("^(\\d+)[PD](-([A-Z]+))?");
+    if( rePer.indexIn(_s) != -1 ) {
+        // Comet number
+        qint64 num = rePer.cap(1).toInt();
+        // Fragment number
+        qint64 fragmentN = letterDesigToN( rePer.cap(2) );
+        // Set UID
+        uidPart = num << 16 | fragmentN;
+        return;
+    }
+
+    // Non periodic comet or comets with single approach
+    // Designations like C/(2006 A7)
+    QRegExp rePro("^([PCXDA])/.*\\((\\d{4}) ([A-Z])(\\d+)(-([A-Z]+))?\\)");
+    if( rePro.indexIn(_s) != -1 ) {
+        // Fill comet type
+        if( cometType.empty() ) {
+            cometType.insert('P',0);
+            cometType.insert('C',1);
+            cometType.insert('X',2);
+            cometType.insert('D',3);
+            cometType.insert('A',4);
+        }
+        qint64 type       = cometType[ rePro.cap(1)[0] ]; // Type of comet
+        qint64 year       = rePro.cap(2).toInt();         // Year of discovery
+        qint64 halfMonth  = letterToNum( rePro.cap(3)[0] );
+        qint64 nHalfMonth = rePro.cap(4).toInt();
+        qint64 fragment   = letterDesigToN( rePro.cap(6) );
+
+        uidPart =
+            1          << 43 |
+            type       << 40 |  // Bits 40-42 (3)
+            halfMonth  << 33 |  // Bits 33-39 (7) Hope this is enough 
+            nHalfMonth << 28 |  // Bits 28-32 (5)
+            year       << 16 |  // Bits 16-27 (12)
+            fragment;           // Bits 0-15  (16)
+        return;
+    }
+    uidPart = 0;
+    kDebug() << "Didn't get it: " << _s;
 }
 
 KSComet* KSComet::clone() const
@@ -190,6 +263,5 @@ bool KSComet::loadData() { return false; }
 
 SkyObject::UID KSComet::getUID() const
 {
-    // FIXME: create sensible algorithm.
-    return SkyObject::invalidUID;
+    return solarsysUID(UID_SOL_COMET) | uidPart;
 }

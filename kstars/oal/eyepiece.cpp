@@ -18,7 +18,7 @@
 
 #include "oal/eyepiece.h"
 
-void OAL::Eyepiece::setEyepiece( QString _id, QString _model, QString _vendor, double _fov, QString _fovUnit, double _focalLength ) {
+void OAL::Eyepiece::setEyepiece( const QString& _id, const QString& _model, const QString& _vendor, double _fov, const QString& _fovUnit, double _focalLength ) {
     m_Id = _id;
     m_Model = _model;
     m_Vendor = _vendor;

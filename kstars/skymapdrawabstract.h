@@ -112,7 +112,7 @@ class SkyMapDrawAbstract {
 
  protected:
     /**
-     *@short Overriden paintEvent method. Must be implemented by
+     *@short Overridden paintEvent method. Must be implemented by
      *       subclasses to draw the SkyMap. (This method is pure
      *       virtual)
      */

@@ -114,7 +114,11 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KTextEdit" name="Weather"/>
+            <widget class="KTextEdit" name="Weather">
+             <property name="tabChangesFocus">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_5">
@@ -124,17 +128,25 @@
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KTextEdit" name="Equipment"/>
+            <widget class="KTextEdit" name="Equipment">
+             <property name="tabChangesFocus">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="4" column="0">
             <widget class="QLabel" name="label_6">
              <property name="text">
-              <string>Comment:</string>
+              <string>Comments:</string>
              </property>
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KTextEdit" name="Comment"/>
+            <widget class="KTextEdit" name="Comment">
+             <property name="tabChangesFocus">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="label_7">
@@ -271,7 +283,11 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="KTextEdit" name="Notes"/>
+            <widget class="KTextEdit" name="Notes">
+             <property name="tabChangesFocus">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

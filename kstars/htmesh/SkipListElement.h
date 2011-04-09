@@ -15,8 +15,6 @@
 #include <SpatialGeneral.h>
 
 #define SKIPLIST_MAXLEVEL 6 // maximum node level
-#define OS_DEFAULT_WIDTH 3  // width for keys, values for output
-#define OS_INDEX_WIDTH 2    // width for index
 #define NIL 0               // invalid pointer
 
 #ifdef _WIN32
@@ -37,7 +35,6 @@ class SkipListElement;
 class LINKAGE SkipListElement{
 public:
     SkipListElement(long level = 0, Key  key = 0, Value  value = 0);
-    ~SkipListElement();
 
     /** get key of element */
     Key getKey() const   { return myKey; };
@@ -52,8 +49,8 @@ public:
     /** get level of element */
     long getLevel() const {return(myLevel);};
     /** Set level of element */
-    void setLevel(long level);
-    static void prmatrix();
+    void setLevel(long level) { myLevel = level; }
+
     /** get next element in level */
     SkipListElement* getElement(long level); 
     /** set next element in level */

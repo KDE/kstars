@@ -151,10 +151,14 @@ FITSViewer::~FITSViewer()
 bool FITSViewer::initFITS()
 {
     /* Display image in the central widget */
-    if (image->loadFits(currentURL.path()) == -1) {
+    if (image->loadFits(currentURL.path()) == -1)
+    {
+        QFile::remove(currentURL.path());
         close();
         return false;
     }
+
+    QFile::remove(currentURL.path());
 
     /* Clear history */
     history->clear();

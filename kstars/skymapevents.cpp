@@ -25,9 +25,9 @@
 #include <QKeyEvent>
 #include <QKeySequence>
 #include <QPaintEvent>
+#include <QToolTip>
 
 #include <kstatusbar.h>
-#include <kio/job.h>
 
 #include "skymap.h"
 #include "skyqpainter.h"
@@ -48,6 +48,7 @@
 // TODO: Remove if debug key binding is removed
 #include "skycomponents/skylabeler.h"
 #include "skycomponents/starcomponent.h"
+
 
 
 void SkyMap::resizeEvent( QResizeEvent * )
@@ -96,7 +97,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
         arrowKeyPressed = true;
         slewing = true;
-        ++scrollCount;
         break;
 
     case Qt::Key_Right :
@@ -110,7 +110,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
         arrowKeyPressed = true;
         slewing = true;
-        ++scrollCount;
         break;
 
     case Qt::Key_Up :
@@ -126,7 +125,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
         arrowKeyPressed = true;
         slewing = true;
-        ++scrollCount;
         break;
 
     case Qt::Key_Down:
@@ -142,7 +140,6 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
         arrowKeyPressed = true;
         slewing = true;
-        ++scrollCount;
         break;
 
     case Qt::Key_Plus:   //Zoom in
@@ -355,25 +352,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
 
     if ( arrowKeyPressed ) {
         stopTracking();
-        if ( scrollCount > 10 ) {
-            setDestination( focus() );
-            scrollCount = 0;
-        }
+        setDestination( *focus() );
     }
 
     forceUpdate(); //need a total update, or slewing with the arrow keys doesn't work.
-}
-
-//DEBUG_KIO_JOB
-void SkyMap::slotJobResult( KJob *job ) {
-    KIO::StoredTransferJob *stjob = (KIO::StoredTransferJob*)job;
-
-    QPixmap pm;
-    pm.loadFromData( stjob->data() );
-
-    //DEBUG
-    kDebug() << "Pixmap: " << pm.width() << "x" << pm.height();
-
 }
 
 void SkyMap::stopTracking() {
@@ -395,12 +377,11 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
     case Qt::Key_Up :  //no break; continue to Qt::Key_Down
     case Qt::Key_Down :
         slewing = false;
-        scrollCount = 0;
 
         if ( Options::useAltAz() )
             setDestinationAltAz( focus()->alt(), focus()->az() );
         else
-            setDestination( focus() );
+            setDestination( *focus() );
 
         showFocusCoords();
         forceUpdate();  // Need a full update to draw faint objects that are not drawn while slewing.
@@ -410,16 +391,11 @@ void SkyMap::keyReleaseEvent( QKeyEvent *e ) {
 
 void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
     if ( Options::useHoverLabel() ) {
-        //First of all, if the transientObject() pointer is not NULL, then
-        //we just moved off of a hovered object.  Begin fading the label.
-        if ( transientObject() && ! TransientTimer.isActive() ) {
-            fadeTransientLabel();
-        }
-
         //Start a single-shot timer to monitor whether we are currently hovering.
         //The idea is that whenever a moveEvent occurs, the timer is reset.  It
         //will only timeout if there are no move events for HOVER_INTERVAL ms
-        HoverTimer.start( HOVER_INTERVAL );
+        m_HoverTimer.start( HOVER_INTERVAL );
+        QToolTip::hideText();
     }
 
     //Are we defining a ZoomRect?
@@ -452,8 +428,7 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
     if ( projector()->unusablePoint( e->pos() ) ) return;  // break if point is unusable
 
     //determine RA, Dec of mouse pointer
-    setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
-    mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
 
     double dyPix = 0.5*height() - e->y();
     if ( midMouseButtonDown ) { //zoom according to y-offset
@@ -479,40 +454,34 @@ void SkyMap::mouseMoveEvent( QMouseEvent *e ) {
 
         //Update focus such that the sky coords at mouse cursor remain approximately constant
         if ( Options::useAltAz() ) {
-            mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            m_MousePoint.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
             clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-            dms dAz  = mousePoint()->az()  - clickedPoint()->az();
-            dms dAlt = mousePoint()->alt() - clickedPoint()->alt();
+            dms dAz  = m_MousePoint.az()  - clickedPoint()->az();
+            dms dAlt = m_MousePoint.alt() - clickedPoint()->alt();
             focus()->setAz( focus()->az().Degrees() - dAz.Degrees() ); //move focus in opposite direction
             focus()->setAz( focus()->az().reduce() );
             focus()->setAlt(
                 KSUtils::clamp( focus()->alt().Degrees() - dAlt.Degrees() , -90.0 , 90.0 ) );
             focus()->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         } else {
-            dms dRA  = mousePoint()->ra()  - clickedPoint()->ra();
-            dms dDec = mousePoint()->dec() - clickedPoint()->dec();
+            dms dRA  = m_MousePoint.ra()  - clickedPoint()->ra();
+            dms dDec = m_MousePoint.dec() - clickedPoint()->dec();
             focus()->setRA( focus()->ra().Hours() - dRA.Hours() ); //move focus in opposite direction
             focus()->setRA( focus()->ra().reduce() );
             focus()->setDec(
                 KSUtils::clamp( focus()->dec().Degrees() - dDec.Degrees() , -90.0 , 90.0 ) );
             focus()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         }
-
-        ++scrollCount;
-        if ( scrollCount > 4 ) {
-            showFocusCoords();
-            scrollCount = 0;
-        }
+        showFocusCoords();
 
         //redetermine RA, Dec of mouse pointer, using new focus
-        setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
-        mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        setClickedPoint( mousePoint() );
+        m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
+        setClickedPoint( &m_MousePoint );
 
         forceUpdate();  // must be new computed
 
     } else { //mouse button not down
-        emit mousePointChanged( mousePoint() );
+        emit mousePointChanged( &m_MousePoint );
     }
 }
 
@@ -525,42 +494,33 @@ void SkyMap::wheelEvent( QWheelEvent *e ) {
 
 void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
     if ( ZoomRect.isValid() ) {
+        stopTracking();
+        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
+        setFocus( &newcenter );
+        setDestination( newcenter );
+
         //Zoom in on center of Zoom Circle, by a factor equal to the ratio
         //of the sky pixmap's width to the Zoom Circle's diameter
         float factor = float(width()) / float(ZoomRect.width());
-
-        stopTracking();
-
-        SkyPoint newcenter = projector()->fromScreen( ZoomRect.center(), data->lst(), data->geo()->lat() );
-
-        setFocus( &newcenter );
-        setDestination( &newcenter );
-        setDefaultMouseCursor();
-
         setZoomFactor( Options::zoomFactor() * factor );
-
-        ZoomRect = QRect(); //invalidate ZoomRect
-    } else {
-        setDefaultMouseCursor();
-        ZoomRect = QRect(); //just in case user Ctrl+clicked + released w/o dragging...
     }
+    setDefaultMouseCursor();
+    ZoomRect = QRect(); //invalidate ZoomRect
 
-    if (mouseMoveCursor) setDefaultMouseCursor();	// set default cursor
-    if (mouseButtonDown) { //false if double-clicked, because it's unset there.
+    //false if double-clicked, because it's unset there.
+    if (mouseButtonDown) {
         mouseButtonDown = false;
         if ( slewing ) {
             slewing = false;
-
             if ( Options::useAltAz() )
                 setDestinationAltAz( focus()->alt(), focus()->az() );
             else
-                setDestination( focus() );
+                setDestination( *focus() );
         }
         forceUpdate();	// is needed because after moving the sky not all stars are shown
     }
-    if ( midMouseButtonDown ) midMouseButtonDown = false;  // if middle button was pressed unset here
-
-    scrollCount = 0;
+    // if middle button was pressed unset here
+    midMouseButtonDown = false;
 }
 
 void SkyMap::mousePressEvent( QMouseEvent *e ) {
@@ -588,14 +548,11 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
     if ( !mouseButtonDown ) {
         if ( e->button() == Qt::LeftButton ) {
             mouseButtonDown = true;
-            scrollCount = 0;
         }
 
         //determine RA, Dec of mouse pointer
-        setMousePoint( projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() ) );
-        mousePoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        setClickedPoint( mousePoint() );
-        clickedPoint()->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+        m_MousePoint = projector()->fromScreen( e->pos(), data->lst(), data->geo()->lat() );
+        setClickedPoint( &m_MousePoint );
 
         //Find object nearest to clickedPoint()
         double maxrad = 1000.0/Options::zoomFactor();

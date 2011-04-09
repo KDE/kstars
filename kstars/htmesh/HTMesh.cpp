@@ -65,32 +65,10 @@ HTMesh::~HTMesh()
     free(m_meshBuffer);
 }
 
-
 Trixel HTMesh::index(double ra, double dec) const
 {
-    return (Trixel) htm->idByPoint(ra, dec) - magicNum;
+    return (Trixel) htm->idByPoint( SpatialVector(ra, dec) ) - magicNum;
 }
-
-
-const char* HTMesh::indexName(double ra, double dec) const
-{
-    Trixel trixel = index(ra, dec);
-    return indexToName(trixel);
-}
-
-
-const char* HTMesh::indexToName(Trixel trixel) const
-{
-    return htm->nameById(trixel + magicNum);
-}
-
-void HTMesh::fillBuffer(BufNum bufNum)
-{
-    
-    if ( ! validBufNum(bufNum) )    // is this correct?
-        m_meshBuffer[bufNum]->fill();
-}
-
 
 bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
 
@@ -99,7 +77,7 @@ bool HTMesh::performIntersection(RangeConvex* convex, BufNum bufNum) {
 
     convex->setOlevel(m_level);
     HtmRange range;
-    convex->intersect(htm, &range, false);
+    convex->intersect(htm, &range);
     HtmRangeIterator iterator(&range);
 
     MeshBuffer* buffer = m_meshBuffer[bufNum];

@@ -55,7 +55,7 @@ HorizonComponent::~HorizonComponent()
 
 bool HorizonComponent::selected()
 {
-    return ( Options::showHorizon() || Options::showGround() );
+    return Options::showHorizon() || Options::showGround();
 }
 
 void HorizonComponent::update( KSNumbers * )
@@ -74,7 +74,8 @@ void HorizonComponent::update( KSNumbers * )
 //This is true for Equatorial or Horizontal coordinates
 void HorizonComponent::draw( SkyPainter *skyp )
 {
-    if( !selected() ) return;
+    if( !selected() )
+        return;
 
     KStarsData *data = KStarsData::Instance();
     
@@ -441,12 +442,16 @@ void HorizonComponent::draw( SkyPainter *skyp )
 void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
     SkyPoint c;
     QPointF cpoint;
+    bool visible;
 
     const Projector *proj = SkyMap::Instance()->projector();
     KStarsData *data = KStarsData::Instance();
     
     SkyLabeler* skyLabeler = SkyLabeler::Instance();
-    
+    // Set proper color for labels
+    QColor color( data->colorScheme()->colorNamed( "CompassColor" ) );
+    skyLabeler->setPen( QPen( QBrush(color), 1, Qt::SolidLine) );
+
     double az = -0.01;
     static QString name[8];
     name[0] = i18nc( "Northeast", "NE" );
@@ -465,8 +470,9 @@ void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
         if ( !Options::useAltAz() ) {
             c.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
         }
-        cpoint = proj->toScreen( &c, false );
-        if ( proj->onScreen(cpoint) ) {
+        
+        cpoint = proj->toScreen( &c, false, &visible );
+        if ( visible && proj->onScreen(cpoint) ) {
             skyLabeler->drawGuideLabel( cpoint, name[i], 0.0 );
         }
     }

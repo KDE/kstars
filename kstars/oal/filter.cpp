@@ -18,7 +18,7 @@
 
 #include "oal/filter.h"
 
-void OAL::Filter::setFilter( QString _id, QString _model, QString _vendor, QString _type, QString _color ){ 
+void OAL::Filter::setFilter( const QString& _id, const QString& _model, const QString& _vendor, const QString& _type, const QString& _color ){ 
     m_Id = _id;
     m_Model = _model;
     m_Vendor = _vendor;

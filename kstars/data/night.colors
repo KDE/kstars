@@ -15,7 +15,7 @@
 #AA0000 :EqColor 
 #AA0000 :EclColor 
 #993333 :HorzColor
-#000000 :CompassColor
+#AA7777 :CompassColor
 #770000 :GridColor
 #AA0000 :BoxTextColor
 #FF0000 :BoxGrabColor

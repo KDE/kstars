@@ -43,7 +43,7 @@ void InfoBoxes::resizeEvent(QResizeEvent*) {
 
 /* ================================================================ */
 
-InfoBoxWidget::InfoBoxWidget(bool shade, QPoint pos, int anchor, QStringList str, QWidget* parent) :
+InfoBoxWidget::InfoBoxWidget(bool shade, const QPoint& pos, int anchor, const QStringList& str, QWidget* parent) :
     QWidget(parent),
     m_strings(str),
     m_adjusted(false),

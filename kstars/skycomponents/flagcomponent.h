@@ -145,6 +145,7 @@ private:
 
 private slots:
     void slotLoadImages( KIO::Job* job, const KIO::UDSEntryList& list );
+    void slotInit( KJob *job );
 };
 
 #endif

@@ -21,12 +21,6 @@ public:
 
     /// insert new element
     void insert(const Key searchKey, const Value value);
-    /// search element with key
-    Value searchAlt(const Key searchKey); 
-    /// search element with key
-    Value search(const Key searchKey, const int iterator_flag); 
-    /// search element with key
-    Value search(const Key searchKey); 
     /// search element with key NGT searchKey
     Key findMAX(const Key searchKey) const; 
     /// search element with key NLT searchKey
@@ -51,28 +45,12 @@ public:
             return (Value) -1;
     }
 
-    Key getNthKey(const int n){
-        int n_now = n-1;
-        iter = myHeader->getElement(0);
-        while(n_now > 0){
-            if (iter == NIL) 
-                break;
-            iter = iter->getElement(0);
-            n_now--;
-        }
-        return getkey();
-    }
-
     /// free element with key
     void free(const Key searchKey); 
     void freeRange(const Key loKey, const Key hiKey);
-    void freeAll();
 
     /// statistics;
     void stat(); 
-    long getLength() {
-        return myLength;
-    }
 
 private:
     float myProbability;

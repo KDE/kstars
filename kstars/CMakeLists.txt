@@ -69,10 +69,10 @@ endif( OPENGL_FOUND )
 
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/tools 
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/skyobjects
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/skycomponents
-    ${CMAKE_SOURCE_DIR}/kstars/kstars/satlib 
+    ${kstars_SOURCE_DIR}/kstars/tools 
+    ${kstars_SOURCE_DIR}/kstars/skyobjects
+    ${kstars_SOURCE_DIR}/kstars/skycomponents
+    ${kstars_SOURCE_DIR}/kstars/satlib 
 #    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
@@ -328,7 +328,7 @@ set(kstars_extra_SRCS
 	skypainter.cpp skyqpainter.cpp
 	texture.cpp texturemanager.cpp
 	timezonerule.cpp 
-	thumbnailpicker.cpp thumbnaileditor.cpp quaternion.cpp binfilehelper.cpp
+	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 )
 
 set(oal_SRCS

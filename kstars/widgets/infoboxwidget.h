@@ -58,7 +58,7 @@ public:
     };
 
     /** Create one infobox. */
-    InfoBoxWidget(bool shade, QPoint pos, int anchor = 0, QStringList str = QStringList(), QWidget* parent = 0);
+    InfoBoxWidget(bool shade, const QPoint& pos, int anchor = 0, const QStringList& str = QStringList(), QWidget* parent = 0);
     /** Destructor */
     virtual ~InfoBoxWidget();
 

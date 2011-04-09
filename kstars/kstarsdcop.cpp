@@ -61,7 +61,7 @@
 
 void KStars::setRaDec( double ra, double dec ) {
     SkyPoint p( ra, dec );
-    map()->setDestination( &p );
+    map()->setDestination( p );
 }
 
 void KStars::setAltAz( double alt, double az ) {
@@ -113,9 +113,7 @@ void KStars::lookTowards ( const QString &direction ) {
 void KStars::addLabel( const QString &name ) {
     SkyObject *target = data()->objectNamed( name );
     if ( target != NULL ) {
-		    data()->skyComposite()->addNameLabel( target );
-        if( map()->transientObject() == target )
-            map()->setTransientObject( NULL );
+        data()->skyComposite()->addNameLabel( target );
         map()->forceUpdate();
     }
 }
@@ -123,9 +121,7 @@ void KStars::addLabel( const QString &name ) {
 void KStars::removeLabel( const QString &name ) {
     SkyObject *target = data()->objectNamed( name );
     if ( target != NULL ) {
-		    data()->skyComposite()->removeNameLabel( target );
-        if( map()->transientObject() == target )
-            map()->setTransientObject( NULL );
+        data()->skyComposite()->removeNameLabel( target );
         map()->forceUpdate();
     }
 }

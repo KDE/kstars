@@ -43,12 +43,6 @@ public:
   SpatialVector(float64 ra,
 		float64 dec);
 
-  /// Copy constructor
-  SpatialVector(const SpatialVector &);
-
-  /// Assignment
-  SpatialVector& operator =(const SpatialVector &);
-
   /// Set member function: set values - always normed to 1
   void set(const float64 &x,
 	   const float64 &y,
@@ -71,13 +65,13 @@ public:
   float64 length() const;
 
   /// return x (only as rvalue)
-  float64 x() const;
+  float64 x() const { return x_; }
 
   /// return y
-  float64 y() const;
+  float64 y() const { return y_; }
 
   /// return z
-  float64 z() const;
+  float64 z() const { return z_; }
 
   /// return ra - this norms the vector to 1 if not already done so
   float64 ra();
@@ -126,10 +120,13 @@ private:
   void updateRaDec();
 
   friend class SpatialIndex;
-  friend class SpatialDomain;
 };
 
-#include "SpatialVector.hxx"
+// Friend operators
+SpatialVector operator *(float64, const SpatialVector&);
+SpatialVector operator *(int, const SpatialVector&);
+SpatialVector operator *(const SpatialVector&, float64);
+SpatialVector operator *(const SpatialVector&, int);
 
 #endif
 

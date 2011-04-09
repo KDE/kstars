@@ -100,7 +100,7 @@ void KSPlanetBase::EquatorialToEcliptic( const dms *Obliquity ) {
 }
 
 void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
-    setFromEcliptic( Obliquity, &ep.longitude, &ep.latitude );
+    setFromEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 
 void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST )
@@ -244,7 +244,7 @@ void KSPlanetBase::findPA( const KSNumbers *num ) {
     //Displace a point along +Ecliptic Latitude by 1 degree
     SkyPoint test;
     dms newELat( ecLat().Degrees() + 1.0 );
-    test.setFromEcliptic( num->obliquity(), &ecLong(), &newELat );
+    test.setFromEcliptic( num->obliquity(), ecLong(), newELat );
     double dx = ra().Degrees() - test.ra().Degrees(); 
     double dy = test.dec().Degrees() - dec().Degrees();
     double pa;

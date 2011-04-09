@@ -37,6 +37,8 @@ using Eigen::Rotation2Df;
 #include "skycomponents/linelist.h"
 #include "skycomponents/skiplist.h"
 #include "skycomponents/linelistlabel.h"
+#include "skycomponents/skymapcomposite.h"
+#include "skycomponents/flagcomponent.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
@@ -168,7 +170,9 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
         // Draw them as bright stars of appropriate color instead of images
         char spType;
         //FIXME: do these need i18n?
-        if( planet->name() == i18n("Mars") ) {
+        if( planet->name() == i18n( "Sun" ) ) {
+            spType = 'G';
+        } else if( planet->name() == i18n("Mars") ) {
             spType = 'K';
         } else if( planet->name() == i18n("Jupiter") || planet->name() == i18n("Mercury") || planet->name() == i18n("Saturn") ) {
             spType = 'F';
@@ -339,11 +343,13 @@ void SkyGLPainter::drawSkyPolygon(LineList* list)
     }
 }
 
-void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex)
+void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex, bool flush_buffers)
 {
     //Flush all buffers
-    for(int i = 0; i < NUMTYPES; ++i) {
-        drawBuffer(i);
+    if( flush_buffers ) {
+        for(int i = 0; i < NUMTYPES; ++i) {
+            drawBuffer(i);
+        }
     }
     glDisable(GL_TEXTURE_2D);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -382,17 +388,19 @@ void SkyGLPainter::drawPolygon(const QVector<Vector2f>& polygon, bool convex)
 
 void SkyGLPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel)
 {
-    QVector<Vector2f> ground = m_proj->groundPoly(labelPoint, drawLabel);
+    QVector<Vector2f> ground = m_proj->groundPoly( labelPoint, drawLabel );
+
     if( ground.size() ) {
-        if(filled) {
-            drawPolygon(ground,false);
+        if( filled ) {
+            glDisableClientState( GL_COLOR_ARRAY );
+            drawPolygon( ground, false, false );
         } else {
-            glDisable(GL_TEXTURE_2D);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(2,GL_FLOAT,0, ground.data() );
-            glDrawArrays(GL_LINE_LOOP, 0, ground.size());
-            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisable( GL_TEXTURE_2D );
+            glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+            glEnableClientState( GL_VERTEX_ARRAY );
+            glVertexPointer( 2, GL_FLOAT, 0, ground.data() );
+            glDrawArrays( GL_LINE_LOOP, 0, ground.size() );
+            glDisableClientState( GL_VERTEX_ARRAY );
         }
     }
 }
@@ -498,10 +506,150 @@ void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
+void SkyGLPainter::drawFlags()
+{
+    KStarsData *data = KStarsData::Instance();
+    SkyPoint* point;
+    QImage image;
+    const Texture *tex;
+    const QString label;
+    bool visible = false;
+    Vector2f vec;
+    int i;
+
+    for ( i=0; i<data->skyComposite()->flags()->size(); i++ ) {
+        point = data->skyComposite()->flags()->pointList().at( i );
+        image = data->skyComposite()->flags()->image( i );
+
+        // Set Horizontal coordinates
+        point->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+
+        // Get flag position on screen
+        vec = m_proj->toScreenVec( point, true, &visible );
+
+        // Return if flag is not visible
+        if( !visible || !m_proj->onScreen( vec ) ) continue;
+
+        // Get texture from TextureManager
+        if ( data->skyComposite()->flags()->imageName( i ) == "Default" )
+            tex = TextureManager::getTexture("defaultflag");
+        else
+            tex = TextureManager::createTexture( image );
+        
+        tex->bind();
+
+        // Draw image
+        if( tex->isReady() ) {
+            glEnable(GL_TEXTURE_2D);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+            Vector2f vertex;
+            glBegin(GL_QUADS);
+                vertex = vec + Vector2f( image.width()/2 * -1, image.height()/2 );
+                glTexCoord2f(0.,0.);
+                glVertex2fv(vertex.data());
+                vertex = vec + Vector2f( image.width()/2, image.height()/2 );
+                glTexCoord2f(1.,0.);
+                glVertex2fv(vertex.data());
+                vertex = vec + Vector2f( image.width()/2, image.height()/2 * -1  );
+                glTexCoord2f(1.,1.);
+                glVertex2fv(vertex.data());
+                vertex = vec + Vector2f( image.width()/2 * -1, image.height()/2 * -1 );
+                glTexCoord2f(0.,1.);
+                glVertex2fv(vertex.data());
+            glEnd();
+        }
+
+        // Draw label
+        drawText( vec.x(), vec.y(), data->skyComposite()->flags()->label( i ), QFont( "Courier New", 10, QFont::Bold ), data->skyComposite()->flags()->labelColor( i ) );
+    }
+}
+
+void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColor color )
+{
+    // Return if text is empty
+    if ( text.isEmpty() )
+        return;
+
+    int longest, tex_size = 2;
+    
+    // Get size of text
+    QFontMetrics fm( font );
+    const QRect bounding_rect = fm.boundingRect( text );
+
+    // Compute texture size
+    if ( bounding_rect.width() > bounding_rect.height() )
+        longest = bounding_rect.width();
+    else
+        longest = bounding_rect.height();
+
+    while ( tex_size < longest ) {
+        tex_size *= 2;
+    }
+
+    // Create image of text
+    QImage text_image( tex_size, tex_size, QImage::Format_ARGB32 );
+    text_image.fill( Qt::transparent );
+    QPainter p( &text_image );
+    p.setFont( font );
+    p.setPen( color );
+    p.drawText( 0, tex_size/2, text );
+    p.end();
+
+    // Create texture
+    Texture *texture = TextureManager::createTexture( text_image );
+    texture->bind();
+
+    // Render image
+    if( texture->isReady() ) {
+        glEnable(GL_TEXTURE_2D);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+        Vector2f vec( x, y );
+        Vector2f vertex;
+        glBegin(GL_QUADS);
+            vertex = vec + Vector2f( 10, text_image.height()/2 -10 );
+            glTexCoord2f(0.,0.);
+            glVertex2fv(vertex.data());
+            vertex = vec + Vector2f( text_image.width() + 10, text_image.height()/2 -10 );
+            glTexCoord2f(1.,0.);
+            glVertex2fv(vertex.data());
+            vertex = vec + Vector2f( text_image.width() + 10, text_image.height()/2*(-1) - 10 );
+            glTexCoord2f(1.,1.);
+            glVertex2fv(vertex.data());
+            vertex = vec + Vector2f( 10, text_image.height()/2*(-1) - 10 );;
+            glTexCoord2f(0.,1.);
+            glVertex2fv(vertex.data());
+        glEnd();
+    }
+}
 
 void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
 {
+    bool aVisible, bVisible;
+    Vector2f aScreen = m_proj->toScreenVec( a, true, &aVisible );
+    Vector2f bScreen = m_proj->toScreenVec( b, true, &bVisible );
 
+    glDisable( GL_TEXTURE_2D );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    glBegin( GL_LINE_STRIP );
+    
+    //THREE CASES:
+    if( aVisible && bVisible ) {
+        //Both a,b visible, so paint the line normally:
+        glVertex2fv( aScreen.data() );
+        glVertex2fv( bScreen.data() );
+    } else if( aVisible ) {
+        //a is visible but b isn't:
+        glVertex2fv( aScreen.data() );
+        glVertex2fv( m_proj->clipLineVec( a, b ).data() );
+    } else if( bVisible ) {
+        //b is visible but a isn't:
+        glVertex2fv( bScreen.data() );
+        glVertex2fv( m_proj->clipLineVec( b, a ).data() );
+    } //FIXME: what if both are offscreen but the line isn't?
+
+    glEnd();
 }
 
 void SkyGLPainter::drawSkyBackground()

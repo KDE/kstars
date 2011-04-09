@@ -40,10 +40,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define STREAMBUFSIZ		1024
-
-FILE *wfp;
-
 /*StreamWGUI::StreamWGUI(QWidget *parent) : QFrame (parent)
 {
 

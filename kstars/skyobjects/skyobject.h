@@ -161,10 +161,8 @@ public:
      */
     inline void setType( int t ) { Type = (unsigned char)t; }
 
-    /**
-     *@return a string describing object's type.
-     */
-    QString typeName( void ) const;
+    /** *@return a string describing object's type. */
+    QString typeName() const;
 
     /**
      *@return object's magnitude
@@ -177,13 +175,10 @@ public:
      */
     inline virtual double pa() const { return 0.0; }
 
-    /**
-     *@return true if the object is a solar system body.
-     */
-    inline bool isSolarSystem() { return ( type() == 2 || type() == 9 || type() == 10 || type() == 12 ); }
+    /** *@return true if the object is a solar system body. */
+    inline bool isSolarSystem() const { return ( type() == 2 || type() == 9 || type() == 10 || type() == 12 ); }
 
-    /** Show Type-specific popup menu. Oveloading is done in the function initPopupMenu
-     */
+    /** Show Type-specific popup menu. Oveloading is done in the function initPopupMenu */
     void showPopupMenu( KSPopupMenu *pmenu, const QPoint &pos );
 
     /**

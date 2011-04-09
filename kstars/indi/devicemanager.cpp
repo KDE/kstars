@@ -133,20 +133,24 @@ void DeviceManager::enableBLOB(bool enable, QString device, QString property)
     QTextStream serverFP(&serverSocket);
     QString openTag;
 
-    if (device.isEmpty() == false)
-    {
-        if (property.isEmpty() == false)
+    if (device.isEmpty())
+        return;
+
+    if (property.isEmpty() == false)
             openTag = QString("<enableBLOB device='%1' name='%2'>").arg(device).arg(property);
         else
             openTag = QString("<enableBLOB device='%1'>").arg(device);
-    }
-    else
-        openTag = QString("<enableBLOB>");
 
     if (enable)
+    {
         serverFP << QString("%1Also</enableBLOB>\n").arg(openTag);
+        kDebug() << QString("%1Also</enableBLOB>\n").arg(openTag);
+    }
     else
+    {
         serverFP << QString("%1Never</enableBLOB>\n").arg(openTag);
+        kDebug() << QString("%1Never</enableBLOB>\n").arg(openTag);
+    }
 }
 
 void DeviceManager::connectionSuccess()
@@ -156,8 +160,6 @@ void DeviceManager::connectionSuccess()
    if (XMLParser)
         delLilXML(XMLParser);
     XMLParser = newLilXML();
-
-    enableBLOB(true);
 
     serverFP << QString("<getProperties version='%1'/>\n").arg(INDIVERSION);
 }
@@ -380,6 +382,8 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
     	dp = new INDI_D(parent, this, device_name, unique_label);
 	indi_dev.append(dp);
 	emit newDevice(dp);
+
+        enableBLOB(true, device_name);
 
 	connect(dp->stdDev, SIGNAL(newTelescope()), parent->ksw->indiDriver(), SLOT(newTelescopeDiscovered()), Qt::QueuedConnection);
 

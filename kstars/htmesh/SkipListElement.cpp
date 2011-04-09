@@ -7,9 +7,6 @@
 */
 
 #include <iostream> // cout
-#include <iomanip> // setw()
-#include <stdlib.h> // rand(), drand48()
-#include <limits.h> // INT_MAX
 
 #include "SkipListElement.h"
 
@@ -21,11 +18,6 @@ SkipListElement::SkipListElement(long level, Key key, Value value) :
 {
     for(int i=0; i<SKIPLIST_MAXLEVEL; i++)
         myNext[i]=0;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-SkipListElement::~SkipListElement()
-{
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,33 +42,3 @@ void SkipListElement::setElement(long level, SkipListElement* element)
         myNext[level]=element;
     }
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-static long xMatrix[SKIPLIST_MAXLEVEL][SKIPLIST_MAXLEVEL] = {{0}};
-
-void SkipListElement::prmatrix()
-{
-    for(int i=0; i<SKIPLIST_MAXLEVEL; i++){
-        for(int j=0; j<SKIPLIST_MAXLEVEL; j++){
-            std::cout <<std::setw(4) << xMatrix[i][j];
-        }
-        std::cout << "; " << std::endl;
-    }
-}
-
-
-void SkipListElement::setLevel(long level)
-{
-//    if(xFlag){ // do this once only
-//      xFlag = 0;
-//      // SkipListElement::prmatrix();
-//    }
-//  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //
-//   if (myLevel > level){
-//     std::cerr << "Panic! level decreasing!" << std::endl;
-//   }
-
-    xMatrix[myLevel][level]++;
-    myLevel=level;
-} // set level of element

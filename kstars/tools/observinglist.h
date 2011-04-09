@@ -90,7 +90,7 @@ public:
     /**@return true if the object is in the observing list
         *@p o pointer to the object to test.
         */
-    inline bool contains( SkyObject *o ) { return m_ObservingList.contains( o ); }
+    inline bool contains( const SkyObject *o ) { return m_ObservingList.contains( const_cast<SkyObject*>(o) ); }
 
     /**@return true if the window is in its default "large" state.
         */

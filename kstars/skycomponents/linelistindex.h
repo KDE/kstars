@@ -88,7 +88,7 @@ protected:
     /* @short Returns the SkyMesh object. */
     SkyMesh* skyMesh() { return  m_skyMesh; }
 
-    /* @short Typically called from within a subclasses constuctors.
+    /* @short Typically called from within a subclasses constructors.
      * Adds the trixels covering the outline of lineList to the lineIndex.
      *
      * @param debug if greater than zero causes the number of trixels found
@@ -96,7 +96,7 @@ protected:
      */
     void appendLine( LineList* lineList, int debug=0 );
 
-    /* @short Typically called from within a subclasses constuctors.
+    /* @short Typically called from within a subclasses constructors.
      * Adds the trixels covering the full lineList to the polyIndex.
      *
      * @param debug if greater than zero causes the number of trixels found

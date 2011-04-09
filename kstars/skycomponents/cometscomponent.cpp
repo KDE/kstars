@@ -82,7 +82,7 @@ void CometsComponent::loadData() {
 
             line = fileReader.readLine();
 
-            name = line.mid( 3, 35 ).trimmed();
+            name = line.mid( 0, 38 ).trimmed();
             mJD  = line.mid( 38, 5 ).toInt();
             q    = line.mid( 44, 10 ).toDouble();
             e    = line.mid( 55, 10 ).toDouble();

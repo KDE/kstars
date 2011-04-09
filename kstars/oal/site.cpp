@@ -18,7 +18,7 @@
 
 #include "oal/site.h"
 
-void OAL::Site::setSite(QString _id, QString _name, double _lat, QString _latUnit, double _lon, QString _lonUnit ){
+void OAL::Site::setSite(const QString &_id, const QString& _name, double _lat, const QString& _latUnit, double _lon, const QString& _lonUnit ){
     m_Id = _id;
     m_Name = _name;
     m_Lat = _lat;
@@ -26,7 +26,7 @@ void OAL::Site::setSite(QString _id, QString _name, double _lat, QString _latUni
     m_LatUnit = _latUnit;
     m_LonUnit = _lonUnit;
 }
-void OAL::Site::setSite( GeoLocation *geo, QString id ) {
+void OAL::Site::setSite( GeoLocation *geo, const QString& id ) {
     m_Id = id;
     m_Name = geo->name();
     m_Lat = geo->lat()->radians();

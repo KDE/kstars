@@ -25,8 +25,7 @@
  *@author Akarsh Simha
  *@version 1.0
  */
-
-typedef struct starData {
+struct starData {
     qint32 RA;
     qint32 Dec;
     qint32 dRA;
@@ -38,6 +37,6 @@ typedef struct starData {
     char spec_type[2];
     char flags;
     char unused;
-} starData;
+};
 
 #endif

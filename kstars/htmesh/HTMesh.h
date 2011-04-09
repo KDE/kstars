@@ -73,16 +73,6 @@ public:
          */
         Trixel index(double ra, double dec) const;
 
-        /* @short converts in index such as those returned by the index(ra, dec)
-         * routine above to a string such as S103222.
-         */
-        const char* indexToName(Trixel id) const;
-
-        /* @short combines the two methods above into one so it returns the name
-         * string given the (ra, dec).
-         */
-        const char* indexName(double ra, double dec) const;
-
         /* NOTE: The intersect() routines below are all used to find the trixels
          * needed to cover a geometric object: circle, line, triangle, and
          * quadrilateral.  Since the number of trixels needed can be large and is
@@ -147,10 +137,6 @@ public:
          * Currently this is only used in the MeshIterator constructor.
          */
         MeshBuffer* meshBuffer(BufNum bufNum=0);
-
-        /* @short fills the buffer with consecutive integers.
-         */
-        void fillBuffer(BufNum bufNum=0);
 
         void vertices(Trixel id, double *ra1, double *dec1,
                                  double *ra2, double *dec2,
