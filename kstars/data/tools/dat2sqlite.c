@@ -19,9 +19,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <QSqlDatabase>
-#include "ksfilereader.h"
-
 #define MAX_LINE_LENGTH 200
 
 #define CTG_NGC	0
@@ -146,8 +143,6 @@ void load_ngcic(const char *ngcic_filename, sqlite3 *db)
 }
 
 int main(int argc, char *argv[]) {
-	KSFileReader x;
-
 	sqlite3 *kstarsdb;
 
 	if (argc != 4) {
