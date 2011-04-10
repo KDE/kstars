@@ -658,6 +658,7 @@ void INDIStdDevice::registerProperty(INDI_P *pp)
         break;
 
     case EQUATORIAL_EOD_COORD:
+    case EQUATORIAL_EOD_COORD_REQUEST:
     case HORIZONTAL_COORD:
         emit newTelescope();
         break;
