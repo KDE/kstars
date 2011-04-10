@@ -87,7 +87,7 @@ Texture* TextureManager::createTexture( QImage image )
         while ( tex_size < longest ) {
             tex_size *= 2;
         }
-
+        // FIXME: Check if Qt does this for us already. [Note that it does scale to the nearest power of two]
         texture->setImage( image.scaled( tex_size, tex_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ) );
     } else
         texture->setImage( image );
