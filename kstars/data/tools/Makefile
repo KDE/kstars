@@ -8,6 +8,8 @@
 # License: GPL
 #
 
+CFLAGS = -Wall
+
 MYSQL_CONFIG=/usr/bin/mysql_config
 KSTARS_MYSQL_DB_TO_BIN=./mysql2bin
 KSTARS_NOMAD_MYSQL_DB_TO_BIN=./nomadmysql2bin

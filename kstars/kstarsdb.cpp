@@ -174,7 +174,7 @@ void KStarsDB::migrateData(QString filename)
 
         kDebug() << s;
         s = "Catalog object: ";
-        
+
         dsoquery.prepare("SELECT designation, idCTG FROM od WHERE idDSO = :iddso");
         dsoquery.bindValue(":iddso", query.value(0).toString().toInt());
         dsoquery.exec();

@@ -106,8 +106,6 @@ void initialize_catalogues(sqlite3 *db)
 
 	rc = sqlite3_exec(db, "SELECT id, name FROM ctg", register_catalogue,
 			NULL, &err_msg);
-
-
 }
 
 /**
@@ -121,18 +119,16 @@ int insert_entry(char *dat_entry, sqlite3 *db)
 
 	char *p = dat_entry;
 
-	if (p[0] == 'N') {
-	}
-
 	return 0;
 }
+
 /**
  * Load the current ngcic.dat file, given as parameter to convert data.
  */
 void load_ngcic(const char *ngcic_filename, sqlite3 *db)
 {
 	FILE *ngcic_file = fopen(ngcic_filename, "r");
-	char *p, line[MAX_LINE_LENGTH], *sql;
+	char *p, line[MAX_LINE_LENGTH];
 
 	do {
 		p = fgets(line, MAX_LINE_LENGTH, ngcic_file);

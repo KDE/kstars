@@ -82,7 +82,7 @@ void DeepSkyComponent::loadData()
     QString dbFile = KStandardDirs::locate("appdata", "kstars.db");
     db.setDatabaseName(dbFile);
     db.open();
-    
+
     // Variables needed to load all the data
     QString line, con, ss, name[10], longname;
     QString cat[10];
@@ -183,7 +183,6 @@ void DeepSkyComponent::loadData()
 
         if ( sgn == -1 ) { d.setD( -1.0*d.Degrees() ); }
 
-        
         // Create new Deep Sky Object Instance
         DeepSkyObject *o = 0;
         if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
@@ -258,7 +257,6 @@ void DeepSkyComponent::loadData()
                 }
             }
         }
-        
     }
     kDebug() << "2." << CLOCK_TO_MILISEC(clock());
 }
