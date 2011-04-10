@@ -17,8 +17,8 @@
 
 */
 
-#ifndef KSTEXTUREMANAGER_H
-#define KSTEXTUREMANAGER_H
+#ifndef TEXTUREMANAGER_H
+#define TEXTUREMANAGER_H
 
 #include <QObject>
 #include <QHash>
@@ -73,4 +73,4 @@ protected:
 
 };
 
-#endif // KSTEXTUREMANAGER_H
+#endif // TEXTUREMANAGER_H
