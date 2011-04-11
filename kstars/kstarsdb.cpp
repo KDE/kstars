@@ -27,7 +27,6 @@
 KStarsDB::KStarsDB()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    kDebug() << "WTF" << objectHash.contains(1);
 }
 
 KStarsDB* KStarsDB::pinstance = 0;
@@ -68,22 +67,12 @@ bool KStarsDB::createDefaultDatabase()
     if (!query.exec(QString("CREATE TABLE ctg (name TEXT, source TEXT, description TEXT)"))) {
         qDebug() << query.lastError();
     }
-    
+
     // Create the Constellation entity
     if (!query.exec(QString("CREATE TABLE cnst (shortname TEXT, latinname TEXT, boundary TEXT, description TEXT)"))) {
         qDebug() << query.lastError();
     }
 
-    /*
-    // Create the Deep Sky Object entity
-    if (!query.exec(QString("CREATE TABLE dso (rah INTEGER, ram INTEGER, ras FLOAT, ") + 
-                    QString("sgn INTEGER, decd INTEGER, decm INTEGER, decs INTEGER, ") +
-                    QString("bmag FLOAT, type INTEGER, pa FLOAT, minor FLOAT, major FLOAT, longname TEXT)"))) {
-        qDebug() << query.lastError();
-    }
-    */
-
-    
     // Create the Deep Sky Object entity
     if (!query.exec(QString("CREATE TABLE dso (ra TEXT, dec TEXT, ") +
                     QString("sgn INTEGER, ") +
@@ -91,7 +80,6 @@ bool KStarsDB::createDefaultDatabase()
         kDebug() << query.lastError();
     }
 
-    
     // Create the Object Designation entity
     if (!query.exec(QString("CREATE TABLE od (designation TEXT, idCTG INTEGER NOT NULL, idDSO INTEGER NOT NULL)"))) {
         kDebug() << query.lastError();
@@ -131,12 +119,12 @@ bool KStarsDB::createDefaultDatabase()
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"NGC\", \"ngcic.dat\", \"New General Catalogue\")"))) {
         kDebug() << query.lastError();
     }
-    
+
     // Insert the IC catalog
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"IC\", \"ngcic.dat\", \"Index Catalogue of Nebulae and Clusters of Stars\")"))) {
         kDebug() << query.lastError();
     }
-    
+
     // Insert the Messier catalog
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"M\", \"ngcic.dat\", \"Messier Catalogue\")"))) {
         kDebug() << query.lastError();
@@ -146,7 +134,7 @@ bool KStarsDB::createDefaultDatabase()
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"PGC\", \"ngcic.dat\", \"Principal Galaxies Catalogue\")"))) {
         kDebug() << query.lastError();
     }
-    
+
     // Insert the UGC catalog
     if (!query.exec(QString("INSERT INTO ctg VALUES(\"UGC\", \"ngcic.dat\", \"Uppsala General Catalogue\")"))) {
         kDebug() << query.lastError();
@@ -160,47 +148,21 @@ void KStarsDB::migrateData(QString filename)
     QSqlQuery query(db), dsoquery(db), tmpq(db);
     KSFileReader fileReader;
 
-    query.exec("SELECT rowid, * FROM dso");
+    //query.exec("SELECT rowid, * FROM dso");
     QString s, ra, dec;
-    int k = 0;
 
-    // Just some test query to show up the first 10 objects in the db
-    while (query.next()) {
-        s = "";
-
-        for (int i = 0; i < 14; i++) {
-            s += query.value(i).toString() + " ";
-        }
-
-        kDebug() << s;
-        s = "Catalog object: ";
-
-        dsoquery.prepare("SELECT designation, idCTG FROM od WHERE idDSO = :iddso");
-        dsoquery.bindValue(":iddso", query.value(0).toString().toInt());
-        dsoquery.exec();
-
-        while (dsoquery.next()) {
-            tmpq.prepare("SELECT name FROM ctg WHERE rowid = :idctg");
-            tmpq.bindValue(":idctg", dsoquery.value(1).toString().toInt());
-            tmpq.exec();
-            if (tmpq.next()) {
-                s += tmpq.value(0).toString() + " " + dsoquery.value(0).toString();
-            }
-        }
-
-        kDebug() << s;
-        if ( k++ == 10 )
-            break;
-    }
+    QFile ngcicfile("ngcic.sql");
+    ngcicfile.open(QIODevice::WriteOnly | QIODevice::Text);
+    QTextStream ngcic_out(&ngcicfile);
 
     if (!fileReader.open(filename)) return; 
-    fileReader.setProgress(i18n("Migrating NGC/IC objects from ngcic.dat to kstars.db"), 13444, 10 );
+    fileReader.setProgress(i18n("Migrating NGC/IC objects from ngcic.dat to kstars.db"), 13444, 10);
 
     while (fileReader.hasMoreLines()) {
         QString line, con, ss, name, name2, longname;
         QString cat, cat2, sgn;
         float mag(1000.0), a, b;
-        int type, ingc, imess(-1), pa; // , rah, ram, dd, dm, ds;
+        int type, ingc, imess(-1), pa;
         int pgc, ugc;
         QChar iflag;
 
@@ -224,21 +186,7 @@ void KStarsDB::migrateData(QString filename)
         ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
 
-        /*
-        // read the right ascension coordinates
-        rah = line.mid( 6, 2 ).toInt();
-        ram = line.mid( 8, 2 ).toInt();
-        ras = line.mid( 10, 4 ).toFloat();
-        */
-
         ra = line.mid( 6, 8 );
-
-        /*
-        // bind the values for right ascension params
-        query.bindValue(":rah", rah);
-        query.bindValue(":ram", ram);
-        query.bindValue(":ras", ras);
-        */
 
         query.bindValue(":ra", ra);
 
@@ -247,17 +195,6 @@ void KStarsDB::migrateData(QString filename)
 
         // bine the sign in the db query (maybe will not be used anymore)
         query.bindValue(":sign", (sgn == "-") ? -1:1);
-
-        /*
-        dd = line.mid( 16, 2 ).toInt();
-        dm = line.mid( 18, 2 ).toInt();
-        ds = line.mid( 20, 2 ).toInt();
-        
-        // bind the values for declination
-        query.bindValue(":decd", dd);
-        query.bindValue(":decm", dm);
-        query.bindValue(":decs", ds);
-        */
 
         dec = line.mid(16, 6);
 
@@ -315,8 +252,15 @@ void KStarsDB::migrateData(QString filename)
         // Bind the name value
         query.bindValue(":name", longname);
 
+        //query.prepare("INSERT INTO dso VALUES(:ra, :dec, :sign, :bmag, :type, :pa, :minor, :major, :name)");
         // Add the DSO Object to the database
-        query.exec();
+        if (!query.exec()) {
+            printf("Yes, here fails\n");
+            qDebug() << query.lastError();
+        }
+
+        ngcic_out << "INSERT INTO dso VALUES(" << ra << 
+            ", " << dec << ", " << (sgn == "-" ? "-1" : "1") << ", " << mag << ", " << type << ", " << pa << ", " << b << ", " << a<< ", \"" << longname << "\")" << "\n";
 
 
         /*
@@ -339,22 +283,17 @@ void KStarsDB::migrateData(QString filename)
         query.bindValue(":sgn", (sgn == "-") ? (-1):1);
         query.bindValue(":dec", dec);
 
-        query.exec();
+        if (!query.exec()) {
+            qDebug() << query.lastError();
+        }
 
         int dsoRowID = -1;
 
         // Retrieve the row id of the newly inserted object
         while (query.next()) {
-       //   kDebug() << query.value(0).toString() << query.value(1).toString() << query.value(2).toString();
             dsoRowID = query.value(0).toString().toInt();
         }
-/*
-        dms r;
-        r.setH( rah, ram, int(ras) );
-        dms d( dd, dm, ds );
 
-        if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-*/
         bool hasName = true;
         QString snum;
 
@@ -367,32 +306,6 @@ void KStarsDB::migrateData(QString filename)
          */
 
         int ngcRowID = 1, icRowID = 2, mRowID = 3, ugcRowID = 5, pgcRowID = 4;
-        
-        /*
-        query.exec("SELECT rowid FROM ctg WHERE name = 'IC'");
-        if (query.next()) {
-            icRowID = query.value(0).toString().toInt();
-        } else {
-            qDebug() << "Unable to get IC catalog row id!";
-        }
-        qDebug() << "IC: " << icRowID;
-
-        query.exec("SELECT rowid FROM ctg WHERE name = 'NGC'");
-        if (query.next()) {
-            ngcRowID = query.value(0).toString().toInt();
-        } else {
-            qDebug() << "Unable to get NGC catalog row id!";
-        }
-        qDebug() << "NGC: " << ngcRowID;
-        
-        query.exec("SELECT rowid FROM ctg WHERE name = 'M'");
-        if (query.next())
-            mRowID = query.value(0).toString().toInt();
-        else {
-            qDebug() << "Unable to retrive Messier catalog row id!";
-        }
-        qDebug() << "Messier: " << mRowID;
-        */
 
         if ( cat=="IC" || cat=="NGC" ) {
             snum.setNum( ingc );
@@ -410,7 +323,7 @@ void KStarsDB::migrateData(QString filename)
             dsoquery.bindValue(":iddso", dsoRowID);
             dsoquery.exec();
 
-//          qDebug() << "NGC / IC error: " << dsoquery.lastError();
+            ngcic_out << "INSERT INTO od VALUES (" << ingc << ", " << (cat == "IC" ? icRowID : ngcRowID) << ", " << dsoRowID << ")\n";
         } else if ( cat=="M" ) {
             snum.setNum( imess );
             name = cat + ' ' + snum;
@@ -422,9 +335,9 @@ void KStarsDB::migrateData(QString filename)
             dsoquery.bindValue(":iddso", dsoRowID);
 
             dsoquery.exec();
-//          qDebug() << "Messier error: " << dsoquery.lastError();
+            ngcic_out << "INSERT INTO od VALUES (" << imess << ", " << mRowID << ", " << dsoRowID << ")\n";
 
-            if ( cat2=="NGC" ) {
+            if (cat2 == "NGC") {
                 snum.setNum( ingc );
                 name2 = cat2 + ' ' + snum;
 
@@ -433,8 +346,7 @@ void KStarsDB::migrateData(QString filename)
                 dsoquery.bindValue(":idctg", ngcRowID);
                 dsoquery.bindValue(":iddso", dsoRowID);
                 dsoquery.exec();
-//              qDebug() << "NGC error: " << dsoquery.lastError();
-
+                ngcic_out << "INSERT INTO od VALUES (" << ingc << ", " << ngcRowID << ", " << dsoRowID << ")\n";
             } else if ( cat2=="IC" ) {
                 snum.setNum( ingc );
                 name2 = cat2 + ' ' + snum;
@@ -444,15 +356,12 @@ void KStarsDB::migrateData(QString filename)
                 dsoquery.bindValue(":idctg", icRowID);
                 dsoquery.bindValue(":iddso", dsoRowID);
                 dsoquery.exec();
-
-//              qDebug() << "IC error: " << dsoquery.lastError();
-
+                ngcic_out << "INSERT INTO od VALUES (" << ingc << ", " << icRowID << ", " << dsoRowID << ")\n";
             } else {
                 name2.clear();
             }
         }
         else {
-//          qDebug() << "No catalog assigned!";
             if ( ! longname.isEmpty() ) name = longname;
             else {
                 hasName = false;
@@ -470,6 +379,8 @@ void KStarsDB::migrateData(QString filename)
 
             if (!dsoquery.exec())
                 qDebug() << "UGC error: " << dsoquery.lastError();
+
+	    ngcic_out << "INSERT INTO od VALUES (" << ugc << ", " << ugcRowID << ", " << dsoRowID << ")\n";
         }
 
         if (pgc != 0) {
@@ -481,8 +392,11 @@ void KStarsDB::migrateData(QString filename)
             dsoquery.bindValue(":iddso", dsoRowID);
             if (!dsoquery.exec())
                 qDebug() << "PGC error: " << dsoquery.lastError();
+            ngcic_out << "INSERT INTO od VALUES (" << pgc << ", " << pgcRowID << ", " << dsoRowID << ")\n";
         }
     }
+
+    ngcicfile.close();
 }
 
 void KStarsDB::migrateURLData(const QString &urlfile, int type) {

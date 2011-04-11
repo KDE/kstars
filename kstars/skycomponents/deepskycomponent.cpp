@@ -66,15 +66,15 @@ void DeepSkyComponent::update( KSNumbers* )
 
 void DeepSkyComponent::loadData()
 {
-/*
     KStarsDB *ksdb = KStarsDB::Create();
+    //ksdb->loadDatabase("data/kstars.db");
     ksdb->createDefaultDatabase("data/kstars.db");
     ksdb->migrateData("ngcic.dat");
-    ksdb->migrateURLData("image_url_full.dat", IMG_URL);
-    ksdb->migrateURLData("info_url_full.dat", INFO_URL);
+    //ksdb->migrateURLData("image_url_full.dat", IMG_URL);
+    //ksdb->migrateURLData("info_url_full.dat", INFO_URL);
 
     exit(1);
-*/
+/*
     KStarsData* data = KStarsData::Instance();
 
     // Database
@@ -109,7 +109,7 @@ void DeepSkyComponent::loadData()
 
     query.exec("PRAGMA count_changes = false");
     query.exec("PRAGMA synchronous = OFF");
-    
+
     QString queryStatement =  QString("SELECT o.ra, o.dec, ") +
                                 QString("o.sgn, ") +
                                 QString("o.bmag, o.type, o.pa, o.minor, o.major, ") +
@@ -259,6 +259,7 @@ void DeepSkyComponent::loadData()
         }
     }
     kDebug() << "2." << CLOCK_TO_MILISEC(clock());
+    */
 }
 
 void DeepSkyComponent::mergeSplitFiles() {
