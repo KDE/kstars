@@ -190,6 +190,8 @@ public:
     ConstellationBoundaryLines* getConstellationBoundary() { return m_CBoundLines; }
     inline TargetListComponent *getStarHopRouteList() { return m_StarHopRouteList; }
 
+    SolarSystemComposite *solarSystemComposite();
+
 signals:
     void progressText( const QString &message );
 

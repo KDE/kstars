@@ -528,4 +528,9 @@ SatellitesComponent* SkyMapComposite::satellites() {
     return m_Satellites;
 }
 
+SolarSystemComposite* SkyMapComposite::solarSystemComposite()
+{
+    return m_SolarSystem;
+}
+
 #include "skymapcomposite.moc"

@@ -40,6 +40,7 @@ public:
     virtual ~CometsComponent();
     virtual bool selected();
     virtual void draw( SkyPainter *skyp );
+    void updateDataFile();
 private:
     void loadData();
 };

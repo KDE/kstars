@@ -97,6 +97,10 @@
 		<Action name="fovsymbols" /> <!-- This is a KMenuAction-->
 		<Action name="opengl" />
 		<Separator />
+        <Menu name="updates"><text>&amp;Updates</text>
+            <Action name="update_comets" />
+        </Menu>
+		<Separator />
         <Action name="ewriter"/>
         <Action name="obsadd"/>
 		<Separator />

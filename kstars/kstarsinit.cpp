@@ -335,6 +335,10 @@ void KStars::initActions() {
         << i18n("Startup Wizard..." )
         << KIcon("tools-wizard" );
 
+    // Updates actions
+    actionCollection()->addAction( "update_comets", this, SLOT( slotUpdateComets() ) )
+        << i18n( "Update comets orbital elements" );
+
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT( slotCalculator() ) )
         << i18n("Calculator...")

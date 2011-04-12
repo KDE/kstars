@@ -579,6 +579,9 @@ private slots:
 
     void slotExecute();
 
+    /**Update comets orbital elements*/
+    void slotUpdateComets();
+
 private:
     /** Load FOV information and repopulate menu. */
     void repopulateFOV();

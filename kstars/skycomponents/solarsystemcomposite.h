@@ -58,6 +58,8 @@ public:
 
     void drawTrails( SkyPainter *skyp );
 
+    CometsComponent* cometsComponent();
+
 private:
     KSPlanet *m_Earth;
     KSSun *m_Sun;

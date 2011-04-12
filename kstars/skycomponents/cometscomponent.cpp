@@ -31,6 +31,10 @@
 #include "skylabeler.h"
 #include "skypainter.h"
 #include "projections/projector.h"
+#include <kio/job.h>
+#include <kio/netaccess.h>
+#include <kio/jobuidelegate.h>
+#include <kstandarddirs.h>
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent )
@@ -69,6 +73,10 @@ void CometsComponent::loadData() {
 
     if ( KSUtils::openDataFile( file, "comets.dat" ) ) {
         emitProgressText( i18n("Loading comets") );
+
+        // Clear lists
+        m_ObjectList.clear();
+        objectNames( SkyObject::COMET ).clear();
 
         KSFileReader fileReader( file );
         while( fileReader.hasMoreLines() ) {
@@ -133,5 +141,35 @@ void CometsComponent::draw( SkyPainter *skyp )
         bool drawn = skyp->drawPointSource(com,com->mag());
         if ( drawn && !(hideLabels || com->rsun() >= rsunLabelLimit) )
             SkyLabeler::AddLabel( com, SkyLabeler::COMET_LABEL );
+    }
+}
+
+void CometsComponent::updateDataFile()
+{
+    KUrl url = KUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
+    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbered=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&combine_mode=AND&c1_group=OBJ&c1_item=Af&c1_op=!%3D&c1_value=D&c2_group=OBJ&c2_item=Ae&c2_op=!%3D&c2_value=SOHO&c_fields=AcBdBiBgBjBlBkBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
+    QString content_type = "Content-Type: application/x-www-form-urlencoded";
+
+    // Download file
+    KIO::StoredTransferJob* get_job = KIO::storedHttpPost( post_data,  url );
+    get_job->addMetaData("content-type", content_type );
+
+    if( KIO::NetAccess::synchronousRun( get_job, 0 ) ) {
+        // Comment the first line
+        QByteArray data = get_job->data();
+        data.insert( 0, '#' );
+
+        // Write data to comets.dat
+        QFile file( KStandardDirs::locateLocal( "appdata", "comets.dat" ) );
+        file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
+        file.write( data );
+        file.close();
+
+        // Reload comets
+        loadData();
+
+        KStars::Instance()->data()->setFullTimeUpdate();
+    } else {
+        get_job->ui()->showErrorMessage();
     }
 }

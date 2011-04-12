@@ -89,6 +89,8 @@
 
 #include "skycomponents/customcatalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skycomponents/solarsystemcomposite.h"
+#include "skycomponents/cometscomponent.h"
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
@@ -1028,4 +1030,8 @@ void KStars::slotShowPositionBar(SkyPoint* p ) {
                                           p->dec().toDMSString(true) ); //true: force +/- symbol
         statusBar()->changeItem( s, 2 );
     }
+}
+
+void KStars::slotUpdateComets() {
+    data()->skyComposite()->solarSystemComposite()->cometsComponent()->updateDataFile();
 }

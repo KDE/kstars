@@ -118,3 +118,9 @@ const QList<SkyObject*>& SolarSystemComposite::asteroids() const {
 const QList<SkyObject*>& SolarSystemComposite::comets() const {
     return m_CometsComponent->objectList();
 }
+
+CometsComponent* SolarSystemComposite::cometsComponent()
+{
+    return m_CometsComponent;
+}
+
