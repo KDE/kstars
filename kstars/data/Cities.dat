@@ -387,7 +387,7 @@ Bozeman                          : Montana               : USA                  
 Bracebridge                      : Ontario               : Canada                : 45 : 02 : 00 : N : 79  : 19 : 00 : W : -5.0 : US
 Bradford                         :                       : United Kingdom        : 53 : 48 : 00 : N :   1 : 45 : 00 : W : 0.0  : EU
 Brampton                         : Ontario               : Canada                : 43 : 41 : 00 : N : 79  : 46 : 00 : W : -5.0 : US
-Brandford                        : Ontario               : Canada                : 43 : 08 : 00 : N : 80  : 16 : 00 : W : -5.0 : US
+Brantford                        : Ontario               : Canada                : 43 : 08 : 00 : N : 80  : 16 : 00 : W : -5.0 : US
 Brandon                          : Manitoba              : Canada                : 49 : 51 :  0 : N :  99 : 57 :  0 : W : -6.0 : US
 Brandon                          : Vermont               : USA                   : 43 : 45 :  0 : N :  73 :  4 : 58 : W : -5.0 : US
 Brasilia                         :                       : Brazil                : 15 : 52 :  0 : S :  47 : 55 :  0 : W : -3.0 : BZ
@@ -916,7 +916,7 @@ Entebbe                          :                       : Uganda               
 Ephrata                          : Pennsylvania          : USA                   : 40 :  6 : 35 : N :  76 :  5 : 59 : W : -5.0 : US
 Erding                           :                       : Germany               : 48 : 19 : 12 : N :  11 : 55 : 58 : E : 1.0  : EU
 Erfurt                           :                       : Germany               : 50 : 58 : 30 : N :  10 : 57 : 28 : E : 1.0  : EU
-Ericksdale                       : Manitoba              : Canada                : 50 : 50 : 00 : N : 98  : 10 : 00 : W : -6.0 : US
+Eriksdale                        : Manitoba              : Canada                : 50 : 50 : 00 : N : 98  : 10 : 00 : W : -6.0 : US
 Erickson                         : Manitoba              : Canada                : 50 : 29 : 53 : N : 99  : 54 : 41 : W : -6.0 : US
 Erie                             : Pennsylvania          : USA                   : 42 :  7 : 14 : N :  80 :  4 : 56 : W : -5.0 : US
 Erlangen                         :                       : Germany               : 49 : 36 : 00 : N :  11 : 01 : 00 : E : 1.0  : EU
@@ -1191,7 +1191,7 @@ Gunsan                           : Jeonbuk               : Korea                
 Gurushikhar                      :                       : India                 : 24 : 39 :  0 : N :  72 : 43 :  0 : E :  5.5 : --
 Gütersloh                        :                       : Germany               : 51 : 55 : 15 : N :   8 : 18 : 14 : E : 1.0  : EU
 Guthrie                          : Oklahoma              : USA                   : 35 : 52 :  1 : N :  97 : 25 : 58 : W : -6.0 : US
-Guysorough                       : Nova Scotia           : Canada                : 45 : 23 : 00 : N : 61  : 30 : 00 : W : -4.0 : US
+Guysborough                      : Nova Scotia           : Canada                : 45 : 23 : 00 : N : 61  : 30 : 00 : W : -4.0 : US
 Gwangju                          :                       : Korea                 : 35 : 10 :  0 : N : 126 : 54 :  0 : E : 9.0  : SK
 Gweru                            :                       : Zimbabwe              : 19 : 45 :  0 : S :  29 : 82 :  0 : E :   2.0 : --
 Gönsdorf                         :                       : Germany               : 51 :  3 :  0 : N :  13 : 52 : 14 : E :  1.0 : EU
@@ -1652,7 +1652,7 @@ Leavenworth                      : Washington            : USA                  
 Lebanon                          : Kentucky              : USA                   : 37 : 31 : 58 : N :  85 : 15 :  0 : W : -5.0 : US
 Lebanon                          : Missouri              : USA                   : 37 : 40 :  1 : N :  92 : 43 :  1 : W : -6.0 : US
 Lebanon                          : New Hampshire         : USA                   : 43 : 40 :  1 : N :  72 : 15 :  0 : W : -5.0 : US
-Lebel-sur-Quevilon               : Quebec                : Canada                : 49 : 00 : 00 : N : 76  : 56 : 00 : W : -5.0 : US
+Lebel-sur-Quevillon              : Quebec                : Canada                : 49 : 00 : 00 : N : 76  : 56 : 00 : W : -5.0 : US
 Lecce                            :                       : Italy                 : 40 : 21 :  4 : N :  18 : 10 :  8 : E :  1.0 : EU
 Lecco                            : Lecco                 : Italy                 : 45 : 51 : 11 : N :   9 : 24 : 11 : E :  1.0 : EU
 Leck                             :                       : Germany               : 54 : 47 : 20 : N :   8 : 56 : 31 : E : 1.0  : EU
@@ -2027,7 +2027,7 @@ Moore                            : Oklahoma              : USA                  
 Moose Jaw                        : Saskatchewan          : Canada                : 50 : 22 : 11 : N : 105 : 31 : 48 : W : -6.0 : --
 Moose River                      : Ontario               : Canada                : 50 : 48 : 00 : N : 81  : 17 : 00 : W : -5.0 : US
 Moosomin                         : Saskatchewan          : Canada                : 50 : 08 : 00 : N : 101 : 40 : 00 : W : -7.0 : --
-Moosone                          : Ontario               : Canada                : 51 : 19 : 00 : N : 80  : 43 : 00 : W : -5.0 : US
+Moosonee                         : Ontario               : Canada                : 51 : 19 : 00 : N : 80  : 43 : 00 : W : -5.0 : US
 Morden                           : Manitoba              : Canada                : 49 : 11 : 31 : N : 98  : 06 : 02 : W : -6.0 : US
 Morehead                         : Kentucky              : USA                   : 38 : 10 :  1 : N :  83 : 25 :  1 : W : -5.0 : US
 Morgan City                      : Louisiana             : USA                   : 29 : 41 : 53 : N :  91 : 12 : 24 : W : -6.0 : US
@@ -2764,7 +2764,7 @@ Sevilla                          :                       : Spain                
 Seward                           : Alaska                : USA                   : 60 :  6 :  0 : N : 149 : 26 : 59 : W : -9.0 : US
 Seymour                          : Tennessee             : USA                   : 35 : 52 : 59 : N :  83 : 42 : 59 : W : -5.0 : US
 Sfax                             :                       : Tunisia               : 34 : 43 :  0 : N :  10 : 41 :  0 : E :   1.0 : --
-Shabaqua Corne                   : Ontario               : Canada                : 48 : 36 : 00 : N : 89  : 54 : 00 : W : -5.0 : US
+Shabaqua Corners                 : Ontario               : Canada                : 48 : 36 : 00 : N : 89  : 54 : 00 : W : -5.0 : US
 Shanghai                         :                       : China                 : 31 : 13 : 58 : N : 121 : 27 :  0 : E : 8.0  : CH
 Shannon                          : Munster               : Ireland               : 52 : 42 :  0 : N :   8 : 55 :  1 : W : 0.0  : EU
 Shaunavon                        : Saskatchewan          : Canada                : 49 : 39 : 00 : N : 108 : 25 : 00 : W : -7.0 : --
@@ -2781,7 +2781,7 @@ Shemya                           : Alaska                : USA                  
 Sherbrooke                       : Nova Scotia           : Canada                : 45 : 08 : 00 : N : 61  : 59 : 00 : W : -4.0 : US
 Sherbrooke                       : Quebec                : Canada                : 45 : 23 : 59 : N :  71 : 46 : 11 : W : -5.0 : US
 Sheridan                         : Wyoming               : USA                   : 44 : 47 : 48 : N : 106 : 57 : 43 : W : -7.0 : US
-Shipagan                         : New Brunswick         : Canada                : 47 : 44 : 08 : N : 64  : 43 : 25 : W : -4.0 : US
+Shippagan                        : New Brunswick         : Canada                : 47 : 44 : 08 : N : 64  : 43 : 25 : W : -4.0 : US
 Shiraz                           :                       : Iran                  : 29 : 32 : 23 : N :  52 : 35 : 24 : E : 3.5  : IR
 Shoshone                         : Idaho                 : USA                   : 42 : 55 : 58 : N : 114 : 24 :  0 : W : -7.0 : US
 Shreveport                       : Louisiana             : USA                   : 32 : 30 : 46 : N :  93 : 44 : 57 : W : -6.0 : US
@@ -3167,7 +3167,7 @@ Venice                           :                       : Italy                
 Venice                           : California            : USA                   : 33 : 53 : 59 : N : 118 : 26 : 31 : W : -8.0 : US
 Ventura                          : California            : USA                   : 34 : 16 : 59 : N : 119 : 17 : 59 : W : -8.0 : US
 Vermilion Bay                    : Ontario               : Canada                : 49 : 51 : 19 : N : 93  : 24 : 07 : W : -6.0 : US
-Vermillion                       : Alberta               : Canada                : 53 : 22 : 00 : N : 110 : 51 : 00 : W : -7.0 : US
+Vermilion                        : Alberta               : Canada                : 53 : 22 : 00 : N : 110 : 51 : 00 : W : -7.0 : US
 Vermillion                       : South Dakota          : USA                   : 42 : 46 : 48 : N :  96 : 55 : 41 : W : -6.0 : US
 Vernal                           : Utah                  : USA                   : 40 : 28 : 58 : N : 109 : 40 :  1 : W : -7.0 : US
 Verner                           : Ontario               : Canada                : 46 : 25 : 00 : N : 80  : 07 : 00 : W : -5.0 : US
