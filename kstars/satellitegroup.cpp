@@ -43,7 +43,7 @@ void SatelliteGroup::readTLE()
     QString line1, line2;
 
     // Delete all satellites
-    empty();
+    clear();
     
     // Read TLE file
     if ( KSUtils::openDataFile( file, m_tle_file ) ) {
