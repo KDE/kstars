@@ -1030,7 +1030,7 @@ Fredericia                       : Jylland               : Denmark              
 Frederick                        : Maryland              : USA                   : 39 : 24 : 53 : N :  77 : 25 :  0 : W : -5.0 : US
 Fredericksburg                   : Virginia              : USA                   : 38 : 19 : 58 : N :  77 : 30 :  0 : W : -5.0 : US
 Fredericktown                    : Missouri              : USA                   : 37 : 31 : 58 : N :  90 : 16 :  1 : W : -6.0 : US
-Fredericton                      : New Brunswick         : Canada                : 45 : 51 :  0 : N :  66 : 25 : 48 : W : -4.0 : US
+Fredericton                      : New Brunswick         : Canada                : 45 : 56 : 43 : N :  66 : 40 :  0 : W : -4.0 : US
 Frederikshavn                    : Jylland               : Denmark               : 57 : 25 : 58 : N :  10 : 31 : 58 : E :   1.0 : EU
 Frederiksvaerk                   : Zealand               : Denmark               : 55 : 58 :  1 : N :  12 :  1 :  1 : E :   1.0 : EU
 Freehold                         : New Jersey            : USA                   : 40 : 15 :  0 : N :  74 : 16 :  1 : W : -5.0 : US
@@ -1524,7 +1524,7 @@ Kiso                             :                       : Japan                
 Kissimmee                        : Florida               : USA                   : 28 : 16 : 58 : N :  81 : 25 :  1 : W : -5.0 : US
 Kisumu                           :                       : Kenya                 :  0 :  6 :  0 : S :  34 : 45 :  0 : E :   3.0 : --
 Kit Carson                       : Colorado              : USA                   : 38 : 46 :  1 : N : 102 : 47 : 59 : W : -7.0 : US
-Kitchener                        : Ontario               : Canada                : 43 : 15 :  0 : N :  80 : 19 : 47 : W : -5.0 : US
+Kitchener                        : Ontario               : Canada                : 43 : 25 :  7 : N :  80 : 28 : 22 : W : -5.0 : US
 Kitt Peak Nat'l. Obs.            : Arizona               : USA                   : 31 : 42 :  5 : N : 111 : 35 : 44 : W : -7.0 : --
 Kitwe                            :                       : Zambia                : 12 : 81 :  0 : S :  28 : 22 :  0 : E :   2.0 : --
 Kiviõli                          :                       : Estonia               : 59 : 21 : 25 : N :  26 : 57 : 47 : E :  2.0 : EU
@@ -2887,7 +2887,7 @@ St. David's                      : Newfoundland          : Canada               
 St. George                       : Utah                  : USA                   : 37 :  4 : 58 : N : 113 : 40 :  1 : W : -7.0 : US
 Saint John                       : New Brunswick         : Canada                : 45 : 20 : 24 : N :  65 : 57 : 35 : W : -4.0 : US
 St. John's                       :                       : Antigua and Barbuda   : 17 :  7 : 59 : N :  61 : 46 : 59 : W : -4.0 : --
-St. John's                       : Newfoundland          : Canada                : 47 :  4 : 47 : N :  52 : 42 : 36 : W : -3.5 : US
+St. John's                       : Newfoundland          : Canada                : 47 : 28 : 56 : N :  52 : 47 : 49 : W : -3.5 : US
 St. Joseph                       : Missouri              : USA                   : 39 : 45 : 56 : N :  94 : 51 :  2 : W : -6.0 : US
 St. Louis                        :                       : Senegal               : 16 :  3 :  0 : N :  16 : 27 :  0 : W :   0.0 : --
 St. Louis                        : Missouri              : USA                   : 38 : 37 : 45 : N :  90 : 12 : 21 : W : -6.0 : US
@@ -3179,7 +3179,7 @@ Viborg                           : Jylland               : Denmark              
 Vicenza                          :                       : Italy                 : 45 : 32 : 57 : N :  11 : 32 : 57 : E :  1.0 : EU
 Vicksburg                        : Mississippi           : USA                   : 32 : 20 : 53 : N :  90 : 52 : 41 : W : -6.0 : US
 Victoria                         :                       : Seychelles            :  5 :  0 :  0 : S :  55 :  0 :  0 : E : 4.0  : --
-Victoria                         : British Columbia      : Canada                : 48 : 37 : 48 : N : 123 : 24 :  0 : W : -8.0 : US
+Victoria                         : British Columbia      : Canada                : 48 : 26 : 00 : N : 123 : 22 :  0 : W : -8.0 : US
 Victoria                         : Texas                 : USA                   : 28 : 48 : 17 : N :  97 :  0 : 17 : W : -6.0 : US
 Victoriaville                    : Quebec                : Canada                : 46 : 03 : 00 : N : 71  : 58 : 00 : W : -5.0 : US
 Vienna                           :                       : Austria               : 48 : 13 :  0 : N :  16 : 22 :  0 : E : 1.0  : EU
