@@ -57,6 +57,7 @@ class Execute;
 class OpsCatalog;
 class OpsGuides;
 class OpsSolarSystem;
+class OpsSatellites;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
@@ -633,6 +634,7 @@ private:
     OpsCatalog *opcatalog;
     OpsGuides *opguides;
     OpsSolarSystem *opsolsys;
+    OpsSatellites *opssatellites;
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
     OpsINDI *opsindi;

@@ -508,11 +508,6 @@
 			<whatsthis>Toggle whether Pluto is drawn in the sky map.</whatsthis>
 			<default>true</default>
 		</entry>
-		<entry name="ShowSatellites" type="Bool">
-			<label>Draw satellite tracks in the sky map?</label>
-			<whatsthis>Toggle whether satellite tracks are drawn in the sky map.</whatsthis>
-			<default>false</default>
-		</entry>
 		<entry name="ShowStars" type="Bool">
 			<label>Draw stars in the sky map?</label>
 			<whatsthis>Toggle whether stars are drawn in the sky map.</whatsthis>
@@ -839,6 +834,21 @@
 			<whatsthis>The color for telescope target symbols.</whatsthis>
 			<default>#8B8</default>
 		</entry>
+        <entry name="VisibleSatColor" type="String">
+            <label>Color of visible satellites</label>
+            <whatsthis>Color of visible satellites.</whatsthis>
+            <default>#00FF00</default>
+        </entry>
+        <entry name="SatColor" type="String">
+            <label>Color of invisible satellites</label>
+            <whatsthis>Color of invisible satellites.</whatsthis>
+            <default>#FF0000</default>
+        </entry>
+        <entry name="SatLabelColor" type="String">
+            <label>Color of satellites labels</label>
+            <whatsthis>Color of satellites labels.</whatsthis>
+            <default>#640000</default>
+        </entry>
 		<entry name="UserLabelColor" type="String">
 			<label>Color of user-added labels</label>
 			<whatsthis>The color for user-added object labels.</whatsthis>
@@ -1048,4 +1058,30 @@
 			<default>80</default>
 		</entry>
 	</group>
+	<group name="Satellites">
+        <entry name="ShowSatellites" type="Bool">
+            <label>Draw satellites in the sky map?</label>
+            <whatsthis>Toggle whether satellite tracks are drawn in the sky map.</whatsthis>
+            <default>false</default>
+        </entry>
+        <entry name="ShowVisibleSatellites" type="Bool">
+            <label>Draw only visible satellites in the sky map</label>
+            <whatsthis>Toggle whether satellite tracks are drawn in the sky map.</whatsthis>
+            <default>false</default>
+        </entry>
+        <entry name="DrawSatellitesLikeStars" type="Bool">
+            <label>If selected, satellites will be draw like stars, otherwise, draw satellites as small colored square.</label>
+            <whatsthis>If selected, satellites will be draw like stars, otherwise, draw satellites as small colored square.</whatsthis>
+            <default>false</default>
+        </entry>
+        <entry name="ShowSatellitesLabels" type="Bool">
+            <label>Draw satellite labels?</label>
+            <whatsthis>Toggle whether satellite labels are drawn in the sky map.</whatsthis>
+            <default>false</default>
+        </entry>
+        <entry name="SelectedSatellites" type="StringList">
+            <label>Selected satellites.</label>
+            <whatsthis>List of selected satellites.</whatsthis>
+        </entry>
+    </group>
 </kcfg>

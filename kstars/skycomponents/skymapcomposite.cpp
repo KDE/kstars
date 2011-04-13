@@ -42,8 +42,8 @@
 #include "solarsystemcomposite.h"
 #include "starcomponent.h"
 #include "deepstarcomponent.h"
-//#include "satellitecomposite.h"
 #include "flagcomponent.h"
+#include "satellitescomponent.h"
 
 
 #include "skymesh.h"
@@ -80,8 +80,6 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_Equator    = new Equator( this ));
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
-    // Disable satellites for now
-    // addComponent( m_Satellites = new SatelliteComposite( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
 
     m_CustomCatalogs = new SkyComposite( this );
@@ -97,6 +95,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_ObservingList = new TargetListComponent( this , 0, QPen(),
                                                              &Options::obsListSymbol, &Options::obsListText ) );
     addComponent( m_StarHopRouteList = new TargetListComponent( this , 0, QPen() ) );
+    addComponent( m_Satellites       = new SatellitesComponent( this ) );
 
     connect( this, SIGNAL( progressText( const QString & ) ),
              KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
@@ -138,7 +137,7 @@ void SkyMapComposite::update(KSNumbers *num )
     //12. Solar system
     m_SolarSystem->update( num );
     //13. Satellites
-    //m_Satellites->update( data, num );
+    m_Satellites->update( num );
     //14. Horizon
     m_Horizon->update( num );
 }
@@ -237,9 +236,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_SolarSystem->drawTrails( skyp );
     m_SolarSystem->draw( skyp );
-
-    // TODO: Fix satellites sometime
-    //    m_Satellites->draw( psky );
+    
+    m_Satellites->draw( skyp );
 
     m_Horizon->draw( skyp );
 
@@ -333,6 +331,14 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
         oBest = oTry;
     }
 
+    rTry = maxrad;
+    oTry = m_Satellites->objectNearest( p, rTry );
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
+    if ( oBest )
+        kDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
     maxrad = rBest;
     return oBest; //will be 0 if no object nearer than maxrad was found
 
@@ -516,6 +522,10 @@ QString SkyMapComposite::currentCulture() {
 
 FlagComponent* SkyMapComposite::flags() {
     return m_Flags;
+}
+
+SatellitesComponent* SkyMapComposite::satellites() {
+    return m_Satellites;
 }
 
 #include "skymapcomposite.moc"

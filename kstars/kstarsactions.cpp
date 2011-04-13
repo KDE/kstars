@@ -46,6 +46,7 @@
 #include "options/opscatalog.h"
 #include "options/opsguides.h"
 #include "options/opssolarsystem.h"
+#include "options/opssatellites.h"
 #include "options/opscolors.h"
 #include "options/opsadvanced.h"
 
@@ -164,6 +165,11 @@ void KStars::slotViewToolBar() {
         Options::setShowFlags( a->isChecked() );
         if ( kcd ) {
             opguides->kcfg_ShowFlags->setChecked( a->isChecked() );
+        }
+    } else if ( a == actionCollection()->action( "show_satellites" ) ) {
+        Options::setShowSatellites( a->isChecked() );
+        if ( kcd ) {
+            opssatellites->kcfg_ShowSatellites->setChecked( a->isChecked() );
         }
     }
 
@@ -381,12 +387,14 @@ void KStars::slotViewOps() {
 
     opcatalog    = new OpsCatalog( this );
     opguides     = new OpsGuides( this );
-    opsolsys = new OpsSolarSystem( this );
+    opsolsys     = new OpsSolarSystem( this );
+    opssatellites= new OpsSatellites( this );
     opcolors     = new OpsColors( this );
-    opadvanced  = new OpsAdvanced( this );
+    opadvanced   = new OpsAdvanced( this );
 
     dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
     dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
+    dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
     dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
     dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
 

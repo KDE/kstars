@@ -27,6 +27,7 @@ class SkyPoint;
 class SkyObject;
 class DeepSkyObject;
 class KSMoon;
+class Satellite;
 
 /**@class KSPopupMenu
 	*The KStars Popup Menu.  The menu is sensitive to the 
@@ -95,6 +96,11 @@ public:
     void createPlanetMenu( SkyObject *p );
 
     void createMoonMenu( KSMoon *moon );
+
+    /**@short Create a popup menu for a satellite.
+     * @param satellite the satellite which the menu describes.
+     */
+    void createSatelliteMenu( Satellite *satellite );
 
     /**@short Create a popup menu for empty sky.
      *

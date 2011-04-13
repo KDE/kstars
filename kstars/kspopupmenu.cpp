@@ -27,6 +27,7 @@
 #include "skyobjects/trailobject.h"
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksmoon.h"
+#include "skyobjects/satellite.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
 
@@ -156,6 +157,44 @@ void KSPopupMenu::createMoonMenu( KSMoon *moon ) {
     QString info = QString("%1, %2").arg( magToStr(moon->mag()), moon->phaseName() );
     initPopupMenu( moon, moon->translatedName(), QString(), info);
     addLinksToMenu( moon, false ); //don't offer DSS images for planets
+}
+
+void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
+    KStars* ks = KStars::Instance();
+    QString velocity, altitude, range;
+    velocity.setNum( satellite->velocity() );
+    altitude.setNum( satellite->altitude() );
+    range.setNum( satellite->range() );
+
+    clear();
+    
+    addFancyLabel( satellite->name() );
+    addFancyLabel( satellite->id() );
+    addFancyLabel( i18n( "satellite" ) );
+    addFancyLabel( KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( satellite ) );
+
+    addSeparator();
+
+    addFancyLabel( i18n( "Velocity : %1 km/s", velocity ), -2 );
+    addFancyLabel( i18n( "Altitude : %1 km", altitude ), -2 );
+    addFancyLabel( i18n( "Range : %1 km", range ), -2 );
+
+    addSeparator();
+
+    //Insert item for centering on object
+    addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
+    //Insert item for measuring distances
+    //FIXME: add key shortcut to menu items properly!
+    addAction( i18n( "Angular Distance To...            [" ), ks->map(),
+               SLOT(slotBeginAngularDistance()) );
+    addAction( i18n( "Starhop from here to...            " ), ks->map(),
+               SLOT(slotBeginStarHop()) );
+
+    //Insert "Add/Remove Label" item
+    if ( ks->map()->isObjectLabeled( satellite ) )
+        addAction( i18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
+    else
+        addAction( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,

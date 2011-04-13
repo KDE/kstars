@@ -31,11 +31,13 @@
 #include "skycomponents/linelistlabel.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
+#include "skycomponents/satellitescomponent.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
+#include "skyobjects/satellite.h"
 
 #include "projections/projector.h"
 #include "ksutils.h"
@@ -705,3 +707,32 @@ void SkyQPainter::drawHorizon(bool filled, SkyPoint* labelPoint, bool* drawLabel
     }
 }
 
+void SkyQPainter::drawSatellite( Satellite* sat ) {
+    KStarsData *data = KStarsData::Instance();
+    QPointF pos;
+    bool visible = false;
+    
+    sat->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+
+    pos = m_proj->toScreen( sat, true, &visible );
+
+    if( !visible || !m_proj->onScreen( pos ) )
+        return;
+
+    if ( Options::drawSatellitesLikeStars() ) {
+        drawPointSource(pos, 3.5, 'B');
+    } else {
+        if ( sat->isVisible() )
+            setPen( data->colorScheme()->colorNamed( "VisibleSatColor" ) );
+        else
+            setPen( data->colorScheme()->colorNamed( "SatColor" ) );
+
+        drawLine( QPoint( pos.x() - 0.5, pos.y() - 0.5 ), QPoint( pos.x() + 0.5, pos.y() - 0.5 ) );
+        drawLine( QPoint( pos.x() + 0.5, pos.y() - 0.5 ), QPoint( pos.x() + 0.5, pos.y() + 0.5 ) );
+        drawLine( QPoint( pos.x() + 0.5, pos.y() + 0.5 ), QPoint( pos.x() - 0.5, pos.y() + 0.5 ) );
+        drawLine( QPoint( pos.x() - 0.5, pos.y() + 0.5 ), QPoint( pos.x() - 0.5, pos.y() - 0.5 ) );
+    }
+
+    if ( Options::showSatellitesLabels() )
+        data->skyComposite()->satellites()->drawLabel( sat, pos );
+}
