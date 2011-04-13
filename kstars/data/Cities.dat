@@ -201,7 +201,7 @@ Badger                           : Newfoundland          : Canada               
 Bafata                           :                       : Guinea Bissau         : 12 : 11 :  0 : N :  14 : 40 :  0 : W :   0.0 : --
 Baghdad                          :                       : Iraq                  : 33 : 13 : 59 : N :  44 : 22 :  0 : E : 3.0  : IQ
 Bahrain                          :                       : United Arab Emirates  : 26 : 16 :  1 : N :  50 : 37 : 58 : E : 4.0  : --
-Baie St-Paul                     : Quebec                : Canada                : 47 : 25 : 00 : N : 70  : 29 : 00 : W : -5.0 : US
+Baie-Saint-Paul                  : Quebec                : Canada                : 47 : 25 : 00 : N : 70  : 29 : 00 : W : -5.0 : US
 Baie Verte                       : Newfoundland          : Canada                : 49 : 56 : 00 : N : 56  : 11 : 00 : W : -3.5 : US
 Baie-Comeau                      : Quebec                : Canada                : 49 :  8 : 24 : N :  68 : 10 : 48 : W : -5.0 : US
 Baker                            : Montana               : USA                   : 46 : 21 :  0 : N : 104 : 12 :  0 : W : -7.0 : US
@@ -1008,7 +1008,7 @@ Fort Scott                       : Kansas                : USA                  
 Fort Simpson                     : Northwest Territories : Canada                : 61 : 45 : 35 : N : 121 : 15 :  0 : W : -7.0 : US
 Fort Skala                       :                       : Poland                : 50 :  3 :  3 : N :  19 : 49 : 45 : E :  1.0 : EU
 Fort Smith                       : Arkansas              : USA                   : 35 : 23 :  5 : N :  94 : 25 :  5 : W : -6.0 : US
-Fort St James                    : British Columbia      : Canada                : 54 : 26 : 35 : N : 124 : 15 : 15 : W : -8.0 : US
+Fort St. James                   : British Columbia      : Canada                : 54 : 26 : 35 : N : 124 : 15 : 15 : W : -8.0 : US
 Fort St. John                    : British Columbia      : Canada                : 56 : 15 : 00 : N : 120 : 51 : 00 : W : -8.0 : US
 Fort Wayne                       : Indiana               : USA                   : 41 :  4 : 20 : N :  85 :  8 : 25 : W : -5.0 : --
 Fort Worth                       : Texas                 : USA                   : 32 : 44 : 54 : N :  97 : 19 : 44 : W : -6.0 : US
@@ -1347,7 +1347,7 @@ Ibadan                           :                       : Nigeria              
 Icheon                           : Gyeonggi              : Korea                 : 37 : 15 :  0 : N : 127 : 29 :  0 : E : 9.0  : SK
 Idaho Falls                      : Idaho                 : USA                   : 43 : 29 : 30 : N : 112 :  1 : 58 : W : -7.0 : US
 Ignace                           : Ontario               : Canada                : 49 : 25 : 00 : N : 91  : 40 : 00 : W : -6.0 : US
-Ile-A-la-Crosse                  : Saskatchewan          : Canada                : 55 : 27 : 00 : N : 107 : 53 : 00 : W : -7.0 : --
+Ile-a-la-Crosse                  : Saskatchewan          : Canada                : 55 : 27 : 00 : N : 107 : 53 : 00 : W : -7.0 : --
 Imsil                            : Jeonbuk               : Korea                 : 35 : 37 :  0 : N : 127 : 17 :  0 : E : 9.0  : SK
 Incheon                          :                       : Korea                 : 37 : 28 :  0 : N : 126 : 38 :  0 : E : 9.0  : SK
 Incirlik                         :                       : Turkey                : 37 :  0 :  4 : N :  35 : 25 : 29 : E : 2.0  : EU
@@ -2872,9 +2872,9 @@ Springfield                      : Oregon                : USA                  
 Springfield                      : Vermont               : USA                   : 43 : 17 : 48 : N :  72 : 28 : 54 : W : -5.0 : US
 Spuzzum                          : British Columbia      : Canada                : 49 : 41 : 26 : N : 121 : 24 : 50 : W : -8.0 : US
 Squamish                         : British Columbia      : Canada                : 49 : 45 : 00 : N : 123 : 08 : 00 : W : -8.0 : US
-St-Basile-de-tableau             : Quebec                : Canada                : 48 : 22 : 00 : N : 70  : 28 : 00 : W : -5.0 : US
-St-Hubert                        : Quebec                : Canada                : 45 : 30 :  0 : N :  73 : 34 : 47 : W : -5.0 : US
-St-Quentin                       : New Brunswick         : Canada                : 47 : 30 : 36 : N : 67  : 23 : 19 : W : -4.0 : US
+Saint-Basile-de-Tableau          : Quebec                : Canada                : 48 : 22 : 00 : N : 70  : 28 : 00 : W : -5.0 : US
+Saint-Hubert                     : Quebec                : Canada                : 45 : 30 :  0 : N :  73 : 34 : 47 : W : -5.0 : US
+Saint-Quentin                    : New Brunswick         : Canada                : 47 : 30 : 36 : N : 67  : 23 : 19 : W : -4.0 : US
 St. Alban's                      : Newfoundland          : Canada                : 47 : 52 : 00 : N : 55  : 51 : 00 : W : -3.5 : US
 St. Albans                       : Vermont               : USA                   : 44 : 49 : 58 : N :  73 :  4 : 58 : W : -5.0 : US
 St. Bride's                      : Newfoundland          : Canada                : 46 : 55 : 00 : N : 54  : 10 : 00 : W : -3.5 : US
@@ -2885,7 +2885,7 @@ St. Cloud                        : Minnesota             : USA                  
 St. Croix                        :                       : Virgin Islands        : 17 : 41 : 59 : N :  64 : 47 : 59 : W : -4.0 : --
 St. David's                      : Newfoundland          : Canada                : 48 : 10 : 00 : N : 58  : 56 : 00 : W : -3.5 : US
 St. George                       : Utah                  : USA                   : 37 :  4 : 58 : N : 113 : 40 :  1 : W : -7.0 : US
-St. John                         : New Brunswick         : Canada                : 45 : 20 : 24 : N :  65 : 57 : 35 : W : -4.0 : US
+Saint John                       : New Brunswick         : Canada                : 45 : 20 : 24 : N :  65 : 57 : 35 : W : -4.0 : US
 St. John's                       :                       : Antigua and Barbuda   : 17 :  7 : 59 : N :  61 : 46 : 59 : W : -4.0 : --
 St. John's                       : Newfoundland          : Canada                : 47 :  4 : 47 : N :  52 : 42 : 36 : W : -3.5 : US
 St. Joseph                       : Missouri              : USA                   : 39 : 45 : 56 : N :  94 : 51 :  2 : W : -6.0 : US
@@ -2897,13 +2897,13 @@ St. Nazaire                      : Loire-atlantique      : France               
 St. Paul                         : Alberta               : Canada                : 53 : 59 : 00 : N : 111 : 17 : 00 : W : -7.0 : US
 St. Paul                         : Minnesota             : USA                   : 44 : 57 : 19 : N :  93 :  6 :  6 : W : -6.0 : US
 St. Peter Port                   : Guernsey              : United Kingdom        : 49 : 25 : 47 : N :   2 : 36 : 10 : W : 0.0  : EU
-St. Peters                       : Nova Scotia           : Canada                : 45 : 40 : 00 : N : 60  : 52 : 00 : W : -4.0 : US
+St. Peter's                      : Nova Scotia           : Canada                : 45 : 40 : 00 : N : 60  : 52 : 00 : W : -4.0 : US
 St. Petersburg                   : Florida               : USA                   : 27 : 46 : 18 : N :  82 : 38 : 18 : W : -5.0 : US
 St. Petersburg                   : North-West Region     : Russia                : 59 : 56 :  0 : N :  30 : 16 :  0 : E :  3.0 : RU
 St. Thomas                       :                       : Virgin Islands        : 18 : 19 : 59 : N :  64 : 58 :  0 : W : -4.0 : --
 St. Thomas                       : Ontario               : Canada                : 42 : 47 : 00 : N : 81  : 12 : 00 : W : -5.0 : US
 St. Walburg                      : Saskatchewan          : Canada                : 53 : 39 : 00 : N : 109 : 12 : 00 : W : -7.0 : --
-St.Stephen                       : New Brunswick         : Canada                : 45 : 10 : 49 : N : 67  : 17 : 47 : W : -4.0 : US
+St. Stephen                      : New Brunswick         : Canada                : 45 : 10 : 49 : N : 67  : 17 : 47 : W : -4.0 : US
 Stamford                         : Connecticut           : USA                   : 41 :  3 :  9 : N :  73 : 32 : 24 : W : -5.0 : US
 Stanley                          :                       : Falkland Islands      : 51 : 45 : 59 : S :  57 : 58 : 59 : W : -4.0 : FK
 Stara Lesna                      :                       : Slovakia              : 49 :  9 :  3 : N :  20 : 27 : 15 : E :  1.0 : EU
@@ -3132,7 +3132,7 @@ Uzhhorod                         :                       : Ukraine              
 Vacaville                        : California            : USA                   : 38 : 16 : 12 : N : 121 : 30 :  0 : W : -8.0 : US
 Vainu Bappu                      :                       : India                 : 12 : 24 :  5 : N :  78 : 49 : 59 : E :  5.5 : --
 Val Marie                        : Saskatchewan          : Canada                : 49 : 14 : 00 : N : 107 : 44 : 00 : W : -7.0 : --
-Val-d'or                         : Quebec                : Canada                : 48 :  4 : 47 : N :  77 : 46 : 48 : W : -5.0 : US
+Val-d'Or                         : Quebec                : Canada                : 48 :  4 : 47 : N :  77 : 46 : 48 : W : -5.0 : US
 Valdez                           : Alaska                : USA                   : 61 :  7 : 48 : N : 146 : 16 : 48 : W : -9.0 : US
 Valdosta                         : Georgia               : USA                   : 30 : 49 : 54 : N :  83 : 16 : 41 : W : -5.0 : US
 Vale                             : Oregon                : USA                   : 43 : 58 : 58 : N : 117 : 13 : 58 : W : -8.0 : US
