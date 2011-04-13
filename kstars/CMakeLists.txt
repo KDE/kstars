@@ -1,6 +1,5 @@
 add_subdirectory( data ) 
-add_subdirectory( icons ) 
-add_subdirectory( satlib ) 
+add_subdirectory( icons )
 add_subdirectory( htmesh ) 
 
 Find_package(ZLIB REQUIRED)
@@ -72,7 +71,6 @@ include_directories(
     ${kstars_SOURCE_DIR}/kstars/tools 
     ${kstars_SOURCE_DIR}/kstars/skyobjects
     ${kstars_SOURCE_DIR}/kstars/skycomponents
-    ${kstars_SOURCE_DIR}/kstars/satlib 
 #    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
 #	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
 	${ZLIB_INCLUDE_DIR}
@@ -193,9 +191,7 @@ set(libkstarscomponents_SRCS
    skycomponents/asteroidscomponent.cpp 
    skycomponents/cometscomponent.cpp 
    skycomponents/planetmoonscomponent.cpp 
-   skycomponents/solarsystemcomposite.cpp 
-   #skycomponents/satellitecomposite.cpp
-   #skycomponents/satellitecomponent.cpp
+   skycomponents/solarsystemcomposite.cpp
    skycomponents/satellitescomponent.cpp
    skycomponents/starcomponent.cpp 
    skycomponents/deepstarcomponent.cpp
@@ -378,7 +374,6 @@ target_link_libraries(kstars
     ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KIO_LIBS}
-	SatLib
 	htmesh
 	${ZLIB_LIBRARIES}
         )

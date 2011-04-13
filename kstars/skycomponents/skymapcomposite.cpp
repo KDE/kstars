@@ -42,7 +42,6 @@
 #include "solarsystemcomposite.h"
 #include "starcomponent.h"
 #include "deepstarcomponent.h"
-//#include "satellitecomposite.h"
 #include "flagcomponent.h"
 #include "satellitescomponent.h"
 
@@ -81,8 +80,6 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_Equator    = new Equator( this ));
     addComponent( m_Ecliptic   = new Ecliptic( this ));
     addComponent( m_Horizon    = new HorizonComponent( this ));
-    // Disable satellites for now
-    // addComponent( m_Satellites = new SatelliteComposite( this ));
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
 
     m_CustomCatalogs = new SkyComposite( this );
@@ -141,7 +138,6 @@ void SkyMapComposite::update(KSNumbers *num )
     m_SolarSystem->update( num );
     //13. Satellites
     m_Satellites->update( num );
-    //m_Satellites->update( data, num );
     //14. Horizon
     m_Horizon->update( num );
 }
@@ -242,9 +238,6 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_SolarSystem->draw( skyp );
     
     m_Satellites->draw( skyp );
-
-    // TODO: Fix satellites sometime
-    //    m_Satellites->draw( psky );
 
     m_Horizon->draw( skyp );
 

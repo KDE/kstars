@@ -209,7 +209,6 @@ private:
     SolarSystemComposite        *m_SolarSystem;
     SkyComposite                *m_CustomCatalogs;
     StarComponent               *m_Stars;
-    //SatelliteComposite          *m_Satellites;
     FlagComponent               *m_Flags;
     TargetListComponent         *m_ObservingList;
     TargetListComponent         *m_StarHopRouteList;
