@@ -69,6 +69,7 @@ install( FILES textures/star.png
                textures/globular-cluster.png
                textures/galaxy-cluster.png
                textures/gaseous-nebula.png
+               textures/planetary-nebula.png
 	       textures/obslistsymbol.png
                textures/sun.png 
 	       textures/mercury.png 
