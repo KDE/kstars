@@ -82,8 +82,9 @@ void SkyGLPainter::drawBuffer(int type)
     const Texture *tex = 0;
     switch( type ) {
         case 3: case 13:          tex = TextureManager::getTexture("open-cluster"); break;
-        case 4: case 7:           tex = TextureManager::getTexture("globular-cluster"); break;
-        case 5: case 6: case 15:  tex = TextureManager::getTexture("gaseous-nebula"); break;
+        case 4:                   tex = TextureManager::getTexture("globular-cluster"); break;
+        case 6:                   tex = TextureManager::getTexture("planetary-nebula"); break;
+        case 5: case 7: case 15:  tex = TextureManager::getTexture("gaseous-nebula"); break;
         case 8: case 16:          tex = TextureManager::getTexture("galaxy"); break;
         case 14:                  tex = TextureManager::getTexture("galaxy-cluster"); break;
         case 0: case 1: default:  tex = TextureManager::getTexture("star"); break;
