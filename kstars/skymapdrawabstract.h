@@ -131,9 +131,11 @@ class SkyMapDrawAbstract {
     KStarsData *m_KStarsData;
     SkyMap *m_SkyMap;
 
+    /** Calculate FPS and dump result to stderr using kDebug */
+    void calculateFPS();
+private:
     int m_framecount;     // To count FPS
     QTime m_fpstime;
-
 };
 
 #endif

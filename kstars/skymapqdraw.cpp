@@ -34,14 +34,7 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
     //use update() to trigger this "short" paint event; to force a full "recompute"
     //of the skymap, use forceUpdate().
 
-    if(m_framecount == 25) {
-        float sec = m_fpstime.elapsed()/1000.;
-        printf("FPS: %.2f\n", m_framecount/sec);
-        m_framecount = 0;
-        m_fpstime.restart();
-    }
-
-    ++m_framecount;
+    calculateFPS();
     if (!m_SkyMap->computeSkymap)
         {
             QPainter p;
