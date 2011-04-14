@@ -110,7 +110,7 @@ QList<FOV*> FOV::defaults()
     fovs << new FOV(i18nc("use field-of-view for binoculars", "7x35 Binoculars" ),
                     558,  558,  CIRCLE,"#AAAAAA")
          << new FOV(i18nc("use a Telrad field-of-view indicator", "Telrad" ),
-                    30,   30,   CROSSHAIRS,"#AA0000")
+                    30,   30,   BULLSEYE,"#AA0000")
          << new FOV(i18nc("use 1-degree field-of-view indicator", "One Degree"),
                     60,   60,   CIRCLE,"#AAAAAA")
          << new FOV(i18nc("use HST field-of-view indicator", "HST WFPC2"),
