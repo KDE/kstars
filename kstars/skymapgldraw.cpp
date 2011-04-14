@@ -44,15 +44,8 @@ void SkyMapGLDraw::paintEvent( QPaintEvent *event )
     QPainter p;
     p.begin(this);
     p.beginNativePainting();
-
+    calculateFPS();
     m_SkyMap->setupProjector();
-    if(m_framecount == 25) {
-        float sec = m_fpstime.elapsed()/1000.;
-        printf("FPS: %.2f\n", m_framecount/sec);
-        m_framecount = 0;
-        m_fpstime.restart();
-    }
-
     makeCurrent();
 
     SkyGLPainter psky( this );
@@ -68,6 +61,4 @@ void SkyMapGLDraw::paintEvent( QPaintEvent *event )
     p.endNativePainting();
     drawOverlays(p);
     p.end();
-
-    ++m_framecount;
 }

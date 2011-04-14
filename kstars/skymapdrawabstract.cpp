@@ -327,5 +327,13 @@ void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd ) {
     p.end();
 }
 
-
-
+void SkyMapDrawAbstract::calculateFPS()
+{
+    if(m_framecount == 25) {
+        float sec = m_fpstime.elapsed()/1000.;
+        kDebug() << "FPS " << m_framecount/sec;
+        m_framecount = 0;
+        m_fpstime.restart();
+    }
+    ++m_framecount;
+}
