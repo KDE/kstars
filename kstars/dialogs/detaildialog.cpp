@@ -44,6 +44,7 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/ksmoon.h"
+#include "skyobjects/kscomet.h"
 #include "skycomponents/customcatalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
@@ -65,7 +66,7 @@
 DetailDialog::DetailDialog(SkyObject *o, const KStarsDateTime &ut, GeoLocation *geo, QWidget *parent ) :
     KPageDialog( parent ),
     selectedObject(o),
-    Data(0), Pos(0), Links(0), Adv(0), Log(0)
+    Data(0), DataComet(0), Pos(0), Links(0), Adv(0), Log(0)
 {
     setFaceType( Tabbed );
     setBackgroundRole( QPalette::Base );
@@ -118,7 +119,7 @@ void DetailDialog::createGeneralTab()
     StarObject *s = 0L;
     DeepSkyObject *dso = 0L;
     KSPlanetBase *ps = 0L;
-    QString pname, oname, objecttyp, constellationname;
+    QString pname, oname, objecttyp, constellationname, str;
 
     switch ( selectedObject->type() ) {
     case SkyObject::STAR:
@@ -169,7 +170,7 @@ void DetailDialog::createGeneralTab()
         break; //end of stars case
 
     case SkyObject::ASTEROID:  //[fall through to planets]
-    case SkyObject::COMET: //[fall through to planets]
+    case SkyObject::COMET:     //[fall through to planets]
     case SkyObject::MOON: //[fall through to planets]
     case SkyObject::PLANET:
         ps = (KSPlanetBase *)selectedObject;
@@ -272,6 +273,64 @@ void DetailDialog::createGeneralTab()
             Data->AngSize->setText( "--" );
 
         break;
+    }
+
+    // Add specifics data
+    switch ( selectedObject->type() ) {
+        case SkyObject::COMET:
+            KSComet* com = (KSComet *)selectedObject;
+            DataComet = new DataCometWidget( this );
+            Data->IncludeData->layout()->addWidget( DataComet );
+
+            // Perihelion
+            str.setNum( com->getPerihelion() );
+            DataComet->Perihelion->setText( str + " AU" );
+            // Earth MOID
+            if ( com->getEarthMOID() == 0 )
+                str = "";
+            else
+                str.setNum( com->getEarthMOID() ).append( " AU" );
+            DataComet->EarthMOID->setText( str );
+            // Orbit ID
+            DataComet->OrbitID->setText( com->getOrbitID() );
+            // Orbit Class
+            DataComet->OrbitClass->setText( com->getOrbitClass() );
+            // NEO
+            if ( com->isNEO() )
+                DataComet->NEO->setText( "Yes" );
+            else
+                DataComet->NEO->setText( "No" );
+            // Albedo
+            if ( com->getAlbedo() == 0.0 )
+                str = "";
+            else
+                str.setNum( com->getAlbedo() );
+            DataComet->Albedo->setText( str );
+            // Diameter
+            if( com->getDiameter() == 0.0 )
+                str = "";
+            else
+                str.setNum( com->getDiameter() ).append( " km" );
+            DataComet->Diameter->setText( str );
+            // Dimensions
+            if ( com->getDimensions().isEmpty() )
+                DataComet->Dimensions->setText( "" );
+            else
+                DataComet->Dimensions->setText( com->getDimensions() + " km" );
+            // Rotation period
+            if ( com->getRotationPeriod() == 0.0 )
+                str = "";
+            else
+                str.setNum( com->getRotationPeriod() ).append( " h" );
+            DataComet->Rotation->setText( str );
+            // Period
+            if ( com->getPeriod() == 0.0 )
+                str = "";
+            else
+                str.setNum( com->getPeriod() ).append( " y" );
+            DataComet->Period->setText( str );
+            
+            break;
     }
 
     //Common to all types:
@@ -940,6 +999,11 @@ DataWidget::DataWidget( QWidget *p ) : QFrame( p )
 {
     setupUi( this );
     DataFrame->setBackgroundRole( QPalette::Base );
+}
+
+DataCometWidget::DataCometWidget( QWidget *p ) : QFrame( p )
+{
+    setupUi( this );
 }
 
 PositionWidget::PositionWidget( QWidget *p ) : QFrame( p )

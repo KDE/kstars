@@ -258,6 +258,51 @@ void KSComet::findMagnitude(const KSNumbers*)
     setMag( H + 5.0 * log10( rearth() ) + 2.5 * G * log10( rsun() ) );
 }
 
+void KSComet::setEarthMOID( double earth_moid )
+{
+    EarthMOID = earth_moid;
+}
+
+void KSComet::setAlbedo( float albedo )
+{
+    Albedo = albedo;
+}
+
+void KSComet::setDiameter( float diam )
+{
+    Diameter = diam;
+}
+ 
+void KSComet::setDimensions( QString dim )
+{
+    Dimensions = dim;
+}
+
+void KSComet::setNEO( bool neo )
+{
+    NEO = neo;
+}
+
+void KSComet::setOrbitClass( QString orbit_class )
+{
+    OrbitClass = orbit_class;
+}
+
+void KSComet::setOrbitID( QString orbit_id )
+{
+    OrbitID = orbit_id;
+}
+
+void KSComet::setPeriod( float per )
+{
+    Period = per;
+}
+
+void KSComet::setRotationPeriod(float rot_per)
+{
+    RotationPeriod = rot_per;
+}
+
 //Unused virtual function from KSPlanetBase
 bool KSComet::loadData() { return false; }
 

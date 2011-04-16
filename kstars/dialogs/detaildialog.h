@@ -32,6 +32,7 @@
 #include "skyobjects/skyobject.h"
 //UI headers
 #include "ui_details_data.h"
+#include "ui_details_data_comet.h"
 #include "ui_details_position.h"
 #include "ui_details_links.h"
 #include "ui_details_database.h"
@@ -48,6 +49,7 @@ class KStars;
 class KStarsDateTime;
 
 class DataWidget;
+class DataCometWidget;
 class PositionWidget;
 class LinksWidget;
 class DatabaseWidget;
@@ -214,6 +216,7 @@ private:
     QStringList dataList;
 
     DataWidget *Data;
+    DataCometWidget *DataComet;
     PositionWidget *Pos;
     LinksWidget *Links;
     DatabaseWidget *Adv;
@@ -223,9 +226,14 @@ private:
 
 class DataWidget : public QFrame, public Ui::DetailsData
 {
-
 public:
     DataWidget( QWidget *parent=0 );
+};
+
+class DataCometWidget : public QFrame, public Ui::DetailsDataComet
+{
+public:
+    DataCometWidget( QWidget *parent=0 );
 };
 
 class PositionWidget : public QFrame, public Ui::DetailsPosition

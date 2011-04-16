@@ -82,6 +82,12 @@ public:
     inline long double getPerihelionJD() { return JDp; }
 
     /**
+     *@short Returns Perihelion distance
+     *@return Perihelion distance
+     */
+    inline double getPerihelion() { return q; }
+
+    /**
      *@return the slope parameter
      */
     inline float getSlopeParameter() { return G; }
@@ -116,6 +122,96 @@ public:
      */
     inline float getNuclearSize() { return NuclearSize; }
 
+    /**
+     *@short Sets the comet's earth minimum orbit intersection distance
+     */
+    void setEarthMOID( double earth_moid );
+
+    /**
+     *@return the comet's earth minimum orbit intersection distance in km
+     */
+    inline double getEarthMOID() { return EarthMOID; }
+
+    /**
+     *@short Sets the comet's orbit solution ID
+     */
+    void setOrbitID( QString orbit_id );
+
+    /**
+     *@return the comet's orbit solution ID
+     */
+    inline QString getOrbitID() { return OrbitID; }
+
+    /**
+     *@short Sets the comet's orbit class
+     */
+    void setOrbitClass( QString orbit_class );
+
+    /**
+     *@return the comet's orbit class
+     */
+    inline QString getOrbitClass() { return OrbitClass; }
+
+    /**
+     *@short Sets if the comet is a near earth object
+     */
+    void setNEO( bool neo );
+
+    /**
+     *@return true if the comet is a near earth object
+     */
+    inline bool isNEO() { return NEO; }
+
+    /**
+     *@short Sets the comet's albedo
+     */
+    void setAlbedo( float albedo );
+
+    /**
+     *@return the comet's albedo
+     */
+    inline float getAlbedo() { return Albedo; }
+
+    /**
+     *@short Sets the comet's diameter
+     */
+    void setDiameter( float diam );
+
+    /**
+     *@return the comet's diameter
+     */
+    inline float getDiameter() { return Diameter; }
+
+    /**
+     *@short Sets the comet's dimensions
+     */
+    void setDimensions( QString dim );
+
+    /**
+     *@return the comet's dimensions
+     */
+    inline QString getDimensions() { return Dimensions; }
+
+     /**
+     *@short Sets the comet's rotation period
+     */
+    void setRotationPeriod( float rot_per );
+
+    /**
+     *@return the comet's rotation period
+     */
+    inline float getRotationPeriod() { return RotationPeriod; }
+
+     /**
+     *@short Sets the comet's period
+     */
+    void setPeriod( float per );
+
+    /**
+     *@return the comet's period
+     */
+    inline float getPeriod() { return Period; }
+
 
 protected:
     /**Calculate the geocentric RA, Dec coordinates of the Comet.
@@ -137,10 +233,12 @@ private:
     virtual void findMagnitude(const KSNumbers*);
     
     long double JD, JDp;
-    double q, e, a, P;
+    double q, e, a, P, EarthMOID;
     double TailSize, TailAngSize, ComaSize, NuclearSize; // All in kilometres
-    float H, G;
+    float H, G, Albedo, Diameter, RotationPeriod, Period;
     dms i, w, N;
+    QString OrbitID, OrbitClass, Dimensions;
+    bool NEO;
 
     qint64 uidPart; // Part of UID 
 };

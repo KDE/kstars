@@ -80,13 +80,13 @@ void CometsComponent::loadData() {
 
         KSFileReader fileReader( file );
         while( fileReader.hasMoreLines() ) {
-            QString line, name;
+            QString line, name, orbit_id, orbit_class, dimensions;
             QStringList fields;
-            bool ok;
+            bool ok, neo;
             int mJD;
-            double q, e, dble_i, dble_w, dble_N, Tp;
+            double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
             long double JD;
-            float H, G;
+            float H, G, diameter, albedo, rot_period, period;
             KSComet *com = 0;
 
             line = fileReader.readLine();
@@ -106,14 +106,41 @@ void CometsComponent::loadData() {
             dble_w = fields.at( 5 ).toDouble();
             dble_N = fields.at( 6 ).toDouble();
             Tp     = fields.at( 7 ).toDouble();
+            orbit_id = fields.at( 8 );
+            orbit_id.remove( '"' );
             H      = fields.at( 9 ).toFloat( &ok );
             if ( !ok ) H = -101.0; // Any absolute mag brighter than -100 should be treated as nonsense
             G      = fields.at( 10 ).toFloat( &ok );
             if ( !ok ) G = -101.0; // Same with slope parameter.
+            if ( fields.at( 11 ) == "Y" )
+                neo = true;
+            else
+                neo = false;
+            diameter = fields.at( 14 ).toFloat( &ok );
+            if ( !ok ) diameter = 0.0;
+            dimensions = fields.at( 15 );
+            albedo  = fields.at( 16 ).toFloat( &ok );
+            if ( !ok ) albedo = 0.0;
+            rot_period = fields.at( 17 ).toFloat( &ok );
+            if ( !ok ) rot_period = 0.0;
+            period  = fields.at( 18 ).toFloat( &ok );
+            if ( !ok ) period = 0.0;
+            earth_moid  = fields.at( 19 ).toDouble( &ok );
+            if ( !ok ) earth_moid = 0.0;
+            orbit_class = fields.at( 20 );
 
             JD = double( mJD ) + 2400000.5;
 
             com = new KSComet( name, QString(), JD, q, e, dms( dble_i ), dms( dble_w ), dms( dble_N ), Tp, H, G );
+            com->setOrbitID( orbit_id );
+            com->setNEO( neo );
+            com->setDiameter( diameter );
+            com->setDimensions( dimensions );
+            com->setAlbedo( albedo );
+            com->setRotationPeriod( rot_period );
+            com->setPeriod( period );
+            com->setEarthMOID( earth_moid );
+            com->setOrbitClass( orbit_class );
             com->setAngularSize( 0.005 );
 
             m_ObjectList.append( com );
