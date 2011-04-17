@@ -91,6 +91,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/cometscomponent.h"
+#include "skycomponents/asteroidscomponent.h"
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
@@ -1034,4 +1035,8 @@ void KStars::slotShowPositionBar(SkyPoint* p ) {
 
 void KStars::slotUpdateComets() {
     data()->skyComposite()->solarSystemComposite()->cometsComponent()->updateDataFile();
+}
+
+void KStars::slotUpdateAsteroids() {
+    data()->skyComposite()->solarSystemComposite()->asteroidsComponent()->updateDataFile();
 }

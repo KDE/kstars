@@ -19,6 +19,10 @@
 
 #include <QPen>
 #include <kglobal.h>
+#include <kio/job.h>
+#include <kio/netaccess.h>
+#include <kio/jobuidelegate.h>
+#include <kstandarddirs.h>
 
 #include "skycomponent.h"
 
@@ -32,6 +36,7 @@
 #include "skylabeler.h"
 #include "skypainter.h"
 #include "projections/projector.h"
+
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent ) :
     SolarSystemListComponent(parent)
@@ -163,3 +168,32 @@ SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
     return oBest;
 }
 
+void AsteroidsComponent::updateDataFile()
+{
+    KUrl url = KUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
+    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=ast&obj_numbered=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value=12&c_fields=AcBdBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
+    QString content_type = "Content-Type: application/x-www-form-urlencoded";
+
+    // Download file
+    KIO::StoredTransferJob* get_job = KIO::storedHttpPost( post_data,  url );
+    get_job->addMetaData("content-type", content_type );
+
+    if( KIO::NetAccess::synchronousRun( get_job, 0 ) ) {
+        // Comment the first line
+        QByteArray data = get_job->data();
+        data.insert( 0, '#' );
+
+        // Write data to asteroids.dat
+        QFile file( KStandardDirs::locateLocal( "appdata", "asteroids.dat" ) );
+        file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
+        file.write( data );
+        file.close();
+
+        // Reload asteroids
+        loadData();
+
+        KStars::Instance()->data()->setFullTimeUpdate();
+    } else {
+        get_job->ui()->showErrorMessage();
+    }
+}
