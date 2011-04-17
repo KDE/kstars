@@ -64,7 +64,8 @@ bool AsteroidsComponent::selected() {
 void AsteroidsComponent::loadData()
 {
 
-    QString line, name;
+    QString line, name, full_name;
+    QStringList fields;
     int mJD;
     double a, e, dble_i, dble_w, dble_N, dble_M, H, G;
     long double JD;
@@ -75,20 +76,32 @@ void AsteroidsComponent::loadData()
 
     emitProgressText( i18n("Loading asteroids") );
 
+    // Clear lists
+    m_ObjectList.clear();
+    objectNames( SkyObject::ASTEROID ).clear();
+
     while( fileReader.hasMoreLines() ) {
         line = fileReader.readLine();
 
-        int catN = line.mid(0,6).toInt();
-        name = line.mid( 6, 17 ).trimmed();
-        mJD  = line.mid( 24, 5 ).toInt();
-        a    = line.mid( 30, 9 ).toDouble();
-        e    = line.mid( 41, 10 ).toDouble();
-        dble_i = line.mid( 52, 9 ).toDouble();
-        dble_w = line.mid( 62, 9 ).toDouble();
-        dble_N = line.mid( 72, 9 ).toDouble();
-        dble_M = line.mid( 82, 11 ).toDouble();
-        H = line.mid( 94, 5 ).toDouble();
-        G = line.mid( 102, 4 ).toDouble();
+        // Ignore comments and too short lines
+        if ( line.at( 0 ) == '#' || line.size() < 8 )
+            continue;
+
+        fields = line.split( "," );
+
+        full_name = fields.at( 0 );
+        full_name   = full_name.remove( '"' ).trimmed();
+        int catN = full_name.section( " ", 0, 0 ).toInt();
+        name = full_name.section( " ", 1, -1 );
+        mJD  = fields.at( 1 ).toInt();
+        a    = fields.at( 2 ).toDouble();
+        e    = fields.at( 3 ).toDouble();
+        dble_i = fields.at( 4 ).toDouble();
+        dble_w = fields.at( 5 ).toDouble();
+        dble_N = fields.at( 6 ).toDouble();
+        dble_M = fields.at( 7 ).toDouble();
+        H = fields.at( 10 ).toDouble();
+        G = fields.at( 11 ).toDouble();
 
         JD = double( mJD ) + 2400000.5;
 
