@@ -17,6 +17,11 @@ Start KStars, then open the "Get New Stuff" Tool by selecting
 If a new "ephemerides" package is available, select it and press 
 the Install button.  Voila!
 
+If the "ephemerides" package available from the "Get New Stuff" 
+Tool is too old, you can use the menu items under 
+"Settings" > "Updates" to download the last ephemerides from 
+NASA's Jet Propulsion Laboratory website.
+
 
 -=( 2 )=-  Doing it Manually.
 
@@ -30,79 +35,97 @@ send your final comets.dat and asteroids.dat files to
 kstars-devel@kde.org!  Now is your chance to be a KStars Hero!
 
 
-Step 1: The JPL Webpage
+Step 1: The Comets
 
-Point your browser to the following URL:
-http://ssd.jpl.nasa.gov/?sb_elem
+You can use the following command to download comets.dat file
+from JPL website :
+wget -O comets.dat --post-data="obj_group=all&obj_kind=com&obj_numbered=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&combine_mode=AND&c1_group=OBJ&c1_item=Af&c1_op=!%3D&c1_value=D&c2_group=OBJ&c2_item=Ae&c2_op=!%3D&c2_value=SOHO&c_fields=AcBdBiBgBjBlBkBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" http://ssd.jpl.nasa.gov/sbdb_query.cgi
 
+Delete or comment (with a '#') the first line.
 
-Step 2: The Comets
-
-Under "ASCII Files", click on the "Comets" link, and save 
-this file as ~/.kde/share/apps/kstars/comets.dat (or as 
-$KDEDIR/share/apps/kstars/comets.dat for a system-wide install).
-
-Be sure to delete the header lines from this file; the first 
-line should begin with "1P/Halley".
-
-Next, please remove all comets whose names begin with "D/".  These
-comets no longer exist, and so they should not be included in the
-simulation.
-
-Finally, also remove comets named "SOHO" or "SOLWIND".  These comets
-are discovered by spacecraft monitoring the Sun, and they actually
-fall into the Sun shortly after being discovered (I don't know why
-they are not named with "D/").
+Finally, copy your modified "comets.dat" to 
+~/.kde/share/apps/kstars/ (for a single-user install) or 
+$KDEDIR/share/apps/kstars/ (for a system-wide install).
 
 
-Step 3: The Asteroids
+Step 2: The Asteroids
 
-Under "ASCII Files", click on the "Numbered Asteroids" link, 
-and save this file in a working directory as "asteroids.full.dat".
-Again, don't forget to remove the header lines at the beginning 
-of the file.
+You can use the following command to download asteroids.dat 
+file from JPL website :
+wget -O asteroids.dat --post-data="obj_group=all&obj_kind=ast&obj_numbered=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value=12&c_fields=AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" http://ssd.jpl.nasa.gov/sbdb_query.cgi
 
-This file contains about 100,000 asteroids, far more than we 
-want to deal with in KStars.  I ship KStars with 2000 asteroids; 
-you may feel free to keep as many as you want (but be aware that 
-larger numbers will require more RAM and will use the CPU more).
-
-So, how do we pick which of the 100,000 asteroids to keep?  I 
-think the most sensible option is to sort the list from biggest 
-to smallest, and then just keep the 2000 largest (or however 
-many you are keeping).  However, there isn't a "size" column to 
-sort by!  Ah, but there *is* an "absolute magnitude" column 
-(column 10).  Absolute magnitude is a measure of the asteroid's 
-intrinsic brightness, which is a good indicator of its size.  
-Smaller numbers are brighter, so sorting the file such that the 
-magnitudes increase means that the biggest asteroids are at the 
-top of the list.
-
-Use the "sort" command to sort, and the "head" command to cut 
-out the first 2000 lines.  However, because many asteroid names 
-include spaces, you first have to use your favorite text editor 
-to move the asteroid names to the end of the line (in emacs, use 
-M-x kill-rectangle, M-x yank-rectangle).  The use a command like:
-
-  % sort -n -k 9 asteroids.full.dat | head -n 2000 > asteroids.dat
-
-This assumes that you moved only the asteroid names field to the 
-end of the line, so the absolute magnitude field is now column 9.
-
-Don't forget to move the names field back to its proper location,
-again using your favorite editor.  
-
-*IMPORTANT*: The JPL column formatting has changed, so you will have
-to adjust the position of the name column to the left by two places.
-You can do this non-destructively by removing the first column in each
-line, and removing the space between the ID number and the name.
-Then, add two spaces just before the MJD field (after the name) to
-keep the column positions of the rest of the line the same.  Here's a
-before and after example:
-
- 136199 Eris            54200 67.7311622 0.43999155  44.15946 151.55827  35.88446 197.9656645  -1.17 0.15 JPL 16
-136199Eris              54200 67.7311622 0.43999155  44.15946 151.55827  35.88446 197.9656645  -1.17 0.15 JPL 16
+Delete or comment (with a '#') the first line.
 
 Finally, copy your modified "asteroids.dat" to 
+~/.kde/share/apps/kstars/ (for a single-user install) or 
+$KDEDIR/share/apps/kstars/ (for a system-wide install).
+
+
+-=( 3 )=-  Another way.
+
+The last method is to point your browser to the following 
+URL:
+http://ssd.jpl.nasa.gov/sbdb_query.cgi
+and generate the file using the form
+
+You must select the following columns to make the file 
+compatible with kstars :
+
+- for comets
+1 full name
+2 modified julian day of orbital elements
+3 perihelion distance
+4 eccentricity of orbit
+5 inclination angle of orbit in degrees
+6 argument of perihelion in degrees
+7 longitude of the ascending node
+8 time of perihelion passage
+9 orbit solution ID
+10 absolute magnitude
+11 slope parameter
+12 Near-Earth Object (NEO) flag
+13 comet total magnitude parameter
+14 comet nuclear magnitude parameter
+15 object diameter
+16 object bi/tri-axial ellipsoid dimensions
+17 geometric albedo
+18 rotation period
+19 orbital period
+20 earth minimum orbit intersection distance
+21 orbit classification
+
+-for asteroids
+1 full name
+2 Modified Julian Day of orbital elements
+3 perihelion distance
+4 semi-major axis
+5 eccentricity of orbit
+6 inclination angle of orbit in degrees
+7 argument of perihelion in degrees
+8 longitude of the ascending node in degrees
+9 mean anomaly
+10 time of perihelion passage
+11 orbit solution ID
+12 absolute magnitude
+13 slope parameter
+14 Near-Earth Object (NEO) flag
+15 comet total magnitude parameter
+16 comet nuclear magnitude parameter
+17 object diameter
+18 object bi/tri-axial ellipsoid dimensions
+19 geometric albedo
+20 rotation period
+21 orbital period
+22 earth minimum orbit intersection distance
+23 orbit classification
+
+The advantage of this method is that you can play with 
+several filters and get a file containing exactly what 
+you want.
+
+Don't forget to delete or comment (with a '#') the first 
+line.
+
+Finally, copy your files to 
 ~/.kde/share/apps/kstars/ (for a single-user install) or 
 $KDEDIR/share/apps/kstars/ (for a system-wide install).
