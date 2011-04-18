@@ -50,21 +50,32 @@ bool CometsComponent::selected() {
 }
 
 /*
- * @short Initialize the asteroids list.
- * Reads in the asteroids data from the asteroids.dat file.
+ * @short Initialize the comets list.
+ * Reads in the comets data from the comets.dat file.
  *
  * Populate the list of Comets from the data file.
- * Each line in the data file is parsed as follows:
- * @li 3-37 Name [string]
- * @li 38-42 Modified Julian Day of orbital elements [int]
- * @li 44-53 semi-major axis of orbit in AU [double]
- * @li 55-64 eccentricity of orbit [double]
- * @li 66-74 inclination angle of orbit in degrees [double]
- * @li 76-84 argument of perihelion in degrees [double]
- * @li 86-94 Longitude of the Ascending Node in degrees [double]
- * @li 82-93 Date of most proximate perihelion passage (YYYYMMDD.DDD) [double]
- * @li 124-127 Absolute magnitude [float]
- * @li 129-132 Slope parameter [float]
+ * The data file is a CSV file with the following columns :
+ * @li 1 full name [string]
+ * @li 2 modified julian day of orbital elements [int]
+ * @li 3 perihelion distance in AU [double]
+ * @li 4 eccentricity of orbit [double]
+ * @li 5 inclination angle of orbit in degrees [double]
+ * @li 6 argument of perihelion in degrees [double]
+ * @li 7 longitude of the ascending node in degrees [double]
+ * @li 8 time of perihelion passage (YYYYMMDD.DDD) [double]
+ * @li 9 orbit solution ID [string]
+ * @li 10 absolute magnitude [float]
+ * @li 11 slope parameter [float]
+ * @li 12 Near-Earth Object (NEO) flag [bool]
+ * @li 13 comet total magnitude parameter [float]
+ * @li 14 comet nuclear magnitude parameter [float]
+ * @li 15 object diameter (from equivalent sphere) [float]
+ * @li 16 object bi/tri-axial ellipsoid dimensions [string]
+ * @li 17 geometric albedo [float]
+ * @li 18 rotation period [float]
+ * @li 19 orbital period [float]
+ * @li 20 earth minimum orbit intersection distance [double]
+ * @li 21 orbit classification [string]
  *
  * @note See KSComet constructor for more details.
  */

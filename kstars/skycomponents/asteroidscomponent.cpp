@@ -55,16 +55,30 @@ bool AsteroidsComponent::selected() {
  *@short Initialize the asteroids list.
  *Reads in the asteroids data from the asteroids.dat file.
  *
- *Each line in the data file is parsed as follows:
- *@li 6-23 Name [string]
- *@li 24-29 Modified Julian Day of orbital elements [int]
- *@li 30-39 semi-major axis of orbit in AU [double]
- *@li 41-51 eccentricity of orbit [double]
- *@li 52-61 inclination angle of orbit in degrees [double]
- *@li 62-71 argument of perihelion in degrees [double]
- *@li 72-81 Longitude of the Ascending Node in degrees [double]
- *@li 82-93 Mean Anomaly in degrees [double]
- *@li 94-98 Magnitude [double]
+ * The data file is a CSV file with the following columns :
+ * @li 1 full name [string]
+ * @li 2 Modified Julian Day of orbital elements [int]
+ * @li 3 perihelion distance in AU [double]
+ * @li 4 semi-major axis
+ * @li 5 eccentricity of orbit [double]
+ * @li 6 inclination angle of orbit in degrees [double]
+ * @li 7 argument of perihelion in degrees [double]
+ * @li 8 longitude of the ascending node in degrees [double]
+ * @li 9 mean anomaly
+ * @li 10 time of perihelion passage (YYYYMMDD.DDD) [double]
+ * @li 11 orbit solution ID [string]
+ * @li 12 absolute magnitude [float]
+ * @li 13 slope parameter [float]
+ * @li 14 Near-Earth Object (NEO) flag [bool]
+ * @li 15 comet total magnitude parameter [float] (we should remove this column)
+ * @li 16 comet nuclear magnitude parameter [float] (we should remove this column)
+ * @li 17 object diameter (from equivalent sphere) [float]
+ * @li 18 object bi/tri-axial ellipsoid dimensions [string]
+ * @li 19 geometric albedo [float]
+ * @li 20 rotation period [float]
+ * @li 21 orbital period [float]
+ * @li 22 earth minimum orbit intersection distance [double]
+ * @li 23 orbit classification [string]
  */
 void AsteroidsComponent::loadData()
 {
