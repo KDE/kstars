@@ -69,11 +69,13 @@ bool AsteroidsComponent::selected() {
 void AsteroidsComponent::loadData()
 {
 
-    QString line, name, full_name;
+    QString line, name, full_name, orbit_id, orbit_class, dimensions;
     QStringList fields;
     int mJD;
-    double a, e, dble_i, dble_w, dble_N, dble_M, H, G;
+    double q, a, e, dble_i, dble_w, dble_N, dble_M, H, G, earth_moid;
     long double JD;
+    float diameter, albedo, rot_period, period;
+    bool ok, neo;
 
     KSFileReader fileReader;
 
@@ -99,19 +101,48 @@ void AsteroidsComponent::loadData()
         int catN = full_name.section( " ", 0, 0 ).toInt();
         name = full_name.section( " ", 1, -1 );
         mJD  = fields.at( 1 ).toInt();
-        a    = fields.at( 2 ).toDouble();
-        e    = fields.at( 3 ).toDouble();
-        dble_i = fields.at( 4 ).toDouble();
-        dble_w = fields.at( 5 ).toDouble();
-        dble_N = fields.at( 6 ).toDouble();
-        dble_M = fields.at( 7 ).toDouble();
-        H = fields.at( 10 ).toDouble();
-        G = fields.at( 11 ).toDouble();
+        q    = fields.at( 2 ).toDouble();
+        a    = fields.at( 3 ).toDouble();
+        e    = fields.at( 4 ).toDouble();
+        dble_i = fields.at( 5 ).toDouble();
+        dble_w = fields.at( 6 ).toDouble();
+        dble_N = fields.at( 7 ).toDouble();
+        dble_M = fields.at( 8 ).toDouble();
+        orbit_id = fields.at( 10 );
+        orbit_id.remove( '"' );
+        H = fields.at( 11 ).toDouble();
+        G = fields.at( 12 ).toDouble();
+        if ( fields.at( 13 ) == "Y" )
+            neo = true;
+        else
+            neo = false;
+        diameter = fields.at( 16 ).toFloat( &ok );
+        if ( !ok ) diameter = 0.0;
+        dimensions = fields.at( 17 );
+        albedo  = fields.at( 18 ).toFloat( &ok );
+        if ( !ok ) albedo = 0.0;
+        rot_period = fields.at( 19 ).toFloat( &ok );
+        if ( !ok ) rot_period = 0.0;
+        period  = fields.at( 20 ).toFloat( &ok );
+        if ( !ok ) period = 0.0;
+        earth_moid  = fields.at( 21 ).toDouble( &ok );
+        if ( !ok ) earth_moid = 0.0;
+        orbit_class = fields.at( 22 );
 
         JD = double( mJD ) + 2400000.5;
 
         KSAsteroid *ast = new KSAsteroid( catN, name, QString(), JD, a, e, dms(dble_i),
                                           dms(dble_w), dms(dble_N), dms(dble_M), H, G );
+        ast->setPerihelion( q );
+        ast->setOrbitID( orbit_id );
+        ast->setNEO( neo );
+        ast->setDiameter( diameter );
+        ast->setDimensions( dimensions );
+        ast->setAlbedo( albedo );
+        ast->setRotationPeriod( rot_period );
+        ast->setPeriod( period );
+        ast->setEarthMOID( earth_moid );
+        ast->setOrbitClass( orbit_class );
         ast->setAngularSize( 0.005 );
         m_ObjectList.append( ast );
 
@@ -171,7 +202,7 @@ SkyObject* AsteroidsComponent::objectNearest( SkyPoint *p, double &maxrad ) {
 void AsteroidsComponent::updateDataFile()
 {
     KUrl url = KUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
-    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=ast&obj_numbered=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value=12&c_fields=AcBdBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
+    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=ast&obj_numbered=num&OBJ_field=0&ORB_field=0&c1_group=OBJ&c1_item=Ai&c1_op=%3C&c1_value=12&c_fields=AcBdBiBhBgBjBlBkBmBqBbAiAjAgAkAlApAqArAsBsBtCh&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
     QString content_type = "Content-Type: application/x-www-form-urlencoded";
 
     // Download file
