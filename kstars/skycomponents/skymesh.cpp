@@ -36,8 +36,7 @@ SkyMesh* SkyMesh::Create( int level )
 {
     SkyMesh *newInstance;
     newInstance = pinstances.value( level, NULL );
-    if( newInstance )
-        delete newInstance;
+    delete newInstance;
     newInstance = new SkyMesh( level );
     pinstances.insert( level, newInstance );
     if( defaultLevel < 0 )

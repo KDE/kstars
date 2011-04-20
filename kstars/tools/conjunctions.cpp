@@ -132,10 +132,8 @@ ConjunctionsTool::ConjunctionsTool(QWidget *parentSplit)
 }
 
 ConjunctionsTool::~ConjunctionsTool(){
-    if( Object1 )
-        delete Object1;
-    if( Object2 )
-        delete Object2;
+    delete Object1;
+    delete Object2;
 }
 
 void ConjunctionsTool::slotGoto() {
@@ -158,8 +156,7 @@ void ConjunctionsTool::slotGoto() {
 void ConjunctionsTool::slotFindObject() {
     QPointer<FindDialog> fd = new FindDialog( KStars::Instance() );
     if ( fd->exec() == QDialog::Accepted ) {
-        if( Object1 )
-            delete Object1;
+        delete Object1;
         if( !fd->selectedObject() )
             return;
         Object1 = fd->selectedObject()->clone();

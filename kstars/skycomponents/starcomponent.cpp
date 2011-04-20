@@ -81,8 +81,7 @@ StarComponent::~StarComponent() {
 }
 
 StarComponent *StarComponent::Create( SkyComposite *parent ) {
-    if( pinstance )
-        delete pinstance;
+    delete pinstance;
     pinstance = new StarComponent( parent );
     return pinstance;
 }
