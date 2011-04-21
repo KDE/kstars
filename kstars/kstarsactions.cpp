@@ -159,8 +159,6 @@ void KStars::slotViewToolBar() {
     
            KMessageBox::information( this, message, caption, "dag_refract_hide_ground" );
         }
-
-
         if ( kcd ) {
             opguides->kcfg_ShowGround->setChecked( a->isChecked() );
         }
@@ -687,6 +685,22 @@ void KStars::slotToggleTimer() {
         if ( data()->clock()->isManualMode() )
             map()->forceUpdate();
     }
+}
+
+void KStars::slotStepForward() {
+    if ( data()->clock()->isActive() )
+        data()->clock()->stop();
+    data()->clock()->manualTick( true );
+    map()->forceUpdate();
+}
+
+void KStars::slotStepBackward() {
+    if ( data()->clock()->isActive() )
+        data()->clock()->stop();
+    data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //temporarily need negative time step
+    data()->clock()->manualTick( true );
+    data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //reset original sign of time step
+    map()->forceUpdate();
 }
 
 //Pointing

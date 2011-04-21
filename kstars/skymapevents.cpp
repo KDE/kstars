@@ -220,25 +220,7 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         if( rulerMode )
             slotCancelRulerMode();
         break;
-    case Qt::Key_Comma:  //advance one step backward in time
-    case Qt::Key_Less:
-        if ( data->clock()->isActive() )
-            data->clock()->stop();
-        data->clock()->setClockScale( -1.0 * data->clock()->scale() ); //temporarily need negative time step
-        data->clock()->manualTick( true );
-        data->clock()->setClockScale( -1.0 * data->clock()->scale() ); //reset original sign of time step
-        update();
-        qApp->processEvents();
-        break;
-
-    case Qt::Key_Period: //advance one step forward in time
-    case Qt::Key_Greater:
-        if ( data->clock()->isActive() ) data->clock()->stop();
-        data->clock()->manualTick( true );
-        update();
-        qApp->processEvents();
-        break;
-
+ 
     case Qt::Key_C: //Center clicked object
         if ( clickedObject() ) slotCenter();
         break;
