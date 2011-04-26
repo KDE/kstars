@@ -42,4 +42,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT
 add_subdirectory( doc )
 add_subdirectory( kstars )
 
-macro_display_feature_log()
+if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
+   macro_display_feature_log()
+endif (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
