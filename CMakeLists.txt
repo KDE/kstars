@@ -36,11 +36,13 @@ macro_optional_find_package(OpenGL)
 macro_bool_to_01(OPENGL_FOUND HAVE_OPENGL)
 macro_log_feature(OPENGL_FOUND "OpenGL" "Support for hardware rendering in KStars." "http://www.opengl.org/" FALSE "" "OpenGL rendering is generally faster on hardware with graphics acceleration.")
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
+if (EIGEN2_FOUND)
+   include_directories(${CMAKE_CURRENT_BINARY_DIR})
+   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config-kstars.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kstars.h )
 
-add_subdirectory( doc )
-add_subdirectory( kstars )
+   add_subdirectory( doc )
+   add_subdirectory( kstars )
+endif (EIGEN2_FOUND)
 
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
    macro_display_feature_log()
