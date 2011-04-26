@@ -54,6 +54,10 @@ public:
         */
     void setSunRiseSetTimes( double sr, double ss ) { SunRise = sr; SunSet = ss; update(); }
 
+    void setDawnDuskTimes( double da, double du );
+
+    void setMinMaxSunAlt( double min, double max );
+
 protected:
     /**Handle mouse move events.  If the mouse button is down,
         *draw crosshair lines centered at the cursor position.  This 
@@ -76,7 +80,7 @@ protected:
     void paintEvent( QPaintEvent *e );
 
 private:
-    double SunRise, SunSet;
+    double SunRise, SunSet, Dawn, Dusk, SunMinAlt, SunMaxAlt;
     QPoint MousePoint;
 };
 

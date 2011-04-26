@@ -88,30 +88,58 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
     QColor SkyColor( 0, 100, 200 );
 
     //draw daytime sky if the Sun rises for the current date/location
-    //(when Sun does not rise, SunSet = -1.0)
-    if ( SunSet != -1.0 ) {
-        //If Sun does not set, then just fill the daytime sky color
-        if ( SunSet == 1.0 ) {
-            p.fillRect( 0, 0, pW, int(0.5*pH), SkyColor );
-        } else {
-            //Display centered on midnight, so need to modulate dawn/dusk by 0.5
-            int dawn = int(pW*(0.5 + SunRise));
-            int dusk = int(pW*(SunSet - 0.5));
-            p.fillRect( 0, 0, dusk, int(0.5*pH), SkyColor );
-            p.fillRect( dawn, 0, pW - dawn, int(0.5*pH), SkyColor );
+    if ( SunMaxAlt > -18.0 ) {
+        //Display centered on midnight, so need to modulate dawn/dusk by 0.5
+        int rise = int( pW * ( 0.5 + SunRise ) );
+        int set = int( pW * ( SunSet - 0.5 ) );
+        int da = int( pW * ( 0.5 + Dawn ) );
+        int du = int( pW * ( Dusk - 0.5 ) );
 
-            //draw twilight gradients
-	    QLinearGradient grad = QLinearGradient( QPointF(dusk-20.0, 0.0), QPointF(dusk+20.0, 0.0) );
-	    grad.setColorAt(0, SkyColor );
-	    grad.setColorAt(1, Qt::black );
-	    p.fillRect( QRectF( dusk-20.0, 0.0, 40.0, pH ), grad );
-	    
-	    grad.setStart( QPointF(dawn+20.0, 0.0) );
-	    grad.setFinalStop( QPointF(dawn-20.0, 0.0) );
-	    p.fillRect( QRectF( dawn-20.0, 0.0, 40.0, pH ), grad );
-	}
+        if ( SunMinAlt > 0.0 ) {
+            // The sun never set and the sky is always blue
+            p.fillRect( rect(), SkyColor );
+        } else if ( SunMaxAlt < 0.0 && SunMinAlt < -18.0 ) {
+            // The sun never rise but the sky is not completely dark
+            QLinearGradient grad = QLinearGradient( QPointF( 0.0, 0.0 ), QPointF( du, 0.0 ) );
+            grad.setColorAt( 0, SkyColor.darker( SunMaxAlt / -18.0 * 1000 ) );
+            grad.setColorAt( 1, Qt::black );
+            p.fillRect( QRectF( 0.0, 0.0, du+20.0, pH ), grad );
+            
+            grad.setStart( QPointF( pW, 0.0 ) );
+            grad.setFinalStop( QPointF( da-20.0, 0.0 ) );
+            p.fillRect( QRectF( da-20.0, 0.0, pW, pH ), grad );
+        } else if ( SunMaxAlt < 0.0 && SunMinAlt > -18.0 ) {
+            // The sun never rise but the sky is NEVER completely dark
+            QLinearGradient grad = QLinearGradient( QPointF( 0.0, 0.0 ), QPointF( pW, 0.0 ) );
+            grad.setColorAt( 0, SkyColor.darker( SunMaxAlt / -18.0 * 1000 ) );
+            grad.setColorAt( 0.5, SkyColor.darker( SunMinAlt / -18.0 * 1000 ) );
+            grad.setColorAt( 1, SkyColor.darker( SunMaxAlt / -18.0 * 1000 ) );
+            p.fillRect( QRectF( 0.0, 0.0, pW, pH ), grad );
+        } else if ( Dawn < 0.0 ) {
+            // The sun sets and rises but the sky is never completely dark
+            p.fillRect( 0, 0, set, int( 0.5 * pH ), SkyColor );
+            p.fillRect( rise, 0, pW, int( 0.5 * pH ), SkyColor );
+
+            QLinearGradient grad = QLinearGradient( QPointF( set-20.0, 0.0 ), QPointF( rise, 0.0 ) );
+            grad.setColorAt( 0, SkyColor );
+            grad.setColorAt( 0.5, SkyColor.darker( SunMinAlt / -18.0 * 1000 ) );
+            grad.setColorAt( 1, SkyColor );
+            p.fillRect( QRectF( set-20.0, 0.0, rise-set+20.0, pH ), grad );
+        } else {
+            p.fillRect( 0, 0, set, pH, SkyColor );
+            p.fillRect( rise, 0, pW, pH, SkyColor );
+
+            QLinearGradient grad = QLinearGradient( QPointF( set-20.0, 0.0 ), QPointF( du, 0.0 ) );
+            grad.setColorAt( 0, SkyColor );
+            grad.setColorAt( 1, Qt::black );
+            p.fillRect( QRectF( set-20.0, 0.0, du-set+20.0, pH ), grad );
+
+            grad.setStart( QPointF( rise+20.0, 0.0 ) );
+            grad.setFinalStop( QPointF( da, 0.0 ) );
+            p.fillRect( QRectF( da, 0.0, rise-da+20.0, pH ), grad );
+        }
     }
-	    
+
     //draw ground
     p.fillRect( 0, int(0.5*pH), pW, int(0.5*pH), QColor( "#002200" ) );
 
@@ -162,5 +190,18 @@ void AVTPlotWidget::paintEvent( QPaintEvent *e ) {
 
     p.end();
 }
+
+void AVTPlotWidget::setDawnDuskTimes( double da, double du )
+{
+    Dawn = da;
+    Dusk = du;
+}
+
+void AVTPlotWidget::setMinMaxSunAlt( double min, double max )
+{
+    SunMinAlt = min;
+    SunMaxAlt = max;
+}
+
 
 #include "avtplotwidget.moc"
