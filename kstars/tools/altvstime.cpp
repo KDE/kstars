@@ -37,7 +37,6 @@
 #include "dialogs/locationdialog.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/skyobject.h"
-#include "skycomponents/skymapcomposite.h"
 
 #include "avtplotwidget.h"
 #include "ui_altvstime.h"
@@ -468,22 +467,20 @@ double AltVsTime::getEpoch(const QString &eName)
 
 void AltVsTime::setDawnDusk()
 {
-    KStarsData* data = KStarsData::Instance();
     KStarsDateTime today = getDate();
-    KSNumbers oldNum( data->ut().djd() );
     KSNumbers num( today.djd() );
     dms LST = geo->GSTtoLST( today.gst() );
-    
-    SkyObject* o = KStarsData::Instance()->skyComposite()->findByName( "Sun" );
-    o->updateCoords( &num, true, geo->lat(), &LST );
+
+    KSSun sun;
+    sun.updateCoords( &num, true, geo->lat(), &LST );
     double dawn, da, dusk, du, max_alt, min_alt;
     double last_h = -12.0;
-    double last_alt = findAltitude( o, last_h );
+    double last_alt = findAltitude( &sun, last_h );
     dawn = dusk = -13.0;
     max_alt = -100.0;
     min_alt = 100.0;
     for ( double h=-11.95; h<=12.0; h+=0.05 ) {
-        double alt = findAltitude( o, h );
+        double alt = findAltitude( &sun, h );
         bool   asc = alt - last_alt > 0;
         if ( alt > max_alt )
             max_alt = alt;
@@ -498,8 +495,6 @@ void AltVsTime::setDawnDusk()
         last_h   = h;
         last_alt = alt;
     }
-
-    o->updateCoords( &oldNum, true, data->geo()->lat(), data->lst() );
 
     if ( dawn < -12.0 || dusk < -12.0 ) {
         da = -1.0;
