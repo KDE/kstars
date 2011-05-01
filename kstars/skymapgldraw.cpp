@@ -21,7 +21,7 @@
 #include "skymap.h"
 
 
-SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QGLWidget( TextureManager::getContext(), sm ) {
+SkyMapGLDraw::SkyMapGLDraw( SkyMap *sm ) : QGLWidget( TextureManager::getContext(), sm ),SkyMapDrawAbstract( sm ) {
 
     // We must have the context ready before we create our
     // GLWidget. This is a check on that.
