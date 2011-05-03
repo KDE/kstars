@@ -23,54 +23,53 @@
 #include <QObject>
 #include <QHash>
 
-#include "texture.h"
-
 #include <config-kstars.h>
 
-class QGLContext;
+class QGLWidget;
+class QImage;
 
-/** @brief a singleton class to manage texture loading/retrieval */
+/** @brief a singleton class to manage texture loading/retrieval
+ */
 class TextureManager : public QObject
 {
     Q_OBJECT
 public:
-    /** Gets and/or loads a texture
-        @param name the name of the texture
-        @return a pointer to the texture
-        */
-    static const Texture* getTexture(const QString& name);
+    /** @short Create the instance of TextureManager */
+    static TextureManager* Create();
+
+    /** Return texture image. If image is not found in cache tries to
+     *  load it from disk if that fails too returns reference to empty
+     *  image. */
+    static const QImage& getImage(const QString& name);
 
 #ifdef HAVE_OPENGL
-    /** If there exist textures that have a QImage loaded
-        but which have not yet been set up for use with GL,
-        this function will set them up. */
-    static void genTextures();
+    /** Bind OpenGL texture. Acts similarily to getImage but does
+     *  nothing if image is not found in the end */
+    static void bindTexture(const QString& name, QGLWidget* cxt);
 
-    /**
-     *@return the QGLContext that is used for the textures
-     */
-    static inline QGLContext* getContext() { return (m_p ? m_p->m_context : 0); }
+    /** Bind OpenGL texture using QImage as source */
+    static void bindFromImage(const QImage& image, QGLWidget* cxt);
 #endif
 
-    /**
-     *@short Create the instance of TextureManager
-     */
-    static TextureManager *Create();
+private:
+    /** Shorthand for iterator to hashtable */
+    typedef QHash<QString,QImage>::const_iterator CacheIter;
 
-    /**
-     *@short Create a texture from image
-     */
-    static Texture* createTexture( QImage image );
+    /** Private constructor */
+    TextureManager(QObject* paretn = 0);
+    /** Try find image in the cache and then to load it from disk if
+     *  it's not found */
+    static CacheIter findTexture(const QString& name);
 
-protected:
-    TextureManager(QObject* parent = 0);
+
+    // Pointer to singleton instance
     static TextureManager* m_p;
-    QHash<QString,Texture*> m_textures;
+    // List of named textures
+    QHash<QString,QImage> m_textures;
 
-#ifdef HAVE_OPENGL
-    static QGLContext *m_context; // GL Context to bind textures to.
-#endif
-
+    // Prohibit copying
+    TextureManager(const TextureManager&);
+    TextureManager& operator = (const TextureManager&);
 };
 
 #endif // TEXTUREMANAGER_H

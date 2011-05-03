@@ -32,7 +32,7 @@ class QGLWidget;
 class SkyGLPainter : public SkyPainter
 {
 public:
-    SkyGLPainter( const QGLWidget *widget );
+    SkyGLPainter( QGLWidget *widget );
     virtual bool drawPlanet(KSPlanetBase* planet);
     virtual bool drawDeepSkyObject(DeepSkyObject* obj, bool drawImage = false);
     virtual bool drawPointSource(SkyPoint* loc, float mag, char sp = 'A');
@@ -65,7 +65,7 @@ private:
     static Vector3f m_color[NUMTYPES][6*BUFSIZE];
     static int m_idx[NUMTYPES];
     static bool m_init; ///< keep track of whether we have filled the texcoord array
-    const QGLWidget* m_widget; // Pointer to (GL) widget on which we are painting
+    QGLWidget* m_widget; // Pointer to (GL) widget on which we are painting
 };
 
 #endif // SKYGLPAINTER_H

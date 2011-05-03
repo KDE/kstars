@@ -8,7 +8,8 @@
 
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License along
@@ -24,62 +25,74 @@
 #include <kstandarddirs.h>
 
 #ifdef HAVE_OPENGL
-#include <QGLWidget>
-QGLContext* TextureManager::m_context = 0;
+# include <QGLWidget>
 #endif
+
+// We returning reference to image. We refer to this image when search
+// for image fails
+const static QImage emptyImage;
 
 TextureManager* TextureManager::m_p;
 
-const Texture* TextureManager::getTexture(const QString& name)
-{
-
-    Create();
-
-    Texture *tex = m_p->m_textures.value(name,0);
-    if( !tex ) {
-        QString filename = KStandardDirs::locate("appdata",QString("textures/%1.png").arg(name));
-        tex = new Texture(m_p);
-        if( !filename.isNull() ) {
-            QImage img(filename);
-            tex->setImage(img);
-        } else {
-            qWarning() << "Could not find texture" << name;
-        }
-        m_p->m_textures.insert(name,tex);
-    }
-    return tex;
-}
-
-#ifdef HAVE_OPENGL
-void TextureManager::genTextures()
-{
-    //If there's no instance, there are no textures to bind!
-    if(!m_p) return;
-    
-    for( QHash<QString, Texture*>::const_iterator it = m_p->m_textures.constBegin();
-         it != m_p->m_textures.constEnd();
-         ++it )
-    {
-        if( !(*it)->isReady() )
-            (*it)->genTexture();
-    }
-}
-#endif
 
 TextureManager *TextureManager::Create() {
     if( !m_p )
-        m_p = new TextureManager( KStars::Instance() );
-#ifdef HAVE_OPENGL
-    if( !m_context )
-        m_context = new QGLContext( QGLFormat(QGL::SampleBuffers) );
-#endif
+        m_p = new TextureManager();
     return m_p;
 }
 
-Texture* TextureManager::createTexture( QImage image )
+const QImage& TextureManager::getImage(const QString& name)
 {
-    Texture *texture = new Texture( m_p );
-    // Resize image if necessary and create texture
+    Create();
+    CacheIter it = findTexture( name );
+    if( it != m_p->m_textures.end() ) {
+        return *it;
+    } else {
+        return emptyImage;
+    }
+}
+
+TextureManager::CacheIter TextureManager::findTexture(const QString& name)
+{
+    Create();
+    // Lookup in cache first
+    CacheIter it = m_p->m_textures.find( name );
+    if( it != m_p->m_textures.end() ) {
+        return it;
+    } else {
+        // Try to load from file
+        QString filename = KStandardDirs::locate("appdata",QString("textures/%1.png").arg(name));
+        if( !filename.isNull() ) {
+            return m_p->m_textures.insert( name, QImage(filename) );
+        } else {
+            qWarning() << "Could not find texture: " << name;
+            return m_p->m_textures.end();
+        }
+    }
+}
+
+#ifdef HAVE_OPENGL
+static void bindImage(const QImage& img, QGLWidget* cxt)
+{
+    GLuint tid = cxt->bindTexture(img, GL_TEXTURE_2D, GL_RGBA, QGLContext::DefaultBindOption);
+    glBindTexture(GL_TEXTURE_2D, tid);
+}
+
+void TextureManager::bindTexture(const QString& name, QGLWidget* cxt)
+{
+    Create();
+    Q_ASSERT( "Must be called only with valid GL context" && cxt );
+
+    CacheIter it = findTexture( name );
+    if( it != m_p->m_textures.end() )
+        bindImage( *it, cxt );
+}
+
+void TextureManager::bindFromImage(const QImage& image, QGLWidget* cxt)
+{
+    Create();
+    Q_ASSERT( "Must be called only with valid GL context" && cxt );
+
     if ( image.width() != image.height() || ( image.width() & ( image.width() - 1 ) ) ) {
         // Compute texture size
         int longest  = qMax( image.width(), image.height() );
@@ -88,14 +101,14 @@ Texture* TextureManager::createTexture( QImage image )
             tex_size *= 2;
         }
         // FIXME: Check if Qt does this for us already. [Note that it does scale to the nearest power of two]
-        texture->setImage( image.scaled( tex_size, tex_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ) );
-    } else
-        texture->setImage( image );
-
-    return texture;
+        bindImage( 
+            image.scaled( tex_size, tex_size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation ),
+            cxt );
+    } else {
+        bindImage( image, cxt );
+    }
 }
+#endif
 
 TextureManager::TextureManager(QObject* parent): QObject(parent)
-{
-
-}
+{}

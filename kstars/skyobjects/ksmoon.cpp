@@ -238,7 +238,7 @@ void KSMoon::findPhase() {
     double DegPhase = dms( Phase ).reduce().Degrees();
     iPhase = int( 0.1*DegPhase+0.5 ) % 36; // iPhase must be in [0,36) range
 
-    m_tex = TextureManager::getTexture(
+    m_image = TextureManager::getImage(
         QString("moon%1").arg(iPhase,2,10,QChar('0')));
 }
 

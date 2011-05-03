@@ -67,16 +67,16 @@ void Texture::setImage(const QImage& img)
 #ifdef HAVE_OPENGL
 void Texture::genTexture()
 {
-    //FIXME do proper mipmapping
-    if( Options::useGL() ) {
-        if( !m_image.isNull() ) {
-            Q_ASSERT( TextureManager::getContext() );
-            m_tid = TextureManager::getContext()->bindTexture(m_image, GL_TEXTURE_2D, GL_RGBA, QGLContext::DefaultBindOption);
-            m_ready = (m_tid != 0);
-            Q_ASSERT( m_ready );
-        } else
-            m_ready = false;
-    }
+    // //FIXME do proper mipmapping
+    // if( Options::useGL() ) {
+    //     if( !m_image.isNull() ) {
+    //         Q_ASSERT( TextureManager::getContext() );
+    //         m_tid = TextureManager::getContext()->bindTexture(m_image, GL_TEXTURE_2D, GL_RGBA, QGLContext::DefaultBindOption);
+    //         m_ready = (m_tid != 0);
+    //         Q_ASSERT( m_ready );
+    //     } else
+    //         m_ready = false;
+    // }
 }
 #endif
 
