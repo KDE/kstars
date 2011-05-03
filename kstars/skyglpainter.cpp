@@ -191,31 +191,33 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
             size *= 2.5;
 
         float s = size/2.;
-        Rotation2Df rot( m_proj->findPA(planet, pos.x(), pos.y()) * (M_PI/180.0) );
-        Vector2f vec;
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
         glEnable(GL_TEXTURE_2D);
-
         TextureManager::bindFromImage( planet->image(), m_widget );
+
+        // Change modelview matrix
+        glPushMatrix();
+        glTranslatef( pos.x(), pos.y(), 0 );
+        glRotatef( m_proj->findPA(planet, pos.x(), pos.y()), 0, 0, 1 );
+        glScalef( s, s, 1 );
+
         glBegin(GL_QUADS);
-            vec = pos + rot*Vector2f(-s,-s);
-            glTexCoord2f(0.,0.);
-            glVertex2fv(vec.data());
+            glTexCoord2f( 0,  0);
+            glVertex2f(  -1, -1);
             
-            vec = pos + rot*Vector2f( s,-s);
-            glTexCoord2f(1.,0.);
-            glVertex2fv(vec.data());
+            glTexCoord2f( 1,  0);
+            glVertex2f(   1, -1);
             
-            vec = pos + rot*Vector2f( s, s);
-            glTexCoord2f(1.,1.);
-            glVertex2fv(vec.data());
+            glTexCoord2f( 1,  1);
+            glVertex2f(   1,  1);
             
-            vec = pos + rot*Vector2f(-s, s);
-            glTexCoord2f(0.,1.);
-            glVertex2fv(vec.data());
+            glTexCoord2f( 0,  1);
+            glVertex2f(  -1,  1);
         glEnd();
+
+        glPopMatrix();
         return true;
     }
 }
