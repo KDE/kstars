@@ -517,35 +517,18 @@ void SkyGLPainter::drawFlags()
         vec = m_proj->toScreenVec( point, true, &visible );
 
         // Return if flag is not visible
-        if( !visible || !m_proj->onScreen( vec ) ) continue;
+        if( !visible || !m_proj->onScreen( vec ) )
+            continue;
 
-        // Get texture from TextureManager
-        if ( data->skyComposite()->flags()->imageName( i ) == "Default" )
-            TextureManager::bindTexture("defaultflag", m_widget);
-        else 
-            TextureManager::bindFromImage( image, m_widget );
+        const QImage& img = data->skyComposite()->flags()->imageName( i ) == "Default"
+                          ? TextureManager::getImage("defaultflag")
+                          : image;
 
-        glEnable(GL_TEXTURE_2D);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        Vector2f vertex;
-        glBegin(GL_QUADS);
-        vertex = vec + Vector2f( image.width()/2 * -1, image.height()/2 );
-        glTexCoord2f(0.,0.);
-            glVertex2fv(vertex.data());
-            vertex = vec + Vector2f( image.width()/2, image.height()/2 );
-            glTexCoord2f(1.,0.);
-            glVertex2fv(vertex.data());
-            vertex = vec + Vector2f( image.width()/2, image.height()/2 * -1  );
-            glTexCoord2f(1.,1.);
-            glVertex2fv(vertex.data());
-            vertex = vec + Vector2f( image.width()/2 * -1, image.height()/2 * -1 );
-            glTexCoord2f(0.,1.);
-            glVertex2fv(vertex.data());
-        glEnd();
-
-        // Draw label
-        drawText( vec.x(), vec.y(), data->skyComposite()->flags()->label( i ), QFont( "Courier New", 10, QFont::Bold ), data->skyComposite()->flags()->labelColor( i ) );
+        drawTexturedRectangle( img, vec, 0, img.width(), img.height() );
+        drawText( vec.x(), vec.y(),
+                  data->skyComposite()->flags()->label( i ),
+                  QFont( "Courier New", 10, QFont::Bold ),
+                  data->skyComposite()->flags()->labelColor( i ) );
     }
 }
 
