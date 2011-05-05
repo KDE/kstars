@@ -52,7 +52,10 @@ Vector3f SkyGLPainter::m_color[NUMTYPES][6*BUFSIZE];
 int      SkyGLPainter::m_idx[NUMTYPES];
 bool     SkyGLPainter::m_init = false;
 
-SkyGLPainter::SkyGLPainter( QGLWidget *widget ) : SkyPainter()
+
+                                 
+SkyGLPainter::SkyGLPainter( QGLWidget *widget ) :
+                                     SkyPainter()
 {
     m_widget = widget;
     if( !m_init ) {
@@ -150,17 +153,54 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
     return true;
 }
 
+void SkyGLPainter::drawTexturedRectangle( const QImage& img,
+                                          const Vector2f& pos, const float angle,
+                                          const float sizeX,   const float sizeY )
+{
+    // Set up texture
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    glEnable(GL_TEXTURE_2D);
+    TextureManager::bindFromImage( img, m_widget );
+
+    // Render rectangle
+    glPushMatrix();
+    glTranslatef( pos.x(), pos.y(), 0 );
+    glRotatef( angle, 0, 0, 1 );
+    glScalef( sizeX, sizeY, 1 );
+
+    glBegin(GL_QUADS);
+        // Note! Y coordinate of texture is mirrored w.r.t. to
+        // vertex coordinates to account for difference between
+        // OpenGL and QPainter coordinate system.
+        // Otherwise image would appear mirrored
+        glTexCoord2f( 0,    1   );
+        glVertex2f(  -0.5, -0.5 );
+
+        glTexCoord2f( 1,    1   );
+        glVertex2f(   0.5, -0.5 );
+
+        glTexCoord2f( 1,    0   );
+        glVertex2f(   0.5,  0.5 );
+
+        glTexCoord2f( 0,    0   );
+        glVertex2f(  -0.5,  0.5 );
+    glEnd();
+
+    glPopMatrix();
+}
+
 bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 {
     //If it's surely not visible, just stop now
-    if( !m_proj->checkVisibility(planet) ) return false;
+    if( !m_proj->checkVisibility(planet) )
+        return false;
 
     float zoom = Options::zoomFactor();
     float fakeStarSize = ( 10.0 + log10( zoom ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
-    fakeStarSize = qMin(fakeStarSize,20.f);
-    
+    fakeStarSize = qMin(fakeStarSize, 20.f);
+
     float size = planet->angSize() * dms::PI * zoom/10800.0;
-    
     if( size < fakeStarSize || planet->image().isNull() )
     {
         // Draw them as bright stars of appropriate color instead of images
@@ -182,43 +222,14 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
         Vector2f pos = m_proj->toScreenVec(planet,true,&visible);
         if( !visible )
             return false;
-        
+
         //Because Saturn has rings, we inflate its image size by a factor 2.5
         if( planet->name() == "Saturn" )
             size *= 2.5;
 
-        float s = size/2.;
-
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        glEnable(GL_TEXTURE_2D);
-        TextureManager::bindFromImage( planet->image(), m_widget );
-
-        // Change modelview matrix
-        glPushMatrix();
-        glTranslatef( pos.x(), pos.y(), 0 );
-        glRotatef( m_proj->findPA(planet, pos.x(), pos.y()), 0, 0, 1 );
-        glScalef( s, s, 1 );
-
-        glBegin(GL_QUADS);
-            // Note! Y coordinate of texture is mirrored w.r.t. to
-            // vertex coordinates to account for difference between
-            // OpenGL and QPainter coordinate system.
-            // Otherwise image would appear mirrored
-            glTexCoord2f( 0,  1);
-            glVertex2f(  -1, -1);
-            
-            glTexCoord2f( 1,  1);
-            glVertex2f(   1, -1);
-            
-            glTexCoord2f( 1,  0);
-            glVertex2f(   1,  1);
-            
-            glTexCoord2f( 0,  0);
-            glVertex2f(  -1,  1);
-        glEnd();
-
-        glPopMatrix();
+        drawTexturedRectangle( planet->image(),
+                               pos, m_proj->findPA(planet, pos.x(), pos.y()),
+                               size, size );
         return true;
     }
 }
@@ -226,7 +237,8 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
     //If it's surely not visible, just stop now
-    if( !m_proj->checkVisibility(obj) ) return false;
+    if( !m_proj->checkVisibility(obj) )
+        return false;
     int type = obj->type();
     //addItem(obj, type, obj->a() * dms::PI * Options::zoomFactor() / 10800.0);
     
@@ -236,7 +248,8 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
     bool visible = false;
     Vector2f vec = m_proj->toScreenVec(obj,true,&visible);
-    if(!visible) return false;
+    if(!visible)
+        return false;
 
     float width = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
     float pa = m_proj->findPA(obj, vec[0], vec[1]) * (M_PI/180.0);
@@ -246,25 +259,7 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
     //Init texture if it doesn't exist and we would be drawing it anyways
     if( drawImage  &&  !obj->image().isNull() ) {
-        glEnable(GL_TEXTURE_2D);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        Vector2f vertex;
-        TextureManager::bindFromImage( obj->image(), m_widget );
-        glBegin(GL_QUADS);
-            vertex = vec + r*Vector2f(-w,-h);
-            glTexCoord2f(0.,0.);
-            glVertex2fv(vertex.data());
-            vertex = vec + r*Vector2f( w,-h);
-            glTexCoord2f(1.,0.);
-            glVertex2fv(vertex.data());
-            vertex = vec + r*Vector2f( w, h);
-            glTexCoord2f(1.,1.);
-            glVertex2fv(vertex.data());
-            vertex = vec + r*Vector2f(-w, h);
-            glTexCoord2f(0.,1.);
-            glVertex2fv(vertex.data());
-        glEnd();
+        drawTexturedRectangle( obj->image(), vec, pa, w, h);
     } else {
         //If the buffer is full, flush it
         if(m_idx[type] == BUFSIZE)
