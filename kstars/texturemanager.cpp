@@ -52,6 +52,7 @@ const QImage& TextureManager::getImage(const QString& name)
     }
 }
 
+// FIXME: should be cache images which are not found?
 TextureManager::CacheIter TextureManager::findTexture(const QString& name)
 {
     Create();
@@ -65,7 +66,6 @@ TextureManager::CacheIter TextureManager::findTexture(const QString& name)
         if( !filename.isNull() ) {
             return m_p->m_textures.insert( name, QImage(filename) );
         } else {
-            qWarning() << "Could not find texture: " << name;
             return m_p->m_textures.end();
         }
     }
@@ -78,6 +78,7 @@ static void bindImage(const QImage& img, QGLWidget* cxt)
     glBindTexture(GL_TEXTURE_2D, tid);
 }
 
+// FIXME: should we check that image have appropriate size as bindFromImage do?
 void TextureManager::bindTexture(const QString& name, QGLWidget* cxt)
 {
     Create();
