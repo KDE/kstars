@@ -564,26 +564,11 @@ void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColo
     p.end();
 
     // Create texture
-    TextureManager::bindFromImage( text_image, m_widget );
-    glEnable(GL_TEXTURE_2D);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-    Vector2f vec( x, y );
-    Vector2f vertex;
-    glBegin(GL_QUADS);
-        vertex = vec + Vector2f( 10, text_image.height()/2 -10 );
-        glTexCoord2f(0.,0.);
-        glVertex2fv(vertex.data());
-        vertex = vec + Vector2f( text_image.width() + 10, text_image.height()/2 -10 );
-        glTexCoord2f(1.,0.);
-        glVertex2fv(vertex.data());
-        vertex = vec + Vector2f( text_image.width() + 10, text_image.height()/2*(-1) - 10 );
-        glTexCoord2f(1.,1.);
-        glVertex2fv(vertex.data());
-        vertex = vec + Vector2f( 10, text_image.height()/2*(-1) - 10 );;
-        glTexCoord2f(0.,1.);
-        glVertex2fv(vertex.data());
-    glEnd();
+    float w = text_image.width();
+    float h = text_image.height();
+    float vx = x + 0.5*w + 10;
+    float vy = y - 10;
+    drawTexturedRectangle( text_image, Vector2f(vx,vy), 0, w, h );
 }
 
 void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)
