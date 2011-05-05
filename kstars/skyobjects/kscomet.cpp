@@ -127,7 +127,7 @@ KSComet::KSComet( const QString &_s, const QString &imfile,
         return;
     }
     uidPart = 0;
-    kDebug() << "Didn't get it: " << _s;
+    // kDebug() << "Didn't get it: " << _s;
 }
 
 KSComet* KSComet::clone() const
