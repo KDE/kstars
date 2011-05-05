@@ -204,16 +204,20 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
         glScalef( s, s, 1 );
 
         glBegin(GL_QUADS);
-            glTexCoord2f( 0,  0);
+            // Note! Y coordinate of texture is mirrored w.r.t. to
+            // vertex coordinates to account for difference between
+            // OpenGL and QPainter coordinate system.
+            // Otherwise image would appear mirrored
+            glTexCoord2f( 0,  1);
             glVertex2f(  -1, -1);
             
-            glTexCoord2f( 1,  0);
+            glTexCoord2f( 1,  1);
             glVertex2f(   1, -1);
             
-            glTexCoord2f( 1,  1);
+            glTexCoord2f( 1,  0);
             glVertex2f(   1,  1);
             
-            glTexCoord2f( 0,  1);
+            glTexCoord2f( 0,  0);
             glVertex2f(  -1,  1);
         glEnd();
 
