@@ -160,9 +160,6 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
     fakeStarSize = qMin(fakeStarSize,20.f);
     
     float size = planet->angSize() * dms::PI * zoom/10800.0;
-    float sizemin = 1.0;
-    if( planet->name() == "Sun" || planet->name() == "Moon" )
-        sizemin = 8.0;
     
     if( size < fakeStarSize || planet->image().isNull() )
     {
