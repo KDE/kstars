@@ -116,11 +116,11 @@ Satellite::~Satellite()
 void Satellite::init()
 {
     double  ao    , cosio , sinio , cosio2,
-            omeosq, posq  ,   rp  , rteosq, eccsq , con42 , ainv  ,
+            omeosq, posq  ,   rp  , rteosq, eccsq , con42 ,
             cnodm , snodm , cosim , sinim , cosomm, sinomm, cc1sq ,
             cc2   , cc3   , coef  , coef1 , cosio4, day   , dndt  ,
-            em    , emsq  , eeta  , etasq , gam   , argpm , nodem ,
-            inclm , mm    , nm    , perige, pinvsq, psisq , qzms24,
+            em    , emsq  , eeta  , etasq , gam   ,
+            inclm , nm    , perige, pinvsq, psisq , qzms24,
             rtemsq, s1    , s2    , s3    , s4    , s5    , s6    ,
             s7    , sfour , ss1   , ss2   , ss3   , ss4   , ss5   ,
             ss6   , ss7   , sz1   , sz2   , sz3   , sz11  , sz12  ,
@@ -176,7 +176,6 @@ void Satellite::init()
     po    = ao * omeosq;
     con42 = 1.0 - 5.0 * cosio2;
     con41 = -con42 - ( 2.0 * cosio2 );
-    ainv  = 1.0 / ao;
     posq  = po * po;
     rp    = ao * ( 1.0 - m_eccentricity );
     method = 'n';
@@ -442,9 +441,9 @@ void Satellite::init()
             xh3  =  -2.0 * s2 * ( z23 - z21 );
             
             // Apply deep space long period periodic contributions to the mean elements
-            double f2   , f3   , pe   , pgh  , ph  , pinc, pl ,
-                   sel  , ses  , sghl , sghs , shll, shs,  sil,
-                   sinzf, sis  , sll  , sls  , zf  , zm;
+            double f2   , f3,
+                   ses  , sghl , sghs , shll, shs,
+                   sinzf, sis  , sls  , zf  , zm;
 
             // Define some constants
             const double zns = 1.19459e-5;
@@ -467,20 +466,8 @@ void Satellite::init()
             sinzf = sin( zf );
             f2    =  0.5 * sinzf * sinzf - 0.25;
             f3    = -0.5 * sinzf * cos( zf );
-            sel   = ee2 * f2 + e3 * f3;
-            sil   = xi2 * f2 + xi3 * f3;
-            sll   = xl2 * f2 + xl3 * f3 + xl4 * sinzf;
             sghl  = xgh2 * f2 + xgh3 * f3 + xgh4 * sinzf;
             shll  = xh2 * f2 + xh3 * f3;
-            pe    = ses + sel;
-            pinc  = sis + sil;
-            pl    = sls + sll;
-            pgh   = sghs + sghl;
-            ph    = shs + shll;
-
-            argpm  = 0.0;
-            nodem  = 0.0;
-            mm     = 0.0;
 
             // Deep space contributions to mean motion dot due to geopotential resonance with half day and one day orbits
             double ainv2 , aonv=0.0, cosisq, eoc , f220  , f221  , f311  ,
@@ -726,7 +713,7 @@ int Satellite::sgp4( double tsince )
     if ( method == 'd' ) {
         tc = tsince;
         // Deep space contributions to mean elements for perturbing third body
-        int iretn , iret;
+        int iretn;
         double delt, ft, theta, x2li, x2omi, xl, xldot, xnddt, xndt, xomi;
 
         // Define some constants
@@ -768,7 +755,6 @@ int Satellite::sgp4( double tsince )
                 delt = stepn;
 
             iretn = 381; // added for do loop
-            iret  =   0; // added for loop
 
             while ( iretn == 381 ) {
                 // Near - synchronous resonance terms
@@ -801,7 +787,6 @@ int Satellite::sgp4( double tsince )
                 }
 
                 if ( fabs( tsince - atime ) >= stepp ) {
-                    iret  = 0;
                     iretn = 381;
                 } else {
                     ft    = tsince - atime;
