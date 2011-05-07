@@ -251,10 +251,11 @@ void modCalcEquinox::addDateAxes() {
 }
 
 KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject *ecl ) {
-    //Interpolate to find the moment when the Sun crosses the equator in March
-    int month = 3;
-    if ( ! Spring ) month = 9;
-    int i = QDate( year, month, 16 ).dayOfYear();
+    // Interpolate to find the moment when the Sun crosses the equator
+    // Set initial guess in February or August to be sure that this
+    // point is before equinox.
+    const int month = Spring ? 2 : 8;
+    int i = QDate( year, month, 1 ).dayOfYear();
     double dec1, dec2;
     dec2 = ecl->points()[i]->y();
     do {
