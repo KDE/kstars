@@ -85,7 +85,7 @@ Satellite::Satellite( const QString name, const QString line1, const QString lin
     setType( SkyObject::SATELLITE );
     setMag( 0.0 );
 
-    m_is_selected = Options::selectedSatellites().contains( name )
+    m_is_selected = Options::selectedSatellites().contains( name );
 
     // Convert TLE epoch to Julian date
     double day = modf( m_epoch * 1.e-3, &m_epoch_year) * 1.e3;
@@ -1151,7 +1151,7 @@ int Satellite::sgp4( double tsince )
     depth = sd_earth - sd_sun - delta;
     KSSun *sun = (KSSun*)data->skyComposite()->findByName( "Sun" );
 
-    m_is_eclipsed = sd_earth >= sd_sun  &&  depth >= 0
+    m_is_eclipsed = sd_earth >= sd_sun  &&  depth >= 0;
     m_is_visible  = !m_is_eclipsed && sun->alt().Degrees() <= -12.0 && elevation >= 0.0;
 
     return( 0 );
