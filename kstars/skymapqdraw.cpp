@@ -19,7 +19,7 @@
 #include "skymapqdraw.h"
 #include "skymap.h"
 
-SkyMapQDraw::SkyMapQDraw( SkyMap *sm ) : SkyMapDrawAbstract( sm ), QWidget( sm ) {
+SkyMapQDraw::SkyMapQDraw( SkyMap *sm ) : QWidget( sm ), SkyMapDrawAbstract( sm ) {
     m_SkyPixmap = new QPixmap( width(), height() );
 }
 

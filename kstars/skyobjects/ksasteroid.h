@@ -82,7 +82,106 @@ public:
 	*/
     double inline getAbsoluteMagnitude() { return H; }
     double inline getSlopeParameter() { return G; }
-   
+
+    /**
+     *@short Sets the asteroid's perihelion distance
+     */
+    void setPerihelion( double perihelion );
+
+    /**
+     *@return Perihelion distance
+     */
+    inline double getPerihelion() { return q; }
+
+   /**
+     *@short Sets the asteroid's earth minimum orbit intersection distance
+     */
+    void setEarthMOID( double earth_moid );
+
+    /**
+     *@return the asteroid's earth minimum orbit intersection distance in km
+     */
+    inline double getEarthMOID() { return EarthMOID; }
+
+    /**
+     *@short Sets the asteroid's orbit solution ID
+     */
+    void setOrbitID( QString orbit_id );
+
+    /**
+     *@return the asteroid's orbit solution ID
+     */
+    inline QString getOrbitID() { return OrbitID; }
+
+    /**
+     *@short Sets the asteroid's orbit class
+     */
+    void setOrbitClass( QString orbit_class );
+
+    /**
+     *@return the asteroid's orbit class
+     */
+    inline QString getOrbitClass() { return OrbitClass; }
+
+    /**
+     *@short Sets if the comet is a near earth object
+     */
+    void setNEO( bool neo );
+
+    /**
+     *@return true if the asteroid is a near earth object
+     */
+    inline bool isNEO() { return NEO; }
+
+    /**
+     *@short Sets the asteroid's albedo
+     */
+    void setAlbedo( float albedo );
+
+    /**
+     *@return the asteroid's albedo
+     */
+    inline float getAlbedo() { return Albedo; }
+
+    /**
+     *@short Sets the asteroid's diameter
+     */
+    void setDiameter( float diam );
+
+    /**
+     *@return the asteroid's diameter
+     */
+    inline float getDiameter() { return Diameter; }
+
+    /**
+     *@short Sets the asteroid's dimensions
+     */
+    void setDimensions( QString dim );
+
+    /**
+     *@return the asteroid's dimensions
+     */
+    inline QString getDimensions() { return Dimensions; }
+
+     /**
+     *@short Sets the asteroid's rotation period
+     */
+    void setRotationPeriod( float rot_per );
+
+    /**
+     *@return the asteroid's rotation period
+     */
+    inline float getRotationPeriod() { return RotationPeriod; }
+
+     /**
+     *@short Sets the asteroid's period
+     */
+    void setPeriod( float per );
+
+    /**
+     *@return the asteroid's period
+     */
+    inline float getPeriod() { return Period; }
 
 protected:
     /**Calculate the geocentric RA, Dec coordinates of the Asteroid.
@@ -108,9 +207,12 @@ private:
     
     int catN;
     long double JD;
-    double a, e, P;
+    double q, a, e, P, EarthMOID;
+    float Albedo, Diameter, RotationPeriod, Period;
     dms i, w, M, N;
     double H, G;
+    QString OrbitID, OrbitClass, Dimensions;
+    bool NEO;
 };
 
 #endif

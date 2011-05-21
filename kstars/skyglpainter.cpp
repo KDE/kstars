@@ -32,7 +32,6 @@ using Eigen::Rotation2Df;
 #include "Options.h"
 
 #include "texturemanager.h"
-#include "texture.h"
 
 #include "skycomponents/linelist.h"
 #include "skycomponents/skiplist.h"
@@ -53,7 +52,10 @@ Vector3f SkyGLPainter::m_color[NUMTYPES][6*BUFSIZE];
 int      SkyGLPainter::m_idx[NUMTYPES];
 bool     SkyGLPainter::m_init = false;
 
-SkyGLPainter::SkyGLPainter( const QGLWidget *widget ) : SkyPainter()
+
+                                 
+SkyGLPainter::SkyGLPainter( QGLWidget *widget ) :
+                                     SkyPainter()
 {
     m_widget = widget;
     if( !m_init ) {
@@ -70,7 +72,6 @@ SkyGLPainter::SkyGLPainter( const QGLWidget *widget ) : SkyPainter()
             }
         }
         //Generate textures that were loaded before the SkyMap was
-        TextureManager::genTextures();
         m_init = true;
     }
 }
@@ -81,17 +82,15 @@ void SkyGLPainter::drawBuffer(int type)
     if( m_idx[type] == 0 ) return;
 
     glEnable(GL_TEXTURE_2D);
-    const Texture *tex = 0;
     switch( type ) {
-        case 3: case 13:          tex = TextureManager::getTexture("open-cluster"); break;
-        case 4:                   tex = TextureManager::getTexture("globular-cluster"); break;
-        case 6:                   tex = TextureManager::getTexture("planetary-nebula"); break;
-        case 5: case 7: case 15:  tex = TextureManager::getTexture("gaseous-nebula"); break;
-        case 8: case 16:          tex = TextureManager::getTexture("galaxy"); break;
-        case 14:                  tex = TextureManager::getTexture("galaxy-cluster"); break;
-        case 0: case 1: default:  tex = TextureManager::getTexture("star"); break;
+        case 3: case 13:          TextureManager::bindTexture("open-cluster",     m_widget); break;
+        case 4:                   TextureManager::bindTexture("globular-cluster", m_widget); break;
+        case 6:                   TextureManager::bindTexture("planetary-nebula", m_widget); break;
+        case 5: case 7: case 15:  TextureManager::bindTexture("gaseous-nebula",   m_widget); break;
+        case 8: case 16:          TextureManager::bindTexture("galaxy",           m_widget); break;
+        case 14:                  TextureManager::bindTexture("galaxy-cluster",   m_widget); break;
+        case 0: case 1: default:  TextureManager::bindTexture("star",             m_widget); break;
     }
-    tex->bind();
 
     glBlendFunc(GL_ONE, GL_ONE);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
@@ -154,21 +153,55 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
     return true;
 }
 
+void SkyGLPainter::drawTexturedRectangle( const QImage& img,
+                                          const Vector2f& pos, const float angle,
+                                          const float sizeX,   const float sizeY )
+{
+    // Set up texture
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    glEnable(GL_TEXTURE_2D);
+    TextureManager::bindFromImage( img, m_widget );
+
+    // Render rectangle
+    glPushMatrix();
+    glTranslatef( pos.x(), pos.y(), 0 );
+    glRotatef( angle, 0, 0, 1 );
+    glScalef( sizeX, sizeY, 1 );
+
+    glBegin(GL_QUADS);
+        // Note! Y coordinate of texture is mirrored w.r.t. to
+        // vertex coordinates to account for difference between
+        // OpenGL and QPainter coordinate system.
+        // Otherwise image would appear mirrored
+        glTexCoord2f( 0,    1   );
+        glVertex2f(  -0.5, -0.5 );
+
+        glTexCoord2f( 1,    1   );
+        glVertex2f(   0.5, -0.5 );
+
+        glTexCoord2f( 1,    0   );
+        glVertex2f(   0.5,  0.5 );
+
+        glTexCoord2f( 0,    0   );
+        glVertex2f(  -0.5,  0.5 );
+    glEnd();
+
+    glPopMatrix();
+}
+
 bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 {
     //If it's surely not visible, just stop now
-    if( !m_proj->checkVisibility(planet) ) return false;
+    if( !m_proj->checkVisibility(planet) )
+        return false;
 
     float zoom = Options::zoomFactor();
     float fakeStarSize = ( 10.0 + log10( zoom ) - log10( MINZOOM ) ) * ( 10 - planet->mag() ) / 10;
-    fakeStarSize = qMin(fakeStarSize,20.f);
-    
+    fakeStarSize = qMin(fakeStarSize, 20.f);
+
     float size = planet->angSize() * dms::PI * zoom/10800.0;
-    float sizemin = 1.0;
-    if( planet->name() == "Sun" || planet->name() == "Moon" )
-        sizemin = 8.0;
-    
-    if( size < fakeStarSize || !planet->texture()->isReady() )
+    if( size < fakeStarSize || planet->image().isNull() )
     {
         // Draw them as bright stars of appropriate color instead of images
         char spType;
@@ -184,44 +217,19 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
         }
         return addItem(planet, planet->type(), qMin(fakeStarSize,(float)20.),spType);
     } else {
-        //Draw images
-        Q_ASSERT(planet->texture()->isReady());
+        // Draw them as textures
         bool visible = false;
         Vector2f pos = m_proj->toScreenVec(planet,true,&visible);
-        if( !visible ) return false;
-        
+        if( !visible )
+            return false;
+
         //Because Saturn has rings, we inflate its image size by a factor 2.5
         if( planet->name() == "Saturn" )
             size *= 2.5;
 
-        float s = size/2.;
-        Rotation2Df rot( m_proj->findPA(planet, pos.x(), pos.y()) * (M_PI/180.0) );
-        Vector2f vec;
-
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        glEnable(GL_TEXTURE_2D);
-
-        bool bound = planet->texture()->bind();
-        if( !bound ) return false;
-        
-        glBegin(GL_QUADS);
-            vec = pos + rot*Vector2f(-s,-s);
-            glTexCoord2f(0.,0.);
-            glVertex2fv(vec.data());
-            
-            vec = pos + rot*Vector2f( s,-s);
-            glTexCoord2f(1.,0.);
-            glVertex2fv(vec.data());
-            
-            vec = pos + rot*Vector2f( s, s);
-            glTexCoord2f(1.,1.);
-            glVertex2fv(vec.data());
-            
-            vec = pos + rot*Vector2f(-s, s);
-            glTexCoord2f(0.,1.);
-            glVertex2fv(vec.data());
-        glEnd();
+        drawTexturedRectangle( planet->image(),
+                               pos, m_proj->findPA(planet, pos.x(), pos.y()),
+                               size, size );
         return true;
     }
 }
@@ -229,7 +237,8 @@ bool SkyGLPainter::drawPlanet(KSPlanetBase* planet)
 bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 {
     //If it's surely not visible, just stop now
-    if( !m_proj->checkVisibility(obj) ) return false;
+    if( !m_proj->checkVisibility(obj) )
+        return false;
     int type = obj->type();
     //addItem(obj, type, obj->a() * dms::PI * Options::zoomFactor() / 10800.0);
     
@@ -239,7 +248,8 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
     bool visible = false;
     Vector2f vec = m_proj->toScreenVec(obj,true,&visible);
-    if(!visible) return false;
+    if(!visible)
+        return false;
 
     float width = obj->a() * dms::PI * Options::zoomFactor() / 10800.0;
     float pa = m_proj->findPA(obj, vec[0], vec[1]) * (M_PI/180.0);
@@ -248,30 +258,8 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     float h = w * obj->e();
 
     //Init texture if it doesn't exist and we would be drawing it anyways
-    if( drawImage && !obj->texture() )
-        obj->loadTexture();
-    const Texture *tex = obj->texture();
-
-    if( drawImage && tex && tex->isReady() ) {
-        glEnable(GL_TEXTURE_2D);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        Vector2f vertex;
-        tex->bind();
-        glBegin(GL_QUADS);
-            vertex = vec + r*Vector2f(-w,-h);
-            glTexCoord2f(0.,0.);
-            glVertex2fv(vertex.data());
-            vertex = vec + r*Vector2f( w,-h);
-            glTexCoord2f(1.,0.);
-            glVertex2fv(vertex.data());
-            vertex = vec + r*Vector2f( w, h);
-            glTexCoord2f(1.,1.);
-            glVertex2fv(vertex.data());
-            vertex = vec + r*Vector2f(-w, h);
-            glTexCoord2f(0.,1.);
-            glVertex2fv(vertex.data());
-        glEnd();
+    if( drawImage  &&  !obj->image().isNull() ) {
+        drawTexturedRectangle( obj->image(), vec, pa, w, h);
     } else {
         //If the buffer is full, flush it
         if(m_idx[type] == BUFSIZE)
@@ -493,8 +481,7 @@ void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
         ++i;
     }
 
-    const Texture *tex = TextureManager::getTexture("obslistsymbol");
-    tex->bind();
+    TextureManager::bindTexture("obslistsymbol", m_widget);
 
     glBlendFunc(GL_ONE, GL_ONE);
     glEnableClientState(GL_VERTEX_ARRAY);
@@ -514,7 +501,6 @@ void SkyGLPainter::drawFlags()
     KStarsData *data = KStarsData::Instance();
     SkyPoint* point;
     QImage image;
-    const Texture *tex;
     const QString label;
     bool visible = false;
     Vector2f vec;
@@ -531,40 +517,18 @@ void SkyGLPainter::drawFlags()
         vec = m_proj->toScreenVec( point, true, &visible );
 
         // Return if flag is not visible
-        if( !visible || !m_proj->onScreen( vec ) ) continue;
+        if( !visible || !m_proj->onScreen( vec ) )
+            continue;
 
-        // Get texture from TextureManager
-        if ( data->skyComposite()->flags()->imageName( i ) == "Default" )
-            tex = TextureManager::getTexture("defaultflag");
-        else
-            tex = TextureManager::createTexture( image );
-        
-        tex->bind();
+        const QImage& img = data->skyComposite()->flags()->imageName( i ) == "Default"
+                          ? TextureManager::getImage("defaultflag")
+                          : image;
 
-        // Draw image
-        if( tex->isReady() ) {
-            glEnable(GL_TEXTURE_2D);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-            Vector2f vertex;
-            glBegin(GL_QUADS);
-                vertex = vec + Vector2f( image.width()/2 * -1, image.height()/2 );
-                glTexCoord2f(0.,0.);
-                glVertex2fv(vertex.data());
-                vertex = vec + Vector2f( image.width()/2, image.height()/2 );
-                glTexCoord2f(1.,0.);
-                glVertex2fv(vertex.data());
-                vertex = vec + Vector2f( image.width()/2, image.height()/2 * -1  );
-                glTexCoord2f(1.,1.);
-                glVertex2fv(vertex.data());
-                vertex = vec + Vector2f( image.width()/2 * -1, image.height()/2 * -1 );
-                glTexCoord2f(0.,1.);
-                glVertex2fv(vertex.data());
-            glEnd();
-        }
-
-        // Draw label
-        drawText( vec.x(), vec.y(), data->skyComposite()->flags()->label( i ), QFont( "Courier New", 10, QFont::Bold ), data->skyComposite()->flags()->labelColor( i ) );
+        drawTexturedRectangle( img, vec, 0, img.width(), img.height() );
+        drawText( vec.x(), vec.y(),
+                  data->skyComposite()->flags()->label( i ),
+                  QFont( "Courier New", 10, QFont::Bold ),
+                  data->skyComposite()->flags()->labelColor( i ) );
     }
 }
 
@@ -600,31 +564,11 @@ void SkyGLPainter::drawText( int x, int y, const QString text, QFont font, QColo
     p.end();
 
     // Create texture
-    Texture *texture = TextureManager::createTexture( text_image );
-    texture->bind();
-
-    // Render image
-    if( texture->isReady() ) {
-        glEnable(GL_TEXTURE_2D);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-        Vector2f vec( x, y );
-        Vector2f vertex;
-        glBegin(GL_QUADS);
-            vertex = vec + Vector2f( 10, text_image.height()/2 -10 );
-            glTexCoord2f(0.,0.);
-            glVertex2fv(vertex.data());
-            vertex = vec + Vector2f( text_image.width() + 10, text_image.height()/2 -10 );
-            glTexCoord2f(1.,0.);
-            glVertex2fv(vertex.data());
-            vertex = vec + Vector2f( text_image.width() + 10, text_image.height()/2*(-1) - 10 );
-            glTexCoord2f(1.,1.);
-            glVertex2fv(vertex.data());
-            vertex = vec + Vector2f( 10, text_image.height()/2*(-1) - 10 );;
-            glTexCoord2f(0.,1.);
-            glVertex2fv(vertex.data());
-        glEnd();
-    }
+    float w = text_image.width();
+    float h = text_image.height();
+    float vx = x + 0.5*w + 10;
+    float vy = y - 10;
+    drawTexturedRectangle( text_image, Vector2f(vx,vy), 0, w, h );
 }
 
 void SkyGLPainter::drawSkyLine(SkyPoint* a, SkyPoint* b)

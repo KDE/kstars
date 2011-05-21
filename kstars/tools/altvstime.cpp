@@ -32,6 +32,7 @@
 #include "kstarsdatetime.h"
 #include "ksnumbers.h"
 #include "simclock.h"
+#include "kssun.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/locationdialog.h"
 #include "skyobjects/skypoint.h"
@@ -92,6 +93,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
 
     computeSunRiseSetTimes();
     setLSTLimits();
+    setDawnDusk();
 
     connect( avtUI->browseButton, SIGNAL( clicked() ), this, SLOT( slotBrowseObject() ) );
     connect( avtUI->cityButton,   SIGNAL( clicked() ), this, SLOT( slotChooseCity() ) );
@@ -355,6 +357,8 @@ void AltVsTime::slotUpdateDateLoc() {
 
     //First determine time of sunset and sunrise
     computeSunRiseSetTimes();
+    // Determine dawn/dusk time and min/max sun elevation
+    setDawnDusk();
 
     for ( int i = 0; i < avtUI->PlotList->count(); ++i ) {
         QString oName = avtUI->PlotList->item( i )->text().toLower();
@@ -459,6 +463,49 @@ double AltVsTime::getEpoch(const QString &eName)
         return 2000.0;
     }
     return epoch;
+}
+
+void AltVsTime::setDawnDusk()
+{
+    KStarsDateTime today = getDate();
+    KSNumbers num( today.djd() );
+    dms LST = geo->GSTtoLST( today.gst() );
+
+    KSSun sun;
+    sun.updateCoords( &num, true, geo->lat(), &LST );
+    double dawn, da, dusk, du, max_alt, min_alt;
+    double last_h = -12.0;
+    double last_alt = findAltitude( &sun, last_h );
+    dawn = dusk = -13.0;
+    max_alt = -100.0;
+    min_alt = 100.0;
+    for ( double h=-11.95; h<=12.0; h+=0.05 ) {
+        double alt = findAltitude( &sun, h );
+        bool   asc = alt - last_alt > 0;
+        if ( alt > max_alt )
+            max_alt = alt;
+        if ( alt < min_alt )
+            min_alt = alt;
+
+        if ( asc && last_alt <= -18.0 && alt >= -18.0 )
+            dawn = h;
+        if ( !asc && last_alt >= -18.0 && alt <= -18.0 )
+            dusk = h;
+
+        last_h   = h;
+        last_alt = alt;
+    }
+
+    if ( dawn < -12.0 || dusk < -12.0 ) {
+        da = -1.0;
+        du = -1.0;
+    } else {
+        da = dawn / 24.0;
+        du = ( dusk + 24.0 ) / 24.0;
+    }
+
+    avtUI->View->setDawnDuskTimes( da, du );
+    avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
 }
 
 #include "altvstime.moc"

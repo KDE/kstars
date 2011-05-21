@@ -91,6 +91,7 @@
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/cometscomponent.h"
+#include "skycomponents/asteroidscomponent.h"
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
@@ -158,8 +159,6 @@ void KStars::slotViewToolBar() {
     
            KMessageBox::information( this, message, caption, "dag_refract_hide_ground" );
         }
-
-
         if ( kcd ) {
             opguides->kcfg_ShowGround->setChecked( a->isChecked() );
         }
@@ -518,7 +517,7 @@ void KStars::slotOpenFITS()
 }
 
 void KStars::slotExportImage() {
-    KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp" );
+    KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
 
     //Warn user if file exists!
     if (QFile::exists(fileURL.path()))
@@ -686,6 +685,22 @@ void KStars::slotToggleTimer() {
         if ( data()->clock()->isManualMode() )
             map()->forceUpdate();
     }
+}
+
+void KStars::slotStepForward() {
+    if ( data()->clock()->isActive() )
+        data()->clock()->stop();
+    data()->clock()->manualTick( true );
+    map()->forceUpdate();
+}
+
+void KStars::slotStepBackward() {
+    if ( data()->clock()->isActive() )
+        data()->clock()->stop();
+    data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //temporarily need negative time step
+    data()->clock()->manualTick( true );
+    data()->clock()->setClockScale( -1.0 * data()->clock()->scale() ); //reset original sign of time step
+    map()->forceUpdate();
 }
 
 //Pointing
@@ -1034,4 +1049,8 @@ void KStars::slotShowPositionBar(SkyPoint* p ) {
 
 void KStars::slotUpdateComets() {
     data()->skyComposite()->solarSystemComposite()->cometsComponent()->updateDataFile();
+}
+
+void KStars::slotUpdateAsteroids() {
+    data()->skyComposite()->solarSystemComposite()->asteroidsComponent()->updateDataFile();
 }

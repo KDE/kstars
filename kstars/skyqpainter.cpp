@@ -24,7 +24,6 @@
 #include "kstarsdata.h"
 #include "Options.h"
 #include "skymap.h"
-#include "texture.h"
 
 #include "skycomponents/linelist.h"
 #include "skycomponents/skiplist.h"
@@ -322,9 +321,9 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
             sizemin = 8.0;
 
         float size = planet->angSize() * dms::PI * Options::zoomFactor()/10800.0;
-        if ( size < sizemin )
+        if( size < sizemin )
             size = sizemin;
-        if ( Options::showPlanetImages() && planet->texture()->isReady() ) {
+        if( Options::showPlanetImages() && !planet->image().isNull() ) {
             //Because Saturn has rings, we inflate its image size by a factor 2.5
             if( planet->name() == "Saturn" )
                 size = int(2.5*size);
@@ -333,7 +332,7 @@ bool SkyQPainter::drawPlanet(KSPlanetBase* planet)
             translate(pos);
             rotate( m_proj->findPA( planet, pos.x(), pos.y() ) );
             drawImage( QRect(-0.5*size, -0.5*size, size, size),
-                       planet->texture()->image() );
+                       planet->image() );
             restore();
         } else { //Otherwise, draw a simple circle.
             drawEllipse( pos, size, size );
@@ -387,9 +386,6 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
 
 bool SkyQPainter::drawDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
 {
-    if ( !obj->texture() ) obj->loadTexture();
-    if ( !obj->texture()->isReady() ) return false;
-    
     double zoom = Options::zoomFactor();
     double w = obj->a() * dms::PI * zoom/10800.0;
     double h = obj->e() * w;
@@ -397,7 +393,7 @@ bool SkyQPainter::drawDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float
     save();
     translate(pos);
     rotate( positionAngle );
-    drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->texture()->image() );
+    drawImage( QRect(-0.5*w, -0.5*h, w, h), obj->image() );
     restore();
 
     return true;

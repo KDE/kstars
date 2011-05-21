@@ -60,6 +60,8 @@ public:
 
     CometsComponent* cometsComponent();
 
+    AsteroidsComponent* asteroidsComponent();
+
 private:
     KSPlanet *m_Earth;
     KSSun *m_Sun;

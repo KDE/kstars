@@ -139,6 +139,9 @@ public slots:
     void slotHighlight(int);
 
 private:
+    /**@short find start of dawn, end of dusk, maximum and minimum elevation of the sun */
+    void setDawnDusk();
+    
     AltVsTimeUI *avtUI;
 
     GeoLocation *geo;

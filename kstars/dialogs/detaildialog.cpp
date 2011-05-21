@@ -45,6 +45,7 @@
 #include "skyobjects/ksplanetbase.h"
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/kscomet.h"
+#include "skyobjects/ksasteroid.h"
 #include "skycomponents/customcatalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
@@ -171,7 +172,7 @@ void DetailDialog::createGeneralTab()
 
     case SkyObject::ASTEROID:  //[fall through to planets]
     case SkyObject::COMET:     //[fall through to planets]
-    case SkyObject::MOON: //[fall through to planets]
+    case SkyObject::MOON:      //[fall through to planets]
     case SkyObject::PLANET:
         ps = (KSPlanetBase *)selectedObject;
 
@@ -277,7 +278,62 @@ void DetailDialog::createGeneralTab()
 
     // Add specifics data
     switch ( selectedObject->type() ) {
-        case SkyObject::COMET:
+        case SkyObject::ASTEROID: {
+            KSAsteroid* ast = (KSAsteroid *)selectedObject;
+            DataComet = new DataCometWidget( this );    // Show same specifics data as comets
+            Data->IncludeData->layout()->addWidget( DataComet );
+
+            // Perihelion
+            str.setNum( ast->getPerihelion() );
+            DataComet->Perihelion->setText( str + " AU" );
+            // Earth MOID
+            if ( ast->getEarthMOID() == 0 )
+                str = "";
+            else
+                str.setNum( ast->getEarthMOID() ).append( " AU" );
+            DataComet->EarthMOID->setText( str );
+            // Orbit ID
+            DataComet->OrbitID->setText( ast->getOrbitID() );
+            // Orbit Class
+            DataComet->OrbitClass->setText( ast->getOrbitClass() );
+            // NEO
+            if ( ast->isNEO() )
+                DataComet->NEO->setText( "Yes" );
+            else
+                DataComet->NEO->setText( "No" );
+            // Albedo
+            if ( ast->getAlbedo() == 0.0 )
+                str = "";
+            else
+                str.setNum( ast->getAlbedo() );
+            DataComet->Albedo->setText( str );
+            // Diameter
+            if( ast->getDiameter() == 0.0 )
+                str = "";
+            else
+                str.setNum( ast->getDiameter() ).append( " km" );
+            DataComet->Diameter->setText( str );
+            // Dimensions
+            if ( ast->getDimensions().isEmpty() )
+                DataComet->Dimensions->setText( "" );
+            else
+                DataComet->Dimensions->setText( ast->getDimensions() + " km" );
+            // Rotation period
+            if ( ast->getRotationPeriod() == 0.0 )
+                str = "";
+            else
+                str.setNum( ast->getRotationPeriod() ).append( " h" );
+            DataComet->Rotation->setText( str );
+            // Period
+            if ( ast->getPeriod() == 0.0 )
+                str = "";
+            else
+                str.setNum( ast->getPeriod() ).append( " y" );
+            DataComet->Period->setText( str );
+
+            break;
+        }
+        case SkyObject::COMET: {
             KSComet* com = (KSComet *)selectedObject;
             DataComet = new DataCometWidget( this );
             Data->IncludeData->layout()->addWidget( DataComet );
@@ -331,6 +387,7 @@ void DetailDialog::createGeneralTab()
             DataComet->Period->setText( str );
             
             break;
+        }
     }
 
     //Common to all types:

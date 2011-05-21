@@ -207,9 +207,6 @@ SkyMap::SkyMap() :
             m_objBox, SLOT(   slotPointChanged(SkyPoint*) ) );
 
 #ifdef HAVE_OPENGL
-
-    Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
-    
     m_SkyMapQDraw  = new SkyMapQDraw( this );
     m_SkyMapQDraw->setMouseTracking( true );
     m_SkyMapGLDraw = new SkyMapGLDraw( this );
@@ -221,9 +218,7 @@ SkyMap::SkyMap() :
         m_SkyMapDraw = m_SkyMapGLDraw;
     else
         m_SkyMapDraw = m_SkyMapQDraw;
-
 #else
-
     m_SkyMapDraw = new SkyMapQDraw( this );
     m_SkyMapDraw->setMouseTracking( true );
 #endif
@@ -1087,8 +1082,6 @@ void SkyMap::slotToggleGL() {
                                       "dag_opengl_infoboxes" );
 
             Options::setUseGL( true );
-
-            Q_ASSERT( TextureManager::getContext() ); // Should not fail, because TextureManager should be already created.
 
             m_SkyMapDraw = m_SkyMapGLDraw;
             KStars::Instance()->actionCollection()->action( "opengl" )->setText(i18n("Switch to QPainter backend"));

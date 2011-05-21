@@ -136,6 +136,56 @@ void KSAsteroid::findMagnitude(const KSNumbers*)
     setMag( H + param - 2.5 * log( (1 - G) * phi1 + G * phi2 ) );
 }
 
+void KSAsteroid::setPerihelion( double perihelion )
+{
+    q = perihelion;
+}
+
+void KSAsteroid::setEarthMOID( double earth_moid )
+{
+    EarthMOID = earth_moid;
+}
+
+void KSAsteroid::setAlbedo( float albedo )
+{
+    Albedo = albedo;
+}
+
+void KSAsteroid::setDiameter( float diam )
+{
+    Diameter = diam;
+}
+
+void KSAsteroid::setDimensions( QString dim )
+{
+    Dimensions = dim;
+}
+
+void KSAsteroid::setNEO( bool neo )
+{
+    NEO = neo;
+}
+
+void KSAsteroid::setOrbitClass( QString orbit_class )
+{
+    OrbitClass = orbit_class;
+}
+
+void KSAsteroid::setOrbitID( QString orbit_id )
+{
+    OrbitID = orbit_id;
+}
+
+void KSAsteroid::setPeriod( float per )
+{
+    Period = per;
+}
+
+void KSAsteroid::setRotationPeriod(float rot_per)
+{
+    RotationPeriod = rot_per;
+}
+
 //Unused virtual function from KSPlanetBase
 bool KSAsteroid::loadData() { return false; }
 

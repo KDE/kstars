@@ -28,7 +28,6 @@
 
 #include "trailobject.h"
 
-class Texture;
 class KSNumbers;
 class KSPopupMenu;
 
@@ -121,7 +120,7 @@ public:
     void EquatorialToEcliptic( const dms *Obliquity );
 
     /** @return pointer to this planet's texture */
-    const Texture* texture() { return m_tex; }
+    const QImage& image() { return m_image; }
 
     /**@return distance from Sun, in Astronomical Units (1 AU is Earth-Sun distance) */
     double rsun() const { return ep.radius; }
@@ -243,8 +242,7 @@ protected:
     EclipticPosition helEcPos;
     double  Rearth;
     double Phase;
-
-    const Texture *m_tex;
+    QImage m_image;
 
 private:
     /**

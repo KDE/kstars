@@ -251,10 +251,11 @@ void modCalcEquinox::addDateAxes() {
 }
 
 KStarsDateTime modCalcEquinox::findEquinox( int year, bool Spring, KPlotObject *ecl ) {
-    //Interpolate to find the moment when the Sun crosses the equator in March
-    int month = 3;
-    if ( ! Spring ) month = 9;
-    int i = QDate( year, month, 16 ).dayOfYear();
+    // Interpolate to find the moment when the Sun crosses the equator
+    // Set initial guess in February or August to be sure that this
+    // point is before equinox.
+    const int month = Spring ? 2 : 8;
+    int i = QDate( year, month, 1 ).dayOfYear();
     double dec1, dec2;
     dec2 = ecl->points()[i]->y();
     do {
@@ -279,7 +280,7 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
     //Start at June 16th, which will always be approaching the solstice
 
     long double jd1,jd2,jd3,jd4;
-    double y1(0.0),y2(0.0),y3(0.0), y4(0.0);
+    double y2(0.0),y3(0.0), y4(0.0);
     int month = 6;
     if ( ! Summer ) month = 12;
 
@@ -296,7 +297,6 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
         jd3 += 1.0;
         num.updateValues( jd3 );
         Sun.findPosition( &num );
-        y1 = y2;
         y2 = y3;
         Sun.findPosition( &num );
         y3 = Sun.dec().Degrees();
@@ -323,7 +323,6 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
         if ( y4*sgn > y2*sgn ) { //make jd4 the new center
             if ( jd4 > jd2 ) {
                 jd1 = jd2;
-                y1 = y2;
                 jd2 = jd4;
                 y2 = y4;
             } else {
@@ -338,7 +337,6 @@ KStarsDateTime modCalcEquinox::findSolstice( int year, bool Summer ) {
                 y3 = y4;
             } else {
                 jd1 = jd4;
-                y1 = y4;
             }
         }
     }

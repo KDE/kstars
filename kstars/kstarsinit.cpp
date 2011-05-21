@@ -171,6 +171,14 @@ void KStars::initActions() {
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)) );
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), this, SLOT(updateTime()) );
+    actionCollection()->addAction("time_step_forward", this, SLOT( slotStepForward() ) )
+        << i18n("Advance one step forward in time")
+        << KIcon("media-skip-forward" )
+        << KShortcut( Qt::Key_Greater, Qt::Key_Period );
+    actionCollection()->addAction("time_step_backward", this, SLOT( slotStepBackward() ) )
+        << i18n("Advance one step backward in time")
+        << KIcon("media-skip-backward" )
+        << KShortcut( Qt::Key_Less, Qt::Key_Comma );
 
     // ==== Pointing Menu ================
     actionCollection()->addAction("zenith", this, SLOT( slotPointFocus() ) )
@@ -338,6 +346,8 @@ void KStars::initActions() {
     // Updates actions
     actionCollection()->addAction( "update_comets", this, SLOT( slotUpdateComets() ) )
         << i18n( "Update comets orbital elements" );
+    actionCollection()->addAction( "update_asteroids", this, SLOT( slotUpdateAsteroids() ) )
+        << i18n( "Update asteroids orbital elements" );
 
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT( slotCalculator() ) )

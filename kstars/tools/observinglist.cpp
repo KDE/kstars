@@ -972,7 +972,7 @@ void ObservingList::slotToggleSize() {
         ui->TableView->horizontalHeader()->show();
         //Expand text on each button
         ui->WUTButton->setText( i18n( "WUT") );
-        ui->FindButton->setText( i18n( "Find &amp;Object") );
+        ui->FindButton->setText( i18n( "Find &Object") );
         //Show Observing notes
         ui->NotesLabel->show();
         ui->NotesEdit->show();

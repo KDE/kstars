@@ -32,7 +32,7 @@ class QGLWidget;
 class SkyGLPainter : public SkyPainter
 {
 public:
-    SkyGLPainter( const QGLWidget *widget );
+    SkyGLPainter( QGLWidget *widget );
     virtual bool drawPlanet(KSPlanetBase* planet);
     virtual bool drawDeepSkyObject(DeepSkyObject* obj, bool drawImage = false);
     virtual bool drawPointSource(SkyPoint* loc, float mag, char sp = 'A');
@@ -54,6 +54,12 @@ private:
     void drawBuffer(int type);
     void drawPolygon(const QVector< Vector2f >& poly, bool convex = true, bool flush_buffers = true);
 
+    /** Render textured rectangle on screeen. Parameters are texture
+     *  to be used, position, orientation and size of rectangle*/
+    void drawTexturedRectangle( const QImage& img,
+                                const Vector2f& pos, const float angle,
+                                const float sizeX, const float sizeY );
+
     const Projector *m_proj;
     
     Vector4f m_pen;
@@ -65,7 +71,7 @@ private:
     static Vector3f m_color[NUMTYPES][6*BUFSIZE];
     static int m_idx[NUMTYPES];
     static bool m_init; ///< keep track of whether we have filled the texcoord array
-    const QGLWidget* m_widget; // Pointer to (GL) widget on which we are painting
+    QGLWidget* m_widget; // Pointer to (GL) widget on which we are painting
 };
 
 #endif // SKYGLPAINTER_H

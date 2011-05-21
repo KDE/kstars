@@ -56,14 +56,13 @@ const SkyObject::UID KSPlanetBase::UID_SOL_COMET    = 2;
 
 KSPlanetBase::KSPlanetBase( const QString &s, const QString &image_file, const QColor &c, double pSize ) :
     TrailObject( 2, 0.0, 0.0, 0.0, s ),
-    Rearth(0.0),
-    m_tex(0)
+    Rearth(0.0)
 {
     init( s, image_file, c, pSize );
 }
 
 void KSPlanetBase::init( const QString &s, const QString &image_file, const QColor &c, double pSize ) {
-    m_tex = TextureManager::getTexture(image_file);
+    m_image = TextureManager::getImage( image_file );
     PositionAngle = 0.0;
     PhysicalSize = pSize;
     m_Color = c;

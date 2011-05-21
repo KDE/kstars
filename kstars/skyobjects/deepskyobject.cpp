@@ -44,7 +44,7 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
     PGC( o.PGC ),
     MajorAxis( o.MajorAxis ),
     MinorAxis( o.MinorAxis ),
-    m_texture( o.texture() )
+    m_image( o.m_image )
 {
     customCat = NULL;
     Flux = 0;
@@ -57,7 +57,8 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
                               const QString &n, const QString &n2,
                               const QString &lname, const QString &cat,
                               float a, float b, double pa, int pgc, int ugc )
-        : SkyObject( t, r, d, m, n, n2, lname ) {
+        : SkyObject( t, r, d, m, n, n2, lname )
+{
     MajorAxis = a;
     MinorAxis = b;
     PositionAngle = pa;
@@ -65,16 +66,17 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     UGC = ugc;
     setCatalog( cat );
     updateID = updateNumID = 0;
-    m_texture = 0;
     customCat = NULL;
     Flux = 0;
+    loadImage();
 }
 
 DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
                               const QString &n, const QString &n2,
                               const QString &lname, const QString &cat,
                               float a, float b, double pa, int pgc, int ugc )
-        : SkyObject( t, r, d, m, n, n2, lname ) {
+        : SkyObject( t, r, d, m, n, n2, lname )
+{
     MajorAxis = a;
     MinorAxis = b;
     PositionAngle = pa;
@@ -82,9 +84,9 @@ DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
     UGC = ugc;
     setCatalog( cat );
     updateID = updateNumID = 0;
-    m_texture = 0;
     customCat = NULL;
     Flux = 0;
+    loadImage();
 }
 
 DeepSkyObject* DeepSkyObject::clone() const
@@ -116,15 +118,10 @@ void DeepSkyObject::setCatalog( const QString &cat ) {
     else Catalog = (unsigned char)CAT_UNKNOWN;
 }   
 
-void DeepSkyObject::loadTexture()
+void DeepSkyObject::loadImage()
 {
     QString tname = name().toLower().remove(' ');
-    m_texture = TextureManager::getTexture( tname );
-}
-
-const Texture* DeepSkyObject::texture() const
-{
-    return m_texture;
+    m_image = TextureManager::getImage( tname );
 }
 
 double DeepSkyObject::labelOffset() const {

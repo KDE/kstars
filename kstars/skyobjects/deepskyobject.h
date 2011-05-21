@@ -27,7 +27,6 @@
 class QImage;
 class QString;
 class KSPopupMenu;
-class Texture;
 class CustomCatalogComponent;
 
 /**
@@ -180,16 +179,11 @@ public:
     	*/
     inline int pgc() const { return PGC; }
 
-    /**
-     * @return a pointer to the object's texture.
-     * @note do check for null pointers...
-     */
-    const Texture* texture() const;
+    /** @return an object's image */
+    const QImage& image() const { return m_image; }
 
-    /**
-     * Try to load the object's texture
-     */
-    void loadTexture();
+    /** Try to load the object's image */
+    void loadImage();
 
     /**
       *@return true if the object is in the Messier catalog
@@ -226,7 +220,7 @@ private:
     double PositionAngle;
     int UGC, PGC;
     float MajorAxis, MinorAxis, Flux;
-    const Texture *m_texture;
+    QImage m_image;
     CustomCatalogComponent *customCat;
 };
 

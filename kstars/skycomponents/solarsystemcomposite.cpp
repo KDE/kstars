@@ -124,3 +124,7 @@ CometsComponent* SolarSystemComposite::cometsComponent()
     return m_CometsComponent;
 }
 
+AsteroidsComponent* SolarSystemComposite::asteroidsComponent()
+{
+    return m_AsteroidsComponent;
+}

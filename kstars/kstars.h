@@ -458,6 +458,12 @@ private slots:
 
     /** action slot: toggle whether kstars clock is running or not */
     void slotToggleTimer();
+    
+    /** action slot: advance one step forward in time */
+    void slotStepForward();
+    
+    /** action slot: advance one step backward in time */
+    void slotStepBackward();
 
     /** action slot: open dialog for finding a named object */
     void slotFind();
@@ -581,6 +587,9 @@ private slots:
 
     /**Update comets orbital elements*/
     void slotUpdateComets();
+
+    /**Update asteroids orbital elements*/
+    void slotUpdateAsteroids();
 
 private:
     /** Load FOV information and repopulate menu. */
