@@ -540,11 +540,10 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
     if( ok ) {
         QApplication::setOverrideCursor( Qt::WaitCursor );
 
-        //Save current colorscheme and switch to Star Chart colors
-        //(if requested)
-        ColorScheme cs;
+        //Save current ColorScheme file name and switch to Star Chart
+        //scheme (if requested)
+        QString schemeName = data()->colorScheme()->fileName();
         if ( useChartColors ) {
-            cs = *data()->colorScheme();
             loadColorScheme( "chart.colors" );
         }
 
@@ -552,9 +551,9 @@ void KStars::printImage( bool usePrintDialog, bool useChartColors ) {
         map()->exportSkyImage( &printer );
 
         //Restore old color scheme if necessary
-        //(if printing was aborted, the colorscheme is still restored)
+        //(if printing was aborted, the ColorScheme is still restored)
         if ( useChartColors ) {
-            *(data()->colorScheme()) = cs;
+            loadColorScheme( schemeName );
             map()->forceUpdate();
         }
 
