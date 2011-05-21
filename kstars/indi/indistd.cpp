@@ -599,19 +599,17 @@ void INDIStdDevice::updateLocation()
     pp = dp->findProp("GEOGRAPHIC_COORD");
     if (!pp) return;
 
-    dms tempLong (geo->lng()->degree(), geo->lng()->arcmin(), geo->lng()->arcsec());
-    dms fullCir(360,0,0);
-
-    if (tempLong.degree() < 0)
-        tempLong.setD ( fullCir.Degrees() + tempLong.Degrees());
-
     latEle  = pp->findElement("LAT");
     if (!latEle) return;
     longEle = pp->findElement("LONG");
     if (!longEle) return;
 
-    longEle->write_w->setText(QString("%1:%2:%3").arg(tempLong.degree()).arg(tempLong.arcmin()).arg(tempLong.arcsec()));
-    latEle->write_w->setText(QString("%1:%2:%3").arg(geo->lat()->degree()).arg(geo->lat()->arcmin()).arg(geo->lat()->arcsec()));
+    if (geo->lng()->Degrees() >= 0)
+        longEle->write_w->setText(geo->lng()->toDMSString());
+    else
+        longEle->write_w->setText( dms(geo->lng()->Degrees() + 360.0).toDMSString());
+
+    latEle->write_w->setText(geo->lat()->toDMSString());
 
     pp->newText();
 }
@@ -1130,6 +1128,7 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
     return false;
 
 }
+
 
 #include "indistd.moc"
 

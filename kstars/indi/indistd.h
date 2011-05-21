@@ -63,8 +63,7 @@ public:
     bool slew_scope(SkyPoint *scope_target, INDI_E *lp=NULL);
     /* INDI STD: Updates device time */
     void updateTime();
-    /* INDI STD: Updates device location */
-    void updateLocation();
+
     /* Update image prefix */
     void updateSequencePrefix(const QString &newPrefix);
 
@@ -82,6 +81,8 @@ public:
 
 public slots:
     void timerDone();
+    /* INDI STD: Updates device location */
+    void updateLocation();
 
 protected slots:
     void checkSeqBoundary(const KFileItemList & items);

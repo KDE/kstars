@@ -561,12 +561,22 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
     if (perm == PP_RO)
         return 0;
 
-    if (name == "CCD_EXPOSURE")
-        setupSetButton(i18n("Capture Image"));
-    else
-        setupSetButton(i18nc("Set a value", "Set"));
 
-    QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
+    if (name == "GEOGRAPHIC_COORD")
+    {
+        setupSetButton("Update");
+        QObject::connect(set_w, SIGNAL(clicked()), indistd->stdDev, SLOT(updateLocation()));
+    }
+    else
+    {
+
+        if (name == "CCD_EXPOSURE")
+            setupSetButton(i18n("Capture Image"));
+        else
+            setupSetButton(i18nc("Set a value", "Set"));
+
+        QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newText()));
+    }
 
     return (0);
 }
