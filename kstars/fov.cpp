@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "fov.h"
+#include "Options.h"
 
 #include <algorithm>
 
@@ -43,6 +44,8 @@ FOV::FOV() :
 void FOV::draw( QPainter &p, float zoomFactor ) {
     p.setPen( QColor( color() ) );
     p.setBrush( Qt::NoBrush );
+    
+    p.setRenderHint( QPainter::Antialiasing, Options::useAntialias() );
 
     float pixelSizeX = sizeX() * zoomFactor / 57.3 / 60.0;
     float pixelSizeY = sizeY() * zoomFactor / 57.3 / 60.0;
