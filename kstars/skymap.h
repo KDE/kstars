@@ -70,7 +70,7 @@ class SkyMapQDraw;
 
 class SkyMap : public QGraphicsView {
 
-    Q_OBJECT;
+    Q_OBJECT
         
     friend class SkyMapDrawAbstract; // FIXME: SkyMapDrawAbstract requires a lot of access to SkyMap
     friend class SkyMapQDraw; // FIXME: SkyMapQDraw requires access to computeSkymap
