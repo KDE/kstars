@@ -30,7 +30,7 @@
 
 class SkyMapGLDraw : public QGLWidget, public SkyMapDrawAbstract {
     
-    Q_OBJECT;
+    Q_OBJECT
 
  public:
     /**

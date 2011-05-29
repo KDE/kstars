@@ -31,7 +31,7 @@
 
 class SkyMapQDraw : public QWidget, public SkyMapDrawAbstract {
     
-    Q_OBJECT;
+    Q_OBJECT
 
  public:
     /**
