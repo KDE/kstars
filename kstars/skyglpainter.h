@@ -20,6 +20,7 @@
 #ifndef SKYGLPAINTER_H
 #define SKYGLPAINTER_H
 
+#include <cstddef>
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
 

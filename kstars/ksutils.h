@@ -27,6 +27,7 @@
 #ifndef KSTARS_KSUTILS_H__
 #define KSTARS_KSUTILS_H__
 
+#include <cstddef>
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
 #include <QPointF>

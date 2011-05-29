@@ -19,6 +19,7 @@
 
 #include "skyglpainter.h"
 
+#include <cstddef>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 USING_PART_OF_NAMESPACE_EIGEN

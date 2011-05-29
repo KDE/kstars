@@ -20,6 +20,7 @@
 #ifndef PROJECTOR_H
 #define PROJECTOR_H
 
+#include <cstddef>
 #include <Eigen/Core>
 USING_PART_OF_NAMESPACE_EIGEN
 
