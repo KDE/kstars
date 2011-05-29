@@ -45,7 +45,7 @@ const QImage& TextureManager::getImage(const QString& name)
 {
     Create();
     CacheIter it = findTexture( name );
-    if( it != m_p->m_textures.end() ) {
+    if( it != m_p->m_textures.constEnd() ) {
         return *it;
     } else {
         return emptyImage;
@@ -57,16 +57,16 @@ TextureManager::CacheIter TextureManager::findTexture(const QString& name)
 {
     Create();
     // Lookup in cache first
-    CacheIter it = m_p->m_textures.find( name );
-    if( it != m_p->m_textures.end() ) {
+    CacheIter it = m_p->m_textures.constFind( name );
+    if( it != m_p->m_textures.constEnd() ) {
         return it;
     } else {
         // Try to load from file
         QString filename = KStandardDirs::locate("appdata",QString("textures/%1.png").arg(name));
         if( !filename.isNull() ) {
-            return m_p->m_textures.insert( name, QImage(filename) );
+            return (TextureManager::CacheIter)m_p->m_textures.insert( name, QImage(filename) );
         } else {
-            return m_p->m_textures.end();
+            return m_p->m_textures.constEnd();
         }
     }
 }
@@ -85,7 +85,7 @@ void TextureManager::bindTexture(const QString& name, QGLWidget* cxt)
     Q_ASSERT( "Must be called only with valid GL context" && cxt );
 
     CacheIter it = findTexture( name );
-    if( it != m_p->m_textures.end() )
+    if( it != m_p->m_textures.constEnd() )
         bindImage( *it, cxt );
 }
 
