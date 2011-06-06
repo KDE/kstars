@@ -59,17 +59,17 @@ else (INDI_INCLUDE_DIR AND INDI_DATA_DIR AND INDI_LIBRARIES AND INDI_DRIVER_LIBR
     ${GNUWIN32_DIR}/lib
   )
 
--  # Find pkg-config
--  FIND_PROGRAM(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/bin/ /usr/local/bin )
--
--  # query pkg-config asking for a libindi >= 0.8.0
--     EXEC_PROGRAM(${PKGCONFIG_EXECUTABLE} ARGS --atleast-version=0.8.0 libindi RETURN_VALUE _return_VALUE OUTPUT_VARIABLE _pkgconfigDevNull )
--     if(_return_VALUE STREQUAL "0")
--        set(INDI_FOUND TRUE)
--     else(_return_VALUE STREQUAL "0")
--       set(INDI_FOUND FALSE)
--       message(STATUS "Could NOT find libindi. pkg-config indicates that libindi >= 0.8.0 is not installed.")
--     endif(_return_VALUE STREQUAL "0")
+  # Find pkg-config
+  FIND_PROGRAM(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/bin/ /usr/local/bin )
+
+  # query pkg-config asking for a libindi >= 0.8.0
+     EXEC_PROGRAM(${PKGCONFIG_EXECUTABLE} ARGS --atleast-version=0.8.0 libindi RETURN_VALUE _return_VALUE OUTPUT_VARIABLE _pkgconfigDevNull )
+     if(_return_VALUE STREQUAL "0")
+        set(INDI_FOUND TRUE)
+     else(_return_VALUE STREQUAL "0")
+       set(INDI_FOUND FALSE)
+       message(STATUS "Could NOT find libindi. pkg-config indicates that libindi >= 0.8.0 is not installed.")
+     endif(_return_VALUE STREQUAL "0")
 
 
   if (INDI_FOUND)
