@@ -148,10 +148,10 @@ public:
 
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) = 0;
 
-protected:
-
     /** @short Get the width of a star of magnitude mag */
     float starWidth(float mag) const;
+
+protected:
 
     SkyMap *m_sm;
 

@@ -59,11 +59,12 @@ public:
     virtual void drawFlags();
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
     virtual void drawSatellite( Satellite* sat );
-private:
+    virtual void drawDeepSkySymbol(const QPointF& pos, int type, float size, float e,
+                                         float positionAngle);
     ///This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');
-    virtual void drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj,
-                                         float positionAngle);
+
+private:
     virtual bool drawDeepSkyImage (const QPointF& pos, DeepSkyObject* obj,
                                          float positionAngle);
     QPaintDevice *m_pd;
