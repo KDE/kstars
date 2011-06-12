@@ -237,6 +237,22 @@ public:
      */
     virtual double labelOffset() const;
 
+    /**
+     *@return the Visual magnitude of the star
+     */
+    inline float getVMag() const { return V; }
+
+    /**
+     *@return the blue magnitude of the star
+     */
+    inline float getBMag() const { return B; }
+
+    /**
+     *@return the B - V color index of the star, or a nonsense number
+     *larger than 30 if it's not well defined
+     */
+    inline float getBVIndex() const { return ( ( B < 30.0 && V < 30.0 ) ? B - V : 99.9 ); }
+
     quint64 updateID;
     quint64 updateNumID;
 
