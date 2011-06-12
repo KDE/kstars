@@ -206,7 +206,7 @@ void KStars::initActions() {
         << KIcon("object-locked" )
         << KShortcut( Qt::CTRL+Qt::Key_T  );
     actionCollection()->addAction("manual_focus", this, SLOT( slotManualFocus() ) )
-        << i18n("Set Focus &Manually..." )
+        << i18n("Set Coordinates &Manually..." )
         << KShortcut( Qt::CTRL+Qt::Key_M );
 
     // ==== View Menu ================

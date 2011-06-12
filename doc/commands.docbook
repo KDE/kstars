@@ -217,7 +217,7 @@ horizon</para></listitem>
 <keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
 </shortcut>
 <guimenu>Pointing</guimenu>
-<guimenuitem>Set Focus Manually...</guimenuitem>
+<guimenuitem>Set Coordinates Manually...</guimenuitem>
 </menuchoice></term>
 <listitem><para>Center the display on specific
 <link linkend="ai-skycoords">sky coordinates</link>

@@ -43,7 +43,7 @@ FocusDialog::FocusDialog( KStars *_ks )
 
     fd = new FocusDialogUI(this);
     setMainWidget(fd);
-    setCaption( i18n( "Set Focus Manually" ) );
+    setCaption( i18n( "Set Coordinates Manually" ) );
     setButtons( KDialog::Ok|KDialog::Cancel );
 
     fd->epochBox->setValidator( new KDoubleValidator( fd->epochBox ) );
