@@ -110,7 +110,12 @@ void DetailDialog::createGeneralTab()
     #endif
     connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 
-    Data->IllumLabel->setVisible( false );
+    // Stuff that should be visible only for specific types of objects
+    Data->IllumLabel->setVisible( false ); // Only shown for the moon
+    Data->Illumination->setVisible( false );
+
+    Data->BVIndex->setVisible( false ); // Only shown for stars
+    Data->BVLabel->setVisible( false );
 
     //Show object thumbnail image
     showThumbnail();
@@ -137,6 +142,11 @@ void DetailDialog::createGeneralTab()
         objecttyp = s->sptype() + ' ' + i18n("star");
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
+
+        Data->BVLabel->setVisible( true );
+        Data->BVIndex->setVisible( true );
+        if( s->getBVIndex() < 30.0 )
+            Data->BVIndex->setText( QString::number( s->getBVIndex() , 'g', 2 ) );
 
         //The thumbnail image is empty, and isn't clickable for stars
         //Also, don't show the border around the Image QFrame.
@@ -190,6 +200,7 @@ void DetailDialog::createGeneralTab()
         //Magnitude: The moon displays illumination fraction instead
         if ( selectedObject->name() == "Moon" ) {
             Data->IllumLabel->setVisible( true );
+            Data->Illumination->setVisible( true );
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
 
