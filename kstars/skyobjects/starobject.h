@@ -255,6 +255,7 @@ private:
     double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;
     bool Multiplicity, Variability;
     int HD;
+    float B, V; // B and V magnitudes, separately. NOTE 1) This is kept separate from mag for a reason. See init( const deepStarData *); 2) This applies only to deep stars at the moment
 };
 
 #endif

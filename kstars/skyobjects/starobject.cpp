@@ -148,6 +148,7 @@ void StarObject::init( const starData *stardata )
     Variability = stardata->flags & 0x04 ;
     updateID = updateNumID = 0;
     HD = stardata->HD;
+    B = V = 99.9;
 
     // DEBUG Edit. For testing proper motion. Uncomment all related blocks to test.
     // WARNING: You can debug only ONE STAR AT A TIME, because
@@ -185,7 +186,7 @@ void StarObject::init( const deepStarData *stardata )
     setType( SkyObject::STAR );
 
     if( stardata->V == 30000 && stardata->B != 30000 )
-      setMag( ( stardata->B - 1600 ) / 1000.0 );
+      setMag( ( stardata->B - 1600 ) / 1000.0 ); // FIXME: Is it okay to make up stuff like this?
     else
       setMag( stardata->V / 1000.0 );
 
@@ -215,6 +216,8 @@ void StarObject::init( const deepStarData *stardata )
     Multiplicity = 0;
     Variability = 0;
     updateID = updateNumID = 0;
+    B = stardata->B / 1000.0;
+    V = stardata->V / 1000.0;
 }
 
 void StarObject::setNames( QString name, QString name2 ) {
