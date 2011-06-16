@@ -52,9 +52,9 @@ namespace {
 }
 
 KSComet::KSComet( const QString &_s, const QString &imfile,
-                  long double _JD, double _q, double _e, dms _i, dms _w, dms _Node, double Tp, float _H, float _G )
+                  long double _JD, double _q, double _e, dms _i, dms _w, dms _Node, double Tp, float _H, float _G, float _M1, float _M2, float _K1, float _K2)
     : KSPlanetBase(_s, imfile),
-      JD(_JD), q(_q), e(_e), H(_H), G(_G), i(_i), w(_w), N(_Node)
+      JD(_JD), q(_q), e(_e), H(_H), G(_G), M1(_M1), M2(_M2), K1(_K1), K2(_K2),  i(_i), w(_w), N(_Node)
 {
     setType( SkyObject::COMET );
 
@@ -253,9 +253,10 @@ bool KSComet::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *
     return true;
 }
 
+//T-mag =  M1 + 5*log10(delta) + k1*log10(r)
 void KSComet::findMagnitude(const KSNumbers*)
 {
-    setMag( H + 5.0 * log10( rearth() ) + 2.5 * G * log10( rsun() ) );
+    setMag( M1 + 5.0 * log10( rearth() ) + K1 * log10( rsun() ) );
 }
 
 void KSComet::setEarthMOID( double earth_moid )

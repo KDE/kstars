@@ -34,8 +34,10 @@
 #include <kio/netaccess.h>
 
 #include "kstars.h"
+#include "kdebug.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
+#include "ksnumbers.h"
 #include "geolocation.h"
 #include "ksutils.h"
 #include "skymap.h"
@@ -179,7 +181,6 @@ void DetailDialog::createGeneralTab()
             Data->AngSizeLabel->setText( i18nc( "the star is a variable star", "variable" ) );
 
         break; //end of stars case
-
     case SkyObject::ASTEROID:  //[fall through to planets]
     case SkyObject::COMET:     //[fall through to planets]
     case SkyObject::MOON:      //[fall through to planets]
@@ -203,9 +204,16 @@ void DetailDialog::createGeneralTab()
             Data->Illumination->setVisible( true );
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
-
-        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+		/*if(ps->mag() < -100 )
+		{
+			Data->Magnitude->setText("--");
+		}
+		else 
+		{
+		*/
+		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
+		
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( i18nc("distance in kilometers", "%1 km",
@@ -228,7 +236,6 @@ void DetailDialog::createGeneralTab()
         }
 
         break; //end of planets/comets/asteroids case
-
     default: //deep-sky objects
         dso = (DeepSkyObject *)selectedObject;
 
@@ -345,8 +352,8 @@ void DetailDialog::createGeneralTab()
             break;
         }
         case SkyObject::COMET: {
-            KSComet* com = (KSComet *)selectedObject;
-            DataComet = new DataCometWidget( this );
+	    KSComet* com = (KSComet *)selectedObject;
+	    DataComet = new DataCometWidget( this );
             Data->IncludeData->layout()->addWidget( DataComet );
 
             // Perihelion
@@ -417,6 +424,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
     Pos->CoordTitle->setPalette( titlePalette );
     Pos->RSTTitle->setPalette( titlePalette );
+    KStarsData *data = KStarsData::Instance();
 
     //Coordinates Section:
     //Don't use KLocale::formatNumber() for the epoch string,
@@ -424,7 +432,9 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
     //Replace the decimal point with localized decimal symbol
     sEpoch.replace( '.', KGlobal::locale()->decimalSymbol() );
-
+    
+    kDebug() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).dec0().toDMSString() << endl;
+    //kDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
     Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
     Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
     Pos->RA->setText( selectedObject->ra().toHMSString() );

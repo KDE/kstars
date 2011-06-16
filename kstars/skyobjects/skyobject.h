@@ -388,7 +388,7 @@ private:
 protected:
     /**Set the object's magnitude.
      * @param m the object's magnitude. */
-    inline void setMag( float m ) { Magnitude = m; }
+    inline void setMag( float m ) { Magnitude = m < 30.0 ? m : 99.0 ; }
 
     /**Set the object's primary name.
      * @param name the object's primary name */
