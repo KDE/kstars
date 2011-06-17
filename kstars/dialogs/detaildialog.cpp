@@ -204,13 +204,7 @@ void DetailDialog::createGeneralTab()
             Data->Illumination->setVisible( true );
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
-		/*if(ps->mag() < -100 )
-		{
-			Data->Magnitude->setText("--");
-		}
-		else 
-		{
-		*/
+		
 		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
 		

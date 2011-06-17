@@ -110,112 +110,112 @@ void CometsComponent::loadData() {
         KSFileReader fileReader( file );
 	*/
     
-    while( fileReader.hasMoreLines() ) {
-	kDebug()<<"fileReader.lineNumber() : "<<fileReader.lineNumber()<<endl;
-	KSComet *com = 0;
-	line = fileReader.readLine();
+    while( fileReader.hasMoreLines() ) {		
+		kDebug()<<"fileReader.lineNumber() : "<<fileReader.lineNumber()<<endl;
+		KSComet *com = 0;
+		line = fileReader.readLine();
 
-	// Ignore comments and too short lines
-	if ( line.at( 0 ) == '#' || line.size() < 8 )
-	{
-	   continue;
-	}
-	fields = line.split( "," );
-	kDebug()<< "No. of Fields:" << fields.count();
+		// Ignore comments and too short lines
+		if ( line.at( 0 ) == '#' || line.size() < 8 )
+		{
+		continue;
+		}
+		fields = line.split( "," );
+		kDebug()<< "No. of Fields:" << fields.count();
 
-	name   = fields.at( 0 );
-	name   = name.remove( '"' ).trimmed();
-	kDebug()<<name<<endl;
-	mJD    = fields.at( 1 ).toInt();
-	q      = fields.at( 2 ).toDouble();
-	e      = fields.at( 3 ).toDouble();
-	dble_i = fields.at( 4 ).toDouble();
-	dble_w = fields.at( 5 ).toDouble();
-	dble_N = fields.at( 6 ).toDouble();
-	Tp     = fields.at( 7 ).toDouble();
-	orbit_id = fields.at( 8 );
-	orbit_id.remove( '"' );
-	if(fields.at(9)=="")
-		H = -101.0; // Any absolute mag brighter than -100 should be treated as nonsense
-	else
-		H = fields.at( 9 ).toFloat( &ok );
-	if(fields.at(10)=="")
-		G = -101.0; // Same with slope parameter
-	else
-		G = fields.at( 9 ).toFloat( &ok );
-	
-	/*if ( !ok ) 
-	G      = fields.at( 10 ).toFloat( &ok );
-	if ( !ok ) G = -101.0; // Same with slope parameter.
-	*/
-	if ( fields.at( 11 ) == "Y" )
-	    neo = true;
-	else
-	    neo = false;
-	
-	if(fields.at(12)=="")
-		M1 = 101.0;        
-	else
-		M1 = fields.at( 12 ).toFloat( &ok );
-	
-	if(fields.at(13)=="")
-		M2 = 101.0; 
-	else
-		M2 = fields.at( 13 ).toFloat( &ok );
-	
-	
-	/*
-	M1      = fields.at( 12 ).toFloat( &ok );
-	if ( !ok ) { M1 = -101.0; kDebug() << "M1" << M1 << endl; }
-	M2      = fields.at( 13 ).toFloat( &ok );
-	if ( !ok ) M2 = -101.0;
-	*/
-	diameter = fields.at( 14 ).toFloat( &ok );
-	if ( !ok ) diameter = 0.0;
-	dimensions = fields.at( 15 );
-	albedo  = fields.at( 16 ).toFloat( &ok );
-	if ( !ok ) albedo = 0.0;
-	rot_period = fields.at( 17 ).toFloat( &ok );
-	if ( !ok ) rot_period = 0.0;
-	period  = fields.at( 18 ).toFloat( &ok );
-	if ( !ok ) period = 0.0;
-	earth_moid  = fields.at( 19 ).toDouble( &ok );
-	if ( !ok ) earth_moid = 0.0;
-	orbit_class = fields.at( 20 );
-	
-	if(fields.at(21)=="")
-		K1 = 0.0; 
-	else
-		K1 = fields.at( 21 ).toFloat( &ok );
-	
-	if(fields.at(22)=="")
-		K2 = 0.0; 
-	else
-		K2 = fields.at( 22 ).toFloat( &ok );
-	
-	//K1      = fields.at( 21 ).toFloat( &ok );
-	//if ( !ok ) K1 = -101.0;
-	//K2      = fields.at( 22 ).toFloat( &ok );
-	//if ( !ok ) K2 = -101.0;
+		name   = fields.at( 0 );
+		name   = name.remove( '"' ).trimmed();
+		kDebug()<<name<<endl;
+		mJD    = fields.at( 1 ).toInt();
+		q      = fields.at( 2 ).toDouble();
+		e      = fields.at( 3 ).toDouble();
+		dble_i = fields.at( 4 ).toDouble();
+		dble_w = fields.at( 5 ).toDouble();
+		dble_N = fields.at( 6 ).toDouble();
+		Tp     = fields.at( 7 ).toDouble();
+		orbit_id = fields.at( 8 );
+		orbit_id.remove( '"' );
+		if(fields.at(9)=="")
+			H = -101.0; // Any absolute mag brighter than -100 should be treated as nonsense
+		else
+			H = fields.at( 9 ).toFloat( &ok );
+		if(fields.at(10)=="")
+			G = -101.0; // Same with slope parameter
+		else
+			G = fields.at( 9 ).toFloat( &ok );
+		
+		/*if ( !ok ) 
+		G      = fields.at( 10 ).toFloat( &ok );
+		if ( !ok ) G = -101.0; // Same with slope parameter.
+		*/
+		if ( fields.at( 11 ) == "Y" )
+			neo = true;
+		else
+			neo = false;
+		
+		if(fields.at(12)=="")
+			M1 = 101.0;        
+		else
+			M1 = fields.at( 12 ).toFloat( &ok );
+		
+		if(fields.at(13)=="")
+			M2 = 101.0; 
+		else
+			M2 = fields.at( 13 ).toFloat( &ok );
+		
+		
+		/*
+		M1      = fields.at( 12 ).toFloat( &ok );
+		if ( !ok ) { M1 = -101.0; kDebug() << "M1" << M1 << endl; }
+		M2      = fields.at( 13 ).toFloat( &ok );
+		if ( !ok ) M2 = -101.0;
+		*/
+		diameter = fields.at( 14 ).toFloat( &ok );
+		if ( !ok ) diameter = 0.0;
+		dimensions = fields.at( 15 );
+		albedo  = fields.at( 16 ).toFloat( &ok );
+		if ( !ok ) albedo = 0.0;
+		rot_period = fields.at( 17 ).toFloat( &ok );
+		if ( !ok ) rot_period = 0.0;
+		period  = fields.at( 18 ).toFloat( &ok );
+		if ( !ok ) period = 0.0;
+		earth_moid  = fields.at( 19 ).toDouble( &ok );
+		if ( !ok ) earth_moid = 0.0;
+		orbit_class = fields.at( 20 );
+		
+		if(fields.at(21)=="")
+			K1 = 0.0; 
+		else
+			K1 = fields.at( 21 ).toFloat( &ok );
+		
+		if(fields.at(22)=="")
+			K2 = 0.0; 
+		else
+			K2 = fields.at( 22 ).toFloat( &ok );
+		
+		//K1      = fields.at( 21 ).toFloat( &ok );
+		//if ( !ok ) K1 = -101.0;
+		//K2      = fields.at( 22 ).toFloat( &ok );
+		//if ( !ok ) K2 = -101.0;
 
-	JD = double( mJD ) + 2400000.5;
+		JD = double( mJD ) + 2400000.5;
 
-	com = new KSComet( name, QString(), JD, q, e, dms( dble_i ), dms( dble_w ), dms( dble_N ), Tp, H, G, M1, M2, K1, K2 );
-	com->setOrbitID( orbit_id );
-	com->setNEO( neo );
-	com->setDiameter( diameter );
-	com->setDimensions( dimensions );
-	com->setAlbedo( albedo );
-	com->setRotationPeriod( rot_period );
-	com->setPeriod( period );
-	com->setEarthMOID( earth_moid );
-	com->setOrbitClass( orbit_class );
-	com->setAngularSize( 0.005 );
+		com = new KSComet( name, QString(), JD, q, e, dms( dble_i ), dms( dble_w ), dms( dble_N ), Tp, H, G, M1, M2, K1, K2 );
+		com->setOrbitID( orbit_id );
+		com->setNEO( neo );
+		com->setDiameter( diameter );
+		com->setDimensions( dimensions );
+		com->setAlbedo( albedo );
+		com->setRotationPeriod( rot_period );
+		com->setPeriod( period );
+		com->setEarthMOID( earth_moid );
+		com->setOrbitClass( orbit_class );
+		com->setAngularSize( 0.005 );
 
-	m_ObjectList.append( com );
+		m_ObjectList.append( com );
 
-	//Add *short* name to the list of object names
-	objectNames( SkyObject::COMET ).append( com->name() );
+		//Add *short* name to the list of object names
+		objectNames( SkyObject::COMET ).append( com->name() );
     }
 }
 
