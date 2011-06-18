@@ -35,8 +35,6 @@
 	*@li w     argument of perihelion (w.r.t. J2000.0 ecliptic plane)
 	*@li N     longitude of ascending node (J2000.0 ecliptic)
 	*@li Tp    time of perihelion passage (YYYYMMDD.DDD)
-    *@li H     absolute magnitude
-    *@li G     slope parameter
     *@li M1    comet total magnitude parameter
     *@li M2    comet nuclear magnitude parameter
     *@li K1    total magnitude slope parameter
@@ -62,8 +60,6 @@ public:
     	*@param w the argument of the orbit's perihelion
     	*@param N the longitude of the orbit's ascending node
     	*@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
-        *@param H the absolute magnitude
-        *@param G the slope parameter
         *@param M1 the comet total magnitude parameter
         *@param M2 the comet nuclear magnitude parameter
         *@param K1 the comet total magnitude slope parameter
@@ -71,7 +67,7 @@ public:
     	*/
     KSComet( const QString &s, const QString &image_file,
              long double JD, double q, double e, dms i, dms w, dms N, double Tp,
-	     float H, float G, float M1, float M2, float K1, float K2 );
+			 float M1, float M2, float K1, float K2 );
     
     virtual KSComet* clone() const;
     virtual SkyObject::UID getUID() const;
@@ -97,15 +93,15 @@ public:
     inline double getPerihelion() { return q; }
 
     /**
-     *@return the slope parameter
-     */
-    inline float getSlopeParameter() { return G; }
-
+	 * @return the comet total magnitude parameter 
+	 */
+	inline float getTotalMagnitudeParameter() { return M1; }
+	
     /**
-     *@return the absolute magnitude
-     */
-    inline float getAbsoluteMagnitude() { return H; }
-    
+	 * @return the comet nuclear magnitude parameter 
+	 */
+	inline float getNuclearMagnitudeParameter() { return M2; }
+	
     /**
      *@return the total magnitude slope parameter
      */
@@ -254,7 +250,7 @@ private:
     long double JD, JDp;
     double q, e, a, P, EarthMOID;
     double TailSize, TailAngSize, ComaSize, NuclearSize; // All in kilometres
-    float H, G, M1, M2, K1, K2, Albedo, Diameter, RotationPeriod, Period;
+    float M1, M2, K1, K2, Albedo, Diameter, RotationPeriod, Period;
     dms i, w, N;
     QString OrbitID, OrbitClass, Dimensions ;
     bool NEO;
