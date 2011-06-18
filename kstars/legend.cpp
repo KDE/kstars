@@ -25,27 +25,120 @@
 #include <QBrush>
 
 const int symbolSize = 15;
-const int bRectHalfWidth = 50;
+const int bRectWidth = 100;
 const int bRectHeight = 60;
 const qreal maxHScalePixels = 200;
 const qreal maxVScalePixels = 100;
+const int xSymbolSpacing = 100;
+const int ySymbolSpacing = 70;
 
-Legend::Legend(KStars *KStars) : m_KStars(KStars)
+Legend::Legend(KStars *KStars)
+    : m_Painter(0), m_KStars(KStars), m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth),
+    m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels), m_MaxVScalePixels(maxVScalePixels),
+    m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
 {}
 
 Legend::~Legend()
-{}
-
-void Legend::paintLegend(QPaintDevice *pd, LEGEND_ORIENTATION orientation, bool scaleOnly)
 {
-    SkyQPainter painter(m_KStars, pd);
-    painter.begin();
-    painter.drawSkyBackground();
+    if(m_Painter)
+    {
+        delete m_Painter;
+    }
+}
 
-    painter.setFont(QFont("Courier New", 8));
+int Legend::getSymbolSize()
+{
+    return m_SymbolSize;
+}
+
+int Legend::getBRectWidth()
+{
+    return m_BRectWidth;
+}
+
+int Legend::getBRectHeight()
+{
+    return m_BRectHeight;
+}
+
+qreal Legend::getMaxHScalePixels()
+{
+    return m_MaxHScalePixels;
+}
+
+qreal Legend::getMaxVScalePixels()
+{
+    return m_MaxVScalePixels;
+}
+
+int Legend::getXSymbolSpacing()
+{
+    return m_XSymbolSpacing;
+}
+
+int Legend::getYSymbolSpacing()
+{
+    return m_YSymbolSpacing;
+}
+
+void Legend::setSymbolSize(int size)
+{
+    m_SymbolSize = size;
+}
+
+void Legend::setBRectWidth(int width)
+{
+    m_BRectWidth = width;
+}
+
+void Legend::setBRectHeight(int height)
+{
+    m_BRectHeight = height;
+}
+
+void Legend::setMaxHScalePixels(qreal pixels)
+{
+    m_MaxHScalePixels = pixels;
+}
+
+void Legend::setMaxVScalePixels(qreal pixels)
+{
+    m_MaxVScalePixels = pixels;
+}
+
+void Legend::setXSymbolSpacing(int spacing)
+{
+    m_XSymbolSpacing = spacing;
+}
+
+void Legend::setYSymbolSpacing(int spacing)
+{
+    m_YSymbolSpacing = spacing;
+}
+
+void Legend::paintLegend(QPaintDevice *pd, QPoint pos, LEGEND_ORIENTATION orientation, bool scaleOnly)
+{
+    if(m_Painter)
+    {
+        delete m_Painter;
+    }
+
+    m_Painter = new SkyQPainter(m_KStars, pd);
+
+    m_Painter->begin();
+    m_Painter->drawSkyBackground();
+
+    m_Painter->setFont(QFont("Courier New", 8));
+
+    // draw frame
+    m_Painter->setPen(QPen());
+    m_Painter->drawRect(0, 0, pd->width(), pd->height());
 
 //    ColorScheme *scheme = m_KStars->data()->colorScheme();
-//    painter.setBrush(QBrush(scheme->colorNamed("MessColor")));
+//    m_Painter->setBrush(QBrush(scheme->colorNamed("MessColor")));
+
+    int x = pos.x();
+    int y = pos.y();
 
     switch(orientation)
     {
@@ -53,14 +146,14 @@ void Legend::paintLegend(QPaintDevice *pd, LEGEND_ORIENTATION orientation, bool 
         {
             if(scaleOnly)
             {
-                paintScale(QPointF(20.0, 20.0), orientation, &painter);
+                paintScale(QPointF(x + 20.0, y + 20.0), orientation);
             }
 
             else
             {
-                paintSymbols(QPointF(20.0, 20.0), orientation, &painter);
-                paintMagnitudes(QPointF(10.0, 100.0), orientation, &painter);
-                paintScale(QPointF(200.0, 100.0), orientation, &painter);
+                paintSymbols(QPointF(x + 20.0, y + 20.0), orientation);
+                paintMagnitudes(QPointF(x + 10.0, y + 100.0), orientation);
+                paintScale(QPointF(x + 200.0, y + 100.0), orientation);
             }
 
             break;
@@ -84,10 +177,10 @@ void Legend::paintLegend(QPaintDevice *pd, LEGEND_ORIENTATION orientation, bool 
     default: break; // should never happen
     }
 
-    painter.end();
+    m_Painter->end();
 }
 
-void Legend::paintSymbols(QPointF pos, LEGEND_ORIENTATION orientation, SkyQPainter *painter)
+void Legend::paintSymbols(QPointF pos, LEGEND_ORIENTATION orientation)
 {
     qreal x = pos.x();
     qreal y = pos.y();
@@ -99,55 +192,34 @@ void Legend::paintSymbols(QPointF pos, LEGEND_ORIENTATION orientation, SkyQPaint
     case Legend::LO_HORIZONTAL :
         {
             // paint Open Cluster/Asterism symbol
-            painter->drawDeepSkySymbol(QPointF(x, y), 3, symbolSize, 1, 0);
-            QRectF bRect1(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            //painter->drawRect(bRect1);
             QString label1 = i18n("Open Cluster") + "\n" + i18n("Asterism");
-            painter->drawText(bRect1, label1, QTextOption(Qt::AlignHCenter));
-            x += 100;
+            paintSymbol(QPointF(x, y), 3, 1, 0, label1);
+            x += m_XSymbolSpacing;
 
             // paint Globular Cluster symbol
-            painter->drawDeepSkySymbol(QPointF(x, y), 4, symbolSize, 1, 0);
-            QRectF bRect2(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            //painter->drawRect(bRect2);
-            painter->drawText(bRect2, i18n("Globular Cluster"), QTextOption(Qt::AlignHCenter));
-            x += 100;
+            paintSymbol(QPointF(x, y), 4, 1, 0, i18n("Globular Cluster"));
+            x += m_XSymbolSpacing;
 
             // paint Gaseous Nebula/Dark Nebula symbol
-            painter->drawDeepSkySymbol(QPointF(x, y), 5, symbolSize, 1, 0);
-            QRectF bRect3(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            //painter->drawRect(bRect3);
             QString label3 = i18n("Gaseous Nebula") + "\n" + i18n("Dark Nebula");
-            painter->drawText(bRect3, label3, QTextOption(Qt::AlignHCenter));
-            x += 100;
+            paintSymbol(QPointF(x, y), 5, 1, 0, label3);
+            x += m_XSymbolSpacing;
 
             // paint Planetary Nebula symbol
-            painter->drawDeepSkySymbol(QPointF(x, y), 6, symbolSize, 1, 0);
-            QRectF bRect4(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            //painter->drawRect(bRect4);
-            painter->drawText(bRect4, i18n("Planetary Nebula"), QTextOption(Qt::AlignHCenter));
-            x += 100;
+            paintSymbol(QPointF(x, y), 6, 1, 0, i18n("Planetary Nebula"));
+            x += m_XSymbolSpacing;
 
             // paint Supernova Remnant
-            painter->drawDeepSkySymbol(QPointF(x, y), 7, symbolSize, 1, 0);
-            QRectF bRect5(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            //painter->drawRect(bRect5);
-            painter->drawText(bRect5, i18n("Supernova Remnant"), QTextOption(Qt::AlignHCenter));
-            x += 100;
+            paintSymbol(QPointF(x, y), 7, 1, 0, i18n("Supernova Remnant"));
+            x += m_XSymbolSpacing;
 
             // paint Galaxy/Quasar
-            painter->drawDeepSkySymbol(QPointF(x, y), 8, symbolSize, 0.5, 60);
-            QRectF bRect6(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            //painter->drawRect(bRect6);
             QString label6 = i18n("Galaxy") + "\n" + i18n("Quasar");
-            painter->drawText(bRect6, label6, QTextOption(Qt::AlignHCenter));
-            x += 100;
+            paintSymbol(QPointF(x, y), 8, 0.5, 60, label6);
+            x += m_XSymbolSpacing;
 
             // paint Galaxy Cluster
-            painter->drawDeepSkySymbol(QPointF(x, y), 14, symbolSize, 1, 0);
-            QRectF bRect7(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            //painter->drawRect(bRect7);
-            painter->drawText(bRect7, i18n("Galactic Cluster"), QTextOption(Qt::AlignHCenter));
+            paintSymbol(QPointF(x, y), 14, 1, 0, i18n("Galactic Cluster"));
 
             break;
         }
@@ -155,52 +227,34 @@ void Legend::paintSymbols(QPointF pos, LEGEND_ORIENTATION orientation, SkyQPaint
     case Legend::LO_VERTICAL :
         {
             // paint Open Cluster/Asterism symbol
-            painter->drawDeepSkySymbol(QPointF(x, y), 3, symbolSize, 1, 0);
-            QRectF bRect1(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
             QString label1 = i18n("Open Cluster") + "\n" + i18n("Asterism");
-            painter->drawText(bRect1, label1, QTextOption(Qt::AlignHCenter));
-            y += 70;
+            paintSymbol(QPointF(x, y), 3, 1, 0, label1);
+            y += m_YSymbolSpacing;
 
             // paint Globular Cluster symbol
-            painter->drawDeepSkySymbol(QPointF(x, y), 4, symbolSize, 1, 0);
-            QRectF bRect2(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            painter->drawRect(bRect2);
-            painter->drawText(bRect2, i18n("Globular Cluster"), QTextOption(Qt::AlignHCenter));
-            y += 70;
+            paintSymbol(QPointF(x, y), 4, 1, 0, i18n("Globular Cluster"));
+            y += m_YSymbolSpacing;
 
             // paint Gaseous Nebula/Dark Nebula symbol
-            painter->drawDeepSkySymbol(QPointF(x, y), 5, symbolSize, 1, 0);
-            QRectF bRect3(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
             QString label3 = i18n("Gaseous Nebula") + "\n" + i18n("Dark Nebula");
-            painter->drawText(bRect3, label3, QTextOption(Qt::AlignHCenter));
-            y += 70;
+            paintSymbol(QPointF(x, y), 5, 1, 0, label3);
+            y += m_YSymbolSpacing;
 
             // paint Planetary Nebula symbol
-            painter->drawDeepSkySymbol(QPointF(x, y), 6, symbolSize, 1, 0);
-            QRectF bRect4(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            painter->drawRect(bRect4);
-            painter->drawText(bRect4, i18n("Planetary Nebula"), QTextOption(Qt::AlignHCenter));
-            y += 70;
+            paintSymbol(QPointF(x, y), 6, 1, 0, i18n("Planetary Nebula"));
+            y += m_YSymbolSpacing;
 
             // paint Supernova Remnant
-            painter->drawDeepSkySymbol(QPointF(x, y), 7, symbolSize, 1, 0);
-            QRectF bRect5(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            painter->drawRect(bRect5);
-            painter->drawText(bRect5, i18n("Supernova Remnant"), QTextOption(Qt::AlignHCenter));
-            y += 70;
+            paintSymbol(QPointF(x, y), 7, 1, 0, i18n("Supernova Remnant"));
+            y += m_YSymbolSpacing;
 
             // paint Galaxy/Quasar
-            painter->drawDeepSkySymbol(QPointF(x, y), 8, symbolSize, 0.5, 60);
-            QRectF bRect6(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
             QString label6 = i18n("Galaxy") + "\n" + i18n("Quasar");
-            painter->drawText(bRect6, label6, QTextOption(Qt::AlignHCenter));
-            y += 70;
+            paintSymbol(QPointF(x, y), 8, 0.5, 60, label6);
+            y += m_YSymbolSpacing;
 
             // paint Galaxy Cluster
-            painter->drawDeepSkySymbol(QPointF(x, y), 14, symbolSize, 1, 0);
-            QRectF bRect7(QPoint(x - bRectHalfWidth, y + symbolSize), QPoint(x + bRectHalfWidth, y + bRectHeight));
-            painter->drawRect(bRect7);
-            painter->drawText(bRect7, i18n("Galactic Cluster"), QTextOption(Qt::AlignHCenter));
+            paintSymbol(QPointF(x, y), 14, 1, 0, i18n("Galactic Cluster"));
 
             break;
         }
@@ -208,7 +262,21 @@ void Legend::paintSymbols(QPointF pos, LEGEND_ORIENTATION orientation, SkyQPaint
     }
 }
 
-void Legend::paintMagnitudes(QPointF pos, LEGEND_ORIENTATION orientation,  SkyQPainter *painter)
+void Legend::paintSymbol(QPointF pos, int type, float e, float angle, QString label)
+{
+    qreal x = pos.x();
+    qreal y = pos.y();
+    qreal bRectHalfWidth = m_BRectWidth / 2;
+
+    // paint symbol
+    m_Painter->drawDeepSkySymbol(pos, type, m_SymbolSize, e, angle);
+    QRectF bRect(QPoint(x - bRectHalfWidth, y + m_SymbolSize), QPoint(x + bRectHalfWidth, y + m_BRectHeight));
+    //m_Painter->drawRect(bRect);
+    // paint label
+    m_Painter->drawText(bRect, label, QTextOption(Qt::AlignHCenter));
+}
+
+void Legend::paintMagnitudes(QPointF pos, LEGEND_ORIENTATION orientation)
 {
     qreal x = pos.x();
     qreal y = pos.y();
@@ -217,13 +285,13 @@ void Legend::paintMagnitudes(QPointF pos, LEGEND_ORIENTATION orientation,  SkyQP
     {
     case LO_HORIZONTAL:
         {
-            painter->drawText(x, y, i18n("Star Magnitudes:"));
+            m_Painter->drawText(x, y, i18n("Star Magnitudes:"));
             y += 15;
 
             for(int i = 1; i <= 9; i += 2)
             {
-                painter->drawPointSource(QPointF(x + i * 10, y), painter->starWidth(i));
-                painter->drawText(x + i * 10 - 4, y + 20, QString::number(i));
+                m_Painter->drawPointSource(QPointF(x + i * 10, y), m_Painter->starWidth(i));
+                m_Painter->drawText(x + i * 10 - 4, y + 20, QString::number(i));
             }
 
             break;
@@ -231,13 +299,13 @@ void Legend::paintMagnitudes(QPointF pos, LEGEND_ORIENTATION orientation,  SkyQP
 
     case LO_VERTICAL:
         {
-            painter->drawText(x, y, i18n("Star Magnitudes:"));
+            m_Painter->drawText(x, y, i18n("Star Magnitudes:"));
             y += 15;
 
             for(int i = 1; i <= 9; i += 2)
             {
-                painter->drawPointSource(QPointF(x, y + i * 10), painter->starWidth(i));
-                painter->drawText(x - 15, y + i * 10 + 3, QString::number(i));
+                m_Painter->drawPointSource(QPointF(x, y + i * 10), m_Painter->starWidth(i));
+                m_Painter->drawText(x - 15, y + i * 10 + 3, QString::number(i));
             }
 
             break;
@@ -247,7 +315,7 @@ void Legend::paintMagnitudes(QPointF pos, LEGEND_ORIENTATION orientation,  SkyQP
     }
 }
 
-void Legend::paintScale(QPointF pos, LEGEND_ORIENTATION orientation, SkyQPainter *painter)
+void Legend::paintScale(QPointF pos, LEGEND_ORIENTATION orientation)
 {
     qreal maxScalePixels;
 
@@ -255,41 +323,41 @@ void Legend::paintScale(QPointF pos, LEGEND_ORIENTATION orientation, SkyQPainter
     {
     case LO_HORIZONTAL:
         {
-            maxScalePixels = maxHScalePixels;
+            maxScalePixels = m_MaxHScalePixels;
             break;
         }
 
     case LO_VERTICAL:
         {
-            maxScalePixels = maxVScalePixels;
+            maxScalePixels = m_MaxVScalePixels;
             break;
         }
 
     default: return; // should never happen
     }
 
-    qreal maxArcsect = maxScalePixels * 57.3 * 3600 / Options::zoomFactor();
+    qreal maxArcsec = maxScalePixels * 57.3 * 3600 / Options::zoomFactor();
 
     int deg = 0;
     int arcmin = 0;
     int arcsec = 0;
 
     QString lab;
-    if(maxArcsect >= 3600)
+    if(maxArcsec >= 3600)
     {
-        deg = maxArcsect / 3600;
+        deg = maxArcsec / 3600;
         lab = QString::number(deg) + QString::fromWCharArray(L"\u00B0");
     }
 
-    else if(maxArcsect >= 60)
+    else if(maxArcsec >= 60)
     {
-        arcmin = maxArcsect / 60;
+        arcmin = maxArcsec / 60;
         lab = QString::number(arcmin) + "'";
     }
 
     else
     {
-         arcsec = maxArcsect;
+         arcsec = maxArcsec;
          lab = QString::number(arcsec) + "\"";
     }
 
@@ -304,16 +372,16 @@ void Legend::paintScale(QPointF pos, LEGEND_ORIENTATION orientation, SkyQPainter
     {
     case LO_HORIZONTAL:
         {
-            painter->drawText(pos, i18n("Chart Scale:"));
+            m_Painter->drawText(pos, i18n("Chart Scale:"));
             y += 15;
 
-            painter->drawLine(x, y, x + size, y);
+            m_Painter->drawLine(x, y, x + size, y);
             // paint line endings
-            painter->drawLine(x, y - 5, x, y + 5);
-            painter->drawLine(x + size, y - 5, x + size, y + 5);
+            m_Painter->drawLine(x, y - 5, x, y + 5);
+            m_Painter->drawLine(x + size, y - 5, x + size, y + 5);
             // paint scale text
             QRectF bRect(QPoint(x, y), QPoint(x + size, y + 20));
-            painter->drawText(bRect, lab, QTextOption(Qt::AlignHCenter));
+            m_Painter->drawText(bRect, lab, QTextOption(Qt::AlignHCenter));
 
             break;
         }
