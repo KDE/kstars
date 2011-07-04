@@ -284,6 +284,7 @@ set(kstars_dialogs_SRCS
   dialogs/fovdialog.cpp
   dialogs/locationdialog.cpp
   dialogs/timedialog.cpp
+  dialogs/exportimagedialog.cpp
 )
 
 set(kstars_dialogsui_SRCS
@@ -303,6 +304,7 @@ set(kstars_dialogsui_SRCS
   dialogs/wizlocation.ui
   dialogs/wizdownload.ui
   dialogs/newfov.ui
+  dialogs/exportimagedialog.ui
 )
 
 set(kstars_projection_SRCS

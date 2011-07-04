@@ -26,24 +26,31 @@
 
 const int symbolSize = 15;
 const int bRectWidth = 100;
-const int bRectHeight = 60;
+const int bRectHeight = 45;
 const qreal maxHScalePixels = 200;
 const qreal maxVScalePixels = 100;
 const int xSymbolSpacing = 100;
 const int ySymbolSpacing = 70;
 
-Legend::Legend(KStars *KStars)
-    : m_Painter(0), m_KStars(KStars), m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth),
-    m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels), m_MaxVScalePixels(maxVScalePixels),
-    m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
+const int frameWidth = 2;
+
+Legend::Legend(KStars *KStars, LEGEND_ORIENTATION orientation)
+    : m_Painter(0), m_KStars(KStars), m_DeletePainter(false), m_Orientation(orientation), m_cScheme(KStars->data()->colorScheme()),
+    m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
+    m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
 {}
 
 Legend::~Legend()
 {
-    if(m_Painter)
+    if(m_Painter && m_DeletePainter)
     {
         delete m_Painter;
     }
+}
+
+Legend::LEGEND_ORIENTATION Legend::getOrientation()
+{
+    return m_Orientation;
 }
 
 int Legend::getSymbolSize()
@@ -81,6 +88,16 @@ int Legend::getYSymbolSpacing()
     return m_YSymbolSpacing;
 }
 
+QFont Legend::getFont()
+{
+    return m_Font;
+}
+
+void Legend::setOrientation(LEGEND_ORIENTATION orientation)
+{
+    m_Orientation = orientation;
+}
+
 void Legend::setSymbolSize(int size)
 {
     m_SymbolSize = size;
@@ -116,44 +133,30 @@ void Legend::setYSymbolSpacing(int spacing)
     m_YSymbolSpacing = spacing;
 }
 
-void Legend::paintLegend(QPaintDevice *pd, QPoint pos, LEGEND_ORIENTATION orientation, bool scaleOnly)
+void Legend::setFont(const QFont &font)
 {
-    if(m_Painter)
-    {
-        delete m_Painter;
-    }
+    m_Font = font;
+}
 
-    m_Painter = new SkyQPainter(m_KStars, pd);
+QSize Legend::calculateSize(bool scaleOnly)
+{
+    int width = 0;
+    int height = 0;
 
-    m_Painter->begin();
-    m_Painter->drawSkyBackground();
-
-    m_Painter->setFont(QFont("Courier New", 8));
-
-    // draw frame
-    m_Painter->setPen(QPen());
-    m_Painter->drawRect(0, 0, pd->width(), pd->height());
-
-//    ColorScheme *scheme = m_KStars->data()->colorScheme();
-//    m_Painter->setBrush(QBrush(scheme->colorNamed("MessColor")));
-
-    int x = pos.x();
-    int y = pos.y();
-
-    switch(orientation)
+    switch(m_Orientation)
     {
     case LO_HORIZONTAL:
         {
             if(scaleOnly)
             {
-                paintScale(QPointF(x + 20.0, y + 20.0), orientation);
+                width = 40 + m_MaxHScalePixels + 2 * frameWidth;
+                height = 60 + 2 * frameWidth;
             }
 
             else
             {
-                paintSymbols(QPointF(x + 20.0, y + 20.0), orientation);
-                paintMagnitudes(QPointF(x + 10.0, y + 100.0), orientation);
-                paintScale(QPointF(x + 200.0, y + 100.0), orientation);
+                width = 7 * m_XSymbolSpacing + 2 * frameWidth;
+                height = 20 + m_SymbolSize + m_BRectHeight + 70 + 2 * frameWidth;
             }
 
             break;
@@ -163,7 +166,8 @@ void Legend::paintLegend(QPaintDevice *pd, QPoint pos, LEGEND_ORIENTATION orient
         {
             if(scaleOnly)
             {
-                // TODO
+                width = 50;
+                height = 40 + m_MaxVScalePixels;
             }
 
             else
@@ -174,20 +178,107 @@ void Legend::paintLegend(QPaintDevice *pd, QPoint pos, LEGEND_ORIENTATION orient
             break;
         }
 
-    default: break; // should never happen
+    default:
+        {
+            return QSize();
+        }
     }
+
+    return QSize(width, height);
+}
+
+void Legend::paintLegend(QPaintDevice *pd, QPoint pos, bool scaleOnly)
+{
+    if(m_Painter)
+    {
+        delete m_Painter;
+    }
+
+    m_Painter = new SkyQPainter(m_KStars, pd);
+    m_DeletePainter = true;
+    m_Painter->begin();
+
+    paintLegend(m_Painter, pos, scaleOnly);
 
     m_Painter->end();
 }
 
-void Legend::paintSymbols(QPointF pos, LEGEND_ORIENTATION orientation)
+void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
+{
+    if(!m_DeletePainter)
+    {
+        m_Painter = painter;
+    }
+
+    m_Painter->translate(pos.x(), pos.y());
+
+    m_Painter->setFont(m_Font);
+
+    QBrush backgroundBrush(m_cScheme->colorNamed("SkyColor"), Qt::SolidPattern);
+    QPen backgroundPen(m_cScheme->colorNamed("SNameColor"));
+    backgroundPen.setWidth(frameWidth);
+    backgroundPen.setStyle(Qt::SolidLine);
+
+    // set brush & pen
+    m_Painter->setBrush(backgroundBrush);
+    m_Painter->setPen(backgroundPen);
+
+    // draw frame
+    QSize size = calculateSize(scaleOnly);
+    m_Painter->drawRect(0, 0, size.width(), size.height());
+
+    // revert to old line width for symbols
+    backgroundPen.setWidth(1);
+    m_Painter->setPen(backgroundPen);
+
+    switch(m_Orientation)
+    {
+    case LO_HORIZONTAL:
+        {
+            if(scaleOnly)
+            {
+                paintScale(QPointF(20.0, 20.0));
+            }
+
+            else
+            {
+                paintSymbols(QPointF(20.0, 20.0));
+                paintMagnitudes(QPointF(10.0, 40.0 + m_SymbolSize + m_BRectHeight));
+                paintScale(QPointF(200.0, 40.0 + m_SymbolSize + m_BRectHeight));
+            }
+
+            break;
+        }
+
+    case LO_VERTICAL:
+        {
+            if(scaleOnly)
+            {
+                paintScale(QPointF(20.0, 20.0));
+            }
+
+            else
+            {
+                paintSymbols(QPointF(20.0, 20.0));
+                paintMagnitudes(QPointF(20.0, 500));
+                paintScale(QPointF(20.0, 550.0));
+            }
+
+            break;
+        }
+
+    default: break; // should never happen
+    }
+}
+
+void Legend::paintSymbols(QPointF pos)
 {
     qreal x = pos.x();
     qreal y = pos.y();
 
     x += 30;
 
-    switch(orientation)
+    switch(m_Orientation)
     {
     case Legend::LO_HORIZONTAL :
         {
@@ -270,56 +361,32 @@ void Legend::paintSymbol(QPointF pos, int type, float e, float angle, QString la
 
     // paint symbol
     m_Painter->drawDeepSkySymbol(pos, type, m_SymbolSize, e, angle);
-    QRectF bRect(QPoint(x - bRectHalfWidth, y + m_SymbolSize), QPoint(x + bRectHalfWidth, y + m_BRectHeight));
+    QRectF bRect(QPoint(x - bRectHalfWidth, y + m_SymbolSize), QPoint(x + bRectHalfWidth, y + m_SymbolSize + m_BRectHeight));
     //m_Painter->drawRect(bRect);
     // paint label
     m_Painter->drawText(bRect, label, QTextOption(Qt::AlignHCenter));
 }
 
-void Legend::paintMagnitudes(QPointF pos, LEGEND_ORIENTATION orientation)
+void Legend::paintMagnitudes(QPointF pos)
 {
     qreal x = pos.x();
     qreal y = pos.y();
 
-    switch(orientation)
+    m_Painter->drawText(x, y, i18n("Star Magnitudes:"));
+    y += 15;
+
+    for(int i = 1; i <= 9; i += 2)
     {
-    case LO_HORIZONTAL:
-        {
-            m_Painter->drawText(x, y, i18n("Star Magnitudes:"));
-            y += 15;
-
-            for(int i = 1; i <= 9; i += 2)
-            {
-                m_Painter->drawPointSource(QPointF(x + i * 10, y), m_Painter->starWidth(i));
-                m_Painter->drawText(x + i * 10 - 4, y + 20, QString::number(i));
-            }
-
-            break;
-        }
-
-    case LO_VERTICAL:
-        {
-            m_Painter->drawText(x, y, i18n("Star Magnitudes:"));
-            y += 15;
-
-            for(int i = 1; i <= 9; i += 2)
-            {
-                m_Painter->drawPointSource(QPointF(x, y + i * 10), m_Painter->starWidth(i));
-                m_Painter->drawText(x - 15, y + i * 10 + 3, QString::number(i));
-            }
-
-            break;
-        }
-
-    default: return; // should never happen
+        m_Painter->drawPointSource(QPointF(x + i * 10, y), m_Painter->starWidth(i));
+        m_Painter->drawText(x + i * 10 - 4, y + 20, QString::number(i));
     }
 }
 
-void Legend::paintScale(QPointF pos, LEGEND_ORIENTATION orientation)
+void Legend::paintScale(QPointF pos)
 {
     qreal maxScalePixels;
 
-    switch(orientation)
+    switch(m_Orientation)
     {
     case LO_HORIZONTAL:
         {
@@ -368,7 +435,7 @@ void Legend::paintScale(QPointF pos, LEGEND_ORIENTATION orientation)
     qreal x = pos.x();
     qreal y = pos.y();
 
-    switch(orientation)
+    switch(m_Orientation)
     {
     case LO_HORIZONTAL:
         {
@@ -379,6 +446,7 @@ void Legend::paintScale(QPointF pos, LEGEND_ORIENTATION orientation)
             // paint line endings
             m_Painter->drawLine(x, y - 5, x, y + 5);
             m_Painter->drawLine(x + size, y - 5, x + size, y + 5);
+
             // paint scale text
             QRectF bRect(QPoint(x, y), QPoint(x + size, y + 20));
             m_Painter->drawText(bRect, lab, QTextOption(Qt::AlignHCenter));
@@ -388,7 +456,19 @@ void Legend::paintScale(QPointF pos, LEGEND_ORIENTATION orientation)
 
     case LO_VERTICAL:
         {
-            // TODO
+            m_Painter->drawText(pos, i18n("Chart Scale:"));
+            y += 15;
+
+            m_Painter->drawLine(x, y, x, y + size);
+            // paint line endings
+            m_Painter->drawLine(x - 5, y, x + 5, y);
+            m_Painter->drawLine(x - 5, y + size, x + 5, y + size);
+
+            // paint scale text
+            QRectF bRect(QPoint(x + 5, y), QPoint(x + 20, y + size));
+            //m_Painter->drawRect(bRect);
+            m_Painter->drawText(bRect, lab, QTextOption(Qt::AlignVCenter));
+
             break;
         }
 

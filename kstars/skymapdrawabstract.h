@@ -24,6 +24,7 @@
 #include <QPaintDevice>
 
 class SkyMap;
+class SkyQPainter;
 
 /**
  *@short This class defines the methods that both rendering engines
@@ -93,6 +94,15 @@ class SkyMapDrawAbstract {
     	*@see KStars::slotPrint()
     	*/
     void exportSkyImage( QPaintDevice *pd );
+
+    /**@short Draw the current Sky map using passed SkyQPainter instance. Required when
+      * used QPaintDevice doesn't support drawing using multiple painters (e.g. QSvgGenerator
+      * which generates broken SVG output when more than one QPainter subclass is used).
+      * Passed painter should already be initialized to draw on selected QPaintDevice subclass
+      * using begin() and it won't be ended [end()] by this method.
+      *@param painter pointer to the SkyQPainter already set up to paint on selected QPaintDevice subclass.
+      */
+    void exportSkyImage( SkyQPainter *painter );
 
     /**@short Draw "user labels".  User labels are name labels attached to objects manually with
      * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel

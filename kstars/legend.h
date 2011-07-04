@@ -19,13 +19,17 @@
 #define LEGEND_H
 
 #include <QObject>
+#include <QFont>
 
-class SkyQPainter;
 class QPaintDevice;
 class QPoint;
 class QPointF;
+class QSize;
 class QString;
+
+class SkyQPainter;
 class KStars;
+class ColorScheme;
 
 class Legend
 {
@@ -37,9 +41,10 @@ public:
         LO_VERTICAL
     };
 
-    Legend(KStars *KStars);
+    Legend(KStars *KStars, LEGEND_ORIENTATION orientation = LO_HORIZONTAL);
     ~Legend();
 
+    LEGEND_ORIENTATION getOrientation();
     int getSymbolSize();
     int getBRectWidth();
     int getBRectHeight();
@@ -47,7 +52,9 @@ public:
     qreal getMaxVScalePixels();
     int getXSymbolSpacing();
     int getYSymbolSpacing();
+    QFont getFont();
 
+    void setOrientation(LEGEND_ORIENTATION orientation);
     void setSymbolSize(int size);
     void setBRectWidth(int width);
     void setBRectHeight(int height);
@@ -55,17 +62,26 @@ public:
     void setMaxVScalePixels(qreal pixels);
     void setXSymbolSpacing(int spacing);
     void setYSymbolSpacing(int spacing);
+    void setFont(const QFont &font);
 
-    void paintLegend(QPaintDevice *pd, QPoint pos, LEGEND_ORIENTATION orientation, bool scaleOnly);
+    QSize calculateSize(bool scaleOnly);
+    void paintLegend(QPaintDevice *pd, QPoint pos, bool scaleOnly);
+    void paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly);
 
 private:
-    void paintSymbols(QPointF pos, LEGEND_ORIENTATION orientation);
+    void paintSymbols(QPointF pos);
     void paintSymbol(QPointF pos, int type, float e, float angle, QString label);
-    void paintMagnitudes(QPointF pos, LEGEND_ORIENTATION orientation);
-    void paintScale(QPointF pos, LEGEND_ORIENTATION orientation);
+    void paintMagnitudes(QPointF pos);
+    void paintScale(QPointF pos);
 
     SkyQPainter *m_Painter;
     KStars *m_KStars;
+    bool m_DeletePainter;
+
+    LEGEND_ORIENTATION m_Orientation;
+    ColorScheme *m_cScheme;
+
+    QFont m_Font;
 
     int m_SymbolSize;
     int m_BRectWidth;

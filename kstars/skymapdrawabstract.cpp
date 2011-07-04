@@ -313,19 +313,26 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd ) {
     SkyQPainter p(m_SkyMap, pd); // FIXME: Really, we should be doing this differently. We shouldn't be passing m_SkyMap, but rather, this widget.
     p.begin();
-    p.setRenderHint(QPainter::Antialiasing, Options::useAntialias() );
+
+    exportSkyImage(&p);
+
+    p.end();
+}
+
+void SkyMapDrawAbstract::exportSkyImage( SkyQPainter *painter )
+{
+    painter->setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
     //scale image such that it fills 90% of the x or y dimension on the paint device
-    double xscale = double(p.device()->width()) / double(m_SkyMap->width());
-    double yscale = double(p.device()->height()) / double(m_SkyMap->height());
+    double xscale = double(painter->device()->width()) / double(m_SkyMap->width());
+    double yscale = double(painter->device()->height()) / double(m_SkyMap->height());
     double scale = qMin(xscale,yscale);
 
-    p.scale(scale,scale);
+    painter->scale(scale,scale);
 
-    p.drawSkyBackground();
-    m_KStarsData->skyComposite()->draw( &p );
-    drawOverlays( p );
-    p.end();
+    painter->drawSkyBackground();
+    m_KStarsData->skyComposite()->draw( painter );
+    drawOverlays( *painter );
 }
 
 void SkyMapDrawAbstract::calculateFPS()

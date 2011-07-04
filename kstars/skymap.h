@@ -266,6 +266,8 @@ class SkyMap : public QGraphicsView {
      */
     inline void exportSkyImage( QPaintDevice *pd ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( pd ); }
 
+    inline void exportSkyImage( SkyQPainter *painter) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( painter ); }
+
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
      */
