@@ -2,7 +2,7 @@
                           legend.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : Thu May 26 2011
-    copyright            : (C) 2001 by Rafał Kułaga
+    copyright            : (C) 2011 by Rafał Kułaga
     email                : rl.kulaga@gmail.com
  ***************************************************************************/
 
