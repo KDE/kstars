@@ -35,7 +35,7 @@ const int ySymbolSpacing = 70;
 const int frameWidth = 2;
 
 Legend::Legend(KStars *kstars, LEGEND_ORIENTATION orientation)
-    : m_Painter(0), m_KStars(kstars), m_DeletePainter(false), m_Orientation(orientation), m_cScheme(KStars->data()->colorScheme()),
+    : m_Painter(0), m_KStars(kstars), m_DeletePainter(false), m_Orientation(orientation), m_cScheme(kstars->data()->colorScheme()),
     m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
     m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
 {}
