@@ -32,8 +32,6 @@ const qreal maxVScalePixels = 100;
 const int xSymbolSpacing = 100;
 const int ySymbolSpacing = 70;
 
-const int frameWidth = 2;
-
 Legend::Legend(KStars *kstars, LEGEND_ORIENTATION orientation)
     : m_Painter(0), m_KStars(kstars), m_DeletePainter(false), m_Orientation(orientation), m_cScheme(kstars->data()->colorScheme()),
     m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
@@ -149,14 +147,14 @@ QSize Legend::calculateSize(bool scaleOnly)
         {
             if(scaleOnly)
             {
-                width = 40 + m_MaxHScalePixels + 2 * frameWidth;
-                height = 60 + 2 * frameWidth;
+                width = 40 + m_MaxHScalePixels;
+                height = 60;
             }
 
             else
             {
-                width = 7 * m_XSymbolSpacing + 2 * frameWidth;
-                height = 20 + m_SymbolSize + m_BRectHeight + 70 + 2 * frameWidth;
+                width = 7 * m_XSymbolSpacing;
+                height = 20 + m_SymbolSize + m_BRectHeight + 70;
             }
 
             break;
@@ -166,13 +164,14 @@ QSize Legend::calculateSize(bool scaleOnly)
         {
             if(scaleOnly)
             {
-                width = 50;
+                width = 120;
                 height = 40 + m_MaxVScalePixels;
             }
 
             else
             {
-                // TODO
+                width = 120;
+                height = 100 + 7 * m_YSymbolSpacing + m_MaxVScalePixels;
             }
 
             break;
@@ -216,7 +215,6 @@ void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
 
     QBrush backgroundBrush(m_cScheme->colorNamed("SkyColor"), Qt::SolidPattern);
     QPen backgroundPen(m_cScheme->colorNamed("SNameColor"));
-    backgroundPen.setWidth(frameWidth);
     backgroundPen.setStyle(Qt::SolidLine);
 
     // set brush & pen
@@ -226,10 +224,6 @@ void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
     // draw frame
     QSize size = calculateSize(scaleOnly);
     m_Painter->drawRect(0, 0, size.width(), size.height());
-
-    // revert to old line width for symbols
-    backgroundPen.setWidth(1);
-    m_Painter->setPen(backgroundPen);
 
     switch(m_Orientation)
     {
@@ -259,9 +253,9 @@ void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
 
             else
             {
-                paintSymbols(QPointF(20.0, 20.0));
-                paintMagnitudes(QPointF(20.0, 500));
-                paintScale(QPointF(20.0, 550.0));
+                paintSymbols(QPointF(30.0, 20.0));
+                paintMagnitudes(QPointF(7.0, 30 + 7 * m_YSymbolSpacing));
+                paintScale(QPointF(20.0, 80 + 7 * m_YSymbolSpacing));
             }
 
             break;
@@ -457,7 +451,8 @@ void Legend::paintScale(QPointF pos)
     case LO_VERTICAL:
         {
             m_Painter->drawText(pos, i18n("Chart Scale:"));
-            y += 15;
+            y += 10;
+            x += 40;
 
             m_Painter->drawLine(x, y, x, y + size);
             // paint line endings
