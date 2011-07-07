@@ -31,6 +31,17 @@ class SkyQPainter;
 class KStars;
 class ColorScheme;
 
+/**@class Legend
+ * Legend class is used for painting legends on class inheriting QPaintDevice.
+ * Its methods enable changing settings of legend such as legend type (scale only/full legend),
+ * symbol size, sizes for symbol description's bounding rectangles, symbol spacing etc.
+ * Typical use of this class would be to create instance of Legend class, set all properties
+ * using appropriate methods and paint it by calling paintLegend() method, passing QPaintDevice
+ * or QPainter subclass (useful eg. with QSvgGenerator class, which can't be painted by two QPainter
+ * classes).
+ * @author Rafał Kułaga
+ */
+
 class Legend
 {
 public:
@@ -41,9 +52,16 @@ public:
         LO_VERTICAL
     };
 
-    Legend(KStars *KStars, LEGEND_ORIENTATION orientation = LO_HORIZONTAL);
+    /**@short Default constructor.
+      *@param kstars pointer to KStars instance.
+      *@param orientation legend orientation.
+     */
+    Legend(KStars *kstars, LEGEND_ORIENTATION orientation = LO_HORIZONTAL);
+
+    /**@short Default destructor.*/
     ~Legend();
 
+    // 'getters'
     LEGEND_ORIENTATION getOrientation();
     int getSymbolSize();
     int getBRectWidth();
@@ -54,6 +72,7 @@ public:
     int getYSymbolSpacing();
     QFont getFont();
 
+    // 'setters'
     void setOrientation(LEGEND_ORIENTATION orientation);
     void setSymbolSize(int size);
     void setBRectWidth(int width);
@@ -64,14 +83,59 @@ public:
     void setYSymbolSpacing(int spacing);
     void setFont(const QFont &font);
 
+    /**@short Calculates size of legend that will be painted using current
+      settings.
+      *@param scaleOnly is legend scale-only?
+      *@return size of legend.
+      */
     QSize calculateSize(bool scaleOnly);
+
+    /**@short Paint legend on passed QPaintDevice at selected position.
+      *@param pd QPaintDevice on which legend will be painted.
+      *@param pos position at which legend will be painted (upper left corner of the legend).
+      *@param scaleOnly should legend be painted scale-only?
+      */
     void paintLegend(QPaintDevice *pd, QPoint pos, bool scaleOnly);
+
+    /**@short Paint legend using passed SkyQPainter. This method is used to enable
+      painting on QPaintDevice subclasses that can't be painted by multiple QPainter
+      subclasses (eg. QSvgGenerator).
+      *@param painter that will be used to paint legend.
+      *@param pos position at which legend will be painted (upper left corner of the legend).
+      *@param scaleOnly should legend be painted scale-only?
+      *@note Passed SkyQPainter should be already set up to paint at specific QPaintDevice
+      subclass and should be initialized by its begin() method. After legend is painted, SkyQPainter
+      instance _will not_ be finished, so it's necessary to call end() method manually.
+      */
     void paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly);
 
 private:
+    /**@short Paint all symbols at passed position.
+      *@param pos position at which symbols will be painted (upper left corner).
+      *@note Orientation of the symbols group is determined by current legend orientation.
+      */
     void paintSymbols(QPointF pos);
+
+    /**@short Paint single symbol with specified parameters.
+      *@param pos position at which symbol will be painted (center).
+      *@param type symbol type (see SkyQPainter class for symbol types list).
+      *@param e e parameter of symbol.
+      *@param angle angle of symbol (in degrees).
+      *@param label symbol label.
+      */
     void paintSymbol(QPointF pos, int type, float e, float angle, QString label);
+
+    /**@short Paint 'Star Magnitudes' group at passed position.
+      *@param pos position at which 'Star Magnitudes' group will be painted (upper left corner).
+      */
     void paintMagnitudes(QPointF pos);
+
+    /**@short Paint chart scale bar at passed position.
+      *@param pos position at which chart scale bar will be painted.
+      *@note Orientation of chart scale bar is determined by current legend orientation. Maximal
+      bar size is determined by current values set by setMaxHScalePixels()/setMaxVScalePixels() method.
+      Exact size is adjusted to full deg/min/sec.
+      */
     void paintScale(QPointF pos);
 
     SkyQPainter *m_Painter;
