@@ -23,6 +23,7 @@
 class KStars;
 class SkyQPainter;
 
+// ExportImageDialog user interface.
 class ExportImageDialogUI : public QFrame, public Ui::ExportImageDialog
 {
     Q_OBJECT
@@ -32,12 +33,24 @@ public:
 };
 
 
+/**@short Export sky image dialog. This dialog enables user to set up basic legend
+  properties before image is exported.
+  */
 class ExportImageDialog : public KDialog
 {
     Q_OBJECT
 
 public:
+    /**short Default constructor. Creates dialog operating on passed URL and
+      output image width and height.
+      *@param kstars KStars instance.
+      *@param url URL for exported image.
+      *@param w exported image width.
+      *@param h exported image height.
+      */
     ExportImageDialog(KStars *kstars, const QString &url, int w, int h);
+
+    /**@short Default destructor. */
     ~ExportImageDialog();
 
 private slots:
