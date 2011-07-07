@@ -242,6 +242,9 @@ void ExportImageDialog::addLegend(SkyQPainter *painter)
 {
     Legend legend(m_KStars);
 
+    // set font for legend labels
+    legend.setFont(QFont("Courier New", 8));
+
     if(m_DialogUI->legendOrientationComboBox->currentIndex() == 1) // orientation: vertical
     {
         legend.setOrientation(Legend::LO_VERTICAL);
