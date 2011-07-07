@@ -208,8 +208,8 @@ void ExportImageDialog::switchLegendConfig(bool newState)
 {
     m_DialogUI->legendOrientationLabel->setEnabled(newState);
     m_DialogUI->legendOrientationComboBox->setEnabled(newState);
-    m_DialogUI->legendStyleLabel->setEnabled(newState);
-    m_DialogUI->legendStyleComboBox->setEnabled(newState);
+    m_DialogUI->legendTypeLabel->setEnabled(newState);
+    m_DialogUI->legendTypeComboBox->setEnabled(newState);
     m_DialogUI->legendPositionLabel->setEnabled(newState);
     m_DialogUI->legendPositionComboBox->setEnabled(newState);
 }
@@ -221,8 +221,8 @@ void ExportImageDialog::setupWidgets()
     m_DialogUI->legendOrientationComboBox->addItem(i18n("Horizontal"));
     m_DialogUI->legendOrientationComboBox->addItem(i18n("Vertical"));
 
-    m_DialogUI->legendStyleComboBox->addItem(i18n("Full legend"));
-    m_DialogUI->legendStyleComboBox->addItem(i18n("Scale only"));
+    m_DialogUI->legendTypeComboBox->addItem(i18n("Full legend"));
+    m_DialogUI->legendTypeComboBox->addItem(i18n("Scale-only"));
 
     QStringList positions;
     positions << i18n("Upper left corner") << i18n("Upper right corner") << i18n("Lower left corner")
@@ -248,7 +248,7 @@ void ExportImageDialog::addLegend(SkyQPainter *painter)
     }
 
     bool scaleOnly = false;
-    if(m_DialogUI->legendStyleComboBox->currentIndex() == 1) // scale only
+    if(m_DialogUI->legendTypeComboBox->currentIndex() == 1) // scale only
     {
         scaleOnly = true;
     }
