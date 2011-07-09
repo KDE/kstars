@@ -38,10 +38,10 @@ inline double deg2arcmin(x) { return (x * 60.0); }
 inline double arcmin2deg(x) { return (x / 60.0); }
 
 /* The following are redundant, but anyway */
-inline double hour2arcsec(x) { return (x * 3600.0); }
-inline double arcsec2hour(x) { return (x / 3600.0); }
-inline double hour2arcmin(x) { return (x * 60.0); }
-inline double arcmin2hour(x) { return (x / 60.0); }
+inline double hour2sec(x) { return (x * 3600.0); }
+inline double sec2hour(x) { return (x / 3600.0); }
+inline double hour2min(x) { return (x * 60.0); }
+inline double min2hour(x) { return (x / 60.0); }
 
 /* Convert DMS / HMS to Degrees / Hours */
 inline double dms2deg(double d, double m, double s) { return (d + m / 60.0 + s/3600.0); }
