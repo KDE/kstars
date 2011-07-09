@@ -104,11 +104,6 @@ while(<>) {
         printf "\n";
     }
 
-    my $_RA1 = $star->{RA} - $pm_millenia * $star->{dRA} / 3600.0;
-    my $_RA2 = $star->{RA} + $pm_millenia * $star->{dRA} / 3600.0;
-    my $_Dec1 = $star->{Dec} - $pm_millenia * $star->{dDec} / (3600.0 * cos( $star->{Dec} * 3.14159265 / 180.0 ));
-    my $_Dec2 = $star->{Dec} + $pm_millenia * $star->{dDec} / (3600.0 * cos( $star->{Dec} * 3.14159265 / 180.0 ));
-
     my ( $RA1, $Dec1 ) = proper_motion_coords( $star->{RA}, $star->{Dec}, $star->{dRA}, $star->{dDec}, -$pm_millenia * 1000 );
     my ( $RA2, $Dec2 ) = proper_motion_coords( $star->{RA}, $star->{Dec}, $star->{dRA}, $star->{dDec}, $pm_millenia * 1000 );
 
