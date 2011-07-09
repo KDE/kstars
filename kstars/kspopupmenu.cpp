@@ -100,7 +100,7 @@ namespace {
 
 
 KSPopupMenu::KSPopupMenu()
-    : KMenu( KStars::Instance() ), m_EditActionMapping(0), m_DeleteActionMapping(0), m_CurrentFlagIdx(-1)
+    : KMenu( KStars::Instance() ), m_CurrentFlagIdx(-1), m_EditActionMapping(0), m_DeleteActionMapping(0)
 {}
 
 KSPopupMenu::~KSPopupMenu()

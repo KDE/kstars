@@ -96,6 +96,11 @@ void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QStr
 }
 
 void FlagComponent::remove( int index ) {
+    // check if flag of required index exists
+    if ( index > pointList().size() - 1 ) {
+        return;
+    }
+
     pointList().removeAt( index );
     m_Epoch.removeAt( index );
     m_FlagImages.removeAt( index );
@@ -210,22 +215,42 @@ int FlagComponent::size() {
 }
 
 QString FlagComponent::epoch( int index ) {
+    if ( index > m_Epoch.size() - 1 ) {
+        return QString();
+    }
+
     return m_Epoch.at( index );
 }
 
 QString FlagComponent::label( int index ) {
+    if ( index > m_Labels.size() - 1 ) {
+        return QString();
+    }
+
     return m_Labels.at( index );
 }
 
 QColor FlagComponent::labelColor( int index ) {
+    if ( index > m_LabelColors.size() -1 ) {
+        return QColor();
+    }
+
     return m_LabelColors.at( index );
 }
 
 QImage FlagComponent::image( int index ) {
+    if ( index > m_Images.size() - 1 ) {
+        return QImage();
+    }
+
     return m_Images.at( m_FlagImages.at( index ) );
 }
 
 QString FlagComponent::imageName( int index ) {
+    if ( index > m_Names.size() - 1 ) {
+        return QString();
+    }
+
     return m_Names.at( m_FlagImages.at( index ) );
 }
 
@@ -287,5 +312,9 @@ int FlagComponent::getFlagForPoint( SkyPoint *point ) {
 }
 
 QImage FlagComponent::imageList( int index ) {
+    if ( index > m_Images.size() - 1 ) {
+        return QImage();
+    }
+
     return m_Images.at( index );
 }
