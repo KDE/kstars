@@ -207,6 +207,10 @@ void KStars::applyConfig( bool doApplyFocus ) {
     }
 }
 
+FlagManager* KStars::getFlagManager() {
+    return fm;
+}
+
 void KStars::updateTime( const bool automaticDSTchange ) {
     // Due to frequently use of this function save data and map pointers for speedup.
     // Save options and geo() to a pointer would not speedup because most of time options

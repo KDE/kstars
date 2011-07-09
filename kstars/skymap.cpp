@@ -51,6 +51,7 @@
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skycomponents/flagcomponent.h"
 #include "widgets/infoboxwidget.h"
 #include "projections/projector.h"
 #include "projections/lambertprojector.h"
@@ -59,6 +60,8 @@
 #include "projections/orthographicprojector.h"
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
+
+#include "tools/flagmanager.h"
 
 #include "texturemanager.h"
 
@@ -585,6 +588,24 @@ void SkyMap::slotEndRulerMode() {
 void SkyMap::slotCancelRulerMode(void) {
     rulerMode = false;
     AngularRuler.clear();
+}
+
+void SkyMap::slotAddFlag() {
+    KStars *ks = KStars::Instance();
+
+    ks->slotFlagManager();
+    ks->getFlagManager()->setRaDec(clickedPoint()->ra(), clickedPoint()->dec());
+}
+
+void SkyMap::slotEditFlag( int flagIdx ) {
+    KStars *ks = KStars::Instance();
+
+    ks->slotFlagManager();
+    ks->getFlagManager()->showFlag( flagIdx );
+}
+
+void SkyMap::slotDeleteFlag( int flagIdx ) {
+    KStars::Instance()->data()->skyComposite()->flags()->remove( flagIdx );
 }
 
 void SkyMap::slotImage() {

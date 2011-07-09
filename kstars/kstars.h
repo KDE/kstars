@@ -153,6 +153,8 @@ public:
      */
     void applyConfig( bool doApplyFocus = true );
 
+    FlagManager* getFlagManager();
+
 public Q_SLOTS:
     /**DBUS interface function.
      * Set focus to given Ra/Dec coordinates
@@ -449,6 +451,9 @@ public Q_SLOTS:
     /** Display position in the status bar. */
     void slotShowPositionBar(SkyPoint*);
 
+    /** action slot: open Flag Manager */
+    void slotFlagManager();
+
 private slots:
     /** action slot: sync kstars clock to system time */
     void slotSetTimeToNow();
@@ -500,9 +505,6 @@ private slots:
 
     /** action slot: open Jupiter Moons tool */
     void slotJMoonTool();
-
-    /** action slot: open Flag Manager */
-    void slotFlagManager();
 
     /** action slot: open Telescope wizard */
     void slotTelescopeWizard();

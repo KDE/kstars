@@ -29,6 +29,7 @@
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/satellite.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skycomponents/flagcomponent.h"
 #include "skymap.h"
 
 #include <config-kstars.h>
@@ -99,11 +100,19 @@ namespace {
 
 
 KSPopupMenu::KSPopupMenu()
-    : KMenu( KStars::Instance() )
+    : KMenu( KStars::Instance() ), m_EditActionMapping(0), m_DeleteActionMapping(0), m_CurrentFlagIdx(-1)
 {}
 
 KSPopupMenu::~KSPopupMenu()
-{}
+{
+    if(m_EditActionMapping) {
+        delete m_EditActionMapping;
+    }
+
+    if(m_DeleteActionMapping) {
+        delete m_DeleteActionMapping;
+    }
+}
 
 void KSPopupMenu::createEmptyMenu( SkyPoint *nullObj ) {
     KStars* ks = KStars::Instance();
@@ -111,6 +120,42 @@ void KSPopupMenu::createEmptyMenu( SkyPoint *nullObj ) {
     initPopupMenu( &o, i18n( "Empty sky" ), QString(), QString(), false, false );
     addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
     addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ),      ks->map(), SLOT( slotDSS()  ) );
+}
+
+void KSPopupMenu::slotEditFlag() {
+    if ( m_CurrentFlagIdx != -1 ) {
+        KStars::Instance()->map()->slotEditFlag( m_CurrentFlagIdx );
+    }
+}
+
+void KSPopupMenu::slotDeleteFlag() {
+    if ( m_CurrentFlagIdx != -1 ) { 
+        KStars::Instance()->map()->slotDeleteFlag( m_CurrentFlagIdx );
+    }
+}
+
+void KSPopupMenu::slotEditFlag( QAction *action ) {
+    int idx = m_EditActionMapping->value( action, -1 );
+
+    if ( idx == -1 ) {
+        return;
+    }
+
+    else {
+        KStars::Instance()->map()->slotEditFlag( idx );
+    }
+}
+
+void KSPopupMenu::slotDeleteFlag( QAction *action ) {
+    int idx = m_DeleteActionMapping->value( action, -1 );
+
+    if ( idx == -1 ) {
+        return;
+    }
+
+    else {
+        KStars::Instance()->map()->slotDeleteFlag( idx );
+    }
 }
 
 void KSPopupMenu::createStarMenu( StarObject *star ) {
@@ -198,7 +243,7 @@ void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
-                                 bool showDetails, bool showObsList )
+                                 bool showDetails, bool showObsList, bool showFlags )
 {
     KStars* ks = KStars::Instance();
 
@@ -222,6 +267,10 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     delete o;
     //Insert item for centering on object
     addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
+
+    //Insert actions for flag operations
+    initFlagActions( obj );
+
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
     addAction( i18n( "Angular Distance To...            [" ), ks->map(),
@@ -268,6 +317,60 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 #endif
     addSeparator();
     addINDI();
+}
+
+void KSPopupMenu::initFlagActions( SkyObject *obj ) {
+    KStars *ks = KStars::Instance();
+
+    // get nearby flags
+    QList<int> flags = ks->data()->skyComposite()->flags()->getFlagsNearPix( obj, 5 );
+
+    if ( flags.size() == 0 ) {
+        // There is no flag around clicked SkyObject
+        addAction( i18n( "Add flag..."), ks->map(), SLOT( slotAddFlag() ) );
+    }
+
+    else if( flags.size() == 1) {
+        // There is only one flag around clicked SkyObject
+        addAction ( i18n ("Edit flag"), this, SLOT( slotEditFlag() ) );
+        addAction ( i18n ("Delete flag"), this, SLOT( slotDeleteFlag() ) );
+
+        m_CurrentFlagIdx = flags.first();
+    }
+
+    else {
+        // There are more than one flags around clicked SkyObject - we need to create submenus
+        QMenu *editMenu = new QMenu ( i18n ( "Edit flag..."), KStars::Instance() );
+        QMenu *deleteMenu = new QMenu ( i18n ( "Delete flag..."), KStars::Instance() );
+
+        connect( editMenu, SIGNAL( triggered(QAction*) ), this, SLOT( slotEditFlag(QAction*) ) );
+        connect( deleteMenu, SIGNAL( triggered(QAction*) ), this, SLOT( slotDeleteFlag(QAction*) ) );
+
+        if ( m_EditActionMapping ) {
+            delete m_EditActionMapping;
+        }
+
+        if ( m_DeleteActionMapping ) {
+            delete m_DeleteActionMapping;
+        }
+
+        m_EditActionMapping = new QHash<QAction*, int>;
+        m_DeleteActionMapping = new QHash<QAction*, int>;
+
+        foreach ( int idx, flags ) {
+            QAction *editAction = new QAction( ks->data()->skyComposite()->flags()->label(idx), ks );
+            editMenu->addAction( editAction );
+            m_EditActionMapping->insert( editAction, idx);
+
+
+            QAction *deleteAction = new QAction( ks->data()->skyComposite()->flags()->label(idx), ks );
+            deleteMenu->addAction( deleteAction );
+            m_DeleteActionMapping->insert( deleteAction, idx);
+        }
+
+        addMenu( editMenu );
+        addMenu( deleteMenu );
+    }
 }
 
 void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {

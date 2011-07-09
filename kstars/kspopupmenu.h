@@ -21,6 +21,7 @@
 
 #include <kmenu.h>
 #include <kaction.h>
+#include <QHash>
 
 class StarObject;
 class SkyPoint;
@@ -112,6 +113,12 @@ public:
      */
     void createEmptyMenu( SkyPoint *nullObj );
 
+private slots:
+    void slotEditFlag();
+    void slotDeleteFlag();
+    void slotEditFlag( QAction *action );
+    void slotDeleteFlag( QAction *action );
+
 private:
     /**Initialize the popup menus. Adds name and type labels, and possibly
      * Rise/Set/Transit labels, Center/Track item, and Show Details item.
@@ -125,7 +132,10 @@ private:
      */
     void initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
                         bool showDetails=true,
-                        bool showObsList=true );
+                        bool showObsList=true,
+                        bool showFlags=true);
+
+    void initFlagActions( SkyObject *obj );
 
     /**Add a submenu for INDI controls (Slew, Track, Sync, etc).
      * @return true if a valid INDI menu was added.
@@ -137,6 +147,10 @@ private:
      * @param deltaFontSize is change in font size from default
      */
     void addFancyLabel(QString name, int deltaFontSize = 0);
+
+    int m_CurrentFlagIdx;
+    QHash<QAction*, int> *m_EditActionMapping;
+    QHash<QAction*, int> *m_DeleteActionMapping;
 };
 
 #endif

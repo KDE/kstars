@@ -60,6 +60,9 @@ public:
      */
     ~FlagManager();
 
+    void setRaDec( const dms &ra, const dms &dec );
+    void showFlag( const int flagIdx );
+
 public slots:
     /**
      *@short Verify coordinates and add a flag
@@ -75,6 +78,10 @@ public slots:
      *@short Center the selected object in the display
      */
     void slotCenterFlag();
+
+
+private slots:
+    void setShownFlag( QModelIndex idx );
 
 private:
     KStars *m_Ks;

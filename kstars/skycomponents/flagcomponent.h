@@ -119,6 +119,12 @@ public:
      */
     QImage imageList( int index );
 
+    QList<int> getFlagsNear( SkyPoint *point, float radius );
+
+    QList<int> getFlagsNearPix( SkyPoint *point, int pixelRadius );
+
+    int getFlagForPoint( SkyPoint *point );
+
 private:
     /**@short Convenience function to convert an epoch number (e.g., 2000.0) 
      * to the corresponding Julian Day number (e.g., 2451545.0).

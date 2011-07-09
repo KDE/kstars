@@ -29,7 +29,7 @@
 #include "skyobjects/skypoint.h"
 #include "ksfilereader.h"
 #include "skypainter.h"
-
+#include "kstars/projections/projector.h"
 
 FlagComponent::FlagComponent( SkyComposite *parent )
     : PointListComponent(parent)
@@ -101,6 +101,9 @@ void FlagComponent::remove( int index ) {
     m_FlagImages.removeAt( index );
     m_Labels.removeAt( index );
     m_LabelColors.removeAt( index );
+
+    // request SkyMap update
+    KStars::Instance()->map()->forceUpdate();
 }
 
 void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
@@ -228,6 +231,59 @@ QString FlagComponent::imageName( int index ) {
 
 QList<QImage> FlagComponent::imageList() {
     return m_Images;
+}
+
+QList<int> FlagComponent::getFlagsNear( SkyPoint *point, float radius )
+{
+    QList<int> retVal;
+
+    int idx = 0;
+    foreach (SkyPoint *cp, pointList()) {
+        if ( cp->angularDistanceTo(point).Degrees() <= radius ) {
+            retVal.append( idx );
+        }
+
+        idx++;
+    }
+
+    return retVal;
+}
+
+QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
+{
+    const Projector *proj = KStars::Instance()->map()->projector();
+    QPointF pos = proj->toScreen(point);
+    QList<int> retVal;
+
+    int ptr = 0;
+    foreach ( SkyPoint *cp, pointList() ) {
+        QPointF pos2 = proj->toScreen(cp);
+        int dx = (pos2 - pos).x();
+        int dy = (pos2 - pos).y();
+
+        if ( sqrt( dx * dx + dy * dy ) <= pixelRadius ) {
+            //point is outside pixelRadius circle
+            retVal.append(ptr);
+        }
+
+        ptr++;
+    }
+
+    return retVal;
+}
+
+int FlagComponent::getFlagForPoint( SkyPoint *point ) {
+
+    int idx = 0;
+    foreach (SkyPoint *cp, pointList() ) {
+        if ( *cp == *point ) {
+            return idx;
+        }
+
+        idx++;
+    }
+
+    return -1;
 }
 
 QImage FlagComponent::imageList( int index ) {

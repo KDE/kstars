@@ -397,6 +397,12 @@ public slots:
      * in the status bar */
     void slotCancelRulerMode();
 
+    void slotAddFlag();
+
+    void slotEditFlag( int flagIdx );
+
+    void slotDeleteFlag( int flagIdx );
+
 #ifdef HAVE_OPENGL
     void slotToggleGL();
 #endif
