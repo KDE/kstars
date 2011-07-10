@@ -217,7 +217,7 @@ void readStarList(FILE *f, int trixel, FILE *names) {
     id = trixel;
     printf("Reading star list for trixel %d\n", id);
     rewind(f);
-    offset = index_offset + id * 8; // CAUTION: Change if the size of each entry in the index table changes
+    offset = index_offset + id * INDEX_ENTRY_SIZE; // CAUTION: Change if the size of each entry in the index table changes
     fseek(f, offset, SEEK_SET);
     fread(&trix, 4, 1, f);
     if( byteswap ) trix = bswap_32( trix );
