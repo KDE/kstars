@@ -24,6 +24,9 @@ mysql2bin: mysql2bin.c
 nomadmysql2bin: nomadmysql2bin.c
 	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
 
+nomadbinfile2mysql: nomadbinfile2mysql.c
+	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
+
 nomadmysql2bin-split: nomadmysql2bin-split.c
 	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
 
