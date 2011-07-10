@@ -150,7 +150,7 @@ while(<>) {
 
         # HTMesh::intersect is called (in DeepStarComponent::draw()) with a 1 degree "safety" margin.
 	# So we tolerate upto < 1 degree of proper motion without duplication
-        if( $separation > 50.0 / 60.0 ) {
+        if( $separation > 50 / 60 ) {
 #            $mesh->intersect_poly4( $botRA, $leftDec,
 #                                    $botRA - $epsilon, $leftDec + $epsilon,
 #                                    $topRA - $epsilon, $rightDec - $epsilon,
