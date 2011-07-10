@@ -161,9 +161,9 @@ int verifyStarData( FILE *f ) {
         if( nstars > realMSpT )
             realMSpT = nstars;
         /* If offset > 2^31 - 1, do the fseek in two steps */
-        if( offset > ( 1 << 31 ) - 1 ) {
-            fseek( f, ( 1 << 31 ) - 1, SEEK_SET );
-            fseek( f, offset - ( 1 << 31 ) + 1, SEEK_CUR );
+        if( offset > ( (u_int32_t)1 << 31 ) - 1 ) {
+            fseek( f, ( (u_int32_t)1 << 31 ) - 1, SEEK_SET );
+            fseek( f, offset - ( (u_int32_t)1 << 31 ) + 1, SEEK_CUR );
         }
         else
             fseek( f, offset, SEEK_SET );
