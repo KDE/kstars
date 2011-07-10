@@ -230,10 +230,14 @@ void readStarList(FILE *f, int trixel, FILE *names) {
     fread(&nrecs, 4, 1, f);
     if( byteswap ) nrecs = bswap_32( nrecs );
 
-    if(fseek(f, offset, SEEK_SET)) {
-        fprintf(stderr, "ERROR: Could not seek to position %X in the file. The file is either truncated or the indexes are bogus.\n", offset);
-        return;
+    /* If offset > 2^31 - 1, do the fseek in two steps */
+    if( offset > ( (u_int32_t)1 << 31 ) - 1 ) {
+        fseek( f, ( (u_int32_t)1 << 31 ) - 1, SEEK_SET );
+        fseek( f, offset - ( (u_int32_t)1 << 31 ) + 1, SEEK_CUR );
     }
+    else
+        fseek( f, offset, SEEK_SET );
+
     printf("Data for trixel %d starts at offset 0x%X and has %d records\n", trixel, offset, nrecs);
 
     for(id = 0; id < nrecs; ++id) {
