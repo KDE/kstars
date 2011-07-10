@@ -52,7 +52,7 @@ nomadmysql2bin: nomadmysql2bin.c
 	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
 
 nomadbinfile2mysql: nomadbinfile2mysql.cpp
-	$(CXX) -D_FILE_OFFSET_BITS=64 $(CXXFLAGS) -I../../htmesh `$(MYSQL_CONFIG) --cflags` $@.cpp $(LDFLAGS) `$(MYSQL_CONFIG) --libs` $(KDEINSTALLDIR)/lib/libhtmesh.a -o $@
+	$(CXX) -D_FILE_OFFSET_BITS=64 $(CXXFLAGS) -I../../htmesh -I../.. `$(MYSQL_CONFIG) --cflags` $@.cpp $(LDFLAGS) `$(MYSQL_CONFIG) --libs` $(KDEINSTALLDIR)/lib/libhtmesh.a -o $@
 
 nomadmysql2bin-split: nomadmysql2bin-split.c
 	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
@@ -70,7 +70,7 @@ readnomadbindump: readnomadbindump.c
 	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) $@.c $(LDFLAGS) -lm -o $@
 
 clean:
-	-rm binfiletester mysql2bin nomadmysql2bin nomadmysql2bin-split nomadbinfiletester readnomadbindump
+	-rm binfiletester mysql2bin nomadmysql2bin nomadmysql2bin-split nomadmysql2bin-merge nomadbinfiletester readnomadbindump nomadbinfile2mysql
 	-rm ushf usdf nshf nsdf nf dsdf dshf
 
 datafiles: mysql2bin
