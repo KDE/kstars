@@ -15,7 +15,6 @@ KSTARS_MYSQL_DB_DB=$(KSTARS_MYSQL_DB_USER)
 KSTARS_MYSQL_DB_TBL=tycho2
 KSTARS_NOMAD_MYSQL_DB_TBL=nomad
 
-
 all: mysql2bin binfiletester nomadbinfiletester nomadmysql2bin-merge nomadmysql2bin-split
 
 mysql2bin: mysql2bin.c
@@ -24,8 +23,8 @@ mysql2bin: mysql2bin.c
 nomadmysql2bin: nomadmysql2bin.c
 	$(CC) $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
 
-nomadbinfile2mysql: nomadbinfile2mysql.c
-	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
+nomadbinfile2mysql: nomadbinfile2mysql.cpp
+	$(CXX) -D_FILE_OFFSET_BITS=64 $(CXXFLAGS) -I../../htmesh `$(MYSQL_CONFIG) --cflags` $@.cpp $(LDFLAGS) `$(MYSQL_CONFIG) --libs` $(KDEINSTALLDIR)/lib/libhtmesh.a -o $@
 
 nomadmysql2bin-split: nomadmysql2bin-split.c
 	$(CC) -D_FILE_OFFSET_BITS=64 $(CFLAGS) `$(MYSQL_CONFIG) --cflags` $@.c $(LDFLAGS) `$(MYSQL_CONFIG) --libs` -o $@
