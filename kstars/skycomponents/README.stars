@@ -336,6 +336,8 @@ through in a span of +/-10,000 years from the epoch. StarObject has
 some commented code that can be used to track the position of a
 star. [Maybe this should be turned into a feature in future]
 
+# TODO: Describe details like the 25 arcminute "safety" margin.
+
 7. Henry-Draper Catalog Numbers
 ===============================
 
