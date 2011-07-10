@@ -145,7 +145,11 @@ while(<>) {
 
     my @trixels;
     if( $star->{Name} eq "" && $star->{GName} eq "" ) {
-        my $separation = sqrt( ($botRA - $topRA) * ($botRA - $topRA) + ($leftDec - $rightDec) * ($leftDec - $rightDec) );
+
+        my $separation = sqrt( hour2deg($botRA - $topRA) * hour2deg($botRA - $topRA) + ($leftDec - $rightDec) * ($leftDec - $rightDec) );
+
+        # HTMesh::intersect is called (in DeepStarComponent::draw()) with a 1 degree "safety" margin.
+	# So we tolerate upto < 1 degree of proper motion without duplication
         if( $separation > 50.0 / 60.0 ) {
 #            $mesh->intersect_poly4( $botRA, $leftDec,
 #                                    $botRA - $epsilon, $leftDec + $epsilon,
