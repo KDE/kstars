@@ -200,6 +200,23 @@ class BinFileHelper {
     inline long getIndexTableOffset() { return (FDUpdated ? itableOffset : 0); }
 
     /**
+     *@short Wrapper around fseek for large offsets
+     *
+     * fseek takes a signed long for the offset, since it can be
+     * either positive or negative. If the argument is a 32-bit
+     * unsigned integer, fseek will fail in most situations, since
+     * that will be interpreted as a number of the opposite sign.
+     * This wrapper circumvents that problem by repeatedly calling
+     * fseek twice if the offset is too large. Useful when 64-bit
+     * handling is really not necessary.
+     *
+     *@return Zero on success. Else, error code of the first failing fseek call.
+     *@note Clearly, this method can move forward only. When we need
+     * one that goes back, we'll implement that.
+     */
+    static int unsigned_KDE_fseek( FILE *stream, quint32 offset, int whence );
+
+    /**
      *@short   An enum providing user-friendly names for errors encountered
      */
     enum Errors {
