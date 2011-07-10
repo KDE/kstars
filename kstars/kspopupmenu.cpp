@@ -117,6 +117,8 @@ KSPopupMenu::~KSPopupMenu()
 void KSPopupMenu::createEmptyMenu( SkyPoint *nullObj ) {
     KStars* ks = KStars::Instance();
     SkyObject o( SkyObject::TYPE_UNKNOWN, nullObj->ra(), nullObj->dec() );
+    o.setAlt( nullObj->alt() );
+    o.setAz( nullObj->az() );
     initPopupMenu( &o, i18n( "Empty sky" ), QString(), QString(), false, false );
     addAction( i18nc( "Sloan Digital Sky Survey", "Show SDSS Image" ), ks->map(), SLOT( slotSDSS() ) );
     addAction( i18nc( "Digitized Sky Survey", "Show DSS Image" ),      ks->map(), SLOT( slotDSS()  ) );
@@ -268,8 +270,10 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     //Insert item for centering on object
     addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
 
-    //Insert actions for flag operations
-    initFlagActions( obj );
+    if ( showFlags ) {
+        //Insert actions for flag operations
+        initFlagActions( obj );
+    }
 
     //Insert item for measuring distances
     //FIXME: add key shortcut to menu items properly!
@@ -322,7 +326,6 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 void KSPopupMenu::initFlagActions( SkyObject *obj ) {
     KStars *ks = KStars::Instance();
 
-    // get nearby flags
     QList<int> flags = ks->data()->skyComposite()->flags()->getFlagsNearPix( obj, 5 );
 
     if ( flags.size() == 0 ) {
@@ -358,12 +361,21 @@ void KSPopupMenu::initFlagActions( SkyObject *obj ) {
         m_DeleteActionMapping = new QHash<QAction*, int>;
 
         foreach ( int idx, flags ) {
-            QAction *editAction = new QAction( ks->data()->skyComposite()->flags()->label(idx), ks );
+            QIcon flagIcon( QPixmap::fromImage( ks->data()->skyComposite()->flags()->image( idx ) ) );
+
+            QString flagLabel = ks->data()->skyComposite()->flags()->label( idx );
+            if ( flagLabel.size() > 35 ) {
+                flagLabel = flagLabel.left( 35 );
+                flagLabel.append( "..." );
+            }
+
+            QAction *editAction = new QAction( flagIcon, flagLabel, ks );
+            editAction->setIconVisibleInMenu( true );
             editMenu->addAction( editAction );
-            m_EditActionMapping->insert( editAction, idx);
+            m_EditActionMapping->insert( editAction, idx );
 
-
-            QAction *deleteAction = new QAction( ks->data()->skyComposite()->flags()->label(idx), ks );
+            QAction *deleteAction = new QAction( flagIcon, flagLabel, ks );
+            deleteAction->setIconVisibleInMenu( true );
             deleteMenu->addAction( deleteAction );
             m_DeleteActionMapping->insert( deleteAction, idx);
         }

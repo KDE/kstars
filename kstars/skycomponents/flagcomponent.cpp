@@ -71,66 +71,7 @@ double FlagComponent::getEpoch (const QString &eName) {
     return epoch;
 }
 
-long double FlagComponent::epochToJd (double epoch) {
-    double yearsTo2000 = 2000.0 - epoch;
-    if (epoch == 1950.0) {
-        return 2433282.4235;
-    } else if ( epoch == 2000.0 ) {
-        return J2000;
-    } else {
-        return ( J2000 - yearsTo2000 * 365.2425 );
-    }
-}
-
-void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
-    pointList().append( flagPoint );
-    m_Epoch.append( epoch );
-
-    for(int i = 0; i<m_Names.size(); i++ ) {
-        if( image == m_Names.at( i ) )
-            m_FlagImages.append( i );
-    }
-
-    m_Labels.append( label );
-    m_LabelColors.append( labelColor );
-}
-
-void FlagComponent::remove( int index ) {
-    // check if flag of required index exists
-    if ( index > pointList().size() - 1 ) {
-        return;
-    }
-
-    pointList().removeAt( index );
-    m_Epoch.removeAt( index );
-    m_FlagImages.removeAt( index );
-    m_Labels.removeAt( index );
-    m_LabelColors.removeAt( index );
-
-    // request SkyMap update
-    KStars::Instance()->map()->forceUpdate();
-}
-
-void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
-    // Add the default flag images to available images list
-    m_Names.append( i18n ("Default" ) );
-    m_Images.append( QImage( KStandardDirs::locate( "appdata", "defaultflag.gif" ) ));
-
-    // Add all other images found in user appdata directory
-    foreach( KIO::UDSEntry entry, list) {
-        KFileItem item(entry, m_Job->url(), false, true);
-        if( item.name().startsWith( "_flag" ) ) {
-            QString fileName = item.name()
-                .replace(QRegExp("\\.[^.]*$"), QString())
-                .replace(QRegExp("^_flag"),   QString())
-                .replace('_',' ');
-            m_Names.append( fileName );
-            m_Images.append( QImage( item.localPath() ));
-        }
-    }
-}
-
-void FlagComponent::slotInit( KJob *job ) {
+void FlagComponent::loadFromFile() {
     KSFileReader fileReader;
     bool imageFound = false;
 
@@ -200,6 +141,113 @@ void FlagComponent::slotInit( KJob *job ) {
             str += line.at( i ) + ' ';
         m_Labels.append( str );
     }
+}
+
+void FlagComponent::saveToFile() {
+    QString str;
+    QByteArray line;
+
+    QFile file( KStandardDirs::locateLocal( "appdata", "flags.dat.tmp" ) );
+    file.open( QIODevice::WriteOnly | QIODevice::Text );
+
+    for ( int i=0; i < size(); ++i ) {
+        line.append( str.setNum( pointList().at( i )->ra0().Degrees() ).toAscii() + ' '
+                     + str.setNum( pointList().at( i )->dec0().Degrees() ).toAscii() + ' '
+                     + epoch( i ).toAscii() + ' '
+                     + imageName( i ).replace( ' ', '_' ).toAscii() + ' '
+                     + label( i ).toAscii() + ' '
+                     + labelColor( i ).name().toAscii() + '\n' );
+
+        file.write( line );
+        line.clear();
+    }
+
+    QFile::remove( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
+    file.rename( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
+    file.close();
+}
+
+long double FlagComponent::epochToJd (double epoch) {
+    double yearsTo2000 = 2000.0 - epoch;
+    if (epoch == 1950.0) {
+        return 2433282.4235;
+    } else if ( epoch == 2000.0 ) {
+        return J2000;
+    } else {
+        return ( J2000 - yearsTo2000 * 365.2425 );
+    }
+}
+
+void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
+    pointList().append( flagPoint );
+    m_Epoch.append( epoch );
+
+    for(int i = 0; i<m_Names.size(); i++ ) {
+        if( image == m_Names.at( i ) )
+            m_FlagImages.append( i );
+    }
+
+    m_Labels.append( label );
+    m_LabelColors.append( labelColor );
+}
+
+void FlagComponent::remove( int index ) {
+    // check if flag of required index exists
+    if ( index > pointList().size() - 1 ) {
+        return;
+    }
+
+    pointList().removeAt( index );
+    m_Epoch.removeAt( index );
+    m_FlagImages.removeAt( index );
+    m_Labels.removeAt( index );
+    m_LabelColors.removeAt( index );
+
+    // request SkyMap update
+    KStars::Instance()->map()->forceUpdate();
+}
+
+void FlagComponent::updateFlag( int index, SkyPoint *flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
+    if ( index > pointList().size() -1 ) {
+        return;
+    }
+    delete pointList().at( index );
+    pointList().replace( index, flagPoint);
+
+    m_Epoch.replace( index, epoch );
+
+    for(int i = 0; i<m_Names.size(); i++ ) {
+        if( image == m_Names.at( i ) )
+            m_FlagImages.replace( index, i );
+    }
+
+    m_Labels.replace( index, label );
+    m_LabelColors.replace( index, labelColor );
+}
+
+void FlagComponent::slotLoadImages( KIO::Job*, const KIO::UDSEntryList& list ) {
+    // Add the default flag images to available images list
+    m_Names.append( i18n ("Default" ) );
+    m_Images.append( QImage( KStandardDirs::locate( "appdata", "defaultflag.gif" ) ));
+
+    // Add all other images found in user appdata directory
+    foreach( KIO::UDSEntry entry, list) {
+        KFileItem item(entry, m_Job->url(), false, true);
+        if( item.name().startsWith( "_flag" ) ) {
+            QString fileName = item.name()
+                .replace(QRegExp("\\.[^.]*$"), QString())
+                .replace(QRegExp("^_flag"),   QString())
+                .replace('_',' ');
+            m_Names.append( fileName );
+            m_Images.append( QImage( item.localPath() ));
+        }
+    }
+}
+
+void FlagComponent::slotInit( KJob *job ) {
+    Q_UNUSED (job)
+
+    loadFromFile();
 
     // Redraw Skymap
     KStars::Instance()->map()->forceUpdate(false);
@@ -239,7 +287,11 @@ QColor FlagComponent::labelColor( int index ) {
 }
 
 QImage FlagComponent::image( int index ) {
-    if ( index > m_Images.size() - 1 ) {
+    if ( index > m_FlagImages.size() - 1 ) {
+        return QImage();
+    }
+
+    if ( m_FlagImages.at( index ) > m_Images.size() - 1 ) {
         return QImage();
     }
 
@@ -247,7 +299,11 @@ QImage FlagComponent::image( int index ) {
 }
 
 QString FlagComponent::imageName( int index ) {
-    if ( index > m_Names.size() - 1 ) {
+    if ( index > m_FlagImages.size() - 1 ) {
+        return QString();
+    }
+
+    if ( m_FlagImages.at( index ) > m_Names.size() - 1 ) {
         return QString();
     }
 
@@ -287,7 +343,7 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
         int dy = (pos2 - pos).y();
 
         if ( sqrt( dx * dx + dy * dy ) <= pixelRadius ) {
-            //point is outside pixelRadius circle
+            //point is inside pixelRadius circle
             retVal.append(ptr);
         }
 
@@ -295,20 +351,6 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
     }
 
     return retVal;
-}
-
-int FlagComponent::getFlagForPoint( SkyPoint *point ) {
-
-    int idx = 0;
-    foreach (SkyPoint *cp, pointList() ) {
-        if ( *cp == *point ) {
-            return idx;
-        }
-
-        idx++;
-    }
-
-    return -1;
 }
 
 QImage FlagComponent::imageList( int index ) {

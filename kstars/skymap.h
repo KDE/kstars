@@ -274,7 +274,6 @@ class SkyMap : public QGraphicsView {
     inline void drawObjectLabels( QList< SkyObject* >& labelObjects ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->drawObjectLabels( labelObjects ); }
 
 
-
 public slots:
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().
@@ -397,10 +396,18 @@ public slots:
      * in the status bar */
     void slotCancelRulerMode();
 
+    /**@short Open Flag Manager window with clickedObject() RA and Dec entered.
+      */
     void slotAddFlag();
 
+    /**@short Open Flag Manager window with selected flag focused and ready to edit.
+      *@param flagIdx index of flag to be edited.
+      */
     void slotEditFlag( int flagIdx );
 
+    /**@short Delete selected flag.
+      *@param flagIdx index of flag to be deleted.
+      */
     void slotDeleteFlag( int flagIdx );
 
 #ifdef HAVE_OPENGL

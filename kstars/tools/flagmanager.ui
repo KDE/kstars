@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
+    <width>465</width>
     <height>356</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>465</width>
+    <height>356</height>
+   </size>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -131,6 +137,13 @@
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="saveButton">
+           <property name="text">
+            <string>Save changes</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer_2">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -247,6 +260,19 @@
    <header>widgets/dmsbox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>raBox</tabstop>
+  <tabstop>decBox</tabstop>
+  <tabstop>epochBox</tabstop>
+  <tabstop>flagLabel</tabstop>
+  <tabstop>labelColorcombo</tabstop>
+  <tabstop>flagCombobox</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>flagList</tabstop>
+  <tabstop>CenterButton</tabstop>
+  <tabstop>delButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

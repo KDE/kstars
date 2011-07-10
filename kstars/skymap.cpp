@@ -593,19 +593,30 @@ void SkyMap::slotCancelRulerMode(void) {
 void SkyMap::slotAddFlag() {
     KStars *ks = KStars::Instance();
 
+    // popup FlagManager window and update coordinates
     ks->slotFlagManager();
-    ks->getFlagManager()->setRaDec(clickedPoint()->ra(), clickedPoint()->dec());
+    ks->getFlagManager()->clearFields();
+    ks->getFlagManager()->setRaDec( clickedPoint()->ra(), clickedPoint()->dec() );
 }
 
 void SkyMap::slotEditFlag( int flagIdx ) {
     KStars *ks = KStars::Instance();
 
+    // popup FlagManager window and switch to selected flag
     ks->slotFlagManager();
     ks->getFlagManager()->showFlag( flagIdx );
 }
 
 void SkyMap::slotDeleteFlag( int flagIdx ) {
-    KStars::Instance()->data()->skyComposite()->flags()->remove( flagIdx );
+    KStars *ks = KStars::Instance();
+
+    ks->data()->skyComposite()->flags()->remove( flagIdx );
+    ks->data()->skyComposite()->flags()->saveToFile();
+
+    // if there is FlagManager created, update its flag model
+    if ( ks->getFlagManager() ) {
+        ks->getFlagManager()->deleteFlagItem( flagIdx );
+    }
 }
 
 void SkyMap::slotImage() {
@@ -1046,7 +1057,8 @@ void SkyMap::addLink() {
             file.setFileName( KStandardDirs::locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
 
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
-                QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+                QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
+                KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 		delete adialog;
                 return;
             } else {
@@ -1088,7 +1100,8 @@ void SkyMap::slotToggleGL() {
     }
     else {
         // Use GL
-        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
+        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works"
+                               "much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
 
         int result = KMessageBox::warningYesNo( this, message,
                                                 i18n("Switch to OpenGL backend"),
