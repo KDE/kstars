@@ -56,32 +56,48 @@ public:
       *@param kstars pointer to KStars instance.
       *@param orientation legend orientation.
      */
-    Legend(KStars *kstars, LEGEND_ORIENTATION orientation = LO_HORIZONTAL);
+    Legend(LEGEND_ORIENTATION orientation = LO_HORIZONTAL);
 
     /**@short Default destructor.*/
     ~Legend();
 
-    // 'getters'
-    LEGEND_ORIENTATION getOrientation();
-    int getSymbolSize();
-    int getBRectWidth();
-    int getBRectHeight();
-    qreal getMaxHScalePixels();
-    qreal getMaxVScalePixels();
-    int getXSymbolSpacing();
-    int getYSymbolSpacing();
-    QFont getFont();
+    LEGEND_ORIENTATION getOrientation() { return m_Orientation; }
 
-    // 'setters'
-    void setOrientation(LEGEND_ORIENTATION orientation);
-    void setSymbolSize(int size);
-    void setBRectWidth(int width);
-    void setBRectHeight(int height);
-    void setMaxHScalePixels(qreal pixels);
-    void setMaxVScalePixels(qreal pixels);
-    void setXSymbolSpacing(int spacing);
-    void setYSymbolSpacing(int spacing);
-    void setFont(const QFont &font);
+    /* 'GETTERS' */
+    inline int getSymbolSize() { return m_SymbolSize; }
+
+    inline int getBRectWidth() { return m_BRectWidth; }
+
+    inline int getBRectHeight() { return m_BRectHeight; }
+
+    inline qreal getMaxHScalePixels() { return m_MaxHScalePixels; }
+
+    inline qreal getMaxVScalePixels() { return m_MaxVScalePixels; }
+
+    inline int getXSymbolSpacing() { return m_XSymbolSpacing; }
+
+    inline int getYSymbolSpacing() { return m_YSymbolSpacing; }
+
+    inline QFont getFont() { return m_Font; }
+
+    /* 'SETTERS' */
+    inline void setOrientation(LEGEND_ORIENTATION orientation) { m_Orientation = orientation; }
+
+    inline void setSymbolSize(int size) { m_SymbolSize = size; }
+
+    inline void setBRectWidth(int width) { m_BRectWidth = width; }
+
+    inline void setBRectHeight(int height) { m_BRectHeight = height; }
+
+    inline void setMaxHScalePixels(qreal pixels) { m_MaxHScalePixels = pixels; }
+
+    inline void setMaxVScalePixels(qreal pixels) { m_MaxVScalePixels = pixels; }
+
+    inline void setXSymbolSpacing(int spacing) { m_XSymbolSpacing = spacing; }
+
+    inline void setYSymbolSpacing(int spacing) { m_YSymbolSpacing = spacing; }
+
+    inline void setFont(const QFont &font) { m_Font = font; }
 
     /**@short Calculates size of legend that will be painted using current
       settings.

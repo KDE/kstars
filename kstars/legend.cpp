@@ -32,10 +32,11 @@ const qreal maxVScalePixels = 100;
 const int xSymbolSpacing = 100;
 const int ySymbolSpacing = 70;
 
-Legend::Legend(KStars *kstars, LEGEND_ORIENTATION orientation)
-    : m_Painter(0), m_KStars(kstars), m_DeletePainter(false), m_Orientation(orientation), m_cScheme(kstars->data()->colorScheme()),
-    m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
-    m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
+Legend::Legend(LEGEND_ORIENTATION orientation)
+    : m_Painter(0), m_KStars(KStars::Instance()), m_DeletePainter(false), m_Orientation(orientation),
+    m_cScheme(KStars::Instance()->data()->colorScheme()), m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth),
+    m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels), m_MaxVScalePixels(maxVScalePixels),
+    m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
 {}
 
 Legend::~Legend()
@@ -44,96 +45,6 @@ Legend::~Legend()
     {
         delete m_Painter;
     }
-}
-
-Legend::LEGEND_ORIENTATION Legend::getOrientation()
-{
-    return m_Orientation;
-}
-
-int Legend::getSymbolSize()
-{
-    return m_SymbolSize;
-}
-
-int Legend::getBRectWidth()
-{
-    return m_BRectWidth;
-}
-
-int Legend::getBRectHeight()
-{
-    return m_BRectHeight;
-}
-
-qreal Legend::getMaxHScalePixels()
-{
-    return m_MaxHScalePixels;
-}
-
-qreal Legend::getMaxVScalePixels()
-{
-    return m_MaxVScalePixels;
-}
-
-int Legend::getXSymbolSpacing()
-{
-    return m_XSymbolSpacing;
-}
-
-int Legend::getYSymbolSpacing()
-{
-    return m_YSymbolSpacing;
-}
-
-QFont Legend::getFont()
-{
-    return m_Font;
-}
-
-void Legend::setOrientation(LEGEND_ORIENTATION orientation)
-{
-    m_Orientation = orientation;
-}
-
-void Legend::setSymbolSize(int size)
-{
-    m_SymbolSize = size;
-}
-
-void Legend::setBRectWidth(int width)
-{
-    m_BRectWidth = width;
-}
-
-void Legend::setBRectHeight(int height)
-{
-    m_BRectHeight = height;
-}
-
-void Legend::setMaxHScalePixels(qreal pixels)
-{
-    m_MaxHScalePixels = pixels;
-}
-
-void Legend::setMaxVScalePixels(qreal pixels)
-{
-    m_MaxVScalePixels = pixels;
-}
-
-void Legend::setXSymbolSpacing(int spacing)
-{
-    m_XSymbolSpacing = spacing;
-}
-
-void Legend::setYSymbolSpacing(int spacing)
-{
-    m_YSymbolSpacing = spacing;
-}
-
-void Legend::setFont(const QFont &font)
-{
-    m_Font = font;
 }
 
 QSize Legend::calculateSize(bool scaleOnly)

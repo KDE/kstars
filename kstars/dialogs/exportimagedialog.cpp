@@ -243,7 +243,7 @@ void ExportImageDialog::setupConnections()
 
 void ExportImageDialog::addLegend(SkyQPainter *painter)
 {
-    Legend legend(m_KStars);
+    Legend legend;
 
     // set font for legend labels
     legend.setFont(QFont("Courier New", 8));
