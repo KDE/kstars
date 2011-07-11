@@ -535,7 +535,7 @@ void KStars::slotExportImage() {
             return;
     }
 
-    exportImage( fileURL.url(), map()->size() );
+    exportImage( fileURL.url(), map()->width(), map()->height() );
 }
 
 void KStars::slotRunScript() {

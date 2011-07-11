@@ -423,13 +423,13 @@ void KStars::loadColorScheme( const QString &name ) {
     }
 }
 
-void KStars::exportImage( const QString &url, const QSize &size ) {
+void KStars::exportImage( const QString &url, int w, int h ) {
     // execute image export dialog
     if ( !imgExportDialog ) {
-        imgExportDialog = new ExportImageDialog( url, size );
+        imgExportDialog = new ExportImageDialog( url, QSize( w, h ) );
     } else {
         imgExportDialog->setOutputUrl( url );
-        imgExportDialog->setOutputSize( size );
+        imgExportDialog->setOutputSize( QSize ( w, h ) );
     }
 
     imgExportDialog->exec();
