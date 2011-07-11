@@ -37,8 +37,8 @@ ExportImageDialogUI::ExportImageDialogUI(QWidget *parent)
     setupUi(this);
 }
 
-ExportImageDialog::ExportImageDialog(KStars *kstars, const QString &url, int w, int h)
-    : KDialog((QWidget*) kstars), m_KStars(kstars), m_Url(url), m_Width(w), m_Height(h)
+ExportImageDialog::ExportImageDialog(const QString &url, const QSize &size)
+    : KDialog((QWidget*) KStars::Instance()), m_KStars(KStars::Instance()), m_Url(url), m_Size(size)
 {
     m_DialogUI = new ExportImageDialogUI(this);
     setMainWidget(m_DialogUI);
@@ -127,8 +127,11 @@ void ExportImageDialog::exportImage()
                 kWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
             }
 
+            int width = m_Size.width();
+            int height = m_Size.height();
+
             QPixmap skyimage(map->width(), map->height());
-            QPixmap outimage(m_Width, m_Height);
+            QPixmap outimage(width, height);
             outimage.fill();
 
             map->exportSkyImage(&skyimage);
@@ -137,7 +140,7 @@ void ExportImageDialog::exportImage()
             //skyImage is the size of the sky map.  The requested image size is w x h.
             //If w x h is smaller than the skymap, then we simply crop the image.
             //If w x h is larger than the skymap, pad the skymap image with a white border.
-            if(m_Width == map->width() && m_Height == map->height())
+            if(width == map->width() && height == map->height())
             {
                 outimage = skyimage.copy();
             }
@@ -147,26 +150,26 @@ void ExportImageDialog::exportImage()
                 int dx(0), dy(0), sx(0), sy(0);
                 int sw(map->width()), sh(map->height());
 
-                if(m_Width > map->width())
+                if(width > map->width())
                 {
-                    dx = (m_Width - map->width())/2;
+                    dx = (width - map->width())/2;
                 }
 
                 else
                 {
-                    sx = (map->width() - m_Width)/2;
-                    sw = m_Width;
+                    sx = (map->width() - width)/2;
+                    sw = width;
                 }
 
-                if(m_Height > map->height())
+                if(height > map->height())
                 {
-                    dy = (m_Height - map->height())/2;
+                    dy = (height - map->height())/2;
                 }
 
                 else
                 {
-                    sy = (map->height() - m_Height)/2;
-                    sh = m_Height;
+                    sy = (map->height() - height)/2;
+                    sh = height;
                 }
 
                 QPainter p;

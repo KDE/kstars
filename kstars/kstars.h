@@ -53,6 +53,7 @@ class ObservingList;
 class EquipmentWriter;
 class ObserverAdd;
 class Execute;
+class ExportImageDialog;
 
 class OpsCatalog;
 class OpsGuides;
@@ -302,10 +303,9 @@ public Q_SLOTS:
 
     /**DBUS interface function.  Export the sky image to a file.
      * @param filename the filename for the exported image
-     * @param width the width for the exported image
-     * @param height the height for the exported image
+     * @param size size of the exported image
      */
-    Q_SCRIPTABLE Q_NOREPLY void exportImage( const QString &filename, int width, int height );
+    Q_SCRIPTABLE Q_NOREPLY void exportImage( const QString &filename, const QSize &size );
 
     /**DBUS interface function.  Print the sky image.
      * @param usePrintDialog if true, the KDE print dialog will be shown; otherwise, default parameters will be used
@@ -618,6 +618,7 @@ private:
 
     LCGenerator *AAVSODialog;
     FindDialog *findDialog;
+    ExportImageDialog *imgExportDialog;
 
     //FIXME: move to KStarsData
     ObservingList *obsList;

@@ -22,6 +22,8 @@
 
 class KStars;
 class SkyQPainter;
+class QString;
+class QSize;
 
 // ExportImageDialog user interface.
 class ExportImageDialogUI : public QFrame, public Ui::ExportImageDialog
@@ -43,15 +45,16 @@ class ExportImageDialog : public KDialog
 public:
     /**short Default constructor. Creates dialog operating on passed URL and
       output image width and height.
-      *@param kstars KStars instance.
       *@param url URL for exported image.
-      *@param w exported image width.
-      *@param h exported image height.
+      *@param size size of exported image.
       */
-    ExportImageDialog(KStars *kstars, const QString &url, int w, int h);
+    ExportImageDialog(const QString &url, const QSize &size);
 
     /**@short Default destructor. */
     ~ExportImageDialog();
+
+    inline void setOutputUrl(const QString &url) { m_Url = url; }
+    inline void setOutputSize(const QSize &size) { m_Size = size; }
 
 private slots:
     void exportImage();
@@ -67,8 +70,7 @@ private:
     KStars *m_KStars;
     ExportImageDialogUI *m_DialogUI;
     QString m_Url;
-    int m_Width;
-    int m_Height;
+    QSize m_Size;
 };
 
 
