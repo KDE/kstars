@@ -61,9 +61,9 @@ public:
     /**@short Default destructor.*/
     ~Legend();
 
+    /* 'GETTERS' */
     LEGEND_ORIENTATION getOrientation() { return m_Orientation; }
 
-    /* 'GETTERS' */
     inline int getSymbolSize() { return m_SymbolSize; }
 
     inline int getBRectWidth() { return m_BRectWidth; }
