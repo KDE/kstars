@@ -204,10 +204,10 @@ void DetailDialog::createGeneralTab()
             Data->Illumination->setVisible( true );
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
-		
-		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+        
+        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
-		
+        
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( i18nc("distance in kilometers", "%1 km",
@@ -346,8 +346,8 @@ void DetailDialog::createGeneralTab()
             break;
         }
         case SkyObject::COMET: {
-	    KSComet* com = (KSComet *)selectedObject;
-	    DataComet = new DataCometWidget( this );
+            KSComet* com = (KSComet *)selectedObject;
+            DataComet = new DataCometWidget( this );
             Data->IncludeData->layout()->addWidget( DataComet );
 
             // Perihelion
