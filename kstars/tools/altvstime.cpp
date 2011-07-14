@@ -247,7 +247,13 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         //add new curve with width=2, and color=white
         KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
         for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-            po->addPoint( h, findAltitude( o, h ) );
+			int label_pos = -11.0 + avtUI->View->plotObjects().count();
+			while ( label_pos > 11.0 )
+				label_pos -= 23.0;
+			if( h == label_pos )
+				po->addPoint( h, findAltitude( o, h ), o->translatedName() );
+			else
+				po->addPoint( h, findAltitude( o, h ) );
         }
         avtUI->View->addPlotObject( po );
 
