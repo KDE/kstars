@@ -97,7 +97,7 @@ void CometsComponent::loadData() {
     
     while( fileReader.hasMoreLines() )
     {
-        kDebug()<<"fileReader.lineNumber() : "<<fileReader.lineNumber()<<endl;
+        //kDebug()<<"fileReader.lineNumber() : "<<fileReader.lineNumber()<<endl;
         KSComet *com = 0;
         line = fileReader.readLine();
 
@@ -106,11 +106,11 @@ void CometsComponent::loadData() {
             continue;
         
         fields = line.split( "," );
-        kDebug()<< "No. of Fields:" << fields.count();
+        //kDebug()<< "No. of Fields:" << fields.count();
 
         name   = fields.at( 0 );
         name   = name.remove( '"' ).trimmed();
-        kDebug()<<name<<endl;
+        //kDebug()<<name<<endl;
         mJD    = fields.at( 1 ).toInt();
         q      = fields.at( 2 ).toDouble();
         e      = fields.at( 3 ).toDouble();
