@@ -1,16 +1,14 @@
 #include "simplefovexporter.h"
-
 #include "kstarsdata.h"
 #include "skymap.h"
 #include "skyqpainter.h"
 #include "fov.h"
 #include "skymapcomposite.h"
-
 #include "kstars/Options.h"
 
 SimpleFovExporter::SimpleFovExporter() :
         m_KSData(KStarsData::Instance()), m_Map(KStars::Instance()->map()),
-        m_StopClock(false), m_OverrideFovShape(true), m_DrawFovSymbol(true)
+        m_StopClock(false), m_OverrideFovShape(false), m_DrawFovSymbol(false)
 {}
 
 SimpleFovExporter::~SimpleFovExporter()
@@ -50,14 +48,39 @@ void SimpleFovExporter::exportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
 
     // calculate zoom factor
     double zoom = 0;
+    QRegion region;
+    int regionX(0), regionY(0);
+    double fovSizeX(0), fovSizeY(0);
     if(fov->sizeX() > fov->sizeY())
     {
         zoom = calculateZoomLevel(pd->width(), fov->sizeX());
+
+        // calculate clipping region size
+        fovSizeX = calculatePixelSize(fov->sizeX(), zoom);
+        fovSizeY = calculatePixelSize(fov->sizeY(), zoom);
+        regionX = 0;
+        regionY = 0.5 * (pd->height() - fovSizeY);
     }
 
     else
     {
         zoom = calculateZoomLevel(pd->height(), fov->sizeY());
+
+        // calculate clipping region size
+        fovSizeX = calculatePixelSize(fov->sizeX(), zoom);
+        fovSizeY = calculatePixelSize(fov->sizeY(), zoom);
+        regionX = 0.5 * (pd->width() - fovSizeX);
+        regionY = 0;
+    }
+
+    if(fov->shape() == FOV::SQUARE)
+    {
+        region = QRegion(regionX, regionY, fovSizeX, fovSizeY, QRegion::Rectangle);
+    }
+
+    else
+    {
+        region = QRegion(regionX, regionY, fovSizeX, fovSizeY, QRegion::Ellipse);
     }
 
     m_Map->setZoomFactor(zoom);
@@ -65,22 +88,12 @@ void SimpleFovExporter::exportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
     SkyQPainter painter(m_Map, pd);
     painter.begin();
 
-    // calculate clipping region
-//    double sizeX = calculatePixelSize(fov->sizeX(), zoom);
-//    double sizeY = calculatePixelSize(fov->sizeY(), zoom);
-//    QRegion region;
-//    if(fov->shape() == FOV::SQUARE)
-//    {
-//        region = QRegion(0, 0.5 * (pd->height() - sizeY), sizeX, sizeY, QRegion::Rectangle);
-//    }
-//
-//    else
-//    {
-//        region = QRegion(0, 0.5 * (pd->height() - sizeY), sizeX, sizeY, QRegion::Ellipse);
-//    }
-
     painter.drawSkyBackground();
 
+    if(!m_OverrideFovShape)
+    {
+        painter.setClipRegion(region);
+    }
     // translate painter coordinates - it's necessary to extract only the area of interest (FOV)
     int dx = (m_Map->width() - pd->width()) / 2;
     int dy = (m_Map->height() - pd->height()) / 2;
@@ -89,6 +102,7 @@ void SimpleFovExporter::exportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
     m_KSData->skyComposite()->draw(&painter);
     m_Map->getSkyMapDrawAbstract()->drawOverlays(painter, false);
 
+    // reset painter coordinate transform to paint FOV symbol in the center
     painter.resetTransform();
 
     if(m_DrawFovSymbol)
