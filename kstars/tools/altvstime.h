@@ -137,6 +137,10 @@ public slots:
      * which is highlighted in the listbox.
      */
     void slotHighlight(int);
+    
+    /**@short Print plot widget
+     */
+    void slotPrint();
 
 private:
     /**@short find start of dawn, end of dusk, maximum and minimum elevation of the sun */
