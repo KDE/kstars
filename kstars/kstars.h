@@ -425,6 +425,9 @@ public Q_SLOTS:
      */
     void updateTime( const bool automaticDSTchange = true );
 
+    /** action slot: sync kstars clock to system time */
+    void slotSetTimeToNow();
+
     /** Apply new settings and redraw skymap */
     void slotApplyConfigChanges();
 
@@ -456,9 +459,6 @@ public Q_SLOTS:
     void slotFlagManager();
 
 private slots:
-    /** action slot: sync kstars clock to system time */
-    void slotSetTimeToNow();
-
     /** action slot: open a dialog for setting the time and date */
     void slotSetTime();
 

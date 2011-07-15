@@ -66,7 +66,7 @@ class SkyMapDrawAbstract {
     	*drawOverlays() to refresh the overlays.
     	*@param pm pointer to the Sky pixmap
     	*/
-    void drawOverlays( QPainter& p );
+    void drawOverlays( QPainter& p, bool drawFov = true );
 
     /**Draw symbols at the position of each Telescope currently being controlled by KStars.
     	*@note The shape of the Telescope symbol is currently a hard-coded bullseye.
@@ -93,7 +93,7 @@ class SkyMapDrawAbstract {
     	*@see KStars::slotExportImage()
     	*@see KStars::slotPrint()
     	*/
-    void exportSkyImage( QPaintDevice *pd );
+    void exportSkyImage( QPaintDevice *pd, bool scale = false );
 
     /**@short Draw the current Sky map using passed SkyQPainter instance. Required when
       * used QPaintDevice doesn't support drawing using multiple painters (e.g. QSvgGenerator
@@ -101,8 +101,9 @@ class SkyMapDrawAbstract {
       * Passed painter should already be initialized to draw on selected QPaintDevice subclass
       * using begin() and it won't be ended [end()] by this method.
       *@param painter pointer to the SkyQPainter already set up to paint on selected QPaintDevice subclass.
+      *@param scale should sky image be scaled to fit used QPaintDevice?
       */
-    void exportSkyImage( SkyQPainter *painter );
+    void exportSkyImage( SkyQPainter *painter, bool scale = false );
 
     /**@short Draw "user labels".  User labels are name labels attached to objects manually with
      * the right-click popup menu.  Also adds a label to the FocusObject if the Option UseAutoLabel

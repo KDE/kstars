@@ -60,16 +60,18 @@ SkyMapDrawAbstract::SkyMapDrawAbstract( SkyMap *sm ) :
     m_framecount = 0;
 }
 
-void SkyMapDrawAbstract::drawOverlays( QPainter& p ) {
+void SkyMapDrawAbstract::drawOverlays( QPainter& p, bool drawFov ) {
     if( !KStars::Instance() )
         return;
 
     //draw labels
     SkyLabeler::Instance()->draw(p);
 
-    //draw FOV symbol
-    foreach( FOV* fov, m_KStarsData->getVisibleFOVs() ) {
-        fov->draw(p, Options::zoomFactor());
+    if( drawFov ) {
+        //draw FOV symbol
+        foreach( FOV* fov, m_KStarsData->getVisibleFOVs() ) {
+            fov->draw(p, Options::zoomFactor());
+        }
     }
     drawTelescopeSymbols( p );
     drawZoomBox( p );
@@ -310,7 +312,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 #endif
 }
 
-void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd ) {
+void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd, bool scale ) {
     SkyQPainter p(m_SkyMap, pd); // FIXME: Really, we should be doing this differently. We shouldn't be passing m_SkyMap, but rather, this widget.
     p.begin();
 
@@ -319,20 +321,21 @@ void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd ) {
     p.end();
 }
 
-void SkyMapDrawAbstract::exportSkyImage( SkyQPainter *painter )
+void SkyMapDrawAbstract::exportSkyImage(SkyQPainter *painter, bool scale)
 {
     painter->setRenderHint(QPainter::Antialiasing, Options::useAntialias());
 
-    //scale image such that it fills 90% of the x or y dimension on the paint device
-    double xscale = double(painter->device()->width()) / double(m_SkyMap->width());
-    double yscale = double(painter->device()->height()) / double(m_SkyMap->height());
-    double scale = qMin(xscale,yscale);
-
-    painter->scale(scale,scale);
+    if(scale) {
+        //scale sky image to fit paint device
+        double xscale = double(painter->device()->width()) / double(m_SkyMap->width());
+        double yscale = double(painter->device()->height()) / double(m_SkyMap->height());
+        double scale = qMin(xscale, yscale);
+        painter->scale(scale, scale);
+    }
 
     painter->drawSkyBackground();
-    m_KStarsData->skyComposite()->draw( painter );
-    drawOverlays( *painter );
+    m_KStarsData->skyComposite()->draw(painter);
+    drawOverlays(*painter);
 }
 
 void SkyMapDrawAbstract::calculateFPS()

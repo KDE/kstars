@@ -235,7 +235,9 @@ class SkyMap : public QGraphicsView {
     /** @short Call to set up the projector before a draw cycle. */
     void setupProjector();
 
-    /** Set zoom factor. */
+    /**@ Set zoom factor.
+      *@param factor zoom factor
+      */
     void setZoomFactor(double factor);
 
     bool isSlewing() const;
@@ -264,9 +266,11 @@ class SkyMap : public QGraphicsView {
     /**
      *@short Proxy method for SkyMapDrawAbstract::exportSkyImage()
      */
-    inline void exportSkyImage( QPaintDevice *pd ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( pd ); }
+    inline void exportSkyImage( QPaintDevice *pd, bool scale = false ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( pd, scale ); }
 
-    inline void exportSkyImage( SkyQPainter *painter) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( painter ); }
+    inline void exportSkyImage( SkyQPainter *painter, bool scale = false ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( painter, scale ); }
+
+    SkyMapDrawAbstract* getSkyMapDrawAbstract() { return dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw); }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()

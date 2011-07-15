@@ -331,6 +331,7 @@ set(kstars_extra_SRCS
 	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 	satellitegroup.cpp
 	legend.cpp
+	simplefovexporter.cpp
 )
 
 set(oal_SRCS
