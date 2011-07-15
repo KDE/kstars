@@ -527,9 +527,9 @@ void AltVsTime::slotPrint()
     QString str_legend;         // Text legend
     QString str_year;           // Calendar's year
     int text_height = 200;      // Height of legend text zone in points
-    QSize plot_size;            // Initial calendar widget size
-    QFont plot_font;            // Initial calendar font
-    int plot_font_size;         // Initial calendar font size
+    QSize plot_size;            // Initial plot widget size
+    QFont plot_font;            // Initial plot widget font
+    int plot_font_size;         // Initial plot widget font size
 
     // Set printer resolution to 300 dpi
     printer.setResolution( 300 );
