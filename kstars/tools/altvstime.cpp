@@ -58,7 +58,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     setMainWidget(page);
     setCaption( i18n( "Altitude vs. Time" ) );
     setButtons( KDialog::Close | KDialog::User1 );
-    setButtonText( KDialog::User1, "Print..." );
+    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Print..."), QString(), i18n("Print the Altitude vs. time plot") ) );
     setModal( false );
 
     QVBoxLayout* topLayout = new QVBoxLayout( page );
