@@ -294,4 +294,9 @@ void SkyCalendar::slotLocation() {
     delete ld;
 }
 
+GeoLocation* SkyCalendar::get_geo()
+{
+    return geo;
+}
+
 #include "skycalendar.moc"
