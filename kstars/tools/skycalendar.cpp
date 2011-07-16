@@ -85,7 +85,7 @@ SkyCalendar::SkyCalendar( QWidget *parent )
     scUI->Year->setValue( KStarsData::Instance()->lt().date().year() );
 
     scUI->LocationButton->setText( geo->fullName() );
-    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Print..."), QString(), i18n("Print the Sky Calendar") ) );
+    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Print..."), "document-print", i18n("Print the Sky Calendar") ) );
 
     connect( scUI->CreateButton, SIGNAL(clicked()), this, SLOT(slotFillCalendar()) );
     connect( scUI->LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()) );
