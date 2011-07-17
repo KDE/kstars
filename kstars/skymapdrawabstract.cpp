@@ -315,8 +315,9 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd, bool scale ) {
     SkyQPainter p(m_SkyMap, pd); // FIXME: Really, we should be doing this differently. We shouldn't be passing m_SkyMap, but rather, this widget.
     p.begin();
+    p.setRenderHint(QPainter::SmoothPixmapTransform, true);
 
-    exportSkyImage(&p);
+    exportSkyImage(&p, scale);
 
     p.end();
 }
