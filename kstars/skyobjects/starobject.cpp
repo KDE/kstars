@@ -280,6 +280,14 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     // PM times the number of Julian millenia since J2000.0
 
     double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
+
+    if( pm < 1. ) {
+        // Ignore corrections
+        *ra = ra0().Degrees();
+        *dec = dec0().Degrees();
+        return;
+    }
+
     double dir0 = ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() );  // Bearing, in radian
 
     ( pm < 0 ) && ( pm = -pm );
