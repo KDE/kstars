@@ -326,7 +326,14 @@ void StarObject::JITupdate( KStarsData* data )
 {
     updateID = data->updateID();
     if ( updateNumID != data->updateNumID() ) {
-        updateCoords( data->updateNum() );
+        // TODO: This can be optimized and reorganized further in a better manner.
+        // Maybe we should do this only for stars, since this is really a slow step only for stars
+
+        if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 || ( Options::useRelativistic() && checkBendLight() ) ) {
+            // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
+            updateCoords( data->updateNum() );
+        }
+
         updateNumID = data->updateNumID();
     }
     EquatorialToHorizontal( data->lst(), data->geo()->lat() );

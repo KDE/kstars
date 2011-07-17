@@ -502,12 +502,12 @@ protected:
     	*/
     void precess(const KSNumbers *num);
 
+    long double   lastPrecessJD; // JD at which the last coordinate update (see updateCoords) for this SkyPoint was done
 
 private:
     dms RA0, Dec0; //catalog coordinates
     dms RA, Dec; //current true sky coordinates
     dms Alt, Az;
-    long double   lastPrecessJD; // JD at which the last coordinate update (see updateCoords) for this SkyPoint was done
     static KSSun *m_Sun;
 };
 
