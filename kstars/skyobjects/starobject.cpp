@@ -253,10 +253,6 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 
     double newRA, newDec;
 
-    // Old, Incorrect Proper motion Computation:
-    //    setRA0( ra0().Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0().radians() ) * 3600.) );
-    //    setDec0( dec0().Degrees() + pmDec()*num->julianMillenia() / 3600. );
-
     getIndexCoords( num, &newRA, &newDec );
     newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
     setRA0( newRA );
@@ -270,7 +266,9 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 {
 
-    // Old, Incorrect Proper motion Computation:
+    // Old, Incorrect Proper motion Computation.  We retain this in a
+    // comment because we might want to use it to come up with a
+    // linear approximation that's faster.
     //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
     //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
 
