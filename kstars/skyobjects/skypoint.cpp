@@ -229,7 +229,7 @@ void SkyPoint::nutate(const KSNumbers *num) {
     }
 }
 
-SkyPoint SkyPoint::moveAway( SkyPoint &from, double dist ){
+SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ){
     dms lat1, dtheta;
 
     if( dist == 0.0 ) {
