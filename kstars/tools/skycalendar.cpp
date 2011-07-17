@@ -101,14 +101,22 @@ void SkyCalendar::slotFillCalendar() {
     scUI->CalendarView->resetPlot();
     scUI->CalendarView->setLimits( -9.0, 9.0, 0.0, 366.0 );
     
-    addPlanetEvents( KSPlanetBase::MERCURY );
-    addPlanetEvents( KSPlanetBase::VENUS );
-    addPlanetEvents( KSPlanetBase::MARS );
-    addPlanetEvents( KSPlanetBase::JUPITER );
-    addPlanetEvents( KSPlanetBase::SATURN );
-    addPlanetEvents( KSPlanetBase::URANUS );
-    addPlanetEvents( KSPlanetBase::NEPTUNE );
-    addPlanetEvents( KSPlanetBase::PLUTO );
+    if ( scUI->checkBox_Mercury->isChecked() )
+        addPlanetEvents( KSPlanetBase::MERCURY );
+    if ( scUI->checkBox_Venus->isChecked() )
+        addPlanetEvents( KSPlanetBase::VENUS );
+    if ( scUI->checkBox_Mars->isChecked() )
+        addPlanetEvents( KSPlanetBase::MARS );
+    if ( scUI->checkBox_Jupiter->isChecked() )
+        addPlanetEvents( KSPlanetBase::JUPITER );
+    if ( scUI->checkBox_Saturn->isChecked() )
+        addPlanetEvents( KSPlanetBase::SATURN );
+    if ( scUI->checkBox_Uranus->isChecked() )
+        addPlanetEvents( KSPlanetBase::URANUS );
+    if ( scUI->checkBox_Neptune->isChecked() )
+        addPlanetEvents( KSPlanetBase::NEPTUNE );
+    if ( scUI->checkBox_Pluto->isChecked() )
+        addPlanetEvents( KSPlanetBase::PLUTO );
     
     update();
 }
