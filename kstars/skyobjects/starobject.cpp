@@ -277,14 +277,14 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of 
     // PM times the number of Julian millenia since J2000.0
 
-    double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
-
-    if( pm < 1. ) {
+    if( pmMagnitudeSquared() * num->julianMillenia() * num->julianMillenia() < 1. ) {
         // Ignore corrections
         *ra = ra0().Degrees();
         *dec = dec0().Degrees();
         return;
     }
+
+    double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
 
     double dir0 = ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() );  // Bearing, in radian
 
@@ -313,6 +313,13 @@ double StarObject::pmMagnitude()
 {
     double cosDec = dec().cos();
     return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
+}
+
+// The square root is pretty expensive, so we define another function when useful
+double StarObject::pmMagnitudeSquared()
+{
+    double metric_weighted_pmRA = dec().cos() * pmRA();
+    return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
 }
 
 void StarObject::JITupdate( KStarsData* data )
