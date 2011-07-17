@@ -327,7 +327,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
         lens = true;
     }
     else {
-        recompute = (( lastPrecessJD - num->getJD() ) >= 0.0005); // 0.0005 solar days is less than a minute
+        recompute = (( lastPrecessJD - num->getJD() ) >= 0.0005 || (lastPrecessJD - num->getJD() ) <= -0.0005 ); // 0.0005 solar days is less than a minute
         lens = false;
     }
 

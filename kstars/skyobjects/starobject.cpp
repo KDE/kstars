@@ -329,7 +329,10 @@ void StarObject::JITupdate( KStarsData* data )
         // TODO: This can be optimized and reorganized further in a better manner.
         // Maybe we should do this only for stars, since this is really a slow step only for stars
 
-        if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 || ( Options::useRelativistic() && checkBendLight() ) ) {
+        if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 // TODO: Make this 0.0005 a constant / define it
+            || ( lastPrecessJD - data->updateNum()->getJD() ) <= -0.0005
+            || ( Options::useRelativistic() && checkBendLight() ) ) {
+
             // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
             updateCoords( data->updateNum() );
         }
