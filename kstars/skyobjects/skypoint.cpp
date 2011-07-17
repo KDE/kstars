@@ -31,6 +31,8 @@
 #include "Options.h"
 #include "skycomponents/skymapcomposite.h"
 
+KSSun *SkyPoint::m_Sun = 0;
+
 SkyPoint::SkyPoint() {
     // Default constructor. Set nonsense values
     RA0.setD(-1); // RA >= 0 always :-)
@@ -257,36 +259,33 @@ SkyPoint SkyPoint::moveAway( const SkyPoint &from, double dist ){
     return SkyPoint( ra() + dtheta, lat1 );
 }
 
+bool SkyPoint::checkBendLight() {
+    // First see if we are close enough to the sun to bother about the
+    // gravitational lensing effect. We correct for the effect at
+    // least till b = 10 solar radii, where the effect is only about
+    // 0.06".  Assuming min. sun-earth distance is 200 solar radii.
+    static const dms maxAngle( 1.75 * ( 30.0 / 200.0) / dms::DegToRad );
+
+    if( !m_Sun )
+        m_Sun = (KSSun*) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
+
+    // TODO: This can be optimized further. We only need a ballpark estimate of the distance to the sun to start with.
+    return ( fabs( angularDistanceTo( static_cast<const SkyPoint *>(m_Sun) ).Degrees() ) <= maxAngle.Degrees() ); // NOTE: dynamic_cast is slow and not important here.
+}
+
 bool SkyPoint::bendlight() {
 
     // NOTE: This should be applied before aberration
+    // NOTE: One must call checkBendLight() before unnecessarily calling this.
+    // We correct for GR effects
+    Q_ASSERT( m_Sun );
+    double corr_sec = 1.75 * m_Sun->physicalSize() / ( m_Sun->rearth() * AU_KM * angularDistanceTo( static_cast<const SkyPoint *>(m_Sun) ).sin() );
+    Q_ASSERT( corr_sec > 0 );
 
-    // First see if we are close enough to the sun to bother about the
-    // effect. We correct for the effect at least till b = 10 solar
-    // radii, where the effect is only about 0.06".  Assuming
-    // min. sun-earth distance is 200 solar radii.
-
-    static KSSun* thesun;
-    const dms maxAngle( 1.75 * ( 30.0 / 200.0) / dms::DegToRad );
-
-    if( !thesun ) // Hope we don't destroy the sun before the program ends!
-        thesun = (KSSun*) KStarsData::Instance()->skyComposite()->findByName( "Sun" );
-    //    kDebug() << "bendlight says maximum correctable angle is " << maxAngle.Degrees();
-
-    // TODO: We can make this code more efficient
-    SkyPoint sp = *thesun;
-    //    kDebug() << "The unaberrated sun is " << sp.angularDistanceTo( sun ).Degrees() << "deg away";
-    if( fabs( angularDistanceTo( &sp ).radians() ) <= maxAngle.radians() ) {
-        // We correct for GR effects
-        double corr_sec = 1.75 * thesun->physicalSize() / ( thesun->rearth() * AU_KM * angularDistanceTo( &sp ).sin() );
-        Q_ASSERT( corr_sec > 0 );
-        
-        sp = moveAway( sp, corr_sec );
-        setRA(  sp.ra() );
-        setDec( sp.dec() );
-        return true;
-    }
-    return false;
+    SkyPoint sp = moveAway( *m_Sun, corr_sec );
+    setRA(  sp.ra() );
+    setDec( sp.dec() );
+    return true;
 }
 
 void SkyPoint::aberrate(const KSNumbers *num) {
@@ -317,14 +316,30 @@ void SkyPoint::aberrate(const KSNumbers *num) {
     Dec.setD( Dec.Degrees() + dDec );
 }
 
+// Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
 void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST ) {
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
-    precess(num);
-    nutate(num);
-    if(Options::useRelativistic())
-        bendlight();
-    aberrate(num);
+    bool recompute, lens;
+
+    if( Options::useRelativistic() && checkBendLight() ) {
+        recompute = true;
+        lens = true;
+    }
+    else {
+        recompute = (( lastPrecessJD - num->getJD() ) >= 0.0005); // 0.0005 solar days is less than a minute
+        lens = false;
+    }
+
+    if( recompute ) {
+        precess(num);
+        nutate(num);
+        if( lens )
+            bendlight();
+        aberrate(num);
+        lastPrecessJD = num->getJD();
+    }
+
     if ( lat || LST )
         kWarning() << i18n( "lat and LST parameters should only be used in KSPlanetBase objects." ) ;
 }
@@ -410,7 +425,7 @@ void SkyPoint::apparentCoord(long double jd0, long double jdf){
     precessFromAnyEpoch(jd0,jdf);
     KSNumbers num(jdf);
     nutate( &num );
-    if(Options::useRelativistic())
+    if( Options::useRelativistic() && checkBendLight() )
         bendlight();
     aberrate( &num );
 }
