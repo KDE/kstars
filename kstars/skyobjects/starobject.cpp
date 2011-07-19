@@ -253,10 +253,6 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 
     double newRA, newDec;
 
-    // Old, Incorrect Proper motion Computation:
-    //    setRA0( ra0().Hours() + pmRA()*num->julianMillenia() / (15. * cos( dec0().radians() ) * 3600.) );
-    //    setDec0( dec0().Degrees() + pmDec()*num->julianMillenia() / 3600. );
-
     getIndexCoords( num, &newRA, &newDec );
     newRA /= 15.0;                           // getIndexCoords returns in Degrees, while we want the RA in Hours
     setRA0( newRA );
@@ -270,7 +266,9 @@ void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
 void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
 {
 
-    // Old, Incorrect Proper motion Computation:
+    // Old, Incorrect Proper motion Computation.  We retain this in a
+    // comment because we might want to use it to come up with a
+    // linear approximation that's faster.
     //    double dra = pmRA() * num->julianMillenia() / ( cos( dec0().radians() ) * 3600.0 );
     //    double ddec = pmDec() * num->julianMillenia() / 3600.0;
 
@@ -279,7 +277,15 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     // atan2( pmRA(), pmDec() ) to an angular distance given by the Magnitude of 
     // PM times the number of Julian millenia since J2000.0
 
+    if( pmMagnitudeSquared() * num->julianMillenia() * num->julianMillenia() < 1. ) {
+        // Ignore corrections
+        *ra = ra0().Degrees();
+        *dec = dec0().Degrees();
+        return;
+    }
+
     double pm = pmMagnitude() * num->julianMillenia();   // Proper Motion in arcseconds
+
     double dir0 = ( pm > 0 ) ? atan2( pmRA(), pmDec() ) : atan2( -pmRA(), -pmDec() );  // Bearing, in radian
 
     ( pm < 0 ) && ( pm = -pm );
@@ -309,11 +315,28 @@ double StarObject::pmMagnitude()
     return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
 }
 
+// The square root is pretty expensive, so we define another function when useful
+double StarObject::pmMagnitudeSquared()
+{
+    double metric_weighted_pmRA = dec().cos() * pmRA();
+    return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
+}
+
 void StarObject::JITupdate( KStarsData* data )
 {
     updateID = data->updateID();
     if ( updateNumID != data->updateNumID() ) {
-        updateCoords( data->updateNum() );
+        // TODO: This can be optimized and reorganized further in a better manner.
+        // Maybe we should do this only for stars, since this is really a slow step only for stars
+
+        if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 // TODO: Make this 0.0005 a constant / define it
+            || ( lastPrecessJD - data->updateNum()->getJD() ) <= -0.0005
+            || ( Options::useRelativistic() && checkBendLight() ) ) {
+
+            // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
+            updateCoords( data->updateNum() );
+        }
+
         updateNumID = data->updateNumID();
     }
     EquatorialToHorizontal( data->lst(), data->geo()->lat() );
