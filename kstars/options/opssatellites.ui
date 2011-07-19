@@ -6,87 +6,103 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>468</width>
-    <height>504</height>
+    <width>533</width>
+    <height>575</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QCheckBox" name="kcfg_ShowSatellites">
-         <property name="text">
-          <string>Show satellites</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_ShowVisibleSatellites">
-         <property name="text">
-          <string>Show only visible satellites</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QCheckBox" name="kcfg_ShowSatellitesLabels">
-         <property name="text">
-          <string>Show labels</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_DrawSatellitesLikeStars">
-         <property name="text">
-          <string>Draw satellites like stars</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="KPushButton" name="UpdateTLEButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="title">
+        <string>View options</string>
        </property>
-       <property name="text">
-        <string>Update TLEs</string>
-       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetDefaultConstraint</enum>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="kcfg_ShowSatellites">
+            <property name="text">
+             <string>Show satellites</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_ShowVisibleSatellites">
+            <property name="text">
+             <string>Show only visible satellites</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QCheckBox" name="kcfg_ShowSatellitesLabels">
+            <property name="text">
+             <string>Show labels</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_DrawSatellitesLikeStars">
+            <property name="text">
+             <string>Draw satellites like stars</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+       <zorder></zorder>
+       <zorder></zorder>
       </widget>
      </item>
      <item>
-      <widget class="QTreeWidget" name="SatListTreeView">
-       <property name="rootIsDecorated">
-        <bool>true</bool>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>LIst of sattelies</string>
        </property>
-       <property name="headerHidden">
-        <bool>true</bool>
-       </property>
-       <property name="columnCount">
-        <number>1</number>
-       </property>
-       <attribute name="headerVisible">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="headerCascadingSectionResizes">
-        <bool>false</bool>
-       </attribute>
-       <attribute name="headerDefaultSectionSize">
-        <number>60</number>
-       </attribute>
-       <column>
-        <property name="text">
-         <string notr="true">1</string>
-        </property>
-       </column>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="KLineEdit" name="FilterEdit">
+            <property name="squeezedTextEnabled">
+             <bool>false</bool>
+            </property>
+            <property name="clickMessage">
+             <string>Search satellites</string>
+            </property>
+            <property name="showClearButton" stdset="0">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="KPushButton" name="UpdateTLEButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Update TLEs</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTreeView" name="SatListTreeView"/>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
@@ -98,6 +114,11 @@
    <class>KPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -19,10 +19,20 @@
 
 #include "ui_opssatellites.h"
 
+#include <QStandardItemModel>
+#include <QSortFilterProxyModel>
+
 #include <kconfigdialog.h>
 
-
 class KStars;
+
+
+class SatelliteSortFilterProxyModel : public QSortFilterProxyModel
+{
+public:
+    SatelliteSortFilterProxyModel( QObject* parent );
+    bool filterAcceptsRow( int sourceRow, const QModelIndex &sourceParent ) const;
+};
 
 /**@class OpsSatellites
  *The Satellites Tab of the Options window.  In this Tab the user can configure
@@ -53,12 +63,15 @@ private:
     
     KStars *ksw;
     KConfigDialog *m_ConfigDialog;
+    QStandardItemModel *m_Model;
+    QSortFilterProxyModel *m_SortModel;
 
 private slots:
     void slotUpdateTLEs();
     void slotShowSatellites( bool on );
     void slotApply();
     void slotCancel();
+    void slotFilterReg( const QString& );
 };
 
 #endif  //OPSSATELLITES_H_
