@@ -72,6 +72,7 @@ private slots:
     void slotApply();
     void slotCancel();
     void slotFilterReg( const QString& );
+    void slotItemChanged( QStandardItem* );
 };
 
 #endif  //OPSSATELLITES_H_
