@@ -17,7 +17,9 @@ public:
     SimpleFovExporter();
     ~SimpleFovExporter();
 
-    void exportFov(SkyPoint *point, FOV* fov, QPaintDevice *pd);
+    void exportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd);
+    void exportFov(FOV *fov, QPaintDevice *pd);
+    void exportFov(QPaintDevice *pd);
     void exportFov(const QList<SkyPoint*> &points, const QList<FOV*> &fovs, const QList<QPaintDevice*> &pds);
     void exportFov(const QList<SkyPoint*> &points, FOV* fov, const QList<QPaintDevice*> &pds);
 
@@ -33,7 +35,12 @@ public:
 
 private:
     inline double calculateZoomLevel(int pixelSize, float degrees) { return (pixelSize * 57.3 * 60) / degrees; }
-    inline double calculatePixelSize(float degrees, double zoomLevel) { return degrees * zoomLevel / 57.3 / 60.0; }
+    inline double calculatePixelSize(float degrees, double zoomLevel) { return degrees * zoomLevel / (57.3 * 60.0); }
+
+    void saveState(bool savePos);
+    void restoreState(bool restorePos);
+
+    void pExportFov(SkyPoint *point, FOV* fov, QPaintDevice *pd);
 
     KStarsData *m_KSData;
     SkyMap *m_Map;
@@ -41,6 +48,11 @@ private:
     bool m_StopClock;
     bool m_OverrideFovShape;
     bool m_DrawFovSymbol;
+
+    bool m_PrevClockState;
+    bool m_PrevSlewing;
+    SkyPoint *m_PrevPoint;
+    double m_PrevZoom;
 };
 
 #endif // SIMPLEFOVEXPORTER_H
