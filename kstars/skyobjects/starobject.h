@@ -177,13 +177,21 @@ public:
     void JITupdate( KStarsData* data );
 
     /**@short returns the magnitude of the proper motion correction in milliarcsec/year */
-    inline double pmMagnitude();
+    inline double pmMagnitude()
+    {
+        double cosDec = dec().cos();
+        return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
+    }
 
     /**
      *@short returns the square of the magnitude of the proper motion correction in (milliarcsec/year)^2
      *@note This method is faster when the square root need not be taken
      */
-    inline double pmMagnitudeSquared();
+    inline double pmMagnitudeSquared()
+    {
+        double metric_weighted_pmRA = dec().cos() * pmRA();
+        return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
+    }
 
     /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
      * Note that the RA component is multiplied by cos(dec).

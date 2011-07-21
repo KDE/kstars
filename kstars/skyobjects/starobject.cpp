@@ -309,19 +309,6 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     //    *dec = dec0().Degrees() + ddec;
 }
 
-double StarObject::pmMagnitude()
-{
-    double cosDec = dec().cos();
-    return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
-}
-
-// The square root is pretty expensive, so we define another function when useful
-double StarObject::pmMagnitudeSquared()
-{
-    double metric_weighted_pmRA = dec().cos() * pmRA();
-    return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
-}
-
 void StarObject::JITupdate( KStarsData* data )
 {
     updateID = data->updateID();
