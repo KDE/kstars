@@ -690,6 +690,9 @@ void KStars::slotToggleTimer() {
         if ( data()->clock()->isManualMode() )
             map()->forceUpdate();
     }
+    
+    // Update clock state in options
+    Options::setRunClock( data()->clock()->isActive() );
 }
 
 void KStars::slotStepForward() {

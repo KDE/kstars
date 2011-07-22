@@ -25,6 +25,10 @@
 #include <kplotobject.h>
 #include <kplotwidget.h>
 #include <kplotaxis.h>
+#include <QPainter>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <kdeprintdialog.h>
 
 #include "dms.h"
 #include "ksalmanac.h"
@@ -53,7 +57,8 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     QFrame *page = new QFrame( this );
     setMainWidget(page);
     setCaption( i18n( "Altitude vs. Time" ) );
-    setButtons( KDialog::Close );
+    setButtons( KDialog::Close | KDialog::User1 );
+    setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Print..."), "document-print", i18n("Print the Altitude vs. time plot") ) );
     setModal( false );
 
     QVBoxLayout* topLayout = new QVBoxLayout( page );
@@ -107,6 +112,7 @@ AltVsTime::AltVsTime( QWidget* parent)  :
     connect( avtUI->longBox, SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->latBox,  SIGNAL( returnPressed() ), this, SLOT( slotAdvanceFocus() ) );
     connect( avtUI->PlotList, SIGNAL( currentRowChanged(int) ), this, SLOT( slotHighlight(int) ) );
+    connect( button( KDialog::User1 ), SIGNAL( clicked() ), this, SLOT( slotPrint() ) );
 
     //the edit boxes should not pass on the return key!
     avtUI->nameBox->setTrapReturnKey( true );
@@ -247,7 +253,13 @@ void AltVsTime::processObject( SkyObject *o, bool forceAdd ) {
         //add new curve with width=2, and color=white
         KPlotObject *po = new KPlotObject( Qt::white, KPlotObject::Lines, 2.0 );
         for ( double h=-12.0; h<=12.0; h+=0.5 ) {
-            po->addPoint( h, findAltitude( o, h ) );
+            int label_pos = -11.0 + avtUI->View->plotObjects().count();
+            while ( label_pos > 11.0 )
+                label_pos -= 23.0;
+            if( h == label_pos )
+                po->addPoint( h, findAltitude( o, h ), o->translatedName() );
+            else
+                po->addPoint( h, findAltitude( o, h ) );
         }
         avtUI->View->addPlotObject( po );
 
@@ -507,5 +519,75 @@ void AltVsTime::setDawnDusk()
     avtUI->View->setDawnDuskTimes( da, du );
     avtUI->View->setMinMaxSunAlt( min_alt, max_alt );
 }
+
+void AltVsTime::slotPrint()
+{
+    QPainter p;                 // Our painter object
+    QPrinter printer;           // Our printer object
+    QString str_legend;         // Text legend
+    QString str_year;           // Calendar's year
+    int text_height = 200;      // Height of legend text zone in points
+    QSize plot_size;            // Initial plot widget size
+    QFont plot_font;            // Initial plot widget font
+    int plot_font_size;         // Initial plot widget font size
+
+    // Set printer resolution to 300 dpi
+    printer.setResolution( 300 );
+
+    // Open print dialog
+    QPointer<QPrintDialog> dialog( KdePrint::createPrintDialog( &printer, this ) );
+    dialog->setWindowTitle( i18n( "Print elevation vs time plot" ) );
+    if ( dialog->exec() == QDialog::Accepted ) {
+        // Change mouse cursor
+        QApplication::setOverrideCursor( Qt::WaitCursor );
+
+        // Save plot widget font
+        plot_font = avtUI->View->font();
+        // Save plot widget font size
+        plot_font_size = plot_font.pointSize();
+        // Save calendar widget size
+        plot_size = avtUI->View->size();
+
+        // Set text legend
+        str_legend = i18n( "Elevation vs. Time Plot" );
+        str_legend += "\n";
+        str_legend += geo->fullName();
+        str_legend += " - ";
+        str_legend += avtUI->DateWidget->date().toString( "dd/MM/yyyy" );
+
+        // Create a rectangle for legend text zone
+        QRect text_rect( 0, 0, printer.width(), text_height );
+
+        // Increase plot widget font size so it looks good in 300 dpi
+        plot_font.setPointSize( plot_font_size * 2.5 );
+        avtUI->View->setFont( plot_font );
+        // Increase plot widget size to fit the entire page
+        avtUI->View->resize( printer.width(), printer.height() - text_height );
+
+        // Create a pixmap and render plot widget into it
+        QPixmap pixmap( avtUI->View->size() );
+        avtUI->View->render( &pixmap );
+
+        // Begin painting on printer
+        p.begin( &printer );
+        // Draw legend
+        p.drawText( text_rect, Qt::AlignLeft, str_legend );
+        // Draw plot widget
+        p.drawPixmap( 0, text_height, pixmap );
+        // Ending painting
+        p.end();
+
+        // Restore plot widget font size
+        plot_font.setPointSize( plot_font_size );
+        avtUI->View->setFont( plot_font );
+        // Restore calendar widget size
+        avtUI->View->resize( plot_size );
+
+        // Restore mouse cursor
+        QApplication::restoreOverrideCursor();
+    }
+    delete dialog;
+}
+
 
 #include "altvstime.moc"

@@ -67,7 +67,6 @@ void CalendarWidget::paintEvent( QPaintEvent *e ) {
 
 void CalendarWidget::drawHorizon( QPainter *p ) {
     KSSun thesun;
-    KStarsData *data = KStarsData::Instance();
     // FIXME: OMG!!!
     SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
     int y = skycal->year();
@@ -78,10 +77,13 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
     //Add points along curved edge of horizon polygons
     int imonth = -1;
     float rTime, sTime;
+    
+    riseTimeList.clear();
+    setTimeList.clear();
 
     while ( y == kdt.date().year() ) {
-        rTime = thesun.riseSetTime( kdt.djd() + 1.0, data->geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
-        sTime = thesun.riseSetTime( kdt.djd(),       data->geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
+        rTime = thesun.riseSetTime( kdt.djd() + 1.0, skycal->get_geo(), true, true ).secsTo(QTime())*-24.0/86400.0;
+        sTime = thesun.riseSetTime( kdt.djd(),       skycal->get_geo(), false, true  ).secsTo(QTime())*-24.0/86400.0 - 24.0;
 
         // FIXME why do the above two give different values ? ( Difference < 1 min though )
         if ( kdt.date().month() != imonth ) {

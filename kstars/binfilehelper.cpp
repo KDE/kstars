@@ -256,3 +256,18 @@ bool BinFileHelper::isField(const QString &fieldName) {
     return false;
 }
 
+int BinFileHelper::unsigned_KDE_fseek( FILE *stream, quint32 offset, int whence ) {
+    Q_ASSERT( stream );
+    int ret = 0;
+    if( offset <= ((quint32)1 << 31) - 1 ) {
+        ret = fseek( stream, offset, whence );
+    }
+    else {
+        // Do the fseek in two steps
+        ret = fseek( stream, ((quint32)1 << 31) - 1, whence );
+        if( !ret )
+            ret = fseek( stream, offset - ((quint32)1 << 31) + 1, SEEK_CUR );
+    }
+    return ret;
+}
+

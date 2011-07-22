@@ -27,6 +27,7 @@
 #include "kstarsdatetime.h"
 
 class KSNumbers;
+class KSSun;
 
 /**@class SkyPoint
 	*
@@ -285,6 +286,12 @@ public:
     	*/
     void nutate(const KSNumbers *num);
 
+    /**
+     *@short Check if this sky point is close enough to the sun for
+     * gravitational lensing to be significant
+     */
+    bool checkBendLight();
+
     /**Correct for the effect of "bending" of light around the sun for
      * positions near the sun.
      *
@@ -467,10 +474,10 @@ public:
      * (arcseconds) away from the givenSkyPoint 
      *
      * @param dist Distance to move through in arcseconds
-     * @param p The SkyPoint to move away from
-     * @return a SkyPoint that is at the dist away from this SkyPoint in the direction specified by bearing
+     * @param from The SkyPoint to move away from
+     * @return a SkyPoint that is at the dist away from this SkyPoint in the direction away from from
      */
-    SkyPoint moveAway( SkyPoint &from, double dist );
+    SkyPoint moveAway( const SkyPoint &from, double dist );
 
     /**
      * @short Check if this point is circumpolar at the given geographic latitude
@@ -495,11 +502,13 @@ protected:
     	*/
     void precess(const KSNumbers *num);
 
+    long double   lastPrecessJD; // JD at which the last coordinate update (see updateCoords) for this SkyPoint was done
 
 private:
     dms RA0, Dec0; //catalog coordinates
     dms RA, Dec; //current true sky coordinates
     dms Alt, Az;
+    static KSSun *m_Sun;
 };
 
 #endif

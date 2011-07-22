@@ -43,6 +43,7 @@ class SkyCalendar : public KDialog
         ~SkyCalendar();
         
         int year();
+        GeoLocation* get_geo();
         
     public slots:
         void slotFillCalendar();

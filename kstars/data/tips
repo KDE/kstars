@@ -102,7 +102,7 @@
 <tip category="KStars|Navigation">
 	<html>
 		<p>You can manually set the coordinates of the central Focus point.
-			Press Ctrl+M, or use the "Pointing->Set Focus Manually..." menu item, and enter
+			Press Ctrl+M, or use the "Pointing->Set Coordinates Manually..." menu item, and enter
 			the desired coordinates in the popup window.
 		</p>
 	</html>

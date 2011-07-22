@@ -58,6 +58,12 @@ LineListIndex::LineListIndex( SkyComposite *parent, const QString& name ) :
     m_polyIndex = new LineListHash();
 }
 
+LineListIndex::~LineListIndex()
+{
+    delete m_lineIndex;
+    delete m_polyIndex;
+}
+
 // This is a callback for the indexLines() function below
 const IndexHash& LineListIndex::getIndexHash(LineList* lineList ) {
     return skyMesh()->indexLine( lineList->points() );

@@ -89,8 +89,15 @@ void DeviceManager::startServer()
     *serverProcess << Options::indiServer();
     *serverProcess << "-v" << "-p" << QString::number(port);
 
+
     foreach(IDevice *device, managed_devices)
+    {
+        // JM: Temporary workaround for indiserver limit of client BLOBs for CCDs.
+        if (device->deviceType == KSTARS_CCD)
+            *serverProcess << "-m 100";
+
 	 *serverProcess << device->driver;
+    }
 
     if (mode == DeviceManager::M_LOCAL)
       {

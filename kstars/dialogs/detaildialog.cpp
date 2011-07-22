@@ -34,8 +34,10 @@
 #include <kio/netaccess.h>
 
 #include "kstars.h"
+#include "kdebug.h"
 #include "kstarsdata.h"
 #include "kstarsdatetime.h"
+#include "ksnumbers.h"
 #include "geolocation.h"
 #include "ksutils.h"
 #include "skymap.h"
@@ -110,7 +112,12 @@ void DetailDialog::createGeneralTab()
     #endif
     connect( Data->Image, SIGNAL( clicked() ), this, SLOT( updateThumbnail() ) );
 
-    Data->IllumLabel->setVisible( false );
+    // Stuff that should be visible only for specific types of objects
+    Data->IllumLabel->setVisible( false ); // Only shown for the moon
+    Data->Illumination->setVisible( false );
+
+    Data->BVIndex->setVisible( false ); // Only shown for stars
+    Data->BVLabel->setVisible( false );
 
     //Show object thumbnail image
     showThumbnail();
@@ -137,6 +144,11 @@ void DetailDialog::createGeneralTab()
         objecttyp = s->sptype() + ' ' + i18n("star");
         Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( s->mag(), 1 ) ) );  //show to tenths place
+
+        Data->BVLabel->setVisible( true );
+        Data->BVIndex->setVisible( true );
+        if( s->getBVIndex() < 30.0 )
+            Data->BVIndex->setText( QString::number( s->getBVIndex() , 'g', 2 ) );
 
         //The thumbnail image is empty, and isn't clickable for stars
         //Also, don't show the border around the Image QFrame.
@@ -169,7 +181,6 @@ void DetailDialog::createGeneralTab()
             Data->AngSizeLabel->setText( i18nc( "the star is a variable star", "variable" ) );
 
         break; //end of stars case
-
     case SkyObject::ASTEROID:  //[fall through to planets]
     case SkyObject::COMET:     //[fall through to planets]
     case SkyObject::MOON:      //[fall through to planets]
@@ -190,11 +201,13 @@ void DetailDialog::createGeneralTab()
         //Magnitude: The moon displays illumination fraction instead
         if ( selectedObject->name() == "Moon" ) {
             Data->IllumLabel->setVisible( true );
+            Data->Illumination->setVisible( true );
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
-
-        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+		
+		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
+		
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( i18nc("distance in kilometers", "%1 km",
@@ -217,7 +230,6 @@ void DetailDialog::createGeneralTab()
         }
 
         break; //end of planets/comets/asteroids case
-
     default: //deep-sky objects
         dso = (DeepSkyObject *)selectedObject;
 
@@ -334,8 +346,8 @@ void DetailDialog::createGeneralTab()
             break;
         }
         case SkyObject::COMET: {
-            KSComet* com = (KSComet *)selectedObject;
-            DataComet = new DataCometWidget( this );
+	    KSComet* com = (KSComet *)selectedObject;
+	    DataComet = new DataCometWidget( this );
             Data->IncludeData->layout()->addWidget( DataComet );
 
             // Perihelion
@@ -406,6 +418,7 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
 
     Pos->CoordTitle->setPalette( titlePalette );
     Pos->RSTTitle->setPalette( titlePalette );
+    KStarsData *data = KStarsData::Instance();
 
     //Coordinates Section:
     //Don't use KLocale::formatNumber() for the epoch string,
@@ -413,7 +426,9 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
     QString sEpoch = QString::number( ut.epoch(), 'f', 1 );
     //Replace the decimal point with localized decimal symbol
     sEpoch.replace( '.', KGlobal::locale()->decimalSymbol() );
-
+    
+    kDebug() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).ra0().toHMSString() << (selectedObject->deprecess(data->updateNum(),2451545.0l)).dec0().toDMSString() << endl;
+    //kDebug() << selectedObject->ra().toHMSString() << selectedObject->dec().toDMSString() << endl;
     Pos->RALabel->setText( i18n( "RA (%1):", sEpoch ) );
     Pos->DecLabel->setText( i18n( "Dec (%1):", sEpoch ) );
     Pos->RA->setText( selectedObject->ra().toHMSString() );

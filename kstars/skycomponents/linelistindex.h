@@ -47,6 +47,9 @@ public:
      */
     explicit LineListIndex( SkyComposite *parent, const QString& name="" );
 
+    /* @short Destructor */
+    ~LineListIndex();
+
     /* @short.  The top level draw routine.  Draws all the LineLists for any
      * subclass in one fell swoop which minimizes some of the loop overhead.
      * Overridden by MilkWay so it can decide whether to draw outlines or

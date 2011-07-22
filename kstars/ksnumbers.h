@@ -112,6 +112,11 @@ public:
     	*/
     void updateValues( long double jd );
 
+    /**
+     *@return the JD for which these values hold (i.e. the last updated JD)
+     */
+    inline long double getJD() const { return days; }
+
     double vEarth(int i) const {return vearth[i];}
 
 private:
@@ -122,7 +127,7 @@ private:
     double P1[3][3], P2[3][3], P1B[3][3], P2B[3][3];
     double deltaObliquity, deltaEcLong;
     double e, T, TB;
-    long double days;
+    long double days; // JD for which the last update was called
     double jm;
     static const int arguments[NUTTERMS][5];
     static const int amp[NUTTERMS][4];

@@ -177,7 +177,21 @@ public:
     void JITupdate( KStarsData* data );
 
     /**@short returns the magnitude of the proper motion correction in milliarcsec/year */
-    double pmMagnitude();
+    inline double pmMagnitude()
+    {
+        double cosDec = dec().cos();
+        return sqrt( cosDec * cosDec * pmRA() * pmRA() + pmDec() * pmDec() );
+    }
+
+    /**
+     *@short returns the square of the magnitude of the proper motion correction in (milliarcsec/year)^2
+     *@note This method is faster when the square root need not be taken
+     */
+    inline double pmMagnitudeSquared()
+    {
+        double metric_weighted_pmRA = dec().cos() * pmRA();
+        return (metric_weighted_pmRA * metric_weighted_pmRA + pmDec() * pmDec());
+    }
 
     /**@short Set the Ra and Dec components of the star's proper motion, in milliarcsec/year.
      * Note that the RA component is multiplied by cos(dec).
@@ -237,6 +251,22 @@ public:
      */
     virtual double labelOffset() const;
 
+    /**
+     *@return the Visual magnitude of the star
+     */
+    inline float getVMag() const { return V; }
+
+    /**
+     *@return the blue magnitude of the star
+     */
+    inline float getBMag() const { return B; }
+
+    /**
+     *@return the B - V color index of the star, or a nonsense number
+     *larger than 30 if it's not well defined
+     */
+    inline float getBVIndex() const { return ( ( B < 30.0 && V < 30.0 ) ? B - V : 99.9 ); }
+
     quint64 updateID;
     quint64 updateNumID;
 
@@ -255,6 +285,7 @@ private:
     double PM_RA, PM_Dec, Parallax;  //, VRange, VPeriod;
     bool Multiplicity, Variability;
     int HD;
+    float B, V; // B and V magnitudes, separately. NOTE 1) This is kept separate from mag for a reason. See init( const deepStarData *); 2) This applies only to deep stars at the moment
 };
 
 #endif

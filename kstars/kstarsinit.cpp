@@ -167,6 +167,8 @@ void KStars::initActions() {
     ka = actionCollection()->add<KToggleAction>("clock_startstop")
         << i18n("Stop &Clock" )
         << KIcon("media-playback-pause" );
+    if ( ! StartClockRunning )
+        ka->toggle();
     QObject::connect( ka, SIGNAL( triggered() ), this, SLOT( slotToggleTimer() ) );
     QObject::connect(data()->clock(), SIGNAL(clockToggled(bool)), ka, SLOT(setChecked(bool)) );
     //UpdateTime() if clock is stopped (so hidden objects get drawn)
@@ -206,7 +208,7 @@ void KStars::initActions() {
         << KIcon("object-locked" )
         << KShortcut( Qt::CTRL+Qt::Key_T  );
     actionCollection()->addAction("manual_focus", this, SLOT( slotManualFocus() ) )
-        << i18n("Set Focus &Manually..." )
+        << i18n("Set Coordinates &Manually..." )
         << KShortcut( Qt::CTRL+Qt::Key_M );
 
     // ==== View Menu ================

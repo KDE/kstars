@@ -97,11 +97,6 @@ while(<>) {
         printf "\n";
     }
 
-    my $_RA1 = $star->{RA} - $pm_millenia * $star->{dRA} / 3600.0;
-    my $_RA2 = $star->{RA} + $pm_millenia * $star->{dRA} / 3600.0;
-    my $_Dec1 = $star->{Dec} - $pm_millenia * $star->{dDec} / (3600.0 * cos( $star->{Dec} * 3.14159265 / 180.0 ));
-    my $_Dec2 = $star->{Dec} + $pm_millenia * $star->{dDec} / (3600.0 * cos( $star->{Dec} * 3.14159265 / 180.0 ));
-
     my ( $RA1, $Dec1 ) = proper_motion_coords( $star->{RA}, $star->{Dec}, $star->{dRA}, $star->{dDec}, -$pm_millenia * 1000 );
     my ( $RA2, $Dec2 ) = proper_motion_coords( $star->{RA}, $star->{Dec}, $star->{dRA}, $star->{dDec}, $pm_millenia * 1000 );
 
@@ -150,8 +145,12 @@ while(<>) {
 
     my @trixels;
     if( $star->{Name} eq "" && $star->{GName} eq "" ) {
-        my $separation = sqrt( ($botRA - $topRA) * ($botRA - $topRA) + ($leftDec - $rightDec) * ($leftDec - $rightDec) );
-        if( $separation > 50.0 / 60.0 ) {
+
+        my $separation = sqrt( hour2deg($botRA - $topRA) * hour2deg($botRA - $topRA) + ($leftDec - $rightDec) * ($leftDec - $rightDec) );
+
+        # HTMesh::intersect is called (in DeepStarComponent::draw()) with a 1 degree "safety" margin.
+	# So we tolerate upto < 1 degree of proper motion without duplication
+        if( $separation > 50 / 60 ) {
 #            $mesh->intersect_poly4( $botRA, $leftDec,
 #                                    $botRA - $epsilon, $leftDec + $epsilon,
 #                                    $topRA - $epsilon, $rightDec - $epsilon,

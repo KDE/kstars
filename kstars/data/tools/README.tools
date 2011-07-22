@@ -1,4 +1,19 @@
-This directory contains tools used to analyse the data
+THIS DIRECTORY:
+---------------
+This directory contains tools used to analyse the data used in
+KStars. It has tools to test, read and create the binary files used
+for star data amongst other things.
+
+Most of these programs (particularly the C / C++ programs) are rather
+poorly written code, but somehow happen to work. Also, this directory
+can be a pain to build (read the note in the Makefile for details). I
+really don't know if it is worth spending time cleaning all this up,
+since it's anyway something that very few people would be interested
+in building (or so I think).
+
+Most of the perl scripts are due to James Bowlin, who can be contacted
+at <bowlin@mindspring.com>. Most of the C programs are my work, and I
+can be contacted at <akarsh.simha@kdemail.net>
 
 DESCRIPTIONS OF FILES:
 ----------------------
@@ -39,6 +54,10 @@ nomaddatatomysql.pl  Reads the NOMAD catalog data in ASCII format and puts it in
                      MySQL database for easy processing. This is just a modified
                      version of tycdatatomysql.pl
 
+nomadbinfile2mysql.c Reads binary NOMAD catalog data and puts it in a
+		     MySQL database for easy processing.
+
+# TODO: Document the split and merge stuff.
 
 BUILDING THE PROGRAMS:
 ----------------------
@@ -95,5 +114,5 @@ don't know why this happens, but it seems to work that way.
 
 LICENSING INFORMATION:
 ----------------------
-Copyright (c) 2008 Akarsh Simha <akarshsimha@gmail.com>
+Copyright (c) 2008-2011 Akarsh Simha <akarsh.simha@kdemail.net>
 This document is released under the terms of the GPL v2.
