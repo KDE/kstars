@@ -366,12 +366,13 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
         obsList().removeAt(k);
         ui->View->removeAllPlotObjects();
         ui->TableView->resizeColumnsToContents();
-        if( ! update ) slotSaveList();
+        if( ! update )
+            slotSaveList();
     } else {
         if( ! update )
             TimeHash.remove( o->name() );
-        sessionList().removeAt(k);//Remove from the session list
-        if ( ! isModified ) isModified = true;//Removing an object should trigger the modified flag
+        sessionList().removeAt(k); //Remove from the session list
+        isModified = true;         //Removing an object should trigger the modified flag
         ui->View->removeAllPlotObjects();
         ui->SessionView->resizeColumnsToContents();
     }
