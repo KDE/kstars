@@ -724,7 +724,7 @@ int Satellite::sgp4( double tsince )
         const double g54   = 4.4108898;
         const double rptim = 4.37526908801129966e-3; // this equates to 7.29211514668855e-5 rad/sec
         const double step  =    720.0;
-        const double step2 = 259200.0;
+        const double step2 = step * step / 2;
 
         // Calculate deep space resonance effects
         dndt   = 0.0;
