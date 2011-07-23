@@ -378,13 +378,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
     }
 }
 
-void ObservingList::removeObject(SkyObject *o, bool sessionView) {
-    if ( sessionView )
-        slotRemoveObject( o, true );
-    else
-        slotRemoveObject( o );
-}
-
 void ObservingList::slotRemoveSelectedObjects() {
     QStandardItemModel *currentModel;
 //    ObservingListUI local_ui;
@@ -423,12 +416,12 @@ void ObservingList::slotRemoveSelectedObjects() {
                 //Stars named "star" must be matched by coordinates
                 if ( o->name() == "star" ) {
                     if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                        removeObject(o, sessionView);
+                        slotRemoveObject(o, sessionView);
                         break;
                     }
                 } else {
                     if ( o->translatedName() == mIndex.data().toString() ) {
-                        removeObject(o, sessionView);
+                        slotRemoveObject(o, sessionView);
                         break;
                     }
                 }
