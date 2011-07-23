@@ -100,30 +100,51 @@ public:
     inline bool isFovSymbolDrawn() { return m_DrawFovSymbol; }
 
     /**@short Enable or disable stopping simulation for FOV export.
-      *@param true if stopping is to be enabled.
+      *@param stopping should be true if stopping is to be enabled.
       */
     inline void setClockStopping(bool stopping) { m_StopClock = stopping; }
 
     /**@short Enable or disable FOV shape overriding.
-      *@param true if FOV representation should be always rectangular.
+      *@param override should be true if FOV representation is to be always rectangular.
       */
     inline void setFovShapeOverriden(bool override) { m_OverrideFovShape = override; }
 
     /**@short Enable or disable FOV symbol drawing.
-      *@param true if FOV symbol should be drawn.
+      *@param draw should be true if FOV symbol is to be drawn.
       */
     inline void setFovSymbolDrawn(bool draw) { m_DrawFovSymbol = draw; }
 
 private:
-
+    /**@short Calculate zoom level at which given angular length will occupy given length in pixels.
+      *@param pixelSize size in pixels.
+      *@param degrees angular length.
+      *@return zoom level.
+      */
     inline double calculateZoomLevel(int pixelSize, float degrees) { return (pixelSize * 57.3 * 60) / degrees; }
 
+    /**@short Calculate pixel size of given angular length at given zoom level.
+      *@param degrees angular length.
+      *@param zoomLevel zoom level.
+      *@return size in pixels.
+      */
     inline double calculatePixelSize(float degrees, double zoomLevel) { return degrees * zoomLevel / (57.3 * 60.0); }
 
+    /**@short Save SkyMap state.
+      *@param savePos should be true if current position is to be saved.
+      */
     void saveState(bool savePos);
 
+    /**@short Restore saved SkyMap state.
+      *@param restorePos should be true if saved position is to be restored.
+      */
     void restoreState(bool restorePos);
 
+    /**@short Private FOV export method.
+      *@param point central point of the exported FOV.
+      *@param fov represented field-of-view.
+      *@param pd paint device on which the representation of the FOV will be painted.
+      *@note Call to this method will not change SkyMap's state.
+      */
     void pExportFov(SkyPoint *point, FOV* fov, QPaintDevice *pd);
 
     KStarsData *m_KSData;
