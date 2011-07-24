@@ -332,6 +332,7 @@ set(kstars_extra_SRCS
 	satellitegroup.cpp
 	legend.cpp
 	simplefovexporter.cpp
+        finderchart.cpp loggingform.cpp
 )
 
 set(oal_SRCS
