@@ -326,7 +326,7 @@ object.</para></listitem>
 </sect2>
 
 <sect2 id="devicemenu">
-<title><guimenu>Devices</guimenu> Menu</title>
+  <title><guimenu>Devices</guimenu> Menu</title> <!-- to be checked for 4.7-->
 
 <variablelist>
 
@@ -1001,7 +1001,7 @@ for specifying a sky object on which to center</para></listitem>
 
 <varlistentry><term><keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>
 </term>
-<listitem><para>Open the <guilabel>Set Manual Focus</guilabel> tool,
+<listitem><para>Open the <guilabel>Set Coordinates Manually</guilabel> tool,
 for specifying RA/Dec or Az/Alt coordinates on which to center</para></listitem>
 </varlistentry>
 

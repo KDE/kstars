@@ -251,7 +251,7 @@ learning about astronomy and the night sky.  To this end, the &kstars;
 Handbook includes the <link linkend="astroinfo">AstroInfo
 Project</link>, a series of short, hyperlinked articles on astronomical
 topics that can be explored with &kstars;.  In addition, &kstars;
-includes <acronym>DBUS</acronym> functions that allow you to <link
+includes &DBus; functions that allow you to <link
 linkend="tool-scriptbuilder">write complex scripts</link>, making &kstars;
 a powerful "demo engine" for classroom use or general illustration of
 astronomical topics.

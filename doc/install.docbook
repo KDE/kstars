@@ -29,7 +29,7 @@ Releases are also posted to <ulink url="http://edu.kde.org/kstars">the
 Ubuntu, and Mandriva. Some distributions package &kstars; as a separate application, some
 just provide a kdeedu package, which includes &kstars;.
 </para><para>
-If you would like the latest SVN development version of &kstars;, please
+If you would like the latest Git development version of &kstars;, please
 follow <ulink url="http://edu.kde.org/kstars/svn.php">these instructions</ulink>.
 </para>
 </sect1>
