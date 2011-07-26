@@ -6,7 +6,7 @@
 
 <para>
 KDE applications can be controlled externally from another program,
-from a console prompt, or from a shell script using the Inter-process communication protocol (<abbrev>DCOP</abbrev>).  KStars takes
+from a console prompt, or from a shell script using the Inter-process communication protocol (&DBus;).  KStars takes
 advantage of this feature to allow rather complex behaviors to be
 scripted and played back at any time.  This can be used, for example,
 to create a classroom demo to illustrate an astronomical concept.
@@ -16,7 +16,7 @@ The problem with DBus scripts is, writing them is a bit like
 programming, and can seem a daunting task to those who do not have
 programming experience.  The Script Builder Tool provides a
 <abbrev>GUI</abbrev> point-and-click interface for constructing
-KStars DCOP scripts, making it very easy to create complex scripts.
+KStars &DBus; scripts, making it very easy to create complex scripts.
 </para>
 
 <sect2 id="sb-intro">

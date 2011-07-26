@@ -43,15 +43,15 @@ rendered.  This means you need to run &kstars; in normal GUI
 mode, and exit the program when it is set up with the desired 
 options for the generated images.  This is not very flexible, 
 so we also provide the ability to execute a &kstars; 
-<acronym>DCOP</acronym> script to set the scene before 
+&DBus; script to set the scene before 
 generating the image.  The filename you specify as the 
 script argument should be a valid &kstars;
-<acronym>DCOP</acronym> script, such as one created with the
+&DBus; script, such as one created with the
 <link linkend="tool-scriptbuilder">Script Builder Tool</link>.
 The script can be used to set where the image is pointing, 
 set the geographic location, set the time and date, change the
 Zoom level, and adjust other view options.  Some of the 
-<acronym>DCOP</acronym> functions make no sense in non-GUI 
+&DBus; functions make no sense in non-GUI 
 mode (such as <function>waitForKey()</function>); if these 
 functions are encountered while parsing the script, they are
 simply ignored.
