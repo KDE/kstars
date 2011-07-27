@@ -57,7 +57,7 @@ The <link linkend="ai-geocoords">longitude, latitude</link> and
 <link linkend="ai-timezones">time zone</link> information for the
 currently-selected location are displayed in the boxes at the bottom of
 the window.  If you feel that any of these values are inaccurate, you
-can modify them and press the <guibutton>Add to List</guibutton> button
+can modify them and press the <guibutton>Add City to List</guibutton> button
 to record your custom version of the location.  You can also define a
 completely new location by pressing the
 <guibutton>Clear Fields</guibutton> button, and entering the data for
@@ -141,16 +141,16 @@ The window is depicted below:
 </para>
 
 <para>
-The <guilabel>Configure &kstars;</guilabel> window is divided into five
-tabs:
-<guilabel>Catalogs</guilabel>, <guilabel>Guides</guilabel>,
-<guilabel>Solar System</guilabel>, <guilabel>Colors</guilabel>, and
+The <guilabel>Configure &kstars;</guilabel> window is divided into seven
+page:
+<guilabel>Catalogs</guilabel>, <guilabel>Solar System</guilabel>, <guilabel>Satellites</guilabel>,
+<guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, <guilabel>Xplanet</guilabel>, and
 <guilabel>Advanced</guilabel>.
 </para>
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
-<secondary>Catalogs Tab</secondary></indexterm>
-In the <guilabel>Catalogs</guilabel> tab, you determine which object
+<secondary>Catalogs page</secondary></indexterm>
+In the <guilabel>Catalogs</guilabel> page, you determine which object
 catalogs are displayed in the map.  The <guilabel>Stars</guilabel> section
 also allows you to set the
 <quote>faint <link linkend="ai-magnitude">magnitude</link> limit</quote>
@@ -159,14 +159,14 @@ displaying the names and/or magnitudes of stars.  Below the stars section,
 the <guilabel>Deep-Sky Objects</guilabel> section controls the display of
 several non-stellar object catalogs.  By default, the list includes the
 Messier, NGC and IC catalogs.  You can add your own custom object catalogs
-by pressing the <guibutton>Add Custom Catalog</guibutton> button.  For
+by pressing the <guibutton>Import Catalog</guibutton> or <guilabel>Load Catalog</guilabel> button.  For
 detailed instructions on preparing a catalog data file, see the
 <filename>README.customize</filename> file that ships with &kstars;.
 </para>
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
-<secondary>Solar System Tab</secondary></indexterm>
-In the <guilabel>Solar System</guilabel> tab, you can specify whether
+<secondary>Solar System page</secondary></indexterm>
+In the <guilabel>Solar System</guilabel> page, you can specify whether
 the Sun, Moon, planets, comets and asteroids are displayed, and
 whether the major bodies are drawn as colored circles or actual images.
 You can also toggle whether solar system bodies have name labels attached,
@@ -178,8 +178,8 @@ sky color.
 </para>
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
-<secondary>Guides Tab</secondary></indexterm>
-The <guilabel>Guides</guilabel> tab lets you toggle whether non-objects
+<secondary>Guides page</secondary></indexterm>
+The <guilabel>Guides</guilabel> page lets you toggle whether non-objects
 are displayed (&ie;, constellation lines, constellation names, the
 Milky Way contour, the <link linkend="ai-cequator">celestial
 equator</link>, <link linkend="ai-ecliptic">the ecliptic</link>, <link
@@ -190,10 +190,10 @@ constellation names using your local language.
 </para>
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
-<secondary>Colors Tab</secondary></indexterm>
+<secondary>Colors page</secondary></indexterm>
 <indexterm><primary>Color Schemes</primary>
 <secondary>Customizing</secondary></indexterm>
-The <guilabel>Colors</guilabel> tab allows you to set the color scheme,
+The <guilabel>Colors</guilabel> page allows you to set the color scheme,
 and to define custom color schemes.  The tab is split into two panels:
 </para>
 <para>
@@ -222,8 +222,8 @@ simply highlight it in the list, and press the <guibutton>Remove Color
 Scheme</guibutton> button.
 </para><para>
 <indexterm><primary>Configure &kstars; window</primary>
-<secondary>Advanced Tab</secondary></indexterm>
-The <guilabel>Advanced</guilabel> Tab provides fine-grained control
+<secondary>Advanced page</secondary></indexterm>
+The <guilabel>Advanced</guilabel> page provides fine-grained control
 over the more subtle behaviors of &kstars;.
 </para><para>
 <indexterm><primary>Atmospheric Refraction</primary></indexterm>
@@ -292,7 +292,7 @@ menu.  There are four predefined color schemes, and you can define your own in t
 <indexterm><primary>Toolbars</primary>
 <secondary>Customizing</secondary></indexterm>
 Toggle whether the Toolbars are drawn in the
-<menuchoice><guimenu>Settings</guimenu><guimenuitem>Toolbars</guimenuitem></menuchoice>
+<menuchoice><guimenu>Settings</guimenu><guimenuitem>Toolbars Shown</guimenuitem></menuchoice>
 menu.  Like most KDE toolbars, they can also be dragged around and
 anchored on any window edge, or even detached from the window completely.
 </para></listitem>
@@ -369,7 +369,7 @@ calculate the field-of-view angle, given parameters of your telescope/eyepiece o
 telescope/camera setup.  The four available shapes are: Circle, Square, Crosshairs, and
 Bullseye.  Once you have specified all four parameters, press <guibutton>Ok</guibutton>,
 and the symbol will appear in the list of defined symbols.  It will also be available
-from the <guimenu>Settings</guimenu> | <guisubmenu>FOV</guisubmenu> menu.
+from the <menuchoice><guimenu>Settings</guimenu><guisubmenu>FOV</guisubmenu></menuchoice> menu.
 </para>
 </listitem>
 </itemizedlist>

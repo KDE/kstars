@@ -27,8 +27,8 @@ the constellation Orion.  Orion has just risen above the eastern horizon.
 Stars are displayed with <link linkend="ai-colorandtemp">realistic
 colors</link> and relative brightnesses.  In three corners 
 of the sky display, there are on-screen text labels displaying data on 
-the current time (<quote>LT: 16:38:42 23 Jan 2008</quote>), the current 
-Geographic Location (<quote>Tucson, Arizona, USA</quote>), and the 
+the current time (<quote>LT: 20:16:09 Tuesday 23 November 2010</quote>), the current 
+Geographic Location (<quote>Fremont, California, USA</quote>), and the 
 current object in the center of the display (<quote>Focused on: Betelgeuse 
 (alpha Orionis)</quote>).  Above the sky display, there are two toolbars.  
 The main toolbar contains shortcuts for
@@ -47,12 +47,12 @@ Right Ascension/Declination and Azimuth/Altitude) of the mouse cursor.
 <indexterm><primary>Setup Wizard</primary></indexterm>
 The first time you run KStars, you will be presented with a Setup Wizard,
 which allows you to easily set your geographic location and download some
-extra data files.  You can press the <guilabel>Finish</guilabel> button
+extra data files.  You can press the <guilabel>OK</guilabel> button
 at any time to exit the Setup Wizard.
 </para>
 
 <para>
-The first page of the Setup Wizard allows you to choose the starting
+The second page of the Setup Wizard allows you to choose the starting
 geographic location, by selecting from the list of the 2500+ known
 locations on the right side of the window.  The list of locations can be
 filtered to match the text you enter in the <guilabel>City</guilabel>,
@@ -65,11 +65,11 @@ the <guilabel>Next</guilabel> button.
 </para>
 
 <para>
-The second page of the Setup Wizard allows you to download extra data
+The last page of the Setup Wizard allows you to download extra data
 that are not included with the standard distribution of &kstars;.
 Simply press the <guilabel>Download Extra Data</guilabel> button to open
 the <guilabel>Get New Stuff</guilabel> tool.  When you are all done,
-press the <guilabel>Finish</guilabel> button in the Setup Wizard to
+press the <guilabel>OK</guilabel> button in the Setup Wizard to
 start exploring &kstars;.
 </para>
 </sect1>
@@ -255,7 +255,7 @@ To center the display on an object, highlight the desired object in
 the list, and press <guibutton>Ok</guibutton>.  Note that if the
 object is below the horizon, the program will warn you that you may
 not see anything except the ground (you can make the ground invisible
-in the <guilabel>Display Options</guilabel> window, or by pressing the
+in the <guilabel>Guides</guilabel> settings page, or by pressing the
 <guiicon>Ground</guiicon> button in the View toolbar).
 </para>
 </sect2>
