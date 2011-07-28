@@ -1,4 +1,5 @@
 #include "supernova.h"
+#include "kspopupmenu.h"
 
 Supernova::Supernova(dms ra, dms dec, QString& date ,float m, const QString& serialNo,
                      const QString& type, const QString& hostGalaxy, const QString& offset,
@@ -8,3 +9,8 @@ Supernova::Supernova(dms ra, dms dec, QString& date ,float m, const QString& ser
                     offset(offset), discoverers(discoverer)
 
 {}
+
+void Supernova::initPopupMenu(KSPopupMenu* pmenu)
+{
+    pmenu->createSupernovaMenu(this);
+}

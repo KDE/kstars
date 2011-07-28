@@ -48,6 +48,7 @@
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
+#include "skyobjects/supernova.h"
 #include "skycomponents/customcatalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
@@ -127,6 +128,7 @@ void DetailDialog::createGeneralTab()
     StarObject *s = 0L;
     DeepSkyObject *dso = 0L;
     KSPlanetBase *ps = 0L;
+    Supernova *sup = 0L;
     QString pname, oname, objecttyp, constellationname, str;
 
     switch ( selectedObject->type() ) {
@@ -230,6 +232,18 @@ void DetailDialog::createGeneralTab()
         }
 
         break; //end of planets/comets/asteroids case
+
+    case SkyObject::SUPERNOVA:
+        sup=(Supernova *)selectedObject;
+
+        Data->Names->setText(sup->name());
+
+        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+                                         KGlobal::locale()->formatNumber( sup->mag(), 1 ) ) );
+        Data->Distance->setText( "---" );
+
+        break;
+
     default: //deep-sky objects
         dso = (DeepSkyObject *)selectedObject;
 
@@ -397,7 +411,10 @@ void DetailDialog::createGeneralTab()
             else
                 str.setNum( com->getPeriod() ).append( " y" );
             DataComet->Period->setText( str );
-            
+
+            break;
+        }
+        case SkyObject::SUPERNOVA: {
             break;
         }
     }

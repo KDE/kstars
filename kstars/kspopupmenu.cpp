@@ -28,6 +28,7 @@
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/satellite.h"
+#include "skyobjects/supernova.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skymap.h"
 
@@ -195,6 +196,14 @@ void KSPopupMenu::createSatelliteMenu( Satellite *satellite ) {
         addAction( i18n( "Remove Label" ), ks->map(), SLOT( slotRemoveObjectLabel() ) );
     else
         addAction( i18n( "Attach Label" ), ks->map(), SLOT( slotAddObjectLabel() ) );
+}
+
+void KSPopupMenu::createSupernovaMenu(Supernova* supernova)
+{
+    QString name=supernova->name();
+    float mag = supernova->mag();
+    QString type = supernova->getType();
+    initPopupMenu( supernova, name, i18n( "supernova" ), i18n("%1<sup>m</sup>, %2", mag, type) );
 }
 
 void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QString info,
