@@ -189,6 +189,23 @@ void SupernovaeComponent::updateDataFile()
 {
     KProcess *parser=new KProcess;
     QString filename= KStandardDirs::locateLocal("appdata","scripts/supernova_updates_parser.py") ;
-    parser->execute("python",QStringList(filename));
+    int execstatus=parser->execute("python",QStringList(filename));
+    if ( execstatus!=0 )
+    {
+        QString errmsg;
+        switch (execstatus)
+        {
+            case -2:
+                errmsg = "Could not run python to update supernova information";
+                break;
+            case -1:
+                errmsg = "Python process that updates the supernova information crashed";
+                break;
+            default:
+                errmsg = "Python process that updates the supernova information failed with error code " + QString::number(execstatus);
+                break;
+        }
+        KMessageBox::sorry(0,errmsg,i18n("Supernova information update failed"));
+    }
     loadData();
 }
