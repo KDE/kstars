@@ -267,7 +267,7 @@ steps:</para>
 <listitem><para>Set your geographical location. Open the <guilabel>Geographic...</guilabel> window by selecting
 <guimenuitem>Set Geographic Location...</guimenuitem> from the
 <guimenu>Settings</guimenu> menu, or by pressing the <guiicon>Globe</guiicon> icon in the toolbar, or by pressing <keycombo
-action="simul">&Ctrl;<keycap>g</keycap></keycombo>.</para>
+action="simul">&Ctrl;<keycap>G</keycap></keycombo>.</para>
 </listitem>
 <listitem><para>Set your local time and date. You can change to any time or
 date by selecting <guimenuitem>Set Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
