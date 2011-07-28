@@ -37,6 +37,7 @@ class SkipList;
 class LineList;
 class LineListLabel;
 class Satellite;
+class Supernova;
 
 
 /** @short Draws things on the sky, without regard to backend.
@@ -145,6 +146,10 @@ public:
     /** @short Draw a satellite
         */
     virtual void drawSatellite( Satellite* sat ) = 0;
+
+    /** @short Draw a Supernova
+     */
+    virtual bool drawSupernova(Supernova* sup) = 0;
 
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0) = 0;
 

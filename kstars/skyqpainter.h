@@ -59,6 +59,7 @@ public:
     virtual void drawFlags();
     virtual void drawHorizon( bool filled, SkyPoint *labelPoint = 0, bool *drawLabel = 0);
     virtual void drawSatellite( Satellite* sat );
+    virtual bool drawSupernova(Supernova* sup);
 private:
     ///This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');

@@ -37,6 +37,7 @@
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
 #include "skyobjects/satellite.h"
+#include "skyobjects/supernova.h"
 
 #include "projections/projector.h"
 #include "ksutils.h"
@@ -732,3 +733,22 @@ void SkyQPainter::drawSatellite( Satellite* sat ) {
     if ( Options::showSatellitesLabels() )
         data->skyComposite()->satellites()->drawLabel( sat, pos );
 }
+
+bool SkyQPainter::drawSupernova(Supernova* sup)
+{
+    KStarsData *data = KStarsData::Instance();
+    if( !m_proj->checkVisibility(sup) ){ return false; }
+
+    bool visible = false;
+    QPointF pos = m_proj->toScreen(sup,true,&visible);
+    //kDebug()<<"sup->ra() = "<<(sup->ra()).toHMSString()<<"sup->dec() = "<<sup->dec().toDMSString();
+    //kDebug()<<"pos = "<<pos<<"m_proj->onScreen(pos) = "<<m_proj->onScreen(pos);
+    if( !visible || !m_proj->onScreen(pos) ) return false;
+
+    setPen( data->colorScheme()->colorNamed("SupernovaColor") );
+    //kDebug()<<"Here"<<endl;
+    drawLine ( QPoint( pos.x () - 2.0, pos.y() ), QPoint( pos.x() + 2.0, pos.y() ) );
+    drawLine ( QPoint( pos.x (), pos.y() - 2.0 ), QPoint( pos.x(), pos.y() + 2.0 ) );
+    return true;
+}
+
