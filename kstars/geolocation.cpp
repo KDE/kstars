@@ -86,7 +86,7 @@ QString GeoLocation::translatedName() const {
 }
 
 QString GeoLocation::translatedProvince() const {
-    return Province.isEmpty() ? QString() : i18nc(("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data());
+    return Province.isEmpty() ? QString() : i18nc(QString("Region/state in " + country()).toUtf8().data(), Province.toUtf8().data());
 }
 
 QString GeoLocation::translatedCountry() const {
