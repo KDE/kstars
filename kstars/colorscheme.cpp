@@ -76,6 +76,7 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("VisibleSatColor",  i18n("Visible Satellites"),     "#00FF00");
     appendItem("SatColor",         i18n("Satellites"),             "#FF0000");
     appendItem("SatLabelColor",    i18n("Satellites Labels"),      "#640000");
+    appendItem("SupernovaColor",   i18n("Supernovae"),             "#FFA500");
 
     //Load colors from config object
     loadFromConfig();
