@@ -39,11 +39,8 @@ public:
 
     void insertTitle(const QString &title);
     void insertLoggingForm(LoggingForm *log);
-    void insertFovImage(const QImage &img, const QString &description);
+    void insertImage(const QImage &img, const QString &description, bool descriptionBelow = true);
     void insertDetailsTable(SkyObject *obj, bool general = true, bool position = true);
-    void insertLegend(const QImage &img);
-    void insertImage(const QImage &img, const QString &description);
-
 
     void clearContent();
     void drawContents(QPainter *p, const QRectF &rect = QRectF());
@@ -52,11 +49,6 @@ public:
 private:
     QTextDocument *m_Document;
     LoggingForm *m_Log;
-
-    QList<QImage> m_Fovs;
-    QList<QString> m_FovDesc;
-
-    QImage m_Legend;
 };
 
 #endif // FINDERCHART_H

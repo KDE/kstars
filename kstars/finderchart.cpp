@@ -19,6 +19,7 @@
 
 #include "QTextDocument"
 #include "QTextDocumentFragment"
+#include "QTextTable"
 #include "kstars.h"
 #include "loggingform.h"
 
@@ -55,29 +56,39 @@ void FinderChart::insertTitle(const QString &title)
 
 void FinderChart::insertLoggingForm(LoggingForm *log)
 {
-    QTextCursor cursor(m_Document);
-
+    QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
     cursor.insertFragment(QTextDocumentFragment(log->getDocument()));
 }
 
-void FinderChart::insertFovImage(const QImage &img, const QString &description)
+void FinderChart::insertImage(const QImage &img, const QString &description, bool descriptionBelow)
 {
+    QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
+    QTextCharFormat textFmt;
+    QTextBlockFormat blockFmt;
+    blockFmt.setAlignment(Qt::AlignHCenter);
 
+    if(descriptionBelow)
+    {
+        cursor.insertBlock(blockFmt, textFmt);
+        cursor.insertImage(img);
+        cursor.insertBlock(blockFmt, textFmt);
+        cursor.insertText(description);
+    }
+
+    else
+    {
+        cursor.insertBlock(blockFmt, textFmt);
+        cursor.insertText(description);
+        cursor.insertBlock(blockFmt, textFmt);
+        cursor.insertImage(img);
+    }
+
+    cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
+    cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
 void FinderChart::insertDetailsTable(SkyObject *obj, bool general, bool position)
 {
-
-}
-
-void FinderChart::insertLegend(const QImage &img)
-{
-
-}
-
-void FinderChart::insertImage(const QImage &img, const QString &description)
-{
-
 }
 
 void FinderChart::clearContent()
