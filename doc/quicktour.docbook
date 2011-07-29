@@ -21,7 +21,7 @@ Here is a screenshot of the &kstars; main window:
 </screenshot>
 
 <para>
-The above screenshot shows a typical view of the KStars program.  You
+The above screenshot shows a typical view of the &kstars; program.  You
 can see the sky display centered on Betelgeuse, the brightest star in
 the constellation Orion.  Orion has just risen above the eastern horizon.
 Stars are displayed with <link linkend="ai-colorandtemp">realistic
@@ -45,7 +45,7 @@ Right Ascension/Declination and Azimuth/Altitude) of the mouse cursor.
 <title>The Setup Wizard</title>
 <para>
 <indexterm><primary>Setup Wizard</primary></indexterm>
-The first time you run KStars, you will be presented with a Setup Wizard,
+The first time you run &kstars;, you will be presented with a Setup Wizard,
 which allows you to easily set your geographic location and download some
 extra data files.  You can press the <guilabel>OK</guilabel> button
 at any time to exit the Setup Wizard.

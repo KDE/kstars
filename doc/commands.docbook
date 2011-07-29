@@ -54,7 +54,7 @@ dialog to download additional data for &kstars;.
 <guimenu>File</guimenu>
 <guimenuitem>Run Script...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Run the specified KStars script
+<listitem><para>Run the specified &kstars; script
 </para></listitem>
 </varlistentry>
 <!-- not in 4.7
@@ -899,7 +899,7 @@ Point (straight up)</para></listitem>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo></term>
-<listitem><para>Run a &kstars; DBus script</para></listitem>
+<listitem><para>Run a &kstars; &DBus; script</para></listitem>
 </varlistentry>
 
 <varlistentry>

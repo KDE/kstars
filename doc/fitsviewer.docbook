@@ -6,7 +6,7 @@
 
 <para>The Flexible Image Transport System (FITS) is the standard format for representing images and data in Astronomy.</para>
 
-<para>The KStars FITS Viewer tool is integrated with the <link linkend="indi">INDI</link> framework for seamless display and manipulation of captured FITS images. To open a FITS file, select <guimenuitem>Open FITS...</guimenuitem> from the
+<para>The &kstars; FITS Viewer tool is integrated with the <link linkend="indi">INDI</link> framework for seamless display and manipulation of captured FITS images. To open a FITS file, select <guimenuitem>Open FITS...</guimenuitem> from the
 <guimenu>File</guimenu> menu, or press <keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>.</para>
 
 <para>FITS Viewer features:</para>
