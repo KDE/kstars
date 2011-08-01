@@ -1,7 +1,7 @@
 /***************************************************************************
-                          finderchart.h  -  K Desktop Planetarium
+                          detailstable.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed Jul 20 2011
+    begin                : Fri Jul 29 2011
     copyright            : (C) 2011 by Rafał Kułaga
     email                : rl.kulaga@gmail.com
  ***************************************************************************/
@@ -15,38 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FINDERCHART_H
-#define FINDERCHART_H
+#ifndef DETAILSTABLE_H
+#define DETAILSTABLE_H
 
-#include "QRectF"
+class SkyObject;
+class KStarsDateTime;
+class GeoLocation;
 
-class LoggingForm;
-class DetailsTable;
-class QString;
 class QTextDocument;
-class QTextFrameFormat;
-class QPrinter;
-class QPainter;
-class QRectF;
-class QImage;
 
-class FinderChart
+class DetailsTable
 {
 public:
-    FinderChart();
-    ~FinderChart();
+    DetailsTable();
+    ~DetailsTable();
 
-    void insertTitle(const QString &title);
-    void insertLoggingForm(LoggingForm *log);
-    void insertImage(const QImage &img, const QString &description, bool descriptionBelow = true);
-    void insertDetailsTable(DetailsTable *table);
+    void createGeneralTable(SkyObject *obj);
+    void createAsteroidCometTable(SkyObject *obj);
+    void createCoordinatesTable(SkyObject *obj, const KStarsDateTime &ut, GeoLocation *geo);
+    void createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoLocation *geo);
 
-    void clearContent();
-    void drawContents(QPainter *p, const QRectF &rect = QRectF());
-    void print(QPrinter *printer);
+    void clearContents();
+    inline QTextDocument* getDocument() { return m_Document; }
 
 private:
     QTextDocument *m_Document;
 };
 
-#endif // FINDERCHART_H
+#endif // DETAILSTABLE_H

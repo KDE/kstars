@@ -22,9 +22,9 @@
 #include "QTextTable"
 #include "kstars.h"
 #include "loggingform.h"
+#include "detailstable.h"
 
 FinderChart::FinderChart()
-    : m_Log(0)
 {
     m_Document = new QTextDocument(KStars::Instance());
 }
@@ -58,6 +58,9 @@ void FinderChart::insertLoggingForm(LoggingForm *log)
 {
     QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
     cursor.insertFragment(QTextDocumentFragment(log->getDocument()));
+
+    cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
+    cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
 void FinderChart::insertImage(const QImage &img, const QString &description, bool descriptionBelow)
@@ -87,8 +90,13 @@ void FinderChart::insertImage(const QImage &img, const QString &description, boo
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
-void FinderChart::insertDetailsTable(SkyObject *obj, bool general, bool position)
+void FinderChart::insertDetailsTable(DetailsTable *table)
 {
+    QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
+    cursor.insertFragment(QTextDocumentFragment(table->getDocument()));
+
+    cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
+    cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
 void FinderChart::clearContent()
