@@ -145,22 +145,17 @@ void FlagComponent::loadFromFile() {
 }
 
 void FlagComponent::saveToFile() {
-    QString str;
-    QByteArray line;
-
     QFile file( KStandardDirs::locateLocal( "appdata", "flags.dat.tmp" ) );
-    file.open( QIODevice::WriteOnly | QIODevice::Text );
+    file.open( QIODevice::WriteOnly );
 
+    QTextStream ostream(&file);
     for ( int i=0; i < size(); ++i ) {
-        line.append( str.setNum( pointList().at( i )->ra0().Degrees() ).toAscii() + ' '
-                     + str.setNum( pointList().at( i )->dec0().Degrees() ).toAscii() + ' '
-                     + epoch( i ).toAscii() + ' '
-                     + imageName( i ).replace( ' ', '_' ).toAscii() + ' '
-                     + label( i ).toAscii() + ' '
-                     + labelColor( i ).name().toAscii() + '\n' );
-
-        file.write( line );
-        line.clear();
+        ostream << QString::number( pointList().at( i )->ra0().Degrees() ) << " "
+                << QString::number( pointList().at( i )->dec0().Degrees() ) << " "
+                << epoch ( i ) << " "
+                << imageName( i ).replace( ' ', '_' ) << " "
+                << label( i ) << " "
+                << labelColor( i ).name() << "\n";
     }
 
     QFile::remove( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
