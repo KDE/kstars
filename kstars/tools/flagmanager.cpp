@@ -209,6 +209,9 @@ void FlagManager::slotDeleteFlag() {
     //Remove from list
     m_Model->removeRow( flag );
 
+    //Clear form fields
+    clearFields();
+
     //Remove from file
     m_Ks->data()->skyComposite()->flags()->saveToFile();
 
