@@ -137,8 +137,9 @@ void FlagComponent::loadFromFile() {
         }
 
         str.clear();
-        for(int i=4; i<line.size(); ++i )
+        for ( int i=4; i < line.size() - 1; ++i )
             str += line.at( i ) + ' ';
+        str += line.at( line.size() - 1 );
         m_Labels.append( str );
     }
 }
