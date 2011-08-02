@@ -259,46 +259,9 @@ void ExportImageDialog::addLegend(SkyQPainter *painter)
         scaleOnly = true;
     }
 
-    QSize size = legend.calculateSize(scaleOnly);
+    Legend::LEGEND_POSITION pos = static_cast<Legend::LEGEND_POSITION>(m_DialogUI->legendPositionComboBox->currentIndex());
 
-    switch(m_DialogUI->legendPositionComboBox->currentIndex())
-    {
-    case 0: // position: upper left corner
-        {
-            legend.paintLegend(painter, QPoint(0, 0), scaleOnly);
-
-            break;
-        }
-
-    case 1: // position: upper right corner
-        {
-            QPoint pos(painter->device()->width() - size.width(), 0);
-            legend.paintLegend(painter, pos, scaleOnly);
-
-            break;
-        }
-
-    case 2: // position: lower left corner
-        {
-            QPoint pos(0, painter->device()->height() - size.height());
-            legend.paintLegend(painter, pos, scaleOnly);
-
-            break;
-        }
-
-    case 3: // position: lower right corner
-        {
-            QPoint pos(painter->device()->width() - size.width(), painter->device()->height() - size.height());
-            legend.paintLegend(painter, pos, scaleOnly);
-
-            break;
-        }
-
-    default: // should never happen
-        {
-            break;
-        }
-    }
+    legend.paintLegend(painter, pos, scaleOnly);
 }
 
 void ExportImageDialog::addLegend(QPaintDevice *pd)

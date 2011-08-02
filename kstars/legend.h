@@ -52,6 +52,14 @@ public:
         LO_VERTICAL
     };
 
+    enum LEGEND_POSITION
+    {
+        LP_UPPER_LEFT,
+        LP_UPPER_RIGHT,
+        LP_LOWER_LEFT,
+        LP_LOWER_RIGHT
+    };
+
     /**@short Default constructor.
       *@param kstars pointer to KStars instance.
       *@param orientation legend orientation.
@@ -115,7 +123,7 @@ public:
 
     /**@short Paint legend using passed SkyQPainter. This method is used to enable
       painting on QPaintDevice subclasses that can't be painted by multiple QPainter
-      subclasses (eg. QSvgGenerator).
+      subclasses (e.g. QSvgGenerator).
       *@param painter that will be used to paint legend.
       *@param pos position at which legend will be painted (upper left corner of the legend).
       *@param scaleOnly should legend be painted scale-only?
@@ -124,6 +132,25 @@ public:
       instance _will not_ be finished, so it's necessary to call end() method manually.
       */
     void paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly);
+
+    /**@short Paint legend on passed QPaintDevice at selected position.
+      *@param pd QPaintDevice on which legend will be painted.
+      *@param pos LEGEND_POSITION enum value.
+      *@param scaleOnly should legend be painted scale-only?
+      */
+    void paintLegend(QPaintDevice *pd, LEGEND_POSITION pos, bool scaleOnly);
+
+    /**@short Paint legend using passed SkyQPainter. This method is used to enable
+      painting on QPaintDevice subclasses that can't be painted by multiple QPainter
+      subclasses (eg. QSvgGenerator).
+      *@param painter that will be used to paint legend.
+      *@param pos LEGEND_POSITION enum value.
+      *@param scaleOnly should legend be painted scale-only?
+      *@note Passed SkyQPainter should be already set up to paint at specific QPaintDevice
+      subclass and should be initialized by its begin() method. After legend is painted, SkyQPainter
+      instance _will not_ be finished, so it's necessary to call end() method manually.
+      */
+    void paintLegend(SkyQPainter *painter, LEGEND_POSITION pos, bool scaleOnly);
 
 private:
     /**@short Paint all symbols at passed position.
@@ -153,6 +180,14 @@ private:
       Exact size is adjusted to full deg/min/sec.
       */
     void paintScale(QPointF pos);
+
+    /**@short Calculates legend position (upper left corner) based on LEGEND_POSITION enum value, paint
+      device size and calculated legend size.
+      *@param pos LEGEND_POSITION enum value.
+      *@param pd paint device.
+      *@param legendSize legend size (returned by Legend::calculateSize() method).
+      */
+    QPoint positionToDeviceCoord(LEGEND_POSITION pos, QPaintDevice *pd, QSize legendSize);
 
     SkyQPainter *m_Painter;
     KStars *m_KStars;

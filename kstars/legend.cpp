@@ -176,6 +176,16 @@ void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
     }
 }
 
+void Legend::paintLegend(QPaintDevice *pd, LEGEND_POSITION pos, bool scaleOnly)
+{
+    paintLegend(pd, positionToDeviceCoord(pos, pd, calculateSize(scaleOnly)), scaleOnly);
+}
+
+void Legend::paintLegend(SkyQPainter *painter, LEGEND_POSITION pos, bool scaleOnly)
+{
+    paintLegend(painter, positionToDeviceCoord(pos, painter->device(), calculateSize(scaleOnly)), scaleOnly);
+}
+
 void Legend::paintSymbols(QPointF pos)
 {
     qreal x = pos.x();
@@ -379,5 +389,36 @@ void Legend::paintScale(QPointF pos)
         }
 
     default: return; // should never happen
+    }
+}
+
+QPoint Legend::positionToDeviceCoord(LEGEND_POSITION pos, QPaintDevice *pd, QSize legendSize)
+{
+    switch(pos)
+    {
+    case LP_UPPER_LEFT: // position: upper left corner
+        {
+            return QPoint(0, 0);
+        }
+
+    case LP_UPPER_RIGHT: // position: upper right corner
+        {
+            return QPoint(pd->width() - legendSize.width(), 0);
+        }
+
+    case LP_LOWER_LEFT: // position: lower left corner
+        {
+            return QPoint(0, pd->height() - legendSize.height());
+        }
+
+    case LP_LOWER_RIGHT: // position: lower right corner
+        {
+            return QPoint(pd->width() - legendSize.width(), pd->height() - legendSize.height());
+        }
+
+    default: // should never happen
+        {
+            return QPoint();
+        }
     }
 }
