@@ -554,16 +554,6 @@ Flags
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guisubmenu>Toolbars</guisubmenu>
-<guimenuitem>Hide/Show Main Toolbar</guimenuitem>
-</menuchoice></term>
-<listitem><para>Toggle display of the Main Toolbar
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
 <guisubmenu>Toolbars Shown</guisubmenu>
 </menuchoice></term>
 <listitem><para>Toggle display of the Main and View Toolbar
