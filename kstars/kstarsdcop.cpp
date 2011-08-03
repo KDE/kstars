@@ -432,7 +432,7 @@ void KStars::exportImage( const QString &url, int w, int h ) {
         imgExportDialog->setOutputSize( QSize ( w, h ) );
     }
 
-    imgExportDialog->exec();
+    imgExportDialog->show();
 }
 
 void KStars::printImage( bool usePrintDialog, bool useChartColors ) {

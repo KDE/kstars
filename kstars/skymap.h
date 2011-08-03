@@ -31,6 +31,7 @@
 
 #include "skymapdrawabstract.h"
 #include "skymapqdraw.h"
+#include "legend.h"
 
 #include <config-kstars.h>
 
@@ -277,6 +278,9 @@ class SkyMap : public QGraphicsView {
      */
     inline void drawObjectLabels( QList< SkyObject* >& labelObjects ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->drawObjectLabels( labelObjects ); }
 
+    void setPreviewLegend(bool preview) { m_previewLegend = preview; }
+
+    void setLegend(Legend &legend) { m_legend = legend; }
 
 public slots:
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
@@ -619,6 +623,10 @@ private:
     InfoBoxWidget* m_geoBox;
     InfoBoxWidget* m_objBox;
     InfoBoxes*     m_iboxes;
+
+    // legend
+    bool m_previewLegend;
+    Legend m_legend;
 
 
     QWidget *m_SkyMapDraw; // Can be dynamic_cast<> to SkyMapDrawAbstract

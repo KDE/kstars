@@ -156,6 +156,8 @@ public:
 
     FlagManager* getFlagManager();
 
+    void showImgExportDialog();
+
 public Q_SLOTS:
     /**DBUS interface function.
      * Set focus to given Ra/Dec coordinates

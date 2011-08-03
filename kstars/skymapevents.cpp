@@ -85,6 +85,12 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         return;
     }
 
+    if(m_previewLegend) {
+        m_previewLegend = false;
+        forceUpdate(true);
+        KStars::Instance()->showImgExportDialog();
+    }
+
     switch ( e->key() ) {
     case Qt::Key_Left :
         if ( Options::useAltAz() ) {
@@ -488,6 +494,12 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
     }
     setDefaultMouseCursor();
     ZoomRect = QRect(); //invalidate ZoomRect
+
+    if(m_previewLegend) {
+        m_previewLegend = false;
+        forceUpdate(true);
+        KStars::Instance()->showImgExportDialog();
+    }
 
     //false if double-clicked, because it's unset there.
     if (mouseButtonDown) {

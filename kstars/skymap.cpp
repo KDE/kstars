@@ -138,7 +138,8 @@ SkyMap::SkyMap() :
     QGraphicsView( KStars::Instance() ),
     computeSkymap(true), rulerMode(false),
     data( KStarsData::Instance() ), pmenu(0),
-    ClickedObject(0), FocusObject(0), m_proj(0)
+    ClickedObject(0), FocusObject(0), m_proj(0),
+    m_previewLegend(false)
 {
     m_Scale = 1.0;
 

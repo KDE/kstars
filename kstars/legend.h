@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QFont>
+#include "QPoint"
 
 class QPaintDevice;
 class QPoint;
@@ -57,20 +58,27 @@ public:
         LP_UPPER_LEFT,
         LP_UPPER_RIGHT,
         LP_LOWER_LEFT,
-        LP_LOWER_RIGHT
+        LP_LOWER_RIGHT,
+        LP_FLOATING
     };
 
     /**@short Default constructor.
       *@param kstars pointer to KStars instance.
       *@param orientation legend orientation.
      */
-    Legend(LEGEND_ORIENTATION orientation = LO_HORIZONTAL);
+    Legend(LEGEND_ORIENTATION orientation = LO_HORIZONTAL, LEGEND_POSITION pos = LP_FLOATING);
 
     /**@short Default destructor.*/
     ~Legend();
 
     /* 'GETTERS' */
     LEGEND_ORIENTATION getOrientation() { return m_Orientation; }
+
+    inline LEGEND_POSITION getPosition() { return m_Position; }
+
+    inline QPoint getFloatingPosition() { return m_PositionFloating; }
+
+    inline bool getScaleOnly() { return m_ScaleOnly; }
 
     inline int getSymbolSize() { return m_SymbolSize; }
 
@@ -91,6 +99,12 @@ public:
     /* 'SETTERS' */
     inline void setOrientation(LEGEND_ORIENTATION orientation) { m_Orientation = orientation; }
 
+    inline void setPosition(LEGEND_POSITION pos) { m_Position = pos; }
+
+    inline void setFloatingPosition(QPoint pos) { m_PositionFloating = pos; }
+
+    inline void setScaleOnly(bool scaleOnly) { m_ScaleOnly = scaleOnly; }
+
     inline void setSymbolSize(int size) { m_SymbolSize = size; }
 
     inline void setBRectWidth(int width) { m_BRectWidth = width; }
@@ -109,29 +123,24 @@ public:
 
     /**@short Calculates size of legend that will be painted using current
       settings.
-      *@param scaleOnly is legend scale-only?
       *@return size of legend.
       */
-    QSize calculateSize(bool scaleOnly);
+    QSize calculateSize();
 
     /**@short Paint legend on passed QPaintDevice at selected position.
       *@param pd QPaintDevice on which legend will be painted.
-      *@param pos position at which legend will be painted (upper left corner of the legend).
-      *@param scaleOnly should legend be painted scale-only?
       */
-    void paintLegend(QPaintDevice *pd, QPoint pos, bool scaleOnly);
+    void paintLegend(QPaintDevice *pd);
 
     /**@short Paint legend using passed SkyQPainter. This method is used to enable
       painting on QPaintDevice subclasses that can't be painted by multiple QPainter
       subclasses (e.g. QSvgGenerator).
       *@param painter that will be used to paint legend.
-      *@param pos position at which legend will be painted (upper left corner of the legend).
-      *@param scaleOnly should legend be painted scale-only?
       *@note Passed SkyQPainter should be already set up to paint at specific QPaintDevice
       subclass and should be initialized by its begin() method. After legend is painted, SkyQPainter
       instance _will not_ be finished, so it's necessary to call end() method manually.
       */
-    void paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly);
+    void paintLegend(SkyQPainter *painter);
 
     /**@short Paint legend on passed QPaintDevice at selected position.
       *@param pd QPaintDevice on which legend will be painted.
@@ -187,14 +196,19 @@ private:
       *@param pd paint device.
       *@param legendSize legend size (returned by Legend::calculateSize() method).
       */
-    QPoint positionToDeviceCoord(LEGEND_POSITION pos, QPaintDevice *pd, QSize legendSize);
+    QPoint positionToDeviceCoord(QPaintDevice *pd);
 
     SkyQPainter *m_Painter;
     KStars *m_KStars;
     bool m_DeletePainter;
 
     LEGEND_ORIENTATION m_Orientation;
+    LEGEND_POSITION m_Position;
+    QPoint m_PositionFloating;
+    bool m_ScaleOnly;
+
     ColorScheme *m_cScheme;
+
 
     QFont m_Font;
 

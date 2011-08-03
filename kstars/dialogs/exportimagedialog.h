@@ -20,6 +20,8 @@
 
 #include "ui_exportimagedialog.h"
 
+#include "legend.h"
+
 class KStars;
 class SkyQPainter;
 class QString;
@@ -59,10 +61,12 @@ public:
 private slots:
     void exportImage();
     void switchLegendConfig(bool newState);
+    void previewImage();
 
 private:
     void setupWidgets();
     void setupConnections();
+    Legend getLegendForSettings();
 
     void addLegend(SkyQPainter *painter);
     void addLegend(QPaintDevice *pd);

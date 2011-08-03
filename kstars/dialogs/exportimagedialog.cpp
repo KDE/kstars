@@ -217,8 +217,24 @@ void ExportImageDialog::switchLegendConfig(bool newState)
     m_DialogUI->legendPositionComboBox->setEnabled(newState);
 }
 
+void ExportImageDialog::previewImage()
+{
+    Legend legend = getLegendForSettings();
+
+    m_KStars->map()->setLegend(legend);
+    m_KStars->map()->setPreviewLegend(true);
+
+    m_KStars->map()->forceUpdate(true);
+
+    hide();
+}
+
 void ExportImageDialog::setupWidgets()
 {
+    setButtons(KDialog::Ok | KDialog::Cancel | KDialog::User1);
+    setButtonText(KDialog::User1, i18n("Preview image"));
+    setButtonText(KDialog::Ok, i18n("Export image"));
+
     m_DialogUI->addLegendCheckBox->setChecked(true);
 
     m_DialogUI->legendOrientationComboBox->addItem(i18n("Horizontal"));
@@ -237,11 +253,13 @@ void ExportImageDialog::setupConnections()
 {
     connect(this, SIGNAL(okClicked()), this, SLOT(exportImage()));
     connect(this, SIGNAL(cancelClicked()), this, SLOT(close()));
+    connect(this, SIGNAL(user1Clicked()), this, SLOT(previewImage()));
 
     connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), this, SLOT(switchLegendConfig(bool)));
+    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), button(KDialog::User1), SLOT(setEnabled(bool)));
 }
 
-void ExportImageDialog::addLegend(SkyQPainter *painter)
+Legend ExportImageDialog::getLegendForSettings()
 {
     Legend legend;
 
@@ -258,10 +276,19 @@ void ExportImageDialog::addLegend(SkyQPainter *painter)
     {
         scaleOnly = true;
     }
+    legend.setScaleOnly(scaleOnly);
 
     Legend::LEGEND_POSITION pos = static_cast<Legend::LEGEND_POSITION>(m_DialogUI->legendPositionComboBox->currentIndex());
+    legend.setPosition(pos);
 
-    legend.paintLegend(painter, pos, scaleOnly);
+    return legend;
+}
+
+void ExportImageDialog::addLegend(SkyQPainter *painter)
+{
+    Legend legend = getLegendForSettings();
+
+    legend.paintLegend(painter);
 }
 
 void ExportImageDialog::addLegend(QPaintDevice *pd)

@@ -32,11 +32,12 @@ const qreal maxVScalePixels = 100;
 const int xSymbolSpacing = 100;
 const int ySymbolSpacing = 70;
 
-Legend::Legend(LEGEND_ORIENTATION orientation)
+Legend::Legend(LEGEND_ORIENTATION orientation, LEGEND_POSITION pos)
     : m_Painter(0), m_KStars(KStars::Instance()), m_DeletePainter(false), m_Orientation(orientation),
-    m_cScheme(KStars::Instance()->data()->colorScheme()), m_SymbolSize(symbolSize), m_BRectWidth(bRectWidth),
-    m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels), m_MaxVScalePixels(maxVScalePixels),
-    m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
+    m_Position(pos), m_PositionFloating(QPoint(0, 0)), m_ScaleOnly(false),
+    m_cScheme(KStars::Instance()->data()->colorScheme()), m_SymbolSize(symbolSize),
+    m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
+    m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
 {}
 
 Legend::~Legend()
@@ -47,7 +48,7 @@ Legend::~Legend()
     }
 }
 
-QSize Legend::calculateSize(bool scaleOnly)
+QSize Legend::calculateSize()
 {
     int width = 0;
     int height = 0;
@@ -56,7 +57,7 @@ QSize Legend::calculateSize(bool scaleOnly)
     {
     case LO_HORIZONTAL:
         {
-            if(scaleOnly)
+            if(m_ScaleOnly)
             {
                 width = 40 + m_MaxHScalePixels;
                 height = 60;
@@ -73,7 +74,7 @@ QSize Legend::calculateSize(bool scaleOnly)
 
     case LO_VERTICAL:
         {
-            if(scaleOnly)
+            if(m_ScaleOnly)
             {
                 width = 120;
                 height = 40 + m_MaxVScalePixels;
@@ -97,7 +98,7 @@ QSize Legend::calculateSize(bool scaleOnly)
     return QSize(width, height);
 }
 
-void Legend::paintLegend(QPaintDevice *pd, QPoint pos, bool scaleOnly)
+void Legend::paintLegend(QPaintDevice *pd)
 {
     if(m_Painter)
     {
@@ -108,19 +109,24 @@ void Legend::paintLegend(QPaintDevice *pd, QPoint pos, bool scaleOnly)
     m_DeletePainter = true;
     m_Painter->begin();
 
-    paintLegend(m_Painter, pos, scaleOnly);
+    paintLegend(m_Painter);
 
     m_Painter->end();
 }
 
-void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
+void Legend::paintLegend(SkyQPainter *painter)
 {
     if(!m_DeletePainter)
     {
         m_Painter = painter;
     }
 
-    m_Painter->translate(pos.x(), pos.y());
+    if(m_Position != LP_FLOATING)
+    {
+        m_PositionFloating = positionToDeviceCoord(painter->device());
+    }
+
+    m_Painter->translate(m_PositionFloating.x(), m_PositionFloating.y());
 
     m_Painter->setFont(m_Font);
 
@@ -133,14 +139,14 @@ void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
     m_Painter->setPen(backgroundPen);
 
     // draw frame
-    QSize size = calculateSize(scaleOnly);
+    QSize size = calculateSize();
     m_Painter->drawRect(0, 0, size.width(), size.height());
 
     switch(m_Orientation)
     {
     case LO_HORIZONTAL:
         {
-            if(scaleOnly)
+            if(m_ScaleOnly)
             {
                 paintScale(QPointF(20.0, 20.0));
             }
@@ -157,7 +163,7 @@ void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
 
     case LO_VERTICAL:
         {
-            if(scaleOnly)
+            if(m_ScaleOnly)
             {
                 paintScale(QPointF(20.0, 20.0));
             }
@@ -178,12 +184,30 @@ void Legend::paintLegend(SkyQPainter *painter, QPoint pos, bool scaleOnly)
 
 void Legend::paintLegend(QPaintDevice *pd, LEGEND_POSITION pos, bool scaleOnly)
 {
-    paintLegend(pd, positionToDeviceCoord(pos, pd, calculateSize(scaleOnly)), scaleOnly);
+    LEGEND_POSITION prevPos = m_Position;
+    bool prevScaleOnly = m_ScaleOnly;
+
+    m_Position = pos;
+    m_ScaleOnly = scaleOnly;
+
+    paintLegend(pd);
+
+    m_Position = prevPos;
+    m_ScaleOnly = prevScaleOnly;
 }
 
 void Legend::paintLegend(SkyQPainter *painter, LEGEND_POSITION pos, bool scaleOnly)
 {
-    paintLegend(painter, positionToDeviceCoord(pos, painter->device(), calculateSize(scaleOnly)), scaleOnly);
+    LEGEND_POSITION prevPos = m_Position;
+    bool prevScaleOnly = m_ScaleOnly;
+
+    m_Position = pos;
+    m_ScaleOnly = scaleOnly;
+
+    paintLegend(painter);
+
+    m_Position = prevPos;
+    m_ScaleOnly = prevScaleOnly;
 }
 
 void Legend::paintSymbols(QPointF pos)
@@ -392,9 +416,11 @@ void Legend::paintScale(QPointF pos)
     }
 }
 
-QPoint Legend::positionToDeviceCoord(LEGEND_POSITION pos, QPaintDevice *pd, QSize legendSize)
+QPoint Legend::positionToDeviceCoord(QPaintDevice *pd)
 {
-    switch(pos)
+    QSize legendSize = calculateSize();
+
+    switch(m_Position)
     {
     case LP_UPPER_LEFT: // position: upper left corner
         {
@@ -416,7 +442,7 @@ QPoint Legend::positionToDeviceCoord(LEGEND_POSITION pos, QPaintDevice *pd, QSiz
             return QPoint(pd->width() - legendSize.width(), pd->height() - legendSize.height());
         }
 
-    default: // should never happen
+    default: // legend is floating
         {
             return QPoint();
         }

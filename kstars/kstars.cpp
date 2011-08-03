@@ -33,6 +33,7 @@
 #include "skymap.h"
 #include "simclock.h"
 #include "dialogs/finddialog.h"
+#include "dialogs/exportimagedialog.h"
 #include "observinglist.h"
 #include "oal/execute.h"
 
@@ -213,6 +214,11 @@ void KStars::applyConfig( bool doApplyFocus ) {
 
 FlagManager* KStars::getFlagManager() {
     return fm;
+}
+
+void KStars::showImgExportDialog() {
+    if(imgExportDialog)
+        imgExportDialog->show();
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {
