@@ -78,6 +78,7 @@ DeviceManager::~DeviceManager()
 
 void DeviceManager::startServer()
   {
+    bool clientMBLag=false;
     serverProcess = new KProcess;
   
     if (managed_devices.isEmpty())
@@ -93,8 +94,11 @@ void DeviceManager::startServer()
     foreach(IDevice *device, managed_devices)
     {
         // JM: Temporary workaround for indiserver limit of client BLOBs for CCDs.
-        if (device->deviceType == KSTARS_CCD)
-            *serverProcess << "-m 100";
+        if (device->deviceType == KSTARS_CCD && clientMBLag == false)
+        {
+            *serverProcess << "-m" << "100";
+            clientMBLag = true;
+        }
 
 	 *serverProcess << device->driver;
     }
