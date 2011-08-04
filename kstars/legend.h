@@ -193,8 +193,6 @@ private:
     /**@short Calculates legend position (upper left corner) based on LEGEND_POSITION enum value, paint
       device size and calculated legend size.
       *@param pos LEGEND_POSITION enum value.
-      *@param pd paint device.
-      *@param legendSize legend size (returned by Legend::calculateSize() method).
       */
     QPoint positionToDeviceCoord(QPaintDevice *pd);
 
@@ -208,8 +206,6 @@ private:
     bool m_ScaleOnly;
 
     ColorScheme *m_cScheme;
-
-
     QFont m_Font;
 
     int m_SymbolSize;
