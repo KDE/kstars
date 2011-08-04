@@ -23,6 +23,8 @@
 #include "kstarsdata.h"
 #include "ksplanetbase.h"
 #include "starobject.h"
+#include "skymapcomposite.h"
+#include "constellationboundarylines.h"
 #include "deepskyobject.h"
 #include "customcatalogcomponent.h"
 #include "ksmoon.h"
@@ -33,6 +35,8 @@
 DetailsTable::DetailsTable()
 {
     m_Document = new QTextDocument(KStars::Instance());
+
+    setDefaultFormatting();
 }
 
 DetailsTable::~DetailsTable()
@@ -130,6 +134,7 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
 
             break; //End of stars case
         }
+
     case SkyObject::ASTEROID:  //[fall through to planets]
 
     case SkyObject::COMET:     //[fall through to planets]
@@ -301,44 +306,50 @@ void DetailsTable::createGeneralTable(SkyObject *obj)
         }
     }
 
-    QTextTableFormat tableFormat;
-    tableFormat.setAlignment(Qt::AlignHCenter);
-    tableFormat.setBorder(2);
-    tableFormat.setCellPadding(2);
-    tableFormat.setCellSpacing(4);
+    //Common to all types:
+    if(obj->type() == SkyObject::CONSTELLATION )
+    {
+        objTypeVal = KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName(obj);
+    }
+
+    else
+    {
+        objTypeVal = i18nc("%1 type of sky object (planet, asteroid etc), %2 name of a constellation", "%1 in %2", objTypeVal,
+                           KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName(obj));
+    }
 
     QVector<QTextLength> constraints;
     constraints << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25);
-    tableFormat.setColumnWidthConstraints(constraints);
+    m_TableFormat.setColumnWidthConstraints(constraints);
 
-    QTextTable *table = cursor.insertTable(5, 4, tableFormat);
+    QTextTable *table = cursor.insertTable(5, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
-    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("General"));
+    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("General"), m_TableTitleCharFormat);
 
     table->mergeCells(1, 1, 1, 3);
-    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Names:"));
-    table->cellAt(1, 1).firstCursorPosition().insertText(objNamesVal);
+    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Names:"), m_ItemNameCharFormat);
+    table->cellAt(1, 1).firstCursorPosition().insertText(objNamesVal, m_ItemValueCharFormat);
 
-    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Type:"));
-    table->cellAt(2, 1).firstCursorPosition().insertText(objTypeVal);
+    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Type:"), m_ItemNameCharFormat);
+    table->cellAt(2, 1).firstCursorPosition().insertText(objTypeVal, m_ItemValueCharFormat);
 
-    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Distance:"));
-    table->cellAt(3, 1).firstCursorPosition().insertText(objDistVal);
+    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Distance:"), m_ItemNameCharFormat);
+    table->cellAt(3, 1).firstCursorPosition().insertText(objDistVal, m_ItemValueCharFormat);
 
-    table->cellAt(4, 0).firstCursorPosition().insertText(i18n("Size:"));
-    table->cellAt(4, 1).firstCursorPosition().insertText(objSizeVal);
+    table->cellAt(4, 0).firstCursorPosition().insertText(i18n("Size:"), m_ItemNameCharFormat);
+    table->cellAt(4, 1).firstCursorPosition().insertText(objSizeVal, m_ItemValueCharFormat);
 
-    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Magnitude:"));
-    table->cellAt(2, 3).firstCursorPosition().insertText(objMagVal);
+    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Magnitude:"), m_ItemNameCharFormat);
+    table->cellAt(2, 3).firstCursorPosition().insertText(objMagVal, m_ItemValueCharFormat);
 
-    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("B-V index:"));
-    table->cellAt(3, 3).firstCursorPosition().insertText(objBvVal);
+    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("B-V index:"), m_ItemNameCharFormat);
+    table->cellAt(3, 3).firstCursorPosition().insertText(objBvVal, m_ItemValueCharFormat);
 
-    table->cellAt(4, 2).firstCursorPosition().insertText(i18n("Illumination:"));
-    table->cellAt(4, 3).firstCursorPosition().insertText(objIllumVal);
+    table->cellAt(4, 2).firstCursorPosition().insertText(i18n("Illumination:"), m_ItemNameCharFormat);
+    table->cellAt(4, 3).firstCursorPosition().insertText(objIllumVal, m_ItemValueCharFormat);
 }
 
 void DetailsTable::createAsteroidCometTable(SkyObject *obj)
@@ -433,54 +444,47 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
         }
     }
 
-    // Setup table format
-    QTextTableFormat tableFormat;
-    tableFormat.setAlignment(Qt::AlignHCenter);
-    tableFormat.setBorder(2);
-    tableFormat.setCellPadding(2);
-    tableFormat.setCellSpacing(4);
-
     // Set column width constraints
     QVector<QTextLength> constraints;
     constraints << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25);
-    tableFormat.setColumnWidthConstraints(constraints);
+    m_TableFormat.setColumnWidthConstraints(constraints);
 
-    QTextTable *table = cursor.insertTable(6, 4, tableFormat);
+    QTextTable *table = cursor.insertTable(6, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
-    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Asteroid/Comet details"));
+    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Asteroid/Comet details"), m_TableTitleCharFormat);
 
-    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Perihelion:"));
-    table->cellAt(1, 1).firstCursorPosition().insertText(perihelionVal);
+    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Perihelion:"), m_ItemNameCharFormat);
+    table->cellAt(1, 1).firstCursorPosition().insertText(perihelionVal, m_ItemValueCharFormat);
 
-    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Orbit ID:"));
-    table->cellAt(2, 1).firstCursorPosition().insertText(orbitIdVal);
+    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Orbit ID:"), m_ItemNameCharFormat);
+    table->cellAt(2, 1).firstCursorPosition().insertText(orbitIdVal, m_ItemValueCharFormat);
 
-    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("NEO:"));
-    table->cellAt(3, 1).firstCursorPosition().insertText(neoVal);
+    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("NEO:"), m_ItemNameCharFormat);
+    table->cellAt(3, 1).firstCursorPosition().insertText(neoVal, m_ItemValueCharFormat);
 
-    table->cellAt(4, 0).firstCursorPosition().insertText(i18n("Diameter:"));
-    table->cellAt(4, 1).firstCursorPosition().insertText(diamVal);
+    table->cellAt(4, 0).firstCursorPosition().insertText(i18n("Diameter:"), m_ItemNameCharFormat);
+    table->cellAt(4, 1).firstCursorPosition().insertText(diamVal, m_ItemValueCharFormat);
 
-    table->cellAt(5, 0).firstCursorPosition().insertText(i18n("Rotation period:"));
-    table->cellAt(5, 1).firstCursorPosition().insertText(rotPeriodVal);
+    table->cellAt(5, 0).firstCursorPosition().insertText(i18n("Rotation period:"), m_ItemNameCharFormat);
+    table->cellAt(5, 1).firstCursorPosition().insertText(rotPeriodVal, m_ItemValueCharFormat);
 
-    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Earth MOID:"));
-    table->cellAt(1, 3).firstCursorPosition().insertText(moidVal);
+    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Earth MOID:"), m_ItemNameCharFormat);
+    table->cellAt(1, 3).firstCursorPosition().insertText(moidVal, m_ItemValueCharFormat);
 
-    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Orbit class:"));
-    table->cellAt(2, 3).firstCursorPosition().insertText(orbitClassVal);
+    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Orbit class:"), m_ItemNameCharFormat);
+    table->cellAt(2, 3).firstCursorPosition().insertText(orbitClassVal, m_ItemValueCharFormat);
 
-    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Albedo:"));
-    table->cellAt(3, 3).firstCursorPosition().insertText(albedoVal);
+    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Albedo:"), m_ItemNameCharFormat);
+    table->cellAt(3, 3).firstCursorPosition().insertText(albedoVal, m_ItemValueCharFormat);
 
-    table->cellAt(4, 2).firstCursorPosition().insertText(i18n("Dimensions:"));
-    table->cellAt(4, 3).firstCursorPosition().insertText(dimVal);
+    table->cellAt(4, 2).firstCursorPosition().insertText(i18n("Dimensions:"), m_ItemNameCharFormat);
+    table->cellAt(4, 3).firstCursorPosition().insertText(dimVal, m_ItemValueCharFormat);
 
-    table->cellAt(5, 2).firstCursorPosition().insertText(i18n("Period:"));
-    table->cellAt(5, 3).firstCursorPosition().insertText(periodVal);
+    table->cellAt(5, 2).firstCursorPosition().insertText(i18n("Period:"), m_ItemNameCharFormat);
+    table->cellAt(5, 3).firstCursorPosition().insertText(periodVal, m_ItemValueCharFormat);
 }
 
 void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &ut, GeoLocation *geo)
@@ -489,25 +493,18 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
 
     QTextCursor cursor = m_Document->rootFrame()->firstCursorPosition();
 
-    // Setup table format
-    QTextTableFormat tableFormat;
-    tableFormat.setAlignment(Qt::AlignHCenter);
-    tableFormat.setBorder(2);
-    tableFormat.setCellPadding(2);
-    tableFormat.setCellSpacing(4);
-
     // Set column width constraints
     QVector<QTextLength> constraints;
     constraints << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25);
-    tableFormat.setColumnWidthConstraints(constraints);
+    m_TableFormat.setColumnWidthConstraints(constraints);
 
     // Insert table & row containing table name
-    QTextTable *table = cursor.insertTable(4, 4, tableFormat);
+    QTextTable *table = cursor.insertTable(4, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
-    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Coordinates"));
+    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Coordinates"), m_TableTitleCharFormat);
 
     //Coordinates Section:
     //Don't use KLocale::formatNumber() for the epoch string,
@@ -516,13 +513,13 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     //Replace the decimal point with localized decimal symbol
     sEpoch.replace('.', KGlobal::locale()->decimalSymbol());
 
-    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("RA (%1):", sEpoch));
-    table->cellAt(1, 1).firstCursorPosition().insertText(obj->ra().toHMSString());
+    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("RA (%1):", sEpoch), m_ItemNameCharFormat);
+    table->cellAt(1, 1).firstCursorPosition().insertText(obj->ra().toHMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Dec (%1):", sEpoch));
-    table->cellAt(2, 1).firstCursorPosition().insertText(obj->dec().toDMSString());
+    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Dec (%1):", sEpoch), m_ItemNameCharFormat);
+    table->cellAt(2, 1).firstCursorPosition().insertText(obj->dec().toDMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Hour angle:"));
+    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Hour angle:"), m_ItemNameCharFormat);
     //Hour Angle can be negative, but dms HMS expressions cannot.
     //Here's a kludgy workaround:
     dms lst = geo->GSTtoLST(ut.gst());
@@ -533,12 +530,12 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
         ha.setH(24.0 - ha.Hours());
         sgn = '-';
     }
-    table->cellAt(3, 1).firstCursorPosition().insertText(QString("%1%2").arg(sgn).arg(ha.toHMSString()));
+    table->cellAt(3, 1).firstCursorPosition().insertText(QString("%1%2").arg(sgn).arg(ha.toHMSString()), m_ItemValueCharFormat);
 
-    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Azimuth:"));
-    table->cellAt(1, 3).firstCursorPosition().insertText(obj->az().toDMSString());
+    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Azimuth:"), m_ItemNameCharFormat);
+    table->cellAt(1, 3).firstCursorPosition().insertText(obj->az().toDMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Altitude:"));
+    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Altitude:"), m_ItemNameCharFormat);
     dms a;
     if(Options::useAltAz())
     {
@@ -549,9 +546,9 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     {
         a = obj->altRefracted();
     }
-    table->cellAt(2, 3).firstCursorPosition().insertText(a.toDMSString());
+    table->cellAt(2, 3).firstCursorPosition().insertText(a.toDMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Airmass:"));
+    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Airmass:"), m_ItemNameCharFormat);
     //Airmass is approximated as the secant of the zenith distance,
     //equivalent to 1./sin(Alt).  Beware of Inf at Alt=0!
     QString aMassStr;
@@ -564,7 +561,7 @@ void DetailsTable::createCoordinatesTable(SkyObject *obj, const KStarsDateTime &
     {
         aMassStr = "--";
     }
-    table->cellAt(3, 3).firstCursorPosition().insertText(aMassStr);
+    table->cellAt(3, 3).firstCursorPosition().insertText(aMassStr, m_ItemValueCharFormat);
 
     // Restore the position and other time-dependent parameters
     obj->recomputeCoords(ut, geo);
@@ -627,44 +624,37 @@ void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoL
         azSValue = i18nc("Not Applicable", "N/A");
     }
 
-    // Setup table format
-    QTextTableFormat tableFormat;
-    tableFormat.setAlignment(Qt::AlignHCenter);
-    tableFormat.setBorder(2);
-    tableFormat.setCellPadding(2);
-    tableFormat.setCellSpacing(4);
-
     // Set column width constraints
     QVector<QTextLength> constraints;
     constraints << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25)
                 << QTextLength(QTextLength::PercentageLength, 25);
-    tableFormat.setColumnWidthConstraints(constraints);
+    m_TableFormat.setColumnWidthConstraints(constraints);
 
     // Insert table & row containing table name
-    QTextTable *table = cursor.insertTable(4, 4, tableFormat);
+    QTextTable *table = cursor.insertTable(4, 4, m_TableFormat);
     table->mergeCells(0, 0, 1, 4);
-    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Rise/Set/Transit"));
+    table->cellAt(0, 0).firstCursorPosition().insertText(i18n("Rise/Set/Transit"), m_TableTitleCharFormat);
 
     // Insert cell names & values
-    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Rise time:"));
-    table->cellAt(1, 1).firstCursorPosition().insertText(rtValue);
+    table->cellAt(1, 0).firstCursorPosition().insertText(i18n("Rise time:"), m_ItemNameCharFormat);
+    table->cellAt(1, 1).firstCursorPosition().insertText(rtValue, m_ItemValueCharFormat);
 
-    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Transit time:"));
-    table->cellAt(2, 1).firstCursorPosition().insertText(QString().sprintf("%02d:%02d", tt.hour(), tt.minute()));
+    table->cellAt(2, 0).firstCursorPosition().insertText(i18n("Transit time:"), m_ItemNameCharFormat);
+    table->cellAt(2, 1).firstCursorPosition().insertText(QString().sprintf("%02d:%02d", tt.hour(), tt.minute()), m_ItemValueCharFormat);
 
-    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Set time:"));
-    table->cellAt(3, 1).firstCursorPosition().insertText(stValue);
+    table->cellAt(3, 0).firstCursorPosition().insertText(i18n("Set time:"), m_ItemNameCharFormat);
+    table->cellAt(3, 1).firstCursorPosition().insertText(stValue, m_ItemValueCharFormat);
 
-    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Azimuth at rise:"));
-    table->cellAt(1, 3).firstCursorPosition().insertText(azRValue);
+    table->cellAt(1, 2).firstCursorPosition().insertText(i18n("Azimuth at rise:"), m_ItemNameCharFormat);
+    table->cellAt(1, 3).firstCursorPosition().insertText(azRValue, m_ItemValueCharFormat);
 
-    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Altitude at transit:"));
-    table->cellAt(2, 3).firstCursorPosition().insertText(talt.toDMSString());
+    table->cellAt(2, 2).firstCursorPosition().insertText(i18n("Altitude at transit:"), m_ItemNameCharFormat);
+    table->cellAt(2, 3).firstCursorPosition().insertText(talt.toDMSString(), m_ItemValueCharFormat);
 
-    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Azimuth at set:"));
-    table->cellAt(3, 3).firstCursorPosition().insertText(azSValue);
+    table->cellAt(3, 2).firstCursorPosition().insertText(i18n("Azimuth at set:"), m_ItemNameCharFormat);
+    table->cellAt(3, 3).firstCursorPosition().insertText(azSValue, m_ItemValueCharFormat);
 
     // Restore the position and other time-dependent parameters
     obj->recomputeCoords( ut, geo );
@@ -673,4 +663,17 @@ void DetailsTable::createRSTTAble(SkyObject *obj, const KStarsDateTime &ut, GeoL
 void DetailsTable::clearContents()
 {
     m_Document->clear();
+}
+
+void DetailsTable::setDefaultFormatting()
+{
+    // Set default table format
+    m_TableFormat.setAlignment(Qt::AlignCenter);
+    m_TableFormat.setBorder(2);
+    m_TableFormat.setCellPadding(2);
+    m_TableFormat.setCellSpacing(4);
+
+    // Set default table title character format
+    // Set default table item name character format
+    // Set default table item value character format
 }

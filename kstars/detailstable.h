@@ -18,10 +18,12 @@
 #ifndef DETAILSTABLE_H
 #define DETAILSTABLE_H
 
+#include "QTextTableFormat"
+#include "QTextCharFormat"
+
 class SkyObject;
 class KStarsDateTime;
 class GeoLocation;
-
 class QTextDocument;
 
 class DetailsTable
@@ -29,6 +31,16 @@ class DetailsTable
 public:
     DetailsTable();
     ~DetailsTable();
+
+    inline QTextTableFormat getTableFormat() { return m_TableFormat; }
+    inline QTextCharFormat getTableTitleCharFormat() { return m_TableTitleCharFormat; }
+    inline QTextCharFormat getItemNameCharFormat() { return m_ItemNameCharFormat; }
+    inline QTextCharFormat getItemValueCharFormat() { return m_ItemValueCharFormat; }
+
+    inline void setTableFormat(const QTextTableFormat &format) { m_TableFormat = format; }
+    inline void setTableTitleCharFormat(const QTextCharFormat &format) { m_TableTitleCharFormat = format; }
+    inline void setItemNameCharFormat(const QTextCharFormat &format) { m_ItemNameCharFormat = format; }
+    inline void setItemValueCharFormat(const QTextCharFormat &format) { m_ItemValueCharFormat = format; }
 
     void createGeneralTable(SkyObject *obj);
     void createAsteroidCometTable(SkyObject *obj);
@@ -39,7 +51,14 @@ public:
     inline QTextDocument* getDocument() { return m_Document; }
 
 private:
+    void setDefaultFormatting();
+
     QTextDocument *m_Document;
+
+    QTextTableFormat m_TableFormat;
+    QTextCharFormat m_TableTitleCharFormat;
+    QTextCharFormat m_ItemNameCharFormat;
+    QTextCharFormat m_ItemValueCharFormat;
 };
 
 #endif // DETAILSTABLE_H
