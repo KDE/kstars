@@ -240,8 +240,10 @@ void ExportImageDialog::setupWidgets()
     m_DialogUI->legendOrientationComboBox->addItem(i18n("Horizontal"));
     m_DialogUI->legendOrientationComboBox->addItem(i18n("Vertical"));
 
-    m_DialogUI->legendTypeComboBox->addItem(i18n("Full legend"));
-    m_DialogUI->legendTypeComboBox->addItem(i18n("Scale-only"));
+    QStringList types;
+    types << i18n("Full legend") << i18n("Scale with magnitudes chart") << i18n("Only scale")
+            << i18n("Only magnitudes") << i18n("Only symbols");
+    m_DialogUI->legendTypeComboBox->addItems(types);
 
     QStringList positions;
     positions << i18n("Upper left corner") << i18n("Upper right corner") << i18n("Lower left corner")
@@ -266,18 +268,22 @@ Legend ExportImageDialog::getLegendForSettings()
     // set font for legend labels
     legend.setFont(QFont("Courier New", 8));
 
+    // set background color
+    QColor bgColor = legend.getBgColor();
+    bgColor.setAlpha(160);
+    legend.setBgColor(bgColor);
+
+    // set legend orientation
     if(m_DialogUI->legendOrientationComboBox->currentIndex() == 1) // orientation: vertical
     {
         legend.setOrientation(Legend::LO_VERTICAL);
     }
 
-    bool scaleOnly = false;
-    if(m_DialogUI->legendTypeComboBox->currentIndex() == 1) // scale only
-    {
-        scaleOnly = true;
-    }
-    legend.setScaleOnly(scaleOnly);
+    // set legend type
+    Legend::LEGEND_TYPE type = static_cast<Legend::LEGEND_TYPE>(m_DialogUI->legendTypeComboBox->currentIndex());
+    legend.setType(type);
 
+    // set legend position
     Legend::LEGEND_POSITION pos = static_cast<Legend::LEGEND_POSITION>(m_DialogUI->legendPositionComboBox->currentIndex());
     legend.setPosition(pos);
 

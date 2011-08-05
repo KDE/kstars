@@ -20,13 +20,12 @@
 
 #include <QObject>
 #include <QFont>
-#include "QPoint"
+#include <QPoint>
+#include <QColor>
 
 class QPaintDevice;
-class QPoint;
 class QPointF;
 class QSize;
-class QString;
 
 class SkyQPainter;
 class KStars;
@@ -46,6 +45,15 @@ class ColorScheme;
 class Legend
 {
 public:
+
+    enum LEGEND_TYPE
+    {
+        LT_FULL,
+        LT_SCALE_MAGNITUDES,
+        LT_SCALE_ONLY,
+        LT_MAGNITUDES_ONLY,
+        LT_SYMBOLS_ONLY,
+    };
 
     enum LEGEND_ORIENTATION
     {
@@ -72,13 +80,13 @@ public:
     ~Legend();
 
     /* 'GETTERS' */
-    LEGEND_ORIENTATION getOrientation() { return m_Orientation; }
+    inline LEGEND_TYPE getType() { return m_Type; }
+
+    inline LEGEND_ORIENTATION getOrientation() { return m_Orientation; }
 
     inline LEGEND_POSITION getPosition() { return m_Position; }
 
     inline QPoint getFloatingPosition() { return m_PositionFloating; }
-
-    inline bool getScaleOnly() { return m_ScaleOnly; }
 
     inline int getSymbolSize() { return m_SymbolSize; }
 
@@ -96,14 +104,18 @@ public:
 
     inline QFont getFont() { return m_Font; }
 
+    inline QColor getBgColor() { return m_BgColor; }
+
+    inline bool getDrawFrame() { return m_DrawFrame; }
+
     /* 'SETTERS' */
+    inline void setType(LEGEND_TYPE type) { m_Type = type; }
+
     inline void setOrientation(LEGEND_ORIENTATION orientation) { m_Orientation = orientation; }
 
     inline void setPosition(LEGEND_POSITION pos) { m_Position = pos; }
 
     inline void setFloatingPosition(QPoint pos) { m_PositionFloating = pos; }
-
-    inline void setScaleOnly(bool scaleOnly) { m_ScaleOnly = scaleOnly; }
 
     inline void setSymbolSize(int size) { m_SymbolSize = size; }
 
@@ -120,6 +132,10 @@ public:
     inline void setYSymbolSpacing(int spacing) { m_YSymbolSpacing = spacing; }
 
     inline void setFont(const QFont &font) { m_Font = font; }
+
+    inline void setBgColor(const QColor &color) { m_BgColor = color; }
+
+    inline void setDrawFrame(bool draw) { m_DrawFrame = draw; }
 
     /**@short Calculates size of legend that will be painted using current
       settings.
@@ -147,7 +163,7 @@ public:
       *@param pos LEGEND_POSITION enum value.
       *@param scaleOnly should legend be painted scale-only?
       */
-    void paintLegend(QPaintDevice *pd, LEGEND_POSITION pos, bool scaleOnly);
+    void paintLegend(QPaintDevice *pd, LEGEND_TYPE type, LEGEND_POSITION pos);
 
     /**@short Paint legend using passed SkyQPainter. This method is used to enable
       painting on QPaintDevice subclasses that can't be painted by multiple QPainter
@@ -159,7 +175,7 @@ public:
       subclass and should be initialized by its begin() method. After legend is painted, SkyQPainter
       instance _will not_ be finished, so it's necessary to call end() method manually.
       */
-    void paintLegend(SkyQPainter *painter, LEGEND_POSITION pos, bool scaleOnly);
+    void paintLegend(SkyQPainter *painter, LEGEND_TYPE type, LEGEND_POSITION pos);
 
 private:
     /**@short Paint all symbols at passed position.
@@ -200,13 +216,15 @@ private:
     KStars *m_KStars;
     bool m_DeletePainter;
 
+    LEGEND_TYPE m_Type;
     LEGEND_ORIENTATION m_Orientation;
     LEGEND_POSITION m_Position;
     QPoint m_PositionFloating;
-    bool m_ScaleOnly;
 
     ColorScheme *m_cScheme;
     QFont m_Font;
+    QColor m_BgColor;
+    bool m_DrawFrame;
 
     int m_SymbolSize;
     int m_BRectWidth;

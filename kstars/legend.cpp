@@ -33,12 +33,14 @@ const int xSymbolSpacing = 100;
 const int ySymbolSpacing = 70;
 
 Legend::Legend(LEGEND_ORIENTATION orientation, LEGEND_POSITION pos)
-    : m_Painter(0), m_KStars(KStars::Instance()), m_DeletePainter(false), m_Orientation(orientation),
-    m_Position(pos), m_PositionFloating(QPoint(0, 0)), m_ScaleOnly(false),
-    m_cScheme(KStars::Instance()->data()->colorScheme()), m_SymbolSize(symbolSize),
+    : m_Painter(0), m_KStars(KStars::Instance()), m_DeletePainter(false), m_Type(LT_FULL),
+    m_Orientation(orientation), m_Position(pos), m_PositionFloating(QPoint(0, 0)),
+    m_cScheme(KStars::Instance()->data()->colorScheme()), m_DrawFrame(false), m_SymbolSize(symbolSize),
     m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
     m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
-{}
+{
+    m_BgColor = m_cScheme->colorNamed("SkyColor");
+}
 
 Legend::~Legend()
 {
@@ -57,33 +59,89 @@ QSize Legend::calculateSize()
     {
     case LO_HORIZONTAL:
         {
-            if(m_ScaleOnly)
+            switch(m_Type)
             {
-                width = 40 + m_MaxHScalePixels;
-                height = 60;
-            }
+            case LT_SCALE_ONLY:
+                {
+                    width = 40 + m_MaxHScalePixels;
+                    height = 60;
+                    break;
+                }
 
-            else
-            {
-                width = 7 * m_XSymbolSpacing;
-                height = 20 + m_SymbolSize + m_BRectHeight + 70;
-            }
+            case LT_MAGNITUDES_ONLY:
+                {
+                    width = 140;
+                    height = 70;
+                    break;
+                }
 
-            break;
+            case LT_SYMBOLS_ONLY:
+                {
+                    width = 7 * m_XSymbolSpacing;
+                    height = 20 + m_SymbolSize + m_BRectHeight;
+                    break;
+                }
+
+            case LT_SCALE_MAGNITUDES:
+                {
+                    width = 160 + m_MaxHScalePixels;
+                    height = 70;
+                    break;
+                }
+
+            case LT_FULL:
+                {
+                    width = 7 * m_XSymbolSpacing;
+                    height = 20 + m_SymbolSize + m_BRectHeight + 70;
+                    break;
+                }
+
+            default: break; // should never happen
+            }
         }
+
+        break;
 
     case LO_VERTICAL:
         {
-            if(m_ScaleOnly)
+            switch(m_Type)
             {
-                width = 120;
-                height = 40 + m_MaxVScalePixels;
-            }
+            case LT_SCALE_ONLY:
+                {
+                    width = 120;
+                    height = 40 + m_MaxVScalePixels;
+                    break;
+                }
 
-            else
-            {
-                width = 120;
-                height = 100 + 7 * m_YSymbolSpacing + m_MaxVScalePixels;
+            case LT_MAGNITUDES_ONLY:
+                {
+                    width = 140;
+                    height = 70;
+                    break;
+                }
+
+            case LT_SYMBOLS_ONLY:
+                {
+                    width = 120;
+                    height = 7 * m_YSymbolSpacing;
+                    break;
+                }
+
+            case LT_SCALE_MAGNITUDES:
+                {
+                    width = 120;
+                    height = 100 + m_MaxVScalePixels;
+                    break;
+                }
+
+            case LT_FULL:
+                {
+                    width = 120;
+                    height = 100 + 7 * m_YSymbolSpacing + m_MaxVScalePixels;
+                    break;
+                }
+
+            default: break; // should never happen
             }
 
             break;
@@ -130,7 +188,7 @@ void Legend::paintLegend(SkyQPainter *painter)
 
     m_Painter->setFont(m_Font);
 
-    QBrush backgroundBrush(m_cScheme->colorNamed("SkyColor"), Qt::SolidPattern);
+    QBrush backgroundBrush(m_BgColor, Qt::SolidPattern);
     QPen backgroundPen(m_cScheme->colorNamed("SNameColor"));
     backgroundPen.setStyle(Qt::SolidLine);
 
@@ -138,24 +196,63 @@ void Legend::paintLegend(SkyQPainter *painter)
     m_Painter->setBrush(backgroundBrush);
     m_Painter->setPen(backgroundPen);
 
-    // draw frame
     QSize size = calculateSize();
-    m_Painter->drawRect(0, 0, size.width(), size.height());
+    if(m_DrawFrame)
+    {
+        m_Painter->drawRect(1, 1, size.width(), size.height());
+    }
+
+    else
+    {
+        QPen noLinePen;
+        noLinePen.setStyle(Qt::NoPen);
+
+        m_Painter->setPen(noLinePen);
+        m_Painter->drawRect(1, 1, size.width(), size.height());
+
+        m_Painter->setPen(backgroundPen);
+    }
 
     switch(m_Orientation)
     {
     case LO_HORIZONTAL:
         {
-            if(m_ScaleOnly)
+            switch(m_Type)
             {
-                paintScale(QPointF(20.0, 20.0));
-            }
+            case LT_SCALE_ONLY:
+                {
+                    paintScale(QPointF(20, 20));
+                    break;
+                }
 
-            else
-            {
-                paintSymbols(QPointF(20.0, 20.0));
-                paintMagnitudes(QPointF(10.0, 40.0 + m_SymbolSize + m_BRectHeight));
-                paintScale(QPointF(200.0, 40.0 + m_SymbolSize + m_BRectHeight));
+            case LT_MAGNITUDES_ONLY:
+                {
+                    paintMagnitudes(QPointF(20, 20));
+                    break;
+                }
+
+            case LT_SYMBOLS_ONLY:
+                {
+                    paintSymbols(QPointF(20, 20));
+                    break;
+                }
+
+            case LT_SCALE_MAGNITUDES:
+                {
+                    paintMagnitudes(QPointF(20, 20));
+                    paintScale(QPointF(150, 20));
+                    break;
+                }
+
+            case LT_FULL:
+                {
+                    paintSymbols(QPointF(20, 20));
+                    paintMagnitudes(QPointF(10, 40 + m_SymbolSize + m_BRectHeight));
+                    paintScale(QPointF(200, 40 + m_SymbolSize + m_BRectHeight));
+                    break;
+                }
+
+            default: break; // should never happen
             }
 
             break;
@@ -163,16 +260,42 @@ void Legend::paintLegend(SkyQPainter *painter)
 
     case LO_VERTICAL:
         {
-            if(m_ScaleOnly)
+            switch(m_Type)
             {
-                paintScale(QPointF(20.0, 20.0));
-            }
+            case LT_SCALE_ONLY:
+                {
+                    paintScale(QPointF(20, 20));
+                    break;
+                }
 
-            else
-            {
-                paintSymbols(QPointF(30.0, 20.0));
-                paintMagnitudes(QPointF(7.0, 30 + 7 * m_YSymbolSpacing));
-                paintScale(QPointF(20.0, 80 + 7 * m_YSymbolSpacing));
+            case LT_MAGNITUDES_ONLY:
+                {
+                    paintMagnitudes(QPointF(20, 20));
+                    break;
+                }
+
+            case LT_SYMBOLS_ONLY:
+                {
+                    paintSymbols(QPointF(20, 20));
+                    break;
+                }
+
+            case LT_SCALE_MAGNITUDES:
+                {
+                    paintMagnitudes(QPointF(7, 20));
+                    paintScale(QPointF(20, 80));
+                    break;
+                }
+
+            case LT_FULL:
+                {
+                    paintSymbols(QPointF(30, 20));
+                    paintMagnitudes(QPointF(7, 30 + 7 * m_YSymbolSpacing));
+                    paintScale(QPointF(20, 90 + 7 * m_YSymbolSpacing));
+                    break;
+                }
+
+            default: break; // should never happen
             }
 
             break;
@@ -182,32 +305,32 @@ void Legend::paintLegend(SkyQPainter *painter)
     }
 }
 
-void Legend::paintLegend(QPaintDevice *pd, LEGEND_POSITION pos, bool scaleOnly)
+void Legend::paintLegend(QPaintDevice *pd, LEGEND_TYPE type, LEGEND_POSITION pos)
 {
+    LEGEND_TYPE prevType = m_Type;
     LEGEND_POSITION prevPos = m_Position;
-    bool prevScaleOnly = m_ScaleOnly;
 
+    m_Type = type;
     m_Position = pos;
-    m_ScaleOnly = scaleOnly;
 
     paintLegend(pd);
 
+    m_Type = prevType;
     m_Position = prevPos;
-    m_ScaleOnly = prevScaleOnly;
 }
 
-void Legend::paintLegend(SkyQPainter *painter, LEGEND_POSITION pos, bool scaleOnly)
+void Legend::paintLegend(SkyQPainter *painter, LEGEND_TYPE type, LEGEND_POSITION pos)
 {
+    LEGEND_TYPE prevType = m_Type;
     LEGEND_POSITION prevPos = m_Position;
-    bool prevScaleOnly = m_ScaleOnly;
 
+    m_Type = type;
     m_Position = pos;
-    m_ScaleOnly = scaleOnly;
 
     paintLegend(painter);
 
+    m_Type = prevType;
     m_Position = prevPos;
-    m_ScaleOnly = prevScaleOnly;
 }
 
 void Legend::paintSymbols(QPointF pos)
