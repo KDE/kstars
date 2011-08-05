@@ -305,7 +305,7 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
 	}
         break;
 
-    case CCD_EXPOSURE:
+    case CCD_EXPOSURE_REQUEST:
         if (pp->state == PS_IDLE || pp->state == PS_OK)
             pp->set_w->setText(i18n("Capture Image"));
         break;
@@ -385,7 +385,7 @@ void INDIStdDevice::setLabelState(INDI_P *pp)
             createDeviceInit();
             emit linkAccepted();
 
-            imgProp = dp->findProp("CCD_EXPOSURE");
+            imgProp = dp->findProp("CCD_EXPOSURE_REQUEST");
             if (imgProp)
             {
                 tmpAction = ksw->actionCollection()->action("capture_sequence");
@@ -890,7 +890,7 @@ void INDIStdProperty::newText()
     switch (pp->stdID)
     {
         /* Set expose duration button to 'cancel' when busy */
-    case CCD_EXPOSURE:
+    case CCD_EXPOSURE_REQUEST:
         pp->set_w->setText(i18n("Cancel"));
         break;
 

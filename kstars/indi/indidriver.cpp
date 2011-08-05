@@ -423,7 +423,7 @@ void INDIDriver::updateMenuActions()
         foreach (INDI_D *device, dev_managers->indi_dev)
         {
 
-            imgProp = device->findProp("CCD_EXPOSURE");
+            imgProp = device->findProp("CCD_EXPOSURE_REQUEST");
             if (imgProp && device->isOn())
             {
                 activeImaging = true;
