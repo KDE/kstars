@@ -24,13 +24,16 @@
 
 #include <QBrush>
 
-const int symbolSize = 15;
-const int bRectWidth = 100;
-const int bRectHeight = 45;
-const qreal maxHScalePixels = 200;
-const qreal maxVScalePixels = 100;
-const int xSymbolSpacing = 100;
-const int ySymbolSpacing = 70;
+namespace
+{
+    const int symbolSize = 15;
+    const int bRectWidth = 100;
+    const int bRectHeight = 45;
+    const qreal maxHScalePixels = 200;
+    const qreal maxVScalePixels = 100;
+    const int xSymbolSpacing = 100;
+    const int ySymbolSpacing = 70;
+}
 
 Legend::Legend(LEGEND_ORIENTATION orientation, LEGEND_POSITION pos)
     : m_Painter(0), m_KStars(KStars::Instance()), m_DeletePainter(false), m_Type(LT_FULL),
