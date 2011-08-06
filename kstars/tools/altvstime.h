@@ -152,7 +152,6 @@ private:
     QList<SkyObject*> pList;
     QList<SkyObject*> deleteList;
     int DayOffset;
-    bool dirtyFlag;
 };
 
 #endif // ALTVSTIME_H_

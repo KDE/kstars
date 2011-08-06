@@ -136,13 +136,6 @@ public:
         */
     void setCurrentImage( SkyObject *o, bool temp = false );
 
-    /**@short Chooses how to call slotRemoveObject according to sessionView
-        *@p o Pointer to the SkyObject to be removed
-        *@p sessionView Flag to tell it whether to remove the object
-        *from the sessionlist or from the wishlist
-        */
-    void removeObject(SkyObject *o, bool sessionView);
-
     /**@short Save the user log text to a file.
         *@note the log is attached to the current object in obsList.
         */

@@ -366,22 +366,16 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
         obsList().removeAt(k);
         ui->View->removeAllPlotObjects();
         ui->TableView->resizeColumnsToContents();
-        if( ! update ) slotSaveList();
+        if( ! update )
+            slotSaveList();
     } else {
         if( ! update )
             TimeHash.remove( o->name() );
-        sessionList().removeAt(k);//Remove from the session list
-        if ( ! isModified ) isModified = true;//Removing an object should trigger the modified flag
+        sessionList().removeAt(k); //Remove from the session list
+        isModified = true;         //Removing an object should trigger the modified flag
         ui->View->removeAllPlotObjects();
         ui->SessionView->resizeColumnsToContents();
     }
-}
-
-void ObservingList::removeObject(SkyObject *o, bool sessionView) {
-    if ( sessionView )
-        slotRemoveObject( o, true );
-    else
-        slotRemoveObject( o );
 }
 
 void ObservingList::slotRemoveSelectedObjects() {
@@ -422,12 +416,12 @@ void ObservingList::slotRemoveSelectedObjects() {
                 //Stars named "star" must be matched by coordinates
                 if ( o->name() == "star" ) {
                     if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
-                        removeObject(o, sessionView);
+                        slotRemoveObject(o, sessionView);
                         break;
                     }
                 } else {
                     if ( o->translatedName() == mIndex.data().toString() ) {
-                        removeObject(o, sessionView);
+                        slotRemoveObject(o, sessionView);
                         break;
                     }
                 }

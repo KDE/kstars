@@ -458,13 +458,13 @@ void KSPopupMenu::addINDI()
                     if (prop->stdID == -1 || prop->stdID == TELESCOPE_MOTION_NS || prop->stdID == TELESCOPE_MOTION_WE) continue;
                     // Only switches are shown
                     if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO
-                            && prop->stdID !=CCD_EXPOSURE) continue;
+                            && prop->stdID !=CCD_EXPOSURE_REQUEST) continue;
 
                     menuDevice->addSeparator();
 
                     foreach ( element, prop->el )
                     {
-                        if (prop->stdID == CCD_EXPOSURE)
+                        if (prop->stdID == CCD_EXPOSURE_REQUEST)
                         {
                             QAction *a = menuDevice->addAction(prop->label);
                             a->setCheckable( false );

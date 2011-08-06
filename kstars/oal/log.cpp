@@ -899,7 +899,7 @@ void OAL::Log::readGeoDate() {
 
 OAL::Observer* OAL::Log::findObserverByName( QString name ) {
     foreach( OAL::Observer *obs, *observerList() )
-        if( obs->name() + ' ' + obs->surname() == name )
+        if( QString(obs->name() + ' ' + obs->surname()) == name )
             return obs;
     return NULL;
 }

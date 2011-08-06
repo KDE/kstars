@@ -48,8 +48,6 @@ DeepSkyObject::DeepSkyObject( const DeepSkyObject &o ) :
 {
     customCat = NULL;
     Flux = 0;
-    customCat = NULL;
-    Flux = 0;
     updateID = updateNumID = 0;
 }
 
