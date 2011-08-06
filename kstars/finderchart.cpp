@@ -51,7 +51,8 @@ void FinderChart::insertTitle(const QString &title)
     cursor.insertBlock(titleBlockFmt, titleCharFmt);
     cursor.insertText(title);
 
-    cursor.insertBlock();
+    cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
+    cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
 void FinderChart::insertLoggingForm(LoggingForm *log)
