@@ -274,6 +274,9 @@ int DeviceManager::dispatchCommand(XMLEle *root, QString & errmsg)
              !strcmp (tagXMLEle(root), "setLightVector") ||
              !strcmp (tagXMLEle(root), "setBLOBVector"))
         return dp->setAnyCmd(root, errmsg);
+    // Ignore if we get NewXXX commands
+    else if (QString(tagXMLEle(root)).startsWith("new"))
+        return 0;
 
     return INDI_DISPATCH_ERROR;
 }
