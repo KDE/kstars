@@ -8,7 +8,7 @@ PWizPrinterSelectionUI::PWizPrinterSelectionUI(PrintingWizard *wizard, QWidget *
 {
     setupUi(this);
 
-    connect(SelectPrinterButton, SIGNAL(clicked()), this, SLOT(slotSelectPrinter()));
+    connect(selectPrinterButton, SIGNAL(clicked()), this, SLOT(slotSelectPrinter()));
 
     m_Printer = new QPrinter(QPrinter::ScreenResolution);
     m_Dialog = new QPrintDialog(m_Printer, this);

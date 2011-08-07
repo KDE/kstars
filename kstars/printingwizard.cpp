@@ -61,7 +61,7 @@ void PrintingWizard::setupWidgets()
     QPixmap bannerImg;
     if(bannerImg.load(KStandardDirs::locate("appdata", "wzstars.png")))
     {
-        m_WizWelcomeUI->Banner->setPixmap(bannerImg);
+        m_WizWelcomeUI->banner->setPixmap(bannerImg);
     }
 
     enableButton(KDialog::User2, false);
