@@ -173,6 +173,9 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/skycalendar.ui
 	tools/wutdialog.ui
 	tools/flagmanager.ui
+        pwizwelcome.ui
+        pwizprinterselection.ui
+        pwiztypeselection.ui
         )
 
 
@@ -333,6 +336,8 @@ set(kstars_extra_SRCS
 	legend.cpp
 	simplefovexporter.cpp
         finderchart.cpp loggingform.cpp detailstable.cpp
+        printingwizard.cpp
+        pwizprinterselection.cpp
 )
 
 set(oal_SRCS
