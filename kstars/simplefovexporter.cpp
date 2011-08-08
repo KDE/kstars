@@ -209,10 +209,9 @@ void SimpleFovExporter::restoreState(bool restorePos)
     // restore previous zoom level
     m_Map->setZoomFactor(m_PrevZoom);
 
-    // synchronize clock and restore its state (if it was stopped)
+    // restore clock state (if it was stopped)
     if(m_StopClock && m_PrevClockState)
     {
-        KStars::Instance()->slotSetTimeToNow();
         m_KSData->clock()->start();
     }
 }
