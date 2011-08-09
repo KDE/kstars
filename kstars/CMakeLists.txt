@@ -366,6 +366,7 @@ set(printingui_SRCS
     printing/pwizobjectselection.ui
     printing/pwizprint.ui
     printing/pwizprinterselection.ui
+    printing/pwiztypeselection.ui
     printing/pwizwelcome.ui
 )
 
@@ -386,9 +387,8 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 kde4_add_ui_files(kstars_SRCS
        ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+       ${printingui_SRCS}
          thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui
-         ${printingui_SRCS}
-
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
