@@ -18,7 +18,7 @@
 #include "skyqpainter.h"
 #include "skymapqdraw.h"
 #include "skymap.h"
-#include "legend.h"
+#include "printing/legend.h"
 
 SkyMapQDraw::SkyMapQDraw( SkyMap *sm ) : QWidget( sm ), SkyMapDrawAbstract( sm ) {
     m_SkyPixmap = new QPixmap( width(), height() );

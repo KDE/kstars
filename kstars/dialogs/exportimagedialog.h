@@ -20,7 +20,7 @@
 
 #include "ui_exportimagedialog.h"
 
-#include "legend.h"
+#include "../printing/legend.h"
 
 class KStars;
 class SkyQPainter;

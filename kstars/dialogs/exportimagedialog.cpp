@@ -18,7 +18,7 @@
 #include "exportimagedialog.h"
 #include "kstars/kstars.h"
 #include "kstars/skymap.h"
-#include "kstars/legend.h"
+#include "../printing/legend.h"
 #include "kstars/skyqpainter.h"
 
 #include <kio/netaccess.h>

@@ -47,7 +47,7 @@
 #include "dialogs/detaildialog.h"
 #include "dialogs/addlinkdialog.h"
 #include "kspopupmenu.h"
-#include "printingwizard.h"
+#include "printing/printingwizard.h"
 #include "simclock.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"

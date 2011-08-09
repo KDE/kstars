@@ -31,7 +31,7 @@
 
 #include "skymapdrawabstract.h"
 #include "skymapqdraw.h"
-#include "legend.h"
+#include "printing/legend.h"
 
 #include <config-kstars.h>
 

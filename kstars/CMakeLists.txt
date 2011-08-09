@@ -173,12 +173,6 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/skycalendar.ui
 	tools/wutdialog.ui
 	tools/flagmanager.ui
-        pwizwelcome.ui
-        pwizprinterselection.ui
-        pwiztypeselection.ui
-        pwizprint.ui
-        pwizobjectselection.ui
-        pwizchartcontents.ui
         )
 
 
@@ -336,15 +330,6 @@ set(kstars_extra_SRCS
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 	satellitegroup.cpp
-	legend.cpp
-	simplefovexporter.cpp
-        finderchart.cpp loggingform.cpp detailstable.cpp
-        printingwizard.cpp
-        pwizprinterselection.cpp
-        pwizprint.cpp
-        pwiztypeselection.cpp
-        pwizobjectselection.cpp
-        pwizchartcontents.cpp
 )
 
 set(oal_SRCS
@@ -362,10 +347,33 @@ set(oal_SRCS
     oal/execute.cpp
 )
 
+set(printing_SRCS
+    printing/detailstable.cpp
+    printing/finderchart.cpp
+    printing/legend.cpp
+    printing/loggingform.cpp
+    printing/printingwizard.cpp
+    printing/pwizchartcontents.cpp
+    printing/pwizobjectselection.cpp
+    printing/pwizprint.cpp
+    printing/pwizprinterselection.cpp
+    printing/pwiztypeselection.cpp
+    printing/simplefovexporter.cpp
+)
+
+set(printingui_SRCS
+    printing/pwizchartcontents.ui
+    printing/pwizobjectselection.ui
+    printing/pwizprint.ui
+    printing/pwizprinterselection.ui
+    printing/pwizwelcome.ui
+)
+
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
+        ${printing_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -379,6 +387,7 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 kde4_add_ui_files(kstars_SRCS
        ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
          thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui
+         ${printingui_SRCS}
 
 )
 

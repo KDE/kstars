@@ -63,7 +63,7 @@
 #include "dialogs/finddialog.h"
 #include "dialogs/focusdialog.h"
 #include "dialogs/fovdialog.h"
-#include "printingwizard.h"
+#include "printing/printingwizard.h"
 #include "kswizard.h"
 #include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
