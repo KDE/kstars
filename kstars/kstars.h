@@ -54,6 +54,7 @@ class EquipmentWriter;
 class ObserverAdd;
 class Execute;
 class ExportImageDialog;
+class PrintingWizard;
 
 class OpsCatalog;
 class OpsGuides;
@@ -154,7 +155,9 @@ public:
      */
     void applyConfig( bool doApplyFocus = true );
 
-    FlagManager* getFlagManager();
+    FlagManager* getFlagManager() { return fm; }
+
+    PrintingWizard* getPrintingWizard() { return printingWizard; }
 
     void showImgExportDialog();
 
@@ -540,6 +543,9 @@ private slots:
     /**Action slot to print skymap. */
     void slotPrint();
 
+    /**Action slot to start Printing Wizard. */
+    void slotPrintingWizard();
+
     /**Action slot to show tip-of-the-day window. */
     void slotTipOfDay();
 
@@ -636,6 +642,7 @@ private:
     JMoonTool *jmt;
     FlagManager *fm;
     AstroCalc *astrocalc;
+    PrintingWizard *printingWizard;
 
     INDIMenu *indimenu;
     INDIDriver *indidriver;

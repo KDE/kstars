@@ -19,6 +19,7 @@
 #define LOGGINGFORM_H
 
 class QTextDocument;
+class QPrinter;
 
 class LoggingForm
 {
@@ -27,6 +28,8 @@ public:
     ~LoggingForm();
 
     void createFinderChartLogger();
+
+    void print(QPrinter *printer);
 
     QTextDocument* getDocument();
 

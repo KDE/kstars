@@ -47,6 +47,7 @@
 #include "dialogs/detaildialog.h"
 #include "dialogs/addlinkdialog.h"
 #include "kspopupmenu.h"
+#include "printingwizard.h"
 #include "simclock.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
@@ -139,7 +140,7 @@ SkyMap::SkyMap() :
     computeSkymap(true), rulerMode(false),
     data( KStarsData::Instance() ), pmenu(0),
     ClickedObject(0), FocusObject(0), m_proj(0),
-    m_previewLegend(false)
+    m_previewLegend(false), m_objPointingMode(false)
 {
     m_Scale = 1.0;
 
@@ -717,6 +718,12 @@ void SkyMap::slotDetail() {
     DetailDialog* detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), KStars::Instance() );
     detail->setAttribute(Qt::WA_DeleteOnClose);
     detail->show();
+}
+
+void SkyMap::slotObjectSelected() {
+    if(m_objPointingMode && KStars::Instance()->getPrintingWizard()) {
+        KStars::Instance()->getPrintingWizard()->pointingDone(clickedObject());
+    }
 }
 
 void SkyMap::slotClockSlewing() {

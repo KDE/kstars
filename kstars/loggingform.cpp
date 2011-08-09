@@ -19,6 +19,7 @@
 
 #include "QTextDocument"
 #include "QTextTable"
+#include "QPrinter"
 #include "kstars.h"
 
 LoggingForm::LoggingForm()
@@ -72,6 +73,11 @@ void LoggingForm::createFinderChartLogger()
     table->mergeCells(4, 0, 1, 3);
     table->cellAt(4, 0).firstCursorPosition().insertText(i18n("Eyepiece:"));
     table->cellAt(4, 3).firstCursorPosition().insertText(i18n("Power:"));
+}
+
+void LoggingForm::print(QPrinter *printer)
+{
+    m_Document->print(printer);
 }
 
 QTextDocument* LoggingForm::getDocument()

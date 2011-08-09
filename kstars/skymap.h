@@ -282,6 +282,10 @@ class SkyMap : public QGraphicsView {
 
     void setLegend(Legend &legend) { m_legend = legend; }
 
+    bool isInObjectPointingMode() { return m_objPointingMode; }
+
+    void setObjectPointingMode(bool enabled) { m_objPointingMode = enabled; }
+
 public slots:
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().
@@ -438,6 +442,9 @@ public slots:
 
     /** Set default zoom. */
     void slotZoomDefault();
+
+    /** Object pointing for Printing Wizard done */
+    void slotObjectSelected();
 
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
@@ -627,6 +634,8 @@ private:
     // legend
     bool m_previewLegend;
     Legend m_legend;
+
+    bool m_objPointingMode;
 
 
     QWidget *m_SkyMapDraw; // Can be dynamic_cast<> to SkyMapDrawAbstract

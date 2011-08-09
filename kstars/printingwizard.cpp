@@ -1,6 +1,8 @@
 #include "printingwizard.h"
 
 #include "pwizprinterselection.h"
+#include "pwiztypeselection.h"
+#include "pwizobjectselection.h"
 
 #include "QStackedWidget"
 #include "kstars.h"
@@ -11,13 +13,9 @@ PWizWelcomeUI::PWizWelcomeUI(QWidget *parent) : QFrame(parent)
     setupUi(this);
 }
 
-PWizTypeSelectionUI::PWizTypeSelectionUI(QWidget *parent) : QFrame(parent)
-{
-    setupUi(this);
-}
-
 PrintingWizard::PrintingWizard(QWidget *parent) : KDialog(parent),
-    m_KStars(KStars::Instance()), m_Printer(0)
+    m_KStars(KStars::Instance()), m_Printer(0), m_PrintoutType(PT_UNDEFINED),
+    m_FinderChart(0), m_LoggingForm(0), m_SkyObject(0)
 {
     setupWidgets();
     setupConnections();
@@ -25,6 +23,18 @@ PrintingWizard::PrintingWizard(QWidget *parent) : KDialog(parent),
 
 PrintingWizard::~PrintingWizard()
 {}
+
+void PrintingWizard::restart()
+{
+
+}
+
+void PrintingWizard::pointingDone(SkyObject *obj)
+{
+    m_WizObjectSelectionUI->setSkyObject(obj);
+
+    show();
+}
 
 void PrintingWizard::slotPrevPage()
 {
@@ -34,7 +44,42 @@ void PrintingWizard::slotPrevPage()
 
 void PrintingWizard::slotNextPage()
 {
-    m_WizardStack->setCurrentIndex(m_WizardStack->currentIndex() + 1);
+    int currentIdx = m_WizardStack->currentIndex();
+    switch(currentIdx)
+    {
+    case 2: // Printout type selection screen
+        {
+            m_PrintoutType = m_WizTypeSelectionUI->getSelectedPrintoutType();
+
+            switch(m_PrintoutType)
+            {
+            case PT_FINDER_CHART:
+                {
+                    m_WizardStack->setCurrentIndex(currentIdx + 1);
+                    break;
+                }
+
+            case PT_LOGGING_FORM:
+                {
+                    m_WizardStack->setCurrentIndex(0);
+                    break;
+                }
+
+            default: // Undefined printout type - do nothing
+                {
+                    return;
+                }
+            }
+
+            break;
+        }
+
+    default:
+        {
+            m_WizardStack->setCurrentIndex(currentIdx + 1);
+        }
+    }
+
     updateButtons();
 }
 
@@ -53,10 +98,12 @@ void PrintingWizard::setupWidgets()
     m_WizWelcomeUI = new PWizWelcomeUI(m_WizardStack);
     m_WizPrinterSelectionUI = new PWizPrinterSelectionUI(this, m_WizardStack);
     m_WizTypeSelectionUI = new PWizTypeSelectionUI(m_WizardStack);
+    m_WizObjectSelectionUI = new PWizObjectSelectionUI(this, m_WizardStack);
 
     m_WizardStack->addWidget(m_WizWelcomeUI);
     m_WizardStack->addWidget(m_WizPrinterSelectionUI);
     m_WizardStack->addWidget(m_WizTypeSelectionUI);
+    m_WizardStack->addWidget(m_WizObjectSelectionUI);
 
     QPixmap bannerImg;
     if(bannerImg.load(KStandardDirs::locate("appdata", "wzstars.png")))
@@ -78,5 +125,3 @@ void PrintingWizard::updateButtons()
     enableButton(KDialog::User1, m_WizardStack->currentIndex() < m_WizardStack->count() - 1);
     enableButton(KDialog::User2, m_WizardStack->currentIndex() > 0);
 }
-
-

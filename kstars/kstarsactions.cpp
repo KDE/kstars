@@ -63,6 +63,7 @@
 #include "dialogs/finddialog.h"
 #include "dialogs/focusdialog.h"
 #include "dialogs/fovdialog.h"
+#include "printingwizard.h"
 #include "kswizard.h"
 #include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
@@ -677,6 +678,16 @@ void KStars::slotPrint() {
     }
 
     printImage( true, switchColors );
+}
+
+void KStars::slotPrintingWizard() {
+    if(printingWizard) {
+        printingWizard->restart();
+    } else {
+        printingWizard = new PrintingWizard(this);
+    }
+
+    printingWizard->exec();
 }
 
 void KStars::slotToggleTimer() {

@@ -151,6 +151,8 @@ void KStars::initActions() {
         << i18n("&Run Script...")
         << KIcon("system-run" )
         << KShortcut( Qt::CTRL+Qt::Key_R );
+    actionCollection()->addAction("printing_wizard", this, SLOT(slotPrintingWizard() ) )
+            << i18nc("start Printing Wizard", "Printing &Wizard");
     actionCollection()->addAction( KStandardAction::Print, "print", this, SLOT( slotPrint() ) );
     actionCollection()->addAction( KStandardAction::Quit,  "quit",  this, SLOT( close() ) );
 

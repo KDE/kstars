@@ -163,17 +163,17 @@ void KSPopupMenu::slotDeleteFlag( QAction *action ) {
 void KSPopupMenu::createStarMenu( StarObject *star ) {
     KStars* ks = KStars::Instance();
     //Add name, rise/set time, center/track, and detail-window items
-	QString name;
-	if( star->name() != "star" ) {
-		name = star->translatedLongName();
-	} else {
-		if( star->getHDIndex() ) {
-			name = QString( "HD%1" ).arg( QString::number( star->getHDIndex() ) );
-		} else {
-			// FIXME: this should be some catalog name too
-			name = "Star";
-		}
-	}
+    QString name;
+    if( star->name() != "star" ) {
+        name = star->translatedLongName();
+    } else {
+        if( star->getHDIndex() ) {
+            name = QString( "HD%1" ).arg( QString::number( star->getHDIndex() ) );
+        } else {
+            // FIXME: this should be some catalog name too
+            name = "Star";
+        }
+    }
     initPopupMenu( star, name, i18n( "star" ), i18n("%1<sup>m</sup>, %2", star->mag(), star->sptype()) );
     //If the star is named, add custom items to popup menu based on object's ImageList and InfoList
     if ( star->name() != "star" ) {
@@ -267,6 +267,11 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     addFancyLabel( transitTimeLabel(o),        -2 );
     addSeparator();
     delete o;
+
+    if(KStars::Instance()->map()->isInObjectPointingMode() && !name.isEmpty()) {
+        addAction( i18n( "Select this object"), KStars::Instance()->map(), SLOT(slotObjectSelected()));
+    }
+
     //Insert item for centering on object
     addAction( i18n( "Center && Track" ), ks->map(), SLOT( slotCenter() ) );
 

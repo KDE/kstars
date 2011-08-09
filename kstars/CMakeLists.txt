@@ -176,6 +176,9 @@ kde4_add_ui_files(libkstarstools_SRCS
         pwizwelcome.ui
         pwizprinterselection.ui
         pwiztypeselection.ui
+        pwizprint.ui
+        pwizobjectselection.ui
+        pwizchartcontents.ui
         )
 
 
@@ -338,6 +341,10 @@ set(kstars_extra_SRCS
         finderchart.cpp loggingform.cpp detailstable.cpp
         printingwizard.cpp
         pwizprinterselection.cpp
+        pwizprint.cpp
+        pwiztypeselection.cpp
+        pwizobjectselection.cpp
+        pwizchartcontents.cpp
 )
 
 set(oal_SRCS

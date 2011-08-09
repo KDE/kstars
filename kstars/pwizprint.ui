@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PWizTypeSelection</class>
- <widget class="QWidget" name="PWizTypeSelection">
+ <class>PWizPrint</class>
+ <widget class="QWidget" name="PWizPrint">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -40,7 +40,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="printoutTypeLayout">
+    <layout class="QVBoxLayout" name="printLayout">
      <property name="spacing">
       <number>6</number>
      </property>
@@ -61,7 +61,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Choose Printout Type</string>
+        <string>Preview and print</string>
        </property>
       </widget>
      </item>
@@ -88,9 +88,8 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select printout type. KStars supports printing two types of documents: Finder Charts and Logging Forms.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Finder Charts&lt;/span&gt; come in handy for finding sky objects. They can contain basic logging forms, representations of the field-of-view, and table with details about observed objects together with SDSS/DSS images.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Logging Forms &lt;/span&gt;are used for logging observations of multiple objects. They are often used with finder charts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Your document is ready to be printed. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Print Preview &lt;/span&gt;button to preview it and &lt;span style=&quot; font-weight:600;&quot;&gt;Print &lt;/span&gt;button to begin printing.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If you wish to change contents of printed document, click &lt;span style=&quot; font-weight:600;&quot;&gt;Previous &lt;/span&gt;button to get back to previous steps.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -108,34 +107,84 @@ p, li { white-space: pre-wrap; }
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>10</height>
+         <height>40</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="typeLabel">
-       <property name="text">
-        <string>Printout type:</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horLayout1">
+       <item>
+        <spacer name="horSpacer1">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="previewButton">
+         <property name="text">
+          <string>Print Preview</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horSpacer2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QRadioButton" name="finderChartRadio">
-       <property name="text">
-        <string>Finder Chart</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="loggingFormRadio">
-       <property name="text">
-        <string>Logging Form</string>
-       </property>
-      </widget>
+      <layout class="QHBoxLayout" name="horLayout2">
+       <item>
+        <spacer name="horSpacer3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="printButton">
+         <property name="text">
+          <string>Print</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horSpacer4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
      </item>
      <item>
       <spacer name="vertSpacer3">

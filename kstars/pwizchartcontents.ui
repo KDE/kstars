@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PWizTypeSelection</class>
- <widget class="QWidget" name="PWizTypeSelection">
+ <class>PWizChartContents</class>
+ <widget class="QWidget" name="PWizChartContents">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -40,7 +40,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="printoutTypeLayout">
+    <layout class="QVBoxLayout" name="contentsLayout">
      <property name="spacing">
       <number>6</number>
      </property>
@@ -61,7 +61,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Choose Printout Type</string>
+        <string>Select Finder Chart Contents</string>
        </property>
       </widget>
      </item>
@@ -88,9 +88,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select printout type. KStars supports printing two types of documents: Finder Charts and Logging Forms.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Finder Charts&lt;/span&gt; come in handy for finding sky objects. They can contain basic logging forms, representations of the field-of-view, and table with details about observed objects together with SDSS/DSS images.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Logging Forms &lt;/span&gt;are used for logging observations of multiple objects. They are often used with finder charts.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select additional Finder Chart contents. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -99,46 +97,6 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <spacer name="vertSpacer2">
-       <property name="orientation">
-        <enum>Qt::Vertical</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>10</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="typeLabel">
-       <property name="text">
-        <string>Printout type:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="finderChartRadio">
-       <property name="text">
-        <string>Finder Chart</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="loggingFormRadio">
-       <property name="text">
-        <string>Logging Form</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="vertSpacer3">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
