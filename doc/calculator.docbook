@@ -15,7 +15,6 @@ The modules are organized by subject:
 <listitem><para><link linkend="calc-ecliptic">Ecliptic Coordinates</link></para></listitem>
 <listitem><para><link linkend="calc-eqgal">Equatorial/Galactic Coordinates</link></para></listitem>
 <listitem><para><link linkend="calc-horiz">Horizontal Coordinates</link></para></listitem>
-<listitem><para><link linkend="calc-precess">Precession</link></para></listitem>
 </itemizedlist>
 <itemizedlist><title>Earth Coordinates</title>
 <listitem><para><link linkend="calc-geodetic">Geodetic Coordinates</link></para></listitem>
@@ -36,7 +35,6 @@ The modules are organized by subject:
 &calc-ecliptic;
 &calc-eqgal;
 &calc-horiz;
-&calc-precess;
 &calc-geodetic;
 &calc-planetcoords;
 &calc-dayduration;

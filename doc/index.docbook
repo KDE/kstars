@@ -11,7 +11,6 @@
   <!ENTITY calc-equinox SYSTEM "calc-equinox.docbook">
   <!ENTITY calc-horiz SYSTEM "calc-horizontal.docbook">
   <!ENTITY calc-planetcoords SYSTEM "calc-planetcoords.docbook">
-  <!ENTITY calc-precess SYSTEM "calc-precess.docbook">
   <!ENTITY calc-geodetic SYSTEM "calc-geodetic.docbook">
   <!ENTITY calc-dayduration SYSTEM "calc-dayduration.docbook">
   <!ENTITY calc-julian SYSTEM "calc-julianday.docbook">
