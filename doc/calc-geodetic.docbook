@@ -34,7 +34,7 @@ on the Earth's surface in Cartesian coordinates (X, Y, and Z).
 <para>
 To use the module, first select which coordinates you will use as 
 input in the <guilabel>Select Input Coordinates</guilabel> section.  
-Then select an elleipsoid model and fill 
+Then select an ellipsoid model and fill 
 in the input coordinates in either the <guilabel>Cartesian
 Coordinates</guilabel> section or the <guilabel>Geographic 
 Coordinates</guilabel> section.  When you press the 
