@@ -22,7 +22,7 @@ The Observing List Tool
 The purpose of the Observing List Tool is to provide convenient 
 access to some common functions for a list of objects chosen by 
 you.  Objects are added to the list by using the <quote>Add to 
-Observing Wishlist</quote> action in the <link linkend="popup-menu">popup 
+Observing WishList</quote> action in the <link linkend="popup-menu">popup 
 menu</link>, or by simply pressing the <keycap>O</keycap> key 
 to add the currently-selected object.
 </para>
@@ -77,7 +77,7 @@ Tool</link>, with the selected object(s) preloaded
 </varlistentry>
 
 <varlistentry>
-<term>Remove from Wishlist</term>
+<term>Remove from WishList</term>
 <listitem>
 <para>
 Remove the selected object(s) from the observing list.

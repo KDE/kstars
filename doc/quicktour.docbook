@@ -210,7 +210,7 @@ The bottom section contains links to images and/or informative webpages
 about the selected object.  If you know of an additional &URL; with
 information or an image of the object, you can add a custom link to the
 object's popup menu. Use the <guimenuitem>Details</guimenuitem> item in 
-the popup menuto open the <guilabel>Object Details</guilabel> dialog. 
+the popup menu to open the <guilabel>Object Details</guilabel> dialog. 
 On the <guilabel>Link</guilabel> tab use the <guimenuitem>Add Link...</guimenuitem> 
 item.
 </para>

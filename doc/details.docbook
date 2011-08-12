@@ -63,7 +63,7 @@ for solar system objects -->
 The <guilabel>Advanced</guilabel> Tab (not available for all objects) allows you to query professional
 astronomical databases on the internet for information regarding the
 current object.  To use these databases, double click on the 
-desired database in the listto see the results of your query in a web browser window.  The
+desired database in the list to see the results of your query in a web browser window.  The
 query is made using the primary name of the object you clicked on to
 open the Details Dialog.  The following databases are available for
 querying:

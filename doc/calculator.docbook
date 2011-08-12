@@ -28,7 +28,7 @@ Moon Phase Almanach
  -->
 </itemizedlist>
 <itemizedlist><title>Time Calculators</title>
-<listitem><para><link linkend="calc-dayduration">Almanach</link></para></listitem>
+<listitem><para><link linkend="calc-dayduration">Almanac</link></para></listitem>
 <listitem><para><link linkend="calc-equinox">Equinoxes and Solstices</link></para></listitem>
 <listitem><para><link linkend="calc-julian">Julian Day</link></para></listitem>
 <listitem><para><link linkend="calc-sidereal">Sidereal Time</link></para></listitem>
