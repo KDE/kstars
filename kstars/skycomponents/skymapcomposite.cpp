@@ -44,6 +44,7 @@
 #include "deepstarcomponent.h"
 #include "flagcomponent.h"
 #include "satellitescomponent.h"
+#include "supernovaecomponent.h"
 
 
 #include "skymesh.h"
@@ -96,6 +97,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
                                                              &Options::obsListSymbol, &Options::obsListText ) );
     addComponent( m_StarHopRouteList = new TargetListComponent( this , 0, QPen() ) );
     addComponent( m_Satellites       = new SatellitesComponent( this ) );
+    addComponent( m_Supernovae       = new SupernovaeComponent( this ) );
 
     connect( this, SIGNAL( progressText( const QString & ) ),
              KStarsData::Instance(), SIGNAL( progressText( const QString & ) ) );
@@ -138,7 +140,9 @@ void SkyMapComposite::update(KSNumbers *num )
     m_SolarSystem->update( num );
     //13. Satellites
     m_Satellites->update( num );
-    //14. Horizon
+    //14. Supernovae
+    m_Supernovae->update(num);
+    //15. Horizon
     m_Horizon->update( num );
 }
 
@@ -236,8 +240,10 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_SolarSystem->drawTrails( skyp );
     m_SolarSystem->draw( skyp );
-    
+
     m_Satellites->draw( skyp );
+
+    m_Supernovae->draw(skyp);
 
     m_Horizon->draw( skyp );
 
@@ -337,6 +343,15 @@ SkyObject* SkyMapComposite::objectNearest( SkyPoint *p, double &maxrad ) {
         rBest = rTry;
         oBest = oTry;
     }
+
+    rTry = maxrad;
+    oTry = m_Supernovae->objectNearest(p,rTry);
+    //kDebug()<<rTry<<rBest<<maxrad;
+    if ( rTry < rBest ) {
+        rBest = rTry;
+        oBest = oTry;
+    }
+
     if ( oBest )
         kDebug() << "OBEST=" << oBest->name() << " - " << oBest->name2();
     maxrad = rBest;
@@ -406,6 +421,8 @@ SkyObject* SkyMapComposite::findByName( const QString &name ) {
     o = m_CNames->findByName( name );
     if ( o ) return o;
     o = m_Stars->findByName( name );
+    if ( o ) return o;
+    o = m_Supernovae->findByName(name);
     if ( o ) return o;
 
     return 0;
@@ -496,6 +513,11 @@ const QList<SkyObject*>& SkyMapComposite::comets() const {
     return m_SolarSystem->comets();
 }
 
+const QList<SkyObject*>& SkyMapComposite::supernovae() const
+{
+    return m_Supernovae->objectList();
+}
+
 KSPlanet* SkyMapComposite::earth() {
     return m_SolarSystem->earth();
 }
@@ -531,6 +553,11 @@ SatellitesComponent* SkyMapComposite::satellites() {
 SolarSystemComposite* SkyMapComposite::solarSystemComposite()
 {
     return m_SolarSystem;
+}
+
+SupernovaeComponent* SkyMapComposite::supernovaeComponent()
+{
+    return m_Supernovae;
 }
 
 #include "skymapcomposite.moc"
