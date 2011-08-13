@@ -15,9 +15,6 @@ public:
     QString getChartSubtitle();
     QString getChartDescription();
 
-    bool isGeoTimeChecked();
-    bool isSymbolListChecked();
-
 private:
     PrintingWizard *m_ParentWizard;
 };

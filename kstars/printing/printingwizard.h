@@ -22,22 +22,20 @@
 
 #include "kdialog.h"
 #include "simplefovexporter.h"
-#include "QPrinter"
 #include "QSize"
 
 class KStars;
-class PWizTypeSelectionUI;
 class PWizObjectSelectionUI;
 class PWizFovTypeSelectionUI;
 class PWizFovManualUI;
 class PWizChartConfigUI;
 class PWizChartContentsUI;
 class PWizPrintUI;
-class LoggingForm;
 class FinderChart;
 class KStarsDocument;
 class SkyObject;
 class QStackedWidget;
+class QPrinter;
 
 // Printing Wizard welcome screen
 class PWizWelcomeUI : public QFrame, public Ui::PWizWelcome
@@ -52,13 +50,6 @@ class PrintingWizard : public KDialog
     Q_OBJECT
 
 public:
-    enum PRINTOUT_TYPE
-    {
-        PT_FINDER_CHART,
-        PT_LOGGING_FORM,
-        PT_UNDEFINED
-    };
-
     enum FOV_TYPE
     {
         FT_MANUAL,
@@ -69,11 +60,9 @@ public:
     PrintingWizard(QWidget *parent = 0);
     ~PrintingWizard();
 
-    PRINTOUT_TYPE getPrintoutType() { return m_PrintoutType; }
     FOV_TYPE getFovType() { return m_FovType; }
     QPrinter* getPrinter() { return m_Printer; }
     FinderChart* getFinderChart() { return m_FinderChart; }
-    LoggingForm* getLoggingForm() { return m_LoggingForm; }
     KStarsDocument* getDocument();
     SkyObject* getSkyObject() { return m_SkyObject; }
 
@@ -98,21 +87,15 @@ private:
 
     void createDocument();
     void createFinderChart();
-    void createLoggingForm();
 
     KStars *m_KStars;
+    FinderChart *m_FinderChart;
+    SkyObject *m_SkyObject;
     QStackedWidget *m_WizardStack;
-
     QPrinter *m_Printer;
 
-    PRINTOUT_TYPE m_PrintoutType;
     FOV_TYPE m_FovType;
-    FinderChart *m_FinderChart;
-    LoggingForm *m_LoggingForm;
-    KStarsDocument *m_Document;
-
     QSize m_FovImageSize;
-    SkyObject *m_SkyObject;
     SimpleFovExporter m_SimpleFovExporter;
     QList<QPixmap> m_FovImages;
     QList<QString> m_FovDescriptions;
@@ -123,7 +106,6 @@ private:
     QString m_PrevSchemeName;
 
     PWizWelcomeUI *m_WizWelcomeUI;
-    PWizTypeSelectionUI *m_WizTypeSelectionUI;
     PWizObjectSelectionUI *m_WizObjectSelectionUI;
     PWizFovTypeSelectionUI *m_WizFovTypeSelectionUI;
     PWizFovManualUI *m_WizFovManualUI;

@@ -20,13 +20,3 @@ QString PWizChartConfigUI::getChartDescription()
 {
     return descriptionTextEdit->toPlainText();
 }
-
-bool PWizChartConfigUI::isGeoTimeChecked()
-{
-    return geoTimeBox->isChecked();
-}
-
-bool PWizChartConfigUI::isSymbolListChecked()
-{
-    return symbolListBox->isChecked();
-}

@@ -20,7 +20,6 @@
 #include "finderchart.h"
 #include "loggingform.h"
 #include "detailstable.h"
-#include "pwiztypeselection.h"
 #include "pwizobjectselection.h"
 #include "pwizchartconfig.h"
 #include "pwizfovtypeselection.h"
@@ -32,6 +31,7 @@
 #include "skymap.h"
 #include "legend.h"
 #include "QStackedWidget"
+#include "QPrinter"
 #include <kstandarddirs.h>
 
 PWizWelcomeUI::PWizWelcomeUI(QWidget *parent) : QFrame(parent)
@@ -40,9 +40,8 @@ PWizWelcomeUI::PWizWelcomeUI(QWidget *parent) : QFrame(parent)
 }
 
 PrintingWizard::PrintingWizard(QWidget *parent) : KDialog(parent),
-    m_KStars(KStars::Instance()), m_PrintoutType(PT_UNDEFINED),
-    m_FovType(FT_UNDEFINED), m_FinderChart(0), m_LoggingForm(0), m_Document(0),
-    m_FovImageSize(QSize(0, 0)), m_SkyObject(0), m_SwitchColors(false)
+    m_KStars(KStars::Instance()), m_FinderChart(0), m_SkyObject(0),
+    m_FovType(FT_UNDEFINED), m_FovImageSize(QSize(0, 0)), m_SwitchColors(false)
 {
     m_Printer = new QPrinter(QPrinter::ScreenResolution);
 
@@ -55,25 +54,7 @@ PrintingWizard::~PrintingWizard()
 
 KStarsDocument* PrintingWizard::getDocument()
 {
-    switch(m_PrintoutType)
-    {
-    case PT_FINDER_CHART:
-        {
-            return m_FinderChart;
-            break;
-        }
-
-    case PT_LOGGING_FORM:
-        {
-            return m_LoggingForm;
-            break;
-        }
-
-    default:
-        {
-            return 0;
-        }
-    }
+    return m_FinderChart;
 }
 
 void PrintingWizard::restart()
@@ -139,34 +120,7 @@ void PrintingWizard::slotNextPage()
     int currentIdx = m_WizardStack->currentIndex();
     switch(currentIdx)
     {
-    case 1: // Printout type selection screen
-        {
-            m_PrintoutType = m_WizTypeSelectionUI->getSelectedPrintoutType();
-
-            switch(m_PrintoutType)
-            {
-            case PT_FINDER_CHART:
-                {
-                    m_WizardStack->setCurrentIndex(currentIdx + 1);
-                    break;
-                }
-
-            case PT_LOGGING_FORM:
-                {
-                    m_WizardStack->setCurrentIndex(0);
-                    break;
-                }
-
-            default: // Undefined printout type - do nothing
-                {
-                    return;
-                }
-            }
-
-            break;
-        }
-
-    case 4: // FOV type selection screen
+    case 3: // FOV type selection screen
         {
             m_FovType = m_WizFovTypeSelectionUI->getFovExportType();
 
@@ -193,7 +147,7 @@ void PrintingWizard::slotNextPage()
             break;
         }
 
-    case 6:
+    case 5:
         {
             createDocument();
             m_WizardStack->setCurrentIndex(currentIdx + 1);
@@ -222,16 +176,14 @@ void PrintingWizard::setupWidgets()
     setButtonGuiItem(KDialog::User2, KGuiItem(QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page")));
 
     m_WizWelcomeUI = new PWizWelcomeUI(m_WizardStack);
-    m_WizTypeSelectionUI = new PWizTypeSelectionUI(m_WizardStack);
     m_WizObjectSelectionUI = new PWizObjectSelectionUI(this, m_WizardStack);
-    m_WizChartConfigUI = new PWizChartConfigUI(this, m_WizardStack);
+    m_WizChartConfigUI = new PWizChartConfigUI(this);
     m_WizFovTypeSelectionUI = new PWizFovTypeSelectionUI(this, m_WizardStack);
     m_WizFovManualUI = new PWizFovManualUI(this, m_WizardStack);
     m_WizChartContentsUI = new PWizChartContentsUI(this, m_WizardStack);
     m_WizPrintUI = new PWizPrintUI(this, m_WizardStack);
 
     m_WizardStack->addWidget(m_WizWelcomeUI);
-    m_WizardStack->addWidget(m_WizTypeSelectionUI);
     m_WizardStack->addWidget(m_WizObjectSelectionUI);
     m_WizardStack->addWidget(m_WizChartConfigUI);
     m_WizardStack->addWidget(m_WizFovTypeSelectionUI);
@@ -262,25 +214,7 @@ void PrintingWizard::updateButtons()
 
 void PrintingWizard::createDocument()
 {
-    switch(m_PrintoutType)
-    {
-    case PT_FINDER_CHART:
-        {
-            createFinderChart();
-            break;
-        }
-
-    case PT_LOGGING_FORM:
-        {
-            createLoggingForm();
-            break;
-        }
-
-    default:
-        {
-            return;
-        }
-    }
+    createFinderChart();
 }
 
 void PrintingWizard::createFinderChart()
@@ -292,23 +226,6 @@ void PrintingWizard::createFinderChart()
     if(!m_WizChartConfigUI->descriptionTextEdit->toPlainText().isEmpty())
     {
         m_FinderChart->insertDescription(m_WizChartConfigUI->descriptionTextEdit->toPlainText());
-    }
-
-    if(m_WizChartConfigUI->isGeoTimeChecked())
-    {
-        m_FinderChart->insertGeoTimeInfo(m_KStars->data()->ut(), m_KStars->data()->geo());
-    }
-
-    if(m_WizChartConfigUI->isSymbolListChecked())
-    {
-        Legend legend(Legend::LO_HORIZONTAL, Legend::LP_UPPER_LEFT);
-        legend.setType(Legend::LT_SYMBOLS_ONLY);
-        legend.setFont(QFont("Times", 8));
-        legend.setSymbolSize(12);
-        legend.setXSymbolSpacing(80);
-        QImage legendImg(legend.calculateSize(), QImage::Format_ARGB32);
-        legend.paintLegend(&legendImg);
-        m_FinderChart->insertImage(legendImg, QString());
     }
 
     if(m_WizChartContentsUI->isLoggingFormChecked())
@@ -347,9 +264,4 @@ void PrintingWizard::createFinderChart()
         detTable.createRSTTAble(m_SkyObject, m_KStars->data()->ut(), m_KStars->data()->geo());
         m_FinderChart->insertDetailsTable(&detTable);
     }
-}
-
-void PrintingWizard::createLoggingForm()
-{
-
 }

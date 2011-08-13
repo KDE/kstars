@@ -360,7 +360,6 @@ set(printing_SRCS
     printing/pwizfovtypeselection.cpp
     printing/pwizobjectselection.cpp
     printing/pwizprint.cpp
-    printing/pwiztypeselection.cpp
     printing/simplefovexporter.cpp
 )
 
@@ -371,7 +370,6 @@ set(printingui_SRCS
     printing/pwizfovtypeselection.ui
     printing/pwizobjectselection.ui
     printing/pwizprint.ui
-    printing/pwiztypeselection.ui
     printing/pwizwelcome.ui
 )
 
