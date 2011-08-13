@@ -350,22 +350,27 @@ set(oal_SRCS
 set(printing_SRCS
     printing/detailstable.cpp
     printing/finderchart.cpp
+    printing/kstarsdocument.cpp
     printing/legend.cpp
     printing/loggingform.cpp
     printing/printingwizard.cpp
+    printing/pwizchartconfig.cpp
     printing/pwizchartcontents.cpp
+    printing/pwizfovmanual.cpp
+    printing/pwizfovtypeselection.cpp
     printing/pwizobjectselection.cpp
     printing/pwizprint.cpp
-    printing/pwizprinterselection.cpp
     printing/pwiztypeselection.cpp
     printing/simplefovexporter.cpp
 )
 
 set(printingui_SRCS
+    printing/pwizchartconfig.ui
     printing/pwizchartcontents.ui
+    printing/pwizfovmanual.ui
+    printing/pwizfovtypeselection.ui
     printing/pwizobjectselection.ui
     printing/pwizprint.ui
-    printing/pwizprinterselection.ui
     printing/pwiztypeselection.ui
     printing/pwizwelcome.ui
 )

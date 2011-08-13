@@ -161,6 +161,14 @@ public:
 
     void showImgExportDialog();
 
+    void syncFOVActions();
+
+    void hideAllFovExceptFirst();
+
+    void selectNextFov();
+
+    void selectPreviousFov();
+
 public Q_SLOTS:
     /**DBUS interface function.
      * Set focus to given Ra/Dec coordinates

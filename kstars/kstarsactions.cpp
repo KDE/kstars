@@ -682,11 +682,10 @@ void KStars::slotPrint() {
 
 void KStars::slotPrintingWizard() {
     if(printingWizard) {
-        printingWizard->restart();
-    } else {
-        printingWizard = new PrintingWizard(this);
+        delete printingWizard;
     }
 
+    printingWizard = new PrintingWizard(this);
     printingWizard->exec();
 }
 

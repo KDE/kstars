@@ -1,7 +1,7 @@
 /***************************************************************************
-                          pwizprint.cpp  -  K Desktop Planetarium
+                          pwizfovmanual.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed Aug 3 2011
+    begin                : Sun Aug 7 2011
     copyright            : (C) 2011 by Rafał Kułaga
     email                : rl.kulaga@gmail.com
  ***************************************************************************/
@@ -15,29 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PWIZPRINT_H
-#define PWIZPRINT_H
+#ifndef PWIZFOVMANUAL_H
+#define PWIZFOVMANUAL_H
 
-#include "ui_pwizprint.h"
+#include "ui_pwizfovmanual.h"
 
 class PrintingWizard;
 
-class PWizPrintUI : public QFrame, public Ui::PWizPrint
+class PWizFovManualUI : public QFrame, public Ui::PWizFovManual
 {
     Q_OBJECT
 public:
-    PWizPrintUI(PrintingWizard *wizard, QWidget *parent = 0);
+    PWizFovManualUI(PrintingWizard *wizard, QWidget *parent = 0);
 
 private slots:
-    void slotPreview();
-    void slotPrintPreview(QPrinter *printer);
-    void slotPrint();
-    void slotExport();
+    void slotExportFov();
 
 private:
-    void printDocument(QPrinter *printer);
-
     PrintingWizard *m_ParentWizard;
 };
 
-#endif // PWIZPRINT_H
+#endif // PWIZFOVMANUAL_H

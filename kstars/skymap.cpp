@@ -726,6 +726,25 @@ void SkyMap::slotObjectSelected() {
     }
 }
 
+void SkyMap::slotCancelLegendPreviewMode() {
+    m_previewLegend = false;
+    forceUpdate(true);
+    KStars::Instance()->showImgExportDialog();
+}
+
+void SkyMap::slotFinishFovCaptureMode() {
+    if(m_fovCaptureMode && KStars::Instance()->getPrintingWizard()) {
+        KStars::Instance()->getPrintingWizard()->fovCaptureDone();
+        m_fovCaptureMode = false;
+    }
+}
+
+void SkyMap::slotCaptureFov() {
+    if(KStars::Instance()->getPrintingWizard()) {
+        KStars::Instance()->getPrintingWizard()->captureFov();
+    }
+}
+
 void SkyMap::slotClockSlewing() {
     //If the current timescale exceeds slewTimeScale, set clockSlewing=true, and stop the clock.
     if( (fabs( data->clock()->scale() ) > Options::slewTimeScale())  ^  clockSlewing ) {

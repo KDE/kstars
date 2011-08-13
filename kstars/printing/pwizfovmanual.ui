@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PWizPrint</class>
- <widget class="QWidget" name="PWizPrint">
+ <class>PWizFovManual</class>
+ <widget class="QWidget" name="PWizFovManual">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -9,12 +9,6 @@
     <width>586</width>
     <height>395</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>586</width>
-    <height>395</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -40,7 +34,7 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="printLayout">
+    <layout class="QVBoxLayout" name="fovManualLayout">
      <property name="spacing">
       <number>6</number>
      </property>
@@ -61,7 +55,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Preview and Print</string>
+        <string>Capture Field of View Snaphots</string>
        </property>
       </widget>
      </item>
@@ -88,8 +82,9 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Your document is ready to be printed. Click &lt;span style=&quot; font-weight:600;&quot;&gt;Print Preview &lt;/span&gt;button to preview it and &lt;span style=&quot; font-weight:600;&quot;&gt;Print &lt;/span&gt;button to begin printing. You can also export it to file.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;If you wish to change contents of printed document, click &lt;span style=&quot; font-weight:600;&quot;&gt;Previous &lt;/span&gt;button to get back to previous steps.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In manual field of view capture method, user centers sky map to a point of interest, then captures snapshots of sky fragments inside the FOV symbol.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;When in field of view capture mode, press &lt;span style=&quot; font-weight:600;&quot;&gt;Page Up&lt;/span&gt; and &lt;span style=&quot; font-weight:600;&quot;&gt;Page Down&lt;/span&gt; to select FOV symbols. Snapshots are captured by pressing &lt;span style=&quot; font-weight:600;&quot;&gt;K&lt;/span&gt; key. When done, press &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; key to return to the Printing Wizard.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Press &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; when done.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -102,89 +97,38 @@ p, li { white-space: pre-wrap; }
         <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeType">
-        <enum>QSizePolicy::Minimum</enum>
+        <enum>QSizePolicy::Maximum</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>12</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horLayout1">
-       <item>
-        <spacer name="horSpacer1">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="previewButton">
-         <property name="text">
-          <string>Print Preview</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horSpacer2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      <widget class="QCheckBox" name="switchColorsBox">
+       <property name="text">
+        <string>Use &quot;Sky chart&quot; color scheme</string>
+       </property>
+      </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horLayout2">
-       <item>
-        <spacer name="horSpacer3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="printButton">
-         <property name="text">
-          <string>Print</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horSpacer4">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>12</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -202,9 +146,9 @@ p, li { white-space: pre-wrap; }
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="exportButton">
+        <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>Export to file...</string>
+          <string>Begin capture</string>
          </property>
         </widget>
        </item>

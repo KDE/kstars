@@ -30,8 +30,10 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "kstarssplash.h"
+#include "kactionmenu.h"
 #include "skymap.h"
 #include "simclock.h"
+#include "fov.h"
 #include "dialogs/finddialog.h"
 #include "dialogs/exportimagedialog.h"
 #include "observinglist.h"
@@ -215,6 +217,64 @@ void KStars::applyConfig( bool doApplyFocus ) {
 void KStars::showImgExportDialog() {
     if(imgExportDialog)
         imgExportDialog->show();
+}
+
+void KStars::syncFOVActions() {
+    foreach(QAction *action, fovActionMenu->menu()->actions()) {
+        if(Options::fOVNames().contains(action->text().remove(0, 1))) {
+            action->setChecked(true);
+        } else {
+            action->setChecked(false);
+        }
+    }
+}
+
+void KStars::hideAllFovExceptFirst()
+{
+    if(data()->visibleFOVs.size() == 1) {
+        return;
+    } else {
+        Options::setFOVNames(QStringList(data()->visibleFOVs.first()->name()));
+        data()->syncFOV();
+        syncFOVActions();
+        map()->update();
+    }
+}
+
+void KStars::selectNextFov()
+{
+    FOV *currentFov = data()->getVisibleFOVs().first();
+    int currentIdx = data()->availFOVs.indexOf(currentFov);
+
+    QStringList nextFovName;
+    if(currentIdx == data()->availFOVs.size() - 1) {
+        nextFovName << data()->availFOVs.first()->name();
+    } else {
+        nextFovName << data()->availFOVs.at(currentIdx + 1)->name();
+    }
+
+    Options::setFOVNames(nextFovName);
+    data()->syncFOV();
+    syncFOVActions();
+    map()->update();
+}
+
+void KStars::selectPreviousFov()
+{
+    FOV *currentFov = data()->getVisibleFOVs().first();
+    int currentIdx = data()->availFOVs.indexOf(currentFov);
+
+    QStringList prevFovName;
+    if(currentIdx == 0) {
+        prevFovName << data()->availFOVs.last()->name();
+    } else {
+        prevFovName << data()->availFOVs.at(currentIdx - 1)->name();
+    }
+
+    Options::setFOVNames(prevFovName);
+    data()->syncFOV();
+    syncFOVActions();
+    map()->update();
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {

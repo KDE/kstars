@@ -286,6 +286,10 @@ class SkyMap : public QGraphicsView {
 
     void setObjectPointingMode(bool enabled) { m_objPointingMode = enabled; }
 
+    void setFovCaptureMode(bool enabled) { m_fovCaptureMode = enabled; }
+
+    bool isInFovCaptureMode() { return m_fovCaptureMode; }
+
 public slots:
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().
@@ -445,6 +449,12 @@ public slots:
 
     /** Object pointing for Printing Wizard done */
     void slotObjectSelected();
+
+    void slotCancelLegendPreviewMode();
+
+    void slotFinishFovCaptureMode();
+
+    void slotCaptureFov();
 
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
@@ -636,6 +646,7 @@ private:
     Legend m_legend;
 
     bool m_objPointingMode;
+    bool m_fovCaptureMode;
 
 
     QWidget *m_SkyMapDraw; // Can be dynamic_cast<> to SkyMapDrawAbstract

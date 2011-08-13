@@ -20,38 +20,99 @@
 #include "QTextDocument"
 #include "QTextDocumentFragment"
 #include "QTextTable"
+#include "QTextDocumentWriter"
+#include "QSvgGenerator"
+#include "QPainter"
 #include "kstars.h"
 #include "loggingform.h"
 #include "detailstable.h"
+#include "kstarsdatetime.h"
+#include "geolocation.h"
 
-FinderChart::FinderChart()
-{
-    m_Document = new QTextDocument(KStars::Instance());
-}
+FinderChart::FinderChart() : KStarsDocument()
+{}
 
 FinderChart::~FinderChart()
-{
-    if(m_Document)
-    {
-        delete m_Document;
-    }
-}
+{}
 
-void FinderChart::insertTitle(const QString &title)
+void FinderChart::insertTitleSubtitle(const QString &title, const QString &subtitle)
 {
     QTextCursor cursor(m_Document);
     cursor.movePosition(QTextCursor::Start);
 
     QTextBlockFormat titleBlockFmt;
     titleBlockFmt.setAlignment(Qt::AlignCenter);
-    QTextCharFormat titleCharFmt;
-    QFont titleFont("Times", 20, QFont::Bold);
-    titleCharFmt.setFont(titleFont);
 
-    cursor.insertBlock(titleBlockFmt, titleCharFmt);
-    cursor.insertText(title);
+    if(!title.isEmpty())
+    {
+        QTextCharFormat titleCharFmt;
+        QFont titleFont("Times", 20, QFont::Bold);
+        titleCharFmt.setFont(titleFont);
+
+        cursor.insertBlock(titleBlockFmt, titleCharFmt);
+        cursor.insertText(title);
+    }
+
+    if(!subtitle.isEmpty())
+    {
+        QTextCharFormat subtitleCharFmt;
+        QFont subtitleFont("Times", 14);
+        subtitleCharFmt.setFont(subtitleFont);
+
+        cursor.insertBlock(titleBlockFmt, subtitleCharFmt);
+        cursor.insertText(subtitle);
+
+        cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
+    }
+}
+
+void FinderChart::insertDescription(const QString &description)
+{
+    QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
+
+    QTextBlockFormat descrBlockFmt;
+    descrBlockFmt.setAlignment(Qt::AlignJustify);
+    QTextCharFormat descrCharFmt;
+    QFont descrFont("Times", 10);
+    descrCharFmt.setFont(descrFont);
+
+    cursor.insertBlock(descrBlockFmt, descrCharFmt);
+    cursor.insertText(description);
 
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
+}
+
+void FinderChart::insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation *geo)
+{
+    QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
+
+    QTextBlockFormat geoBlockFmt;
+    geoBlockFmt.setAlignment(Qt::AlignLeft);
+    QTextCharFormat geoCharFmt;
+    QFont geoFont("Times", 10, QFont::Bold);
+    geoCharFmt.setFont(geoFont);
+
+    cursor.insertBlock(geoBlockFmt);
+    cursor.insertText(i18n("Date, time and location: "), geoCharFmt);
+
+    QString geoStr = geo->translatedName();
+    if(!geo->translatedProvince().isEmpty()) {
+        if(!geoStr.isEmpty()) {
+            geoStr.append(", ");
+        }
+        geoStr.append(geo->translatedProvince());
+    }
+    if(!geo->translatedCountry().isEmpty()) {
+        if(!geoStr.isEmpty()) {
+            geoStr.append(", ");
+        }
+        geoStr.append(geo->translatedCountry());
+    }
+
+    geoFont.setBold(false);
+    geoCharFmt.setFont(geoFont);
+    cursor.insertText(KGlobal::locale()->formatDateTime(ut) + ", " + geoStr, geoCharFmt);
+
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
 
@@ -98,19 +159,4 @@ void FinderChart::insertDetailsTable(DetailsTable *table)
 
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
-}
-
-void FinderChart::clearContent()
-{
-    m_Document->clear();
-}
-
-void FinderChart::drawContents(QPainter *p, const QRectF &rect)
-{
-    m_Document->drawContents(p, rect);
-}
-
-void FinderChart::print(QPrinter *printer)
-{
-    m_Document->print(printer);
 }

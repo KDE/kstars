@@ -18,23 +18,19 @@
 #ifndef LOGGINGFORM_H
 #define LOGGINGFORM_H
 
+#include "kstarsdocument.h"
+
 class QTextDocument;
 class QPrinter;
 
-class LoggingForm
+class LoggingForm : public KStarsDocument
 {
 public:
     LoggingForm();
     ~LoggingForm();
 
     void createFinderChartLogger();
-
-    void print(QPrinter *printer);
-
     QTextDocument* getDocument();
-
-private:
-    QTextDocument *m_Document;
 };
 
 #endif // LOGGINGFORM_H

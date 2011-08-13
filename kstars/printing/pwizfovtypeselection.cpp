@@ -1,7 +1,7 @@
 /***************************************************************************
-                          pwizprint.cpp  -  K Desktop Planetarium
+                          pwizfovtypeselection.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed Aug 3 2011
+    begin                : Sun Aug 7 2011
     copyright            : (C) 2011 by Rafał Kułaga
     email                : rl.kulaga@gmail.com
  ***************************************************************************/
@@ -15,29 +15,28 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PWIZPRINT_H
-#define PWIZPRINT_H
+#include "pwizfovtypeselection.h"
 
-#include "ui_pwizprint.h"
-
-class PrintingWizard;
-
-class PWizPrintUI : public QFrame, public Ui::PWizPrint
+PWizFovTypeSelectionUI::PWizFovTypeSelectionUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
+    m_ParentWizard(wizard)
 {
-    Q_OBJECT
-public:
-    PWizPrintUI(PrintingWizard *wizard, QWidget *parent = 0);
+    setupUi(this);
+}
 
-private slots:
-    void slotPreview();
-    void slotPrintPreview(QPrinter *printer);
-    void slotPrint();
-    void slotExport();
+PrintingWizard::FOV_TYPE PWizFovTypeSelectionUI::getFovExportType()
+{
+    if(manualRadio->isChecked())
+    {
+        return PrintingWizard::FT_MANUAL;
+    }
 
-private:
-    void printDocument(QPrinter *printer);
+    else if(hopperRadio->isChecked())
+    {
+        return PrintingWizard::FT_STARHOPPER;
+    }
 
-    PrintingWizard *m_ParentWizard;
-};
-
-#endif // PWIZPRINT_H
+    else
+    {
+        return PrintingWizard::FT_UNDEFINED;
+    }
+}

@@ -18,10 +18,13 @@
 #ifndef FINDERCHART_H
 #define FINDERCHART_H
 
+#include "kstarsdocument.h"
 #include "QRectF"
 
 class LoggingForm;
 class DetailsTable;
+class KStarsDateTime;
+class GeoLocation;
 class QString;
 class QTextDocument;
 class QTextFrameFormat;
@@ -30,23 +33,18 @@ class QPainter;
 class QRectF;
 class QImage;
 
-class FinderChart
+class FinderChart : public KStarsDocument
 {
 public:
     FinderChart();
     ~FinderChart();
 
-    void insertTitle(const QString &title);
+    void insertTitleSubtitle(const QString &title, const QString &subtitle);
+    void insertDescription(const QString &description);
+    void insertGeoTimeInfo(const KStarsDateTime &ut, GeoLocation *geo);
     void insertLoggingForm(LoggingForm *log);
     void insertImage(const QImage &img, const QString &description, bool descriptionBelow = true);
     void insertDetailsTable(DetailsTable *table);
-
-    void clearContent();
-    void drawContents(QPainter *p, const QRectF &rect = QRectF());
-    void print(QPrinter *printer);
-
-private:
-    QTextDocument *m_Document;
 };
 
 #endif // FINDERCHART_H

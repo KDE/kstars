@@ -1,7 +1,7 @@
 /***************************************************************************
-                          pwizprint.cpp  -  K Desktop Planetarium
+                          pwizfovtypeselection.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed Aug 3 2011
+    begin                : Sun Aug 7 2011
     copyright            : (C) 2011 by Rafał Kułaga
     email                : rl.kulaga@gmail.com
  ***************************************************************************/
@@ -15,29 +15,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PWIZPRINT_H
-#define PWIZPRINT_H
+#ifndef PWIZFOVTYPESELECTION_H
+#define PWIZFOVTYPESELECTION_H
 
-#include "ui_pwizprint.h"
+#include "ui_pwizfovtypeselection.h"
+#include "printingwizard.h"
 
-class PrintingWizard;
-
-class PWizPrintUI : public QFrame, public Ui::PWizPrint
+class PWizFovTypeSelectionUI : public QFrame, public Ui::PWizFovTypeSelection
 {
     Q_OBJECT
 public:
-    PWizPrintUI(PrintingWizard *wizard, QWidget *parent = 0);
+    PWizFovTypeSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
 
-private slots:
-    void slotPreview();
-    void slotPrintPreview(QPrinter *printer);
-    void slotPrint();
-    void slotExport();
+    PrintingWizard::FOV_TYPE getFovExportType();
 
 private:
-    void printDocument(QPrinter *printer);
-
     PrintingWizard *m_ParentWizard;
 };
 
-#endif // PWIZPRINT_H
+#endif // PWIZFOVTYPESELECTION_H

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          pwizprint.cpp  -  K Desktop Planetarium
+                          pwizfovmanual.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : Wed Aug 3 2011
+    begin                : Sun Aug 7 2011
     copyright            : (C) 2011 by Rafał Kułaga
     email                : rl.kulaga@gmail.com
  ***************************************************************************/
@@ -15,29 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PWIZPRINT_H
-#define PWIZPRINT_H
+#include "pwizfovmanual.h"
+#include "printingwizard.h"
 
-#include "ui_pwizprint.h"
-
-class PrintingWizard;
-
-class PWizPrintUI : public QFrame, public Ui::PWizPrint
+PWizFovManualUI::PWizFovManualUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
+    m_ParentWizard(wizard)
 {
-    Q_OBJECT
-public:
-    PWizPrintUI(PrintingWizard *wizard, QWidget *parent = 0);
+    setupUi(this);
 
-private slots:
-    void slotPreview();
-    void slotPrintPreview(QPrinter *printer);
-    void slotPrint();
-    void slotExport();
+    connect(pushButton, SIGNAL(clicked()), this, SLOT(slotExportFov()));
+}
 
-private:
-    void printDocument(QPrinter *printer);
-
-    PrintingWizard *m_ParentWizard;
-};
-
-#endif // PWIZPRINT_H
+void PWizFovManualUI::slotExportFov()
+{
+    m_ParentWizard->beginFovCapture(switchColorsBox->isChecked());
+}

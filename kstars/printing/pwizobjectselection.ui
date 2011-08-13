@@ -82,7 +82,7 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select sky object for which your finder chart will be created. You can select it from object list, by clicking &lt;span style=&quot; font-weight:600;&quot;&gt;Select object from list &lt;/span&gt;button or point it on sky map by pressing &lt;span style=&quot; font-weight:600;&quot;&gt;Point object on sky map&lt;/span&gt;. After object is located, press it with right mouse button and select &lt;span style=&quot; font-weight:600;&quot;&gt;Select this object&lt;/span&gt; option from context menu.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select observed sky object. You can select it from object list, by clicking &lt;span style=&quot; font-weight:600;&quot;&gt;Select object from list &lt;/span&gt;button or point it on sky map by pressing &lt;span style=&quot; font-weight:600;&quot;&gt;Point object on sky map&lt;/span&gt;. After object is located, press it with right mouse button and select &lt;span style=&quot; font-weight:600;&quot;&gt;Select this object&lt;/span&gt; option from context menu.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;When done, press &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt; button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
@@ -105,13 +105,6 @@ p, li { white-space: pre-wrap; }
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="selectObjLabel">
-       <property name="text">
-        <string>Select object:</string>
-       </property>
-      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horLayout1">
@@ -188,6 +181,12 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QLabel" name="selectedObjLabel">
+       <property name="font">
+        <font>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Selected object:</string>
        </property>
@@ -197,6 +196,9 @@ p, li { white-space: pre-wrap; }
       <widget class="QLabel" name="objInfoLabel">
        <property name="text">
         <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
