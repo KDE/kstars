@@ -23,8 +23,7 @@ The Angular Distance calculator module
 The Angular Distance tool is used to measure the angle between any
 two points on the sky.  You simply specify the
 <link linkend="equatorial">Equatorial coordinates</link> of the
-desired pair of points, and then press the
-<guibutton>Compute</guibutton> button to obtain the angle between
+desired pair of points, and then obtain the angle between
 the two points.
 </para>
 <para>

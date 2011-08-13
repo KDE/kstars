@@ -258,20 +258,23 @@ telescope manual.</para>
 
 <para>&kstars; needs to verify time and location settings before connecting to the telescope. This insures proper tracking and synchronization between the telescope and &kstars;. The following steps will enable you to connect to a device that is connected to your computer. To connect and control remote devices, please refer to <link linkend="indi-remote-control">remote device control</link> section.</para>
 
-<para>You can use the Telescope Setup Wizard and it will verify all the required information in the process. It can automatically scan ports for attached telescopes. You can run the wizard by selecting <guimenuitem>Telescope Setup Wizard</guimenuitem> from the <guimenu>Devices</guimenu> menu.</para>
+<para>You can use the Telescope Setup Wizard and it will verify all the required information in the process. It can automatically scan ports for attached telescopes. You can run the wizard by selecting <guimenuitem>Telescope Wizard</guimenuitem> from the <guimenu>Devices</guimenu> menu.</para>
 
 <para>Alternatively, you can connect to a local telescope by performing the following
 steps:</para>
 
 <orderedlist>
-<listitem><para>Set your geographical location. Open the <guilabel>Geographic...</guilabel> window by selecting
-<guimenuitem>Set Geographic Location...</guimenuitem> from the
+<listitem><para>Set your geographical location. Open the <guilabel>Set Geographic Location</guilabel> window by selecting
+<guimenuitem>Geographic...</guimenuitem> from the
 <guimenu>Settings</guimenu> menu, or by pressing the <guiicon>Globe</guiicon> icon in the toolbar, or by pressing <keycombo
 action="simul">&Ctrl;<keycap>G</keycap></keycombo>.</para>
 </listitem>
 <listitem><para>Set your local time and date. You can change to any time or
 date by selecting <guimenuitem>Set Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
-pressing the <guiicon>time</guiicon> icon in the toolbar. The <guilabel>Set Time</guilabel> window uses a standard &kde; Date Picker widget, coupled with three spinboxes for setting the hours, minutes and seconds. If you ever need to reset the clock back to the current time, just select <guimenuitem>Set Time to Now</guimenuitem> from the <guimenu>Time</guimenu> menu.</para>
+pressing the <guiicon>time</guiicon> icon in the toolbar. The <guilabel>Set 
+Time</guilabel> window uses a standard &kde; Date Picker widget. If you ever 
+need to reset the clock back to the current time, just select <guimenuitem>Set 
+Time to Now</guimenuitem> from the <guimenu>Time</guimenu> menu.</para>
 </listitem>
 <listitem>
 <para>Click on the <guimenu>Devices</guimenu> menu and select the
@@ -281,11 +284,10 @@ pressing the <guiicon>time</guiicon> icon in the toolbar. The <guilabel>Set Time
 <para>Under the <guilabel>Device</guilabel> column, select your telescope model.</para>
 </listitem>
 <listitem>
-<para> <mousebutton>Right</mousebutton>-click on the device and select
-<guilabel>Run Service</guilabel>.</para>
+<para>Click on the <guibutton>Run Service</guibutton> button.</para>
 </listitem>
 <listitem>
-<para>Click <guibutton>Ok</guibutton> to close the Device Manager
+<para>Click <guibutton>Close</guibutton> to leave the Device Manager
 Dialog.</para>
 </listitem>
 </orderedlist>
@@ -333,7 +335,8 @@ affecting the operation of other devices.
 </listitem>
 <listitem>
 <para>
-<guilabel>Property view</guilabel>: Properties are the key element in INDI
+Property views on the <guilabel>Main Control</guilabel> and <guilabel>Options</guilabel> 
+tabs: Properties are the key element in INDI
 architecture. Each device defines a set of properties to communicate with
 the client. The current position of the telescope is an example of a
 property. Semantically similar properties are usually contained in logical
@@ -342,7 +345,9 @@ blocks or groupings.
 </listitem>
 <listitem>
 <para>
-<guilabel>Log viewers</guilabel>: Devices report their status and acknowledge commands by sending INDI messages. Each device has its own log view, and all devices share one generic log viewer. A device usually sends messages to its device driver only, but a device is permitted to send a generic message when appropriate.
+<guilabel>Log viewer</guilabel>: Devices report their status and acknowledge commands 
+by sending INDI messages. Each device has its own log view. A device usually sends 
+messages to its device driver only, but a device is permitted to send a generic message when appropriate.
 </para>
 </listitem>
 </itemizedlist>
@@ -444,12 +449,12 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
    <listitem><para>Filter</para>
       <itemizedlist>
           <listitem><para><option>Device:</option> The desired filter device.</para></listitem>
-          <listitem><para><option>Filter:</option> The desired filter slot. You can assign color values to slot numbers using the <link linkend="indi-configure">Configure INDI</link> window (e.g. Slot #1 = Red, Slot #2 = Blue..etc).</para></listitem>          
+          <listitem><para><option>Filter:</option> The desired filter slot. You can assign color values to slot numbers using the <link linkend="indi-configure">INDI</link> page (e.g. Slot #1 = Red, Slot #2 = Blue..etc).</para></listitem>          
        </itemizedlist>
    </listitem>
 </itemizedlist>
 
-<para>After you fill in the desired options, you can begin the capture procedure by pressing the <guibutton>Start</guibutton> button. You may cancel at any time using the <guibutton>Stop</guibutton> button. All captured images will be saved to the default FITS directory which can be specified in the <link linkend="indi-configure">Configure INDI</link> window.</para>
+<para>After you fill in the desired options, you can begin the capture procedure by pressing the <guibutton>Start</guibutton> button. You may cancel at any time using the <guibutton>Stop</guibutton> button. All captured images will be saved to the default FITS directory which can be specified in the <link linkend="indi-configure">INDI</link> page of the settings dialog.</para>
 
 <para>If you have more complex capturing requirements and conditions to fulfil, it is recommended to create a script to meet your specific needs using the <link linkend="tool-scriptbuilder">Script Builder</link> tool in the <guimenu>Tools</guimenu> menu.</para>
 </sect1>
@@ -460,15 +465,15 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <secondary>INDI</secondary>
 </indexterm>
 
-<para>The Configure INDI window allows you to modify <emphasis>Client side</emphasis> INDI specific options. The window is divided into four main categories: General, Automatic device updates, Display, and Filter Wheel:</para>
+<para>The INDI page allows you to modify <emphasis>Client side</emphasis> INDI specific options. The window is divided into several main categories: General, Automatic device updates, Display, Update Source, Filter Wheel and Server Port:</para>
 
  <itemizedlist>
    <listitem><para>General</para>
       <itemizedlist>
          <listitem><para><option>Default FITS directory:</option> Specify the directory where all captured FITS images will be saved to. If no directory is specified, images will be stored in $HOME.</para></listitem>
-         <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, &kstars; will display captured FITS in &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link> tool. If you use the <link linkend="indi-capture">Capture Image Sequence</link> tool, all captured images will be saved to disk regardless of this option.</para></listitem>
          <listitem><para><option>Telescope port:</option> The default telescope port. When you connect to a local or remote telescope service, &kstars; will automatically fill the telescope's device port with the specified default port.</para></listitem>
          <listitem><para><option>Video port:</option> The default video port. When you connect to a local or remote video service, &kstars; will automatically fill the webcam's device port with the specified default port.</para></listitem>
+	 <!-- INDI Server + INDI Drivers Directory-->
       </itemizedlist>
    </listitem>
    <listitem><para>Automatic device updates</para>
@@ -481,9 +486,16 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
     <itemizedlist>
      <listitem><para><option>Device target crosshair:</option> When checked, &kstars; displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure KStars</link> window. Select the <guilabel>Colors</guilabel> tab, and then change the color of the <emphasis>Target Indicator</emphasis> item to the desired color.</para></listitem>
      <listitem><para><option>INDI messages in status bar:</option> When checked, &kstars; displays INDI status messages in the &kstars; status bar.</para></listitem>
+     <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, &kstars; will display captured FITS in &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link> tool. If you use the <link linkend="indi-capture">Capture Image Sequence</link> tool, all captured images will be saved to disk regardless of this option.</para></listitem>
     </itemizedlist>
    </listitem>
+  <listitem><para>Update Source: Synchronize &kstars; according to either the 
+    computer or device time and location settings.</para>
+  </listitem>
   <listitem><para>Filter Wheel: Assign color codes to the filter wheel slots (e.g. Slot #0 Red, Slot #1 Blue..etc). You can assign color codes for up to 10 filter slots (0 to 9). To assign a color code, select a slot number from the drop down combo box, and then type the corresponding color code in the edit field. Repeat the process for all desired slots and then press OK.</para>
+  </listitem>
+  <listitem><para>Server Port: Specify range of ports that INDI Server 
+    will bind to when starting new drivers.</para>
   </listitem>
   </itemizedlist>
 
@@ -578,7 +590,7 @@ convenience. For example, all the following numbers are equal:</para>
 </listitem>
 <listitem>
 <para>
-Time: The standard time for all INDI-related communications is Universal Time UTC specified as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the correct UTC time with device drivers automatically. You can enable/disable automatic time updates from the <guimenuitem>Configure INDI</guimenuitem> dialog under the <guimenu>Devices</guimenu> menu.
+Time: The standard time for all INDI-related communications is Universal Time UTC specified as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the correct UTC time with device drivers automatically. You can enable/disable automatic time updates from the <guimenuitem>INDI</guimenuitem> page in the settings dialog.
 </para>
 </listitem>
 </itemizedlist>

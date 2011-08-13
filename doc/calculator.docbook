@@ -15,16 +15,20 @@ The modules are organized by subject:
 <listitem><para><link linkend="calc-ecliptic">Ecliptic Coordinates</link></para></listitem>
 <listitem><para><link linkend="calc-eqgal">Equatorial/Galactic Coordinates</link></para></listitem>
 <listitem><para><link linkend="calc-horiz">Horizontal Coordinates</link></para></listitem>
-<listitem><para><link linkend="calc-precess">Precession</link></para></listitem>
-</itemizedlist>
-<itemizedlist><title>Earth Coordinates</title>
 <listitem><para><link linkend="calc-geodetic">Geodetic Coordinates</link></para></listitem>
+<!-- missing
+LSR Velocity
+ -->
 </itemizedlist>
 <itemizedlist><title>Solar System</title>
 <listitem><para><link linkend="calc-planetcoords">Planets Coordinates</link></para></listitem>
+<!-- missing
+Conjunctions
+Moon Phase Almanach
+ -->
 </itemizedlist>
 <itemizedlist><title>Time Calculators</title>
-<listitem><para><link linkend="calc-dayduration">Day Duration</link></para></listitem>
+<listitem><para><link linkend="calc-dayduration">Almanac</link></para></listitem>
 <listitem><para><link linkend="calc-equinox">Equinoxes and Solstices</link></para></listitem>
 <listitem><para><link linkend="calc-julian">Julian Day</link></para></listitem>
 <listitem><para><link linkend="calc-sidereal">Sidereal Time</link></para></listitem>
@@ -36,7 +40,6 @@ The modules are organized by subject:
 &calc-ecliptic;
 &calc-eqgal;
 &calc-horiz;
-&calc-precess;
 &calc-geodetic;
 &calc-planetcoords;
 &calc-dayduration;

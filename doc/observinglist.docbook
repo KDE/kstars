@@ -22,16 +22,16 @@ The Observing List Tool
 The purpose of the Observing List Tool is to provide convenient 
 access to some common functions for a list of objects chosen by 
 you.  Objects are added to the list by using the <quote>Add to 
-List</quote> action in the <link linkend="popup-menu">popup 
+Observing WishList</quote> action in the <link linkend="popup-menu">popup 
 menu</link>, or by simply pressing the <keycap>O</keycap> key 
 to add the currently-selected object.
 </para>
 <para>
 Objects in the list can be sorted by any of the data columns 
 (Name, Right Ascension, Declination, Magnitude, and Type).  
-To perform an action on an object, highlight it in the list, 
-and then press one of the Action buttons at the top of the 
-window.  Some actions can be performed while multiple objects 
+To perform an action on an object, open the context menu with a 
+&RMB; click on an item in the list and select an action. 
+ Some actions can be performed while multiple objects 
 are selected; others only operate when one object is selected.
 The available actions are:
 
@@ -57,16 +57,6 @@ selected object.
 </varlistentry>
 
 <varlistentry>
-<term>Alt vs. Time</term>
-<listitem>
-<para>
-Open the <link linkend="tool-altvstime">Altitude vs. Time 
-Tool</link>, with the selected object(s) preloaded
-</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
 <term>Details</term>
 <listitem>
 <para>
@@ -77,7 +67,17 @@ Window</link> for the selected object.
 </varlistentry>
 
 <varlistentry>
-<term>Remove</term>
+<term>Altitude vs. Time</term>
+<listitem>
+<para>
+Open the <link linkend="tool-altvstime">Altitude vs. Time 
+Tool</link>, with the selected object(s) preloaded
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Remove from WishList</term>
 <listitem>
 <para>
 Remove the selected object(s) from the observing list.

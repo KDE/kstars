@@ -34,7 +34,7 @@ the night, and the Moon's illumination fraction.
 <para>
 Below the almanac is where the object information is displayed.  The
 objects are organized into type categories.  Select an object type
-in the box labeled <guilabel>Choose a Category</guilabel>, and all
+in the box labeled <guilabel>Select a Category</guilabel>, and all
 objects of that type which are above the horizon on the selected
 night will be displayed in the box labeled <guilabel>Matching
 Objects</guilabel>.  For example, in the screenshot, the

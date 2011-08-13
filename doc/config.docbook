@@ -84,7 +84,7 @@ When &kstars; starts up, the time is set to your computer's system
 clock, and the &kstars; clock is running to keep up with the real time.
 If you want to stop the clock, select <guimenuitem>Stop
 Clock</guimenuitem> from the <guimenu>Time</guimenu> menu, or simply
-click on the <guiicon>Pause</guiicon> icon in the toolbar.  You can
+click on the <guiicon>Stop Clock</guiicon> icon in the toolbar.  You can
 make the clock run slower or faster than normal, or even make it run
 backward, using the time-step spinbox in the toolbar.  This spinbox
 has two sets of up/down buttons.  The first one will step through all
@@ -99,8 +99,8 @@ You can set the  time and date by selecting <guimenuitem>Set
 Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
 pressing the <guiicon>time</guiicon> icon in the toolbar.  The
 <guilabel>Set Time</guilabel> window uses a standard &kde; Date Picker
-widget, coupled with three spinboxes for setting the hours, minutes and
-seconds.  If you want to re-synchronize the simulation clock back to the
+widget, coupled with two spinboxes for setting the hours and minutes. 
+If you want to re-synchronize the simulation clock back to the
 current CPU time, just select <guimenuitem>Set Time to Now</guimenuitem>
 from the <guimenu>Time</guimenu> menu.</para>
 
@@ -147,6 +147,7 @@ page:
 <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, <guilabel>Xplanet</guilabel>, and
 <guilabel>Advanced</guilabel>.
 </para>
+<!-- Indi missing-->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Catalogs page</secondary></indexterm>
@@ -176,6 +177,7 @@ trail</quote> whenever a solar system body is tracked, and another to
 toggle whether the color of the orbit trail fades into the background
 sky color.
 </para>
+<!-- Satellites missing-->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Guides page</secondary></indexterm>
@@ -220,7 +222,16 @@ you for a name for the new scheme, and then your scheme will appear in
 the list in all future &kstars; sessions.  To remove a custom scheme,
 simply highlight it in the list, and press the <guibutton>Remove Color
 Scheme</guibutton> button.
-</para><para>
+</para>
+<para>For detailed explanation of the options on the <guilabel>INDI</guilabel> 
+page see the <link linkend="indi-configure">Configure INDI</link> section.
+</para>
+<!--
+missing:
+Xplanet
+-->
+
+<para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Advanced page</secondary></indexterm>
 The <guilabel>Advanced</guilabel> page provides fine-grained control
@@ -294,7 +305,7 @@ menu.  There are four predefined color schemes, and you can define your own in t
 Toggle whether the Toolbars are drawn in the
 <menuchoice><guimenu>Settings</guimenu><guimenuitem>Toolbars Shown</guimenuitem></menuchoice>
 menu.  Like most KDE toolbars, they can also be dragged around and
-anchored on any window edge, or even detached from the window completely.
+anchored on any window edge, or even detached from the window completely if they are unlocked.
 </para></listitem>
 <listitem><para>
 <indexterm><primary>Info Boxes</primary><secondary>Customizing</secondary></indexterm>
