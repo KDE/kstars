@@ -493,7 +493,7 @@ public:
     /** Remove refraction correction. */
     static dms unrefract(dms h);
 
-    static const double altCrit  = -1;
+    static const double altCrit;
 
 protected:
     /**Precess this SkyPoint's catalog coordinates to the epoch described by the

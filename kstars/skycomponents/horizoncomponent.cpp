@@ -97,8 +97,9 @@ void HorizonComponent::draw( SkyPainter *skyp )
         labelPoint2.setAz( labelPoint.az().Degrees() + 1.0 );
         labelPoint2.HorizontalToEquatorial( data->lst(), data->geo()->lat() );
     }
-        
+    #ifdef __GNUC__
     #warning Still have to port HorizonComponent::draw()
+    #endif
     #if 0
     if ( ! selected() ) return;
 
