@@ -340,7 +340,9 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
 
 void SkyMesh::draw(QPainter& psky, MeshBufNum_t bufNum)
 {
+    #ifdef __GNUC__
     #warning PORT SKYMESH DRAW
+    #endif
     #if 0
     SkyMap*     map  = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();

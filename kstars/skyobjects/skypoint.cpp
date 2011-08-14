@@ -31,6 +31,8 @@
 #include "Options.h"
 #include "skycomponents/skymapcomposite.h"
 
+const double SkyPoint::altCrit = -1.0;
+
 SkyPoint::SkyPoint() {
     // Default constructor. Set nonsense values
     RA0.setD(-1); // RA >= 0 always :-)
