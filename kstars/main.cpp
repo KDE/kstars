@@ -58,6 +58,10 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(ki18n("Akarsh Simha"), KLocalizedString(), "akarsh.simha@kdemail.net");
     aboutData.addAuthor(ki18n("J&eacute;r&ocirc;me Sonrier"), KLocalizedString(), "jsid@emor3j.fr.eu.org");
     aboutData.addAuthor(ki18n("Prakash Mohan"), KLocalizedString(), "prakash.mohan@kdemail.net");
+    aboutData.addAuthor(ki18n("Victor Cărbune"), KLocalizedString(), "victor.carbune@kdemail.net");
+    aboutData.addAuthor(ki18n("Henry de Valence"), KLocalizedString(), "hdevalence@gmail.com");
+    aboutData.addAuthor(ki18n("Samikshan Bairagya"), KLocalizedString(), "samikshan.bairagya@kdemail.net");
+    aboutData.addAuthor(ki18n("Rafał Kułaga"), KLocalizedString(), "rl.kulaga@gmail.com");
     KCmdLineArgs::init( argc, argv, &aboutData );
 
     KCmdLineOptions options;
