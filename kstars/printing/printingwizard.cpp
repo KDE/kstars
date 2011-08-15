@@ -65,15 +65,28 @@ void PrintingWizard::restart()
     m_WizardStack->setCurrentIndex(0);
 }
 
+void PrintingWizard::beginPointing()
+{
+    // If there is sky object already selected, center sky map around it
+    if(m_SkyObject)
+    {
+        m_KStars->map()->setClickedObject(m_SkyObject);
+        m_KStars->map()->slotCenter();
+    }
+
+    m_KStars->map()->setObjectPointingMode(true);
+    hide();
+}
+
 void PrintingWizard::pointingDone(SkyObject *obj)
 {
     m_WizObjectSelectionUI->setSkyObject(obj);
     show();
 }
 
-void PrintingWizard::beginFovCapture(bool switchColors)
+void PrintingWizard::beginFovCapture()
 {
-    m_SwitchColors = switchColors;
+    m_SwitchColors = true;
     m_PrevSchemeName = m_KStars->data()->colorScheme()->fileName();
     if(m_SwitchColors)
     {
@@ -195,6 +208,12 @@ void PrintingWizard::setupWidgets()
     if(bannerImg.load(KStandardDirs::locate("appdata", "wzstars.png")))
     {
         m_WizWelcomeUI->banner->setPixmap(bannerImg);
+        m_WizObjectSelectionUI->banner->setPixmap(bannerImg);
+        m_WizChartConfigUI->banner->setPixmap(bannerImg);
+        m_WizFovTypeSelectionUI->banner->setPixmap(bannerImg);
+        m_WizFovManualUI->banner->setPixmap(bannerImg);
+        m_WizChartContentsUI->banner->setPixmap(bannerImg);
+        m_WizPrintUI->banner->setPixmap(bannerImg);
     }
 
     enableButton(KDialog::User2, false);

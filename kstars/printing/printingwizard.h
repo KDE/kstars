@@ -70,9 +70,11 @@ public:
     void setSkyObject(SkyObject *obj) { m_SkyObject = obj; }
 
     void restart();
+
+    void beginPointing();
     void pointingDone(SkyObject *obj);
 
-    void beginFovCapture(bool switchColors);
+    void beginFovCapture();
     void captureFov();
     void fovCaptureDone();
 

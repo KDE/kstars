@@ -28,5 +28,5 @@ PWizFovManualUI::PWizFovManualUI(PrintingWizard *wizard, QWidget *parent) : QFra
 
 void PWizFovManualUI::slotExportFov()
 {
-    m_ParentWizard->beginFovCapture(switchColorsBox->isChecked());
+    m_ParentWizard->beginFovCapture();
 }

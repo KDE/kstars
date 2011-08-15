@@ -67,9 +67,7 @@ void PWizObjectSelectionUI::slotSelectFromList()
 
 void PWizObjectSelectionUI::slotPointObject()
 {
-    m_ParentWizard->hide();
-
-    KStars::Instance()->map()->setObjectPointingMode(true);
+    m_ParentWizard->beginPointing();
 }
 
 void PWizObjectSelectionUI::slotShowDetails()
