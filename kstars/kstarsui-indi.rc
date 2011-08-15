@@ -12,6 +12,7 @@
 		<Action name="export_image" />
 		<Action name="run_script" />
 		<Separator />
+                <Action name="printing_wizard" />
 		<Action name="print" />
 		<Separator />
 		<Action name="quit"/>
