@@ -221,6 +221,10 @@ void KStars::showImgExportDialog() {
 
 void KStars::syncFOVActions() {
     foreach(QAction *action, fovActionMenu->menu()->actions()) {
+        if(action->text().isEmpty()) {
+            continue;
+        }
+
         if(Options::fOVNames().contains(action->text().remove(0, 1))) {
             action->setChecked(true);
         } else {
@@ -231,13 +235,23 @@ void KStars::syncFOVActions() {
 
 void KStars::hideAllFovExceptFirst()
 {
-    if(data()->visibleFOVs.size() == 1) {
+    // When there is only one visible FOV symbol, we don't need to do anything
+    // Also, don't do anything if there are no available FOV symbols.
+    if(data()->visibleFOVs.size() == 1 ||
+       data()->availFOVs.size() == 0) {
         return;
     } else {
-        Options::setFOVNames(QStringList(data()->visibleFOVs.first()->name()));
+        // If there are no visible FOVs, select first available
+        if(data()->visibleFOVs.size() == 0) {
+            Options::setFOVNames(QStringList(data()->availFOVs.first()->name()));
+        } else {
+            Options::setFOVNames(QStringList(data()->visibleFOVs.first()->name()));
+        }
+
+        // Sync FOV and update skymap
         data()->syncFOV();
         syncFOVActions();
-        map()->update();
+        map()->update(); // SkyMap::forceUpdate() is not required, as FOVs are drawn as overlays
     }
 }
 
@@ -245,6 +259,11 @@ void KStars::selectNextFov()
 {
     FOV *currentFov = data()->getVisibleFOVs().first();
     int currentIdx = data()->availFOVs.indexOf(currentFov);
+
+    // If current FOV is not the available FOV list or there is only 1 FOV available, then return
+    if(currentIdx == -1 || data()->availFOVs.size() < 2) {
+        return;
+    }
 
     QStringList nextFovName;
     if(currentIdx == data()->availFOVs.size() - 1) {
@@ -263,6 +282,11 @@ void KStars::selectPreviousFov()
 {
     FOV *currentFov = data()->getVisibleFOVs().first();
     int currentIdx = data()->availFOVs.indexOf(currentFov);
+
+    // If current FOV is not the available FOV list or there is only 1 FOV available, then return
+    if(currentIdx == -1 || data()->availFOVs.size() < 2) {
+        return;
+    }
 
     QStringList prevFovName;
     if(currentIdx == 0) {
