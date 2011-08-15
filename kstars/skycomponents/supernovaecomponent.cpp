@@ -160,6 +160,7 @@ float SupernovaeComponent::zoomMagnitudeLimit(){
 
 void SupernovaeComponent::draw(SkyPainter *skyp)
 {
+    //kDebug()<<"selected()="<<selected();
     if ( ! selected() )
         return;
 
@@ -188,7 +189,8 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 void SupernovaeComponent::updateDataFile()
 {
     KProcess *parser=new KProcess;
-    QString filename= KStandardDirs::locateLocal("appdata","scripts/supernova_updates_parser.py") ;
+    QString filename= KStandardDirs::locate("appdata","scripts/supernova_updates_parser.py") ;
+    kDebug()<<filename;
     int execstatus=parser->execute("python",QStringList(filename));
     if ( execstatus!=0 )
     {
