@@ -106,14 +106,10 @@ private:
     FOV_TYPE m_FovType;
     QSize m_FovImageSize;
     SimpleFovExporter m_SimpleFovExporter;
-    QList<QPixmap> m_FovImages;
-    QList<QString> m_FovDescriptions;
     QList<QPixmap> m_Images;
     QList<QString> m_ImagesDescriptions;
 
-    /////////////////////////
     QList<FovSnapshot*> m_FovSnapshots;
-
 
     bool m_SwitchColors;
     QString m_PrevSchemeName;

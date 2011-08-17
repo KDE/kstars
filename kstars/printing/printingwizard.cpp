@@ -106,18 +106,16 @@ void PrintingWizard::beginFovCapture(SkyPoint *center, FOV *fov)
 
 void PrintingWizard::captureFov()
 {
-    QPixmap pmap(m_FovImageSize);
-    m_SimpleFovExporter.exportFov(m_KStars->data()->getVisibleFOVs().first(), &pmap);
+    if(m_KStars->data()->getVisibleFOVs().size() == 0)
+    {
+        return;
+    }
 
-    m_FovImages.append(pmap);
-    m_FovDescriptions.append(QString::number(m_FovImages.size()));
+    QPixmap pixmap(m_FovImageSize);
+    m_SimpleFovExporter.exportFov(m_KStars->data()->getVisibleFOVs().first(), &pixmap);
 
-    ////////////////////
-    QPointF center(m_KStars->map()->width() / 2 - 1, m_KStars->map()->height() / 2 - 1);
-    SkyPoint centralSp;
-    centralSp = m_KStars->map()->getCenterPoint();
-
-    FovSnapshot *snapshot = new FovSnapshot(pmap, QString(), m_KStars->data()->getVisibleFOVs().first(), centralSp);
+    FovSnapshot *snapshot = new FovSnapshot(pixmap, QString(), m_KStars->data()->getVisibleFOVs().first(),
+                                            m_KStars->map()->getCenterPoint());
     m_FovSnapshots.append(snapshot);
 }
 
@@ -298,9 +296,9 @@ void PrintingWizard::createFinderChart()
         m_FinderChart->insertLoggingForm(&chartLogger);
     }
 
-    for(int i = 0; i < m_FovImages.size(); i++)
+    for(int i = 0; i < m_FovSnapshots.size(); i++)
     {
-        m_FinderChart->insertImage(m_FovImages.at(i).toImage(), m_FovDescriptions.at(i), false);
+        m_FinderChart->insertImage(m_FovSnapshots.at(i)->getPixmap().toImage(), m_FovSnapshots.at(i)->getDescription(), false);
     }
 
     DetailsTable detTable;
