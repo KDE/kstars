@@ -683,6 +683,15 @@ bool SkyMap::isObjectLabeled( SkyObject *object ) {
     return data->skyComposite()->labelObjects().contains( object );
 }
 
+SkyPoint SkyMap::getCenterPoint()
+{
+    SkyPoint retVal;
+    // FIXME: subtraction of these 0.00001 is a simple workaround, because wrong SkyPoint is returned when _exact_ center of
+    // SkyMap is passed to the projector.
+    retVal = projector()->fromScreen( QPointF(width() / 2 - 0.00001, height() / 2 - 0.00001), data->lst(), data->geo()->lat() );
+    return retVal;
+}
+
 void SkyMap::slotRemoveObjectLabel() {
     data->skyComposite()->removeNameLabel( clickedObject() );
     forceUpdate();

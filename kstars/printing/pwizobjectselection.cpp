@@ -43,6 +43,8 @@ void PWizObjectSelectionUI::setSkyObject(SkyObject *obj)
 {
     m_ParentWizard->setSkyObject(obj);
 
+    m_ParentWizard->updateStepButtons();
+
     QString infoStr = objectInfoString(obj);
 
     objInfoLabel->setText(infoStr);
@@ -61,6 +63,7 @@ void PWizObjectSelectionUI::slotSelectFromList()
         if(obj)
         {
             setSkyObject(obj);
+            m_ParentWizard->updateStepButtons();
         }
     }
 }

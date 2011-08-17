@@ -22,10 +22,12 @@
 
 #include "kdialog.h"
 #include "simplefovexporter.h"
+#include "fovsnapshot.h"
 #include "QSize"
 
 class KStars;
 class PWizObjectSelectionUI;
+class PWizFovBrowseUI;
 class PWizFovTypeSelectionUI;
 class PWizFovManualUI;
 class PWizChartConfigUI;
@@ -65,16 +67,19 @@ public:
     FinderChart* getFinderChart() { return m_FinderChart; }
     KStarsDocument* getDocument();
     SkyObject* getSkyObject() { return m_SkyObject; }
-
+    QList<FovSnapshot*>* getFovSnapshotList() { return &m_FovSnapshots; }
+    QSize getFovImageSize() { return m_FovImageSize; }
+    
     void setPrinter(QPrinter *printer) { m_Printer = printer; }
     void setSkyObject(SkyObject *obj) { m_SkyObject = obj; }
 
-    void restart();
+    void updateStepButtons();
 
     void beginPointing();
     void pointingDone(SkyObject *obj);
 
     void beginFovCapture();
+    void beginFovCapture(SkyPoint *center, FOV *fov = 0);
     void captureFov();
     void fovCaptureDone();
 
@@ -86,6 +91,8 @@ private:
     void setupWidgets();
     void setupConnections();
     void updateButtons();
+
+    void slewAndBeginCapture(SkyPoint *center, FOV *fov = 0);
 
     void createDocument();
     void createFinderChart();
@@ -104,6 +111,10 @@ private:
     QList<QPixmap> m_Images;
     QList<QString> m_ImagesDescriptions;
 
+    /////////////////////////
+    QList<FovSnapshot*> m_FovSnapshots;
+
+
     bool m_SwitchColors;
     QString m_PrevSchemeName;
 
@@ -111,6 +122,7 @@ private:
     PWizObjectSelectionUI *m_WizObjectSelectionUI;
     PWizFovTypeSelectionUI *m_WizFovTypeSelectionUI;
     PWizFovManualUI *m_WizFovManualUI;
+    PWizFovBrowseUI *m_WizFovBrowseUI;
     PWizChartConfigUI *m_WizChartConfigUI;
     PWizChartContentsUI *m_WizChartContentsUI;
     PWizPrintUI *m_WizPrintUI;

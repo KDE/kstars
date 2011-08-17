@@ -114,21 +114,21 @@ public:
       */
     inline void setFovSymbolDrawn(bool draw) { m_DrawFovSymbol = draw; }
 
-private:
     /**@short Calculate zoom level at which given angular length will occupy given length in pixels.
       *@param pixelSize size in pixels.
       *@param degrees angular length.
       *@return zoom level.
       */
-    inline double calculateZoomLevel(int pixelSize, float degrees) { return (pixelSize * 57.3 * 60) / degrees; }
+    static inline double calculateZoomLevel(int pixelSize, float degrees) { return (pixelSize * 57.3 * 60) / degrees; }
 
     /**@short Calculate pixel size of given angular length at given zoom level.
       *@param degrees angular length.
       *@param zoomLevel zoom level.
       *@return size in pixels.
       */
-    inline double calculatePixelSize(float degrees, double zoomLevel) { return degrees * zoomLevel / (57.3 * 60.0); }
+    static inline double calculatePixelSize(float degrees, double zoomLevel) { return degrees * zoomLevel / (57.3 * 60.0); }
 
+private:
     /**@short Save SkyMap state.
       *@param savePos should be true if current position is to be saved.
       */

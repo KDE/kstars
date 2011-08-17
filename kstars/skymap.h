@@ -290,6 +290,8 @@ class SkyMap : public QGraphicsView {
 
     bool isInFovCaptureMode() { return m_fovCaptureMode; }
 
+    SkyPoint getCenterPoint();
+
 public slots:
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
      * If the positions don't need to be recalculated, use update() instead of forceUpdate().

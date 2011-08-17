@@ -22,10 +22,12 @@
 #include "detailstable.h"
 #include "pwizobjectselection.h"
 #include "pwizchartconfig.h"
+#include "pwizfovbrowse.h"
 #include "pwizfovtypeselection.h"
 #include "pwizfovmanual.h"
 #include "pwizchartcontents.h"
 #include "pwizprint.h"
+#include "kstars/projections/projector.h"
 #include "kstars.h"
 #include "kstars/kstarsdata.h"
 #include "skymap.h"
@@ -41,7 +43,7 @@ PWizWelcomeUI::PWizWelcomeUI(QWidget *parent) : QFrame(parent)
 
 PrintingWizard::PrintingWizard(QWidget *parent) : KDialog(parent),
     m_KStars(KStars::Instance()), m_FinderChart(0), m_SkyObject(0),
-    m_FovType(FT_UNDEFINED), m_FovImageSize(QSize(0, 0)), m_SwitchColors(false)
+    m_FovType(FT_UNDEFINED), m_FovImageSize(QSize(500, 500)), m_SwitchColors(false)
 {
     m_Printer = new QPrinter(QPrinter::ScreenResolution);
 
@@ -50,19 +52,24 @@ PrintingWizard::PrintingWizard(QWidget *parent) : KDialog(parent),
 }
 
 PrintingWizard::~PrintingWizard()
-{}
+{
+    qDeleteAll(m_FovSnapshots);
+}
 
 KStarsDocument* PrintingWizard::getDocument()
 {
     return m_FinderChart;
 }
 
-void PrintingWizard::restart()
+void PrintingWizard::updateStepButtons()
 {
-    m_FovImages.clear();
-    m_Images.clear();
-
-    m_WizardStack->setCurrentIndex(0);
+    switch(m_WizardStack->currentIndex())
+    {
+    case 1: // object selection
+        {
+            enableButton(KDialog::User1, m_SkyObject);
+        }
+    }
 }
 
 void PrintingWizard::beginPointing()
@@ -86,27 +93,32 @@ void PrintingWizard::pointingDone(SkyObject *obj)
 
 void PrintingWizard::beginFovCapture()
 {
-    m_SwitchColors = true;
-    m_PrevSchemeName = m_KStars->data()->colorScheme()->fileName();
-    if(m_SwitchColors)
+    if(m_SkyObject)
     {
-        m_KStars->loadColorScheme("chart.colors");
+        slewAndBeginCapture(m_SkyObject);
     }
+}
 
-    m_KStars->hideAllFovExceptFirst();
-    m_KStars->map()->setClickedObject(m_SkyObject);
-    m_KStars->map()->slotCenter();
-    m_KStars->map()->setFovCaptureMode(true);
-    hide();
+void PrintingWizard::beginFovCapture(SkyPoint *center, FOV *fov)
+{
+    slewAndBeginCapture(center, fov);
 }
 
 void PrintingWizard::captureFov()
 {
-    QPixmap pmap(500, 500);
+    QPixmap pmap(m_FovImageSize);
     m_SimpleFovExporter.exportFov(m_KStars->data()->getVisibleFOVs().first(), &pmap);
 
     m_FovImages.append(pmap);
     m_FovDescriptions.append(QString::number(m_FovImages.size()));
+
+    ////////////////////
+    QPointF center(m_KStars->map()->width() / 2 - 1, m_KStars->map()->height() / 2 - 1);
+    SkyPoint centralSp;
+    centralSp = m_KStars->map()->getCenterPoint();
+
+    FovSnapshot *snapshot = new FovSnapshot(pmap, QString(), m_KStars->data()->getVisibleFOVs().first(), centralSp);
+    m_FovSnapshots.append(snapshot);
 }
 
 void PrintingWizard::fovCaptureDone()
@@ -160,7 +172,7 @@ void PrintingWizard::slotNextPage()
             break;
         }
 
-    case 5:
+    case 6:
         {
             createDocument();
             m_WizardStack->setCurrentIndex(currentIdx + 1);
@@ -174,6 +186,7 @@ void PrintingWizard::slotNextPage()
     }
 
     updateButtons();
+    updateStepButtons();
 }
 
 void PrintingWizard::setupWidgets()
@@ -193,6 +206,7 @@ void PrintingWizard::setupWidgets()
     m_WizChartConfigUI = new PWizChartConfigUI(this);
     m_WizFovTypeSelectionUI = new PWizFovTypeSelectionUI(this, m_WizardStack);
     m_WizFovManualUI = new PWizFovManualUI(this, m_WizardStack);
+    m_WizFovBrowseUI = new PWizFovBrowseUI(this, m_WizardStack);
     m_WizChartContentsUI = new PWizChartContentsUI(this, m_WizardStack);
     m_WizPrintUI = new PWizPrintUI(this, m_WizardStack);
 
@@ -201,6 +215,7 @@ void PrintingWizard::setupWidgets()
     m_WizardStack->addWidget(m_WizChartConfigUI);
     m_WizardStack->addWidget(m_WizFovTypeSelectionUI);
     m_WizardStack->addWidget(m_WizFovManualUI);
+    m_WizardStack->addWidget(m_WizFovBrowseUI);
     m_WizardStack->addWidget(m_WizChartContentsUI);
     m_WizardStack->addWidget(m_WizPrintUI);
 
@@ -229,6 +244,35 @@ void PrintingWizard::updateButtons()
 {
     enableButton(KDialog::User1, m_WizardStack->currentIndex() < m_WizardStack->count() - 1);
     enableButton(KDialog::User2, m_WizardStack->currentIndex() > 0);
+}
+
+void PrintingWizard::slewAndBeginCapture(SkyPoint *center, FOV *fov)
+{
+    if(!center)
+    {
+        return;
+    }
+
+    // If pointer to FOV is passed, adjust sky map's zoom level to it
+    if(fov)
+    {
+        double zoom = m_FovImageSize.width() > m_FovImageSize.height() ? SimpleFovExporter::calculateZoomLevel(m_FovImageSize.width(), fov->sizeX()) :
+                                                                         SimpleFovExporter::calculateZoomLevel(m_FovImageSize.height(), fov->sizeY());
+        m_KStars->map()->setZoomFactor(zoom);
+    }
+
+    m_SwitchColors = false;
+    m_PrevSchemeName = m_KStars->data()->colorScheme()->fileName();
+    if(m_SwitchColors)
+    {
+        m_KStars->loadColorScheme("chart.colors");
+    }
+
+    m_KStars->hideAllFovExceptFirst();
+    m_KStars->map()->setClickedPoint(center);
+    m_KStars->map()->slotCenter();
+    m_KStars->map()->setFovCaptureMode(true);
+    hide();
 }
 
 void PrintingWizard::createDocument()
