@@ -48,6 +48,7 @@
 #include "skyobjects/ksmoon.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
+#include "skyobjects/supernova.h"
 #include "skycomponents/customcatalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
@@ -127,6 +128,7 @@ void DetailDialog::createGeneralTab()
     StarObject *s = 0L;
     DeepSkyObject *dso = 0L;
     KSPlanetBase *ps = 0L;
+    Supernova *sup = 0L;
     QString pname, oname, objecttyp, constellationname, str;
 
     switch ( selectedObject->type() ) {
@@ -204,10 +206,10 @@ void DetailDialog::createGeneralTab()
             Data->Illumination->setVisible( true );
             Data->Illumination->setText( QString("%1 %").arg( KGlobal::locale()->formatNumber( ((KSMoon *)selectedObject)->illum()*100., 0 ) ) );
         }
-		
-		Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+        
+        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
                                          KGlobal::locale()->formatNumber( ps->mag(), 1 ) ) );  //show to tenths place
-		
+        
         //Distance from Earth.  The moon requires a unit conversion
         if ( ps->name() == "Moon" ) {
             Data->Distance->setText( i18nc("distance in kilometers", "%1 km",
@@ -230,6 +232,18 @@ void DetailDialog::createGeneralTab()
         }
 
         break; //end of planets/comets/asteroids case
+
+    case SkyObject::SUPERNOVA:
+        sup=(Supernova *)selectedObject;
+
+        Data->Names->setText(sup->name());
+
+        Data->Magnitude->setText( i18nc( "number in magnitudes", "%1 mag" ,
+                                         KGlobal::locale()->formatNumber( sup->mag(), 1 ) ) );
+        Data->Distance->setText( "---" );
+
+        break;
+
     default: //deep-sky objects
         dso = (DeepSkyObject *)selectedObject;
 
@@ -346,8 +360,8 @@ void DetailDialog::createGeneralTab()
             break;
         }
         case SkyObject::COMET: {
-	    KSComet* com = (KSComet *)selectedObject;
-	    DataComet = new DataCometWidget( this );
+            KSComet* com = (KSComet *)selectedObject;
+            DataComet = new DataCometWidget( this );
             Data->IncludeData->layout()->addWidget( DataComet );
 
             // Perihelion
@@ -397,7 +411,10 @@ void DetailDialog::createGeneralTab()
             else
                 str.setNum( com->getPeriod() ).append( " y" );
             DataComet->Period->setText( str );
-            
+
+            break;
+        }
+        case SkyObject::SUPERNOVA: {
             break;
         }
     }

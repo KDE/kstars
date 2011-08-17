@@ -707,3 +707,9 @@ void SkyGLPainter::drawSatellite( Satellite* sat ) {
     if ( Options::showSatellitesLabels() )
         data->skyComposite()->satellites()->drawLabel( sat, QPointF( pos.x(), pos.y() ) );
 }
+
+bool SkyGLPainter::drawSupernova(Supernova* sup)
+{
+    return true;
+}
+

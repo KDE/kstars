@@ -93,6 +93,7 @@
 #include "skycomponents/solarsystemcomposite.h"
 #include "skycomponents/cometscomponent.h"
 #include "skycomponents/asteroidscomponent.h"
+#include "skycomponents/supernovaecomponent.h"
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
@@ -173,6 +174,11 @@ void KStars::slotViewToolBar() {
         if ( kcd ) {
             opssatellites->kcfg_ShowSatellites->setChecked( a->isChecked() );
         }
+    } else if ( a == actionCollection()->action( "show_supernovae" ) ) {
+        Options::setShowSupernovae( a->isChecked() );
+//         if ( kcd ) {
+//             opsupernovae->kcfg_ShowSupernovae->setChecked ( a->isChecked() ) ;
+//         }
     }
 
     // update time for all objects because they might be not initialized
@@ -1071,4 +1077,9 @@ void KStars::slotUpdateComets() {
 
 void KStars::slotUpdateAsteroids() {
     data()->skyComposite()->solarSystemComposite()->asteroidsComponent()->updateDataFile();
+}
+
+void KStars::slotUpdateSupernovae()
+{
+    data()->skyComposite()->supernovaeComponent()->updateDataFile();
 }

@@ -32,6 +32,7 @@
 #include "skycomponents/skymapcomposite.h"
 
 KSSun *SkyPoint::m_Sun = 0;
+const double SkyPoint::altCrit = -1.0;
 
 SkyPoint::SkyPoint() {
     // Default constructor. Set nonsense values

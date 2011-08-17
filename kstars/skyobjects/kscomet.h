@@ -21,28 +21,28 @@
 #include "ksplanetbase.h"
 
 /**@class KSComet
-	*@short A subclass of KSPlanetBase that implements comets.
-	*
-	*The orbital elements are stored as private member variables, and
-	*it provides methods to compute the ecliptic coordinates for any
-	*time from the orbital elements.
-	*
-	*The orbital elements are:
-	*@li JD    Epoch of element values
-	*@li q     perihelion distance (AU)
-	*@li e     eccentricity of orbit
-	*@li i     inclination angle (with respect to J2000.0 ecliptic plane)
-	*@li w     argument of perihelion (w.r.t. J2000.0 ecliptic plane)
-	*@li N     longitude of ascending node (J2000.0 ecliptic)
-	*@li Tp    time of perihelion passage (YYYYMMDD.DDD)
+    *@short A subclass of KSPlanetBase that implements comets.
+    *
+    *The orbital elements are stored as private member variables, and
+    *it provides methods to compute the ecliptic coordinates for any
+    *time from the orbital elements.
+    *
+    *The orbital elements are:
+    *@li JD    Epoch of element values
+    *@li q     perihelion distance (AU)
+    *@li e     eccentricity of orbit
+    *@li i     inclination angle (with respect to J2000.0 ecliptic plane)
+    *@li w     argument of perihelion (w.r.t. J2000.0 ecliptic plane)
+    *@li N     longitude of ascending node (J2000.0 ecliptic)
+    *@li Tp    time of perihelion passage (YYYYMMDD.DDD)
     *@li M1    comet total magnitude parameter
     *@li M2    comet nuclear magnitude parameter
     *@li K1    total magnitude slope parameter
     *@li K2    nuclear magnitude slope parameter
-	*
-	*@author Jason Harris
-	*@version 1.1
-	*/
+    *
+    *@author Jason Harris
+    *@version 1.1
+    */
 
 class KSNumbers;
 class dms;
@@ -51,23 +51,23 @@ class KSComet : public KSPlanetBase
 {
 public:
     /**Constructor.
-    	*@param s the name of the comet
-    	*@param image_file the filename for an image of the comet
-    	*@param JD the Julian Day for the orbital elements
-    	*@param q the perihelion distance of the comet's orbit (AU)
-    	*@param e the eccentricity of the comet's orbit
-    	*@param i the inclination angle of the comet's orbit
-    	*@param w the argument of the orbit's perihelion
-    	*@param N the longitude of the orbit's ascending node
-    	*@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
+        *@param s the name of the comet
+        *@param image_file the filename for an image of the comet
+        *@param JD the Julian Day for the orbital elements
+        *@param q the perihelion distance of the comet's orbit (AU)
+        *@param e the eccentricity of the comet's orbit
+        *@param i the inclination angle of the comet's orbit
+        *@param w the argument of the orbit's perihelion
+        *@param N the longitude of the orbit's ascending node
+        *@param Tp The date of the most proximate perihelion passage (YYYYMMDD.DDD)
         *@param M1 the comet total magnitude parameter
         *@param M2 the comet nuclear magnitude parameter
         *@param K1 the comet total magnitude slope parameter
         *@param K2 the comet nuclear magnitude slope parameter
-    	*/
+        */
     KSComet( const QString &s, const QString &image_file,
              long double JD, double q, double e, dms i, dms w, dms N, double Tp,
-			 float M1, float M2, float K1, float K2 );
+             float M1, float M2, float K1, float K2 );
     
     virtual KSComet* clone() const;
     virtual SkyObject::UID getUID() const;
@@ -76,8 +76,8 @@ public:
     virtual ~KSComet() {}
 
     /**Unused virtual function inherited from KSPlanetBase,
-    	*so it's simply empty here.
-    	*/
+        *so it's simply empty here.
+        */
     virtual bool loadData();
 
     /**
@@ -93,15 +93,15 @@ public:
     inline double getPerihelion() { return q; }
 
     /**
-	 * @return the comet total magnitude parameter 
-	 */
-	inline float getTotalMagnitudeParameter() { return M1; }
-	
+     * @return the comet total magnitude parameter 
+     */
+    inline float getTotalMagnitudeParameter() { return M1; }
+    
     /**
-	 * @return the comet nuclear magnitude parameter 
-	 */
-	inline float getNuclearMagnitudeParameter() { return M2; }
-	
+     * @return the comet nuclear magnitude parameter 
+     */
+    inline float getNuclearMagnitudeParameter() { return M2; }
+    
     /**
      *@return the total magnitude slope parameter
      */
@@ -230,11 +230,11 @@ public:
 
 protected:
     /**Calculate the geocentric RA, Dec coordinates of the Comet.
-    	*@note reimplemented from KSPlanetBase
-    	*@param num time-dependent values for the desired date
-    	*@param Earth planet Earth (needed to calculate geocentric coords)
-    	*@return true if position was successfully calculated.
-    	*/
+        *@note reimplemented from KSPlanetBase
+        *@param num time-dependent values for the desired date
+        *@param Earth planet Earth (needed to calculate geocentric coords)
+        *@return true if position was successfully calculated.
+        */
     virtual bool findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth=NULL );
 
     /**

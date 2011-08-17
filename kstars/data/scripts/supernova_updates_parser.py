@@ -1,6 +1,22 @@
+##************************************************************************##
+#            supernova_updates_parser.py  -  K Desktop Planetarium         #
+#                             -------------------                          #
+#    begin                : 2011/18/06                                     #
+#    copyright            : (C) 2011 by Samikshan Bairagya                 #
+#    email                : samikshan@gmail.com                            #
+##************************************************************************##
+
+##************************************************************************##
+#                                                                          #
+#   This program is free software; you can redistribute it and/or modify   #
+#   it under the terms of the GNU General Public License as published by   #
+#   the Free Software Foundation; either version 2 of the License, or      #
+#   (at your option) any later version.                                    #
+#                                                                          #
+##************************************************************************##
 
 ### Supernova Updates Parser. This program reads data from http://www.cbat.eps.harvard.edu/lists/RecentSupernovae.html 
-### This page gives details on supernovae that have occurred since the start of 2010 .
+### This page gives details on supernovae that have occurred since the start of 2010.
 
 #!/usr/bin/env python
 import re
@@ -12,44 +28,44 @@ def parse( line ) :
     parsed = toCSV(re.sub('<.*?>','',line))
     return parsed
 
+#FIXME: The extracted data is converted to CSV by inserting commas
+       #after definite number of characters. There might be a better
+       #way to do this.
 def toCSV(line):
     commaInterval= [7,24,36,44,51,63,68,86,110,129,133,143]
     for i in range(0,len(line)-1):
-	if i in commaInterval:
-	    edited = line [ :i ] + "," +line [ i+1: ]
-	    line=edited
+        if i in commaInterval:
+            edited = line [ :i ] + "," +line [ i+1: ]
+            line=edited
     return line
 
 sock = urllib.urlopen("http://www.cbat.eps.harvard.edu/lists/RecentSupernovae.html")
 pageLines=sock.readlines()
 sock.close()
-print len(pageLines)
 found = False
 firstLine=True
 
-output = open(KStandardDirs().locateLocal('appdata','supernova.dat'),'w')
+output = open(KStandardDirs().locateLocal('data','kstars/supernovae.dat'),'w')
+#print KStandardDirs().locateLocal('data','kstars/supernovae.dat')
 for i in pageLines:
     if(found):
-	p = re.compile("</pre>")
-	m = p.search(i)
-	if m:
-	    found = False
-	    break
-	if (firstLine):
-	    parsedLine = "#" + parse(i)
-	    firstLine = False
-	else:
-	    parsedLine = parse(i)
-	#print count
-	output.write(parsedLine)
-	continue;
+        p = re.compile("</pre>")
+        m = p.search(i)
+        if m:
+            found = False
+            break
+        if (firstLine):
+            parsedLine = "#" + parse(i)
+            firstLine = False
+        else:
+            parsedLine = parse(i)
+        #print count
+        output.write(parsedLine)
+        continue;
     p = re.compile("<pre>")
     m = p.search(i)
     if m:
-	print "found!!"+i
-	firstLine=True
-	found = True
+        print "found!!"+i
+        firstLine=True
+        found = True
 output.close()
-#if(i==len(pageLines)) :
-    #print "Not Found" + i
-

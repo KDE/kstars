@@ -46,6 +46,7 @@ class DeepStarComponent;
 class TargetListComponent;
 class TargetListComponent;
 class SatellitesComponent;
+class SupernovaeComponent;
 
 class DeepSkyObject;
 class KSPlanetBase;
@@ -165,6 +166,7 @@ public:
 
     FlagComponent* flags();
     SatellitesComponent* satellites();
+    SupernovaeComponent* supernovaeComponent();
 
     //Accessors for StarComponent
     SkyObject* findStarByGenetiveName( const QString name );
@@ -176,6 +178,7 @@ public:
     const QList<SkyObject*>& stars() const;
     const QList<SkyObject*>& asteroids() const;
     const QList<SkyObject*>& comets() const;
+    const QList<SkyObject*>& supernovae() const;
 
     KSPlanet* earth();
     KSPlanetBase* planet( int n );
@@ -215,6 +218,7 @@ private:
     TargetListComponent         *m_ObservingList;
     TargetListComponent         *m_StarHopRouteList;
     SatellitesComponent         *m_Satellites;
+    SupernovaeComponent         *m_Supernovae;
 
     SkyMesh*                m_skyMesh;
     SkyLabeler*             m_skyLabeler;

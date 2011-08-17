@@ -54,10 +54,10 @@ OpsSatellites::OpsSatellites( KStars *_ks )
     
     //Set up the Table Views
     m_Model = new QStandardItemModel( 0, 1, this );
-    m_Model->setHorizontalHeaderLabels( QStringList() << i18n( "Satellite name" ) );
     m_SortModel = new SatelliteSortFilterProxyModel( this );
     m_SortModel->setSourceModel( m_Model );
     SatListTreeView->setModel( m_SortModel );
+    SatListTreeView->setEditTriggers( QTreeView::NoEditTriggers );
     SatListTreeView->setSortingEnabled( false );
 
     // Populate satellites list
@@ -93,6 +93,8 @@ void OpsSatellites::updateListView()
     // Clear satellites list
     m_Model->clear();
     SatListTreeView->reset();
+
+    m_Model->setHorizontalHeaderLabels( QStringList( i18n( "Satellite name" ) ) );
 
     // Add each groups and satellites in the list
     foreach ( SatelliteGroup* sat_group, data->skyComposite()->satellites()->groups() ) {
@@ -190,6 +192,10 @@ void OpsSatellites::slotFilterReg( const QString& filter )
 
 void OpsSatellites::slotItemChanged( QStandardItem* item )
 {
+    if( item->parent() == 0 && !item->hasChildren() ) {
+        return;
+    }
+
     QModelIndex sat_index;
     QStandardItem* sat_item;
     

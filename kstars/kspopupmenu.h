@@ -29,6 +29,7 @@ class SkyObject;
 class DeepSkyObject;
 class KSMoon;
 class Satellite;
+class Supernova;
 
 /**@class KSPopupMenu
 	*The KStars Popup Menu.  The menu is sensitive to the 
@@ -102,6 +103,12 @@ public:
      * @param satellite the satellite which the menu describes.
      */
     void createSatelliteMenu( Satellite *satellite );
+
+    /**
+     * @short Create a popup menu for a supernova
+     * @param supernova the supernova which the menu describes.
+     */
+    void createSupernovaMenu(Supernova *supernova);
 
     /**@short Create a popup menu for empty sky.
      *

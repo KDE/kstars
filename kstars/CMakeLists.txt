@@ -200,6 +200,7 @@ set(libkstarscomponents_SRCS
    skycomponents/constellationboundarylines.cpp 
    skycomponents/constellationlines.cpp 
    skycomponents/constellationnamescomponent.cpp 
+   skycomponents/supernovaecomponent.cpp
    skycomponents/coordinategrid.cpp 
    skycomponents/ecliptic.cpp 
    skycomponents/equator.cpp 
@@ -273,6 +274,7 @@ set(kstars_skyobjects_SRCS
   skyobjects/starobject.cpp
   skyobjects/trailobject.cpp
   skyobjects/satellite.cpp
+  skyobjects/supernova.cpp
 )
 
 set(kstars_dialogs_SRCS

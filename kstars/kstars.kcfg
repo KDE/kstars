@@ -353,6 +353,16 @@
 			<whatsthis>Toggle whether comet name labels are drawn in the sky map.</whatsthis>
 			<default>false</default>
 		</entry>
+		<entry name="ShowSupernovae" type="Bool">
+			<label>Draw supernovae in the sky map?</label>
+			<whatsthis>Toggle whether supernovae are drawn in the sky map.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="ShowSupernovaNames" type="Bool">
+			<label>Label Supernova Names in the sky map?</label>
+			<whatsthis>Toggle whether supernova name labels are drawn in the sky map.</whatsthis>
+			<default>false</default>
+		</entry>
 		<entry name="ShowCBounds" type="Bool">
 			<label>Draw constellation boundaries in the sky map?</label>
 			<whatsthis>Toggle whether constellation boundaries are drawn in the sky map.</whatsthis>
@@ -853,6 +863,11 @@
             <label>Color of satellites labels</label>
             <whatsthis>Color of satellites labels.</whatsthis>
             <default>#640000</default>
+        </entry>
+        <entry name="SupernovaColor" type="String">
+            <label>Color of supernovae</label>
+            <whatsthis>Color of supernova</whatsthis>
+            <default>#FFA500</default>
         </entry>
 		<entry name="UserLabelColor" type="String">
 			<label>Color of user-added labels</label>

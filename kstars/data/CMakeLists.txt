@@ -119,6 +119,9 @@ install( FILES textures/star.png
 	       textures/defaultflag.png 
          DESTINATION ${DATA_INSTALL_DIR}/kstars/textures )
 
+install ( FILES scripts/supernova_updates_parser.py 
+         DESTINATION ${DATA_INSTALL_DIR}/kstars/scripts )
+
 
 
 

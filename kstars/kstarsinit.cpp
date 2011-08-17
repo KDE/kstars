@@ -352,6 +352,8 @@ void KStars::initActions() {
         << i18n( "Update comets orbital elements" );
     actionCollection()->addAction( "update_asteroids", this, SLOT( slotUpdateAsteroids() ) )
         << i18n( "Update asteroids orbital elements" );
+    actionCollection()->addAction("update_supernovae", this, SLOT(slotUpdateSupernovae() ) )
+        << i18n( "Update Recent Supernovae data" );
 
     //Tools Menu:
     actionCollection()->addAction("astrocalculator", this, SLOT( slotCalculator() ) )
@@ -489,6 +491,10 @@ void KStars::initActions() {
         << i18nc("Toggle satellites in the display", "Satellites" )
         << KIcon("kstars_satellites" )
         << ToolTip( i18n("Toggle satellites") );
+    actionCollection()->add<KToggleAction>("show_supernovae", this, SLOT( slotViewToolBar() ) )
+        << i18nc("Toggle supernovae in the display", "Supernovae" )
+        << KIcon("kstars_supernovae" )
+        << ToolTip( i18n("Toggle supernovae") );
 
     setXMLFile("kstarsui.rc" );
 

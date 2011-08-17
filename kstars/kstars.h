@@ -60,6 +60,7 @@ class OpsCatalog;
 class OpsGuides;
 class OpsSolarSystem;
 class OpsSatellites;
+//class OpsSupernovae;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
@@ -610,6 +611,9 @@ private slots:
     /**Update asteroids orbital elements*/
     void slotUpdateAsteroids();
 
+    /**Update list of recent supernovae*/
+    void slotUpdateSupernovae();
+
 private:
     /** Load FOV information and repopulate menu. */
     void repopulateFOV();
@@ -668,6 +672,7 @@ private:
     OpsGuides *opguides;
     OpsSolarSystem *opsolsys;
     OpsSatellites *opssatellites;
+    //OpsSupernovae *opsupernovae;
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
     OpsINDI *opsindi;

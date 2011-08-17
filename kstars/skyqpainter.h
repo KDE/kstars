@@ -61,6 +61,7 @@ public:
     virtual void drawSatellite( Satellite* sat );
     virtual void drawDeepSkySymbol(const QPointF& pos, int type, float size, float e,
                                          float positionAngle);
+    virtual bool drawSupernova(Supernova* sup);
     ///This function exists so that we can draw other objects (e.g., planets) as point sources.
     virtual void drawPointSource(const QPointF& pos, float size, char sp = 'A');
 
