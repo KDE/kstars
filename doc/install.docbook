@@ -30,7 +30,7 @@ Ubuntu, and Mandriva. Some distributions package &kstars; as a separate applicat
 just provide a kdeedu package, which includes &kstars;.
 </para><para>
 If you would like the latest Git development version of &kstars;, please
-follow <ulink url="http://edu.kde.org/kstars/svn.php">these instructions</ulink>.
+follow <ulink url="http://techbase.kde.org/Projects/Edu/KStars/Building_KStars">these instructions</ulink>.
 </para>
 </sect1>
 
