@@ -29,7 +29,9 @@ class KStars;
 class PWizObjectSelectionUI;
 class PWizFovBrowseUI;
 class PWizFovTypeSelectionUI;
+class PWizFovConfigUI;
 class PWizFovManualUI;
+class PWizFovShUI;
 class PWizChartConfigUI;
 class PWizChartContentsUI;
 class PWizPrintUI;
@@ -69,6 +71,8 @@ public:
     SkyObject* getSkyObject() { return m_SkyObject; }
     QList<FovSnapshot*>* getFovSnapshotList() { return &m_FovSnapshots; }
     QSize getFovImageSize() { return m_FovImageSize; }
+    SimpleFovExporter* getFovExporter() { return &m_SimpleFovExporter; }
+    SkyObject* getShBeginObject() { return m_ShBeginObject; }
     
     void setPrinter(QPrinter *printer) { m_Printer = printer; }
     void setSkyObject(SkyObject *obj) { m_SkyObject = obj; }
@@ -76,12 +80,15 @@ public:
     void updateStepButtons();
 
     void beginPointing();
+    void beginShBeginPointing();
     void pointingDone(SkyObject *obj);
 
     void beginFovCapture();
     void beginFovCapture(SkyPoint *center, FOV *fov = 0);
     void captureFov();
     void fovCaptureDone();
+    void beginShFovCapture();
+    void recaptureFov(int idx);
 
 private slots:
     void slotPrevPage();
@@ -111,13 +118,21 @@ private:
 
     QList<FovSnapshot*> m_FovSnapshots;
 
+    SkyObject *m_ShBeginObject;
+    bool m_PointingShBegin;
+
     bool m_SwitchColors;
     QString m_PrevSchemeName;
+
+    bool m_RecapturingFov;
+    int m_RecaptureIdx;
 
     PWizWelcomeUI *m_WizWelcomeUI;
     PWizObjectSelectionUI *m_WizObjectSelectionUI;
     PWizFovTypeSelectionUI *m_WizFovTypeSelectionUI;
+    PWizFovConfigUI *m_WizFovConfigUI;
     PWizFovManualUI *m_WizFovManualUI;
+    PWizFovShUI *m_WizFovShUI;
     PWizFovBrowseUI *m_WizFovBrowseUI;
     PWizChartConfigUI *m_WizChartConfigUI;
     PWizChartContentsUI *m_WizChartContentsUI;

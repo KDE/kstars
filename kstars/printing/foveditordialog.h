@@ -20,14 +20,13 @@ public:
     FovEditorDialog(PrintingWizard *wizard, QWidget *parent = 0);
     ~FovEditorDialog();
 
-
 private slots:
     void slotNextFov();
     void slotPreviousFov();
     void slotCaptureAgain();
     void slotDelete();
     void slotSaveDescription();
-
+    void slotSaveImage();
 
 private:
     void setupWidgets();

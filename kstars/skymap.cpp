@@ -584,7 +584,7 @@ void SkyMap::slotEndRulerMode() {
 
         rulerMode = false;
     }
-    
+
 }
 
 void SkyMap::slotCancelRulerMode(void) {
@@ -732,6 +732,7 @@ void SkyMap::slotDetail() {
 void SkyMap::slotObjectSelected() {
     if(m_objPointingMode && KStars::Instance()->getPrintingWizard()) {
         KStars::Instance()->getPrintingWizard()->pointingDone(clickedObject());
+        m_objPointingMode = false;
     }
 }
 

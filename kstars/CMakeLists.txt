@@ -363,9 +363,11 @@ set(printing_SRCS
     printing/pwizfovbrowse.cpp
     printing/pwizfovconfig.cpp
     printing/pwizfovmanual.cpp
+    printing/pwizfovsh.cpp
     printing/pwizfovtypeselection.cpp
     printing/pwizobjectselection.cpp
     printing/pwizprint.cpp
+    printing/shfovexporter.cpp
     printing/simplefovexporter.cpp
 )
 
@@ -376,6 +378,7 @@ set(printingui_SRCS
     printing/pwizfovbrowse.ui
     printing/pwizfovconfig.ui
     printing/pwizfovmanual.ui
+    printing/pwizfovsh.ui
     printing/pwizfovtypeselection.ui
     printing/pwizobjectselection.ui
     printing/pwizprint.ui

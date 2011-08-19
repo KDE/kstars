@@ -1,5 +1,9 @@
 #include "foveditordialog.h"
 #include "printingwizard.h"
+#include "kio/netaccess.h"
+#include "ktemporaryfile.h"
+#include "kfiledialog.h"
+#include "kmessagebox.h"
 
 FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
 {
@@ -51,8 +55,7 @@ void FovEditorDialog::slotPreviousFov()
 void FovEditorDialog::slotCaptureAgain()
 {
     hide();
-    m_ParentWizard->beginFovCapture(&m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getCentralPoint(),
-                                    m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getFov());
+    m_ParentWizard->recaptureFov(m_CurrentIndex);
 }
 
 void FovEditorDialog::slotDelete()
@@ -62,7 +65,13 @@ void FovEditorDialog::slotDelete()
         return;
     }
 
+    delete m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex);
     m_ParentWizard->getFovSnapshotList()->removeAt(m_CurrentIndex);
+
+    if(m_CurrentIndex == m_ParentWizard->getFovSnapshotList()->size())
+    {
+        m_CurrentIndex--;
+    }
 
     updateFovImage();
     updateButtons();
@@ -74,6 +83,80 @@ void FovEditorDialog::slotSaveDescription()
     if(m_CurrentIndex < m_ParentWizard->getFovSnapshotList()->size())
     {
         m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->setDescription(m_EditorUi->descriptionEdit->text());
+    }
+}
+
+void FovEditorDialog::slotSaveImage()
+{
+    if(m_CurrentIndex >= m_ParentWizard->getFovSnapshotList()->size())
+    {
+        return;
+    }
+
+    //If the filename string contains no "/" separators, assume the
+    //user wanted to place a file in their home directory.
+    QString url = KFileDialog::getSaveUrl(QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp").url();
+    KUrl fileUrl;
+    if(!url.contains("/"))
+    {
+        fileUrl = QDir::homePath() + '/' + url;
+    }
+
+    else
+    {
+        fileUrl = url;
+    }
+
+    KTemporaryFile tmpfile;
+    tmpfile.open();
+    QString fname;
+
+    if(fileUrl.isValid())
+    {
+        if(fileUrl.isLocalFile())
+        {
+            fname = fileUrl.toLocalFile();
+        }
+
+        else
+        {
+            fname = tmpfile.fileName();
+        }
+
+        //Determine desired image format from filename extension
+        QString ext = fname.mid(fname.lastIndexOf(".") + 1);
+        // export as raster graphics
+        const char* format = "PNG";
+
+        if(ext.toLower() == "png") {format = "PNG";}
+        else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) {format = "JPG";}
+        else if(ext.toLower() == "gif") {format = "GIF";}
+        else if(ext.toLower() == "pnm") {format = "PNM";}
+        else if(ext.toLower() == "bmp") {format = "BMP";}
+        else
+        {
+            kWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
+        }
+
+        if(!m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getPixmap().save(fname, format))
+        {
+            kDebug() << i18n("Error: Unable to save image: %1 ", fname);
+        }
+
+        else
+        {
+            kDebug() << i18n("Image saved to file: %1", fname);
+        }
+    }
+
+    if(tmpfile.fileName() == fname)
+    {
+        //attempt to upload image to remote location
+        if(!KIO::NetAccess::upload(tmpfile.fileName(), fileUrl, this))
+        {
+            QString message = i18n( "Could not upload image to remote location: %1", fileUrl.prettyUrl() );
+            KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+        }
     }
 }
 
@@ -95,6 +178,7 @@ void FovEditorDialog::setupConnections()
     connect(m_EditorUi->recaptureButton, SIGNAL(clicked()), this, SLOT(slotCaptureAgain()));
     connect(m_EditorUi->deleteButton, SIGNAL(clicked()), this, SLOT(slotDelete()));
     connect(m_EditorUi->descriptionEdit, SIGNAL(editingFinished()), this, SLOT(slotSaveDescription()));
+    connect(m_EditorUi->saveButton, SIGNAL(clicked()), this, SLOT(slotSaveImage()));
 }
 
 void FovEditorDialog::updateButtons()
@@ -112,6 +196,7 @@ void FovEditorDialog::updateDescriptions()
         m_EditorUi->recaptureButton->setEnabled(false);
         m_EditorUi->deleteButton->setEnabled(false);
         m_EditorUi->descriptionEdit->setEnabled(false);
+        m_EditorUi->saveButton->setEnabled(false);
     }
 
     else

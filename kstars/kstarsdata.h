@@ -208,6 +208,11 @@ public:
      */
     inline const QList<FOV*> getVisibleFOVs() const { return visibleFOVs; }
 
+    /**
+      *@return the list of available FOVs
+      */
+    inline const QList<FOV*> getAvailableFOVs() const { return availFOVs; }
+
     /** Return log object */
     OAL::Log *logObject() { return m_logObject; }
 

@@ -91,11 +91,55 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QCheckBox" name="switchColorsBox">
        <property name="text">
         <string>Use &quot;Sky Chart&quot; color scheme</string>
        </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="overrideShapeBox">
+       <property name="text">
+        <string>Override FOV shape to rectangular</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QCheckBox" name="hideFaintObjBox">
+         <property name="text">
+          <string>Hide objects fainter than</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QDoubleSpinBox" name="magSpinBox">
+         <property name="decimals">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <double>15.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.100000000000000</double>
+         </property>
+         <property name="value">
+          <double>10.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="magLabel">
+         <property name="text">
+          <string>mag</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <spacer name="vertSpacer2">

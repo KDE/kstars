@@ -30,6 +30,7 @@ class PWizObjectSelectionUI : public QFrame, public Ui::PWizObjectSelection
 public:
     PWizObjectSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
     void setSkyObject(SkyObject *obj);
+    static QString objectInfoString(SkyObject *obj);
 
 private slots:
     void slotSelectFromList();
@@ -37,8 +38,6 @@ private slots:
     void slotShowDetails();
 
 private:
-    QString objectInfoString(SkyObject *obj);
-
     PrintingWizard *m_ParentWizard;
 };
 

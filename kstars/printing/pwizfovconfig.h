@@ -3,10 +3,17 @@
 
 #include "ui_pwizfovconfig.h"
 
-class PWizFovConfig : public QFrame, Ui::PWizFovConfig
+class PWizFovConfigUI : public QFrame, public Ui::PWizFovConfig
 {
+    Q_OBJECT
 public:
-    PWizFovConfig(QWidget *parent = 0);
+    PWizFovConfigUI(QWidget *parent = 0);
+    bool isSwitchColorsEnabled() { return switchColorsBox->isChecked(); }
+    bool isFovShapeOverriden() { return overrideShapeBox->isChecked(); }
+
+private:
+    void setupWidgets();
+    void setupConnections();
 };
 
 #endif // PWIZFOVCONFIG_H
