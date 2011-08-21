@@ -29,8 +29,8 @@ namespace
     const int symbolSize = 15;
     const int bRectWidth = 100;
     const int bRectHeight = 45;
-    const qreal maxHScalePixels = 200;
-    const qreal maxVScalePixels = 100;
+    const int maxHScalePixels = 200;
+    const int maxVScalePixels = 100;
     const int xSymbolSpacing = 100;
     const int ySymbolSpacing = 70;
 }

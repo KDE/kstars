@@ -25,9 +25,6 @@
 LoggingForm::LoggingForm()
 {}
 
-LoggingForm::~LoggingForm()
-{}
-
 void LoggingForm::createFinderChartLogger()
 {
     QTextCursor cursor(m_Document);

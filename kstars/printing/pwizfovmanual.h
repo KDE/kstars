@@ -22,13 +22,24 @@
 
 class PrintingWizard;
 
+/**
+  * \class PWizFovManualUI
+  * \brief User interface for "Manual FOV capture" step of the Printing Wizard.
+  * \author Rafał Kułaga
+  */
 class PWizFovManualUI : public QFrame, public Ui::PWizFovManual
 {
     Q_OBJECT
 public:
+    /**
+      * \brief Constructor.
+      */
     PWizFovManualUI(PrintingWizard *wizard, QWidget *parent = 0);
 
 private slots:
+    /**
+      * \brief Slot: enter manual FOV capture mode.
+      */
     void slotExportFov();
 
 private:

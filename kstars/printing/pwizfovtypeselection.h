@@ -21,12 +21,24 @@
 #include "ui_pwizfovtypeselection.h"
 #include "printingwizard.h"
 
+/**
+  * \class PWizFovTypeSelectionUI
+  * \brief User interface for "Select FOV capture method" step of the Printing Wizard.
+  * \author Rafał Kułaga
+  */
 class PWizFovTypeSelectionUI : public QFrame, public Ui::PWizFovTypeSelection
 {
     Q_OBJECT
 public:
+    /**
+      * \brief Constructor.
+      */
     PWizFovTypeSelectionUI(PrintingWizard *wizard, QWidget *parent = 0);
 
+    /**
+      * \brief Get selected FOV export method.
+      * \return Selected FOV export method.
+      */
     PrintingWizard::FOV_TYPE getFovExportType();
 
 private:
