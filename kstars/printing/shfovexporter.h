@@ -28,10 +28,8 @@ class ShFovExporter
 {
 public:
     ShFovExporter(SimpleFovExporter *exporter, SkyMap *map, PrintingWizard *wizard);
-    ~ShFovExporter();
 
     bool exportPath(const SkyPoint &src, const SkyPoint &dest, double fov, double maglim);
-
 
 private:
     SimpleFovExporter *m_FovExporter;

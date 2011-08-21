@@ -59,12 +59,14 @@ PrintingWizard::PrintingWizard(QWidget *parent) : KDialog(parent),
 
 PrintingWizard::~PrintingWizard()
 {
-    qDeleteAll(m_FovSnapshots);
-}
+    // Clean up
+    if(m_Printer) {
+        delete m_Printer;
+    } if(m_FinderChart) {
+        delete m_FinderChart;
+    }
 
-KStarsDocument* PrintingWizard::getDocument()
-{
-    return m_FinderChart;
+    qDeleteAll(m_FovSnapshots);
 }
 
 void PrintingWizard::updateStepButtons()
@@ -142,21 +144,34 @@ void PrintingWizard::captureFov()
 
     QPixmap pixmap(m_FovImageSize);
     m_SimpleFovExporter.exportFov(m_KStars->data()->getVisibleFOVs().first(), &pixmap);
+    if(m_WizFovConfigUI->isLegendEnabled())
+    {
+        // Set legend position, orientation and type
+        Legend legend(m_WizFovConfigUI->getLegendOrientation(), m_WizFovConfigUI->getLegendPosition());
+        legend.setType(m_WizFovConfigUI->getLegendType());
 
+        // Check if alpha blending is enabled
+        if(m_WizFovConfigUI->isAlphaBlendingEnabled())
+        {
+            QColor bgColor = legend.getBgColor();
+            bgColor.setAlpha(200);
+            legend.setBgColor(bgColor);
+        }
+
+        // Paint legend
+        legend.paintLegend(&pixmap);
+    }
     FovSnapshot *snapshot = new FovSnapshot(pixmap, QString(), m_KStars->data()->getVisibleFOVs().first(),
                                             m_KStars->map()->getCenterPoint());
-    if(m_RecapturingFov)
-    {
+
+    if(m_RecapturingFov) {
         delete m_FovSnapshots.at(m_RecaptureIdx);
         m_FovSnapshots.replace(m_RecaptureIdx, snapshot);
         m_KStars->map()->setFovCaptureMode(false);
         m_RecapturingFov = false;
         m_RecaptureIdx = -1;
         fovCaptureDone();
-    }
-
-    else
-    {
+    } else {
         m_FovSnapshots.append(snapshot);
     }
 }
@@ -169,6 +184,12 @@ void PrintingWizard::fovCaptureDone()
     {
         m_KStars->loadColorScheme(m_PrevSchemeName);
         m_KStars->map()->forceUpdate();
+    }
+
+    if(m_RecapturingFov)
+    {
+        m_RecapturingFov = false;
+        m_RecaptureIdx = -1;
     }
 
     show();
@@ -204,7 +225,7 @@ void PrintingWizard::beginShFovCapture()
     float fovArcmin = qMin(fov->sizeX(), fov->sizeY());
 
     hide();
-    exporter.exportPath(*m_ShBeginObject, *m_SkyObject, fovArcmin / 60, m_WizFovShUI->getMaglim());
+    exporter.exportPath(*m_SkyObject, *m_ShBeginObject, fovArcmin / 60, m_WizFovShUI->getMaglim());
 
     if(m_SwitchColors)
     {
@@ -212,17 +233,22 @@ void PrintingWizard::beginShFovCapture()
         m_KStars->map()->forceUpdate();
     }
 
+    m_KStars->map()->forceUpdate(true);
+
     Options::setFOVNames(prevFovNames);
     KStarsData::Instance()->syncFOV();
 
-    show();
+    //FIXME: this is _dirty_ workaround to get PrintingWizard displayed in its previous position.
+    QTimer::singleShot(50, this, SLOT(show()));
 }
 
 void PrintingWizard::recaptureFov(int idx)
 {
+    // Set recapturing flag and index of the FOV snapshot to replace
     m_RecapturingFov = true;
     m_RecaptureIdx = idx;
 
+    // Begin FOV snapshot capture
     slewAndBeginCapture(&m_FovSnapshots.at(m_RecaptureIdx)->getCentralPoint(), m_FovSnapshots.at(m_RecaptureIdx)->getFov());
 }
 
@@ -325,7 +351,7 @@ void PrintingWizard::slotNextPage()
 
     case 8:
         {
-            createDocument();
+            createFinderChart();
             m_WizardStack->setCurrentIndex(currentIdx + 1);
             break;
         }
@@ -352,6 +378,7 @@ void PrintingWizard::setupWidgets()
     setButtonGuiItem(KDialog::User1, KGuiItem(i18n("&Next") + QString(" >"), QString(), i18n("Go to next Wizard page")));
     setButtonGuiItem(KDialog::User2, KGuiItem(QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page")));
 
+    // Create step widgets
     m_WizWelcomeUI = new PWizWelcomeUI(m_WizardStack);
     m_WizObjectSelectionUI = new PWizObjectSelectionUI(this, m_WizardStack);
     m_WizChartConfigUI = new PWizChartConfigUI(this);
@@ -363,6 +390,7 @@ void PrintingWizard::setupWidgets()
     m_WizChartContentsUI = new PWizChartContentsUI(this, m_WizardStack);
     m_WizPrintUI = new PWizPrintUI(this, m_WizardStack);
 
+    // Add step widgets to m_WizardStack
     m_WizardStack->addWidget(m_WizWelcomeUI);
     m_WizardStack->addWidget(m_WizObjectSelectionUI);
     m_WizardStack->addWidget(m_WizChartConfigUI);
@@ -374,6 +402,7 @@ void PrintingWizard::setupWidgets()
     m_WizardStack->addWidget(m_WizChartContentsUI);
     m_WizardStack->addWidget(m_WizPrintUI);
 
+    // Set banner images for steps
     QPixmap bannerImg;
     if(bannerImg.load(KStandardDirs::locate("appdata", "wzstars.png")))
     {
@@ -440,22 +469,25 @@ void PrintingWizard::slewAndBeginCapture(SkyPoint *center, FOV *fov)
     hide();
 }
 
-void PrintingWizard::createDocument()
-{
-    createFinderChart();
-}
-
 void PrintingWizard::createFinderChart()
 {
+    // Delete old (if needed) and create new FinderChart
+    if(m_FinderChart)
+    {
+        delete m_FinderChart;
+    }
     m_FinderChart = new FinderChart;
 
+    // Insert title and subtitle
     m_FinderChart->insertTitleSubtitle(m_WizChartConfigUI->titleEdit->text(), m_WizChartConfigUI->subtitleEdit->text());
 
+    // Insert description
     if(!m_WizChartConfigUI->descriptionTextEdit->toPlainText().isEmpty())
     {
         m_FinderChart->insertDescription(m_WizChartConfigUI->descriptionTextEdit->toPlainText());
     }
 
+    // Insert simple finder chart logging form
     if(m_WizChartContentsUI->isLoggingFormChecked())
     {
         LoggingForm chartLogger;
@@ -463,11 +495,13 @@ void PrintingWizard::createFinderChart()
         m_FinderChart->insertLoggingForm(&chartLogger);
     }
 
+    // Insert FOV images and descriptions
     for(int i = 0; i < m_FovSnapshots.size(); i++)
     {
         m_FinderChart->insertImage(m_FovSnapshots.at(i)->getPixmap().toImage(), m_FovSnapshots.at(i)->getDescription(), false);
     }
 
+    // Insert details table : general
     DetailsTable detTable;
     if(m_WizChartContentsUI->isGeneralTableChecked())
     {
@@ -475,18 +509,21 @@ void PrintingWizard::createFinderChart()
         m_FinderChart->insertDetailsTable(&detTable);
     }
 
+    // Insert details table : position
     if(m_WizChartContentsUI->isPositionTableChecked())
     {
         detTable.createCoordinatesTable(m_SkyObject, m_KStars->data()->ut(), m_KStars->data()->geo());
         m_FinderChart->insertDetailsTable(&detTable);
     }
 
+    // Insert details table : RST
     if(m_WizChartContentsUI->isRSTTableChecked())
     {
         detTable.createRSTTAble(m_SkyObject, m_KStars->data()->ut(), m_KStars->data()->geo());
         m_FinderChart->insertDetailsTable(&detTable);
     }
 
+    // Insert details table : Asteroid/Comet
     if(m_WizChartContentsUI->isAstComTableChecked())
     {
         detTable.createAsteroidCometTable(m_SkyObject);

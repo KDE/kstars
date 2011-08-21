@@ -36,6 +36,7 @@ public:
 private slots:
     void slotSelectFromList();
     void slotPointObject();
+    void slotDetails();
     void slotBeginCapture();
 
 private:

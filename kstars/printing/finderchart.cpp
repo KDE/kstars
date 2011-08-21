@@ -32,9 +32,6 @@
 FinderChart::FinderChart() : KStarsDocument()
 {}
 
-FinderChart::~FinderChart()
-{}
-
 void FinderChart::insertTitleSubtitle(const QString &title, const QString &subtitle)
 {
     QTextCursor cursor(m_Document);

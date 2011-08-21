@@ -41,7 +41,6 @@ class ColorScheme;
  * classes).
  * @author Rafał Kułaga
  */
-
 class Legend
 {
 public:

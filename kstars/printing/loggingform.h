@@ -23,13 +23,31 @@
 class QTextDocument;
 class QPrinter;
 
+/**
+  * \class LoggingForm
+  * \brief Class that represents logging form.
+  * Currently, LoggingForm class is used to create logging forms for finder charts.
+  * \author Rafał Kułaga
+  */
 class LoggingForm : public KStarsDocument
 {
 public:
+    /**
+      * \brief Constructor.
+      */
     LoggingForm();
-    ~LoggingForm();
 
+    /**
+      * \brief Create simple logging form for finder charts.
+      */
     void createFinderChartLogger();
+
+    /**
+      * \brief Get logging form internal QTextDocument.
+      * This method is used to enable inserting of LoggingForm objects into QTextDocument
+      * instances.
+      * \return QTextDocument that contains logging form.
+      */
     QTextDocument* getDocument();
 };
 

@@ -19,6 +19,7 @@
 #define PWIZFOVCONFIG_H
 
 #include "ui_pwizfovconfig.h"
+#include "legend.h"
 
 class PWizFovConfigUI : public QFrame, public Ui::PWizFovConfig
 {
@@ -27,6 +28,14 @@ public:
     PWizFovConfigUI(QWidget *parent = 0);
     bool isSwitchColorsEnabled() { return switchColorsBox->isChecked(); }
     bool isFovShapeOverriden() { return overrideShapeBox->isChecked(); }
+    bool isLegendEnabled() { return addLegendBox->isChecked(); }
+    bool isAlphaBlendingEnabled() { return useAlphaBlendBox->isChecked(); }
+    Legend::LEGEND_TYPE getLegendType();
+    Legend::LEGEND_ORIENTATION getLegendOrientation() { return static_cast<Legend::LEGEND_ORIENTATION>(orientationCombo->currentIndex()); }
+    Legend::LEGEND_POSITION getLegendPosition() { return static_cast<Legend::LEGEND_POSITION>(positionCombo->currentIndex()); }
+
+private slots:
+    void slotUpdateLegendFields(bool enabled);
 
 private:
     void setupWidgets();

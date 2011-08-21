@@ -28,9 +28,6 @@
 ShFovExporter::ShFovExporter(SimpleFovExporter *exporter, SkyMap *map, PrintingWizard *wizard) : m_FovExporter(exporter), m_Map(map), m_ParentWizard(wizard)
 {}
 
-ShFovExporter::~ShFovExporter()
-{}
-
 bool ShFovExporter::exportPath(const SkyPoint &src, const SkyPoint &dest, double fov, double maglim)
 {
     KStarsData::Instance()->clock()->stop();
@@ -73,6 +70,17 @@ bool ShFovExporter::exportPath(const SkyPoint &src, const SkyPoint &dest, double
         m_Map->slotCenter();
         m_ParentWizard->captureFov();
     }
+
+    double new_ra1 = path.last()->ra().Degrees() + 0.5 * (dest.ra().Degrees() - path.last()->ra().Degrees());
+    double new_dec1 = path.last()->dec().Degrees() + 0.5 * (dest.dec().Degrees() - path.last()->dec().Degrees());
+    dms ra1(new_ra1);
+    dms dec1(new_dec1);
+    SkyPoint pt1(ra1, dec1);
+    m_Map->setClickedPoint(&pt1);
+    m_Map->slotCenter();
+    m_ParentWizard->captureFov();
+
+    return true;
 }
 
 

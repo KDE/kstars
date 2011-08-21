@@ -67,7 +67,6 @@ public:
     FOV_TYPE getFovType() { return m_FovType; }
     QPrinter* getPrinter() { return m_Printer; }
     FinderChart* getFinderChart() { return m_FinderChart; }
-    KStarsDocument* getDocument();
     SkyObject* getSkyObject() { return m_SkyObject; }
     QList<FovSnapshot*>* getFovSnapshotList() { return &m_FovSnapshots; }
     QSize getFovImageSize() { return m_FovImageSize; }
@@ -100,8 +99,6 @@ private:
     void updateButtons();
 
     void slewAndBeginCapture(SkyPoint *center, FOV *fov = 0);
-
-    void createDocument();
     void createFinderChart();
 
     KStars *m_KStars;
@@ -113,8 +110,6 @@ private:
     FOV_TYPE m_FovType;
     QSize m_FovImageSize;
     SimpleFovExporter m_SimpleFovExporter;
-    QList<QPixmap> m_Images;
-    QList<QString> m_ImagesDescriptions;
 
     QList<FovSnapshot*> m_FovSnapshots;
 

@@ -692,7 +692,7 @@ void KStars::slotPrintingWizard() {
     }
 
     printingWizard = new PrintingWizard(this);
-    printingWizard->exec();
+    printingWizard->show();
 }
 
 void KStars::slotToggleTimer() {

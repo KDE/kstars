@@ -25,19 +25,49 @@ class QString;
 class QPainter;
 class QPrinter;
 
+/**
+  * \class KStarsDocument
+  * \brief Base class for KStars documents.
+  * KStarsDocument is a base class for all KStars documents: finder charts, logging forms
+  * etc.
+  * \author Rafał Kułaga
+  */
 class KStarsDocument
 {
 public:
+    /**
+      * \brief Constructor.
+      */
     KStarsDocument();
+
+    /**
+      * \brief Destructor.
+      */
     ~KStarsDocument();
 
+    /**
+      * \brief Clears contents of the document.
+      */
     void clearContent();
-    void drawContents(QPainter *p, const QRectF &rect = QRectF());
+
+    /**
+      * \brief Print contents of the document.
+      * \param printer Printer on which document will be printed.
+      */
     void print(QPrinter *printer);
 
+    /**
+      * \brief Write contents of the document to Open Document Text file.
+      * \param fname File name.
+      * \return Returns true if write succeded.
+      */
     bool writeOdt(const QString &fname);
+
+    /**
+      * \brief Write contents of the document to the Postscript/PDF file.
+      * \param fname File name.
+      */
     void writePsPdf(const QString &fname);
-    void writeSvg(const QString &fname);
 
 protected:
     QTextDocument *m_Document;

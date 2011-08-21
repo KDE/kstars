@@ -277,7 +277,8 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
     addSeparator();
     delete o;
 
-    if(KStars::Instance()->map()->isInObjectPointingMode() && obj->type() != 20) {
+    // Show 'Select this object' item when in object pointing mode and when obj is not empty sky
+    if(KStars::Instance()->map()->isInObjectPointingMode() && obj->type() != 21) {
         addAction( i18n( "Select this object"), KStars::Instance()->map(), SLOT(slotObjectSelected()));
     }
 

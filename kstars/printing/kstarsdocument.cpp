@@ -40,11 +40,6 @@ void KStarsDocument::clearContent()
     m_Document->clear();
 }
 
-void KStarsDocument::drawContents(QPainter *p, const QRectF &rect)
-{
-    m_Document->drawContents(p, rect);
-}
-
 void KStarsDocument::print(QPrinter *printer)
 {
     m_Document->print(printer);

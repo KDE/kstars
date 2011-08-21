@@ -27,7 +27,6 @@
 #include "kio/netaccess.h"
 #include "QPrintPreviewDialog"
 #include "QPrinter"
-#include "QTextDocumentWriter"
 #include "QPrintDialog"
 
 PWizPrintUI::PWizPrintUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
@@ -63,7 +62,7 @@ void PWizPrintUI::slotPrint()
 
 void PWizPrintUI::printDocument(QPrinter *printer)
 {
-    m_ParentWizard->getDocument()->print(printer);
+    m_ParentWizard->getFinderChart()->print(printer);
 }
 
 void PWizPrintUI::slotExport()
@@ -111,9 +110,9 @@ void PWizPrintUI::slotExport()
         //Determine desired image format from filename extension
         QString ext = fname.mid(fname.lastIndexOf(".") + 1);
         if(ext == "pdf" || ext == "ps") {
-            m_ParentWizard->getDocument()->writePsPdf(fname);
+            m_ParentWizard->getFinderChart()->writePsPdf(fname);
         } else if(ext == "odt") {
-            m_ParentWizard->getDocument()->writeOdt(fname);
+            m_ParentWizard->getFinderChart()->writeOdt(fname);
         } else {
             return;
         }

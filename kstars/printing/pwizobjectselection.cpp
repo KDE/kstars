@@ -74,10 +74,12 @@ void PWizObjectSelectionUI::slotPointObject()
 
 void PWizObjectSelectionUI::slotShowDetails()
 {
-    DetailDialog detailDlg(m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(),
-                           KStars::Instance()->data()->geo(), this);
-
-    detailDlg.exec();
+    if(m_ParentWizard->getSkyObject())
+    {
+        DetailDialog detailDlg(m_ParentWizard->getSkyObject(), KStars::Instance()->data()->ut(),
+                               KStars::Instance()->data()->geo(), this);
+        detailDlg.exec();
+    }
 }
 
 QString PWizObjectSelectionUI::objectInfoString(SkyObject *obj)

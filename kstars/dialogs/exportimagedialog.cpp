@@ -221,11 +221,14 @@ void ExportImageDialog::previewImage()
 {
     Legend legend = getLegendForSettings();
 
+    // Preview current legend settings on sky map
     m_KStars->map()->setLegend(legend);
     m_KStars->map()->setPreviewLegend(true);
 
+    // Update sky map
     m_KStars->map()->forceUpdate(true);
 
+    // Hide export dialog
     hide();
 }
 

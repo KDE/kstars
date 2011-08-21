@@ -26,14 +26,11 @@ class PWizChartConfigUI : public QFrame, public Ui::PWizChartConfig
 {
     Q_OBJECT
 public:
-    PWizChartConfigUI(PrintingWizard *wizard, QWidget *parent = 0);
+    PWizChartConfigUI(QWidget *parent = 0);
 
-    QString getChartTitle();
-    QString getChartSubtitle();
-    QString getChartDescription();
-
-private:
-    PrintingWizard *m_ParentWizard;
+    QString getChartTitle() { return titleEdit->text(); }
+    QString getChartSubtitle() { return subtitleEdit->text(); }
+    QString getChartDescription() { return descriptionTextEdit->toPlainText(); }
 };
 
 #endif // PWIZCHARTCONFIG_H

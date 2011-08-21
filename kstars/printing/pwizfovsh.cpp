@@ -20,6 +20,7 @@
 #include "dialogs/finddialog.h"
 #include "pwizobjectselection.h"
 #include "kstars/kstarsdata.h"
+#include "dialogs/detaildialog.h"
 
 PWizFovShUI::PWizFovShUI(PrintingWizard *wizard, QWidget *parent) : QFrame(parent),
     m_ParentWizard(wizard)
@@ -51,6 +52,16 @@ void PWizFovShUI::slotSelectFromList()
 void PWizFovShUI::slotPointObject()
 {
     m_ParentWizard->beginShBeginPointing();
+}
+
+void PWizFovShUI::slotDetails()
+{
+    if(m_ParentWizard->getShBeginObject())
+    {
+        DetailDialog detailDlg(m_ParentWizard->getShBeginObject(), KStars::Instance()->data()->ut(),
+                               KStars::Instance()->data()->geo(), this);
+        detailDlg.exec();
+    }
 }
 
 void PWizFovShUI::slotBeginCapture()
