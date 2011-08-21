@@ -30,9 +30,6 @@ SimpleFovExporter::SimpleFovExporter() :
         m_PrevZoom(0)
 {}
 
-SimpleFovExporter::~SimpleFovExporter()
-{}
-
 void SimpleFovExporter::exportFov(SkyPoint *point, FOV *fov, QPaintDevice *pd)
 {
     saveState(true);

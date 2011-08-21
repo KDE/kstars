@@ -19,38 +19,93 @@
 #define FOVEDITORDIALOG_H
 
 #include "ui_foveditordialog.h"
-#include "QList"
 
 class PrintingWizard;
 
+/**
+  * \class FovEditorDialogUI
+  * \brief User interface for FOV Editor Dialog.
+  * \author Rafał Kułaga
+  */
 class FovEditorDialogUI : public QFrame, public Ui::FovEditorDialog
 {
     Q_OBJECT
 public:
+    /**
+      * \brief Constructor.
+      */
     explicit FovEditorDialogUI(QWidget *parent = 0);
 };
 
+/**
+  * \class FovEditorDialog
+  * \brief Class representing FOV Editor Dialog which enables user to edit FOV snapshots.
+  * \author Rafał Kułaga
+  */
 class FovEditorDialog : public KDialog
 {
     Q_OBJECT
 public:
+    /**
+      * \brief Constructor.
+      */
     FovEditorDialog(PrintingWizard *wizard, QWidget *parent = 0);
-    ~FovEditorDialog();
 
 private slots:
+    /**
+      * \brief Slot: switch to next FOV snapshot.
+      */
     void slotNextFov();
+
+    /**
+      * \brief Slot: switch to previous FOV snapshot.
+      */
     void slotPreviousFov();
+
+    /**
+      * \brief Slot: recapture current FOV snapshot.
+      */
     void slotCaptureAgain();
+
+    /**
+      * \brief Slot: delete current FOV snapshot.
+      */
     void slotDelete();
+
+    /**
+      * \brief Slot: save description of the current FOV snapshot.
+      */
     void slotSaveDescription();
+
+    /**
+      * \brief Slot: open "Save file" dialog to choose file name and format to save image.
+      */
     void slotSaveImage();
 
 private:
+    /**
+      * \brief Setup widget properties.
+      */
     void setupWidgets();
+
+    /**
+      * \brief Setup signal-slot connections.
+      */
     void setupConnections();
 
+    /**
+      * \brief Update buttons.
+      */
     void updateButtons();
+
+    /**
+      * \brief Update image description.
+      */
     void updateDescriptions();
+
+    /**
+      * \brief Update FOV image.
+      */
     void updateFovImage();
 
     PrintingWizard *m_ParentWizard;

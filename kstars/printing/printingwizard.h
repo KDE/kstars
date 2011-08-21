@@ -41,19 +41,35 @@ class SkyObject;
 class QStackedWidget;
 class QPrinter;
 
-// Printing Wizard welcome screen
+
+/**
+  * \class PWizWelcomeUI
+  * \brief User interface for the first step of the Printing Wizard.
+  * \author Rafał Kułaga
+  */
 class PWizWelcomeUI : public QFrame, public Ui::PWizWelcome
 {
     Q_OBJECT
 public:
+    /**
+      * \brief Constructor.
+      */
     PWizWelcomeUI(QWidget *parent = 0);
 };
 
+
+/**
+  * \class PrintingWizard
+  * \brief Class representing Printing Wizard for KStars printed documents (currently only finder charts).
+  * \author Rafał Kułaga
+  */
 class PrintingWizard : public KDialog
 {
     Q_OBJECT
-
 public:
+    /**
+      * \brief FOV export method type enumeration.
+      */
     enum FOV_TYPE
     {
         FT_MANUAL,
@@ -61,44 +77,161 @@ public:
         FT_UNDEFINED
     };
 
+    /**
+      * \brief Constructor.
+      */
     PrintingWizard(QWidget *parent = 0);
+
+    /**
+      * \brief Destructor.
+      */
     ~PrintingWizard();
 
+    /**
+      * \brief Get used FOV export method.
+      * \return Selected FOV export method.
+      */
     FOV_TYPE getFovType() { return m_FovType; }
+
+    /**
+      * \brief Get printer used by Printing Wizard.
+      * \return Used printer.
+      */
     QPrinter* getPrinter() { return m_Printer; }
+
+    /**
+      * \brief Get used FinderChart document.
+      * \return Used FinderChart document.
+      */
     FinderChart* getFinderChart() { return m_FinderChart; }
+
+    /**
+      * \brief Get selected SkyObject, for which FinderChart is created.
+      * \return Selected SkyObject.
+      */
     SkyObject* getSkyObject() { return m_SkyObject; }
+
+    /**
+      * \brief Get FovSnapshot list.
+      * \return Used FovSnapshot list.
+      */
     QList<FovSnapshot*>* getFovSnapshotList() { return &m_FovSnapshots; }
+
+    /**
+      * \brief Get FOV snapshot image size.
+      * \return Size of the FOV snapshot image.
+      */
     QSize getFovImageSize() { return m_FovImageSize; }
+
+    /**
+      * \brief Get pointer to the SimpleFovExporter class instance.
+      * \return Pointer to the SimpleFovExporter instance used by Printing Wizard.
+      */
     SimpleFovExporter* getFovExporter() { return &m_SimpleFovExporter; }
+
+    /**
+      * \brief Get object at which star hopping will begin.
+      * \return Source object for star hopper.
+      */
     SkyObject* getShBeginObject() { return m_ShBeginObject; }
     
-    void setPrinter(QPrinter *printer) { m_Printer = printer; }
+    /**
+      * \brief Set SkyObject for which FinderChart is created.
+      * \return SkyObject for which finder chart is created.
+      */
     void setSkyObject(SkyObject *obj) { m_SkyObject = obj; }
 
+    /**
+      * \brief Update Next/Previous step buttons.
+      */
     void updateStepButtons();
 
+    /**
+      * \brief Set SkyMap to pointing mode and hide Printing Wizard.
+      */
     void beginPointing();
+
+    /**
+      * \brief Enter star hopping begin pointing mode.
+      */
     void beginShBeginPointing();
+
+    /**
+      * \brief Quit object pointing mode and set the pointed object.
+      * \param obj Pointer to the SkyObject that was pointed on SkyMap.
+      */
     void pointingDone(SkyObject *obj);
 
+    /**
+      * \brief Hide Printing Wizard and put SkyMap in FOV capture mode.
+      */
     void beginFovCapture();
+
+    /**
+      * \brief Hide Printing Wizard and put SkyMap in FOV capture mode.
+      * \param center Point at which SkyMap should be centered.
+      * \param fov Field of view symbol, used to calculate zoom factor.
+      */
     void beginFovCapture(SkyPoint *center, FOV *fov = 0);
+
+    /**
+      * \brief Capture current contents of FOV symbol.
+      */
     void captureFov();
+
+    /**
+      * \brief Disable FOV capture mode.
+      */
     void fovCaptureDone();
+
+    /**
+      * \brief Capture FOV snapshots using star hopper-based method.
+      */
     void beginShFovCapture();
+
+    /**
+      * \brief Recapture FOV snapshot of passed index.
+      * \param idx Index of the element to be recaptured.
+      */
     void recaptureFov(int idx);
 
 private slots:
+    /**
+      * \brief Slot: go to the previous page of Printing Wizard.
+      */
     void slotPrevPage();
+
+    /**
+      * \brief Slot: go to the next page of Printing Wizard.
+      */
     void slotNextPage();
 
 private:
+    /**
+      * \brief Setup widget properties.
+      */
     void setupWidgets();
+
+    /**
+      * \brief Setup signal-slot connections.
+      */
     void setupConnections();
+
+    /**
+      * \brief Update Previous/Next buttons.
+      */
     void updateButtons();
 
+    /**
+      * \brief Private method, used to center SkyMap around passed SkyPoint, and enter FOV capture mode.
+      * \param center Point at which SkyMap should be centered.
+      * \param fov Field of view symbol, used to calculate zoom factor.
+      */
     void slewAndBeginCapture(SkyPoint *center, FOV *fov = 0);
+
+    /**
+      * \brief Create finder chart using settings from all steps.
+      */
     void createFinderChart();
 
     KStars *m_KStars;

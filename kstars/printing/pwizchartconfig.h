@@ -22,14 +22,36 @@
 
 class PrintingWizard;
 
+/**
+  * \class PWizChartConfigUI
+  * \brief User interface for "Configure basic finder chart settings" step of the Printing Wizard.
+  * \author Rafał Kułaga
+  */
 class PWizChartConfigUI : public QFrame, public Ui::PWizChartConfig
 {
     Q_OBJECT
 public:
+    /**
+      * \brief Constructor.
+      */
     PWizChartConfigUI(QWidget *parent = 0);
 
+    /**
+      * \brief Get entered chart title.
+      * \return Chart title.
+      */
     QString getChartTitle() { return titleEdit->text(); }
+
+    /**
+      * \brief Get entered chart subtitle.
+      * \return Chart subtitle.
+      */
     QString getChartSubtitle() { return subtitleEdit->text(); }
+
+    /**
+      * \brief Get entered chart description.
+      * \return Chart description.
+      */
     QString getChartDescription() { return descriptionTextEdit->toPlainText(); }
 };
 

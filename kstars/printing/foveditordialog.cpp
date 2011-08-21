@@ -38,9 +38,6 @@ FovEditorDialog::FovEditorDialog(PrintingWizard *wizard, QWidget *parent) : KDia
     setupConnections();
 }
 
-FovEditorDialog::~FovEditorDialog()
-{}
-
 void FovEditorDialog::slotNextFov()
 {
     slotSaveDescription();
