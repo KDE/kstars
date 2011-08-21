@@ -25,6 +25,8 @@
 FovEditorDialogUI::FovEditorDialogUI(QWidget *parent) : QFrame(parent)
 {
     setupUi(this);
+
+    setWindowTitle(i18n("Field of View Snapshot Browser"));
 }
 
 FovEditorDialog::FovEditorDialog(PrintingWizard *wizard, QWidget *parent) : KDialog(parent),

@@ -68,6 +68,23 @@ class PrintingWizard : public KDialog
     Q_OBJECT
 public:
     /**
+      * \brief Wizard steps enumeration.
+      */
+    enum WIZARD_STEPS
+    {
+        PW_WELCOME = 0,
+        PW_OBJECT_SELECTION = 1,
+        PW_CHART_CONFIG = 2,
+        PW_FOV_TYPE = 3,
+        PW_FOV_CONFIG = 4,
+        PW_FOV_MANUAL = 5,
+        PW_FOV_SH = 6,
+        PW_FOV_BROWSE = 7,
+        PW_CHART_CONTENTS = 8,
+        PW_CHART_PRINT = 9
+    };
+
+    /**
       * \brief FOV export method type enumeration.
       */
     enum FOV_TYPE

@@ -73,7 +73,7 @@ void PrintingWizard::updateStepButtons()
 {
     switch(m_WizardStack->currentIndex())
     {
-    case 1: // object selection
+    case PW_OBJECT_SELECTION: // object selection
         {
             enableButton(KDialog::User1, m_SkyObject);
             break;
@@ -283,19 +283,19 @@ void PrintingWizard::slotPrevPage()
     int currentIdx = m_WizardStack->currentIndex();
     switch(currentIdx)
     {
-    case 7: // FOV browse UI
+    case PW_FOV_BROWSE:
         {
             switch(m_FovType)
             {
             case FT_MANUAL:
                 {
-                    m_WizardStack->setCurrentIndex(5);
+                    m_WizardStack->setCurrentIndex(PW_FOV_MANUAL);
                     break;
                 }
 
             case FT_STARHOPPER:
                 {
-                    m_WizardStack->setCurrentIndex(6);
+                    m_WizardStack->setCurrentIndex(PW_FOV_SH);
                     break;
                 }
 
@@ -308,9 +308,9 @@ void PrintingWizard::slotPrevPage()
             break;
         }
 
-    case 6:
+    case PW_FOV_SH:
         {
-            m_WizardStack->setCurrentIndex(4);
+            m_WizardStack->setCurrentIndex(PW_FOV_CONFIG);
             break;
         }
 
@@ -330,26 +330,26 @@ void PrintingWizard::slotNextPage()
     int currentIdx = m_WizardStack->currentIndex();
     switch(currentIdx)
     {
-    case 3: // FOV type selection screen
+    case PW_FOV_TYPE:
         {
             m_FovType = m_WizFovTypeSelectionUI->getFovExportType();
-            m_WizardStack->setCurrentIndex(currentIdx + 1);
+            m_WizardStack->setCurrentIndex(PW_FOV_CONFIG);
             break;
         }
 
-    case 4: // FOV type selection screen
+    case PW_FOV_CONFIG:
         {
             switch(m_FovType)
             {
             case FT_MANUAL:
                 {
-                    m_WizardStack->setCurrentIndex(currentIdx + 1);
+                    m_WizardStack->setCurrentIndex(PW_FOV_MANUAL);
                     break;
                 }
 
             case FT_STARHOPPER:
                 {
-                    m_WizardStack->setCurrentIndex(currentIdx + 2);
+                    m_WizardStack->setCurrentIndex(PW_FOV_SH);
                     break;
                 }
 
@@ -362,23 +362,23 @@ void PrintingWizard::slotNextPage()
             break;
         }
 
-    case 5: // manual fov screen
+    case PW_FOV_MANUAL:
         {
-            m_WizardStack->setCurrentIndex(currentIdx + 2);
+            m_WizardStack->setCurrentIndex(PW_FOV_BROWSE);
             break;
         }
 
-    case 7:
+    case PW_FOV_BROWSE:
         {
             m_WizChartContentsUI->entered();
-            m_WizardStack->setCurrentIndex(currentIdx + 1);
+            m_WizardStack->setCurrentIndex(PW_CHART_CONTENTS);
             break;
         }
 
-    case 8:
+    case PW_CHART_CONTENTS:
         {
             createFinderChart();
-            m_WizardStack->setCurrentIndex(currentIdx + 1);
+            m_WizardStack->setCurrentIndex(PW_CHART_PRINT);
             break;
         }
 
@@ -399,7 +399,7 @@ void PrintingWizard::setupWidgets()
 
     setCaption(i18n("Printing Wizard"));
 
-    setButtons(KDialog::User1 | KDialog::User2 | KDialog::Cancel);
+    setButtons(KDialog::User1 | KDialog::User2 | KDialog::Close);
 
     setButtonGuiItem(KDialog::User1, KGuiItem(i18n("&Next") + QString(" >"), QString(), i18n("Go to next Wizard page")));
     setButtonGuiItem(KDialog::User2, KGuiItem(QString("< ") + i18n("&Back"), QString(), i18n("Go to previous Wizard page")));
