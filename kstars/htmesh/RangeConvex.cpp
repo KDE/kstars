@@ -518,7 +518,7 @@ RangeConvex::intersect(const SpatialIndex * idx, HtmRange * htmrange)
 
     simplify();				// don't work too hard...
 
-    if(constraints_.size()==0)return;   // nothing to intersect!!
+    if(constraints_.empty())return;   // nothing to intersect!!
 
     // Start with root nodes (index = 1-8) and intersect triangles
     for(uint32 i = 1; i <= 8; i++){
