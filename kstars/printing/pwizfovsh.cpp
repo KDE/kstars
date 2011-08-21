@@ -34,6 +34,9 @@ PWizFovShUI::PWizFovShUI(PrintingWizard *wizard, QWidget *parent) : QFrame(paren
 void PWizFovShUI::setBeginObject(SkyObject *obj)
 {
     objInfoLabel->setText(PWizObjectSelectionUI::objectInfoString(obj));
+    objInfoLabel->setVisible(true);
+    detailsButton->setVisible(true);
+    captureButton->setEnabled(true);
 }
 
 void PWizFovShUI::slotSelectFromList()
@@ -77,6 +80,10 @@ void PWizFovShUI::setupWidgets()
         fovNames.append(fov->name());
     }
     fovCombo->addItems(fovNames);
+
+    objInfoLabel->setVisible(false);
+    detailsButton->setVisible(false);
+    captureButton->setEnabled(false);
 }
 
 void PWizFovShUI::setupConnections()
@@ -84,6 +91,7 @@ void PWizFovShUI::setupConnections()
     connect(selectFromListButton, SIGNAL(clicked()), this, SLOT(slotSelectFromList()));
     connect(pointButton, SIGNAL(clicked()), this, SLOT(slotPointObject()));
     connect(captureButton, SIGNAL(clicked()), this, SLOT(slotBeginCapture()));
+    connect(detailsButton, SIGNAL(clicked()), this, SLOT(slotDetails()));
 }
 
 

@@ -202,11 +202,32 @@ void PrintingWizard::beginShFovCapture()
         return;
     }
 
+    ShFovExporter exporter(this, KStars::Instance()->map());
+
+    // Get selected FOV symbol
+    double fovArcmin(0);
+    foreach(FOV *fov, KStarsData::Instance()->getAvailableFOVs())
+    {
+        if(fov->name() == m_WizFovShUI->getFovName())
+        {
+            fovArcmin = qMin(fov->sizeX(), fov->sizeY());
+            break;
+        }
+    }
+
+    // Calculate path and check if it's not empty
+    if(!exporter.calculatePath(*m_SkyObject, *m_ShBeginObject, fovArcmin / 60, m_WizFovShUI->getMaglim()))
+    {
+        KMessageBox::information(this, i18n("Star hopper returned empty path. We advise you to change star hopping settings or use manual capture mode."),
+                                 i18n("Star hopper failed to find path"));
+        return;
+    }
+
+    // If FOV shape should be overriden, do this now
     m_SimpleFovExporter.setFovShapeOverriden(m_WizFovConfigUI->isFovShapeOverriden());
     m_SimpleFovExporter.setFovSymbolDrawn(m_WizFovConfigUI->isFovShapeOverriden());
 
-    ShFovExporter exporter(&m_SimpleFovExporter, KStars::Instance()->map(), this);
-
+    // If color scheme should be switched, save previous scheme name and switch to "sky chart" color scheme
     m_SwitchColors = m_WizFovConfigUI->isSwitchColorsEnabled();
     m_PrevSchemeName = m_KStars->data()->colorScheme()->fileName();
     if(m_SwitchColors)
@@ -214,6 +235,7 @@ void PrintingWizard::beginShFovCapture()
         m_KStars->loadColorScheme("chart.colors");
     }
 
+    // Save previous FOV symbol names and switch to symbol selected by user
     QStringList prevFovNames = Options::fOVNames();
     Options::setFOVNames(QStringList(m_WizFovShUI->getFovName()));
     KStarsData::Instance()->syncFOV();
@@ -221,20 +243,24 @@ void PrintingWizard::beginShFovCapture()
     {
         return;
     }
-    FOV *fov = KStarsData::Instance()->getVisibleFOVs().first();
-    float fovArcmin = qMin(fov->sizeX(), fov->sizeY());
 
+    // Hide Printing Wizard
     hide();
-    exporter.exportPath(*m_SkyObject, *m_ShBeginObject, fovArcmin / 60, m_WizFovShUI->getMaglim());
 
+    // Draw and export path
+    exporter.exportPath();
+
+    // Restore old color scheme if necessary
     if(m_SwitchColors)
     {
         m_KStars->loadColorScheme(m_PrevSchemeName);
         m_KStars->map()->forceUpdate();
     }
 
+    // Update skymap
     m_KStars->map()->forceUpdate(true);
 
+    // Restore previous FOV symbol names
     Options::setFOVNames(prevFovNames);
     KStarsData::Instance()->syncFOV();
 
@@ -413,6 +439,7 @@ void PrintingWizard::setupWidgets()
         m_WizFovConfigUI->banner->setPixmap(bannerImg);
         m_WizFovManualUI->banner->setPixmap(bannerImg);
         m_WizFovShUI->banner->setPixmap(bannerImg);
+        m_WizFovBrowseUI->banner->setPixmap(bannerImg);
         m_WizChartContentsUI->banner->setPixmap(bannerImg);
         m_WizPrintUI->banner->setPixmap(bannerImg);
     }

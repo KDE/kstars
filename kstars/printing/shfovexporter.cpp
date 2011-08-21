@@ -25,63 +25,68 @@
 #include "printingwizard.h"
 #include "Options.h"
 
-ShFovExporter::ShFovExporter(SimpleFovExporter *exporter, SkyMap *map, PrintingWizard *wizard) : m_FovExporter(exporter), m_Map(map), m_ParentWizard(wizard)
+ShFovExporter::ShFovExporter(PrintingWizard *wizard, SkyMap *map) : m_Map(map), m_ParentWizard(wizard)
 {}
 
-bool ShFovExporter::exportPath(const SkyPoint &src, const SkyPoint &dest, double fov, double maglim)
+bool ShFovExporter::calculatePath(const SkyPoint &src, const SkyPoint &dest, double fov, double maglim)
 {
-    KStarsData::Instance()->clock()->stop();
+    m_Src = src;
+    m_Dest = dest;
 
-    QList<StarObject const *> path = m_StarHopper.computePath(src, dest, fov, maglim);
-    if(path.isEmpty())
+    m_Path = m_StarHopper.computePath(src, dest, fov, maglim);
+    if(m_Path.isEmpty())
     {
         return false;
     }
 
-    QList<SkyObject *> *mutablestarlist = new QList<SkyObject *>();
-    foreach( const StarObject *conststar, path ) {
-        StarObject *mutablestar = const_cast<StarObject *>(conststar);
-        mutablestarlist->append( mutablestar );
+    return true;
+}
+
+bool ShFovExporter::exportPath()
+{
+    KStarsData::Instance()->clock()->stop();
+
+    if(m_Path.isEmpty())
+    {
+        return false;
     }
 
+    // Show path on SkyMap
+    QList<SkyObject*> *mutablestarlist = new QList<SkyObject*>;
+    foreach(const StarObject *conststar, m_Path)
+    {
+        StarObject *mutablestar = const_cast<StarObject*>(conststar);
+        mutablestarlist->append(mutablestar);
+    }
     TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
     delete t->list;
     t->list = mutablestarlist;
+
+    // Update SkyMap now
     m_Map->forceUpdate(true);
 
-
-    double new_ra = src.ra().Degrees() + 0.5 * (path.at(0)->ra().Degrees() - src.ra().Degrees());
-    double new_dec = src.dec().Degrees() + 0.5 * (path.at(0)->dec().Degrees() - src.dec().Degrees());
-    dms ra(new_ra);
-    dms dec(new_dec);
-    SkyPoint pt(ra, dec);
-    m_Map->setClickedPoint(&pt);
-    m_Map->slotCenter();
-    m_ParentWizard->captureFov();
-
-    for(int i = 0 ; i < path.size() - 1; i++)
+    // Capture FOV snapshots
+    centerBetweenAndCapture(m_Src, *m_Path.at(0));
+    for(int i = 0 ; i < m_Path.size() - 1; i++)
     {
-        double new_ra = path.at(i)->ra().Degrees() + 0.5 * (path.at(i+1)->ra().Degrees() - path.at(i)->ra().Degrees());
-        double new_dec = path.at(i)->dec().Degrees() + 0.5 * (path.at(i+1)->dec().Degrees() - path.at(i)->dec().Degrees());
-        dms ra(new_ra);
-        dms dec(new_dec);
-        SkyPoint pt(ra, dec);
-        m_Map->setClickedPoint(&pt);
-        m_Map->slotCenter();
-        m_ParentWizard->captureFov();
+        centerBetweenAndCapture(*m_Path.at(i), *m_Path.at(i+1));
     }
-
-    double new_ra1 = path.last()->ra().Degrees() + 0.5 * (dest.ra().Degrees() - path.last()->ra().Degrees());
-    double new_dec1 = path.last()->dec().Degrees() + 0.5 * (dest.dec().Degrees() - path.last()->dec().Degrees());
-    dms ra1(new_ra1);
-    dms dec1(new_dec1);
-    SkyPoint pt1(ra1, dec1);
-    m_Map->setClickedPoint(&pt1);
-    m_Map->slotCenter();
-    m_ParentWizard->captureFov();
+    centerBetweenAndCapture(*m_Path.last(), m_Dest);
 
     return true;
 }
 
+void ShFovExporter::centerBetweenAndCapture(const SkyPoint &ptA, const SkyPoint &ptB)
+{
+    // Calculate RA and Dec coordinates of point between ptA and ptB
+    dms ra(ptA.ra().Degrees() + 0.5 * (ptB.ra().Degrees() - ptA.ra().Degrees()));
+    dms dec(ptA.dec().Degrees() + 0.5 * (ptB.dec().Degrees() - ptA.dec().Degrees()));
+    SkyPoint between(ra, dec);
 
+    // Center SkyMap
+    m_Map->setClickedPoint(&between);
+    m_Map->slotCenter();
 
+    // Capture FOV snapshot
+    m_ParentWizard->captureFov();
+}

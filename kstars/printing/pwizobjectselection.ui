@@ -55,7 +55,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Select Observed Object</string>
+        <string>Select Sky Object</string>
        </property>
       </widget>
      </item>

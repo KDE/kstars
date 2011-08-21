@@ -27,7 +27,7 @@ class PrintingWizard;
   * \brief User interface for "Browse captured FOV images" step of Printing Wizard.
   * \author Rafał Kułaga
   */
-class PWizFovBrowseUI : public QFrame, Ui::PWizFovBrowse
+class PWizFovBrowseUI : public QFrame, public Ui::PWizFovBrowse
 {
     Q_OBJECT
 public:

@@ -55,7 +55,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Choose Field-of-View Definition Method</string>
+        <string>Choose Field of View Capture Method</string>
        </property>
       </widget>
      </item>
@@ -82,10 +82,10 @@
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select field-of-view capture method. There are two methods: manual and star hopping-based.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In &lt;span style=&quot; font-weight:600;&quot;&gt;manual method&lt;/span&gt; you navigate the sky map to find the objects of interest, then capture multiple fields-of-view representations.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Star hopping-based method.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you have selected field-of-view capture method, press &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select field of view capture method. There are two methods: manual and star hopping-based.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;In &lt;span style=&quot; font-weight:600;&quot;&gt;manual method&lt;/span&gt; you navigate the sky map to find the objects of interest, then capture multiple fields of view representations.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Star hopping-based method &lt;/span&gt;automatically captures FOV snapshots using star hopping. This is experimental feature.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Once you have selected field of view capture method, press &lt;span style=&quot; font-weight:600;&quot;&gt;Next&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -117,14 +117,14 @@ p, li { white-space: pre-wrap; }
         </font>
        </property>
        <property name="text">
-        <string>Field-of-view definition method:</string>
+        <string>Field of view definition method:</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QRadioButton" name="manualRadio">
        <property name="text">
-        <string>Manually capture field-of-view snapshots</string>
+        <string>Manually capture field of view snapshots</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -133,8 +133,14 @@ p, li { white-space: pre-wrap; }
      </item>
      <item>
       <widget class="QRadioButton" name="hopperRadio">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>Star hopper-based fields-of-view capture</string>
+        <string>Star hopper-based fields of view capture (experimental)</string>
        </property>
       </widget>
      </item>
