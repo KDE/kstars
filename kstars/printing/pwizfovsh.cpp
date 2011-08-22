@@ -33,6 +33,7 @@ PWizFovShUI::PWizFovShUI(PrintingWizard *wizard, QWidget *parent) : QFrame(paren
 
 void PWizFovShUI::setBeginObject(SkyObject *obj)
 {
+    m_ParentWizard->setShBeginObject(obj);
     objInfoLabel->setText(PWizObjectSelectionUI::objectInfoString(obj));
     objInfoLabel->setVisible(true);
     detailsButton->setVisible(true);

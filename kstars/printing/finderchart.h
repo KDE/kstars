@@ -88,6 +88,12 @@ public:
       * \param table Details table to be inserted.
       */
     void insertDetailsTable(DetailsTable *table);
+
+    /**
+      * \brief Insert section title to the finder chart.
+      * \param title Section title.
+      */
+    void insertSectionTitle(const QString &title);
 };
 
 #endif // FINDERCHART_H

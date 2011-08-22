@@ -159,6 +159,12 @@ public:
     void setSkyObject(SkyObject *obj) { m_SkyObject = obj; }
 
     /**
+      * \brief Set SkyObject at which star hopper will begin.
+      * \return SkyObject at which star hopper will begin.
+      */
+    void setShBeginObject(SkyObject *obj) { m_ShBeginObject = obj; }
+
+    /**
       * \brief Update Next/Previous step buttons.
       */
     void updateStepButtons();

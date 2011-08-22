@@ -157,3 +157,18 @@ void FinderChart::insertDetailsTable(DetailsTable *table)
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
     cursor.insertBlock(QTextBlockFormat(), QTextCharFormat());
 }
+
+void FinderChart::insertSectionTitle(const QString &title)
+{
+    QTextCursor cursor = m_Document->rootFrame()->lastCursorPosition();
+
+    QTextBlockFormat titleBlockFmt;
+    titleBlockFmt.setAlignment(Qt::AlignLeft);
+    QTextCharFormat titleCharFmt;
+    QFont titleFont("Times", 16, QFont::Bold);
+    titleFont.setCapitalization(QFont::AllUppercase);
+    titleCharFmt.setFont(titleFont);
+
+    cursor.insertBlock(titleBlockFmt, titleCharFmt);
+    cursor.insertText(title);
+}

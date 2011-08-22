@@ -519,13 +519,30 @@ void PrintingWizard::createFinderChart()
     {
         LoggingForm chartLogger;
         chartLogger.createFinderChartLogger();
+        m_FinderChart->insertSectionTitle(i18n("Logging Form"));
         m_FinderChart->insertLoggingForm(&chartLogger);
     }
+
+    m_FinderChart->insertSectionTitle(i18n("Field of View Snapshots"));
 
     // Insert FOV images and descriptions
     for(int i = 0; i < m_FovSnapshots.size(); i++)
     {
-        m_FinderChart->insertImage(m_FovSnapshots.at(i)->getPixmap().toImage(), m_FovSnapshots.at(i)->getDescription(), false);
+        FOV *fov = m_FovSnapshots.at(i)->getFov();
+        QString fovDescription = i18n("FOV (") + QString::number(i + 1) + "/" +
+                                 QString::number(m_FovSnapshots.size()) + "): " +
+                                 fov->name() + " (" + QString::number(fov->sizeX()) + i18n("'") + " x " +
+                                 QString::number(fov->sizeY()) + i18n("'") + ")" + "\n";
+        m_FinderChart->insertImage(m_FovSnapshots.at(i)->getPixmap().toImage(), fovDescription + m_FovSnapshots.at(i)->getDescription(), true);
+    }
+
+    if(m_WizChartContentsUI->isGeneralTableChecked() ||
+       m_WizChartContentsUI->isPositionTableChecked() ||
+       m_WizChartContentsUI->isRSTTableChecked() ||
+       m_WizChartContentsUI->isAstComTableChecked())
+    {
+        m_FinderChart->insertSectionTitle(i18n("Details About Object"));
+        m_FinderChart->insertGeoTimeInfo(KStarsData::Instance()->ut(), KStarsData::Instance()->geo());
     }
 
     // Insert details table : general
