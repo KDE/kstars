@@ -347,6 +347,7 @@ set(oal_SRCS
     oal/equipmentwriter.cpp
     oal/observeradd.cpp
     oal/execute.cpp
+    oal/observermanager.cpp
 )
 
 set(printing_SRCS
@@ -404,6 +405,7 @@ kde4_add_ui_files(kstars_SRCS
        ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
        ${printingui_SRCS}
          thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui
+         oal/observermanager.ui
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
