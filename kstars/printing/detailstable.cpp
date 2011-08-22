@@ -382,7 +382,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
             perihelionVal = QString::number(ast->getPerihelion()) + " AU";
 
             // Earth MOID
-            moidVal = ast->getEarthMOID() == 0 ? "--" : QString::number(ast->getEarthMOID()) + " AU";
+            moidVal = ast->getEarthMOID() == 0 ? QString("--") : QString::number(ast->getEarthMOID()) + QString(" AU");
 
             // Orbit ID
             orbitIdVal = ast->getOrbitID();
@@ -394,19 +394,19 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
             neoVal = ast->isNEO() ? i18n("Yes") : i18n("No");
 
             // Albedo
-            albedoVal = ast->getAlbedo() == 0 ? "--" : QString::number(ast->getAlbedo());
+            albedoVal = ast->getAlbedo() == 0 ? QString("--") : QString::number(ast->getAlbedo());
 
             // Diameter
-            diamVal = ast->getDiameter() == 0 ? "--" : QString::number(ast->getDiameter()) + " km";
+            diamVal = ast->getDiameter() == 0 ? QString("--") : QString::number(ast->getDiameter()) + QString(" km");
 
             // Dimensions
-            dimVal = ast->getDimensions().isEmpty() ? "--" : ast->getDimensions() + " km";
+            dimVal = ast->getDimensions().isEmpty() ? QString("--") : ast->getDimensions() + QString(" km");
 
             // Rotation period
-            rotPeriodVal = ast->getRotationPeriod() == 0 ? "--" : QString::number(ast->getRotationPeriod()) + " h";
+            rotPeriodVal = ast->getRotationPeriod() == 0 ? QString("--") : QString::number(ast->getRotationPeriod()) + QString(" h");
 
             // Period
-            periodVal = ast->getPeriod() == 0 ? "--" : QString::number(ast->getPeriod()) + " y";
+            periodVal = ast->getPeriod() == 0 ? QString("--") : QString::number(ast->getPeriod()) + QString(" y");
 
             break;
         }
@@ -419,7 +419,7 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
             perihelionVal = QString::number(com->getPerihelion()) + " AU";
 
             // Earth MOID
-            moidVal = com->getEarthMOID() == 0 ? "--" : QString::number(com->getEarthMOID()) + " AU";
+            moidVal = com->getEarthMOID() == 0 ? QString("--") : QString::number(com->getEarthMOID()) + QString(" AU");
 
             // Orbit ID
             orbitIdVal = com->getOrbitID();
@@ -431,19 +431,19 @@ void DetailsTable::createAsteroidCometTable(SkyObject *obj)
             neoVal = com->isNEO() ? i18n("Yes") : i18n("No");
 
             // Albedo
-            albedoVal = com->getAlbedo() == 0 ? "--" : QString::number(com->getAlbedo());
+            albedoVal = com->getAlbedo() == 0 ? QString("--") : QString::number(com->getAlbedo());
 
             // Diameter
-            diamVal = com->getDiameter() == 0 ? "--" : QString::number(com->getDiameter()) + " km";
+            diamVal = com->getDiameter() == 0 ? QString("--") : QString::number(com->getDiameter()) + QString(" km");
 
             // Dimensions
-            dimVal = com->getDimensions().isEmpty() ? "--" : com->getDimensions() + " km";
+            dimVal = com->getDimensions().isEmpty() ? QString("--") : com->getDimensions() + QString(" km");
 
             // Rotation period
-            rotPeriodVal = com->getRotationPeriod() == 0 ? "--" : QString::number(com->getRotationPeriod()) + " h";
+            rotPeriodVal = com->getRotationPeriod() == 0 ? QString("--") : QString::number(com->getRotationPeriod()) + QString(" h");
 
             // Period
-            periodVal = com->getPeriod() == 0 ? "--" : QString::number(com->getPeriod()) + " y";
+            periodVal = com->getPeriod() == 0 ? QString("--") : QString::number(com->getPeriod()) + QString(" y");
 
             break;
         }
