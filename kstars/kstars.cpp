@@ -30,9 +30,12 @@
 #include "Options.h"
 #include "kstarsdata.h"
 #include "kstarssplash.h"
+#include "kactionmenu.h"
 #include "skymap.h"
 #include "simclock.h"
+#include "fov.h"
 #include "dialogs/finddialog.h"
+#include "dialogs/exportimagedialog.h"
 #include "observinglist.h"
 #include "oal/execute.h"
 
@@ -51,11 +54,11 @@ KStars *KStars::pinstance = 0;
 KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
         colorActionMenu(0), fovActionMenu(0),
-        AAVSODialog(0), findDialog(0), obsList(0),
+        AAVSODialog(0), findDialog(0), imgExportDialog(0), obsList(0),
         execute(0),
         avt(0), wut(0), skycal(0),
-        sb(0), pv(0), jmt(0), fm(0), astrocalc(0), indimenu(0), indidriver(0), indiseq(0),
-        DialogIsObsolete(false), StartClockRunning( clockrun ),
+        sb(0), pv(0), jmt(0), fm(0), astrocalc(0), printingWizard(0), indimenu(0), indidriver(0),
+        indiseq(0), DialogIsObsolete(false), StartClockRunning( clockrun ),
         StartDateString( startdate )
 {
     new KstarsAdaptor(this);
@@ -209,6 +212,93 @@ void KStars::applyConfig( bool doApplyFocus ) {
             }
         }
     }
+}
+
+void KStars::showImgExportDialog() {
+    if(imgExportDialog)
+        imgExportDialog->show();
+}
+
+void KStars::syncFOVActions() {
+    foreach(QAction *action, fovActionMenu->menu()->actions()) {
+        if(action->text().isEmpty()) {
+            continue;
+        }
+
+        if(Options::fOVNames().contains(action->text().remove(0, 1))) {
+            action->setChecked(true);
+        } else {
+            action->setChecked(false);
+        }
+    }
+}
+
+void KStars::hideAllFovExceptFirst()
+{
+    // When there is only one visible FOV symbol, we don't need to do anything
+    // Also, don't do anything if there are no available FOV symbols.
+    if(data()->visibleFOVs.size() == 1 ||
+       data()->availFOVs.size() == 0) {
+        return;
+    } else {
+        // If there are no visible FOVs, select first available
+        if(data()->visibleFOVs.size() == 0) {
+            Options::setFOVNames(QStringList(data()->availFOVs.first()->name()));
+        } else {
+            Options::setFOVNames(QStringList(data()->visibleFOVs.first()->name()));
+        }
+
+        // Sync FOV and update skymap
+        data()->syncFOV();
+        syncFOVActions();
+        map()->update(); // SkyMap::forceUpdate() is not required, as FOVs are drawn as overlays
+    }
+}
+
+void KStars::selectNextFov()
+{
+    FOV *currentFov = data()->getVisibleFOVs().first();
+    int currentIdx = data()->availFOVs.indexOf(currentFov);
+
+    // If current FOV is not the available FOV list or there is only 1 FOV available, then return
+    if(currentIdx == -1 || data()->availFOVs.size() < 2) {
+        return;
+    }
+
+    QStringList nextFovName;
+    if(currentIdx == data()->availFOVs.size() - 1) {
+        nextFovName << data()->availFOVs.first()->name();
+    } else {
+        nextFovName << data()->availFOVs.at(currentIdx + 1)->name();
+    }
+
+    Options::setFOVNames(nextFovName);
+    data()->syncFOV();
+    syncFOVActions();
+    map()->update();
+}
+
+void KStars::selectPreviousFov()
+{
+    FOV *currentFov = data()->getVisibleFOVs().first();
+    int currentIdx = data()->availFOVs.indexOf(currentFov);
+
+    // If current FOV is not the available FOV list or there is only 1 FOV available, then return
+    if(currentIdx == -1 || data()->availFOVs.size() < 2) {
+        return;
+    }
+
+    QStringList prevFovName;
+    if(currentIdx == 0) {
+        prevFovName << data()->availFOVs.last()->name();
+    } else {
+        prevFovName << data()->availFOVs.at(currentIdx - 1)->name();
+    }
+
+    Options::setFOVNames(prevFovName);
+    data()->syncFOV();
+    syncFOVActions();
+    map()->update();
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {

@@ -40,6 +40,7 @@
 #include "kspopupmenu.h"
 #include "skyobjects/ksplanetbase.h"
 #include "widgets/infoboxwidget.h"
+#include "printing/simplefovexporter.h"
 
 #include "projections/projector.h"
 
@@ -83,6 +84,10 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
         //KStars::waitForKey()
         data->resumeKey = QKeySequence();
         return;
+    }
+
+    if(m_previewLegend) {
+        slotCancelLegendPreviewMode();
     }
 
     switch ( e->key() ) {
@@ -217,9 +222,14 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             slotBeginAngularDistance();
         break;
     case Qt::Key_Escape:        // Cancel angular distance measurement
-        if( rulerMode )
-            slotCancelRulerMode();
-        break;
+        {
+            if( rulerMode )
+                slotCancelRulerMode();
+
+            if( m_fovCaptureMode )
+                slotFinishFovCaptureMode();
+            break;
+        }
  
     case Qt::Key_C: //Center clicked object
         if ( clickedObject() ) slotCenter();
@@ -322,11 +332,32 @@ void SkyMap::keyPressEvent( QKeyEvent *e ) {
             forceUpdate();
             break;
         }
+
     case Qt::Key_A:
         Options::setUseAntialias( ! Options::useAntialias() );
         kDebug() << "Use Antialiasing: " << Options::useAntialias();
         forceUpdate();
-        break;
+        break;     
+
+    case Qt::Key_K:
+        {
+            if(m_fovCaptureMode)
+                slotCaptureFov();
+            break;
+        }
+
+    case Qt::Key_PageUp:
+        {
+            KStars::Instance()->selectPreviousFov();
+            break;
+        }    
+
+    case Qt::Key_PageDown:
+        {
+            KStars::Instance()->selectNextFov();
+            break;
+        }
+
     default:
         // We don't want to do anything in this case. Key is unknown
         return;
@@ -488,6 +519,10 @@ void SkyMap::mouseReleaseEvent( QMouseEvent * ) {
     }
     setDefaultMouseCursor();
     ZoomRect = QRect(); //invalidate ZoomRect
+
+    if(m_previewLegend) {
+        slotCancelLegendPreviewMode();
+    }
 
     //false if double-clicked, because it's unset there.
     if (mouseButtonDown) {

@@ -53,6 +53,8 @@ class ObservingList;
 class EquipmentWriter;
 class ObserverAdd;
 class Execute;
+class ExportImageDialog;
+class PrintingWizard;
 
 class OpsCatalog;
 class OpsGuides;
@@ -153,6 +155,20 @@ public:
      * from config file
      */
     void applyConfig( bool doApplyFocus = true );
+
+    FlagManager* getFlagManager() { return fm; }
+
+    PrintingWizard* getPrintingWizard() { return printingWizard; }
+
+    void showImgExportDialog();
+
+    void syncFOVActions();
+
+    void hideAllFovExceptFirst();
+
+    void selectNextFov();
+
+    void selectPreviousFov();
 
 public Q_SLOTS:
     /**DBUS interface function.
@@ -423,6 +439,9 @@ public Q_SLOTS:
      */
     void updateTime( const bool automaticDSTchange = true );
 
+    /** action slot: sync kstars clock to system time */
+    void slotSetTimeToNow();
+
     /** Apply new settings and redraw skymap */
     void slotApplyConfigChanges();
 
@@ -450,10 +469,10 @@ public Q_SLOTS:
     /** Display position in the status bar. */
     void slotShowPositionBar(SkyPoint*);
 
-private slots:
-    /** action slot: sync kstars clock to system time */
-    void slotSetTimeToNow();
+    /** action slot: open Flag Manager */
+    void slotFlagManager();
 
+private slots:
     /** action slot: open a dialog for setting the time and date */
     void slotSetTime();
 
@@ -502,9 +521,6 @@ private slots:
     /** action slot: open Jupiter Moons tool */
     void slotJMoonTool();
 
-    /** action slot: open Flag Manager */
-    void slotFlagManager();
-
     /** action slot: open Telescope wizard */
     void slotTelescopeWizard();
 
@@ -535,6 +551,9 @@ private slots:
 
     /**Action slot to print skymap. */
     void slotPrint();
+
+    /**Action slot to start Printing Wizard. */
+    void slotPrintingWizard();
 
     /**Action slot to show tip-of-the-day window. */
     void slotTipOfDay();
@@ -620,6 +639,7 @@ private:
 
     LCGenerator *AAVSODialog;
     FindDialog *findDialog;
+    ExportImageDialog *imgExportDialog;
 
     //FIXME: move to KStarsData
     ObservingList *obsList;
@@ -634,6 +654,7 @@ private:
     JMoonTool *jmt;
     FlagManager *fm;
     AstroCalc *astrocalc;
+    PrintingWizard *printingWizard;
 
     INDIMenu *indimenu;
     INDIDriver *indidriver;

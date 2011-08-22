@@ -373,6 +373,13 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     QPointF pos = m_proj->toScreen(obj, true, &visible);
     if( !visible || !m_proj->onScreen(pos) ) return false;
 
+    // if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
+    // if we use size 0.0 the star wouldn't be drawn
+    float majorAxis = obj->a();
+    if ( majorAxis == 0.0 ) {   majorAxis = 1.0; }
+
+    float size = majorAxis * dms::PI * Options::zoomFactor() / 10800.0;
+
     //FIXME: this is probably incorrect
     float positionAngle = m_proj->findPA( obj, pos.x(), pos.y() );
 
@@ -381,7 +388,8 @@ bool SkyQPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
         drawDeepSkyImage(pos, obj, positionAngle);
 
     //Draw Symbol
-    drawDeepSkySymbol(pos, obj, positionAngle);
+    drawDeepSkySymbol(pos, obj->type(), size, obj->e(), positionAngle);
+
     return true;
 }
 
@@ -401,23 +409,18 @@ bool SkyQPainter::drawDeepSkyImage(const QPointF& pos, DeepSkyObject* obj, float
 }
 
 //FIXME: Do we really need two versions of all of this code? (int/float)
-void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, float positionAngle)
+void SkyQPainter::drawDeepSkySymbol(const QPointF &pos, int type, float size, float e, float positionAngle)
 {
     float x = pos.x();
     float y = pos.y();
     float zoom = Options::zoomFactor();
-    // if size is 0.0 set it to 1.0, this are normally stars (type 0 and 1)
-    // if we use size 0.0 the star wouldn't be drawn
-    float majorAxis = obj->a();
-    if ( majorAxis == 0.0 ) {   majorAxis = 1.0; }
 
-    float size = majorAxis * dms::PI * zoom / 10800.0;
     int isize = int(size);
 
     float dx1 = -0.5*size;
     float dx2 =  0.5*size;
-    float dy1 = -1.0*obj->e()*size/2.;
-    float dy2 = obj->e()*size/2.;
+    float dy1 = -1.0*e*size/2.;
+    float dy2 = e*size/2.;
     float x1 = x + dx1;
     float x2 = x + dx2;
     float y1 = y + dy1;
@@ -425,8 +428,8 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, floa
 
     float dxa = -size/4.;
     float dxb =  size/4.;
-    float dya = -1.0*obj->e()*size/4.;
-    float dyb = obj->e()*size/4.;
+    float dya = -1.0*e*size/4.;
+    float dyb = e*size/4.;
     float xa = x + dxa;
     float xb = x + dxb;
     float ya = y + dya;
@@ -436,7 +439,7 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, floa
 
     QBrush tempBrush;
 
-    switch ( obj->type() ) {
+    switch ( type ) {
     case 0:
     case 1: //catalog star
         //Some NGC/IC objects are stars...changed their type to 1 (was double star)
@@ -487,14 +490,14 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, floa
         rotate( positionAngle );  //rotate the coordinate system
 
         if ( Options::useAntialias() ) {
-            drawEllipse( QRectF(dx1, dy1, size, obj->e()*size) );
+            drawEllipse( QRectF(dx1, dy1, size, e*size) );
             drawLine( QPointF(0., dy1), QPointF(0., dy2) );
             drawLine( QPointF(dx1, 0.), QPointF(dx2, 0.) );
             restore(); //reset coordinate system
         } else {
             int idx1 = int(dx1); int idy1 = int(dy1);
             int idx2 = int(dx2); int idy2 = int(dy2);
-            drawEllipse( QRect(idx1, idy1, isize, int(obj->e()*size)) );
+            drawEllipse( QRect(idx1, idy1, isize, int(e*size)) );
             drawLine( QPoint(0, idy1), QPoint(0, idy2) );
             drawLine( QPoint(idx1, 0), QPoint(idx2, 0) );
             restore(); //reset coordinate system
@@ -530,17 +533,17 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, floa
         rotate( positionAngle );  //rotate the coordinate system
 
         if ( Options::useAntialias() ) {
-            drawEllipse( QRectF(dx1, dy1, size, obj->e()*size) );
-            drawLine( QPointF(0., dy1), QPointF(0., dy1 - obj->e()*size/2. ) );
-            drawLine( QPointF(0., dy2), QPointF(0., dy2 + obj->e()*size/2. ) );
+            drawEllipse( QRectF(dx1, dy1, size, e*size) );
+            drawLine( QPointF(0., dy1), QPointF(0., dy1 - e*size/2. ) );
+            drawLine( QPointF(0., dy2), QPointF(0., dy2 + e*size/2. ) );
             drawLine( QPointF(dx1, 0.), QPointF(dx1 - size/2., 0.) );
             drawLine( QPointF(dx2, 0.), QPointF(dx2 + size/2., 0.) );
         } else {
             int idx1 = int(dx1); int idy1 = int(dy1);
             int idx2 = int(dx2); int idy2 = int(dy2);
-            drawEllipse( QRect( idx1, idy1, isize, int(obj->e()*size) ) );
-            drawLine( QPoint(0, idy1), QPoint(0, idy1 - int(obj->e()*size/2) ) );
-            drawLine( QPoint(0, idy2), QPoint(0, idy2 + int(obj->e()*size/2) ) );
+            drawEllipse( QRect( idx1, idy1, isize, int(e*size) ) );
+            drawLine( QPoint(0, idy1), QPoint(0, idy1 - int(e*size/2) ) );
+            drawLine( QPoint(0, idy2), QPoint(0, idy2 + int(e*size/2) ) );
             drawLine( QPoint(idx1, 0), QPoint(idx1 - int(size/2), 0) );
             drawLine( QPoint(idx2, 0), QPoint(idx2 + int(size/2), 0) );
         }
@@ -579,10 +582,10 @@ void SkyQPainter::drawDeepSkySymbol(const QPointF& pos, DeepSkyObject* obj, floa
             rotate( positionAngle );  //rotate the coordinate system
 
             if ( Options::useAntialias() ) {
-                drawEllipse( QRectF(dx1, dy1, size, obj->e()*size) );
+                drawEllipse( QRectF(dx1, dy1, size, e*size) );
             } else {
                 int idx1 = int(dx1); int idy1 = int(dy1);
-                drawEllipse( QRect(idx1, idy1, isize, int(obj->e()*size)) );
+                drawEllipse( QRect(idx1, idy1, isize, int(e*size)) );
             }
 
             restore(); //reset coordinate system

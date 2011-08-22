@@ -286,6 +286,7 @@ set(kstars_dialogs_SRCS
   dialogs/fovdialog.cpp
   dialogs/locationdialog.cpp
   dialogs/timedialog.cpp
+  dialogs/exportimagedialog.cpp
 )
 
 set(kstars_dialogsui_SRCS
@@ -305,6 +306,7 @@ set(kstars_dialogsui_SRCS
   dialogs/wizlocation.ui
   dialogs/wizdownload.ui
   dialogs/newfov.ui
+  dialogs/exportimagedialog.ui
 )
 
 set(kstars_projection_SRCS
@@ -347,10 +349,47 @@ set(oal_SRCS
     oal/execute.cpp
 )
 
+set(printing_SRCS
+    printing/detailstable.cpp
+    printing/finderchart.cpp
+    printing/foveditordialog.cpp
+    printing/fovsnapshot.cpp
+    printing/kstarsdocument.cpp
+    printing/legend.cpp
+    printing/loggingform.cpp
+    printing/printingwizard.cpp
+    printing/pwizchartconfig.cpp
+    printing/pwizchartcontents.cpp
+    printing/pwizfovbrowse.cpp
+    printing/pwizfovconfig.cpp
+    printing/pwizfovmanual.cpp
+    printing/pwizfovsh.cpp
+    printing/pwizfovtypeselection.cpp
+    printing/pwizobjectselection.cpp
+    printing/pwizprint.cpp
+    printing/shfovexporter.cpp
+    printing/simplefovexporter.cpp
+)
+
+set(printingui_SRCS
+    printing/foveditordialog.ui
+    printing/pwizchartconfig.ui
+    printing/pwizchartcontents.ui
+    printing/pwizfovbrowse.ui
+    printing/pwizfovconfig.ui
+    printing/pwizfovmanual.ui
+    printing/pwizfovsh.ui
+    printing/pwizfovtypeselection.ui
+    printing/pwizobjectselection.ui
+    printing/pwizprint.ui
+    printing/pwizwelcome.ui
+)
+
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
+        ${printing_SRCS}
 )
 
 qt4_add_dbus_adaptor(kstars_SRCS org.kde.kstars.xml kstars.h KStars)
@@ -363,8 +402,8 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 
 kde4_add_ui_files(kstars_SRCS
        ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+       ${printingui_SRCS}
          thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui
-
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
