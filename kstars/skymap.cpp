@@ -1137,7 +1137,7 @@ void SkyMap::slotToggleGL() {
     }
     else {
         // Use GL
-        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works"
+        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works "
                                "much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
 
         int result = KMessageBox::warningYesNo( this, message,
