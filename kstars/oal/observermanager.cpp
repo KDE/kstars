@@ -35,7 +35,11 @@ ObserverManager::~ObserverManager()
 void ObserverManager::addObserver()
 {
     QList<QStandardItem*> row;
-    row << new QStandardItem("Yes") << new QStandardItem(mUi->nameLineEdit->text()) << new QStandardItem(mUi->surnameLineEdit->text())
+    QStandardItem *participatingBox = new QStandardItem;
+    participatingBox->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    participatingBox->setCheckState(Qt::Unchecked);
+
+    row << participatingBox << new QStandardItem(mUi->nameLineEdit->text()) << new QStandardItem(mUi->surnameLineEdit->text())
         << new QStandardItem(mUi->contactLineEdit->text());
     mModel->appendRow(row);
 
@@ -45,10 +49,15 @@ void ObserverManager::addObserver()
 void ObserverManager::saveChanges()
 {
     int rowNumber = mUi->observerTableView->selectionModel()->selectedRows().first().row();
+    bool wasParticipating = mModel->data(mModel->index(rowNumber, 0), Qt::CheckStateRole).toBool();
     mModel->removeRow(rowNumber);
 
     QList<QStandardItem*> row;
-    row << new QStandardItem("Yes") << new QStandardItem(mUi->nameLineEdit->text()) << new QStandardItem(mUi->surnameLineEdit->text())
+    QStandardItem *participatingBox = new QStandardItem;
+    participatingBox->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    participatingBox->setCheckState(wasParticipating ? Qt::Checked : Qt::Unchecked);
+
+    row << participatingBox << new QStandardItem(mUi->nameLineEdit->text()) << new QStandardItem(mUi->surnameLineEdit->text())
         << new QStandardItem(mUi->contactLineEdit->text());
     mModel->insertRow(rowNumber, row);
 
@@ -105,7 +114,11 @@ void ObserverManager::createModel()
     int rowNumber = 0;
     foreach(OAL::Observer* observer, *mKstars->data()->logObject()->observerList()) {
         QList<QStandardItem*> row;
-        row << new QStandardItem("Yes") << new QStandardItem(observer->name()) << new QStandardItem(observer->surname())
+        QStandardItem *participatingBox = new QStandardItem;
+        participatingBox->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+        participatingBox->setCheckState(Qt::Unchecked);
+
+        row << participatingBox << new QStandardItem(observer->name()) << new QStandardItem(observer->surname())
             << new QStandardItem(observer->contact());
 
         mModel->insertRow(rowNumber, row);
