@@ -112,6 +112,7 @@ set(libkstarstools_SRCS
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
+        tools/xmlvalidator.cpp
 	)
 
 kde4_add_ui_files(libkstarstools_SRCS
@@ -420,6 +421,7 @@ target_link_libraries(kstars
 	${KDE4_KIO_LIBS}
 	htmesh
 	${ZLIB_LIBRARIES}
+        ${QT_QTXMLPATTERNS_LIBRARY}
         )
 
 if(NOT WIN32)
