@@ -46,6 +46,22 @@
     </widget>
    </item>
    <item>
+    <spacer name="horSpacer1">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>5</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
     <layout class="QVBoxLayout" name="welcomeLayout">
      <property name="spacing">
       <number>6</number>
