@@ -51,7 +51,7 @@ class JMoonTool;
 class FlagManager;
 class ObservingList;
 class EquipmentWriter;
-class ObserverAdd;
+class ObserverManager;
 class Execute;
 class ExportImageDialog;
 class PrintingWizard;
@@ -157,6 +157,8 @@ public:
     void applyConfig( bool doApplyFocus = true );
 
     FlagManager* getFlagManager() { return fm; }
+
+    ObserverManager* getObserverManager() { return oManager; }
 
     PrintingWizard* getPrintingWizard() { return printingWizard; }
 
@@ -472,6 +474,8 @@ public Q_SLOTS:
     /** action slot: open Flag Manager */
     void slotFlagManager();
 
+    void slotObserverManager();
+
 private slots:
     /** action slot: open a dialog for setting the time and date */
     void slotSetTime();
@@ -601,8 +605,6 @@ private slots:
 
     void slotEquipmentWriter();
 
-    void slotObserverAdd();
-
     void slotExecute();
 
     /**Update comets orbital elements*/
@@ -644,7 +646,7 @@ private:
     //FIXME: move to KStarsData
     ObservingList *obsList;
     EquipmentWriter *eWriter;
-    ObserverAdd *oAdd;
+    ObserverManager *oManager;
     Execute *execute;
     AltVsTime *avt;
     WUTDialog *wut;

@@ -75,6 +75,7 @@
 #include "tools/jmoontool.h"
 #include "tools/flagmanager.h"
 #include "oal/execute.h"
+#include "oal/observermanager.h"
 #include "projections/projector.h"
 
 #include <config-kstars.h>
@@ -302,6 +303,11 @@ void KStars::slotJMoonTool() {
 void KStars::slotFlagManager() {
     if ( ! fm ) fm = new FlagManager(this);
     fm->show();
+}
+
+void KStars::slotObserverManager() {
+    oManager->showEnableColumn(false);
+    oManager->show();
 }
 
 void KStars::slotImageSequence()
@@ -945,10 +951,6 @@ void KStars::slotObsList() {
 
 void KStars::slotEquipmentWriter() {
     eWriter->show();
-}
-
-void KStars::slotObserverAdd() {
-    oAdd->show();
 }
 
 void KStars::slotExecute() {

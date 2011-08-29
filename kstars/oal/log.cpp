@@ -41,6 +41,8 @@ void OAL::Log::writeBegin() {
 
 QString OAL::Log::writeLog( bool _native ) {
     native = _native;
+    markUsedEquipment();
+
     writeBegin();
     if( native )
         writeGeoDate();
@@ -48,10 +50,10 @@ QString OAL::Log::writeLog( bool _native ) {
     writeSites();
     writeSessions();
     writeTargets();
-    writeScopes();
-    writeEyepieces();
-    writeLenses();
-    writeFilters();
+    writeUsedScopes();
+    writeUsedEyepieces();
+    writeUsedLenses();
+    writeUsedFilters();
     writeImagers();
     writeObservations();
     writeEnd();
@@ -65,8 +67,17 @@ void OAL::Log::writeEnd() {
 
 void OAL::Log::writeObservers() {
     writer->writeStartElement( "observers" );
-    foreach( OAL::Observer *o, m_observerList )
+    foreach( OAL::Observer *o, m_observerList ) {
         writeObserver( o );
+    }
+    writer->writeEndElement();
+}
+
+void OAL::Log::writeUsedObservers() {
+    writer->writeStartElement( "observers" );
+    foreach( OAL::Observer *o, m_observerList ) {
+            writeObserver( o );
+    }
     writer->writeEndElement();
 }
 
@@ -94,29 +105,69 @@ void OAL::Log::writeTargets() {
 
 void OAL::Log::writeScopes() {
     writer->writeStartElement("scopes");
-    foreach( OAL::Scope *o, m_scopeList )
+    foreach( OAL::Scope *o, m_scopeList ) {
         writeScope( o );
+    }
+    writer->writeEndElement();
+}
+
+void OAL::Log::writeUsedScopes() {
+    writer->writeStartElement("scopes");
+    foreach( OAL::Scope *o, m_scopeList ) {
+        if( m_usedScopes.contains( o->id()) )
+            writeScope( o );
+    }
     writer->writeEndElement();
 }
 
 void OAL::Log::writeEyepieces() {
     writer->writeStartElement("eyepieces");
-    foreach( OAL::Eyepiece *o, m_eyepieceList )
+    foreach( OAL::Eyepiece *o, m_eyepieceList ) {
         writeEyepiece( o );
+    }
+    writer->writeEndElement();
+}
+
+void OAL::Log::writeUsedEyepieces() {
+    writer->writeStartElement("eyepieces");
+    foreach( OAL::Eyepiece *o, m_eyepieceList ) {
+        if( m_usedEyepieces.contains( o->id() ) )
+            writeEyepiece( o );
+    }
     writer->writeEndElement();
 }
 
 void OAL::Log::writeLenses() {
     writer->writeStartElement("lenses");
-    foreach( OAL::Lens *o, m_lensList )
+    foreach( OAL::Lens *o, m_lensList ) {
         writeLens( o );
+    }
+    writer->writeEndElement();
+}
+
+void OAL::Log::writeUsedLenses() {
+    writer->writeStartElement("lenses");
+    foreach( OAL::Lens *o, m_lensList ) {
+        if( m_usedLens.contains( o->id() ) )
+            writeLens( o );
+    }
     writer->writeEndElement();
 }
 
 void OAL::Log::writeFilters() {
     writer->writeStartElement("filters");
-    foreach( OAL::Filter *o, m_filterList )
+    foreach( OAL::Filter *o, m_filterList ) {
         writeFilter( o );
+    }
+    writer->writeEndElement();
+}
+
+void OAL::Log::writeUsedFilters() {
+    writer->writeStartElement("filters");
+    foreach( OAL::Filter *o, m_filterList ) {
+        if( m_usedFilters.contains( o->id() ) )
+            writeFilter( o );
+    }
     writer->writeEndElement();
 }
 
@@ -211,6 +262,7 @@ void OAL::Log::writeSite( OAL::Site *s ) {
     writer->writeStartElement( "latitude" );
     writer->writeAttribute( "unit",  s->latUnit() );
     writer->writeCharacters( QString::number( s->latitude() ) );
+    writer->writeEndElement();
     writer->writeStartElement( "longitude" );
     writer->writeAttribute( "unit", s->lonUnit() );
     writer->writeCharacters( QString::number( s->longitude() ) );
@@ -229,6 +281,13 @@ void OAL::Log::writeSession( OAL::Session *s ) {
     writer->writeStartElement( "site" );
     writer->writeCharacters( s->site() );
     writer->writeEndElement();
+
+    foreach( QString coObs, s->coobservers() ) {
+        writer->writeStartElement( "coObserver" );
+        writer->writeCharacters( coObs );
+        writer->writeEndElement();
+    }
+
     writer->writeStartElement( "weather" );
     writer->writeCDATA( s->weather() );
     writer->writeEndElement();
@@ -280,7 +339,7 @@ void OAL::Log::writeEyepiece( OAL::Eyepiece *ep ) {
     writer->writeStartElement( "focalLength" );
     writer->writeCharacters( QString::number( ep->focalLength() ) );
     writer->writeEndElement();
-    writer->writeStartElement( "apparantFOV" );
+    writer->writeStartElement( "apparentFOV" );
     writer->writeAttribute( "unit", ep->fovUnit() );
     writer->writeCharacters( QString::number( ep->appFov() ) );
     writer->writeEndElement();
@@ -679,7 +738,7 @@ void OAL::Log::readSession( QString id, QString lang ) {
                 readUnknownElement();
         }
     }
-    OAL::Session *o= new OAL::Session( id, site, beginDT, endDT, weather, equipment, comments, lang );
+    OAL::Session *o= new OAL::Session( id, site, QStringList(), beginDT, endDT, weather, equipment, comments, lang );
     m_sessionList.append( o );
 }
 
@@ -993,4 +1052,23 @@ OAL::Observation* OAL::Log::findObservationByName( QString id ) {
         if( o->id()  == id )
             return o;
     return NULL;
+}
+
+void OAL::Log::markUsedObservers() {
+    foreach( OAL::Observation *obs, m_observationList ) {
+        m_usedObservers.insert(obs->observer());
+    }
+
+    foreach( OAL::Session *session, m_sessionList ) {
+        //m_usedObservers.insert()
+    }
+}
+
+void OAL::Log::markUsedEquipment() {
+    foreach( OAL::Observation *obs, m_observationList ) {
+        m_usedEyepieces.insert(obs->eyepiece());
+        m_usedLens.insert(obs->lens());
+        m_usedFilters.insert(obs->filter());
+        m_usedScopes.insert(obs->scope());
+    }
 }

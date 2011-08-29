@@ -20,7 +20,9 @@ class ObserverManager : public KDialog
     Q_OBJECT
 public:
     ObserverManager(QWidget *parent = 0);
-    ~ObserverManager();
+
+    void showEnableColumn(bool show);
+    void saveToFile();
 
 public slots:
     void addObserver();

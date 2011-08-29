@@ -43,7 +43,7 @@
 #include "simclock.h"
 #include "widgets/timestepbox.h"
 #include "oal/equipmentwriter.h"
-#include "oal/observeradd.h"
+#include "oal/observermanager.h"
 #include "skycomponents/skymapcomposite.h"
 #include "texturemanager.h"
 
@@ -399,8 +399,8 @@ void KStars::initActions() {
     actionCollection()->addAction("ewriter", this, SLOT( slotEquipmentWriter() ) )
         << i18n("Define Equipment...")
         << KShortcut( Qt::CTRL+Qt::Key_0 );
-    actionCollection()->addAction("obsadd", this, SLOT( slotObserverAdd() ) )
-        << i18n( "Add Observer..." )
+    actionCollection()->addAction("obsManager", this, SLOT( slotObserverManager() ) )
+        << i18n( "Observer Manager..." )
         << KShortcut( Qt::CTRL+Qt::Key_1 );
 
     // ==== observation menu ================
@@ -575,7 +575,7 @@ void KStars::datainitFinished() {
     //Initialize Observing List
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
-    oAdd = new ObserverAdd;
+    oManager = new ObserverManager(this);
 
     #ifdef HAVE_INDI_H
     indidriver->updateCustomDrivers();

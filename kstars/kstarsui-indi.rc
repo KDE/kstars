@@ -105,7 +105,7 @@
         </Menu>
 		<Separator />
         <Action name="ewriter"/>
-        <Action name="obsadd"/>
+        <Action name="obsManager"/>
 		<Separator />
 		<Action name="geolocation" />
 		<Separator />

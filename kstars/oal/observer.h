@@ -28,9 +28,11 @@ class OAL::Observer {
        QString name() { return m_Name; }
        QString surname() { return m_Surname; }
        QString contact() { return m_Contact; }
-       Observer( QString _id,  QString _name ="", QString _surname = "", QString _contact = "" ) { setObserver( _id, _name, _surname, _contact ); }
-       void setObserver( QString _id, QString _name = "", QString _surname= "", QString _contact = "" );
+       bool isCoobserving() { return m_Coobserving; }
+       Observer( QString _id,  QString _name ="", QString _surname = "", QString _contact = "", bool _coobserving = false ) { setObserver( _id, _name, _surname, _contact, _coobserving ); }
+       void setObserver( QString _id, QString _name = "", QString _surname= "", QString _contact = "", bool _coobserving = false );
     private:
         QString m_Name, m_Surname, m_Contact, m_Id;
+        bool m_Coobserving;
 };
 #endif

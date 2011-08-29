@@ -2,6 +2,7 @@
 #include "QStandardItemModel"
 #include "kstars/kstars.h"
 #include "kstars/kstarsdata.h"
+#include "kstandarddirs.h"
 #include "oal.h"
 
 ObserverManagerUi::ObserverManagerUi(QWidget *parent) : QFrame(parent)
@@ -29,8 +30,30 @@ ObserverManager::ObserverManager(QWidget *parent) : KDialog(parent),
     connect(mUi->observerTableView, SIGNAL(clicked(QModelIndex)), this, SLOT(showObserver(QModelIndex)));
 }
 
-ObserverManager::~ObserverManager()
-{}
+void ObserverManager::showEnableColumn(bool show)
+{
+    if(!show) {
+        mUi->observerTableView->hideColumn(0);
+    } else {
+        mUi->observerTableView->showColumn(0);
+    }
+}
+
+void ObserverManager::saveToFile()
+{
+    QFile f;
+    f.setFileName(KStandardDirs::locateLocal("appdata", "observerlist.xml"));
+    if (!f.open(QIODevice::WriteOnly)) {
+        KMessageBox::sorry(0, i18n("Could not save the observer list to the file."), i18n("Write Error"));
+        return;
+    }
+    QTextStream ostream(&f);
+    mKstars->data()->logObject()->writeBegin();  //Initialize the xml document, etc.
+    mKstars->data()->logObject()->writeObservers();  //Write the observer list into the QString
+    mKstars->data()->logObject()->writeEnd();  //End the write process
+    ostream << mKstars->data()->logObject()->writtenOutput();
+    f.close();
+}
 
 void ObserverManager::addObserver()
 {
@@ -116,7 +139,7 @@ void ObserverManager::createModel()
         QList<QStandardItem*> row;
         QStandardItem *participatingBox = new QStandardItem;
         participatingBox->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-        participatingBox->setCheckState(Qt::Unchecked);
+        participatingBox->setCheckState(observer->isCoobserving() ? Qt::Checked : Qt::Unchecked);
 
         row << participatingBox << new QStandardItem(observer->name()) << new QStandardItem(observer->surname())
             << new QStandardItem(observer->contact());
@@ -130,15 +153,19 @@ void ObserverManager::createModel()
 
 void ObserverManager::saveChangesToObsList()
 {
-    for(int i = 0; i < mModel->rowCount(); i++) {
-        QList<OAL::Observer*> *obsList = mKstars->data()->logObject()->observerList();
-        qDeleteAll(*obsList);
-        obsList->clear();
+    QList<OAL::Observer*> *obsList = mKstars->data()->logObject()->observerList();
+    qDeleteAll(*obsList);
+    obsList->clear();
 
+    for(int i = 0; i < mModel->rowCount(); i++) {
+        Qt::CheckState enabled = static_cast<Qt::CheckState>(mModel->item(i, 0)->data(Qt::CheckStateRole).toUInt());
         OAL::Observer *observer = new OAL::Observer(i18n("observer_") + QString::number(i),
-                                                    mModel->item(i, 1)->data().toString(),
-                                                    mModel->item(i, 2)->data().toString(),
-                                                    mModel->item(i, 3)->data().toString());
+                                                    mModel->item(i, 1)->data(Qt::DisplayRole).toString(),
+                                                    mModel->item(i, 2)->data(Qt::DisplayRole).toString(),
+                                                    mModel->item(i, 3)->data(Qt::DisplayRole).toString(),
+                                                    enabled == Qt::Checked);
         obsList->append(observer);
     }
+
+    saveToFile();
 }

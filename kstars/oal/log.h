@@ -44,13 +44,19 @@ class OAL::Log {
         void writeBegin();
         void writeGeoDate();
         void writeObservers();
+        void writeUsedObservers();
         void writeSites();
         void writeSessions();
         void writeTargets();
+        void writeUsedTargets();
         void writeScopes();
+        void writeUsedScopes();
         void writeEyepieces();
+        void writeUsedEyepieces();
         void writeLenses();
+        void writeUsedLenses();
         void writeFilters();
+        void writeUsedFilters();
         void writeImagers();
         void writeObservations();
         inline QList<SkyObject *> *targetList() { return &m_targetList; }
@@ -115,6 +121,9 @@ class OAL::Log {
         GeoLocation* geoLocation() { return geo; }
         inline QString writtenOutput() { return output; }
     private:
+        void markUsedObservers();
+        void markUsedEquipment();
+
         QList<SkyObject *> m_targetList;
         QList<OAL::Observer *> m_observerList;
         QList<OAL::Eyepiece *> m_eyepieceList; 
@@ -126,6 +135,13 @@ class OAL::Log {
         QList<OAL::Session *> m_sessionList;
         QList<OAL::Scope *> m_scopeList;
         QList<OAL::Observation *> m_observationList;
+
+        QSet<QString> m_usedObservers;
+        QSet<QString> m_usedEyepieces;
+        QSet<QString> m_usedLens;
+        QSet<QString> m_usedFilters;
+        QSet<QString> m_usedScopes;
+
         QString output;
         bool native;
         dms ra, dec;

@@ -30,6 +30,7 @@
 #include "oal/eyepiece.h"
 #include "oal/lens.h"
 #include "oal/filter.h"
+#include "oal/observermanager.h"
 #include "skyobjects/skyobject.h"
 #include "dialogs/locationdialog.h"
 #include "dialogs/finddialog.h"
@@ -81,6 +82,8 @@ Execute::Execute() {
              this, SLOT( slotShowTargets() ) );
     connect( ui.AddObject, SIGNAL( leftClickedUrl() ),
              this, SLOT( slotAddObject() ) );
+    connect( ui.CoobserversButton, SIGNAL(clicked()),
+             this, SLOT(slotObserverManager()) );
 }
 
 void Execute::init() {
@@ -161,11 +164,11 @@ bool Execute::saveSession() {
         logObject->siteList()->append( site );
     }
     if( currentSession ){
-            currentSession->setSession( currentSession->id(), site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+            currentSession->setSession( currentSession->id(), site->id(), QStringList(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
     } else {
         while( logObject->findSessionByName( i18n( "session_" ) + QString::number( nextSession ) ) )
             nextSession++;
-        currentSession = new OAL::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+        currentSession = new OAL::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), QStringList(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
         logObject->sessionList()->append( currentSession );
     } 
     ui.stackedWidget->setCurrentIndex( 1 ); //Move to the next page
@@ -259,7 +262,7 @@ bool Execute::addObservation() {
 void Execute::slotEndSession() {
     if( currentSession ) {
 
-        currentSession->setSession( currentSession->id(), currentSession->site(), ui.Begin->dateTime(),
+        currentSession->setSession( currentSession->id(), currentSession->site(), QStringList(), ui.Begin->dateTime(),
                                     KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
                                     ui.Comment->toPlainText(), ui.Language->text() );
 
@@ -268,6 +271,17 @@ void Execute::slotEndSession() {
         if( fileURL.isEmpty() ) {
             // Cancel
             return;
+        }
+
+        //Warn user if file exists!
+        if (QFile::exists(fileURL.path()))
+        {
+            int r=KMessageBox::warningContinueCancel(parentWidget(),
+                    i18n( "A file named \"%1\" already exists. Overwrite it?" , fileURL.fileName()),
+                    i18n( "Overwrite File?" ),
+                    KStandardGuiItem::overwrite() );
+            if(r == KMessageBox::Cancel)
+                return;
         }
 
         if( fileURL.isValid() ) {
@@ -367,6 +381,11 @@ void Execute::slotAddObject() {
        }
    }
    delete fd;
+}
+
+void Execute::slotObserverManager() {
+    ks->getObserverManager()->showEnableColumn(true);
+    ks->getObserverManager()->show();
 }
 
 
