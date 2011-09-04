@@ -55,10 +55,15 @@ public:
       * Shows or hides column selecting coobservers.
       * \param show Show column for selection of coobservers?
       */
-    void showEnableColumn(bool show);
+    void showEnableColumn(bool show, const QString &session = QString());
 
     /**
-      * Save current observers to observers.xml file.
+      * Load observers from observerlist.xml file.
+      */
+    void loadFromFile();
+
+    /**
+      * Save current observers to observerlist.xml file.
       */
     void saveToFile();
 
@@ -83,11 +88,17 @@ public slots:
       */
     void showObserver(QModelIndex idx);
 
+    /**
+      *
+      */
+    void setCoobservers();
+
 private:
     void createModel();
     void saveChangesToObsList();
 
     ObserverManagerUi *mUi;
+    QString mCurrentSession;
 
     KStars *mKstars;
     QStandardItemModel *mModel;

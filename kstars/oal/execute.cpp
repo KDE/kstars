@@ -136,6 +136,7 @@ void Execute::slotNext() {
     switch( ui.stackedWidget->currentIndex() ) {
         case 0: {
             saveSession();
+            ui.stackedWidget->setCurrentIndex( 1 );
             break;
         }
         case 1: {
@@ -164,14 +165,18 @@ bool Execute::saveSession() {
         logObject->siteList()->append( site );
     }
     if( currentSession ){
-            currentSession->setSession( currentSession->id(), site->id(), QStringList(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+            currentSession->setSession( currentSession->id(), site->id(), currentSession->coobservers(), ui.Begin->dateTime(),
+                                        ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(),
+                                        ui.Language->text() );
     } else {
         while( logObject->findSessionByName( i18n( "session_" ) + QString::number( nextSession ) ) )
             nextSession++;
-        currentSession = new OAL::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), QStringList(), ui.Begin->dateTime(), ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(), ui.Language->text() );
+        currentSession = new OAL::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), QStringList(), ui.Begin->dateTime(),
+                                           ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(),
+                                           ui.Language->text() );
         logObject->sessionList()->append( currentSession );
     } 
-    ui.stackedWidget->setCurrentIndex( 1 ); //Move to the next page
+
     return true;
 }
 
@@ -254,7 +259,10 @@ bool Execute::addObservation() {
         nextObservation++;
     KStarsDateTime dt = currentSession->begin();
     dt.setTime( ui.Time->time() );
-    OAL::Observation *o = new OAL::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver, currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(), currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(), ui.Language->text() );
+    OAL::Observation *o = new OAL::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver,
+                                                currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(),
+                                                currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(),
+                                                ui.Language->text() );
         logObject->observationList()->append( o );
     ui.Description->clear();
     return true;
@@ -262,7 +270,7 @@ bool Execute::addObservation() {
 void Execute::slotEndSession() {
     if( currentSession ) {
 
-        currentSession->setSession( currentSession->id(), currentSession->site(), QStringList(), ui.Begin->dateTime(),
+        currentSession->setSession( currentSession->id(), currentSession->site(), currentSession->coobservers(), ui.Begin->dateTime(),
                                     KStarsDateTime::currentDateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(),
                                     ui.Comment->toPlainText(), ui.Language->text() );
 
@@ -384,7 +392,8 @@ void Execute::slotAddObject() {
 }
 
 void Execute::slotObserverManager() {
-    ks->getObserverManager()->showEnableColumn(true);
+    saveSession();
+    ks->getObserverManager()->showEnableColumn(true, i18n("session_") + QString::number(nextSession - 1));
     ks->getObserverManager()->show();
 }
 

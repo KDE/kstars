@@ -41,12 +41,13 @@ void OAL::Log::writeBegin() {
 
 QString OAL::Log::writeLog( bool _native ) {
     native = _native;
+    markUsedObservers();
     markUsedEquipment();
 
     writeBegin();
     if( native )
         writeGeoDate();
-    writeObservers();
+    writeUsedObservers();
     writeSites();
     writeSessions();
     writeTargets();
@@ -76,7 +77,8 @@ void OAL::Log::writeObservers() {
 void OAL::Log::writeUsedObservers() {
     writer->writeStartElement( "observers" );
     foreach( OAL::Observer *o, m_observerList ) {
-            writeObserver( o );
+        if( m_usedObservers.contains( o->id() ) )
+        writeObserver( o );
     }
     writer->writeEndElement();
 }
@@ -114,7 +116,7 @@ void OAL::Log::writeScopes() {
 void OAL::Log::writeUsedScopes() {
     writer->writeStartElement("scopes");
     foreach( OAL::Scope *o, m_scopeList ) {
-        if( m_usedScopes.contains( o->id()) )
+        if( m_usedScopes.contains( o->id() ) )
             writeScope( o );
     }
     writer->writeEndElement();
@@ -1060,7 +1062,9 @@ void OAL::Log::markUsedObservers() {
     }
 
     foreach( OAL::Session *session, m_sessionList ) {
-        //m_usedObservers.insert()
+        foreach(QString obs, session->coobservers()) {
+            m_usedObservers.insert(obs);
+        }
     }
 }
 

@@ -38,7 +38,8 @@ class OAL::Session {
        QString lang() const { return m_Lang; }
        void setSession( const QString& _name, const QString& _site, const QStringList& _coobservers, const KStarsDateTime& _begin,
                         const KStarsDateTime& _end, const QString& _weather, const QString& _equipment, const QString& _comment, const QString& _lang = "en" );
-    private:
+       void setCoobservers( const QStringList &_coobservers) { m_Coobservers = _coobservers; }
+   private:
         QString m_Site, m_Weather, m_Equipment, m_Comment, m_Lang, m_Id;
         KStarsDateTime m_Begin, m_End;
         QStringList m_Coobservers;

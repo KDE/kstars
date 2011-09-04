@@ -29,12 +29,12 @@ ObserverManagerUi::ObserverManagerUi(QWidget *parent) : QFrame(parent)
     setupUi(this);
 }
 
-
 ObserverManager::ObserverManager(QWidget *parent) : KDialog(parent),
     mKstars(KStars::Instance()), mModel(0)
 {
     mUi = new ObserverManagerUi(this);
 
+    loadFromFile();
     createModel();
 
     setMainWidget(mUi);
@@ -47,15 +47,29 @@ ObserverManager::ObserverManager(QWidget *parent) : KDialog(parent),
     connect(mUi->saveButton, SIGNAL(clicked()), this, SLOT(saveChanges()));
     connect(mUi->deleteButton, SIGNAL(clicked()), this, SLOT(deleteObserver()));
     connect(mUi->observerTableView, SIGNAL(clicked(QModelIndex)), this, SLOT(showObserver(QModelIndex)));
+    connect(this, SIGNAL(closeClicked()), this, SLOT(setCoobservers()));
 }
 
-void ObserverManager::showEnableColumn(bool show)
+void ObserverManager::showEnableColumn(bool show, const QString &session)
 {
     if(!show) {
+        mCurrentSession.clear();
         mUi->observerTableView->hideColumn(0);
     } else {
+        mCurrentSession = session;
         mUi->observerTableView->showColumn(0);
     }
+}
+
+void ObserverManager::loadFromFile()
+{
+    QFile f;
+    f.setFileName(KStandardDirs::locateLocal("appdata", "observerlist.xml"));
+    if(!f.open(QIODevice::ReadOnly))
+        return;
+    QTextStream istream(&f);
+    mKstars->data()->logObject()->readBegin(istream.readAll());
+    f.close();
 }
 
 void ObserverManager::saveToFile()
@@ -139,6 +153,22 @@ void ObserverManager::showObserver(QModelIndex idx)
 
     mUi->saveButton->setEnabled(true);
     mUi->deleteButton->setEnabled(true);
+}
+
+void ObserverManager::setCoobservers()
+{
+    OAL::Session *session = mKstars->data()->logObject()->findSessionByName(mCurrentSession);
+    if(!session)
+        return;
+
+    QStringList coobserverIds;
+    for(int i = 0; i < mModel->rowCount(); i++) {
+        Qt::CheckState enabled = static_cast<Qt::CheckState>(mModel->item(i, 0)->data(Qt::CheckStateRole).toUInt());
+        if(enabled == Qt::Checked)
+            coobserverIds.append(i18n("observer_") + QString::number(i));
+    }
+
+    session->setCoobservers(coobserverIds);
 }
 
 void ObserverManager::createModel()

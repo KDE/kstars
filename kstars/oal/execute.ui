@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>630</width>
-    <height>514</height>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -96,67 +96,74 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
               <string>Begin:</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
+           <item row="2" column="1">
             <widget class="KDateTimeWidget" name="Begin"/>
            </item>
-           <item row="2" column="0">
+           <item row="3" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
               <string>Weather:</string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
+           <item row="3" column="1">
             <widget class="KTextEdit" name="Weather">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
               <string>Equipment:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="4" column="1">
             <widget class="KTextEdit" name="Equipment">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
+           <item row="5" column="0">
             <widget class="QLabel" name="label_6">
              <property name="text">
               <string>Comments:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="5" column="1">
             <widget class="KTextEdit" name="Comment">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="label_7">
              <property name="text">
               <string>Language:</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="6" column="1">
             <widget class="KLineEdit" name="Language"/>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="CoobserversButton">
+             <property name="text">
+              <string>Select Coobservers...</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
@@ -341,54 +348,54 @@
            <item row="0" column="1">
             <widget class="KComboBox" name="Observer"/>
            </item>
-           <item row="3" column="0">
+           <item row="1" column="0">
             <widget class="QLabel" name="label_11">
              <property name="text">
               <string>Telescope:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="1" column="1">
             <widget class="KComboBox" name="Scope"/>
            </item>
-           <item row="4" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label_12">
              <property name="text">
               <string>Eyepiece:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="2" column="1">
             <widget class="KComboBox" name="Eyepiece"/>
            </item>
-           <item row="5" column="0">
+           <item row="3" column="0">
             <widget class="QLabel" name="label_17">
              <property name="text">
               <string>Lens:</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="3" column="1">
             <widget class="KComboBox" name="Lens"/>
            </item>
-           <item row="6" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_18">
              <property name="text">
               <string>Filter:</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
+           <item row="4" column="1">
             <widget class="KComboBox" name="Filter"/>
            </item>
-           <item row="7" column="0">
+           <item row="5" column="0">
             <widget class="QLabel" name="label_14">
              <property name="text">
               <string>Seeing:</string>
              </property>
             </widget>
            </item>
-           <item row="7" column="1">
+           <item row="5" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_11">
              <item>
               <widget class="KDoubleNumInput" name="Seeing"/>
@@ -402,14 +409,14 @@
              </item>
             </layout>
            </item>
-           <item row="8" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="label_15">
              <property name="text">
               <string>Faintest Star:</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="1">
+           <item row="6" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
               <widget class="KDoubleNumInput" name="FaintestStar"/>
@@ -423,35 +430,25 @@
              </item>
             </layout>
            </item>
-           <item row="9" column="0">
+           <item row="7" column="0">
             <widget class="QLabel" name="label_16">
              <property name="text">
               <string>Time:</string>
              </property>
             </widget>
            </item>
-           <item row="9" column="1">
+           <item row="7" column="1">
             <widget class="QTimeEdit" name="Time"/>
            </item>
-           <item row="10" column="0">
+           <item row="8" column="0">
             <widget class="QLabel" name="label_13">
              <property name="text">
               <string>Description:</string>
              </property>
             </widget>
            </item>
-           <item row="10" column="1">
+           <item row="8" column="1">
             <widget class="KTextEdit" name="Description"/>
-           </item>
-           <item row="2" column="1">
-            <widget class="QWidget" name="coobserversWidget" native="true"/>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="CoobserversButton">
-             <property name="text">
-              <string>Select Coobservers...</string>
-             </property>
-            </widget>
            </item>
           </layout>
          </item>
