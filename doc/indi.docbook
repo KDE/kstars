@@ -4,198 +4,11 @@
 <secondary>Overview</secondary>
 </indexterm>
 
-<para>KStars provides an interface to configure and control astronomical instruments via
+<para>&kstars; provides an interface to configure and control astronomical instruments via
 the <acronym><link linkend="what-is-indi">INDI</link></acronym> protocol.</para>
 
 <para>The <acronym>INDI</acronym> protocol supports a variety of astronomical instruments
-such as CCD cameras and focusers. Currently, KStars supports the following
-devices:</para>
-
-<table id="device-table" pgwide="1" frame="all">
-<title>Supported Telescopes</title>
-<tgroup cols="2" colsep="1" rowsep="1">
-<thead>
-<row>
-<entry>Telescope</entry>
-<entry>Device driver</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>LX200 8"-12" Classic</entry>
-<entry>indi_lx200classic</entry>
-</row>
-<row>
-<entry>Autostar based telescopes</entry>
-<entry>indi_lx200autostar</entry>
-</row>
-<row>
-<entry>LX200 GPS 8"-16"</entry>
-<entry>indi_lx200gps</entry>
-</row>
-<row>
-<entry>LX200 Classic 16"</entry>
-<entry>indi_lx200_16</entry>
-</row>
-<row>
-<entry>NexStar GPS, CGE, AS-GT</entry>
-<entry>indi_celestrongps</entry>
-</row>
-<row>
-<entry>New GT, NexStar 5i/8i</entry>
-<entry>indi_celestrongps</entry>
-</row>
-<row>
-<entry>Takahashi Temma</entry>
-<entry>indi_temma</entry>
-</row>
-<row>
-<entry>Astro-Electronic FS-2</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>Argo Navis</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>Losmandy Gemini</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>Mel Bartels Controllers</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>Sky Commander</entry>
-<entry>indi_skycommander</entry>
-</row>
-<row>
-<entry>Intelliscope/SkyWizard</entry>
-<entry>indi_intelliscope</entry>
-</row>
-<row>
-<entry>Orion Atlas</entry>
-<entry>indi_orion_atlas</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-<table id="focuser-table" pgwide="1" frame="all">
-<title>Supported Focusers</title>
-<tgroup cols="2" colsep="1" rowsep="1">
-<thead>
-<row>
-<entry>Focuser</entry>
-<entry>Device driver</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>Meade LX200GPS Microfocuser</entry>
-<entry>indi_lx200gps</entry>
-</row>
-<row>
-<entry>Meade 1206 Primary Mirror Focuser</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>JMI NGF Series</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>JMI MOTOFOCUS</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>FLI Precision Focuser</entry>
-<entry>indi_fli_pdf</entry>
-</row>
-<row>
-<entry>RoboFocus</entry>
-<entry>indi_robofocus</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-<table id="ccd-table" pgwide="1" frame="all">
-<title>Supported CCDs</title>
-<tgroup cols="2" colsep="1" rowsep="1">
-<thead>
-<row>
-<entry>CCD</entry>
-<entry>Device driver</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>Finger Lakes Instruments CCDs</entry>
-<entry>indi_fli_ccd</entry>
-</row>
-<row>
-<entry>Santa Barbara Instrument CCDs</entry>
-<entry>indi_sbig_ccd</entry>
-</row>
-<row>
-<entry>Apogee CCDs</entry>
-<entry>indi_apogee_alta</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-<table id="filter-table" pgwide="1" frame="all">
-  <title>Supported Filter Wheels</title>
-  <tgroup cols="2" colsep="1" rowsep="1">
-    <thead>
-      <row>
-	<entry>Filter Wheel</entry>
-	<entry>Device driver</entry>
-      </row>
-    </thead>
-    <tbody>
-      <row>
-	<entry>FLI Filter Wheels</entry>
-	<entry>indi_fli_wheel</entry>
-      </row>
-      <row>
-	<entry>True Technology Wheel</entry>
-	<entry>indi_trutech_wheel</entry>
-      </row>
-
-    </tbody>
-  </tgroup>
-  </table>
-  
-<table id="video-table" pgwide="1" frame="all">
-<title>Supported Webcams</title>
-<tgroup cols="2" colsep="1" rowsep="1">
-<thead>
-<row>
-<entry>Webcam</entry>
-<entry>Device driver</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>Any Video4Linux compatible device</entry>
-<entry>indi_v4l_generic</entry>
-</row>
-<row>
-<entry>Philips webcam</entry>
-<entry>indi_v4l_philips</entry>
-</row>
-<row>
-<entry>Meade Lunar Planetary Imager</entry>
-<entry>indi_meade_lpi</entry>
-</row>
-<row>
-<entry>SBIG STV</entry>
-<entry>indi_sbig_stv</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
+  such as CCD cameras and focusers. For an up to date list of supported devices, please visit <acronym>INDI</acronym> <ulink url="http://indilib.org/index.php?title=Devices">supported devices page</ulink>.</para>
 
 <sect1 id="indi-kstars-setup">
 <title>INDI Setup</title>
@@ -203,7 +16,7 @@ devices:</para>
 <secondary>Setup</secondary>
 </indexterm>
 <para>
-KStars can control local and remote devices seamlessly via the <link linkend="what-is-indi">INDI</link> server/client architecture. INDI devices may be run in three different modes:</para>
+&kstars; can control local and remote devices seamlessly via the <link linkend="what-is-indi">INDI</link> server/client architecture. INDI devices may be run in three different modes:</para>
 
 <orderedlist>
 <listitem><para>Local: The local mode is the most common and is used to control local device (&ie; a device attached to your machine).</para></listitem>
@@ -228,7 +41,7 @@ window:</para>
 </mediaobject>
 </screenshot>
 
-<para>You can run devices by browsing the device tree, selecting a specific device, and then clicking on the <guibutton>Run Service button</guibutton>. You can select the operation mode, either local or server as defined above.</para>
+<para>You can run devices by browsing the device tree, selecting a specific device, and then clicking on the <guibutton>Run Service</guibutton> button. You can select the operation mode, either local or server as defined above. The port number is randomly generated between the range from 7624 to 10,000. To specify a port, click on the port column next to the desired driver. &kstars; allows multiple drivers to run under one INDI server, and hence one port. Select multiple drivers then press <guibutton>Run Service</guibutton> button.</para>
 
 <para>To control remove devices, refer to the <link linkend="indi-remote-control">remote device control</link> section.</para>
 </sect1>
@@ -258,20 +71,23 @@ telescope manual.</para>
 
 <para>&kstars; needs to verify time and location settings before connecting to the telescope. This insures proper tracking and synchronization between the telescope and &kstars;. The following steps will enable you to connect to a device that is connected to your computer. To connect and control remote devices, please refer to <link linkend="indi-remote-control">remote device control</link> section.</para>
 
-<para>You can use the Telescope Setup Wizard and it will verify all the required information in the process. It can automatically scan ports for attached telescopes. You can run the wizard by selecting <guimenuitem>Telescope Setup Wizard</guimenuitem> from the <guimenu>Devices</guimenu> menu.</para>
+<para>You can use the Telescope Setup Wizard and it will verify all the required information in the process. It can automatically scan ports for attached telescopes. You can run the wizard by selecting <guimenuitem>Telescope Wizard</guimenuitem> from the <guimenu>Devices</guimenu> menu.</para>
 
 <para>Alternatively, you can connect to a local telescope by performing the following
 steps:</para>
 
 <orderedlist>
-<listitem><para>Set your geographical location. Open the <guilabel>Geographic...</guilabel> window by selecting
-<guimenuitem>Set Geographic Location...</guimenuitem> from the
+<listitem><para>Set your geographical location. Open the <guilabel>Set Geographic Location</guilabel> window by selecting
+<guimenuitem>Geographic...</guimenuitem> from the
 <guimenu>Settings</guimenu> menu, or by pressing the <guiicon>Globe</guiicon> icon in the toolbar, or by pressing <keycombo
 action="simul">&Ctrl;<keycap>G</keycap></keycombo>.</para>
 </listitem>
 <listitem><para>Set your local time and date. You can change to any time or
 date by selecting <guimenuitem>Set Time...</guimenuitem> from the <guimenu>Time</guimenu> menu, or by
-pressing the <guiicon>time</guiicon> icon in the toolbar. The <guilabel>Set Time</guilabel> window uses a standard &kde; Date Picker widget, coupled with three spinboxes for setting the hours, minutes and seconds. If you ever need to reset the clock back to the current time, just select <guimenuitem>Set Time to Now</guimenuitem> from the <guimenu>Time</guimenu> menu.</para>
+pressing the <guiicon>time</guiicon> icon in the toolbar. The <guilabel>Set 
+Time</guilabel> window uses a standard &kde; Date Picker widget. If you ever 
+need to reset the clock back to the current time, just select <guimenuitem>Set 
+Time to Now</guimenuitem> from the <guimenu>Time</guimenu> menu.</para>
 </listitem>
 <listitem>
 <para>Click on the <guimenu>Devices</guimenu> menu and select the
@@ -281,11 +97,10 @@ pressing the <guiicon>time</guiicon> icon in the toolbar. The <guilabel>Set Time
 <para>Under the <guilabel>Device</guilabel> column, select your telescope model.</para>
 </listitem>
 <listitem>
-<para> <mousebutton>Right</mousebutton>-click on the device and select
-<guilabel>Run Service</guilabel>.</para>
+<para>Click on the <guibutton>Run Service</guibutton> button.</para>
 </listitem>
 <listitem>
-<para>Click <guibutton>Ok</guibutton> to close the Device Manager
+<para>Click <guibutton>Close</guibutton> to leave the Device Manager
 Dialog.</para>
 </listitem>
 </orderedlist>
@@ -333,7 +148,8 @@ affecting the operation of other devices.
 </listitem>
 <listitem>
 <para>
-<guilabel>Property view</guilabel>: Properties are the key element in INDI
+Property views on the <guilabel>Main Control</guilabel> and <guilabel>Options</guilabel> 
+tabs: Properties are the key element in INDI
 architecture. Each device defines a set of properties to communicate with
 the client. The current position of the telescope is an example of a
 property. Semantically similar properties are usually contained in logical
@@ -342,7 +158,9 @@ blocks or groupings.
 </listitem>
 <listitem>
 <para>
-<guilabel>Log viewers</guilabel>: Devices report their status and acknowledge commands by sending INDI messages. Each device has its own log view, and all devices share one generic log viewer. A device usually sends messages to its device driver only, but a device is permitted to send a generic message when appropriate.
+<guilabel>Log viewer</guilabel>: Devices report their status and acknowledge commands 
+by sending INDI messages. Each device has its own log view. A device usually sends 
+messages to its device driver only, but a device is permitted to send a generic message when appropriate.
 </para>
 </listitem>
 </itemizedlist>
@@ -363,7 +181,7 @@ and vice versa.</para>
 <para>To connect to your telescope, you can either select <guimenuitem>Connect</guimenuitem> from your device popup menu or
 alternatively, you can press <guibutton>Connect</guibutton> under your device tab in the <guilabel>INDI Control Panel</guilabel>.</para>
 
-<important><para>By default, KStars will try to connect to the <constant>/dev/ttyS0</constant>
+<important><para>By default, &kstars; will try to connect to the <constant>/dev/ttyS0</constant>
 port. To change the connection port, select <guilabel>INDI Control Panel</guilabel> from the <guimenu>Devices</guimenu> menu and change the port under your device tab.</para></important>
 
 <para>&kstars; automatically updates the telescope's longitude, latitude, and
@@ -395,21 +213,9 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <secondary>Setup</secondary>
 </indexterm>
 
-<para>KStars supports the following imaging devices:</para>
-<itemizedlist>
-  <listitem><para>Finger Lakes instruments CCDs</para></listitem>
-  <listitem><para>SBIG CCDs: In order to use SBIG CCDs, you must download and install the Universal SBIG Driver library from <ulink url="http://indi.sourceforge.net">INDI</ulink> website.</para></listitem>
-  <listitem><para>Apogee CCDs: Only USB versions are supported. You must have libusb installed.</para></listitem>
-  <listitem><para><ulink url="http://www.exploits.org/v4l/">Video4Linux</ulink> compatible devices. Philips webcam extended features are supported as well.</para></listitem>
-</itemizedlist>
-
 <para>You can run CCD and Video Capture devices from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu. Like all INDI devices, some of the device controls will be accessible from the skymap. The device can be controlled fully from the <guimenuitem>INDI Control Panel.</guimenuitem></para>
 
-<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the KStars <link linkend="tool-fitsviewer">FITS Viewer</link>. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
-
-<important>
-<para>The fli and apogee drivers requires root privileges in order to operate properly. Note that running the driver as root is considered a security risk.</para>
-</important>
+<para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link>. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
 </sect1>
 
 <sect1 id="indi-capture">
@@ -444,12 +250,12 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
    <listitem><para>Filter</para>
       <itemizedlist>
           <listitem><para><option>Device:</option> The desired filter device.</para></listitem>
-          <listitem><para><option>Filter:</option> The desired filter slot. You can assign color values to slot numbers using the <link linkend="indi-configure">Configure INDI</link> window (e.g. Slot #1 = Red, Slot #2 = Blue..etc).</para></listitem>          
+          <listitem><para><option>Filter:</option> The desired filter slot. You can assign color values to slot numbers using the <link linkend="indi-configure">INDI</link> page (e.g. Slot #1 = Red, Slot #2 = Blue..etc).</para></listitem>          
        </itemizedlist>
    </listitem>
 </itemizedlist>
 
-<para>After you fill in the desired options, you can begin the capture procedure by pressing the <guibutton>Start</guibutton> button. You may cancel at any time using the <guibutton>Stop</guibutton> button. All captured images will be saved to the default FITS directory which can be specified in the <link linkend="indi-configure">Configure INDI</link> window.</para>
+<para>After you fill in the desired options, you can begin the capture procedure by pressing the <guibutton>Start</guibutton> button. You may cancel at any time using the <guibutton>Stop</guibutton> button. All captured images will be saved to the default FITS directory which can be specified in the <link linkend="indi-configure">INDI</link> page of the settings dialog.</para>
 
 <para>If you have more complex capturing requirements and conditions to fulfil, it is recommended to create a script to meet your specific needs using the <link linkend="tool-scriptbuilder">Script Builder</link> tool in the <guimenu>Tools</guimenu> menu.</para>
 </sect1>
@@ -460,15 +266,15 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <secondary>INDI</secondary>
 </indexterm>
 
-<para>The Configure INDI window allows you to modify <emphasis>Client side</emphasis> INDI specific options. The window is divided into four main categories: General, Automatic device updates, Display, and Filter Wheel:</para>
+<para>The INDI page allows you to modify <emphasis>Client side</emphasis> INDI specific options. The window is divided into several main categories: General, Automatic device updates, Display, Update Source, Filter Wheel and Server Port:</para>
 
  <itemizedlist>
    <listitem><para>General</para>
       <itemizedlist>
          <listitem><para><option>Default FITS directory:</option> Specify the directory where all captured FITS images will be saved to. If no directory is specified, images will be stored in $HOME.</para></listitem>
-         <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, KStars will display captured FITS in KStars <link linkend="tool-fitsviewer">FITS Viewer</link> tool. If you use the <link linkend="indi-capture">Capture Image Sequence</link> tool, all captured images will be saved to disk regardless of this option.</para></listitem>
-         <listitem><para><option>Telescope port:</option> The default telescope port. When you connect to a local or remote telescope service, KStars will automatically fill the telescope's device port with the specified default port.</para></listitem>
-         <listitem><para><option>Video port:</option> The default video port. When you connect to a local or remote video service, KStars will automatically fill the webcam's device port with the specified default port.</para></listitem>
+         <listitem><para><option>Telescope port:</option> The default telescope port. When you connect to a local or remote telescope service, &kstars; will automatically fill the telescope's device port with the specified default port.</para></listitem>
+         <listitem><para><option>Video port:</option> The default video port. When you connect to a local or remote video service, &kstars; will automatically fill the webcam's device port with the specified default port.</para></listitem>
+	 <!-- INDI Server + INDI Drivers Directory-->
       </itemizedlist>
    </listitem>
    <listitem><para>Automatic device updates</para>
@@ -479,11 +285,18 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
    </listitem>
    <listitem><para>Display</para>
     <itemizedlist>
-     <listitem><para><option>Device target crosshair:</option> When checked, KStars displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. KStars displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure KStars</link> window. Select the <guilabel>Colors</guilabel> tab, and then change the color of the <emphasis>Target Indicator</emphasis> item to the desired color.</para></listitem>
-     <listitem><para><option>INDI messages in status bar:</option> When checked, KStars displays INDI status messages in the KStars status bar.</para></listitem>
+     <listitem><para><option>Device target crosshair:</option> When checked, &kstars; displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure &kstars;</link> window. Select the <guilabel>Colors</guilabel> tab, and then change the color of the <emphasis>Target Indicator</emphasis> item to the desired color.</para></listitem>
+     <listitem><para><option>INDI messages in status bar:</option> When checked, &kstars; displays INDI status messages in the &kstars; status bar.</para></listitem>
+     <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, &kstars; will display captured FITS in &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link> tool. If you use the <link linkend="indi-capture">Capture Image Sequence</link> tool, all captured images will be saved to disk regardless of this option.</para></listitem>
     </itemizedlist>
    </listitem>
+  <listitem><para>Update Source: Synchronize &kstars; according to either the 
+    computer or device time and location settings.</para>
+  </listitem>
   <listitem><para>Filter Wheel: Assign color codes to the filter wheel slots (e.g. Slot #0 Red, Slot #1 Blue..etc). You can assign color codes for up to 10 filter slots (0 to 9). To assign a color code, select a slot number from the drop down combo box, and then type the corresponding color code in the edit field. Repeat the process for all desired slots and then press OK.</para>
+  </listitem>
+  <listitem><para>Server Port: Specify range of ports that INDI Server 
+    will bind to when starting new drivers.</para>
   </listitem>
   </itemizedlist>
 
@@ -504,7 +317,7 @@ The main key concept in INDI is that devices have the ability to describe themse
 <listitem><para>Light property (Represented in GUI by colored LEDs).</para></listitem>
 </itemizedlist>
 
-<para>For example, all INDI devices share the CONNECTION standard switch <emphasis>property</emphasis>. The CONNECTION property has two elements: CONNECT and DISCONNECT switches. KStars parses the generic XML description of properties and builds a GUI representation suitable for direct human interaction.</para>
+<para>For example, all INDI devices share the CONNECTION standard switch <emphasis>property</emphasis>. The CONNECTION property has two elements: CONNECT and DISCONNECT switches. &kstars; parses the generic XML description of properties and builds a GUI representation suitable for direct human interaction.</para>
 
 <para>The INDI control panel offers many device properties not accessible from the sky map. The properties offered differ from one device to another. Nevertheless, all properties share common features that constrains how they are displayed and used:</para>
 
@@ -578,7 +391,7 @@ convenience. For example, all the following numbers are equal:</para>
 </listitem>
 <listitem>
 <para>
-Time: The standard time for all INDI-related communications is Universal Time UTC specified as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the correct UTC time with device drivers automatically. You can enable/disable automatic time updates from the <guimenuitem>Configure INDI</guimenuitem> dialog under the <guimenu>Devices</guimenu> menu.
+Time: The standard time for all INDI-related communications is Universal Time UTC specified as YYYY-MM-DDTHH:MM:SS in accord with ISO 8601. &kstars; communicates the correct UTC time with device drivers automatically. You can enable/disable automatic time updates from the <guimenuitem>INDI</guimenuitem> page in the settings dialog.
 </para>
 </listitem>
 </itemizedlist>
@@ -590,7 +403,7 @@ Time: The standard time for all INDI-related communications is Universal Time UT
 <secondary>Remote Devices</secondary>
 </indexterm>
 
-<para>KStars provides a simple yet powerful layer for remote device control.
+<para>&kstars; provides a simple yet powerful layer for remote device control.
 A detailed description of the layer is described in the INDI <ulink
 url="http://www.clearskyinstitute.com/INDI/INDI.pdf">white
 paper</ulink>.</para>
@@ -632,7 +445,7 @@ exactly as described in the <link linkend="indi-kstars-setup">local/server</link
 </para>
 
 <para>
-Since INDI is an independent backend component, you can run an INDI server on a host without KStars. INDI can be compiled separately to run on remote hosts. Furthermore, device drivers log messages to <constant>stderr</constant> and that can be helpful in a debugging situation.  The syntax for INDI server is
+Since INDI is an independent backend component, you can run an INDI server on a host without &kstars;. INDI can be compiled separately to run on remote hosts. Furthermore, device drivers log messages to <constant>stderr</constant> and that can be helpful in a debugging situation.  The syntax for INDI server is
 as following:</para>
 
 <para>$ <command>indiserver</command> [options] [<filename>driver</filename>
@@ -686,7 +499,7 @@ following command:</para>
 <answer>
 <para> <acronym>INDI</acronym> is the <ulink url="http://indi.sourceforge.net"> Instrument-Neutral-Distributed-Interface</ulink> control protocol developed by <author><firstname>Elwood</firstname><surname>C.
 Downey</surname></author> of <ulink url="http://www.clearskyinstitute.com/">ClearSky Institute</ulink>. &kstars; employs device drivers that are compatible with the INDI protocol. INDI has many advantages including loose coupling between hardware devices and
-software drivers. Clients that use the device drivers (like &kstars;) are completely unaware of the device capabilities. In run time, &kstars; communicates with the device drivers and builds a completely dynamical GUI based on services provided by the device. Therefore, new device drivers can be written or updated and KStars can take full advantage of them without any changes on the client side.</para>
+software drivers. Clients that use the device drivers (like &kstars;) are completely unaware of the device capabilities. In run time, &kstars; communicates with the device drivers and builds a completely dynamical GUI based on services provided by the device. Therefore, new device drivers can be written or updated and &kstars; can take full advantage of them without any changes on the client side.</para>
 </answer>
 </qandaentry>
 
@@ -708,12 +521,25 @@ please send an email to <email>indi-devel@lists.sourceforge.net</email>
 <qandaentry>
 <question>
 <para>
-What operations does KStars provide to control the telescope?
+What operations does &kstars; provide to control the telescope?
 </para>
 </question>
 <answer>
 <para>
 It depends on the particular telescope you're running, but the minimum three operations are <command>Slew</command>, <command>Track</command>, and <command>Sync</command>, which you can issue directly from the sky map. Your telescope must be aligned for those operations to perform correctly. Some telescopes offer you more operations like site management, slew modes, focusing, parking, and more. You can access the telescopes extended features from the INDI Control Panel in the Devices Menu.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+Can I use &kstars; to do guiding?
+</para>
+</question>
+<answer>
+<para>
+  Currently, there are no plans to support guiding in &kstars;. Users may utilize <ulink url="http://code.google.com/p/open-phd-guiding/">OpenPHD Guiding</ulink> as it is compatible with &kstars; and INDI.
 </para>
 </answer>
 </qandaentry>

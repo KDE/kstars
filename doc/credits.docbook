@@ -3,7 +3,7 @@
 
 <para>&kstars;</para>
 <para>
-Program copyright 2001-2003 The &kstars; Team <email>kstars@30doradus.org</email>
+Program copyright 2001-2009 The &kstars; Team <email>kstars@30doradus.org</email>
 </para>
 
 <para>
@@ -32,6 +32,7 @@ Data Sources:
 <listitem>
 <para>Object catalogs and planet position tables: <ulink
 url="http://adc.gsfc.nasa.gov">NASA Astronomical Data Center</ulink></para>
+<!-- broken link in 4.7-->
 </listitem>
 <listitem>
 <para>Detailed credit information for all of the images used in the program

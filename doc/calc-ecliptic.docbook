@@ -22,13 +22,12 @@ The Ecliptic Coordinates calculator module
 <para>
 This module converts between <link linkend="equatorial">Equatorial
 coordinates</link> and <link linkend="ecliptic">Ecliptic
-coordinates</link>.  First, select which coordinates
-should be taken as input values in the <guilabel>Choose Input
-Coordinates</guilabel> section.  Then, fill in the corresponding
-coordinate values in either the <guilabel>Ecliptic
-coordinates</guilabel> or <guilabel>Equatorial coordinates</guilabel>
-section.  Finally, press the <guibutton>Compute</guibutton> button,
-and the complementary coordinates will be filled in.
+coordinates</link>.  First, select <guilabel>Date &amp; time</guilabel>. 
+Then, fill in the coordinate values in either the <guilabel>Ecliptic
+Coordinates</guilabel> or <guilabel>Equatorial Coordinates</guilabel>
+section.  Alternatively set the equatorial coordinates by selecting an 
+object using the <guilabel>Find Object</guilabel> dialog. 
+Then the complementary coordinates will be filled in.
 </para>
 <para>
 The module contains a batch mode for converting several coordinate

@@ -22,14 +22,13 @@ The Planet Coordinates calculator module
 <para>
 The Planet Coordinates module computes positional data for 
 any major solar system body, for any time and date and any 
-geographic location.  Simply select the <guilabel>solar 
+geographic location.  Simply select the <guilabel>Solar 
 system body</guilabel> from the drop-down list, and specify 
 the desired date, time, and geographic coordinates (these 
 values are preset to the current &kstars; settings).  Then 
-press the <guibutton>Compute</guibutton> button to determine 
 the <link linkend="equatorial">Equatorial</link>, <link 
 linkend="horizontal">Horizontal</link>, and <link 
-linkend="ecliptic">Ecliptic</link> coordinates of the body.
+linkend="ecliptic">Ecliptic</link> coordinates of the body are computed and displayed.
 </para>
 <para>
 There is a batch mode for this module.  You must construct 

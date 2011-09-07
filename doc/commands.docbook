@@ -54,7 +54,7 @@ dialog to download additional data for &kstars;.
 <guimenu>File</guimenu>
 <guimenuitem>Run Script...</guimenuitem>
 </menuchoice></term>
-<listitem><para>Run the specified KStars script
+<listitem><para>Run the specified &kstars; script
 </para></listitem>
 </varlistentry>
 <!-- not in 4.7
@@ -322,11 +322,14 @@ object.</para></listitem>
 <link linkend="equatorial">Equatorial</link>
 <link linkend="ai-skycoords">Coordinate Systems</link></para></listitem>
 </varlistentry>
+
+<!-- Projection with 6 subitems are missing -->
+
 </variablelist>
 </sect2>
 
 <sect2 id="devicemenu">
-  <title><guimenu>Devices</guimenu> Menu</title> <!-- to be checked for 4.7-->
+  <title><guimenu>Devices</guimenu> Menu</title> 
 
 <variablelist>
 
@@ -338,14 +341,6 @@ object.</para></listitem>
 <listitem><para>Opens the <guilabel>Telescope Wizard</guilabel>, which
 provides a step-by-step guide to help you connect to your telescope and
 control it with &kstars;.</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Devices</guimenu>
-<guimenuitem>Capture Image Sequence...</guimenuitem>
-</menuchoice></term>
-<listitem><para>Acquire images from a CCD camera or webcam device</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -367,11 +362,19 @@ control it with &kstars;.</para></listitem>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Devices</guimenu>
+<guimenuitem>Capture Image Sequence...</guimenuitem>
+</menuchoice></term>
+<listitem><para>Acquire images from a CCD camera or webcam device</para></listitem>
+</varlistentry>
+<!-- in 4.7 this is a page in the settings dialog
+<varlistentry>
+<term><menuchoice>
+<guimenu>Devices</guimenu>
 <guimenuitem>Configure INDI</guimenuitem>
 </menuchoice></term>
 <listitem><para>Opens up a dialog to configure INDI-related features such as automatic device updates.</para></listitem>
 </varlistentry>
-
+-->
 </variablelist>
 </sect2>
 
@@ -554,16 +557,6 @@ Flags
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guisubmenu>Toolbars</guisubmenu>
-<guimenuitem>Hide/Show Main Toolbar</guimenuitem>
-</menuchoice></term>
-<listitem><para>Toggle display of the Main Toolbar
-</para></listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
 <guisubmenu>Toolbars Shown</guisubmenu>
 </menuchoice></term>
 <listitem><para>Toggle display of the Main and View Toolbar
@@ -657,6 +650,9 @@ location</link>
 <listitem><para>Modify <link linkend="config">configuration
 options</link></para></listitem>
 </varlistentry>
+
+<!-- Startup Wizard missing-->
+ 
 </variablelist>
 </sect2>
 
@@ -700,7 +696,7 @@ date are shown on the next three lines.
 <varlistentry>
 <term>[All]</term>
 <listitem><para>
-<guimenuitem>Center and Track</guimenuitem>: Center the display
+<guimenuitem>Center &amp; Track</guimenuitem>: Center the display
 on this location, and engage tracking.  Equivalent to double-clicking.
 </para></listitem>
 </varlistentry>
@@ -710,13 +706,14 @@ on this location, and engage tracking.  Equivalent to double-clicking.
 <listitem><para>
 <guimenuitem>Angular Distance To...</guimenuitem>: Enter "angular distance
 mode".  In this mode, a dotted line is drawn from the first target object
-to the current mouse position.  When you invoke the popup menu of a second
-object, this item will read <guilabel>Compute Angular Distance</guilabel>.
-Selecting this item will display the angular distance between the two
-objects in the statusbar.  You can press the &Esc; key to
+to the current mouse position.  When you click with the &RMB; on a second
+object, this  will display the angular distance between the two
+objects near the second object.  You can press the &Esc; key to
 exit angular distance mode without measuring an angle.
 </para></listitem>
 </varlistentry>
+
+<!-- Starhop from here missing-->
 
 <varlistentry>
 <term>[All]</term>
@@ -725,8 +722,6 @@ exit angular distance mode without measuring an angle.
 <link linkend="tool-details">Object Details window</link> for this object.
 </para></listitem>
 </varlistentry>
-
-<!-- Starhop from here missing-->
 
 <varlistentry>
 <term>[All]</term>
@@ -899,7 +894,7 @@ Point (straight up)</para></listitem>
 
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo></term>
-<listitem><para>Run a &kstars; DBus script</para></listitem>
+<listitem><para>Run a &kstars; &DBus; script</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -953,14 +948,12 @@ object which was clicked on (identified in the status bar).  Alternatively,
 if you hold down the &Shift; key, then the action is 
 performed on the centered object instead.</para>
 
-<!-- FIXME: this feature does not exist yet; to be added after feature thaw
 <variablelist>
 <varlistentry>
 <term><keycap>C</keycap></term>
 <listitem><para>Center and Track on the selected object</para></listitem>
 </varlistentry>
--->
-<variablelist>
+
 <varlistentry>
 <term><keycap>D</keycap></term>
 <listitem><para>Open the Details window for the selected object</para></listitem>
@@ -1006,10 +999,10 @@ for specifying RA/Dec or Az/Alt coordinates on which to center</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><keycap>[</keycap> / <keycap>]</keycap></term>
-<listitem><para>Start/End an Angular Distance measurement at the current mouse 
+<term><keycap>[</keycap></term>
+<listitem><para>Start an Angular Distance measurement at the current mouse 
 cursor position.  The angular distance between start and end points is displayed 
-in the statusbar.</para></listitem>
+at the endpoint.</para></listitem>
 </varlistentry>
 
 <varlistentry>

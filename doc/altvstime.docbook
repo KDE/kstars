@@ -33,7 +33,7 @@ add the curve of an existing object is to simply type its name in the
 <guilabel>Name</guilabel> input field, and press Enter, or the
 <guibutton>Plot</guibutton> button.  If the text you enter is found in
 the object database, the object's curve is added to the graph.  You
-can also press the <guibutton>Browse</guibutton> button to open the
+can also press the <guibutton>Find Object</guibutton> button to open the
 <link linkend="findobjects">Find Object Window</link> to select an
 object from the list of known objects.  If you want to add a point
 that does not exist in the object database, simply enter a name for
@@ -68,7 +68,7 @@ you can press the <guibutton>Choose City...</guibutton> button to open
 the <link linkend="setgeo">Set Geographic Location</link> Window, or
 enter Longitude and Latitude values manually in the input fields, and
 press the <guibutton>Update</guibutton> button.  To change the Date,
-use the <guilabel>Date</guilabel> picker widget, then press
+use the spin and combo boxes, then press
 <guibutton>Update</guibutton>.  Note that any curves you had already
 plotted will be automatically updated when you change the Date and/or
 Location.

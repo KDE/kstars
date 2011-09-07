@@ -73,6 +73,7 @@ validated and passed the <abbrev>AAVSO</abbrev>'s strict quality control
 measures. We will be glad to give you good raw data simply by requesting 
 it at <ulink url="http://www.aavso.org/adata/onlinedata/">http://www.aavso.org/adata/onlinedata/</ulink>.
 </para>
+<!-- broken link in 4.7 -->
 <para>
 Specific questions about the data in the light curves can be sent to 
 <email>aavso@aavso.org</email>. 
@@ -155,7 +156,7 @@ be expanded further back in time in the future.</para></listitem>
 <sect2 id="aavso-update">
 <title>Updating your local copy of Variable Stars</title>
 <para>
-The <abbrev>AAVSO</abbrev> publishes the 
+The <abbrev>AAVSO</abbrev> publishes the <!-- broken link in 4.7 -->
 <ulink url="http://www.aavso.org/valnam.txt">full list of variable
 stars</ulink> in their monitoring program.  This file is updated 
 monthly with newly discovered variable stars.  To sync the list that 

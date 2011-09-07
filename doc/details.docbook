@@ -30,7 +30,8 @@ The window is divided into a number of Tabs.  In the
 <guilabel>General</guilabel> Tab, we present basic data about
 the current object.  This includes names and catalog designations,
 object type, and <link linkend="ai-magnitude">magnitude</link>
-(brightness).  Also shown are the object's Equatorial and Horizontal
+(brightness).  On the <guilabel>Position</guilabel> tab 
+are the object's Equatorial and Horizontal
 coordinates, as well as its rise, set and transit times.
 </para>
 <para>
@@ -54,12 +55,15 @@ You can also modify or remove any link using the
 <guibutton>Edit Link...</guibutton> and
 <guibutton>Remove Link...</guibutton> buttons.
 </para>
+<!-- no Advanced tab for 
+an unnamed star or 
+if advinterface file failed loading or
+for solar system objects -->
 <para>
-The <guilabel>Advanced</guilabel> Tab allows you to query professional
+The <guilabel>Advanced</guilabel> Tab (not available for all objects) allows you to query professional
 astronomical databases on the internet for information regarding the
-current object.  To use these databases, simply highlight the
-desired database in the list, and press the <guibutton>View</guibutton>
-button to see the results of your query in a web browser window.  The
+current object.  To use these databases, double click on the 
+desired database in the list to see the results of your query in a web browser window.  The
 query is made using the primary name of the object you clicked on to
 open the Details Dialog.  The following databases are available for
 querying:
@@ -104,6 +108,7 @@ from any of these surveys, centered on the selected object.
 </para></listitem>
 </itemizedlist>
 </para>
+
 <para>
 Finally, in the <guilabel>Log</guilabel> Tab, you can type in some text
 that will remain associated with this object's Details window.

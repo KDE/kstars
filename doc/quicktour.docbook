@@ -21,7 +21,7 @@ Here is a screenshot of the &kstars; main window:
 </screenshot>
 
 <para>
-The above screenshot shows a typical view of the KStars program.  You
+The above screenshot shows a typical view of the &kstars; program.  You
 can see the sky display centered on Betelgeuse, the brightest star in
 the constellation Orion.  Orion has just risen above the eastern horizon.
 Stars are displayed with <link linkend="ai-colorandtemp">realistic
@@ -45,7 +45,7 @@ Right Ascension/Declination and Azimuth/Altitude) of the mouse cursor.
 <title>The Setup Wizard</title>
 <para>
 <indexterm><primary>Setup Wizard</primary></indexterm>
-The first time you run KStars, you will be presented with a Setup Wizard,
+The first time you run &kstars;, you will be presented with a Setup Wizard,
 which allows you to easily set your geographic location and download some
 extra data files.  You can press the <guilabel>OK</guilabel> button
 at any time to exit the Setup Wizard.
@@ -189,14 +189,14 @@ menu</link>.
 The top section contains some lines of information which are not
 selectable: the object's names ("M 42"; "Orion Nebula"),
 object type ("gaseous nebula"), and the constellation
-which contains the object ("Ori").  The next three lines show the 
+which contains the object ("Orion").  The next three lines show the 
 object's rise, set, and transit times.  If the rise and set times 
 say "circumpolar", it means that the object is always above the 
 horizon for the present location.
 </para>
 <para>
 The middle section contains actions which can be performed on the
-selected object, such as <guimenuitem>Center and Track</guimenuitem>,
+selected object, such as <guimenuitem>Center &amp; Track</guimenuitem>,
 <guimenuitem>Details...</guimenuitem>, and
 <guimenuitem>Attach Label</guimenuitem>.  See the <link 
 linkend="popup-menu">popup menu description</link> for a full list 
@@ -209,7 +209,9 @@ and description of each action.
 The bottom section contains links to images and/or informative webpages
 about the selected object.  If you know of an additional &URL; with
 information or an image of the object, you can add a custom link to the
-object's popup menu using the <guimenuitem>Add Link...</guimenuitem>
+object's popup menu. Use the <guimenuitem>Details</guimenuitem> item in 
+the popup menu to open the <guilabel>Object Details</guilabel> dialog. 
+On the <guilabel>Link</guilabel> tab use the <guimenuitem>Add Link...</guimenuitem> 
 item.
 </para>
 </sect2>
@@ -268,11 +270,11 @@ in the <guilabel>Guides</guilabel> settings page, or by pressing the
 &kstars; will automatically begin tracking on an object whenever one
 is centered in the display, either by using the <guilabel>Find
 Object</guilabel> window, by double-clicking on it, or by
-selecting <guimenuitem>Center and Track</guimenuitem> from its
+selecting <guimenuitem>Center &and; Track</guimenuitem> from its
 <mousebutton>right</mousebutton>-click popup menu.  You can disengage
-tracking by panning the display, pressing the <guiicon>Lock</guiicon>
-icon in the Main toolbar, or selecting <guimenuitem>Track
-Object</guimenuitem> from the <guimenu>Pointing</guimenu> menu.
+tracking by panning the display, pressing the <guiicon>Stop Tracking</guiicon>
+icon in the Main toolbar, or selecting <guimenuitem>Stop Tracking</guimenuitem> 
+from the <guimenu>Pointing</guimenu> menu.
 </para>
 
 <note>
@@ -344,7 +346,7 @@ object across the sky (only applicable to Solar System bodies)
 
 <note>
 <para>
-By holding down the &Alt; key, you can perform 
+By holding down the &Shift; key, you can perform 
 these actions on the centered object, rather than the selected 
 object.
 </para>
