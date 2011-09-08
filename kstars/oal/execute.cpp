@@ -157,7 +157,7 @@ void Execute::slotNext() {
 }
 
 bool Execute::saveSession() {
-    OAL::Site *site = logObject->findSiteByName( geo->fullName() ); 
+    OAL::Site *site = logObject->findSiteByName( geo->name() );
     if( ! site ) {
         while( logObject->findSiteById( i18n( "site_" ) + QString::number( nextSite ) ) )
             nextSite++;
