@@ -21,8 +21,6 @@
 
 #include <QFile>
 
-#include <kstandarddirs.h>
-
 #include "kstarsdata.h"
 #include "oal/oal.h"
 #include "oal/scope.h"
@@ -48,7 +46,9 @@ EquipmentWriter::EquipmentWriter() {
     nextEyepiece = 0;
     nextFilter = 0;
     nextLens = 0;
+
     loadEquipment();
+
     newScope = true;
     newEyepiece = true;
     newLens = true;
@@ -308,36 +308,16 @@ void EquipmentWriter::slotNewFilter() {
 }
 
 void EquipmentWriter::saveEquipment() {
-    QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
-    if ( ! f.open( QIODevice::WriteOnly ) ) {
-        kDebug() << "Cannot write list to  file";
-        return;
-    }
-    QTextStream ostream( &f );
-    ks->data()->logObject()->writeBegin();
-    ks->data()->logObject()->writeScopes();
-    ks->data()->logObject()->writeEyepieces();
-    ks->data()->logObject()->writeLenses();
-    ks->data()->logObject()->writeFilters();
-    ks->data()->logObject()->writeEnd();
-    ostream << ks->data()->logObject()->writtenOutput();
-    f.close();
+    ks->data()->logObject()->saveEquipmentToFile();
 
 #ifdef HAVE_INDI_H
-  KStars::Instance()->indiDriver()->updateCustomDrivers();
+    ks->indiDriver()->updateCustomDrivers();
 #endif
-
 }
 
 void EquipmentWriter::loadEquipment() {
-    QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
-    if( ! f.open( QIODevice::ReadOnly ) )
-        return;
-    QTextStream istream( &f );
-    ks->data()->logObject()->readBegin( istream.readAll() );
-    f.close();
+    ks->data()->logObject()->loadEquipmentFromFile();
+
     ui.ScopeList->clear();
     ui.EyepieceList->clear();
     ui.LensList->clear();

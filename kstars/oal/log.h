@@ -120,6 +120,12 @@ class OAL::Log {
         KStarsDateTime dateTime() { return dt; }
         GeoLocation* geoLocation() { return geo; }
         inline QString writtenOutput() { return output; }
+
+        void loadObserversFromFile();
+        void saveObserversToFile();
+        void loadEquipmentFromFile();
+        void saveEquipmentToFile();
+
     private:
         void markUsedObservers();
         void markUsedEquipment();

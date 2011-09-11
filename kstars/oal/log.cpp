@@ -24,6 +24,7 @@
 #include "skycomponents/constellationboundarylines.h"
 #include "skycomponents/skymapcomposite.h"
 #include "kstarsdatetime.h"
+#include "kstandarddirs.h"
 
 void OAL::Log::writeBegin() {
     ks = KStars::Instance();
@@ -515,6 +516,9 @@ void OAL::Log::readTargets() {
 }
 
 void OAL::Log::readObservers() {
+    qDeleteAll(m_observerList);
+    m_observerList.clear();
+
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -563,6 +567,9 @@ void OAL::Log::readSessions() {
 }
 
 void OAL::Log::readScopes() {
+    qDeleteAll(m_scopeList);
+    m_scopeList.clear();
+
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -579,6 +586,9 @@ void OAL::Log::readScopes() {
 }
 
 void OAL::Log::readEyepieces() {
+    qDeleteAll(m_eyepieceList);
+    m_eyepieceList.clear();
+
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -595,6 +605,9 @@ void OAL::Log::readEyepieces() {
 }
 
 void OAL::Log::readLenses() {
+    qDeleteAll(m_lensList);
+    m_lensList.clear();
+
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -611,6 +624,9 @@ void OAL::Log::readLenses() {
 }
 
 void OAL::Log::readFilters() {
+    qDeleteAll(m_filterList);
+    m_filterList.clear();
+
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -1054,6 +1070,59 @@ OAL::Observation* OAL::Log::findObservationByName( QString id ) {
         if( o->id()  == id )
             return o;
     return NULL;
+}
+
+void OAL::Log::loadObserversFromFile() {
+    QFile f;
+    f.setFileName(KStandardDirs::locateLocal("appdata", "observerlist.xml"));
+    if(!f.open(QIODevice::ReadOnly))
+        return;
+    QTextStream istream(&f);
+    readBegin(istream.readAll());
+    f.close();
+}
+
+void OAL::Log::saveObserversToFile() {
+    QFile f;
+    f.setFileName(KStandardDirs::locateLocal("appdata", "observerlist.xml"));
+    if (!f.open(QIODevice::WriteOnly)) {
+        KMessageBox::sorry(0, i18n("Could not save the observer list to the file."), i18n("Write Error"));
+        return;
+    }
+    QTextStream ostream(&f);
+    writeBegin();  //Initialize the xml document, etc.
+    writeObservers();  //Write the observer list into the QString
+    writeEnd();  //End the write process
+    ostream << writtenOutput();
+    f.close();
+}
+
+void OAL::Log::loadEquipmentFromFile() {
+    QFile f;
+    f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );
+    if( ! f.open( QIODevice::ReadOnly ) )
+        return;
+    QTextStream istream( &f );
+    readBegin( istream.readAll() );
+    f.close();
+}
+
+void OAL::Log::saveEquipmentToFile() {
+    QFile f;
+    f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );
+    if ( ! f.open( QIODevice::WriteOnly ) ) {
+        kDebug() << "Cannot write list to  file";
+        return;
+    }
+    QTextStream ostream( &f );
+    writeBegin();
+    writeScopes();
+    writeEyepieces();
+    writeLenses();
+    writeFilters();
+    writeEnd();
+    ostream << writtenOutput();
+    f.close();
 }
 
 void OAL::Log::markUsedObservers() {

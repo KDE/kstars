@@ -21,7 +21,6 @@
 #include "QStandardItemModel"
 #include "kstars/kstars.h"
 #include "kstars/kstarsdata.h"
-#include "kstandarddirs.h"
 #include "oal.h"
 
 ObserverManagerUi::ObserverManagerUi(QWidget *parent) : QFrame(parent)
@@ -63,29 +62,12 @@ void ObserverManager::showEnableColumn(bool show, const QString &session)
 
 void ObserverManager::loadFromFile()
 {
-    QFile f;
-    f.setFileName(KStandardDirs::locateLocal("appdata", "observerlist.xml"));
-    if(!f.open(QIODevice::ReadOnly))
-        return;
-    QTextStream istream(&f);
-    mKstars->data()->logObject()->readBegin(istream.readAll());
-    f.close();
+    mKstars->data()->logObject()->loadObserversFromFile();
 }
 
 void ObserverManager::saveToFile()
 {
-    QFile f;
-    f.setFileName(KStandardDirs::locateLocal("appdata", "observerlist.xml"));
-    if (!f.open(QIODevice::WriteOnly)) {
-        KMessageBox::sorry(0, i18n("Could not save the observer list to the file."), i18n("Write Error"));
-        return;
-    }
-    QTextStream ostream(&f);
-    mKstars->data()->logObject()->writeBegin();  //Initialize the xml document, etc.
-    mKstars->data()->logObject()->writeObservers();  //Write the observer list into the QString
-    mKstars->data()->logObject()->writeEnd();  //End the write process
-    ostream << mKstars->data()->logObject()->writtenOutput();
-    f.close();
+    mKstars->data()->logObject()->saveObserversToFile();
 }
 
 void ObserverManager::addObserver()
