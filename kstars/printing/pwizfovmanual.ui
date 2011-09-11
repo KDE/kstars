@@ -68,7 +68,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Manually Capture Field of View Snaphots</string>
+        <string>Manually Capture Field of View Snapshots</string>
        </property>
       </widget>
      </item>
