@@ -10,9 +10,6 @@
     <height>395</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
     <widget class="QLabel" name="banner">
@@ -32,6 +29,22 @@
       <string/>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer name="horSpacer3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>5</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <layout class="QVBoxLayout" name="fovManualLayout">
@@ -55,7 +68,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Manually Capture Field of View Snaphots</string>
+        <string>Manually Capture Field of View Snapshots</string>
        </property>
       </widget>
      </item>
@@ -110,7 +123,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <spacer name="horizontalSpacer">
+        <spacer name="horSpacer1">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -130,7 +143,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
+        <spacer name="horSpacer2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

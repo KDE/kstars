@@ -275,7 +275,8 @@ void PrintingWizard::recaptureFov(int idx)
     m_RecaptureIdx = idx;
 
     // Begin FOV snapshot capture
-    slewAndBeginCapture(&m_FovSnapshots.at(m_RecaptureIdx)->getCentralPoint(), m_FovSnapshots.at(m_RecaptureIdx)->getFov());
+    SkyPoint p = m_FovSnapshots.at(m_RecaptureIdx)->getCentralPoint();
+    slewAndBeginCapture(&p, m_FovSnapshots.at(m_RecaptureIdx)->getFov());
 }
 
 void PrintingWizard::slotPrevPage()

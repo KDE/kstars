@@ -16,9 +16,6 @@
     <height>395</height>
    </size>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QHBoxLayout" name="horizontalLayout_4">
    <item>
     <widget class="QLabel" name="banner">
@@ -38,6 +35,22 @@
       <string/>
      </property>
     </widget>
+   </item>
+   <item>
+    <spacer name="horSpacer8">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>5</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <layout class="QVBoxLayout" name="fovShLayout">
@@ -96,7 +109,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="label1">
        <property name="font">
         <font>
          <weight>75</weight>
@@ -111,7 +124,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <spacer name="horizontalSpacer_3">
+        <spacer name="horSpacer1">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -131,7 +144,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_4">
+        <spacer name="horSpacer2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -151,7 +164,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_5">
+        <spacer name="horSpacer3">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -178,7 +191,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <spacer name="horizontalSpacer_6">
+        <spacer name="horSpacer4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -198,7 +211,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_7">
+        <spacer name="horSpacer5">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -213,7 +226,7 @@ p, li { white-space: pre-wrap; }
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer">
+      <spacer name="vertSpacer2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -228,7 +241,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label2">
          <property name="text">
           <string>Hopping FOV:</string>
          </property>
@@ -238,7 +251,7 @@ p, li { white-space: pre-wrap; }
         <widget class="QComboBox" name="fovCombo"/>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label3">
          <property name="text">
           <string>Hop magnitude limit:</string>
          </property>
@@ -263,7 +276,7 @@ p, li { white-space: pre-wrap; }
       </layout>
      </item>
      <item>
-      <spacer name="vertSpacer2">
+      <spacer name="vertSpacer3">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -281,7 +294,7 @@ p, li { white-space: pre-wrap; }
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <spacer name="horizontalSpacer">
+        <spacer name="horSpacer6">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -301,7 +314,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2">
+        <spacer name="horSpacer7">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -316,7 +329,7 @@ p, li { white-space: pre-wrap; }
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer_2">
+      <spacer name="vertSpacer4">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>

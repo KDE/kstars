@@ -8,194 +8,7 @@
 the <acronym><link linkend="what-is-indi">INDI</link></acronym> protocol.</para>
 
 <para>The <acronym>INDI</acronym> protocol supports a variety of astronomical instruments
-such as CCD cameras and focusers. Currently, &kstars; supports the following
-devices:</para>
-
-<table id="device-table" pgwide="1" frame="all">
-<title>Supported Telescopes</title>
-<tgroup cols="2" colsep="1" rowsep="1">
-<thead>
-<row>
-<entry>Telescope</entry>
-<entry>Device driver</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>LX200 8"-12" Classic</entry>
-<entry>indi_lx200classic</entry>
-</row>
-<row>
-<entry>Autostar based telescopes</entry>
-<entry>indi_lx200autostar</entry>
-</row>
-<row>
-<entry>LX200 GPS 8"-16"</entry>
-<entry>indi_lx200gps</entry>
-</row>
-<row>
-<entry>LX200 Classic 16"</entry>
-<entry>indi_lx200_16</entry>
-</row>
-<row>
-<entry>NexStar GPS, CGE, AS-GT</entry>
-<entry>indi_celestrongps</entry>
-</row>
-<row>
-<entry>New GT, NexStar 5i/8i</entry>
-<entry>indi_celestrongps</entry>
-</row>
-<row>
-<entry>Takahashi Temma</entry>
-<entry>indi_temma</entry>
-</row>
-<row>
-<entry>Astro-Electronic FS-2</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>Argo Navis</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>Losmandy Gemini</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>Mel Bartels Controllers</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>Sky Commander</entry>
-<entry>indi_skycommander</entry>
-</row>
-<row>
-<entry>Intelliscope/SkyWizard</entry>
-<entry>indi_intelliscope</entry>
-</row>
-<row>
-<entry>Orion Atlas</entry>
-<entry>indi_orion_atlas</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-<table id="focuser-table" pgwide="1" frame="all">
-<title>Supported Focusers</title>
-<tgroup cols="2" colsep="1" rowsep="1">
-<thead>
-<row>
-<entry>Focuser</entry>
-<entry>Device driver</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>Meade LX200GPS Microfocuser</entry>
-<entry>indi_lx200gps</entry>
-</row>
-<row>
-<entry>Meade 1206 Primary Mirror Focuser</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>JMI NGF Series</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>JMI MOTOFOCUS</entry>
-<entry>indi_lx200basic</entry>
-</row>
-<row>
-<entry>FLI Precision Focuser</entry>
-<entry>indi_fli_pdf</entry>
-</row>
-<row>
-<entry>RoboFocus</entry>
-<entry>indi_robofocus</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-<table id="ccd-table" pgwide="1" frame="all">
-<title>Supported CCDs</title>
-<tgroup cols="2" colsep="1" rowsep="1">
-<thead>
-<row>
-<entry>CCD</entry>
-<entry>Device driver</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>Finger Lakes Instruments CCDs</entry>
-<entry>indi_fli_ccd</entry>
-</row>
-<row>
-<entry>Santa Barbara Instrument CCDs</entry>
-<entry>indi_sbig_ccd</entry>
-</row>
-<row>
-<entry>Apogee CCDs</entry>
-<entry>indi_apogee_alta</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
-
-<table id="filter-table" pgwide="1" frame="all">
-  <title>Supported Filter Wheels</title>
-  <tgroup cols="2" colsep="1" rowsep="1">
-    <thead>
-      <row>
-	<entry>Filter Wheel</entry>
-	<entry>Device driver</entry>
-      </row>
-    </thead>
-    <tbody>
-      <row>
-	<entry>FLI Filter Wheels</entry>
-	<entry>indi_fli_wheel</entry>
-      </row>
-      <row>
-	<entry>True Technology Wheel</entry>
-	<entry>indi_trutech_wheel</entry>
-      </row>
-
-    </tbody>
-  </tgroup>
-  </table>
-  
-<table id="video-table" pgwide="1" frame="all">
-<title>Supported Webcams</title>
-<tgroup cols="2" colsep="1" rowsep="1">
-<thead>
-<row>
-<entry>Webcam</entry>
-<entry>Device driver</entry>
-</row>
-</thead>
-<tbody>
-<row>
-<entry>Any Video4Linux compatible device</entry>
-<entry>indi_v4l_generic</entry>
-</row>
-<row>
-<entry>Philips webcam</entry>
-<entry>indi_v4l_philips</entry>
-</row>
-<row>
-<entry>Meade Lunar Planetary Imager</entry>
-<entry>indi_meade_lpi</entry>
-</row>
-<row>
-<entry>SBIG STV</entry>
-<entry>indi_sbig_stv</entry>
-</row>
-</tbody>
-</tgroup>
-</table>
+  such as CCD cameras and focusers. For an up to date list of supported devices, please visit <acronym>INDI</acronym> <ulink url="http://indilib.org/index.php?title=Devices">supported devices page</ulink>.</para>
 
 <sect1 id="indi-kstars-setup">
 <title>INDI Setup</title>
@@ -228,7 +41,7 @@ window:</para>
 </mediaobject>
 </screenshot>
 
-<para>You can run devices by browsing the device tree, selecting a specific device, and then clicking on the <guibutton>Run Service button</guibutton>. You can select the operation mode, either local or server as defined above.</para>
+<para>You can run devices by browsing the device tree, selecting a specific device, and then clicking on the <guibutton>Run Service</guibutton> button. You can select the operation mode, either local or server as defined above. The port number is randomly generated between the range from 7624 to 10,000. To specify a port, click on the port column next to the desired driver. &kstars; allows multiple drivers to run under one INDI server, and hence one port. Select multiple drivers then press <guibutton>Run Service</guibutton> button.</para>
 
 <para>To control remove devices, refer to the <link linkend="indi-remote-control">remote device control</link> section.</para>
 </sect1>
@@ -400,21 +213,9 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
 <secondary>Setup</secondary>
 </indexterm>
 
-<para>&kstars; supports the following imaging devices:</para>
-<itemizedlist>
-  <listitem><para>Finger Lakes instruments CCDs</para></listitem>
-  <listitem><para>SBIG CCDs: In order to use SBIG CCDs, you must download and install the Universal SBIG Driver library from <ulink url="http://indi.sourceforge.net">INDI</ulink> website.</para></listitem>
-  <listitem><para>Apogee CCDs: Only USB versions are supported. You must have libusb installed.</para></listitem>
-  <listitem><para><ulink url="http://www.exploits.org/v4l/">Video4Linux</ulink> compatible devices. Philips webcam extended features are supported as well.</para></listitem>
-</itemizedlist>
-
 <para>You can run CCD and Video Capture devices from the <guimenuitem>Device Manager</guimenuitem> in the <guimenu>Devices</guimenu> menu. Like all INDI devices, some of the device controls will be accessible from the skymap. The device can be controlled fully from the <guimenuitem>INDI Control Panel.</guimenuitem></para>
 
 <para>The standard format for image capture is FITS. Once an image is captured and downloaded, it will be automatically displayed in the &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link>. To capture a sequence of images, use the <guimenuitem>Capture Image Sequence</guimenuitem> tool from the <guimenu>Devices</guimenu> menu. This tool is inactive until you establish a connection to an image device.</para>
-
-<important>
-<para>The fli and apogee drivers requires root privileges in order to operate properly. Note that running the driver as root is considered a security risk.</para>
-</important>
 </sect1>
 
 <sect1 id="indi-capture">
@@ -484,7 +285,7 @@ updates from <guimenuitem>Configure INDI</guimenuitem> dialog under the
    </listitem>
    <listitem><para>Display</para>
     <itemizedlist>
-     <listitem><para><option>Device target crosshair:</option> When checked, &kstars; displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure KStars</link> window. Select the <guilabel>Colors</guilabel> tab, and then change the color of the <emphasis>Target Indicator</emphasis> item to the desired color.</para></listitem>
+     <listitem><para><option>Device target crosshair:</option> When checked, &kstars; displays the telescope's target crosshair on the sky map. The crosshair is displayed upon a successful connection to the telescope and its location is updated periodically. The telescope's name is displayed next to the crosshair. &kstars; displays one crosshair per each connected telescope. To change the color of the telescope's crosshair, open the <link linkend="viewops">Configure &kstars;</link> window. Select the <guilabel>Colors</guilabel> tab, and then change the color of the <emphasis>Target Indicator</emphasis> item to the desired color.</para></listitem>
      <listitem><para><option>INDI messages in status bar:</option> When checked, &kstars; displays INDI status messages in the &kstars; status bar.</para></listitem>
      <listitem><para><option>Automatic Display of FITS upon capture:</option> When checked, &kstars; will display captured FITS in &kstars; <link linkend="tool-fitsviewer">FITS Viewer</link> tool. If you use the <link linkend="indi-capture">Capture Image Sequence</link> tool, all captured images will be saved to disk regardless of this option.</para></listitem>
     </itemizedlist>
@@ -726,6 +527,19 @@ What operations does &kstars; provide to control the telescope?
 <answer>
 <para>
 It depends on the particular telescope you're running, but the minimum three operations are <command>Slew</command>, <command>Track</command>, and <command>Sync</command>, which you can issue directly from the sky map. Your telescope must be aligned for those operations to perform correctly. Some telescopes offer you more operations like site management, slew modes, focusing, parking, and more. You can access the telescopes extended features from the INDI Control Panel in the Devices Menu.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>
+Can I use &kstars; to do guiding?
+</para>
+</question>
+<answer>
+<para>
+  Currently, there are no plans to support guiding in &kstars;. Users may utilize <ulink url="http://code.google.com/p/open-phd-guiding/">OpenPHD Guiding</ulink> as it is compatible with &kstars; and INDI.
 </para>
 </answer>
 </qandaentry>
