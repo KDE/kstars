@@ -216,6 +216,8 @@ public:
     /** Return log object */
     OAL::Log *logObject() { return m_logObject; }
 
+    void setLogObject(OAL::Log *log) { m_logObject = log; }
+
     /*@short Increments the updateID, forcing a recomputation of star positions as well */
     unsigned int incUpdateID();
 

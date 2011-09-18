@@ -110,6 +110,7 @@
 	</Menu>
 
 	<Menu name="oal" noMerge="1"><text>&amp;Observation</text>
+	<Action name="open_log"/>
         <Action name="execute"/>
     </Menu>
 

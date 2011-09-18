@@ -1,0 +1,1154 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema targetNamespace="http://groups.google.com/group/openastronomylog" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:oal="http://groups.google.com/group/openastronomylog" version="2.0">
+	<!-- 
+	    Schema for documentation and exchange of observations of astronomical objects. 
+		 Authors: Thomas Pfleger 
+		          Dirk Lehmann
+		          Phyllis Lang
+		 Revision date: 2009/09/14
+	     (c) 2005 - 2009 by Fachgruppe Computerastronomie of the Vereinigung der Sternfreunde e.V. (VdS) 
+	-->
+
+	<xsd:simpleType name="positiveDecimal">
+	    <xsd:restriction base="xsd:decimal">
+		<xsd:minExclusive value="0"/>
+	    </xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- angle units used in this schema -->
+	<xsd:simpleType name="angleUnit">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="arcsec"/>
+			<xsd:enumeration value="arcmin"/>
+			<xsd:enumeration value="deg"/>
+			<xsd:enumeration value="rad"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="angleType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:double">
+				<xsd:attribute name="unit" type="oal:angleUnit" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="nonNegativeAngleType">
+		<xsd:simpleContent>
+			<xsd:restriction base="oal:angleType">
+				<xsd:minInclusive value="0"/>
+			</xsd:restriction>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="positionAngleType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxExclusive value="360"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- surface brightness units used in this schema -->
+	<xsd:simpleType name="surfaceBrightnessUnit">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="mags-per-squarearcsec"/>
+			<xsd:enumeration value="mags-per-squarearcmin"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="surfaceBrightnessType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:double">
+				<xsd:attribute name="unit" type="oal:surfaceBrightnessUnit" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+
+	<!-- New in V2.0: type for all kinds of accounts/userIDs an observer has -->
+	<xsd:complexType name="observerAccountType">
+	 	<xsd:simpleContent>
+			<xsd:extension base='xsd:string'>
+				<!-- name of the organisation, webpage, ... where this account is valid -->					
+				<xsd:attribute name="name" type="xsd:string"/>	
+			</xsd:extension>
+		</xsd:simpleContent>				
+	</xsd:complexType>
+
+	<!-- author or contributor of observation -->
+	<xsd:complexType name="observerType">
+		<xsd:sequence>
+			<xsd:element name="name">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="preserve"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<xsd:element name="surname">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="preserve"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<!-- info for contacting the observer (f.e. phone, mail, postal address) -->
+			<xsd:element name="contact" minOccurs="0" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="preserve"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			
+			<!-- New in V2.0: Deprecated element. Please use account element instead. -->
+			<!-- Example: <account name="dsl">myDSLname<account> -->
+			<!-- abbreviation/code of the observer for the Deep Sky Liste (DSL) of the Fachgruppe -->
+			<xsd:element name="DSL" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="preserve"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>						
+			
+			<!-- New in V2.0: General element for external user accounts -->
+			<!-- As an observer might use several online (or offsite) services where he/she has -->
+			<!-- an unique username or account name, this element represents the service name -->
+			<!-- and the observers ID/username on that service -->
+			<!-- Example: AAVSO observer code which was assigned to the observer by AAVSO -->
+			<!--          <account name="aavso">DOE</account> -->
+			<xsd:element name="account" type="oal:observerAccountType" minOccurs="0" maxOccurs="unbounded"/>	
+			
+            <!-- New in V2.0: Personal offset to the "reference" correlation between the sky quality --> 
+            <!-- as it can be measured with an SQM and the estimated naked eye limiting magnitude (fst) --> 
+            <!-- The individual observer's offset depends mainly on the visual acuity of the observer. --> 
+            <!-- If the fstOffset is known, the sky quality may be derived from faintestStar estimates --> 
+            <!-- by this observer. --> 
+            <!-- The "reference" correlation used to convert between sky quality and fst was given by --> 
+            <!-- Bradley Schaefer: fst = 5*(1.586-log(10^((21.568-BSB)/5)+1)) where BSB is the sky quality --> 
+            <!-- (or background surface brightness) given in magnitudes per square arcsecond --> 
+			<xsd:element name="fstOffset" type="xsd:double" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+	
+	
+	<!-- observation site -->
+	<xsd:complexType name="siteType">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string"/>
+			<!-- geographical longitude; eastwards positive -->
+			<xsd:element name="longitude" type="oal:angleType"/>
+			<!-- geographical latitude -->
+			<xsd:element name="latitude" type="oal:angleType"/>
+			<!-- elevation in meters -->
+			<xsd:element name="elevation" type="xsd:double" minOccurs="0"/>
+			<!-- offset from UT in [min] not including daylight savings time -->
+			<!-- PLEASE NOTE: West of Greenwich is negative and east is positive -->
+			<xsd:element name="timezone" type="xsd:integer" default="0"/>
+			<!-- IAU Code for site -->
+			<xsd:element name="code" type="xsd:integer" minOccurs="0"/>
+			<!-- IAU Code for site -->
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+	
+	
+	<!-- common remarks or conditions of observations conducted during one night/session -->
+	<xsd:complexType name="sessionType">
+		<xsd:sequence>
+			<!-- Start of observation session -->
+			<xsd:element name="begin" type="xsd:dateTime"/>
+			<!-- End of observation session -->
+			<xsd:element name="end" type="xsd:dateTime"/>
+			<!-- site where session took place -->
+			<xsd:element name="site" type="xsd:IDREF"/>
+			<!-- WHO participated in the observation session? -->
+			<xsd:element name="coObserver" type="xsd:IDREF" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- Comments about the weather situation -->
+			<xsd:element name="weather" type="xsd:string" minOccurs="0"/>
+			<!-- Comments on the (optical or electronical) equipment used -->
+			<xsd:element name="equipment" type="xsd:string" minOccurs="0"/>
+			<!-- Any other comments -->
+			<xsd:element name="comments" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+		<xsd:attribute name="lang" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+
+	<!-- description of coordinate system used -->
+	<xsd:complexType name="referenceFrameType">
+		<xsd:sequence>
+			<!-- origin of coordinate system (geocentric or topocentric) -->
+			<xsd:element name="origin">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="geo"/>
+						<xsd:enumeration value="topo"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<!-- equinox used to specify coordinates -->
+			<xsd:element name="equinox" default="J2000">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="J2000"/>
+						<xsd:enumeration value="B1950"/>
+						<xsd:enumeration value="EqOfDate"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- equatorial coordinates with respect to specified reference system -->
+	<xsd:complexType name="equPosType">
+		<xsd:sequence>
+			<!-- right ascension -->
+			<xsd:element name="ra" type="oal:nonNegativeAngleType"/>
+			<!-- declination -->
+			<xsd:element name="dec" type="oal:angleType"/>
+			<!-- optional: reference frame (not necessary for deep sky objects) -->
+			<xsd:element name="frame" type="oal:referenceFrameType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- type definition for arbitrary observation targets -->
+	<xsd:complexType name="observationTargetType">
+		<xsd:sequence>
+			<xsd:choice>
+				<!-- identification of data source -->
+				<xsd:element name="datasource" type="xsd:string"/>
+				<!-- used for targets not listed in standard catalogs; f.e. newly discovered objects -->
+				<xsd:element name="observer" type="xsd:IDREF"/>
+			</xsd:choice>
+			<!-- most common name -->
+			<xsd:element name="name" type="xsd:string"/>
+			<!-- alternative names -->
+			<xsd:element name="alias" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="position" type="oal:equPosType" minOccurs="0"/>
+			<!-- constellation is optional because it can be derived from position -->
+			<xsd:element name="constellation" type="xsd:string" minOccurs="0"/>
+			<!-- New in V 2.0: notes on targets -->
+			<xsd:element name="notes" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+
+	<!-- New in V2.0: type definition for a single star -->
+	<xsd:complexType name="starTargetType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:observationTargetType">
+				<xsd:sequence>
+					<!-- apparent magnitude of star in [mag] -->
+					<xsd:element name="apparentMag" type="xsd:double" minOccurs="0"/>
+					<!-- stellar classification like O,B,A,F,G,K,M -->
+					<xsd:element name="classification" type="xsd:string" minOccurs="0"/>									
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- Further observation target types are defined in OAL extensions. -->
+	<!-- Currently there are extensions for deep sky objects, solar system objects and variable stars -->
+	
+	
+	<!-- description of seeing conditions (1: best, 5: worst) -->
+	<xsd:simpleType name="seeingType">
+		<xsd:restriction base="xsd:nonNegativeInteger">
+			<xsd:minInclusive value="1"/>
+			<xsd:maxInclusive value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<!-- optics used for the observation -->
+	<xsd:complexType name="opticsType" abstract="true">
+		<xsd:sequence>
+			<!-- model or designation -->
+			<xsd:element name="model" type="xsd:string"/>
+
+			<!-- type of optics. Not restricted to an enumeration to cover exotic constructions ;-)
+				 The type is optional but should be given if known!
+			     When applicable, the following coding (according to the DSL) should be used:
+				 A: Naked eye			C: Cassegrain
+				 B: Binoculars			S: Schmidt-Cassegrain
+				 N: Newton				K: Kutter (Schiefspiegler)
+				 R: Refractor			M: Maksutov
+			-->
+			<xsd:element name="type" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="vendor" type="xsd:string" minOccurs="0"/>
+			<!-- aperture in [mm] -->
+			<xsd:element name="aperture">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:double">
+						<xsd:minExclusive value="0"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<!-- transmission factor -->
+			<xsd:element name="lightGrasp" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:double">
+						<xsd:minExclusive value="0"/>
+						<xsd:maxInclusive value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<!-- orientation of image -->
+			<xsd:element name="orientation" minOccurs="0">
+				<xsd:complexType>
+					<xsd:attribute name="erect" type="xsd:boolean" use="required"/>
+					<xsd:attribute name="truesided" type="xsd:boolean" use="required"/>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+
+	<!-- type definition for telescopes using eyepieces -->
+	<xsd:complexType name="scopeType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:opticsType">
+				<xsd:sequence>
+					<!--  focal length in [mm] -->
+					<xsd:element name="focalLength">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:double">
+								<xsd:minExclusive value="0"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- type definition for optical devices with fixed magnification -->
+	<xsd:complexType name="fixedMagnificationOpticsType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:opticsType">
+				<xsd:sequence>
+					<xsd:element name="magnification">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:double">
+								<xsd:minInclusive value="1"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="trueField" type="oal:nonNegativeAngleType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+	<!-- description of eyepiece used -->
+	<xsd:complexType name="eyepieceType">
+		<xsd:sequence>
+			<xsd:element name="model" type="xsd:string"/>
+			<xsd:element name="vendor" type="xsd:string" minOccurs="0"/>
+			<!-- focal length in [mm] -->
+			<xsd:element name="focalLength">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:double">
+						<xsd:minExclusive value="0"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+
+			<!-- New in V1.7: upper limit of focal length (used in case of zoom eyepiece) in [mm] -->
+			<xsd:element name="maxFocalLength" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:double">
+						<xsd:minExclusive value="0"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			<!-- apparent field of view -->
+			<xsd:element name="apparentFOV" type="oal:nonNegativeAngleType" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+
+
+	<!-- New in V1.7: Barlow and Shapley lenses which might be used in addition to an eyepiece -->
+	<!-- Factors above 1 define an barlow lens, factors below 1 define a shapley lens. -->
+	<xsd:complexType name="lensType">
+		<xsd:sequence>
+			<xsd:element name="model" type="xsd:string"/>
+			<xsd:element name="vendor" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="factor">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:double">
+						<xsd:minExclusive value="0"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+	
+   
+   <!-- supported optical filter types -->
+	<xsd:simpleType name="filterKind">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="other"/>
+			<xsd:enumeration value="broad band"/>
+			<xsd:enumeration value="narrow band"/>
+			<xsd:enumeration value="O-III"/>
+			<xsd:enumeration value="H-beta"/>
+			<xsd:enumeration value="H-alpha"/>
+			<xsd:enumeration value="color"/>
+			<xsd:enumeration value="neutral"/>
+			<xsd:enumeration value="corrective"/>
+			<!-- New in V1.7: filter type for solar filters -->
+			<xsd:enumeration value="solar"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- color of filters used -->
+	<xsd:simpleType name="filterColorType">
+		<xsd:restriction base="xsd:string">
+         <xsd:enumeration value="light red"/>
+         <xsd:enumeration value="red"/>
+         <xsd:enumeration value="deep red"/>
+         <xsd:enumeration value="orange"/>
+         <xsd:enumeration value="light yellow"/>
+         <xsd:enumeration value="deep yellow"/>
+         <xsd:enumeration value="yellow"/>
+         <xsd:enumeration value="yellow-green"/>
+         <xsd:enumeration value="light green"/>
+         <xsd:enumeration value="green"/>
+         <xsd:enumeration value="medium blue"/>
+         <xsd:enumeration value="pale blue"/>
+         <xsd:enumeration value="blue"/>
+         <xsd:enumeration value="deep blue"/>
+         <xsd:enumeration value="violet"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+   <!-- description of filter used -->
+	<xsd:complexType name="filterType">
+		<xsd:sequence>
+			<xsd:element name="model" type="xsd:string"/>
+			<!-- New in OAL 2.0 - was forgotten in earlier versions -->
+			<xsd:element name="vendor" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="type" type="oal:filterKind"/>
+			<!-- the following elements are relevant for color filters only -->
+			<xsd:element name="color" type="oal:filterColorType" minOccurs="0"/>
+			<xsd:element name="wratten" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="schott" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+
+	
+   <!--Describes the imaging device used in an observation. This type may be extended to capture information on different sensor technologies.-->
+   <!-- New in V2.0: this type is now abstract. Concrete imagers are extending the definition, using the ext_imaging schema file. -->
+	<xsd:complexType name="imagerType" abstract="true">
+		<xsd:sequence>
+			<!-- model or designation -->
+			<xsd:element name="model" type="xsd:string"/>
+			<!-- New in V2.0: 'type' element removed: concrete imagers are extending this type definition in the ext_imaging extension -->
+			<xsd:element name="vendor" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="remarks" type="xsd:string" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+	</xsd:complexType>
+	
+
+	<!-- As the results of the observation there are a couple of findings. 
+	     They may contain textual descriptions of the visual impression or 
+		 data in specific vocabulary. -->
+	<xsd:complexType name="findingsType">
+		<xsd:sequence>
+			<!-- descriptive text about visual impact or perception -->
+			<xsd:element name="description" type="xsd:string"/>
+		</xsd:sequence>
+		<!-- The "lang" attribute carries an ISO two letter language identifier. -->
+		<!-- It can be used to indicate the language of the description -->
+		<!-- By the help of this attribute, applications may filter observations -->
+		<!-- based on user preferences -->
+		<xsd:attribute name="lang" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+
+
+	<!-- this describes an observation-->
+	<xsd:complexType name="observationType">
+		<xsd:sequence>
+			<!-- WHO observed it ? -->
+			<xsd:element name="observer" type="xsd:IDREF"/>
+
+			<!-- WHERE was observed ? Optional, because unknown in many existing observation records -->
+			<!-- PLEASE NOTE: In case a site could also be obtained via the below referred -->
+			<!--              session element, this site element must be dominant -->
+			<xsd:element name="site" type="xsd:IDREF" minOccurs="0"/>
+
+			<!-- optional session information -->
+			<xsd:element name="session" type="xsd:IDREF" minOccurs="0"/>
+
+			<!-- WHAT was observed ? -->
+			<xsd:element name="target" type="xsd:IDREF"/>
+
+			<!-- WHEN was observed ? This may be an instant or an interval of time -->
+			<!-- Start or instant of observation -->
+			<xsd:element name="begin" type="xsd:dateTime"/>
+			<!-- End in case of (exposure) interval -->
+			<xsd:element name="end" type="xsd:dateTime" minOccurs="0"/>
+
+			<!-- Estimated limiting magnitude for naked eye. It's optional but should occur always! -->
+			<xsd:element name="faintestStar" type="xsd:double" minOccurs="0"/>
+
+			<!-- New in V1.7: Sky quality meter (SQM) reading -->
+			<!-- New in V2.0: Renamed element from sqm to sky-quality -->
+			<xsd:element name="sky-quality" type="oal:surfaceBrightnessType" minOccurs="0"/>
+
+			<!-- Seeing rated according to the Antoniadi scale (1=excellent, 5=very poor). -->
+			<xsd:element name="seeing" type="oal:seeingType" minOccurs="0"/>
+
+			<!-- scope used for the observation -->
+			<xsd:element name="scope" type="xsd:IDREF" minOccurs="0"/>
+
+			<!-- accessories used -->
+			<xsd:element name="accessories" type="xsd:string" minOccurs="0"/>
+
+			<!-- eyepiece used -->
+			<xsd:element name="eyepiece" type="xsd:IDREF" minOccurs="0"/>
+
+			<!-- New in V1.7: Barlow/shapley lens used -->
+			<xsd:element name="lens" type="xsd:IDREF" minOccurs="0"/>
+
+			<!-- filter used -->
+			<xsd:element name="filter" type="xsd:IDREF" minOccurs="0"/>
+
+			<!-- magnification used (redundant in case of existing eyepiece reference) -->
+			<!-- May be used to derive the actually used focal length in case of a zoom eyepiece -->
+			<xsd:element name="magnification" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:double">
+						<xsd:minInclusive value="1"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+
+			<!-- imaging device used -->
+			<xsd:element name="imager" type="xsd:IDREF" minOccurs="0"/>
+
+			<!-- Descripting of the results of the observations. Future extensions are likely! -->
+			<xsd:element name="result" type="oal:findingsType" maxOccurs="unbounded"/>
+
+			<!-- references image files obtained in the observation -->
+			<xsd:element name="image" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
+	</xsd:complexType>
+	
+
+	<!-- Container for the observations and topmost node of XML documents -->
+	<!-- This defines the master data 'containers' holding the entities that are -->
+	<!-- referenced by observations using IDREFs -->
+	<xsd:element name="observations">
+		<xsd:complexType>
+			<xsd:sequence>
+
+				<!-- *observers* referenced by the observations -->
+				<xsd:element name="observers">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="observer" type="oal:observerType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- *sites* referenced by observations -->
+				<xsd:element name="sites">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="site" type="oal:siteType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- *session infos* referenced by observations -->
+				<xsd:element name="sessions">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="session" type="oal:sessionType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- *targets* referenced by observations -->
+				<xsd:element name="targets">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="target" type="oal:observationTargetType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- *scopes* referenced by the observations -->
+				<xsd:element name="scopes">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="scope" type="oal:scopeType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- *eyepieces* referenced by the observations -->
+				<xsd:element name="eyepieces">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="eyepiece" type="oal:eyepieceType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- New in V1.7: *lenses* referenced by the observations -->
+				<xsd:element name="lenses">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="lens" type="oal:lensType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- *filters* referenced by the observations -->
+				<xsd:element name="filters">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="filter" type="oal:filterType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- *imagers* referenced by the observations -->
+				<xsd:element name="imagers">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="imager" type="oal:imagerType" minOccurs="0" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<!-- Finally here is the beef, the *observations* -->
+				<xsd:element name="observation" type="oal:observationType" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="version" type="xsd:string" use="required"/>
+		</xsd:complexType>
+		
+
+		<xsd:key name="observerKey">
+			<xsd:selector xpath="./observers/observer"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="siteKey">
+			<xsd:selector xpath="./sites/site"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="sessionKey">
+			<xsd:selector xpath="./sessions/session"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="targetKey">
+			<xsd:selector xpath="./targets/target"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="opticsKey">
+			<xsd:selector xpath="./scopes/scope"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="eyepieceKey">
+			<xsd:selector xpath="./eyepieces/eyepiece"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="lensKey">
+			<xsd:selector xpath="./lenses/lens"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="filterKey">
+			<xsd:selector xpath="./filters/filter"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+		<xsd:key name="imagerKey">
+			<xsd:selector xpath="./imagers/imager"/>
+			<xsd:field xpath="@id"/>
+		</xsd:key>
+
+		<!-- references to linked entities of observation -->
+		<!-- NOTE: for the sake of the keyrefs the "container elements" (e.g. <scopes>) must exist even if they are empty -->
+		<xsd:keyref name="siteRef" refer="oal:siteKey">
+			<xsd:selector xpath="./observation"/>
+			<xsd:field xpath="site"/>
+		</xsd:keyref>
+		<xsd:keyref name="sessionRef" refer="oal:sessionKey">
+			<xsd:selector xpath="./session"/>
+			<xsd:field xpath="session"/>
+		</xsd:keyref>
+		<xsd:keyref name="targetRef" refer="oal:targetKey">
+			<xsd:selector xpath="./observation"/>
+			<xsd:field xpath="target"/>
+		</xsd:keyref>
+		<xsd:keyref name="observerRef" refer="oal:observerKey">
+			<xsd:selector xpath="./observation"/>
+			<xsd:field xpath="observer"/>
+		</xsd:keyref>
+		<xsd:keyref name="opticsRef" refer="oal:opticsKey">
+			<xsd:selector xpath="./observation"/>
+			<xsd:field xpath="scope"/>
+		</xsd:keyref>
+		<xsd:keyref name="eyepiecesRef" refer="oal:eyepieceKey">
+			<xsd:selector xpath="./observation"/>
+			<xsd:field xpath="eyepiece"/>
+		</xsd:keyref>
+		<xsd:keyref name="lensesRef" refer="oal:lensKey">
+			<xsd:selector xpath="./observation"/>
+			<xsd:field xpath="lens"/>
+		</xsd:keyref>
+                <xsd:keyref name="filterRef" refer="oal:filterKey">
+			<xsd:selector xpath="./observation"/>
+			<xsd:field xpath="filter"/>
+		</xsd:keyref>
+		<xsd:keyref name="imagersRef" refer="oal:imagerKey">
+			<xsd:selector xpath="./observation"/>
+			<xsd:field xpath="imager"/>
+		</xsd:keyref>
+		<xsd:keyref name="datasourceRef" refer="oal:observerKey">
+			<xsd:selector xpath="./observation/target"/>
+			<xsd:field xpath="observer"/>
+		</xsd:keyref>
+	</xsd:element>
+
+	<!-- New in V2.0: type definition for multiple stars -->
+	<xsd:complexType name="deepSkyMS">
+		<xsd:complexContent>
+			<!-- pls. note that this element is not derived from oal:deepSkyTargetType -->
+			<xsd:extension base="oal:observationTargetType">
+				<xsd:sequence>
+					<!-- star which is a component of the multiple star system -->
+					<!-- refers to oal:starTargetType -->
+					<!-- Must occur at least three times. For double stars please use oal:deepSkyDS -->
+					<xsd:element name="component" type="xsd:IDREF" minOccurs="3" maxOccurs="unbounded"/>					
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+	<!-- abstract base type definition for DEEP SKY targets -->
+	<xsd:complexType name="deepSkyTargetType" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="oal:observationTargetType">
+				<xsd:sequence>
+					<!-- apparent angular dimensions -->
+					<xsd:element name="smallDiameter" type="oal:nonNegativeAngleType" minOccurs="0"/>
+					<xsd:element name="largeDiameter" type="oal:nonNegativeAngleType" minOccurs="0"/>
+					<!-- Visual magnitude in [mag] -->
+					<xsd:element name="visMag" minOccurs="0">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:double"/>
+						</xsd:simpleType>
+					</xsd:element>
+					<!-- surface brightness -->
+					<!-- New in V2.0: usage of the new 'surfaceBrightnessType' type, giving the measurement unit explicitly. -->
+					<!-- In older schema versions, mags per square arcmin were used -->
+					<xsd:element name="surfBr" type="oal:surfaceBrightnessType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- deepSkyTargetType subtypes are given in alphabetical order: -->
+	
+	<!-- New in V1.7: type definition for asterisms -->
+	<xsd:complexType name="deepSkyAS">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- position angle of large axis in [deg] -->
+					<xsd:element name="pa" type="oal:positionAngleType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- New in Version 2.0 -->
+	<!-- type definition for clusters of galaxies -->
+	<xsd:complexType name="deepSkyCG">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- magnitude of the 10th brightest member in [mag] -->
+					<xsd:element name="mag10" type="xsd:double" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- type definition for dark nebulae -->
+	<xsd:complexType name="deepSkyDN">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- position angle of large axis in [deg] -->
+					<xsd:element name="pa" type="oal:positionAngleType" minOccurs="0"/>
+					<!-- opacity acc. to Lynds (1: min, 6:max) -->
+					<xsd:element name="opacity" minOccurs="0">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:integer">
+								<xsd:minInclusive value="1"/>
+								<xsd:maxInclusive value="6"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- type definition for double stars -->
+	<xsd:complexType name="deepSkyDS">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- separation -->
+					<xsd:element name="separation" type="oal:nonNegativeAngleType" minOccurs="0"/>
+					<!-- position angle in [deg] -->
+					<xsd:element name="pa" type="oal:positionAngleType" minOccurs="0"/>
+					<!-- magnitude of companion star in [mag] -->
+					<xsd:element name="magComp" type="xsd:double" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- type definition for globular clusters -->
+	<xsd:complexType name="deepSkyGC">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- magnitude of brightest stars in [mag] -->
+					<xsd:element name="magStars" type="xsd:double" minOccurs="0"/>
+					<!-- degree of concentration [I..XII]-->
+					<xsd:element name="conc" type="xsd:string" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- type definition for galactic nebulae -->
+	<xsd:complexType name="deepSkyGN">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- indicates emission, reflection or dark nebula -->
+					<!-- not restricted to an enum to cover exotic objects -->
+					<xsd:element name="nebulaType" type="xsd:string" minOccurs="0"/>
+					<!-- position angle of large axis in [deg] -->
+					<xsd:element name="pa" type="oal:positionAngleType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- type definition for galaxies -->
+	<xsd:complexType name="deepSkyGX">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<xsd:element name="hubbleType" type="xsd:string" minOccurs="0"/>
+					<!-- position angle of large axis in [deg] -->
+					<xsd:element name="pa" type="oal:positionAngleType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<!-- type definition for uncategorized/miscellaneous targets -->
+	<xsd:complexType name="deepSkyNA">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- type definition for open clusters -->
+	<xsd:complexType name="deepSkyOC">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- number of stars -->
+					<xsd:element name="stars" type="xsd:positiveInteger" minOccurs="0"/>
+					<!-- magnitude of brightest star in [mag] -->
+					<xsd:element name="brightestStar" type="xsd:double" minOccurs="0"/>
+					<!-- classification according to Trumpler -->
+					<xsd:element name="class" type="xsd:string" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- type definition for planetary nebulae -->
+	<xsd:complexType name="deepSkyPN">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- magnitude of central star in [mag] -->
+					<xsd:element name="magStar" type="xsd:double" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- type definition for quasars -->
+	<xsd:complexType name="deepSkyQS">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- New in V1.7: type definition for star clouds -->
+	<xsd:complexType name="deepSkySC">
+		<xsd:complexContent>
+			<xsd:extension base="oal:deepSkyTargetType">
+				<xsd:sequence>
+					<!-- position angle of large axis in [deg] -->
+					<xsd:element name="pa" type="oal:positionAngleType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+	<!-- this type extension is used for  the findings of visual deep sky observations -->
+	<xsd:complexType name="findingsDeepSkyType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:findingsType">
+				<xsd:sequence>
+					<!-- estimated small diameter -->
+					<xsd:element name="smallDiameter" type="oal:nonNegativeAngleType" minOccurs="0"/>
+					<!-- estimated large diameter -->
+					<xsd:element name="largeDiameter" type="oal:nonNegativeAngleType" minOccurs="0"/>
+					<!-- rating according to the scale of the "Deep Sky Liste" -->
+					<!-- New in Version 2.0: changed to an enumeration, 99 means "unknown" -->
+					<xsd:element name="rating">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:integer">
+								<xsd:enumeration value="1"/>
+								<xsd:enumeration value="2"/>
+								<xsd:enumeration value="3"/>
+								<xsd:enumeration value="4"/>
+								<xsd:enumeration value="5"/>
+								<xsd:enumeration value="6"/>
+								<xsd:enumeration value="7"/>
+								<xsd:enumeration value="99"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+				</xsd:sequence>
+				<xsd:attribute name="stellar" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="extended" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="resolved" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="mottled" type="xsd:boolean" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- character of open clusters according to explanations/samples given in the Deep Sky Liste -->
+	<xsd:simpleType name="clusterCharacterType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="A"/>
+			<xsd:enumeration value="B"/>
+			<xsd:enumeration value="C"/>
+			<xsd:enumeration value="D"/>
+			<xsd:enumeration value="E"/>
+			<xsd:enumeration value="F"/>
+			<xsd:enumeration value="G"/>
+			<xsd:enumeration value="H"/>
+			<xsd:enumeration value="I"/>
+			<xsd:enumeration value="X"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- findings for observations of open clusters -->
+	<xsd:complexType name="findingsDeepSkyOCType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:findingsDeepSkyType">
+				<xsd:sequence>
+					<!-- character of the cluster according to "Deep Sky Liste" definition -->
+					<xsd:element name="character" type="oal:clusterCharacterType" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="unusualShape" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="partlyUnresolved" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="colorContrasts" type="xsd:boolean" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- color recognized in double star observations -->
+	<xsd:simpleType name="starColorType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="white"/>
+			<xsd:enumeration value="red"/>
+			<xsd:enumeration value="orange"/>
+			<xsd:enumeration value="yellow"/>
+			<xsd:enumeration value="green"/>
+			<xsd:enumeration value="blue"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- findings for observations of binary stars -->
+	<xsd:complexType name="findingsDeepSkyDSType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:findingsDeepSkyType">
+				<xsd:sequence>
+					<!-- colors of main star and companion (if perceived) -->
+					<xsd:element name="colorMain" type="oal:starColorType" minOccurs="0"/>
+					<xsd:element name="colorCompanion" type="oal:starColorType" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:attribute name="equalBrightness" type="xsd:boolean" use="optional"/>
+				<xsd:attribute name="niceSurrounding" type="xsd:boolean" use="optional"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!--An extension of the imagerType to describe CCD cameras-->
+	<xsd:complexType name="ccdCameraType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:imagerType">
+				<xsd:sequence>
+					<xsd:element name="pixelsX" type="xsd:positiveInteger"/>
+					<xsd:element name="pixelsY" type="xsd:positiveInteger"/>
+					<!-- New in V2.0: Pixel size in microns -->
+					<xsd:element name="pixelXSize" type="oal:positiveDecimal" minOccurs="0"/>
+                    <xsd:element name="pixelYSize" type="oal:positiveDecimal" minOccurs="0"/>
+                    <!-- New in V2.0: Binning (defaults to 1 x 1)--> 
+                    <xsd:element name="binning" default="1"> 
+                         <xsd:simpleType> 
+                              <xsd:restriction base="xsd:integer"> 
+                                   <xsd:minInclusive value="1"/> 
+                                   <xsd:maxInclusive value="9"/> 
+                              </xsd:restriction> 
+                         </xsd:simpleType> 
+                    </xsd:element> 
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- type hierarchy for objects of the solar system (sun, moon, planets, minor planets, comets) -->
+	<xsd:complexType name="SolarSystemTargetType" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="oal:observationTargetType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="CometTargetType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:SolarSystemTargetType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MinorPlanetTargetType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:SolarSystemTargetType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MoonTargetType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:SolarSystemTargetType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="PlanetTargetType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:SolarSystemTargetType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="SunTargetType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:SolarSystemTargetType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- New in V2.0: type definition for a variable star -->
+	<xsd:complexType name="variableStarTargetType">
+	<!-- For compatibility reasons please use AAVSO Designation, the AAVSO Name, or the AAVSO Unique Identifier -->
+	<!-- in name element (derived from oal:observationTargetType). Otherwise a possible upload to the AAVSO might have problems -->
+		<xsd:complexContent>
+			<xsd:extension base="oal:starTargetType">
+				<xsd:sequence>
+					<!-- variable star type or subtype like Delta Cepheid, Mira, Eruptive, Semiregular, Supernovae, ... -->
+					<xsd:element name="type" type="xsd:string" minOccurs="0"/>									
+					<!-- maximal apparent magnitude. The derived apparentMag element from oal:starTargetType will be -->
+					<!-- used for minimal apparent magnitude -->
+					<xsd:element name="maxApparentMag" type="xsd:double" minOccurs="0"/>														
+					<!-- period of variable star (if any) in days -->
+					<xsd:element name="period" type="xsd:double" minOccurs="0"/>						
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<!-- New in V2.0: type for variable star visual magnitude. -->
+    	<xsd:complexType name='variableStarVisMagType'>
+ 		<xsd:simpleContent>
+			<xsd:extension base='xsd:double'>
+				<!-- optional attribute if given visual magnitude is a fainter than value -->
+				<xsd:attribute name="fainterThan" type="xsd:boolean" use="optional"/>
+				<!-- optional attribute if given visual magnitude is uncertain -->
+				<xsd:attribute name="uncertain" type="xsd:boolean" use="optional"/>	
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<!-- New in V2.0: type for variable star chart identification -->
+	<xsd:complexType name="variableStarChartIDType">
+	 	<xsd:simpleContent>
+			<xsd:extension base='xsd:string'>
+				<!-- optional attribute if given chart is not an AAVSO chart -->
+				<xsd:attribute name="nonAAVSOchart" type="xsd:boolean" use="optional"/>
+			</xsd:extension>
+		</xsd:simpleContent>				
+	</xsd:complexType>
+
+	<!-- New in V2.0: type extension for visual variable star observations -->
+	<!-- Definition aligned and compatible with AAVSO visual format (see: http://www.aavso.org/observing/submit/visual.shtml) -->
+	<xsd:complexType name="findingsVariableStarType">
+		<xsd:complexContent>
+			<xsd:extension base="oal:findingsType">
+				<xsd:sequence>				
+				    <!-- the observed visual magnitude of the variable star -->
+					<xsd:element name="visMag" type="oal:variableStarVisMagType"/>
+					<!-- the labels of the comparison stars used. Could be the magnitude label on the chart, or something else -->
+					<xsd:element name="comparisonStar" type="xsd:string" maxOccurs="unbounded"/>
+					<!-- some ID for chart identification. For AAVSO charts this is the latest date you see anywhere on the chart, entered as YYMMDD -->
+					<xsd:element name="chartID" type="oal:variableStarChartIDType"/>				
+				</xsd:sequence>
+				<!-- optional attribute if sky was bright due to moon, twilight, light pollution, etc. during observation -->
+				<xsd:attribute name="brightSky" type="xsd:boolean" use="optional"/>
+				<!-- optional attribute if coulds, haze, etc. were present during observation -->
+				<xsd:attribute name="clouds" type="xsd:boolean" use="optional"/>
+				<!-- optional attribute if seeing was poor during observation -->
+				<xsd:attribute name="poorSeeing" type="xsd:boolean" use="optional"/>
+				<!-- optional attribute if star was near the horizon, in trees or view was obstructed -->
+				<xsd:attribute name="nearHorizion" type="xsd:boolean" use="optional"/>
+				<!-- optional attribute if star showed unusual activities -->
+				<xsd:attribute name="unusualActivity" type="xsd:boolean" use="optional"/>
+				<!-- optional attribute if star showed an outburst -->
+				<xsd:attribute name="outburst" type="xsd:boolean" use="optional"/>					
+				<!-- optional attribute if there was an comparism sequence problem -->
+				<xsd:attribute name="comparismSequenceProblem" type="xsd:boolean" use="optional"/>
+				<!-- optional attribute if the star identification was uncertain -->
+				<xsd:attribute name="starIdentificationUncertain" type="xsd:boolean" use="optional"/>
+				<!-- optional attribute if the star very faint and hard to see -->
+				<xsd:attribute name="faintStar" type="xsd:boolean" use="optional"/>					
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+</xsd:schema>

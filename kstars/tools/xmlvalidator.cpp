@@ -21,6 +21,8 @@
 #include "QAbstractMessageHandler"
 #include "QXmlSchema"
 #include "QXmlSchemaValidator"
+#include "QMessageBox"
+#include "klocalizedstring.h"
 
 
 class MessageHandler : public QAbstractMessageHandler
@@ -83,7 +85,9 @@ bool XmlValidator::validate(QIODevice *xml, QIODevice *schema, QString &errorMsg
     }
 
     if(error) {
-        errorMsg = msgHandler.statusMessage();
+        errorMsg = msgHandler.statusMessage() + i18n("Line: ") + QString::number(msgHandler.line())
+                   + i18n(" Column: ") + QString::number(msgHandler.column());
+
         return false;
     } else {
         return true;

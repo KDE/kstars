@@ -606,6 +606,8 @@ private slots:
 
     void slotExecute();
 
+    void slotLoadLog();
+
     /**Update comets orbital elements*/
     void slotUpdateComets();
 

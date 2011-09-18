@@ -33,9 +33,9 @@ void OAL::Log::writeBegin() {
     writer = new QXmlStreamWriter(&output);
     writer->setAutoFormatting( true );
     writer->writeStartDocument();
-    writer->writeNamespace( "http://observation.sourceforge.net/openastronomylog", "oal" );
+    writer->writeNamespace( "http://groups.google.com/group/openastronomylog", "oal" );
     writer->writeNamespace( "http://www.w3.org/2001/XMLSchema-instance", "xsi" );
-    writer->writeNamespace( "http://observation.sourceforge.net/openastronomylog oal20.xsd", "schemaLocation" );
+    writer->writeNamespace( "http://groups.google.com/group/openastronomylog", "schemaLocation" );
     writer->writeStartElement("oal:observations");
     writer->writeAttribute("version", "2.0");
 }
@@ -186,7 +186,7 @@ void OAL::Log::writeObservations() {
 
 void OAL::Log::writeTarget( SkyObject *o ) {
     writer->writeStartElement( "target" );
-    writer->writeAttribute("id", o->name().remove( ' ' ) );
+    writer->writeAttribute("id", "target_" + m_targetList.indexOf(o) );
     QString typeString;
     if( native )
         writer->writeAttribute( "type", o->typeName() );
@@ -262,14 +262,17 @@ void OAL::Log::writeSite( OAL::Site *s ) {
     writer->writeStartElement( "name" );
     writer->writeCDATA( s->name() );
     writer->writeEndElement();
-    writer->writeStartElement( "latitude" );
-    writer->writeAttribute( "unit",  s->latUnit() );
-    writer->writeCharacters( QString::number( s->latitude() ) );
-    writer->writeEndElement();
     writer->writeStartElement( "longitude" );
     writer->writeAttribute( "unit", s->lonUnit() );
     writer->writeCharacters( QString::number( s->longitude() ) );
     writer->writeEndElement();
+    writer->writeStartElement( "latitude" );
+    writer->writeAttribute( "unit",  s->latUnit() );
+    writer->writeCharacters( QString::number( s->latitude() ) );
+    writer->writeEndElement();
+    writer->writeStartElement( "timezone" );
+    writer->writeCharacters( QString::number( 0 ) );
+    writer->writeEndDocument();
     writer->writeEndElement();
 }
 void OAL::Log::writeSession( OAL::Session *s ) {
@@ -373,10 +376,10 @@ void OAL::Log::writeFilter( OAL::Filter *f ) {
     writer->writeCDATA( f->vendor() );
     writer->writeEndElement();
     writer->writeStartElement( "type" );
-    writer->writeCDATA( f->type() );
+    writer->writeCDATA( f->typeOALRepresentation() );
     writer->writeEndElement();
     writer->writeStartElement( "color" );
-    writer->writeCDATA( f->color() );
+    writer->writeCDATA( f->colorOALRepresentation() );
     writer->writeEndElement();
     writer->writeEndElement();
 }
@@ -811,8 +814,8 @@ void OAL::Log::readEyepiece( QString id ) {
             } else if( reader->name() == "vendor" ) {
                 vendor = reader->readElementText() ;
             } else if( reader->name() == "apparentFOV" ) {
-                fov = reader->readElementText();
                 fovUnit = reader->attributes().value( "unit" ).toString();
+                fov = reader->readElementText();
             } else if( reader->name() == "focalLength" ) {
                 focalLength = reader->readElementText() ;
             } else
@@ -869,7 +872,8 @@ void OAL::Log::readFilter( QString id ) {
                 readUnknownElement();
         }
     }
-    OAL::Filter *o= new OAL::Filter( id, model, vendor, type, color );
+    OAL::Filter *o= new OAL::Filter( id, model, vendor, OAL::Filter::oalRepresentationToFilterType( type ),
+                                     OAL::Filter::oalRepresentationToFilterColor( color ) );
     m_filterList.append( o );
 }
 
@@ -1070,6 +1074,38 @@ OAL::Observation* OAL::Log::findObservationByName( QString id ) {
         if( o->id()  == id )
             return o;
     return NULL;
+}
+
+void OAL::Log::removeScope( int idx ) {
+    if( idx < 0 || idx >= m_scopeList.size() )
+        return;
+
+    delete m_scopeList.at( idx );
+    m_scopeList.removeAt( idx );
+}
+
+void OAL::Log::removeEyepiece( int idx ) {
+    if( idx < 0 || idx >= m_eyepieceList.size() )
+        return;
+
+    delete m_eyepieceList.at( idx );
+    m_eyepieceList.removeAt( idx );
+}
+
+void OAL::Log::removeLens( int idx ) {
+    if( idx < 0 || idx >= m_lensList.size() )
+        return;
+
+    delete m_lensList.at( idx );
+    m_lensList.removeAt( idx );
+}
+
+void OAL::Log::removeFilter( int idx ) {
+    if( idx < 0 || idx >= m_filterList.size() )
+        return;
+
+    delete m_filterList.at( idx );
+    m_filterList.removeAt( idx );
 }
 
 void OAL::Log::loadObserversFromFile() {

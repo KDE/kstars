@@ -404,6 +404,8 @@ void KStars::initActions() {
         << KShortcut( Qt::CTRL+Qt::Key_1 );
 
     // ==== observation menu ================
+    ka = actionCollection()->addAction("open_log", this, SLOT( slotLoadLog() ) )
+        << i18n( "Load log from file..." );
     ka = actionCollection()->addAction("execute", this, SLOT( slotExecute() ) )
         << i18n( "Execute the session Plan..." )
         << KShortcut( Qt::CTRL+Qt::Key_2 );

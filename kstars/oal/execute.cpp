@@ -74,8 +74,8 @@ Execute::Execute() {
              this, SLOT( slotSlew() ) );
     connect( ui.Location, SIGNAL( clicked() ),
              this, SLOT( slotLocation() ) );
-    connect( ui.Target, SIGNAL( currentTextChanged(const QString) ),
-             this, SLOT( slotSetTarget(QString) ) );
+    connect( ui.Target, SIGNAL( currentRowChanged(int) ),
+             this, SLOT( slotSetTarget(int) ) );
     connect( ui.SessionURL, SIGNAL( leftClickedUrl() ),
              this, SLOT( slotShowSession() ) );
     connect( ui.ObservationsURL, SIGNAL( leftClickedUrl() ),
@@ -192,7 +192,7 @@ void Execute::slotLocation() {
 void Execute::loadTargets() {
     ui.Target->clear();
     sortTargetList();
-    foreach( SkyObject *o, ks->observingList()->sessionList() ) {
+    foreach( SkyObject *o, *ks->data()->logObject()->targetList() ) {
         ui.Target->addItem( o->name() );
     }
 }
@@ -238,7 +238,7 @@ void Execute::sortTargetList() {
 void Execute::addTargetNotes() {
     if( ! ui.Target->count() )
         return;
-    SkyObject *o = KStars::Instance()->observingList()->findObjectByName( ui.Target->currentItem()->text() );
+    SkyObject *o = ks->data()->logObject()->targetList()->at( ui.Target->currentRow() );
     if( o ) {
         currentTarget = o;
         o->setNotes( ui.Notes->toPlainText() );
@@ -262,8 +262,8 @@ bool Execute::addObservation() {
     OAL::Observation *o = new OAL::Observation( i18n( "observation_" ) + QString::number( nextObservation++ ) , currentObserver,
                                                 currentSession, currentTarget, dt, ui.FaintestStar->value(), ui.Seeing->value(),
                                                 currentScope, currentEyepiece, currentLens, currentFilter, ui.Description->toPlainText(),
-                                                ui.Language->text() );
-        logObject->observationList()->append( o );
+                                                ui.Language->text() );    
+    logObject->observationList()->append( o );
     ui.Description->clear();
     return true;
 }
@@ -315,8 +315,11 @@ void Execute::slotEndSession() {
     currentSession = NULL;
 }
 
-void Execute::slotSetTarget( QString name ) { 
-    currentTarget = ks->observingList()->findObjectByName( name );
+void Execute::slotSetTarget( int idx ) {
+    if(idx < 0 || idx >= ks->data()->logObject()->targetList()->size())
+        return;
+
+    currentTarget = ks->data()->logObject()->targetList()->at(idx);
     if( ! currentTarget ) {
         ui.NextButton->setEnabled( false );
         ui.Slew->setEnabled( false );

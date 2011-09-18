@@ -74,6 +74,7 @@
 #include "tools/planetviewer.h"
 #include "tools/jmoontool.h"
 #include "tools/flagmanager.h"
+#include "tools/xmlvalidator.h"
 #include "oal/execute.h"
 #include "oal/observermanager.h"
 #include "projections/projector.h"
@@ -956,6 +957,85 @@ void KStars::slotEquipmentWriter() {
 void KStars::slotExecute() {
     getExecute()->init();
     getExecute()->show();
+}
+
+void KStars::slotLoadLog() {
+    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.xml|OAL 2.0 logs (*.xml)" );
+    QFile f;
+    QString fname;
+
+    if ( fileURL.isValid() ) {
+        if ( ! fileURL.isLocalFile() ) {
+            KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml|OAL 2.0 logs (*.xml)" );
+            KTemporaryFile tmpfile;
+            tmpfile.open();
+
+            while ( ! saveURL.isValid() ) {
+                QString message = i18n( "Save location is invalid. Try another location?" );
+                if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::No ) return;
+                saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml|OAL 2.0 logs (*.xml)" );
+            }
+
+            if ( saveURL.isLocalFile() ) {
+                fname = saveURL.toLocalFile();
+            } else {
+                fname = tmpfile.fileName();
+            }
+
+            if( KIO::NetAccess::download( fileURL, fname, this ) ) {
+                if ( tmpfile.fileName() == fname ) { //upload to remote location
+                    if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) ) {
+                        QString message = i18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
+                        KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
+                    }
+                }
+            } else {
+                KMessageBox::sorry( 0, i18n( "Could not download the file." ), i18n( "Download Error" ) );
+            }
+
+            return;
+        }
+    } else {
+        return;
+    }
+
+    KTemporaryFile tmpfile;
+    tmpfile.open();
+
+    if ( ! fileURL.isLocalFile() ) {
+        fname = tmpfile.fileName();
+        if( KIO::NetAccess::download( fileURL, fname, this ) ) {
+            chmod( fname.toAscii(), S_IRUSR|S_IWUSR|S_IXUSR|S_IRGRP|S_IXGRP|S_IROTH|S_IXOTH );
+            f.setFileName( fname );
+        }
+    } else {
+        f.setFileName( fileURL.toLocalFile() );
+    }
+
+    if ( !f.open( QIODevice::ReadOnly ) ) {
+        QString message = i18n( "Could not open file %1", f.fileName() );
+        KMessageBox::sorry( 0, message, i18n( "Could Not Open File" ) );
+        return;
+    }
+
+    QFile xsd( KStandardDirs::locateLocal("appdata", "oal_Schema.xsd") );
+    if ( !xsd.open( QFile::ReadOnly ) ) {
+        KMessageBox::sorry( 0, i18n( "Could not open OAL 2.0 schema definition file: oal_Schema.xsd" ), i18n( "Could Not Open File" ) );
+        return;
+    }
+
+    QString errMsg;
+    if ( !XmlValidator::validate( &f, &xsd, errMsg ) ) {
+        QString message = i18n( "Selected file %1 is not valid OAL 2.0 report: ", f.fileName() ) + errMsg;
+        KMessageBox::sorry( 0, message, i18n( "Report Validation Error" ) );
+    } else {
+        if ( data()->logObject() )
+            delete data()->logObject();
+
+        OAL::Log *log = new OAL::Log;
+        log->readBegin( f.readAll() );
+        data()->setLogObject( log );
+    }
 }
 
 //Help Menu

@@ -90,7 +90,7 @@ Q_OBJECT
         /**@short set the currentTarget when the user selection
          * is changed in the target combo box
          */
-        void slotSetTarget( QString name );
+        void slotSetTarget( int idx );
 
         /**@short loads the equipment list from
          * the global logObject into the comboBoxes

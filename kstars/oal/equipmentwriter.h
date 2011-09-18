@@ -52,19 +52,14 @@ Q_OBJECT
         void slotSetEyepiece( QString );
         void slotSetLens( QString );
         void slotSetFilter( QString );
-        void slotNewScope();
-        void slotNewEyepiece();
-        void slotNewLens();
-        void slotNewFilter();
         void slotClose();
-        void slotSave();
 
     private:
+        void setupFilterTab();
+
         KStars *ks;
         Ui::EquipmentWriter ui;
-        bool newScope, newEyepiece, newLens, newFilter;
         int nextScope, nextEyepiece, nextLens, nextFilter;
-
 };
 
 #endif

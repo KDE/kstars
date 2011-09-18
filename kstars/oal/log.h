@@ -121,6 +121,11 @@ class OAL::Log {
         GeoLocation* geoLocation() { return geo; }
         inline QString writtenOutput() { return output; }
 
+        void removeScope( int idx );
+        void removeEyepiece( int idx );
+        void removeLens( int idx );
+        void removeFilter( int idx );
+
         void loadObserversFromFile();
         void saveObserversToFile();
         void loadEquipmentFromFile();
