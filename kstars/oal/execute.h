@@ -71,6 +71,8 @@ Q_OBJECT
          */
         void slotLocation();
 
+        void loadSessions();
+
         /**@short Loads the sessionlist from the OL
          * into the target combo box
          */
@@ -86,6 +88,8 @@ Q_OBJECT
          * come later than previous night 23:00
          */
         static bool timeLessThan( SkyObject *, SkyObject * );
+
+        void slotSetSession( int idx );
 
         /**@short set the currentTarget when the user selection
          * is changed in the target combo box

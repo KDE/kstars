@@ -745,10 +745,10 @@ void OAL::Log::readSession( QString id, QString lang ) {
                 site = reader->readElementText();
             } else if( reader->name() == "begin" ) {
                 begin = reader->readElementText() ;
-                beginDT.fromString( begin );
+                beginDT = KStarsDateTime::fromString( begin );
             } else if( reader->name() == "end" ) {
                 end = reader->readElementText() ;
-                endDT.fromString( begin );
+                endDT = KStarsDateTime::fromString( end );
             } else if( reader->name() == "weather" ) {
                 weather = reader->readElementText() ;
             } else if( reader->name() == "equipment" ) {

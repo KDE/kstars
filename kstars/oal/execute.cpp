@@ -74,6 +74,8 @@ Execute::Execute() {
              this, SLOT( slotSlew() ) );
     connect( ui.Location, SIGNAL( clicked() ),
              this, SLOT( slotLocation() ) );
+    connect( ui.Sessions, SIGNAL( currentRowChanged(int) ),
+             this, SLOT( slotSetSession(int) ) );
     connect( ui.Target, SIGNAL( currentRowChanged(int) ),
              this, SLOT( slotSetTarget(int) ) );
     connect( ui.SessionURL, SIGNAL( leftClickedUrl() ),
@@ -93,6 +95,9 @@ void Execute::init() {
 
     //set the date time to the dateTime from the OL
     ui.Begin->setDateTime( ks->observingList()->dateTime().dateTime() );
+
+    //load Sessions
+    loadSessions();
 
     //load Targets
     loadTargets();
@@ -166,13 +171,13 @@ bool Execute::saveSession() {
     }
     if( currentSession ){
             currentSession->setSession( currentSession->id(), site->id(), currentSession->coobservers(), ui.Begin->dateTime(),
-                                        ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(),
+                                        ui.End->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(),
                                         ui.Language->text() );
     } else {
         while( logObject->findSessionByName( i18n( "session_" ) + QString::number( nextSession ) ) )
             nextSession++;
         currentSession = new OAL::Session( i18n( "session_" ) + QString::number( nextSession++ ) , site->id(), QStringList(), ui.Begin->dateTime(),
-                                           ui.Begin->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(),
+                                           ui.End->dateTime(), ui.Weather->toPlainText(), ui.Equipment->toPlainText(), ui.Comment->toPlainText(),
                                            ui.Language->text() );
         logObject->sessionList()->append( currentSession );
     } 
@@ -187,6 +192,13 @@ void Execute::slotLocation() {
         ui.Location->setText( geo -> fullName() );
     }
     delete ld;
+}
+
+void Execute::loadSessions() {
+    ui.Sessions->clear();
+    foreach( OAL::Session *s, *ks->data()->logObject()->sessionList() ) {
+        ui.Sessions->addItem( s->id() );
+    }
 }
 
 void Execute::loadTargets() {
@@ -315,6 +327,23 @@ void Execute::slotEndSession() {
     currentSession = NULL;
 }
 
+void Execute::slotSetSession( int idx ) {
+    if(idx < 0 || idx >= ks->data()->logObject()->sessionList()->size())
+        return;
+
+    currentSession = ks->data()->logObject()->sessionList()->at( idx );
+    if( !currentSession ) {
+        return;
+    } else {
+        ui.Begin->setDateTime( currentSession->begin().dateTime() );
+        ui.End->setDateTime( currentSession->end().dateTime() );
+        ui.Weather->setPlainText( currentSession->weather() );
+        ui.Equipment->setPlainText( currentSession->equipment() );
+        ui.Comment->setPlainText( currentSession->comments() );
+        ui.Language->setText( currentSession->lang() );
+    }
+}
+
 void Execute::slotSetTarget( int idx ) {
     if(idx < 0 || idx >= ks->data()->logObject()->targetList()->size())
         return;
@@ -366,6 +395,7 @@ void Execute::slotSetCurrentObjects() {
 }
 
 void Execute::slotShowSession() {
+    ui.Sessions->show();
     ui.Target->hide();
     ui.stackedWidget->setCurrentIndex( 0 );
     ui.NextButton->hide();
@@ -374,6 +404,7 @@ void Execute::slotShowSession() {
 
 void Execute::slotShowTargets() {
     if( saveSession() ) {
+        ui.Sessions->hide();
         ui.Target->show();
         ui.AddObject->show();
         ui.stackedWidget->setCurrentIndex( 1 );

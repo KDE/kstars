@@ -24,6 +24,9 @@
       </widget>
      </item>
      <item>
+      <widget class="KListWidget" name="Sessions"/>
+     </item>
+     <item>
       <widget class="KUrlLabel" name="ObservationsURL">
        <property name="text">
         <string>Step 2: Observations</string>
@@ -66,7 +69,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>2</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="Session">
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -96,6 +99,13 @@
              </property>
             </widget>
            </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="CoobserversButton">
+             <property name="text">
+              <string>Select Coobservers...</string>
+             </property>
+            </widget>
+           </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
@@ -106,64 +116,67 @@
            <item row="2" column="1">
             <widget class="KDateTimeWidget" name="Begin"/>
            </item>
-           <item row="3" column="0">
+           <item row="4" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
               <string>Weather:</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="1">
+           <item row="4" column="1">
             <widget class="KTextEdit" name="Weather">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
+           <item row="5" column="0">
             <widget class="QLabel" name="label_5">
              <property name="text">
               <string>Equipment:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
+           <item row="5" column="1">
             <widget class="KTextEdit" name="Equipment">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item row="6" column="0">
             <widget class="QLabel" name="label_6">
              <property name="text">
               <string>Comments:</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
+           <item row="6" column="1">
             <widget class="KTextEdit" name="Comment">
              <property name="tabChangesFocus">
               <bool>true</bool>
              </property>
             </widget>
            </item>
-           <item row="6" column="0">
+           <item row="7" column="0">
             <widget class="QLabel" name="label_7">
              <property name="text">
               <string>Language:</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
+           <item row="7" column="1">
             <widget class="KLineEdit" name="Language"/>
            </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="CoobserversButton">
+           <item row="3" column="0">
+            <widget class="QLabel" name="endLabel">
              <property name="text">
-              <string>Select Coobservers...</string>
+              <string>End:</string>
              </property>
             </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="KDateTimeWidget" name="End"/>
            </item>
           </layout>
          </item>
