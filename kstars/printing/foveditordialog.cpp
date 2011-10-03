@@ -219,10 +219,13 @@ void FovEditorDialog::updateDescriptions()
     {
         FOV *fov = m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getFov();
 
-        QString fovDescription = i18n("FOV (") + QString::number(m_CurrentIndex + 1) + "/" +
-                                 QString::number(m_ParentWizard->getFovSnapshotList()->size()) + "): " +
-                                 fov->name() + " (" + QString::number(fov->sizeX()) + i18n("'") + " x " +
-                                 QString::number(fov->sizeY()) + i18n("'") + ")";
+        QString fovDescription = i18n("FOV (%1/%2): %3 (%4' x %5')",
+                QString::number(m_CurrentIndex + 1),
+                QString::number(m_ParentWizard->getFovSnapshotList()->size()),
+                fov->name(),
+                QString::number(fov->sizeX()),
+                QString::number(fov->sizeY()));
+
         m_EditorUi->fovInfoLabel->setText(fovDescription);
 
         m_EditorUi->descriptionEdit->setText(m_ParentWizard->getFovSnapshotList()->at(m_CurrentIndex)->getDescription());
