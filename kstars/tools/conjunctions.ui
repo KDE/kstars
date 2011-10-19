@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>464</width>
+    <width>534</width>
     <height>445</height>
    </rect>
   </property>
@@ -21,7 +21,14 @@
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QDateTimeEdit" name="startDate"/>
+      <widget class="QDateTimeEdit" name="startDate">
+       <property name="displayFormat">
+        <string>M/d/yyyy h:mm AP</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="2" column="0">
       <widget class="QLabel" name="label_2">
@@ -31,7 +38,14 @@
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QDateTimeEdit" name="stopDate"/>
+      <widget class="QDateTimeEdit" name="stopDate">
+       <property name="displayFormat">
+        <string>M/d/yyyy h:mm AP</string>
+       </property>
+       <property name="calendarPopup">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="3" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">

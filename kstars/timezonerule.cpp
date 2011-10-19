@@ -86,7 +86,7 @@ int TimeZoneRule::initMonth( const QString &mn ) {
     else if ( ml == "nov" ) return 11;
     else if ( ml == "dec" ) return 12;
 
-    kWarning() << i18n( "Could not parse " ) << mn << i18n( " as a valid month code." ) ;
+    kWarning() << i18n( "Could not parse %1 as a valid month code.", mn );
     return 0;
 }
 
@@ -126,7 +126,7 @@ bool TimeZoneRule::initDay( const QString &dy, int &Day, int &Week ) {
         else if ( dm == "sun" ) { Day = 7; Week = wn; return true; }
     }
 
-    kWarning() << i18n( "Could not parse " ) << dy << i18n( " as a valid day code." ) ;
+    kWarning() << i18n( "Could not parse %1 as a valid day code.", dy );
     return false;
 }
 
