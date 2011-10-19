@@ -18,7 +18,7 @@
 #ifndef SCOPE_H_
 #define SCOPE_H_
 
-#include "oal/oal.h"
+#include "oal.h"
 
 #include <QString>
 

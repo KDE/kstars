@@ -348,6 +348,9 @@ set(oal_SRCS
     oal/equipmentwriter.cpp
     oal/observermanager.cpp
     oal/execute.cpp
+    oal/observationtarget.cpp
+    oal/startarget.cpp
+    oal/observationtreeitem.cpp
 )
 
 set(printing_SRCS

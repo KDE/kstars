@@ -16,20 +16,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "oal/site.h"
+#include "site.h"
 
-void OAL::Site::setSite(const QString &_id, const QString& _name, double _lat, const QString& _latUnit, double _lon, const QString& _lonUnit ){
+using namespace OAL;
+
+void Site::setSite(const QString &_id, const QString& _name, double _lat, const QString& _latUnit, double _lon, const QString& _lonUnit, const int _timezone ){
     m_Id = _id;
     m_Name = _name;
     m_Lat = _lat;
     m_Lon = _lon;
     m_LatUnit = _latUnit;
     m_LonUnit = _lonUnit;
+    m_Timezone = _timezone;
 }
-void OAL::Site::setSite( GeoLocation *geo, const QString& id ) {
+void Site::setSite( GeoLocation *geo, const QString& id ) {
     m_Id = id;
     m_Name = geo->name();
     m_Lat = geo->lat()->radians();
     m_Lon = geo->lng()->radians();
     m_LatUnit = m_LonUnit = "rad";
+    //m_Timezone = geo->tzrule()
 }

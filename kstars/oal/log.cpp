@@ -16,7 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "oal/log.h"
+#include "log.h"
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "skyobjects/skyobject.h"
@@ -25,22 +25,33 @@
 #include "skycomponents/skymapcomposite.h"
 #include "kstarsdatetime.h"
 #include "kstandarddirs.h"
+#include "observer.h"
+#include "site.h"
+#include "session.h"
+#include "scope.h"
+#include "eyepiece.h"
+#include "filter.h"
+#include "lens.h"
+#include "observation.h"
+#include "observationtarget.h"
 
-void OAL::Log::writeBegin() {
+using namespace OAL;
+
+void Log::writeBegin() {
     ks = KStars::Instance();
-    output = "";
-    m_targetList = ks->observingList()->sessionList();
-    writer = new QXmlStreamWriter(&output);
+    output.clear();
+    //m_targetList = ks->observingList()->sessionList();
+    writer = new QXmlStreamWriter( &output );
     writer->setAutoFormatting( true );
     writer->writeStartDocument();
     writer->writeNamespace( "http://groups.google.com/group/openastronomylog", "oal" );
     writer->writeNamespace( "http://www.w3.org/2001/XMLSchema-instance", "xsi" );
     writer->writeNamespace( "http://groups.google.com/group/openastronomylog", "schemaLocation" );
-    writer->writeStartElement("oal:observations");
-    writer->writeAttribute("version", "2.0");
+    writer->writeStartElement( "oal:observations" );
+    writer->writeAttribute( "version", "2.0" );
 }
 
-QString OAL::Log::writeLog( bool _native ) {
+QString Log::writeLog( bool _native ) {
     native = _native;
     markUsedObservers();
     markUsedEquipment();
@@ -62,187 +73,195 @@ QString OAL::Log::writeLog( bool _native ) {
     return output;
 }
 
-void OAL::Log::writeEnd() {
+void Log::writeEnd() {
     writer->writeEndDocument();
     delete writer;
 }
 
-void OAL::Log::writeObservers() {
+void Log::writeObservers() {
     writer->writeStartElement( "observers" );
-    foreach( OAL::Observer *o, m_observerList ) {
+    foreach( Observer *o, m_observerList ) {
         writeObserver( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeUsedObservers() {
+void Log::writeUsedObservers() {
     writer->writeStartElement( "observers" );
-    foreach( OAL::Observer *o, m_observerList ) {
+    foreach( Observer *o, m_observerList ) {
         if( m_usedObservers.contains( o->id() ) )
         writeObserver( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeSites() {
-    writer->writeStartElement("sites");
-    foreach( OAL::Site *o, m_siteList )
+void Log::writeSites() {
+    writer->writeStartElement( "sites" );
+    foreach( Site *o, m_siteList )
         writeSite( o );
     writer->writeEndElement();
 }
 
-void OAL::Log::writeSessions() {
-    writer->writeStartElement("sessions");
-    foreach( OAL::Session *o, m_sessionList )
+void Log::writeSessions() {
+    writer->writeStartElement( "sessions" );
+    foreach( Session *o, m_sessionList )
         writeSession( o );
     writer->writeEndElement();
 }
 
-void OAL::Log::writeTargets() {
-    writer->writeStartElement("targets");
-    foreach( SkyObject *o, m_targetList ) {
-        writeTarget( o );
+void Log::writeTargets() {
+    writer->writeStartElement( "targets" );
+    foreach( ObservationTarget *t, m_targetList ) {
+        writeTarget( t );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeScopes() {
-    writer->writeStartElement("scopes");
-    foreach( OAL::Scope *o, m_scopeList ) {
+void Log::writeScopes() {
+    writer->writeStartElement( "scopes" );
+    foreach( Scope *o, m_scopeList ) {
         writeScope( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeUsedScopes() {
-    writer->writeStartElement("scopes");
-    foreach( OAL::Scope *o, m_scopeList ) {
+void Log::writeUsedScopes() {
+    writer->writeStartElement( "scopes" );
+    foreach( Scope *o, m_scopeList ) {
         if( m_usedScopes.contains( o->id() ) )
             writeScope( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeEyepieces() {
-    writer->writeStartElement("eyepieces");
-    foreach( OAL::Eyepiece *o, m_eyepieceList ) {
+void Log::writeEyepieces() {
+    writer->writeStartElement( "eyepieces" );
+    foreach( Eyepiece *o, m_eyepieceList ) {
         writeEyepiece( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeUsedEyepieces() {
-    writer->writeStartElement("eyepieces");
-    foreach( OAL::Eyepiece *o, m_eyepieceList ) {
+void Log::writeUsedEyepieces() {
+    writer->writeStartElement( "eyepieces" );
+    foreach( Eyepiece *o, m_eyepieceList ) {
         if( m_usedEyepieces.contains( o->id() ) )
             writeEyepiece( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeLenses() {
-    writer->writeStartElement("lenses");
-    foreach( OAL::Lens *o, m_lensList ) {
+void Log::writeLenses() {
+    writer->writeStartElement( "lenses" );
+    foreach( Lens *o, m_lensList ) {
         writeLens( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeUsedLenses() {
-    writer->writeStartElement("lenses");
-    foreach( OAL::Lens *o, m_lensList ) {
+void Log::writeUsedLenses() {
+    writer->writeStartElement( "lenses" );
+    foreach( Lens *o, m_lensList ) {
         if( m_usedLens.contains( o->id() ) )
             writeLens( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeFilters() {
-    writer->writeStartElement("filters");
-    foreach( OAL::Filter *o, m_filterList ) {
+void Log::writeFilters() {
+    writer->writeStartElement( "filters" );
+    foreach( Filter *o, m_filterList ) {
         writeFilter( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeUsedFilters() {
-    writer->writeStartElement("filters");
-    foreach( OAL::Filter *o, m_filterList ) {
+void Log::writeUsedFilters() {
+    writer->writeStartElement( "filters" );
+    foreach( Filter *o, m_filterList ) {
         if( m_usedFilters.contains( o->id() ) )
             writeFilter( o );
     }
     writer->writeEndElement();
 }
 
-void OAL::Log::writeImagers() {
-    writer->writeStartElement("imagers");
+void Log::writeImagers() {
+    writer->writeStartElement( "imagers" );
     writer->writeEndElement();
 }
 
-void OAL::Log::writeObservations() {
-    foreach( OAL::Observation *o, m_observationList )
+void Log::writeObservations() {
+    foreach( Observation *o, m_observationList )
         writeObservation( o );
 }
 
-void OAL::Log::writeTarget( SkyObject *o ) {
+void Log::writeTarget( ObservationTarget *t ) {
     writer->writeStartElement( "target" );
-    writer->writeAttribute("id", "target_" + m_targetList.indexOf(o) );
-    QString typeString;
-    if( native )
-        writer->writeAttribute( "type", o->typeName() );
-    else {
-        switch( o->type() ) {
-            case 0: typeString = "oal:starTargetType"; break;
-            case 1: typeString = "oal:starTargetType"; break;
-            case 2: typeString = "oal:PlanetTargetType"; break;
-            case 3: typeString = "oal:deepSkyOC"; break;
-            case 4: typeString = "oal:deepSkyGC"; break;
-            case 5: typeString = "oal:deepSkyGN"; break;
-            case 6: typeString = "oal:deepSkyPN"; break;
-            case 8: typeString = "oal:deepSkyGX"; break;
-            case 9: typeString = "oal:CometTargetType"; break;
-            case 12: typeString = "oal:MoonTargetType"; break;
-            case 13: typeString = "oal:deepSkyAS"; break;
-            case 14: typeString = "oal:deepSkyCG"; break;
-            case 15: typeString = "oal:deepSkyDN"; break;
-            case 16: typeString = "oal:deepSkyQS"; break;
-            case 17: typeString = "oal:deepSkyMS"; break;
-            default: typeString = "oal:deepSkyNA"; break;
-        }
-        writer->writeAttribute("xsi:type", typeString );
-    }
-    writer->writeStartElement( "datasource" );
-    writer->writeCDATA( "KStars" );
-    writer->writeEndElement();
-    writer->writeStartElement("name");
-    writer->writeCDATA( o->name() );
-    writer->writeEndElement();
-    writer->writeStartElement( "position" );
-    writer->writeStartElement( "ra" );
-    writer->writeAttribute("unit", "rad" );
-    writer->writeCharacters( QString::number( o->ra().radians() ) );
-    writer->writeEndElement();
-    writer->writeStartElement( "dec" );
-    writer->writeAttribute("unit", "rad" );
-    writer->writeCharacters( QString::number( o->dec().radians() ) );
-    writer->writeEndElement();
-    writer->writeEndElement();
-    if( native && ! ks->observingList()->getTime( o ).isEmpty() ) {
-        writer->writeStartElement("time");
-        writer->writeCDATA( ks->observingList()->getTime( o ) );
+    writer->writeAttribute( "id", "target_" + m_targetList.indexOf(t) );
+//    QString typeString;
+//    if( native )
+//        writer->writeAttribute( "type", o->typeName() );
+//    else {
+//        switch( o->type() ) {
+//            case 0: typeString = "oal:starTargetType"; break;
+//            case 1: typeString = "oal:starTargetType"; break;
+//            case 2: typeString = "oal:PlanetTargetType"; break;
+//            case 3: typeString = "oal:deepSkyOC"; break;
+//            case 4: typeString = "oal:deepSkyGC"; break;
+//            case 5: typeString = "oal:deepSkyGN"; break;
+//            case 6: typeString = "oal:deepSkyPN"; break;
+//            case 8: typeString = "oal:deepSkyGX"; break;
+//            case 9: typeString = "oal:CometTargetType"; break;
+//            case 12: typeString = "oal:MoonTargetType"; break;
+//            case 13: typeString = "oal:deepSkyAS"; break;
+//            case 14: typeString = "oal:deepSkyCG"; break;
+//            case 15: typeString = "oal:deepSkyDN"; break;
+//            case 16: typeString = "oal:deepSkyQS"; break;
+//            case 17: typeString = "oal:deepSkyMS"; break;
+//            default: typeString = "oal:deepSkyNA"; break;
+//        }
+//        writer->writeAttribute( "xsi:type", typeString );
+//    }
+
+    if( t->fromDatasource() ) {
+        writer->writeStartElement( "datasource" );
+        writer->writeCDATA( t->datasource() );
+        writer->writeEndElement();
+    } else {
+        writer->writeStartElement( "observer" );
+        writer->writeCharacters( t->observer() );
         writer->writeEndElement();
     }
+
+    writer->writeStartElement( "position" );
+    writer->writeStartElement( "ra" );
+    writer->writeAttribute( "unit", "rad" );
+    writer->writeCharacters( t->position().ra().toDMSString() );
+    writer->writeEndElement();
+    writer->writeStartElement( "dec" );
+    writer->writeAttribute( "unit", "rad" );
+    writer->writeCharacters( t->position().dec().toDMSString() );
+    writer->writeEndElement();
+    writer->writeEndElement();
+
+//    if( native && ! ks->observingList()->getTime( o ).isEmpty() ) {
+//        writer->writeStartElement("time");
+//        writer->writeCDATA( ks->observingList()->getTime( o ) );
+//        writer->writeEndElement();
+//    }
+
     writer->writeStartElement( "constellation" );
-    writer->writeCDATA(
-        KStarsData::Instance()->skyComposite()->getConstellationBoundary()->constellationName( o ) );
+    writer->writeCDATA( t->constellation() );
     writer->writeEndElement();
+
     writer->writeStartElement( "notes" );
-    writer->writeCDATA( o->notes() );
+    writer->writeCDATA( t->notes() );
     writer->writeEndElement();
+
     writer->writeEndElement();
 }
 
-void OAL::Log::writeObserver( OAL::Observer *o ) {
+void Log::writeObserver( Observer *o ) {
     writer->writeStartElement( "observer" );
     writer->writeAttribute( "id", o->id() );
     writer->writeStartElement( "name" );
@@ -256,7 +275,7 @@ void OAL::Log::writeObserver( OAL::Observer *o ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void OAL::Log::writeSite( OAL::Site *s ) {
+void Log::writeSite( Site *s ) {
     writer->writeStartElement( "site" );
     writer->writeAttribute( "id", s->id() );
     writer->writeStartElement( "name" );
@@ -272,10 +291,10 @@ void OAL::Log::writeSite( OAL::Site *s ) {
     writer->writeEndElement();
     writer->writeStartElement( "timezone" );
     writer->writeCharacters( QString::number( 0 ) );
-    writer->writeEndDocument();
+    writer->writeEndElement();
     writer->writeEndElement();
 }
-void OAL::Log::writeSession( OAL::Session *s ) {
+void Log::writeSession( Session *s ) {
     writer->writeStartElement( "session" );
     writer->writeAttribute( "id", s->id() ); 
     writer->writeStartElement( "begin" );
@@ -305,7 +324,7 @@ void OAL::Log::writeSession( OAL::Session *s ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void OAL::Log::writeScope( OAL::Scope *s ) {
+void Log::writeScope( Scope *s ) {
     writer->writeStartElement( "scope" );
     writer->writeAttribute( "id", s->id() ); 
     writer->writeStartElement( "model" );
@@ -333,7 +352,7 @@ void OAL::Log::writeScope( OAL::Scope *s ) {
 
 
 }
-void OAL::Log::writeEyepiece( OAL::Eyepiece *ep ) {
+void Log::writeEyepiece( Eyepiece *ep ) {
     writer->writeStartElement( "eyepiece" );
     writer->writeAttribute( "id", ep->id() ); 
     writer->writeStartElement( "model" );
@@ -351,7 +370,7 @@ void OAL::Log::writeEyepiece( OAL::Eyepiece *ep ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void OAL::Log::writeLens( OAL::Lens *l ) {
+void Log::writeLens( Lens *l ) {
     writer->writeStartElement( "lens" );
     writer->writeAttribute( "id", l->id() );
     writer->writeStartElement( "model" );
@@ -366,7 +385,7 @@ void OAL::Log::writeLens( OAL::Lens *l ) {
     writer->writeEndElement();
 }
 
-void OAL::Log::writeFilter( OAL::Filter *f ) {
+void Log::writeFilter( Filter *f ) {
     writer->writeStartElement( "filter" );
     writer->writeAttribute( "id", f->id() );
     writer->writeStartElement( "model" );
@@ -384,7 +403,7 @@ void OAL::Log::writeFilter( OAL::Filter *f ) {
     writer->writeEndElement();
 }
 
-void OAL::Log::writeObservation( OAL::Observation *o ) {
+void Log::writeObservation( Observation *o ) {
     writer->writeStartElement( "observation" );
     writer->writeStartElement( "observer" );
     writer->writeCharacters( o->observer() );
@@ -428,7 +447,7 @@ void OAL::Log::writeObservation( OAL::Observation *o ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void OAL::Log::writeGeoDate() {
+void Log::writeGeoDate() {
     writer->writeStartElement( "geodate" );
     writer->writeStartElement( "name" );
     writer->writeCDATA( ks->observingList()->geoLocation()->name() );
@@ -444,7 +463,7 @@ void OAL::Log::writeGeoDate() {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void OAL::Log::readBegin( QString input ) {
+void Log::readBegin( const QString &input ) {
     reader = new QXmlStreamReader( input );
     ks = KStars::Instance();
     while( ! reader->atEnd() ) {
@@ -456,7 +475,7 @@ void OAL::Log::readBegin( QString input ) {
     }
 }
 
-void OAL::Log::readUnknownElement() {
+void Log::readUnknownElement() {
     while( ! reader->atEnd() ) {
         reader->readNext();
         
@@ -468,7 +487,7 @@ void OAL::Log::readUnknownElement() {
     }
 }
 
-void OAL::Log::readLog() {
+void Log::readLog() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -476,14 +495,14 @@ void OAL::Log::readLog() {
             break;
 
         if( reader->isStartElement() ) {
-            if( reader->name() == "targets" )
-                readTargets();
-           else if( reader->name() == "observers" )
+           if( reader->name() == "observers" )
                 readObservers();
            else if( reader->name() == "sites" )
                 readSites();
            else if( reader->name() == "sessions" )
                 readSessions();
+           else if( reader->name() == "targets" )
+               readTargets();
            else if( reader->name() == "scopes" )
                 readScopes();
            else if( reader->name() == "eyepieces" )
@@ -502,7 +521,7 @@ void OAL::Log::readLog() {
     }
 }
 
-void OAL::Log::readTargets() {
+void Log::readTargets() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -511,14 +530,14 @@ void OAL::Log::readTargets() {
 
         if( reader->isStartElement() ) {
             if( reader->name() == "target" )
-                readTarget();
+                readTarget( reader->attributes().value( "id" ).toString() );
             else
                 readUnknownElement();
         }
     }
 }
 
-void OAL::Log::readObservers() {
+void Log::readObservers() {
     qDeleteAll(m_observerList);
     m_observerList.clear();
 
@@ -537,7 +556,7 @@ void OAL::Log::readObservers() {
     }
 }
 
-void OAL::Log::readSites() {
+void Log::readSites() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -553,7 +572,7 @@ void OAL::Log::readSites() {
     }
 }
 
-void OAL::Log::readSessions() {
+void Log::readSessions() {
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -569,7 +588,7 @@ void OAL::Log::readSessions() {
     }
 }
 
-void OAL::Log::readScopes() {
+void Log::readScopes() {
     qDeleteAll(m_scopeList);
     m_scopeList.clear();
 
@@ -588,7 +607,7 @@ void OAL::Log::readScopes() {
     }
 }
 
-void OAL::Log::readEyepieces() {
+void Log::readEyepieces() {
     qDeleteAll(m_eyepieceList);
     m_eyepieceList.clear();
 
@@ -607,7 +626,7 @@ void OAL::Log::readEyepieces() {
     }
 }
 
-void OAL::Log::readLenses() {
+void Log::readLenses() {
     qDeleteAll(m_lensList);
     m_lensList.clear();
 
@@ -626,7 +645,7 @@ void OAL::Log::readLenses() {
     }
 }
 
-void OAL::Log::readFilters() {
+void Log::readFilters() {
     qDeleteAll(m_filterList);
     m_filterList.clear();
 
@@ -645,9 +664,11 @@ void OAL::Log::readFilters() {
     }
 }
 
-void OAL::Log::readTarget() {
-    SkyObject *o = NULL;
-    QString name, time, notes;
+void Log::readTarget( const QString &id ) {
+    QString datasourceObserver, name, constellation, notes;
+    QStringList aliases;
+    SkyPoint position;
+    bool fromDatasource = true;
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -655,35 +676,35 @@ void OAL::Log::readTarget() {
             break;
 
         if( reader->isStartElement() ) {
-            if( reader->name() == "name" ) {
-                name = reader->readElementText();
-                if( name != "star" ) {
-                    o = ks->data()->objectNamed( name );
-                    if( ! o ) o = ks->data()->skyComposite()->findStarByGenetiveName( name );
-                    if( o ) targetList()->append( o );
-                }
-            } else if( reader->name() == "time" ) {
-                time = reader->readElementText();
-                if( o )
-                    TimeHash.insert( o->name(), QTime::fromString( time, "h:mm:ss AP" ) );
-            } else if( reader->name() == "notes" ) {
-                notes = reader->readElementText();
-                if( o )
-                    o->setNotes( notes );
+            if( reader->name() == "datasource" ) {
+                datasourceObserver = reader->readElementText();
+            } else if ( reader->name() == "observer" ) {
+                datasourceObserver = reader->readElementText();
+                fromDatasource = false;
             }
-       //   else  if( reader->name() == "datasource" )
-       //         kDebug() << reader->readElementText();
-       //     else if( reader->name() == "position" )
-       //         readPosition();
-       //     else if( reader->name() == "constellation" )
-       //         kDebug() << reader->readElementText();
+            else if( reader->name() == "name" ) {
+                name = reader->readElementText();
+            } else if( reader->name() == "alias" ) {
+                aliases.append(reader->readElementText());
+            } else if( reader->name() == "position" ) {
+                bool ok;
+                position = readPosition( ok );
+            }
+            else  if( reader->name() == "constellation" ) {
+                constellation = reader->readElementText();
+            }
+            else if( reader->name() == "notes" ) {
+                notes = reader->readElementText();
+            }
             else
                 readUnknownElement();
         }
     }
+    ObservationTarget *t = new ObservationTarget( id, datasourceObserver, fromDatasource, name, aliases, position, constellation, notes );
+    m_targetList.append( t );
 }
 
-void OAL::Log::readObserver( QString id ) {
+void Log::readObserver( const QString &id ) {
     QString name, surname, contact;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -702,11 +723,11 @@ void OAL::Log::readObserver( QString id ) {
                 readUnknownElement();
         }
     }
-    OAL::Observer *o= new OAL::Observer( id, name, surname, contact );
+    Observer *o= new Observer( id, name, surname, contact );
     m_observerList.append( o );
 }
 
-void OAL::Log::readSite( QString id ) {
+void Log::readSite( const QString &id ) {
     QString name, latUnit, lonUnit, lat, lon;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -727,11 +748,11 @@ void OAL::Log::readSite( QString id ) {
                 readUnknownElement();
         }
     }
-    OAL::Site *o= new OAL::Site( id, name, lat.toDouble(), latUnit, lon.toDouble(), lonUnit );
+    Site *o= new Site( id, name, lat.toDouble(), latUnit, lon.toDouble(), lonUnit, 0 );
     m_siteList.append( o );
 }
 
-void OAL::Log::readSession( QString id, QString lang ) {
+void Log::readSession( const QString &id, const QString &lang ) {
     QString site, weather, equipment, comments, begin, end;
     KStarsDateTime beginDT, endDT;
     while( ! reader->atEnd() ) {
@@ -759,11 +780,11 @@ void OAL::Log::readSession( QString id, QString lang ) {
                 readUnknownElement();
         }
     }
-    OAL::Session *o= new OAL::Session( id, site, QStringList(), beginDT, endDT, weather, equipment, comments, lang );
+    Session *o= new Session( id, site, QStringList(), beginDT, endDT, weather, equipment, comments, lang );
     m_sessionList.append( o );
 }
 
-void OAL::Log::readScope( QString id ) {
+void Log::readScope( const QString &id ) {
     QString model, focalLength, vendor, type, aperture, driver = i18n("None");
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -795,12 +816,12 @@ void OAL::Log::readScope( QString id ) {
         }
     }
     
-    OAL::Scope *o= new OAL::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
+    Scope *o= new Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
     o->setINDIDriver(driver);
     m_scopeList.append( o );
 }
 
-void OAL::Log::readEyepiece( QString id ) {
+void Log::readEyepiece( const QString &id ) {
     QString model, focalLength, vendor, fov, fovUnit;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -823,11 +844,11 @@ void OAL::Log::readEyepiece( QString id ) {
         }
     }
     
-    OAL::Eyepiece *o= new OAL::Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
+    Eyepiece *o= new Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
     m_eyepieceList.append( o );
 }
 
-void OAL::Log::readLens( QString id ) {
+void Log::readLens( const QString &id ) {
     QString model, factor, vendor;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -847,11 +868,11 @@ void OAL::Log::readLens( QString id ) {
         }
     }
     
-    OAL::Lens *o= new OAL::Lens( id, model, vendor, factor.toDouble() );
+    Lens *o= new Lens( id, model, vendor, factor.toDouble() );
     m_lensList.append( o );
 }
 
-void OAL::Log::readFilter( QString id ) {
+void Log::readFilter( const QString &id ) {
     QString model, vendor, type, color;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -872,12 +893,13 @@ void OAL::Log::readFilter( QString id ) {
                 readUnknownElement();
         }
     }
-    OAL::Filter *o= new OAL::Filter( id, model, vendor, OAL::Filter::oalRepresentationToFilterType( type ),
-                                     OAL::Filter::oalRepresentationToFilterColor( color ) );
+    Filter *o= new Filter( id, model, vendor, Filter::oalRepresentationToFilterType( type ),
+                                     Filter::oalRepresentationToFilterColor( color ) );
     m_filterList.append( o );
 }
 
-void OAL::Log::readPosition() {
+SkyPoint Log::readPosition( bool &ok ) {
+    QString raStr, decStr;
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -886,18 +908,26 @@ void OAL::Log::readPosition() {
 
         if( reader->isStartElement() ) {
             if( reader->name() == "ra" )
-                kDebug() << reader->readElementText() << reader->attributes().value( "unit" );
+                raStr = reader->readElementText();
             else if( reader->name() == "dec" )
-                kDebug() << reader->readElementText() << reader->attributes().value( "unit" );
+                decStr = reader->readElementText();
             else
                 readUnknownElement();
         }
     }
+
+    bool raOk( false ), decOk( false );
+    dms ra( ( 1 / dms::DegToRad ) * raStr.toDouble( &raOk ) );
+    dms dec( ( 1 / dms::DegToRad ) * decStr.toDouble( &decOk ) );
+    ok = raOk && decOk;
+
+    return SkyPoint(ra, dec);
 }
 
-void OAL::Log::readObservation( QString id ) {
+void Log::readObservation( const QString &id ) {
     QString observer, site, session, target, faintestStar, seeing, scope, eyepiece, lens, filter, result, lang;
     KStarsDateTime begin;
+    Observation *o = new Observation;
     while( ! reader->atEnd() ) {
         reader->readNext();
         if( reader->isEndElement() )
@@ -909,8 +939,13 @@ void OAL::Log::readObservation( QString id ) {
                 site = reader->readElementText();
             else if( reader->name() == "session" )
                 session = reader->readElementText();
-            else if( reader->name() == "target" )
+            else if( reader->name() == "target" ) {
                 target = reader->readElementText();
+                ObservationTarget *t = findTargetById( target );
+                if( t ) {
+                    t->observationsList()->append( o );
+                }
+            }
             else if( reader->name() == "begin" )
                 begin.fromString( reader->readElementText() );
             else if( reader->name() == "faintestStar" )
@@ -932,11 +967,12 @@ void OAL::Log::readObservation( QString id ) {
                 readUnknownElement();
         }
     }
-        OAL::Observation *o = new OAL::Observation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, lens, filter, result, lang );
-        m_observationList.append( o );
+
+    o->setObservation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, lens, filter, result, lang );
+    m_observationList.append( o );
 }
 
-QString OAL::Log::readResult() {
+QString Log::readResult() {
     QString result;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -953,7 +989,7 @@ QString OAL::Log::readResult() {
     return result;
 }
 
-void OAL::Log::readGeoDate() {
+void Log::readGeoDate() {
     QString name, province, country, date;
     while( ! reader->atEnd() ) {
         reader->readNext();
@@ -978,105 +1014,125 @@ void OAL::Log::readGeoDate() {
     dt.setDate( QDate::fromString( date, "ddMMyyyy" ) );
 }
 
-OAL::Observer* OAL::Log::findObserverByName( QString name ) {
-    foreach( OAL::Observer *obs, *observerList() )
-        if( QString(obs->name() + ' ' + obs->surname()) == name )
+Observer* Log::findObserverByName( const QString &name ) {
+    foreach( Observer *obs, *observerList() )
+        if( QString(obs->name() + ' ' + obs->surname() ) == name )
             return obs;
-    return NULL;
+    return 0;
 }
 
-OAL::Observer* OAL::Log::findObserverById( QString id ) {
-    foreach( OAL::Observer *obs, *observerList() )
+Observer* Log::findObserverById( const QString &id ) {
+    foreach( Observer *obs, *observerList() )
         if( obs->id() == id )
             return obs;
-    return NULL;
+    return 0;
 }
 
-OAL::Session* OAL::Log::findSessionByName( QString id ) {
-    foreach( OAL::Session *s, *sessionList() )
+Session* Log::findSessionByName( const QString &id ) {
+    foreach( Session *s, *sessionList() )
         if( s->id()  == id )
             return s;
-    return NULL;
+    return 0;
 }
 
-OAL::Site* OAL::Log::findSiteById( QString id ) {
-    foreach( OAL::Site *s, *siteList() )
+Site* Log::findSiteById( const QString &id ) {
+    foreach( Site *s, *siteList() )
         if( s->id()  == id )
             return s;
-    return NULL;
+    return 0;
 }
 
-OAL::Site* OAL::Log::findSiteByName( QString name ) {
-    foreach( OAL::Site *s, *siteList() )
+ObservationTarget* Log::findTargetByName( const QString &name )
+{
+    foreach( ObservationTarget *t, *targetList() ) {
+        if( t->name() == name ) {
+            return t;
+        }
+    }
+    return 0;
+}
+
+ObservationTarget* Log::findTargetById( const QString &id )
+{
+    foreach( ObservationTarget *t, *targetList() ) {
+        if( t->id() == id ) {
+            return t;
+        }
+    }
+    return 0;
+}
+
+Site* Log::findSiteByName( const QString &name ) {
+    foreach( Site *s, *siteList() )
         if( s->name()  == name )
             return s;
-    return NULL;
+    return 0;
 }
 
-OAL::Scope* OAL::Log::findScopeById( QString id ) {
-    foreach( OAL::Scope *s, *scopeList() )
+Scope* Log::findScopeById( const QString &id ) {
+    foreach( Scope *s, *scopeList() )
         if( s->id()  == id )
             return s;
-    return NULL;
+    return 0;
 }
 
-OAL::Eyepiece* OAL::Log::findEyepieceById( QString id ) {
-    foreach( OAL::Eyepiece *e, *eyepieceList() )
+Eyepiece* Log::findEyepieceById( const QString &id ) {
+    foreach( Eyepiece *e, *eyepieceList() )
         if( e->id()  == id )
             return e;
-    return NULL;
+    return 0;
 }
 
-OAL::Lens* OAL::Log::findLensById( QString id ) {
-    foreach( OAL::Lens *l, *lensList() )
+Lens* Log::findLensById( const QString &id ) {
+    foreach( Lens *l, *lensList() )
         if( l->id()  == id )
             return l;
-    return NULL;
+    return 0;
 }
 
-OAL::Filter* OAL::Log::findFilterById( QString id ) {
-    foreach( OAL::Filter *f, *filterList() )
+Filter* Log::findFilterById( const QString &id ) {
+    foreach( Filter *f, *filterList() )
         if( f->id()  == id )
             return f;
-    return NULL;
+    return 0;
 }
 
-OAL::Scope* OAL::Log::findScopeByName( QString name ) {
-    foreach( OAL::Scope *s, *scopeList() )
+Scope* Log::findScopeByName( const QString &name ) {
+    foreach( Scope *s, *scopeList() )
         if( s->name()  == name )
             return s;
-    return NULL;
+    return 0;
 }
 
-OAL::Eyepiece* OAL::Log::findEyepieceByName( QString name ) {
-    foreach( OAL::Eyepiece *e, *eyepieceList() )
+Eyepiece* Log::findEyepieceByName( const QString &name ) {
+    foreach( Eyepiece *e, *eyepieceList() )
         if( e->name()  == name )
             return e;
-    return NULL;
+    return 0;
 }
 
-OAL::Filter* OAL::Log::findFilterByName( QString name ) {
-    foreach( OAL::Filter *f, *filterList() )
+Filter* Log::findFilterByName( const QString &name ) {
+    foreach( Filter *f, *filterList() )
         if( f->name()  == name )
             return f;
-    return NULL;
+    return 0;
 }
 
-OAL::Lens* OAL::Log::findLensByName( QString name ) {
-    foreach( OAL::Lens *l, *lensList() )
+Lens* Log::findLensByName( const QString &name ) {
+    foreach( Lens *l, *lensList() )
         if( l->name()  == name )
             return l;
-    return NULL;
+    return 0;
 }
 
-OAL::Observation* OAL::Log::findObservationByName( QString id ) {
-    foreach( OAL::Observation *o, *observationList() )
+Observation* Log::findObservationByName( const QString &id ) {
+    foreach( Observation *o, *observationList() )
         if( o->id()  == id )
             return o;
-    return NULL;
+    return 0;
 }
 
-void OAL::Log::removeScope( int idx ) {
+void Log::removeScope( int idx ) {
     if( idx < 0 || idx >= m_scopeList.size() )
         return;
 
@@ -1084,7 +1140,7 @@ void OAL::Log::removeScope( int idx ) {
     m_scopeList.removeAt( idx );
 }
 
-void OAL::Log::removeEyepiece( int idx ) {
+void Log::removeEyepiece( int idx ) {
     if( idx < 0 || idx >= m_eyepieceList.size() )
         return;
 
@@ -1092,7 +1148,7 @@ void OAL::Log::removeEyepiece( int idx ) {
     m_eyepieceList.removeAt( idx );
 }
 
-void OAL::Log::removeLens( int idx ) {
+void Log::removeLens( int idx ) {
     if( idx < 0 || idx >= m_lensList.size() )
         return;
 
@@ -1100,7 +1156,7 @@ void OAL::Log::removeLens( int idx ) {
     m_lensList.removeAt( idx );
 }
 
-void OAL::Log::removeFilter( int idx ) {
+void Log::removeFilter( int idx ) {
     if( idx < 0 || idx >= m_filterList.size() )
         return;
 
@@ -1108,7 +1164,7 @@ void OAL::Log::removeFilter( int idx ) {
     m_filterList.removeAt( idx );
 }
 
-void OAL::Log::loadObserversFromFile() {
+void Log::loadObserversFromFile() {
     QFile f;
     f.setFileName(KStandardDirs::locateLocal("appdata", "observerlist.xml"));
     if(!f.open(QIODevice::ReadOnly))
@@ -1118,7 +1174,7 @@ void OAL::Log::loadObserversFromFile() {
     f.close();
 }
 
-void OAL::Log::saveObserversToFile() {
+void Log::saveObserversToFile() {
     QFile f;
     f.setFileName(KStandardDirs::locateLocal("appdata", "observerlist.xml"));
     if (!f.open(QIODevice::WriteOnly)) {
@@ -1133,7 +1189,7 @@ void OAL::Log::saveObserversToFile() {
     f.close();
 }
 
-void OAL::Log::loadEquipmentFromFile() {
+void Log::loadEquipmentFromFile() {
     QFile f;
     f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );
     if( ! f.open( QIODevice::ReadOnly ) )
@@ -1143,7 +1199,7 @@ void OAL::Log::loadEquipmentFromFile() {
     f.close();
 }
 
-void OAL::Log::saveEquipmentToFile() {
+void Log::saveEquipmentToFile() {
     QFile f;
     f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );
     if ( ! f.open( QIODevice::WriteOnly ) ) {
@@ -1161,20 +1217,20 @@ void OAL::Log::saveEquipmentToFile() {
     f.close();
 }
 
-void OAL::Log::markUsedObservers() {
-    foreach( OAL::Observation *obs, m_observationList ) {
+void Log::markUsedObservers() {
+    foreach( Observation *obs, m_observationList ) {
         m_usedObservers.insert(obs->observer());
     }
 
-    foreach( OAL::Session *session, m_sessionList ) {
+    foreach( Session *session, m_sessionList ) {
         foreach(QString obs, session->coobservers()) {
             m_usedObservers.insert(obs);
         }
     }
 }
 
-void OAL::Log::markUsedEquipment() {
-    foreach( OAL::Observation *obs, m_observationList ) {
+void Log::markUsedEquipment() {
+    foreach( Observation *obs, m_observationList ) {
         m_usedEyepieces.insert(obs->eyepiece());
         m_usedLens.insert(obs->lens());
         m_usedFilters.insert(obs->filter());

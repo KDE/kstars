@@ -768,8 +768,8 @@ void ObservingList::slotOpenList() {
         TimeHash = logObject.timeHash();
         geo = logObject.geoLocation();
         dt = logObject.dateTime();
-        foreach( SkyObject *o, *( logObject.targetList() ) )
-        slotAddObject( o, true );
+        //foreach( SkyObject *o, *( logObject.targetList() ) )
+        //[    slotAddObject( o, true );
         //Update the location and user set times from file
         slotUpdate();
         //Newly-opened list should not trigger isModified flag

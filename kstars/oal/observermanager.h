@@ -55,7 +55,7 @@ public:
       * Shows or hides column selecting coobservers.
       * \param show Show column for selection of coobservers?
       */
-    void showEnableColumn(bool show, const QString &session = QString());
+    void showCoobserverColumn(bool show, const QString &session = QString());
 
     /**
       * Load observers from observerlist.xml file.

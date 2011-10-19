@@ -22,6 +22,8 @@
 #include "kstars/kstars.h"
 #include "kstars/kstarsdata.h"
 #include "oal.h"
+#include "session.h"
+#include "observer.h"
 
 ObserverManagerUi::ObserverManagerUi(QWidget *parent) : QFrame(parent)
 {
@@ -49,7 +51,7 @@ ObserverManager::ObserverManager(QWidget *parent) : KDialog(parent),
     connect(this, SIGNAL(closeClicked()), this, SLOT(setCoobservers()));
 }
 
-void ObserverManager::showEnableColumn(bool show, const QString &session)
+void ObserverManager::showCoobserverColumn(bool show, const QString &session)
 {
     if(!show) {
         mCurrentSession.clear();

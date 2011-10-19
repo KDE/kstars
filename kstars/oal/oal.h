@@ -26,6 +26,8 @@ namespace OAL {
     class Log;
     class Observer;
     class Observation;
+    class ObservationTarget;
+    class StarTarget;
     class Equipment;
     class Eyepiece;
     class Scope;

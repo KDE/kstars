@@ -18,7 +18,7 @@
 #ifndef SITE_H_
 #define SITE_H_
 
-#include "oal/oal.h"
+#include "oal.h"
 
 #include <QString>
 
@@ -26,7 +26,7 @@
 
 class OAL::Site {
     public:
-       Site( const QString& id,  const QString& name, double lat, const QString& latUnit, double lon, const QString &lonUnit ) { setSite( id, name, lat, latUnit, lon, lonUnit ); }
+       Site( const QString& id,  const QString& name, double lat, const QString& latUnit, double lon, const QString &lonUnit, const int timezone ) { setSite( id, name, lat, latUnit, lon, lonUnit, timezone ); }
        Site( GeoLocation *geo, const QString& id ) { setSite( geo, id ); }
        QString id() const { return m_Id; }
        QString name() const { return m_Name; }
@@ -34,10 +34,12 @@ class OAL::Site {
        QString latUnit() const { return m_LatUnit; }
        double longitude() const { return m_Lon; }
        QString lonUnit() const { return m_LonUnit; }
-       void setSite( const QString &_id, const QString& _name, double _lat, const QString& _latUnit, double _lon, const QString& _lonUnit);
+       int timezone() const { return m_Timezone; }
+       void setSite( const QString &_id, const QString& _name, double _lat, const QString& _latUnit, double _lon, const QString& _lonUnit, const int _timezone );
        void setSite( GeoLocation *geo, const QString& id );
     private:
         QString m_Name, m_LatUnit, m_LonUnit, m_Id;
         double m_Lat, m_Lon;
+        int m_Timezone;
 };
 #endif

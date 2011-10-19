@@ -307,7 +307,7 @@ void KStars::slotFlagManager() {
 }
 
 void KStars::slotObserverManager() {
-    oManager->showEnableColumn(false);
+    oManager->showCoobserverColumn(false);
     oManager->show();
 }
 
@@ -960,20 +960,20 @@ void KStars::slotExecute() {
 }
 
 void KStars::slotLoadLog() {
-    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.xml|OAL 2.0 logs (*.xml)" );
+    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.xml|OAL 2.0 Logs (*.xml)" );
     QFile f;
     QString fname;
 
     if ( fileURL.isValid() ) {
         if ( ! fileURL.isLocalFile() ) {
-            KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml|OAL 2.0 logs (*.xml)" );
+            KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml|OAL 2.0 Logs (*.xml)" );
             KTemporaryFile tmpfile;
             tmpfile.open();
 
             while ( ! saveURL.isValid() ) {
                 QString message = i18n( "Save location is invalid. Try another location?" );
                 if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::No ) return;
-                saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml|OAL 2.0 logs (*.xml)" );
+                saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.xml|OAL 2.0 Logs (*.xml)" );
             }
 
             if ( saveURL.isLocalFile() ) {
@@ -1025,7 +1025,7 @@ void KStars::slotLoadLog() {
     }
 
     QString errMsg;
-    if ( !XmlValidator::validate( &f, &xsd, errMsg ) ) {
+    if ( /*!XmlValidator::validate( &f, &xsd, errMsg )*/ false ) {
         QString message = i18n( "Selected file %1 is not valid OAL 2.0 report: ", f.fileName() ) + errMsg;
         KMessageBox::sorry( 0, message, i18n( "Report Validation Error" ) );
     } else {

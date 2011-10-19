@@ -16,9 +16,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "oal/lens.h"
+#include "lens.h"
 
-void OAL::Lens::setLens( const QString& _id, const QString& _model, const QString& _vendor, double _factor ){
+using namespace OAL;
+
+void Lens::setLens( const QString& _id, const QString& _model, const QString& _vendor, double _factor ){
     m_Id = _id;
     m_Model = _model;
     m_Vendor = _vendor;

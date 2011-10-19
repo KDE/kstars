@@ -18,7 +18,7 @@
 #ifndef SESSION_H_
 #define SESSION_H_
 
-#include "oal/oal.h"
+#include "oal.h"
 #include "kstarsdatetime.h"
 
 #include <QString>

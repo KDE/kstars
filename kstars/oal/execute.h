@@ -22,125 +22,97 @@
 #include "ui_execute.h"
 
 #include <QWidget>
-#include<kdialog.h>
+#include <QModelIndex>
+#include <kdialog.h>
 
 #include "kstars.h"
 #include "geolocation.h"
-#include "oal/oal.h"
-#include "oal/session.h"
+#include "oal.h"
+#include "session.h"
 #include "skyobjects/skyobject.h"
 
 class KStars;
+class QStandardItemModel;
+class QStringListModel;
 
-class Execute : public KDialog {
-Q_OBJECT
-    public:
-        /**@short Default constructor
-         */
-        Execute();
-        
-        /**@short This initializes the combo boxes, and sets up the 
-         * dateTime and geolocation from the OL
-         */
-        void init();
+class Execute : public KDialog
+{
+    Q_OBJECT
 
-    public slots:
-        /**@short Function to handle the UI when the 'next' button is pressed
-         * This calls the corresponding functions based on the currentIndex
-         */
-        void slotNext();
+public:
+    /**
+      * \brief Enumeration of dialog pages.
+      */
+    enum DIALOG_PAGES
+    {
+        SESSION_PAGE = 0,
+        TARGET_PAGE = 1,
+        OBSERVATION_PAGE = 2
+    };
 
-        /*Function to Save the session details*/
-        bool saveSession();
+    /**
+      * \brief Constructor.
+      */
+    Execute();
 
-        /**@short Function to save the user notes set for 
-         * the current object in the target combo box
-         */
-        void addTargetNotes();
+    /**
+      * \brief Initialize basic widgets etc.
+      */
+    void init();
 
-        /**@short Function to add the current observation to the observation list
-         */
-        bool addObservation();
+    /**
+      * \brief Show observation represented by passed pointer.
+      * \param observation Pointer to observation which should be viewed.
+      */
+    void showObservation(OAL::Observation *observation);
 
-        /**@short Function to handle the state of current observation,
-         * and hiding the execute window
-         */
-        void slotEndSession();
+    /**
+      * \brief Show target represented by passed pointer.
+      * \param target Pointer to observation target which should be viewed.
+      */
+    void showTarget(OAL::ObservationTarget *target);
 
-        /**@short Opens the location dialog for setting the current location
-         */
-        void slotLocation();
+    /**
+      * \brief Show session represented by passed pointer.
+      * \param session Pointer to session which should be viewed.
+      */
+    void showSession(OAL::Session *session);
 
-        void loadSessions();
+private slots:
+    void slotSetTargetOrObservation(QModelIndex idx);
+    void slotSetSession(int idx);
+    void slotObserverManager();
+    void slotAddObject();
+    void slotShowSession();
+    void slotShowTargets();
 
-        /**@short Loads the sessionlist from the OL
-         * into the target combo box
-         */
-        void loadTargets();
+    /**
+      * \brief Open the location dialog for setting of current location.
+      */
+    void slotLocation();
 
-        /**@short Sorts the target list using the scheduled time
-         */
-        void sortTargetList();
+    /**
+      * \brief Save log to file in OAL 2.0 format.
+      */
+    void slotSaveLog();
 
-        /**@short Custom LessThan function for the sort by time
-         * This compares the times of the two skyobjects
-         * using an edited QTime as next day 01:00 should
-         * come later than previous night 23:00
-         */
-        static bool timeLessThan( SkyObject *, SkyObject * );
+private:
+    /**
+      * \brief Load sessions into sessions list.
+      */
+    void loadSessions();
 
-        void slotSetSession( int idx );
+    /**
+      * \brief Load targets and observations from log object into tree's model.
+      */
+    void loadTargets();
 
-        /**@short set the currentTarget when the user selection
-         * is changed in the target combo box
-         */
-        void slotSetTarget( int idx );
-
-        /**@short loads the equipment list from
-         * the global logObject into the comboBoxes
-         */
-        void loadEquipment();
-
-        /**@short loads the observer list from
-         * the global logObject into the comboBoxes
-         */
-        void loadObservers();
-        
-        /**@short loads the observation edit page
-         */
-        void loadObservationTab();
-
-        void selectNextTarget();
-
-        void loadCurrentItems();
-
-        void slotSetCurrentObjects();
-
-        void slotSlew();
-
-        void slotShowSession();
-
-        void slotShowTargets();
-
-        int findIndexOfTarget( QString );
-
-        void slotAddObject();
-
-        void slotObserverManager();
-
-    private:
-        KStars *ks;
-        Ui::Execute ui;
-        OAL::Session *currentSession;
-        OAL::Log *logObject;
-        OAL::Observer *currentObserver;
-        OAL::Scope *currentScope;
-        OAL::Eyepiece *currentEyepiece;
-        OAL::Lens *currentLens;
-        OAL::Filter *currentFilter;
-        GeoLocation *geo;
-        SkyObject *currentTarget;
-        int nextSession, nextObservation, nextSite;
+    KStars *m_Ks;
+    Ui::Execute m_Ui;
+    OAL::Log *m_LogObject;
+    GeoLocation *m_CurrentLocation;
+    QStandardItemModel *m_ObservationsModel;
+    QStringListModel *m_TargetAliasesModel;
 };
 
 #endif

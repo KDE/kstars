@@ -18,7 +18,7 @@
 #ifndef LENS_H_
 #define LENS_H_
 
-#include "oal/oal.h"
+#include "oal.h"
 
 #include <QString>
 

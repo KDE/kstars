@@ -22,7 +22,7 @@
 #include <QFile>
 
 #include "kstarsdata.h"
-#include "oal/oal.h"
+#include "oal.h"
 #include "oal/scope.h"
 #include "oal/eyepiece.h"
 #include "oal/lens.h"

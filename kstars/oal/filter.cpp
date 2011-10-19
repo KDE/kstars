@@ -16,7 +16,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "oal/filter.h"
+#include "filter.h"
 #include "QMap"
 
 using namespace OAL;

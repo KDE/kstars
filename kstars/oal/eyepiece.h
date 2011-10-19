@@ -18,7 +18,7 @@
 #ifndef EYEPIECE_H_
 #define EYEPIECE_H_
 
-#include "oal/oal.h"
+#include "oal.h"
 
 #include <QString>
 

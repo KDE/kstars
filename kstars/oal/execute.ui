@@ -6,38 +6,38 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>630</width>
-    <height>514</height>
+    <width>850</width>
+    <height>624</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Execute Session</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_6">
+  <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,4">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
-      <widget class="KUrlLabel" name="SessionURL">
+      <widget class="KUrlLabel" name="showSessionsButton">
        <property name="text">
-        <string>Step 1: Session Details</string>
+        <string>Observing Sessions</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KListWidget" name="Sessions"/>
+      <widget class="QListWidget" name="sessionsListWidget"/>
      </item>
      <item>
-      <widget class="KUrlLabel" name="ObservationsURL">
+      <widget class="KUrlLabel" name="showTargetsButton">
        <property name="text">
-        <string>Step 2: Observations</string>
+        <string>Targets and observations</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="KListWidget" name="Target"/>
+      <widget class="QTreeView" name="targetsTreeView"/>
      </item>
      <item>
-      <widget class="KUrlLabel" name="AddObject">
+      <widget class="KUrlLabel" name="addTargetButton">
        <property name="maximumSize">
         <size>
          <width>158</width>
@@ -62,6 +62,26 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="QPushButton" name="equipmentButton">
+       <property name="text">
+        <string>Define Equipment</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
     </layout>
    </item>
    <item>
@@ -71,7 +91,7 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
-       <widget class="QWidget" name="Session">
+       <widget class="QWidget" name="sessionPage">
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
           <widget class="KTitleWidget" name="ktitlewidget">
@@ -86,428 +106,486 @@
             <enum>QFormLayout::ExpandingFieldsGrow</enum>
            </property>
            <item row="0" column="0">
-            <widget class="QLabel" name="label_2">
+            <widget class="QLabel" name="sessionLocationLabel">
              <property name="text">
               <string>Location:</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="QPushButton" name="Location">
+            <widget class="QPushButton" name="sessionLocationButton">
              <property name="text">
               <string>set location</string>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QPushButton" name="CoobserversButton">
+            <widget class="QPushButton" name="sessionCoobserversButton">
              <property name="text">
               <string>Select Coobservers...</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="label_3">
+            <widget class="QLabel" name="sessionBeginLabel">
              <property name="text">
               <string>Begin:</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KDateTimeWidget" name="Begin"/>
+            <widget class="KDateTimeWidget" name="sessionBeginDateTime"/>
            </item>
            <item row="4" column="0">
-            <widget class="QLabel" name="label_4">
+            <widget class="QLabel" name="sessionWeatherLabel">
              <property name="text">
               <string>Weather:</string>
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
-            <widget class="KTextEdit" name="Weather">
-             <property name="tabChangesFocus">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item row="5" column="0">
-            <widget class="QLabel" name="label_5">
+            <widget class="QLabel" name="sessionEquipmentLabel">
              <property name="text">
               <string>Equipment:</string>
              </property>
             </widget>
            </item>
-           <item row="5" column="1">
-            <widget class="KTextEdit" name="Equipment">
-             <property name="tabChangesFocus">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item row="6" column="0">
-            <widget class="QLabel" name="label_6">
+            <widget class="QLabel" name="sessionCommentsLabel">
              <property name="text">
               <string>Comments:</string>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
-            <widget class="KTextEdit" name="Comment">
-             <property name="tabChangesFocus">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
            <item row="7" column="0">
-            <widget class="QLabel" name="label_7">
+            <widget class="QLabel" name="sessionLanguageLabel">
              <property name="text">
               <string>Language:</string>
              </property>
             </widget>
            </item>
            <item row="7" column="1">
-            <widget class="KLineEdit" name="Language"/>
+            <widget class="KLineEdit" name="sessionLanguageLineEdit"/>
            </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="endLabel">
+            <widget class="QLabel" name="sessionEndLabel">
              <property name="text">
               <string>End:</string>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KDateTimeWidget" name="End"/>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="TargetDetails">
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <widget class="KTitleWidget" name="ktitlewidget_2">
-           <property name="text">
-            <string>View Object Details:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_20">
-             <property name="text">
-              <string>Magnitude:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="KLineEdit" name="Mag">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_22">
-             <property name="text">
-              <string>Type:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1" colspan="2">
-            <widget class="KLineEdit" name="Type">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_24">
-             <property name="text">
-              <string>Scheduled Time:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="KLineEdit" name="SchTime">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_26">
-             <property name="text">
-              <string>Right Ascension:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="KLineEdit" name="RA">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QLabel" name="label_27">
-             <property name="text">
-              <string>Declination:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="3">
-            <widget class="KLineEdit" name="Dec">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_21">
-             <property name="text">
-              <string>Altitude:</string>
-             </property>
-            </widget>
+            <widget class="KDateTimeWidget" name="sessionEndDateTime"/>
            </item>
            <item row="4" column="1">
-            <widget class="KLineEdit" name="Alt">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="2">
-            <widget class="QLabel" name="label_23">
-             <property name="text">
-              <string>Azimuth:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="3">
-            <widget class="KLineEdit" name="Az">
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="KTitleWidget" name="ktitlewidget_4">
-           <property name="text">
-            <string>Set observing notes for the object:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="KTextEdit" name="Notes">
-             <property name="tabChangesFocus">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="Slew">
-             <property name="text">
-              <string comment="Move the telescope to an object or location">Slew Telescope</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="page_2">
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="KTitleWidget" name="ktitlewidget_3">
-           <property name="text">
-            <string>Enter the Observation Details:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QFormLayout" name="formLayout_2">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::ExpandingFieldsGrow</enum>
-           </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_19">
-             <property name="text">
-              <string>Observer</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="KComboBox" name="Observer"/>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_11">
-             <property name="text">
-              <string>Telescope:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="KComboBox" name="Scope"/>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_12">
-             <property name="text">
-              <string>Eyepiece:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="KComboBox" name="Eyepiece"/>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_17">
-             <property name="text">
-              <string>Lens:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="KComboBox" name="Lens"/>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_18">
-             <property name="text">
-              <string>Filter:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="KComboBox" name="Filter"/>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_14">
-             <property name="text">
-              <string>Seeing:</string>
-             </property>
-            </widget>
+            <widget class="QPlainTextEdit" name="sessionWeatherTextEdit"/>
            </item>
            <item row="5" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_11">
-             <item>
-              <widget class="KDoubleNumInput" name="Seeing"/>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>arc seconds</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_15">
-             <property name="text">
-              <string>Faintest Star:</string>
-             </property>
-            </widget>
+            <widget class="QPlainTextEdit" name="sessionEquipmentTextEdit"/>
            </item>
            <item row="6" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <widget class="QPlainTextEdit" name="sessionCommentsTextEdit"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="targetPage">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="KTitleWidget" name="targetTitle">
+           <property name="text">
+            <string>Target Details</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTabWidget" name="targetTabWidget">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="targetGeneralTab">
+            <attribute name="title">
+             <string>General</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
-              <widget class="KDoubleNumInput" name="FaintestStar"/>
+              <layout class="QFormLayout" name="formLayout_5">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="targetNameLabel">
+                 <property name="text">
+                  <string>Name:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="targetNameLineEdit"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="targetAliasesLabel">
+                 <property name="text">
+                  <string>Aliases:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QListView" name="targetAliasesListView"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="targetSourceLabel">
+                 <property name="text">
+                  <string>Source: </string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="targetSourceComboBox">
+                 <item>
+                  <property name="text">
+                   <string>Data source</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Observer</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="targetDatasourceLabel">
+                 <property name="text">
+                  <string>Data source:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="targetDatasourceLineEdit"/>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="targetObserverLabel">
+                 <property name="text">
+                  <string>Observer:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="targetConstellationLabel">
+                 <property name="text">
+                  <string>Constellation:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QLineEdit" name="targetConstellationLineEdit"/>
+               </item>
+               <item row="4" column="1">
+                <widget class="QComboBox" name="targetObserverComboBox">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="targetNotesTab">
+            <attribute name="title">
+             <string>Notes</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <widget class="QPlainTextEdit" name="targetNotesTextEdit"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="observationPage">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="KTitleWidget" name="observationTitle">
+           <property name="text">
+            <string>Observation Details</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTabWidget" name="observationTabWidget">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="observationGeneralTab">
+            <attribute name="title">
+             <string>General</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <item>
+              <layout class="QFormLayout" name="formLayout_2">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="observationTargetLabel">
+                 <property name="text">
+                  <string>Target:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="observationObserverLabel">
+                 <property name="text">
+                  <string>Observer:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="observationObserverComboBox"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="observationSiteLAbel">
+                 <property name="text">
+                  <string>Site:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="observationSiteComboBox"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="observationSessionLabel">
+                 <property name="text">
+                  <string>Session:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="observationSessionComboBox"/>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="observationBeginLabel">
+                 <property name="text">
+                  <string>Begin:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="KDateTimeWidget" name="observationBeginDateTime"/>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="observationEndLabel">
+                 <property name="text">
+                  <string>End:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="KDateTimeWidget" name="observationEndDateTime"/>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="observationTargetComboBox"/>
+               </item>
+              </layout>
              </item>
              <item>
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>(magnitude)</string>
+              <widget class="QGroupBox" name="groupBox">
+               <property name="title">
+                <string>Weather conditions</string>
                </property>
+               <layout class="QVBoxLayout" name="verticalLayout_7">
+                <item>
+                 <layout class="QGridLayout" name="gridLayout">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="observationFaintestStarLabel">
+                    <property name="text">
+                     <string>Faintest star:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QSpinBox" name="observationFaintestStarSpinBox"/>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="observationSkyQualityLabel">
+                    <property name="text">
+                     <string>Sky quality:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="2">
+                   <widget class="QComboBox" name="observationSQUnitComboBox"/>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QDoubleSpinBox" name="observationSkyQualitySpinBox"/>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="observationSeeingLabel">
+                    <property name="text">
+                     <string>Seeing:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1" colspan="2">
+                   <widget class="QComboBox" name="observationSeeingComboBox">
+                    <item>
+                     <property name="text">
+                      <string>1 - Best conditions</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>2</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>3</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>4</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>5 - Worst conditions</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="label_16">
-             <property name="text">
-              <string>Time:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1">
-            <widget class="QTimeEdit" name="Time"/>
-           </item>
-           <item row="8" column="0">
-            <widget class="QLabel" name="label_13">
-             <property name="text">
-              <string>Description:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="1">
-            <widget class="KTextEdit" name="Description"/>
-           </item>
-          </layout>
+           </widget>
+           <widget class="QWidget" name="observationEquipmentTab">
+            <attribute name="title">
+             <string>Equipment</string>
+            </attribute>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <layout class="QFormLayout" name="formLayout_3">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="observationScopeLabel">
+                 <property name="text">
+                  <string>Scope:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QComboBox" name="observationScopeComboBox"/>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="observationEyepieceLabel">
+                 <property name="text">
+                  <string>Eyepiece:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="observationEyepieceComboBox"/>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="observationLensLabel">
+                 <property name="text">
+                  <string>Lens:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="observationLensComboBox"/>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="observationFilterLabel">
+                 <property name="text">
+                  <string>Filter:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="observationFilterComboBox"/>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="observationImagerLabel">
+                 <property name="text">
+                  <string>Imager:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QComboBox" name="observationImagerComboBox"/>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="observationMagnificationLabel">
+                 <property name="text">
+                  <string>Magnification:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QDoubleSpinBox" name="observationMagnificationSpinBox"/>
+               </item>
+               <item row="6" column="1">
+                <widget class="QPlainTextEdit" name="observationAccessoriesTextEdit"/>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="observationAccessoriesLabel">
+                 <property name="text">
+                  <string>Accessories:</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="observationFindingsTab">
+            <attribute name="title">
+             <string>Findings</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <layout class="QFormLayout" name="formLayout_4">
+               <item row="0" column="1">
+                <widget class="QPlainTextEdit" name="observationResultsTextEdit"/>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="observationResultsLabel">
+                 <property name="text">
+                  <string>Results:</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </widget>
          </item>
         </layout>
        </widget>
       </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="NextButton">
-         <property name="text">
-          <string>Next &gt;</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
      </item>
     </layout>
    </item>
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
   <customwidget>
    <class>KTitleWidget</class>
    <extends>QWidget</extends>
@@ -524,19 +602,9 @@
    <header>kurllabel.h</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KDateTimeWidget</class>
    <extends>QWidget</extends>
    <header>kdatetimewidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>ktextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

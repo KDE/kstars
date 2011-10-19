@@ -18,11 +18,12 @@
 #ifndef OBSERVER_H_
 #define OBSERVER_H_
 
-#include "oal/oal.h"
+#include "oal.h"
 
 #include <QString>
 
-class OAL::Observer {
+class OAL::Observer
+{
     public:
        QString id() { return m_Id; }
        QString name() { return m_Name; }

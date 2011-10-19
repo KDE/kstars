@@ -16,9 +16,22 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "oal/observation.h"
+#include "observation.h"
+#include "observer.h"
+#include "observationtarget.h"
+#include "site.h"
+#include "session.h"
+#include "scope.h"
+#include "eyepiece.h"
+#include "filter.h"
+#include "lens.h"
 
-void OAL::Observation::setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin, double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _lens, QString _filter, QString _result, QString _lang ) {
+using namespace OAL;
+
+void Observation::setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin,
+                                  double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _lens, QString _filter,
+                                  QString _result, QString _lang )
+{
     m_Name = _id;
     m_Observer = _observer;
     m_Site = _site;
@@ -35,11 +48,13 @@ void OAL::Observation::setObservation( QString _id, QString _observer, QString _
     m_Lang = _lang;
 }
 
-Observation::Observation( QString id, Observer* observer, Session* session, SkyObject* target, KStarsDateTime begin, double faintestStar, double seeing, Scope* scope, Eyepiece* eyepiece, Lens *lens, Filter* filter,  QString result, QString lang ) {
+Observation::Observation( QString id, Observer* observer, Session* session, ObservationTarget* target, KStarsDateTime begin, double faintestStar,
+                          double seeing, Scope* scope, Eyepiece* eyepiece, Lens *lens, Filter* filter,  QString result, QString lang )
+{
     if( observer )
         m_Observer = observer->id();
     if( target )
-        m_Target = target->name();
+        m_Target = target->id();
     if( session ) {
         m_Session = session->id();
         m_Site = session->site();
