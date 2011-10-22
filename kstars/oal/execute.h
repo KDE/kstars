@@ -86,6 +86,11 @@ private slots:
     void slotShowSession();
     void slotShowTargets();
 
+    void slotMagnificationChecked(bool enabled);
+    void slotSkyQualityChecked(bool enabled);
+    void slotEndChecked(bool enabled);
+    void slotFaintestStarChecked(bool enabled);
+
     /**
       * \brief Open the location dialog for setting of current location.
       */
@@ -106,6 +111,8 @@ private:
       * \brief Load targets and observations from log object into tree's model.
       */
     void loadTargets();
+
+    void refreshObservationPage();
 
     KStars *m_Ks;
     Ui::Execute m_Ui;

@@ -26,21 +26,33 @@
 
 using namespace OAL;
 
+typedef QPair<QString, QString> Result;
+
 class OAL::Observation {
 public:
-    Observation() : m_Seeing(0), m_FaintestStar(0)
+    enum SURFACE_BRIGHTNESS_UNIT {
+        SB_MAGS_PER_ARCSEC = 0,
+        SB_MAGS_PAR_ARCMIN = 1,
+        SB_WRONG_UNIT = 2
+    };
+
+    Observation()
     {}
 
-    Observation( QString id, QString observer, QString site, QString session, QString target, KStarsDateTime begin, double faintestStar,
-                 double seeing, QString scope, QString eyepiece, QString lens, QString filter,  QString result, QString lang )
+    Observation(const QString &id, const QString &target, const QString &observer, const KStarsDateTime &begin,
+                const QList<Result> &results, const QString &site, const QString &session, const QString &scope,
+                const QString &eyepiece, const QString &lens, const QString &filter, const QString &imager,
+                const QString &accessories, const QStringList &images, const double magn, const bool magnDefined,
+                const double faintest, const bool faintestDefined, const double skyquality, const SURFACE_BRIGHTNESS_UNIT squnit,
+                const bool skyqualityDefined, const double seeing, const bool seeingDefined, const KStarsDateTime &end,
+                const bool endDefined)
     {
-        setObservation( id, observer, site, session, target, begin, faintestStar, seeing, scope, eyepiece, lens, filter, result, lang );
+        setObservation(id, target, observer, begin, results, site, session, scope, eyepiece, lens, filter, imager,
+                       accessories, images, magn, magnDefined, faintest, faintestDefined, skyquality, squnit,
+                       skyqualityDefined, seeing, seeingDefined, end, endDefined);
     }
 
-    Observation( QString id, Observer* observer, Session* session, ObservationTarget* target, KStarsDateTime begin, double faintestStar,
-                 double seeing, Scope* scope, Eyepiece* eyepiece, Lens* lens, Filter* filter,  QString result, QString lang );
-
-    QString id() const { return m_Name; }
+    QString id() const { return m_Id; }
     QString target() const { return m_Target; }
     QString observer() const { return m_Observer; }
     QString site() const { return m_Site; }
@@ -49,30 +61,59 @@ public:
     QString eyepiece() const { return m_Eyepiece; }
     QString lens() const { return m_Lens; }
     QString filter() const { return m_Filter; }
-    QString lang() const { return m_Lang; }
-    QString result() const { return m_Result; }
+    QString imager() const { return m_Filter; }
+    QString accessories() const { return m_Accessories; }
+    QList<Result> results() const { return m_Results; }
+    double magnification() const { return m_Magnification; }
     double seeing() const { return m_Seeing; }
-    double faintestStar() const{ return m_FaintestStar; }
+    double faintestStar() const { return m_FaintestStar; }
+    double skyQuality() const { return m_SkyQuality; }
+    SURFACE_BRIGHTNESS_UNIT skyQualityUnit() const { return m_SkyQualityUnit; }
     KStarsDateTime begin() const { return m_Begin; }
-    void setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin,
-                         double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _lens, QString _filter,
-                         QString _result, QString _lang =  "en" );
+    KStarsDateTime end() const { return m_End; }
+    QStringList images() const { return m_ImageRefs; }
+
+    bool isMagnificationDefined() const { return m_MagnificationDefined; }
+    bool isFaintestStarDefined() const { return m_FaintestStarDefined; }
+    bool isSkyQualityDefined() const { return m_SkyQualityDefined; }
+    bool isSeeingDefined() const { return m_SeeingDefined; }
+    bool isEndDefined() const { return m_EndDefined; }
+
+    void setObservation(const QString &id, const QString &target, const QString &observer, const KStarsDateTime &begin,
+                        const QList<Result> &results, const QString &site, const QString &session, const QString &scope,
+                        const QString &eyepiece, const QString &lens, const QString &filter, const QString &imager,
+                        const QString &accessories, const QStringList &images, const double magn, const bool magnDefined,
+                        const double faintest, const bool faintestDefined, const double skyquality, const SURFACE_BRIGHTNESS_UNIT squnit,
+                        const bool skyqualityDefined, const double seeing, const bool seeingDefined, const KStarsDateTime &end,
+                        const bool endDefined);
 
 private:
-    QString m_Name;
+    QString m_Id;
     QString m_Target;
     QString m_Observer;
     QString m_Site;
     QString m_Session;
     QString m_Scope;
-    QString m_Result;
     QString m_Eyepiece;
     QString m_Lens;
     QString m_Filter;
-    QString m_Lang;
+    QString m_Imager;
+    QString m_Accessories;
+    QList<Result> m_Results;
+    QStringList m_ImageRefs;
+    double m_Magnification;
     double m_Seeing;
     double m_FaintestStar;
+    double m_SkyQuality;
+    SURFACE_BRIGHTNESS_UNIT m_SkyQualityUnit;
     KStarsDateTime m_Begin;
+    KStarsDateTime m_End;
+
+    bool m_MagnificationDefined;
+    bool m_FaintestStarDefined;
+    bool m_SkyQualityDefined;
+    bool m_SeeingDefined;
+    bool m_EndDefined;
 };
 
 #endif

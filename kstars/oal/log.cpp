@@ -324,33 +324,60 @@ void Log::writeSession( Session *s ) {
     writer->writeEndElement();
     writer->writeEndElement();
 }
-void Log::writeScope( Scope *s ) {
+void Log::writeScope( Scope *scope ) {
+    // Write Scope
     writer->writeStartElement( "scope" );
-    writer->writeAttribute( "id", s->id() ); 
+    writer->writeAttribute( "id", scope->id() );
+
+    // Write Model
     writer->writeStartElement( "model" );
-    writer->writeCDATA( s->model() );
+    writer->writeCDATA( scope->model() );
     writer->writeEndElement();
+
+    // Write Type
     writer->writeStartElement( "type" );
-    writer->writeCDATA( s->type().at(0) );
+    writer->writeCDATA( scope->type().at(0) );
     writer->writeEndElement();
+
+    // Write Vendor
     writer->writeStartElement( "vendor" );
-    writer->writeCDATA( s->vendor() );
+    writer->writeCDATA( scope->vendor() );
     writer->writeEndElement();
-    if (s->driver() != i18n("None"))
-    {
-        writer->writeStartElement( "driver" );
-        writer->writeCharacters( s->driver());
+
+    // Write Driver // FIXME: driver element is incompatible with OAL 2.0 schema
+//    if (s->driver() != i18n("None"))
+//    {
+//        writer->writeStartElement( "driver" );
+//        writer->writeCharacters( s->driver());
+//        writer->writeEndElement();
+//    }
+
+    // Write Aperture
+    writer->writeStartElement( "aperture" );
+    writer->writeCharacters( QString::number( scope->aperture() ) );
+    writer->writeEndElement();
+
+    // Write Light Grasp
+    if(scope->isLightGraspDefined()) {
+        writer->writeStartElement( "lightGrasp" );
+        writer->writeCharacters( QString::number( scope->lightGrasp() ) );
         writer->writeEndElement();
     }
-    writer->writeStartElement( "aperture" );
-    writer->writeCharacters( QString::number( s->aperture() ) );
-    writer->writeEndElement();
+
+    // Write Orientation
+    if(scope->isOrientationDefined()) {
+        writer->writeStartElement( "orientation" );
+        writer->writeAttribute( "erect", scope->orientationErect() ? "true" : "false" );
+        writer->writeAttribute( "truesided", scope->orientationTruesided() ? "true" : "false" );
+        writer->writeEndElement();
+    }
+
+    // Write Focal Length
     writer->writeStartElement( "focalLength" );
-    writer->writeCharacters( QString::number( s->focalLength() ) );
-    writer->writeEndElement();
+    writer->writeCharacters( QString::number( scope->focalLength() ) );
     writer->writeEndElement();
 
-
+    writer->writeEndElement();
 }
 void Log::writeEyepiece( Eyepiece *ep ) {
     writer->writeStartElement( "eyepiece" );
@@ -405,46 +432,139 @@ void Log::writeFilter( Filter *f ) {
 
 void Log::writeObservation( Observation *o ) {
     writer->writeStartElement( "observation" );
+
+    // Write Observer
     writer->writeStartElement( "observer" );
     writer->writeCharacters( o->observer() );
     writer->writeEndElement();
-    writer->writeStartElement( "site" );
-    writer->writeCharacters( o->site() );
-    writer->writeEndElement();
-    writer->writeStartElement( "session" );
-    writer->writeCharacters( o->session() );
-    writer->writeEndElement();
+
+    // Write Site
+    if( !o->site().isEmpty() ) {
+        writer->writeStartElement( "site" );
+        writer->writeCharacters( o->site() );
+        writer->writeEndElement();
+    }
+
+    // Write Session
+    if( !o->session().isEmpty() ) {
+        writer->writeStartElement( "session" );
+        writer->writeCharacters( o->session() );
+        writer->writeEndElement();
+    }
+
+    // Write Target
     writer->writeStartElement( "target" );
-    writer->writeCharacters( o->target().remove( ' ' ) );
+    writer->writeCharacters( o->target() );
     writer->writeEndElement();
+
+    // Write Begin
     writer->writeStartElement( "begin" );
     writer->writeCharacters( o->begin().date().toString( "yyyy-MM-dd" ) + 'T' + o->begin().time().toString( "hh:mm:ss" ) );
     writer->writeEndElement();
-    writer->writeStartElement( "faintestStar" );
-    writer->writeCharacters( QString::number( o->faintestStar() ) );
-    writer->writeEndElement();
-    writer->writeStartElement( "seeing" );
-    writer->writeCharacters( QString::number( o->seeing() ) );
-    writer->writeEndElement();
-    writer->writeStartElement( "scope" );
-    writer->writeCharacters( o->scope() );
-    writer->writeEndElement();
-    writer->writeStartElement( "eyepiece" );
-    writer->writeCharacters( o->eyepiece() );
-    writer->writeEndElement();
-    writer->writeStartElement( "lens" );
-    writer->writeCharacters( o->lens() );
-    writer->writeEndElement();
-    writer->writeStartElement( "filter" );
-    writer->writeCharacters( o->filter() );
-    writer->writeEndElement();
-    writer->writeStartElement( "result" );
-    writer->writeAttribute( "xsi:type", "oal:findingsType" );
-    writer->writeAttribute( "lang", o->lang() );
-    writer->writeStartElement( "description" );
-    writer->writeCDATA( o->result() );
-    writer->writeEndElement();
-    writer->writeEndElement();
+
+    // Write End
+    if( o->isEndDefined() ) {
+        writer->writeStartElement( "end" );
+        writer->writeCharacters( o->end().date().toString( "yyyy-MM-dd" ) + 'T' + o->end().time().toString( "hh:mm:ss" ) );
+        writer->writeEndElement();
+    }
+
+    // Write Faintest Star
+    if( o->isFaintestStarDefined() ) {
+        writer->writeStartElement( "faintestStar" );
+        writer->writeCharacters( QString::number( o->faintestStar() ) );
+        writer->writeEndElement();
+    }
+
+    // Write Sky Quality
+    if( o->isSkyQualityDefined() ) {
+        writer->writeStartElement( "sky-quality" );
+        writer->writeCharacters( QString::number( o->skyQuality() ) );
+        if( o->skyQualityUnit() == Observation::SB_MAGS_PER_ARCSEC ) {
+            writer->writeAttribute( "unit", "mags-per-squarearcsec" );
+        } else if( o->skyQualityUnit() == Observation::SB_MAGS_PAR_ARCMIN ) {
+            writer->writeAttribute( "unit", "mags-per-squarearcmin" );
+        } else {
+            writer->writeAttribute( "unit", QString() );
+        }
+    }
+
+    // Write Seeing
+    if( o->isSeeingDefined() ) {
+        writer->writeStartElement( "seeing" );
+        writer->writeCharacters( QString::number( o->seeing() ) );
+        writer->writeEndElement();
+    }
+
+    // Write Scope
+    if( !o->scope().isEmpty() ) {
+        writer->writeStartElement( "scope" );
+        writer->writeCharacters( o->scope() );
+        writer->writeEndElement();
+    }
+
+    // Write Accessories
+    if( !o->accessories().isEmpty() ) {
+        writer->writeStartElement( "accessories" );
+        writer->writeCharacters( o->accessories() );
+        writer->writeEndElement();
+    }
+
+    // Write Eyepiece
+    if( !o->eyepiece().isEmpty() ) {
+        writer->writeStartElement( "eyepiece" );
+        writer->writeCharacters( o->eyepiece() );
+        writer->writeEndElement();
+    }
+
+    // Write Lens
+    if( !o->lens().isEmpty() ) {
+        writer->writeStartElement( "lens" );
+        writer->writeCharacters( o->lens() );
+        writer->writeEndElement();
+    }
+
+    // Write Filter
+    if( !o->filter().isEmpty() ) {
+        writer->writeStartElement( "filter" );
+        writer->writeCharacters( o->filter() );
+        writer->writeEndElement();
+    }
+
+    // Write Magnification
+    if( o->isMagnificationDefined() ) {
+        writer->writeStartElement( "magnification" );
+        writer->writeCharacters( QString::number( o->magnification() ) );
+        writer->writeEndElement();
+    }
+
+    // Write Imager
+    if( !o->imager().isEmpty() ) {
+        writer->writeStartElement( "imager" );
+        writer->writeCharacters( o->imager() );
+        writer->writeEndElement();
+    }
+
+    // Write Results
+    foreach( Result res, o->results() ) {
+        writer->writeStartElement( "result" );
+        writer->writeAttribute( "xsi:type", "oal:findingsType" );
+        writer->writeAttribute( "lang", res.second );
+        writer->writeStartElement( "description" );
+        writer->writeCDATA( res.first );
+        writer->writeEndElement();
+        writer->writeEndElement();
+    }
+
+    // Write Image References
+    if( !o->images().isEmpty() ) {
+        foreach(QString img, o->images()) {
+            writer->writeStartElement( "image" );
+            writer->writeCharacters( img );
+            writer->writeEndElement();
+        }
+    }
+
     writer->writeEndElement();
 }
 void Log::writeGeoDate() {
@@ -723,6 +843,7 @@ void Log::readObserver( const QString &id ) {
                 readUnknownElement();
         }
     }
+
     Observer *o= new Observer( id, name, surname, contact );
     m_observerList.append( o );
 }
@@ -785,7 +906,11 @@ void Log::readSession( const QString &id, const QString &lang ) {
 }
 
 void Log::readScope( const QString &id ) {
-    QString model, focalLength, vendor, type, aperture, driver = i18n("None");
+    QString model, vendor, type, driver = i18n("None");
+    double focalLength(0), aperture(0), lightGrasp(0);
+    bool erect(false), truesided(false);
+    bool lightGraspDefined(false), orientationDefined(false);
+
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -795,8 +920,6 @@ void Log::readScope( const QString &id ) {
         if( reader->isStartElement() ) {
             if( reader->name() == "model" ) {
                 model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
             } else if( reader->name() == "type" ) {
                 type = reader->readElementText() ;
                 if( type == "N" ) type = "Newtonian";
@@ -805,20 +928,30 @@ void Log::readScope( const QString &id ) {
                 if( type == "S" ) type = "Schmidt-Cassegrain";
                 if( type == "K" ) type = "Kutter (Schiefspiegler)";
                 if( type == "C" ) type = "Cassegrain";
+            } else if( reader->name() == "vendor" ) {
+                vendor = reader->readElementText() ;
             } else if( reader->name() == "focalLength" ) {
-                focalLength = reader->readElementText() ;
+                focalLength = reader->readElementText().toDouble();
             } else if( reader->name() == "aperture" )
-                aperture = reader->readElementText() ;
-              else if ( reader->name() == "driver")
-                 driver = reader->readElementText();
-              else
+                aperture = reader->readElementText().toDouble();
+            else if( reader->name() == "driver")
+                driver = reader->readElementText();
+            else if( reader->name() == "lightGrasp" ) {
+                lightGrasp = reader->readElementText().toDouble( &lightGraspDefined );
+            } else if( reader->name() == "orientation" ) {
+                erect = !( reader->attributes().value( "erect" ).toString().compare( "true", Qt::CaseInsensitive ) );
+                truesided = !( reader->attributes().value( "truesided" ).toString().compare( "true", Qt::CaseInsensitive ) );
+                orientationDefined = true;
+            }
+            else
                 readUnknownElement();
         }
     }
     
-    Scope *o= new Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
-    o->setINDIDriver(driver);
-    m_scopeList.append( o );
+    Scope *scope= new Scope( id, model, vendor, type, focalLength, aperture, lightGrasp, lightGraspDefined, erect, truesided,
+                             orientationDefined );
+    scope->setINDIDriver( driver );
+    m_scopeList.append( scope );
 }
 
 void Log::readEyepiece( const QString &id ) {
@@ -925,9 +1058,17 @@ SkyPoint Log::readPosition( bool &ok ) {
 }
 
 void Log::readObservation( const QString &id ) {
-    QString observer, site, session, target, faintestStar, seeing, scope, eyepiece, lens, filter, result, lang;
-    KStarsDateTime begin;
-    Observation *o = new Observation;
+    QString observer, site, session, target;
+    QString scope, eyepiece, lens, filter, imager, accessories;
+    double faintest(0), seeing(0), skyQuality(0), magnification(0);
+    Observation::SURFACE_BRIGHTNESS_UNIT skyQualityUnit;
+    KStarsDateTime begin, end;
+    bool faintestDefined(false), seeingDefined(false), skyQualityDefined(false);
+    bool magnificationDefined(false), endDefined(false);
+    QStringList imageRefs;
+    QList<Result> results;
+    Observation *observation = new Observation;
+
     while( ! reader->atEnd() ) {
         reader->readNext();
         if( reader->isEndElement() )
@@ -943,15 +1084,23 @@ void Log::readObservation( const QString &id ) {
                 target = reader->readElementText();
                 ObservationTarget *t = findTargetById( target );
                 if( t ) {
-                    t->observationsList()->append( o );
+                    t->observationsList()->append( observation );
                 }
             }
             else if( reader->name() == "begin" )
                 begin.fromString( reader->readElementText() );
+            else if( reader->name() == "end" ) {
+                end.fromString( reader->readElementText() );
+                endDefined = true;
+            }
             else if( reader->name() == "faintestStar" )
-                faintestStar = reader->readElementText();
+                faintest = reader->readElementText().toDouble( &faintestDefined );
+            else if( reader->name() == "sky-quality" ) {
+                skyQuality = readSurfaceBrightness( &skyQualityUnit );
+                skyQualityDefined = true;
+            }
             else if( reader->name() == "seeing" )
-                seeing = reader->readElementText();
+                seeing = reader->readElementText().toDouble( &seeingDefined );
             else if( reader->name() == "scope" )
                 scope = reader->readElementText();
             else if( reader->name() == "eyepiece" )
@@ -960,21 +1109,36 @@ void Log::readObservation( const QString &id ) {
                 lens = reader->readElementText();
             else if( reader->name() == "filter" )
                 filter = reader->readElementText();
+            else if( reader->name() == "imager" )
+                imager = reader->readElementText();
+            else if( reader->name() == "accessories" )
+                accessories = reader->readElementText();
+            else if( reader->name() == "magnification" )
+                magnification = reader->readElementText().toDouble( &magnificationDefined );
             else if( reader->name() == "result" ) {
-                lang = reader->attributes().value( "lang" ).toString();
-                result = readResult();
-            } else
+                Result res;
+                res.first = readResult();
+                res.second = reader->attributes().value( "lang" ).toString();
+                results.append(res);
+            }
+            else if( reader->name() == "image" )
+                imageRefs.append( reader->readElementText() );
+            else
                 readUnknownElement();
         }
     }
 
-    o->setObservation( id, observer, site, session, target, begin, faintestStar.toDouble(), seeing.toDouble(), scope, eyepiece, lens, filter, result, lang );
-    m_observationList.append( o );
+    observation->setObservation(id, target, observer, begin, results, site, session, scope, eyepiece, lens,
+                                filter, imager, accessories, imageRefs, magnification, magnificationDefined,
+                                faintest, faintestDefined, skyQuality, skyQualityUnit, skyQualityDefined,
+                                seeing, seeingDefined, end, endDefined);
+
+    m_observationList.append( observation );
 }
 
 QString Log::readResult() {
     QString result;
-    while( ! reader->atEnd() ) {
+    while( !reader->atEnd() ) {
         reader->readNext();
 
         if( reader->isEndElement() )
@@ -987,6 +1151,22 @@ QString Log::readResult() {
         }
     }
     return result;
+}
+
+double Log::readSurfaceBrightness( Observation::SURFACE_BRIGHTNESS_UNIT *unit ) {
+    double surfBr;
+    QString unitStr = reader->attributes().value( "unit" ).toString();
+    if( unitStr == "mags-per-squarearcsec" ) {
+        *unit = Observation::SB_MAGS_PER_ARCSEC;
+    } else if( unitStr == "mags-per-squarearcmin" ) {
+        *unit = Observation::SB_MAGS_PAR_ARCMIN;
+    } else {
+        *unit = Observation::SB_WRONG_UNIT;
+    }
+
+    surfBr = reader->readElementText().toDouble();
+
+    return surfBr;
 }
 
 void Log::readGeoDate() {
@@ -1028,7 +1208,7 @@ Observer* Log::findObserverById( const QString &id ) {
     return 0;
 }
 
-Session* Log::findSessionByName( const QString &id ) {
+Session* Log::findSessionById( const QString &id ) {
     foreach( Session *s, *sessionList() )
         if( s->id()  == id )
             return s;
@@ -1094,13 +1274,6 @@ Filter* Log::findFilterById( const QString &id ) {
     foreach( Filter *f, *filterList() )
         if( f->id()  == id )
             return f;
-    return 0;
-}
-
-Scope* Log::findScopeByName( const QString &name ) {
-    foreach( Scope *s, *scopeList() )
-        if( s->name()  == name )
-            return s;
     return 0;
 }
 

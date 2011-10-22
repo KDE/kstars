@@ -22,21 +22,45 @@
 
 #include <QString>
 
-class OAL::Scope {
-    public:
-        Scope( const QString& id, const QString& model, const QString& vendor, const QString& type, double focalLength, double aperture ) { setScope( id, model, vendor, type, focalLength, aperture ); }
-        QString id() const { return m_Id; }
-        QString model() const { return m_Model; }
-        QString vendor() const { return m_Vendor; }
-        QString type() const { return m_Type; }
-        QString name() const { return m_Name; }
-        QString driver() const { return m_INDIDriver; }
-        double focalLength() const { return m_FocalLength; }
-        double aperture() const { return m_Aperture; }
-        void setScope( const QString& _id, const QString& _model, const QString& _vendor, const QString& _type, double _focalLength, double _aperture );
-        inline void setINDIDriver(const QString &driver) { m_INDIDriver = driver; }
-    private:
-        QString m_Id, m_Model, m_Vendor, m_Type, m_Name, m_INDIDriver;
-        double m_FocalLength, m_Aperture;
+class OAL::Scope
+{
+public:
+    Scope(const QString &id, const QString &model, const QString &vendor, const QString &type, const double focalLength, const double aperture,
+          const double lightGrasp, const bool lightGraspDefined, const bool erect, const bool truesided, const bool orientationDefined)
+    {
+        setScope(id, model, vendor, type, focalLength, aperture, lightGrasp, lightGraspDefined, erect, truesided, orientationDefined);
+    }
+
+    QString id() const { return m_Id; }
+    QString name() const;
+    QString model() const { return m_Model; }
+    QString vendor() const { return m_Vendor; }
+    QString type() const { return m_Type; }
+    QString driver() const { return m_INDIDriver; }
+    double focalLength() const { return m_FocalLength; }
+    double aperture() const { return m_Aperture; }
+    double lightGrasp() const { return m_LightGrasp; }
+    bool orientationErect() const { return m_OrientationErect; }
+    bool orientationTruesided() const { return m_OrientationTruesided; }
+
+    bool isLightGraspDefined() const { return m_LightGraspDefined; }
+    bool isOrientationDefined() const { return m_OrientationDefined; }
+
+    void setScope(const QString &id, const QString &model, const QString &vendor, const QString &type, const double focalLength,
+                  const double aperture, const double lightGrasp, const bool lightGraspDefined, const bool erect, const bool truesided,
+                  const bool orientationDefined);
+
+    void setINDIDriver(const QString &driver) { m_INDIDriver = driver; }
+
+private:
+    QString m_Id, m_Model, m_Vendor, m_Type, m_INDIDriver;
+    double m_FocalLength, m_Aperture;
+    double m_LightGrasp;
+    bool m_OrientationErect;
+    bool m_OrientationTruesided;
+
+    bool m_LightGraspDefined;
+    bool m_OrientationDefined;
 };
+
 #endif

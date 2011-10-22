@@ -89,7 +89,7 @@
      <item>
       <widget class="QStackedWidget" name="stackedWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="sessionPage">
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -352,7 +352,7 @@
                 <widget class="QComboBox" name="observationObserverComboBox"/>
                </item>
                <item row="2" column="0">
-                <widget class="QLabel" name="observationSiteLAbel">
+                <widget class="QLabel" name="observationSiteLabel">
                  <property name="text">
                   <string>Site:</string>
                  </property>
@@ -388,11 +388,25 @@
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
-                <widget class="KDateTimeWidget" name="observationEndDateTime"/>
-               </item>
                <item row="0" column="1">
                 <widget class="QComboBox" name="observationTargetComboBox"/>
+               </item>
+               <item row="5" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout" stretch="2,0">
+                 <property name="spacing">
+                  <number>6</number>
+                 </property>
+                 <item>
+                  <widget class="KDateTimeWidget" name="observationEndDateTime"/>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="observationEndCheckBox">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </item>
@@ -410,9 +424,6 @@
                      <string>Faintest star:</string>
                     </property>
                    </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QSpinBox" name="observationFaintestStarSpinBox"/>
                   </item>
                   <item row="1" column="0">
                    <widget class="QLabel" name="observationSkyQualityLabel">
@@ -438,6 +449,11 @@
                    <widget class="QComboBox" name="observationSeeingComboBox">
                     <item>
                      <property name="text">
+                      <string>Undefined</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
                       <string>1 - Best conditions</string>
                      </property>
                     </item>
@@ -461,6 +477,23 @@
                       <string>5 - Worst conditions</string>
                      </property>
                     </item>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QDoubleSpinBox" name="observationFaintestStarSpinBox"/>
+                  </item>
+                  <item row="0" column="2">
+                   <widget class="QCheckBox" name="observationFaintestStarCheckBox">
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="3">
+                   <widget class="QCheckBox" name="observationSkyQualityCheckBox">
+                    <property name="text">
+                     <string/>
+                    </property>
                    </widget>
                   </item>
                  </layout>
@@ -537,18 +570,29 @@
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
-                <widget class="QDoubleSpinBox" name="observationMagnificationSpinBox"/>
-               </item>
-               <item row="6" column="1">
-                <widget class="QPlainTextEdit" name="observationAccessoriesTextEdit"/>
-               </item>
                <item row="6" column="0">
                 <widget class="QLabel" name="observationAccessoriesLabel">
                  <property name="text">
                   <string>Accessories:</string>
                  </property>
                 </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QPlainTextEdit" name="observationAccessoriesTextEdit"/>
+               </item>
+               <item row="5" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="2,0">
+                 <item>
+                  <widget class="QDoubleSpinBox" name="observationMagnificationSpinBox"/>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="observationMagnificationCheckBox">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
               </layout>
              </item>

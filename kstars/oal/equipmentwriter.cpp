@@ -16,17 +16,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "oal/equipmentwriter.h"
+#include "equipmentwriter.h"
 #include "ui_equipmentwriter.h"
 
 #include <QFile>
 
 #include "kstarsdata.h"
 #include "oal.h"
-#include "oal/scope.h"
-#include "oal/eyepiece.h"
-#include "oal/lens.h"
-#include "oal/filter.h"
+#include "scope.h"
+#include "eyepiece.h"
+#include "lens.h"
+#include "filter.h"
 
 #include <config-kstars.h>
 
@@ -34,17 +34,20 @@
 #include "indi/indidriver.h"
 #endif
 
-EquipmentWriter::EquipmentWriter() {
+using namespace OAL;
+
+EquipmentWriter::EquipmentWriter()
+{
     QWidget *widget = new QWidget;
-    ui.setupUi( widget );
-    ui.tabWidget->setCurrentIndex(0);
-    setMainWidget( widget );
-    setCaption( i18n( "Define Equipment" ) );
-    setButtons( KDialog::Close );
+    m_Ui.setupUi(widget);
+    m_Ui.tabWidget->setCurrentIndex(0);
+    setMainWidget(widget);
+    setCaption(i18n("Define Equipment"));
+    setButtons(KDialog::Close);
     setupFilterTab();
 
-    ks = KStars::Instance();
-    nextScope = 0;
+    m_Ks = KStars::Instance();
+    m_LogObject = m_Ks->data()->logObject();
     nextEyepiece = 0;
     nextFilter = 0;
     nextLens = 0;
@@ -55,177 +58,209 @@ EquipmentWriter::EquipmentWriter() {
     ui.driverComboBox->insertItems(1, KStars::Instance()->indiDriver()->driversList.keys());
     #endif
 
-    //make connections
+    // Create signal-slot connections
     connect( this, SIGNAL( closeClicked() ), this, SLOT( slotClose() ) );
-    connect( ui.NewScope, SIGNAL( clicked() ), this, SLOT( slotAddScope() ) );
-    connect( ui.NewEyepiece, SIGNAL( clicked() ), this, SLOT( slotAddEyepiece() ) );
-    connect( ui.NewLens, SIGNAL( clicked() ), this, SLOT( slotAddLens() ) );
-    connect( ui.NewFilter, SIGNAL( clicked() ), this, SLOT( slotAddFilter() ) );
-    connect( ui.SaveScope, SIGNAL( clicked() ), this, SLOT( slotSaveScope() ) );
-    connect( ui.SaveEyepiece, SIGNAL( clicked() ), this, SLOT( slotSaveEyepiece() ) );
-    connect( ui.SaveLens, SIGNAL( clicked() ), this, SLOT( slotSaveLens() ) );
-    connect( ui.SaveFilter, SIGNAL( clicked() ), this, SLOT( slotSaveFilter() ) );
-    connect( ui.ScopeList, SIGNAL( currentTextChanged(const QString) ),
-             this, SLOT( slotSetScope(QString) ) );
-    connect( ui.EyepieceList, SIGNAL( currentTextChanged(const QString) ),
+    connect( m_Ui.addNewScopeButton, SIGNAL( clicked() ), this, SLOT( slotAddScope() ) );
+    connect( m_Ui.NewEyepiece, SIGNAL( clicked() ), this, SLOT( slotAddEyepiece() ) );
+    connect( m_Ui.NewLens, SIGNAL( clicked() ), this, SLOT( slotAddLens() ) );
+    connect( m_Ui.NewFilter, SIGNAL( clicked() ), this, SLOT( slotAddFilter() ) );
+
+    connect( m_Ui.saveScopeButton, SIGNAL( clicked() ), this, SLOT( slotSaveScope() ) );
+    connect( m_Ui.SaveEyepiece, SIGNAL( clicked() ), this, SLOT( slotSaveEyepiece() ) );
+    connect( m_Ui.SaveLens, SIGNAL( clicked() ), this, SLOT( slotSaveLens() ) );
+    connect( m_Ui.SaveFilter, SIGNAL( clicked() ), this, SLOT( slotSaveFilter() ) );
+
+    connect( m_Ui.scopeListWidget, SIGNAL( currentRowChanged(int) ),
+             this, SLOT( slotSetScope(int) ) );
+    connect( m_Ui.EyepieceList, SIGNAL( currentTextChanged(const QString) ),
              this, SLOT( slotSetEyepiece(QString) ) );
-    connect( ui.LensList, SIGNAL( currentTextChanged(const QString) ),
+    connect( m_Ui.LensList, SIGNAL( currentTextChanged(const QString) ),
              this, SLOT( slotSetLens(QString) ) );
-    connect( ui.FilterList, SIGNAL( currentTextChanged(const QString) ),
+    connect( m_Ui.FilterList, SIGNAL( currentTextChanged(const QString) ),
              this, SLOT( slotSetFilter(QString) ) );
-    connect( ui.RemoveScope, SIGNAL( clicked() ), this, SLOT( slotRemoveScope() ) );
-    connect( ui.RemoveEyepiece, SIGNAL( clicked() ), this, SLOT( slotRemoveEyepiece() ) );
-    connect( ui.RemoveLens, SIGNAL( clicked() ), this, SLOT( slotRemoveLens() ) );
-    connect( ui.RemoveFilter, SIGNAL( clicked() ), this, SLOT( slotRemoveFilter() ) );
+
+    connect( m_Ui.removeScopeButton, SIGNAL( clicked() ), this, SLOT( slotRemoveScope() ) );
+    connect( m_Ui.RemoveEyepiece, SIGNAL( clicked() ), this, SLOT( slotRemoveEyepiece() ) );
+    connect( m_Ui.RemoveLens, SIGNAL( clicked() ), this, SLOT( slotRemoveLens() ) );
+    connect( m_Ui.RemoveFilter, SIGNAL( clicked() ), this, SLOT( slotRemoveFilter() ) );
+
+    connect(m_Ui.scopeGraspDefinedCheckBox, SIGNAL(toggled(bool)), this, SLOT(slotLightGraspDefined(bool)));
+    connect(m_Ui.scopeOrientationDefinedCheckBox, SIGNAL(toggled(bool)), this, SLOT(slotOrientationDefined(bool)));
 }
 
-void EquipmentWriter::slotAddScope() {
-    while ( ks->data()->logObject()->findScopeById( "telescope" + '_' + QString::number( nextScope ) ) )
-        nextScope++;
-    OAL::Scope *s = new OAL::Scope( "telescope" + '_' + QString::number( nextScope++ ), ui.Model->text(),
-                                    ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
-    ks->data()->logObject()->scopeList()->append( s );
-    s->setINDIDriver( ui.driverComboBox->currentText() );
+void EquipmentWriter::slotAddScope()
+{
+    Scope *scope = new Scope(QString("telescope") + '_' + QString::number(m_LogObject->scopeList()->size()), m_Ui.scopeModelLineEdit->text(),
+                             m_Ui.scopeVendorLineEdit->text(), m_Ui.scopeTypeComboBox->currentText(),
+                             m_Ui.scopeFocalLengthSpinBox->value(), m_Ui.scopeApertureSpinBox->value(),
+                             m_Ui.scopeLightGraspSpinBox->value() / 100, m_Ui.scopeGraspDefinedCheckBox->isChecked(),
+                             m_Ui.scopeErectedCheckBox->isChecked(), m_Ui.scopeTruesidedCheckBox->isChecked(),
+                             m_Ui.scopeOrientationDefinedCheckBox->isChecked());
 
-    ui.Model->clear();
-    ui.Vendor->clear();
-    ui.FocalLength->setValue(0);
-    ui.driverComboBox->setCurrentIndex(0);
+    m_LogObject->scopeList()->append(scope);
+    scope->setINDIDriver(m_Ui.scopeDriverComboBox->currentText());
+
+    m_Ui.scopeListWidget->addItem(scope->name());
 
     saveEquipment(); //Save the new list.
 }
 
-void EquipmentWriter::slotRemoveScope() {
-    OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
-    int idx = ks->data()->logObject()->scopeList()->indexOf( s );
-    if ( idx < 0 )
+void EquipmentWriter::slotRemoveScope()
+{
+    int idx = m_Ui.scopeListWidget->currentRow();
+    if(idx < 0 || idx >= m_LogObject->scopeList()->size())
         return;
-    ks->data()->logObject()->scopeList()->removeAt( idx );
-    if( s )
-        delete s;
 
-    ui.Id->clear();
-    ui.Model->clear();
-    ui.Vendor->clear();
-    ui.FocalLength->setValue( 0 );
+    m_LogObject->removeScope(idx);
 
-    QListWidgetItem *item = ui.ScopeList->takeItem( ui.ScopeList->currentRow() );
-    if( item )
+    QListWidgetItem *item = m_Ui.scopeListWidget->takeItem(idx);
+    if(item)
         delete item;
 
+    clearScopePage();
+
     saveEquipment(); //Save the new list.
 }
 
-void EquipmentWriter::slotSaveScope() {
-    OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
-    if( s ) {
-        s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
-        s->setINDIDriver(ui.driverComboBox->currentText());
+void EquipmentWriter::slotSaveScope()
+{
+    int idx = m_Ui.scopeListWidget->currentRow();
+    if(idx < 0 || idx >= m_LogObject->scopeList()->size())
+        return;
+
+    Scope *scope = m_LogObject->scopeList()->at(idx);
+    if(scope) {
+        scope->setScope(m_Ui.scopeIdLineEdit->text(), m_Ui.scopeModelLineEdit->text(),
+                        m_Ui.scopeVendorLineEdit->text(), m_Ui.scopeTypeComboBox->currentText(),
+                        m_Ui.scopeFocalLengthSpinBox->value(), m_Ui.scopeApertureSpinBox->value(),
+                        m_Ui.scopeLightGraspSpinBox->value() / 100, m_Ui.scopeGraspDefinedCheckBox->isChecked(),
+                        m_Ui.scopeErectedCheckBox->isChecked(), m_Ui.scopeTruesidedCheckBox->isChecked(),
+                        m_Ui.scopeOrientationDefinedCheckBox->isChecked());
+
+        scope->setINDIDriver(m_Ui.scopeDriverComboBox->currentText());
     }
+
     saveEquipment(); //Save the new list.
 }
  
-void EquipmentWriter::slotSetScope( QString name) {
-    OAL::Scope *s = ks->data()->logObject()->findScopeByName( name );
-    if ( s ) {
-        ui.Id->setText( s->id() ) ;
-        ui.Model->setText( s->model() );
-        ui.Vendor->setText( s->vendor() );
-        ui.Type->setCurrentIndex( ui.Type->findText( s->type() ) );
-        ui.FocalLength->setValue( s->focalLength() );
-        ui.Aperture->setValue( s->aperture() );
-        ui.driverComboBox->setCurrentIndex(ui.driverComboBox->findText(s->driver()));
+void EquipmentWriter::slotSetScope(int idx)
+{
+    clearScopePage();
+
+    if(idx < 0 || idx >= m_LogObject->scopeList()->size())
+        return;
+
+    OAL::Scope *scope = m_LogObject->scopeList()->at(idx);
+    if(scope) {
+        m_Ui.scopeIdLineEdit->setText(scope->id());
+        m_Ui.scopeModelLineEdit->setText(scope->model());
+        m_Ui.scopeVendorLineEdit->setText(scope->vendor());
+        m_Ui.scopeTypeComboBox->setCurrentIndex(m_Ui.scopeTypeComboBox->findText(scope->type()));
+        m_Ui.scopeApertureSpinBox->setValue(scope->aperture());
+        m_Ui.scopeFocalLengthSpinBox->setValue(scope->focalLength());
+        m_Ui.scopeDriverComboBox->setCurrentIndex(m_Ui.scopeDriverComboBox->findText(scope->driver()));
+
+        if(scope->isLightGraspDefined()) {
+            m_Ui.scopeGraspDefinedCheckBox->setChecked(true);
+            m_Ui.scopeLightGraspSpinBox->setValue(scope->lightGrasp() * 100);
+        }
+
+        if(scope->isOrientationDefined()) {
+            m_Ui.scopeOrientationDefinedCheckBox->setChecked(true);
+            m_Ui.scopeErectedCheckBox->setChecked(scope->orientationErect());
+            m_Ui.scopeTruesidedCheckBox->setChecked(scope->orientationTruesided());
+        }
     }
 }
 
 void EquipmentWriter::slotAddEyepiece() {
-    while ( ks->data()->logObject()->findEyepieceById( "eyepiece" + '_' + QString::number( nextEyepiece ) ) )
+    while ( m_Ks->data()->logObject()->findEyepieceById( "eyepiece" + '_' + QString::number( nextEyepiece ) ) )
         nextEyepiece++;
-    OAL::Eyepiece *e = new OAL::Eyepiece( "eyepiece" + '_' + QString::number( nextEyepiece++ ), ui.e_Model->text(),
-                                          ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
-    ks->data()->logObject()->eyepieceList()->append( e );
+    OAL::Eyepiece *e = new OAL::Eyepiece( "eyepiece" + '_' + QString::number( nextEyepiece++ ), m_Ui.e_Model->text(),
+                                          m_Ui.e_Vendor->text(), m_Ui.Fov->value(), m_Ui.FovUnit->currentText(), m_Ui.e_focalLength->value() );
+    m_Ks->data()->logObject()->eyepieceList()->append( e );
 
-    ui.e_Id->clear();
-    ui.e_Model->clear();
-    ui.e_Vendor->clear();
-    ui.Fov->setValue(0);
-    ui.e_focalLength->setValue(0);
+    m_Ui.e_Id->clear();
+    m_Ui.e_Model->clear();
+    m_Ui.e_Vendor->clear();
+    m_Ui.Fov->setValue(0);
+    m_Ui.e_focalLength->setValue(0);
 
     saveEquipment(); //Save the new list.
 }
 
 void EquipmentWriter::slotRemoveEyepiece() {
-    OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceById( ui.e_Id->text() );
-    int idx = ks->data()->logObject()->eyepieceList()->indexOf( e );
+    OAL::Eyepiece *e = m_Ks->data()->logObject()->findEyepieceById( m_Ui.e_Id->text() );
+    int idx = m_Ks->data()->logObject()->eyepieceList()->indexOf( e );
     if ( idx < 0 )
         return;
-    ks->data()->logObject()->eyepieceList()->removeAt( idx );
+    m_Ks->data()->logObject()->eyepieceList()->removeAt( idx );
     if( e )
         delete e;
 
-    ui.e_Id->clear();
-    ui.e_Model->clear();
-    ui.e_Vendor->clear();
-    ui.Fov->setValue( 0 );
-    ui.e_focalLength->setValue( 0 );
+    m_Ui.e_Id->clear();
+    m_Ui.e_Model->clear();
+    m_Ui.e_Vendor->clear();
+    m_Ui.Fov->setValue( 0 );
+    m_Ui.e_focalLength->setValue( 0 );
 
-    QListWidgetItem *item = ui.EyepieceList->takeItem( ui.EyepieceList->currentRow() );
+    QListWidgetItem *item = m_Ui.EyepieceList->takeItem( m_Ui.EyepieceList->currentRow() );
     if( item )
         delete item;
 
     saveEquipment(); //Save the new list.
 }
 void EquipmentWriter::slotSaveEyepiece() {
-    OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
+    OAL::Eyepiece *e = m_Ks->data()->logObject()->findEyepieceByName( m_Ui.e_Id->text() );
     if( e ){
-        e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
+        e->setEyepiece( m_Ui.e_Id->text(), m_Ui.e_Model->text(), m_Ui.e_Vendor->text(), m_Ui.Fov->value(), m_Ui.FovUnit->currentText(), m_Ui.e_focalLength->value() );
     } 
     saveEquipment(); //Save the new list.
 }
 
 void EquipmentWriter::slotSetEyepiece( QString name ) {
     OAL::Eyepiece *e;
-    e = ks->data()->logObject()->findEyepieceByName( name ); 
+    e = m_Ks->data()->logObject()->findEyepieceByName( name );
     if( e ) {
-        ui.e_Id->setText( e->id() );
-        ui.e_Model->setText( e->model() );
-        ui.e_Vendor->setText( e->vendor() );
-        ui.Fov->setValue( e->appFov() );
-        ui.FovUnit->setCurrentIndex( ui.FovUnit->findText( e->fovUnit() ) );
-        ui.e_focalLength->setValue( e->focalLength() );
+        m_Ui.e_Id->setText( e->id() );
+        m_Ui.e_Model->setText( e->model() );
+        m_Ui.e_Vendor->setText( e->vendor() );
+        m_Ui.Fov->setValue( e->appFov() );
+        m_Ui.FovUnit->setCurrentIndex( m_Ui.FovUnit->findText( e->fovUnit() ) );
+        m_Ui.e_focalLength->setValue( e->focalLength() );
     }
 }
 
 void EquipmentWriter::slotAddLens() {
-    while ( ks->data()->logObject()->findLensById( "lens" + '_' + QString::number( nextLens ) ) )
+    while ( m_Ks->data()->logObject()->findLensById( "lens" + '_' + QString::number( nextLens ) ) )
         nextLens++;
-    OAL::Lens *l = new OAL::Lens( "lens" + '_' + QString::number( nextLens++ ), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() ) ;
-    ks->data()->logObject()->lensList()->append( l );
+    OAL::Lens *l = new OAL::Lens( "lens" + '_' + QString::number( nextLens++ ), m_Ui.l_Model->text(), m_Ui.l_Vendor->text(), m_Ui.l_Factor->value() ) ;
+    m_Ks->data()->logObject()->lensList()->append( l );
 
-    ui.l_Id->clear();
-    ui.l_Model->clear();
-    ui.l_Vendor->clear();
-    ui.l_Factor->setValue( 0 );
+    m_Ui.l_Id->clear();
+    m_Ui.l_Model->clear();
+    m_Ui.l_Vendor->clear();
+    m_Ui.l_Factor->setValue( 0 );
 
     saveEquipment(); //Save the new list.
 }
 
 void EquipmentWriter::slotRemoveLens() {
-    OAL::Lens *l = ks->data()->logObject()->findLensById( ui.l_Id->text() );
-    int idx = ks->data()->logObject()->lensList()->indexOf( l );
+    OAL::Lens *l = m_Ks->data()->logObject()->findLensById( m_Ui.l_Id->text() );
+    int idx = m_Ks->data()->logObject()->lensList()->indexOf( l );
     if ( idx < 0 )
         return;
-    ks->data()->logObject()->lensList()->removeAt( idx );
+    m_Ks->data()->logObject()->lensList()->removeAt( idx );
     if( l )
         delete l;
 
-    ui.l_Id->clear();
-    ui.l_Model->clear();
-    ui.l_Vendor->clear();
-    ui.l_Factor->setValue( 0 );
-    ui.f_Color->setCurrentIndex( 0 );
+    m_Ui.l_Id->clear();
+    m_Ui.l_Model->clear();
+    m_Ui.l_Vendor->clear();
+    m_Ui.l_Factor->setValue( 0 );
+    m_Ui.f_Color->setCurrentIndex( 0 );
 
-    QListWidgetItem *item = ui.LensList->takeItem( ui.LensList->currentRow() );
+    QListWidgetItem *item = m_Ui.LensList->takeItem( m_Ui.LensList->currentRow() );
     if( item )
         delete item;
 
@@ -233,57 +268,57 @@ void EquipmentWriter::slotRemoveLens() {
 }
 
 void EquipmentWriter::slotSaveLens() {
-    OAL::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
+    OAL::Lens *l = m_Ks->data()->logObject()->findLensByName( m_Ui.l_Id->text() );
     if( l ){
-        l->setLens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
+        l->setLens( m_Ui.l_Id->text(), m_Ui.l_Model->text(), m_Ui.l_Vendor->text(), m_Ui.l_Factor->value() );
     }
     saveEquipment(); //Save the new list.
 }
 
 void EquipmentWriter::slotSetLens( QString name ) {
     OAL::Lens *l;
-    l = ks->data()->logObject()->findLensByName( name );
+    l = m_Ks->data()->logObject()->findLensByName( name );
     if( l ) {
-        ui.l_Id->setText( l->id() );
-        ui.l_Model->setText( l->model() );
-        ui.l_Vendor->setText( l->vendor() );
-        ui.l_Factor->setValue( l->factor() );
+        m_Ui.l_Id->setText( l->id() );
+        m_Ui.l_Model->setText( l->model() );
+        m_Ui.l_Vendor->setText( l->vendor() );
+        m_Ui.l_Factor->setValue( l->factor() );
     }
 }
 
 void EquipmentWriter::slotAddFilter() {
-    OAL::Filter *f = new OAL::Filter( "filter" + '_' + QString::number( ks->data()->logObject()->filterList()->size() ),
-                                      ui.f_Model->text(), ui.f_Vendor->text(), static_cast<OAL::Filter::FILTER_TYPE>( ui.f_Type->currentIndex() ),
-                                      static_cast<OAL::Filter::FILTER_COLOR>( ui.f_Color->currentIndex() ) );
-    ks->data()->logObject()->filterList()->append( f );
+    OAL::Filter *f = new OAL::Filter( "filter" + '_' + QString::number( m_Ks->data()->logObject()->filterList()->size() ),
+                                      m_Ui.f_Model->text(), m_Ui.f_Vendor->text(), static_cast<OAL::Filter::FILTER_TYPE>( m_Ui.f_Type->currentIndex() ),
+                                      static_cast<OAL::Filter::FILTER_COLOR>( m_Ui.f_Color->currentIndex() ) );
+    m_Ks->data()->logObject()->filterList()->append( f );
 
-    ui.f_Id->clear();
-    ui.f_Model->clear();
-    ui.f_Vendor->clear();
-    ui.f_Type->setCurrentIndex( 0 );
-    ui.f_Color->setCurrentIndex( 0 );
+    m_Ui.f_Id->clear();
+    m_Ui.f_Model->clear();
+    m_Ui.f_Vendor->clear();
+    m_Ui.f_Type->setCurrentIndex( 0 );
+    m_Ui.f_Color->setCurrentIndex( 0 );
 
-    ui.FilterList->addItem( f->name() );
+    m_Ui.FilterList->addItem( f->name() );
 
     saveEquipment(); //Save the new list.
 }
 
 void EquipmentWriter::slotRemoveFilter() {
-    OAL::Filter *f = ks->data()->logObject()->findFilterById( ui.f_Id->text() );
-    int idx = ks->data()->logObject()->filterList()->indexOf( f );
+    OAL::Filter *f = m_Ks->data()->logObject()->findFilterById( m_Ui.f_Id->text() );
+    int idx = m_Ks->data()->logObject()->filterList()->indexOf( f );
     if ( idx < 0 )
         return;
-    ks->data()->logObject()->filterList()->removeAt( idx );
+    m_Ks->data()->logObject()->filterList()->removeAt( idx );
     if( f )
         delete f;
 
-    ui.f_Id->clear();
-    ui.f_Model->clear();
-    ui.f_Vendor->clear();
-    ui.f_Type->setCurrentIndex( 0 );
-    ui.f_Color->setCurrentIndex( 0 );
+    m_Ui.f_Id->clear();
+    m_Ui.f_Model->clear();
+    m_Ui.f_Vendor->clear();
+    m_Ui.f_Type->setCurrentIndex( 0 );
+    m_Ui.f_Color->setCurrentIndex( 0 );
 
-    QListWidgetItem *item = ui.FilterList->takeItem( ui.FilterList->currentRow() );
+    QListWidgetItem *item = m_Ui.FilterList->takeItem( m_Ui.FilterList->currentRow() );
     if( item )
         delete item;
 
@@ -291,30 +326,30 @@ void EquipmentWriter::slotRemoveFilter() {
 }
 
 void EquipmentWriter::slotSaveFilter() {
-    OAL::Filter *f = ks->data()->logObject()->findFilterById( ui.f_Id->text() );
+    OAL::Filter *f = m_Ks->data()->logObject()->findFilterById( m_Ui.f_Id->text() );
     if( f ){
-        f->setFilter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(),
-                      static_cast<OAL::Filter::FILTER_TYPE>( ui.f_Type->currentIndex() ), static_cast<OAL::Filter::FILTER_COLOR>( ui.f_Color->currentIndex() ) );
+        f->setFilter( m_Ui.f_Id->text(), m_Ui.f_Model->text(), m_Ui.f_Vendor->text(),
+                      static_cast<OAL::Filter::FILTER_TYPE>( m_Ui.f_Type->currentIndex() ), static_cast<OAL::Filter::FILTER_COLOR>( m_Ui.f_Color->currentIndex() ) );
 
-        ui.FilterList->currentItem()->setText( f->name() );
+        m_Ui.FilterList->currentItem()->setText( f->name() );
         saveEquipment(); //Save the new list.
     } 
 }
 
 void EquipmentWriter::slotSetFilter( QString name ) {
     OAL::Filter *f;
-    f = ks->data()->logObject()->findFilterByName( name ); 
+    f = m_Ks->data()->logObject()->findFilterByName( name );
     if( f ) {
-        ui.f_Id->setText( f->id() );
-        ui.f_Model->setText( f->model() );
-        ui.f_Vendor->setText( f->vendor() );
-        ui.f_Type->setCurrentIndex( f->type() );
-        ui.f_Color->setCurrentIndex( f->color() );
+        m_Ui.f_Id->setText( f->id() );
+        m_Ui.f_Model->setText( f->model() );
+        m_Ui.f_Vendor->setText( f->vendor() );
+        m_Ui.f_Type->setCurrentIndex( f->type() );
+        m_Ui.f_Color->setCurrentIndex( f->color() );
     }
 }
 
 void EquipmentWriter::saveEquipment() {
-    ks->data()->logObject()->saveEquipmentToFile();
+    m_Ks->data()->logObject()->saveEquipmentToFile();
 
 #ifdef HAVE_INDI_H
     ks->indiDriver()->updateCustomDrivers();
@@ -322,20 +357,21 @@ void EquipmentWriter::saveEquipment() {
 }
 
 void EquipmentWriter::loadEquipment() {
-    ks->data()->logObject()->loadEquipmentFromFile();
+    m_Ks->data()->logObject()->loadEquipmentFromFile();
 
-    ui.ScopeList->clear();
-    ui.EyepieceList->clear();
-    ui.LensList->clear();
-    ui.FilterList->clear();
-    foreach( OAL::Scope *s, *( ks->data()->logObject()->scopeList() ) )
-        ui.ScopeList->addItem( s->name() );
-    foreach( OAL::Eyepiece *e, *( ks->data()->logObject()->eyepieceList() ) )
-        ui.EyepieceList->addItem( e->name() );
-    foreach( OAL::Lens *l, *( ks->data()->logObject()->lensList() ) )
-        ui.LensList->addItem( l->name() );
-    foreach( OAL::Filter *f, *( ks->data()->logObject()->filterList() ) )
-        ui.FilterList->addItem( f->name() );
+    m_Ui.scopeListWidget->clear();
+    m_Ui.EyepieceList->clear();
+    m_Ui.LensList->clear();
+    m_Ui.FilterList->clear();
+
+    foreach( OAL::Scope *scope, *( m_Ks->data()->logObject()->scopeList() ) )
+        m_Ui.scopeListWidget->addItem( scope->name() );
+    foreach( OAL::Eyepiece *e, *( m_Ks->data()->logObject()->eyepieceList() ) )
+        m_Ui.EyepieceList->addItem( e->name() );
+    foreach( OAL::Lens *l, *( m_Ks->data()->logObject()->lensList() ) )
+        m_Ui.LensList->addItem( l->name() );
+    foreach( OAL::Filter *f, *( m_Ks->data()->logObject()->filterList() ) )
+        m_Ui.FilterList->addItem( f->name() );
 }
 
 void EquipmentWriter::slotClose()
@@ -343,10 +379,42 @@ void EquipmentWriter::slotClose()
    hide();
 }
 
+void EquipmentWriter::slotLightGraspDefined(bool enabled)
+{
+    m_Ui.scopeLightGraspSpinBox->setEnabled(enabled);
+}
+
+void EquipmentWriter::slotOrientationDefined(bool enabled)
+{
+    m_Ui.scopeErectedCheckBox->setEnabled(enabled);
+    m_Ui.scopeTruesidedCheckBox->setEnabled(enabled);
+}
+
 void EquipmentWriter::setupFilterTab()
 {
-    ui.f_Type->addItems( OAL::Filter::filterTypes() );
-    ui.f_Color->addItems( OAL::Filter::filterColors() );
+    m_Ui.f_Type->addItems( OAL::Filter::filterTypes() );
+    m_Ui.f_Color->addItems( OAL::Filter::filterColors() );
+}
+
+void EquipmentWriter::clearScopePage()
+{
+    m_Ui.scopeIdLineEdit->clear();
+    m_Ui.scopeModelLineEdit->clear();
+    m_Ui.scopeVendorLineEdit->clear();
+    m_Ui.scopeTypeComboBox->setCurrentIndex(0);
+    m_Ui.scopeDriverComboBox->setCurrentIndex(0);
+    m_Ui.scopeApertureSpinBox->setValue(0);
+    m_Ui.scopeFocalLengthSpinBox->setValue(0);
+    m_Ui.scopeLightGraspSpinBox->setValue(0);
+    m_Ui.scopeErectedCheckBox->setChecked(false);
+    m_Ui.scopeTruesidedCheckBox->setChecked(false);
+
+    m_Ui.scopeGraspDefinedCheckBox->setChecked(false);
+    m_Ui.scopeLightGraspSpinBox->setEnabled(false);
+
+    m_Ui.scopeOrientationDefinedCheckBox->setChecked(false);
+    m_Ui.scopeErectedCheckBox->setEnabled(false);
+    m_Ui.scopeTruesidedCheckBox->setEnabled(false);
 }
 
 #include "equipmentwriter.moc"

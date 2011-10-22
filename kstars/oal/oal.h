@@ -22,7 +22,9 @@
 #include <QString>
 #include <KLocale>
 #include <kmessagebox.h>
-namespace OAL {
+
+namespace OAL
+{
     class Log;
     class Observer;
     class Observation;
@@ -37,8 +39,13 @@ namespace OAL {
     class Session;
     class Target;
     class Lens;
-    inline int warningOverwrite( QString message ) {
+    class Imager;
+    class CcdCamera;
+
+    inline int warningOverwrite( QString message )
+    {
         return KMessageBox::warningYesNo( 0, message, i18n("Overwrite"), KGuiItem(i18n("Overwrite")), KGuiItem(i18n("Cancel")) );
     }
 }
+
 #endif

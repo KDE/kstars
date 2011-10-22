@@ -28,49 +28,37 @@
 
 using namespace OAL;
 
-void Observation::setObservation( QString _id, QString _observer, QString _site, QString _session, QString _target, KStarsDateTime _begin,
-                                  double _faintestStar, double _seeing, QString _scope, QString _eyepiece, QString _lens, QString _filter,
-                                  QString _result, QString _lang )
+void Observation::setObservation(const QString &id, const QString &target, const QString &observer, const KStarsDateTime &begin,
+                                 const QList<Result> &results, const QString &site, const QString &session, const QString &scope,
+                                 const QString &eyepiece, const QString &lens, const QString &filter, const QString &imager,
+                                 const QString &accessories, const QStringList &images, const double magn, const bool magnDefined,
+                                 const double faintest, const bool faintestDefined, const double skyquality, const SURFACE_BRIGHTNESS_UNIT squnit,
+                                 const bool skyqualityDefined, const double seeing, const bool seeingDefined, const KStarsDateTime &end,
+                                 const bool endDefined)
 {
-    m_Name = _id;
-    m_Observer = _observer;
-    m_Site = _site;
-    m_Session = _session;
-    m_Target = _target;
-    m_Begin = _begin;
-    m_FaintestStar = _faintestStar;
-    m_Seeing = _seeing;
-    m_Scope = _scope;
-    m_Eyepiece = _eyepiece;
-    m_Lens = _lens;
-    m_Filter = _filter;
-    m_Result = _result;
-    m_Lang = _lang;
-}
-
-Observation::Observation( QString id, Observer* observer, Session* session, ObservationTarget* target, KStarsDateTime begin, double faintestStar,
-                          double seeing, Scope* scope, Eyepiece* eyepiece, Lens *lens, Filter* filter,  QString result, QString lang )
-{
-    if( observer )
-        m_Observer = observer->id();
-    if( target )
-        m_Target = target->id();
-    if( session ) {
-        m_Session = session->id();
-        m_Site = session->site();
-    }
-    if( scope )
-        m_Scope = scope->id();
-    if( lens )
-        m_Lens = lens->id();
-    if( filter )
-        m_Filter = filter->id();
-    if( eyepiece )
-        m_Eyepiece = eyepiece->id();
-    m_Name = id;
+    m_Id = id;
+    m_Target = target;
+    m_Observer = observer;
     m_Begin = begin;
-    m_FaintestStar = faintestStar;
+    m_Results = results;
+    m_Site = site;
+    m_Session = session;
+    m_Scope = scope;
+    m_Eyepiece = eyepiece;
+    m_Lens = lens;
+    m_Filter = filter;
+    m_Imager = imager;
+    m_Accessories = accessories;
+    m_ImageRefs = images;
+    m_Magnification = magn;
+    m_MagnificationDefined = magnDefined;
+    m_FaintestStar = faintest;
+    m_FaintestStarDefined = faintestDefined;
+    m_SkyQuality = skyquality;
+    m_SkyQualityUnit = squnit;
+    m_SkyQualityDefined = skyqualityDefined;
     m_Seeing = seeing;
-    m_Result = result;
-    m_Lang = lang;
+    m_SeeingDefined = seeingDefined;
+    m_End = end;
+    m_EndDefined = endDefined;
 }

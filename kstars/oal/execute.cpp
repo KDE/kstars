@@ -77,6 +77,10 @@ Execute::Execute()
     connect(m_Ui.showTargetsButton, SIGNAL(leftClickedUrl()), this, SLOT(slotShowTargets()));
     connect(m_Ui.sessionCoobserversButton, SIGNAL(clicked()), this, SLOT(slotObserverManager()));
     connect(m_Ui.equipmentButton, SIGNAL(clicked()), m_Ks, SLOT(slotEquipmentWriter()));
+    connect(m_Ui.observationEndCheckBox, SIGNAL(toggled(bool)), this, SLOT(slotEndChecked(bool)));
+    connect(m_Ui.observationFaintestStarCheckBox, SIGNAL(toggled(bool)), this, SLOT(slotFaintestStarChecked(bool)));
+    connect(m_Ui.observationMagnificationCheckBox, SIGNAL(toggled(bool)), this, SLOT(slotMagnificationChecked(bool)));
+    connect(m_Ui.observationSkyQualityCheckBox, SIGNAL(toggled(bool)), this, SLOT(slotSkyQualityChecked(bool)));
 }
 
 void Execute::init()
@@ -97,6 +101,99 @@ void Execute::init()
 
 void Execute::showObservation(Observation *observation)
 {
+    // Prepare widgets on Observation page
+    refreshObservationPage();
+
+    // *** GENERAL *** page
+    // Set Target
+    ObservationTarget *target = m_LogObject->findTargetById(observation->target());
+    if(target) {
+        m_Ui.observationTargetComboBox->setCurrentIndex(m_LogObject->targetList()->indexOf(target));
+    } else {
+        m_Ui.observationTargetComboBox->setCurrentIndex(0);
+    }
+
+    // Set Observer
+    Observer *observer = m_LogObject->findObserverById(observation->observer());
+    if(observer) {
+        m_Ui.observationObserverComboBox->setCurrentIndex(m_LogObject->observerList()->indexOf(observer));
+    } else {
+        m_Ui.observationObserverComboBox->setCurrentIndex(0);
+    }
+
+    // Set Site
+    Site *site = m_LogObject->findSiteById(observation->site());
+    if(site) {
+        m_Ui.observationSiteComboBox->setCurrentIndex(m_LogObject->siteList()->indexOf(site) + 1);
+    } else {
+        m_Ui.observationSiteComboBox->setCurrentIndex(0);
+    }
+
+    // Set Session
+    Session *session = m_LogObject->findSessionById(observation->session());
+    if(session) {
+        m_Ui.observationSessionComboBox->setCurrentIndex(m_LogObject->sessionList()->indexOf(session) + 1);
+    } else {
+        m_Ui.observationSessionComboBox->setCurrentIndex(0);
+    }
+
+    // Set Begin
+    m_Ui.observationBeginDateTime->setDateTime(observation->begin().dateTime());
+
+    // Set End
+    if(observation->isEndDefined()) {
+        m_Ui.observationEndDateTime->setEnabled(true);
+        m_Ui.observationEndDateTime->setDateTime(observation->end().dateTime());
+        m_Ui.observationEndCheckBox->setChecked(true);
+    }
+
+
+    // *** EQUIPMENT *** page
+    // Set Scope
+    Scope *scope = m_LogObject->findScopeById(observation->scope());
+    if(scope) {
+        m_Ui.observationScopeComboBox->setCurrentIndex(m_LogObject->scopeList()->indexOf(scope) + 1);
+    } else {
+        m_Ui.observationScopeComboBox->setCurrentIndex(0);
+    }
+
+    // Set Eyepiece
+    Eyepiece *eyepiece = m_LogObject->findEyepieceById(observation->eyepiece());
+    if(eyepiece) {
+        m_Ui.observationEyepieceComboBox->setCurrentIndex(m_LogObject->eyepieceList()->indexOf(eyepiece) + 1);
+    } else {
+        m_Ui.observationEyepieceComboBox->setCurrentIndex(0);
+    }
+
+    // Set Lens
+    Lens *lens = m_LogObject->findLensById(observation->lens());
+    if(lens) {
+        m_Ui.observationLensComboBox->setCurrentIndex(m_LogObject->lensList()->indexOf(lens) + 1);
+    } else {
+        m_Ui.observationLensComboBox->setCurrentIndex(0);
+    }
+
+    // Set Filter
+    Filter *filter = m_LogObject->findFilterById(observation->filter());
+    if(filter) {
+        m_Ui.observationFilterComboBox->setCurrentIndex(m_LogObject->filterList()->indexOf(filter) + 1);
+    } else {
+        m_Ui.observationFilterComboBox->setCurrentIndex(0);
+    }
+
+    // Set Imager
+
+    // Set Magnification
+    if(observation->isMagnificationDefined()) {
+        m_Ui.observationMagnificationSpinBox->setEnabled(true);
+        m_Ui.observationMagnificationSpinBox->setValue(observation->magnification());
+        m_Ui.observationMagnificationCheckBox->setChecked(true);
+    }
+
+    // Set Accessories
+    m_Ui.observationAccessoriesTextEdit->setPlainText(observation->accessories());
+
+    m_Ui.observationTabWidget->setCurrentIndex(0);
     m_Ui.stackedWidget->setCurrentIndex(OBSERVATION_PAGE);
 }
 
@@ -121,6 +218,7 @@ void Execute::showTarget(ObservationTarget *target)
     m_Ui.targetConstellationLineEdit->setText(target->constellation());
     m_Ui.targetNotesTextEdit->setPlainText(target->notes());
 
+    m_Ui.targetTabWidget->setCurrentIndex(0);
     m_Ui.stackedWidget->setCurrentIndex(TARGET_PAGE);
 }
 
@@ -237,6 +335,26 @@ void Execute::slotShowTargets()
     m_Ui.stackedWidget->setCurrentIndex(TARGET_PAGE);
 }
 
+void Execute::slotMagnificationChecked(bool enabled)
+{
+    m_Ui.observationMagnificationSpinBox->setEnabled(enabled);
+}
+
+void Execute::slotSkyQualityChecked(bool enabled)
+{
+    m_Ui.observationSkyQualitySpinBox->setEnabled(enabled);
+}
+
+void Execute::slotEndChecked(bool enabled)
+{
+    m_Ui.observationEndDateTime->setEnabled(enabled);
+}
+
+void Execute::slotFaintestStarChecked(bool enabled)
+{
+    m_Ui.observationFaintestStarCheckBox->setEnabled(enabled);
+}
+
 void Execute::loadSessions()
 {
     m_Ui.sessionsListWidget->clear();
@@ -262,4 +380,107 @@ void Execute::loadTargets()
     }
 
     m_Ui.targetsTreeView->setModel(m_ObservationsModel);
+}
+
+void Execute::refreshObservationPage()
+{
+    // *** GENERAL page ***
+    // Targets
+    m_Ui.observationTargetComboBox->clear();
+    foreach(ObservationTarget *target, *m_LogObject->targetList()) {
+        QString targetStr = target->name();
+        if(!target->constellation().isEmpty()) {
+            targetStr += ", " + target->constellation();
+        }
+        m_Ui.observationTargetComboBox->addItem(targetStr);
+    }
+
+    // Observers
+    m_Ui.observationObserverComboBox->clear();
+    foreach(Observer *observer, *m_LogObject->observerList()) {
+        m_Ui.observationObserverComboBox->addItem(observer->name() + " " + observer->surname());
+    }
+
+    // Sites
+    m_Ui.observationSiteComboBox->clear();
+    m_Ui.observationSiteComboBox->addItem(i18n("Undefined"));
+    foreach(Site *site, *m_LogObject->siteList()) {
+        m_Ui.observationSiteComboBox->addItem(site->name());
+    }
+
+    // Session
+    m_Ui.observationSessionComboBox->clear();
+    m_Ui.observationSessionComboBox->addItem(i18n("Undefined"));
+    foreach(Session *session, *m_LogObject->sessionList()) {
+        m_Ui.observationSessionComboBox->addItem(session->id());
+    }
+
+    // Begin
+    m_Ui.observationBeginDateTime->setDateTime(QDateTime());
+
+    // End
+    m_Ui.observationEndDateTime->setDateTime(QDateTime());
+    m_Ui.observationEndCheckBox->setChecked(false);
+
+    // Faintest star
+    m_Ui.observationFaintestStarSpinBox->setValue(0);
+    m_Ui.observationFaintestStarCheckBox->setChecked(false);
+
+    // Sky quality
+    m_Ui.observationSkyQualitySpinBox->setValue(0);
+    m_Ui.observationSQUnitComboBox->setCurrentIndex(0);
+    m_Ui.observationSkyQualityCheckBox->setChecked(false);
+    m_Ui.observationSkyQualitySpinBox->setEnabled(false);
+    m_Ui.observationSQUnitComboBox->setEnabled(false);
+
+    // Seeing
+    m_Ui.observationSeeingComboBox->setCurrentIndex(0);
+
+
+    // *** EQUIPMENT page ***
+    // Scopes
+    m_Ui.observationScopeComboBox->clear();
+    m_Ui.observationScopeComboBox->addItem(i18n("Undefined"));
+    foreach(Scope *scope, *m_LogObject->scopeList()) {
+        m_Ui.observationScopeComboBox->addItem(scope->name() + " " + scope->model());
+    }
+
+    // Eyepieces
+    m_Ui.observationEyepieceComboBox->clear();
+    m_Ui.observationEyepieceComboBox->addItem(i18n("Undefined"));
+    foreach(Eyepiece *eyepiece, *m_LogObject->eyepieceList()) {
+        m_Ui.observationEyepieceComboBox->addItem(eyepiece->name() + " " + eyepiece->model());
+    }
+
+    // Lenses
+    m_Ui.observationLensComboBox->clear();
+    m_Ui.observationLensComboBox->addItem(i18n("Undefined"));
+    foreach(Lens *lens, *m_LogObject->lensList()) {
+        m_Ui.observationLensComboBox->addItem(lens->name() + " " + lens->model());
+    }
+
+    // Filters
+    m_Ui.observationFilterComboBox->clear();
+    m_Ui.observationFilterComboBox->addItem(i18n("Undefined"));
+    foreach(Filter *filter, *m_LogObject->filterList()) {
+        m_Ui.observationFilterComboBox->addItem(filter->name() + " " + filter->model());
+    }
+
+    // Imagers
+    m_Ui.observationImagerComboBox->clear();
+    m_Ui.observationImagerComboBox->addItem(i18n("Undefined"));
+    // TODO - add support for Imagers
+
+    // Magnification
+    m_Ui.observationMagnificationSpinBox->setValue(1);
+    m_Ui.observationMagnificationCheckBox->setChecked(false);
+    m_Ui.observationMagnificationSpinBox->setEnabled(false);
+
+    // Accessories
+    m_Ui.observationAccessoriesTextEdit->clear();
+
+
+    // *** FINDINGS page ***
+    // Results
+    m_Ui.observationResultsTextEdit->clear();
 }

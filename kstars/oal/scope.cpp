@@ -20,12 +20,25 @@
 
 using namespace OAL;
 
-void Scope::setScope( const QString& _id, const QString& _model, const QString& _vendor, const QString& _type, double _focalLength, double _aperture ) {
-    m_Id = _id;
-    m_Model = _model;
-    m_Vendor = _vendor;
-    m_Type = _type;
-    m_FocalLength = _focalLength;
-    m_Aperture = _aperture;
-    m_Name.append ( _vendor + ' ' + _model + ' ' + QString::number( _aperture ) + "mm f/" + QString::number( (_focalLength/_aperture), 'g', 1 ) + " (" + _id + ')' ) ; 
+QString Scope::name() const
+{
+    return m_Vendor + ' ' + m_Model + ' ' + QString::number(m_Aperture) + "mm f/" +
+            QString::number((m_FocalLength/m_Aperture), 'g', 1) + " (" + m_Id + ')';
+}
+
+void Scope::setScope(const QString &id, const QString &model, const QString &vendor, const QString &type, const double focalLength,
+                     const double aperture, const double lightGrasp, const bool lightGraspDefined, const bool erect, const bool truesided,
+                     const bool orientationDefined)
+{
+    m_Id = id;
+    m_Model = model;
+    m_Vendor = vendor;
+    m_Type = type;
+    m_FocalLength = focalLength;
+    m_Aperture = aperture;
+    m_LightGrasp = lightGrasp;
+    m_LightGraspDefined = lightGraspDefined;
+    m_OrientationErect = erect;
+    m_OrientationTruesided = truesided;
+    m_OrientationDefined = orientationDefined;
 }

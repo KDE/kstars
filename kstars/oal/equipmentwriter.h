@@ -21,45 +21,52 @@
 
 #include "ui_equipmentwriter.h"
 
-#include <QWidget>
 #include <kdialog.h>
 
-#include "kstars.h"
+#include "oal.h"
 
 class KStars;
 
-class EquipmentWriter : public KDialog {
-Q_OBJECT
-    public:
-        EquipmentWriter();
-        void saveEquipment();
-        void loadEquipment();
+class EquipmentWriter : public KDialog
+{
+    Q_OBJECT
+public:
+    EquipmentWriter();
+    void saveEquipment();
+    void loadEquipment();
 
-    public slots:
-        void slotAddScope();
-        void slotAddEyepiece();
-        void slotAddLens();
-        void slotAddFilter();
-        void slotSaveScope();
-        void slotSaveEyepiece();
-        void slotSaveLens();
-        void slotSaveFilter();
-        void slotRemoveScope();
-        void slotRemoveEyepiece();
-        void slotRemoveLens();
-        void slotRemoveFilter();
-        void slotSetScope( QString );
-        void slotSetEyepiece( QString );
-        void slotSetLens( QString );
-        void slotSetFilter( QString );
-        void slotClose();
+public slots:
+    void slotAddScope();
+    void slotAddEyepiece();
+    void slotAddLens();
+    void slotAddFilter();
+    void slotSaveScope();
+    void slotSaveEyepiece();
+    void slotSaveLens();
+    void slotSaveFilter();
+    void slotRemoveScope();
+    void slotRemoveEyepiece();
+    void slotRemoveLens();
+    void slotRemoveFilter();
+    void slotSetScope(int idx);
+    void slotSetEyepiece( QString );
+    void slotSetLens( QString );
+    void slotSetFilter( QString );
+    void slotClose();
 
-    private:
-        void setupFilterTab();
+private slots:
+    void slotLightGraspDefined(bool enabled);
+    void slotOrientationDefined(bool enabled);
 
-        KStars *ks;
-        Ui::EquipmentWriter ui;
-        int nextScope, nextEyepiece, nextLens, nextFilter;
+private:
+    void setupFilterTab();
+
+    void clearScopePage();
+
+    KStars *m_Ks;
+    OAL::Log *m_LogObject;
+    Ui::EquipmentWriter m_Ui;
+    int nextEyepiece, nextLens, nextFilter;
 };
 
 #endif

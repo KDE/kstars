@@ -345,6 +345,8 @@ set(oal_SRCS
     oal/filter.cpp
     oal/observation.cpp
     oal/lens.cpp
+    oal/imager.cpp
+    oal/ccdcamera.cpp
     oal/equipmentwriter.cpp
     oal/observermanager.cpp
     oal/execute.cpp

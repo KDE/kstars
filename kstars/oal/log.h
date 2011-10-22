@@ -27,6 +27,7 @@
 #include "kstars.h"
 #include "oal.h"
 #include "skypoint.h"
+#include "observation.h"
 
 class OAL::Log {
 public:
@@ -91,14 +92,14 @@ public:
     SkyPoint readPosition( bool &ok );
     void readGeoDate();
     QString readResult();
+    double readSurfaceBrightness( Observation::SURFACE_BRIGHTNESS_UNIT *unit );
     OAL::Observer* findObserverByName( const QString &fullName );
     OAL::Observer* findObserverById( const QString &id );
     OAL::Site* findSiteByName( const QString &name );
     OAL::Site* findSiteById( const QString &id );
     OAL::ObservationTarget* findTargetByName( const QString &name );
     OAL::ObservationTarget* findTargetById( const QString &id );
-    OAL::Session* findSessionByName( const QString &id );
-    OAL::Scope* findScopeByName( const QString &name );
+    OAL::Session* findSessionById( const QString &id );
     OAL::Scope* findScopeById( const QString &id );
     OAL::Eyepiece* findEyepieceById( const QString &id );
     OAL::Lens* findLensById( const QString &id );

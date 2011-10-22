@@ -141,7 +141,7 @@ void ObserverManager::showObserver(QModelIndex idx)
 
 void ObserverManager::setCoobservers()
 {
-    OAL::Session *session = mKstars->data()->logObject()->findSessionByName(mCurrentSession);
+    OAL::Session *session = mKstars->data()->logObject()->findSessionById(mCurrentSession);
     if(!session)
         return;
 
