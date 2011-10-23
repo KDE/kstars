@@ -20,13 +20,18 @@
 
 using namespace OAL;
 
-void Lens::setLens( const QString& _id, const QString& _model, const QString& _vendor, double _factor ){
-    m_Id = _id;
-    m_Model = _model;
-    m_Vendor = _vendor;
-    m_Factor = _factor;
-    if( _factor > 1 )
-        m_Name = _vendor + ' ' + _model + " - " + QString::number( _factor ) + "x Barlow (" + _id + ')'; 
+QString Lens::name() const
+{
+    if(m_Factor > 1)
+        return m_Vendor + ' ' + m_Model + " - " + QString::number(m_Factor) + "x Barlow (" + m_Id + ')';
     else
-        m_Name = _vendor + ' ' + _model + " - " + QString::number( _factor ) + "x Focal Reducer (" + _id + ')'; 
+        return m_Vendor + ' ' + m_Model + " - " + QString::number(m_Factor) + "x Focal Reducer (" + m_Id + ')';
+}
+
+void Lens::setLens(const QString &id, const QString &model, const QString &vendor, const double factor)
+{
+    m_Id = id;
+    m_Model = model;
+    m_Vendor = vendor;
+    m_Factor = factor;
 }
