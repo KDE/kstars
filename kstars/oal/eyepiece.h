@@ -15,6 +15,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+
 #ifndef EYEPIECE_H_
 #define EYEPIECE_H_
 
@@ -22,19 +23,33 @@
 
 #include <QString>
 
-class OAL::Eyepiece {
-    public:
-        Eyepiece( const QString& id, const QString& model, const QString& vendor, double fov, const QString& fovUnit, double focalLength ) { setEyepiece( id, model, vendor, fov, fovUnit, focalLength ); }
-        QString id() const { return m_Id; }
-        QString name() const { return m_Name; }
-        QString model() const { return m_Model; }
-        QString vendor() const { return m_Vendor; }
-        QString fovUnit() const { return m_AppFovUnit; }
-        double appFov() const { return m_AppFOV; }
-        double focalLength() const { return m_FocalLength; }
-        void setEyepiece( const QString& _id, const QString& _model, const QString& _vendor, double _fov, const QString& _fovUnit, double _focalLength );
-    private:
-        QString m_Id, m_Model, m_AppFovUnit, m_Vendor, m_Name;
-        double m_AppFOV, m_FocalLength;
+class OAL::Eyepiece
+{
+public:
+    Eyepiece(const QString &id, const QString &model, const QString &vendor, const double fov, const QString &fovUnit,
+             const bool fovDefined, const double focalLength, const double maxFocalLength, const bool maxFocalLengthDefined)
+    {
+        setEyepiece(id, model, vendor, fov, fovUnit, fovDefined, focalLength, maxFocalLength, maxFocalLengthDefined);
+    }
+
+    QString id() const { return m_Id; }
+    QString name() const;
+    QString model() const { return m_Model; }
+    QString vendor() const { return m_Vendor; }
+    QString fovUnit() const { return m_AppFovUnit; }
+    double appFov() const { return m_AppFov; }
+    double focalLength() const { return m_FocalLength; }
+    double maxFocalLength() const { return m_MaxFocalLength; }
+    void setEyepiece(const QString &id, const QString &model, const QString &vendor, const double fov, const QString &fovUnit,
+                     const bool fovDefined, const double focalLength, const double maxFocalLength, const bool maxFocalLengthDefined);
+
+    bool isMaxFocalLengthDefined() const { return m_MaxFocalLengthDefined; }
+    bool isFovDefined() const { return m_AppFovDefined; }
+
+private:
+    QString m_Id, m_Model, m_AppFovUnit, m_Vendor;
+    double m_AppFov, m_FocalLength, m_MaxFocalLength;
+    bool m_MaxFocalLengthDefined, m_AppFovDefined;
 };
+
 #endif

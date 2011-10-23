@@ -379,22 +379,42 @@ void Log::writeScope( Scope *scope ) {
 
     writer->writeEndElement();
 }
-void Log::writeEyepiece( Eyepiece *ep ) {
+void Log::writeEyepiece( Eyepiece *eyepiece )
+{
+    // Write Eyepiece
     writer->writeStartElement( "eyepiece" );
-    writer->writeAttribute( "id", ep->id() ); 
+    writer->writeAttribute( "id", eyepiece->id() );
+
+    // Write Model
     writer->writeStartElement( "model" );
-    writer->writeCDATA( ep->model() );
+    writer->writeCDATA( eyepiece->model() );
     writer->writeEndElement();
+
+    // Write Vendor
     writer->writeStartElement( "vendor" );
-    writer->writeCDATA( ep->vendor() );
+    writer->writeCDATA( eyepiece->vendor() );
     writer->writeEndElement();
+
+    // Write Focal Length
     writer->writeStartElement( "focalLength" );
-    writer->writeCharacters( QString::number( ep->focalLength() ) );
+    writer->writeCharacters( QString::number( eyepiece->focalLength() ) );
     writer->writeEndElement();
-    writer->writeStartElement( "apparentFOV" );
-    writer->writeAttribute( "unit", ep->fovUnit() );
-    writer->writeCharacters( QString::number( ep->appFov() ) );
-    writer->writeEndElement();
+
+    // Write Max Focal Length
+    if(eyepiece->isMaxFocalLengthDefined()) {
+        writer->writeStartElement( "maxFocalLength" );
+        writer->writeCharacters( QString::number( eyepiece->maxFocalLength() ) );
+        writer->writeEndElement();
+    }
+
+    // Write Apparent FOV
+    if(eyepiece->isFovDefined()) {
+        writer->writeStartElement( "apparentFOV" );
+        writer->writeAttribute( "unit", eyepiece->fovUnit() );
+        writer->writeCharacters( QString::number( eyepiece->appFov() ) );
+        writer->writeEndElement();
+    }
+
     writer->writeEndElement();
 }
 void Log::writeLens( Lens *l ) {
@@ -911,7 +931,7 @@ void Log::readScope( const QString &id ) {
     bool erect(false), truesided(false);
     bool lightGraspDefined(false), orientationDefined(false);
 
-    while( ! reader->atEnd() ) {
+    while( !reader->atEnd() ) {
         reader->readNext();
 
         if( reader->isEndElement() )
@@ -930,33 +950,38 @@ void Log::readScope( const QString &id ) {
                 if( type == "C" ) type = "Cassegrain";
             } else if( reader->name() == "vendor" ) {
                 vendor = reader->readElementText() ;
-            } else if( reader->name() == "focalLength" ) {
-                focalLength = reader->readElementText().toDouble();
-            } else if( reader->name() == "aperture" )
+            } else if( reader->name() == "aperture" ) {
                 aperture = reader->readElementText().toDouble();
-            else if( reader->name() == "driver")
+            } else if( reader->name() == "driver") {
                 driver = reader->readElementText();
-            else if( reader->name() == "lightGrasp" ) {
+            } else if( reader->name() == "lightGrasp" ) {
                 lightGrasp = reader->readElementText().toDouble( &lightGraspDefined );
             } else if( reader->name() == "orientation" ) {
                 erect = !( reader->attributes().value( "erect" ).toString().compare( "true", Qt::CaseInsensitive ) );
                 truesided = !( reader->attributes().value( "truesided" ).toString().compare( "true", Qt::CaseInsensitive ) );
                 orientationDefined = true;
-            }
-            else
+                reader->readElementText();
+            } else if( reader->name() == "focalLength" ) {
+                focalLength = reader->readElementText().toDouble();
+            } else {
                 readUnknownElement();
+            }
         }
     }
-    
+
     Scope *scope= new Scope( id, model, vendor, type, focalLength, aperture, lightGrasp, lightGraspDefined, erect, truesided,
                              orientationDefined );
     scope->setINDIDriver( driver );
     m_scopeList.append( scope );
 }
 
-void Log::readEyepiece( const QString &id ) {
-    QString model, focalLength, vendor, fov, fovUnit;
-    while( ! reader->atEnd() ) {
+void Log::readEyepiece( const QString &id )
+{
+    QString model, vendor, fovUnit;
+    double focalLength(0), maxFocalLength(0), fov(0);
+    bool fovDefined(false), maxFocalLengthDefined(0);
+
+    while( !reader->atEnd() ) {
         reader->readNext();
 
         if( reader->isEndElement() )
@@ -967,23 +992,26 @@ void Log::readEyepiece( const QString &id ) {
                 model = reader->readElementText();
             } else if( reader->name() == "vendor" ) {
                 vendor = reader->readElementText() ;
+            } else if( reader->name() == "focalLength" ) {
+                focalLength = reader->readElementText().toDouble();
+            } else if( reader->name() == "maxFocalLength" ) {
+                maxFocalLength = reader->readElementText().toDouble(&maxFocalLengthDefined);
             } else if( reader->name() == "apparentFOV" ) {
                 fovUnit = reader->attributes().value( "unit" ).toString();
-                fov = reader->readElementText();
-            } else if( reader->name() == "focalLength" ) {
-                focalLength = reader->readElementText() ;
+                fov = reader->readElementText().toDouble(&fovDefined);
             } else
                 readUnknownElement();
         }
     }
     
-    Eyepiece *o= new Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
-    m_eyepieceList.append( o );
+    Eyepiece *eyepiece= new Eyepiece( id, model, vendor, fov, fovUnit, fovDefined, focalLength,
+                                      maxFocalLength, maxFocalLengthDefined );
+    m_eyepieceList.append( eyepiece );
 }
 
 void Log::readLens( const QString &id ) {
     QString model, factor, vendor;
-    while( ! reader->atEnd() ) {
+    while( !reader->atEnd() ) {
         reader->readNext();
 
         if( reader->isEndElement() )

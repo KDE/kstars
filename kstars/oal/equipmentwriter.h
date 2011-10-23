@@ -49,7 +49,7 @@ public slots:
     void slotRemoveLens();
     void slotRemoveFilter();
     void slotSetScope(int idx);
-    void slotSetEyepiece( QString );
+    void slotSetEyepiece(int idx);
     void slotSetLens( QString );
     void slotSetFilter( QString );
     void slotClose();
@@ -57,16 +57,19 @@ public slots:
 private slots:
     void slotLightGraspDefined(bool enabled);
     void slotOrientationDefined(bool enabled);
+    void slotFovDefined(bool enabled);
+    void slotZoomEyepieceDefined(bool enabled);
 
 private:
     void setupFilterTab();
 
     void clearScopePage();
+    void clearEyepiecePage();
 
     KStars *m_Ks;
     OAL::Log *m_LogObject;
     Ui::EquipmentWriter m_Ui;
-    int nextEyepiece, nextLens, nextFilter;
+    int nextLens, nextFilter;
 };
 
 #endif

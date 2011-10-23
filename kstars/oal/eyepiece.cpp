@@ -20,12 +20,21 @@
 
 using namespace OAL;
 
-void Eyepiece::setEyepiece( const QString& _id, const QString& _model, const QString& _vendor, double _fov, const QString& _fovUnit, double _focalLength ) {
-    m_Id = _id;
-    m_Model = _model;
-    m_Vendor = _vendor;
-    m_AppFovUnit = _fovUnit;
-    m_AppFOV = _fov;
-    m_FocalLength = _focalLength;
-    m_Name = _vendor + ' ' + _model + ' ' + QString::number( _focalLength ) + "mm (" + _id +  ')';
+QString Eyepiece::name() const
+{
+    return m_Vendor + ' ' + m_Model + ' ' + QString::number(m_FocalLength) + "mm (" + m_Id +  ')';
+}
+
+void Eyepiece::setEyepiece(const QString &id, const QString &model, const QString &vendor, const double fov, const QString &fovUnit,
+                           const bool fovDefined, const double focalLength, const double maxFocalLength, const bool maxFocalLengthDefined)
+{
+    m_Id = id;
+    m_Model = model;
+    m_Vendor = vendor;
+    m_AppFov = fov;
+    m_AppFovUnit = fovUnit;
+    m_AppFovDefined = fovDefined;
+    m_FocalLength = focalLength;
+    m_MaxFocalLength = maxFocalLength;
+    m_MaxFocalLengthDefined = maxFocalLengthDefined;
 }

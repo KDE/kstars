@@ -50,15 +50,15 @@ public:
     void writeUsedFilters();
     void writeImagers();
     void writeObservations();
-    inline QList<OAL::ObservationTarget *> *targetList() { return &m_targetList; }
-    inline QList<OAL::Scope *> *scopeList() { return &m_scopeList; }
-    inline QList<OAL::Site *> *siteList() { return &m_siteList; }
-    inline QList<OAL::Session *> *sessionList() { return &m_sessionList; }
-    inline QList<OAL::Eyepiece *> *eyepieceList() { return &m_eyepieceList; }
-    inline QList<OAL::Lens *> *lensList() { return &m_lensList; }
-    inline QList<OAL::Filter *> *filterList() { return &m_filterList; }
-    inline QList<OAL::Observation *> *observationList() { return &m_observationList; }
-    inline QList<OAL::Observer *> *observerList() { return &m_observerList; }
+    QList<OAL::ObservationTarget *> *targetList() { return &m_targetList; }
+    QList<OAL::Scope *> *scopeList() { return &m_scopeList; }
+    QList<OAL::Site *> *siteList() { return &m_siteList; }
+    QList<OAL::Session *> *sessionList() { return &m_sessionList; }
+    QList<OAL::Eyepiece *> *eyepieceList() { return &m_eyepieceList; }
+    QList<OAL::Lens *> *lensList() { return &m_lensList; }
+    QList<OAL::Filter *> *filterList() { return &m_filterList; }
+    QList<OAL::Observation *> *observationList() { return &m_observationList; }
+    QList<OAL::Observer *> *observerList() { return &m_observerList; }
     void writeObserver( OAL::Observer *o );
     void writeSite( OAL::Site *s );
     void writeSession( OAL::Session *s );
