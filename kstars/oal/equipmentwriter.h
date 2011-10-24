@@ -51,7 +51,7 @@ public slots:
     void slotSetScope(int idx);
     void slotSetEyepiece(int idx);
     void slotSetLens(int idx);
-    void slotSetFilter( QString );
+    void slotSetFilter(int idx);
     void slotClose();
 
 private slots:
@@ -66,6 +66,7 @@ private:
     void clearScopePage();
     void clearEyepiecePage();
     void clearLensPage();
+    void clearFilterPage();
 
     KStars *m_Ks;
     OAL::Log *m_LogObject;

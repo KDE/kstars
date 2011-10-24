@@ -335,14 +335,18 @@ void Log::writeScope( Scope *scope ) {
     writer->writeEndElement();
 
     // Write Type
-    writer->writeStartElement( "type" );
-    writer->writeCDATA( scope->type().at(0) );
-    writer->writeEndElement();
+    if( !scope->type().isEmpty() ) {
+        writer->writeStartElement( "type" );
+        writer->writeCDATA( scope->type().at(0) );
+        writer->writeEndElement();
+    }
 
     // Write Vendor
-    writer->writeStartElement( "vendor" );
-    writer->writeCDATA( scope->vendor() );
-    writer->writeEndElement();
+    if( !scope->vendor().isEmpty() ) {
+        writer->writeStartElement( "vendor" );
+        writer->writeCDATA( scope->vendor() );
+        writer->writeEndElement();
+    }
 
     // Write Driver // FIXME: driver element is incompatible with OAL 2.0 schema
 //    if (s->driver() != i18n("None"))
@@ -391,9 +395,11 @@ void Log::writeEyepiece( Eyepiece *eyepiece )
     writer->writeEndElement();
 
     // Write Vendor
-    writer->writeStartElement( "vendor" );
-    writer->writeCDATA( eyepiece->vendor() );
-    writer->writeEndElement();
+    if( !eyepiece->vendor().isEmpty() ) {
+        writer->writeStartElement( "vendor" );
+        writer->writeCDATA( eyepiece->vendor() );
+        writer->writeEndElement();
+    }
 
     // Write Focal Length
     writer->writeStartElement( "focalLength" );
@@ -417,36 +423,58 @@ void Log::writeEyepiece( Eyepiece *eyepiece )
 
     writer->writeEndElement();
 }
-void Log::writeLens( Lens *l ) {
+void Log::writeLens( Lens *lens ) {
     writer->writeStartElement( "lens" );
-    writer->writeAttribute( "id", l->id() );
+    writer->writeAttribute( "id", lens->id() );
+
+    // Write Model
     writer->writeStartElement( "model" );
-    writer->writeCDATA( l->model() );
+    writer->writeCDATA( lens->model() );
     writer->writeEndElement();
-    writer->writeStartElement( "vendor" );
-    writer->writeCDATA( l->vendor() );
-    writer->writeEndElement();
+
+    // Write Vendor
+    if( !lens->vendor().isEmpty() ) {
+        writer->writeStartElement( "vendor" );
+        writer->writeCDATA( lens->vendor() );
+        writer->writeEndElement();
+    }
+
+    // Write Factor
     writer->writeStartElement( "factor" );
-    writer->writeCharacters( QString::number( l->factor() ) );
+    writer->writeCharacters( QString::number( lens->factor() ) );
     writer->writeEndElement();
+
     writer->writeEndElement();
 }
 
-void Log::writeFilter( Filter *f ) {
+void Log::writeFilter( Filter *filter ) {
     writer->writeStartElement( "filter" );
-    writer->writeAttribute( "id", f->id() );
+    writer->writeAttribute( "id", filter->id() );
+
+    // Write Model
     writer->writeStartElement( "model" );
-    writer->writeCDATA( f->model() );
+    writer->writeCDATA( filter->model() );
     writer->writeEndElement();
-    writer->writeStartElement( "vendor" );
-    writer->writeCDATA( f->vendor() );
-    writer->writeEndElement();
+
+    // Write Vendor
+    if( !filter->vendor().isEmpty() ) {
+        writer->writeStartElement( "vendor" );
+        writer->writeCDATA( filter->vendor() );
+        writer->writeEndElement();
+    }
+
+    // Write Type
     writer->writeStartElement( "type" );
-    writer->writeCDATA( f->typeOALRepresentation() );
+    writer->writeCDATA( filter->typeOALRepresentation() );
     writer->writeEndElement();
-    writer->writeStartElement( "color" );
-    writer->writeCDATA( f->colorOALRepresentation() );
-    writer->writeEndElement();
+
+    // Write Color
+    if( filter->color() != Filter::FC_NONE ) {
+        writer->writeStartElement( "color" );
+        writer->writeCDATA( filter->colorOALRepresentation() );
+        writer->writeEndElement();
+    }
+
     writer->writeEndElement();
 }
 
@@ -1010,7 +1038,9 @@ void Log::readEyepiece( const QString &id )
 }
 
 void Log::readLens( const QString &id ) {
-    QString model, factor, vendor;
+    QString model, vendor;
+    double factor(0);
+
     while( !reader->atEnd() ) {
         reader->readNext();
 
@@ -1023,14 +1053,14 @@ void Log::readLens( const QString &id ) {
             } else if( reader->name() == "vendor" ) {
                 vendor = reader->readElementText() ;
             } else if( reader->name() == "factor" ) {
-                factor = reader->readElementText() ;
+                factor = reader->readElementText().toDouble() ;
             } else
                 readUnknownElement();
         }
     }
     
-    Lens *o= new Lens( id, model, vendor, factor.toDouble() );
-    m_lensList.append( o );
+    Lens *lens= new Lens( id, model, vendor, factor );
+    m_lensList.append( lens );
 }
 
 void Log::readFilter( const QString &id ) {
@@ -1054,9 +1084,10 @@ void Log::readFilter( const QString &id ) {
                 readUnknownElement();
         }
     }
-    Filter *o= new Filter( id, model, vendor, Filter::oalRepresentationToFilterType( type ),
-                                     Filter::oalRepresentationToFilterColor( color ) );
-    m_filterList.append( o );
+
+    Filter *filter= new Filter( id, model, vendor, Filter::oalRepresentationToFilterType( type ),
+                                Filter::oalRepresentationToFilterColor( color ) );
+    m_filterList.append( filter );
 }
 
 SkyPoint Log::readPosition( bool &ok ) {

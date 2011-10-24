@@ -22,7 +22,8 @@
 using namespace OAL;
 
 namespace {
-    QMap<Filter::FILTER_TYPE, QString> getFTScreenMappings() {
+    QMap<Filter::FILTER_TYPE, QString> getFTScreenMappings()
+    {
         QMap<Filter::FILTER_TYPE, QString> retVal;
 
         retVal.insert( Filter::FT_OTHER, i18n( "Other" ) );
@@ -39,7 +40,8 @@ namespace {
         return retVal;
     }
 
-    QMap<Filter::FILTER_TYPE, QString> getFTOALMappings() {
+    QMap<Filter::FILTER_TYPE, QString> getFTOALMappings()
+    {
         QMap<Filter::FILTER_TYPE, QString> retVal;
 
         retVal.insert( Filter::FT_OTHER, "other" );
@@ -56,9 +58,11 @@ namespace {
         return retVal;
     }
 
-    QMap<Filter::FILTER_COLOR, QString> getFCScreenMappings() {
+    QMap<Filter::FILTER_COLOR, QString> getFCScreenMappings()
+    {
         QMap<Filter::FILTER_COLOR, QString> retVal;
 
+        retVal.insert( Filter::FC_NONE, i18n( "None" ) );
         retVal.insert( Filter::FC_LIGHT_RED, i18n( "Light red" ) );
         retVal.insert( Filter::FC_RED, i18n( "Red" ) );
         retVal.insert( Filter::FC_DEEP_RED, i18n( "Deep red" ) );
@@ -78,9 +82,11 @@ namespace {
         return retVal;
     }
 
-    QMap<Filter::FILTER_COLOR, QString> getFCOALMAppings() {
+    QMap<Filter::FILTER_COLOR, QString> getFCOALMAppings()
+    {
         QMap<Filter::FILTER_COLOR, QString> retVal;
 
+        retVal.insert( Filter::FC_NONE, QString() );
         retVal.insert( Filter::FC_LIGHT_RED, "light red" );
         retVal.insert( Filter::FC_RED, "red" );
         retVal.insert( Filter::FC_DEEP_RED, "deep red" );
@@ -106,59 +112,76 @@ const QMap<Filter::FILTER_TYPE, QString> Filter::typeOALMapping = getFTOALMappin
 const QMap<Filter::FILTER_COLOR, QString> Filter::colorScreenMapping = getFCScreenMappings();
 const QMap<Filter::FILTER_COLOR, QString> Filter::colorOALMapping = getFCOALMAppings();
 
-QString Filter::typeScreenRepresentation() const {
-    return filterTypeScreenRepresentation( m_Type );
+QString Filter::name() const
+{
+    return m_Vendor + ' ' + m_Model + " - " + typeScreenRepresentation() + ' ' +  + " (" + m_Id + ')';
 }
 
-QString Filter::typeOALRepresentation() const {
-    return filterTypeOALRepresentation( m_Type );
+QString Filter::typeScreenRepresentation() const
+{
+    return filterTypeScreenRepresentation(m_Type);
 }
 
-QString Filter::colorScreenRepresentation() const {
-    return filterColorScreenRepresentation( m_Color );
+QString Filter::typeOALRepresentation() const
+{
+    return filterTypeOALRepresentation(m_Type);
 }
 
-QString Filter::colorOALRepresentation() const {
-    return filterColorOALRepresentation( m_Color );
+QString Filter::colorScreenRepresentation() const
+{
+    return filterColorScreenRepresentation(m_Color);
 }
 
-void Filter::setFilter( const QString& _id, const QString& _model, const QString& _vendor, const FILTER_TYPE _type, const FILTER_COLOR _color ){
-    m_Id = _id;
-    m_Model = _model;
-    m_Vendor = _vendor;
-    m_Type = _type;
-    m_Color = _color;
-    m_Name = _vendor + ' ' + _model + " - " + typeScreenRepresentation() + ' ' +  + " (" + _id + ')';
+QString Filter::colorOALRepresentation() const
+{
+    return filterColorOALRepresentation(m_Color);
 }
 
-QStringList Filter::filterTypes() {
+void Filter::setFilter(const QString &id, const QString &model, const QString &vendor, const FILTER_TYPE type, const FILTER_COLOR color)
+{
+    m_Id = id;
+    m_Model = model;
+    m_Vendor = vendor;
+    m_Type = type;
+    m_Color = color;
+}
+
+QStringList Filter::filterTypes()
+{
     return typeScreenMapping.values();
 }
 
-QStringList Filter::filterColors() {
+QStringList Filter::filterColors()
+{
     return colorScreenMapping.values();
 }
 
-QString Filter::filterTypeScreenRepresentation( const FILTER_TYPE type ) {
-    return typeScreenMapping.value( type );
+QString Filter::filterTypeScreenRepresentation(const FILTER_TYPE type)
+{
+    return typeScreenMapping.value(type);
 }
 
-QString Filter::filterTypeOALRepresentation( const FILTER_TYPE type ) {
-    return typeOALMapping.value( type );
+QString Filter::filterTypeOALRepresentation(const FILTER_TYPE type)
+{
+    return typeOALMapping.value(type);
 }
 
-Filter::FILTER_TYPE Filter::oalRepresentationToFilterType( const QString &type ) {
-    return typeOALMapping.key( type );
+Filter::FILTER_TYPE Filter::oalRepresentationToFilterType(const QString &type)
+{
+    return typeOALMapping.key(type);
 }
 
-QString Filter::filterColorScreenRepresentation( const FILTER_COLOR color ) {
-    return colorScreenMapping.value( color );
+QString Filter::filterColorScreenRepresentation(const FILTER_COLOR color)
+{
+    return colorScreenMapping.value(color);
 }
 
-QString Filter::filterColorOALRepresentation( const FILTER_COLOR color ) {
-    return colorOALMapping.value( color );
+QString Filter::filterColorOALRepresentation(const FILTER_COLOR color)
+{
+    return colorOALMapping.value(color);
 }
 
-Filter::FILTER_COLOR Filter::oalRepresentationToFilterColor( const QString &color ) {
-    return colorOALMapping.key( color );
+Filter::FILTER_COLOR Filter::oalRepresentationToFilterColor(const QString &color)
+{
+    return colorOALMapping.key(color, FC_NONE);
 }

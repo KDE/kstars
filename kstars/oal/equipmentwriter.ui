@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -637,13 +637,13 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="Filter">
+     <widget class="QWidget" name="filterPage">
       <attribute name="title">
        <string>Filter</string>
       </attribute>
-      <layout class="QHBoxLayout" name="_5">
+      <layout class="QHBoxLayout" name="_5" stretch="1,0">
        <item>
-        <widget class="KListWidget" name="FilterList"/>
+        <widget class="KListWidget" name="filterListWidget"/>
        </item>
        <item>
         <layout class="QVBoxLayout" name="verticalLayout4">
@@ -653,14 +653,14 @@
             <enum>QFormLayout::ExpandingFieldsGrow</enum>
            </property>
            <item row="0" column="0">
-            <widget class="QLabel" name="label4">
+            <widget class="QLabel" name="filterIdLabel">
              <property name="text">
               <string>Id:</string>
              </property>
             </widget>
            </item>
            <item row="0" column="1">
-            <widget class="KLineEdit" name="f_Id">
+            <widget class="KLineEdit" name="filterIdLineEdit">
              <property name="focusPolicy">
               <enum>Qt::NoFocus</enum>
              </property>
@@ -670,44 +670,44 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="label5">
+            <widget class="QLabel" name="filterVendorLabel">
              <property name="text">
               <string>Vendor:</string>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="KLineEdit" name="f_Vendor"/>
+            <widget class="KLineEdit" name="filterVendorLineEdit"/>
            </item>
            <item row="3" column="0">
-            <widget class="QLabel" name="label3">
+            <widget class="QLabel" name="filterModelLabel">
              <property name="text">
               <string>Model:</string>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="KLineEdit" name="f_Model"/>
+            <widget class="KLineEdit" name="filterModelLineEdit"/>
            </item>
            <item row="5" column="0">
-            <widget class="QLabel" name="label_12">
+            <widget class="QLabel" name="filterColorLabel">
              <property name="text">
               <string>Color:</string>
              </property>
             </widget>
            </item>
            <item row="4" column="0">
-            <widget class="QLabel" name="typeLabel">
+            <widget class="QLabel" name="filterTypeLabel">
              <property name="text">
               <string>Type</string>
              </property>
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QComboBox" name="f_Type"/>
+            <widget class="QComboBox" name="filterTypeComboBox"/>
            </item>
            <item row="5" column="1">
-            <widget class="QComboBox" name="f_Color"/>
+            <widget class="QComboBox" name="filterColorComboBox"/>
            </item>
           </layout>
          </item>
@@ -727,21 +727,21 @@
             </spacer>
            </item>
            <item>
-            <widget class="QPushButton" name="NewFilter">
+            <widget class="QPushButton" name="addNewFilterButton">
              <property name="text">
-              <string>Add New..</string>
+              <string>Add New...</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="SaveFilter">
+            <widget class="QPushButton" name="saveFilterButton">
              <property name="text">
               <string>Save Filter</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="RemoveFilter">
+            <widget class="QPushButton" name="removeFilterButton">
              <property name="text">
               <string>Remove</string>
              </property>
@@ -753,7 +753,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="imagersPage">
       <attribute name="title">
        <string>Imagers</string>
       </attribute>
@@ -812,12 +812,12 @@
   <tabstop>addNewLensButton</tabstop>
   <tabstop>saveLensButton</tabstop>
   <tabstop>removeLensButton</tabstop>
-  <tabstop>FilterList</tabstop>
-  <tabstop>f_Vendor</tabstop>
-  <tabstop>f_Model</tabstop>
-  <tabstop>NewFilter</tabstop>
-  <tabstop>SaveFilter</tabstop>
-  <tabstop>RemoveFilter</tabstop>
+  <tabstop>filterListWidget</tabstop>
+  <tabstop>filterVendorLineEdit</tabstop>
+  <tabstop>filterModelLineEdit</tabstop>
+  <tabstop>addNewFilterButton</tabstop>
+  <tabstop>saveFilterButton</tabstop>
+  <tabstop>removeFilterButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
