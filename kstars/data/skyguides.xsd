@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema targetNamespace="http://edu.kde.org/kstars/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:skyguide="http://edu.kde.org/kstars/" version="1.0">
+
+	<!-- XML Schema Definition for KStars Sky Guides
+	Authors: Lukasz Jaskiewicz (lucas.jaskiewicz@gmail.com)
+		 Rafal Kulaga (rl.kulaga@gmail.com)
+	Version: 1.0
+	Date: September 30 2011 -->
+
+	<!-- Author of the sky guide -->
+	<xsd:complexType name="authorType">
+		<xsd:sequence>
+			<xsd:element name="name">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="preserve"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			
+			<xsd:element name="surname" minOccurs="0">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="preserve"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			
+			<xsd:element name="contact" minOccurs="0" maxOccurs="unbounded">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="preserve"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
+	</xsd:complexType>
+	
+	<!-- Link -->
+	<xsd:complexType name="linkType">
+		<xsd:sequence>
+			<xsd:element name="label" type="xsd:string"/>
+			<xsd:element name="description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="url" type="xsd:anyURI"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
+	</xsd:complexType>
+	
+	<!-- Image -->
+	<xsd:complexType name="imageType">
+		<xsd:sequence>
+			<xsd:element name="title" type="xsd:string"/>
+			<xsd:element name="description" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="url" type="xsd:anyURI"/>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
+	</xsd:complexType>
+	
+	<!-- Slide -->
+	<xsd:complexType name="slideType">
+		<xsd:sequence>
+			<xsd:element name="title" type="xsd:string"/>
+	
+			<xsd:element name="subtitle" type="xsd:string" minOccurs="0"/>
+
+			<xsd:element name="text" type="xsd:string" minOccurs="0"/>
+			
+			<xsd:element name="centerPoint" type="xsd:string" minOccurs="0"/>
+			
+			<xsd:element name="images" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="image" type="skyguide:imageType" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:element name="links" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="link" type="skyguide:linkType" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
+	</xsd:complexType>
+	
+	<!-- Sky guide -->
+	<xsd:complexType name="guideType">
+		<xsd:sequence>
+			<xsd:element name="title">
+				<xsd:simpleType>
+					<xsd:restriction base="xsd:string">
+						<xsd:whiteSpace value="preserve"/>
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+			
+			<xsd:element name="description" type="xsd:string" minOccurs="0"/>
+			
+			<xsd:element name="language" type="xsd:string"/>
+			
+			<xsd:element name="authors">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="author" type="skyguide:authorType" minOccurs="1" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			
+			<xsd:element name="thumbnailImage" type="xsd:anyURI" minOccurs="0"/>
+			
+			<xsd:element name="creationDate" type="xsd:date" minOccurs="0"/>
+			
+			<xsd:element name="version" type="xsd:string" minOccurs="0"/>
+			
+			<xsd:element name="slides">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="slide" type="skyguide:slideType" minOccurs="1" maxOccurs="unbounded"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
+	</xsd:complexType>
+	
+	<xsd:element name="guides">
+	  <xsd:complexType>
+		  <xsd:sequence>
+			  <xsd:element name="guide" type="skyguide:guideType" minOccurs="1" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="version" type="xsd:string" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+</xsd:schema>
