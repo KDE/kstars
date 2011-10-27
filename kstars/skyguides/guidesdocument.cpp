@@ -32,6 +32,9 @@ GuidesDocument::GuidesDocument() : m_Reader(0)
 
 GuidesDocument::~GuidesDocument()
 {
+    if(m_Reader)
+        delete m_Reader;
+
     qDeleteAll(m_Guides);
 }
 

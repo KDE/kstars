@@ -22,6 +22,7 @@ using namespace SkyGuides;
 
 Guide::~Guide()
 {
+    qDeleteAll(m_Authors);
     qDeleteAll(m_Slides);
 }
 

@@ -32,6 +32,8 @@ public:
         setSlide(title, subtitle, text, centerPoint, images, links);
     }
 
+    ~Slide();
+
     QString title() const { return m_Title; }
     QString subtitle() const { return m_Subtitle; }
     QString text() const { return m_Text; }

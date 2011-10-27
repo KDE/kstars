@@ -19,6 +19,12 @@
 
 using namespace SkyGuides;
 
+Slide::~Slide()
+{
+    qDeleteAll(m_Images);
+    qDeleteAll(m_Links);
+}
+
 void Slide::setSlide(const QString &title, const QString &subtitle, const QString &text, SkyPoint centerPoint,
                      const QList<Image *> &images, const QList<Link *> &links)
 {
