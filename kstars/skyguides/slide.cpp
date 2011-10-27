@@ -19,12 +19,13 @@
 
 using namespace SkyGuides;
 
-void Slide::setSlide(const QString &title, const QString &subtitle, const QString &text,
-                     const QStringList &images, SkyPoint centerPoint)
+void Slide::setSlide(const QString &title, const QString &subtitle, const QString &text, SkyPoint centerPoint,
+                     const QList<Image *> &images, const QList<Link *> &links)
 {
     m_Title = title;
     m_Subtitle = subtitle;
     m_Text = text;
-    m_Images = images;
     m_CenterPoint = centerPoint;
+    m_Images = images;
+    m_Links = links;
 }

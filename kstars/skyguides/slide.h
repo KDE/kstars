@@ -20,34 +20,35 @@
 
 #include "skyguides.h"
 
-#include <QStringList>
+#include <QList>
 #include "skypoint.h"
 
 class SkyGuides::Slide
 {
 public:
-    Slide(const QString &title, const QString &subtitle, const QString &text, const QStringList &images,
-          const SkyPoint centerPoint)
+    Slide(const QString &title, const QString &subtitle, const QString &text, const SkyPoint centerPoint,
+          const QList<Image*> &images, const QList<Link*> &links)
     {
-        setSlide(title, subtitle, text, images, centerPoint);
+        setSlide(title, subtitle, text, centerPoint, images, links);
     }
 
     QString title() const { return m_Title; }
     QString subtitle() const { return m_Subtitle; }
     QString text() const { return m_Text; }
-    QStringList images() const { return m_Images; }
     SkyPoint centerPoint() const { return m_CenterPoint; }
+    QList<Image*>* images() { return &m_Images; }
+    QList<Link*>* links() { return &m_Links; }
 
-    void setSlide(const QString &title, const QString &subtitle, const QString &text, const QStringList &images,
-                  const SkyPoint centerPoint);
+    void setSlide(const QString &title, const QString &subtitle, const QString &text, const SkyPoint centerPoint,
+                  const QList<Image*> &images, const QList<Link*> &links);
 
 private:
     QString m_Title;
     QString m_Subtitle;
     QString m_Text;
-    QStringList m_Images;
     SkyPoint m_CenterPoint;
-    // Links
+    QList<Image*> m_Images;
+    QList<Link*> m_Links;
 };
 
 #endif // SLIDE_H

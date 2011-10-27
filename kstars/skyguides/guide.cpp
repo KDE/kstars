@@ -25,13 +25,15 @@ Guide::~Guide()
     qDeleteAll(m_Slides);
 }
 
-void Guide::setGuide(const QString &title, const QString &description, const QString &language, const QString &thumbnailImg,
-                   const QDate &creationDate, const QString &version)
+void Guide::setGuide(const QString &title, const QString &description, const QString &language, const QList<Author*> &authors,
+                     const QString &thumbnailImg, const QDate &creationDate, const QString &version, const QList<Slide*> &slides)
 {
     m_Title = title;
     m_Description = description;
     m_Language = language;
+    m_Authors = authors;
     m_ThumbnailImage = thumbnailImg;
     m_CreationDate = creationDate;
     m_Version = version;
+    m_Slides = slides;
 }

@@ -24,15 +24,13 @@
 #include <QList>
 #include <QDate>
 
-class Slide;
-
 class SkyGuides::Guide
 {
 public:
-    Guide(const QString &title, const QString &description, const QString &language, const QString &thumbnailImg,
-             const QDate &creationDate, const QString &version)
+    Guide(const QString &title, const QString &description, const QString &language, const QList<Author*> &authors,
+          const QString &thumbnailImg, const QDate &creationDate, const QString &version, const QList<Slide*> &slides)
     {
-        setGuide(title, description, language, thumbnailImg, creationDate, version);
+        setGuide(title, description, language, authors, thumbnailImg, creationDate, version, slides);
     }
 
     ~Guide();
@@ -40,20 +38,20 @@ public:
     QString title() const { return m_Title; }
     QString description() const { return m_Description; }
     QString language() const { return m_Language; }
-    // Authors
+    QList<Author*>* authors() { return &m_Authors; }
     QString thumbnailImg() const { return m_ThumbnailImage; }
     QDate creationDate() const { return m_CreationDate; }
     QString version() const { return m_Version; }
     QList<Slide*>* slides() { return &m_Slides; }
 
-    void setGuide(const QString &title, const QString &description, const QString &language, const QString &thumbnailImg,
-                  const QDate &creationDate, const QString &version);
+    void setGuide(const QString &title, const QString &description, const QString &language, const QList<Author*> &authors,
+                  const QString &thumbnailImg, const QDate &creationDate, const QString &version, const QList<Slide*> &slides);
 
 private:
     QString m_Title;
     QString m_Description;
     QString m_Language;
-    // Authors
+    QList<Author*> m_Authors;
     QString m_ThumbnailImage;
     QDate m_CreationDate;
     QString m_Version;

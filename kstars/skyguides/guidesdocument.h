@@ -24,8 +24,6 @@
 #include <QList>
 #include <QXmlStreamReader>
 
-class Guide;
-
 class SkyGuides::GuidesDocument
 {
 public:
@@ -43,15 +41,15 @@ public:
 
 private:
     void readGuides();
-    void readGuide();
-    void readSlides();
-    void readSlide();
-    void readImage();
-    void readLink();
-    void readAuthor();
-
-
-
+    Guide* readGuide();
+    QList<Slide*> readSlides();
+    Slide* readSlide();
+    QList<Image*> readImages();
+    Image* readImage();
+    QList<Link*> readLinks();
+    Link* readLink();
+    QList<Author*> readAuthors();
+    Author* readAuthor();
 
     void skipUnknownElement();
 
