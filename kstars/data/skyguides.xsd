@@ -7,7 +7,10 @@
 	Version: 1.0
 	Date: September 30 2011 -->
 
-	<!-- Author of the sky guide -->
+	<!-- Author of the sky guide type
+	     This type holds details about author of the guide,
+	     together with contact information. 
+	     -->
 	<xsd:complexType name="authorType">
 		<xsd:sequence>
 			<xsd:element name="name">
@@ -37,7 +40,9 @@
 		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
 	</xsd:complexType>
 	
-	<!-- Link -->
+	<!-- Link type
+	     This type holds details about link embedded in slide.
+	     -->
 	<xsd:complexType name="linkType">
 		<xsd:sequence>
 			<xsd:element name="label" type="xsd:string"/>
@@ -47,7 +52,9 @@
 		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
 	</xsd:complexType>
 	
-	<!-- Image -->
+	<!-- Image type
+	     This type holds details about image embedded in slide.
+	     -->
 	<xsd:complexType name="imageType">
 		<xsd:sequence>
 			<xsd:element name="title" type="xsd:string"/>
@@ -57,7 +64,54 @@
 		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
 	</xsd:complexType>
 	
-	<!-- Slide -->
+	<!-- Angle units type 
+	     This type enumerates recognized angle units.
+	     -->
+	<xsd:simpleType name="angleUnit">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="arcsec"/>
+			<xsd:enumeration value="arcmin"/>
+			<xsd:enumeration value="deg"/>
+			<xsd:enumeration value="rad"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<!-- Angle type 
+	     This type represents angle.
+	     -->
+	<xsd:complexType name="angleType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:double">
+				<xsd:attribute name="unit" type="skyguide:angleUnit" use="required"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<!-- Non-negative angle
+	     This type represents non-negative angle.
+	     -->
+	<xsd:complexType name="nonNegativeAngleType">
+		<xsd:simpleContent>
+			<xsd:restriction base="skyguide:angleType">
+				<xsd:minInclusive value="0"/>
+			</xsd:restriction>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	
+	<!-- Sky point type
+	     This type coordinates of sky point in (RA, Dec) coordinate system.
+	-->
+	<xsd:complexType name="positionType">
+		<xsd:sequence>
+			<xsd:element name="ra" type="skyguide:nonNegativeAngleType"/>
+			
+			<xsd:element name="dec" type="skyguide:angleType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	
+	<!-- Slide type 
+	     This type represents single slide in sky guide.
+	     -->
 	<xsd:complexType name="slideType">
 		<xsd:sequence>
 			<xsd:element name="title" type="xsd:string"/>
@@ -87,7 +141,9 @@
 		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
 	</xsd:complexType>
 	
-	<!-- Sky guide -->
+	<!-- Sky guide type
+	     This type represents single sky guide in guides document.
+	     -->
 	<xsd:complexType name="guideType">
 		<xsd:sequence>
 			<xsd:element name="title">
@@ -127,12 +183,13 @@
 		<xsd:attribute name="id" type="xsd:ID" use="optional"/>
 	</xsd:complexType>
 	
+	<!-- Sky guides list - root of XML document -->
 	<xsd:element name="guides">
 	  <xsd:complexType>
-		  <xsd:sequence>
+		<xsd:sequence>
 			  <xsd:element name="guide" type="skyguide:guideType" minOccurs="1" maxOccurs="unbounded"/>
-			</xsd:sequence>
-			<xsd:attribute name="version" type="xsd:string" use="required"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="xsd:string" use="required"/>
 		</xsd:complexType>
 	</xsd:element>
 	
