@@ -91,7 +91,7 @@ public:
 
     static KStarsData* Create( );
 
-    static KStarsData* Instance();
+    static inline KStarsData* Instance() { return pinstance; }
 
     /** Initialize KStarsData while running splash screen.
      *  @return true on success.

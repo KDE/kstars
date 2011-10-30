@@ -112,12 +112,6 @@ KStarsData* KStarsData::Create()
     return pinstance;
 }
 
-KStarsData* KStarsData::Instance( )
-{
-    return pinstance;
-}
-
-
 KStarsData::KStarsData() :
     m_SkyComposite(0),
     m_Geo(dms(0), dms(0)),
