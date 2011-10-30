@@ -98,6 +98,15 @@ KStarsData* KStarsData::pinstance = 0;
 
 KStarsData* KStarsData::Create()
 {
+    // This method should never be called twice within a run, since a
+    // lot of the code assumes that KStarsData, once created, is never
+    // destroyed. They maintain local copies of KStarsData::Instance()
+    // for efficiency (maybe this should change, but it is not
+    // required to delete and reinstantiate KStarsData). Thus, when we
+    // call this method, pinstance MUST be zero, i.e. this must be the
+    // first (and last) time we are calling it. -- asimha
+    Q_ASSERT( !pinstance );
+
     delete pinstance;
     pinstance = new KStarsData();
     return pinstance;
