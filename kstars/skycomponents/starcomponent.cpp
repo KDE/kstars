@@ -285,20 +285,21 @@ void StarComponent::draw( SkyPainter *skyp )
         ++nTrixels;
         Trixel currentRegion = region.next();
         StarList* starList = m_starIndex->at( currentRegion );
+
         for (int i=0; i < starList->size(); ++i) {
             StarObject *curStar = starList->at( i );
             if( !curStar )
                 continue;
-            
-            if ( curStar->updateID != updateID )
-                curStar->JITupdate( data );
-            
+
             float mag = curStar->mag();
-            
+
             // break loop if maglim is reached
             if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
                 break;
                  
+            if ( curStar->updateID != updateID )
+                curStar->JITupdate( data );
+
             bool drawn = skyp->drawPointSource( curStar, mag, curStar->spchar() );
 
             //FIXME_SKYPAINTER: find a better way to do this.
