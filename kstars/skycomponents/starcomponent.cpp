@@ -277,6 +277,10 @@ void StarComponent::draw( SkyPainter *skyp )
     MeshIterator region(m_skyMesh, DRAW_BUF);
     magLim = maglim;
 
+    // If we are hiding faint stars, then maglim is really the brighter of hideStarsMag and maglim
+    if( hideFaintStars && maglim > hideStarsMag )
+        maglim = hideStarsMag;
+
     m_StarBlockFactory->drawID = m_skyMesh->drawID();
 
     int nTrixels = 0;
@@ -294,7 +298,7 @@ void StarComponent::draw( SkyPainter *skyp )
             float mag = curStar->mag();
 
             // break loop if maglim is reached
-            if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
+            if ( mag > maglim )
                 break;
                  
             if ( curStar->updateID != updateID )
