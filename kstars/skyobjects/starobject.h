@@ -174,7 +174,7 @@ public:
     void getIndexCoords( KSNumbers *num, double *ra, double *dec );
 
     /**@short added for JIT updates from both StarComponent and ConstellationLines */
-    void JITupdate( KStarsData* data );
+    void JITupdate();
 
     /**@short returns the magnitude of the proper motion correction in milliarcsec/year */
     inline double pmMagnitude()

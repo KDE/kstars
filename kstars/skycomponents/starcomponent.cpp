@@ -302,7 +302,7 @@ void StarComponent::draw( SkyPainter *skyp )
                 break;
                  
             if ( curStar->updateID != updateID )
-                curStar->JITupdate( data );
+                curStar->JITupdate();
 
             bool drawn = skyp->drawPointSource( curStar, mag, curStar->spchar() );
 
@@ -315,7 +315,7 @@ void StarComponent::draw( SkyPainter *skyp )
     // Draw focusStar if not null
     if( focusStar ) {
         if ( focusStar->updateID != updateID )
-            focusStar->JITupdate( data );
+            focusStar->JITupdate();
         float mag = focusStar->mag();
         skyp->drawPointSource(focusStar, mag, focusStar->spchar() );
     }
@@ -552,7 +552,7 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         }
         m_starObject.init( &stardata );
         m_starObject.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        m_starObject.JITupdate( data );
+        m_starObject.JITupdate();
         focusStar = &m_starObject;
         hdidxReader.closeFile();
         return focusStar;

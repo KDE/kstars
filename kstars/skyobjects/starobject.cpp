@@ -309,8 +309,10 @@ void StarObject::getIndexCoords( KSNumbers *num, double *ra, double *dec )
     //    *dec = dec0().Degrees() + ddec;
 }
 
-void StarObject::JITupdate( KStarsData* data )
+void StarObject::JITupdate()
 {
+    static KStarsData *data = KStarsData::Instance();
+
     updateID = data->updateID();
     if ( updateNumID != data->updateNumID() ) {
         // TODO: This can be optimized and reorganized further in a better manner.

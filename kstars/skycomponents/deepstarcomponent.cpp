@@ -281,7 +281,7 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
                 //<< ", and indexStar says he's from " << m_skyMesh->indexStar( curStar );
 
                 if ( curStar->updateID != updateID )
-                    curStar->JITupdate( data );
+                    curStar->JITupdate();
 
                 float mag = curStar->mag();
 
