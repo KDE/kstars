@@ -98,16 +98,19 @@ KStarsData* KStarsData::pinstance = 0;
 
 KStarsData* KStarsData::Create()
 {
+    // This method should never be called twice within a run, since a
+    // lot of the code assumes that KStarsData, once created, is never
+    // destroyed. They maintain local copies of KStarsData::Instance()
+    // for efficiency (maybe this should change, but it is not
+    // required to delete and reinstantiate KStarsData). Thus, when we
+    // call this method, pinstance MUST be zero, i.e. this must be the
+    // first (and last) time we are calling it. -- asimha
+    Q_ASSERT( !pinstance );
+
     delete pinstance;
     pinstance = new KStarsData();
     return pinstance;
 }
-
-KStarsData* KStarsData::Instance( )
-{
-    return pinstance;
-}
-
 
 KStarsData::KStarsData() :
     m_SkyComposite(0),
@@ -349,6 +352,11 @@ void KStarsData::setLocation( const GeoLocation &l ) {
     Options::setElevation( m_Geo.height() );
     Options::setLongitude( m_Geo.lng()->Degrees() );
     Options::setLatitude( m_Geo.lat()->Degrees() );
+    // set the rule from rulebook
+    foreach( const QString& key, Rulebook.keys() ) {
+        if( !key.isEmpty() && m_Geo.tzrule()->equals(&Rulebook[key]) )
+            Options::setDST(key);
+    }
 
     emit geoChanged();
 }

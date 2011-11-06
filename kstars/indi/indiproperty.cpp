@@ -571,7 +571,7 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
     {
 
         if (name == "CCD_EXPOSURE_REQUEST")
-            setupSetButton(i18n("Capture Image"));
+            setupSetButton(i18n("Capture"));
         else
             setupSetButton(i18nc("Set a value", "Set"));
 

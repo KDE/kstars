@@ -44,7 +44,7 @@
 class Supernova : public SkyObject
 {
 public:
-    explicit Supernova( dms ra, dms dec, QString& date, float m = 0.0, const QString& serialNo=QString(),
+    explicit Supernova( dms ra, dms dec, const QString& date, float m = 0.0, const QString& serialNo=QString(),
                         const QString& type=QString(), const QString& hostGalaxy=QString(), const QString& offset=QString(),const QString& discoverer=QString() );
     //virtual Supernova* clone() const;
 

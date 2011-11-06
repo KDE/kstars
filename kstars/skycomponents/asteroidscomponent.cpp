@@ -105,14 +105,15 @@ void AsteroidsComponent::loadData()
         line = fileReader.readLine();
 
         // Ignore comments and too short lines
-        if ( line.at( 0 ) == '#' || line.size() < 8 )
+        if ( line.size() < 8 || line.at( 0 ) == '#' )
+            continue;
+        fields = line.split( "," );
+        if ( fields.size() < 23 )
             continue;
 
-        fields = line.split( "," );
-
         full_name = fields.at( 0 );
-        full_name   = full_name.remove( '"' ).trimmed();
-        int catN = full_name.section( " ", 0, 0 ).toInt();
+        full_name = full_name.remove( '"' ).trimmed();
+        int catN  = full_name.section( " ", 0, 0 ).toInt();
         name = full_name.section( " ", 1, -1 );
         mJD  = fields.at( 1 ).toInt();
         q    = fields.at( 2 ).toDouble();
@@ -124,12 +125,9 @@ void AsteroidsComponent::loadData()
         dble_M = fields.at( 8 ).toDouble();
         orbit_id = fields.at( 10 );
         orbit_id.remove( '"' );
-        H = fields.at( 11 ).toDouble();
-        G = fields.at( 12 ).toDouble();
-        if ( fields.at( 13 ) == "Y" )
-            neo = true;
-        else
-            neo = false;
+        H   = fields.at( 11 ).toDouble();
+        G   = fields.at( 12 ).toDouble();
+        neo = fields.at( 13 ) == "Y";
         diameter = fields.at( 16 ).toFloat( &ok );
         if ( !ok ) diameter = 0.0;
         dimensions = fields.at( 17 );

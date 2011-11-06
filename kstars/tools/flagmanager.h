@@ -60,11 +60,19 @@ public:
      */
     ~FlagManager();
 
+    void setRaDec( const dms &ra, const dms &dec );
+    void clearFields ();
+    void showFlag( const int flagIdx );
+
+    bool validatePoint();
+
+    void deleteFlagItem ( int flagIdx );
+
 public slots:
     /**
      *@short Verify coordinates and add a flag
      */
-    void slotValidatePoint();
+    void slotAddFlag();
 
     /**
      *@short Delete a flag
@@ -76,7 +84,13 @@ public slots:
      */
     void slotCenterFlag();
 
+private slots:
+    void slotSaveChanges();
+    void slotSetShownFlag( QModelIndex idx );
+
 private:
+    void insertFlag( bool isNew, int row = 0 );
+
     KStars *m_Ks;
     FlagManagerUI *ui;
     QStandardItemModel *m_Model;

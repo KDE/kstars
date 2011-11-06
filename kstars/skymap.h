@@ -31,6 +31,7 @@
 
 #include "skymapdrawabstract.h"
 #include "skymapqdraw.h"
+#include "printing/legend.h"
 
 #include <config-kstars.h>
 
@@ -235,7 +236,9 @@ class SkyMap : public QGraphicsView {
     /** @short Call to set up the projector before a draw cycle. */
     void setupProjector();
 
-    /** Set zoom factor. */
+    /**@ Set zoom factor.
+      *@param factor zoom factor
+      */
     void setZoomFactor(double factor);
 
     bool isSlewing() const;
@@ -264,14 +267,30 @@ class SkyMap : public QGraphicsView {
     /**
      *@short Proxy method for SkyMapDrawAbstract::exportSkyImage()
      */
-    inline void exportSkyImage( QPaintDevice *pd ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( pd ); }
+    inline void exportSkyImage( QPaintDevice *pd, bool scale = false ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( pd, scale ); }
+
+    inline void exportSkyImage( SkyQPainter *painter, bool scale = false ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->exportSkyImage( painter, scale ); }
+
+    SkyMapDrawAbstract* getSkyMapDrawAbstract() { return dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw); }
 
     /**
      *@short Proxy method for SkyMapDrawAbstract::drawObjectLabels()
      */
     inline void drawObjectLabels( QList< SkyObject* >& labelObjects ) { dynamic_cast<SkyMapDrawAbstract *>(m_SkyMapDraw)->drawObjectLabels( labelObjects ); }
 
+    void setPreviewLegend(bool preview) { m_previewLegend = preview; }
 
+    void setLegend(Legend &legend) { m_legend = legend; }
+
+    bool isInObjectPointingMode() { return m_objPointingMode; }
+
+    void setObjectPointingMode(bool enabled) { m_objPointingMode = enabled; }
+
+    void setFovCaptureMode(bool enabled) { m_fovCaptureMode = enabled; }
+
+    bool isInFovCaptureMode() { return m_fovCaptureMode; }
+
+    SkyPoint getCenterPoint();
 
 public slots:
     /**Recalculates the positions of objects in the sky, and then repaints the sky map.
@@ -395,6 +414,20 @@ public slots:
      * in the status bar */
     void slotCancelRulerMode();
 
+    /**@short Open Flag Manager window with clickedObject() RA and Dec entered.
+      */
+    void slotAddFlag();
+
+    /**@short Open Flag Manager window with selected flag focused and ready to edit.
+      *@param flagIdx index of flag to be edited.
+      */
+    void slotEditFlag( int flagIdx );
+
+    /**@short Delete selected flag.
+      *@param flagIdx index of flag to be deleted.
+      */
+    void slotDeleteFlag( int flagIdx );
+
 #ifdef HAVE_OPENGL
     void slotToggleGL();
 #endif
@@ -415,6 +448,15 @@ public slots:
 
     /** Set default zoom. */
     void slotZoomDefault();
+
+    /** Object pointing for Printing Wizard done */
+    void slotObjectSelected();
+
+    void slotCancelLegendPreviewMode();
+
+    void slotFinishFovCaptureMode();
+
+    void slotCaptureFov();
 
 signals:
     /**Emitted by setDestination(), and connected to slewFocus().  Whenever the Destination
@@ -600,6 +642,13 @@ private:
     InfoBoxWidget* m_geoBox;
     InfoBoxWidget* m_objBox;
     InfoBoxes*     m_iboxes;
+
+    // legend
+    bool m_previewLegend;
+    Legend m_legend;
+
+    bool m_objPointingMode;
+    bool m_fovCaptureMode;
 
 
     QWidget *m_SkyMapDraw; // Can be dynamic_cast<> to SkyMapDrawAbstract

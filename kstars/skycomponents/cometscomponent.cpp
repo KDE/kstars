@@ -102,11 +102,11 @@ void CometsComponent::loadData() {
         line = fileReader.readLine();
 
         // Ignore comments and too short lines
-        if ( line.at( 0 ) == '#' || line.size() < 8 )
+        if ( line.size() < 8  ||  line.at( 0 ) == '#' )
             continue;
-        
         fields = line.split( "," );
-        //kDebug()<< "No. of Fields:" << fields.count();
+        if( fields.size() < 21 )
+            continue;
 
         name   = fields.at( 0 );
         name   = name.remove( '"' ).trimmed();
@@ -121,10 +121,7 @@ void CometsComponent::loadData() {
         orbit_id = fields.at( 8 );
         orbit_id.remove( '"' );
         
-        if ( fields.at( 9 ) == "Y" )
-            neo = true;
-        else
-            neo = false;
+        neo = fields.at( 9 ) == "Y";
         
         if(fields.at(10).isEmpty())
             M1 = 101.0;        

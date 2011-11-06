@@ -52,7 +52,19 @@ QMap<long double, dms> KSConjunct::findClosestApproach(SkyObject& Object1, KSPla
   //  kDebug() << Object2.name() << ": RA = " << Object2.ra() -> toHMSString() << "; Dec = " << Object2.dec() -> toDMSString() << "\n";
   prevSign = 0;
   
-  step0 = (stopJD - startJD) / 4.0;
+  step0 = (stopJD - startJD) / 4.0;  // I'm an idiot for having done this without having the lines that follow -- asimha
+
+  // TODO: Work out a solid footing on which one can decide step0. -- asimha
+  if( step0 > 24.8 * 365.25 ) // Sample pluto's orbit (248.09 years) at least 10 times.
+      step0 = 24.8 * 365.25;
+
+  // FIXME: This can be done better, but for now, I'm doing it the dumb way -- asimha
+  if( Object1.name() == i18n( "Neptune" ) || Object2.name() == i18n( "Neptune" ) || Object1.name() == i18n( "Uranus" ) || Object2.name() == i18n( "Uranus" ) )
+      if( step0 > 3652.5 )
+          step0 = 3652.5;
+  if( Object1.name() == i18n( "Jupiter" ) || Object2.name() == i18n( "Jupiter" ) || Object1.name() == i18n( "Saturn" ) || Object2.name() == i18n( "Saturn" ) )
+      if( step0 > 365.25 )
+          step0 = 365;
   if(Object1.name() == i18n( "Mars" ) || Object2.name() == i18n( "Mars" ))
     if (step0 > 10.0)
       step0 = 10.0;

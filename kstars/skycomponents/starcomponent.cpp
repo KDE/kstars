@@ -277,6 +277,10 @@ void StarComponent::draw( SkyPainter *skyp )
     MeshIterator region(m_skyMesh, DRAW_BUF);
     magLim = maglim;
 
+    // If we are hiding faint stars, then maglim is really the brighter of hideStarsMag and maglim
+    if( hideFaintStars && maglim > hideStarsMag )
+        maglim = hideStarsMag;
+
     m_StarBlockFactory->drawID = m_skyMesh->drawID();
 
     int nTrixels = 0;
@@ -285,20 +289,21 @@ void StarComponent::draw( SkyPainter *skyp )
         ++nTrixels;
         Trixel currentRegion = region.next();
         StarList* starList = m_starIndex->at( currentRegion );
+
         for (int i=0; i < starList->size(); ++i) {
             StarObject *curStar = starList->at( i );
             if( !curStar )
                 continue;
-            
-            if ( curStar->updateID != updateID )
-                curStar->JITupdate( data );
-            
+
             float mag = curStar->mag();
-            
+
             // break loop if maglim is reached
-            if ( mag > maglim || ( hideFaintStars && curStar->mag() > hideStarsMag ) )
+            if ( mag > maglim )
                 break;
                  
+            if ( curStar->updateID != updateID )
+                curStar->JITupdate();
+
             bool drawn = skyp->drawPointSource( curStar, mag, curStar->spchar() );
 
             //FIXME_SKYPAINTER: find a better way to do this.
@@ -310,7 +315,7 @@ void StarComponent::draw( SkyPainter *skyp )
     // Draw focusStar if not null
     if( focusStar ) {
         if ( focusStar->updateID != updateID )
-            focusStar->JITupdate( data );
+            focusStar->JITupdate();
         float mag = focusStar->mag();
         skyp->drawPointSource(focusStar, mag, focusStar->spchar() );
     }
@@ -547,7 +552,7 @@ SkyObject *StarComponent::findByHDIndex( int HDnum ) {
         }
         m_starObject.init( &stardata );
         m_starObject.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        m_starObject.JITupdate( data );
+        m_starObject.JITupdate();
         focusStar = &m_starObject;
         hdidxReader.closeFile();
         return focusStar;

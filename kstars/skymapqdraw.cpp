@@ -18,6 +18,7 @@
 #include "skyqpainter.h"
 #include "skymapqdraw.h"
 #include "skymap.h"
+#include "printing/legend.h"
 
 SkyMapQDraw::SkyMapQDraw( SkyMap *sm ) : QWidget( sm ), SkyMapDrawAbstract( sm ) {
     m_SkyPixmap = new QPixmap( width(), height() );
@@ -43,6 +44,7 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
             p.drawPixmap( 0, 0, *m_SkyPixmap ); 
             drawOverlays(p);
             p.end();
+
             return ; // exit because the pixmap is repainted and that's all what we want
         }
 
@@ -67,7 +69,12 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
     psky2.drawPixmap( 0, 0, *m_SkyPixmap );
     drawOverlays(psky2);
     psky2.end();
-    
+
+    if(m_SkyMap->m_previewLegend)
+    {
+        m_SkyMap->m_legend.paintLegend(m_SkyPixmap);
+    }
+
     m_SkyMap->computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 
 }

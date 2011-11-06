@@ -35,6 +35,7 @@ macro_log_feature(XPLANET_FOUND "XPlanet" "Renders an image of all the major pla
 macro_optional_find_package(OpenGL)
 macro_bool_to_01(OPENGL_FOUND HAVE_OPENGL)
 macro_log_feature(OPENGL_FOUND "OpenGL" "Support for hardware rendering in KStars." "http://www.opengl.org/" FALSE "" "OpenGL rendering is generally faster on hardware with graphics acceleration.")
+add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
 if (EIGEN2_FOUND)
    include_directories(${CMAKE_CURRENT_BINARY_DIR})

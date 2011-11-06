@@ -26,13 +26,9 @@
 #include <QPrintDialog>
 #include <QSvgGenerator>
 
-#include <kio/netaccess.h>
-#include <kmessagebox.h>
 //QPRINTER_FOR_NOW
 //#include <kprinter.h>
 #include <kdeprintdialog.h>
-#include <ktemporaryfile.h>
-#include <kurl.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
 #include <knuminput.h>
@@ -47,6 +43,8 @@
 #include "skycomponents/skymapcomposite.h"
 #include "simclock.h"
 #include "Options.h"
+
+#include "dialogs/exportimagedialog.h"
 
 // INDI includes
 #include <config-kstars.h>
@@ -426,92 +424,15 @@ void KStars::loadColorScheme( const QString &name ) {
 }
 
 void KStars::exportImage( const QString &url, int w, int h ) {
-    //If the filename string contains no "/" separators, assume the
-    //user wanted to place a file in their home directory.
-    KUrl fileURL;
-    if ( ! url.contains( "/" ) ) fileURL = QDir::homePath() + '/' + url;
-    else fileURL = url;
-
-    KTemporaryFile tmpfile;
-    tmpfile.open();
-    QString fname;
-
-    if ( fileURL.isValid() ) {
-        if ( fileURL.isLocalFile() ) {
-            fname = fileURL.toLocalFile();
-        } else {
-            fname = tmpfile.fileName();
-        }
-
-        //Determine desired image format from filename extension
-        QString ext = fname.mid( fname.lastIndexOf(".")+1 );
-        if( ext.toLower() == "svg" ) { // export as SVG
-            QSvgGenerator svgGenerator;
-            svgGenerator.setFileName( fname );
-            svgGenerator.setTitle( i18n( "KStars Exported Sky Image" ) );
-            svgGenerator.setDescription( i18n( "KStars Exported Sky Image" ) );
-            svgGenerator.setSize( QSize( map()->width(), map()->height() ) );
-            svgGenerator.setResolution( qMax( map()->logicalDpiX(), map()->logicalDpiY() ));
-            svgGenerator.setViewBox( QRect( 0, 0, map()->width(), map()->height() ) );
-
-            map()->exportSkyImage( &svgGenerator );
-            qApp->processEvents();
-        }
-        else { // export as raster graphics
-            const char* format = "PNG";
-            if ( ext.toLower() == "png" ) { format = "PNG"; }
-            else if ( ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
-            else if ( ext.toLower() == "gif" ) { format = "GIF"; }
-            else if ( ext.toLower() == "pnm" ) { format = "PNM"; }
-            else if ( ext.toLower() == "bmp" ) { format = "BMP"; }
-            else { kWarning() << i18n( "Could not parse image format of %1; assuming PNG.", fname ) ; }
-
-            QPixmap skyimage( map()->width(), map()->height() );
-            QPixmap outimage( w, h );
-            outimage.fill();
-
-            map()->exportSkyImage( &skyimage );
-            qApp->processEvents();
-
-            //skyImage is the size of the sky map.  The requested image size is w x h.
-            //If w x h is smaller than the skymap, then we simply crop the image.
-            //If w x h is larger than the skymap, pad the skymap image with a white border.
-            if ( w == map()->width() && h == map()->height() ) {
-                outimage = skyimage.copy();
-            } else {
-                int dx(0), dy(0), sx(0), sy(0);
-                int sw(map()->width()), sh(map()->height());
-                if ( w > map()->width() ) {
-                    dx = (w - map()->width())/2;
-                } else {
-                    sx = (map()->width() - w)/2;
-                    sw = w;
-                }
-                if ( h > map()->height() ) {
-                    dy = (h - map()->height())/2;
-                } else {
-                    sy = (map()->height() - h)/2;
-                    sh = h;
-                }
-
-                QPainter p;
-                p.begin( &outimage );
-                p.fillRect( outimage.rect(), QBrush( Qt::white ) );
-                p.drawImage( dx, dy, skyimage.toImage(), sx, sy, sw, sh );
-                p.end();
-            }
-
-            if ( ! outimage.save( fname, format ) ) kDebug() << i18n( "Error: Unable to save image: %1 ", fname );
-            else kDebug() << i18n( "Image saved to file: %1", fname );
-        }
-
-        if ( tmpfile.fileName() == fname ) { //attempt to upload image to remote location
-            if ( ! KIO::NetAccess::upload( tmpfile.fileName(), fileURL, this ) ) {
-                QString message = i18n( "Could not upload image to remote location: %1", fileURL.prettyUrl() );
-                KMessageBox::sorry( 0, message, i18n( "Could not upload file" ) );
-            }
-        }
+    // execute image export dialog
+    if ( !imgExportDialog ) {
+        imgExportDialog = new ExportImageDialog( url, QSize( w, h ) );
+    } else {
+        imgExportDialog->setOutputUrl( url );
+        imgExportDialog->setOutputSize( QSize ( w, h ) );
     }
+
+    imgExportDialog->show();
 }
 
 void KStars::printImage( bool usePrintDialog, bool useChartColors ) {

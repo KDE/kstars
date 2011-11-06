@@ -356,7 +356,7 @@
 		<entry name="ShowSupernovae" type="Bool">
 			<label>Draw supernovae in the sky map?</label>
 			<whatsthis>Toggle whether supernovae are drawn in the sky map.</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="ShowSupernovaNames" type="Bool">
 			<label>Label Supernova Names in the sky map?</label>
@@ -616,7 +616,7 @@
 		<entry name="UseRelativistic" type="Bool">
 		        <label>Apply relativistic corrections due to the bending of light in sun's gravitational field</label>
 			<whatsthis>Toggle whether corrections due to bending of light around the sun are taken into account</whatsthis>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="UseAntialias" type="Bool">
 			<label>Use antialiasing when drawing the screen?</label>

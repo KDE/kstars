@@ -91,7 +91,7 @@ public:
 
     static KStarsData* Create( );
 
-    static KStarsData* Instance();
+    static inline KStarsData* Instance() { return pinstance; }
 
     /** Initialize KStarsData while running splash screen.
      *  @return true on success.
@@ -207,6 +207,11 @@ public:
      *@return the list of visible FOVs
      */
     inline const QList<FOV*> getVisibleFOVs() const { return visibleFOVs; }
+
+    /**
+      *@return the list of available FOVs
+      */
+    inline const QList<FOV*> getAvailableFOVs() const { return availFOVs; }
 
     /** Return log object */
     OAL::Log *logObject() { return m_logObject; }

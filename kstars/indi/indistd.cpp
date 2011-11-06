@@ -307,7 +307,7 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
 
     case CCD_EXPOSURE_REQUEST:
         if (pp->state == PS_IDLE || pp->state == PS_OK)
-            pp->set_w->setText(i18n("Capture Image"));
+            pp->set_w->setText(i18n("Capture"));
         break;
 
     case CCD_FRAME:
@@ -889,11 +889,6 @@ void INDIStdProperty::newText()
 
     switch (pp->stdID)
     {
-        /* Set expose duration button to 'cancel' when busy */
-    case CCD_EXPOSURE_REQUEST:
-        pp->set_w->setText(i18n("Cancel"));
-        break;
-
         /* Save Port name in KStars options */
     case DEVICE_PORT:
         lp = pp->findElement("PORT");

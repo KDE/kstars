@@ -63,6 +63,7 @@
 #include "dialogs/finddialog.h"
 #include "dialogs/focusdialog.h"
 #include "dialogs/fovdialog.h"
+#include "printing/printingwizard.h"
 #include "kswizard.h"
 #include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
@@ -525,6 +526,11 @@ void KStars::slotOpenFITS()
 void KStars::slotExportImage() {
     KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "image/png image/jpeg image/gif image/x-portable-pixmap image/bmp image/svg+xml" );
 
+    //User cancelled file selection dialog - abort image export
+    if ( fileURL.isEmpty() ) {
+        return;
+    }
+
     //Warn user if file exists!
     if (QFile::exists(fileURL.path()))
     {
@@ -678,6 +684,15 @@ void KStars::slotPrint() {
     }
 
     printImage( true, switchColors );
+}
+
+void KStars::slotPrintingWizard() {
+    if(printingWizard) {
+        delete printingWizard;
+    }
+
+    printingWizard = new PrintingWizard(this);
+    printingWizard->show();
 }
 
 void KStars::slotToggleTimer() {

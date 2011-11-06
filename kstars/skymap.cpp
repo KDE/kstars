@@ -47,10 +47,12 @@
 #include "dialogs/detaildialog.h"
 #include "dialogs/addlinkdialog.h"
 #include "kspopupmenu.h"
+#include "printing/printingwizard.h"
 #include "simclock.h"
 #include "skyobjects/skyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skycomponents/skymapcomposite.h"
+#include "skycomponents/flagcomponent.h"
 #include "widgets/infoboxwidget.h"
 #include "projections/projector.h"
 #include "projections/lambertprojector.h"
@@ -59,6 +61,8 @@
 #include "projections/orthographicprojector.h"
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
+
+#include "tools/flagmanager.h"
 
 #include "texturemanager.h"
 
@@ -135,7 +139,8 @@ SkyMap::SkyMap() :
     QGraphicsView( KStars::Instance() ),
     computeSkymap(true), rulerMode(false),
     data( KStarsData::Instance() ), pmenu(0),
-    ClickedObject(0), FocusObject(0), m_proj(0)
+    ClickedObject(0), FocusObject(0), m_proj(0),
+    m_previewLegend(false), m_objPointingMode(false)
 {
     m_Scale = 1.0;
 
@@ -579,12 +584,41 @@ void SkyMap::slotEndRulerMode() {
 
         rulerMode = false;
     }
-    
+
 }
 
 void SkyMap::slotCancelRulerMode(void) {
     rulerMode = false;
     AngularRuler.clear();
+}
+
+void SkyMap::slotAddFlag() {
+    KStars *ks = KStars::Instance();
+
+    // popup FlagManager window and update coordinates
+    ks->slotFlagManager();
+    ks->getFlagManager()->clearFields();
+    ks->getFlagManager()->setRaDec( clickedPoint()->ra(), clickedPoint()->dec() );
+}
+
+void SkyMap::slotEditFlag( int flagIdx ) {
+    KStars *ks = KStars::Instance();
+
+    // popup FlagManager window and switch to selected flag
+    ks->slotFlagManager();
+    ks->getFlagManager()->showFlag( flagIdx );
+}
+
+void SkyMap::slotDeleteFlag( int flagIdx ) {
+    KStars *ks = KStars::Instance();
+
+    ks->data()->skyComposite()->flags()->remove( flagIdx );
+    ks->data()->skyComposite()->flags()->saveToFile();
+
+    // if there is FlagManager created, update its flag model
+    if ( ks->getFlagManager() ) {
+        ks->getFlagManager()->deleteFlagItem( flagIdx );
+    }
 }
 
 void SkyMap::slotImage() {
@@ -649,6 +683,15 @@ bool SkyMap::isObjectLabeled( SkyObject *object ) {
     return data->skyComposite()->labelObjects().contains( object );
 }
 
+SkyPoint SkyMap::getCenterPoint()
+{
+    SkyPoint retVal;
+    // FIXME: subtraction of these 0.00001 is a simple workaround, because wrong SkyPoint is returned when _exact_ center of
+    // SkyMap is passed to the projector.
+    retVal = projector()->fromScreen( QPointF(width() / 2 - 0.00001, height() / 2 - 0.00001), data->lst(), data->geo()->lat() );
+    return retVal;
+}
+
 void SkyMap::slotRemoveObjectLabel() {
     data->skyComposite()->removeNameLabel( clickedObject() );
     forceUpdate();
@@ -684,6 +727,32 @@ void SkyMap::slotDetail() {
     DetailDialog* detail = new DetailDialog( clickedObject(), data->ut(), data->geo(), KStars::Instance() );
     detail->setAttribute(Qt::WA_DeleteOnClose);
     detail->show();
+}
+
+void SkyMap::slotObjectSelected() {
+    if(m_objPointingMode && KStars::Instance()->getPrintingWizard()) {
+        KStars::Instance()->getPrintingWizard()->pointingDone(clickedObject());
+        m_objPointingMode = false;
+    }
+}
+
+void SkyMap::slotCancelLegendPreviewMode() {
+    m_previewLegend = false;
+    forceUpdate(true);
+    KStars::Instance()->showImgExportDialog();
+}
+
+void SkyMap::slotFinishFovCaptureMode() {
+    if(m_fovCaptureMode && KStars::Instance()->getPrintingWizard()) {
+        KStars::Instance()->getPrintingWizard()->fovCaptureDone();
+        m_fovCaptureMode = false;
+    }
+}
+
+void SkyMap::slotCaptureFov() {
+    if(KStars::Instance()->getPrintingWizard()) {
+        KStars::Instance()->getPrintingWizard()->captureFov();
+    }
 }
 
 void SkyMap::slotClockSlewing() {
@@ -1025,7 +1094,8 @@ void SkyMap::addLink() {
             file.setFileName( KStandardDirs::locateLocal( "appdata", "info_url.dat" ) ); //determine filename in local user KDE directory tree.
 
             if ( !file.open( QIODevice::ReadWrite | QIODevice::Append ) ) {
-                QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );						KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
+                QString message = i18n( "Custom information-links file could not be opened.\nLink cannot be recorded for future sessions." );
+                KMessageBox::sorry( 0, message, i18n( "Could not Open File" ) );
 		delete adialog;
                 return;
             } else {
@@ -1067,7 +1137,8 @@ void SkyMap::slotToggleGL() {
     }
     else {
         // Use GL
-        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
+        QString message = i18n("This version of KStars comes with new experimental OpenGL support. Our experience is that OpenGL works "
+                               "much faster on machines with hardware acceleration. Would you like to switch to OpenGL painting backends?");
 
         int result = KMessageBox::warningYesNo( this, message,
                                                 i18n("Switch to OpenGL backend"),

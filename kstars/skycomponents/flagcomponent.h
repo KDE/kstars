@@ -68,6 +68,16 @@ public:
      */
     void remove( int index );
 
+    /**@short Update a flag.
+      *@param index index of the flag to be updated.
+      *@param flagPoint new flag point.
+      *@param epoch new flag epoch.
+      *@param image new flag image.
+      *@param label new flag label.
+      *@param labelColor new flag label color.
+      */
+    void updateFlag ( int index, SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor );
+
     /**@short Return image names.
      * @return the list of all image names
      */
@@ -118,6 +128,21 @@ public:
      * @return an image from m_Images
      */
     QImage imageList( int index );
+
+    /**@short Get list of flag indexes near specified SkyPoint. */
+    QList<int> getFlagsNear( SkyPoint *point, float radius );
+
+    /**@short Get list of flag indexes near specified SkyPoint with radius specified in pixels.
+      *@param point central SkyPoint.
+      *@param pixelRadius radius in pixels.
+      */
+    QList<int> getFlagsNearPix( SkyPoint *point, int pixelRadius );
+
+    /**@short Load flags from flags.dat file. */
+    void loadFromFile();
+
+    /**@short Save flags to flags.dat file. */
+    void saveToFile();
 
 private:
     /**@short Convenience function to convert an epoch number (e.g., 2000.0) 
