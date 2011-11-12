@@ -212,7 +212,11 @@ int INDI_D::setValue (INDI_P *pp, XMLEle *root, QString & errmsg)
     /* allow changing the timeout */
     ap = findXMLAtt (root, "timeout");
     if (ap)
+    {
+        setlocale(LC_NUMERIC,"C");
         pp->timeout = atof(valuXMLAtt(ap));
+        setlocale(LC_NUMERIC,"");
+    }
 
     /* process specific GUI features */
     switch (pp->guitype)
@@ -257,6 +261,9 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
     char iNumber[32];
     double min, max;
 
+    // Ensure that atof works with decimal points
+    setlocale(LC_NUMERIC,"C");
+
     for (ep = nextXMLEle (root, 1); ep != NULL; ep = nextXMLEle (root, 0))
     {
         if (strcmp (tagXMLEle(ep), "oneText") && strcmp(tagXMLEle(ep), "oneNumber"))
@@ -291,6 +298,7 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
             }
             else if (pp->guitype == PG_NUMERIC)
             {
+
                 lp->value = atof(pcdataXMLEle(ep));
                 numberFormat(iNumber, lp->format.toAscii(), lp->value);
                 lp->text = iNumber;
@@ -340,6 +348,8 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
 
     // suppress warning
     errmsg = errmsg;
+
+    setlocale(LC_NUMERIC,"");
 
     return (0);
 }
@@ -655,7 +665,9 @@ INDI_P * INDI_D::addProperty (XMLEle *root, QString & errmsg)
     /* init timeout */
     ap = findAtt (root, "timeout", errmsg);
     /* default */
+    setlocale(LC_NUMERIC,"C");
     pp->timeout = ap ? atof(valuXMLAtt(ap)) : 0;
+    setlocale(LC_NUMERIC,"");
 
     /* log any messages */
     deviceManager->checkMsg (root, this);

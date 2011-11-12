@@ -504,6 +504,8 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
     INDI_E *lp;
     QString numberName, numberLabel;
 
+    setlocale(LC_NUMERIC,"C");
+
     for (number = nextXMLEle (root, 1); number != NULL; number = nextXMLEle (root, 0))
     {
         if (strcmp (tagXMLEle(number), "defNumber"))
@@ -557,6 +559,8 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
         el.append(lp);
 
     }
+
+    setlocale(LC_NUMERIC,"");
 
     if (perm == PP_RO)
         return 0;
