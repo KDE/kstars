@@ -91,7 +91,7 @@ class MoonPhaseCalendar : public KDateTable {
      */
     unsigned short computeMoonPhase( const KStarsDateTime &date );
 
-    QPixmap *m_Images[36]; // Array storing moon images against integer phase
+    QPixmap m_Images[36]; // Array storing moon images against integer phase
 
     double cellWidth, cellHeight;
     int numWeekRows;
