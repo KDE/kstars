@@ -295,11 +295,10 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
 unsigned short MoonPhaseCalendar::computeMoonPhase( const KStarsDateTime &date ) {
 
     KSNumbers num( date.djd() );
+    KSPlanet  earth( KSPlanet::Earth );
+    earth->findPosition( &num );
 
-    KSPlanet *m_Earth = new KSPlanet( I18N_NOOP( "Earth" ), QString(), QColor( "white" ), 12756.28 /*diameter in km*/ );
-    m_Earth->findPosition( &num );
-
-    m_Moon.findGeocentricPosition( &num, m_Earth );
+    m_Moon.findGeocentricPosition( &num, earth );
     m_Moon.findPhase();
 
     return m_Moon.getIPhase();
