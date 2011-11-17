@@ -69,7 +69,7 @@ void MoonPhaseCalendar::loadImages() {
 }
 
 void MoonPhaseCalendar::computeMoonImageSize() {
-    cellWidth = width() / ( double ) numDayColumns;
+    cellWidth  = width() / ( double ) numDayColumns;
     cellHeight = height() / ( double ) numWeekRows;
     kDebug() << cellWidth << cellHeight;
     MoonImageSize = ( (cellWidth > cellHeight - 12) ? cellHeight - 12 : cellWidth ) - 2; // FIXME: Using hard-coded fontsize
@@ -129,23 +129,18 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
     pos = numDayColumns * ( row - 1 ) + col;
 
     //Calculate what day of the week the cell is
-    if ( col + calendar()->weekStartDay() <= numDayColumns ) {
-        cellWeekDay = col + calendar()->weekStartDay();
-    } else {
-        cellWeekDay = col + calendar()->weekStartDay() - numDayColumns;
+    cellWeekDay = col + calendar()->weekStartDay();
+    if ( cellWeekDay <= numDayColumns ) {
+        cellWeekDay -= numDayColumns;
     }
 
     //See if cell day is normally a working day
     if ( KGlobal::locale()->workingWeekStartDay() <= KGlobal::locale()->workingWeekEndDay() ) {
-        if ( cellWeekDay >= KGlobal::locale()->workingWeekStartDay() &&
-             cellWeekDay <= KGlobal::locale()->workingWeekEndDay() ) {
-                workingDay = true;
-        }
+        workingDay = cellWeekDay >= KGlobal::locale()->workingWeekStartDay()
+                  && cellWeekDay <= KGlobal::locale()->workingWeekEndDay();
     } else {
-        if ( cellWeekDay >= KGlobal::locale()->workingWeekStartDay() ||
-             cellWeekDay <= KGlobal::locale()->workingWeekEndDay() ) {
-                workingDay = true;
-        }
+        workingDay = cellWeekDay >= KGlobal::locale()->workingWeekStartDay()
+                  || cellWeekDay <= KGlobal::locale()->workingWeekEndDay();
     }
 
     if( row == 0 ) {
