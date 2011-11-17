@@ -21,6 +21,7 @@
 #include "ksnumbers.h"
 #include "kstarsdatetime.h"
 #include "ksutils.h"
+#include "texturemanager.h"
 
 #include <kcolorscheme.h>
 #include <kglobal.h>
@@ -32,30 +33,21 @@
 #include <QPainter>
 #include <QStyle>
 #include <QtGui/QStyleOptionViewItem>
-#include <QFile>
 
 #include <cmath>
 
-MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, QWidget *parent ) : KDateTable(parent), m_Moon(moon) {
-    
+MoonPhaseCalendar::MoonPhaseCalendar( KSMoon &moon, QWidget *parent ) :
+    KDateTable(parent),
+    m_Moon(moon)
+{
     // Populate moon images from disk into the hash
     numDayColumns = calendar()->daysInWeek( QDate::currentDate() );
     numWeekRows = 7;
     imagesLoaded = false;
-
-    for( int i = 0; i < 36; ++i )
-        m_Images[i] = NULL;
-
     // TODO: Set geometry.
-
 }
 
 MoonPhaseCalendar::~MoonPhaseCalendar() {
-    // Free up the moon image pixmaps
-    if( imagesLoaded ) {
-        for( int i = 0; i < 36; ++i )
-            delete m_Images[i];
-    }
 }
 
 QSize MoonPhaseCalendar::sizeHint() const {
@@ -68,15 +60,10 @@ void MoonPhaseCalendar::loadImages() {
     computeMoonImageSize();
     kDebug() << "Loading moon images. MoonImageSize = " << MoonImageSize;
     for( int i = 0; i < 36; ++i ) {
-        QString imName = QString().sprintf("moon%02d.png", i);
-        QFile imFile;
-        if( m_Images[i] )
-            delete m_Images[i];
-        m_Images[i] = NULL;
-        if( KSUtils::openDataFile( imFile, imName ) ) {
-            imFile.close();
-            m_Images[i] = new QPixmap( QPixmap( imFile.fileName() ).scaled( MoonImageSize, MoonImageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
-        }
+        QString imName = QString().sprintf("moon%02d", i);
+        m_Images[i] =
+            QPixmap::fromImage( TextureManager::getImage( imName ) ).
+            scaled( MoonImageSize, MoonImageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
     }
     imagesLoaded = true;
 }
@@ -280,7 +267,12 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
         if( calendar()->isValid( cellDate ) ) {
             int iPhase = computeMoonPhase( KStarsDateTime( cellDate, QTime(0, 0, 0) ) );
             QRect drawRect = cell.toRect();
-            painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2, 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2, *m_Images[ iPhase ] ); // FIXME: Using hard coded fontsize
+            painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2, 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2, m_Images[ iPhase ] ); // FIXME: Using hard coded fon
+// +            painter
+            // painter->drawPixmap( ( drawRect.width() - MoonImageSize )/2,
+                                 // 12 + (( drawRect.height() - 12 ) - MoonImageSize)/2,
+                                 // m_Images[ iPhase ] );
+            // FIXME: Using hard coded fontsize
             //            kDebug() << "Drew moon image " << iPhase;
         }
     }
