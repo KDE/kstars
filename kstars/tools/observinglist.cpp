@@ -1190,14 +1190,10 @@ void ObservingList::slotDeleteAllImages() {
 }
 
 void ObservingList::setSaveImagesButton() {
-    ui->saveImages->setEnabled( false );
-    if( sessionView ) {
-        if( ! sessionList().isEmpty() )
-            ui->saveImages->setEnabled( true );
-    } else {
-        if( ! obsList().isEmpty() )
-            ui->saveImages->setEnabled( true );
-    }
+    ui->saveImages->setEnabled(
+        (sessionView &&  !sessionList().isEmpty())  ||
+                         !obsList().isEmpty()
+        );
 }
 
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
