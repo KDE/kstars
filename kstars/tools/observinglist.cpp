@@ -337,7 +337,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 
     if ( o == LogObject ) saveCurrentUserLog();
     //Remove row from the TableView model
-    bool found(false);
     if ( o->name() == "star" ) {
         //Find object in table by RA and Dec
         for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
@@ -345,7 +344,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             QString dc = currentModel->item(irow, 2)->text();
             if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
                 currentModel->removeRow(irow);
-                found = true;
                 break;
             }
         }
@@ -355,7 +353,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             QString name = currentModel->item(irow, 0)->text();
             if ( o->translatedName() == name ) {
                 currentModel->removeRow(irow);
-                found = true;
                 break;
             }
         }
