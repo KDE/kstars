@@ -988,11 +988,7 @@ void ObservingList::slotChangeTab(int index) {
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
-    if( index ) {
-        sessionView = true;
-    } else {
-        sessionView = false;
-    }
+    sessionView     = index != 0;
     setSaveImagesButton();
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
     ui->OALExport->setEnabled( sessionView );
