@@ -341,7 +341,6 @@ private:
     ObservingListUI *ui;
     QList<SkyObject*> m_ObservingList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
-    uint noNameStars;
     bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
     QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     char decsgn;

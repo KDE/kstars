@@ -90,7 +90,7 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 ObservingList::ObservingList( KStars *_ks )
         : KDialog( (QWidget*)_ks ),
         ks( _ks ), LogObject(0), m_CurrentObject(0),
-        noNameStars(0), isModified(false), bIsLarge(true)
+        isModified(false), bIsLarge(true)
 {
     ui = new ObservingListUI( this );
     setMainWidget( ui );
