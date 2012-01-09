@@ -100,7 +100,6 @@ ObservingList::ObservingList( KStars *_ks )
     setFocusPolicy(Qt::StrongFocus);
     geo = ks->data()->geo();
     sessionView = false;
-    nativeSave = true;
     FileName = "";
     pmenu = new ObsListPopupMenu();
     //Set up the Table Views
@@ -793,11 +792,11 @@ void ObservingList::saveCurrentList() {
     }
 }
 
-void ObservingList::slotSaveSessionAs() {
+void ObservingList::slotSaveSessionAs(bool nativeSave) {
     KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
         FileName = fileURL.path();
-        slotSaveSession();
+        slotSaveSession(nativeSave);
     }
 }
 
@@ -856,9 +855,9 @@ void ObservingList::slotLoadWishList() {
     f.close();
 }
 
-void ObservingList::slotSaveSession() {
+void ObservingList::slotSaveSession(bool nativeSave) {
     if ( FileName.isEmpty() ) {
-        slotSaveSessionAs();
+        slotSaveSessionAs(nativeSave);
         return;
     }
     QFile f( FileName );
@@ -866,7 +865,7 @@ void ObservingList::slotSaveSession() {
         QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
         if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
             FileName.clear();
-            slotSaveSessionAs();
+            slotSaveSessionAs(nativeSave);
         }
     return;
     }
@@ -1285,9 +1284,7 @@ void ObservingList::saveThumbImage() {
 }
 
 void ObservingList::slotOALExport() {
-    nativeSave = false;
-    slotSaveSessionAs();
-    nativeSave = true;
+    slotSaveSessionAs(false);
 }
 
 void ObservingList::slotAddVisibleObj() {

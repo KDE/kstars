@@ -249,11 +249,11 @@ public slots:
 
     /**@short save the current observing session plan to disk, specify filename.
         */
-    void slotSaveSessionAs();
+    void slotSaveSessionAs(bool nativeSave = true);
 
     /**@short save the current session
         */
-    void slotSaveSession();
+    void slotSaveSession(bool nativeSave = true);
 
     /**@short construct a new observing list using the wizard.
         */
@@ -342,7 +342,7 @@ private:
     QList<SkyObject*> m_ObservingList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
     uint noNameStars;
-    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection, nativeSave;
+    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
     QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     char decsgn;
     KStarsDateTime dt;
