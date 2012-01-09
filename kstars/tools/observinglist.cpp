@@ -307,7 +307,7 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
         m_Session->appendRow( itemList );
         //Adding an object should trigger the modified flag
-        if ( ! isModified ) isModified = true;
+        isModified = true;
         ui->SessionView->resizeColumnsToContents();
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to session list.", obj->name() ), 0 );
