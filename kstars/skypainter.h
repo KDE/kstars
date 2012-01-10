@@ -56,9 +56,6 @@ public:
      */
     virtual ~SkyPainter();
     
-    /** @short Get the SkyMap on which the painter operates */
-    SkyMap* skyMap() const;
-
     /** @short Set the pen of the painter **/
     virtual void setPen(const QPen& pen) = 0;
 
