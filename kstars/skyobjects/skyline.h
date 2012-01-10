@@ -40,23 +40,6 @@ public:
     /** Default Constructor (empty). */
     SkyLine();
 
-    /** Constructor.  Create a SkyLine with a single segment.
-     * @param start Reference to the segment's start point.
-     * @param end Reference to the segment's end point.
-     */
-    SkyLine( const SkyPoint &start, const SkyPoint &end );
-
-    /** Constructor.  Create a SkyLine with a single segment.
-     * @param start Pointer to the SkyLine's start point.
-     * @param end Pointer to the SkyLine's end point.
-     */
-    SkyLine( SkyPoint *start, SkyPoint *end );
-
-    /** Constructor.  Create a SkyLine from an existing list of SkyPoints.
-     * @param list the list of SkyPoints.
-     */
-    SkyLine( QList<SkyPoint*> list );
-
     /** Destructor */
     ~SkyLine();
 
@@ -64,11 +47,6 @@ public:
      * @param p the new endpoint to be added
      */
     void append( SkyPoint *p );
-
-    /**Append a segment to the list by adding a new endpoint.
-     * @param p the new endpoint to be added
-     */
-    void append( const SkyPoint &p );
 
     /**@return a const pointer to a point in the SkyLine
      * param i the index position of the point
@@ -91,11 +69,6 @@ public:
      * If no argument is given, the first segment is assumed.
      */
     dms angularSize( int i=0 ) const;
-
-    /**@return the SkyLine segment's position angle on the sky
-     * @param i the index of the line segment to be measured.
-     */
-    dms positionAngle( int i=0 ) const;
 
     void update( KStarsData *data, KSNumbers *num=0 );
 
