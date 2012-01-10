@@ -289,9 +289,6 @@ public:
      */
     bool markRegion( qreal left, qreal right, qreal top, qreal bot );
 
-    bool markRect( qreal x, qreal y, qreal width, qreal height );
-
-
     //----- Diagnostics and Information -----//
 
     /**
@@ -320,14 +317,6 @@ public:
      */
     void printInfo();
 
-    /**
-     * @short these two routines are tied to the "F" and "G" keys in
-     * skymapactions.cpp to allow users/devs to fiddle with the label
-     * density.
-     */
-    void incDensity();
-    void decDensity();
-
     int hits()  { return m_hits; };
     int marks() { return m_marks; }
 
@@ -345,7 +334,6 @@ private:
     int m_elements;
     int m_errors;
 
-    qreal  m_yDensity;
     qreal  m_yScale;
     double m_offset;
 
