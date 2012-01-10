@@ -59,7 +59,6 @@ SkyMesh::SkyMesh( int level) :
         m_drawID(0), m_KSNumbers( 0 )
 {
     errLimit = HTMesh::size() / 4;
-    m_zoomedInPercent = 25;
     m_inDraw = false;
 }
 
@@ -88,12 +87,6 @@ void SkyMesh::aperture(SkyPoint *p0, double radius, MeshBufNum_t bufNum)
     return;
     if ( m_inDraw && bufNum != DRAW_BUF )
         printf("Warining: overlapping buffer: %d\n", bufNum);
-}
-
-bool SkyMesh::isZoomedIn( int percent )
-{
-    if ( ! percent ) percent = m_zoomedInPercent;
-    return ( intersectSize( DRAW_BUF ) * 100 < percent * size() );
 }
 
 Trixel SkyMesh::index(const SkyPoint* p)
