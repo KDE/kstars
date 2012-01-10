@@ -62,12 +62,6 @@ public:
     QString name( int id ) const;
 
     /**
-      *@return pointer to a moon, given its name:
-      *@param name the name of the moon (Io, Europa, Ganymede, Callisto)
-      */
-    TrailObject* moonNamed( const QString &name ) const;
-
-    /**
       *Convert the RA,Dec coordinates of each moon to Az,Alt
       *@param LSTh pointer to the current local sidereal time
       *@param lat pointer to the geographic latitude
