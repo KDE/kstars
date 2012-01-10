@@ -90,14 +90,6 @@ public:
      */
     void set( const dms& r, const dms& d );
 
-    /**Overloaded member function, provided for convenience.
-     * It behaves essentially like the above function.
-     * @param r Right Ascension
-     * @param d Declination
-     * @note This function also sets RA0 and Dec0 to the same values, so call at your own peril!
-     */
-    void set( double r, double d );
-    
     /**Sets RA0, the catalog Right Ascension.
     	*@param r catalog Right Ascension.
     	*/

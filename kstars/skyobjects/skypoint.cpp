@@ -43,15 +43,8 @@ SkyPoint::SkyPoint() {
 }
 
 void SkyPoint::set( const dms& r, const dms& d ) {
-    RA0 = RA = r;
+    RA0  = RA  = r;
     Dec0 = Dec = d;
-}
-
-void SkyPoint::set( double r, double d ) {
-    RA0.setH( r );
-    Dec0.setD( d );
-    RA.setH( r );
-    Dec.setD( d );
 }
 
 SkyPoint::~SkyPoint(){
