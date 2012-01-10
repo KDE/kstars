@@ -504,28 +504,6 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
     return KGlobal::locale()->formatNumber( mag(), 1 );
 }
 
-QString StarObject::customLabel( bool drawName, bool drawMag )
-{
-    QString sName;
-    if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
-        sName = translatedName();
-    else if ( ! gname().trimmed().isEmpty() )
-        sName = gname( true );
-    else
-        sName = i18n("star");
-
-    if ( drawMag  && drawName ) {
-        if ( sName == i18n("star") )
-            return KGlobal::locale()->formatNumber( mag(), 1 ) + ", " + sName;
-        else
-            return sName + ' ' + KGlobal::locale()->formatNumber( mag(), 1 );
-    }
-    else if ( drawMag && ! drawName )
-        return KGlobal::locale()->formatNumber( mag(), 1 ) + ", " + sName;
-
-    return sName;
-}
-
 //If this works, we can maybe get rid of customLabel() and nameLabel()??
 QString StarObject::labelString() const {
     return nameLabel( Options::showStarNames(), Options::showStarMagnitudes() );

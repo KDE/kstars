@@ -238,11 +238,6 @@ public:
      */
     QString nameLabel( bool drawName, bool drawMag ) const;
 
-    /* @short does the same as above except when only the magnitude is selected
-     * in which case it returns "$mag, name".  This prevents label overlap.
-     */
-    QString customLabel( bool drawName, bool drawMag );
-
     virtual QString labelString() const;
 
     /**
