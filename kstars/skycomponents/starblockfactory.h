@@ -107,13 +107,6 @@ class StarBlockFactory {
     StarBlockFactory();
 
     /**
-     * Constructor
-     *@short Creates a cache containing N blocks
-     *@param nblocks  Number of blocks to allocate
-     */
-    StarBlockFactory( int nblocks );
-
-    /**
      *@short  Deletes the N least recently used blocks
      *
      *@param  nblocks  Number of blocks to delete

@@ -40,15 +40,6 @@ StarBlockFactory::StarBlockFactory() {
     nCache = DEFAULT_NCACHE;
 }
 
-
-StarBlockFactory::StarBlockFactory( int nblocks ) {
-    first = NULL;
-    last = NULL;
-    nBlocks = 0;
-    drawID = 0;
-    nCache = nblocks;
-}
-
 StarBlockFactory::~StarBlockFactory() {
     deleteBlocks( nBlocks );
     if( pInstance )
