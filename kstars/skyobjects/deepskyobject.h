@@ -65,28 +65,6 @@ public:
                             float a=0.0, float b=0.0, double pa=0.0,
                             int pgc=0, int ugc=0 );
 
-    /**
-      *Constructor.  Create DeepSkyObject with data according to arguments.  
-    	*Differs from above function only in data type of RA and Dec.
-    	*@param t Type of object
-    	*@param r catalog Right Ascension
-    	*@param d catalog Declination
-    	*@param m magnitude (brightness)
-    	*@param n Primary name
-    	*@param n2 Secondary name
-    	*@param lname Long name (common name)
-    	*@param cat catalog ID
-    	*@param a major axis (arcminutes)
-    	*@param b minor axis (arcminutes)
-    	*@param pa position angle (degrees)
-    	*@param pgc PGC catalog number
-    	*@param ugc UGC catalog number
-    	*/
-    DeepSkyObject( int t, double r, double d, float m=0.0,
-                   const QString &n="unnamed", const QString &n2=QString(),
-                   const QString &lname=QString(), const QString &cat=QString(),
-                   float a=0.0, float b=0.0, double pa=0.0, int pgc=0, int ugc=0 );
-
     /** @short Copy constructor.
      *  @param o SkyObject from which to copy data
      */
