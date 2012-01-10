@@ -265,18 +265,6 @@ void DeepSkyComponent::mergeSplitFiles() {
     }
 }
 
-void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex )
-{
-    MeshIterator region( m_skyMesh );
-    while ( region.hasNext() ) {
-        Trixel trixel = region.next();
-        if ( ! dsIndex->contains( trixel ) ) {
-            dsIndex->insert(trixel, new DeepSkyList() );
-        }
-        dsIndex->value( trixel )->append( o );
-    }
-}
-
 void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Trixel trixel )
 {
     if ( ! dsIndex->contains( trixel ) ) {
@@ -327,8 +315,6 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
 
     skyp->setPen( data->colorScheme()->colorNamed( colorString ) );
     skyp->setBrush( Qt::NoBrush );
-    QColor color        = data->colorScheme()->colorNamed( colorString );
-    QColor colorExtra = data->colorScheme()->colorNamed( "HSTColor" );
 
     m_hideLabels =  ( map->isSlewing() && Options::hideOnSlew() ) ||
                     ! ( Options::showDeepSkyMagnitudes() || Options::showDeepSkyNames() );
