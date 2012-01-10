@@ -268,11 +268,3 @@ QString ConstellationBoundaryLines::constellationName( SkyPoint *p )
     }
     return i18n("Unknown");
 }
-
-const QPolygonF* ConstellationBoundaryLines::constellationPoly( SkyPoint *p )
-{
-    PolyList *polyList = ContainingPoly( p );
-    if ( polyList )
-        return polyList->poly();
-    return 0;
-}
