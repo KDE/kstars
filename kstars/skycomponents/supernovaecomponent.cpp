@@ -67,7 +67,6 @@ void SupernovaeComponent::loadData()
     if( !fileReader.open("supernovae.dat")) return;
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
-    int lineNum=0;
 
     while (fileReader.hasMoreLines())
     {
@@ -164,25 +163,17 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
     if ( ! selected() )
         return;
 
-    SkyMap *map             = SkyMap::Instance();
+    SkyMap *map         = SkyMap::Instance();
+    double maglim       = zoomMagnitudeLimit();
 
-    bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-
-    double maglim = zoomMagnitudeLimit();
-
-    foreach ( SkyObject *so, m_ObjectList )
-    {
+    foreach ( SkyObject *so, m_ObjectList ) {
         Supernova *sup = (Supernova*) so;
-
         float mag = sup->mag();
-
         //Do not draw if mag>maglim
-        if ( mag > maglim )
-        {
+        if ( mag > maglim ) {
             continue;
         }
-
-        bool drawn = skyp->drawSupernova(sup);
+        skyp->drawSupernova(sup);
     }
 }
 
@@ -192,11 +183,9 @@ void SupernovaeComponent::updateDataFile()
     QString filename= KStandardDirs::locate("appdata","scripts/supernova_updates_parser.py") ;
     kDebug()<<filename;
     int execstatus=parser->execute("python",QStringList(filename));
-    if ( execstatus!=0 )
-    {
+    if ( execstatus!=0 ) {
         QString errmsg;
-        switch (execstatus)
-        {
+        switch (execstatus) {
             case -2:
                 errmsg = "Could not run python to update supernova information";
                 break;
