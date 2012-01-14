@@ -56,20 +56,6 @@ public:
      *Creates a date/time at the specified Julian Day.
      *@p jd The Julian Day
      */
-    KStarsDateTime( long int jd );
-
-    /**
-     *@short Constructor  
-     *Creates a date/time at the specified Julian Day.
-     *@p jd The Julian Day
-     */
-    KStarsDateTime( double djd );
-
-    /**
-     *@short Constructor  
-     *Creates a date/time at the specified Julian Day.
-     *@p jd The Julian Day
-     */
     KStarsDateTime( long double djd );
 
     /**
