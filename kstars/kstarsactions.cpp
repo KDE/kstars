@@ -16,6 +16,11 @@
  ***************************************************************************/
 
 //needed in slotRunScript() for chmod() syscall (remote script downloaded to temp file)
+
+#ifdef _WIN32
+#include <windows.h>
+#undef interface
+#endif
 #include <sys/stat.h>
 
 #include <QCheckBox>

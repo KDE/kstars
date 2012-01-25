@@ -14,6 +14,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "texturemanager.h"
 #include "skymapcomposite.h"
 #include "skyglpainter.h"
