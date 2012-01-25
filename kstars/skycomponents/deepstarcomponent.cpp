@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include "deepstarcomponent.h"
 
 #include <QPixmap>
