@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>411</width>
-    <height>324</height>
+    <height>344</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="_2">
@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -86,6 +86,9 @@
            </item>
            <item row="5" column="1">
             <widget class="KComboBox" name="Type">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
              <item>
               <property name="text">
                <string>Refractor</string>
@@ -128,9 +131,18 @@
            <item row="6" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
-              <widget class="KDoubleNumInput" name="Aperture" native="true">
+              <widget class="KDoubleNumInput" name="Aperture">
                <property name="focusPolicy">
-                <enum>Qt::TabFocus</enum>
+                <enum>Qt::ClickFocus</enum>
+               </property>
+               <property name="label">
+                <string/>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="sliderEnabled">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -153,9 +165,9 @@
            <item row="7" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <item>
-              <widget class="KDoubleNumInput" name="FocalLength" native="true">
+              <widget class="KDoubleNumInput" name="FocalLength">
                <property name="focusPolicy">
-                <enum>Qt::TabFocus</enum>
+                <enum>Qt::ClickFocus</enum>
                </property>
               </widget>
              </item>
@@ -177,6 +189,9 @@
            </item>
            <item row="4" column="1">
             <widget class="QComboBox" name="driverComboBox">
+             <property name="focusPolicy">
+              <enum>Qt::TabFocus</enum>
+             </property>
              <item>
               <property name="text">
                <string>None</string>
@@ -273,7 +288,7 @@
            <item row="4" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <item>
-              <widget class="KDoubleNumInput" name="e_focalLength" native="true">
+              <widget class="KDoubleNumInput" name="e_focalLength">
                <property name="focusPolicy">
                 <enum>Qt::TabFocus</enum>
                </property>
@@ -317,7 +332,7 @@
             </widget>
            </item>
            <item>
-            <widget class="KDoubleNumInput" name="Fov" native="true">
+            <widget class="KDoubleNumInput" name="Fov">
              <property name="focusPolicy">
               <enum>Qt::TabFocus</enum>
              </property>
@@ -467,7 +482,7 @@
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="KDoubleNumInput" name="l_Factor" native="true">
+            <widget class="KDoubleNumInput" name="l_Factor">
              <property name="focusPolicy">
               <enum>Qt::TabFocus</enum>
              </property>
@@ -649,9 +664,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
@@ -659,9 +674,10 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KDoubleNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>KListWidget</class>
@@ -681,13 +697,13 @@
   <tabstop>NewScope</tabstop>
   <tabstop>AddScope</tabstop>
   <tabstop>RemoveScope</tabstop>
-  <tabstop>EyepieceList</tabstop>
   <tabstop>e_Vendor</tabstop>
-  <tabstop>e_Model</tabstop>
+  <tabstop>EyepieceList</tabstop>
   <tabstop>e_focalLength</tabstop>
   <tabstop>Fov</tabstop>
   <tabstop>FovUnit</tabstop>
   <tabstop>NewEyepiece</tabstop>
+  <tabstop>e_Model</tabstop>
   <tabstop>AddEyepiece</tabstop>
   <tabstop>RemoveEyepiece</tabstop>
   <tabstop>LensList</tabstop>

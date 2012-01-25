@@ -72,6 +72,7 @@
 		<Action name="lightcurvegenerator" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
+                <Action name="ekos" />
 		<Action name="glossary" />
 		<Action name="scriptbuilder" />
 		<Action name="solarsystem" />

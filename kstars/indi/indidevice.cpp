@@ -85,12 +85,13 @@ const char * indi_std[NINDI_STD] =
 ** INDI Device: The work-horse. Responsible for handling its
 ** child properties and managing signal and changes.
 *******************************************************************/
-INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QString &inName, const QString &inLabel) : KDialog( 0 )
+INDI_D::INDI_D(INDIMenu *menuParent, DeviceManager *InParentManager, const QString &inName, const QString &inLabel, IDevice *dv) : KDialog( 0 )
   {
     name      		= inName;
     label     		= inLabel;
     parent		= menuParent;
     deviceManager 	= InParentManager;
+    deviceDriver        = dv;
   
     deviceVBox     	= new QSplitter();
     deviceVBox->setOrientation(Qt::Vertical);
@@ -130,9 +131,12 @@ void INDI_D::registerProperty(INDI_P *pp)
 {
 
     if (isINDIStd(pp))
+    {
         pp->pg->dp->INDIStdSupport = true;
+        stdDev->registerProperty(pp);
+    }
 
-    stdDev->registerProperty(pp);
+    newProperty(pp);
 
 }
 
@@ -289,12 +293,14 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
         //fprintf(stderr, "tag okay, getting perm\n");
         switch (pp->perm)
         {
-        case PP_RW:	// FALLTHRU
-        case PP_RO:
+        case IP_RW:	// FALLTHRU
+        case IP_RO:
             if (pp->guitype == PG_TEXT)
             {
                 lp->text = QString(pcdataXMLEle(ep));
                 lp->read_w->setText(lp->text);
+
+                newText(lp->name, lp->text);
             }
             else if (pp->guitype == PG_NUMERIC)
             {
@@ -315,24 +321,14 @@ int INDI_D::setTextValue (INDI_P *pp, XMLEle *root, QString & errmsg)
                 lp->spinChanged(lp->value);
                 }*/
 
+                newNumber(lp->name, lp->value);
+
             }
             break;
 
-        case PP_WO:
-            // FIXME for WO properties, only min/max needs to be updated
-            /* if (pp->guitype == PG_TEXT)
-               lp->write_w->setText(QString(pcdataXMLEle(ep)));
-             else*/ if (pp->guitype == PG_NUMERIC)
+        case IP_WO:
+            if (pp->guitype == PG_NUMERIC)
             {
-                /*lp->value = atof(pcdataXMLEle(ep));
-                numberFormat(iNumber, lp->format.toAscii(), lp->value);
-                lp->text = iNumber;
-
-                if (lp->spin_w)
-                         lp->spin_w->setValue(lp->value);
-                else
-                   lp->write_w->setText(lp->text);*/
-
                 ap = findXMLAtt (ep, "min");
                 if (ap) { min = (int) atof(valuXMLAtt(ap)); lp->setMin(min); }
                 ap = findXMLAtt (ep, "max");
@@ -366,7 +362,8 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
     XMLAtt *ap;
     INDI_E *lp = NULL;
     int islight;
-    PState state;
+    IPState light_state;
+    ISState switch_state;
 
     /* for each child element */
     for (ep = nextXMLEle (root, 1), i=0; ep != NULL; ep = nextXMLEle (root, 0), i++)
@@ -385,8 +382,8 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
             return (-1);
         }
 
-        if ((islight && crackLightState (pcdataXMLEle(ep), &state) < 0)
-                || (!islight && crackSwitchState (pcdataXMLEle(ep), &state) < 0))
+        if ((islight && crackLightState (pcdataXMLEle(ep), &light_state) < 0)
+                || (!islight && crackSwitchState (pcdataXMLEle(ep), &switch_state) < 0))
         {
             errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(pcdataXMLEle(ep)).arg(name).arg(pp->name).arg(tagXMLEle(ep));
             return (-1);
@@ -404,7 +401,10 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
 
         QFont buttonFont;
         /* engage new state */
-        lp->state = state;
+        if (islight)
+            lp->light_state = light_state;
+        else
+            lp->switch_state = switch_state;
 
         switch (pp->guitype)
         {
@@ -412,18 +412,22 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
             if (islight)
                 break;
 
-            lp->push_w->setDown(state == PS_ON ? true : false);
+            lp->push_w->setDown(switch_state == ISS_ON ? true : false);
             buttonFont = lp->push_w->font();
-            buttonFont.setBold(state == PS_ON ? true : false);
+            buttonFont.setBold(switch_state == ISS_ON ? true : false);
             lp->push_w->setFont(buttonFont);
+
+            newSwitch(lp->name, switch_state);
 
             break;
 
         case PG_RADIO:
-            lp->check_w->setChecked(state == PS_ON ? true : false);
+            lp->check_w->setChecked(switch_state == ISS_ON ? true : false);
+            newSwitch(lp->name, switch_state);
             break;
+
         case PG_MENU:
-            if (state == PS_ON)
+            if (switch_state == ISS_ON)
             {
                 if (menuChoice)
                 {
@@ -433,10 +437,12 @@ int INDI_D::setLabelState (INDI_P *pp, XMLEle *root, QString & errmsg)
                 menuChoice = 1;
                 pp->om_w->setCurrentIndex(i);
             }
+            newSwitch(lp->name, switch_state);
             break;
 
         case PG_LIGHTS:
             lp->drawLt();
+            newLight(lp->name, light_state);
             break;
 
         default:
@@ -579,16 +585,18 @@ int INDI_D::processBlob(INDI_E *blobEL, XMLEle *ep, QString & errmsg)
         memcpy(dataBuffer, blobBuffer, dataSize);
     }
 
-    if (dataType == ASCII_DATA_STREAM && blobEL->pp->state != PS_BUSY)
+    if (dataType == ASCII_DATA_STREAM && blobEL->pp->state != IPS_BUSY)
     {
         stdDev->asciiFileDirty = true;
 
-        if (blobEL->pp->state == PS_IDLE)
+        if (blobEL->pp->state == IPS_IDLE)
         {
             free (blobBuffer);
             return(0);
         }
     }
+
+    newBLOB(blobEL->name, dataBuffer, dataSize, dataFormat, dataType);
 
     stdDev->handleBLOB(dataBuffer, dataSize, dataFormat, dataType);
 
@@ -721,7 +729,7 @@ INDI_G *  INDI_D::findGroup (const QString &grouptag,
  * return 0 if ok else -1 with excuse in errmsg[]
  */
 
-int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, QString & errmsg)
+int INDI_D::findPerm (INDI_P *pp, XMLEle *root, IPerm *permp, QString & errmsg)
 {
     XMLAtt *ap;
 
@@ -732,11 +740,11 @@ int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, QString & errmsg)
         return (-1);
     }
     if (!strcmp(valuXMLAtt(ap), "ro") || !strcmp(valuXMLAtt(ap), "r"))
-        *permp = PP_RO;
+        *permp = IP_RO;
     else if (!strcmp(valuXMLAtt(ap), "wo"))
-        *permp = PP_WO;
+        *permp = IP_WO;
     else if (!strcmp(valuXMLAtt(ap), "rw") || !strcmp(valuXMLAtt(ap), "w"))
-        *permp = PP_RW;
+        *permp = IP_RW;
     else {
         errmsg = QString("INDI: <%1> unknown perm %2 for %3 %4").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pp->pg->dp->name).arg(pp->name);
         return (-1);
@@ -748,20 +756,20 @@ int INDI_D::findPerm (INDI_P *pp, XMLEle *root, PPerm *permp, QString & errmsg)
 /* convert the given light/property state string to the PState at psp.
  * return 0 if successful, else -1 and leave *psp unchanged.
  */
-int INDI_D::crackLightState (char *name, PState *psp)
+int INDI_D::crackLightState (char *name, IPState *psp)
 {
     typedef struct
     {
-        PState s;
+        IPState s;
         const char *name;
     } PSMap;
 
     PSMap psmap[] =
         {
-            {PS_IDLE,  "Idle"},
-            {PS_OK,    "Ok"},
-            {PS_BUSY,  "Busy"},
-            {PS_ALERT, "Alert"},
+            {IPS_IDLE,  "Idle"},
+            {IPS_OK,    "Ok"},
+            {IPS_BUSY,  "Busy"},
+            {IPS_ALERT, "Alert"},
         };
 
     for (int i = 0; i < 4; i++)
@@ -776,18 +784,18 @@ int INDI_D::crackLightState (char *name, PState *psp)
 /* convert the given switch state string to the PState at psp.
  * return 0 if successful, else -1 and leave *psp unchanged.
  */
-int INDI_D::crackSwitchState (char *name, PState *psp)
+int INDI_D::crackSwitchState (char *name, ISState *psp)
 {
     typedef struct
     {
-        PState s;
+        ISState s;
         const char *name;
     } PSMap;
 
     PSMap psmap[] =
         {
-            {PS_ON,  "On"},
-            {PS_OFF, "Off"},
+            {ISS_ON,  "On"},
+            {ISS_OFF, "Off"},
         };
 
 
@@ -805,7 +813,7 @@ int INDI_D::buildTextGUI(XMLEle *root, QString & errmsg)
 {
     INDI_P *pp = NULL;
     int err_code=0;
-    PPerm p;
+    IPerm p;
     bool isGroupVisible=false;
 
     /* build a new property */
@@ -852,7 +860,7 @@ int INDI_D::buildNumberGUI (XMLEle *root, QString & errmsg)
 {
     INDI_P *pp = NULL;
     int err_code=0;
-    PPerm p;
+    IPerm p;
     bool isGroupVisible=false;
 
     /* build a new property */
@@ -1040,7 +1048,7 @@ int INDI_D::buildBLOBGUI  (XMLEle *root, QString & errmsg)
 {
     INDI_P *pp;
     int err_code=0;
-    PPerm p;
+    IPerm p;
     bool isGroupVisible=false;
 
     // build a new property

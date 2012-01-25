@@ -36,15 +36,15 @@
 imagesequence::imagesequence(QWidget* parent): QDialog(parent)
 {
     ksw = (KStars *) parent;
-    INDIMenu *devMenu = ksw->indiMenu();
+    //INDIMenu *devMenu = ksw->indiMenu();
 
     setupUi(this);
 
-    if (devMenu)
+    /*if (devMenu)
     {
         connect (devMenu, SIGNAL(newDevice()), this, SLOT(newCCD()));
         connect (devMenu, SIGNAL(newDevice()), this, SLOT(newFilter()));
-    }
+    }*/
 
     seqTimer = new QTimer(this);
 
@@ -113,7 +113,7 @@ bool imagesequence::setupCCDs()
     {
         for (int j=0; j < devMenu->managers.at(i)->indi_dev.size(); j++)
         {
-            imgProp = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CCD_EXPOSURE");
+            imgProp = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CCD_EXPOSURE_REQUEST");
             if (!imgProp)
                 continue;
 
@@ -147,17 +147,17 @@ bool imagesequence::setupCCDs()
         INDI_P *exposeProp;
         INDI_E *exposeElem;
 
-        exposeProp = stdDevCCD->dp->findProp("CCD_EXPOSURE");
+        exposeProp = stdDevCCD->dp->findProp("CCD_EXPOSURE_REQUEST");
         if (!exposeProp)
         {
-            KMessageBox::error(this, i18n("Device does not support CCD_EXPOSURE property."));
+            KMessageBox::error(this, i18n("Device does not support CCD_EXPOSURE_REQUEST property."));
             return false;
         }
 
         exposeElem = exposeProp->findElement("CCD_EXPOSURE_VALUE");
         if (!exposeElem)
         {
-            KMessageBox::error(this, i18n("CCD_EXPOSURE property is missing CCD_EXPOSURE_VALUE element."));
+            KMessageBox::error(this, i18n("CCD_EXPOSURE_REQUEST property is missing CCD_EXPOSURE_VALUE element."));
             return false;
         }
 
@@ -393,17 +393,17 @@ bool imagesequence::verifyCCDIntegrity()
     }
 
     stdDevCCD = idevice->stdDev;
-    exposeProp = stdDevCCD->dp->findProp("CCD_EXPOSURE");
+    exposeProp = stdDevCCD->dp->findProp("CCD_EXPOSURE_REQUEST");
     if (!exposeProp)
     {
-        KMessageBox::error(this, i18n("Device does not support CCD_EXPOSURE property."));
+        KMessageBox::error(this, i18n("Device does not support CCD_EXPOSURE_REQUEST property."));
         return false;
     }
 
     exposeElem = exposeProp->findElement("CCD_EXPOSURE_VALUE");
     if (!exposeElem)
     {
-        KMessageBox::error(this, i18n("CCD_EXPOSURE property is missing CCD_EXPOSURE_VALUE element."));
+        KMessageBox::error(this, i18n("CCD_EXPOSURE_REQUEST property is missing CCD_EXPOSURE_VALUE element."));
         return false;
     }
 
@@ -533,7 +533,7 @@ void imagesequence::captureImage()
     seqTimer->stop();
 
     // Make sure it's not busy, if it is then schedual.
-    if (exposeProp->state == PS_BUSY)
+    if (exposeProp->state == IPS_BUSY)
     {
         retries++;
 
@@ -550,7 +550,7 @@ void imagesequence::captureImage()
     }
 
     // Set duration if applicable. We check the property permission, min, and max values
-    if (exposeProp->perm == PP_RW || exposeProp->perm == PP_WO)
+    if (exposeProp->perm == IP_RW || exposeProp->perm == IP_WO)
     {
         if (seqExpose < exposeElem->min || seqExpose > exposeElem->max)
         {
@@ -646,7 +646,7 @@ void imagesequence::selectFilter()
         return;
     }
 
-    if (filterProp && (filterProp->perm == PP_RW || filterProp->perm == PP_WO))
+    if (filterProp && (filterProp->perm == IP_RW || filterProp->perm == IP_WO))
     {
         filterElem->targetValue = filterPosCombo->currentIndex();
         if (filterElem->spin_w)

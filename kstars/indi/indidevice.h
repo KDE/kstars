@@ -28,6 +28,7 @@ class INDI_G;
 class INDI_E;
 class INDIMenu;
 class INDIStdDevice;
+class IDevice;
 
 
 class QLabel;
@@ -54,13 +55,14 @@ class QSplitter;
                                           Device Manager  INDI Menu
 **************************************************************************/
 
+#include <indiapi.h>
 
 /* INDI device */
 class INDI_D : public KDialog
 {
     Q_OBJECT
 public:
-    INDI_D(INDIMenu *parentMenu, DeviceManager *InParentManager, const QString &inName, const QString &inLabel);
+    INDI_D(INDIMenu *parentMenu, DeviceManager *InParentManager, const QString &inName, const QString &inLabel, IDevice *dv);
     ~INDI_D();
 
     QString 	name;			/* device name */
@@ -80,6 +82,7 @@ public:
 
     INDIMenu      *parent;
     DeviceManager *deviceManager;
+    IDevice       *deviceDriver;
 
     enum DTypes { DATA_FITS, ASCII_DATA_STREAM, VIDEO_STREAM, DATA_OTHER, DATA_CCDPREVIEW };
 
@@ -104,7 +107,7 @@ public:
     INDI_P *   findProp    (const QString &name);
     INDI_E *   findElem    (const QString &name);
     INDI_G *   findGroup   (const QString &grouptag, int create, QString & errmsg);
-    int        findPerm    (INDI_P *pp  , XMLEle *root, PPerm *permp, QString & errmsg);
+    int        findPerm    (INDI_P *pp  , XMLEle *root, IPerm *permp, QString & errmsg);
 
     /*****************************************************************
     * Set/New
@@ -125,8 +128,8 @@ public:
     /*****************************************************************
     * Crack
     ******************************************************************/
-    int crackLightState  (char *name, PState *psp);
-    int crackSwitchState (char *name, PState *psp);
+    int crackLightState  (char *name, IPState *psp);
+    int crackSwitchState (char *name, ISState *psp);
 
     /*****************************************************************
     * Data processing
@@ -142,6 +145,14 @@ public:
 
 public slots:
     void engageTracking();
+
+signals:
+    void newSwitch(const QString &sw, ISState value);
+    void newNumber(const QString &nm, double value);
+    void newText(const QString &tx, QString value);
+    void newLight(const QString &lg, IPState value);
+    void newBLOB(const QString &bb, unsigned char *buffer, int bufferSize, const QString &dataFormat, INDI_D::DTypes dataType);
+    void newProperty(INDI_P *p);
 
 };
 

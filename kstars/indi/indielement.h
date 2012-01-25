@@ -13,7 +13,7 @@
 #define INDIELEMENT_H_
 
 #include <lilxml.h>
-
+#include <indiapi.h>
 
 #include <kdialog.h>
 #include <unistd.h>
@@ -40,13 +40,6 @@
 // Pulse tracking
 #define INDI_PULSE_TRACKING   15000
 
-/* decoded elements.
- * lights use PState, TB's use the alternate binary names.
- */
-typedef enum {PS_IDLE = 0, PS_OK, PS_BUSY, PS_ALERT, PS_N} PState;
-#define	PS_OFF	PS_IDLE		/* alternate name */
-#define	PS_ON	PS_OK		/* alternate name */
-typedef enum {PP_RW = 0, PP_WO, PP_RO} PPerm;
 typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
               PG_RADIO, PG_MENU, PG_LIGHTS, PG_BLOB} PGui;
 
@@ -97,7 +90,8 @@ public:
     ~INDI_E();
     QString name;			/* name */
     QString label;			/* label is the name by default, unless specified */
-    PState state;			/* control on/off t/f etc */
+    IPState light_state;		/* control light state */
+    ISState switch_state;		/* control switch state */
     INDI_P *pp;				/* parent property */
 
     QHBoxLayout    *EHBox;   		/* Horizontal layout */

@@ -495,7 +495,7 @@ void KSPopupMenu::addINDI()
                         if (prop->stdID == ON_COORD_SET)
                             continue;
 
-                        a->setChecked( element->state == PS_ON );
+                        a->setChecked( element->switch_state == ISS_ON );
                     }
                 } // end property
             } // end group

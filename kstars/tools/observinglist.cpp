@@ -603,7 +603,7 @@ void ObservingList::slotSlewToObject()
             ConnectEle = indidev->findElem("CONNECT");
             if (!ConnectEle) continue;
 
-            if (ConnectEle->state == PS_OFF)
+            if (ConnectEle->switch_state == ISS_OFF)
             {
                 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", indidev->label));
                 return;

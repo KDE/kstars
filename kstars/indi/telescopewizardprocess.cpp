@@ -78,7 +78,7 @@ telescopeWizardProcess::telescopeWizardProcess( QWidget* parent, const char* /*n
 
 
     foreach (IDevice *device, indidriver->devices)
-    if (device->deviceType == KSTARS_TELESCOPE)
+    if (device->type == KSTARS_TELESCOPE)
         ui->telescopeCombo->addItem(device->tree_label);
 
     //if ( !Options::telescopePort().isEmpty())

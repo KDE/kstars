@@ -47,9 +47,9 @@ public:
     INDI_G	*pg;			/* parent group */
     INDIStdProperty *indistd;		/* Associated std routines class */
     double	timeout;		/* timeout, seconds */
-    PState	state;			/* state light code */
+    IPState	state;			/* state light code */
     KLed	*light;			/* state LED */
-    PPerm       perm;		        /* permissions wrt client */
+    IPerm       perm;		        /* permissions wrt client */
     PGui        guitype;		/* type of GUI, if any */
     QCheckBox    *enableBLOBC;
 
@@ -69,7 +69,7 @@ public:
     QList<INDI_E*> el;		/* list of elements */
 
     /* Draw state LED */
-    void drawLt(PState lstate);
+    void drawLt(IPState lstate);
 
     /* First step in adding a new GUI element */
     void addGUI(XMLEle *root);

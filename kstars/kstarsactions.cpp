@@ -97,6 +97,9 @@
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
+#ifdef HAVE_INDI_H
+#include "ekos/ekos.h"
+#endif
 #endif
 
 #ifdef HAVE_XPLANET
@@ -340,6 +343,16 @@ void KStars::slotINDIDriver()
     if (indidriver == NULL)
         indidriver = new INDIDriver(this);
     indidriver->show();
+#endif
+}
+
+void KStars::slotEkos()
+{
+#ifdef HAVE_INDI_H
+    if (ekosmenu == NULL)
+        ekosmenu = new Ekos(this);
+
+    ekosmenu->show();
 #endif
 }
 

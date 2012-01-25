@@ -201,7 +201,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             // make sure the dev is on first
             if (devMenu->managers.at(i)->indi_dev.at(j)->isOn()) {
                 portConnect = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CONNECTION");
-                if( !portConnect || portConnect->state == PS_BUSY )
+                if( !portConnect || portConnect->state == IPS_BUSY )
                     return;
 
                 eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
@@ -342,7 +342,7 @@ void SkyMapDrawAbstract::exportSkyImage(SkyQPainter *painter, bool scale)
 void SkyMapDrawAbstract::calculateFPS()
 {
     if(m_framecount == 25) {
-        float sec = m_fpstime.elapsed()/1000.;
+        //float sec = m_fpstime.elapsed()/1000.;
         // kDebug() << "FPS " << m_framecount/sec;
         m_framecount = 0;
         m_fpstime.restart();

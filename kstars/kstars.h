@@ -64,6 +64,7 @@ class OpsSatellites;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
+class Ekos;
 #ifdef HAVE_XPLANET
 class OpsXplanet;
 #endif
@@ -533,6 +534,9 @@ private slots:
     /** action slot: open INDI control panel */
     void slotINDIPanel();
 
+    /** action slot: open Ekos panel */
+    void slotEkos();
+
     /** action slot: open dialog for setting the view options */
     void slotViewOps();
 
@@ -659,6 +663,7 @@ private:
     INDIMenu *indimenu;
     INDIDriver *indidriver;
     imagesequence *indiseq;  /* We need imgsequence here because it runs in batch mode */
+    Ekos *ekosmenu;
 
     QActionGroup *projectionGroup, *cschemeGroup;
 

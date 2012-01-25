@@ -56,7 +56,7 @@ public:
 
     QString tree_label;
     QString unique_label;
-    QString driver_class;
+    QString name;
     QString driver;
     QString version;
     QString id;
@@ -65,7 +65,7 @@ public:
     XMLSource xmlSource;
 
     DeviceManager *deviceManager;
-    int deviceType;
+    int type;
   
       /* Telescope specific attributes */
       double focal_length;

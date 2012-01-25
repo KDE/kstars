@@ -43,6 +43,19 @@ if (INDI_FOUND)
     indi/streamform.ui
     indi/telescopewizard.ui
     )
+
+   set(ekosui_SRCS
+      ekos/ekos.ui
+   )
+
+   set(ekos_SRCS
+      ekos/ekos.cpp
+      ekos/genericdevice.cpp
+      ekos/telescope.cpp
+      ekos/ccd.cpp
+      ekos/filter.cpp
+      ekos/focuser.cpp
+   )
   
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
@@ -385,7 +398,7 @@ set(printingui_SRCS
     printing/pwizwelcome.ui
 )
 
-set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
+set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
@@ -401,7 +414,7 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
 kde4_add_ui_files(kstars_SRCS
-       ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+       ${indiui_SRCS} ${ekosui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
        ${printingui_SRCS}
          thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui
 )

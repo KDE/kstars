@@ -378,6 +378,13 @@ void KStars::initActions() {
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
         << i18n("Sky Calendar...");
 
+#ifdef HAVE_INDI_H
+#ifndef Q_WS_WIN
+    actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
+        << i18n("Ekos...");
+#endif
+#endif
+
 //FIXME: implement glossary
 //     ka = actionCollection()->addAction("glossary");
 //     ka->setText( i18n("Glossary...") );
@@ -426,6 +433,8 @@ void KStars::initActions() {
     ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
         << i18n("INDI Control Panel...");
     ka->setEnabled(false);
+
+
 
 #endif
 #endif

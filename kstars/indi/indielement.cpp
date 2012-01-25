@@ -140,17 +140,17 @@ int INDI_E::buildTextGUI(const QString &initText)
 
     switch (pp->perm)
     {
-    case PP_RW:
+    case IP_RW:
         setupElementRead(ELEMENT_READ_WIDTH);
         setupElementWrite(ELEMENT_WRITE_WIDTH);
 
         break;
 
-    case PP_RO:
+    case IP_RO:
         setupElementRead(ELEMENT_FULL_WIDTH);
         break;
 
-    case PP_WO:
+    case IP_WO:
         setupElementWrite(ELEMENT_FULL_WIDTH);
         break;
     }
@@ -169,18 +169,18 @@ int INDI_E::buildBLOBGUI()
 
     switch (pp->perm)
     {
-    case PP_RW:
+    case IP_RW:
         setupElementRead(ELEMENT_READ_WIDTH);
         setupElementWrite(ELEMENT_WRITE_WIDTH);
         setupBrowseButton();
 
         break;
 
-    case PP_RO:
+    case IP_RO:
         setupElementRead(ELEMENT_FULL_WIDTH);
         break;
 
-    case PP_WO:
+    case IP_WO:
         setupElementWrite(ELEMENT_FULL_WIDTH);
         setupBrowseButton();
         break;
@@ -207,7 +207,7 @@ int INDI_E::buildNumberGUI  (double initValue)
 
     switch (pp->perm)
     {
-    case PP_RW:
+    case IP_RW:
         setupElementRead(ELEMENT_READ_WIDTH);
         if (scale)
             setupElementScale(ELEMENT_WRITE_WIDTH);
@@ -217,12 +217,12 @@ int INDI_E::buildNumberGUI  (double initValue)
         pp->PVBox->addLayout(EHBox);
         break;
 
-    case PP_RO:
+    case IP_RO:
         setupElementRead(ELEMENT_READ_WIDTH);
         pp->PVBox->addLayout(EHBox);
         break;
 
-    case PP_WO:
+    case IP_WO:
         if (scale)
             setupElementScale(ELEMENT_FULL_WIDTH);
         else
@@ -257,21 +257,21 @@ int INDI_E::buildLightGUI()
 void INDI_E::drawLt()
 {
     /* set state light */
-    switch (state)
+    switch (light_state)
     {
-    case PS_IDLE:
+    case IPS_IDLE:
         led_w->setColor(Qt::gray);
         break;
 
-    case PS_OK:
+    case IPS_OK:
         led_w->setColor(Qt::green);
         break;
 
-    case PS_BUSY:
+    case IPS_BUSY:
         led_w->setColor(Qt::yellow);
         break;
 
-    case PS_ALERT:
+    case IPS_ALERT:
         led_w->setColor(Qt::red);
         break;
 
@@ -465,7 +465,7 @@ void INDI_E::actionTriggered()
         // Just issue a new generic switch.
         if (pp->indistd->actionTriggered(this))
             return;
-        else if (state == PS_OFF)
+        else if (switch_state == ISS_OFF)
             pp->newSwitch(this);
         break;
 
