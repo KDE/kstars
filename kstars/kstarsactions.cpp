@@ -353,11 +353,13 @@ void KStars::slotINDIDriver()
 
 void KStars::slotEkos()
 {
+#ifdef HAVE_CFITSIO_H
 #ifdef HAVE_INDI_H
     if (ekosmenu == NULL)
         ekosmenu = new Ekos(this);
 
     ekosmenu->show();
+#endif
 #endif
 }
 
