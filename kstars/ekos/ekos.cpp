@@ -190,6 +190,9 @@ void Ekos::connectDevices()
 
     if (filter != NULL)
         filter->Connect();
+
+    connectB->setEnabled(false);
+    disconnectB->setEnabled(true);
 }
 
 void Ekos::disconnectDevices()
@@ -210,6 +213,9 @@ void Ekos::disconnectDevices()
     if (filter != NULL)
         filter->Disconnect();
 
+    connectB->setEnabled(true);
+    disconnectB->setEnabled(false);
+
 }
 
 void Ekos::cleanDevices()
@@ -225,10 +231,6 @@ void Ekos::cleanDevices()
 
 void Ekos::processNewDevice(INDI_D *dp)
 {
-    // Let's wait until we get a CONNECTION property from the device
-
-    //connect(dp, SIGNAL(newProperty(INDI_P*)), this, SLOT(NewProperty(INDI_P*)));
-
     foreach (IDevice *dv, processed_devices)
     {
         if (dv->name == dp->name)

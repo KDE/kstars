@@ -221,14 +221,13 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
     }
 
 
-    // FIXME It appears that FITSViewer causes a possible stack corruption, needs to investigate
-
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
     KUrl fileURL(filename);
 
-    FITSViewer * fv = new FITSViewer(&fileURL, ksw);
-    fv->fitsChange();
+    FITSViewer * fv = new FITSViewer(ksw);
+    fv->addFITS(&fileURL);
+    //fv->fitsChange();
     fv->show();
     #endif
 

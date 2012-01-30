@@ -10,6 +10,7 @@ if (CFITSIO_FOUND)
     fitsviewer/fitsimage.cpp
     fitsviewer/fitsviewer.cpp
     fitsviewer/fitshistogramdraw.cpp
+    fitsviewer/fitstab.cpp
 )
   set (fitsui_SRCS
     fitsviewer/fitsheaderdialog.ui

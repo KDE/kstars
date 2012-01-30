@@ -31,7 +31,7 @@
 
 const int INITIAL_MAXIMUM_WIDTH = 1024;
 
-class FITSViewer;
+class FITSTab;
 class QPixmap;
 
 
@@ -61,6 +61,7 @@ public:
     int napply;
     double histFactor;
     double fits_min, fits_max;
+    FITSTab *tab;
 
 private:
 
@@ -68,7 +69,6 @@ private:
     histogramUI *ui;
     int histogram_height, histogram_width;
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
-    FITSViewer * viewer;
 
 public slots:
     void applyScale();
@@ -94,7 +94,7 @@ private:
     int type;
     int min, max;
     float *buffer;
-    FITSViewer *viewer;
+    FITSTab *tab;
 };
 
 
