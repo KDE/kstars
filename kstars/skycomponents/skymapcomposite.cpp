@@ -277,6 +277,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
     //m_skyMesh->draw( psky, NO_PRECESS_BUF );
 }
+
+
 //Select nearest object to the given skypoint, but give preference
 //to certain object types.
 //we multiply each object type's smallest angular distance by the

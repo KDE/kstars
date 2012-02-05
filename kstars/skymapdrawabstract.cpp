@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 // This file implements the class SkyMapDrawAbstract, and is almost
-// identical to the older skymapdraw.cpp file, written by Jason Harris
+// identical to the older skymapdraw.cpp file, written by Jason
+// Harris. Essentially, skymapdraw.cpp was renamed and modified.
+// -- asimha (2011)
 
 #include <iostream>
 
