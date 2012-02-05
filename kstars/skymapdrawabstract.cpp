@@ -56,6 +56,8 @@
 #include "indi/indidevice.h"
 #endif
 
+bool SkyMapDrawAbstract::m_DrawLock = false;
+
 SkyMapDrawAbstract::SkyMapDrawAbstract( SkyMap *sm ) : 
     m_KStarsData( KStarsData::Instance() ), m_SkyMap( sm ) {
     m_fpstime.start();
@@ -350,4 +352,8 @@ void SkyMapDrawAbstract::calculateFPS()
         m_fpstime.restart();
     }
     ++m_framecount;
+}
+
+void SkyMapDrawAbstract::setDrawLock( bool state ) {
+    m_DrawLock = state;
 }
