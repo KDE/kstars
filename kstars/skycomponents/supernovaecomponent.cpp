@@ -65,6 +65,7 @@ void SupernovaeComponent::loadData()
     bool ok;
     kDebug()<<"Loading Supernovae data"<<endl;
     if( !fileReader.open("supernovae.dat")) return;
+    m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
 
@@ -109,6 +110,7 @@ void SupernovaeComponent::loadData()
         {
             m_ObjectList.append(sup);
             latest.append(sup);
+            //notifyNewSupernovae();
         }
 
         objectNames(SkyObject::SUPERNOVA).append(sup->name());
@@ -175,6 +177,12 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
         skyp->drawSupernova(sup);
     }
 }
+
+void SupernovaeComponent::notifyNewSupernovae()
+{
+    //KMessageBox::information ( 0,i18n("New Supernova(e)"),i18n("New Supernova(e)"));
+}
+
 
 void SupernovaeComponent::updateDataFile()
 {

@@ -51,6 +51,8 @@ public:
      */
     virtual void draw(SkyPainter* skyp);
 
+    virtual void notifyNewSupernovae();
+
     /**
      * @short This updates the data file by using supernovae_updates_parser.py
      */

@@ -60,7 +60,7 @@ class OpsCatalog;
 class OpsGuides;
 class OpsSolarSystem;
 class OpsSatellites;
-//class OpsSupernovae;
+class OpsSupernovae;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
@@ -677,7 +677,7 @@ private:
     OpsGuides *opguides;
     OpsSolarSystem *opsolsys;
     OpsSatellites *opssatellites;
-    //OpsSupernovae *opsupernovae;
+    OpsSupernovae *opssupernovae;
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
     OpsINDI *opsindi;

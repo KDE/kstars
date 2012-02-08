@@ -262,6 +262,7 @@ set(kstars_options_SRCS
   options/opsguides.cpp
   options/opssolarsystem.cpp
   options/opssatellites.cpp
+  options/opssupernovae.cpp
 )
 
 set(kstars_optionsui_SRCS
@@ -271,6 +272,7 @@ set(kstars_optionsui_SRCS
   options/opsguides.ui
   options/opssolarsystem.ui
   options/opssatellites.ui
+  options/opssupernovae.ui
 )
 
 set(kstars_skyobjects_SRCS

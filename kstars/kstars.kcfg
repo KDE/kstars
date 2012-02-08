@@ -228,6 +228,7 @@
     </entry>
   </group>
 
+<<<<<<< HEAD
   <group name="View">
     <entry name="UseAnimatedSlewing" type="Bool">
       <label>Use animated slewing effects when changing focus position?</label>
@@ -362,6 +363,26 @@
       <label>Label Supernova Names in the sky map?</label>
       <whatsthis>Toggle whether supernova name labels are drawn in the sky map.</whatsthis>
       <default>false</default>
+    </entry>
+    <entry name="MagnitudeLimitShowSupernovae" type="Double">
+      <label>Set magnitude limit for supernovae to be shown on the skymap</label>
+      <whatsthis>Set magnitude limit for supernovae to be shown on the skymap.</whatsthis>
+      <default>16</default>
+    </entry>
+    <entry name="ShowSupernovaAlerts" type="Bool">
+      <label>Draw supernova alerts?</label>
+      <whatsthis>Toggle supernova alerts.</whatsthis>
+      <default>false</default>
+    </entry>
+    <entry name="MagnitudeLimitAlertSupernovae" type="Double">
+       <label>Set magnitude limit for supernovae to be alerted</label>
+       <whatsthis>Set magnitude limit for supernovae to be alerted.</whatsthis>
+       <default>16</default>
+    </entry>
+    <entry name="UpdateOnStartup" type="Bool">
+       <label>Update recent supernovae list on startup?</label>
+       <whatsthis>Toggle whether supernovae list is updated on startup</whatsthis>
+       <default>false</default>
     </entry>
     <entry name="ShowCBounds" type="Bool">
       <label>Draw constellation boundaries in the sky map?</label>
@@ -649,7 +670,6 @@
         <label>Faint limit for stars</label>
         <whatsthis>The faint magnitude limit for drawing stars, when fully zoomed in.</whatsthis>
         <default>8.0</default>
-        </entry>
     -->
     <entry name="StarDensity" type="Int">
       <label>Density of stars in the field of view</label>
