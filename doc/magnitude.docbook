@@ -27,10 +27,10 @@ The modern magnitude scale is a quantitative measurement of the
 <firstterm>flux</firstterm> of light coming from a star, with a
 logarithmic scaling:
 </para><para>
-m = m_0 - 2.5 log (F / F_0)
+  m = m<subscript>0</subscript> - 2.5 log (F / F<subscript>0</subscript>)
 </para><para>
 If you do not understand the math, this just says that the magnitude
-of a given star (m) is different from that of some standard star (m_0)
+  of a given star (m) is different from that of some standard star (m<subscript>0</subscript>)
 by 2.5 times the logarithm of their flux ratio.  The 2.5 *log factor
 means that if the flux ratio is 100, the difference in magnitudes is 5
 mag.  So, a 6th magnitude star is 100 times fainter than a 1st magnitude
@@ -57,7 +57,7 @@ their distances and assign <firstterm>Absolute magnitudes</firstterm>
 which would reflect their true, intrinsic brightness.  The absolute
 magnitude is defined as the apparent magnitude the star would have if
 observed from a distance of 10 parsecs (1 parsec is 3.26 light-years,
-or 3.1 x 10^18 cm).  The absolute magnitude (M) can be determined
+  or 3.1 x 10<superscript>18</superscript> cm).  The absolute magnitude (M) can be determined
 from the apparent magnitude (m) and the distance in parsecs (d)
 using the formula:
 </para><para>
@@ -73,8 +73,8 @@ can image stars nearly as faint as 30th magnitude, which is one
 </para><para>
 A final note: the magnitude is usually measured through a color filter
 of some kind, and these magnitudes are denoted by a subscript
-describing the filter (&ie;, m_V is the magnitude through a <quote>visual</quote>
-filter, which is greenish; m_B is the magnitude through a blue filter;
-m_pg is the photographic plate magnitude, &etc;).
+describing the filter (&ie;, m<subscript>V</subscript> is the magnitude through a <quote>visual</quote>
+filter, which is greenish; m<subscript>B</subscript> is the magnitude through a blue filter;
+m<subscript>pg</subscript> is the photographic plate magnitude, &etc;).
 </para>
 </sect1>
