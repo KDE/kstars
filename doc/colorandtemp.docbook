@@ -98,7 +98,7 @@ The process of UBV photometry involves using light sensitive devices
 measure the intensity of light that passes through each of the
 filters individually. This procedure gives three apparent
 brightnesses or <link linkend="ai-flux">fluxes</link> (amount of
-energy per cm^2 per second) designated by Fu, Fb, and Fv. The ratio of
+energy per cm<superscript>2</superscript> per second) designated by Fu, Fb, and Fv. The ratio of
 fluxes Fu/Fb and Fb/Fv is a quantitative measure of the star's
 "color", and these ratios can be used to establish a temperature scale
 for stars.  Generally speaking, the larger the Fu/Fb and Fb/Fv ratios
