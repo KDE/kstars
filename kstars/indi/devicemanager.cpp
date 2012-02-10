@@ -235,7 +235,7 @@ void DeviceManager::dataReceived()
 		     if (err_code != INDI_PROPERTY_DUPLICATED)
 		     {
                             //kDebug() << "Dispatch command error: " << err_cmd << endl;
-                            fprintf(stderr, "Dispatch command error: %d for command %s\n", err_code, err_cmd.toStdString().c_str());
+                            fprintf(stderr, "Dispatch command error: %d for command %s\n", err_code, qPrintable(err_cmd));
 	       	            prXMLEle (stderr, root, 0);
                      }
                 }
