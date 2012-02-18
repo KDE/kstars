@@ -483,13 +483,16 @@ void SkyMapComposite::reloadCLines( ) {
 }
 
 void SkyMapComposite::reloadCNames( ) {
-    Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
-    SkyMapDrawAbstract::setDrawLock( true ); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
+//     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+//     SkyMapDrawAbstract::setDrawLock( true ); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
+//     objectNames(SkyObject::CONSTELLATION).clear();
+//     delete m_CNames;
+//     m_CNames = 0;
+//     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
+//     SkyMapDrawAbstract::setDrawLock( false );
     objectNames(SkyObject::CONSTELLATION).clear();
     delete m_CNames;
-    m_CNames = 0;
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
-    SkyMapDrawAbstract::setDrawLock( false );
 }
 
 bool SkyMapComposite::isLocalCNames() {
