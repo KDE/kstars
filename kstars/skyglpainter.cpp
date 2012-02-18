@@ -43,12 +43,14 @@ using Eigen::Rotation2Df;
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
 #include "skycomponents/satellitescomponent.h"
+#include "skycomponents/supernovaecomponent.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
 #include "skyobjects/satellite.h"
+#include "skyobjects/supernova.h"
 
 Vector2f SkyGLPainter::m_vertex[NUMTYPES][6*BUFSIZE];
 Vector2f SkyGLPainter::m_texcoord[NUMTYPES][6*BUFSIZE];
@@ -724,6 +726,35 @@ void SkyGLPainter::drawSatellite( Satellite* sat ) {
 
 bool SkyGLPainter::drawSupernova(Supernova* sup)
 {
+    KStarsData *data = KStarsData::Instance();
+    bool visible = false;
+    Vector2f pos, vertex;
+
+    sup->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+
+    pos = m_proj->toScreenVec( sup, true, &visible );
+
+    if( !visible || !m_proj->onScreen( pos ) )
+        return false;
+    setPen( data->colorScheme()->colorNamed( "SupernovaColor" ) );
+
+    glDisable( GL_TEXTURE_2D );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+
+    glBegin( GL_LINES );
+    vertex = pos + Vector2f(  2.0, 0.0 );
+    glVertex2fv(vertex.data());
+    vertex = pos + Vector2f( -2.0, 0.0 );
+    glVertex2fv(vertex.data());
+    glEnd();
+
+    glBegin( GL_LINES );
+    vertex = pos + Vector2f( 0.0,  2.0 );
+    glVertex2fv(vertex.data());
+    vertex = pos + Vector2f( 0.0, -2.0 );
+    glVertex2fv(vertex.data());
+    glEnd();
+
     return true;
 }
 
