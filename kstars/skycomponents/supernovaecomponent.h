@@ -62,10 +62,12 @@ public:
      * @note Basically copy pasted from StarComponent::zoomMagnitudeLimit()
      */
     static float zoomMagnitudeLimit();
+
 private:
     void loadData();
 
     QList<SkyObject*> latest;
+
 };
 
 #endif

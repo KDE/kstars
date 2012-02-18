@@ -65,7 +65,7 @@ void SupernovaeComponent::loadData()
     bool ok;
     kDebug()<<"Loading Supernovae data"<<endl;
     if( !fileReader.open("supernovae.dat")) return;
-    m_ObjectList.clear();
+    //m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
 
@@ -100,11 +100,12 @@ void SupernovaeComponent::loadData()
         {
             if ( findByName(sup->name() ) == 0 )
             {
+                //kDebug()<<"List of supernovae not empty. Found new supernova";
                 m_ObjectList.append(sup);
                 latest.append(sup);
-            }
+            }/*
             else
-                m_ObjectList.append(sup);
+                m_ObjectList.append(sup);*/
         }
         else             //if the list is empty
         {
@@ -115,6 +116,7 @@ void SupernovaeComponent::loadData()
 
         objectNames(SkyObject::SUPERNOVA).append(sup->name());
     }
+    //notifyNewSupernovae();
 }
 
 
@@ -149,8 +151,8 @@ SkyObject* SupernovaeComponent::objectNearest(SkyPoint* p, double& maxrad)
 }
 
 
-float SupernovaeComponent::zoomMagnitudeLimit(){
-
+float SupernovaeComponent::zoomMagnitudeLimit()
+{
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
     double lgz   = log10(Options::zoomFactor());
@@ -180,7 +182,30 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 
 void SupernovaeComponent::notifyNewSupernovae()
 {
-    //KMessageBox::information ( 0,i18n("New Supernova(e)"),i18n("New Supernova(e)"));
+    foreach (SkyObject *so,latest)
+    {
+        Supernova* sup =(Supernova *)so;
+        kDebug()<<sup->name()<<" "<<sup->getType();
+    }
+    kDebug()<<"New Supernovae discovered";
+    QStringList latestList;
+    foreach (SkyObject * so, latest)
+    {
+        Supernova * sup = (Supernova *)so;
+        QString newSup;
+        QString hostGalaxy = "Host Galaxy: ";
+        hostGalaxy.append(sup->getHostGalaxy().left(12));
+        QString Position = " Position:: RA: ";
+        Position.append(sup->getRA().toHMSString());
+        Position.append(" ,Dec: ");
+        Position.append(sup->getDec().toDMSString());
+        kDebug()<<hostGalaxy<<Position.leftJustified(55);
+        newSup.append(hostGalaxy);
+        newSup.append(Position);
+        latestList.append(newSup);
+    }
+    if (!latest.empty())
+        KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
 }
 
 
@@ -205,5 +230,9 @@ void SupernovaeComponent::updateDataFile()
         }
         KMessageBox::sorry(0,errmsg,i18n("Supernova information update failed"));
     }
+    parser->close();
+    kDebug()<<"HERE";
+    latest.clear();
     loadData();
+    notifyNewSupernovae();
 }
