@@ -226,26 +226,28 @@ void SkyQPainter::drawSkyPolyline(LineList* list, SkipList* skipList, LineListLa
 {
     SkyList *points = list->points();
     bool isVisible, isVisibleLast;
-    QPointF   oLast = m_proj->toScreen( points->first(), true, &isVisibleLast );
     // & with the result of checkVisibility to clip away things below horizon
     isVisibleLast &= m_proj->checkVisibility( points->first() );
-
+    QPointF   oLast = m_proj->toScreen( points->first(), true, &isVisibleLast );
+    
     QPointF oThis, oThis2;
     for ( int j = 1 ; j < points->size() ; j++ ) {
         SkyPoint* pThis = points->at( j );
-        oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
         // & with the result of checkVisibility to clip away things below horizon
         isVisible &= m_proj->checkVisibility(pThis);
+        oThis2 = oThis = m_proj->toScreen( pThis, true, &isVisible );
+        
         bool doSkip = false;
         if( skipList ) {
             doSkip = skipList->skip(j);
         }
-        //FIXME: check whether this works. (it doesn't)
+        
         if ( !doSkip ) {
-            if ( isVisible && isVisibleLast && label )
-                label->updateLabelCandidates(oThis.x(), oThis.y(), list, j);
-            if ( isVisible || isVisibleLast )
-                drawLine( oLast, oThis);
+            if ( isVisible && isVisibleLast ) {
+                drawLine( oLast, oThis );
+                if ( label )
+                    label->updateLabelCandidates( oThis.x(), oThis.y(), list, j );
+            }
         }
 
         oLast = oThis2;
