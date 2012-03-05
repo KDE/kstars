@@ -147,7 +147,8 @@
 	<Action name="show_cnames" />
 	<Action name="show_cbounds" />
 	<Action name="show_mw" />
-	<Action name="show_grid" />
+	<Action name="show_equatorial_grid" />
+    <Action name="show_horizontal_grid" />
 	<Action name="show_horizon" />
 </ToolBar>
 </kpartgui>

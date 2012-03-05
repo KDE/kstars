@@ -1036,7 +1036,8 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( fn[1] == "ShowNGC"         && bOk ) { Options::setShowNGC(      bVal ); cmdCount++; }
                 if ( fn[1] == "ShowIC"          && bOk ) { Options::setShowIC(       bVal ); cmdCount++; }
                 if ( fn[1] == "ShowMilkyWay"    && bOk ) { Options::setShowMilkyWay( bVal ); cmdCount++; }
-                if ( fn[1] == "ShowGrid"        && bOk ) { Options::setShowGrid(     bVal ); cmdCount++; }
+                if ( fn[1] == "ShowEquatorialGrid" && bOk ) { Options::setShowEquatorialGrid( bVal ); cmdCount++; }
+                if ( fn[1] == "ShowHorizontalGrid" && bOk ) { Options::setShowHorizontalGrid( bVal ); cmdCount++; }
                 if ( fn[1] == "ShowEquator"     && bOk ) { Options::setShowEquator(  bVal ); cmdCount++; }
                 if ( fn[1] == "ShowEcliptic"    && bOk ) { Options::setShowEcliptic( bVal ); cmdCount++; }
                 if ( fn[1] == "ShowHorizon"     && bOk ) { Options::setShowHorizon(  bVal ); cmdCount++; }

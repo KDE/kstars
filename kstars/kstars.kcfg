@@ -288,9 +288,9 @@
 			<whatsthis>Toggle whether constellation names are hidden while the display is in motion.</whatsthis>
 			<default>false</default>
 		</entry>
-		<entry name="HideGrid" type="Bool">
-			<label>Hide coordinate grid while moving?</label>
-			<whatsthis>Toggle whether the coordinate grid is hidden while the display is in motion.</whatsthis>
+		<entry name="HideGrids" type="Bool">
+			<label>Hide coordinate grids while moving?</label>
+			<whatsthis>Toggle whether the coordinate grids are hidden while the display is in motion.</whatsthis>
 			<default>true</default>
 		</entry>
 		<entry name="HideMilkyWay" type="Bool">
@@ -398,11 +398,16 @@
 			<whatsthis>Toggle whether the equator line is drawn in the sky map.</whatsthis>
 			<default>false</default>
 		</entry>
-		<entry name="ShowGrid" type="Bool">
-			<label>Draw coordinate grid in the sky map?</label>
-			<whatsthis>Toggle whether the coordinate grid is drawn in the sky map.</whatsthis>
+		<entry name="ShowEquatorialGrid" type="Bool">
+			<label>Draw equatorial coordinate grid in the sky map?</label>
+			<whatsthis>Toggle whether the equatorial coordinate grid is drawn in the sky map.</whatsthis>
 			<default>false</default>
 		</entry>
+        <entry name="ShowHorizontalGrid" type="Bool">
+            <label>Draw horizontal coordinate grid in the sky map?</label>
+            <whatsthis>Toggle whether the horizontal coordinate grid is drawn in the sky map.</whatsthis>
+            <default>false</default>
+        </entry>
 		<entry name="ShowGround" type="Bool">
 			<label>Draw opaque ground in the sky map?</label>
 			<whatsthis>Toggle whether the region below the horizon is opaque.</whatsthis>
@@ -784,11 +789,16 @@
 			<whatsthis>The color for the equator line.</whatsthis>
 			<default>#FFF</default>
 		</entry>
-		<entry name="GridColor" type="String">
-			<label>Color of coordinate grid lines</label>
-			<whatsthis>The color for the coordinate grid lines.</whatsthis>
+		<entry name="EquatorialGridColor" type="String">
+			<label>Color of equatorial coordinate grid lines</label>
+			<whatsthis>The color for the equatorial coordinate grid lines.</whatsthis>
 			<default>#456</default>
 		</entry>
+        <entry name="HorizontalGridColor" type="String">
+            <label>Color of horizontal coordinate grid lines</label>
+            <whatsthis>The color for the horizontal coordinate grid lines.</whatsthis>
+            <default>#5A3</default>
+        </entry>
 		<entry name="SpecialObjectColor" type="String">
 			<label>Color of objects with extra links available</label>
 			<whatsthis>The color for objects which have extra URL links available.</whatsthis>

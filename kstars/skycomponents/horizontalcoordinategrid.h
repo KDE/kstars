@@ -1,9 +1,9 @@
 /***************************************************************************
-                          coordinategrid.h  -  K Desktop Planetarium
+                      horizontalcoordinategrid.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 15 Sept. 2005
-    copyright            : (C) 2005 by Jason Harris
-    email                : kstars@30doradus.org
+    begin                : Tue 01 Mar 2012
+    copyright            : (C) 2012 by Jerome SONRIER
+    email                : jsid@emor3j.fr.eu.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,19 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COORDINATEGRID_H
-#define COORDINATEGRID_H
+#ifndef HORIZONTALCOORDINATEGRID_H
+#define HORIZONTALCOORDINATEGRID_H
 
-#include "noprecessindex.h"
+#include "coordinategrid.h"
 
 /**
-	*@class CoordinateGrid
-	*Collection of all the circles in the coordinate grid
+	*@class HorizontalCoordinateGrid
+	*Collection of all the circles in the horizontal coordinate grid
 
-	*@author Jason Harris
+	*@author Jérôme SONRIER
 	*@version 0.1
 	*/
-class CoordinateGrid : public NoPrecessIndex
+class HorizontalCoordinateGrid : public CoordinateGrid
 {
 public:
     /**
@@ -36,11 +36,13 @@ public:
     	*(meridians and parallels)
     	*@p parent Pointer to the parent SkyComposite object
     	*/
-    CoordinateGrid( SkyComposite *parent, const QString& name );
+    HorizontalCoordinateGrid( SkyComposite *parent );
 
-    virtual void preDraw( SkyPainter *skyp ) = 0;
+    void preDraw( SkyPainter *skyp );
+    
+    void update( KSNumbers* );
 
-    virtual bool selected() = 0;
+    bool selected();
 };
 
 

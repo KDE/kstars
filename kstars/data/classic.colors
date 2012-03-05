@@ -16,7 +16,8 @@
 #666633 :EclColor
 #55AA33 :HorzColor
 #FFFFFF :CompassColor
-#445566 :GridColor
+#445566 :EquatorialGridColor
+#55AA33 :HorizontalGridColor
 #FFFFFF :BoxTextColor
 #FF0000 :BoxGrabColor
 #223344 :BoxBGColor

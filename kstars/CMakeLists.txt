@@ -216,6 +216,8 @@ set(libkstarscomponents_SRCS
    skycomponents/constellationnamescomponent.cpp 
    skycomponents/supernovaecomponent.cpp
    skycomponents/coordinategrid.cpp 
+   skycomponents/equatorialcoordinategrid.cpp 
+   skycomponents/horizontalcoordinategrid.cpp 
    skycomponents/ecliptic.cpp 
    skycomponents/equator.cpp 
    skycomponents/horizoncomponent.cpp 

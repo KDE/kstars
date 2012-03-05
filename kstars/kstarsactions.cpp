@@ -156,11 +156,16 @@ void KStars::slotViewToolBar() {
         if ( kcd ) {
             opguides->kcfg_ShowMilkyWay->setChecked( a->isChecked() );
         }
-    } else if ( a == actionCollection()->action( "show_grid" ) ) {
-        Options::setShowGrid( a->isChecked() );
+    } else if ( a == actionCollection()->action( "show_equatorial_grid" ) ) {
+        Options::setShowEquatorialGrid( a->isChecked() );
         if ( kcd ) {
-            opguides->kcfg_ShowGrid->setChecked( a->isChecked() );
+            opguides->kcfg_ShowEquatorialGrid->setChecked( a->isChecked() );
         }
+    } else if ( a == actionCollection()->action( "show_horizontal_grid" ) ) {
+        Options::setShowHorizontalGrid( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowHorizontalGrid->setChecked( a->isChecked() );
+        }    
     } else if ( a == actionCollection()->action( "show_horizon" ) ) {
         Options::setShowGround( a->isChecked() );
         if( !a->isChecked() && Options::useRefraction() ) {

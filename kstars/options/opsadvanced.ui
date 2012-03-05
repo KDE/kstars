@@ -397,15 +397,15 @@
          </widget>
         </item>
         <item row="6" column="1" >
-         <widget class="QCheckBox" name="kcfg_HideGrid" >
+         <widget class="QCheckBox" name="kcfg_HideGrids" >
           <property name="toolTip" >
-           <string>Hide coordinate grid while moving?</string>
+           <string>Hide coordinate grids while moving?</string>
           </property>
           <property name="whatsThis" >
-           <string>If checked, then the coordinate grid will be hidden when the map is in motion.</string>
+           <string>If checked, then the coordinate grids will be hidden when the map is in motion.</string>
           </property>
           <property name="text" >
-           <string>Coordinate grid</string>
+           <string>Coordinate grids</string>
           </property>
          </widget>
         </item>
@@ -504,7 +504,7 @@
   <tabstop>kcfg_HideMilkyWay</tabstop>
   <tabstop>kcfg_HideCNames</tabstop>
   <tabstop>kcfg_HideCLines</tabstop>
-  <tabstop>kcfg_HideGrid</tabstop>
+  <tabstop>kcfg_HideGrids</tabstop>
  </tabstops>
  <resources/>
  <connections/>

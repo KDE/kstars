@@ -32,7 +32,8 @@
 #include "constellationlines.h"
 #include "culturelist.h"
 #include "constellationnamescomponent.h"
-#include "coordinategrid.h"
+#include "equatorialcoordinategrid.h"
+#include "horizontalcoordinategrid.h"
 #include "customcatalogcomponent.h"
 #include "deepskycomponent.h"
 #include "equator.h"
@@ -71,7 +72,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     //Stars must come before constellation lines
     addComponent( m_MilkyWay       = new MilkyWay( this ));
     addComponent( m_Stars          = StarComponent::Create( this ));
-    addComponent( m_CoordinateGrid = new CoordinateGrid( this ));
+    addComponent( m_EquatorialCoordinateGrid = new EquatorialCoordinateGrid( this ));
+    addComponent( m_HorizontalCoordinateGrid = new HorizontalCoordinateGrid( this ));
 
     // Do add to components.
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
@@ -117,7 +119,8 @@ void SkyMapComposite::update(KSNumbers *num )
     //1. Milky Way
     //m_MilkyWay->update( data, num );
     //2. Coordinate grid
-    //m_CoordinateGrid->update( data, num );
+    //m_EquatorialCoordinateGrid->update( num );
+    m_HorizontalCoordinateGrid->update( num );
     //3. Constellation boundaries
     //m_CBounds->update( data, num );
     //4. Constellation lines
@@ -197,7 +200,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
     // create the no-precess aperture if needed
-    if ( Options::showGrid() || Options::showCBounds() || Options::showEquator() ) {
+    if ( Options::showEquatorialGrid() || Options::showHorizontalGrid() || Options::showCBounds() || Options::showEquator() ) {
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
 
@@ -220,7 +223,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_MilkyWay->draw( skyp );
 
-    m_CoordinateGrid->draw( skyp );
+    m_EquatorialCoordinateGrid->draw( skyp );
+    m_HorizontalCoordinateGrid->draw( skyp );
 
     // Draw constellation boundary lines only if we draw western constellations
     if ( m_Cultures->current() == "Western" )

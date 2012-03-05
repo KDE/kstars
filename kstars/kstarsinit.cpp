@@ -484,10 +484,14 @@ void KStars::initActions() {
         << i18nc("Toggle Milky Way in the display", "Milky Way" )
         << KIcon("kstars_mw" )
         << ToolTip( i18n("Toggle milky way") );
-    actionCollection()->add<KToggleAction>("show_grid", this, SLOT( slotViewToolBar() ) )
-        << i18nc("Toggle Coordinate Grid in the display", "Coord. grid" )
+    actionCollection()->add<KToggleAction>("show_equatorial_grid", this, SLOT( slotViewToolBar() ) )
+        << i18nc("Toggle Equatorial Coordinate Grid in the display", "Equatorial coord. grid" )
         << KIcon("kstars_grid" )
-        << ToolTip( i18n("Toggle coordinate grid") );
+        << ToolTip( i18n("Toggle equatorial coordinate grid") );
+    actionCollection()->add<KToggleAction>("show_horizontal_grid", this, SLOT( slotViewToolBar() ) )
+        << i18nc("Toggle Horizontal Coordinate Grid in the display", "Horizontal coord. grid" )
+        << KIcon("kstars_hgrid" )
+        << ToolTip( i18n("Toggle horizontal coordinate grid") );
     actionCollection()->add<KToggleAction>("show_horizon", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle the opaque fill of the ground polygon in the display", "Ground" )
         << KIcon("kstars_horizon" )

@@ -1,9 +1,9 @@
 /***************************************************************************
-                          coordinategrid.h  -  K Desktop Planetarium
+                      equatorialcoordinategrid.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 15 Sept. 2005
-    copyright            : (C) 2005 by Jason Harris
-    email                : kstars@30doradus.org
+    begin                : Tue 01 Mar 2012
+    copyright            : (C) 2012 by Jerome SONRIER
+    email                : jsid@emor3j.fr.eu.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,32 +15,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COORDINATEGRID_H
-#define COORDINATEGRID_H
+#ifndef EQUATORIALCOORDINATEGRID_H
+#define EQUATORIALCOORDINATEGRID_H
 
-#include "noprecessindex.h"
+#include "coordinategrid.h"
 
 /**
-	*@class CoordinateGrid
-	*Collection of all the circles in the coordinate grid
+	*@class EquatorialCoordinateGrid
+	*Collection of all the circles in the equatorial coordinate grid
 
-	*@author Jason Harris
+	*@author Jérôme SONRIER
 	*@version 0.1
 	*/
-class CoordinateGrid : public NoPrecessIndex
+class EquatorialCoordinateGrid : public CoordinateGrid
 {
 public:
     /**
     	*@short Constructor
-    	*Simply adds all of the coordinate grid circles 
+    	*Simply adds all of the equatorial coordinate grid circles 
     	*(meridians and parallels)
     	*@p parent Pointer to the parent SkyComposite object
     	*/
-    CoordinateGrid( SkyComposite *parent, const QString& name );
+    EquatorialCoordinateGrid( SkyComposite *parent );
 
-    virtual void preDraw( SkyPainter *skyp ) = 0;
+    void preDraw( SkyPainter *skyp );
 
-    virtual bool selected() = 0;
+    bool selected();
 };
 
 
