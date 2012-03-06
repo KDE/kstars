@@ -23,6 +23,7 @@
 #include "projections/projector.h"
 #include "dms.h"
 #include "Options.h"
+#include "notifyupdatesui.h"
 
 #include "kdebug.h"
 #include "ksfilereader.h"
@@ -182,11 +183,6 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 
 void SupernovaeComponent::notifyNewSupernovae()
 {
-    foreach (SkyObject *so,latest)
-    {
-        Supernova* sup =(Supernova *)so;
-        kDebug()<<sup->name()<<" "<<sup->getType();
-    }
     kDebug()<<"New Supernovae discovered";
     QStringList latestList;
     foreach (SkyObject * so, latest)
@@ -199,13 +195,19 @@ void SupernovaeComponent::notifyNewSupernovae()
         Position.append(sup->getRA().toHMSString());
         Position.append(" ,Dec: ");
         Position.append(sup->getDec().toDMSString());
-        kDebug()<<hostGalaxy<<Position.leftJustified(55);
+        //kDebug()<<hostGalaxy<<Position.leftJustified(55);
         newSup.append(hostGalaxy);
         newSup.append(Position);
         latestList.append(newSup);
     }
     if (!latest.empty())
-        KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
+    {
+        NotifyUpdatesUI * ui = new NotifyUpdatesUI(0);
+        ui->addItems(latest);
+        ui->show();
+    }
+//     if (!latest.empty())
+//         KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
 }
 
 
