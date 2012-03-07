@@ -95,8 +95,11 @@ HorizontalCoordinateGrid::HorizontalCoordinateGrid( SkyComposite *parent )
 
 bool HorizontalCoordinateGrid::selected()
 {
-    return Options::showHorizontalGrid() &&
-           ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() );
+    if ( Options::autoSelectGrid() )
+        return( Options::useAltAz() );
+    else
+        return( Options::showHorizontalGrid() &&
+            ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
 }
 
 void HorizontalCoordinateGrid::preDraw( SkyPainter* skyp )

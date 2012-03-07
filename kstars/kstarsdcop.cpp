@@ -1,3 +1,4 @@
+
 /***************************************************************************
                           kstarsdcop.cpp  -  description
                              -------------------
@@ -313,6 +314,7 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "ShowCBounds"     && bOk ) Options::setShowCBounds(  bVal );
     if ( op == "ShowCNames"      && bOk ) Options::setShowCNames(   bVal );
     if ( op == "ShowMilkyWay"    && bOk ) Options::setShowMilkyWay( bVal );
+    if ( op == "AutoSelectGrid"  && bOk ) Options::setAutoSelectGrid( bVal );
     if ( op == "ShowEquatorialGrid" && bOk ) Options::setShowEquatorialGrid( bVal );
     if ( op == "ShowHorizontalGrid" && bOk ) Options::setShowHorizontalGrid( bVal );
     if ( op == "ShowEquator"     && bOk ) Options::setShowEquator(  bVal );

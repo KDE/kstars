@@ -91,8 +91,11 @@ EquatorialCoordinateGrid::EquatorialCoordinateGrid( SkyComposite *parent )
 
 bool EquatorialCoordinateGrid::selected()
 {
-    return Options::showEquatorialGrid() &&
-           ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() );
+    if ( Options::autoSelectGrid() )
+        return( ! Options::useAltAz() );
+    else
+        return( Options::showEquatorialGrid() &&
+            ! ( Options::hideOnSlew() && Options::hideGrids() && SkyMap::IsSlewing() ) );
 }
 
 void EquatorialCoordinateGrid::preDraw( SkyPainter* skyp )

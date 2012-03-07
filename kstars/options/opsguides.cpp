@@ -31,6 +31,8 @@ OpsGuides::OpsGuides( KStars *_ks )
              this, SLOT( slotToggleMilkyWayOptions( bool ) ) );
     connect( kcfg_ShowGround, SIGNAL( toggled( bool ) ),
              this, SLOT( slotToggleOpaqueGround( bool ) ) );
+    connect( kcfg_AutoSelectGrid, SIGNAL( toggled( bool ) ),
+             this, SLOT( slotToggleAutoSelectGrid( bool ) ) );
 
     foreach( const QString& item,  ksw->data()->skyComposite()->getCultureNames() )
         kcfg_SkyCulture->addItem( i18nc("Sky Culture", item.toUtf8().constData() ) );
@@ -40,6 +42,7 @@ OpsGuides::OpsGuides( KStars *_ks )
     slotToggleOpaqueGround( Options::showGround() ); 
     slotToggleConstellOptions( Options::showCNames() );
     slotToggleMilkyWayOptions( Options::showMilkyWay() );
+    slotToggleAutoSelectGrid( Options::autoSelectGrid() );
 
 }
 
@@ -56,6 +59,11 @@ void OpsGuides::slotToggleMilkyWayOptions( bool state ) {
 
 void OpsGuides::slotToggleOpaqueGround( bool state ) {
     kcfg_ShowHorizon->setEnabled( !state );
+}
+
+void OpsGuides::slotToggleAutoSelectGrid( bool state ) {
+    kcfg_ShowEquatorialGrid->setEnabled( !state );
+    kcfg_ShowHorizontalGrid->setEnabled( !state );
 }
 
 #include "opsguides.moc"

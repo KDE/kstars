@@ -193,6 +193,19 @@
     </spacer>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_AutoSelectGrid" >
+     <property name="toolTip" >
+      <string>Draw grids according to active coordinate system system?</string>
+     </property>
+     <property name="whatsThis" >
+      <string>If checked, coordinate grids will automatically change according to active coordinate system system.</string>
+     </property>
+     <property name="text" >
+      <string>Automatically select coordinate grid</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QCheckBox" name="kcfg_ShowEquatorialGrid" >
      <property name="toolTip" >
       <string>Draw equatorial coordinate grid?</string>
@@ -201,7 +214,7 @@
       <string>If checked, a grid of lines will be drawn every 2 hours in Right Ascension and every 20 degrees in Declination.</string>
      </property>
      <property name="text" >
-      <string>Equatorial coor&amp;dinate grid</string>
+      <string>Equatorial coordinate grid</string>
      </property>
     </widget>
    </item>

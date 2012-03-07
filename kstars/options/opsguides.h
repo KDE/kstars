@@ -32,7 +32,8 @@ public:
 private slots:
     void slotToggleConstellOptions( bool state );
     void slotToggleMilkyWayOptions( bool state );
-    void slotToggleOpaqueGround( bool state ); 
+    void slotToggleOpaqueGround( bool state );
+    void slotToggleAutoSelectGrid( bool state );
 
 private:
     KStars *ksw;

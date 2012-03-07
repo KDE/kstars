@@ -398,6 +398,11 @@
 			<whatsthis>Toggle whether the equator line is drawn in the sky map.</whatsthis>
 			<default>false</default>
 		</entry>
+        <entry name="AutoSelectGrid" type="Bool">
+            <label>Draw grids according to active coordinate system system?</label>
+            <whatsthis>Coordinate grids will automatically change according to active coordinate system system.</whatsthis>
+            <default>true</default>
+        </entry>
 		<entry name="ShowEquatorialGrid" type="Bool">
 			<label>Draw equatorial coordinate grid in the sky map?</label>
 			<whatsthis>Toggle whether the equatorial coordinate grid is drawn in the sky map.</whatsthis>
