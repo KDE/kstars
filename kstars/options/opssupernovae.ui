@@ -21,6 +21,19 @@
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
          <layout class="QGridLayout" name="gridLayout_2">
+          <item row="6" column="3">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="0" column="0">
            <widget class="QCheckBox" name="kcfg_ShowSupernovae">
             <property name="enabled">
@@ -90,6 +103,9 @@
             <property name="maximum">
              <double>30.000000000000000</double>
             </property>
+            <property name="value">
+             <double>16.000000000000000</double>
+            </property>
            </widget>
           </item>
           <item row="7" column="1">
@@ -99,6 +115,9 @@
             </property>
             <property name="maximum">
              <double>30.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>16.000000000000000</double>
             </property>
            </widget>
           </item>
@@ -131,6 +150,19 @@
              <size>
               <width>20</width>
               <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="6" column="2">
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
              </size>
             </property>
            </spacer>
