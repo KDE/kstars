@@ -399,8 +399,8 @@
 			<default>false</default>
 		</entry>
         <entry name="AutoSelectGrid" type="Bool">
-            <label>Draw grids according to active coordinate system system?</label>
-            <whatsthis>Coordinate grids will automatically change according to active coordinate system system.</whatsthis>
+            <label>Draw grids according to active coordinate system?</label>
+            <whatsthis>Coordinate grids will automatically change according to active coordinate system.</whatsthis>
             <default>true</default>
         </entry>
 		<entry name="ShowEquatorialGrid" type="Bool">
