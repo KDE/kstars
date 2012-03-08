@@ -122,14 +122,16 @@ QVector< Vector2f > EquirectangularProjector::groundPoly(SkyPoint* labelpoint, b
         //If the horizon is off the bottom edge of the screen,
         //we can return immediately
         if ( obf.y() > m_vp.height ) {
-            if( drawLabel ) drawLabel = false;
+            if( drawLabel )
+                *drawLabel = false;
             return QVector<Vector2f>();
         }
 
         //We can also return if the horizon is off the top edge,
         //as long as the ground poly is not being drawn
         if ( obf.y() < 0. && m_vp.fillGround == false ) {
-            if( drawLabel ) drawLabel = false;
+            if( drawLabel )
+                *drawLabel = false;
             return QVector<Vector2f>();
         }
 
