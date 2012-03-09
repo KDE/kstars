@@ -249,8 +249,6 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_Supernovae->draw(skyp);
 
-    m_Horizon->draw( skyp );
-
     map->drawObjectLabels( labelObjects() );
 
     m_skyLabeler->drawQueuedLabels();
@@ -268,6 +266,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), 1. );
     m_StarHopRouteList->draw( skyp );
+    
+    m_Horizon->draw( skyp );
 
     m_skyMesh->inDraw( false );
 

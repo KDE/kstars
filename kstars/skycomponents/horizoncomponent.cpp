@@ -79,8 +79,11 @@ void HorizonComponent::draw( SkyPainter *skyp )
 
     KStarsData *data = KStarsData::Instance();
     
-    SkyPoint labelPoint;
-    bool drawLabel;
+    // If we are in GL mode, we need to flush buffers now since we don't do it before 
+    // drawing ground, otherwise, objects remaining in buffers will be drawn after 
+    // the ground and will appears over it.
+    if ( Options::useGL() )
+        skyp->end();
 
     skyp->setPen( QPen( QColor( data->colorScheme()->colorNamed( "HorzColor" ) ), 2, Qt::SolidLine ) );
 
@@ -89,6 +92,8 @@ void HorizonComponent::draw( SkyPainter *skyp )
     else
         skyp->setBrush( Qt::NoBrush );
 
+    SkyPoint labelPoint;
+    bool drawLabel;
     skyp->drawHorizon( Options::showGround(), &labelPoint, &drawLabel );
 
     if( drawLabel ) {
