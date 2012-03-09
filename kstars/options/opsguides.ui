@@ -195,10 +195,10 @@
    <item>
     <widget class="QCheckBox" name="kcfg_AutoSelectGrid" >
      <property name="toolTip" >
-      <string>Draw grids according to active coordinate system system?</string>
+      <string>Draw grids according to active coordinate system?</string>
      </property>
      <property name="whatsThis" >
-      <string>If checked, coordinate grids will automatically change according to active coordinate system system.</string>
+      <string>If checked, coordinate grids will automatically change according to active coordinate system.</string>
      </property>
      <property name="text" >
       <string>Automatically select coordinate grid</string>
