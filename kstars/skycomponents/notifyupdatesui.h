@@ -36,6 +36,9 @@ public:
     ~NotifyUpdatesUI();
     void addItems(QList<SkyObject*> updatesList);
 
+private slots:
+    void slotCenter();
+
 private:
     Ui::NotifyUpdatesUI *ui;
 };

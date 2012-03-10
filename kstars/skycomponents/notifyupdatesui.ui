@@ -34,9 +34,9 @@
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="okPushButton">
+          <widget class="QPushButton" name="centrePushButton">
            <property name="text">
-            <string>OK</string>
+            <string>Slew map to object</string>
            </property>
           </widget>
          </item>
