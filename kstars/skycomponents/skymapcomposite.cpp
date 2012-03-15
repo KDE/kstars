@@ -126,7 +126,8 @@ void SkyMapComposite::update(KSNumbers *num )
     //4. Constellation lines
     //m_CLines->update( data, num );
     //5. Constellation names
-    m_CNames->update( num );
+    if ( m_CNames )
+        m_CNames->update( num );
     //6. Equator
     //m_Equator->update( data, num );
     //7. Ecliptic
