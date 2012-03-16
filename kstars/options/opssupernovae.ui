@@ -96,7 +96,7 @@
            </widget>
           </item>
           <item row="6" column="1">
-           <widget class="QDoubleSpinBox" name="supMagLimDoubleSpinBox">
+           <widget class="QDoubleSpinBox" name="kcfg_MagnitudeLimitShowSupernovae">
             <property name="decimals">
              <number>0</number>
             </property>
@@ -109,7 +109,7 @@
            </widget>
           </item>
           <item row="7" column="1">
-           <widget class="QDoubleSpinBox" name="supMagAlertLimDoubleSpinBox">
+           <widget class="QDoubleSpinBox" name="kcfg_MagnitudeLimitAlertSupernovae">
             <property name="decimals">
              <number>0</number>
             </property>

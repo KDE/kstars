@@ -33,8 +33,8 @@ OpsSupernovae::OpsSupernovae(KStars* _ks)
     connect( kcfg_ShowSupernovae, SIGNAL( toggled( bool ) ), this, SLOT( slotShowSupernovae( bool ) ) );
     connect( kcfg_UpdateOnStartup, SIGNAL( toggled(bool) ), this, SLOT( slotUpdateOnStartup (bool)));
     connect( kcfg_ShowSupernovaAlerts, SIGNAL( toggled(bool) ),this, SLOT( slotShowSupernovaAlerts( bool ) ) );
-    connect( supMagLimDoubleSpinBox, SIGNAL( valueChanged(double) ), this, SLOT( slotSetShowMagnitudeLimit( double )));
-    connect( supMagAlertLimDoubleSpinBox, SIGNAL( valueChanged(double) ), this, SLOT( slotSetAlertMagnitudeLimit(double)));
+    connect( kcfg_MagnitudeLimitShowSupernovae, SIGNAL( valueChanged(double) ), this, SLOT( slotSetShowMagnitudeLimit( double )));
+    connect( kcfg_MagnitudeLimitAlertSupernovae, SIGNAL( valueChanged(double) ), this, SLOT( slotSetAlertMagnitudeLimit(double)));
 }
 
 OpsSupernovae::~OpsSupernovae()
@@ -62,12 +62,12 @@ void OpsSupernovae::slotUpdateOnStartup(bool on)
 
 void OpsSupernovae::slotSetShowMagnitudeLimit(double value)
 {
-    Options::setMagnitudeLimitShowSupernovae(value);
+    kcfg_MagnitudeLimitShowSupernovae->setValue(value);
 }
 
 void OpsSupernovae::slotSetAlertMagnitudeLimit(double value)
 {
-    Options::setMagnitudeLimitAlertSupernovae(value);
+    kcfg_MagnitudeLimitAlertSupernovae->setValue(value);
 }
 
 

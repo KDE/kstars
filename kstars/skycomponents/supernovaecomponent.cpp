@@ -173,6 +173,9 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
     foreach ( SkyObject *so, m_ObjectList ) {
         Supernova *sup = (Supernova*) so;
         float mag = sup->mag();
+
+        if (mag > float( Options::magnitudeLimitShowSupernovae())) continue;
+
         //Do not draw if mag>maglim
         if ( mag > maglim ) {
             continue;
@@ -188,6 +191,9 @@ void SupernovaeComponent::notifyNewSupernovae()
     foreach (SkyObject * so, latest)
     {
         Supernova * sup = (Supernova *)so;
+
+        if (sup->getMagnitude() > float(Options::magnitudeLimitAlertSupernovae())) continue;
+
         QString newSup;
         QString hostGalaxy = "Host Galaxy: ";
         hostGalaxy.append(sup->getHostGalaxy().left(12));

@@ -228,7 +228,6 @@
     </entry>
   </group>
 
-<<<<<<< HEAD
   <group name="View">
     <entry name="UseAnimatedSlewing" type="Bool">
       <label>Use animated slewing effects when changing focus position?</label>
