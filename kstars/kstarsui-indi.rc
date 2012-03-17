@@ -22,7 +22,9 @@
 		<Action name="time_to_now" />
 		<Action name="time_dialog" />
 		<Separator />
+        <Action name="time_step_backward" />
 		<Action name="clock_startstop" />
+        <Action name="time_step_forward" />
 	</Menu>
 
 	<Menu name="focus" noMerge="1"><text>&amp;Pointing</text>
@@ -140,7 +142,9 @@
 	<Action name="zoom_out" />
 	<Action name="find_object" />
 	<Separator />
+    <Action name="time_step_backward" />
 	<Action name="clock_startstop" />
+    <Action name="time_step_forward" />
 	<Action name="timestep_control" />
 </ToolBar>
 
