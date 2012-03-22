@@ -80,12 +80,13 @@ SkyCalendar::SkyCalendar( QWidget *parent )
         scUI->CalendarView->setMinimumSize( 400, 600 );
     }
     
-    scUI->CalendarView->setLimits( -9.0, 9.0, 0.0, 366.0 );
     scUI->CalendarView->setShowGrid( false ); 
     scUI->Year->setValue( KStarsData::Instance()->lt().date().year() );
 
     scUI->LocationButton->setText( geo->fullName() );
     setButtonGuiItem( KDialog::User1, KGuiItem( i18n("&Print..."), "document-print", i18n("Print the Sky Calendar") ) );
+    
+    scUI->CalendarView->setHorizon();
 
     connect( scUI->CreateButton, SIGNAL(clicked()), this, SLOT(slotFillCalendar()) );
     connect( scUI->LocationButton, SIGNAL(clicked()), this, SLOT(slotLocation()) );
@@ -99,7 +100,7 @@ int SkyCalendar::year()  { return scUI->Year->value(); }
 
 void SkyCalendar::slotFillCalendar() {
     scUI->CalendarView->resetPlot();
-    scUI->CalendarView->setLimits( -9.0, 9.0, 0.0, 366.0 );
+    scUI->CalendarView->setHorizon();
     
     if ( scUI->checkBox_Mercury->isChecked() )
         addPlanetEvents( KSPlanetBase::MERCURY );
@@ -118,7 +119,7 @@ void SkyCalendar::slotFillCalendar() {
     if ( scUI->checkBox_Pluto->isChecked() )
         addPlanetEvents( KSPlanetBase::PLUTO );
     
-    update();
+    scUI->CalendarView->update();
 }
 
 // FIXME: For the time being, adjust with dirty, cluttering labels that don't align to the line
@@ -218,7 +219,6 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
     scUI->CalendarView->addPlotObject( oRise );
     scUI->CalendarView->addPlotObject( oSet );
     scUI->CalendarView->addPlotObject( oTransit );
-    scUI->CalendarView->update();
 }
 
 void SkyCalendar::slotPrint() {
@@ -300,6 +300,9 @@ void SkyCalendar::slotLocation() {
         }
     }
     delete ld;
+    
+    scUI->CalendarView->setHorizon();
+    slotFillCalendar();
 }
 
 GeoLocation* SkyCalendar::get_geo()

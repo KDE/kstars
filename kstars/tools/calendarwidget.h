@@ -18,6 +18,7 @@
 #ifndef CALENDARWIDGET_H_
 #define CALENDARWIDGET_H_
 
+#include <QDate>
 #include <kplotwidget.h>
 
 /**@class CalendarWidget
@@ -28,6 +29,7 @@ class CalendarWidget : public KPlotWidget
     Q_OBJECT
     public:
         explicit CalendarWidget( QWidget *parent=0 );
+        void setHorizon();
     
     protected:
         void paintEvent( QPaintEvent *e );
@@ -36,8 +38,15 @@ class CalendarWidget : public KPlotWidget
         void drawHorizon( QPainter *p );
         void drawAxes( QPainter *p );
         
+        QList<QDate> dateList;
         QList<float> riseTimeList;
         QList<float> setTimeList;
+        
+        float minSTime;
+        float maxRTime;
+        
+        QPolygonF polySunRise;
+        QPolygonF polySunSet;
 };
 
 #endif
