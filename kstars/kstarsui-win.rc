@@ -150,5 +150,6 @@
 	<Action name="show_equatorial_grid" />
     <Action name="show_horizontal_grid" />
 	<Action name="show_horizon" />
+    <Action name="show_supernovae" />
 </ToolBar>
 </kpartgui>
