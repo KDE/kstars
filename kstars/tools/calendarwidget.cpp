@@ -39,8 +39,8 @@ CalendarWidget::CalendarWidget( QWidget *parent )
     setAntialiasing( true );
     setTopPadding( 40 );
     
-    maxRTime = 24.0;
-    minSTime = -24.0;
+    maxRTime = 12.0;
+    minSTime = -12.0;
 }
     
 void CalendarWidget::paintEvent( QPaintEvent *e ) {
@@ -88,7 +88,7 @@ void CalendarWidget::setHorizon() {
         QTime tmp_rTime, tmp_sTime;
         tmp_rTime = thesun.riseSetTime( kdt.djd() + 1.0, skycal->get_geo(), true, true );
         tmp_sTime = thesun.riseSetTime( kdt.djd(), skycal->get_geo(), false, true );
-        
+
         /* riseSetTime seems buggy since it sometimes returns the same time for rise and set (01:00:00).
          * In this case, we just reset tmp_rTime and tmp_sTime so they will be considered invalid
          * in the folowing lines. */
@@ -99,8 +99,19 @@ void CalendarWidget::setHorizon() {
         
         // If rise and set times are valid, the sun rise and set...
         if ( tmp_rTime.isValid() && tmp_sTime.isValid() ) {
-            rTime = tmp_rTime.secsTo( QTime() ) * -24.0 / 86400.0;
-            sTime = tmp_sTime.secsTo( QTime() ) * -24.0 / 86400.0 - 24.0;            
+            QTime midday( 12, 0, 0 );
+            rTime = tmp_rTime.secsTo( midday ) * 24.0 / 86400.0;
+            sTime = tmp_sTime.secsTo( midday ) * 24.0 / 86400.0;
+
+            if ( tmp_rTime <= midday )
+                rTime = 12.0 - rTime;
+            else
+                rTime = -12.0 - rTime;
+            
+            if ( tmp_sTime <= midday )
+                sTime = 12.0 - sTime;
+            else
+                sTime = -12.0 - sTime;
         }
         /* else, the sun don't rise and/or don't set.
          * we look at the altitude of the sun at transit time, if it is above the horizon,
@@ -110,11 +121,11 @@ void CalendarWidget::setHorizon() {
                 rTime = -4.0;
                 sTime =  4.0;
             } else {
-                rTime =  24.0;
-                sTime = -24.0;
+                rTime =  12.0;
+                sTime = -12.0;
             }
         }
-        
+
         // Get max rise time and min set time
         if ( rTime > maxRTime )
             maxRTime = rTime;
@@ -131,16 +142,16 @@ void CalendarWidget::setHorizon() {
     }
     
     // Set widget limits
-    maxRTime = ceil( maxRTime );
+    maxRTime = ceil( maxRTime ) + 1.0;
     if ( (int) maxRTime % 2 != 0 )
         maxRTime++;
-    if ( maxRTime > 22.0 )
-        maxRTime = 22.0;
-    minSTime = floor( minSTime );
+    if ( maxRTime > 12.0 )
+        maxRTime = 12.0;
+    minSTime = floor( minSTime ) - 1.0;
     if ( (int) minSTime % 2 != 0 )
         minSTime--;
-    if ( minSTime < -22.0 )
-        minSTime = -22.0;
+    if ( minSTime < -12.0 )
+        minSTime = -12.0;
     setLimits( minSTime, maxRTime, 0.0, 366.0 );
     setPixRect();
 }
