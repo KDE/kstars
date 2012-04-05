@@ -57,11 +57,11 @@ void CalendarWidget::paintEvent( QPaintEvent *e ) {
     p.setClipRect( pixRect() );
     p.setClipping( true );
 
+    drawHorizon( &p );
+    
     foreach ( KPlotObject *po, plotObjects() ) {
         po->draw( &p, this );
     }
-
-    drawHorizon( &p );
 
     p.setClipping( false );
     drawAxes( &p );

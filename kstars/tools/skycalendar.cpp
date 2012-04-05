@@ -153,69 +153,144 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
 
     for( KStarsDateTime kdt( QDate( year(), 1, 1 ), QTime( 12, 0, 0 ) );
          kdt.date().year() == year();
-         kdt = kdt.addDays( 7 ))
+         kdt = kdt.addDays( 7 ) )
     {
+        float rTime, sTime, tTime;
+        
         //Compute rise/set/transit times.  If they occur before noon, 
         //recompute for the following day
-        QTime rtime = ksp->riseSetTime( kdt, geo, true, true );//rise time, exact
-        if ( rtime.secsTo( QTime( 12, 0, 0 ) ) > 0 ) {
-            rtime = ksp->riseSetTime( kdt.addDays( 1 ), geo, true, true );
+        QTime tmp_rTime = ksp->riseSetTime( kdt, geo, true, true );     //rise time, exact
+        QTime tmp_sTime = ksp->riseSetTime( kdt, geo, false, true );    //set time, exact
+        QTime tmp_tTime = ksp->transitTime( kdt, geo );
+        QTime midday( 12, 0, 0 );
+        
+        if ( tmp_rTime == tmp_sTime ) {
+            tmp_rTime = QTime();
+            tmp_sTime = QTime();
         }
-        QTime stime = ksp->riseSetTime( kdt, geo, false, true );//set time, exact
-        if ( stime.secsTo( QTime( 12, 0, 0 ) ) > 0 ) {
-            stime = ksp->riseSetTime( kdt.addDays( 1 ), geo, false, true );
+        
+        if ( tmp_rTime.isValid() && tmp_sTime.isValid() ) {
+            rTime = tmp_rTime.secsTo( midday ) * 24.0 / 86400.0;
+            sTime = tmp_sTime.secsTo( midday ) * 24.0 / 86400.0;
+            
+            if ( tmp_rTime <= midday )
+                rTime = 12.0 - rTime;
+            else
+                rTime = -12.0 - rTime;
+            
+            if ( tmp_sTime <= midday )
+                sTime = 12.0 - sTime;
+            else
+                sTime = -12.0 - sTime;
+        } else {
+            if ( ksp->transitAltitude( kdt, geo ).degree() > 0 ) {
+                rTime = -24.0;
+                sTime =  24.0;
+            } else {
+                rTime =  24.0;
+                sTime = -24.0;
+            }
         }
-        QTime ttime = ksp->transitTime( kdt, geo );
-        if ( ttime.secsTo( QTime( 12, 0, 0 ) ) > 0 ) {
-            ttime = ksp->transitTime( kdt.addDays( 1 ), geo );
-        }
-
+        
+        tTime = tmp_tTime.secsTo( midday ) * 24.0 / 86400.0;
+        if ( tmp_tTime <= midday )
+            tTime = 12.0 - tTime;
+        else
+            tTime = -12.0 - tTime;
+        
         float dy = kdt.date().daysInYear() - kdt.date().dayOfYear();
-        vRise    << QPointF( timeToHours( rtime ), dy );
-        vSet     << QPointF( timeToHours( stime ), dy );
-        vTransit << QPointF( timeToHours( ttime ), dy );
-    }
+        vRise << QPointF( rTime, dy );
+        vSet << QPointF( sTime, dy );
+        vTransit << QPointF( tTime, dy );
+    }    
 
     //Now, find continuous segments in each QVector and add each segment 
     //as a separate KPlotObject
 
-    // Flags to indicate whether the set / rise / transit labels should be drawn
-
     KPlotObject *oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
     KPlotObject *oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+    bool needRiseLabel = true;
+    bool needSetLabel = true;
+    bool needTransertLabel = true;
+    QString label;
 
     for ( int i=0; i<vRise.size(); ++i ) {
-        if ( i > 0 && fabs(vRise.at(i).x() - vRise.at(i-1).x()) > 6.0 ) { 
+        /* if rise time is set under -23.0 or above 23.0, it means the planet never rise or set,
+         * we add the current KPlotObject to CalendarView and create a new one. */
+        if ( vRise.at( i ).x() > -23.0 && vRise.at( i ).x() < 23.0 ) {
+            /* If the difference between to points is more than 6 hours,
+             * we consider the line continues on the other side of the view.
+             * Add the current KPlotObject to CalendarView and create a new one. */
+            if ( i > 0 && fabs( vRise.at( i ).x() - vRise.at( i-1 ).x() ) > 6.0 ) { 
+                scUI->CalendarView->addPlotObject( oRise );
+                oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+                needRiseLabel = true;
+            }
+            // Set label if the line is on the night area, and if it needs one.
+            if ( needRiseLabel 
+                 && vRise.at(i).x() > scUI->CalendarView->getSetTime( i ) 
+                 && vRise.at(i).x() < scUI->CalendarView->getRiseTime( i ) ) {
+                label = i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() );
+                needRiseLabel = false;
+            } else
+                label = QString();
+            /* When the line is over day area, we set needRiseLabel to true, so, the next
+             * time the line pass over the night area, a label will be draw. */
+            if ( vRise.at(i).x() >= scUI->CalendarView->getRiseTime( i ) )
+                needRiseLabel = true;
+            // Add the current point to KPlotObject
+            oRise->addPoint( vRise.at(i), label );
+        } else {
             scUI->CalendarView->addPlotObject( oRise );
             oRise = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            scUI->CalendarView->update();
-        }
-        if ( i > 0 && fabs(vSet.at(i).x() - vSet.at(i-1).x()) > 6.0 ) {
-            scUI->CalendarView->addPlotObject( oSet );
-            oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            scUI->CalendarView->update();
-        }
-        if ( i > 0 && fabs(vTransit.at(i).x() - vTransit.at(i-1).x()) > 6.0 ) {
-            scUI->CalendarView->addPlotObject( oTransit );
-            oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
-            scUI->CalendarView->update();
+            needRiseLabel = true;
         }
         
-        bool riseLabel    = isAxisCrossed(vRise,    i)  || isAtExtremum(vRise,    i);
-        bool transitLabel = isAxisCrossed(vTransit, i)  || isAtExtremum(vTransit, i);
-        bool setLabel     = isAxisCrossed(vSet,     i)  || isAtExtremum(vSet,     i);
-        oRise->addPoint(
-            vRise.at(i),
-            riseLabel ? i18nc( "A planet rises from the horizon", "%1 rises", ksp->name() ) : QString() );
-        oSet->addPoint(
-            vSet.at(i),
-            setLabel ? i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() ) : QString() );
-        oTransit->addPoint(
-            vTransit.at(i),
-            transitLabel ? i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() ) : QString() );
+        // Set
+        if ( vSet.at( i ).x() > -23.0 && vSet.at( i ).x() < 23.0) {
+            if ( i > 0 && fabs( vSet.at( i ).x() - vSet.at( i-1 ).x() ) > 6.0 ) {
+                scUI->CalendarView->addPlotObject( oSet );
+                oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+                needSetLabel = true;
+            }
+            if ( needSetLabel && vSet.at(i).x() > scUI->CalendarView->getSetTime( i ) && vSet.at(i).x() < scUI->CalendarView->getRiseTime( i ) ){
+                label = i18nc( "A planet sets from the horizon", "%1 sets", ksp->name() );
+                needSetLabel = false;
+            } else
+                label  = QString();
+            if ( vSet.at(i).x() <= scUI->CalendarView->getSetTime( i ) )
+                needSetLabel = true;
+            oSet->addPoint( vSet.at(i), label );
+        } else {
+            scUI->CalendarView->addPlotObject( oSet );
+            oSet = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+            needSetLabel = true;
+        }
+        
+        // Transit
+        if ( vTransit.at( i ).x() > -23.0 && vTransit.at( i ).x() < 23.0) {
+            if ( i > 0 && fabs( vTransit.at( i ).x() - vTransit.at( i-1 ).x() ) > 6.0 ) {
+                scUI->CalendarView->addPlotObject( oTransit );
+                oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+                needTransertLabel = true;
+            }
+            if ( needTransertLabel && vTransit.at(i).x() > scUI->CalendarView->getSetTime( i ) && vTransit.at(i).x() < scUI->CalendarView->getRiseTime( i ) ) {
+                label = i18nc( "A planet transits across the meridian", "%1 transits", ksp->name() );
+                needTransertLabel = false;
+            } else
+                label = QString();
+            if ( vTransit.at(i).x() <= scUI->CalendarView->getSetTime( i ) || vTransit.at(i).x() >= scUI->CalendarView->getRiseTime( i ) )
+                needTransertLabel = true;
+            oTransit->addPoint( vTransit.at(i), label );
+        } else {
+            scUI->CalendarView->addPlotObject( oTransit );
+            oTransit = new KPlotObject( pColor, KPlotObject::Lines, 2.0 );
+            needTransertLabel = true;
+        }
     }
     
+    // Add the last points
     scUI->CalendarView->addPlotObject( oRise );
     scUI->CalendarView->addPlotObject( oSet );
     scUI->CalendarView->addPlotObject( oTransit );

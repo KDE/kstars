@@ -30,6 +30,8 @@ class CalendarWidget : public KPlotWidget
     public:
         explicit CalendarWidget( QWidget *parent=0 );
         void setHorizon();
+        inline float getRiseTime( int i ) { return riseTimeList.at( i ); }
+        inline float getSetTime( int i ) { return setTimeList.at( i ); }
     
     protected:
         void paintEvent( QPaintEvent *e );
