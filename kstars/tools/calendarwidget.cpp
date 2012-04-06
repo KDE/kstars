@@ -196,20 +196,29 @@ void CalendarWidget::drawAxes( QPainter *p ) {
     p->setFont( f );
 
     //Top/Bottom axis tickmarks and time labels
-    for ( float xx = minSTime; xx <= maxRTime; xx += 2.0 ) {
+    for ( float xx = minSTime; xx <= maxRTime; xx += 1.0 ) {
         int h = int(xx);
         if ( h < 0 ) h += 24;
         QString sTime = KGlobal::locale()->formatTime( QTime( h, 0, 0 ) );
 
-        QPointF pTick = mapToWidget( QPointF( xx, dataRect().y() ) );
-        p->drawLine( pTick, QPointF( pTick.x(), pTick.y() - BIGTICKSIZE ) );
-        QRectF r( pTick.x() - BIGTICKSIZE, pTick.y() + 0.5*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-        p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
-
-        pTick = QPointF( pTick.x(), 0.0 );
-        p->drawLine( pTick, QPointF( pTick.x(), pTick.y() + BIGTICKSIZE ) );
-        r.moveTop( -2.0*BIGTICKSIZE );
-        p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+        // Draw a small tick every hours and a big tick every two hours.
+        QPointF pBottomTick = mapToWidget( QPointF( xx, dataRect().y() ) );
+        QPointF pTopTick = QPointF( pBottomTick.x(), 0.0 );
+        if ( h % 2 ) {
+            // Draw small bottom tick
+            p->drawLine( pBottomTick, QPointF( pBottomTick.x(), pBottomTick.y() - SMALLTICKSIZE ) );
+            // Draw small top tick
+            p->drawLine( pTopTick, QPointF( pTopTick.x(), pTopTick.y() + SMALLTICKSIZE ) );
+        } else {
+            // Draw big bottom tick
+            p->drawLine( pBottomTick, QPointF( pBottomTick.x(), pBottomTick.y() - BIGTICKSIZE ) );
+            QRectF r( pBottomTick.x() - BIGTICKSIZE, pBottomTick.y() + 0.5*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+            p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+            // Draw big top tick
+            p->drawLine( pTopTick, QPointF( pTopTick.x(), pTopTick.y() + BIGTICKSIZE ) );
+            r.moveTop( -2.0*BIGTICKSIZE );
+            p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+        }
     }
 
     //Month dividers
