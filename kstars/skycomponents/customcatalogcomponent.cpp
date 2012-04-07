@@ -373,7 +373,7 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
             bool ok(false);
             iType = d.at(i).toUInt( &ok );
             if ( ok ) {
-                if ( iType == 2 || (iType > 8 && iType != 18)) {
+                if ( iType == 2 || (iType > 8 && iType < 13) || iType == 19 || iType == 20 ) {
                     if ( showerrs )
                         errs.append( i18n( "Line %1, field %2: Invalid object type: %3" ,
                                            lnum, i, d.at(i) ) +
