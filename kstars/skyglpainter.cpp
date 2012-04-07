@@ -261,6 +261,17 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     float w = width/2.;
     float h = w * obj->e();
 
+    // Fake a small, finite width / height if the objects have
+    // undefined sizes (in pixels, does not scale) at high zooms
+    if( Options::zoomFactor() > 10800.0 ) { // This means 1 arcmin maps to 2 pi pixels or something like that
+        if( w == 0 ) {
+            w = 7;
+        }
+        if( h == 0 ) {
+            h = 7;
+        }
+    }
+
     //Init texture if it doesn't exist and we would be drawing it anyways
     if( drawImage  &&  !obj->image().isNull() ) {
         drawTexturedRectangle( obj->image(), vec, pa, w, h);
