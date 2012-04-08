@@ -183,6 +183,8 @@ void CalendarWidget::drawHorizon( QPainter *p ) {
 }
 
 void CalendarWidget::drawAxes( QPainter *p ) {
+    SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
+    
     p->setPen( foregroundColor() );
     p->setBrush( Qt::NoBrush );
 
@@ -199,7 +201,9 @@ void CalendarWidget::drawAxes( QPainter *p ) {
     for ( float xx = minSTime; xx <= maxRTime; xx += 1.0 ) {
         int h = int(xx);
         if ( h < 0 ) h += 24;
-        QString sTime = KGlobal::locale()->formatTime( QTime( h, 0, 0 ) );
+        QTime time( h, 0, 0 );
+        QString sTime = KGlobal::locale()->formatLocaleTime( time, KLocale::TimeWithoutSeconds );
+        QString sUtTime =  KGlobal::locale()->formatLocaleTime( time.addSecs( skycal->get_geo()->TZ() * -3600 ), KLocale::TimeWithoutSeconds );
 
         // Draw a small tick every hours and a big tick every two hours.
         QPointF pBottomTick = mapToWidget( QPointF( xx, dataRect().y() ) );
@@ -213,19 +217,22 @@ void CalendarWidget::drawAxes( QPainter *p ) {
             // Draw big bottom tick
             p->drawLine( pBottomTick, QPointF( pBottomTick.x(), pBottomTick.y() - BIGTICKSIZE ) );
             QRectF r( pBottomTick.x() - BIGTICKSIZE, pBottomTick.y() + 0.5*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-            p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+            p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sUtTime );
             // Draw big top tick
             p->drawLine( pTopTick, QPointF( pTopTick.x(), pTopTick.y() + BIGTICKSIZE ) );
             r.moveTop( -2.0*BIGTICKSIZE );
             p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
         }
     }
+    
+    // Print Top and Bottom axes labels
+    p->drawText( 0, -38, pixRect().width(), pixRect().height(), Qt::AlignHCenter|Qt::AlignTop|Qt::TextDontClip, i18n( "Local time" ) );
+    p->drawText( 0, 0, pixRect().width(), pixRect().height() + 35, Qt::AlignHCenter|Qt::AlignBottom|Qt::TextDontClip, i18n( "Universal time" ) );
 
     //Month dividers
     QColor c = p->pen().color();
     c.setAlpha( 100 );
     p->setPen( c );
-    SkyCalendar *skycal = (SkyCalendar*)topLevelWidget();
     int y = skycal->year();
     for ( int imonth=2; imonth <= 12; ++imonth ) {
         QDate dt( y, imonth, 1 );
