@@ -142,10 +142,6 @@ KStarsData::~KStarsData() {
     pinstance = 0;
 }
 
-QString KStarsData::typeName( const int type ) const {
-    return SkyObject::typeName( type );
-}
-
 bool KStarsData::initialize() {
     // Load Time Zone Rules
     emit progressText( i18n("Reading time zone rules") );

@@ -164,12 +164,6 @@ public:
 
     GeoLocation *locationNamed( const QString &city, const QString &province=QString(), const QString &country= QString() );
 
-    /**
-     *@return The name of the type 'type'.
-     *@note This is just a proxy method that calls the static method SkyObject::typeName( int )
-     */
-    QString typeName( const int type ) const;
-
     /**Set the GeoLocation according to the argument.
      * @param l reference to the new GeoLocation
      */
