@@ -22,6 +22,7 @@
 #include <kstandarddirs.h>
 #include <kfileitem.h>
 #include <klocale.h>
+#include <qmath.h>
 
 #include "Options.h"
 #include "kstarsdata.h"
@@ -304,7 +305,7 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
         int dx = (pos2 - pos).x();
         int dy = (pos2 - pos).y();
 
-        if ( sqrt( dx * dx + dy * dy ) <= pixelRadius ) {
+        if ( qSqrt( dx * dx + dy * dy ) <= pixelRadius ) {
             //point is inside pixelRadius circle
             retVal.append(ptr);
         }
