@@ -153,7 +153,7 @@ float SupernovaeComponent::zoomMagnitudeLimit(){
     double lgmin = log10(MINZOOM);
     double lgz   = log10(Options::zoomFactor());
 
-    return 14.0 + 2.222*( lgz - lgmin ) + 2.222*log10( Options::starDensity() );
+    return 14.0 + 2.222*( lgz - lgmin ) + 2.222*log10( static_cast<double>(Options::starDensity()) );
 }
 
 
