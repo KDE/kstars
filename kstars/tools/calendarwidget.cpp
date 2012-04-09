@@ -38,6 +38,7 @@ CalendarWidget::CalendarWidget( QWidget *parent )
 {
     setAntialiasing( true );
     setTopPadding( 40 );
+    setLeftPadding( 60 );
     
     maxRTime = 12.0;
     minSTime = -12.0;
@@ -225,24 +226,59 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         }
     }
     
-    // Print Top and Bottom axes labels
-    p->drawText( 0, -38, pixRect().width(), pixRect().height(), Qt::AlignHCenter|Qt::AlignTop|Qt::TextDontClip, i18n( "Local time" ) );
-    p->drawText( 0, 0, pixRect().width(), pixRect().height() + 35, Qt::AlignHCenter|Qt::AlignBottom|Qt::TextDontClip, i18n( "Universal time" ) );
+    // Top axis label
+    p->drawText(
+        0, -38,
+        pixRect().width(), pixRect().height(),
+        Qt::AlignHCenter | Qt::AlignTop | Qt::TextDontClip,
+        i18n( "Local time" ) );
+    // Bottom axis label
+    p->drawText(
+        0, 0,
+        pixRect().width(), pixRect().height() + 35,
+        Qt::AlignHCenter | Qt::AlignBottom | Qt::TextDontClip,
+        i18n( "Universal time" ) );
+    // Left axis label
+    p->save();
+    p->rotate( 90.0 );
+    p->drawText(
+        0, 0,
+        pixRect().height(), leftPadding() -5,
+        Qt::AlignHCenter | Qt::AlignBottom | Qt::TextDontClip,
+        i18n( "Month" ) );
+    p->restore();
 
     //Month dividers
-    QColor c = p->pen().color();
-    c.setAlpha( 100 );
-    p->setPen( c );
     int y = skycal->year();
     for ( int imonth=2; imonth <= 12; ++imonth ) {
         QDate dt( y, imonth, 1 );
         float doy = float( dt.daysInYear() - dt.dayOfYear() );
+        
+        // Draw a tick every months on left axis
+        QPointF pMonthTick = mapToWidget( QPointF( dataRect().x(), doy ) );
+        p->drawLine( pMonthTick, QPointF( pMonthTick.x() + BIGTICKSIZE, pMonthTick.y() ) );
+        
+        // Draw month labels
+        QRectF rMonth(
+            mapToWidget( QPointF( 0.0, float( dt.daysInYear() - dt.addMonths( -1 ).dayOfYear() ) ) ),
+            mapToWidget( QPointF( minSTime - 0.1, doy ) ) );
+        p->drawText( rMonth, Qt::AlignRight|Qt::AlignVCenter|Qt::TextDontClip, QDate::shortMonthName( imonth - 1 ) );
+        if ( imonth == 12 ) { // December
+            rMonth = QRectF(
+                mapToWidget( QPointF( 0.0, doy ) ),
+                mapToWidget( QPointF( minSTime - 0.1, 0.0 ) ) );
+            p->drawText( rMonth, Qt::AlignRight|Qt::AlignVCenter|Qt::TextDontClip, QDate::shortMonthName( imonth ) );
+        }
+
+        QColor c = p->pen().color();
+        c.setAlpha( 100 );
+        p->setPen( c );
         QPointF pdoy = mapToWidget( QPointF( dataRect().x(), doy ) );
         p->drawLine( pdoy, QPointF( pixRect().right(), pdoy.y() ) );
+        c.setAlpha( 255 );
+        p->setPen( c );
     }
-    c.setAlpha( 255 );
-    p->setPen( c );
-    
+
     //Draw month labels along each horizon curve
     QFont origFont = p->font();
     p->setFont( QFont( "Monospace", origFont.pointSize() + 5 ) );
