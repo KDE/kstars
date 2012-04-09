@@ -168,8 +168,6 @@ void SkyMapComposite::updateMoons(KSNumbers *num )
 //should appear "behind" others should be drawn first.
 void SkyMapComposite::draw( SkyPainter *skyp )
 {
-    QTime t;
-    t.start();
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
 
@@ -271,8 +269,6 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_Horizon->draw( skyp );
 
     m_skyMesh->inDraw( false );
-
-    //kDebug() << QString("draw took %1 ms").arg( t.elapsed() );
 
     // -jbb uncomment these to see trixel outlines:
     //
