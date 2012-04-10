@@ -163,8 +163,7 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
     if ( ! selected() )
         return;
 
-    SkyMap *map         = SkyMap::Instance();
-    double maglim       = zoomMagnitudeLimit();
+    double maglim = zoomMagnitudeLimit();
 
     foreach ( SkyObject *so, m_ObjectList ) {
         Supernova *sup = (Supernova*) so;
