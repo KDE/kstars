@@ -39,6 +39,7 @@ CalendarWidget::CalendarWidget( QWidget *parent )
     setAntialiasing( true );
     setTopPadding( 40 );
     setLeftPadding( 60 );
+    setRightPadding( 100 );
     
     maxRTime = 12.0;
     minSTime = -12.0;
@@ -246,9 +247,17 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         pixRect().height(), leftPadding() -5,
         Qt::AlignHCenter | Qt::AlignBottom | Qt::TextDontClip,
         i18n( "Month" ) );
+    // Right axis label
+    //p->translate( 0.0, -1 * pixRect().width() - rightPadding() );
+    p->translate( 0.0, -1 * frameRect().width() + 30 );
+    p->drawText(
+        0, 0,
+        pixRect().height(), leftPadding() -5,
+        Qt::AlignHCenter | Qt::AlignBottom | Qt::TextDontClip,
+        i18n( "Julian date" ) );
     p->restore();
 
-    //Month dividers
+    // Month dividers
     int y = skycal->year();
     for ( int imonth=2; imonth <= 12; ++imonth ) {
         QDate dt( y, imonth, 1 );
@@ -278,6 +287,31 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         c.setAlpha( 255 );
         p->setPen( c );
     }
+    
+    // Week dividers
+    for( KStarsDateTime kdt( QDate( y, 1, 1 ), QTime( 12, 0, 0 ) );
+         kdt.date().year() == y;
+         kdt = kdt.addDays( 7 ) )
+    {
+        QFont origFont = p->font();
+        p->setFont( QFont( "Monospace", origFont.pointSize() - 1 ) );
+        
+        // Draw ticks
+        float doy = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
+        QPointF pWeekTick = mapToWidget( QPointF( maxRTime, doy ) );
+        p->drawLine( pWeekTick, QPointF( pWeekTick.x() - BIGTICKSIZE, pWeekTick.y() ) );
+        // Draw julian date
+        QRectF rJd(
+            mapToWidget( QPointF( maxRTime + 0.1, doy + 2 ) ),
+            mapToWidget( QPointF( maxRTime, doy ) ) );
+        p->drawText(
+            rJd,
+            Qt::AlignLeft|Qt::AlignVCenter|Qt::TextDontClip,
+            QString().setNum( double( kdt.djd() ), 'f', 1 ) );
+        
+        p->setFont( origFont );
+    }
+    
 
     //Draw month labels along each horizon curve
     QFont origFont = p->font();
