@@ -488,7 +488,7 @@ void JupiterMoons::findPosition( const KSNumbers *num, const KSPlanetBase *Jupit
         //Update Trails
         if ( Moon[i]->hasTrail() ) {
             Moon[i]->addToTrail();
-            if ( Moon[i]->trail().size() > MAXTRAIL )
+            if ( Moon[i]->trail().size() > TrailObject::MaxTrail )
                 Moon[i]->clipTrail();
         }
     }
