@@ -198,34 +198,6 @@ void CalendarWidget::drawAxes( QPainter *p ) {
     int s = f.pointSize();
     f.setPointSize( s - 2 );
     p->setFont( f );
-
-    //Top/Bottom axis tickmarks and time labels
-    for ( float xx = minSTime; xx <= maxRTime; xx += 1.0 ) {
-        int h = int(xx);
-        if ( h < 0 ) h += 24;
-        QTime time( h, 0, 0 );
-        QString sTime = KGlobal::locale()->formatLocaleTime( time, KLocale::TimeWithoutSeconds );
-        QString sUtTime =  KGlobal::locale()->formatLocaleTime( time.addSecs( skycal->get_geo()->TZ() * -3600 ), KLocale::TimeWithoutSeconds );
-
-        // Draw a small tick every hours and a big tick every two hours.
-        QPointF pBottomTick = mapToWidget( QPointF( xx, dataRect().y() ) );
-        QPointF pTopTick = QPointF( pBottomTick.x(), 0.0 );
-        if ( h % 2 ) {
-            // Draw small bottom tick
-            p->drawLine( pBottomTick, QPointF( pBottomTick.x(), pBottomTick.y() - SMALLTICKSIZE ) );
-            // Draw small top tick
-            p->drawLine( pTopTick, QPointF( pTopTick.x(), pTopTick.y() + SMALLTICKSIZE ) );
-        } else {
-            // Draw big bottom tick
-            p->drawLine( pBottomTick, QPointF( pBottomTick.x(), pBottomTick.y() - BIGTICKSIZE ) );
-            QRectF r( pBottomTick.x() - BIGTICKSIZE, pBottomTick.y() + 0.5*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
-            p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sUtTime );
-            // Draw big top tick
-            p->drawLine( pTopTick, QPointF( pTopTick.x(), pTopTick.y() + BIGTICKSIZE ) );
-            r.moveTop( -2.0*BIGTICKSIZE );
-            p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
-        }
-    }
     
     // Top axis label
     p->drawText(
@@ -257,6 +229,44 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         i18n( "Julian date" ) );
     p->restore();
 
+    //Top/Bottom axis tickmarks and time labels
+    for ( float xx = minSTime; xx <= maxRTime; xx += 1.0 ) {
+        int h = int(xx);
+        if ( h < 0 ) h += 24;
+        QTime time( h, 0, 0 );
+        QString sTime = KGlobal::locale()->formatLocaleTime( time, KLocale::TimeWithoutSeconds );
+        QString sUtTime =  KGlobal::locale()->formatLocaleTime( time.addSecs( skycal->get_geo()->TZ() * -3600 ), KLocale::TimeWithoutSeconds );
+
+        // Draw a small tick every hours and a big tick every two hours.
+        QPointF pBottomTick = mapToWidget( QPointF( xx, dataRect().y() ) );
+        QPointF pTopTick = QPointF( pBottomTick.x(), 0.0 );
+        if ( h % 2 ) {
+            // Draw small bottom tick
+            p->drawLine( pBottomTick, QPointF( pBottomTick.x(), pBottomTick.y() - SMALLTICKSIZE ) );
+            // Draw small top tick
+            p->drawLine( pTopTick, QPointF( pTopTick.x(), pTopTick.y() + SMALLTICKSIZE ) );
+        } else {
+            // Draw big bottom tick
+            p->drawLine( pBottomTick, QPointF( pBottomTick.x(), pBottomTick.y() - BIGTICKSIZE ) );
+            QRectF r( pBottomTick.x() - BIGTICKSIZE, pBottomTick.y() + 0.5*BIGTICKSIZE, 2*BIGTICKSIZE, BIGTICKSIZE );
+            p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sUtTime );
+            // Draw big top tick
+            p->drawLine( pTopTick, QPointF( pTopTick.x(), pTopTick.y() + BIGTICKSIZE ) );
+            r.moveTop( -2.0*BIGTICKSIZE );
+            p->drawText( r, Qt::AlignCenter | Qt::TextDontClip, sTime );
+        }
+        
+        // Vertical grid
+        if ( skycal->scUI->checkBox_GridVertical->isChecked() ) {
+            QColor c = p->pen().color();
+            c.setAlpha( 100 );
+            p->setPen( c );
+            p->drawLine( pTopTick, pBottomTick );
+            c.setAlpha( 255 );
+            p->setPen( c );
+        }
+    }
+
     // Month dividers
     int y = skycal->year();
     for ( int imonth=2; imonth <= 12; ++imonth ) {
@@ -270,114 +280,124 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         // Draw month labels
         QRectF rMonth(
             mapToWidget( QPointF( 0.0, float( dt.daysInYear() - dt.addMonths( -1 ).dayOfYear() ) ) ),
-            mapToWidget( QPointF( minSTime - 0.1, doy ) ) );
+            mapToWidget( QPointF( dataRect().left() - 0.1, doy ) ) );
         p->drawText( rMonth, Qt::AlignRight|Qt::AlignVCenter|Qt::TextDontClip, QDate::shortMonthName( imonth - 1 ) );
         if ( imonth == 12 ) { // December
             rMonth = QRectF(
                 mapToWidget( QPointF( 0.0, doy ) ),
-                mapToWidget( QPointF( minSTime - 0.1, 0.0 ) ) );
+                mapToWidget( QPointF( dataRect().left() - 0.1, 0.0 ) ) );
             p->drawText( rMonth, Qt::AlignRight|Qt::AlignVCenter|Qt::TextDontClip, QDate::shortMonthName( imonth ) );
         }
 
-        QColor c = p->pen().color();
-        c.setAlpha( 100 );
-        p->setPen( c );
-        QPointF pdoy = mapToWidget( QPointF( dataRect().x(), doy ) );
-        p->drawLine( pdoy, QPointF( pixRect().right(), pdoy.y() ) );
-        c.setAlpha( 255 );
-        p->setPen( c );
+        // Draw dividers
+        if ( skycal->scUI->checkBox_GridMonths->isChecked() ) {
+            QColor c = p->pen().color();
+            c.setAlpha( 100 );
+            p->setPen( c );
+            p->drawLine( pMonthTick, QPointF( pixRect().right(), pMonthTick.y() ) );
+            c.setAlpha( 255 );
+            p->setPen( c );
+        }
     }
     
     // Week dividers
+    QFont origFont = p->font();
+    p->setFont( QFont( "Monospace", origFont.pointSize() - 1 ) );
     for( KStarsDateTime kdt( QDate( y, 1, 1 ), QTime( 12, 0, 0 ) );
          kdt.date().year() == y;
          kdt = kdt.addDays( 7 ) )
     {
-        QFont origFont = p->font();
-        p->setFont( QFont( "Monospace", origFont.pointSize() - 1 ) );
-        
         // Draw ticks
         float doy = float( kdt.date().daysInYear() - kdt.date().dayOfYear() );
-        QPointF pWeekTick = mapToWidget( QPointF( maxRTime, doy ) );
+        QPointF pWeekTick = mapToWidget( QPointF( dataRect().right(), doy ) );
         p->drawLine( pWeekTick, QPointF( pWeekTick.x() - BIGTICKSIZE, pWeekTick.y() ) );
+        
         // Draw julian date
         QRectF rJd(
-            mapToWidget( QPointF( maxRTime + 0.1, doy + 2 ) ),
-            mapToWidget( QPointF( maxRTime, doy ) ) );
+            mapToWidget( QPointF( dataRect().right() + 0.1, doy + 2 ) ),
+            mapToWidget( QPointF( dataRect().right(), doy ) ) );
         p->drawText(
             rJd,
             Qt::AlignLeft|Qt::AlignVCenter|Qt::TextDontClip,
             QString().setNum( double( kdt.djd() ), 'f', 1 ) );
         
-        p->setFont( origFont );
+        // Draw dividers
+        if ( skycal->scUI->checkBox_GridWeeks->isChecked() ) {
+            QColor c = p->pen().color();
+            c.setAlpha( 50 );
+            p->setPen( c );
+            p->drawLine( pWeekTick, QPointF( pixRect().left(), pWeekTick.y() ) );
+            c.setAlpha( 255 );
+            p->setPen( c );
+        }
     }
-    
 
     //Draw month labels along each horizon curve
-    QFont origFont = p->font();
-    p->setFont( QFont( "Monospace", origFont.pointSize() + 5 ) );
-    int textFlags = Qt::TextSingleLine | Qt::AlignCenter;
-    QFontMetricsF fm( p->font(), p->device() );
-    
-    for ( int date=0; date<dateList.size(); date++ ) {
-        if ( dateList.at( date ).day() < 12 || dateList.at( date ).day() > 18 )
-            continue;
+    if ( skycal->scUI->checkBox_LabelMonths->isChecked() ) {
+        p->setFont( QFont( "Monospace", origFont.pointSize() + 5 ) );
+        int textFlags = Qt::TextSingleLine | Qt::AlignCenter;
+        QFontMetricsF fm( p->font(), p->device() );
         
-        bool noNight = false;
-        if ( riseTimeList.at( date ) < setTimeList.at( date ) )
-            noNight = true;
-        
-        int imonth = dateList.at( date ).month();
-        
-        QString shortMonthName = QDate::shortMonthName( dateList.at( date ).month() );
-        QRectF riseLabelRect = fm.boundingRect( QRectF(0,0,1,1), textFlags, shortMonthName );
-        QRectF setLabelRect = fm.boundingRect( QRectF(0,0,1,1), textFlags, shortMonthName );
-        
-        QDate dt( y, imonth, 15 );
-        float doy = float( dt.daysInYear() - dt.dayOfYear() );
-        float xRiseLabel, xSetLabel;
-        if ( noNight ) {
-            xRiseLabel = 0.0;
-            xSetLabel = 0.0;
-        } else {
-            xRiseLabel = riseTimeList.at( date ) + 0.6;
-            xSetLabel = setTimeList.at( date )- 0.6;
-        }
-        QPointF pRiseLabel = mapToWidget( QPointF( xRiseLabel, doy ) );
-        QPointF pSetLabel = mapToWidget( QPointF( xSetLabel, doy ) );
-        
-        //Determine rotation angle for month labels
-        QDate dt1( y, imonth, 1 );
-        float doy1 = float( dt1.daysInYear() - dt1.dayOfYear() );
-        QDate dt2( y, imonth, dt1.daysInMonth() );
-        float doy2 = float( dt2.daysInYear() - dt2.dayOfYear() );
-        
-        QPointF p1, p2;
-        float rAngle, sAngle;
-        if ( noNight ) {
-            rAngle = 90.0;
-        } else {
-            p1 = mapToWidget( QPointF( riseTimeList.at( date-2 ), doy1 ) );
-            p2 = mapToWidget( QPointF( riseTimeList.at( date+2 ), doy2 ) );
-            rAngle = atan2( p2.y() - p1.y(), p2.x() - p1.x() )/dms::DegToRad;
+        for ( int date=0; date<dateList.size(); date++ ) {
+            if ( dateList.at( date ).day() < 12 || dateList.at( date ).day() > 18 )
+                continue;
             
-            p1 = mapToWidget( QPointF( setTimeList.at( date-2 ), doy1 ) );
-            p2 = mapToWidget( QPointF( setTimeList.at( date+2 ), doy2 ) );
-            sAngle = atan2( p2.y() - p1.y(), p2.x() - p1.x() )/dms::DegToRad;
-        }
-        
-        p->save();
-        p->translate( pRiseLabel );
-        p->rotate( rAngle );
-        p->drawText( riseLabelRect, textFlags, shortMonthName );
-        p->restore();
-        
-        if ( ! noNight ) {
+            bool noNight = false;
+            if ( riseTimeList.at( date ) < setTimeList.at( date ) )
+                noNight = true;
+            
+            int imonth = dateList.at( date ).month();
+            
+            QString shortMonthName = QDate::shortMonthName( dateList.at( date ).month() );
+            QRectF riseLabelRect = fm.boundingRect( QRectF(0,0,1,1), textFlags, shortMonthName );
+            QRectF setLabelRect = fm.boundingRect( QRectF(0,0,1,1), textFlags, shortMonthName );
+            
+            QDate dt( y, imonth, 15 );
+            float doy = float( dt.daysInYear() - dt.dayOfYear() );
+            float xRiseLabel, xSetLabel;
+            if ( noNight ) {
+                xRiseLabel = 0.0;
+                xSetLabel = 0.0;
+            } else {
+                xRiseLabel = riseTimeList.at( date ) + 0.6;
+                xSetLabel = setTimeList.at( date )- 0.6;
+            }
+            QPointF pRiseLabel = mapToWidget( QPointF( xRiseLabel, doy ) );
+            QPointF pSetLabel = mapToWidget( QPointF( xSetLabel, doy ) );
+            
+            //Determine rotation angle for month labels
+            QDate dt1( y, imonth, 1 );
+            float doy1 = float( dt1.daysInYear() - dt1.dayOfYear() );
+            QDate dt2( y, imonth, dt1.daysInMonth() );
+            float doy2 = float( dt2.daysInYear() - dt2.dayOfYear() );
+            
+            QPointF p1, p2;
+            float rAngle, sAngle;
+            if ( noNight ) {
+                rAngle = 90.0;
+            } else {
+                p1 = mapToWidget( QPointF( riseTimeList.at( date-2 ), doy1 ) );
+                p2 = mapToWidget( QPointF( riseTimeList.at( date+2 ), doy2 ) );
+                rAngle = atan2( p2.y() - p1.y(), p2.x() - p1.x() )/dms::DegToRad;
+                
+                p1 = mapToWidget( QPointF( setTimeList.at( date-2 ), doy1 ) );
+                p2 = mapToWidget( QPointF( setTimeList.at( date+2 ), doy2 ) );
+                sAngle = atan2( p2.y() - p1.y(), p2.x() - p1.x() )/dms::DegToRad;
+            }
+            
             p->save();
-            p->translate( pSetLabel );
-            p->rotate( sAngle );
-            p->drawText( setLabelRect, textFlags, shortMonthName );
+            p->translate( pRiseLabel );
+            p->rotate( rAngle );
+            p->drawText( riseLabelRect, textFlags, shortMonthName );
             p->restore();
+            
+            if ( ! noNight ) {
+                p->save();
+                p->translate( pSetLabel );
+                p->rotate( sAngle );
+                p->drawText( setLabelRect, textFlags, shortMonthName );
+                p->restore();
+            }
         }
     }
      
