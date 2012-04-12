@@ -229,7 +229,7 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     //transit time of this refined position
     SkyPoint sp = recomputeCoords( dt0, geo );
 
-    HourAngle = dms ( LST.Degrees() - sp.ra0().Degrees() );
+    HourAngle = dms ( LST.Degrees() - sp.ra().Degrees() );
     dSec = int( -3600.*HourAngle.Hours() );
 
     return dt.addSecs( dSec ).time();

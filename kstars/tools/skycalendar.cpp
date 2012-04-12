@@ -219,7 +219,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
         /* if rise time is set under -23.0 or above 23.0, it means the planet never rise or set,
          * we add the current KPlotObject to CalendarView and create a new one. */
         if ( vRise.at( i ).x() > -23.0 && vRise.at( i ).x() < 23.0 ) {
-            /* If the difference between to points is more than 6 hours,
+            /* If the difference between to points is greater than 6 hours,
              * we consider the line continues on the other side of the view.
              * Add the current KPlotObject to CalendarView and create a new one. */
             if ( i > 0 && fabs( vRise.at( i ).x() - vRise.at( i-1 ).x() ) > 6.0 ) { 
