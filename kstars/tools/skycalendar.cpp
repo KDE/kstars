@@ -153,7 +153,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
 
     for( KStarsDateTime kdt( QDate( year(), 1, 1 ), QTime( 12, 0, 0 ) );
          kdt.date().year() == year();
-         kdt = kdt.addDays( 7 ) )
+         kdt = kdt.addDays( scUI->spinBox_Interval->value() ) )
     {
         float rTime, sTime, tTime;
         

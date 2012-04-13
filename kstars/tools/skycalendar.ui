@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>844</width>
+    <width>1118</width>
     <height>793</height>
    </rect>
   </property>
@@ -130,7 +130,7 @@
           <item>
            <widget class="QCheckBox" name="checkBox_GridWeeks">
             <property name="text">
-             <string>Week dividers</string>
+             <string>Interval dividers</string>
             </property>
            </widget>
           </item>
@@ -145,13 +145,6 @@
             </property>
             <property name="checked">
              <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_LabelMonths">
-            <property name="text">
-             <string>Month labels along horizon curves</string>
             </property>
            </widget>
           </item>
@@ -178,17 +171,10 @@
        <property name="title">
         <string/>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_8">
+       <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="KPushButton" name="LocationButton">
-          <property name="text">
-           <string>Greenwich, United Kingdom</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
            <widget class="QLabel" name="label_2">
             <property name="text">
              <string>Year:</string>
@@ -201,7 +187,7 @@
             </property>
            </widget>
           </item>
-          <item>
+          <item row="0" column="1">
            <widget class="KIntSpinBox" name="Year">
             <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -217,25 +203,80 @@
             </property>
            </widget>
           </item>
-          <item>
-           <spacer name="horizontalSpacer">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>18</width>
-              <height>17</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="KPushButton" name="CreateButton">
+          <item row="1" column="0">
+           <widget class="QLabel" name="label">
             <property name="text">
-             <string>Update</string>
+             <string>Interval:</string>
             </property>
            </widget>
+          </item>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QSpinBox" name="spinBox_Interval">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>31</number>
+              </property>
+              <property name="value">
+               <number>7</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>day(s)</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_9">
+          <item>
+           <widget class="KPushButton" name="LocationButton">
+            <property name="text">
+             <string>Greenwich, United Kingdom</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeType">
+               <enum>QSizePolicy::MinimumExpanding</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="KPushButton" name="CreateButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Update</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </item>
@@ -288,9 +329,6 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>LocationButton</tabstop>
-  <tabstop>Year</tabstop>
-  <tabstop>CreateButton</tabstop>
   <tabstop>checkBox_Mercury</tabstop>
   <tabstop>checkBox_Venus</tabstop>
   <tabstop>checkBox_Mars</tabstop>
