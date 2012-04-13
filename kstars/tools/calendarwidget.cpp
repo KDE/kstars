@@ -331,6 +331,21 @@ void CalendarWidget::drawAxes( QPainter *p ) {
             p->setPen( c );
         }
     }
+    
+    // Current day
+    if ( skycal->scUI->checkBox_GridToday->isChecked() ) {
+        p->setPen( QColor( Qt::yellow) );
+        QDate today = QDate::currentDate();
+        float doy = float( today.daysInYear() - today.dayOfYear() );
+        p->drawLine(
+            mapToWidget( QPointF( dataRect().left(), doy ) ),
+            mapToWidget( QPointF( dataRect().right(), doy ) )
+        );
+        p->drawText(
+            mapToWidget( QPointF( dataRect().left() + 0.1, doy + 2.0 ) ),
+            today.toString()
+        );
+    }
 
     //Draw month labels along each horizon curve
 //     if ( skycal->scUI->checkBox_LabelMonths->isChecked() ) {
