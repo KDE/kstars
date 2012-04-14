@@ -1068,6 +1068,10 @@ void ObservingList::downloadReady() {
 }  
 
 void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
+    // TODO: Remove code duplication -- we have the same stuff
+    // implemented in SkyMap::slotDSS in skymap.cpp; must try to
+    // de-duplicate as much as possible.
+
     QString RAString, DecString, RA, Dec;
     RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0().hour(), o->ra0().minute(), o->ra0().second() );
     decsgn = '+';
