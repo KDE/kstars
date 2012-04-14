@@ -20,6 +20,8 @@
 #endif
 #include "skymap.h"
 
+#include <math.h>
+
 #include <QCursor>
 #include <QBitmap>
 #include <QPainter>
@@ -53,6 +55,7 @@
 #include "printing/printingwizard.h"
 #include "simclock.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
@@ -427,15 +430,60 @@ void SkyMap::slotCenter() {
 }
 
 void SkyMap::slotDSS() {
+    // TODO: Remove code duplication -- we have the same stuff
+    // implemented in ObservingList::setCurrentImage() etc. in
+    // tools/observinglist.cpp; must try to de-duplicate as much as
+    // possible.
+
     const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
-    const QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+    const QString URLsuffix( "&e=J2000&f=gif&c=none&fov=NONE" );
+    const double dss_default_size = 15.0; // TODO: Make this user-configurable
+    const double dss_padding = 10.0; // TODO: Make this user-configurable
     dms ra(0.0), dec(0.0);
+
+    float height, width;
+    height = width = 0;
+
+    Q_ASSERT( dss_default_size > 0.0 && dss_padding >= 0.0 );
 
     //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
     //if we clicked on empty sky, we need to precess to J2000.
     if ( clickedObject() ) {
+        DeepSkyObject *dso;
         ra  = clickedObject()->ra0();
         dec = clickedObject()->dec0();
+        dso = dynamic_cast<DeepSkyObject *>( clickedObject() );
+        if( dso ) {
+            // For deep-sky objects, use their height and width information
+            double a, b, pa;
+            a = dso->a();
+            b = dso->b();
+            pa = dso->pa() * M_PI/180.0;
+            // TODO: Deal with round objects, which may have undefined 'b' and 'pa', but a sensible 'a'.
+
+            // We now want to convert a, b, and pa into an image
+            // height and width -- i.e. a dRA and dDec.
+            // DSS uses dDec for height and dRA for width. (i.e. "top" is north in the DSS images, AFAICT)
+            // From some trigonometry, assuming we have a rectangular object (worst case), we need:
+            width = a * sin( pa ) + b * cos( pa );
+            height = a * cos( pa ) + b * sin( pa );
+            // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
+
+            // Pad the RA and Dec, so that we show more of the sky than just the object.
+            // TODO: Make padding user-configurable
+            height += dss_padding;
+            width += dss_padding;
+
+            // Deal with NaNs and weird widths / heights due to undefined data
+            height = ( std::isfinite( height ) ) ? height : dss_default_size;
+            width = ( std::isfinite( width ) ) ? width : dss_default_size;
+        }
+        else {
+            // For a generic sky object, we don't know what to do. So
+            // we just assume the default size.
+            height = width = dss_default_size;
+        }
+
     } else {
         //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
         clickedPoint()->setRA0( clickedPoint()->ra().Hours() );
@@ -447,18 +495,34 @@ void SkyMap::slotDSS() {
         //restore coords from present epoch
         clickedPoint()->setRA(  clickedPoint()->ra0() );
         clickedPoint()->setDec( clickedPoint()->dec0() );
+
+        // For a sky-point, we choose the default size
+        height = width = dss_default_size;
     }
+
+    // There's no point in tiny DSS images that are smaller than dss_default_size
+    if( height < dss_default_size )
+        height = dss_default_size;
+    if( width < dss_default_size )
+        width = dss_default_size;
+
+    // DSS accepts images that are no larger than 75 arcminutes
+    if( height > 75.0 )
+        height = 75.0;
+    if( width > 75.0 )
+        width = 75.0;
 
     char decsgn = ( dec.Degrees() < 0.0 ) ? '-' : '+';
     int dd = abs( dec.degree() );
     int dm = abs( dec.arcmin() );
     int ds = abs( dec.arcsec() );
-    QString RAString, DecString;
+
+    QString RAString, DecString, SizeString;
     DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
     RAString  = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
-
+    SizeString = SizeString.sprintf( "&h=%02.1f&w=%02.1f", height, width );
     //concat all the segments into the kview command line:
-    KUrl url (URLprefix + RAString + DecString + URLsuffix);
+    KUrl url (URLprefix + RAString + DecString + SizeString + URLsuffix);
 
     KStars* kstars = KStars::Instance();
     if( kstars ) {
