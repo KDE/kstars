@@ -1067,7 +1067,7 @@ void ObservingList::downloadReady() {
         slotGetImage( true );
 }  
 
-void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
+void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
     // TODO: Remove code duplication -- we have the same stuff
     // implemented in SkyMap::slotDSS in skymap.cpp; must try to
     // de-duplicate as much as possible.
@@ -1307,7 +1307,7 @@ SkyObject* ObservingList::findObjectByName( QString name ) {
     return NULL;
 }
 
-void ObservingList::selectObject( SkyObject *o ) {
+void ObservingList::selectObject( const SkyObject *o ) {
     ui->tabWidget->setCurrentIndex( 1 );
     ui->SessionView->selectionModel()->clear();
     for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {
