@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "observinglist.h"
+#include "sessionsortfilterproxymodel.h"
 
 #include <stdio.h>
 
@@ -118,7 +119,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
-    m_SortModelSession = new QSortFilterProxyModel;
+    m_SortModelSession = new SessionSortFilterProxyModel;
     m_SortModelSession->setSourceModel( m_Session );
     m_SortModelSession->setDynamicSortFilter( true );
     ui->SessionView->setModel( m_SortModelSession );
