@@ -1192,7 +1192,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             if( currentObject() ) {
-                if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) {
+                if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) { // FIXME: This size estimate is unreliable.
                     if( ! currentObject()->isSolarSystem() )
                         slotGetImage( Options::obsListPreferDSS() );
                     else

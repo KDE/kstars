@@ -1130,4 +1130,17 @@
       <whatsthis>List of selected satellites.</whatsthis>
     </entry>
   </group>
+  <group name="General">
+    <entry name="DefaultDSSImageSize" type="Double">
+      <label>Default size for DSS images</label>
+      <whatsthis>The default size for DSS images downloaded from the internet.</whatsthis>
+      <default>15.0</default>
+    </entry>
+    <entry name="DSSPadding" type="Double">
+      <label>Additional padding around DSS Images of deep-sky objects</label>
+      <whatsthis>To include parts of the star field, we add some extra padding around DSS images of deep-sky objects. This option configures the total (both sides) padding added to either dimension of the field.</whatsthis>
+      <default>10.0</default>
+    </entry>
+  </group>
+
 </kcfg>

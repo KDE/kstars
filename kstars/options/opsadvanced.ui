@@ -20,8 +20,159 @@
    <item>
     <widget class="QTabWidget" name="AdvancedOptionsTabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>&amp;General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QGroupBox" name="BackendsGroupBox">
+         <property name="title">
+          <string>Backends</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QCheckBox" name="kcfg_UseRefraction">
+            <property name="toolTip">
+             <string>Correct coordinates of objects for the effects of the atmosphere</string>
+            </property>
+            <property name="whatsThis">
+             <string>The atmosphere bends light passing through it, like a lens.  If this item is checked, this &quot;atmospheric refraction&quot; will be simulated in the sky map.  Note that this correction is only applied when using the Horizontal coordinate system.</string>
+            </property>
+            <property name="text">
+             <string>Correct for atmospheric refraction</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="kcfg_UseRelativistic">
+            <property name="toolTip">
+             <string>Correct for the effect of sun's gravity on star positions, as predicted by General Relativity, and verified by Eddington's experiment.</string>
+            </property>
+            <property name="text">
+             <string>General Relativity effects near the sun</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="ImageryGroupBox">
+         <property name="title">
+          <string>DSS Imagery</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Default DSS Image Size: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QDoubleSpinBox" name="kcfg_DefaultDSSImageSize">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>75</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>75.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>15.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="DefaultDSSImageSizeUnitLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>arcminutes</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Padding around Deep Sky Objects:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QDoubleSpinBox" name="kcfg_DSSPadding">
+            <property name="minimumSize">
+             <size>
+              <width>75</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="minimum">
+             <double>1.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>75.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>10.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" colspan="2">
+           <widget class="QLabel" name="DSSPaddingUnitLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>arcminutes</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="GeneralTabSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
        <string>Look and &amp;Feel</string>
@@ -345,52 +496,6 @@
           <size>
            <width>20</width>
            <height>211</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-      <zorder>textLabelHideTimeStep</zorder>
-      <zorder>verticalLayoutWidget_3</zorder>
-      <zorder>verticalLayoutWidget_2</zorder>
-     </widget>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>&amp;Backends</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QCheckBox" name="kcfg_UseRefraction">
-         <property name="toolTip">
-          <string>Correct coordinates of objects for the effects of the atmosphere</string>
-         </property>
-         <property name="whatsThis">
-          <string>The atmosphere bends light passing through it, like a lens.  If this item is checked, this &quot;atmospheric refraction&quot; will be simulated in the sky map.  Note that this correction is only applied when using the Horizontal coordinate system.</string>
-         </property>
-         <property name="text">
-          <string>Correct for atmospheric refraction</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="kcfg_UseRelativistic">
-         <property name="toolTip">
-          <string>Correct for the effect of sun's gravity on star positions, as predicted by General Relativity, and verified by Eddington's experiment.</string>
-         </property>
-         <property name="text">
-          <string>General Relativity effects near the sun</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>537</height>
           </size>
          </property>
         </spacer>

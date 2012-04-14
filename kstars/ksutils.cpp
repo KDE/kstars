@@ -19,6 +19,7 @@
 
 #include "deepskyobject.h"
 #include "skyobject.h"
+#include "Options.h"
 
 #include <QFile>
 
@@ -41,8 +42,8 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
         dms ra(0.0), dec(0.0);
         double height, width;
 
-        const double dss_default_size = 15.0; // TODO: Make this user-configurable
-        const double dss_padding = 10.0; // TODO: Make this user-configurable
+        double dss_default_size = Options::defaultDSSImageSize();
+        double dss_padding = Options::dSSPadding();
 
         Q_ASSERT( p );
         Q_ASSERT( dss_default_size > 0.0 && dss_padding >= 0.0 );
@@ -93,7 +94,7 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
 QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float height ) {
     const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
     const QString URLsuffix( "&e=J2000&f=gif&c=none&fov=NONE" );
-    const double dss_default_size = 15.0; // Duplicate. TODO: Make this user-configurable
+    const double dss_default_size = Options::defaultDSSImageSize();
 
     char decsgn = ( dec.Degrees() < 0.0 ) ? '-' : '+';
     int dd = abs( dec.degree() );
