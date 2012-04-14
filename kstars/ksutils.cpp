@@ -55,8 +55,8 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
             // For deep-sky objects, use their height and width information
             double a, b, pa;
             a = dso->a();
-            b = dso->b();
-            pa = dso->pa() * M_PI/180.0;
+            b = dso->a() * dso->e(); // Use a * e instead of b, since e() returns 1 whenever one of the dimensions is zero. This is important for circular objects
+            pa = dso->pa() * dms::DegToRad;
             // TODO: Deal with round objects, which may have undefined 'b' and 'pa', but a sensible 'a'.
 
             // We now want to convert a, b, and pa into an image
