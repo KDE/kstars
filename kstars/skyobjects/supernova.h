@@ -58,6 +58,21 @@ public:
     inline virtual QString name( void ) const { return serialNumber;}
 
     /**
+     *@return the Right Ascension
+     */
+    inline dms getRA() { return RA ; }
+
+    /**
+     *@return the Declination
+     */
+    inline dms getDec() { return Dec ; }
+
+    /**
+     * @return Magnitude for the Supernova
+     */
+    inline float getMagnitude() { return Magnitude ; }
+
+    /**
      * @return the type of the supernova
      */
     inline QString getType() { return type; }
@@ -75,6 +90,8 @@ public:
 private:
     void initPopupMenu(KSPopupMenu*);
     QString serialNumber, type, hostGalaxy, offset, discoverers, date;
+    dms RA, Dec;
+    float Magnitude;
 };
 
 #endif

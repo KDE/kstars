@@ -6,6 +6,9 @@ Supernova::Supernova(dms ra, dms dec, const QString& date ,float m, const QStrin
                      const QString& discoverer)
                     : SkyObject(SkyObject::SUPERNOVA,ra, dec, m, serialNo),
                       serialNumber(serialNo),
+                      RA(ra),
+                      Dec(dec),
+                      Magnitude(m),
                       type(type),
                       hostGalaxy(hostGalaxy),
                       offset(offset),
