@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "observinglist.h"
+#include "sessionsortfilterproxymodel.h"
 
 #include <stdio.h>
 
@@ -118,7 +119,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
-    m_SortModelSession = new QSortFilterProxyModel;
+    m_SortModelSession = new SessionSortFilterProxyModel;
     m_SortModelSession->setSourceModel( m_Session );
     m_SortModelSession->setDynamicSortFilter( true );
     ui->SessionView->setModel( m_SortModelSession );
@@ -241,7 +242,8 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     }
     
     QString smag = "--";
-    if (  - 30.0 < obj->mag() && obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
+    if (  - 30.0 < obj->mag() && obj->mag() < 90.0 )
+        smag = QString::number( obj->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
 
     SkyPoint p = obj->recomputeCoords( dt, geo );
 
@@ -284,24 +286,26 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
         QString ra, dec, time = "--", alt = "--", az = "--";
 
+        QStandardItem *BestTime = new QStandardItem();
         if(obj->name() == "star" ) {
             ra = obj->ra0().toHMSString();
             dec = obj->dec0().toDMSString();
+            BestTime->setData( QString( "--" ), Qt::DisplayRole );
         }
         else {
             ra = p.ra().toHMSString();
             dec = p.dec().toDMSString();
-            time = TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "HH:mm" );
+            BestTime->setData( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ), Qt::DisplayRole );
             alt = p.alt().toDMSString();
             az = p.az().toDMSString();
         }
-
+        // TODO: Change the rest of the parameters to their appropriate datatypes.
         itemList << new QStandardItem( obj->translatedName() )
                 << new QStandardItem( ra )
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
                 << new QStandardItem( obj->typeName() )
-                << new QStandardItem( time )
+                << BestTime
                 << new QStandardItem( alt )
                 << new QStandardItem( az );
 

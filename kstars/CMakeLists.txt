@@ -115,6 +115,7 @@ set(libkstarstools_SRCS
 	tools/modcalcsidtime.cpp
 	tools/modcalcvlsr.cpp
 	tools/observinglist.cpp
+	tools/sessionsortfilterproxymodel.cpp
 	tools/obslistwizard.cpp
 	tools/planetviewer.cpp
 	tools/pvplotwidget.cpp
