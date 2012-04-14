@@ -143,7 +143,7 @@ public:
     float e() const;
 
     /**
-      *@return the object's position angle, meausred clockwise from North.
+      *@return the object's position angle in degrees, measured clockwise from North.
     	*/
     inline virtual double pa() const { return PositionAngle; }
 
