@@ -603,21 +603,6 @@
 			<whatsthis>Toggle whether the object under the mouse cursor gets a transient name label.</whatsthis>
 			<default>true</default>
 		</entry>
-		<entry name="ObsListSymbol" type="Bool">
-			<label>Use symbols to label observing list objects</label>
-			<whatsthis>Objects in the observing list will be highlighted with a symbol in the map.</whatsthis>
-			<default>true</default>
-		</entry>
-		<entry name="ObsListText" type="Bool">
-			<label>Use text to label observing list objects</label>
-			<whatsthis>Objects in the observing list will be highlighted with a colored name label in the map.</whatsthis>
-			<default>false</default>
-		</entry>
-        <entry name="ObsListSaveImage" type="Bool">
-            <label>Save the DSS/SDSS images to disk</label>
-            <whatisthis>The images of objects in the obseving list will be autosaved if you download them</whatisthis>
-            <default>false</default>
-        </entry>
 		<entry name="UseRefraction" type="Bool">
 			<label>Correct positions for atmospheric refraction?</label>
 			<whatsthis>Toggle whether object positions are corrected for the effects of atmospheric refraction (only applies when horizontal coordinates are used).</whatsthis>
@@ -715,7 +700,33 @@
             <default>true</default>
         </entry>
 	</group>
-
+	<group name="ObservingList">
+	  <entry name="ObsListSymbol" type="Bool">
+			<label>Use symbols to label observing list objects</label>
+			<whatsthis>Objects in the observing list will be highlighted with a symbol in the map.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="ObsListText" type="Bool">
+			<label>Use text to label observing list objects</label>
+			<whatsthis>Objects in the observing list will be highlighted with a colored name label in the map.</whatsthis>
+			<default>false</default>
+		</entry>
+        <entry name="ObsListSaveImage" type="Bool">
+            <label>Save the DSS/SDSS images to disk</label>
+            <whatisthis>The images of objects in the obseving list will be autosaved if you download them</whatisthis>
+            <default>false</default>
+        </entry>
+	<entry name="ObsListPreferDSS" type="Bool">
+	  <label>Prefer Digitized Sky Survey imagery in the observing list</label>
+			<whatsthis>The observing list will prefer DSS imagery while downloading imagery.</whatsthis>
+			<default>true</default>
+		</entry>
+		<entry name="ObsListPreferSDSS" type="Bool">
+			<label>Prefer Sloan Digital Sky Survey imagery in the observing list</label>
+			<whatsthis>The observing list will prefer SDSS imagery while downloading imagery.</whatsthis>
+			<default>false</default>
+		</entry>
+      </group>
 	<group name="Colors">
 		<entry name="ColorSchemeFile" type="String">
 		    <label>The name of the color scheme</label>

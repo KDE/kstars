@@ -1118,7 +1118,7 @@ void ObservingList::slotSaveAllImages() {
     foreach( SkyObject *o, currList ) {
         setCurrentImage( o );
         QString img( CurrentImagePath  );
-        KUrl url( ( ui->preferDSS->isChecked() ) ? DSSUrl : SDSSUrl );
+        KUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
         if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
             saveImage( url, img );
     }
@@ -1194,7 +1194,7 @@ bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
             if( currentObject() ) {
                 if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) {
                     if( ! currentObject()->isSolarSystem() )
-                        slotGetImage( ui->preferDSS->isChecked() );
+                        slotGetImage( Options::obsListPreferDSS() );
                     else
                         slotGoogleImage();
                 }
