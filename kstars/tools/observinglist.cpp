@@ -1072,35 +1072,31 @@ void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
     // implemented in SkyMap::slotDSS in skymap.cpp; must try to
     // de-duplicate as much as possible.
 
-    QString RAString, DecString, RA, Dec;
-    RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0().hour(), o->ra0().minute(), o->ra0().second() );
-    decsgn = '+';
-    if ( o->dec0().Degrees() < 0.0 ) decsgn = '-';
-    int dd = abs( o->dec0().degree() );
-    int dm = abs( o->dec0().arcmin() );
-    int ds = abs( o->dec0().arcsec() );
-    DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-    RA = RA.sprintf( "ra=%f", o->ra0().Degrees() );
-    Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
     if( temp )
         CurrentImage = "Temp_Image_" +  o->name().remove(' ');
     else
         CurrentImage = "Image_" +  o->name().remove(' ');
     ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
     if( o->name() == "star" ) {
+        QString RAString( o->ra0().toHMSString() );
+        QString DecString( o->dec0().toDMSString() );
         if( temp )
-            CurrentImage = "Temp_Image" + RAString + DecString;
+            CurrentImage = "Temp_Image" + RAString.remove(' ') + DecString.remove(' ');
         else
-            CurrentImage = "Image" + RAString + DecString;
+            CurrentImage = "Image" + RAString.remove(' ') + DecString.remove(' ');
+        QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
     CurrentImagePath = KStandardDirs::locateLocal( "appdata" , CurrentImage );
-    CurrentTempPath = KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage );
-    QString UrlPrefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
-    QString UrlSuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
-    DSSUrl = UrlPrefix + "&r=" + RAString + "&d=" + DecString + UrlSuffix;
-    UrlPrefix = "http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?";
-    UrlSuffix = "&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)";
+    CurrentTempPath = KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ); // FIXME: Eh? -- asimha
+    DSSUrl = KSUtils::getDSSURL( o );
+    QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?");
+    QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
+
+    QString RA, Dec;
+    RA = RA.sprintf( "ra=%f", o->ra0().Degrees() );
+    Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
+ 
     SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
 }
 
