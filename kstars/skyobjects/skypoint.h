@@ -56,7 +56,7 @@ public:
     	*/
     SkyPoint( const dms& r, const dms& d ) :
         RA0(r), Dec0(d),
-        RA(r),  Dec(d)
+            RA(r),  Dec(d), lastPrecessJD( J2000 )
     {}
 
     
@@ -64,10 +64,11 @@ public:
      *It behaves essentially like the default constructor.
      *@param r Right Ascension, expressed as a double
      *@param d Declination, expressed as a double
+     *@note This also sets RA0 and Dec0
      */
     //FIXME: this (*15.0) thing is somewhat hacky.
     explicit SkyPoint( double r, double d ) :
-        RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d)
+        RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d), lastPrecessJD( J2000 )
     {}
     
     /**

@@ -40,11 +40,13 @@ SkyPoint::SkyPoint() {
     Dec0.setD(180); // Dec is between -90 and 90 Degrees :-)
     RA = RA0;
     Dec = Dec0;
+    lastPrecessJD = J2000; // By convention, we use J2000 coordinates
 }
 
 void SkyPoint::set( const dms& r, const dms& d ) {
     RA0  = RA  = r;
     Dec0 = Dec = d;
+    lastPrecessJD = J2000; // By convention, we use J2000 coordinates
 }
 
 SkyPoint::~SkyPoint(){
