@@ -311,11 +311,18 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
-void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST ) {
+void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST, bool forceRecompute ) {
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
     bool recompute, lens;
 
+    // NOTE: The same short-circuiting checks are also implemented in
+    // StarObject::JITUpdate(), even before calling
+    // updateCoords(). While this is code-duplication, these bits of
+    // code need to be really optimized, at least for stars. For
+    // optimization purposes, the code is left duplicated in two
+    // places. Please be wary of changing one without changing the
+    // other.
     if( Options::useRelativistic() && checkBendLight() ) {
         recompute = true;
         lens = true;
@@ -325,7 +332,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
         lens = false;
     }
 
-    if( recompute ) {
+    if( recompute || forceRecompute ) {
         precess(num);
         nutate(num);
         if( lens )
