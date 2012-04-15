@@ -18,8 +18,10 @@
 #include "skymesh.h"
 #include "skyobjects/skypoint.h"
 #include "skyobjects/starobject.h"
+#include "projections/projector.h"
 #include "ksnumbers.h"
 
+#include <QStaticText>
 #include <QHash>
 #include <QPolygonF>
 #include <QPointF>
@@ -331,12 +333,14 @@ const IndexHash& SkyMesh::indexPoly( const QPolygonF* points )
     return indexHash;
 }
 
-void SkyMesh::draw(QPainter& psky, MeshBufNum_t bufNum)
+// NOTE: SkyMesh::draw() is primarily used for debugging purposes, to
+// show the trixels to enable visualizing them. Thus, it is not
+// necessary that this be compatible with GL unless we abandon the
+// QPainter some day, or the need arises to use this for some other
+// purpose. -- asimha
+void SkyMesh::draw(QPainter &psky, MeshBufNum_t bufNum)
 {
-    #ifdef __GNUC__
-    #warning PORT SKYMESH DRAW
-    #endif
-    #if 0
+
     SkyMap*     map  = SkyMap::Instance();
     KStarsData* data = KStarsData::Instance();
 
@@ -352,14 +356,18 @@ void SkyMesh::draw(QPainter& psky, MeshBufNum_t bufNum)
         s1.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         s2.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
         s3.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-        QPointF q1 = map->toScreen( &s1 );
-        QPointF q2 = map->toScreen( &s2 );
-        QPointF q3 = map->toScreen( &s3 );
+        QPointF q1 = map->projector()->toScreen( &s1 );
+        QPointF q2 = map->projector()->toScreen( &s2 );
+        QPointF q3 = map->projector()->toScreen( &s3 );
         psky.drawLine( q1, q2 );
         psky.drawLine( q2, q3 );
         psky.drawLine( q3, q1 );
+        // Draw the name of the trixel
+        QString TrixelNumberString;
+        TrixelNumberString.setNum( trixel );
+        psky.drawStaticText( (q1 + q2 + q3 ) / 3.0, QStaticText( TrixelNumberString ) );
     }
-    #endif
+
 }
 
 const SkyRegion& SkyMesh::skyRegion( const SkyPoint& _p1, const SkyPoint& _p2 )

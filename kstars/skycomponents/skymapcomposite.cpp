@@ -270,13 +270,26 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_skyMesh->inDraw( false );
 
+    // DEBUG Edit. Keywords: Trixel boundaries. Currently works only in QPainter mode
     // -jbb uncomment these to see trixel outlines:
-    //
-    //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( psky, OBJ_NEAREST_BUF );
+    /*
+    QPainter *psky = dynamic_cast< QPainter *>( skyp );
+    if( psky ) {
+        kDebug() << "Drawing trixel boundaries for debugging.";
+        psky->setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
+        m_skyMesh->draw( *psky, OBJ_NEAREST_BUF );
+        SkyMesh *p;
+        if( p = SkyMesh::Instance( 6 ) ) {
+            kDebug() << "We have a deep sky mesh to draw";
+            p->draw( *psky, OBJ_NEAREST_BUF );
+        }
 
-    //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( psky, NO_PRECESS_BUF );
+        psky->setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
+        m_skyMesh->draw( *psky, NO_PRECESS_BUF );
+        if( p )
+            p->draw( *psky, NO_PRECESS_BUF );
+    }
+    */
 }
 
 
