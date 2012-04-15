@@ -21,7 +21,6 @@
 #include "projections/projector.h"
 #include "ksnumbers.h"
 
-#include <QStaticText>
 #include <QHash>
 #include <QPolygonF>
 #include <QPointF>
