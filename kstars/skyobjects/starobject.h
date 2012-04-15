@@ -163,7 +163,7 @@ public:
      * @param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
      * @param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
      */
-    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
+    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
     /* @short fills ra and dec with the coordinates of the star with the proper
      * motion correction but without precesion and its friends.  It is used
