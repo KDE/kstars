@@ -107,7 +107,7 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
     // If this object does not rise or set, return an invalid time
     SkyPoint p = recomputeCoords( dt, geo );
     if( p.checkCircumpolar( geo->lat() ) )
-        return QTime( 25, 0, 0 );
+        return QTime();
 
     //First of all, if the object is below the horizon at date/time dt, adjust the time
     //to bring it above the horizon
@@ -125,8 +125,11 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
     // compute the _closest_ rise time and the _closest_ set time to
     // the current time.
 
-    return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst, exact ) ) ).time();
-
+    QTime rstUt = riseSetTimeUT( dt2, geo, rst, exact );
+    if ( ! rstUt.isValid() )
+        return QTime();
+    
+    return geo->UTtoLT( KStarsDateTime( dt2.date(), rstUt ) ).time();
 }
 
 QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT, bool exact ) {
