@@ -55,8 +55,8 @@ public:
     	*@param d Declination
     	*/
     SkyPoint( const dms& r, const dms& d ) :
-        RA0(r), Dec0(d),
-            RA(r),  Dec(d), lastPrecessJD( J2000 )
+    lastPrecessJD( J2000 ), RA0(r), Dec0(d),
+            RA(r),  Dec(d)
     {}
 
     
@@ -68,7 +68,7 @@ public:
      */
     //FIXME: this (*15.0) thing is somewhat hacky.
     explicit SkyPoint( double r, double d ) :
-        RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d), lastPrecessJD( J2000 )
+    lastPrecessJD( J2000 ), RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d)
     {}
     
     /**
