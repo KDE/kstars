@@ -365,7 +365,7 @@ void SkyMesh::draw(QPainter &psky, MeshBufNum_t bufNum)
         // Draw the name of the trixel
         QString TrixelNumberString;
         TrixelNumberString.setNum( trixel );
-        psky.drawStaticText( (q1 + q2 + q3 ) / 3.0, QStaticText( TrixelNumberString ) );
+        psky.drawText( (q1 + q2 + q3 ) / 3.0, TrixelNumberString );
     }
 
 }
