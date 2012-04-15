@@ -69,6 +69,7 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *pare
 {
     init(url.fileName(), capText);
     // Add save button
+    setButtons( KDialog::User1 | KDialog::Close );
     KGuiItem saveButton( i18n("Save"), "document-save", i18n("Save the image to disk") );
     setButtonGuiItem( KDialog::User1, saveButton );
     connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );

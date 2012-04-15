@@ -40,18 +40,13 @@ SkyPoint::SkyPoint() {
     Dec0.setD(180); // Dec is between -90 and 90 Degrees :-)
     RA = RA0;
     Dec = Dec0;
+    lastPrecessJD = J2000; // By convention, we use J2000 coordinates
 }
 
 void SkyPoint::set( const dms& r, const dms& d ) {
-    RA0 = RA = r;
+    RA0  = RA  = r;
     Dec0 = Dec = d;
-}
-
-void SkyPoint::set( double r, double d ) {
-    RA0.setH( r );
-    Dec0.setD( d );
-    RA.setH( r );
-    Dec.setD( d );
+    lastPrecessJD = J2000; // By convention, we use J2000 coordinates
 }
 
 SkyPoint::~SkyPoint(){
@@ -318,10 +313,20 @@ void SkyPoint::aberrate(const KSNumbers *num) {
 }
 
 // Note: This method is one of the major rate determining factors in how fast the map pans / zooms in or out
-void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST ) {
+void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms *lat, const dms *LST, bool forceRecompute ) {
     //Correct the catalog coordinates for the time-dependent effects
     //of precession, nutation and aberration
     bool recompute, lens;
+
+    // NOTE: The same short-circuiting checks are also implemented in
+    // StarObject::JITUpdate(), even before calling
+    // updateCoords(). While this is code-duplication, these bits of
+    // code need to be really optimized, at least for stars. For
+    // optimization purposes, the code is left duplicated in two
+    // places. Please be wary of changing one without changing the
+    // other.
+
+    Q_ASSERT( isfinite( lastPrecessJD ) );
 
     if( Options::useRelativistic() && checkBendLight() ) {
         recompute = true;
@@ -332,7 +337,7 @@ void SkyPoint::updateCoords( KSNumbers *num, bool /*includePlanets*/, const dms 
         lens = false;
     }
 
-    if( recompute ) {
+    if( recompute || forceRecompute ) {
         precess(num);
         nutate(num);
         if( lens )

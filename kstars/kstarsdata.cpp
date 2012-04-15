@@ -121,26 +121,6 @@ KStarsData::KStarsData() :
     m_preUpdateNumID(0),     m_updateNumID(0),
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
-    TypeName[0] = i18n( "star" );
-    TypeName[1] = i18n( "star" );
-    TypeName[2] = i18n( "planet" );
-    TypeName[3] = i18n( "open cluster" );
-    TypeName[4] = i18n( "globular cluster" );
-    TypeName[5] = i18n( "gaseous nebula" );
-    TypeName[6] = i18n( "planetary nebula" );
-    TypeName[7] = i18n( "supernova remnant" );
-    TypeName[8] = i18n( "galaxy" );
-    TypeName[9] = i18n( "comet" );
-    TypeName[10] = i18n( "asteroid" );
-    TypeName[11] = i18n( "constellation" );
-    TypeName[12] = i18n( "Moon" );
-    TypeName[13] = i18n( "asterism" );
-    TypeName[14] = i18n( "galaxy cluster" );
-    TypeName[15] = i18n( "dark nebula" );
-    TypeName[16] = i18n( "quasar" );
-    TypeName[17] = i18n( "multiple star" );
-    TypeName[18] = i18n( "radio source");
-
     m_logObject = new OAL::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
@@ -160,12 +140,6 @@ KStarsData::~KStarsData() {
     qDeleteAll( ADVtreeList );
 
     pinstance = 0;
-}
-
-QString KStarsData::typeName( int i ) {
-    if ( i >= 0 && i < 19 )
-        return TypeName[i];
-    return i18n( "no type" );
 }
 
 bool KStarsData::initialize() {

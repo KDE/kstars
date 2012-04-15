@@ -130,7 +130,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 
     if ( hasTrail() ) {
         addToTrail();
-        if ( Trail.size() > MAXTRAIL )
+        if ( Trail.size() > TrailObject::MaxTrail )
             clipTrail();
     }
 

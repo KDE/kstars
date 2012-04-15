@@ -43,12 +43,14 @@ using Eigen::Rotation2Df;
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
 #include "skycomponents/satellitescomponent.h"
+#include "skycomponents/supernovaecomponent.h"
 
 #include "skyobjects/deepskyobject.h"
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/trailobject.h"
 #include "skyobjects/satellite.h"
+#include "skyobjects/supernova.h"
 
 Vector2f SkyGLPainter::m_vertex[NUMTYPES][6*BUFSIZE];
 Vector2f SkyGLPainter::m_texcoord[NUMTYPES][6*BUFSIZE];
@@ -260,6 +262,17 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
     Rotation2Df r(pa);
     float w = width/2.;
     float h = w * obj->e();
+
+    // Fake a small, finite width / height if the objects have
+    // undefined sizes (in pixels, does not scale) at high zooms
+    if( Options::zoomFactor() > 10800.0 ) { // This means 1 arcmin maps to 2 pi pixels or something like that
+        if( w == 0 ) {
+            w = 7;
+        }
+        if( h == 0 ) {
+            h = 7;
+        }
+    }
 
     //Init texture if it doesn't exist and we would be drawing it anyways
     if( drawImage  &&  !obj->image().isNull() ) {
@@ -713,6 +726,35 @@ void SkyGLPainter::drawSatellite( Satellite* sat ) {
 
 bool SkyGLPainter::drawSupernova(Supernova* sup)
 {
+    KStarsData *data = KStarsData::Instance();
+    bool visible = false;
+    Vector2f pos, vertex;
+
+    sup->HorizontalToEquatorial( data->lst(), data->geo()->lat() );
+
+    pos = m_proj->toScreenVec( sup, true, &visible );
+
+    if( !visible || !m_proj->onScreen( pos ) )
+        return false;
+    setPen( data->colorScheme()->colorNamed( "SupernovaColor" ) );
+
+    glDisable( GL_TEXTURE_2D );
+    glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+
+    glBegin( GL_LINES );
+    vertex = pos + Vector2f(  2.0, 0.0 );
+    glVertex2fv(vertex.data());
+    vertex = pos + Vector2f( -2.0, 0.0 );
+    glVertex2fv(vertex.data());
+    glEnd();
+
+    glBegin( GL_LINES );
+    vertex = pos + Vector2f( 0.0,  2.0 );
+    glVertex2fv(vertex.data());
+    vertex = pos + Vector2f( 0.0, -2.0 );
+    glVertex2fv(vertex.data());
+    glEnd();
+
     return true;
 }
 

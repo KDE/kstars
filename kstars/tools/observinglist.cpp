@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "observinglist.h"
+#include "sessionsortfilterproxymodel.h"
 
 #include <stdio.h>
 
@@ -90,7 +91,7 @@ ObservingListUI::ObservingListUI( QWidget *p ) : QFrame( p ) {
 ObservingList::ObservingList( KStars *_ks )
         : KDialog( (QWidget*)_ks ),
         ks( _ks ), LogObject(0), m_CurrentObject(0),
-        noNameStars(0), isModified(false), bIsLarge(true)
+        isModified(false), bIsLarge(true)
 {
     ui = new ObservingListUI( this );
     setMainWidget( ui );
@@ -100,7 +101,6 @@ ObservingList::ObservingList( KStars *_ks )
     setFocusPolicy(Qt::StrongFocus);
     geo = ks->data()->geo();
     sessionView = false;
-    nativeSave = true;
     FileName = "";
     pmenu = new ObsListPopupMenu();
     //Set up the Table Views
@@ -119,7 +119,7 @@ ObservingList::ObservingList( KStars *_ks )
     ui->TableView->setModel( m_SortModel );
     ui->TableView->horizontalHeader()->setStretchLastSection( true );
     ui->TableView->horizontalHeader()->setResizeMode( QHeaderView::ResizeToContents );
-    m_SortModelSession = new QSortFilterProxyModel;
+    m_SortModelSession = new SessionSortFilterProxyModel;
     m_SortModelSession->setSourceModel( m_Session );
     m_SortModelSession->setDynamicSortFilter( true );
     ui->SessionView->setModel( m_SortModelSession );
@@ -242,7 +242,8 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
     }
     
     QString smag = "--";
-    if (  - 30.0 < obj->mag() && obj->mag() < 90.0 ) smag = QString::number( obj->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
+    if (  - 30.0 < obj->mag() && obj->mag() < 90.0 )
+        smag = QString::number( obj->mag(), 'g', 2 ); // The lower limit to avoid display of unrealistic comet magnitudes
 
     SkyPoint p = obj->recomputeCoords( dt, geo );
 
@@ -285,30 +286,32 @@ void ObservingList::slotAddObject( SkyObject *obj, bool session, bool update ) {
 
         QString ra, dec, time = "--", alt = "--", az = "--";
 
+        QStandardItem *BestTime = new QStandardItem();
         if(obj->name() == "star" ) {
             ra = obj->ra0().toHMSString();
             dec = obj->dec0().toDMSString();
+            BestTime->setData( QString( "--" ), Qt::DisplayRole );
         }
         else {
             ra = p.ra().toHMSString();
             dec = p.dec().toDMSString();
-            time = TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ).toString( "HH:mm" );
+            BestTime->setData( TimeHash.value( obj->name(), obj->transitTime( dt, geo ) ), Qt::DisplayRole );
             alt = p.alt().toDMSString();
             az = p.az().toDMSString();
         }
-
+        // TODO: Change the rest of the parameters to their appropriate datatypes.
         itemList << new QStandardItem( obj->translatedName() )
                 << new QStandardItem( ra )
                 << new QStandardItem( dec )
                 << new QStandardItem( smag )
                 << new QStandardItem( obj->typeName() )
-                << new QStandardItem( time )
+                << BestTime
                 << new QStandardItem( alt )
                 << new QStandardItem( az );
 
         m_Session->appendRow( itemList );
         //Adding an object should trigger the modified flag
-        if ( ! isModified ) isModified = true;
+        isModified = true;
         ui->SessionView->resizeColumnsToContents();
         //Note addition in statusbar
         ks->statusBar()->changeItem( i18n( "Added %1 to session list.", obj->name() ), 0 );
@@ -338,7 +341,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
 
     if ( o == LogObject ) saveCurrentUserLog();
     //Remove row from the TableView model
-    bool found(false);
     if ( o->name() == "star" ) {
         //Find object in table by RA and Dec
         for ( int irow = 0; irow < currentModel->rowCount(); ++irow ) {
@@ -346,7 +348,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             QString dc = currentModel->item(irow, 2)->text();
             if ( o->ra0().toHMSString() == ra && o->dec0().toDMSString() == dc ) {
                 currentModel->removeRow(irow);
-                found = true;
                 break;
             }
         }
@@ -356,7 +357,6 @@ void ObservingList::slotRemoveObject( SkyObject *o, bool session, bool update ) 
             QString name = currentModel->item(irow, 0)->text();
             if ( o->translatedName() == name ) {
                 currentModel->removeRow(irow);
-                found = true;
                 break;
             }
         }
@@ -793,11 +793,11 @@ void ObservingList::saveCurrentList() {
     }
 }
 
-void ObservingList::slotSaveSessionAs() {
+void ObservingList::slotSaveSessionAs(bool nativeSave) {
     KUrl fileURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.obslist|KStars Observing List (*.obslist)" );
     if ( fileURL.isValid() ) {
         FileName = fileURL.path();
-        slotSaveSession();
+        slotSaveSession(nativeSave);
     }
 }
 
@@ -856,9 +856,9 @@ void ObservingList::slotLoadWishList() {
     f.close();
 }
 
-void ObservingList::slotSaveSession() {
+void ObservingList::slotSaveSession(bool nativeSave) {
     if ( FileName.isEmpty() ) {
-        slotSaveSessionAs();
+        slotSaveSessionAs(nativeSave);
         return;
     }
     QFile f( FileName );
@@ -866,7 +866,7 @@ void ObservingList::slotSaveSession() {
         QString message = i18n( "Could not open file %1.  Try a different filename?", f.fileName() );
         if ( KMessageBox::warningYesNo( 0, message, i18n( "Could Not Open File" ), KGuiItem(i18n("Try Different")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::Yes ) {
             FileName.clear();
-            slotSaveSessionAs();
+            slotSaveSessionAs(nativeSave);
         }
     return;
     }
@@ -988,11 +988,7 @@ void ObservingList::slotChangeTab(int index) {
     ui->SaveImage->setEnabled( false );
     ui->DeleteImage->setEnabled( false );
     m_CurrentObject = 0;
-    if( index ) {
-        sessionView = true;
-    } else {
-        sessionView = false;
-    }
+    sessionView     = index != 0;
     setSaveImagesButton();
     ui->WizardButton->setEnabled( ! sessionView );//wizard adds only to the Wish List
     ui->OALExport->setEnabled( sessionView );
@@ -1075,36 +1071,36 @@ void ObservingList::downloadReady() {
         slotGetImage( true );
 }  
 
-void ObservingList::setCurrentImage( SkyObject *o, bool temp  ) {
-    QString RAString, DecString, RA, Dec;
-    RAString = RAString.sprintf( "%02d+%02d+%02d", o->ra0().hour(), o->ra0().minute(), o->ra0().second() );
-    decsgn = '+';
-    if ( o->dec0().Degrees() < 0.0 ) decsgn = '-';
-    int dd = abs( o->dec0().degree() );
-    int dm = abs( o->dec0().arcmin() );
-    int ds = abs( o->dec0().arcsec() );
-    DecString = DecString.sprintf( "%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-    RA = RA.sprintf( "ra=%f", o->ra0().Degrees() );
-    Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
+void ObservingList::setCurrentImage( const SkyObject *o, bool temp  ) {
+    // TODO: Remove code duplication -- we have the same stuff
+    // implemented in SkyMap::slotDSS in skymap.cpp; must try to
+    // de-duplicate as much as possible.
+
     if( temp )
         CurrentImage = "Temp_Image_" +  o->name().remove(' ');
     else
         CurrentImage = "Image_" +  o->name().remove(' ');
     ThumbImage = "thumb-" + o->name().toLower().remove(' ') + ".png";
     if( o->name() == "star" ) {
+        QString RAString( o->ra0().toHMSString() );
+        QString DecString( o->dec0().toDMSString() );
         if( temp )
-            CurrentImage = "Temp_Image" + RAString + DecString;
+            CurrentImage = "Temp_Image" + RAString.remove(' ') + DecString.remove(' ');
         else
-            CurrentImage = "Image" + RAString + DecString;
+            CurrentImage = "Image" + RAString.remove(' ') + DecString.remove(' ');
+        QChar decsgn = ( (o->dec0().Degrees() < 0.0 ) ? '-' : '+' );
         CurrentImage = CurrentImage.remove('+').remove('-') + decsgn;
     }
     CurrentImagePath = KStandardDirs::locateLocal( "appdata" , CurrentImage );
-    CurrentTempPath = KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage );
-    QString UrlPrefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
-    QString UrlSuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
-    DSSUrl = UrlPrefix + "&r=" + RAString + "&d=" + DecString + UrlSuffix;
-    UrlPrefix = "http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?";
-    UrlSuffix = "&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)";
+    CurrentTempPath = KStandardDirs::locateLocal( "appdata", "Temp_" + CurrentImage ); // FIXME: Eh? -- asimha
+    DSSUrl = KSUtils::getDSSURL( o );
+    QString UrlPrefix("http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?");
+    QString UrlSuffix("&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)");
+
+    QString RA, Dec;
+    RA = RA.sprintf( "ra=%f", o->ra0().Degrees() );
+    Dec = Dec.sprintf( "&dec=%f", o->dec0().Degrees() );
+ 
     SDSSUrl = UrlPrefix + RA + Dec + UrlSuffix;
 }
 
@@ -1126,7 +1122,7 @@ void ObservingList::slotSaveAllImages() {
     foreach( SkyObject *o, currList ) {
         setCurrentImage( o );
         QString img( CurrentImagePath  );
-        KUrl url( SDSSUrl );
+        KUrl url( ( Options::obsListPreferDSS() ) ? DSSUrl : SDSSUrl );
         if( ! o->isSolarSystem() )//TODO find a way for adding support for solar system images
             saveImage( url, img );
     }
@@ -1135,7 +1131,7 @@ void ObservingList::slotSaveAllImages() {
 void ObservingList::saveImage( KUrl url, QString filename ) {
     if( ! QFile::exists( CurrentImagePath  ) && ! QFile::exists( CurrentTempPath ) ) {
         if(  KIO::NetAccess::download( url, filename, mainWidget() ) ) {
-            if( QFile( CurrentImagePath ).size() < 13000 ) {//The default image is around 8689 bytes
+            if( QFile( CurrentImagePath ).size() < 13000 ) {//The default image is around 8689 bytes FIXME: This seems to have changed
                 url = KUrl( DSSUrl );
                 KIO::NetAccess::download( url, filename, mainWidget() );
             }
@@ -1190,23 +1186,19 @@ void ObservingList::slotDeleteAllImages() {
 }
 
 void ObservingList::setSaveImagesButton() {
-    ui->saveImages->setEnabled( false );
-    if( sessionView ) {
-        if( ! sessionList().isEmpty() )
-            ui->saveImages->setEnabled( true );
-    } else {
-        if( ! obsList().isEmpty() )
-            ui->saveImages->setEnabled( true );
-    }
+    ui->saveImages->setEnabled(
+        (sessionView &&  !sessionList().isEmpty())  ||
+                         !obsList().isEmpty()
+        );
 }
 
 bool ObservingList::eventFilter( QObject *obj, QEvent *event ) {
     if( obj == ui->ImagePreview ) {
         if( event->type() == QEvent::MouseButtonRelease ) {
             if( currentObject() ) {
-                if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) {
+                if( ( ( QFile( CurrentImagePath ).size() < 13000 ) && (  QFile( CurrentTempPath ).size() < 13000 ) ) ) { // FIXME: This size estimate is unreliable.
                     if( ! currentObject()->isSolarSystem() )
-                        slotGetImage();
+                        slotGetImage( Options::obsListPreferDSS() );
                     else
                         slotGoogleImage();
                 }
@@ -1293,9 +1285,7 @@ void ObservingList::saveThumbImage() {
 }
 
 void ObservingList::slotOALExport() {
-    nativeSave = false;
-    slotSaveSessionAs();
-    nativeSave = true;
+    slotSaveSessionAs(false);
 }
 
 void ObservingList::slotAddVisibleObj() {
@@ -1321,7 +1311,7 @@ SkyObject* ObservingList::findObjectByName( QString name ) {
     return NULL;
 }
 
-void ObservingList::selectObject( SkyObject *o ) {
+void ObservingList::selectObject( const SkyObject *o ) {
     ui->tabWidget->setCurrentIndex( 1 );
     ui->SessionView->selectionModel()->clear();
     for ( int irow = m_Session->rowCount()-1; irow >= 0; --irow ) {

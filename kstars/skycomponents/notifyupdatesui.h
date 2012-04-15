@@ -1,9 +1,9 @@
 /***************************************************************************
-                          planetmoons.cpp  -  description
+                          notifyupdatesui.h  -  K Desktop Planetarium
                              -------------------
-    begin                : Sat Mar 13 2009
-                         : by Vipul Kumar Singh, Médéric Boquien
-    email                : vipulkrsingh@gmail.com, mboquien@free.fr
+    begin                : 2012/05/03
+    copyright            : (C) 2012 by Samikshan Bairagya
+    email                : samikshan@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,28 +16,31 @@
  ***************************************************************************/
 
 
-#include <kdebug.h>
+#ifndef NOTIFYUPDATESUI_H
+#define NOTIFYUPDATESUI_H
 
-#include "planetmoons.h"
-#include "ksnumbers.h"
-#include "ksplanetbase.h"
-#include "kssun.h"
-#include "trailobject.h"
+#include "skyobjects/skyobject.h"
 
-PlanetMoons::PlanetMoons(){
+#include <QDialog>
+
+namespace Ui {
+    class NotifyUpdatesUI;
 }
 
-PlanetMoons::~PlanetMoons(){
-    qDeleteAll( Moon );
-}
+class NotifyUpdatesUI : public QDialog
+{
+    Q_OBJECT
 
-QString PlanetMoons::name( int id ) const {
-    return Moon[id]->translatedName();
-}
+public:
+    explicit NotifyUpdatesUI(QWidget *parent = 0);
+    ~NotifyUpdatesUI();
+    void addItems(QList<SkyObject*> updatesList);
 
-void PlanetMoons::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
-  int nmoons = nMoons();
-  
-  for ( int i=0; i<nmoons; ++i )
-        moon(i)->EquatorialToHorizontal( LST, lat );
-}
+private slots:
+    void slotCenter();
+
+private:
+    Ui::NotifyUpdatesUI *ui;
+};
+
+#endif // NOTIFYUPDATESUI_H

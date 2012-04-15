@@ -1230,10 +1230,7 @@ void ScriptBuilder::readScript( QTextStream &istream )
         if ( line.left(4) == "dbus" ) {
 
             //is ClockFunction?
-            bool clockfcn( false );
-            if ( line.contains( "SimClock" ) )
-            {
-                clockfcn = true;
+            if ( line.contains( "SimClock" ) ) {
                 service_name += "SimClock.";
             }
 

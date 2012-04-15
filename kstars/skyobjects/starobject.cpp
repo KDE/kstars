@@ -317,7 +317,7 @@ void StarObject::JITupdate()
     if ( updateNumID != data->updateNumID() ) {
         // TODO: This can be optimized and reorganized further in a better manner.
         // Maybe we should do this only for stars, since this is really a slow step only for stars
-
+        Q_ASSERT( isfinite( lastPrecessJD ) );
         if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 // TODO: Make this 0.0005 a constant / define it
             || ( lastPrecessJD - data->updateNum()->getJD() ) <= -0.0005
             || ( Options::useRelativistic() && checkBendLight() ) ) {
@@ -502,28 +502,6 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
             return sName + ' ' + KGlobal::locale()->formatNumber( mag(), 1 );
     }
     return KGlobal::locale()->formatNumber( mag(), 1 );
-}
-
-QString StarObject::customLabel( bool drawName, bool drawMag )
-{
-    QString sName;
-    if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
-        sName = translatedName();
-    else if ( ! gname().trimmed().isEmpty() )
-        sName = gname( true );
-    else
-        sName = i18n("star");
-
-    if ( drawMag  && drawName ) {
-        if ( sName == i18n("star") )
-            return KGlobal::locale()->formatNumber( mag(), 1 ) + ", " + sName;
-        else
-            return sName + ' ' + KGlobal::locale()->formatNumber( mag(), 1 );
-    }
-    else if ( drawMag && ! drawName )
-        return KGlobal::locale()->formatNumber( mag(), 1 ) + ", " + sName;
-
-    return sName;
 }
 
 //If this works, we can maybe get rid of customLabel() and nameLabel()??

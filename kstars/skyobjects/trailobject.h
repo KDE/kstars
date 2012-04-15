@@ -24,8 +24,6 @@
 
 class SkyPainter;
 
-#define MAXTRAIL 400
-
 /**
  *@class TrailObject
  *@short provides a SkyObject with an attachable Trail
@@ -68,13 +66,14 @@ public:
 
     void drawTrail(SkyPainter *skyp) const;
 
+    /** Maximum trail size */
+    static const int MaxTrail = 400;
 protected:
     QList<SkyPoint> Trail;
     /// Store list of objects with trails.
     static QSet<TrailObject*> trailObjects;
 private:
     virtual void initPopupMenu( KSPopupMenu *pmenu );
-
 };
 
 #endif

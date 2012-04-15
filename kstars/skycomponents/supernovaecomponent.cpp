@@ -23,6 +23,7 @@
 #include "projections/projector.h"
 #include "dms.h"
 #include "Options.h"
+#include "notifyupdatesui.h"
 
 #include "kdebug.h"
 #include "ksfilereader.h"
@@ -65,9 +66,9 @@ void SupernovaeComponent::loadData()
     bool ok;
     kDebug()<<"Loading Supernovae data"<<endl;
     if( !fileReader.open("supernovae.dat")) return;
+    //m_ObjectList.clear();
     latest.clear();
     objectNames(SkyObject::SUPERNOVA).clear();
-    int lineNum=0;
 
     while (fileReader.hasMoreLines())
     {
@@ -100,20 +101,23 @@ void SupernovaeComponent::loadData()
         {
             if ( findByName(sup->name() ) == 0 )
             {
+                //kDebug()<<"List of supernovae not empty. Found new supernova";
                 m_ObjectList.append(sup);
                 latest.append(sup);
-            }
+            }/*
             else
-                m_ObjectList.append(sup);
+                m_ObjectList.append(sup);*/
         }
         else             //if the list is empty
         {
             m_ObjectList.append(sup);
             latest.append(sup);
+            //notifyNewSupernovae();
         }
 
         objectNames(SkyObject::SUPERNOVA).append(sup->name());
     }
+    //notifyNewSupernovae();
 }
 
 
@@ -148,13 +152,13 @@ SkyObject* SupernovaeComponent::objectNearest(SkyPoint* p, double& maxrad)
 }
 
 
-float SupernovaeComponent::zoomMagnitudeLimit(){
-
+float SupernovaeComponent::zoomMagnitudeLimit()
+{
     //adjust maglimit for ZoomLevel
     double lgmin = log10(MINZOOM);
     double lgz   = log10(Options::zoomFactor());
 
-    return 14.0 + 2.222*( lgz - lgmin ) + 2.222*log10( Options::starDensity() );
+    return 14.0 + 2.222*( lgz - lgmin ) + 2.222*log10( static_cast<double>(Options::starDensity()) );
 }
 
 
@@ -164,27 +168,54 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
     if ( ! selected() )
         return;
 
-    SkyMap *map             = SkyMap::Instance();
-
-    bool checkSlewing = ( map->isSlewing() && Options::hideOnSlew() );
-
     double maglim = zoomMagnitudeLimit();
 
-    foreach ( SkyObject *so, m_ObjectList )
-    {
+    foreach ( SkyObject *so, m_ObjectList ) {
         Supernova *sup = (Supernova*) so;
-
         float mag = sup->mag();
 
+        if (mag > float( Options::magnitudeLimitShowSupernovae())) continue;
+
         //Do not draw if mag>maglim
-        if ( mag > maglim )
-        {
+        if ( mag > maglim ) {
             continue;
         }
-
-        bool drawn = skyp->drawSupernova(sup);
+        skyp->drawSupernova(sup);
     }
 }
+
+void SupernovaeComponent::notifyNewSupernovae()
+{
+    kDebug()<<"New Supernovae discovered";
+    QStringList latestList;
+    foreach (SkyObject * so, latest)
+    {
+        Supernova * sup = (Supernova *)so;
+
+        if (sup->getMagnitude() > float(Options::magnitudeLimitAlertSupernovae())) continue;
+
+        QString newSup;
+        QString hostGalaxy = "Host Galaxy: ";
+        hostGalaxy.append(sup->getHostGalaxy().left(12));
+        QString Position = " Position:: RA: ";
+        Position.append(sup->getRA().toHMSString());
+        Position.append(" ,Dec: ");
+        Position.append(sup->getDec().toDMSString());
+        //kDebug()<<hostGalaxy<<Position.leftJustified(55);
+        newSup.append(hostGalaxy);
+        newSup.append(Position);
+        latestList.append(newSup);
+    }
+    if (!latest.empty())
+    {
+        NotifyUpdatesUI * ui = new NotifyUpdatesUI(0);
+        ui->addItems(latest);
+        ui->show();
+    }
+//     if (!latest.empty())
+//         KMessageBox::informationList(0, i18n("New Supernovae discovered!"), latestList, i18n("New Supernovae discovered!"));
+}
+
 
 void SupernovaeComponent::updateDataFile()
 {
@@ -192,11 +223,9 @@ void SupernovaeComponent::updateDataFile()
     QString filename= KStandardDirs::locate("appdata","scripts/supernova_updates_parser.py") ;
     kDebug()<<filename;
     int execstatus=parser->execute("python",QStringList(filename));
-    if ( execstatus!=0 )
-    {
+    if ( execstatus!=0 ) {
         QString errmsg;
-        switch (execstatus)
-        {
+        switch (execstatus) {
             case -2:
                 errmsg = "Could not run python to update supernova information";
                 break;
@@ -209,5 +238,9 @@ void SupernovaeComponent::updateDataFile()
         }
         KMessageBox::sorry(0,errmsg,i18n("Supernova information update failed"));
     }
+    parser->close();
+    kDebug()<<"HERE";
+    latest.clear();
     loadData();
+    notifyNewSupernovae();
 }

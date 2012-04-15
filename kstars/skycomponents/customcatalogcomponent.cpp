@@ -138,8 +138,32 @@ void CustomCatalogComponent::update( KSNumbers * )
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance();
         foreach ( SkyObject *obj, m_ObjectList ) {
-            obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            DeepSkyObject *dso  = dynamic_cast< DeepSkyObject * >( obj );
+            StarObject *so = dynamic_cast< StarObject *>( so );
+            Q_ASSERT( dso || so ); // We either have stars, or deep sky objects
+            if( dso ) {
+                // Update the deep sky object if need be
+                if ( dso->updateID != data->updateID() ) {
+                    dso->updateID = data->updateID();
+                    if ( dso->updateNumID != data->updateNumID() ) {
+                        dso->updateCoords( data->updateNum() );
+
+                    }
+                    dso->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                }
+            }
+            else {
+                // Do exactly the same thing for stars
+                if ( so->updateID != data->updateID() ) {
+                    so->updateID = data->updateID();
+                    if ( so->updateNumID != data->updateNumID() ) {
+                        so->updateCoords( data->updateNum() );
+                    }
+                    so->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                }
+            }
         }
+        this->updateID = data->updateID();
     }
 }
 
@@ -149,6 +173,10 @@ void CustomCatalogComponent::draw( SkyPainter *skyp )
 
     skyp->setBrush( Qt::NoBrush );
     skyp->setPen( QColor( m_catColor ) );
+
+    // Check if the coordinates have been updated
+    if( updateID != KStarsData::Instance()->updateID() )
+        update( 0 );
 
     //Draw Custom Catalog objects
     foreach ( SkyObject *obj, m_ObjectList ) {
@@ -373,7 +401,7 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
             bool ok(false);
             iType = d.at(i).toUInt( &ok );
             if ( ok ) {
-                if ( iType == 2 || (iType > 8 && iType != 18)) {
+                if ( iType == 2 || (iType > 8 && iType < 13) || iType == 19 || iType == 20 ) {
                     if ( showerrs )
                         errs.append( i18n( "Line %1, field %2: Invalid object type: %3" ,
                                            lnum, i, d.at(i) ) +
@@ -443,6 +471,25 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
             }
         }
     }
+
+    // Precess the catalog coordinates to J2000.0
+    SkyPoint t;
+    t.set( RA, Dec );
+    if( m_catEpoch == 1950 ) {
+        // Assume B1950 epoch
+        t.B1950ToJ2000(); // t.ra() and t.dec() are now J2000.0 coordinates
+    }
+    else if( m_catEpoch == 2000 ) {
+        // Do nothing
+        ;
+    }
+    else {
+        // FIXME: What should we do?
+        // FIXME: This warning will be printed for each line in the catalog rather than once for the entire catalog
+        kWarning() << "Unknown epoch while dealing with custom catalog. Will ignore the epoch and assume J2000.0";
+    }
+    RA = t.ra();
+    Dec = t.dec();
 
     if ( iType == 0 ) { //Add a star
         StarObject *o = new StarObject( RA, Dec, mag, lname );

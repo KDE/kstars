@@ -183,6 +183,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     actionCollection()->action("show_horizontal_grid" )->setChecked( Options::showHorizontalGrid() );
     actionCollection()->action("show_horizon"         )->setChecked( Options::showGround() );
     actionCollection()->action("show_flags"           )->setChecked( Options::showFlags() );
+    actionCollection()->action("show_supernovae"      )->setChecked( Options::showSupernovae() );
     statusBar()->setVisible( Options::showStatusBar() );
 
     //color scheme

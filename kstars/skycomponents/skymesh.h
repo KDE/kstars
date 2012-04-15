@@ -293,11 +293,6 @@ public:
     void draw( QPainter& psky, MeshBufNum_t
                bufNum=DRAW_BUF );
 
-    /* @short Returns true of the most recent aperture() call produced
-     * fewer than m_zoomFraction of the total available trixels.
-     */
-    bool isZoomedIn(int percent=0 );
-
     bool inDraw() { return m_inDraw; }
     void inDraw( bool inDraw ) { m_inDraw = inDraw; }
 
@@ -308,7 +303,6 @@ private:
 
     IndexHash   indexHash;
     KSNumbers   m_KSNumbers;
-    int         m_zoomedInPercent;
 
     bool        m_inDraw;
     static int defaultLevel;

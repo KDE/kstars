@@ -168,8 +168,6 @@ void SkyMapComposite::updateMoons(KSNumbers *num )
 //should appear "behind" others should be drawn first.
 void SkyMapComposite::draw( SkyPainter *skyp )
 {
-    QTime t;
-    t.start();
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
 
@@ -272,15 +270,26 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_skyMesh->inDraw( false );
 
-    //kDebug() << QString("draw took %1 ms").arg( t.elapsed() );
-
+    // DEBUG Edit. Keywords: Trixel boundaries. Currently works only in QPainter mode
     // -jbb uncomment these to see trixel outlines:
-    //
-    //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( psky, OBJ_NEAREST_BUF );
+    /*
+    QPainter *psky = dynamic_cast< QPainter *>( skyp );
+    if( psky ) {
+        kDebug() << "Drawing trixel boundaries for debugging.";
+        psky->setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
+        m_skyMesh->draw( *psky, OBJ_NEAREST_BUF );
+        SkyMesh *p;
+        if( p = SkyMesh::Instance( 6 ) ) {
+            kDebug() << "We have a deep sky mesh to draw";
+            p->draw( *psky, OBJ_NEAREST_BUF );
+        }
 
-    //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( psky, NO_PRECESS_BUF );
+        psky->setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
+        m_skyMesh->draw( *psky, NO_PRECESS_BUF );
+        if( p )
+            p->draw( *psky, NO_PRECESS_BUF );
+    }
+    */
 }
 
 
@@ -487,13 +496,16 @@ void SkyMapComposite::reloadCLines( ) {
 }
 
 void SkyMapComposite::reloadCNames( ) {
-    Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
-    SkyMapDrawAbstract::setDrawLock( true ); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
+//     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+//     SkyMapDrawAbstract::setDrawLock( true ); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
+//     objectNames(SkyObject::CONSTELLATION).clear();
+//     delete m_CNames;
+//     m_CNames = 0;
+//     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
+//     SkyMapDrawAbstract::setDrawLock( false );
     objectNames(SkyObject::CONSTELLATION).clear();
     delete m_CNames;
-    m_CNames = 0;
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
-    SkyMapDrawAbstract::setDrawLock( false );
 }
 
 bool SkyMapComposite::isLocalCNames() {

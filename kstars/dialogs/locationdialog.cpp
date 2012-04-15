@@ -399,7 +399,7 @@ void LocationDialog::showTZRules() {
     QString message = i18n( "Daylight Saving Time Rules" );
     //	KMessageBox::informationList( 0, message, lines, message );
 
-    KDialog *tzd = new KDialog( this );
+    QPointer<KDialog> tzd = new KDialog( this );
     tzd->setCaption( message );
     tzd->setButtons( KDialog::Close );
     QListWidget *lw = new QListWidget( tzd );
@@ -413,7 +413,6 @@ void LocationDialog::showTZRules() {
     tzd->setMainWidget( lw );
     tzd->exec();
 
-    delete lw;
     delete tzd;
 }
 
