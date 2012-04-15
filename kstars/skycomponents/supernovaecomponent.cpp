@@ -186,30 +186,25 @@ void SupernovaeComponent::draw(SkyPainter *skyp)
 
 void SupernovaeComponent::notifyNewSupernovae()
 {
-    kDebug()<<"New Supernovae discovered";
-    QStringList latestList;
+    //kDebug()<<"New Supernovae discovered";
+    QList<SkyObject*> latestList;
     foreach (SkyObject * so, latest)
     {
         Supernova * sup = (Supernova *)so;
 
-        if (sup->getMagnitude() > float(Options::magnitudeLimitAlertSupernovae())) continue;
+        if (sup->getMagnitude() > float(Options::magnitudeLimitAlertSupernovae())) 
+        {
+            kDebug()<<"Not Bright enough to be notified";
+            continue;
+        }
 
-        QString newSup;
-        QString hostGalaxy = "Host Galaxy: ";
-        hostGalaxy.append(sup->getHostGalaxy().left(12));
-        QString Position = " Position:: RA: ";
-        Position.append(sup->getRA().toHMSString());
-        Position.append(" ,Dec: ");
-        Position.append(sup->getDec().toDMSString());
-        //kDebug()<<hostGalaxy<<Position.leftJustified(55);
-        newSup.append(hostGalaxy);
-        newSup.append(Position);
-        latestList.append(newSup);
+        kDebug()<<"Bright enough to be notified";
+        latestList.append(so);
     }
-    if (!latest.empty())
+    if (!latestList.empty())
     {
         NotifyUpdatesUI * ui = new NotifyUpdatesUI(0);
-        ui->addItems(latest);
+        ui->addItems(latestList);
         ui->show();
     }
 //     if (!latest.empty())
