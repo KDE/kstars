@@ -472,6 +472,25 @@ bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &
         }
     }
 
+    // Precess the catalog coordinates to J2000.0
+    SkyPoint t;
+    t.set( RA, Dec );
+    if( m_catEpoch == 1950 ) {
+        // Assume B1950 epoch
+        t.B1950ToJ2000(); // t.ra() and t.dec() are now J2000.0 coordinates
+    }
+    else if( m_catEpoch == 2000 ) {
+        // Do nothing
+        ;
+    }
+    else {
+        // FIXME: What should we do?
+        // FIXME: This warning will be printed for each line in the catalog rather than once for the entire catalog
+        kWarning() << "Unknown epoch while dealing with custom catalog. Will ignore the epoch and assume J2000.0";
+    }
+    RA = t.ra();
+    Dec = t.dec();
+
     if ( iType == 0 ) { //Add a star
         StarObject *o = new StarObject( RA, Dec, mag, lname );
         m_ObjectList.append( o );
