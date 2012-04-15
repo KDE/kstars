@@ -26,8 +26,6 @@
 #include "skycalendar.h"
 #include "ksalmanac.h"
 
-#define XPADDING 20
-#define YPADDING 20
 #define BIGTICKSIZE 10
 #define SMALLTICKSIZE 4
 #define TICKOFFSET 0
@@ -37,6 +35,7 @@ CalendarWidget::CalendarWidget( QWidget *parent )
     : KPlotWidget( parent ) 
 {
     setAntialiasing( true );
+    
     setTopPadding( 40 );
     setLeftPadding( 60 );
     setRightPadding( 100 );
@@ -87,13 +86,13 @@ void CalendarWidget::setHorizon() {
     
     // Get rise and set time every 7 days for 1 year
     while ( skycal->year() == kdt.date().year() ) {
-        QTime tmp_rTime, tmp_sTime;
-        tmp_rTime = thesun.riseSetTime( kdt.djd() + 1.0, skycal->get_geo(), true, true );
-        tmp_sTime = thesun.riseSetTime( kdt.djd(), skycal->get_geo(), false, true );
+        QTime tmp_rTime = thesun.riseSetTime( kdt.djd() + 1.0, skycal->get_geo(), true, true );
+        QTime tmp_sTime = thesun.riseSetTime( kdt.djd(), skycal->get_geo(), false, true );
 
         /* riseSetTime seems buggy since it sometimes returns the same time for rise and set (01:00:00).
          * In this case, we just reset tmp_rTime and tmp_sTime so they will be considered invalid
-         * in the folowing lines. */
+         * in the folowing lines.
+         * NOTE: riseSetTime should be fix now, this test is no longer necessary*/
         if ( tmp_rTime == tmp_sTime ) {
             tmp_rTime = QTime();
             tmp_sTime = QTime();
@@ -101,6 +100,7 @@ void CalendarWidget::setHorizon() {
         
         // If rise and set times are valid, the sun rise and set...
         if ( tmp_rTime.isValid() && tmp_sTime.isValid() ) {
+            // Compute X-coordinate value for rise and set time
             QTime midday( 12, 0, 0 );
             rTime = tmp_rTime.secsTo( midday ) * 24.0 / 86400.0;
             sTime = tmp_sTime.secsTo( midday ) * 24.0 / 86400.0;
@@ -220,7 +220,6 @@ void CalendarWidget::drawAxes( QPainter *p ) {
         Qt::AlignHCenter | Qt::AlignBottom | Qt::TextDontClip,
         i18n( "Month" ) );
     // Right axis label
-    //p->translate( 0.0, -1 * pixRect().width() - rightPadding() );
     p->translate( 0.0, -1 * frameRect().width() + 30 );
     p->drawText(
         0, 0,

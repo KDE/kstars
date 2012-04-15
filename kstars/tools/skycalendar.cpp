@@ -164,6 +164,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
         QTime tmp_tTime = ksp->transitTime( kdt, geo );
         QTime midday( 12, 0, 0 );
         
+        // NOTE: riseSetTime should be fix now, this test is no longer necessary
         if ( tmp_rTime == tmp_sTime ) {
             tmp_rTime = QTime();
             tmp_sTime = QTime();
@@ -247,7 +248,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             needRiseLabel = true;
         }
         
-        // Set
+        // Same process for set time
         if ( vSet.at( i ).x() > -23.0 && vSet.at( i ).x() < 23.0) {
             if ( i > 0 && fabs( vSet.at( i ).x() - vSet.at( i-1 ).x() ) > 6.0 ) {
                 scUI->CalendarView->addPlotObject( oSet );
@@ -268,7 +269,7 @@ void SkyCalendar::addPlanetEvents( int nPlanet ) {
             needSetLabel = true;
         }
         
-        // Transit
+        // Same process for transit time
         if ( vTransit.at( i ).x() > -23.0 && vTransit.at( i ).x() < 23.0) {
             if ( i > 0 && fabs( vTransit.at( i ).x() - vTransit.at( i-1 ).x() ) > 6.0 ) {
                 scUI->CalendarView->addPlotObject( oTransit );
