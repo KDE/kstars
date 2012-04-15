@@ -138,8 +138,32 @@ void CustomCatalogComponent::update( KSNumbers * )
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance();
         foreach ( SkyObject *obj, m_ObjectList ) {
-            obj->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+            DeepSkyObject *dso  = dynamic_cast< DeepSkyObject * >( obj );
+            StarObject *so = dynamic_cast< StarObject *>( so );
+            Q_ASSERT( dso || so ); // We either have stars, or deep sky objects
+            if( dso ) {
+                // Update the deep sky object if need be
+                if ( dso->updateID != data->updateID() ) {
+                    dso->updateID = data->updateID();
+                    if ( dso->updateNumID != data->updateNumID() ) {
+                        dso->updateCoords( data->updateNum() );
+
+                    }
+                    dso->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                }
+            }
+            else {
+                // Do exactly the same thing for stars
+                if ( so->updateID != data->updateID() ) {
+                    so->updateID = data->updateID();
+                    if ( so->updateNumID != data->updateNumID() ) {
+                        so->updateCoords( data->updateNum() );
+                    }
+                    so->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+                }
+            }
         }
+        this->updateID = data->updateID();
     }
 }
 
@@ -149,6 +173,10 @@ void CustomCatalogComponent::draw( SkyPainter *skyp )
 
     skyp->setBrush( Qt::NoBrush );
     skyp->setPen( QColor( m_catColor ) );
+
+    // Check if the coordinates have been updated
+    if( updateID != KStarsData::Instance()->updateID() )
+        update( 0 );
 
     //Draw Custom Catalog objects
     foreach ( SkyObject *obj, m_ObjectList ) {
