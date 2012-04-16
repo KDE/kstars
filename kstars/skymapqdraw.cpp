@@ -29,7 +29,7 @@ SkyMapQDraw::~SkyMapQDraw() {
 }
 
 void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
-
+    Q_UNUSED(event);
     // This is machinery to prevent multiple concurrent paint events / recursive paint events
     if( m_DrawLock ) {
         kDebug() << "I just prevented a recursive / concurrent draw!";
@@ -93,6 +93,7 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
 }
 
 void SkyMapQDraw::resizeEvent( QResizeEvent *e ) {
+    Q_UNUSED(e);
     delete m_SkyPixmap;
     m_SkyPixmap = new QPixmap( width(), height() );
 }

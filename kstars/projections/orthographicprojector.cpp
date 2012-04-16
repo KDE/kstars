@@ -38,6 +38,7 @@ double OrthographicProjector::radius() const
 
 double OrthographicProjector::projectionK(double x) const
 {
+    Q_UNUSED(x);
     return 1.0;
 }
 

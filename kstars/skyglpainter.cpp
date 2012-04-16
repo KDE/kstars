@@ -663,6 +663,7 @@ void SkyGLPainter::begin()
 
 void SkyGLPainter::setBrush(const QBrush& brush)
 {
+    Q_UNUSED(brush);
     /*
     QColor c = brush.color();
     m_pen = Vector4f( c.redF(), c.greenF(), c.blueF(), c.alphaF() );

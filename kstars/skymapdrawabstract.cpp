@@ -178,6 +178,7 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
 
 void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 {
+    Q_UNUSED(psky);
 #ifdef HAVE_INDI_H
     KStars* kstars = KStars::Instance();
     if( !kstars )

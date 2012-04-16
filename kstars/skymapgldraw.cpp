@@ -48,6 +48,7 @@ void SkyMapGLDraw::resizeGL(int width, int height)
 
 void SkyMapGLDraw::paintEvent( QPaintEvent *event )
 {
+    Q_UNUSED(event);
     // This is machinery to prevent multiple concurrent paint events / recursive paint events
     if( m_DrawLock )
         return;
