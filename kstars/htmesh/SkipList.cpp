@@ -153,11 +153,10 @@ Key SkipList::findMAX(const Key searchKey) const
 Key SkipList::findMIN(const Key searchKey) const
 {
     int i;
-    SkipListElement* element;
-    SkipListElement* nextElement;
+    SkipListElement* element(myHeader);
+    SkipListElement* nextElement = 0;
     Key retKey;
 
-    element = myHeader;
     for(i=myHeader->getLevel(); i>=0; i--) {
         nextElement = element->getElement(i);
         while( (nextElement != NIL) && (nextElement->getKey() <= searchKey) ) {

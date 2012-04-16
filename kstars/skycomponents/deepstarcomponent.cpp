@@ -107,7 +107,7 @@ bool DeepStarComponent::loadStaticStars() {
         m_starBlockList.at( trixel )->setStaticBlock( SB );
         
         for(unsigned long j = 0; j < (unsigned long) starReader.getRecordCount(i); ++j) {
-            bool fread_success;
+            bool fread_success = false;
             if( starReader.guessRecordSize() == 32 )
                 fread_success = fread( &stardata, sizeof( starData ), 1, dataFile );
             else if( starReader.guessRecordSize() == 16 )

@@ -58,7 +58,7 @@ public:
     bool selected();
 
 private:
-    void drawCompassLabels( SkyPainter *skyp );
+    void drawCompassLabels();
 };
 
 #endif

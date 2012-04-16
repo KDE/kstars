@@ -442,10 +442,10 @@ void HorizonComponent::draw( SkyPainter *skyp )
 
     SkyLabeler::Instance()->drawGuideLabel( o1, horizonLabel, angle );
 #endif
-    drawCompassLabels( skyp );
+    drawCompassLabels();
 }
 
-void HorizonComponent::drawCompassLabels( SkyPainter *skyp ) {
+void HorizonComponent::drawCompassLabels() {
     SkyPoint c;
     QPointF cpoint;
     bool visible;

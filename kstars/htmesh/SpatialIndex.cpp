@@ -501,7 +501,6 @@ SpatialIndex::pointById(SpatialVector &vec, uint64 ID) const {
 uint64
 SpatialIndex::idByPoint(const SpatialVector & v) const {
     uint64 index;
-	uint64 ID;
 
     // start with the 8 root triangles, find the one which v points to
     for(index=1; index <=8; index++) {
