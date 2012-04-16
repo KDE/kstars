@@ -239,7 +239,7 @@ void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
     pmenu->createStarMenu( this );
 }
 
-void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
+void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms*, bool ) {
     //Correct for proper motion of stars.  Determine RA and Dec offsets.
     //Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
     //That is numerically identical to the number of arcsec per millenium, so multiply by
@@ -313,13 +313,13 @@ void StarObject::JITupdate()
 {
     static KStarsData *data = KStarsData::Instance();
 
-    updateID = data->updateID();
     if ( updateNumID != data->updateNumID() ) {
         // TODO: This can be optimized and reorganized further in a better manner.
         // Maybe we should do this only for stars, since this is really a slow step only for stars
         Q_ASSERT( isfinite( lastPrecessJD ) );
         if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 // TODO: Make this 0.0005 a constant / define it
             || ( lastPrecessJD - data->updateNum()->getJD() ) <= -0.0005
+            || Options::alwaysRecomputeCoordinates()
             || ( Options::useRelativistic() && checkBendLight() ) ) {
 
             // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
@@ -329,6 +329,7 @@ void StarObject::JITupdate()
         updateNumID = data->updateNumID();
     }
     EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    updateID = data->updateID();
 }
 
 QString StarObject::sptype( void ) const {
