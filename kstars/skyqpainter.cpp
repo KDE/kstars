@@ -194,7 +194,7 @@ void SkyQPainter::initStarImages()
         }
         p.end();
 
-        // Cahce array slice
+        // Cache array slice
         QPixmap** pmap = imageCache[ harvardToIndex(color) ];
         for( int size = 1; size < nStarSizes; size++ ) {
             if( !pmap[size] )
