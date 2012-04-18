@@ -140,7 +140,19 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
     m_vertex[type][i + 5] = vec + Vector2f( w, w);
 
     Vector3f c(1.,1.,1.);
-    switch(sp) {
+    if( sp != 'x' && Options::starColorMode() != 0 ) {
+        // We have a star and aren't drawing real star colors
+        switch( Options::starColorMode() ) {
+        case 1: // solid red
+            c = Vector3f( 255./255., 0., 0. ); break;
+        case 2: // solid black
+            c = Vector3f( 0., 0., 0. ); break;
+        case 3: // Solid white
+            c = Vector3f( 1., 1., 1. ); break;
+        }
+    }
+    else {
+        switch(sp) {
         case 'o': case 'O': c = Vector3f( 153./255., 153./255., 255./255.); break;
         case 'b': case 'B': c = Vector3f( 151./255., 233./255., 255./255.); break;
         case 'a': case 'A': c = Vector3f( 153./255., 255./255., 255./255.); break;
@@ -149,8 +161,8 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
         case 'k': case 'K': c = Vector3f( 255./255., 193./255., 153./255.); break;
         case 'm': case 'M': c = Vector3f( 255./255., 153./255., 153./255.); break;
         case 'x':           c = Vector3f( m_pen[0], m_pen[1], m_pen[2]   ); break;
-    } 
-
+        }
+    }
     for(int j = 0; j < 6; ++j) {
         m_color[type][i+j] = c;
     }
