@@ -115,7 +115,7 @@ void LocationDialog::initCityList() {
 
     // attempt to highlight the current kstars location in the GeoBox
     ui->GeoBox->setCurrentItem( 0 );
-    for( uint i=0; i < ui->GeoBox->count(); i++ ) {
+    for( int i=0; i < ui->GeoBox->count(); i++ ) {
         if ( ui->GeoBox->item(i)->text() == data->geo()->fullName() ) {
             ui->GeoBox->setCurrentRow( i );
             break;
