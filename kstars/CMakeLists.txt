@@ -352,6 +352,7 @@ set(kstars_extra_SRCS
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 	satellitegroup.cpp
+        ksuserdb.cpp
 )
 
 set(oal_SRCS

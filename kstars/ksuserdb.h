@@ -18,11 +18,43 @@
 
 #ifndef KSUSERDB_H
 #define KSUSERDB_H
+#define KSTARS_USERDB "data/userdb.sqlite"
+#include <QSqlDatabase>
+#include <QDebug>
+#include <QSqlQuery>
+#include <QString>
+#include <QHash>
+#include <QSqlError>
+#include <QVariant>
+#include "skyobjects/skyobject.h"
 
-class ksuserdb
+
+class KSUserDB
 {
+    QSqlDatabase userdb;
 public:
-    ksuserdb();
+//    Constructor
+    KSUserDB();
+
+    /** Initialize KStarsDB while running splash screen
+     * @return true on success
+     */
+    bool initialize();
+
+    static KSUserDB* Create();
+    static KSUserDB* Instance();
+
+
+private:
+    bool createDefaultDatabase();
+    bool loadDatabase(QString);
+    bool firstRun();
+
+    QSqlDatabase db;
+    QSqlQuery query;
+
+    //Singleton Instance
+    static KSUserDB *pinstance;
 };
 
 #endif // KSUSERDB_H

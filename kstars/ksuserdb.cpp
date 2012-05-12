@@ -19,6 +19,58 @@
 #include "ksuserdb.h"
 #include "kstarsdata.h"
 
-ksuserdb::ksuserdb()
+KSUserDB::KSUserDB()
 {
+    userdb = QSqlDatabase::addDatabase("QSQLITE");
+}
+
+bool KSUserDB::loadDatabase(QString dbfile = KSTARS_USERDB)
+{
+    userdb.setDatabaseName(dbfile);
+    if (!db.open()) {
+           kDebug() << i18n("Unable to open database file!");
+           firstRun();
+           return false;
+    }
+    return true;
+}
+
+bool KSUserDB::initialize(){
+    return loadDatabase();
+
+}
+
+bool KSUserDB::firstRun(){
+    return false;
+}
+
+bool KSUserDB::createDefaultDatabase()
+{
+
+    QSqlQuery query(userdb);
+
+    // Enable Foreign Keys -- just to ensure integrity of the table!
+    if (!query.exec("PRAGMA foreign_keys = ON")) {
+        qDebug() << query.lastError();
+    }
+
+    // Disable synchronous for speed up
+    if (!query.exec("PRAGMA synchronous = OFF")) {
+        qDebug() << query.lastError();
+    }
+
+    return true;
+
+}
+
+KSUserDB* KSUserDB::Create()
+{
+    delete pinstance;
+    pinstance = new KSUserDB();
+    return pinstance;
+}
+
+KSUserDB* KSUserDB::Instance()
+{
+    return pinstance;
 }
