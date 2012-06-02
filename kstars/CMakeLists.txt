@@ -1,6 +1,7 @@
-add_subdirectory( data ) 
+add_subdirectory( data )
 add_subdirectory( icons )
-add_subdirectory( htmesh ) 
+add_subdirectory( htmesh )
+add_subdirectory( tools/WhatsInteresting)
 
 Find_package(ZLIB REQUIRED)
 
@@ -124,6 +125,9 @@ set(libkstarstools_SRCS
 	tools/scriptfunction.cpp
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
+    tools/WhatsInteresting/skyobjlistmodel.cpp
+    tools/WhatsInteresting/WIView.cpp
+    tools/WhatsInteresting/modelmanager.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
@@ -436,6 +440,8 @@ target_link_libraries(kstars
     ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KIO_LIBS}
+    ${QT_QTDECLARATIVE_LIBRARY}
+    kdeclarative
 	htmesh
 	${ZLIB_LIBRARIES}
         )

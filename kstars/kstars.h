@@ -43,6 +43,7 @@ class imagesequence;
 class AltVsTime;
 class LCGenerator;
 class WUTDialog;
+class WIView;
 class AstroCalc;
 class SkyCalendar;
 class ScriptBuilder;
@@ -507,6 +508,9 @@ private slots:
     /** action slot: open What's up tonight dialog */
     void slotWUT();
 
+    /** action slot: open What's Interesting window */
+    void slotWI();
+
     /** action slot: open Sky Calendar tool */
     void slotCalendar();
 
@@ -652,6 +656,7 @@ private:
     Execute *execute;
     AltVsTime *avt;
     WUTDialog *wut;
+    WIView *wi;
     SkyCalendar *skycal;
     ScriptBuilder *sb;
     PlanetViewer *pv;
