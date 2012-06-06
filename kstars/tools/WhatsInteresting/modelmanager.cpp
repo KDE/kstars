@@ -17,7 +17,6 @@
 
 #include "ksfilereader.h"
 #include "modelmanager.h"
-//#include "skyobjectitem.h"
 #include "kstarsdata.h"
 #include "skymapcomposite.h"
 #include "skyobject.h"
@@ -43,7 +42,7 @@ void ModelManager::updateModels()
 {
     KStarsData *data = KStarsData::Instance();
 
-    int count = 0;
+//     int count = 0;
 
     baseCatList<<"Planetary Objects"<<"Deep-sky Objects" ;
     planetaryList<<"Planets"<<"Satellites";
@@ -87,38 +86,38 @@ void ModelManager::updateModels()
 
     foreach(SkyObject *so, initobjects.value(SkyObject::STAR))
     {
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         starsModel->addSkyObject(so);
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::GALAXY))
     {
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         galModel->addSkyObject(so);
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::CONSTELLATION))
     {
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         conModel->addSkyObject(so);
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::OPEN_CLUSTER))
     {
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         starClustModel->addSkyObject(so);
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::PLANETARY_NEBULA))
     {
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         nebModel->addSkyObject(so);
     }
 
     foreach ( const QString &name, data->skyComposite()->objectNames( SkyObject::PLANET ) ) 
     {
         SkyObject *so = data->skyComposite()->findByName( name );
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         if (so->mag() < 7)
         {
 //             SkyObjectItem *planetItem = new SkyObjectItem(o);

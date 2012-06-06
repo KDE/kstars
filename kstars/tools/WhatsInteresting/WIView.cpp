@@ -21,7 +21,6 @@
 
 WIView::WIView ( QObject *parent) : QObject(parent)
 {
-    kDebug()<<"In constructor";
 
     m = new ModelManager();
 
@@ -63,8 +62,6 @@ WIView::~WIView() {}
 
 void WIView::onCatListItemClicked(QString category)
 {
-    kDebug()<<"inSlot";
-    kDebug()<<category;
     if (category == "Planetary Objects")
     {
         kDebug()<<"Planetary Objects";
@@ -77,25 +74,37 @@ void WIView::onCatListItemClicked(QString category)
     else if (category == "Planets")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Planets ));
+        catListObj->setProperty("visible", false);
+        soListObj->setProperty("visible", true);
     }
     else if (category == "Stars")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Stars ));
+        catListObj->setProperty("visible", false);
+        soListObj->setProperty("visible", true);
     }
     else if (category == "Galaxies")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Galaxies ));
+        catListObj->setProperty("visible", false);
+        soListObj->setProperty("visible", true);
     }
     else if (category == "Constellations")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Constellations ));
+        catListObj->setProperty("visible", false);
+        soListObj->setProperty("visible", true);
     }
     else if (category == "Star Clusters")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Star_Clusters ));
+        catListObj->setProperty("visible", false);
+        soListObj->setProperty("visible", true);
     }
     else if (category == "Nebulae")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Nebulae ));
+        catListObj->setProperty("visible", false);
+        soListObj->setProperty("visible", true);
     }
 }

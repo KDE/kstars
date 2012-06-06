@@ -51,3 +51,8 @@ QVariant SkyObjListModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
+QList< SkyObject* > SkyObjListModel::getSkyObjects()
+{
+    return skyObjList;
+}
+

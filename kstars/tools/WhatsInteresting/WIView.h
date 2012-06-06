@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-//#include "skyobjectitem.h"
 #include "QtDeclarative/QDeclarativeView"
 #include "QModelIndex"
 #include "skyobject.h"

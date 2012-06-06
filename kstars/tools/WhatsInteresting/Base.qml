@@ -2,7 +2,7 @@ import QtQuick 1.0
 
 Rectangle {
     id : base
-    width: 800
+    width: 333
     height: 550
     gradient: Gradient {
         GradientStop {
@@ -142,14 +142,5 @@ Rectangle {
 
             model: soListModel
         }
-    }
-
-    Rectangle {
-        id: rectangle2
-        x: 422
-        y: 86
-        width: 342
-        height: 412
-        color: "#1d4397"
     }
 }
