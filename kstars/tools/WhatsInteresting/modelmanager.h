@@ -36,11 +36,5 @@ public:
 private:
     SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *starClustModel, *nebModel;
     QStringList baseCatList, planetaryList, deepSkyList;
-    //QStandardItemModel* planetsModel;
-    //QStandardItemModel* satellitesModel;
-    //QStandardItemModel* starsModel;
-    //QStandardItemModel* galaxiesModel;
-    //QStandardItemModel* constellationsModel;
-    //QStandardItemModel* starClustersModel;
-    //QStandardItemModel* nebulaeModel;
+    QHash < SkyObject::TYPE , QList < SkyObject * > > initobjects;
 };
