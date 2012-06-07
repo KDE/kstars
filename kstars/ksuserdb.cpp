@@ -16,13 +16,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "ksuserdb.h"
 #include "kstarsdata.h"
+#include "ksuserdb.h"
+
 
 KSUserDB::KSUserDB()
 {
     userdb = QSqlDatabase::addDatabase("QSQLITE");
 }
+
+KSUserDB* KSUserDB::pinstance = 0;
 
 bool KSUserDB::loadDatabase(QString dbfile = KSTARS_USERDB)
 {

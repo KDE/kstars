@@ -16,8 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSUSERDB_H
-#define KSUSERDB_H
+#ifndef KSUSERDB_H_
+#define KSUSERDB_H_
 #define KSTARS_USERDB "data/userdb.sqlite"
 #include <QSqlDatabase>
 #include <QDebug>
@@ -57,4 +57,4 @@ private:
     static KSUserDB *pinstance;
 };
 
-#endif // KSUSERDB_H
+#endif // KSUSERDB_H_

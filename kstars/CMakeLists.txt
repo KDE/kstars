@@ -344,7 +344,7 @@ set(kstars_extra_SRCS
 	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
-	kstarsactions.cpp kstarsdata.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
+	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp
@@ -352,7 +352,7 @@ set(kstars_extra_SRCS
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 	satellitegroup.cpp
-        ksuserdb.cpp
+        
 )
 
 set(oal_SRCS
@@ -439,6 +439,7 @@ target_link_libraries(kstars
 	${KDE4_KIO_LIBS}
 	htmesh
 	${ZLIB_LIBRARIES}
+	${QT_QTSQL_LIBRARY}
         )
 
 if(NOT WIN32)
