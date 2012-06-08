@@ -27,7 +27,7 @@
 #include <QSqlError>
 #include <QVariant>
 #include "skyobjects/skyobject.h"
-
+#include <kstandarddirs.h>
 
 class KSUserDB
 {
@@ -35,7 +35,6 @@ class KSUserDB
 public:
 //    Constructor
     KSUserDB();
-
     /** Initialize KStarsDB while running splash screen
      * @return true on success
      */
@@ -46,13 +45,13 @@ public:
 
 
 private:
-    bool createDefaultDatabase();
-    bool loadDatabase(QString);
-    bool firstRun();
+//     bool createDefaultDatabase();
+    bool loadDatabase();
+    bool firstRun(); 
 
     QSqlDatabase db;
     QSqlQuery query;
-
+    QSqlError lastError();
     //Singleton Instance
     static KSUserDB *pinstance;
 };
