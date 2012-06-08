@@ -26,14 +26,13 @@
 #include <QHash>
 #include <QSqlError>
 #include <QVariant>
+#include <QFile>
 #include "skyobjects/skyobject.h"
 #include <kstandarddirs.h>
 
 class KSUserDB
 {
-    QSqlDatabase userdb;
 public:
-//    Constructor
     KSUserDB();
     /** Initialize KStarsDB while running splash screen
      * @return true on success
@@ -49,7 +48,7 @@ private:
     bool loadDatabase();
     bool firstRun(); 
 
-    QSqlDatabase db;
+    QSqlDatabase userdb;
     QSqlQuery query;
     QSqlError lastError();
     //Singleton Instance

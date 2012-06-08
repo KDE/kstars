@@ -29,9 +29,9 @@ KSUserDB::KSUserDB()
     userdb = QSqlDatabase::addDatabase("QSQLITE", "userdb");
     initialize();
     //TODO:     QSqlDatabase::removeDatabase("userdb"); <-find out the correct place to put this
+    
+
 }
-
-
 
 // Replacing bool KSUserDB::loadDatabase(QString dbfile = KSTARS_USERDB)
 // Every logged in user should have their own db.
@@ -39,13 +39,29 @@ bool KSUserDB::loadDatabase()
 {
     QString dbfile = KStandardDirs::locateLocal( "appdata", "userdb.sqlite" );
     userdb.setDatabaseName(dbfile);
-    if (!db.open()) {
-           kWarning() << i18n("Unable to open user database file! Creating new database!");
-           firstRun();
+    
+    //db.open() will create the db if it doesn't exist. Hence, we check if it does.
+    //If it doesn't exist we run firstRun() to set up tables after db.open() creates the new db file.
+    QFile testdb(dbfile);
+    bool first = false;
+    if (!testdb.exists()){
+        kWarning() << i18n("User DB does not exist! New User DB will be created.");
+        first = true;
     }
-    else kWarning() << i18n("Opened the User DB. Ready!");
+    
+    if (!userdb.open()) {
+           kWarning() << i18n("Unable to open user database file!");
+           kWarning() << lastError();
+    }
+    else {
+        kDebug() << "Opened the User DB. Ready!";
+    }
+
+    if (first == true)
+        firstRun();
+    
     return true;
-    //TODO:     Need to close() the connection when done
+    //TODO:     Need to close() the connection when done userdb.close();
 }
 
 bool KSUserDB::initialize(){
@@ -56,33 +72,13 @@ bool KSUserDB::initialize(){
 QSqlError KSUserDB::lastError()
     {
     // error description is in QSqlError::text()
-    return db.lastError();
+    return userdb.lastError();
     }
 
 bool KSUserDB::firstRun(){
     //TODO: Touch a new file
     
     //TODO: Init tables
-
-    return false;
-}
-
-
-KSUserDB* KSUserDB::Create()
-{
-    delete pinstance;
-    pinstance = new KSUserDB();
-    return pinstance;
-}
-
-KSUserDB* KSUserDB::Instance()
-{
-    return pinstance;
-}
-
-bool KSUserDB::createDefaultDatabase()
-{
-
     QSqlQuery query(userdb);
 
     // Enable Foreign Keys to ensure integrity of the table!
@@ -98,3 +94,17 @@ bool KSUserDB::createDefaultDatabase()
     return true;
 
 }
+
+
+KSUserDB* KSUserDB::Create()
+{
+    delete pinstance;
+    pinstance = new KSUserDB();
+    return pinstance;
+}
+
+KSUserDB* KSUserDB::Instance()
+{
+    return pinstance;
+}
+
