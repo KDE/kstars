@@ -18,30 +18,17 @@
 
 #include "kstarsdata.h"
 #include "ksuserdb.h"
-
 #include <kdebug.h>
 #include <klocale.h>
 
-KSUserDB* KSUserDB::pinstance = 0;
-
-KSUserDB::KSUserDB()
-{
-    userdb = QSqlDatabase::addDatabase("QSQLITE", "userdb");
-    initialize();
-    //TODO:     QSqlDatabase::removeDatabase("userdb"); <-find out the correct place to put this
-    
-
-}
 
 // Replacing bool KSUserDB::loadDatabase(QString dbfile = KSTARS_USERDB)
 // Every logged in user should have their own db.
-bool KSUserDB::loadDatabase()
-{
-    QString dbfile = KStandardDirs::locateLocal( "appdata", "userdb.sqlite" );
-    userdb.setDatabaseName(dbfile);
-    
+bool KSUserDB::verifyDatabase() {
+    userdb = QSqlDatabase::database("userdb");
     //db.open() will create the db if it doesn't exist. Hence, we check if it does.
     //If it doesn't exist we run firstRun() to set up tables after db.open() creates the new db file.
+    QString dbfile = KStandardDirs::locateLocal( "appdata", "userdb.sqlite" );
     QFile testdb(dbfile);
     bool first = false;
     if (!testdb.exists()){
@@ -54,57 +41,51 @@ bool KSUserDB::loadDatabase()
            kWarning() << lastError();
     }
     else {
-        kDebug() << "Opened the User DB. Ready!";
+        kDebug() << i18n("Opened the User DB. Ready!");
     }
 
-    if (first == true)
+    if (first == true){
         firstRun();
-    
+    }
+    userdb.close();
     return true;
-    //TODO:     Need to close() the connection when done userdb.close();
+    
 }
 
-bool KSUserDB::initialize(){
-    return loadDatabase();
-
+bool KSUserDB::initialize() {
+    userdb = QSqlDatabase::addDatabase("QSQLITE", "userdb");
+    QString dbfile = KStandardDirs::locateLocal( "appdata", "userdb.sqlite" );
+    userdb.setDatabaseName(dbfile);
+    return verifyDatabase();
 }
 
-QSqlError KSUserDB::lastError()
-    {
-    // error description is in QSqlError::text()
+void KSUserDB::deallocate(){
+    userdb = QSqlDatabase::database("userdb");
+    userdb.close();
+    QSqlDatabase::removeDatabase("userdb");
+}
+
+QSqlError KSUserDB::lastError() {
+    //error description is in QSqlError::text()
     return userdb.lastError();
     }
 
-bool KSUserDB::firstRun(){
-    //TODO: Touch a new file
-    
-    //TODO: Init tables
+bool KSUserDB::firstRun() {
     QSqlQuery query(userdb);
-
-    // Enable Foreign Keys to ensure integrity of the table!
-    if (!query.exec("PRAGMA foreign_keys = ON")) {
-        qDebug() << query.lastError();
+    if (!query.exec("CREATE TABLE users (name TEXT,surname TEXT,contact TEXT)")) {
+        kDebug() << query.lastError();
     }
-
-    // Disable synchronous for speed up
-    if (!query.exec("PRAGMA synchronous = OFF")) {
-        qDebug() << query.lastError();
+    
+    if (!query.exec("CREATE TABLE flags (ra FLOAT,dec FLOAT,epoch INTEGER,imagename TEXT,label TEXT,labelcolor TEXT)")) {
+        kDebug() << query.lastError();
     }
-
+     //TODO: Init other tables
+     
     return true;
 
 }
 
-
-KSUserDB* KSUserDB::Create()
-{
-    delete pinstance;
-    pinstance = new KSUserDB();
-    return pinstance;
+bool addObserver(QString name, QString surname, QString contact) {
+    
+return true;    
 }
-
-KSUserDB* KSUserDB::Instance()
-{
-    return pinstance;
-}
-

@@ -30,29 +30,24 @@
 #include "skyobjects/skyobject.h"
 #include <kstandarddirs.h>
 
+struct stat;
 class KSUserDB
 {
 public:
-    KSUserDB();
     /** Initialize KStarsDB while running splash screen
      * @return true on success
      */
     bool initialize();
-
-    static KSUserDB* Create();
-    static KSUserDB* Instance();
-
+    //TODO: To be called before closing the main window
+    void deallocate();
+    bool addObserver(QString name, QString surname, QString contact);
 
 private:
-//     bool createDefaultDatabase();
-    bool loadDatabase();
-    bool firstRun(); 
-
+    bool verifyDatabase();
+    bool firstRun();
     QSqlDatabase userdb;
-    QSqlQuery query;
     QSqlError lastError();
-    //Singleton Instance
-    static KSUserDB *pinstance;
+
 };
 
 #endif // KSUSERDB_H_

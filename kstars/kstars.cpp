@@ -81,7 +81,8 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     kstarsData->setLocationFromOptions();
 
     //Initialize User Database
-    ksuserdb = KSUserDB::Create();
+    ksuserdb = new KSUserDB();
+    ksuserdb->initialize();
     Q_ASSERT( ksuserdb );
 
     //Initialize Time and Date
