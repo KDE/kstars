@@ -480,7 +480,7 @@ int INDI_P::buildTextGUI(XMLEle *root, QString & errmsg)
         return 0;
 
     // INDI STD, but we use our own controls
-    if (name == "TIME_UTC")
+    if (name == "INDI_TIME_UTC")
     {
         setupSetButton("Time");
         QObject::connect(set_w, SIGNAL(clicked()), indistd, SLOT(newTime()));
