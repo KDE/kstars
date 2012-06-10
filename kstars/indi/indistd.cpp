@@ -248,7 +248,7 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
     switch (pp->stdID)
     {
 
-    case TIME_UTC:
+    case INDI_TIME_UTC:
         if ( Options::useTimeUpdate() && !driverTimeUpdated)
 	{
 	    driverTimeUpdated = true;
@@ -570,7 +570,7 @@ void INDIStdDevice::updateTime()
     lp->updateValue(ksw->data()->geo()->TZ());
     pp->newText();
 
-    pp = dp->findProp("TIME_UTC");
+    pp = dp->findProp("INDI_TIME_UTC");
     if (!pp) return;
 
     lp = pp->findElement("UTC");
@@ -682,7 +682,7 @@ void INDIStdDevice::createDeviceInit()
 
     if ( Options::useTimeUpdate() && Options::useComputerSource())
     {
-        prop = dp->findProp("TIME_UTC");
+        prop = dp->findProp("INDI_TIME_UTC");
         if (prop)
         {
 	    driverTimeUpdated = false;
