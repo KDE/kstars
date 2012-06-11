@@ -25,17 +25,18 @@
 // Replacing bool KSUserDB::loadDatabase(QString dbfile = KSTARS_USERDB)
 // Every logged in user should have their own db.
 bool KSUserDB::verifyDatabase() {
-    userdb = QSqlDatabase::database("userdb");
-    //db.open() will create the db if it doesn't exist. Hence, we check if it does.
-    //If it doesn't exist we run firstRun() to set up tables after db.open() creates the new db file.
+    userdb = QSqlDatabase::addDatabase("QSQLITE", "userdb");
     QString dbfile = KStandardDirs::locateLocal( "appdata", "userdb.sqlite" );
+    userdb = QSqlDatabase::database("userdb");
+    //noth setDBName() and db.open() will create the db if it doesn't exist. Hence, we check if it does.
+    //If it doesn't exist we run firstRun() to set up tables after db.open() creates the new db file.
     QFile testdb(dbfile);
     bool first = false;
     if (!testdb.exists()){
         kWarning() << i18n("User DB does not exist! New User DB will be created.");
         first = true;
     }
-    
+    userdb.setDatabaseName(dbfile);
     if (!userdb.open()) {
            kWarning() << i18n("Unable to open user database file!");
            kWarning() << lastError();
@@ -53,10 +54,8 @@ bool KSUserDB::verifyDatabase() {
 }
 
 bool KSUserDB::initialize() {
-    userdb = QSqlDatabase::addDatabase("QSQLITE", "userdb");
-    QString dbfile = KStandardDirs::locateLocal( "appdata", "userdb.sqlite" );
-    userdb.setDatabaseName(dbfile);
-    return verifyDatabase();
+    verifyDatabase();
+    return true;
 }
 
 void KSUserDB::deallocate(){
@@ -71,15 +70,19 @@ QSqlError KSUserDB::lastError() {
     }
 
 bool KSUserDB::firstRun() {
-    QSqlQuery query(userdb);
-    if (!query.exec("CREATE TABLE users (name TEXT,surname TEXT,contact TEXT)")) {
-        kDebug() << query.lastError();
+    kWarning() << i18n("FIRST RUN");
+    userdb = QSqlDatabase::database("userdb");
+    QVector<QString> tables;
+    tables.append("CREATE TABLE users (name TEXT,surname TEXT,contact TEXT)");
+    tables.append("CREATE TABLE flags (ra FLOAT,dec FLOAT,epoch INTEGER,imagename TEXT,label TEXT,labelcolor TEXT)");
+        
+    for (int i=0; i<tables.count(); i++){
+        QSqlQuery query(userdb);
+        if (!query.exec(tables[i])) {
+            kDebug() << query.lastError();
+        }
     }
-    
-    if (!query.exec("CREATE TABLE flags (ra FLOAT,dec FLOAT,epoch INTEGER,imagename TEXT,label TEXT,labelcolor TEXT)")) {
-        kDebug() << query.lastError();
-    }
-     //TODO: Init other tables
+         //TODO: Init other tables
      
     return true;
 
