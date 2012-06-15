@@ -43,7 +43,7 @@ public:
     bool addObserver(QString name, QString surname, QString contact);
 
 private:
-    bool verifyDatabase();
+    bool verifyDatabase(QString dbfile);
     bool firstRun();
     QSqlDatabase userdb;
     QSqlError lastError();
