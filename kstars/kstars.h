@@ -29,7 +29,6 @@
 // forward declaration is enough. We only need pointers
 class QPalette;
 class KActionMenu;
-class KSUserDB;
 
 class dms;
 class KStarsData;
@@ -122,9 +121,6 @@ public:
 
     /**@return pointer to KStarsData object which contains application data. */
     KStarsData* data() { return kstarsData; }
-
-    /**@return pointer to KSUserDB object which contains user data. */
-    KSUserDB* userdb() { return ksuserdb; }
 
     /**@return pointer to SkyMap object which is the sky display widget. */
     SkyMap* map() { return skymap; }
@@ -639,7 +635,6 @@ private:
     void buildGUI();
 
     KStarsData *kstarsData;
-    KSUserDB *ksuserdb;
     SkyMap *skymap;
 
     TimeStepBox *TimeStep;

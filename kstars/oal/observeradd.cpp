@@ -22,6 +22,7 @@
 #include <kstandarddirs.h>
 
 #include "kstarsdata.h"
+#include "ksuserdb.h"
 #include "observeradd.h"
 #include "ui_observeradd.h"
 #include "observer.h"
@@ -63,6 +64,10 @@ void ObserverAdd::slotAddObserver() {
  
     // Save the new observer list
     saveObservers();
+    
+    //Using ksuserdb
+    //TODO: ensure this works and remove saveObservers() ~~spacetime
+    KStarsData::Instance()->userdb()->addObserver(ui.Name->text(),ui.Surname->text(),ui.Contact->text());
 
     // Reset the UI for a fresh addition
     ui.Name->clear();
@@ -83,6 +88,10 @@ void ObserverAdd::saveObservers() {
     ks->data()->logObject()->writeEnd();//End the write process
     ostream << ks->data()->logObject()->writtenOutput();
     f.close();
+    
+    
+    
+    
 }
 
 void ObserverAdd::loadObservers() {

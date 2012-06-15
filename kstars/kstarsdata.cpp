@@ -116,6 +116,7 @@ KStarsData::KStarsData() :
     m_SkyComposite(0),
     m_Geo(dms(0), dms(0)),
     temporaryTrail( false ),
+    ksuserdb(),
     locale( new KLocale( "kstars" ) ),
     m_preUpdateID(0),        m_updateID(0),
     m_preUpdateNumID(0),     m_updateNumID(0),
@@ -173,7 +174,12 @@ bool KStarsData::initialize() {
 
     emit progressText( i18n("Loading Variable Stars" ) );
     readINDIHosts();
+
+    //Initialize User Database//
+    emit progressText( i18n("Loading User Information" ) );
+    ksuserdb.initialize();
     readUserLog();
+    
     readADVTreeData();
 
     return true;
