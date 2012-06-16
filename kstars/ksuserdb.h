@@ -22,6 +22,8 @@
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QSqlQuery>
+#include <QSqlRecord>
+#include <QSqlTableModel>
 #include <QString>
 #include <QHash>
 #include <QSqlError>
@@ -41,7 +43,7 @@ public:
     //TODO: To be called before closing the main window
     void deallocate();
     bool addObserver(QString name, QString surname, QString contact);
-
+    bool findObserver(QString name, QString surname);    
 private:
     bool verifyDatabase(QString dbfile);
     bool firstRun();

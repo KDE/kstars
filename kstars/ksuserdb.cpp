@@ -96,12 +96,41 @@ bool KSUserDB::firstRun() {
 }
 
 bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
-    userdb = QSqlDatabase::database("userdb");
+    userdb.open();
     QSqlQuery query(userdb);
-    query.prepare("INSERT INTO user (Name,Surname,Contact) VALUES (:name, :surname, :contact)");
-    query.bindValue(":name", name);
-    query.bindValue(":surname", surname);
-    query.bindValue(":contact", contact);
-    query.exec();
+    QSqlTableModel users(0,userdb);
+    users.setTable("user");
+    users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
+    users.select();
+    if (users.rowCount()>0) {
+            QSqlRecord record = users.record(0);
+            record.setValue("Name",name);
+            record.setValue("Surname",surname);
+            record.setValue("Contact",contact);
+            users.setRecord(0,record);
+            users.submitAll();
+    }
+    else {
+        int row=0;
+        users.insertRows(row,1);
+        query.prepare("INSERT INTO user (Name,Surname,Contact) VALUES (:name, :surname, :contact)");
+        query.bindValue(":name", name);
+        query.bindValue(":surname", surname);
+        query.bindValue(":contact", contact);
+        query.exec();
+    }
+    userdb.close();
     return true;    
+}
+
+bool KSUserDB::findObserver(QString name, QString surname) {    
+    userdb.open();
+    QSqlTableModel users(0,userdb);
+    users.setTable("user");
+    users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
+    users.select();
+    kWarning() << users.database();
+    userdb.close();
+    
+    return (users.rowCount()>0);
 }

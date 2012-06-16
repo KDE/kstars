@@ -22,7 +22,6 @@
 #include <kstandarddirs.h>
 
 #include "kstarsdata.h"
-#include "ksuserdb.h"
 #include "observeradd.h"
 #include "ui_observeradd.h"
 #include "observer.h"
@@ -49,6 +48,13 @@ void ObserverAdd::slotAddObserver() {
         KMessageBox::sorry( 0, i18n("The Name field cannot be empty"), i18n("Invalid Input") );
         return;
     }
+    
+    //TODO: link this with OAL writer ~~spacetime
+    if (KStarsData::Instance()->userdb()->findObserver(ui.Name->text(),ui.Surname->text())){
+        if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;    
+    }
+    
+    //TODO: Remove this segment. (Will result in all operations being repeated for now)
     OAL::Observer *o = ks->data()->logObject()->findObserverByName( ui.Name->text() + ' ' + ui.Surname->text() ); //The findObserverByName uses the fullName for searching
     if( o ) {
         if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::Yes ) {
