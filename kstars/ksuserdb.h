@@ -31,6 +31,7 @@
 #include <QFile>
 #include "skyobjects/skyobject.h"
 #include <kstandarddirs.h>
+#include "oal/oal.h"
 
 struct stat;
 class KSUserDB
@@ -44,6 +45,7 @@ public:
     void deallocate();
     bool addObserver(QString name, QString surname, QString contact);
     bool findObserver(QString name, QString surname);    
+    void getAllObservers(QList<OAL::Observer *> &m_observerList);
 private:
     bool verifyDatabase(QString dbfile);
     bool firstRun();

@@ -97,7 +97,6 @@ bool KSUserDB::firstRun() {
 
 bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
     userdb.open();
-    QSqlQuery query(userdb);
     QSqlTableModel users(0,userdb);
     users.setTable("user");
     users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
@@ -113,11 +112,18 @@ bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
     else {
         int row=0;
         users.insertRows(row,1);
+        users.setData(users.index(row,1),name); //row,0 is autoincerement ID
+        users.setData(users.index(row,2),surname);
+        users.setData(users.index(row,3),contact);
+        users.submitAll();
+        /*
+        QSqlQuery query(userdb);
         query.prepare("INSERT INTO user (Name,Surname,Contact) VALUES (:name, :surname, :contact)");
         query.bindValue(":name", name);
         query.bindValue(":surname", surname);
         query.bindValue(":contact", contact);
         query.exec();
+        */
     }
     userdb.close();
     return true;    
@@ -133,4 +139,26 @@ bool KSUserDB::findObserver(QString name, QString surname) {
     userdb.close();
     
     return (users.rowCount()>0);
+}
+
+void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
+    userdb.open();
+    QSqlTableModel users(0,userdb);
+    users.setTable("user");
+    users.setFilter("id >= 1");
+    users.select();
+    for (int i =0; i < users.rowCount(); ++i) {
+        QSqlRecord record = users.record(i);
+        QString name = record.value("Name").toString();
+        QString surname = record.value("Surname").toString();
+        QString contact = record.value("Contact").toString();
+        OAL::Observer *o= new OAL::Observer( name, surname, contact );
+        m_observerList.append( o );
+    }
+    userdb.close();
+    QString name="rishab";
+    QString surname="rishab";
+    QString contact="rishab";
+    OAL::Observer *o= new OAL::Observer( name, surname, contact );
+    m_observerList.append( o );
 }

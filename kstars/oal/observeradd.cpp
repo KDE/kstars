@@ -74,7 +74,9 @@ void ObserverAdd::slotAddObserver() {
     //Using ksuserdb
     //TODO: ensure this works and remove saveObservers() ~~spacetime
     KStarsData::Instance()->userdb()->addObserver(ui.Name->text(),ui.Surname->text(),ui.Contact->text());
-
+   
+    //Reload observers into OAL::m_observers
+    
     // Reset the UI for a fresh addition
     ui.Name->clear();
     ui.Surname->clear();
@@ -101,6 +103,11 @@ void ObserverAdd::saveObservers() {
 }
 
 void ObserverAdd::loadObservers() {
+    //db implementation here
+    ks->data()->logObject()->readObservers();
+    
+    /*
+     * TODO: remove --spacetime
     QFile f;
     f.setFileName( KStandardDirs::locateLocal( "appdata", "observerlist.xml" ) );   
     if( ! f.open( QIODevice::ReadOnly ) )
@@ -108,6 +115,8 @@ void ObserverAdd::loadObservers() {
     QTextStream istream( &f );
     ks->data()->logObject()->readBegin( istream.readAll() );
     f.close();
+    */
+    
 }
 
 #include "observeradd.moc"

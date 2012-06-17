@@ -454,6 +454,15 @@ void OAL::Log::readTargets() {
 }
 
 void OAL::Log::readObservers() {
+    QString name="rishab";
+    QString surname="rishab";
+    QString contact="rishab";
+    OAL::Observer *o= new OAL::Observer( name, surname, contact );
+    m_observerList.append( o );
+    KStars::Instance()->data()->userdb()->getAllObservers(m_observerList);
+    
+   
+    /*
     while( ! reader->atEnd() ) {
         reader->readNext();
 
@@ -466,7 +475,7 @@ void OAL::Log::readObservers() {
             else
                 readUnknownElement();
         }
-    }
+    }*/
 }
 
 void OAL::Log::readSites() {
