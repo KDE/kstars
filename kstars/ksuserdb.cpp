@@ -113,20 +113,34 @@ bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
     return true;    
 }
 
-bool KSUserDB::findObserver(QString name, QString surname) {    
+int KSUserDB::findObserver(QString name, QString surname) {    
     userdb.open();
     QSqlTableModel users(0,userdb);
     users.setTable("user");
     users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
     users.select();
-    kWarning() << users.database();
     userdb.close();
-    
     return (users.rowCount()>0);
 }
 
+//Returns 0 if id invalid. Else deletes the user with provided ID
+//TODO: This method is currently unused. Find and link it where needed.
+bool KSUserDB::delObserver(QString id) {    
+    userdb.open();
+    QSqlTableModel users(0,userdb);
+    users.setTable("user");
+    users.setFilter("id = "+id+"\'");
+    users.select();
+    users.removeRows(0,1);
+    users.submitAll();
+    userdb.close();
+    return (users.rowCount()>0);
+}
+
+//Clears and then populates M_observerList from UserDB
 void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
     userdb.open();
+    m_observerList.clear();
     QSqlTableModel users(0,userdb);
     users.setTable("user");
     users.setFilter("id >= 1");
@@ -141,4 +155,5 @@ void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
         m_observerList.append( o );
     }
     userdb.close();
+    return;
 }

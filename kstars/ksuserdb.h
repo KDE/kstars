@@ -44,7 +44,8 @@ public:
     //TODO: To be called before closing the main window
     void deallocate();
     bool addObserver(QString name, QString surname, QString contact);
-    bool findObserver(QString name, QString surname);    
+    int findObserver(QString name, QString surname);    
+    bool delObserver(QString id);
     void getAllObservers(QList<OAL::Observer *> &m_observerList);
 private:
     bool verifyDatabase(QString dbfile);

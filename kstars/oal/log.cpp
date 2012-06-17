@@ -413,8 +413,6 @@ void OAL::Log::readLog() {
         if( reader->isStartElement() ) {
             if( reader->name() == "targets" )
                 readTargets();
-           else if( reader->name() == "observers" )
-                readObservers();
            else if( reader->name() == "sites" )
                 readSites();
            else if( reader->name() == "sessions" )
@@ -591,28 +589,6 @@ void OAL::Log::readTarget() {
     }
 }
 
-void OAL::Log::readObserver( QString id ) {
-    QString name, surname, contact;
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "name" ) {
-                name = reader->readElementText();
-            } else if( reader->name() == "surname" ) {
-                surname = reader->readElementText();
-            } else if( reader->name() == "contact" ) {
-                contact = reader->readElementText();
-            } else
-                readUnknownElement();
-        }
-    }
-    OAL::Observer *o= new OAL::Observer( id, name, surname, contact );
-    m_observerList.append( o );
-}
 
 void OAL::Log::readSite( QString id ) {
     QString name, latUnit, lonUnit, lat, lon;
