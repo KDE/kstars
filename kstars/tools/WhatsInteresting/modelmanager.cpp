@@ -51,37 +51,45 @@ void ModelManager::updateModels()
 //     QFile file( KStandardDirs::locateLocal( "appdata", "initWIList.dat" ) );
 //     file.open( QIODevice::WriteOnly|QIODevice::Truncate|QIODevice::Text );
     KSFileReader fileReader;
-    if ( !fileReader.open("initWIList.dat") ) return;
+    if ( !fileReader.open("Interesting.dat") ) return;
 
     while ( fileReader.hasMoreLines() )
     {
         QString line, soname;
         SkyObject::TYPE sotype;
         line = fileReader.readLine();
-        soname = line.split(',')[0];
-        //sotype = line.split(',')[1].toInt();
-        switch (line.split(',')[1].toInt())
+
+        SkyObject *o;
+        if (o = data->skyComposite()->findByName( line ))
         {
-            case 0:
-                sotype = SkyObject::STAR;
-                break;
-            case 3:
-                sotype = SkyObject::OPEN_CLUSTER;
-                break;
-            case 6:
-                sotype = SkyObject::PLANETARY_NEBULA;
-                break;
-            case 8:
-                sotype = SkyObject::GALAXY;
-                break;
-            case 11:
-                sotype = SkyObject::CONSTELLATION;
-                break;
+            kDebug()<<"Here";
+            kDebug() << o->name()<< o->typeName() ;
+            switch (o->type())
+            {
+                case 0:
+                    sotype = SkyObject::STAR;
+                    break;
+                case 3:
+                    sotype = SkyObject::OPEN_CLUSTER;
+                    break;
+                case 6:
+                    sotype = SkyObject::PLANETARY_NEBULA;
+                    break;
+                case 8:
+                    sotype = SkyObject::GALAXY;
+                    break;
+                case 11:
+                    sotype = SkyObject::CONSTELLATION;
+                    break;
+                default:
+                    break;
+            }
+            QList<SkyObject *> solist = initobjects[sotype];
+            solist.append(o);
+            initobjects[sotype] = solist;
         }
-        SkyObject *o = data->skyComposite()->findByName( soname );
-        QList<SkyObject *> solist = initobjects[sotype];
-        solist.append(o);
-        initobjects[sotype] = solist;
+//         soname = line.split(',')[0];
+//         //sotype = line.split(',')[1].toInt();
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::STAR))
