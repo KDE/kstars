@@ -69,7 +69,7 @@ bool KSUserDB::firstRun() {
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Name TEXT NOT NULL  DEFAULT 'NULL',\
     Surname TEXT NOT NULL  DEFAULT 'NULL',\
-    Contact TEXT DEFAULT NULL");
+    Contact TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE telescope (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
@@ -78,7 +78,7 @@ bool KSUserDB::firstRun() {
     Model TEXT DEFAULT NULL,\
     Driver TEXT DEFAULT NULL,\
     Type TEXT DEFAULT NULL,\
-    Focal Length REAL DEFAULT NULL");
+    Focal Length REAL DEFAULT NULL)");
 
     tables.append("CREATE TABLE flags (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
@@ -87,33 +87,33 @@ bool KSUserDB::firstRun() {
     Icon TEXT NOT NULL  DEFAULT 'NULL',\
     Label TEXT NOT NULL  DEFAULT 'NULL',\
     Color TEXT DEFAULT NULL,\
-    Epoch REAL DEFAULT NULL");
+    Epoch REAL DEFAULT NULL)");
 
     tables.append("CREATE TABLE lens (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Vendor TEXT NOT NULL  DEFAULT 'NULL',\
     Model TEXT DEFAULT NULL,\
-    Factor REAL NOT NULL  DEFAULT NULL");
+    Factor REAL NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE eyepiece (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Vendor TEXT DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
     FocalLength REAL NOT NULL  DEFAULT NULL,\
-    ApparentFOV REAL NOT NULL  DEFAULT NULL");
+    ApparentFOV REAL NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE filter (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Vendor TEXT DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
     Type TEXT DEFAULT NULL,\
-    Color TEXT DEFAULT NULL");
+    Color TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE wishlist (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Date NUMERIC NOT NULL  DEFAULT NULL,\
     Type TEXT DEFAULT NULL,\
-    UIUD TEXT DEFAULT NULL");
+    UIUD TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE fov (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
@@ -121,7 +121,7 @@ bool KSUserDB::firstRun() {
     color TEXT DEFAULT NULL,\
     sizeX NUMERIC DEFAULT NULL,\
     sizeY NUMERIC DEFAULT NULL,\
-    shape TEXT DEFAULT NULL");
+    shape TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE logentry (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
@@ -134,10 +134,10 @@ bool KSUserDB::firstRun() {
     Filter INTEGER DEFAULT NULL REFERENCES filter (id),\
     lens INTEGER DEFAULT NULL REFERENCES lens (id),\
     Eyepiece INTEGER DEFAULT NULL REFERENCES eyepiece (id),\
-    FOV INTEGER DEFAULT NULL REFERENCES fov (id)");
+    FOV INTEGER DEFAULT NULL REFERENCES fov (id))");
 
     tables.append("CREATE TABLE colorscheme (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT");
+    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT)");
     
     for (int i=0; i<tables.count(); i++){
         QSqlQuery query(userdb);
