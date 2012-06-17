@@ -48,34 +48,15 @@ void ObserverAdd::slotAddObserver() {
         KMessageBox::sorry( 0, i18n("The Name field cannot be empty"), i18n("Invalid Input") );
         return;
     }
-    
-    //TODO: link this with OAL writer ~~spacetime
+
     if (KStarsData::Instance()->userdb()->findObserver(ui.Name->text(),ui.Surname->text())){
         if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;    
     }
-    
-    //TODO: Remove this segment. (Will result in all operations being repeated for now)
-    OAL::Observer *o = ks->data()->logObject()->findObserverByName( ui.Name->text() + ' ' + ui.Surname->text() ); //The findObserverByName uses the fullName for searching
-    if( o ) {
-        if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::Yes ) {
-            o->setObserver( o->id(), o->name(), o->surname(), ui.Contact->text() );
-        } else
-            return; //Do nothing
-    } else { // No such observer exists, so create a new observer object and append to file
-        while( ks->data()->logObject()->findObserverById( i18n("observer_") + QString::number( nextObserver ) ) )
-            nextObserver++;
-        o = new OAL::Observer( i18n("observer_") + QString::number( nextObserver++ ), ui.Name->text(), ui.Surname->text(), ui.Contact->text() );
-        ks->data()->logObject()->observerList()->append( o );
-    }
- 
-    // Save the new observer list
-    saveObservers();
-    
-    //Using ksuserdb
-    //TODO: ensure this works and remove saveObservers() ~~spacetime
+
     KStarsData::Instance()->userdb()->addObserver(ui.Name->text(),ui.Surname->text(),ui.Contact->text());
    
     //Reload observers into OAL::m_observers
+    loadObservers();
     
     // Reset the UI for a fresh addition
     ui.Name->clear();
@@ -83,40 +64,9 @@ void ObserverAdd::slotAddObserver() {
     ui.Contact->clear();
 }
 
-void ObserverAdd::saveObservers() {
-    QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "observerlist.xml" ) );
-    if ( ! f.open( QIODevice::WriteOnly ) ) {
-        KMessageBox::sorry( 0, i18n( "Could not save the observer list to the file." ), i18n( "Write Error" ) );
-        return;
-    }
-    QTextStream ostream( &f );
-    ks->data()->logObject()->writeBegin(); //Initialize the xml document, etc.
-    ks->data()->logObject()->writeObservers();//Write the observer list into the QString
-    ks->data()->logObject()->writeEnd();//End the write process
-    ostream << ks->data()->logObject()->writtenOutput();
-    f.close();
-    
-    
-    
-    
-}
-
 void ObserverAdd::loadObservers() {
-    //db implementation here
     ks->data()->logObject()->readObservers();
-    
-    /*
-     * TODO: remove --spacetime
-    QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "observerlist.xml" ) );   
-    if( ! f.open( QIODevice::ReadOnly ) )
-        return;
-    QTextStream istream( &f );
-    ks->data()->logObject()->readBegin( istream.readAll() );
-    f.close();
-    */
-    
+  
 }
 
 #include "observeradd.moc"

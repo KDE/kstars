@@ -21,6 +21,8 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+// Replacing bool KSUserDB::initialize(QString dbfile = KSTARS_USERDB)
+// Every logged in user should have their own db.
 
 bool KSUserDB::initialize() {
     //TODO: This needs to be merged with verification, and made into a static member
@@ -58,17 +60,7 @@ QSqlError KSUserDB::lastError() {
     return userdb.lastError();
 }
 
-// Replacing bool KSUserDB::loadDatabase(QString dbfile = KSTARS_USERDB)
-// Every logged in user should have their own db.
-bool KSUserDB::verifyDatabase(QString dbfile) {
-    //TO BE REMOVED
-    //Before QSqlDatabase::database returns a reference to a valid database, 
-    //this database must have been opened with open() which means that you can not 
-    //simply establish a connection and afterwards and elsewhere retrieve this connection 
-    //with QSqlDatabase::database to give some more connectiondata as name, server and 
-    //password and only then opening the database. 
-return true;    
-}
+
 
 bool KSUserDB::firstRun() {
     kWarning() << i18n("Rebuilding User Database");
@@ -116,14 +108,6 @@ bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
         users.setData(users.index(row,2),surname);
         users.setData(users.index(row,3),contact);
         users.submitAll();
-        /*
-        QSqlQuery query(userdb);
-        query.prepare("INSERT INTO user (Name,Surname,Contact) VALUES (:name, :surname, :contact)");
-        query.bindValue(":name", name);
-        query.bindValue(":surname", surname);
-        query.bindValue(":contact", contact);
-        query.exec();
-        */
     }
     userdb.close();
     return true;    
@@ -149,16 +133,12 @@ void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
     users.select();
     for (int i =0; i < users.rowCount(); ++i) {
         QSqlRecord record = users.record(i);
+        QString id = record.value("id").toString();
         QString name = record.value("Name").toString();
         QString surname = record.value("Surname").toString();
         QString contact = record.value("Contact").toString();
-        OAL::Observer *o= new OAL::Observer( name, surname, contact );
+        OAL::Observer *o= new OAL::Observer( id, name, surname, contact );
         m_observerList.append( o );
     }
     userdb.close();
-    QString name="rishab";
-    QString surname="rishab";
-    QString contact="rishab";
-    OAL::Observer *o= new OAL::Observer( name, surname, contact );
-    m_observerList.append( o );
 }

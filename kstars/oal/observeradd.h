@@ -37,11 +37,6 @@ Q_OBJECT
          */
         void loadObservers();
 
-        /*@short function to save the list of
-         * observers to the file
-         */
-        void saveObservers();
-
     public slots:
         /*@short function to add the new observer
          * to the observerList of the global logObject
