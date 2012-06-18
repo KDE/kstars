@@ -47,6 +47,10 @@ public:
     int findObserver(QString name, QString surname);    
     bool delObserver(QString id);
     void getAllObservers(QList<OAL::Observer *> &m_observerList);
+    
+    void eraseAllFlags();
+    bool addFlag(QString ra, QString dec, QString epoch, 
+                 QString imageName, QString label, QString labelColor);
 private:
     bool verifyDatabase(QString dbfile);
     bool firstRun();

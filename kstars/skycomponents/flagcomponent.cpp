@@ -137,11 +137,22 @@ void FlagComponent::loadFromFile() {
 }
 
 void FlagComponent::saveToFile() {
+    
+    KStarsData::Instance()->userdb()->eraseAllFlags();
+    
     QFile file( KStandardDirs::locateLocal( "appdata", "flags.dat.tmp" ) );
     file.open( QIODevice::WriteOnly );
 
     QTextStream ostream(&file);
     for ( int i=0; i < size(); ++i ) {
+        KStarsData::Instance()->userdb()->addFlag(QString::number( pointList().at( i )->ra0().Degrees() ),
+                                                  QString::number( pointList().at( i )->dec0().Degrees() ),
+                                                  epoch ( i ),
+                                                  imageName( i ).replace( ' ', '_' ),
+                                                  label( i ),
+                                                  labelColor( i ).name());
+                                                  
+        
         ostream << QString::number( pointList().at( i )->ra0().Degrees() ) << " "
                 << QString::number( pointList().at( i )->dec0().Degrees() ) << " "
                 << epoch ( i ) << " "

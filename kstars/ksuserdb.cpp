@@ -41,12 +41,13 @@ bool KSUserDB::initialize() {
            kWarning() << lastError();
     }
     else {
-        kDebug() << i18n("Opened the User DB. Ready!");
+        kWarning() << i18n("Opened the User DB. Ready!");
     }
     if (first == true){
         firstRun();
     }
     userdb.close();
+
     return true;
 }
 
@@ -82,12 +83,12 @@ bool KSUserDB::firstRun() {
 
     tables.append("CREATE TABLE flags (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
-    RA REAL NOT NULL  DEFAULT NULL,\
-    Dec REAL NOT NULL  DEFAULT NULL,\
+    RA TEXT NOT NULL  DEFAULT NULL,\
+    Dec TEXT NOT NULL  DEFAULT NULL,\
     Icon TEXT NOT NULL  DEFAULT 'NULL',\
     Label TEXT NOT NULL  DEFAULT 'NULL',\
     Color TEXT DEFAULT NULL,\
-    Epoch REAL DEFAULT NULL)");
+    Epoch TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE lens (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
@@ -145,12 +146,16 @@ bool KSUserDB::firstRun() {
             kWarning() << query.lastError();
         }
     }
-     
     return true;
 
 }
 
+/*
+ * Observer Section
+*/
+
 bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
+
     userdb.open();
     QSqlTableModel users(0,userdb);
     users.setTable("user");
@@ -172,7 +177,9 @@ bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
         users.setData(users.index(row,3),contact);
         users.submitAll();
     }
+    
     userdb.close();
+
     return true;    
 }
 
@@ -182,8 +189,10 @@ int KSUserDB::findObserver(QString name, QString surname) {
     users.setTable("user");
     users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
     users.select();
+    int observer_count = users.rowCount();
+    users.clear();
     userdb.close();
-    return (users.rowCount()>0);
+    return (observer_count>0);
 }
 
 //Returns 0 if id invalid. Else deletes the user with provided ID
@@ -196,12 +205,15 @@ bool KSUserDB::delObserver(QString id) {
     users.select();
     users.removeRows(0,1);
     users.submitAll();
+    int observer_count = users.rowCount();
+    users.clear();
     userdb.close();
-    return (users.rowCount()>0);
+    return (observer_count>0);
 }
 
 //Clears and then populates M_observerList from UserDB
 void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
+
     userdb.open();
     m_observerList.clear();
     QSqlTableModel users(0,userdb);
@@ -217,6 +229,45 @@ void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
         OAL::Observer *o= new OAL::Observer( id, name, surname, contact );
         m_observerList.append( o );
     }
+    users.clear();
     userdb.close();
     return;
+}
+
+
+
+/*
+ * Flag Section
+*/
+
+void KSUserDB::eraseAllFlags() {    
+    userdb.open();
+    QSqlTableModel flags(0,userdb);
+    flags.setTable("flags");
+    flags.setFilter("id >= 1");
+    flags.select();
+    flags.removeRows(0,flags.rowCount());
+    flags.submitAll();
+    flags.clear();
+    userdb.close();
+}
+
+bool KSUserDB::addFlag(QString ra, QString dec, QString epoch, 
+                       QString imageName, QString label, QString labelColor) {
+    
+    userdb.open();
+    QSqlTableModel flags(0,userdb);
+    flags.setTable("flags");
+    int row = 0;
+    flags.insertRows(row,1);
+    flags.setData(flags.index(row,1),ra); //row,0 is autoincerement ID
+    flags.setData(flags.index(row,2),dec);
+    flags.setData(flags.index(row,3),imageName);
+    flags.setData(flags.index(row,4),label);
+    flags.setData(flags.index(row,5),labelColor);
+    flags.setData(flags.index(row,6),epoch);
+    flags.submitAll();
+    flags.clear();
+    userdb.close();
+    return true;    
 }
