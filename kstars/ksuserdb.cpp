@@ -271,3 +271,28 @@ bool KSUserDB::addFlag(QString ra, QString dec, QString epoch,
     userdb.close();
     return true;    
 }
+
+//Return QList of QStringList. Order;QString ra, QString dec, QString epoch, 
+//                     QString imageName, QString label, QString labelColor
+QList<QStringList> KSUserDB::getAllFlags() {
+    QList<QStringList> flagList;
+    userdb.open();
+    QSqlTableModel flags(0,userdb);
+    flags.setTable("flags");
+    flags.setFilter("id >= 1");
+    flags.select();
+    for (int i =0; i < flags.rowCount(); ++i) {
+        QStringList flagEntry;
+        QSqlRecord record = flags.record(i);
+        flagEntry.append(record.value(1).toString());
+        flagEntry.append(record.value(2).toString());
+        flagEntry.append(record.value(6).toString());
+        flagEntry.append(record.value(3).toString());
+        flagEntry.append(record.value(4).toString());
+        flagEntry.append(record.value(5).toString());
+        flagList.append(flagEntry);
+    }
+    flags.clear();
+    userdb.close();
+    return flagList;
+}

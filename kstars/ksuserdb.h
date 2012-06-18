@@ -51,6 +51,7 @@ public:
     void eraseAllFlags();
     bool addFlag(QString ra, QString dec, QString epoch, 
                  QString imageName, QString label, QString labelColor);
+    QList<QStringList> getAllFlags();
 private:
     bool verifyDatabase(QString dbfile);
     bool firstRun();
