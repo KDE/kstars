@@ -79,7 +79,7 @@ bool KSUserDB::firstRun() {
     Model TEXT DEFAULT NULL,\
     Driver TEXT DEFAULT NULL,\
     Type TEXT DEFAULT NULL,\
-    Focal Length REAL DEFAULT NULL)");
+    FocalLength REAL DEFAULT NULL)");
 
     tables.append("CREATE TABLE flags (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
@@ -295,4 +295,27 @@ QList<QStringList> KSUserDB::getAllFlags() {
     flags.clear();
     userdb.close();
     return flagList;
+}
+
+/*
+ * Telescope section
+ */
+bool KSUserDB::addScope(QString model, QString vendor, QString driver,
+                       QString type, double focalLength, double aperture) {
+    
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("telescope");
+    int row = 0;
+    equip.insertRows(row,1);
+    equip.setData(equip.index(row,1),vendor); //row,0 is autoincerement ID
+    equip.setData(equip.index(row,2),aperture);
+    equip.setData(equip.index(row,3),model);
+    equip.setData(equip.index(row,4),driver);
+    equip.setData(equip.index(row,5),type);
+    equip.setData(equip.index(row,6),focalLength);
+    equip.submitAll();
+    equip.clear();
+    userdb.close();
+    return true;    
 }

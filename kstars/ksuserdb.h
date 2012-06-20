@@ -52,6 +52,10 @@ public:
     bool addFlag(QString ra, QString dec, QString epoch, 
                  QString imageName, QString label, QString labelColor);
     QList<QStringList> getAllFlags();
+    
+    bool addScope(QString model, QString vendor, QString driver,
+                  QString type, double focalLength, double aperture);
+
 private:
     bool verifyDatabase(QString dbfile);
     bool firstRun();

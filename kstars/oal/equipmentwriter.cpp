@@ -88,6 +88,8 @@ void EquipmentWriter::slotAddScope() {
     OAL::Scope *s = new OAL::Scope( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
     ks->data()->logObject()->scopeList()->append( s );
     s->setINDIDriver(ui.driverComboBox->currentText());
+    KStarsData::Instance()->userdb()->addScope( ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(), 
+                                               ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
     saveEquipment(); //Save the new list.
     ui.Model->clear();
     ui.Vendor->clear();
