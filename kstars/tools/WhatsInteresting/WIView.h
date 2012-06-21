@@ -31,15 +31,15 @@ public:
     WIView(QObject *parent = 0);
     ~WIView();
     void manageViews(int TYPE);    //display view
-    void loadDetailsView( int detailsViewType, SkyObject *so);
+    void loadDetailsView( SkyObjItem* soitem);
 
 public slots:
 //     void loadModel ( int TYPE );
 //     void skyObjectItemClicked(QModelIndex index);
     void onCatListItemClicked(QString);
-    void onSoListItemClicked(QString name, QString type);
+    void onSoListItemClicked(QString, int index);
 private:
-    QObject *baseObj, *catListObj, *soListObj;
+    QObject *baseObj, *catListObj, *soListObj, *detailsViewObj;
     QDeclarativeContext *ctxt;
     QDeclarativeView *baseListView;
     QDeclarativeView *planetaryListView;

@@ -56,7 +56,7 @@ Rectangle {
     }
 
     Rectangle {
-        objectName: "listContainer"
+        objectName: "container"
         x: 14
         y: 86
         width: 305
@@ -117,7 +117,7 @@ Rectangle {
             objectName: "soListObj"
             anchors.fill: parent
 
-            signal soListItemClicked( string name, string type)
+            signal soListItemClicked( string type, int curIndex )
             clip: true
             visible: false
 
@@ -137,13 +137,34 @@ Rectangle {
                         anchors.fill: parent
                         onClicked: {
                             soListView.currentIndex = index
-                            soListView.soListItemClicked( dispText.objectName, soListItem.objectName)
+                            soListView.soListItemClicked( soListItem.objectName , soListView.currentIndex)
                         }
                     }
                 }
             }
 
             model: soListModel
+        }
+        Rectangle {
+            id: detailsView
+            color: "#00000000"
+            radius: 5
+            objectName: "detailsViewObj"
+            anchors.fill: parent
+            visible: false
+
+            Text {
+                id: soname
+                objectName: "sonameObj"
+                x: 17
+                y: 24
+                width: 268
+                height: 230
+                text: qsTr("text")
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: 12
+            }
         }
     }
 }

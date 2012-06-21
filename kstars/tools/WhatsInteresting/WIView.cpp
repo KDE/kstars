@@ -33,11 +33,12 @@ WIView::WIView ( QObject *parent) : QObject(parent)
     baseView->setSource(QUrl("/home/sam/kstars/kstars/tools/WhatsInteresting/Base.qml"));
     baseObj = dynamic_cast<QObject *> (baseView->rootObject());
 
-    catListObj = baseObj->findChild<QObject *>("listContainer")->findChild<QObject *>("catListObj");
+    catListObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("catListObj");
     connect(catListObj, SIGNAL(catListItemClicked(QString)), this, SLOT(onCatListItemClicked(QString)));
-    soListObj = baseObj->findChild<QObject *>("listContainer")->findChild<QObject *>("soListObj");
-    connect(soListObj, SIGNAL(soListItemClicked(QString, QString)),
-            this, SLOT(onSoListItemClicked(QString, QString)));
+    soListObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("soListObj");
+    connect(soListObj, SIGNAL(soListItemClicked(QString, int)),
+            this, SLOT(onSoListItemClicked(QString, int)));
+    detailsViewObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("detailsViewObj");
 
 
 //     planetaryListView->setSource(QUrl::fromLocalFile("WIPlanetaryListView.qml"));
@@ -110,8 +111,23 @@ void WIView::onCatListItemClicked(QString category)
     }
 }
 
-void WIView::onSoListItemClicked(QString name, QString type)
+void WIView::onSoListItemClicked(QString type, int index)
 {
-    kDebug()<<"Working"<<name<<type;
+    SkyObjItem *soitem;
+    if (type == "Star")
+        soitem = m->returnModel(ModelManager::Stars)->getSkyObjItem(index);
+    else if (type == "Constellation")
+        soitem = m->returnModel(ModelManager::Constellations)->getSkyObjItem(index);
+    else if (type == "Planet")
+        soitem = m->returnModel(ModelManager::Planets)->getSkyObjItem(index);
+    kDebug()<<soitem->getName()<<soitem->getType();
+    soListObj->setProperty("visible", false);
+    loadDetailsView(soitem);
 }
 
+void WIView::loadDetailsView(SkyObjItem* soitem)
+{
+    QObject* sonameObj = detailsViewObj->findChild<QObject *>("sonameObj");
+    sonameObj->setProperty("text", soitem->getName());
+    detailsViewObj->setProperty("visible", true);
+}

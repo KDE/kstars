@@ -54,3 +54,8 @@ QList< SkyObjItem* > SkyObjListModel::getSkyObjItems()
     return soItemList;
 }
 
+SkyObjItem* SkyObjListModel::getSkyObjItem(int index)
+{
+    return soItemList[index];
+}
+
