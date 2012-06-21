@@ -37,6 +37,7 @@ public slots:
 //     void loadModel ( int TYPE );
 //     void skyObjectItemClicked(QModelIndex index);
     void onCatListItemClicked(QString);
+    void onSoListItemClicked(QString name, QString type);
 private:
     QObject *baseObj, *catListObj, *soListObj;
     QDeclarativeContext *ctxt;

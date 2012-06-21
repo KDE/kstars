@@ -20,6 +20,7 @@
 #include "kstarsdata.h"
 #include "skymapcomposite.h"
 #include "skyobject.h"
+#include "skyobjectitem.h"
 
 ModelManager::ModelManager()
 {
@@ -95,31 +96,31 @@ void ModelManager::updateModels()
     foreach(SkyObject *so, initobjects.value(SkyObject::STAR))
     {
         //kDebug()<<so->name()<<so->mag();
-        starsModel->addSkyObject(so);
+        starsModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::GALAXY))
     {
         //kDebug()<<so->name()<<so->mag();
-        galModel->addSkyObject(so);
+        galModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::CONSTELLATION))
     {
         //kDebug()<<so->name()<<so->mag();
-        conModel->addSkyObject(so);
+        conModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::OPEN_CLUSTER))
     {
         //kDebug()<<so->name()<<so->mag();
-        starClustModel->addSkyObject(so);
+        starClustModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
     }
 
     foreach(SkyObject *so, initobjects.value(SkyObject::PLANETARY_NEBULA))
     {
         //kDebug()<<so->name()<<so->mag();
-        nebModel->addSkyObject(so);
+        nebModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
     }
 
     foreach ( const QString &name, data->skyComposite()->objectNames( SkyObject::PLANET ) ) 
@@ -130,7 +131,7 @@ void ModelManager::updateModels()
         {
 //             SkyObjectItem *planetItem = new SkyObjectItem(o);
 //             planetItem->setText(o->name());
-            planetsModel->addSkyObject(so);
+            planetsModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
         }
     }
 // 

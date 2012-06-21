@@ -1,7 +1,7 @@
 /***************************************************************************
-                          skyobjlistmodel.h  -  K Desktop Planetarium
+                          skyobjitem.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 2012/26/05
+    begin                : 2012/21/06
     copyright            : (C) 2012 by Samikshan Bairagya
     email                : samikshan@gmail.com
  ***************************************************************************/
@@ -15,26 +15,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYOBJ_LISTMODEL_H
-#define SKYOBJ_LISTMODEL_H
 
-#include "qabstractitemmodel.h"
-#include "skyobject.h"
 #include "skyobjitem.h"
 
-class SkyObjListModel : public QAbstractListModel
+SkyObjItem::SkyObjItem(QString soname, QString sotype, QObject* parent) : QObject(parent)
 {
-    Q_OBJECT
-public:
-    //enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole };
-    explicit SkyObjListModel(SkyObjItem* soitem = 0, QObject* parent = 0);
-    void addSkyObject(SkyObjItem *sobj);
-    int rowCount( const QModelIndex& parent = QModelIndex()) const;
-    QVariant data( const QModelIndex& index, int role = Qt::DisplayRole) const;
-    QList<SkyObjItem *> getSkyObjItems();
+    name = soname;
+    type = sotype;
+}
 
-private:
-    QList<SkyObjItem *> soItemList;
-};
+QVariant SkyObjItem::data(int role)
+{
+    switch(role)
+    {
+        case DispNameRole:
+            return getName();
+        case CategoryRole:
+            return getType();
+        default:
+            return QVariant();
+    }
+}
 
-#endif
+QHash< int, QByteArray > SkyObjItem::roleNames() const
+{
+    QHash<int, QByteArray > roles;
+    roles[DispNameRole]="dispName";
+    roles[CategoryRole] = "type";
+    return roles;
+}

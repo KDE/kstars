@@ -128,6 +128,7 @@ set(libkstarstools_SRCS
     tools/WhatsInteresting/skyobjlistmodel.cpp
     tools/WhatsInteresting/WIView.cpp
     tools/WhatsInteresting/modelmanager.cpp
+    tools/WhatsInteresting/skyobjitem.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          skyobjlistmodel.h  -  K Desktop Planetarium
+                          skyobjitem.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2012/26/05
+    begin                : 2012/21/06
     copyright            : (C) 2012 by Samikshan Bairagya
     email                : samikshan@gmail.com
  ***************************************************************************/
@@ -15,26 +15,26 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SKYOBJ_LISTMODEL_H
-#define SKYOBJ_LISTMODEL_H
 
-#include "qabstractitemmodel.h"
+#ifndef SKYOBJITEM_H
+#define SKYOBJITEM_H
+
+#include <QObject>
 #include "skyobject.h"
-#include "skyobjitem.h"
 
-class SkyObjListModel : public QAbstractListModel
+class SkyObjItem : public QObject
 {
     Q_OBJECT
 public:
-    //enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole };
-    explicit SkyObjListModel(SkyObjItem* soitem = 0, QObject* parent = 0);
-    void addSkyObject(SkyObjItem *sobj);
-    int rowCount( const QModelIndex& parent = QModelIndex()) const;
-    QVariant data( const QModelIndex& index, int role = Qt::DisplayRole) const;
-    QList<SkyObjItem *> getSkyObjItems();
-
+    enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole };
+    explicit SkyObjItem(QString soname = QString(), QString sotype = QString(), QObject *parent = 0);
+    QVariant data(int role);
+    QHash<int, QByteArray> roleNames() const;
+    inline QString getName() { return name; }
+    inline QString getType() { return type; }
 private:
-    QList<SkyObjItem *> soItemList;
+    QString name;
+    QString type;
 };
 
-#endif
+#endif // SKYOBJITEM_H

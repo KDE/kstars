@@ -18,24 +18,21 @@
 #include "skyobjlistmodel.h"
 //#include "skyobjectitem.h"
 
-SkyObjListModel::SkyObjListModel(QObject* parent): QAbstractListModel(parent)
+SkyObjListModel::SkyObjListModel(SkyObjItem* soitem, QObject* parent): QAbstractListModel(parent)
 {
-    QHash<int, QByteArray> roles;
-    roles[DispNameRole] = "dispName";
-    roles[CategoryRole] = "category";
-    setRoleNames(roles);
+    setRoleNames(soitem->roleNames());
 }
 
-void SkyObjListModel::addSkyObject(SkyObject* sobj)
+void SkyObjListModel::addSkyObject(SkyObjItem* sobj)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    skyObjList.append(sobj);
+    soItemList.append(sobj);
     endInsertRows();
 }
 
 int SkyObjListModel::rowCount(const QModelIndex& parent) const
 {
-    return skyObjList.size();
+    return soItemList.size();
 }
 
 QVariant SkyObjListModel::data(const QModelIndex& index, int role) const
@@ -43,16 +40,17 @@ QVariant SkyObjListModel::data(const QModelIndex& index, int role) const
     if (index.row() < 0 || index.row() > rowCount())
         return QVariant();
 
-    SkyObject *so = skyObjList[index.row()];
-    if (role == DispNameRole)
-        return so->name();
+    SkyObjItem *soitem = soItemList[index.row()];
+    /*if (role == DispNameRole)
+        return soitem->name();
     else if (role == CategoryRole)
-        return so->type();
-    return QVariant();
+        return soitem->type();*/
+    //return QVariant();
+    return soitem->data(role);
 }
 
-QList< SkyObject* > SkyObjListModel::getSkyObjects()
+QList< SkyObjItem* > SkyObjListModel::getSkyObjItems()
 {
-    return skyObjList;
+    return soItemList;
 }
 

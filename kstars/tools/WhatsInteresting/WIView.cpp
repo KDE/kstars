@@ -36,7 +36,8 @@ WIView::WIView ( QObject *parent) : QObject(parent)
     catListObj = baseObj->findChild<QObject *>("listContainer")->findChild<QObject *>("catListObj");
     connect(catListObj, SIGNAL(catListItemClicked(QString)), this, SLOT(onCatListItemClicked(QString)));
     soListObj = baseObj->findChild<QObject *>("listContainer")->findChild<QObject *>("soListObj");
-    //connect(soListObj, SIGNAL(soListItemClicked()));
+    connect(soListObj, SIGNAL(soListItemClicked(QString, QString)),
+            this, SLOT(onSoListItemClicked(QString, QString)));
 
 
 //     planetaryListView->setSource(QUrl::fromLocalFile("WIPlanetaryListView.qml"));
@@ -108,3 +109,9 @@ void WIView::onCatListItemClicked(QString category)
         soListObj->setProperty("visible", true);
     }
 }
+
+void WIView::onSoListItemClicked(QString name, QString type)
+{
+    kDebug()<<"Working"<<name<<type;
+}
+

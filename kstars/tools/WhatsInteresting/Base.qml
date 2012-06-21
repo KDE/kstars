@@ -117,15 +117,18 @@ Rectangle {
             objectName: "soListObj"
             anchors.fill: parent
 
-            signal soListItemClicked( string name, string category)
+            signal soListItemClicked( string name, string type)
+            clip: true
             visible: false
 
             delegate: Item {
                 id: soListItem
-                objectName: dispName
+                objectName: type
                 x: 5
                 height: 40
                 Text {
+                    id: dispText
+                    objectName: dispName
                     text: dispName
                     color: "#ffffff"
                     anchors.verticalCenter: parent.verticalCenter
@@ -134,7 +137,7 @@ Rectangle {
                         anchors.fill: parent
                         onClicked: {
                             soListView.currentIndex = index
-                            soListView.catListItemClicked(soListView.currentItem.objectName)
+                            soListView.soListItemClicked( dispText.objectName, soListItem.objectName)
                         }
                     }
                 }
