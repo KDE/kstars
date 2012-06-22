@@ -150,10 +150,6 @@ void EquipmentWriter::slotAddEyepiece() {
 void EquipmentWriter::slotRemoveEyepiece() {
     ks->data()->userdb()->eraseEquipment("eyepiece",ui.e_Id->text().toInt());
     loadEquipment();
-    /*OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
-    ks->data()->logObject()->eyepieceList()->removeAll( e );
-    saveEquipment(); //Save the new list.
-    */
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();
@@ -168,14 +164,10 @@ void EquipmentWriter::slotSaveEyepiece() {
                                       ui.e_focalLength->value(),  ui.Fov->value(),
                                       ui.FovUnit->currentText(), ui.e_Id->text());
     loadEquipment();
-//     OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
-//     if( e ){
-//         e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
-//     } 
-//     saveEquipment(); //Save the new list.
 }
 
 void EquipmentWriter::slotSetEyepiece( QString name ) {
+    //TODO: maybe this should also use the DB? ~~spacetime
     OAL::Eyepiece *e;
     e = ks->data()->logObject()->findEyepieceByName( name ); 
     if( e ) {

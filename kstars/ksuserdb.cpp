@@ -472,3 +472,18 @@ void KSUserDB::getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
     return;
 
 }
+
+/*
+ * lens section
+ */
+bool KSUserDB::addLens(QString model, QString vendor, double factor) {
+
+}
+
+bool KSUserDB::addLens(QString model, QString vendor, double factor, QString id) {
+    
+}
+
+void KSUserDB::getAllLenses(QList<OAL::Lens *> m_lensList) {
+
+}

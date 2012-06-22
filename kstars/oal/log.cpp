@@ -491,19 +491,6 @@ void OAL::Log::readScopes() {
 
 void OAL::Log::readEyepieces() {
     KStars::Instance()->data()->userdb()->getAllEyepieces(m_eyepieceList);
-//     while( ! reader->atEnd() ) {
-//         reader->readNext();
-// 
-//         if( reader->isEndElement() )
-//             break;
-// 
-//         if( reader->isStartElement() ) {
-//             if( reader->name() == "eyepiece" )
-//                 readEyepiece( reader->attributes().value( "id" ).toString() );
-//             else
-//                 readUnknownElement();
-//         }
-//     }
 }
 
 void OAL::Log::readLenses() {
@@ -634,34 +621,6 @@ void OAL::Log::readSession( QString id, QString lang ) {
     m_sessionList.append( o );
 }
 
-
-void OAL::Log::readEyepiece( QString id ) {
-    
-    QString model, focalLength, vendor, fov, fovUnit;
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "model" ) {
-                model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
-            } else if( reader->name() == "apparentFOV" ) {
-                fov = reader->readElementText();
-                fovUnit = reader->attributes().value( "unit" ).toString();
-            } else if( reader->name() == "focalLength" ) {
-                focalLength = reader->readElementText() ;
-            } else
-                readUnknownElement();
-        }
-    }
-    
-    OAL::Eyepiece *o= new OAL::Eyepiece( id, model, vendor, fov.toDouble(), fovUnit, focalLength.toDouble() );
-    m_eyepieceList.append( o );
-}
 
 void OAL::Log::readLens( QString id ) {
     QString model, factor, vendor;
