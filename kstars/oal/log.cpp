@@ -417,8 +417,6 @@ void OAL::Log::readLog() {
                 readSites();
            else if( reader->name() == "sessions" )
                 readSessions();
-           else if( reader->name() == "scopes" )
-                readScopes();
            else if( reader->name() == "eyepieces" )
                 readEyepieces();
            else if( reader->name() =="lenses" )
@@ -489,20 +487,6 @@ void OAL::Log::readSessions() {
 
 void OAL::Log::readScopes() {
     KStars::Instance()->data()->userdb()->getAllScopes(m_scopeList);
-//     KStars::Instance()->data()->userdb()->getAllScopes(m_scopeList);
-//     while( ! reader->atEnd() ) {
-//         reader->readNext();
-// 
-//         if( reader->isEndElement() )
-//             break;
-// 
-//         if( reader->isStartElement() ) {
-//             if( reader->name() == "scope" )
-//                 readScope( reader->attributes().value( "id" ).toString() );
-//             else
-//                 readUnknownElement();
-//         }
-//     }
 }
 
 void OAL::Log::readEyepieces() {
@@ -649,44 +633,6 @@ void OAL::Log::readSession( QString id, QString lang ) {
     m_sessionList.append( o );
 }
 
-void OAL::Log::readScope( QString id ) {
-    //TODO: remove this obsolete code ~~spacetime Though the type
-    // list could be useful in the future? ugly nevertheless.
-    QString model, focalLength, vendor, type, aperture, driver = i18n("None");
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "model" ) {
-                model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
-            } else if( reader->name() == "type" ) {
-                type = reader->readElementText() ;
-                if( type == "N" ) type = "Newtonian";
-                if( type == "R" ) type = "Refractor";
-                if( type == "M" ) type = "Maksutov";
-                if( type == "S" ) type = "Schmidt-Cassegrain";
-                if( type == "K" ) type = "Kutter (Schiefspiegler)";
-                if( type == "C" ) type = "Cassegrain";
-            } else if( reader->name() == "focalLength" ) {
-                focalLength = reader->readElementText() ;
-            } else if( reader->name() == "aperture" )
-                aperture = reader->readElementText() ;
-              else if ( reader->name() == "driver")
-                 driver = reader->readElementText();
-              else
-                readUnknownElement();
-        }
-    }
-    
-    OAL::Scope *o= new OAL::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
-    o->setINDIDriver(driver);
-    m_scopeList.append( o );
-}
 
 void OAL::Log::readEyepiece( QString id ) {
     QString model, focalLength, vendor, fov, fovUnit;

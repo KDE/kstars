@@ -363,15 +363,15 @@ bool KSUserDB::addScope(QString model, QString vendor, QString driver,
     equip.setFilter("id = "+id);
     equip.select();
     if (equip.rowCount()>0) {
-            QSqlRecord record = equip.record(0);
-            record.setValue(1,vendor);
-            record.setValue(2,aperture);
-            record.setValue(3,model);
-            record.setValue(4,driver);
-            record.setValue(5,type);
-            record.setValue(3,focalLength);
-            equip.setRecord(0,record);
-            equip.submitAll();
+        QSqlRecord record = equip.record(0);
+        record.setValue(1,vendor);
+        record.setValue(2,aperture);
+        record.setValue(3,model);
+        record.setValue(4,driver);
+        record.setValue(5,type);
+        record.setValue(3,focalLength);
+        equip.setRecord(0,record);
+        equip.submitAll();
     }
     userdb.close();
     return true;
