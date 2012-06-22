@@ -490,19 +490,20 @@ void OAL::Log::readScopes() {
 }
 
 void OAL::Log::readEyepieces() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "eyepiece" )
-                readEyepiece( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->getAllEyepieces(m_eyepieceList);
+//     while( ! reader->atEnd() ) {
+//         reader->readNext();
+// 
+//         if( reader->isEndElement() )
+//             break;
+// 
+//         if( reader->isStartElement() ) {
+//             if( reader->name() == "eyepiece" )
+//                 readEyepiece( reader->attributes().value( "id" ).toString() );
+//             else
+//                 readUnknownElement();
+//         }
+//     }
 }
 
 void OAL::Log::readLenses() {

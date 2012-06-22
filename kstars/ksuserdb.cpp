@@ -101,7 +101,8 @@ bool KSUserDB::firstRun() {
     Vendor TEXT DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
     FocalLength REAL NOT NULL  DEFAULT NULL,\
-    ApparentFOV REAL NOT NULL  DEFAULT NULL)");
+    ApparentFOV REAL NOT NULL  DEFAULT NULL,\
+    FOVUnit TEXT NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE filter (\
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
@@ -369,7 +370,7 @@ bool KSUserDB::addScope(QString model, QString vendor, QString driver,
         record.setValue(3,model);
         record.setValue(4,driver);
         record.setValue(5,type);
-        record.setValue(3,focalLength);
+        record.setValue(6,focalLength);
         equip.setRecord(0,record);
         equip.submitAll();
     }
@@ -389,14 +390,82 @@ void KSUserDB::getAllScopes(QList< Scope* >& m_scopeList) {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
         QString vendor = record.value("Vendor").toString();
-        QString aperture = record.value("Aperture").toString();
+        double aperture = record.value("Aperture").toDouble();
         QString model = record.value("Model").toString();
         QString driver = record.value("Driver").toString();
         QString type = record.value("Type").toString();
-        QString focalLength = record.value("FocalLength").toString();
-        OAL::Scope *o= new OAL::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
+        double focalLength = record.value("FocalLength").toDouble();
+        OAL::Scope *o= new OAL::Scope( id, model, vendor, type, focalLength, aperture );
         o->setINDIDriver(driver);
         m_scopeList.append( o );
+    }
+    equip.clear();
+    userdb.close();
+    return;
+
+}
+
+/*
+ * Eyepiece section
+ */
+bool KSUserDB::addEyepiece(QString vendor, QString model, double focalLength, 
+                           double fov, QString fovunit) {
+    
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("eyepiece");
+    int row = 0;
+    equip.insertRows(row,1);
+    equip.setData(equip.index(row,1),vendor); //row,0 is autoincerement ID
+    equip.setData(equip.index(row,2),model);
+    equip.setData(equip.index(row,3),focalLength);
+    equip.setData(equip.index(row,4),fov);
+    equip.setData(equip.index(row,5),fovunit);
+    equip.submitAll();
+    equip.clear();
+    userdb.close();
+    return true;    
+}
+
+bool KSUserDB::addEyepiece(QString vendor, QString model, double focalLength, 
+                           double fov, QString fovunit, QString id) {
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("eyepiece");
+    equip.setFilter("id = "+id);
+    equip.select();
+    if (equip.rowCount()>0) {
+        QSqlRecord record = equip.record(0);
+        record.setValue(1,vendor);
+        record.setValue(2,model);
+        record.setValue(3,focalLength);
+        record.setValue(4,fov);
+        record.setValue(5,fovunit);
+        equip.setRecord(0,record);
+        equip.submitAll();
+    }
+    userdb.close();
+    return true;
+    
+}
+
+void KSUserDB::getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
+    userdb.open();
+    m_eyepieceList.clear();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("eyepiece");
+    equip.setFilter("2=2"); //dummy filter. no filter=SEGFAULT
+    equip.select();
+    for (int i =0; i < equip.rowCount(); ++i) {
+        QSqlRecord record = equip.record(i);
+        QString id = record.value("id").toString();
+        QString vendor = record.value("Vendor").toString();
+        QString model = record.value("Model").toString();
+        double focalLength = record.value("FocalLength").toDouble();
+        double fov = record.value("ApparentFOV").toDouble();
+        QString fovUnit = record.value("FOVUnit").toString();
+        OAL::Eyepiece *o= new OAL::Eyepiece( id, model, vendor, fov, fovUnit, focalLength );
+        m_eyepieceList.append( o );
     }
     equip.clear();
     userdb.close();

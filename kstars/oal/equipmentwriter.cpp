@@ -136,11 +136,14 @@ void EquipmentWriter::slotNewScope() {
 }
 
 void EquipmentWriter::slotAddEyepiece() {
-    while ( ks->data()->logObject()->findEyepieceById( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece ) ) )
+    ks->data()->userdb()->addEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), ui.e_focalLength->value(),  ui.Fov->value(), ui.FovUnit->currentText());
+    /*while ( ks->data()->logObject()->findEyepieceById( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece ) ) )
     nextEyepiece++;
     OAL::Eyepiece *e = new OAL::Eyepiece( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece++ ), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
     ks->data()->logObject()->eyepieceList()->append( e );
     saveEquipment(); //Save the new list.
+    */
+    loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();

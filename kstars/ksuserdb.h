@@ -61,6 +61,13 @@ public:
     bool addScope(QString model, QString vendor, QString driver,
                        QString type, double focalLength, double aperture, QString id);
     void getAllScopes(QList<OAL::Scope *> &m_scopeList);
+    
+    bool addEyepiece(QString vendor, QString model, double focalLength, 
+                           double fov, QString fovunit);
+    bool addEyepiece(QString vendor, QString model, double focalLength, 
+                           double fov, QString fovunit, QString id);
+    void getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList);
+    
 
 private:
     bool verifyDatabase(QString dbfile);
