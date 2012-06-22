@@ -610,30 +610,6 @@ void OAL::Log::readSession( QString id, QString lang ) {
 }
 
 
-void OAL::Log::readLens( QString id ) {
-    QString model, factor, vendor;
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "model" ) {
-                model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
-            } else if( reader->name() == "factor" ) {
-                factor = reader->readElementText() ;
-            } else
-                readUnknownElement();
-        }
-    }
-    
-    OAL::Lens *o= new OAL::Lens( id, model, vendor, factor.toDouble() );
-    m_lensList.append( o );
-}
-
 void OAL::Log::readFilter( QString id ) {
     QString model, vendor, type, color;
     while( ! reader->atEnd() ) {

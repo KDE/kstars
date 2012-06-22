@@ -522,3 +522,64 @@ void KSUserDB::getAllLenses(QList<OAL::Lens *> &m_lensList) {
     return;
 
 }
+
+/*
+ *  filter section
+ */
+bool KSUserDB::addFilter(QString vendor, QString model, QString type, QString color) {
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("filter");
+    int row = 0;
+    equip.insertRows(row,1);
+    equip.setData(equip.index(row,1),vendor); //row,0 is autoincerement ID
+    equip.setData(equip.index(row,2),model);
+    equip.setData(equip.index(row,3),type);
+    equip.setData(equip.index(row,3),color);
+    equip.submitAll();
+    equip.clear();
+    userdb.close();
+    return true;    
+}
+
+bool KSUserDB::addFilter(QString vendor, QString model, QString type, QString color, QString id) {
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("filter");
+    equip.setFilter("id = "+id);
+    equip.select();
+    if (equip.rowCount()>0) {
+        QSqlRecord record = equip.record(0);
+        record.setValue(1,vendor);
+        record.setValue(2,model);
+        record.setValue(3,type);
+        record.setValue(3,color);
+        equip.submitAll();
+    }
+    userdb.close();
+    return true;
+    
+}
+
+void KSUserDB::getAllFilters(QList<OAL::Filter *>& m_filterList) {
+    userdb.open();
+    m_filterList.clear();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("filter");
+    equip.setFilter("2=2"); //dummy filter. no filter=SEGFAULT
+    equip.select();
+    for (int i =0; i < equip.rowCount(); ++i) {
+        QSqlRecord record = equip.record(i);
+        QString id = record.value("id").toString();
+        QString vendor = record.value("Vendor").toString();
+        QString model = record.value("Model").toString();
+        QString type = record.value("Type").toString();
+        QString color = record.value("Color").toString();
+        OAL::Filter *o= new OAL::Filter( id, model, vendor, type, color );
+    m_filterList.append( o );
+    }
+    equip.clear();
+    userdb.close();
+    return;
+
+}

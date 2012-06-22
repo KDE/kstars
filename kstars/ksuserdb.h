@@ -71,7 +71,10 @@ public:
     bool addLens(QString vendor, QString model, double factor);
     bool addLens(QString vendor, QString model, double factor, QString id);
     void getAllLenses(QList<OAL::Lens *>& m_lensList);
-
+    
+    bool addFilter(QString vendor, QString model, QString type, QString color);
+    bool addFilter(QString vendor, QString model, QString type, QString color, QString id);
+    void getAllFilters(QList<OAL::Filter *>& m_filterList);
 private:
     bool verifyDatabase(QString dbfile);
     bool firstRun();
