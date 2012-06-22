@@ -535,7 +535,7 @@ bool KSUserDB::addFilter(QString vendor, QString model, QString type, QString co
     equip.setData(equip.index(row,1),vendor); //row,0 is autoincerement ID
     equip.setData(equip.index(row,2),model);
     equip.setData(equip.index(row,3),type);
-    equip.setData(equip.index(row,3),color);
+    equip.setData(equip.index(row,4),color);
     equip.submitAll();
     equip.clear();
     userdb.close();
@@ -553,7 +553,7 @@ bool KSUserDB::addFilter(QString vendor, QString model, QString type, QString co
         record.setValue(1,vendor);
         record.setValue(2,model);
         record.setValue(3,type);
-        record.setValue(3,color);
+        record.setValue(4,color);
         equip.submitAll();
     }
     userdb.close();

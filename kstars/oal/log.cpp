@@ -417,12 +417,6 @@ void OAL::Log::readLog() {
                 readSites();
            else if( reader->name() == "sessions" )
                 readSessions();
-           else if( reader->name() == "eyepieces" )
-                readEyepieces();
-           else if( reader->name() =="lenses" )
-                readLenses();
-           else if( reader->name() =="filters" )
-                readFilters();
            else if( reader->name() == "observation" ) 
                 readObservation( reader->attributes().value( "id" ).toString() );
            else if( reader->name() == "geodate" )
@@ -498,19 +492,7 @@ void OAL::Log::readLenses() {
 }
 
 void OAL::Log::readFilters() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "filter" )
-                readFilter( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->getAllFilters(m_filterList);
 }
 
 void OAL::Log::readTarget() {
@@ -609,31 +591,6 @@ void OAL::Log::readSession( QString id, QString lang ) {
     m_sessionList.append( o );
 }
 
-
-void OAL::Log::readFilter( QString id ) {
-    QString model, vendor, type, color;
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "model" ) {
-                model = reader->readElementText();
-            } else if( reader->name() == "vendor" ) {
-                vendor = reader->readElementText() ;
-            } else if( reader->name() == "type" ) {
-                type = reader->readElementText() ;
-            } else if( reader->name() == "color" ) {
-                color = reader->readElementText() ;
-            } else
-                readUnknownElement();
-        }
-    }
-    OAL::Filter *o= new OAL::Filter( id, model, vendor, type, color );
-    m_filterList.append( o );
-}
 
 void OAL::Log::readPosition() {
     while( ! reader->atEnd() ) {

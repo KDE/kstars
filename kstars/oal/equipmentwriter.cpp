@@ -238,11 +238,9 @@ void EquipmentWriter::slotNewLens() {
 }
 
 void EquipmentWriter::slotAddFilter() {
-    while ( ks->data()->logObject()->findFilterById( i18nc("prefix for ID number identifying a filter (optional)", "filter") + '_' + QString::number( nextFilter ) ) )
-    nextFilter++;
-    OAL::Filter *f = new OAL::Filter( i18nc("prefix for ID number identifying a filter (optional)", "filter") + '_' + QString::number( nextFilter++ ), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
-    ks->data()->logObject()->filterList()->append( f );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->addFilter( ui.f_Vendor->text(), ui.f_Model->text(), 
+                                     ui.f_Type->text(), ui.f_Color->text());
+    loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
@@ -251,9 +249,8 @@ void EquipmentWriter::slotAddFilter() {
 }
 
 void EquipmentWriter::slotRemoveFilter() {
-    OAL::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
-    ks->data()->logObject()->filterList()->removeAll( f );
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->eraseEquipment("filter",ui.f_Id->text().toInt());
+    loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();
     ui.f_Vendor->clear();
@@ -265,11 +262,10 @@ void EquipmentWriter::slotRemoveFilter() {
 }
 
 void EquipmentWriter::slotSaveFilter() {
-    OAL::Filter *f = ks->data()->logObject()->findFilterByName( ui.f_Id->text() );
-    if( f ){
-        f->setFilter( ui.f_Id->text(), ui.f_Model->text(), ui.f_Vendor->text(), ui.f_Type->text(), ui.f_Color->text() );
-    } 
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->addFilter( ui.f_Vendor->text(), ui.f_Model->text(), 
+                                     ui.f_Type->text(), ui.f_Color->text(), 
+                                     ui.f_Id->text());
+    loadEquipment();
 }
 
 void EquipmentWriter::slotSetFilter( QString name ) {
@@ -295,42 +291,12 @@ void EquipmentWriter::slotNewFilter() {
     newFilter = true;
 }
 
-void EquipmentWriter::saveEquipment() {
-    QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
-    if ( ! f.open( QIODevice::WriteOnly ) ) {
-        kDebug() << "Cannot write list to  file";
-        return;
-    }
-    QTextStream ostream( &f );
-    ks->data()->logObject()->writeBegin();
-    ks->data()->logObject()->writeScopes();
-    ks->data()->logObject()->writeEyepieces();
-    ks->data()->logObject()->writeLenses();
-    ks->data()->logObject()->writeFilters();
-    ks->data()->logObject()->writeEnd();
-    ostream << ks->data()->logObject()->writtenOutput();
-    f.close();
-
-#ifdef HAVE_INDI_H
-  KStars::Instance()->indiDriver()->updateCustomDrivers();
-#endif
-
-}
-
 void EquipmentWriter::loadEquipment() {
     
     ks->data()->logObject()->readScopes();
     ks->data()->logObject()->readEyepieces();
     ks->data()->logObject()->readLenses();
-    //TODO: remove replaced code
-//     QFile f;
-//     f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
-//     if( ! f.open( QIODevice::ReadOnly ) )
-//         return;
-//     QTextStream istream( &f );
-//     ks->data()->logObject()->readBegin( istream.readAll() );
-//     f.close();
+    ks->data()->logObject()->readFilters();
     ui.ScopeList->clear();
     ui.EyepieceList->clear();
     ui.LensList->clear();
@@ -343,6 +309,11 @@ void EquipmentWriter::loadEquipment() {
         ui.LensList->addItem( l->name() );
     foreach( OAL::Filter *f, *( ks->data()->logObject()->filterList() ) )
         ui.FilterList->addItem( f->name() );
+    
+    //TODO: confirm this is correct ~~spacetime
+    #ifdef HAVE_INDI_H
+    KStars::Instance()->indiDriver()->updateCustomDrivers();
+    #endif
 }
 
 void EquipmentWriter::slotSave() {

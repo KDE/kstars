@@ -88,8 +88,6 @@ class OAL::Log {
         void readTarget();
         void readSite( QString id );
         void readSession( QString id, QString lang );
-        void readLens( QString id );
-        void readFilter( QString id );
         void readPosition();
         void readGeoDate();
         QString readResult();
