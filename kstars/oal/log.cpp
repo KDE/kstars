@@ -636,6 +636,7 @@ void OAL::Log::readSession( QString id, QString lang ) {
 
 
 void OAL::Log::readEyepiece( QString id ) {
+    
     QString model, focalLength, vendor, fov, fovUnit;
     while( ! reader->atEnd() ) {
         reader->readNext();

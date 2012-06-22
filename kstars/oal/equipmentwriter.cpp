@@ -136,13 +136,9 @@ void EquipmentWriter::slotNewScope() {
 }
 
 void EquipmentWriter::slotAddEyepiece() {
-    ks->data()->userdb()->addEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), ui.e_focalLength->value(),  ui.Fov->value(), ui.FovUnit->currentText());
-    /*while ( ks->data()->logObject()->findEyepieceById( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece ) ) )
-    nextEyepiece++;
-    OAL::Eyepiece *e = new OAL::Eyepiece( i18nc("prefix for ID number identifying an eyepiece (optional)", "eyepiece") + '_' + QString::number( nextEyepiece++ ), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
-    ks->data()->logObject()->eyepieceList()->append( e );
-    saveEquipment(); //Save the new list.
-    */
+    ks->data()->userdb()->addEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), 
+                                      ui.e_focalLength->value(),  ui.Fov->value(), 
+                                      ui.FovUnit->currentText());
     loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
@@ -152,9 +148,12 @@ void EquipmentWriter::slotAddEyepiece() {
 }
 
 void EquipmentWriter::slotRemoveEyepiece() {
-    OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
+    ks->data()->userdb()->eraseEquipment("eyepiece",ui.e_Id->text().toInt());
+    loadEquipment();
+    /*OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
     ks->data()->logObject()->eyepieceList()->removeAll( e );
     saveEquipment(); //Save the new list.
+    */
     ui.e_Id->clear();
     ui.e_Model->clear();
     ui.e_Vendor->clear();
@@ -165,11 +164,15 @@ void EquipmentWriter::slotRemoveEyepiece() {
         ui.EyepieceList->addItem( e->name() );
 }
 void EquipmentWriter::slotSaveEyepiece() {
-    OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
-    if( e ){
-        e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
-    } 
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->addEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), 
+                                      ui.e_focalLength->value(),  ui.Fov->value(),
+                                      ui.FovUnit->currentText(), ui.e_Id->text());
+    loadEquipment();
+//     OAL::Eyepiece *e = ks->data()->logObject()->findEyepieceByName( ui.e_Id->text() );
+//     if( e ){
+//         e->setEyepiece( ui.e_Id->text(), ui.e_Model->text(), ui.e_Vendor->text(), ui.Fov->value(), ui.FovUnit->currentText(), ui.e_focalLength->value() );
+//     } 
+//     saveEquipment(); //Save the new list.
 }
 
 void EquipmentWriter::slotSetEyepiece( QString name ) {
@@ -332,7 +335,7 @@ void EquipmentWriter::saveEquipment() {
 void EquipmentWriter::loadEquipment() {
     
     ks->data()->logObject()->readScopes();
-    
+    ks->data()->logObject()->readEyepieces();
     //TODO: remove replaced code
 //     QFile f;
 //     f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
