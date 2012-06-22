@@ -284,8 +284,7 @@ void KStars::slotWUT() {
     wut->show();
 }
 
-void KStars::slotWI(){
-    kDebug()<<"In slotWI()";
+void KStars::slotWI() {
     wi = new WIView();
 }
 

@@ -17,6 +17,7 @@
 
 //#include <QStandardItemModel>
 #include "skyobjlistmodel.h"
+#include "kstarsdata.h"
 
 class ModelManager
 {
@@ -32,6 +33,7 @@ public:
 
     SkyObjListModel* returnModel ( LIST_TYPE Type );
     QStringList returnCatListModel ( LIST_TYPE Type );
+    bool isVisible(GeoLocation* geo, dms* lst, SkyObject* so);
 
 private:
     SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *starClustModel, *nebModel;
