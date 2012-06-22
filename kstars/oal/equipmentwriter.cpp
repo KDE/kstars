@@ -85,11 +85,9 @@ EquipmentWriter::EquipmentWriter() {
 void EquipmentWriter::slotAddScope() {
     while ( ks->data()->logObject()->findScopeById( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope ) ) )
     nextScope++;
-    OAL::Scope *s = new OAL::Scope( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
+    OAL::Scope *s = new OAL::Scope(i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
     ks->data()->logObject()->scopeList()->append( s );
     s->setINDIDriver(ui.driverComboBox->currentText());
-    KStarsData::Instance()->userdb()->addScope( ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(), 
-                                               ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
     saveEquipment(); //Save the new list.
     ui.Model->clear();
     ui.Vendor->clear();
@@ -110,6 +108,7 @@ void EquipmentWriter::slotRemoveScope() {
 }
 
 void EquipmentWriter::slotSaveScope() {
+    //TODO: yet to complete ~~spacetime
     OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
     if( s ) {
         s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );

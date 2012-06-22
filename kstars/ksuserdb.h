@@ -53,8 +53,12 @@ public:
                  QString imageName, QString label, QString labelColor);
     QList<QStringList> getAllFlags();
     
+    void eraseEquipment(QString type, int id);
+    
     bool addScope(QString model, QString vendor, QString driver,
                   QString type, double focalLength, double aperture);
+    bool addScope(QString model, QString vendor, QString driver,
+                       QString type, double focalLength, double aperture, QString id);
 
 private:
     bool verifyDatabase(QString dbfile);

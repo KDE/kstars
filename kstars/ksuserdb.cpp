@@ -73,7 +73,7 @@ bool KSUserDB::firstRun() {
     Contact TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE telescope (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
+    id TEXT DEFAULT NULL,\
     Vendor TEXT DEFAULT NULL,\
     Aperture REAL NOT NULL  DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
@@ -91,20 +91,20 @@ bool KSUserDB::firstRun() {
     Epoch TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE lens (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
+    id TEXT DEFAULT NULL,\
     Vendor TEXT NOT NULL  DEFAULT 'NULL',\
     Model TEXT DEFAULT NULL,\
     Factor REAL NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE eyepiece (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
+    id TEXT DEFAULT NULL,\
     Vendor TEXT DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
     FocalLength REAL NOT NULL  DEFAULT NULL,\
     ApparentFOV REAL NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE filter (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
+    id TEXT DEFAULT NULL,\
     Vendor TEXT DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
     Type TEXT DEFAULT NULL,\
@@ -298,6 +298,34 @@ QList<QStringList> KSUserDB::getAllFlags() {
 }
 
 /*
+ * Generic Section
+ */
+
+void KSUserDB::eraseEquipment(QString type, int id) {    
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable(type);
+    equip.setFilter("id = "+QString::number(id));
+    equip.select();
+    equip.removeRows(0,equip.rowCount());
+    equip.submitAll();
+    equip.clear();
+    userdb.close();
+}
+
+void KSUserDB::eraseAllEquipment(QString type) {    
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable(type);
+    equip.setFilter("id >= 1");
+    equip.select();
+    equip.removeRows(0,equip.rowCount());
+    equip.submitAll();
+    equip.clear();
+    userdb.close();
+}
+
+/*
  * Telescope section
  */
 bool KSUserDB::addScope(QString model, QString vendor, QString driver,
@@ -318,4 +346,28 @@ bool KSUserDB::addScope(QString model, QString vendor, QString driver,
     equip.clear();
     userdb.close();
     return true;    
+}
+
+bool KSUserDB::addScope(QString model, QString vendor, QString driver,
+                       QString type, double focalLength, double aperture, QString id) {
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("telescope");
+    equip.setFilter("id = "+id);
+    equip.select();
+    if (equip.rowCount()>0) {
+            QSqlRecord record = equip.record(0);
+            
+            record.setValue(1,vendor);
+            record.setValue(2,aperture);
+            record.setValue(3,model);
+            record.setValue(4,driver);
+            record.setValue(5,type);
+            record.setValue(3,focalLength);
+            equip.setRecord(0,record);
+            equip.submitAll();
+    }
+    userdb.close();
+    return true;
+    
 }
