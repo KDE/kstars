@@ -234,7 +234,14 @@ void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
     return;
 }
 
-
+/*
+ * Note to future spacetime/whoever decides to clean up
+ * In the current implementation as of June 2012, though a number of bugs and crashes
+ * are prevented by porting the user data to a database, there is still a lot to gain
+ * from this move. For this, it is needed that we change a how data is being saved and
+ * retrieved at each point eg slotSaveScope etc. than in the end.
+ * May the force be with you.
+ */
 
 /*
  * Flag Section
@@ -370,4 +377,30 @@ bool KSUserDB::addScope(QString model, QString vendor, QString driver,
     userdb.close();
     return true;
     
+}
+
+void KSUserDB::getAllScopes(QList< Scope* >& m_scopeList) {
+    userdb.open();
+    m_scopeList.clear();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("telescope");
+    equip.setFilter("foo = 'foo'"); //dummy filter. no filter=SEGFAULT
+    equip.select();
+    for (int i =0; i < equip.rowCount(); ++i) {
+        QSqlRecord record = equip.record(i);
+        QString id = record.value("id").toString();
+        QString vendor = record.value("Vendor").toString();
+        QString aperture = record.value("Aperture").toString();
+        QString model = record.value("Model").toString();
+        QString driver = record.value("Driver").toString();
+        QString type = record.value("Type").toString();
+        QString focalLength = record.value("FocalLength").toString();
+        OAL::Scope *o= new OAL::Scope( id, model, vendor, type, focalLength.toDouble(), aperture.toDouble() );
+        o->setINDIDriver(driver);
+        m_scopeList.append( o );
+    }
+    equip.clear();
+    userdb.close();
+    return;
+
 }

@@ -54,11 +54,13 @@ public:
     QList<QStringList> getAllFlags();
     
     void eraseEquipment(QString type, int id);
+    void eraseAllEquipment(QString type); 
     
     bool addScope(QString model, QString vendor, QString driver,
                   QString type, double focalLength, double aperture);
     bool addScope(QString model, QString vendor, QString driver,
                        QString type, double focalLength, double aperture, QString id);
+    void getAllScopes(QList<OAL::Scope *> &m_scopeList);
 
 private:
     bool verifyDatabase(QString dbfile);

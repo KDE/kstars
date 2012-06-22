@@ -488,19 +488,21 @@ void OAL::Log::readSessions() {
 }
 
 void OAL::Log::readScopes() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "scope" )
-                readScope( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->getAllScopes(m_scopeList);
+//     KStars::Instance()->data()->userdb()->getAllScopes(m_scopeList);
+//     while( ! reader->atEnd() ) {
+//         reader->readNext();
+// 
+//         if( reader->isEndElement() )
+//             break;
+// 
+//         if( reader->isStartElement() ) {
+//             if( reader->name() == "scope" )
+//                 readScope( reader->attributes().value( "id" ).toString() );
+//             else
+//                 readUnknownElement();
+//         }
+//     }
 }
 
 void OAL::Log::readEyepieces() {
@@ -648,6 +650,8 @@ void OAL::Log::readSession( QString id, QString lang ) {
 }
 
 void OAL::Log::readScope( QString id ) {
+    //TODO: remove this obsolete code ~~spacetime Though the type
+    // list could be useful in the future? ugly nevertheless.
     QString model, focalLength, vendor, type, aperture, driver = i18n("None");
     while( ! reader->atEnd() ) {
         reader->readNext();

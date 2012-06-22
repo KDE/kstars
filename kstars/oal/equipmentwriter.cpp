@@ -332,13 +332,17 @@ void EquipmentWriter::saveEquipment() {
 }
 
 void EquipmentWriter::loadEquipment() {
-    QFile f;
-    f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
-    if( ! f.open( QIODevice::ReadOnly ) )
-        return;
-    QTextStream istream( &f );
-    ks->data()->logObject()->readBegin( istream.readAll() );
-    f.close();
+    
+    ks->data()->logObject()->readScopes();
+    
+    //TODO: remove replaced code
+//     QFile f;
+//     f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   
+//     if( ! f.open( QIODevice::ReadOnly ) )
+//         return;
+//     QTextStream istream( &f );
+//     ks->data()->logObject()->readBegin( istream.readAll() );
+//     f.close();
     ui.ScopeList->clear();
     ui.EyepieceList->clear();
     ui.LensList->clear();
