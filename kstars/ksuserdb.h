@@ -68,9 +68,9 @@ public:
                            double fov, QString fovunit, QString id);
     void getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList);
     
-    bool addLens(QString model, QString vendor, double factor);
-    bool addLens(QString model, QString vendor, double factor, QString id);
-    void getAllLenses(QList<OAL::Lens *> m_lensList);
+    bool addLens(QString vendor, QString model, double factor);
+    bool addLens(QString vendor, QString model, double factor, QString id);
+    void getAllLenses(QList<OAL::Lens *>& m_lensList);
 
 private:
     bool verifyDatabase(QString dbfile);

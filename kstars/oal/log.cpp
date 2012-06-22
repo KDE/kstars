@@ -494,19 +494,7 @@ void OAL::Log::readEyepieces() {
 }
 
 void OAL::Log::readLenses() {
-    while( ! reader->atEnd() ) {
-        reader->readNext();
-
-        if( reader->isEndElement() )
-            break;
-
-        if( reader->isStartElement() ) {
-            if( reader->name() == "lens" )
-                readLens( reader->attributes().value( "id" ).toString() );
-            else
-                readUnknownElement();
-        }
-    }
+    KStars::Instance()->data()->userdb()->getAllLenses(m_lensList);
 }
 
 void OAL::Log::readFilters() {

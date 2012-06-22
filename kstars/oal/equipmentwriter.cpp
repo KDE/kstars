@@ -191,11 +191,15 @@ void EquipmentWriter::slotNewEyepiece() {
 }
 
 void EquipmentWriter::slotAddLens() {
-    while ( ks->data()->logObject()->findLensById( i18nc("prefix for ID number identifying a lens (optional)", "lens") + '_' + QString::number( nextLens ) ) )
+    ks->data()->userdb()->addLens(ui.l_Vendor->text(), ui.l_Model->text(), ui.l_Factor->value() );
+    loadEquipment();
+    /*while ( ks->data()->logObject()->findLensById( i18nc("prefix for ID number identifying a lens (optional)", "lens") + '_' + QString::number( nextLens ) ) )
     nextLens++;
     OAL::Lens *l = new OAL::Lens( i18nc("prefix for ID number identifying a lens (optional)", "lens") + '_' + QString::number( nextLens++ ), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
     ks->data()->logObject()->lensList()->append( l );
     saveEquipment(); //Save the new list.
+    */
+    
     ui.l_Id->clear();
     ui.l_Model->clear();
     ui.l_Vendor->clear();
@@ -203,9 +207,13 @@ void EquipmentWriter::slotAddLens() {
 }
 
 void EquipmentWriter::slotRemoveLens() {
+    ks->data()->userdb()->eraseEquipment("lens",ui.e_Id->text().toInt());
+    loadEquipment();
+    /*
     OAL::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
     ks->data()->logObject()->lensList()->removeAll( l );
     saveEquipment(); //Save the new list.
+    */
     ui.l_Id->clear();
     ui.l_Model->clear();
     ui.l_Vendor->clear();
@@ -215,11 +223,14 @@ void EquipmentWriter::slotRemoveLens() {
         ui.LensList->addItem( l->name() );
 }
 void EquipmentWriter::slotSaveLens() {
-    OAL::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
-    if( l ){
-        l->setLens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
-    }
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->addLens(ui.l_Vendor->text(), ui.l_Model->text(), 
+                                      ui.l_Factor->value(), ui.l_Id->text());
+    loadEquipment();
+//     OAL::Lens *l = ks->data()->logObject()->findLensByName( ui.l_Id->text() );
+//     if( l ){
+//         l->setLens( ui.l_Id->text(), ui.l_Model->text(), ui.l_Vendor->text(), ui.l_Factor->value() );
+//     }
+//     saveEquipment(); //Save the new list.
 }
 
 void EquipmentWriter::slotSetLens( QString name ) {
@@ -328,6 +339,7 @@ void EquipmentWriter::loadEquipment() {
     
     ks->data()->logObject()->readScopes();
     ks->data()->logObject()->readEyepieces();
+    ks->data()->logObject()->readLenses();
     //TODO: remove replaced code
 //     QFile f;
 //     f.setFileName( KStandardDirs::locateLocal( "appdata", "equipmentlist.xml" ) );   

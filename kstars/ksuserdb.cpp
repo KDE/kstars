@@ -236,15 +236,6 @@ void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
 }
 
 /*
- * Note to future spacetime/whoever decides to clean up
- * In the current implementation as of June 2012, though a number of bugs and crashes
- * are prevented by porting the user data to a database, there is still a lot to gain
- * from this move. For this, it is needed that we change a how data is being saved and
- * retrieved at each point eg slotSaveScope etc. than in the end.
- * May the force be with you.
- */
-
-/*
  * Flag Section
 */
 
@@ -476,14 +467,58 @@ void KSUserDB::getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
 /*
  * lens section
  */
-bool KSUserDB::addLens(QString model, QString vendor, double factor) {
-
+bool KSUserDB::addLens(QString vendor, QString model, double factor) {
+    
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("lens");
+    int row = 0;
+    equip.insertRows(row,1);
+    equip.setData(equip.index(row,1),vendor); //row,0 is autoincerement ID
+    equip.setData(equip.index(row,2),model);
+    equip.setData(equip.index(row,3),factor);
+    equip.submitAll();
+    equip.clear();
+    userdb.close();
+    return true;    
 }
 
-bool KSUserDB::addLens(QString model, QString vendor, double factor, QString id) {
+bool KSUserDB::addLens(QString vendor, QString model, double factor, QString id) {
+    userdb.open();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("lens");
+    equip.setFilter("id = "+id);
+    equip.select();
+    if (equip.rowCount()>0) {
+        QSqlRecord record = equip.record(0);
+        record.setValue(1,vendor);
+        record.setValue(2,model);
+        record.setValue(3,factor);
+        equip.submitAll();
+    }
+    userdb.close();
+    return true;
     
 }
 
-void KSUserDB::getAllLenses(QList<OAL::Lens *> m_lensList) {
+void KSUserDB::getAllLenses(QList<OAL::Lens *> &m_lensList) {
+    userdb.open();
+    m_lensList.clear();
+    QSqlTableModel equip(0,userdb);
+    equip.setTable("lens");
+    equip.setFilter("2=2"); //dummy filter. no filter=SEGFAULT
+    equip.select();
+    for (int i =0; i < equip.rowCount(); ++i) {
+        QSqlRecord record = equip.record(i);
+        QString id = record.value("id").toString();
+        QString vendor = record.value("Vendor").toString();
+        QString model = record.value("Model").toString();
+        double factor = record.value("Factor").toDouble();
+        OAL::Lens *o= new OAL::Lens( id, model, vendor, factor );
+        m_lensList.append( o );
+    }
+    equip.clear();
+    userdb.close();
+    return;
 
 }
