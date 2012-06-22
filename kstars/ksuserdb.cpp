@@ -73,7 +73,7 @@ bool KSUserDB::firstRun() {
     Contact TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE telescope (\
-    id TEXT DEFAULT NULL,\
+    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Vendor TEXT DEFAULT NULL,\
     Aperture REAL NOT NULL  DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
@@ -91,20 +91,20 @@ bool KSUserDB::firstRun() {
     Epoch TEXT DEFAULT NULL)");
 
     tables.append("CREATE TABLE lens (\
-    id TEXT DEFAULT NULL,\
+    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Vendor TEXT NOT NULL  DEFAULT 'NULL',\
     Model TEXT DEFAULT NULL,\
     Factor REAL NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE eyepiece (\
-    id TEXT DEFAULT NULL,\
+    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Vendor TEXT DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
     FocalLength REAL NOT NULL  DEFAULT NULL,\
     ApparentFOV REAL NOT NULL  DEFAULT NULL)");
 
     tables.append("CREATE TABLE filter (\
-    id TEXT DEFAULT NULL,\
+    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,\
     Vendor TEXT DEFAULT NULL,\
     Model TEXT DEFAULT NULL,\
     Type TEXT DEFAULT NULL,\
@@ -364,7 +364,6 @@ bool KSUserDB::addScope(QString model, QString vendor, QString driver,
     equip.select();
     if (equip.rowCount()>0) {
             QSqlRecord record = equip.record(0);
-            
             record.setValue(1,vendor);
             record.setValue(2,aperture);
             record.setValue(3,model);
@@ -384,7 +383,7 @@ void KSUserDB::getAllScopes(QList< Scope* >& m_scopeList) {
     m_scopeList.clear();
     QSqlTableModel equip(0,userdb);
     equip.setTable("telescope");
-    equip.setFilter("foo = 'foo'"); //dummy filter. no filter=SEGFAULT
+    equip.setFilter("2=2"); //dummy filter. no filter=SEGFAULT
     equip.select();
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);

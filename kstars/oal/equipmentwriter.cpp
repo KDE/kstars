@@ -83,41 +83,58 @@ EquipmentWriter::EquipmentWriter() {
 }
 
 void EquipmentWriter::slotAddScope() {
+    
+    ks->data()->userdb()->addScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(), 
+                                   ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value());
+    //TODO: remove ~~spacetime
+    /*
     while ( ks->data()->logObject()->findScopeById( i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope ) ) )
     nextScope++;
     OAL::Scope *s = new OAL::Scope(i18nc( "prefix for ID number identifying a telescope (optional)", "telescope" ) + '_' + QString::number( nextScope++ ), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() ); 
     ks->data()->logObject()->scopeList()->append( s );
     s->setINDIDriver(ui.driverComboBox->currentText());
     saveEquipment(); //Save the new list.
+    */
+    loadEquipment();
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
+    ui.Aperture->setValue(0);
     ui.driverComboBox->setCurrentIndex(0);
 }
 
 void EquipmentWriter::slotRemoveScope() {
+    ks->data()->userdb()->eraseEquipment("telescope",ui.Id->text().toInt());
+    /*
     OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
     ks->data()->logObject()->scopeList()->removeAll( s );
     saveEquipment(); //Save the new list.
+    */
+    
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
-    ui.ScopeList->clear();
-    foreach( OAL::Scope *s, *( ks->data()->logObject()->scopeList() ) )
-        ui.ScopeList->addItem( s->name() );
+    ui.Aperture->setValue(0);
+    loadEquipment();
+//     foreach( OAL::Scope *s, *( ks->data()->logObject()->scopeList() ) )
+//         ui.ScopeList->addItem( s->name() );
 }
 
 void EquipmentWriter::slotSaveScope() {
-    //TODO: yet to complete ~~spacetime
-    OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
-    if( s ) {
-        s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
-        s->setINDIDriver(ui.driverComboBox->currentText());
-    }
-    saveEquipment(); //Save the new list.
+    ks->data()->userdb()->addScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(), 
+                                   ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value(), 
+                                   ui.Id->text());
+//     OAL::Scope *s = ks->data()->logObject()->findScopeById( ui.Id->text() );
+//     if( s ) {
+//         s->setScope( ui.Id->text(), ui.Model->text(), ui.Vendor->text(), ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value() );
+//         s->setINDIDriver(ui.driverComboBox->currentText());
+//     }
+//     saveEquipment(); //Save the new list.
+    loadEquipment();
 }
  
 void EquipmentWriter::slotSetScope( QString name) {
+    //TODO: maybe this should also use the DB? ~~spacetime
     OAL::Scope *s = ks->data()->logObject()->findScopeByName( name );
     if ( s ) {
         ui.Id->setText( s->id() ) ;
