@@ -194,16 +194,29 @@ Rectangle {
                     id: flickable1
                     clip: true
                     flickableDirection: Flickable.VerticalFlick
-                    anchors.fill: parent
-                    Text {
-                        id: descText
-                        objectName: "descTextObj"
-                        color: "#187988"
-                        text: qsTr("text")
-                        clip: true
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        anchors.fill: parent
-                        font.pixelSize: 12
+                    //anchors.fill: parent
+                    width: parent.width
+                    height: parent.height
+
+                    contentWidth: parent.width
+                    contentHeight: col.height
+
+                    Column {
+                        id: col
+                        width: 300
+                        Text {
+                            id: descText
+                            objectName: "descTextObj"
+                            color: "#187988"
+                            text: qsTr("text")
+                            anchors.left: parent.left
+                            anchors.leftMargin: 4
+                            clip: true
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            width: parent.width
+                            //anchors.fill: parent
+                            font.pixelSize: 12
+                        }
                     }
                 }
             }
