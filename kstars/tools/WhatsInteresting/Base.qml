@@ -190,6 +190,8 @@ Rectangle {
                 width: 305
                 height: 175
                 color: "#00000000"
+                radius: 10
+                border.color: "#ffffff"
                 Flickable {
                     id: flickable1
                     clip: true
@@ -197,6 +199,10 @@ Rectangle {
                     //anchors.fill: parent
                     width: parent.width
                     height: parent.height
+                    anchors.top: parent.top
+                    anchors.topMargin: 3
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 4
 
                     contentWidth: parent.width
                     contentHeight: col.height
@@ -209,6 +215,8 @@ Rectangle {
                             objectName: "descTextObj"
                             color: "#187988"
                             text: qsTr("text")
+                            anchors.top: parent.top
+                            anchors.topMargin: 3
                             anchors.left: parent.left
                             anchors.leftMargin: 4
                             clip: true
