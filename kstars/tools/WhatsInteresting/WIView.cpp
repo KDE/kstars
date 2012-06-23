@@ -128,6 +128,8 @@ void WIView::onSoListItemClicked(QString type, int index)
 void WIView::loadDetailsView(SkyObjItem* soitem)
 {
     QObject* sonameObj = detailsViewObj->findChild<QObject *>("sonameObj");
+    QObject* posTextObj = detailsViewObj->findChild<QObject *>("posTextObj");
     sonameObj->setProperty("text", soitem->getName());
+    posTextObj->setProperty("text", soitem->getPosition());
     detailsViewObj->setProperty("visible", true);
 }

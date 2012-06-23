@@ -67,3 +67,8 @@ void SkyObjItem::setPosition(SkyObject* so)
     position = QString::number(rounded_altitude).append(" degrees above the ").append(cardinals[rounded_azimuth]).append(" horizon ");
     kDebug()<<position;
 }
+
+QString SkyObjItem::getPosition()
+{
+    return position;
+}

@@ -158,11 +158,28 @@ Rectangle {
                 objectName: "sonameObj"
                 x: 17
                 y: 24
-                width: 268
-                height: 230
+                width: 117
+                height: 51
+                color: "#ffffff"
                 text: qsTr("text")
+                font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
+                font.pixelSize: 16
+            }
+
+            Text {
+                id: posText
+                objectName: "posTextObj"
+                x: 17
+                y: 111
+                width: 273
+                height: 31
+                color: "#ffffff"
+                text: qsTr("text")
+                font.underline: true
+                font.italic: true
+                font.bold: true
                 font.pixelSize: 12
             }
         }
