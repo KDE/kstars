@@ -18,6 +18,7 @@
 #include "QDeclarativeContext"
 #include "WIView.h"
 #include "QGraphicsObject"
+#include "skymap.h"
 
 WIView::WIView ( QObject *parent) : QObject(parent)
 {
@@ -121,6 +122,16 @@ void WIView::onSoListItemClicked(QString type, int index)
     else if (type == "Planet")
         soitem = m->returnModel(ModelManager::Planets)->getSkyObjItem(index);
     kDebug()<<soitem->getName()<<soitem->getType();
+
+    //Slew map to selected sky object
+    SkyObject* so = soitem->getSkyObject();
+    KStars* data = KStars::Instance();
+    if (so != 0) {
+        data->map()->setFocusPoint( so );
+        data->map()->setFocusObject( so );
+        data->map()->setDestination( *data->map()->focusPoint() );
+    }
+
     soListObj->setProperty("visible", false);
     loadDetailsView(soitem);
 }

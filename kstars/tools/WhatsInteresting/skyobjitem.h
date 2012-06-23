@@ -40,7 +40,9 @@ public:
     inline QString getName() { return name; }
     inline QString getType() { return type; }
     void setPosition(SkyObject* so);
-    QString getPosition();
+    inline QString getPosition() { return position; }
+    inline SkyObject* getSkyObject() { return so; }
+
 private:
     QString name;
     QString type;
