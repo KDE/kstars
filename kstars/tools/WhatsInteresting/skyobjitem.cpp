@@ -65,7 +65,7 @@ void SkyObjItem::setPosition(SkyObject* so)
     double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
     int rounded_azimuth = (int)(sp.az().Degrees()/22.5);
 
-    position = QString::number(rounded_altitude).append(" degrees above the ").append(cardinals[rounded_azimuth]).append(" horizon ");
+    position = QString("Now visible: ").append(QString::number(rounded_altitude)).append(" degrees above the ").append(cardinals[rounded_azimuth]).append(" horizon ");
 }
 
 QString SkyObjItem::getDesc()

@@ -3,7 +3,7 @@ import QtQuick 1.0
 Rectangle {
     id : base
     width: 333
-    height: 550
+    height: 575
     gradient: Gradient {
         GradientStop {
             position: 0
@@ -58,9 +58,9 @@ Rectangle {
     Rectangle {
         objectName: "container"
         x: 14
-        y: 86
+        y: 73
         width: 305
-        height: 360
+        height: 379
         color: "#00000000"
         border.color: "#ffffff"
         ListView {
@@ -156,7 +156,7 @@ Rectangle {
             Text {
                 id: soname
                 objectName: "sonameObj"
-                x: 17
+                x: 5
                 y: 5
                 width: 273
                 height: 44
@@ -164,16 +164,16 @@ Rectangle {
                 text: qsTr("text")
                 font.bold: true
                 horizontalAlignment: Text.AlignLeft
-                verticalAlignment: Text.AlignBottom
+                verticalAlignment: Text.AlignVCenter
                 font.pixelSize: 16
             }
 
             Text {
                 id: posText
                 objectName: "posTextObj"
-                x: 17
-                y: 55
-                width: 273
+                x: 5
+                y: 49
+                width: 291
                 height: 26
                 color: "#ffffff"
                 text: qsTr("text")
@@ -181,12 +181,12 @@ Rectangle {
                 font.underline: true
                 font.italic: true
                 font.bold: true
-                font.pixelSize: 12
+                font.pixelSize: 10
             }
 
             Rectangle {
                 x: 0
-                y: 85
+                y: 84
                 width: 305
                 height: 175
                 color: "#00000000"
