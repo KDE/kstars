@@ -27,14 +27,24 @@ class SkyObjItem : public QObject
     Q_OBJECT
 public:
     enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole };
-    explicit SkyObjItem(QString soname = QString(), QString sotype = QString(), QObject *parent = 0);
+    enum Positions {
+        N, NNE, NE, ENE,
+        E, ESE, SE, SSE,
+        S, SSW, SW, WSW,
+        W, WNW, NW, NNW
+    };
+    //explicit SkyObjItem( SkyObject *so=0, QString soname = QString(), QString sotype = QString(), QObject *parent = 0);
+    explicit SkyObjItem( SkyObject *sobj=0, QObject *parent = 0);
     QVariant data(int role);
     QHash<int, QByteArray> roleNames() const;
     inline QString getName() { return name; }
     inline QString getType() { return type; }
+    void setPosition(SkyObject* so);
 private:
     QString name;
     QString type;
+    QString position;
+    SkyObject* so;
 };
 
 #endif // SKYOBJITEM_H

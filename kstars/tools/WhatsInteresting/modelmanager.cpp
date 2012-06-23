@@ -94,7 +94,7 @@ void ModelManager::updateModels()
         //kDebug()<<so->name()<<so->mag();
         if (isVisible(data->geo(), data->lst(), so))
         {
-            starsModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
+            starsModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
@@ -103,7 +103,7 @@ void ModelManager::updateModels()
         //kDebug()<<so->name()<<so->mag();
         if (isVisible(data->geo(), data->lst(), so))
         {
-            galModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
+            galModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
@@ -112,7 +112,7 @@ void ModelManager::updateModels()
         //kDebug()<<so->name()<<so->mag();
         if (isVisible(data->geo(), data->lst(), so))
         {
-            conModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
+            conModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
@@ -121,7 +121,7 @@ void ModelManager::updateModels()
         //kDebug()<<so->name()<<so->mag();
         if (isVisible(data->geo(), data->lst(), so))
         {
-            starClustModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
+            starClustModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
@@ -130,7 +130,7 @@ void ModelManager::updateModels()
         //kDebug()<<so->name()<<so->mag();
         if (isVisible(data->geo(), data->lst(), so))
         {
-            nebModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
+            nebModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
@@ -142,7 +142,7 @@ void ModelManager::updateModels()
         {
 //             SkyObjectItem *planetItem = new SkyObjectItem(o);
 //             planetItem->setText(o->name());
-            planetsModel->addSkyObject(new SkyObjItem(so->name(), so->typeName()));
+            planetsModel->addSkyObject(new SkyObjItem(so));
         }
     }
 }

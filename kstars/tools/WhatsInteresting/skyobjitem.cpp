@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-
+#include "kstarsdata.h"
 #include "skyobjitem.h"
 
-SkyObjItem::SkyObjItem(QString soname, QString sotype, QObject* parent) : QObject(parent)
+SkyObjItem::SkyObjItem(SkyObject* sobj, QObject* parent) : QObject(parent)
 {
-    name = soname;
-    type = sotype;
+    so = sobj;
+    name = sobj->name();
+    type = sobj->typeName();
+    setPosition(so);
 }
 
 QVariant SkyObjItem::data(int role)
@@ -43,4 +45,25 @@ QHash< int, QByteArray > SkyObjItem::roleNames() const
     roles[DispNameRole]="dispName";
     roles[CategoryRole] = "type";
     return roles;
+}
+
+void SkyObjItem::setPosition(SkyObject* so)
+{
+    QString cardinals[] = {
+        "N", "NNE", "NE", "ENE",
+        "E", "ESE", "SE", "SSE",
+        "S", "SSW", "SW", "WSW",
+        "W", "WNW", "NW", "NNW" 
+    } ;
+    KStarsData *data = KStarsData::Instance();
+    KStarsDateTime ut = data->geo()->LTtoUT( KStarsDateTime(KDateTime::currentLocalDateTime()) );
+    SkyPoint sp = so->recomputeCoords( ut, data->geo() );
+
+    //check altitude of object at this time.
+    sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
+    int rounded_azimuth = (int)(sp.az().Degrees()/22.5);
+
+    position = QString::number(rounded_altitude).append(" degrees above the ").append(cardinals[rounded_azimuth]).append(" horizon ");
+    kDebug()<<position;
 }
