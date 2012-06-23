@@ -140,7 +140,9 @@ void WIView::loadDetailsView(SkyObjItem* soitem)
 {
     QObject* sonameObj = detailsViewObj->findChild<QObject *>("sonameObj");
     QObject* posTextObj = detailsViewObj->findChild<QObject *>("posTextObj");
+    QObject* descTextObj = detailsViewObj->findChild<QObject *>("descTextObj");
     sonameObj->setProperty("text", soitem->getName());
     posTextObj->setProperty("text", soitem->getPosition());
     detailsViewObj->setProperty("visible", true);
+    descTextObj->setProperty("text", soitem->getDesc());
 }

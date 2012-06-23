@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "ksfilereader.h"
 #include "kstarsdata.h"
 #include "skyobjitem.h"
 
@@ -66,4 +67,30 @@ void SkyObjItem::setPosition(SkyObject* so)
 
     position = QString::number(rounded_altitude).append(" degrees above the ").append(cardinals[rounded_azimuth]).append(" horizon ");
     kDebug()<<position;
+}
+
+QString SkyObjItem::getDesc()
+{
+    if (type == "Planet"){
+        KSFileReader fileReader;
+        if ( !fileReader.open("PlanetFacts.dat") )
+            return QString("No Description found for selected sky-object");
+   
+        while ( fileReader.hasMoreLines() )
+        {
+            QString line = fileReader.readLine();
+            if (line.split("::")[0] == name)
+                return line.split("::")[1];
+        }
+    }
+    else if (type == "Star")
+    {
+        return "Bright Star";
+    }
+    else if (type == "Constellation")
+    {
+        return "Constellation";
+    }
+
+    return QString("No Description found for selected sky-object");
 }

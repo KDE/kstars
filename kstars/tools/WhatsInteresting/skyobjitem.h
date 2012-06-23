@@ -42,6 +42,7 @@ public:
     void setPosition(SkyObject* so);
     inline QString getPosition() { return position; }
     inline SkyObject* getSkyObject() { return so; }
+    QString getDesc();
 
 private:
     QString name;

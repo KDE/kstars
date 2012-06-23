@@ -157,14 +157,14 @@ Rectangle {
                 id: soname
                 objectName: "sonameObj"
                 x: 17
-                y: 24
-                width: 117
-                height: 51
+                y: 5
+                width: 273
+                height: 44
                 color: "#ffffff"
                 text: qsTr("text")
                 font.bold: true
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Text.AlignBottom
                 font.pixelSize: 16
             }
 
@@ -172,15 +172,40 @@ Rectangle {
                 id: posText
                 objectName: "posTextObj"
                 x: 17
-                y: 111
+                y: 55
                 width: 273
-                height: 31
+                height: 26
                 color: "#ffffff"
                 text: qsTr("text")
+                horizontalAlignment: Text.AlignRight
                 font.underline: true
                 font.italic: true
                 font.bold: true
                 font.pixelSize: 12
+            }
+
+            Rectangle {
+                x: 0
+                y: 85
+                width: 305
+                height: 175
+                color: "#00000000"
+                Flickable {
+                    id: flickable1
+                    clip: true
+                    flickableDirection: Flickable.VerticalFlick
+                    anchors.fill: parent
+                    Text {
+                        id: descText
+                        objectName: "descTextObj"
+                        color: "#187988"
+                        text: qsTr("text")
+                        clip: true
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        anchors.fill: parent
+                        font.pixelSize: 12
+                    }
+                }
             }
         }
     }
