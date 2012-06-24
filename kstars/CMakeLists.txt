@@ -344,7 +344,8 @@ set(kstars_extra_SRCS
 	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
-	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp kstarsdcop.cpp kstarsinit.cpp 
+	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp 
+	ksparser.cpp kstarsdcop.cpp kstarsinit.cpp 
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp
@@ -370,7 +371,7 @@ set(oal_SRCS
     oal/execute.cpp
 )
 
-set(printing_SRCS
+set(printing_SRCS 
     printing/detailstable.cpp
     printing/finderchart.cpp
     printing/foveditordialog.cpp
