@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -703,13 +703,13 @@
   <tabstop>NewScope</tabstop>
   <tabstop>AddScope</tabstop>
   <tabstop>RemoveScope</tabstop>
-  <tabstop>e_Vendor</tabstop>
   <tabstop>EyepieceList</tabstop>
+  <tabstop>e_Vendor</tabstop>
+  <tabstop>e_Model</tabstop>
   <tabstop>e_focalLength</tabstop>
   <tabstop>Fov</tabstop>
   <tabstop>FovUnit</tabstop>
   <tabstop>NewEyepiece</tabstop>
-  <tabstop>e_Model</tabstop>
   <tabstop>AddEyepiece</tabstop>
   <tabstop>RemoveEyepiece</tabstop>
   <tabstop>LensList</tabstop>
