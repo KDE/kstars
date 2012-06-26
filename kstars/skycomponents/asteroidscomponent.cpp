@@ -90,7 +90,16 @@ void AsteroidsComponent::loadData()
     long double JD;
     float diameter, albedo, rot_period, period;
     bool ok, neo;
-
+    
+    //TODO: replace this part ~~spacetime
+    /*This is a dummy expression to test working of Function POinters;
+    */
+    QList<KSParser::DataTypes> newlist;
+    KSParser asteroidParser(QString("hello"), ',', ' ', newlist);
+    asteroidParser.ReadNextRow();
+    
+    
+    
     KSFileReader fileReader;
 
     if ( ! fileReader.open("asteroids.dat" ) ) return;

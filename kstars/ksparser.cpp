@@ -16,36 +16,33 @@
  ***************************************************************************/
 
 #include "ksparser.h"
+#include <kdebug.h>
+#include <klocale.h>
 
-void KSParser::KSParser(QString filename, char skipChar, char delimiter)
-{
 
-}
-void KSParser::CSVParser(QString filename, char skipChar, char delimiter, QList< KSParser::DataTypes > pattern)
-{
+KSParser::KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern){
 
-}
-void KSParser::FixedWidthParser(QString filename, char skipChar, QList< int > widths)
-{
+   readFunctionPtr = &KSParser::ReadCSVRow;
 
 }
-void KSParser::FixedWidthParser(QString filename, char skipChar, QList< int > widths)
-{
+
+KSParser::KSParser(QString filename, char skipChar, QList<int> widths) {
+
+    readFunctionPtr = &KSParser::ReadFixedWidthRow;
 
 }
-void KSParser::ReadCSVRow()
-{
 
+void KSParser::ReadNextRow() {
+    (*this.*readFunctionPtr)();
 }
-void KSParser::ReadCSVRow()
-{
 
-}
-void KSParser::ReadFixedWidthRow()
-{
 
+void KSParser::ReadCSVRow() {
+    kWarning() <<"READ CSV";
+    
 }
-void KSParser::ReadNextRow()
-{
 
+void KSParser::ReadFixedWidthRow() {
+    kWarning() <<"READ FWR";
 }
+

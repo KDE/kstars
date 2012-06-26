@@ -20,19 +20,23 @@
 #include <QList>
 #include <QFile>
 #include <QHash>
+#include <QDebug>
+#include <kstandarddirs.h>
 
 class KSParser
 {
 public:
-    //Constructor. Not to be called directly.
-    void KSParser(QString filename, char skipChar, char delimiter);
-    void CSVParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern);
-    void FixedWidthParser(QString filename, char skipChar, QList<int> widths);
+    enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE};
+    //Constructor to return a CSV Parser
+    KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern) __attribute__((cdecl));
+    //Constructor to return a Fixed Width Parser
+    KSParser(QString filename, char skipChar, QList<int> widths) __attribute__((cdecl));
     void ReadNextRow();
 private:
+    //Function Pointer
+    void (KSParser::*readFunctionPtr)();
     void ReadCSVRow();
     void ReadFixedWidthRow();
-    enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE};
     QFile file;
     int currentRowID;
     QList<int> widths;

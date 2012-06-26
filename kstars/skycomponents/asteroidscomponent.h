@@ -20,6 +20,7 @@
 
 #include "solarsystemlistcomponent.h"
 #include <QList>
+#include <ksparser.h>
 #include "typedef.h"
 
 /**@class AsteroidsComponent
