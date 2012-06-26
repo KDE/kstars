@@ -91,11 +91,25 @@ void AsteroidsComponent::loadData()
     float diameter, albedo, rot_period, period;
     bool ok, neo;
     
-    //TODO: replace this part ~~spacetime
-    /*This is a dummy expression to test working of Function POinters;
-    */
-    QList<KSParser::DataTypes> newlist;
-    KSParser asteroidParser(QString("hello"), ',', ' ', newlist);
+    //TODO: Am I complicating things? ~~spacetime
+    QList<KSParser::DataTypes> newList;
+    newList.append(KSParser::D_QSTRING); //name
+    newList.append(KSParser::D_INT); //epoch
+    for (int i=0; i<8; i++) newList.append(KSParser::D_DOUBLE);
+    newList.append(KSParser::D_QSTRING); //orbit ID
+    newList.append(KSParser::D_DOUBLE); //H
+    newList.append(KSParser::D_DOUBLE); //G
+    newList.append(KSParser::D_QSTRING); //NEO
+    newList.append(KSParser::D_DOUBLE); //m1?
+    newList.append(KSParser::D_DOUBLE); //m2?
+    newList.append(KSParser::D_FLOAT); //diameter
+    newList.append(KSParser::D_QSTRING); //dimensions(extent)
+    newList.append(KSParser::D_FLOAT); //albedo
+    newList.append(KSParser::D_FLOAT); //rot_period
+    newList.append(KSParser::D_FLOAT); //per_y(period)
+    newList.append(KSParser::D_DOUBLE); //moid
+    newList.append(KSParser::D_QSTRING); //class
+    KSParser asteroidParser(QString("hello"), '#', ',', newList);
     asteroidParser.ReadNextRow();
     
     

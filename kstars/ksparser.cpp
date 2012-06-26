@@ -32,17 +32,20 @@ KSParser::KSParser(QString filename, char skipChar, QList<int> widths) {
 
 }
 
-void KSParser::ReadNextRow() {
-    (*this.*readFunctionPtr)();
+QHash<QString,QVariant>  KSParser::ReadNextRow() {
+    return (*this.*readFunctionPtr)();
 }
 
 
-void KSParser::ReadCSVRow() {
+QHash<QString,QVariant>  KSParser::ReadCSVRow() {
     kWarning() <<"READ CSV";
-    
+    QHash<QString,QVariant> newRow;
+    return newRow;
 }
 
-void KSParser::ReadFixedWidthRow() {
+QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
     kWarning() <<"READ FWR";
+    QHash<QString,QVariant> newRow;
+    return newRow;
 }
 

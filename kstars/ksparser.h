@@ -22,6 +22,7 @@
 #include <QHash>
 #include <QDebug>
 #include <kstandarddirs.h>
+#include <QVariant>
 
 class KSParser
 {
@@ -31,12 +32,12 @@ public:
     KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern) __attribute__((cdecl));
     //Constructor to return a Fixed Width Parser
     KSParser(QString filename, char skipChar, QList<int> widths) __attribute__((cdecl));
-    void ReadNextRow();
+    QHash<QString,QVariant>  ReadNextRow();
 private:
     //Function Pointer
-    void (KSParser::*readFunctionPtr)();
-    void ReadCSVRow();
-    void ReadFixedWidthRow();
+    QHash<QString,QVariant> (KSParser::*readFunctionPtr)();
+    QHash<QString,QVariant>  ReadCSVRow();
+    QHash<QString,QVariant>  ReadFixedWidthRow();
     QFile file;
     int currentRowID;
     QList<int> widths;
