@@ -92,25 +92,38 @@ void AsteroidsComponent::loadData()
     bool ok, neo;
     
     //TODO: Am I complicating things? ~~spacetime
-    QList<KSParser::DataTypes> newList;
-    newList.append(KSParser::D_QSTRING); //name
-    newList.append(KSParser::D_INT); //epoch
-    for (int i=0; i<8; i++) newList.append(KSParser::D_DOUBLE);
-    newList.append(KSParser::D_QSTRING); //orbit ID
-    newList.append(KSParser::D_DOUBLE); //H
-    newList.append(KSParser::D_DOUBLE); //G
-    newList.append(KSParser::D_QSTRING); //NEO
-    newList.append(KSParser::D_DOUBLE); //m1?
-    newList.append(KSParser::D_DOUBLE); //m2?
-    newList.append(KSParser::D_FLOAT); //diameter
-    newList.append(KSParser::D_QSTRING); //dimensions(extent)
-    newList.append(KSParser::D_FLOAT); //albedo
-    newList.append(KSParser::D_FLOAT); //rot_period
-    newList.append(KSParser::D_FLOAT); //per_y(period)
-    newList.append(KSParser::D_DOUBLE); //moid
-    newList.append(KSParser::D_QSTRING); //class
-    KSParser asteroidParser(QString("hello"), '#', ',', newList);
-    asteroidParser.ReadNextRow();
+    //Providing a list of the columns in advance will help check
+    //for valid rows.
+    QHash<QString, KSParser::DataTypes> newList;
+    newList.insert("full name",KSParser::D_QSTRING); //name
+    newList.insert("epoch_mjd",KSParser::D_INT); //epoch
+    newList.insert("q",KSParser::D_DOUBLE);
+    newList.insert("a",KSParser::D_DOUBLE);
+    newList.insert("e",KSParser::D_DOUBLE);
+    newList.insert("i",KSParser::D_DOUBLE);
+    newList.insert("w",KSParser::D_DOUBLE);
+    newList.insert("om",KSParser::D_DOUBLE);
+    newList.insert("ma",KSParser::D_DOUBLE);
+    newList.insert("tp_calc",KSParser::D_DOUBLE);
+    newList.insert("orbit_id",KSParser::D_QSTRING);
+    newList.insert("H",KSParser::D_DOUBLE);
+    newList.insert("G",KSParser::D_DOUBLE);
+    newList.insert("neo",KSParser::D_QSTRING);
+    newList.insert("tp_calc",KSParser::D_DOUBLE); 
+    newList.insert("M2",KSParser::D_DOUBLE);
+    newList.insert("diameter",KSParser::D_FLOAT);
+    newList.insert("extent",KSParser::D_QSTRING); 
+    newList.insert("albedo",KSParser::D_FLOAT); 
+    newList.insert("rot_period",KSParser::D_FLOAT); 
+    newList.insert("per_y",KSParser::D_FLOAT); 
+    newList.insert("moid",KSParser::D_DOUBLE); 
+    newList.insert("class",KSParser::D_QSTRING); 
+    KSParser asteroidParser(QString("asteroids.dat"), '#', ',', newList);
+    
+    while (asteroidParser.hasNextRow()){
+            QHash<QString,QVariant> ans = asteroidParser.ReadNextRow();
+            //TODO: convert to double etc here
+    }
     
     
     

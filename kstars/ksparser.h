@@ -33,6 +33,7 @@ public:
     //Constructor to return a Fixed Width Parser
     KSParser(QString filename, char skipChar, QList<int> widths) __attribute__((cdecl));
     QHash<QString,QVariant>  ReadNextRow();
+    bool hasNextRow();
 private:
     //Function Pointer
     QHash<QString,QVariant> (KSParser::*readFunctionPtr)();

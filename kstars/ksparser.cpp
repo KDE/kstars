@@ -20,7 +20,7 @@
 #include <klocale.h>
 
 
-KSParser::KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern){
+KSParser::KSParser(QString filename, char skipChar, char delimiter, QHash<QString, DataTypes> pattern){
 
    readFunctionPtr = &KSParser::ReadCSVRow;
 
@@ -47,5 +47,9 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
     kWarning() <<"READ FWR";
     QHash<QString,QVariant> newRow;
     return newRow;
+}
+
+bool KSParser::hasNextRow() {
+    return false;
 }
 
