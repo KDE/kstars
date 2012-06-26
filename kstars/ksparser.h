@@ -19,14 +19,23 @@
 #define KSPARSER_H
 #include <QList>
 #include <QFile>
+#include <QHash>
 
 class KSParser
 {
 public:
-    void KSParser(QString filename, int skipLines, char delimiter, bool quotes);
+    //Constructor. Not to be called directly.
+    void KSParser(QString filename, char skipChar, char delimiter);
+    void CSVParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern);
+    void FixedWidthParser(QString filename, char skipChar, QList<int> widths);
+    void ReadNextRow();
 private:
+    void ReadCSVRow();
+    void ReadFixedWidthRow();
+    enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE};
     QFile file;
     int currentRowID;
+    QList<int> widths;
 };
 
 #endif // KSPARSER_H

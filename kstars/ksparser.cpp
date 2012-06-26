@@ -17,7 +17,35 @@
 
 #include "ksparser.h"
 
-void KSParser::KSParser(QString filename, int skipLines, char delimiter, bool quotes)
+void KSParser::KSParser(QString filename, char skipChar, char delimiter)
 {
-  
+
+}
+void KSParser::CSVParser(QString filename, char skipChar, char delimiter, QList< KSParser::DataTypes > pattern)
+{
+
+}
+void KSParser::FixedWidthParser(QString filename, char skipChar, QList< int > widths)
+{
+
+}
+void KSParser::FixedWidthParser(QString filename, char skipChar, QList< int > widths)
+{
+
+}
+void KSParser::ReadCSVRow()
+{
+
+}
+void KSParser::ReadCSVRow()
+{
+
+}
+void KSParser::ReadFixedWidthRow()
+{
+
+}
+void KSParser::ReadNextRow()
+{
+
 }
