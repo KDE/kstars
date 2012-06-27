@@ -121,8 +121,10 @@ void AsteroidsComponent::loadData()
     newList.append("class"); pattern.append(KSParser::D_QSTRING); 
     KSParser asteroidParser(QString("asteroids.dat"), '#', ',', pattern, newList);
     
+    QHash<QString,QVariant> ans;
     while (asteroidParser.hasNextRow()){
-            QHash<QString,QVariant> ans = asteroidParser.ReadNextRow();
+            ans = asteroidParser.ReadNextRow();
+            kWarning()<< ans.size();
             //TODO: convert to double etc here
     }
     

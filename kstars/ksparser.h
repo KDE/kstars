@@ -42,9 +42,11 @@ private:
     QHash<QString,QVariant>  ReadFixedWidthRow();
     QHash<QString,QVariant>  DummyCSVRow();
     KSFileReader fileReader;
-    QFile file;
+    QString filename;
     int currentRowID;
     bool moreRows;
+    QList<DataTypes> pattern;
+    QList<QString> names;
     QList<int> widths;
 };
 

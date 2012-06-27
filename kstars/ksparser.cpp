@@ -21,10 +21,9 @@
 
 
 
-KSParser::KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern, QList<QString> names){
-    if ( ! fileReader.open(filename) ) {
+KSParser::KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern, QList<QString> names):filename(filename),pattern(pattern),names(names){
+    if ( ! fileReader.open(filename) || pattern.length() != names.length()) {
         kWarning() <<"Unable to open file!";
-        moreRows = false;
         readFunctionPtr = &KSParser::DummyCSVRow;
         return;
     }
@@ -47,16 +46,44 @@ QHash<QString,QVariant>  KSParser::ReadNextRow() {
 QHash<QString,QVariant>  KSParser::ReadCSVRow() {
     kWarning() <<"READ CSV";
     QString line;
+    QStringList separated;
     bool success=false;
+    QHash<QString,QVariant> newRow;
+    
+    //This signifies that someone tried to read a row
+    //without checking if hasNextRow is true
+    if (fileReader.hasMoreLines() == false)
+        return DummyCSVRow(); 
     
     while (fileReader.hasMoreLines() && success==false){
         line = fileReader.readLine();
         //TODO: manage " marks
-        line.split(",");
+        separated = line.split(",");
+        if (separated.length() != pattern.length())
+            continue;
+        for (int i=0; i<pattern.length(); i++){
+            switch (pattern[i]){
+                case D_QSTRING:
+                    newRow[names[i]]=separated[i];
+                    break;
+                case D_DOUBLE:
+                    newRow[names[i]]=separated[i].toDouble();
+                    break;
+                case D_INT:
+                    newRow[names[i]]=separated[i].toInt();
+                    break;
+                case D_FLOAT:
+                    newRow[names[i]]=separated[i].toFloat();
+                    break;
+            }
+        }
+        success=true;
+        
     }
-    if (fileReader.hasMoreLines() == false)
-        return DummyCSVRow();
-    QHash<QString,QVariant> newRow;
+    
+//     if (fileReader.hasMoreLines() == false)
+//         fileReader.close??
+    
     return newRow;
 }
 
@@ -68,12 +95,28 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
 
 QHash<QString,QVariant>  KSParser::DummyCSVRow() {
     //TODO: allot 0 or "null" to every position
-    kWarning() <<"READ FWR";
     QHash<QString,QVariant> newRow;
+    for (int i=0; i<pattern.length(); i++){
+            switch (pattern[i]){
+                case D_QSTRING:
+                    newRow[names[i]]="Null";
+                    break;
+                case D_DOUBLE:
+                    newRow[names[i]]=0.0;
+                    break;
+                case D_INT:
+                    newRow[names[i]]=0;
+                    break;
+                case D_FLOAT:
+                    newRow[names[i]]=0.0;
+                    break;
+            }
+        }
+    kWarning() <<"READ FWR";
     return newRow;
 }
 
 bool KSParser::hasNextRow() {
-    return moreRows;
+    return fileReader.hasMoreLines();
 }
 
