@@ -23,13 +23,14 @@
 #include <QDebug>
 #include <kstandarddirs.h>
 #include <QVariant>
+#include "ksfilereader.h"
 
 class KSParser
 {
 public:
     enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE};
     //Constructor to return a CSV Parser
-    KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern) __attribute__((cdecl));
+    KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern, QList<QString> names) __attribute__((cdecl));
     //Constructor to return a Fixed Width Parser
     KSParser(QString filename, char skipChar, QList<int> widths) __attribute__((cdecl));
     QHash<QString,QVariant>  ReadNextRow();
@@ -39,8 +40,11 @@ private:
     QHash<QString,QVariant> (KSParser::*readFunctionPtr)();
     QHash<QString,QVariant>  ReadCSVRow();
     QHash<QString,QVariant>  ReadFixedWidthRow();
+    QHash<QString,QVariant>  DummyCSVRow();
+    KSFileReader fileReader;
     QFile file;
     int currentRowID;
+    bool moreRows;
     QList<int> widths;
 };
 

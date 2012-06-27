@@ -94,31 +94,32 @@ void AsteroidsComponent::loadData()
     //TODO: Am I complicating things? ~~spacetime
     //Providing a list of the columns in advance will help check
     //for valid rows.
-    QHash<QString, KSParser::DataTypes> newList;
-    newList.insert("full name",KSParser::D_QSTRING); //name
-    newList.insert("epoch_mjd",KSParser::D_INT); //epoch
-    newList.insert("q",KSParser::D_DOUBLE);
-    newList.insert("a",KSParser::D_DOUBLE);
-    newList.insert("e",KSParser::D_DOUBLE);
-    newList.insert("i",KSParser::D_DOUBLE);
-    newList.insert("w",KSParser::D_DOUBLE);
-    newList.insert("om",KSParser::D_DOUBLE);
-    newList.insert("ma",KSParser::D_DOUBLE);
-    newList.insert("tp_calc",KSParser::D_DOUBLE);
-    newList.insert("orbit_id",KSParser::D_QSTRING);
-    newList.insert("H",KSParser::D_DOUBLE);
-    newList.insert("G",KSParser::D_DOUBLE);
-    newList.insert("neo",KSParser::D_QSTRING);
-    newList.insert("tp_calc",KSParser::D_DOUBLE); 
-    newList.insert("M2",KSParser::D_DOUBLE);
-    newList.insert("diameter",KSParser::D_FLOAT);
-    newList.insert("extent",KSParser::D_QSTRING); 
-    newList.insert("albedo",KSParser::D_FLOAT); 
-    newList.insert("rot_period",KSParser::D_FLOAT); 
-    newList.insert("per_y",KSParser::D_FLOAT); 
-    newList.insert("moid",KSParser::D_DOUBLE); 
-    newList.insert("class",KSParser::D_QSTRING); 
-    KSParser asteroidParser(QString("asteroids.dat"), '#', ',', newList);
+    QList<KSParser::DataTypes> pattern;
+    QList<QString> newList;
+    newList.append("full name"); pattern.append(KSParser::D_QSTRING); //name
+    newList.append("epoch_mjd"); pattern.append(KSParser::D_INT); //epoch
+    newList.append("q"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("a"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("e"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("i"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("w"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("om"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("ma"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("tp_calc"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("orbit_id"); pattern.append(KSParser::D_QSTRING);
+    newList.append("H"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("G"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("neo"); pattern.append(KSParser::D_QSTRING);
+    newList.append("tp_calc"); pattern.append(KSParser::D_DOUBLE); 
+    newList.append("M2"); pattern.append(KSParser::D_DOUBLE);
+    newList.append("diameter"); pattern.append(KSParser::D_FLOAT);
+    newList.append("extent"); pattern.append(KSParser::D_QSTRING); 
+    newList.append("albedo"); pattern.append(KSParser::D_FLOAT); 
+    newList.append("rot_period"); pattern.append(KSParser::D_FLOAT); 
+    newList.append("per_y"); pattern.append(KSParser::D_FLOAT); 
+    newList.append("moid"); pattern.append(KSParser::D_DOUBLE); 
+    newList.append("class"); pattern.append(KSParser::D_QSTRING); 
+    KSParser asteroidParser(QString("asteroids.dat"), '#', ',', pattern, newList);
     
     while (asteroidParser.hasNextRow()){
             QHash<QString,QVariant> ans = asteroidParser.ReadNextRow();

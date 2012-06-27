@@ -20,15 +20,22 @@
 #include <klocale.h>
 
 
-KSParser::KSParser(QString filename, char skipChar, char delimiter, QHash<QString, DataTypes> pattern){
 
-   readFunctionPtr = &KSParser::ReadCSVRow;
+KSParser::KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern, QList<QString> names){
+    if ( ! fileReader.open(filename) ) {
+        kWarning() <<"Unable to open file!";
+        moreRows = false;
+        readFunctionPtr = &KSParser::DummyCSVRow;
+        return;
+    }
+    
+    readFunctionPtr = &KSParser::ReadCSVRow;
 
 }
 
 KSParser::KSParser(QString filename, char skipChar, QList<int> widths) {
-
-    readFunctionPtr = &KSParser::ReadFixedWidthRow;
+    
+        readFunctionPtr = &KSParser::ReadFixedWidthRow;
 
 }
 
@@ -39,6 +46,16 @@ QHash<QString,QVariant>  KSParser::ReadNextRow() {
 
 QHash<QString,QVariant>  KSParser::ReadCSVRow() {
     kWarning() <<"READ CSV";
+    QString line;
+    bool success=false;
+    
+    while (fileReader.hasMoreLines() && success==false){
+        line = fileReader.readLine();
+        //TODO: manage " marks
+        line.split(",");
+    }
+    if (fileReader.hasMoreLines() == false)
+        return DummyCSVRow();
     QHash<QString,QVariant> newRow;
     return newRow;
 }
@@ -49,7 +66,14 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
     return newRow;
 }
 
+QHash<QString,QVariant>  KSParser::DummyCSVRow() {
+    //TODO: allot 0 or "null" to every position
+    kWarning() <<"READ FWR";
+    QHash<QString,QVariant> newRow;
+    return newRow;
+}
+
 bool KSParser::hasNextRow() {
-    return false;
+    return moreRows;
 }
 
