@@ -31,6 +31,7 @@
 #include "kstarsdata.h"
 #include "ksfilereader.h"
 #include "skymap.h"
+#include "kdebug.h"
 
 #include "solarsystemcomposite.h"
 #include "skylabeler.h"
@@ -91,6 +92,12 @@ void AsteroidsComponent::loadData()
     float diameter, albedo, rot_period, period;
     bool ok, neo;
     
+    emitProgressText( i18n("Loading asteroids") );
+
+    // Clear lists
+    m_ObjectList.clear();
+    objectNames( SkyObject::ASTEROID ).clear();
+    
     //TODO: Am I complicating things? ~~spacetime
     //Providing a list of the columns in advance will help check
     //for valid rows.
@@ -123,23 +130,64 @@ void AsteroidsComponent::loadData()
     
     QHash<QString,QVariant> ans;
     while (asteroidParser.hasNextRow()){
-            ans = asteroidParser.ReadNextRow();
-            kWarning()<< ans.size();
-            //TODO: convert to double etc here
+	ans = asteroidParser.ReadNextRow();
+// 	kWarning()<< ans.size();
+	full_name = ans["full name"].toString();
+        full_name = full_name.remove( '"' ).trimmed();
+        int catN  = full_name.section( " ", 0, 0 ).toInt();
+        name = full_name.section( " ", 1, -1 );
+        mJD  = ans["epoch_mjd"].toInt();
+        q    = ans["q"].toDouble();
+        a    = ans["a"].toDouble();
+        e    = ans["e"].toDouble();
+        dble_i = ans["i"].toDouble();
+        dble_w = ans["w"].toDouble();
+	kDebug() << QString::number(dble_i);
+	kDebug() << ans["i"].toString();
+        dble_N = ans["om"].toDouble(); //TODO: confirm if is this correct?
+        dble_M = ans["ma"].toDouble();
+        orbit_id = ans["orbit_id"].toString();
+        orbit_id.remove( '"' );
+        H   = ans["H"].toDouble();
+        G   = ans["G"].toDouble();
+        neo = ans["neo"].toString() == "Y";
+        diameter = ans["diameter"].toFloat();
+        dimensions = ans["extent"].toString();
+        albedo  = ans["albedo"].toFloat();
+        rot_period = ans["rot_period"].toFloat();
+        period  = ans["per_y"].toFloat();
+        earth_moid  = ans["moid"].toDouble();
+        orbit_class = ans["class"].toString();
+
+        JD = double( mJD ) + 2400000.5;
+
+        KSAsteroid *ast = new KSAsteroid( catN, name, QString(), JD, a, e, dms(dble_i),
+                                          dms(dble_w), dms(dble_N), dms(dble_M), H, G );
+        ast->setPerihelion( q );
+        ast->setOrbitID( orbit_id );
+        ast->setNEO( neo );
+        ast->setDiameter( diameter );
+        ast->setDimensions( dimensions );
+        ast->setAlbedo( albedo );
+        ast->setRotationPeriod( rot_period );
+        ast->setPeriod( period );
+        ast->setEarthMOID( earth_moid );
+        ast->setOrbitClass( orbit_class );
+        ast->setAngularSize( 0.005 );
+        m_ObjectList.append( ast );
+	
+	//Add name to the list of object names
+        objectNames(SkyObject::ASTEROID).append( name );
     }
     
     
     
-    KSFileReader fileReader;
+//     KSFileReader fileReader;
 
-    if ( ! fileReader.open("asteroids.dat" ) ) return;
+//     if ( ! fileReader.open("asteroids.dat" ) ) return;
 
-    emitProgressText( i18n("Loading asteroids") );
 
-    // Clear lists
-    m_ObjectList.clear();
-    objectNames( SkyObject::ASTEROID ).clear();
-
+    /*
     while( fileReader.hasMoreLines() ) {
         line = fileReader.readLine();
 
@@ -200,7 +248,10 @@ void AsteroidsComponent::loadData()
         //Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append( name );
     }
+
+  */
 }
+
 
 void AsteroidsComponent::draw( SkyPainter *skyp )
 {
