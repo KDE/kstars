@@ -98,7 +98,8 @@ void SkyGLPainter::drawBuffer(int type)
         case 0: case 1: default:  TextureManager::bindTexture("star",             m_widget); break;
     }
 
-    glBlendFunc(GL_ONE, GL_ONE);
+    glEnable( GL_BLEND );
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
