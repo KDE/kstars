@@ -152,16 +152,29 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
         }
     }
     else {
+        QColor starColor;
+
+        // Set RGB values into QColor
         switch(sp) {
-        case 'o': case 'O': c = Vector3f( 153./255., 153./255., 255./255.); break;
-        case 'b': case 'B': c = Vector3f( 151./255., 233./255., 255./255.); break;
-        case 'a': case 'A': c = Vector3f( 153./255., 255./255., 255./255.); break;
-        case 'f': case 'F': c = Vector3f( 219./255., 255./255., 135./255.); break;
-        case 'g': case 'G': c = Vector3f( 255./255., 255./255., 153./255.); break;
-        case 'k': case 'K': c = Vector3f( 255./255., 193./255., 153./255.); break;
-        case 'm': case 'M': c = Vector3f( 255./255., 153./255., 153./255.); break;
-        case 'x':           c = Vector3f( m_pen[0], m_pen[1], m_pen[2]   ); break;
+        case 'o': case 'O': starColor.setRgb( 153, 153, 255); break;
+        case 'b': case 'B': starColor.setRgb( 151, 233, 255); break;
+        case 'a': case 'A': starColor.setRgb( 153, 255, 255); break;
+        case 'f': case 'F': starColor.setRgb( 219, 255, 135); break;
+        case 'g': case 'G': starColor.setRgb( 255, 255, 153); break;
+        case 'k': case 'K': starColor.setRgb( 255, 193, 153); break;
+        case 'm': case 'M': starColor.setRgb( 255, 153, 153); break;
+        case 'x':           starColor.setRgb( m_pen[0] * 255, m_pen[1] * 255, m_pen[2] *255 ); break;
         }
+
+        // Convert to HSV space using QColor's methods and adjust saturation.
+        int h, s, v;
+        starColor.getHsv( &h, &s, &v );
+        s = ( Options::starColorIntensity() / 10. ) * 200.; // Rewrite the saturation based on the star color intensity setting, 200 is the hard-wired max saturation, just to approximately match up with QPainter mode.
+        starColor.setHsv( h, s, v );
+
+        // Get RGB ratios and put them in 'c'
+        c = Vector3f( starColor.redF(), starColor.greenF(), starColor.blueF() );
+
     }
     for(int j = 0; j < 6; ++j) {
         m_color[type][i+j] = c;
