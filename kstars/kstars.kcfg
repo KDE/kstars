@@ -750,7 +750,7 @@
     <entry name="ColorSchemeFile" type="String">
       <label>The name of the color scheme</label>
       <whatsthis>The name of the color scheme</whatsthis>
-      <default>classic.colors</default>
+      <default>moonless-night.colors</default>
     </entry>
     <entry name="DarkAppColors" type="Bool">
       <label>Use Dark colors for KStars windows?</label>
