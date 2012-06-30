@@ -308,12 +308,12 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
             drawBuffer(type);
 
         const int i = 6*m_idx[type];
-        m_vertex[type][i + 0] = vec + r* Vector2f(-w,-h);
-        m_vertex[type][i + 1] = vec + r* Vector2f( w,-h);
-        m_vertex[type][i + 2] = vec + r* Vector2f(-w, h);
-        m_vertex[type][i + 3] = vec + r* Vector2f(-w, h);
-        m_vertex[type][i + 4] = vec + r* Vector2f( w,-h);
-        m_vertex[type][i + 5] = vec + r* Vector2f( w, h);
+        m_vertex[type][i + 0] = vec + r * Vector2f(-w,-h);
+        m_vertex[type][i + 1] = vec + r * Vector2f( w,-h);
+        m_vertex[type][i + 2] = vec + r * Vector2f(-w, h);
+        m_vertex[type][i + 3] = vec + r * Vector2f(-w, h);
+        m_vertex[type][i + 4] = vec + r * Vector2f( w,-h);
+        m_vertex[type][i + 5] = vec + r * Vector2f( w, h);
         Vector3f c( m_pen[0], m_pen[1], m_pen[2] );
 
         for(int j = 0; j < 6; ++j)
