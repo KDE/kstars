@@ -165,6 +165,24 @@ SkyObjListModel* ModelManager::returnModel(ModelManager::LIST_TYPE Type)
     return (new SkyObjListModel());
 }
 
+SkyObjListModel* ModelManager::returnModel(QString Type)
+{
+    if (Type == "Planet")
+        return planetsModel;
+    else if (Type == "Star")
+        return starsModel;
+    else if (Type == "Galaxy")
+        return galModel;
+    else if (Type == "Constellation")
+        return conModel;
+//     else if (Type == Star_Clusters)
+//         return starClustModel;
+//     else if (Type == Nebulae)
+//         return nebModel;
+
+    return (new SkyObjListModel());
+}
+
 QStringList ModelManager::returnCatListModel(ModelManager::LIST_TYPE Type)
 {
     if (Type == BaseList)

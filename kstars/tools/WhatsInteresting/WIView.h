@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "QtDeclarative/QDeclarativeView"
+#include "QtDeclarative/QDeclarativeContext"
 #include "QModelIndex"
 #include "skyobject.h"
 #include "modelmanager.h"
@@ -31,24 +32,25 @@ public:
     WIView(QObject *parent = 0);
     ~WIView();
     void manageViews(int TYPE);    //display view
-    void loadDetailsView( SkyObjItem* soitem);
+    void loadDetailsView( SkyObjItem* soitem, int index);
 
 public slots:
 //     void loadModel ( int TYPE );
 //     void skyObjectItemClicked(QModelIndex index);
     void onCatListItemClicked(QString);
     void onSoListItemClicked(QString, int index);
+    void onNextObjTextClicked();
 private:
-    QObject *baseObj, *catListObj, *soListObj, *detailsViewObj;
+    QObject *baseObj, *catListObj, *soListObj, *detailsViewObj, *nextObj;
     QDeclarativeContext *ctxt;
     QDeclarativeView *baseListView;
     QDeclarativeView *planetaryListView;
     QDeclarativeView *deepSkyListView;
     QDeclarativeView *skyObjListView;
-
     QDeclarativeView *planetDetailsView;
     QDeclarativeView *satelliteDetailsView;
     QDeclarativeView *deepSkyDetailsView;
-
     ModelManager *m;
+    SkyObjItem *curSoItem;
+    int curIndex;
 };

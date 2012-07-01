@@ -228,6 +228,31 @@ Rectangle {
                     }
                 }
             }
+
+            Text {
+                id: nextObjText
+                objectName: "nextObj"
+                x: 195
+                y: 276
+                width: 101
+                height: 15
+                color: "#ffffff"
+                text: qsTr("Next sky-object")
+                visible: true
+                verticalAlignment: Text.AlignBottom
+                horizontalAlignment: Text.AlignRight
+                font.bold: true
+                font.underline: true
+                font.pixelSize: 11
+
+                signal nextObjTextClicked()
+
+                MouseArea {
+                    id: mouse_area2
+                    anchors.fill: parent
+                    onClicked: nextObjText.nextObjTextClicked()
+                }
+            }
         }
     }
 }

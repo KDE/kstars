@@ -40,6 +40,8 @@ WIView::WIView ( QObject *parent) : QObject(parent)
     connect(soListObj, SIGNAL(soListItemClicked(QString, int)),
             this, SLOT(onSoListItemClicked(QString, int)));
     detailsViewObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("detailsViewObj");
+    nextObj  = baseObj->findChild<QObject *>("nextObj");
+    connect(nextObj, SIGNAL(nextObjTextClicked()), this, SLOT(onNextObjTextClicked()));
 
 
 //     planetaryListView->setSource(QUrl::fromLocalFile("WIPlanetaryListView.qml"));
@@ -133,16 +135,27 @@ void WIView::onSoListItemClicked(QString type, int index)
     }
 
     soListObj->setProperty("visible", false);
-    loadDetailsView(soitem);
+    loadDetailsView(soitem , index);
 }
 
-void WIView::loadDetailsView(SkyObjItem* soitem)
+void WIView::loadDetailsView(SkyObjItem* soitem, int index)
 {
     QObject* sonameObj = detailsViewObj->findChild<QObject *>("sonameObj");
     QObject* posTextObj = detailsViewObj->findChild<QObject *>("posTextObj");
     QObject* descTextObj = detailsViewObj->findChild<QObject *>("descTextObj");
     sonameObj->setProperty("text", soitem->getName());
     posTextObj->setProperty("text", soitem->getPosition());
-    detailsViewObj->setProperty("visible", true);
     descTextObj->setProperty("text", soitem->getDesc());
+    detailsViewObj->setProperty("visible", true);
+
+    curSoItem = soitem;
+    curIndex = index;
 }
+
+void WIView::onNextObjTextClicked()
+{
+    int modelSize = m->returnModel(curSoItem->getType())->rowCount();
+    SkyObjItem *nextItem = m->returnModel(curSoItem->getType())->getSkyObjItem((curIndex+1)%modelSize);
+    loadDetailsView(nextItem, (curIndex+1)%modelSize);
+}
+

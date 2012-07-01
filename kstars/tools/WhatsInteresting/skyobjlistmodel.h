@@ -32,7 +32,7 @@ public:
     int rowCount( const QModelIndex& parent = QModelIndex()) const;
     QVariant data( const QModelIndex& index, int role = Qt::DisplayRole) const;
     QList<SkyObjItem *> getSkyObjItems();
-    SkyObjItem* getSkyObjItem(int index);
+    SkyObjItem* getSkyObjItem ( int index );
 
 private:
     QList<SkyObjItem *> soItemList;

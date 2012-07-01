@@ -32,6 +32,7 @@ public:
     //QStandardItemModel* returnModel ( int TYPE );
 
     SkyObjListModel* returnModel ( LIST_TYPE Type );
+    SkyObjListModel* returnModel ( QString type );
     QStringList returnCatListModel ( LIST_TYPE Type );
     bool isVisible(GeoLocation* geo, dms* lst, SkyObject* so);
 
