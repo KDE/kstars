@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "QDeclarativeContext"
 #include "WIView.h"
 #include "QGraphicsObject"
 #include "skymap.h"
@@ -29,8 +28,7 @@ WIView::WIView ( QObject *parent) : QObject(parent)
     baseView = new QDeclarativeView();
     ctxt = baseView->rootContext();
     ctxt->setContextProperty("catListModel", QVariant::fromValue(m->returnCatListModel( ModelManager::BaseList )));
-    //baseListBox = new QDeclarativeView();
-    //kDebug()<<QUrl::fromLocalFile("Base.qml");
+
     baseView->setSource(QUrl("/home/sam/kstars/kstars/tools/WhatsInteresting/Base.qml"));
     baseObj = dynamic_cast<QObject *> (baseView->rootObject());
 
@@ -43,24 +41,7 @@ WIView::WIView ( QObject *parent) : QObject(parent)
     nextObj  = baseObj->findChild<QObject *>("nextObj");
     connect(nextObj, SIGNAL(nextObjTextClicked()), this, SLOT(onNextObjTextClicked()));
 
-
-//     planetaryListView->setSource(QUrl::fromLocalFile("WIPlanetaryListView.qml"));
-//     QObject *planetaryListObj = planetaryListView->rootObject();
-//     deepSkyListView->setSource(QUrl::fromLocalFile("WIDeepSkyListView.qml"));
-//     QObject *deepSkyListObj = deepSkyListView->rootObject();
-
-
-//     skyObjListView = new QDeclarativeView();
-//     skyObjListView->rootContext()->setContextProperty("skyObjModel", m->returnModel(ModelManager::Planets));
-//     skyObjListView->setSource(QUrl("/home/sam/kstars/kstars/tools/WhatsInteresting/SkyObjListView.qml"));
-// 
-//     kDebug()<<skyObjListView->rootContext()->contextProperty("skyObjModel");
-    //skyObjListView->setParent(baseListBox);
-    //QObject *skyObjectListObj = dynamic_cast<QObject *> (skyObjListView->rootObject());
-    //skyObjectListObj->setParent(listBoxObj);
     baseView->show();
-    //skyObjectListObj->setParent(baseObj);
-    //skyObjectListObj->setProperty("skyObjModel", m->returnModel(2));
 }
 
 WIView::~WIView() {}
@@ -143,9 +124,12 @@ void WIView::loadDetailsView(SkyObjItem* soitem, int index)
     QObject* sonameObj = detailsViewObj->findChild<QObject *>("sonameObj");
     QObject* posTextObj = detailsViewObj->findChild<QObject *>("posTextObj");
     QObject* descTextObj = detailsViewObj->findChild<QObject *>("descTextObj");
+    QObject* magTextObj = detailsViewObj->findChild<QObject *>("magTextObj");
     sonameObj->setProperty("text", soitem->getName());
     posTextObj->setProperty("text", soitem->getPosition());
     descTextObj->setProperty("text", soitem->getDesc());
+    magTextObj->setProperty("text", soitem->getMagnitude());
+
     detailsViewObj->setProperty("visible", true);
 
     curSoItem = soitem;
@@ -158,4 +142,3 @@ void WIView::onNextObjTextClicked()
     SkyObjItem *nextItem = m->returnModel(curSoItem->getType())->getSkyObjItem((curIndex+1)%modelSize);
     loadDetailsView(nextItem, (curIndex+1)%modelSize);
 }
-

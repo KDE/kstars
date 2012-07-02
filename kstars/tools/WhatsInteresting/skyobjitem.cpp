@@ -93,3 +93,10 @@ QString SkyObjItem::getDesc()
 
     return QString("No Description found for selected sky-object");
 }
+
+QString SkyObjItem::getMagnitude()
+{
+    QString magtext = "Magnitude : ";
+    magtext.append(QString::number(so->mag()));
+    return magtext;
+}

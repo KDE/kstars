@@ -39,10 +39,11 @@ public:
     QHash<int, QByteArray> roleNames() const;
     inline QString getName() { return name; }
     inline QString getType() { return type; }
-    void setPosition(SkyObject* so);
     inline QString getPosition() { return position; }
     inline SkyObject* getSkyObject() { return so; }
     QString getDesc();
+    QString getMagnitude();
+    void setPosition(SkyObject* so);
 
 private:
     QString name;

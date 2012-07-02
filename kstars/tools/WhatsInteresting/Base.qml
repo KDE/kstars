@@ -233,7 +233,7 @@ Rectangle {
                 id: nextObjText
                 objectName: "nextObj"
                 x: 195
-                y: 276
+                y: 359
                 width: 101
                 height: 15
                 color: "#ffffff"
@@ -252,6 +252,19 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: nextObjText.nextObjTextClicked()
                 }
+            }
+
+            Text {
+                id: magText
+                objectName: "magTextObj"
+                x: 102
+                y: 285
+                width: 80
+                height: 15
+                text: qsTr("text")
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 12
             }
         }
     }
