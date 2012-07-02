@@ -106,15 +106,6 @@ void WIView::onSoListItemClicked(QString type, int index)
         soitem = m->returnModel(ModelManager::Planets)->getSkyObjItem(index);
     kDebug()<<soitem->getName()<<soitem->getType();
 
-    //Slew map to selected sky object
-    SkyObject* so = soitem->getSkyObject();
-    KStars* data = KStars::Instance();
-    if (so != 0) {
-        data->map()->setFocusPoint( so );
-        data->map()->setFocusObject( so );
-        data->map()->setDestination( *data->map()->focusPoint() );
-    }
-
     soListObj->setProperty("visible", false);
     loadDetailsView(soitem , index);
 }
@@ -131,6 +122,15 @@ void WIView::loadDetailsView(SkyObjItem* soitem, int index)
     magTextObj->setProperty("text", soitem->getMagnitude());
 
     detailsViewObj->setProperty("visible", true);
+
+    //Slew map to selected sky object
+    SkyObject* so = soitem->getSkyObject();
+    KStars* data = KStars::Instance();
+    if (so != 0) {
+        data->map()->setFocusPoint( so );
+        data->map()->setFocusObject( so );
+        data->map()->setDestination( *data->map()->focusPoint() );
+    }
 
     curSoItem = soitem;
     curIndex = index;
