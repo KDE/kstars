@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(ki18n("Henry de Valence"), KLocalizedString(), "hdevalence@gmail.com");
     aboutData.addAuthor(ki18n("Samikshan Bairagya"), KLocalizedString(), "samikshan.bairagya@kdemail.net");
     aboutData.addAuthor(ki18n("Rafał Kułaga"), KLocalizedString(), "rl.kulaga@gmail.com");
-    aboutData.addAuthor(ki18n("Valery Kharitonov"), KLocalizedString());
+    aboutData.addCredit(ki18n("Valery Kharitonov"), ki18n("Converted labels containing technical terms to links to documentation") );
     KCmdLineArgs::init( argc, argv, &aboutData );
 
     KCmdLineOptions options;
