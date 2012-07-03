@@ -26,9 +26,6 @@ class WIView : public QObject
 {
     Q_OBJECT
 public:
-    enum TYPE {PLANET, SATELLITE, STAR, GALAXY, CONSTELLATION, STAR_CLUSTER, NEBULA};
-    enum DetailViewType {PLANETARY};
-
     WIView(QObject *parent = 0);
     ~WIView();
     void manageViews(int TYPE);    //display view

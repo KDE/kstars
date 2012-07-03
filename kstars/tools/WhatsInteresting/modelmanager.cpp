@@ -20,7 +20,6 @@
 #include "kstarsdatetime.h"
 #include "skymapcomposite.h"
 #include "skyobject.h"
-#include "skyobjectitem.h"
 
 ModelManager::ModelManager()
 {
