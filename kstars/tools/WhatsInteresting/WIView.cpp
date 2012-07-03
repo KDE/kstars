@@ -104,6 +104,11 @@ void WIView::onSoListItemClicked(QString type, int index)
         soitem = m->returnModel(ModelManager::Constellations)->getSkyObjItem(index);
     else if (type == "Planet")
         soitem = m->returnModel(ModelManager::Planets)->getSkyObjItem(index);
+    else
+    {
+        kDebug()<<"Nothing for DSOs right now";
+        return;
+    }
     kDebug()<<soitem->getName()<<soitem->getType();
 
     soListObj->setProperty("visible", false);

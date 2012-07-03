@@ -43,9 +43,9 @@ void ModelManager::updateModels()
 {
     KStarsData *data = KStarsData::Instance();
 
-    baseCatList<<"Planetary Objects"<<"Deep-sky Objects" ;
+    baseCatList<<"Planetary Objects"<<"Stars"<<"Constellations"<<"Deep-sky Objects" ;
     planetaryList<<"Planets"<<"Satellites";
-    deepSkyList<<"Stars"<<"Galaxies"<<"Constellations"<<"Star Clusters"<<"Nebulae";
+    deepSkyList<<"Galaxies"<<"Star Clusters"<<"Nebulae";
 
     KSFileReader fileReader;
     if ( !fileReader.open("Interesting.dat") ) return;
@@ -175,9 +175,9 @@ SkyObjListModel* ModelManager::returnModel(QString Type)
         return galModel;
     else if (Type == "Constellation")
         return conModel;
-//     else if (Type == Star_Clusters)
+//     else if (Type == "Star_Clusters")
 //         return starClustModel;
-//     else if (Type == Nebulae)
+//     else if (Type == "Nebulae")
 //         return nebModel;
 
     return (new SkyObjListModel());
