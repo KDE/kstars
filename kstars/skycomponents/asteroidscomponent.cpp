@@ -131,9 +131,7 @@ void AsteroidsComponent::loadData()
     QHash<QString,QVariant> ans;
     while (asteroidParser.hasNextRow()){
 	ans = asteroidParser.ReadNextRow();
-// 	kWarning()<< ans.size();
 	full_name = ans["full name"].toString();
-        full_name = full_name.remove( '"' ).trimmed();
         int catN  = full_name.section( " ", 0, 0 ).toInt();
         name = full_name.section( " ", 1, -1 );
         mJD  = ans["epoch_mjd"].toInt();
@@ -142,8 +140,6 @@ void AsteroidsComponent::loadData()
         e    = ans["e"].toDouble();
         dble_i = ans["i"].toDouble();
         dble_w = ans["w"].toDouble();
-	kDebug() << QString::number(dble_i);
-	kDebug() << ans["i"].toString();
         dble_N = ans["om"].toDouble(); //TODO: confirm if is this correct?
         dble_M = ans["ma"].toDouble();
         orbit_id = ans["orbit_id"].toString();

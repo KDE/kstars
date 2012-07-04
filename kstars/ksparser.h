@@ -38,16 +38,21 @@ public:
 private:
     //Function Pointer
     QHash<QString,QVariant> (KSParser::*readFunctionPtr)();
+    
     QHash<QString,QVariant>  ReadCSVRow();
     QHash<QString,QVariant>  ReadFixedWidthRow();
     QHash<QString,QVariant>  DummyCSVRow();
-    KSFileReader fileReader;
-    QString filename;
-    int currentRowID;
+    
+    KSFileReader m_FileReader;
+    QString m_Filename;
+    int m_CurrentRowID;
     bool moreRows;
+    char skipChar;
+    
     QList<DataTypes> pattern;
     QList<QString> names;
     QList<int> widths;
+    
 };
 
 #endif // KSPARSER_H

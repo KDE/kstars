@@ -20,15 +20,13 @@
 #include <klocale.h>
 
 
-
-KSParser::KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern, QList<QString> names):filename(filename),pattern(pattern),names(names){
-    if ( ! fileReader.open(filename) || pattern.length() != names.length()) {
+//TODO: 
+KSParser::KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern, QList<QString> names)
+		  :m_Filename(filename),pattern(pattern),names(names),skipChar(skipChar){
+    if (!m_FileReader.open(m_Filename) || pattern.length() != names.length()) {
         kWarning() <<"Unable to open file!";
         readFunctionPtr = &KSParser::DummyCSVRow;
-        return;
-    }
-    
-    readFunctionPtr = &KSParser::ReadCSVRow;
+    } else  readFunctionPtr = &KSParser::ReadCSVRow;
 
 }
 
@@ -39,50 +37,84 @@ KSParser::KSParser(QString filename, char skipChar, QList<int> widths) {
 }
 
 QHash<QString,QVariant>  KSParser::ReadNextRow() {
-    return (*this.*readFunctionPtr)();
+    return (this->*readFunctionPtr)();
 }
 
+#define EBROKEN_DOUBLE 0.0
+#define EBROKEN_FLOATS 0.0
+#define EBROKEN_INT 0
 
 QHash<QString,QVariant>  KSParser::ReadCSVRow() {
-    kWarning() <<"READ CSV";
-    QString line;
-    QStringList separated;
-    bool success=false;
-    QHash<QString,QVariant> newRow;
-    
+   
     //This signifies that someone tried to read a row
     //without checking if hasNextRow is true
-    if (fileReader.hasMoreLines() == false)
+    if (m_FileReader.hasMoreLines() == false)
         return DummyCSVRow(); 
     
-    while (fileReader.hasMoreLines() && success==false){
-        line = fileReader.readLine();
-        //TODO: manage " marks
+    QString line;
+    QStringList separated;
+    bool success = false;
+    QHash<QString,QVariant> newRow;
+    
+    while (m_FileReader.hasMoreLines() && success == false) {
+        line = m_FileReader.readLine();
+	if (line[0] == skipChar) continue;
         separated = line.split(",");
+	/*
+	 * TODO: here's how to go about the parsing
+	 * 1) split along ,
+	 * 2) check first and last characters. 
+	 *    if the first letter is  '"',
+	 *    then combine the nexto ones in it till
+	 *    till you come across the next word which
+	 *    has the last character as '"'
+	 *
+	*/
+	/*
+	for (QStringListIterator i; i!= separated.end(); ++i){
+	    if (*i[0] == '#') {
+		
+	    }
+	}
+	
+	*/
         if (separated.length() != pattern.length())
             continue;
-        for (int i=0; i<pattern.length(); i++){
+        for (int i=0; i<pattern.length(); i++) {
+	    bool ok;
             switch (pattern[i]){
                 case D_QSTRING:
                     newRow[names[i]]=separated[i];
                     break;
                 case D_DOUBLE:
-                    newRow[names[i]]=separated[i].toDouble();
+                    newRow[names[i]]=separated[i].toDouble(&ok);
+		    if (!ok) {
+		      kWarning() <<  "toDouble Failed at line : " << line;
+		      newRow[names[i]] = EBROKEN_DOUBLE;
+		    }
                     break;
                 case D_INT:
-                    newRow[names[i]]=separated[i].toInt();
+                    newRow[names[i]]=separated[i].toInt(&ok);
+		    if (!ok) {
+		      if (!ok) kWarning() << "toInt Failed at line : "<< line;
+		      newRow[names[i]] = EBROKEN_INT;
+		    }
                     break;
                 case D_FLOAT:
-                    newRow[names[i]]=separated[i].toFloat();
+                    newRow[names[i]]=separated[i].toFloat(&ok);
+		    if (!ok) {
+		      if (!ok) kWarning() << "toFloat Failed at line : "<< line;
+		      newRow[names[i]] = EBROKEN_FLOATS;
+		    }
                     break;
             }
         }
-        success=true;
+        success = true;
         
     }
     
-//     if (fileReader.hasMoreLines() == false)
-//         fileReader.close??
+//     if (m_FileReader.hasMoreLines() == false)
+//         m_FileReader.close??
     
     return newRow;
 }
@@ -117,6 +149,7 @@ QHash<QString,QVariant>  KSParser::DummyCSVRow() {
 }
 
 bool KSParser::hasNextRow() {
-    return fileReader.hasMoreLines();
+    return m_FileReader.hasMoreLines();
+    
 }
 
