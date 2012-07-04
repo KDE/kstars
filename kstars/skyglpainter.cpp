@@ -119,8 +119,6 @@ void SkyGLPainter::drawBuffer(int type)
 
 bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
 {
-    //don't draw things that are too small
-    if( width < 1.5 ) return false;
     bool visible = false;
     Vector2f vec = m_proj->toScreenVec(p,true,&visible);
     if(!visible) return false;
