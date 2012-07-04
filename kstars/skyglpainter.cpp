@@ -501,40 +501,16 @@ void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
     // texture changeable etc.
     // TODO: Draw labels when required
 
-    QVector<Vector2f> buffer( 6*obs.size() );
-    int i = 0;
-    foreach( SkyObject *obj, obs ) {
+     foreach( SkyObject *obj, obs ) {
         if( !m_proj->checkVisibility(obj) ) continue;
         bool visible;
         Vector2f vec = m_proj->toScreenVec(obj, true, &visible);
         if( !visible || !m_proj->onScreen(vec) ) continue;
-
-        const float w = 16.;
-        const float h = 16.;
-        
-        buffer[i + 0] = vec + Vector2f(-w,-h);
-        buffer[i + 1] = vec + Vector2f( w,-h);
-        buffer[i + 2] = vec + Vector2f(-w, h);
-        buffer[i + 3] = vec + Vector2f(-w, h);
-        buffer[i + 4] = vec + Vector2f( w,-h);
-        buffer[i + 5] = vec + Vector2f( w, h);
-
-        ++i;
+        const float size = 30.;
+	QImage obsmarker = TextureManager::getImage("obslistsymbol");
+	drawTexturedRectangle( obsmarker, vec, 0,size,size );
     }
 
-    TextureManager::bindTexture("obslistsymbol", m_widget);
-
-    glBlendFunc(GL_ONE, GL_ONE);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-    glVertexPointer  (2,GL_FLOAT,0, buffer.data());
-    glTexCoordPointer(2,GL_FLOAT,0, &m_texcoord[0]);
-
-    glDrawArrays(GL_TRIANGLES, 0, 6*i);
-
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void SkyGLPainter::drawFlags()
