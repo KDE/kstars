@@ -102,9 +102,9 @@ QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float he
     int ds = abs( dec.arcsec() );
 
     // Infinite and NaN sizes are replaced by the default size
-    if( !std::isfinite( height ) )
+    if( !isinf( height ) )
         height = dss_default_size;
-    if( !std::isfinite( width ) )
+    if( !isinf( width ) )
         width = dss_default_size;
 
     // Negative / zero sizes are replaced by the default size 

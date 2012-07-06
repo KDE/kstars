@@ -30,7 +30,8 @@ class KSParser
 public:
     enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE};
     //Constructor to return a CSV Parser
-    KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern, QList<QString> names) __attribute__((cdecl));
+    KSParser(QString filename, char skipChar, char delimiter, 
+	     QList< QPair<QString,DataTypes> > sequence) __attribute__((cdecl));
     //Constructor to return a Fixed Width Parser
     KSParser(QString filename, char skipChar, QList<int> widths) __attribute__((cdecl));
     QHash<QString,QVariant>  ReadNextRow();
@@ -49,8 +50,7 @@ private:
     bool moreRows;
     char skipChar;
     
-    QList<DataTypes> pattern;
-    QList<QString> names;
+    QList< QPair<QString,DataTypes> > sequence;
     QList<int> widths;
     
 };

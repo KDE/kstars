@@ -103,35 +103,37 @@ void AsteroidsComponent::loadData()
     //for valid rows.
     QList<KSParser::DataTypes> pattern;
     QList<QString> newList;
-    newList.append("full name"); pattern.append(KSParser::D_QSTRING); //name
-    newList.append("epoch_mjd"); pattern.append(KSParser::D_INT); //epoch
-    newList.append("q"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("a"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("e"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("i"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("w"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("om"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("ma"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("tp_calc"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("orbit_id"); pattern.append(KSParser::D_QSTRING);
-    newList.append("H"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("G"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("neo"); pattern.append(KSParser::D_QSTRING);
-    newList.append("tp_calc"); pattern.append(KSParser::D_DOUBLE); 
-    newList.append("M2"); pattern.append(KSParser::D_DOUBLE);
-    newList.append("diameter"); pattern.append(KSParser::D_FLOAT);
-    newList.append("extent"); pattern.append(KSParser::D_QSTRING); 
-    newList.append("albedo"); pattern.append(KSParser::D_FLOAT); 
-    newList.append("rot_period"); pattern.append(KSParser::D_FLOAT); 
-    newList.append("per_y"); pattern.append(KSParser::D_FLOAT); 
-    newList.append("moid"); pattern.append(KSParser::D_DOUBLE); 
-    newList.append("class"); pattern.append(KSParser::D_QSTRING); 
-    KSParser asteroidParser(QString("asteroids.dat"), '#', ',', pattern, newList);
+    QList< QPair<QString,KSParser::DataTypes> > sequence;
+    sequence.append(qMakePair(QString("full name"),KSParser::D_QSTRING)); //name
+    sequence.append(qMakePair(QString("epoch_mjd"),KSParser::D_INT)); //epoch
+    sequence.append(qMakePair(QString("q"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("a"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("e"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("i"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("w"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("om"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("ma"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("tp_calc"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("orbit_id"),KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("H"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("G"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("neo"),KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("tp_calc"),KSParser::D_DOUBLE)); 
+    sequence.append(qMakePair(QString("M2"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("diameter"),KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("extent"),KSParser::D_QSTRING)); 
+    sequence.append(qMakePair(QString("albedo"),KSParser::D_FLOAT)); 
+    sequence.append(qMakePair(QString("rot_period"),KSParser::D_FLOAT)); 
+    sequence.append(qMakePair(QString("per_y"),KSParser::D_FLOAT)); 
+    sequence.append(qMakePair(QString("moid"),KSParser::D_DOUBLE)); 
+    sequence.append(qMakePair(QString("class"),KSParser::D_QSTRING)); 
+    KSParser asteroidParser(QString("asteroids.dat"), '#', ',', sequence);
     
     QHash<QString,QVariant> ans;
     while (asteroidParser.hasNextRow()){
 	ans = asteroidParser.ReadNextRow();
 	full_name = ans["full name"].toString();
+	full_name = full_name.remove( '"' ).trimmed();
         int catN  = full_name.section( " ", 0, 0 ).toInt();
         name = full_name.section( " ", 1, -1 );
         mJD  = ans["epoch_mjd"].toInt();

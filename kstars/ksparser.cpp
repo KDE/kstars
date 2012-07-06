@@ -21,10 +21,10 @@
 
 
 //TODO: 
-KSParser::KSParser(QString filename, char skipChar, char delimiter, QList<DataTypes> pattern, QList<QString> names)
-		  :m_Filename(filename),pattern(pattern),names(names),skipChar(skipChar){
-    if (!m_FileReader.open(m_Filename) || pattern.length() != names.length()) {
-        kWarning() <<"Unable to open file!";
+KSParser::KSParser(QString filename, char skipChar, char delimiter, QList< QPair<QString,DataTypes> > sequence)
+		  :m_Filename(filename),skipChar(skipChar),sequence(sequence) {
+    if (!m_FileReader.open(m_Filename)) {
+        kWarning() <<"Unable to open file: "<<filename;
         readFunctionPtr = &KSParser::DummyCSVRow;
     } else  readFunctionPtr = &KSParser::ReadCSVRow;
 
@@ -78,33 +78,33 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
 	}
 	
 	*/
-        if (separated.length() != pattern.length())
+        if (separated.length() != sequence.length())
             continue;
-        for (int i=0; i<pattern.length(); i++) {
+        for (int i=0; i<sequence.length(); i++) {
 	    bool ok;
-            switch (pattern[i]){
+            switch (sequence[i].second){
                 case D_QSTRING:
-                    newRow[names[i]]=separated[i];
+                    newRow[sequence[i].first]=separated[i];
                     break;
                 case D_DOUBLE:
-                    newRow[names[i]]=separated[i].toDouble(&ok);
+                    newRow[sequence[i].first]=separated[i].toDouble(&ok);
 		    if (!ok) {
 		      kWarning() <<  "toDouble Failed at line : " << line;
-		      newRow[names[i]] = EBROKEN_DOUBLE;
+		      newRow[sequence[i].first] = EBROKEN_DOUBLE;
 		    }
                     break;
                 case D_INT:
-                    newRow[names[i]]=separated[i].toInt(&ok);
+                    newRow[sequence[i].first]=separated[i].toInt(&ok);
 		    if (!ok) {
 		      if (!ok) kWarning() << "toInt Failed at line : "<< line;
-		      newRow[names[i]] = EBROKEN_INT;
+		      newRow[sequence[i].first] = EBROKEN_INT;
 		    }
                     break;
                 case D_FLOAT:
-                    newRow[names[i]]=separated[i].toFloat(&ok);
+                    newRow[sequence[i].first]=separated[i].toFloat(&ok);
 		    if (!ok) {
 		      if (!ok) kWarning() << "toFloat Failed at line : "<< line;
-		      newRow[names[i]] = EBROKEN_FLOATS;
+		      newRow[sequence[i].first] = EBROKEN_FLOATS;
 		    }
                     break;
             }
@@ -128,19 +128,19 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
 QHash<QString,QVariant>  KSParser::DummyCSVRow() {
     //TODO: allot 0 or "null" to every position
     QHash<QString,QVariant> newRow;
-    for (int i=0; i<pattern.length(); i++){
-            switch (pattern[i]){
+    for (int i=0; i<sequence.length(); i++){
+           switch (sequence[i].second){
                 case D_QSTRING:
-                    newRow[names[i]]="Null";
+                    newRow[sequence[i].first]="Null";
                     break;
                 case D_DOUBLE:
-                    newRow[names[i]]=0.0;
+                    newRow[sequence[i].first]=0.0;
                     break;
                 case D_INT:
-                    newRow[names[i]]=0;
+                    newRow[sequence[i].first]=0;
                     break;
                 case D_FLOAT:
-                    newRow[names[i]]=0.0;
+                    newRow[sequence[i].first]=0.0;
                     break;
             }
         }
