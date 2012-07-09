@@ -25,6 +25,10 @@
   <listitem><para><link linkend="ai-utime">Universal Time</link></para></listitem>
 </itemizedlist>
 
+<itemizedlist><title>Instrumentation</title>
+  <listitem><para><link linkend="ai-telescopes">Telescopes</link></para></listitem>
+</itemizedlist>
+
 <itemizedlist><title>Physics</title>
   <listitem><para><link linkend="ai-blackbody">Blackbody Radiation</link></para></listitem>
   <listitem><para><link linkend="ai-darkmatter">Dark Matter</link></para></listitem>

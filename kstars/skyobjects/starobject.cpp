@@ -386,7 +386,7 @@ QString StarObject::greekLetter( bool gchar ) const {
     return letter;
 }
 
-QString StarObject::constell() const {
+QString StarObject::constell() const { // FIXME: Move this somewhere else, make this static, and give it a better name. Mostly for code cleanliness. Also, try to put it in a DB.
     QString code = name2().mid(4,3);
     if ( code == "And" ) return QString("Andromedae");
     if ( code == "Ant" ) return QString("Antliae");
