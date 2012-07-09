@@ -32,6 +32,8 @@ WIView::WIView ( QObject *parent) : QObject(parent)
     baseView->setSource(QUrl("/home/sam/kstars/kstars/tools/WhatsInteresting/Base.qml"));
     baseObj = dynamic_cast<QObject *> (baseView->rootObject());
 
+    soTypeTextObj = baseObj->findChild<QObject *>("soTypeTextObj") ;
+
     catListObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("catListObj");
     connect(catListObj, SIGNAL(catListItemClicked(QString)), this, SLOT(onCatListItemClicked(QString)));
     soListObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("soListObj");
@@ -41,6 +43,7 @@ WIView::WIView ( QObject *parent) : QObject(parent)
     nextObj  = baseObj->findChild<QObject *>("nextObj");
     connect(nextObj, SIGNAL(nextObjTextClicked()), this, SLOT(onNextObjTextClicked()));
 
+    baseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     baseView->show();
 }
 
@@ -52,46 +55,62 @@ void WIView::onCatListItemClicked(QString category)
     {
         kDebug()<<"Planetary Objects";
         ctxt->setContextProperty("catListModel", QVariant::fromValue(m->returnCatListModel( ModelManager::PlanetaryObjects )));
+        soTypeTextObj->setProperty("text", category);
+        soTypeTextObj->setProperty("visible", true);
     }
     else if (category == "Deep-sky Objects")
     {
         ctxt->setContextProperty("catListModel", QVariant::fromValue(m->returnCatListModel( ModelManager::DeepSkyObjects )));
+        soTypeTextObj->setProperty("text", category);
+        soTypeTextObj->setProperty("visible", true);
     }
     else if (category == "Planets")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Planets ));
         catListObj->setProperty("visible", false);
         soListObj->setProperty("visible", true);
+        soTypeTextObj->setProperty("text", category);
+        soTypeTextObj->setProperty("visible", true);
     }
     else if (category == "Stars")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Stars ));
         catListObj->setProperty("visible", false);
         soListObj->setProperty("visible", true);
+        soTypeTextObj->setProperty("text", category);
+        soTypeTextObj->setProperty("visible", true);
     }
     else if (category == "Galaxies")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Galaxies ));
         catListObj->setProperty("visible", false);
         soListObj->setProperty("visible", true);
+        soTypeTextObj->setProperty("text", category);
+        soTypeTextObj->setProperty("visible", true);
     }
     else if (category == "Constellations")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Constellations ));
         catListObj->setProperty("visible", false);
         soListObj->setProperty("visible", true);
+        soTypeTextObj->setProperty("text", category);
+        soTypeTextObj->setProperty("visible", true);
     }
     else if (category == "Star Clusters")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Star_Clusters ));
         catListObj->setProperty("visible", false);
         soListObj->setProperty("visible", true);
+        soTypeTextObj->setProperty("text", category);
+        soTypeTextObj->setProperty("visible", true);
     }
     else if (category == "Nebulae")
     {
         ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Nebulae ));
         catListObj->setProperty("visible", false);
         soListObj->setProperty("visible", true);
+        soTypeTextObj->setProperty("text", category);
+        soTypeTextObj->setProperty("visible", true);
     }
 }
 
@@ -110,6 +129,8 @@ void WIView::onSoListItemClicked(QString type, int index)
         return;
     }
     kDebug()<<soitem->getName()<<soitem->getType();
+    soTypeTextObj->setProperty("text", type);
+    soTypeTextObj->setProperty("visible", true);
 
     soListObj->setProperty("visible", false);
     loadDetailsView(soitem , index);

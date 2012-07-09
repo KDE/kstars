@@ -38,7 +38,7 @@ public slots:
     void onSoListItemClicked(QString, int index);
     void onNextObjTextClicked();
 private:
-    QObject *baseObj, *catListObj, *soListObj, *detailsViewObj, *nextObj;
+    QObject *baseObj, *catListObj, *soListObj, *detailsViewObj, *nextObj, *soTypeTextObj;
     QDeclarativeContext *ctxt;
     QDeclarativeView *baseListView;
     QDeclarativeView *planetaryListView;

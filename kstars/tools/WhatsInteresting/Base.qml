@@ -4,6 +4,7 @@ Rectangle {
     id : base
     width: 333
     height: 575
+    anchors.fill: parent
     gradient: Gradient {
         GradientStop {
             position: 0
@@ -261,11 +262,30 @@ Rectangle {
                 y: 285
                 width: 80
                 height: 15
+                color: "#ffffff"
                 text: qsTr("text")
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 font.pixelSize: 12
             }
         }
+    }
+
+    Text {
+        id: soTypeText
+        objectName: "soTypeTextObj"
+        x: 189
+        y: 46
+        width: 130
+        height: 20
+        color: "#568656"
+        text: qsTr("text")
+        font.underline: true
+        font.italic: true
+        font.bold: true
+        verticalAlignment: Text.AlignBottom
+        horizontalAlignment: Text.AlignRight
+        font.pixelSize: 12
+        visible: false
     }
 }
