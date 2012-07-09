@@ -25,23 +25,66 @@
 #include <QVariant>
 #include "ksfilereader.h"
 
+/**
+ * @brief Generic class for text file parsers used in KStars.
+ * Read rows using ReadCSVRow() regardless of the type of parser.
+ **/
 class KSParser
 {
 public:
     enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE};
-    //Constructor to return a CSV Parser
-    KSParser(QString filename, char skipChar, char delimiter, 
-	     QList< QPair<QString,DataTypes> > sequence) __attribute__((cdecl));
-    //Constructor to return a Fixed Width Parser
-    KSParser(QString filename, char skipChar, QList<int> widths) __attribute__((cdecl));
+    /**
+     * @brief Constructor to return a CSV parsing instance of a KSParser type object. 
+     *
+     * @param filename Filename of source file
+     * @param skipChar Character signifying a comment line
+     * @param sequence QList of QPairs of the form "field name,data type" 
+     * @param delimiter separate on which character. default ','
+     **/
+    KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence,
+             char delimiter = ',') __attribute__((cdecl));
+
+    /**
+     * @brief onstructor to return a Fixed Width parsing instance of a KSParser type object. 
+     *
+     * @param filename Filename of source file
+     * @param skipChar Character signifying a comment line
+     * @param sequence QList of QPairs of the form "field name,data type" 
+     * @param widths QList of the width sequence eg 4,5,10
+     **/
+    KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, 
+             QList<int> widths) __attribute__((cdecl));
+    /**
+     * @brief ReadNextRow is a generic function used to read the next row of a text file.
+     * The contructor changes the function pointer to the appropriate function.
+     * Returns the row as <"column name", value>
+     *
+     * @return QHash< QString, QVariant >
+     **/
     QHash<QString,QVariant>  ReadNextRow();
     bool hasNextRow();
 private:
-    //Function Pointer
+
+    /**
+     * @brief The Function Pointer used by ReadNextRow to call the appropriate function
+     *
+     * @return QHash< QString, QVariant >
+     **/
     QHash<QString,QVariant> (KSParser::*readFunctionPtr)();
     
+    /**
+     * @brief Returns a single row from CSV. If hasNextRow is false, returns a
+     * row with default values.
+     *
+     * @return QHash< QString, QVariant >
+     **/
     QHash<QString,QVariant>  ReadCSVRow();
     QHash<QString,QVariant>  ReadFixedWidthRow();
+    /**
+     * @brief Returns a default value row based on the currently assigned sequence.
+     *
+     * @return QHash< QString, QVariant >
+     **/
     QHash<QString,QVariant>  DummyCSVRow();
     
     KSFileReader m_FileReader;

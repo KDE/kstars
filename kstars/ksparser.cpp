@@ -20,17 +20,19 @@
 #include <klocale.h>
 
 
-//TODO: 
-KSParser::KSParser(QString filename, char skipChar, char delimiter, QList< QPair<QString,DataTypes> > sequence)
+KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, char delimiter)
 		  :m_Filename(filename),skipChar(skipChar),sequence(sequence) {
     if (!m_FileReader.open(m_Filename)) {
         kWarning() <<"Unable to open file: "<<filename;
         readFunctionPtr = &KSParser::DummyCSVRow;
-    } else  readFunctionPtr = &KSParser::ReadCSVRow;
+    } else  { readFunctionPtr = &KSParser::ReadCSVRow;
+    kDebug() <<"File opened: "<<filename;
+    }
 
 }
 
-KSParser::KSParser(QString filename, char skipChar, QList<int> widths) {
+KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, 
+             QList<int> widths) {
     
         readFunctionPtr = &KSParser::ReadFixedWidthRow;
 
@@ -46,8 +48,10 @@ QHash<QString,QVariant>  KSParser::ReadNextRow() {
 
 QHash<QString,QVariant>  KSParser::ReadCSVRow() {
    
-    //This signifies that someone tried to read a row
-    //without checking if hasNextRow is true
+    /**
+     * This signifies that someone tried to read a row
+    without checking if hasNextRow is true
+    */
     if (m_FileReader.hasMoreLines() == false)
         return DummyCSVRow(); 
     
@@ -89,21 +93,21 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
                 case D_DOUBLE:
                     newRow[sequence[i].first]=separated[i].toDouble(&ok);
 		    if (!ok) {
-		      kWarning() <<  "toDouble Failed at line : " << line;
+		      kWarning() <<  "toDouble Failed at field: "<< sequence[i].first <<" & line : " << line;
 		      newRow[sequence[i].first] = EBROKEN_DOUBLE;
 		    }
                     break;
                 case D_INT:
                     newRow[sequence[i].first]=separated[i].toInt(&ok);
 		    if (!ok) {
-		      if (!ok) kWarning() << "toInt Failed at line : "<< line;
+		      if (!ok) kWarning() << "toInt Failed at field: "<< sequence[i].first <<" & line : " << line;
 		      newRow[sequence[i].first] = EBROKEN_INT;
 		    }
                     break;
                 case D_FLOAT:
                     newRow[sequence[i].first]=separated[i].toFloat(&ok);
 		    if (!ok) {
-		      if (!ok) kWarning() << "toFloat Failed at line : "<< line;
+		      if (!ok) kWarning() << "toFloat Failed at field: "<< sequence[i].first <<" & line : " << line;
 		      newRow[sequence[i].first] = EBROKEN_FLOATS;
 		    }
                     break;
