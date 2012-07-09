@@ -74,23 +74,22 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
 	 *    has the last character as '"'
 	 *
 	*/
+         //TODO: tests pending
 	QString iterString;
         QList <QString> quoteCombined;
-        //TODO: needs refactoring
         QStringList::iterator iter;
         if (separated.length() == 0) continue;
-	for (iter=separated.begin(); iter!= separated.end(); iter++){
+	for (iter=separated.begin(); iter!= separated.end(); iter++) {
             QList <QString> queue;
 	    if ((*iter)[0] == '"') {
                 iterString = *iter;
-                if (iterString[iterString.length()-1] == '"')
-                    queue.append((*iter).remove( '"' ));
-                while (iterString[iterString.length()-1] != '"' && iter!= separated.end()){
-//                     kDebug()<<*iter<<" | length: "<<iterString.size()<<" char: "<<iterString.at(iterString.size()-1);
+                while (iterString[iterString.length()-1] != '"' && iter!= separated.end()) {
                     queue.append((*iter));
                     iter++;
                     iterString = *iter;
                 }
+                if (iterString[iterString.length()-1] == '"')
+                    queue.append((*iter).remove( '"' ));
 	    }
 	    else queue.append(*iter);
             QString join;
