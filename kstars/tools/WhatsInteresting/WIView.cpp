@@ -19,10 +19,10 @@
 #include "QGraphicsObject"
 #include "skymap.h"
 
-WIView::WIView ( QObject *parent) : QObject(parent)
+WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
 {
 
-    m = new ModelManager();
+    m = new ModelManager(obs);
 
     QDeclarativeView *baseView;
     baseView = new QDeclarativeView();

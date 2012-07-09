@@ -18,20 +18,62 @@
 
 #include "wiusersettings.h"
 #include "WIView.h"
+#include "obsconditions.h"
 #include "kdebug.h"
 
 WIUserSettings::WIUserSettings(QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags)
 {
     setupUi(this);
-    connect(this, SIGNAL(finished(int)), this, SLOT(slotFinished(int)));
+    telescopeCheck = equipTypePage->findChild<QCheckBox*>("telescopeCheck");
+    binocularsCheck = equipTypePage->findChild<QCheckBox*>("binocularsCheck");
+    noEquipCheck = equipTypePage->findChild<QCheckBox*>("noEquipCheck");
+    makeConnections();
 }
 
 WIUserSettings::~WIUserSettings() {}
 
 void WIUserSettings::slotFinished( int )
 {
-    wi = new WIView();
+    eq = noEquipCheck->isEnabled() ? (ObsConditions::None) : (telescopeCheck->isChecked()
+    ?(binocularsCheck->isChecked() ? ObsConditions::Both : ObsConditions::Telescope)
+    :(binocularsCheck->isChecked() ? ObsConditions::Binoculars : ObsConditions::None));
+    type = ObsConditions::Reflector;
+
+    wi = new WIView(0, new ObsConditions(bortleClass->value(), eq, type));
 }
 
+void WIUserSettings::makeConnections()
+{
+    connect(this, SIGNAL(finished(int)), this, SLOT(slotFinished(int)));
+    connect(lightPollutionPage->findChild<QSlider*>("bortleClass"),
+        SIGNAL(valueChanged(int)), this, SLOT(slotSetBortleClass(int)));
+    connect(telescopeCheck, SIGNAL( toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
+    connect(binocularsCheck, SIGNAL( toggled(bool)), this, SLOT(slotBinocularCheck(bool)));
+    connect(noEquipCheck, SIGNAL( toggled(bool)), this, SLOT(slotNoEquipCheck(bool)));
+}
+
+void WIUserSettings::slotSetBortleClass(int value)
+{
+    bortleClass->setValue(value);
+}
+
+void WIUserSettings::slotTelescopeCheck(bool on)
+{
+    telescopeCheck->setChecked(on);
+    if (on)
+        noEquipCheck->setEnabled(false);
+}
+
+void WIUserSettings::slotBinocularsCheck(bool on)
+{
+    binocularsCheck->setChecked(on);
+    if (on)
+        noEquipCheck->setEnabled(false);
+}
+
+void WIUserSettings::slotNoEquipCheck(bool on)
+{
+    noEquipCheck->setChecked(on);
+}
 
 #include "wiusersettings.moc"

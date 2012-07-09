@@ -68,7 +68,7 @@
    </widget>
   </widget>
   <widget class="QWizardPage" name="lightPollutionPage">
-   <widget class="QSlider" name="horizontalSlider">
+   <widget class="QSlider" name="bortleClass">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -191,7 +191,7 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="telescopeCheck">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -204,7 +204,7 @@
      <string>Telescope</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_2">
+   <widget class="QCheckBox" name="binocularsCheck">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -217,7 +217,7 @@
      <string>Binoculars</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_3">
+   <widget class="QCheckBox" name="noEquipCheck">
     <property name="geometry">
      <rect>
       <x>260</x>
@@ -271,7 +271,7 @@
      <string>Aperture</string>
     </property>
    </widget>
-   <widget class="KDoubleNumInput" name="kdoublenuminput">
+   <widget class="KDoubleNumInput" name="aperture">
     <property name="geometry">
      <rect>
       <x>360</x>
@@ -281,7 +281,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="KComboBox" name="kcombobox">
+   <widget class="KComboBox" name="equipmentType">
     <property name="geometry">
      <rect>
       <x>360</x>

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          wiusersettings.h  -  K Desktop Planetarium
+                          obsconditions.h  -  K Desktop Planetarium
                              -------------------
-    begin                : 2012/09/07
+    begin                : 2012/10/07
     copyright            : (C) 2012 by Samikshan Bairagya
     email                : samikshan@gmail.com
  ***************************************************************************/
@@ -15,34 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef WI_USER_SETTINGS
-#define WI_USER_SETTINGS
+#ifndef OBS_CONDITIONS_H
+#define OBS_CONDITIONS_H
 
-class WIView;
-
-#include "obsconditions.h"
-#include <QWizard>
-#include "ui_wiusersettings.h"
-
-class WIUserSettings : public QWizard , public Ui::WIUserSettingsUI
+class ObsConditions
 {
-    Q_OBJECT
 public:
-    WIUserSettings(QWidget* parent = 0, Qt::WindowFlags flags = 0);
-    ~WIUserSettings();
-
-public slots:
-    void slotFinished(int);
-    void slotSetBortleClass(int);
-    void slotTelescopeCheck(bool);
-    void slotBinocularsCheck(bool);
-    void slotNoEquipCheck(bool);
+    enum Equipment {Telescope = 0, Binoculars, Both, None };
+    enum EquipmentType { Reflector = 0, Refractor };
+    ObsConditions(int bortleClass, Equipment eq, EquipmentType t);
+    ~ObsConditions();
+    void setEquipment(Equipment eq);
+    void setEquipmentType(EquipmentType t);
+    float getTrueMagLim();
 
 private:
-    void makeConnections();
-    WIView *wi;
-    ObsConditions::Equipment eq;
-    ObsConditions::EquipmentType type;
+    int bortleClass;
+    Equipment equip;
+    EquipmentType type;
 };
 
 #endif

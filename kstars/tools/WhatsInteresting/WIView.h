@@ -21,12 +21,13 @@
 #include "skyobject.h"
 #include "modelmanager.h"
 #include "skyobjlistmodel.h"
+#include "obsconditions.h"
 
 class WIView : public QObject
 {
     Q_OBJECT
 public:
-    WIView(QObject *parent = 0);
+    WIView(QObject *parent = 0, ObsConditions *obs = 0);
     ~WIView();
     void manageViews(int TYPE);    //display view
     void loadDetailsView( SkyObjItem* soitem, int index);

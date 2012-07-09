@@ -18,13 +18,14 @@
 //#include <QStandardItemModel>
 #include "skyobjlistmodel.h"
 #include "kstarsdata.h"
+#include "obsconditions.h"
 
 class ModelManager
 {
 public:
     enum LIST_TYPE {BaseList, PlanetaryObjects, DeepSkyObjects, Planets, Satellites,
                     Stars, Galaxies, Constellations, Star_Clusters, Nebulae};
-    ModelManager();
+    ModelManager(ObsConditions *obs);
     ~ModelManager();
     void updateModels();
 

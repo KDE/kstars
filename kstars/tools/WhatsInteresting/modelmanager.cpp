@@ -21,7 +21,7 @@
 #include "skymapcomposite.h"
 #include "skyobject.h"
 
-ModelManager::ModelManager()
+ModelManager::ModelManager(ObsConditions *obs)
 {
     planetsModel = new SkyObjListModel();
     starsModel = new SkyObjListModel();

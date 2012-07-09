@@ -130,6 +130,7 @@ set(libkstarstools_SRCS
     tools/WhatsInteresting/modelmanager.cpp
     tools/WhatsInteresting/skyobjitem.cpp
     tools/WhatsInteresting/wiusersettings.cpp
+    tools/WhatsInteresting/obsconditions.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
