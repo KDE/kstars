@@ -88,26 +88,27 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
 	    bool ok;
             switch (sequence[i].second){
                 case D_QSTRING:
+                case D_SKIP:
                     newRow[sequence[i].first]=separated[i];
                     break;
                 case D_DOUBLE:
                     newRow[sequence[i].first]=separated[i].toDouble(&ok);
 		    if (!ok) {
-		      kWarning() <<  "toDouble Failed at field: "<< sequence[i].first <<" & line : " << line;
+		      kDebug() <<  "toDouble Failed at field: "<< sequence[i].first <<" & line : " << line;
 		      newRow[sequence[i].first] = EBROKEN_DOUBLE;
 		    }
                     break;
                 case D_INT:
                     newRow[sequence[i].first]=separated[i].toInt(&ok);
 		    if (!ok) {
-		      if (!ok) kWarning() << "toInt Failed at field: "<< sequence[i].first <<" & line : " << line;
+		      kDebug() << "toInt Failed at field: "<< sequence[i].first <<" & line : " << line;
 		      newRow[sequence[i].first] = EBROKEN_INT;
 		    }
                     break;
                 case D_FLOAT:
                     newRow[sequence[i].first]=separated[i].toFloat(&ok);
 		    if (!ok) {
-		      if (!ok) kWarning() << "toFloat Failed at field: "<< sequence[i].first <<" & line : " << line;
+		      kWarning() << "toFloat Failed at field: "<< sequence[i].first <<" & line : " << line;
 		      newRow[sequence[i].first] = EBROKEN_FLOATS;
 		    }
                     break;
@@ -116,10 +117,6 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
         success = true;
         
     }
-    
-//     if (m_FileReader.hasMoreLines() == false)
-//         m_FileReader.close??
-    
     return newRow;
 }
 
@@ -156,4 +153,3 @@ bool KSParser::hasNextRow() {
     return m_FileReader.hasMoreLines();
     
 }
-

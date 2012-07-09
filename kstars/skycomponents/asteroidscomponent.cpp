@@ -104,8 +104,8 @@ void AsteroidsComponent::loadData()
     QList<KSParser::DataTypes> pattern;
     QList<QString> newList;
     QList< QPair<QString,KSParser::DataTypes> > sequence;
-    sequence.append(qMakePair(QString("full name"),KSParser::D_QSTRING)); //name
-    sequence.append(qMakePair(QString("epoch_mjd"),KSParser::D_INT)); //epoch
+    sequence.append(qMakePair(QString("full name"),KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("epoch_mjd"),KSParser::D_INT));
     sequence.append(qMakePair(QString("q"),KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("a"),KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("e"),KSParser::D_DOUBLE));
@@ -113,13 +113,13 @@ void AsteroidsComponent::loadData()
     sequence.append(qMakePair(QString("w"),KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("om"),KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("ma"),KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("tp_calc"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("tp_calc"),KSParser::D_SKIP));
     sequence.append(qMakePair(QString("orbit_id"),KSParser::D_QSTRING));
     sequence.append(qMakePair(QString("H"),KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("G"),KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("neo"),KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("tp_calc"),KSParser::D_DOUBLE)); 
-    sequence.append(qMakePair(QString("M2"),KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("tp_calc"),KSParser::D_SKIP)); 
+    sequence.append(qMakePair(QString("M2"),KSParser::D_SKIP));
     sequence.append(qMakePair(QString("diameter"),KSParser::D_FLOAT));
     sequence.append(qMakePair(QString("extent"),KSParser::D_QSTRING)); 
     sequence.append(qMakePair(QString("albedo"),KSParser::D_FLOAT)); 
@@ -142,7 +142,7 @@ void AsteroidsComponent::loadData()
         e    = ans["e"].toDouble();
         dble_i = ans["i"].toDouble();
         dble_w = ans["w"].toDouble();
-        dble_N = ans["om"].toDouble(); //TODO: confirm if is this correct?
+        dble_N = ans["om"].toDouble();
         dble_M = ans["ma"].toDouble();
         orbit_id = ans["orbit_id"].toString();
         orbit_id.remove( '"' );

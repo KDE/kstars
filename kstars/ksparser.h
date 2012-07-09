@@ -32,7 +32,18 @@
 class KSParser
 {
 public:
-    enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE};
+    /**
+     * @brief DataTypes for building sequence
+     * D_QSTRING QString Type
+     * D_INT Integer  Type
+     * D_FLOAT Floating Point Type
+     * D_DOUBLE Double PRecision Type
+     * D_SKIP Not Needed. This string is not converted from QString
+     * 
+     **/
+    enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE, D_SKIP};
+    
+    
     /**
      * @brief Constructor to return a CSV parsing instance of a KSParser type object. 
      *
@@ -43,6 +54,7 @@ public:
      **/
     KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence,
              char delimiter = ',') __attribute__((cdecl));
+             
 
     /**
      * @brief onstructor to return a Fixed Width parsing instance of a KSParser type object. 
@@ -54,6 +66,8 @@ public:
      **/
     KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, 
              QList<int> widths) __attribute__((cdecl));
+
+             
     /**
      * @brief ReadNextRow is a generic function used to read the next row of a text file.
      * The contructor changes the function pointer to the appropriate function.
@@ -62,6 +76,12 @@ public:
      * @return QHash< QString, QVariant >
      **/
     QHash<QString,QVariant>  ReadNextRow();
+    
+    /**
+     * @brief Returns True if there are more rows to be read
+     *
+     * @return bool
+     **/
     bool hasNextRow();
 private:
 
