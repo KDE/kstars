@@ -133,7 +133,7 @@ void AsteroidsComponent::loadData()
     while (asteroidParser.hasNextRow()){
 	ans = asteroidParser.ReadNextRow();
 	full_name = ans["full name"].toString();
-	full_name = full_name.remove( '"' ).trimmed();
+	full_name = full_name.trimmed();
         int catN  = full_name.section( " ", 0, 0 ).toInt();
         name = full_name.section( " ", 1, -1 );
         mJD  = ans["epoch_mjd"].toInt();

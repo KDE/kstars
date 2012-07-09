@@ -111,10 +111,11 @@ private:
     QString m_Filename;
     int m_CurrentRowID;
     bool moreRows;
-    char skipChar;
+    char m_skipChar;
     
-    QList< QPair<QString,DataTypes> > sequence;
-    QList<int> widths;
+    QList< QPair<QString,DataTypes> > m_sequence;
+    QList<int> m_widths;
+    char m_delimiter;
     
 };
 

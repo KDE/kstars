@@ -21,12 +21,13 @@
 
 
 KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, char delimiter)
-		  :m_Filename(filename),skipChar(skipChar),sequence(sequence) {
+		  :m_Filename(filename),m_skipChar(skipChar),m_sequence(sequence),m_delimiter(delimiter) {
     if (!m_FileReader.open(m_Filename)) {
         kWarning() <<"Unable to open file: "<<filename;
         readFunctionPtr = &KSParser::DummyCSVRow;
-    } else  { readFunctionPtr = &KSParser::ReadCSVRow;
-    kDebug() <<"File opened: "<<filename;
+    } else  {
+        readFunctionPtr = &KSParser::ReadCSVRow;
+        kDebug() <<"File opened: "<<filename;
     }
 
 }
@@ -62,11 +63,10 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
     
     while (m_FileReader.hasMoreLines() && success == false) {
         line = m_FileReader.readLine();
-	if (line[0] == skipChar) continue;
-        separated = line.split(",");
+	if (line[0] == m_skipChar) continue;
+        separated = line.split(m_delimiter);
 	/*
-	 * TODO: here's how to go about the parsing
-	 * 1) split along ,
+	 * 1) split along delimiter eg. comma (,)
 	 * 2) check first and last characters. 
 	 *    if the first letter is  '"',
 	 *    then combine the nexto ones in it till
@@ -74,42 +74,61 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
 	 *    has the last character as '"'
 	 *
 	*/
-	/*
-	for (QStringListIterator i; i!= separated.end(); ++i){
-	    if (*i[0] == '#') {
-		
+	QString iterString;
+        QList <QString> quoteCombined;
+        //TODO: needs refactoring
+        QStringList::iterator iter;
+        if (separated.length() == 0) continue;
+	for (iter=separated.begin(); iter!= separated.end(); iter++){
+            QList <QString> queue;
+	    if ((*iter)[0] == '"') {
+                iterString = *iter;
+                if (iterString[iterString.length()-1] == '"')
+                    queue.append((*iter).remove( '"' ));
+                while (iterString[iterString.length()-1] != '"' && iter!= separated.end()){
+//                     kDebug()<<*iter<<" | length: "<<iterString.size()<<" char: "<<iterString.at(iterString.size()-1);
+                    queue.append((*iter));
+                    iter++;
+                    iterString = *iter;
+                }
 	    }
+	    else queue.append(*iter);
+            QString join;
+            QString col_result;
+            foreach (join, queue)
+                col_result+=join;
+            quoteCombined.append(col_result);
 	}
-	
-	*/
-        if (separated.length() != sequence.length())
+	separated=quoteCombined;
+        
+        if (separated.length() != m_sequence.length())
             continue;
-        for (int i=0; i<sequence.length(); i++) {
+        for (int i=0; i<m_sequence.length(); i++) {
 	    bool ok;
-            switch (sequence[i].second){
+            switch (m_sequence[i].second){
                 case D_QSTRING:
                 case D_SKIP:
-                    newRow[sequence[i].first]=separated[i];
+                    newRow[m_sequence[i].first]=separated[i];
                     break;
                 case D_DOUBLE:
-                    newRow[sequence[i].first]=separated[i].toDouble(&ok);
+                    newRow[m_sequence[i].first]=separated[i].toDouble(&ok);
 		    if (!ok) {
-		      kDebug() <<  "toDouble Failed at field: "<< sequence[i].first <<" & line : " << line;
-		      newRow[sequence[i].first] = EBROKEN_DOUBLE;
+		      kDebug() <<  "toDouble Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+		      newRow[m_sequence[i].first] = EBROKEN_DOUBLE;
 		    }
                     break;
                 case D_INT:
-                    newRow[sequence[i].first]=separated[i].toInt(&ok);
+                    newRow[m_sequence[i].first]=separated[i].toInt(&ok);
 		    if (!ok) {
-		      kDebug() << "toInt Failed at field: "<< sequence[i].first <<" & line : " << line;
-		      newRow[sequence[i].first] = EBROKEN_INT;
+		      kDebug() << "toInt Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+		      newRow[m_sequence[i].first] = EBROKEN_INT;
 		    }
                     break;
                 case D_FLOAT:
-                    newRow[sequence[i].first]=separated[i].toFloat(&ok);
+                    newRow[m_sequence[i].first]=separated[i].toFloat(&ok);
 		    if (!ok) {
-		      kWarning() << "toFloat Failed at field: "<< sequence[i].first <<" & line : " << line;
-		      newRow[sequence[i].first] = EBROKEN_FLOATS;
+		      kWarning() << "toFloat Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+		      newRow[m_sequence[i].first] = EBROKEN_FLOATS;
 		    }
                     break;
             }
@@ -129,19 +148,19 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
 QHash<QString,QVariant>  KSParser::DummyCSVRow() {
     //TODO: allot 0 or "null" to every position
     QHash<QString,QVariant> newRow;
-    for (int i=0; i<sequence.length(); i++){
-           switch (sequence[i].second){
+    for (int i=0; i<m_sequence.length(); i++){
+           switch (m_sequence[i].second){
                 case D_QSTRING:
-                    newRow[sequence[i].first]="Null";
+                    newRow[m_sequence[i].first]="Null";
                     break;
                 case D_DOUBLE:
-                    newRow[sequence[i].first]=0.0;
+                    newRow[m_sequence[i].first]=0.0;
                     break;
                 case D_INT:
-                    newRow[sequence[i].first]=0;
+                    newRow[m_sequence[i].first]=0;
                     break;
                 case D_FLOAT:
-                    newRow[sequence[i].first]=0.0;
+                    newRow[m_sequence[i].first]=0.0;
                     break;
             }
         }
