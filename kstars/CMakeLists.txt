@@ -256,6 +256,7 @@ set(libkstarswidgets_SRCS
 	widgets/infoboxwidget.cpp
 	widgets/genericcalendarwidget.cpp
 	widgets/moonphasecalendarwidget.cpp
+	widgets/kshelplabel.cpp
 )
 
 kde4_add_ui_files(libkstarswidgets_SRCS

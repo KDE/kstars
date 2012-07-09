@@ -22,6 +22,7 @@
 #include "Options.h"
 
 #include <QFile>
+#include <qnumeric.h>
 
 #include <kstandarddirs.h>
 #include <KUrl>
@@ -102,9 +103,9 @@ QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float he
     int ds = abs( dec.arcsec() );
 
     // Infinite and NaN sizes are replaced by the default size
-    if( !std::isfinite( height ) )
+    if( qIsFinite( height ) )
         height = dss_default_size;
-    if( !std::isfinite( width ) )
+    if( qIsFinite( width ) )
         width = dss_default_size;
 
     // Negative / zero sizes are replaced by the default size 

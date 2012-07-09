@@ -98,7 +98,8 @@ void SkyGLPainter::drawBuffer(int type)
         case 0: case 1: default:  TextureManager::bindTexture("star",             m_widget); break;
     }
 
-    glBlendFunc(GL_ONE, GL_ONE);
+    glEnable( GL_BLEND );
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
@@ -118,8 +119,6 @@ void SkyGLPainter::drawBuffer(int type)
 
 bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
 {
-    //don't draw things that are too small
-    if( width < 1.5 ) return false;
     bool visible = false;
     Vector2f vec = m_proj->toScreenVec(p,true,&visible);
     if(!visible) return false;
@@ -152,16 +151,29 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
         }
     }
     else {
+        QColor starColor;
+
+        // Set RGB values into QColor
         switch(sp) {
-        case 'o': case 'O': c = Vector3f( 153./255., 153./255., 255./255.); break;
-        case 'b': case 'B': c = Vector3f( 151./255., 233./255., 255./255.); break;
-        case 'a': case 'A': c = Vector3f( 153./255., 255./255., 255./255.); break;
-        case 'f': case 'F': c = Vector3f( 219./255., 255./255., 135./255.); break;
-        case 'g': case 'G': c = Vector3f( 255./255., 255./255., 153./255.); break;
-        case 'k': case 'K': c = Vector3f( 255./255., 193./255., 153./255.); break;
-        case 'm': case 'M': c = Vector3f( 255./255., 153./255., 153./255.); break;
-        case 'x':           c = Vector3f( m_pen[0], m_pen[1], m_pen[2]   ); break;
+        case 'o': case 'O': starColor.setRgb( 153, 153, 255); break;
+        case 'b': case 'B': starColor.setRgb( 151, 233, 255); break;
+        case 'a': case 'A': starColor.setRgb( 153, 255, 255); break;
+        case 'f': case 'F': starColor.setRgb( 219, 255, 135); break;
+        case 'g': case 'G': starColor.setRgb( 255, 255, 153); break;
+        case 'k': case 'K': starColor.setRgb( 255, 193, 153); break;
+        case 'm': case 'M': starColor.setRgb( 255, 153, 153); break;
+        case 'x':           starColor.setRgb( m_pen[0] * 255, m_pen[1] * 255, m_pen[2] *255 ); break;
         }
+
+        // Convert to HSV space using QColor's methods and adjust saturation.
+        int h, s, v;
+        starColor.getHsv( &h, &s, &v );
+        s = ( Options::starColorIntensity() / 10. ) * 200.; // Rewrite the saturation based on the star color intensity setting, 200 is the hard-wired max saturation, just to approximately match up with QPainter mode.
+        starColor.setHsv( h, s, v );
+
+        // Get RGB ratios and put them in 'c'
+        c = Vector3f( starColor.redF(), starColor.greenF(), starColor.blueF() );
+
     }
     for(int j = 0; j < 6; ++j) {
         m_color[type][i+j] = c;
@@ -295,12 +307,12 @@ bool SkyGLPainter::drawDeepSkyObject(DeepSkyObject* obj, bool drawImage)
             drawBuffer(type);
 
         const int i = 6*m_idx[type];
-        m_vertex[type][i + 0] = vec + r* Vector2f(-w,-h);
-        m_vertex[type][i + 1] = vec + r* Vector2f( w,-h);
-        m_vertex[type][i + 2] = vec + r* Vector2f(-w, h);
-        m_vertex[type][i + 3] = vec + r* Vector2f(-w, h);
-        m_vertex[type][i + 4] = vec + r* Vector2f( w,-h);
-        m_vertex[type][i + 5] = vec + r* Vector2f( w, h);
+        m_vertex[type][i + 0] = vec + r * Vector2f(-w,-h);
+        m_vertex[type][i + 1] = vec + r * Vector2f( w,-h);
+        m_vertex[type][i + 2] = vec + r * Vector2f(-w, h);
+        m_vertex[type][i + 3] = vec + r * Vector2f(-w, h);
+        m_vertex[type][i + 4] = vec + r * Vector2f( w,-h);
+        m_vertex[type][i + 5] = vec + r * Vector2f( w, h);
         Vector3f c( m_pen[0], m_pen[1], m_pen[2] );
 
         for(int j = 0; j < 6; ++j)
@@ -489,40 +501,16 @@ void SkyGLPainter::drawObservingList(const QList< SkyObject* >& obs)
     // texture changeable etc.
     // TODO: Draw labels when required
 
-    QVector<Vector2f> buffer( 6*obs.size() );
-    int i = 0;
-    foreach( SkyObject *obj, obs ) {
+     foreach( SkyObject *obj, obs ) {
         if( !m_proj->checkVisibility(obj) ) continue;
         bool visible;
         Vector2f vec = m_proj->toScreenVec(obj, true, &visible);
         if( !visible || !m_proj->onScreen(vec) ) continue;
-
-        const float w = 16.;
-        const float h = 16.;
-        
-        buffer[i + 0] = vec + Vector2f(-w,-h);
-        buffer[i + 1] = vec + Vector2f( w,-h);
-        buffer[i + 2] = vec + Vector2f(-w, h);
-        buffer[i + 3] = vec + Vector2f(-w, h);
-        buffer[i + 4] = vec + Vector2f( w,-h);
-        buffer[i + 5] = vec + Vector2f( w, h);
-
-        ++i;
+        const float size = 30.;
+	QImage obsmarker = TextureManager::getImage("obslistsymbol");
+	drawTexturedRectangle( obsmarker, vec, 0,size,size );
     }
 
-    TextureManager::bindTexture("obslistsymbol", m_widget);
-
-    glBlendFunc(GL_ONE, GL_ONE);
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-    glVertexPointer  (2,GL_FLOAT,0, buffer.data());
-    glTexCoordPointer(2,GL_FLOAT,0, &m_texcoord[0]);
-
-    glDrawArrays(GL_TRIANGLES, 0, 6*i);
-
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void SkyGLPainter::drawFlags()
