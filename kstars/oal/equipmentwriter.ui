@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -87,7 +87,7 @@
            <item row="5" column="1">
             <widget class="KComboBox" name="Type">
              <property name="focusPolicy">
-              <enum>Qt::TabFocus</enum>
+              <enum>Qt::StrongFocus</enum>
              </property>
              <item>
               <property name="text">
@@ -133,7 +133,7 @@
              <item>
               <widget class="KDoubleNumInput" name="Aperture">
                <property name="focusPolicy">
-                <enum>Qt::ClickFocus</enum>
+                <enum>Qt::StrongFocus</enum>
                </property>
                <property name="label">
                 <string/>
@@ -167,7 +167,7 @@
              <item>
               <widget class="KDoubleNumInput" name="FocalLength">
                <property name="focusPolicy">
-                <enum>Qt::ClickFocus</enum>
+                <enum>Qt::StrongFocus</enum>
                </property>
               </widget>
              </item>
@@ -190,7 +190,7 @@
            <item row="4" column="1">
             <widget class="QComboBox" name="driverComboBox">
              <property name="focusPolicy">
-              <enum>Qt::TabFocus</enum>
+              <enum>Qt::StrongFocus</enum>
              </property>
              <item>
               <property name="text">
@@ -290,7 +290,10 @@
              <item>
               <widget class="KDoubleNumInput" name="e_focalLength">
                <property name="focusPolicy">
-                <enum>Qt::TabFocus</enum>
+                <enum>Qt::StrongFocus</enum>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
                </property>
               </widget>
              </item>
@@ -334,7 +337,10 @@
            <item>
             <widget class="KDoubleNumInput" name="Fov">
              <property name="focusPolicy">
-              <enum>Qt::TabFocus</enum>
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="singleStep">
+              <double>0.100000000000000</double>
              </property>
             </widget>
            </item>
@@ -484,7 +490,7 @@
            <item row="4" column="1">
             <widget class="KDoubleNumInput" name="l_Factor">
              <property name="focusPolicy">
-              <enum>Qt::TabFocus</enum>
+              <enum>Qt::StrongFocus</enum>
              </property>
             </widget>
            </item>
@@ -664,14 +670,14 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
+  </customwidget>
+  <customwidget>
    <class>KDoubleNumInput</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
@@ -680,9 +686,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -697,13 +703,13 @@
   <tabstop>NewScope</tabstop>
   <tabstop>AddScope</tabstop>
   <tabstop>RemoveScope</tabstop>
-  <tabstop>e_Vendor</tabstop>
   <tabstop>EyepieceList</tabstop>
+  <tabstop>e_Vendor</tabstop>
+  <tabstop>e_Model</tabstop>
   <tabstop>e_focalLength</tabstop>
   <tabstop>Fov</tabstop>
   <tabstop>FovUnit</tabstop>
   <tabstop>NewEyepiece</tabstop>
-  <tabstop>e_Model</tabstop>
   <tabstop>AddEyepiece</tabstop>
   <tabstop>RemoveEyepiece</tabstop>
   <tabstop>LensList</tabstop>

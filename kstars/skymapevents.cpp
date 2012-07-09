@@ -576,7 +576,7 @@ void SkyMap::mousePressEvent( QMouseEvent *e ) {
         SkyObject* obj = data->skyComposite()->objectNearest( clickedPoint(), maxrad );
         setClickedObject( obj );
         if( obj )
-            setClickedPoint(  obj );
+            setClickedPoint( obj );
 
         switch( e->button() ) {
         case Qt::LeftButton:
