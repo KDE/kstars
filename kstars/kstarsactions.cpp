@@ -75,7 +75,7 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
-#include "tools/WhatsInteresting/WIView.h"
+#include "tools/WhatsInteresting/wiusersettings.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"
@@ -285,7 +285,8 @@ void KStars::slotWUT() {
 }
 
 void KStars::slotWI() {
-    wi = new WIView();
+    wi = new WIUserSettings(this);
+    wi->show();
 }
 
 void KStars::slotCalendar() {

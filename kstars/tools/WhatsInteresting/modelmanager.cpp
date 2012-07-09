@@ -58,8 +58,6 @@ void ModelManager::updateModels()
         SkyObject *o;
         if (o = data->skyComposite()->findByName( line ))
         {
-            kDebug()<<"Here";
-            kDebug() << o->name()<< o->typeName() ;
             switch (o->type())
             {
                 case 0:

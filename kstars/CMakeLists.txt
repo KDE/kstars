@@ -129,6 +129,7 @@ set(libkstarstools_SRCS
     tools/WhatsInteresting/WIView.cpp
     tools/WhatsInteresting/modelmanager.cpp
     tools/WhatsInteresting/skyobjitem.cpp
+    tools/WhatsInteresting/wiusersettings.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
@@ -193,6 +194,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/skycalendar.ui
 	tools/wutdialog.ui
 	tools/flagmanager.ui
+    tools/WhatsInteresting/wiusersettings.ui
         )
 
 

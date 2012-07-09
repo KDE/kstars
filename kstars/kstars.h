@@ -26,6 +26,7 @@
 #include "oal/equipmentwriter.h"
 #include "oal/observeradd.h"
 
+class WIUserSettings;
 // forward declaration is enough. We only need pointers
 class QPalette;
 class KActionMenu;
@@ -43,7 +44,7 @@ class imagesequence;
 class AltVsTime;
 class LCGenerator;
 class WUTDialog;
-class WIView;
+class WIUserSettings;
 class AstroCalc;
 class SkyCalendar;
 class ScriptBuilder;
@@ -656,7 +657,7 @@ private:
     Execute *execute;
     AltVsTime *avt;
     WUTDialog *wut;
-    WIView *wi;
+    WIUserSettings *wi;
     SkyCalendar *skycal;
     ScriptBuilder *sb;
     PlanetViewer *pv;
