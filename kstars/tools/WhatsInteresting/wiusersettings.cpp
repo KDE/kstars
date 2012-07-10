@@ -24,9 +24,6 @@
 WIUserSettings::WIUserSettings(QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags)
 {
     setupUi(this);
-    telescopeCheck = equipTypePage->findChild<QCheckBox*>("telescopeCheck");
-    binocularsCheck = equipTypePage->findChild<QCheckBox*>("binocularsCheck");
-    noEquipCheck = equipTypePage->findChild<QCheckBox*>("noEquipCheck");
     makeConnections();
 }
 
@@ -34,28 +31,37 @@ WIUserSettings::~WIUserSettings() {}
 
 void WIUserSettings::slotFinished( int )
 {
+
     eq = noEquipCheck->isEnabled() ? (ObsConditions::None) : (telescopeCheck->isChecked()
     ?(binocularsCheck->isChecked() ? ObsConditions::Both : ObsConditions::Telescope)
     :(binocularsCheck->isChecked() ? ObsConditions::Binoculars : ObsConditions::None));
-    type = ObsConditions::Reflector;
 
-    wi = new WIView(0, new ObsConditions(bortleClass->value(), eq, type));
+    type = (equipmentType->itemText(0)=="Reflector") ? ObsConditions::Reflector : ObsConditions::Refractor;
+
+    wi = new WIView(0, new ObsConditions(bortleClass->value(), eq, aperture->value(), type));
 }
 
 void WIUserSettings::makeConnections()
 {
     connect(this, SIGNAL(finished(int)), this, SLOT(slotFinished(int)));
-    connect(lightPollutionPage->findChild<QSlider*>("bortleClass"),
-        SIGNAL(valueChanged(int)), this, SLOT(slotSetBortleClass(int)));
+    connect(bortleClass, SIGNAL(valueChanged(int)), this, SLOT(slotSetBortleClass(int)));
     connect(telescopeCheck, SIGNAL( toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
     connect(binocularsCheck, SIGNAL( toggled(bool)), this, SLOT(slotBinocularCheck(bool)));
     connect(noEquipCheck, SIGNAL( toggled(bool)), this, SLOT(slotNoEquipCheck(bool)));
+    connect(aperture, SIGNAL(valueChanged(double)), this, SLOT(slotSetAperture(double)));
+    connect(equipmentType, SIGNAL(currentIndexChanged(QString)), this, SLOT(slotSetEqType(QString)));
 }
 
 void WIUserSettings::slotSetBortleClass(int value)
 {
     bortleClass->setValue(value);
 }
+
+void WIUserSettings::slotSetAperture(double value)
+{
+    aperture->setValue(value);
+}
+
 
 void WIUserSettings::slotTelescopeCheck(bool on)
 {
@@ -75,5 +81,11 @@ void WIUserSettings::slotNoEquipCheck(bool on)
 {
     noEquipCheck->setChecked(on);
 }
+
+void WIUserSettings::slotSetEqType(QString type)
+{
+    equipmentType->setCurrentItem(type);
+}
+
 
 #include "wiusersettings.moc"

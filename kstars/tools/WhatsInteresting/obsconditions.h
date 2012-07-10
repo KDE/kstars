@@ -23,16 +23,21 @@ class ObsConditions
 public:
     enum Equipment {Telescope = 0, Binoculars, Both, None };
     enum EquipmentType { Reflector = 0, Refractor };
-    ObsConditions(int bortleClass, Equipment eq, EquipmentType t);
+    ObsConditions(int bortleClass, Equipment eq, double aperture, EquipmentType tp);
     ~ObsConditions();
     void setEquipment(Equipment eq);
     void setEquipmentType(EquipmentType t);
-    float getTrueMagLim();
+    void setLimMagnitude( int bortleClass);
+    double getOptimumMAG();
+    double getTrueMagLim();
 
 private:
     int bortleClass;
     Equipment equip;
     EquipmentType type;
+    double aperture;
+    double t;
+    double LM;
 };
 
 #endif
