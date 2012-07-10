@@ -38,6 +38,7 @@ public:
     bool isVisible(GeoLocation* geo, dms* lst, SkyObject* so);
 
 private:
+    ObsConditions *obsconditions;
     SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *starClustModel, *nebModel;
     QStringList baseCatList, planetaryList, deepSkyList;
     QHash < SkyObject::TYPE , QList < SkyObject * > > initobjects;

@@ -17,6 +17,7 @@
 
 #include "obsconditions.h"
 #include "math.h"
+#include "kdebug.h"
 
 ObsConditions::ObsConditions(int bortle, Equipment eq, double ap, EquipmentType tp)
 {
@@ -97,5 +98,6 @@ double ObsConditions::getOptimumMAG()
 
 double ObsConditions::getTrueMagLim()
 {
+    kDebug()<< (4.12 + 2.5 * log10( pow(aperture,2)*t ));
     return 4.12 + 2.5 * log10( pow(aperture,2)*t ); //Taking optimum magnification into consideration
 }

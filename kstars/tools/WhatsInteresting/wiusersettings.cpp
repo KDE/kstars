@@ -46,7 +46,7 @@ void WIUserSettings::makeConnections()
     connect(this, SIGNAL(finished(int)), this, SLOT(slotFinished(int)));
     connect(bortleClass, SIGNAL(valueChanged(int)), this, SLOT(slotSetBortleClass(int)));
     connect(telescopeCheck, SIGNAL( toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
-    connect(binocularsCheck, SIGNAL( toggled(bool)), this, SLOT(slotBinocularCheck(bool)));
+    connect(binocularsCheck, SIGNAL( toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
     connect(noEquipCheck, SIGNAL( toggled(bool)), this, SLOT(slotNoEquipCheck(bool)));
     connect(aperture, SIGNAL(valueChanged(double)), this, SLOT(slotSetAperture(double)));
     connect(equipmentType, SIGNAL(currentIndexChanged(QString)), this, SLOT(slotSetEqType(QString)));

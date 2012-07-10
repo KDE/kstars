@@ -23,6 +23,7 @@
 
 ModelManager::ModelManager(ObsConditions *obs)
 {
+    obsconditions = obs;
     planetsModel = new SkyObjListModel();
     starsModel = new SkyObjListModel();
     galModel = new SkyObjListModel();
@@ -42,6 +43,7 @@ void ModelManager::updateModels()
 {
     KStarsData *data = KStarsData::Instance();
 
+    double TLM = obsconditions->getTrueMagLim();
     baseCatList<<"Planetary Objects"<<"Stars"<<"Constellations"<<"Deep-sky Objects" ;
     planetaryList<<"Planets"<<"Satellites";
     deepSkyList<<"Galaxies"<<"Star Clusters"<<"Nebulae";
@@ -97,8 +99,8 @@ void ModelManager::updateModels()
 
     foreach(SkyObject *so, initobjects.value(SkyObject::GALAXY))
     {
-        //kDebug()<<so->name()<<so->mag();
-        if (isVisible(data->geo(), data->lst(), so))
+        kDebug()<<so->name()<<so->mag();
+        if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
         {
             galModel->addSkyObject(new SkyObjItem(so));
         }
@@ -115,8 +117,8 @@ void ModelManager::updateModels()
 
     foreach(SkyObject *so, initobjects.value(SkyObject::OPEN_CLUSTER))
     {
-        //kDebug()<<so->name()<<so->mag();
-        if (isVisible(data->geo(), data->lst(), so))
+        kDebug()<<so->name()<<so->mag();
+        if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
         {
             starClustModel->addSkyObject(new SkyObjItem(so));
         }
@@ -124,8 +126,8 @@ void ModelManager::updateModels()
 
     foreach(SkyObject *so, initobjects.value(SkyObject::PLANETARY_NEBULA))
     {
-        //kDebug()<<so->name()<<so->mag();
-        if (isVisible(data->geo(), data->lst(), so))
+        kDebug()<<so->name()<<so->mag();
+        if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
         {
             nebModel->addSkyObject(new SkyObjItem(so));
         }
