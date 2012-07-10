@@ -22,6 +22,7 @@ class SkyLabeler;
 
 #include "solarsystemlistcomponent.h"
 #include <QList>
+#include <ksparser.h>
 
 /**@class CometsComponent
  * This class encapsulates the Comets
