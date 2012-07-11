@@ -145,7 +145,6 @@ void AsteroidsComponent::loadData()
         dble_N = ans["om"].toDouble();
         dble_M = ans["ma"].toDouble();
         orbit_id = ans["orbit_id"].toString();
-        orbit_id.remove( '"' );
         H   = ans["H"].toDouble();
         G   = ans["G"].toDouble();
         neo = ans["neo"].toString() == "Y";

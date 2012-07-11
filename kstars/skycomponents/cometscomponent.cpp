@@ -65,18 +65,18 @@ bool CometsComponent::selected() {
  * @li 7 longitude of the ascending node in degrees [double]
  * @li 8 time of perihelion passage (YYYYMMDD.DDD) [double]
  * @li 9 orbit solution ID [string]
- * @li 10 comet total magnitude slope parameter
- * @li 11 comet nuclear magnitude slope parameter
- * @li 12 Near-Earth Object (NEO) flag [bool]
- * @li 13 comet total magnitude parameter [float]
- * @li 14 comet nuclear magnitude parameter [float]
- * @li 15 object diameter (from equivalent sphere) [float]
- * @li 16 object bi/tri-axial ellipsoid dimensions [string]
- * @li 17 geometric albedo [float]
- * @li 18 rotation period [float]
- * @li 19 orbital period [float]
- * @li 20 earth minimum orbit intersection distance [double]
- * @li 21 orbit classification [string]
+ * @li 10 Near-Earth Object (NEO) flag [bool]
+ * @li 11 comet total magnitude parameter [float]
+ * @li 12 comet nuclear magnitude parameter [float]
+ * @li 13 object diameter (from equivalent sphere) [float]
+ * @li 14 object bi/tri-axial ellipsoid dimensions [string]
+ * @li 15 geometric albedo [float]
+ * @li 16 rotation period [float]
+ * @li 17 orbital period [float]
+ * @li 18 earth minimum orbit intersection distance [double]
+ * @li 19 orbit classification [string]
+ * @li 20 comet total magnitude slope parameter
+ * @li 21 comet nuclear magnitude slope parameter
  * @note See KSComet constructor for more details.
  */
 void CometsComponent::loadData() {
@@ -89,6 +89,8 @@ void CometsComponent::loadData() {
     long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
     
+    emitProgressText( i18n("Loading comets") );
+    objectNames( SkyObject::COMET ).clear();
     
     QList<KSParser::DataTypes> pattern;
     QList<QString> newList;
@@ -102,8 +104,6 @@ void CometsComponent::loadData() {
     sequence.append(qMakePair(QString("om"),KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("tp_calc"),KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("orbit_id"),KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("H"),KSParser::D_SKIP));
-    sequence.append(qMakePair(QString("G"),KSParser::D_SKIP));
     sequence.append(qMakePair(QString("neo"),KSParser::D_QSTRING));
     sequence.append(qMakePair(QString("M1"),KSParser::D_FLOAT));
     sequence.append(qMakePair(QString("M2"),KSParser::D_FLOAT));
@@ -113,60 +113,59 @@ void CometsComponent::loadData() {
     sequence.append(qMakePair(QString("rot_period"),KSParser::D_FLOAT)); 
     sequence.append(qMakePair(QString("per_y"),KSParser::D_FLOAT)); 
     sequence.append(qMakePair(QString("moid"),KSParser::D_DOUBLE)); 
-    sequence.append(qMakePair(QString("class"),KSParser::D_QSTRING)); 
+    sequence.append(qMakePair(QString("class"),KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("H"),KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("G"),KSParser::D_SKIP));
     KSParser cometParser(QString("comets.dat"), '#', sequence);
-    /*
+    
+    
     QHash<QString,QVariant> ans;
     while (cometParser.hasNextRow()){
-        ans = asteroidParser.ReadNextRow();
-        name   = fields.at( 0 );
-        name   = name.remove( '"' ).trimmed();
+        KSComet *com = 0;
+        ans = cometParser.ReadNextRow();
+        name   = ans["full name"].toString();
+        name   = name.trimmed();
         //kDebug()<<name<<endl;
-        mJD    = fields.at( 1 ).toInt();
-        q      = fields.at( 2 ).toDouble();
-        e      = fields.at( 3 ).toDouble();
-        dble_i = fields.at( 4 ).toDouble();
-        dble_w = fields.at( 5 ).toDouble();
-        dble_N = fields.at( 6 ).toDouble();
-        Tp     = fields.at( 7 ).toDouble();
-        orbit_id = fields.at( 8 );
-        orbit_id.remove( '"' );
-        
-        neo = fields.at( 9 ) == "Y";
-        
+        mJD    = ans["epoch_mjd"].toInt();
+        q    = ans["q"].toDouble();
+        e    = ans["e"].toDouble();
+        dble_i = ans["i"].toDouble();
+        dble_w = ans["w"].toDouble();
+        dble_N = ans["om"].toDouble();
+        Tp     = ans["tp_calc"].toDouble();
+        orbit_id = ans["orbit_id"].toString();
+        neo = ans["neo"] == "Y";
+        /*
         if(fields.at(10).isEmpty())
             M1 = 101.0;        
         else
             M1 = fields.at( 10 ).toFloat( &ok );
         
         if(fields.at(11).isEmpty())
-            M2 = 101.0; 
+            M2 = 101.
         else
             M2 = fields.at( 11 ).toFloat( &ok );
-        
-        diameter = fields.at( 12 ).toFloat( &ok );
-        if ( !ok ) diameter = 0.0;
-        dimensions = fields.at( 13 );
-        albedo  = fields.at( 14 ).toFloat( &ok );
-        if ( !ok ) albedo = 0.0;
-        rot_period = fields.at( 15 ).toFloat( &ok );
-        if ( !ok ) rot_period = 0.0;
-        period  = fields.at( 16 ).toFloat( &ok );
-        if ( !ok ) period = 0.0;
-        earth_moid  = fields.at( 17 ).toDouble( &ok );
-        if ( !ok ) earth_moid = 0.0;
-        orbit_class = fields.at( 18 );
-        
-        if(fields.at(19).isEmpty())
-            K1 = 0.0; 
+        */
+        if(ans["M1"].toFloat()==0.0)
+            M1 = 101.0;        
         else
-            K1 = fields.at( 19 ).toFloat( &ok );
+            M1 = ans["M1"].toFloat();
         
-        if(fields.at(20).isEmpty())
-            K2 = 0.0; 
+        if(ans["M2"].toFloat()==0.0)
+            M2 = 101.0;
         else
-            K2 = fields.at( 20 ).toFloat( &ok );
+            M2 = ans["M2"].toFloat();
         
+        diameter = ans["diameter"].toFloat();
+        dimensions = ans["extent"].toString();
+        albedo  = ans["albedo"].toFloat();
+        rot_period = ans["rot_period"].toFloat();
+        period  = ans["per_y"].toFloat();
+        earth_moid  = ans["moid"].toDouble();
+        orbit_class = ans["class"].toString();
+        K1 = ans["H"].toFloat(); 
+        K2 = ans["G"].toFloat(); 
+    
         JD = double( mJD ) + 2400000.5;
 
         com = new KSComet( name, QString(), JD, q, e, dms( dble_i ), dms( dble_w ), dms( dble_N ), Tp, M1, M2, K1, K2 );
@@ -185,8 +184,8 @@ void CometsComponent::loadData() {
 
         //Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
-        
-    */
+    }        
+/*
     KSFileReader fileReader;
     if(!fileReader.open( "comets.dat" )) return;
     emitProgressText( i18n("Loading comets") );
@@ -273,7 +272,7 @@ void CometsComponent::loadData() {
 
         //Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
-    }
+    }*/
 }
 
 void CometsComponent::draw( SkyPainter *skyp )
