@@ -99,7 +99,15 @@ private:
      * @return QHash< QString, QVariant >
      **/
     QHash<QString,QVariant>  ReadCSVRow();
+    
+    /**
+     * @brief Returns a single row from Fized Width File. If hasNextRow is false, returns a
+     * row with default values.
+     *
+     * @return QHash< QString, QVariant >
+     **/
     QHash<QString,QVariant>  ReadFixedWidthRow();
+    
     /**
      * @brief Returns a default value row based on the currently assigned sequence.
      *
