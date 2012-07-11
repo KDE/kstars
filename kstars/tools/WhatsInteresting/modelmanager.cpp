@@ -99,7 +99,7 @@ void ModelManager::updateModels()
 
     foreach(SkyObject *so, initobjects.value(SkyObject::GALAXY))
     {
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
         {
             galModel->addSkyObject(new SkyObjItem(so));
@@ -117,7 +117,7 @@ void ModelManager::updateModels()
 
     foreach(SkyObject *so, initobjects.value(SkyObject::OPEN_CLUSTER))
     {
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
         {
             starClustModel->addSkyObject(new SkyObjItem(so));
@@ -126,7 +126,7 @@ void ModelManager::updateModels()
 
     foreach(SkyObject *so, initobjects.value(SkyObject::PLANETARY_NEBULA))
     {
-        kDebug()<<so->name()<<so->mag();
+        //kDebug()<<so->name()<<so->mag();
         if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
         {
             nebModel->addSkyObject(new SkyObjItem(so));

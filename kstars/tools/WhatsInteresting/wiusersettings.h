@@ -33,12 +33,8 @@ public:
 
 public slots:
     void slotFinished(int);
-    void slotSetBortleClass(int);
-    void slotSetAperture(double);
     void slotTelescopeCheck(bool);
     void slotBinocularsCheck(bool);
-    void slotNoEquipCheck(bool);
-    void slotSetEqType(QString);
 
 private:
     void makeConnections();

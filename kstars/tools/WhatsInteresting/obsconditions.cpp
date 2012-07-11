@@ -37,6 +37,7 @@ ObsConditions::ObsConditions(int bortle, Equipment eq, double ap, EquipmentType 
         default:
             break;
     }
+    setLimMagnitude();
 }
 
 ObsConditions::~ObsConditions() {}
@@ -51,7 +52,7 @@ void ObsConditions::setEquipmentType(EquipmentType t)
     type = t;
 }
 
-void ObsConditions::setLimMagnitude(int bortleClass)
+void ObsConditions::setLimMagnitude()
 {
     switch ( bortleClass )
     {
@@ -98,6 +99,19 @@ double ObsConditions::getOptimumMAG()
 
 double ObsConditions::getTrueMagLim()
 {
-    kDebug()<< (4.12 + 2.5 * log10( pow(aperture,2)*t ));
-    return 4.12 + 2.5 * log10( pow(aperture,2)*t ); //Taking optimum magnification into consideration
+//     kDebug()<< (4.12 + 2.5 * log10( pow(aperture,2)*t ));
+//     return 4.12 + 2.5 * log10( pow(aperture,2)*t ); //Taking optimum magnification into consideration
+
+    /**
+     * This is a more traditional formula which does not take the
+     * 't' parameter into account. It also does not take into account
+     * the magnification being used. The formula used is:
+     *
+     * TLM_trad = LM + 5*log10(aperture/7.5)
+     *
+     * The calculation is just based on the calculation of the
+     * telescope's aperture to eye's pupil surface ratio.
+     */
+    kDebug() << (LM + 5*log10(aperture/7.5));
+    return (LM + 5*log10(aperture/7.5));
 }

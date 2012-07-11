@@ -86,6 +86,15 @@
     <property name="maximum">
      <number>9</number>
     </property>
+    <property name="pageStep">
+     <number>1</number>
+    </property>
+    <property name="sliderPosition">
+     <number>1</number>
+    </property>
+    <property name="tracking">
+     <bool>false</bool>
+    </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
     </property>
@@ -93,7 +102,7 @@
      <bool>false</bool>
     </property>
     <property name="tickPosition">
-     <enum>QSlider::TicksBelow</enum>
+     <enum>QSlider::TicksBothSides</enum>
     </property>
     <property name="tickInterval">
      <number>1</number>
@@ -125,14 +134,14 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>80</y>
+      <x>20</x>
+      <y>60</y>
       <width>541</width>
       <height>61</height>
      </rect>
     </property>
     <property name="text">
-     <string>How light-polluted is your night-sky? Rate your night-sky conditions from 1-9 based on the Bortle Dark-Sky Scale. For help on rating take a look </string>
+     <string>How light-polluted is your night-sky? Rate your night-sky conditions from 1-9 based on the Bortle Dark-Sky Scale. A rating of 1 represents an excellent dark-sky site, while 9 represents a brilliantly lit inner-city sky.</string>
     </property>
     <property name="textFormat">
      <enum>Qt::RichText</enum>
@@ -144,23 +153,22 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="KUrlLabel" name="kurllabel">
+   <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>420</x>
-      <y>110</y>
-      <width>31</width>
-      <height>16</height>
+      <x>180</x>
+      <y>210</y>
+      <width>381</width>
+      <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <underline>true</underline>
+     </font>
+    </property>
     <property name="text">
-     <string>here</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="url">
-     <string>http</string>
+     <string>For help : http://en.wikipedia.org/wiki/Bortle_Dark-Sky_Scale</string>
     </property>
    </widget>
   </widget>
@@ -280,6 +288,12 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="value">
+     <double>30.000000000000000</double>
+    </property>
+    <property name="sliderEnabled">
+     <bool>false</bool>
+    </property>
    </widget>
    <widget class="KComboBox" name="equipmentType">
     <property name="geometry">
@@ -326,11 +340,6 @@
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KUrlLabel</class>
-   <extends>QLabel</extends>
-   <header>kurllabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -27,7 +27,7 @@ public:
     ~ObsConditions();
     void setEquipment(Equipment eq);
     void setEquipmentType(EquipmentType t);
-    void setLimMagnitude( int bortleClass);
+    void setLimMagnitude();
     double getOptimumMAG();
     double getTrueMagLim();
 
