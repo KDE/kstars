@@ -59,7 +59,6 @@ bool DeepSkyComponent::selected()
 void DeepSkyComponent::update( KSNumbers* )
 {}
 
-
 void DeepSkyComponent::loadData()
 {
 
@@ -71,44 +70,64 @@ void DeepSkyComponent::loadData()
     QList<KSParser::DataTypes> pattern;
     QList< QPair<QString,KSParser::DataTypes> > sequence;
     QList<int> widths;
-    sequence.append(qMakePair(QString("Flag"),KSParser::D_QSTRING)); widths.append(1); 
-    sequence.append(qMakePair(QString("ID"),KSParser::D_INT)); widths.append(4); 
-    sequence.append(qMakePair(QString("RA_H"),KSParser::D_INT)); widths.append(3);
-    sequence.append(qMakePair(QString("RA_M"),KSParser::D_INT)); widths.append(2); 
-    sequence.append(qMakePair(QString("RA_S"),KSParser::D_FLOAT)); widths.append(4); 
-    sequence.append(qMakePair(QString("D_Sign"),KSParser::D_QSTRING)); widths.append(2);
-    sequence.append(qMakePair(QString("Dec_d"),KSParser::D_INT)); widths.append(2); 
-    sequence.append(qMakePair(QString("Dec_m"),KSParser::D_INT)); widths.append(2); 
-    sequence.append(qMakePair(QString("Dec_s"),KSParser::D_INT)); widths.append(2); 
-    sequence.append(qMakePair(QString("BMag"),KSParser::D_QSTRING)); widths.append(6); 
-    sequence.append(qMakePair(QString("type"),KSParser::D_INT)); widths.append(2); 
-    sequence.append(qMakePair(QString("a"),KSParser::D_FLOAT)); widths.append(6); 
-    sequence.append(qMakePair(QString("b"),KSParser::D_FLOAT)); widths.append(6); 
-    sequence.append(qMakePair(QString("pa"),KSParser::D_QSTRING)); widths.append(4); 
-    sequence.append(qMakePair(QString("PGC"),KSParser::D_INT)); widths.append(7); 
-    sequence.append(qMakePair(QString("other cat"),KSParser::D_QSTRING)); widths.append(4);
-    sequence.append(qMakePair(QString("other1"),KSParser::D_QSTRING)); widths.append(6); 
-    sequence.append(qMakePair(QString("other2"),KSParser::D_QSTRING)); widths.append(6);
-    sequence.append(qMakePair(QString("Messr"),KSParser::D_QSTRING)); widths.append(2); 
-    sequence.append(qMakePair(QString("MessrNum"),KSParser::D_INT)); widths.append(4);
+    sequence.append(qMakePair(QString("Flag"), KSParser::D_QSTRING));      
+    widths.append(1); 
+    sequence.append(qMakePair(QString("ID"), KSParser::D_INT));          
+    widths.append(4);
+    sequence.append(qMakePair(QString("RA_H"), KSParser::D_INT));          
+    widths.append(3);
+    sequence.append(qMakePair(QString("RA_M"),KSParser::D_INT)); 
+    widths.append(2); 
+    sequence.append(qMakePair(QString("RA_S"),KSParser::D_FLOAT)); 
+    widths.append(4); 
+    sequence.append(qMakePair(QString("D_Sign"),KSParser::D_QSTRING)); 
+    widths.append(2);
+    sequence.append(qMakePair(QString("Dec_d"),KSParser::D_INT)); 
+    widths.append(2); 
+    sequence.append(qMakePair(QString("Dec_m"),KSParser::D_INT)); 
+    widths.append(2); 
+    sequence.append(qMakePair(QString("Dec_s"),KSParser::D_INT)); 
+    widths.append(2); 
+    sequence.append(qMakePair(QString("BMag"),KSParser::D_QSTRING)); 
+    widths.append(6); 
+    sequence.append(qMakePair(QString("type"),KSParser::D_INT)); 
+    widths.append(2); 
+    sequence.append(qMakePair(QString("a"),KSParser::D_FLOAT)); 
+    widths.append(6); 
+    sequence.append(qMakePair(QString("b"),KSParser::D_FLOAT)); 
+    widths.append(6); 
+    sequence.append(qMakePair(QString("pa"),KSParser::D_QSTRING)); 
+    widths.append(4); 
+    sequence.append(qMakePair(QString("PGC"),KSParser::D_INT)); 
+    widths.append(7); 
+    sequence.append(qMakePair(QString("other cat"),KSParser::D_QSTRING)); 
+    widths.append(4);
+    sequence.append(qMakePair(QString("other1"),KSParser::D_QSTRING)); 
+    widths.append(6); 
+    sequence.append(qMakePair(QString("other2"),KSParser::D_QSTRING)); 
+    widths.append(6);
+    sequence.append(qMakePair(QString("Messr"),KSParser::D_QSTRING)); 
+    widths.append(2); 
+    sequence.append(qMakePair(QString("MessrNum"),KSParser::D_INT)); 
+    widths.append(4);
     sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING)); 
-                                    //No width to be appended for last sequence object 
-    KSParser deepSkyParser(QString("ngcic.dat"), '#', sequence, widths);
+    //No width to be appended for last sequence object 
     
-    deepSkyParser.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
+    KSParser deep_sky_parser(QString("ngcic.dat"), '#', sequence, widths);
     
-    QHash<QString,QVariant> ans;
-    while (deepSkyParser.hasNextRow()){
-        ans = deepSkyParser.ReadNextRow();
+    deep_sky_parser.SetProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
+    
+    QHash<QString,QVariant> row_content;
+    while (deep_sky_parser.HasNextRow()) {
+        row_content = deep_sky_parser.ReadNextRow();
 
         QChar iflag;
         QString cat;
-        iflag = ans["Flag"].toString().at( 0 ); //check for NGC/IC catalog flag
-        Q_ASSERT( iflag == 'I' || iflag == 'N' || iflag == ' '); 
-                    // n.b. We also allow non-NGC/IC objects which have a blank iflag
+        iflag = row_content["Flag"].toString().at( 0 ); //check for NGC/IC catalog flag
+        Q_ASSERT(iflag == 'I' || iflag == 'N' || iflag == ' '); 
+        // n.b. We also allow non-NGC/IC objects which have a blank iflag
         if ( iflag == 'I' ) cat = "IC";
         else if ( iflag == 'N' ) cat = "NGC";
-            
         
         float mag(1000.0);
         int type, ingc, imess(-1), pa;
@@ -116,66 +135,65 @@ void DeepSkyComponent::loadData()
         QString con, ss, name, name2, longname;
         QString cat2;
         
-        ingc = ans["ID"].toInt();  // NGC/IC catalog number
+        ingc = row_content["ID"].toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
         
         //coordinates
-        int rah = ans["RA_H"].toInt();
-        int ram = ans["RA_M"].toInt();
-        float ras = ans["RA_S"].toFloat();
-        QString sgn = ans["D_Sign"].toString().trimmed();
-        int dd = ans["Dec_d"].toInt();
-        int dm = ans["Dec_m"].toInt();
-        int ds = ans["Dec_s"].toInt();
+        int rah = row_content["RA_H"].toInt();
+        int ram = row_content["RA_M"].toInt();
+        float ras = row_content["RA_S"].toFloat();
+        QString sgn = row_content["D_Sign"].toString().trimmed();
+        int dd = row_content["Dec_d"].toInt();
+        int dm = row_content["Dec_m"].toInt();
+        int ds = row_content["Dec_s"].toInt();
         
         //Ignore lines with no coordinate values
-        if (rah==0 && ram==0 & ras==0)
+        if (rah==0 && ram==0 && ras==0)
             continue;
 
-        Q_ASSERT( 0.0 <= rah && rah < 24.0 );
-        Q_ASSERT( 0.0 <= ram && ram < 60.0 );
-        Q_ASSERT( 0.0 <= ras && ras < 60.0 );
-        Q_ASSERT( 0.0 <= dd && dd <= 90.0 );
-        Q_ASSERT( 0.0 <= dm && dm < 60.0 );
-        Q_ASSERT( 0.0 <= ds && ds < 60.0 );
+        Q_ASSERT(0.0 <= rah && rah < 24.0);
+        Q_ASSERT(0.0 <= ram && ram < 60.0);
+        Q_ASSERT(0.0 <= ras && ras < 60.0);
+        Q_ASSERT(0.0 <= dd && dd <= 90.0);
+        Q_ASSERT(0.0 <= dm && dm < 60.0);
+        Q_ASSERT(0.0 <= ds && ds < 60.0);
         
         //B magnitude
-        ss = ans["BMag"].toString().trimmed();
-        if (ss == "" ) { mag = 99.9f; } else { mag = ss.toFloat(); }
+        ss = row_content["BMag"].toString().trimmed();
+        if (ss == "") { mag = 99.9f; } else { mag = ss.toFloat(); }
         
         //object type
-        type = ans["type"].toInt();
+        type = row_content["type"].toInt();
         
         //major and minor axes
-        float a = ans["a"].toFloat();
-        float b = ans["b"].toFloat();
+        float a = row_content["a"].toFloat();
+        float b = row_content["b"].toFloat();
 
         //position angle.  The catalog PA is zero when the Major axis
         //is horizontal.  But we want the angle measured from North, so
         //we set PA = 90 - pa.
-        ss = ans["pa"].toString().trimmed();
+        ss = row_content["pa"].toString().trimmed();
         if (ss == "" ) { pa = 90; } else { pa = 90 - ss.toInt(); }
             
         //PGC number
-        pgc = ans["PGC"].toInt();
+        pgc = row_content["PGC"].toInt();
         
         //UGC number
-        if ( ans["other cat"].toString().trimmed() == "UGC" ) {
-            ugc = ans["other1"].toString().toInt();
+        if (row_content["other cat"].toString().trimmed() == "UGC") {
+            ugc = row_content["other1"].toString().toInt();
         } else {
             ugc = 0;
         }
-        
-        
+
         //Messier number
-        if ( ans["Messr"].toString().trimmed() == "M" ) {
+        if ( row_content["Messr"].toString().trimmed() == "M" ) {
             cat2 = cat;
-            if ( ingc==0 ) cat2.clear();
+            if ( ingc == 0 ) cat2.clear();
             cat = 'M';
-            imess = ans["MessrNum"].toInt();
+            imess = row_content["MessrNum"].toInt();
         }
 
-        longname = ans["Longname"].toString().trimmed(); 
+        longname = row_content["Longname"].toString().trimmed(); 
         
         dms r;
         r.setH( rah, ram, int(ras) );
@@ -185,16 +203,16 @@ void DeepSkyComponent::loadData()
 
         bool hasName = true;
         QString snum;
-        if ( cat=="IC" || cat=="NGC" ) {
-            snum.setNum( ingc );
+        if (cat=="IC" || cat=="NGC") {
+            snum.setNum(ingc);
             name = cat + ' ' + snum;
-        } else if ( cat=="M" ) {
+        } else if (cat == "M") {
             snum.setNum( imess );
             name = cat + ' ' + snum;
-            if ( cat2=="NGC" ) {
+            if (cat2 == "NGC") {
                 snum.setNum( ingc );
                 name2 = cat2 + ' ' + snum;
-            } else if ( cat2=="IC" ) {
+            } else if (cat2 == "IC") {
                 snum.setNum( ingc );
                 name2 = cat2 + ' ' + snum;
             } else {
@@ -202,7 +220,7 @@ void DeepSkyComponent::loadData()
             }
         }
         else {
-            if ( ! longname.isEmpty() ) name = longname;
+            if (!longname.isEmpty()) name = longname;
             else {
                 hasName = false;
                 name = i18n( "Unnamed Object" );
@@ -254,7 +272,7 @@ void DeepSkyComponent::loadData()
         if ( ! longname.isEmpty() && longname != name )
             objectNames(type).append( longname );
 
-        deepSkyParser.showProgress();
+        deep_sky_parser.ShowProgress();
     }
     
 }

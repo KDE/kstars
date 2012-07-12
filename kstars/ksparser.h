@@ -48,24 +48,24 @@ public:
      * @brief Constructor to return a CSV parsing instance of a KSParser type object. 
      *
      * @param filename Filename of source file
-     * @param skipChar Character signifying a comment line
+     * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
      * @param delimiter separate on which character. default ','
      **/
-    KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence,
+    KSParser(QString filename, char comment_char, QList< QPair<QString,DataTypes> > sequence,
              char delimiter = ',') __attribute__((cdecl));
              
 
     /**
-     * @brief onstructor to return a Fixed Width parsing instance of a KSParser type object. 
+     * @brief Constructor to return a Fixed Width parsing instance of a KSParser type object. 
      *
      * @param filename Filename of source file
-     * @param skipChar Character signifying a comment line
+     * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
      * @param widths QList of the width sequence eg 4,5,10. Last value is line.length() by default
      *                  Hence, width.length() should be (sequence.length()-1)
      **/
-    KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, 
+    KSParser(QString filename, char comment_char, QList< QPair<QString,DataTypes> > sequence, 
              QList<int> widths) __attribute__((cdecl));
 
              
@@ -83,10 +83,24 @@ public:
      *
      * @return bool
      **/
-    bool hasNextRow();
+    bool HasNextRow();
     
-    void setProgress(QString msg, int limit, int steps);
-    void showProgress();
+    /**
+     * @brief Wrapper function for KSFileReader setProgress
+     *
+     * @param msg What message to display
+     * @param total_lines Total number of lines in file
+     * @param step_size Size of step in emitting progress  
+     * @return void
+     **/
+    void SetProgress(QString msg, int total_lines, int step_size);
+    
+    /**
+     * @brief Wrapper function for KSFileReader showProgress
+     *
+     * @return void
+     **/
+    void ShowProgress();
 private:
 
     /**
@@ -97,38 +111,38 @@ private:
     QHash<QString,QVariant> (KSParser::*readFunctionPtr)();
     
     /**
-     * @brief Returns a single row from CSV. If hasNextRow is false, returns a
+     * @brief Returns a single row from CSV. If HasNextRow is false, returns a
      * row with default values.
      *
      * @return QHash< QString, QVariant >
      **/
-    QHash<QString,QVariant>  ReadCSVRow();
+    QHash<QString,QVariant> ReadCSVRow();
     
     /**
-     * @brief Returns a single row from Fized Width File. If hasNextRow is false, returns a
+     * @brief Returns a single row from Fixed Width File. If HasNextRow is false, returns a
      * row with default values.
      *
      * @return QHash< QString, QVariant >
      **/
-    QHash<QString,QVariant>  ReadFixedWidthRow();
+    QHash<QString,QVariant> ReadFixedWidthRow();
     
     /**
      * @brief Returns a default value row based on the currently assigned sequence.
      *
      * @return QHash< QString, QVariant >
      **/
-    QHash<QString,QVariant>  DummyCSVRow();
+    QHash<QString,QVariant> DummyRow();
     
-    KSFileReader m_FileReader;
-    QString m_Filename;
-    int m_CurrentRowID;
-    bool moreRows;
-    char m_skipChar;
+    KSFileReader file_reader_;
+    QString filename_;
+    int current_row_id_;
+    bool more_rows_;
+    char comment_char_;
     
-    QList< QPair<QString,DataTypes> > m_sequence;
-    QList<int> m_widths;
-    char m_delimiter;
-    
+    QList< QPair<QString,DataTypes> > name_type_sequence_;
+    QList<int> width_sequence_;
+    char delimiter_;
+
 };
 
 #endif // KSPARSER_H

@@ -40,25 +40,26 @@ public:
     /** Initialize KStarsDB while running splash screen
      * @return true on success
      */
-    bool initialize();
+    bool Initialize();
     //TODO: To be called before closing the main window
-    void deallocate();
-    bool addObserver(QString name, QString surname, QString contact);
-    int findObserver(QString name, QString surname);    
-    bool delObserver(QString id);
-    void getAllObservers(QList<OAL::Observer *> &m_observerList);
+    void Deallocate();
     
-    void eraseAllFlags();
-    bool addFlag(QString ra, QString dec, QString epoch, 
-                 QString imageName, QString label, QString labelColor);
-    QList<QStringList> getAllFlags();
+    bool AddObserver(QString name, QString surname, QString contact);
+    int FindObserver(QString name, QString surname);    
+    bool DeleteObserver(QString id);
+    void GetAllObservers(QList<OAL::Observer *> &observer_list);
     
-    void eraseEquipment(QString type, int id);
-    void eraseAllEquipment(QString type); 
+    void EraseAllFlags();
+    bool AddFlag(QString ra, QString dec, QString epoch, 
+                 QString image_name, QString label, QString labelColor);
+    QList<QStringList> ReturnAllFlags();
     
-    bool addScope(QString model, QString vendor, QString driver,
+    void EraseEquipment(QString type, int id);
+    void EraseAllEquipment(QString type); 
+    
+    bool AddScope(QString model, QString vendor, QString driver,
                   QString type, double focalLength, double aperture);
-    bool addScope(QString model, QString vendor, QString driver,
+    bool AddScope(QString model, QString vendor, QString driver,
                        QString type, double focalLength, double aperture, QString id);
     void getAllScopes(QList<OAL::Scope *> &m_scopeList);
     

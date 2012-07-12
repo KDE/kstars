@@ -42,6 +42,7 @@ public:
     virtual bool selected();
     virtual SkyObject* objectNearest( SkyPoint *p, double &maxrad );
     void updateDataFile();
+    QString ans();
 private:
     void loadData();
 };

@@ -444,7 +444,7 @@ void OAL::Log::readTargets() {
 }
 
 void OAL::Log::readObservers() {
-    KStars::Instance()->data()->userdb()->getAllObservers(m_observerList);
+    KStars::Instance()->data()->userdb()->GetAllObservers(m_observerList);
 }
 
 void OAL::Log::readSites() {

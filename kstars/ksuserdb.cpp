@@ -24,7 +24,7 @@
 // Replacing bool KSUserDB::initialize(QString dbfile = KSTARS_USERDB)
 // Every logged in user should have their own db.
 
-bool KSUserDB::initialize() {
+bool KSUserDB::Initialize() {
     //TODO: This needs to be merged with verification, and made into a static member
     //to achieve 'aggregation' with kstarsdata
     userdb = QSqlDatabase::addDatabase("QSQLITE", "userdb");
@@ -51,7 +51,7 @@ bool KSUserDB::initialize() {
     return true;
 }
 
-void KSUserDB::deallocate() {
+void KSUserDB::Deallocate() {
     userdb.close();
     QSqlDatabase::removeDatabase("userdb");
 }
@@ -155,7 +155,7 @@ bool KSUserDB::firstRun() {
  * Observer Section
 */
 
-bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
+bool KSUserDB::AddObserver(QString name, QString surname, QString contact) {
 
     userdb.open();
     QSqlTableModel users(0,userdb);
@@ -184,7 +184,7 @@ bool KSUserDB::addObserver(QString name, QString surname, QString contact) {
     return true;    
 }
 
-int KSUserDB::findObserver(QString name, QString surname) {    
+int KSUserDB::FindObserver(QString name, QString surname) {    
     userdb.open();
     QSqlTableModel users(0,userdb);
     users.setTable("user");
@@ -198,7 +198,7 @@ int KSUserDB::findObserver(QString name, QString surname) {
 
 //Returns 0 if id invalid. Else deletes the user with provided ID
 //TODO: This method is currently unused. Find and link it where needed.
-bool KSUserDB::delObserver(QString id) {    
+bool KSUserDB::DeleteObserver(QString id) {    
     userdb.open();
     QSqlTableModel users(0,userdb);
     users.setTable("user");
@@ -212,11 +212,11 @@ bool KSUserDB::delObserver(QString id) {
     return (observer_count>0);
 }
 
-//Clears and then populates M_observerList from UserDB
-void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
+//Clears and then populates observer_list from UserDB
+void KSUserDB::GetAllObservers(QList<Observer*>& observer_list) {
 
     userdb.open();
-    m_observerList.clear();
+    observer_list.clear();
     QSqlTableModel users(0,userdb);
     users.setTable("user");
     users.setFilter("id >= 1");
@@ -228,7 +228,7 @@ void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
         QString surname = record.value("Surname").toString();
         QString contact = record.value("Contact").toString();
         OAL::Observer *o= new OAL::Observer( id, name, surname, contact );
-        m_observerList.append( o );
+        observer_list.append( o );
     }
     users.clear();
     userdb.close();
@@ -239,7 +239,7 @@ void KSUserDB::getAllObservers(QList<OAL::Observer *> &m_observerList) {
  * Flag Section
 */
 
-void KSUserDB::eraseAllFlags() {    
+void KSUserDB::EraseAllFlags() {    
     userdb.open();
     QSqlTableModel flags(0,userdb);
     flags.setTable("flags");
@@ -251,8 +251,8 @@ void KSUserDB::eraseAllFlags() {
     userdb.close();
 }
 
-bool KSUserDB::addFlag(QString ra, QString dec, QString epoch, 
-                       QString imageName, QString label, QString labelColor) {
+bool KSUserDB::AddFlag(QString ra, QString dec, QString epoch, 
+                       QString image_name, QString label, QString labelColor) {
     
     userdb.open();
     QSqlTableModel flags(0,userdb);
@@ -261,7 +261,7 @@ bool KSUserDB::addFlag(QString ra, QString dec, QString epoch,
     flags.insertRows(row,1);
     flags.setData(flags.index(row,1),ra); //row,0 is autoincerement ID
     flags.setData(flags.index(row,2),dec);
-    flags.setData(flags.index(row,3),imageName);
+    flags.setData(flags.index(row,3),image_name);
     flags.setData(flags.index(row,4),label);
     flags.setData(flags.index(row,5),labelColor);
     flags.setData(flags.index(row,6),epoch);
@@ -273,7 +273,7 @@ bool KSUserDB::addFlag(QString ra, QString dec, QString epoch,
 
 //Return QList of QStringList. Order;QString ra, QString dec, QString epoch, 
 //                     QString imageName, QString label, QString labelColor
-QList<QStringList> KSUserDB::getAllFlags() {
+QList<QStringList> KSUserDB::ReturnAllFlags() {
     QList<QStringList> flagList;
     userdb.open();
     QSqlTableModel flags(0,userdb);
@@ -300,7 +300,7 @@ QList<QStringList> KSUserDB::getAllFlags() {
  * Generic Section
  */
 
-void KSUserDB::eraseEquipment(QString type, int id) {    
+void KSUserDB::EraseEquipment(QString type, int id) {    
     userdb.open();
     QSqlTableModel equip(0,userdb);
     equip.setTable(type);
@@ -312,7 +312,7 @@ void KSUserDB::eraseEquipment(QString type, int id) {
     userdb.close();
 }
 
-void KSUserDB::eraseAllEquipment(QString type) {    
+void KSUserDB::EraseAllEquipment(QString type) {    
     userdb.open();
     QSqlTableModel equip(0,userdb);
     equip.setTable(type);
@@ -327,7 +327,7 @@ void KSUserDB::eraseAllEquipment(QString type) {
 /*
  * Telescope section
  */
-bool KSUserDB::addScope(QString model, QString vendor, QString driver,
+bool KSUserDB::AddScope(QString model, QString vendor, QString driver,
                        QString type, double focalLength, double aperture) {
     
     userdb.open();
@@ -347,7 +347,7 @@ bool KSUserDB::addScope(QString model, QString vendor, QString driver,
     return true;    
 }
 
-bool KSUserDB::addScope(QString model, QString vendor, QString driver,
+bool KSUserDB::AddScope(QString model, QString vendor, QString driver,
                        QString type, double focalLength, double aperture, QString id) {
     userdb.open();
     QSqlTableModel equip(0,userdb);

@@ -67,7 +67,7 @@ void FlagComponent::loadFromFile() {
     
     bool imageFound = false;
 
-    QList<QStringList> flagList=KStarsData::Instance()->userdb()->getAllFlags();
+    QList<QStringList> flagList=KStarsData::Instance()->userdb()->ReturnAllFlags();
     for (int i=0; i<flagList.size(); ++i){
         QStringList flagEntry = flagList.at(i);
         
@@ -117,10 +117,10 @@ void FlagComponent::saveToFile() {
     TODO: This is a really bad way of storing things. Adding one flag shouldn't 
     involve writing a new file/table every time. Needs fixing.
     */
-    KStarsData::Instance()->userdb()->eraseAllFlags();
+    KStarsData::Instance()->userdb()->EraseAllFlags();
     
     for ( int i=0; i < size(); ++i ) {
-        KStarsData::Instance()->userdb()->addFlag(QString::number( pointList().at( i )->ra0().Degrees() ),
+        KStarsData::Instance()->userdb()->AddFlag(QString::number( pointList().at( i )->ra0().Degrees() ),
                                                   QString::number( pointList().at( i )->dec0().Degrees() ),
                                                   epoch ( i ),
                                                   imageName( i ).replace( ' ', '_' ),

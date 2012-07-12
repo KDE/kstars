@@ -177,7 +177,7 @@ bool KStarsData::initialize() {
 
     //Initialize User Database//
     emit progressText( i18n("Loading User Information" ) );
-    ksuserdb.initialize();
+    ksuserdb.Initialize();
     readUserLog();
     
     readADVTreeData();

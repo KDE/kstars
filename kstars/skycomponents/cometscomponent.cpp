@@ -89,8 +89,8 @@ void CometsComponent::loadData() {
     long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
     
-    emitProgressText( i18n("Loading comets") );
-    objectNames( SkyObject::COMET ).clear();
+    emitProgressText(i18n("Loading comets"));
+    objectNames(SkyObject::COMET).clear();
     
     QList<KSParser::DataTypes> pattern;
     QList<QString> newList;
@@ -118,47 +118,47 @@ void CometsComponent::loadData() {
     sequence.append(qMakePair(QString("G"),KSParser::D_SKIP));
     KSParser cometParser(QString("comets.dat"), '#', sequence);
     
-    
-    QHash<QString,QVariant> ans;
-    while (cometParser.hasNextRow()){
+    QHash<QString,QVariant> row_content;
+    while (cometParser.HasNextRow()){
         KSComet *com = 0;
-        ans = cometParser.ReadNextRow();
-        name   = ans["full name"].toString();
+        row_content = cometParser.ReadNextRow();
+        name   = row_content["full name"].toString();
         name   = name.trimmed();
-        mJD    = ans["epoch_mjd"].toInt();
-        q    = ans["q"].toDouble();
-        e    = ans["e"].toDouble();
-        dble_i = ans["i"].toDouble();
-        dble_w = ans["w"].toDouble();
-        dble_N = ans["om"].toDouble();
-        Tp     = ans["tp_calc"].toDouble();
-        orbit_id = ans["orbit_id"].toString();
-        neo = ans["neo"] == "Y";
+        mJD    = row_content["epoch_mjd"].toInt();
+        q    = row_content["q"].toDouble();
+        e    = row_content["e"].toDouble();
+        dble_i = row_content["i"].toDouble();
+        dble_w = row_content["w"].toDouble();
+        dble_N = row_content["om"].toDouble();
+        Tp     = row_content["tp_calc"].toDouble();
+        orbit_id = row_content["orbit_id"].toString();
+        neo = row_content["neo"] == "Y";
 
-        if(ans["M1"].toFloat()==0.0)
+        if(row_content["M1"].toFloat()==0.0)
             M1 = 101.0;        
         else
-            M1 = ans["M1"].toFloat();
+            M1 = row_content["M1"].toFloat();
 
-        if(ans["M2"].toFloat()==0.0)
+        if(row_content["M2"].toFloat()==0.0)
             M2 = 101.0;
         else
-            M2 = ans["M2"].toFloat();
+            M2 = row_content["M2"].toFloat();
         
-        diameter = ans["diameter"].toFloat();
-        dimensions = ans["extent"].toString();
-        albedo  = ans["albedo"].toFloat();
-        rot_period = ans["rot_period"].toFloat();
-        period  = ans["per_y"].toFloat();
-        earth_moid  = ans["moid"].toDouble();
-        orbit_class = ans["class"].toString();
-        K1 = ans["H"].toFloat(); 
-        K2 = ans["G"].toFloat(); 
+        diameter = row_content["diameter"].toFloat();
+        dimensions = row_content["extent"].toString();
+        albedo  = row_content["albedo"].toFloat();
+        rot_period = row_content["rot_period"].toFloat();
+        period  = row_content["per_y"].toFloat();
+        earth_moid  = row_content["moid"].toDouble();
+        orbit_class = row_content["class"].toString();
+        K1 = row_content["H"].toFloat(); 
+        K2 = row_content["G"].toFloat(); 
     
         JD = double( mJD ) + 2400000.5;
 
-        com = new KSComet( name, QString(), JD, q, e, dms( dble_i ), 
-                           dms( dble_w ), dms( dble_N ), Tp, M1, M2, 
+        com = new KSComet( name, QString(), JD, q, e, 
+                           dms( dble_i ), dms( dble_w ), 
+                           dms( dble_N ), Tp, M1, M2, 
                            K1, K2 );
         com->setOrbitID( orbit_id );
         com->setNEO( neo );
@@ -170,7 +170,6 @@ void CometsComponent::loadData() {
         com->setEarthMOID( earth_moid );
         com->setOrbitClass( orbit_class );
         com->setAngularSize( 0.005 );
-
         m_ObjectList.append( com );
 
         //Add *short* name to the list of object names

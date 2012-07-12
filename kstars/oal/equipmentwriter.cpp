@@ -84,7 +84,7 @@ EquipmentWriter::EquipmentWriter() {
 
 void EquipmentWriter::slotAddScope() {
     
-    ks->data()->userdb()->addScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(), 
+    ks->data()->userdb()->AddScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(), 
                                    ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value());
     loadEquipment();
     ui.Model->clear();
@@ -95,7 +95,7 @@ void EquipmentWriter::slotAddScope() {
 }
 
 void EquipmentWriter::slotRemoveScope() {
-    ks->data()->userdb()->eraseEquipment("telescope",ui.Id->text().toInt());
+    ks->data()->userdb()->EraseEquipment("telescope",ui.Id->text().toInt());
     ui.Model->clear();
     ui.Vendor->clear();
     ui.FocalLength->setValue(0);
@@ -104,7 +104,7 @@ void EquipmentWriter::slotRemoveScope() {
 }
 
 void EquipmentWriter::slotSaveScope() {
-    ks->data()->userdb()->addScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(), 
+    ks->data()->userdb()->AddScope(ui.Model->text(), ui.Vendor->text(), ui.driverComboBox->currentText(), 
                                    ui.Type->currentText(), ui.FocalLength->value(), ui.Aperture->value(), 
                                    ui.Id->text());
 
@@ -148,7 +148,7 @@ void EquipmentWriter::slotAddEyepiece() {
 }
 
 void EquipmentWriter::slotRemoveEyepiece() {
-    ks->data()->userdb()->eraseEquipment("eyepiece",ui.e_Id->text().toInt());
+    ks->data()->userdb()->EraseEquipment("eyepiece",ui.e_Id->text().toInt());
     loadEquipment();
     ui.e_Id->clear();
     ui.e_Model->clear();
@@ -200,7 +200,7 @@ void EquipmentWriter::slotAddLens() {
 }
 
 void EquipmentWriter::slotRemoveLens() {
-    ks->data()->userdb()->eraseEquipment("lens",ui.e_Id->text().toInt());
+    ks->data()->userdb()->EraseEquipment("lens",ui.e_Id->text().toInt());
     loadEquipment();
     ui.l_Id->clear();
     ui.l_Model->clear();
@@ -249,7 +249,7 @@ void EquipmentWriter::slotAddFilter() {
 }
 
 void EquipmentWriter::slotRemoveFilter() {
-    ks->data()->userdb()->eraseEquipment("filter",ui.f_Id->text().toInt());
+    ks->data()->userdb()->EraseEquipment("filter",ui.f_Id->text().toInt());
     loadEquipment();
     ui.f_Id->clear();
     ui.f_Model->clear();

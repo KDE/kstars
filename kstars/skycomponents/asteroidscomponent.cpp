@@ -128,52 +128,55 @@ void AsteroidsComponent::loadData()
     sequence.append(qMakePair(QString("class"),KSParser::D_QSTRING)); 
     KSParser asteroidParser(QString("asteroids.dat"), '#', sequence);
     
-    QHash<QString,QVariant> ans;
-    while (asteroidParser.hasNextRow()){
-	ans = asteroidParser.ReadNextRow();
-	full_name = ans["full name"].toString();
+    QHash<QString,QVariant> row_content;
+    while (asteroidParser.HasNextRow()){
+	row_content = asteroidParser.ReadNextRow();
+	full_name = row_content["full name"].toString();
 	full_name = full_name.trimmed();
-        int catN  = full_name.section( " ", 0, 0 ).toInt();
-        name = full_name.section( " ", 1, -1 );
-        mJD  = ans["epoch_mjd"].toInt();
-        q    = ans["q"].toDouble();
-        a    = ans["a"].toDouble();
-        e    = ans["e"].toDouble();
-        dble_i = ans["i"].toDouble();
-        dble_w = ans["w"].toDouble();
-        dble_N = ans["om"].toDouble();
-        dble_M = ans["ma"].toDouble();
-        orbit_id = ans["orbit_id"].toString();
-        H   = ans["H"].toDouble();
-        G   = ans["G"].toDouble();
-        neo = ans["neo"].toString() == "Y";
-        diameter = ans["diameter"].toFloat();
-        dimensions = ans["extent"].toString();
-        albedo  = ans["albedo"].toFloat();
-        rot_period = ans["rot_period"].toFloat();
-        period  = ans["per_y"].toFloat();
-        earth_moid  = ans["moid"].toDouble();
-        orbit_class = ans["class"].toString();
+        int catN  = full_name.section(" ", 0, 0).toInt();
+        name = full_name.section(" ", 1, -1);
+        mJD  = row_content["epoch_mjd"].toInt();
+        q    = row_content["q"].toDouble();
+        a    = row_content["a"].toDouble();
+        e    = row_content["e"].toDouble();
+        dble_i = row_content["i"].toDouble();
+        dble_w = row_content["w"].toDouble();
+        dble_N = row_content["om"].toDouble();
+        dble_M = row_content["ma"].toDouble();
+        orbit_id = row_content["orbit_id"].toString();
+        H   = row_content["H"].toDouble();
+        G   = row_content["G"].toDouble();
+        neo = row_content["neo"].toString() == "Y";
+        diameter = row_content["diameter"].toFloat();
+        dimensions = row_content["extent"].toString();
+        albedo  = row_content["albedo"].toFloat();
+        rot_period = row_content["rot_period"].toFloat();
+        period  = row_content["per_y"].toFloat();
+        earth_moid  = row_content["moid"].toDouble();
+        orbit_class = row_content["class"].toString();
 
-        JD = double( mJD ) + 2400000.5;
+        JD = double(mJD) + 2400000.5;
 
-        KSAsteroid *ast = new KSAsteroid( catN, name, QString(), JD, a, e, dms(dble_i),
-                                          dms(dble_w), dms(dble_N), dms(dble_M), H, G );
-        ast->setPerihelion( q );
-        ast->setOrbitID( orbit_id );
-        ast->setNEO( neo );
-        ast->setDiameter( diameter );
-        ast->setDimensions( dimensions );
-        ast->setAlbedo( albedo );
-        ast->setRotationPeriod( rot_period );
-        ast->setPeriod( period );
-        ast->setEarthMOID( earth_moid );
-        ast->setOrbitClass( orbit_class );
-        ast->setAngularSize( 0.005 );
-        m_ObjectList.append( ast );
+        KSAsteroid *ast = new KSAsteroid( catN, name, QString(), JD, 
+                                          a, e, 
+                                          dms(dble_i), dms(dble_w), 
+                                          dms(dble_N), dms(dble_M), 
+                                          H, G );
+        ast->setPerihelion(q);
+        ast->setOrbitID(orbit_id);
+        ast->setNEO(neo);
+        ast->setDiameter(diameter);
+        ast->setDimensions(dimensions);
+        ast->setAlbedo(albedo);
+        ast->setRotationPeriod(rot_period);
+        ast->setPeriod(period);
+        ast->setEarthMOID(earth_moid);
+        ast->setOrbitClass(orbit_class);
+        ast->setAngularSize(0.005);
+        m_ObjectList.append(ast);
 	
 	//Add name to the list of object names
-        objectNames(SkyObject::ASTEROID).append( name );
+        objectNames(SkyObject::ASTEROID).append(name);
     }
     
 }
