@@ -84,6 +84,9 @@ public:
      * @return bool
      **/
     bool hasNextRow();
+    
+    void setProgress(QString msg, int limit, int steps);
+    void showProgress();
 private:
 
     /**

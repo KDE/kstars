@@ -68,10 +68,6 @@ void DeepSkyComponent::loadData()
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();
     
-    emitProgressText( i18n("Loading NGC/IC objects") );
-    //TODO: Pending functionality! 
-    //fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
-
     QList<KSParser::DataTypes> pattern;
     QList< QPair<QString,KSParser::DataTypes> > sequence;
     QList<int> widths;
@@ -98,6 +94,8 @@ void DeepSkyComponent::loadData()
     sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING)); 
                                     //No width to be appended for last sequence object 
     KSParser deepSkyParser(QString("ngcic.dat"), '#', sequence, widths);
+    
+    deepSkyParser.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
     
     QHash<QString,QVariant> ans;
     while (deepSkyParser.hasNextRow()){
@@ -256,175 +254,9 @@ void DeepSkyComponent::loadData()
         if ( ! longname.isEmpty() && longname != name )
             objectNames(type).append( longname );
 
-        
+        deepSkyParser.showProgress();
     }
-/*
-    KSFileReader fileReader;
-    if ( ! fileReader.open( "ngcic.dat" ) ) return;
-    //TODO: Find significance of this:
-    fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
-
-    while ( fileReader.hasMoreLines() ) {
-        QString line, con, ss, name, name2, longname;
-        QString cat, cat2, sgn;
-        float mag(1000.0), ras, a, b;
-        int type, ingc, imess(-1), rah, ram, dd, dm, ds, pa;
-        int pgc, ugc;
-        QChar iflag;
-
-        line = fileReader.readLine();
-
-        //Ignore comment lines
-        while ( line.at(0) == '#' && fileReader.hasMoreLines() ) line = fileReader.readLine();
-
-        //Ignore lines with no coordinate values
-        while ( line.mid(6,8).trimmed().isEmpty() && fileReader.hasMoreLines() ) {
-            line = fileReader.readLine();
-        }
-
-        iflag = line.at( 0 ); //check for NGC/IC catalog flag
-        Q_ASSERT( iflag == 'I' || iflag == 'N' || iflag == ' '); // n.b. We also allow non-NGC/IC objects which have a blank iflag
-        if ( iflag == 'I' ) cat = "IC";
-        else if ( iflag == 'N' ) cat = "NGC";
-
-        ingc = line.mid( 1, 4 ).toInt();  // NGC/IC catalog number
-        if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
-
-        //coordinates
-        rah = line.mid( 6, 2 ).toInt();
-        ram = line.mid( 8, 2 ).toInt();
-        ras = line.mid( 10, 4 ).toFloat();
-        sgn = line.mid( 15, 1 ); //don't use at(), because it crashes on invalid index
-        dd = line.mid( 16, 2 ).toInt();
-        dm = line.mid( 18, 2 ).toInt();
-        ds = line.mid( 20, 2 ).toInt();
-
-        Q_ASSERT( 0.0 <= rah && rah < 24.0 );
-        Q_ASSERT( 0.0 <= ram && ram < 60.0 );
-        Q_ASSERT( 0.0 <= ras && ras < 60.0 );
-        Q_ASSERT( 0.0 <= dd && dd <= 90.0 );
-        Q_ASSERT( 0.0 <= dm && dm < 60.0 );
-        Q_ASSERT( 0.0 <= ds && ds < 60.0 );
-
-        //B magnitude
-        ss = line.mid( 23, 4 );
-        if (ss == "    " ) { mag = 99.9f; } else { mag = ss.toFloat(); }
-
-        //object type
-        type = line.mid( 28, 2 ).toInt();
-
-        //major and minor axes
-        ss = line.mid( 31, 5 );
-        if (ss == "      " ) { a = 0.0; } else { a = ss.toFloat(); }
-        ss = line.mid( 37, 5 );
-        if (ss == "     " ) { b = 0.0; } else { b = ss.toFloat(); }
-        //position angle.  The catalog PA is zero when the Major axis
-        //is horizontal.  But we want the angle measured from North, so
-        //we set PA = 90 - pa.
-        ss = line.mid( 43, 3 );
-        if (ss == "   " ) { pa = 90; } else { pa = 90 - ss.toInt(); }
-
-        //PGC number
-        ss = line.mid( 47, 6 );
-        if (ss == "      " ) { pgc = 0; } else { pgc = ss.toInt(); }
-
-        //UGC number
-        if ( line.mid( 54, 3 ) == "UGC" ) {
-            ugc = line.mid( 58, 5 ).toInt();
-        } else {
-            ugc = 0;
-        }
-
-        //Messier number
-        if ( line.mid( 70,1 ) == "M" ) {
-            cat2 = cat;
-            if ( ingc==0 ) cat2.clear();
-            cat = 'M';
-            imess = line.mid( 72, 3 ).toInt();
-        }
-
-        longname = line.mid( 76, line.length() ).trimmed();
-
-        dms r;
-        r.setH( rah, ram, int(ras) );
-        dms d( dd, dm, ds );
-
-        if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
-
-        bool hasName = true;
-        QString snum;
-        if ( cat=="IC" || cat=="NGC" ) {
-            snum.setNum( ingc );
-            name = cat + ' ' + snum;
-        } else if ( cat=="M" ) {
-            snum.setNum( imess );
-            name = cat + ' ' + snum;
-            if ( cat2=="NGC" ) {
-                snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
-            } else if ( cat2=="IC" ) {
-                snum.setNum( ingc );
-                name2 = cat2 + ' ' + snum;
-            } else {
-                name2.clear();
-            }
-        }
-        else {
-            if ( ! longname.isEmpty() ) name = longname;
-            else {
-                hasName = false;
-                name = i18n( "Unnamed Object" );
-            }
-        }
-
-        // create new deepskyobject
-        DeepSkyObject *o = 0;
-        if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
-        o = new DeepSkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
-        o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
-
-        // Add the name(s) to the nameHash for fast lookup -jbb
-        if ( hasName) {
-            nameHash[ name.toLower() ] = o;
-            if ( ! longname.isEmpty() ) nameHash[ longname.toLower() ] = o;
-            if ( ! name2.isEmpty() ) nameHash[ name2.toLower() ] = o;
-        }
-
-        Trixel trixel = m_skyMesh->index(o);
-
-        //Assign object to general DeepSkyObjects list,
-        //and a secondary list based on its catalog.
-        m_DeepSkyList.append( o );
-        appendIndex( o, &m_DeepSkyIndex, trixel );
-
-        if ( o->isCatalogM()) {
-            m_MessierList.append( o );
-            appendIndex( o, &m_MessierIndex, trixel );
-        }
-        else if (o->isCatalogNGC() ) {
-            m_NGCList.append( o );
-            appendIndex( o, &m_NGCIndex, trixel );
-        }
-        else if ( o->isCatalogIC() ) {
-            m_ICList.append( o );
-            appendIndex( o, &m_ICIndex, trixel );
-        }
-        else {
-            m_OtherList.append( o );
-            appendIndex( o, &m_OtherIndex, trixel );
-        }
-
-        //Add name to the list of object names
-        if ( ! name.isEmpty() )
-            objectNames(type).append( name );
-
-        //Add long name to the list of object names
-        if ( ! longname.isEmpty() && longname != name )
-            objectNames(type).append( longname );
-
-        fileReader.showProgress();
-    }
-    */
+    
 }
 
 void DeepSkyComponent::mergeSplitFiles() {

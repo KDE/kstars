@@ -269,3 +269,13 @@ bool KSParser::hasNextRow() {
     return m_FileReader.hasMoreLines();
     
 }
+
+void KSParser::setProgress(QString msg, int limit, int steps)
+{
+    m_FileReader.setProgress( i18n("Loading NGC/IC objects"), limit, steps );
+}
+
+void KSParser::showProgress()
+{
+    m_FileReader.showProgress();
+}
