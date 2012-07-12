@@ -69,7 +69,7 @@ void DeepSkyComponent::loadData()
 
     KSFileReader fileReader;
     if ( ! fileReader.open( "ngcic.dat" ) ) return;
-
+    //TODO: Find significance of this:
     fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
 
     while ( fileReader.hasMoreLines() ) {

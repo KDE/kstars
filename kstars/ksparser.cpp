@@ -25,7 +25,7 @@ KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTyp
     if (!m_FileReader.open(m_Filename)) {
         kWarning() <<"Unable to open file: "<<filename;
         readFunctionPtr = &KSParser::DummyCSVRow;
-    } else  {
+    } else {
         readFunctionPtr = &KSParser::ReadCSVRow;
         kDebug() <<"File opened: "<<filename;
     }
@@ -33,9 +33,15 @@ KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTyp
 }
 
 KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, 
-             QList<int> widths) {
-    
+             QList<int> widths): m_Filename(filename),m_skipChar(skipChar),m_sequence(sequence) {
+    if (!m_FileReader.open(m_Filename)) {
+        kWarning() <<"Unable to open file: "<<filename;
+        readFunctionPtr = &KSParser::DummyCSVRow;
+    } else {
         readFunctionPtr = &KSParser::ReadFixedWidthRow;
+        kDebug() <<"File opened: "<<filename;
+    }
+        
 
 }
 
@@ -50,15 +56,21 @@ QHash<QString,QVariant>  KSParser::ReadNextRow() {
 QHash<QString,QVariant>  KSParser::ReadCSVRow() {
    
     /**
-     * This signifies that someone tried to read a row
-    without checking if hasNextRow is true
+    * This signifies that someone tried to read a row
+    * without checking if hasNextRow is true
     */
     if (m_FileReader.hasMoreLines() == false)
         return DummyCSVRow(); 
     
+    
+    /**
+     * @brief Success (bool) signifies if a row has been successfully read.
+     * If any problem (eg incomplete row) is encountered. The row is discarded
+     * and the while loop continues till it finds a good row or the file ends.
+     **/
+    bool success = false;
     QString line;
     QStringList separated;
-    bool success = false;
     QHash<QString,QVariant> newRow;
     
     while (m_FileReader.hasMoreLines() && success == false) {
@@ -139,8 +151,33 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
 }
 
 QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
-    kWarning() <<"READ FWR";
+    /**
+    * This signifies that someone tried to read a row
+    * without checking if hasNextRow is true
+    */
+    if (m_FileReader.hasMoreLines() == false)
+        return DummyCSVRow(); 
+    
+    
+    /**
+    * @brief Success (bool) signifies if a row has been successfully read.
+    * If any problem (eg incomplete row) is encountered. The row is discarded
+    * and the while loop continues till it finds a good row or the file ends.
+    **/
+    bool success = false;
+    QString line;
+    QStringList separated;
     QHash<QString,QVariant> newRow;
+    
+    while (m_FileReader.hasMoreLines() && success == false) {
+        line = m_FileReader.readLine();
+        if (line[0] == m_skipChar) continue;
+        /*
+         * Parsing here
+        */
+        success=true;
+    }
+    
     return newRow;
 }
 
