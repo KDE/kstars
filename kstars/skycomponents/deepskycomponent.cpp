@@ -66,7 +66,197 @@ void DeepSkyComponent::loadData()
     //Check whether we need to concatenate a plit NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();
+    
+    emitProgressText( i18n("Loading NGC/IC objects") );
+    //TODO: Pending functionality! 
+    //fileReader.setProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
 
+    QList<KSParser::DataTypes> pattern;
+    QList< QPair<QString,KSParser::DataTypes> > sequence;
+    QList<int> widths;
+    sequence.append(qMakePair(QString("Flag"),KSParser::D_QSTRING)); widths.append(1); 
+    sequence.append(qMakePair(QString("ID"),KSParser::D_INT)); widths.append(4); 
+    sequence.append(qMakePair(QString("RA_H"),KSParser::D_INT)); widths.append(3);
+    sequence.append(qMakePair(QString("RA_M"),KSParser::D_INT)); widths.append(2); 
+    sequence.append(qMakePair(QString("RA_S"),KSParser::D_FLOAT)); widths.append(4); 
+    sequence.append(qMakePair(QString("D_Sign"),KSParser::D_QSTRING)); widths.append(2);
+    sequence.append(qMakePair(QString("Dec_d"),KSParser::D_INT)); widths.append(2); 
+    sequence.append(qMakePair(QString("Dec_m"),KSParser::D_INT)); widths.append(2); 
+    sequence.append(qMakePair(QString("Dec_s"),KSParser::D_INT)); widths.append(2); 
+    sequence.append(qMakePair(QString("BMag"),KSParser::D_QSTRING)); widths.append(6); 
+    sequence.append(qMakePair(QString("type"),KSParser::D_INT)); widths.append(2); 
+    sequence.append(qMakePair(QString("a"),KSParser::D_FLOAT)); widths.append(6); 
+    sequence.append(qMakePair(QString("b"),KSParser::D_FLOAT)); widths.append(6); 
+    sequence.append(qMakePair(QString("pa"),KSParser::D_QSTRING)); widths.append(4); 
+    sequence.append(qMakePair(QString("PGC"),KSParser::D_INT)); widths.append(7); 
+    sequence.append(qMakePair(QString("other cat"),KSParser::D_QSTRING)); widths.append(4);
+    sequence.append(qMakePair(QString("other1"),KSParser::D_QSTRING)); widths.append(6); 
+    sequence.append(qMakePair(QString("other2"),KSParser::D_QSTRING)); widths.append(6);
+    sequence.append(qMakePair(QString("Messr"),KSParser::D_QSTRING)); widths.append(2); 
+    sequence.append(qMakePair(QString("MessrNum"),KSParser::D_INT)); widths.append(4);
+    sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING)); 
+                                    //No width to be appended for last sequence object 
+    KSParser deepSkyParser(QString("ngcic.dat"), '#', sequence, widths);
+    
+    QHash<QString,QVariant> ans;
+    while (deepSkyParser.hasNextRow()){
+        ans = deepSkyParser.ReadNextRow();
+        //Ignore lines with no coordinate values
+        if (ans["RA"].toFloat()==0.0)
+            continue;
+    
+        QChar iflag;
+        QString cat;
+        iflag = ans["Flag"].toString().at( 0 ); //check for NGC/IC catalog flag
+        Q_ASSERT( iflag == 'I' || iflag == 'N' || iflag == ' '); 
+                    // n.b. We also allow non-NGC/IC objects which have a blank iflag
+        if ( iflag == 'I' ) cat = "IC";
+        else if ( iflag == 'N' ) cat = "NGC";
+            
+        
+        float mag(1000.0);
+        int type, ingc, imess(-1), pa;
+        int pgc, ugc;
+        QString con, ss, name, name2, longname;
+        QString cat2;
+        
+        ingc = ans["ID"].toInt();  // NGC/IC catalog number
+        if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
+        
+        //coordinates
+        int rah = ans["RA_H"].toInt();
+        int ram = ans["RA_M"].toInt();
+        float ras = ans["RA_S"].toFloat();
+        QString sgn = ans["D_Sign"].toString().trimmed();
+        int dd = ans["Dec_d"].toInt();
+        int dm = ans["Dec_m"].toInt();
+        int ds = ans["Dec_s"].toInt();
+
+        Q_ASSERT( 0.0 <= rah && rah < 24.0 );
+        Q_ASSERT( 0.0 <= ram && ram < 60.0 );
+        Q_ASSERT( 0.0 <= ras && ras < 60.0 );
+        Q_ASSERT( 0.0 <= dd && dd <= 90.0 );
+        Q_ASSERT( 0.0 <= dm && dm < 60.0 );
+        Q_ASSERT( 0.0 <= ds && ds < 60.0 );
+        
+        //B magnitude
+        ss = ans["BMag"].toString().trimmed();
+        if (ss == "" ) { mag = 99.9f; } else { mag = ss.toFloat(); }
+        
+        //object type
+        type = ans["type"].toInt();
+        
+        //major and minor axes
+        float a = ans["a"].toFloat();
+        float b = ans["b"].toFloat();
+
+        //position angle.  The catalog PA is zero when the Major axis
+        //is horizontal.  But we want the angle measured from North, so
+        //we set PA = 90 - pa.
+        ss = ans["pa"].toString().trimmed();
+        if (ss == "" ) { pa = 90; } else { pa = 90 - ss.toInt(); }
+            
+        //PGC number
+        pgc = ans["PGC"].toInt();
+        
+        //UGC number
+        if ( ans["other cat"].toString().trimmed() == "UGC" ) {
+            ugc = ans["other1"].toString().toInt();
+        } else {
+            ugc = 0;
+        }
+        
+        
+        //Messier number
+        if ( ans["Messr"].toString().trimmed() == "M" ) {
+            cat2 = cat;
+            if ( ingc==0 ) cat2.clear();
+            cat = 'M';
+            imess = ans["MessrNum"].toInt();
+        }
+
+        longname = ans["longname"].toString().trimmed(); 
+        
+        dms r;
+        r.setH( rah, ram, int(ras) );
+        dms d( dd, dm, ds );
+
+        if ( sgn == "-" ) { d.setD( -1.0*d.Degrees() ); }
+
+        bool hasName = true;
+        QString snum;
+        if ( cat=="IC" || cat=="NGC" ) {
+            snum.setNum( ingc );
+            name = cat + ' ' + snum;
+        } else if ( cat=="M" ) {
+            snum.setNum( imess );
+            name = cat + ' ' + snum;
+            if ( cat2=="NGC" ) {
+                snum.setNum( ingc );
+                name2 = cat2 + ' ' + snum;
+            } else if ( cat2=="IC" ) {
+                snum.setNum( ingc );
+                name2 = cat2 + ' ' + snum;
+            } else {
+                name2.clear();
+            }
+        }
+        else {
+            if ( ! longname.isEmpty() ) name = longname;
+            else {
+                hasName = false;
+                name = i18n( "Unnamed Object" );
+            }
+        }
+
+        // create new deepskyobject
+        DeepSkyObject *o = 0;
+        if ( type==0 ) type = 1; //Make sure we use CATALOG_STAR, not STAR
+        o = new DeepSkyObject( type, r, d, mag, name, name2, longname, cat, a, b, pa, pgc, ugc );
+        o->EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+
+        // Add the name(s) to the nameHash for fast lookup -jbb
+        if ( hasName) {
+            nameHash[ name.toLower() ] = o;
+            if ( ! longname.isEmpty() ) nameHash[ longname.toLower() ] = o;
+            if ( ! name2.isEmpty() ) nameHash[ name2.toLower() ] = o;
+        }
+
+        Trixel trixel = m_skyMesh->index(o);
+
+        //Assign object to general DeepSkyObjects list,
+        //and a secondary list based on its catalog.
+        m_DeepSkyList.append( o );
+        appendIndex( o, &m_DeepSkyIndex, trixel );
+
+        if ( o->isCatalogM()) {
+            m_MessierList.append( o );
+            appendIndex( o, &m_MessierIndex, trixel );
+        }
+        else if (o->isCatalogNGC() ) {
+            m_NGCList.append( o );
+            appendIndex( o, &m_NGCIndex, trixel );
+        }
+        else if ( o->isCatalogIC() ) {
+            m_ICList.append( o );
+            appendIndex( o, &m_ICIndex, trixel );
+        }
+        else {
+            m_OtherList.append( o );
+            appendIndex( o, &m_OtherIndex, trixel );
+        }
+
+        //Add name to the list of object names
+        if ( ! name.isEmpty() )
+            objectNames(type).append( name );
+
+        //Add long name to the list of object names
+        if ( ! longname.isEmpty() && longname != name )
+            objectNames(type).append( longname );
+
+        
+    }
+/*
     KSFileReader fileReader;
     if ( ! fileReader.open( "ngcic.dat" ) ) return;
     //TODO: Find significance of this:
@@ -232,6 +422,7 @@ void DeepSkyComponent::loadData()
 
         fileReader.showProgress();
     }
+    */
 }
 
 void DeepSkyComponent::mergeSplitFiles() {

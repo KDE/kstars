@@ -19,6 +19,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+//TODO: Integrate with KSFileReader properly
 
 KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, char delimiter)
 		  :m_Filename(filename),m_skipChar(skipChar),m_sequence(sequence),m_delimiter(delimiter) {
@@ -156,6 +157,7 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
 }
 
 QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
+
     /**
     * This signifies that someone tried to read a row
     * without checking if hasNextRow is true
@@ -163,7 +165,7 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
     if (m_FileReader.hasMoreLines() == false)
         return DummyCSVRow(); 
     
-    if (m_sequence.length() != m_widths.length()) {
+    if (m_sequence.length() != (m_widths.length() + 1)) {
         kWarning() << "Unequal fields and widths! Returning dummy row!";
         return DummyCSVRow();
     }
@@ -186,11 +188,12 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
         for (int n_split=0; n_split<m_widths.length(); n_split++) {
             //Build separated stinglist. Then assign it afterwards.
             QString temp_split;
-            temp_split = line.mid(curr_width, (curr_width+m_widths[n_split]));
+            temp_split = line.mid(curr_width, m_widths[n_split]);
                         //don't use at(), because it crashes on invalid index
             curr_width += m_widths[n_split];
             separated.append(temp_split);
         }
+        separated.append(line.mid(curr_width)); //append last segment
         
         //Check if the generated list has correct size
         if (separated.length() != m_sequence.length()){
@@ -208,23 +211,26 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
                     newRow[m_sequence[i].first]=separated[i];
                     break;
                 case D_DOUBLE:
-                    newRow[m_sequence[i].first]=separated[i].toDouble(&ok);
+                    newRow[m_sequence[i].first]=separated[i].trimmed().toDouble(&ok);
                     if (!ok) {
-                      kDebug() <<  "toDouble Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+                      kDebug() <<  "toDouble Failed at field: "<< m_sequence[i].first 
+                               <<" & line : " << line;
                       newRow[m_sequence[i].first] = EBROKEN_DOUBLE;
                     }
                     break;
                 case D_INT:
-                    newRow[m_sequence[i].first]=separated[i].toInt(&ok);
+                    newRow[m_sequence[i].first]=separated[i].trimmed().toInt(&ok);
                     if (!ok) {
-                      kDebug() << "toInt Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+                      kDebug() << "toInt Failed at field: "<< m_sequence[i].first 
+                               <<" & line : " << line;
                       newRow[m_sequence[i].first] = EBROKEN_INT;
                     }
                     break;
                 case D_FLOAT:
-                    newRow[m_sequence[i].first]=separated[i].toFloat(&ok);
+                    newRow[m_sequence[i].first]=separated[i].trimmed().toFloat(&ok);
                     if (!ok) {
-                      kWarning() << "toFloat Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+                      kWarning() << "toFloat Failed at field: "<< m_sequence[i].first 
+                                 <<" & line : " << line;
                       newRow[m_sequence[i].first] = EBROKEN_FLOATS;
                     }
                     break;

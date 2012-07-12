@@ -62,7 +62,8 @@ public:
      * @param filename Filename of source file
      * @param skipChar Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
-     * @param widths QList of the width sequence eg 4,5,10
+     * @param widths QList of the width sequence eg 4,5,10. Last value is line.length() by default
+     *                  Hence, width.length() should be (sequence.length()-1)
      **/
     KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, 
              QList<int> widths) __attribute__((cdecl));

@@ -102,7 +102,6 @@ void AsteroidsComponent::loadData()
     //Providing a list of the columns in advance will help check
     //for valid rows.
     QList<KSParser::DataTypes> pattern;
-    QList<QString> newList;
     QList< QPair<QString,KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"),KSParser::D_QSTRING));
     sequence.append(qMakePair(QString("epoch_mjd"),KSParser::D_INT));
