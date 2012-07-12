@@ -33,7 +33,7 @@ KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTyp
 }
 
 KSParser::KSParser(QString filename, char skipChar, QList< QPair<QString,DataTypes> > sequence, 
-             QList<int> widths): m_Filename(filename),m_skipChar(skipChar),m_sequence(sequence) {
+             QList<int> widths): m_Filename(filename),m_skipChar(skipChar),m_sequence(sequence), m_widths(widths){
     if (!m_FileReader.open(m_Filename)) {
         kWarning() <<"Unable to open file: "<<filename;
         readFunctionPtr = &KSParser::DummyCSVRow;
@@ -91,6 +91,8 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
         QList <QString> quoteCombined;
         QStringList::iterator iter;
         if (separated.length() == 0) continue;
+        
+        //The following mish mash is to handle fields such as "hello, world"
 	for (iter=separated.begin(); iter!= separated.end(); iter++) {
             QList <QString> queue;
 	    if ((*iter)[0] == '"') {
@@ -110,10 +112,13 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
                 col_result+=join;
             quoteCombined.append(col_result);
 	}
-	separated=quoteCombined;
+	separated=quoteCombined; //At this point, the string has been split 
+                                //taking the quote marks into account
         
+        //Check if the generated list has correct size
         if (separated.length() != m_sequence.length())
             continue;
+        
         for (int i=0; i<m_sequence.length(); i++) {
 	    bool ok;
             switch (m_sequence[i].second){
@@ -158,6 +163,10 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
     if (m_FileReader.hasMoreLines() == false)
         return DummyCSVRow(); 
     
+    if (m_sequence.length() != m_widths.length()) {
+        kWarning() << "Unequal fields and widths! Returning dummy row!";
+        return DummyCSVRow();
+    }
     
     /**
     * @brief Success (bool) signifies if a row has been successfully read.
@@ -172,9 +181,56 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
     while (m_FileReader.hasMoreLines() && success == false) {
         line = m_FileReader.readLine();
         if (line[0] == m_skipChar) continue;
-        /*
-         * Parsing here
-        */
+        
+        int curr_width=0;
+        for (int n_split=0; n_split<m_widths.length(); n_split++) {
+            //Build separated stinglist. Then assign it afterwards.
+            QString temp_split;
+            temp_split = line.mid(curr_width, (curr_width+m_widths[n_split]));
+                        //don't use at(), because it crashes on invalid index
+            curr_width += m_widths[n_split];
+            separated.append(temp_split);
+        }
+        
+        //Check if the generated list has correct size
+        if (separated.length() != m_sequence.length()){
+            kDebug() << "Invalid Size with line: "<< line;
+            continue;
+        }
+        
+        //Conversions
+        //TODO: Redundant Code! DRY!
+        for (int i=0; i<m_sequence.length(); i++) {
+            bool ok;
+            switch (m_sequence[i].second){
+                case D_QSTRING:
+                case D_SKIP:
+                    newRow[m_sequence[i].first]=separated[i];
+                    break;
+                case D_DOUBLE:
+                    newRow[m_sequence[i].first]=separated[i].toDouble(&ok);
+                    if (!ok) {
+                      kDebug() <<  "toDouble Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+                      newRow[m_sequence[i].first] = EBROKEN_DOUBLE;
+                    }
+                    break;
+                case D_INT:
+                    newRow[m_sequence[i].first]=separated[i].toInt(&ok);
+                    if (!ok) {
+                      kDebug() << "toInt Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+                      newRow[m_sequence[i].first] = EBROKEN_INT;
+                    }
+                    break;
+                case D_FLOAT:
+                    newRow[m_sequence[i].first]=separated[i].toFloat(&ok);
+                    if (!ok) {
+                      kWarning() << "toFloat Failed at field: "<< m_sequence[i].first <<" & line : " << line;
+                      newRow[m_sequence[i].first] = EBROKEN_FLOATS;
+                    }
+                    break;
+            }
+        }
+        
         success=true;
     }
     
@@ -200,7 +256,6 @@ QHash<QString,QVariant>  KSParser::DummyCSVRow() {
                     break;
             }
         }
-    kWarning() <<"READ FWR";
     return newRow;
 }
 
