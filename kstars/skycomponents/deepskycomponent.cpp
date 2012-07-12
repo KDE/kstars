@@ -62,6 +62,7 @@ void DeepSkyComponent::update( KSNumbers* )
 
 void DeepSkyComponent::loadData()
 {
+
     KStarsData* data = KStarsData::Instance();
     //Check whether we need to concatenate a plit NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
@@ -101,10 +102,7 @@ void DeepSkyComponent::loadData()
     QHash<QString,QVariant> ans;
     while (deepSkyParser.hasNextRow()){
         ans = deepSkyParser.ReadNextRow();
-        //Ignore lines with no coordinate values
-        if (ans["RA"].toFloat()==0.0)
-            continue;
-    
+
         QChar iflag;
         QString cat;
         iflag = ans["Flag"].toString().at( 0 ); //check for NGC/IC catalog flag
@@ -131,6 +129,10 @@ void DeepSkyComponent::loadData()
         int dd = ans["Dec_d"].toInt();
         int dm = ans["Dec_m"].toInt();
         int ds = ans["Dec_s"].toInt();
+        
+        //Ignore lines with no coordinate values
+        if (rah==0 && ram==0 & ras==0)
+            continue;
 
         Q_ASSERT( 0.0 <= rah && rah < 24.0 );
         Q_ASSERT( 0.0 <= ram && ram < 60.0 );
@@ -175,7 +177,7 @@ void DeepSkyComponent::loadData()
             imess = ans["MessrNum"].toInt();
         }
 
-        longname = ans["longname"].toString().trimmed(); 
+        longname = ans["Longname"].toString().trimmed(); 
         
         dms r;
         r.setH( rah, ram, int(ras) );
