@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSPARSER_H
-#define KSPARSER_H
+#ifndef KSTARS_KSPARSER_H_
+#define KSTARS_KSPARSER_H_
 #include <QList>
 #include <QFile>
 #include <QHash>
@@ -29,9 +29,8 @@
  * @brief Generic class for text file parsers used in KStars.
  * Read rows using ReadCSVRow() regardless of the type of parser.
  **/
-class KSParser
-{
-public:
+class KSParser {
+ public:
     /**
      * @brief DataTypes for building sequence
      * D_QSTRING QString Type
@@ -41,50 +40,55 @@ public:
      * D_SKIP Not Needed. This string is not converted from QString
      * 
      **/
-    enum DataTypes {D_QSTRING, D_INT, D_FLOAT, D_DOUBLE, D_SKIP};
-    
-    
+    enum DataTypes {
+        D_QSTRING,
+        D_INT,
+        D_FLOAT,
+        D_DOUBLE,
+        D_SKIP
+    };
+
     /**
-     * @brief Constructor to return a CSV parsing instance of a KSParser type object. 
+     * @brief Returns a CSV parsing instance of a KSParser type object.
      *
      * @param filename Filename of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
      * @param delimiter separate on which character. default ','
      **/
-    KSParser(QString filename, char comment_char, QList< QPair<QString,DataTypes> > sequence,
+    KSParser(QString filename, char comment_char,
+             QList< QPair<QString, DataTypes> > sequence,
              char delimiter = ',');
-             
 
     /**
-     * @brief Constructor to return a Fixed Width parsing instance of a KSParser type object. 
+     * @brief Returns a Fixed Width parsing instance of a KSParser type object. 
      *
      * @param filename Filename of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
-     * @param widths QList of the width sequence eg 4,5,10. Last value is line.length() by default
-     *                  Hence, width.length() should be (sequence.length()-1)
+     * @param widths width sequence. Last value is line.length() by default
+     *               Hence, sequence.length() should be (width.length()+1)
      **/
-    KSParser(QString filename, char comment_char, QList< QPair<QString,DataTypes> > sequence, 
+    KSParser(QString filename, char comment_char,
+             QList< QPair<QString, DataTypes> > sequence,
              QList<int> widths);
 
-             
     /**
-     * @brief ReadNextRow is a generic function used to read the next row of a text file.
+     * @brief Generic function used to read the next row of a text file.
      * The contructor changes the function pointer to the appropriate function.
      * Returns the row as <"column name", value>
      *
      * @return QHash< QString, QVariant >
      **/
-    QHash<QString,QVariant>  ReadNextRow();
-    
+    QHash<QString, QVariant>  ReadNextRow();
+
     /**
      * @brief Returns True if there are more rows to be read
      *
      * @return bool
      **/
     bool HasNextRow();
-    
+
     /**
      * @brief Wrapper function for KSFileReader setProgress
      *
@@ -94,55 +98,56 @@ public:
      * @return void
      **/
     void SetProgress(QString msg, int total_lines, int step_size);
-    
+
     /**
      * @brief Wrapper function for KSFileReader showProgress
      *
      * @return void
      **/
     void ShowProgress();
-private:
+
+ private:
+    /**
+     * @brief Function Pointer used by ReadNextRow 
+     * to call the appropriate function among ReadCSVRow and ReadFixedWidthRow
+     *
+     * @return QHash< QString, QVariant >
+     **/
+    QHash<QString, QVariant> (KSParser::*readFunctionPtr)();
 
     /**
-     * @brief The Function Pointer used by ReadNextRow to call the appropriate function
+     * @brief Returns a single row from CSV. 
+     * If HasNextRow is false, returns a row with default values.
      *
      * @return QHash< QString, QVariant >
      **/
-    QHash<QString,QVariant> (KSParser::*readFunctionPtr)();
-    
+    QHash<QString, QVariant> ReadCSVRow();
+
     /**
-     * @brief Returns a single row from CSV. If HasNextRow is false, returns a
-     * row with default values.
+     * @brief Returns a single row from Fixed Width File.
+     * If HasNextRow is false, returns a row with default values.
      *
      * @return QHash< QString, QVariant >
      **/
-    QHash<QString,QVariant> ReadCSVRow();
-    
+    QHash<QString, QVariant> ReadFixedWidthRow();
+
     /**
-     * @brief Returns a single row from Fixed Width File. If HasNextRow is false, returns a
-     * row with default values.
+     * @brief Returns a default value row.
+     * Values are according to the current assigned sequence.
      *
      * @return QHash< QString, QVariant >
      **/
-    QHash<QString,QVariant> ReadFixedWidthRow();
-    
-    /**
-     * @brief Returns a default value row based on the currently assigned sequence.
-     *
-     * @return QHash< QString, QVariant >
-     **/
-    QHash<QString,QVariant> DummyRow();
-    
+    QHash<QString, QVariant> DummyRow();
+
     KSFileReader file_reader_;
     QString filename_;
     int current_row_id_;
     bool more_rows_;
     char comment_char_;
-    
-    QList< QPair<QString,DataTypes> > name_type_sequence_;
+
+    QList< QPair<QString, DataTypes> > name_type_sequence_;
     QList<int> width_sequence_;
     char delimiter_;
-
 };
 
-#endif // KSPARSER_H
+#endif  // KSTARS_KSPARSER_H_
