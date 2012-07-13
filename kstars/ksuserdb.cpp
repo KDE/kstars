@@ -29,24 +29,23 @@ bool KSUserDB::Initialize() {
     userdb_ = QSqlDatabase::addDatabase("QSQLITE", "userdb");
     QString dbfile = KStandardDirs::locateLocal("appdata", "userdb.sqlite");
     QFile testdb(dbfile);
-    bool first = false;
+    bool first_run = false;
     if (!testdb.exists()) {
-        kWarning()<< i18n("User DB does not exist! New User DB will be \
-created.");
-        first = true;
+        kDebug()<< i18n("User DB does not exist! New User DB will be " +
+                          "created.");
+        first_run = true;
     }
     userdb_.setDatabaseName(dbfile);
     if (!userdb_.open()) {
            kWarning() << i18n("Unable to open user database file!");
            kWarning() << LastError();
     } else {
-        kWarning() << i18n("Opened the User DB. Ready!");
+        kDebug() << i18n("Opened the User DB. Ready!");
     }
-    if (first == true) {
+    if (first_run == true) {
         FirstRun();
     }
     userdb_.close();
-
     return true;
 }
 
@@ -60,85 +59,80 @@ QSqlError KSUserDB::LastError() {
     return userdb_.lastError();
 }
 
-
-
 bool KSUserDB::FirstRun() {
     kWarning() << i18n("Rebuilding User Database");
     QVector<QString> tables;
-    tables.append("CREATE TABLE user (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    Name TEXT NOT NULL  DEFAULT 'NULL', \
-    Surname TEXT NOT NULL  DEFAULT 'NULL', \
-    Contact TEXT DEFAULT NULL)");
+    tables.append("CREATE TABLE user ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "Name TEXT NOT NULL  DEFAULT 'NULL', " +
+                  "Surname TEXT NOT NULL  DEFAULT 'NULL', " +
+                  "Contact TEXT DEFAULT NULL)");
 
-    tables.append("CREATE TABLE telescope (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    Vendor TEXT DEFAULT NULL, \
-    Aperture REAL NOT NULL  DEFAULT NULL, \
-    Model TEXT DEFAULT NULL, \
-    Driver TEXT DEFAULT NULL, \
-    Type TEXT DEFAULT NULL, \
-    FocalLength REAL DEFAULT NULL)");
+    tables.append("CREATE TABLE telescope ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "Vendor TEXT DEFAULT NULL, " +
+                  "Aperture REAL NOT NULL  DEFAULT NULL, " +
+                  "Model TEXT DEFAULT NULL, " +
+                  "Driver TEXT DEFAULT NULL, " +
+                  "Type TEXT DEFAULT NULL, " +
+                  "FocalLength REAL DEFAULT NULL)");
 
-    tables.append("CREATE TABLE flags (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    RA TEXT NOT NULL  DEFAULT NULL, \
-    Dec TEXT NOT NULL  DEFAULT NULL, \
-    Icon TEXT NOT NULL  DEFAULT 'NULL', \
-    Label TEXT NOT NULL  DEFAULT 'NULL', \
-    Color TEXT DEFAULT NULL, \
-    Epoch TEXT DEFAULT NULL)");
+    tables.append("CREATE TABLE flags ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "RA TEXT NOT NULL  DEFAULT NULL, " +
+                  "Dec TEXT NOT NULL  DEFAULT NULL, " +
+                  "Icon TEXT NOT NULL  DEFAULT 'NULL', " +
+                  "Label TEXT NOT NULL  DEFAULT 'NULL', " +
+                  "Color TEXT DEFAULT NULL, " +
+                  "Epoch TEXT DEFAULT NULL)");
 
-    tables.append("CREATE TABLE lens (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    Vendor TEXT NOT NULL  DEFAULT 'NULL', \
-    Model TEXT DEFAULT NULL, \
-    Factor REAL NOT NULL  DEFAULT NULL)");
+    tables.append("CREATE TABLE lens ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "Vendor TEXT NOT NULL  DEFAULT 'NULL', " +
+                  "Model TEXT DEFAULT NULL, " +
+                  "Factor REAL NOT NULL  DEFAULT NULL)");
 
-    tables.append("CREATE TABLE eyepiece (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    Vendor TEXT DEFAULT NULL, \
-    Model TEXT DEFAULT NULL, \
-    FocalLength REAL NOT NULL  DEFAULT NULL, \
-    ApparentFOV REAL NOT NULL  DEFAULT NULL, \
-    FOVUnit TEXT NOT NULL  DEFAULT NULL)");
+    tables.append("CREATE TABLE eyepiece ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "Vendor TEXT DEFAULT NULL, " +
+                  "Model TEXT DEFAULT NULL, " +
+                  "FocalLength REAL NOT NULL  DEFAULT NULL, " +
+                  "ApparentFOV REAL NOT NULL  DEFAULT NULL, " +
+                  "FOVUnit TEXT NOT NULL  DEFAULT NULL)");
 
-    tables.append("CREATE TABLE filter (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    Vendor TEXT DEFAULT NULL, \
-    Model TEXT DEFAULT NULL, \
-    Type TEXT DEFAULT NULL, \
-    Color TEXT DEFAULT NULL)");
+    tables.append("CREATE TABLE filter ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "Vendor TEXT DEFAULT NULL, " +
+                  "Model TEXT DEFAULT NULL, " +
+                  "Type TEXT DEFAULT NULL, " +
+                  "Color TEXT DEFAULT NULL)");
 
-    tables.append("CREATE TABLE wishlist (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    Date NUMERIC NOT NULL  DEFAULT NULL, \
-    Type TEXT DEFAULT NULL, \
-    UIUD TEXT DEFAULT NULL)");
+    tables.append("CREATE TABLE wishlist ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "Date NUMERIC NOT NULL  DEFAULT NULL, " +
+                  "Type TEXT DEFAULT NULL, " +
+                  "UIUD TEXT DEFAULT NULL)");
 
-    tables.append("CREATE TABLE fov (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    name TEXT NOT NULL  DEFAULT 'NULL', \
-    color TEXT DEFAULT NULL, \
-    sizeX NUMERIC DEFAULT NULL, \
-    sizeY NUMERIC DEFAULT NULL, \
-    shape TEXT DEFAULT NULL)");
+    tables.append("CREATE TABLE fov ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "name TEXT NOT NULL  DEFAULT 'NULL', " +
+                  "color TEXT DEFAULT NULL, " +
+                  "sizeX NUMERIC DEFAULT NULL, " +
+                  "sizeY NUMERIC DEFAULT NULL, " +
+                  "shape TEXT DEFAULT NULL)");
 
-    tables.append("CREATE TABLE logentry (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, \
-    content TEXT NOT NULL  DEFAULT 'NULL', \
-    UIUD TEXT DEFAULT NULL, \
-    DateTime NUMERIC NOT NULL  DEFAULT NULL, \
-    User INTEGER DEFAULT NULL REFERENCES user (id), \
-    Location TEXT DEFAULT NULL, \
-    Telescope INTEGER DEFAULT NULL REFERENCES telescope (id), \
-    Filter INTEGER DEFAULT NULL REFERENCES filter (id), \
-    lens INTEGER DEFAULT NULL REFERENCES lens (id), \
-    Eyepiece INTEGER DEFAULT NULL REFERENCES eyepiece (id), \
-    FOV INTEGER DEFAULT NULL REFERENCES fov (id))");
-
-    tables.append("CREATE TABLE colorscheme (\
-    id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT)");
+    tables.append("CREATE TABLE logentry ( " +
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT, " +
+                  "content TEXT NOT NULL  DEFAULT 'NULL', " +
+                  "UIUD TEXT DEFAULT NULL, " +
+                  "DateTime NUMERIC NOT NULL  DEFAULT NULL, " +
+                  "User INTEGER DEFAULT NULL REFERENCES user (id), " +
+                  "Location TEXT DEFAULT NULL, " +
+                  "Telescope INTEGER DEFAULT NULL REFERENCES telescope (id)," +
+                  "Filter INTEGER DEFAULT NULL REFERENCES filter (id), " +
+                  "lens INTEGER DEFAULT NULL REFERENCES lens (id), " +
+                  "Eyepiece INTEGER DEFAULT NULL REFERENCES eyepiece (id), " +
+                  "FOV INTEGER DEFAULT NULL REFERENCES fov (id))");
 
     for (int i = 0; i < tables.count(); ++i) {
         QSqlQuery query(userdb_);
@@ -156,7 +150,8 @@ void KSUserDB::AddObserver(QString name, QString surname, QString contact) {
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
-    users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
+    users.setFilter("Name LIKE \'" + name + "\' AND Surname LIKE \'" +
+                    surname + "\'");
     users.select();
     if (users.rowCount()>0) {
             QSqlRecord record = users.record(0);
@@ -180,7 +175,8 @@ int KSUserDB::FindObserver(QString name, QString surname) {
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
-    users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
+    users.setFilter("Name LIKE \'" + name + "\' AND Surname LIKE \'" +
+                    surname + "\'");
     users.select();
     int observer_count = users.rowCount();
     users.clear();
@@ -203,7 +199,7 @@ bool KSUserDB::DeleteObserver(QString id) {
     return (observer_count>0);
 }
 
-void KSUserDB::GetAllObservers(QList<Observer*>& observer_list) {
+void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
     userdb_.open();
     observer_list.clear();
     QSqlTableModel users(0, userdb_);
@@ -355,9 +351,9 @@ void KSUserDB::AddScope(QString model, QString vendor, QString driver,
     userdb_.close();
 }
 
-void KSUserDB::GetAllScopes(QList< Scope* >& m_scopeList) {
+void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
     userdb_.open();
-    m_scopeList.clear();
+    scope_list.clear();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
     equip.setFilter("2=2");  // dummy filter. no filter=SEGFAULT
@@ -374,7 +370,7 @@ void KSUserDB::GetAllScopes(QList< Scope* >& m_scopeList) {
         OAL::Scope *o= new OAL::Scope(id, model, vendor, type,
                                       focalLength, aperture);
         o->setINDIDriver(driver);
-        m_scopeList.append(o);
+        scope_list.append(o);
     }
     equip.clear();
     userdb_.close();
@@ -420,9 +416,9 @@ void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength,
     userdb_.close();
 }
 
-void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
+void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
     userdb_.open();
-    m_eyepieceList.clear();
+    eyepiece_list.clear();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
     equip.setFilter("2=2");  // dummy filter. no filter=SEGFAULT
@@ -437,7 +433,7 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
         QString fovUnit = record.value("FOVUnit").toString();
         OAL::Eyepiece *o = new OAL::Eyepiece(id, model, vendor, fov,
                                              fovUnit, focalLength);
-        m_eyepieceList.append(o);
+        eyepiece_list.append(o);
     }
     equip.clear();
     userdb_.close();
@@ -477,9 +473,9 @@ void KSUserDB::AddLens(QString vendor, QString model,
     userdb_.close();
 }
 
-void KSUserDB::GetAllLenses(QList<OAL::Lens *> &m_lensList) {
+void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
     userdb_.open();
-    m_lensList.clear();
+    lens_list.clear();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
     equip.setFilter("2=2");  // dummy filter. no filter=SEGFAULT
@@ -491,7 +487,7 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &m_lensList) {
         QString model = record.value("Model").toString();
         double factor = record.value("Factor").toDouble();
         OAL::Lens *o = new OAL::Lens(id, model, vendor, factor);
-        m_lensList.append(o);
+        lens_list.append(o);
     }
     equip.clear();
     userdb_.close();
@@ -534,7 +530,7 @@ void KSUserDB::AddFilter(QString vendor, QString model, QString type,
     userdb_.close();
 }
 
-void KSUserDB::GetAllFilters(QList<OAL::Filter*>& m_filterList) {
+void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     userdb_.open();
     m_filterList.clear();
     QSqlTableModel equip(0, userdb_);
