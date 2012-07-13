@@ -16,9 +16,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSUSERDB_H_
-#define KSUSERDB_H_
+#ifndef KSTARS_KSUSERDB_H_
+#define KSTARS_KSUSERDB_H_
 #define KSTARS_USERDB "data/userdb.sqlite"
+#include <kstandarddirs.h>
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QSqlQuery>
@@ -30,13 +31,11 @@
 #include <QVariant>
 #include <QFile>
 #include "skyobjects/skyobject.h"
-#include <kstandarddirs.h>
 #include "oal/oal.h"
 
 
-class KSUserDB
-{
-public:
+class KSUserDB {
+ public:
     /** Initialize KStarsDB while running splash screen
      * @return true on success
      */
@@ -52,7 +51,7 @@ public:
      *
      * @return int
      **/
-    int FindObserver(QString name, QString surname);    
+    int FindObserver(QString name, QString surname);
     /**
      * @brief Removes the user with unique id as given by FindObserver
      * Returns false if the user is not found
@@ -85,7 +84,7 @@ public:
      * @param labelColor Color of the label (name or hex code) eg #00FF00
      * @return void
      **/
-    void AddFlag(QString ra, QString dec, QString epoch, 
+    void AddFlag(QString ra, QString dec, QString epoch,
                  QString image_name, QString label, QString labelColor);
     /**
      * @brief Returns a QList populated with all stored flags
@@ -110,7 +109,7 @@ public:
      * @param type Equipment type (same as table name)
      * @return void
      **/
-    void EraseAllEquipment(QString type); 
+    void EraseAllEquipment(QString type);
 
     /**
      * @brief Appends the scope with given details in the database
@@ -125,7 +124,7 @@ public:
      * @return void
      **/
     void AddScope(QString model, QString vendor, QString driver,
-                  QString type, double focalLength, double aperture, 
+                  QString type, double focalLength, double aperture,
                   QString id);
     /**
      * @brief updates the scope list with all scopes from database
@@ -141,14 +140,14 @@ public:
      *
      * @return void
      **/
-    void AddEyepiece(QString vendor, QString model, double focalLength, 
-                           double fov, QString fovunit);
+    void AddEyepiece(QString vendor, QString model, double focalLength,
+                     double fov, QString fovunit);
     /**
      * @brief Replace eyepiece at position (ID) with new content
      *
      * @return void
      **/
-    void AddEyepiece(QString vendor, QString model, double focalLength, 
+    void AddEyepiece(QString vendor, QString model, double focalLength,
                            double fov, QString fovunit, QString id);
     /**
      * @brief Populate the reference passed with all eyepieces
@@ -177,7 +176,7 @@ public:
      * @return void
      **/
     void GetAllLenses(QList<OAL::Lens *>& m_lensList);
-    
+
     /**
      * @brief Add a new filter to the database
      *
@@ -189,7 +188,7 @@ public:
      *
      * @return void
      **/
-    void AddFilter(QString vendor, QString model, QString type, QString color, 
+    void AddFilter(QString vendor, QString model, QString type, QString color,
                    QString id);
     /**
      * @brief Populate the reference passed with all filters
@@ -198,7 +197,8 @@ public:
      * @return void
      **/
     void GetAllFilters(QList<OAL::Filter *>& m_filterList);
-private:
+
+ private:
     /**
      * @brief This function initializes a new database in the user's directory.
      * To be run only when a new db is needed. Should not be run over existing 
@@ -219,4 +219,4 @@ private:
     QSqlError LastError();
 };
 
-#endif // KSUSERDB_H_
+#endif  // KSTARS_KSUSERDB_H_
