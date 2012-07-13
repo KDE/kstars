@@ -157,17 +157,64 @@ public:
      **/
     void GetAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList);
 
-    bool AddLens(QString vendor, QString model, double factor);
-    bool AddLens(QString vendor, QString model, double factor, QString id);
+    /**
+     * @brief Add a new lens to the database
+     *
+     * @return void
+     **/
+    void AddLens(QString vendor, QString model, double factor);
+    /**
+     * @brief Replace a lens at given ID with new content 
+     *
+     * @return void
+     **/
+    void AddLens(QString vendor, QString model, double factor, QString id);
+    /**
+     * @brief Populate the reference passed with all lenses
+     *
+     * @param m_lensList Reference to list of lenses
+     * @return void
+     **/
     void GetAllLenses(QList<OAL::Lens *>& m_lensList);
-
-    bool AddFilter(QString vendor, QString model, QString type, QString color);
-    bool AddFilter(QString vendor, QString model, QString type, QString color, QString id);
+    
+    /**
+     * @brief Add a new filter to the database
+     *
+     * @return void
+     **/
+    void AddFilter(QString vendor, QString model, QString type, QString color);
+    /**
+     * @brief Replace a filter at given ID with new content 
+     *
+     * @return void
+     **/
+    void AddFilter(QString vendor, QString model, QString type, QString color, 
+                   QString id);
+    /**
+     * @brief Populate the reference passed with all filters
+     *
+     * @param m_filterList Reference to list of filters
+     * @return void
+     **/
     void GetAllFilters(QList<OAL::Filter *>& m_filterList);
 private:
-    bool VerifyDatabase(QString dbfile);
+    /**
+     * @brief This function initializes a new database in the user's directory.
+     * To be run only when a new db is needed. Should not be run over existing 
+     * database file.
+     *
+     * @return bool
+     **/
     bool FirstRun();
+    /**
+     * @brief Linked to the user database _once_.
+     **/
     QSqlDatabase userdb_;
+    /**
+     * @brief Function to return the last error encountered by SQLite
+     *
+     * @return QSqlError
+     **/
     QSqlError LastError();
 };
 
