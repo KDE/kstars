@@ -480,19 +480,19 @@ void OAL::Log::readSessions() {
 }
 
 void OAL::Log::readScopes() {
-    KStars::Instance()->data()->userdb()->getAllScopes(m_scopeList);
+    KStars::Instance()->data()->userdb()->GetAllScopes(m_scopeList);
 }
 
 void OAL::Log::readEyepieces() {
-    KStars::Instance()->data()->userdb()->getAllEyepieces(m_eyepieceList);
+    KStars::Instance()->data()->userdb()->GetAllEyepieces(m_eyepieceList);
 }
 
 void OAL::Log::readLenses() {
-    KStars::Instance()->data()->userdb()->getAllLenses(m_lensList);
+    KStars::Instance()->data()->userdb()->GetAllLenses(m_lensList);
 }
 
 void OAL::Log::readFilters() {
-    KStars::Instance()->data()->userdb()->getAllFilters(m_filterList);
+    KStars::Instance()->data()->userdb()->GetAllFilters(m_filterList);
 }
 
 void OAL::Log::readTarget() {

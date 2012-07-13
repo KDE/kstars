@@ -21,13 +21,13 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-// Replacing bool KSUserDB::initialize(QString dbfile = KSTARS_USERDB)
-// Every logged in user should have their own db.
+
 
 bool KSUserDB::Initialize() {
+    // Every logged in user has their own db.
     //TODO: This needs to be merged with verification, and made into a static member
     //to achieve 'aggregation' with kstarsdata
-    userdb = QSqlDatabase::addDatabase("QSQLITE", "userdb");
+    userdb_ = QSqlDatabase::addDatabase("QSQLITE", "userdb");
     QString dbfile = KStandardDirs::locateLocal( "appdata", "userdb.sqlite" );
     QFile testdb(dbfile);
     bool first = false;
@@ -35,35 +35,35 @@ bool KSUserDB::Initialize() {
         kWarning() << i18n("User DB does not exist! New User DB will be created.");
         first = true;
     }
-    userdb.setDatabaseName(dbfile);
-    if (!userdb.open()) {
+    userdb_.setDatabaseName(dbfile);
+    if (!userdb_.open()) {
            kWarning() << i18n("Unable to open user database file!");
-           kWarning() << lastError();
+           kWarning() << LastError();
     }
     else {
         kWarning() << i18n("Opened the User DB. Ready!");
     }
     if (first == true){
-        firstRun();
+        FirstRun();
     }
-    userdb.close();
+    userdb_.close();
 
     return true;
 }
 
-void KSUserDB::Deallocate() {
-    userdb.close();
+KSUserDB::~KSUserDB() {
+    userdb_.close();
     QSqlDatabase::removeDatabase("userdb");
 }
 
-QSqlError KSUserDB::lastError() {
+QSqlError KSUserDB::LastError() {
     //error description is in QSqlError::text()
-    return userdb.lastError();
+    return userdb_.lastError();
 }
 
 
 
-bool KSUserDB::firstRun() {
+bool KSUserDB::FirstRun() {
     kWarning() << i18n("Rebuilding User Database");
     QVector<QString> tables;
     tables.append("CREATE TABLE user (\
@@ -142,7 +142,7 @@ bool KSUserDB::firstRun() {
     id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT)");
     
     for (int i=0; i<tables.count(); i++){
-        QSqlQuery query(userdb);
+        QSqlQuery query(userdb_);
         if (!query.exec(tables[i])) {
             kWarning() << query.lastError();
         }
@@ -155,10 +155,9 @@ bool KSUserDB::firstRun() {
  * Observer Section
 */
 
-bool KSUserDB::AddObserver(QString name, QString surname, QString contact) {
-
-    userdb.open();
-    QSqlTableModel users(0,userdb);
+void KSUserDB::AddObserver(QString name, QString surname, QString contact) {
+    userdb_.open();
+    QSqlTableModel users(0,userdb_);
     users.setTable("user");
     users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
     users.select();
@@ -178,29 +177,25 @@ bool KSUserDB::AddObserver(QString name, QString surname, QString contact) {
         users.setData(users.index(row,3),contact);
         users.submitAll();
     }
-    
-    userdb.close();
-
-    return true;    
+    userdb_.close();    
 }
 
 int KSUserDB::FindObserver(QString name, QString surname) {    
-    userdb.open();
-    QSqlTableModel users(0,userdb);
+    userdb_.open();
+    QSqlTableModel users(0,userdb_);
     users.setTable("user");
     users.setFilter("Name LIKE \'"+name+"\' AND Surname LIKE \'"+surname+"\'");
     users.select();
     int observer_count = users.rowCount();
     users.clear();
-    userdb.close();
+    userdb_.close();
     return (observer_count>0);
 }
 
-//Returns 0 if id invalid. Else deletes the user with provided ID
 //TODO: This method is currently unused. Find and link it where needed.
 bool KSUserDB::DeleteObserver(QString id) {    
-    userdb.open();
-    QSqlTableModel users(0,userdb);
+    userdb_.open();
+    QSqlTableModel users(0,userdb_);
     users.setTable("user");
     users.setFilter("id = "+id+"\'");
     users.select();
@@ -208,16 +203,14 @@ bool KSUserDB::DeleteObserver(QString id) {
     users.submitAll();
     int observer_count = users.rowCount();
     users.clear();
-    userdb.close();
+    userdb_.close();
     return (observer_count>0);
 }
 
-//Clears and then populates observer_list from UserDB
 void KSUserDB::GetAllObservers(QList<Observer*>& observer_list) {
-
-    userdb.open();
+    userdb_.open();
     observer_list.clear();
-    QSqlTableModel users(0,userdb);
+    QSqlTableModel users(0,userdb_);
     users.setTable("user");
     users.setFilter("id >= 1");
     users.select();
@@ -231,7 +224,7 @@ void KSUserDB::GetAllObservers(QList<Observer*>& observer_list) {
         observer_list.append( o );
     }
     users.clear();
-    userdb.close();
+    userdb_.close();
     return;
 }
 
@@ -240,22 +233,21 @@ void KSUserDB::GetAllObservers(QList<Observer*>& observer_list) {
 */
 
 void KSUserDB::EraseAllFlags() {    
-    userdb.open();
-    QSqlTableModel flags(0,userdb);
+    userdb_.open();
+    QSqlTableModel flags(0,userdb_);
     flags.setTable("flags");
     flags.setFilter("id >= 1");
     flags.select();
     flags.removeRows(0,flags.rowCount());
     flags.submitAll();
     flags.clear();
-    userdb.close();
+    userdb_.close();
 }
 
-bool KSUserDB::AddFlag(QString ra, QString dec, QString epoch, 
+void KSUserDB::AddFlag(QString ra, QString dec, QString epoch, 
                        QString image_name, QString label, QString labelColor) {
-    
-    userdb.open();
-    QSqlTableModel flags(0,userdb);
+    userdb_.open();
+    QSqlTableModel flags(0,userdb_);
     flags.setTable("flags");
     int row = 0;
     flags.insertRows(row,1);
@@ -267,16 +259,15 @@ bool KSUserDB::AddFlag(QString ra, QString dec, QString epoch,
     flags.setData(flags.index(row,6),epoch);
     flags.submitAll();
     flags.clear();
-    userdb.close();
-    return true;    
+    userdb_.close();
 }
 
 //Return QList of QStringList. Order;QString ra, QString dec, QString epoch, 
 //                     QString imageName, QString label, QString labelColor
 QList<QStringList> KSUserDB::ReturnAllFlags() {
     QList<QStringList> flagList;
-    userdb.open();
-    QSqlTableModel flags(0,userdb);
+    userdb_.open();
+    QSqlTableModel flags(0,userdb_);
     flags.setTable("flags");
     flags.setFilter("id >= 1");
     flags.select();
@@ -292,7 +283,7 @@ QList<QStringList> KSUserDB::ReturnAllFlags() {
         flagList.append(flagEntry);
     }
     flags.clear();
-    userdb.close();
+    userdb_.close();
     return flagList;
 }
 
@@ -301,37 +292,36 @@ QList<QStringList> KSUserDB::ReturnAllFlags() {
  */
 
 void KSUserDB::EraseEquipment(QString type, int id) {    
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable(type);
     equip.setFilter("id = "+QString::number(id));
     equip.select();
     equip.removeRows(0,equip.rowCount());
     equip.submitAll();
     equip.clear();
-    userdb.close();
+    userdb_.close();
 }
 
 void KSUserDB::EraseAllEquipment(QString type) {    
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable(type);
     equip.setFilter("id >= 1");
     equip.select();
     equip.removeRows(0,equip.rowCount());
     equip.submitAll();
     equip.clear();
-    userdb.close();
+    userdb_.close();
 }
 
 /*
  * Telescope section
  */
-bool KSUserDB::AddScope(QString model, QString vendor, QString driver,
+void KSUserDB::AddScope(QString model, QString vendor, QString driver,
                        QString type, double focalLength, double aperture) {
-    
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("telescope");
     int row = 0;
     equip.insertRows(row,1);
@@ -343,14 +333,13 @@ bool KSUserDB::AddScope(QString model, QString vendor, QString driver,
     equip.setData(equip.index(row,6),focalLength);
     equip.submitAll();
     equip.clear();
-    userdb.close();
-    return true;    
+    userdb_.close(); 
 }
 
-bool KSUserDB::AddScope(QString model, QString vendor, QString driver,
+void KSUserDB::AddScope(QString model, QString vendor, QString driver,
                        QString type, double focalLength, double aperture, QString id) {
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("telescope");
     equip.setFilter("id = "+id);
     equip.select();
@@ -365,15 +354,13 @@ bool KSUserDB::AddScope(QString model, QString vendor, QString driver,
         equip.setRecord(0,record);
         equip.submitAll();
     }
-    userdb.close();
-    return true;
-    
+    userdb_.close();
 }
 
-void KSUserDB::getAllScopes(QList< Scope* >& m_scopeList) {
-    userdb.open();
+void KSUserDB::GetAllScopes(QList< Scope* >& m_scopeList) {
+    userdb_.open();
     m_scopeList.clear();
-    QSqlTableModel equip(0,userdb);
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("telescope");
     equip.setFilter("2=2"); //dummy filter. no filter=SEGFAULT
     equip.select();
@@ -391,7 +378,7 @@ void KSUserDB::getAllScopes(QList< Scope* >& m_scopeList) {
         m_scopeList.append( o );
     }
     equip.clear();
-    userdb.close();
+    userdb_.close();
     return;
 
 }
@@ -399,11 +386,10 @@ void KSUserDB::getAllScopes(QList< Scope* >& m_scopeList) {
 /*
  * Eyepiece section
  */
-bool KSUserDB::addEyepiece(QString vendor, QString model, double focalLength, 
+void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength, 
                            double fov, QString fovunit) {
-    
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("eyepiece");
     int row = 0;
     equip.insertRows(row,1);
@@ -414,14 +400,13 @@ bool KSUserDB::addEyepiece(QString vendor, QString model, double focalLength,
     equip.setData(equip.index(row,5),fovunit);
     equip.submitAll();
     equip.clear();
-    userdb.close();
-    return true;    
+    userdb_.close();
 }
 
-bool KSUserDB::addEyepiece(QString vendor, QString model, double focalLength, 
+void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength, 
                            double fov, QString fovunit, QString id) {
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("eyepiece");
     equip.setFilter("id = "+id);
     equip.select();
@@ -435,15 +420,13 @@ bool KSUserDB::addEyepiece(QString vendor, QString model, double focalLength,
         equip.setRecord(0,record);
         equip.submitAll();
     }
-    userdb.close();
-    return true;
-    
+    userdb_.close();
 }
 
-void KSUserDB::getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
-    userdb.open();
+void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
+    userdb_.open();
     m_eyepieceList.clear();
-    QSqlTableModel equip(0,userdb);
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("eyepiece");
     equip.setFilter("2=2"); //dummy filter. no filter=SEGFAULT
     equip.select();
@@ -459,7 +442,7 @@ void KSUserDB::getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
         m_eyepieceList.append( o );
     }
     equip.clear();
-    userdb.close();
+    userdb_.close();
     return;
 
 }
@@ -467,10 +450,10 @@ void KSUserDB::getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList) {
 /*
  * lens section
  */
-bool KSUserDB::addLens(QString vendor, QString model, double factor) {
+bool KSUserDB::AddLens(QString vendor, QString model, double factor) {
     
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("lens");
     int row = 0;
     equip.insertRows(row,1);
@@ -479,13 +462,13 @@ bool KSUserDB::addLens(QString vendor, QString model, double factor) {
     equip.setData(equip.index(row,3),factor);
     equip.submitAll();
     equip.clear();
-    userdb.close();
+    userdb_.close();
     return true;    
 }
 
-bool KSUserDB::addLens(QString vendor, QString model, double factor, QString id) {
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+bool KSUserDB::AddLens(QString vendor, QString model, double factor, QString id) {
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("lens");
     equip.setFilter("id = "+id);
     equip.select();
@@ -496,15 +479,15 @@ bool KSUserDB::addLens(QString vendor, QString model, double factor, QString id)
         record.setValue(3,factor);
         equip.submitAll();
     }
-    userdb.close();
+    userdb_.close();
     return true;
     
 }
 
-void KSUserDB::getAllLenses(QList<OAL::Lens *> &m_lensList) {
-    userdb.open();
+void KSUserDB::GetAllLenses(QList<OAL::Lens *> &m_lensList) {
+    userdb_.open();
     m_lensList.clear();
-    QSqlTableModel equip(0,userdb);
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("lens");
     equip.setFilter("2=2"); //dummy filter. no filter=SEGFAULT
     equip.select();
@@ -518,7 +501,7 @@ void KSUserDB::getAllLenses(QList<OAL::Lens *> &m_lensList) {
         m_lensList.append( o );
     }
     equip.clear();
-    userdb.close();
+    userdb_.close();
     return;
 
 }
@@ -526,9 +509,9 @@ void KSUserDB::getAllLenses(QList<OAL::Lens *> &m_lensList) {
 /*
  *  filter section
  */
-bool KSUserDB::addFilter(QString vendor, QString model, QString type, QString color) {
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+bool KSUserDB::AddFilter(QString vendor, QString model, QString type, QString color) {
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("filter");
     int row = 0;
     equip.insertRows(row,1);
@@ -538,13 +521,13 @@ bool KSUserDB::addFilter(QString vendor, QString model, QString type, QString co
     equip.setData(equip.index(row,4),color);
     equip.submitAll();
     equip.clear();
-    userdb.close();
+    userdb_.close();
     return true;    
 }
 
-bool KSUserDB::addFilter(QString vendor, QString model, QString type, QString color, QString id) {
-    userdb.open();
-    QSqlTableModel equip(0,userdb);
+bool KSUserDB::AddFilter(QString vendor, QString model, QString type, QString color, QString id) {
+    userdb_.open();
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("filter");
     equip.setFilter("id = "+id);
     equip.select();
@@ -556,15 +539,15 @@ bool KSUserDB::addFilter(QString vendor, QString model, QString type, QString co
         record.setValue(4,color);
         equip.submitAll();
     }
-    userdb.close();
+    userdb_.close();
     return true;
     
 }
 
-void KSUserDB::getAllFilters(QList<OAL::Filter *>& m_filterList) {
-    userdb.open();
+void KSUserDB::GetAllFilters(QList<OAL::Filter *>& m_filterList) {
+    userdb_.open();
     m_filterList.clear();
-    QSqlTableModel equip(0,userdb);
+    QSqlTableModel equip(0,userdb_);
     equip.setTable("filter");
     equip.setFilter("2=2"); //dummy filter. no filter=SEGFAULT
     equip.select();
@@ -579,7 +562,7 @@ void KSUserDB::getAllFilters(QList<OAL::Filter *>& m_filterList) {
     m_filterList.append( o );
     }
     equip.clear();
-    userdb.close();
+    userdb_.close();
     return;
 
 }

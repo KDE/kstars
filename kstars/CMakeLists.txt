@@ -354,7 +354,6 @@ set(kstars_extra_SRCS
 	timezonerule.cpp 
 	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 	satellitegroup.cpp
-        
 )
 
 set(oal_SRCS
@@ -372,7 +371,7 @@ set(oal_SRCS
     oal/execute.cpp
 )
 
-set(printing_SRCS 
+set(printing_SRCS
     printing/detailstable.cpp
     printing/finderchart.cpp
     printing/foveditordialog.cpp

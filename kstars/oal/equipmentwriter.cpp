@@ -136,7 +136,7 @@ void EquipmentWriter::slotNewScope() {
 }
 
 void EquipmentWriter::slotAddEyepiece() {
-    ks->data()->userdb()->addEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), 
+    ks->data()->userdb()->AddEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), 
                                       ui.e_focalLength->value(),  ui.Fov->value(), 
                                       ui.FovUnit->currentText());
     loadEquipment();
@@ -160,7 +160,7 @@ void EquipmentWriter::slotRemoveEyepiece() {
         ui.EyepieceList->addItem( e->name() );
 }
 void EquipmentWriter::slotSaveEyepiece() {
-    ks->data()->userdb()->addEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), 
+    ks->data()->userdb()->AddEyepiece(ui.e_Vendor->text(), ui.e_Model->text(), 
                                       ui.e_focalLength->value(),  ui.Fov->value(),
                                       ui.FovUnit->currentText(), ui.e_Id->text());
     loadEquipment();
@@ -191,7 +191,7 @@ void EquipmentWriter::slotNewEyepiece() {
 }
 
 void EquipmentWriter::slotAddLens() {
-    ks->data()->userdb()->addLens(ui.l_Vendor->text(), ui.l_Model->text(), ui.l_Factor->value() );
+    ks->data()->userdb()->AddLens(ui.l_Vendor->text(), ui.l_Model->text(), ui.l_Factor->value() );
     loadEquipment();
     ui.l_Id->clear();
     ui.l_Model->clear();
@@ -211,7 +211,7 @@ void EquipmentWriter::slotRemoveLens() {
         ui.LensList->addItem( l->name() );
 }
 void EquipmentWriter::slotSaveLens() {
-    ks->data()->userdb()->addLens(ui.l_Vendor->text(), ui.l_Model->text(), 
+    ks->data()->userdb()->AddLens(ui.l_Vendor->text(), ui.l_Model->text(), 
                                       ui.l_Factor->value(), ui.l_Id->text());
     loadEquipment();
 }
@@ -238,7 +238,7 @@ void EquipmentWriter::slotNewLens() {
 }
 
 void EquipmentWriter::slotAddFilter() {
-    ks->data()->userdb()->addFilter( ui.f_Vendor->text(), ui.f_Model->text(), 
+    ks->data()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(), 
                                      ui.f_Type->text(), ui.f_Color->text());
     loadEquipment();
     ui.f_Id->clear();
@@ -262,7 +262,7 @@ void EquipmentWriter::slotRemoveFilter() {
 }
 
 void EquipmentWriter::slotSaveFilter() {
-    ks->data()->userdb()->addFilter( ui.f_Vendor->text(), ui.f_Model->text(), 
+    ks->data()->userdb()->AddFilter( ui.f_Vendor->text(), ui.f_Model->text(), 
                                      ui.f_Type->text(), ui.f_Color->text(), 
                                      ui.f_Id->text());
     loadEquipment();

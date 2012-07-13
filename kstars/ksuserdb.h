@@ -33,7 +33,7 @@
 #include <kstandarddirs.h>
 #include "oal/oal.h"
 
-struct stat;
+
 class KSUserDB
 {
 public:
@@ -41,47 +41,134 @@ public:
      * @return true on success
      */
     bool Initialize();
-    //TODO: To be called before closing the main window
-    void Deallocate();
-    
-    bool AddObserver(QString name, QString surname, QString contact);
-    int FindObserver(QString name, QString surname);    
-    bool DeleteObserver(QString id);
-    void GetAllObservers(QList<OAL::Observer *> &observer_list);
-    
-    void EraseAllFlags();
-    bool AddFlag(QString ra, QString dec, QString epoch, 
-                 QString image_name, QString label, QString labelColor);
-    QList<QStringList> ReturnAllFlags();
-    
-    void EraseEquipment(QString type, int id);
-    void EraseAllEquipment(QString type); 
-    
-    bool AddScope(QString model, QString vendor, QString driver,
-                  QString type, double focalLength, double aperture);
-    bool AddScope(QString model, QString vendor, QString driver,
-                       QString type, double focalLength, double aperture, QString id);
-    void getAllScopes(QList<OAL::Scope *> &m_scopeList);
-    
-    bool addEyepiece(QString vendor, QString model, double focalLength, 
-                           double fov, QString fovunit);
-    bool addEyepiece(QString vendor, QString model, double focalLength, 
-                           double fov, QString fovunit, QString id);
-    void getAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList);
-    
-    bool addLens(QString vendor, QString model, double factor);
-    bool addLens(QString vendor, QString model, double factor, QString id);
-    void getAllLenses(QList<OAL::Lens *>& m_lensList);
-    
-    bool addFilter(QString vendor, QString model, QString type, QString color);
-    bool addFilter(QString vendor, QString model, QString type, QString color, QString id);
-    void getAllFilters(QList<OAL::Filter *>& m_filterList);
-private:
-    bool verifyDatabase(QString dbfile);
-    bool firstRun();
-    QSqlDatabase userdb;
-    QSqlError lastError();
+    ~KSUserDB();
 
+    /**
+     * @brief Adds a new observer into the database
+     **/
+    void AddObserver(QString name, QString surname, QString contact);
+    /**
+     * @brief Returns the unique id of the user with given name & surname
+     *
+     * @return int
+     **/
+    int FindObserver(QString name, QString surname);    
+    /**
+     * @brief Removes the user with unique id as given by FindObserver
+     * Returns false if the user is not found
+     *
+     * @return bool
+     **/
+    bool DeleteObserver(QString id);
+    /**
+     * @brief Updates the passed reference of observer_list with all observers
+     * The original content of the list is cleared.
+     *
+     * @return void
+     **/
+    void GetAllObservers(QList<OAL::Observer *> &observer_list);
+
+    /**
+     * @brief Erases all the flags from the database
+     *
+     * @return void
+     **/
+    void EraseAllFlags();
+    /**
+     * @brief Add a new Flag with given parameters
+     *
+     * @param ra Right Ascension
+     * @param dec Declination
+     * @param epoch Epoch
+     * @param image_name Name of the image used
+     * @param label Content of display label on screen
+     * @param labelColor Color of the label (name or hex code) eg #00FF00
+     * @return void
+     **/
+    void AddFlag(QString ra, QString dec, QString epoch, 
+                 QString image_name, QString label, QString labelColor);
+    /**
+     * @brief Returns a QList populated with all stored flags
+     *
+     * @return QList< QStringList >
+     **/
+    QList<QStringList> ReturnAllFlags();
+
+    /**
+     * @brief Erase the equipment with given type and unique id
+     * Valid equipment types: "telescope","lens","filter"
+     *
+     * @param type Equipment type (same as table name)
+     * @param id Unique id (same as row number)
+     * @return void
+     **/
+    void EraseEquipment(QString type, int id);
+    /**
+     * @brief Erases the whole equipment table of given type
+     *
+     * @param type Equipment type (same as table name)
+     * @return void
+     **/
+    void EraseAllEquipment(QString type); 
+
+    /**
+     * @brief Appends the scope with given details in the database
+     *
+     * @return void
+     **/
+    void AddScope(QString model, QString vendor, QString driver,
+                  QString type, double focalLength, double aperture);
+    /**
+     * @brief Replaces the scope with given ID with provided content
+     *
+     * @return void
+     **/
+    void AddScope(QString model, QString vendor, QString driver,
+                  QString type, double focalLength, double aperture, 
+                  QString id);
+    /**
+     * @brief updates the scope list with all scopes from database
+     * List is cleared and then filled with content.
+     *
+     * @param m_scopeList Reference to list to be updated
+     * @return void
+     **/
+    void GetAllScopes(QList<OAL::Scope *> &m_scopeList);
+
+    /**
+     * @brief Add new eyepiece to database
+     *
+     * @return void
+     **/
+    void AddEyepiece(QString vendor, QString model, double focalLength, 
+                           double fov, QString fovunit);
+    /**
+     * @brief Replace eyepiece at position (ID) with new content
+     *
+     * @return void
+     **/
+    void AddEyepiece(QString vendor, QString model, double focalLength, 
+                           double fov, QString fovunit, QString id);
+    /**
+     * @brief Populate the reference passed with all eyepieces
+     *
+     * @param m_eyepieceList Reference to list of eyepieces
+     * @return void
+     **/
+    void GetAllEyepieces(QList<OAL::Eyepiece *> &m_eyepieceList);
+
+    bool AddLens(QString vendor, QString model, double factor);
+    bool AddLens(QString vendor, QString model, double factor, QString id);
+    void GetAllLenses(QList<OAL::Lens *>& m_lensList);
+
+    bool AddFilter(QString vendor, QString model, QString type, QString color);
+    bool AddFilter(QString vendor, QString model, QString type, QString color, QString id);
+    void GetAllFilters(QList<OAL::Filter *>& m_filterList);
+private:
+    bool VerifyDatabase(QString dbfile);
+    bool FirstRun();
+    QSqlDatabase userdb_;
+    QSqlError LastError();
 };
 
 #endif // KSUSERDB_H_

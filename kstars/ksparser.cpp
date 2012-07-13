@@ -58,7 +58,6 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
         return DummyRow(); 
     //This signifies that someone tried to read a row
     //without checking if comment_char is true
-    
     /**
      * @brief Success (bool) signifies if a row has been successfully read.
      * If any problem (eg incomplete row) is encountered. The row is discarded
@@ -68,14 +67,14 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
     QString next_line;
     QStringList separated;
     QHash<QString,QVariant> newRow;
-    
+
     while (file_reader_.hasMoreLines() && success == false) {
         next_line = file_reader_.readLine();
 	if (next_line[0] == comment_char_) continue;
         separated = next_line.split(delimiter_);
 	/*
 	 * 1) split along delimiter eg. comma (,)
-	 * 2) check first and last characters. 
+	 * 2) check first and last characters.
 	 *    if the first letter is  '"',
 	 *    then combine the nexto ones in it till
 	 *    till you come across the next word which
@@ -87,7 +86,7 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
         QList <QString> quoteCombined;
         QStringList::iterator iter;
         if (separated.length() == 0) continue;
-        
+
         //The following mish mash is to handle fields such as "hello, world"
 	for (iter=separated.begin(); iter!= separated.end(); iter++) {
             QList <QString> queue;
@@ -110,7 +109,7 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
 	}
 	separated=quoteCombined; //At this point, the string has been split 
                                 //taking the quote marks into account
-        
+
         //Check if the generated list has correct size
         if (separated.length() != name_type_sequence_.length())
             continue;
@@ -146,7 +145,6 @@ QHash<QString,QVariant>  KSParser::ReadCSVRow() {
             }
         }
         success = true;
-        
     }
     return newRow;
 }
@@ -161,6 +159,7 @@ QHash<QString,QVariant>  KSParser::ReadFixedWidthRow() {
         return DummyRow(); 
     
     if (name_type_sequence_.length() != (width_sequence_.length() + 1)) {
+        //line length is appendeded to width_sequence_ by default.
         kWarning() << "Unequal fields and widths! Returning dummy row!";
         return DummyRow();
     }

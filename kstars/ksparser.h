@@ -53,7 +53,7 @@ public:
      * @param delimiter separate on which character. default ','
      **/
     KSParser(QString filename, char comment_char, QList< QPair<QString,DataTypes> > sequence,
-             char delimiter = ',') __attribute__((cdecl));
+             char delimiter = ',');
              
 
     /**
@@ -66,7 +66,7 @@ public:
      *                  Hence, width.length() should be (sequence.length()-1)
      **/
     KSParser(QString filename, char comment_char, QList< QPair<QString,DataTypes> > sequence, 
-             QList<int> widths) __attribute__((cdecl));
+             QList<int> widths);
 
              
     /**
