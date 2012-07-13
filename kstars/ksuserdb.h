@@ -89,7 +89,8 @@ public:
                  QString image_name, QString label, QString labelColor);
     /**
      * @brief Returns a QList populated with all stored flags
-     *
+     * Order: QString ra, QString dec, QString epoch,
+     *        QString imageName, QString label, QString labelColor
      * @return QList< QStringList >
      **/
     QList<QStringList> ReturnAllFlags();
