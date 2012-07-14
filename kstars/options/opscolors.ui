@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>OpsColors</class>
- <widget class="QWidget" name="OpsColors" >
-  <property name="geometry" >
+ <widget class="QWidget" name="OpsColors">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,64 +10,64 @@
     <height>445</height>
    </rect>
   </property>
-  <layout class="QHBoxLayout" >
-   <property name="margin" >
-    <number>8</number>
-   </property>
-   <property name="spacing" >
+  <layout class="QHBoxLayout">
+   <property name="spacing">
     <number>6</number>
    </property>
+   <property name="margin">
+    <number>8</number>
+   </property>
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
       <string>Current Colors</string>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
-      <property name="spacing" >
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>6</number>
       </property>
+      <property name="margin">
+       <number>8</number>
+      </property>
       <item>
-       <widget class="QListWidget" name="ColorPalette" >
-        <property name="toolTip" >
+       <widget class="QListWidget" name="ColorPalette">
+        <property name="toolTip">
          <string>Current color settings</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>The list of all customizable colors in the program.  Next to each item is a square showing the color it is currently set to.  Click on any item to change its color.</string>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item>
-         <widget class="QLabel" name="textLabel1_2" >
-          <property name="text" >
+         <widget class="QLabel" name="textLabel1_2">
+          <property name="text">
            <string>InfoBox BG mode:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KComboBox" name="kcfg_BoxBGMode" >
+         <widget class="KComboBox" name="kcfg_BoxBGMode">
           <item>
-           <property name="text" >
+           <property name="text">
             <string>No Fill</string>
            </property>
           </item>
           <item>
-           <property name="text" >
+           <property name="text">
             <string>Transparent</string>
            </property>
           </item>
           <item>
-           <property name="text" >
+           <property name="text">
             <string>Opaque</string>
            </property>
           </item>
@@ -75,29 +76,29 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item>
-         <widget class="QLabel" name="textLabel1" >
-          <property name="text" >
+         <widget class="QLabel" name="textLabel1">
+          <property name="text">
            <string>Star color mode:</string>
           </property>
-          <property name="buddy" >
+          <property name="buddy">
            <cstring>StarColorMode</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KComboBox" name="kcfg_StarColorMode" >
-          <property name="toolTip" >
+         <widget class="KComboBox" name="kcfg_StarColorMode">
+          <property name="toolTip">
            <string>Set the star color mode</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>There are four ways to draw stars on the map.  By default, stars are circles with a white core and a rim which is tinted to reflect the star's actual color.  You may also choose to draw the stars as solid white, red, or black circles, to match the needs of your overall color scheme.</string>
           </property>
          </widget>
@@ -105,26 +106,26 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
+        <property name="margin">
+         <number>0</number>
+        </property>
         <item>
-         <widget class="QLabel" name="textLabel2" >
-          <property name="text" >
+         <widget class="QLabel" name="textLabel2">
+          <property name="text">
            <string>Star color intensity:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KIntSpinBox" name="kcfg_StarColorIntensity" >
-          <property name="toolTip" >
+         <widget class="KIntSpinBox" name="kcfg_StarColorIntensity">
+          <property name="toolTip">
            <string>Set the intensity of star colors</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>When using the realistic-color star mode, this option will set the saturation level of the star's colors.  A higher value means more intense colors.</string>
           </property>
          </widget>
@@ -135,44 +136,44 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2" >
-     <property name="title" >
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
       <string>Preset Color Schemes</string>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="margin" >
-       <number>8</number>
-      </property>
-      <property name="spacing" >
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>6</number>
       </property>
+      <property name="margin">
+       <number>8</number>
+      </property>
       <item>
-       <widget class="QListWidget" name="PresetBox" >
-        <property name="toolTip" >
+       <widget class="QListWidget" name="PresetBox">
+        <property name="toolTip">
          <string>List of preset color schemes</string>
         </property>
-        <property name="whatsThis" >
+        <property name="whatsThis">
          <string>List of all known color schemes.  Several are provided by default, and you may also define your own.</string>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QGridLayout" >
-        <property name="margin" >
+       <layout class="QGridLayout">
+        <property name="margin">
          <number>0</number>
         </property>
-        <property name="spacing" >
+        <property name="spacing">
          <number>6</number>
         </property>
-        <item row="0" column="2" >
+        <item row="0" column="2">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -180,28 +181,28 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="1" >
-         <widget class="KPushButton" name="RemovePreset" >
-          <property name="toolTip" >
+        <item row="1" column="1">
+         <widget class="KPushButton" name="RemovePreset">
+          <property name="toolTip">
            <string>Remove a preset color scheme</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>Press this button to remove the highlighted color scheme.  This will only work on your custom color schemes.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Remove Color Scheme</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="0" >
+        <item row="0" column="0">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -209,15 +210,15 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="0" >
+        <item row="1" column="0">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -225,15 +226,15 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="2" >
+        <item row="1" column="2">
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -241,15 +242,15 @@
           </property>
          </spacer>
         </item>
-        <item row="0" column="1" >
-         <widget class="KPushButton" name="AddPreset" >
-          <property name="toolTip" >
+        <item row="0" column="1">
+         <widget class="KPushButton" name="AddPreset">
+          <property name="toolTip">
            <string>Create a new preset color scheme using current settings</string>
           </property>
-          <property name="whatsThis" >
+          <property name="whatsThis">
            <string>After changing the colors to a scheme that you like, press this button to create a new scheme using those colors.  Your scheme will appear here in the list of presets, and will also be available in the &quot;Settings&quot; menu of the main window.</string>
           </property>
-          <property name="text" >
+          <property name="text">
            <string>Save Current Colors...</string>
           </property>
          </widget>
@@ -261,31 +262,26 @@
    </item>
   </layout>
  </widget>
-  <customwidgets>
+ <customwidgets>
   <customwidget>
-   <class>KIntSpinBox</class>
-   <extends></extends>
-   <header>knuminput.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>
-   <extends></extends>
+   <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
-   <extends></extends>
-   <header>kcombobox.h</header>
-   <container>0</container>
-   <pixmap></pixmap>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>ColorPalette</tabstop>
+  <tabstop>kcfg_BoxBGMode</tabstop>
   <tabstop>kcfg_StarColorMode</tabstop>
   <tabstop>kcfg_StarColorIntensity</tabstop>
   <tabstop>PresetBox</tabstop>

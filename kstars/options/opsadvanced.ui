@@ -20,7 +20,7 @@
    <item>
     <widget class="QTabWidget" name="AdvancedOptionsTabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -643,16 +643,35 @@
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>AdvancedOptionsTabWidget</tabstop>
+  <tabstop>kcfg_UseRefraction</tabstop>
+  <tabstop>kcfg_UseRelativistic</tabstop>
+  <tabstop>kcfg_AlwaysRecomputeCoordinates</tabstop>
+  <tabstop>kcfg_DefaultDSSImageSize</tabstop>
+  <tabstop>kcfg_DSSPadding</tabstop>
+  <tabstop>kcfg_UseAnimatedSlewing</tabstop>
+  <tabstop>kcfg_UseAutoLabel</tabstop>
+  <tabstop>kcfg_UseHoverLabel</tabstop>
+  <tabstop>kcfg_UseAntialias</tabstop>
+  <tabstop>kcfg_HideOnSlew</tabstop>
+  <tabstop>SlewTimeScale</tabstop>
   <tabstop>kcfg_HideStars</tabstop>
   <tabstop>kcfg_MagLimitHideStar</tabstop>
   <tabstop>kcfg_HidePlanets</tabstop>
-  <tabstop>kcfg_HideMessier</tabstop>
-  <tabstop>kcfg_HideNGC</tabstop>
-  <tabstop>kcfg_HideIC</tabstop>
   <tabstop>kcfg_HideMilkyWay</tabstop>
+  <tabstop>kcfg_HideMessier</tabstop>
   <tabstop>kcfg_HideCNames</tabstop>
+  <tabstop>kcfg_HideNGC</tabstop>
   <tabstop>kcfg_HideCLines</tabstop>
+  <tabstop>kcfg_HideIC</tabstop>
+  <tabstop>kcfg_HideCBounds</tabstop>
+  <tabstop>kcfg_HideLabels</tabstop>
   <tabstop>kcfg_HideGrids</tabstop>
+  <tabstop>kcfg_ObsListSymbol</tabstop>
+  <tabstop>kcfg_ObsListText</tabstop>
+  <tabstop>kcfg_ObsListSaveImage</tabstop>
+  <tabstop>kcfg_ObsListPreferDSS</tabstop>
+  <tabstop>kcfg_ObsListPreferSDSS</tabstop>
  </tabstops>
  <resources/>
  <connections/>

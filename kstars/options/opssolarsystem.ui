@@ -557,6 +557,34 @@
    <header>widgets/magnitudespinbox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>kcfg_ShowSolarSystem</tabstop>
+  <tabstop>kcfg_ShowSun</tabstop>
+  <tabstop>kcfg_ShowJupiter</tabstop>
+  <tabstop>showAllPlanets</tabstop>
+  <tabstop>kcfg_ShowMoon</tabstop>
+  <tabstop>kcfg_ShowSaturn</tabstop>
+  <tabstop>showNonePlanets</tabstop>
+  <tabstop>kcfg_ShowMercury</tabstop>
+  <tabstop>kcfg_ShowUranus</tabstop>
+  <tabstop>kcfg_ShowPlanetNames</tabstop>
+  <tabstop>kcfg_ShowVenus</tabstop>
+  <tabstop>kcfg_ShowNeptune</tabstop>
+  <tabstop>kcfg_ShowPlanetImages</tabstop>
+  <tabstop>kcfg_ShowMars</tabstop>
+  <tabstop>kcfg_ShowPluto</tabstop>
+  <tabstop>kcfg_ShowAsteroids</tabstop>
+  <tabstop>kcfg_MagLimitAsteroid</tabstop>
+  <tabstop>kcfg_ShowAsteroidNames</tabstop>
+  <tabstop>kcfg_AsteroidLabelDensity</tabstop>
+  <tabstop>kcfg_ShowComets</tabstop>
+  <tabstop>kcfg_ShowCometNames</tabstop>
+  <tabstop>kcfg_MaxRadCometName</tabstop>
+  <tabstop>kcfg_UseAutoTrail</tabstop>
+  <tabstop>kcfg_FadePlanetTrails</tabstop>
+  <tabstop>ClearAllTrails</tabstop>
+  <tabstop>checkBox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
