@@ -19,27 +19,28 @@
 #include "QGraphicsObject"
 #include "skymap.h"
 
+#include "kstandarddirs.h"
+
 WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
 {
 
     m = new ModelManager(obs);
 
-    QDeclarativeView *baseView;
-    baseView = new QDeclarativeView();
+    QDeclarativeView *baseView = new QDeclarativeView();
     ctxt = baseView->rootContext();
     ctxt->setContextProperty("catListModel", QVariant::fromValue(m->returnCatListModel( ModelManager::BaseList )));
 
-    baseView->setSource(QUrl("/home/sam/kstars/kstars/tools/WhatsInteresting/Base.qml"));
+    baseView->setSource(KStandardDirs::locate("appdata","tools/WhatsInteresting/Base.qml") );
     baseObj = dynamic_cast<QObject *> (baseView->rootObject());
 
     soTypeTextObj = baseObj->findChild<QObject *>("soTypeTextObj") ;
 
-    catListObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("catListObj");
+    catListObj = baseObj->findChild<QObject *>("catListObj");
     connect(catListObj, SIGNAL(catListItemClicked(QString)), this, SLOT(onCatListItemClicked(QString)));
-    soListObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("soListObj");
+    soListObj = baseObj->findChild<QObject *>("soListObj");
     connect(soListObj, SIGNAL(soListItemClicked(QString, int)),
             this, SLOT(onSoListItemClicked(QString, int)));
-    detailsViewObj = baseObj->findChild<QObject *>("container")->findChild<QObject *>("detailsViewObj");
+    detailsViewObj = baseObj->findChild<QObject *>("detailsViewObj");
     nextObj  = baseObj->findChild<QObject *>("nextObj");
     connect(nextObj, SIGNAL(nextObjTextClicked()), this, SLOT(onNextObjTextClicked()));
 
