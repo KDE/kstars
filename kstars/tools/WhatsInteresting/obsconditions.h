@@ -18,6 +18,8 @@
 #ifndef OBS_CONDITIONS_H
 #define OBS_CONDITIONS_H
 
+#include "kstarsdata.h"
+
 class ObsConditions
 {
 public:
@@ -30,6 +32,7 @@ public:
     void setLimMagnitude();
     double getOptimumMAG();
     double getTrueMagLim();
+    bool isVisible(GeoLocation* geo, dms* lst, SkyObject* so);
 
 private:
     int bortleClass;

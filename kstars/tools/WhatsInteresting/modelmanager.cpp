@@ -31,19 +31,21 @@ ModelManager::ModelManager(ObsConditions *obs)
     starClustModel = new SkyObjListModel();
     nebModel = new SkyObjListModel();
 
-    initobjects[SkyObject::STAR] = QList<SkyObject *>();
-    initobjects[SkyObject::GALAXY] = QList<SkyObject *>();
-    initobjects[SkyObject::CONSTELLATION] = QList<SkyObject *>();
-    initobjects[SkyObject::OPEN_CLUSTER] = QList<SkyObject *>();
-    initobjects[SkyObject::PLANETARY_NEBULA] = QList<SkyObject *>();
+    initobjects["Star"] = QList<SkyObject *>();
+    initobjects["Galaxy"] = QList<SkyObject *>();
+    initobjects["Constellation"] = QList<SkyObject *>();
+    initobjects["Open Cluster"] = QList<SkyObject *>();
+    initobjects["Planetary Nebula"] = QList<SkyObject *>();
     updateModels();
 }
+
+ModelManager::~ModelManager() {}
 
 void ModelManager::updateModels()
 {
     KStarsData *data = KStarsData::Instance();
 
-    double TLM = obsconditions->getTrueMagLim();
+    //double TLM = obsconditions->getTrueMagLim();
     baseCatList<<"Planetary Objects"<<"Stars"<<"Constellations"<<"Deep-sky Objects" ;
     planetaryList<<"Planets"<<"Satellites";
     deepSkyList<<"Galaxies"<<"Star Clusters"<<"Nebulae";
@@ -53,81 +55,61 @@ void ModelManager::updateModels()
 
     while ( fileReader.hasMoreLines() )
     {
-        QString line, soname;
-        SkyObject::TYPE sotype;
+        QString line;
+        //SkyObject::TYPE sotype;
+        QString sotype;
         line = fileReader.readLine();
 
         SkyObject *o;
-        if (o = data->skyComposite()->findByName( line ))
+        if ((o = data->skyComposite()->findByName( line )))
         {
-            switch (o->type())
-            {
-                case 0:
-                    sotype = SkyObject::STAR;
-                    break;
-                case 3:
-                    sotype = SkyObject::OPEN_CLUSTER;
-                    break;
-                case 6:
-                    sotype = SkyObject::PLANETARY_NEBULA;
-                    break;
-                case 8:
-                    sotype = SkyObject::GALAXY;
-                    break;
-                case 11:
-                    sotype = SkyObject::CONSTELLATION;
-                    break;
-                default:
-                    break;
-            }
+            sotype = o->typeName();
             QList<SkyObject *> solist = initobjects[sotype];
             solist.append(o);
             initobjects[sotype] = solist;
         }
-//         soname = line.split(',')[0];
-//         //sotype = line.split(',')[1].toInt();
     }
 
-    foreach(SkyObject *so, initobjects.value(SkyObject::STAR))
+    foreach(SkyObject *so, initobjects.value("Star"))
     {
         //kDebug()<<so->name()<<so->mag();
-        if (isVisible(data->geo(), data->lst(), so))
+        if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             starsModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach(SkyObject *so, initobjects.value(SkyObject::GALAXY))
+    foreach(SkyObject *so, initobjects.value("Galaxy"))
     {
         //kDebug()<<so->name()<<so->mag();
-        if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
+        if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             galModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach(SkyObject *so, initobjects.value(SkyObject::CONSTELLATION))
+    foreach(SkyObject *so, initobjects.value("Constellation"))
     {
         //kDebug()<<so->name()<<so->mag();
-        if (isVisible(data->geo(), data->lst(), so))
+        if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             conModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach(SkyObject *so, initobjects.value(SkyObject::OPEN_CLUSTER))
+    foreach(SkyObject *so, initobjects.value("Open Cluster"))
     {
         //kDebug()<<so->name()<<so->mag();
-        if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
+        if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             starClustModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach(SkyObject *so, initobjects.value(SkyObject::PLANETARY_NEBULA))
+    foreach(SkyObject *so, initobjects.value("Planetary Nebula"))
     {
         //kDebug()<<so->name()<<so->mag();
-        if (isVisible(data->geo(), data->lst(), so) && so->mag() < TLM)
+        if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             nebModel->addSkyObject(new SkyObjItem(so));
         }
@@ -137,7 +119,7 @@ void ModelManager::updateModels()
     {
         SkyObject *so = data->skyComposite()->findByName( name );
         //kDebug()<<so->name()<<so->mag();
-        if (so->mag() < 7 && isVisible(data->geo(), data->lst(), so))
+        if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
 //             SkyObjectItem *planetItem = new SkyObjectItem(o);
 //             planetItem->setText(o->name());
@@ -184,24 +166,14 @@ SkyObjListModel* ModelManager::returnModel(QString Type)
 
 QStringList ModelManager::returnCatListModel(ModelManager::LIST_TYPE Type)
 {
-    if (Type == BaseList)
-        return baseCatList;
-    else if ( Type == PlanetaryObjects )
-        return planetaryList;
-    else
-        return deepSkyList;
-}
-
-bool ModelManager::isVisible(GeoLocation* geo, dms* lst, SkyObject* so)
-{
-    bool visible = false;
-    KStarsDateTime ut = geo->LTtoUT( KStarsDateTime(KDateTime::currentLocalDateTime()) );
-    SkyPoint sp = so->recomputeCoords( ut, geo );
-
-    //check altitude of object at this time.
-    sp.EquatorialToHorizontal( lst, geo->lat() );
-    if ( sp.alt().Degrees() > 6.0 ) {
-        visible = true;
+    switch (Type)
+    {
+        case BaseList:
+            return baseCatList;
+        case PlanetaryObjects:
+            return planetaryList;
+        default:
+            return deepSkyList;
     }
-    return visible;
+    return deepSkyList;
 }

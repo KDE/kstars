@@ -115,3 +115,18 @@ double ObsConditions::getTrueMagLim()
     kDebug() << (LM + 5*log10(aperture/7.5));
     return (LM + 5*log10(aperture/7.5));
 }
+
+bool ObsConditions::isVisible(GeoLocation* geo, dms* lst, SkyObject* so)
+{
+    bool visible = false;
+    KStarsDateTime ut = geo->LTtoUT( KStarsDateTime(KDateTime::currentLocalDateTime()) );
+    SkyPoint sp = so->recomputeCoords( ut, geo );
+
+    //check altitude of object at this time.
+    sp.EquatorialToHorizontal( lst, geo->lat() );
+    if ( sp.alt().Degrees() > 6.0 && so->mag()<getTrueMagLim() )
+    {
+        visible = true;
+    }
+    return visible;
+}

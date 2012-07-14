@@ -29,17 +29,13 @@ public:
     ~ModelManager();
     void updateModels();
 
-    //void setModelToListView( QStandardItemModel* myModel );
-    //QStandardItemModel* returnModel ( int TYPE );
-
     SkyObjListModel* returnModel ( LIST_TYPE Type );
     SkyObjListModel* returnModel ( QString type );
     QStringList returnCatListModel ( LIST_TYPE Type );
-    bool isVisible(GeoLocation* geo, dms* lst, SkyObject* so);
 
 private:
     ObsConditions *obsconditions;
     SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *starClustModel, *nebModel;
     QStringList baseCatList, planetaryList, deepSkyList;
-    QHash < SkyObject::TYPE , QList < SkyObject * > > initobjects;
+    QHash < QString , QList < SkyObject * > > initobjects;
 };
