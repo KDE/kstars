@@ -41,7 +41,6 @@ class INDIMenu;
 class INDIDriver;
 class imagesequence;
 class AltVsTime;
-class LCGenerator;
 class WUTDialog;
 class AstroCalc;
 class SkyCalendar;
@@ -498,9 +497,6 @@ private slots:
     /** action slot: open KStars calculator to compute astronomical ephemeris */
     void slotCalculator();
 
-    /** action slot: open KStars AAVSO Light Curve Generator */
-    void slotLCGenerator();
-
     /** action slot: open Elevation vs. Time tool */
     void slotAVT();
 
@@ -641,7 +637,6 @@ private:
 
     KActionMenu *colorActionMenu, *fovActionMenu;
 
-    LCGenerator *AAVSODialog;
     FindDialog *findDialog;
     ExportImageDialog *imgExportDialog;
 
