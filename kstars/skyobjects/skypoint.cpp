@@ -753,8 +753,6 @@ dms SkyPoint::altRefracted() const {
 double SkyPoint::refractionCorr(double alt) {
     return 1.02 / tan(dms::DegToRad * ( alt + 10.3/(alt + 5.11) )) / 60;
 }
-// Critical height. Below this height formula produce meaningless
-// results and correction value is just interpolated
 
 dms SkyPoint::refract(dms h) {
     const double alt = h.Degrees();
