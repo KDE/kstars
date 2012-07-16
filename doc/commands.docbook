@@ -402,7 +402,9 @@ which provides full access to many of the mathematical functions used by
 <!--missing
 Sky Calendar...
 Observing List... Ctrl+L
-  -->
+Ekos...
+-->
+<!-- removed after 4.9 see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -419,7 +421,7 @@ star from the American Association of Variable Star Observers.
 </para>
 </listitem>
 </varlistentry>
-
+-->
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -1016,13 +1018,13 @@ window</para></listitem>
 <listitem><para>Open the <link linkend="tool-calculator">AstroCalculator</link> 
 </para></listitem>
 </varlistentry>
-
+<!--
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo></term>
 <listitem><para>Open the <link linkend="tool-aavso">AAVSO Lightcurve Generator</link>
 </para></listitem>
 </varlistentry>
-
+-->
 <varlistentry>
 <term><keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo></term>
 <listitem><para>Open the <link linkend="tool-altvstime">Altitude vs. Time</link> 
