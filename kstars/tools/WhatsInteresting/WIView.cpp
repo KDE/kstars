@@ -48,13 +48,15 @@ WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
     baseView->show();
 }
 
-WIView::~WIView() {}
+WIView::~WIView()
+{
+    delete m;
+}
 
 void WIView::onCatListItemClicked(QString category)
 {
     if (category == "Planetary Objects")
     {
-        kDebug()<<"Planetary Objects";
         ctxt->setContextProperty("catListModel", QVariant::fromValue(m->returnCatListModel( ModelManager::PlanetaryObjects )));
         soTypeTextObj->setProperty("text", category);
         soTypeTextObj->setProperty("visible", true);

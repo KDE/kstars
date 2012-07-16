@@ -39,7 +39,15 @@ ModelManager::ModelManager(ObsConditions *obs)
     updateModels();
 }
 
-ModelManager::~ModelManager() {}
+ModelManager::~ModelManager()
+{
+    delete planetsModel;
+    delete starsModel;
+    delete galModel;
+    delete conModel;
+    delete starClustModel;
+    delete nebModel;
+}
 
 void ModelManager::updateModels()
 {
