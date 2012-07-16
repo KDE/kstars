@@ -756,7 +756,7 @@ double SkyPoint::refractionCorr(double alt) {
 
 dms SkyPoint::refract(dms h) {
     const double alt = h.Degrees();
-    const double corrCrit = SkyPoint::refractionCorr( SkyPoint::altCrit );
+    static double corrCrit = SkyPoint::refractionCorr( SkyPoint::altCrit );
 
     if( alt > SkyPoint::altCrit )
         return dms( alt + SkyPoint::refractionCorr(alt) );
