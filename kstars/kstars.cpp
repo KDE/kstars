@@ -56,7 +56,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         colorActionMenu(0), fovActionMenu(0),
         AAVSODialog(0), findDialog(0), imgExportDialog(0), obsList(0),
         execute(0),
-        avt(0), wut(0), skycal(0),
+        avt(0), wut(0), wi(0), skycal(0),
     sb(0), pv(0), jmt(0), fm(0), astrocalc(0), printingWizard(0), indimenu(0), indidriver(0),
         indiseq(0), ekosmenu(0), DialogIsObsolete(false), StartClockRunning( clockrun ),
         StartDateString( startdate )

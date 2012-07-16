@@ -285,7 +285,7 @@ void KStars::slotWUT() {
 }
 
 void KStars::slotWI() {
-    wi = new WIUserSettings(this);
+    if (! wi ) wi = new WIUserSettings(this);
     wi->show();
 }
 
