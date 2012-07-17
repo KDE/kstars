@@ -34,6 +34,11 @@
 #include "oal/oal.h"
 
 
+/**
+ * @brief Single class to delegate all User database I/O
+ * 
+ * @author Rishab Arora (spacetime)
+ **/
 class KSUserDB {
  public:
     /** Initialize KStarsDB while running splash screen

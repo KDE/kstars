@@ -152,7 +152,7 @@ public:
     ColorScheme *colorScheme() { return &CScheme; }
     
     /**@return pointer to the KSUserDB object */
-    KSUserDB *userdb() { return &ksuserdb; }
+    KSUserDB *userdb() { return &m_ksuserdb; }
     
     /**@return pointer to the simulation Clock object */
     SimClock *clock() { return &Clock; }
@@ -357,7 +357,7 @@ private:
     GeoLocation m_Geo;
     SimClock Clock;
     KStarsDateTime LTime;
-    KSUserDB ksuserdb;
+    KSUserDB m_ksuserdb;
     ColorScheme CScheme;
     OAL::Log *m_logObject;
 

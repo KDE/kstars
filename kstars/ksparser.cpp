@@ -24,7 +24,7 @@ const float EBROKEN_FLOATS = 0.0;
 const int EBROKEN_INT = 0;
 
 KSParser::KSParser(QString filename, char comment_char,
-                   QList< QPair<QString, DataTypes> > sequence,
+                   QList< QPair<QString, DataTypes> > &sequence,
                    char delimiter)
     : filename_(filename), comment_char_(comment_char),
       name_type_sequence_(sequence), delimiter_(delimiter) {
@@ -38,7 +38,7 @@ KSParser::KSParser(QString filename, char comment_char,
 }
 
 KSParser::KSParser(QString filename, char comment_char,
-                   QList< QPair<QString, DataTypes> > sequence,
+                   QList< QPair<QString, DataTypes> > &sequence,
                    QList<int> widths)
     : filename_(filename), comment_char_(comment_char),
       name_type_sequence_(sequence), width_sequence_(widths) {
@@ -172,6 +172,8 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
 
     if (name_type_sequence_.length() != (width_sequence_.length() + 1)) {
         // line length is appendeded to width_sequence_ by default.
+        // Hence, the length of width_sequence_ is one less than 
+        // name_type_sequence_
         kWarning() << "Unequal fields and widths! Returning dummy row!";
         return DummyRow();
     }
