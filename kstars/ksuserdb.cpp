@@ -189,7 +189,7 @@ bool KSUserDB::DeleteObserver(QString id) {
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
-    users.setFilter("id = "+id+"\'");
+    users.setFilter("id = \'"+id+"\'");
     users.select();
     users.removeRows(0, 1);
     users.submitAll();
@@ -204,7 +204,6 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
     observer_list.clear();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
-    users.setFilter("id >= 1");
     users.select();
     for (int i =0; i < users.rowCount(); ++i) {
         QSqlRecord record = users.record(i);
@@ -228,7 +227,6 @@ void KSUserDB::EraseAllFlags() {
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
     flags.setTable("flags");
-    flags.setFilter("id >= 1");
     flags.select();
     flags.removeRows(0, flags.rowCount());
     flags.submitAll();
@@ -260,7 +258,7 @@ QList<QStringList> KSUserDB::ReturnAllFlags() {
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
     flags.setTable("flags");
-    flags.setFilter("id >= 1");
+//     flags.setFilter("id >= 1");
     flags.select();
     for (int i =0; i < flags.rowCount(); ++i) {
         QStringList flagEntry;
@@ -353,7 +351,6 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
     scope_list.clear();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
-    equip.setFilter("2=2");  // dummy filter. no filter=SEGFAULT
     equip.select();
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);
@@ -418,7 +415,6 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
     eyepiece_list.clear();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
-    equip.setFilter("2=2");  // dummy filter. no filter=SEGFAULT
     equip.select();
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);
@@ -475,7 +471,6 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
     lens_list.clear();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
-    equip.setFilter("2=2");  // dummy filter. no filter=SEGFAULT
     equip.select();
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);
@@ -532,7 +527,6 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     filter_list.clear();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
-    equip.setFilter("2=2");  // dummy filter. no filter=SEGFAULT
     equip.select();
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);
