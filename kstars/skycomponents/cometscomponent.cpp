@@ -18,11 +18,6 @@
 #include "cometscomponent.h"
 #include "solarsystemcomposite.h"
 
-#include <QFile>
-#include <QPen>
-#include <kglobal.h>
-#include <kdebug.h>
-
 #include "Options.h"
 #include "skyobjects/kscomet.h"
 #include "ksutils.h"
@@ -36,6 +31,10 @@
 #include <kio/netaccess.h>
 #include <kio/jobuidelegate.h>
 #include <kstandarddirs.h>
+#include <kglobal.h>
+#include <kdebug.h>
+#include <QFile>
+#include <QPen>
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
         : SolarSystemListComponent( parent )

@@ -17,13 +17,13 @@
 
 #ifndef KSTARS_KSPARSER_H_
 #define KSTARS_KSPARSER_H_
+#include "ksfilereader.h"
+#include <kstandarddirs.h>
 #include <QList>
 #include <QFile>
 #include <QHash>
 #include <QDebug>
-#include <kstandarddirs.h>
 #include <QVariant>
-#include "ksfilereader.h"
 
 /**
  * @brief Generic class for text file parsers used in KStars.

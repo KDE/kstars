@@ -17,26 +17,23 @@
 
 #include "asteroidscomponent.h"
 
-#include <QPen>
+#include "projections/projector.h"
+#include "solarsystemcomposite.h"
+#include "skycomponent.h"
+#include "skylabeler.h"
+#include "skymap.h"
+#include "skypainter.h"
+#include "Options.h"
+#include "skyobjects/ksasteroid.h"
+#include "kstarsdata.h"
+#include "ksfilereader.h"
+#include <kdebug.h>
 #include <kglobal.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <kio/jobuidelegate.h>
 #include <kstandarddirs.h>
-
-#include "skycomponent.h"
-
-#include "Options.h"
-#include "skyobjects/ksasteroid.h"
-#include "kstarsdata.h"
-#include "ksfilereader.h"
-#include "skymap.h"
-#include "kdebug.h"
-
-#include "solarsystemcomposite.h"
-#include "skylabeler.h"
-#include "skypainter.h"
-#include "projections/projector.h"
+#include <QPen>
 
 
 AsteroidsComponent::AsteroidsComponent(SolarSystemComposite *parent ) :

@@ -20,8 +20,8 @@
 
 #include <iostream>
 
-#include <ksnumbers.h>
-#include <ksuserdb.h>
+#include "ksnumbers.h"
+#include "ksuserdb.h"
 
 #include <QList>
 #include <QMap>

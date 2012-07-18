@@ -41,9 +41,9 @@ bool KSUserDB::Initialize() {
            kWarning() << LastError();
     } else {
         kDebug() << i18n("Opened the User DB. Ready!");
-    }
-    if (first_run == true) {
-        FirstRun();
+        if (first_run == true) {
+            FirstRun();
+        }
     }
     userdb_.close();
     return true;
@@ -258,11 +258,13 @@ QList<QStringList> KSUserDB::ReturnAllFlags() {
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
     flags.setTable("flags");
-//     flags.setFilter("id >= 1");
     flags.select();
     for (int i =0; i < flags.rowCount(); ++i) {
         QStringList flagEntry;
         QSqlRecord record = flags.record(i);
+        /* flagEntry order description
+         * 
+        */
         flagEntry.append(record.value(1).toString());
         flagEntry.append(record.value(2).toString());
         flagEntry.append(record.value(6).toString());
