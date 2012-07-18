@@ -118,13 +118,12 @@ Rectangle {
             objectName: "soListObj"
             anchors.fill: parent
 
-            signal soListItemClicked( string type, int curIndex )
+            signal soListItemClicked( int type, string typeName, int curIndex )
             clip: true
             visible: false
 
             delegate: Item {
                 id: soListItem
-                objectName: type
                 x: 5
                 height: 40
                 Text {
@@ -138,7 +137,7 @@ Rectangle {
                         anchors.fill: parent
                         onClicked: {
                             soListView.currentIndex = index
-                            soListView.soListItemClicked( soListItem.objectName , soListView.currentIndex)
+                            soListView.soListItemClicked(type, typeName, soListView.currentIndex)
                         }
                     }
                 }

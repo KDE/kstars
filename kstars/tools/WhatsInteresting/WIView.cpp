@@ -37,9 +37,10 @@ WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
 
     catListObj = baseObj->findChild<QObject *>("catListObj");
     connect(catListObj, SIGNAL(catListItemClicked(QString)), this, SLOT(onCatListItemClicked(QString)));
+
     soListObj = baseObj->findChild<QObject *>("soListObj");
-    connect(soListObj, SIGNAL(soListItemClicked(QString, int)),
-            this, SLOT(onSoListItemClicked(QString, int)));
+    connect(soListObj, SIGNAL(soListItemClicked(int, QString, int)), this, SLOT(onSoListItemClicked(int, QString, int)));
+
     detailsViewObj = baseObj->findChild<QObject *>("detailsViewObj");
     nextObj  = baseObj->findChild<QObject *>("nextObj");
     connect(nextObj, SIGNAL(nextObjTextClicked()), this, SLOT(onNextObjTextClicked()));
@@ -51,6 +52,7 @@ WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
 WIView::~WIView()
 {
     delete m;
+    delete curSoItem;
 }
 
 void WIView::onCatListItemClicked(QString category)
@@ -117,22 +119,44 @@ void WIView::onCatListItemClicked(QString category)
     }
 }
 
-void WIView::onSoListItemClicked(QString type, int index)
+void WIView::onSoListItemClicked(int type, QString typeName, int index)
 {
     SkyObjItem *soitem;
-    if (type == "Star")
-        soitem = m->returnModel(ModelManager::Stars)->getSkyObjItem(index);
-    else if (type == "Constellation")
-        soitem = m->returnModel(ModelManager::Constellations)->getSkyObjItem(index);
-    else if (type == "Planet")
-        soitem = m->returnModel(ModelManager::Planets)->getSkyObjItem(index);
-    else
+
+    kDebug()<<type;
+    switch (type)
     {
+    case 0:
+        soitem = m->returnModel(ModelManager::Planets)->getSkyObjItem(index);
+        break;
+    case 1:
+        soitem = m->returnModel(ModelManager::Stars)->getSkyObjItem(index);
+        break;
+    case 2:
+        soitem = m->returnModel(ModelManager::Galaxies)->getSkyObjItem(index);
+        break;
+    case 3:
+        soitem = m->returnModel(ModelManager::Constellations)->getSkyObjItem(index);
+        break;
+    default:
         kDebug()<<"Nothing for DSOs right now";
         return;
     }
+
+//    if (type == "Star")
+//        soitem = m->returnModel(ModelManager::Stars)->getSkyObjItem(index);
+//    else if (type == "Constellation")
+//        soitem = m->returnModel(ModelManager::Constellations)->getSkyObjItem(index);
+//    else if (type == "Planet")
+//        soitem = m->returnModel(ModelManager::Planets)->getSkyObjItem(index);
+//    else
+//    {
+//        kDebug()<<"Nothing for DSOs right now";
+//        return;
+//    }
+
     kDebug()<<soitem->getName()<<soitem->getType();
-    soTypeTextObj->setProperty("text", type);
+    soTypeTextObj->setProperty("text", typeName);
     soTypeTextObj->setProperty("visible", true);
 
     soListObj->setProperty("visible", false);
@@ -167,7 +191,7 @@ void WIView::loadDetailsView(SkyObjItem* soitem, int index)
 
 void WIView::onNextObjTextClicked()
 {
-    int modelSize = m->returnModel(curSoItem->getType())->rowCount();
-    SkyObjItem *nextItem = m->returnModel(curSoItem->getType())->getSkyObjItem((curIndex+1)%modelSize);
+    int modelSize = m->returnModel(curSoItem->getTypeName())->rowCount();
+    SkyObjItem *nextItem = m->returnModel(curSoItem->getTypeName())->getSkyObjItem((curIndex+1)%modelSize);
     loadDetailsView(nextItem, (curIndex+1)%modelSize);
 }

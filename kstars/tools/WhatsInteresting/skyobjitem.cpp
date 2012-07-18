@@ -19,12 +19,29 @@
 #include "kstarsdata.h"
 #include "skyobjitem.h"
 
-SkyObjItem::SkyObjItem(SkyObject* sobj, QObject* parent) : QObject(parent)
+SkyObjItem::SkyObjItem(SkyObject* sobj, QObject* parent) : QObject(parent),
+    m_Name(sobj->name()), m_TypeName(sobj->typeName())
 {
-    so = sobj;
-    name = sobj->name();
-    type = sobj->typeName();
-    setPosition(so);
+    switch (sobj->type())
+    {
+    case SkyObject::PLANET:
+        m_Type = Planet;
+        break;
+    case SkyObject::STAR:
+        m_Type = Star;
+        break;
+    case SkyObject::CONSTELLATION:
+        m_Type = Constellation;
+        break;
+    case SkyObject::OPEN_CLUSTER:
+        m_Type = Star_Cluster;
+        break;
+    case SkyObject::PLANETARY_NEBULA:
+        m_Type = Planetary_Nebula;
+        break;
+    }
+
+    setPosition(so=sobj);
 }
 
 QVariant SkyObjItem::data(int role)
@@ -35,6 +52,8 @@ QVariant SkyObjItem::data(int role)
             return getName();
         case CategoryRole:
             return getType();
+        case CategoryNameRole:
+            return getTypeName();
         default:
             return QVariant();
     }
@@ -45,12 +64,13 @@ QHash< int, QByteArray > SkyObjItem::roleNames() const
     QHash<int, QByteArray > roles;
     roles[DispNameRole]="dispName";
     roles[CategoryRole] = "type";
+    roles[CategoryNameRole] = "typeName";
     return roles;
 }
 
 void SkyObjItem::setPosition(SkyObject* so)
 {
-    QString cardinals[] = {
+    const QString cardinals[] = {
         "N", "NNE", "NE", "ENE",
         "E", "ESE", "SE", "SSE",
         "S", "SSW", "SW", "WSW",
@@ -65,12 +85,13 @@ void SkyObjItem::setPosition(SkyObject* so)
     double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
     int rounded_azimuth = (int)(sp.az().Degrees()/22.5);
 
-    position = QString("Now visible: ").append(QString::number(rounded_altitude)).append(" degrees above the ").append(cardinals[rounded_azimuth]).append(" horizon ");
+    m_Position = QString("Now visible: ")+(QString::number(rounded_altitude))+(" degrees above the ")+(cardinals[rounded_azimuth])+(" horizon ");
 }
 
-QString SkyObjItem::getDesc()
+QString SkyObjItem::getDesc() const
 {
-    if (type == "Planet"){
+    if (m_TypeName == "Planet")
+    {
         KSFileReader fileReader;
         if ( !fileReader.open("PlanetFacts.dat") )
             return QString("No Description found for selected sky-object");
@@ -78,15 +99,15 @@ QString SkyObjItem::getDesc()
         while ( fileReader.hasMoreLines() )
         {
             QString line = fileReader.readLine();
-            if (line.split("::")[0] == name)
+            if (line.split("::")[0] == m_Name)
                 return line.split("::")[1];
         }
     }
-    else if (type == "Star")
+    else if (m_TypeName == "Star")
     {
         return "Bright Star";
     }
-    else if (type == "Constellation")
+    else if (m_TypeName == "Constellation")
     {
         return "Constellation";
     }
@@ -94,9 +115,7 @@ QString SkyObjItem::getDesc()
     return QString("No Description found for selected sky-object");
 }
 
-QString SkyObjItem::getMagnitude()
+QString SkyObjItem::getMagnitude() const
 {
-    QString magtext = "Magnitude : ";
-    magtext.append(QString::number(so->mag()));
-    return magtext;
+    return QString("Magnitude : ")+(QString::number(so->mag()));
 }

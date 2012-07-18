@@ -26,29 +26,25 @@ class SkyObjItem : public QObject
 {
     Q_OBJECT
 public:
-    enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole };
-    enum Positions {
-        N, NNE, NE, ENE,
-        E, ESE, SE, SSE,
-        S, SSW, SW, WSW,
-        W, WNW, NW, NNW
-    };
-    //explicit SkyObjItem( SkyObject *so=0, QString soname = QString(), QString sotype = QString(), QObject *parent = 0);
+    enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole, CategoryNameRole };
+    enum Type {Planet, Star, Galaxy, Constellation, Star_Cluster, Planetary_Nebula};
     explicit SkyObjItem( SkyObject *sobj=0, QObject *parent = 0);
     QVariant data(int role);
     QHash<int, QByteArray> roleNames() const;
-    inline QString getName() { return name; }
-    inline QString getType() { return type; }
-    inline QString getPosition() { return position; }
+    inline QString getName() const { return m_Name; }
+    inline Type getType() const { return m_Type; }
+    inline QString getTypeName() const { return m_TypeName; }
+    inline QString getPosition() const { return m_Position; }
     inline SkyObject* getSkyObject() { return so; }
-    QString getDesc();
-    QString getMagnitude();
+    QString getDesc() const;
+    QString getMagnitude() const;
     void setPosition(SkyObject* so);
 
 private:
-    QString name;
-    QString type;
-    QString position;
+    QString m_Name;
+    QString m_TypeName;
+    QString m_Position;
+    Type m_Type;
     SkyObject* so;
 };
 

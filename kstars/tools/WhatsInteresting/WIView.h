@@ -29,13 +29,13 @@ class WIView : public QObject
 public:
     WIView(QObject *parent = 0, ObsConditions *obs = 0);
     ~WIView();
-    void loadDetailsView( SkyObjItem* soitem, int index);
+    void loadDetailsView(SkyObjItem* soitem, int index);
 
 public slots:
 //     void loadModel ( int TYPE );
 //     void skyObjectItemClicked(QModelIndex index);
     void onCatListItemClicked(QString);
-    void onSoListItemClicked(QString, int index);
+    void onSoListItemClicked(int type, QString typeName, int index);
     void onNextObjTextClicked();
 private:
     QObject *baseObj, *catListObj, *soListObj, *detailsViewObj, *nextObj, *soTypeTextObj;
