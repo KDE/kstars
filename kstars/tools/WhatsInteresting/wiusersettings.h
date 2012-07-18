@@ -29,7 +29,6 @@ class WIUserSettings : public QWizard , public Ui::WIUserSettingsUI
     Q_OBJECT
 public:
     WIUserSettings(QWidget* parent = 0, Qt::WindowFlags flags = 0);
-    ~WIUserSettings();
 
 public slots:
     void slotFinished(int);
@@ -38,7 +37,6 @@ public slots:
 
 private:
     void makeConnections();
-    WIView *wi;
     ObsConditions::Equipment eq;
     ObsConditions::EquipmentType type;
 };

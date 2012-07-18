@@ -27,14 +27,11 @@ WIUserSettings::WIUserSettings(QWidget* parent, Qt::WindowFlags flags): QWizard(
     makeConnections();
 }
 
-WIUserSettings::~WIUserSettings() {}
-
 void WIUserSettings::makeConnections()
 {
     connect(this, SIGNAL(finished(int)), this, SLOT(slotFinished(int)));
     connect(telescopeCheck, SIGNAL( toggled(bool)), this, SLOT(slotTelescopeCheck(bool)));
     connect(binocularsCheck, SIGNAL( toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
-    connect(noEquipCheck, SIGNAL( toggled(bool)), this, SLOT(slotNoEquipCheck(bool)));
 }
 
 void WIUserSettings::slotFinished( int )
@@ -47,7 +44,7 @@ void WIUserSettings::slotFinished( int )
     type = (equipmentType->currentText()=="Reflector") ? ObsConditions::Reflector : ObsConditions::Refractor;
 
     kDebug()<<bortleClass->value()<<eq<<aperture->value()<<type;
-    wi = new WIView(0, new ObsConditions(bortleClass->value(), eq, aperture->value(), type));
+    WIView *wi = new WIView(0, new ObsConditions(bortleClass->value(), eq, aperture->value(), type));
 }
 
 void WIUserSettings::slotTelescopeCheck(bool on)
@@ -61,7 +58,7 @@ void WIUserSettings::slotTelescopeCheck(bool on)
 
 void WIUserSettings::slotBinocularsCheck(bool on)
 {
-    if (on)
+    if (on && !telescopeCheck->isChecked())
     {
         equipmentType->setEnabled(false);
         noEquipCheck->setEnabled(false);

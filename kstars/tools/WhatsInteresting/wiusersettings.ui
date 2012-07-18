@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
-    <height>306</height>
+    <width>612</width>
+    <height>354</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>What's Interesting Settings</string>
@@ -37,7 +43,7 @@
      <enum>Qt::LeftToRight</enum>
     </property>
     <property name="text">
-     <string>What's Interesting... -- User Settings Wizard</string>
+     <string>What's Interesting User Settings Wizard</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -73,7 +79,7 @@
      <rect>
       <x>80</x>
       <y>150</y>
-      <width>431</width>
+      <width>451</width>
       <height>23</height>
      </rect>
     </property>
@@ -89,8 +95,11 @@
     <property name="pageStep">
      <number>1</number>
     </property>
+    <property name="value">
+     <number>4</number>
+    </property>
     <property name="sliderPosition">
-     <number>1</number>
+     <number>4</number>
     </property>
     <property name="tracking">
      <bool>false</bool>
@@ -111,7 +120,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>420</x>
       <y>30</y>
       <width>131</width>
       <height>20</height>
@@ -156,19 +165,68 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>180</x>
+      <x>250</x>
       <y>210</y>
-      <width>381</width>
+      <width>321</width>
       <height>20</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <underline>true</underline>
-     </font>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;For help : &lt;a href=&quot;http://en.wikipedia.org/wiki/Bortle_Dark-Sky_Scale&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#004183;&quot;&gt;Wikipedia Link for Bortle dark-sky scale&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="openExternalLinks">
+     <bool>true</bool>
+    </property>
+    <property name="textInteractionFlags">
+     <set>Qt::TextBrowserInteraction</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>180</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
     </property>
     <property name="text">
-     <string>For help : http://en.wikipedia.org/wiki/Bortle_Dark-Sky_Scale</string>
+     <string>1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>180</y>
+      <width>31</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>5</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>500</x>
+      <y>180</y>
+      <width>41</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>9</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -269,9 +327,9 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>240</x>
       <y>90</y>
-      <width>61</width>
+      <width>111</width>
       <height>21</height>
      </rect>
     </property>
@@ -318,14 +376,14 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>238</x>
       <y>120</y>
-      <width>59</width>
+      <width>111</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>Telescope Type</string>
     </property>
    </widget>
   </widget>
