@@ -1,4 +1,4 @@
-project(kstars)
+PROJECT(kstars CXX C)
 
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)

@@ -91,7 +91,7 @@ public:
 
     static KStarsData* Create( );
 
-    static KStarsData* Instance();
+    static inline KStarsData* Instance() { return pinstance; }
 
     /** Initialize KStarsData while running splash screen.
      *  @return true on success.
@@ -163,8 +163,6 @@ public:
     QList<GeoLocation*> getGeoList() { return geoList; }
 
     GeoLocation *locationNamed( const QString &city, const QString &province=QString(), const QString &country= QString() );
-
-    QString typeName( int );
 
     /**Set the GeoLocation according to the argument.
      * @param l reference to the new GeoLocation
@@ -377,8 +375,6 @@ private:
     KStarsDateTime NextDSTChange;
     // FIXME: Used in kstarsdcop.cpp only
     KStarsDateTime StoredDate;
-
-    QString TypeName[19];
 
     QList<GeoLocation*> geoList;
     QMap<QString, TimeZoneRule> Rulebook;

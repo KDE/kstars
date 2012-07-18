@@ -138,7 +138,7 @@ the luminosity, L, of a black body is proportional to the 4th power of its tempe
 where A is the surface area, alpha is a constant of proportionality,
 and T is the temperature in Kelvin. That is, if we double the
 temperature (e.g. 1000 K to 2000 K) then the total energy radiated
-from a blackbody increase by a factor of 2^4 or 16.
+from a blackbody increase by a factor of 2<superscript>4</superscript> or 16.
 </para>
 
 <para>

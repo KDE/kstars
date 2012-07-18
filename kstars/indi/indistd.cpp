@@ -221,14 +221,13 @@ void INDIStdDevice::handleBLOB(unsigned char *buffer, int bufferSize, const QStr
     }
 
 
-    // FIXME It appears that FITSViewer causes a possible stack corruption, needs to investigate
-
     // Unless we have cfitsio, we're done.
     #ifdef HAVE_CFITSIO_H
     KUrl fileURL(filename);
 
-    FITSViewer * fv = new FITSViewer(&fileURL, ksw);
-    fv->fitsChange();
+    FITSViewer * fv = new FITSViewer(ksw);
+    fv->addFITS(&fileURL);
+    //fv->fitsChange();
     fv->show();
     #endif
 
@@ -306,8 +305,9 @@ void INDIStdDevice::setTextValue(INDI_P *pp)
         break;
 
     case CCD_EXPOSURE_REQUEST:
-        if (pp->state == PS_IDLE || pp->state == PS_OK)
+        if (pp->state == IPS_IDLE || pp->state == IPS_OK)
             pp->set_w->setText(i18n("Capture"));
+
         break;
 
     case CCD_FRAME:
@@ -380,7 +380,7 @@ void INDIStdDevice::setLabelState(INDI_P *pp)
         lp = pp->findElement("CONNECT");
         if (!lp) return;
 
-        if (lp->state == PS_ON)
+        if (lp->switch_state == ISS_ON)
         {
             createDeviceInit();
             emit linkAccepted();
@@ -418,7 +418,7 @@ void INDIStdDevice::setLabelState(INDI_P *pp)
     case VIDEO_STREAM:
         lp = pp->findElement("ON");
         if (!lp) return;
-        if (lp->state == PS_ON)
+        if (lp->switch_state == ISS_ON)
             streamWindow->enableStream(true);
         else
             streamWindow->enableStream(false);
@@ -444,7 +444,7 @@ void INDIStdDevice::streamDisabled()
     el = pp->findElement("OFF");
     if (!el) return;
 
-    if (el->state == PS_ON)
+    if (el->switch_state == ISS_ON)
         return;
 
     // Turn stream off
@@ -636,14 +636,14 @@ void INDIStdDevice::registerProperty(INDI_P *pp)
             {
                 if (device->deviceManager == dp->deviceManager)
                 {
-                    if (device->deviceType == KSTARS_TELESCOPE)
+                    if (device->type == KSTARS_TELESCOPE)
                     {
                         portEle->read_w->setText( Options::telescopePort() );
                         portEle->write_w->setText( Options::telescopePort() );
                         portEle->text = Options::telescopePort();
                         break;
                     }
-                    else if (device->deviceType == KSTARS_VIDEO)
+                    else if (device->type == KSTARS_VIDEO)
                     {
                         portEle->read_w->setText( Options::videoPort() );
                         portEle->write_w->setText( Options::videoPort() );
@@ -661,9 +661,14 @@ void INDIStdDevice::registerProperty(INDI_P *pp)
         emit newTelescope();
         break;
 
-        // Update Device menu actions
+    case CCD_EXPOSURE_REQUEST:
         drivers->updateMenuActions();
+        break;
+
+
     }
+
+
 }
 
 /*********************************************************************************/
@@ -752,7 +757,7 @@ bool INDIStdDevice::handleNonSidereal()
 
                 /* Send object name if available */
                 nameEle = dp->findElem("OBJECT_NAME");
-                if (nameEle && nameEle->pp->perm != PP_RO)
+                if (nameEle && nameEle->pp->perm != IP_RO)
                 {
                     nameEle->write_w->setText(currentObject->name());
                     nameEle->pp->newText();
@@ -811,7 +816,7 @@ void INDIStdDevice::timerDone()
     el   = prop->findElement("TRACK");
     if (!el) return;
 
-    if (el->state != PS_ON)
+    if (el->switch_state != ISS_ON)
     {
         devTimer->stop();
         return;
@@ -833,7 +838,7 @@ void INDIStdDevice::timerDone()
         return;
 
     // wait until slew is done
-    if (prop->state == PS_BUSY)
+    if (prop->state == IPS_BUSY)
         return;
 
     kDebug() << "Timer called, starting processing";
@@ -900,11 +905,11 @@ void INDIStdProperty::newText()
             {
                 if (device->deviceManager == stdDev->dp->deviceManager)
                 {
-                    if (device->deviceType == KSTARS_TELESCOPE)
+                    if (device->type == KSTARS_TELESCOPE)
                     {
                         Options::setTelescopePort( lp->text );
                     }
-                    else if (device->deviceType == KSTARS_VIDEO)
+                    else if (device->type == KSTARS_VIDEO)
                     {
                         Options::setVideoPort( lp->text );
                     }
@@ -995,10 +1000,10 @@ bool INDIStdDevice::slew_scope(SkyPoint *scope_target, INDI_E *lp)
 
     HorProp = dp->findProp("HORIZONTAL_COORD_REQUEST");
 
-    if (EqProp && EqProp->perm == PP_RO)
+    if (EqProp && EqProp->perm == IP_RO)
 		EqProp = NULL;
 
-    if (HorProp && HorProp->perm == PP_RO)
+    if (HorProp && HorProp->perm == IP_RO)
           	HorProp = NULL;
 
     //kDebug() << "Skymap click - RA: " << scope_target->ra().toHMSString() << " DEC: " << scope_target->dec().toDMSString();
@@ -1081,7 +1086,7 @@ bool INDIStdProperty::actionTriggered(INDI_E *lp)
                 return true;
 
            nameEle = stdDev->dp->findElem("OBJECT_NAME");
-       	   if (nameEle && nameEle->pp->perm != PP_RO)
+           if (nameEle && nameEle->pp->perm != IP_RO)
            {
                if (stdDev->currentObject == NULL)
 			nameEle->write_w->setText("--");

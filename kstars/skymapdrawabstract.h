@@ -114,12 +114,19 @@ class SkyMapDrawAbstract {
      */
     void drawObjectLabels( QList< SkyObject* >& labelObjects );
 
+    /**
+     *@return true if a draw is in progress or is locked, false otherwise. This is just the value of m_DrawLock
+     */
+    static inline bool drawLock() { return m_DrawLock; }
 
+    /**
+     *@short Acquire / release a draw lock. This prevents other drawing from happening
+     */
+    static void setDrawLock( bool state );
 
     // *********************** PURE VIRTUAL METHODS ******************* //
     // NOTE: The following methods differ between GL and QPainter backends
     //       Thus, they are pure virtual and must be implemented by the sublcass
-
 
  protected:
     /**
@@ -141,6 +148,7 @@ class SkyMapDrawAbstract {
 
     KStarsData *m_KStarsData;
     SkyMap *m_SkyMap;
+    static bool m_DrawLock;
 
     /** Calculate FPS and dump result to stderr using kDebug */
     void calculateFPS();

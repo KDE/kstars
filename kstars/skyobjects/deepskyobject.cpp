@@ -69,24 +69,6 @@ DeepSkyObject::DeepSkyObject( int t, dms r, dms d, float m,
     loadImage();
 }
 
-DeepSkyObject::DeepSkyObject( int t, double r, double d, float m,
-                              const QString &n, const QString &n2,
-                              const QString &lname, const QString &cat,
-                              float a, float b, double pa, int pgc, int ugc )
-        : SkyObject( t, r, d, m, n, n2, lname )
-{
-    MajorAxis = a;
-    MinorAxis = b;
-    PositionAngle = pa;
-    PGC = pgc;
-    UGC = ugc;
-    setCatalog( cat );
-    updateID = updateNumID = 0;
-    customCat = NULL;
-    Flux = 0;
-    loadImage();
-}
-
 DeepSkyObject* DeepSkyObject::clone() const
 {
     return new DeepSkyObject(*this);

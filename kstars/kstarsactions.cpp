@@ -16,6 +16,11 @@
  ***************************************************************************/
 
 //needed in slotRunScript() for chmod() syscall (remote script downloaded to temp file)
+
+#ifdef _WIN32
+#include <windows.h>
+#undef interface
+#endif
 #include <sys/stat.h>
 
 #include <QCheckBox>
@@ -47,6 +52,7 @@
 #include "options/opsguides.h"
 #include "options/opssolarsystem.h"
 #include "options/opssatellites.h"
+#include "options/opssupernovae.h"
 #include "options/opscolors.h"
 #include "options/opsadvanced.h"
 
@@ -65,7 +71,6 @@
 #include "dialogs/fovdialog.h"
 #include "printing/printingwizard.h"
 #include "kswizard.h"
-#include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
@@ -99,6 +104,9 @@
 
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
+#ifdef HAVE_INDI_H
+#include "ekos/ekos.h"
+#endif
 #endif
 
 #ifdef HAVE_XPLANET
@@ -150,11 +158,16 @@ void KStars::slotViewToolBar() {
         if ( kcd ) {
             opguides->kcfg_ShowMilkyWay->setChecked( a->isChecked() );
         }
-    } else if ( a == actionCollection()->action( "show_grid" ) ) {
-        Options::setShowGrid( a->isChecked() );
+    } else if ( a == actionCollection()->action( "show_equatorial_grid" ) ) {
+        Options::setShowEquatorialGrid( a->isChecked() );
         if ( kcd ) {
-            opguides->kcfg_ShowGrid->setChecked( a->isChecked() );
+            opguides->kcfg_ShowEquatorialGrid->setChecked( a->isChecked() );
         }
+    } else if ( a == actionCollection()->action( "show_horizontal_grid" ) ) {
+        Options::setShowHorizontalGrid( a->isChecked() );
+        if ( kcd ) {
+            opguides->kcfg_ShowHorizontalGrid->setChecked( a->isChecked() );
+        }    
     } else if ( a == actionCollection()->action( "show_horizon" ) ) {
         Options::setShowGround( a->isChecked() );
         if( !a->isChecked() && Options::useRefraction() ) {
@@ -178,9 +191,9 @@ void KStars::slotViewToolBar() {
         }
     } else if ( a == actionCollection()->action( "show_supernovae" ) ) {
         Options::setShowSupernovae( a->isChecked() );
-//         if ( kcd ) {
-//             opsupernovae->kcfg_ShowSupernovae->setChecked ( a->isChecked() ) ;
-//         }
+        if ( kcd ) {
+            opssupernovae->kcfg_ShowSupernovae->setChecked ( a->isChecked() ) ;
+        }
     }
 
     // update time for all objects because they might be not initialized
@@ -252,13 +265,6 @@ void KStars::slotDownload() {
             }
         }
     }
-}
-
-void KStars::slotLCGenerator() {
-    if ( ! AAVSODialog  )
-        AAVSODialog = new LCGenerator(this);
-
-    AAVSODialog->show();
 }
 
 void KStars::slotAVT() {
@@ -350,6 +356,18 @@ void KStars::slotINDIDriver()
 #endif
 }
 
+void KStars::slotEkos()
+{
+#ifdef HAVE_CFITSIO_H
+#ifdef HAVE_INDI_H
+    if (ekosmenu == NULL)
+        ekosmenu = new Ekos(this);
+
+    ekosmenu->show();
+#endif
+#endif
+}
+
 void KStars::slotGeoLocator() {
     QPointer<LocationDialog> locationdialog = new LocationDialog(this);
     if ( locationdialog->exec() == QDialog::Accepted ) {
@@ -404,12 +422,14 @@ void KStars::slotViewOps() {
     opguides     = new OpsGuides( this );
     opsolsys     = new OpsSolarSystem( this );
     opssatellites= new OpsSatellites( this );
+    opssupernovae= new OpsSupernovae( this );
     opcolors     = new OpsColors( this );
     opadvanced   = new OpsAdvanced( this );
 
     dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
     dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
     dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
+    dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
     dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
     dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
 
@@ -525,7 +545,8 @@ void KStars::slotOpenFITS()
     if (fileURL.isEmpty())
         return;
 
-    FITSViewer * fv = new FITSViewer(&fileURL, this);
+    FITSViewer * fv = new FITSViewer(this);
+    fv->addFITS(&fileURL);
     fv->show();
 #endif
 }

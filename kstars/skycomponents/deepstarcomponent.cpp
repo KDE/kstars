@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include "deepstarcomponent.h"
 
 #include <QPixmap>
@@ -95,7 +98,7 @@ bool DeepStarComponent::loadStaticStars() {
     if( htm_level != m_skyMesh->level() )
         kDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
 
-    for(Trixel i = 0; i < m_skyMesh->size(); ++i) {
+    for(Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i) {
 
         Trixel trixel = i;
         StarBlock *SB = new StarBlock( starReader.getRecordCount( i ) );
@@ -104,7 +107,7 @@ bool DeepStarComponent::loadStaticStars() {
         m_starBlockList.at( trixel )->setStaticBlock( SB );
         
         for(unsigned long j = 0; j < (unsigned long) starReader.getRecordCount(i); ++j) {
-            bool fread_success;
+            bool fread_success = false;
             if( starReader.guessRecordSize() == 32 )
                 fread_success = fread( &stardata, sizeof( starData ), 1, dataFile );
             else if( starReader.guessRecordSize() == 16 )
@@ -210,6 +213,10 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 
     magLim = maglim;
 
+    // If we are to hide the fainter stars (eg: while slewing), we set the magnitude limit to hideStarsMag.
+    if( hideFaintStars && maglim > hideStarsMag )
+        maglim = hideStarsMag;
+
     StarBlockFactory *m_StarBlockFactory = StarBlockFactory::Instance();
     //    m_StarBlockFactory->drawID = m_skyMesh->drawID();
     //    kDebug() << "Mesh size = " << m_skyMesh->size() << "; drawID = " << m_skyMesh->drawID();
@@ -264,6 +271,7 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
 
         //        kDebug() << "Drawing SBL for trixel " << currentRegion << ", SBL has " 
         //                 <<  m_starBlockList[ currentRegion ]->getBlockCount() << " blocks" << endl;
+
         for( int i = 0; i < m_starBlockList.at( currentRegion )->getBlockCount(); ++i ) {
             StarBlock *block = m_starBlockList.at( currentRegion )->block( i );
             //            kDebug() << "---> Drawing stars from block " << i << " of trixel " << 
@@ -276,11 +284,11 @@ void DeepStarComponent::draw( SkyPainter *skyp ) {
                 //<< ", and indexStar says he's from " << m_skyMesh->indexStar( curStar );
 
                 if ( curStar->updateID != updateID )
-                    curStar->JITupdate( data );
+                    curStar->JITupdate();
 
                 float mag = curStar->mag();
 
-                if ( mag > maglim || ( hideFaintStars && mag > hideStarsMag ) )
+                if ( mag > maglim )
                     break;
 
                 if( skyp->drawPointSource(curStar, mag, curStar->spchar() ) )
@@ -465,7 +473,7 @@ void DeepStarComponent::byteSwap( starData *stardata ) {
 bool DeepStarComponent::verifySBLIntegrity() {
     float faintMag = -5.0;
     bool integrity = true;
-    for(Trixel trixel = 0; trixel < m_skyMesh->size(); ++trixel) {
+    for(Trixel trixel = 0; trixel < (unsigned int)m_skyMesh->size(); ++trixel) {
         for(int i = 0; i < m_starBlockList[ trixel ]->getBlockCount(); ++i) {
             StarBlock *block = m_starBlockList[ trixel ]->block( i );
             if( i == 0 )

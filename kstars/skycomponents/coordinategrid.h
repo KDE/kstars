@@ -36,11 +36,11 @@ public:
     	*(meridians and parallels)
     	*@p parent Pointer to the parent SkyComposite object
     	*/
-    CoordinateGrid( SkyComposite *parent );
+    CoordinateGrid( SkyComposite *parent, const QString& name );
 
-    void preDraw( SkyPainter *skyp );
+    virtual void preDraw( SkyPainter *skyp ) = 0;
 
-    bool selected();
+    virtual bool selected() = 0;
 };
 
 

@@ -40,7 +40,6 @@ class INDIMenu;
 class INDIDriver;
 class imagesequence;
 class AltVsTime;
-class LCGenerator;
 class WUTDialog;
 class AstroCalc;
 class SkyCalendar;
@@ -59,10 +58,11 @@ class OpsCatalog;
 class OpsGuides;
 class OpsSolarSystem;
 class OpsSatellites;
-//class OpsSupernovae;
+class OpsSupernovae;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
+class Ekos;
 #ifdef HAVE_XPLANET
 class OpsXplanet;
 #endif
@@ -500,9 +500,6 @@ private slots:
     /** action slot: open KStars calculator to compute astronomical ephemeris */
     void slotCalculator();
 
-    /** action slot: open KStars AAVSO Light Curve Generator */
-    void slotLCGenerator();
-
     /** action slot: open Elevation vs. Time tool */
     void slotAVT();
 
@@ -535,6 +532,9 @@ private slots:
 
     /** action slot: open INDI control panel */
     void slotINDIPanel();
+
+    /** action slot: open Ekos panel */
+    void slotEkos();
 
     /** action slot: open dialog for setting the view options */
     void slotViewOps();
@@ -640,7 +640,6 @@ private:
 
     KActionMenu *colorActionMenu, *fovActionMenu;
 
-    LCGenerator *AAVSODialog;
     FindDialog *findDialog;
     ExportImageDialog *imgExportDialog;
 
@@ -662,6 +661,7 @@ private:
     INDIMenu *indimenu;
     INDIDriver *indidriver;
     imagesequence *indiseq;  /* We need imgsequence here because it runs in batch mode */
+    Ekos *ekosmenu;
 
     QActionGroup *projectionGroup, *cschemeGroup;
 
@@ -675,7 +675,7 @@ private:
     OpsGuides *opguides;
     OpsSolarSystem *opsolsys;
     OpsSatellites *opssatellites;
-    //OpsSupernovae *opsupernovae;
+    OpsSupernovae *opssupernovae;
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
     OpsINDI *opsindi;

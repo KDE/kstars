@@ -14,6 +14,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include "texturemanager.h"
 #include "skymapcomposite.h"
 #include "skyglpainter.h"
@@ -44,6 +48,12 @@ void SkyMapGLDraw::resizeGL(int width, int height)
 
 void SkyMapGLDraw::paintEvent( QPaintEvent *event )
 {
+    Q_UNUSED(event);
+    // This is machinery to prevent multiple concurrent paint events / recursive paint events
+    if( m_DrawLock )
+        return;
+    setDrawLock( true );
+
     QPainter p;
     p.begin(this);
     p.beginNativePainting();
@@ -64,4 +74,6 @@ void SkyMapGLDraw::paintEvent( QPaintEvent *event )
     p.endNativePainting();
     drawOverlays(p);
     p.end();
+
+    setDrawLock( false );
 }

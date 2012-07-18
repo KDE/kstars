@@ -35,16 +35,6 @@ QString PlanetMoons::name( int id ) const {
     return Moon[id]->translatedName();
 }
 
-TrailObject* PlanetMoons::moonNamed( const QString &name ) const {
-    int nmoons = nMoons();
-    for ( int i=0; i<nmoons; ++i ) {
-        if ( Moon[i]->name() == name ) {
-            return Moon[i];
-        }
-    }
-    return 0;
-}
-
 void PlanetMoons::EquatorialToHorizontal( const dms *LST, const dms *lat ) {
   int nmoons = nMoons();
   

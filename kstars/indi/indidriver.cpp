@@ -393,7 +393,6 @@ void INDIDriver::newCCDDiscovered()
 {
 
     emit newCCD();
-
 }
 
 void INDIDriver::resizeDeviceColumn()
@@ -710,7 +709,7 @@ bool INDIDriver::buildDriverElement(XMLEle *root, QTreeWidgetItem *DGroup, int g
         driversList.insert(driver, name);
 
     dv = new IDevice(name, label, driver, version);
-    dv->deviceType = groupType;
+    dv->type = groupType;
     dv->xmlSource = xmlSource;
     //connect(dv, SIGNAL(newServerInput()), this, SLOT(updateLocalTab()));
     if (focal_length > 0)
@@ -768,7 +767,7 @@ void INDIDriver::updateCustomDrivers()
             lastDevice = device;
 
             dv = new IDevice(name, label, driver, version);
-            dv->deviceType = KSTARS_TELESCOPE;
+            dv->type = KSTARS_TELESCOPE;
             dv->xmlSource = IDevice::EM_XML;
             dv->focal_length = focal_length;
             dv->aperture = aperture;
@@ -982,7 +981,7 @@ IDevice::IDevice(const QString &inName, const QString &inLabel, const QString &i
 {
     tree_label	 = inLabel;
     unique_label.clear();
-    driver_class = inName;
+    name = inName;
     driver	 = inDriver;
     version	 = inVersion;
 

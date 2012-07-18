@@ -164,7 +164,6 @@ private:
     DeepSkyIndex m_ICIndex;
     DeepSkyIndex m_OtherIndex;
 
-    void appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex );
     void appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Trixel trixel );
 
     QHash<QString, DeepSkyObject*> nameHash;

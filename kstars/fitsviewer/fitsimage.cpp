@@ -39,7 +39,6 @@
 #include <KMessageBox>
 #include <KFileDialog>
 
-#include "fitsviewer.h"
 #include "ksutils.h"
 
 #define ZOOM_DEFAULT	100.0
@@ -71,13 +70,14 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     x = KSUtils::clamp(x, 1.0, width);
     y = KSUtils::clamp(y, 1.0, height);
 
-    image->getViewer()->statusBar()->changeItem(QString("%1 , %2").arg( (int)x ).arg( (int)y ), 0);
+    emit newStatus(QString("%1 , %2").arg( (int)x ).arg( (int)y ), FITS_POSITION);
 
     // Range is 0 to dim-1 when accessing array
     x -= 1;
     y -= 1;
 
-    image->getViewer()->statusBar()->changeItem( KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)], 3 ), 1 );
+    emit newStatus(KGlobal::locale()->formatNumber( buffer[(int) (y * width + x)]), FITS_VALUE);
+
     setCursor(Qt::CrossCursor);
 
     e->accept();
@@ -85,14 +85,14 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
 
 FITSImage::FITSImage(QWidget * parent) : QScrollArea(parent) , zoomFactor(1.2)
 {
-    viewer = (FITSViewer *) parent;
-
     image_frame = new FITSLabel(this);
     image_buffer = NULL;
     displayImage = NULL;
     setBackgroundRole(QPalette::Dark);
 
     currentZoom = 0.0;
+
+    connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
 
     image_frame->setMouseTracking(true);
 
@@ -104,14 +104,13 @@ FITSImage::~FITSImage()
 {
     int status;
 
-    if (fits_close_file(fptr, &status))
-        fits_report_error(stderr, status);
+    fits_close_file(fptr, &status);
 
     delete(image_buffer);
     delete(displayImage);
 }
 
-int FITSImage::loadFits ( const QString &filename )
+bool FITSImage::loadFITS ( const QString &filename )
 {
 
     int status=0, nulval=0, anynull=0;
@@ -123,18 +122,18 @@ int FITSImage::loadFits ( const QString &filename )
     //fitsProg.setWindowModality(Qt::WindowModal);
 
      fitsProg.setValue(30);
-     //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        KMessageBox::error(0, i18n("FITS file open error: %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
-        return -1;
+        KMessageBox::error(0, i18n("Could not open file %1 (fits_get_img_param). Error %2", filename, QString::fromUtf8(error_status)), i18n("FITS Open"));
+        return false;
     }
 
+
     if (fitsProg.wasCanceled())
-	return -1;
+        return false;
 
     fitsProg.setValue(50);
     //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
@@ -143,28 +142,26 @@ int FITSImage::loadFits ( const QString &filename )
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        KMessageBox::error(0, i18n("FITS file open error: %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
-        return -1;
+        KMessageBox::error(0, i18n("FITS file open error (fits_get_img_param): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
+        return false;
     }
 
     if (fits_get_img_type(fptr, &data_type, &status))
     {
         fits_report_error(stderr, status);
         fits_get_errstatus(status, error_status);
-        KMessageBox::error(0, i18n("FITS file open error: %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
-        return -1;
+        KMessageBox::error(0, i18n("FITS file open error (fits_get_img_type): %1", QString::fromUtf8(error_status)), i18n("FITS Open"));
+        return false;
     }
 
     if (fitsProg.wasCanceled())
-	return -1;
+        return false;
 
     fitsProg.setValue(60);
-    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     stats.dim[0] = naxes[0];
     stats.dim[1] = naxes[1];
 
-    //kDebug() << "bitpix: " << stats.bitpix << " dim[0]: " << stats.dim[0] << " dim[1]: " << stats.dim[1] << " ndim: " << stats.ndim << " Image Type: " << data_type;
 
     delete (image_buffer);
     delete (displayImage);
@@ -177,7 +174,7 @@ int FITSImage::loadFits ( const QString &filename )
     {
 	// Display error message here after freeze
         kDebug() << "Not enough memory for image_buffer";
-	return -1;
+        return false;
     }
 
     displayImage = new QImage(stats.dim[0], stats.dim[1], QImage::Format_Indexed8);
@@ -186,18 +183,17 @@ int FITSImage::loadFits ( const QString &filename )
     {
 	// Display error message here after freeze
         kDebug() << "Not enough memory for display_image";
-	return -1;
+        return false;
     }
 
     if (fitsProg.wasCanceled())
     {
       delete (image_buffer);
       delete (displayImage);
-      return -1;
+      return false;
     }
 
     fitsProg.setValue(70);
-    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     displayImage->setNumColors(256);
 
@@ -210,19 +206,19 @@ int FITSImage::loadFits ( const QString &filename )
 
     if (fits_read_pix(fptr, TFLOAT, fpixel, nelements, &nulval, image_buffer, &anynull, &status))
     {
+        fprintf(stderr, "fits_read_pix error\n");
         fits_report_error(stderr, status);
-        return -1;
+        return false;
     }
 
     if (fitsProg.wasCanceled())
     {
       delete (image_buffer);
       delete (displayImage);
-      return -1;
+      return false;
     }
 
     fitsProg.setValue(80);
-    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
    
     currentZoom   = 100;
@@ -231,32 +227,33 @@ int FITSImage::loadFits ( const QString &filename )
 
     // Rescale to fits window
     if (rescale(ZOOM_FIT_WINDOW))
-        return -1;
+        return false;
 
     if (fitsProg.wasCanceled())
     {
       delete (image_buffer);
       delete (displayImage);
-      return -1;
+      return false;
     }
 
     fitsProg.setValue(90);
-    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
     calculateStats();
+
 
     if (fitsProg.wasCanceled())
     {
       delete (image_buffer);
       delete (displayImage);
-      return -1;
+      return false;
     }
 
     fitsProg.setValue(100);
-    //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     setAlignment(Qt::AlignCenter);
 
-    return 0;
+    emit newStatus(QString("%1%x%2").arg(currentWidth).arg(currentHeight), FITS_RESOLUTION);
+
+    return true;
 
 }
 
@@ -275,21 +272,21 @@ int FITSImage::saveFITS( const QString &filename )
     if (fits_create_file(&new_fptr, filename.toAscii(), &status))
     {
         fits_report_error(stderr, status);
-        return -1;
+        return status;
     }
 
     /* Copy ALL contents */
     if (fits_copy_file(fptr, new_fptr, 1, 1, 1, &status))
     {
         fits_report_error(stderr, status);
-        return -1;
+        return status;
     }
 
     /* close current file */
     if (fits_close_file(fptr, &status))
     {
         fits_report_error(stderr, status);
-        return -1;
+        return status;
     }
 
     fptr = new_fptr;
@@ -298,7 +295,7 @@ int FITSImage::saveFITS( const QString &filename )
     if (fits_write_pix(fptr, TFLOAT, fpixel, nelements, image_buffer, &status))
     {
         fits_report_error(stderr, status);
-        return -1;
+        return status;
     }
 
     /* Write keywords */
@@ -307,21 +304,21 @@ int FITSImage::saveFITS( const QString &filename )
     if (fits_update_key(fptr, TDOUBLE, "DATAMIN", &(stats.min), "Minimum value", &status))
     {
         fits_report_error(stderr, status);
-        return -1;
+        return status;
     }
 
     // Maximum
     if (fits_update_key(fptr, TDOUBLE, "DATAMAX", &(stats.max), "Maximum value", &status))
     {
         fits_report_error(stderr, status);
-        return -1;
+        return status;
     }
 
     // ISO Date
     if (fits_write_date(fptr, &status))
     {
         fits_report_error(stderr, status);
-        return -1;
+        return status;
     }
 
     QString history = QString("Modified by KStars on %1").arg(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss"));
@@ -329,10 +326,10 @@ int FITSImage::saveFITS( const QString &filename )
     if (fits_write_history(fptr, history.toAscii(), &status))
     {
         fits_report_error(stderr, status);
-        return -1;
+        return status;
     }
 
-    return 0;
+    return status;
 }
 
 int FITSImage::calculateMinMax(bool refresh)
@@ -344,14 +341,10 @@ int FITSImage::calculateMinMax(bool refresh)
 
     if (!refresh)
     {
-        if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min), NULL, &status))
-            fits_report_error(stderr, status);
-        else
+        if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min), NULL, &status) ==0)
             nfound++;
 
-        if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max), NULL, &status))
-            fits_report_error(stderr, status);
-        else
+        if (fits_read_key_dbl(fptr, "DATAMAX", &(stats.max), NULL, &status) == 0)
             nfound++;
 
         // If we found both keywords, no need to calculate them
@@ -373,11 +366,10 @@ int FITSImage::calculateMinMax(bool refresh)
     return 0;
 }
 
-int FITSImage::rescale(zoomType type)
+int FITSImage::rescale(FITSZoom type)
 {
     float val=0;
     double bscale, bzero;
-    QAction *toolAction = NULL;
 
     // Get Min Max failed, scaling is not possible
     if (type == ZOOM_KEEP_LEVEL)
@@ -433,12 +425,9 @@ int FITSImage::rescale(zoomType type)
             currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
             currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
+
             if (currentZoom <= ZOOM_MIN)
-            {
-                toolAction = viewer->actionCollection()->action("view_zoom_out");
-                if (toolAction != NULL)
-                    toolAction->setEnabled (false);
-            }
+                emit actionUpdated("view_zoom_out", false);
 
             image_frame->resize( (int) currentWidth, (int) currentHeight);
 
@@ -471,31 +460,26 @@ int FITSImage::rescale(zoomType type)
 
     setWidget(image_frame);
 
-    if (type != ZOOM_KEEP_LEVEL)
-        viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
+
+   if (type != ZOOM_KEEP_LEVEL)
+       emit newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
     return 0;
 
 }
 
-void FITSImage::fitsZoomIn()
+void FITSImage::ZoomIn()
 {
-    QAction *toolAction = NULL;
 
     if (currentZoom < ZOOM_DEFAULT)
         currentZoom += ZOOM_LOW_INCR;
     else
         currentZoom += ZOOM_HIGH_INCR;
 
-    toolAction = viewer->actionCollection()->action("view_zoom_out");
-    if (toolAction != NULL)
-        toolAction->setEnabled (true);
+
+    emit actionUpdated("view_zoom_out", true);
     if (currentZoom >= ZOOM_MAX)
-    {
-        toolAction = viewer->actionCollection()->action("view_zoom_in");
-        if (toolAction != NULL)
-            toolAction->setEnabled (false);
-    }
+        emit actionUpdated("view_zoom_in", false);
 
     currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
     currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
@@ -503,22 +487,22 @@ void FITSImage::fitsZoomIn()
     image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     image_frame->resize( (int) currentWidth, (int) currentHeight);
 
-    viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
+    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
 }
 
-void FITSImage::fitsZoomOut()
+void FITSImage::ZoomOut()
 {
-    //currentZoom--;
+
     if (currentZoom <= ZOOM_DEFAULT)
         currentZoom -= ZOOM_LOW_INCR;
     else
         currentZoom -= ZOOM_HIGH_INCR;
 
     if (currentZoom <= ZOOM_MIN)
-        viewer->actionCollection()->action("view_zoom_out")->setEnabled (false);
+        emit actionUpdated("view_zoom_out", false);
 
-    viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
+    emit actionUpdated("view_zoom_in", true);
 
     currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
     currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
@@ -527,13 +511,14 @@ void FITSImage::fitsZoomOut()
 
     image_frame->resize( (int) currentWidth, (int) currentHeight);
 
-    viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
+    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 }
 
-void FITSImage::fitsZoomDefault()
+void FITSImage::ZoomDefault()
 {
-    viewer->actionCollection()->action("view_zoom_out")->setEnabled (true);
-    viewer->actionCollection()->action("view_zoom_in")->setEnabled (true);
+    emit actionUpdated("view_zoom_out", true);
+    emit actionUpdated("view_zoom_in", true);
+
 
     currentZoom   = ZOOM_DEFAULT;
     currentWidth  = stats.dim[0];
@@ -542,7 +527,7 @@ void FITSImage::fitsZoomDefault()
     image_frame->setPixmap(QPixmap::fromImage(*displayImage));
     image_frame->resize( (int) currentWidth, (int) currentHeight);
 
-    viewer->statusBar()->changeItem(QString("%1%").arg(currentZoom), 3);
+    newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
     update();
 

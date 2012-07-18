@@ -63,7 +63,8 @@ ColorScheme::ColorScheme() : FileName() {
     appendItem("EclColor",         i18n("Ecliptic"),               "#613d12");
     appendItem("HorzColor",        i18n("Horizon"),                "#091f14");
     appendItem("CompassColor",     i18n("Compass Labels"),         "#909055");
-    appendItem("GridColor",        i18n("Coordinate Grid"),        "#445566");
+    appendItem("EquatorialGridColor", i18n("Equatorial Coordinate Grid"), "#445566");
+    appendItem("HorizontalGridColor", i18n("Horizontal Coordinate Grid"), "#091f14");
     appendItem("BoxTextColor",     i18n("Info Box Text"),          "#d2dbef");
     appendItem("BoxGrabColor",     i18n("Info Box Selected"),      "#900000");
     appendItem("BoxBGColor",       i18n("Info Box Background"),    "#000000");

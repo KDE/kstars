@@ -32,7 +32,8 @@
 #include "constellationlines.h"
 #include "culturelist.h"
 #include "constellationnamescomponent.h"
-#include "coordinategrid.h"
+#include "equatorialcoordinategrid.h"
+#include "horizontalcoordinategrid.h"
 #include "customcatalogcomponent.h"
 #include "deepskycomponent.h"
 #include "equator.h"
@@ -71,7 +72,8 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     //Stars must come before constellation lines
     addComponent( m_MilkyWay       = new MilkyWay( this ));
     addComponent( m_Stars          = StarComponent::Create( this ));
-    addComponent( m_CoordinateGrid = new CoordinateGrid( this ));
+    addComponent( m_EquatorialCoordinateGrid = new EquatorialCoordinateGrid( this ));
+    addComponent( m_HorizontalCoordinateGrid = new HorizontalCoordinateGrid( this ));
 
     // Do add to components.
     addComponent( m_CBoundLines = new ConstellationBoundaryLines( this ));
@@ -117,13 +119,15 @@ void SkyMapComposite::update(KSNumbers *num )
     //1. Milky Way
     //m_MilkyWay->update( data, num );
     //2. Coordinate grid
-    //m_CoordinateGrid->update( data, num );
+    //m_EquatorialCoordinateGrid->update( num );
+    m_HorizontalCoordinateGrid->update( num );
     //3. Constellation boundaries
     //m_CBounds->update( data, num );
     //4. Constellation lines
     //m_CLines->update( data, num );
     //5. Constellation names
-    m_CNames->update( num );
+    if ( m_CNames )
+        m_CNames->update( num );
     //6. Equator
     //m_Equator->update( data, num );
     //7. Ecliptic
@@ -164,8 +168,6 @@ void SkyMapComposite::updateMoons(KSNumbers *num )
 //should appear "behind" others should be drawn first.
 void SkyMapComposite::draw( SkyPainter *skyp )
 {
-    QTime t;
-    t.start();
     SkyMap *map = SkyMap::Instance();
     KStarsData *data = KStarsData::Instance();
 
@@ -197,7 +199,7 @@ void SkyMapComposite::draw( SkyPainter *skyp )
     m_skyMesh->aperture( focus, radius + 1.0, DRAW_BUF ); // divide by 2 for testing
 
     // create the no-precess aperture if needed
-    if ( Options::showGrid() || Options::showCBounds() || Options::showEquator() ) {
+    if ( Options::showEquatorialGrid() || Options::showHorizontalGrid() || Options::showCBounds() || Options::showEquator() ) {
         m_skyMesh->index( focus, radius + 1.0, NO_PRECESS_BUF );
     }
 
@@ -220,7 +222,8 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_MilkyWay->draw( skyp );
 
-    m_CoordinateGrid->draw( skyp );
+    m_EquatorialCoordinateGrid->draw( skyp );
+    m_HorizontalCoordinateGrid->draw( skyp );
 
     // Draw constellation boundary lines only if we draw western constellations
     if ( m_Cultures->current() == "Western" )
@@ -245,8 +248,6 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_Supernovae->draw(skyp);
 
-    m_Horizon->draw( skyp );
-
     map->drawObjectLabels( labelObjects() );
 
     m_skyLabeler->drawQueuedLabels();
@@ -264,19 +265,34 @@ void SkyMapComposite::draw( SkyPainter *skyp )
 
     m_StarHopRouteList->pen = QPen( QColor(data->colorScheme()->colorNamed( "StarHopRouteColor" )), 1. );
     m_StarHopRouteList->draw( skyp );
+    
+    m_Horizon->draw( skyp );
 
     m_skyMesh->inDraw( false );
 
-    //kDebug() << QString("draw took %1 ms").arg( t.elapsed() );
-
+    // DEBUG Edit. Keywords: Trixel boundaries. Currently works only in QPainter mode
     // -jbb uncomment these to see trixel outlines:
-    //
-    //psky.setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( psky, OBJ_NEAREST_BUF );
+    /*
+    QPainter *psky = dynamic_cast< QPainter *>( skyp );
+    if( psky ) {
+        kDebug() << "Drawing trixel boundaries for debugging.";
+        psky->setPen(  QPen( QBrush( QColor( "yellow" ) ), 1, Qt::SolidLine ) );
+        m_skyMesh->draw( *psky, OBJ_NEAREST_BUF );
+        SkyMesh *p;
+        if( p = SkyMesh::Instance( 6 ) ) {
+            kDebug() << "We have a deep sky mesh to draw";
+            p->draw( *psky, OBJ_NEAREST_BUF );
+        }
 
-    //psky.setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
-    //m_skyMesh->draw( psky, NO_PRECESS_BUF );
+        psky->setPen( QPen( QBrush( QColor( "green" ) ), 1, Qt::SolidLine ) );
+        m_skyMesh->draw( *psky, NO_PRECESS_BUF );
+        if( p )
+            p->draw( *psky, NO_PRECESS_BUF );
+    }
+    */
 }
+
+
 //Select nearest object to the given skypoint, but give preference
 //to certain object types.
 //we multiply each object type's smallest angular distance by the
@@ -471,11 +487,22 @@ void SkyMapComposite::removeCustomCatalog( const QString &name ) {
 }
 
 void SkyMapComposite::reloadCLines( ) {
+    Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+    SkyMapDrawAbstract::setDrawLock( true ); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
     delete m_CLines;
+    m_CLines = 0;
     m_CLines = new ConstellationLines( this, m_Cultures );
+    SkyMapDrawAbstract::setDrawLock( false );
 }
 
 void SkyMapComposite::reloadCNames( ) {
+//     Q_ASSERT( !SkyMapDrawAbstract::drawLock() );
+//     SkyMapDrawAbstract::setDrawLock( true ); // This is not (yet) multithreaded, so I think we don't have to worry about overwriting the state of an existing lock --asimha
+//     objectNames(SkyObject::CONSTELLATION).clear();
+//     delete m_CNames;
+//     m_CNames = 0;
+//     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
+//     SkyMapDrawAbstract::setDrawLock( false );
     objectNames(SkyObject::CONSTELLATION).clear();
     delete m_CNames;
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );

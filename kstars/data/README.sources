@@ -6,8 +6,9 @@ Sky Cultures:
 
 Data for non-western sky cultures was obtained from Stellarium
 (http://www.stellarium.org) and incorporated into KStars by Jérôme
-Sonrier. The following are the original sources for the sky culture
-data:
+Sonrier. Stellarium is licensed under the GNU General Public License
+v2 (or above), and is thus compatible with KStars. The following are
+the original sources for the sky culture data:
 
 Chinese sky culture was contributed by Karrie Berglund of Digitalis
 Education Solutions, Inc. based on Hong Kong Space Museum star maps
@@ -45,3 +46,105 @@ Society information"
 
 Tupi sky culture was contributed by Stellarium user : Paulo Marcelo
 Pontes.
+
+Tycho-2 Catalog
+===============
+
+The Tycho-2 Catalog is by Erik Høg et al. The copy of Tycho-2 used in
+KStars was downloaded from the Astronomical Data Center, which was
+hosted on http://adc.astro.umd.edu
+
+The service is currently inaccessible, but at the time of download,
+the content was licensed in the public domain:
+http://adc.astro.umd.edu/adc/questions_feedback.html#policies1%22
+said:
+
+"All ADC data are public domain unless otherwise stated in the
+"ReadMe" file. The data are for scientific use only and have no
+commercial value."
+
+The internet archive "WayBackMachine" still has the old page archived
+and here is a link to the archived page on WayBackMachine showing the
+public domain policy:
+http://web.archive.org/web/20060908091808/http://adc.astro.umd.edu/adc/questions_feedback.html#policies1%22
+
+
+USNO NOMAD Catalog
+==================
+
+The USNO NOMAD catalog was compiled by the US Naval Observatory, and
+access to the catalog is (as of April 1, 2012) available through the
+USNO website -- http://www.nofs.navy.mil/nomad/
+
+The "Privacy and Security Notice" on USNO's website
+(http://ad.usno.navy.mil/privacy.shtml) reads:
+
+"All information presented on these pages is considered public domain
+and may be distributed or copied unless otherwise specified. Use of
+appropriate byline/photo/image credits is requested."
+
+There is no explicit indication to the contrary on the NOMAD page.
+
+NOMAD was obtained for use in KStars by Jason Harris, by contacting
+Norbert Zacharias, who is designated as a contact point for questions
+about the NOMAD catalog on the USNO website.
+
+
+SAC Catalog
+===========
+
+Part of our NGC/IC data is obtained from the Saguaro Astronomy Club
+catalog, compiled by Steve Coe.
+
+While the website seemed to indicate that the catalog is only
+available for non-commercial use (and hence incompatible with KStars),
+Akarsh Simha received a correspondence with Steve Coe, who is the
+Copyright holder of the catalog.
+
+Here are the relevant sections of the email exchange:
+
+----------
+
+From: Steve Coe <stevecoe@cloudynights.com>
+To: Akarsh Simha <akarshsimha@gmail.com>
+Date: 18th Dec 2008
+
+Snippet:
+
+
+Akarsh;
+
+I have no problem with you using the SAC data for the Kstars program.
+It was released with the rules that it is not sold as a seperate item.
+
+-----------
+
+From: Akarsh Simha <akarshsimha@gmail.com>
+To: Steve Coe <stevecoe@cloudynights.com>
+Date: 5th May 2009
+
+Snippet:
+
+To start with, I have tried merging NGC and IC data from SAC into our
+database, and I've attached a copy of the stuff I intend to ship with
+KStars. I wiill release this in the next version of KStars if I have
+the permission to redistribute it under GPL. I would like to expand
+the dataset to include most of the data in the SAC database in the
+near future.
+
+-----------
+
+From: Steve Coe <stevecoe@cloudynights.com>
+To: Akarsh Simha <akarshsimha@gmail.com>
+Date: 5th May 2009
+
+Akarsh;
+
+Seeing as how the SAC data is available in both Sky Map Pro and Guide,
+which are "for sale" planetarium programs, I can see no problem with
+allowing you to include it in KStars.  I hope your project goes well.
+
+Take Care;
+
+Steve Coe
+

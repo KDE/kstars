@@ -98,16 +98,19 @@ KStarsData* KStarsData::pinstance = 0;
 
 KStarsData* KStarsData::Create()
 {
+    // This method should never be called twice within a run, since a
+    // lot of the code assumes that KStarsData, once created, is never
+    // destroyed. They maintain local copies of KStarsData::Instance()
+    // for efficiency (maybe this should change, but it is not
+    // required to delete and reinstantiate KStarsData). Thus, when we
+    // call this method, pinstance MUST be zero, i.e. this must be the
+    // first (and last) time we are calling it. -- asimha
+    Q_ASSERT( !pinstance );
+
     delete pinstance;
     pinstance = new KStarsData();
     return pinstance;
 }
-
-KStarsData* KStarsData::Instance( )
-{
-    return pinstance;
-}
-
 
 KStarsData::KStarsData() :
     m_SkyComposite(0),
@@ -118,26 +121,6 @@ KStarsData::KStarsData() :
     m_preUpdateNumID(0),     m_updateNumID(0),
     m_preUpdateNum( J2000 ), m_updateNum( J2000 )
 {
-    TypeName[0] = i18n( "star" );
-    TypeName[1] = i18n( "star" );
-    TypeName[2] = i18n( "planet" );
-    TypeName[3] = i18n( "open cluster" );
-    TypeName[4] = i18n( "globular cluster" );
-    TypeName[5] = i18n( "gaseous nebula" );
-    TypeName[6] = i18n( "planetary nebula" );
-    TypeName[7] = i18n( "supernova remnant" );
-    TypeName[8] = i18n( "galaxy" );
-    TypeName[9] = i18n( "comet" );
-    TypeName[10] = i18n( "asteroid" );
-    TypeName[11] = i18n( "constellation" );
-    TypeName[12] = i18n( "Moon" );
-    TypeName[13] = i18n( "asterism" );
-    TypeName[14] = i18n( "galaxy cluster" );
-    TypeName[15] = i18n( "dark nebula" );
-    TypeName[16] = i18n( "quasar" );
-    TypeName[17] = i18n( "multiple star" );
-    TypeName[18] = i18n( "radio source");
-
     m_logObject = new OAL::Log;
     // at startup times run forward
     setTimeDirection( 0.0 );
@@ -157,12 +140,6 @@ KStarsData::~KStarsData() {
     qDeleteAll( ADVtreeList );
 
     pinstance = 0;
-}
-
-QString KStarsData::typeName( int i ) {
-    if ( i >= 0 && i < 19 )
-        return TypeName[i];
-    return i18n( "no type" );
 }
 
 bool KStarsData::initialize() {
@@ -1033,7 +1010,8 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( fn[1] == "ShowNGC"         && bOk ) { Options::setShowNGC(      bVal ); cmdCount++; }
                 if ( fn[1] == "ShowIC"          && bOk ) { Options::setShowIC(       bVal ); cmdCount++; }
                 if ( fn[1] == "ShowMilkyWay"    && bOk ) { Options::setShowMilkyWay( bVal ); cmdCount++; }
-                if ( fn[1] == "ShowGrid"        && bOk ) { Options::setShowGrid(     bVal ); cmdCount++; }
+                if ( fn[1] == "ShowEquatorialGrid" && bOk ) { Options::setShowEquatorialGrid( bVal ); cmdCount++; }
+                if ( fn[1] == "ShowHorizontalGrid" && bOk ) { Options::setShowHorizontalGrid( bVal ); cmdCount++; }
                 if ( fn[1] == "ShowEquator"     && bOk ) { Options::setShowEquator(  bVal ); cmdCount++; }
                 if ( fn[1] == "ShowEcliptic"    && bOk ) { Options::setShowEcliptic( bVal ); cmdCount++; }
                 if ( fn[1] == "ShowHorizon"     && bOk ) { Options::setShowHorizon(  bVal ); cmdCount++; }

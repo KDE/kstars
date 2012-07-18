@@ -15,7 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include "skymap.h"
+
+#include <math.h>
 
 #include <QCursor>
 #include <QBitmap>
@@ -50,6 +55,7 @@
 #include "printing/printingwizard.h"
 #include "simclock.h"
 #include "skyobjects/skyobject.h"
+#include "skyobjects/deepskyobject.h"
 #include "skyobjects/ksplanetbase.h"
 #include "skycomponents/skymapcomposite.h"
 #include "skycomponents/flagcomponent.h"
@@ -424,15 +430,27 @@ void SkyMap::slotCenter() {
 }
 
 void SkyMap::slotDSS() {
+    // TODO: Remove code duplication -- we have the same stuff
+    // implemented in ObservingList::setCurrentImage() etc. in
+    // tools/observinglist.cpp; must try to de-duplicate as much as
+    // possible.
+
     const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
-    const QString URLsuffix( "&e=J2000&h=15.0&w=15.0&f=gif&c=none&fov=NONE" );
+    const QString URLsuffix( "&e=J2000&f=gif&c=none&fov=NONE" );
+    const double dss_default_size = 15.0; // TODO: Make this user-configurable
+    const double dss_padding = 10.0; // TODO: Make this user-configurable
     dms ra(0.0), dec(0.0);
+    QString urlstring;
+
+    float height, width;
+    height = width = 0;
+
+    Q_ASSERT( dss_default_size > 0.0 && dss_padding >= 0.0 );
 
     //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
     //if we clicked on empty sky, we need to precess to J2000.
     if ( clickedObject() ) {
-        ra  = clickedObject()->ra0();
-        dec = clickedObject()->dec0();
+        urlstring = KSUtils::getDSSURL( clickedObject() );
     } else {
         //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
         clickedPoint()->setRA0( clickedPoint()->ra().Hours() );
@@ -440,22 +458,13 @@ void SkyMap::slotDSS() {
         clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
         ra  = clickedPoint()->ra();
         dec = clickedPoint()->dec();
-
+        urlstring = KSUtils::getDSSURL( ra, dec ); // Use default size for non-objects
         //restore coords from present epoch
         clickedPoint()->setRA(  clickedPoint()->ra0() );
         clickedPoint()->setDec( clickedPoint()->dec0() );
     }
 
-    char decsgn = ( dec.Degrees() < 0.0 ) ? '-' : '+';
-    int dd = abs( dec.degree() );
-    int dm = abs( dec.arcmin() );
-    int ds = abs( dec.arcsec() );
-    QString RAString, DecString;
-    DecString = DecString.sprintf( "&d=%c%02d+%02d+%02d", decsgn, dd, dm, ds );
-    RAString  = RAString.sprintf( "&r=%02d+%02d+%02d", ra.hour(), ra.minute(), ra.second() );
-
-    //concat all the segments into the kview command line:
-    KUrl url (URLprefix + RAString + DecString + URLsuffix);
+    KUrl url ( urlstring );
 
     KStars* kstars = KStars::Instance();
     if( kstars ) {
@@ -1002,7 +1011,7 @@ void SkyMap::setupProjector() {
     p.useAltAz      = Options::useAltAz();
     p.useRefraction = Options::useRefraction();
     p.zoomFactor    = Options::zoomFactor();
-    p.fillGround    = Options::showHorizon() && Options::showGround();
+    p.fillGround    = Options::showGround();
     //Check if we need a new projector
     if( m_proj && Options::projection() == m_proj->type() )
         m_proj->setViewParams(p);

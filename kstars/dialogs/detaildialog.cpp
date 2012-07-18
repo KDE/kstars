@@ -52,6 +52,7 @@
 #include "skycomponents/customcatalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
+#include "widgets/kshelplabel.h"
 
 #include <config-kstars.h>
 
@@ -1015,7 +1016,7 @@ void DetailDialog::centerTelescope()
             ConnectEle = indidev->findElem("CONNECT");
             if (!ConnectEle) continue;
 
-            if (ConnectEle->state == PS_OFF)
+            if (ConnectEle->switch_state == ISS_OFF)
             {
                 KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", indidev->label));
                 return;

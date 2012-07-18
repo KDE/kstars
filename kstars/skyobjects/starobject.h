@@ -163,7 +163,7 @@ public:
      * @param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
      * @param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
      */
-    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
+    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
     /* @short fills ra and dec with the coordinates of the star with the proper
      * motion correction but without precesion and its friends.  It is used
@@ -174,7 +174,7 @@ public:
     void getIndexCoords( KSNumbers *num, double *ra, double *dec );
 
     /**@short added for JIT updates from both StarComponent and ConstellationLines */
-    void JITupdate( KStarsData* data );
+    void JITupdate();
 
     /**@short returns the magnitude of the proper motion correction in milliarcsec/year */
     inline double pmMagnitude()
@@ -237,11 +237,6 @@ public:
     /* @short returns the name, the magnitude or both.
      */
     QString nameLabel( bool drawName, bool drawMag ) const;
-
-    /* @short does the same as above except when only the magnitude is selected
-     * in which case it returns "$mag, name".  This prevents label overlap.
-     */
-    QString customLabel( bool drawName, bool drawMag );
 
     virtual QString labelString() const;
 

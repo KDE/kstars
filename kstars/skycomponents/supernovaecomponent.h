@@ -51,6 +51,8 @@ public:
      */
     virtual void draw(SkyPainter* skyp);
 
+    virtual void notifyNewSupernovae();
+
     /**
      * @short This updates the data file by using supernovae_updates_parser.py
      */
@@ -60,10 +62,12 @@ public:
      * @note Basically copy pasted from StarComponent::zoomMagnitudeLimit()
      */
     static float zoomMagnitudeLimit();
+
 private:
     void loadData();
 
     QList<SkyObject*> latest;
+
 };
 
 #endif

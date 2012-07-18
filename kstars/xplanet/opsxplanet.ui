@@ -14,7 +14,7 @@
    <item row="0" column="1">
     <widget class="KTabWidget" name="tab">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="XplanetTabGeneral">
       <attribute name="title">
@@ -987,14 +987,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
+   <class>KColorButton</class>
+   <extends>QPushButton</extends>
+   <header>kcolorbutton.h</header>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
@@ -1002,9 +997,14 @@
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
-   <class>KColorButton</class>
-   <extends>QPushButton</extends>
-   <header>kcolorbutton.h</header>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KTabWidget</class>
@@ -1013,6 +1013,50 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tab</tabstop>
+  <tabstop>kcfg_XplanetPath</tabstop>
+  <tabstop>kcfg_XplanetTitle</tabstop>
+  <tabstop>kcfg_XplanetWidth</tabstop>
+  <tabstop>kcfg_XplanetHeight</tabstop>
+  <tabstop>kcfg_XplanetFOV</tabstop>
+  <tabstop>kcfg_XplanetWait</tabstop>
+  <tabstop>kcfg_XplanetWaitValue</tabstop>
+  <tabstop>kcfg_XplanetGlare</tabstop>
+  <tabstop>kcfg_XplanetMagnitude</tabstop>
+  <tabstop>kcfg_XplanetConfigFile</tabstop>
+  <tabstop>kcfg_XplanetConfigFilePath</tabstop>
+  <tabstop>kcfg_XplanetStarmap</tabstop>
+  <tabstop>kcfg_XplanetStarmapPath</tabstop>
+  <tabstop>kcfg_XplanetArcFile</tabstop>
+  <tabstop>kcfg_XplanetArcFilePath</tabstop>
+  <tabstop>kcfg_XplanetQuality</tabstop>
+  <tabstop>kcfg_XplanetLabel</tabstop>
+  <tabstop>kcfg_XplanetLabelLocalTime</tabstop>
+  <tabstop>kcfg_XplanetLabelGMT</tabstop>
+  <tabstop>kcfg_XplanetLabelString</tabstop>
+  <tabstop>kcfg_XplanetDateFormat</tabstop>
+  <tabstop>kcfg_XplanetFontSize</tabstop>
+  <tabstop>kcfg_XplanetColor</tabstop>
+  <tabstop>kcfg_XplanetLabelTL</tabstop>
+  <tabstop>kcfg_XplanetLabelTR</tabstop>
+  <tabstop>kcfg_XplanetLabelBL</tabstop>
+  <tabstop>kcfg_XplanetLabelBR</tabstop>
+  <tabstop>kcfg_XplanetMarkerFile</tabstop>
+  <tabstop>kcfg_XplanetMarkerFilePath</tabstop>
+  <tabstop>kcfg_XplanetMarkerBounds</tabstop>
+  <tabstop>kcfg_XplanetMarkerBoundsPath</tabstop>
+  <tabstop>kcfg_XplanetLatLong</tabstop>
+  <tabstop>kcfg_XplanetLatitude</tabstop>
+  <tabstop>kcfg_XplanetLongitude</tabstop>
+  <tabstop>kcfg_XplanetRandom</tabstop>
+  <tabstop>kcfg_XplanetProjection</tabstop>
+  <tabstop>kcfg_XplanetBackground</tabstop>
+  <tabstop>kcfg_XplanetBackgroundImage</tabstop>
+  <tabstop>kcfg_XplanetBackgroundImagePath</tabstop>
+  <tabstop>kcfg_XplanetBackgroundColor</tabstop>
+  <tabstop>kcfg_XplanetBackgroundColorValue</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

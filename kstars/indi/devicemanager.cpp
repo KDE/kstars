@@ -78,7 +78,6 @@ DeviceManager::~DeviceManager()
 
 void DeviceManager::startServer()
   {
-    bool clientMBLag=false;
     serverProcess = new KProcess;
   
     if (managed_devices.isEmpty())
@@ -94,14 +93,16 @@ void DeviceManager::startServer()
     foreach(IDevice *device, managed_devices)
     {
         // JM: Temporary workaround for indiserver limit of client BLOBs for CCDs.
-        if (device->deviceType == KSTARS_CCD && clientMBLag == false)
+        if (device->type == KSTARS_CCD)
         {
-            *serverProcess << "-m" << "100";
-            clientMBLag = true;
+                *serverProcess << "-m" << "100";
+                break;
         }
-
-	 *serverProcess << device->driver;
     }
+
+    foreach(IDevice *device, managed_devices)
+         *serverProcess << device->driver;
+
 
     if (mode == DeviceManager::M_LOCAL)
       {
@@ -116,6 +117,11 @@ void DeviceManager::startServer()
   
     if (mode == DeviceManager::M_LOCAL)
     	connectToServer();
+}
+
+void DeviceManager::stopServer()
+{
+    serverProcess->terminate();
 }
   
 void DeviceManager::connectToServer()
@@ -228,7 +234,8 @@ void DeviceManager::dataReceived()
 		     // Silenty ignore property duplication errors
 		     if (err_code != INDI_PROPERTY_DUPLICATED)
 		     {
-	                    kDebug() << "Dispatch command error: " << err_cmd << endl;
+                            //kDebug() << "Dispatch command error: " << err_cmd << endl;
+                            fprintf(stderr, "Dispatch command error: %d for command %s\n", err_code, qPrintable(err_cmd));
 	       	            prXMLEle (stderr, root, 0);
                      }
                 }
@@ -361,6 +368,7 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
     INDI_D *dp;
     XMLAtt *ap;
     QString device_name, unique_label;
+    IDevice *targetDevice=NULL;
 
     /* allocate new INDI_D on indi_dev */
     ap = findAtt (dep, "device", errmsg);
@@ -381,10 +389,11 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 			// of IDevice because IDevice can have several names. It can have the tree_label which is the name it has in the local tree widget. Finally, the name that shows
 			// up in the INDI control panel is the unique name of the driver, which is for most cases tree_label, but if that exists already then we get tree_label_1..etc
 
-			if (device->driver_class == device_name && device->state == IDevice::DEV_TERMINATE)
+                        if (device->name == device_name && device->state == IDevice::DEV_TERMINATE)
 			{
 	 			device->state = IDevice::DEV_START;
 			        unique_label = device->unique_label = parent->getUniqueDeviceLabel(device->tree_label);
+                                targetDevice = device;
 				break;
 			}
 		}
@@ -393,7 +402,7 @@ INDI_D * DeviceManager::addDevice (XMLEle *dep, QString & errmsg)
 	if (unique_label.isEmpty())
 	  unique_label = parent->getUniqueDeviceLabel(device_name);
 
-    	dp = new INDI_D(parent, this, device_name, unique_label);
+        dp = new INDI_D(parent, this, device_name, unique_label, targetDevice);
 	indi_dev.append(dp);
 	emit newDevice(dp);
 
@@ -552,7 +561,7 @@ void DeviceManager::sendNewSwitch (INDI_P *pp, INDI_E *lp)
     serverFP << QString("  name='%1'>\n").arg(qPrintable( pp->name));
     serverFP << QString("  <oneSwitch\n");
     serverFP << QString("    name='%1'>\n").arg(qPrintable( lp->name));
-    serverFP << QString("      %1\n").arg(lp->state == PS_ON ? "On" : "Off");
+    serverFP << QString("      %1\n").arg(lp->switch_state == ISS_ON ? "On" : "Off");
     serverFP << QString("  </oneSwitch>\n");
 
     serverFP <<  QString("</newSwitchVector>\n");

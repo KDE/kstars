@@ -364,11 +364,6 @@ void KStars::initActions() {
         << i18n("Observing List...")
         << KShortcut( Qt::CTRL+Qt::Key_L );
 
-    // enable action only if file was loaded and processed successfully.
-    actionCollection()->addAction("lightcurvegenerator", this, SLOT( slotLCGenerator() ) )
-        << i18n("AAVSO Light Curves...")
-        << KShortcut( Qt::CTRL+Qt::Key_V );
-
     actionCollection()->addAction("altitude_vs_time", this, SLOT( slotAVT() ) )
         << i18n("Altitude vs. Time...")
         << KShortcut( Qt::CTRL+Qt::Key_A );
@@ -377,6 +372,13 @@ void KStars::initActions() {
         << KShortcut(Qt::CTRL+Qt::Key_U );
     actionCollection()->addAction("skycalendar", this, SLOT( slotCalendar() ) )
         << i18n("Sky Calendar...");
+
+#ifdef HAVE_INDI_H
+#ifndef Q_WS_WIN
+    actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
+        << i18n("Ekos...");
+#endif
+#endif
 
 //FIXME: implement glossary
 //     ka = actionCollection()->addAction("glossary");
@@ -429,6 +431,8 @@ void KStars::initActions() {
         << i18n("INDI Control Panel...");
     ka->setEnabled(false);
 
+
+
 #endif
 #endif
 
@@ -477,10 +481,14 @@ void KStars::initActions() {
         << i18nc("Toggle Milky Way in the display", "Milky Way" )
         << KIcon("kstars_mw" )
         << ToolTip( i18n("Toggle milky way") );
-    actionCollection()->add<KToggleAction>("show_grid", this, SLOT( slotViewToolBar() ) )
-        << i18nc("Toggle Coordinate Grid in the display", "Coord. grid" )
+    actionCollection()->add<KToggleAction>("show_equatorial_grid", this, SLOT( slotViewToolBar() ) )
+        << i18nc("Toggle Equatorial Coordinate Grid in the display", "Equatorial coord. grid" )
         << KIcon("kstars_grid" )
-        << ToolTip( i18n("Toggle coordinate grid") );
+        << ToolTip( i18n("Toggle equatorial coordinate grid") );
+    actionCollection()->add<KToggleAction>("show_horizontal_grid", this, SLOT( slotViewToolBar() ) )
+        << i18nc("Toggle Horizontal Coordinate Grid in the display", "Horizontal coord. grid" )
+        << KIcon("kstars_hgrid" )
+        << ToolTip( i18n("Toggle horizontal coordinate grid") );
     actionCollection()->add<KToggleAction>("show_horizon", this, SLOT( slotViewToolBar() ) )
         << i18nc("Toggle the opaque fill of the ground polygon in the display", "Ground" )
         << KIcon("kstars_horizon" )

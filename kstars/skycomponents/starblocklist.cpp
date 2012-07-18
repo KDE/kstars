@@ -121,18 +121,18 @@ bool StarBlockList::fillToMag( float maglim ) {
         }
 	// TODO: Make this more general
 	if( dSReader->guessRecordSize() == 32 ) {
-        fread( &stardata, sizeof( starData ), 1, dataFile );
-        if( dSReader->getByteSwap() )
-            DeepStarComponent::byteSwap( &stardata );
-        readOffset += sizeof( starData );
-        blocks[nBlocks - 1]->addStar(stardata);
+            fread( &stardata, sizeof( starData ), 1, dataFile );
+            if( dSReader->getByteSwap() )
+                DeepStarComponent::byteSwap( &stardata );
+            readOffset += sizeof( starData );
+            blocks[nBlocks - 1]->addStar(stardata);
 	}
 	else {
-        fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
-        if( dSReader->getByteSwap() )
-            DeepStarComponent::byteSwap( &deepstardata );
-        readOffset += sizeof( deepStarData );
-        blocks[nBlocks - 1]->addStar(deepstardata);
+            fread( &deepstardata, sizeof( deepStarData ), 1, dataFile );
+            if( dSReader->getByteSwap() )
+                DeepStarComponent::byteSwap( &deepstardata );
+            readOffset += sizeof( deepStarData );
+            blocks[nBlocks - 1]->addStar(deepstardata);
 	}
 
     /*

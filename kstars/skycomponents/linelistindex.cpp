@@ -179,13 +179,7 @@ void LineListIndex::drawLines( SkyPainter *skyp )
     DrawID   drawID   = skyMesh()->drawID();
     UpdateID updateID = KStarsData::Instance()->updateID();
 
-    MeshIterator region( skyMesh(), drawBuffer() );
-
-    while ( region.hasNext() ) {
-        LineListList* lineListList = m_lineIndex->value( region.next() );
-        if ( lineListList == 0 )
-            continue;
-
+    foreach ( LineListList* lineListList, m_lineIndex->values() ) {
         for (int i = 0; i < lineListList->size(); i++) {
             LineList* lineList = lineListList->at( i );
 

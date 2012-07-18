@@ -22,7 +22,9 @@
 		<Action name="time_to_now" />
 		<Action name="time_dialog" />
 		<Separator />
+        <Action name="time_step_backward" />
 		<Action name="clock_startstop" />
+        <Action name="time_step_forward" />
 	</Menu>
 
 	<Menu name="focus" noMerge="1"><text>&amp;Pointing</text>
@@ -61,7 +63,6 @@
 		<Action name="astrocalculator" />
                 <Action name="skycalendar" />
 		<Action name="obslist" />
-		<Action name="lightcurvegenerator" />
 		<Action name="altitude_vs_time" />
 		<Action name="whats_up_tonight" />
 		<Action name="glossary" />
@@ -134,7 +135,9 @@
 	<Action name="zoom_out" />
 	<Action name="find_object" />
 	<Separator />
+    <Action name="time_step_backward" />
 	<Action name="clock_startstop" />
+    <Action name="time_step_forward" />
 	<Action name="timestep_control" />
 </ToolBar>
 
@@ -148,7 +151,9 @@
 	<Action name="show_cnames" />
 	<Action name="show_cbounds" />
 	<Action name="show_mw" />
-	<Action name="show_grid" />
+	<Action name="show_equatorial_grid" />
+    <Action name="show_horizontal_grid" />
 	<Action name="show_horizon" />
+    <Action name="show_supernovae" />
 </ToolBar>
 </kpartgui>

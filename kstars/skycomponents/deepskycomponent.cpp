@@ -91,6 +91,7 @@ void DeepSkyComponent::loadData()
         }
 
         iflag = line.at( 0 ); //check for NGC/IC catalog flag
+        Q_ASSERT( iflag == 'I' || iflag == 'N' || iflag == ' '); // n.b. We also allow non-NGC/IC objects which have a blank iflag
         if ( iflag == 'I' ) cat = "IC";
         else if ( iflag == 'N' ) cat = "NGC";
 
@@ -105,6 +106,13 @@ void DeepSkyComponent::loadData()
         dd = line.mid( 16, 2 ).toInt();
         dm = line.mid( 18, 2 ).toInt();
         ds = line.mid( 20, 2 ).toInt();
+
+        Q_ASSERT( 0.0 <= rah && rah < 24.0 );
+        Q_ASSERT( 0.0 <= ram && ram < 60.0 );
+        Q_ASSERT( 0.0 <= ras && ras < 60.0 );
+        Q_ASSERT( 0.0 <= dd && dd <= 90.0 );
+        Q_ASSERT( 0.0 <= dm && dm < 60.0 );
+        Q_ASSERT( 0.0 <= ds && ds < 60.0 );
 
         //B magnitude
         ss = line.mid( 23, 4 );
@@ -265,18 +273,6 @@ void DeepSkyComponent::mergeSplitFiles() {
     }
 }
 
-void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex )
-{
-    MeshIterator region( m_skyMesh );
-    while ( region.hasNext() ) {
-        Trixel trixel = region.next();
-        if ( ! dsIndex->contains( trixel ) ) {
-            dsIndex->insert(trixel, new DeepSkyList() );
-        }
-        dsIndex->value( trixel )->append( o );
-    }
-}
-
 void DeepSkyComponent::appendIndex( DeepSkyObject *o, DeepSkyIndex* dsIndex, Trixel trixel )
 {
     if ( ! dsIndex->contains( trixel ) ) {
@@ -327,8 +323,6 @@ void DeepSkyComponent::drawDeepSkyCatalog( SkyPainter *skyp, bool drawObject,
 
     skyp->setPen( data->colorScheme()->colorNamed( colorString ) );
     skyp->setBrush( Qt::NoBrush );
-    QColor color        = data->colorScheme()->colorNamed( colorString );
-    QColor colorExtra = data->colorScheme()->colorNamed( "HSTColor" );
 
     m_hideLabels =  ( map->isSlewing() && Options::hideOnSlew() ) ||
                     ! ( Options::showDeepSkyMagnitudes() || Options::showDeepSkyNames() );

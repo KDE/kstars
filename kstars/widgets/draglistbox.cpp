@@ -120,7 +120,7 @@ void DragListBox::mouseMoveEvent( QMouseEvent *evt ) {
         mimeData->setText( currentItem()->text() );
         drag->setMimeData( mimeData );
 
-        Qt::DropAction dropAction = drag->exec();
+        drag->exec();
         evt->accept();
     }
 }

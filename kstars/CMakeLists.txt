@@ -10,6 +10,7 @@ if (CFITSIO_FOUND)
     fitsviewer/fitsimage.cpp
     fitsviewer/fitsviewer.cpp
     fitsviewer/fitshistogramdraw.cpp
+    fitsviewer/fitstab.cpp
 )
   set (fitsui_SRCS
     fitsviewer/fitsheaderdialog.ui
@@ -43,6 +44,19 @@ if (INDI_FOUND)
     indi/streamform.ui
     indi/telescopewizard.ui
     )
+
+   set(ekosui_SRCS
+      ekos/ekos.ui
+   )
+
+   set(ekos_SRCS
+      ekos/ekos.cpp
+      ekos/genericdevice.cpp
+      ekos/telescope.cpp
+      ekos/ccd.cpp
+      ekos/filter.cpp
+      ekos/focuser.cpp
+   )
   
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
@@ -87,7 +101,6 @@ set(libkstarstools_SRCS
 	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
 	tools/ksconjunct.cpp
-	tools/lcgenerator.cpp
 	tools/modcalcangdist.cpp
 	tools/modcalcapcoord.cpp
 	tools/modcalcaltaz.cpp
@@ -101,6 +114,7 @@ set(libkstarstools_SRCS
 	tools/modcalcsidtime.cpp
 	tools/modcalcvlsr.cpp
 	tools/observinglist.cpp
+	tools/sessionsortfilterproxymodel.cpp
 	tools/obslistwizard.cpp
 	tools/planetviewer.cpp
 	tools/pvplotwidget.cpp
@@ -152,7 +166,6 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/argwaitforkey.ui
 	tools/argzoom.ui
 	tools/conjunctions.ui
-	tools/lcgenerator.ui
 	tools/modcalcangdist.ui
 	tools/modcalcapcoord.ui
 	tools/modcalcaltaz.ui
@@ -203,6 +216,8 @@ set(libkstarscomponents_SRCS
    skycomponents/constellationnamescomponent.cpp 
    skycomponents/supernovaecomponent.cpp
    skycomponents/coordinategrid.cpp 
+   skycomponents/equatorialcoordinategrid.cpp 
+   skycomponents/horizontalcoordinategrid.cpp 
    skycomponents/ecliptic.cpp 
    skycomponents/equator.cpp 
    skycomponents/horizoncomponent.cpp 
@@ -215,6 +230,7 @@ set(libkstarscomponents_SRCS
    skycomponents/culturelist.cpp
    skycomponents/flagcomponent.cpp
    skycomponents/targetlistcomponent.cpp
+   skycomponents/notifyupdatesui.cpp
 )
 
 set(libkstarswidgets_SRCS
@@ -232,6 +248,7 @@ set(libkstarswidgets_SRCS
 	widgets/infoboxwidget.cpp
 	widgets/genericcalendarwidget.cpp
 	widgets/moonphasecalendarwidget.cpp
+	widgets/kshelplabel.cpp
 )
 
 kde4_add_ui_files(libkstarswidgets_SRCS
@@ -247,6 +264,7 @@ set(kstars_options_SRCS
   options/opsguides.cpp
   options/opssolarsystem.cpp
   options/opssatellites.cpp
+  options/opssupernovae.cpp
 )
 
 set(kstars_optionsui_SRCS
@@ -256,6 +274,7 @@ set(kstars_optionsui_SRCS
   options/opsguides.ui
   options/opssolarsystem.ui
   options/opssatellites.ui
+  options/opssupernovae.ui
 )
 
 set(kstars_skyobjects_SRCS
@@ -391,7 +410,7 @@ set(printingui_SRCS
     printing/pwizwelcome.ui
 )
 
-set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} 
+set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
@@ -407,9 +426,9 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 #kde4_add_dcop_skels(kstars_SRCS kstarsinterface.h simclockinterface.h )
 
 kde4_add_ui_files(kstars_SRCS
-       ${indiui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
+       ${indiui_SRCS} ${ekosui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
        ${printingui_SRCS}
-         thumbnailpicker.ui thumbnaileditor.ui oal/observermanager.ui oal/equipmentwriter.ui oal/execute.ui
+       thumbnailpicker.ui thumbnaileditor.ui oal/observermanager.ui oal/equipmentwriter.ui oal/execute.ui  skycomponents/notifyupdatesui.ui
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")

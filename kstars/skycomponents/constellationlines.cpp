@@ -145,7 +145,7 @@ void ConstellationLines::JITupdate( LineList* lineList )
     SkyList* points = lineList->points();
     for (int i = 0; i < points->size(); i++ ) {
         StarObject* star = (StarObject*) points->at( i );
-        star->JITupdate( data );
+        star->JITupdate();
     }
 }
 

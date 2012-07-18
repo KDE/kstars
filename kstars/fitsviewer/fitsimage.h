@@ -39,12 +39,16 @@
 
 #include <fitsio.h>
 
-class FITSViewer;
-class FITSImage;
+#include "fitscommon.h"
 
+#define INITIAL_W	640
+#define INITIAL_H	480
+
+class FITSImage;
 
 class FITSLabel : public QLabel
 {
+     Q_OBJECT
 public:
     explicit FITSLabel(FITSImage *img, QWidget *parent=NULL);
     virtual ~FITSLabel();
@@ -54,6 +58,9 @@ protected:
 
 private:
     FITSImage *image;
+
+signals:
+    void newStatus(const QString &msg, FITSBar id);
 };
 
 class FITSImage : public QScrollArea
@@ -63,21 +70,17 @@ public:
     FITSImage(QWidget *parent = 0);
     ~FITSImage();
 
-    enum scaleType { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSCustom };
-    enum zoomType { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL };
-
     /* Loads FITS image, scales it, and displays it in the GUI */
-    int  loadFits(const QString &filename);
+    bool  loadFITS(const QString &filename);
     /* Save FITS */
     int saveFITS(const QString &filename);
     /* Rescale image lineary from image_buffer, fit to window if desired */
-    int rescale(zoomType type);
+    int rescale(FITSZoom type);
     /* Calculate stats */
     void calculateStats();
 
-
     // Access functions
-    FITSViewer * getViewer() { return viewer; }
+    //FITSViewer * getViewer() { return viewer; }
     double getCurrentZoom() { return currentZoom; }
     float * getImageBuffer() { return image_buffer; }
     void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
@@ -105,9 +108,9 @@ public:
     } stats;
 
 public slots:
-    void fitsZoomIn();
-    void fitsZoomOut();
-    void fitsZoomDefault();
+    void ZoomIn();
+    void ZoomOut();
+    void ZoomDefault();
 
 private:
 
@@ -116,7 +119,7 @@ private:
 
     int calculateMinMax(bool refresh=false);
 
-    FITSViewer *viewer;                 /* parent FITSViewer */
+    //FITSViewer *viewer;                 /* parent FITSViewer */
     FITSLabel *image_frame;
     float *image_buffer;				/* scaled image buffer (0-255) range */
 
@@ -126,6 +129,10 @@ private:
     fitsfile* fptr;
     int data_type;                     /* FITS data type when opened */
     QImage  *displayImage;             /* FITS image that is displayed in the GUI */
+
+signals:
+    void newStatus(const QString &msg, FITSBar id);
+    void actionUpdated(const QString &name, bool enable);
 };
 
 #endif

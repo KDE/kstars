@@ -186,8 +186,8 @@ void KSPopupMenu::createStarMenu( StarObject *star ) {
 }
 
 void KSPopupMenu::createDeepSkyObjectMenu( DeepSkyObject *obj ) {
-	QString name = getObjectName(obj);
-    QString typeName = KStarsData::Instance()->typeName( obj->type() );
+    QString name     = getObjectName(obj);
+    QString typeName = obj->typeName();
 	// FIXME: information about angular sizes should be added.
 	QString info = magToStr( obj->mag() );
 	initPopupMenu( obj, name, typeName, info );
@@ -495,7 +495,7 @@ void KSPopupMenu::addINDI()
                         if (prop->stdID == ON_COORD_SET)
                             continue;
 
-                        a->setChecked( element->state == PS_ON );
+                        a->setChecked( element->switch_state == ISS_ON );
                     }
                 } // end property
             } // end group

@@ -129,9 +129,6 @@ public:
      */
     QImage imageList( int index );
 
-    /**@short Get list of flag indexes near specified SkyPoint. */
-    QList<int> getFlagsNear( SkyPoint *point, float radius );
-
     /**@short Get list of flag indexes near specified SkyPoint with radius specified in pixels.
       *@param point central SkyPoint.
       *@param pixelRadius radius in pixels.
@@ -145,21 +142,6 @@ public:
     void saveToFile();
 
 private:
-    /**@short Convenience function to convert an epoch number (e.g., 2000.0) 
-     * to the corresponding Julian Day number (e.g., 2451545.0).
-     * @param epoch the epoch value to be converted.
-     */
-    // FIXME: This should probably move to KStarsDateTime
-    long double epochToJd (double epoch);
-
-    /**@short Convert a string to an epoch number; essentially just 
-     * converts the string to a double.
-     * @param eName the tring representation of the epoch number.
-     * @return the epoch number described by the string argument.
-     */
-    // FIXME: This should probably move to KStarsDateTime
-    double getEpoch (const QString &eName);
-
     QStringList         m_Epoch;        /**< List of epochs                */
     QList<int>          m_FlagImages;   /**< List of image index           */
     QStringList         m_Labels;       /**< List of label                 */

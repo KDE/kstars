@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 // This file implements the class SkyMapDrawAbstract, and is almost
-// identical to the older skymapdraw.cpp file, written by Jason Harris
+// identical to the older skymapdraw.cpp file, written by Jason
+// Harris. Essentially, skymapdraw.cpp was renamed and modified.
+// -- asimha (2011)
 
 #include <iostream>
 
@@ -53,6 +55,8 @@
 #include "indi/indielement.h"
 #include "indi/indidevice.h"
 #endif
+
+bool SkyMapDrawAbstract::m_DrawLock = false;
 
 SkyMapDrawAbstract::SkyMapDrawAbstract( SkyMap *sm ) : 
     m_KStarsData( KStarsData::Instance() ), m_SkyMap( sm ) {
@@ -174,6 +178,7 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
 
 void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 {
+    Q_UNUSED(psky);
 #ifdef HAVE_INDI_H
     KStars* kstars = KStars::Instance();
     if( !kstars )
@@ -201,7 +206,7 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
             // make sure the dev is on first
             if (devMenu->managers.at(i)->indi_dev.at(j)->isOn()) {
                 portConnect = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CONNECTION");
-                if( !portConnect || portConnect->state == PS_BUSY )
+                if( !portConnect || portConnect->state == IPS_BUSY )
                     return;
 
                 eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
@@ -342,10 +347,14 @@ void SkyMapDrawAbstract::exportSkyImage(SkyQPainter *painter, bool scale)
 void SkyMapDrawAbstract::calculateFPS()
 {
     if(m_framecount == 25) {
-        float sec = m_fpstime.elapsed()/1000.;
+        //float sec = m_fpstime.elapsed()/1000.;
         // kDebug() << "FPS " << m_framecount/sec;
         m_framecount = 0;
         m_fpstime.restart();
     }
     ++m_framecount;
+}
+
+void SkyMapDrawAbstract::setDrawLock( bool state ) {
+    m_DrawLock = state;
 }

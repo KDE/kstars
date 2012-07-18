@@ -29,13 +29,23 @@ SkyMapQDraw::~SkyMapQDraw() {
 }
 
 void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
+    Q_UNUSED(event);
+    // This is machinery to prevent multiple concurrent paint events / recursive paint events
+    if( m_DrawLock ) {
+        kDebug() << "I just prevented a recursive / concurrent draw!";
+        return;
+    }
+    setDrawLock( true );
+
+    calculateFPS();
+
+
     //If computeSkymap is false, then we just refresh the window using the stored sky pixmap
     //and draw the "overlays" on top.  This lets us update the overlay information rapidly
     //without needing to recompute the entire skymap.
     //use update() to trigger this "short" paint event; to force a full "recompute"
     //of the skymap, use forceUpdate().
 
-    calculateFPS();
     if (!m_SkyMap->computeSkymap)
         {
             QPainter p;
@@ -45,6 +55,7 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
             drawOverlays(p);
             p.end();
 
+            setDrawLock( false );
             return ; // exit because the pixmap is repainted and that's all what we want
         }
 
@@ -77,9 +88,12 @@ void SkyMapQDraw::paintEvent( QPaintEvent *event ) {
 
     m_SkyMap->computeSkymap = false;	// use forceUpdate() to compute new skymap else old pixmap will be shown
 
+    setDrawLock( false );
+
 }
 
 void SkyMapQDraw::resizeEvent( QResizeEvent *e ) {
+    Q_UNUSED(e);
     delete m_SkyPixmap;
     m_SkyPixmap = new QPixmap( width(), height() );
 }

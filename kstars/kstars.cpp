@@ -51,15 +51,14 @@
 
 KStars *KStars::pinstance = 0;
 
-KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
-        KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
-        colorActionMenu(0), fovActionMenu(0),
-        AAVSODialog(0), findDialog(0), imgExportDialog(0), obsList(0),
-        execute(0),
-        avt(0), wut(0), skycal(0),
-        sb(0), pv(0), jmt(0), fm(0), astrocalc(0), printingWizard(0), indimenu(0), indidriver(0),
-        indiseq(0), DialogIsObsolete(false), StartClockRunning( clockrun ),
-        StartDateString( startdate )
+KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
+    : KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
+      colorActionMenu(0), fovActionMenu(0), findDialog(0),
+      imgExportDialog(0), obsList(0), execute(0),
+      avt(0), wut(0), skycal(0), sb(0), pv(0), jmt(0),
+      fm(0), astrocalc(0), printingWizard(0), indimenu(0), indidriver(0),
+      indiseq(0), ekosmenu(0), DialogIsObsolete(false), StartClockRunning( clockrun ),
+      StartDateString( startdate )
 {
     new KstarsAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars",  this);
@@ -106,6 +105,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     DarkPalette.setColor( QPalette::Normal, QPalette::Text, QColor( 238, 0, 0 ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Highlight, QColor( 238, 0, 0 ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::HighlightedText, QColor( "black" ) );
+    DarkPalette.setColor( QPalette::Inactive, QPalette::Text, QColor( 238, 0, 0 ) );
     //store original color scheme
     OriginalPalette = QApplication::palette();
 
@@ -166,22 +166,24 @@ void KStars::applyConfig( bool doApplyFocus ) {
     #endif
 
 
-    actionCollection()->action("show_time_box"    )->setChecked( Options::showTimeBox() );
-    actionCollection()->action("show_location_box")->setChecked( Options::showGeoBox() );
-    actionCollection()->action("show_focus_box"   )->setChecked( Options::showFocusBox() );
-    actionCollection()->action("show_statusBar"   )->setChecked( Options::showStatusBar() );
-    actionCollection()->action("show_sbAzAlt"     )->setChecked( Options::showAltAzField() );
-    actionCollection()->action("show_sbRADec"     )->setChecked( Options::showRADecField() );
-    actionCollection()->action("show_stars"       )->setChecked( Options::showStars() );
-    actionCollection()->action("show_deepsky"     )->setChecked( Options::showDeepSky() );
-    actionCollection()->action("show_planets"     )->setChecked( Options::showSolarSystem() );
-    actionCollection()->action("show_clines"      )->setChecked( Options::showCLines() );
-    actionCollection()->action("show_cnames"      )->setChecked( Options::showCNames() );
-    actionCollection()->action("show_cbounds"     )->setChecked( Options::showCBounds() );
-    actionCollection()->action("show_mw"          )->setChecked( Options::showMilkyWay() );
-    actionCollection()->action("show_grid"        )->setChecked( Options::showGrid() );
-    actionCollection()->action("show_horizon"     )->setChecked( Options::showGround() );
-    actionCollection()->action("show_flags"       )->setChecked( Options::showFlags() );
+    actionCollection()->action("show_time_box"        )->setChecked( Options::showTimeBox() );
+    actionCollection()->action("show_location_box"    )->setChecked( Options::showGeoBox() );
+    actionCollection()->action("show_focus_box"       )->setChecked( Options::showFocusBox() );
+    actionCollection()->action("show_statusBar"       )->setChecked( Options::showStatusBar() );
+    actionCollection()->action("show_sbAzAlt"         )->setChecked( Options::showAltAzField() );
+    actionCollection()->action("show_sbRADec"         )->setChecked( Options::showRADecField() );
+    actionCollection()->action("show_stars"           )->setChecked( Options::showStars() );
+    actionCollection()->action("show_deepsky"         )->setChecked( Options::showDeepSky() );
+    actionCollection()->action("show_planets"         )->setChecked( Options::showSolarSystem() );
+    actionCollection()->action("show_clines"          )->setChecked( Options::showCLines() );
+    actionCollection()->action("show_cnames"          )->setChecked( Options::showCNames() );
+    actionCollection()->action("show_cbounds"         )->setChecked( Options::showCBounds() );
+    actionCollection()->action("show_mw"              )->setChecked( Options::showMilkyWay() );
+    actionCollection()->action("show_equatorial_grid" )->setChecked( Options::showEquatorialGrid() );
+    actionCollection()->action("show_horizontal_grid" )->setChecked( Options::showHorizontalGrid() );
+    actionCollection()->action("show_horizon"         )->setChecked( Options::showGround() );
+    actionCollection()->action("show_flags"           )->setChecked( Options::showFlags() );
+    actionCollection()->action("show_supernovae"      )->setChecked( Options::showSupernovae() );
     statusBar()->setVisible( Options::showStatusBar() );
 
     //color scheme

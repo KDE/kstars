@@ -9,12 +9,11 @@ Supernova::Supernova(dms ra, dms dec, const QString& date ,float m, const QStrin
                       type(type),
                       hostGalaxy(hostGalaxy),
                       offset(offset),
-                      discoverers(discoverer), 
+                      discoverers(discoverer),
                       date(date),
                       RA(ra),
                       Dec(dec),
                       Magnitude(m)
-
 {}
 
 

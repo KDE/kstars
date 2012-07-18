@@ -37,6 +37,7 @@ public:
 class SkyCalendar : public KDialog
 {
     Q_OBJECT
+    friend class CalendarWidget;
     
     public:
         SkyCalendar( QWidget *parent=0 );

@@ -102,7 +102,7 @@ bool INDI_P::isOn(const QString &component)
     if (lp->check_w && lp->check_w->isChecked())
         return true;
 
-    if (lp->push_w && lp->state == PS_ON)
+    if (lp->push_w && lp->switch_state == ISS_ON)
         return true;
 
     return false;
@@ -117,28 +117,28 @@ INDI_E * INDI_P::findElement(const QString &elementName)
     return NULL;
 }
 
-void INDI_P::drawLt(PState lstate)
+void INDI_P::drawLt(IPState lstate)
 {
 
 
     /* set state light */
     switch (lstate)
     {
-    case PS_IDLE:
+    case IPS_IDLE:
         light->setColor(Qt::gray);
         break;
 
-    case PS_OK:
+    case IPS_OK:
         light->setColor(Qt::green);
         emit okState();
         disconnect( this, SIGNAL(okState()), 0, 0 );
         break;
 
-    case PS_BUSY:
+    case IPS_BUSY:
         light->setColor(Qt::yellow);
         break;
 
-    case PS_ALERT:
+    case IPS_ALERT:
         light->setColor(Qt::red);
         break;
 
@@ -162,7 +162,7 @@ void INDI_P::newText()
         {
             switch (perm)
             {
-            case PP_RW:
+            case IP_RW:
                 // FIXME is this problematic??
                 if (lp->write_w->text().isEmpty())
                     lp->text = lp->read_w->text();
@@ -170,10 +170,10 @@ void INDI_P::newText()
                     lp->text = lp->write_w->text();
                 break;
 
-            case PP_RO:
+            case IP_RO:
                 break;
 
-            case PP_WO:
+            case IP_WO:
                 // Ignore if it's empty
                 if (lp->write_w->text().isEmpty())
                     return;
@@ -194,7 +194,7 @@ void INDI_P::newText()
         }
     }
 
-    state = PS_BUSY;
+    state = IPS_BUSY;
 
     drawLt(state);
 
@@ -236,18 +236,19 @@ void INDI_P::newSwitch(INDI_E *lp)
 {
     QFont buttonFont;
 
-    assert(lp != NULL);
+    if (lp == NULL)
+        return;
 
     switch (guitype)
     {
     case PG_MENU:
-        if (lp->state == PS_ON)
+        if (lp->switch_state == ISS_ON)
             return;
 
         foreach( INDI_E *elm, el)
-        elm->state = PS_OFF;
+            elm->switch_state = ISS_OFF;
 
-        lp->state = PS_ON;
+        lp->switch_state = ISS_ON;
         break;
 
     case PG_BUTTONS:
@@ -261,27 +262,27 @@ void INDI_P::newSwitch(INDI_E *lp)
             buttonFont = elm->push_w->font();
             buttonFont.setBold(false);
             elm->push_w->setFont(buttonFont);
-            elm->state = PS_OFF;
+            elm->switch_state = ISS_OFF;
         }
 
         lp->push_w->setDown(true);
         buttonFont = lp->push_w->font();
         buttonFont.setBold(true);
         lp->push_w->setFont(buttonFont);
-        lp->state = PS_ON;
+        lp->switch_state = ISS_ON;
 
         break;
 
     case PG_RADIO:
-        lp->state = lp->state == PS_ON ? PS_OFF : PS_ON;
-        lp->check_w->setChecked(lp->state == PS_ON);
+        lp->switch_state = (lp->switch_state == ISS_ON ? ISS_OFF : ISS_ON);
+        lp->check_w->setChecked(lp->switch_state == ISS_ON);
         break;
 
     default:
         break;
 
     }
-    state = PS_BUSY;
+    state = IPS_BUSY;
 
     drawLt(state);
 
@@ -372,9 +373,9 @@ void INDI_P::newBlob()
         pg->dp->deviceManager->finishBlob();
 
     if (valid)
-        state = PS_BUSY;
+        state = IPS_BUSY;
     else
-        state = PS_ALERT;
+        state = IPS_ALERT;
 
     drawLt(state);
 }
@@ -476,7 +477,7 @@ int INDI_P::buildTextGUI(XMLEle *root, QString & errmsg)
 
     }
 
-    if (perm == PP_RO)
+    if (perm == IP_RO)
         return 0;
 
     // INDI STD, but we use our own controls
@@ -503,6 +504,8 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
     XMLAtt *ap;
     INDI_E *lp;
     QString numberName, numberLabel;
+
+    setlocale(LC_NUMERIC,"C");
 
     for (number = nextXMLEle (root, 1); number != NULL; number = nextXMLEle (root, 0))
     {
@@ -558,7 +561,9 @@ int INDI_P::buildNumberGUI  (XMLEle *root, QString & errmsg)
 
     }
 
-    if (perm == PP_RO)
+    setlocale(LC_NUMERIC,"");
+
+    if (perm == IP_RO)
         return 0;
 
 
@@ -634,7 +639,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
 
         lp = new INDI_E(this, switchName, switchLabel);
 
-        if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
+        if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->switch_state)) < 0)
         {
             errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(lp->name).arg(name);
             return DeviceManager::INDI_PROPERTY_INVALID;
@@ -642,7 +647,7 @@ int INDI_P::buildMenuGUI(XMLEle *root, QString & errmsg)
 
         menuOptions.append(switchLabel);
 
-        if (lp->state == PS_ON)
+        if (lp->switch_state == ISS_ON)
         {
             if (onItem != -1)
             {
@@ -716,7 +721,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
 
         lp = new INDI_E(this, switchName, switchLabel);
 
-        if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->state)) < 0)
+        if (pg->dp->crackSwitchState (pcdataXMLEle(sep), &(lp->switch_state)) < 0)
         {
             errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(name).arg(name).arg(lp->name);
             return DeviceManager::INDI_PROPERTY_INVALID;
@@ -733,7 +738,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
             //groupB->insert(button, j);
             groupB->addButton(button);
 
-            if (lp->state == PS_ON)
+            if (lp->switch_state == ISS_ON)
             {
                 button->setDown(true);
                 buttonFont = button->font();
@@ -754,7 +759,7 @@ int INDI_P::buildSwitchesGUI(XMLEle *root, QString & errmsg)
             //groupB->insert(checkbox, j);
             groupB->addButton(button);
 
-            if (lp->state == PS_ON)
+            if (lp->switch_state == ISS_ON)
                 checkbox->setChecked(true);
 
             lp->check_w = checkbox;
@@ -814,7 +819,7 @@ int INDI_P::buildLightsGUI(XMLEle *root, QString & errmsg)
 
         lp = new INDI_E(this, sname, slabel);
 
-        if (pg->dp->crackLightState (pcdataXMLEle(lep), &lp->state) < 0)
+        if (pg->dp->crackLightState (pcdataXMLEle(lep), &lp->light_state) < 0)
         {
             errmsg = QString("INDI: <%1> unknown state %2 for %3 %4 %5").arg(tagXMLEle(root)).arg(valuXMLAtt(ap)).arg(pg->dp->name).arg(name).arg(sname);
             return DeviceManager::INDI_PROPERTY_INVALID;
@@ -887,7 +892,7 @@ int INDI_P::buildBLOBGUI(XMLEle *root, QString & errmsg)
 
     connect(enableBLOBC, SIGNAL(stateChanged(int)), this, SLOT(setBLOBOption(int)));
 
-    if (perm != PP_RO)
+    if (perm != IP_RO)
     {
         setupSetButton(i18n("Upload"));
         QObject::connect(set_w, SIGNAL(clicked()), this, SLOT(newBlob()));

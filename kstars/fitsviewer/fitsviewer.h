@@ -20,11 +20,10 @@
 #ifndef FITSViewer_H_
 #define FITSViewer_H_
 
-#include <QCloseEvent>
+#include <QList>
 
-#include <kdialog.h>
+#include <KDialog>
 #include <kxmlguiwindow.h>
-#include <kurl.h>
 
 #ifdef WIN32
 // avoid compiler warning when windows.h is included after fitsio.h
@@ -33,54 +32,62 @@
 
 #include <fitsio.h>
 
-#define INITIAL_W	640
-#define INITIAL_H	480
+#include "fitscommon.h"
+
+class QCloseEvent;
+class QUndoGroup;
 
 class KUndoStack;
+class KTabWidget;
+class KUrl;
+
 class FITSImage;
 class FITSHistogram;
-class QCloseEvent;
+class FITSTab;
+
 
 class FITSViewer : public KXmlGuiWindow
 {
     Q_OBJECT
+
 public:
-    friend class FITSImage;
-    friend class FITSHistogram;
-    friend class FITSHistogramCommand;
 
     /**Constructor. */
-    FITSViewer (const KUrl *imageName, QWidget *parent);
+    FITSViewer (QWidget *parent);
     ~FITSViewer();
+    bool addFITS(const KUrl *imageName, FITSMode mode=FITS_NORMAL);
+
 
 protected:
+
     virtual void closeEvent(QCloseEvent *ev);
 
 public slots:
-    void fitsChange();
 
-private slots:
-    void fileOpen();
-    void fileSave();
-    void fileSaveAs();
-    void fitsCOPY();
-    void fitsRestore(bool clean=true);
-    void fitsStatistics();
-    void fitsHeader();
+    void openFile();
+    void saveFile();
+    void saveFileAs();
+    void copyFITS();
+    void statFITS();
+    void headerFITS();
     void slotClose();
-    void imageHistogram();
+    void histoFITS();
+    void tabFocusUpdated(int currentIndex);
+    void updateStatusBar(const QString &msg, FITSBar id);
+    void ZoomIn();
+    void ZoomOut();
+    void ZoomDefault();
+    void updateAction(const QString &name, bool enable);
+    void updateTabStatus(bool clean);
+    int saveUnsaved(int index=-1);
+    void closeTab(int index);
 
 private:
-    /** Ask user whether he wants to save changes and save if he do. */
-    void saveUnsaved();
-    bool initFITS();
 
-    FITSImage *image;           /* FITS image object */
-    FITSHistogram *histogram;   /* FITS Histogram */
+    KTabWidget *fitsTab;
+    QUndoGroup *undoGroup;
 
-    KUndoStack *history;        /* History for undo/redo */
-    bool m_Dirty;               /* Document modified? */
-    KUrl currentURL;            /* FITS File name and path */
+    QList<FITSTab*> fitsImages;
 };
 
 #endif

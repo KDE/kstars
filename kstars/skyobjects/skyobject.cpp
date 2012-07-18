@@ -107,7 +107,7 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
     // If this object does not rise or set, return an invalid time
     SkyPoint p = recomputeCoords( dt, geo );
     if( p.checkCircumpolar( geo->lat() ) )
-        return QTime( 25, 0, 0 );
+        return QTime();
 
     //First of all, if the object is below the horizon at date/time dt, adjust the time
     //to bring it above the horizon
@@ -125,8 +125,11 @@ QTime SkyObject::riseSetTime( const KStarsDateTime &dt, const GeoLocation *geo, 
     // compute the _closest_ rise time and the _closest_ set time to
     // the current time.
 
-    return geo->UTtoLT( KStarsDateTime( dt2.date(), riseSetTimeUT( dt2, geo, rst, exact ) ) ).time();
-
+    QTime rstUt = riseSetTimeUT( dt2, geo, rst, exact );
+    if ( ! rstUt.isValid() )
+        return QTime();
+    
+    return geo->UTtoLT( KStarsDateTime( dt2.date(), rstUt ) ).time();
 }
 
 QTime SkyObject::riseSetTimeUT( const KStarsDateTime &dt, const GeoLocation *geo, bool riseT, bool exact ) {
@@ -229,7 +232,7 @@ QTime SkyObject::transitTimeUT( const KStarsDateTime &dt, const GeoLocation *geo
     //transit time of this refined position
     SkyPoint sp = recomputeCoords( dt0, geo );
 
-    HourAngle = dms ( LST.Degrees() - sp.ra0().Degrees() );
+    HourAngle = dms ( LST.Degrees() - sp.ra().Degrees() );
     dSec = int( -3600.*HourAngle.Hours() );
 
     return dt.addSecs( dSec ).time();
@@ -313,20 +316,59 @@ SkyPoint SkyObject::recomputeCoords( const KStarsDateTime &dt, const GeoLocation
     return sp;
 }
 
-QString SkyObject::typeName( void ) const {
-    if ( Type==0 ) return i18n( "Star" );
-    else if ( Type==1 ) return i18n( "Catalog Star" );
-    else if ( Type==2 ) return i18n( "Planet" );
-    else if ( Type==3 ) return i18n( "Open Cluster" );
-    else if ( Type==4 ) return i18n( "Globular Cluster" );
-    else if ( Type==5 ) return i18n( "Gaseous Nebula" );
-    else if ( Type==6 ) return i18n( "Planetary Nebula" );
-    else if ( Type==7 ) return i18n( "Supernova Remnant" );
-    else if ( Type==8 ) return i18n( "Galaxy" );
-    else if ( Type==9 ) return i18n( "Comet" );
-    else if ( Type==10 ) return i18n( "Asteroid" );
-    else if ( Type == 18) return i18n("Radio Source");
-    else return i18n( "Unknown Type" );
+QString SkyObject::typeName( int t ) {
+
+    switch( t ) {
+    case STAR:
+        return i18n( "Star" );
+    case CATALOG_STAR:
+        return i18n( "Catalog Star" );
+    case PLANET:
+        return i18n( "Planet" );
+    case OPEN_CLUSTER:
+        return i18n( "Open Cluster" );
+    case GLOBULAR_CLUSTER:
+        return i18n( "Globular Cluster" );
+    case GASEOUS_NEBULA:
+        return i18n( "Gaseous Nebula" );
+    case PLANETARY_NEBULA:
+        return i18n( "Planetary Nebula" );
+    case SUPERNOVA_REMNANT:
+        return i18n( "Supernova Remnant" );
+    case GALAXY:
+        return i18n( "Galaxy" );
+    case COMET:
+        return i18n( "Comet" );
+    case ASTEROID:
+        return i18n( "Asteroid" );
+    case CONSTELLATION:
+        return i18n( "Constellation" );
+    case MOON:
+        return i18n( "Moon" );
+    case GALAXY_CLUSTER:
+        return i18n( "Galaxy Cluster" );
+    case SATELLITE:
+        return i18n( "Satellite" );
+    case SUPERNOVA:
+        return i18n( "Supernova" );
+    case RADIO_SOURCE:
+        return i18n("Radio Source");
+    case ASTERISM:
+        return i18n( "Asterism" );
+    case DARK_NEBULA:
+        return i18n( "Dark Nebula" );
+    case QUASAR:
+        return i18n( "Quasar" );
+    case MULT_STAR:
+        return i18n( "Multiple Star" );
+    default:
+        return i18n( "Unknown Type" );
+    }
+
+}
+
+QString SkyObject::typeName() const {
+    return typeName( Type );
 }
 
 QString SkyObject::messageFromTitle( const QString &imageTitle ) {

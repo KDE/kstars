@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -149,7 +149,16 @@
              <item>
               <widget class="KDoubleNumInput" name="scopeApertureSpinBox">
                <property name="focusPolicy">
-                <enum>Qt::TabFocus</enum>
+                <enum>Qt::StrongFocus</enum>
+               </property>
+               <property name="label">
+                <string/>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="sliderEnabled">
+                <bool>false</bool>
                </property>
               </widget>
              </item>
@@ -174,7 +183,7 @@
              <item>
               <widget class="KDoubleNumInput" name="scopeFocalLengthSpinBox">
                <property name="focusPolicy">
-                <enum>Qt::TabFocus</enum>
+                <enum>Qt::StrongFocus</enum>
                </property>
               </widget>
              </item>
@@ -346,7 +355,10 @@
              <item>
               <widget class="KDoubleNumInput" name="eyepieceFocalLengthSpinBox">
                <property name="focusPolicy">
-                <enum>Qt::TabFocus</enum>
+                <enum>Qt::StrongFocus</enum>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
                </property>
               </widget>
              </item>
@@ -425,7 +437,10 @@
            <item>
             <widget class="KDoubleNumInput" name="eyepieceFovSpinBox">
              <property name="focusPolicy">
-              <enum>Qt::TabFocus</enum>
+              <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="singleStep">
+              <double>0.100000000000000</double>
              </property>
             </widget>
            </item>
@@ -579,7 +594,7 @@
            <item row="4" column="1">
             <widget class="KDoubleNumInput" name="lensFactorSpinBox">
              <property name="focusPolicy">
-              <enum>Qt::TabFocus</enum>
+              <enum>Qt::StrongFocus</enum>
              </property>
             </widget>
            </item>
@@ -598,7 +613,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout3">
            <item>
-            <spacer name="horizontalSpacer3">
+            <spacer name="horizontalSpacer31">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -777,6 +792,9 @@
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+   <class>KDoubleNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>

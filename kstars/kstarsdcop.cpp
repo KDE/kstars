@@ -1,3 +1,4 @@
+
 /***************************************************************************
                           kstarsdcop.cpp  -  description
                              -------------------
@@ -313,7 +314,9 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "ShowCBounds"     && bOk ) Options::setShowCBounds(  bVal );
     if ( op == "ShowCNames"      && bOk ) Options::setShowCNames(   bVal );
     if ( op == "ShowMilkyWay"    && bOk ) Options::setShowMilkyWay( bVal );
-    if ( op == "ShowGrid"        && bOk ) Options::setShowGrid(     bVal );
+    if ( op == "AutoSelectGrid"  && bOk ) Options::setAutoSelectGrid( bVal );
+    if ( op == "ShowEquatorialGrid" && bOk ) Options::setShowEquatorialGrid( bVal );
+    if ( op == "ShowHorizontalGrid" && bOk ) Options::setShowHorizontalGrid( bVal );
     if ( op == "ShowEquator"     && bOk ) Options::setShowEquator(  bVal );
     if ( op == "ShowEcliptic"    && bOk ) Options::setShowEcliptic( bVal );
     if ( op == "ShowHorizon"     && bOk ) Options::setShowHorizon(  bVal );
@@ -332,6 +335,7 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "ShowComets"      && bOk ) Options::setShowComets(  bVal );
     if ( op == "ShowSolarSystem" && bOk ) Options::setShowSolarSystem( bVal );
     if ( op == "ShowDeepSky"     && bOk ) Options::setShowDeepSky( bVal );
+    if ( op == "ShowSupernovae"     && bOk ) Options::setShowSupernovae( bVal );
     if ( op == "ShowStarNames"      && bOk ) Options::setShowStarNames(      bVal );
     if ( op == "ShowStarMagnitudes" && bOk ) Options::setShowStarMagnitudes( bVal );
     if ( op == "ShowAsteroidNames"  && bOk ) Options::setShowAsteroidNames(  bVal );
@@ -349,7 +353,7 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( op == "HideCNames"  && bOk ) Options::setHideCNames(  bVal );
     if ( op == "HideCLines"  && bOk ) Options::setHideCLines(  bVal );
     if ( op == "HideCBounds" && bOk ) Options::setHideCBounds( bVal );
-    if ( op == "HideGrid"    && bOk ) Options::setHideGrid(    bVal );
+    if ( op == "HideGrids"    && bOk ) Options::setHideGrids( bVal );
     if ( op == "HideLabels"  && bOk ) Options::setHideLabels(  bVal );
 
     if ( op == "UseAltAz"         && bOk ) Options::setUseAltAz(      bVal );
