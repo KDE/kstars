@@ -63,10 +63,8 @@ void ModelManager::updateModels()
 
     while ( fileReader.hasMoreLines() )
     {
-        QString line;
-        //SkyObject::TYPE sotype;
         QString sotype;
-        line = fileReader.readLine();
+        QString line = fileReader.readLine();
 
         SkyObject *o;
         if ((o = data->skyComposite()->findByName( line )))
@@ -136,22 +134,25 @@ void ModelManager::updateModels()
     }
 }
 
-SkyObjListModel* ModelManager::returnModel(ModelManager::LIST_TYPE Type)
+SkyObjListModel* ModelManager::returnModel(LIST_TYPE Type)
 {
-    if (Type == Planets)
+    switch(Type)
+    {
+    case Planets:
         return planetsModel;
-    else if (Type == Stars)
+    case Stars:
         return starsModel;
-    else if (Type == Galaxies)
+    case Galaxies:
         return galModel;
-    else if (Type == Constellations)
+    case Constellations:
         return conModel;
-    else if (Type == Star_Clusters)
+    case Star_Clusters:
         return starClustModel;
-    else if (Type == Nebulae)
+    case Nebulae:
         return nebModel;
-
-    return (new SkyObjListModel());
+    default:
+        return (new SkyObjListModel());
+    }
 }
 
 SkyObjListModel* ModelManager::returnModel(QString Type)

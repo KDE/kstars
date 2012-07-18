@@ -23,10 +23,10 @@ SkyObjListModel::SkyObjListModel(SkyObjItem* soitem, QObject* parent): QAbstract
     setRoleNames(soitem->roleNames());
 }
 
-void SkyObjListModel::addSkyObject(SkyObjItem* sobj)
+void SkyObjListModel::addSkyObject(SkyObjItem* soitem)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    soItemList.append(sobj);
+    soItemList.append(soitem);
     endInsertRows();
 }
 
