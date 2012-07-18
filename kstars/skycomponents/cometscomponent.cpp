@@ -37,8 +37,7 @@
 #include <QPen>
 
 CometsComponent::CometsComponent( SolarSystemComposite *parent )
-        : SolarSystemListComponent( parent )
-{
+        : SolarSystemListComponent( parent ) {
     loadData();
 }
 
@@ -87,37 +86,37 @@ void CometsComponent::loadData() {
     double q, e, dble_i, dble_w, dble_N, Tp, earth_moid;
     long double JD;
     float M1, M2, K1, K2, diameter, albedo, rot_period, period;
-    
+
     emitProgressText(i18n("Loading comets"));
     objectNames(SkyObject::COMET).clear();
-    
+
     QList<KSParser::DataTypes> pattern;
     QList<QString> newList;
-    QList< QPair<QString,KSParser::DataTypes> > sequence;
-    sequence.append(qMakePair(QString("full name"),KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("epoch_mjd"),KSParser::D_INT));
-    sequence.append(qMakePair(QString("q"),KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("e"),KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("i"),KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("w"),KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("om"),KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("tp_calc"),KSParser::D_DOUBLE));
-    sequence.append(qMakePair(QString("orbit_id"),KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("neo"),KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("M1"),KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("M2"),KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("diameter"),KSParser::D_FLOAT));
-    sequence.append(qMakePair(QString("extent"),KSParser::D_QSTRING)); 
-    sequence.append(qMakePair(QString("albedo"),KSParser::D_FLOAT)); 
-    sequence.append(qMakePair(QString("rot_period"),KSParser::D_FLOAT)); 
-    sequence.append(qMakePair(QString("per_y"),KSParser::D_FLOAT)); 
-    sequence.append(qMakePair(QString("moid"),KSParser::D_DOUBLE)); 
-    sequence.append(qMakePair(QString("class"),KSParser::D_QSTRING));
-    sequence.append(qMakePair(QString("H"),KSParser::D_SKIP));
-    sequence.append(qMakePair(QString("G"),KSParser::D_SKIP));
+    QList< QPair<QString, KSParser::DataTypes> > sequence;
+    sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("epoch_mjd"), KSParser::D_INT));
+    sequence.append(qMakePair(QString("q"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("e"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("i"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("w"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("om"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("tp_calc"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("orbit_id"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("neo"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("M1"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("M2"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("diameter"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("extent"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("albedo"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("rot_period"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("per_y"), KSParser::D_FLOAT));
+    sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
+    sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
+    sequence.append(qMakePair(QString("H"), KSParser::D_SKIP));
+    sequence.append(qMakePair(QString("G"), KSParser::D_SKIP));
     KSParser cometParser(QString("comets.dat"), '#', sequence);
-    
-    QHash<QString,QVariant> row_content;
+
+    QHash<QString, QVariant> row_content;
     while (cometParser.HasNextRow()){
         KSComet *com = 0;
         row_content = cometParser.ReadNextRow();
@@ -134,7 +133,7 @@ void CometsComponent::loadData() {
         neo = row_content["neo"] == "Y";
 
         if(row_content["M1"].toFloat()==0.0)
-            M1 = 101.0;        
+            M1 = 101.0;
         else
             M1 = row_content["M1"].toFloat();
 
@@ -142,7 +141,7 @@ void CometsComponent::loadData() {
             M2 = 101.0;
         else
             M2 = row_content["M2"].toFloat();
-        
+
         diameter = row_content["diameter"].toFloat();
         dimensions = row_content["extent"].toString();
         albedo  = row_content["albedo"].toFloat();
@@ -150,14 +149,14 @@ void CometsComponent::loadData() {
         period  = row_content["per_y"].toFloat();
         earth_moid  = row_content["moid"].toDouble();
         orbit_class = row_content["class"].toString();
-        K1 = row_content["H"].toFloat(); 
-        K2 = row_content["G"].toFloat(); 
-    
-        JD = double( mJD ) + 2400000.5;
+        K1 = row_content["H"].toFloat();
+        K2 = row_content["G"].toFloat();
 
-        com = new KSComet( name, QString(), JD, q, e, 
-                           dms( dble_i ), dms( dble_w ), 
-                           dms( dble_N ), Tp, M1, M2, 
+        JD = static_cast<double>( mJD ) + 2400000.5;
+
+        com = new KSComet( name, QString(), JD, q, e,
+                           dms( dble_i ), dms( dble_w ),
+                           dms( dble_N ), Tp, M1, M2,
                            K1, K2 );
         com->setOrbitID( orbit_id );
         com->setNEO( neo );
@@ -171,10 +170,9 @@ void CometsComponent::loadData() {
         com->setAngularSize( 0.005 );
         m_ObjectList.append( com );
 
-        //Add *short* name to the list of object names
+        // Add *short* name to the list of object names
         objectNames( SkyObject::COMET ).append( com->name() );
-    }        
-
+    }
 }
 
 void CometsComponent::draw( SkyPainter *skyp )
@@ -182,7 +180,9 @@ void CometsComponent::draw( SkyPainter *skyp )
     if( !selected() || Options::zoomFactor() < 10*MINZOOM )
         return;
 
-    bool hideLabels =  ! Options::showCometNames() || (SkyMap::Instance()->isSlewing() && Options::hideLabels() );
+    bool hideLabels =  ! Options::showCometNames() ||
+                       (SkyMap::Instance()->isSlewing() &&
+                        Options::hideLabels() );
     double rsunLabelLimit = Options::maxRadCometName();
 
     //FIXME: Should these be config'able?
@@ -200,7 +200,16 @@ void CometsComponent::draw( SkyPainter *skyp )
 void CometsComponent::updateDataFile()
 {
     KUrl url = KUrl( "http://ssd.jpl.nasa.gov/sbdb_query.cgi" );
-    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbered=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&combine_mode=AND&c1_group=OBJ&c1_item=Af&c1_op=!%3D&c1_value=D&c2_group=OBJ&c2_item=Ae&c2_op=!%3D&c2_value=SOHO&c_fields=AcBdBiBgBjBlBkBqBbAgAkAlApAqArAsBsBtChAmAn&table_format=CSV&max_rows=10&format_option=full&query=Generate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=obj_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mode&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_field_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com_orbit_class" );
+    QByteArray post_data = QByteArray( "obj_group=all&obj_kind=com&obj_numbere"
+    "d=all&OBJ_field=0&OBJ_op=0&OBJ_value=&ORB_field=0&ORB_op=0&ORB_value=&com"
+    "bine_mode=AND&c1_group=OBJ&c1_item=Af&c1_op=!%3D&c1_value=D&c2_group=OBJ&"
+    "c2_item=Ae&c2_op=!%3D&c2_value=SOHO&c_fields=AcBdBiBgBjBlBkBqBbAgAkAlApAq"
+    "ArAsBsBtChAmAn&table_format=CSV&max_rows=10&format_option=full&query=Gene"
+    "rate%20Table&.cgifields=format_option&.cgifields=field_list&.cgifields=ob"
+    "j_kind&.cgifields=obj_group&.cgifields=obj_numbered&.cgifields=combine_mo"
+    "de&.cgifields=ast_orbit_class&.cgifields=table_format&.cgifields=ORB_fiel"
+    "d_set&.cgifields=OBJ_field_set&.cgifields=preset_field_set&.cgifields=com"
+    "_orbit_class" );
     QString content_type = "Content-Type: application/x-www-form-urlencoded";
 
     // Download file

@@ -105,9 +105,8 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
             } else {
                 queue.append(*iter);
             }
-            QString join;
             QString col_result;
-            foreach(join, queue)
+            foreach(const QString &join, queue)
                 col_result += join;
             quoteCombined.append(col_result);
         }

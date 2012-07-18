@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_KSPARSER_H_
-#define KSTARS_KSPARSER_H_
+#ifndef KSTARS_KSPARSER_H
+#define KSTARS_KSPARSER_H
 #include "ksfilereader.h"
 #include <kstandarddirs.h>
 #include <QList>
@@ -150,4 +150,4 @@ class KSParser {
     char delimiter_;
 };
 
-#endif  // KSTARS_KSPARSER_H_
+#endif  // KSTARS_KSPARSER_H

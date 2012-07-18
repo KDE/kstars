@@ -16,8 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef KSTARS_KSUSERDB_H_
-#define KSTARS_KSUSERDB_H_
+#ifndef KSTARS_KSUSERDB_H
+#define KSTARS_KSUSERDB_H
 #define KSTARS_USERDB "data/userdb.sqlite"
 #include <kstandarddirs.h>
 #include <QSqlDatabase>
@@ -224,4 +224,4 @@ class KSUserDB {
     QSqlError LastError();
 };
 
-#endif  // KSTARS_KSUSERDB_H_
+#endif  // KSTARS_KSUSERDB_H
