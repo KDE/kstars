@@ -1,7 +1,7 @@
 add_subdirectory( data )
 add_subdirectory( icons )
 add_subdirectory( htmesh )
-add_subdirectory( tools/WhatsInteresting)
+add_subdirectory( tools/whatsinteresting)
 
 Find_package(ZLIB REQUIRED)
 
@@ -125,12 +125,12 @@ set(libkstarstools_SRCS
 	tools/scriptfunction.cpp
 	tools/skycalendar.cpp
 	tools/wutdialog.cpp
-    tools/WhatsInteresting/skyobjlistmodel.cpp
-    tools/WhatsInteresting/WIView.cpp
-    tools/WhatsInteresting/modelmanager.cpp
-    tools/WhatsInteresting/skyobjitem.cpp
-    tools/WhatsInteresting/wiusersettings.cpp
-    tools/WhatsInteresting/obsconditions.cpp
+        tools/whatsinteresting/skyobjlistmodel.cpp
+        tools/whatsinteresting/wiview.cpp
+        tools/whatsinteresting/modelmanager.cpp
+        tools/whatsinteresting/skyobjitem.cpp
+        tools/whatsinteresting/wiusersettings.cpp
+        tools/whatsinteresting/obsconditions.cpp
 	tools/flagmanager.cpp
 	tools/moonphasetool.cpp
 	tools/starhopper.cpp
@@ -195,7 +195,7 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/skycalendar.ui
 	tools/wutdialog.ui
 	tools/flagmanager.ui
-    tools/WhatsInteresting/wiusersettings.ui
+        tools/whatsinteresting/wiusersettings.ui
         )
 
 

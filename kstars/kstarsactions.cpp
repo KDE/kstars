@@ -75,7 +75,7 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
-#include "tools/WhatsInteresting/wiusersettings.h"
+#include "tools/whatsinteresting/wiusersettings.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
 #include "tools/planetviewer.h"

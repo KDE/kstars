@@ -17,7 +17,7 @@
 
 
 #include "wiusersettings.h"
-#include "WIView.h"
+#include "wiview.h"
 #include "obsconditions.h"
 #include "kdebug.h"
 

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "WIView.h"
+#include "wiview.h"
 #include "QGraphicsObject"
 #include "skymap.h"
 
@@ -30,7 +30,7 @@ WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
     ctxt = baseView->rootContext();
     ctxt->setContextProperty("catListModel", QVariant::fromValue(m->returnCatListModel( ModelManager::BaseList )));
 
-    baseView->setSource(KStandardDirs::locate("appdata","tools/WhatsInteresting/Base.qml") );
+    baseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/Base.qml") );
     baseObj = dynamic_cast<QObject *> (baseView->rootObject());
 
     soTypeTextObj = baseObj->findChild<QObject *>("soTypeTextObj") ;
