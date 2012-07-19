@@ -28,14 +28,14 @@ ModelManager::ModelManager(ObsConditions *obs)
     starsModel = new SkyObjListModel();
     galModel = new SkyObjListModel();
     conModel = new SkyObjListModel();
-    starClustModel = new SkyObjListModel();
+    clustModel = new SkyObjListModel();
     nebModel = new SkyObjListModel();
 
     initobjects["Star"] = QList<SkyObject *>();
     initobjects["Galaxy"] = QList<SkyObject *>();
     initobjects["Constellation"] = QList<SkyObject *>();
-    initobjects["Open Cluster"] = QList<SkyObject *>();
-    initobjects["Planetary Nebula"] = QList<SkyObject *>();
+    initobjects["Cluster"] = QList<SkyObject *>();
+    initobjects["Nebula"] = QList<SkyObject *>();
     updateModels();
 }
 
@@ -45,7 +45,7 @@ ModelManager::~ModelManager()
     delete starsModel;
     delete galModel;
     delete conModel;
-    delete starClustModel;
+    delete clustModel;
     delete nebModel;
 }
 
@@ -54,24 +54,37 @@ void ModelManager::updateModels()
     KStarsData *data = KStarsData::Instance();
 
     //double TLM = obsconditions->getTrueMagLim();
-    baseCatList<<"Planets"<<"Stars"<<"Constellations"<<"Deep-sky Objects" ;
-    deepSkyList<<"Galaxies"<<"Star Clusters"<<"Nebulae";
+    baseCatList << "Planets" << "Stars" << "Constellations" << "Deep-sky Objects" ;
+    deepSkyList << "Galaxies" << "Clusters" << "Nebulae";
 
     KSFileReader fileReader;
     if ( !fileReader.open("Interesting.dat") ) return;
 
     while ( fileReader.hasMoreLines() )
     {
-        QString sotype;
+        QString soTypeName;
         QString line = fileReader.readLine();
 
         SkyObject *o;
         if ((o = data->skyComposite()->findByName( line )))
         {
-            sotype = o->typeName();
-            QList<SkyObject *> solist = initobjects[sotype];
-            solist.append(o);
-            initobjects[sotype] = solist;
+            if (o->type() == 3 || o->type() == 4 || o->type() == 14 )
+            {
+                kDebug()<<"Cluster object";
+                initobjects["Cluster"].append(o);
+            }
+            else if (o->type() == 5 || o->type() == 6 || o->type() == 15)
+            {
+                kDebug()<<"Nebulae object";
+                initobjects["Nebula"].append(o);
+            }
+            else
+            {
+                soTypeName = o->typeName();
+                QList<SkyObject *> solist = initobjects[soTypeName];
+                solist.append(o);
+                initobjects[soTypeName] = solist;
+            }
         }
     }
 
@@ -102,16 +115,16 @@ void ModelManager::updateModels()
         }
     }
 
-    foreach(SkyObject *so, initobjects.value("Open Cluster"))
+    foreach(SkyObject *so, initobjects.value("Cluster"))
     {
-        //kDebug()<<so->name()<<so->mag();
+        kDebug()<<"Cluster object"<<so->name()<<so->typeName();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
-            starClustModel->addSkyObject(new SkyObjItem(so));
+            clustModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach(SkyObject *so, initobjects.value("Planetary Nebula"))
+    foreach(SkyObject *so, initobjects.value("Nebula"))
     {
         //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
@@ -145,8 +158,8 @@ SkyObjListModel* ModelManager::returnModel(LIST_TYPE Type)
         return galModel;
     case Constellations:
         return conModel;
-    case Star_Clusters:
-        return starClustModel;
+    case Clusters:
+        return clustModel;
     case Nebulae:
         return nebModel;
     default:

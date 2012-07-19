@@ -24,7 +24,7 @@ class ModelManager
 {
 public:
     enum LIST_TYPE {BaseList, PlanetaryObjects, DeepSkyObjects, Planets, Satellites,
-                    Stars, Galaxies, Constellations, Star_Clusters, Nebulae};
+                    Stars, Galaxies, Constellations, Clusters, Nebulae};
     ModelManager(ObsConditions *obs);
     ~ModelManager();
     void updateModels();
@@ -35,7 +35,7 @@ public:
 
 private:
     ObsConditions *obsconditions;
-    SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *starClustModel, *nebModel;
+    SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *clustModel, *nebModel;
     QStringList baseCatList, planetaryList, deepSkyList;
     QHash < QString , QList < SkyObject * > > initobjects;
 };

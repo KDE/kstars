@@ -95,9 +95,9 @@ void WIView::onCatListItemClicked(QString category)
         soTypeTextObj->setProperty("text", category);
         soTypeTextObj->setProperty("visible", true);
     }
-    else if (category == "Star Clusters")
+    else if (category == "Clusters")
     {
-        ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Star_Clusters ));
+        ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Clusters ));
         catListObj->setProperty("visible", false);
         soListObj->setProperty("visible", true);
         soTypeTextObj->setProperty("text", category);
@@ -132,8 +132,13 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
     case 3:
         soitem = m->returnModel(ModelManager::Constellations)->getSkyObjItem(index);
         break;
-    default:
-        kDebug()<<"Nothing for DSOs right now";
+    case 4:
+        soitem = m->returnModel(ModelManager::Clusters)->getSkyObjItem(index);
+        kDebug()<<soitem->getSkyObject()->typeName();
+        return;
+    case 5:
+        soitem = m->returnModel(ModelManager::Nebulae)->getSkyObjItem(index);
+        kDebug()<<soitem->getSkyObject()->typeName();
         return;
     }
 

@@ -34,10 +34,14 @@ SkyObjItem::SkyObjItem(SkyObject* sobj, QObject* parent) : QObject(parent),
         m_Type = Constellation;
         break;
     case SkyObject::OPEN_CLUSTER:
-        m_Type = Star_Cluster;
+    case SkyObject::GLOBULAR_CLUSTER:
+    case SkyObject::GALAXY_CLUSTER:
+        m_Type = Cluster;
         break;
     case SkyObject::PLANETARY_NEBULA:
-        m_Type = Planetary_Nebula;
+    case SkyObject::GASEOUS_NEBULA:
+    case SkyObject::DARK_NEBULA:
+        m_Type = Nebula;
         break;
     }
 

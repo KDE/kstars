@@ -27,7 +27,7 @@ class SkyObjItem : public QObject
     Q_OBJECT
 public:
     enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole, CategoryNameRole };
-    enum Type {Planet, Star, Galaxy, Constellation, Star_Cluster, Planetary_Nebula};
+    enum Type {Planet, Star, Galaxy, Constellation, Cluster, Nebula};
     explicit SkyObjItem( SkyObject *sobj=0, QObject *parent = 0);
     QVariant data(int role);
     QHash<int, QByteArray> roleNames() const;
