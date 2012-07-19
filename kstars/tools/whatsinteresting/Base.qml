@@ -4,18 +4,8 @@ Rectangle {
     id : base
     width: 333
     height: 575
+    color: "#21212b"
     anchors.fill: parent
-    gradient: Gradient {
-        GradientStop {
-            position: 0
-            color: "#000000"
-        }
-
-        GradientStop {
-            position: 1
-            color: "#3555e4"
-        }
-    }
 
     Text {
         id: title
@@ -69,6 +59,7 @@ Rectangle {
             objectName: "catListObj"
             anchors.fill: parent
             visible: true
+            clip: true
 
             signal catListItemClicked(string category)
 
