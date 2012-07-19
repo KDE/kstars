@@ -54,8 +54,7 @@ void ModelManager::updateModels()
     KStarsData *data = KStarsData::Instance();
 
     //double TLM = obsconditions->getTrueMagLim();
-    baseCatList<<"Planetary Objects"<<"Stars"<<"Constellations"<<"Deep-sky Objects" ;
-    planetaryList<<"Planets"<<"Satellites";
+    baseCatList<<"Planets"<<"Stars"<<"Constellations"<<"Deep-sky Objects" ;
     deepSkyList<<"Galaxies"<<"Star Clusters"<<"Nebulae";
 
     KSFileReader fileReader;

@@ -90,7 +90,7 @@ void SkyObjItem::setPosition(SkyObject* so)
 
 QString SkyObjItem::getDesc() const
 {
-    if (m_TypeName == "Planet")
+    if (m_Type == Planet)
     {
         KSFileReader fileReader;
         if ( !fileReader.open("PlanetFacts.dat") )
@@ -103,11 +103,11 @@ QString SkyObjItem::getDesc() const
                 return line.split("::")[1];
         }
     }
-    else if (m_TypeName == "Star")
+    else if (m_Type == Star)
     {
         return "Bright Star";
     }
-    else if (m_TypeName == "Constellation")
+    else if (m_Type == Constellation)
     {
         return "Constellation";
     }

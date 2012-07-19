@@ -57,13 +57,7 @@ WIView::~WIView()
 
 void WIView::onCatListItemClicked(QString category)
 {
-    if (category == "Planetary Objects")
-    {
-        ctxt->setContextProperty("catListModel", QVariant::fromValue(m->returnCatListModel( ModelManager::PlanetaryObjects )));
-        soTypeTextObj->setProperty("text", category);
-        soTypeTextObj->setProperty("visible", true);
-    }
-    else if (category == "Deep-sky Objects")
+    if (category == "Deep-sky Objects")
     {
         ctxt->setContextProperty("catListModel", QVariant::fromValue(m->returnCatListModel( ModelManager::DeepSkyObjects )));
         soTypeTextObj->setProperty("text", category);
