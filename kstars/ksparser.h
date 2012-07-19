@@ -56,9 +56,9 @@ class KSParser {
      * @param sequence QList of QPairs of the form "field name,data type" 
      * @param delimiter separate on which character. default ','
      **/
-    KSParser(QString filename, char comment_char,
-             QList< QPair<QString, DataTypes> > &sequence,
-             char delimiter = ',');
+    KSParser(const QString &filename, const char comment_char,
+             const QList< QPair<QString, DataTypes> > &sequence,
+             const char delimiter = ',');
 
     /**
      * @brief Returns a Fixed Width parsing instance of a KSParser type object. 
@@ -69,9 +69,9 @@ class KSParser {
      * @param widths width sequence. Last value is line.length() by default
      *               Hence, sequence.length() should be (width.length()+1)
      **/
-    KSParser(QString filename, char comment_char,
-             QList< QPair<QString, DataTypes> > &sequence,
-             QList<int> widths);
+    KSParser(const QString &filename, const char comment_char,
+             const QList< QPair<QString, DataTypes> > &sequence,
+             const QList<int> &widths);
 
     /**
      * @brief Generic function used to read the next row of a text file.
@@ -87,7 +87,7 @@ class KSParser {
      *
      * @return bool
      **/
-    bool HasNextRow();
+    const bool HasNextRow();
 
     /**
      * @brief Wrapper function for KSFileReader setProgress

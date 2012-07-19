@@ -23,9 +23,9 @@ const double EBROKEN_DOUBLE = 0.0;
 const float EBROKEN_FLOATS = 0.0;
 const int EBROKEN_INT = 0;
 
-KSParser::KSParser(QString filename, char comment_char,
-                   QList< QPair<QString, DataTypes> > &sequence,
-                   char delimiter)
+KSParser::KSParser(const QString &filename, const char comment_char,
+                   const QList< QPair<QString, DataTypes> > &sequence,
+                   const char delimiter)
     : filename_(filename), comment_char_(comment_char),
       name_type_sequence_(sequence), delimiter_(delimiter) {
     if (!file_reader_.open(filename_)) {
@@ -37,9 +37,9 @@ KSParser::KSParser(QString filename, char comment_char,
     }
 }
 
-KSParser::KSParser(QString filename, char comment_char,
-                   QList< QPair<QString, DataTypes> > &sequence,
-                   QList<int> widths)
+KSParser::KSParser(const QString &filename, const char comment_char,
+                   const QList< QPair<QString, DataTypes> > &sequence,
+                   const QList<int> &widths)
     : filename_(filename), comment_char_(comment_char),
       name_type_sequence_(sequence), width_sequence_(widths) {
     if (!file_reader_.open(filename_)) {
@@ -275,7 +275,7 @@ QHash<QString, QVariant>  KSParser::DummyRow() {
     return newRow;
 }
 
-bool KSParser::HasNextRow() {
+const bool KSParser::HasNextRow() {
     return file_reader_.hasMoreLines();
 }
 
