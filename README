@@ -3,7 +3,7 @@
       **   KStars 2.0.0: A Desktop Planetarium for KDE   **
       *****************************************************
 
-Copyright (c) 2001 - 2011 by The KStars Team:
+Copyright (c) 2001 - 2012 by The KStars Team:
 
              Jason Harris <kstars@30doradus.org>
              Heiko Evermann <heiko@evermann.de>
@@ -19,6 +19,8 @@ Copyright (c) 2001 - 2011 by The KStars Team:
              Jérôme Sonrier <jsid@emor3j.fr.eu.org>
              Harry de Valence <hdevalence@gmail.com>
              Victor Carbune <victor.carbune@kdemail.net>
+	     Rafał Kułaga <rl.kulaga@gmail.com>
+	     Samikshan Bairagya <samikshan@gmail.com>
 
 
 KStars is Free Software, released under the GNU Public License.
@@ -74,6 +76,8 @@ Main contributors:
    Jérôme Sonrier <jsid@emor3j.fr.eu.org>
    Harry de Valence <hdevalence@gmail.com>
    Victor Carbune <victor.carbune@kdemail.net>
+   Rafał Kułaga <rl.kulaga@gmail.com>
+   Samikshan Bairagya <samikshan@gmail.com>
 
 
 B. Data Sources:
