@@ -332,7 +332,10 @@ Rectangle {
                                 dsoRect.border.color = dsoRect.borderColor
                             }
 
-                            onClicked: categoryView.flipped = true
+                            onClicked: {
+                                categoryView.state = "back"
+                                container.state = "dsoCategoryView"
+                            }
                         }
                     }
                 }
@@ -562,7 +565,6 @@ Rectangle {
                             target: canvasRotation
                             angle: 180
                         }
-                        when: categoryView.flipped
                     }
                 ]
 
@@ -577,7 +579,7 @@ Rectangle {
                     origin.x: container.width / 2;
                     axis.y: 1; axis.z: 0
                 }
-            }
+            } //end of categoryView
 
             Flipable {
                 id: skyObjView
@@ -796,21 +798,74 @@ Rectangle {
                     origin.x: container.width / 2;
                     axis.y: 1; axis.z: 0
                 }
+            } //end of skyObjView
+        } // end of viewsRow
+    } //end of base
+
+    Button {
+        id: settingsButton
+        x: 22
+        y: backButton.y
+        width: 150
+        height: 40
+        text: "User Settings"
+    }
+
+    Button {
+        id: backButton
+        x: container.width + 10
+        y: base.y + base.height + 10
+        text: "Go back"
+        onClicked: {
+            if (container.state == "dsoCategoryView")
+            {
+                container.state = "base"
+                categoryView.state = "front"
             }
         }
     }
+
+
     states: [
         State {
             name: "soListState"
-
             PropertyChanges {
                 target: viewsRow
                 x: -(parent.width)
             }
+            PropertyChanges {
+                target: backButton
+                x: dsoRect.x + 5
+            }
+        },
+        State {
+            name: "dsoCategoryView"
+            PropertyChanges {
+                target: backButton
+                x: dsoRect.x + 5
+            }
+        },
+        State {
+            name: "base"
+            PropertyChanges {
+                target: backButton
+                x: container.width + 10
+            }
         }
     ]
-    transitions: Transition {
-        from: "*"; to: "soListState"
-        NumberAnimation { property: "x"; duration: 900; easing.type: Easing.InOutQuad }
-    }
+    transitions: [
+        Transition {
+            from: "*"; to: "soListState"
+            NumberAnimation { target: viewsRow; property: "x"; duration: 900; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: backButton; property: "x"; duration: 400; easing.type: Easing.InOutQuad }
+        },
+        Transition {
+            from: "*"; to: "dsoCategoryView";
+            NumberAnimation { target: backButton; property: "x"; duration: 300; easing.type: Easing.InOutQuad }
+        },
+        Transition {
+            from: "dsoCategoryView"; to: "base"
+            NumberAnimation { target: backButton; property: "x"; duration: 300; easing.type: Easing.InOutQuad }
+        }
+    ]
 }

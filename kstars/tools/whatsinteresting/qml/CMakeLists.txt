@@ -1,6 +1,6 @@
 #install_files
 
-install( FILES wiview.qml
+install( FILES wiview.qml Button.qml
          planets.jpg
          stars.jpg
          constellation.jpg
