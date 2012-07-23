@@ -146,9 +146,9 @@ void ModelManager::updateModels()
     }
 }
 
-SkyObjListModel* ModelManager::returnModel(LIST_TYPE Type)
+SkyObjListModel* ModelManager::returnModel(LIST_TYPE type)
 {
-    switch(Type)
+    switch(type)
     {
     case Planets:
         return planetsModel;
@@ -167,15 +167,15 @@ SkyObjListModel* ModelManager::returnModel(LIST_TYPE Type)
     }
 }
 
-SkyObjListModel* ModelManager::returnModel(QString Type)
+SkyObjListModel* ModelManager::returnModel(QString type)
 {
-    if (Type == "Planet")
+    if (type == "Planet")
         return planetsModel;
-    else if (Type == "Star")
+    else if (type == "Star")
         return starsModel;
-    else if (Type == "Galaxy")
+    else if (type == "Galaxy")
         return galModel;
-    else if (Type == "Constellation")
+    else if (type == "Constellation")
         return conModel;
 //     else if (Type == "Star_Clusters")
 //         return starClustModel;
@@ -191,8 +191,6 @@ QStringList ModelManager::returnCatListModel(ModelManager::LIST_TYPE Type)
     {
         case BaseList:
             return baseCatList;
-        case PlanetaryObjects:
-            return planetaryList;
         default:
             return deepSkyList;
     }

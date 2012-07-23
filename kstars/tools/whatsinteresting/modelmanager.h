@@ -23,13 +23,12 @@
 class ModelManager
 {
 public:
-    enum LIST_TYPE {BaseList, PlanetaryObjects, DeepSkyObjects, Planets, Satellites,
-                    Stars, Galaxies, Constellations, Clusters, Nebulae};
+    enum LIST_TYPE { BaseList, DeepSkyObjects, Planets, Stars, Galaxies, Constellations, Clusters, Nebulae };
     ModelManager(ObsConditions *obs);
     ~ModelManager();
     void updateModels();
 
-    SkyObjListModel* returnModel ( LIST_TYPE Type );
+    SkyObjListModel* returnModel ( LIST_TYPE type );
     SkyObjListModel* returnModel ( QString type );
     QStringList returnCatListModel ( LIST_TYPE Type );
 

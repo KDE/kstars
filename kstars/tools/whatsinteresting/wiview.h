@@ -32,21 +32,12 @@ public:
     void loadDetailsView(SkyObjItem* soitem, int index);
 
 public slots:
-//     void loadModel ( int TYPE );
-//     void skyObjectItemClicked(QModelIndex index);
-    void onCatListItemClicked(QString);
+    void onCategorySelected(int);
     void onSoListItemClicked(int type, QString typeName, int index);
     void onNextObjTextClicked();
 private:
-    QObject *baseObj, *catListObj, *soListObj, *detailsViewObj, *nextObj, *soTypeTextObj;
+    QObject *baseObj, *containerObj, *viewsRowObj, *soListObj, *detailsViewObj, *nextObj, *soTypeTextObj;
     QDeclarativeContext *ctxt;
-    QDeclarativeView *baseListView;
-    QDeclarativeView *planetaryListView;
-    QDeclarativeView *deepSkyListView;
-    QDeclarativeView *skyObjListView;
-    QDeclarativeView *planetDetailsView;
-    QDeclarativeView *satelliteDetailsView;
-    QDeclarativeView *deepSkyDetailsView;
     ModelManager *m;
     SkyObjItem *curSoItem;
     int curIndex;
