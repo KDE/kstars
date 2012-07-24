@@ -1,5 +1,15 @@
 PROJECT(kstars CXX C)
 
+enable_testing(true)
+include_directories( tests )
+  
+set(test_additional
+    #some_dependency.cpp
+    #some_other_dependency.cpp
+)
+add_test(ParserTest ${kstars_SOURCE_DIR}/tests/testksparser.cpp)
+
+
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
 
