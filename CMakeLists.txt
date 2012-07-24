@@ -1,14 +1,11 @@
 PROJECT(kstars CXX C)
-
-enable_testing(true)
-include_directories( tests )
   
-set(test_additional
+# set(test_additional
     #some_dependency.cpp
     #some_other_dependency.cpp
-)
-add_test(ParserTest ${kstars_SOURCE_DIR}/tests/testksparser.cpp)
-
+# )
+# add_test(ParserTest ${kstars_SOURCE_DIR}/tests/testksparser.cpp)
+# add_test(ParserTest ${CMAKE_CURRENT_BINARY_DIR}/tests/testksparser)
 
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)
@@ -46,6 +43,9 @@ macro_optional_find_package(OpenGL)
 macro_bool_to_01(OPENGL_FOUND HAVE_OPENGL)
 macro_log_feature(OPENGL_FOUND "OpenGL" "Support for hardware rendering in KStars." "http://www.opengl.org/" FALSE "" "OpenGL rendering is generally faster on hardware with graphics acceleration.")
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
+
+enable_testing(true)
+add_subdirectory(Tests)
 
 if (EIGEN2_FOUND)
    include_directories(${CMAKE_CURRENT_BINARY_DIR})
