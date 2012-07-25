@@ -71,7 +71,6 @@
 #include "dialogs/fovdialog.h"
 #include "printing/printingwizard.h"
 #include "kswizard.h"
-#include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
@@ -265,13 +264,6 @@ void KStars::slotDownload() {
             }
         }
     }
-}
-
-void KStars::slotLCGenerator() {
-    if ( ! AAVSODialog  )
-        AAVSODialog = new LCGenerator(this);
-
-    AAVSODialog->show();
 }
 
 void KStars::slotAVT() {

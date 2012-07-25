@@ -9,7 +9,9 @@ some more advanced aspects of astronomy and the night sky.
 <itemizedlist>
 <listitem><para><link linkend="tool-details">Object Details</link></para></listitem>
 <listitem><para><link linkend="tool-calculator">Astrocalculator</link></para></listitem>
+<!--
 <listitem><para><link linkend="tool-aavso">AAVSO Lightcurves</link></para></listitem>
+-->
 <listitem><para><link linkend="tool-altvstime">Altitude vs. Time Plotter</link></para></listitem>
 <listitem><para><link linkend="tool-whatsup">What's Up Tonight?</link></para></listitem>
 <listitem><para><link linkend="tool-scriptbuilder">Script  Builder</link></para></listitem>
@@ -21,7 +23,9 @@ some more advanced aspects of astronomy and the night sky.
 
 &tool-details;
 &tool-calculator;
-&tool-aavso;
+<!-- &tool-aavso;
+removed after 4.9, see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d
+-->
 &tool-altvstime;
 &tool-whatsup;
 &tool-scriptbuilder;

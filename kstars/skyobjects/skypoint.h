@@ -487,6 +487,11 @@ public:
     /** Remove refraction correction. */
     static dms unrefract(dms h);
 
+    /**
+     *@short Critical height for atmospheric refraction
+     * corrections. Below this, the height formula produces meaningles
+     * results and the correction value is just interpolated.
+     */
     static const double altCrit;
 
 protected:

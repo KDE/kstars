@@ -364,11 +364,6 @@ void KStars::initActions() {
         << i18n("Observing List...")
         << KShortcut( Qt::CTRL+Qt::Key_L );
 
-    // enable action only if file was loaded and processed successfully.
-    actionCollection()->addAction("lightcurvegenerator", this, SLOT( slotLCGenerator() ) )
-        << i18n("AAVSO Light Curves...")
-        << KShortcut( Qt::CTRL+Qt::Key_V );
-
     actionCollection()->addAction("altitude_vs_time", this, SLOT( slotAVT() ) )
         << i18n("Altitude vs. Time...")
         << KShortcut( Qt::CTRL+Qt::Key_A );
