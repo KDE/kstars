@@ -20,7 +20,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>false</bool>
@@ -451,7 +451,7 @@
             <enum>QFormLayout::ExpandingFieldsGrow</enum>
            </property>
            <item row="0" column="0">
-            <widget class="QLabel" name="label3">
+            <widget class="QLabel" name="label3_2">
              <property name="text">
               <string>Id:</string>
              </property>
@@ -468,7 +468,7 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QLabel" name="label3">
+            <widget class="QLabel" name="label31">
              <property name="text">
               <string>Vendor:</string>
              </property>
@@ -478,7 +478,7 @@
             <widget class="KLineEdit" name="l_Vendor"/>
            </item>
            <item row="4" column="0">
-            <widget class="QLabel" name="label5">
+            <widget class="QLabel" name="label51">
              <property name="toolTip">
               <string>Magnification factor of the Barlow/Shapley lens</string>
              </property>
@@ -509,7 +509,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout3">
            <item>
-            <spacer name="horizontalSpacer3">
+            <spacer name="horizontalSpacer31">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -670,14 +670,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>KDoubleNumInput</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
@@ -686,9 +686,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

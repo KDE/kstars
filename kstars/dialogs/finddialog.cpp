@@ -68,7 +68,7 @@ FindDialog::FindDialog( QWidget* parent ) :
     ui->SearchList->setModel( sortModel );
     setButtonText(KDialog::User1, i18n("Details..."));
 
-    //Connect signals to slots
+    // Connect signals to slots
     connect( this, SIGNAL( okClicked() ), this, SLOT( slotOk() ) );
     connect( this, SIGNAL( cancelClicked() ), this, SLOT( reject() ) );
     connect(this, SIGNAL(user1Clicked()), this, SLOT(slotDetails()));
@@ -77,8 +77,10 @@ FindDialog::FindDialog( QWidget* parent ) :
     connect( ui->FilterType, SIGNAL( activated( int ) ), this, SLOT( enqueueSearch() ) );
     connect( ui->SearchList, SIGNAL( doubleClicked( const QModelIndex & ) ), SLOT( slotOk() ) );
 
+    // Set focus to object name edit
+    ui->SearchBox->setFocus();
 
-    // first create and paint dialog and then load list
+    // First create and paint dialog and then load list
     QTimer::singleShot(0, this, SLOT( init() ));
 
     listFiltered = false;

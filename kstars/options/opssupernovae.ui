@@ -176,6 +176,14 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>kcfg_ShowSupernovae</tabstop>
+  <tabstop>kcfg_UpdateOnStartup</tabstop>
+  <tabstop>kcfg_ShowSupernovaAlerts</tabstop>
+  <tabstop>supUpdateButton</tabstop>
+  <tabstop>kcfg_MagnitudeLimitShowSupernovae</tabstop>
+  <tabstop>kcfg_MagnitudeLimitAlertSupernovae</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

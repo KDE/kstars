@@ -41,7 +41,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab1">
       <attribute name="title">
        <string>Sources</string>
       </attribute>
@@ -215,7 +215,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab2">
       <attribute name="title">
        <string>Date &amp;&amp; Location</string>
       </attribute>
@@ -368,14 +368,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KListWidget</class>
-   <extends>QListWidget</extends>
-   <header>klistwidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>KDateWidget</class>
    <extends>QWidget</extends>
    <header>kdatewidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>
@@ -383,9 +383,14 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
+   <class>KPlotWidget</class>
+   <extends>QFrame</extends>
+   <header>kplotwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
    <class>KTabWidget</class>

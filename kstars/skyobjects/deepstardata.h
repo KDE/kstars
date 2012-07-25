@@ -1,5 +1,5 @@
 /***************************************************************************
-                     stardata.h  -  K Desktop Planetarium
+                   deepstardata.h  -  K Desktop Planetarium
                              -------------------
     begin                : Tue 5 Aug 2008
     copyright            : (C) 2008 by Akarsh Simha
