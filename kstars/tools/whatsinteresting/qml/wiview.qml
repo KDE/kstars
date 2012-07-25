@@ -333,7 +333,7 @@ Rectangle {
                             }
 
                             onClicked: {
-                                categoryView.state = "back"
+                                categoryView.flipped = true
                                 container.state = "dsoCategoryView"
                             }
                         }
@@ -565,6 +565,7 @@ Rectangle {
                             target: canvasRotation
                             angle: 180
                         }
+                        when: categoryView.flipped
                     }
                 ]
 
@@ -576,7 +577,7 @@ Rectangle {
 
                 transform: Rotation {
                     id: canvasRotation
-                    origin.x: container.width / 2;
+                    origin.x: categoryView.width / 2;
                     axis.y: 1; axis.z: 0
                 }
             } //end of categoryView
@@ -820,7 +821,23 @@ Rectangle {
             if (container.state == "dsoCategoryView")
             {
                 container.state = "base"
-                categoryView.state = "front"
+                categoryView.flipped = false
+            }
+            else if ( container.state == "soListState" )
+            {
+                console.log("soListState")
+                if ( !skyObjView.flipped )
+                {
+                    console.log( "skyObjView.flipped :" + skyObjView.flipped )
+                    console.log( "categoryView.flipped :" + categoryView.flipped )
+                    container.state = (!categoryView.flipped) ? "base" : "dsoCategoryView"
+                    console.log( "container.state :"+container.state )
+                }
+                else if ( skyObjView.flipped )
+                {
+                    console.log( "skyObjView.flipped :" + skyObjView.flipped )
+                    skyObjView.flipped = false
+                }
             }
         }
     }
@@ -855,16 +872,18 @@ Rectangle {
     ]
     transitions: [
         Transition {
-            from: "*"; to: "soListState"
+            from: "*"; to: "soListState";
             NumberAnimation { target: viewsRow; property: "x"; duration: 900; easing.type: Easing.InOutQuad }
             NumberAnimation { target: backButton; property: "x"; duration: 400; easing.type: Easing.InOutQuad }
         },
         Transition {
             from: "*"; to: "dsoCategoryView";
+            NumberAnimation { target: viewsRow; property: "x"; duration: 900; easing.type: Easing.InOutQuad }
             NumberAnimation { target: backButton; property: "x"; duration: 300; easing.type: Easing.InOutQuad }
         },
         Transition {
-            from: "dsoCategoryView"; to: "base"
+            from: "*"; to: "base";
+            NumberAnimation { target: viewsRow; property: "x"; duration: 900; easing.type: Easing.InOutQuad }
             NumberAnimation { target: backButton; property: "x"; duration: 300; easing.type: Easing.InOutQuad }
         }
     ]
