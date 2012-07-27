@@ -84,33 +84,9 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
             *
         */
         // TODO(spacetime): tests pending
-        QString iterString;
-        QList<QString> quoteCombined;
-        QStringList::iterator iter;
         if (separated.length() == 0) continue;
 
-        // The following mish mash is to handle fields such as "hello, world"
-        for (iter = separated.begin(); iter != separated.end(); ++iter) {
-            QList <QString> queue;
-            if ((*iter)[0] == '"') {
-                iterString = *iter;
-                while (iterString[iterString.length()-1] != '"' &&
-                       iter!= separated.end()) {
-                    queue.append((*iter));
-                    iter++;
-                    iterString = *iter;
-                }
-                if (iterString[iterString.length()-1] == '"')
-                    queue.append((*iter).remove('"'));
-            } else {
-                queue.append(*iter);
-            }
-            QString col_result;
-            foreach(const QString &join, queue)
-                col_result += join;
-            quoteCombined.append(col_result);
-        }
-        separated = quoteCombined;  // At this point, the string has been split
+        separated = CombineQuoteParts(separated);  // At this point, the string has been split
                                     // taking the quote marks into account
 
         // Check if the generated list has correct size
@@ -286,4 +262,32 @@ void KSParser::SetProgress(QString msg, int total_lines, int step_size) {
 
 void KSParser::ShowProgress() {
     file_reader_.showProgress();
+}
+
+QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
+    // The following mish mash is to handle fields such as "hello, world"
+    QString iterString;
+    QList<QString> quoteCombined;
+    QStringList::iterator iter;
+    for (iter = separated.begin(); iter != separated.end(); ++iter) {
+        QList <QString> queue;
+        if ((*iter)[0] == '"') {
+            iterString = *iter;
+            while (iterString[iterString.length()-1] != '"' &&
+                    iter!= separated.end()) {
+                queue.append((*iter));
+                iter++;
+                iterString = *iter;
+            }
+            if (iterString[iterString.length()-1] == '"')
+                queue.append((*iter).remove('"'));
+        } else {
+            queue.append(*iter);
+        }
+        QString col_result;
+        foreach(const QString &join, queue)
+            col_result += join;
+        quoteCombined.append(col_result);
+    }
+    return quoteCombined;
 }

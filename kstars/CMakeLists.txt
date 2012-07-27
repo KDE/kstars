@@ -342,9 +342,9 @@ set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
-	kspopupmenu.cpp obslistpopupmenu.cpp kstars.cpp ksalmanac.cpp 
+	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp 
 	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp 
-	ksparser.cpp kstarsdcop.cpp kstarsinit.cpp 
+	ksparser.cpp kstarsdcop.cpp kstarsinit.cpp kstars.cpp
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp
@@ -429,10 +429,12 @@ kde4_add_ui_files(kstars_SRCS
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")
 #kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/ox*-apps-kstars.png")
 kde4_add_app_icon(kstars_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-kstars.png")
+add_executable(kstars kstars.cpp)
+kde4_add_library( KStarsLib STATIC ${kstars_SRCS})
 
-kde4_add_executable(kstars ${kstars_SRCS})
+# kde4_add_executable(kstars ${kstars_SRCS})
 
-target_link_libraries(kstars
+target_link_libraries(KStarsLib
     ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KIO_LIBS}
@@ -440,24 +442,26 @@ target_link_libraries(kstars
 	${ZLIB_LIBRARIES}
 	${QT_QTSQL_LIBRARY}
         )
-
+# qt4_automoc(kstars.h)
 if(NOT WIN32)
-  target_link_libraries(kstars m)
+  target_link_libraries(KStarsLib m)
 endif(NOT WIN32)
 if (CFITSIO_FOUND)
-  target_link_libraries(kstars ${CFITSIO_LIBRARIES})
+  target_link_libraries(KStarsLib ${CFITSIO_LIBRARIES})
 endif (CFITSIO_FOUND)
 if (INDI_FOUND)
-  target_link_libraries(kstars ${INDI_LIBRARIES})
+  target_link_libraries(KStarsLib ${INDI_LIBRARIES})
 endif (INDI_FOUND)
 
 if( OPENGL_FOUND )
-    target_link_libraries(kstars
+    target_link_libraries(KStarsLib
     ${OPENGL_LIBRARIES}
     ${QT_QTOPENGL_LIBRARY}
     )
 endif( OPENGL_FOUND )
 
+
+target_link_libraries(kstars KStarsLib)
 
 install(TARGETS kstars ${INSTALL_TARGETS_DEFAULT_ARGS})
 

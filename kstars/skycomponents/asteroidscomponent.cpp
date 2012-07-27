@@ -95,7 +95,6 @@ void AsteroidsComponent::loadData() {
     // TODO(spacetime): Am I complicating things? ~~spacetime
     // Providing a list of the columns in advance will help check
     // for valid rows.
-    QList<KSParser::DataTypes> pattern;
     QList< QPair<QString, KSParser::DataTypes> > sequence;
     sequence.append(qMakePair(QString("full name"), KSParser::D_QSTRING));
     sequence.append(qMakePair(QString("epoch_mjd"), KSParser::D_INT));
@@ -120,11 +119,11 @@ void AsteroidsComponent::loadData() {
     sequence.append(qMakePair(QString("per_y"), KSParser::D_FLOAT));
     sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
-    KSParser asteroidParser(QString("asteroids.dat"), '#', sequence);
+    KSParser asteroid_parser(QString("asteroids.dat"), '#', sequence);
 
     QHash<QString, QVariant> row_content;
-    while (asteroidParser.HasNextRow()){
-        row_content = asteroidParser.ReadNextRow();
+    while (asteroid_parser.HasNextRow()){
+        row_content = asteroid_parser.ReadNextRow();
         full_name = row_content["full name"].toString();
         full_name = full_name.trimmed();
         int catN  = full_name.section(" ", 0, 0).toInt();
@@ -151,23 +150,23 @@ void AsteroidsComponent::loadData() {
 
         JD = static_cast<double>(mJD) + 2400000.5;
 
-        KSAsteroid *ast = new KSAsteroid( catN, name, QString(), JD,
+        KSAsteroid *new_asteroid = new KSAsteroid( catN, name, QString(), JD,
                                           a, e,
                                           dms(dble_i), dms(dble_w),
                                           dms(dble_N), dms(dble_M),
                                           H, G );
-        ast->setPerihelion(q);
-        ast->setOrbitID(orbit_id);
-        ast->setNEO(neo);
-        ast->setDiameter(diameter);
-        ast->setDimensions(dimensions);
-        ast->setAlbedo(albedo);
-        ast->setRotationPeriod(rot_period);
-        ast->setPeriod(period);
-        ast->setEarthMOID(earth_moid);
-        ast->setOrbitClass(orbit_class);
-        ast->setAngularSize(0.005);
-        m_ObjectList.append(ast);
+        new_asteroid->setPerihelion(q);
+        new_asteroid->setOrbitID(orbit_id);
+        new_asteroid->setNEO(neo);
+        new_asteroid->setDiameter(diameter);
+        new_asteroid->setDimensions(dimensions);
+        new_asteroid->setAlbedo(albedo);
+        new_asteroid->setRotationPeriod(rot_period);
+        new_asteroid->setPeriod(period);
+        new_asteroid->setEarthMOID(earth_moid);
+        new_asteroid->setOrbitClass(orbit_class);
+        new_asteroid->setAngularSize(0.005);
+        m_ObjectList.append(new_asteroid);
 
         // Add name to the list of object names
         objectNames(SkyObject::ASTEROID).append(name);

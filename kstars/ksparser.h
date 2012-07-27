@@ -139,6 +139,14 @@ class KSParser {
      **/
     QHash<QString, QVariant> DummyRow();
 
+    /**
+     * @brief This function combines the separated QString in case of quotes
+     *
+     * @param separated a list of QStrings separated at every delimiter
+     * @return QList< QString >
+     **/
+    QList<QString> CombineQuoteParts(QList<QString> &separated);
+
     KSFileReader file_reader_;
     QString filename_;
     int current_row_id_;

@@ -15,20 +15,66 @@
  *                                                                         *
  ***************************************************************************/
 
+/*
+  * Justification for not testing CombineQuoteParts separately:
+  * Changing the structure of KSParser would solve this (by removing the
+  * segments to be tested into separate classes) but would unnecessarily
+  * complicate things resulting in a large number of small classes.
+  * This is good from an OOD perspective, but would make the code unmanageable
+*/
 
 #include "testksparser.h"
 
 TestKSParser::TestKSParser(): QObject()
 {
-
+  /*
+   * Justification for doing this instead of simply creating a file:
+   * To add/change tests, we'll need to modify 2 places. The file and this class.
+   * So we write the file from the class.
+   */
+  csv_test_cases_.append(QString(","
+                         "isn't,"
+                         "it,"
+                         "\"amusing\","
+                         "how,"
+                         "3,"
+                         "\"isn't,pi\","
+                         "and,"
+                         "\"\","
+                         "-3,141,"
+                         "isn't\"\","
+                         "\"\"either"));
+  csv_test_cases_.append("\n");
+  csv_test_cases_.append(",,,,,,,,");
+  QFile test_csv_file("TestCSV.txt");
+  if (!test_csv_file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return;
+  QTextStream out_stream(&test_csv_file);
+  foreach (const QString &test_case, csv_test_cases_)
+    out_stream << test_case;
 }
 
 
 void TestKSParser::stringParse()
 {
-  QString str = "hello, world";
-  bool test= true;
-  QVERIFY(test);
+  QList< QPair<QString, KSParser::DataTypes> > sequence;
+  sequence.append(qMakePair(QString("field1"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field2"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field3"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field4"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field5"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field6"), KSParser::D_INT));
+  sequence.append(qMakePair(QString("field7"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field8"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field9"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field10"), KSParser::D_FLOAT));
+  sequence.append(qMakePair(QString("field11"), KSParser::D_QSTRING));
+  sequence.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
+  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
+
+  QHash<QString, QVariant> row_content;
+  row_content = test_parser.ReadNextRow();
+  QVERIFY(row_content["field2"] == "isn't");
 }
 QTEST_MAIN( TestKSParser )
 

@@ -45,7 +45,7 @@ macro_log_feature(OPENGL_FOUND "OpenGL" "Support for hardware rendering in KStar
 add_definitions(-DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 
 enable_testing(true)
-add_subdirectory(Tests)
+
 
 if (EIGEN2_FOUND)
    include_directories(${CMAKE_CURRENT_BINARY_DIR})
@@ -54,6 +54,8 @@ if (EIGEN2_FOUND)
    add_subdirectory( doc )
    add_subdirectory( kstars )
 endif (EIGEN2_FOUND)
+
+add_subdirectory(Tests)
 
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
    macro_display_feature_log()

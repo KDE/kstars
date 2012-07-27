@@ -19,7 +19,8 @@
 #ifndef TESTKSPARSER_H
 #define TESTKSPARSER_H
 #include <QtTest/QtTest>
-#include "../kstars/ksparser.h"
+#include "kstars/ksparser.h"
+
 
 class TestKSParser: public QObject
 {
@@ -28,6 +29,8 @@ public:
     TestKSParser();
 private slots:
   void stringParse();
+private:
+  QStringList csv_test_cases_;
 };
 
 #endif // TESTKSPARSER_H
