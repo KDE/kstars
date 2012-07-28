@@ -234,6 +234,10 @@ Rectangle {
                                 hoverEnabled: false
                                 anchors.fill: parent
                                 onEntered: container.state = "galAreaEntered"
+                                onClicked: {
+                                    viewsRow.categorySelected(3)
+                                    container.state = "soTypeSelected"
+                                }
                             }
                             anchors.rightMargin: 0
                             anchors.bottomMargin: 0
@@ -269,6 +273,10 @@ Rectangle {
                                 hoverEnabled: false
                                 anchors.fill: parent
                                 onEntered: container.state = "nebAreaEntered"
+                                onClicked: {
+                                    viewsRow.categorySelected(5)
+                                    container.state = "soTypeSelected"
+                                }
                             }
                             anchors.rightMargin: 0
                             anchors.bottomMargin: 0
@@ -304,6 +312,10 @@ Rectangle {
                                 hoverEnabled: false
                                 anchors.fill: parent
                                 onEntered: container.state = "clustAreaEntered"
+                                onClicked: {
+                                    viewsRow.categorySelected(4)
+                                    container.state = "soTypeSelected"
+                                }
                             }
                             anchors.rightMargin: 0
                             anchors.bottomMargin: 0
