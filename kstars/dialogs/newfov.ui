@@ -58,7 +58,7 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab1">
       <attribute name="title">
        <string>Eyepiece</string>
       </attribute>
@@ -305,7 +305,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab2">
       <attribute name="title">
        <string>Camera</string>
       </attribute>
@@ -515,7 +515,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="tab3">
       <attribute name="title">
        <string>Binocular</string>
       </attribute>
@@ -613,7 +613,7 @@ The computed FOV angle (in arcminutes) will be displayed in the &quot;Field of v
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="textLabel9_3">
+            <widget class="QLabel" name="textLabel9_31">
              <property name="text">
               <string>At a distance of:</string>
              </property>
@@ -696,7 +696,7 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TabPage">
+     <widget class="QWidget" name="tab4">
       <attribute name="title">
        <string>Radiotelescope</string>
       </attribute>
@@ -1129,6 +1129,7 @@ Circle, Square, Crosshairs, Bullseye.</string>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>KPushButton</class>

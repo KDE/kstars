@@ -89,7 +89,7 @@
            <string>Star color mode:</string>
           </property>
           <property name="buddy">
-           <cstring>StarColorMode</cstring>
+           <cstring>kcfg_StarColorMode</cstring>
           </property>
          </widget>
         </item>

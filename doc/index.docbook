@@ -53,7 +53,8 @@
   <!ENTITY stars SYSTEM "stars.docbook">
   <!ENTITY telescopes SYSTEM "telescopes.docbook">
   <!ENTITY timezones SYSTEM "timezones.docbook">
-  <!ENTITY tool-aavso SYSTEM "lightcurves.docbook">
+  <!--  <!ENTITY tool-aavso SYSTEM "lightcurves.docbook"> 
+  removed after 4.9, see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d-->
   <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
   <!ENTITY tool-calculator SYSTEM "calculator.docbook">
   <!ENTITY tool-details SYSTEM "details.docbook">
@@ -220,12 +221,12 @@ front-end to your observing logs and your personal astronomical notebook.
 Our <link linkend="tool-calculator">Astrocalculator</link> tool
 provides direct access to many of the algorithms the program uses
 behind the scenes, including coordinate converters and time
-calculators.  The <link linkend="tool-aavso">AAVSO Lightcurve
+calculators.  <!--The <link linkend="tool-aavso">AAVSO Lightcurve
 Generator</link> tool will download a lightcurve for any of the 6000+
 variable stars monitored by the American Association of Variable Star
 Observers (AAVSO).  The lightcurves are generated <quote>on the
 fly</quote> by querying the AAVSO server directly, ensuring that you
-have the very latest data points.
+  have the very latest data points.-->
 </para>
 <para>
 You can plan an observing session using our <link
