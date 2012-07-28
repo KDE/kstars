@@ -5,38 +5,35 @@ Rectangle {
     objectName: "containerObj"
     width: 370
     height: 575
-    color: "#000000"
+    color: "#000009"
     anchors.fill: parent
 
     Text {
         id: title
         x: 9
         y: 34
-        width: 192
+        width: 209
         height: 46
         color: "#59ad0e"
         text: qsTr("What's Interesting...")
         verticalAlignment: Text.AlignVCenter
-        font.family: "Liberation Sans"
+        font.family: "Cantarell"
         font.bold: false
-        font.pixelSize: 19
+        font.pixelSize: 22
     }
 
     Rectangle {
         id: base
-        x: 0
-        y: 91
-        height: 414
-        color: "#00000000"
-        radius: 3
-        border.width: 3
-        border.color: "#2d2424"
+        y: 89
+        height: 398
+        color: "transparent"
+        radius: 12
         anchors.left: parent.left
         anchors.leftMargin: 0
         anchors.right: parent.right
         anchors.rightMargin: 0
-        opacity: 1
-
+        border.width: 4
+        border.color: "#000000"
         Item {
             id: viewsRow
             objectName: "viewsRowObj"
@@ -46,541 +43,276 @@ Rectangle {
 
             signal categorySelected(int category)
 
-            Flipable {
+            Rectangle {
                 id: categoryView
+                x: 0
+                y: 31
                 width: parent.width
-                height: parent.height
+                height: 351
+                color: "transparent"
 
-                property bool flipped: false
+                Rectangle {
+                    id: background
+                    x: 20
+                    y: 15
+                    width: 330
+                    height: 323
 
-                front: Image {
-                    id: frontCanvas
-                    x: 0
-                    y: 11
-                    anchors.fill: parent
-                    fillMode: Image.Tile
-                    source: "stripes.png"
+                    color: "#00060b"
+                    radius: 12
+                    border.width: 4
+                    border.color: "black"
+                }
 
-                    Rectangle {
-                        id: planetRect
-                        x: 15
-                        y: 32
-                        width: 159
-                        height: 172
-                        color: rectColor
-                        radius: 7
-                        border.width: 2
-                        border.color: borderColor
+                Rectangle {
+                    id: planetRect
+                    x: 78
+                    y: 23
+                    width: 74
+                    height: 35
+                    color: "#00000000"
 
-                        property color rectColor: "#1a1313"
-                        property color onHoverColor: "black"
-                        property color borderColor: "#e2d57d"
+                    Text {
+                        id: planetText
+                        x: 0
+                        y: 0
+                        width: 60
+                        height: 33
+                        color: "#e4800d"
+                        text: qsTr("Planets")
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.leftMargin: 0
+                        anchors.topMargin: 0
+                        anchors.rightMargin: 0
+                        anchors.bottomMargin: 0
+                        anchors.fill: parent
+                        font.family: "Cantarell"
+                        font.pixelSize: 16
 
                         MouseArea {
                             id: planetMouseArea
                             anchors.fill: parent
-
-                            Image {
-                                id: planetImage
-                                x: 14
-                                y: 14
-                                width: 132
-                                height: 125
-                                smooth: true
-                                sourceSize.height: parent.height-14
-                                sourceSize.width: parent.width
-                                fillMode: Image.PreserveAspectFit
-                                source: "planets.jpg"
-                            }
-
-                            Text {
-                                id: planetText
-                                x: 0
-                                y: 151
-                                width: 159
-                                height: 21
-                                color: "#b75912"
-                                text: qsTr("Planets")
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: 0
-                                font.bold: true
-                                font.family: "Cantarell"
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: 16
-                            }
-
                             hoverEnabled: true
-                            onEntered: {
-                                planetRect.color = "black"
-                                planetRect.border.color = "white"
-                            }
-
-                            onExited: {
-                                planetRect.color = "#1a1313"
-                                planetRect.border.color = planetRect.borderColor
-                            }
-
+                            onEntered: container.state = "planetAreaEntered"
                             onClicked: {
                                 viewsRow.categorySelected(0)
-                                container.state = "soListState"
-                            }
-                        }
-                    }
-
-                    Rectangle {
-                        id: starRect
-                        x: 196
-                        y: 32
-                        width: 159
-                        height: 172
-                        color: rectColor
-                        radius: 7
-                        border.width: 2
-                        border.color: borderColor
-
-                        property color rectColor: "#1a1313"
-                        property color onHoverColor: "black"
-                        property color borderColor: "#e2d57d"
-
-                        MouseArea {
-                            id: starMouseArea
-                            anchors.fill: parent
-
-                            Image {
-                                id: starImage
-                                x: 14
-                                y: 14
-                                width: 132
-                                height: 125
-                                smooth: true
-                                sourceSize.height: parent.height-14
-                                sourceSize.width: parent.width
-                                fillMode: Image.PreserveAspectFit
-                                source: "stars.jpg"
-                            }
-
-                            Text {
-                                id: starText
-                                x: 0
-                                y: 151
-                                width: 159
-                                height: 21
-                                color: "#b75912"
-                                text: qsTr("Stars")
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: 0
-                                font.bold: true
-                                horizontalAlignment: Text.AlignHCenter
-                                font.family: "Cantarell"
-                                font.pixelSize: 16
-                            }
-
-                            hoverEnabled: true
-                            onEntered: {
-                                starRect.color = "black"
-                                starRect.border.color = "white"
-                            }
-
-                            onExited: {
-                                starRect.color = "#1a1313"
-                                starRect.border.color = starRect.borderColor
-                            }
-
-                            onClicked: {
-                                viewsRow.categorySelected(1)
-                                container.state = "soListState"
-                            }
-                        }
-                    }
-
-                    Rectangle {
-                        id: conRect
-                        x: 15
-                        y: 219
-                        width: 159
-                        height: 172
-                        color: rectColor
-                        radius: 7
-                        border.width: 2
-                        border.color: borderColor
-
-                        property color rectColor: "#1a1313"
-                        property color onHoverColor: "black"
-                        property color borderColor: "#e2d57d"
-
-                        MouseArea {
-                            id: conMouseArea
-                            anchors.fill: parent
-
-                            Text {
-                                id: conText
-                                x: 0
-                                y: 151
-                                width: 159
-                                height: 21
-                                color: "#b75912"
-                                text: qsTr("Constellations")
-                                font.family: "Cantarell"
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: 0
-                                font.bold: true
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: 16
-                            }
-
-                            Image {
-                                id: conImage
-                                x: 14
-                                y: 14
-                                width: 132
-                                height: 125
-                                sourceSize.height: parent.height-14
-                                sourceSize.width: parent.width
-                                source: "constellation.jpg"
-                            }
-
-                            hoverEnabled: true
-                            onEntered: {
-                                conRect.color = "black"
-                                conRect.border.color = "white"
-                            }
-
-                            onExited: {
-                                conRect.color = "#1a1313"
-                                conRect.border.color = conRect.borderColor
-                            }
-
-                            onClicked: {
-                                viewsRow.categorySelected(2)
-                                container.state = "soListState"
-                            }
-                        }
-                    }
-
-                    Rectangle {
-                        id: dsoRect
-                        x: 196
-                        y: 219
-                        width: 159
-                        height: 172
-                        color: rectColor
-                        radius: 7
-                        border.width: 2
-                        border.color: borderColor
-
-                        property color rectColor: "#1a1313"
-                        property color onHoverColor: "black"
-                        property color borderColor: "#e2d57d"
-
-                        MouseArea {
-                            id: dsoMouseArea
-                            anchors.fill: parent
-
-                            Image {
-                                id: dsoImage
-                                x: 14
-                                y: 14
-                                width: 132
-                                height: 125
-                                smooth: true
-                                fillMode: Image.PreserveAspectFit
-                                sourceSize.height: parent.height-14
-                                sourceSize.width: parent.width
-                                source: "dso.jpg"
-                            }
-
-                            Text {
-                                id: text1
-                                x: 0
-                                y: 151
-                                width: 159
-                                height: 21
-                                color: "#b75912"
-                                text: qsTr("Deep-sky Objects")
-                                font.family: "Cantarell"
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: 0
-                                font.bold: true
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: 16
-                            }
-
-                            hoverEnabled: true
-                            onEntered: {
-                                dsoRect.color = "black"
-                                dsoRect.border.color = "white"
-                            }
-
-                            onExited: {
-                                dsoRect.color = "#1a1313"
-                                dsoRect.border.color = dsoRect.borderColor
-                            }
-
-                            onClicked: {
-                                categoryView.flipped = true
-                                container.state = "dsoCategoryView"
+                                container.state = "soTypeSelected"
                             }
                         }
                     }
                 }
 
-                back: Image {
-                    id: backCanvas
-                    x: 0
-                    y: 11
-                    anchors.fill: parent
-                    fillMode: Image.Tile
-                    source: "stripes.png"
+                Rectangle {
+                    id: starRect
+                    x: 193
+                    y: 48
+                    width: 136
+                    height: 42
+                    color: "#00000000"
 
-                    Rectangle {
-                        id: galaxyRect
-                        x: 15
-                        y: 32
-                        width: 159
-                        height: 172
-                        color: rectColor
-                        border.color: borderColor
-                        radius: 7
-                        border.width: 2
-
-                        property color rectColor: "#1a1313"
-                        property color onHoverColor: "black"
-                        property color borderColor: "#e2d57d"
+                    Text {
+                        id: starText
+                        color: "#e4800d"
+                        text: qsTr("Bright Stars")
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.fill: parent
+                        font.family: "Cantarell"
+                        font.pixelSize: 16
 
                         MouseArea {
-                            id: galaxyMouseArea
-                            anchors.fill: parent
-
-                            Image {
-                                id: galaxyImage
-                                x: 14
-                                y: 14
-                                width: 132
-                                height: 125
-                                smooth: true
-                                sourceSize.height: parent.height-14
-                                sourceSize.width: parent.width
-                                fillMode: Image.PreserveAspectFit
-                                source: "galaxy.jpg"
-                            }
-
-                            Text {
-                                id: galaxyText
-                                x: 0
-                                y: 151
-                                width: 159
-                                height: 21
-                                color: "#b75912"
-                                text: qsTr("Galaxies")
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: 0
-                                font.bold: true
-                                font.family: "Cantarell"
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: 16
-                            }
-
+                            id: starMouseArea
                             hoverEnabled: true
-                            onEntered: {
-                                galaxyRect.color = "black"
-                                galaxyRect.border.color = "white"
-                            }
-
-                            onExited: {
-                                galaxyRect.color = "#1a1313"
-                                galaxyRect.border.color = galaxyRect.borderColor
-                            }
-
+                            anchors.fill: parent
+                            onEntered: container.state = "starAreaEntered"
                             onClicked: {
-                                viewsRow.categorySelected(3)
-                                container.state = "soListState"
+                                viewsRow.categorySelected(1)
+                                container.state = "soTypeSelected"
                             }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: conRect
+                    x: 20
+                    y: 107
+                    width: 169
+                    height: 36
+                    color: "#00000000"
+
+                    Text {
+                        id: conText
+                        color: "#e4800d"
+                        text: qsTr("Constellations")
+                        font.family: "Cantarell"
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        anchors.fill: parent
+                        font.pixelSize: 16
+
+                        MouseArea {
+                            id: conMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: container.state = "conAreaEntered"
+                            onClicked: {
+                                viewsRow.categorySelected(2)
+                                container.state = "soTypeSelected"
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    id: dsoContainer
+                    x: 35
+                    y: 172
+                    width: 283
+                    height: 166
+                    color: "#00000000"
+
+                    Rectangle {
+                        id: dsoRect
+                        x: 46
+                        y: 6
+                        width: 192
+                        height: 41
+                        color: "#00000000"
+                        Text {
+                            id: dsoText
+                            x: 0
+                            y: 0
+                            width: 60
+                            height: 33
+                            color: "#e4800d"
+                            text: qsTr("Deep-sky Objects")
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pixelSize: 16
+                            anchors.fill: parent
+                            anchors.topMargin: 0
+                            MouseArea {
+                                id: dsoMouseArea
+                                hoverEnabled: true
+                                anchors.fill: parent
+                                onEntered: container.state = "dsoAreaEntered"
+                                onClicked: container.state = "dsoAreaClicked"
+                            }
+                            anchors.rightMargin: 0
+                            anchors.bottomMargin: 0
+                            font.family: "Cantarell"
+                            anchors.leftMargin: 0
                         }
                     }
 
                     Rectangle {
-                        id: clustRect
-                        x: 15
-                        y: 219
-                        width: 159
-                        height: 172
-                        color: rectColor
-                        radius: 7
-                        border.width: 2
-                        border.color: borderColor
-                        anchors.horizontalCenter: parent.horizontalCenter
-
-                        property color rectColor: "#1a1313"
-                        property color onHoverColor: "black"
-                        property color borderColor: "#e2d57d"
-
-                        MouseArea {
-                            id: clustMouseArea
+                        id: galRect
+                        x: 9
+                        y: 59
+                        width: 97
+                        height: 35
+                        color: "#00000000"
+                        opacity: 0.350
+                        Text {
+                            id: galText
+                            x: 0
+                            y: 0
+                            width: 60
+                            height: 33
+                            color: "#e4800d"
+                            text: qsTr("Galaxies")
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pixelSize: 16
                             anchors.fill: parent
-
-                            Text {
-                                id: clustText
-                                x: 0
-                                y: 151
-                                width: 159
-                                height: 21
-                                color: "#b75912"
-                                text: qsTr("Clusters")
-                                font.family: "Cantarell"
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: 0
-                                font.bold: true
-                                horizontalAlignment: Text.AlignHCenter
-                                font.pixelSize: 16
+                            anchors.topMargin: 0
+                            MouseArea {
+                                id: galMouseArea
+                                enabled: false
+                                hoverEnabled: false
+                                anchors.fill: parent
+                                onEntered: container.state = "galAreaEntered"
                             }
-
-                            Image {
-                                id: clustImage
-                                x: 14
-                                y: 13
-                                width: 132
-                                height: 125
-                                sourceSize.height: parent.height-14
-                                sourceSize.width: parent.width
-                                source: "cluster.jpg"
-                            }
-
-                            hoverEnabled: true
-                            onEntered: {
-                                clustRect.color = "black"
-                                clustRect.border.color = "white"
-                            }
-
-                            onExited: {
-                                clustRect.color = "#1a1313"
-                                clustRect.border.color = clustRect.borderColor
-                            }
-
-                            onClicked: {
-                                viewsRow.categorySelected(4)
-                                container.state = "soListState"
-                            }
+                            anchors.rightMargin: 0
+                            anchors.bottomMargin: 0
+                            font.family: "Cantarell"
+                            anchors.leftMargin: 0
                         }
                     }
 
                     Rectangle {
                         id: nebRect
-                        x: 196
-                        y: 32
-                        width: 159
-                        height: 172
-                        color: rectColor
-                        radius: 7
-                        border.width: 2
-                        border.color: borderColor
-
-                        property color rectColor: "#1a1313"
-                        property color onHoverColor: "black"
-                        property color borderColor: "#e2d57d"
-
-                        MouseArea {
-                            id: nebMouseArea
+                        x: 105
+                        y: 122
+                        width: 96
+                        height: 35
+                        color: "#00000000"
+                        opacity: 0.340
+                        Text {
+                            id: nebText
+                            x: 0
+                            y: 0
+                            width: 60
+                            height: 33
+                            color: "#e4800d"
+                            text: qsTr("Nebulae")
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pixelSize: 16
                             anchors.fill: parent
-
-                            Image {
-                                id: nebImage
-                                x: 14
-                                y: 14
-                                width: 132
-                                height: 125
-                                smooth: true
-                                sourceSize.height: parent.height-14
-                                sourceSize.width: parent.width
-                                fillMode: Image.PreserveAspectFit
-                                source: "nebula.jpg"
+                            anchors.topMargin: 0
+                            MouseArea {
+                                id: nebMouseArea
+                                enabled: false
+                                hoverEnabled: false
+                                anchors.fill: parent
+                                onEntered: container.state = "nebAreaEntered"
                             }
+                            anchors.rightMargin: 0
+                            anchors.bottomMargin: 0
+                            font.family: "Cantarell"
+                            anchors.leftMargin: 0
+                        }
+                    }
 
-                            Text {
-                                id: nebText
-                                x: 0
-                                y: 151
-                                width: 159
-                                height: 21
-                                color: "#b75912"
-                                text: qsTr("Nebulae")
-                                anchors.right: parent.right
-                                anchors.rightMargin: 0
-                                anchors.left: parent.left
-                                anchors.leftMargin: 0
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: 0
-                                font.bold: true
-                                horizontalAlignment: Text.AlignHCenter
-                                font.family: "Cantarell"
-                                font.pixelSize: 16
+                    Rectangle {
+                        id: clustRect
+                        x: 182
+                        y: 68
+                        width: 93
+                        height: 35
+                        color: "#00000000"
+                        opacity: 0.350
+                        Text {
+                            id: clustText
+                            x: 0
+                            y: 0
+                            width: 60
+                            height: 33
+                            color: "#e4800d"
+                            text: qsTr("Clusters")
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            font.pixelSize: 16
+                            anchors.fill: parent
+                            anchors.topMargin: 0
+                            MouseArea {
+                                id: clustMouseArea
+                                enabled: false
+                                hoverEnabled: false
+                                anchors.fill: parent
+                                onEntered: container.state = "clustAreaEntered"
                             }
-
-                            hoverEnabled: true
-                            onEntered: {
-                                nebRect.color = "black"
-                                nebRect.border.color = "white"
-                            }
-
-                            onExited: {
-                                nebRect.color = "#1a1313"
-                                nebRect.border.color = nebRect.borderColor
-                            }
-
-                            onClicked: {
-                                viewsRow.categorySelected(5)
-                                container.state = "soListState"
-                            }
+                            anchors.rightMargin: 0
+                            anchors.bottomMargin: 0
+                            font.family: "Cantarell"
+                            anchors.leftMargin: 0
                         }
                     }
                 }
-
-                states: [
-                    State {
-                        name: "back"
-                        PropertyChanges {
-                            target: canvasRotation
-                            angle: 180
-                        }
-                        when: categoryView.flipped
-                    }
-                ]
-
-                transitions: [
-                    Transition {
-                        NumberAnimation { target: canvasRotation; property: "angle"; duration: 400 }
-                    }
-                ]
-
-                transform: Rotation {
-                    id: canvasRotation
-                    origin.x: categoryView.width / 2;
-                    axis.y: 1; axis.z: 0
-                }
-            } //end of categoryView
+            }//end of categoryView
 
             Flipable {
                 id: skyObjView
@@ -594,188 +326,195 @@ Rectangle {
                 front: Rectangle {
                     id: soListContainer
                     height: parent.height
-                    gradient: Gradient {
-                        GradientStop {
-                            position: 0
-                            color: "#000000"
-                        }
-
-                        GradientStop {
-                            position: 1
-                            color: "#181b29"
-                        }
-                    }
+                    color: "transparent"
                     width: parent.width
 
-                    ListView {
-                        id: soListView
-                        objectName: "soListObj"
-                        anchors.fill: parent
+                    Rectangle {
 
-                        signal soListItemClicked( int type, string typeName, int curIndex )
-                        clip: true
+                        id: soListViewContainer
+                        x: parent.x + 15
+                        y: 31
+                        width: parent.width - 30
+                        height: 351
+                        color: "#00060b"
+                        radius: 12
+                        border.width: 4
+                        border.color: "#000000"
 
-                        delegate: Item {
-                            id: soListItem
+                        ListView {
+                            id: soListView
+                            objectName: "soListObj"
+                            anchors.fill: parent
+
+                            signal soListItemClicked( int type, string typeName, int curIndex )
+                            clip: true
+
+                            delegate: Item {
+                                id: soListItem
+                                x: 5
+                                height: 40
+                                Text {
+                                    id: dispText
+                                    objectName: dispName
+                                    text: dispName
+                                    color: "#ffffff"
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    font.bold: true
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            soListView.currentIndex = index
+                                            soListView.soListItemClicked(type, typeName, soListView.currentIndex)
+                                            skyObjView.flipped = true
+                                        }
+                                    }
+                                }
+                            }
+
+                            model: soListModel
+                        }
+                    }
+                }
+
+                back: Rectangle {
+                    id: detailsViewContainer
+                    width: parent.width
+                    height: parent.height
+                    color: "transparent"
+                    radius: 12
+                    border.width: 4
+                    border.color: "#000000"
+
+                    Rectangle {
+                        id: detailsView
+                        objectName: "detailsViewObj"
+                        x: parent.x + 15
+                        height: parent.height - 20
+                        width: parent.width - 30
+                        color: "#00060b"
+                        radius: 12
+                        border.width: 4
+                        border.color: "#000000"
+
+                        anchors.left: categoryView.right
+
+                        Text {
+                            id: soname
+                            objectName: "sonameObj"
                             x: 5
-                            height: 40
-                            Text {
-                                id: dispText
-                                objectName: dispName
-                                text: dispName
-                                color: "#ffffff"
-                                anchors.verticalCenter: parent.verticalCenter
-                                font.bold: true
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: {
-                                        soListView.currentIndex = index
-                                        soListView.soListItemClicked(type, typeName, soListView.currentIndex)
-                                        skyObjView.flipped = true
+                            y: 5
+                            width: 273
+                            height: 44
+                            color: "#ffffff"
+                            text: qsTr("text")
+                            font.bold: true
+                            horizontalAlignment: Text.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            font.pixelSize: 16
+                        }
+
+                        Text {
+                            id: posText
+                            objectName: "posTextObj"
+                            x: 5
+                            y: 49
+                            width: 291
+                            height: 26
+                            color: "#ffffff"
+                            text: qsTr("text")
+                            horizontalAlignment: Text.AlignRight
+                            font.underline: true
+                            font.italic: true
+                            font.bold: true
+                            font.pixelSize: 10
+                        }
+
+                        Rectangle {
+                            x: 0
+                            y: 84
+                            width: parent.width
+                            height: 175
+                            color: "#00000000"
+                            radius: 10
+                            border.color: "#ffffff"
+                            Flickable {
+                                id: flickable1
+                                clip: true
+                                flickableDirection: Flickable.VerticalFlick
+                                //anchors.fill: parent
+                                width: parent.width
+                                height: parent.height
+                                anchors.top: parent.top
+                                anchors.topMargin: 3
+                                anchors.bottom: parent.bottom
+                                anchors.bottomMargin: 4
+
+                                contentWidth: parent.width
+                                contentHeight: col.height
+
+                                Column {
+                                    id: col
+                                    width: parent.width
+                                    Text {
+                                        id: descText
+                                        objectName: "descTextObj"
+                                        color: "#187988"
+                                        text: qsTr("text")
+                                        anchors.top: parent.top
+                                        anchors.topMargin: 3
+                                        anchors.left: parent.left
+                                        anchors.leftMargin: 4
+                                        clip: true
+                                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                        width: parent.width
+                                        //anchors.fill: parent
+                                        font.pixelSize: 12
                                     }
                                 }
                             }
                         }
 
-                        model: soListModel
-                    }
-                }
+                        Text {
+                            id: nextObjText
+                            objectName: "nextObj"
+                            x: parent.width - 101
+                            y: 359
+                            width: 101
+                            height: 15
+                            color: "#ffffff"
+                            text: qsTr("Next sky-object")
+                            visible: true
+                            verticalAlignment: Text.AlignBottom
+                            horizontalAlignment: Text.AlignRight
+                            font.bold: true
+                            font.underline: true
+                            font.pixelSize: 11
 
-                back: Rectangle {
-                    id: detailsView
-                    objectName: "detailsViewObj"
-                    height: parent.height
-                    width: parent.width
-                    gradient: Gradient {
-                        GradientStop {
-                            position: 0
-                            color: "#000000"
-                        }
+                            signal nextObjTextClicked()
 
-                        GradientStop {
-                            position: 1
-                            color: "#181b29"
-                        }
-                    }
-
-                    anchors.left: categoryView.right
-
-                    Text {
-                        id: soname
-                        objectName: "sonameObj"
-                        x: 5
-                        y: 5
-                        width: 273
-                        height: 44
-                        color: "#ffffff"
-                        text: qsTr("text")
-                        font.bold: true
-                        horizontalAlignment: Text.AlignLeft
-                        verticalAlignment: Text.AlignVCenter
-                        font.pixelSize: 16
-                    }
-
-                    Text {
-                        id: posText
-                        objectName: "posTextObj"
-                        x: 5
-                        y: 49
-                        width: 291
-                        height: 26
-                        color: "#ffffff"
-                        text: qsTr("text")
-                        horizontalAlignment: Text.AlignRight
-                        font.underline: true
-                        font.italic: true
-                        font.bold: true
-                        font.pixelSize: 10
-                    }
-
-                    Rectangle {
-                        x: 0
-                        y: 84
-                        width: parent.width
-                        height: 175
-                        color: "#00000000"
-                        radius: 10
-                        border.color: "#ffffff"
-                        Flickable {
-                            id: flickable1
-                            clip: true
-                            flickableDirection: Flickable.VerticalFlick
-                            //anchors.fill: parent
-                            width: parent.width
-                            height: parent.height
-                            anchors.top: parent.top
-                            anchors.topMargin: 3
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: 4
-
-                            contentWidth: parent.width
-                            contentHeight: col.height
-
-                            Column {
-                                id: col
-                                width: parent.width
-                                Text {
-                                    id: descText
-                                    objectName: "descTextObj"
-                                    color: "#187988"
-                                    text: qsTr("text")
-                                    anchors.top: parent.top
-                                    anchors.topMargin: 3
-                                    anchors.left: parent.left
-                                    anchors.leftMargin: 4
-                                    clip: true
-                                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                                    width: parent.width
-                                    //anchors.fill: parent
-                                    font.pixelSize: 12
-                                }
+                            MouseArea {
+                                id: nextObjMouseArea
+                                anchors.fill: parent
+                                onClicked: nextObjText.nextObjTextClicked()
                             }
                         }
-                    }
 
-                    Text {
-                        id: nextObjText
-                        objectName: "nextObj"
-                        x: parent.width - 101
-                        y: 359
-                        width: 101
-                        height: 15
-                        color: "#ffffff"
-                        text: qsTr("Next sky-object")
-                        visible: true
-                        verticalAlignment: Text.AlignBottom
-                        horizontalAlignment: Text.AlignRight
-                        font.bold: true
-                        font.underline: true
-                        font.pixelSize: 11
-
-                        signal nextObjTextClicked()
-
-                        MouseArea {
-                            id: nextObjMouseArea
-                            anchors.fill: parent
-                            onClicked: nextObjText.nextObjTextClicked()
+                        Text {
+                            id: magText
+                            objectName: "magTextObj"
+                            x: 102
+                            y: 285
+                            width: 80
+                            height: 15
+                            color: "#ffffff"
+                            text: qsTr("text")
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.pixelSize: 12
                         }
-                    }
-
-                    Text {
-                        id: magText
-                        objectName: "magTextObj"
-                        x: 102
-                        y: 285
-                        width: 80
-                        height: 15
-                        color: "#ffffff"
-                        text: qsTr("text")
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.pixelSize: 12
-                    }
-                }
+                    } //end of detailsView
+                } //end of detailsViewContainer
 
                 states: [
                     State {
@@ -800,14 +539,14 @@ Rectangle {
                     axis.y: 1; axis.z: 0
                 }
             } //end of skyObjView
-        } // end of viewsRow
-    } //end of base
+        }//end of viewsContainer
+    }//end of base
 
     Button {
         id: settingsButton
-        x: 22
-        y: backButton.y
-        width: 150
+        x: 54
+        y: 501
+        width: 138
         height: 40
         text: "User Settings"
     }
@@ -815,22 +554,19 @@ Rectangle {
     Button {
         id: backButton
         x: container.width + 10
-        y: base.y + base.height + 10
+        y: settingsButton.y
+        width: 85
+        height: 40
         text: "Go back"
         onClicked: {
-            if (container.state == "dsoCategoryView")
+            if ( container.state == "soTypeSelected" )
             {
-                container.state = "base"
-                categoryView.flipped = false
-            }
-            else if ( container.state == "soListState" )
-            {
-                console.log("soListState")
+                console.log("soTypeSelected")
                 if ( !skyObjView.flipped )
                 {
                     console.log( "skyObjView.flipped :" + skyObjView.flipped )
                     console.log( "categoryView.flipped :" + categoryView.flipped )
-                    container.state = (!categoryView.flipped) ? "base" : "dsoCategoryView"
+                    container.state = "base"
                     console.log( "container.state :"+container.state )
                 }
                 else if ( skyObjView.flipped )
@@ -842,49 +578,411 @@ Rectangle {
         }
     }
 
-
     states: [
         State {
-            name: "soListState"
+            name: "base"
+        },
+        State {
+            name: "planetAreaEntered"
+
+            PropertyChanges {
+                target: planetText
+                font.pixelSize: 21
+                font.bold: true
+            }
+        },
+        State {
+            name: "starAreaEntered"
+
+            PropertyChanges {
+                target: starText
+                font.bold: true
+                font.pixelSize: 21
+            }
+        },
+        State {
+            name: "conAreaEntered"
+
+            PropertyChanges {
+                target: conText
+                font.bold: true
+                font.pixelSize: 21
+            }
+        },
+        State {
+            name: "dsoAreaEntered"
+
+            PropertyChanges {
+                target: dsoText
+                font.bold: true
+                font.pixelSize: 21
+            }
+        },
+        State {
+            name: "dsoAreaClicked"
+            PropertyChanges {
+                target: dsoText
+                font.pixelSize: "21"
+                font.bold: true
+            }
+
+            PropertyChanges {
+                target: galRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: nebRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: clustRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: planetRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: conRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: starRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: galMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: nebMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: dsoMouseArea
+                hoverEnabled: false
+            }
+
+            PropertyChanges {
+                target: dsoContainer
+                y: 160
+            }
+
+            PropertyChanges {
+                target: categoryView
+                x: 0
+                y: 31
+                width: 352
+                height: 351
+            }
+        },
+        State {
+            name: "galAreaEntered"
+            PropertyChanges {
+                target: dsoText
+                font.pixelSize: "21"
+                font.bold: false
+            }
+
+            PropertyChanges {
+                target: galRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: nebRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: clustRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: planetRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: conRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: starRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: dsoMouseArea
+                hoverEnabled: false
+            }
+
+            PropertyChanges {
+                target: galText
+                font.bold: true
+                font.pixelSize: 21
+            }
+
+            PropertyChanges {
+                target: dsoContainer
+                y: 160
+            }
+
+            PropertyChanges {
+                target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: galMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: nebMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+        },
+        State {
+            name: "nebAreaEntered"
+            PropertyChanges {
+                target: dsoText
+                font.pixelSize: "21"
+                font.bold: false
+            }
+
+            PropertyChanges {
+                target: galRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: nebRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: clustRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: planetRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: conRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: starRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: dsoMouseArea
+                hoverEnabled: false
+            }
+
+            PropertyChanges {
+                target: nebText
+                font.bold: true
+                font.pixelSize: 21
+            }
+
+            PropertyChanges {
+                target: dsoContainer
+                y: 160
+            }
+
+            PropertyChanges {
+                target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: nebMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: galMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+        },
+        State {
+            name: "clustAreaEntered"
+            PropertyChanges {
+                target: dsoText
+                font.pixelSize: "21"
+                font.bold: false
+            }
+
+            PropertyChanges {
+                target: galRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: nebRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: clustRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: planetRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: conRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: starRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: dsoMouseArea
+                hoverEnabled: false
+            }
+
+            PropertyChanges {
+                target: clustText
+                font.bold: true
+                font.pixelSize: 21
+            }
+
+            PropertyChanges {
+                target: dsoContainer
+                y: 160
+            }
+
+            PropertyChanges {
+                target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: galMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: nebMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+        },
+        State {
+            name: "soTypeSelected"
+
             PropertyChanges {
                 target: viewsRow
-                x: -(parent.width)
+                x: -(container.width)
+                y: 0
+                anchors.topMargin: 0
+                anchors.bottomMargin: 0
             }
+
             PropertyChanges {
                 target: backButton
-                x: dsoRect.x + 5
+                x: 236
             }
-        },
-        State {
-            name: "dsoCategoryView"
-            PropertyChanges {
-                target: backButton
-                x: dsoRect.x + 5
-            }
-        },
-        State {
-            name: "base"
-            PropertyChanges {
-                target: backButton
-                x: container.width + 10
-            }
+
         }
     ]
+
     transitions: [
         Transition {
-            from: "*"; to: "soListState";
-            NumberAnimation { target: viewsRow; property: "x"; duration: 900; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: backButton; property: "x"; duration: 400; easing.type: Easing.InOutQuad }
+            from: "*"
+            to: "planetAreaEntered"
+            NumberAnimation { target: planetText; property: "font.pixelSize"; to: 21; duration: 150 }
+            NumberAnimation { target: dsoContainer; property: "y"; to: 172; duration: 200 }
         },
         Transition {
-            from: "*"; to: "dsoCategoryView";
-            NumberAnimation { target: viewsRow; property: "x"; duration: 900; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: backButton; property: "x"; duration: 300; easing.type: Easing.InOutQuad }
+            from: "*"
+            to: "starAreaEntered"
+            NumberAnimation { target: starText; property: "font.pixelSize"; to: 21; duration: 150 }
+            NumberAnimation { target: dsoContainer; property: "y"; to: 172; duration: 200 }
         },
         Transition {
-            from: "*"; to: "base";
-            NumberAnimation { target: viewsRow; property: "x"; duration: 900; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: backButton; property: "x"; duration: 300; easing.type: Easing.InOutQuad }
+            from: "*"
+            to: "conAreaEntered"
+            NumberAnimation { target: conText; property: "font.pixelSize"; to: 21; duration: 150 }
+            NumberAnimation { target: dsoContainer; property: "y"; to: 172; duration: 200 }
+        },
+        Transition {
+            from: "*"
+            to: "dsoAreaEntered"
+            NumberAnimation { target: dsoText; property: "font.pixelSize"; to: 21; duration: 150 }
+        },
+        Transition {
+            from: "*"
+            to: "galAreaEntered"
+            NumberAnimation { target: galText; property: "font.pixelSize"; to: 21; duration: 150 }
+        },
+        Transition {
+            from: "*"
+            to: "nebAreaEntered"
+            NumberAnimation { target: nebText; property: "font.pixelSize"; to: 21; duration: 150 }
+        },
+        Transition {
+            from: "*"
+            to: "clustAreaEntered"
+            NumberAnimation { target: clustText; property: "font.pixelSize"; to: 21; duration: 150 }
+        },
+        Transition {
+            from: "*"
+            to: "dsoAreaClicked"
+            NumberAnimation { target: dsoContainer; property: "y"; duration: 200 }
+            NumberAnimation { target: galRect; property: "opacity"; duration: 500 }
+            NumberAnimation { target: nebRect; property: "opacity"; duration: 500 }
+            NumberAnimation { target: clustRect; property: "opacity"; duration: 500 }
+        },
+        Transition {
+            from: "*"
+            to: "soTypeSelected"
+            NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+        },
+        Transition {
+            from: "soTypeSelected"
+            to: "base"
+            NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
         }
     ]
 }

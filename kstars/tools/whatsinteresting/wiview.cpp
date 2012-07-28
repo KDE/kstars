@@ -32,7 +32,7 @@ WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
     baseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml") );
     baseObj = dynamic_cast<QObject *> (baseView->rootObject());
 
-    soTypeTextObj = baseObj->findChild<QObject *>("soTypeTextObj");
+    //soTypeTextObj = baseObj->findChild<QObject *>("soTypeTextObj");
 
     containerObj = baseObj->findChild<QObject *>("containerObj");
 
