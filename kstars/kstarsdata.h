@@ -150,10 +150,10 @@ public:
 
     /**@return pointer to the ColorScheme object */
     ColorScheme *colorScheme() { return &CScheme; }
-    
+
     /**@return pointer to the KSUserDB object */
     KSUserDB *userdb() { return &m_ksuserdb; }
-    
+
     /**@return pointer to the simulation Clock object */
     SimClock *clock() { return &Clock; }
 

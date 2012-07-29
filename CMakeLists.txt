@@ -1,11 +1,4 @@
 PROJECT(kstars CXX C)
-  
-# set(test_additional
-    #some_dependency.cpp
-    #some_other_dependency.cpp
-# )
-# add_test(ParserTest ${kstars_SOURCE_DIR}/tests/testksparser.cpp)
-# add_test(ParserTest ${CMAKE_CURRENT_BINARY_DIR}/tests/testksparser)
 
 find_package(KDE4 REQUIRED)
 include(KDE4Defaults)

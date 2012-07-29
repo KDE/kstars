@@ -25,8 +25,7 @@
 
 #include "testksparser.h"
 
-TestKSParser::TestKSParser(): QObject()
-{
+TestKSParser::TestKSParser(): QObject() {
   /*
    * Justification for doing this instead of simply creating a file:
    * To add/change tests, we'll need to modify 2 places. The file and this class.
@@ -46,17 +45,23 @@ TestKSParser::TestKSParser(): QObject()
                          "\"\"either"));
   csv_test_cases_.append("\n");
   csv_test_cases_.append(",,,,,,,,");
-  QFile test_csv_file("TestCSV.txt");
-  if (!test_csv_file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
+  QFile test_csv_file;
+  QString file_name("TestCSV.txt");
+  if (!file_name.isNull()) {
+        test_csv_file.setFileName(file_name);
+        if (!test_csv_file.open(QIODevice::WriteOnly)) {
+          kWarning() << QString("I Couldn't open(%1)").arg(file_name);
+        }
+  }
   QTextStream out_stream(&test_csv_file);
-  foreach (const QString &test_case, csv_test_cases_)
+  foreach(const QString &test_case, csv_test_cases_)
     out_stream << test_case;
+//   test_csv_file.close();
+    kWarning() << QString("Coul2dn't !");
 }
 
 
-void TestKSParser::stringParse()
-{
+void TestKSParser::stringParse() {
   QList< QPair<QString, KSParser::DataTypes> > sequence;
   sequence.append(qMakePair(QString("field1"), KSParser::D_QSTRING));
   sequence.append(qMakePair(QString("field2"), KSParser::D_QSTRING));
@@ -70,12 +75,14 @@ void TestKSParser::stringParse()
   sequence.append(qMakePair(QString("field10"), KSParser::D_FLOAT));
   sequence.append(qMakePair(QString("field11"), KSParser::D_QSTRING));
   sequence.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
-  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
+  KSParser test_parser("TestCSV.txt", '#', sequence);
 
   QHash<QString, QVariant> row_content;
   row_content = test_parser.ReadNextRow();
+  kWarning() << "muhahaha";
+  kWarning() <<row_content["field2"].toString();
   QVERIFY(row_content["field2"] == "isn't");
 }
-QTEST_MAIN( TestKSParser )
+QTEST_MAIN(TestKSParser)
 
 #include "testksparser.moc"

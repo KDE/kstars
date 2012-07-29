@@ -417,7 +417,7 @@ void OAL::Log::readLog() {
                 readSites();
            else if( reader->name() == "sessions" )
                 readSessions();
-           else if( reader->name() == "observation" ) 
+           else if( reader->name() == "observation" )
                 readObservation( reader->attributes().value( "id" ).toString() );
            else if( reader->name() == "geodate" )
                 readGeoDate();

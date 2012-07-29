@@ -38,7 +38,6 @@ class KSParser {
      * D_FLOAT Floating Point Type
      * D_DOUBLE Double PRecision Type
      * D_SKIP Not Needed. This string is not converted from QString
-     * 
      **/
     enum DataTypes {
         D_QSTRING,
@@ -61,7 +60,7 @@ class KSParser {
              const char delimiter = ',');
 
     /**
-     * @brief Returns a Fixed Width parsing instance of a KSParser type object. 
+     * @brief Returns a Fixed Width parsing instance of a KSParser type object.
      *
      * @param filename Filename of source file
      * @param comment_char Character signifying a comment line
@@ -94,7 +93,7 @@ class KSParser {
      *
      * @param msg What message to display
      * @param total_lines Total number of lines in file
-     * @param step_size Size of step in emitting progress  
+     * @param step_size Size of step in emitting progress
      * @return void
      **/
     void SetProgress(QString msg, int total_lines, int step_size);
@@ -108,7 +107,7 @@ class KSParser {
 
  private:
     /**
-     * @brief Function Pointer used by ReadNextRow 
+     * @brief Function Pointer used by ReadNextRow
      * to call the appropriate function among ReadCSVRow and ReadFixedWidthRow
      *
      * @return QHash< QString, QVariant >
@@ -116,7 +115,7 @@ class KSParser {
     QHash<QString, QVariant> (KSParser::*readFunctionPtr)();
 
     /**
-     * @brief Returns a single row from CSV. 
+     * @brief Returns a single row from CSV.
      * If HasNextRow is false, returns a row with default values.
      *
      * @return QHash< QString, QVariant >

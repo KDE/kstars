@@ -66,57 +66,57 @@ void DeepSkyComponent::loadData()
     //Check whether we need to concatenate a plit NGC/IC catalog
     //(i.e., if user has downloaded the Steinicke catalog)
     mergeSplitFiles();
-    
+
     QList<KSParser::DataTypes> pattern;
     QList< QPair<QString,KSParser::DataTypes> > sequence;
     QList<int> widths;
-    sequence.append(qMakePair(QString("Flag"), KSParser::D_QSTRING));      
-    widths.append(1); 
-    sequence.append(qMakePair(QString("ID"), KSParser::D_INT));          
+    sequence.append(qMakePair(QString("Flag"), KSParser::D_QSTRING));
+    widths.append(1);
+    sequence.append(qMakePair(QString("ID"), KSParser::D_INT));
     widths.append(4);
-    sequence.append(qMakePair(QString("RA_H"), KSParser::D_INT));          
+    sequence.append(qMakePair(QString("RA_H"), KSParser::D_INT));
     widths.append(3);
-    sequence.append(qMakePair(QString("RA_M"),KSParser::D_INT)); 
-    widths.append(2); 
-    sequence.append(qMakePair(QString("RA_S"),KSParser::D_FLOAT)); 
-    widths.append(4); 
-    sequence.append(qMakePair(QString("D_Sign"),KSParser::D_QSTRING)); 
+    sequence.append(qMakePair(QString("RA_M"),KSParser::D_INT));
     widths.append(2);
-    sequence.append(qMakePair(QString("Dec_d"),KSParser::D_INT)); 
-    widths.append(2); 
-    sequence.append(qMakePair(QString("Dec_m"),KSParser::D_INT)); 
-    widths.append(2); 
-    sequence.append(qMakePair(QString("Dec_s"),KSParser::D_INT)); 
-    widths.append(2); 
-    sequence.append(qMakePair(QString("BMag"),KSParser::D_QSTRING)); 
-    widths.append(6); 
-    sequence.append(qMakePair(QString("type"),KSParser::D_INT)); 
-    widths.append(2); 
-    sequence.append(qMakePair(QString("a"),KSParser::D_FLOAT)); 
-    widths.append(6); 
-    sequence.append(qMakePair(QString("b"),KSParser::D_FLOAT)); 
-    widths.append(6); 
-    sequence.append(qMakePair(QString("pa"),KSParser::D_QSTRING)); 
-    widths.append(4); 
-    sequence.append(qMakePair(QString("PGC"),KSParser::D_INT)); 
-    widths.append(7); 
-    sequence.append(qMakePair(QString("other cat"),KSParser::D_QSTRING)); 
+    sequence.append(qMakePair(QString("RA_S"),KSParser::D_FLOAT));
     widths.append(4);
-    sequence.append(qMakePair(QString("other1"),KSParser::D_QSTRING)); 
-    widths.append(6); 
-    sequence.append(qMakePair(QString("other2"),KSParser::D_QSTRING)); 
+    sequence.append(qMakePair(QString("D_Sign"),KSParser::D_QSTRING));
+    widths.append(2);
+    sequence.append(qMakePair(QString("Dec_d"),KSParser::D_INT));
+    widths.append(2);
+    sequence.append(qMakePair(QString("Dec_m"),KSParser::D_INT));
+    widths.append(2);
+    sequence.append(qMakePair(QString("Dec_s"),KSParser::D_INT));
+    widths.append(2);
+    sequence.append(qMakePair(QString("BMag"),KSParser::D_QSTRING));
     widths.append(6);
-    sequence.append(qMakePair(QString("Messr"),KSParser::D_QSTRING)); 
-    widths.append(2); 
-    sequence.append(qMakePair(QString("MessrNum"),KSParser::D_INT)); 
+    sequence.append(qMakePair(QString("type"),KSParser::D_INT));
+    widths.append(2);
+    sequence.append(qMakePair(QString("a"),KSParser::D_FLOAT));
+    widths.append(6);
+    sequence.append(qMakePair(QString("b"),KSParser::D_FLOAT));
+    widths.append(6);
+    sequence.append(qMakePair(QString("pa"),KSParser::D_QSTRING));
     widths.append(4);
-    sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING)); 
-    //No width to be appended for last sequence object 
-    
+    sequence.append(qMakePair(QString("PGC"),KSParser::D_INT));
+    widths.append(7);
+    sequence.append(qMakePair(QString("other cat"),KSParser::D_QSTRING));
+    widths.append(4);
+    sequence.append(qMakePair(QString("other1"),KSParser::D_QSTRING));
+    widths.append(6);
+    sequence.append(qMakePair(QString("other2"),KSParser::D_QSTRING));
+    widths.append(6);
+    sequence.append(qMakePair(QString("Messr"),KSParser::D_QSTRING));
+    widths.append(2);
+    sequence.append(qMakePair(QString("MessrNum"),KSParser::D_INT));
+    widths.append(4);
+    sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING));
+    //No width to be appended for last sequence object
+
     KSParser deep_sky_parser(QString("ngcic.dat"), '#', sequence, widths);
-    
+
     deep_sky_parser.SetProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
-    
+
     QHash<QString,QVariant> row_content;
     while (deep_sky_parser.HasNextRow()) {
         row_content = deep_sky_parser.ReadNextRow();
@@ -124,20 +124,20 @@ void DeepSkyComponent::loadData()
         QChar iflag;
         QString cat;
         iflag = row_content["Flag"].toString().at( 0 ); //check for NGC/IC catalog flag
-        Q_ASSERT(iflag == 'I' || iflag == 'N' || iflag == ' '); 
+        Q_ASSERT(iflag == 'I' || iflag == 'N' || iflag == ' ');
         // n.b. We also allow non-NGC/IC objects which have a blank iflag
         if ( iflag == 'I' ) cat = "IC";
         else if ( iflag == 'N' ) cat = "NGC";
-        
+
         float mag(1000.0);
         int type, ingc, imess(-1), pa;
         int pgc, ugc;
         QString con, ss, name, name2, longname;
         QString cat2;
-        
+
         ingc = row_content["ID"].toInt();  // NGC/IC catalog number
         if ( ingc==0 ) cat.clear(); //object is not in NGC or IC catalogs
-        
+
         //coordinates
         int rah = row_content["RA_H"].toInt();
         int ram = row_content["RA_M"].toInt();
@@ -146,7 +146,7 @@ void DeepSkyComponent::loadData()
         int dd = row_content["Dec_d"].toInt();
         int dm = row_content["Dec_m"].toInt();
         int ds = row_content["Dec_s"].toInt();
-        
+
         //Ignore lines with no coordinate values
         if (rah==0 && ram==0 && ras==0)
             continue;
@@ -157,14 +157,14 @@ void DeepSkyComponent::loadData()
         Q_ASSERT(0.0 <= dd && dd <= 90.0);
         Q_ASSERT(0.0 <= dm && dm < 60.0);
         Q_ASSERT(0.0 <= ds && ds < 60.0);
-        
+
         //B magnitude
         ss = row_content["BMag"].toString().trimmed();
         if (ss == "") { mag = 99.9f; } else { mag = ss.toFloat(); }
-        
+
         //object type
         type = row_content["type"].toInt();
-        
+
         //major and minor axes
         float a = row_content["a"].toFloat();
         float b = row_content["b"].toFloat();
@@ -174,10 +174,10 @@ void DeepSkyComponent::loadData()
         //we set PA = 90 - pa.
         ss = row_content["pa"].toString().trimmed();
         if (ss == "" ) { pa = 90; } else { pa = 90 - ss.toInt(); }
-            
+
         //PGC number
         pgc = row_content["PGC"].toInt();
-        
+
         //UGC number
         if (row_content["other cat"].toString().trimmed() == "UGC") {
             ugc = row_content["other1"].toString().toInt();
@@ -194,7 +194,7 @@ void DeepSkyComponent::loadData()
         }
 
         longname = row_content["Longname"].toString().trimmed(); 
-        
+
         dms r;
         r.setH( rah, ram, int(ras) );
         dms d( dd, dm, ds );
@@ -273,12 +273,11 @@ void DeepSkyComponent::loadData()
             objectNames(type).append( longname );
 
         deep_sky_parser.ShowProgress();
-    }
-    
+    }   
 }
 
 void DeepSkyComponent::mergeSplitFiles() {
-    //If user has downloaded the Steinicke NGC/IC catalog, then it is 
+    //If user has downloaded the Steinicke NGC/IC catalog, then it is
     //split into multiple files.  Concatenate these into a single file.
     QString firstFile = KStandardDirs::locateLocal("appdata", "ngcic01.dat");
     if ( ! QFile::exists( firstFile ) ) return;

@@ -1,6 +1,6 @@
-add_subdirectory( data ) 
+add_subdirectory( data )
 add_subdirectory( icons )
-add_subdirectory( htmesh ) 
+add_subdirectory( htmesh )
 
 Find_package(ZLIB REQUIRED)
 
@@ -342,14 +342,14 @@ set(kstars_extra_SRCS
 	colorscheme.cpp	dms.cpp fov.cpp geolocation.cpp
 	imageviewer.cpp
 	ksfilereader.cpp ksnumbers.cpp
-	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp 
-	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp 
+	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp
+	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp
 	ksparser.cpp kstarsdcop.cpp kstarsinit.cpp kstars.cpp
-	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp 
+	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp
 	texturemanager.cpp
-	timezonerule.cpp 
+	timezonerule.cpp
 	thumbnailpicker.cpp thumbnaileditor.cpp binfilehelper.cpp
 	satellitegroup.cpp
 )

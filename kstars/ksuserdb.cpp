@@ -263,7 +263,11 @@ QList<QStringList> KSUserDB::ReturnAllFlags() {
         QStringList flagEntry;
         QSqlRecord record = flags.record(i);
         /* flagEntry order description
-         * 
+         * The variation in the order is due to variation
+         * in flag entry description order and flag database
+         * description order.
+         * flag (database): ra, dec, icon, label, color, epoch
+         * flag (object):  ra, dec, epoch, icon, label, color
         */
         flagEntry.append(record.value(1).toString());
         flagEntry.append(record.value(2).toString());

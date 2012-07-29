@@ -36,7 +36,6 @@
 
 /**
  * @brief Single class to delegate all User database I/O
- * 
  * @author Rishab Arora (spacetime)
  **/
 class KSUserDB {
@@ -169,7 +168,7 @@ class KSUserDB {
      **/
     void AddLens(QString vendor, QString model, double factor);
     /**
-     * @brief Replace a lens at given ID with new content 
+     * @brief Replace a lens at given ID with new content
      *
      * @return void
      **/
@@ -189,7 +188,7 @@ class KSUserDB {
      **/
     void AddFilter(QString vendor, QString model, QString type, QString color);
     /**
-     * @brief Replace a filter at given ID with new content 
+     * @brief Replace a filter at given ID with new content
      *
      * @return void
      **/
@@ -206,7 +205,7 @@ class KSUserDB {
  private:
     /**
      * @brief This function initializes a new database in the user's directory.
-     * To be run only when a new db is needed. Should not be run over existing 
+     * To be run only when a new db is needed. Should not be run over existing
      * database file.
      *
      * @return bool

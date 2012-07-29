@@ -50,14 +50,14 @@ void ObserverAdd::slotAddObserver() {
     }
 
     if (KStarsData::Instance()->userdb()->FindObserver(ui.Name->text(),ui.Surname->text())){
-        if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;    
+        if( OAL::warningOverwrite( i18n( "Another Observer already exists with the given Name and Surname, Overwrite?" ) ) == KMessageBox::No ) return;
     }
 
     KStarsData::Instance()->userdb()->AddObserver(ui.Name->text(),ui.Surname->text(),ui.Contact->text());
-   
+
     //Reload observers into OAL::m_observers
     loadObservers();
-    
+
     // Reset the UI for a fresh addition
     ui.Name->clear();
     ui.Surname->clear();
@@ -66,7 +66,6 @@ void ObserverAdd::slotAddObserver() {
 
 void ObserverAdd::loadObservers() {
     ks->data()->logObject()->readObservers();
-  
 }
 
 #include "observeradd.moc"

@@ -1,5 +1,5 @@
 /***************************************************************************
-                 TestKSParser.cpp  -  K Desktop Planetarium
+                 TestKSParser.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2012/23/07
     copyright            : (C) 2012 by Rishab Arora
@@ -19,18 +19,18 @@
 #ifndef TESTKSPARSER_H
 #define TESTKSPARSER_H
 #include <QtTest/QtTest>
+#include <KDebug>
 #include "kstars/ksparser.h"
+#include "kstars/ksfilereader.h"
 
-
-class TestKSParser: public QObject
-{
+class TestKSParser: public QObject {
   Q_OBJECT
-public:
-    TestKSParser();
-private slots:
+ public:
+  TestKSParser();
+ private slots:
   void stringParse();
-private:
+ private:
   QStringList csv_test_cases_;
 };
 
-#endif // TESTKSPARSER_H
+#endif  // TESTKSPARSER_H
