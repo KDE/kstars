@@ -149,6 +149,16 @@ class KSParser {
      **/
     QList<QString> CombineQuoteParts(QList<QString> &separated);
 
+    /**
+     * @brief Function to return a QVariant of selected data type
+     *
+     * @param input_string QString of what the object should contain
+     * @param data_type Data Type of input_string
+     * @return QVariant
+     **/
+    QVariant ConvertToQVariant(const QString &input_string, 
+                               const DataTypes &data_type, bool &ok);
+    
     KSFileReader file_reader_;
     QString filename_;
     int current_row_id_;

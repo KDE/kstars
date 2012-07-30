@@ -61,16 +61,16 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
     // This signifies that someone tried to read a row
     // without checking if comment_char is true
     /**
-     * @brief Success (bool) signifies if a row has been successfully read.
+     * @brief read_success(bool) signifies if a row has been successfully read.
      * If any problem (eg incomplete row) is encountered. The row is discarded
      * and the while loop continues till it finds a good row or the file ends.
      **/
-    bool success = false;
+    bool read_success = false;
     QString next_line;
     QStringList separated;
     QHash<QString, QVariant> newRow;
 
-    while (file_reader_.hasMoreLines() && success == false) {
+    while (file_reader_.hasMoreLines() && read_success == false) {
         next_line = file_reader_.readLine();
         if (next_line[0] == comment_char_) continue;
         separated = next_line.split(delimiter_);
@@ -95,46 +95,17 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
             continue;
 
         for (int i = 0; i < name_type_sequence_.length(); i++) {
-            bool ok;
-            switch (name_type_sequence_[i].second) {
-                case D_QSTRING:
-                case D_SKIP:
-                    newRow[name_type_sequence_[i].first] = separated[i];
-                    break;
-                case D_DOUBLE:
-                    newRow[name_type_sequence_[i].first] =
-                                            separated[i].toDouble(&ok);
-                    if (!ok) {
-                      kDebug()<<  "toDouble Failed at field: "
-                              << name_type_sequence_[i].first
-                              <<" & next_line : " << next_line;
-                      newRow[name_type_sequence_[i].first] = EBROKEN_DOUBLE;
-                    }
-                    break;
-                case D_INT:
-                    newRow[name_type_sequence_[i].first] =
-                                            separated[i].toInt(&ok);
-                    if (!ok) {
-                      kDebug()<< "toInt Failed at field: "
-                              << name_type_sequence_[i].first
-                              <<" & next_line : " << next_line;
-                      newRow[name_type_sequence_[i].first] = EBROKEN_INT;
-                    }
-                    break;
-                case D_FLOAT:
-                    newRow[name_type_sequence_[i].first] =
-                                            separated[i].toFloat(&ok);
-                                float p = separated[i].trimmed().toFloat(&ok);
-                    if (!ok) {
-                      kWarning()<< "toFloat Failed at field: "
-                                << name_type_sequence_[i].first
-                                <<" & next_line : " << next_line;
-                      newRow[name_type_sequence_[i].first] = EBROKEN_FLOATS;
-                    }
-                    break;
-            }
+           bool ok;
+           newRow[name_type_sequence_[i].first] = 
+           ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
+           if (!ok) {
+             kDebug() << name_type_sequence_[i].second
+                      <<"Failed at field: "
+                      << name_type_sequence_[i].first
+                      << " & next_line : " << next_line;
+           }
         }
-        success = true;
+        read_success = true;
     }
     return newRow;
 }
@@ -187,45 +158,16 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
         }
 
         // Conversions
-        // TODO(spacetime): Redundant Code! DRY!
         for (int i = 0; i < name_type_sequence_.length(); ++i) {
-            bool ok;
-            switch (name_type_sequence_[i].second) {
-                case D_QSTRING:
-                case D_SKIP:
-                    newRow[name_type_sequence_[i].first] = separated[i];
-                    break;
-                case D_DOUBLE:
-                    newRow[name_type_sequence_[i].first] =
-                                        separated[i].trimmed().toDouble(&ok);
-                    if (!ok) {
-                      kDebug()<< "toDouble Failed at field: "
-                              << name_type_sequence_[i].first
-                              << " & next_line : " << next_line;
-                      newRow[name_type_sequence_[i].first] = EBROKEN_DOUBLE;
-                    }
-                    break;
-                case D_INT:
-                    newRow[name_type_sequence_[i].first]=
-                                        separated[i].trimmed().toInt(&ok);
-                    if (!ok) {
-                      kDebug()<< "toInt Failed at field: "
-                              << name_type_sequence_[i].first
-                              << " & next_line : " << next_line;
-                      newRow[name_type_sequence_[i].first] = EBROKEN_INT;
-                    }
-                    break;
-                case D_FLOAT:
-                    newRow[name_type_sequence_[i].first] =
-                                        separated[i].trimmed().toFloat(&ok);
-                    if (!ok) {
-                      kWarning()<< "toFloat Failed at field: "
-                                << name_type_sequence_[i].first
-                                << " & next_line : " << next_line;
-                      newRow[name_type_sequence_[i].first] = EBROKEN_FLOATS;
-                    }
-                    break;
-            }
+           bool ok;
+           newRow[name_type_sequence_[i].first] = 
+           ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
+           if (!ok) {
+             kDebug() << name_type_sequence_[i].second
+                      <<"Failed at field: "
+                      << name_type_sequence_[i].first
+                      << " & next_line : " << next_line;
+           }
         }
         read_success = true;
     }
@@ -297,4 +239,33 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
       }
     }
     return quoteCombined;
+}
+
+QVariant KSParser::ConvertToQVariant(const QString &input_string,
+                                     const KSParser::DataTypes &data_type, 
+                                     bool &ok) {
+  ok = true;
+  QVariant converted_object;
+  switch (data_type) {
+    case D_QSTRING:
+    case D_SKIP:
+      converted_object = input_string;
+      break;
+    case D_DOUBLE:
+      converted_object = input_string.trimmed().toDouble(&ok);
+      if (!ok)
+        converted_object = EBROKEN_DOUBLE;
+      break;
+    case D_INT:
+      converted_object = input_string.trimmed().toInt(&ok);
+      if (!ok)
+        converted_object = EBROKEN_INT;
+      break;
+    case D_FLOAT:
+      converted_object = input_string.trimmed().toFloat(&ok);
+      if (!ok)
+        converted_object = EBROKEN_FLOATS;
+      break;
+  }
+  return converted_object;
 }
