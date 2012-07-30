@@ -769,7 +769,7 @@ double SkyPoint::refract(const double alt) {
 // Convergence is quite fast just a few iterations.
 double SkyPoint::unrefract(const double alt) {
     double h0 = alt;
-    double h1 = alt - (refract( h0 ) - h0); // FIXME: Unnecessary addition and subtraction of h0
+    double h1 = alt - (refract( h0 ) - h0); // It's probably okay to add h0 in refract() and subtract it here, since refract() is called way more frequently.
 
     while( fabs(h1 - h0) > 1e-4 ) {
         h0 = h1;
