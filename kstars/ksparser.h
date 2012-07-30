@@ -158,7 +158,12 @@ class KSParser {
      **/
     QVariant ConvertToQVariant(const QString &input_string, 
                                const DataTypes &data_type, bool &ok);
-    
+
+    static const double EBROKEN_DOUBLE;
+    static const float EBROKEN_FLOATS;
+    static const int EBROKEN_INT;
+    static const bool parser_debug_mode_;
+
     KSFileReader file_reader_;
     QString filename_;
     int current_row_id_;

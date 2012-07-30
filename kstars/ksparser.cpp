@@ -19,9 +19,10 @@
 #include <kdebug.h>
 #include <klocale.h>
 
-const double EBROKEN_DOUBLE = 0.0;
-const float EBROKEN_FLOATS = 0.0;
-const int EBROKEN_INT = 0;
+const int KSParser::EBROKEN_INT = 0;
+const double KSParser::EBROKEN_DOUBLE = 0.0;
+const float KSParser::EBROKEN_FLOATS = 0.0;
+const bool KSParser::parser_debug_mode_ = false;
 
 KSParser::KSParser(const QString &filename, const char comment_char,
                    const QList< QPair<QString, DataTypes> > &sequence,
@@ -81,9 +82,9 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
             *    then combine the nexto ones in it till
             *    till you come across the next word which
             *    has the last character as '"'
+            *    (CombineQuoteParts
             *
         */
-        // TODO(spacetime): tests pending
         if (separated.length() == 0) continue;
 
         separated = CombineQuoteParts(separated);  // At this point, the
@@ -98,7 +99,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
            bool ok;
            newRow[name_type_sequence_[i].first] = 
            ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
-           if (!ok) {
+           if (!ok && parser_debug_mode_) {
              kDebug() << name_type_sequence_[i].second
                       <<"Failed at field: "
                       << name_type_sequence_[i].first
@@ -162,7 +163,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
            bool ok;
            newRow[name_type_sequence_[i].first] = 
            ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
-           if (!ok) {
+           if (!ok && parser_debug_mode_) {
              kDebug() << name_type_sequence_[i].second
                       <<"Failed at field: "
                       << name_type_sequence_[i].first
@@ -179,16 +180,19 @@ QHash<QString, QVariant>  KSParser::DummyRow() {
     for (int i = 0; i < name_type_sequence_.length(); ++i) {
            switch (name_type_sequence_[i].second) {
                 case D_QSTRING:
-                    newRow[name_type_sequence_[i].first]="Null";
+                    newRow[name_type_sequence_[i].first] = "Null";
                     break;
                 case D_DOUBLE:
-                    newRow[name_type_sequence_[i].first]=0.0;
+                    newRow[name_type_sequence_[i].first]
+                                        = static_cast<double>(0.0);
                     break;
                 case D_INT:
-                    newRow[name_type_sequence_[i].first]=0;
+                    newRow[name_type_sequence_[i].first]
+                                        = static_cast<int>(0);
                     break;
                 case D_FLOAT:
-                    newRow[name_type_sequence_[i].first]=0.0;
+                    newRow[name_type_sequence_[i].first]
+                                        = static_cast<float>(0.0);
                     break;
             }
         }
