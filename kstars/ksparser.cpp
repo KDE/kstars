@@ -124,6 +124,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
                 case D_FLOAT:
                     newRow[name_type_sequence_[i].first] =
                                             separated[i].toFloat(&ok);
+                                float p = separated[i].trimmed().toFloat(&ok);
                     if (!ok) {
                       kWarning()<< "toFloat Failed at field: "
                                 << name_type_sequence_[i].first
@@ -266,29 +267,34 @@ void KSParser::ShowProgress() {
 }
 
 QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
-    // The following mish mash is to handle fields such as "hello, world"
-    QString iterString;
+    QString iter_string;
     QList<QString> quoteCombined;
-    QStringList::iterator iter;
-    for (iter = separated.begin(); iter != separated.end(); ++iter) {
-        QList <QString> queue;
-        if ((*iter)[0] == '"') {
-            iterString = *iter;
-            while (iterString[iterString.length()-1] != '"' &&
-                    iter!= separated.end()) {
-                queue.append((*iter));
-                iter++;
-                iterString = *iter;
-            }
-            if (iterString[iterString.length()-1] == '"')
-                queue.append((*iter).remove('"'));
-        } else {
-            queue.append(*iter);
-        }
-        QString col_result;
-        foreach(const QString &join, queue)
-            col_result += join;
-        quoteCombined.append(col_result);
+    QStringList::const_iterator iter;
+    if (separated.length() == 0) {
+      kDebug() << "Cannot Combine empty list";
+    } else {
+      iter = separated.begin();
+      while (iter != separated.end()) {
+          QList <QString> queue;
+          iter_string = *iter;
+          
+          if (iter_string.indexOf("\"") != -1) {
+              while (iter_string.lastIndexOf('\"') != (iter_string.length()-1) &&
+                      iter != separated.end()) {
+                  queue.append((iter_string).remove('\"') + delimiter_);
+                  ++iter;
+                  iter_string = *iter;
+              }
+              queue.append(iter_string.remove('\"'));
+          } else {
+              queue.append(iter_string.remove('\"'));
+          }
+          QString col_result;
+          foreach(const QString &join, queue)
+              col_result += join;
+          quoteCombined.append(col_result);
+          ++iter;
+      }
     }
     return quoteCombined;
 }

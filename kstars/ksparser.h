@@ -140,6 +140,9 @@ class KSParser {
 
     /**
      * @brief This function combines the separated QString in case of quotes
+     * The function can not handle stray quote marks.
+     * eg. hello,"",world is acceptable
+     *     hello"",world is not
      *
      * @param separated a list of QStrings separated at every delimiter
      * @return QList< QString >

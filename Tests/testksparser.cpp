@@ -37,27 +37,27 @@ TestKSParser::TestKSParser(): QObject() {
                          "\"amusing\","
                          "how,"
                          "3,"
-                         "\"isn't,pi\","
+                         "\"isn't, pi\","
                          "and,"
                          "\"\","
-                         "-3,141,"
-                         "isn't\"\","
-                         "\"\"either"));
+                         "-3.141,"
+                         "isn't,"
+                         "either\n"));
   csv_test_cases_.append("\n");
-  csv_test_cases_.append(",,,,,,,,");
+  csv_test_cases_.append(",,,,,,,,\n");
   QFile test_csv_file;
   QString file_name("TestCSV.txt");
+  file_name = KStandardDirs::locateLocal("appdata",file_name);
   if (!file_name.isNull()) {
         test_csv_file.setFileName(file_name);
         if (!test_csv_file.open(QIODevice::WriteOnly)) {
-          kWarning() << QString("I Couldn't open(%1)").arg(file_name);
+          kWarning() << QString("Couldn't open(%1)").arg(file_name);
         }
   }
   QTextStream out_stream(&test_csv_file);
   foreach(const QString &test_case, csv_test_cases_)
     out_stream << test_case;
-//   test_csv_file.close();
-    kWarning() << QString("Coul2dn't !");
+  test_csv_file.close();
 }
 
 
@@ -75,13 +75,21 @@ void TestKSParser::stringParse() {
   sequence.append(qMakePair(QString("field10"), KSParser::D_FLOAT));
   sequence.append(qMakePair(QString("field11"), KSParser::D_QSTRING));
   sequence.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
-  KSParser test_parser("TestCSV.txt", '#', sequence);
-
+  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
   QHash<QString, QVariant> row_content;
   row_content = test_parser.ReadNextRow();
-  kWarning() << "muhahaha";
-  kWarning() <<row_content["field2"].toString();
-  QVERIFY(row_content["field2"] == "isn't");
+  QVERIFY(row_content["field1"] == QString(""));
+  QVERIFY(row_content["field2"] == QString("isn't"));
+  QVERIFY(row_content["field3"] == QString("it"));
+  QVERIFY(row_content["field4"] == QString("amusing"));
+  QVERIFY(row_content["field5"] == QString("how"));
+  QVERIFY(row_content["field6"].toInt() == 3);
+  QVERIFY(row_content["field7"] == QString("isn't, pi"));
+  QVERIFY(row_content["field8"] == QString("and"));
+  QVERIFY(row_content["field9"] == QString(""));
+  QVERIFY(row_content["field10"].toFloat() + 3.141 < 0.1);
+  QVERIFY(row_content["field11"] == QString("isn't"));
+  QVERIFY(row_content["field12"] == QString("either"));
 }
 QTEST_MAIN(TestKSParser)
 

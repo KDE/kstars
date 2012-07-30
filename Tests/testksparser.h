@@ -23,6 +23,7 @@
 #include "kstars/ksparser.h"
 #include "kstars/ksfilereader.h"
 
+
 class TestKSParser: public QObject {
   Q_OBJECT
  public:
