@@ -20,7 +20,7 @@
 #define TESTKSPARSER_H
 #include <QtTest/QtTest>
 #include <KDebug>
-#include "kstars/ksparser.h"
+#include "datahandlers/ksparser.h"
 #include "kstars/ksfilereader.h"
 
 

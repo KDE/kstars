@@ -344,7 +344,7 @@ set(kstars_extra_SRCS
 	ksfilereader.cpp ksnumbers.cpp
 	kspopupmenu.cpp obslistpopupmenu.cpp ksalmanac.cpp
 	kstarsactions.cpp kstarsdata.cpp ksuserdb.cpp kstarsdatetime.cpp
-	ksparser.cpp kstarsdcop.cpp kstarsinit.cpp kstars.cpp
+	kstarsdcop.cpp kstarsinit.cpp kstars.cpp
 	kstarssplash.cpp ksutils.cpp kswizard.cpp main.cpp
 	simclock.cpp skymap.cpp skymapdrawabstract.cpp skymapqdraw.cpp skymapevents.cpp
 	skypainter.cpp skyqpainter.cpp
@@ -435,7 +435,8 @@ kde4_add_library( KStarsLib STATIC ${kstars_SRCS})
 # kde4_add_executable(kstars ${kstars_SRCS})
 
 target_link_libraries(KStarsLib
-    ${KDE4_KDECORE_LIBS}
+        LibKSDataHandlers
+        ${KDE4_KDECORE_LIBS}
 	${KDE4_KNEWSTUFF3_LIBS}
 	${KDE4_KIO_LIBS}
 	htmesh

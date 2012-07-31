@@ -19,7 +19,7 @@
 #define ASTEROIDSCOMPONENT_H
 
 #include "solarsystemlistcomponent.h"
-#include "ksparser.h"
+#include "datahandlers/ksparser.h"
 #include <QList>
 #include "typedef.h"
 

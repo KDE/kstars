@@ -23,7 +23,7 @@
 #include <QObject>
 #include "skycomponent.h"
 #include "skylabel.h"
-#include "ksparser.h"
+#include "datahandlers/ksparser.h"
 
 #define NNGCFILES 14
 

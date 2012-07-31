@@ -48,7 +48,9 @@ if (EIGEN2_FOUND)
    add_subdirectory( kstars )
 endif (EIGEN2_FOUND)
 
+add_subdirectory(datahandlers)
 add_subdirectory(Tests)
+
 
 if (${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
    macro_display_feature_log()
