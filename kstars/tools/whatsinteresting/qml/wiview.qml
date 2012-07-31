@@ -221,7 +221,7 @@ Rectangle {
                             y: 0
                             width: 60
                             height: 33
-                            color: "#e4800d"
+                            color: "#6b6660"
                             text: qsTr("Galaxies")
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -260,7 +260,7 @@ Rectangle {
                             y: 0
                             width: 60
                             height: 33
-                            color: "#e4800d"
+                            color: "#6b6660"
                             text: qsTr("Nebulae")
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -299,7 +299,7 @@ Rectangle {
                             y: 0
                             width: 60
                             height: 33
-                            color: "#e4800d"
+                            color: "#6b6660"
                             text: qsTr("Clusters")
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
@@ -593,6 +593,21 @@ Rectangle {
     states: [
         State {
             name: "base"
+
+            PropertyChanges {
+                target: galText
+                color: "#6b6660"
+            }
+
+            PropertyChanges {
+                target: nebText
+                color: "#6b6660"
+            }
+
+            PropertyChanges {
+                target: clustText
+                color: "#6b6660"
+            }
         },
         State {
             name: "planetAreaEntered"
@@ -703,6 +718,21 @@ Rectangle {
                 width: 352
                 height: 351
             }
+
+            PropertyChanges {
+                target: galText
+                color: "#e4800d"
+            }
+
+            PropertyChanges {
+                target: clustText
+                color: "#e4800d"
+            }
+
+            PropertyChanges {
+                target: nebText
+                color: "#e4800d"
+            }
         },
         State {
             name: "galAreaEntered"
@@ -749,6 +779,7 @@ Rectangle {
 
             PropertyChanges {
                 target: galText
+                color: "#e4800d"
                 font.bold: true
                 font.pixelSize: 21
             }
@@ -774,6 +805,16 @@ Rectangle {
                 target: nebMouseArea
                 hoverEnabled: true
                 enabled: true
+            }
+
+            PropertyChanges {
+                target: nebText
+                color: "#e4800d"
+            }
+
+            PropertyChanges {
+                target: clustText
+                color: "#e4800d"
             }
         },
         State {
@@ -821,6 +862,7 @@ Rectangle {
 
             PropertyChanges {
                 target: nebText
+                color: "#e4800d"
                 font.bold: true
                 font.pixelSize: 21
             }
@@ -846,6 +888,16 @@ Rectangle {
                 target: galMouseArea
                 hoverEnabled: true
                 enabled: true
+            }
+
+            PropertyChanges {
+                target: galText
+                color: "#e4800d"
+            }
+
+            PropertyChanges {
+                target: clustText
+                color: "#e4800d"
             }
         },
         State {
@@ -893,6 +945,7 @@ Rectangle {
 
             PropertyChanges {
                 target: clustText
+                color: "#e4800d"
                 font.bold: true
                 font.pixelSize: 21
             }
@@ -918,6 +971,16 @@ Rectangle {
                 target: nebMouseArea
                 hoverEnabled: true
                 enabled: true
+            }
+
+            PropertyChanges {
+                target: nebText
+                color: "#e4800d"
+            }
+
+            PropertyChanges {
+                target: galText
+                color: "#e4800d"
             }
         },
         State {
