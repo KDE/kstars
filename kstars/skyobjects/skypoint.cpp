@@ -753,31 +753,27 @@ dms SkyPoint::altRefracted() const {
 double SkyPoint::refractionCorr(double alt) {
     return 1.02 / tan(dms::DegToRad * ( alt + 10.3/(alt + 5.11) )) / 60;
 }
-// Critical height. Below this height formula produce meaningless
-// results and correction value is just interpolated
 
-dms SkyPoint::refract(dms h) {
-    const double alt = h.Degrees();
-    const double corrCrit = SkyPoint::refractionCorr( SkyPoint::altCrit );
+double SkyPoint::refract(const double alt) {
+    static double corrCrit = SkyPoint::refractionCorr( SkyPoint::altCrit );
 
     if( alt > SkyPoint::altCrit )
-        return dms( alt + SkyPoint::refractionCorr(alt) );
+        return ( alt + SkyPoint::refractionCorr(alt) );
     else
-        return dms( alt + corrCrit * (alt + 90) / (SkyPoint::altCrit + 90) );
+        return ( alt + corrCrit * (alt + 90) / (SkyPoint::altCrit + 90) ); // Linear extrapolation from corrCrit at altCrit to 0 at -90 degrees
 }
 
 // Found uncorrected value by solving equation. This is OK since
 // unrefract is never called in loops.
 //
 // Convergence is quite fast just a few iterations.
-dms SkyPoint::unrefract(dms h) {
-    const double alt = h.Degrees();
-
+double SkyPoint::unrefract(const double alt) {
     double h0 = alt;
-    double h1 = alt - refractionCorr(h0);
+    double h1 = alt - (refract( h0 ) - h0); // It's probably okay to add h0 in refract() and subtract it here, since refract() is called way more frequently.
+
     while( fabs(h1 - h0) > 1e-4 ) {
         h0 = h1;
-        h1 = alt - refractionCorr(h0);
+        h1 = alt - (refract( h0 ) - h0);
     }
-    return dms(h1);
+    return h1;
 }
