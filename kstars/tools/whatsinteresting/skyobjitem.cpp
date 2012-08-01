@@ -78,7 +78,7 @@ void SkyObjItem::setPosition(SkyObject* so)
         "N", "NNE", "NE", "ENE",
         "E", "ESE", "SE", "SSE",
         "S", "SSW", "SW", "WSW",
-        "W", "WNW", "NW", "NNW" 
+        "W", "WNW", "NW", "NNW"
     } ;
     KStarsData *data = KStarsData::Instance();
     KStarsDateTime ut = data->geo()->LTtoUT( KStarsDateTime(KDateTime::currentLocalDateTime()) );

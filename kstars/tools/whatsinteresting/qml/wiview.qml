@@ -554,39 +554,83 @@ Rectangle {
         }//end of viewsContainer
     }//end of base
 
-    Button {
-        id: settingsButton
-        x: 54
-        y: 501
-        width: 138
-        height: 40
-        text: "User Settings"
-    }
-
-    Button {
+    Rectangle {
         id: backButton
         x: container.width + 10
-        y: settingsButton.y
-        width: 85
-        height: 40
-        text: "Go back"
-        onClicked: {
-            if ( container.state == "soTypeSelected" )
-            {
-                console.log("soTypeSelected")
-                if ( !skyObjView.flipped )
+        y: 504
+        width: 114
+        height: 49
+        color: "#00000000"
+        radius: 5
+        Text {
+            id: goBackText
+            color: "#f7e808"
+            text: "Go back"
+            anchors.leftMargin: 45
+            font.family: "Cantarell"
+            font.pointSize: 13
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            anchors.fill: parent
+        }
+
+        Image {
+            id: leftArrow
+            anchors.right: parent.right
+            anchors.rightMargin: 74
+            anchors.left: parent.left
+            anchors.leftMargin: 8
+            anchors.top: parent.top
+            anchors.topMargin: 8
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 9
+            source: "leftArrow.png"
+        }
+
+        MouseArea {
+            x: 45
+            y: 0
+            anchors.fill: backButton
+            onClicked: {
+                if ( container.state == "soTypeSelected" )
                 {
-                    console.log( "skyObjView.flipped :" + skyObjView.flipped )
-                    console.log( "categoryView.flipped :" + categoryView.flipped )
-                    container.state = "base"
-                    console.log( "container.state :"+container.state )
-                }
-                else if ( skyObjView.flipped )
-                {
-                    console.log( "skyObjView.flipped :" + skyObjView.flipped )
-                    skyObjView.flipped = false
+                    console.log("soTypeSelected")
+                    if ( !skyObjView.flipped )
+                    {
+                        console.log( "skyObjView.flipped :" + skyObjView.flipped )
+                        console.log( "categoryView.flipped :" + categoryView.flipped )
+                        container.state = "base"
+                        console.log( "container.state :"+container.state )
+                    }
+                    else if ( skyObjView.flipped )
+                    {
+                        console.log( "skyObjView.flipped :" + skyObjView.flipped )
+                        skyObjView.flipped = false
+                    }
                 }
             }
+            }
+    }
+
+    Image {
+        id: settingsIcon
+        x: 9
+        y: 528
+        width: 28
+        height: 28
+        sourceSize.height: 40
+        sourceSize.width: 40
+        smooth: true
+        fillMode: Image.Stretch
+        anchors.left: parent.left
+        anchors.leftMargin: 9
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 6
+        source: "settingsIcon.png"
+
+        MouseArea {
+            id: settingsMouseArea
+            anchors.fill: parent
         }
     }
 
@@ -1053,11 +1097,13 @@ Rectangle {
             from: "*"
             to: "soTypeSelected"
             NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
         },
         Transition {
             from: "soTypeSelected"
             to: "base"
             NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
         }
     ]
 }

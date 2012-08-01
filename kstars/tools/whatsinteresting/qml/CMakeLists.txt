@@ -1,12 +1,6 @@
 #install_files
 
 install( FILES wiview.qml Button.qml
-         planets.jpg
-         stars.jpg
-         constellation.jpg
-         dso.jpg
-         galaxy.jpg
-         cluster.jpg
-         nebula.jpg
-         stripes.png
-         DESTINATION  ${DATA_INSTALL_DIR}/kstars/tools/whatsinteresting/qml ) 
+         leftArrow.png
+         settingsIcon.png
+         DESTINATION  ${DATA_INSTALL_DIR}/kstars/tools/whatsinteresting/qml )
