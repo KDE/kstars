@@ -66,24 +66,24 @@ void WIView::onCategorySelected(int type)
     switch(type)
     {
     case 0:
-        ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Planets ));
+        ctxt->setContextProperty("soListModel", m->returnModel( type ));
         break;
     case 1:
-        ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Stars ));
+        ctxt->setContextProperty("soListModel", m->returnModel( type ));
         break;
     case 2:
-        ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Constellations ));
+        ctxt->setContextProperty("soListModel", m->returnModel( type ));
         break;
     case 3:
-        ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Galaxies ));
+        ctxt->setContextProperty("soListModel", m->returnModel( type ));
         oMagTextObj->setProperty("text", oMagText);
         break;
     case 4:
-        ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Clusters ));
+        ctxt->setContextProperty("soListModel", m->returnModel( type ));
         oMagTextObj->setProperty("text", oMagText);
         break;
     case 5:
-        ctxt->setContextProperty("soListModel", m->returnModel( ModelManager::Nebulae ));
+        ctxt->setContextProperty("soListModel", m->returnModel( type ));
         oMagTextObj->setProperty("text", oMagText);
         break;
     }
@@ -97,25 +97,23 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
     switch (type)
     {
     case 0:
-        soitem = m->returnModel(ModelManager::Planets)->getSkyObjItem(index);
+        soitem = m->returnModel(type)->getSkyObjItem(index);
         break;
     case 1:
-        soitem = m->returnModel(ModelManager::Stars)->getSkyObjItem(index);
+        soitem = m->returnModel(type)->getSkyObjItem(index);
         break;
     case 2:
-        soitem = m->returnModel(ModelManager::Galaxies)->getSkyObjItem(index);
+        soitem = m->returnModel(type)->getSkyObjItem(index);
         break;
     case 3:
-        soitem = m->returnModel(ModelManager::Constellations)->getSkyObjItem(index);
+        soitem = m->returnModel(type)->getSkyObjItem(index);
         break;
     case 4:
-        soitem = m->returnModel(ModelManager::Clusters)->getSkyObjItem(index);
-        kDebug()<<soitem->getSkyObject()->typeName();
-        return;
+        soitem = m->returnModel(type)->getSkyObjItem(index);
+        break;
     case 5:
-        soitem = m->returnModel(ModelManager::Nebulae)->getSkyObjItem(index);
-        kDebug()<<soitem->getSkyObject()->typeName();
-        return;
+        soitem = m->returnModel(type)->getSkyObjItem(index);
+        break;
     }
 
     kDebug()<<soitem->getName()<<soitem->getType();
@@ -152,7 +150,7 @@ void WIView::loadDetailsView(SkyObjItem* soitem, int index)
 
 void WIView::onNextObjTextClicked()
 {
-    int modelSize = m->returnModel(curSoItem->getTypeName())->rowCount();
-    SkyObjItem *nextItem = m->returnModel(curSoItem->getTypeName())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    int modelSize = m->returnModel(curSoItem->getType())->rowCount();
+    SkyObjItem *nextItem = m->returnModel(curSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
     loadDetailsView(nextItem, (m_CurIndex+1)%modelSize);
 }

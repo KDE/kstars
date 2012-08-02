@@ -28,9 +28,7 @@ public:
     ~ModelManager();
     void updateModels();
 
-    SkyObjListModel* returnModel ( LIST_TYPE type );
-    SkyObjListModel* returnModel ( QString type );
-    QStringList returnCatListModel ( LIST_TYPE Type );
+    SkyObjListModel* returnModel ( int type );
 
 private:
     ObsConditions *obsconditions;

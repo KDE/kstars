@@ -33,6 +33,9 @@ SkyObjItem::SkyObjItem(SkyObject* sobj, QObject* parent) : QObject(parent),
     case SkyObject::CONSTELLATION:
         m_Type = Constellation;
         break;
+    case SkyObject::GALAXY:
+        m_Type = Galaxy;
+        break;
     case SkyObject::OPEN_CLUSTER:
     case SkyObject::GLOBULAR_CLUSTER:
     case SkyObject::GALAXY_CLUSTER:
@@ -122,4 +125,24 @@ QString SkyObjItem::getDesc() const
 QString SkyObjItem::getMagnitude() const
 {
     return QString("Magnitude : ")+(QString::number(so->mag()));
+}
+
+int SkyObjItem::getType() const
+{
+    switch (m_Type)
+    {
+    case Planet:
+        return 0;
+    case Star:
+        return 1;
+    case Constellation:
+        return 2;
+    case Galaxy:
+        return 3;
+    case Cluster:
+        return 4;
+    case Nebula:
+        return 5;
+    }
+    return -1;
 }
