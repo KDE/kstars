@@ -25,7 +25,8 @@ Rectangle {
     Rectangle {
         id: base
         y: 89
-        height: 398
+        width: 370
+        height: 385
         color: "transparent"
         radius: 12
         anchors.left: parent.left
@@ -97,6 +98,7 @@ Rectangle {
                             onEntered: container.state = "planetAreaEntered"
                             onClicked: {
                                 viewsRow.categorySelected(0)
+                                oMagText.visible = false
                                 container.state = "soTypeSelected"
                             }
                         }
@@ -128,6 +130,7 @@ Rectangle {
                             onEntered: container.state = "starAreaEntered"
                             onClicked: {
                                 viewsRow.categorySelected(1)
+                                oMagText.visible = false
                                 container.state = "soTypeSelected"
                             }
                         }
@@ -159,6 +162,7 @@ Rectangle {
                             onEntered: container.state = "conAreaEntered"
                             onClicked: {
                                 viewsRow.categorySelected(2)
+                                oMagText.visible = false
                                 container.state = "soTypeSelected"
                             }
                         }
@@ -236,6 +240,7 @@ Rectangle {
                                 onEntered: container.state = "galAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(3)
+                                    oMagText.visible = true
                                     container.state = "soTypeSelected"
                                 }
                             }
@@ -275,6 +280,7 @@ Rectangle {
                                 onEntered: container.state = "nebAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(5)
+                                    oMagText.visible = true
                                     container.state = "soTypeSelected"
                                 }
                             }
@@ -314,6 +320,7 @@ Rectangle {
                                 onEntered: container.state = "clustAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(4)
+                                    oMagText.visible = true
                                     container.state = "soTypeSelected"
                                 }
                             }
@@ -428,22 +435,23 @@ Rectangle {
                         Text {
                             id: posText
                             objectName: "posTextObj"
-                            x: 5
                             y: 49
+                            anchors.right: parent.right
+                            anchors.rightMargin: 10
                             width: 291
-                            height: 26
-                            color: "#ffffff"
+                            height: 19
+                            color: "#f7f7ac"
                             text: qsTr("text")
                             horizontalAlignment: Text.AlignRight
-                            font.underline: true
-                            font.italic: true
+                            font.underline: false
+                            font.italic: false
                             font.bold: true
-                            font.pixelSize: 10
+                            font.pixelSize: 11
                         }
 
                         Rectangle {
                             x: 0
-                            y: 84
+                            y: 95
                             width: parent.width
                             height: 175
                             color: "#00000000"
@@ -514,12 +522,13 @@ Rectangle {
                         Text {
                             id: magText
                             objectName: "magTextObj"
-                            x: 102
-                            y: 285
+                            x: 130
+                            y: 277
                             width: 80
                             height: 15
                             color: "#ffffff"
                             text: qsTr("text")
+                            anchors.horizontalCenterOffset: 0
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             anchors.horizontalCenter: parent.horizontalCenter
@@ -634,6 +643,22 @@ Rectangle {
         }
     }
 
+    Text {
+        id: oMagText
+        objectName: "oMagTextObj"
+        x: 8
+        y: 481
+        width: 297
+        height: 14
+        color: "#ffffff"
+        text: qsTr("")
+        opacity: 0
+        visible: false
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignLeft
+        font.pixelSize: 12
+    }
+
     states: [
         State {
             name: "base"
@@ -651,6 +676,11 @@ Rectangle {
             PropertyChanges {
                 target: clustText
                 color: "#6b6660"
+            }
+
+            PropertyChanges {
+                target: oMagText
+                visible: false
             }
         },
         State {
@@ -1043,6 +1073,10 @@ Rectangle {
                 x: 236
             }
 
+            PropertyChanges {
+                target: oMagText
+                opacity: 1
+            }
         }
     ]
 
@@ -1098,12 +1132,14 @@ Rectangle {
             to: "soTypeSelected"
             NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
             NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: oMagText; property: "opacity"; duration: 1000; easing.type: Easing.InOutQuad }
         },
         Transition {
             from: "soTypeSelected"
             to: "base"
             NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
             NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: oMagText; property: "opacity"; duration: 100; easing.type: Easing.InOutQuad }
         }
     ]
 }

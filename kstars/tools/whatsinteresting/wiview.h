@@ -40,5 +40,6 @@ private:
     QDeclarativeContext *ctxt;
     ModelManager *m;
     SkyObjItem *curSoItem;
-    int curIndex;
+    int m_CurIndex;
+    double m_OptMag;
 };
