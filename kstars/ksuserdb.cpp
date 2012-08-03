@@ -23,9 +23,6 @@
 
 bool KSUserDB::Initialize() {
     // Every logged in user has their own db.
-    // TODO(spacetime): This needs to be merged with verification,
-    // and made into a static member
-    // to achieve 'aggregation' with kstarsdata
     userdb_ = QSqlDatabase::addDatabase("QSQLITE", "userdb");
     QString dbfile = KStandardDirs::locateLocal("appdata", "userdb.sqlite");
     QFile testdb(dbfile);
