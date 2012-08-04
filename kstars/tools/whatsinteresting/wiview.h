@@ -17,6 +17,7 @@
 
 #include "QtDeclarative/QDeclarativeView"
 #include "QtDeclarative/QDeclarativeContext"
+#include "QtDeclarative/QDeclarativeItem"
 #include "QModelIndex"
 #include "skyobject.h"
 #include "modelmanager.h"
@@ -36,10 +37,10 @@ public slots:
     void onSoListItemClicked(int type, QString typeName, int index);
     void onNextObjTextClicked();
 private:
-    QObject *baseObj, *containerObj, *viewsRowObj, *soListObj, *detailsViewObj, *nextObj;
+    QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj, *m_NextObj;
     QDeclarativeContext *ctxt;
     ModelManager *m;
-    SkyObjItem *curSoItem;
+    SkyObjItem *m_CurSoItem;
     int m_CurIndex;
     double m_OptMag;
 };

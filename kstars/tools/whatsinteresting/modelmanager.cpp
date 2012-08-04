@@ -53,10 +53,6 @@ void ModelManager::updateModels()
 {
     KStarsData *data = KStarsData::Instance();
 
-    //double TLM = obsconditions->getTrueMagLim();
-    baseCatList << "Planets" << "Stars" << "Constellations" << "Deep-sky Objects" ;
-    deepSkyList << "Galaxies" << "Clusters" << "Nebulae";
-
     KSFileReader fileReader;
     if ( !fileReader.open("Interesting.dat") ) return;
 
@@ -70,12 +66,10 @@ void ModelManager::updateModels()
         {
             if (o->type() == 3 || o->type() == 4 || o->type() == 14 )
             {
-                kDebug()<<"Cluster object";
                 initobjects["Cluster"].append(o);
             }
             else if (o->type() == 5 || o->type() == 6 || o->type() == 15)
             {
-                kDebug()<<"Nebulae object";
                 initobjects["Nebula"].append(o);
             }
             else
@@ -117,7 +111,6 @@ void ModelManager::updateModels()
 
     foreach(SkyObject *so, initobjects.value("Cluster"))
     {
-        kDebug()<<"Cluster object"<<so->name()<<so->typeName();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             clustModel->addSkyObject(new SkyObjItem(so));
@@ -133,7 +126,7 @@ void ModelManager::updateModels()
         }
     }
 
-    foreach ( const QString &name, data->skyComposite()->objectNames( SkyObject::PLANET ) ) 
+    foreach ( const QString &name, data->skyComposite()->objectNames( SkyObject::PLANET ))
     {
         SkyObject *so = data->skyComposite()->findByName( name );
         //kDebug()<<so->name()<<so->mag();
@@ -141,6 +134,7 @@ void ModelManager::updateModels()
         {
 //             SkyObjectItem *planetItem = new SkyObjectItem(o);
 //             planetItem->setText(o->name());
+            if (so->name() == "Sun") continue;
             planetsModel->addSkyObject(new SkyObjItem(so));
         }
     }
@@ -150,19 +144,19 @@ SkyObjListModel* ModelManager::returnModel(int type)
 {
     switch(type)
     {
-    case 0:
+    case 0:    //Planet type
         return planetsModel;
-    case 1:
+    case 1:    //Star type
         return starsModel;
-    case 2:
+    case 2:    //Constellation type
         return conModel;
-    case 3:
+    case 3:    //Galaxy Type
         return galModel;
-    case 4:
+    case 4:    //Cluster type
         return clustModel;
-    case 5:
+    case 5:    //Nebula type
         return nebModel;
     default:
-        return (new SkyObjListModel());
+        return 0;
     }
 }

@@ -19,22 +19,17 @@
 #include "math.h"
 #include "kdebug.h"
 
-ObsConditions::ObsConditions(int bortle, Equipment eq, double ap, EquipmentType tp)
+ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, EquipmentType eqType):
+    m_BortleClass(bortle), m_Aperture(aperture), m_Equip(equip), m_EqType(eqType)
 {
-    bortleClass = bortle;
-    equip = eq;
-    aperture = ap;
-
     // 't' parameter
-    switch ( type = tp )
+    switch ( m_EqType )
     {
         case Reflector:
-            t = 0.7;
+            m_tParam = 0.7;
             break;
         case Refractor:
-            t = 0.9;
-            break;
-        default:
+            m_tParam = 0.9;
             break;
     }
     setLimMagnitude();
@@ -42,49 +37,39 @@ ObsConditions::ObsConditions(int bortle, Equipment eq, double ap, EquipmentType 
 
 ObsConditions::~ObsConditions() {}
 
-void ObsConditions::setEquipment(Equipment eq)
-{
-    equip = eq;
-}
-
-void ObsConditions::setEquipmentType(EquipmentType t)
-{
-    type = t;
-}
-
 void ObsConditions::setLimMagnitude()
 {
-    switch ( bortleClass )
+    switch ( m_BortleClass )
     {
         case 1:
-            LM = 7.8;       //Excellent dark-sky site
+            m_LM = 7.8;       //Excellent dark-sky site
             break;
         case 2:
-            LM = 7.3;       //Typical truly dark site
+            m_LM = 7.3;       //Typical truly dark site
             break;
         case 3:
-            LM = 6.8;       //Rural sky
+            m_LM = 6.8;       //Rural sky
             break;
         case 4:
-            LM = 6.3;
+            m_LM = 6.3;
             break;
         case 5:
-            LM = 5.8;
+            m_LM = 5.8;
             break;
         case 6:
-            LM = 5.3;
+            m_LM = 5.3;
             break;
         case 7:
-            LM = 4.8;
+            m_LM = 4.8;
             break;
         case 8:
-            LM = 4.3;
+            m_LM = 4.3;
             break;
         case 9:
-            LM = 3.8;
+            m_LM = 3.8;
             break;
         default:
-            LM = 4.0;
+            m_LM = 4.0;
             break;
     }
 }
@@ -92,8 +77,8 @@ void ObsConditions::setLimMagnitude()
 
 double ObsConditions::getOptimumMAG()
 {
-    double power = ( 2.81 + 2.814 * LM - 0.3694 * pow( LM , 2 ) ) / 5;
-    return 0.1333 * aperture * sqrt(t) * pow( power , 10 );
+    double power = ( 2.81 + 2.814 * m_LM - 0.3694 * pow( m_LM , 2 ) ) / 5;
+    return 0.1333 * m_Aperture * sqrt( m_tParam ) * pow( power , 10 );
 }
 
 
@@ -113,7 +98,7 @@ double ObsConditions::getTrueMagLim()
      * telescope's aperture to eye's pupil surface ratio.
      */
     //kDebug() << (LM + 5*log10(aperture/7.5));
-    return (LM + 5*log10(aperture/7.5));
+    return m_LM + 5*log10(m_Aperture/7.5);
 }
 
 bool ObsConditions::isVisible(GeoLocation* geo, dms* lst, SkyObject* so)

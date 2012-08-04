@@ -37,14 +37,17 @@ void WIUserSettings::makeConnections()
 void WIUserSettings::slotFinished( int )
 {
 
-    eq = noEquipCheck->isEnabled() ? (ObsConditions::None) : (telescopeCheck->isChecked()
-    ?(binocularsCheck->isChecked() ? ObsConditions::Both : ObsConditions::Telescope)
-    :(binocularsCheck->isChecked() ? ObsConditions::Binoculars : ObsConditions::None));
+    eq = noEquipCheck->isEnabled()
+            ? (ObsConditions::None)
+            : (telescopeCheck->isChecked()
+            ? (binocularsCheck->isChecked() ? ObsConditions::Both : ObsConditions::Telescope)
+            : (binocularsCheck->isChecked() ? ObsConditions::Binoculars : ObsConditions::None));
+
 
     type = (equipmentType->currentText()=="Reflector") ? ObsConditions::Reflector : ObsConditions::Refractor;
 
     kDebug()<<bortleClass->value()<<eq<<aperture->value()<<type;
-    WIView *wi = new WIView(0, new ObsConditions(bortleClass->value(), eq, aperture->value(), type));
+    WIView *wi = new WIView(0, new ObsConditions(bortleClass->value(), aperture->value(), eq, type));
 }
 
 void WIUserSettings::slotTelescopeCheck(bool on)

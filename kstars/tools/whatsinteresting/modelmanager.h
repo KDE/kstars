@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-//#include <QStandardItemModel>
 #include "skyobjlistmodel.h"
 #include "kstarsdata.h"
 #include "obsconditions.h"
@@ -23,7 +22,6 @@
 class ModelManager
 {
 public:
-    enum LIST_TYPE { BaseList, DeepSkyObjects, Planets, Stars, Galaxies, Constellations, Clusters, Nebulae };
     ModelManager(ObsConditions *obs);
     ~ModelManager();
     void updateModels();
@@ -34,5 +32,5 @@ private:
     ObsConditions *obsconditions;
     SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *clustModel, *nebModel;
     QStringList baseCatList, planetaryList, deepSkyList;
-    QHash < QString , QList < SkyObject * > > initobjects;
+    QHash < QString, QList <SkyObject *> > initobjects;
 };

@@ -19,10 +19,10 @@
 #include "kstarsdata.h"
 #include "skyobjitem.h"
 
-SkyObjItem::SkyObjItem(SkyObject* sobj, QObject* parent) : QObject(parent),
-    m_Name(sobj->name()), m_TypeName(sobj->typeName())
+SkyObjItem::SkyObjItem(SkyObject* so, QObject* parent) : QObject(parent),
+    m_Name(so->name()), m_TypeName(so->typeName()), m_So(so)
 {
-    switch (sobj->type())
+    switch (so->type())
     {
     case SkyObject::PLANET:
         m_Type = Planet;
@@ -48,7 +48,7 @@ SkyObjItem::SkyObjItem(SkyObject* sobj, QObject* parent) : QObject(parent),
         break;
     }
 
-    setPosition(so=sobj);
+    setPosition(m_So);
 }
 
 QVariant SkyObjItem::data(int role)
@@ -124,25 +124,5 @@ QString SkyObjItem::getDesc() const
 
 QString SkyObjItem::getMagnitude() const
 {
-    return QString("Magnitude : ")+(QString::number(so->mag()));
-}
-
-int SkyObjItem::getType() const
-{
-    switch (m_Type)
-    {
-    case Planet:
-        return 0;
-    case Star:
-        return 1;
-    case Constellation:
-        return 2;
-    case Galaxy:
-        return 3;
-    case Cluster:
-        return 4;
-    case Nebula:
-        return 5;
-    }
-    return -1;
+    return QString("Magnitude : ")+(QString::number(m_So->mag()));
 }

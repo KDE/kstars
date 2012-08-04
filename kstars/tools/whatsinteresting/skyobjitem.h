@@ -28,24 +28,24 @@ class SkyObjItem : public QObject
 public:
     enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole, CategoryNameRole };
     enum Type {Planet, Star, Constellation, Galaxy, Cluster, Nebula};
-    explicit SkyObjItem( SkyObject *sobj=0, QObject *parent = 0);
+    explicit SkyObjItem( SkyObject *so=0, QObject *parent = 0);
     QVariant data(int role);
     QHash<int, QByteArray> roleNames() const;
     inline QString getName() const { return m_Name; }
     inline QString getTypeName() const { return m_TypeName; }
+    inline int getType() const { return int(m_Type); }
     inline QString getPosition() const { return m_Position; }
-    inline SkyObject* getSkyObject() { return so; }
+    inline SkyObject* getSkyObject() { return m_So; }
     QString getDesc() const;
     QString getMagnitude() const;
     void setPosition(SkyObject* so);
-    int getType() const;
 
 private:
     QString m_Name;
     QString m_TypeName;
     QString m_Position;
     Type m_Type;
-    SkyObject* so;
+    SkyObject* m_So;
 };
 
 #endif // SKYOBJITEM_H

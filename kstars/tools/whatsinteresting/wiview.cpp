@@ -27,24 +27,24 @@ WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
     m = new ModelManager(obs);
 
     QDeclarativeView *baseView = new QDeclarativeView();
+
     ctxt = baseView->rootContext();
 
-    baseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml") );
-    baseObj = dynamic_cast<QObject *> (baseView->rootObject());
+    baseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml"));
 
-    //soTypeTextObj = baseObj->findChild<QObject *>("soTypeTextObj");
+    m_BaseObj = dynamic_cast<QObject *> (baseView->rootObject());
 
-    containerObj = baseObj->findChild<QObject *>("containerObj");
+    //soTypeTextObj = m_BaseObj->findChild<QObject *>("soTypeTextObj");
 
-    viewsRowObj = baseObj->findChild<QObject *>("viewsRowObj");
-    connect(viewsRowObj, SIGNAL(categorySelected(int)), this, SLOT(onCategorySelected(int)));
+    m_ViewsRowObj = m_BaseObj->findChild<QObject *>("viewsRowObj");
+    connect(m_ViewsRowObj, SIGNAL(categorySelected(int)), this, SLOT(onCategorySelected(int)));
 
-    soListObj = baseObj->findChild<QObject *>("soListObj");
-    connect(soListObj, SIGNAL(soListItemClicked(int, QString, int)), this, SLOT(onSoListItemClicked(int, QString, int)));
+    m_SoListObj = m_BaseObj->findChild<QObject *>("soListObj");
+    connect(m_SoListObj, SIGNAL(soListItemClicked(int, QString, int)), this, SLOT(onSoListItemClicked(int, QString, int)));
 
-    detailsViewObj = baseObj->findChild<QObject *>("detailsViewObj");
-    nextObj  = baseObj->findChild<QObject *>("nextObj");
-    connect(nextObj, SIGNAL(nextObjTextClicked()), this, SLOT(onNextObjTextClicked()));
+    m_DetailsViewObj = m_BaseObj->findChild<QObject *>("detailsViewObj");
+    m_NextObj  = m_BaseObj->findChild<QObject *>("nextObj");
+    connect(m_NextObj, SIGNAL(nextObjTextClicked()), this, SLOT(onNextObjTextClicked()));
 
     m_OptMag = obs->getOptimumMAG();
 
@@ -55,33 +55,23 @@ WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
 WIView::~WIView()
 {
     delete m;
-    delete curSoItem;
+    delete m_CurSoItem;
 }
 
 void WIView::onCategorySelected(int type)
 {
     QString oMagText = QString("Suggested optimum magnification : ") + QString::number(m_OptMag);
-    QObject* oMagTextObj = baseObj->findChild<QObject *>("oMagTextObj");
+    QObject* oMagTextObj = m_BaseObj->findChild<QObject *>("oMagTextObj");
 
     switch(type)
     {
     case 0:
-        ctxt->setContextProperty("soListModel", m->returnModel( type ));
-        break;
     case 1:
-        ctxt->setContextProperty("soListModel", m->returnModel( type ));
-        break;
     case 2:
         ctxt->setContextProperty("soListModel", m->returnModel( type ));
         break;
     case 3:
-        ctxt->setContextProperty("soListModel", m->returnModel( type ));
-        oMagTextObj->setProperty("text", oMagText);
-        break;
     case 4:
-        ctxt->setContextProperty("soListModel", m->returnModel( type ));
-        oMagTextObj->setProperty("text", oMagText);
-        break;
     case 5:
         ctxt->setContextProperty("soListModel", m->returnModel( type ));
         oMagTextObj->setProperty("text", oMagText);
@@ -91,30 +81,7 @@ void WIView::onCategorySelected(int type)
 
 void WIView::onSoListItemClicked(int type, QString typeName, int index)
 {
-    SkyObjItem *soitem;
-
-    kDebug()<<type;
-    switch (type)
-    {
-    case 0:
-        soitem = m->returnModel(type)->getSkyObjItem(index);
-        break;
-    case 1:
-        soitem = m->returnModel(type)->getSkyObjItem(index);
-        break;
-    case 2:
-        soitem = m->returnModel(type)->getSkyObjItem(index);
-        break;
-    case 3:
-        soitem = m->returnModel(type)->getSkyObjItem(index);
-        break;
-    case 4:
-        soitem = m->returnModel(type)->getSkyObjItem(index);
-        break;
-    case 5:
-        soitem = m->returnModel(type)->getSkyObjItem(index);
-        break;
-    }
+    SkyObjItem *soitem = m->returnModel(type)->getSkyObjItem(index);
 
     kDebug()<<soitem->getName()<<soitem->getType();
 //    soTypeTextObj->setProperty("text", typeName);
@@ -126,10 +93,10 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
 
 void WIView::loadDetailsView(SkyObjItem* soitem, int index)
 {
-    QObject* sonameObj = detailsViewObj->findChild<QObject *>("sonameObj");
-    QObject* posTextObj = detailsViewObj->findChild<QObject *>("posTextObj");
-    QObject* descTextObj = detailsViewObj->findChild<QObject *>("descTextObj");
-    QObject* magTextObj = detailsViewObj->findChild<QObject *>("magTextObj");
+    QObject* sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
+    QObject* posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
+    QObject* descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
+    QObject* magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
     sonameObj->setProperty("text", soitem->getName());
     posTextObj->setProperty("text", soitem->getPosition());
     descTextObj->setProperty("text", soitem->getDesc());
@@ -144,13 +111,13 @@ void WIView::loadDetailsView(SkyObjItem* soitem, int index)
         data->map()->setDestination( *data->map()->focusPoint() );
     }
 
-    curSoItem = soitem;
+    m_CurSoItem = soitem;
     m_CurIndex = index;
 }
 
 void WIView::onNextObjTextClicked()
 {
-    int modelSize = m->returnModel(curSoItem->getType())->rowCount();
-    SkyObjItem *nextItem = m->returnModel(curSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
+    SkyObjItem *nextItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
     loadDetailsView(nextItem, (m_CurIndex+1)%modelSize);
 }
