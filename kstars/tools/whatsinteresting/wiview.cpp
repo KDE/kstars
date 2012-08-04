@@ -28,6 +28,9 @@ WIView::WIView ( QObject *parent, ObsConditions *obs) : QObject(parent)
 
     QDeclarativeView *baseView = new QDeclarativeView();
 
+    baseView->setAttribute(Qt::WA_TranslucentBackground);
+    baseView->setStyleSheet("background: transparent;");
+
     ctxt = baseView->rootContext();
 
     baseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml"));

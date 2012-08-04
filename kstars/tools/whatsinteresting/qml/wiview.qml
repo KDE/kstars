@@ -5,8 +5,16 @@ Rectangle {
     objectName: "containerObj"
     width: 370
     height: 575
-    color: "#000009"
+    color: "transparent"
+//    color: "#000009"
     anchors.fill: parent
+
+    Rectangle {
+        id: translucentBackground
+        color: "#020518"
+        anchors.fill: parent
+        opacity: 0.890
+    }
 
     Text {
         id: title
@@ -61,6 +69,7 @@ Rectangle {
 
                     color: "#00060b"
                     radius: 12
+                    opacity: 0.500
                     border.width: 4
                     border.color: "black"
                 }
@@ -349,13 +358,20 @@ Rectangle {
                     width: parent.width
 
                     Rectangle {
+                        id: soListViewBackground
+                        anchors.fill: soListViewContainer
+                        color: "#00060b"
+                        opacity: 0.5
+                    }
+
+                    Rectangle {
 
                         id: soListViewContainer
                         x: parent.x + 15
                         y: 31
                         width: parent.width - 30
                         height: 351
-                        color: "#00060b"
+                        color: "transparent"
                         radius: 12
                         border.width: 4
                         border.color: "#000000"
@@ -405,12 +421,19 @@ Rectangle {
                     border.color: "#000000"
 
                     Rectangle {
+                        id: detailsViewBackground
+                        anchors.fill: detailsView
+                        color: "#00060b"
+                        opacity: 0.5
+                    }
+
+                    Rectangle {
                         id: detailsView
                         objectName: "detailsViewObj"
                         x: parent.x + 15
                         height: parent.height - 20
                         width: parent.width - 30
-                        color: "#00060b"
+                        color: "transparent"
                         radius: 12
                         border.width: 4
                         border.color: "#000000"

@@ -17,7 +17,6 @@
 
 #include "QtDeclarative/QDeclarativeView"
 #include "QtDeclarative/QDeclarativeContext"
-#include "QtDeclarative/QDeclarativeItem"
 #include "QModelIndex"
 #include "skyobject.h"
 #include "modelmanager.h"
