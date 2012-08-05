@@ -19,8 +19,7 @@
 #include "kstarsdata.h"
 #include "skyobjitem.h"
 
-SkyObjItem::SkyObjItem(SkyObject* so, QObject* parent) : QObject(parent),
-    m_Name(so->name()), m_TypeName(so->typeName()), m_So(so)
+SkyObjItem::SkyObjItem(SkyObject* so) : m_Name(so->name()), m_TypeName(so->typeName()), m_So(so)
 {
     switch (so->type())
     {

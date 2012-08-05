@@ -22,13 +22,13 @@
 #include <QObject>
 #include "skyobject.h"
 
-class SkyObjItem : public QObject
+class SkyObjItem
 {
-    Q_OBJECT
+
 public:
     enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole, CategoryNameRole };
     enum Type {Planet, Star, Constellation, Galaxy, Cluster, Nebula};
-    explicit SkyObjItem( SkyObject *so=0, QObject *parent = 0);
+    SkyObjItem( SkyObject *so=0);
     QVariant data(int role);
     QHash<int, QByteArray> roleNames() const;
     inline QString getName() const { return m_Name; }
@@ -48,4 +48,4 @@ private:
     SkyObject* m_So;
 };
 
-#endif // SKYOBJITEM_H
+#endif
