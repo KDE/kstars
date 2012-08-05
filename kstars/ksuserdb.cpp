@@ -150,6 +150,7 @@ void KSUserDB::AddObserver(QString name, QString surname, QString contact) {
     users.setFilter("Name LIKE \'" + name + "\' AND Surname LIKE \'" +
                     surname + "\'");
     users.select();
+
     if (users.rowCount() > 0) {
             QSqlRecord record = users.record(0);
             record.setValue("Name", name);
@@ -165,6 +166,7 @@ void KSUserDB::AddObserver(QString name, QString surname, QString contact) {
         users.setData(users.index(row, 3), contact);
         users.submitAll();
     }
+
     userdb_.close();
 }
 
@@ -175,7 +177,9 @@ int KSUserDB::FindObserver(QString name, QString surname) {
     users.setFilter("Name LIKE \'" + name + "\' AND Surname LIKE \'" +
                     surname + "\'");
     users.select();
+
     int observer_count = users.rowCount();
+
     users.clear();
     userdb_.close();
     return (observer_count > 0);
@@ -188,9 +192,12 @@ bool KSUserDB::DeleteObserver(QString id) {
     users.setTable("user");
     users.setFilter("id = \'"+id+"\'");
     users.select();
+
     users.removeRows(0, 1);
     users.submitAll();
+
     int observer_count = users.rowCount();
+
     users.clear();
     userdb_.close();
     return (observer_count > 0);
@@ -202,6 +209,7 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
     users.select();
+
     for (int i =0; i < users.rowCount(); ++i) {
         QSqlRecord record = users.record(i);
         QString id = record.value("id").toString();
@@ -211,9 +219,9 @@ void KSUserDB::GetAllObservers(QList<Observer *> &observer_list) {
         OAL::Observer *o= new OAL::Observer(id, name, surname, contact);
         observer_list.append(o);
     }
+
     users.clear();
     userdb_.close();
-    return;
 }
 
 /*
@@ -225,8 +233,10 @@ void KSUserDB::EraseAllFlags() {
     QSqlTableModel flags(0, userdb_);
     flags.setTable("flags");
     flags.select();
+
     flags.removeRows(0, flags.rowCount());
     flags.submitAll();
+
     flags.clear();
     userdb_.close();
 }
@@ -237,6 +247,7 @@ void KSUserDB::AddFlag(QString ra, QString dec,
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
     flags.setTable("flags");
+
     int row = 0;
     flags.insertRows(row, 1);
     flags.setData(flags.index(row, 1), ra);  // row,0 is autoincerement ID
@@ -246,16 +257,19 @@ void KSUserDB::AddFlag(QString ra, QString dec,
     flags.setData(flags.index(row, 5), labelColor);
     flags.setData(flags.index(row, 6), epoch);
     flags.submitAll();
+
     flags.clear();
     userdb_.close();
 }
 
 QList<QStringList> KSUserDB::ReturnAllFlags() {
     QList<QStringList> flagList;
+
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
     flags.setTable("flags");
     flags.select();
+
     for (int i =0; i < flags.rowCount(); ++i) {
         QStringList flagEntry;
         QSqlRecord record = flags.record(i);
@@ -274,6 +288,7 @@ QList<QStringList> KSUserDB::ReturnAllFlags() {
         flagEntry.append(record.value(5).toString());
         flagList.append(flagEntry);
     }
+
     flags.clear();
     userdb_.close();
     return flagList;
@@ -288,8 +303,10 @@ void KSUserDB::EraseEquipment(QString type, int id) {
     equip.setTable(type);
     equip.setFilter("id = " + QString::number(id));
     equip.select();
+
     equip.removeRows(0, equip.rowCount());
     equip.submitAll();
+
     equip.clear();
     userdb_.close();
 }
@@ -302,6 +319,7 @@ void KSUserDB::EraseAllEquipment(QString type) {
     equip.select();
     equip.removeRows(0, equip.rowCount());
     equip.submitAll();
+
     equip.clear();
     userdb_.close();
 }
@@ -314,6 +332,7 @@ void KSUserDB::AddScope(QString model, QString vendor, QString driver,
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
+
     int row = 0;
     equip.insertRows(row, 1);
     equip.setData(equip.index(row, 1), vendor);  // row,0 is autoincerement ID
@@ -323,7 +342,8 @@ void KSUserDB::AddScope(QString model, QString vendor, QString driver,
     equip.setData(equip.index(row, 5), type);
     equip.setData(equip.index(row, 6), focalLength);
     equip.submitAll();
-    equip.clear();
+
+    equip.clear();  //DB will not close if linked object not cleared
     userdb_.close();
 }
 
@@ -335,6 +355,7 @@ void KSUserDB::AddScope(QString model, QString vendor, QString driver,
     equip.setTable("telescope");
     equip.setFilter("id = "+id);
     equip.select();
+
     if (equip.rowCount() > 0) {
         QSqlRecord record = equip.record(0);
         record.setValue(1, vendor);
@@ -346,15 +367,18 @@ void KSUserDB::AddScope(QString model, QString vendor, QString driver,
         equip.setRecord(0, record);
         equip.submitAll();
     }
+
     userdb_.close();
 }
 
 void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
-    userdb_.open();
     scope_list.clear();
-    QSqlTableModel equip(0, userdb_);
+
+    userdb_.open();
+    QSqlTableModel equip(0, userdb_);    
     equip.setTable("telescope");
     equip.select();
+
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
@@ -369,6 +393,7 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
         o->setINDIDriver(driver);
         scope_list.append(o);
     }
+
     equip.clear();
     userdb_.close();
 }
@@ -381,6 +406,7 @@ void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength,
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
+
     int row = 0;
     equip.insertRows(row, 1);
     equip.setData(equip.index(row, 1), vendor);  // row,0 is autoincerement ID
@@ -389,6 +415,7 @@ void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength,
     equip.setData(equip.index(row, 4), fov);
     equip.setData(equip.index(row, 5), fovunit);
     equip.submitAll();
+
     equip.clear();
     userdb_.close();
 }
@@ -400,6 +427,7 @@ void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength,
     equip.setTable("eyepiece");
     equip.setFilter("id = " + id);
     equip.select();
+
     if (equip.rowCount()>0) {
         QSqlRecord record = equip.record(0);
         record.setValue(1, vendor);
@@ -410,15 +438,18 @@ void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength,
         equip.setRecord(0, record);
         equip.submitAll();
     }
+
     userdb_.close();
 }
 
 void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
-    userdb_.open();
     eyepiece_list.clear();
+
+    userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
     equip.select();
+
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
@@ -427,10 +458,12 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
         double focalLength = record.value("FocalLength").toDouble();
         double fov = record.value("ApparentFOV").toDouble();
         QString fovUnit = record.value("FOVUnit").toString();
+
         OAL::Eyepiece *o = new OAL::Eyepiece(id, model, vendor, fov,
                                              fovUnit, focalLength);
         eyepiece_list.append(o);
     }
+
     equip.clear();
     userdb_.close();
 }
@@ -442,12 +475,14 @@ void KSUserDB::AddLens(QString vendor, QString model, double factor) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
+
     int row = 0;
     equip.insertRows(row, 1);
     equip.setData(equip.index(row, 1), vendor);  // row,0 is autoincerement ID
     equip.setData(equip.index(row, 2), model);
     equip.setData(equip.index(row, 3), factor);
     equip.submitAll();
+
     equip.clear();
     userdb_.close();
 }
@@ -459,6 +494,7 @@ void KSUserDB::AddLens(QString vendor, QString model,
     equip.setTable("lens");
     equip.setFilter("id = "+id);
     equip.select();
+
     if (equip.rowCount()>0) {
         QSqlRecord record = equip.record(0);
         record.setValue(1, vendor);
@@ -466,15 +502,18 @@ void KSUserDB::AddLens(QString vendor, QString model,
         record.setValue(3, factor);
         equip.submitAll();
     }
+
     userdb_.close();
 }
 
 void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
-    userdb_.open();
     lens_list.clear();
+
+    userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
     equip.select();
+
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
@@ -484,6 +523,7 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
         OAL::Lens *o = new OAL::Lens(id, model, vendor, factor);
         lens_list.append(o);
     }
+
     equip.clear();
     userdb_.close();
 }
@@ -496,6 +536,7 @@ void KSUserDB::AddFilter(QString vendor, QString model,
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
+
     int row = 0;
     equip.insertRows(row, 1);
     equip.setData(equip.index(row, 1), vendor);  // row,0 is autoincerement ID
@@ -503,6 +544,7 @@ void KSUserDB::AddFilter(QString vendor, QString model,
     equip.setData(equip.index(row, 3), type);
     equip.setData(equip.index(row, 4), color);
     equip.submitAll();
+
     equip.clear();
     userdb_.close();
 }
@@ -514,6 +556,7 @@ void KSUserDB::AddFilter(QString vendor, QString model, QString type,
     equip.setTable("filter");
     equip.setFilter("id = " + id);
     equip.select();
+
     if (equip.rowCount() > 0) {
         QSqlRecord record = equip.record(0);
         record.setValue(1, vendor);
@@ -522,6 +565,7 @@ void KSUserDB::AddFilter(QString vendor, QString model, QString type,
         record.setValue(4, color);
         equip.submitAll();
     }
+
     userdb_.close();
 }
 
@@ -531,6 +575,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
     equip.select();
+
     for (int i =0; i < equip.rowCount(); ++i) {
         QSqlRecord record = equip.record(i);
         QString id = record.value("id").toString();
@@ -541,6 +586,7 @@ void KSUserDB::GetAllFilters(QList<OAL::Filter *> &filter_list) {
         OAL::Filter *o= new OAL::Filter(id, model, vendor, type, color);
         filter_list.append(o);
     }
+
     equip.clear();
     userdb_.close();
     return;
