@@ -29,9 +29,13 @@ class TestKSParser: public QObject {
  public:
   TestKSParser();
  private slots:
-  void stringParse();
+  void MixedInputs();
+  void NoRow();
+  void EmptyRow();
+  void ReadMissingFile();
  private:
   QStringList csv_test_cases_;
+  QList< QPair<QString, KSParser::DataTypes> > sequence;
   QFile test_csv_file;
 };
 

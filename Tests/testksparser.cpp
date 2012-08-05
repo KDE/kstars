@@ -31,6 +31,7 @@ TestKSParser::TestKSParser(): QObject() {
    * To add/change tests, we'll need to modify 2 places. The file and this class.
    * So we write the file from the class.
    */
+  csv_test_cases_.append("\n");
   csv_test_cases_.append(QString(","
                          "isn't,"
                          "it,"
@@ -43,8 +44,8 @@ TestKSParser::TestKSParser(): QObject() {
                          "-3.141,"
                          "isn't,"
                          "either\n"));
-  csv_test_cases_.append("\n");
   csv_test_cases_.append(",,,,,,,,\n");
+  csv_test_cases_.append("\n");
   QString file_name("TestCSV.txt");
   file_name = KStandardDirs::locateLocal("appdata",file_name);
   if (!file_name.isNull()) {
@@ -57,23 +58,9 @@ TestKSParser::TestKSParser(): QObject() {
   foreach(const QString &test_case, csv_test_cases_)
     out_stream << test_case;
   test_csv_file.close();
-}
 
-
-void TestKSParser::stringParse() {
-  /*
-   * The following test checks for the following cases for CSV files
-   *  1. Mixed inputs (See test case for description)
-   *  2. No row (only a newline character)
-   *  3. Empty Row
-   *  4. Truncated row
-   *  5. Row with truncated quote
-   *  6. Attempt to read missing file
-   * 
-  */
-
-  //Building the sequence to be used. Includes all available types.
-  QList< QPair<QString, KSParser::DataTypes> > sequence;
+  //Building the sequence to be used. Includes all available types.  
+  sequence.clear();
   sequence.append(qMakePair(QString("field1"), KSParser::D_QSTRING));
   sequence.append(qMakePair(QString("field2"), KSParser::D_QSTRING));
   sequence.append(qMakePair(QString("field3"), KSParser::D_QSTRING));
@@ -86,11 +73,28 @@ void TestKSParser::stringParse() {
   sequence.append(qMakePair(QString("field10"), KSParser::D_FLOAT));
   sequence.append(qMakePair(QString("field11"), KSParser::D_QSTRING));
   sequence.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
-  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
-  QHash<QString, QVariant> row_content;
+}
 
   /*
+   * The following tests checks for the following cases for CSV files
+   *  1. Mixed inputs (See test case for description)
+   *  2. No row (only a newline character)
+   *  3. Empty Row
+   * PENDING
+   *  4. Truncated row
+   *  5. Row with truncated quote
+   * 
+   *  6. Attempt to read missing file
+   * 
+  */
+
+
+void TestKSParser::MixedInputs() {
+  /*
    * Test 1. Includes input of the form: 
+   * It starts with a newline char which should be slipped by virtue
+   * of the design of the parser
+   * 
    * 1. empty column
    * 2. simple single word
    * 3. single word in quotes
@@ -101,7 +105,9 @@ void TestKSParser::stringParse() {
    * 7. missing integer
    * 8. missing float
   */
-  row_content = test_parser.ReadNextRow();
+  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
+  QHash<QString, QVariant> row_content = test_parser.ReadNextRow();
+  qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString(""));
   QVERIFY(row_content["field2"] == QString("isn't"));
   QVERIFY(row_content["field3"] == QString("it"));
@@ -114,28 +120,16 @@ void TestKSParser::stringParse() {
   QVERIFY(row_content["field10"].toFloat() + 3.141 < 0.1);
   QVERIFY(row_content["field11"] == QString("isn't"));
   QVERIFY(row_content["field12"] == QString("either"));
+}
 
-  /*
-   * Test 2. Attempt to read a newline char instead of a row
-  */
-  row_content = test_parser.ReadNextRow();
-  QVERIFY(row_content["field1"] == QString("Null"));
-  QVERIFY(row_content["field2"] == QString("Null"));
-  QVERIFY(row_content["field3"] == QString("Null"));
-  QVERIFY(row_content["field4"] == QString("Null"));
-  QVERIFY(row_content["field5"] == QString("Null"));
-  QVERIFY(row_content["field6"].toInt() == 0);
-  QVERIFY(row_content["field7"] == QString("Null"));
-  QVERIFY(row_content["field8"] == QString("Null"));
-  QVERIFY(row_content["field9"] == QString("Null"));
-  QVERIFY(row_content["field10"].toFloat() == 0.0);
-  QVERIFY(row_content["field11"] == QString("Null"));
-  QVERIFY(row_content["field12"] == QString("Null"));
-
+void TestKSParser::EmptyRow() {
   /*
    * Test 3. Attempt to read an empty but valid row
   */
+  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
+  QHash<QString, QVariant> row_content = test_parser.ReadNextRow();
   row_content = test_parser.ReadNextRow();
+  qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString(""));
   QVERIFY(row_content["field2"] == QString(""));
   QVERIFY(row_content["field3"] == QString(""));
@@ -148,13 +142,41 @@ void TestKSParser::stringParse() {
   QVERIFY(row_content["field10"].toFloat() == 0.0);
   QVERIFY(row_content["field11"] == QString(""));
   QVERIFY(row_content["field12"] == QString(""));
-  
+}
+
+void TestKSParser::NoRow() {
+  /*
+   * Test 2. Attempt to read a newline char instead of a row
+   * The parser is designed to skip an empty row so we can
+   * test this for a boundary case. i.e. newline at the end.
+  */
+  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
+  QHash<QString, QVariant> row_content = test_parser.ReadNextRow();
+  row_content = test_parser.ReadNextRow();
+  qDebug() << row_content["field1"];
+  QVERIFY(row_content["field1"] == QString("Null"));
+  QVERIFY(row_content["field2"] == QString("Null"));
+  QVERIFY(row_content["field3"] == QString("Null"));
+  QVERIFY(row_content["field4"] == QString("Null"));
+  QVERIFY(row_content["field5"] == QString("Null"));
+  QVERIFY(row_content["field6"].toInt() == 0);
+  QVERIFY(row_content["field7"] == QString("Null"));
+  QVERIFY(row_content["field8"] == QString("Null"));
+  QVERIFY(row_content["field9"] == QString("Null"));
+  QVERIFY(row_content["field10"].toFloat() == 0.0);
+  QVERIFY(row_content["field11"] == QString("Null"));
+  QVERIFY(row_content["field12"] == QString("Null"));
+}
+
+void TestKSParser::ReadMissingFile() {
   /*
    * Test 6. Attempt to read a missing file repeatedly
   */
   QFile::remove(KStandardDirs::locateLocal("appdata","TestCSV.txt"));
   
   KSParser missing_parser(QString("TestCSV.txt"), '#', sequence);
+  QHash<QString, QVariant> row_content = missing_parser.ReadNextRow();
+  
   for (int times = 0; times < 20; times++) {
     row_content = missing_parser.ReadNextRow();
     QVERIFY(row_content["field1"] == QString("Null"));
@@ -170,8 +192,9 @@ void TestKSParser::stringParse() {
     QVERIFY(row_content["field11"] == QString("Null"));
     QVERIFY(row_content["field12"] == QString("Null"));   
   }
-  
 }
+
+
 QTEST_MAIN(TestKSParser)
 
 #include "testksparser.moc"

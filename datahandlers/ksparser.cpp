@@ -60,7 +60,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
     if (file_reader_.hasMoreLines() == false)
         return DummyRow();
     // This signifies that someone tried to read a row
-    // without checking if comment_char is true
+    // without checking if hasMoreLines is true
     /**
      * @brief read_success(bool) signifies if a row has been successfully read.
      * If any problem (eg incomplete row) is encountered. The row is discarded
@@ -85,7 +85,8 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
             *    (CombineQuoteParts
             *
         */
-        if (separated.length() == 0) continue;
+        if (separated.length() == 1) continue; // Length will be 1 if there 
+                                               // is no delimiter
 
         separated = CombineQuoteParts(separated);  // At this point, the
                                      // string has been split
