@@ -68,14 +68,14 @@ void WIView::onCategorySelected(int type)
 
     switch(type)
     {
-    case 0:
-    case 1:
-    case 2:
+    case 0:                        ///Planet type
+    case 1:                        ///Star type
+    case 2:                        ///Constellation type
         ctxt->setContextProperty("soListModel", m->returnModel( type ));
         break;
-    case 3:
-    case 4:
-    case 5:
+    case 3:                        ///Galaxy type
+    case 4:                        ///Cluster type
+    case 5:                        ///Nebula type
         ctxt->setContextProperty("soListModel", m->returnModel( type ));
         oMagTextObj->setProperty("text", oMagText);
         break;
@@ -105,7 +105,7 @@ void WIView::loadDetailsView(SkyObjItem* soitem, int index)
     descTextObj->setProperty("text", soitem->getDesc());
     magTextObj->setProperty("text", soitem->getMagnitude());
 
-    //Slew map to selected sky object
+    ///Slew map to selected sky-object
     SkyObject* so = soitem->getSkyObject();
     KStars* data = KStars::Instance();
     if (so != 0) {
