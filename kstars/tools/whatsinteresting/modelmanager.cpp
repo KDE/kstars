@@ -54,21 +54,25 @@ void ModelManager::updateModels()
     KStarsData *data = KStarsData::Instance();
 
     KSFileReader fileReader;
-    if ( !fileReader.open("Interesting.dat") ) return;
+    if (!fileReader.open("Interesting.dat")) return;
 
-    while ( fileReader.hasMoreLines() )
+    while (fileReader.hasMoreLines())
     {
         QString soTypeName;
         QString line = fileReader.readLine();
 
         SkyObject *o;
-        if ((o = data->skyComposite()->findByName( line )))
+        if ((o = data->skyComposite()->findByName(line)))
         {
-            if (o->type() == 3 || o->type() == 4 || o->type() == 14 )
+            if     (o->type() == SkyObject::OPEN_CLUSTER ||
+                    o->type() == SkyObject::GLOBULAR_CLUSTER ||
+                    o->type() == SkyObject::GALAXY_CLUSTER)
             {
                 initobjects["Cluster"].append(o);
             }
-            else if (o->type() == 5 || o->type() == 6 || o->type() == 15)
+            else if (o->type() == SkyObject::PLANETARY_NEBULA ||
+                     o->type() == SkyObject::DARK_NEBULA ||
+                     o->type() == SkyObject::GASEOUS_NEBULA)
             {
                 initobjects["Nebula"].append(o);
             }
@@ -82,7 +86,7 @@ void ModelManager::updateModels()
         }
     }
 
-    foreach(SkyObject *so, initobjects.value("Star"))
+    foreach (SkyObject *so, initobjects.value("Star"))
     {
         //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
@@ -91,7 +95,7 @@ void ModelManager::updateModels()
         }
     }
 
-    foreach(SkyObject *so, initobjects.value("Galaxy"))
+    foreach (SkyObject *so, initobjects.value("Galaxy"))
     {
         //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
@@ -100,7 +104,7 @@ void ModelManager::updateModels()
         }
     }
 
-    foreach(SkyObject *so, initobjects.value("Constellation"))
+    foreach (SkyObject *so, initobjects.value("Constellation"))
     {
         //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
@@ -109,7 +113,7 @@ void ModelManager::updateModels()
         }
     }
 
-    foreach(SkyObject *so, initobjects.value("Cluster"))
+    foreach (SkyObject *so, initobjects.value("Cluster"))
     {
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
@@ -117,7 +121,7 @@ void ModelManager::updateModels()
         }
     }
 
-    foreach(SkyObject *so, initobjects.value("Nebula"))
+    foreach (SkyObject *so, initobjects.value("Nebula"))
     {
         //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
@@ -126,9 +130,9 @@ void ModelManager::updateModels()
         }
     }
 
-    foreach ( const QString &name, data->skyComposite()->objectNames( SkyObject::PLANET ))
+    foreach (const QString &name, data->skyComposite()->objectNames(SkyObject::PLANET))
     {
-        SkyObject *so = data->skyComposite()->findByName( name );
+        SkyObject *so = data->skyComposite()->findByName(name);
         //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {

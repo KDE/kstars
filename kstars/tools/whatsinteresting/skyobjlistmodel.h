@@ -26,13 +26,12 @@ class SkyObjListModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
-    //enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole };
-    explicit SkyObjListModel(SkyObjItem* soitem = 0, QObject* parent = 0);
+    explicit SkyObjListModel(SkyObjItem *soitem = 0, QObject *parent = 0);
     void addSkyObject(SkyObjItem *sobj);
-    int rowCount( const QModelIndex& parent = QModelIndex()) const;
-    QVariant data( const QModelIndex& index, int role = Qt::DisplayRole) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     QList<SkyObjItem *> getSkyObjItems();
-    SkyObjItem* getSkyObjItem ( int index );
+    SkyObjItem *getSkyObjItem(int index);
 
 private:
     QList<SkyObjItem *> soItemList;

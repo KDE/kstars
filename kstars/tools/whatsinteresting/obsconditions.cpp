@@ -23,7 +23,7 @@ ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, Equip
     m_BortleClass(bortle), m_Aperture(aperture), m_Equip(equip), m_EqType(eqType)
 {
     // 't' parameter
-    switch ( m_EqType )
+    switch (m_EqType)
     {
         case Reflector:
             m_tParam = 0.7;
@@ -39,7 +39,7 @@ ObsConditions::~ObsConditions() {}
 
 void ObsConditions::setLimMagnitude()
 {
-    switch ( m_BortleClass )
+    switch (m_BortleClass)
     {
         case 1:
             m_LM = 7.8;       //Excellent dark-sky site
@@ -74,13 +74,11 @@ void ObsConditions::setLimMagnitude()
     }
 }
 
-
 double ObsConditions::getOptimumMAG()
 {
-    double power = ( 2.81 + 2.814 * m_LM - 0.3694 * pow( m_LM , 2 ) ) / 5;
-    return 0.1333 * m_Aperture * sqrt( m_tParam ) * pow( power , 10 );
+    double power = (2.81 + 2.814 * m_LM - 0.3694 * pow(m_LM, 2)) / 5;
+    return 0.1333 * m_Aperture * sqrt(m_tParam ) * pow(power, 10);
 }
-
 
 double ObsConditions::getTrueMagLim()
 {
@@ -98,16 +96,16 @@ double ObsConditions::getTrueMagLim()
      * telescope's aperture to eye's pupil surface ratio.
      */
     //kDebug() << (LM + 5*log10(aperture/7.5));
-    return m_LM + 5*log10(m_Aperture/7.5);
+    return m_LM + 5 * log10(m_Aperture / 7.5);
 }
 
-bool ObsConditions::isVisible(GeoLocation* geo, dms* lst, SkyObject* so)
+bool ObsConditions::isVisible(GeoLocation *geo, dms *lst, SkyObject *so)
 {
-    KStarsDateTime ut = geo->LTtoUT( KStarsDateTime(KDateTime::currentLocalDateTime()) );
-    SkyPoint sp = so->recomputeCoords( ut, geo );
+    KStarsDateTime ut = geo->LTtoUT(KStarsDateTime(KDateTime::currentLocalDateTime()));
+    SkyPoint sp = so->recomputeCoords(ut, geo);
 
     //check altitude of object at this time.
-    sp.EquatorialToHorizontal( lst, geo->lat() );
+    sp.EquatorialToHorizontal(lst, geo->lat());
 
-    return ( sp.alt().Degrees() > 6.0 && so->mag()<getTrueMagLim() );
+    return (sp.alt().Degrees() > 6.0 && so->mag() < getTrueMagLim());
 }

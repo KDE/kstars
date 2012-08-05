@@ -21,7 +21,7 @@
 #include "obsconditions.h"
 #include "kdebug.h"
 
-WIUserSettings::WIUserSettings(QWidget* parent, Qt::WindowFlags flags): QWizard(parent, flags)
+WIUserSettings::WIUserSettings(QWidget *parent, Qt::WindowFlags flags): QWizard(parent, flags)
 {
     setupUi(this);
     makeConnections();
@@ -34,9 +34,8 @@ void WIUserSettings::makeConnections()
     connect(binocularsCheck, SIGNAL( toggled(bool)), this, SLOT(slotBinocularsCheck(bool)));
 }
 
-void WIUserSettings::slotFinished( int )
+void WIUserSettings::slotFinished(int)
 {
-
     eq = noEquipCheck->isEnabled()
             ? (ObsConditions::None)
             : (telescopeCheck->isChecked()

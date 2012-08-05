@@ -23,7 +23,7 @@
 class ObsConditions
 {
 public:
-    enum Equipment {Telescope = 0, Binoculars, Both, None };
+    enum Equipment { Telescope = 0, Binoculars, Both, None };
     enum EquipmentType { Reflector = 0, Refractor };
     ObsConditions(int bortle, double aperture, Equipment equip, EquipmentType eqType);
     ~ObsConditions();
@@ -32,7 +32,7 @@ public:
     void setLimMagnitude();
     double getOptimumMAG();
     double getTrueMagLim();
-    bool isVisible(GeoLocation* geo, dms* lst, SkyObject* so);
+    bool isVisible(GeoLocation *geo, dms *lst, SkyObject *so);
 
 private:
     int m_BortleClass;

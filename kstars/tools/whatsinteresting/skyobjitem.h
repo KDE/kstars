@@ -34,19 +34,19 @@ public:
      * \enum SkyObjectRoles
      * User-defined role for the SkyObjItem
      */
-    enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole, CategoryNameRole };
+    enum SkyObjectRoles { DispNameRole = Qt::UserRole + 1, CategoryRole, CategoryNameRole };
 
     /**
      * \enum Type
      * The type classification for the SkyObjItem
      */
-    enum Type {Planet, Star, Constellation, Galaxy, Cluster, Nebula};
+    enum Type { Planet, Star, Constellation, Galaxy, Cluster, Nebula };
 
     /**
      * \brief Constructor
      * \param so Pointer to the SkyObject which the SkyObjItem represents.
      */
-    SkyObjItem( SkyObject *so=0);
+    SkyObjItem(SkyObject *so = 0);
 
     /**
      * \brief Get data associated with a particular role for the SkyObjItem
@@ -107,7 +107,7 @@ public:
      * \brief Set current position of the sky-object in the sky.
      * \param so Pointer to SkyObject for which position information is required.
      */
-    void setPosition(SkyObject* so);
+    void setPosition(SkyObject *so);
 
 private:
     QString m_Name;      ///Name of sky-object

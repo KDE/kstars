@@ -26,11 +26,11 @@ public:
     ~ModelManager();
     void updateModels();
 
-    SkyObjListModel* returnModel ( int type );
+    SkyObjListModel *returnModel (int type);
 
 private:
     ObsConditions *obsconditions;
     SkyObjListModel *planetsModel, *starsModel, *galModel, *conModel, *clustModel, *nebModel;
     QStringList baseCatList, planetaryList, deepSkyList;
-    QHash < QString, QList <SkyObject *> > initobjects;
+    QHash< QString, QList <SkyObject *> > initobjects;
 };

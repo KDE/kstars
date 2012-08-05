@@ -24,11 +24,11 @@ class WIView;
 #include <QWizard>
 #include "ui_wiusersettings.h"
 
-class WIUserSettings : public QWizard , public Ui::WIUserSettingsUI
+class WIUserSettings : public QWizard, public Ui::WIUserSettingsUI
 {
     Q_OBJECT
 public:
-    WIUserSettings(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    WIUserSettings(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 
 public slots:
     void slotFinished(int);

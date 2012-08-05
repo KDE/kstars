@@ -19,7 +19,7 @@
 #include "kstarsdata.h"
 #include "skyobjitem.h"
 
-SkyObjItem::SkyObjItem(SkyObject* so) : m_Name(so->name()), m_TypeName(so->typeName()), m_So(so)
+SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_TypeName(so->typeName()), m_So(so)
 {
     switch (so->type())
     {
@@ -65,10 +65,10 @@ QVariant SkyObjItem::data(int role)
     }
 }
 
-QHash< int, QByteArray > SkyObjItem::roleNames() const
+QHash<int, QByteArray> SkyObjItem::roleNames() const
 {
-    QHash<int, QByteArray > roles;
-    roles[DispNameRole]="dispName";
+    QHash<int, QByteArray> roles;
+    roles[DispNameRole] = "dispName";
     roles[CategoryRole] = "type";
     roles[CategoryNameRole] = "typeName";
     return roles;
@@ -83,15 +83,15 @@ void SkyObjItem::setPosition(SkyObject* so)
         "W", "WNW", "NW", "NNW"
     } ;
     KStarsData *data = KStarsData::Instance();
-    KStarsDateTime ut = data->geo()->LTtoUT( KStarsDateTime(KDateTime::currentLocalDateTime()) );
-    SkyPoint sp = so->recomputeCoords( ut, data->geo() );
+    KStarsDateTime ut = data->geo()->LTtoUT(KStarsDateTime(KDateTime::currentLocalDateTime()));
+    SkyPoint sp = so->recomputeCoords(ut, data->geo());
 
     //check altitude of object at this time.
-    sp.EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    sp.EquatorialToHorizontal(data->lst(), data->geo()->lat());
     double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
     int rounded_azimuth = (int)(sp.az().Degrees()/22.5);
 
-    m_Position = QString("Now visible: ")+(QString::number(rounded_altitude))+(" degrees above the ")+(cardinals[rounded_azimuth])+(" horizon ");
+    m_Position = QString("Now visible: ") + (QString::number(rounded_altitude)) + (" degrees above the ") + (cardinals[rounded_azimuth]) + (" horizon ");
 }
 
 QString SkyObjItem::getDesc() const
@@ -99,10 +99,10 @@ QString SkyObjItem::getDesc() const
     if (m_Type == Planet)
     {
         KSFileReader fileReader;
-        if ( !fileReader.open("PlanetFacts.dat") )
+        if (!fileReader.open("PlanetFacts.dat"))
             return QString("No Description found for selected sky-object");
 
-        while ( fileReader.hasMoreLines() )
+        while (fileReader.hasMoreLines())
         {
             QString line = fileReader.readLine();
             if (line.split("::")[0] == m_Name)
@@ -123,5 +123,5 @@ QString SkyObjItem::getDesc() const
 
 QString SkyObjItem::getMagnitude() const
 {
-    return QString("Magnitude : ")+(QString::number(m_So->mag()));
+    return QString("Magnitude : ") + (QString::number(m_So->mag()));
 }
