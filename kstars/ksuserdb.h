@@ -50,20 +50,20 @@ class KSUserDB {
     /**
      * @brief Adds a new observer into the database
      **/
-    void AddObserver(QString name, QString surname, QString contact);
+    void AddObserver(const QString &name, const QString &surname, const QString &contact);
     /**
      * @brief Returns the unique id of the user with given name & surname
      *
      * @return int
      **/
-    int FindObserver(QString name, QString surname);
+    int FindObserver(const QString &name, const QString &surname);
     /**
      * @brief Removes the user with unique id as given by FindObserver
      * Returns false if the user is not found
      *
      * @return bool
      **/
-    bool DeleteObserver(QString id);
+    bool DeleteObserver(const QString &id);
     /**
      * @brief Updates the passed reference of observer_list with all observers
      * The original content of the list is cleared.
@@ -89,12 +89,12 @@ class KSUserDB {
      * @param labelColor Color of the label (name or hex code) eg #00FF00
      * @return void
      **/
-    void AddFlag(QString ra, QString dec, QString epoch,
-                 QString image_name, QString label, QString labelColor);
+    void AddFlag(const QString &ra, const QString &dec, const QString &epoch,
+                 const QString &image_name, const QString &label, const QString &labelColor);
     /**
      * @brief Returns a QList populated with all stored flags
-     * Order: QString ra, QString dec, QString epoch,
-     *        QString imageName, QString label, QString labelColor
+     * Order: const QString &ra, const QString &dec, const QString &epoch,
+     *        const QString &imageName, const QString &label, const QString &labelColor
      * @return QList< QStringList >
      **/
     QList<QStringList> ReturnAllFlags();
@@ -107,30 +107,30 @@ class KSUserDB {
      * @param id Unique id (same as row number)
      * @return void
      **/
-    void EraseEquipment(QString type, int id);
+    void EraseEquipment(const QString &type, const int &id);
     /**
      * @brief Erases the whole equipment table of given type
      *
      * @param type Equipment type (same as table name)
      * @return void
      **/
-    void EraseAllEquipment(QString type);
+    void EraseAllEquipment(const QString &type);
 
     /**
      * @brief Appends the scope with given details in the database
      *
      * @return void
      **/
-    void AddScope(QString model, QString vendor, QString driver,
-                  QString type, double focalLength, double aperture);
+    void AddScope(const QString &model, const QString &vendor, const QString &driver,
+                  const QString &type, const double &focalLength, const double &aperture);
     /**
      * @brief Replaces the scope with given ID with provided content
      *
      * @return void
      **/
-    void AddScope(QString model, QString vendor, QString driver,
-                  QString type, double focalLength, double aperture,
-                  QString id);
+    void AddScope(const QString &model, const QString &vendor, const QString &driver,
+                  const QString &type, const double &focalLength, const double &aperture,
+                  const QString &id);
     /**
      * @brief updates the scope list with all scopes from database
      * List is cleared and then filled with content.
@@ -145,15 +145,15 @@ class KSUserDB {
      *
      * @return void
      **/
-    void AddEyepiece(QString vendor, QString model, double focalLength,
-                     double fov, QString fovunit);
+    void AddEyepiece(const QString &vendor, const QString &model, const double &focalLength,
+                     const double &fov, const QString &fovunit);
     /**
      * @brief Replace eyepiece at position (ID) with new content
      *
      * @return void
      **/
-    void AddEyepiece(QString vendor, QString model, double focalLength,
-                           double fov, QString fovunit, QString id);
+    void AddEyepiece(const QString &vendor, const QString &model, const double &focalLength,
+                           const double &fov, const QString &fovunit, const QString &id);
     /**
      * @brief Populate the reference passed with all eyepieces
      *
@@ -167,13 +167,13 @@ class KSUserDB {
      *
      * @return void
      **/
-    void AddLens(QString vendor, QString model, double factor);
+    void AddLens(const QString &vendor, const QString &model, const double &factor);
     /**
      * @brief Replace a lens at given ID with new content
      *
      * @return void
      **/
-    void AddLens(QString vendor, QString model, double factor, QString id);
+    void AddLens(const QString &vendor, const QString &model, const double &factor, const QString &id);
     /**
      * @brief Populate the reference passed with all lenses
      *
@@ -187,14 +187,14 @@ class KSUserDB {
      *
      * @return void
      **/
-    void AddFilter(QString vendor, QString model, QString type, QString color);
+    void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color);
     /**
      * @brief Replace a filter at given ID with new content
      *
      * @return void
      **/
-    void AddFilter(QString vendor, QString model, QString type, QString color,
-                   QString id);
+    void AddFilter(const QString &vendor, const QString &model, const QString &type, const QString &color,
+                   const QString &id);
     /**
      * @brief Populate the reference passed with all filters
      *
@@ -221,7 +221,7 @@ class KSUserDB {
      *
      * @return QSqlError
      **/
-    QSqlError LastError();
+    inline QSqlError LastError();
 };
 
 #endif  // KSTARS_KSUSERDB_H

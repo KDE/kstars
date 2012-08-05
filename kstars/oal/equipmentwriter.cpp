@@ -308,7 +308,7 @@ void EquipmentWriter::loadEquipment() {
     foreach( OAL::Filter *f, *( ks->data()->logObject()->filterList() ) )
         ui.FilterList->addItem( f->name() );
 
-    //TODO: confirm this is correct ~~spacetime
+    //TODO(spacetime): confirm this is correct ~~spacetime
     #ifdef HAVE_INDI_H
     KStars::Instance()->indiDriver()->updateCustomDrivers();
     #endif

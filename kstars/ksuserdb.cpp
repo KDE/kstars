@@ -143,7 +143,8 @@ bool KSUserDB::FirstRun() {
 /*
  * Observer Section
 */
-void KSUserDB::AddObserver(QString name, QString surname, QString contact) {
+void KSUserDB::AddObserver(const QString& name, const QString& surname,
+                           const QString& contact) {
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
@@ -170,7 +171,7 @@ void KSUserDB::AddObserver(QString name, QString surname, QString contact) {
     userdb_.close();
 }
 
-int KSUserDB::FindObserver(QString name, QString surname) {
+int KSUserDB::FindObserver(const QString &name, const QString &surname) {
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
@@ -186,7 +187,7 @@ int KSUserDB::FindObserver(QString name, QString surname) {
 }
 
 // TODO(spacetime): This method is currently unused.
-bool KSUserDB::DeleteObserver(QString id) {
+bool KSUserDB::DeleteObserver(const QString &id) {
     userdb_.open();
     QSqlTableModel users(0, userdb_);
     users.setTable("user");
@@ -241,9 +242,9 @@ void KSUserDB::EraseAllFlags() {
     userdb_.close();
 }
 
-void KSUserDB::AddFlag(QString ra, QString dec,
-                       QString epoch, QString image_name,
-                       QString label, QString labelColor) {
+void KSUserDB::AddFlag(const QString &ra, const QString &dec,
+                       const QString &epoch, const QString &image_name,
+                       const QString &label, const QString &labelColor) {
     userdb_.open();
     QSqlTableModel flags(0, userdb_);
     flags.setTable("flags");
@@ -297,7 +298,7 @@ QList<QStringList> KSUserDB::ReturnAllFlags() {
 /*
  * Generic Section
  */
-void KSUserDB::EraseEquipment(QString type, int id) {
+void KSUserDB::EraseEquipment(const QString &type, const int &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable(type);
@@ -311,7 +312,7 @@ void KSUserDB::EraseEquipment(QString type, int id) {
     userdb_.close();
 }
 
-void KSUserDB::EraseAllEquipment(QString type) {
+void KSUserDB::EraseAllEquipment(const QString &type) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable(type);
@@ -327,8 +328,8 @@ void KSUserDB::EraseAllEquipment(QString type) {
 /*
  * Telescope section
  */
-void KSUserDB::AddScope(QString model, QString vendor, QString driver,
-                       QString type, double focalLength, double aperture) {
+void KSUserDB::AddScope(const QString &model, const QString &vendor, const QString &driver,
+                       const QString &type, const double & focalLength, const double &aperture) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
@@ -347,9 +348,9 @@ void KSUserDB::AddScope(QString model, QString vendor, QString driver,
     userdb_.close();
 }
 
-void KSUserDB::AddScope(QString model, QString vendor, QString driver,
-                        QString type, double focalLength, double aperture,
-                        QString id) {
+void KSUserDB::AddScope(const QString &model, const QString &vendor, const QString &driver,
+                        const QString &type, const double &focalLength, const double &aperture,
+                        const QString &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
@@ -401,8 +402,8 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
 /*
  * Eyepiece section
  */
-void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength,
-                           double fov, QString fovunit) {
+void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const double &focalLength,
+                           const double &fov, const QString &fovunit) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
@@ -420,8 +421,8 @@ void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength,
     userdb_.close();
 }
 
-void KSUserDB::AddEyepiece(QString vendor, QString model, double focalLength,
-                           double fov, QString fovunit, QString id) {
+void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const double &focalLength,
+                           const double &fov, const QString &fovunit, const QString &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
@@ -471,7 +472,7 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
 /*
  * lens section
  */
-void KSUserDB::AddLens(QString vendor, QString model, double factor) {
+void KSUserDB::AddLens(const QString &vendor, const QString &model, const double &factor) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
@@ -487,8 +488,8 @@ void KSUserDB::AddLens(QString vendor, QString model, double factor) {
     userdb_.close();
 }
 
-void KSUserDB::AddLens(QString vendor, QString model,
-                       double factor, QString id) {
+void KSUserDB::AddLens(const QString &vendor, const QString &model,
+                       const double &factor, const QString &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
@@ -531,8 +532,8 @@ void KSUserDB::GetAllLenses(QList<OAL::Lens *> &lens_list) {
 /*
  *  filter section
  */
-void KSUserDB::AddFilter(QString vendor, QString model,
-                         QString type, QString color) {
+void KSUserDB::AddFilter(const QString &vendor, const QString &model,
+                         const QString &type, const QString &color) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
@@ -549,8 +550,8 @@ void KSUserDB::AddFilter(QString vendor, QString model,
     userdb_.close();
 }
 
-void KSUserDB::AddFilter(QString vendor, QString model, QString type,
-                         QString color, QString id) {
+void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QString &type,
+                         const QString &color, const QString &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
