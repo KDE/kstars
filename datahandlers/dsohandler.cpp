@@ -17,3 +17,35 @@
 
 #include "dsohandler.h"
 
+bool DSOHandler::Initialize() {
+    skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
+    QString dbfile = KStandardDirs::locateLocal("data", "skyobjects.db");
+    QFile testdb(dbfile);
+    bool first_run = false;
+    if (!testdb.exists()) {
+        kDebug()<< i18n("DSO DB does not exist!");
+        first_run = true;
+    }
+    dsodb_.setDatabaseName(dbfile);
+    if (!userdb_.open()) {
+           kWarning() << i18n("Unable to open user database file!");
+           kWarning() << LastError();
+    } else {
+        kDebug() << i18n("Opened the User DB. Ready!");
+        if (first_run == true) {
+            FirstRun();
+        }
+    }
+    userdb_.close();
+    return true;
+}
+
+DSOHandler::~DSOHandler() {
+    userdb_.close();
+    QSqlDatabase::removeDatabase("userdb");
+}
+
+QSqlError DSOHandler::LastError() {
+    // error description is in QSqlError::text()
+    return userdb_.lastError();
+}
