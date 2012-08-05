@@ -18,6 +18,9 @@
 #ifndef DSOHANDLER_H
 #define DSOHANDLER_H
 
+#include <kstandarddirs.h>
+#include <klocale.h>
+#include <KDebug>
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QSqlQuery>
@@ -42,6 +45,7 @@ class DSOHandler
     ~KSUserDB();
 private:
   QSqlDatabase skydb_;
+  QSqlError LastError();
 };
 
 #endif // DSOHANDLER_H

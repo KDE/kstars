@@ -19,7 +19,7 @@
 #include "ksuserdb.h"
 #include "kstarsdata.h"
 #include <kdebug.h>
-#include <klocale.h>
+
 
 bool KSUserDB::Initialize() {
     // Every logged in user has their own db.

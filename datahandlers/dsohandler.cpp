@@ -26,26 +26,26 @@ bool DSOHandler::Initialize() {
         kDebug()<< i18n("DSO DB does not exist!");
         first_run = true;
     }
-    dsodb_.setDatabaseName(dbfile);
-    if (!userdb_.open()) {
+    skydb_.setDatabaseName(dbfile);
+    if (!skydb_.open()) {
            kWarning() << i18n("Unable to open user database file!");
            kWarning() << LastError();
     } else {
         kDebug() << i18n("Opened the User DB. Ready!");
         if (first_run == true) {
-            FirstRun();
+            //FirstRun();
         }
     }
-    userdb_.close();
+    skydb_.close();
     return true;
 }
 
 DSOHandler::~DSOHandler() {
-    userdb_.close();
+    skydb_.close();
     QSqlDatabase::removeDatabase("userdb");
 }
 
 QSqlError DSOHandler::LastError() {
     // error description is in QSqlError::text()
-    return userdb_.lastError();
+    return skydb_.lastError();
 }
