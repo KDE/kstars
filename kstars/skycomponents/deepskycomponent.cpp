@@ -72,44 +72,64 @@ void DeepSkyComponent::loadData()
     QList<int> widths;
     sequence.append(qMakePair(QString("Flag"), KSParser::D_QSTRING));
     widths.append(1);
+
     sequence.append(qMakePair(QString("ID"), KSParser::D_INT));
     widths.append(4);
+
     sequence.append(qMakePair(QString("RA_H"), KSParser::D_INT));
     widths.append(3);
+
     sequence.append(qMakePair(QString("RA_M"),KSParser::D_INT));
     widths.append(2);
+
     sequence.append(qMakePair(QString("RA_S"),KSParser::D_FLOAT));
     widths.append(4);
+
     sequence.append(qMakePair(QString("D_Sign"),KSParser::D_QSTRING));
     widths.append(2);
+
     sequence.append(qMakePair(QString("Dec_d"),KSParser::D_INT));
     widths.append(2);
+
     sequence.append(qMakePair(QString("Dec_m"),KSParser::D_INT));
     widths.append(2);
+
     sequence.append(qMakePair(QString("Dec_s"),KSParser::D_INT));
     widths.append(2);
+
     sequence.append(qMakePair(QString("BMag"),KSParser::D_QSTRING));
     widths.append(6);
+
     sequence.append(qMakePair(QString("type"),KSParser::D_INT));
     widths.append(2);
+
     sequence.append(qMakePair(QString("a"),KSParser::D_FLOAT));
     widths.append(6);
+
     sequence.append(qMakePair(QString("b"),KSParser::D_FLOAT));
     widths.append(6);
+
     sequence.append(qMakePair(QString("pa"),KSParser::D_QSTRING));
     widths.append(4);
+
     sequence.append(qMakePair(QString("PGC"),KSParser::D_INT));
     widths.append(7);
+
     sequence.append(qMakePair(QString("other cat"),KSParser::D_QSTRING));
     widths.append(4);
+
     sequence.append(qMakePair(QString("other1"),KSParser::D_QSTRING));
     widths.append(6);
+
     sequence.append(qMakePair(QString("other2"),KSParser::D_QSTRING));
     widths.append(6);
+
     sequence.append(qMakePair(QString("Messr"),KSParser::D_QSTRING));
     widths.append(2);
+
     sequence.append(qMakePair(QString("MessrNum"),KSParser::D_INT));
     widths.append(4);
+
     sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING));
     //No width to be appended for last sequence object
 
