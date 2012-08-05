@@ -22,30 +22,99 @@
 #include <QObject>
 #include "skyobject.h"
 
+/**
+ * \class SkyObjItem
+ * Represents an item in the list of interesting sky-objects.
+ * \author Samikshan Bairagya
+ */
 class SkyObjItem
 {
-
 public:
+    /**
+     * \enum SkyObjectRoles
+     * User-defined role for the SkyObjItem
+     */
     enum SkyObjectRoles {DispNameRole = Qt::UserRole + 1 , CategoryRole, CategoryNameRole };
+
+    /**
+     * \enum Type
+     * The type classification for the SkyObjItem
+     */
     enum Type {Planet, Star, Constellation, Galaxy, Cluster, Nebula};
+
+    /**
+     * \brief Constructor
+     * \param so Pointer to the SkyObject which the SkyObjItem represents.
+     */
     SkyObjItem( SkyObject *so=0);
+
+    /**
+     * \brief Get data associated with a particular role for the SkyObjItem
+     * \param role User-defined role for which data is required
+     * \return QVariant data associated with role
+     */
     QVariant data(int role);
+
+    /**
+     * \brief Create and return a QHash<int, QByteArray> of rolenames for the SkyObjItem.
+     * \return QHash<int, QByteArray> of rolenames for the SkyObjItem.
+     */
     QHash<int, QByteArray> roleNames() const;
+
+    /**
+     * \brief Get name of sky-object associated with the SkyObjItem.
+     * \return Name of sky-object associated with the SkyObjItem as a QString
+     */
     inline QString getName() const { return m_Name; }
+
+    /**
+     * \brief Get category of sky-object associated with the SkyObjItem as a QString.
+     * \return Category of sky-object associated with the SkyObjItem as a QString.
+     */
     inline QString getTypeName() const { return m_TypeName; }
+
+    /**
+     * \brief Get category of sky-object associated with the SkyObjItem as an integer.
+     * \return Category of sky-object associated with the SkyObjItem as a QString as an integer.
+     */
     inline int getType() const { return int(m_Type); }
+
+    /**
+     * \brief Get current position of sky-object associated with the SkyObjItem.
+     * \return Current position of sky-object associated with the SkyObjItem.
+     */
     inline QString getPosition() const { return m_Position; }
+
+    /**
+     * \brief Get sky-object associated with the SkyObjItem.
+     * \return Pointer to SkyObject associated with the SkyObjItem.
+     */
     inline SkyObject* getSkyObject() { return m_So; }
+
+    /**
+     * \brief Get description for the SkyObjItem.
+     * \return Description for the SkyObjItem as a QString.
+     */
     QString getDesc() const;
+
+    /**
+     * \brief Get magnitude of sky-object associated with the SkyObjItem.
+     * \return Magnitude of sky-object associated with the SkyObjItem as a QString.
+     */
     QString getMagnitude() const;
+
+    /**
+     * \brief Set current position of the sky-object in the sky.
+     * \param so Pointer to SkyObject for which position information is required.
+     */
     void setPosition(SkyObject* so);
 
 private:
-    QString m_Name;
-    QString m_TypeName;
-    QString m_Position;
-    Type m_Type;
-    SkyObject* m_So;
+    QString m_Name;      ///Name of sky-object
+    QString m_TypeName;  ///Category of sky-object
+    QString m_Position;  ///Position of sky-object in the sky.
+    Type m_Type;         ///Category of sky-object of type SkyObjItem::Type
+    SkyObject* m_So;     ///Pointer to SkyObject represented by SkyObjItem
 };
 
 #endif

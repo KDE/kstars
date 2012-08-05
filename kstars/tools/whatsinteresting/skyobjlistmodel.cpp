@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "skyobjlistmodel.h"
-//#include "skyobjectitem.h"
 
 SkyObjListModel::SkyObjListModel(SkyObjItem* soitem, QObject* parent): QAbstractListModel(parent)
 {
@@ -41,11 +40,7 @@ QVariant SkyObjListModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     SkyObjItem *soitem = soItemList[index.row()];
-    /*if (role == DispNameRole)
-        return soitem->name();
-    else if (role == CategoryRole)
-        return soitem->type();*/
-    //return QVariant();
+
     return soitem->data(role);
 }
 
