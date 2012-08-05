@@ -28,15 +28,17 @@ class TestKSParser: public QObject {
   Q_OBJECT
  public:
   TestKSParser();
+  ~TestKSParser();
  private slots:
   void MixedInputs();
-  void NoRow();
   void EmptyRow();
+  void NoRow();
   void ReadMissingFile();
  private:
   QStringList csv_test_cases_;
-  QList< QPair<QString, KSParser::DataTypes> > sequence;
-  QFile test_csv_file;
+  QList< QPair<QString, KSParser::DataTypes> > sequence_;
+  QFile test_csv_file_;
+  KSParser *test_parser_;
 };
 
 #endif  // TESTKSPARSER_H

@@ -44,42 +44,48 @@ TestKSParser::TestKSParser(): QObject() {
                          "-3.141,"
                          "isn't,"
                          "either\n"));
-  csv_test_cases_.append(",,,,,,,,\n");
+  csv_test_cases_.append(",,,,,,,,,,,\n");
   csv_test_cases_.append("\n");
   QString file_name("TestCSV.txt");
   file_name = KStandardDirs::locateLocal("appdata",file_name);
   if (!file_name.isNull()) {
-        test_csv_file.setFileName(file_name);
-        if (!test_csv_file.open(QIODevice::WriteOnly)) {
+        test_csv_file_.setFileName(file_name);
+        if (!test_csv_file_.open(QIODevice::WriteOnly)) {
           kWarning() << QString("Couldn't open(%1)").arg(file_name);
         }
   }
-  QTextStream out_stream(&test_csv_file);
+  QTextStream out_stream(&test_csv_file_);
   foreach(const QString &test_case, csv_test_cases_)
     out_stream << test_case;
-  test_csv_file.close();
+  test_csv_file_.close();
 
   //Building the sequence to be used. Includes all available types.  
-  sequence.clear();
-  sequence.append(qMakePair(QString("field1"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field2"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field3"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field4"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field5"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field6"), KSParser::D_INT));
-  sequence.append(qMakePair(QString("field7"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field8"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field9"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field10"), KSParser::D_FLOAT));
-  sequence.append(qMakePair(QString("field11"), KSParser::D_QSTRING));
-  sequence.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
+  sequence_.clear();
+  sequence_.append(qMakePair(QString("field1"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field2"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field3"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field4"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field5"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field6"), KSParser::D_INT));
+  sequence_.append(qMakePair(QString("field7"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field8"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field9"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field10"), KSParser::D_FLOAT));
+  sequence_.append(qMakePair(QString("field11"), KSParser::D_QSTRING));
+  sequence_.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
+  test_parser_ = new KSParser(QString("TestCSV.txt"), '#', sequence_);
+}
+
+TestKSParser::~TestKSParser()
+{
+  delete test_parser_;
 }
 
   /*
    * The following tests checks for the following cases for CSV files
    *  1. Mixed inputs (See test case for description)
-   *  2. No row (only a newline character)
-   *  3. Empty Row
+   *  2. Empty Row
+   *  3. No row (only a newline character)
    * PENDING
    *  4. Truncated row
    *  5. Row with truncated quote
@@ -92,9 +98,11 @@ TestKSParser::TestKSParser(): QObject() {
 void TestKSParser::MixedInputs() {
   /*
    * Test 1. Includes input of the form: 
-   * It starts with a newline char which should be slipped by virtue
+   * 
+   * It starts with a newline char which should be skipped by virtue
    * of the design of the parser
    * 
+   * Then a row with the following types of inputs:
    * 1. empty column
    * 2. simple single word
    * 3. single word in quotes
@@ -105,8 +113,8 @@ void TestKSParser::MixedInputs() {
    * 7. missing integer
    * 8. missing float
   */
-  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
-  QHash<QString, QVariant> row_content = test_parser.ReadNextRow();
+//   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
+  QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString(""));
   QVERIFY(row_content["field2"] == QString("isn't"));
@@ -124,11 +132,10 @@ void TestKSParser::MixedInputs() {
 
 void TestKSParser::EmptyRow() {
   /*
-   * Test 3. Attempt to read an empty but valid row
+   * Test 2. Attempt to read an empty but valid row
   */
-  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
-  QHash<QString, QVariant> row_content = test_parser.ReadNextRow();
-  row_content = test_parser.ReadNextRow();
+//   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
+  QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString(""));
   QVERIFY(row_content["field2"] == QString(""));
@@ -146,13 +153,12 @@ void TestKSParser::EmptyRow() {
 
 void TestKSParser::NoRow() {
   /*
-   * Test 2. Attempt to read a newline char instead of a row
+   * Test 3. Attempt to read a newline char instead of a row
    * The parser is designed to skip an empty row so we can
    * test this for a boundary case. i.e. newline at the end.
   */
-  KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
-  QHash<QString, QVariant> row_content = test_parser.ReadNextRow();
-  row_content = test_parser.ReadNextRow();
+//   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
+  QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString("Null"));
   QVERIFY(row_content["field2"] == QString("Null"));
@@ -174,7 +180,7 @@ void TestKSParser::ReadMissingFile() {
   */
   QFile::remove(KStandardDirs::locateLocal("appdata","TestCSV.txt"));
   
-  KSParser missing_parser(QString("TestCSV.txt"), '#', sequence);
+  KSParser missing_parser(QString("TestCSV.txt"), '#', sequence_);
   QHash<QString, QVariant> row_content = missing_parser.ReadNextRow();
   
   for (int times = 0; times < 20; times++) {
