@@ -45,7 +45,6 @@ TestKSParser::TestKSParser(): QObject() {
                          "either\n"));
   csv_test_cases_.append("\n");
   csv_test_cases_.append(",,,,,,,,\n");
-  QFile test_csv_file;
   QString file_name("TestCSV.txt");
   file_name = KStandardDirs::locateLocal("appdata",file_name);
   if (!file_name.isNull()) {
@@ -62,6 +61,18 @@ TestKSParser::TestKSParser(): QObject() {
 
 
 void TestKSParser::stringParse() {
+  /*
+   * The following test checks for the following cases for CSV files
+   *  1. Mixed inputs (See test case for description)
+   *  2. No row (only a newline character)
+   *  3. Empty Row
+   *  4. Truncated row
+   *  5. Row with truncated quote
+   *  6. Attempt to read missing file
+   * 
+  */
+
+  //Building the sequence to be used. Includes all available types.
   QList< QPair<QString, KSParser::DataTypes> > sequence;
   sequence.append(qMakePair(QString("field1"), KSParser::D_QSTRING));
   sequence.append(qMakePair(QString("field2"), KSParser::D_QSTRING));
@@ -77,6 +88,19 @@ void TestKSParser::stringParse() {
   sequence.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
   QHash<QString, QVariant> row_content;
+
+  /*
+   * Test 1. Includes input of the form: 
+   * 1. empty column
+   * 2. simple single word
+   * 3. single word in quotes
+   * 4. multiple words with , in quotes
+   * 5. integer
+   * 6. float
+   * PENDING (spacetime)
+   * 7. missing integer
+   * 8. missing float
+  */
   row_content = test_parser.ReadNextRow();
   QVERIFY(row_content["field1"] == QString(""));
   QVERIFY(row_content["field2"] == QString("isn't"));
@@ -90,6 +114,63 @@ void TestKSParser::stringParse() {
   QVERIFY(row_content["field10"].toFloat() + 3.141 < 0.1);
   QVERIFY(row_content["field11"] == QString("isn't"));
   QVERIFY(row_content["field12"] == QString("either"));
+
+  /*
+   * Test 2. Attempt to read a newline char instead of a row
+  */
+  row_content = test_parser.ReadNextRow();
+  QVERIFY(row_content["field1"] == QString("Null"));
+  QVERIFY(row_content["field2"] == QString("Null"));
+  QVERIFY(row_content["field3"] == QString("Null"));
+  QVERIFY(row_content["field4"] == QString("Null"));
+  QVERIFY(row_content["field5"] == QString("Null"));
+  QVERIFY(row_content["field6"].toInt() == 0);
+  QVERIFY(row_content["field7"] == QString("Null"));
+  QVERIFY(row_content["field8"] == QString("Null"));
+  QVERIFY(row_content["field9"] == QString("Null"));
+  QVERIFY(row_content["field10"].toFloat() == 0.0);
+  QVERIFY(row_content["field11"] == QString("Null"));
+  QVERIFY(row_content["field12"] == QString("Null"));
+
+  /*
+   * Test 3. Attempt to read an empty but valid row
+  */
+  row_content = test_parser.ReadNextRow();
+  QVERIFY(row_content["field1"] == QString(""));
+  QVERIFY(row_content["field2"] == QString(""));
+  QVERIFY(row_content["field3"] == QString(""));
+  QVERIFY(row_content["field4"] == QString(""));
+  QVERIFY(row_content["field5"] == QString(""));
+  QVERIFY(row_content["field6"].toInt() == 0);
+  QVERIFY(row_content["field7"] == QString(""));
+  QVERIFY(row_content["field8"] == QString(""));
+  QVERIFY(row_content["field9"] == QString(""));
+  QVERIFY(row_content["field10"].toFloat() == 0.0);
+  QVERIFY(row_content["field11"] == QString(""));
+  QVERIFY(row_content["field12"] == QString(""));
+  
+  /*
+   * Test 6. Attempt to read a missing file repeatedly
+  */
+  QFile::remove(KStandardDirs::locateLocal("appdata","TestCSV.txt"));
+  
+  KSParser missing_parser(QString("TestCSV.txt"), '#', sequence);
+  for (int times = 0; times < 20; times++) {
+    row_content = missing_parser.ReadNextRow();
+    QVERIFY(row_content["field1"] == QString("Null"));
+    QVERIFY(row_content["field2"] == QString("Null"));
+    QVERIFY(row_content["field3"] == QString("Null"));
+    QVERIFY(row_content["field4"] == QString("Null"));
+    QVERIFY(row_content["field5"] == QString("Null"));
+    QVERIFY(row_content["field6"].toInt() == 0);
+    QVERIFY(row_content["field7"] == QString("Null"));
+    QVERIFY(row_content["field8"] == QString("Null"));
+    QVERIFY(row_content["field9"] == QString("Null"));
+    QVERIFY(row_content["field10"].toFloat() == 0.0);
+    QVERIFY(row_content["field11"] == QString("Null"));
+    QVERIFY(row_content["field12"] == QString("Null"));   
+  }
+  
 }
 QTEST_MAIN(TestKSParser)
 

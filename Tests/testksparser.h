@@ -32,6 +32,7 @@ class TestKSParser: public QObject {
   void stringParse();
  private:
   QStringList csv_test_cases_;
+  QFile test_csv_file;
 };
 
 #endif  // TESTKSPARSER_H
