@@ -594,6 +594,14 @@ Rectangle {
         height: 49
         color: "#00000000"
         radius: 5
+
+        Rectangle {
+            id: goBackForeground
+            anchors.fill: parent
+            radius: 5
+            opacity: 0.0
+        }
+
         Text {
             id: goBackText
             color: "#f7e808"
@@ -623,6 +631,9 @@ Rectangle {
             x: 45
             y: 0
             anchors.fill: backButton
+            hoverEnabled: true
+            onEntered: goBackForeground.opacity = 0.2
+            onExited: goBackForeground.opacity = 0.0
             onClicked: {
                 if ( container.state == "soTypeSelected" )
                 {
@@ -641,7 +652,7 @@ Rectangle {
                     }
                 }
             }
-            }
+        }
     }
 
     Image {
@@ -663,6 +674,16 @@ Rectangle {
         MouseArea {
             id: settingsMouseArea
             anchors.fill: parent
+            hoverEnabled: true
+            onEntered: settingsForeground.opacity = 0.2
+            onExited: settingsForeground.opacity = 0.0
+        }
+
+        Rectangle {
+            id: settingsForeground
+            anchors.fill: parent
+            opacity: 0.0
+            radius: 5
         }
     }
 
