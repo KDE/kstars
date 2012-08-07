@@ -44,6 +44,27 @@ TestKSParser::TestKSParser(): QObject() {
                          "-3.141,"
                          "isn't,"
                          "either\n"));
+  csv_test_cases_.append(QString(","
+                         "isn't,"
+                         "it,"
+                         "\"amusing\","
+                         "how,"
+                         "3,"
+                         "\"isn't, pi\","
+                         "and,"
+                         "\"\","));  // less than required fields
+  csv_test_cases_.append(QString(","
+                         "isn't,"
+                         "it,"
+                         "\"amusing\","
+                         "how,"
+                         "3,"
+                         "\"isn't, pi\","
+                         "and,"
+                         "\","  // no matching "
+                         "-3.141,"
+                         "isn't,"
+                         "either\n"));
   csv_test_cases_.append(",,,,,,,,,,,\n");
   csv_test_cases_.append("\n");
   QString file_name("TestCSV.txt");
@@ -86,10 +107,8 @@ TestKSParser::~TestKSParser()
    *  1. Mixed inputs (See test case for description)
    *  2. Empty Row
    *  3. No row (only a newline character)
-   * PENDING
    *  4. Truncated row
-   *  5. Row with truncated quote
-   * 
+   *  5. Row with no matching quote
    *  6. Attempt to read missing file
    * 
   */
@@ -109,9 +128,6 @@ void TestKSParser::MixedInputs() {
    * 4. multiple words with , in quotes
    * 5. integer
    * 6. float
-   * PENDING (spacetime)
-   * 7. missing integer
-   * 8. missing float
   */
 //   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
@@ -131,8 +147,17 @@ void TestKSParser::MixedInputs() {
 }
 
 void TestKSParser::EmptyRow() {
+  /* Test 2. Row with less rows than required (to be skipped)
+   * Test 3. Row with truncated \" i.e. no matching "
+   *         (should be skipped)
+  */
   /*
-   * Test 2. Attempt to read an empty but valid row
+   * Test 4. Attempt to read an empty but valid row
+   * 
+   * Also includes test for:
+   * 1. missing integer
+   * 2. missing float
+   * 3. missing string
   */
 //   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();

@@ -116,13 +116,6 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
 }
 
 QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
-    /**
-    * This signifies that someone tried to read a row
-    * without checking if comment_char is true
-    */
-    if (file_reader_.hasMoreLines() == false)
-        return DummyRow();
-
     if (name_type_sequence_.length() != (width_sequence_.length() + 1)) {
         // line length is appendeded to width_sequence_ by default.
         // Hence, the length of width_sequence_ is one less than
@@ -176,10 +169,17 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
         }
         read_success = true;
     }
+   /**
+    * This signifies that someone tried to read a row
+    * without checking if comment_char is true
+    */
+    if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
+      newRow = DummyRow();  
     return newRow;
 }
 
 QHash<QString, QVariant>  KSParser::DummyRow() {
+    kWarning() << "File named " << filename_ << " encountered an error while reading"; 
     QHash<QString, QVariant> newRow;
     for (int i = 0; i < name_type_sequence_.length(); ++i) {
            switch (name_type_sequence_[i].second) {
