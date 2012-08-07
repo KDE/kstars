@@ -57,10 +57,6 @@ QHash<QString, QVariant>  KSParser::ReadNextRow() {
 }
 
 QHash<QString, QVariant>  KSParser::ReadCSVRow() {
-    if (file_reader_.hasMoreLines() == false)
-        return DummyRow();
-    // This signifies that someone tried to read a row
-    // without checking if hasMoreLines is true
     /**
      * @brief read_success(bool) signifies if a row has been successfully read.
      * If any problem (eg incomplete row) is encountered. The row is discarded
@@ -93,6 +89,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
                                     // taking the quote marks into account
 
         // Check if the generated list has correct size
+        // If not, continue to next row. (i.e SKIP INCOMPLETE ROW)
         if (separated.length() != name_type_sequence_.length())
             continue;
 
@@ -109,6 +106,12 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
         }
         read_success = true;
     }
+
+    // This signifies that someone tried to read a row
+    // without checking if hasMoreLines is true
+    // OR the last row to be read for incorrect
+    if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
+      newRow = DummyRow();    
     return newRow;
 }
 
