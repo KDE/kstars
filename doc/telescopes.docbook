@@ -23,13 +23,13 @@ the incoming light to converge. The final image will be viewed by using an eyepi
 </indexterm>
 
 <para>
-Telescopes are used in order to collect light from celestial objects and to converge it to a point, named the 
-focal point. They are described by two parameters, <firstterm>aperture</firstterm> and <firstterm>Focal Ratio</firstterm>. 
-The diameter of the light collecting surface is called the <firstterm>aperture</firstterm> of the telescope- 
-the bigger the aperture, the brighter the image. The ratio of the focal length <firstterm>f</firstterm> to the 
-<firstterm>aperture D</firstterm> of a telescope is defined as the <firstterm>focal ratio</firstterm>. This 
-describes the light gathering power of a telescope. <quote>Fast</quote> telescopes have smaller focal ratios, as they 
-obtain brighter images in a smaller exposure time. As the focal ratio gets bigger, the telescope needs 
+Telescopes are used in order to collect light from celestial objects and to converge it to a point, named the
+focal point. They are described by two parameters, <firstterm>aperture</firstterm> and <firstterm>Focal Ratio</firstterm>.
+The diameter of the light collecting surface is called the <firstterm>aperture</firstterm> of the telescope &ndash;
+the bigger the aperture, the brighter the image. The ratio of the focal length <firstterm>f</firstterm> to the
+<firstterm>aperture D</firstterm> of a telescope is defined as the <firstterm>focal ratio</firstterm>. This
+describes the light gathering power of a telescope. <quote>Fast</quote> telescopes have smaller focal ratios, as they
+obtain brighter images in a smaller exposure time. As the focal ratio gets bigger, the telescope needs
 more exposure time in order to obtain a bright image, which is why it is <quote>slower</quote>. The focal ratio is
 usually denoted as <quote>f/n</quote>, where n is the ratio of the focal length to the aperture.
 </para>
@@ -42,20 +42,26 @@ usually denoted as <quote>f/n</quote>, where n is the ratio of the focal length 
 
 <para>
 In order to obtain an image, telescopes use lenses or mirrors. Unfortunately, if we use both of them we obtain
-image distortions known as <firstterm>aberrations</firstterm>. Some aberrations are common for both 
+image distortions known as <firstterm>aberrations</firstterm>. Some aberrations are common for both
 lenses and mirrors, like <firstterm>astigmatism</firstterm> and <firstterm>curvature of field</firstterm>.
+</para>
 
-<firstterm>Astigmatism</firstterm> appears when different parts of the lens or mirror make the rays of the incoming 
-light to converge in slightly different locations on the focal plane. When corrected for astigmatism, <firstterm>curvature 
+<para>
+<firstterm>Astigmatism</firstterm> appears when different parts of the lens or mirror make the rays of the incoming
+light to converge in slightly different locations on the focal plane. When corrected for astigmatism, <firstterm>curvature
 of field</firstterm> may appear on the surface of the lens/ mirror, which makes the light to converge on a curve
 rather than on a plane.
+</para>
 
+<para>
 Still, there are also lens specific aberrations and mirror specific aberrations.
+</para>
 
-<firstterm>Chromatic aberration</firstterm> is a feature of telescopes that use lenses to converge the light. 
+<para>
+<firstterm>Chromatic aberration</firstterm> is a feature of telescopes that use lenses to converge the light.
 Mainly, the focal length of a lens is wavelength dependent, which means that the focal point of blue light differs
 from that of the red light. This results in a blurred image. The effect of chromatic aberration can be
-diminished by adding correcting lenses into the system. <firstterm>Spherical</firstterm> aberration may also 
+diminished by adding correcting lenses into the system. <firstterm>Spherical</firstterm> aberration may also
 be a problem for lenses, resulting from their shape. Spheroid surfaces will not make the incoming light to converge to
 a single point, which is why other optical surfaces like paraboloids are preferred. Even by using them
 we aren't still out of trouble, as coma aberration appears in this case. It results from the dependence
@@ -73,10 +79,12 @@ points, as it would be normal.
 </indexterm>
 
 <para>
-<firstterm>Magnification</firstterm>, the increase in angular size of an object as viewed in a telescope, is described as the ratio of the focal length of the objective to the 
-focal length of the eyepiece. So the greater the focal length of the objective, the greater the magnification. If 
+<firstterm>Magnification</firstterm>, the increase in angular size of an object as viewed in a telescope, is described as the ratio of the focal length of the objective to the
+focal length of the eyepiece. So the greater the focal length of the objective, the greater the magnification. If
 you want to have a large image then you need a long focal length objective and a short focal length eyepiece.
+</para>
 
+<para>
 As an example, if you have a 500 mm objective and a 25 mm eyepiece the resulting magnification will be
 500 / 25, which is 20, or 20X.
 </para>
@@ -88,9 +96,9 @@ As an example, if you have a 500 mm objective and a 25 mm eyepiece the resulting
 </indexterm>
 
 <para>
-The field of view is the angle covered on the sky by the telescope.<firstterm>The apparent</firstterm> field of view of a telescope is determined only by the eyepiece. It is a 
-specific characteristic of it, usually around 52 degrees. In order to find the <firstterm>true field 
-of view</firstterm> of a telescope, you need to divide the apparent field of view by the magnification. The true 
+The field of view is the angle covered on the sky by the telescope.<firstterm>The apparent</firstterm> field of view of a telescope is determined only by the eyepiece. It is a
+specific characteristic of it, usually around 52 degrees. In order to find the <firstterm>true field
+of view</firstterm> of a telescope, you need to divide the apparent field of view by the magnification. The true
 field of view is the actual angle covered on the sky by the telescope.
 </para>
 
@@ -98,9 +106,9 @@ field of view is the actual angle covered on the sky by the telescope.
 <para>
 &kstars; has a tool to find and display (on the virtual sky) a true field of view called the <guilabel>FOV
 Indicator</guilabel>. Launch it by heading under the <menuchoice><guimenu>Settings</guimenu>
-<guisubmenu>FOV Symbols</guisubmenu><guimenuitem>Edit FOV Symbols</guimenuitem></menuchoice>. 
+<guisubmenu>FOV Symbols</guisubmenu><guimenuitem>Edit FOV Symbols</guimenuitem></menuchoice>.
 Clicking <guibutton>New</guibutton> will open a dialog with four different
-tabs: <guilabel>Eyepiece</guilabel>, <guilabel>Camera</guilabel>, <guilabel>Binocular</guilabel> 
+tabs: <guilabel>Eyepiece</guilabel>, <guilabel>Camera</guilabel>, <guilabel>Binocular</guilabel>
 and <guilabel>Radiotelescope</guilabel>. To compute the field of
 view, select the tab that applies and enter the specifications of the equipment. Finally,
 clicking <guibutton>Compute FOV</guibutton> will calculate and display the field of view immediately below. &kstars;
@@ -148,7 +156,9 @@ collects the incoming light, forming an image in the focal plane and the <firstt
 magnifying glass used for observing the final image. The two lenses are situated at opposite ends of
 a moving tube and the distance between the two of them can be adjusted in order to obtain the final
 image.
+</para>
 
+<para>
 The largest refracting telescope in the world is at the <firstterm>Yerkes Observatory</firstterm> in Williams Bay, Wisconsin.
 Built in 1897, it has a 1.02-m (40-in) objective and a focal length of 19.36 m.
 </para>
@@ -208,8 +218,8 @@ lens with the primary mirror, this time their surfaces being concentric.
 
 <para>
 For a detailed analysis of the sky, observations are also carried in other regions of the electromagnetic
-spectrum. Very popular and efficient are <firstterm>radio telescopes</firstterm>, developed mostly in the 
-last century. A common problem for both radio and optical telescopes is the need for better resolution. We can 
+spectrum. Very popular and efficient are <firstterm>radio telescopes</firstterm>, developed mostly in the
+last century. A common problem for both radio and optical telescopes is the need for better resolution. We can
 derive the resolution of a telescope by using Rayleigh criterion, that states the resolving power is equal to the
 ratio of the incoming wavelength to the diameter of the aperture ( times 1.22 for circular apertures).
 So for a good resolution we need a diameter as big as possible. The biggest radio telescope in the world
