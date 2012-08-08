@@ -11,7 +11,7 @@
     <primary>Planner</primary>
   </indexterm>
   <para>Since &kde; SC 4.4, Prakash Mohan&apos;s GSoC work has been released in &kstars;. &kstars; now has an awesome observation planner to plan your observation sessions. The execute session option allows you to log information about objects as you observe them. Alternately, you may also write a short log in the session planner itself. We wish you a lot of fun planning your observations with &kstars;!</para>
-  <para>You can even add some pictures to the objects. The image list is a Google image search list. To add image to an object all you need to do is press <guibutton>Find Image</guibutton> button on the right and then find an image that you like.If you do not have an Internet connection you can open an image from your hard drive. Note that images that will be used are going to be cropped to a 600*600.</para>
+  <para>You can even add some pictures to the objects. The image list is a Google image search list. To add image to an object all you need to do is press <guibutton>Find Image</guibutton> button on the right and then find an image that you like. If you do not have an Internet connection you can open an image from your hard drive. Note that images that will be used are going to be cropped to 600x600 pixels.</para>
   <para>The first way of doing this is by pressing <keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo> or <keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo> to open the Observation List, then press the <guibutton>Add Object</guibutton> button.</para>
   <mediaobject>
     <imageobject>
@@ -70,7 +70,7 @@
       </para>
     </caption>
   </mediaobject>
-  <para> Here is the second way of adding objects in your Observation Plan and using you Observation Plan. To use this way you just need to press the 4-th Icon on the Top-Left corner of the Observation Planner Wizard (which is highlighted with yellow).</para>
+  <para> Here is the second way of adding objects in your Observation Plan and using you Observation Plan. To use this way you just need to press the 4-th icon on the top-left corner of the Observation Planner Wizard (which is highlighted with yellow).</para>
   <para>Despite looking differently this way is basically the same as the first one. Although that it could be a bit more detailed. Here you can see the same categories of objects.</para>
   <mediaobject>
     <imageobject>
@@ -92,7 +92,7 @@
       </para>
     </caption>
   </mediaobject>
-  <para>You can choose where these objects to be on the sky. There are four option available for you: All over the sky (which is the default option), by constellation and in a region (rectangular or circular).</para>
+  <para>You can choose where these objects to be on the sky. There are four options available for you: All over the sky (which is the default option), by constellation and in a region (rectangular or circular).</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Another_way4.png" format="PNG"/>
@@ -114,7 +114,7 @@
       </para>
     </caption>
   </mediaobject>
-  <para>You can choose with what mag brightness the objects shown will be (In astronomy, absolute magnitude (also known as absolute visual magnitude when measured in the standard V photometric band) measures a celestial object&apos;s intrinsic brightness.).</para>
+  <para>You can choose the treshold of magnitude for the objects to be shown. In astronomy, absolute magnitude (also known as absolute visual magnitude when measured in the standard V photometric band) measures a celestial object&apos;s intrinsic brightness.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="Another_way6.png" format="PNG"/>
@@ -136,7 +136,7 @@
       </para>
     </caption>
   </mediaobject>
-  <para>You can also access the <guilabel>WUT</guilabel> (What&apos;s up tonight), which could be of a great assistance to you. It can give you ideas what to observe on a date, time and place that you specify using the configuration buttons int the Upper-Right corner of the <guilabel>What&apos;s up tonight</guilabel> window.</para>
+  <para>You can also access the <guilabel>WUT</guilabel> (What&apos;s up tonight), which could be of a great assistance to you. It can give you ideas what to observe on a date, time and place that you specify using the configuration buttons int the top-right corner of the <guilabel>What&apos;s up tonight</guilabel> window.</para>
   <mediaobject>
     <imageobject>
       <imagedata fileref="WUT.png" format="PNG"/>
