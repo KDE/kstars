@@ -47,7 +47,7 @@
   <para> The <guibutton>Delete all Images</guibutton> button does the opposite. It deletes all downloaded images.</para>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Delete all images.png" format="PNG"/>
+      <imagedata fileref="Delete_all_images.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
@@ -62,7 +62,7 @@
   <para>You can see the pop-up window that comes after right-clicking on an object.</para>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Add Object to Session plan.png" format="PNG"/>
+      <imagedata fileref="Add_Object_to_Session_plan.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
@@ -128,7 +128,7 @@
   <para>You can save your observation plan. And it will save it with a <filename class="extension">.obslist</filename> extension.</para>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="Savin session.png" format="PNG"/>
+      <imagedata fileref="Savin_session.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
@@ -150,7 +150,7 @@
   <para>This is how the <guilabel>Execution Session</guilabel> Window look. It can be opened by pressing <keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>. In it you can also see some information about the selected object and you are able to add observing notes. </para>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="execute session nt.png" format="PNG"/>
+      <imagedata fileref="execute_session_nt.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
@@ -161,7 +161,7 @@
   <para>By pressing the <guibutton>Next Page</guibutton> button you will access the second page of Session Plan. Here you are able to see information not about your object, but about your equipment.</para>
   <mediaobject>
     <imageobject>
-      <imagedata fileref="execute session the nt.png" format="PNG"/>
+      <imagedata fileref="execute_session_the_nt.png" format="PNG"/>
     </imageobject>
     <caption>
       <para>
