@@ -34,7 +34,7 @@
 #include "constellationnamescomponent.h"
 #include "equatorialcoordinategrid.h"
 #include "horizontalcoordinategrid.h"
-#include "customcatalogcomponent.h"
+#include "catalogcomponent.h"
 #include "deepskycomponent.h"
 #include "equator.h"
 #include "ecliptic.h"

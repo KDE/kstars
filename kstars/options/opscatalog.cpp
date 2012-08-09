@@ -31,7 +31,7 @@
 #include "skymap.h"
 #include "dialogs/addcatdialog.h"
 #include "widgets/magnitudespinbox.h"
-#include "skycomponents/customcatalogcomponent.h"
+#include "skycomponents/catalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 
 OpsCatalog::OpsCatalog( KStars *_ks )

@@ -26,7 +26,7 @@
 #include "skymapcomposite.h"
 #include "constellationboundarylines.h"
 #include "deepskyobject.h"
-#include "customcatalogcomponent.h"
+#include "catalogcomponent.h"
 #include "ksmoon.h"
 #include "ksplanetbase.h"
 #include "ksasteroid.h"

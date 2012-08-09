@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "customcatalogcomponent.h"
+#include "catalogcomponent.h"
 
 #include <QDir>
 #include <QFile>

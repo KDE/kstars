@@ -49,7 +49,7 @@
 #include "skyobjects/kscomet.h"
 #include "skyobjects/ksasteroid.h"
 #include "skyobjects/supernova.h"
-#include "skycomponents/customcatalogcomponent.h"
+#include "skycomponents/catalogcomponent.h"
 #include "thumbnailpicker.h"
 #include "Options.h"
 #include "widgets/kshelplabel.h"

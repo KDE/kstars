@@ -30,7 +30,7 @@
 #include "kstars.h"
 #include "kstarsdata.h"
 #include "Options.h"
-#include "skycomponents/customcatalogcomponent.h"
+#include "skycomponents/catalogcomponent.h"
 #include "skycomponents/skymapcomposite.h"
 
 AddCatDialogUI::AddCatDialogUI( QWidget *parent ) : QFrame( parent ) {
