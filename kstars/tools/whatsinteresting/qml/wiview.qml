@@ -41,8 +41,6 @@ Rectangle {
         anchors.leftMargin: 0
         anchors.right: parent.right
         anchors.rightMargin: 0
-        border.width: 4
-        border.color: "#000000"
         Item {
             id: viewsRow
             objectName: "viewsRowObj"
@@ -416,13 +414,10 @@ Rectangle {
                     width: parent.width
                     height: parent.height
                     color: "transparent"
-                    radius: 12
-                    border.width: 4
-                    border.color: "#000000"
 
                     Rectangle {
                         id: detailsViewBackground
-                        anchors.fill: detailsView
+                        anchors.fill: detailsViewContainer
                         color: "#00060b"
                         opacity: 0.5
                     }
@@ -431,7 +426,7 @@ Rectangle {
                         id: detailsView
                         objectName: "detailsViewObj"
                         x: parent.x + 15
-                        height: parent.height - 20
+                        height: parent.height
                         width: parent.width - 30
                         color: "transparent"
                         radius: 12
@@ -457,14 +452,16 @@ Rectangle {
 
                         Text {
                             id: posText
+                            x: 10
                             objectName: "posTextObj"
                             y: 49
                             anchors.right: parent.right
                             anchors.rightMargin: 10
-                            width: 291
-                            height: 19
+                            width: 320
+                            height: 16
                             color: "#f7f7ac"
                             text: qsTr("text")
+                            font.family: "Cantarell"
                             horizontalAlignment: Text.AlignRight
                             font.underline: false
                             font.italic: false
@@ -479,7 +476,7 @@ Rectangle {
                             height: 175
                             color: "#00000000"
                             radius: 10
-                            border.color: "#ffffff"
+                            border.color: "#585454"
                             Flickable {
                                 id: flickable1
                                 clip: true
@@ -520,11 +517,11 @@ Rectangle {
                         Text {
                             id: nextObjText
                             objectName: "nextObj"
-                            x: parent.width - 101
+                            x: parent.width - 110
                             y: 359
                             width: 101
                             height: 15
-                            color: "#ffffff"
+                            color: "white"
                             text: qsTr("Next sky-object")
                             visible: true
                             verticalAlignment: Text.AlignBottom
@@ -538,6 +535,9 @@ Rectangle {
                             MouseArea {
                                 id: nextObjMouseArea
                                 anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: nextObjText.color = "yellow"
+                                onExited: nextObjText.color = "white"
                                 onClicked: nextObjText.nextObjTextClicked()
                             }
                         }
