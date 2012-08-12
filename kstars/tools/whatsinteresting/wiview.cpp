@@ -72,6 +72,7 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
 //    skyMap->setOptimizationFlags(QGraphicsView::DontSavePainterState);
 //    skyMap->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
 
+//    baseView->setParent(skyMap);
     baseView->show();
 }
 
@@ -134,7 +135,7 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
     QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
     QObject *magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
-    sonameObj->setProperty("text", soitem->getName());
+    sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
     descTextObj->setProperty("text", soitem->getDesc());
     magTextObj->setProperty("text", soitem->getMagnitude());

@@ -19,7 +19,7 @@
 #include "kstarsdata.h"
 #include "skyobjitem.h"
 
-SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_TypeName(so->typeName()), m_So(so)
+SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so)
 {
     switch (so->type())
     {
@@ -55,7 +55,7 @@ QVariant SkyObjItem::data(int role)
     switch(role)
     {
         case DispNameRole:
-            return getName();
+            return getLongName();
         case CategoryRole:
             return getType();
         case CategoryNameRole:

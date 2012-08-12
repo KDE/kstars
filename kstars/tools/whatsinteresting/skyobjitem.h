@@ -68,6 +68,12 @@ public:
     inline QString getName() const { return m_Name; }
 
     /**
+     * \brief Get longname of sky-object associated with the SkyObjItem.
+     * \return Longname of sky-object associated with the SkyObjItem as a QString
+     */
+    inline QString getLongName() const { return m_LongName; }
+
+    /**
      * \brief Get category of sky-object associated with the SkyObjItem as a QString.
      * \return Category of sky-object associated with the SkyObjItem as a QString.
      */
@@ -111,6 +117,7 @@ public:
 
 private:
     QString m_Name;      ///Name of sky-object
+    QString m_LongName;  ///Longname of sky-object(if available)
     QString m_TypeName;  ///Category of sky-object
     QString m_Position;  ///Position of sky-object in the sky.
     Type m_Type;         ///Category of sky-object of type SkyObjItem::Type
