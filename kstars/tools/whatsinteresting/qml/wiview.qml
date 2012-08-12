@@ -386,15 +386,19 @@ Rectangle {
                                 id: soListItem
                                 x: 5
                                 height: 40
+
                                 Text {
                                     id: dispText
                                     objectName: dispName
                                     text: dispName
-                                    color: "#ffffff"
+                                    color: "white"
                                     anchors.verticalCenter: parent.verticalCenter
                                     font.bold: true
                                     MouseArea {
                                         anchors.fill: parent
+                                        hoverEnabled: true
+                                        onEntered: dispText.color = "yellow"
+                                        onExited: dispText.color = "white"
                                         onClicked: {
                                             soListView.currentIndex = index
                                             soListView.soListItemClicked(type, typeName, soListView.currentIndex)
@@ -466,10 +470,11 @@ Rectangle {
                             font.underline: false
                             font.italic: false
                             font.bold: true
-                            font.pixelSize: 11
+                            font.pixelSize: 12
                         }
 
                         Rectangle {
+                            id: descTextBox
                             x: 0
                             y: 95
                             width: parent.width
@@ -478,10 +483,9 @@ Rectangle {
                             radius: 10
                             border.color: "#585454"
                             Flickable {
-                                id: flickable1
+                                id: flickableDescText
                                 clip: true
                                 flickableDirection: Flickable.VerticalFlick
-                                //anchors.fill: parent
                                 width: parent.width
                                 height: parent.height
                                 anchors.top: parent.top
@@ -503,11 +507,10 @@ Rectangle {
                                         anchors.top: parent.top
                                         anchors.topMargin: 3
                                         anchors.left: parent.left
-                                        anchors.leftMargin: 4
+                                        anchors.leftMargin: 6
                                         clip: true
                                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                         width: parent.width
-                                        //anchors.fill: parent
                                         font.pixelSize: 12
                                     }
                                 }
