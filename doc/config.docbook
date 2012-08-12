@@ -144,10 +144,10 @@ The window is depicted below:
 The <guilabel>Configure &kstars;</guilabel> window is divided into seven
 page:
 <guilabel>Catalogs</guilabel>, <guilabel>Solar System</guilabel>, <guilabel>Satellites</guilabel>,
-<guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, <guilabel>Xplanet</guilabel>, and
-<guilabel>Advanced</guilabel>.
+<guilabel>Supernovae</guilabel>, <guilabel>Guides</guilabel>, <guilabel>Colors</guilabel>, 
+<guilabel>INDI</guilabel>, <guilabel>Xplanet</guilabel>, and <guilabel>Advanced</guilabel>.
 </para>
-<!-- Indi missing-->
+
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Catalogs page</secondary></indexterm>
@@ -177,7 +177,7 @@ trail</quote> whenever a solar system body is tracked, and another to
 toggle whether the color of the orbit trail fades into the background
 sky color.
 </para>
-<!-- Satellites missing-->
+<!-- Satellites + Supernovae pages missing-->
 <para>
 <indexterm><primary>Configure &kstars; window</primary>
 <secondary>Guides page</secondary></indexterm>
@@ -211,7 +211,7 @@ colors with the <guilabel>Star Color Intensity</guilabel> spinbox.
 </para>
 <para>
 The right panel lists the defined color schemes.  There are four
-predefined schemes: the <guilabel>Default</guilabel> scheme,
+predefined schemes: the <guilabel>Default Colors</guilabel> scheme,
 <guilabel>Star Chart</guilabel>, which uses black stars on a white
 background, <guilabel>Night Vision</guilabel>, which uses only shades
 of red in order to protect dark-adapted vision, and <guilabel>Moonless
@@ -355,7 +355,7 @@ highlighted symbol from the list.  Note that you can even modify or remove the f
 predefined symbols (if you remove all symbols, the four defaults will be restored the
 next time you start &kstars;).  Below these three buttons is a graphical preview display
 showing the highlighted symbol from the list.  When the <guibutton>New...</guibutton> or
-<guibutton>Edit...</guibutton> button is pressed, the <guilabel>New FOV Symbol</guilabel>
+<guibutton>Edit...</guibutton> button is pressed, the <guilabel>New FOV Indicator</guilabel>
 window is opened:
 </para>
 
@@ -380,7 +380,7 @@ calculate the field-of-view angle, given parameters of your telescope/eyepiece o
 telescope/camera setup.  The four available shapes are: Circle, Square, Crosshairs, and
 Bullseye.  Once you have specified all four parameters, press <guibutton>Ok</guibutton>,
 and the symbol will appear in the list of defined symbols.  It will also be available
-from the <menuchoice><guimenu>Settings</guimenu><guisubmenu>FOV</guisubmenu></menuchoice> menu.
+from the <menuchoice><guimenu>Settings</guimenu><guisubmenu>FOV Symbols</guisubmenu></menuchoice> menu.
 </para>
 </listitem>
 </itemizedlist>

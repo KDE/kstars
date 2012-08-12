@@ -2,7 +2,7 @@
 <title>Command Reference</title>
 
 <sect1 id="kstars-menus">
-  <title>Menu Commands</title> <!-- updated for 4.7, some items ar missing-->
+  <title>Menu Commands</title> <!-- updated for 4.9, some items ar missing-->
 <indexterm><primary>Commands</primary><secondary>Menu</secondary></indexterm>
 
 <sect2 id="filemenu">
@@ -83,6 +83,8 @@ dialog to download additional data for &kstars;.
 </para></listitem>
 </varlistentry>
 -->
+<!-- FIXME missing File->Printing Wizard-->
+
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -136,7 +138,7 @@ PostScript/PDF file)
 </menuchoice></term>
 <listitem><para>Set time and date</para></listitem>
 </varlistentry>
-
+<!--FIXME missing Advance one step backward in time &lt;-->
 <varlistentry>
 <term><menuchoice>
 <guimenu>Time</guimenu>
@@ -144,6 +146,7 @@ PostScript/PDF file)
 </menuchoice></term>
 <listitem><para>Toggle whether time passes</para></listitem>
 </varlistentry>
+<!--FIXME missing Advance one step forward in time &gt;-->
 </variablelist>
 
 </sect2>
@@ -244,7 +247,7 @@ horizon</para></listitem>
 <keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>
 </shortcut>
 <guimenu>Pointing</guimenu>
-<guimenuitem>Engage/Stop Tracking</guimenuitem>
+<guimenuitem>Stop Tracking</guimenuitem>
 </menuchoice></term>
 <listitem><para>Toggle tracking on/off.  While tracking,
 the display will remain centered on the current position or
@@ -323,7 +326,7 @@ object.</para></listitem>
 <link linkend="ai-skycoords">Coordinate Systems</link></para></listitem>
 </varlistentry>
 
-<!-- Projection with 6 subitems are missing -->
+<!--FIXME Projection with 6 subitems are missing -->
 
 </variablelist>
 </sect2>
@@ -399,10 +402,10 @@ which provides full access to many of the mathematical functions used by
 </listitem>
 </varlistentry>
 
-<!--missing
+<!--FIXME missing
 Sky Calendar...
 Observing List... Ctrl+L
-Ekos...
+
 -->
 <!-- removed after 4.9 see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d
 <varlistentry>
@@ -457,6 +460,7 @@ from your location on a given date.
 </listitem>
 </varlistentry>
 
+ <!--FIXME missing Ekos...-->
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -506,7 +510,7 @@ moons as a function of time.
 </para>
 </listitem>
 </varlistentry>
-<!--missing
+<!--FIXME missing
 Flags
   -->
 </variablelist>
