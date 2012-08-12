@@ -35,7 +35,7 @@
   * sent to the UI for display.
   * \author Samikshan Bairagya
   */
-class WIView : public QObject
+class WIView : public QWidget
 {
     Q_OBJECT
 public:
@@ -45,7 +45,7 @@ public:
       * Connect signals from various QML components into public slots.
       * Displays the user interface for What's Interesting
       */
-    WIView(QObject *parent = 0, ObsConditions *obs = 0);
+    WIView(QWidget *parent = 0, ObsConditions *obs = 0);
 
     /**
       * \brief Destructor

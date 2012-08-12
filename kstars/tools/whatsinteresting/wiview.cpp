@@ -21,7 +21,7 @@
 
 #include "kstandarddirs.h"
 
-WIView::WIView(QObject *parent, ObsConditions *obs) : QObject(parent)
+WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
 {
 
     m = new ModelManager(obs);
@@ -36,7 +36,7 @@ WIView::WIView(QObject *parent, ObsConditions *obs) : QObject(parent)
 
     baseView->setAttribute(Qt::WA_TranslucentBackground);
     baseView->setStyleSheet("background: transparent;");
-//    baseView->setWindowFlags(Qt::FramelessWindowHint);
+    baseView->setWindowFlags(Qt::FramelessWindowHint);
 
     ctxt = baseView->rootContext();
 
@@ -59,10 +59,12 @@ WIView::WIView(QObject *parent, ObsConditions *obs) : QObject(parent)
     m_PrevObj = m_BaseObj->findChild<QObject *>("prevObj");
     connect(m_PrevObj, SIGNAL(prevObjClicked()), this, SLOT(onPrevObjClicked()));
 
+    QObject *closeButtonObj = m_BaseObj->findChild<QObject *>("closeButtonObj");
+    connect(closeButtonObj, SIGNAL(closeButtonClicked()), baseView, SLOT(close()));
+
     m_OptMag = obs->getOptimumMAG();
 
     baseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-//    baseView->setParent(skyMap);
 
 //    mapScene->addItem(qobject_cast<QGraphicsObject *>(baseView->rootObject()));
 //    mapScene->setItemIndexMethod(QGraphicsScene::NoIndex);
