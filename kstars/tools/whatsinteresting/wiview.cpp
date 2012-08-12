@@ -26,10 +26,17 @@ WIView::WIView(QObject *parent, ObsConditions *obs) : QObject(parent)
 
     m = new ModelManager(obs);
 
+//    KStars *data = KStars::Instance();
+
+//    SkyMap *skyMap = data->map();
+
+//    QGraphicsScene *mapScene = new QGraphicsScene(skyMap);
+
     QDeclarativeView *baseView = new QDeclarativeView();
 
     baseView->setAttribute(Qt::WA_TranslucentBackground);
     baseView->setStyleSheet("background: transparent;");
+//    baseView->setWindowFlags(Qt::FramelessWindowHint);
 
     ctxt = baseView->rootContext();
 
@@ -46,12 +53,23 @@ WIView::WIView(QObject *parent, ObsConditions *obs) : QObject(parent)
     connect(m_SoListObj, SIGNAL(soListItemClicked(int, QString, int)), this, SLOT(onSoListItemClicked(int, QString, int)));
 
     m_DetailsViewObj = m_BaseObj->findChild<QObject *>("detailsViewObj");
+
     m_NextObj = m_BaseObj->findChild<QObject *>("nextObj");
-    connect(m_NextObj, SIGNAL(nextObjTextClicked()), this, SLOT(onNextObjTextClicked()));
+    connect(m_NextObj, SIGNAL(nextObjClicked()), this, SLOT(onNextObjClicked()));
+    m_PrevObj = m_BaseObj->findChild<QObject *>("prevObj");
+    connect(m_PrevObj, SIGNAL(prevObjClicked()), this, SLOT(onPrevObjClicked()));
 
     m_OptMag = obs->getOptimumMAG();
 
     baseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+//    baseView->setParent(skyMap);
+
+//    mapScene->addItem(qobject_cast<QGraphicsObject *>(baseView->rootObject()));
+//    mapScene->setItemIndexMethod(QGraphicsScene::NoIndex);
+//    skyMap->setScene(mapScene);
+//    skyMap->setOptimizationFlags(QGraphicsView::DontSavePainterState);
+//    skyMap->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+
     baseView->show();
 }
 
@@ -90,11 +108,26 @@ void WIView::onSoListItemClicked(int type, QString typeName, int index)
 //    soTypeTextObj->setProperty("visible", true);
 
 //    soListObj->setProperty("visible", false);
+
     loadDetailsView(soitem, index);
 }
 
 void WIView::loadDetailsView(SkyObjItem *soitem, int index)
 {
+
+    m_CurSoItem = soitem;
+    m_CurIndex = index;
+
+    int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
+    SkyObjItem *nextItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    SkyObjItem *prevItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+    //QString nextObjText = QString("Next: ") + nextItem->getName();
+    QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
+    nextTextObj->setProperty("text", nextItem->getName());
+    //QString prevObjText = QString("Previous: ") + prevItem->getName();
+    QObject *prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
+    prevTextObj->setProperty("text", prevItem->getName());
+
     QObject *sonameObj = m_DetailsViewObj->findChild<QObject *>("sonameObj");
     QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
     QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
@@ -112,14 +145,18 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
         data->map()->setFocusObject(so);
         data->map()->setDestination(*data->map()->focusPoint());
     }
-
-    m_CurSoItem = soitem;
-    m_CurIndex = index;
 }
 
-void WIView::onNextObjTextClicked()
+void WIView::onNextObjClicked()
 {
     int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
     SkyObjItem *nextItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
     loadDetailsView(nextItem, (m_CurIndex+1)%modelSize);
+}
+
+void WIView::onPrevObjClicked()
+{
+    int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
+    SkyObjItem *prevItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+    loadDetailsView(prevItem, (m_CurIndex-1+modelSize)%modelSize);
 }

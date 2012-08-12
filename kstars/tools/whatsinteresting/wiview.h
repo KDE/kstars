@@ -19,6 +19,7 @@
 #define WIVIEW_H
 
 #include "QtDeclarative/QDeclarativeView"
+#include "QtDeclarative/QDeclarativeItem"
 #include "QtDeclarative/QDeclarativeContext"
 #include "QModelIndex"
 #include "skyobject.h"
@@ -68,8 +69,8 @@ public slots:
     /**
       * \brief public slot - Act upon signal emitted when an item is selected from list of sky-objects.
       * Display details-view for the skyobject selected.
-      * \param type        Category selected
-      * \param typename    Name of category selected
+      * \param type        Category selected.
+      * \param typename    Name of category selected.
       * \param index       Index of item in the list of skyobjects.
       */
     void onSoListItemClicked(int type, QString typeName, int index);
@@ -77,10 +78,15 @@ public slots:
     /**
       * \brief public slot - Show details-view for next sky-object from list of current sky-objects's category.
       */
-    void onNextObjTextClicked();
+    void onNextObjClicked();
+
+    /**
+      * \brief public slot - Show details-view for previous sky-object from list of current sky-objects's category.
+      */
+    void onPrevObjClicked();
 
 private:
-    QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj, *m_NextObj;
+    QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj, *m_NextObj, *m_PrevObj;
     QDeclarativeContext *ctxt;
     ModelManager *m;
     SkyObjItem *m_CurSoItem;  ///Current sky-object item.

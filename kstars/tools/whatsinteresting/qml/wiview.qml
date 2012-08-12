@@ -515,34 +515,6 @@ Rectangle {
                         }
 
                         Text {
-                            id: nextObjText
-                            objectName: "nextObj"
-                            x: parent.width - 110
-                            y: 359
-                            width: 101
-                            height: 15
-                            color: "white"
-                            text: qsTr("Next sky-object")
-                            visible: true
-                            verticalAlignment: Text.AlignBottom
-                            horizontalAlignment: Text.AlignRight
-                            font.bold: true
-                            font.underline: true
-                            font.pixelSize: 11
-
-                            signal nextObjTextClicked()
-
-                            MouseArea {
-                                id: nextObjMouseArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                onEntered: nextObjText.color = "yellow"
-                                onExited: nextObjText.color = "white"
-                                onClicked: nextObjText.nextObjTextClicked()
-                            }
-                        }
-
-                        Text {
                             id: magText
                             objectName: "magTextObj"
                             x: 130
@@ -556,6 +528,137 @@ Rectangle {
                             horizontalAlignment: Text.AlignHCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             font.pixelSize: 12
+                        }
+
+                        Rectangle {
+                            id: nextObjRect
+                            objectName: "nextObj"
+                            x: 183
+                            y: 347
+                            width: 147
+                            height: 28
+                            color: "#00000000"
+                            radius: 5
+
+                            signal nextObjClicked()
+
+                            Rectangle {
+                                id: nextObjForeground
+                                radius: 5
+                                anchors.fill: nextObjText
+                                opacity: 0
+                            }
+
+                            MouseArea {
+                                id: nextObjMouseArea
+                                x: 13
+                                y: 62
+                                anchors.fill: nextObjText
+                                hoverEnabled: true
+                                onEntered: {
+                                    nextObjForeground.opacity = 0.1
+                                    nextObjText.color = "yellow"
+                                }
+                                onExited: {
+                                    nextObjForeground.opacity = 0.0
+                                    nextObjText.color = "white"
+                                }
+                                onClicked: nextObjRect.nextObjClicked()
+                            }
+
+                            Text {
+                                id: nextObjText
+                                objectName: "nextTextObj"
+                                y: 17
+                                height: 22
+                                color: "white"
+                                text: qsTr("Next")
+                                anchors.right: nextObjIcon.left
+                                anchors.rightMargin: 5
+                                anchors.verticalCenter: parent.verticalCenter
+                                visible: true
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignRight
+                                font.bold: true
+                                font.pixelSize: 11
+
+                                x: 7
+                            }
+
+                            Image {
+                                id: nextObjIcon
+                                x: 123
+                                y: 13
+                                anchors.verticalCenter: parent.verticalCenter
+                                sourceSize.height: 24
+                                sourceSize.width: 24
+                                source: "next.png"
+                            }
+                        }
+
+                        Rectangle {
+                            id: prevObjRect
+                            objectName: "prevObj"
+                            x: 10
+                            y: 347
+                            width: 147
+                            height: 28
+                            color: "#00000000"
+                            radius: 5
+
+                            signal prevObjClicked()
+
+                            Rectangle {
+                                id: prevObjForeground
+                                radius: 5
+                                anchors.fill: prevObjText
+                                opacity: 0
+                            }
+
+                            MouseArea {
+                                id: prevObjMouseArea
+                                x: 13
+                                y: 62
+                                hoverEnabled: true
+                                anchors.fill: prevObjText
+                                onEntered: {
+                                    prevObjForeground.opacity = 0.1
+                                    prevObjText.color = "yellow"
+                                }
+                                onExited: {
+                                    prevObjForeground.opacity = 0.0
+                                    prevObjText.color = "white"
+                                }
+                                onClicked: prevObjRect.prevObjClicked()
+                            }
+
+                            Text {
+                                id: prevObjText
+                                objectName: "prevTextObj"
+                                y: 7
+                                height: 22
+                                color: "#ffffff"
+                                text: qsTr("Previous")
+                                anchors.left: prevObjIcon.right
+                                anchors.leftMargin: 5
+                                anchors.verticalCenterOffset: 0
+                                font.pixelSize: 11
+                                visible: true
+                                anchors.verticalCenter: parent.verticalCenter
+                                font.bold: true
+                                horizontalAlignment: Text.AlignLeft
+                                verticalAlignment: Text.AlignVCenter
+                            }
+
+                            Image {
+                                id: prevObjIcon
+                                x: 0
+                                y: 2
+                                anchors.verticalCenter: parent.verticalCenter
+                                sourceSize.height: 24
+                                sourceSize.width: 24
+                                source: "previous.png"
+                            }
                         }
                     } //end of detailsView
                 } //end of detailsViewContainer
