@@ -1,5 +1,5 @@
 /***************************************************************************
-                 TestKSParser.cpp  -  K Desktop Planetarium
+                 TestCSVParser.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2012/23/07
     copyright            : (C) 2012 by Rishab Arora
@@ -23,9 +23,9 @@
   * This is good from an OOD perspective, but would make the code unmanageable
 */
 
-#include "testksparser.h"
+#include "testcsvparser.h"
 
-TestKSParser::TestKSParser(): QObject() {
+TestCSVParser::TestCSVParser(): QObject() {
   /*
    * Justification for doing this instead of simply creating a file:
    * To add/change tests, we'll need to modify 2 places. The file and this class.
@@ -97,10 +97,11 @@ TestKSParser::TestKSParser(): QObject() {
   test_parser_ = new KSParser(QString("TestCSV.txt"), '#', sequence_);
 }
 
-TestKSParser::~TestKSParser()
+TestCSVParser::~TestCSVParser()
 {
   delete test_parser_;
 }
+
 
   /*
    * The following tests checks for the following cases for CSV files
@@ -114,7 +115,7 @@ TestKSParser::~TestKSParser()
   */
 
 
-void TestKSParser::MixedInputs() {
+void TestCSVParser::CSVMixedInputs() {
   /*
    * Test 1. Includes input of the form: 
    * 
@@ -146,7 +147,7 @@ void TestKSParser::MixedInputs() {
   QVERIFY(row_content["field12"] == QString("either"));
 }
 
-void TestKSParser::EmptyRow() {
+void TestCSVParser::CSVEmptyRow() {
   /* Test 2. Row with less rows than required (to be skipped)
    * Test 3. Row with truncated \" i.e. no matching "
    *         (should be skipped)
@@ -176,7 +177,7 @@ void TestKSParser::EmptyRow() {
   QVERIFY(row_content["field12"] == QString(""));
 }
 
-void TestKSParser::NoRow() {
+void TestCSVParser::CSVNoRow() {
   /*
    * Test 3. Attempt to read a newline char instead of a row
    * The parser is designed to skip an empty row so we can
@@ -199,7 +200,7 @@ void TestKSParser::NoRow() {
   QVERIFY(row_content["field12"] == QString("Null"));
 }
 
-void TestKSParser::ReadMissingFile() {
+void TestCSVParser::CSVReadMissingFile() {
   /*
    * Test 6. Attempt to read a missing file repeatedly
   */
@@ -226,6 +227,6 @@ void TestKSParser::ReadMissingFile() {
 }
 
 
-QTEST_MAIN(TestKSParser)
+QTEST_MAIN(TestCSVParser)
 
-#include "testksparser.moc"
+#include "testcsvparser.moc"

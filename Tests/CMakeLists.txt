@@ -15,8 +15,8 @@ SET( TEST_LIBRARIES ${QT_QTTEST_LIBRARY} ${QT_LIBRARIES}
           KStarsLib
 )
 
-SET( KSParserTests_SRCS testksparser.cpp )
-ADD_EXECUTABLE( testksparser ${KSParserTests_SRCS} )
+SET( KSParserTests_SRCS testcsvparser.cpp )
+ADD_EXECUTABLE( testcsvparser testcsvparser.cpp )
 QT4_AUTOMOC( ${KSParserTests_SRCS} )
-TARGET_LINK_LIBRARIES( testksparser ${TEST_LIBRARIES} ${QT_QTTEST_LIBRARY})
-ADD_TEST( NAME KSParserTest COMMAND testksparser )
+TARGET_LINK_LIBRARIES( testcsvparser ${TEST_LIBRARIES} ${QT_QTTEST_LIBRARY})
+ADD_TEST( NAME CSVParserTest COMMAND testcsvparser )

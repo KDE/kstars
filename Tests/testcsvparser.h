@@ -1,5 +1,5 @@
 /***************************************************************************
-                 TestKSParser.h  -  K Desktop Planetarium
+                 TestCSVParser.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2012/23/07
     copyright            : (C) 2012 by Rishab Arora
@@ -16,26 +16,29 @@
  ***************************************************************************/
 
 
-#ifndef TESTKSPARSER_H
-#define TESTKSPARSER_H
+#ifndef TESTCSVPARSER_H
+#define TESTCSVPARSER_H
 #include <QtTest/QtTest>
 #include <KDebug>
 #include "datahandlers/ksparser.h"
 #include "kstars/ksfilereader.h"
 
-
-class TestKSParser: public QObject {
+// TODO(spacetime): documentation
+class TestCSVParser: public QObject {
   Q_OBJECT
  public:
-  TestKSParser();
-  ~TestKSParser();
+  TestCSVParser();
+  ~TestCSVParser();
  private slots:
-  void MixedInputs();
-  void EmptyRow();
-  void NoRow();
-  void ReadMissingFile();
+  void CSVMixedInputs();
+  void CSVEmptyRow();
+  void CSVNoRow();
+  void CSVReadMissingFile();
+
  private:
   QStringList csv_test_cases_;
+  QStringList fw_test_cases_;  // for fixed width test cases
+  QList<int> fw_widths_;
   QList< QPair<QString, KSParser::DataTypes> > sequence_;
   QFile test_csv_file_;
   KSParser *test_parser_;
