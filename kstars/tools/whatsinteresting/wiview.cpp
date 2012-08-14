@@ -30,10 +30,6 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
 
     QDeclarativeView *baseView = new QDeclarativeView();
 
-    baseView->setAttribute(Qt::WA_TranslucentBackground);
-    baseView->setStyleSheet("background: transparent;");
-    baseView->setWindowFlags(Qt::FramelessWindowHint);
-
     ctxt = baseView->rootContext();
 
     baseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml"));
@@ -58,12 +54,8 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
     QObject *closeButtonObj = m_BaseObj->findChild<QObject *>("closeButtonObj");
     connect(closeButtonObj, SIGNAL(closeButtonClicked()), baseView, SLOT(close()));
 
-    m_OptMag = obs->getOptimumMAG();
-
     baseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-
     baseView->show();
-
     data->setWIView(baseView);
 }
 
@@ -75,9 +67,6 @@ WIView::~WIView()
 
 void WIView::onCategorySelected(int type)
 {
-    QString oMagText = QString("Suggested optimum magnification : ") + QString::number(m_OptMag);
-    QObject *oMagTextObj = m_BaseObj->findChild<QObject *>("oMagTextObj");
-
     switch(type)
     {
     case 0:                        ///Planet type
@@ -89,7 +78,6 @@ void WIView::onCategorySelected(int type)
     case 4:                        ///Cluster type
     case 5:                        ///Nebula type
         ctxt->setContextProperty("soListModel", m->returnModel(type));
-        oMagTextObj->setProperty("text", oMagText);
         break;
     }
 }
@@ -134,7 +122,8 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     ///Slew map to selected sky-object
     SkyObject* so = soitem->getSkyObject();
     KStars* data = KStars::Instance();
-    if (so != 0) {
+    if (so != 0)
+    {
         data->map()->setFocusPoint(so);
         data->map()->setFocusObject(so);
         data->map()->setDestination(*data->map()->focusPoint());

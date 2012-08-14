@@ -123,7 +123,6 @@ Rectangle {
                             onEntered: container.state = "planetAreaEntered"
                             onClicked: {
                                 viewsRow.categorySelected(0)
-                                oMagText.visible = false
                                 container.state = "soTypeSelected"
                             }
                         }
@@ -155,7 +154,6 @@ Rectangle {
                             onEntered: container.state = "starAreaEntered"
                             onClicked: {
                                 viewsRow.categorySelected(1)
-                                oMagText.visible = false
                                 container.state = "soTypeSelected"
                             }
                         }
@@ -187,7 +185,6 @@ Rectangle {
                             onEntered: container.state = "conAreaEntered"
                             onClicked: {
                                 viewsRow.categorySelected(2)
-                                oMagText.visible = false
                                 container.state = "soTypeSelected"
                             }
                         }
@@ -265,7 +262,6 @@ Rectangle {
                                 onEntered: container.state = "galAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(3)
-                                    oMagText.visible = true
                                     container.state = "soTypeSelected"
                                 }
                             }
@@ -305,7 +301,6 @@ Rectangle {
                                 onEntered: container.state = "nebAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(5)
-                                    oMagText.visible = true
                                     container.state = "soTypeSelected"
                                 }
                             }
@@ -345,7 +340,6 @@ Rectangle {
                                 onEntered: container.state = "clustAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(4)
-                                    oMagText.visible = true
                                     container.state = "soTypeSelected"
                                 }
                             }
@@ -439,7 +433,7 @@ Rectangle {
 
                     Rectangle {
                         id: detailsViewBackground
-                        anchors.fill: detailsViewContainer
+                        anchors.fill: detailsView
                         color: "#00060b"
                         opacity: 0.5
                     }
@@ -544,10 +538,8 @@ Rectangle {
                             height: 15
                             color: "#ffffff"
                             text: qsTr("text")
-                            anchors.horizontalCenterOffset: 0
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
                             font.pixelSize: 12
                         }
 
@@ -713,7 +705,7 @@ Rectangle {
     Rectangle {
         id: backButton
         x: container.width + 10
-        y: 504
+        y: 520
         width: 114
         height: 49
         color: "#00000000"
@@ -785,14 +777,11 @@ Rectangle {
         y: 528
         width: 28
         height: 28
+        anchors.verticalCenter: backButton.verticalCenter
         sourceSize.height: 40
         sourceSize.width: 40
         smooth: true
         fillMode: Image.Stretch
-        anchors.left: parent.left
-        anchors.leftMargin: 9
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 6
         source: "settingsIcon.png"
 
         MouseArea {
@@ -809,22 +798,6 @@ Rectangle {
             opacity: 0.0
             radius: 5
         }
-    }
-
-    Text {
-        id: oMagText
-        objectName: "oMagTextObj"
-        x: 8
-        y: 481
-        width: 297
-        height: 14
-        color: "#ffffff"
-        text: qsTr("")
-        opacity: 0
-        visible: false
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignLeft
-        font.pixelSize: 12
     }
 
     states: [
@@ -844,11 +817,6 @@ Rectangle {
             PropertyChanges {
                 target: clustText
                 color: "#6b6660"
-            }
-
-            PropertyChanges {
-                target: oMagText
-                visible: false
             }
         },
         State {
@@ -1240,11 +1208,6 @@ Rectangle {
                 target: backButton
                 x: 236
             }
-
-            PropertyChanges {
-                target: oMagText
-                opacity: 1
-            }
         }
     ]
 
@@ -1300,14 +1263,12 @@ Rectangle {
             to: "soTypeSelected"
             NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
             NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: oMagText; property: "opacity"; duration: 1000; easing.type: Easing.InOutQuad }
         },
         Transition {
             from: "soTypeSelected"
             to: "base"
             NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
             NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
-            NumberAnimation { target: oMagText; property: "opacity"; duration: 100; easing.type: Easing.InOutQuad }
         }
     ]
 }
