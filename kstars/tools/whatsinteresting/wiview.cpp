@@ -26,11 +26,7 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
 
     m = new ModelManager(obs);
 
-//    KStars *data = KStars::Instance();
-
-//    SkyMap *skyMap = data->map();
-
-//    QGraphicsScene *mapScene = new QGraphicsScene(skyMap);
+    KStars *data = KStars::Instance();
 
     QDeclarativeView *baseView = new QDeclarativeView();
 
@@ -66,14 +62,9 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
 
     baseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
 
-//    mapScene->addItem(qobject_cast<QGraphicsObject *>(baseView->rootObject()));
-//    mapScene->setItemIndexMethod(QGraphicsScene::NoIndex);
-//    skyMap->setScene(mapScene);
-//    skyMap->setOptimizationFlags(QGraphicsView::DontSavePainterState);
-//    skyMap->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-
-//    baseView->setParent(skyMap);
     baseView->show();
+
+    data->setWIView(baseView);
 }
 
 WIView::~WIView()

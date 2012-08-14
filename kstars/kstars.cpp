@@ -18,6 +18,7 @@
 #include "kstars.h"
 
 #include <QApplication>
+#include <QDockWidget>
 
 #include <KGlobal>
 #include <KLocale>
@@ -301,6 +302,17 @@ void KStars::selectPreviousFov()
     data()->syncFOV();
     syncFOVActions();
     map()->update();
+}
+
+void KStars::setWIView(QDeclarativeView *wiView)
+{
+    QDockWidget *wiDock = new QDockWidget(this);
+    wiDock->setObjectName("What's Interesting");
+    wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
+    wiDock->setWidget(wiView);
+    wiDock->setFixedWidth(wiView->width());
+    wiDock->addAction(wiDock->toggleViewAction());
+    addDockWidget(Qt::RightDockWidgetArea, wiDock);
 }
 
 void KStars::updateTime( const bool automaticDSTchange ) {
