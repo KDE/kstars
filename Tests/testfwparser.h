@@ -30,7 +30,7 @@ class TestFWParser: public QObject {
   ~TestFWParser();
  private slots:
    void MixedInputs();
-//   void FWEmptyRow();
+   void EmptyRow();
 //   void FWNoRow();
 //   void FWReadMissingFile();
 

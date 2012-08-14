@@ -19,8 +19,11 @@
 
 TestFWParser::TestFWParser(): QObject() {
   test_cases_.append(
-    "this is an exam ple of 256 cases being tested -3.14       times");
-
+    "this is an exam ple of 256 cases being tested -3.14       times\n");
+  test_cases_.append(
+    "                                                               \n");
+  test_cases_.append(
+    "                         \n");
   QString file_name("TestFW.txt");
   file_name = KStandardDirs::locateLocal("appdata",file_name);
   if (!file_name.isNull()) {
@@ -86,6 +89,22 @@ void TestFWParser::MixedInputs() {
   QVERIFY(row_content["field12"] == QString("times"));
 }
 
+void TestFWParser::EmptyRow() {
+  QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
+  qDebug() << row_content["field1"];
+  QVERIFY(row_content["field1"] == QString("     "));
+  QVERIFY(row_content["field2"] == QString("   "));
+  QVERIFY(row_content["field3"] == QString("   "));
+  QVERIFY(row_content["field4"] == QString("         "));
+  QVERIFY(row_content["field5"] == QString("   "));
+  QVERIFY(row_content["field6"].toInt() == 0);
+  QVERIFY(row_content["field7"] == QString("      "));
+  QVERIFY(row_content["field8"] == QString("      "));
+  QVERIFY(row_content["field9"] == QString("       "));
+  QVERIFY(row_content["field10"].toFloat() == 0.0);
+  QVERIFY(row_content["field11"] == QString("      "));
+  QVERIFY(row_content["field12"] == QString("     "));
+}
 
 QTEST_MAIN(TestFWParser)
 
