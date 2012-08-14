@@ -17,6 +17,7 @@ SET( TEST_LIBRARIES ${QT_QTTEST_LIBRARY} ${QT_LIBRARIES}
 
 SET( KSParserTests_SRCS testcsvparser.cpp testfwparser.cpp )
 QT4_AUTOMOC( ${KSParserTests_SRCS} )
+QT4_AUTOMOC( testfwparser.cpp )
 
 ADD_EXECUTABLE( testcsvparser testcsvparser.cpp )
 TARGET_LINK_LIBRARIES( testcsvparser ${TEST_LIBRARIES} ${QT_QTTEST_LIBRARY})
