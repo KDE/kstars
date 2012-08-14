@@ -140,7 +140,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
 
         int curr_width = 0;
         for (int n_split = 0; n_split < width_sequence_.length(); n_split++) {
-            // Build separated stinglist. Then assign it afterwards.
+            // Build separated stringlist. Then assign it afterwards.
             QString temp_split;
             temp_split = next_line.mid(curr_width, width_sequence_[n_split]);
                         // Don't use at(), because it crashes on invalid index

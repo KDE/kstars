@@ -141,13 +141,13 @@ void DeepSkyComponent::loadData()
     while (deep_sky_parser.HasNextRow()) {
         row_content = deep_sky_parser.ReadNextRow();
 
-        QChar iflag;
+        QString iflag;
         QString cat;
-        iflag = row_content["Flag"].toString().at( 0 ); //check for NGC/IC catalog flag
-        Q_ASSERT(iflag == 'I' || iflag == 'N' || iflag == ' ');
+        iflag = row_content["Flag"].toString().mid( 0, 1 ); //check for NGC/IC catalog flag
+        Q_ASSERT(iflag == "I" || iflag == "N" || iflag == " ");
         // n.b. We also allow non-NGC/IC objects which have a blank iflag
-        if ( iflag == 'I' ) cat = "IC";
-        else if ( iflag == 'N' ) cat = "NGC";
+        if ( iflag == "I" ) cat = "IC";
+        else if ( iflag == "N" ) cat = "NGC";
 
         float mag(1000.0);
         int type, ingc, imess(-1), pa;

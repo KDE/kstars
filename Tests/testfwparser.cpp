@@ -106,6 +106,11 @@ void TestFWParser::EmptyRow() {
   QVERIFY(row_content["field12"] == QString("     "));
 }
 
+void TestFWParser::HalfRow() {
+  
+}
+
+
 QTEST_MAIN(TestFWParser)
 
 #include "testfwparser.moc"
