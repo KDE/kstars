@@ -22,18 +22,19 @@
 #include "listcomponent.h"
 #include "Options.h"
 
-class CustomCatalog;
-
 //JH: TODO: this class should only contain one custom catalog.
 
 /**
-	*@class CustomCatalogComponent
+	*@class CatalogComponent
 	*Represents a custom user-defined catalog.
+	Code adapted from CustomCatalogComponent.cpp originally authored
+	by Thomas Kabelmann
 
 	*@author Thomas Kabelmann
-	*@version 0.1
+                 Rishab Arora
+	*@version 0.2
 	*/
-class CustomCatalogComponent: public ListComponent
+class CatalogComponent: public ListComponent
 {
 public:
 
@@ -41,11 +42,11 @@ public:
     	*@short Constructor
     	*@p parent Pointer to the parent SkyComposite object
     	*/
-    CustomCatalogComponent( SkyComposite*, const QString &fname, bool showerrs, int index );
+    CatalogComponent( SkyComposite*, const QString &fname, bool showerrs, int index );
     /**
     	*@short Destructor.  Delete list members
     	*/
-    virtual ~CustomCatalogComponent();
+    virtual ~CatalogComponent();
 
     /**
     	*@short Draw custom catalog objects on the sky map.

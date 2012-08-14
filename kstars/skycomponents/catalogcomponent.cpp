@@ -32,9 +32,9 @@
 #include "skyobjects/deepskyobject.h"
 #include "skypainter.h"
 
-QStringList CustomCatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
+QStringList CatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
 
-CustomCatalogComponent::CustomCatalogComponent(SkyComposite *parent, const QString &fname, bool showerrs, int index) :
+CatalogComponent::CatalogComponent(SkyComposite *parent, const QString &fname, bool showerrs, int index) :
     ListComponent(parent),
     m_Filename( fname ),
     m_Showerrs( showerrs ),
@@ -43,11 +43,11 @@ CustomCatalogComponent::CustomCatalogComponent(SkyComposite *parent, const QStri
     loadData();
 }
 
-CustomCatalogComponent::~CustomCatalogComponent()
+CatalogComponent::~CatalogComponent()
 {
 }
 
-void CustomCatalogComponent::loadData() {
+void CatalogComponent::loadData() {
     emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
 
     QDir::setCurrent( QDir::homePath() );  //for files with relative path
@@ -133,7 +133,7 @@ void CustomCatalogComponent::loadData() {
     }
 }
 
-void CustomCatalogComponent::update( KSNumbers * )
+void CatalogComponent::update( KSNumbers * )
 {
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance();
@@ -167,7 +167,7 @@ void CustomCatalogComponent::update( KSNumbers * )
     }
 }
 
-void CustomCatalogComponent::draw( SkyPainter *skyp )
+void CatalogComponent::draw( SkyPainter *skyp )
 {
     if ( ! selected() ) return;
 
@@ -196,7 +196,7 @@ void CustomCatalogComponent::draw( SkyPainter *skyp )
     }
 }
 
-bool CustomCatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringList &Columns, int &iStart, bool showerrs, QStringList &errs )
+bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringList &Columns, int &iStart, bool showerrs, QStringList &errs )
 {
 
     bool foundDataColumns( false ); //set to true if description of data columns found
@@ -363,7 +363,7 @@ bool CustomCatalogComponent::parseCustomDataHeader( const QStringList &lines, QS
     }
 }
 
-bool CustomCatalogComponent::processCustomDataLine(int lnum, const QStringList &d, const QStringList &Columns, bool showerrs, QStringList &errs )
+bool CatalogComponent::processCustomDataLine(int lnum, const QStringList &d, const QStringList &Columns, bool showerrs, QStringList &errs )
 {
 
     //object data

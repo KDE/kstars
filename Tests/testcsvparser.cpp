@@ -79,7 +79,7 @@ TestCSVParser::TestCSVParser(): QObject() {
   foreach(const QString &test_case, csv_test_cases_)
     out_stream << test_case;
   test_csv_file_.close();
-
+  
   //Building the sequence to be used. Includes all available types.  
   sequence_.clear();
   sequence_.append(qMakePair(QString("field1"), KSParser::D_QSTRING));

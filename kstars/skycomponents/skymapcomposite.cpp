@@ -88,7 +88,7 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     m_CustomCatalogs = new SkyComposite( this );
     for ( int i=0; i<Options::catalogFile().size(); ++ i ) {
         m_CustomCatalogs->addComponent(
-            new CustomCatalogComponent( this, Options::catalogFile()[i], false, i )
+            new CatalogComponent( this, Options::catalogFile()[i], false, i )
             );
     }
 
@@ -465,7 +465,7 @@ KSPlanetBase* SkyMapComposite::planet( int n ) {
 }
 
 void SkyMapComposite::addCustomCatalog( const QString &filename, int index ) {
-    CustomCatalogComponent *cc = new CustomCatalogComponent( this, filename, false, index );
+    CatalogComponent *cc = new CatalogComponent( this, filename, false, index );
     if( cc->objectList().size() ) {
         m_CustomCatalogs->addComponent( cc );
     } else {
@@ -475,7 +475,7 @@ void SkyMapComposite::addCustomCatalog( const QString &filename, int index ) {
 
 void SkyMapComposite::removeCustomCatalog( const QString &name ) {
     foreach( SkyComponent *sc, m_CustomCatalogs->components() ) {
-        CustomCatalogComponent *ccc = (CustomCatalogComponent*)sc;
+        CatalogComponent *ccc = (CatalogComponent*)sc;
 
         if ( ccc->name() == name ) {
             m_CustomCatalogs->removeComponent( ccc );

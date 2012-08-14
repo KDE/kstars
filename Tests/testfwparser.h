@@ -29,16 +29,16 @@ class TestFWParser: public QObject {
   TestFWParser();
   ~TestFWParser();
  private slots:
-//   void FWMixedInputs();
+   void MixedInputs();
 //   void FWEmptyRow();
 //   void FWNoRow();
 //   void FWReadMissingFile();
 
  private:
-  QStringList fw_test_cases_;
-  QList<int> fw_widths_;
+  QStringList test_cases_;
+  QList<int> widths_;
   QList< QPair<QString, KSParser::DataTypes> > sequence_;
-  QFile test_fw_file_;
+  QFile test_file_;
   KSParser *test_parser_;
 };
 

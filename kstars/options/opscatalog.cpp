@@ -82,7 +82,7 @@ OpsCatalog::OpsCatalog( KStars *_ks )
 
     //Add custom catalogs, if necessary
     for ( int i = 0; i < ksw->data()->skyComposite()->customCatalogs().size(); ++i ) {
-        CustomCatalogComponent *cc = ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i]);
+        CatalogComponent *cc = ((CatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i]);
         QListWidgetItem *newItem = new QListWidgetItem( cc->name(), CatalogList );
         newItem->setFlags( Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled );
         newItem->setCheckState( Options::showCatalog()[i] ?  Qt::Checked : Qt::Unchecked );
@@ -121,7 +121,7 @@ void OpsCatalog::updateCustomCatalogs() {
     m_ShowIC = showIC->checkState();
 
     for ( int i=0; i < ksw->data()->skyComposite()->customCatalogs().size(); ++i ) {
-        QString name = ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i])->name();
+        QString name = ((CatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i])->name();
         QList<QListWidgetItem*> l = CatalogList->findItems( name, Qt::MatchExactly );
         m_ShowCustomCatalog[i] = (l[0]->checkState()==Qt::Checked) ? 1 : 0;
     }
@@ -136,7 +136,7 @@ void OpsCatalog::selectCatalog() {
     if ( ! CatalogList->currentItem() ) return;
     
     foreach ( SkyComponent *sc, ksw->data()->skyComposite()->customCatalogs() ) {
-        CustomCatalogComponent *cc = (CustomCatalogComponent*)sc;
+        CatalogComponent *cc = (CatalogComponent*)sc;
         if ( CatalogList->currentItem()->text() == cc->name() ) {
             RemoveCatalog->setEnabled( true );
             break;
@@ -156,7 +156,7 @@ void OpsCatalog::slotLoadCatalog() {
     QString filename = KFileDialog::getOpenFileName( QDir::homePath(), "*");
     if ( ! filename.isEmpty() ) {
         //test integrity of file before trying to add it
-        CustomCatalogComponent newCat( ksw->data()->skyComposite(), filename, true, 0 );
+        CatalogComponent newCat( ksw->data()->skyComposite(), filename, true, 0 );
         if ( newCat.objectList().size() )
             insertCatalog( filename );
     }
@@ -179,7 +179,7 @@ void OpsCatalog::insertCatalog( const QString &filename ) {
 void OpsCatalog::slotRemoveCatalog() {
     //Remove CatalogName, CatalogFile, and ShowCatalog entries, and decrement CatalogCount
     for ( int i=0; i < ksw->data()->skyComposite()->customCatalogs().size(); ++i ) {
-        CustomCatalogComponent *cc = ((CustomCatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i]);
+        CatalogComponent *cc = ((CatalogComponent*)ksw->data()->skyComposite()->customCatalogs()[i]);
         QString name = cc->name();
 
         if ( CatalogList->currentItem()->text() == name ) {
