@@ -5,16 +5,8 @@ Rectangle {
     objectName: "containerObj"
     width: 370
     height: 575
-    color: "transparent"
-//    color: "#000009"
+    color: "#020518"
     anchors.fill: parent
-
-    Rectangle {
-        id: translucentBackground
-        color: "#020518"
-        anchors.fill: parent
-        opacity: 0.890
-    }
 
     Text {
         id: title
@@ -780,7 +772,7 @@ Rectangle {
     Rectangle {
         id: backButton
         x: container.width + 10
-        y: 520
+        y: 493
         width: 114
         height: 49
         color: "#00000000"
