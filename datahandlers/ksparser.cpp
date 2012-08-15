@@ -106,10 +106,12 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
         }
         read_success = true;
     }
-
-    // This signifies that someone tried to read a row
-    // without checking if hasMoreLines is true
-    // OR the last row to be read for incorrect
+   /*
+    * This signifies that someone tried to read a row
+    * without checking if HasNextRow is true.
+    * OR
+    * The file was truncated OR the file ends with one or more '\n'
+    */
     if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
       newRow = DummyRow();    
     return newRow;
@@ -139,6 +141,16 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
       total_min_length += width_value;
     }
     while (file_reader_.hasMoreLines() && read_success == false) {
+      /*
+       * Steps:
+       * 1) Read Line
+       * 2) If it is a comment, loop again
+       * 3) If it is too small, loop again
+       * 4) Else, a) Break it down according to widths
+       *          b) Convert each broken down unit to appropriate value
+       *          c) set read_success to True denoting we have a valid 
+       *             conversion
+      */
         next_line = file_reader_.readLine();
         if (next_line.mid(0,1)[0] == comment_char_) continue;
         if (next_line.length() < total_min_length) continue;
@@ -170,9 +182,11 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
         }
         read_success = true;
     }
-   /**
+   /*
     * This signifies that someone tried to read a row
-    * without checking if HasNextRow is true
+    * without checking if HasNextRow is true.
+    * OR
+    * The file was truncated OR the file ends with one or more '\n'
     */
     if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
       newRow = DummyRow();  
