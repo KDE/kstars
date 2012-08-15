@@ -22,8 +22,7 @@ TestFWParser::TestFWParser(): QObject() {
     "this is an exam ple of 256 cases being tested -3.14       times\n");
   test_cases_.append(
     "                                                               \n");
-  test_cases_.append(
-    "                         \n");
+  test_cases_.append("this is an ex\n\n");
   QString file_name("TestFW.txt");
   file_name = KStandardDirs::locateLocal("appdata",file_name);
   if (!file_name.isNull()) {
@@ -69,12 +68,11 @@ TestFWParser::TestFWParser(): QObject() {
 
 TestFWParser::~TestFWParser()
 {
-
+  delete test_parser_;
 }
 
 void TestFWParser::MixedInputs() {
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
-  qDebug() << row_content["field12"];
   QVERIFY(row_content["field1"] == QString("this "));
   QVERIFY(row_content["field2"] == QString("is "));
   QVERIFY(row_content["field3"] == QString("an "));
@@ -89,9 +87,8 @@ void TestFWParser::MixedInputs() {
   QVERIFY(row_content["field12"] == QString("times"));
 }
 
-void TestFWParser::EmptyRow() {
+void TestFWParser::OnlySpaceRow() {
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
-  qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString("     "));
   QVERIFY(row_content["field2"] == QString("   "));
   QVERIFY(row_content["field3"] == QString("   "));
@@ -107,8 +104,63 @@ void TestFWParser::EmptyRow() {
 }
 
 void TestFWParser::HalfRow() {
-  
+  QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
+
+  QVERIFY(row_content["field1"] == QString("this "));
+  QVERIFY(row_content["field2"] == QString("is "));
+  QVERIFY(row_content["field3"] == QString("an "));
+  QVERIFY(row_content["field4"] == QString("ex       "));
+  QVERIFY(row_content["field5"] == QString("   "));
+  QVERIFY(row_content["field6"].toInt() == 0);
+  QVERIFY(row_content["field7"] == QString("      "));
+  QVERIFY(row_content["field8"] == QString("      "));
+  QVERIFY(row_content["field9"] == QString("       "));
+  QVERIFY(row_content["field10"].toFloat() == 0.0);
+  QVERIFY(row_content["field11"] == QString("      "));
+  QVERIFY(row_content["field12"] == QString(""));
 }
+
+void TestFWParser::NoRow() {
+  QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
+    qDebug() << row_content["field12"];
+  QVERIFY(row_content["field1"] == QString("     "));
+  QVERIFY(row_content["field2"] == QString("   "));
+  QVERIFY(row_content["field3"] == QString("   "));
+  QVERIFY(row_content["field4"] == QString("         "));
+  QVERIFY(row_content["field5"] == QString("   "));
+  QVERIFY(row_content["field6"].toInt() == 0);
+  QVERIFY(row_content["field7"] == QString("      "));
+  QVERIFY(row_content["field8"] == QString("      "));
+  QVERIFY(row_content["field9"] == QString("       "));
+  QVERIFY(row_content["field10"].toFloat() == 0.0);
+  QVERIFY(row_content["field11"] == QString("      "));
+  QVERIFY(row_content["field12"] == QString(""));
+}
+
+void TestFWParser::FWReadMissingFile()
+{
+  QFile::remove(KStandardDirs::locateLocal("appdata","TestFW.txt"));
+
+  KSParser missing_parser(QString("TestFW.txt"), '#', sequence_, widths_);
+  QHash<QString, QVariant> row_content = missing_parser.ReadNextRow();
+
+  for (int times = 0; times < 20; times++) {
+    row_content = missing_parser.ReadNextRow();
+    QVERIFY(row_content["field1"] == QString("Null"));
+    QVERIFY(row_content["field2"] == QString("Null"));
+    QVERIFY(row_content["field3"] == QString("Null"));
+    QVERIFY(row_content["field4"] == QString("Null"));
+    QVERIFY(row_content["field5"] == QString("Null"));
+    QVERIFY(row_content["field6"].toInt() == 0);
+    QVERIFY(row_content["field7"] == QString("Null"));
+    QVERIFY(row_content["field8"] == QString("Null"));
+    QVERIFY(row_content["field9"] == QString("Null"));
+    QVERIFY(row_content["field10"].toFloat() == 0.0);
+    QVERIFY(row_content["field11"] == QString("Null"));
+    QVERIFY(row_content["field12"] == QString("Null"));   
+  }
+}
+
 
 
 QTEST_MAIN(TestFWParser)

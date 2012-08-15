@@ -28,6 +28,14 @@
 /**
  * @brief Generic class for text file parsers used in KStars.
  * Read rows using ReadCSVRow() regardless of the type of parser.
+ * Usage:
+ * 1) initialize KSParser
+ * 2) while (KSParserObject.HasNextRow()) {
+ *      QHash < Qstring, QVariant > read_stuff = KSParserObject.ReadNextRow();
+ *      ...
+ *      do what you need to do...
+ *      ...
+ *    }
  **/
 class KSParser {
  public:
@@ -49,7 +57,14 @@ class KSParser {
 
     /**
      * @brief Returns a CSV parsing instance of a KSParser type object.
-     *
+     * 
+     * Behavior: 
+     * 1) In case of attempt to read a non existant file, will return
+     *    dummy row (not empty)
+     * 2) In case of incomplete row, the whole row is ignored
+     * 3) In case of missing values, parser will return empty string,
+     *   or 0 or 0.0
+     * 4) If you keep reading ignoring the HasNextRow you get dummy rows
      * @param filename Filename of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
@@ -59,9 +74,27 @@ class KSParser {
              const QList< QPair<QString, DataTypes> > &sequence,
              const char delimiter = ',');
 
+    // TODO(spacetime): Do we really need this 'backward compatibility'?
     /**
      * @brief Returns a Fixed Width parsing instance of a KSParser type object.
      *
+     * Usage:
+     * Important! The last value in width sequence is taken till the end of 
+     * line by default. This is done as the last line may or may not be padded
+     * on the right.
+     * Important! For backward compatibility, all string outputs are not
+     * trimmed. Hence reading "hello  " will return "hello   " _not_ "hello"
+     * If you need trimmed values like "hello" , use QString.trimmed()
+     * 
+     * Behavior:
+     * 1) In case of attempt to read a non existant file, will return
+     *    dummy row (not empty!)
+     * 1) In case of missing row values will be padded. i,e if a row is
+     *    smaller than the expected length, the missing values will be a
+     *    blank string of appropriate length. eg if width of missing field
+     *    was 5 the parser returns "     ". EXCEPT the last field (as no width
+     *    was provided)
+     * 2) If you keep reading the file ignoring the HasNextRow(), 
      * @param filename Filename of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 

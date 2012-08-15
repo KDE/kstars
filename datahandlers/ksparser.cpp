@@ -133,10 +133,15 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
     QString next_line;
     QStringList separated;
     QHash<QString, QVariant> newRow;
-
+    int total_min_length = 0;
+    
+    foreach(const int width_value, width_sequence_) {
+      total_min_length += width_value;
+    }
     while (file_reader_.hasMoreLines() && read_success == false) {
         next_line = file_reader_.readLine();
-        if (next_line[0] == comment_char_) continue;
+        if (next_line.mid(0,1)[0] == comment_char_) continue;
+        if (next_line.length() < total_min_length) continue;
 
         int curr_width = 0;
         for (int n_split = 0; n_split < width_sequence_.length(); n_split++) {
@@ -145,15 +150,11 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
             temp_split = next_line.mid(curr_width, width_sequence_[n_split]);
                         // Don't use at(), because it crashes on invalid index
             curr_width += width_sequence_[n_split];
+            if (temp_split.length() != width_sequence_[n_split])
+              temp_split = temp_split.leftJustified(width_sequence_[n_split]);
             separated.append(temp_split);
         }
         separated.append(next_line.mid(curr_width));  // Append last segment
-
-        // Check if the generated list has correct size
-        if (separated.length() != name_type_sequence_.length()) {
-            kDebug()<< "Invalid Size with next_line: "<< next_line;
-            continue;
-        }
 
         // Conversions
         for (int i = 0; i < name_type_sequence_.length(); ++i) {

@@ -30,9 +30,10 @@ class TestFWParser: public QObject {
   ~TestFWParser();
  private slots:
    void MixedInputs();
-   void EmptyRow();
+   void OnlySpaceRow();
    void HalfRow();
-//   void FWReadMissingFile();
+   void NoRow();
+   void FWReadMissingFile();
 
  private:
   QStringList test_cases_;

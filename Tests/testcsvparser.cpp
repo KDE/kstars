@@ -200,6 +200,26 @@ void TestCSVParser::CSVNoRow() {
   QVERIFY(row_content["field12"] == QString("Null"));
 }
 
+void TestCSVParser::CSVIgnoreHasNextRow() {
+  QHash<QString, QVariant> row_content;
+  for (int times = 0; times < 20; times++) {
+    row_content = test_parser_->ReadNextRow();
+    QVERIFY(row_content["field1"] == QString("Null"));
+    QVERIFY(row_content["field2"] == QString("Null"));
+    QVERIFY(row_content["field3"] == QString("Null"));
+    QVERIFY(row_content["field4"] == QString("Null"));
+    QVERIFY(row_content["field5"] == QString("Null"));
+    QVERIFY(row_content["field6"].toInt() == 0);
+    QVERIFY(row_content["field7"] == QString("Null"));
+    QVERIFY(row_content["field8"] == QString("Null"));
+    QVERIFY(row_content["field9"] == QString("Null"));
+    QVERIFY(row_content["field10"].toFloat() == 0.0);
+    QVERIFY(row_content["field11"] == QString("Null"));
+    QVERIFY(row_content["field12"] == QString("Null"));   
+  }
+}
+
+
 void TestCSVParser::CSVReadMissingFile() {
   /*
    * Test 6. Attempt to read a missing file repeatedly

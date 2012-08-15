@@ -33,6 +33,7 @@ class TestCSVParser: public QObject {
   void CSVMixedInputs();
   void CSVEmptyRow();
   void CSVNoRow();
+  void CSVIgnoreHasNextRow();
   void CSVReadMissingFile();
 
  private:
