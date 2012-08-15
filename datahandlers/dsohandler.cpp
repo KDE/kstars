@@ -28,10 +28,10 @@ bool DSOHandler::Initialize() {
     }
     skydb_.setDatabaseName(dbfile);
     if (!skydb_.open()) {
-           kWarning() << i18n("Unable to open user database file!");
+           kWarning() << i18n("Unable to open DSO database file!");
            kWarning() << LastError();
     } else {
-        kDebug() << i18n("Opened the User DB. Ready!");
+        kDebug() << i18n("Opened the DSO Database. Ready!");
         if (first_run == true) {
             //FirstRun();
         }
@@ -42,7 +42,7 @@ bool DSOHandler::Initialize() {
 
 DSOHandler::~DSOHandler() {
     skydb_.close();
-    QSqlDatabase::removeDatabase("userdb");
+    QSqlDatabase::removeDatabase("skydb");
 }
 
 QSqlError DSOHandler::LastError() {
