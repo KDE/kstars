@@ -54,6 +54,18 @@ bool KSFileReader::open( const QString& fname )
     return true;
 }
 
+bool KSFileReader::openFullPath( const QString& fname )
+{
+    if ( !fname.isNull() ) {
+        m_file.setFileName( fname );
+        if ( !m_file.open( QIODevice::ReadOnly ))
+          return false;
+    }
+    QTextStream::setDevice( &m_file );
+    QTextStream::setCodec("UTF-8");
+    return true;
+}
+
 void KSFileReader::setProgress( QString label,
                                 unsigned int totalLines,
                                 unsigned int numUpdates )
