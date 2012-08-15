@@ -36,6 +36,15 @@
  *      do what you need to do...
  *      ...
  *    }
+ * 
+ * Debugging Information:
+ * In case of read errors, the parsers emit a warning.
+ * In case of conversion errors, the warnings are toggled by setting
+ * const bool KSParser::parser_debug_mode_ = true; in ksparser.cpp
+ * 
+ * In case of failure, the parser returns a Dummy Row. So if you see the
+ * string "Null" in the returned QHash, it signifies the parserencountered an
+ * unexpected error.
  **/
 class KSParser {
  public:
@@ -65,6 +74,7 @@ class KSParser {
      * 3) In case of missing values, parser will return empty string,
      *   or 0 or 0.0
      * 4) If you keep reading ignoring the HasNextRow you get dummy rows
+     * 
      * @param filename Full Path (Dir + Filename) of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
@@ -74,7 +84,6 @@ class KSParser {
              const QList< QPair<QString, DataTypes> > &sequence,
              const char delimiter = ',');
 
-    // TODO(spacetime): Do we really need this 'backward compatibility'?
     /**
      * @brief Returns a Fixed Width parsing instance of a KSParser type object.
      *
@@ -89,12 +98,12 @@ class KSParser {
      * Behavior:
      * 1) In case of attempt to read a non existant file, will return
      *    dummy row (not empty!)
-     * 1) In case of missing row values will be padded. i,e if a row is
-     *    smaller than the expected length, the missing values will be a
-     *    blank string of appropriate length. eg if width of missing field
-     *    was 5 the parser returns "     ". EXCEPT the last field (as no width
-     *    was provided)
-     * 2) If you keep reading the file ignoring the HasNextRow(), 
+     * 2) In case of missing fields at the end, the line length is smaller 
+     *    than expected so it is skipped.
+     * 3) If an integer or floating point value is empty (e.g. "    ")
+     *    it is replaced by 0 or 0.0
+     * 4) If you keep reading the file ignoring the HasNextRow(), you get 
+     *    Dummy Rows
      * @param filename Full Path (Dir + Filename) of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 

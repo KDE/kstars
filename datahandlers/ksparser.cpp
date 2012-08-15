@@ -162,11 +162,9 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
             temp_split = next_line.mid(curr_width, width_sequence_[n_split]);
                         // Don't use at(), because it crashes on invalid index
             curr_width += width_sequence_[n_split];
-            if (temp_split.length() != width_sequence_[n_split])
-              temp_split = temp_split.leftJustified(width_sequence_[n_split]);
-            separated.append(temp_split);
+            separated.append(temp_split.trimmed());
         }
-        separated.append(next_line.mid(curr_width));  // Append last segment
+        separated.append(next_line.mid(curr_width).trimmed());  // Append last segment
 
         // Conversions
         for (int i = 0; i < name_type_sequence_.length(); ++i) {

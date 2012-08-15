@@ -47,9 +47,8 @@ CatalogComponent::~CatalogComponent()
 {
 }
 
-//TODO(spacetime): Switch to KSParser
-//TODO(spacetime): Save to DB
-//TODO(spacetime): Load to DB
+//TODO(spacetime): Save to DB using KSParser
+//TODO(spacetime): Load from DB
 //TODO(spacetime): Remove previous code
 
 void CatalogComponent::loadData() {
@@ -61,6 +60,12 @@ void CatalogComponent::loadData() {
     //(otherwise, the file will not successfully open)
     if ( m_Filename.at(0)=='~' )
         m_Filename = QDir::homePath() + m_Filename.mid( 1, m_Filename.length() );
+    
+    /* NEW CODE BEGINS (spacetime) */
+    
+    
+    
+    /* NEW CODE ENDS */
     QFile ccFile( m_Filename );
 
     if ( ccFile.open( QIODevice::ReadOnly ) ) {

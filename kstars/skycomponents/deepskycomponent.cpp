@@ -146,8 +146,12 @@ void DeepSkyComponent::loadData()
         QString iflag;
         QString cat;
         iflag = row_content["Flag"].toString().mid( 0, 1 ); //check for NGC/IC catalog flag
-        Q_ASSERT(iflag == "I" || iflag == "N" || iflag == " ");
+        /*
+        Q_ASSERT(iflag == "I" || iflag == "N" || iflag == " ");  
+        // (spacetime): ^ Why an assert? Change in implementation of ksparser
+        //  might result in crash for no reason.
         // n.b. We also allow non-NGC/IC objects which have a blank iflag
+        */
         if ( iflag == "I" ) cat = "IC";
         else if ( iflag == "N" ) cat = "NGC";
 
@@ -164,7 +168,7 @@ void DeepSkyComponent::loadData()
         int rah = row_content["RA_H"].toInt();
         int ram = row_content["RA_M"].toInt();
         float ras = row_content["RA_S"].toFloat();
-        QString sgn = row_content["D_Sign"].toString().trimmed();
+        QString sgn = row_content["D_Sign"].toString();
         int dd = row_content["Dec_d"].toInt();
         int dm = row_content["Dec_m"].toInt();
         int ds = row_content["Dec_s"].toInt();
@@ -181,7 +185,7 @@ void DeepSkyComponent::loadData()
         Q_ASSERT(0.0 <= ds && ds < 60.0);
 
         //B magnitude
-        ss = row_content["BMag"].toString().trimmed();
+        ss = row_content["BMag"].toString();
         if (ss == "") { mag = 99.9f; } else { mag = ss.toFloat(); }
 
         //object type
@@ -194,7 +198,7 @@ void DeepSkyComponent::loadData()
         //position angle.  The catalog PA is zero when the Major axis
         //is horizontal.  But we want the angle measured from North, so
         //we set PA = 90 - pa.
-        ss = row_content["pa"].toString().trimmed();
+        ss = row_content["pa"].toString();
         if (ss == "" ) { pa = 90; } else { pa = 90 - ss.toInt(); }
 
         //PGC number
@@ -215,7 +219,7 @@ void DeepSkyComponent::loadData()
             imess = row_content["MessrNum"].toInt();
         }
 
-        longname = row_content["Longname"].toString().trimmed(); 
+        longname = row_content["Longname"].toString(); 
 
         dms r;
         r.setH( rah, ram, int(ras) );
