@@ -108,10 +108,9 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
     SkyObjItem *nextItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
     SkyObjItem *prevItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
-    //QString nextObjText = QString("Next: ") + nextItem->getName();
+
     QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
     nextTextObj->setProperty("text", nextItem->getName());
-    //QString prevObjText = QString("Previous: ") + prevItem->getName();
     QObject *prevTextObj = m_PrevObj->findChild<QObject *>("prevTextObj");
     prevTextObj->setProperty("text", prevItem->getName());
 
@@ -119,15 +118,22 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
     QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
     QObject *magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
-//    QObject *sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
+    QObject *sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
     QObject *sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
 
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
     descTextObj->setProperty("text", soitem->getDesc());
 
-    QString magText = QString("Magnitude: ") + QString::number(soitem->getMagnitude());
+    QString magText;
+    if (soitem->getType() == SkyObjItem::Constellation)
+        magText = QString("Magnitude:  --");
+    else
+        magText = QString("Magnitude: ") + QString::number(soitem->getMagnitude()) + " mag";
     magTextObj->setProperty("text", magText);
+
+    QString sbText = QString("Surface Brightness: ") + soitem->getSurfaceBrightness();
+    sbTextObj->setProperty("text", sbText);
 
     QString sizeText = QString("Size: ") + soitem->getSize();
     sizeTextObj->setProperty("text", sizeText);

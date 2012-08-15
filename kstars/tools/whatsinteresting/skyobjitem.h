@@ -110,13 +110,15 @@ public:
     inline float getMagnitude() const { return m_So->mag(); }
 
     /**
-     * \brief Get surface-brightness of sky-object associated with the SkyObjItem.
-     * \return Surface-brightness of sky-object associated with the SkyObjItem.
+     * \brief Get surface-brightness of sky-object associated with the SkyObjItem as a QString
+     * to be displayed on the details-view.
+     * \return Surface-brightness of sky-object associated with the SkyObjItem as a QString.
      */
-    inline float getSurfaceBrightness() const { return 0.0; }
+    QString getSurfaceBrightness() const;
 
     /**
-     * \brief Get size of sky-object associated with the SkyObjItem.
+     * \brief Get size of sky-object associated with the SkyObjItem as a QString
+     * to be displayed on the details-view.
      * \return Size of sky-object associated with the SkyObjItem as a QString.
      */
     QString getSize() const;

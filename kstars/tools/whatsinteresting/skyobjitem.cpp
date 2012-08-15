@@ -120,7 +120,29 @@ QString SkyObjItem::getDesc() const
         return "Constellation";
     }
 
-    return QString("No Description found for selected sky-object");
+    return getTypeName();
+}
+
+QString SkyObjItem::getSurfaceBrightness() const
+{
+    /** Surface Brightness is applicable only for extended light sources like
+      * Deep-Sky Objects. Here we use the formula SB = m + log10(a*b/4)
+      * where m is the magnitude of the sky-object. a and b are the major and minor
+      * axis lengths of the objects respectively in arcminutes. SB is the surface
+      * brightness obtained in mag * arcminutes^-2
+      */
+
+    DeepSkyObject *dso = (DeepSkyObject *)m_So;
+    float SB = m_So->mag() + 2.5 * log10(dso->a() * dso->b() / 4);
+
+    switch(getType())
+    {
+    case Galaxy:
+    case Nebula:
+        return KGlobal::locale()->formatNumber(SB) + " mag/arcmin^2";
+    default:
+        return QString(" --"); // Not applicable for other sky-objects
+    }
 }
 
 QString SkyObjItem::getSize() const

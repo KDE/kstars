@@ -641,7 +641,7 @@ Rectangle {
                         Text {
                             id: magText
                             objectName: "magTextObj"
-                            y: 72
+                            y: 104
                             width: 164
                             height: 15
                             color: "#ffffff"
@@ -658,7 +658,7 @@ Rectangle {
                             id: sbText
                             objectName: "sbTextObj"
                             x: 8
-                            y: 104
+                            y: 72
                             width: 164
                             height: 15
                             color: "#ffffff"
