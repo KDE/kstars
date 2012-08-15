@@ -83,7 +83,7 @@ public:
      * \brief Get category of sky-object associated with the SkyObjItem as an integer.
      * \return Category of sky-object associated with the SkyObjItem as a QString as an integer.
      */
-    inline int getType() const { return int(m_Type); }
+    inline int getType() const { return m_Type; }
 
     /**
      * \brief Get current position of sky-object associated with the SkyObjItem.
@@ -117,9 +117,9 @@ public:
 
     /**
      * \brief Get size of sky-object associated with the SkyObjItem.
-     * \return Size of sky-object associated with the SkyObjItem.
+     * \return Size of sky-object associated with the SkyObjItem as a QString.
      */
-    inline float getSize() const { return 0.0; }
+    QString getSize() const;
 
     /**
      * \brief Set current position of the sky-object in the sky.

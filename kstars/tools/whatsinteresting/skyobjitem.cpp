@@ -17,6 +17,8 @@
 
 #include "ksfilereader.h"
 #include "kstarsdata.h"
+#include "deepskyobject.h"
+#include "ksplanetbase.h"
 #include "skyobjitem.h"
 
 SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so)
@@ -119,4 +121,19 @@ QString SkyObjItem::getDesc() const
     }
 
     return QString("No Description found for selected sky-object");
+}
+
+QString SkyObjItem::getSize() const
+{
+    switch (getType())
+    {
+    case Galaxy:
+    case Cluster:
+    case Nebula:
+        return QString::number(((DeepSkyObject *)m_So)->a()) + " arcminutes";
+    case Planet:
+        return QString::number(((KSPlanetBase *)m_So)->angSize()) + " arcseconds";
+    default:
+        return QString(" --");
+    }
 }

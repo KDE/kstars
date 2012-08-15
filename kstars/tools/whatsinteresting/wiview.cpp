@@ -120,17 +120,17 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
     QObject *magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
 //    QObject *sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
-//    QObject *sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
-
-    QString magText = QString("Magnitude: ") + QString::number(soitem->getMagnitude());
+    QObject *sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
 
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
     descTextObj->setProperty("text", soitem->getDesc());
+
+    QString magText = QString("Magnitude: ") + QString::number(soitem->getMagnitude());
     magTextObj->setProperty("text", magText);
-    /*
-    sbTextObj->setProperty("text", magText);
-    sizeTextObj->setProperty("text", soitem->getSize());*/
+
+    QString sizeText = QString("Size: ") + soitem->getSize();
+    sizeTextObj->setProperty("text", sizeText);
 }
 
 void WIView::onNextObjClicked()
