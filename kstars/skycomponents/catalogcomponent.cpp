@@ -47,6 +47,11 @@ CatalogComponent::~CatalogComponent()
 {
 }
 
+//TODO(spacetime): Switch to KSParser
+//TODO(spacetime): Save to DB
+//TODO(spacetime): Load to DB
+//TODO(spacetime): Remove previous code
+
 void CatalogComponent::loadData() {
     emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
 

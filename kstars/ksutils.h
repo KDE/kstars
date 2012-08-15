@@ -38,7 +38,7 @@ class QString;
 class SkyPoint;
 
 namespace KSUtils {
-    /**Attempt to open the data file named filename, using the QFile object "file".
+    /** Attempt to open the data file named filename, using the QFile object "file".
     	*First look in the standard KDE directories, then look in a local "data"
     	*subdirectory.  If the data file cannot be found or opened, display a warning
     	*messagebox.

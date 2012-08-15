@@ -113,7 +113,10 @@ void CometsComponent::loadData() {
     sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
     sequence.append(qMakePair(QString("H"), KSParser::D_SKIP));
     sequence.append(qMakePair(QString("G"), KSParser::D_SKIP));
-    KSParser cometParser(QString("comets.dat"), '#', sequence);
+
+    QString file_name = KStandardDirs::locate( "appdata",
+                                               QString("comets.dat") );
+    KSParser cometParser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
     while (cometParser.HasNextRow()){

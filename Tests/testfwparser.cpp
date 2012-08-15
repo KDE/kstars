@@ -62,7 +62,8 @@ TestFWParser::TestFWParser(): QObject() {
   widths_.append(6);
   widths_.append(6);  //'repeatedly' doesn't need a width
 
-  test_parser_ = new KSParser(QString("TestFW.txt"), '#', sequence_, widths_);
+  QString fname = KStandardDirs::locate( "appdata", file_name );
+  test_parser_ = new KSParser(fname, '#', sequence_, widths_);
 
 }
 

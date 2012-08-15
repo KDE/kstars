@@ -65,7 +65,7 @@ class KSParser {
      * 3) In case of missing values, parser will return empty string,
      *   or 0 or 0.0
      * 4) If you keep reading ignoring the HasNextRow you get dummy rows
-     * @param filename Filename of source file
+     * @param filename Full Path (Dir + Filename) of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
      * @param delimiter separate on which character. default ','
@@ -95,7 +95,7 @@ class KSParser {
      *    was 5 the parser returns "     ". EXCEPT the last field (as no width
      *    was provided)
      * 2) If you keep reading the file ignoring the HasNextRow(), 
-     * @param filename Filename of source file
+     * @param filename Full Path (Dir + Filename) of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
      * @param widths width sequence. Last value is line.length() by default

@@ -119,7 +119,10 @@ void AsteroidsComponent::loadData() {
     sequence.append(qMakePair(QString("per_y"), KSParser::D_FLOAT));
     sequence.append(qMakePair(QString("moid"), KSParser::D_DOUBLE));
     sequence.append(qMakePair(QString("class"), KSParser::D_QSTRING));
-    KSParser asteroid_parser(QString("asteroids.dat"), '#', sequence);
+
+    QString file_name = KStandardDirs::locate( "appdata",
+                                               QString("asteroids.dat") );
+    KSParser asteroid_parser(file_name, '#', sequence);
 
     QHash<QString, QVariant> row_content;
     while (asteroid_parser.HasNextRow()){

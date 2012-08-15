@@ -29,7 +29,7 @@ KSParser::KSParser(const QString &filename, const char comment_char,
                    const char delimiter)
     : filename_(filename), comment_char_(comment_char),
       name_type_sequence_(sequence), delimiter_(delimiter) {
-    if (!file_reader_.open(filename_)) {
+    if (!file_reader_.openFullPath(filename_)) {
         kWarning() <<"Unable to open file: "<< filename;
         readFunctionPtr = &KSParser::DummyRow;
     } else {
@@ -43,7 +43,7 @@ KSParser::KSParser(const QString &filename, const char comment_char,
                    const QList<int> &widths)
     : filename_(filename), comment_char_(comment_char),
       name_type_sequence_(sequence), width_sequence_(widths) {
-    if (!file_reader_.open(filename_)) {
+    if (!file_reader_.openFullPath(filename_)) {
         kWarning() <<"Unable to open file: "<< filename;
         readFunctionPtr = &KSParser::DummyRow;
     } else {

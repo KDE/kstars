@@ -133,7 +133,9 @@ void DeepSkyComponent::loadData()
     sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING));
     //No width to be appended for last sequence object
 
-    KSParser deep_sky_parser(QString("ngcic.dat"), '#', sequence, widths);
+    QString file_name = KStandardDirs::locate( "appdata", 
+                                           QString("ngcic.dat") );
+    KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
     deep_sky_parser.SetProgress( i18n("Loading NGC/IC objects"), 13444, 10 );
 

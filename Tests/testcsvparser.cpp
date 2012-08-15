@@ -68,7 +68,7 @@ TestCSVParser::TestCSVParser(): QObject() {
   csv_test_cases_.append(",,,,,,,,,,,\n");
   csv_test_cases_.append("\n");
   QString file_name("TestCSV.txt");
-  file_name = KStandardDirs::locateLocal("appdata",file_name);
+  file_name = KStandardDirs::locateLocal("appdata", file_name);
   if (!file_name.isNull()) {
         test_csv_file_.setFileName(file_name);
         if (!test_csv_file_.open(QIODevice::WriteOnly)) {
@@ -94,7 +94,9 @@ TestCSVParser::TestCSVParser(): QObject() {
   sequence_.append(qMakePair(QString("field10"), KSParser::D_FLOAT));
   sequence_.append(qMakePair(QString("field11"), KSParser::D_QSTRING));
   sequence_.append(qMakePair(QString("field12"), KSParser::D_QSTRING));
-  test_parser_ = new KSParser(QString("TestCSV.txt"), '#', sequence_);
+
+  QString fname = KStandardDirs::locate( "appdata", file_name );
+  test_parser_ = new KSParser(fname, '#', sequence_);
 }
 
 TestCSVParser::~TestCSVParser()
