@@ -85,8 +85,14 @@ public slots:
       */
     void onPrevObjClicked();
 
+    /**
+      * \brief public slot - Slew map to current sky-object in the details view.
+      */
+    void onSlewButtonClicked();
+
 private:
-    QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj, *m_NextObj, *m_PrevObj;
+    QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
+            *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
     QDeclarativeContext *ctxt;
     ModelManager *m;
     SkyObjItem *m_CurSoItem;  ///Current sky-object item.

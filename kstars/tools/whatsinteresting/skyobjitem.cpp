@@ -120,8 +120,3 @@ QString SkyObjItem::getDesc() const
 
     return QString("No Description found for selected sky-object");
 }
-
-QString SkyObjItem::getMagnitude() const
-{
-    return QString("Magnitude : ") + (QString::number(m_So->mag()));
-}

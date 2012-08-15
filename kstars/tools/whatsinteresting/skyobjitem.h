@@ -105,9 +105,21 @@ public:
 
     /**
      * \brief Get magnitude of sky-object associated with the SkyObjItem.
-     * \return Magnitude of sky-object associated with the SkyObjItem as a QString.
+     * \return Magnitude of sky-object associated with the SkyObjItem.
      */
-    QString getMagnitude() const;
+    inline float getMagnitude() const { return m_So->mag(); }
+
+    /**
+     * \brief Get surface-brightness of sky-object associated with the SkyObjItem.
+     * \return Surface-brightness of sky-object associated with the SkyObjItem.
+     */
+    inline float getSurfaceBrightness() const { return 0.0; }
+
+    /**
+     * \brief Get size of sky-object associated with the SkyObjItem.
+     * \return Size of sky-object associated with the SkyObjItem.
+     */
+    inline float getSize() const { return 0.0; }
 
     /**
      * \brief Set current position of the sky-object in the sky.

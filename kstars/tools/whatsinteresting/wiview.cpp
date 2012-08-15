@@ -51,6 +51,9 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
     m_PrevObj = m_BaseObj->findChild<QObject *>("prevObj");
     connect(m_PrevObj, SIGNAL(prevObjClicked()), this, SLOT(onPrevObjClicked()));
 
+    m_SlewButtonObj = m_BaseObj->findChild<QObject *>("slewButtonObj");
+    connect(m_SlewButtonObj, SIGNAL(slewButtonClicked()), this, SLOT(onSlewButtonClicked()));
+
     QObject *closeButtonObj = m_BaseObj->findChild<QObject *>("closeButtonObj");
     connect(closeButtonObj, SIGNAL(closeButtonClicked()), baseView, SLOT(close()));
 
@@ -114,20 +117,18 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     QObject *posTextObj = m_DetailsViewObj->findChild<QObject *>("posTextObj");
     QObject *descTextObj = m_DetailsViewObj->findChild<QObject *>("descTextObj");
     QObject *magTextObj = m_DetailsViewObj->findChild<QObject *>("magTextObj");
+//    QObject *sbTextObj = m_DetailsViewObj->findChild<QObject *>("sbTextObj");
+//    QObject *sizeTextObj = m_DetailsViewObj->findChild<QObject *>("sizeTextObj");
+
+    QString magText = QString("Magnitude: ") + QString::number(soitem->getMagnitude());
+
     sonameObj->setProperty("text", soitem->getLongName());
     posTextObj->setProperty("text", soitem->getPosition());
     descTextObj->setProperty("text", soitem->getDesc());
-    magTextObj->setProperty("text", soitem->getMagnitude());
-
-    ///Slew map to selected sky-object
-    SkyObject* so = soitem->getSkyObject();
-    KStars* data = KStars::Instance();
-    if (so != 0)
-    {
-        data->map()->setFocusPoint(so);
-        data->map()->setFocusObject(so);
-        data->map()->setDestination(*data->map()->focusPoint());
-    }
+    magTextObj->setProperty("text", magText);
+    /*
+    sbTextObj->setProperty("text", magText);
+    sizeTextObj->setProperty("text", soitem->getSize());*/
 }
 
 void WIView::onNextObjClicked()
@@ -142,4 +143,17 @@ void WIView::onPrevObjClicked()
     int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
     SkyObjItem *prevItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
     loadDetailsView(prevItem, (m_CurIndex-1+modelSize)%modelSize);
+}
+
+void WIView::onSlewButtonClicked()
+{
+    ///Slew map to selected sky-object
+    SkyObject* so = m_CurSoItem->getSkyObject();
+    KStars* data = KStars::Instance();
+    if (so != 0)
+    {
+        data->map()->setFocusPoint(so);
+        data->map()->setFocusObject(so);
+        data->map()->setDestination(*data->map()->focusPoint());
+    }
 }
