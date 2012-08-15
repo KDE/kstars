@@ -54,9 +54,6 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
     m_SlewButtonObj = m_BaseObj->findChild<QObject *>("slewButtonObj");
     connect(m_SlewButtonObj, SIGNAL(slewButtonClicked()), this, SLOT(onSlewButtonClicked()));
 
-    QObject *closeButtonObj = m_BaseObj->findChild<QObject *>("closeButtonObj");
-    connect(closeButtonObj, SIGNAL(closeButtonClicked()), baseView, SLOT(close()));
-
     baseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     baseView->show();
     data->setWIView(baseView);

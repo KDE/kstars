@@ -14,24 +14,6 @@ Rectangle {
         color: "#020518"
         anchors.fill: parent
         opacity: 0.890
-
-        Image {
-            id: closeButton
-            objectName: "closeButtonObj"
-            x: 333
-            y: 11
-            sourceSize.height: 28
-            sourceSize.width: 28
-            source: "dialog_close.png"
-
-            signal closeButtonClicked()
-
-            MouseArea {
-                id: closeMouseArea
-                anchors.fill: parent
-                onClicked: closeButton.closeButtonClicked()
-            }
-        }
     }
 
     Text {
