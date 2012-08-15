@@ -235,14 +235,28 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
     QString iter_string;
     QList<QString> quoteCombined;
     QStringList::const_iterator iter;
+
     if (separated.length() == 0) {
       kDebug() << "Cannot Combine empty list";
     } else {
+      /* Algorithm:
+       * In the following steps, 'word' implies a unit from 'separated'.
+       * i.e. separated[0], separated[1] etc are 'words'
+       * 
+       * 1) Read a word
+       * 2) If word does not start with \" add to final expression. Goto 1)
+       * 3) If word starts with \", push to queue
+       * 4) If word ends with \", empty queue and join each with delimiter.
+       *    Add this to final expression. Go to 6)
+       * 5) Read next word. Goto 3) until end of list of words is reached
+       * 6) Goto 1) until end of list of words is reached
+      */
       iter = separated.begin();
+
       while (iter != separated.end()) {
           QList <QString> queue;
           iter_string = *iter;
-          
+
           if (iter_string.indexOf("\"") != -1) {
               while (iter_string.lastIndexOf('\"') != (iter_string.length()-1) &&
                       iter != separated.end()) {
@@ -254,6 +268,7 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
           } else {
               queue.append(iter_string.remove('\"'));
           }
+
           QString col_result;
           foreach(const QString &join, queue)
               col_result += join;

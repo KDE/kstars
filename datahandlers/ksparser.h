@@ -45,7 +45,7 @@ class KSParser {
      * D_INT Integer  Type
      * D_FLOAT Floating Point Type
      * D_DOUBLE Double PRecision Type
-     * D_SKIP Not Needed. This string is not converted from QString
+     * D_SKIP Unused Field. This string is not converted from QString
      **/
     enum DataTypes {
         D_QSTRING,
