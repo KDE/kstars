@@ -172,7 +172,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
     }
    /**
     * This signifies that someone tried to read a row
-    * without checking if comment_char is true
+    * without checking if HasNextRow is true
     */
     if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
       newRow = DummyRow();  
