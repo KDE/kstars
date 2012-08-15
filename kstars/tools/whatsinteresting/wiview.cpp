@@ -15,9 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "wiview.h"
+
 #include "QGraphicsObject"
+#include "wiview.h"
 #include "skymap.h"
+#include "dialogs/detaildialog.h"
 
 #include "kstandarddirs.h"
 
@@ -26,7 +28,7 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
 
     m = new ModelManager(obs);
 
-    KStars *data = KStars::Instance();
+    KStars *kstars = KStars::Instance();
 
     QDeclarativeView *baseView = new QDeclarativeView();
 
@@ -54,9 +56,12 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
     m_SlewButtonObj = m_BaseObj->findChild<QObject *>("slewButtonObj");
     connect(m_SlewButtonObj, SIGNAL(slewButtonClicked()), this, SLOT(onSlewButtonClicked()));
 
+    m_DetailsButtonObj = m_BaseObj->findChild<QObject *>("detailsButtonObj");
+    connect(m_DetailsButtonObj, SIGNAL(detailsButtonClicked()), this, SLOT(onDetailsButtonClicked()));
+
     baseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     baseView->show();
-    data->setWIView(baseView);
+    kstars->setWIView(baseView);
 }
 
 WIView::~WIView()
@@ -146,11 +151,21 @@ void WIView::onSlewButtonClicked()
 {
     ///Slew map to selected sky-object
     SkyObject* so = m_CurSoItem->getSkyObject();
-    KStars* data = KStars::Instance();
+    KStars* kstars = KStars::Instance();
     if (so != 0)
     {
-        data->map()->setFocusPoint(so);
-        data->map()->setFocusObject(so);
-        data->map()->setDestination(*data->map()->focusPoint());
+        kstars->map()->setFocusPoint(so);
+        kstars->map()->setFocusObject(so);
+        kstars->map()->setDestination(*kstars->map()->focusPoint());
     }
+}
+
+void WIView::onDetailsButtonClicked()
+{
+    ///Code taken from WUTDialog::slotDetails()
+    KStars *kstars = KStars::Instance();
+    SkyObject* so = m_CurSoItem->getSkyObject();
+    DetailDialog *detail = new DetailDialog(so, kstars->data()->lt(), kstars->data()->geo(), kstars);
+    detail->exec();
+    delete detail;
 }

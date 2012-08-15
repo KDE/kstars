@@ -90,6 +90,11 @@ public slots:
       */
     void onSlewButtonClicked();
 
+    /**
+      * \brief public slot - Open Details Dialog to show more details for current sky-object.
+      */
+    void onDetailsButtonClicked();
+
 private:
     QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
             *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
