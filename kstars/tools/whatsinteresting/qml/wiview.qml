@@ -509,7 +509,7 @@ Rectangle {
                             objectName: "nextObj"
                             x: 183
                             y: 347
-                            width: 147
+                            width: nextObjText.width + nextObjIcon.width + 5
                             height: 28
                             color: "#00000000"
                             radius: 5
@@ -521,7 +521,7 @@ Rectangle {
                             Rectangle {
                                 id: nextObjForeground
                                 radius: 5
-                                anchors.fill: nextObjText
+                                anchors.fill: nextObjRect
                                 opacity: 0
                             }
 
@@ -529,7 +529,7 @@ Rectangle {
                                 id: nextObjMouseArea
                                 x: 13
                                 y: 62
-                                anchors.fill: nextObjText
+                                anchors.fill: nextObjRect
                                 hoverEnabled: true
                                 onEntered: {
                                     nextObjForeground.opacity = 0.1
@@ -563,8 +563,11 @@ Rectangle {
 
                             Image {
                                 id: nextObjIcon
-                                x: 123
-                                y: 13
+                                x: 46
+                                y: 2
+                                anchors.right: parent.right
+                                anchors.rightMargin: 0
+                                anchors.verticalCenterOffset: 0
                                 anchors.verticalCenter: parent.verticalCenter
                                 sourceSize.height: 24
                                 sourceSize.width: 24
@@ -576,7 +579,7 @@ Rectangle {
                             id: prevObjRect
                             objectName: "prevObj"
                             y: 347
-                            width: 147
+                            width: prevObjText.width + prevObjIcon.width + 5
                             height: 28
                             color: "#00000000"
                             radius: 5
@@ -588,16 +591,18 @@ Rectangle {
                             Rectangle {
                                 id: prevObjForeground
                                 radius: 5
-                                anchors.fill: prevObjText
+                                anchors.top: parent.top
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                anchors.left: parent.left
+                                anchors.topMargin: 0
                                 opacity: 0
                             }
 
                             MouseArea {
                                 id: prevObjMouseArea
-                                x: 13
-                                y: 62
+                                anchors.fill: parent
                                 hoverEnabled: true
-                                anchors.fill: prevObjText
                                 onEntered: {
                                     prevObjForeground.opacity = 0.1
                                     prevObjText.color = "yellow"
