@@ -31,7 +31,7 @@
 	by Thomas Kabelmann
 
 	*@author Thomas Kabelmann
-                 Rishab Arora
+                 Rishab Arora (spacetime)
 	*@version 0.2
 	*/
 class CatalogComponent: public ListComponent
@@ -112,6 +112,9 @@ private:
 
     /**
     	*@short Read metadata about the catalog from its header
+    	*@details The method processes the first few lines that denote the
+    	*         Name, Prefix, Color and Epoch as well as the comment with the
+        *         column structure.
     	*@p lines QStringlist containing all of the lines in the custom catalog file
     	*@p Columns QStringList containing the column descriptors (created by this function)
     	*@p CatalogName The name of the catalog, as read from the header by this function
@@ -125,6 +128,9 @@ private:
     bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
                                 int &iStart, bool showerrs, QStringList &errs);
 
+    // TODO(spacetime): Documentation !!
+//     bool parseHeaderData(
+    
     QString m_Filename;
     QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
     float m_catEpoch;

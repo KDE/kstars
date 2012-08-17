@@ -62,11 +62,21 @@ void CatalogComponent::loadData() {
         m_Filename = QDir::homePath() + m_Filename.mid( 1, m_Filename.length() );
     
     /* NEW CODE BEGINS (spacetime) */
-    
-    
+    QFile ccFile( m_Filename );
+
+    if ( ccFile.open( QIODevice::ReadOnly ) ) {
+        int iStart(0); //the line number of the first non-header line
+        QStringList errs; //list of error messages
+        QStringList Columns; //list of data column descriptors in the header
+
+        QTextStream stream( &ccFile );
+        QStringList lines = stream.readAll().split( '\n', QString::SkipEmptyParts );
+
+        if ( !parseCustomDataHeader( lines, Columns, iStart, m_Showerrs, errs ) )
+            kWarning() << "Incorrect header in catalog file: " << m_Filename;
     
     /* NEW CODE ENDS */
-    QFile ccFile( m_Filename );
+/*    QFile ccFile( m_Filename );
 
     if ( ccFile.open( QIODevice::ReadOnly ) ) {
         int iStart(0); //the line number of the first non-header line
@@ -133,6 +143,7 @@ void CatalogComponent::loadData() {
             m_ObjectList.clear();
             return;
         }
+        */
 
     } else { //Error opening catalog file
         if ( m_Showerrs )
