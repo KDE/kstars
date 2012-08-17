@@ -368,6 +368,11 @@ Rectangle {
                             signal soListItemClicked( int type, string typeName, int curIndex )
                             clip: true
 
+                            ScrollBar {
+                                flickable: soListView
+                                vertical: true
+                            }
+
                             delegate: Item {
                                 id: soListItem
                                 x: 5

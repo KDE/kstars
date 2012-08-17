@@ -1,6 +1,6 @@
 #install_files
 
-install( FILES wiview.qml
+install( FILES wiview.qml ScrollBar.qml
          leftArrow.png
          settingsIcon.png
          next.png
