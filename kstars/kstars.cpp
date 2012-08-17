@@ -40,6 +40,7 @@
 #include "observinglist.h"
 #include "oal/execute.h"
 #include "whatsinteresting/wiview.h"
+#include "whatsinteresting/wiusersettings.h"
 
 #include "kstarsadaptor.h"
 
@@ -303,6 +304,13 @@ void KStars::selectPreviousFov()
     data()->syncFOV();
     syncFOVActions();
     map()->update();
+}
+
+void KStars::showWIWizard()
+{
+    wiDock->setVisible(false);
+    wiWiz->restart();
+    wiWiz->setVisible(true);
 }
 
 void KStars::showWI(ObsConditions *obs)

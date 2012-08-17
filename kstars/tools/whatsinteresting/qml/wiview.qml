@@ -840,6 +840,7 @@ Rectangle {
 
     Image {
         id: settingsIcon
+        objectName: "settingsIconObj"
         x: 9
         y: 528
         width: 28
@@ -851,12 +852,15 @@ Rectangle {
         fillMode: Image.Stretch
         source: "settingsIcon.png"
 
+        signal settingsIconClicked()
+
         MouseArea {
             id: settingsMouseArea
             anchors.fill: parent
             hoverEnabled: true
             onEntered: settingsForeground.opacity = 0.2
             onExited: settingsForeground.opacity = 0.0
+            onClicked: settingsIcon.settingsIconClicked()
         }
 
         Rectangle {

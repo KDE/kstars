@@ -99,15 +99,17 @@ public slots:
       */
     void onDetailsButtonClicked();
 
+    void onSettingsIconClicked();
+
 private:
     QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
             *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
     QDeclarativeContext *ctxt;
     QDeclarativeView *m_BaseView;
+    ObsConditions *m_Obs;
     ModelManager *m;
     SkyObjItem *m_CurSoItem;  ///Current sky-object item.
     int m_CurIndex;           ///Index of current sky-object item in details-view.
-    double m_OptMag;          ///Optimum magnification
 };
 
 #endif

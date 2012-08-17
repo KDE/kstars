@@ -175,6 +175,8 @@ public:
 
     void selectPreviousFov();
 
+    void showWIWizard();
+
     void showWI(ObsConditions *obs);
 
 public Q_SLOTS:

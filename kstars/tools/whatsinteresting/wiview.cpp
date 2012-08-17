@@ -23,9 +23,8 @@
 
 #include "kstandarddirs.h"
 
-WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
+WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs)
 {
-
     m = new ModelManager(obs);
 
     m_BaseView = new QDeclarativeView();
@@ -56,6 +55,9 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
 
     m_DetailsButtonObj = m_BaseObj->findChild<QObject *>("detailsButtonObj");
     connect(m_DetailsButtonObj, SIGNAL(detailsButtonClicked()), this, SLOT(onDetailsButtonClicked()));
+
+    QObject *settingsIconObj = m_BaseObj->findChild<QObject *>("settingsIconObj");
+    connect(settingsIconObj, SIGNAL(settingsIconClicked()), this, SLOT(onSettingsIconClicked()));
 
     m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     m_BaseView->show();
@@ -171,4 +173,10 @@ void WIView::onDetailsButtonClicked()
     DetailDialog *detail = new DetailDialog(so, kstars->data()->lt(), kstars->data()->geo(), kstars);
     detail->exec();
     delete detail;
+}
+
+void WIView::onSettingsIconClicked()
+{
+    KStars *kstars = KStars::Instance();
+    kstars->showWIWizard();
 }
