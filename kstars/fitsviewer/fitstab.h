@@ -45,6 +45,9 @@ public:
    void histoFITS();
    void statFITS();
 
+   void setUID(int newID) { uid = newID; }
+   int getUID() { return uid; }
+
    void saveUnsaved();
    void tabPositionUpdated();
 
@@ -69,6 +72,8 @@ private:
     KUrl currentURL;            /* FITS File name and path */
 
     bool mDirty;
+
+    int uid;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);

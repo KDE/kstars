@@ -49,11 +49,11 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indi/devicemanager.h"
-#include "indi/indimenu.h"
-#include "indi/indiproperty.h"
-#include "indi/indielement.h"
-#include "indi/indidevice.h"
+#include <libindi/baseclient.h>
+#include <libindi/basedevice.h>
+#include "indi/indilistener.h"
+#include "indi/driverinfo.h"
+#include "indi/indistd.h"
 #endif
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
@@ -77,7 +77,11 @@ void SkyMapDrawAbstract::drawOverlays( QPainter& p, bool drawFov ) {
             fov->draw(p, Options::zoomFactor());
         }
     }
+
+    #ifdef HAVE_INDI_H
     drawTelescopeSymbols( p );
+    #endif
+
     drawZoomBox( p );
 
     // FIXME: Maybe we should take care of this differently. Maybe
@@ -178,143 +182,121 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
 
 void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 {
-#ifdef HAVE_INDI_H
-    KStars* kstars = KStars::Instance();
-    if( !kstars )
+    if (!Options::showTargetCrosshair())
         return;
 
-    INDI_P *eqNum;
-    INDI_P *portConnect;
-    INDI_E *lp;
-    INDIMenu *devMenu = kstars->indiMenu();
+    if (INDIListener::Instance()->size() == 0)
+        return;
+
     SkyPoint indi_sp;
-
-    if (!Options::showTargetCrosshair() || devMenu == NULL)
-        return;
-
     psky.setPen( QPen( QColor( m_KStarsData->colorScheme()->colorNamed("TargetColor" ) ) ) );
     psky.setBrush( Qt::NoBrush );
     float pxperdegree = Options::zoomFactor()/57.3;
 
-    //fprintf(stderr, "in draw telescope function with managerssize of %d\n", devMenu->managers.size());
-    for ( int i=0; i < devMenu->managers.size(); i++ ) {
-        for ( int j=0; j < devMenu->managers.at(i)->indi_dev.size(); j++ ) {
-            bool useAltAz = false;
-            bool useJ2000 = false;
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        if (gd->getType() != KSTARS_TELESCOPE)
+            continue;
 
-            // make sure the dev is on first
-            if (devMenu->managers.at(i)->indi_dev.at(j)->isOn()) {
-                portConnect = devMenu->managers.at(i)->indi_dev.at(j)->findProp("CONNECTION");
-                if( !portConnect || portConnect->state == IPS_BUSY )
-                    return;
 
-                eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_EOD_COORD");
-                if (eqNum == NULL) {
-                    eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("EQUATORIAL_COORD");
-                    if (eqNum == NULL) {
-                        eqNum = devMenu->managers.at(i)->indi_dev.at(j)->findProp("HORIZONTAL_COORD");
-                        if (eqNum == NULL)
-                            continue;
-                        else
-                            useAltAz = true;
-                    } else {
-                        useJ2000 = true;
-                    }
-                }
 
-                // make sure it has RA and DEC properties
-                if ( eqNum) {
-                    //fprintf(stderr, "Looking for RA label\n");
-                    if (useAltAz) {
-                        lp = eqNum->findElement("AZ");
-                        if (!lp)
-                            continue;
+        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
 
-                        dms azDMS(lp->value);
+        if (bd == NULL)
+            continue;
 
-                        lp = eqNum->findElement("ALT");
-                        if (!lp)
-                            continue;
+        if (bd->isConnected() == false)
+            continue;
 
-                        dms altDMS(lp->value);
-                        indi_sp.setAz(azDMS);
-                        indi_sp.setAlt(altDMS);
-                    } else {
-                        lp = eqNum->findElement("RA");
-                        if (!lp)
-                            continue;
+        INumberVectorProperty *coordNP = bd->getNumber("EQUATORIAL_EOD_COORD");
 
-                        // express hours in degrees on the celestial sphere
-                        dms raDMS(lp->value);
-                        raDMS.setH(lp->value);
+        if (coordNP == NULL)
+        {
+            coordNP = bd->getNumber("HORIZONTAL_COORD");
+            if (coordNP == NULL)
+                continue;
+            else
+            {
+                INumber *np = IUFindNumber(coordNP, "AZ");
+                if (np == NULL)
+                    continue;
+                indi_sp.setAz(np->value);
 
-                        lp = eqNum->findElement("DEC");
-                        if (!lp)
-                            continue;
-
-                        dms decDMS(lp->value);
-
-                        indi_sp.setRA(raDMS);
-                        indi_sp.setDec(decDMS);
-
-                        if (useJ2000) {
-                            indi_sp.setRA0(raDMS);
-                            indi_sp.setDec0(decDMS);
-                            indi_sp.apparentCoord( (double) J2000, m_KStarsData->ut().djd());
-                        }
-
-                        if ( Options::useAltAz() )
-                            indi_sp.EquatorialToHorizontal( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
-                    }
-
-                    QPointF P = m_SkyMap->m_proj->toScreen( &indi_sp );
-                    if ( Options::useAntialias() ) {
-                        float s1 = 0.5*pxperdegree;
-                        float s2 = pxperdegree;
-                        float s3 = 2.0*pxperdegree;
-
-                        float x0 = P.x();        float y0 = P.y();
-                        float x1 = x0 - 0.5*s1;  float y1 = y0 - 0.5*s1;
-                        float x2 = x0 - 0.5*s2;  float y2 = y0 - 0.5*s2;
-                        float x3 = x0 - 0.5*s3;  float y3 = y0 - 0.5*s3;
-
-                        //Draw radial lines
-                        psky.drawLine( QPointF(x1, y0), QPointF(x3, y0) );
-                        psky.drawLine( QPointF(x0+s2, y0), QPointF(x0+0.5*s1, y0) );
-                        psky.drawLine( QPointF(x0, y1), QPointF(x0, y3) );
-                        psky.drawLine( QPointF(x0, y0+0.5*s1), QPointF(x0, y0+s2) );
-                        //Draw circles at 0.5 & 1 degrees
-                        psky.drawEllipse( QRectF(x1, y1, s1, s1) );
-                        psky.drawEllipse( QRectF(x2, y2, s2, s2) );
-
-                        psky.drawText( QPointF(x0+s2+2., y0), QString(devMenu->managers.at(i)->indi_dev.at(j)->label) );
-                    } else {
-                        int s1 = int( 0.5*pxperdegree );
-                        int s2 = int( pxperdegree );
-                        int s3 = int( 2.0*pxperdegree );
-
-                        int x0 = int(P.x());   int y0 = int(P.y());
-                        int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
-                        int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
-                        int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
-
-                        //Draw radial lines
-                        psky.drawLine( QPoint(x1, y0),      QPoint(x3, y0) );
-                        psky.drawLine( QPoint(x0+s2, y0),   QPoint(x0+s1/2, y0) );
-                        psky.drawLine( QPoint(x0, y1),      QPoint(x0, y3) );
-                        psky.drawLine( QPoint(x0, y0+s1/2), QPoint(x0, y0+s2) );
-                        //Draw circles at 0.5 & 1 degrees
-                        psky.drawEllipse( QRect(x1, y1, s1, s1) );
-                        psky.drawEllipse( QRect(x2, y2, s2, s2) );
-
-                        psky.drawText( QPoint(x0+s2+2, y0), QString(devMenu->managers.at(i)->indi_dev.at(j)->label) );
-                    }
-                }
+                np = IUFindNumber(coordNP, "ALT");
+                if (np == NULL)
+                    continue;
+                indi_sp.setAlt(np->value);
             }
         }
+        else
+        {
+            INumber *np = IUFindNumber(coordNP, "RA");
+            if (np == NULL)
+                continue;
+            indi_sp.setRA(np->value);
+
+            np = IUFindNumber(coordNP, "DEC");
+            if (np == NULL)
+                continue;
+            indi_sp.setDec(np->value);
+        }
+
+        if ( Options::useAltAz() )
+            indi_sp.EquatorialToHorizontal( m_KStarsData->lst(), m_KStarsData->geo()->lat() );
+
+
+        QPointF P = m_SkyMap->m_proj->toScreen( &indi_sp );
+        if ( Options::useAntialias() )
+        {
+            float s1 = 0.5*pxperdegree;
+            float s2 = pxperdegree;
+            float s3 = 2.0*pxperdegree;
+
+            float x0 = P.x();        float y0 = P.y();
+            float x1 = x0 - 0.5*s1;  float y1 = y0 - 0.5*s1;
+            float x2 = x0 - 0.5*s2;  float y2 = y0 - 0.5*s2;
+            float x3 = x0 - 0.5*s3;  float y3 = y0 - 0.5*s3;
+
+            //Draw radial lines
+            psky.drawLine( QPointF(x1, y0), QPointF(x3, y0) );
+            psky.drawLine( QPointF(x0+s2, y0), QPointF(x0+0.5*s1, y0) );
+            psky.drawLine( QPointF(x0, y1), QPointF(x0, y3) );
+            psky.drawLine( QPointF(x0, y0+0.5*s1), QPointF(x0, y0+s2) );
+            //Draw circles at 0.5 & 1 degrees
+            psky.drawEllipse( QRectF(x1, y1, s1, s1) );
+            psky.drawEllipse( QRectF(x2, y2, s2, s2) );
+
+            psky.drawText( QPointF(x0+s2+2., y0), bd->getDeviceName() );
+        }
+        else
+        {
+            int s1 = int( 0.5*pxperdegree );
+            int s2 = int( pxperdegree );
+            int s3 = int( 2.0*pxperdegree );
+
+            int x0 = int(P.x());   int y0 = int(P.y());
+            int x1 = x0 - s1/2;  int y1 = y0 - s1/2;
+            int x2 = x0 - s2/2;  int y2 = y0 - s2/2;
+            int x3 = x0 - s3/2;  int y3 = y0 - s3/2;
+
+            //Draw radial lines
+            psky.drawLine( QPoint(x1, y0),      QPoint(x3, y0) );
+            psky.drawLine( QPoint(x0+s2, y0),   QPoint(x0+s1/2, y0) );
+            psky.drawLine( QPoint(x0, y1),      QPoint(x0, y3) );
+            psky.drawLine( QPoint(x0, y0+s1/2), QPoint(x0, y0+s2) );
+            //Draw circles at 0.5 & 1 degrees
+            psky.drawEllipse( QRect(x1, y1, s1, s1) );
+            psky.drawEllipse( QRect(x2, y2, s2, s2) );
+
+            psky.drawText( QPoint(x0+s2+2, y0), bd->getDeviceName() );
+
+        }
+
     }
-#endif
 }
+
+
+
 
 void SkyMapDrawAbstract::exportSkyImage( QPaintDevice *pd, bool scale ) {
     SkyQPainter p(m_SkyMap, pd); // FIXME: Really, we should be doing this differently. We shouldn't be passing m_SkyMap, but rather, this widget.

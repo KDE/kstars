@@ -1,137 +1,134 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>statForm</class>
- <widget class="QDialog" name="statForm" >
-  <property name="geometry" >
+ <widget class="QDialog" name="statForm">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>261</width>
-    <height>241</height>
+    <width>202</width>
+    <height>221</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Statistics</string>
   </property>
-  <layout class="QGridLayout" >
-   <property name="leftMargin" >
-    <number>11</number>
-   </property>
-   <property name="topMargin" >
-    <number>11</number>
-   </property>
-   <property name="rightMargin" >
-    <number>11</number>
-   </property>
-   <property name="bottomMargin" >
-    <number>11</number>
-   </property>
-   <property name="horizontalSpacing" >
-    <number>6</number>
-   </property>
-   <property name="verticalSpacing" >
-    <number>6</number>
-   </property>
-   <item row="6" column="0" >
-    <widget class="QLabel" name="stdDevLabel" >
-     <property name="text" >
-      <string>Std. dev:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1" >
-    <widget class="KLineEdit" name="bitpixOUT" >
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" >
-    <widget class="QLabel" name="maxLabel" >
-     <property name="text" >
-      <string>Max:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1" >
-    <widget class="KLineEdit" name="meanOUT" >
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" >
-    <widget class="QLabel" name="bitPixLabel" >
-     <property name="text" >
-      <string>Bitpix:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1" >
-    <widget class="KLineEdit" name="minOUT" >
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" >
-    <widget class="QLabel" name="heightLabel" >
-     <property name="text" >
-      <string>Height:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" >
-    <widget class="KLineEdit" name="widthOUT" >
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0" >
-    <widget class="QLabel" name="meanLabel" >
-     <property name="text" >
-      <string>Mean:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1" >
-    <widget class="KLineEdit" name="heightOUT" >
-     <property name="readOnly" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" >
-    <widget class="QLabel" name="widthLabel" >
-     <property name="text" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="widthLabel">
+     <property name="text">
       <string>Width:</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="1" >
-    <widget class="KLineEdit" name="maxOUT" >
-     <property name="readOnly" >
+   <item row="0" column="1">
+    <widget class="KLineEdit" name="widthOUT">
+     <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="4" column="0" >
-    <widget class="QLabel" name="minLabel" >
-     <property name="text" >
+   <item row="1" column="0">
+    <widget class="QLabel" name="heightLabel">
+     <property name="text">
+      <string>Height:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="KLineEdit" name="heightOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="bitPixLabel">
+     <property name="text">
+      <string>Bitpix:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="KLineEdit" name="bitpixOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="maxLabel">
+     <property name="text">
+      <string>Max:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="KLineEdit" name="maxOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="minLabel">
+     <property name="text">
       <string>Min:</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1" >
-    <widget class="KLineEdit" name="stddevOUT" >
-     <property name="readOnly" >
+   <item row="4" column="1">
+    <widget class="KLineEdit" name="minOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="meanLabel">
+     <property name="text">
+      <string>Mean:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="KLineEdit" name="meanOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="stdDevLabel">
+     <property name="text">
+      <string>Std. dev:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="KLineEdit" name="stddevOUT">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="HFRLabel">
+     <property name="text">
+      <string>HFR:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="KLineEdit" name="HFROUT">
+     <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
-  <customwidgets>
+ <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>

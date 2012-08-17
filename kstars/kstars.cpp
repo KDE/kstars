@@ -44,9 +44,10 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indi/indimenu.h"
-#include "indi/indidriver.h"
-#include "indi/imagesequence.h"
+//#include "indi/indimenu.h"
+//#include "indi/indidriver.h"
+//#include "indi/imagesequence.h"
+#include "indi/drivermanager.h"
 #endif
 
 KStars *KStars::pinstance = 0;
@@ -57,8 +58,9 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
         AAVSODialog(0), findDialog(0), imgExportDialog(0), obsList(0),
         execute(0),
         avt(0), wut(0), skycal(0),
-    sb(0), pv(0), jmt(0), fm(0), astrocalc(0), printingWizard(0), indimenu(0), indidriver(0),
-        indiseq(0), ekosmenu(0), DialogIsObsolete(false), StartClockRunning( clockrun ),
+    sb(0), pv(0), jmt(0), fm(0), astrocalc(0), printingWizard(0),
+        /*indiseq(0), ekosmenu(0), DialogIsObsolete(false), StartClockRunning( clockrun ),*/
+    DialogIsObsolete(false), StartClockRunning( clockrun ),
         StartDateString( startdate )
 {
     new KstarsAdaptor(this);
@@ -133,6 +135,10 @@ KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &sta
 KStars::~KStars()
 {
     Q_ASSERT( pinstance );
+
+    #ifdef HAVE_INDI_H
+    DriverManager::Instance()->clearServers();
+    #endif
 
     delete kstarsData;
     pinstance = 0;

@@ -28,39 +28,32 @@
 
 class QImage;
 class VideoWG;
-class INDIStdDevice;
 class QVBoxLayout;
-
-/* class StreamWGUI : public QFrame, public Ui::streamForm
- {
-   Q_OBJECT
-   
-   public:
-     StreamWGUI(QWidget *parent=0);
- };*/
 
 class StreamWG : public QWidget, public Ui::streamForm
 {
     Q_OBJECT
 
 public:
-    explicit StreamWG(INDIStdDevice *inStdDev, QWidget * parent =0);
+    explicit StreamWG(QWidget * parent =0);
     ~StreamWG();
 
     friend class VideoWG;
-    friend class INDIStdDevice;
 
     void setColorFrame(bool color);
     void setSize(int wd, int ht);
     void enableStream(bool enable);
+    bool isStreamEnabled() { return processStream; }
+    void newFrame(unsigned char *buffer, int buffSiz, int w, int h);
+    int getWidth() { return streamWidth; }
+    int getHeight() { return streamHeight; }
 
+
+private:
     bool	processStream;
     int         		 streamWidth, streamHeight;
     VideoWG		*streamFrame;
     bool			 colorFrame;
-
-private:
-    INDIStdDevice        *stdDev;
     KIcon                playPix, pausePix, capturePix;
 
 protected:

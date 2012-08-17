@@ -62,7 +62,6 @@
 		<Action name="device_manager" />
 		<Separator />
 		<Action name="indi_cpl" />
-		<Action name="capture_sequence" />
 	</Menu>
 
 	<Menu name="tools" noMerge="1"><text>&amp;Tools</text>

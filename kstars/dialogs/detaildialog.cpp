@@ -56,12 +56,10 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indi/indielement.h"
-#include "indi/indiproperty.h"
-#include "indi/indidevice.h"
-#include "indi/indimenu.h"
-#include "indi/devicemanager.h"
+#include <libindi/basedevice.h>
+#include "indi/indilistener.h"
 #include "indi/indistd.h"
+#include "indi/driverinfo.h"
 #endif
 
 #include "skycomponents/constellationboundarylines.h"
@@ -998,38 +996,43 @@ void DetailDialog::centerMap() {
 
 void DetailDialog::centerTelescope()
 {
+
 #ifdef HAVE_INDI_H
 
-    INDI_D *indidev(NULL);
-    INDI_E *ConnectEle(NULL);
-
-    // Find the first device with EQUATORIAL_EOD_COORD or EQUATORIAL_COORD and with SLEW element
-    // i.e. the first telescope we find!
-    INDIMenu *imenu = KStars::Instance()->indiMenu();
-
-    for (int i=0; i < imenu->managers.size() ; i++)
+    if (INDIListener::Instance()->size() == 0)
     {
-        for (int j=0; j < imenu->managers.at(i)->indi_dev.size(); j++)
-        {
-            indidev = imenu->managers.at(i)->indi_dev.at(j);
-            ConnectEle = indidev->findElem("CONNECT");
-            if (!ConnectEle) continue;
-
-            if (ConnectEle->switch_state == ISS_OFF)
-            {
-                KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", indidev->label));
-                return;
-            }
-
-	    if (!indidev->stdDev->slew_scope(static_cast<SkyPoint *> (selectedObject)))
-		continue;
-
-	    return;
-        }
+        KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+        return;
     }
 
-    // We didn't find any telescopes
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
+    {
+        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
+
+        if (gd->getType() != KSTARS_TELESCOPE)
+            continue;
+
+        if (bd == NULL)
+            continue;
+
+        if (bd->isConnected() == false)
+        {
+            KMessageBox::error(0, i18n("Telescope %1 is offline. Please connect and retry again.", gd->getDeviceName()));
+            return;
+        }
+
+
+        ISD::GDSetCommand SlewCMD(INDI_SWITCH, "ON_COORD_SET", "SLEW", ISS_ON, this);
+
+        gd->setProperty(&SlewCMD);
+        gd->runCommand(INDI_SEND_COORDS, selectedObject);
+
+        return;
+
+    }
+
     KMessageBox::sorry(0, i18n("KStars did not find any active telescopes."));
+
 #endif
 }
 

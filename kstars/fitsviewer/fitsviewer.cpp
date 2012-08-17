@@ -23,7 +23,7 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kaction.h>
-#include <kactioncollection.h>
+
 #include <kstandardaction.h>
 
 #include <kdebug.h>
@@ -37,6 +37,7 @@
 #include <KUndoStack>
 #include <KTabWidget>
 #include <KAction>
+#include <KActionCollection>
 
 #include <QFile>
 #include <QCursor>
@@ -75,6 +76,9 @@ FITSViewer::FITSViewer (QWidget *parent)
     fitsTab   = new KTabWidget(this);
     undoGroup = new QUndoGroup(this);
 
+    fitsID = 0;
+    markStars = false;
+
     fitsTab->setTabsClosable(true);
 
     setCentralWidget(fitsTab);
@@ -95,30 +99,35 @@ FITSViewer::FITSViewer (QWidget *parent)
 
     KAction *action;
     QFile tempFile;
-    if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
-    {
-        action = actionCollection()->addAction("image_histogram");
-        action->setIcon(KIcon(tempFile.fileName()));
-        tempFile.close();
-    }
-    else
-    {
-        action = actionCollection()->addAction("image_histogram");
-        action->setIcon(KIcon("tools-wizard"));
-    }
 
+    action = actionCollection()->addAction("image_histogram");
     action->setText(i18n("Histogram"));
     connect(action, SIGNAL(triggered(bool)), SLOT (histoFITS()));
     action->setShortcuts(KShortcut( Qt::CTRL+Qt::Key_H ));
 
+    if (KSUtils::openDataFile( tempFile, "histogram.png" ) )
+    {
+        action->setIcon(KIcon(tempFile.fileName()));
+        tempFile.close();
+    }
+    else
+        action->setIcon(KIcon("tools-wizard"));
+
     KStandardAction::open(this,   SLOT(openFile()),   actionCollection());
-    KStandardAction::save(this,   SLOT(saveFile()),   actionCollection());
-    KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
-    KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());
+    saveFileAction    = KStandardAction::save(this,   SLOT(saveFile()),   actionCollection());
+    saveFileAsAction  = KStandardAction::saveAs(this, SLOT(saveFileAs()), actionCollection());
+
+    action = actionCollection()->addAction("fits_header");
+    action->setIcon(KIcon("document-properties"));
+    action->setText(i18n( "FITS Header"));
+    connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
+
+    KStandardAction::close(this,  SLOT(slotClose()),  actionCollection());    
+
     KStandardAction::copy(this,   SLOT(copyFITS()),   actionCollection());
 
     KStandardAction::zoomIn(this,     SLOT(ZoomIn()),      actionCollection());
-    KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());
+    KStandardAction::zoomOut(this,    SLOT(ZoomOut()),     actionCollection());  
     KStandardAction::actualSize(this, SLOT(ZoomDefault()), actionCollection());
 
     KAction *kundo = KStandardAction::undo(undoGroup, SLOT(undo()), actionCollection());
@@ -131,12 +140,12 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setIcon(KIcon("view-statistics"));
     action->setText(i18n( "Statistics"));
     connect(action, SIGNAL(triggered(bool)), SLOT(statFITS()));
-    
-    action = actionCollection()->addAction("fits_editor");
-    action->setIcon(KIcon("document-properties"));
-    action->setText(i18n( "FITS Header"));
-    connect(action, SIGNAL(triggered(bool) ), SLOT(headerFITS()));
 
+    action = actionCollection()->addAction("mark_stars");
+    action->setText(i18n( "Mark Stars"));
+    connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
+
+    
     /* Create GUI */
     createGUI("fitsviewer.rc");
 
@@ -149,13 +158,13 @@ FITSViewer::FITSViewer (QWidget *parent)
 FITSViewer::~FITSViewer()
 {}
 
-bool FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
+int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
 {
 
     FITSTab *tab = new FITSTab();
 
     if (tab->loadFITS(imageName) == false)
-        return false;
+        return -1;
 
     switch (mode)
     {
@@ -173,6 +182,9 @@ bool FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
     connect(tab->getImage(), SIGNAL(actionUpdated(QString,bool)), this, SLOT(updateAction(QString,bool)));
     connect(tab, SIGNAL(changeStatus(bool)), this, SLOT(updateTabStatus(bool)));
 
+    saveFileAction->setEnabled(true);
+    saveFileAsAction->setEnabled(true);
+
     undoGroup->addStack(tab->getUndoStack());
     tab->tabPositionUpdated();
 
@@ -180,8 +192,20 @@ bool FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
 
     fitsTab->setCurrentWidget(tab);
 
+    tab->setUID(fitsID++);
 
-    return true;
+    return (fitsID - 1);
+}
+
+bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID)
+{
+    foreach (FITSTab *tab, fitsImages)
+    {
+        if (tab->getUID() == fitsUID)
+            return tab->loadFITS(imageName);
+    }
+
+    return false;
 }
 
 void FITSViewer::tabFocusUpdated(int currentIndex)
@@ -190,6 +214,13 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
         return;
 
     fitsImages[currentIndex]->tabPositionUpdated();
+
+    fitsImages[currentIndex]->getImage()->toggleStars(markStars);
+    fitsImages[currentIndex]->getImage()->updateFrame();
+
+    if (markStars)
+        updateStatusBar(i18n("%1 stars detected.").arg(fitsImages[currentIndex]->getImage()->getDetectedStars()), FITS_MESSAGE);
+
 }
 
 void FITSViewer::slotClose()
@@ -231,6 +262,7 @@ void FITSViewer::openFile()
     }
 
     addFITS(&fileURL);
+
 }
 
 void FITSViewer::saveFile()
@@ -319,6 +351,7 @@ int FITSViewer::saveUnsaved(int index)
     else if( ans == KMessageBox::No )
     {
        fitsImages.removeOne(targetTab);
+       targetTab->getUndoStack()->clear();
        delete targetTab;
        return 1;
     }
@@ -389,6 +422,35 @@ void FITSViewer::closeTab(int index)
         delete tab;
     }
 
+    if (fitsImages.empty())
+    {
+        saveFileAction->setEnabled(false);
+        saveFileAsAction->setEnabled(false);
+    }
+}
+
+void FITSViewer::toggleStars()
+{
+
+    if (markStars)
+    {
+        markStars = false;
+        actionCollection()->action("mark_stars")->setText( i18n( "Mark Stars" ) );
+    }
+    else
+    {
+        markStars = true;
+        actionCollection()->action("mark_stars")->setText( i18n( "Unmark Stars" ) );
+
+        updateStatusBar(i18n("%1 stars detected.").arg(fitsImages[fitsTab->currentIndex()]->getImage()->getDetectedStars()), FITS_MESSAGE);
+
+    }
+
+    foreach(FITSTab *tab, fitsImages)
+    {
+        tab->getImage()->toggleStars(markStars);
+        tab->getImage()->updateFrame();
+    }
 
 }
 

@@ -85,12 +85,17 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "ui_devmanager.h"
-#include "indi/indimenu.h"
-#include "indi/indidriver.h"
+//#include "ui_devmanager.h"
+//#include "indi/indimenu.h"
+//#include "indi/indidriver.h"
+//#include "indi/imagesequence.h"
+
+#include "ekos/ekosmanager.h"
 #include "indi/telescopewizardprocess.h"
 #include "indi/opsindi.h"
-#include "indi/imagesequence.h"
+#include "indi/drivermanager.h"
+#include "indi/guimanager.h"
+
 #endif
 
 #include "skycomponents/customcatalogcomponent.h"
@@ -103,7 +108,7 @@
 #ifdef HAVE_CFITSIO_H
 #include "fitsviewer/fitsviewer.h"
 #ifdef HAVE_INDI_H
-#include "ekos/ekos.h"
+//#include "ekos/ekos.h"
 #endif
 #endif
 
@@ -317,17 +322,6 @@ void KStars::slotFlagManager() {
     fm->show();
 }
 
-void KStars::slotImageSequence()
-{
-#ifdef HAVE_INDI_H
-    if (indiseq == NULL)
-        indiseq = new imagesequence(this);
-
-    if (indiseq->updateStatus())
-        indiseq->show();
-#endif
-}
-
 void KStars::slotTelescopeWizard()
 {
 #ifdef HAVE_INDI_H
@@ -340,19 +334,14 @@ void KStars::slotTelescopeWizard()
 void KStars::slotINDIPanel() 
 {
 #ifdef HAVE_INDI_H
-    if (indimenu == NULL)
-        indimenu = new INDIMenu(this);
-
-    indimenu->updateStatus();
+    GUIManager::Instance()->updateStatus();
 #endif
 }
 
 void KStars::slotINDIDriver() 
 {
 #ifdef HAVE_INDI_H
-    if (indidriver == NULL)
-        indidriver = new INDIDriver(this);
-    indidriver->show();
+    DriverManager::Instance()->show();
 #endif
 }
 
@@ -361,7 +350,7 @@ void KStars::slotEkos()
 #ifdef HAVE_CFITSIO_H
 #ifdef HAVE_INDI_H
     if (ekosmenu == NULL)
-        ekosmenu = new Ekos(this);
+        ekosmenu = new EkosManager();
 
     ekosmenu->show();
 #endif
@@ -1049,15 +1038,18 @@ void KStars::removeColorMenuItem( const QString &actionName ) {
     colorActionMenu->removeAction( actionCollection()->action( actionName ) );
 }
 
+/*
+
 void KStars::establishINDI()
 {
 #ifdef HAVE_INDI_H
     if (indimenu == NULL)
-        indimenu = new INDIMenu(this);
+        indimenu = GUIManager::Instance();
     if (indidriver == NULL)
-        indidriver = new INDIDriver(this);
+        indidriver = new DriverManager();
 #endif
 }
+*/
 
 void KStars::slotAboutToQuit()
 {

@@ -1,12 +1,15 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="FitsViewer" version="3">
+<kpartgui name="FITSViewer" version="4">
 
-<Menu name="file"><text>&amp;File</text>
+<MenuBar noMerge="1">
+<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_open" />
-		<Action name="file_save"/>
-		<Action name="file_save_as"/>
-		<Separator/>
-		<Action name="close"/>
+                <Action name="file_save"/>
+                <Action name="file_save_as"/>
+                <Separator/>
+                <Action name="fits_header"/>
+                <Separator/>
+                <Action name="file_close"/>
 </Menu>
 
 <Menu name="edit"><text>&amp;Edit</text>
@@ -20,7 +23,23 @@
 		<Action name="view_zoom_in"/>
 		<Action name="view_zoom_out"/>
 		<Action name="view_actual_size"/>
+                <Separator/>
+                <Action name="mark_stars"/>
 </Menu>
+
+<Menu name="help"><text>&amp;Help</text>
+                <Action name="help_contents"/>
+                <Action name="help_whats_this"/>
+                <Separator/>
+                <Action name="help_report_bug"/>
+                <Separator/>
+                <Action name="switch_application_language"/>
+                <Separator/>
+                <Action name="help_about_app"/>
+                <Action name="help_about_kde"/>
+</Menu>
+
+</MenuBar>
 
 <ToolBar noMerge="1" name="mainToolBar"><text>Main Toolbar</text>
 	<Action name="file_open" />
@@ -34,10 +53,8 @@
 </ToolBar>
 	
 <ToolBar noMerge="1" name="processToolBar"><text>Process ToolBar</text>
-	<Action name="image_brightness_contrast" />
 	<Action name="image_histogram" />
-	<Action name="image_stats" />
-	<Action name="fits_editor" />
-	<Action name="image_reduce" />
+        <Action name="image_stats" />
 </ToolBar>
+
 </kpartgui>

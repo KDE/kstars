@@ -29,7 +29,7 @@
 
 #define CIRCLE_DIM	16
 
-const int INITIAL_MAXIMUM_WIDTH = 1024;
+const int INITIAL_MAXIMUM_WIDTH = 500;
 
 class FITSTab;
 class QPixmap;
@@ -60,12 +60,12 @@ public:
     int type;
     int napply;
     double histFactor;
+    double binWidth;
     double fits_min, fits_max;
     FITSTab *tab;
 
 private:
 
-    double binSize;
     histogramUI *ui;
     int histogram_height, histogram_width;
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
@@ -74,6 +74,11 @@ public slots:
     void applyScale();
     void updateBoxes(int lowerLimit, int upperLimit);
     void updateIntenFreq(int x);
+    void minSliderUpdated(int value);
+    void maxSliderUpdated(int value);
+
+    void updateLowerLimit();
+    void updateUpperLimit();
 
 
 };

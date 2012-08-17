@@ -40,23 +40,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-/*StreamWGUI::StreamWGUI(QWidget *parent) : QFrame (parent)
+StreamWG::StreamWG(QWidget * parent) : QWidget(parent)
 {
 
- setupUi(parent);
-
- foreach (const QByteArray &format, QImageWriter::supportedImageFormats())
-     imgFormatCombo->addItem(QString(format));
-
-}*/
-
-StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent) : QWidget(parent)
-{
-
-    //QFrame *page   = plainPage();
-    //ui		  = new StreamWGUI(page);
     setupUi(this);
-    stdDev         = inStdDev;
     streamWidth    = streamHeight = -1;
     processStream  = colorFrame = false;
 
@@ -74,11 +61,6 @@ StreamWG::StreamWG(INDIStdDevice *inStdDev, QWidget * parent) : QWidget(parent)
 
     connect(playB, SIGNAL(clicked()), this, SLOT(playPressed()));
     connect(captureB, SIGNAL(clicked()), this, SLOT(captureImage()));
-
-    //videoFrame->resize(640, 480);
-
-    //kDebug() << "Video Frame Width " << videoFrame->width();
-
 }
 
 StreamWG::~StreamWG()
@@ -88,7 +70,6 @@ StreamWG::~StreamWG()
 
 void StreamWG::closeEvent ( QCloseEvent * e )
 {
-    stdDev->streamDisabled();
     processStream = false;
     e->accept();
 }
@@ -146,6 +127,11 @@ void StreamWG::playPressed()
         processStream = true;
     }
 
+}
+
+void StreamWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
+{
+    streamFrame->newFrame(buffer, buffSiz, w, h);
 }
 
 void StreamWG::captureImage()
@@ -222,7 +208,7 @@ void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
 {
 
 
-    // TODO This is highly inefficient. Need to be replaced with a direct blit.
+    // TODO: This is highly inefficient. Need to be replaced with a direct blit.
     if (buffSiz > totalBaseCount)
         streamImage = new QImage(buffer, w, h, QImage::Format_RGB32);
     else

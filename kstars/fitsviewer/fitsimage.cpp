@@ -29,6 +29,8 @@
 #include <QCursor>
 #include <QProgressDialog>
 #include <QDateTime>
+#include <QPainter>
+#include <QPixmap>
 
 #include <KDebug>
 #include <KLocale>
@@ -39,6 +41,8 @@
 #include <KMessageBox>
 #include <KFileDialog>
 
+
+
 #include "ksutils.h"
 
 #define ZOOM_DEFAULT	100.0
@@ -46,6 +50,12 @@
 #define ZOOM_MAX	400
 #define ZOOM_LOW_INCR	10
 #define ZOOM_HIGH_INCR	50
+
+const int MINIMUM_PIXEL_RANGE=5;
+const int MINIMUM_ROWS_PER_CENTER=5;
+const int MAXIMUM_HOR_SEPARATION=10;
+const int MAXIMUM_VER_SEPARATION=2;
+const int MINIMUM_STDVAR=5;
 
 FITSLabel::FITSLabel(FITSImage *img, QWidget *parent) : QLabel(parent)
 {
@@ -91,6 +101,7 @@ FITSImage::FITSImage(QWidget * parent) : QScrollArea(parent) , zoomFactor(1.2)
     setBackgroundRole(QPalette::Dark);
 
     currentZoom = 0.0;
+    markStars = false;
 
     connect(image_frame, SIGNAL(newStatus(QString,FITSBar)), this, SIGNAL(newStatus(QString,FITSBar)));
 
@@ -108,6 +119,9 @@ FITSImage::~FITSImage()
 
     delete(image_buffer);
     delete(displayImage);
+
+    qDeleteAll(starCenters);
+
 }
 
 bool FITSImage::loadFITS ( const QString &filename )
@@ -116,6 +130,9 @@ bool FITSImage::loadFITS ( const QString &filename )
     int status=0, nulval=0, anynull=0;
     long fpixel[2], nelements, naxes[2];
     char error_status[512];
+
+    qDeleteAll(starCenters);
+    starCenters.clear();
 
     QProgressDialog fitsProg(i18n("Please hold while loading FITS file..."), i18n("Cancel"), 0, 100, NULL);
     fitsProg.setWindowTitle(i18n("Loading FITS"));
@@ -218,8 +235,12 @@ bool FITSImage::loadFITS ( const QString &filename )
       return false;
     }
 
+    calculateStats();
     fitsProg.setValue(80);
 
+    findCentroid();
+
+    getHFR();
    
     currentZoom   = 100;
     currentWidth  = stats.dim[0];
@@ -237,7 +258,7 @@ bool FITSImage::loadFITS ( const QString &filename )
     }
 
     fitsProg.setValue(90);
-    calculateStats();
+
 
 
     if (fitsProg.wasCanceled())
@@ -252,6 +273,8 @@ bool FITSImage::loadFITS ( const QString &filename )
     setAlignment(Qt::AlignCenter);
 
     emit newStatus(QString("%1%x%2").arg(currentWidth).arg(currentHeight), FITS_RESOLUTION);
+
+
 
     return true;
 
@@ -332,6 +355,7 @@ int FITSImage::saveFITS( const QString &filename )
     return status;
 }
 
+
 int FITSImage::calculateMinMax(bool refresh)
 {
     int status, nfound=0;
@@ -339,7 +363,7 @@ int FITSImage::calculateMinMax(bool refresh)
 
     status = 0;
 
-    if (!refresh)
+    if (refresh == false)
     {
         if (fits_read_key_dbl(fptr, "DATAMIN", &(stats.min), NULL, &status) ==0)
             nfound++;
@@ -362,7 +386,7 @@ int FITSImage::calculateMinMax(bool refresh)
         else if (image_buffer[i] > stats.max) stats.max = image_buffer[i];
     }
 
-    kDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max;
+    //qDebug() << "DATAMIN: " << stats.min << " - DATAMAX: " << stats.max;
     return 0;
 }
 
@@ -371,29 +395,12 @@ int FITSImage::rescale(FITSZoom type)
     float val=0;
     double bscale, bzero;
 
-    // Get Min Max failed, scaling is not possible
-    if (type == ZOOM_KEEP_LEVEL)
-    {
-        if (calculateMinMax(true))
-        {
-            KMessageBox::error(0, i18n("Unable to calculate FITS Min/Max values."), i18n("FITS Open"));
-            return -1;
-        }
-    }
-    else
-    {
-        if (calculateMinMax())
-        {
-            KMessageBox::error(0, i18n("Unable to calculate FITS Min/Max values."), i18n("FITS Open"));
-            return -1;
-        }
-    }
-
     if (stats.max == stats.min)
     {
         KMessageBox::error(0, i18n("FITS image is saturated and cannot be displayed."), i18n("FITS Open"));
         return -1;
     }
+
 
     bscale = 255. / (stats.max - stats.min);
     bzero  = (-stats.min) * (255. / (stats.max - stats.min));
@@ -429,9 +436,7 @@ int FITSImage::rescale(FITSZoom type)
             if (currentZoom <= ZOOM_MIN)
                 emit actionUpdated("view_zoom_out", false);
 
-            image_frame->resize( (int) currentWidth, (int) currentHeight);
-
-            image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled((int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            updateFrame();
         }
         else
         {
@@ -439,22 +444,23 @@ int FITSImage::rescale(FITSZoom type)
             currentWidth  = stats.dim[0];
             currentHeight = stats.dim[1];
 
-            image_frame->resize( (int) currentWidth, (int) currentHeight);
-
-            image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+            updateFrame();
         }
         break;
 
     case ZOOM_KEEP_LEVEL:
+    {
         currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
         currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
+        updateFrame();
 
-        image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled((int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+    }
         break;
 
     default:
         currentZoom   = 100;
-        image_frame->setPixmap(QPixmap::fromImage(*displayImage));
+        updateFrame();
+
         break;
     }
 
@@ -484,8 +490,7 @@ void FITSImage::ZoomIn()
     currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
     currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
-    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-    image_frame->resize( (int) currentWidth, (int) currentHeight);
+    updateFrame();
 
     newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
@@ -507,11 +512,28 @@ void FITSImage::ZoomOut()
     currentWidth  = stats.dim[0] * (currentZoom / ZOOM_DEFAULT);
     currentHeight = stats.dim[1] * (currentZoom / ZOOM_DEFAULT);
 
-    image_frame->setPixmap(QPixmap::fromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-
-    image_frame->resize( (int) currentWidth, (int) currentHeight);
+    updateFrame();
 
     newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
+}
+
+void FITSImage::updateFrame()
+{
+
+    QPixmap displayPixmap;
+
+    if (currentZoom != ZOOM_DEFAULT)
+            displayPixmap.convertFromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        else
+            displayPixmap.convertFromImage(*displayImage);
+
+
+    QPainter painter(&displayPixmap);
+
+    drawOverlay(&painter);
+
+    image_frame->setPixmap(displayPixmap);
+    image_frame->resize( (int) currentWidth, (int) currentHeight);
 }
 
 void FITSImage::ZoomDefault()
@@ -524,8 +546,7 @@ void FITSImage::ZoomDefault()
     currentWidth  = stats.dim[0];
     currentHeight = stats.dim[1];
 
-    image_frame->setPixmap(QPixmap::fromImage(*displayImage));
-    image_frame->resize( (int) currentWidth, (int) currentHeight);
+    updateFrame();
 
     newStatus(QString("%1%").arg(currentZoom), FITS_ZOOM);
 
@@ -533,9 +554,9 @@ void FITSImage::ZoomDefault()
 
 }
 
-void FITSImage::calculateStats()
+void FITSImage::calculateStats(bool refresh)
 {
-
+    calculateMinMax(refresh);
     // #1 call average, average is used in std deviation
     stats.average = average();
     // #2 call std deviation
@@ -545,7 +566,6 @@ void FITSImage::calculateStats()
 
 double FITSImage::average()
 {
-
     double sum=0;
     int row=0;
     int width   = stats.dim[0];
@@ -612,5 +632,225 @@ int FITSImage::getFITSRecord(QString &recordList, int &nkeys)
 
     return 0;
 }
+
+
+/*** Find center of stars and calculate Half Flux Radius */
+void FITSImage::findCentroid()
+{
+    double threshold = stats.stddev* MINIMUM_STDVAR;
+    double avg = 0;
+    double sum=0;
+    int pixelRadius =0;
+    int pixVal=0;
+
+    QList<Edge*> edges;
+
+    //qDebug() << "The threshold level is " << threshold << endl;
+
+    // Detect "edges" that are above threshold
+    for (int i=0; i < stats.dim[1]; i++)
+    {
+        pixelRadius = 0;
+
+        for(int j=0; j < stats.dim[0]; j++)
+        {
+            pixVal = image_buffer[j+(i*stats.dim[0])] - stats.min;
+
+
+            // If pixel value > threshold, let's get its weighted average
+            if ( pixVal > threshold)
+            {
+               avg += j * pixVal;
+               sum += pixVal;
+               pixelRadius++;
+            }
+            // Value < threshhold but avg exists
+            else if (sum > 0)
+            {
+                // We found a potential centroid edge
+                if (pixelRadius >= MINIMUM_PIXEL_RANGE)
+                {
+                    int center = ceil(avg/sum);
+
+                    Edge *newEdge = new Edge();
+
+                    newEdge->x          = center;
+                    newEdge->y          = i;
+                    newEdge->scanned    = 0;
+                    newEdge->val        = image_buffer[center+(i*stats.dim[0])] - stats.min;
+                    newEdge->width      = pixelRadius;
+                    newEdge->HFR        = 0;
+
+                    //qDebug() << "# " << edges.count() << " Center at (" << center << "," << i << ") With a value of " << newEdge->val  << " and width of "
+                            // << pixelRadius << " pixels." <<endl;
+
+                    edges.append(newEdge);
+
+                }
+
+                // Reset
+                avg=0;
+                sum=0;
+                pixelRadius=0;
+
+
+            }
+         }
+
+
+     }
+
+    //qDebug() << "Total number of edges found is: " << edges.count() << endl;
+
+    int cen_count=0;
+    int cen_x=0;
+    int cen_y=0;
+    int cen_v=0;
+    int rc_index=0;
+    int y_counter=0;
+
+    // Now, let's scan the edges and find the maximum centroid vertically
+    for (int i=0; i < edges.count(); i++)
+    {
+        // If edge scanned already, skip
+        if (edges[i]->scanned == 1)
+        {
+            //qDebug() << "Skipping check for center " << i << " because it was already counted" << endl;
+            continue;
+        }
+
+        // Get X, Y, and Val of edge
+        cen_x = edges[i]->x;
+        cen_y = edges[i]->y;
+        cen_v = edges[i]->val;
+
+        cen_count=0;
+        y_counter=0;
+
+        // Now let's compare to other edges until we hit a maxima
+        for (int j=i; j < edges.count();j++)
+        {
+            if (edges[j]->scanned)
+                continue;
+
+            // Permittable margin of error in X among edges
+            if (abs(edges[j]->x-cen_x) <= MAXIMUM_HOR_SEPARATION)
+            {
+
+                // Permittable margin of error in Y among edges
+                if ( abs(edges[j]->y - (cen_y + y_counter++)) <= MAXIMUM_VER_SEPARATION)
+                {
+                    // If we encounter something big, note it down
+                    if (edges[j]->val >= cen_v)
+                    {
+                        cen_v = edges[j]->val;
+                        rc_index = j;
+                    }
+
+                    edges[j]->scanned = 1;
+                    cen_count++;
+                }
+            }
+        }
+
+        // If centroid count is within acceptable range
+        if (cen_count >= MINIMUM_ROWS_PER_CENTER)
+        {
+            // We detected a centroid, let's init it
+            Edge *rCenter = new Edge();
+
+            rCenter->x = edges[rc_index]->x;
+            rCenter->y = edges[rc_index]->y;
+            rCenter->width = edges[rc_index]->width;
+
+            //qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
+
+            // Calculate Total Flux From Center, Half Flux, Full Summation
+            double TF=0;
+            double HF=0;
+            double FSum=0;
+            int startX = rCenter->x - (rCenter->width / 2.0);
+
+            //qDebug() << "StartX is " << startX << endl;
+
+            // Complete sum along the radium
+            for (int k=0; k < rCenter->width; k++)
+                FSum += image_buffer[(rCenter->y * stats.dim[0]) + startX + k] - stats.min;
+
+            // Half flux
+            HF = FSum / 2.0;
+
+            // Total flux starting from center
+            TF = image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x];
+
+            int pixelCounter = 1;
+
+            // Integrate flux along radius axis until we reach half flux
+            for (int k=1; k < rCenter->width/2; k++)
+            {
+                TF += image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x + k] - stats.min;
+                TF += image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x - k] - stats.min;
+
+                if (TF >= HF)
+                {
+                    //qDebug() << "Stopping at TF " << TF << " after #" << k << " pixels." << endl;
+                    break;
+                }
+
+                pixelCounter++;
+            }
+
+            // Calculate weighted Half Flux Radius
+            rCenter->HFR = pixelCounter * (HF / TF);
+            // Store full flux
+            rCenter->val = FSum;
+
+            //qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum << endl;
+             starCenters.append(rCenter);
+        }
+
+    }
+
+    // Release memory
+    qDeleteAll(edges);
+}
+
+void FITSImage::drawOverlay(QPainter *painter)
+{
+    if (markStars)
+        drawStarCentroid(painter);
+
+}
+
+void FITSImage::drawStarCentroid(QPainter *painter)
+{
+    painter->setPen(QPen(Qt::red, 2));
+
+    for (int i=0; i < starCenters.count() ; i++)
+      painter->drawText(starCenters[i]->x * (currentZoom / ZOOM_DEFAULT) -3, starCenters[i]->y * (currentZoom / ZOOM_DEFAULT)+4 , "+");
+}
+
+double FITSImage::getHFR()
+{
+    double FSum=0;
+
+    double avgHFR=0;
+
+    // Weighted average HFR
+    for (int i=0; i < starCenters.count() ; i++)
+    {
+        avgHFR += starCenters[i]->val * starCenters[i]->HFR;
+        FSum   += starCenters[i]->val;
+    }
+
+    if (FSum != 0)
+    {
+        //qDebug() << "Average HFR is " << avgHFR / FSum << endl;
+        return (avgHFR / FSum);
+    }
+    else
+        return -1;
+}
+
 
 #include "fitsimage.moc"

@@ -40,6 +40,7 @@ class QUndoGroup;
 class KUndoStack;
 class KTabWidget;
 class KUrl;
+class KAction;
 
 class FITSImage;
 class FITSHistogram;
@@ -55,7 +56,15 @@ public:
     /**Constructor. */
     FITSViewer (QWidget *parent);
     ~FITSViewer();
-    bool addFITS(const KUrl *imageName, FITSMode mode=FITS_NORMAL);
+    int addFITS(const KUrl *imageName, FITSMode mode=FITS_NORMAL);
+
+    bool updateFITS(const KUrl *imageName, int fitsUID);
+
+    void toggleMarkStars(bool enable) { markStars = enable; }
+    bool isStarsMarked() { return markStars; }
+
+    QList<FITSTab*> getImages() { return fitsImages; }
+
 
 
 protected:
@@ -81,13 +90,17 @@ public slots:
     void updateTabStatus(bool clean);
     int saveUnsaved(int index=-1);
     void closeTab(int index);
+    void toggleStars();
 
 private:
 
     KTabWidget *fitsTab;
     QUndoGroup *undoGroup;
 
+    KAction *saveFileAction, *saveFileAsAction;
     QList<FITSTab*> fitsImages;
+    int fitsID;
+    bool markStars;
 };
 
 #endif

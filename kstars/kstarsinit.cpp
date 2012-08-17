@@ -50,7 +50,8 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indi/indimenu.h"
+#include "indi/drivermanager.h"
+#include "indi/guimanager.h"
 #endif
 
 //This file contains functions that kstars calls at startup (except constructors).
@@ -426,10 +427,6 @@ void KStars::initActions() {
         << i18n("Device Manager...")
         << KIcon("network-server" );
 
-    ka = actionCollection()->addAction("capture_sequence", this, SLOT( slotImageSequence() ) )
-        << i18n("Capture Image Sequence...");
-    ka->setEnabled(false);
-
     ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
         << i18n("INDI Control Panel...");
     ka->setEnabled(false);
@@ -579,19 +576,14 @@ void KStars::datainitFinished() {
     connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
 
-    #ifdef HAVE_INDI_H
-    //Initialize INDIMenu
-    indimenu = new INDIMenu(this);
-    indidriver = new INDIDriver(this);
-    #endif
-
     //Initialize Observing List
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
 
     #ifdef HAVE_INDI_H
-    indidriver->updateCustomDrivers();
+    // FIXME
+    //indidriver->updateCustomDrivers();
     #endif
 
     //Do not start the clock if "--paused" specified on the cmd line

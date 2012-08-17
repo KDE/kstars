@@ -33,7 +33,7 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indi/indidriver.h"
+#include "indi/drivermanager.h"
 #endif
 
 EquipmentWriter::EquipmentWriter() {
@@ -54,8 +54,9 @@ EquipmentWriter::EquipmentWriter() {
     newLens = true;
     newFilter = true;
 
+
     #ifdef HAVE_INDI_H
-    ui.driverComboBox->insertItems(1, KStars::Instance()->indiDriver()->driversList.keys());
+    ui.driverComboBox->insertItems(1, DriverManager::Instance()->getDriversStringList());
     #endif
 
     //make connections
@@ -324,10 +325,10 @@ void EquipmentWriter::saveEquipment() {
     ostream << ks->data()->logObject()->writtenOutput();
     f.close();
 
-#ifdef HAVE_INDI_H
-  KStars::Instance()->indiDriver()->updateCustomDrivers();
-#endif
 
+#ifdef HAVE_INDI_H
+  DriverManager::Instance()->updateCustomDrivers();
+#endif
 }
 
 void EquipmentWriter::loadEquipment() {
