@@ -20,8 +20,9 @@
 
 #!/usr/bin/env python
 import re
-import urllib
+from urllib import urlopen
 import os
+import difflib
 from PyKDE4.kdecore import KStandardDirs
 
 def parse( line ) :
@@ -39,14 +40,14 @@ def toCSV(line):
             line=edited
     return line
 
-sock = urllib.urlopen("http://www.cbat.eps.harvard.edu/lists/RecentSupernovae.html")
-pageLines=sock.readlines()
+sock = urlopen("http://www.cbat.eps.harvard.edu/lists/RecentSupernovae.html")
+pageLines = sock.readlines()
 sock.close()
 found = False
-firstLine=True
+firstLine = True
 
 output = open(KStandardDirs().locateLocal('data','kstars/supernovae.dat'),'w')
-#print KStandardDirs().locateLocal('data','kstars/supernovae.dat')
+
 for i in pageLines:
     if(found):
         p = re.compile("</pre>")
@@ -59,7 +60,6 @@ for i in pageLines:
             firstLine = False
         else:
             parsedLine = parse(i)
-        #print count
         output.write(parsedLine)
         continue;
     p = re.compile("<pre>")
@@ -68,4 +68,6 @@ for i in pageLines:
         print "found!!"+i
         firstLine=True
         found = True
+
 output.close()
+print "Supernovae List Update Finished"

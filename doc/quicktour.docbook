@@ -270,7 +270,7 @@ in the <guilabel>Guides</guilabel> settings page, or by pressing the
 &kstars; will automatically begin tracking on an object whenever one
 is centered in the display, either by using the <guilabel>Find
 Object</guilabel> window, by double-clicking on it, or by
-selecting <guimenuitem>Center &and; Track</guimenuitem> from its
+selecting <guimenuitem>Center &amp; Track</guimenuitem> from its
 <mousebutton>right</mousebutton>-click popup menu.  You can disengage
 tracking by panning the display, pressing the <guiicon>Stop Tracking</guiicon>
 icon in the Main toolbar, or selecting <guimenuitem>Stop Tracking</guimenuitem> 
@@ -328,7 +328,7 @@ for the selected object</para>
 <term><keycap>O</keycap></term>
 <listitem>
 <para>Add the selected object to the 
-<link linkend="tool-observinglist">Observing List</link></para>
+<link linkend="tool-obsplanner">Observing wish-list</link></para>
 </listitem>
 </varlistentry>
 

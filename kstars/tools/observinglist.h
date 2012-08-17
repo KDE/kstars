@@ -134,7 +134,7 @@ public:
         *@p o The passed object for setting the parameters
         *@p temp A flag to edit the name for temporary images
         */
-    void setCurrentImage( SkyObject *o, bool temp = false );
+    void setCurrentImage( const SkyObject *o, bool temp = false );
 
     /**@short Save the user log text to a file.
         *@note the log is attached to the current object in obsList.
@@ -155,11 +155,11 @@ public:
      */
     void saveThumbImage();
 
-    QString getTime( SkyObject *o ) { return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" ); }
+    QString getTime( const SkyObject *o ) { return TimeHash.value( o->name(), QTime( 30,0,0 ) ).toString( "h:mm:ss AP" ); }
 
     QTime scheduledTime( SkyObject *o ) { return TimeHash.value( o->name(), o->transitTime( dt, geo ) ); }
 
-    void setTime( SkyObject *o, QTime t ) { TimeHash.insert( o->name(), t); }
+    void setTime( const SkyObject *o, QTime t ) { TimeHash.insert( o->name(), t); }
 
     GeoLocation* geoLocation() { return geo; }
 
@@ -172,7 +172,7 @@ public:
 
     /**@short make a selection in the session view 
      */
-    void selectObject( SkyObject *o );
+    void selectObject( const SkyObject *o );
 
     /**@short set the default image in the image preview.
      */
@@ -249,11 +249,11 @@ public slots:
 
     /**@short save the current observing session plan to disk, specify filename.
         */
-    void slotSaveSessionAs();
+    void slotSaveSessionAs(bool nativeSave = true);
 
     /**@short save the current session
         */
-    void slotSaveSession();
+    void slotSaveSession(bool nativeSave = true);
 
     /**@short construct a new observing list using the wizard.
         */
@@ -341,8 +341,7 @@ private:
     ObservingListUI *ui;
     QList<SkyObject*> m_ObservingList, m_SessionList;
     SkyObject *LogObject, *m_CurrentObject;
-    uint noNameStars;
-    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection, nativeSave;
+    bool isModified, bIsLarge, sessionView, dss, singleSelection, showScope, noSelection;
     QString FileName, CurrentImage, DSSUrl, SDSSUrl, ThumbImage, CurrentImagePath, CurrentTempPath;
     char decsgn;
     KStarsDateTime dt;

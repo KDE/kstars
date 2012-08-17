@@ -239,7 +239,7 @@ void StarObject::initPopupMenu( KSPopupMenu *pmenu ) {
     pmenu->createStarMenu( this );
 }
 
-void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms* ) {
+void StarObject::updateCoords( KSNumbers *num, bool , const dms*, const dms*, bool ) {
     //Correct for proper motion of stars.  Determine RA and Dec offsets.
     //Proper motion is given im milliarcsec per year by the pmRA() and pmDec() functions.
     //That is numerically identical to the number of arcsec per millenium, so multiply by
@@ -313,13 +313,13 @@ void StarObject::JITupdate()
 {
     static KStarsData *data = KStarsData::Instance();
 
-    updateID = data->updateID();
     if ( updateNumID != data->updateNumID() ) {
         // TODO: This can be optimized and reorganized further in a better manner.
         // Maybe we should do this only for stars, since this is really a slow step only for stars
-
+        Q_ASSERT( isfinite( lastPrecessJD ) );
         if( ( lastPrecessJD - data->updateNum()->getJD() ) >= 0.0005 // TODO: Make this 0.0005 a constant / define it
             || ( lastPrecessJD - data->updateNum()->getJD() ) <= -0.0005
+            || Options::alwaysRecomputeCoordinates()
             || ( Options::useRelativistic() && checkBendLight() ) ) {
 
             // Short circuit right here, if recomputing coordinates is not required. NOTE: POTENTIALLY DANGEROUS
@@ -329,6 +329,7 @@ void StarObject::JITupdate()
         updateNumID = data->updateNumID();
     }
     EquatorialToHorizontal( data->lst(), data->geo()->lat() );
+    updateID = data->updateID();
 }
 
 QString StarObject::sptype( void ) const {
@@ -385,7 +386,7 @@ QString StarObject::greekLetter( bool gchar ) const {
     return letter;
 }
 
-QString StarObject::constell() const {
+QString StarObject::constell() const { // FIXME: Move this somewhere else, make this static, and give it a better name. Mostly for code cleanliness. Also, try to put it in a DB.
     QString code = name2().mid(4,3);
     if ( code == "And" ) return QString("Andromedae");
     if ( code == "Ant" ) return QString("Antliae");
@@ -502,28 +503,6 @@ QString StarObject::nameLabel( bool drawName, bool drawMag ) const
             return sName + ' ' + KGlobal::locale()->formatNumber( mag(), 1 );
     }
     return KGlobal::locale()->formatNumber( mag(), 1 );
-}
-
-QString StarObject::customLabel( bool drawName, bool drawMag )
-{
-    QString sName;
-    if ( translatedName() != i18n("star") && ! translatedName().isEmpty() )
-        sName = translatedName();
-    else if ( ! gname().trimmed().isEmpty() )
-        sName = gname( true );
-    else
-        sName = i18n("star");
-
-    if ( drawMag  && drawName ) {
-        if ( sName == i18n("star") )
-            return KGlobal::locale()->formatNumber( mag(), 1 ) + ", " + sName;
-        else
-            return sName + ' ' + KGlobal::locale()->formatNumber( mag(), 1 );
-    }
-    else if ( drawMag && ! drawName )
-        return KGlobal::locale()->formatNumber( mag(), 1 ) + ", " + sName;
-
-    return sName;
 }
 
 //If this works, we can maybe get rid of customLabel() and nameLabel()??

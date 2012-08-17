@@ -98,7 +98,7 @@ bool DeepStarComponent::loadStaticStars() {
     if( htm_level != m_skyMesh->level() )
         kDebug() << "WARNING: HTM Level in shallow star data file and HTM Level in m_skyMesh do not match. EXPECT TROUBLE" << endl;
 
-    for(Trixel i = 0; i < m_skyMesh->size(); ++i) {
+    for(Trixel i = 0; i < (unsigned int)m_skyMesh->size(); ++i) {
 
         Trixel trixel = i;
         StarBlock *SB = new StarBlock( starReader.getRecordCount( i ) );
@@ -107,7 +107,7 @@ bool DeepStarComponent::loadStaticStars() {
         m_starBlockList.at( trixel )->setStaticBlock( SB );
         
         for(unsigned long j = 0; j < (unsigned long) starReader.getRecordCount(i); ++j) {
-            bool fread_success;
+            bool fread_success = false;
             if( starReader.guessRecordSize() == 32 )
                 fread_success = fread( &stardata, sizeof( starData ), 1, dataFile );
             else if( starReader.guessRecordSize() == 16 )
@@ -473,7 +473,7 @@ void DeepStarComponent::byteSwap( starData *stardata ) {
 bool DeepStarComponent::verifySBLIntegrity() {
     float faintMag = -5.0;
     bool integrity = true;
-    for(Trixel trixel = 0; trixel < m_skyMesh->size(); ++trixel) {
+    for(Trixel trixel = 0; trixel < (unsigned int)m_skyMesh->size(); ++trixel) {
         for(int i = 0; i < m_starBlockList[ trixel ]->getBlockCount(); ++i) {
             StarBlock *block = m_starBlockList[ trixel ]->block( i );
             if( i == 0 )

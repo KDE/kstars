@@ -44,10 +44,10 @@ SkyObject* SkyComponent::objectNearest( SkyPoint *, double & ) {
     return 0;
 }
 
-void SkyComponent::drawTrails( SkyPainter *skyp )
+void SkyComponent::drawTrails( SkyPainter* )
 {}
 
-void SkyComponent::objectsInArea( QList<SkyObject*>& list, const SkyRegion& region )
+void SkyComponent::objectsInArea( QList<SkyObject*>&, const SkyRegion& )
 {}
 
 

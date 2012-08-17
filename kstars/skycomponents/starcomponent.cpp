@@ -428,7 +428,6 @@ bool StarComponent::loadStaticData()
 
         Trixel trixel = i;// = ( ( i >= 256 ) ? ( i - 256 ) : ( i + 256 ) );
         for(unsigned long j = 0; j < (unsigned long)dataReader.getRecordCount(i); ++j) {
-            bool named = false;
             if(!fread(&stardata, sizeof(starData), 1, dataFile)){
                 kDebug() << "FILE FORMAT ERROR: Could not read starData structure for star #" << j << " under trixel #" << trixel << endl;
             }
@@ -449,10 +448,9 @@ bool StarComponent::loadStaticData()
                 if(! name.isEmpty() ) {
                     // HEV: look up star name in internationalization filesource
                     name = i18nc("star name", name.toLocal8Bit().data());
-                }
-                else
+                } else {
                     name = i18n("star");
-                named = true;
+                }
             }
             else
                 kDebug() << "ERROR: Named star file contains unnamed stars! Expect trouble." << endl;

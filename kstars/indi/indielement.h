@@ -21,7 +21,6 @@
 
 #include <indiapi.h>
 #include <indiproperty.h>
-
 #include "indicommon.h"
 
 /* Forward decleration */

@@ -86,8 +86,6 @@ SkyLabeler::SkyLabeler() :
 {
     m_errors = 0;
     m_minDeltaX = 30;    // when to merge two adjacent regions
-    m_yDensity  = 1.0;   // controls vertical resolution
-
     m_marks = m_hits = m_misses = m_elements = 0;
 }
 
@@ -232,7 +230,7 @@ void SkyLabeler::reset( SkyMap* skyMap )
     m_offset = SkyLabeler::ZoomOffset();
 
     // ----- Prepare Virtual Screen -----
-    m_yScale = (m_fontMetrics.height() + 1.0) / m_yDensity;
+    m_yScale = (m_fontMetrics.height() + 1.0);
 
     int maxY = int( skyMap->height() / m_yScale );
     if ( maxY < 1 ) maxY = 1;                         // prevents a crash below?
@@ -298,21 +296,6 @@ bool SkyLabeler::markText( const QPointF& p, const QString& text )
     return markRegion( p.x(), maxX, p.y(), minY );
 }
 
-bool SkyLabeler::markRect( qreal x, qreal y, qreal width, qreal height )
-{
-    /***
-    QColor color( "red" );
-    psky.setPen( QPen( QBrush( color ), 1, Qt::SolidLine ) );	
-
-    qreal x2 = x + width;
-    qreal y2 = y + height;
-    psky.drawLine( QPointF( x, y ),  QPointF( x2, y ));
-    psky.drawLine( QPointF( x2, y ), QPointF( x2, y2 ));
-    psky.drawLine( QPointF( x2, y2 ),QPointF( x, y2 ));
-    psky.drawLine( QPointF( x, y2 ), QPointF( x,y ));
-    ***/
-    return markRegion( x, x + width, y + height, y );
-}
 bool SkyLabeler::markRegion( qreal left, qreal right, qreal top, qreal bot )
 {
     if ( m_maxY < 1 ) {
@@ -532,7 +515,7 @@ void SkyLabeler::printInfo()
     printf("SkyLabeler:\n");
     printf("  fillRatio=%.1f%%\n", fillRatio() );
     printf("  hits=%d  misses=%d  ratio=%.1f%%\n", m_hits, m_misses, hitRatio());
-    printf("  yScale=%.1f yDensity=%.1f maxY=%d\n", m_yScale, m_yDensity, m_maxY );
+    printf("  yScale=%.1f maxY=%d\n", m_yScale, m_maxY );
 
     printf("  screenRows=%d elements=%d virtualSize=%.1f Kbytes\n",
            screenRows.size(), m_elements, float(m_size) / 1024.0 );
@@ -573,24 +556,3 @@ void SkyLabeler::printInfo()
         printf("\n");
     }
 }
-
-void SkyLabeler::incDensity()
-{
-    if ( m_yDensity < 1.0 )
-        m_yDensity += 0.1;
-    else
-        m_yDensity++;
-
-    if ( m_yDensity > 12.0 ) m_yDensity = 12.0;
-}
-
-void SkyLabeler::decDensity()
-{
-    if ( m_yDensity  <= 1.0)
-        m_yDensity -= 0.1;
-    else
-        m_yDensity--;
-
-    if ( m_yDensity < 0.1 ) m_yDensity = 0.1;
-}
-

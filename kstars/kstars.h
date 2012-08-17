@@ -41,7 +41,6 @@ class GUIManager;
 class DriverManager;
 
 class AltVsTime;
-class LCGenerator;
 class WUTDialog;
 class AstroCalc;
 class SkyCalendar;
@@ -60,7 +59,7 @@ class OpsCatalog;
 class OpsGuides;
 class OpsSolarSystem;
 class OpsSatellites;
-//class OpsSupernovae;
+class OpsSupernovae;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
@@ -489,9 +488,6 @@ private slots:
     /** action slot: open KStars calculator to compute astronomical ephemeris */
     void slotCalculator();
 
-    /** action slot: open KStars AAVSO Light Curve Generator */
-    void slotLCGenerator();
-
     /** action slot: open Elevation vs. Time tool */
     void slotAVT();
 
@@ -629,7 +625,6 @@ private:
 
     KActionMenu *colorActionMenu, *fovActionMenu;
 
-    LCGenerator *AAVSODialog;
     FindDialog *findDialog;
     ExportImageDialog *imgExportDialog;
 
@@ -662,7 +657,7 @@ private:
     OpsGuides *opguides;
     OpsSolarSystem *opsolsys;
     OpsSatellites *opssatellites;
-    //OpsSupernovae *opsupernovae;
+    OpsSupernovae *opssupernovae;
     OpsColors *opcolors;
     OpsAdvanced *opadvanced;
     OpsINDI *opsindi;

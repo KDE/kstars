@@ -52,6 +52,7 @@
 #include "options/opsguides.h"
 #include "options/opssolarsystem.h"
 #include "options/opssatellites.h"
+#include "options/opssupernovae.h"
 #include "options/opscolors.h"
 #include "options/opsadvanced.h"
 
@@ -70,7 +71,6 @@
 #include "dialogs/fovdialog.h"
 #include "printing/printingwizard.h"
 #include "kswizard.h"
-#include "tools/lcgenerator.h"
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
@@ -194,9 +194,9 @@ void KStars::slotViewToolBar() {
         }
     } else if ( a == actionCollection()->action( "show_supernovae" ) ) {
         Options::setShowSupernovae( a->isChecked() );
-//         if ( kcd ) {
-//             opsupernovae->kcfg_ShowSupernovae->setChecked ( a->isChecked() ) ;
-//         }
+        if ( kcd ) {
+            opssupernovae->kcfg_ShowSupernovae->setChecked ( a->isChecked() ) ;
+        }
     }
 
     // update time for all objects because they might be not initialized
@@ -268,13 +268,6 @@ void KStars::slotDownload() {
             }
         }
     }
-}
-
-void KStars::slotLCGenerator() {
-    if ( ! AAVSODialog  )
-        AAVSODialog = new LCGenerator(this);
-
-    AAVSODialog->show();
 }
 
 void KStars::slotAVT() {
@@ -411,12 +404,14 @@ void KStars::slotViewOps() {
     opguides     = new OpsGuides( this );
     opsolsys     = new OpsSolarSystem( this );
     opssatellites= new OpsSatellites( this );
+    opssupernovae= new OpsSupernovae( this );
     opcolors     = new OpsColors( this );
     opadvanced   = new OpsAdvanced( this );
 
     dialog->addPage(opcatalog, i18n("Catalogs"), "kstars_catalog");
     dialog->addPage(opsolsys, i18n("Solar System"), "kstars_solarsystem");
     dialog->addPage(opssatellites, i18n("Satellites"), "kstars_satellites");
+    dialog->addPage(opssupernovae, i18n("Supernovae"), "kstars_supernovae");
     dialog->addPage(opguides, i18n("Guides"), "kstars_guides");
     dialog->addPage(opcolors, i18n("Colors"), "kstars_colors");
 

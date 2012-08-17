@@ -102,7 +102,7 @@ void KSPlanetBase::EclipticToEquatorial( const dms *Obliquity ) {
     setFromEcliptic( Obliquity, ep.longitude, ep.latitude );
 }
 
-void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST )
+void KSPlanetBase::updateCoords( KSNumbers *num, bool includePlanets, const dms *lat, const dms *LST, bool )
 {
     KStarsData *kd = KStarsData::Instance();
     if ( includePlanets ) {
@@ -130,7 +130,7 @@ void KSPlanetBase::findPosition( const KSNumbers *num, const dms *lat, const dms
 
     if ( hasTrail() ) {
         addToTrail();
-        if ( Trail.size() > MAXTRAIL )
+        if ( Trail.size() > TrailObject::MaxTrail )
             clipTrail();
     }
 

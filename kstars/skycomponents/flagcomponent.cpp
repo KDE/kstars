@@ -22,6 +22,7 @@
 #include <kstandarddirs.h>
 #include <kfileitem.h>
 #include <klocale.h>
+#include <qmath.h>
 
 #include "Options.h"
 #include "kstarsdata.h"
@@ -60,15 +61,6 @@ void FlagComponent::draw( SkyPainter *skyp ) {
 
 bool FlagComponent::selected() {
     return Options::showFlags();
-}
-
-double FlagComponent::getEpoch (const QString &eName) {
-    //If eName is empty (or not a number) assume 2000.0
-    bool ok;
-    double epoch = eName.toDouble( &ok );
-    if( eName.isEmpty() || !ok )
-        return 2000.0;
-    return epoch;
 }
 
 void FlagComponent::loadFromFile() {
@@ -161,17 +153,6 @@ void FlagComponent::saveToFile() {
     QFile::remove( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
     file.rename( KStandardDirs::locateLocal( "appdata", "flags.dat" ) );
     file.close();
-}
-
-long double FlagComponent::epochToJd (double epoch) {
-    double yearsTo2000 = 2000.0 - epoch;
-    if (epoch == 1950.0) {
-        return 2433282.4235;
-    } else if ( epoch == 2000.0 ) {
-        return J2000;
-    } else {
-        return ( J2000 - yearsTo2000 * 365.2425 );
-    }
 }
 
 void FlagComponent::add( SkyPoint* flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
@@ -312,22 +293,6 @@ QList<QImage> FlagComponent::imageList() {
     return m_Images;
 }
 
-QList<int> FlagComponent::getFlagsNear( SkyPoint *point, float radius )
-{
-    QList<int> retVal;
-
-    int idx = 0;
-    foreach (SkyPoint *cp, pointList()) {
-        if ( cp->angularDistanceTo(point).Degrees() <= radius ) {
-            retVal.append( idx );
-        }
-
-        idx++;
-    }
-
-    return retVal;
-}
-
 QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
 {
     const Projector *proj = KStars::Instance()->map()->projector();
@@ -340,7 +305,7 @@ QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
         int dx = (pos2 - pos).x();
         int dy = (pos2 - pos).y();
 
-        if ( sqrt( dx * dx + dy * dy ) <= pixelRadius ) {
+        if ( qSqrt( dx * dx + dy * dy ) <= pixelRadius ) {
             //point is inside pixelRadius circle
             retVal.append(ptr);
         }

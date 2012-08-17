@@ -27,11 +27,6 @@ KStarsDateTime::KStarsDateTime() : KDateTime() {
     setDJD( J2000 );
 }
 
-KStarsDateTime::KStarsDateTime( long int _jd )
-{
-    setDJD( (long double)( _jd ) );
-}
-
 KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt )
 {
     setDJD( kdt.djd() );
@@ -62,10 +57,6 @@ KStarsDateTime::KStarsDateTime( const QDate &_d, const QTime &_t ) :
     //don't call setDJD() because we don't need to compute the time; just set DJD directly
     long double jdFrac = ( _t.hour()-12 + ( _t.minute() + ( _t.second() + _t.msec()/1000.)/60.)/60.)/24.;
     DJD = (long double)( _d.toJulianDay() ) + jdFrac;
-}
-
-KStarsDateTime::KStarsDateTime( double _jd ) : KDateTime() {
-    setDJD( (long double)_jd );
 }
 
 KStarsDateTime::KStarsDateTime( long double _jd ) : KDateTime() {

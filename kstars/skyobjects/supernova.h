@@ -51,10 +51,6 @@ public:
     /** Destructor(Empty) */
     virtual ~Supernova() {}
 
-    //virtual bool loadData();
-
-    //void setNames( QString name, QString name2 );
-
     /** @return true if the star has a serial number */
     inline bool hasName() const { return ( !serialNumber.isEmpty());  }
 

@@ -22,21 +22,6 @@
 SkyLine::SkyLine()
 {}
 
-SkyLine::SkyLine( const SkyPoint &start, const SkyPoint &end ) {
-    m_pList.append( new SkyPoint( start ) );
-    m_pList.append( new SkyPoint( end ) );
-}
-
-SkyLine::SkyLine( SkyPoint *start, SkyPoint *end ) {
-    m_pList.append( new SkyPoint( *start ) );
-    m_pList.append( new SkyPoint( *end ) );
-}
-
-SkyLine::SkyLine( QList<SkyPoint*> list ) {
-    foreach ( SkyPoint *p, list )
-        m_pList.append( new SkyPoint( *p ) );
-}
-
 SkyLine::~SkyLine() {
     clear();
 }
@@ -44,10 +29,6 @@ SkyLine::~SkyLine() {
 void SkyLine::clear() {
     qDeleteAll( m_pList );
     m_pList.clear();
-}
-
-void SkyLine::append( const SkyPoint &p ) {
-    m_pList.append( new SkyPoint( p ) );
 }
 
 void SkyLine::append( SkyPoint *p ) {
@@ -85,20 +66,6 @@ dms SkyLine::angularSize( int i ) const{
     angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
 
     return angDist;
-}
-
-dms SkyLine::positionAngle( int i ) const {
-    if ( i < 0 || i+1 >= m_pList.size() ) {
-        kDebug() << i18n("SkyLine index error: no such segment: %1", i );
-        return dms();
-    }
-
-    SkyPoint *p1 = m_pList[i];
-    SkyPoint *p2 = m_pList[i+1];
-    double dx = p1->ra().radians() - p2->ra().radians();
-    double dy = p2->dec().radians() - p1->dec().radians();
-
-    return dms( atan2( dy, dx )/dms::DegToRad );
 }
 
 void SkyLine::update( KStarsData *d, KSNumbers *num ) {

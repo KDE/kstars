@@ -262,7 +262,7 @@ RangeConvex::simplify0() {
     // one where the convex lies on its left side.
     i = cornerConstr1[0];		// the i'th constraint and j'th constraint
     j = cornerConstr2[0];		// intersect at 0'th corner
-    size_t c1,c2,k1,k2;
+    size_t c1(0),c2(0),k1(0),k2(0);
     // Now find the other corner where the i'th and j'th constraints intersect.
     // Store the corner in vi1 and vi2, and the other constraint indices
     // in c1,c2.
@@ -1036,7 +1036,7 @@ RangeConvex::eSolve(const SpatialVector & v1,
 
     float64 q      = -0.5L * ( b + ( SGN(b) * sqrt(D) ) );
 
-    float64 root1, root2;
+    float64 root1(0), root2(0);
     int i = 0;
 
     if ( a > gEpsilon || a < -gEpsilon ) { root1 = q / a; i++; }

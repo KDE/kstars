@@ -115,7 +115,7 @@ void LocationDialog::initCityList() {
 
     // attempt to highlight the current kstars location in the GeoBox
     ui->GeoBox->setCurrentItem( 0 );
-    for( uint i=0; i < ui->GeoBox->count(); i++ ) {
+    for( int i=0; i < ui->GeoBox->count(); i++ ) {
         if ( ui->GeoBox->item(i)->text() == data->geo()->fullName() ) {
             ui->GeoBox->setCurrentRow( i );
             break;
@@ -399,7 +399,7 @@ void LocationDialog::showTZRules() {
     QString message = i18n( "Daylight Saving Time Rules" );
     //	KMessageBox::informationList( 0, message, lines, message );
 
-    KDialog *tzd = new KDialog( this );
+    QPointer<KDialog> tzd = new KDialog( this );
     tzd->setCaption( message );
     tzd->setButtons( KDialog::Close );
     QListWidget *lw = new QListWidget( tzd );
@@ -413,7 +413,6 @@ void LocationDialog::showTZRules() {
     tzd->setMainWidget( lw );
     tzd->exec();
 
-    delete lw;
     delete tzd;
 }
 

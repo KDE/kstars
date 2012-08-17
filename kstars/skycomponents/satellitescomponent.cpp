@@ -105,7 +105,7 @@ void SatellitesComponent::drawLabel( Satellite *sat, QPointF pos )
 }
 
 void SatellitesComponent::drawTrails( SkyPainter *skyp ) {
-
+    Q_UNUSED(skyp);
 }
 
 void SatellitesComponent::updateTLEs()

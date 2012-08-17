@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>DetailsPosition</class>
- <widget class="QWidget" name="DetailsPosition" >
-  <property name="geometry" >
+ <widget class="QWidget" name="DetailsPosition">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,27 +10,27 @@
     <height>393</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Details - Position Data</string>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
-   <property name="spacing" >
+  <layout class="QVBoxLayout">
+   <property name="spacing">
     <number>6</number>
    </property>
+   <property name="margin">
+    <number>9</number>
+   </property>
    <item>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
+    <layout class="QVBoxLayout">
+     <property name="spacing">
       <number>0</number>
      </property>
-     <property name="spacing" >
+     <property name="margin">
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="CoordTitle" >
-       <property name="font" >
+      <widget class="QLabel" name="CoordTitle">
+       <property name="font">
         <font>
          <family>Sans Serif</family>
          <pointsize>10</pointsize>
@@ -40,73 +41,77 @@
          <strikeout>false</strikeout>
         </font>
        </property>
-       <property name="autoFillBackground" >
+       <property name="autoFillBackground">
         <bool>true</bool>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Coordinates</string>
        </property>
-       <property name="alignment" >
+       <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QFrame" name="CoordFrame" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>5</hsizetype>
-         <vsizetype>7</vsizetype>
+      <widget class="QFrame" name="CoordFrame">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="autoFillBackground" >
+       <property name="autoFillBackground">
         <bool>true</bool>
        </property>
-       <property name="frameShape" >
+       <property name="frameShape">
         <enum>QFrame::Box</enum>
        </property>
-       <property name="frameShadow" >
+       <property name="frameShadow">
         <enum>QFrame::Plain</enum>
        </property>
-       <property name="lineWidth" >
+       <property name="lineWidth">
         <number>4</number>
        </property>
-       <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>9</number>
-        </property>
-        <property name="spacing" >
+       <layout class="QVBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
+        <property name="margin">
+         <number>9</number>
+        </property>
         <item>
-         <layout class="QGridLayout" >
-          <property name="margin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>0</number>
           </property>
-          <property name="spacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="RALabel" >
-            <property name="lineWidth" >
+          <item row="0" column="0">
+           <widget class="KSHelpLabel" name="RALabel">
+            <property name="lineWidth">
              <number>2</number>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>RA (2000.0):</string>
             </property>
-            <property name="alignment" >
+	    <property name="anchor" stdset="0">
+               <string>skycoords</string>
+            </property>
+            <property name="alignment">
              <set>Qt::AlignTop</set>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>1</number>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="QLabel" name="RA" >
-            <property name="font" >
+          <item row="0" column="1">
+           <widget class="QLabel" name="RA">
+            <property name="font">
              <font>
               <family>Monospace</family>
               <pointsize>10</pointsize>
@@ -114,23 +119,23 @@
               <bold>true</bold>
              </font>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>00:00:00</string>
             </property>
-            <property name="textInteractionFlags" >
-             <enum>Qt::TextSelectableByKeyboard</enum>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
           </item>
-          <item row="0" column="2" >
+          <item row="0" column="2">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Expanding</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>97</width>
               <height>20</height>
@@ -138,25 +143,31 @@
             </property>
            </spacer>
           </item>
-          <item row="0" column="3" >
-           <widget class="QLabel" name="AzLabel" >
-            <property name="lineWidth" >
+          <item row="0" column="3">
+           <widget class="KSHelpLabel" name="AzLabel">
+            <property name="lineWidth">
              <number>2</number>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Azimuth:</string>
             </property>
-            <property name="alignment" >
+	    <property name="anchor" stdset="0">
+               <string>skycoords</string>
+            </property>
+            <property name="alignment">
              <set>Qt::AlignTop</set>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>1</number>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="0" column="4" >
-           <widget class="QLabel" name="Az" >
-            <property name="font" >
+          <item row="0" column="4">
+           <widget class="QLabel" name="Az">
+            <property name="font">
              <font>
               <family>Monospace</family>
               <pointsize>10</pointsize>
@@ -164,33 +175,39 @@
               <bold>true</bold>
              </font>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>00:00:00</string>
             </property>
-            <property name="textInteractionFlags" >
-             <enum>Qt::TextSelectableByKeyboard</enum>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="DecLabel" >
-            <property name="lineWidth" >
+          <item row="1" column="0">
+           <widget class="KSHelpLabel" name="DecLabel">
+            <property name="lineWidth">
              <number>2</number>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Dec (2000.0):</string>
             </property>
-            <property name="alignment" >
+	    <property name="anchor" stdset="0">
+               <string>skycoords</string>
+            </property>
+            <property name="alignment">
              <set>Qt::AlignTop</set>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>1</number>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="1" column="1" >
-           <widget class="QLabel" name="Dec" >
-            <property name="font" >
+          <item row="1" column="1">
+           <widget class="QLabel" name="Dec">
+            <property name="font">
              <font>
               <family>Monospace</family>
               <pointsize>10</pointsize>
@@ -198,20 +215,20 @@
               <bold>true</bold>
              </font>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>00:00:00</string>
             </property>
-            <property name="textInteractionFlags" >
-             <enum>Qt::TextSelectableByKeyboard</enum>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
           </item>
-          <item row="1" column="2" >
+          <item row="1" column="2">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>101</width>
               <height>20</height>
@@ -219,25 +236,31 @@
             </property>
            </spacer>
           </item>
-          <item row="1" column="3" >
-           <widget class="QLabel" name="AltLabel" >
-            <property name="lineWidth" >
+          <item row="1" column="3">
+           <widget class="KSHelpLabel" name="AltLabel">
+            <property name="lineWidth">
              <number>2</number>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Altitude:</string>
             </property>
-            <property name="alignment" >
+	    <property name="anchor" stdset="0">
+               <string>skycoords</string>
+            </property>
+            <property name="alignment">
              <set>Qt::AlignTop</set>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>1</number>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="1" column="4" >
-           <widget class="QLabel" name="Alt" >
-            <property name="font" >
+          <item row="1" column="4">
+           <widget class="QLabel" name="Alt">
+            <property name="font">
              <font>
               <family>Monospace</family>
               <pointsize>10</pointsize>
@@ -245,20 +268,20 @@
               <bold>true</bold>
              </font>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>00:00:00</string>
             </property>
-            <property name="textInteractionFlags" >
-             <enum>Qt::TextSelectableByKeyboard</enum>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
           </item>
-          <item row="2" column="0" colspan="5" >
+          <item row="2" column="0" colspan="5">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>441</width>
               <height>20</height>
@@ -266,25 +289,31 @@
             </property>
            </spacer>
           </item>
-          <item row="3" column="0" >
-           <widget class="QLabel" name="HALabel" >
-            <property name="lineWidth" >
+          <item row="3" column="0">
+           <widget class="KSHelpLabel" name="HALabel">
+            <property name="lineWidth">
              <number>2</number>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Hour angle:</string>
             </property>
-            <property name="alignment" >
+	    <property name="anchor" stdset="0">
+               <string>hourangle</string>
+            </property>
+            <property name="alignment">
              <set>Qt::AlignTop</set>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>1</number>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
-          <item row="3" column="1" >
-           <widget class="QLabel" name="HA" >
-            <property name="font" >
+          <item row="3" column="1">
+           <widget class="QLabel" name="HA">
+            <property name="font">
              <font>
               <family>Monospace</family>
               <pointsize>10</pointsize>
@@ -292,23 +321,23 @@
               <bold>true</bold>
              </font>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>00:00:00</string>
             </property>
-            <property name="textInteractionFlags" >
-             <enum>Qt::TextSelectableByKeyboard</enum>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
           </item>
-          <item row="3" column="2" >
+          <item row="3" column="2">
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Expanding</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>81</width>
               <height>24</height>
@@ -316,25 +345,25 @@
             </property>
            </spacer>
           </item>
-          <item row="3" column="3" >
-           <widget class="QLabel" name="AirmassLabel" >
-            <property name="lineWidth" >
+          <item row="3" column="3">
+           <widget class="QLabel" name="AirmassLabel">
+            <property name="lineWidth">
              <number>2</number>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>Airmass:</string>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignTop</set>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>1</number>
             </property>
            </widget>
           </item>
-          <item row="3" column="4" >
-           <widget class="QLabel" name="Airmass" >
-            <property name="font" >
+          <item row="3" column="4">
+           <widget class="QLabel" name="Airmass">
+            <property name="font">
              <font>
               <family>Monospace</family>
               <pointsize>10</pointsize>
@@ -342,11 +371,11 @@
               <bold>true</bold>
              </font>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>0.00</string>
             </property>
-            <property name="textInteractionFlags" >
-             <enum>Qt::TextSelectableByKeyboard</enum>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
           </item>
@@ -354,10 +383,10 @@
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
             <height>20</height>
@@ -372,13 +401,13 @@
    </item>
    <item>
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeType" >
+     <property name="sizeType">
       <enum>QSizePolicy::Fixed</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>16</height>
@@ -387,16 +416,16 @@
     </spacer>
    </item>
    <item>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
+    <layout class="QVBoxLayout">
+     <property name="spacing">
       <number>0</number>
      </property>
-     <property name="spacing" >
+     <property name="margin">
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="RSTTitle" >
-       <property name="font" >
+      <widget class="QLabel" name="RSTTitle">
+       <property name="font">
         <font>
          <family>Sans Serif</family>
          <pointsize>10</pointsize>
@@ -407,113 +436,111 @@
          <strikeout>false</strikeout>
         </font>
        </property>
-       <property name="autoFillBackground" >
+       <property name="autoFillBackground">
         <bool>true</bool>
        </property>
-       <property name="text" >
+       <property name="text">
         <string>Rise/Set/Transit</string>
        </property>
-       <property name="alignment" >
+       <property name="alignment">
         <set>Qt::AlignHCenter</set>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QFrame" name="RSTFrame" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>5</hsizetype>
-         <vsizetype>7</vsizetype>
+      <widget class="QFrame" name="RSTFrame">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="autoFillBackground" >
+       <property name="autoFillBackground">
         <bool>true</bool>
        </property>
-       <property name="frameShape" >
+       <property name="frameShape">
         <enum>QFrame::Box</enum>
        </property>
-       <property name="frameShadow" >
+       <property name="frameShadow">
         <enum>QFrame::Plain</enum>
        </property>
-       <property name="lineWidth" >
+       <property name="lineWidth">
         <number>4</number>
        </property>
-       <layout class="QVBoxLayout" >
-        <property name="margin" >
-         <number>10</number>
-        </property>
-        <property name="spacing" >
+       <layout class="QVBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
+        <property name="margin">
+         <number>10</number>
+        </property>
         <item>
-         <layout class="QHBoxLayout" >
-          <property name="margin" >
-           <number>0</number>
-          </property>
-          <property name="spacing" >
+         <layout class="QHBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
           <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
+           <layout class="QGridLayout">
+            <property name="margin">
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="spacing">
              <number>6</number>
             </property>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="TimeSetLabel" >
-              <property name="lineWidth" >
+            <item row="2" column="0">
+             <widget class="QLabel" name="TimeSetLabel">
+              <property name="lineWidth">
                <number>2</number>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Set time:</string>
               </property>
-              <property name="alignment" >
+              <property name="alignment">
                <set>Qt::AlignTop</set>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>1</number>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="TimeTransitLabel" >
-              <property name="lineWidth" >
+            <item row="1" column="0">
+             <widget class="QLabel" name="TimeTransitLabel">
+              <property name="lineWidth">
                <number>2</number>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Transit time:</string>
               </property>
-              <property name="alignment" >
+              <property name="alignment">
                <set>Qt::AlignTop</set>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>1</number>
               </property>
              </widget>
             </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="TimeRiseLabel" >
-              <property name="lineWidth" >
+            <item row="0" column="0">
+             <widget class="QLabel" name="TimeRiseLabel">
+              <property name="lineWidth">
                <number>2</number>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Rise time:</string>
               </property>
-              <property name="alignment" >
+              <property name="alignment">
                <set>Qt::AlignTop</set>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>1</number>
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="QLabel" name="TimeRise" >
-              <property name="font" >
+            <item row="0" column="1">
+             <widget class="QLabel" name="TimeRise">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>10</pointsize>
@@ -521,17 +548,17 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="textInteractionFlags" >
-               <enum>Qt::TextSelectableByKeyboard</enum>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByKeyboard</set>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" >
-             <widget class="QLabel" name="TimeTransit" >
-              <property name="font" >
+            <item row="1" column="1">
+             <widget class="QLabel" name="TimeTransit">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>10</pointsize>
@@ -539,17 +566,17 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="textInteractionFlags" >
-               <enum>Qt::TextSelectableByKeyboard</enum>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByKeyboard</set>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLabel" name="TimeSet" >
-              <property name="font" >
+            <item row="2" column="1">
+             <widget class="QLabel" name="TimeSet">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>10</pointsize>
@@ -557,11 +584,11 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00</string>
               </property>
-              <property name="textInteractionFlags" >
-               <enum>Qt::TextSelectableByKeyboard</enum>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByKeyboard</set>
               </property>
              </widget>
             </item>
@@ -569,13 +596,13 @@
           </item>
           <item>
            <spacer>
-            <property name="orientation" >
+            <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
-            <property name="sizeType" >
+            <property name="sizeType">
              <enum>QSizePolicy::Expanding</enum>
             </property>
-            <property name="sizeHint" >
+            <property name="sizeHint" stdset="0">
              <size>
               <width>83</width>
               <height>20</height>
@@ -584,64 +611,64 @@
            </spacer>
           </item>
           <item>
-           <layout class="QGridLayout" >
-            <property name="margin" >
+           <layout class="QGridLayout">
+            <property name="margin">
              <number>0</number>
             </property>
-            <property name="spacing" >
+            <property name="spacing">
              <number>6</number>
             </property>
-            <item row="2" column="0" >
-             <widget class="QLabel" name="AzSetLabel" >
-              <property name="lineWidth" >
+            <item row="2" column="0">
+             <widget class="QLabel" name="AzSetLabel">
+              <property name="lineWidth">
                <number>2</number>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Azimuth at set:</string>
               </property>
-              <property name="alignment" >
+              <property name="alignment">
                <set>Qt::AlignTop</set>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>1</number>
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="AltTransitLabel" >
-              <property name="lineWidth" >
+            <item row="1" column="0">
+             <widget class="QLabel" name="AltTransitLabel">
+              <property name="lineWidth">
                <number>2</number>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Altitude at transit:</string>
               </property>
-              <property name="alignment" >
+              <property name="alignment">
                <set>Qt::AlignTop</set>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>1</number>
               </property>
              </widget>
             </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="AzRiseLabel" >
-              <property name="lineWidth" >
+            <item row="0" column="0">
+             <widget class="QLabel" name="AzRiseLabel">
+              <property name="lineWidth">
                <number>2</number>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>Azimuth at rise:</string>
               </property>
-              <property name="alignment" >
+              <property name="alignment">
                <set>Qt::AlignTop</set>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>1</number>
               </property>
              </widget>
             </item>
-            <item row="0" column="1" >
-             <widget class="QLabel" name="AzRise" >
-              <property name="font" >
+            <item row="0" column="1">
+             <widget class="QLabel" name="AzRise">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>10</pointsize>
@@ -649,17 +676,17 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00:00</string>
               </property>
-              <property name="textInteractionFlags" >
-               <enum>Qt::TextSelectableByKeyboard</enum>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByKeyboard</set>
               </property>
              </widget>
             </item>
-            <item row="1" column="1" >
-             <widget class="QLabel" name="AltTransit" >
-              <property name="font" >
+            <item row="1" column="1">
+             <widget class="QLabel" name="AltTransit">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>10</pointsize>
@@ -667,17 +694,17 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00:00</string>
               </property>
-              <property name="textInteractionFlags" >
-               <enum>Qt::TextSelectableByKeyboard</enum>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByKeyboard</set>
               </property>
              </widget>
             </item>
-            <item row="2" column="1" >
-             <widget class="QLabel" name="AzSet" >
-              <property name="font" >
+            <item row="2" column="1">
+             <widget class="QLabel" name="AzSet">
+              <property name="font">
                <font>
                 <family>Monospace</family>
                 <pointsize>10</pointsize>
@@ -685,11 +712,11 @@
                 <bold>true</bold>
                </font>
               </property>
-              <property name="text" >
+              <property name="text">
                <string>00:00:00</string>
               </property>
-              <property name="textInteractionFlags" >
-               <enum>Qt::TextSelectableByKeyboard</enum>
+              <property name="textInteractionFlags">
+               <set>Qt::TextSelectableByKeyboard</set>
               </property>
              </widget>
             </item>
@@ -699,13 +726,13 @@
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
             <height>0</height>
@@ -720,6 +747,13 @@
    </item>
   </layout>
  </widget>
-  <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>KSHelpLabel</class>
+   <extends>QLabel</extends>
+   <header>widgets/kshelplabel.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
  <connections/>
 </ui>

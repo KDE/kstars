@@ -182,6 +182,8 @@ void SkyMapDrawAbstract::drawObjectLabels( QList<SkyObject*>& labelObjects ) {
 
 void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 {
+    Q_UNUSED(psky);
+
     if (!Options::showTargetCrosshair())
         return;
 

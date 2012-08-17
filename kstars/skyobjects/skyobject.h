@@ -100,6 +100,7 @@ public:
      *  for deallocating it. 
      */
     virtual SkyObject* clone() const;
+
     /**
      *@enum TYPE
      *The type classification of the SkyObject.
@@ -109,6 +110,13 @@ public:
                 COMET=9, ASTEROID=10, CONSTELLATION=11, MOON=12, ASTERISM=13, 
                 GALAXY_CLUSTER=14, DARK_NEBULA=15, QUASAR=16, MULT_STAR=17, RADIO_SOURCE=18,
                 SATELLITE=19, SUPERNOVA=20, TYPE_UNKNOWN };
+
+    /**
+     *@return A translated string indicating the type name for a given type number
+     *@param t The type number
+     *@note Note the existence of a SkyObject::typeName( void ) method that is not static and returns the type of this object.
+     */
+    static QString typeName( const int t );
 
     /**
      *@return object's primary name.
@@ -162,7 +170,10 @@ public:
      */
     inline void setType( int t ) { Type = (unsigned char)t; }
 
-    /** *@return a string describing object's type. */
+    /**
+     *@return the type name for this object
+     *@note This just calls the static method by the same name, with the appropriate type number. See SkyObject::typeName( const int )
+     */
     QString typeName() const;
 
     /**

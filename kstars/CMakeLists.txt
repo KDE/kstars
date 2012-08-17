@@ -103,7 +103,6 @@ set(libkstarstools_SRCS
 	tools/eqplotwidget.cpp
 	tools/jmoontool.cpp
 	tools/ksconjunct.cpp
-	tools/lcgenerator.cpp
 	tools/modcalcangdist.cpp
 	tools/modcalcapcoord.cpp
 	tools/modcalcaltaz.cpp
@@ -117,6 +116,7 @@ set(libkstarstools_SRCS
 	tools/modcalcsidtime.cpp
 	tools/modcalcvlsr.cpp
 	tools/observinglist.cpp
+	tools/sessionsortfilterproxymodel.cpp
 	tools/obslistwizard.cpp
 	tools/planetviewer.cpp
 	tools/pvplotwidget.cpp
@@ -167,7 +167,6 @@ kde4_add_ui_files(libkstarstools_SRCS
 	tools/argwaitforkey.ui
 	tools/argzoom.ui
 	tools/conjunctions.ui
-	tools/lcgenerator.ui
 	tools/modcalcangdist.ui
 	tools/modcalcapcoord.ui
 	tools/modcalcaltaz.ui
@@ -232,6 +231,7 @@ set(libkstarscomponents_SRCS
    skycomponents/culturelist.cpp
    skycomponents/flagcomponent.cpp
    skycomponents/targetlistcomponent.cpp
+   skycomponents/notifyupdatesui.cpp
 )
 
 set(libkstarswidgets_SRCS
@@ -249,6 +249,7 @@ set(libkstarswidgets_SRCS
 	widgets/infoboxwidget.cpp
 	widgets/genericcalendarwidget.cpp
 	widgets/moonphasecalendarwidget.cpp
+	widgets/kshelplabel.cpp
 )
 
 kde4_add_ui_files(libkstarswidgets_SRCS
@@ -264,6 +265,7 @@ set(kstars_options_SRCS
   options/opsguides.cpp
   options/opssolarsystem.cpp
   options/opssatellites.cpp
+  options/opssupernovae.cpp
 )
 
 set(kstars_optionsui_SRCS
@@ -273,6 +275,7 @@ set(kstars_optionsui_SRCS
   options/opsguides.ui
   options/opssolarsystem.ui
   options/opssatellites.ui
+  options/opssupernovae.ui
 )
 
 set(kstars_skyobjects_SRCS
@@ -422,7 +425,7 @@ kde4_add_kcfg_files(kstars_SRCS ${kstars_KCFG_SRCS})
 kde4_add_ui_files(kstars_SRCS
        ${indiui_SRCS} ${ekosui_SRCS} ${fitsui_SRCS} ${xplanetui_SRCS} ${kstars_optionsui_SRCS} ${kstars_dialogsui_SRCS}
        ${printingui_SRCS}
-         thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui
+         thumbnailpicker.ui thumbnaileditor.ui oal/observeradd.ui oal/equipmentwriter.ui oal/execute.ui  skycomponents/notifyupdatesui.ui
 )
 
 #kde4_add_app_icon(kstars_SRCS "${KDE4_ICON_DIR}/oxygen/*/apps/kstars.png")

@@ -129,6 +129,7 @@ private:
     float m_catEpoch;
     bool m_Showerrs;
     int m_ccIndex;
+    quint32 updateID;
 
     static QStringList m_Columns;
 };

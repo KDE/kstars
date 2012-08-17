@@ -75,7 +75,7 @@ void MoonPhaseCalendar::computeMoonImageSize() {
     MoonImageSize = ( (cellWidth > cellHeight - 12) ? cellHeight - 12 : cellWidth ) - 2; // FIXME: Using hard-coded fontsize
 }
 
-void MoonPhaseCalendar::setGeometry( int x, int y, int w, int h ) {
+void MoonPhaseCalendar::setGeometry( int, int, int, int ) {
     imagesLoaded = false;
 }
 
@@ -121,9 +121,6 @@ void MoonPhaseCalendar::paintCell( QPainter *painter, int row, int col, const KC
     QFont cellFont = KGlobalSettings::generalFont();
     bool workingDay = false;
     int cellWeekDay, pos;
-    BackgroundMode cellBackgroundMode = RectangleMode;
-
-    //   kDebug() << "In paintCell";
 
     //Calculate the position of the cell in the grid
     pos = numDayColumns * ( row - 1 ) + col;

@@ -69,9 +69,17 @@ ImageViewer::ImageViewer (const KUrl &url, const QString &capText, QWidget *pare
 {
     init(url.fileName(), capText);
     // Add save button
+    setButtons( KDialog::User2 | KDialog::User1 | KDialog::Close );
+
     KGuiItem saveButton( i18n("Save"), "document-save", i18n("Save the image to disk") );
     setButtonGuiItem( KDialog::User1, saveButton );
+
+    // FIXME: Add more options, and do this more nicely
+    KGuiItem invertButton( i18n("Invert colors"), "", i18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving.") );
+    setButtonGuiItem( KDialog::User2, invertButton );
+
     connect( this, SIGNAL( user1Clicked() ), this, SLOT ( saveFileToDisc() ) );
+    connect( this, SIGNAL( user2Clicked() ), this, SLOT ( invertColors() ) );
     // check URL
     if (!m_ImageUrl.isValid())
         kDebug() << "URL is malformed: " << m_ImageUrl;
@@ -100,7 +108,13 @@ void ImageViewer::init(QString caption, QString capText) {
     setAttribute( Qt::WA_DeleteOnClose, true );
     setModal( false );
     setCaption( i18n( "KStars image viewer" ) + QString( " : " ) + caption );
-    setButtons( KDialog::Close );
+    setButtons( KDialog::Close | KDialog::User1);
+
+    // FIXME: Add more options, and do this more nicely
+    KGuiItem invertButton( i18n("Invert colors"), "", i18n("Reverse colors of the image. This is useful to enhance contrast at times. This affects only the display and not the saving.") );
+    setButtonGuiItem( KDialog::User1, invertButton );
+    connect( this, SIGNAL( user1Clicked() ), this, SLOT ( invertColors() ) );
+
 
     // Create widget
     QFrame* page = new QFrame( this );
@@ -242,6 +256,12 @@ void ImageViewer::saveFile (KUrl &url) {
         QString text = i18n ("Saving of the image %1 failed.", url.prettyUrl());
         KMessageBox::error (this, text);
     }
+}
+
+void ImageViewer::invertColors() {
+    // Invert colors
+    m_View->m_Image.invertPixels();
+    m_View->update();
 }
 
 #include "imageviewer.moc"

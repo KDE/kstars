@@ -55,8 +55,8 @@ public:
     	*@param d Declination
     	*/
     SkyPoint( const dms& r, const dms& d ) :
-        RA0(r), Dec0(d),
-        RA(r),  Dec(d)
+    lastPrecessJD( J2000 ), RA0(r), Dec0(d),
+            RA(r),  Dec(d)
     {}
 
     
@@ -64,10 +64,11 @@ public:
      *It behaves essentially like the default constructor.
      *@param r Right Ascension, expressed as a double
      *@param d Declination, expressed as a double
+     *@note This also sets RA0 and Dec0
      */
     //FIXME: this (*15.0) thing is somewhat hacky.
     explicit SkyPoint( double r, double d ) :
-        RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d)
+    lastPrecessJD( J2000 ), RA0(r*15.0), Dec0(d), RA(r*15.0),  Dec(d)
     {}
     
     /**
@@ -90,14 +91,6 @@ public:
      */
     void set( const dms& r, const dms& d );
 
-    /**Overloaded member function, provided for convenience.
-     * It behaves essentially like the above function.
-     * @param r Right Ascension
-     * @param d Declination
-     * @note This function also sets RA0 and Dec0 to the same values, so call at your own peril!
-     */
-    void set( double r, double d );
-    
     /**Sets RA0, the catalog Right Ascension.
     	*@param r catalog Right Ascension.
     	*/
@@ -268,8 +261,9 @@ public:
     	*@param includePlanets does nothing in this implementation (see KSPlanetBase::updateCoords()).
     	*@param lat does nothing in this implementation (see KSPlanetBase::updateCoords()).
     	*@param LST does nothing in this implementation (see KSPlanetBase::updateCoords()).
+        *@param forceRecompute reapplies precession, nutation and aberration even if the time passed since the last computation is not significant.
     	*/
-    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0 );
+    virtual void updateCoords( KSNumbers *num, bool includePlanets=true, const dms *lat=0, const dms *LST=0, bool forceRecompute = false );
 
     /**Computes the apparent coordinates for this SkyPoint for any epoch,
     	*accounting for the effects of precession, nutation, and aberration.
@@ -487,12 +481,39 @@ public:
     /** Calculate refraction correction. Parameter and return value are in degrees */
     static double refractionCorr( double alt );
 
-    /** Apply refraction correction to altitude. */
-    static dms refract(dms h);
+    /**
+     * @short Apply refraction correction to altitude.
+     * @param alt altitude to be corrected, in degrees
+     * @return altitude after refraction correction, in degrees
+     */
+    static double refract(const double alt);
 
-    /** Remove refraction correction. */
-    static dms unrefract(dms h);
+    /**
+     * @short Remove refraction correction.
+     * @param alt altitude from which refraction correction must be removed, in degrees
+     * @return altitude without refraction correction, in degrees
+     */
+    static double unrefract(const double alt);
 
+    /**
+     * @short Apply refraction correction to altitude. Overloaded method using
+     * dms provided for convenience
+     * @see SkyPoint::refract( const double alt )
+     */
+    static inline dms refract(const dms alt) { return dms( refract( alt.Degrees() ) ); }
+
+    /**
+     * @short Remove refraction correction. Overloaded method using
+     * dms provided for convenience
+     * @see SkyPoint::unrefract( const double alt )
+     */
+    static inline dms unrefract(const dms alt) { return dms( unrefract( alt.Degrees() ) ); }
+
+    /**
+     *@short Critical height for atmospheric refraction
+     * corrections. Below this, the height formula produces meaningles
+     * results and the correction value is just interpolated.
+     */
     static const double altCrit;
 
 protected:

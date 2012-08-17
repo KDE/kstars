@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>modCalcAngDistDlg</class>
- <widget class="QWidget" name="modCalcAngDistDlg" >
-  <property name="geometry" >
+ <widget class="QWidget" name="modCalcAngDistDlg">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,74 +10,66 @@
     <height>503</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Angular Distance</string>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
+  <layout class="QVBoxLayout">
+   <property name="spacing">
     <number>6</number>
    </property>
-   <property name="margin" >
+   <property name="margin">
     <number>9</number>
    </property>
    <item>
-    <widget class="KTabWidget" name="tabWidget3" >
-     <property name="currentIndex" >
-      <number>0</number>
+    <widget class="KTabWidget" name="tabWidget3">
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <widget class="QWidget" name="interact" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>464</width>
-        <height>447</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="interact">
+      <attribute name="title">
        <string>Interactive Mode</string>
       </attribute>
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="margin" >
+       <property name="margin">
         <number>9</number>
        </property>
        <item>
-        <layout class="QHBoxLayout" >
-         <property name="spacing" >
+        <layout class="QHBoxLayout">
+         <property name="spacing">
           <number>6</number>
          </property>
-         <property name="margin" >
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
-          <widget class="QGroupBox" name="FirstPositionBox" >
-           <property name="title" >
+          <widget class="QGroupBox" name="FirstPositionBox">
+           <property name="title">
             <string>First position</string>
            </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
+           <layout class="QGridLayout">
+            <property name="margin">
              <number>9</number>
             </property>
-            <property name="spacing" >
+            <property name="spacing">
              <number>6</number>
             </property>
-            <item row="2" column="0" colspan="2" >
-             <layout class="QHBoxLayout" >
-              <property name="spacing" >
+            <item row="2" column="0" colspan="2">
+             <layout class="QHBoxLayout">
+              <property name="spacing">
                <number>6</number>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>0</number>
               </property>
               <item>
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>31</width>
                   <height>20</height>
@@ -85,18 +78,18 @@
                </spacer>
               </item>
               <item>
-               <widget class="KPushButton" name="FirstObjectButton" >
-                <property name="text" >
+               <widget class="KPushButton" name="FirstObjectButton">
+                <property name="text">
                  <string>Select object...</string>
                 </property>
                </widget>
               </item>
               <item>
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -106,12 +99,12 @@
               </item>
              </layout>
             </item>
-            <item row="1" column="1" >
-             <widget class="dmsBox" name="FirstDec" />
+            <item row="1" column="1">
+             <widget class="dmsBox" name="FirstDec"/>
             </item>
-            <item row="0" column="1" >
-             <widget class="dmsBox" name="FirstRA" >
-              <property name="minimumSize" >
+            <item row="0" column="1">
+             <widget class="dmsBox" name="FirstRA">
+              <property name="minimumSize">
                <size>
                 <width>90</width>
                 <height>0</height>
@@ -119,16 +112,16 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="dec0Label" >
-              <property name="text" >
+            <item row="1" column="0">
+             <widget class="QLabel" name="dec0Label">
+              <property name="text">
                <string>Declination:</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="ra0Label" >
-              <property name="text" >
+            <item row="0" column="0">
+             <widget class="QLabel" name="ra0Label">
+              <property name="text">
                <string>Right ascension:</string>
               </property>
              </widget>
@@ -137,31 +130,31 @@
           </widget>
          </item>
          <item>
-          <widget class="QGroupBox" name="SecondPositionBox" >
-           <property name="title" >
+          <widget class="QGroupBox" name="SecondPositionBox">
+           <property name="title">
             <string>Second position</string>
            </property>
-           <layout class="QGridLayout" >
-            <property name="margin" >
+           <layout class="QGridLayout">
+            <property name="margin">
              <number>9</number>
             </property>
-            <property name="spacing" >
+            <property name="spacing">
              <number>6</number>
             </property>
-            <item row="2" column="0" colspan="2" >
-             <layout class="QHBoxLayout" >
-              <property name="spacing" >
+            <item row="2" column="0" colspan="2">
+             <layout class="QHBoxLayout">
+              <property name="spacing">
                <number>6</number>
               </property>
-              <property name="margin" >
+              <property name="margin">
                <number>0</number>
               </property>
               <item>
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -170,18 +163,18 @@
                </spacer>
               </item>
               <item>
-               <widget class="KPushButton" name="SecondObjectButton" >
-                <property name="text" >
+               <widget class="KPushButton" name="SecondObjectButton">
+                <property name="text">
                  <string>Select object...</string>
                 </property>
                </widget>
               </item>
               <item>
                <spacer>
-                <property name="orientation" >
+                <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
-                <property name="sizeHint" stdset="0" >
+                <property name="sizeHint" stdset="0">
                  <size>
                   <width>40</width>
                   <height>20</height>
@@ -191,12 +184,12 @@
               </item>
              </layout>
             </item>
-            <item row="1" column="1" >
-             <widget class="dmsBox" name="SecondDec" />
+            <item row="1" column="1">
+             <widget class="dmsBox" name="SecondDec"/>
             </item>
-            <item row="0" column="1" >
-             <widget class="dmsBox" name="SecondRA" >
-              <property name="minimumSize" >
+            <item row="0" column="1">
+             <widget class="dmsBox" name="SecondRA">
+              <property name="minimumSize">
                <size>
                 <width>90</width>
                 <height>0</height>
@@ -204,16 +197,16 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0" >
-             <widget class="QLabel" name="dec1Label" >
-              <property name="text" >
+            <item row="1" column="0">
+             <widget class="QLabel" name="dec1Label">
+              <property name="text">
                <string>Declination:</string>
               </property>
              </widget>
             </item>
-            <item row="0" column="0" >
-             <widget class="QLabel" name="ra1Label" >
-              <property name="text" >
+            <item row="0" column="0">
+             <widget class="QLabel" name="ra1Label">
+              <property name="text">
                <string>Right ascension:</string>
               </property>
              </widget>
@@ -225,13 +218,13 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Fixed</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>20</height>
@@ -240,22 +233,22 @@
         </spacer>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
-         <property name="spacing" >
+        <layout class="QHBoxLayout">
+         <property name="spacing">
           <number>6</number>
          </property>
-         <property name="margin" >
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>102</width>
              <height>20</height>
@@ -264,15 +257,15 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="AngDistLabel" >
-           <property name="text" >
+          <widget class="QLabel" name="AngDistLabel">
+           <property name="text">
             <string>Angular distance:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="AngDist" >
-           <property name="font" >
+          <widget class="QLabel" name="AngDist">
+           <property name="font">
             <font>
              <family>Monospace</family>
              <pointsize>12</pointsize>
@@ -280,23 +273,23 @@
              <bold>true</bold>
             </font>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>00:00:00</string>
            </property>
-           <property name="textInteractionFlags" >
+           <property name="textInteractionFlags">
             <set>Qt::TextSelectableByMouse</set>
            </property>
           </widget>
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>70</width>
              <height>20</height>
@@ -308,13 +301,13 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>21</width>
            <height>171</height>
@@ -324,81 +317,73 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="batch" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>840</width>
-        <height>420</height>
-       </rect>
-      </property>
-      <attribute name="title" >
+     <widget class="QWidget" name="batch">
+      <attribute name="title">
        <string>Batch Mode</string>
       </attribute>
-      <layout class="QVBoxLayout" >
-       <property name="spacing" >
+      <layout class="QVBoxLayout">
+       <property name="spacing">
         <number>6</number>
        </property>
-       <property name="margin" >
+       <property name="margin">
         <number>8</number>
        </property>
        <item>
-        <widget class="QGroupBox" name="groupBox" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
           <string>Select Fields in Input File</string>
          </property>
-         <layout class="QHBoxLayout" >
-          <property name="spacing" >
+         <layout class="QHBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin" >
+          <property name="margin">
            <number>8</number>
           </property>
           <item>
-           <layout class="QVBoxLayout" >
-            <property name="spacing" >
+           <layout class="QVBoxLayout">
+            <property name="spacing">
              <number>6</number>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>0</number>
             </property>
             <item>
-             <widget class="QCheckBox" name="ra0CheckBatch" >
-              <property name="text" >
+             <widget class="QCheckBox" name="ra0CheckBatch">
+              <property name="text">
                <string>Initial right ascension:</string>
               </property>
-              <property name="checked" >
+              <property name="checked">
                <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="dec0CheckBatch" >
-              <property name="text" >
+             <widget class="QCheckBox" name="dec0CheckBatch">
+              <property name="text">
                <string>Initial declination:</string>
               </property>
-              <property name="checked" >
+              <property name="checked">
                <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="ra1CheckBatch" >
-              <property name="text" >
+             <widget class="QCheckBox" name="ra1CheckBatch">
+              <property name="text">
                <string>Final right ascension:</string>
               </property>
-              <property name="checked" >
+              <property name="checked">
                <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="dec1CheckBatch" >
-              <property name="text" >
+             <widget class="QCheckBox" name="dec1CheckBatch">
+              <property name="text">
                <string>Final declination:</string>
               </property>
-              <property name="checked" >
+              <property name="checked">
                <bool>true</bool>
               </property>
              </widget>
@@ -406,24 +391,24 @@
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" >
-            <property name="spacing" >
+           <layout class="QVBoxLayout">
+            <property name="spacing">
              <number>6</number>
             </property>
-            <property name="margin" >
+            <property name="margin">
              <number>0</number>
             </property>
             <item>
-             <widget class="dmsBox" name="ra0BoxBatch" />
+             <widget class="dmsBox" name="ra0BoxBatch"/>
             </item>
             <item>
-             <widget class="dmsBox" name="dec0BoxBatch" />
+             <widget class="dmsBox" name="dec0BoxBatch"/>
             </item>
             <item>
-             <widget class="dmsBox" name="ra1BoxBatch" />
+             <widget class="dmsBox" name="ra1BoxBatch"/>
             </item>
             <item>
-             <widget class="dmsBox" name="dec1BoxBatch" />
+             <widget class="dmsBox" name="dec1BoxBatch"/>
             </item>
            </layout>
           </item>
@@ -431,30 +416,30 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_2" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
           <string>Fields in Output File Plus Result</string>
          </property>
-         <layout class="QHBoxLayout" >
-          <property name="spacing" >
+         <layout class="QHBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="margin" >
+          <property name="margin">
            <number>8</number>
           </property>
           <item>
-           <widget class="QRadioButton" name="allRadioBatch" >
-            <property name="text" >
+           <widget class="QRadioButton" name="allRadioBatch">
+            <property name="text">
              <string>All parameters</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="inputRadioBatch" >
-            <property name="text" >
+           <widget class="QRadioButton" name="inputRadioBatch">
+            <property name="text">
              <string>Only parameters in input file</string>
             </property>
-            <property name="checked" >
+            <property name="checked">
              <bool>true</bool>
             </property>
            </widget>
@@ -463,33 +448,33 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox_4" >
-         <property name="title" >
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
           <string>Files</string>
          </property>
-         <layout class="QGridLayout" >
-          <property name="margin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>8</number>
           </property>
-          <property name="spacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <item row="0" column="1" >
-           <widget class="KUrlRequester" name="InputLineEditBatch" />
+          <item row="0" column="1">
+           <widget class="KUrlRequester" name="InputLineEditBatch"/>
           </item>
-	  <item row="1" column="1" >
-           <widget class="KUrlRequester" name="OutputLineEditBatch" />
+          <item row="1" column="1">
+           <widget class="KUrlRequester" name="OutputLineEditBatch"/>
           </item>
-	  <item row="0" column="0" >
-           <widget class="QLabel" name="label_3" >
-            <property name="text" >
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
              <string>Input File:</string>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="label_4" >
-            <property name="text" >
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
              <string>Output File:</string>
             </property>
            </widget>
@@ -498,22 +483,22 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" >
-         <property name="spacing" >
+        <layout class="QHBoxLayout">
+         <property name="spacing">
           <number>6</number>
          </property>
-         <property name="margin" >
+         <property name="margin">
           <number>0</number>
          </property>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>151</width>
              <height>21</height>
@@ -522,27 +507,27 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="runButtonBatch" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+          <widget class="KPushButton" name="runButtonBatch">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="text" >
+           <property name="text">
             <string>Run</string>
            </property>
           </widget>
          </item>
          <item>
           <spacer>
-           <property name="orientation" >
+           <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>131</width>
              <height>21</height>
@@ -554,13 +539,13 @@
        </item>
        <item>
         <spacer>
-         <property name="orientation" >
+         <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
-         <property name="sizeType" >
+         <property name="sizeType">
           <enum>QSizePolicy::Expanding</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
            <height>21</height>
@@ -586,6 +571,11 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+  <customwidget>
    <class>KTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
@@ -606,19 +596,17 @@
   <tabstop>SecondDec</tabstop>
   <tabstop>SecondObjectButton</tabstop>
   <tabstop>ra0CheckBatch</tabstop>
-  <tabstop>dec0CheckBatch</tabstop>
-  <tabstop>ra1CheckBatch</tabstop>
-  <tabstop>dec1CheckBatch</tabstop>
   <tabstop>ra0BoxBatch</tabstop>
+  <tabstop>dec0CheckBatch</tabstop>
   <tabstop>dec0BoxBatch</tabstop>
+  <tabstop>ra1CheckBatch</tabstop>
   <tabstop>ra1BoxBatch</tabstop>
+  <tabstop>dec1CheckBatch</tabstop>
   <tabstop>dec1BoxBatch</tabstop>
   <tabstop>allRadioBatch</tabstop>
   <tabstop>inputRadioBatch</tabstop>
-  <tabstop>OutputLineEditBatch</tabstop>
-  <tabstop>InputButtonBatch</tabstop>
-  <tabstop>OutputButtonBatch</tabstop>
   <tabstop>InputLineEditBatch</tabstop>
+  <tabstop>OutputLineEditBatch</tabstop>
   <tabstop>runButtonBatch</tabstop>
  </tabstops>
  <resources/>

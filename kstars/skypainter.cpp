@@ -42,11 +42,6 @@ SkyPainter::~SkyPainter()
 
 }
 
-SkyMap* SkyPainter::skyMap() const
-{
-    return m_sm;
-}
-
 void SkyPainter::setSizeMagLimit(float sizeMagLim)
 {
     m_sizeMagLim = sizeMagLim;

@@ -160,8 +160,6 @@ public:
 
     GeoLocation *locationNamed( const QString &city, const QString &province=QString(), const QString &country= QString() );
 
-    QString typeName( int );
-
     /**Set the GeoLocation according to the argument.
      * @param l reference to the new GeoLocation
      */
@@ -369,8 +367,6 @@ private:
     KStarsDateTime NextDSTChange;
     // FIXME: Used in kstarsdcop.cpp only
     KStarsDateTime StoredDate;
-
-    QString TypeName[19];
 
     QList<GeoLocation*> geoList;
     QMap<QString, TimeZoneRule> Rulebook;

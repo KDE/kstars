@@ -56,8 +56,6 @@ public:
 
     QString constellationName( SkyPoint *p );
 
-    const QPolygonF* constellationPoly( SkyPoint *p );
-
     virtual bool selected();
 
     virtual void preDraw( SkyPainter *skyp );

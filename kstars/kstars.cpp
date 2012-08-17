@@ -52,16 +52,14 @@
 
 KStars *KStars::pinstance = 0;
 
-KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
-        KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
-        colorActionMenu(0), fovActionMenu(0),
-        AAVSODialog(0), findDialog(0), imgExportDialog(0), obsList(0),
-        execute(0),
-        avt(0), wut(0), skycal(0),
-    sb(0), pv(0), jmt(0), fm(0), astrocalc(0), printingWizard(0),
-        /*indiseq(0), ekosmenu(0), DialogIsObsolete(false), StartClockRunning( clockrun ),*/
-    DialogIsObsolete(false), StartClockRunning( clockrun ),
-        StartDateString( startdate )
+KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
+    : KXmlGuiWindow(), kstarsData(0), skymap(0), TimeStep(0),
+      colorActionMenu(0), fovActionMenu(0), findDialog(0),
+      imgExportDialog(0), obsList(0), execute(0),
+      avt(0), wut(0), skycal(0), sb(0), pv(0), jmt(0),
+      fm(0), astrocalc(0), printingWizard(0),
+      DialogIsObsolete(false), StartClockRunning( clockrun ),
+      StartDateString( startdate )
 {
     new KstarsAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/KStars",  this);
@@ -108,6 +106,7 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate ) :
     DarkPalette.setColor( QPalette::Normal, QPalette::Text, QColor( 238, 0, 0 ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::Highlight, QColor( 238, 0, 0 ) );
     DarkPalette.setColor( QPalette::Normal, QPalette::HighlightedText, QColor( "black" ) );
+    DarkPalette.setColor( QPalette::Inactive, QPalette::Text, QColor( 238, 0, 0 ) );
     //store original color scheme
     OriginalPalette = QApplication::palette();
 
@@ -189,6 +188,7 @@ void KStars::applyConfig( bool doApplyFocus ) {
     actionCollection()->action("show_horizontal_grid" )->setChecked( Options::showHorizontalGrid() );
     actionCollection()->action("show_horizon"         )->setChecked( Options::showGround() );
     actionCollection()->action("show_flags"           )->setChecked( Options::showFlags() );
+    actionCollection()->action("show_supernovae"      )->setChecked( Options::showSupernovae() );
     statusBar()->setVisible( Options::showStatusBar() );
 
     //color scheme

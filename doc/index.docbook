@@ -51,8 +51,10 @@
   <!ENTITY skycoords SYSTEM "skycoords.docbook">
   <!ENTITY spiralgal SYSTEM "spiralgalaxies.docbook">
   <!ENTITY stars SYSTEM "stars.docbook">
+  <!ENTITY telescopes SYSTEM "telescopes.docbook">
   <!ENTITY timezones SYSTEM "timezones.docbook">
-  <!ENTITY tool-aavso SYSTEM "lightcurves.docbook">
+  <!--  <!ENTITY tool-aavso SYSTEM "lightcurves.docbook"> 
+  removed after 4.9, see http://commits.kde.org/kstars/c8dd5af7bff7f738ce2b6ab68bdb46e9125bde7d-->
   <!ENTITY tool-altvstime SYSTEM "altvstime.docbook">
   <!ENTITY tool-calculator SYSTEM "calculator.docbook">
   <!ENTITY tool-details SYSTEM "details.docbook">
@@ -60,7 +62,7 @@
   <!ENTITY tool-scriptbuilder SYSTEM "scriptbuilder.docbook">
   <!ENTITY tool-solarsys SYSTEM "solarsys.docbook">
   <!ENTITY tool-jmoons SYSTEM "jmoons.docbook">
-  <!ENTITY tool-observinglist SYSTEM "observinglist.docbook">
+  <!ENTITY tool-obsplanner SYSTEM "obsplanner.docbook">
   <!ENTITY tool-fitsviewer SYSTEM "fitsviewer.docbook">
   <!ENTITY tools SYSTEM "tools.docbook">
   <!ENTITY utime SYSTEM "utime.docbook">
@@ -156,8 +158,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2011-08-10</date>
-<releaseinfo>2.0.0 (&kde; 4.7)</releaseinfo>
+<date>2012-08-12</date>
+<releaseinfo>2.0.0 (&kde; 4.9)</releaseinfo>
 
 <abstract>
 <para>
@@ -219,12 +221,12 @@ front-end to your observing logs and your personal astronomical notebook.
 Our <link linkend="tool-calculator">Astrocalculator</link> tool
 provides direct access to many of the algorithms the program uses
 behind the scenes, including coordinate converters and time
-calculators.  The <link linkend="tool-aavso">AAVSO Lightcurve
+calculators.  <!--The <link linkend="tool-aavso">AAVSO Lightcurve
 Generator</link> tool will download a lightcurve for any of the 6000+
 variable stars monitored by the American Association of Variable Star
 Observers (AAVSO).  The lightcurves are generated <quote>on the
 fly</quote> by querying the AAVSO server directly, ensuring that you
-have the very latest data points.
+  have the very latest data points.-->
 </para>
 <para>
 You can plan an observing session using our <link
@@ -233,9 +235,10 @@ plot curves representing the Altitude as a function of time for any
 group of objects.  If that is too much detail, we also provide a
 <link linkend="tool-whatsup">What's Up Tonight?</link> tool that
 summarizes the objects that you will be able to see from your location
-on any given night.  You can add your favorite objects to the <link
-linkend="tool-observinglist">Observing List</link> tool, which 
-provides convenient access to common actions for a list of objects.
+on any given night.  You can add your favorite objects to your
+observing wish-list using
+the <link linkend="tool-obsplanner">Observation Planner</link> tool,
+which allows you to plan your observation sessions professionally.
 </para>
 <para>
 &kstars; also provides a <link linkend="tool-solarsys">Solar System
