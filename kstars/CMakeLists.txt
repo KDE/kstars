@@ -41,7 +41,6 @@ if (INDI_FOUND)
   set(indiui_SRCS
     indi/devmanager.ui
     indi/drivermanager.ui
-    indi/imgsequencedlg.ui
     indi/opsindi.ui
     indi/indihostconf.ui
     indi/streamform.ui
