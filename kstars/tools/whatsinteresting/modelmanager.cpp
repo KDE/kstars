@@ -36,7 +36,7 @@ ModelManager::ModelManager(ObsConditions *obs)
     initobjects["Constellation"] = QList<SkyObject *>();
     initobjects["Cluster"] = QList<SkyObject *>();
     initobjects["Nebula"] = QList<SkyObject *>();
-    updateModels();
+    updateModels(obs);
 }
 
 ModelManager::~ModelManager()
@@ -49,8 +49,12 @@ ModelManager::~ModelManager()
     delete nebModel;
 }
 
-void ModelManager::updateModels()
+void ModelManager::updateModels(ObsConditions *obs)
 {
+    obsconditions = obs;
+    initobjects.clear();
+    resetModels();
+
     KStarsData *data = KStarsData::Instance();
 
     KSFileReader fileReader;
@@ -142,6 +146,16 @@ void ModelManager::updateModels()
             planetsModel->addSkyObject(new SkyObjItem(so));
         }
     }
+}
+
+void ModelManager::resetModels()
+{
+    planetsModel->resetModel();
+    starsModel->resetModel();
+    conModel->resetModel();
+    galModel->resetModel();
+    clustModel->resetModel();
+    nebModel->resetModel();
 }
 
 SkyObjListModel* ModelManager::returnModel(int type)

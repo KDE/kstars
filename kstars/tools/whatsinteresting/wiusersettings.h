@@ -39,6 +39,7 @@ private:
     void makeConnections();
     ObsConditions::Equipment eq;
     ObsConditions::EquipmentType type;
+    WIView *m_WI;
 };
 
 #endif

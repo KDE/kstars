@@ -24,7 +24,8 @@ class ModelManager
 public:
     ModelManager(ObsConditions *obs);
     ~ModelManager();
-    void updateModels();
+    void updateModels(ObsConditions *obs);
+    void resetModels();
 
     SkyObjListModel *returnModel (int type);
 

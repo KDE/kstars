@@ -19,6 +19,7 @@
 #include "wiusersettings.h"
 #include "wiview.h"
 #include "obsconditions.h"
+#include "kstars.h"
 #include "kdebug.h"
 
 WIUserSettings::WIUserSettings(QWidget *parent, Qt::WindowFlags flags): QWizard(parent, flags)
@@ -42,11 +43,10 @@ void WIUserSettings::slotFinished(int)
             ? (binocularsCheck->isChecked() ? ObsConditions::Both : ObsConditions::Telescope)
             : (binocularsCheck->isChecked() ? ObsConditions::Binoculars : ObsConditions::None));
 
-
     type = (equipmentType->currentText()=="Reflector") ? ObsConditions::Reflector : ObsConditions::Refractor;
 
-    kDebug()<<bortleClass->value()<<eq<<aperture->value()<<type;
-    WIView *wi = new WIView(0, new ObsConditions(bortleClass->value(), aperture->value(), eq, type));
+    KStars *kstars = KStars::Instance();
+    kstars->showWI(new ObsConditions(bortleClass->value(), aperture->value(), eq, type));
 }
 
 void WIUserSettings::slotTelescopeCheck(bool on)

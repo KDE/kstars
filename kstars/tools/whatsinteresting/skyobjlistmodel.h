@@ -32,6 +32,7 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     QList<SkyObjItem *> getSkyObjItems();
     SkyObjItem *getSkyObjItem(int index);
+    void resetModel();
 
 private:
     QList<SkyObjItem *> soItemList;

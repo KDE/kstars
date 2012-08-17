@@ -28,15 +28,13 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
 
     m = new ModelManager(obs);
 
-    KStars *kstars = KStars::Instance();
+    m_BaseView = new QDeclarativeView();
 
-    QDeclarativeView *baseView = new QDeclarativeView();
+    ctxt = m_BaseView->rootContext();
 
-    ctxt = baseView->rootContext();
+    m_BaseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml"));
 
-    baseView->setSource(KStandardDirs::locate("appdata","tools/whatsinteresting/qml/wiview.qml"));
-
-    m_BaseObj = dynamic_cast<QObject *>(baseView->rootObject());
+    m_BaseObj = dynamic_cast<QObject *>(m_BaseView->rootObject());
 
     //soTypeTextObj = m_BaseObj->findChild<QObject *>("soTypeTextObj");
 
@@ -59,9 +57,8 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent)
     m_DetailsButtonObj = m_BaseObj->findChild<QObject *>("detailsButtonObj");
     connect(m_DetailsButtonObj, SIGNAL(detailsButtonClicked()), this, SLOT(onDetailsButtonClicked()));
 
-    baseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    baseView->show();
-    kstars->setWIView(baseView);
+    m_BaseView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    m_BaseView->show();
 }
 
 WIView::~WIView()

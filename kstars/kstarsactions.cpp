@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QDialog>
+#include <QDockWidget>
 
 #include <kdebug.h>
 #include <kaction.h>
@@ -74,6 +75,7 @@
 #include "tools/astrocalc.h"
 #include "tools/altvstime.h"
 #include "tools/wutdialog.h"
+#include "tools/whatsinteresting/wiview.h"
 #include "tools/whatsinteresting/wiusersettings.h"
 #include "tools/skycalendar.h"
 #include "tools/scriptbuilder.h"
@@ -277,8 +279,9 @@ void KStars::slotWUT() {
 }
 
 void KStars::slotWI() {
-    if (! wi ) wi = new WIUserSettings(this);
-    wi->show();
+    if ( ! wiWiz ) wiWiz = new WIUserSettings(this);
+    if ( wiDock && wiDock->isVisible() ) return;
+    wiWiz->show();
 }
 
 void KStars::slotCalendar() {

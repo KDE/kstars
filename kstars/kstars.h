@@ -44,7 +44,9 @@ class INDIDriver;
 class imagesequence;
 class AltVsTime;
 class WUTDialog;
+class WIView;
 class WIUserSettings;
+class ObsConditions;
 class AstroCalc;
 class SkyCalendar;
 class ScriptBuilder;
@@ -173,7 +175,7 @@ public:
 
     void selectPreviousFov();
 
-    void setWIView(QDeclarativeView *wiBaseView);
+    void showWI(ObsConditions *obs);
 
 public Q_SLOTS:
     /**DBUS interface function.
@@ -655,7 +657,9 @@ private:
     Execute *execute;
     AltVsTime *avt;
     WUTDialog *wut;
-    WIUserSettings *wi;
+    WIView *wi;
+    WIUserSettings *wiWiz;
+    QDockWidget *wiDock;
     SkyCalendar *skycal;
     ScriptBuilder *sb;
     PlanetViewer *pv;

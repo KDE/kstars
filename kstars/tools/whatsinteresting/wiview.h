@@ -57,6 +57,10 @@ public:
       */
     void loadDetailsView(SkyObjItem* soitem, int index);
 
+    inline void updateModels(ObsConditions *obs) { m->updateModels(obs); }
+
+    inline QDeclarativeView *getWIBaseView() const { return m_BaseView; }
+
 public slots:
 
     /**
@@ -99,6 +103,7 @@ private:
     QObject *m_BaseObj, *m_ViewsRowObj, *m_SoListObj, *m_DetailsViewObj,
             *m_NextObj, *m_PrevObj, *m_SlewButtonObj, *m_DetailsButtonObj;
     QDeclarativeContext *ctxt;
+    QDeclarativeView *m_BaseView;
     ModelManager *m;
     SkyObjItem *m_CurSoItem;  ///Current sky-object item.
     int m_CurIndex;           ///Index of current sky-object item in details-view.

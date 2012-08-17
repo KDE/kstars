@@ -53,3 +53,8 @@ SkyObjItem* SkyObjListModel::getSkyObjItem(int index)
 {
     return soItemList[index];
 }
+
+void SkyObjListModel::resetModel()
+{
+    soItemList.clear();
+}
