@@ -21,6 +21,7 @@
 
 #include "listcomponent.h"
 #include "Options.h"
+#include "datahandlers/ksparser.h"
 
 //JH: TODO: this class should only contain one custom catalog.
 
@@ -129,7 +130,7 @@ private:
                                 int &iStart, bool showerrs, QStringList &errs);
 
     // TODO(spacetime): Documentation !!
-//     bool parseHeaderData(
+    QList< QPair< QString, KSParser::DataTypes > > buildParserSequence(const QStringList& Columns);
     
     QString m_Filename;
     QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;

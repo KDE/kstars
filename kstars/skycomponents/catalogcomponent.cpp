@@ -72,9 +72,21 @@ void CatalogComponent::loadData() {
         QTextStream stream( &ccFile );
         QStringList lines = stream.readAll().split( '\n', QString::SkipEmptyParts );
 
-        if ( !parseCustomDataHeader( lines, Columns, iStart, m_Showerrs, errs ) )
+        if ( !parseCustomDataHeader( lines, Columns, iStart, m_Showerrs, errs ) ) {
             kWarning() << "Incorrect header in catalog file: " << m_Filename;
-    
+            return;
+        }
+        
+        /*
+         * Now 'Columns' should be a StringList of the Header contents
+         * Hence, we 1) Convert the Columns to a KSParser compatible format
+         *           2) Use KSParser to read stuff
+         */
+        
+        //Part 1) Conversion to KSParser compatible format
+        QList< QPair<QString, KSParser::DataTypes> > sequence = 
+                                            buildParserSequence(Columns);
+        return;
     /* NEW CODE ENDS */
 /*    QFile ccFile( m_Filename );
 
@@ -507,7 +519,8 @@ bool CatalogComponent::processCustomDataLine(int lnum, const QStringList &d, con
     else {
         // FIXME: What should we do?
         // FIXME: This warning will be printed for each line in the catalog rather than once for the entire catalog
-        kWarning() << "Unknown epoch while dealing with custom catalog. Will ignore the epoch and assume J2000.0";
+        kWarning() << "Unknown epoch while dealing with custom catalog."
+                      "Will ignore the epoch and assume J2000.0";
     }
     RA = t.ra();
     Dec = t.dec();
@@ -531,4 +544,45 @@ bool CatalogComponent::processCustomDataLine(int lnum, const QStringList &d, con
         objectNames(iType).append( lname );
 
     return true;
+}
+
+
+QList< QPair<QString, KSParser::DataTypes> > CatalogComponent::
+                              buildParserSequence(const QStringList& Columns)
+{
+    QList< QPair<QString, KSParser::DataTypes> > sequence;
+    QStringList::const_iterator iter = Columns.begin();
+
+    while (iter != Columns.end()) {
+    // Available Types: ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig
+      KSParser::DataTypes current_type;
+
+      if (*iter == QString("ID"))
+          current_type = KSParser::D_QSTRING;
+      else if (*iter == QString("RA"))
+          current_type = KSParser::D_DOUBLE;
+      else if (*iter == QString("Dc"))
+          current_type = KSParser::D_DOUBLE;
+      else if (*iter == QString("Tp"))
+          current_type = KSParser::D_INT;
+      else if (*iter == QString("Nm"))
+          current_type = KSParser::D_QSTRING;
+      else if (*iter == QString("Mg"))
+          current_type = KSParser::D_FLOAT;
+      else if (*iter == QString("Flux"))
+          current_type = KSParser::D_FLOAT;
+      else if (*iter == QString("Mj"))
+          current_type = KSParser::D_FLOAT;
+      else if (*iter == QString("Mn"))
+          current_type = KSParser::D_FLOAT;
+      else if (*iter == QString("PA"))
+          current_type = KSParser::D_FLOAT;
+      else if (*iter == QString("Ig"))
+          current_type = KSParser::D_SKIP;
+
+      sequence.append(qMakePair(*iter, current_type));
+      ++iter;
+    }
+
+    return sequence;
 }
