@@ -1,5 +1,5 @@
 /***************************************************************************
-                          DSOHandler.cpp  -  K Desktop Planetarium
+                catalogDB.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2012/03/08
     copyright            : (C) 2012 by Rishab Arora
@@ -15,9 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "dsohandler.h"
+#include "catalogdb.h"
 
-bool DSOHandler::Initialize() {
+bool CatalogDB::Initialize() {
     skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
     QString dbfile = KStandardDirs::locateLocal("data", "skyobjects.db");
     QFile testdb(dbfile);
@@ -40,12 +40,37 @@ bool DSOHandler::Initialize() {
     return true;
 }
 
-DSOHandler::~DSOHandler() {
+CatalogDB::~CatalogDB() {
     skydb_.close();
     QSqlDatabase::removeDatabase("skydb");
 }
 
-QSqlError DSOHandler::LastError() {
+QSqlError CatalogDB::LastError() {
     // error description is in QSqlError::text()
     return skydb_.lastError();
+}
+
+QStringList* CatalogDB::Catalogs() {
+    RefreshCatalogList();
+    return &catalog_list_;
+}
+
+void CatalogDB::RefreshCatalogList()
+{  
+    catalog_list_.clear();
+    skydb_.open();
+    QSqlTableModel catalog(0, skydb_);    
+    catalog.setTable("Catalog");
+    catalog.select();
+
+    for (int i =0; i < catalog.rowCount(); ++i) {
+        QSqlRecord record = catalog.record(i);
+        // TODO(spacetime): complete list!
+        QString name = record.value("Name").toString();
+        QString prefix = record.value("Prefix").toString();
+        
+    }
+
+    catalog.clear();
+    skydb_.close();
 }

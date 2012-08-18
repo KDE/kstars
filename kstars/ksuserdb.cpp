@@ -354,7 +354,7 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor, const QStri
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
-    equip.setFilter("id = "+id);
+    equip.setFilter("id = " + id);
     equip.select();
 
     if (equip.rowCount() > 0) {

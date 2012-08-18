@@ -1,5 +1,5 @@
 /***************************************************************************
-                          DSOHandler.cpp  -  K Desktop Planetarium
+                catalogDB.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2012/03/08
     copyright            : (C) 2012 by Rishab Arora
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef DSOHANDLER_H
-#define DSOHANDLER_H
+#ifndef CATALOGDB_H
+#define CATALOGDB_H
 
 #include <kstandarddirs.h>
 #include <klocale.h>
@@ -39,13 +39,16 @@
  *    
  */
 
-class DSOHandler
+class CatalogDB
 {
-     bool Initialize();
-    ~KSUserDB();
+  bool Initialize();
+  ~CatalogDB();
+  QStringList* Catalogs();
+  void RefreshCatalogList();
 private:
   QSqlDatabase skydb_;
   QSqlError LastError();
+  QStringList catalog_list_;
 };
 
-#endif // DSOHANDLER_H
+#endif // CATALOGDB_H

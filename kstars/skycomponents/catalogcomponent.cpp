@@ -51,18 +51,15 @@ CatalogComponent::~CatalogComponent()
 //TODO(spacetime): Load from DB
 //TODO(spacetime): Remove previous code
 
-void CatalogComponent::loadData() {
-    emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
-
+bool CatalogComponent::addCatalogContents(const QString& fname) {
     QDir::setCurrent( QDir::homePath() );  //for files with relative path
-
+    QString filename = fname;
     //If the filename begins with "~", replace the "~" with the user's home directory
     //(otherwise, the file will not successfully open)
-    if ( m_Filename.at(0)=='~' )
-        m_Filename = QDir::homePath() + m_Filename.mid( 1, m_Filename.length() );
-    
-    /* NEW CODE BEGINS (spacetime) */
-    QFile ccFile( m_Filename );
+    if ( filename.at(0)=='~' )
+        filename = QDir::homePath() + filename.mid( 1, filename.length() );
+
+    QFile ccFile( filename );
 
     if ( ccFile.open( QIODevice::ReadOnly ) ) {
         int iStart(0); //the line number of the first non-header line
@@ -70,11 +67,19 @@ void CatalogComponent::loadData() {
         QStringList Columns; //list of data column descriptors in the header
 
         QTextStream stream( &ccFile );
-        QStringList lines = stream.readAll().split( '\n', QString::SkipEmptyParts );
+        // TODO(spacetime) : Decide appropriate number of lines to be read
+        QStringList lines;
+        for (int times=5; times >= 0; --times)
+          lines.append(stream.readLine());
+        /*WAS
+         * = stream.readAll().split( '\n', QString::SkipEmptyParts );
+         * Memory Hog!
+         */
 
-        if ( !parseCustomDataHeader( lines, Columns, iStart, m_Showerrs, errs ) ) {
-            kWarning() << "Incorrect header in catalog file: " << m_Filename;
-            return;
+        bool showerrs = false;
+        if ( !parseCatalogInfoToDB( filename ) ) {
+            kWarning() << "Incorrect header in catalog file: " << filename;
+            return false;
         }
         
         /*
@@ -86,8 +91,26 @@ void CatalogComponent::loadData() {
         //Part 1) Conversion to KSParser compatible format
         QList< QPair<QString, KSParser::DataTypes> > sequence = 
                                             buildParserSequence(Columns);
-        return;
+        KSParser catalog_text_parser(filename, '#', sequence);
+
+        QHash<QString, QVariant> row_content;
+        while (catalog_text_parser.HasNextRow()){
+          row_content = catalog_text_parser.ReadNextRow();
+        }
+    }
     /* NEW CODE ENDS */
+    return true;
+}
+
+bool CatalogComponent::parseCatalogInfoToDB(const QString& filename) {
+
+}
+
+
+void CatalogComponent::loadData()
+{
+    emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
+
 /*    QFile ccFile( m_Filename );
 
     if ( ccFile.open( QIODevice::ReadOnly ) ) {
@@ -157,13 +180,13 @@ void CatalogComponent::loadData() {
         }
         */
 
-    } else { //Error opening catalog file
-        if ( m_Showerrs )
-            KMessageBox::sorry( 0, i18n( "Could not open custom data file: %1", m_Filename ),
-                                i18n( "Error opening file" ) );
-        else
-            kDebug() << i18n( "Could not open custom data file: %1", m_Filename );
-    }
+//     } else { //Error opening catalog file
+//         if ( m_Showerrs )
+//             KMessageBox::sorry( 0, i18n( "Could not open custom data file: %1", m_Filename ),
+//                                 i18n( "Error opening file" ) );
+//         else
+//             kDebug() << i18n( "Could not open custom data file: %1", m_Filename );
+//     }
 }
 
 void CatalogComponent::update( KSNumbers * )
@@ -232,15 +255,15 @@ void CatalogComponent::draw( SkyPainter *skyp )
 bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringList &Columns, int &iStart, bool showerrs, QStringList &errs )
 {
 
-    bool foundDataColumns( false ); //set to true if description of data columns found
-    int ncol( 0 );
+    bool foundDataColumns = false; //set to true if description of data columns found
+    int ncol = 0;
 
-    m_catName.clear();
-    m_catPrefix.clear();
-    m_catColor.clear();
-    m_catFluxFreq.clear();
-    m_catFluxUnit.clear();
-    m_catEpoch = 0.;
+    catName.clear();
+    catPrefix.clear();
+    catColor.clear();
+    catFluxFreq.clear();
+    catFluxUnit.clear();
+    catEpoch = 0.;
     int i=0;
     for ( ; i < lines.size(); ++i ) {
         QString d( lines.at(i) ); //current data line
@@ -255,8 +278,8 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
 
         if ( iname == 0 ) { //line contains catalog name
             iname = d.indexOf(":")+2;
-            if ( m_catName.isEmpty() ) {
-                m_catName = d.mid( iname );
+            if ( catName.isEmpty() ) {
+                catName = d.mid( iname );
             } else { //duplicate name in header
                 if ( showerrs )
                     errs.append( i18n( "Parsing header: " ) +
@@ -264,8 +287,8 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
             }
         } else if ( iprefix == 0 ) { //line contains catalog prefix
             iprefix = d.indexOf(":")+2;
-            if ( m_catPrefix.isEmpty() ) {
-                m_catPrefix = d.mid( iprefix );
+            if ( catPrefix.isEmpty() ) {
+                catPrefix = d.mid( iprefix );
             } else { //duplicate prefix in header
                 if ( showerrs )
                     errs.append( i18n( "Parsing header: " ) +
@@ -273,8 +296,8 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
             }
         } else if ( icolor == 0 ) { //line contains catalog prefix
             icolor = d.indexOf(":")+2;
-            if ( m_catColor.isEmpty() ) {
-                m_catColor = d.mid( icolor );
+            if ( catColor.isEmpty() ) {
+                 catColor = d.mid( icolor );
             } else { //duplicate prefix in header
                 if ( showerrs )
                     errs.append( i18n( "Parsing header: " ) +
@@ -282,9 +305,9 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
             }
         } else if ( iepoch == 0 ) { //line contains catalog epoch
             iepoch = d.indexOf(":")+2;
-            if ( m_catEpoch == 0. ) {
+            if ( catEpoch == 0. ) {
                 bool ok( false );
-                m_catEpoch = d.mid( iepoch ).toFloat( &ok );
+                 catEpoch = d.mid( iepoch ).toFloat( &ok );
                 if ( !ok ) {
                     if ( showerrs )
                         errs.append( i18n( "Parsing header: " ) +
@@ -295,9 +318,9 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
         } else if ( ifluxfreq == 0 )
         { //line contains catalog flux frequnecy
             ifluxfreq = d.indexOf(":")+2;
-            if ( m_catFluxFreq.isEmpty() )
+            if ( catFluxFreq.isEmpty() )
             {
-                m_catFluxFreq = d.mid( ifluxfreq );
+                catFluxFreq = d.mid( ifluxfreq );
             } else { //duplicate prefix in header
                 if ( showerrs )
                     errs.append( i18n( "Parsing header: " ) +
@@ -306,9 +329,9 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
         } else if ( ifluxunit == 0 )
             { //line contains catalog flux unit
                        ifluxunit = d.indexOf(":")+2;
-                       if ( m_catFluxUnit.isEmpty() )
+                       if ( catFluxUnit.isEmpty() )
                        {
-                           m_catFluxUnit = d.mid( ifluxunit );
+                           catFluxUnit = d.mid( ifluxunit );
                        } else { //duplicate prefix in header
                            if ( showerrs )
                                errs.append( i18n( "Parsing header: " ) +
@@ -325,7 +348,7 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
             //we need a copy of the master list of data fields, so we can
             //remove fields from it as they are encountered in the "fields" list.
             //this allows us to detect duplicate entries
-            QStringList master( m_Columns );
+            QStringList master( Columns );
 
             for ( int j=0; j < fields.size(); ++j ) {
                 QString s( fields.at(j) );
@@ -369,25 +392,25 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
         return false;
     } else {
         //Make sure Name, Prefix, Color and Epoch were set
-        if ( m_catName.isEmpty() ) {
+        if ( catName.isEmpty() ) {
             if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
                                              i18n( "No Catalog Name specified; setting to \"Custom\"" ) );
-            m_catName = i18n("Custom");
+            catName = i18n("Custom");
         }
-        if ( m_catPrefix.isEmpty() ) {
+        if ( catPrefix.isEmpty() ) {
             if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
                                              i18n( "No Catalog Prefix specified; setting to \"CC\"" ) );
-            m_catPrefix = "CC";
+            catPrefix = "CC";
         }
-        if ( m_catColor.isEmpty() ) {
+        if ( catColor.isEmpty() ) {
             if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
                                              i18n( "No Catalog Color specified; setting to Red" ) );
-            m_catColor = "#CC0000";
+            catColor = "#CC0000";
         }
-        if ( m_catEpoch == 0. ) {
+        if ( catEpoch == 0. ) {
             if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
                                              i18n( "No Catalog Epoch specified; assuming 2000." ) );
-            m_catEpoch = 2000.;
+            catEpoch = 2000.;
         }
 
         //index i now points to the first line past the header

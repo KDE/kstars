@@ -23,6 +23,7 @@
 #include "Options.h"
 #include "datahandlers/ksparser.h"
 
+struct stat;
 //JH: TODO: this class should only contain one custom catalog.
 
 /**
@@ -75,7 +76,25 @@ public:
      */
     inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
     
+    /**
+     *@short Add contents of custom catalog to the program database
+     *
+     *@p filename the name of the file containing the data to be read
+     *@return true if catalog was successfully added
+    */
+    static bool addCatalogContents(const QString &filename);
+
 private:
+  
+   /**
+    * @short Add the catalog name and details to the db.
+    * This does not store the contents.
+    *
+    * @param filename the name of the file containing the data to be read
+    * @return bool
+    **/
+    static bool parseCatalogInfoToDB(const QString &filename);
+
     /** @short Load data into custom catalog */
     void loadData();
 
@@ -83,13 +102,6 @@ private:
      * @return true if catalog data was successfully read
      */
     bool readCustomCatalogs();
-
-    /**
-    	*@short Add a custom catalog to the program
-    	*@p filename the name of the file containing the data to be read
-    	*@return true if catalog was successfully added
-    	*/
-    bool addCatalog(const QString &filename);
 
     /**
     	*@short Remove a catalog rom the program
@@ -126,8 +138,8 @@ private:
     	*@p showerrs if true, parse errors will be logged and reported
     	*@p errs reference to the string list containing the parse errors encountered
     	*/
-    bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
-                                int &iStart, bool showerrs, QStringList &errs);
+    static bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
+                                        int &iStart, bool showerrs, QStringList &errs);
 
     // TODO(spacetime): Documentation !!
     QList< QPair< QString, KSParser::DataTypes > > buildParserSequence(const QStringList& Columns);
