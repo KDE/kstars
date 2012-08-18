@@ -1,5 +1,5 @@
 /***************************************************************************
-                          deepskycomponent.h  -  K Desktop Planetarium
+                    catalogcomponent.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2005/17/08
     copyright            : (C) 2005 by Thomas Kabelmann
@@ -21,7 +21,7 @@
 
 #include "listcomponent.h"
 #include "Options.h"
-#include "datahandlers/ksparser.h"
+#include "datahandlers/catalogdb.h"
 
 struct stat;
 //JH: TODO: this class should only contain one custom catalog.

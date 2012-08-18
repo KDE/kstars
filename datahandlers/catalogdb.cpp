@@ -80,7 +80,10 @@ void CatalogDB::RefreshCatalogList()
 
 bool CatalogDB::ParseCatalogInfoToDB( const QStringList &lines, QStringList &columns )
 {
-
+/*
+ * Most of the code here is by Thomas Kabelmann from customcatalogcomponent.cpp 
+ * (now catalogcomponent.cpp)
+ */
     bool foundDataColumns = false; //set to true if description of data columns found
     int ncol = 0;
 

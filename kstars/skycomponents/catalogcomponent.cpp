@@ -1,5 +1,5 @@
 /***************************************************************************
-                          deepskycomponent.cpp  -  K Desktop Planetarium
+                    catalogcomponent.cpp  -  K Desktop Planetarium
                              -------------------
     begin                : 2005/17/08
     copyright            : (C) 2005 by Thomas Kabelmann
