@@ -78,6 +78,20 @@ void CatalogDB::RefreshCatalogList()
     skydb_.close();
 }
 
+bool CatalogDB::FindByName(const QString &name) {
+    skydb_.open();
+    QSqlTableModel catalog(0, skydb_);
+    catalog.setTable("Catalog");
+    catalog.setFilter("Name LIKE \'" + name + "\'");
+    catalog.select();
+
+    int catalog_count = catalog.rowCount();
+
+    catalog.clear();
+    skydb_.close();
+    return (catalog_count > 0);
+}
+
 bool CatalogDB::ParseCatalogInfoToDB( const QStringList &lines, QStringList &columns )
 {
 /*
@@ -248,7 +262,8 @@ bool CatalogDB::ParseCatalogInfoToDB( const QStringList &lines, QStringList &col
             catEpoch = 2000.;
         }
 
-        //index i now points to the first line past the header
+        //Detect a duplicate catalog name
+        
 //         iStart = i;
 //         if ( catName
 //         if ( KMessageBox::questionYesNo ( 0, message, errs,

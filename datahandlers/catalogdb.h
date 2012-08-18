@@ -68,7 +68,7 @@ private:
   QSqlDatabase skydb_;
   QSqlError LastError();
   QStringList catalog_list_;
-  
+  bool FindByName(const QString &name);
   
   // TODO(spacetime): Documentation !!
   static QList< QPair< QString, KSParser::DataTypes > > 
