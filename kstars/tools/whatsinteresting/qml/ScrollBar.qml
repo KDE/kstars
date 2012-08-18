@@ -1,11 +1,22 @@
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+/** This qml code implements a vertical scrollbar which shall be displayed in listview of sky-objects.
+  * This piece of code is based on this example code:
+  * https://projects.forum.nokia.com/qmluiexamples/browser/qml/qmluiexamples/Scrollable/ScrollBar.qml
+  */
+
 import QtQuick 1.0
 
 Rectangle {
     // The flickable to which the scrollbar is attached to, must be set
     property variant flickable
-
-    // True for vertical ScrollBar, false for horizontal
-    property bool vertical: true
 
     // If set to false, scrollbar is visible even when not scrolling
     property bool hideScrollBarsWhenStopped: true
@@ -14,7 +25,7 @@ Rectangle {
     property int scrollbarWidth: 10
 
     color: "gray"
-    radius: vertical ? width/2 : height/2
+    radius: width/2
 
     function sbOpacity()
     {
@@ -28,12 +39,10 @@ Rectangle {
     // Scrollbar appears automatically when content is bigger than the Flickable
     opacity: sbOpacity()
 
-    // Calculate width/height and position based on the content size and position of
-    // the Flickable
-    width: vertical ? scrollbarWidth : flickable.visibleArea.widthRatio * parent.width
-    height: vertical ? flickable.visibleArea.heightRatio * parent.height : scrollbarWidth
-    x: vertical ? parent.width - width : flickable.visibleArea.xPosition * parent.width
-    y: vertical ? flickable.visibleArea.yPosition * parent.height : parent.height - height
+    width: scrollbarWidth
+    height: flickable.visibleArea.heightRatio * parent.height
+    x: parent.width - width
+    y: flickable.visibleArea.yPosition * parent.height
 
     // Animate scrollbar appearing/disappearing
     Behavior on opacity { NumberAnimation { duration: 200 }}
