@@ -27,15 +27,16 @@ struct stat;
 //JH: TODO: this class should only contain one custom catalog.
 
 /**
-	*@class CatalogComponent
-	*Represents a custom user-defined catalog.
-	Code adapted from CustomCatalogComponent.cpp originally authored
-	by Thomas Kabelmann
+*@class CatalogComponent
+*Represents a custom user-defined catalog.
+Code adapted from CustomCatalogComponent.cpp originally authored
+by Thomas Kabelmann
 
-	*@author Thomas Kabelmann
-                 Rishab Arora (spacetime)
-	*@version 0.2
-	*/
+*@author Thomas Kabelmann
+         Rishab Arora (spacetime)
+*@version 0.2
+*/
+
 class CatalogComponent: public ListComponent
 {
 public:
@@ -75,27 +76,9 @@ public:
      *returns the appropriate bool value
      */
     inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
-    
-    /**
-     *@short Add contents of custom catalog to the program database
-     *
-     *@p filename the name of the file containing the data to be read
-     *@return true if catalog was successfully added
-    */
-    static bool addCatalogContents(const QString &filename);
 
 private:
   
-   /**
-    * @short Add the catalog name and details to the db.
-    * This does not store the contents.
-    *
-    * @param lines List of lines to use for extraction of details
-    * @param Columns Stores the read Columns in this list
-    * @return bool
-    **/
-    static bool parseCatalogInfoToDB( const QStringList &lines, QStringList &Columns );
-
     /** @short Load data into custom catalog */
     void loadData();
 
@@ -141,11 +124,6 @@ private:
 //     	*/
 //     static bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
 //                                         int &iStart, bool showerrs, QStringList &errs);
-
-    // TODO(spacetime): Documentation !!
-    static QList< QPair< QString, KSParser::DataTypes > > 
-                              buildParserSequence(const QStringList& Columns);
-    
     QString m_Filename;
     QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
     float m_catEpoch;
