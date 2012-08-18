@@ -55,6 +55,14 @@ class CatalogDB
   */
   bool AddCatalogContents(const QString &filename);
 
+  void AddEntry(const QString &catalog_name, const int ID,
+                const QString &long_name, const double ra,
+                const double dec, const int type,
+                const float magnitude, const int position_angle,
+                const float major_axis, const float minor_axis,
+                const float flux);
+                
+
 private:
   QSqlDatabase skydb_;
   QSqlError LastError();
@@ -70,7 +78,8 @@ private:
    * @param Columns Stores the read Columns in this list
    * @return bool
    **/
-  bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns);
+  bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns,
+                            QString &catalog_name);
   
   // TODO(spacetime): Documentation !!
   static QList< QPair< QString, KSParser::DataTypes > > 
