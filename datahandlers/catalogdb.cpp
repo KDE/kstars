@@ -1,19 +1,19 @@
 /***************************************************************************
-              catalogDB.cpp  -  K Desktop Planetarium
+               catalogDB.cpp  -  K Desktop Planetarium
                             -------------------
-  begin                : 2012/03/08
-  copyright            : (C) 2012 by Rishab Arora
-  email                : ra.rishab@gmail.com
-***************************************************************************/
+   begin                : 2012/03/08
+   copyright            : (C) 2012 by Rishab Arora
+   email                : ra.rishab@gmail.com
+ ***************************************************************************/
 
 /***************************************************************************
-*                                                                         *
-*   This program is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-***************************************************************************/
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "catalogdb.h"
 
@@ -81,6 +81,7 @@ void CatalogDB::RefreshCatalogList()
 bool CatalogDB::FindByName(const QString &name) {
   skydb_.open();
   QSqlTableModel catalog(0, skydb_);
+
   catalog.setTable("Catalog");
   catalog.setFilter("Name LIKE \'" + name + "\'");
   catalog.select();
@@ -89,6 +90,7 @@ bool CatalogDB::FindByName(const QString &name) {
 
   catalog.clear();
   skydb_.close();
+
   return (catalog_count > 0);
 }
 
@@ -98,7 +100,26 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                          const float magnitude, const int position_angle,
                          const float major_axis, const float minor_axis,
                          const float flux) {
+  skydb_.open();
+  QSqlTableModel dso_entry(0, skydb_);
+  dso_entry.setTable("DSO");
 
+  int row = 0;
+  dso_entry.insertRows(row, 1);
+  // row(0) is autoincerement ID
+  dso_entry.setData(dso_entry.index(row, 1), ra);
+  dso_entry.setData(dso_entry.index(row, 2), dec);
+  dso_entry.setData(dso_entry.index(row, 3), type);
+  dso_entry.setData(dso_entry.index(row, 4), magnitude);
+  dso_entry.setData(dso_entry.index(row, 5), position_angle);
+  dso_entry.setData(dso_entry.index(row, 6), major_axis);
+  dso_entry.setData(dso_entry.index(row, 7), minor_axis);
+  dso_entry.setData(dso_entry.index(row, 8), flux);
+  
+  dso_entry.submitAll();
+
+  dso_entry.clear();
+  skydb_.close();
 }
 
 

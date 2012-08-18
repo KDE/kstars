@@ -421,8 +421,9 @@ void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const do
     userdb_.close();
 }
 
-void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const double &focalLength,
-                           const double &fov, const QString &fovunit, const QString &id) {
+void KSUserDB::AddEyepiece(const QString &vendor, const QString &model,
+                           const double &focalLength, const double &fov,
+                           const QString &fovunit, const QString &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
