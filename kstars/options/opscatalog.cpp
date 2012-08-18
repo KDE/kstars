@@ -156,9 +156,11 @@ void OpsCatalog::slotLoadCatalog() {
     QString filename = KFileDialog::getOpenFileName( QDir::homePath(), "*");
     if ( ! filename.isEmpty() ) {
         //test integrity of file before trying to add it
-        CatalogComponent newCat( ksw->data()->skyComposite(), filename, true, 0 );
-        if ( newCat.objectList().size() )
-            insertCatalog( filename );
+        if (KStars::Instance()->data()->catalogdb()->AddCatalogContents(filename))
+          insertCatalog( filename );
+//         CatalogComponent newCat( ksw->data()->skyComposite(), filename, true, 0 );
+//         if ( newCat.objectList().size() )
+            
     }
 }
 

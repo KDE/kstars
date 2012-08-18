@@ -6,6 +6,7 @@ install( FILES kstars.png geomap.png
     starnames.dat namedstars.dat unnamedstars.dat
     starlnum.idx
     ngcic.dat
+    skycomponents.db
     clines.dat
     cnames.dat
     milkyway.dat

@@ -20,7 +20,8 @@
 
 bool CatalogDB::Initialize() {
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
-  QString dbfile = KStandardDirs::locateLocal("data", "skyobjects.db");
+  QString dbfile = KStandardDirs::locate( "appdata", 
+                                           QString("skycomponents.db") );
   QFile testdb(dbfile);
   bool first_run = false;
   if (!testdb.exists()) {
@@ -100,6 +101,27 @@ bool CatalogDB::FindByName(const QString &name) {
   return (catalog_count > 0);
 }
 
+void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
+                           const QString& author, const QString& license,
+                           const QString& compiled_by) {
+  skydb_.open();
+  QSqlTableModel cat_entry(0, skydb_);
+  cat_entry.setTable("Catalog");
+
+  int row = 0;
+  cat_entry.insertRows(row, 1);
+  // row(0) is autoincerement ID
+  cat_entry.setData(cat_entry.index(row, 1), catalog_name);
+  cat_entry.setData(cat_entry.index(row, 2), author);
+  cat_entry.setData(cat_entry.index(row, 3), license);
+  cat_entry.setData(cat_entry.index(row, 4), compiled_by);
+  cat_entry.setData(cat_entry.index(row, 5), prefix);
+  
+  cat_entry.submitAll();
+
+  cat_entry.clear();
+  skydb_.close();
+}
 
 void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                          const QString& long_name, const double ra,
@@ -147,17 +169,19 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
       QTextStream stream( &ccFile );
       // TODO(spacetime) : Decide appropriate number of lines to be read
       QStringList lines;
-      for (int times=10; times >= 0; --times)
+      for (int times=10; times >= 0 && !stream.atEnd(); --times)
         lines.append(stream.readLine());
       /*WAS
         * = stream.readAll().split( '\n', QString::SkipEmptyParts );
         * Memory Hog!
         */
 
-      if ( !ParseCatalogInfoToDB(lines, columns, catalog_name) ) {
+      if (lines.size() < 1 || !ParseCatalogInfoToDB(lines, columns, catalog_name) ) {
           kWarning() << "Issue in catalog file header: " << filename;
+          ccFile.close();
           return false;
       }
+      ccFile.close();
       // The entry in the Catalog table is now ready!
       
       /*
@@ -171,7 +195,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
                                           buildParserSequence(columns);
 
       //Part 2) Read file and store into DB
-      KSParser catalog_text_parser(filename, '#', sequence);
+      KSParser catalog_text_parser(filename, '#', sequence, ' ');
 
       QHash<QString, QVariant> row_content;
       while (catalog_text_parser.HasNextRow()){
@@ -184,6 +208,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
                  row_content["Flux"].toFloat());
       }
   }
+  
   return true;
 }
 
@@ -295,7 +320,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
           //we need a copy of the master list of data fields, so we can
           //remove fields from it as they are encountered in the "fields" list.
           //this allows us to detect duplicate entries
-          QStringList master( columns );
+          QStringList master( fields );
 
           for ( int j=0; j < fields.size(); ++j ) {
               QString s( fields.at(j) );

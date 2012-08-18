@@ -145,14 +145,17 @@ KStarsData::~KStarsData() {
 }
 
 bool KStarsData::initialize() {
-    // Load Time Zone Rules
+    //Initialize CatalogDB//
+    KStars::Instance()->data()->catalogdb()->Initialize();
+
+    //Load Time Zone Rules//
     emit progressText( i18n("Reading time zone rules") );
     if( !readTimeZoneRulebook( ) ) {
         fatalErrorMessage( "TZrules.dat" );
         return false;
     }
 
-    // Load Cities
+    //Load Cities//
     emit progressText( i18n("Loading city data") );
     if ( !readCityData( ) ) {
         fatalErrorMessage( "Cities.dat" );
