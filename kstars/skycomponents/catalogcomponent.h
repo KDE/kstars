@@ -90,10 +90,11 @@ private:
     * @short Add the catalog name and details to the db.
     * This does not store the contents.
     *
-    * @param filename the name of the file containing the data to be read
+    * @param lines List of lines to use for extraction of details
+    * @param Columns Stores the read Columns in this list
     * @return bool
     **/
-    static bool parseCatalogInfoToDB(const QString &filename);
+    static bool parseCatalogInfoToDB( const QStringList &lines, QStringList &Columns );
 
     /** @short Load data into custom catalog */
     void loadData();
@@ -123,26 +124,27 @@ private:
     bool processCustomDataLine(int lnum, const QStringList &d, const QStringList &Columns,
                                bool showerrs, QStringList &errs);
 
-    /**
-    	*@short Read metadata about the catalog from its header
-    	*@details The method processes the first few lines that denote the
-    	*         Name, Prefix, Color and Epoch as well as the comment with the
-        *         column structure.
-    	*@p lines QStringlist containing all of the lines in the custom catalog file
-    	*@p Columns QStringList containing the column descriptors (created by this function)
-    	*@p CatalogName The name of the catalog, as read from the header by this function
-    	*@p CatalogPrefix The prefix string for naming objects in this catalog (read by this function)
-    	*@p CatalogColor The color for drawing symbols of objects in this catalog (read by this function)
-    	*@p CatalogEpoch The coordinate epoch for the catalog (read by this function)
-    	*@p iStart The line number of the first non-header line in the data file (determined by this function)
-    	*@p showerrs if true, parse errors will be logged and reported
-    	*@p errs reference to the string list containing the parse errors encountered
-    	*/
-    static bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
-                                        int &iStart, bool showerrs, QStringList &errs);
+//     /**
+//     	*@short Read metadata about the catalog from its header
+//     	*@details The method processes the first few lines that denote the
+//     	*         Name, Prefix, Color and Epoch as well as the comment with the
+//         *         column structure.
+//     	*@p lines QStringlist containing all of the lines in the custom catalog file
+//     	*@p Columns QStringList containing the column descriptors (created by this function)
+//     	*@p CatalogName The name of the catalog, as read from the header by this function
+//     	*@p CatalogPrefix The prefix string for naming objects in this catalog (read by this function)
+//     	*@p CatalogColor The color for drawing symbols of objects in this catalog (read by this function)
+//     	*@p CatalogEpoch The coordinate epoch for the catalog (read by this function)
+//     	*@p iStart The line number of the first non-header line in the data file (determined by this function)
+//     	*@p showerrs if true, parse errors will be logged and reported
+//     	*@p errs reference to the string list containing the parse errors encountered
+//     	*/
+//     static bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
+//                                         int &iStart, bool showerrs, QStringList &errs);
 
     // TODO(spacetime): Documentation !!
-    QList< QPair< QString, KSParser::DataTypes > > buildParserSequence(const QStringList& Columns);
+    static QList< QPair< QString, KSParser::DataTypes > > 
+                              buildParserSequence(const QStringList& Columns);
     
     QString m_Filename;
     QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;

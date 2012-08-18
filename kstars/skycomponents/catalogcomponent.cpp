@@ -77,7 +77,7 @@ bool CatalogComponent::addCatalogContents(const QString& fname) {
          */
 
         bool showerrs = false;
-        if ( !parseCatalogInfoToDB( filename ) ) {
+        if ( !parseCatalogInfoToDB( lines, Columns) ) {
             kWarning() << "Incorrect header in catalog file: " << filename;
             return false;
         }
@@ -100,10 +100,6 @@ bool CatalogComponent::addCatalogContents(const QString& fname) {
     }
     /* NEW CODE ENDS */
     return true;
-}
-
-bool CatalogComponent::parseCatalogInfoToDB(const QString& filename) {
-
 }
 
 
@@ -252,11 +248,16 @@ void CatalogComponent::draw( SkyPainter *skyp )
     }
 }
 
-bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringList &Columns, int &iStart, bool showerrs, QStringList &errs )
+bool CatalogComponent::parseCatalogInfoToDB( const QStringList &lines, QStringList &Columns )
 {
 
     bool foundDataColumns = false; //set to true if description of data columns found
     int ncol = 0;
+
+    QStringList errs;
+    QString catName, catPrefix, catColor, catFluxFreq, catFluxUnit;
+    float catEpoch;
+    bool showerrs = false;
 
     catName.clear();
     catPrefix.clear();
@@ -264,6 +265,7 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
     catFluxFreq.clear();
     catFluxUnit.clear();
     catEpoch = 0.;
+
     int i=0;
     for ( ; i < lines.size(); ++i ) {
         QString d( lines.at(i) ); //current data line
@@ -312,7 +314,7 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
                     if ( showerrs )
                         errs.append( i18n( "Parsing header: " ) +
                                      i18n( "Could not convert Epoch to float: %1.  Using 2000. instead", d.mid(iepoch) ) );
-                    m_catEpoch = 2000.; //adopt default value
+                    catEpoch = 2000.; //adopt default value
                 }
             }
         } else if ( ifluxfreq == 0 )
@@ -414,7 +416,7 @@ bool CatalogComponent::parseCustomDataHeader( const QStringList &lines, QStringL
         }
 
         //index i now points to the first line past the header
-        iStart = i;
+//         iStart = i;
         return true;
     }
 }
