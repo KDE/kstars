@@ -92,6 +92,59 @@ bool CatalogDB::FindByName(const QString &name) {
     return (catalog_count > 0);
 }
 
+
+bool CatalogDB::AddCatalogContents(const QString& fname) {
+    QDir::setCurrent( QDir::homePath() );  //for files with relative path
+    QString filename = fname;
+    //If the filename begins with "~", replace the "~" with the user's home directory
+    //(otherwise, the file will not successfully open)
+    if ( filename.at(0)=='~' )
+        filename = QDir::homePath() + filename.mid( 1, filename.length() );
+
+    QFile ccFile( filename );
+
+    if ( ccFile.open( QIODevice::ReadOnly ) ) {
+        int iStart(0); //the line number of the first non-header line
+        QStringList errs; //list of error messages
+        QStringList Columns; //list of data column descriptors in the header
+
+        QTextStream stream( &ccFile );
+        // TODO(spacetime) : Decide appropriate number of lines to be read
+        QStringList lines;
+        for (int times=10; times >= 0; --times)
+          lines.append(stream.readLine());
+        /*WAS
+         * = stream.readAll().split( '\n', QString::SkipEmptyParts );
+         * Memory Hog!
+         */
+
+        if ( !ParseCatalogInfoToDB( lines, Columns) ) {
+            kWarning() << "Incorrect header in catalog file: " << filename;
+            return false;
+        }
+        // The entry in the Catalog table is now ready!
+        
+        /*
+         * Now 'Columns' should be a StringList of the Header contents
+         * Hence, we 1) Convert the Columns to a KSParser compatible format
+         *           2) Use KSParser to read stuff and store in DB
+         */
+        
+        //Part 1) Conversion to KSParser compatible format
+        QList< QPair<QString, KSParser::DataTypes> > sequence = 
+                                            buildParserSequence(Columns);
+
+        //Part 2) Read file and store into DB
+        KSParser catalog_text_parser(filename, '#', sequence);
+
+        QHash<QString, QVariant> row_content;
+        while (catalog_text_parser.HasNextRow()){
+          row_content = catalog_text_parser.ReadNextRow();
+        }
+    }
+    return true;
+}
+
 bool CatalogDB::ParseCatalogInfoToDB( const QStringList &lines, QStringList &columns )
 {
 /*
@@ -263,69 +316,19 @@ bool CatalogDB::ParseCatalogInfoToDB( const QStringList &lines, QStringList &col
         }
 
         //Detect a duplicate catalog name
-        
-//         iStart = i;
-//         if ( catName
-//         if ( KMessageBox::questionYesNo ( 0, message, errs,
-//                         i18n( "Some Lines in File Were Invalid" ), KGuiItem( i18n( "Accept" ) ) ) != KMessageBox::Continue ) {
-//                     m_ObjectList.clear();
-//                     return ;
+         if (FindByName(catName)) {
+            if (!KMessageBox::warningYesNo(0, 
+                             i18n("A catalog of the same name already exists. "
+                                   "Overwrite contents? If you press yes, the"
+                                   " new catalog will erase the old one!"),
+                             i18n("Overwrite Existing Catalog") )) {
+                KMessageBox::information(0, "Catalog addition cancelled.");
+                return false;
+            }
+         }
         return true;
     }
 }
-
-bool CatalogDB::AddCatalogContents(const QString& fname) {
-    QDir::setCurrent( QDir::homePath() );  //for files with relative path
-    QString filename = fname;
-    //If the filename begins with "~", replace the "~" with the user's home directory
-    //(otherwise, the file will not successfully open)
-    if ( filename.at(0)=='~' )
-        filename = QDir::homePath() + filename.mid( 1, filename.length() );
-
-    QFile ccFile( filename );
-
-    if ( ccFile.open( QIODevice::ReadOnly ) ) {
-        int iStart(0); //the line number of the first non-header line
-        QStringList errs; //list of error messages
-        QStringList Columns; //list of data column descriptors in the header
-
-        QTextStream stream( &ccFile );
-        // TODO(spacetime) : Decide appropriate number of lines to be read
-        QStringList lines;
-        for (int times=5; times >= 0; --times)
-          lines.append(stream.readLine());
-        /*WAS
-         * = stream.readAll().split( '\n', QString::SkipEmptyParts );
-         * Memory Hog!
-         */
-
-        bool showerrs = false;
-        if ( !ParseCatalogInfoToDB( lines, Columns) ) {
-            kWarning() << "Incorrect header in catalog file: " << filename;
-            return false;
-        }
-        // The entry in the Catalog table is now ready!
-        
-        /*
-         * Now 'Columns' should be a StringList of the Header contents
-         * Hence, we 1) Convert the Columns to a KSParser compatible format
-         *           2) Use KSParser to read stuff and store in DB
-         */
-        
-        //Part 1) Conversion to KSParser compatible format
-        QList< QPair<QString, KSParser::DataTypes> > sequence = 
-                                            buildParserSequence(Columns);
-        KSParser catalog_text_parser(filename, '#', sequence);
-        
-
-        QHash<QString, QVariant> row_content;
-        while (catalog_text_parser.HasNextRow()){
-          row_content = catalog_text_parser.ReadNextRow();
-        }
-    }
-    return true;
-}
-
 
 QList< QPair<QString, KSParser::DataTypes> > CatalogDB::
                               buildParserSequence(const QStringList& Columns)

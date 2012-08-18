@@ -21,6 +21,7 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 #include <KDebug>
+#include <KMessageBox>
 #include <QSqlDatabase>
 #include <QDebug>
 #include <QSqlQuery>
@@ -47,16 +48,6 @@ class CatalogDB
   QStringList* Catalogs();
   void RefreshCatalogList();
   /**
-   * @short Add the catalog name and details to the db.
-   * This does not store the contents.
-   *
-   * @param lines List of lines to use for extraction of details
-   * @param Columns Stores the read Columns in this list
-   * @return bool
-   **/
-  bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns);
-
-  /**
     * @short Add contents of custom catalog to the program database
     *
     * @p filename the name of the file containing the data to be read
@@ -69,6 +60,17 @@ private:
   QSqlError LastError();
   QStringList catalog_list_;
   bool FindByName(const QString &name);
+
+  /**
+   * @short Add the catalog name and details to the db.
+   * This does not store the contents. It only adds the catalog info
+   * to the database. Hence, it is step 1 in AddCatalogContents
+   *
+   * @param lines List of lines to use for extraction of details
+   * @param Columns Stores the read Columns in this list
+   * @return bool
+   **/
+  bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns);
   
   // TODO(spacetime): Documentation !!
   static QList< QPair< QString, KSParser::DataTypes > > 
