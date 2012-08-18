@@ -379,7 +379,6 @@ Rectangle {
 
                             ScrollBar {
                                 flickable: soListView
-                                vertical: true
                             }
 
                             delegate: Item {

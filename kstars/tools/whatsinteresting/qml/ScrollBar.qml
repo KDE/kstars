@@ -33,7 +33,7 @@ Rectangle {
             return 0.5;
         }
 
-        return (flickable.flicking || flickable.moving) ? (vertical ? (height >= parent.height ? 0 : 0.5) : (width >= parent.width ? 0 : 0.5)) : 0;
+        return (flickable.flicking || flickable.moving) ? (height >= parent.height ? 0 : 0.5) : 0;
     }
 
     // Scrollbar appears automatically when content is bigger than the Flickable
