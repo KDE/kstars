@@ -21,7 +21,7 @@
 
 const int KSParser::EBROKEN_INT = 0;
 const double KSParser::EBROKEN_DOUBLE = 0.0;
-const float KSParser::EBROKEN_FLOATS = 0.0;
+const float KSParser::EBROKEN_FLOAT = 0.0;
 const bool KSParser::parser_debug_mode_ = false;
 
 KSParser::KSParser(const QString &filename, const char comment_char,
@@ -216,7 +216,7 @@ QHash<QString, QVariant>  KSParser::DummyRow() {
     return newRow;
 }
 
-const bool KSParser::HasNextRow() {
+bool KSParser::HasNextRow() {
     return file_reader_.hasMoreLines();
 }
 
@@ -300,7 +300,7 @@ QVariant KSParser::ConvertToQVariant(const QString &input_string,
     case D_FLOAT:
       converted_object = input_string.trimmed().toFloat(&ok);
       if (!ok)
-        converted_object = EBROKEN_FLOATS;
+        converted_object = EBROKEN_FLOAT;
       break;
   }
   return converted_object;

@@ -128,7 +128,9 @@ class KSParser {
      *
      * @return bool
      **/
-    const bool HasNextRow();
+    bool HasNextRow();
+    // Too many warnings when const: datahandlers/ksparser.h:131:27: warning:
+    // type qualifiers ignored on function return type [-Wignored-qualifiers]
 
     /**
      * @brief Wrapper function for KSFileReader setProgress
@@ -202,7 +204,7 @@ class KSParser {
                                const DataTypes &data_type, bool &ok);
 
     static const double EBROKEN_DOUBLE;
-    static const float EBROKEN_FLOATS;
+    static const float EBROKEN_FLOAT;
     static const int EBROKEN_INT;
     static const bool parser_debug_mode_;
 

@@ -43,6 +43,7 @@
 
 class CatalogDB
 {
+public:
   bool Initialize();
   ~CatalogDB();
   QStringList* Catalogs();
