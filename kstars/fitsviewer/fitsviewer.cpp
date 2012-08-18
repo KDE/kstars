@@ -219,7 +219,7 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     fitsImages[currentIndex]->getImage()->updateFrame();
 
     if (markStars)
-        updateStatusBar(i18n("%1 stars detected.").arg(fitsImages[currentIndex]->getImage()->getDetectedStars()), FITS_MESSAGE);
+        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.").arg(fitsImages[currentIndex]->getImage()->getDetectedStars()), FITS_MESSAGE);
 
 }
 
@@ -442,7 +442,7 @@ void FITSViewer::toggleStars()
         markStars = true;
         actionCollection()->action("mark_stars")->setText( i18n( "Unmark Stars" ) );
 
-        updateStatusBar(i18n("%1 stars detected.").arg(fitsImages[fitsTab->currentIndex()]->getImage()->getDetectedStars()), FITS_MESSAGE);
+        updateStatusBar(i18np("%1 star detected.", "%1 stars detected.").arg(fitsImages[fitsTab->currentIndex()]->getImage()->getDetectedStars()), FITS_MESSAGE);
 
     }
 

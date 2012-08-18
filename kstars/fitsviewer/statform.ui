@@ -115,7 +115,7 @@
    <item row="7" column="0">
     <widget class="QLabel" name="HFRLabel">
      <property name="text">
-      <string>HFR:</string>
+      <string comment="Half Flux Radius">HFR:</string>
      </property>
     </widget>
    </item>
