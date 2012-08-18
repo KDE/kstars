@@ -125,6 +125,25 @@ void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
   skydb_.close();
 }
 
+void CatalogDB::RemoveCatalog(const QString& catalog_name) {
+    skydb_.open();
+    QSqlTableModel catalog(0, skydb_);
+
+    //TODO Part 1 Clear DSO Entries
+
+    // Part 2 Clear Catalog Table
+    catalog.setTable("Catalog");
+    catalog.setFilter("Name LIKE \'" + catalog_name + "\'");
+    catalog.select();
+
+    catalog.removeRows(0, catalog.rowCount());
+    catalog.submitAll();
+
+    catalog.clear();
+
+    skydb_.close();
+}
+
 
 void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                          const QString& long_name, const double ra,
@@ -398,12 +417,10 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
             KMessageBox::information(0, "Catalog addition cancelled.");
             return false;
         } else {
-            //TODO
-            //REMOVE OLD CATALOG, COntinue
+            RemoveCatalog(catalog_name);
         }
-        
       }
-      
+
       //Everything OK. Make a new Catalog entry in DB
       AddCatalog(catalog_name, catPrefix, catColor, catEpoch);
 

@@ -63,7 +63,7 @@ public:
                 const float major_axis, const float minor_axis,
                 const float flux);
                 
-
+  void RemoveCatalog(const QString& catalog_name);
 private:
   QSqlDatabase skydb_;
   QSqlError LastError();
