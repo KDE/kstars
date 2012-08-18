@@ -144,7 +144,7 @@ void FITSTab::statFITS()
     stat.bitpixOUT->setText(QString::number(image->stats.bitpix));
     stat.maxOUT->setText(QString::number(image->stats.max));
     stat.minOUT->setText(QString::number(image->stats.min));
-    stat.meanOUT->setText(QString::number(image->stats.average, 'g', 3));
+    stat.meanOUT->setText(QString::number(image->stats.average));
     stat.stddevOUT->setText(QString::number(image->stats.stddev, 'g', 3));
     stat.HFROUT->setText(QString::number(image->getHFR(), 'g', 3));
 

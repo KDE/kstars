@@ -40,7 +40,7 @@ void histDrawArea::init()
     hist_height = maximumHeight();
 
     //qDebug() << "constructor VALID Width: " << valid_width << " - VALID height: " << valid_height;
-    enclosedRect.setRect(0, 0, hist_width, hist_height);
+    enclosedRect.setRect(0, 0, hist_width-1, hist_height);
 
    // upperLimitX = hist_width;
    // lowerLimitX  = 0;
@@ -67,12 +67,16 @@ void histDrawArea::paintEvent(QPaintEvent *event)
     pen.setWidth(pixelWidth);
     painter.setPen(pen);
 
-    // Draw box
-    painter.drawRect(enclosedRect);
-
 
     for (int i=0; i < data->histArray.size(); i++)
         painter.drawLine(i*pixelWidth, hist_height, i*pixelWidth, hist_height - (data->histArray[i]*data->histFactor));
+
+
+    // Draw box
+    pen.setWidth(1);
+    painter.setPen(pen);
+
+    painter.drawRect(enclosedRect);
 
 
 

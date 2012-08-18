@@ -397,7 +397,7 @@ void GenericDevice::updateLocation()
     clientManager->sendNewNumber(nvp);
 }
 
-void GenericDevice::runCommand(int command, void *ptr)
+bool GenericDevice::runCommand(int command, void *ptr)
 {
     switch (command)
     {
@@ -412,10 +412,10 @@ void GenericDevice::runCommand(int command, void *ptr)
        case INDI_SET_PORT:
        {
         if (ptr == NULL)
-            return;
+            return false;
         ITextVectorProperty *tvp = baseDevice->getText("DEVICE_PORT");
         if (tvp == NULL)
-            return;
+            return false;
 
         IText *tp = IUFindText(tvp, "PORT");
 
@@ -429,10 +429,10 @@ void GenericDevice::runCommand(int command, void *ptr)
       case INDI_SET_FILTER:
       {
         if (ptr == NULL)
-            return;
+            return false;
         INumberVectorProperty *nvp = baseDevice->getNumber("FILTER_SLOT");
         if (nvp == NULL)
-            return;
+            return false;
 
         nvp->np[0].value = * ( (int *) ptr);
 
@@ -442,6 +442,8 @@ void GenericDevice::runCommand(int command, void *ptr)
         break;
 
     }
+
+    return true;
 }
 
 void GenericDevice::setProperty(QObject * setPropCommand)
@@ -496,9 +498,9 @@ DeviceDecorator::~DeviceDecorator()
     delete (interfacePtr);
 }
 
-void DeviceDecorator::runCommand(int command, void *ptr)
+bool DeviceDecorator::runCommand(int command, void *ptr)
 {
-    interfacePtr->runCommand(command, ptr);
+    return interfacePtr->runCommand(command, ptr);
 }
 
 void DeviceDecorator::setProperty(QObject *setPropCommand)
@@ -628,7 +630,7 @@ void Telescope::registerProperty(INDI::Property *prop)
     DeviceDecorator::registerProperty(prop);
 }
 
-void Telescope::runCommand(int command, void *ptr)
+bool Telescope::runCommand(int command, void *ptr)
 {
     //qDebug() << "Telescope run command is called!!!" << endl;
 
@@ -649,10 +651,12 @@ void Telescope::runCommand(int command, void *ptr)
             break;
 
         default:
-            DeviceDecorator::runCommand(command, ptr);
+            return DeviceDecorator::runCommand(command, ptr);
             break;
 
     }
+
+    return true;
 
 }
 
@@ -817,7 +821,7 @@ void CCD::registerProperty(INDI::Property *prop)
 }
 
 
-void CCD::runCommand(int command, void *ptr)
+bool CCD::runCommand(int command, void *ptr)
 {
     //qDebug() << "CCD run command is called!!!" << endl;
 
@@ -826,11 +830,11 @@ void CCD::runCommand(int command, void *ptr)
        case INDI_CAPTURE:
        {
         if (ptr == NULL)
-            return;
+            return false;
 
         INumberVectorProperty *expProp = baseDevice->getNumber("CCD_EXPOSURE_REQUEST");
         if (expProp == NULL)
-            return;
+            return false;
 
         expProp->np[0].value = *((double *) ptr);
 
@@ -839,12 +843,79 @@ void CCD::runCommand(int command, void *ptr)
         break;
       }
 
+      case INDI_CCD_FRAME:
+       {
+        if (ptr == NULL)
+            return false;
+
+        ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
+        if (frameProp == NULL)
+            return false;
+
+        int ccdType = *((int *) ptr);
+        ISwitch *ccdFrame = NULL;
+
+        if (ccdType == FRAME_LIGHT)
+            ccdFrame = IUFindSwitch(frameProp, "FRAME_LIGHT");
+        else if (ccdType == FRAME_DARK)
+            ccdFrame = IUFindSwitch(frameProp, "FRAME_DARK");
+        else if (ccdType == FRAME_BIAS)
+            ccdFrame = IUFindSwitch(frameProp, "FRAME_BIAS");
+        else if (ccdType == FRAME_FLAT)
+            ccdFrame = IUFindSwitch(frameProp, "FRAME_FLAT");
+
+        if (ccdFrame == NULL)
+            return false;
+
+        if (ccdFrame->s == ISS_ON)
+            return true;
+
+        IUResetSwitch(frameProp);
+        ccdFrame->s = ISS_ON;
+
+        clientManager->sendNewSwitch(frameProp);
+
+      }
+        break;
+
+    case INDI_CCD_BINNING:
+     {
+      if (ptr == NULL)
+          return false;
+
+      INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+      if (binProp == NULL)
+          return false;
+
+      int binValue = *((int *) ptr) + 1;
+      INumber *horBin = NULL, *verBin=NULL;
+
+      horBin = IUFindNumber(binProp, "HOR_BIN");
+      verBin = IUFindNumber(binProp, "VER_BIN");
+
+      if (!horBin || !verBin)
+          return false;
+
+      if (horBin->value == binValue && verBin->value == binValue)
+          return true;
+
+      if (binValue > horBin->max || binValue > verBin->max)
+          return false;
+
+      horBin->value = binValue;
+      verBin->value = binValue;
+
+      clientManager->sendNewNumber(binProp);
+    }
+     break;
+
         default:
-          DeviceDecorator::runCommand(command, ptr);
+          return DeviceDecorator::runCommand(command, ptr);
           break;
 
     }
 
+    return true;
 }
 
 void CCD::processBLOB(IBLOB* bp)
@@ -1023,7 +1094,7 @@ void Focuser::registerProperty(INDI::Property *prop)
     DeviceDecorator::registerProperty(prop);
 }
 
-void Focuser::runCommand(int command, void *ptr)
+bool Focuser::runCommand(int command, void *ptr)
 {
 
     switch (command)
@@ -1033,12 +1104,12 @@ void Focuser::runCommand(int command, void *ptr)
 
         ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
         if (focusProp == NULL)
-            return;
+            return false;
 
 
         ISwitch *inFocus = IUFindSwitch(focusProp, "FOCUS_INWARD");
         if (inFocus == NULL)
-            return;
+            return false;
 
         IUResetSwitch(focusProp);
         inFocus->s = ISS_ON;
@@ -1053,12 +1124,12 @@ void Focuser::runCommand(int command, void *ptr)
 
      ISwitchVectorProperty *focusProp = baseDevice->getSwitch("FOCUS_MOTION");
      if (focusProp == NULL)
-         return;
+         return false;
 
 
      ISwitch *outFocus = IUFindSwitch(focusProp, "FOCUS_OUTWARD");
      if (outFocus == NULL)
-         return;
+         return false;
 
      IUResetSwitch(focusProp);
      outFocus->s = ISS_ON;
@@ -1071,11 +1142,11 @@ void Focuser::runCommand(int command, void *ptr)
     case INDI_FOCUS_MOVE:
     {
      if (ptr == NULL)
-         return;
+         return false;
 
      INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_TIMER");
      if (focusProp == NULL)
-         return;
+         return false;
 
      focusProp->np[0].value = *((int *) ptr);
 
@@ -1086,11 +1157,12 @@ void Focuser::runCommand(int command, void *ptr)
 
 
         default:
-          DeviceDecorator::runCommand(command, ptr);
+          return DeviceDecorator::runCommand(command, ptr);
           break;
 
     }
 
+   return true;
 }
 
 }

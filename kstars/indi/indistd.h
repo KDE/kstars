@@ -69,7 +69,7 @@ protected:
     QList<INDI::Property *> properties;
 
 public slots:
-    virtual void runCommand(int command, void *ptr=NULL)=0;
+    virtual bool runCommand(int command, void *ptr=NULL)=0;
     virtual void setProperty(QObject *)=0;
 
 signals:
@@ -112,7 +112,7 @@ public:
 
 
 public slots:
-    virtual void runCommand(int command, void *ptr=NULL);
+    virtual bool runCommand(int command, void *ptr=NULL);
     virtual void setProperty(QObject *);
 
 protected:
@@ -157,7 +157,7 @@ public:
     QList<INDI::Property *> getProperties();
 
 public slots:
-    virtual void runCommand(int command, void *ptr=NULL);
+    virtual bool runCommand(int command, void *ptr=NULL);
     virtual void setProperty(QObject *);
 
 protected:
@@ -185,7 +185,7 @@ protected:
     void Slew(SkyPoint *ScopeTarget);
 
 public slots:
-    virtual void runCommand(int command, void *ptr=NULL);
+    virtual bool runCommand(int command, void *ptr=NULL);
 
 private:
 
@@ -220,7 +220,7 @@ public:
     int getFocusTabID() { return focusTabID; }
 
 public slots:
-    void runCommand(int command, void *ptr=NULL);
+    bool runCommand(int command, void *ptr=NULL);
     void FITSViewerDestroyed();
     void StreamWindowDestroyed();
 
@@ -269,7 +269,7 @@ public:
     DeviceFamily getType() { return dType;}
 
 public slots:
-    void runCommand(int command, void *ptr=NULL);
+    bool runCommand(int command, void *ptr=NULL);
 
 };
 
