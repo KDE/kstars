@@ -118,7 +118,7 @@ void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
   cat_entry.setData(cat_entry.index(row, 4), epoch);
   cat_entry.setData(cat_entry.index(row, 5), author);
   cat_entry.setData(cat_entry.index(row, 6), license);
-  
+
   cat_entry.submitAll();
 
   cat_entry.clear();
@@ -389,16 +389,24 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
       }
 
       //Detect a duplicate catalog name
-        if (FindByName(catalog_name)) {
-          if (!KMessageBox::warningYesNo(0, 
-                            i18n("A catalog of the same name already exists. "
-                                  "Overwrite contents? If you press yes, the"
-                                  " new catalog will erase the old one!"),
-                            i18n("Overwrite Existing Catalog") )) {
-              KMessageBox::information(0, "Catalog addition cancelled.");
-              return false;
-          }
+      if (FindByName(catalog_name)) {
+        if (KMessageBox::warningYesNo(0, 
+                          i18n("A catalog of the same name already exists. "
+                                "Overwrite contents? If you press yes, the"
+                                " new catalog will erase the old one!"),
+                          i18n("Overwrite Existing Catalog") ) == KMessageBox::No) {
+            KMessageBox::information(0, "Catalog addition cancelled.");
+            return false;
+        } else {
+            //TODO
+            //REMOVE OLD CATALOG, COntinue
         }
+        
+      }
+      
+      //Everything OK. Make a new Catalog entry in DB
+      AddCatalog(catalog_name, catPrefix, catColor, catEpoch);
+
       return true;
   }
 }
