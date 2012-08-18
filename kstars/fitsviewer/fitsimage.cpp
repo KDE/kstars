@@ -52,7 +52,7 @@
 #define ZOOM_HIGH_INCR	50
 
 const int MINIMUM_PIXEL_RANGE=5;
-const int MINIMUM_ROWS_PER_CENTER=5;
+const int MINIMUM_ROWS_PER_CENTER=3;
 const int MAXIMUM_HOR_SEPARATION=10;
 const int MAXIMUM_VER_SEPARATION=2;
 const int MINIMUM_STDVAR=5;
@@ -637,7 +637,8 @@ int FITSImage::getFITSRecord(QString &recordList, int &nkeys)
 /*** Find center of stars and calculate Half Flux Radius */
 void FITSImage::findCentroid()
 {
-    double threshold = stats.stddev* MINIMUM_STDVAR;
+    int initStdDev = MINIMUM_STDVAR;
+    double threshold=0;
     double avg = 0;
     double sum=0;
     int pixelRadius =0;
@@ -645,7 +646,11 @@ void FITSImage::findCentroid()
 
     QList<Edge*> edges;
 
-    //qDebug() << "The threshold level is " << threshold << endl;
+    while (initStdDev >= 1)
+    {
+       threshold = stats.stddev* initStdDev;
+
+       //qDebug() << "The threshold level is " << threshold << endl;
 
     // Detect "edges" that are above threshold
     for (int i=0; i < stats.dim[1]; i++)
@@ -668,7 +673,7 @@ void FITSImage::findCentroid()
             else if (sum > 0)
             {
                 // We found a potential centroid edge
-                if (pixelRadius >= MINIMUM_PIXEL_RANGE)
+                if (pixelRadius >= (MINIMUM_PIXEL_RANGE - (MINIMUM_STDVAR - initStdDev)))
                 {
                     int center = ceil(avg/sum);
 
@@ -682,7 +687,7 @@ void FITSImage::findCentroid()
                     newEdge->HFR        = 0;
 
                     //qDebug() << "# " << edges.count() << " Center at (" << center << "," << i << ") With a value of " << newEdge->val  << " and width of "
-                            // << pixelRadius << " pixels." <<endl;
+                             //<< pixelRadius << " pixels." <<endl;
 
                     edges.append(newEdge);
 
@@ -702,6 +707,14 @@ void FITSImage::findCentroid()
 
     //qDebug() << "Total number of edges found is: " << edges.count() << endl;
 
+    if (edges.count() >= MINIMUM_STDVAR)
+        break;
+
+      qDeleteAll(edges);
+      edges.clear();
+      initStdDev--;
+    }
+
     int cen_count=0;
     int cen_x=0;
     int cen_y=0;
@@ -718,6 +731,8 @@ void FITSImage::findCentroid()
             //qDebug() << "Skipping check for center " << i << " because it was already counted" << endl;
             continue;
         }
+
+        //qDebug() << "Invetigating edge # " << i << " now ..." << endl;
 
         // Get X, Y, and Val of edge
         cen_x = edges[i]->x;
@@ -754,7 +769,7 @@ void FITSImage::findCentroid()
         }
 
         // If centroid count is within acceptable range
-        if (cen_count >= MINIMUM_ROWS_PER_CENTER)
+        if (cen_count >= (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - initStdDev)))
         {
             // We detected a centroid, let's init it
             Edge *rCenter = new Edge();
@@ -763,7 +778,7 @@ void FITSImage::findCentroid()
             rCenter->y = edges[rc_index]->y;
             rCenter->width = edges[rc_index]->width;
 
-            //qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
+           // qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
 
             // Calculate Total Flux From Center, Half Flux, Full Summation
             double TF=0;
@@ -827,7 +842,7 @@ void FITSImage::drawStarCentroid(QPainter *painter)
     painter->setPen(QPen(Qt::red, 2));
 
     for (int i=0; i < starCenters.count() ; i++)
-      painter->drawText(starCenters[i]->x * (currentZoom / ZOOM_DEFAULT) -3, starCenters[i]->y * (currentZoom / ZOOM_DEFAULT)+4 , "+");
+      painter->drawText(starCenters[i]->x * (currentZoom / ZOOM_DEFAULT) -3, starCenters[i]->y * (currentZoom / ZOOM_DEFAULT)+3 , "+");
 }
 
 double FITSImage::getHFR()
