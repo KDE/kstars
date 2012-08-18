@@ -71,19 +71,7 @@ WIView::~WIView()
 
 void WIView::onCategorySelected(int type)
 {
-    switch(type)
-    {
-    case 0:                        ///Planet type
-    case 1:                        ///Star type
-    case 2:                        ///Constellation type
-        ctxt->setContextProperty("soListModel", m->returnModel(type));
-        break;
-    case 3:                        ///Galaxy type
-    case 4:                        ///Cluster type
-    case 5:                        ///Nebula type
-        ctxt->setContextProperty("soListModel", m->returnModel(type));
-        break;
-    }
+    ctxt->setContextProperty("soListModel", m->returnModel(type));
 }
 
 void WIView::onSoListItemClicked(int type, QString typeName, int index)

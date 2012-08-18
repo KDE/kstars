@@ -488,22 +488,26 @@ Rectangle {
                                 contentWidth: parent.width
                                 contentHeight: col.height
 
-                                Column {
-                                    id: col
-                                    width: parent.width
-                                    Text {
-                                        id: descText
-                                        objectName: "descTextObj"
-                                        color: "#187988"
-                                        text: qsTr("text")
-                                        anchors.top: parent.top
-                                        anchors.topMargin: 3
-                                        anchors.left: parent.left
-                                        anchors.leftMargin: 6
-                                        clip: true
-                                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                Item {
+                                    id: descTextItem
+                                    anchors.top :parent.top
+                                    anchors.topMargin: 3
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 6
+                                    anchors.right: parent.right
+                                    Column {
+                                        id: col
                                         width: parent.width
-                                        font.pixelSize: 12
+                                        Text {
+                                            id: descText
+                                            objectName: "descTextObj"
+                                            color: "#187988"
+                                            text: qsTr("text")
+                                            clip: true
+                                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                                            width: parent.width
+                                            font.pixelSize: 12
+                                        }
                                     }
                                 }
                             }
