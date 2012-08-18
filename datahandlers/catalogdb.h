@@ -81,9 +81,10 @@ private:
    **/
   bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns,
                             QString &catalog_name);
-  void AddCatalog(const QString& catalog_name, const QString& prefix,
-                  const QString& author, const QString& license = "None",
-                  const QString& compiled_by = "KStars Community");
+  void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
+                           const QString& color, const float epoch,
+                           const QString& author = "KStars Community",
+                           const QString& license = "None");
   // TODO(spacetime): Documentation !!
   static QList< QPair< QString, KSParser::DataTypes > > 
                             buildParserSequence(const QStringList& Columns);

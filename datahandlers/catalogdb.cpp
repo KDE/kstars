@@ -101,9 +101,10 @@ bool CatalogDB::FindByName(const QString &name) {
   return (catalog_count > 0);
 }
 
+
 void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
-                           const QString& author, const QString& license,
-                           const QString& compiled_by) {
+                           const QString& color, const float epoch,
+                           const QString& author, const QString& license) {
   skydb_.open();
   QSqlTableModel cat_entry(0, skydb_);
   cat_entry.setTable("Catalog");
@@ -122,6 +123,7 @@ void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
   cat_entry.clear();
   skydb_.close();
 }
+
 
 void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                          const QString& long_name, const double ra,

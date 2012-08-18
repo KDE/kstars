@@ -2,12 +2,18 @@
 import sqlite3
 conn = sqlite3.connect('../skycomponents.db')
 cur = conn.cursor()
-
-#cur.execute('''DROP TABLE ObjectDesignation''')
-
-#cur.execute('''DROP TABLE Catalog''')
-
-#cur.execute('''DROP TABLE DSO''')
+try:
+	cur.execute('''DROP TABLE ObjectDesignation''')
+except:
+	pass
+try:
+	cur.execute('''DROP TABLE Catalog''')
+except:
+	pass
+try:
+	cur.execute('''DROP TABLE DSO''')
+except:
+	pass
 
 cur.execute('''CREATE TABLE ObjectDesignation (
 		id INTEGER NOT NULL  DEFAULT NULL PRIMARY KEY,
@@ -21,10 +27,11 @@ cur.execute('''CREATE TABLE ObjectDesignation (
 cur.execute('''CREATE TABLE Catalog (
 		id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,
 		Name CHAR NOT NULL  DEFAULT 'NULL',
+		Prefix CHAR DEFAULT NULL,
+		Color CHAR DEFAULT '#CC0000',
+		Epoch FLOAT DEFAULT 2000.0,
 		Author CHAR DEFAULT NULL,
-		License MEDIUMTEXT DEFAULT NULL,
-		CompiledBy VARCHAR DEFAULT NULL,
-		Prefix CHAR DEFAULT NULL
+		License MEDIUMTEXT DEFAULT NULL
 		);
 		''');
 
