@@ -13,6 +13,7 @@
 #include <KMessageBox>
 
 #include "indi/driverinfo.h"
+#include "indi/indicommon.h"
 
 #include "fitsviewer/fitsviewer.h"
 #include "fitsviewer/fitstab.h"
@@ -52,11 +53,19 @@ Focus::Focus()
 void Focus::toggleAutofocus(bool enable)
 {
     if (enable)
+    {
         startFocusB->setEnabled(true);
+        focusInB->setEnabled(false);
+        focusOutB->setEnabled(false);
+        captureB->setEnabled(false);
+    }
     else
     {
         startFocusB->setEnabled(false);
         stopFocusB->setEnabled(false);
+        focusInB->setEnabled(true);
+        focusOutB->setEnabled(true);
+        captureB->setEnabled(true);
     }
 }
 
@@ -78,20 +87,20 @@ void Focus::startFocus()
 {
     lastFocusDirection = FOCUS_NONE;
 
+    HFR = 0;
+    /* Start 1000 ms */
+    pulseDuration=1000;
+
     capture();
 
     stopFocusB->setEnabled(true);
 
-    if (AutoModeR->isChecked())
-    {
-        startFocusB->setEnabled(false);
-        captureB->setEnabled(false);
-        focusOutB->setEnabled(false);
-        focusInB->setEnabled(false);
+    startFocusB->setEnabled(false);
+    captureB->setEnabled(false);
+    focusOutB->setEnabled(false);
+    focusInB->setEnabled(false);
 
-        focusProgress->setText(i18n("Autofocus in progress..."));
-    }
-
+    focusProgress->setText(i18n("Autofocus in progress..."));
 }
 
 void Focus::stopFocus()
@@ -99,9 +108,13 @@ void Focus::stopFocus()
 
     startFocusB->setEnabled(true);
     stopFocusB->setEnabled(false);
-    captureB->setEnabled(true);
-    focusOutB->setEnabled(true);
-    focusInB->setEnabled(true);
+
+    if (manualModeR->isChecked())
+    {
+        captureB->setEnabled(true);
+        focusOutB->setEnabled(true);
+        focusInB->setEnabled(true);
+    }
 
     currentCCD->setFocusMode(false);
 }
@@ -113,6 +126,9 @@ void Focus::capture()
         return;
 
     double seqExpose = 1.0;
+    CCDFrameType ccdFrame = FRAME_LIGHT;
+    CCDBinType   binType  = QUADRAPLE_BIN;
+
 
     // TODO: Set bining to 3x3
     // TODO: Make sure FRAME is LIGHT
@@ -125,17 +141,27 @@ void Focus::capture()
         return;
     }
 
+    currentCCD->setFocusMode(true);
+
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    currentCCD->setFocusMode(true);
+    currentCCD->runCommand(INDI_CCD_FRAME, &ccdFrame);
+
+    if (currentCCD->runCommand(INDI_CCD_BINNING, &binType) == false)
+    {
+        binType = TRIPLE_BIN;
+        if (currentCCD->runCommand(INDI_CCD_BINNING, &binType) == false)
+        {
+            binType = DOUBLE_BIN;
+            currentCCD->runCommand(INDI_CCD_BINNING, &binType);
+        }
+    }
 
     currentCCD->runCommand(INDI_CAPTURE, &seqExpose);
 
     focusProgress->setText(i18n("Capturing image..."));
 
 }
-
-
 
 void Focus::FocusIn(int ms)
 {
@@ -161,6 +187,7 @@ void Focus::FocusIn(int ms)
 
 void Focus::FocusOut(int ms)
 {
+
     if (currentFocuser == NULL)
         return;
 
@@ -186,7 +213,8 @@ void Focus::newFITS(IBLOB *bp)
 
     FITSViewer *fv = currentCCD->getViewer();
 
-    disconnect(this, SLOT(newFITS(IBLOB*)));
+    currentCCD->disconnect(this);
+
     double currentHFR=0;
 
     foreach(FITSTab *tab, fv->getImages())
@@ -203,8 +231,19 @@ void Focus::newFITS(IBLOB *bp)
 
     if (manualModeR->isChecked())
     {
-        HFR = currentHFR;
+        //HFR = currentHFR;
         HFROut->setText(QString("%1").arg(currentHFR, 0,'g', 3));
+        return;
+    }
+
+    //qDebug() << "Iteration #" << counter ++ << endl;
+    //qDebug() << "Pulse Duration: " << pulseDuration << endl;
+    //qDebug() << "Current HFR" << currentHFR << " last HFR " << HFR << " diff is " << fabs(currentHFR - HFR) << " tolernace is " << toleranceIN->value() << endl;
+
+    if (pulseDuration <= 32)
+    {
+        focusProgress->setText(i18n("Autofocus failed to reach proper focus."));
+        stopFocus();
         return;
     }
 
@@ -212,31 +251,34 @@ void Focus::newFITS(IBLOB *bp)
     {
         case FOCUS_NONE:
             HFR = currentHFR;
-            FocusIn();
+            FocusIn(pulseDuration);
             sleep(delayIN->value());
             capture();
             //qDebug() << "In Focus NONE and will focus in now " << endl;
             break;
 
         case FOCUS_IN:
-           qDebug() << "Focus in Case " << endl;
-            if (currentHFR < HFR)
+           //qDebug() << "Last Operation: FOCUS IN " << endl;
+
+            if (fabs(currentHFR - HFR) < toleranceIN->value())
             {
-                //qDebug() << "Will continue to focus in ..." << endl;
-                HFR = currentHFR;
-                FocusIn();
-            }
-            else if (fabs(currentHFR - HFR) < toleranceIN->value())
-            {
-                //qDebug() << "currentHFR is HFR, quitting " << endl;
+                //qDebug() << "currentHFR is HFR, quitting  HFR " << HFR << " currentHFR " << currentHFR << endl;
                 focusProgress->setText(i18n("Autofocus complete."));
                 stopFocus();
                 break;
             }
+            else if (currentHFR < HFR)
+            {
+                //qDebug() << "Will continue to focus in ..." << endl;
+                HFR = currentHFR;
+                FocusIn(pulseDuration);
+            }
             else
             {
-                //qDebug() << "Will change direction to focus out" << endl;
-                FocusOut();
+                //qDebug() << "Will change direction to FOCUS OUT" << endl;
+                HFR = currentHFR;
+                pulseDuration /= 2;
+                FocusOut(pulseDuration);
             }
 
             sleep(delayIN->value());
@@ -245,24 +287,27 @@ void Focus::newFITS(IBLOB *bp)
             break;
 
     case FOCUS_OUT:
-          //qDebug() << "Focus OUT Case " << endl;
-        if (currentHFR < HFR)
-        {
-            //qDebug() << "Will continue to focus out ..." << endl;
-            HFR = currentHFR;
-            FocusOut();
-        }
-        else if (fabs(currentHFR - HFR) < toleranceIN->value())
+          //qDebug() << "Last Operation: FOCUS OUT " << endl;
+
+        if (fabs(currentHFR - HFR) < toleranceIN->value())
         {
             //qDebug() << "currentHFR is HFR, quitting " << endl;
             focusProgress->setText(i18n("Autofocus complete."));
             stopFocus();
             break;
         }
+        else if (currentHFR < HFR)
+        {
+            //qDebug() << "Will continue to focus out ..." << endl;
+            HFR = currentHFR;
+            FocusOut(pulseDuration);
+        }
         else
         {
-            //qDebug() << "Will change direction to focus in" << endl;
-            FocusIn();
+            //qDebug() << "Will change direction to FOCUS IN" << endl;
+            HFR = currentHFR;
+            pulseDuration /= 2;
+            FocusIn(pulseDuration);
         }
 
          sleep(delayIN->value());
@@ -271,6 +316,7 @@ void Focus::newFITS(IBLOB *bp)
 
     }
 
+    //qDebug() << "########################################" << endl;
     //IDLog("We are reading current HFR: %g", currentHFR);
 
     HFROut->setText(QString("%1").arg(currentHFR, 0,'g', 3));

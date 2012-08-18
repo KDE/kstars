@@ -61,6 +61,7 @@ private:
     FocusType lastFocusDirection;
 
     double HFR;
+    int pulseDuration;
 
 };
 
