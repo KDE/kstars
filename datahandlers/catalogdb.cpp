@@ -17,6 +17,7 @@
 
 #include "catalogdb.h"
 
+
 bool CatalogDB::Initialize() {
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
   QString dbfile = KStandardDirs::locateLocal("data", "skyobjects.db");
@@ -40,20 +41,24 @@ bool CatalogDB::Initialize() {
   return true;
 }
 
+
 CatalogDB::~CatalogDB() {
   skydb_.close();
   QSqlDatabase::removeDatabase("skydb");
 }
+
 
 QSqlError CatalogDB::LastError() {
   // error description is in QSqlError::text()
   return skydb_.lastError();
 }
 
+
 QStringList* CatalogDB::Catalogs() {
   RefreshCatalogList();
   return &catalog_list_;
 }
+
 
 void CatalogDB::RefreshCatalogList()
 {  
@@ -78,6 +83,7 @@ void CatalogDB::RefreshCatalogList()
   skydb_.close();
 }
 
+
 bool CatalogDB::FindByName(const QString &name) {
   skydb_.open();
   QSqlTableModel catalog(0, skydb_);
@@ -93,6 +99,7 @@ bool CatalogDB::FindByName(const QString &name) {
 
   return (catalog_count > 0);
 }
+
 
 void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                          const QString& long_name, const double ra,
@@ -148,7 +155,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
         */
 
       if ( !ParseCatalogInfoToDB(lines, columns, catalog_name) ) {
-          kWarning() << "Incorrect header in catalog file: " << filename;
+          kWarning() << "Issue in catalog file header: " << filename;
           return false;
       }
       // The entry in the Catalog table is now ready!
@@ -179,6 +186,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
   }
   return true;
 }
+
 
 bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns,
                                      QString &catalog_name) {
