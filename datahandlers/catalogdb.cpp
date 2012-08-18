@@ -113,10 +113,11 @@ void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
   cat_entry.insertRows(row, 1);
   // row(0) is autoincerement ID
   cat_entry.setData(cat_entry.index(row, 1), catalog_name);
-  cat_entry.setData(cat_entry.index(row, 2), author);
-  cat_entry.setData(cat_entry.index(row, 3), license);
-  cat_entry.setData(cat_entry.index(row, 4), compiled_by);
-  cat_entry.setData(cat_entry.index(row, 5), prefix);
+  cat_entry.setData(cat_entry.index(row, 2), prefix);
+  cat_entry.setData(cat_entry.index(row, 3), color);
+  cat_entry.setData(cat_entry.index(row, 4), epoch);
+  cat_entry.setData(cat_entry.index(row, 5), author);
+  cat_entry.setData(cat_entry.index(row, 6), license);
   
   cat_entry.submitAll();
 
