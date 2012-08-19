@@ -58,7 +58,7 @@
 
 bool SkyMapDrawAbstract::m_DrawLock = false;
 
-SkyMapDrawAbstract::SkyMapDrawAbstract( SkyMap *sm ) : 
+SkyMapDrawAbstract::SkyMapDrawAbstract( SkyMap *sm ) :
     m_KStarsData( KStarsData::Instance() ), m_SkyMap( sm ) {
     m_fpstime.start();
     m_framecount = 0;
@@ -78,9 +78,7 @@ void SkyMapDrawAbstract::drawOverlays( QPainter& p, bool drawFov ) {
         }
     }
 
-    #ifdef HAVE_INDI_H
     drawTelescopeSymbols( p );
-    #endif
 
     drawZoomBox( p );
 
@@ -184,13 +182,14 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
 {
     Q_UNUSED(psky);
 
+#ifdef HAVE_INDI_H
     if (!Options::showTargetCrosshair())
         return;
 
     if (INDIListener::Instance()->size() == 0)
         return;
-
     SkyPoint indi_sp;
+
     psky.setPen( QPen( QColor( m_KStarsData->colorScheme()->colorNamed("TargetColor" ) ) ) );
     psky.setBrush( Qt::NoBrush );
     float pxperdegree = Options::zoomFactor()/57.3;
@@ -295,8 +294,8 @@ void SkyMapDrawAbstract::drawTelescopeSymbols(QPainter &psky)
         }
 
     }
+#endif
 }
-
 
 
 
