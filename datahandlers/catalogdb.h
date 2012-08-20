@@ -68,7 +68,7 @@ private:
   QSqlDatabase skydb_;
   QSqlError LastError();
   QStringList catalog_list_;
-  bool FindByName(const QString &name);
+  bool FindCatalog(const QString &name);
 
   /**
    * @short Add the catalog name and details to the db.

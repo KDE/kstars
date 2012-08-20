@@ -19,6 +19,7 @@
 
 
 bool CatalogDB::Initialize() {
+  //TODO(spacetime): Shift db to user directory
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
   QString dbfile = KStandardDirs::locate( "appdata", 
                                            QString("skycomponents.db") );
@@ -69,7 +70,7 @@ void CatalogDB::RefreshCatalogList()
   catalog.setTable("Catalog");
   catalog.select();
 
-  for (int i =0; i < catalog.rowCount(); ++i) {
+  for (int i = 0; i < catalog.rowCount(); ++i) {
       QSqlRecord record = catalog.record(i);
       // TODO(spacetime): complete list!
       QString name = record.value("Name").toString();
@@ -85,7 +86,7 @@ void CatalogDB::RefreshCatalogList()
 }
 
 
-bool CatalogDB::FindByName(const QString &name) {
+bool CatalogDB::FindCatalog(const QString &name) {
   skydb_.open();
   QSqlTableModel catalog(0, skydb_);
 
@@ -94,11 +95,16 @@ bool CatalogDB::FindByName(const QString &name) {
   catalog.select();
 
   int catalog_count = catalog.rowCount();
+  QSqlRecord record = catalog.record(0);
+
+  int returnval = -1;
+  if (catalog_count > 0)
+    returnval = record.value("id").toInt();
 
   catalog.clear();
   skydb_.close();
 
-  return (catalog_count > 0);
+  return returnval;
 }
 
 
@@ -152,24 +158,56 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                          const float major_axis, const float minor_axis,
                          const float flux) {
   skydb_.open();
-  QSqlTableModel dso_entry(0, skydb_);
-  dso_entry.setTable("DSO");
+
+  //Part 1: Adding in DSO table
+  // I will not use QSQLTableModel as I need to execute a query to find
+  // out the lastInsertId
+
+  /*
+   * TODO (spacetime): Match the incoming entry with the ones from the db
+   * with certain fuzz. If found, store it in rowuid
+  */
+  qint32 rowuid;
+  qint32 catid;
+  QSqlQuery add_query;
+  add_query.prepare("INSERT INTO DSO (RA, Dec, Type, Magnitude, PositionAngle,"
+                    " MajorAxis, MinorAxis, Flux) VALUES (:RA, :Dec, :Type,"
+                    " :Magnitude, :PositionAngle, :MajorAxis, :MinorAxis,"
+                    " :Flux)");
+  add_query.bindValue("RA", ra);
+  add_query.bindValue("Dec", dec);
+  add_query.bindValue("Type", type);
+  add_query.bindValue("Magnitude", magnitude);
+  add_query.bindValue("PositionAngle", position_angle);
+  add_query.bindValue("MajorAxis", major_axis);
+  add_query.bindValue("MinorAxis", minor_axis);
+  add_query.bindValue("Flux", flux);
+  if (!add_query.exec())
+    kWarning() << skydb_.lastError();
+
+  //Find UID of the Row just added
+  rowuid = add_query.lastInsertId().toInt();
+
+  add_query.clear();
+
+  //Find ID of catalog
+  catid = FindCatalog(catalog_name);
+
+  //Part 2: Add in Object Designation
+  QSqlTableModel od_entry(0, skydb_);
+  od_entry.setTable("ObjectDesignation");
 
   int row = 0;
-  dso_entry.insertRows(row, 1);
+  od_entry.insertRows(row, 1);
   // row(0) is autoincerement ID
-  dso_entry.setData(dso_entry.index(row, 1), ra);
-  dso_entry.setData(dso_entry.index(row, 2), dec);
-  dso_entry.setData(dso_entry.index(row, 3), type);
-  dso_entry.setData(dso_entry.index(row, 4), magnitude);
-  dso_entry.setData(dso_entry.index(row, 5), position_angle);
-  dso_entry.setData(dso_entry.index(row, 6), major_axis);
-  dso_entry.setData(dso_entry.index(row, 7), minor_axis);
-  dso_entry.setData(dso_entry.index(row, 8), flux);
-  
-  dso_entry.submitAll();
+  od_entry.setData(od_entry.index(row, 1), catid);
+  od_entry.setData(od_entry.index(row, 2), rowuid);
+  od_entry.setData(od_entry.index(row, 3), long_name);
+  od_entry.setData(od_entry.index(row, 4), ID);
 
-  dso_entry.clear();
+  od_entry.submitAll();
+  od_entry.clear();
+
   skydb_.close();
 }
 
@@ -408,7 +446,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
       }
 
       //Detect a duplicate catalog name
-      if (FindByName(catalog_name)) {
+      if (FindCatalog(catalog_name) != -1) {
         if (KMessageBox::warningYesNo(0, 
                           i18n("A catalog of the same name already exists. "
                                 "Overwrite contents? If you press yes, the"
