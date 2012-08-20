@@ -430,22 +430,8 @@ void SkyMap::slotCenter() {
 }
 
 void SkyMap::slotDSS() {
-    // TODO: Remove code duplication -- we have the same stuff
-    // implemented in ObservingList::setCurrentImage() etc. in
-    // tools/observinglist.cpp; must try to de-duplicate as much as
-    // possible.
-
-    const QString URLprefix( "http://archive.stsci.edu/cgi-bin/dss_search?v=1" );
-    const QString URLsuffix( "&e=J2000&f=gif&c=none&fov=NONE" );
-    const double dss_default_size = 15.0; // TODO: Make this user-configurable
-    const double dss_padding = 10.0; // TODO: Make this user-configurable
     dms ra(0.0), dec(0.0);
     QString urlstring;
-
-    float height, width;
-    height = width = 0;
-
-    Q_ASSERT( dss_default_size > 0.0 && dss_padding >= 0.0 );
 
     //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
     //if we clicked on empty sky, we need to precess to J2000.
@@ -476,40 +462,44 @@ void SkyMap::slotDSS() {
 }
 
 void SkyMap::slotSDSS() {
-	QString URLprefix( "http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?" );
-	QString URLsuffix( "&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)" );
-	dms ra(0.0), dec(0.0);
-	QString RAString, DecString;
+    // TODO: Remove code duplication -- we have the same stuff
+    // implemented in ObservingList::setCurrentImage() etc. in
+    // tools/observinglist.cpp; must try to de-duplicate as much as
+    // possible.
+    QString URLprefix( "http://casjobs.sdss.org/ImgCutoutDR6/getjpeg.aspx?" );
+    QString URLsuffix( "&scale=1.0&width=600&height=600&opt=GST&query=SR(10,20)" );
+    dms ra(0.0), dec(0.0);
+    QString RAString, DecString;
 
-	//ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
-	//if we clicked on empty sky, we need to precess to J2000.
-	if ( clickedObject() ) {
-		ra  = clickedObject()->ra0();
-		dec = clickedObject()->dec0();
-	} else {
-		//move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
-		clickedPoint()->setRA0( clickedPoint()->ra() );
-		clickedPoint()->setDec0( clickedPoint()->dec() );
-		clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
-		ra  = clickedPoint()->ra();
-		dec = clickedPoint()->dec();
+    //ra and dec must be the coordinates at J2000.  If we clicked on an object, just use the object's ra0, dec0 coords
+    //if we clicked on empty sky, we need to precess to J2000.
+    if ( clickedObject() ) {
+        ra  = clickedObject()->ra0();
+        dec = clickedObject()->dec0();
+    } else {
+        //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
+        clickedPoint()->setRA0( clickedPoint()->ra() );
+        clickedPoint()->setDec0( clickedPoint()->dec() );
+        clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
+        ra  = clickedPoint()->ra();
+        dec = clickedPoint()->dec();
 
-		//restore coords from present epoch
-		clickedPoint()->setRA(  clickedPoint()->ra0() );
-		clickedPoint()->setDec( clickedPoint()->dec0() );
-	}
+        //restore coords from present epoch
+        clickedPoint()->setRA(  clickedPoint()->ra0() );
+        clickedPoint()->setDec( clickedPoint()->dec0() );
+    }
 
-	RAString = RAString.sprintf( "ra=%f", ra.Degrees() );
-	DecString = DecString.sprintf( "&dec=%f", dec.Degrees() );
+    RAString = RAString.sprintf( "ra=%f", ra.Degrees() );
+    DecString = DecString.sprintf( "&dec=%f", dec.Degrees() );
 
-	//concat all the segments into the kview command line:
-	KUrl url (URLprefix + RAString + DecString + URLsuffix);
+    //concat all the segments into the kview command line:
+    KUrl url (URLprefix + RAString + DecString + URLsuffix);
 
     KStars* kstars = KStars::Instance();
     if( kstars ) {
         ImageViewer *iv = new ImageViewer( url,
-            i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ),
-            this );
+                                           i18n( "Sloan Digital Sky Survey image provided by the Astrophysical Research Consortium [free for non-commercial use]." ),
+                                           this );
         iv->show();
     }
 }
