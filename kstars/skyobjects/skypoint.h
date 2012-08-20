@@ -23,8 +23,8 @@
 
 #include <QList>
 
-#include "dms.h"
-#include "kstarsdatetime.h"
+#include "kstars/dms.h"
+#include "kstars/kstarsdatetime.h"
 
 class KSNumbers;
 class KSSun;

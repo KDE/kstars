@@ -34,6 +34,8 @@
 #include <QFile>
 #include <QDir>
 #include <datahandlers/ksparser.h>
+#include "kstars/skyobjects/starobject.h"
+#include "kstars/skyobjects//deepskyobject.h"
 /* Some notes about the database. (skycomponents.db)
  * 1) The uid for Object Designation is the uid being used by objects in KStars
  *    hence, the uid is a qint64 i.e. a 64 bit signed integer. Coincidentaly,
@@ -64,6 +66,7 @@ public:
                 const float flux);
                 
   void RemoveCatalog(const QString& catalog_name);
+  void GetAllObjects(const QString& catalog_name);
 private:
   QSqlDatabase skydb_;
   QSqlError LastError();
