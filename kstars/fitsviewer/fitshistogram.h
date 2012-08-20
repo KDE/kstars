@@ -19,6 +19,7 @@
 #define FITSHISTOGRAM
 
 #include "ui_fitshistogramui.h"
+#include "fitscommon.h"
 
 #include <QUndoCommand>
 #include <QPixmap>
@@ -57,7 +58,13 @@ public:
     void constructHistogram(int hist_width, int hist_height);
     void updateHistogram();
     int  findMax(int hist_width);
-    int type;
+    void lowPassFilter();
+    void equalize();
+    double getBinWidth() { return binWidth; }
+    QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getCumulativeFreq() { return cumulativeFreq; }
+    QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getHistogram() { return histArray; }
+
+    FITSScale type;
     int napply;
     double histFactor;
     double binWidth;
@@ -69,6 +76,7 @@ private:
     histogramUI *ui;
     int histogram_height, histogram_width;
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
+    QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq;
 
 public slots:
     void applyScale();
@@ -86,7 +94,7 @@ public slots:
 class FITSHistogramCommand : public QUndoCommand
 {
 public:
-    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, int newType, int lmin, int lmax);
+    FITSHistogramCommand(QWidget * parent, FITSHistogram *inHisto, FITSScale newType, int lmin, int lmax);
     virtual ~FITSHistogramCommand();
 
     virtual void redo();
@@ -95,8 +103,8 @@ public:
 
 
 private:
-    FITSHistogram *histo;
-    int type;
+    FITSHistogram *histogram;
+    FITSScale type;
     int min, max;
     float *buffer;
     FITSTab *tab;

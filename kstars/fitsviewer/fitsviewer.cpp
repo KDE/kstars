@@ -145,6 +145,14 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n( "Mark Stars"));
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
 
+    action = actionCollection()->addAction("low_pass_filter");
+    action->setText(i18n( "Low Pass Filter"));
+    connect(action, SIGNAL(triggered(bool)), SLOT(lowPassFilter()));
+
+    action = actionCollection()->addAction("equalize");
+    action->setText(i18n( "Equalize"));
+    connect(action, SIGNAL(triggered(bool)), SLOT(equalize()));
+
     
     /* Create GUI */
     createGUI("fitsviewer.rc");
@@ -452,6 +460,24 @@ void FITSViewer::toggleStars()
         tab->getImage()->toggleStars(markStars);
         tab->getImage()->updateFrame();
     }
+
+}
+
+void FITSViewer::lowPassFilter()
+{
+    if (fitsImages.empty())
+        return;
+
+  fitsImages[fitsTab->currentIndex()]->lowPassFilter();
+
+}
+
+void FITSViewer::equalize()
+{
+    if (fitsImages.empty())
+        return;
+
+    fitsImages[fitsTab->currentIndex()]->equalize();
 
 }
 

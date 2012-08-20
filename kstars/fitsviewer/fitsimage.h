@@ -38,7 +38,7 @@
 #endif
 
 #include <fitsio.h>
-
+#include "fitshistogram.h"
 #include "fitscommon.h"
 
 #define INITIAL_W	640

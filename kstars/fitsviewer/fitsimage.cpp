@@ -41,8 +41,6 @@
 #include <KMessageBox>
 #include <KFileDialog>
 
-
-
 #include "ksutils.h"
 
 #define ZOOM_DEFAULT	100.0
@@ -56,6 +54,8 @@ const int MINIMUM_ROWS_PER_CENTER=3;
 const int MAXIMUM_HOR_SEPARATION=10;
 const int MAXIMUM_VER_SEPARATION=2;
 const int MINIMUM_STDVAR=5;
+
+//#define FITS_LOG
 
 FITSLabel::FITSLabel(FITSImage *img, QWidget *parent) : QLabel(parent)
 {
@@ -650,7 +650,9 @@ void FITSImage::findCentroid()
     {
        threshold = stats.stddev* initStdDev;
 
-       //qDebug() << "The threshold level is " << threshold << endl;
+       #ifdef FITS_LOG
+       qDebug() << "The threshold level is " << threshold << endl;
+       #endif
 
     // Detect "edges" that are above threshold
     for (int i=0; i < stats.dim[1]; i++)
@@ -686,8 +688,10 @@ void FITSImage::findCentroid()
                     newEdge->width      = pixelRadius;
                     newEdge->HFR        = 0;
 
-                    //qDebug() << "# " << edges.count() << " Center at (" << center << "," << i << ") With a value of " << newEdge->val  << " and width of "
-                             //<< pixelRadius << " pixels." <<endl;
+                    #ifdef FITS_LOG
+                    qDebug() << "# " << edges.count() << " Center at (" << center << "," << i << ") With a value of " << newEdge->val  << " and width of "
+                             << pixelRadius << " pixels." <<endl;
+                    #endif
 
                     edges.append(newEdge);
 
@@ -705,7 +709,9 @@ void FITSImage::findCentroid()
 
      }
 
-    //qDebug() << "Total number of edges found is: " << edges.count() << endl;
+    #ifdef FITS_LOG
+    qDebug() << "Total number of edges found is: " << edges.count() << endl;
+    #endif
 
     if (edges.count() >= MINIMUM_STDVAR)
         break;
@@ -728,11 +734,15 @@ void FITSImage::findCentroid()
         // If edge scanned already, skip
         if (edges[i]->scanned == 1)
         {
-            //qDebug() << "Skipping check for center " << i << " because it was already counted" << endl;
+            #ifdef FITS_LOG
+            qDebug() << "Skipping check for center " << i << " because it was already counted" << endl;
+            #endif
             continue;
         }
 
-        //qDebug() << "Invetigating edge # " << i << " now ..." << endl;
+        #ifdef FITS_LOG
+        qDebug() << "Invetigating edge # " << i << " now ..." << endl;
+        #endif
 
         // Get X, Y, and Val of edge
         cen_x = edges[i]->x;
@@ -778,25 +788,30 @@ void FITSImage::findCentroid()
             rCenter->y = edges[rc_index]->y;
             rCenter->width = edges[rc_index]->width;
 
-           // qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
+           #ifdef FITS_LOG
+           qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
+
+           qDebug() << "Profile for this center is:" << endl;
+           for (int i=edges[rc_index]->width/2; i >= -(edges[rc_index]->width/2) ; i--)
+               qDebug() << "#" << i << " , " << image_buffer[rCenter->x-i+(rCenter->y*stats.dim[0])] - stats.min <<  endl;
+
+           #endif
 
             // Calculate Total Flux From Center, Half Flux, Full Summation
             double TF=0;
             double HF=0;
             double FSum=0;
-            int startX = rCenter->x - (rCenter->width / 2.0);
 
-            //qDebug() << "StartX is " << startX << endl;
-
-            // Complete sum along the radium
-            for (int k=0; k < rCenter->width; k++)
-                FSum += image_buffer[(rCenter->y * stats.dim[0]) + startX + k] - stats.min;
+            // Complete sum along the radius
+            //for (int k=0; k < rCenter->width; k++)
+            for (int k=rCenter->width/2; k >= -(rCenter->width/2) ; k--)
+                FSum += image_buffer[rCenter->x-k+(rCenter->y*stats.dim[0])] - stats.min;
 
             // Half flux
             HF = FSum / 2.0;
 
             // Total flux starting from center
-            TF = image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x];
+            TF = image_buffer[(rCenter->y * stats.dim[0]) + rCenter->x] - stats.min;
 
             int pixelCounter = 1;
 
@@ -808,7 +823,9 @@ void FITSImage::findCentroid()
 
                 if (TF >= HF)
                 {
-                    //qDebug() << "Stopping at TF " << TF << " after #" << k << " pixels." << endl;
+                    #ifdef FITS_LOG
+                    qDebug() << "Stopping at TF " << TF << " after #" << k << " pixels." << endl;
+                    #endif
                     break;
                 }
 
@@ -820,7 +837,9 @@ void FITSImage::findCentroid()
             // Store full flux
             rCenter->val = FSum;
 
-            //qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum << endl;
+            #ifdef FITS_LOG
+            qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum << endl;
+            #endif
              starCenters.append(rCenter);
         }
 
@@ -866,6 +885,5 @@ double FITSImage::getHFR()
     else
         return -1;
 }
-
 
 #include "fitsimage.moc"

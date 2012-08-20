@@ -38,6 +38,7 @@ public:
    QUndoStack *getUndoStack() { return undoStack; }
    KUrl * getCurrentURL() { return &currentURL; }
    FITSImage *getImage() { return image; }
+   FITSHistogram *getHistogram() { return histogram; }
    void saveFile();
    void saveFileAs();
    void copyFITS();
@@ -50,6 +51,8 @@ public:
 
    void saveUnsaved();
    void tabPositionUpdated();
+   void lowPassFilter();
+   void equalize();
 
 
 public slots:
