@@ -68,8 +68,10 @@ void CatalogDB::FirstRun()
 
     tables.append("CREATE TABLE DSO ("
                   "UID INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,"
-                  "RA DOUBLE NOT NULL  DEFAULT 0.0,"
-                  "Dec DOUBLE DEFAULT 0.0,"
+//                   "RA DOUBLE NOT NULL  DEFAULT 0.0," //Cannot deal with double??
+//                   "Dec DOUBLE DEFAULT 0.0,"
+                  "RA CHAR NOT NULL DEFAULT 'NULL',"
+                  "Dec CHAR NOT NULL DEFAULT 'NULL',"
                   "Type INTEGER DEFAULT NULL,"
                   "Magnitude DECIMAL DEFAULT NULL,"
                   "PositionAngle INTEGER DEFAULT NULL,"
@@ -536,6 +538,90 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
       return true;
   }
 }
+
+void CatalogDB::GetAllObjects(const QString &catalog,
+                              QList< SkyObject* > &sky_list,
+                              QStringList &names,
+                              CatalogComponent *catptr) {
+    sky_list.clear();
+
+    skydb_.open();
+    QSqlQuery get_query(skydb_);
+    get_query.prepare("SELECT (Epoch, Type, RA, Dec, Magnitude, Prefix, "
+                      "IDNumber, LongName, MajorAxis, MinorAxis, "
+                      "PositionAngle, Flux) FROM ObjectDesignation NATURAL "
+                      "JOIN DSO NATURAL JOIN Catalog WHERE Catalog.id = "
+                      ":catID");
+    get_query.bindValue("catID",FindCatalog(catalog));
+    
+    if (!get_query.exec()) {
+        kWarning() << get_query.lastQuery();
+        kWarning() << get_query.lastError();
+    }
+
+    while (get_query.next()) {
+        dms RA, Dec;
+
+        int catEpoch = get_query.value(0).toInt();
+        unsigned char iType = get_query.value(1).toInt();
+        RA.setFromString( get_query.value(2).toString(), false );
+        Dec.setFromString( get_query.value(3).toString(), true );
+        float mag = get_query.value(4).toFloat();
+        QString catPrefix = get_query.value(5).toString();
+        int idNum = get_query.value(6).toInt();
+        QString lname = get_query.value(7).toString();
+        float a = get_query.value(8).toFloat();
+        float b = get_query.value(9).toFloat();
+        float PA = get_query.value(10).toFloat();
+        float flux = get_query.value(11).toFloat();
+        
+        QString name = catPrefix + ' ' + QString::number(idNum);
+        SkyPoint t;
+        t.set( RA, Dec );
+
+        if( catEpoch == 1950 ) {
+            // Assume B1950 epoch
+            t.B1950ToJ2000(); // t.ra() and t.dec() are now J2000.0 coordinates
+        }
+        else if( catEpoch == 2000 ) {
+            // Do nothing
+            ;
+        }
+        else {
+            // FIXME: What should we do?
+            // FIXME: This warning will be printed for each line in the catalog
+            //        rather than once for the entire catalog
+            kWarning() << "Unknown epoch while dealing with custom catalog."
+                          "Will ignore the epoch and assume J2000.0";
+        }
+        RA = t.ra();
+        Dec = t.dec();
+
+        if ( iType == 0 ) { //Add a star
+            StarObject *o = new StarObject( RA, Dec, mag, lname );
+            sky_list.append( o );
+        } else { //Add a deep-sky object
+            DeepSkyObject *o = new DeepSkyObject( iType, RA, Dec, mag,
+                                                  name, QString(), lname, 
+                                                  catPrefix, a, b, PA );
+            o->setFlux(flux);
+            o->setCustomCatalog(catptr);
+
+            sky_list.append( o );
+
+            //Add name to the list of object names
+            if ( ! name.isEmpty() )
+                names.append( name );
+        }
+        if ( ! lname.isEmpty() && lname != name )
+            names.append( lname );
+
+    }
+
+    get_query.clear();
+    skydb_.close();
+}
+
 
 QList< QPair<QString, KSParser::DataTypes> > CatalogDB::
                             buildParserSequence(const QStringList& Columns)

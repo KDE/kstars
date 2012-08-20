@@ -21,8 +21,8 @@
 #include <qimage.h>
 #include <qpoint.h>
 
-#include "skyobject.h"
-#include "dms.h"
+#include "kstars/skyobjects/skyobject.h"
+#include "kstars/dms.h"
 
 class QImage;
 class QString;
