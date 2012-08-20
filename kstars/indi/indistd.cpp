@@ -568,6 +568,11 @@ const char * DeviceDecorator::getDeviceName()
     return interfacePtr->getDeviceName();
 }
 
+INDI::BaseDevice* DeviceDecorator::getBaseDevice()
+{
+    return interfacePtr->getBaseDevice();
+}
+
 QList<INDI::Property *> DeviceDecorator::getProperties()
 {
     return interfacePtr->getProperties();

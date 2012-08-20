@@ -40,6 +40,7 @@ typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
 /* new versions of glibc define TIME_UTC as a macro */
 #undef TIME_UTC
 
+
 /* INDI std properties */
 /* N.B. Need to modify corresponding entry in indidevice.cpp when changed */
 enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */

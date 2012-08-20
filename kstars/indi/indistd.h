@@ -60,6 +60,7 @@ public:
     virtual const char *getDeviceName()=0;
     virtual DriverInfo * getDriverInfo() = 0;
     virtual QList<INDI::Property *> getProperties() =0;
+    virtual INDI::BaseDevice* getBaseDevice()=0;
     virtual bool isConnected()=0;
 
     virtual ~GDInterface() {}
@@ -109,6 +110,7 @@ public:
     virtual DriverInfo * getDriverInfo() { return driverInfo;}
     virtual QList<INDI::Property *> getProperties() { return properties; }
     virtual bool isConnected() { return connected; }
+    virtual INDI::BaseDevice* getBaseDevice() { return baseDevice;}
 
 
 public slots:
@@ -155,6 +157,7 @@ public:
     const char *getDeviceName();
     DriverInfo *getDriverInfo();
     QList<INDI::Property *> getProperties();
+    virtual INDI::BaseDevice* getBaseDevice();
 
 public slots:
     virtual bool runCommand(int command, void *ptr=NULL);
