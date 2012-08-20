@@ -245,7 +245,7 @@ Rectangle {
                                 onEntered: container.state = "galAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(3)
-                                    container.state = "soTypeSelected"
+                                    container.state = "dsoTypeSelected"
                                 }
                             }
                             anchors.rightMargin: 0
@@ -284,7 +284,7 @@ Rectangle {
                                 onEntered: container.state = "nebAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(5)
-                                    container.state = "soTypeSelected"
+                                    container.state = "dsoTypeSelected"
                                 }
                             }
                             anchors.rightMargin: 0
@@ -323,7 +323,7 @@ Rectangle {
                                 onEntered: container.state = "clustAreaEntered"
                                 onClicked: {
                                     viewsRow.categorySelected(4)
-                                    container.state = "soTypeSelected"
+                                    container.state = "dsoTypeSelected"
                                 }
                             }
                             anchors.rightMargin: 0
@@ -856,6 +856,22 @@ Rectangle {
                         skyObjView.flipped = false
                     }
                 }
+                else if ( container.state == "dsoTypeSelected" )
+                {
+                    console.log("dsoTypeSelected")
+                    if ( !skyObjView.flipped )
+                    {
+                        console.log( "skyObjView.flipped :" + skyObjView.flipped )
+                        console.log( "categoryView.flipped :" + categoryView.flipped )
+                        container.state = "dsoAreaClicked"
+                        console.log( "container.state :"+container.state )
+                    }
+                    else if ( skyObjView.flipped )
+                    {
+                        console.log( "skyObjView.flipped :" + skyObjView.flipped )
+                        skyObjView.flipped = false
+                    }
+                }
             }
         }
     }
@@ -1012,14 +1028,6 @@ Rectangle {
             PropertyChanges {
                 target: dsoContainer
                 y: 160
-            }
-
-            PropertyChanges {
-                target: categoryView
-                x: 0
-                y: 31
-                width: 352
-                height: 351
             }
 
             PropertyChanges {
@@ -1301,6 +1309,101 @@ Rectangle {
                 target: backButton
                 x: 236
             }
+        },
+        State {
+            name: "dsoTypeSelected"
+
+            PropertyChanges {
+                target: viewsRow
+                x: -(container.width)
+                y: 0
+                anchors.topMargin: 0
+                anchors.bottomMargin: 0
+            }
+
+            PropertyChanges {
+                target: backButton
+                x: 236
+            }
+
+            PropertyChanges {
+                target: dsoText
+                font.pixelSize: "21"
+                font.bold: true
+            }
+
+            PropertyChanges {
+                target: galRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: nebRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: clustRect
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: planetRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: conRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: starRect
+                opacity: 0.350
+            }
+
+            PropertyChanges {
+                target: clustMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: galMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: nebMouseArea
+                hoverEnabled: true
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: dsoMouseArea
+                hoverEnabled: false
+            }
+
+            PropertyChanges {
+                target: dsoContainer
+                y: 160
+            }
+
+            PropertyChanges {
+                target: galText
+                color: "#e4800d"
+            }
+
+            PropertyChanges {
+                target: clustText
+                color: "#e4800d"
+            }
+
+            PropertyChanges {
+                target: nebText
+                color: "#e4800d"
+            }
         }
     ]
 
@@ -1309,19 +1412,40 @@ Rectangle {
             from: "*"
             to: "planetAreaEntered"
             NumberAnimation { target: planetText; property: "font.pixelSize"; to: 21; duration: 150 }
-            NumberAnimation { target: dsoContainer; property: "y"; to: 172; duration: 200 }
+            NumberAnimation { target: dsoText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: conText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: galText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: nebText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: dsoContainer; property: "y"; duration: 500 }
+            NumberAnimation { target: galRect; property: "opacity"; duration: 500 }
+            NumberAnimation { target: nebRect; property: "opacity"; duration: 500 }
+            NumberAnimation { target: clustRect; property: "opacity"; duration: 500 }
         },
         Transition {
             from: "*"
             to: "starAreaEntered"
             NumberAnimation { target: starText; property: "font.pixelSize"; to: 21; duration: 150 }
-            NumberAnimation { target: dsoContainer; property: "y"; to: 172; duration: 200 }
+            NumberAnimation { target: dsoText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: conText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: galText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: nebText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: dsoContainer; property: "y"; duration: 500 }
+            NumberAnimation { target: galRect; property: "opacity"; duration: 500 }
+            NumberAnimation { target: nebRect; property: "opacity"; duration: 500 }
+            NumberAnimation { target: clustRect; property: "opacity"; duration: 500 }
         },
         Transition {
             from: "*"
             to: "conAreaEntered"
             NumberAnimation { target: conText; property: "font.pixelSize"; to: 21; duration: 150 }
-            NumberAnimation { target: dsoContainer; property: "y"; to: 172; duration: 200 }
+            NumberAnimation { target: dsoText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: conText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: galText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: nebText; property: "font.pixelSize"; duration: 150 }
+            NumberAnimation { target: dsoContainer; property: "y"; duration: 500 }
+            NumberAnimation { target: galRect; property: "opacity"; duration: 500 }
+            NumberAnimation { target: nebRect; property: "opacity"; duration: 500 }
+            NumberAnimation { target: clustRect; property: "opacity"; duration: 500 }
         },
         Transition {
             from: "*"
@@ -1358,8 +1482,20 @@ Rectangle {
             NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
         },
         Transition {
+            from: "*"
+            to: "dsoTypeSelected"
+            NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+        },
+        Transition {
             from: "soTypeSelected"
             to: "base"
+            NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+            NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
+        },
+        Transition {
+            from: "dsoTypeSelected"
+            to: "dsoAreaClicked"
             NumberAnimation { target: viewsRow; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
             NumberAnimation { target: backButton; property: "x"; duration: 250; easing.type: Easing.InOutQuad }
         }
