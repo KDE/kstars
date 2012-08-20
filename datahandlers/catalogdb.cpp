@@ -86,7 +86,7 @@ void CatalogDB::RefreshCatalogList()
 }
 
 
-bool CatalogDB::FindCatalog(const QString &name) {
+int CatalogDB::FindCatalog(const QString &name) {
   skydb_.open();
   QSqlTableModel catalog(0, skydb_);
 
@@ -158,7 +158,6 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                          const float major_axis, const float minor_axis,
                          const float flux) {
   skydb_.open();
-
   //Part 1: Adding in DSO table
   // I will not use QSQLTableModel as I need to execute a query to find
   // out the lastInsertId
@@ -167,9 +166,9 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
    * TODO (spacetime): Match the incoming entry with the ones from the db
    * with certain fuzz. If found, store it in rowuid
   */
-  qint32 rowuid;
-  qint32 catid;
-  QSqlQuery add_query;
+  int rowuid;
+  int catid;
+  QSqlQuery add_query(skydb_);
   add_query.prepare("INSERT INTO DSO (RA, Dec, Type, Magnitude, PositionAngle,"
                     " MajorAxis, MinorAxis, Flux) VALUES (:RA, :Dec, :Type,"
                     " :Magnitude, :PositionAngle, :MajorAxis, :MinorAxis,"
@@ -183,31 +182,39 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
   add_query.bindValue("MinorAxis", minor_axis);
   add_query.bindValue("Flux", flux);
   if (!add_query.exec())
-    kWarning() << skydb_.lastError();
+    kWarning() << add_query.lastQuery();
 
   //Find UID of the Row just added
   rowuid = add_query.lastInsertId().toInt();
-
   add_query.clear();
+
+  /* TODO(spacetime)
+   * Possible Bugs in QSQL Db with SQLite
+   * 1) Unless the db is closed and opened again, the next queries
+   *    fail.
+   * 2) unless I clear the resources, db close fails. The doc says
+   *    this is to be rarely used.
+   */
 
   //Find ID of catalog
   catid = FindCatalog(catalog_name);
+  skydb_.close();
 
   //Part 2: Add in Object Designation
-  QSqlTableModel od_entry(0, skydb_);
-  od_entry.setTable("ObjectDesignation");
-
-  int row = 0;
-  od_entry.insertRows(row, 1);
-  // row(0) is autoincerement ID
-  od_entry.setData(od_entry.index(row, 1), catid);
-  od_entry.setData(od_entry.index(row, 2), rowuid);
-  od_entry.setData(od_entry.index(row, 3), long_name);
-  od_entry.setData(od_entry.index(row, 4), ID);
-
-  od_entry.submitAll();
-  od_entry.clear();
-
+  skydb_.open();
+  QSqlQuery add_od(skydb_);
+  add_od.prepare("INSERT INTO ObjectDesignation (id_Catalog, UID_DSO, LongName,"
+                 " IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
+  add_od.bindValue("catid",catid);
+  add_od.bindValue("rowuid",rowuid);
+  add_od.bindValue("longname",long_name);
+  add_od.bindValue("id",ID);
+  if (!add_od.exec()) {
+    kWarning() << add_od.lastQuery();
+    kWarning() << skydb_.lastError();
+  }
+  add_od.clear();
+  
   skydb_.close();
 }
 
