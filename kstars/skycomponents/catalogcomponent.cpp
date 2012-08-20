@@ -47,17 +47,10 @@ CatalogComponent::~CatalogComponent()
 {
 }
 
-//TODO(spacetime): Remove previous code
-
 void CatalogComponent::loadData()
 {
     emitProgressText( i18n("Loading custom catalog: %1", m_catName ) );
 
-    /*
-     * ******************************************
-     *   READ FROM DB HERE
-     * ******************************************
-    */
     QMap <int, QString> names;
 
     KStars::Instance()->data()->catalogdb()->GetAllObjects(m_catName,
@@ -139,4 +132,11 @@ void CatalogComponent::draw( SkyPainter *skyp )
             skyp->drawDeepSkyObject(dso,true);
         }
     }
+}
+
+bool CatalogComponent::selected()
+{
+    if (Options::showCatalogNames().contains(m_catName))
+      return true;
+    return false;
 }

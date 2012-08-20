@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "catalogdb.h"
+#include <kstars/Options.h>
 
 
 bool CatalogDB::Initialize() {
@@ -186,6 +187,10 @@ void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
 }
 
 void CatalogDB::RemoveCatalog(const QString& catalog_name) {
+    //Remove from Options if visible
+    QList<QString> checkedlist = Options::showCatalogNames();
+    if (checkedlist.contains(catalog_name))
+        Options::setShowCatalogNames(checkedlist.removeAll(catalog_name));
     skydb_.open();
     QSqlTableModel catalog(0, skydb_);
 
