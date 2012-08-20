@@ -75,27 +75,26 @@ Rectangle {
 
                 Rectangle {
                     id: planetRect
-                    x: 78
-                    y: 23
-                    width: 74
-                    height: 35
+                    x: 110
+                    y: 34
+                    width: planetText.width
+                    height: planetText.height
                     color: "#00000000"
+                    anchors.verticalCenterOffset: -131
+                    anchors.horizontalCenterOffset: -48
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
 
                     Text {
                         id: planetText
                         x: 0
                         y: 0
-                        width: 60
-                        height: 33
                         color: "#e4800d"
                         text: qsTr("Planets")
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        anchors.leftMargin: 0
-                        anchors.topMargin: 0
-                        anchors.rightMargin: 0
-                        anchors.bottomMargin: 0
-                        anchors.fill: parent
                         font.family: "Cantarell"
                         font.pixelSize: 16
 
@@ -114,19 +113,26 @@ Rectangle {
 
                 Rectangle {
                     id: starRect
-                    x: 193
-                    y: 48
-                    width: 136
-                    height: 42
+                    x: 218
+                    y: 82
+                    width: starText.width
+                    height: starText.height
                     color: "#00000000"
+                    anchors.verticalCenterOffset: -83
+                    anchors.horizontalCenterOffset: 75
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
 
                     Text {
                         id: starText
+                        x: 0
+                        y: 0
                         color: "#e4800d"
                         text: qsTr("Bright Stars")
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        anchors.fill: parent
                         font.family: "Cantarell"
                         font.pixelSize: 16
 
@@ -145,20 +151,25 @@ Rectangle {
 
                 Rectangle {
                     id: conRect
-                    x: 20
-                    y: 107
-                    width: 169
-                    height: 36
+                    x: 54
+                    y: 118
+                    width: conText.width
+                    height: conText.height
                     color: "#00000000"
+                    anchors.verticalCenterOffset: -47
+                    anchors.horizontalCenterOffset: -80
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
 
                     Text {
                         id: conText
                         color: "#e4800d"
                         text: qsTr("Constellations")
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
                         font.family: "Cantarell"
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        anchors.fill: parent
                         font.pixelSize: 16
 
                         MouseArea {
@@ -184,24 +195,26 @@ Rectangle {
 
                     Rectangle {
                         id: dsoRect
-                        x: 46
-                        y: 6
-                        width: 192
-                        height: 41
+                        x: 79
+                        y: 18
+                        width: dsoText.width
+                        height: dsoText.height
                         color: "#00000000"
+                        anchors.verticalCenterOffset: -54
+                        anchors.horizontalCenterOffset: 0
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
                         Text {
                             id: dsoText
                             x: 0
                             y: 0
-                            width: 60
-                            height: 33
                             color: "#e4800d"
                             text: qsTr("Deep-sky Objects")
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             font.pixelSize: 16
-                            anchors.fill: parent
-                            anchors.topMargin: 0
                             MouseArea {
                                 id: dsoMouseArea
                                 hoverEnabled: true
@@ -209,33 +222,33 @@ Rectangle {
                                 onEntered: container.state = "dsoAreaEntered"
                                 onClicked: container.state = "dsoAreaClicked"
                             }
-                            anchors.rightMargin: 0
-                            anchors.bottomMargin: 0
                             font.family: "Cantarell"
-                            anchors.leftMargin: 0
                         }
                     }
 
                     Rectangle {
                         id: galRect
-                        x: 9
-                        y: 59
-                        width: 97
-                        height: 35
+                        x: 35
+                        y: 68
+                        width: galText.width
+                        height: galText.height
                         color: "#00000000"
+                        anchors.verticalCenterOffset: -4
+                        anchors.horizontalCenterOffset: -77
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
                         opacity: 0.350
                         Text {
                             id: galText
                             x: 0
                             y: 0
-                            width: 60
-                            height: 33
                             color: "#6b6660"
                             text: qsTr("Galaxies")
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             font.pixelSize: 16
-                            anchors.fill: parent
                             anchors.topMargin: 0
                             MouseArea {
                                 id: galMouseArea
@@ -257,25 +270,27 @@ Rectangle {
 
                     Rectangle {
                         id: nebRect
-                        x: 105
-                        y: 122
-                        width: 96
-                        height: 35
+                        x: 96
+                        y: 124
+                        width: nebText.width
+                        height: nebText.height
                         color: "#00000000"
+                        anchors.verticalCenterOffset: 52
+                        anchors.horizontalCenterOffset: -17
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
                         opacity: 0.340
                         Text {
                             id: nebText
                             x: 0
                             y: 0
-                            width: 60
-                            height: 33
                             color: "#6b6660"
                             text: qsTr("Nebulae")
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             font.pixelSize: 16
-                            anchors.fill: parent
-                            anchors.topMargin: 0
                             MouseArea {
                                 id: nebMouseArea
                                 enabled: false
@@ -287,34 +302,33 @@ Rectangle {
                                     container.state = "dsoTypeSelected"
                                 }
                             }
-                            anchors.rightMargin: 0
-                            anchors.bottomMargin: 0
                             font.family: "Cantarell"
-                            anchors.leftMargin: 0
                         }
                     }
 
                     Rectangle {
                         id: clustRect
-                        x: 182
-                        y: 68
-                        width: 93
-                        height: 35
+                        x: 181
+                        y: 80
+                        width: clustText.width
+                        height: clustText.height
                         color: "#00000000"
+                        anchors.verticalCenterOffset: 8
+                        anchors.horizontalCenterOffset: 69
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
                         opacity: 0.350
                         Text {
                             id: clustText
                             x: 0
                             y: 0
-                            width: 60
-                            height: 33
                             color: "#6b6660"
                             text: qsTr("Clusters")
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
                             font.pixelSize: 16
-                            anchors.fill: parent
-                            anchors.topMargin: 0
                             MouseArea {
                                 id: clustMouseArea
                                 enabled: false
@@ -326,10 +340,7 @@ Rectangle {
                                     container.state = "dsoTypeSelected"
                                 }
                             }
-                            anchors.rightMargin: 0
-                            anchors.bottomMargin: 0
                             font.family: "Cantarell"
-                            anchors.leftMargin: 0
                         }
                     }
                 }
