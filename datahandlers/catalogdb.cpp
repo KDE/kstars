@@ -21,7 +21,7 @@
 bool CatalogDB::Initialize() {
   //TODO(spacetime): Shift db to user directory
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
-  QString dbfile = KStandardDirs::locate( "appdata", 
+  QString dbfile = KStandardDirs::locateLocal( "appdata", 
                                            QString("skycomponents.db") );
   QFile testdb(dbfile);
   bool first_run = false;
@@ -36,11 +36,58 @@ bool CatalogDB::Initialize() {
   } else {
       kDebug() << i18n("Opened the DSO Database. Ready!");
       if (first_run == true) {
-          //FirstRun();
+          FirstRun();
       }
   }
   skydb_.close();
   return true;
+}
+
+void CatalogDB::FirstRun()
+{
+    kWarning() << i18n("Rebuilding User Database");
+    QVector<QString> tables;
+    tables.append("CREATE TABLE ObjectDesignation ("
+                  "id INTEGER NOT NULL  DEFAULT NULL PRIMARY KEY,"
+                  "id_Catalog INTEGER DEFAULT NULL REFERENCES Catalog (id),"
+                  "UID_DSO INTEGER DEFAULT NULL REFERENCES DSO (UID),"
+                  "LongName MEDIUMTEXT DEFAULT NULL,"
+                  "IDNumber INTEGER DEFAULT NULL,"
+                  "Trixel INTEGER NULL COMMENT 'Trixel Number)");
+    //TODO (kstar):  `Trixel` int(11) NOT NULL COMMENT 'Trixel Number'
+    //                  For Future safet
+
+    tables.append("CREATE TABLE Catalog ("
+                  "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,"
+                  "Name CHAR NOT NULL  DEFAULT 'NULL',"
+                  "Prefix CHAR DEFAULT NULL,"
+                  "Color CHAR DEFAULT '#CC0000',"
+                  "Epoch FLOAT DEFAULT 2000.0,"
+                  "Author CHAR DEFAULT NULL,"
+                  "License MEDIUMTEXT DEFAULT NULL)");
+
+    tables.append("CREATE TABLE DSO ("
+                  "UID INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,"
+                  "RA DOUBLE NOT NULL  DEFAULT 0.0,"
+                  "Dec DOUBLE DEFAULT 0.0,"
+                  "Type INTEGER DEFAULT NULL,"
+                  "Magnitude DECIMAL DEFAULT NULL,"
+                  "PositionAngle INTEGER DEFAULT NULL,"
+                  "MajorAxis FLOAT NOT NULL  DEFAULT NULL,"
+                  "MinorAxis FLOAT DEFAULT NULL,"
+                  "Flux FLOAT DEFAULT NULL,"
+                  "Add1 VARCHAR DEFAULT NULL,"
+                  "Add2 INTEGER DEFAULT NULL,"
+                  "Add3 INTEGER DEFAULT NULL,"
+                  "Add4 INTEGER DEFAULT NULL)");
+
+    for (int i = 0; i < tables.count(); ++i) {
+        QSqlQuery query(skydb_);
+        if (!query.exec(tables[i])) {
+            kDebug() << query.lastError();
+        }
+    }
+    return;
 }
 
 

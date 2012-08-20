@@ -89,7 +89,7 @@ private:
   static QList< QPair< QString, KSParser::DataTypes > > 
                             buildParserSequence(const QStringList& Columns);
 
-
+  void FirstRun();
 };
 
 #endif // CATALOGDB_H
