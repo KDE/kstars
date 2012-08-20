@@ -201,8 +201,8 @@ void CatalogDB::RemoveCatalog(const QString& catalog_name) {
 
 
 void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
-                         const QString& long_name, const double ra,
-                         const double dec, const int type,
+                         const QString& long_name, const QString& ra,
+                         const QString& dec, const int type,
                          const float magnitude, const int position_angle,
                          const float major_axis, const float minor_axis,
                          const float flux) {
@@ -317,8 +317,8 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
       while (catalog_text_parser.HasNextRow()){
         row_content = catalog_text_parser.ReadNextRow();
         AddEntry(catalog_name, row_content["ID"].toInt(),
-                 row_content["Nm"].toString(), row_content["RA"].toDouble(),
-                 row_content["Dc"].toDouble(), row_content["Tp"].toInt(),
+                 row_content["Nm"].toString(), row_content["RA"].toString(),
+                 row_content["Dc"].toString(), row_content["Tp"].toInt(),
                  row_content["Mg"].toFloat(), row_content["PA"].toFloat(),
                  row_content["Mj"].toFloat(), row_content["Mn"].toFloat(),
                  row_content["Flux"].toFloat());
@@ -541,15 +541,15 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
 
 void CatalogDB::GetAllObjects(const QString &catalog,
                               QList< SkyObject* > &sky_list,
-                              QStringList &names,
+                              QMap <int, QString> &names,
                               CatalogComponent *catptr) {
     sky_list.clear();
 
     skydb_.open();
     QSqlQuery get_query(skydb_);
-    get_query.prepare("SELECT (Epoch, Type, RA, Dec, Magnitude, Prefix, "
+    get_query.prepare("SELECT Epoch, Type, RA, Dec, Magnitude, Prefix, "
                       "IDNumber, LongName, MajorAxis, MinorAxis, "
-                      "PositionAngle, Flux) FROM ObjectDesignation NATURAL "
+                      "PositionAngle, Flux FROM ObjectDesignation NATURAL "
                       "JOIN DSO NATURAL JOIN Catalog WHERE Catalog.id = "
                       ":catID");
     get_query.bindValue("catID",FindCatalog(catalog));
@@ -611,10 +611,10 @@ void CatalogDB::GetAllObjects(const QString &catalog,
 
             //Add name to the list of object names
             if ( ! name.isEmpty() )
-                names.append( name );
+                names.insert(iType, name);
         }
         if ( ! lname.isEmpty() && lname != name )
-            names.append( lname );
+            names.insert(iType, lname);
 
     }
 
@@ -636,9 +636,9 @@ QList< QPair<QString, KSParser::DataTypes> > CatalogDB::
     if (*iter == QString("ID"))
         current_type = KSParser::D_QSTRING;
     else if (*iter == QString("RA"))
-        current_type = KSParser::D_DOUBLE;
+        current_type = KSParser::D_QSTRING;
     else if (*iter == QString("Dc"))
-        current_type = KSParser::D_DOUBLE;
+        current_type = KSParser::D_QSTRING;
     else if (*iter == QString("Tp"))
         current_type = KSParser::D_INT;
     else if (*iter == QString("Nm"))

@@ -63,10 +63,19 @@ void CatalogComponent::loadData()
      *   READ FROM DB HERE
      * ******************************************
     */
-    
-    
-    
-    
+    QMap <int, QString> names;
+    KStars::Instance()->data()->catalogdb()->GetAllObjects(m_catName,
+                                                           m_ObjectList,
+                                                           names,
+                                                           this);
+    const int number_of_types = 10;
+    for (int i=0; i < number_of_types; i++) {
+      QList<QString> retrieved = names.values(i);
+      if (retrieved.length()>0) {
+          objectNames(i).append(retrieved);
+      }
+    }
+//     objectNames(iType).append( name );
 /*    QFile ccFile( m_Filename );
 
     if ( ccFile.open( QIODevice::ReadOnly ) ) {

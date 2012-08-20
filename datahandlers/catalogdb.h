@@ -60,8 +60,8 @@ public:
   bool AddCatalogContents(const QString &filename);
 
   void AddEntry(const QString &catalog_name, const int ID,
-                const QString &long_name, const double ra,
-                const double dec, const int type,
+                const QString &long_name, const QString& ra,
+                const QString& dec, const int type,
                 const float magnitude, const int position_angle,
                 const float major_axis, const float minor_axis,
                 const float flux);
@@ -69,7 +69,7 @@ public:
   void RemoveCatalog(const QString& catalog_name);
   void GetAllObjects(const QString &catalog,
                      QList< SkyObject* > &sky_list,
-                     QStringList &names,
+                     QMap <int, QString> &names,
                      CatalogComponent *catptr);
 private:
   QSqlDatabase skydb_;

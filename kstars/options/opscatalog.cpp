@@ -193,7 +193,7 @@ void OpsCatalog::slotRemoveCatalog() {
     //Remove entry in the QListView
     QListWidgetItem *todelete = CatalogList->takeItem( CatalogList->row( CatalogList->currentItem() ) );
     delete todelete;
-
+    refreshCatalogList();
     m_ConfigDialog->enableButtonApply( true );
 }
 
