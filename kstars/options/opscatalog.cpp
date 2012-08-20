@@ -163,17 +163,13 @@ void OpsCatalog::slotLoadCatalog() {
     if ( ! filename.isEmpty() ) {
         ksw->data()->catalogdb()->AddCatalogContents(filename);
         refreshCatalogList();
-        //TODO: remove this:
-//         CatalogComponent newCat( ksw->data()->skyComposite(), filename, true, 0 );
-//         if ( newCat.objectList().size() )
-            
     }
 }
 
 
 void OpsCatalog::refreshCatalogList() {
     //TODO Empty CatalogList
-
+    ksw->data()->catalogdb()->Catalogs();
     populateCustomCatalogs();
 }
 

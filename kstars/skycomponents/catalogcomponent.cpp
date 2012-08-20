@@ -47,12 +47,7 @@ CatalogComponent::~CatalogComponent()
 {
 }
 
-//TODO(spacetime): Save to DB using KSParser
-//TODO(spacetime): Load from DB
 //TODO(spacetime): Remove previous code
-
-
-
 
 void CatalogComponent::loadData()
 {
@@ -64,10 +59,7 @@ void CatalogComponent::loadData()
      * ******************************************
     */
     QMap <int, QString> names;
-    QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
-    float m_catEpoch;
-    bool m_Showerrs;
-    
+
     KStars::Instance()->data()->catalogdb()->GetAllObjects(m_catName,
                                                            m_ObjectList,
                                                            names,
@@ -79,6 +71,11 @@ void CatalogComponent::loadData()
           objectNames(i).append(retrieved);
       }
     }
+
+    KStars::Instance()->data()->catalogdb()->GetCatalogData(m_catName, m_catPrefix,
+                                                            m_catColor, m_catFluxFreq,
+                                                            m_catFluxUnit, m_catEpoch);
+  
 //     objectNames(iType).append( name );
 /*    QFile ccFile( m_Filename );
 

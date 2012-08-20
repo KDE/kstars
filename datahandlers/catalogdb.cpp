@@ -60,13 +60,13 @@ void CatalogDB::FirstRun()
     tables.append("CREATE TABLE Catalog ("
                   "id INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,"
                   "Name CHAR NOT NULL  DEFAULT 'NULL',"
-                  "Prefix CHAR DEFAULT NULL,"
+                  "Prefix CHAR DEFAULT 'NULL',"
                   "Color CHAR DEFAULT '#CC0000',"
                   "Epoch FLOAT DEFAULT 2000.0,"
                   "Author CHAR DEFAULT NULL,"
                   "License MEDIUMTEXT DEFAULT NULL,"
-                  "FluxFreq CHAR DEFAULT NULL,"
-                  "FluxUnit CHAR DEFAULT NULL)");
+                  "FluxFreq CHAR DEFAULT 'NULL',"
+                  "FluxUnit CHAR DEFAULT 'NULL')");
 
     tables.append("CREATE TABLE DSO ("
                   "UID INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,"
@@ -579,8 +579,12 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                       "PositionAngle, Flux FROM ObjectDesignation NATURAL "
                       "JOIN DSO NATURAL JOIN Catalog WHERE Catalog.id = "
                       ":catID");
-    get_query.bindValue("catID",FindCatalog(catalog));
-    
+    get_query.bindValue("catID",QString::number(FindCatalog(catalog)));
+
+    kWarning() << get_query.lastQuery();
+    kWarning() << get_query.lastError();
+    kWarning() << FindCatalog(catalog);
+
     if (!get_query.exec()) {
         kWarning() << get_query.lastQuery();
         kWarning() << get_query.lastError();

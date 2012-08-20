@@ -71,6 +71,10 @@ public:
                      QList< SkyObject* > &sky_list,
                      QMap <int, QString> &names,
                      CatalogComponent *catptr);
+  void GetCatalogData(const QString& catalog_name, QString &prefix,
+                      QString &color, QString &fluxfreq,
+                      QString &fluxunit, float &epoch);
+                      
 private:
   QSqlDatabase skydb_;
   QSqlError LastError();
@@ -93,10 +97,7 @@ private:
                   const QString& fluxfreq, const QString& fluxunit,
                   const QString& author = "KStars Community",
                   const QString& license = "None");
-  void GetCatalogData(const QString& catalog_name, QString &prefix,
-                      QString &color, QString &fluxfreq,
-                      QString &fluxunit, float &epoch);
-                      
+
   // TODO(spacetime): Documentation !!
   static QList< QPair< QString, KSParser::DataTypes > > 
                             buildParserSequence(const QStringList& Columns);
