@@ -92,6 +92,10 @@ private:
                   const QString& color, const float epoch,
                   const QString& author = "KStars Community",
                   const QString& license = "None");
+  void GetCatalogData(const QString& catalog_name, QString &prefix,
+                      QString &color, QString &fluxfreq,
+                      QString &fluxunit, float &epoch);
+                      
   // TODO(spacetime): Documentation !!
   static QList< QPair< QString, KSParser::DataTypes > > 
                             buildParserSequence(const QStringList& Columns);

@@ -64,7 +64,9 @@ void CatalogDB::FirstRun()
                   "Color CHAR DEFAULT '#CC0000',"
                   "Epoch FLOAT DEFAULT 2000.0,"
                   "Author CHAR DEFAULT NULL,"
-                  "License MEDIUMTEXT DEFAULT NULL)");
+                  "License MEDIUMTEXT DEFAULT NULL,
+                  "FluxFreq CHAR DEFAULT NULL,"
+                  "FluxUnit CHAR DEFAULT NULL)");
 
     tables.append("CREATE TABLE DSO ("
                   "UID INTEGER DEFAULT NULL PRIMARY KEY AUTOINCREMENT,"
@@ -159,7 +161,9 @@ int CatalogDB::FindCatalog(const QString &name) {
 
 void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
                            const QString& color, const float epoch,
-                           const QString& author, const QString& license) {
+                           const QString& author, const QString& license,
+                           const QString& fluxfreq, const QString& fluxunit
+                          ) {
   skydb_.open();
   QSqlTableModel cat_entry(0, skydb_);
   cat_entry.setTable("Catalog");
@@ -173,6 +177,8 @@ void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
   cat_entry.setData(cat_entry.index(row, 4), epoch);
   cat_entry.setData(cat_entry.index(row, 5), author);
   cat_entry.setData(cat_entry.index(row, 6), license);
+  cat_entry.setData(cat_entry.index(row, 7), fluxfreq);
+  cat_entry.setData(cat_entry.index(row, 8), fluxunit);
 
   cat_entry.submitAll();
 
@@ -538,6 +544,13 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
       return true;
   }
 }
+
+void CatalogDB::GetCatalogData(const QString& catalog_name, QString& prefix,
+                               QString& color, QString& fluxfreq,
+                               QString& fluxunit, float& epoch) {
+    
+}
+
 
 void CatalogDB::GetAllObjects(const QString &catalog,
                               QList< SkyObject* > &sky_list,
