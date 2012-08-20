@@ -189,13 +189,16 @@ void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
 void CatalogDB::RemoveCatalog(const QString& catalog_name) {
     //Remove from Options if visible
     QList<QString> checkedlist = Options::showCatalogNames();
-    if (checkedlist.contains(catalog_name))
+    if (checkedlist.contains(catalog_name)) {
         checkedlist.removeAll(catalog_name);
         Options::setShowCatalogNames(checkedlist);
+    }
+
+    // Part 1 Clear DSO Entries
+    ClearDSOEntries(FindCatalog(catalog_name));
+
     skydb_.open();
     QSqlTableModel catalog(0, skydb_);
-
-    //TODO Part 1 Clear DSO Entries
 
     // Part 2 Clear Catalog Table
     catalog.setTable("Catalog");
@@ -207,6 +210,25 @@ void CatalogDB::RemoveCatalog(const QString& catalog_name) {
 
     catalog.clear();
 
+    skydb_.close();
+}
+
+void CatalogDB::ClearDSOEntries(int catalog_id) {
+    skydb_.open();
+
+    QStringList del_query;
+    del_query.append("DELETE FROM DSO WHERE UID IN (SELECT UID_DSO FROM "
+                     "ObjectDesignation WHERE id_Catalog = " +
+                     QString::number(catalog_id) + ")");
+    del_query.append("DELETE FROM ObjectDesignation WHERE id_Catalog = " +
+                      QString::number(catalog_id));
+
+    for (int i = 0; i < del_query.count(); ++i) {
+        QSqlQuery query(skydb_);
+        if (!query.exec(del_query[i])) {
+            kDebug() << query.lastError();
+        }
+    }
     skydb_.close();
 }
 

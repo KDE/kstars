@@ -190,7 +190,7 @@ void OpsCatalog::slotRemoveCatalog() {
     QListWidgetItem *todelete = CatalogList->takeItem( CatalogList->row( CatalogList->currentItem() ) );
     delete todelete;
     refreshCatalogList();
-    m_ConfigDialog->enableButtonApply( true );
+//     m_ConfigDialog->enableButtonApply( true );
 }
 
 /*

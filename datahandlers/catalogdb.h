@@ -101,7 +101,7 @@ private:
   // TODO(spacetime): Documentation !!
   static QList< QPair< QString, KSParser::DataTypes > > 
                             buildParserSequence(const QStringList& Columns);
-
+  void ClearDSOEntries(int catalog_id);
   void FirstRun();
 };
 
