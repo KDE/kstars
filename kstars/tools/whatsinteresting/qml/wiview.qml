@@ -806,7 +806,7 @@ Rectangle {
         id: backButton
         x: container.width + 10
         y: 493
-        width: 114
+        width: leftArrow.width + goBackText.width + 18
         height: 49
         color: "#00000000"
         radius: 5
@@ -820,26 +820,28 @@ Rectangle {
 
         Text {
             id: goBackText
+            x: 45
+            y: 12
             color: "#f7e808"
-            text: "Go back"
-            anchors.leftMargin: 45
+            text: qsTr("Go back")
+            anchors.verticalCenterOffset: 0
+            anchors.horizontalCenterOffset: 53
+            anchors.horizontalCenter: leftArrow.horizontalCenter
+            anchors.verticalCenter: leftArrow.verticalCenter
             font.family: "Cantarell"
             font.pointSize: 13
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            anchors.fill: parent
         }
 
         Image {
             id: leftArrow
-            anchors.right: parent.right
-            anchors.rightMargin: 74
-            anchors.left: parent.left
-            anchors.leftMargin: 8
-            anchors.top: parent.top
-            anchors.topMargin: 8
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 9
+            x: 5
+            y: 9
+            anchors.verticalCenterOffset: 0
+            anchors.horizontalCenterOffset: -36
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
             source: "leftArrow.png"
         }
 

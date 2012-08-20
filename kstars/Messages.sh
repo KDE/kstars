@@ -69,7 +69,7 @@ rm -f tips.cpp
 
 $EXTRACTRC xplanet/*.ui *.ui printing/*.ui tools/*.ui dialogs/*.ui fitsviewer/*.ui indi/*.ui options/*.ui oal/*.ui *.rc *.kcfg >> rc.cpp || exit 11
 (cd data && $PREPARETIPS > ../tips.cpp)
-$XGETTEXT *.cpp *.h printing/*.cpp tools/*.cpp tools/*.h skycomponents/*.cpp widgets/*.cpp dialogs/*.cpp dialogs/*.h fitsviewer/*.cpp fitsviewer/*.h indi/*.cpp indi/*.h options/*.cpp options/*.h skyobjects/*.cpp skyobjects/*.h xplanet/*.cpp oal/*.h oal/*.cpp -o $podir/kstars.pot
+$XGETTEXT *.cpp *.h printing/*.cpp tools/*.cpp tools/*.h tools/whatsinteresting/*.h tools/whatsinteresting/*.cpp skycomponents/*.cpp widgets/*.cpp dialogs/*.cpp dialogs/*.h fitsviewer/*.cpp fitsviewer/*.h indi/*.cpp indi/*.h options/*.cpp options/*.h skyobjects/*.cpp skyobjects/*.h xplanet/*.cpp oal/*.h oal/*.cpp -o $podir/kstars.pot
 rm -f tips.cpp
 rm -f kstars_i18n.cpp
 rm -f rc.cpp

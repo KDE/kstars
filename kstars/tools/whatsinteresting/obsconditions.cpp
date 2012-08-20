@@ -95,7 +95,7 @@ double ObsConditions::getTrueMagLim()
      * The calculation is just based on the calculation of the
      * telescope's aperture to eye's pupil surface ratio.
      */
-    //kDebug() << (LM + 5*log10(aperture/7.5));
+
     return m_LM + 5 * log10(m_Aperture / 7.5);
 }
 

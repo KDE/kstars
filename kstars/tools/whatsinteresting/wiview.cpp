@@ -114,15 +114,15 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
 
     QString magText;
     if (soitem->getType() == SkyObjItem::Constellation)
-        magText = QString("Magnitude:  --");
+        magText = i18n("Magnitude:  --");
     else
-        magText = QString("Magnitude: ") + QString::number(soitem->getMagnitude()) + " mag";
+        magText = i18n("Magnitude: %1 %2", soitem->getMagnitude(), " mag");
     magTextObj->setProperty("text", magText);
 
-    QString sbText = QString("Surface Brightness: ") + soitem->getSurfaceBrightness();
+    QString sbText = i18n("Surface Brightness: %1", soitem->getSurfaceBrightness());
     sbTextObj->setProperty("text", sbText);
 
-    QString sizeText = QString("Size: ") + soitem->getSize();
+    QString sizeText = i18n("Size: %1", soitem->getSize());
     sizeTextObj->setProperty("text", sizeText);
 }
 

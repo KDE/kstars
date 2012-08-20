@@ -93,7 +93,7 @@ void SkyObjItem::setPosition(SkyObject* so)
     double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
     int rounded_azimuth = (int)(sp.az().Degrees()/22.5);
 
-    m_Position = QString("Now visible: About ") + (QString::number(rounded_altitude)) + (" degrees above the ") + (cardinals[rounded_azimuth]) + (" horizon ");
+    m_Position = i18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, cardinals[rounded_azimuth]);
 }
 
 QString SkyObjItem::getDesc() const
@@ -113,11 +113,11 @@ QString SkyObjItem::getDesc() const
     }
     else if (m_Type == Star)
     {
-        return "Bright Star";
+        return i18n("Bright Star");
     }
     else if (m_Type == Constellation)
     {
-        return "Constellation";
+        return i18n("Constellation");
     }
 
     return getTypeName();
@@ -139,7 +139,7 @@ QString SkyObjItem::getSurfaceBrightness() const
     {
     case Galaxy:
     case Nebula:
-        return KGlobal::locale()->formatNumber(SB) + " mag/arcmin^2";
+        return KGlobal::locale()->formatNumber(SB, 2) + " mag/arcmin^2";
     default:
         return QString(" --"); // Not applicable for other sky-objects
     }
@@ -152,9 +152,9 @@ QString SkyObjItem::getSize() const
     case Galaxy:
     case Cluster:
     case Nebula:
-        return QString::number(((DeepSkyObject *)m_So)->a()) + " arcminutes";
+        return KGlobal::locale()->formatNumber(((DeepSkyObject *)m_So)->a(), 2) + " arcminutes";
     case Planet:
-        return QString::number(((KSPlanetBase *)m_So)->angSize()) + " arcseconds";
+        return KGlobal::locale()->formatNumber(((KSPlanetBase *)m_So)->angSize(), 2) + " arcseconds";
     default:
         return QString(" --");
     }
