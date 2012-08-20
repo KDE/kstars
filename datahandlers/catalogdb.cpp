@@ -53,7 +53,7 @@ void CatalogDB::FirstRun()
                   "UID_DSO INTEGER DEFAULT NULL REFERENCES DSO (UID),"
                   "LongName MEDIUMTEXT DEFAULT NULL,"
                   "IDNumber INTEGER DEFAULT NULL,"
-                  "Trixel INTEGER NULL COMMENT 'Trixel Number)");
+                  "Trixel INTEGER NULL)");
     //TODO (kstar):  `Trixel` int(11) NOT NULL COMMENT 'Trixel Number'
     //                  For Future safet
 
@@ -369,7 +369,8 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
           } else { //duplicate name in header
               if ( showerrs )
                   errs.append( i18n( "Parsing header: " ) +
-                                i18n( "Extra Name field in header: %1.  Will be ignored", d.mid(iname) ) );
+                                i18n( "Extra Name field in header: %1."
+                                      "  Will be ignored", d.mid(iname) ) );
           }
       } else if ( iprefix == 0 ) { //line contains catalog prefix
           iprefix = d.indexOf(":")+2;
@@ -378,7 +379,8 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
           } else { //duplicate prefix in header
               if ( showerrs )
                   errs.append( i18n( "Parsing header: " ) +
-                                i18n( "Extra Prefix field in header: %1.  Will be ignored", d.mid(iprefix) ) );
+                                i18n( "Extra Prefix field in header: %1."
+                                      "  Will be ignored", d.mid(iprefix) ) );
           }
       } else if ( icolor == 0 ) { //line contains catalog prefix
           icolor = d.indexOf(":")+2;
@@ -387,7 +389,8 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
           } else { //duplicate prefix in header
               if ( showerrs )
                   errs.append( i18n( "Parsing header: " ) +
-                                i18n( "Extra Color field in header: %1.  Will be ignored", d.mid(icolor) ) );
+                                i18n( "Extra Color field in header: %1."
+                                      "  Will be ignored", d.mid(icolor) ) );
           }
       } else if ( iepoch == 0 ) { //line contains catalog epoch
           iepoch = d.indexOf(":")+2;
@@ -397,7 +400,9 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
               if ( !ok ) {
                   if ( showerrs )
                       errs.append( i18n( "Parsing header: " ) +
-                                    i18n( "Could not convert Epoch to float: %1.  Using 2000. instead", d.mid(iepoch) ) );
+                                    i18n( "Could not convert Epoch to float: "
+                                          "%1.  Using 2000. instead",
+                                          d.mid(iepoch) ) );
                   catEpoch = 2000.; //adopt default value
               }
           }
@@ -410,7 +415,9 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
           } else { //duplicate prefix in header
               if ( showerrs )
                   errs.append( i18n( "Parsing header: " ) +
-                                i18n( "Extra Flux Frequency field in header: %1.  Will be ignored", d.mid(ifluxfreq) ) );
+                                i18n( "Extra Flux Frequency field in header:"
+                                      " %1.  Will be ignored",
+                                      d.mid(ifluxfreq) ) );
           }
       } else if ( ifluxunit == 0 )
           { //line contains catalog flux unit
@@ -421,7 +428,9 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
                       } else { //duplicate prefix in header
                           if ( showerrs )
                               errs.append( i18n( "Parsing header: " ) +
-                                          i18n( "Extra Flux Unit field in header: %1.  Will be ignored", d.mid(ifluxunit) ) );
+                                           i18n( "Extra Flux Unit field in "
+                                           "header: %1.  Will be ignored", 
+                                           d.mid(ifluxunit) ) );
             }
 
       } else if ( ! foundDataColumns ) { //don't try to parse data column descriptors if we already found them
@@ -452,12 +461,14 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
                   fields.append( "Ig" ); //ignore the duplicate column
                   if ( showerrs )
                       errs.append( i18n( "Parsing header: " ) +
-                                    i18n( "Duplicate data field descriptor \"%1\" will be ignored", s ) );
+                                    i18n( "Duplicate data field descriptor "
+                                    "\"%1\" will be ignored", s ) );
               } else { //Invalid field
                   fields.append( "Ig" ); //ignore the invalid column
                   if ( showerrs )
                       errs.append( i18n( "Parsing header: " ) +
-                                    i18n( "Invalid data field descriptor \"%1\" will be ignored", s ) );
+                                    i18n( "Invalid data field descriptor "
+                                    "\"%1\" will be ignored", s ) );
               }
           }
 
@@ -474,28 +485,33 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
 
   if ( i == lines.size() ) {
       if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
-                                        i18n( "No data lines found after header.  Exiting." ) );
+                                        i18n( "No data lines found after"
+                                        " header.  Exiting." ) );
       return false;
   } else {
       //Make sure Name, Prefix, Color and Epoch were set
       if ( catalog_name.isEmpty() ) {
           if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
-                                            i18n( "No Catalog Name specified; setting to \"Custom\"" ) );
+                                            i18n( "No Catalog Name specified;"
+                                            " setting to \"Custom\"" ) );
           catalog_name = i18n("Custom");
       }
       if ( catPrefix.isEmpty() ) {
           if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
-                                            i18n( "No Catalog Prefix specified; setting to \"CC\"" ) );
+                                            i18n( "No Catalog Prefix specified"
+                                            "; setting to \"CC\"" ) );
           catPrefix = "CC";
       }
       if ( catColor.isEmpty() ) {
           if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
-                                            i18n( "No Catalog Color specified; setting to Red" ) );
+                                            i18n( "No Catalog Color specified"
+                                            "; setting to Red" ) );
           catColor = "#CC0000";
       }
       if ( catEpoch == 0. ) {
           if ( showerrs ) errs.append( i18n( "Parsing header: " ) +
-                                            i18n( "No Catalog Epoch specified; assuming 2000." ) );
+                                            i18n( "No Catalog Epoch specified"
+                                            "; assuming 2000." ) );
           catEpoch = 2000.;
       }
 
@@ -505,7 +521,8 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
                           i18n("A catalog of the same name already exists. "
                                 "Overwrite contents? If you press yes, the"
                                 " new catalog will erase the old one!"),
-                          i18n("Overwrite Existing Catalog") ) == KMessageBox::No) {
+                          i18n("Overwrite Existing Catalog") )
+            == KMessageBox::No) {
             KMessageBox::information(0, "Catalog addition cancelled.");
             return false;
         } else {
