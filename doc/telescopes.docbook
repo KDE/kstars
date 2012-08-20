@@ -221,9 +221,9 @@ For a detailed analysis of the sky, observations are also carried in other regio
 spectrum. Very popular and efficient are <firstterm>radio telescopes</firstterm>, developed mostly in the
 last century. A common problem for both radio and optical telescopes is the need for better resolution. We can
 derive the resolution of a telescope by using Rayleigh criterion, that states the resolving power is equal to the
-ratio of the incoming wavelength to the diameter of the aperture ( times 1.22 for circular apertures).
+ratio of the incoming wavelength to the diameter of the aperture (times 1.22 for circular apertures).
 So for a good resolution we need a diameter as big as possible. The biggest radio telescope in the world
-is the Arecibo telescope from Puerto Rico that uses a huge dish of 300 m diameter. In order to solve
+is the Arecibo telescope from Puerto Rico that uses a huge dish of 305 m diameter. In order to solve
 the problem for resolutions, astronomers have developed a new technique called interferometry. The
 basic principal of interferometry is that by observing the same object with two distinct telescopes we
 can obtain a final image by "connecting" the two initial ones. Nowadays, the most efficient observatory
@@ -231,7 +231,7 @@ that uses interferometry is the Very Large Array located near Socorro, New Mexic
 placed in a "Y" shape, with 25 m aperture each. There also exists a technique called Very Long Baseline
 Interferometry (VLBI) that allows astronomers to resolve images over the size of continents. The biggest
 project of the century in this domain is the building of the Atacama Large Millimeter Array (ALMA), which
-will be using 50 telescopes placed in the United States, Europe and Japan.
+will be using 66 telescopes placed in the Atacama desert of northern Chile.
 </para>
 </sect2>
 
@@ -245,8 +245,8 @@ Because Earth-based observations are affected by extinction due Earth's atmosphe
 carried out in space are more successful. We mention the <firstterm>Hubble Space Telescope (HST)</firstterm> that has a 2.4,
 f/24 primary mirror, the smoothest mirror ever constructed. The Hubble Space Telescope is placed on a
 low-orbit around Earth and because of the lack of atmosphere it can observe very faint objects.
-Another Space Telescope is the <firstterm>James Webb Space Telescope (JWST)</firstterm> which will be launched in 2011.
-It will have a 6m primary mirror and it will orbit around a gravitation stable point on the Sun-Earth line
+Another Space Telescope is the <firstterm>James Webb Space Telescope (JWST)</firstterm> which is planned to be launched in 2018.
+It will have a 6.5m primary mirror and it will orbit around a gravitation stable point on the Sun-Earth line
 known as the Second Lagrange Point (L2). Here the gravitational attractions due to both Sun and Earth
 balances the centrifugal force of an object set in motion around the Sun. This point has the special
 property that if an object is placed here, it is in equilibrium with respect to the Sun-Earth system.
