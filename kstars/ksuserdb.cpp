@@ -328,8 +328,9 @@ void KSUserDB::EraseAllEquipment(const QString &type) {
 /*
  * Telescope section
  */
-void KSUserDB::AddScope(const QString &model, const QString &vendor, const QString &driver,
-                       const QString &type, const double & focalLength, const double &aperture) {
+void KSUserDB::AddScope(const QString &model, const QString &vendor,
+                        const QString &driver, const QString &type,
+                        const double & focalLength, const double &aperture) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
@@ -348,8 +349,9 @@ void KSUserDB::AddScope(const QString &model, const QString &vendor, const QStri
     userdb_.close();
 }
 
-void KSUserDB::AddScope(const QString &model, const QString &vendor, const QString &driver,
-                        const QString &type, const double &focalLength, const double &aperture,
+void KSUserDB::AddScope(const QString &model, const QString &vendor,
+                        const QString &driver, const QString &type,
+                        const double &focalLength, const double &aperture,
                         const QString &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
@@ -402,8 +404,9 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
 /*
  * Eyepiece section
  */
-void KSUserDB::AddEyepiece(const QString &vendor, const QString &model, const double &focalLength,
-                           const double &fov, const QString &fovunit) {
+void KSUserDB::AddEyepiece(const QString &vendor, const QString &model,
+                           const double &focalLength, const double &fov,
+                           const QString &fovunit) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("eyepiece");
@@ -473,7 +476,8 @@ void KSUserDB::GetAllEyepieces(QList<OAL::Eyepiece *> &eyepiece_list) {
 /*
  * lens section
  */
-void KSUserDB::AddLens(const QString &vendor, const QString &model, const double &factor) {
+void KSUserDB::AddLens(const QString &vendor, const QString &model,
+                       const double &factor) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("lens");
@@ -551,8 +555,9 @@ void KSUserDB::AddFilter(const QString &vendor, const QString &model,
     userdb_.close();
 }
 
-void KSUserDB::AddFilter(const QString &vendor, const QString &model, const QString &type,
-                         const QString &color, const QString &id) {
+void KSUserDB::AddFilter(const QString &vendor, const QString &model,
+                         const QString &type, const QString &color,
+                         const QString &id) {
     userdb_.open();
     QSqlTableModel equip(0, userdb_);
     equip.setTable("filter");
