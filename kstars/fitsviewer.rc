@@ -24,6 +24,9 @@
 		<Action name="view_zoom_out"/>
 		<Action name="view_actual_size"/>
                 <Separator/>
+                <Action name="low_pass_filter"/>
+                <Action name="equalize"/>
+                <Separator/>
                 <Action name="mark_stars"/>
 </Menu>
 
