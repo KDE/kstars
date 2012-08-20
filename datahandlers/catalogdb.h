@@ -90,6 +90,7 @@ private:
                             QString &catalog_name);
   void AddCatalog(const QString& catalog_name, const QString& prefix,
                   const QString& color, const float epoch,
+                  const QString& fluxfreq, const QString& fluxunit,
                   const QString& author = "KStars Community",
                   const QString& license = "None");
   void GetCatalogData(const QString& catalog_name, QString &prefix,

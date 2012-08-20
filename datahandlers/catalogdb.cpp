@@ -64,7 +64,7 @@ void CatalogDB::FirstRun()
                   "Color CHAR DEFAULT '#CC0000',"
                   "Epoch FLOAT DEFAULT 2000.0,"
                   "Author CHAR DEFAULT NULL,"
-                  "License MEDIUMTEXT DEFAULT NULL,
+                  "License MEDIUMTEXT DEFAULT NULL,"
                   "FluxFreq CHAR DEFAULT NULL,"
                   "FluxUnit CHAR DEFAULT NULL)");
 
@@ -161,9 +161,8 @@ int CatalogDB::FindCatalog(const QString &name) {
 
 void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
                            const QString& color, const float epoch,
-                           const QString& author, const QString& license,
-                           const QString& fluxfreq, const QString& fluxunit
-                          ) {
+                           const QString& fluxfreq, const QString& fluxunit,
+                           const QString& author, const QString& license) {
   skydb_.open();
   QSqlTableModel cat_entry(0, skydb_);
   cat_entry.setTable("Catalog");
@@ -539,7 +538,8 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
       }
 
       //Everything OK. Make a new Catalog entry in DB
-      AddCatalog(catalog_name, catPrefix, catColor, catEpoch);
+      AddCatalog(catalog_name, catPrefix, catColor, catEpoch,
+                 catFluxFreq, catFluxUnit);
 
       return true;
   }
@@ -548,7 +548,21 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines, QStringList &colu
 void CatalogDB::GetCatalogData(const QString& catalog_name, QString& prefix,
                                QString& color, QString& fluxfreq,
                                QString& fluxunit, float& epoch) {
-    
+    skydb_.open();
+    QSqlTableModel catalog(0, skydb_);
+    catalog.setTable("Catalog");
+    catalog.setFilter("Name LIKE \'" + catalog_name + "\'");
+    catalog.select();
+
+    QSqlRecord record = catalog.record(0);
+    prefix = record.value("Prefix").toString();
+    color = record.value("Color").toString();
+    fluxfreq = record.value("FluxFreq").toString();
+    fluxunit = record.value("FluxUnit").toString();
+    epoch = record.value("Epoch").toFloat();
+
+    catalog.clear();
+    skydb_.close();
 }
 
 

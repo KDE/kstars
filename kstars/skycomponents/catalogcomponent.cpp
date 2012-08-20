@@ -64,6 +64,10 @@ void CatalogComponent::loadData()
      * ******************************************
     */
     QMap <int, QString> names;
+    QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
+    float m_catEpoch;
+    bool m_Showerrs;
+    
     KStars::Instance()->data()->catalogdb()->GetAllObjects(m_catName,
                                                            m_ObjectList,
                                                            names,
