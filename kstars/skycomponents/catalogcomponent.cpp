@@ -34,9 +34,9 @@
 
 QStringList CatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
 
-CatalogComponent::CatalogComponent(SkyComposite *parent, const QString &fname, bool showerrs, int index) :
+CatalogComponent::CatalogComponent(SkyComposite *parent, const QString &catname, bool showerrs, int index) :
     ListComponent(parent),
-    m_Filename( fname ),
+    m_catName( catname ),
     m_Showerrs( showerrs ),
     m_ccIndex(index)
 {
@@ -56,13 +56,17 @@ CatalogComponent::~CatalogComponent()
 
 void CatalogComponent::loadData()
 {
-    emitProgressText( i18n("Loading custom catalog: %1", m_Filename ) );
+    emitProgressText( i18n("Loading custom catalog: %1", m_catName ) );
 
     /*
      * ******************************************
      *   READ FROM DB HERE
      * ******************************************
     */
+    
+    
+    
+    
 /*    QFile ccFile( m_Filename );
 
     if ( ccFile.open( QIODevice::ReadOnly ) ) {

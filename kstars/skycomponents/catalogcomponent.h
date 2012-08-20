@@ -124,7 +124,6 @@ private:
 //     	*/
 //     static bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
 //                                         int &iStart, bool showerrs, QStringList &errs);
-    QString m_Filename;
     QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
     float m_catEpoch;
     bool m_Showerrs;

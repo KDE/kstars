@@ -86,9 +86,10 @@ SkyMapComposite::SkyMapComposite(SkyComposite *parent ) :
     addComponent( m_DeepSky    = new DeepSkyComponent( this ));
 
     m_CustomCatalogs = new SkyComposite( this );
-    for ( int i=0; i<Options::catalogFile().size(); ++ i ) {
+    QStringList *allcatalogs = KStars::Instance()->data()->catalogdb()->Catalogs();
+    for ( int i=0; i < allcatalogs->size(); ++ i ) {
         m_CustomCatalogs->addComponent(
-            new CatalogComponent( this, Options::catalogFile()[i], false, i )
+            new CatalogComponent( this, allcatalogs->at(i), false, i )
             );
     }
 

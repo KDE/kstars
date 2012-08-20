@@ -179,6 +179,14 @@ void OpsCatalog::refreshCatalogList() {
 
 
 void OpsCatalog::slotRemoveCatalog() {
+    if (KMessageBox::warningYesNo(0, 
+                     i18n("The selected database will be removed. "
+                           "This action cannot be reversed! Delete Catalog?"),
+                          i18n("Delete Catalog?") )
+            == KMessageBox::No) {
+            KMessageBox::information(0, "Catalog addition cancelled.");
+            return;
+    }
     //Ask DB to remove catalog
     ksw->data()->catalogdb()->RemoveCatalog( CatalogList->currentItem()->text() );
 
@@ -221,19 +229,6 @@ void OpsCatalog::slotApply() {
     Options::setShowNGC( m_ShowNGC );
     Options::setShowIC( m_ShowIC );
 
-//     //Remove custom catalogs as needed
-//     for ( int i=0; i < Options::catalogFile().size(); ++i ) {
-//         QString filename = Options::catalogFile()[i];
-// 
-//         if ( ! m_CustomCatalogFile->contains( filename ) ) {
-//             //Remove this catalog
-//             QString name = getCatalogName( filename );
-//             ksw->data()->skyComposite()->removeCustomCatalog( name );
-//         }
-//     }
-
-    //Add custom catalogs as needed
-    //TODO
     Options::setShowCatalogNames(m_CheckedCatalogNames);
 
     // update time for all objects because they might be not initialized
