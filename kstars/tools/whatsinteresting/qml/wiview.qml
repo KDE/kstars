@@ -820,13 +820,12 @@ Rectangle {
 
         Text {
             id: goBackText
-            x: 45
             y: 12
             color: "#f7e808"
-            text: qsTr("Go back")
+            text: qsTr("Back")
+            anchors.left: leftArrow.right
+            anchors.leftMargin: 7
             anchors.verticalCenterOffset: 0
-            anchors.horizontalCenterOffset: 53
-            anchors.horizontalCenter: leftArrow.horizontalCenter
             anchors.verticalCenter: leftArrow.verticalCenter
             font.family: "Cantarell"
             font.pointSize: 13
@@ -836,11 +835,10 @@ Rectangle {
 
         Image {
             id: leftArrow
-            x: 5
             y: 9
+            anchors.left: parent.left
+            anchors.leftMargin: 4
             anchors.verticalCenterOffset: 0
-            anchors.horizontalCenterOffset: -36
-            anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             source: "leftArrow.png"
         }
