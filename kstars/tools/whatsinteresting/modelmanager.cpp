@@ -31,11 +31,11 @@ ModelManager::ModelManager(ObsConditions *obs)
     clustModel = new SkyObjListModel();
     nebModel = new SkyObjListModel();
 
-    initobjects["Star"] = QList<SkyObject *>();
-    initobjects["Galaxy"] = QList<SkyObject *>();
-    initobjects["Constellation"] = QList<SkyObject *>();
-    initobjects["Cluster"] = QList<SkyObject *>();
-    initobjects["Nebula"] = QList<SkyObject *>();
+    initobjects[Star_Model] = QList<SkyObject *>();
+    initobjects[Galaxy_Model] = QList<SkyObject *>();
+    initobjects[Constellation_Model] = QList<SkyObject *>();
+    initobjects[Cluster_Model] = QList<SkyObject *>();
+    initobjects[Nebula_Model] = QList<SkyObject *>();
     updateModels(obs);
 }
 
@@ -65,59 +65,67 @@ void ModelManager::updateModels(ObsConditions *obs)
         QString soTypeName;
         QString line = fileReader.readLine();
 
+        if (line[0] == '#' || line.length() == 0)
+            continue;
+
         SkyObject *o;
         if ((o = data->skyComposite()->findByName(line)))
         {
+            kDebug()<<o->longname()<<o->typeName();
             if     (o->type() == SkyObject::OPEN_CLUSTER ||
                     o->type() == SkyObject::GLOBULAR_CLUSTER ||
                     o->type() == SkyObject::GALAXY_CLUSTER)
             {
-                initobjects["Cluster"].append(o);
+                initobjects[Cluster_Model].append(o);
             }
             else if (o->type() == SkyObject::PLANETARY_NEBULA ||
                      o->type() == SkyObject::DARK_NEBULA ||
                      o->type() == SkyObject::GASEOUS_NEBULA)
             {
-                initobjects["Nebula"].append(o);
+                initobjects[Nebula_Model].append(o);
             }
-            else
+            else if (o->type() == SkyObject::STAR)
             {
-                soTypeName = o->typeName();
-                QList<SkyObject *> solist = initobjects[soTypeName];
-                solist.append(o);
-                initobjects[soTypeName] = solist;
+                initobjects[Star_Model].append(o);
+            }
+            else if (o->type() == SkyObject::CONSTELLATION)
+            {
+                initobjects[Constellation_Model].append(o);
+            }
+            else if (o->type() == SkyObject::GALAXY)
+            {
+                initobjects[Galaxy_Model].append(o);
             }
         }
     }
 
-    foreach (SkyObject *so, initobjects.value("Star"))
+    foreach (SkyObject *so, initobjects.value(Star_Model))
     {
-        //kDebug()<<so->name()<<so->mag();
+        kDebug()<<so->longname()<<so->typeName();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             starsModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach (SkyObject *so, initobjects.value("Galaxy"))
+    foreach (SkyObject *so, initobjects.value(Galaxy_Model))
     {
-        //kDebug()<<so->name()<<so->mag();
+        kDebug()<<so->longname()<<so->typeName();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             galModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach (SkyObject *so, initobjects.value("Constellation"))
+    foreach (SkyObject *so, initobjects.value(Constellation_Model))
     {
-        //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             conModel->addSkyObject(new SkyObjItem(so));
         }
     }
 
-    foreach (SkyObject *so, initobjects.value("Cluster"))
+    foreach (SkyObject *so, initobjects.value(Cluster_Model))
     {
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
@@ -125,9 +133,8 @@ void ModelManager::updateModels(ObsConditions *obs)
         }
     }
 
-    foreach (SkyObject *so, initobjects.value("Nebula"))
+    foreach (SkyObject *so, initobjects.value(Nebula_Model))
     {
-        //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             nebModel->addSkyObject(new SkyObjItem(so));

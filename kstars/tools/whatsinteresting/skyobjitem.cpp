@@ -102,13 +102,16 @@ QString SkyObjItem::getDesc() const
     {
         KSFileReader fileReader;
         if (!fileReader.open("PlanetFacts.dat"))
-            return QString("No Description found for selected sky-object");
+            return i18n("No Description found for selected sky-object");
 
         while (fileReader.hasMoreLines())
         {
             QString line = fileReader.readLine();
             if (line.split("::")[0] == m_Name)
+            {
+                kDebug()<<i18n("%1", line.split("::")[1]);
                 return line.split("::")[1];
+            }
         }
     }
     else if (m_Type == Star)
