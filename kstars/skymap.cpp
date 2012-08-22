@@ -959,11 +959,6 @@ void SkyMap::setZoomFactor(double factor) {
     emit zoomChanged();
 }
 
-const Projector * SkyMap::projector() const
-{
-    return m_proj;
-}
-
 // force a new calculation of the skymap (used instead of update(), which may skip the redraw)
 // if now=true, SkyMap::paintEvent() is run immediately, rather than being added to the event queue
 // also, determine new coordinates of mouse cursor.
