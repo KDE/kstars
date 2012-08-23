@@ -608,9 +608,10 @@ void CatalogDB::GetAllObjects(const QString &catalog,
     QSqlQuery get_query(skydb_);
     get_query.prepare("SELECT Epoch, Type, RA, Dec, Magnitude, Prefix, "
                       "IDNumber, LongName, MajorAxis, MinorAxis, "
-                      "PositionAngle, Flux FROM ObjectDesignation NATURAL "
-                      "JOIN DSO NATURAL JOIN Catalog WHERE Catalog.id = "
-                      ":catID");
+                      "PositionAngle, Flux FROM ObjectDesignation JOIN DSO "
+                      "JOIN Catalog WHERE Catalog.id = :catID AND "
+                      "ObjectDesignation.id_Catalog = Catalog.id AND "
+                      "ObjectDesignation.UID_DSO = DSO.UID");
     get_query.bindValue("catID", QString::number(FindCatalog(catalog)));
 
     kWarning() << get_query.lastQuery();
