@@ -44,9 +44,8 @@
  *    
  */
 
-class CatalogDB
-{
-public:
+class CatalogDB {
+ public:
   bool Initialize();
   ~CatalogDB();
   QStringList* Catalogs();
@@ -65,7 +64,7 @@ public:
                 const float magnitude, const int position_angle,
                 const float major_axis, const float minor_axis,
                 const float flux);
-                
+
   /**
    * @brief Removes the catalog from the database and refreshes the listing.
    *
@@ -80,8 +79,8 @@ public:
   void GetCatalogData(const QString& catalog_name, QString &prefix,
                       QString &color, QString &fluxfreq,
                       QString &fluxunit, float &epoch);
-                      
-private:
+
+ private:
   QSqlDatabase skydb_;
   QSqlError LastError();
   QStringList catalog_list_;
@@ -106,10 +105,10 @@ private:
                   const QString& license = "None");
 
   // TODO(spacetime): Documentation !!
-  static QList< QPair< QString, KSParser::DataTypes > > 
+  static QList< QPair< QString, KSParser::DataTypes > >
                             buildParserSequence(const QStringList& Columns);
   void ClearDSOEntries(int catalog_id);
   void FirstRun();
 };
 
-#endif // CATALOGDB_H
+#endif  // CATALOGDB_H
