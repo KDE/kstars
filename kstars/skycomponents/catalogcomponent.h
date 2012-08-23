@@ -46,6 +46,7 @@ public:
     	*@p parent Pointer to the parent SkyComposite object
     	*/
     CatalogComponent( SkyComposite*, const QString &fname, bool showerrs, int index );
+
     /**
     	*@short Destructor.  Delete list members
     	*/
@@ -107,25 +108,13 @@ private:
     bool processCustomDataLine(int lnum, const QStringList &d, const QStringList &Columns,
                                bool showerrs, QStringList &errs);
 
-//     /**
-//     	*@short Read metadata about the catalog from its header
-//     	*@details The method processes the first few lines that denote the
-//     	*         Name, Prefix, Color and Epoch as well as the comment with the
-//         *         column structure.
-//     	*@p lines QStringlist containing all of the lines in the custom catalog file
-//     	*@p Columns QStringList containing the column descriptors (created by this function)
-//     	*@p CatalogName The name of the catalog, as read from the header by this function
-//     	*@p CatalogPrefix The prefix string for naming objects in this catalog (read by this function)
-//     	*@p CatalogColor The color for drawing symbols of objects in this catalog (read by this function)
-//     	*@p CatalogEpoch The coordinate epoch for the catalog (read by this function)
-//     	*@p iStart The line number of the first non-header line in the data file (determined by this function)
-//     	*@p showerrs if true, parse errors will be logged and reported
-//     	*@p errs reference to the string list containing the parse errors encountered
-//     	*/
-//     static bool parseCustomDataHeader( const QStringList &lines, QStringList &Columns,
-//                                         int &iStart, bool showerrs, QStringList &errs);
-
+    /**
+     * @brief Returns true if this catalog is to be drawn
+     * Overriden from SkyComponent::selected
+     * @return bool
+     **/
     bool selected();
+
     QString m_catName, m_catPrefix, m_catColor, m_catFluxFreq, m_catFluxUnit;
     float m_catEpoch;
     bool m_Showerrs;

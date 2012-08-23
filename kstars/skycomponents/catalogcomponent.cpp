@@ -17,38 +17,36 @@
 
 #include "catalogcomponent.h"
 
+#include <kdebug.h>
+#include <klocale.h>
+#include <kmessagebox.h>
 #include <QDir>
 #include <QFile>
 #include <QPixmap>
 #include <QTextStream>
-#include <kdebug.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-
-#include "Options.h"
-#include "kstarsdata.h"
-#include "skymap.h"
+#include "kstars/Options.h"
+#include "kstars/kstarsdata.h"
+#include "kstars/skymap.h"
 #include "skyobjects/starobject.h"
 #include "skyobjects/deepskyobject.h"
-#include "skypainter.h"
+#include "kstars/skypainter.h"
 
-QStringList CatalogComponent::m_Columns = QString( "ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig" ).split( ' ', QString::SkipEmptyParts );
+QStringList CatalogComponent::m_Columns
+                            = QString( "ID RA Dc Tp Nm Mg Flux Mj Mn PA Ig" )
+                              .split( ' ',QString::SkipEmptyParts );
 
-CatalogComponent::CatalogComponent(SkyComposite *parent, const QString &catname, bool showerrs, int index) :
-    ListComponent(parent),
-    m_catName( catname ),
-    m_Showerrs( showerrs ),
-    m_ccIndex(index)
-{
+CatalogComponent::CatalogComponent(SkyComposite *parent,
+                                   const QString &catname,
+                                   bool showerrs, int index)
+                                 : ListComponent(parent), m_catName(catname),
+                                   m_Showerrs(showerrs), m_ccIndex(index) {
     loadData();
 }
 
-CatalogComponent::~CatalogComponent()
-{
+CatalogComponent::~CatalogComponent() {
 }
 
-void CatalogComponent::loadData()
-{
+void CatalogComponent::loadData() {
     emitProgressText( i18n("Loading custom catalog: %1", m_catName ) );
 
     QMap <int, QString> names;
@@ -71,8 +69,7 @@ void CatalogComponent::loadData()
 
 }
 
-void CatalogComponent::update( KSNumbers * )
-{
+void CatalogComponent::update( KSNumbers * ) {
     if ( selected() ) {
         KStarsData *data = KStarsData::Instance();
         foreach ( SkyObject *obj, m_ObjectList ) {
@@ -105,8 +102,7 @@ void CatalogComponent::update( KSNumbers * )
     }
 }
 
-void CatalogComponent::draw( SkyPainter *skyp )
-{
+void CatalogComponent::draw( SkyPainter *skyp ) {
     if ( ! selected() ) return;
 
     skyp->setBrush( Qt::NoBrush );
@@ -129,13 +125,12 @@ void CatalogComponent::draw( SkyPainter *skyp )
             //PA for Deep-Sky objects is 90 + PA because major axis is horizontal at PA=0
             //double pa = 90. + map->findPA( dso, o.x(), o.y() );
             DeepSkyObject *dso = (DeepSkyObject*)obj;
-            skyp->drawDeepSkyObject(dso,true);
+            skyp->drawDeepSkyObject(dso, true);
         }
     }
 }
 
-bool CatalogComponent::selected()
-{
+bool CatalogComponent::selected() {
     if (Options::showCatalogNames().contains(m_catName))
       return true;
     return false;
