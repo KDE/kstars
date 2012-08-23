@@ -66,6 +66,12 @@ public:
                 const float major_axis, const float minor_axis,
                 const float flux);
                 
+  /**
+   * @brief Removes the catalog from the database and refreshes the listing.
+   *
+   * @param catalog_name Name of the catalog
+   * @return void
+   **/
   void RemoveCatalog(const QString& catalog_name);
   void GetAllObjects(const QString &catalog,
                      QList< SkyObject* > &sky_list,
@@ -92,6 +98,7 @@ private:
    **/
   bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns,
                             QString &catalog_name);
+
   void AddCatalog(const QString& catalog_name, const QString& prefix,
                   const QString& color, const float epoch,
                   const QString& fluxfreq, const QString& fluxunit,

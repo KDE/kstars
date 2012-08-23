@@ -168,7 +168,6 @@ void OpsCatalog::slotLoadCatalog() {
 
 
 void OpsCatalog::refreshCatalogList() {
-    //TODO Empty CatalogList
     ksw->data()->catalogdb()->Catalogs();
     populateCustomCatalogs();
 }
