@@ -24,7 +24,7 @@ Rectangle {
         width: 209
         height: 46
         color: "#59ad0e"
-        text: qsTr("What's Interesting...")
+        text: i18n("What's Interesting...")
         verticalAlignment: Text.AlignVCenter
         font.family: "Cantarell"
         font.bold: false
@@ -90,7 +90,7 @@ Rectangle {
                         x: 0
                         y: 0
                         color: "#e4800d"
-                        text: qsTr("Planets")
+                        text: i18n("Planets")
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                         verticalAlignment: Text.AlignVCenter
@@ -128,7 +128,7 @@ Rectangle {
                         x: 0
                         y: 0
                         color: "#e4800d"
-                        text: qsTr("Bright Stars")
+                        text: qsTr("Stars")
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                         verticalAlignment: Text.AlignVCenter
@@ -209,7 +209,7 @@ Rectangle {
                             x: 0
                             y: 0
                             color: "#e4800d"
-                            text: qsTr("Deep-sky Objects")
+                            text: i18n("Deep-sky Objects")
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
@@ -243,7 +243,7 @@ Rectangle {
                             x: 0
                             y: 0
                             color: "#6b6660"
-                            text: qsTr("Galaxies")
+                            text: i18n("Galaxies")
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter

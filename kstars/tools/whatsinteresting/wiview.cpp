@@ -22,6 +22,7 @@
 #include "dialogs/detaildialog.h"
 
 #include "kstandarddirs.h"
+#include "kdeclarative.h"
 
 WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs)
 {
@@ -116,13 +117,13 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     if (soitem->getType() == SkyObjItem::Constellation)
         magText = i18n("Magnitude:  --");
     else
-        magText = i18n("Magnitude: %1 %2", soitem->getMagnitude(), " mag");
+        magText = i18n("Magnitude") + ": " + QString::number(soitem->getMagnitude()) + " mag";
     magTextObj->setProperty("text", magText);
 
-    QString sbText = i18n("Surface Brightness: %1", soitem->getSurfaceBrightness());
+    QString sbText = i18n("Surface Brightness") + ": " + soitem->getSurfaceBrightness();
     sbTextObj->setProperty("text", sbText);
 
-    QString sizeText = i18n("Size: %1", soitem->getSize());
+    QString sizeText = i18n("Size") + ": " + soitem->getSize();
     sizeTextObj->setProperty("text", sizeText);
 }
 

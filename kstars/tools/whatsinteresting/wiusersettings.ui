@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>612</width>
-    <height>354</height>
+    <height>360</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -23,7 +23,7 @@
    <enum>QWizard::ClassicStyle</enum>
   </property>
   <widget class="QWizardPage" name="welcomePage">
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="welcomePageLabel">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -49,7 +49,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="welcomePageText">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -65,8 +65,14 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
     <property name="text">
      <string>Use this wizard to provide details of your location conditions and equipment specifications</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::AutoText</enum>
     </property>
     <property name="wordWrap">
      <bool>true</bool>
@@ -117,7 +123,7 @@
      <number>1</number>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="lightPollutionPageLabel">
     <property name="geometry">
      <rect>
       <x>420</x>
@@ -140,7 +146,7 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="lightPollutionText">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -150,7 +156,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>How light-polluted is your night-sky? Rate your night-sky conditions from 1-9 based on the Bortle Dark-Sky Scale. A rating of 1 represents an excellent dark-sky site, while 9 represents a brilliantly lit inner-city sky.</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;How light-polluted is your night-sky? Rate your night-sky conditions from 1-9 based on the &lt;span style=&quot; font-weight:600;&quot;&gt;Bortle Dark-Sky Scale&lt;/span&gt;. A rating of &lt;span style=&quot; font-weight:600;&quot;&gt;1&lt;/span&gt; represents an &lt;span style=&quot; font-weight:600;&quot;&gt;excellent dark-sky site&lt;/span&gt;, while &lt;span style=&quot; font-weight:600;&quot;&gt;9&lt;/span&gt; represents a &lt;span style=&quot; font-weight:600;&quot;&gt;brilliantly lit inner-city sky&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textFormat">
      <enum>Qt::RichText</enum>
@@ -162,7 +168,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="label_9">
+   <widget class="QLabel" name="lightPollutionLink">
     <property name="geometry">
      <rect>
       <x>250</x>
@@ -181,7 +187,7 @@
      <set>Qt::TextBrowserInteraction</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_10">
+   <widget class="QLabel" name="scaleLabel1">
     <property name="geometry">
      <rect>
       <x>70</x>
@@ -197,7 +203,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_11">
+   <widget class="QLabel" name="scaleLabel5">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -213,7 +219,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_12">
+   <widget class="QLabel" name="scaleLabel9">
     <property name="geometry">
      <rect>
       <x>500</x>
@@ -231,7 +237,7 @@
    </widget>
   </widget>
   <widget class="QWizardPage" name="equipTypePage">
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="equipSpecPageLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -298,7 +304,7 @@
    </widget>
   </widget>
   <widget class="QWizardPage" name="equipParamPage">
-   <widget class="QLabel" name="label_6">
+   <widget class="QLabel" name="equipParamPageLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -324,7 +330,7 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_7">
+   <widget class="QLabel" name="apertureLabel">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -373,7 +379,7 @@
      </property>
     </item>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QLabel" name="telescopeTypeLabel">
     <property name="geometry">
      <rect>
       <x>238</x>
