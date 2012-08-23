@@ -601,7 +601,7 @@ void CatalogDB::GetCatalogData(const QString& catalog_name, QString& prefix,
 void CatalogDB::GetAllObjects(const QString &catalog,
                               QList< SkyObject* > &sky_list,
                               QMap<int, QString> &names,
-                              CatalogComponent *catptr) {
+                              CatalogComponent *catalog_ptr) {
     sky_list.clear();
 
     skydb_.open();
@@ -669,7 +669,7 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                                                  name, QString(), lname,
                                                  catPrefix, a, b, PA);
             o->setFlux(flux);
-            o->setCustomCatalog(catptr);
+            o->setCustomCatalog(catalog_ptr);
 
             sky_list.append(o);
 
