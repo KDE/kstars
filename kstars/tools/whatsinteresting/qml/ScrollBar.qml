@@ -29,7 +29,8 @@ Rectangle {
 
     function sbOpacity()
     {
-        if (!hideScrollBarsWhenStopped) {
+        if (!hideScrollBarsWhenStopped || height < parent.height)
+        {
             return 0.5;
         }
 
