@@ -764,14 +764,17 @@ void CCD::processNumber(INumberVectorProperty *nvp)
         INumber *ht = IUFindNumber(nvp, "HEIGHT");
 
         if (wd && ht && streamWindow)
-            streamWindow->resize(wd->value, ht->value);
+            streamWindow->setSize(wd->value, ht->value);
+
+        return;
+
     }
     DeviceDecorator::processNumber(nvp);
 }
 
 void CCD::processSwitch(ISwitchVectorProperty *svp)
 {
-    if (!strcmp(svp->name, "VIDEO_ON"))
+    if (!strcmp(svp->name, "VIDEO_STREAM"))
     {
         if (streamWindow == NULL)
         {
@@ -786,7 +789,7 @@ void CCD::processSwitch(ISwitchVectorProperty *svp)
             INumber *ht = IUFindNumber(ccdFrame, "HEIGHT");
 
             if (wd && ht)
-                streamWindow->resize(wd->value, ht->value);
+                streamWindow->setSize(wd->value, ht->value);
 
             connect(streamWindow, SIGNAL(destroyed()), this, SLOT(StreamWindowDestroyed()));
         }
@@ -926,8 +929,6 @@ bool CCD::runCommand(int command, void *ptr)
 void CCD::processBLOB(IBLOB* bp)
 {
 
-    //qDebug() << "in CCD: Receving blob with name " << bp->name << " and format (" << bp->format << ")" << endl;
-
     // If stream, process it first
     if (!strcmp(bp->format, ".stream") && streamWindow)
     {
@@ -935,7 +936,7 @@ void CCD::processBLOB(IBLOB* bp)
             return;
 
         streamWindow->show();
-        streamWindow->newFrame( (static_cast<unsigned char *> (bp->blob)), bp->bloblen, streamWindow->getWidth(), streamWindow->getHeight());
+        streamWindow->newFrame( (static_cast<unsigned char *> (bp->blob)), bp->size, streamWindow->getWidth(), streamWindow->getHeight());
         return;
     }
 
@@ -1040,6 +1041,8 @@ void CCD::FITSViewerDestroyed()
 
 void CCD::StreamWindowDestroyed()
 {
+    qDebug() << "Stream windows destroyed " << endl;
+    delete(streamWindow);
     streamWindow = NULL;
 }
 

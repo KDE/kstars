@@ -140,7 +140,6 @@ void INDIListener::removeDevice(DriverInfo *dv)
 void INDIListener::registerProperty(INDI::Property *prop)
 {
 
-
     foreach(ISD::GDInterface *gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName() ))
@@ -152,7 +151,7 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 devices.append(gd);
                 emit newTelescope(gd);
              }
-            else if (gd->getType() != KSTARS_CCD && !strcmp(prop->getName(), "CCD_EXPOSURE_REQUEST"))
+            else if (gd->getType() != KSTARS_CCD && (!strcmp(prop->getName(), "CCD_EXPOSURE_REQUEST")))
             {
                 devices.removeOne(gd);
                 gd = new ISD::CCD(gd);
@@ -162,19 +161,15 @@ void INDIListener::registerProperty(INDI::Property *prop)
             else if (gd->getType() != KSTARS_FILTER && !strcmp(prop->getName(), "FILTER_SLOT"))
             {
                 devices.removeOne(gd);
-                //qDebug() << "Creating new Filter device " << endl;
                 gd = new ISD::Filter(gd);
                 devices.append(gd);
-
                 emit newFilter(gd);
             }
             else if (gd->getType() != KSTARS_FOCUSER && !strcmp(prop->getName(), "FOCUS_MOTION"))
             {
                 devices.removeOne(gd);
-                //qDebug() << "Creating new Filter device " << endl;
                 gd = new ISD::Focuser(gd);
                 devices.append(gd);
-
                 emit newFocuser(gd);
             }
 

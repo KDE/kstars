@@ -24,6 +24,7 @@
 #include <kcombobox.h>
 #include <kurl.h>
 
+#include <QRgb>
 #include <qsocketnotifier.h>
 #include <qimage.h>
 #include <qpainter.h>
@@ -206,7 +207,6 @@ VideoWG::~VideoWG()
 
 void VideoWG::newFrame(unsigned char *buffer, int buffSiz, int w, int h)
 {
-
 
     // TODO: This is highly inefficient. Need to be replaced with a direct blit.
     if (buffSiz > totalBaseCount)
