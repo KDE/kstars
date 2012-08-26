@@ -20,6 +20,7 @@
 #include <KDebug>
 #include <KMessageBox>
 #include <KStatusBar>
+#include <KStandardDirs>
 
 
 #include "servermanager.h"
@@ -115,7 +116,7 @@ bool ServerManager::start()
 
 }
 
-void ServerManager::startDriver(DriverInfo *dv)
+bool ServerManager::startDriver(DriverInfo *dv)
 {
     QTextStream out(&indiFIFO);
 
@@ -124,12 +125,20 @@ void ServerManager::startDriver(DriverInfo *dv)
 
     dv->setUniqueLabel(DriverManager::Instance()->getUniqueDeviceLabel(dv->getTreeLabel()));
 
+     if (KStandardDirs::findExe(dv->getDriver()).isEmpty())
+     {
+         KMessageBox::error(NULL, i18n("Driver %1 was not found on the system. Please make sure the package that provides the '%1' binary is installed.").arg(dv->getDriver()));
+         return false;
+     }
+
         //qDebug() << "Will run driver: " << device->getName() << " with driver " << device->getDriver() << endl;
         out << "start " << dv->getDriver() << " '" << dv->getUniqueLabel() << "'" << endl;
         //qDebug() << "Writing to " << file_template << endl << out.string() << endl;
         out.flush();
 
         dv->setServerState(true);
+
+        return true;
 }
 
 void ServerManager::stopDriver(DriverInfo *dv)

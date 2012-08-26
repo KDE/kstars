@@ -42,7 +42,7 @@ public:
     const QString & getHost() { return host;}
     const QString & getPort() { return port;}
 
-    void startDriver(DriverInfo *dv);
+    bool startDriver(DriverInfo *dv);
     void stopDriver(DriverInfo *dv);
 
     void setMode(ServerMode inMode) { mode = inMode; }

@@ -318,6 +318,12 @@ void KStars::slotFlagManager() {
 void KStars::slotTelescopeWizard()
 {
 #ifdef HAVE_INDI_H
+    if (KStandardDirs::findExe("indiserver").isEmpty())
+    {
+        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+        return;
+    }
+
     QPointer<telescopeWizardProcess> twiz = new telescopeWizardProcess(this);
     twiz->exec();
     delete twiz;
@@ -327,6 +333,11 @@ void KStars::slotTelescopeWizard()
 void KStars::slotINDIPanel() 
 {
 #ifdef HAVE_INDI_H
+    if (KStandardDirs::findExe("indiserver").isEmpty())
+    {
+        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+        return;
+    }
     GUIManager::Instance()->updateStatus();
 #endif
 }
@@ -334,6 +345,12 @@ void KStars::slotINDIPanel()
 void KStars::slotINDIDriver() 
 {
 #ifdef HAVE_INDI_H
+    if (KStandardDirs::findExe("indiserver").isEmpty())
+    {
+        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+        return;
+    }
+
     DriverManager::Instance()->show();
 #endif
 }
@@ -342,6 +359,13 @@ void KStars::slotEkos()
 {
 #ifdef HAVE_CFITSIO_H
 #ifdef HAVE_INDI_H
+
+    if (KStandardDirs::findExe("indiserver").isEmpty())
+    {
+        KMessageBox::error(NULL, i18n("Unable to find INDI server. Please make sure the package that provides the 'indiserver' binary is installed."));
+        return;
+    }
+
     if (ekosmenu == NULL)
         ekosmenu = new EkosManager();
 

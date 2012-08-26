@@ -376,8 +376,8 @@ void KStars::initActions() {
 
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
-    actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
-        << i18n("Ekos...");
+        actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
+            << i18n("Ekos...");
 #endif
 #endif
 
@@ -415,17 +415,16 @@ void KStars::initActions() {
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
 
-    actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
-        << i18n("Telescope Wizard...")
-        << KIcon("tools-wizard" );
-    actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
-        << i18n("Device Manager...")
-        << KIcon("network-server" );
 
-    ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
-        << i18n("INDI Control Panel...");
-    ka->setEnabled(false);
-
+        actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
+            << i18n("Telescope Wizard...")
+            << KIcon("tools-wizard" );
+        actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
+            << i18n("Device Manager...")
+            << KIcon("network-server" );
+        ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
+            << i18n("INDI Control Panel...");
+        ka->setEnabled(false);
 
 
 #endif
@@ -575,11 +574,6 @@ void KStars::datainitFinished() {
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
-
-    #ifdef HAVE_INDI_H
-    // FIXME
-    //indidriver->updateCustomDrivers();
-    #endif
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )

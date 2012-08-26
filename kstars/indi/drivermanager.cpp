@@ -111,15 +111,6 @@ DriverManager::DriverManager()
     setCaption( i18n( "Device Manager" ) );
     setButtons( KDialog::Close );
 
-    /*foreach ( INDIHostsInfo * host, ksw->data()->INDIHostsList )
-    {
-        QTreeWidgetItem *item = new QTreeWidgetItem(ui->clientTreeWidget, lastGroup);
-        lastGroup = item;
-        item->setIcon(HOST_STATUS_COLUMN, ui->disconnected);
-        item->setText(HOST_NAME_COLUMN, host->name);
-        item->setText(HOST_PORT_COLUMN, host->portnumber);
-    }*/
-
     lastGroup = NULL;
 
     QObject::connect(ui->addB, SIGNAL(clicked()), this, SLOT(addINDIHost()));
@@ -346,7 +337,15 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
 
          foreach(DriverInfo *dv, qdv)
-              serverManager->startDriver(dv);
+         {
+              if (serverManager->startDriver(dv) == false)
+              {
+                  servers.removeOne(serverManager);
+                  serverManager->stop();
+                  delete serverManager;
+                  return false;
+              }
+         }
 
          // Nothing to do more if SERVER ONLY
          if (connectionMode == SERVER_ONLY)
