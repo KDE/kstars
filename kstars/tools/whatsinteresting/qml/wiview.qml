@@ -24,7 +24,7 @@ Rectangle {
         width: 209
         height: 46
         color: "#59ad0e"
-        text: i18n("What's Interesting...")
+        text: qsTr("What's Interesting...")
         verticalAlignment: Text.AlignVCenter
         font.family: "Cantarell"
         font.bold: false
@@ -68,6 +68,8 @@ Rectangle {
 
                     color: "#00060b"
                     radius: 12
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     opacity: 0.500
                     border.width: 4
                     border.color: "black"
@@ -90,7 +92,7 @@ Rectangle {
                         x: 0
                         y: 0
                         color: "#e4800d"
-                        text: i18n("Planets")
+                        text: qsTr("Planets")
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.verticalCenter: parent.verticalCenter
                         verticalAlignment: Text.AlignVCenter
@@ -187,11 +189,13 @@ Rectangle {
 
                 Rectangle {
                     id: dsoContainer
-                    x: 35
                     y: 172
-                    width: 283
                     height: 166
                     color: "#00000000"
+                    anchors.right: parent.right
+                    anchors.rightMargin: 35
+                    anchors.left: parent.left
+                    anchors.leftMargin: 35
 
                     Rectangle {
                         id: dsoRect
@@ -209,7 +213,7 @@ Rectangle {
                             x: 0
                             y: 0
                             color: "#e4800d"
-                            text: i18n("Deep-sky Objects")
+                            text: qsTr("Deep-sky Objects")
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
@@ -243,7 +247,7 @@ Rectangle {
                             x: 0
                             y: 0
                             color: "#6b6660"
-                            text: i18n("Galaxies")
+                            text: qsTr("Galaxies")
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
                             verticalAlignment: Text.AlignVCenter
@@ -350,6 +354,8 @@ Rectangle {
                 id: skyObjView
                 width: parent.width
                 height: parent.height
+                anchors.leftMargin: categoryView.width
+//                anchors.leftMargin: 370
 
                 anchors.left: categoryView.right
 
@@ -357,15 +363,15 @@ Rectangle {
 
                 front: Rectangle {
                     id: soListContainer
-                    height: parent.height
                     color: "transparent"
-                    width: parent.width
+                    anchors.fill: parent
 
                     Rectangle {
                         id: soListViewBackground
                         anchors.fill: soListViewContainer
                         color: "#00060b"
                         opacity: 0.5
+                        radius: 12
                     }
 
                     Rectangle {
@@ -1310,7 +1316,7 @@ Rectangle {
 
             PropertyChanges {
                 target: viewsRow
-                x: -(container.width)
+                x: -(2*categoryView.width)
                 y: 0
                 anchors.topMargin: 0
                 anchors.bottomMargin: 0
@@ -1326,7 +1332,7 @@ Rectangle {
 
             PropertyChanges {
                 target: viewsRow
-                x: -(container.width)
+                x: -(2*categoryView.width)
                 y: 0
                 anchors.topMargin: 0
                 anchors.bottomMargin: 0
