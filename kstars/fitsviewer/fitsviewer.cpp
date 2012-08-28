@@ -172,7 +172,17 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
     FITSTab *tab = new FITSTab();
 
     if (tab->loadFITS(imageName) == false)
+    {
+        if (fitsImages.size() == 0)
+        {
+
+            // Close FITS Viewer and let KStars know it is no longer needed in memory.
+            close();
+            return -2;
+        }
+
         return -1;
+    }
 
     switch (mode)
     {
