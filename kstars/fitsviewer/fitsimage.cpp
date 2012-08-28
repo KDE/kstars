@@ -163,6 +163,13 @@ bool FITSImage::loadFITS ( const QString &filename )
         return false;
     }
 
+    if (stats.ndim < 2)
+    {
+        KMessageBox::error(0, i18n("1D FITS images are not supported in KStars.", i18n("FITS Open")));
+        return false;
+    }
+
+
     if (fits_get_img_type(fptr, &data_type, &status))
     {
         fits_report_error(stderr, status);
@@ -221,12 +228,19 @@ bool FITSImage::loadFITS ( const QString &filename )
     fpixel[0] = 1;
     fpixel[1] = 1;
 
-    if (fits_read_pix(fptr, TFLOAT, fpixel, nelements, &nulval, image_buffer, &anynull, &status))
+    if (fits_read_2d_flt(fptr, 0, nulval, naxes[0], naxes[0], naxes[1], image_buffer, &anynull, &status))
     {
         fprintf(stderr, "fits_read_pix error\n");
         fits_report_error(stderr, status);
         return false;
     }
+
+    /*if (fits_read_pix(fptr, TFLOAT, fpixel, nelements, &nulval, image_buffer, &anynull, &status))
+    {
+        fprintf(stderr, "fits_read_pix error\n");
+        fits_report_error(stderr, status);
+        return false;
+    }*/
 
     if (fitsProg.wasCanceled())
     {

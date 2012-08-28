@@ -552,8 +552,11 @@ void KStars::slotOpenFITS()
         return;
 
     FITSViewer * fv = new FITSViewer(this);
-    fv->addFITS(&fileURL);
-    fv->show();
+    // Error opening file
+    if (fv->addFITS(&fileURL) == -2)
+        delete (fv);
+    else
+       fv->show();
 #endif
 }
 
