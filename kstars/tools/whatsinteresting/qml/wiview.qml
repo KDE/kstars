@@ -61,15 +61,17 @@ Rectangle {
 
                 Rectangle {
                     id: background
-                    x: 20
-                    y: 15
-                    width: 330
-                    height: 323
 
                     color: "#00060b"
                     radius: 12
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: 15
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: 13
+                    anchors.right: parent.right
+                    anchors.rightMargin: 20
+                    anchors.left: parent.left
+                    anchors.leftMargin: 20
                     opacity: 0.500
                     border.width: 4
                     border.color: "black"
@@ -1324,7 +1326,7 @@ Rectangle {
 
             PropertyChanges {
                 target: backButton
-                x: 236
+                x: container.width - 105
             }
         },
         State {
@@ -1340,7 +1342,7 @@ Rectangle {
 
             PropertyChanges {
                 target: backButton
-                x: 236
+                x: container.width - 105
             }
 
             PropertyChanges {
