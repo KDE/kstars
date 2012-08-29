@@ -457,6 +457,16 @@ void DetailDialog::createPositionTab( const KStarsDateTime &ut, GeoLocation *geo
         a = selectedObject->altRefracted();
     Pos->Alt->setText( a.toDMSString() );
 
+    // Display the RA0 and Dec0 for objects that are outside the solar system
+    if( !selectedObject->isSolarSystem() ) {
+        Pos->RA0->setText( selectedObject->ra0().toHMSString() );
+        Pos->Dec0->setText( selectedObject->dec0().toDMSString() );
+    }
+    else {
+        Pos->RA0->setText( "--" );
+        Pos->Dec0->setText( "--" );
+    }
+
     //Hour Angle can be negative, but dms HMS expressions cannot.
     //Here's a kludgy workaround:
     dms lst = geo->GSTtoLST( ut.gst() );

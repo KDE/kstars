@@ -87,30 +87,26 @@
           <property name="spacing">
            <number>6</number>
           </property>
-          <item row="0" column="0">
-           <widget class="KSHelpLabel" name="RALabel">
-            <property name="lineWidth">
-             <number>2</number>
+          <item row="1" column="1">
+           <widget class="QLabel" name="Dec">
+            <property name="font">
+             <font>
+              <family>Monospace</family>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
             </property>
             <property name="text">
-             <string>RA (2000.0):</string>
+             <string>00:00:00</string>
             </property>
-	    <property name="anchor" stdset="0">
-               <string>skycoords</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignTop</set>
-            </property>
-            <property name="margin">
-             <number>1</number>
-            </property>
-            <property name="openExternalLinks">
-             <bool>false</bool>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
           </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="RA">
+          <item row="0" column="4">
+           <widget class="QLabel" name="Az">
             <property name="font">
              <font>
               <family>Monospace</family>
@@ -143,46 +139,6 @@
             </property>
            </spacer>
           </item>
-          <item row="0" column="3">
-           <widget class="KSHelpLabel" name="AzLabel">
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
-            <property name="text">
-             <string>Azimuth:</string>
-            </property>
-	    <property name="anchor" stdset="0">
-               <string>skycoords</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignTop</set>
-            </property>
-            <property name="margin">
-             <number>1</number>
-            </property>
-            <property name="openExternalLinks">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="4">
-           <widget class="QLabel" name="Az">
-            <property name="font">
-             <font>
-              <family>Monospace</family>
-              <pointsize>10</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>00:00:00</string>
-            </property>
-            <property name="textInteractionFlags">
-             <set>Qt::TextSelectableByKeyboard</set>
-            </property>
-           </widget>
-          </item>
           <item row="1" column="0">
            <widget class="KSHelpLabel" name="DecLabel">
             <property name="lineWidth">
@@ -191,8 +147,27 @@
             <property name="text">
              <string>Dec (2000.0):</string>
             </property>
-	    <property name="anchor" stdset="0">
-               <string>skycoords</string>
+            <property name="alignment">
+             <set>Qt::AlignTop</set>
+            </property>
+            <property name="margin">
+             <number>1</number>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
+            </property>
+            <property name="anchor" stdset="0">
+             <string>skycoords</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="KSHelpLabel" name="AzLabel">
+            <property name="lineWidth">
+             <number>2</number>
+            </property>
+            <property name="text">
+             <string>Azimuth:</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignTop</set>
@@ -203,10 +178,13 @@
             <property name="openExternalLinks">
              <bool>false</bool>
             </property>
+            <property name="anchor" stdset="0">
+             <string>skycoords</string>
+            </property>
            </widget>
           </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="Dec">
+          <item row="0" column="1">
+           <widget class="QLabel" name="RA">
             <property name="font">
              <font>
               <family>Monospace</family>
@@ -223,18 +201,61 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="2">
-           <spacer>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+          <item row="0" column="0">
+           <widget class="KSHelpLabel" name="RALabel">
+            <property name="lineWidth">
+             <number>2</number>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>101</width>
-              <height>20</height>
-             </size>
+            <property name="text">
+             <string>RA (2000.0):</string>
             </property>
-           </spacer>
+            <property name="alignment">
+             <set>Qt::AlignTop</set>
+            </property>
+            <property name="margin">
+             <number>1</number>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
+            </property>
+            <property name="anchor" stdset="0">
+             <string>skycoords</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="3">
+           <widget class="QLabel" name="AirmassLabel">
+            <property name="lineWidth">
+             <number>2</number>
+            </property>
+            <property name="text">
+             <string>Airmass:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignTop</set>
+            </property>
+            <property name="margin">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="4">
+           <widget class="QLabel" name="Airmass">
+            <property name="font">
+             <font>
+              <family>Monospace</family>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>0.00</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
+            </property>
+           </widget>
           </item>
           <item row="1" column="3">
            <widget class="KSHelpLabel" name="AltLabel">
@@ -244,9 +265,6 @@
             <property name="text">
              <string>Altitude:</string>
             </property>
-	    <property name="anchor" stdset="0">
-               <string>skycoords</string>
-            </property>
             <property name="alignment">
              <set>Qt::AlignTop</set>
             </property>
@@ -255,6 +273,27 @@
             </property>
             <property name="openExternalLinks">
              <bool>false</bool>
+            </property>
+            <property name="anchor" stdset="0">
+             <string>skycoords</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="4">
+           <widget class="QLabel" name="HA">
+            <property name="font">
+             <font>
+              <family>Monospace</family>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>00:00:00</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
           </item>
@@ -276,6 +315,41 @@
             </property>
            </widget>
           </item>
+          <item row="3" column="3">
+           <widget class="KSHelpLabel" name="HALabel">
+            <property name="lineWidth">
+             <number>2</number>
+            </property>
+            <property name="text">
+             <string>Hour angle:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignTop</set>
+            </property>
+            <property name="margin">
+             <number>1</number>
+            </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
+            </property>
+            <property name="anchor" stdset="0">
+             <string>hourangle</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <spacer>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>101</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="2" column="0" colspan="5">
            <spacer>
             <property name="orientation">
@@ -288,46 +362,6 @@
              </size>
             </property>
            </spacer>
-          </item>
-          <item row="3" column="0">
-           <widget class="KSHelpLabel" name="HALabel">
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
-            <property name="text">
-             <string>Hour angle:</string>
-            </property>
-	    <property name="anchor" stdset="0">
-               <string>hourangle</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignTop</set>
-            </property>
-            <property name="margin">
-             <number>1</number>
-            </property>
-            <property name="openExternalLinks">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="QLabel" name="HA">
-            <property name="font">
-             <font>
-              <family>Monospace</family>
-              <pointsize>10</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>00:00:00</string>
-            </property>
-            <property name="textInteractionFlags">
-             <set>Qt::TextSelectableByKeyboard</set>
-            </property>
-           </widget>
           </item>
           <item row="3" column="2">
            <spacer>
@@ -345,24 +379,18 @@
             </property>
            </spacer>
           </item>
-          <item row="3" column="3">
-           <widget class="QLabel" name="AirmassLabel">
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
+          <item row="3" column="0">
+           <widget class="KSHelpLabel" name="RA0Label">
             <property name="text">
-             <string>Airmass:</string>
+             <string>RA (J2000.0):</string>
             </property>
-            <property name="alignment">
-             <set>Qt::AlignTop</set>
-            </property>
-            <property name="margin">
-             <number>1</number>
+            <property name="anchor" stdset="0">
+             <string>precession</string>
             </property>
            </widget>
           </item>
-          <item row="3" column="4">
-           <widget class="QLabel" name="Airmass">
+          <item row="3" column="1">
+           <widget class="QLabel" name="RA0">
             <property name="font">
              <font>
               <family>Monospace</family>
@@ -372,12 +400,56 @@
              </font>
             </property>
             <property name="text">
-             <string>0.00</string>
+             <string>00:00:00</string>
             </property>
             <property name="textInteractionFlags">
              <set>Qt::TextSelectableByKeyboard</set>
             </property>
            </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLabel" name="Dec0">
+            <property name="font">
+             <font>
+              <family>Monospace</family>
+              <pointsize>10</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>00:00:00</string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextSelectableByKeyboard</set>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="KSHelpLabel" name="Dec0Label">
+            <property name="text">
+             <string>Dec (J2000.0):</string>
+            </property>
+            <property name="anchor" stdset="0">
+             <string>precession</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="2">
+           <spacer name="spacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Expanding</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>81</width>
+              <height>24</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </item>
