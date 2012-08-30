@@ -322,7 +322,7 @@ void KStars::showWI(ObsConditions *obs)
         wiDock->setObjectName("What's Interesting");
         wiDock->setAllowedAreas(Qt::RightDockWidgetArea);
         wiDock->setWidget(wi->getWIBaseView());
-//        wiDock->setMinimumSize(wi->getWIBaseView()->size());
+        wiDock->setMinimumWidth(wi->getWIBaseView()->width());
         addDockWidget(Qt::RightDockWidgetArea, wiDock);
         wiDock->setVisible(true);
     }

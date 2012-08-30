@@ -441,14 +441,15 @@ Rectangle {
                         id: detailsViewBackground
                         anchors.fill: detailsView
                         color: "#00060b"
-                        opacity: 0.5
+                        radius: 12
+                        opacity: 0.500
                     }
 
                     Rectangle {
                         id: detailsView
                         objectName: "detailsViewObj"
                         x: parent.x + 15
-                        height: parent.height
+                        height: 415
                         width: parent.width - 30
                         color: "transparent"
                         radius: 12
@@ -475,7 +476,7 @@ Rectangle {
                             id: posText
                             x: 10
                             objectName: "posTextObj"
-                            y: 35
+                            y: 45
                             anchors.right: parent.right
                             anchors.rightMargin: 10
                             width: 320
@@ -492,14 +493,15 @@ Rectangle {
 
                         Rectangle {
                             id: descTextBox
-                            x: 0
-                            y: 160
-                            width: parent.width
+                            y: 197
                             height: 175
-                            color: "#00000000"
+                            color: "#010a14"
                             radius: 10
-                            anchors.horizontalCenterOffset: 0
-                            anchors.horizontalCenter: parent.horizontalCenter
+                            border.width: 0
+                            anchors.right: parent.right
+                            anchors.rightMargin: 4
+                            anchors.left: parent.left
+                            anchors.leftMargin: 4
                             border.color: "#585454"
                             Flickable {
                                 id: flickableDescText
@@ -530,10 +532,11 @@ Rectangle {
                                             objectName: "descTextObj"
                                             color: "#187988"
                                             text: qsTr("text")
+                                            font.family: "Cantarell"
                                             clip: true
                                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                             width: parent.width
-                                            font.pixelSize: 12
+                                            font.pixelSize: 13
                                         }
                                     }
                                 }
@@ -543,8 +546,8 @@ Rectangle {
                         Rectangle {
                             id: nextObjRect
                             objectName: "nextObj"
-                            x: 183
-                            y: 347
+                            x: 271
+                            y: 377
                             width: nextObjText.width + nextObjIcon.width + 5
                             height: 28
                             color: "#00000000"
@@ -614,7 +617,7 @@ Rectangle {
                         Rectangle {
                             id: prevObjRect
                             objectName: "prevObj"
-                            y: 347
+                            y: 377
                             width: prevObjText.width + prevObjIcon.width + 5
                             height: 28
                             color: "#00000000"
@@ -623,6 +626,7 @@ Rectangle {
                             anchors.leftMargin: 8
 
                             signal prevObjClicked()
+                            x: 8
 
                             Rectangle {
                                 id: prevObjForeground
@@ -679,106 +683,121 @@ Rectangle {
                             }
                         }
 
-                        Text {
-                            id: magText
-                            objectName: "magTextObj"
-                            y: 104
-                            width: 164
-                            height: 15
-                            color: "#ffffff"
-                            text: qsTr("Magnitude: ")
-                            anchors.left: parent.left
-                            anchors.leftMargin: 8
-                            font.family: "Cantarell"
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignLeft
-                            font.pixelSize: 12
-                        }
+                        Column {
+                            id: detailItemsCol
+                            x: 0
+                            y: 78
+                            width: 200
+                            height: 93
+                            spacing: 14
 
-                        Text {
-                            id: sbText
-                            objectName: "sbTextObj"
-                            x: 8
-                            y: 72
-                            width: 164
-                            height: 15
-                            color: "#ffffff"
-                            text: qsTr("Surface Brightness:")
-                            anchors.left: parent.left
-                            anchors.leftMargin: 8
-                            font.pixelSize: 12
-                            font.family: "Cantarell"
-                            horizontalAlignment: Text.AlignLeft
-                            verticalAlignment: Text.AlignVCenter
-                        }
+                            Text {
+                                id: sbText
+                                objectName: "sbTextObj"
+                                width: 164
+                                height: 21
+                                color: "#ffffff"
+                                text: qsTr("Surface Brightness:")
+                                anchors.left: parent.left
+                                anchors.leftMargin: 8
+                                font.pixelSize: 13
+                                font.family: "Cantarell"
+                                horizontalAlignment: Text.AlignLeft
+                                verticalAlignment: Text.AlignVCenter
+                            }
 
-                        Text {
-                            id: sizeText
-                            objectName: "sizeTextObj"
-                            y: 136
-                            width: 164
-                            height: 15
-                            color: "#ffffff"
-                            text: qsTr("Size: ")
-                            anchors.left: parent.left
-                            anchors.leftMargin: 8
-                            font.pixelSize: 12
-                            font.family: "Cantarell"
-                            horizontalAlignment: Text.AlignLeft
-                            verticalAlignment: Text.AlignVCenter
-                        }
+                            Text {
+                                id: magText
+                                objectName: "magTextObj"
+                                width: 164
+                                height: 21
+                                color: "#ffffff"
+                                text: qsTr("Magnitude: ")
+                                anchors.left: parent.left
+                                anchors.leftMargin: 8
+                                font.family: "Cantarell"
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                font.pixelSize: 13
+                            }
 
-                        Text {
-                            id: slewButton
-                            objectName: "slewButtonObj"
-                            x: 211
-                            y: 135
-                            width: 119
-                            height: 16
-                            color: "white"
-                            text: qsTr("Slew map to object")
-                            anchors.right: parent.right
-                            anchors.rightMargin: 10
-                            font.underline: true
-                            verticalAlignment: Text.AlignVCenter
-                            font.pixelSize: 12
-
-                            signal slewButtonClicked()
-
-                            MouseArea {
-                                id: slewObjMouseArea
-                                hoverEnabled: true
-                                anchors.fill: parent
-                                onEntered: slewButton.color = "yellow"
-                                onExited: slewButton.color = "white"
-                                onClicked: slewButton.slewButtonClicked()
+                            Text {
+                                id: sizeText
+                                objectName: "sizeTextObj"
+                                width: 164
+                                height: 21
+                                color: "#ffffff"
+                                text: qsTr("Size: ")
+                                anchors.left: parent.left
+                                anchors.leftMargin: 8
+                                font.pixelSize: 13
+                                font.family: "Cantarell"
+                                horizontalAlignment: Text.AlignLeft
+                                verticalAlignment: Text.AlignVCenter
                             }
                         }
 
-                        Text {
-                            id: detailsButton
-                            objectName: "detailsButtonObj"
-                            x: 211
-                            y: 104
-                            width: 119
-                            height: 16
-                            font.underline: true
-                            anchors.rightMargin: 10
+                        Column {
+                            id: detailsViewButtonsCol
+                            x: 208
+                            y: 134
+                            width: 132
+                            height: 52
                             anchors.right: parent.right
-                            verticalAlignment: Text.AlignVCenter
-                            color: "white"
-                            text: qsTr("More object details")
-                            font.pixelSize: 12
+                            anchors.rightMargin: 0
+                            spacing: 14
 
-                            signal detailsButtonClicked()
+                            Text {
+                                id: detailsButton
+                                objectName: "detailsButtonObj"
+                                width: 119
+                                height: 16
+                                font.underline: true
+                                anchors.rightMargin: 10
+                                anchors.right: parent.right
+                                verticalAlignment: Text.AlignVCenter
+                                color: "white"
+                                text: qsTr("More object details")
+                                font.family: "Cantarell"
+                                font.pixelSize: 14
 
-                            MouseArea {
-                                id: detailsMouseArea
-                                hoverEnabled: true
-                                anchors.fill: parent
-                                onEntered: detailsButton.color = "yellow"
-                                onExited: detailsButton.color = "white"
-                                onClicked: detailsButton.detailsButtonClicked()
+                                signal detailsButtonClicked()
+                                x: 0
+
+                                MouseArea {
+                                    id: detailsMouseArea
+                                    hoverEnabled: true
+                                    anchors.fill: parent
+                                    onEntered: detailsButton.color = "yellow"
+                                    onExited: detailsButton.color = "white"
+                                    onClicked: detailsButton.detailsButtonClicked()
+                                }
+                            }
+
+                            Text {
+                                id: slewButton
+                                objectName: "slewButtonObj"
+                                width: 119
+                                height: 16
+                                color: "white"
+                                text: qsTr("Slew map to object")
+                                font.family: "Cantarell"
+                                anchors.right: parent.right
+                                anchors.rightMargin: 10
+                                font.underline: true
+                                verticalAlignment: Text.AlignVCenter
+                                font.pixelSize: 14
+
+                                signal slewButtonClicked()
+
+                                MouseArea {
+                                    id: slewObjMouseArea
+                                    hoverEnabled: true
+                                    anchors.fill: parent
+                                    onEntered: slewButton.color = "yellow"
+                                    onExited: slewButton.color = "white"
+                                    onClicked: slewButton.slewButtonClicked()
+                                }
                             }
                         }
                     } //end of detailsView
@@ -813,7 +832,7 @@ Rectangle {
     Rectangle {
         id: backButton
         x: container.width + 10
-        y: 493
+        y: 518
         width: leftArrow.width + goBackText.width + 18
         height: 49
         color: "#00000000"
@@ -899,9 +918,10 @@ Rectangle {
         id: settingsIcon
         objectName: "settingsIconObj"
         x: 9
-        y: 528
+        y: 529
         width: 28
         height: 28
+        anchors.verticalCenterOffset: 0
         anchors.verticalCenter: backButton.verticalCenter
         sourceSize.height: 40
         sourceSize.width: 40
