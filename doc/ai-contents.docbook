@@ -18,6 +18,7 @@
 </itemizedlist>
 
 <itemizedlist><title>Time</title>
+  <listitem><para><link linkend="ai-epoch">Epoch</link></para></listitem>
   <listitem><para><link linkend="ai-julianday">Julian Day</link></para></listitem>
   <listitem><para><link linkend="ai-leapyear">Leap Years</link></para></listitem>
   <listitem><para><link linkend="ai-sidereal">Sidereal Time</link></para></listitem>

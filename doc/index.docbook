@@ -28,6 +28,7 @@
   <!ENTITY dumpmode SYSTEM "dumpmode.docbook">
   <!ENTITY ecliptic SYSTEM "ecliptic.docbook">
   <!ENTITY ellipgal SYSTEM "ellipticalgalaxies.docbook">
+  <!ENTITY epoch SYSTEM "epoch.docbook">
   <!ENTITY equinox SYSTEM "equinox.docbook">
   <!ENTITY faq SYSTEM "faq.docbook">
   <!ENTITY flux SYSTEM "flux.docbook">

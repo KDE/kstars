@@ -46,7 +46,7 @@ hours since noon, and 3/24 = 0.125 day).  Note that the Julian Day is always
 determined from <link linkend="ai-utime">Universal Time</link>, not Local Time.
 </para><para>
 Astronomers use certain Julian Day values as important reference points, called
-<firstterm>Epochs</firstterm>.  One widely-used epoch is called J2000; it is the
+<link linkend="ai-epoch">Epochs</link>.  One widely-used epoch is called J2000; it is the
 Julian Day for 1 Jan, 2000 at 12:00 noon = <abbrev>JD</abbrev> 2451545.0.
 </para><para>
 Much more information on Julian Days is available on the internet.  A good
