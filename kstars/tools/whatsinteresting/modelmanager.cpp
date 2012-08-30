@@ -62,7 +62,6 @@ void ModelManager::updateModels(ObsConditions *obs)
 
     while (fileReader.hasMoreLines())
     {
-        QString soTypeName;
         QString line = fileReader.readLine();
 
         if (line[0] == '#' || line.length() == 0)
@@ -71,7 +70,7 @@ void ModelManager::updateModels(ObsConditions *obs)
         SkyObject *o;
         if ((o = data->skyComposite()->findByName(line)))
         {
-            kDebug()<<o->longname()<<o->typeName();
+            //kDebug()<<o->longname()<<o->typeName();
             if     (o->type() == SkyObject::OPEN_CLUSTER ||
                     o->type() == SkyObject::GLOBULAR_CLUSTER ||
                     o->type() == SkyObject::GALAXY_CLUSTER)
@@ -101,7 +100,7 @@ void ModelManager::updateModels(ObsConditions *obs)
 
     foreach (SkyObject *so, initobjects.value(Star_Model))
     {
-        kDebug()<<so->longname()<<so->typeName();
+        //kDebug()<<so->longname()<<so->typeName();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             starsModel->addSkyObject(new SkyObjItem(so));
@@ -110,7 +109,7 @@ void ModelManager::updateModels(ObsConditions *obs)
 
     foreach (SkyObject *so, initobjects.value(Galaxy_Model))
     {
-        kDebug()<<so->longname()<<so->typeName();
+        //kDebug()<<so->longname()<<so->typeName();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
             galModel->addSkyObject(new SkyObjItem(so));
@@ -147,8 +146,6 @@ void ModelManager::updateModels(ObsConditions *obs)
         //kDebug()<<so->name()<<so->mag();
         if (obsconditions->isVisible(data->geo(), data->lst(), so))
         {
-//             SkyObjectItem *planetItem = new SkyObjectItem(o);
-//             planetItem->setText(o->name());
             if (so->name() == "Sun") continue;
             planetsModel->addSkyObject(new SkyObjItem(so));
         }

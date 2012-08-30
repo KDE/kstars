@@ -109,7 +109,6 @@ QString SkyObjItem::getDesc() const
             QString line = fileReader.readLine();
             if (line.split("::")[0] == m_Name)
             {
-                kDebug()<<i18n("%1", line.split("::")[1]);
                 return line.split("::")[1];
             }
         }

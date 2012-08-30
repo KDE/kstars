@@ -871,6 +871,7 @@ Rectangle {
         }
 
         MouseArea {
+            id: backButtonMouseArea
             x: 45
             y: 0
             anchors.fill: backButton
@@ -880,33 +881,23 @@ Rectangle {
             onClicked: {
                 if ( container.state == "soTypeSelected" )
                 {
-                    console.log("soTypeSelected")
                     if ( !skyObjView.flipped )
                     {
-                        console.log( "skyObjView.flipped :" + skyObjView.flipped )
-                        console.log( "categoryView.flipped :" + categoryView.flipped )
                         container.state = "base"
-                        console.log( "container.state :"+container.state )
                     }
                     else if ( skyObjView.flipped )
                     {
-                        console.log( "skyObjView.flipped :" + skyObjView.flipped )
                         skyObjView.flipped = false
                     }
                 }
                 else if ( container.state == "dsoTypeSelected" )
                 {
-                    console.log("dsoTypeSelected")
                     if ( !skyObjView.flipped )
                     {
-                        console.log( "skyObjView.flipped :" + skyObjView.flipped )
-                        console.log( "categoryView.flipped :" + categoryView.flipped )
                         container.state = "dsoAreaClicked"
-                        console.log( "container.state :"+container.state )
                     }
                     else if ( skyObjView.flipped )
                     {
-                        console.log( "skyObjView.flipped :" + skyObjView.flipped )
                         skyObjView.flipped = false
                     }
                 }
