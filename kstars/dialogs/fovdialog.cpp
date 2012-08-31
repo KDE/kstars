@@ -197,6 +197,24 @@ NewFOV::NewFOV( QWidget *parent, const FOV* fov ) :
     connect( ui->ComputeCameraFOV,    SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
     connect( ui->ComputeHPBW,         SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
     connect( ui->ComputeBinocularFOV, SIGNAL( clicked() ), SLOT( slotComputeFOV() ) );
+    connect( ui->ComputeTLengthFromFNum1, SIGNAL( clicked() ), SLOT( slotComputeTelescopeFL() ) );
+    connect( ui->ComputeTLengthFromFNum2, SIGNAL( clicked() ), SLOT( slotComputeTelescopeFL() ) );
+
+    // Populate eyepiece AFOV options. The userData field contains the apparent FOV associated with that option
+    ui->EyepieceAFOV->insertItem( 0, i18nc("Specify the apparent field of view (AFOV) manually", "Specify AFOV"), -1 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Ramsden (Typical)"), 30 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Orthoscopic (Typical)"), 45 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Ploessl (Typical)"), 50 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Erfle (Typical)"), 60 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Radian"), 60 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Baader Hyperion"), 68 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Panoptic"), 68 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Delos"), 72 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Meade UWA"), 82 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Nagler"), 82 );
+    ui->EyepieceAFOV->addItem( i18nc("Eyepiece Design / Brand / Name; Optional", "Tele Vue Ethos (Typical)"), 100 );
+
+    connect( ui->EyepieceAFOV, SIGNAL( currentIndexChanged( int ) ), SLOT( slotEyepieceAFOVChanged( int ) ) );
 
     ui->LinearFOVDistance->insertItem( 0, i18n( "1000 yards" ) );
     ui->LinearFOVDistance->insertItem( 1, i18n( "1000 meters" ) );
@@ -249,6 +267,60 @@ void NewFOV::slotComputeFOV() {
         ui->FOVEditX->setText( toString(sx) );
         ui->FOVEditY->setText( ui->FOVEditX->text() );
     }
+}
+
+void NewFOV::slotEyepieceAFOVChanged( int index ) {
+    if( index == 0 ) {
+        ui->EyeFOV->setEnabled( true );
+    }
+    else {
+        bool ok;
+        ui->EyeFOV->setEnabled( false );
+        ui->EyeFOV->setValue( ui->EyepieceAFOV->itemData( index ).toFloat( &ok ) );
+        Q_ASSERT( ok );
+    }
+}
+
+void NewFOV::slotComputeTelescopeFL() {
+    QObject *whichTab = sender();
+    TelescopeFL *telescopeFLDialog = new TelescopeFL( this );
+    if ( telescopeFLDialog->exec() == QDialog::Accepted ) {
+        Q_ASSERT( whichTab == ui->ComputeTLengthFromFNum1 || whichTab == ui->ComputeTLengthFromFNum2 );
+        (( whichTab == ui->ComputeTLengthFromFNum1 ) ? ui->TLength1 : ui->TLength2 )->setValue( telescopeFLDialog->computeFL() );
+    }
+    delete telescopeFLDialog;
+}
+
+
+//-------------TelescopeFL------------------//
+
+TelescopeFL::TelescopeFL( QWidget *parent ) :
+    KDialog( parent ), aperture( 0 ), fNumber( 0 ), apertureUnit( 0 ) {
+
+    setCaption( i18n( "Telescope Focal Length Calculator" ) );
+    setButtons( KDialog::Ok|KDialog::Cancel );
+
+    QWidget *mainWidget = new QWidget( this );
+    QGridLayout *mainLayout = new QGridLayout( mainWidget );
+    mainWidget->setLayout( mainLayout );
+    setMainWidget( mainWidget );
+
+    aperture = new KDoubleNumInput( 0.0, 100000.0, 0.0, this, 0.1, 2 );
+    fNumber = new KDoubleNumInput( 0.0, 99.9, 0.0, this, 0.1, 2 );
+    apertureUnit = new KComboBox( this );
+    apertureUnit->insertItem( 0, i18nc("millimeters", "mm") );
+    apertureUnit->insertItem( 1, i18n("inch") );
+    mainLayout->addWidget( new QLabel( i18n("Aperture diameter: "), this ), 0, 0 );
+    mainLayout->addWidget( aperture, 0, 1 );
+    mainLayout->addWidget( apertureUnit, 0, 2 );
+    mainLayout->addWidget( new QLabel( i18nc("F-Number or F-Ratio of optical system", "F-Number: "), this ), 1, 0 );
+    mainLayout->addWidget( fNumber, 1, 1 );
+    show();
+}
+
+double TelescopeFL::computeFL() const {
+    const double inch_to_mm = 25.4; // 1 inch, by definition, is 25.4 mm
+    return ( aperture->value() * fNumber->value() * ( ( apertureUnit->currentIndex() == 1 ) ? inch_to_mm : 1.0 ) ); // Focal Length = Aperture * F-Number, by definition of F-Number
 }
 
 unsigned int FOVDialog::currentItem() const { return fov->FOVListBox->currentRow(); }
