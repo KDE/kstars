@@ -31,8 +31,8 @@ TestCSVParser::TestCSVParser(): QObject() {
    * To add/change tests, we'll need to modify 2 places. The file and this class.
    * So we write the file from the class.
    */
-  csv_test_cases_.append("\n");
-  csv_test_cases_.append(QString(","
+  test_cases_.append("\n");
+  test_cases_.append(QString(","
                          "isn't,"
                          "it,"
                          "\"amusing\","
@@ -44,7 +44,7 @@ TestCSVParser::TestCSVParser(): QObject() {
                          "-3.141,"
                          "isn't,"
                          "either\n"));
-  csv_test_cases_.append(QString(","
+  test_cases_.append(QString(","
                          "isn't,"
                          "it,"
                          "\"amusing\","
@@ -53,7 +53,7 @@ TestCSVParser::TestCSVParser(): QObject() {
                          "\"isn't, pi\","
                          "and,"
                          "\"\","));  // less than required fields
-  csv_test_cases_.append(QString(","
+  test_cases_.append(QString(","
                          "isn't,"
                          "it,"
                          "\"amusing\","
@@ -65,8 +65,8 @@ TestCSVParser::TestCSVParser(): QObject() {
                          "-3.141,"
                          "isn't,"
                          "either\n"));
-  csv_test_cases_.append(",,,,,,,,,,,\n");
-  csv_test_cases_.append("\n");
+  test_cases_.append(",,,,,,,,,,,\n");
+  test_cases_.append("\n");
   QString file_name("TestCSV.txt");
   file_name = KStandardDirs::locateLocal("appdata", file_name);
   if (!file_name.isNull()) {
@@ -76,7 +76,7 @@ TestCSVParser::TestCSVParser(): QObject() {
         }
   }
   QTextStream out_stream(&test_csv_file_);
-  foreach(const QString &test_case, csv_test_cases_)
+  foreach(const QString &test_case, test_cases_)
     out_stream << test_case;
   test_csv_file_.close();
   
@@ -132,7 +132,6 @@ void TestCSVParser::CSVMixedInputs() {
    * 5. integer
    * 6. float
   */
-//   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString(""));
@@ -162,7 +161,6 @@ void TestCSVParser::CSVEmptyRow() {
    * 2. missing float
    * 3. missing string
   */
-//   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString(""));
@@ -185,7 +183,6 @@ void TestCSVParser::CSVNoRow() {
    * The parser is designed to skip an empty row so we can
    * test this for a boundary case. i.e. newline at the end.
   */
-//   KSParser test_parser(QString("TestCSV.txt"), '#', sequence);
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
   qDebug() << row_content["field1"];
   QVERIFY(row_content["field1"] == QString("Null"));

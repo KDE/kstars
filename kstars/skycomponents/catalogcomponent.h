@@ -24,13 +24,12 @@
 #include "datahandlers/catalogdb.h"
 
 struct stat;
-//JH: TODO: this class should only contain one custom catalog.
 
 /**
 *@class CatalogComponent
 *Represents a custom user-defined catalog.
 Code adapted from CustomCatalogComponent.cpp originally authored
-by Thomas Kabelmann
+by Thomas Kabelmann --spacetime
 
 *@author Thomas Kabelmann
          Rishab Arora (spacetime)

@@ -23,7 +23,7 @@
 #include "datahandlers/ksparser.h"
 #include "kstars/ksfilereader.h"
 
-// TODO(spacetime): documentation
+
 class TestCSVParser: public QObject {
   Q_OBJECT
  public:
@@ -37,9 +37,7 @@ class TestCSVParser: public QObject {
   void CSVReadMissingFile();
 
  private:
-  QStringList csv_test_cases_;
-  QStringList fw_test_cases_;  // for fixed width test cases
-  QList<int> fw_widths_;
+  QStringList test_cases_;
   QList< QPair<QString, KSParser::DataTypes> > sequence_;
   QFile test_csv_file_;
   KSParser *test_parser_;

@@ -20,7 +20,6 @@
 
 
 bool CatalogDB::Initialize() {
-  // TODO(spacetime): Shift db to user directory
   skydb_ = QSqlDatabase::addDatabase("QSQLITE", "skydb");
   QString dbfile = KStandardDirs::locateLocal("appdata",
                                            QString("skycomponents.db"));
@@ -124,7 +123,6 @@ void CatalogDB::RefreshCatalogList() {
 
   for (int i = 0; i < catalog.rowCount(); ++i) {
       QSqlRecord record = catalog.record(i);
-      // TODO(spacetime): complete list!
       QString name = record.value("Name").toString();
       catalog_list_.append(name);
 //         QString author = record.value("Author").toString();
