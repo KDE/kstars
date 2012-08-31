@@ -262,8 +262,10 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
   add_query.bindValue("MajorAxis", major_axis);
   add_query.bindValue("MinorAxis", minor_axis);
   add_query.bindValue("Flux", flux);
-  if (!add_query.exec())
+  if (!add_query.exec()) {
+    kWarning() << "Custom Catalog Insert Query FAILED!";
     kWarning() << add_query.lastQuery();
+  }
 
   // Find UID of the Row just added
   rowuid = add_query.lastInsertId().toInt();
@@ -313,6 +315,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
   if (ccFile.open(QIODevice::ReadOnly)) {
       QStringList columns;  // list of data column descriptors in the header
       QString catalog_name;
+      char delimiter;
 
       QTextStream stream(&ccFile);
       // TODO(spacetime) : Decide appropriate number of lines to be read
@@ -325,7 +328,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
         */
 
       if (lines.size() < 1 ||
-          !ParseCatalogInfoToDB(lines, columns, catalog_name)) {
+          !ParseCatalogInfoToDB(lines, columns, catalog_name, delimiter)) {
           kWarning() << "Issue in catalog file header: " << filename;
           ccFile.close();
           return false;
@@ -344,7 +347,7 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
                                           buildParserSequence(columns);
 
       // Part 2) Read file and store into DB
-      KSParser catalog_text_parser(filename, '#', sequence, ' ');
+      KSParser catalog_text_parser(filename, '#', sequence, delimiter);
 
       QHash<QString, QVariant> row_content;
       while (catalog_text_parser.HasNextRow()) {
@@ -363,7 +366,8 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
 
 bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
                                      QStringList &columns,
-                                     QString &catalog_name) {
+                                     QString &catalog_name,
+                                     char &delimiter) {
 /*
 * Most of the code here is by Thomas Kabelmann from customcatalogcomponent.cpp 
 * (now catalogcomponent.cpp)
@@ -386,12 +390,14 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
   catFluxFreq.clear();
   catFluxUnit.clear();
   catEpoch = 0.;
+  delimiter = ' ';
 
   int i = 0;
   for (; i < lines.size(); ++i) {
       QString d(lines.at(i));  // current data line
       if (d.left(1) != "#") break;  // no longer in header!
 
+      int idelimiter = d.indexOf("# Delimiter: ");
       int iname      = d.indexOf("# Name: ");
       int iprefix    = d.indexOf("# Prefix: ");
       int icolor     = d.indexOf("# Color: ");
@@ -399,7 +405,17 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
       int ifluxfreq  = d.indexOf("# Flux Frequency: ");
       int ifluxunit  = d.indexOf("# Flux Unit: ");
 
-      if (iname == 0) {  // line contains catalog name
+      if (idelimiter == 0) {  // line contains delimiter
+          idelimiter = d.indexOf(":") + 2;
+          if (delimiter == '\0') {
+              delimiter = d.mid(idelimiter).at(0).toAscii();
+          } else {  // duplicate name in header
+              if (showerrs)
+                  errs.append(i18n("Parsing header: ") +
+                                i18n("Extra Delimiter field in header: %1."
+                                      "  Will be ignored", d.mid(idelimiter)));
+          }
+      } else if (iname == 0) {  // line contains catalog name
           iname = d.indexOf(":")+2;
           if (catalog_name.isEmpty()) {
               catalog_name = d.mid(iname);

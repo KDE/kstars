@@ -139,10 +139,12 @@ class CatalogDB {
    *
    * @param lines List of lines to use for extraction of details
    * @param Columns Stores the read Columns in this list
+   * @param catalog_name Name retrieved from file header
+   * @param delimiter Delimeter retrieved from file header
    * @return bool
    **/
   bool ParseCatalogInfoToDB(const QStringList &lines, QStringList &columns,
-                            QString &catalog_name);
+                            QString &catalog_name, char &delimiter);
 
   /**
    * @brief Add the catalog with given details into the database

@@ -226,6 +226,9 @@
        </item>
        <item>
         <widget class="QRadioButton" name="SpaceButton">
+         <property name="checked">
+          <bool>true</bool>
+         </property>
          <property name="text">
           <string>Space Delimited</string>
          </property>

@@ -140,8 +140,10 @@ bool AddCatDialog::validateDataFile() {
 QString AddCatDialog::writeCatalogHeader() {
     QString name = ( acd->CatalogName->text().isEmpty() ? i18n("Custom") : acd->CatalogName->text() );
     QString pre = ( acd->Prefix->text().isEmpty() ? "CC" : acd->Prefix->text() );
+    char delimiter = ( acd->CSVButton->isChecked() ? ',' : ' ' );
 
-    QString h = QString("# Name: %1\n").arg( name );
+    QString h = QString("# Delimiter: %1\n").arg( delimiter );
+    h += QString("# Name: %1\n").arg( name );
     h += QString("# Prefix: %1\n").arg( pre );
     h += QString("# Color: %1\n").arg( acd->ColorButton->color().name() );
     h += QString("# Epoch: %1\n").arg( acd->Epoch->value() );
