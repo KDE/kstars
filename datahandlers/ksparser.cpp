@@ -22,6 +22,7 @@
 const int KSParser::EBROKEN_INT = 0;
 const double KSParser::EBROKEN_DOUBLE = 0.0;
 const float KSParser::EBROKEN_FLOAT = 0.0;
+const QString KSParser::EBROKEN_QSTRING = "Null";
 const bool KSParser::parser_debug_mode_ = false;
 
 KSParser::KSParser(const QString &filename, const char comment_char,
@@ -197,19 +198,16 @@ QHash<QString, QVariant>  KSParser::DummyRow() {
     for (int i = 0; i < name_type_sequence_.length(); ++i) {
            switch (name_type_sequence_[i].second) {
                 case D_QSTRING:
-                    newRow[name_type_sequence_[i].first] = "Null";
+                    newRow[name_type_sequence_[i].first] = EBROKEN_QSTRING;
                     break;
                 case D_DOUBLE:
-                    newRow[name_type_sequence_[i].first]
-                                        = static_cast<double>(0.0);
+                    newRow[name_type_sequence_[i].first] = EBROKEN_DOUBLE;
                     break;
                 case D_INT:
-                    newRow[name_type_sequence_[i].first]
-                                        = static_cast<int>(0);
+                    newRow[name_type_sequence_[i].first] = EBROKEN_INT;
                     break;
                 case D_FLOAT:
-                    newRow[name_type_sequence_[i].first]
-                                        = static_cast<float>(0.0);
+                    newRow[name_type_sequence_[i].first] = EBROKEN_FLOAT;
                     break;
             }
         }

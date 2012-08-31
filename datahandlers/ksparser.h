@@ -49,6 +49,14 @@
 class KSParser {
  public:
     /**
+     * These are the values used in case of error in conversion
+     **/
+    static const double EBROKEN_DOUBLE;
+    static const float EBROKEN_FLOAT;
+    static const int EBROKEN_INT;
+    static const QString EBROKEN_QSTRING;
+
+   /**
      * @brief DataTypes for building sequence
      * D_QSTRING QString Type
      * D_INT Integer  Type
@@ -203,9 +211,6 @@ class KSParser {
     QVariant ConvertToQVariant(const QString &input_string, 
                                const DataTypes &data_type, bool &ok);
 
-    static const double EBROKEN_DOUBLE;
-    static const float EBROKEN_FLOAT;
-    static const int EBROKEN_INT;
     static const bool parser_debug_mode_;
 
     KSFileReader file_reader_;

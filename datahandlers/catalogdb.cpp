@@ -238,6 +238,14 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                          const float magnitude, const int position_angle,
                          const float major_axis, const float minor_axis,
                          const float flux) {
+  // Verification steps
+  // If RA, Dec are Null, it denotes an invalid object and should not be written
+
+  if (ra == KSParser::EBROKEN_QSTRING || ra == "" ||
+      dec == KSParser::EBROKEN_QSTRING || dec == "") {
+    kDebug() << "Attempt to add incorrect row";
+    return;
+  }
   skydb_.open();
   // Part 1: Adding in DSO table
   // I will not use QSQLTableModel as I need to execute a query to find
@@ -628,9 +636,9 @@ void CatalogDB::GetAllObjects(const QString &catalog,
                       "ObjectDesignation.UID_DSO = DSO.UID");
     get_query.bindValue("catID", QString::number(FindCatalog(catalog)));
 
-    kWarning() << get_query.lastQuery();
-    kWarning() << get_query.lastError();
-    kWarning() << FindCatalog(catalog);
+//     kWarning() << get_query.lastQuery();
+//     kWarning() << get_query.lastError();
+//     kWarning() << FindCatalog(catalog);
 
     if (!get_query.exec()) {
         kWarning() << get_query.lastQuery();
