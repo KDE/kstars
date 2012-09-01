@@ -250,6 +250,7 @@ void KStars::hideAllFovExceptFirst()
     } else {
         // If there are no visible FOVs, select first available
         if(data()->visibleFOVs.size() == 0) {
+            Q_ASSERT( !data()->availFOVs.isEmpty() );
             Options::setFOVNames(QStringList(data()->availFOVs.first()->name()));
         } else {
             Options::setFOVNames(QStringList(data()->visibleFOVs.first()->name()));
@@ -264,6 +265,12 @@ void KStars::hideAllFovExceptFirst()
 
 void KStars::selectNextFov()
 {
+
+    if( data()->getVisibleFOVs().isEmpty() )
+        return;
+
+    Q_ASSERT( ! data()->getAvailableFOVs().isEmpty() ); // The available FOVs had better not be empty if the visible ones are not.
+
     FOV *currentFov = data()->getVisibleFOVs().first();
     int currentIdx = data()->availFOVs.indexOf(currentFov);
 
@@ -287,6 +294,11 @@ void KStars::selectNextFov()
 
 void KStars::selectPreviousFov()
 {
+    if( data()->getVisibleFOVs().isEmpty() )
+        return;
+
+    Q_ASSERT( ! data()->getAvailableFOVs().isEmpty() ); // The available FOVs had better not be empty if the visible ones are not.
+
     FOV *currentFov = data()->getVisibleFOVs().first();
     int currentIdx = data()->availFOVs.indexOf(currentFov);
 
