@@ -23,7 +23,7 @@ The bottom of the ladder consists of objects whose distances can be
 directly measured, like the moon
 (see <ulink url="https://en.wikipedia.org/wiki/Lunar_Laser_Ranging_experiment">Lunar
 Laser Ranging</ulink>). The same technique, using radio waves, is
-applied to find distnaces to planets as well.
+applied to find distances to planets as well.
 </para>
 
 <para>
@@ -36,7 +36,7 @@ distance to the star.
 <sect2>
 <title>Standard candles</title>
 <para>
-"Standard candles" are objects whose instrinsic brightnesses we can
+"Standard candles" are objects whose intrinsic brightnesses we can
 know for sure. The
 apparent <link linkend="ai-magnitude">magnitude</link>, which is easy
 to measure, tells us how bright an object appears, not how bright it
