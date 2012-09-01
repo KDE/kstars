@@ -10,15 +10,16 @@
 #ifndef TELESCOPEWIZARDPROCESS_H_
 #define TELESCOPEWIZARDPROCESS_H_
 
-#include <qstringlist.h>
+#include <QStringList>
+#include <QHash>
 
+#include "indi/indistd.h"
 #include "ui_telescopewizard.h"
 
 class KStars;
-class INDIMenu;
-class INDIDriver;
 class QTimer;
 class INDI_D;
+class DriverInfo;
 
 class KProgressDialog;
 
@@ -34,13 +35,10 @@ public:
     unsigned int currentPage;
     enum { INTRO_P=0, MODEL_P=1, TELESCOPE_P=2, LOCAL_P=3, PORT_P=4 };
 
-private:
-    KStars * ksw;
-    INDIMenu   *indimenu;
-    INDIDriver *indidriver;
+private:   
     Ui::telescopeWizard *ui;
 
-    INDI_D *indiDev;
+    ISD::GDInterface *scopeDevice;
 
     KProgressDialog *progressScan;
 
@@ -52,6 +50,10 @@ private:
     bool INDIMessageBar;
     bool linkRejected;
 
+    QHash<QString, DriverInfo *> driversList;
+
+    QList<DriverInfo *> managedDevice;
+
     void establishLink();
     void Reset();
 
@@ -61,7 +63,7 @@ public slots:
     void processBack();
     void newTime();
     void newLocation();
-    void processPort();
+    void processTelescope(ISD::GDInterface *);
     void scanPorts();
     void linkSuccess();
 

@@ -26,6 +26,7 @@ The articles sometimes also contain exercises that you can perform with
 &precession;   <!--AstroInfo: Precession-->
 &zenith;       <!--AstroInfo: The Zenith-->
 
+&epoch;        <!--AstroInfo: Epoch-->
 &julianday;    <!--AstroInfo: Julian Day-->
 &leapyear;     <!--AstroInfo: Leap Year-->
 &sidereal;     <!--AstroInfo: Sidereal Time-->

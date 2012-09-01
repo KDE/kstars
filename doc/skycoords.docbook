@@ -67,6 +67,26 @@ linkend="ai-hourangle">Hour Angle</link>.  Since a full rotation of the sky
 takes 24 hours to complete, there are (360 degrees / 24 hours) = 15 degrees in
 one Hour of Right Ascension.
 </para>
+<para>
+The equatorial coordinates for deep-sky objects and stars do not vary
+appreciably over short durations of time, since they are not affected
+by the <firstterm>diurnal motion</firstterm> (the daily apparent
+rotation of the sky around the earth. However, note that this takes
+<link linkend="ai-sidereal">1 sidereal day</link>, as against 1 solar
+day). They are suitable coordinates for making catalogs of stars and
+deep-sky objects (note that <firstterm>Galactic
+Coordinates</firstterm> also work well, but are cumbersome to use from
+an earth point-of-view). However, there are effects that cause the RA
+and Dec of objects to vary over time,
+namely <link linkend="ai-precession">Precession</link>
+and <firstterm>nutation</firstterm>, and <firstterm>proper
+motion</firstterm>, the latter being even less important. Equatorial
+coordinates are thus generally specified with an
+appropriate <link linkend="ai-epoch">epoch</link>, to account for
+precession. Popular epochs include J2000.0
+(<link linkend="ai-julianday">Julian Year</link> 2000) and B1950.0
+(<firstterm>Besselian Year</firstterm> 1950).
+</para>
 </sect2>
 
 <sect2 id="horizontal">

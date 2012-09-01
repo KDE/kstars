@@ -31,37 +31,24 @@ public:
 
     int getUpperLimit();
     int getLowerLimit();
-    int getValidWidth();
-    int getValidHeight();
+    int getHistWidth() { return hist_width; }
+    int getHistHeight() { return hist_height;}
     void init();
 
 protected:
     void paintEvent(QPaintEvent *event);
     void mouseMoveEvent ( QMouseEvent * event );
-    void mousePressEvent ( QMouseEvent * event );
-    void mouseReleaseEvent ( QMouseEvent * event );
-    //void resizeEvent ( QResizeEvent * event );
 
 private:
     FITSHistogram *data;
     const int height_adj;
     const int line_height;
-    float upperLimitX;
-    float lowerLimitX;
 
-    bool circle_drag_upper;
-    bool circle_drag_lower;
+    int hist_width;
+    int hist_height;
 
-    int valid_width;
-    int valid_height;
-
-    QRectF upperLimit;
-    QRectF lowerLimit;
     QRect enclosedRect;
 
-public slots:
-    void updateLowerLimit();
-    void updateUpperLimit();
 };
 
 #endif

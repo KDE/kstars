@@ -43,11 +43,11 @@
 
 #include <config-kstars.h>
 
-#ifdef HAVE_INDI_H
+/*#ifdef HAVE_INDI_H
 #include "indi/indidriver.h"
 #include "lilxml.h"
 #include "indi/indistd.h"
-#endif
+#endif*/
 
 #include "dialogs/detaildialog.h"
 
@@ -136,9 +136,6 @@ KStarsData::~KStarsData() {
     delete m_logObject;
 
     qDeleteAll( geoList );
-#ifdef HAVE_INDI_H
-    qDeleteAll( INDIHostsList );
-#endif
     qDeleteAll( ADVtreeList );
 
     pinstance = 0;
@@ -177,11 +174,11 @@ bool KStarsData::initialize() {
         return false;
 
     emit progressText( i18n("Loading Variable Stars" ) );
-    readINDIHosts();
 
     //Initialize User Database//
     emit progressText( i18n("Loading User Information" ) );
     m_ksuserdb.Initialize();
+
     readUserLog();
 
     readADVTreeData();
@@ -739,75 +736,6 @@ bool KStarsData::readADVTreeData()
     }
 
     return true;
-}
-
-bool KStarsData::readINDIHosts()
-{
-#ifdef HAVE_INDI_H
-    QString indiFile("indihosts.xml");
-    QFile localeFile;
-    QFile file;
-    char errmsg[1024];
-    char c;
-    LilXML *xmlParser = newLilXML();
-    XMLEle *root = NULL;
-    XMLAtt *ap;
-
-    file.setFileName( KStandardDirs::locate( "appdata", indiFile ) );
-    if ( file.fileName().isEmpty() || !file.open( QIODevice::ReadOnly ) )
-        return false;
-
-    while ( file.getChar( &c ) )
-    {
-        root = readXMLEle(xmlParser, c, errmsg);
-
-        if (root)
-        {
-            // Get host name
-            ap = findXMLAtt(root, "name");
-            if (!ap) {
-                delLilXML(xmlParser);
-                return false;
-            }
-
-            INDIHostsInfo *VInfo = new INDIHostsInfo;
-            VInfo->name = QString(valuXMLAtt(ap));
-
-            // Get host name
-            ap = findXMLAtt(root, "hostname");
-
-            if (!ap) {
-                delete VInfo;
-                delLilXML(xmlParser);
-                return false;
-            }
-
-            VInfo->hostname = QString(valuXMLAtt(ap));
-            ap = findXMLAtt(root, "port");
-
-            if (!ap) {
-                delete VInfo;
-                delLilXML(xmlParser);
-                return false;
-            }
-
-            VInfo->portnumber = QString(valuXMLAtt(ap));
-            VInfo->isConnected = false;
-            VInfo->deviceManager = NULL;
-            INDIHostsList.append(VInfo);
-
-            delXMLEle(root);
-        }
-        else if (errmsg[0])
-            kDebug() << errmsg;
-    }
-
-    delLilXML(xmlParser);
-
-    return true;
-    #else
-    return false;
-    #endif
 }
 
 //There's a lot of code duplication here, but it's not avoidable because 

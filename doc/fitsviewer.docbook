@@ -42,7 +42,9 @@
 
 <para>The following is a brief description of the tool's functional units:</para>
 <itemizedlist>
+  <!-- not in 4.10
   <listitem><para>Brightness/Contrast: Adjusts brightness and contrast. The function can be CPU and memory intensive for very large FITS.</para></listitem>
+  -->
   <listitem><para>Histogram: Displays one-channel FITS histogram. The user can rescale the image by optionally defining an upper and lower limit for the cutoff region. The rescaling operation (linear, logarithmic, or square-root) may then be applied to the region enclosed by the upper and lower limits.</para></listitem>
   <listitem><para>Statistics: Provides simple statistics for minimum and maximum pixel values and their respective locations. FITS depth, dimension, mean, and standard deviation.</para></listitem>
   <listitem><para>FITS header: Displays FITS header information.</para></listitem>

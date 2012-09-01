@@ -38,6 +38,7 @@ public:
    QUndoStack *getUndoStack() { return undoStack; }
    KUrl * getCurrentURL() { return &currentURL; }
    FITSImage *getImage() { return image; }
+   FITSHistogram *getHistogram() { return histogram; }
    void saveFile();
    void saveFileAs();
    void copyFITS();
@@ -45,8 +46,13 @@ public:
    void histoFITS();
    void statFITS();
 
+   void setUID(int newID) { uid = newID; }
+   int getUID() { return uid; }
+
    void saveUnsaved();
    void tabPositionUpdated();
+   void lowPassFilter();
+   void equalize();
 
 
 public slots:
@@ -69,6 +75,8 @@ private:
     KUrl currentURL;            /* FITS File name and path */
 
     bool mDirty;
+
+    int uid;
 
 signals:
     void newStatus(const QString &msg, FITSBar id);

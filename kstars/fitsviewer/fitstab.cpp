@@ -89,14 +89,17 @@ bool FITSTab::loadFITS(const KUrl *imageURL)
 
     currentURL = *imageURL;
 
-    if (histogram != NULL)
+    bool imageLoad = image->loadFITS(imageURL->url());
+
+    if (imageLoad)
     {
-        histogram->close();
-        delete histogram;
-        histogram = NULL;
+        if (histogram == NULL)
+            histogram = new FITSHistogram(this);
+        else
+            histogram->updateHistogram();
     }
 
-    return image->loadFITS(imageURL->url());
+    return imageLoad;
 }
 
 void FITSTab::modifyFITSState(bool clean)
@@ -126,9 +129,6 @@ void FITSTab::copyFITS()
 
 void FITSTab::histoFITS()
 {
-    if (histogram == NULL)
-        histogram = new FITSHistogram(this);
-
     histogram->show();
 }
 
@@ -145,7 +145,8 @@ void FITSTab::statFITS()
     stat.maxOUT->setText(QString::number(image->stats.max));
     stat.minOUT->setText(QString::number(image->stats.min));
     stat.meanOUT->setText(QString::number(image->stats.average));
-    stat.stddevOUT->setText(QString::number(image->stats.stddev));
+    stat.stddevOUT->setText(QString::number(image->stats.stddev, 'g', 3));
+    stat.HFROUT->setText(QString::number(image->getHFR(), 'g', 3));
 
     statDialog.exec();
 }
@@ -287,3 +288,16 @@ void FITSTab::tabPositionUpdated()
     emit newStatus(QString("%1%").arg(image->getCurrentZoom()), FITS_ZOOM);
     emit newStatus(QString("%1x%2").arg(image->getWidth()).arg(image->getHeight()), FITS_RESOLUTION);
 }
+
+void FITSTab::lowPassFilter()
+{
+    if (histogram != NULL)
+        histogram->lowPassFilter();
+}
+
+void FITSTab::equalize()
+{
+    if (histogram != NULL)
+        histogram->equalize();
+}
+

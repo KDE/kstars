@@ -12,15 +12,15 @@
 #ifndef INDIPROPERTY_H_
 #define INDIPROPERTY_H_
 
-#include "indielement.h"
-//Added by qt3to4:
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <libindi/indiproperty.h>
 
+#include "indicommon.h"
 
 class INDI_G;
-class INDIStdProperty;
+class INDI_E;
 
 class KComboBox;
 class KLed;
@@ -32,82 +32,92 @@ class QVBoxLayout;
 class QButtonGroup;
 class QAbstractButton;
 class QAction;
+class QCheckBox;
 
 /* INDI property */
 class INDI_P : public QObject
 {
     Q_OBJECT
 public:
-    INDI_P(INDI_G *parentGroup, const QString &inName);
+    INDI_P(INDI_G *ipg, INDI::Property *prop);
     ~INDI_P();
 
-    QString	name;			/* property name */
-    QString     label;			/* property label */
-
-    INDI_G	*pg;			/* parent group */
-    INDIStdProperty *indistd;		/* Associated std routines class */
-    double	timeout;		/* timeout, seconds */
-    IPState	state;			/* state light code */
-    KLed	*light;			/* state LED */
-    IPerm       perm;		        /* permissions wrt client */
-    PGui        guitype;		/* type of GUI, if any */
-    QCheckBox    *enableBLOBC;
-
-
-    int 	stdID;			/* Standard property ID, if any */
-
-    QLabel      *label_w;		/* Label widget */
-    QPushButton *set_w;		        /* set button */
-
-    QSpacerItem    *HorSpacer;		/* Horizontal spacer */
-    QHBoxLayout    *PHBox;   		/* Horizontal container */
-    QVBoxLayout    *PVBox;   		/* Vertical container */
-
-    QButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
-    KComboBox      *om_w;		/* Combo box for menu */
-
-    QList<INDI_E*> el;		/* list of elements */
-
     /* Draw state LED */
-    void drawLt(IPState lstate);
+    void updateStateLED();
+
+    void initGUI();
 
     /* First step in adding a new GUI element */
-    void addGUI(XMLEle *root);
+    //void addGUI(XMLEle *root);
 
     /* Set Property's parent group */
-    void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
+    //void setGroup(INDI_G *parentGroup) { pg = parentGroup; }
 
-    /* Find an element within the property */
-    INDI_E * findElement(const QString &elementName);
-    /* Search for an element, and if found, evaluate its state */
-    bool isOn(const QString &component);
-
-    /* Build Functions */
-    int buildTextGUI    (XMLEle *root, QString & errmsg);
-    int buildNumberGUI  (XMLEle *root, QString & errmsg);
-    int buildSwitchesGUI(XMLEle *root, QString & errmsg);
-    int buildMenuGUI    (XMLEle *root, QString & errmsg);
-    int buildLightsGUI  (XMLEle *root, QString & errmsg);
-    int buildBLOBGUI    (XMLEle *root, QString & errmsg);
+    void buildSwitchGUI();
+    void buildMenuGUI();
+    void buildTextGUI();
+    void buildNumberGUI();
+    void buildLightGUI();
+    void buildBLOBGUI();
 
     /* Setup the 'set' button in the property */
     void setupSetButton(const QString &caption);
 
-    /* Turn a switch on */
-    void activateSwitch(const QString &name);
+    void newTime();
+
+    PGui getGUIType() { return guiType;}
+
+    INDI_G *getGroup() { return pg;}
+
+    QHBoxLayout * getContainer() { return PHBox; }
+
+    const QString  &getName() { return name; }
+
+
+
+
+
+    //void addContainerWidget(QWidget *w);
+    void addWidget(QWidget *w);
+    void addLayout(QHBoxLayout *layout);
+
+    INDI_E * getElement(const QString &elementName);
+
+    QList<INDI_E *> getElements() { return elementList; }
+private:
+
+    INDI::Property *dataProp;
+    INDI_G	*pg;			/* parent group */
+    QCheckBox   *enableBLOBC;
+    QLabel      *labelW;		/* Label widget */
+    QPushButton *setB;		        /* set button */
+    KLed	*ledStatus;		/* state LED */
+    PGui         guiType;		/* type of GUI, if any */
+
+
+    QSpacerItem    *horSpacer;		/* Horizontal spacer */
+    QHBoxLayout    *PHBox;   		/* Horizontal container */
+    QVBoxLayout    *PVBox;   		/* Vertical container */
+
+    QButtonGroup   *groupB;		/* group button for radio and check boxes (Elements) */
+    KComboBox      *menuC;		/* Combo box for menu */
+
+    QString         name;
+
+    QList<INDI_E*> elementList;		/* list of elements */
 
 public slots:
-    void newText();
-    void newSwitch(INDI_E *lp);
-    void newAbstractButton(QAbstractButton *button);
-    void newComboBoxItem(const QString &item);
-    void newBlob();
+    void processSetButton();
+    void newSwitch(QAbstractButton * button);
+    void newSwitch(int index);
+    void newSwitch(const QString & name);
+
+
+    void sendBlob();
+    void sendSwitch();
+    void sendText();
+
     void setBLOBOption(int state);
-    /*void actionTriggered(QAction* action);*/
-
-signals:
-    void okState();
-
 };
 
 #endif

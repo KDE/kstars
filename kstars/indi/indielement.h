@@ -12,56 +12,16 @@
 #ifndef INDIELEMENT_H_
 #define INDIELEMENT_H_
 
-#include <lilxml.h>
-#include <indiapi.h>
-
 #include <kdialog.h>
 #include <unistd.h>
-
 
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-#define	INDIVERSION	1.7	/* we support this or less */
-
-/* GUI layout */
-#define PROPERTY_LABEL_WIDTH	100
-#define ELEMENT_LABEL_WIDTH	175
-#define ELEMENT_READ_WIDTH	175
-#define ELEMENT_WRITE_WIDTH	175
-#define ELEMENT_FULL_WIDTH	340
-#define MIN_SET_WIDTH		50
-#define MAX_SET_WIDTH		110
-#define MAXINDINAME		32
-#define MED_INDI_FONT		2
-#define MAX_LABEL_LENGTH	20
-
-// Pulse tracking
-#define INDI_PULSE_TRACKING   15000
-
-typedef enum {PG_NONE = 0, PG_TEXT, PG_NUMERIC, PG_BUTTONS,
-              PG_RADIO, PG_MENU, PG_LIGHTS, PG_BLOB} PGui;
-
-/* INDI std properties */
-/* new versions of glibc define TIME_UTC as a macro */
-#undef TIME_UTC
-/* N.B. Need to modify corresponding entry in indidevice.cpp when changed */
-enum stdProperties { CONNECTION, DEVICE_PORT, TIME_UTC, TIME_LST, TIME_UTC_OFFSET, GEOGRAPHIC_COORD,   /* General */
-                     EQUATORIAL_COORD, EQUATORIAL_EOD_COORD, EQUATORIAL_EOD_COORD_REQUEST, HORIZONTAL_COORD,  /* Telescope */
-                     TELESCOPE_ABORT_MOTION, ON_COORD_SET, SOLAR_SYSTEM, TELESCOPE_MOTION_NS, /* Telescope */
-                     TELESCOPE_MOTION_WE, TELESCOPE_PARK,  /* Telescope */
-                     CCD_EXPOSURE_REQUEST, CCD_TEMPERATURE_REQUEST, CCD_FRAME,           /* CCD */
-                     CCD_FRAME_TYPE, CCD_BINNING, CCD_INFO,
-                     VIDEO_STREAM,						/* Video */
-                     FOCUS_SPEED, FOCUS_MOTION, FOCUS_TIMER,			/* Focuser */
-                     FILTER_SLOT};						/* Filter */
-
-/* Devices families that we explicitly support (i.e. with std properties) */
-enum deviceFamily { KSTARS_TELESCOPE, KSTARS_CCD, KSTARS_FILTER, KSTARS_VIDEO, KSTARS_FOCUSER, KSTARS_DOME, KSTARS_RECEIVERS, KSTARS_GPS };
-
-#define	MAXSCSTEPS	1000	/* max number of steps in a scale */
-#define MAXRADIO	4	/* max numbere of buttons in a property */
+#include <indiapi.h>
+#include <indiproperty.h>
+#include "indicommon.h"
 
 /* Forward decleration */
 class KLed;
@@ -75,26 +35,67 @@ class QHBoxLayout;
 class QVBoxLayout;
 class QSpacerItem;
 class QCheckBox;
+class QButtonGroup;
 class QSlider;
 
 class INDI_P;
-
-/* Useful XML functions */
-XMLAtt *   findAtt     (XMLEle *ep  , const char *name , QString & errmsg);
-XMLEle *   findEle     (XMLEle *ep  , INDI_P *pp, const char *child, QString & errmsg);
 
 /* INDI Element */
 class INDI_E : public QObject
 {
     Q_OBJECT
 public:
-    INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inLabel);
+    INDI_E(INDI_P *gProp, INDI::Property *dProp);
     ~INDI_E();
+
+    const QString &getLabel() { return label; }
+    const QString &getName() { return name;}
+
+    const QString &getWriteField();
+    const QString &getReadField();
+
+
+    void buildSwitch(QButtonGroup* groupB, ISwitch *sw);
+    void buildMenuItem(ISwitch *sw);
+    void buildText(IText *itp);
+    void buildNumber(INumber *inp);
+    void buildLight(ILight *ilp);
+    void buildBLOB(IBLOB *ibp);
+
+
+
+    // Updates GUI from data in INDI properties
+    void syncSwitch();
+    void syncText();
+    void syncNumber();
+    void syncLight();
+
+    // Save GUI data in INDI properties
+    void updateTP();
+    void updateNP();
+
+    void setText(const QString & newText);
+
+
+    void setMin ();
+    void setMax ();
+
+    void setupElementLabel();
+    void setupElementRead(int length);
+    void setupElementWrite(int length);
+    void setupElementScale(int length);
+    void setupBrowseButton();
+
+    bool getBLOBDirty() { return blobDirty; }
+    void setBLOBDirty(bool isDirty) { blobDirty = isDirty; }
+
+
+private:
     QString name;			/* name */
     QString label;			/* label is the name by default, unless specified */
-    IPState light_state;		/* control light state */
-    ISState switch_state;		/* control switch state */
-    INDI_P *pp;				/* parent property */
+
+    INDI::Property *dataProp;           /* parent DATA property */
+    INDI_P *guiProp;			/* parent GUI property */
 
     QHBoxLayout    *EHBox;   		/* Horizontal layout */
 
@@ -110,34 +111,20 @@ public:
     QCheckBox      *check_w;		// check box
     QSpacerItem    *hSpacer;		// Horizontal spacer
 
-    double min, max, step;		// params for scale
-    double value;			// current value
-    double targetValue;			// target value
+    ISwitch        *sp;
+    INumber        *np;
+    IText          *tp;
+    ILight         *lp;
+    IBLOB          *bp;
+
+    bool blobDirty;
     QString text;			// current text
-    QString format;			// number format, if applicable
-
-    int buildTextGUI    (const QString &initText);
-    int buildNumberGUI  (double initValue);
-    int buildLightGUI();
-    int buildBLOBGUI();
-    void drawLt();
-
-    void initNumberValues(double newMin, double newMax, double newStep, char * newFormat);
-    void updateValue(double newValue);
-    void setMin (double inMin);
-    void setMax (double inMax);
-
-    void setupElementLabel();
-    void setupElementRead(int length);
-    void setupElementWrite(int length);
-    void setupElementScale(int length);
-    void setupBrowseButton();
 
 public slots:
     void spinChanged(double value);
     void sliderChanged(int value);
-    void actionTriggered();
     void browseBlob();
+
 
 };
 

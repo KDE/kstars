@@ -50,7 +50,8 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indi/indimenu.h"
+#include "indi/drivermanager.h"
+#include "indi/guimanager.h"
 #endif
 
 //This file contains functions that kstars calls at startup (except constructors).
@@ -375,8 +376,8 @@ void KStars::initActions() {
 
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
-    actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
-        << i18n("Ekos...");
+        actionCollection()->addAction("ekos", this, SLOT( slotEkos() ) )
+            << i18n("Ekos...");
 #endif
 #endif
 
@@ -414,21 +415,16 @@ void KStars::initActions() {
 #ifdef HAVE_INDI_H
 #ifndef Q_WS_WIN
 
-    actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
-        << i18n("Telescope Wizard...")
-        << KIcon("tools-wizard" );
-    actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
-        << i18n("Device Manager...")
-        << KIcon("network-server" );
 
-    ka = actionCollection()->addAction("capture_sequence", this, SLOT( slotImageSequence() ) )
-        << i18n("Capture Image Sequence...");
-    ka->setEnabled(false);
-
-    ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
-        << i18n("INDI Control Panel...");
-    ka->setEnabled(false);
-
+        actionCollection()->addAction("telescope_wizard", this, SLOT( slotTelescopeWizard() ) )
+            << i18n("Telescope Wizard...")
+            << KIcon("tools-wizard" );
+        actionCollection()->addAction("device_manager", this, SLOT( slotINDIDriver() ) )
+            << i18n("Device Manager...")
+            << KIcon("network-server" );
+        ka = actionCollection()->addAction("indi_cpl", this, SLOT( slotINDIPanel() ) )
+            << i18n("INDI Control Panel...");
+        ka->setEnabled(false);
 
 
 #endif
@@ -574,20 +570,10 @@ void KStars::datainitFinished() {
     connect( TimeStep, SIGNAL( scaleChanged(float) ), map(),  SLOT( setFocus() ) );
 
 
-    #ifdef HAVE_INDI_H
-    //Initialize INDIMenu
-    indimenu = new INDIMenu(this);
-    indidriver = new INDIDriver(this);
-    #endif
-
     //Initialize Observing List
     obsList = new ObservingList( this );
     eWriter = new EquipmentWriter();
     oAdd = new ObserverAdd;
-
-    #ifdef HAVE_INDI_H
-    indidriver->updateCustomDrivers();
-    #endif
 
     //Do not start the clock if "--paused" specified on the cmd line
     if ( StartClockRunning )

@@ -1,0 +1,70 @@
+/*  Ekos Focus tool
+    Copyright (C) 2012 Jasem Mutlaq <mutlaqja@ikarustech.com>
+
+    This application is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+ */
+
+#ifndef FOCUS_H
+#define FOCUS_H
+
+#include "focus.h"
+#include "capture.h"
+
+#include "ui_focus.h"
+
+
+#include "indi/indistd.h"
+
+namespace Ekos
+{
+
+
+class Focus : public QWidget, public Ui::Focus
+{
+
+    Q_OBJECT
+
+public:
+    Focus();
+
+
+    void addFocuser(ISD::GDInterface *newFocuser);
+    void addCCD(ISD::GDInterface *newCCD);
+
+    typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusType;
+
+public slots:
+
+    /* Focus */
+    void startFocus();
+    void stopFocus();
+    void capture();
+
+    void FocusIn(int ms=1000);
+    void FocusOut(int ms=1000);
+
+    void toggleAutofocus(bool enable);
+
+    void newFITS(IBLOB *bp);
+
+private:
+
+    /* Focus */
+    ISD::Focuser *currentFocuser;
+    ISD::CCD *currentCCD;
+
+    Ekos::Capture *captureP;
+
+    FocusType lastFocusDirection;
+
+    double HFR;
+    int pulseDuration;
+
+};
+
+}
+
+#endif  // Focus_H

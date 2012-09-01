@@ -9,11 +9,12 @@
     2004-01-15	INDI element is the most basic unit of the INDI KStars client.
  */
 
+#include <libindi/base64.h>
+
 #include "indielement.h"
 #include "indiproperty.h"
 #include "indigroup.h"
 #include "indidevice.h"
-#include "indistd.h"
 
 #include <indicom.h>
 
@@ -23,69 +24,44 @@
 #include <QSlider>
 #include <QDir>
 #include <QHBoxLayout>
+#include <QButtonGroup>
+#include <QFont>
+#include <QDoubleSpinBox>
+#include <QDebug>
 
-#include <kurl.h>
-#include <kfiledialog.h>
-#include <kled.h>
-#include <ksqueezedtextlabel.h>
-#include <klineedit.h>
-#include <kpushbutton.h>
-#include <klocale.h>
-#include <kdebug.h>
-#include <kcombobox.h>
-#include <knuminput.h>
-#include <kdialog.h>
-
-/* search element for attribute.
- * return XMLAtt if find, else NULL with helpful info in errmsg.
- */
-XMLAtt * findAtt (XMLEle *ep, const char *name, QString & errmsg)
-{
-    XMLAtt *ap = findXMLAtt (ep, name);
-    if (ap)
-        return (ap);
-
-    errmsg = QString("INDI: <%1> missing attribute '%2'").arg(tagXMLEle(ep)).arg(name);
-
-    return NULL;
-}
-
-/* search element for given child. pp is just to build a better errmsg.
- * return XMLEle if find, else NULL with helpful info in errmsg.
- */
-XMLEle * findEle (XMLEle *ep, INDI_P *pp, const char *child, QString & errmsg)
-{
-    XMLEle *cp = findXMLEle (ep, child);
-    if (cp)
-        return (cp);
-
-    errmsg  = QString().arg("INDI: <%1 %2 %3> missing child '%4'").arg(tagXMLEle(ep), pp->pg->dp->name, pp->name, child);
-    return (NULL);
-}
+#include <KPushButton>
+#include <KSqueezedTextLabel>
+#include <KLineEdit>
+#include <KLocale>
+#include <KLed>
+#include <KFileDialog>
+#include <KMessageBox>
 
 /*******************************************************************
 ** INDI Element
 *******************************************************************/
-INDI_E::INDI_E(INDI_P *parentProperty, const QString &inName, const QString &inLabel)
+INDI_E::INDI_E(INDI_P *gProp, INDI::Property *dProp)
 {
-    name = inName;
-    label = inLabel;
+  guiProp  = gProp;
+  dataProp = dProp;
 
-    pp = parentProperty;
+  EHBox     = new QHBoxLayout;
+  EHBox->setMargin(0);
+  EHBox->setSpacing(KDialog::spacingHint());
 
-    EHBox     = new QHBoxLayout;
-    EHBox->setMargin(0);
-    EHBox->setSpacing(KDialog::spacingHint());
-    label_w   = NULL;
-    read_w    = NULL;
-    write_w   = NULL;
-    spin_w    = NULL;
-    slider_w  = NULL;
-    push_w    = NULL;
-    browse_w  = NULL;
-    check_w   = NULL;
-    led_w     = NULL;
-    hSpacer   = NULL;
+  tp        = NULL;
+  sp        = NULL;
+  np        = NULL;
+  label_w   = NULL;
+  read_w    = NULL;
+  write_w   = NULL;
+  spin_w    = NULL;
+  slider_w  = NULL;
+  push_w    = NULL;
+  browse_w  = NULL;
+  check_w   = NULL;
+  led_w     = NULL;
+  hSpacer   = NULL;
 
 }
 
@@ -104,11 +80,98 @@ INDI_E::~INDI_E()
     delete (hSpacer);
 }
 
+void INDI_E::buildSwitch(QButtonGroup* groupB, ISwitch *sw)
+{
+    name  = QString(sw->name);
+    label = QString(sw->label);
+
+    sp = sw;
+
+    if (label.isEmpty())
+        label = name;
+
+    if (groupB == NULL)
+        return;
+
+    switch (guiProp->getGUIType())
+    {
+    case PG_BUTTONS:
+        push_w = new KPushButton(label, guiProp->getGroup()->getContainer());
+        groupB->addButton(push_w);
+
+        syncSwitch();
+
+        guiProp->addWidget(push_w);
+
+        push_w->show();
+
+        break;
+
+    case PG_RADIO:
+        check_w = new QCheckBox(label, guiProp->getGroup()->getContainer());
+        groupB->addButton(check_w);
+
+        syncSwitch();
+
+        guiProp->addWidget(check_w);
+
+        check_w->show();
+
+        break;
+
+    default:
+        break;
+
+    }
+
+}
+
+void INDI_E::buildMenuItem(ISwitch *sw)
+{
+    buildSwitch(NULL, sw);
+}
+
+void INDI_E::buildText(IText *itp)
+{
+    name  = QString(itp->name);
+    label = QString(itp->label);
+
+    tp = itp;
+
+    if (label.isEmpty())
+        label = name;
+
+    setupElementLabel();
+
+    text = QString(tp->text);
+
+    switch (dataProp->getPermission())
+    {
+    case IP_RW:
+        setupElementRead(ELEMENT_READ_WIDTH);
+        setupElementWrite(ELEMENT_WRITE_WIDTH);
+
+        break;
+
+    case IP_RO:
+        setupElementRead(ELEMENT_FULL_WIDTH);
+        break;
+
+    case IP_WO:
+        setupElementWrite(ELEMENT_FULL_WIDTH);
+        break;
+    }
+
+
+    guiProp->addLayout(EHBox);
+    //pp->PVBox->addLayout(EHBox);
+}
+
 void INDI_E::setupElementLabel()
 {
     QPalette palette;
 
-    label_w = new KSqueezedTextLabel(pp->pg->propertyContainer);
+    label_w = new KSqueezedTextLabel(guiProp->getGroup()->getContainer());
     label_w->setMinimumWidth(ELEMENT_LABEL_WIDTH);
     label_w->setMaximumWidth(ELEMENT_LABEL_WIDTH);
     label_w->setFrameShape( KSqueezedTextLabel::Box );
@@ -131,49 +194,139 @@ void INDI_E::setupElementLabel()
     EHBox->addWidget(label_w);
 }
 
-int INDI_E::buildTextGUI(const QString &initText)
+void INDI_E::syncSwitch()
+{
+    QFont buttonFont;
+
+    switch (guiProp->getGUIType())
+    {
+       case PG_BUTTONS:
+        if (sp->s == ISS_ON)
+        {
+            push_w->setDown(true);
+            buttonFont = push_w->font();
+            buttonFont.setBold(true);
+            push_w->setFont(buttonFont);
+        }
+        else
+        {
+            push_w->setDown(false);
+            buttonFont = push_w->font();
+            buttonFont.setBold(false);
+            push_w->setFont(buttonFont);
+        }
+        break;
+
+    default:
+        break;
+
+    }
+}
+
+void INDI_E::syncText()
 {
 
-    setupElementLabel();
+    if (tp == NULL)
+        return;
 
-    text = initText;
-
-    switch (pp->perm)
-    {
-    case IP_RW:
-        setupElementRead(ELEMENT_READ_WIDTH);
-        setupElementWrite(ELEMENT_WRITE_WIDTH);
-
-        break;
-
-    case IP_RO:
-        setupElementRead(ELEMENT_FULL_WIDTH);
-        break;
-
-    case IP_WO:
-        setupElementWrite(ELEMENT_FULL_WIDTH);
-        break;
-    }
-
-    pp->PVBox->addLayout(EHBox);
-    return (0);
+    read_w->setText(tp->text);
 
 }
 
-int INDI_E::buildBLOBGUI()
+void INDI_E::syncNumber()
 {
+
+    char iNumber[32];
+    if (np == NULL || read_w == NULL)
+        return;
+
+    numberFormat(iNumber, np->format, np->value);
+
+    text = iNumber;
+
+    read_w->setText(text);
+
+    if (spin_w)
+    {
+        if (np->min != spin_w->minimum())
+            setMin();
+        if (np->max != spin_w->maximum())
+            setMax();
+    }
+
+}
+
+void INDI_E::updateTP()
+{
+
+    if (tp == NULL)
+        return;
+
+    IUSaveText(tp, write_w->text().toLatin1().constData());
+}
+
+void INDI_E::updateNP()
+{
+    if (np == NULL)
+        return;
+
+    if (write_w != NULL)
+    {
+        if (write_w->text().isEmpty())
+            return;
+
+        f_scansexa(write_w->text().toLatin1().constData(), &(np->value));
+        return;
+    }
+
+    if (spin_w != NULL)
+        np->value = spin_w->value();
+
+}
+
+void INDI_E::setText(const QString &newText)
+{
+    if (tp == NULL)
+        return;
+
+   switch(dataProp->getPermission())
+   {
+      case IP_RO:
+       read_w->setText(newText);
+       break;
+
+      case IP_WO:
+      case IP_RW:
+       text = newText;
+       IUSaveText(tp, newText.toLatin1().constData());
+       read_w->setText(newText);
+       write_w->setText(newText);
+        break;
+   }
+
+}
+
+void INDI_E::buildBLOB(IBLOB *ibp)
+{
+
+    name  = QString(ibp->name);
+    label = QString(ibp->label);
+
+    bp = ibp;
+
+    if (label.isEmpty())
+        label = name;
 
     setupElementLabel();
 
     text = i18n("INDI DATA STREAM");
 
-    switch (pp->perm)
+    switch (dataProp->getPermission())
     {
     case IP_RW:
         setupElementRead(ELEMENT_READ_WIDTH);
         setupElementWrite(ELEMENT_WRITE_WIDTH);
         setupBrowseButton();
-
         break;
 
     case IP_RO:
@@ -186,26 +339,32 @@ int INDI_E::buildBLOBGUI()
         break;
     }
 
-    pp->PVBox->addLayout(EHBox);
-    return (0);
+    guiProp->addLayout(EHBox);
 
 }
 
-int INDI_E::buildNumberGUI  (double initValue)
+void INDI_E::buildNumber  (INumber *inp)
 {
     bool scale = false;
     char iNumber[32];
 
-    value = initValue;
-    numberFormat(iNumber, format.toAscii(), value);
+    name  = QString(inp->name);
+    label = QString(inp->label);
+
+    np = inp;
+
+    if (label.isEmpty())
+        label = name;
+
+    numberFormat(iNumber, np->format, np->value);
     text = iNumber;
 
     setupElementLabel();
 
-    if (step != 0 && (max - min)/step <= MAXSCSTEPS)
+    if (np->step != 0 && (np->max - np->min)/np->step <= 100)
         scale = true;
 
-    switch (pp->perm)
+    switch (dataProp->getPermission())
     {
     case IP_RW:
         setupElementRead(ELEMENT_READ_WIDTH);
@@ -214,12 +373,12 @@ int INDI_E::buildNumberGUI  (double initValue)
         else
             setupElementWrite(ELEMENT_WRITE_WIDTH);
 
-        pp->PVBox->addLayout(EHBox);
+        guiProp->addLayout(EHBox);
         break;
 
     case IP_RO:
         setupElementRead(ELEMENT_READ_WIDTH);
-        pp->PVBox->addLayout(EHBox);
+        guiProp->addLayout(EHBox);
         break;
 
     case IP_WO:
@@ -228,36 +387,44 @@ int INDI_E::buildNumberGUI  (double initValue)
         else
             setupElementWrite(ELEMENT_FULL_WIDTH);
 
-        pp->PVBox->addLayout(EHBox);
+        guiProp->addLayout(EHBox);
 
         break;
     }
 
-    return (0);
-
 }
 
-int INDI_E::buildLightGUI()
+void INDI_E::buildLight(ILight *ilp)
 {
 
-    led_w = new KLed (pp->pg->propertyContainer);
+    name  = QString(ilp->name);
+    label = QString(ilp->label);
+
+    lp = ilp;
+
+    if (label.isEmpty())
+        label = name;
+
+    led_w = new KLed (guiProp->getGroup()->getContainer());
     led_w->setMaximumSize(16,16);
     led_w->setLook( KLed::Sunken );
-    drawLt();
+
+    syncLight();
 
     EHBox->addWidget(led_w);
 
     setupElementLabel();
 
-    pp->PVBox->addLayout(EHBox);
+    guiProp->addLayout(EHBox);
 
-    return (0);
 }
 
-void INDI_E::drawLt()
+void INDI_E::syncLight()
 {
-    /* set state light */
-    switch (light_state)
+    if (lp == NULL)
+        return;
+
+    switch (lp->s)
     {
     case IPS_IDLE:
         led_w->setColor(Qt::gray);
@@ -281,47 +448,28 @@ void INDI_E::drawLt()
     }
 }
 
-
-void INDI_E::updateValue(double newValue)
-{
-    char iNumber[32];
-
-    value = newValue;
-
-    numberFormat(iNumber, format.toAscii(), value);
-    text = iNumber;
-
-    if (write_w)
-        write_w->setText(text);
-
-    if (spin_w)
-        spin_w->setValue(value);
-
-    if (slider_w)
-        slider_w->setValue(((int)value));
-
-}
-
 void INDI_E::setupElementScale(int length)
 {
 
-    int steps = (int) ((max - min) / step);
-    spin_w    = new QDoubleSpinBox(pp->pg->propertyContainer );
-    spin_w->setRange(min, max);
-    spin_w->setSingleStep(step);
-    spin_w->setValue(value);
+    if (np == NULL)
+        return;
+
+    int steps = (int) ((np->max - np->min) / np->step);
+    spin_w    = new QDoubleSpinBox(guiProp->getGroup()->getContainer());
+    spin_w->setRange(np->min, np->max);
+    spin_w->setSingleStep(np->step);
+    spin_w->setValue(np->value);
     spin_w->setDecimals(2);
 
-    slider_w  = new QSlider( Qt::Horizontal, pp->pg->propertyContainer );
+    slider_w  = new QSlider( Qt::Horizontal, guiProp->getGroup()->getContainer() );
     slider_w->setRange(0, steps);
     slider_w->setPageStep(1);
-    slider_w->setValue((int) ((value - min) / step));
+    slider_w->setValue((int) ((np->value - np->min) / np->step));
 
     connect(spin_w, SIGNAL(valueChanged(double)), this, SLOT(spinChanged(double )));
     connect(slider_w, SIGNAL(sliderMoved(int)), this, SLOT(sliderChanged(int )));
 
 
-    /* FIXME make sure the size stuff work */
     if (length == ELEMENT_FULL_WIDTH)
         spin_w->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     else
@@ -337,70 +485,77 @@ void INDI_E::setupElementScale(int length)
 
 void INDI_E::spinChanged(double value)
 {
-    int slider_value = (int) ((value - min) / step);
+
+    int slider_value = (int) ((value - np->min) / np->step);
     slider_w->setValue(slider_value);
+
 }
 
 void INDI_E::sliderChanged(int value)
 {
 
-    double spin_value = (value * step) + min;
+    double spin_value = (value * np->step) + np->min;
     spin_w->setValue(spin_value);
 
-}
-
-void INDI_E::setMin (double inMin)
-{
-    min = inMin;
-    if (spin_w)
-    {
-        spin_w->setMinimum(min);
-        spin_w->setValue(value);
-    }
-    if (slider_w)
-    {
-        slider_w->setMaximum((int) ((max - min) / step));
-        slider_w->setMinimum(0);
-        slider_w->setPageStep(1);
-        slider_w->setValue( (int) ((value - min) / step ));
-    }
 
 }
 
-void INDI_E::setMax (double inMax)
+void INDI_E::setMin ()
 {
-    max = inMax;
+
     if (spin_w)
     {
-        spin_w->setMaximum(max);
-        spin_w->setValue(value);
+        spin_w->setMinimum(np->min);
+        spin_w->setValue(np->value);
     }
     if (slider_w)
     {
-        slider_w->setMaximum((int) ((max - min) / step));
+        slider_w->setMaximum((int) ((np->max - np->min) / np->step));
         slider_w->setMinimum(0);
         slider_w->setPageStep(1);
-        slider_w->setValue( (int) ((value - min) / step ));
+        slider_w->setValue( (int) ((np->value - np->min) / np->step ));
     }
 
+}
+
+void INDI_E::setMax ()
+{
+    if (spin_w)
+    {
+        spin_w->setMaximum(np->max);
+        spin_w->setValue(np->value);
+    }
+    if (slider_w)
+    {
+        slider_w->setMaximum((int) ((np->max - np->min) / np->step));
+        slider_w->setMinimum(0);
+        slider_w->setPageStep(1);
+        slider_w->setValue( (int) ((np->value - np->min) / np->step ));
+    }
 }
 
 void INDI_E::setupElementWrite(int length)
 {
-    write_w = new KLineEdit( pp->pg->propertyContainer);
+
+    write_w = new KLineEdit( guiProp->getGroup()->getContainer());
     write_w->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred);
     write_w->setMinimumWidth( length );
     write_w->setMaximumWidth( length);
 
-    QObject::connect(write_w, SIGNAL(returnPressed()), pp, SLOT(newText()));
+    write_w->setText(text);
+
+    //QObject::connect(write_w, SIGNAL(returnPressed(QString)), this, SLOT(updateTP()));
+    QObject::connect(write_w, SIGNAL(returnPressed()), guiProp, SLOT(sendText()));
     EHBox->addWidget(write_w);
+
 }
 
 
 void INDI_E::setupElementRead(int length)
 {
 
-    read_w = new KLineEdit( pp->pg->propertyContainer );
+
+    read_w = new KLineEdit( guiProp->getGroup()->getContainer() );
     read_w->setMinimumWidth( length );
     read_w->setFocusPolicy( Qt::NoFocus );
     read_w->setCursorPosition( 0 );
@@ -410,11 +565,12 @@ void INDI_E::setupElementRead(int length)
 
     EHBox->addWidget(read_w);
 
+
 }
 
 void INDI_E::setupBrowseButton()
 {
-    browse_w = new KPushButton("...", pp->pg->propertyContainer);
+    browse_w = new KPushButton("...", guiProp->getGroup()->getContainer());
     browse_w->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     browse_w->setMinimumWidth( MIN_SET_WIDTH );
     browse_w->setMaximumWidth( MAX_SET_WIDTH );
@@ -424,17 +580,15 @@ void INDI_E::setupBrowseButton()
 }
 
 
-void INDI_E::initNumberValues(double newMin, double newMax, double newStep, char * newFormat)
-{
-    min = newMin;
-    max = newMax;
-    step = newStep;
-    format = newFormat;
-}
-
 void INDI_E::browseBlob()
 {
 
+    QFile fp;
+    QString filename;
+    QString format;
+    QDataStream binaryStream;
+    int data64_size=0, pos=0;
+    unsigned char *data_file;
     KUrl currentURL;
 
     currentURL = KFileDialog::getOpenUrl( QDir::homePath(), "*");
@@ -446,33 +600,67 @@ void INDI_E::browseBlob()
     if ( currentURL.isValid() )
         write_w->setText(currentURL.path());
 
-}
+    fp.setFileName(currentURL.path());
 
-void INDI_E::actionTriggered()
-{
-    switch (pp->guitype)
+    if ( (pos = filename.lastIndexOf(".")) != -1)
+        format = filename.mid (pos, filename.length());
+
+    //qDebug() << "Filename is " << fp.fileName() << endl;
+
+    if (!fp.open(QIODevice::ReadOnly))
     {
-    case PG_TEXT:
-    case PG_NUMERIC:
-        // Just tell parent to process the number/text
-        pp->newText();
-        break;
-
-    case PG_BUTTONS:
-    case PG_RADIO:
-    case PG_MENU:
-        // If INDI Standard can handle the swtich then process and return, otherwise
-        // Just issue a new generic switch.
-        if (pp->indistd->actionTriggered(this))
-            return;
-        else if (switch_state == ISS_OFF)
-            pp->newSwitch(this);
-        break;
-
-    default:
-        break;
+        KMessageBox::error(0, i18n("Cannot open file %1 for reading", filename));
+        return;
     }
 
+    binaryStream.setDevice(&fp);
+
+    data_file = new unsigned char[fp.size()];
+
+    bp->bloblen = fp.size();
+
+    if (data_file == NULL)
+    {
+        KMessageBox::error(0, i18n("Not enough memory to load %1", filename));
+        fp.close();
+        return;
+    }
+
+    binaryStream.readRawData((char*)data_file, fp.size());
+
+    bp->blob = new unsigned char[4*fp.size()/3+4];
+    if (bp->blob == NULL)
+    {
+        KMessageBox::error(0, i18n("Not enough memory to convert file %1 to base64", filename));
+        fp.close();
+    }
+
+    data64_size = to64frombits ( ((unsigned char *) bp->blob), data_file, fp.size());
+
+    delete [] data_file;
+
+    bp->size = data64_size;
+
+    //qDebug() << "BLOB " << bp->name << " has size of " << bp->size << " and bloblen of " << bp->bloblen << endl;
+
+    blobDirty = true;
+
+}
+
+const QString & INDI_E::getWriteField()
+{
+    if (write_w)
+        return write_w->text();
+    else
+        return NULL;
+}
+
+const QString & INDI_E::getReadField()
+{
+    if (read_w)
+        return read_w->text();
+    else
+        return NULL;
 }
 
 #include "indielement.moc"
