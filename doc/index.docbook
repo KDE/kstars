@@ -21,6 +21,7 @@
   <!ENTITY commands SYSTEM "commands.docbook">
   <!ENTITY config SYSTEM "config.docbook">
   <!ENTITY contents SYSTEM "ai-contents.docbook">
+  <!ENTITY cosmicdist SYSTEM "cosmicdist.docbook">
   <!ENTITY cpoles SYSTEM "cpoles.docbook">
   <!ENTITY credits SYSTEM "credits.docbook">
   <!ENTITY csphere SYSTEM "csphere.docbook">
