@@ -385,7 +385,7 @@
              <string>RA (J2000.0):</string>
             </property>
             <property name="anchor" stdset="0">
-             <string>precession</string>
+             <string>epoch</string>
             </property>
            </widget>
           </item>
@@ -431,7 +431,7 @@
              <string>Dec (J2000.0):</string>
             </property>
             <property name="anchor" stdset="0">
-             <string>precession</string>
+             <string>epoch</string>
             </property>
            </widget>
           </item>
