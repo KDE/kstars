@@ -297,10 +297,13 @@
              </widget>
             </item>
             <item row="2" column="0">
-             <widget class="QLabel" name="BVLabel">
+             <widget class="KSHelpLabel" name="BVLabel">
               <property name="text">
                <string>B - V index:</string>
               </property>
+	      <property name="anchor">
+		<string>colorandtemp</string>
+	      </property>
              </widget>
             </item>
             <item row="2" column="1">
