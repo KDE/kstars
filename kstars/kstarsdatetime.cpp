@@ -23,11 +23,12 @@
 #include "ksnumbers.h"
 #include "dms.h"
 
-KStarsDateTime::KStarsDateTime() : KDateTime() {
+KStarsDateTime::KStarsDateTime() : KDateTime()
+{
     setDJD( J2000 );
 }
 
-KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt )
+KStarsDateTime::KStarsDateTime( const KStarsDateTime &kdt ) : KDateTime()
 {
     setDJD( kdt.djd() );
 }
