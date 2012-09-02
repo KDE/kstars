@@ -398,7 +398,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
   catFluxFreq.clear();
   catFluxUnit.clear();
   catEpoch = 0.;
-  delimiter = ' ';
+  delimiter = '\0';
 
   int i = 0;
   for (; i < lines.size(); ++i) {
@@ -415,6 +415,7 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
 
       if (idelimiter == 0) {  // line contains delimiter
           idelimiter = d.indexOf(":") + 2;
+          kWarning() << idelimiter << d;
           if (delimiter == '\0') {
               delimiter = d.mid(idelimiter).at(0).toAscii();
           } else {  // duplicate name in header
