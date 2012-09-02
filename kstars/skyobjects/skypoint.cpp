@@ -603,7 +603,7 @@ void SkyPoint::subtractEterms(void) {
     Dec = Dec - spd.dec();
 }
 
-dms SkyPoint::angularDistanceTo(const SkyPoint *sp) const {
+dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double * const positionAngle) const {
 
     double dalpha = ra().radians() - sp->ra().radians() ;
     double ddelta = dec().radians() - sp->dec().radians() ;
@@ -614,12 +614,18 @@ dms SkyPoint::angularDistanceTo(const SkyPoint *sp) const {
     double hava = sa*sa;
     double havd = sd*sd;
 
-    double aux = havd + cos (dec().radians()) * cos(sp->dec().radians())
+    double aux = havd + cos (dec().radians()) * cos(sp->dec().radians()) // Haversine law
                  * hava;
 
     dms angDist;
     angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
 
+    if( positionAngle ) {
+        // Also compute the position angle of the line from this SkyPoint to sp
+        *positionAngle = acos( tan(-ddelta)/tan( angDist.radians() ) ); // FIXME: Might fail for large ddelta / zero angDist
+        if( -dalpha < 0 )
+            *positionAngle = 2*M_PI - *positionAngle;
+    }
     return angDist;
 }
 
