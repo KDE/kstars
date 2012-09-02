@@ -44,7 +44,9 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
     QHash<SkyPoint const *, double> g_score;
     QHash<SkyPoint const *, double> f_score;
     QHash<SkyPoint const *, double> h_score;
- 
+
+    kDebug() << "StarHopper is trying to compute a path from source: " << src.ra().toHMSString() << src.dec().toDMSString() << " to destination: " << dest.ra().toHMSString() << dest.dec().toDMSString() << "; a starhop of " << src.angularDistanceTo( &dest ).Degrees() << " degrees!";
+
     oSet.append( &src );
     g_score[ &src ] = 0;
     h_score[ &src ] = src.angularDistanceTo( &dest ).Degrees();
@@ -61,11 +63,11 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
                 curr_node = sp;
             }
         }
-        kDebug() << "Lowest fscore is " << lowfscore;
+        kDebug() << "Lowest fscore (vertex distance-plus-cost score) is " << lowfscore << " with coords: " << curr_node->ra().toHMSString() << curr_node->dec().toDMSString() << ". Considering this node now.";
         if( curr_node == &dest || (curr_node != &src && h_score[ curr_node ] < 0.5 * fov) ) {
             // We are at destination
             reconstructPath( came_from[ curr_node ] );
-            kDebug() << "Result path count: " << result_path.count();
+            kDebug() << "We've arrived at the destination! Yay! Result path count: " << result_path.count();
             return result_path;
         }
         
@@ -76,8 +78,10 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
         // larger than src --> dest distance by more than 20%, don't
         // even bother considering it.
 
-        if( h_score[ curr_node ] > h_score[ &src ] * 1.2 )
+        if( h_score[ curr_node ] > h_score[ &src ] * 1.2 ) {
+            kDebug() << "Node under consideration has larger distance to destination (h-score) than start node! Ignoring it.";
             continue;
+        }
 
         SkyPoint const *nhd_node;
 
