@@ -106,7 +106,7 @@ void OpsCatalog::updateCustomCatalogs() {
     m_ShowIC = showIC->checkState();
 
     int limit = m_CustomCatalogFile->size();
-    for ( int i=0; i < limit; ++i ) {        
+    for ( int i=0; i < limit; ++i ) {
         QString name = m_CustomCatalogFile->at(i);
         QList<QListWidgetItem*> l = CatalogList->findItems( name, Qt::MatchExactly );
 
@@ -118,7 +118,7 @@ void OpsCatalog::updateCustomCatalogs() {
          * For every unchecked item, we check if the option CatalogNames does
          * not contain the name. If it does, we remove it.
         */
-        
+
         if ( l[0]->checkState()==Qt::Checked ) {
             if (!m_CheckedCatalogNames.contains(name))
                 m_CheckedCatalogNames.append(name);
@@ -137,7 +137,7 @@ void OpsCatalog::selectCatalog() {
     RemoveCatalog->setEnabled( false );
 
     if ( ! CatalogList->currentItem() ) return;
-    
+
     foreach ( SkyComponent *sc, ksw->data()->skyComposite()->customCatalogs() ) {
         CatalogComponent *cc = (CatalogComponent*)sc;
         if ( CatalogList->currentItem()->text() == cc->name() ) {
@@ -174,7 +174,7 @@ void OpsCatalog::refreshCatalogList() {
 
 
 void OpsCatalog::slotRemoveCatalog() {
-    if (KMessageBox::warningYesNo(0, 
+    if (KMessageBox::warningYesNo(0,
                      i18n("The selected database will be removed. "
                            "This action cannot be reversed! Delete Catalog?"),
                           i18n("Delete Catalog?") )
@@ -194,7 +194,7 @@ void OpsCatalog::slotRemoveCatalog() {
 
 /*
 void OpsCatalog::slotSetDrawStarMagnitude(double newValue) {
-    m_MagLimitDrawStar = newValue; 
+    m_MagLimitDrawStar = newValue;
     kcfg_MagLimitDrawStarZoomOut->setMaximum( newValue );
     m_ConfigDialog->enableButtonApply( true );
 }

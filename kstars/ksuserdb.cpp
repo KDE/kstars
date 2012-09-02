@@ -378,7 +378,7 @@ void KSUserDB::GetAllScopes(QList<Scope *> &scope_list) {
     scope_list.clear();
 
     userdb_.open();
-    QSqlTableModel equip(0, userdb_);    
+    QSqlTableModel equip(0, userdb_);
     equip.setTable("telescope");
     equip.select();
 

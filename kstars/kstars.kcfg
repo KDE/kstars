@@ -129,7 +129,7 @@
     </entry>
     <entry name="showTargetCrosshair" type="Bool">
       <label>Draw crosshairs at telescope position in the sky map?</label>
-      <whatsthis>Toggle display of crosshairs centered at telescope's pointed position in the KStars sky map.</whatsthis> 
+      <whatsthis>Toggle display of crosshairs centered at telescope's pointed position in the KStars sky map.</whatsthis>
       <default>true</default>
     </entry>
     <entry name="showINDIMessages" type="Bool">

@@ -41,20 +41,20 @@ class CatalogComponent: public ListComponent
 public:
 
     /**
-    	*@short Constructor
-    	*@p parent Pointer to the parent SkyComposite object
-    	*/
+     *@short Constructor
+     *@p parent Pointer to the parent SkyComposite object
+     */
     CatalogComponent( SkyComposite*, const QString &fname, bool showerrs, int index );
 
     /**
-    	*@short Destructor.  Delete list members
-    	*/
+     *@short Destructor.  Delete list members
+     */
     virtual ~CatalogComponent();
 
     /**
-    	*@short Draw custom catalog objects on the sky map.
-    	*@p psky Reference to the QPainter on which to paint
-    	*/
+     *@short Draw custom catalog objects on the sky map.
+     *@p psky Reference to the QPainter on which to paint
+     */
     virtual void draw( SkyPainter *skyp );
 
     virtual void update( KSNumbers *num );
@@ -70,15 +70,15 @@ public:
 
     /**
      *@return true if visibility Option is set for this catalog
-     *@note this is complicated for custom catalogs, because 
+     *@note this is complicated for custom catalogs, because
      *Option::showCatalog() returns a QList<int>, not a bool.
-     *This function extracts the correct visibility value and 
+     *This function extracts the correct visibility value and
      *returns the appropriate bool value
      */
     inline bool getVisibility() { return (Options::showCatalog()[m_ccIndex] > 0) ? true : false; }
 
 private:
-  
+
     /** @short Load data into custom catalog */
     void loadData();
 
@@ -88,22 +88,22 @@ private:
     bool readCustomCatalogs();
 
     /**
-    	*@short Remove a catalog rom the program
-    	*@p i The index of the catalog to be removed
-    	*@return true if catalog was successfully removed
-    	*/
+     *@short Remove a catalog rom the program
+     *@p i The index of the catalog to be removed
+     *@return true if catalog was successfully removed
+     */
     bool removeCatalog( int i );
 
     /**
-    	*@short Process a line from a custom data file
-    	*@p lnum the line number being processed (used for error reporting)
-    	*@p d QStringList containing the data fields in the current line
-    	*@p Columns QStringList containing the column descriptors for the catalog (read from header)
-    	*@p Prefix The prefix string for naming objects in this catalog (read from header)
-    	*@p objList reference to the QList of SkyObjects to which we will add the parsed object
-    	*@p showerrs if true, parse errors will be logged and reported
-    	*@p errs reference to the string list containing the parse errors encountered
-    	*/
+     *@short Process a line from a custom data file
+     *@p lnum the line number being processed (used for error reporting)
+     *@p d QStringList containing the data fields in the current line
+     *@p Columns QStringList containing the column descriptors for the catalog (read from header)
+     *@p Prefix The prefix string for naming objects in this catalog (read from header)
+     *@p objList reference to the QList of SkyObjects to which we will add the parsed object
+     *@p showerrs if true, parse errors will be logged and reported
+     *@p errs reference to the string list containing the parse errors encountered
+     */
     bool processCustomDataLine(int lnum, const QStringList &d, const QStringList &Columns,
                                bool showerrs, QStringList &errs);
 

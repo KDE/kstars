@@ -133,7 +133,7 @@ void DeepSkyComponent::loadData()
     sequence.append(qMakePair(QString("Longname"),KSParser::D_QSTRING));
     //No width to be appended for last sequence object
 
-    QString file_name = KStandardDirs::locate( "appdata", 
+    QString file_name = KStandardDirs::locate( "appdata",
                                            QString("ngcic.dat") );
     KSParser deep_sky_parser(file_name, '#', sequence, widths);
 
@@ -147,7 +147,7 @@ void DeepSkyComponent::loadData()
         QString cat;
         iflag = row_content["Flag"].toString().mid( 0, 1 ); //check for NGC/IC catalog flag
         /*
-        Q_ASSERT(iflag == "I" || iflag == "N" || iflag == " ");  
+        Q_ASSERT(iflag == "I" || iflag == "N" || iflag == " ");
         // (spacetime): ^ Why an assert? Change in implementation of ksparser
         //  might result in crash for no reason.
         // n.b. We also allow non-NGC/IC objects which have a blank iflag
@@ -219,7 +219,7 @@ void DeepSkyComponent::loadData()
             imess = row_content["MessrNum"].toInt();
         }
 
-        longname = row_content["Longname"].toString(); 
+        longname = row_content["Longname"].toString();
 
         dms r;
         r.setH( rah, ram, int(ras) );
@@ -299,7 +299,7 @@ void DeepSkyComponent::loadData()
             objectNames(type).append( longname );
 
         deep_sky_parser.ShowProgress();
-    }   
+    }
 }
 
 void DeepSkyComponent::mergeSplitFiles() {

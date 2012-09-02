@@ -26,9 +26,9 @@
 #include "kstarsdata.h"
 #include "ksutils.h"
 
-#ifndef MAXUINT 
-    #define MAXUINT (~0) 
-#endif 
+#ifndef MAXUINT
+    #define MAXUINT (~0)
+#endif
 
 KSFileReader::KSFileReader( qint64 maxLen ) :
         QTextStream(), m_maxLen(maxLen), m_curLine(0), m_targetLine(MAXUINT)

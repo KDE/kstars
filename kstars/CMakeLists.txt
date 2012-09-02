@@ -16,7 +16,7 @@ if (CFITSIO_FOUND)
     fitsviewer/fitsheaderdialog.ui
     fitsviewer/statform.ui
     indi/streamform.ui
-    fitsviewer/fitshistogramui.ui 
+    fitsviewer/fitshistogramui.ui
 )
   include_directories(${CFITSIO_INCLUDE_DIR})
 endif(CFITSIO_FOUND)
@@ -58,7 +58,7 @@ if (INDI_FOUND)
       ekos/capture.cpp
       ekos/focus.cpp
    )
-  
+
   include_directories(${INDI_INCLUDE_DIR})
 endif(INDI_FOUND)
 
@@ -83,17 +83,17 @@ endif( OPENGL_FOUND )
 
 
 include_directories(
-    ${kstars_SOURCE_DIR}/kstars/tools 
+    ${kstars_SOURCE_DIR}/kstars/tools
     ${kstars_SOURCE_DIR}/kstars/skyobjects
     ${kstars_SOURCE_DIR}/kstars/skycomponents
-#    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh 
-#	${CMAKE_SOURCE_DIR}/libkdeedu/extdate 
+#    ${CMAKE_SOURCE_DIR}/kstars/kstars/htmesh
+#	${CMAKE_SOURCE_DIR}/libkdeedu/extdate
 	${ZLIB_INCLUDE_DIR}
 	${EIGEN2_INCLUDE_DIR}
 )
 
 ########### next target ###############
-set(libkstarstools_SRCS 
+set(libkstarstools_SRCS
 	tools/altvstime.cpp
 	tools/astrocalc.cpp
 	tools/avtplotwidget.cpp
@@ -191,20 +191,20 @@ kde4_add_ui_files(libkstarstools_SRCS
 
 
 set(libkstarscomponents_SRCS 
-   skycomponents/skylabeler.cpp 
-   skycomponents/highpmstarlist.cpp 
-   skycomponents/skymapcomposite.cpp 
+   skycomponents/skylabeler.cpp
+   skycomponents/highpmstarlist.cpp
+   skycomponents/skymapcomposite.cpp
    skycomponents/skymesh.cpp
    skycomponents/linelistindex.cpp
    skycomponents/linelistlabel.cpp
    skycomponents/noprecessindex.cpp
-   skycomponents/listcomponent.cpp 
-   skycomponents/pointlistcomponent.cpp 
-   skycomponents/solarsystemsinglecomponent.cpp 
-   skycomponents/solarsystemlistcomponent.cpp 
-   skycomponents/asteroidscomponent.cpp 
-   skycomponents/cometscomponent.cpp 
-   skycomponents/planetmoonscomponent.cpp 
+   skycomponents/listcomponent.cpp
+   skycomponents/pointlistcomponent.cpp
+   skycomponents/solarsystemsinglecomponent.cpp
+   skycomponents/solarsystemlistcomponent.cpp
+   skycomponents/asteroidscomponent.cpp
+   skycomponents/cometscomponent.cpp
+   skycomponents/planetmoonscomponent.cpp
    skycomponents/solarsystemcomposite.cpp
    skycomponents/satellitescomponent.cpp
    skycomponents/starcomponent.cpp
@@ -408,7 +408,7 @@ set(printingui_SRCS
 
 ##set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
 set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS}
-	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
+	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS}
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
         ${printing_SRCS}

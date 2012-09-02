@@ -85,7 +85,7 @@ class KSParser {
      *
      * @param filename Full Path (Dir + Filename) of source file
      * @param comment_char Character signifying a comment line
-     * @param sequence QList of QPairs of the form "field name,data type" 
+     * @param sequence QList of QPairs of the form "field name,data type"
      * @param delimiter separate on which character. default ','
      **/
     KSParser(const QString &filename, const char comment_char,

@@ -39,15 +39,15 @@ class SkyPoint;
 
 namespace KSUtils {
     /** Attempt to open the data file named filename, using the QFile object "file".
-    	*First look in the standard KDE directories, then look in a local "data"
-    	*subdirectory.  If the data file cannot be found or opened, display a warning
-    	*messagebox.
-    	*@short Open a data file.
-    	*@param &file The QFile object to be opened
-    	*@param filename The name of the data file.
-    	*@returns bool Returns true if data file was opened successfully.
-    	*@returns a reference to the opened file.
-    	*/
+     *First look in the standard KDE directories, then look in a local "data"
+     *subdirectory.  If the data file cannot be found or opened, display a warning
+     *messagebox.
+     *@short Open a data file.
+     *@param &file The QFile object to be opened
+     *@param filename The name of the data file.
+     *@returns bool Returns true if data file was opened successfully.
+     *@returns a reference to the opened file.
+     */
     bool openDataFile( QFile &file, const QString &filename );
 
     /** Clamp value into range.
