@@ -186,7 +186,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
     }
         
     // Test 4: How far is the hop?
-    double distcost = (curr->angularDistanceTo( next ).Degrees() / fov); // 1 "magnitude" inc. for 1 FOV
+    double distcost = (curr->angularDistanceTo( next ).Degrees() / fov); // 1 "magnitude" incremental cost for 1 FOV. Is this even required, or is it just equivalent to halving our distance unit? I think it is required since the hop is not necessarily in the direction of the object -- asimha
 
     // Test 5: How effective is the hop? [Might not be required with A*]
     //    double distredcost = -((src->angularDistanceTo( dest ).Degrees() - next->angularDistanceTo( dest ).Degrees()) * 60 / fov)*3; // 3 "magnitudes" for 1 FOV closer
@@ -194,7 +194,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
     // Test 5: Is this an asterism, or are there bright stars clustered nearby?
     QList<StarObject *> localNeighbors;
     StarComponent::Instance()->starsInAperture( localNeighbors, *curr, fov/10, maglim + 1.0 );
-    double stardensitycost = 1 - localNeighbors.count();
+    double stardensitycost = 1 - localNeighbors.count(); // -1 "magnitude" for every neighbouring star
 
     netcost = magcost /*+ speccost*/ + distcost + stardensitycost;
     if( netcost < 0 )
