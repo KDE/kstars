@@ -68,6 +68,28 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
             // We are at destination
             reconstructPath( came_from[ curr_node ] );
             kDebug() << "We've arrived at the destination! Yay! Result path count: " << result_path.count();
+
+            // Just a test -- try to print out useful instructions to the debug console. Once we make star hopper unexperimental, we should move this to some sort of a display
+            kDebug() << "Star Hopping Directions: ";
+            const SkyPoint *prevHop = start;
+            foreach( const StarObject *hopStar, result_path ) {
+                QString direction;
+                double pa; // should be 0 to 2pi
+                dms angDist = prevHop->angularDistanceTo( hopStar, &pa );
+                Q_ASSERT( pa >= 0 && pa <= 2 * M_PI );
+                if( pa < M_PI/4 || pa > 7*M_PI/4)
+                    direction = "North";
+                else if( pa >= M_PI/4 && pa < 3*M_PI/4 )
+                    direction = "East";
+                else if( pa >= 3* M_PI/4 && pa < 5*M_PI/4 )
+                    direction = "South";
+                else
+                    direction = "West";
+                kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
+                prevHop = hopStar;
+            }
+            kDebug() << "  The destination is within a field-of-view";
+
             return result_path;
         }
         
