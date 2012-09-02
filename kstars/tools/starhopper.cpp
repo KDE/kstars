@@ -77,14 +77,24 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
                 double pa; // should be 0 to 2pi
                 dms angDist = prevHop->angularDistanceTo( hopStar, &pa );
                 Q_ASSERT( pa >= 0 && pa <= 2 * M_PI );
-                if( pa < M_PI/4 || pa > 7*M_PI/4)
+                switch( int(floor( (pa + M_PI/4) / (M_PI/2))) ) { // FIXME: Move this to KSUtils or some place.
+                case 4: case 0:
                     direction = "North";
-                else if( pa >= M_PI/4 && pa < 3*M_PI/4 )
+                    break;
+                case 1:
                     direction = "East";
-                else if( pa >= 3* M_PI/4 && pa < 5*M_PI/4 )
+                    break;
+                case 2:
                     direction = "South";
-                else
+                    break;
+                case 3:
                     direction = "West";
+                    break;
+                default: {
+                    kDebug() << "Unknown direction!!";
+                    Q_ASSERT( false );
+                }
+                }
                 kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
                 prevHop = hopStar;
             }
