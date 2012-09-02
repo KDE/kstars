@@ -567,7 +567,7 @@ void SkyMap::slotEndRulerMode() {
     }
     else { // Star Hop
         StarHopper hopper;
-        QList<const StarObject *> path = hopper.computePath( *AngularRuler.point( 0 ), *AngularRuler.points().last(), 1.0, 9.0 ); // FIXME: Hardcoded FOV and magnitude limits for testing
+        QList<const StarObject *> path = hopper.computePath( *AngularRuler.point( 0 ), *clickedPoint(), 1.0, 9.0 ); // FIXME: Hardcoded FOV and magnitude limits for testing
 
         QList<SkyObject *> *mutablestarlist = new QList<SkyObject *>(); // FIXME: Memory leak
         kDebug() << "path count: " << path.count();
