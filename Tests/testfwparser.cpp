@@ -1,7 +1,7 @@
 /***************************************************************************
-                          KSParser.cpp  -  K Desktop Planetarium
+                 TestFWParser.cpp  -  K Desktop Planetarium
                              -------------------
-    begin                : 2012/24/06
+    begin                : 2012/24/07
     copyright            : (C) 2012 by Rishab Arora
     email                : ra.rishab@gmail.com
  ***************************************************************************/
@@ -39,7 +39,7 @@ TestFWParser::TestFWParser(): QObject() {
     out_stream << test_case;
   test_file_.close();
 
-  //Building the sequence to be used. Includes all available types.  
+  //Building the sequence to be used. Includes all available types.
   sequence_.clear();
   sequence_.append(qMakePair(QString("field1"), KSParser::D_QSTRING));
   sequence_.append(qMakePair(QString("field2"), KSParser::D_QSTRING));
@@ -75,7 +75,7 @@ TestFWParser::~TestFWParser()
 }
 
 void TestFWParser::MixedInputs() {
-  /* 
+  /*
    * Test 1: Checks all conversions are working as expected
   */
   QHash<QString, QVariant> row_content = test_parser_->ReadNextRow();
@@ -117,9 +117,9 @@ void TestFWParser::OnlySpaceRow() {
 void TestFWParser::NoRow() {
   /*
    *  Test 3:
-   *  This test also tests what happens if we have a partial row or a 
+   *  This test also tests what happens if we have a partial row or a
    *  truncated row. It is simply skipped.
-   * 
+   *
    * It then reaches a point where the file ends.
    * We attempt reading a file after EOF 20 times
   */
@@ -139,7 +139,7 @@ void TestFWParser::NoRow() {
     QVERIFY(row_content["field9"] == QString("Null"));
     QVERIFY(row_content["field10"].toFloat() == 0.0);
     QVERIFY(row_content["field11"] == QString("Null"));
-    QVERIFY(row_content["field12"] == QString("Null"));   
+    QVERIFY(row_content["field12"] == QString("Null"));
   }
 }
 
@@ -168,7 +168,7 @@ void TestFWParser::FWReadMissingFile()
     QVERIFY(row_content["field9"] == QString("Null"));
     QVERIFY(row_content["field10"].toFloat() == 0.0);
     QVERIFY(row_content["field11"] == QString("Null"));
-    QVERIFY(row_content["field12"] == QString("Null"));   
+    QVERIFY(row_content["field12"] == QString("Null"));
   }
 }
 

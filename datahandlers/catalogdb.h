@@ -1,5 +1,5 @@
 /***************************************************************************
-                catalogDB.cpp  -  K Desktop Planetarium
+                catalogDB.h  -  K Desktop Planetarium
                              -------------------
     begin                : 2012/03/08
     copyright            : (C) 2012 by Rishab Arora
@@ -41,7 +41,7 @@
  * 1) The uid for Object Designation is the uid being used by objects in KStars
  *    hence, the uid is a qint64 i.e. a 64 bit signed integer. Coincidentaly,
  *    this is the max limit of an int in Sqlite3.
- *    
+ *    Hence, the db is compatible with the uid, but doesn't use it as of now.
  */
 
 class CatalogDB {
@@ -75,7 +75,7 @@ class CatalogDB {
 
   /**
    * @brief Creates objects of type SkyObject and assigns them to references
-   * 
+   *
    * @param catalog Name of the catalog whose objects are needed.
    * @param sky_list List of all skyobjects stored in database (assigns)
    * @param names List of named objects in database (assigns)

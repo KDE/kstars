@@ -79,8 +79,8 @@ TestCSVParser::TestCSVParser(): QObject() {
   foreach(const QString &test_case, test_cases_)
     out_stream << test_case;
   test_csv_file_.close();
-  
-  //Building the sequence to be used. Includes all available types.  
+
+  //Building the sequence to be used. Includes all available types.
   sequence_.clear();
   sequence_.append(qMakePair(QString("field1"), KSParser::D_QSTRING));
   sequence_.append(qMakePair(QString("field2"), KSParser::D_QSTRING));
@@ -113,17 +113,17 @@ TestCSVParser::~TestCSVParser()
    *  4. Truncated row
    *  5. Row with no matching quote
    *  6. Attempt to read missing file
-   * 
+   *
   */
 
 
 void TestCSVParser::CSVMixedInputs() {
   /*
-   * Test 1. Includes input of the form: 
-   * 
+   * Test 1. Includes input of the form:
+   *
    * It starts with a newline char which should be skipped by virtue
    * of the design of the parser
-   * 
+   *
    * Then a row with the following types of inputs:
    * 1. empty column
    * 2. simple single word
@@ -155,7 +155,7 @@ void TestCSVParser::CSVEmptyRow() {
   */
   /*
    * Test 4. Attempt to read an empty but valid row
-   * 
+   *
    * Also includes test for:
    * 1. missing integer
    * 2. missing float
@@ -214,7 +214,7 @@ void TestCSVParser::CSVIgnoreHasNextRow() {
     QVERIFY(row_content["field9"] == QString("Null"));
     QVERIFY(row_content["field10"].toFloat() == 0.0);
     QVERIFY(row_content["field11"] == QString("Null"));
-    QVERIFY(row_content["field12"] == QString("Null"));   
+    QVERIFY(row_content["field12"] == QString("Null"));
   }
 }
 
@@ -224,10 +224,10 @@ void TestCSVParser::CSVReadMissingFile() {
    * Test 6. Attempt to read a missing file repeatedly
   */
   QFile::remove(KStandardDirs::locateLocal("appdata","TestCSV.txt"));
-  
+
   KSParser missing_parser(QString("TestCSV.txt"), '#', sequence_);
   QHash<QString, QVariant> row_content = missing_parser.ReadNextRow();
-  
+
   for (int times = 0; times < 20; times++) {
     row_content = missing_parser.ReadNextRow();
     QVERIFY(row_content["field1"] == QString("Null"));
@@ -241,7 +241,7 @@ void TestCSVParser::CSVReadMissingFile() {
     QVERIFY(row_content["field9"] == QString("Null"));
     QVERIFY(row_content["field10"].toFloat() == 0.0);
     QVERIFY(row_content["field11"] == QString("Null"));
-    QVERIFY(row_content["field12"] == QString("Null"));   
+    QVERIFY(row_content["field12"] == QString("Null"));
   }
 }
 

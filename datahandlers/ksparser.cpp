@@ -82,7 +82,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
             *    (CombineQuoteParts
             *
         */
-        if (separated.length() == 1) continue; // Length will be 1 if there 
+        if (separated.length() == 1) continue; // Length will be 1 if there
                                                // is no delimiter
 
         separated = CombineQuoteParts(separated);  // At this point, the
@@ -96,7 +96,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
 
         for (int i = 0; i < name_type_sequence_.length(); i++) {
            bool ok;
-           newRow[name_type_sequence_[i].first] = 
+           newRow[name_type_sequence_[i].first] =
            ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
            if (!ok && parser_debug_mode_) {
              kDebug() << name_type_sequence_[i].second
@@ -114,7 +114,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
     * The file was truncated OR the file ends with one or more '\n'
     */
     if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
-      newRow = DummyRow();    
+      newRow = DummyRow();
     return newRow;
 }
 
@@ -137,7 +137,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
     QStringList separated;
     QHash<QString, QVariant> newRow;
     int total_min_length = 0;
-    
+
     foreach(const int width_value, width_sequence_) {
       total_min_length += width_value;
     }
@@ -149,7 +149,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
        * 3) If it is too small, loop again
        * 4) Else, a) Break it down according to widths
        *          b) Convert each broken down unit to appropriate value
-       *          c) set read_success to True denoting we have a valid 
+       *          c) set read_success to True denoting we have a valid
        *             conversion
       */
         next_line = file_reader_.readLine();
@@ -170,7 +170,7 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
         // Conversions
         for (int i = 0; i < name_type_sequence_.length(); ++i) {
            bool ok;
-           newRow[name_type_sequence_[i].first] = 
+           newRow[name_type_sequence_[i].first] =
            ConvertToQVariant(separated[i], name_type_sequence_[i].second, ok);
            if (!ok && parser_debug_mode_) {
              kDebug() << name_type_sequence_[i].second
@@ -188,12 +188,12 @@ QHash<QString, QVariant>  KSParser::ReadFixedWidthRow() {
     * The file was truncated OR the file ends with one or more '\n'
     */
     if (file_reader_.hasMoreLines() == false && newRow.size()<=1)
-      newRow = DummyRow();  
+      newRow = DummyRow();
     return newRow;
 }
 
 QHash<QString, QVariant>  KSParser::DummyRow() {
-    kWarning() << "File named " << filename_ << " encountered an error while reading"; 
+    kWarning() << "File named " << filename_ << " encountered an error while reading";
     QHash<QString, QVariant> newRow;
     for (int i = 0; i < name_type_sequence_.length(); ++i) {
            switch (name_type_sequence_[i].second) {
@@ -238,7 +238,7 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
       /* Algorithm:
        * In the following steps, 'word' implies a unit from 'separated'.
        * i.e. separated[0], separated[1] etc are 'words'
-       * 
+       *
        * 1) Read a word
        * 2) If word does not start with \" add to final expression. Goto 1)
        * 3) If word starts with \", push to queue
@@ -276,7 +276,7 @@ QList< QString > KSParser::CombineQuoteParts(QList<QString> &separated) {
 }
 
 QVariant KSParser::ConvertToQVariant(const QString &input_string,
-                                     const KSParser::DataTypes &data_type, 
+                                     const KSParser::DataTypes &data_type,
                                      bool &ok) {
   ok = true;
   QVariant converted_object;

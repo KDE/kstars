@@ -207,23 +207,23 @@ set(libkstarscomponents_SRCS
    skycomponents/planetmoonscomponent.cpp 
    skycomponents/solarsystemcomposite.cpp
    skycomponents/satellitescomponent.cpp
-   skycomponents/starcomponent.cpp 
+   skycomponents/starcomponent.cpp
    skycomponents/deepstarcomponent.cpp
-   skycomponents/deepskycomponent.cpp 
-   skycomponents/catalogcomponent.cpp 
-   skycomponents/constellationboundarylines.cpp 
-   skycomponents/constellationlines.cpp 
-   skycomponents/constellationnamescomponent.cpp 
+   skycomponents/deepskycomponent.cpp
+   skycomponents/catalogcomponent.cpp
+   skycomponents/constellationboundarylines.cpp
+   skycomponents/constellationlines.cpp
+   skycomponents/constellationnamescomponent.cpp
    skycomponents/supernovaecomponent.cpp
-   skycomponents/coordinategrid.cpp 
-   skycomponents/equatorialcoordinategrid.cpp 
-   skycomponents/horizontalcoordinategrid.cpp 
-   skycomponents/ecliptic.cpp 
-   skycomponents/equator.cpp 
-   skycomponents/horizoncomponent.cpp 
-   skycomponents/milkyway.cpp 
-   skycomponents/skycomponent.cpp 
-   skycomponents/skycomposite.cpp 
+   skycomponents/coordinategrid.cpp
+   skycomponents/equatorialcoordinategrid.cpp
+   skycomponents/horizontalcoordinategrid.cpp
+   skycomponents/ecliptic.cpp
+   skycomponents/equator.cpp
+   skycomponents/horizoncomponent.cpp
+   skycomponents/milkyway.cpp
+   skycomponents/skycomponent.cpp
+   skycomponents/skycomposite.cpp
    skycomponents/starblock.cpp
    skycomponents/starblocklist.cpp
    skycomponents/starblockfactory.cpp
@@ -234,16 +234,16 @@ set(libkstarscomponents_SRCS
 )
 
 set(libkstarswidgets_SRCS
-	widgets/clicklabel.cpp 
-	widgets/dmsbox.cpp 
-	widgets/draglistbox.cpp 
+	widgets/clicklabel.cpp
+	widgets/dmsbox.cpp
+	widgets/draglistbox.cpp
 	widgets/fovwidget.cpp
 	widgets/logedit.cpp
-	widgets/magnitudespinbox.cpp 
-	widgets/mapcanvas.cpp 
-	widgets/thumbimage.cpp 
-	widgets/timespinbox.cpp 
-	widgets/timestepbox.cpp 
+	widgets/magnitudespinbox.cpp
+	widgets/mapcanvas.cpp
+	widgets/thumbimage.cpp
+	widgets/timespinbox.cpp
+	widgets/timestepbox.cpp
 	widgets/timeunitbox.cpp
 	widgets/infoboxwidget.cpp
 	widgets/genericcalendarwidget.cpp
@@ -268,7 +268,7 @@ set(kstars_options_SRCS
 )
 
 set(kstars_optionsui_SRCS
-  options/opsadvanced.ui 
+  options/opsadvanced.ui
   options/opscatalog.ui
   options/opscolors.ui
   options/opsguides.ui

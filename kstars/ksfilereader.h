@@ -92,7 +92,7 @@ public:
 
     /* @short opens the file with full path fname and uses that
      * file for the QTextStream. open() locates "appdata" behind the scenes,
-     * so passing fname such that 
+     * so passing fname such that
      * QString fname = KStandardDirs::locate( "appdata", "file_name" );
      * is equivalent
      *

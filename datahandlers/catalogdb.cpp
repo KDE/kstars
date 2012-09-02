@@ -377,9 +377,9 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
                                      QString &catalog_name,
                                      char &delimiter) {
 /*
-* Most of the code here is by Thomas Kabelmann from customcatalogcomponent.cpp 
+* Most of the code here is by Thomas Kabelmann from customcatalogcomponent.cpp
 * (now catalogcomponent.cpp)
-* 
+*
 * I have modified the already existing code into this method
 * -- Rishab Arora (spacetime)
 */

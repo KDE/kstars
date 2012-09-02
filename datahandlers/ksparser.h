@@ -36,12 +36,12 @@
  *      do what you need to do...
  *      ...
  *    }
- * 
+ *
  * Debugging Information:
  * In case of read errors, the parsers emit a warning.
  * In case of conversion errors, the warnings are toggled by setting
  * const bool KSParser::parser_debug_mode_ = true; in ksparser.cpp
- * 
+ *
  * In case of failure, the parser returns a Dummy Row. So if you see the
  * string "Null" in the returned QHash, it signifies the parserencountered an
  * unexpected error.
@@ -74,15 +74,15 @@ class KSParser {
 
     /**
      * @brief Returns a CSV parsing instance of a KSParser type object.
-     * 
-     * Behavior: 
+     *
+     * Behavior:
      * 1) In case of attempt to read a non existant file, will return
      *    dummy row (not empty)
      * 2) In case of incomplete row, the whole row is ignored
      * 3) In case of missing values, parser will return empty string,
      *   or 0 or 0.0
      * 4) If you keep reading ignoring the HasNextRow you get dummy rows
-     * 
+     *
      * @param filename Full Path (Dir + Filename) of source file
      * @param comment_char Character signifying a comment line
      * @param sequence QList of QPairs of the form "field name,data type" 
@@ -96,25 +96,25 @@ class KSParser {
      * @brief Returns a Fixed Width parsing instance of a KSParser type object.
      *
      * Usage:
-     * Important! The last value in width sequence is taken till the end of 
+     * Important! The last value in width sequence is taken till the end of
      * line by default. This is done as the last line may or may not be padded
      * on the right.
      * Important! For backward compatibility, all string outputs are not
      * trimmed. Hence reading "hello  " will return "hello   " _not_ "hello"
      * If you need trimmed values like "hello" , use QString.trimmed()
-     * 
+     *
      * Behavior:
      * 1) In case of attempt to read a non existant file, will return
      *    dummy row (not empty!)
-     * 2) In case of missing fields at the end, the line length is smaller 
+     * 2) In case of missing fields at the end, the line length is smaller
      *    than expected so it is skipped.
      * 3) If an integer or floating point value is empty (e.g. "    ")
      *    it is replaced by 0 or 0.0
-     * 4) If you keep reading the file ignoring the HasNextRow(), you get 
+     * 4) If you keep reading the file ignoring the HasNextRow(), you get
      *    Dummy Rows
      * @param filename Full Path (Dir + Filename) of source file
      * @param comment_char Character signifying a comment line
-     * @param sequence QList of QPairs of the form "field name,data type" 
+     * @param sequence QList of QPairs of the form "field name,data type"
      * @param widths width sequence. Last value is line.length() by default
      *               Hence, sequence.length() should be (width.length()+1)
      **/
@@ -208,7 +208,7 @@ class KSParser {
      * @param data_type Data Type of input_string
      * @return QVariant
      **/
-    QVariant ConvertToQVariant(const QString &input_string, 
+    QVariant ConvertToQVariant(const QString &input_string,
                                const DataTypes &data_type, bool &ok);
 
     static const bool parser_debug_mode_;
