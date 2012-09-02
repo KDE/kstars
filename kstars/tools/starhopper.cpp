@@ -49,7 +49,7 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
 
     oSet.append( &src );
     g_score[ &src ] = 0;
-    h_score[ &src ] = src.angularDistanceTo( &dest ).Degrees();
+    h_score[ &src ] = src.angularDistanceTo( &dest ).Degrees()/fov;
     f_score[ &src ] = h_score[ &src ];
     
     while( !oSet.isEmpty() ) {
@@ -64,7 +64,7 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
             }
         }
         kDebug() << "Lowest fscore (vertex distance-plus-cost score) is " << lowfscore << " with coords: " << curr_node->ra().toHMSString() << curr_node->dec().toDMSString() << ". Considering this node now.";
-        if( curr_node == &dest || (curr_node != &src && h_score[ curr_node ] < 0.5 * fov) ) {
+        if( curr_node == &dest || (curr_node != &src && h_score[ curr_node ] < 0.5) ) {
             // We are at destination
             reconstructPath( came_from[ curr_node ] );
             kDebug() << "We've arrived at the destination! Yay! Result path count: " << result_path.count();
@@ -118,7 +118,7 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
             if( tentative_better ) {
                 came_from[ nhd_node ] = curr_node;
                 g_score[ nhd_node ] = tentative_g_score;
-                h_score[ nhd_node ] = nhd_node->angularDistanceTo( &dest ).Degrees();
+                h_score[ nhd_node ] = nhd_node->angularDistanceTo( &dest ).Degrees() / fov;
                 f_score[ nhd_node ] = g_score[ nhd_node ] + h_score[ nhd_node ];
             }
         }
@@ -159,7 +159,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
         Q_ASSERT( nextstar );
 
         // Test 1: How bright is the star?
-        magcost = nextstar->mag() - 7.0 + log( fov ); // The brighter, the better. FIXME: 8.0 is now an arbitrary reference to the average faint star. Should actually depend on FOV, something like log( FOV ).
+        magcost = nextstar->mag() - 7.0 + 5 * log10( fov ); // The brighter, the better. FIXME: 8.0 is now an arbitrary reference to the average faint star. Should actually depend on FOV, something like log( FOV ).
     
         // Test 2: Is the star strikingly red / yellow coloured?
         QString SpType = nextstar->sptype();
