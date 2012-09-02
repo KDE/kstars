@@ -79,13 +79,13 @@ Rectangle {
 
                 Rectangle {
                     id: planetRect
-                    x: 110
-                    y: 34
+                    x: 128
+                    y: 35
                     width: planetText.width
                     height: planetText.height
                     color: "#00000000"
-                    anchors.verticalCenterOffset: -131
-                    anchors.horizontalCenterOffset: -48
+                    anchors.verticalCenterOffset: -130
+                    anchors.horizontalCenterOffset: -30
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.horizontalCenter: parent.horizontalCenter
 
@@ -117,13 +117,13 @@ Rectangle {
 
                 Rectangle {
                     id: starRect
-                    x: 218
-                    y: 82
+                    x: 253
+                    y: 80
                     width: starText.width
                     height: starText.height
                     color: "#00000000"
-                    anchors.verticalCenterOffset: -83
-                    anchors.horizontalCenterOffset: 75
+                    anchors.verticalCenterOffset: -85
+                    anchors.horizontalCenterOffset: 87
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
 
@@ -155,13 +155,13 @@ Rectangle {
 
                 Rectangle {
                     id: conRect
-                    x: 54
-                    y: 118
+                    x: 71
+                    y: 113
                     width: conText.width
                     height: conText.height
                     color: "#00000000"
-                    anchors.verticalCenterOffset: -47
-                    anchors.horizontalCenterOffset: -80
+                    anchors.verticalCenterOffset: -52
+                    anchors.horizontalCenterOffset: -63
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.verticalCenter: parent.verticalCenter
 

@@ -15,19 +15,53 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef MODEL_MANAGER_H
+#define MODEL_MANAGER_H
+
 #include "skyobjlistmodel.h"
 #include "kstarsdata.h"
 #include "obsconditions.h"
 
+/**
+ * \class ModelManager
+ * \brief Manages models for QML listviews of different types of sky-objects.
+ * \author Samikshan Bairagya
+ */
 class ModelManager
 {
 public:
+    /**
+     * \enum ModelType
+     * \brief Model type for different types of sky-objects.
+     */
     enum ModelType {Planet_Model, Star_Model, Constellation_Model, Galaxy_Model, Cluster_Model, Nebula_Model};
+
+    /**
+     * \brief Constructor - Creates models for different sky-object types.
+     * \param obs   Pointer to an ObsConditions object.
+     */
     ModelManager(ObsConditions *obs);
+
+    /**
+     * \brief Destructor
+     */
     ~ModelManager();
+
+    /**
+     * \brief Updates sky-object list models.
+     */
     void updateModels(ObsConditions *obs);
+
+    /**
+     * \brief Clears all sky-objects list models.
+     */
     void resetModels();
 
+    /**
+     * \brief Returns model of given type.
+     * \return Pointer to SkyObjListModel of given type.
+     * \param type   Type of sky-object model to be returned.
+     */
     SkyObjListModel *returnModel (int type);
 
 private:
@@ -36,3 +70,5 @@ private:
     QStringList baseCatList, planetaryList, deepSkyList;
     QHash< ModelType, QList <SkyObject *> > initobjects;
 };
+
+#endif

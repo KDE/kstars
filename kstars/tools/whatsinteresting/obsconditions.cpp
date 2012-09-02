@@ -19,11 +19,11 @@
 #include "math.h"
 #include "kdebug.h"
 
-ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, EquipmentType eqType):
-    m_BortleClass(bortle), m_Aperture(aperture), m_Equip(equip), m_EqType(eqType)
+ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, TelescopeType telType):
+    m_BortleClass(bortle), m_Aperture(aperture), m_Equip(equip), m_TelType(telType)
 {
     // 't' parameter
-    switch (m_EqType)
+    switch (m_TelType)
     {
         case Reflector:
             m_tParam = 0.7;

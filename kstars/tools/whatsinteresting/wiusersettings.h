@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef WI_USER_SETTINGS
-#define WI_USER_SETTINGS
+#ifndef WI_USER_SETTINGS_H
+#define WI_USER_SETTINGS_H
 
 class WIView;
 
@@ -24,21 +24,47 @@ class WIView;
 #include <QWizard>
 #include "ui_wiusersettings.h"
 
+/**
+ * \class WIUserSettings
+ * \brief Wizard to set the location and equipment specifications for "What's Interesting..."
+ * \author Samikshan Bairagya
+ */
 class WIUserSettings : public QWizard, public Ui::WIUserSettingsUI
 {
     Q_OBJECT
 public:
+
+    /**
+     * \brief Constructor
+     */
     WIUserSettings(QWidget *parent = 0, Qt::WindowFlags flags = 0);
 
 public slots:
+
+    /**
+     * \brief Finish wizard and display QML interface for "What's Interesting..."
+     */
     void slotFinished(int);
+
+    /**
+     * \brief Telescope available - check/uncheck.
+     */
     void slotTelescopeCheck(bool);
+
+    /**
+     * \brief Binoculars available - check/uncheck.
+     */
     void slotBinocularsCheck(bool);
 
 private:
+
+    /**
+     * \brief Make connections between signals and corresponding slots.
+     */
     void makeConnections();
-    ObsConditions::Equipment eq;
-    ObsConditions::EquipmentType type;
+
+    ObsConditions::Equipment m_Equip;
+    ObsConditions::TelescopeType m_TelType;
     WIView *m_WI;
 };
 
