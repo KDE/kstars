@@ -60,10 +60,13 @@ public:
 
 private slots:
     void exportImage();
-    void switchLegendConfig(bool newState);
+    void switchLegendEnabled(bool enabled);
     void previewImage();
 
 private:
+    void exportSvg(const QString &fileName);
+    void exportRasterGraphics(const QString &fileName);
+
     void setupWidgets();
     void setupConnections();
     Legend getLegendForSettings();

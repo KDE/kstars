@@ -67,135 +67,36 @@ void ExportImageDialog::exportImage()
         fileURL = m_Url;
     }
 
-    KTemporaryFile tmpfile;
-    tmpfile.open();
-    QString fname;
-
     if(fileURL.isValid())
     {
-        if(fileURL.isLocalFile())
+        KTemporaryFile tmpfile;
+        QString fname;
+        bool isLocalFile = fileURL.isLocalFile();
+
+        if(isLocalFile)
         {
             fname = fileURL.toLocalFile();
         }
 
         else
         {
+            tmpfile.open();
             fname = tmpfile.fileName();
         }
-
-        SkyMap *map = m_KStars->map();
 
         //Determine desired image format from filename extension
         QString ext = fname.mid(fname.lastIndexOf(".") + 1);
         if(ext.toLower() == "svg")
         {
-            // export as SVG
-            QSvgGenerator svgGenerator;
-            svgGenerator.setFileName(fname);
-            svgGenerator.setTitle(i18n("KStars Exported Sky Image"));
-            svgGenerator.setDescription(i18n("KStars Exported Sky Image"));
-            svgGenerator.setSize(QSize(map->width(), map->height()));
-            svgGenerator.setResolution(qMax(map->logicalDpiX(), map->logicalDpiY()));
-            svgGenerator.setViewBox(QRect(0, 0, map->width(), map->height()));
-
-            SkyQPainter painter(m_KStars, &svgGenerator);
-            painter.begin();
-
-            map->exportSkyImage(&painter);
-
-            if(m_DialogUI->addLegendCheckBox->isChecked())
-            {
-                addLegend(&painter);
-            }
-
-            painter.end();
-            qApp->processEvents();
+            exportSvg(fname);
         }
 
         else
         {
-            // export as raster graphics
-            const char* format = "PNG";
-
-            if(ext.toLower() == "png") {format = "PNG";}
-            else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) {format = "JPG";}
-            else if(ext.toLower() == "gif") {format = "GIF";}
-            else if(ext.toLower() == "pnm") {format = "PNM";}
-            else if(ext.toLower() == "bmp") {format = "BMP";}
-            else
-            {
-                kWarning() << i18n("Could not parse image format of %1; assuming PNG.", fname);
-            }
-
-            int width = m_Size.width();
-            int height = m_Size.height();
-
-            QPixmap skyimage(map->width(), map->height());
-            QPixmap outimage(width, height);
-            outimage.fill();
-
-            map->exportSkyImage(&skyimage);
-            qApp->processEvents();
-
-            //skyImage is the size of the sky map.  The requested image size is w x h.
-            //If w x h is smaller than the skymap, then we simply crop the image.
-            //If w x h is larger than the skymap, pad the skymap image with a white border.
-            if(width == map->width() && height == map->height())
-            {
-                outimage = skyimage.copy();
-            }
-
-            else
-            {
-                int dx(0), dy(0), sx(0), sy(0);
-                int sw(map->width()), sh(map->height());
-
-                if(width > map->width())
-                {
-                    dx = (width - map->width())/2;
-                }
-
-                else
-                {
-                    sx = (map->width() - width)/2;
-                    sw = width;
-                }
-
-                if(height > map->height())
-                {
-                    dy = (height - map->height())/2;
-                }
-
-                else
-                {
-                    sy = (map->height() - height)/2;
-                    sh = height;
-                }
-
-                QPainter p;
-                p.begin(&outimage);
-                p.fillRect(outimage.rect(), QBrush( Qt::white));
-                p.drawImage(dx, dy, skyimage.toImage(), sx, sy, sw, sh);
-                p.end();
-            }
-
-            if(m_DialogUI->addLegendCheckBox->isChecked())
-            {
-                addLegend(&outimage);
-            }
-
-            if(!outimage.save(fname, format))
-            {
-                kDebug() << i18n("Error: Unable to save image: %1 ", fname);
-            }
-
-            else
-            {
-                kDebug() << i18n("Image saved to file: %1", fname);
-            }
+            exportRasterGraphics(fname);
         }
 
-        if(tmpfile.fileName() == fname)
+        if(!isLocalFile)
         {
             //attempt to upload image to remote location
             if(!KIO::NetAccess::upload(tmpfile.fileName(), fileURL, this))
@@ -207,14 +108,14 @@ void ExportImageDialog::exportImage()
     }
 }
 
-void ExportImageDialog::switchLegendConfig(bool newState)
+void ExportImageDialog::switchLegendEnabled(bool enabled)
 {
-    m_DialogUI->legendOrientationLabel->setEnabled(newState);
-    m_DialogUI->legendOrientationComboBox->setEnabled(newState);
-    m_DialogUI->legendTypeLabel->setEnabled(newState);
-    m_DialogUI->legendTypeComboBox->setEnabled(newState);
-    m_DialogUI->legendPositionLabel->setEnabled(newState);
-    m_DialogUI->legendPositionComboBox->setEnabled(newState);
+    m_DialogUI->legendOrientationLabel->setEnabled(enabled);
+    m_DialogUI->legendOrientationComboBox->setEnabled(enabled);
+    m_DialogUI->legendTypeLabel->setEnabled(enabled);
+    m_DialogUI->legendTypeComboBox->setEnabled(enabled);
+    m_DialogUI->legendPositionLabel->setEnabled(enabled);
+    m_DialogUI->legendPositionComboBox->setEnabled(enabled);
 }
 
 void ExportImageDialog::previewImage()
@@ -230,6 +131,120 @@ void ExportImageDialog::previewImage()
 
     // Hide export dialog
     hide();
+}
+
+void ExportImageDialog::exportSvg(const QString &fileName)
+{
+    SkyMap *map = m_KStars->map();
+
+    // export as SVG
+    QSvgGenerator svgGenerator;
+    svgGenerator.setFileName(fileName);
+    svgGenerator.setTitle(i18n("KStars Exported Sky Image"));
+    svgGenerator.setDescription(i18n("KStars Exported Sky Image"));
+    svgGenerator.setSize(QSize(map->width(), map->height()));
+    svgGenerator.setResolution(qMax(map->logicalDpiX(), map->logicalDpiY()));
+    svgGenerator.setViewBox(QRect(0, 0, map->width(), map->height()));
+
+    SkyQPainter painter(m_KStars, &svgGenerator);
+    painter.begin();
+
+    map->exportSkyImage(&painter);
+
+    if(m_DialogUI->addLegendCheckBox->isChecked())
+    {
+        addLegend(&painter);
+    }
+
+    painter.end();
+}
+
+void ExportImageDialog::exportRasterGraphics(const QString &fileName)
+{
+    //Determine desired image format from filename extension
+    QString ext = fileName.mid(fileName.lastIndexOf(".") + 1);
+
+    // export as raster graphics
+    const char* format = "PNG";
+
+    if(ext.toLower() == "png") {format = "PNG";}
+    else if(ext.toLower() == "jpg" || ext.toLower() == "jpeg" ) { format = "JPG"; }
+    else if(ext.toLower() == "gif") { format = "GIF"; }
+    else if(ext.toLower() == "pnm") { format = "PNM"; }
+    else if(ext.toLower() == "bmp") { format = "BMP"; }
+    else
+    {
+        kWarning() << i18n("Could not parse image format of %1; assuming PNG.", fileName);
+    }
+
+    int width = m_Size.width();
+    int height = m_Size.height();
+
+    SkyMap *map = m_KStars->map();
+
+    QPixmap skyimage(map->width(), map->height());
+    QPixmap outimage(width, height);
+    outimage.fill();
+
+    map->exportSkyImage(&skyimage);
+    qApp->processEvents();
+
+    //skyImage is the size of the sky map.  The requested image size is w x h.
+    //If w x h is smaller than the skymap, then we simply crop the image.
+    //If w x h is larger than the skymap, pad the skymap image with a white border.
+    if(width == map->width() && height == map->height())
+    {
+        outimage = skyimage.copy();
+    }
+
+    else
+    {
+        int dx(0), dy(0), sx(0), sy(0);
+        int sw(map->width()), sh(map->height());
+
+        if(width > map->width())
+        {
+            dx = (width - map->width())/2;
+        }
+
+        else
+        {
+            sx = (map->width() - width)/2;
+            sw = width;
+        }
+
+        if(height > map->height())
+        {
+            dy = (height - map->height())/2;
+        }
+
+        else
+        {
+            sy = (map->height() - height)/2;
+            sh = height;
+        }
+
+        QPainter p;
+        p.begin(&outimage);
+        p.fillRect(outimage.rect(), QBrush( Qt::white));
+        p.drawImage(dx, dy, skyimage.toImage(), sx, sy, sw, sh);
+        p.end();
+    }
+
+    if(m_DialogUI->addLegendCheckBox->isChecked())
+    {
+        addLegend(&outimage);
+    }
+
+    if(!outimage.save(fileName, format))
+    {
+        kDebug() << i18n("Error: Unable to save image: %1 ", fileName);
+    }
+
+    else
+    {
+        kDebug() << i18n("Image saved to file: %1", fileName);
+    }
 }
 
 void ExportImageDialog::setupWidgets()
@@ -260,7 +275,7 @@ void ExportImageDialog::setupConnections()
     connect(this, SIGNAL(cancelClicked()), this, SLOT(close()));
     connect(this, SIGNAL(user1Clicked()), this, SLOT(previewImage()));
 
-    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), this, SLOT(switchLegendConfig(bool)));
+    connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), this, SLOT(switchLegendEnabled(bool)));
     connect(m_DialogUI->addLegendCheckBox, SIGNAL(toggled(bool)), button(KDialog::User1), SLOT(setEnabled(bool)));
 }
 
