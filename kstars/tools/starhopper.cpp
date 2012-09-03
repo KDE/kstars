@@ -22,6 +22,7 @@
 #include "starcomponent.h"
 
 #include "kstarsdata.h"
+#include "ksutils.h"
 
 #include <QList>
 
@@ -75,26 +76,13 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
             foreach( const StarObject *hopStar, result_path ) {
                 QString direction;
                 double pa; // should be 0 to 2pi
+
                 dms angDist = prevHop->angularDistanceTo( hopStar, &pa );
-                Q_ASSERT( pa >= 0 && pa <= 2 * M_PI );
-                switch( int(floor( (pa + M_PI/4) / (M_PI/2))) ) { // FIXME: Move this to KSUtils or some place.
-                case 4: case 0:
-                    direction = "North";
-                    break;
-                case 1:
-                    direction = "East";
-                    break;
-                case 2:
-                    direction = "South";
-                    break;
-                case 3:
-                    direction = "West";
-                    break;
-                default: {
-                    kDebug() << "Unknown direction!!";
-                    Q_ASSERT( false );
-                }
-                }
+
+                dms dmsPA;
+                dmsPA.setRadians( pa );
+                direction = KSUtils::toDirectionString( dmsPA );
+
                 kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
                 prevHop = hopStar;
             }
