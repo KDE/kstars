@@ -20,6 +20,7 @@
 #include "deepskyobject.h"
 #include "ksplanetbase.h"
 #include "skyobjitem.h"
+#include "ksutils.h"
 
 SkyObjItem::SkyObjItem(SkyObject *so) : m_Name(so->name()), m_LongName(so->longname()),m_TypeName(so->typeName()), m_So(so)
 {
@@ -78,12 +79,6 @@ QHash<int, QByteArray> SkyObjItem::roleNames() const
 
 void SkyObjItem::setPosition(SkyObject* so)
 {
-    const QString cardinals[] = {
-        "N", "NNE", "NE", "ENE",
-        "E", "ESE", "SE", "SSE",
-        "S", "SSW", "SW", "WSW",
-        "W", "WNW", "NW", "NNW"
-    } ;
     KStarsData *data = KStarsData::Instance();
     KStarsDateTime ut = data->geo()->LTtoUT(KStarsDateTime(KDateTime::currentLocalDateTime()));
     SkyPoint sp = so->recomputeCoords(ut, data->geo());
@@ -91,9 +86,8 @@ void SkyObjItem::setPosition(SkyObject* so)
     //check altitude of object at this time.
     sp.EquatorialToHorizontal(data->lst(), data->geo()->lat());
     double rounded_altitude = (int)(sp.alt().Degrees()/5.0)*5.0;
-    int rounded_azimuth = (int)(sp.az().Degrees()/22.5);
 
-    m_Position = i18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, cardinals[rounded_azimuth]);
+    m_Position = i18n("Now visible: About %1 degrees above the %2 horizon", rounded_altitude, KSUtils::toDirectionString( sp.az() ) );
 }
 
 QString SkyObjItem::getDesc() const
