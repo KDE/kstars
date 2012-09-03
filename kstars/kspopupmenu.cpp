@@ -17,6 +17,8 @@
 
 #include "kspopupmenu.h"
 
+#include <QSignalMapper>
+
 #include <KGlobal>
 #include <KLocale>
 
@@ -36,11 +38,15 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indi/indimenu.h"
-#include "indi/devicemanager.h"
+#include "indi/indilistener.h"
+#include "indi/guimanager.h"
+#include "indi/driverinfo.h"
+#include "indi/indistd.h"
 #include "indi/indidevice.h"
 #include "indi/indigroup.h"
 #include "indi/indiproperty.h"
+#include "indi/indielement.h"
+#include <libindi/basedevice.h>
 #endif
 
 #include "skycomponents/constellationboundarylines.h"
@@ -326,7 +332,7 @@ void KSPopupMenu::initPopupMenu( SkyObject *obj, QString name, QString type, QSt
 
     addSeparator();
 #ifdef HAVE_XPLANET
-    if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) {
+    if ( obj->isSolarSystem() && obj->type() != SkyObject::COMET ) { // FIXME: We now have asteroids -- so should this not be isMajorPlanet() || Pluto?
         QMenu *xplanetSubmenu = new QMenu();
         xplanetSubmenu->setTitle( i18n( "Print Xplanet view" ) );
         xplanetSubmenu->addAction( i18n( "To screen" ), ks->map(), SLOT( slotXplanetToScreen() ) );
@@ -439,78 +445,87 @@ void KSPopupMenu::addLinksToMenu( SkyObject *obj, bool showDSS ) {
 void KSPopupMenu::addINDI()
 {
 #ifdef HAVE_INDI_H
-    INDIMenu *indiMenu = KStars::Instance()->indiMenu();
-    DeviceManager *managers;
-    INDI_D *dev;
-    INDI_G *grp;
-    INDI_P *prop(NULL);
-    INDI_E *element;
 
-    if (indiMenu->managers.count() == 0)
+    if (INDIListener::Instance()->size() == 0)
         return;
 
-    foreach ( managers, indiMenu->managers )
+    foreach(ISD::GDInterface *gd, INDIListener::Instance()->getDevices())
     {
-        foreach (dev, managers->indi_dev )
-        {
-            if (!dev->INDIStdSupport)
-                continue;
+        INDI::BaseDevice *bd = gd->getDriverInfo()->getBaseDevice();
 
-            KMenu* menuDevice = new KMenu(dev->label);
-            addMenu(menuDevice);
+        if (bd == NULL)
+            continue;
 
-            foreach (grp, dev->gl )
-            {
-                foreach (prop, grp->pl )
+        //if (bd->isConnected() == false)
+        //    continue;
+
+        KMenu* menuDevice = NULL;
+        ISD::GDInterface *telescope = NULL;
+
+       foreach(INDI::Property *pp, gd->getProperties())
+       {
+                if (pp->getType() != INDI_SWITCH || INDIListener::Instance()->isStandardProperty(pp->getName()) == false)
+                    continue;
+
+                QSignalMapper *sMapper = new QSignalMapper(this);
+
+                ISwitchVectorProperty *svp = pp->getSwitch();
+
+                for (int i=0; i < svp->nsp; i++)
                 {
-                    //Only std are allowed to show. Movement is somewhat problematic
-                    //due to an issue with the LX200 telescopes (the telescope does
-                    //not update RA/DEC while moving N/W/E/S) so it's better off the
-                    //skymap. It's avaiable in the INDI control panel nonetheless.
-                    //CCD_EXPOSURE is an INumber property, but it's so common
-                    //that it's better to include in the context menu
-
-                    if (prop->stdID == -1 || prop->stdID == TELESCOPE_MOTION_NS || prop->stdID == TELESCOPE_MOTION_WE) continue;
-                    // Only switches are shown
-                    if (prop->guitype != PG_BUTTONS && prop->guitype != PG_RADIO
-                            && prop->stdID !=CCD_EXPOSURE_REQUEST) continue;
-
-                    menuDevice->addSeparator();
-
-                    foreach ( element, prop->el )
+                    if (menuDevice == NULL)
                     {
-                        if (prop->stdID == CCD_EXPOSURE_REQUEST)
+                        menuDevice = new KMenu(gd->getDeviceName());
+                        addMenu(menuDevice);
+                    }
+
+                    QAction *a = menuDevice->addAction(svp->sp[i].label);
+
+                    ISD::GDSetCommand *cmd = new ISD::GDSetCommand(INDI_SWITCH, pp->getName(), svp->sp[i].name, ISS_ON, this);
+
+                    sMapper->setMapping(a, cmd);
+
+                    connect(a, SIGNAL(triggered()), sMapper, SLOT(map()));
+
+                    if (!strcmp(svp->sp[i].name, "SLEW") || !strcmp(svp->sp[i].name, "SYNC") || !strcmp(svp->sp[i].name, "TRACK"))
+                    {
+                        telescope = INDIListener::Instance()->getDevice(gd->getDeviceName());
+
+                        if (telescope)
                         {
-                            QAction *a = menuDevice->addAction(prop->label);
-                            a->setCheckable( false );
-                            a->setChecked( false );
-                            connect(a, SIGNAL(triggered(bool)), element, SLOT(actionTriggered()));
-                            continue;
+
+                            QSignalMapper *scopeMapper = new QSignalMapper(this);
+                            scopeMapper->setMapping(a, INDI_SEND_COORDS);
+
+                            connect(a, SIGNAL(triggered()), scopeMapper, SLOT(map()));
+
+                            connect(scopeMapper, SIGNAL(mapped(int)), telescope, SLOT(runCommand(int)));
                         }
 
-                        QAction *a = menuDevice->addAction(element->label);
-                        connect(a, SIGNAL(triggered(bool)), element, SLOT(actionTriggered()));
-
-                        // We never set ON_COORD_SET to checked
-                        if (prop->stdID == ON_COORD_SET)
-                            continue;
-
-                        a->setChecked( element->switch_state == ISS_ON );
                     }
-                } // end property
-            } // end group
 
-            // For telescopes, add option to center the telescope position
-            if ( dev->findElem("RA") || dev->findElem("ALT"))
-            {
+                }
+
+                connect(sMapper, SIGNAL(mapped(QObject*)), gd, SLOT(setProperty(QObject*)));
+
                 menuDevice->addSeparator();
-                QAction *a = menuDevice->addAction(i18n("Track Crosshair"));
 
-                connect( a, SIGNAL( triggered(bool) ), dev, SLOT(engageTracking()));
-            }
-        } // end device
-    } // end device manager
-    addSeparator();
+        }
+
+
+        if (telescope && menuDevice)
+        {
+            menuDevice->addSeparator();
+
+            QAction *a = menuDevice->addAction(i18n("Center Crosshair"));
+
+            QSignalMapper *scopeMapper = new QSignalMapper(this);
+            scopeMapper->setMapping(a, INDI_ENGAGE_TRACKING);
+            connect(a, SIGNAL(triggered()), scopeMapper, SLOT(map()));
+            connect(scopeMapper, SIGNAL(mapped(int)), telescope, SLOT(runCommand(int)));
+        }
+    }
+
 #endif
 }
 

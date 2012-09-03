@@ -113,6 +113,20 @@ namespace KSUtils {
      *@note This method resets height and width to fall within the range accepted by DSS
      */
     QString getDSSURL( const dms &ra, const dms &dec, float width = 0, float height = 0 );
+
+    /**
+     *@short Return a string corresponding to an angle specifying direction
+     *
+     * The angle must measure direction from North, towards East. Both
+     * the azimuth and position angle follow this convention, so this
+     * method can be used to return a string corresponding to the
+     * general heading of a given azimuth / position angle.
+     *
+     *@param angle angle as dms (measured from North, towards East)
+     *@return A localized string corresponding to the approximate direction (eg: NNW)
+     */
+    QString toDirectionString( dms angle );
+
 }
 
 #endif

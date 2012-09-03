@@ -261,7 +261,7 @@ class SkyMap : public QGraphicsView {
 
     /** Get the current projector.
         @return a pointer to the current projector. */
-    const Projector * projector() const;
+    inline const Projector * projector() const { return m_proj; }
 
     // NOTE: These dynamic casts must not segfault. If they do, it's good because we know that there is a problem.
     /**

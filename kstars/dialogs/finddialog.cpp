@@ -17,18 +17,18 @@
 
 #include "finddialog.h"
 
-#include <QSortFilterProxyModel>
-#include <QStringListModel>
-#include <QTimer>
-
-#include <kmessagebox.h>
-
 #include "kstarsdata.h"
 #include "Options.h"
 #include "detaildialog.h"
 #include "skyobjects/skyobject.h"
 #include "skycomponents/starcomponent.h"
 #include "skycomponents/skymapcomposite.h"
+
+#include <kmessagebox.h>
+
+#include <QSortFilterProxyModel>
+#include <QStringListModel>
+#include <QTimer>
 
 FindDialogUI::FindDialogUI( QWidget *parent ) : QFrame( parent ) {
     setupUi( this );

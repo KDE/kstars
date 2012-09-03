@@ -603,7 +603,7 @@ void SkyPoint::subtractEterms(void) {
     Dec = Dec - spd.dec();
 }
 
-dms SkyPoint::angularDistanceTo(const SkyPoint *sp) const {
+dms SkyPoint::angularDistanceTo(const SkyPoint *sp, double * const positionAngle) const {
 
     double dalpha = ra().radians() - sp->ra().radians() ;
     double ddelta = dec().radians() - sp->dec().radians() ;
@@ -614,12 +614,18 @@ dms SkyPoint::angularDistanceTo(const SkyPoint *sp) const {
     double hava = sa*sa;
     double havd = sd*sd;
 
-    double aux = havd + cos (dec().radians()) * cos(sp->dec().radians())
+    double aux = havd + cos (dec().radians()) * cos(sp->dec().radians()) // Haversine law
                  * hava;
 
     dms angDist;
     angDist.setRadians( 2 * fabs(asin( sqrt(aux) )) );
 
+    if( positionAngle ) {
+        // Also compute the position angle of the line from this SkyPoint to sp
+        *positionAngle = acos( tan(-ddelta)/tan( angDist.radians() ) ); // FIXME: Might fail for large ddelta / zero angDist
+        if( -dalpha < 0 )
+            *positionAngle = 2*M_PI - *positionAngle;
+    }
     return angDist;
 }
 
@@ -754,28 +760,26 @@ double SkyPoint::refractionCorr(double alt) {
     return 1.02 / tan(dms::DegToRad * ( alt + 10.3/(alt + 5.11) )) / 60;
 }
 
-dms SkyPoint::refract(dms h) {
-    const double alt = h.Degrees();
+double SkyPoint::refract(const double alt) {
     static double corrCrit = SkyPoint::refractionCorr( SkyPoint::altCrit );
 
     if( alt > SkyPoint::altCrit )
-        return dms( alt + SkyPoint::refractionCorr(alt) );
+        return ( alt + SkyPoint::refractionCorr(alt) );
     else
-        return dms( alt + corrCrit * (alt + 90) / (SkyPoint::altCrit + 90) );
+        return ( alt + corrCrit * (alt + 90) / (SkyPoint::altCrit + 90) ); // Linear extrapolation from corrCrit at altCrit to 0 at -90 degrees
 }
 
 // Found uncorrected value by solving equation. This is OK since
 // unrefract is never called in loops.
 //
 // Convergence is quite fast just a few iterations.
-dms SkyPoint::unrefract(dms h) {
-    const double alt = h.Degrees();
-
+double SkyPoint::unrefract(const double alt) {
     double h0 = alt;
-    double h1 = alt - refractionCorr(h0);
+    double h1 = alt - (refract( h0 ) - h0); // It's probably okay to add h0 in refract() and subtract it here, since refract() is called way more frequently.
+
     while( fabs(h1 - h0) > 1e-4 ) {
         h0 = h1;
-        h1 = alt - refractionCorr(h0);
+        h1 = alt - (refract( h0 ) - h0);
     }
-    return dms(h1);
+    return h1;
 }

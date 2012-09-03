@@ -28,7 +28,7 @@ class QPointF;
 class QSize;
 
 class SkyQPainter;
-class KStars;
+class SkyMap;
 class ColorScheme;
 
 /**
@@ -343,7 +343,7 @@ private:
     QPoint positionToDeviceCoord(QPaintDevice *pd);
 
     SkyQPainter *m_Painter;
-    KStars *m_KStars;
+    SkyMap *m_SkyMap;
     bool m_DeletePainter;
 
     LEGEND_TYPE m_Type;

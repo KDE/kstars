@@ -39,9 +39,9 @@ class GeoLocation;
 class FindDialog;
 class TimeStepBox;
 
-class INDIMenu;
-class INDIDriver;
-class imagesequence;
+class GUIManager;
+class DriverManager;
+
 class AltVsTime;
 class WUTDialog;
 class WIView;
@@ -68,7 +68,7 @@ class OpsSupernovae;
 class OpsColors;
 class OpsAdvanced;
 class OpsINDI;
-class Ekos;
+class EkosManager;
 #ifdef HAVE_XPLANET
 class OpsXplanet;
 #endif
@@ -132,15 +132,6 @@ public:
     ObservingList* observingList() { return obsList; }
 
     Execute* getExecute();
-
-    /**@return pointer to the INDI driver */
-    INDIDriver* indiDriver() { return indidriver; }
-
-    /**@return pointer to the INDI menu */
-    INDIMenu* indiMenu() { return indimenu; }
-
-    /** Establish the INDI system. No GUI */
-    void establishINDI();
 
     /**Add an item to the color-scheme action manu
      * @param name The name to use in the menu
@@ -533,9 +524,6 @@ private slots:
     /** action slot: open Telescope wizard */
     void slotTelescopeWizard();
 
-    /** action slot: open Image Sequence dialog */
-    void slotImageSequence();
-
     /** action slot: open INDI driver panel */
     void slotINDIDriver();
 
@@ -670,10 +658,7 @@ private:
     AstroCalc *astrocalc;
     PrintingWizard *printingWizard;
 
-    INDIMenu *indimenu;
-    INDIDriver *indidriver;
-    imagesequence *indiseq;  /* We need imgsequence here because it runs in batch mode */
-    Ekos *ekosmenu;
+    EkosManager *ekosmenu;
 
     QActionGroup *projectionGroup, *cschemeGroup;
 

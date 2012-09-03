@@ -18,6 +18,7 @@
 </itemizedlist>
 
 <itemizedlist><title>Time</title>
+  <listitem><para><link linkend="ai-epoch">Epoch</link></para></listitem>
   <listitem><para><link linkend="ai-julianday">Julian Day</link></para></listitem>
   <listitem><para><link linkend="ai-leapyear">Leap Years</link></para></listitem>
   <listitem><para><link linkend="ai-sidereal">Sidereal Time</link></para></listitem>
@@ -44,6 +45,7 @@
   <listitem><para><link linkend="ai-magnitude">The Magnitude Scale</link></para></listitem>
   <listitem><para><link linkend="ai-stars">Stars: An Introductory FAQ</link></para></listitem>
   <listitem><para><link linkend="ai-colorandtemp">Star Colors and Temperatures</link></para></listitem>
+  <listitem><para><link linkend="ai-cosmicdist">The Cosmic Distance Ladder</link></para></listitem>
 </itemizedlist>
 
 </sect1>

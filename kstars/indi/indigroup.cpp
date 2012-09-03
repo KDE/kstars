@@ -14,8 +14,6 @@
 #include "indigroup.h"
 #include "indiproperty.h"
 #include "indidevice.h"
-#include "devicemanager.h"
-#include "indimenu.h"
 
 #include <klocale.h>
 #include <kdialog.h>
@@ -24,19 +22,18 @@
 #include <QTimer>
 #include <QTabWidget>
 #include <QVBoxLayout>
+#include <QDebug>
 
 /*******************************************************************
 ** INDI Group: a tab widget for common properties. All properties
 ** belong to a group, whether they have one or not but how the group
 ** is displayed differs
 *******************************************************************/
-INDI_G::INDI_G(INDI_D *parentDevice, const QString &inName)
+INDI_G::INDI_G(INDI_D *idv, const QString &inName)
 {
-    dp = parentDevice;
-
+    dp = idv;
     name = inName;
 
-    //propertyContainer = new QFrame(dp->groupContainer);
     propertyContainer = new QFrame();
     propertyLayout    = new QVBoxLayout(propertyContainer);
     propertyLayout->setMargin(20);
@@ -45,35 +42,64 @@ INDI_G::INDI_G(INDI_D *parentDevice, const QString &inName)
 
     propertyLayout->addItem(VerticalSpacer);
 
-    dp->groupContainer->addTab(propertyContainer, name);
+    //dp->groupContainer->addTab(propertyContainer, name);
 }
 
 INDI_G::~INDI_G()
 {
-    while ( ! pl.isEmpty() ) delete pl.takeFirst();
+   while ( ! propList.isEmpty() ) delete propList.takeFirst();
 
-    delete(propertyContainer);
+   delete(propertyContainer);
 }
 
-void INDI_G::addProperty(INDI_P *pp)
+bool INDI_G::addProperty(INDI::Property *prop)
 {
-    propertyLayout->addLayout(pp->PHBox);
+    QString propName(prop->getName());
+
+    INDI_P * pp = getProperty(propName);
+
+    if (pp)
+        return false;
+
+    pp = new INDI_P(this, prop);
+    propList.append(pp);
+
+    propertyLayout->removeItem(VerticalSpacer);
+    propertyLayout->addLayout(pp->getContainer());
     propertyLayout->addItem(VerticalSpacer);
 
-    pl.append(pp);
-
-    // Registering the property should be the last thing
-    dp->registerProperty(pp);
-
+    return true;
 }
 
-bool INDI_G::removeProperty(INDI_P *pp)
+bool INDI_G::removeProperty(const QString &probName)
 {
-    int i = pl.indexOf( pp );
-    if ( i != -1 ) {
-        delete pl.takeAt(i);
-        return true;
-    } else {
-        return false;
+
+
+    foreach(INDI_P * pp, propList)
+    {
+        if (pp->getName() == probName)
+        {
+            propList.removeOne(pp);
+            propertyLayout->removeItem(pp->getContainer());
+            //qDebug() << "Removing GUI property " << probName << " from gorup " << name << " with size " << propList.size() << " and count " << propList.count() << endl;
+            delete (pp);
+            return true;
+        }
     }
+
+
+    return false;
+}
+
+INDI_P * INDI_G::getProperty(const QString & propName)
+{
+
+    foreach(INDI_P *pp, propList)
+    {
+        if (pp->getName() == propName )
+            return pp;
+    }
+
+    return false;
+
 }

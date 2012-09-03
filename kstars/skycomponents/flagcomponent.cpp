@@ -181,7 +181,7 @@ void FlagComponent::remove( int index ) {
     m_LabelColors.removeAt( index );
 
     // request SkyMap update
-    KStars::Instance()->map()->forceUpdate();
+    SkyMap::Instance()->forceUpdate();
 }
 
 void FlagComponent::updateFlag( int index, SkyPoint *flagPoint, QString epoch, QString image, QString label, QColor labelColor ) {
@@ -229,7 +229,7 @@ void FlagComponent::slotInit( KJob *job ) {
     loadFromFile();
 
     // Redraw Skymap
-    KStars::Instance()->map()->forceUpdate(false);
+    SkyMap::Instance()->forceUpdate(false);
 }
 
 
@@ -295,7 +295,7 @@ QList<QImage> FlagComponent::imageList() {
 
 QList<int> FlagComponent::getFlagsNearPix ( SkyPoint *point, int pixelRadius )
 {
-    const Projector *proj = KStars::Instance()->map()->projector();
+    const Projector *proj = SkyMap::Instance()->projector();
     QPointF pos = proj->toScreen(point);
     QList<int> retVal;
 

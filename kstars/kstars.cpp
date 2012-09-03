@@ -47,9 +47,10 @@
 #include <config-kstars.h>
 
 #ifdef HAVE_INDI_H
-#include "indi/indimenu.h"
-#include "indi/indidriver.h"
-#include "indi/imagesequence.h"
+//#include "indi/indimenu.h"
+//#include "indi/indidriver.h"
+//#include "indi/imagesequence.h"
+#include "indi/drivermanager.h"
 #endif
 
 KStars *KStars::pinstance = 0;
@@ -59,8 +60,8 @@ KStars::KStars( bool doSplash, bool clockrun, const QString &startdate )
       colorActionMenu(0), fovActionMenu(0), findDialog(0),
       imgExportDialog(0), obsList(0), execute(0),
       avt(0), wut(0), wi(0), wiWiz(0), wiDock(0), skycal(0), sb(0), pv(0),
-      jmt(0), fm(0), astrocalc(0), printingWizard(0), indimenu(0), indidriver(0),
-      indiseq(0), ekosmenu(0), DialogIsObsolete(false), StartClockRunning( clockrun ),
+      jmt(0), fm(0), astrocalc(0), printingWizard(0), ekosmenu(0),
+      DialogIsObsolete(false), StartClockRunning( clockrun ),
       StartDateString( startdate )
 {
     new KstarsAdaptor(this);
@@ -136,6 +137,10 @@ KStars *KStars::createInstance( bool doSplash, bool clockrun, const QString &sta
 KStars::~KStars()
 {
     Q_ASSERT( pinstance );
+
+    #ifdef HAVE_INDI_H
+    DriverManager::Instance()->clearServers();
+    #endif
 
     delete kstarsData;
     pinstance = 0;
@@ -248,6 +253,7 @@ void KStars::hideAllFovExceptFirst()
     } else {
         // If there are no visible FOVs, select first available
         if(data()->visibleFOVs.size() == 0) {
+            Q_ASSERT( !data()->availFOVs.isEmpty() );
             Options::setFOVNames(QStringList(data()->availFOVs.first()->name()));
         } else {
             Options::setFOVNames(QStringList(data()->visibleFOVs.first()->name()));
@@ -262,6 +268,12 @@ void KStars::hideAllFovExceptFirst()
 
 void KStars::selectNextFov()
 {
+
+    if( data()->getVisibleFOVs().isEmpty() )
+        return;
+
+    Q_ASSERT( ! data()->getAvailableFOVs().isEmpty() ); // The available FOVs had better not be empty if the visible ones are not.
+
     FOV *currentFov = data()->getVisibleFOVs().first();
     int currentIdx = data()->availFOVs.indexOf(currentFov);
 
@@ -285,6 +297,11 @@ void KStars::selectNextFov()
 
 void KStars::selectPreviousFov()
 {
+    if( data()->getVisibleFOVs().isEmpty() )
+        return;
+
+    Q_ASSERT( ! data()->getAvailableFOVs().isEmpty() ); // The available FOVs had better not be empty if the visible ones are not.
+
     FOV *currentFov = data()->getVisibleFOVs().first();
     int currentIdx = data()->availFOVs.indexOf(currentFov);
 

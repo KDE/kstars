@@ -379,9 +379,10 @@ public:
      *  Meeus provides a different algorithm in page 111 which we 
      *  implement here.
      *  @param sp SkyPoint to which distance is to be calculated
+     *  @param positionAngle if a non-null pointer is passed, the position angle from this SkyPoint to sp is computed and stored at the location
      *  @return dms angle representing angular separation.
      **/
-    dms angularDistanceTo(const SkyPoint *sp) const;
+    dms angularDistanceTo(const SkyPoint *sp, double * const positionAngle = 0) const;
 
     inline bool operator == ( SkyPoint &p ) { return ( ra() == p.ra() && dec() == p.dec() ); }
 
@@ -481,11 +482,33 @@ public:
     /** Calculate refraction correction. Parameter and return value are in degrees */
     static double refractionCorr( double alt );
 
-    /** Apply refraction correction to altitude. */
-    static dms refract(dms h);
+    /**
+     * @short Apply refraction correction to altitude.
+     * @param alt altitude to be corrected, in degrees
+     * @return altitude after refraction correction, in degrees
+     */
+    static double refract(const double alt);
 
-    /** Remove refraction correction. */
-    static dms unrefract(dms h);
+    /**
+     * @short Remove refraction correction.
+     * @param alt altitude from which refraction correction must be removed, in degrees
+     * @return altitude without refraction correction, in degrees
+     */
+    static double unrefract(const double alt);
+
+    /**
+     * @short Apply refraction correction to altitude. Overloaded method using
+     * dms provided for convenience
+     * @see SkyPoint::refract( const double alt )
+     */
+    static inline dms refract(const dms alt) { return dms( refract( alt.Degrees() ) ); }
+
+    /**
+     * @short Remove refraction correction. Overloaded method using
+     * dms provided for convenience
+     * @see SkyPoint::unrefract( const double alt )
+     */
+    static inline dms unrefract(const dms alt) { return dms( unrefract( alt.Degrees() ) ); }
 
     /**
      *@short Critical height for atmospheric refraction

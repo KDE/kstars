@@ -50,14 +50,14 @@
 // INDI includes
 #include <config-kstars.h>
 
-#ifdef HAVE_INDI_H
+/*#ifdef HAVE_INDI_H
 #include "indi/indidriver.h"
 #include "indi/indimenu.h"
 #include "indi/indielement.h"
 #include "indi/indidevice.h"
 #include "indi/indiproperty.h"
 #include "indi/devicemanager.h"
-#endif
+#endif*/
 
 void KStars::setRaDec( double ra, double dec ) {
     SkyPoint p( ra, dec );
@@ -282,9 +282,6 @@ void KStars::changeViewOption( const QString &op, const QString &val ) {
     if ( val.toLower() == "false" ) { bOk = true; bVal = false; }
     if ( val == "1" ) { bOk = true; bVal = true; }
     if ( val == "0" ) { bOk = true; bVal = false; }
-
-    //parse int value
-    int nVal = val.toInt( &nOk );
 
     //parse double value
     double dVal = val.toDouble( &dOk );

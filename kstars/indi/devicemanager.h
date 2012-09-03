@@ -14,8 +14,6 @@
 #ifndef DEVICEMANAGER_H_
 #define DEVICEMANAGER_H_
 
-#include "indielement.h"
-#include "indidriver.h"
 #include <QTcpSocket>
 
 class INDIMenu;

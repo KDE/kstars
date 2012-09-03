@@ -38,7 +38,7 @@
 #endif
 
 #include <fitsio.h>
-
+#include "fitshistogram.h"
 #include "fitscommon.h"
 
 #define INITIAL_W	640
@@ -63,6 +63,17 @@ signals:
     void newStatus(const QString &msg, FITSBar id);
 };
 
+class Edge
+{
+public:
+    int x;
+    int y;
+    int val;
+    int scanned;
+    int width;
+    double HFR;
+};
+
 class FITSImage : public QScrollArea
 {
     Q_OBJECT
@@ -77,14 +88,14 @@ public:
     /* Rescale image lineary from image_buffer, fit to window if desired */
     int rescale(FITSZoom type);
     /* Calculate stats */
-    void calculateStats();
+    void calculateStats(bool refresh=false);
 
     // Access functions
-    //FITSViewer * getViewer() { return viewer; }
     double getCurrentZoom() { return currentZoom; }
     float * getImageBuffer() { return image_buffer; }
     void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
     void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
+    int getDetectedStars() { return starCenters.count(); }
     long getWidth() { return stats.dim[0]; }
     long getHeight() { return stats.dim[1]; }
     double getStdDev() { return stats.stddev; }
@@ -95,8 +106,16 @@ public:
     // Set functions
     void setFITSMinMax(double newMin,  double newMax);
 
-    /* TODO Make this stat PRIVATE
-    stats struct to hold statisical data about the FITS data */
+    // Overlay
+    void drawOverlay(QPainter *);
+    void drawStarCentroid(QPainter *);
+    void updateFrame();
+
+    // Star Detection & HFR
+    void toggleStars(bool enable) { markStars = enable;}
+    double getHFR();
+
+    /* stats struct to hold statisical data about the FITS data */
     struct
     {
         double min, max;
@@ -107,6 +126,7 @@ public:
         long dim[2];
     } stats;
 
+
 public slots:
     void ZoomIn();
     void ZoomOut();
@@ -116,13 +136,12 @@ private:
 
     double average();
     double stddev();
-
+    void findCentroid();
     int calculateMinMax(bool refresh=false);
 
-    //FITSViewer *viewer;                 /* parent FITSViewer */
+    bool markStars;
     FITSLabel *image_frame;
     float *image_buffer;				/* scaled image buffer (0-255) range */
-
     double currentWidth,currentHeight; /* Current width and height due to zoom */
     const double zoomFactor;           /* Image zoom factor */
     double currentZoom;                /* Current Zoom level */
@@ -130,9 +149,14 @@ private:
     int data_type;                     /* FITS data type when opened */
     QImage  *displayImage;             /* FITS image that is displayed in the GUI */
 
+    QList<Edge*> starCenters;
+
 signals:
     void newStatus(const QString &msg, FITSBar id);
     void actionUpdated(const QString &name, bool enable);
 };
+
+
+
 
 #endif

@@ -49,7 +49,6 @@ class SkyObject;
 class FOV;
 
 class TimeZoneRule;
-class INDIHostsInfo;
 struct ADVTreeData;
 
 
@@ -76,9 +75,6 @@ public:
     //
     //FIXME: Yes we can. Moreover we should
 
-    // FIXME: It uses INDIHostsLista and is only one user.
-    //        INDIHostsList should be moved there.
-    friend class INDIDriver;
     // FIXME: It uses temporary trail. There must be way to
     //        this better. And resumeKey in DBUS code
     friend class KStars;
@@ -346,8 +342,6 @@ private:
     void resetToNewDST(GeoLocation *geo, const bool automaticDSTchange);
 
     QList<ADVTreeData*> ADVtreeList;
-    QList<INDIHostsInfo*> INDIHostsList;
-
     SkyMapComposite* m_SkyComposite;
 
     GeoLocation m_Geo;

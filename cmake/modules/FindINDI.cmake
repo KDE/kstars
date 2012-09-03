@@ -62,8 +62,8 @@ else (INDI_INCLUDE_DIR AND INDI_DATA_DIR AND INDI_LIBRARIES AND INDI_DRIVER_LIBR
   # Find pkg-config
   FIND_PROGRAM(PKGCONFIG_EXECUTABLE NAMES pkg-config PATHS /usr/bin/ /usr/local/bin )
 
-  # query pkg-config asking for a libindi >= 0.8.0
-     EXEC_PROGRAM(${PKGCONFIG_EXECUTABLE} ARGS --atleast-version=0.8.0 libindi RETURN_VALUE _return_VALUE OUTPUT_VARIABLE _pkgconfigDevNull )
+  # query pkg-config asking for a libindi >= 0.9.5
+     EXEC_PROGRAM(${PKGCONFIG_EXECUTABLE} ARGS --atleast-version=0.9.5 libindi RETURN_VALUE _return_VALUE OUTPUT_VARIABLE _pkgconfigDevNull )
      if(_return_VALUE STREQUAL "0")
         set(INDI_FOUND TRUE)
      else(_return_VALUE STREQUAL "0")

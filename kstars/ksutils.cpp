@@ -128,3 +128,35 @@ QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float he
     return ( URLprefix + RAString + DecString + SizeString + URLsuffix );
 
 }
+
+QString KSUtils::toDirectionString( dms angle ) {
+    // TODO: Instead of doing it this way, it would be nicer to
+    // compute the string to arbitrary precision. Although that will
+    // not be easy to localize.  (Consider, for instance, Indian
+    // languages that have special names for the intercardinal points)
+    // -- asimha
+
+    static const char *directions[] = {
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "N"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NNE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "ENE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "E"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "ESE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "SE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "SSE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "S"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "SSW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "SW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "WSW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "W"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "WNW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NNW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "N"),
+    };
+
+    int index = (int)( (angle.Degrees() + 11.25) / 22.5); // A number between 0 and 16 (inclusive), 16 meaning the same thing as zero.
+
+    return i18nc( "Abbreviated cardinal / intercardinal etc. direction", directions[ index ] );
+}

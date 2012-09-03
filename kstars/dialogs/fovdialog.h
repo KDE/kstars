@@ -83,14 +83,46 @@ public:
     ~NewFOV() {}
     /** Return reference to FOV. */
     const FOV& getFOV() const { return f; }
+
 public slots:
     void slotBinocularFOVDistanceChanged( int index );
     void slotUpdateFOV();
     void slotComputeFOV();
+    void slotEyepieceAFOVChanged( int index );
+    void slotComputeTelescopeFL();
 
 private:
     FOV f;
-    NewFOVUI *ui;   
+    NewFOVUI *ui;
+};
+
+/**
+ *@class TelescopeFL Dialog for calculating telescope focal length from f-number and diameter
+ *@author Akarsh Simha
+ *@version 1.0
+ */
+
+class TelescopeFL : public KDialog
+{
+    Q_OBJECT;
+ public:
+    /**
+     * Create a telescope focal length dialog
+     * @param parent parent widget
+     */
+    TelescopeFL( QWidget *parent = 0 );
+
+    ~TelescopeFL() { }
+
+    /**
+     * Compute and return the focal length in mm
+     * @return focal length in mm
+     */
+    double computeFL() const;
+
+ private:
+    KDoubleNumInput *aperture, *fNumber;
+    KComboBox *apertureUnit;
 };
 
 #endif

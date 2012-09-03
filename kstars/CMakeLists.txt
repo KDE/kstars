@@ -24,22 +24,24 @@ endif(CFITSIO_FOUND)
 
 if (INDI_FOUND)
   set (indi_SRCS
-    indi/devicemanager.cpp
+    indi/drivermanager.cpp
+    indi/servermanager.cpp
+    indi/clientmanager.cpp
+    indi/guimanager.cpp
+    indi/driverinfo.cpp
     indi/indidevice.cpp
-    indi/indidriver.cpp
-    indi/indielement.cpp
-    indi/opsindi.cpp
     indi/indigroup.cpp
-    indi/indimenu.cpp
     indi/indiproperty.cpp
+    indi/indielement.cpp
     indi/indistd.cpp
-    indi/streamwg.cpp
+    indi/indilistener.cpp
+    indi/opsindi.cpp
     indi/telescopewizardprocess.cpp
-    indi/imagesequence.cpp
+    indi/streamwg.cpp
     )
   set(indiui_SRCS
     indi/devmanager.ui
-    indi/imgsequencedlg.ui
+    indi/drivermanager.ui
     indi/opsindi.ui
     indi/indihostconf.ui
     indi/streamform.ui
@@ -47,16 +49,15 @@ if (INDI_FOUND)
     )
 
    set(ekosui_SRCS
-      ekos/ekos.ui
+      ekos/ekosmanager.ui
+      ekos/capture.ui
+      ekos/focus.ui
    )
 
    set(ekos_SRCS
-      ekos/ekos.cpp
-      ekos/genericdevice.cpp
-      ekos/telescope.cpp
-      ekos/ccd.cpp
-      ekos/filter.cpp
-      ekos/focuser.cpp
+      ekos/ekosmanager.cpp
+      ekos/capture.cpp
+      ekos/focus.cpp
    )
   
   include_directories(${INDI_INCLUDE_DIR})
@@ -412,7 +413,8 @@ set(printingui_SRCS
     printing/pwizwelcome.ui
 )
 
-set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
+##set(kstars_SRCS ${indi_SRCS} ${ekos_SRCS} ${fits_SRCS}
+set(kstars_SRCS ${indi_SRCS} ${fits_SRCS} ${ekos_SRCS}
 	${libkstarswidgets_SRCS} ${libkstarscomponents_SRCS} ${libkstarstools_SRCS} 
 	${kstars_extra_SRCS}  ${kstars_gl_SRCS} ${kstars_projection_SRCS} ${xplanet_SRCS}
 	${kstars_options_SRCS} ${kstars_skyobjects_SRCS} ${kstars_dialogs_SRCS} ${oal_SRCS}
@@ -456,7 +458,7 @@ if (CFITSIO_FOUND)
   target_link_libraries(kstars ${CFITSIO_LIBRARIES})
 endif (CFITSIO_FOUND)
 if (INDI_FOUND)
-  target_link_libraries(kstars ${INDI_LIBRARIES})
+  target_link_libraries(kstars ${INDI_LIBRARIES} ${INDI_CLIENT_LIBRARIES} z)
 endif (INDI_FOUND)
 
 if( OPENGL_FOUND )

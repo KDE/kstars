@@ -14,32 +14,50 @@
 #ifndef INDIGROUP_H_
 #define INDIGROUP_H_
 
-#include "indielement.h"
-#include <qstring.h>
+#include <libindi/indiproperty.h>
+
+#include <QString>
+#include <QList>
+
 
 class INDI_P;
 class INDI_D;
 
 class QFrame;
 class QVBoxLayout;
+class QSpacerItem;
 
 /* INDI group */
 class INDI_G
 {
 public:
-    INDI_G(INDI_D *parentDevice, const QString &inName);
+    INDI_G(INDI_D *idv, const QString &inName);
     ~INDI_G();
 
+
+    bool addProperty(INDI::Property *prob);
+
+    bool removeProperty(const QString &propName);
+
+    INDI_P * getProperty(const QString & propName);
+    QFrame *getContainer() { return propertyContainer;}
+    const QString & getName() { return name; }
+
+    INDI_D *getDevice() { return dp;}
+
+    QList<INDI_P*> getProperties() { return propList; }
+
+    int size() { return propList.count(); }
+
+private:
     QString       name;			/* Group name */
-    INDI_D 	*dp;			/* Parent device */
+    INDI_D 	  *dp;			/* Parent device */
     QFrame        *propertyContainer;	/* Properties container */
     QVBoxLayout   *propertyLayout;        /* Properties layout */
     QSpacerItem   *VerticalSpacer;	/* Vertical spacer */
 
-    QList<INDI_P*> pl;			/* malloced list of pointers to properties */
+    QList<INDI_P*> propList;			/* malloced list of pointers to properties */
 
-    void addProperty(INDI_P *pp);
-    bool removeProperty(INDI_P *pp);
 };
 
 #endif

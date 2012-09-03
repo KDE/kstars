@@ -130,6 +130,7 @@ INDIDriver::INDIDriver( KStars *_ks )
     readXMLDrivers();
 }
   
+/*
 void INDIDriver::enableDevice(INDI_D *indi_device)
 {
    if (indi_device == NULL)
@@ -218,7 +219,7 @@ void INDIDriver::disableDevice(INDI_D *indi_device)
 	}
       }
   }
-  
+  */
 void INDIDriver::activateRunService()
   {
     processLocalTree(IDevice::DEV_START);

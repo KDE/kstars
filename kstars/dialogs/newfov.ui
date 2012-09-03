@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>483</width>
+    <width>660</width>
     <height>437</height>
    </rect>
   </property>
@@ -101,29 +101,26 @@
            </item>
            <item>
             <widget class="QLabel" name="textLabel8_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Enter the eyepiece's Apparent field-of-view</string>
+             </property>
              <property name="text">
-              <string>Eyepiece FOV:</string>
+              <string>Eyepiece AFOV:</string>
              </property>
             </widget>
            </item>
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout">
-           <property name="spacing">
-            <number>6</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <layout class="QHBoxLayout">
-             <property name="spacing">
-              <number>6</number>
-             </property>
-             <property name="margin">
-              <number>0</number>
-             </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <widget class="KDoubleNumInput" name="TLength1">
                <property name="focusPolicy">
@@ -201,6 +198,65 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
             </layout>
            </item>
            <item>
+            <widget class="QComboBox" name="EyepieceAFOV">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>250</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout">
+             <property name="spacing">
+              <number>6</number>
+             </property>
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QPushButton" name="ComputeTLengthFromFNum1">
+               <property name="text">
+                <string>or compute from F-Number</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Minimum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
             <layout class="QHBoxLayout">
              <property name="spacing">
               <number>6</number>
@@ -245,6 +301,20 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
           </layout>
          </item>
         </layout>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="font">
+          <font>
+           <pointsize>7</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Note: Panoptic, Nagler, Radian, Delos and Ethos are trademarks of Tele Vue Optics, Inc.</string>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer>
@@ -508,6 +578,43 @@ This is one of the data fields required for defining a field-of-view (FOV) symbo
               </widget>
              </item>
             </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QPushButton" name="ComputeTLengthFromFNum2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>or compute from F-Number</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Preferred</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
@@ -1152,8 +1259,6 @@ Circle, Square, Crosshairs, Bullseye.</string>
  <tabstops>
   <tabstop>FOVName</tabstop>
   <tabstop>tabWidget2</tabstop>
-  <tabstop>TLength1</tabstop>
-  <tabstop>EyeLength</tabstop>
   <tabstop>EyeFOV</tabstop>
   <tabstop>ComputeEyeFOV</tabstop>
   <tabstop>TLength2</tabstop>
