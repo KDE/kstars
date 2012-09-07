@@ -57,7 +57,7 @@ public:
       */
     void loadDetailsView(SkyObjItem* soitem, int index);
 
-    inline void updateModels(ObsConditions *obs) { m->updateModels(obs); }
+    inline void updateModels(ObsConditions *obs) { m_ModManager->updateModels(obs); }
 
     inline QDeclarativeView *getWIBaseView() const { return m_BaseView; }
 
@@ -107,7 +107,7 @@ private:
     QDeclarativeContext *ctxt;
     QDeclarativeView *m_BaseView;
     ObsConditions *m_Obs;
-    ModelManager *m;
+    ModelManager *m_ModManager;
     SkyObjItem *m_CurSoItem;  ///Current sky-object item.
     int m_CurIndex;           ///Index of current sky-object item in details-view.
 };

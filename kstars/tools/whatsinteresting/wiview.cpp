@@ -26,7 +26,7 @@
 
 WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs)
 {
-    m = new ModelManager(obs);
+    m_ModManager = new ModelManager(obs);
 
     m_BaseView = new QDeclarativeView();
 
@@ -66,18 +66,18 @@ WIView::WIView(QWidget *parent, ObsConditions *obs) : QWidget(parent), m_Obs(obs
 
 WIView::~WIView()
 {
-    delete m;
+    delete m_ModManager;
     delete m_CurSoItem;
 }
 
 void WIView::onCategorySelected(int type)
 {
-    ctxt->setContextProperty("soListModel", m->returnModel(type));
+    ctxt->setContextProperty("soListModel", m_ModManager->returnModel(type));
 }
 
 void WIView::onSoListItemClicked(int type, QString typeName, int index)
 {
-    SkyObjItem *soitem = m->returnModel(type)->getSkyObjItem(index);
+    SkyObjItem *soitem = m_ModManager->returnModel(type)->getSkyObjItem(index);
 
 //    soTypeTextObj->setProperty("text", typeName);
 //    soTypeTextObj->setProperty("visible", true);
@@ -93,9 +93,9 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
     m_CurSoItem = soitem;
     m_CurIndex = index;
 
-    int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem *nextItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
-    SkyObjItem *prevItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+    int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
+    SkyObjItem *nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    SkyObjItem *prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
 
     QObject *nextTextObj = m_NextObj->findChild<QObject *>("nextTextObj");
     nextTextObj->setProperty("text", nextItem->getName());
@@ -129,15 +129,15 @@ void WIView::loadDetailsView(SkyObjItem *soitem, int index)
 
 void WIView::onNextObjClicked()
 {
-    int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem *nextItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
+    int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
+    SkyObjItem *nextItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex+1)%modelSize);
     loadDetailsView(nextItem, (m_CurIndex+1)%modelSize);
 }
 
 void WIView::onPrevObjClicked()
 {
-    int modelSize = m->returnModel(m_CurSoItem->getType())->rowCount();
-    SkyObjItem *prevItem = m->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
+    int modelSize = m_ModManager->returnModel(m_CurSoItem->getType())->rowCount();
+    SkyObjItem *prevItem = m_ModManager->returnModel(m_CurSoItem->getType())->getSkyObjItem((m_CurIndex-1+modelSize)%modelSize);
     loadDetailsView(prevItem, (m_CurIndex-1+modelSize)%modelSize);
 }
 
