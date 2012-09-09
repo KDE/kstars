@@ -20,7 +20,7 @@
 #include "kdebug.h"
 
 ObsConditions::ObsConditions(int bortle, double aperture, Equipment equip, TelescopeType telType):
-    m_BortleClass(bortle), m_Aperture(aperture), m_Equip(equip), m_TelType(telType)
+    m_BortleClass(bortle), m_Equip(equip), m_TelType(telType), m_Aperture(aperture)
 {
     // 't' parameter
     switch (m_TelType)
