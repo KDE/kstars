@@ -718,6 +718,9 @@ void FITSImage::findCentroid()
                avg += j * pixVal;
                sum += pixVal;
                pixelRadius++;
+               #ifdef FITS_LOG
+               qDebug() << "Adding pixel value " << pixVal << " to the sum, it's average is " <<  j * pixVal << endl;
+               #endif
             }
             // Value < threshhold but avg exists
             else if (sum > 0)
@@ -725,7 +728,7 @@ void FITSImage::findCentroid()
                 // We found a potential centroid edge
                 if (pixelRadius >= (MINIMUM_PIXEL_RANGE - (MINIMUM_STDVAR - initStdDev)))
                 {
-                    int center = ceil(avg/sum);
+                    int center = round(avg/sum);
 
                     Edge *newEdge = new Edge();
 
@@ -737,8 +740,8 @@ void FITSImage::findCentroid()
                     newEdge->HFR        = 0;
 
                     #ifdef FITS_LOG
-                    qDebug() << "# " << edges.count() << " Center at (" << center << "," << i << ") With a value of " << newEdge->val  << " and width of "
-                             << pixelRadius << " pixels." <<endl;
+                    qDebug() << "# " << edges.count() << " Edge at (" << center << "," << i << ") With a value of " << newEdge->val  << " and width of "
+                             << pixelRadius << " pixels. with avergage " << avg << " and sum " << sum << endl;
                     #endif
 
                     edges.append(newEdge);
@@ -840,7 +843,7 @@ void FITSImage::findCentroid()
            qDebug() << "Found a real center with number " << rc_index << "with (" << rCenter->x << "," << rCenter->y << ")" << endl;
 
            qDebug() << "Profile for this center is:" << endl;
-           for (int i=edges[rc_index]->width/2; i >= -(edges[rc_index]->width/2) ; i--)
+           for (int i=edges[rc_index]->width/2+2; i >= -(edges[rc_index]->width/2+2) ; i--)
                qDebug() << "#" << i << " , " << image_buffer[rCenter->x-i+(rCenter->y*stats.dim[0])] - stats.min <<  endl;
 
            #endif
@@ -932,6 +935,27 @@ void FITSImage::drawGuideBox(QPainter *painter)
 
 double FITSImage::getHFR()
 {
+    // This method is less susceptible to noise
+    // Get HFR for the brightest star only, instead of averaging all stars
+    // It is more consistent.
+    // TODO: Try to test this under using a real CCD.
+
+    int maxVal=0;
+    int maxIndex=0;
+    for (int i=0; i < starCenters.count() ; i++)
+    {
+        if (starCenters[i]->val > maxVal)
+        {
+            maxIndex=i;
+            maxVal = starCenters[i]->val;
+
+        }
+
+    }
+
+    return starCenters[maxIndex]->HFR;
+
+    /*
     double FSum=0;
 
     double avgHFR=0;
@@ -950,6 +974,7 @@ double FITSImage::getHFR()
     }
     else
         return -1;
+        */
 }
 
 void FITSImage::setGuideSquare(int x, int y)
