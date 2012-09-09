@@ -151,7 +151,6 @@ void Focus::stopFocus()
 
     absIterations = 0;
 
-    currentCCD->setCaptureMode(FITS_NORMAL);
 }
 
 void Focus::capture()

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>305</height>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -50,9 +50,9 @@
        <property name="title">
         <string>Autofocus Options</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QLabel" name="label">
             <property name="whatsThis">
@@ -63,6 +63,17 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Tolerance:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
            <widget class="QDoubleSpinBox" name="delayIN">
             <property name="enabled">
@@ -83,24 +94,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>seconds</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Tolerance:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QDoubleSpinBox" name="toleranceIN">
             <property name="minimum">
              <double>0.010000000000000</double>
@@ -113,6 +106,17 @@
             </property>
             <property name="value">
              <double>0.010000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>seconds</string>
             </property>
            </widget>
           </item>
@@ -225,10 +229,6 @@
        </spacer>
       </item>
      </layout>
-     <zorder>captureB</zorder>
-     <zorder>verticalSpacer</zorder>
-     <zorder>verticalSpacer_2</zorder>
-     <zorder>groupBox_4</zorder>
     </widget>
    </item>
    <item>
