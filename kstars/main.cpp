@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 {
     KAboutData aboutData( "kstars", 0, ki18n("KStars"),
                           KSTARS_VERSION, ki18n(description), KAboutData::License_GPL,
-                          ki18n("(c) 2001-2009, The KStars Team"), ki18n(notice), "http://edu.kde.org/kstars");
+                          ki18n("(c) 2001-2012, The KStars Team"), ki18n(notice), "http://edu.kde.org/kstars");
     aboutData.addAuthor(ki18n("Jason Harris"),KLocalizedString(), "jharris@30doradus.org", "http://www.30doradus.org");
     aboutData.addAuthor(ki18n("Jasem Mutlaq"), KLocalizedString(), "mutlaqja@ikarustech.com");
     aboutData.addAuthor(ki18n("James Bowlin"), KLocalizedString(), "bowlin@mindspring.com");
@@ -64,6 +64,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(ki18n("Rafał Kułaga"), KLocalizedString(), "rl.kulaga@gmail.com");
     aboutData.addCredit(ki18n("Valery Kharitonov"), ki18n("Converted labels containing technical terms to links to documentation") );
     aboutData.addCredit(ki18n("Ana-Maria Constantin"), ki18n("Technical documentation on Astronomy and KStars") );
+    aboutData.addCredit(ki18n("Alexander Stepanenko"), ki18n("Guiding code based on lin_guider") );
     aboutData.addCredit(ki18n("Nuno Pinheiro"), ki18n("Artwork") );
     KCmdLineArgs::init( argc, argv, &aboutData );
 
