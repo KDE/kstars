@@ -65,6 +65,7 @@ public:
 
     QList<FITSTab*> getImages() { return fitsImages; }
 
+    FITSImage *getImage(int fitsUID);
 
 
 protected:
@@ -103,6 +104,9 @@ private:
     QList<FITSTab*> fitsImages;
     int fitsID;
     bool markStars;
+
+signals:
+    void guideStarSelected(int x, int y);
 };
 
 #endif

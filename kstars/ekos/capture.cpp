@@ -14,6 +14,9 @@
 
 #include "indi/driverinfo.h"
 
+#include "../fitsviewer/fitscommon.h"
+#include "indi/indifilter.h"
+
 #include <libindi/basedevice.h>
 
 namespace Ekos
@@ -237,7 +240,8 @@ void Capture::captureImage()
 
     seqTimer->stop();
 
-    currentCCD->runCommand(INDI_CAPTURE, &seqExpose);
+    currentCCD->setCaptureMode(FITS_NORMAL);
+    currentCCD->capture(seqExpose);
 }
 
 

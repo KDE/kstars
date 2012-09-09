@@ -34,6 +34,10 @@ if (INDI_FOUND)
     indi/indielement.cpp
     indi/indistd.cpp
     indi/indilistener.cpp
+    indi/inditelescope.cpp
+    indi/indiccd.cpp
+    indi/indifocuser.cpp
+    indi/indifilter.cpp
     indi/opsindi.cpp
     indi/telescopewizardprocess.cpp
     indi/streamwg.cpp
@@ -51,12 +55,24 @@ if (INDI_FOUND)
       ekos/ekosmanager.ui
       ekos/capture.ui
       ekos/focus.ui
+      ekos/guide.ui
+      ekos/guide/guider.ui
+      ekos/guide/rcalibration.ui
    )
 
    set(ekos_SRCS
       ekos/ekosmanager.cpp
       ekos/capture.cpp
       ekos/focus.cpp
+      ekos/guide.cpp
+
+      ekos/guide/common.cpp
+      ekos/guide/gmath.cpp
+      ekos/guide/guider.cpp
+      ekos/guide/matr.cpp
+      ekos/guide/rcalibration.cpp
+      ekos/guide/scroll_graph.cpp
+      ekos/guide/vect.cpp
    )
   
   include_directories(${INDI_INCLUDE_DIR})

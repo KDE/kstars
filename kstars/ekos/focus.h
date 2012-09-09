@@ -17,6 +17,7 @@
 
 
 #include "indi/indistd.h"
+#include "indi/indifocuser.h"
 
 namespace Ekos
 {
@@ -52,6 +53,8 @@ public slots:
 
 private:
 
+    void getAbsFocusPosition();
+
     /* Focus */
     ISD::Focuser *currentFocuser;
     ISD::CCD *currentCCD;
@@ -62,6 +65,12 @@ private:
 
     double HFR;
     int pulseDuration;
+    bool canAbsMove;
+    int absIterations;
+
+    double absCurrentPos;
+    double pulseStep;
+    double absMotionMax, absMotionMin;
 
 };
 

@@ -21,6 +21,8 @@
 
 #include <libindi/basedevice.h>
 
+#define MAXIMUM_ABS_ITERATIONS  30
+
 namespace Ekos
 {
 
@@ -30,6 +32,10 @@ Focus::Focus()
 
     currentFocuser = NULL;
     currentCCD     = NULL;
+
+    canAbsMove     = false;
+
+    pulseDuration = 1000;
 
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(startFocus()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(stopFocus()));
@@ -72,14 +78,33 @@ void Focus::toggleAutofocus(bool enable)
 void Focus::addFocuser(ISD::GDInterface *newFocuser)
 {
     currentFocuser = static_cast<ISD::Focuser *> (newFocuser);
+
+    if (currentFocuser->canAbsMove())
+    {
+        canAbsMove = true;
+        getAbsFocusPosition();
+    }
+
 }
 
 void Focus::addCCD(ISD::GDInterface *newCCD)
 {
     if (currentCCD == NULL)
         currentCCD = (ISD::CCD *) newCCD;
+}
 
-
+void Focus::getAbsFocusPosition()
+{
+    if (canAbsMove)
+    {
+        INumberVectorProperty *absMove = currentFocuser->getBaseDevice()->getNumber("FOCUS_POSITION");
+        if (absMove)
+        {
+           pulseStep = absMove->np[0].value;
+           absMotionMax  = absMove->np[0].max;
+           absMotionMin  = absMove->np[0].min;
+        }
+    }
 
 }
 
@@ -88,8 +113,16 @@ void Focus::startFocus()
     lastFocusDirection = FOCUS_NONE;
 
     HFR = 0;
-    /* Start 1000 ms */
-    pulseDuration=1000;
+
+    if (canAbsMove)
+    {
+        absIterations = 0;
+        getAbsFocusPosition();
+        pulseDuration = (absMotionMax - absMotionMin) * 0.05;
+    }
+    else
+      /* Start 1000 ms */
+      pulseDuration=1000;
 
     capture();
 
@@ -116,7 +149,9 @@ void Focus::stopFocus()
         focusInB->setEnabled(true);
     }
 
-    currentCCD->setFocusMode(false);
+    absIterations = 0;
+
+    currentCCD->setCaptureMode(FITS_NORMAL);
 }
 
 void Focus::capture()
@@ -141,23 +176,23 @@ void Focus::capture()
         return;
     }
 
-    currentCCD->setFocusMode(true);
+    currentCCD->setCaptureMode(FITS_FOCUS);
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    currentCCD->runCommand(INDI_CCD_FRAME, &ccdFrame);
+    currentCCD->setFrameType(ccdFrame);
 
-    if (currentCCD->runCommand(INDI_CCD_BINNING, &binType) == false)
+    if (currentCCD->setBinning(binType) == false)
     {
         binType = TRIPLE_BIN;
-        if (currentCCD->runCommand(INDI_CCD_BINNING, &binType) == false)
+        if (currentCCD->setBinning(binType) == false)
         {
             binType = DOUBLE_BIN;
-            currentCCD->runCommand(INDI_CCD_BINNING, &binType);
+            currentCCD->setBinning(binType);
         }
     }
 
-    currentCCD->runCommand(INDI_CAPTURE, &seqExpose);
+    currentCCD->capture(seqExpose);
 
     focusProgress->setText(i18n("Capturing image..."));
 
@@ -177,9 +212,15 @@ void Focus::FocusIn(int ms)
 
     lastFocusDirection = FOCUS_IN;
 
-    currentFocuser->runCommand(INDI_FOCUS_IN);
+    currentFocuser->focusIn();
 
-    currentFocuser->runCommand(INDI_FOCUS_MOVE, &ms);
+    if (canAbsMove)
+    {
+        getAbsFocusPosition();
+        currentFocuser->absMoveFocuser(pulseStep+ms);
+    }
+    else
+        currentFocuser->moveFocuser(ms);
 
     focusProgress->setText(i18n("Focusing inward..."));
 
@@ -199,9 +240,15 @@ void Focus::FocusOut(int ms)
 
     lastFocusDirection = FOCUS_OUT;
 
-    currentFocuser->runCommand(INDI_FOCUS_OUT);
+    currentFocuser->focusOut();
 
-    currentFocuser->runCommand(INDI_FOCUS_MOVE, &ms);
+    if (canAbsMove)
+    {
+        getAbsFocusPosition();
+        currentFocuser->absMoveFocuser(pulseStep-ms);
+    }
+    else
+        currentFocuser->moveFocuser(ms);
 
     focusProgress->setText(i18n("Focusing outward..."));
 
@@ -219,7 +266,7 @@ void Focus::newFITS(IBLOB *bp)
 
     foreach(FITSTab *tab, fv->getImages())
     {
-        if (tab->getUID() == currentCCD->getFocusTabID())
+        if (tab->getUID() == currentCCD->getTabID())
         {
             currentHFR = tab->getImage()->getHFR();
             //qDebug() << "Focus HFR is " << tab->getImage()->getHFR() << endl;
@@ -236,11 +283,13 @@ void Focus::newFITS(IBLOB *bp)
         return;
     }
 
+
+
     //qDebug() << "Iteration #" << counter ++ << endl;
     //qDebug() << "Pulse Duration: " << pulseDuration << endl;
     //qDebug() << "Current HFR" << currentHFR << " last HFR " << HFR << " diff is " << fabs(currentHFR - HFR) << " tolernace is " << toleranceIN->value() << endl;
 
-    if (pulseDuration <= 32)
+    if (!canAbsMove && pulseDuration <= 32 || (canAbsMove && ++absIterations > MAXIMUM_ABS_ITERATIONS))
     {
         focusProgress->setText(i18n("Autofocus failed to reach proper focus."));
         stopFocus();
@@ -252,6 +301,7 @@ void Focus::newFITS(IBLOB *bp)
         case FOCUS_NONE:
             HFR = currentHFR;
             FocusIn(pulseDuration);
+
             sleep(delayIN->value());
             capture();
             //qDebug() << "In Focus NONE and will focus in now " << endl;
@@ -306,6 +356,7 @@ void Focus::newFITS(IBLOB *bp)
         {
             //qDebug() << "Will change direction to FOCUS IN" << endl;
             HFR = currentHFR;
+
             pulseDuration /= 2;
             FocusIn(pulseDuration);
         }

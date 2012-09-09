@@ -14,6 +14,10 @@
 
 #include "indilistener.h"
 #include "indicommon.h"
+#include "inditelescope.h"
+#include "indifocuser.h"
+#include "indiccd.h"
+#include "indifilter.h"
 #include "clientmanager.h"
 #include "driverinfo.h"
 #include "fitsviewer/fitsviewer.h"

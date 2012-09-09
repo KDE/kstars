@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>462</width>
-    <height>348</height>
+    <height>405</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,8 +27,8 @@
        <property name="title">
         <string>CCD</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
          <layout class="QGridLayout" name="_9">
           <property name="margin">
            <number>0</number>
@@ -37,11 +37,11 @@
            <number>6</number>
           </property>
           <item row="3" column="1">
-           <widget class="KIntNumInput" name="countIN" native="true">
-            <property name="minimum" stdset="0">
+           <widget class="KIntNumInput" name="countIN">
+            <property name="minimum">
              <number>1</number>
             </property>
-            <property name="maximum" stdset="0">
+            <property name="maximum">
              <number>1024</number>
             </property>
            </widget>
@@ -63,7 +63,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="KIntNumInput" name="delayIN" native="true"/>
+           <widget class="KIntNumInput" name="delayIN"/>
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="textLabel1_4">
@@ -118,14 +118,14 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="KDoubleNumInput" name="exposureIN" native="true">
-            <property name="value" stdset="0">
+           <widget class="KDoubleNumInput" name="exposureIN">
+            <property name="value">
              <double>1.000000000000000</double>
             </property>
-            <property name="minimum" stdset="0">
+            <property name="minimum">
              <double>0.000000000000000</double>
             </property>
-            <property name="singleStep" stdset="0">
+            <property name="singleStep">
              <double>0.500000000000000</double>
             </property>
            </widget>
@@ -135,7 +135,7 @@
           </item>
          </layout>
         </item>
-        <item row="1" column="0">
+        <item>
          <widget class="QCheckBox" name="ISOCheck">
           <property name="toolTip">
            <string>Add time stamp to the file name</string>
@@ -148,7 +148,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item>
          <widget class="QCheckBox" name="displayCheck">
           <property name="text">
            <string>Display in FITS Viewer</string>
@@ -157,6 +157,19 @@
            <bool>true</bool>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>5</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </widget>
@@ -388,25 +401,25 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>KDoubleNumInput</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
   </customwidget>
   <customwidget>
-   <class>KIntNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>KIntNumInput</class>
+   <extends>QWidget</extends>
+   <header>knuminput.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

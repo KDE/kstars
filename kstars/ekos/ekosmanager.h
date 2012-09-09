@@ -17,6 +17,7 @@
 #include "indi/indistd.h"
 #include "capture.h"
 #include "focus.h"
+#include "guide.h"
 
 #include <QDialog>
 #include <QHash>
@@ -38,7 +39,11 @@ public slots:
     void connectDevices();
     void disconnectDevices();
     void cleanDevices();
+
     void processNewDevice(ISD::GDInterface*);
+    void processNewProperty(INDI::Property*);
+
+    void tabChanged(int index);
 
     void removeDevice(ISD::GDInterface*);
 
@@ -48,6 +53,8 @@ public slots:
     void setFocuser(ISD::GDInterface *);
 
  private:
+
+    void reset();
     bool useGuiderFromCCD;
     bool useFilterFromCCD;
 
@@ -56,6 +63,7 @@ public slots:
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
+    Ekos::Guide *guideProcess;
 
     unsigned short nDevices;
     QList<DriverInfo *> managedDevices;

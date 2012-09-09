@@ -93,12 +93,36 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     e->accept();
 }
 
-FITSImage::FITSImage(QWidget * parent) : QScrollArea(parent) , zoomFactor(1.2)
+void FITSLabel::mousePressEvent(QMouseEvent *e)
+{
+    double x,y, width, height;
+
+    image->getFITSSize(&width, &height);
+
+    x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+    y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
+
+    x = KSUtils::clamp(x, 1.0, width);
+    y = KSUtils::clamp(y, 1.0, height);
+
+    //qDebug() << "point selected " << x << " - " << y << endl;
+
+   emit pointSelected(x, y);
+
+}
+
+
+FITSImage::FITSImage(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) , zoomFactor(1.2)
 {
     image_frame = new FITSLabel(this);
     image_buffer = NULL;
     displayImage = NULL;
+
+    mode = fitsMode;
+
     setBackgroundRole(QPalette::Dark);
+
+    guide_x = guide_y = guide_box = -1;
 
     currentZoom = 0.0;
     markStars = false;
@@ -107,21 +131,22 @@ FITSImage::FITSImage(QWidget * parent) : QScrollArea(parent) , zoomFactor(1.2)
 
     image_frame->setMouseTracking(true);
 
+    if (fitsMode == FITS_GUIDE)
+    {
+        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SLOT(setGuideSquare(int,int)));
+        connect(image_frame, SIGNAL(pointSelected(int,int)), this, SIGNAL(guideStarSelected(int,int)));
+    }
+
     // Default size
     resize(INITIAL_W, INITIAL_H);
 }
 
 FITSImage::~FITSImage()
 {
-    int status;
-
-    fits_close_file(fptr, &status);
-
     delete(image_buffer);
     delete(displayImage);
 
     qDeleteAll(starCenters);
-
 }
 
 bool FITSImage::loadFITS ( const QString &filename )
@@ -130,15 +155,20 @@ bool FITSImage::loadFITS ( const QString &filename )
     int status=0, nulval=0, anynull=0;
     long fpixel[2], nelements, naxes[2];
     char error_status[512];
+    QProgressDialog fitsProg;
 
     qDeleteAll(starCenters);
     starCenters.clear();
 
-    QProgressDialog fitsProg(i18n("Please hold while loading FITS file..."), i18n("Cancel"), 0, 100, NULL);
-    fitsProg.setWindowTitle(i18n("Loading FITS"));
+    if (mode == FITS_NORMAL)
+    {
+        fitsProg.setLabelText(i18n("Please hold while loading FITS file..."));
+        fitsProg.setWindowTitle(i18n("Loading FITS"));
+    }
     //fitsProg.setWindowModality(Qt::WindowModal);
 
-     fitsProg.setValue(30);
+    if (mode == FITS_NORMAL)
+        fitsProg.setValue(30);
 
     if (fits_open_image(&fptr, filename.toAscii(), READONLY, &status))
     {
@@ -149,10 +179,12 @@ bool FITSImage::loadFITS ( const QString &filename )
     }
 
 
-    if (fitsProg.wasCanceled())
-        return false;
+    if (mode == FITS_NORMAL)
+        if (fitsProg.wasCanceled())
+            return false;
 
-    fitsProg.setValue(50);
+    if (mode == FITS_NORMAL)
+        fitsProg.setValue(50);
     //qApp->processEvents(QEventLoop::ExcludeSocketNotifiers);
 
     if (fits_get_img_param(fptr, 2, &(stats.bitpix), &(stats.ndim), naxes, &status))
@@ -178,10 +210,12 @@ bool FITSImage::loadFITS ( const QString &filename )
         return false;
     }
 
-    if (fitsProg.wasCanceled())
-        return false;
+    if (mode == FITS_NORMAL)
+        if (fitsProg.wasCanceled())
+            return false;
 
-    fitsProg.setValue(60);
+    if (mode == FITS_NORMAL)
+        fitsProg.setValue(60);
 
     stats.dim[0] = naxes[0];
     stats.dim[1] = naxes[1];
@@ -210,14 +244,16 @@ bool FITSImage::loadFITS ( const QString &filename )
         return false;
     }
 
-    if (fitsProg.wasCanceled())
-    {
-      delete (image_buffer);
-      delete (displayImage);
-      return false;
-    }
+    if (mode == FITS_NORMAL)
+        if (fitsProg.wasCanceled())
+        {
+        delete (image_buffer);
+        delete (displayImage);
+        return false;
+        }
 
-    fitsProg.setValue(70);
+    if (mode == FITS_NORMAL)
+        fitsProg.setValue(70);
 
     displayImage->setNumColors(256);
 
@@ -242,15 +278,18 @@ bool FITSImage::loadFITS ( const QString &filename )
         return false;
     }*/
 
-    if (fitsProg.wasCanceled())
-    {
-      delete (image_buffer);
-      delete (displayImage);
-      return false;
-    }
+    if (mode == FITS_NORMAL)
+        if (fitsProg.wasCanceled())
+        {
+        delete (image_buffer);
+        delete (displayImage);
+        return false;
+        }
 
     calculateStats();
-    fitsProg.setValue(80);
+
+    if (mode == FITS_NORMAL)
+        fitsProg.setValue(80);
 
     findCentroid();
 
@@ -264,31 +303,22 @@ bool FITSImage::loadFITS ( const QString &filename )
     if (rescale(ZOOM_FIT_WINDOW))
         return false;
 
-    if (fitsProg.wasCanceled())
-    {
-      delete (image_buffer);
-      delete (displayImage);
-      return false;
-    }
+    if (mode == FITS_NORMAL)
+        if (fitsProg.wasCanceled())
+        {
+        delete (image_buffer);
+        delete (displayImage);
+        return false;
+        }
 
-    fitsProg.setValue(90);
-
-
-
-    if (fitsProg.wasCanceled())
-    {
-      delete (image_buffer);
-      delete (displayImage);
-      return false;
-    }
-
-    fitsProg.setValue(100);
+    if (mode == FITS_NORMAL)
+        fitsProg.setValue(100);
 
     setAlignment(Qt::AlignCenter);
 
     emit newStatus(QString("%1%x%2").arg(currentWidth).arg(currentHeight), FITS_RESOLUTION);
 
-
+    fits_close_file(fptr, &status);
 
     return true;
 
@@ -535,12 +565,16 @@ void FITSImage::updateFrame()
 {
 
     QPixmap displayPixmap;
+    bool ok=false;
 
     if (currentZoom != ZOOM_DEFAULT)
-            displayPixmap.convertFromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            ok = displayPixmap.convertFromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         else
-            displayPixmap.convertFromImage(*displayImage);
+            ok = displayPixmap.convertFromImage(*displayImage);
 
+
+    if (ok == false)
+        return;
 
     QPainter painter(&displayPixmap);
 
@@ -868,6 +902,9 @@ void FITSImage::drawOverlay(QPainter *painter)
     if (markStars)
         drawStarCentroid(painter);
 
+    if (mode == FITS_GUIDE)
+        drawGuideBox(painter);
+
 }
 
 void FITSImage::drawStarCentroid(QPainter *painter)
@@ -876,6 +913,21 @@ void FITSImage::drawStarCentroid(QPainter *painter)
 
     for (int i=0; i < starCenters.count() ; i++)
       painter->drawText(starCenters[i]->x * (currentZoom / ZOOM_DEFAULT) -3, starCenters[i]->y * (currentZoom / ZOOM_DEFAULT)+3 , "+");
+}
+
+void FITSImage::drawGuideBox(QPainter *painter)
+{
+    painter->setPen(QPen(Qt::green, 2));
+
+    int mid = guide_box / 2;
+
+    if (mid == -1 || guide_x == -1 || guide_y == -1)
+        return;
+
+    int x1 = (guide_x - mid) * (currentZoom / ZOOM_DEFAULT);
+    int y1 = (guide_y - mid) * (currentZoom / ZOOM_DEFAULT);
+
+    painter->drawRect(x1, y1, guide_box, guide_box);
 }
 
 double FITSImage::getHFR()
@@ -899,5 +951,24 @@ double FITSImage::getHFR()
     else
         return -1;
 }
+
+void FITSImage::setGuideSquare(int x, int y)
+{
+    guide_x = x;
+    guide_y = y;
+
+    updateFrame();
+
+
+}
+
+void FITSImage::setGuideBoxSize(int size)
+{
+    guide_box = size;
+    updateFrame();
+}
+
+
+
 
 #include "fitsimage.moc"

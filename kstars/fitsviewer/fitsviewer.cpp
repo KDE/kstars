@@ -164,14 +164,16 @@ FITSViewer::FITSViewer (QWidget *parent)
 }
 
 FITSViewer::~FITSViewer()
-{}
+{
+    qDeleteAll(fitsImages);
+}
 
 int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
 {
 
     FITSTab *tab = new FITSTab();
 
-    if (tab->loadFITS(imageName) == false)
+    if (tab->loadFITS(imageName,mode) == false)
     {
         if (fitsImages.size() == 0)
         {
@@ -194,6 +196,10 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
         fitsTab->addTab(tab, i18n("Focus"));
         break;
 
+    case FITS_GUIDE:
+      fitsTab->addTab(tab, i18n("Guide"));
+      break;
+
     }
 
     connect(tab, SIGNAL(newStatus(QString,FITSBar)), this, SLOT(updateStatusBar(QString,FITSBar)));
@@ -210,9 +216,9 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
 
     fitsTab->setCurrentWidget(tab);
 
-    tab->setUID(fitsID++);
+    tab->setUID(fitsID);
 
-    return (fitsID - 1);
+    return (fitsID++);
 }
 
 bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID)
@@ -488,6 +494,15 @@ void FITSViewer::equalize()
         return;
 
     fitsImages[fitsTab->currentIndex()]->equalize();
+
+}
+
+FITSImage * FITSViewer::getImage(int fitsUID)
+{
+    if (fitsUID < 0 || fitsUID >= fitsImages.size())
+        return NULL;
+
+    return fitsImages[fitsUID]->getImage();
 
 }
 

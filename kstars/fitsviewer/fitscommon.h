@@ -17,7 +17,7 @@
 #ifndef FITSCOMMON_H
 #define FITSCOMMON_H
 
-typedef enum { FITS_NORMAL, FITS_FOCUS } FITSMode;
+typedef enum { FITS_NORMAL, FITS_FOCUS, FITS_GUIDE } FITSMode;
 typedef enum { FITS_POSITION, FITS_VALUE, FITS_RESOLUTION, FITS_ZOOM, FITS_MESSAGE } FITSBar;
 typedef enum { FITSAuto = 0 , FITSLinear, FITSLog, FITSSqrt, FITSLowPass, FITSEqualize, FITSCustom } FITSScale;
 typedef enum { ZOOM_FIT_WINDOW, ZOOM_KEEP_LEVEL, ZOOM_FULL } FITSZoom;

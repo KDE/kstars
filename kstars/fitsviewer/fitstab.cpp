@@ -73,11 +73,11 @@ void FITSTab::closeEvent(QCloseEvent *ev)
 
 }
 
-bool FITSTab::loadFITS(const KUrl *imageURL)
+bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode)
 {
     if (image == NULL)
     {
-        image = new FITSImage(this);
+        image = new FITSImage(this, mode);
         image->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         QVBoxLayout *vlayout = new QVBoxLayout();
 

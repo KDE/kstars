@@ -21,6 +21,7 @@
 
 #include "fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
+#include "indi/indiccd.h"
 
 namespace Ekos
 {

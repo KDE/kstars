@@ -33,7 +33,7 @@ class FITSTab : public QWidget
 public:
 
    FITSTab();
-   bool loadFITS(const KUrl *imageURL);
+   bool loadFITS(const KUrl *imageURL, FITSMode mode = FITS_NORMAL);
    int saveFITS(const QString &filename);
    QUndoStack *getUndoStack() { return undoStack; }
    KUrl * getCurrentURL() { return &currentURL; }
@@ -53,6 +53,7 @@ public:
    void tabPositionUpdated();
    void lowPassFilter();
    void equalize();
+   void selectGuideStar();
 
 
 public slots:
