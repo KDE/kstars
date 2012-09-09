@@ -153,8 +153,6 @@ void rguider::fill_interface( void )
     ui.checkBox_DirRA->setChecked( in_params->enabled[GUIDE_RA] );
     ui.checkBox_DirDEC->setChecked( in_params->enabled[GUIDE_DEC] );
 
-	ui.checkBox_AverageFrames->setChecked( in_params->average );
-
     ui.spinBox_AccFramesRA->setValue( (int)in_params->accum_frame_cnt[GUIDE_RA] );
     ui.spinBox_AccFramesDEC->setValue( (int)in_params->accum_frame_cnt[GUIDE_DEC] );
 
@@ -348,6 +346,7 @@ void rguider::onStartStopButtonClick()
 	{
 		drift_graph->reset_data();
         ui.pushButton_StartStop->setText( i18n("Stop") );
+        pmain_wnd->appendLogText(i18n("Autoguiding started."));
 		pmath->start();
 		is_started = true;
         pmain_wnd->capture();
@@ -356,6 +355,7 @@ void rguider::onStartStopButtonClick()
 	else
 	{
         ui.pushButton_StartStop->setText( i18n("Start") );
+        pmain_wnd->appendLogText(i18n("Autoguiding stopped."));
 		pmath->stop();
 		// stop pulses immediately
 //		if( !DBG_VERBOSITY )

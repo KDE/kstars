@@ -508,19 +508,6 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_AverageFrames">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>300</y>
-      <width>71</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>avg.frm.</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButton_StartStop">
     <property name="geometry">
      <rect>
@@ -948,7 +935,6 @@
   <tabstop>spinBox_MaxPulseDEC</tabstop>
   <tabstop>spinBox_MinPulseRA</tabstop>
   <tabstop>spinBox_MinPulseDEC</tabstop>
-  <tabstop>checkBox_AverageFrames</tabstop>
   <tabstop>pushButton_StartStop</tabstop>
  </tabstops>
  <resources/>
