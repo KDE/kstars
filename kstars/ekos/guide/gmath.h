@@ -1,5 +1,5 @@
 /*  Ekos guide tool
-    Copyright (C) 2012 Alexander Stepanenko
+    Copyright (C) 2012 Andrew Stepanenko
 
     Modified by Jasem Mutlaq <mutlaqja@ikarustech.com> for KStars.
 
