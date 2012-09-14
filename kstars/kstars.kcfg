@@ -140,8 +140,8 @@
     </entry>
     <entry name="telescopePort" type="String">
       <label>INDI Telescope port</label>
-      <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyS0)</whatsthis>
-      <default>/dev/ttyS0</default>
+      <whatsthis>The port to which the telescope is attached (e.g., /dev/ttyUSB0)</whatsthis>
+      <default>/dev/ttyUSB0</default>
     </entry>
     <entry name="videoPort" type="String">
       <label>INDI Video port</label>
