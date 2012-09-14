@@ -59,7 +59,7 @@
              <string>Delay between two consequetive focus images</string>
             </property>
             <property name="text">
-             <string>Delay</string>
+             <string>Step</string>
             </property>
            </widget>
           </item>
@@ -75,21 +75,18 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <widget class="QDoubleSpinBox" name="delayIN">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
+           <widget class="QSpinBox" name="stepIN">
             <property name="minimum">
-             <double>0.500000000000000</double>
+             <number>1</number>
             </property>
             <property name="maximum">
-             <double>30.000000000000000</double>
+             <number>10000</number>
             </property>
             <property name="singleStep">
-             <double>0.500000000000000</double>
+             <number>100</number>
             </property>
             <property name="value">
-             <double>1.000000000000000</double>
+             <number>1000</number>
             </property>
            </widget>
           </item>
@@ -116,7 +113,7 @@
           <item>
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>seconds</string>
+             <string>ticks</string>
             </property>
            </widget>
           </item>
