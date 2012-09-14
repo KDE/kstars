@@ -121,6 +121,7 @@ void Guide::addTelescope(ISD::GDInterface *newTelescope)
     {
        ST4Combo->addItem(currentTelescope->getDeviceName());
        ST4Combo->setCurrentIndex(ST4Combo->count()-1);
+       telescopeGuide = true;
     }
 
     if (ST4Combo->count() == 0)
