@@ -469,7 +469,7 @@ bool CCD::doPulse(GuideDirection dir, int msecs )
     if (dirPulse == NULL || npulse == NULL)
         return false;
 
-    dirPulse->value = msecs/1000.0;
+    dirPulse->value = msecs;
 
     clientManager->sendNewNumber(npulse);
 
