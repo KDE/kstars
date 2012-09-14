@@ -250,6 +250,10 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
 
 void FITSViewer::slotClose()
 {
+
+
+    fitsTab->disconnect();
+
     if (undoGroup->isClean())
         close();
     else
@@ -258,6 +262,9 @@ void FITSViewer::slotClose()
 
 void FITSViewer::closeEvent(QCloseEvent *ev)
 {
+
+    fitsTab->disconnect();
+
     saveUnsaved();
     if( undoGroup->isClean() )
         ev->accept();

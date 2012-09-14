@@ -129,6 +129,20 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
         for (int j=0; j <= i; j++)
             cumulativeFreq[i] += histArray[j];
 
+
+    int mean = (tab->getImage()->getAverage()-fits_min)*binWidth;
+    int mean_p_std = (tab->getImage()->getAverage()-fits_min+tab->getImage()->getStdDev()*3)*binWidth;
+
+    // Indicator of information content of an image in a typical star field.
+    JMIndex = mean_p_std - mean;
+
+    if (mean == 0)
+        JMIndex = 0;
+    // Reject diffuse images by setting JMIndex to zero.
+    else if (mean_p_std / mean < 2)
+        JMIndex =0;
+
+
     // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
     histFactor = ((double) hist_height) / ((double) findMax(hist_width));
 

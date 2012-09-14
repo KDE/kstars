@@ -61,6 +61,7 @@ public:
     void lowPassFilter();
     void equalize();
     double getBinWidth() { return binWidth; }
+    double getJMIndex() { return JMIndex; }
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getCumulativeFreq() { return cumulativeFreq; }
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> getHistogram() { return histArray; }
 
@@ -77,6 +78,7 @@ private:
     int histogram_height, histogram_width;
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray;
     QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq;
+    double JMIndex;
 
 public slots:
     void applyScale();
