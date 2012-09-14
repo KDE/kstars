@@ -22,6 +22,7 @@ void Focuser::processLight(ILightVectorProperty *lvp)
 
 void Focuser::processNumber(INumberVectorProperty *nvp)
 {
+
     DeviceDecorator::processNumber(nvp);
 }
 

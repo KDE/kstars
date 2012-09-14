@@ -186,6 +186,9 @@ void INDIListener::registerProperty(INDI::Property *prop)
 void INDIListener::removeProperty(INDI::Property *prop)
 {
 
+    if (prop == NULL)
+        return;
+
     foreach(ISD::GDInterface *gd, devices)
     {
         if (!strcmp(gd->getDeviceName(), prop->getDeviceName() ))

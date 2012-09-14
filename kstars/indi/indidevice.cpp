@@ -102,6 +102,9 @@ bool INDI_D::buildProperty(INDI::Property * prop)
 
 bool INDI_D::removeProperty(INDI::Property * prop)
 {
+    if (prop == NULL)
+        return false;
+
     QString groupName(prop->getGroupName());
 
     if (strcmp(prop->getDeviceName(), dv->getDeviceName()))
@@ -257,12 +260,12 @@ bool INDI_D::updateBLOBGUI  (IBLOB *bp)
 
 }
 
-void INDI_D::updateMessageLog(INDI::BaseDevice *idv)
+void INDI_D::updateMessageLog(INDI::BaseDevice *idv, int messageID)
 {
     if (idv != dv)
         return;
 
-    msgST_w->append(dv->lastMessage());
+    msgST_w->append(dv->messageQueue(messageID));
 }
 
 INDI_D::~INDI_D()

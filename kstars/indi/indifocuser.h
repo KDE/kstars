@@ -35,8 +35,6 @@ public:
     bool absMoveFocuser(int steps);
     bool canAbsMove();
 
-
-
 };
 
 }
