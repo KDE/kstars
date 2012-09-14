@@ -48,6 +48,8 @@ public:
     bool is_finished() { return calibrationStage == CAL_FINISH; }
     void process_calibration();
 
+    void reset();
+
 protected slots:
 	void onSquareSizeChanged( int index );
 	void onEnableAutoMode( int state );

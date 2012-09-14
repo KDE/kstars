@@ -13,6 +13,8 @@
 #include <time.h>
 #include <assert.h>
 
+#include <KMessageBox>
+
 #include "rcalibration.h"
 #include "gmath.h"
 #include "vect.h"
@@ -54,7 +56,7 @@ rcalibration::rcalibration(Ekos::Guide *parent)
     ui.checkBox_AutoMode->setChecked( true );
     ui.spinBox_DriftTime->setVisible( true );
 	ui.spinBox_DriftTime->setValue( auto_drift_time );
-    ui.progressBar->setVisible( true );
+    ui.progressBar->setVisible( false );
 	ui.spinBox_ReticleAngle->setMaximum( 360 );
 
 	for( i = 0;guide_squares[i].size != -1;i++ )
@@ -103,21 +105,17 @@ void rcalibration::fill_interface( void )
 
  	pmath->get_reticle_params( &rx, &ry, &rang );
 
- //	device_ro_params_t ro_device_params = pmain_wnd->m_driver->get_ro_params();
-
-    // FIXME: TODO
-    //ui.spinBox_DriftTime->setMaximum( (int)((double)ro_device_params.max_pulse_length / 1000 / 1.5) ); // return to start position time is 1.5 time greater than drift time, so we must fit it into max_pulse_length
-
  	ui.comboBox_SquareSize->setCurrentIndex( pmath->get_square_index() );
  	ui.spinBox_ReticleX->setValue( rx );
  	ui.spinBox_ReticleY->setValue( ry );
  	ui.spinBox_ReticleAngle->setValue( rang );
  	ui.progressBar->setValue( 0 );
 
-	int time_value = MIN(ui.spinBox_DriftTime->maximum(), calibration_params.dift_time);
-	ui.checkBox_TwoAxis->setChecked( calibration_params.two_axis );
-	ui.checkBox_AutoMode->setChecked( calibration_params.auto_mode );
-	ui.spinBox_DriftTime->setValue( time_value );
+    if (is_calibrating() && ui.checkBox_AutoMode->isChecked())
+        ui.progressBar->setVisible(true);
+    else
+        ui.progressBar->setVisible(false);
+
 }
 
 
@@ -222,6 +220,10 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 		return;
 	}
 
+    ui.progressBar->setVisible(true);
+
+    calibrationStage = CAL_START;
+
 	// automatic
 	if( ui.checkBox_TwoAxis->checkState() == Qt::Checked )
         calibrate_reticle_by_ra_dec(false);
@@ -231,6 +233,15 @@ void rcalibration::onStartReticleCalibrationButtonClick()
 
 void rcalibration::process_calibration()
 {
+    if (pmath->is_lost_star())
+    {
+        calibrationStage = CAL_ERROR;
+        ui.startCalibrationLED->setColor(alertColor);
+        KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size or reducing pulse duration."));
+        reset();
+        return;
+    }
+
     switch (calibrationType)
     {
         case CAL_NONE:
@@ -258,6 +269,15 @@ bool rcalibration::is_calibrating()
     return false;
 }
 
+void rcalibration::reset()
+{
+    is_started = false;
+    ui.pushButton_StartCalibration->setText( i18n("Start") );
+    ui.pushButton_StartCalibration->setEnabled(true);
+    ui.progressBar->setVisible(false);
+
+}
+
 void rcalibration::calibrate_reticle_manual( void )
 {
 	//----- manual mode ----
@@ -277,8 +297,6 @@ void rcalibration::calibrate_reticle_manual( void )
 		}
         ui.l_RStatus->setText( i18n("State: GUIDE_RA drifting...") );
         pmain_wnd->appendLogText(i18n("Drift scope in RA. Press stop when done."));
-		ui.checkBox_TwoAxis->setEnabled( false );
-		ui.checkBox_AutoMode->setEnabled( false );
 
 		pmath->get_star_screen_pos( &start_x1, &start_y1 );
 		
@@ -341,11 +359,7 @@ void rcalibration::calibrate_reticle_manual( void )
 			}
 		}
 
-		ui.checkBox_TwoAxis->setEnabled( true );
-		ui.checkBox_AutoMode->setEnabled( true );
-        ui.pushButton_StartCalibration->setText( i18n("Start") );
-
-		is_started = false;
+        reset();
 
 	}
 }
@@ -377,9 +391,6 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             else
                 turn_back_time = auto_drift_time*5;
             iterations = 0;
-
-            ui.checkBox_TwoAxis->setEnabled( false );
-            ui.checkBox_AutoMode->setEnabled( false );
 
             ui.progressBar->setMaximum( turn_back_time );
 
@@ -489,11 +500,12 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         // calc orientation
         if( pmath->calc_and_set_reticle( start_x1, start_y1, end_x1, end_y1 ) )
         {
+            calibrationStage = CAL_FINISH;
             fill_interface();
             ui.l_RStatus->setText( i18n("State: DONE") );
             pmain_wnd->appendLogText(i18n("Calibration completed."));
             ui.startCalibrationLED->setColor(okColor);
-            calibrationStage = CAL_FINISH;
+
         }
         else
         {
@@ -503,10 +515,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             calibrationStage = CAL_ERROR;
         }
 
-        ui.checkBox_TwoAxis->setEnabled( true );
-        ui.checkBox_AutoMode->setEnabled( true );
-        ui.pushButton_StartCalibration->setEnabled( true );
-
+        reset();
         break;
         }
 
@@ -578,11 +587,12 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     // calc orientation
     if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2 ) )
     {
+        calibrationStage = CAL_FINISH;
         fill_interface();
         ui.l_RStatus->setText( i18n("State: DONE") );
         pmain_wnd->appendLogText(i18n("Calibration completed."));
         ui.startCalibrationLED->setColor(okColor);
-        calibrationStage = CAL_FINISH;
+
     }
     else
     {
@@ -592,9 +602,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         calibrationStage = CAL_ERROR;
     }
 
-    ui.checkBox_TwoAxis->setEnabled( true );
-    ui.checkBox_AutoMode->setEnabled( true );
-    ui.pushButton_StartCalibration->setEnabled( true );
+    reset();
 
     break;
     }
