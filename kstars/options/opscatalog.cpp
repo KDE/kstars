@@ -118,7 +118,7 @@ void OpsCatalog::updateCustomCatalogs() {
          * For every unchecked item, we check if the option CatalogNames does
          * not contain the name. If it does, we remove it.
         */
-
+        if (l.count() == 0) continue;  // skip the name if no match found
         if ( l[0]->checkState()==Qt::Checked ) {
             if (!m_CheckedCatalogNames.contains(name))
                 m_CheckedCatalogNames.append(name);
