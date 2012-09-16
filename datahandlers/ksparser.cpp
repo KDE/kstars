@@ -70,7 +70,7 @@ QHash<QString, QVariant>  KSParser::ReadCSVRow() {
 
     while (file_reader_.hasMoreLines() && read_success == false) {
         next_line = file_reader_.readLine();
-        if (next_line[0] == comment_char_) continue;
+        if (next_line.mid(0,1)[0] == comment_char_) continue;
         separated = next_line.split(delimiter_);
         /*
             * 1) split along delimiter eg. comma (,)

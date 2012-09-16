@@ -139,7 +139,7 @@ class CatalogDB {
    *                        (needed for building skyobjects)
    * @return void
    **/
-  void GetAllObjects(const QString &catalog,
+  void GetAllObjects(const QString &catalog_name,
                      QList< SkyObject* > &sky_list,
                      QMap <int, QString> &names,
                      CatalogComponent *catalog_pointer);
