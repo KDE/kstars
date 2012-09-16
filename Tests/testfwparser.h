@@ -22,7 +22,7 @@
 #include "datahandlers/ksparser.h"
 #include "kstars/ksfilereader.h"
 
-// TODO(spacetime): documentation
+
 class TestFWParser: public QObject {
   Q_OBJECT
  public:
