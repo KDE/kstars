@@ -32,6 +32,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     batchMode = false;
     ISOMode   = true;
     captureMode = FITS_NORMAL;
+    captureFilter     = FITS_NONE;
     fv                = NULL;
     streamWindow      = NULL;
     focusTabID        = guideTabID = -1;
@@ -339,24 +340,25 @@ void CCD::processBLOB(IBLOB* bp)
         switch (captureMode)
         {
             case FITS_NORMAL:
-                fv->addFITS(&fileURL);
+                fv->addFITS(&fileURL, FITS_NORMAL, captureFilter);
                 break;
 
             case FITS_FOCUS:
                 if (focusTabID == -1)
-                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS);
-                else if (fv->updateFITS(&fileURL, focusTabID) == false)
-                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS);
+                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+                else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
+                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
                 break;
 
         case FITS_GUIDE:
             if (guideTabID == -1)
-                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE);
-            else if (fv->updateFITS(&fileURL, guideTabID) == false)
-                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE);
+                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
+            else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
+                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             break;
 
         }
+
 
         fv->show();
 

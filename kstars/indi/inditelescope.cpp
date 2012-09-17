@@ -159,9 +159,9 @@ bool Telescope::runCommand(int command, void *ptr)
     {
        case INDI_SEND_COORDS:
         if (ptr == NULL)
-            Slew(KStars::Instance()->map()->clickedPoint());
+            sendCoords(KStars::Instance()->map()->clickedPoint());
         else
-            Slew(static_cast<SkyPoint *> (ptr));
+            sendCoords(static_cast<SkyPoint *> (ptr));
 
         break;
 

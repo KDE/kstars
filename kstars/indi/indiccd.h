@@ -49,10 +49,12 @@ public:
 
     // Utitlity functions
     void setCaptureMode(FITSMode mode) { captureMode = mode; }
+    void setCaptureFilter(FITSScale fType) { captureFilter = fType; }
     void setISOMode(bool enable) { ISOMode = enable; }
     void setBatchMode(bool enable) { batchMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setSeqCount(int count) { seqCount = count; }
+
     FITSViewer *getViewer() { return fv;}
     int getTabID();
 
@@ -62,6 +64,7 @@ public slots:
 
 private:
     FITSMode captureMode;
+    FITSScale captureFilter;
     bool batchMode;
     bool ISOMode;
     QString		seqPrefix;
