@@ -37,6 +37,8 @@ Focus::Focus()
 
     pulseDuration = 1000;
 
+    filterType = FITS_NONE;
+
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(startFocus()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(stopFocus()));
 
@@ -46,6 +48,8 @@ Focus::Focus()
     connect(captureB, SIGNAL(clicked()), this, SLOT(capture()));
 
     connect(AutoModeR, SIGNAL(toggled(bool)), this, SLOT(toggleAutofocus(bool)));
+
+    connect( filterCombo, SIGNAL(activated(int)), this, SLOT(updateImageFilter(int)));
 
     lastFocusDirection = FOCUS_NONE;
 
@@ -179,6 +183,7 @@ void Focus::capture()
     }
 
     currentCCD->setCaptureMode(FITS_FOCUS);
+    currentCCD->setCaptureFilter(filterType);
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
@@ -420,6 +425,17 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 
         return;
     }
+
+}
+
+void Focus::updateImageFilter(int index)
+{
+    if (index == 0)
+        filterType = FITS_NONE;
+    else if (index == 1)
+        filterType = FITS_LOW_PASS;
+    else if (index == 2)
+        filterType = FITS_EQUALIZE;
 
 }
 

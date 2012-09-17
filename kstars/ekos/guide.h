@@ -56,6 +56,7 @@ public slots:
 
         void newFITS(IBLOB*);
         void newST4(int index);
+        void updateImageFilter(int index);
 
 
 private:
@@ -75,6 +76,8 @@ private:
     bool telescopeGuide;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture;
+
+    FITSScale filterType;
 
 };
 

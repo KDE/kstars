@@ -13,8 +13,6 @@
 #include <KMessageBox>
 
 #include "indi/driverinfo.h"
-
-#include "../fitsviewer/fitscommon.h"
 #include "indi/indifilter.h"
 
 #include <libindi/basedevice.h>
@@ -32,6 +30,8 @@ Capture::Capture()
     filterSlot = NULL;
     filterName = NULL;
 
+    filterType = FITS_NONE;
+
     seqLister		= new KDirLister();
     seqTimer = new QTimer(this);
     connect(startB, SIGNAL(clicked()), this, SLOT(startSequence()));
@@ -43,6 +43,7 @@ Capture::Capture()
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
     connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
+    connect( filterCombo, SIGNAL(activated(int)), this, SLOT(updateImageFilter(int)));
 
     seqExpose = 0;
     seqTotalCount = 0;
@@ -230,6 +231,7 @@ void Capture::newFITS(IBLOB *bp)
     }
     else
         seqTimer->start(seqDelay);
+
 }
 
 
@@ -241,6 +243,7 @@ void Capture::captureImage()
     seqTimer->stop();
 
     currentCCD->setCaptureMode(FITS_NORMAL);
+    currentCCD->setCaptureFilter(filterType);
     currentCCD->capture(seqExpose);
 }
 
@@ -306,6 +309,17 @@ void Capture::checkSeqBoundary(const KFileItemList & items)
     }
 
     currentCCD->setSeqCount(seqCount);
+
+}
+
+void Capture::updateImageFilter(int index)
+{
+    if (index == 0)
+        filterType = FITS_NONE;
+    else if (index == 1)
+        filterType = FITS_LOW_PASS;
+    else if (index == 2)
+        filterType = FITS_EQUALIZE;
 
 }
 

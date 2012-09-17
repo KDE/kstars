@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>635</width>
-    <height>517</height>
+    <width>616</width>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,6 +81,48 @@
      </item>
      <item>
       <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_8">
+       <property name="toolTip">
+        <string>Apply filter to image after capture to enhance it</string>
+       </property>
+       <property name="text">
+        <string>Filters:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="filterCombo">
+       <item>
+        <property name="text">
+         <string>--</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Low Pass</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Equalize</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_4">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>

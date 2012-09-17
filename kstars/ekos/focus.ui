@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>332</height>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
@@ -50,8 +50,8 @@
        <property name="title">
         <string>Autofocus Options</string>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
            <widget class="QLabel" name="label">
@@ -72,7 +72,7 @@
           </item>
          </layout>
         </item>
-        <item>
+        <item row="0" column="1">
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
            <widget class="QSpinBox" name="stepIN">
@@ -108,7 +108,7 @@
           </item>
          </layout>
         </item>
-        <item>
+        <item row="0" column="2">
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
            <widget class="QLabel" name="label_3">
@@ -125,6 +125,35 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="toolTip">
+           <string>Apply filter to image after capture to enhance it</string>
+          </property>
+          <property name="text">
+           <string>Filters:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QComboBox" name="filterCombo">
+          <item>
+           <property name="text">
+            <string>--</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Low Pass</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Equalize</string>
+           </property>
+          </item>
+         </widget>
         </item>
        </layout>
       </widget>

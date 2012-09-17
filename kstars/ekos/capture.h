@@ -19,7 +19,7 @@
 
 #include "ui_capture.h"
 
-#include "fitsviewer/fitscommon.h"
+#include "../fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
 #include "indi/indiccd.h"
 
@@ -51,6 +51,7 @@ public slots:
     void newFITS(IBLOB *bp);
     void checkCCD(int CCDNum);
     void checkFilter(int filterNum);
+    void updateImageFilter(int index);
 
     void checkSeqBoundary(const KFileItemList & items);
 
@@ -66,6 +67,8 @@ private:
     QTimer *seqTimer;
     QString		seqPrefix;
     int			seqCount;
+
+    FITSScale filterType;
 
     QList<ISD::CCD *> CCDs;
 

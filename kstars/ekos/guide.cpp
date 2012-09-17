@@ -40,6 +40,8 @@ Guide::Guide() : QWidget()
 
     tabWidget = new QTabWidget(this);
 
+    filterType = FITS_NONE;
+
     telescopeGuide = true;
 
     tabLayout->addWidget(tabWidget);
@@ -59,6 +61,8 @@ Guide::Guide() : QWidget()
     tabWidget->setTabEnabled(1, false);
 
     connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
+
+    connect( filterCombo, SIGNAL(activated(int)), this, SLOT(updateImageFilter(int)));
 
 }
 
@@ -131,7 +135,7 @@ void Guide::addTelescope(ISD::GDInterface *newTelescope)
         return;
     }
 
-    INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_PARAMETERS");
+    INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
     if (nvp)
     {
         INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
@@ -178,6 +182,7 @@ bool Guide::capture()
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     currentCCD->setCaptureMode(FITS_GUIDE);
+    currentCCD->setCaptureFilter(filterType);
 
     currentCCD->setFrameType(ccdFrame);
 
@@ -291,6 +296,17 @@ void Guide::newST4(int index)
     if (currentCCD)
         if (ST4Combo->itemText(index) == currentCCD->getDeviceName())
             telescopeGuide = false;
+}
+
+void Guide::updateImageFilter(int index)
+{
+    if (index == 0)
+        filterType = FITS_NONE;
+    else if (index == 1)
+        filterType = FITS_LOW_PASS;
+    else if (index == 2)
+        filterType = FITS_EQUALIZE;
+
 }
 
 

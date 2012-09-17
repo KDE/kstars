@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Guider</string>
+   <string>Guiding</string>
   </property>
   <widget class="QGroupBox" name="groupBox_Drift">
    <property name="geometry">
