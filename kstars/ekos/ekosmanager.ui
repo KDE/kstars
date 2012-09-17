@@ -27,7 +27,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>1. Select devices</string>
+          <string>1. Select Devices</string>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_5">
           <item>
@@ -212,7 +212,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox_3">
          <property name="title">
-          <string>3. Connect &amp;&amp; Disconnect devices</string>
+          <string>3. Connect &amp;&amp; Disconnect Devices</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_8">
           <item>
