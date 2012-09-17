@@ -168,12 +168,12 @@ FITSViewer::~FITSViewer()
     qDeleteAll(fitsImages);
 }
 
-int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
+int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
 {
 
     FITSTab *tab = new FITSTab();
 
-    if (tab->loadFITS(imageName,mode) == false)
+    if (tab->loadFITS(imageName,mode, filter) == false)
     {
         if (fitsImages.size() == 0)
         {
@@ -221,12 +221,12 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode)
     return (fitsID++);
 }
 
-bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID)
+bool FITSViewer::updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter)
 {
     foreach (FITSTab *tab, fitsImages)
     {
         if (tab->getUID() == fitsUID)
-            return tab->loadFITS(imageName);
+            return tab->loadFITS(imageName, tab->getImage()->getMode(), filter);
     }
 
     return false;
@@ -245,19 +245,23 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     if (markStars)
         updateStatusBar(i18np("%1 star detected.", "%1 stars detected.",fitsImages[currentIndex]->getImage()->getDetectedStars(),
                               fitsImages[currentIndex]->getImage()->getDetectedStars()), FITS_MESSAGE);
+    else
+        updateStatusBar("", FITS_MESSAGE);
 
 }
 
 void FITSViewer::slotClose()
 {
 
-
     fitsTab->disconnect();
 
     if (undoGroup->isClean())
         close();
     else
-        saveUnsaved();
+    {
+        for (int i=0; i < fitsImages.size(); i++)
+            saveUnsaved(i);
+    }
 }
 
 void FITSViewer::closeEvent(QCloseEvent *ev)
@@ -265,7 +269,10 @@ void FITSViewer::closeEvent(QCloseEvent *ev)
 
     fitsTab->disconnect();
 
-    saveUnsaved();
+
+   for (int i=0; i < fitsImages.size(); i++)
+         saveUnsaved(i);
+
     if( undoGroup->isClean() )
         ev->accept();
     else
@@ -347,44 +354,26 @@ void FITSViewer::headerFITS()
 
 int FITSViewer::saveUnsaved(int index)
 {
-    QUndoStack *undoStack = NULL;
     FITSTab *targetTab = NULL;
+
+    if (index < 0 || index >= fitsImages.size())
+        return -1;
+    targetTab = fitsImages[index];
+
+    if (targetTab->getUndoStack()->isClean())
+        return -1;
+
     QString caption = i18n( "Save Changes to FITS?" );
-    QString message = i18n( "The current FITS file has unsaved changes.  Would you like to save before closing it?" );
-
-    if (undoGroup->isClean())
-        return -1;
-
-    if (index != -1)
-        targetTab = fitsImages[index];
-    else
-    {
-        foreach(FITSTab *tab, fitsImages)
-        {
-            undoStack = tab->getUndoStack();
-
-            if (undoStack->isClean())
-                continue;
-
-            targetTab = tab;
-            break;
-        }
-     }
-
-    if (targetTab == NULL)
-        return -1;
-
+    QString message = i18n( "%1 has unsaved changes.  Would you like to save before closing it?" ).arg(targetTab->getCurrentURL()->fileName());
     int ans = KMessageBox::warningYesNoCancel( 0, message, caption, KStandardGuiItem::save(), KStandardGuiItem::discard() );
     if( ans == KMessageBox::Yes )
     {
-            targetTab->saveFile();
-            return 0;
+        targetTab->saveFile();
+        return 0;
     }
     else if( ans == KMessageBox::No )
     {
-       fitsImages.removeOne(targetTab);
        targetTab->getUndoStack()->clear();
-       delete targetTab;
        return 1;
     }
 
@@ -431,7 +420,7 @@ void FITSViewer::updateAction(const QString &name, bool enable)
 
 void FITSViewer::updateTabStatus(bool clean)
 {
-    if (fitsImages.empty())
+    if (fitsImages.empty() || (fitsTab->currentIndex() >= fitsImages.size()))
         return;
 
   QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
@@ -444,15 +433,12 @@ void FITSViewer::closeTab(int index)
     if (fitsImages.empty())
         return;
 
-    int status = saveUnsaved(index);
+    saveUnsaved(index);
 
     FITSTab *tab = fitsImages[index];
 
-    if (status != 1)
-    {
-        fitsImages.removeOne(tab);
-        delete tab;
-    }
+    fitsImages.removeOne(tab);
+    delete tab;
 
     if (fitsImages.empty())
     {

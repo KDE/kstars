@@ -56,9 +56,9 @@ public:
     /**Constructor. */
     FITSViewer (QWidget *parent);
     ~FITSViewer();
-    int addFITS(const KUrl *imageName, FITSMode mode=FITS_NORMAL);
+    int addFITS(const KUrl *imageName, FITSMode mode=FITS_NORMAL, FITSScale filter=FITS_NONE);
 
-    bool updateFITS(const KUrl *imageName, int fitsUID);
+    bool updateFITS(const KUrl *imageName, int fitsUID, FITSScale filter=FITS_NONE);
 
     void toggleMarkStars(bool enable) { markStars = enable; }
     bool isStarsMarked() { return markStars; }
@@ -89,7 +89,7 @@ public slots:
     void ZoomDefault();
     void updateAction(const QString &name, bool enable);
     void updateTabStatus(bool clean);
-    int saveUnsaved(int index=-1);
+    int saveUnsaved(int index);
     void closeTab(int index);
     void toggleStars();
     void lowPassFilter();

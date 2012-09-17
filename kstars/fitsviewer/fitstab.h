@@ -33,7 +33,7 @@ class FITSTab : public QWidget
 public:
 
    FITSTab();
-   bool loadFITS(const KUrl *imageURL, FITSMode mode = FITS_NORMAL);
+   bool loadFITS(const KUrl *imageURL, FITSMode mode = FITS_NORMAL, FITSScale filter=FITS_NONE);
    int saveFITS(const QString &filename);
    QUndoStack *getUndoStack() { return undoStack; }
    KUrl * getCurrentURL() { return &currentURL; }

@@ -74,7 +74,7 @@ void FITSTab::closeEvent(QCloseEvent *ev)
 
 }
 
-bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode)
+bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode, FITSScale filter)
 {
     if (image == NULL)
     {
@@ -99,6 +99,8 @@ bool FITSTab::loadFITS(const KUrl *imageURL, FITSMode mode)
         else
             histogram->updateHistogram();
 
+        image->setHistogram(histogram);
+        image->applyFilter(filter);
 
         if (histogram->getJMIndex() > JM_INDEX_LIMIT)
         {

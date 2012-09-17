@@ -69,7 +69,7 @@ void FITSLabel::mouseMoveEvent(QMouseEvent *e)
     double x,y, width, height;
     float *buffer = image->getImageBuffer();
 
-    image->getFITSSize(&width, &height);
+    image->getSize(&width, &height);
 
     if (buffer == NULL)
         return;
@@ -97,7 +97,7 @@ void FITSLabel::mousePressEvent(QMouseEvent *e)
 {
     double x,y, width, height;
 
-    image->getFITSSize(&width, &height);
+    image->getSize(&width, &height);
 
     x = round(e->x() / (image->getCurrentZoom() / ZOOM_DEFAULT));
     y = round(e->y() / (image->getCurrentZoom() / ZOOM_DEFAULT));
@@ -1013,6 +1013,115 @@ void FITSImage::setGuideBoxSize(int size)
 {
     guide_box = size;
     updateFrame();
+}
+
+void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
+{
+    if (type == FITS_NONE || histogram == NULL)
+        return;
+
+    double coeff=0;
+    float val=0,bufferVal =0;
+
+    if (image == NULL)
+        image = image_buffer;
+
+    int width = stats.dim[0];
+    int height = stats.dim[1];
+
+    if (min == -1)
+        min = stats.min;
+    if (max == -1)
+        max = stats.max;
+
+    switch (type)
+    {
+    case FITS_AUTO:
+    case FITS_LINEAR:
+        for (int i=0; i < height; i++)
+            for (int j=0; j < width; j++)
+            {
+                bufferVal = image[i * width + j];
+                if (bufferVal < min) bufferVal = min;
+                else if (bufferVal > max) bufferVal = max;
+                image[i * width + j] = bufferVal;
+
+            }
+        break;
+
+    case FITS_LOG:
+        coeff = max / log(1 + max);
+
+        for (int i=0; i < height; i++)
+            for (int j=0; j < width; j++)
+            {
+                bufferVal = image[i * width + j];
+                if (bufferVal < min) bufferVal = min;
+                else if (bufferVal > max) bufferVal = max;
+                val = (coeff * log(1 + bufferVal));
+                if (val < min) val = min;
+                else if (val > max) val = max;
+                image[i * width + j] = val;
+            }
+        break;
+
+    case FITS_SQRT:
+        coeff = max / sqrt(max);
+
+        for (int i=0; i < height; i++)
+            for (int j=0; j < width; j++)
+            {
+                bufferVal = (int) image[i * width + j];
+                if (bufferVal < min) bufferVal = min;
+                else if (bufferVal > max) bufferVal = max;
+                val = (int) (coeff * sqrt(bufferVal));
+                image[i * width + j] = val;
+            }
+        break;
+
+     case FITS_LOW_PASS:
+     {
+        max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
+
+          for (int i=0; i < height; i++)
+             for (int j=0; j < width; j++)
+             {
+                bufferVal = image[i * width + j];
+                if (bufferVal < min) bufferVal = min;
+                else if (bufferVal > max) bufferVal = max;
+                image[i * width + j] = bufferVal;
+              }
+        }
+        break;
+
+     case FITS_EQUALIZE:
+     {
+        QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq = histogram->getCumulativeFreq();
+        coeff = 255.0 / (height * width);
+
+        for (int i=0; i < height; i++)
+            for (int j=0; j < width; j++)
+            {
+                bufferVal = (int) (image[i * width + j] - min) * histogram->getBinWidth();
+
+                if (bufferVal >= cumulativeFreq.size())
+                    bufferVal = cumulativeFreq.size()-1;
+
+                val = (int) (coeff * cumulativeFreq[bufferVal]);
+
+                image[i * width + j] = val;
+            }
+     }
+     break;
+
+
+    default:
+        return;
+        break;
+    }
+
+    calculateStats(true);
+    rescale(ZOOM_KEEP_LEVEL);
 }
 
 

@@ -95,8 +95,8 @@ public:
     // Access functions
     double getCurrentZoom() { return currentZoom; }
     float * getImageBuffer() { return image_buffer; }
-    void getFITSSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
-    void getFITSMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
+    void getSize(double *w, double *h) { *w = stats.dim[0]; *h = stats.dim[1]; }
+    void getMinMax(double *min, double *max) { *min = stats.min; *max = stats.max; }
     int getDetectedStars() { return starCenters.count(); }
     QList<Edge*> getStarCenters() { return starCenters;}
     long getWidth() { return stats.dim[0]; }
@@ -104,12 +104,17 @@ public:
     double getStdDev() { return stats.stddev; }
     double getAverage() { return stats.average; }
     QImage * getDisplayImage() { return displayImage; }
+    FITSMode getMode() { return mode;}
+
     int getFITSRecord(QString &recordList, int &nkeys);
 
     // Set functions
     void setFITSMinMax(double newMin,  double newMax);
 
     void setGuideBoxSize(int size);
+
+    void setHistogram(FITSHistogram *inHistogram) { histogram = inHistogram; }
+    void applyFilter(FITSScale type, float *image=NULL, int min=-1, int max=-1);
 
 
     // Overlay
@@ -156,6 +161,7 @@ private:
     fitsfile* fptr;
     int data_type;                     /* FITS data type when opened */
     QImage  *displayImage;             /* FITS image that is displayed in the GUI */
+    FITSHistogram *histogram;
     int guide_x, guide_y, guide_box;
 
     FITSMode mode;
