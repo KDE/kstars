@@ -226,7 +226,6 @@ void telescopeWizardProcess::establishLink()
         return;
 
     managedDevice.append(dv);
-
     connect(INDIListener::Instance(), SIGNAL(newDevice(ISD::GDInterface*)), this, SLOT(processTelescope(ISD::GDInterface*)));
 
     if (ui->portIn->text().isEmpty())
@@ -252,25 +251,27 @@ void telescopeWizardProcess::establishLink()
     progressScan->progressBar()->setMaximum(portList.count());
     progressScan->show();
 
-    if (DriverManager::Instance()->startDevices(managedDevice) == false)
+    if (dv->getClientState() == false)
     {
-        Reset();
-        close();
-        return;
+        if (DriverManager::Instance()->startDevices(managedDevice) == false)
+        {
+            Reset();
+            close();
+            return;
+        }
     }
+    else
+       processTelescope(INDIListener::Instance()->getDevice(dv->getName()));
+
 
 }
 
 void telescopeWizardProcess::processTelescope(ISD::GDInterface *telescope)
 {    
+    if (telescope == NULL)
+        return;
+
     scopeDevice = telescope;
-
-	//kDebug () << "New telescope discovered, processing port";
-
-    /*indiDev = indimenu->findDeviceByLabel(currentDevice);
-    if (!indiDev) return;
-
-    disconnect(this, SLOT(processPort()));*/
 
     // port empty, start autoscan
     if (ui->portIn->text().isEmpty())
@@ -284,6 +285,7 @@ void telescopeWizardProcess::processTelescope(ISD::GDInterface *telescope)
     else
     {
         QString scopePort = ui->portIn->text();
+
         scopeDevice->runCommand(INDI_SET_PORT, &scopePort);
 
         scopeDevice->runCommand(INDI_CONNECT);
@@ -370,9 +372,6 @@ void telescopeWizardProcess::scanPorts()
     scopeDevice->runCommand(INDI_SET_PORT, &scopePort);
 
     scopeDevice->runCommand(INDI_CONNECT);
-
-    /*if (indiDev->msgST_w)
-        indiDev->msgST_w->clear();*/
 
 }
 
