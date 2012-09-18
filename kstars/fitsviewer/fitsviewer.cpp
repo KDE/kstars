@@ -240,7 +240,9 @@ void FITSViewer::tabFocusUpdated(int currentIndex)
     fitsImages[currentIndex]->tabPositionUpdated();
 
     fitsImages[currentIndex]->getImage()->toggleStars(markStars);
-    fitsImages[currentIndex]->getImage()->updateFrame();
+
+    if (isVisible())
+        fitsImages[currentIndex]->getImage()->updateFrame();
 
     if (markStars)
         updateStatusBar(i18np("%1 star detected.", "%1 stars detected.",fitsImages[currentIndex]->getImage()->getDetectedStars(),
