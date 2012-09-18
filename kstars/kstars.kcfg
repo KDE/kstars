@@ -1166,5 +1166,22 @@
       <default>10.0</default>
     </entry>
   </group>
+  <group name="Ekos">
+    <entry name="TelescopeDriver" type="String">
+      <label>Default telescope driver</label>
+    </entry>
+    <entry name="CCDDriver" type="String">
+      <label>Default CCD driver</label>
+    </entry>
+    <entry name="GuiderDriver" type="String">
+      <label>Default Guider driver</label>
+    </entry>
+    <entry name="FilterDriver" type="String">
+      <label>Default Filter driver</label>
+    </entry>
+    <entry name="FocuserDriver" type="String">
+      <label>Default Focuser driver</label>
+    </entry>
+  </group>
 
 </kcfg>
