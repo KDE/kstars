@@ -54,6 +54,8 @@ public slots:
 
  private:
 
+    void loadDefaultDrivers();
+    void saveDefaultDrivers();
     void reset();
     bool useGuiderFromCCD;
     bool useFilterFromCCD;

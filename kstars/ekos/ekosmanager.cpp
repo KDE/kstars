@@ -9,8 +9,8 @@
 
 #include <libindi/basedevice.h>
 
+#include "Options.h"
 #include "ekosmanager.h"
-//#include "capture.h"
 #include "kstars.h"
 
 #include <KMessageBox>
@@ -87,6 +87,8 @@ EkosManager::EkosManager()
         driversList[dv->getTreeLabel()] = dv;
     }
 
+    loadDefaultDrivers();
+
     connect(toolsWidget, SIGNAL(currentChanged(int)), this, SLOT(tabChanged(int)));
 
     toolsWidget->setTabEnabled(1, false);
@@ -124,6 +126,86 @@ void EkosManager::reset()
     captureProcess = NULL;
     focusProcess   = NULL;
     guideProcess   = NULL;
+}
+
+void EkosManager::loadDefaultDrivers()
+{
+    QString TelescopeDriver = Options::telescopeDriver();
+    QString CCDDriver = Options::cCDDriver();
+    QString GuiderDriver = Options::guiderDriver();
+    QString FocuserDriver = Options::focuserDriver();
+    QString FilterDriver = Options::filterDriver();
+
+    if (TelescopeDriver.isEmpty() == false)
+    {
+        for (int i=0; i < telescopeCombo->count(); i++)
+            if (telescopeCombo->itemText(i) == TelescopeDriver)
+            {
+                telescopeCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+
+    if (CCDDriver.isEmpty() == false)
+    {
+        for (int i=0; i < ccdCombo->count(); i++)
+            if (ccdCombo->itemText(i) == CCDDriver)
+            {
+                ccdCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+
+    if (GuiderDriver.isEmpty() == false)
+    {
+        for (int i=0; i < guiderCombo->count(); i++)
+            if (guiderCombo->itemText(i) == GuiderDriver)
+            {
+                guiderCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+
+    if (FilterDriver.isEmpty() == false)
+    {
+        for (int i=0; i < filterCombo->count(); i++)
+            if (filterCombo->itemText(i) == FilterDriver)
+            {
+                filterCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+
+    if (FocuserDriver.isEmpty() == false)
+    {
+        for (int i=0; i < focuserCombo->count(); i++)
+            if (focuserCombo->itemText(i) == FocuserDriver)
+            {
+                focuserCombo->setCurrentIndex(i);
+                break;
+            }
+    }
+
+}
+
+void EkosManager::saveDefaultDrivers()
+{
+
+    if (telescopeCombo->currentText() != "--")
+        Options::setTelescopeDriver(telescopeCombo->currentText());
+
+    if (ccdCombo->currentText() != "--")
+        Options::setCCDDriver(ccdCombo->currentText());
+
+    if (guiderCombo->currentText() != "--")
+        Options::setGuiderDriver(guiderCombo->currentText());
+
+    if (filterCombo->currentText() != "--")
+        Options::setFilterDriver(filterCombo->currentText());
+
+    if (focuserCombo->currentText() != "--")
+        Options::setFocuserDriver(focuserCombo->currentText());
+
 }
 
 void EkosManager::processINDI()
@@ -176,6 +258,8 @@ void EkosManager::processINDI()
     if (managedDevices.empty()) return;
 
     nDevices = managedDevices.count();
+
+    saveDefaultDrivers();
 
     if (DriverManager::Instance()->startDevices(managedDevices) == false)
         return;
