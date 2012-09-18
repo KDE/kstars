@@ -67,6 +67,7 @@ public slots:
 
 private:
 
+    void select_auto_star(FITSImage *image);
 	void fill_interface( void );
 	void calibrate_reticle_manual( void );
     void calibrate_reticle_by_ra_dec( bool ra_only ); // 1 or 2-axis calibration

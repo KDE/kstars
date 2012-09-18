@@ -435,7 +435,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             if (iterations == auto_drift_time)
             {
                 pmath->get_star_screen_pos( &end_x1, &end_y1 );
-                qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1 << endl;
+                //qDebug() << "End X1 " << end_x1 << " End Y1 " << end_y1 << endl;
 
                 phi = pmath->calc_phi( start_x1, start_y1, end_x1, end_y1 );
                 ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
@@ -665,6 +665,8 @@ void rcalibration::set_image(FITSImage *image)
 
             set_video_params(image->getWidth(), image->getHeight());
 
+            select_auto_star(image);
+
             connect(image, SIGNAL(guideStarSelected(int,int)), this, SLOT(guideStarSelected(int, int)));
 
          }
@@ -673,5 +675,26 @@ void rcalibration::set_image(FITSImage *image)
         default:
             break;
     }
+}
+
+void rcalibration::select_auto_star(FITSImage *image)
+{
+    int maxVal=-1;
+    Edge *guideStar = NULL;
+
+
+    foreach(Edge *center, image->getStarCenters())
+    {
+        if (center->val > maxVal)
+        {
+            guideStar = center;
+            maxVal = center->val;
+
+        }
+
+    }
+
+    if (guideStar != NULL)
+        image->setGuideSquare(guideStar->x, guideStar->y);
 }
 
