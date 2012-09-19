@@ -144,7 +144,7 @@ bool Telescope::doPulse(GuideDirection dir, int msecs )
 
     clientManager->sendNewNumber(npulse);
 
-    qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
+    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
 
     return true;
 
