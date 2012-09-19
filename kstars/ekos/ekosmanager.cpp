@@ -136,7 +136,7 @@ void EkosManager::loadDefaultDrivers()
     QString FocuserDriver = Options::focuserDriver();
     QString FilterDriver = Options::filterDriver();
 
-    if (TelescopeDriver.isEmpty() == false)
+    if (TelescopeDriver.isEmpty() == false && TelescopeDriver != "--")
     {
         for (int i=0; i < telescopeCombo->count(); i++)
             if (telescopeCombo->itemText(i) == TelescopeDriver)
@@ -146,7 +146,7 @@ void EkosManager::loadDefaultDrivers()
             }
     }
 
-    if (CCDDriver.isEmpty() == false)
+    if (CCDDriver.isEmpty() == false && CCDDriver != "--")
     {
         for (int i=0; i < ccdCombo->count(); i++)
             if (ccdCombo->itemText(i) == CCDDriver)
@@ -156,7 +156,7 @@ void EkosManager::loadDefaultDrivers()
             }
     }
 
-    if (GuiderDriver.isEmpty() == false)
+    if (GuiderDriver.isEmpty() == false && GuiderDriver != "--")
     {
         for (int i=0; i < guiderCombo->count(); i++)
             if (guiderCombo->itemText(i) == GuiderDriver)
@@ -166,7 +166,7 @@ void EkosManager::loadDefaultDrivers()
             }
     }
 
-    if (FilterDriver.isEmpty() == false)
+    if (FilterDriver.isEmpty() == false && FilterDriver != "--")
     {
         for (int i=0; i < filterCombo->count(); i++)
             if (filterCombo->itemText(i) == FilterDriver)
@@ -176,7 +176,7 @@ void EkosManager::loadDefaultDrivers()
             }
     }
 
-    if (FocuserDriver.isEmpty() == false)
+    if (FocuserDriver.isEmpty() == false && FocuserDriver != "--")
     {
         for (int i=0; i < focuserCombo->count(); i++)
             if (focuserCombo->itemText(i) == FocuserDriver)
@@ -191,20 +191,15 @@ void EkosManager::loadDefaultDrivers()
 void EkosManager::saveDefaultDrivers()
 {
 
-    if (telescopeCombo->currentText() != "--")
-        Options::setTelescopeDriver(telescopeCombo->currentText());
+     Options::setTelescopeDriver(telescopeCombo->currentText());
 
-    if (ccdCombo->currentText() != "--")
-        Options::setCCDDriver(ccdCombo->currentText());
+    Options::setCCDDriver(ccdCombo->currentText());
 
-    if (guiderCombo->currentText() != "--")
-        Options::setGuiderDriver(guiderCombo->currentText());
+    Options::setGuiderDriver(guiderCombo->currentText());
 
-    if (filterCombo->currentText() != "--")
-        Options::setFilterDriver(filterCombo->currentText());
+    Options::setFilterDriver(filterCombo->currentText());
 
-    if (focuserCombo->currentText() != "--")
-        Options::setFocuserDriver(focuserCombo->currentText());
+   Options::setFocuserDriver(focuserCombo->currentText());
 
 }
 
@@ -400,7 +395,7 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
-   // qDebug() << "Received set CCD device " << endl;
+    //qDebug() << "Received set CCD device " << endl;
 
     //if (useGuiderFromCCD == false && guider_di)
     if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
