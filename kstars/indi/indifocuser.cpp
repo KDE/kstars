@@ -97,7 +97,7 @@ bool Focuser::moveFocuser(int secs)
 
 bool Focuser::absMoveFocuser(int steps)
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_POSITION");
+    INumberVectorProperty *focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
     if (focusProp == NULL)
         return false;
 
@@ -110,7 +110,7 @@ bool Focuser::absMoveFocuser(int steps)
 
 bool Focuser::canAbsMove()
 {
-    INumberVectorProperty *focusProp = baseDevice->getNumber("FOCUS_POSITION");
+    INumberVectorProperty *focusProp = baseDevice->getNumber("ABS_FOCUS_POSITION");
     if (focusProp == NULL)
         return false;
     else
