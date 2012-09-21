@@ -76,6 +76,8 @@ protected:
     QList<INDI::Property *> properties;
 
 public slots:
+    virtual bool Connect()=0;
+    virtual bool Disconnect()=0;
     virtual bool runCommand(int command, void *ptr=NULL)=0;
     virtual void setProperty(QObject *)=0;
 
@@ -119,6 +121,8 @@ public:
     virtual INDI::BaseDevice* getBaseDevice() { return baseDevice;}
 
 public slots:
+    virtual bool Connect();
+    virtual bool Disconnect();
     virtual bool runCommand(int command, void *ptr=NULL);
     virtual void setProperty(QObject *);
 
@@ -166,6 +170,8 @@ public:
 
 
 public slots:
+    virtual bool Connect();
+    virtual bool Disconnect();
     virtual bool runCommand(int command, void *ptr=NULL);
     virtual void setProperty(QObject *);
 

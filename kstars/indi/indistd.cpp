@@ -397,6 +397,16 @@ void GenericDevice::updateLocation()
     clientManager->sendNewNumber(nvp);
 }
 
+bool GenericDevice::Connect()
+{
+    return runCommand(INDI_CONNECT, NULL);
+}
+
+bool GenericDevice::Disconnect()
+{
+    return runCommand(INDI_DISCONNECT, NULL);
+}
+
 bool GenericDevice::runCommand(int command, void *ptr)
 {
     switch (command)
@@ -580,6 +590,16 @@ QList<INDI::Property *> DeviceDecorator::getProperties()
 bool DeviceDecorator::isConnected()
 {
     return interfacePtr->isConnected();
+}
+
+bool DeviceDecorator::Connect()
+{
+    return interfacePtr->Connect();
+}
+
+bool DeviceDecorator::Disconnect()
+{
+    return interfacePtr->Disconnect();
 }
 
 

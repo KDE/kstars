@@ -56,7 +56,8 @@ public:
     void setSeqCount(int count) { seqCount = count; }
 
     FITSViewer *getViewer() { return fv;}
-    int getTabID();
+    int getGuideTabID() { return guideTabID; }
+    int getFocusTabID() { return focusTabID; }
 
 public slots:
     void FITSViewerDestroyed();

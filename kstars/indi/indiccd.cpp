@@ -369,18 +369,6 @@ void CCD::processBLOB(IBLOB* bp)
 
 }
 
-int CCD::getTabID()
-{
-
-    if (captureMode == FITS_FOCUS)
-        return focusTabID;
-    else if (captureMode == FITS_GUIDE)
-        return guideTabID;
-
-    return -1;
-
-}
-
 void CCD::FITSViewerDestroyed()
 {
     fv = NULL;
