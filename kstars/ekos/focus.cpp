@@ -274,7 +274,7 @@ void Focus::newFITS(IBLOB *bp)
 
     foreach(FITSTab *tab, fv->getImages())
     {
-        if (tab->getUID() == currentCCD->getTabID())
+        if (tab->getUID() == currentCCD->getFocusTabID())
         {
             currentHFR = tab->getImage()->getHFR();
             //qDebug() << "Focus HFR is " << tab->getImage()->getHFR() << endl;

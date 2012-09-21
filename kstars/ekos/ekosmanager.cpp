@@ -278,23 +278,23 @@ void EkosManager::connectDevices()
     if (scope)
     {
         connect(scope, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
-         scope->runCommand(INDI_CONNECT);
+         scope->Connect();
     }
 
     if (ccd)
-        ccd->runCommand(INDI_CONNECT);
-
-    if (guider && guider != ccd)
     {
-        connect(guider, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
-        guider->runCommand(INDI_CONNECT);
+        ccd->Connect();
+        connect(ccd, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
     }
 
+    if (guider && guider != ccd)
+        guider->Connect();
+
     if (filter && filter != ccd)
-        filter->runCommand(INDI_CONNECT);
+        filter->Connect();
 
     if (focuser)
-        focuser->runCommand(INDI_CONNECT);
+        focuser->Connect();
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
@@ -304,20 +304,20 @@ void EkosManager::disconnectDevices()
 {
 
     if (scope)
-         scope->runCommand(INDI_DISCONNECT);
+         scope->Disconnect();
 
     if (ccd)
-        ccd->runCommand(INDI_DISCONNECT);
+        ccd->Disconnect();
 
     if (guider && guider != ccd)    
-        guider->runCommand(INDI_DISCONNECT);
+        guider->Disconnect();
 
 
     if (filter && filter != ccd)
-        filter->runCommand(INDI_DISCONNECT);
+        filter->Disconnect();
 
     if (focuser)
-        focuser->runCommand(INDI_DISCONNECT);
+        focuser->Disconnect();
 
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
@@ -397,14 +397,16 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
     //qDebug() << "Received set CCD device " << endl;
 
-    //if (useGuiderFromCCD == false && guider_di)
     if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
         guider = ccdDevice;
     else
     {
         ccd = ccdDevice;
         if (useGuiderFromCCD == true)
+        {
+            qDebug() << "Guider is now CCD" << endl;
             guider = ccd;
+        }
     }
 
     if (captureProcess == NULL)
@@ -529,16 +531,21 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
 
-    // Delay guiderProcess contruction until we receive CCD_INFO property
-    if (guider != NULL && scope != NULL && guideProcess == NULL)
-    {
-        if (!strcmp(guider->getDeviceName(), prop->getDeviceName()) && !strcmp(prop->getName(), "CCD_INFO"))
-        {
-            guideProcess = new Ekos::Guide();
-            toolsWidget->addTab( guideProcess, i18n("Guide"));
+    qDebug() << prop->getName();
 
-            guideProcess->addCCD(guider);
-            guideProcess->addTelescope(scope);
+    if (!strcmp(prop->getName(), "CCD_INFO"))
+    {
+        // Delay guiderProcess contruction until we receive CCD_INFO property
+        if (guider != NULL && scope != NULL && guideProcess == NULL)
+        {
+            if (!strcmp(guider->getDeviceName(), prop->getDeviceName()))
+            {
+                guideProcess = new Ekos::Guide();
+                toolsWidget->addTab( guideProcess, i18n("Guide"));
+
+                guideProcess->addCCD(guider);
+                guideProcess->addTelescope(scope);
+            }
         }
     }
 

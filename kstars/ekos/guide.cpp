@@ -201,7 +201,7 @@ void Guide::newFITS(IBLOB *bp)
 
     currentCCD->disconnect(this);
 
-    FITSImage *fitsImage = fv->getImage(currentCCD->getTabID());
+    FITSImage *fitsImage = fv->getImage(currentCCD->getGuideTabID());
 
     pmath->set_image(fitsImage);
 
