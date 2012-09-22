@@ -74,6 +74,7 @@ public:
     int scanned;
     int width;
     double HFR;
+    double sum;
 };
 
 class FITSImage : public QScrollArea
