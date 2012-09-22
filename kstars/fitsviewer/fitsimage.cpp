@@ -1081,7 +1081,11 @@ void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
 
      case FITS_LOW_PASS:
      {
-        max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
+        min = stats.average - stats.stddev *3;
+        if (min < 0)
+            min =0;
+        //max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;
+        max = stats.average + stats.stddev * 3;
 
           for (int i=0; i < height; i++)
              for (int j=0; j < width; j++)
