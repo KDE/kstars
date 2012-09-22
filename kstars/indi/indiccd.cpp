@@ -372,6 +372,9 @@ void CCD::processBLOB(IBLOB* bp)
 void CCD::FITSViewerDestroyed()
 {
     fv = NULL;
+    focusTabID = -1;
+    guideTabID = -1;
+
 }
 
 void CCD::StreamWindowDestroyed()
