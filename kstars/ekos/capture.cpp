@@ -54,7 +54,7 @@ Capture::Capture()
 
 }
 
-void Capture::addCCD(ISD::GDInterface *newCCD)
+void Capture::setCCD(ISD::GDInterface *newCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 

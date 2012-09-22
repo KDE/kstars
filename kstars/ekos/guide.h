@@ -43,8 +43,8 @@ public:
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
 
-    void addCCD(ISD::GDInterface *newCCD);
-    void addTelescope(ISD::GDInterface *newTelescope);
+    void setCCD(ISD::GDInterface *newCCD);
+    void setTelescope(ISD::GDInterface *newTelescope);
 
     void appendLogText(const QString &);
     bool capture();

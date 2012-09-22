@@ -403,10 +403,7 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     {
         ccd = ccdDevice;
         if (useGuiderFromCCD == true)
-        {
-            qDebug() << "Guider is now CCD" << endl;
             guider = ccd;
-        }
     }
 
     if (captureProcess == NULL)
@@ -415,10 +412,10 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
          toolsWidget->addTab( captureProcess, i18n("CCD"));
     }
 
-    captureProcess->addCCD(ccdDevice);
+    captureProcess->setCCD(ccdDevice);
 
     if (focusProcess != NULL)
-        focusProcess->addCCD(ccdDevice);
+        focusProcess->setCCD(ccdDevice);
 
 }
 
@@ -450,10 +447,10 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
          toolsWidget->addTab( focusProcess, i18n("Focus"));
     }
 
-    focusProcess->addFocuser(focuser);
+    focusProcess->setFocuser(focuser);
 
     if (ccd != NULL)
-        focusProcess->addCCD(ccd);
+        focusProcess->setCCD(ccd);
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
@@ -531,8 +528,6 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
 
-    qDebug() << prop->getName();
-
     if (!strcmp(prop->getName(), "CCD_INFO"))
     {
         // Delay guiderProcess contruction until we receive CCD_INFO property
@@ -543,8 +538,8 @@ void EkosManager::processNewProperty(INDI::Property* prop)
                 guideProcess = new Ekos::Guide();
                 toolsWidget->addTab( guideProcess, i18n("Guide"));
 
-                guideProcess->addCCD(guider);
-                guideProcess->addTelescope(scope);
+                guideProcess->setCCD(guider);
+                guideProcess->setTelescope(scope);
             }
         }
     }

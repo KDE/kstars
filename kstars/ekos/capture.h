@@ -36,7 +36,7 @@ public:
     Capture();
 
 
-    void addCCD(ISD::GDInterface *newCCD);
+    void setCCD(ISD::GDInterface *newCCD);
     void addFilter(ISD::GDInterface *newFilter);
 
     /* Capture */

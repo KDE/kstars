@@ -79,7 +79,7 @@ void Focus::toggleAutofocus(bool enable)
     }
 }
 
-void Focus::addFocuser(ISD::GDInterface *newFocuser)
+void Focus::setFocuser(ISD::GDInterface *newFocuser)
 {
     currentFocuser = static_cast<ISD::Focuser *> (newFocuser);
 
@@ -94,10 +94,9 @@ void Focus::addFocuser(ISD::GDInterface *newFocuser)
 
 }
 
-void Focus::addCCD(ISD::GDInterface *newCCD)
+void Focus::setCCD(ISD::GDInterface *newCCD)
 {
-    if (currentCCD == NULL)
-        currentCCD = (ISD::CCD *) newCCD;
+    currentCCD = (ISD::CCD *) newCCD;
 }
 
 void Focus::getAbsFocusPosition()

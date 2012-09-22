@@ -73,7 +73,7 @@ Guide::~Guide()
     delete pmath;
 }
 
-void Guide::addCCD(ISD::GDInterface *newCCD)
+void Guide::setCCD(ISD::GDInterface *newCCD)
 {
     currentCCD = (ISD::CCD *) newCCD;
 
@@ -117,7 +117,7 @@ void Guide::addCCD(ISD::GDInterface *newCCD)
     }
 }
 
-void Guide::addTelescope(ISD::GDInterface *newTelescope)
+void Guide::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = (ISD::Telescope*) newTelescope;
 
