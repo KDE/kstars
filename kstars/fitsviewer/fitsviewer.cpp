@@ -425,6 +425,9 @@ void FITSViewer::updateTabStatus(bool clean)
     if (fitsImages.empty() || (fitsTab->currentIndex() >= fitsImages.size()))
         return;
 
+  if (fitsImages[fitsTab->currentIndex()]->getImage()->getMode() != FITS_NORMAL)
+      return;
+
   QString tabText = fitsImages[fitsTab->currentIndex()]->getCurrentURL()->fileName();
 
   fitsTab->setTabText(fitsTab->currentIndex(), clean ? tabText : tabText + "*");
@@ -435,9 +438,12 @@ void FITSViewer::closeTab(int index)
     if (fitsImages.empty())
         return;
 
-    saveUnsaved(index);
-
     FITSTab *tab = fitsImages[index];
+
+    if (tab->getImage()->getMode() != FITS_NORMAL)
+        return;
+
+    saveUnsaved(index);
 
     fitsImages.removeOne(tab);
     delete tab;
