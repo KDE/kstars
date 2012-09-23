@@ -51,8 +51,6 @@ public:
 
    void saveUnsaved();
    void tabPositionUpdated();
-   void lowPassFilter();
-   void equalize();
    void selectGuideStar();
 
 

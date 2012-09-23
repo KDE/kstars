@@ -49,8 +49,6 @@ public slots:
 
     void toggleAutofocus(bool enable);
 
-    void updateImageFilter(int index);
-
     void newFITS(IBLOB *bp);
     void processFocusProperties(INumberVectorProperty *nvp);
 private:
@@ -73,8 +71,6 @@ private:
     double absCurrentPos;
     double pulseStep;
     double absMotionMax, absMotionMin;
-
-    FITSScale filterType;
 
 };
 

@@ -118,6 +118,8 @@ public:
     void applyFilter(FITSScale type, float *image=NULL, int min=-1, int max=-1);
 
 
+
+
     // Overlay
     void drawOverlay(QPainter *);
     void drawStarCentroid(QPainter *);
@@ -164,6 +166,8 @@ private:
     QImage  *displayImage;             /* FITS image that is displayed in the GUI */
     FITSHistogram *histogram;
     int guide_x, guide_y, guide_box;
+
+
 
     FITSMode mode;
 

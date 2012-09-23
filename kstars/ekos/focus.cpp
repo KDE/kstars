@@ -37,8 +37,6 @@ Focus::Focus()
 
     pulseDuration = 1000;
 
-    filterType = FITS_NONE;
-
     connect(startFocusB, SIGNAL(clicked()), this, SLOT(startFocus()));
     connect(stopFocusB, SIGNAL(clicked()), this, SLOT(stopFocus()));
 
@@ -49,14 +47,15 @@ Focus::Focus()
 
     connect(AutoModeR, SIGNAL(toggled(bool)), this, SLOT(toggleAutofocus(bool)));
 
-    connect( filterCombo, SIGNAL(activated(int)), this, SLOT(updateImageFilter(int)));
-
     lastFocusDirection = FOCUS_NONE;
 
     startFocusB->setEnabled(false);
     stopFocusB->setEnabled(false);
 
     focusProgress->setText(i18n("Idle."));
+
+    foreach(QString filter, FITSViewer::filterTypes)
+        filterCombo->addItem(filter);
 
 }
 
@@ -177,7 +176,7 @@ void Focus::capture()
 
 
     currentCCD->setCaptureMode(FITS_FOCUS);
-    currentCCD->setCaptureFilter(filterType);
+    currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
@@ -415,16 +414,6 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
 
 }
 
-void Focus::updateImageFilter(int index)
-{
-    if (index == 0)
-        filterType = FITS_NONE;
-    else if (index == 1)
-        filterType = FITS_LOW_PASS;
-    else if (index == 2)
-        filterType = FITS_EQUALIZE;
-
-}
 
 }
 

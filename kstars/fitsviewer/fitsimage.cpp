@@ -1082,9 +1082,9 @@ void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
             }
         break;
 
-     case FITS_LOW_PASS:
+     case FITS_AUTO_STRETCH:
      {
-        min = stats.average - stats.stddev *3;
+        min = stats.average - stats.stddev;
         if (min < 0)
             min =0;
         //max = histogram->getMeanStdDev()*3 / histogram->getBinWidth() + min;

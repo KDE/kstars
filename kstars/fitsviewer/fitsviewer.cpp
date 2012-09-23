@@ -52,6 +52,7 @@
 #include <QApplication>
 #include <QUndoStack>
 #include <QUndoGroup>
+#include <QSignalMapper>
 
 #include <math.h>
 #ifndef __MINGW32__
@@ -69,6 +70,8 @@
 #include "fitshistogram.h"
 #include "ksutils.h"
 #include "Options.h"
+
+QStringList FITSViewer::filterTypes = QStringList() << "Auto Stretch" << "Equalize";
 
 FITSViewer::FITSViewer (QWidget *parent)
         : KXmlGuiWindow (parent)
@@ -145,13 +148,30 @@ FITSViewer::FITSViewer (QWidget *parent)
     action->setText(i18n( "Mark Stars"));
     connect(action, SIGNAL(triggered(bool)), SLOT(toggleStars()));
 
-    action = actionCollection()->addAction("low_pass_filter");
+    QSignalMapper *filterMapper = new QSignalMapper(this);
+
+    int filterCounter=1;
+
+    foreach(QString filter, FITSViewer::filterTypes)
+    {
+
+        action = actionCollection()->addAction(QString("filter%1").arg(filterCounter));
+        action->setText(i18n( "%1").arg(filter));
+        filterMapper->setMapping(action, filterCounter++);
+        connect(action, SIGNAL(triggered()), filterMapper, SLOT(map()));
+
+
+    }
+
+    connect(filterMapper, SIGNAL(mapped(int)), this, SLOT(applyFilter(int)));
+
+/*    action = actionCollection()->addAction("low_pass_filter");
     action->setText(i18n( "Low Pass Filter"));
     connect(action, SIGNAL(triggered(bool)), SLOT(lowPassFilter()));
 
     action = actionCollection()->addAction("equalize");
     action->setText(i18n( "Equalize"));
-    connect(action, SIGNAL(triggered(bool)), SLOT(equalize()));
+    connect(action, SIGNAL(triggered(bool)), SLOT(equalize()));*/
 
     
     /* Create GUI */
@@ -480,21 +500,14 @@ void FITSViewer::toggleStars()
 
 }
 
-void FITSViewer::lowPassFilter()
+void FITSViewer::applyFilter(int ftype)
 {
+
     if (fitsImages.empty())
         return;
 
-  fitsImages[fitsTab->currentIndex()]->lowPassFilter();
+    fitsImages[fitsTab->currentIndex()]->getHistogram()->applyFilter((FITSScale) ftype);
 
-}
-
-void FITSViewer::equalize()
-{
-    if (fitsImages.empty())
-        return;
-
-    fitsImages[fitsTab->currentIndex()]->equalize();
 
 }
 

@@ -67,6 +67,8 @@ public:
 
     FITSImage *getImage(int fitsUID);
 
+    static QStringList filterTypes;
+
 
 protected:
 
@@ -92,8 +94,9 @@ public slots:
     int saveUnsaved(int index);
     void closeTab(int index);
     void toggleStars();
-    void lowPassFilter();
-    void equalize();
+    //void lowPassFilter();
+    //void equalize();
+    void applyFilter(int ftype);
 
 private:
 
@@ -104,6 +107,7 @@ private:
     QList<FITSTab*> fitsImages;
     int fitsID;
     bool markStars;
+
 
 signals:
     void guideStarSelected(int x, int y);

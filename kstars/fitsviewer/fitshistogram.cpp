@@ -39,6 +39,7 @@
 #include <kmessagebox.h>
 
 //#define HIST_LOG
+
 #define LOW_PASS_MARGIN 0.01
 #define LOW_PASS_LIMIT  .05
 
@@ -136,12 +137,20 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     // Indicator of information content of an image in a typical star field.
     JMIndex = mean_p_std - mean;
 
+
+    #ifdef HIST_LOG
+    qDebug() << "Mean " << mean << " , mean plus std " << mean_p_std << " JMIndex " << JMIndex << endl;
+    #endif
+
     if (mean == 0)
         JMIndex = 0;
     // Reject diffuse images by setting JMIndex to zero.
     else if (mean_p_std / mean < 2)
         JMIndex =0;
 
+    #ifdef HIST_LOG
+    qDebug() << "Final JMIndex " << JMIndex << endl;
+    #endif
 
     // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
     histFactor = ((double) hist_height) / ((double) findMax(hist_width));
@@ -200,7 +209,7 @@ void FITSHistogram::applyScale()
     tab->getUndoStack()->push(histC);
 }
 
-void FITSHistogram::equalize()
+void FITSHistogram::applyFilter(FITSScale ftype)
 {
     int min = ui->minSlider->value();
     int max = ui->maxSlider->value();
@@ -209,24 +218,7 @@ void FITSHistogram::equalize()
 
     FITSHistogramCommand *histC;
 
-    type = FITS_EQUALIZE;
-
-    histC = new FITSHistogramCommand(tab, this, type, min, max);
-
-    tab->getUndoStack()->push(histC);
-
-}
-
-void FITSHistogram::lowPassFilter()
-{
-    int min = ui->minSlider->value();
-    int max = ui->maxSlider->value();
-
-    napply++;
-
-    FITSHistogramCommand *histC;
-
-    type = FITS_LOW_PASS;
+    type = ftype;
 
     histC = new FITSHistogramCommand(tab, this, type, min, max);
 
@@ -352,8 +344,8 @@ void FITSHistogramCommand::redo()
         image->applyFilter(FITS_SQRT, image_buffer, min, max);
         break;
 
-     case FITS_LOW_PASS:
-       image->applyFilter(FITS_LOW_PASS, image_buffer);
+     case FITS_AUTO_STRETCH:
+       image->applyFilter(FITS_AUTO_STRETCH, image_buffer);
         break;
 
      case FITS_EQUALIZE:
@@ -401,7 +393,7 @@ QString FITSHistogramCommand::text() const
     case FITS_SQRT:
         return i18n("Square Root Scale");
         break;
-    case FITS_LOW_PASS:
+    case FITS_AUTO_STRETCH:
         return i18n("Low Pass Filter");
         break;
     case FITS_EQUALIZE:

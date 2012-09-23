@@ -300,15 +300,4 @@ void FITSTab::tabPositionUpdated()
     emit newStatus(QString("%1x%2").arg(image->getWidth()).arg(image->getHeight()), FITS_RESOLUTION);
 }
 
-void FITSTab::lowPassFilter()
-{
-    if (histogram != NULL)
-        histogram->lowPassFilter();
-}
-
-void FITSTab::equalize()
-{
-    if (histogram != NULL)
-        histogram->equalize();
-}
 

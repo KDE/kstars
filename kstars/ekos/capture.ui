@@ -73,14 +73,14 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="KDoubleNumInput" name="exposureIN">
-            <property name="value">
+           <widget class="KDoubleNumInput" name="exposureIN" native="true">
+            <property name="value" stdset="0">
              <double>1.000000000000000</double>
             </property>
-            <property name="minimum">
+            <property name="minimum" stdset="0">
              <double>0.000000000000000</double>
             </property>
-            <property name="singleStep">
+            <property name="singleStep" stdset="0">
              <double>0.500000000000000</double>
             </property>
            </widget>
@@ -99,11 +99,11 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="KIntNumInput" name="countIN">
-            <property name="minimum">
+           <widget class="KIntNumInput" name="countIN" native="true">
+            <property name="minimum" stdset="0">
              <number>1</number>
             </property>
-            <property name="maximum">
+            <property name="maximum" stdset="0">
              <number>1024</number>
             </property>
            </widget>
@@ -122,7 +122,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="KIntNumInput" name="delayIN"/>
+           <widget class="KIntNumInput" name="delayIN" native="true"/>
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="label_8">
@@ -139,16 +139,6 @@
             <item>
              <property name="text">
               <string>--</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Low Pass</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Equalize</string>
              </property>
             </item>
            </widget>

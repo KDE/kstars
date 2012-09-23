@@ -14,6 +14,7 @@
 
 #include "indi/driverinfo.h"
 #include "indi/indifilter.h"
+#include "../fitsviewer/fitsviewer.h"
 
 #include <libindi/basedevice.h>
 
@@ -30,7 +31,6 @@ Capture::Capture()
     filterSlot = NULL;
     filterName = NULL;
 
-    filterType = FITS_NONE;
 
     seqLister		= new KDirLister();
     seqTimer = new QTimer(this);
@@ -43,18 +43,20 @@ Capture::Capture()
     connect(FilterCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkFilter(int)));
 
     connect( seqLister, SIGNAL(newItems (const KFileItemList & )), this, SLOT(checkSeqBoundary(const KFileItemList &)));
-    connect( filterCombo, SIGNAL(activated(int)), this, SLOT(updateImageFilter(int)));
 
     seqExpose = 0;
     seqTotalCount = 0;
     seqCurrentCount = 0;
     seqDelay = 0;
 
+    foreach(QString filter, FITSViewer::filterTypes)
+        filterCombo->addItem(filter);
+
     displayCheck->setEnabled(Options::showFITS());
 
 }
 
-void Capture::setCCD(ISD::GDInterface *newCCD)
+void Capture::addCCD(ISD::GDInterface *newCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 
@@ -243,7 +245,7 @@ void Capture::captureImage()
     seqTimer->stop();
 
     currentCCD->setCaptureMode(FITS_NORMAL);
-    currentCCD->setCaptureFilter(filterType);
+    currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
     currentCCD->capture(seqExpose);
 }
 
@@ -309,17 +311,6 @@ void Capture::checkSeqBoundary(const KFileItemList & items)
     }
 
     currentCCD->setSeqCount(seqCount);
-
-}
-
-void Capture::updateImageFilter(int index)
-{
-    if (index == 0)
-        filterType = FITS_NONE;
-    else if (index == 1)
-        filterType = FITS_LOW_PASS;
-    else if (index == 2)
-        filterType = FITS_EQUALIZE;
 
 }
 

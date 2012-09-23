@@ -36,7 +36,7 @@ public:
     Capture();
 
 
-    void setCCD(ISD::GDInterface *newCCD);
+    void addCCD(ISD::GDInterface *newCCD);
     void addFilter(ISD::GDInterface *newFilter);
 
     /* Capture */
@@ -51,7 +51,6 @@ public slots:
     void newFITS(IBLOB *bp);
     void checkCCD(int CCDNum);
     void checkFilter(int filterNum);
-    void updateImageFilter(int index);
 
     void checkSeqBoundary(const KFileItemList & items);
 
@@ -67,8 +66,6 @@ private:
     QTimer *seqTimer;
     QString		seqPrefix;
     int			seqCount;
-
-    FITSScale filterType;
 
     QList<ISD::CCD *> CCDs;
 

@@ -288,7 +288,10 @@ void EkosManager::connectDevices()
     }
 
     if (guider && guider != ccd)
+    {
         guider->Connect();
+        connect(guider, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
+    }
 
     if (filter && filter != ccd)
         filter->Connect();
@@ -412,10 +415,15 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
          toolsWidget->addTab( captureProcess, i18n("CCD"));
     }
 
-    captureProcess->setCCD(ccdDevice);
+    captureProcess->addCCD(ccdDevice);
 
     if (focusProcess != NULL)
-        focusProcess->setCCD(ccdDevice);
+    {
+        if (ccd != NULL)
+            focusProcess->setCCD(ccd);
+        else if (guider != NULL)
+            focusProcess->setCCD(guider);
+    }
 
 }
 
@@ -451,6 +459,8 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     if (ccd != NULL)
         focusProcess->setCCD(ccd);
+    else if (guider != NULL)
+        focusProcess->setCCD(guider);
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)

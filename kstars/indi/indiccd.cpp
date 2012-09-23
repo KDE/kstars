@@ -359,6 +359,7 @@ void CCD::processBLOB(IBLOB* bp)
 
         }
 
+        captureMode = FITS_NORMAL;
 
         fv->show();
 

@@ -106,16 +106,6 @@
          <string>--</string>
         </property>
        </item>
-       <item>
-        <property name="text">
-         <string>Low Pass</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Equalize</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>

@@ -24,8 +24,16 @@
 		<Action name="view_zoom_out"/>
 		<Action name="view_actual_size"/>
                 <Separator/>
-                <Action name="low_pass_filter"/>
-                <Action name="equalize"/>
+                <Action name="filter1"/>
+                <Action name="filter2"/>
+                <Action name="filter3"/>
+                <Action name="filter4"/>
+                <Action name="filter5"/>
+                <Action name="filter6"/>
+                <Action name="filter7"/>
+                <Action name="filter8"/>
+                <Action name="filter9"/>
+                <Action name="filter10"/>
                 <Separator/>
                 <Action name="mark_stars"/>
 </Menu>
