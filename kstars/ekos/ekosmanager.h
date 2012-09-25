@@ -34,6 +34,8 @@ public:
     EkosManager(  );
     ~EkosManager();
 
+    void appendLogText(const QString &);
+
 public slots:
     void processINDI();
     void connectDevices();
@@ -43,7 +45,8 @@ public slots:
     void processNewDevice(ISD::GDInterface*);
     void processNewProperty(INDI::Property*);
 
-    void tabChanged(int index);
+    void updateLog();
+    void clearLog();
 
     void removeDevice(ISD::GDInterface*);
 
@@ -71,6 +74,8 @@ public slots:
     QList<DriverInfo *> managedDevices;
 
     QHash<QString, DriverInfo *> driversList;
+
+    QStringList logText;
 
 
 

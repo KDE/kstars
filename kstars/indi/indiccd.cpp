@@ -35,7 +35,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     captureFilter     = FITS_NONE;
     fv                = NULL;
     streamWindow      = NULL;
-    focusTabID        = guideTabID = -1;
+    normalTabID = focusTabID = guideTabID = calibrationTabID = -1;
 
 }
 
@@ -189,6 +189,9 @@ bool CCD::setFrameType(CCDFrameType fType)
     if (ccdFrame->s == ISS_ON)
         return true;
 
+    if (fType != FRAME_LIGHT)
+        captureMode = FITS_CALIBRATE;
+
     IUResetSwitch(frameProp);
     ccdFrame->s = ISS_ON;
 
@@ -340,8 +343,15 @@ void CCD::processBLOB(IBLOB* bp)
         switch (captureMode)
         {
             case FITS_NORMAL:
-                fv->addFITS(&fileURL, FITS_NORMAL, captureFilter);
+                normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter);
                 break;
+
+        case FITS_CALIBRATE:
+            if (calibrationTabID == -1)
+                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+            else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
+                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+            break;
 
             case FITS_FOCUS:
                 if (focusTabID == -1)
@@ -359,8 +369,6 @@ void CCD::processBLOB(IBLOB* bp)
 
         }
 
-        captureMode = FITS_NORMAL;
-
         fv->show();
 
     }
@@ -375,6 +383,7 @@ void CCD::FITSViewerDestroyed()
     fv = NULL;
     focusTabID = -1;
     guideTabID = -1;
+    calibrationTabID = -1;
 
 }
 

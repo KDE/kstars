@@ -56,8 +56,10 @@ public:
     void setSeqCount(int count) { seqCount = count; }
 
     FITSViewer *getViewer() { return fv;}
+    int getNormalTabID() { return normalTabID; }
     int getGuideTabID() { return guideTabID; }
     int getFocusTabID() { return focusTabID; }
+    int getCalibrationTabID() { return calibrationTabID; }
 
 public slots:
     void FITSViewerDestroyed();
@@ -70,7 +72,7 @@ private:
     bool ISOMode;
     QString		seqPrefix;
     int seqCount;
-    int focusTabID, guideTabID;
+    int normalTabID, focusTabID, guideTabID, calibrationTabID;
     FITSViewer * fv;
     StreamWG *streamWindow;
 

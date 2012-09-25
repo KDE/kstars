@@ -839,19 +839,21 @@ void FITSImage::findCentroid()
             }
         }
 
-        #ifdef FITS_DEBUG
-        qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is "
-                 << (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - initStdDev)) << endl;
-         #endif
+
 
         int cen_limit = (MINIMUM_ROWS_PER_CENTER - (MINIMUM_STDVAR - initStdDev));
+
+    #ifdef FITS_DEBUG
+    qDebug() << "center_count: " << cen_count << " and initstdDev= " << initStdDev << " and limit is "
+             << cen_limit << endl;
+    #endif
 
         if (cen_limit < 1 || (edges[rc_index]->width > (0.2 * stats.dim[0])))
             continue;
 
         // If centroid count is within acceptable range
         //if (cen_limit >= 2 && cen_count >= cen_limit)
-        if (cen_count > cen_limit)
+        if (cen_count >= cen_limit)
         {
             // We detected a centroid, let's init it
             Edge *rCenter = new Edge();
@@ -967,7 +969,7 @@ double FITSImage::getHFR()
     if (starCenters.size() == 0)
         return -1;
 
-    for (int i=0; i < starCenters.count() ; i++)
+   /* for (int i=0; i < starCenters.count() ; i++)
     {
         if (starCenters[i]->val > maxVal)
         {
@@ -978,9 +980,9 @@ double FITSImage::getHFR()
 
     }
 
-    return starCenters[maxIndex]->HFR;
+    return starCenters[maxIndex]->HFR;*/
 
-    /*
+
     double FSum=0;
 
     double avgHFR=0;
@@ -999,7 +1001,7 @@ double FITSImage::getHFR()
     }
     else
         return -1;
-        */
+
 }
 
 void FITSImage::setGuideSquare(int x, int y)
@@ -1125,6 +1127,21 @@ void FITSImage::applyFilter(FITSScale type, float *image, int min, int max)
     default:
         return;
         break;
+    }
+
+    calculateStats(true);
+    rescale(ZOOM_KEEP_LEVEL);
+}
+
+void FITSImage::subtract(FITSImage *darkFrame)
+{
+    float *dark_buffer = darkFrame->getImageBuffer();
+
+    for (int i=0; i < stats.dim[0]*stats.dim[1]; i++)
+    {
+        image_buffer[i] -= dark_buffer[i];
+        if (image_buffer[i] < 0)
+            image_buffer[i] = 0;
     }
 
     calculateStats(true);

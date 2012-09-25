@@ -7,11 +7,11 @@
     <x>0</x>
     <y>0</y>
     <width>462</width>
-    <height>405</height>
+    <height>501</height>
    </rect>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
     <layout class="QGridLayout" name="gridLayout_2">
      <item row="0" column="0">
       <widget class="QGroupBox" name="setupGroup_3">
@@ -73,14 +73,14 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="KDoubleNumInput" name="exposureIN" native="true">
-            <property name="value" stdset="0">
+           <widget class="KDoubleNumInput" name="exposureIN">
+            <property name="value">
              <double>1.000000000000000</double>
             </property>
-            <property name="minimum" stdset="0">
+            <property name="minimum">
              <double>0.000000000000000</double>
             </property>
-            <property name="singleStep" stdset="0">
+            <property name="singleStep">
              <double>0.500000000000000</double>
             </property>
            </widget>
@@ -99,11 +99,11 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="KIntNumInput" name="countIN" native="true">
-            <property name="minimum" stdset="0">
+           <widget class="KIntNumInput" name="countIN">
+            <property name="minimum">
              <number>1</number>
             </property>
-            <property name="maximum" stdset="0">
+            <property name="maximum">
              <number>1024</number>
             </property>
            </widget>
@@ -122,7 +122,7 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="KIntNumInput" name="delayIN" native="true"/>
+           <widget class="KIntNumInput" name="delayIN"/>
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="label_8">
@@ -165,6 +165,16 @@
           </property>
           <property name="checked">
            <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="darkSubCheck">
+          <property name="text">
+           <string>Auto dark subtract</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -259,7 +269,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="0">
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <spacer>
@@ -318,7 +328,7 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
+   <item>
     <widget class="QGroupBox" name="progressGroup">
      <property name="title">
       <string>Progress</string>

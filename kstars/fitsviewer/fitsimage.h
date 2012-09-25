@@ -93,6 +93,8 @@ public:
     /* Calculate stats */
     void calculateStats(bool refresh=false);
 
+    void subtract(FITSImage *darkFrame);
+
     // Access functions
     double getCurrentZoom() { return currentZoom; }
     float * getImageBuffer() { return image_buffer; }

@@ -212,6 +212,10 @@ int FITSViewer::addFITS(const KUrl *imageName, FITSMode mode, FITSScale filter)
         fitsTab->addTab(tab, imageName->fileName());
         break;
 
+       case FITS_CALIBRATE:
+        fitsTab->addTab(tab, i18n("Calibrate"));
+        break;
+
       case FITS_FOCUS:
         fitsTab->addTab(tab, i18n("Focus"));
         break;

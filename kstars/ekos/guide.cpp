@@ -235,14 +235,16 @@ void Guide::newFITS(IBLOB *bp)
 
 void Guide::appendLogText(const QString &text)
 {
-    if (enableLoggingCheck->isChecked())
-    {
-        guideLogOut->ensureCursorVisible();
-        guideLogOut->insertPlainText(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text) + "\n");
-        QTextCursor c = guideLogOut->textCursor();
-        c.movePosition(QTextCursor::Start);
-        guideLogOut->setTextCursor(c);
-    }
+
+    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+
+    emit newLog();
+}
+
+void Guide::clearLog()
+{
+    logText.clear();
+    emit newLog();
 }
 
 bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )

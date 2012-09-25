@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>501</width>
-    <height>467</height>
+    <height>322</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>0</width>
-    <height>405</height>
+    <height>0</height>
    </size>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -317,33 +317,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="title">
-      <string>Calibration Status</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="l_RStatus">
-        <property name="text">
-         <string>State:</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::MinimumExpanding</enum>
-     </property>
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>31</height>
+       <height>7</height>
       </size>
      </property>
     </spacer>

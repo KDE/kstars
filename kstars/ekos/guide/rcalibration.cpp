@@ -295,8 +295,7 @@ void rcalibration::calibrate_reticle_manual( void )
 		{
             ui.pushButton_StartCalibration->setText( i18n("Stop") );
 		}
-        ui.l_RStatus->setText( i18n("State: GUIDE_RA drifting...") );
-        pmain_wnd->appendLogText(i18n("Drift scope in RA. Press stop when done."));
+        pmain_wnd->appendLogText("Drift scope in RA. Press stop when done.");
 
 		pmath->get_star_screen_pos( &start_x1, &start_y1 );
 		
@@ -317,8 +316,7 @@ void rcalibration::calibrate_reticle_manual( void )
                 axis = GUIDE_DEC;
 				
                 ui.pushButton_StartCalibration->setText( i18n("Stop GUIDE_DEC") );
-                ui.l_RStatus->setText( i18n("State: GUIDE_DEC drifting...") );
-                pmain_wnd->appendLogText(i18n("Drift scope in DEC. Press stop when done."));
+                pmain_wnd->appendLogText("Drift scope in DEC. Press stop when done.");
 				return;
 			}
 			else
@@ -328,13 +326,11 @@ void rcalibration::calibrate_reticle_manual( void )
 				if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2 ) )
 				{
 					fill_interface();
-                    ui.l_RStatus->setText( i18n("State: DONE") );
-                    pmain_wnd->appendLogText(i18n("Calibration completed."));
+                    pmain_wnd->appendLogText("Calibration completed.");
                     calibrationStage = CAL_FINISH;
 				}
 				else
 				{
-                    ui.l_RStatus->setText( i18n("State: ERR") );
                     QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
                     calibrationStage = CAL_ERROR;
 				}
@@ -348,13 +344,11 @@ void rcalibration::calibrate_reticle_manual( void )
 			{
                 calibrationStage = CAL_FINISH;
 				fill_interface();
-                ui.l_RStatus->setText( i18n("State: DONE") );
-                pmain_wnd->appendLogText(i18n("Calibration completed."));
+                pmain_wnd->appendLogText("Calibration completed.");
 			}
 			else
 			{
                 calibrationStage = CAL_ERROR;
-                ui.l_RStatus->setText( i18n("State: ERR") );
                 QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
 			}
 		}
@@ -396,7 +390,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
             ui.progressBar->setValue( 0 );
             ui.pushButton_StartCalibration->setEnabled( false );
-            ui.l_RStatus->setText( i18n("State: drifting...") );
+            pmain_wnd->appendLogText("Drifting...");
 
             // get start point
            // pmath->get_star_screen_pos( &start_x1, &start_y1 );
@@ -440,7 +434,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
                 phi = pmath->calc_phi( start_x1, start_y1, end_x1, end_y1 );
                 ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
 
-                ui.l_RStatus->setText( i18n("State: running...") );
+                pmain_wnd->appendLogText("Running...");
             }
 
             // accelerate GUIDE_RA drive to return to start position
@@ -494,7 +488,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             iterations++;
             dec_iterations = 1;
             ui.progressBar->setValue( iterations );
-            ui.l_RStatus->setText( i18n("State: GUIDE_DEC drifting...") );
+            pmain_wnd->appendLogText("GUIDE_DEC drifting...");
             break;
         }
         // calc orientation
@@ -502,14 +496,12 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         {
             calibrationStage = CAL_FINISH;
             fill_interface();
-            ui.l_RStatus->setText( i18n("State: DONE") );
-            pmain_wnd->appendLogText(i18n("Calibration completed."));
+            pmain_wnd->appendLogText("Calibration completed.");
             ui.startCalibrationLED->setColor(okColor);
 
         }
         else
         {
-            ui.l_RStatus->setText( i18n("State: ERR") );
             QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
             ui.startCalibrationLED->setColor(alertColor);
             calibrationStage = CAL_ERROR;
@@ -537,21 +529,21 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         if (dec_iterations == auto_drift_time)
         {
             pmath->get_star_screen_pos( &end_x2, &end_y2 );
-            qDebug() << "End X2 " << end_x2 << " End Y2 " << end_y2 << endl;
+            //qDebug() << "End X2 " << end_x2 << " End Y2 " << end_y2 << endl;
 
             phi = pmath->calc_phi( start_x2, start_y2, end_x2, end_y2 );
             ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
 
-            ui.l_RStatus->setText( i18n("State: running...") );
+            pmain_wnd->appendLogText("Running...");
         }
 
         //----- Z-check (new!) -----
         double cur_x, cur_y;
         pmath->get_star_screen_pos( &cur_x, &cur_y );
 
-        ui.l_RStatus->setText( i18n("State: GUIDE_DEC running back...") );
+        pmain_wnd->appendLogText("GUIDE_DEC running back...");
 
-       qDebug() << "Cur X1 " << cur_x << " Cur Y1 " << cur_y << endl;
+        //qDebug() << "Cur X1 " << cur_x << " Cur Y1 " << cur_y << endl;
 
         Vector star_pos = Vector( cur_x, cur_y, 0 ) - Vector( start_x2, start_y2, 0 );
         star_pos.y = -star_pos.y;
@@ -589,14 +581,12 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     {
         calibrationStage = CAL_FINISH;
         fill_interface();
-        ui.l_RStatus->setText( i18n("State: DONE") );
-        pmain_wnd->appendLogText(i18n("Calibration completed."));
+        pmain_wnd->appendLogText("Calibration completed.");
         ui.startCalibrationLED->setColor(okColor);
 
     }
     else
     {
-        ui.l_RStatus->setText( i18n("State: ERR") );
         QMessageBox::warning( this, i18n("Error"), i18n("Calibration rejected. Start drift is too short."), QMessageBox::Ok );
         ui.startCalibrationLED->setColor(alertColor);
         calibrationStage = CAL_ERROR;

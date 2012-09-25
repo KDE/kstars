@@ -7,50 +7,54 @@
     <x>0</x>
     <y>0</y>
     <width>442</width>
-    <height>395</height>
+    <height>322</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QGroupBox" name="groupBox">
-       <property name="title">
-        <string>Focus Mode</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QRadioButton" name="manualModeR">
-          <property name="text">
-           <string>Manual</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="AutoModeR">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Auto</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Focus Mode</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QRadioButton" name="manualModeR">
+            <property name="text">
+             <string>Manual</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="AutoModeR">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Auto</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
         <string>Autofocus Options</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="whatsThis">
              <string>Delay between two consequetive focus images</string>
@@ -60,18 +64,7 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Tolerance:</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="1">
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
+          <item row="0" column="1" rowspan="2">
            <widget class="QSpinBox" name="stepIN">
             <property name="minimum">
              <number>1</number>
@@ -80,67 +73,120 @@
              <number>10000</number>
             </property>
             <property name="singleStep">
-             <number>100</number>
+             <number>10</number>
             </property>
             <property name="value">
-             <number>1000</number>
+             <number>250</number>
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QDoubleSpinBox" name="toleranceIN">
-            <property name="minimum">
-             <double>0.010000000000000</double>
-            </property>
-            <property name="maximum">
-             <double>3.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>0.010000000000000</double>
-            </property>
-            <property name="value">
-             <double>0.010000000000000</double>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="2">
-         <layout class="QVBoxLayout" name="verticalLayout_7">
-          <item>
+          <item row="0" column="2">
            <widget class="QLabel" name="label_3">
             <property name="text">
              <string>ticks</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="1" column="0" rowspan="2">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Tolerance:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2" rowspan="2">
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>pixels</string>
+             <string>%</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="toleranceIN">
+            <property name="minimum">
+             <double>0.010000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>20.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+            <property name="value">
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Exposure:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QDoubleSpinBox" name="exposureIN">
+            <property name="minimum">
+             <double>0.010000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>20.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.100000000000000</double>
+            </property>
+            <property name="value">
+             <double>0.500000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>secs</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_8">
-          <property name="toolTip">
-           <string>Apply filter to image after capture to enhance it</string>
-          </property>
-          <property name="text">
-           <string>Filters:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="2">
-         <widget class="QComboBox" name="filterCombo">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <property name="text">
-            <string>--</string>
-           </property>
+           <widget class="QLabel" name="label_8">
+            <property name="toolTip">
+             <string>Apply filter to image after capture to enhance it</string>
+            </property>
+            <property name="text">
+             <string>Filters:</string>
+            </property>
+           </widget>
           </item>
-         </widget>
+          <item>
+           <widget class="QComboBox" name="filterCombo">
+            <item>
+             <property name="text">
+              <string>--</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_3">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Minimum</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -152,48 +198,17 @@
      <property name="title">
       <string>Control</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
-        <item>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
          <widget class="QPushButton" name="focusOutB">
           <property name="text">
            <string>Focus Out</string>
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="focusInB">
-          <property name="text">
-           <string>Focus In</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="captureB">
-          <property name="text">
-           <string>Capture</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>18</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
+        <item row="0" column="1">
          <widget class="QPushButton" name="startFocusB">
           <property name="enabled">
            <bool>true</bool>
@@ -203,7 +218,31 @@
           </property>
          </widget>
         </item>
-        <item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="focusInB">
+          <property name="text">
+           <string>Focus In</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="startLoopB">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="text">
+           <string>Start Looping</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="captureB">
+          <property name="text">
+           <string>Capture</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
          <widget class="QPushButton" name="stopFocusB">
           <property name="enabled">
            <bool>false</bool>
@@ -212,19 +251,6 @@
            <string>Stop</string>
           </property>
          </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>18</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>
@@ -277,7 +303,7 @@
          <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Minimum</enum>
+         <enum>QSizePolicy::Expanding</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -287,28 +313,21 @@
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>State:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="focusProgress">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>11</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>
