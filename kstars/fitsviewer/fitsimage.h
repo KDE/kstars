@@ -168,6 +168,7 @@ private:
     QImage  *displayImage;             /* FITS image that is displayed in the GUI */
     FITSHistogram *histogram;
     int guide_x, guide_y, guide_box;
+    bool firstLoad;
 
 
 

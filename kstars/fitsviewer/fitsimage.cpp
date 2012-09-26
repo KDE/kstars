@@ -118,6 +118,7 @@ FITSImage::FITSImage(QWidget * parent, FITSMode fitsMode) : QScrollArea(parent) 
     image_buffer = NULL;
     displayImage = NULL;
     fptr = NULL;
+    firstLoad = true;
 
     mode = fitsMode;
 
@@ -293,14 +294,26 @@ bool FITSImage::loadFITS ( const QString &filename )
     if (mode == FITS_NORMAL)
         fitsProg.setValue(80);
 
-
-    currentZoom   = 100;
     currentWidth  = stats.dim[0];
     currentHeight = stats.dim[1];
 
     // Rescale to fits window
-    if (rescale(ZOOM_FIT_WINDOW))
-        return false;
+    if (firstLoad)
+    {
+        currentZoom   = 100;
+
+        if (rescale(ZOOM_FIT_WINDOW))
+            return false;
+
+        firstLoad = false;
+
+    }
+    else
+    {
+        if (rescale(ZOOM_KEEP_LEVEL))
+            return false;
+
+    }
 
     if (mode == FITS_NORMAL)
         if (fitsProg.wasCanceled())
@@ -478,6 +491,7 @@ int FITSImage::rescale(FITSZoom type)
                 emit actionUpdated("view_zoom_out", false);
 
             updateFrame();
+
         }
         else
         {
@@ -486,7 +500,10 @@ int FITSImage::rescale(FITSZoom type)
             currentHeight = stats.dim[1];
 
             updateFrame();
+
         }
+
+
         break;
 
     case ZOOM_KEEP_LEVEL:
