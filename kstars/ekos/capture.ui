@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
+    <width>433</width>
     <height>501</height>
    </rect>
   </property>
@@ -24,126 +24,250 @@
        <property name="title">
         <string>CCD</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <layout class="QGridLayout" name="gridLayout_3">
-          <item row="0" column="0">
-           <widget class="QLabel" name="textLabel1_6">
-            <property name="toolTip">
-             <string/>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Device:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="KComboBox" name="CCDCaptureCombo"/>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="textLabel1_7">
-            <property name="toolTip">
-             <string>Prefix to append to the beginning of file names</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Prefix:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="KLineEdit" name="prefixIN"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="exposureLabel_2">
-            <property name="toolTip">
-             <string>Set the exposure time in seconds for individual images, if applicable</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Exposure:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="KDoubleNumInput" name="exposureIN">
-            <property name="value">
-             <double>1.000000000000000</double>
-            </property>
-            <property name="minimum">
-             <double>0.000000000000000</double>
-            </property>
-            <property name="singleStep">
-             <double>0.500000000000000</double>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="0">
-           <widget class="QLabel" name="textLabel1_4">
-            <property name="toolTip">
-             <string>Number of images to capture</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Count:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <widget class="KIntNumInput" name="countIN">
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>1024</number>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QLabel" name="textLabel1_8">
-            <property name="toolTip">
-             <string>Delay in seconds between consecutive images</string>
-            </property>
-            <property name="whatsThis">
-             <string/>
-            </property>
-            <property name="text">
-             <string>Delay:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="1">
-           <widget class="KIntNumInput" name="delayIN"/>
-          </item>
-          <item row="5" column="0">
-           <widget class="QLabel" name="label_8">
-            <property name="toolTip">
-             <string>Apply filter to image after capture to enhance it</string>
-            </property>
-            <property name="text">
-             <string>Filters:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="5" column="1">
-           <widget class="QComboBox" name="filterCombo">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <property name="text">
-              <string>--</string>
-             </property>
+             <widget class="QLabel" name="textLabel1_6">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Device:</string>
+              </property>
+             </widget>
             </item>
-           </widget>
+            <item>
+             <widget class="QLabel" name="exposureLabel_2">
+              <property name="toolTip">
+               <string>Set the exposure time in seconds for individual images, if applicable</string>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Exposure:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="textLabel1_9">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Binning</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="textLabel1_7">
+              <property name="toolTip">
+               <string>Prefix to append to the beginning of file names</string>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Prefix:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="textLabel1_4">
+              <property name="toolTip">
+               <string>Number of images to capture</string>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Count:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="textLabel1_8">
+              <property name="toolTip">
+               <string>Delay in seconds between consecutive images</string>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Delay:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="toolTip">
+               <string>Apply filter to image after capture to enhance it</string>
+              </property>
+              <property name="text">
+               <string>Filters:</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <item>
+             <widget class="KComboBox" name="CCDCaptureCombo"/>
+            </item>
+            <item>
+             <widget class="KDoubleNumInput" name="exposureIN">
+              <property name="value">
+               <double>1.000000000000000</double>
+              </property>
+              <property name="minimum">
+               <double>0.000000000000000</double>
+              </property>
+              <property name="singleStep">
+               <double>0.500000000000000</double>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QLabel" name="textLabel1_10">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>X:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="KComboBox" name="binXCombo">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>1</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>3</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="textLabel1_11">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>Y:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="KComboBox" name="binYCombo">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>1</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="sizeAdjustPolicy">
+                 <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>1</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>3</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="KLineEdit" name="prefixIN"/>
+            </item>
+            <item>
+             <widget class="KIntNumInput" name="countIN">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>1024</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KIntNumInput" name="delayIN"/>
+            </item>
+            <item>
+             <widget class="QComboBox" name="filterCombo">
+              <item>
+               <property name="text">
+                <string>--</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="darkSubCheck">
+          <property name="text">
+           <string>Auto dark subtract</string>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QCheckBox" name="ISOCheck">
@@ -165,16 +289,6 @@
           </property>
           <property name="checked">
            <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="darkSubCheck">
-          <property name="text">
-           <string>Auto dark subtract</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
           </property>
          </widget>
         </item>

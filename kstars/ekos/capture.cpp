@@ -245,6 +245,8 @@ void Capture::captureImage()
 
     seqTimer->stop();
 
+    currentCCD->setBinning(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1);
+
     if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
     {
         calibrationState = CALIBRATE_START;

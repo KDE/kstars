@@ -33,7 +33,7 @@ public:
 
 
     void setFocuser(ISD::GDInterface *newFocuser);
-    void setCCD(ISD::GDInterface *newCCD);
+    void addCCD(ISD::GDInterface *newCCD);
 
     typedef enum { FOCUS_NONE, FOCUS_IN, FOCUS_OUT } FocusDirection;
     typedef enum { FOCUS_MANUAL, FOCUS_AUTO, FOCUS_LOOP } FocusType;
@@ -49,6 +49,8 @@ public slots:
     void stopFocus();
     void capture();
     void startLooping();
+
+    void checkCCD(int CCDNum);
 
     void FocusIn(int ms=-1);
     void FocusOut(int ms=-1);
@@ -67,10 +69,14 @@ private:
     void autoFocusAbs(double currentHFR);
     void autoFocusRel(double currentHFR);
 
+    void resetButtons();
+
 
     /* Focus */
     ISD::Focuser *currentFocuser;
     ISD::CCD *currentCCD;
+
+    QList<ISD::CCD *> CCDs;
 
     Ekos::Capture *captureP;
 

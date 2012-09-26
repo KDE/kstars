@@ -221,6 +221,46 @@ bool CCD::setBinning(CCDBinType binType)
     return false;
 }
 
+CCDBinType CCD::getBinning()
+{
+    CCDBinType binType = SINGLE_BIN;
+
+    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    if (binProp == NULL)
+        return binType;
+
+    INumber *horBin = NULL, *verBin=NULL;
+
+    horBin = IUFindNumber(binProp, "HOR_BIN");
+    verBin = IUFindNumber(binProp, "VER_BIN");
+
+    if (!horBin || !verBin)
+        return binType;
+
+    switch ( (int) horBin->value)
+    {
+        case 2:
+          binType = DOUBLE_BIN;
+          break;
+
+        case 3:
+           binType = TRIPLE_BIN;
+           break;
+
+         case 4:
+            binType = QUADRAPLE_BIN;
+            break;
+
+         default:
+        break;
+
+    }
+
+    return binType;
+
+}
+
+
 bool CCD::setBinning(int bin_x, int bin_y)
 {
     INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
@@ -482,6 +522,7 @@ bool CCD::doPulse(GuideDirection dir, int msecs )
 
 
 }
+
 
 
 }

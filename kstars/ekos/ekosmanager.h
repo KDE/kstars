@@ -60,6 +60,9 @@ public slots:
     void loadDefaultDrivers();
     void saveDefaultDrivers();
     void reset();
+    void initCapture();
+    void initFocus();
+    void initGuide();
     bool useGuiderFromCCD;
     bool useFilterFromCCD;
 

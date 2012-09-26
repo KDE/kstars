@@ -963,8 +963,8 @@ double FITSImage::getHFR()
     // It is more consistent.
     // TODO: Try to test this under using a real CCD.
 
-    int maxVal=0;
-    int maxIndex=0;
+   // int maxVal=0;
+    //int maxIndex=0;
 
     if (starCenters.size() == 0)
         return -1;

@@ -54,6 +54,8 @@ Focus::Focus()
 
     connect(startLoopB, SIGNAL(clicked()), this, SLOT(startLooping()));
 
+    connect(CCDCaptureCombo, SIGNAL(activated(int)), this, SLOT(checkCCD(int)));
+
     lastFocusDirection = FOCUS_NONE;
 
     focusType = FOCUS_MANUAL;
@@ -100,6 +102,18 @@ void Focus::toggleAutofocus(bool enable)
         stopFocus();
 }
 
+void Focus::checkCCD(int ccdNum)
+{
+    if (ccdNum <= CCDs.count())
+    {
+
+        currentCCD = CCDs.at(ccdNum);
+
+        BinCombo->setCurrentIndex(currentCCD->getBinning());
+    }
+
+}
+
 void Focus::setFocuser(ISD::GDInterface *newFocuser)
 {
     currentFocuser = static_cast<ISD::Focuser *> (newFocuser);
@@ -111,13 +125,25 @@ void Focus::setFocuser(ISD::GDInterface *newFocuser)
     }
 
 
+    AutoModeR->setEnabled(true);
+    startFocusB->setEnabled(true);
+    focusOutB->setEnabled(true);
+    focusInB->setEnabled(true);
+
     connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusProperties(INumberVectorProperty*)));
 
 }
 
-void Focus::setCCD(ISD::GDInterface *newCCD)
+void Focus::addCCD(ISD::GDInterface *newCCD)
 {
-    currentCCD = (ISD::CCD *) newCCD;
+    CCDCaptureCombo->addItem(newCCD->getDeviceName());
+
+    CCDs.append(static_cast<ISD::CCD *>(newCCD));
+
+    checkCCD(0);
+
+    CCDCaptureCombo->setCurrentIndex(0);
+
 }
 
 void Focus::getAbsFocusPosition()
@@ -154,15 +180,11 @@ void Focus::startFocus()
 
     capture();
 
-    stopFocusB->setEnabled(true);
 
-    startFocusB->setEnabled(false);
-    captureB->setEnabled(false);
-    focusOutB->setEnabled(false);
-    focusInB->setEnabled(false);
 
     inAutoFocus = true;
 
+    resetButtons();
 
     reverseDir = false;
 
@@ -176,22 +198,10 @@ void Focus::startFocus()
 void Focus::stopFocus()
 {
 
-    if (focusType == FOCUS_AUTO)
-        startFocusB->setEnabled(true);
-
-    stopFocusB->setEnabled(false);
-
-
-    if (focusType == FOCUS_MANUAL)
-    {
-        captureB->setEnabled(true);
-        focusOutB->setEnabled(true);
-        focusInB->setEnabled(true);
-        startLoopB->setEnabled(true);
-    }
-
     inAutoFocus = false;
     inFocusLoop = false;
+
+    resetButtons();
 
     absIterations = 0;
     HFRInc=0;
@@ -207,7 +217,7 @@ void Focus::capture()
 
     double seqExpose = exposureIN->value();
     CCDFrameType ccdFrame = FRAME_LIGHT;
-    CCDBinType   binType  = QUADRAPLE_BIN;
+    CCDBinType   binType  = (CCDBinType) BinCombo->currentIndex();
 
     if (currentCCD->isConnected() == false)
     {
@@ -223,15 +233,7 @@ void Focus::capture()
 
     currentCCD->setFrameType(ccdFrame);
 
-    if (currentCCD->setBinning(binType) == false)
-    {
-        binType = TRIPLE_BIN;
-        if (currentCCD->setBinning(binType) == false)
-        {
-            binType = DOUBLE_BIN;
-            currentCCD->setBinning(binType);
-        }
-    }
+    currentCCD->setBinning(binType);
 
     currentCCD->capture(seqExpose);
 
@@ -720,19 +722,60 @@ void Focus::clearLog()
 
 void Focus::startLooping()
 {
-    startFocusB->setEnabled(false);
-    startLoopB->setEnabled(false);
-    stopFocusB->setEnabled(true);
 
-    captureB->setEnabled(false);
-    focusOutB->setEnabled(false);
-    focusInB->setEnabled(false);
 
     inFocusLoop = true;
+
+    resetButtons();
 
     appendLogText("Starting continious exposure...");
 
     capture();
+}
+
+void Focus::resetButtons()
+{
+
+    if (inFocusLoop)
+    {
+        startFocusB->setEnabled(false);
+        startLoopB->setEnabled(false);
+        stopFocusB->setEnabled(true);
+
+        captureB->setEnabled(false);
+        focusOutB->setEnabled(false);
+        focusInB->setEnabled(false);
+
+        return;
+    }
+
+    if (inAutoFocus)
+    {
+        stopFocusB->setEnabled(true);
+
+        startFocusB->setEnabled(false);
+        captureB->setEnabled(false);
+        focusOutB->setEnabled(false);
+        focusInB->setEnabled(false);
+    }
+
+    if (focusType == FOCUS_AUTO && currentFocuser)
+        startFocusB->setEnabled(true);
+
+    stopFocusB->setEnabled(false);
+
+
+    if (focusType == FOCUS_MANUAL)
+    {
+        if (currentFocuser)
+        {
+            focusOutB->setEnabled(true);
+            focusInB->setEnabled(true);
+        }
+
+        captureB->setEnabled(true);
+        startLoopB->setEnabled(true);
+    }
 }
 
 

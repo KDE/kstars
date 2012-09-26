@@ -354,6 +354,7 @@ void EkosManager::cleanDevices()
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 {
+
     foreach(DriverInfo *di, driversList.values())
     {
         if (di == devInterface->getDriverInfo())
@@ -370,7 +371,6 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
                     guider = devInterface;
                 else
                     ccd = devInterface;
-
                 break;
 
             case KSTARS_FOCUSER:
@@ -402,16 +402,16 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
 
 void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 {
-   // qDebug() << "Received set telescope scope device " << endl;
     scope = scopeDevice;
 
     appendLogText(QString("%1 is online.").arg(scope->getDeviceName()));
+
+    if (guider && guider->isConnected())
+        initGuide();
 }
 
 void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 {
-    //qDebug() << "Received set CCD device " << endl;
-
     // If we have a guider and it's the same as the CCD driver, then let's establish it separately.
     if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
         guider = ccdDevice;
@@ -426,22 +426,14 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
     appendLogText(QString("%1 is online.").arg(ccdDevice->getDeviceName()));
 
-    if (captureProcess == NULL)
-    {
-         captureProcess = new Ekos::Capture();
-         toolsWidget->addTab( captureProcess, i18n("CCD"));
-         connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-    }
+    initCapture();
 
     captureProcess->addCCD(ccdDevice);
 
-    if (focusProcess != NULL)
-    {
-        if (ccd != NULL)
-            focusProcess->setCCD(ccd);
-        else if (guider != NULL)
-            focusProcess->setCCD(guider);
-    }
+    initFocus();
+
+    focusProcess->addCCD(ccdDevice);
+
 
 }
 
@@ -456,38 +448,21 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     else
         filter = ccd;
 
-    if (captureProcess == NULL)
-    {
-         captureProcess = new Ekos::Capture();
-         toolsWidget->addTab( captureProcess, i18n("CCD"));
-         connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-    }
-
-
+    initCapture();
 
     captureProcess->addFilter(filter);
 }
 
 void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 {
-    //qDebug() << "Received set focuser device " << endl;
     focuser = focuserDevice;
 
-    if (focusProcess == NULL)
-    {
-         focusProcess = new Ekos::Focus();
-         toolsWidget->addTab( focusProcess, i18n("Focus"));
-         connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-    }
+    initFocus();
 
     focusProcess->setFocuser(focuser);
 
     appendLogText(QString("%1 is online.").arg(focuser->getDeviceName()));
 
-    if (ccd != NULL)
-        focusProcess->setCCD(ccd);
-    else if (guider != NULL)
-        focusProcess->setCCD(guider);
 }
 
 void EkosManager::removeDevice(ISD::GDInterface* devInterface)
@@ -561,29 +536,14 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
 
 void EkosManager::processNewProperty(INDI::Property* prop)
 {
-
-    if (!strcmp(prop->getName(), "CCD_INFO"))
+    if (!strcmp(prop->getName(), "CCD_INFO") && scope && guider && !strcmp(guider->getDeviceName(), prop->getDeviceName()))
     {
-        // Delay guiderProcess contruction until we receive CCD_INFO property
-        if (guider != NULL && scope != NULL && guideProcess == NULL)
-        {
-            if (!strcmp(guider->getDeviceName(), prop->getDeviceName()))
-            {
-                guideProcess = new Ekos::Guide();
-                toolsWidget->addTab( guideProcess, i18n("Guide"));
-
-                connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
-
-                guideProcess->setCCD(guider);
-                guideProcess->setTelescope(scope);
-            }
-        }
+        // Delay guiderProcess contruction until we receive CCD_INFO property 
+            if (guider->isConnected() && scope->isConnected())
+                initGuide();
     }
 
-
 }
-
-
 
 void EkosManager::updateLog()
 {
@@ -629,7 +589,42 @@ void EkosManager::clearLog()
 
 }
 
+void EkosManager::initCapture()
+{
+    if (captureProcess)
+        return;
 
+     captureProcess = new Ekos::Capture();
+     toolsWidget->addTab( captureProcess, i18n("CCD"));
+     connect(captureProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+
+}
+
+void EkosManager::initFocus()
+{
+    if (focusProcess)
+        return;
+
+    focusProcess = new Ekos::Focus();
+    toolsWidget->addTab( focusProcess, i18n("Focus"));
+    connect(focusProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+
+}
+
+void EkosManager::initGuide()
+{
+    if (guideProcess)
+        return;
+
+    guideProcess = new Ekos::Guide();
+    toolsWidget->addTab( guideProcess, i18n("Guide"));
+
+    connect(guideProcess, SIGNAL(newLog()), this, SLOT(updateLog()));
+
+    guideProcess->setCCD(guider);
+    guideProcess->setTelescope(scope);
+
+}
 
 
 #include "ekosmanager.moc"

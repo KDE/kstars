@@ -41,6 +41,7 @@ public:
     bool setFrameType(CCDFrameType fType);
     bool setBinning(int bin_x, int bin_y);
     bool setBinning(CCDBinType binType);
+    CCDBinType getBinning();
 
     // If CCD has ST4 port
     bool canGuide();

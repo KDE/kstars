@@ -6,52 +6,130 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>442</width>
-    <height>322</height>
+    <width>427</width>
+    <height>347</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Focus Mode</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Focus Mode</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
-           <widget class="QRadioButton" name="manualModeR">
-            <property name="text">
-             <string>Manual</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QLabel" name="textLabel1_6">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>CCD:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="textLabel1_7">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>Bin:</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="KComboBox" name="CCDCaptureCombo"/>
+              </item>
+              <item>
+               <widget class="KComboBox" name="BinCombo">
+                <item>
+                 <property name="text">
+                  <string>1x1</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>2x2</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>3x3</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>4x4</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QRadioButton" name="AutoModeR">
-            <property name="enabled">
-             <bool>true</bool>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
             </property>
-            <property name="text">
-             <string>Auto</string>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
             </property>
-           </widget>
+           </spacer>
           </item>
          </layout>
-        </widget>
-       </item>
-      </layout>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="manualModeR">
+          <property name="text">
+           <string>Manual</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="AutoModeR">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>Auto</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </item>
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
         <string>Autofocus Options</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
@@ -60,7 +138,7 @@
              <string>Delay between two consequetive focus images</string>
             </property>
             <property name="text">
-             <string>Step</string>
+             <string>Step:</string>
             </property>
            </widget>
           </item>
@@ -150,7 +228,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QLabel" name="label_8">
             <property name="toolTip">
@@ -203,6 +281,9 @@
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <widget class="QPushButton" name="focusOutB">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Focus Out</string>
           </property>
@@ -211,7 +292,7 @@
         <item row="0" column="1">
          <widget class="QPushButton" name="startFocusB">
           <property name="enabled">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
           <property name="text">
            <string>Start Focus</string>
@@ -220,6 +301,9 @@
         </item>
         <item row="1" column="0">
          <widget class="QPushButton" name="focusInB">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Focus In</string>
           </property>
@@ -331,6 +415,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
