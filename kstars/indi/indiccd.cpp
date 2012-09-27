@@ -131,11 +131,13 @@ bool CCD::getFrame(int *x, int *y, int *w, int *h)
 
     *x = arg->value;
 
+
     arg = IUFindNumber(frameProp, "Y");
     if (arg == NULL)
         return false;
 
     *y = arg->value;
+
 
     arg = IUFindNumber(frameProp, "WIDTH");
     if (arg == NULL)
@@ -150,6 +152,36 @@ bool CCD::getFrame(int *x, int *y, int *w, int *h)
     *h = arg->value;
 
     return true;
+
+}
+
+bool CCD::setFrame(int x, int y, int w, int h)
+{
+    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_FRAME");
+
+    if (frameProp == NULL)
+        return false;
+
+    INumber *xarg = IUFindNumber(frameProp, "X");
+    INumber *yarg = IUFindNumber(frameProp, "Y");
+    INumber *warg = IUFindNumber(frameProp, "WIDTH");
+    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+
+    if (xarg && yarg && warg && harg)
+    {
+        if (xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
+            return true;
+
+        xarg->value = x;
+        yarg->value = y;
+        warg->value = w;
+        harg->value = h;
+
+        clientManager->sendNewNumber(frameProp);
+        return true;
+    }
+
+    return false;
 
 }
 

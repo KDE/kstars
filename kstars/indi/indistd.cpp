@@ -495,6 +495,26 @@ void GenericDevice::setProperty(QObject * setPropCommand)
     }
 }
 
+bool GenericDevice::getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)
+{
+    INumberVectorProperty *nvp = baseDevice->getNumber(propName.toLatin1());
+
+    if (nvp == NULL)
+        return false;
+
+    INumber *np = IUFindNumber(nvp, elementName.toLatin1());
+    if (np == NULL)
+        return false;
+
+    *min = np->min;
+    *max = np->max;
+    *step = np->step;
+
+    return true;
+
+}
+
+
 DeviceDecorator::DeviceDecorator(GDInterface *iPtr)
 {
     interfacePtr = iPtr;
@@ -603,7 +623,12 @@ bool DeviceDecorator::Disconnect()
 }
 
 
+bool DeviceDecorator::getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)
+{
 
+    return interfacePtr->getMinMaxStep(propName, elementName, min, max, step);
+
+}
 
 
 

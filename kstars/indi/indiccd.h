@@ -37,6 +37,7 @@ public:
 
     // Common commands
     bool getFrame(int *x, int *y, int *w, int *h);
+    bool setFrame(int x, int y, int w, int h);
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
     bool setBinning(int bin_x, int bin_y);

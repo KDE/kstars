@@ -6,29 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>501</height>
+    <width>523</width>
+    <height>505</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
       <widget class="QGroupBox" name="setupGroup_3">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+        <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="maximumSize">
+        <size>
+         <width>365</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="title">
         <string>CCD</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout">
+           <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
              <widget class="QLabel" name="textLabel1_6">
               <property name="toolTip">
@@ -64,7 +70,20 @@
                <string/>
               </property>
               <property name="text">
-               <string>Binning</string>
+               <string>Binning:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="textLabel1_12">
+              <property name="toolTip">
+               <string/>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+              <property name="text">
+               <string>Frame:</string>
               </property>
              </widget>
             </item>
@@ -120,7 +139,7 @@
            </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
+           <layout class="QVBoxLayout" name="verticalLayout">
             <item>
              <widget class="KComboBox" name="CCDCaptureCombo"/>
             </item>
@@ -231,6 +250,74 @@
              </layout>
             </item>
             <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="textLabel1_13">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>X:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="frameXIN"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="textLabel1_14">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>Y:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="frameYIN"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="textLabel1_15">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>W:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="frameWIN"/>
+              </item>
+              <item>
+               <widget class="QLabel" name="textLabel1_16">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="whatsThis">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string>H:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="frameHIN"/>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="KLineEdit" name="prefixIN"/>
             </item>
             <item>
@@ -308,7 +395,7 @@
        </layout>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item>
       <widget class="QGroupBox" name="setupGroup">
        <property name="title">
         <string>Filter</string>

@@ -68,6 +68,7 @@ public:
     // Convenience functions
     virtual const char *getDeviceName()=0;
     virtual bool isConnected()=0;
+    virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)=0;
 
     virtual ~GDInterface() {}
 
@@ -120,6 +121,8 @@ public:
     virtual bool isConnected() { return connected; }
     virtual INDI::BaseDevice* getBaseDevice() { return baseDevice;}
 
+    virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
+
 public slots:
     virtual bool Connect();
     virtual bool Disconnect();
@@ -167,6 +170,8 @@ public:
     DriverInfo *getDriverInfo();
     QList<INDI::Property *> getProperties();
     virtual INDI::BaseDevice* getBaseDevice();
+
+    bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
 
 
 public slots:

@@ -63,11 +63,12 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 
-    currentCCD = (ISD::CCD *) newCCD;
+    connect(newCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    CCDs.append(static_cast<ISD::CCD *> (newCCD));
 
-    CCDs.append(currentCCD);
+    checkCCD(0);
+
 }
 
 void Capture::addFilter(ISD::GDInterface *newFilter)
@@ -149,7 +150,50 @@ void Capture::stopSequence()
 void Capture::checkCCD(int ccdNum)
 {
     if (ccdNum <= CCDs.count())
-        currentCCD = CCDs.at(ccdNum);
+    {
+        int x,y,w,h;
+        double min,max,step;
+
+        currentCCD = CCDs.at(ccdNum);     
+
+        if (currentCCD->getMinMaxStep("CCD_FRAME", "X", &min, &max, &step))
+        {
+            frameXIN->setMinimum(min);
+            frameXIN->setMaximum(max);
+            frameXIN->setSingleStep(step);
+        }
+
+        if (currentCCD->getMinMaxStep("CCD_FRAME", "Y", &min, &max, &step))
+        {
+            frameYIN->setMinimum(min);
+            frameYIN->setMaximum(max);
+            frameYIN->setSingleStep(step);
+        }
+
+        if (currentCCD->getMinMaxStep("CCD_FRAME", "WIDTH", &min, &max, &step))
+        {
+            frameWIN->setMinimum(min);
+            frameWIN->setMaximum(max);
+            frameWIN->setSingleStep(step);
+        }
+
+        if (currentCCD->getMinMaxStep("CCD_FRAME", "HEIGHT", &min, &max, &step))
+        {
+            frameHIN->setMinimum(min);
+            frameHIN->setMaximum(max);
+            frameHIN->setSingleStep(step);
+        }
+
+        if (currentCCD->getFrame(&x,&y,&w,&h))
+        {
+
+            frameXIN->setValue(x);
+            frameYIN->setValue(y);
+            frameWIN->setValue(w);
+            frameHIN->setValue(h);
+        }
+
+    }
 }
 
 void Capture::checkFilter(int filterNum)
@@ -245,7 +289,18 @@ void Capture::captureImage()
 
     seqTimer->stop();
 
-    currentCCD->setBinning(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1);
+    if (currentCCD->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value()) == false)
+    {
+        appendLogText("Failed to set sub frame.");
+        return;
+
+    }
+
+    if (currentCCD->setBinning(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1) == false)
+    {
+        appendLogText("Failed to set binning.");
+        return;
+    }
 
     if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
     {
