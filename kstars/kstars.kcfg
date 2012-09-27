@@ -1184,19 +1184,17 @@
     </entry>
     <entry name="FocusTicks" type="UInt">
       <label>Default Focuser step ticks</label>
-      <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuse moves TICKS steps, the difference in HFR more than 0.1 pixels. Lower the value when you are close to optimal focus</whatsthis>
+      <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuser moves TICKS steps, the difference in HFR is more than 0.1 pixels. Lower the value when you are close to optimal focus.</whatsthis>
       <default>100</default>
      </entry>
      <entry name="FocusTolerance" type="Double">
         <label>Default Focuser tolerance value</label>
-           <whatsthis>The tolerance specfies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent
-           the focusing algorithm from oscillating back and forth.</whatsthis>
+           <whatsthis>The tolerance specifies the percentage difference between the current focusing position and the minimum obtained during the focusing run. Adjustment of this value is necessary to prevent the focusing algorithm from oscillating back and forth.</whatsthis>
            <default>1</default>
       </entry>
       <entry name="FocusExposure" type="Double">
          <label>Default Focuser exposure value</label>
-            <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase value if no stars are
-            detected.</whatsthis>
+            <whatsthis>Specifies exposure value of CCD when performing focusing. Lower this value to avoid saturation of bright stars which adversely affects HFR measurement. Increase the value if no stars are detected.</whatsthis>
             <default>0.5</default>
        </entry>
    </group>
