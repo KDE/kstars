@@ -80,7 +80,7 @@ public slots:
     virtual bool Connect()=0;
     virtual bool Disconnect()=0;
     virtual bool runCommand(int command, void *ptr=NULL)=0;
-    virtual void setProperty(QObject *)=0;
+    virtual bool setProperty(QObject *)=0;
 
 signals:
     void Connected();
@@ -127,7 +127,7 @@ public slots:
     virtual bool Connect();
     virtual bool Disconnect();
     virtual bool runCommand(int command, void *ptr=NULL);
-    virtual void setProperty(QObject *);
+    virtual bool setProperty(QObject *);
 
 protected:
     void createDeviceInit();
@@ -178,12 +178,28 @@ public slots:
     virtual bool Connect();
     virtual bool Disconnect();
     virtual bool runCommand(int command, void *ptr=NULL);
-    virtual void setProperty(QObject *);
+    virtual bool setProperty(QObject *);
 
 protected:
     INDI::BaseDevice *baseDevice;
     ClientManager *clientManager;
     GDInterface *interfacePtr;
+
+};
+
+class ST4
+{
+public:
+    ST4(INDI::BaseDevice *bdv, ClientManager *cm);
+    ~ST4();
+
+    bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
+    bool doPulse(GuideDirection dir, int msecs );
+    const char *getDeviceName();
+
+private:
+    INDI::BaseDevice *baseDevice;
+    ClientManager *clientManager;
 
 };
 

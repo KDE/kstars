@@ -69,6 +69,13 @@
                 </property>
                </widget>
               </item>
+              <item>
+               <widget class="QLabel" name="label_11">
+                <property name="text">
+                 <string>Auxiliary:</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </item>
             <item>
@@ -115,6 +122,16 @@
               </item>
               <item>
                <widget class="QComboBox" name="focuserCombo">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="auxCombo">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                   <horstretch>0</horstretch>

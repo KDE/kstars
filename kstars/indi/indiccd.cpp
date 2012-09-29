@@ -36,6 +36,7 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     fv                = NULL;
     streamWindow      = NULL;
     normalTabID = focusTabID = guideTabID = calibrationTabID = -1;
+    ST4Driver = NULL;
 
 }
 
@@ -466,94 +467,7 @@ void CCD::StreamWindowDestroyed()
     streamWindow = NULL;
 }
 
-bool CCD::canGuide()
-{
-    INumberVectorProperty *raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
-    INumberVectorProperty *decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
 
-    if (raPulse && decPulse)
-        return true;
-    else
-        return false;
-}
-
-bool CCD::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
-{
-    if (canGuide() == false)
-        return false;
-
-    bool raOK=false, decOK=false;
-    raOK  = doPulse(ra_dir, ra_msecs);
-    decOK = doPulse(dec_dir, dec_msecs);
-
-    if (raOK && decOK)
-        return true;
-    else
-        return false;
-}
-
-bool CCD::doPulse(GuideDirection dir, int msecs )
-{
-    INumberVectorProperty *raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
-    INumberVectorProperty *decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
-    INumberVectorProperty *npulse = NULL;
-    INumber *dirPulse=NULL;
-
-    if (raPulse == NULL || decPulse == NULL)
-        return false;
-
-    switch(dir)
-    {
-    case RA_INC_DIR:
-    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_W");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = raPulse;
-    break;
-
-    case RA_DEC_DIR:
-    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_E");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = raPulse;
-    break;
-
-    case DEC_INC_DIR:
-    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = decPulse;
-    break;
-
-    case DEC_DEC_DIR:
-    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = decPulse;
-    break;
-
-    default:
-        return false;
-
-    }
-
-    if (dirPulse == NULL || npulse == NULL)
-        return false;
-
-    dirPulse->value = msecs;
-
-    clientManager->sendNewNumber(npulse);
-
-    qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
-
-    return true;
-
-
-}
 
 
 

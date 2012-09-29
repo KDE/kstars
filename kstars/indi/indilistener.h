@@ -47,6 +47,7 @@ public:
     static INDIListener * _INDIListener;
     QList<ClientManager *> clients;
     QList<ISD::GDInterface *> devices;
+    QList<ISD::ST4*> st4Devices;
 
     bool batchMode;
     bool ISOMode;
@@ -71,7 +72,9 @@ signals:
     void newCCD(ISD::GDInterface *);
     void newFilter(ISD::GDInterface *);
     void newFocuser(ISD::GDInterface *);
+    void newST4(ISD::ST4*);
     void deviceRemoved(ISD::GDInterface *);
+
 
 };
 

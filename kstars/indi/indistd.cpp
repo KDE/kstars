@@ -456,27 +456,27 @@ bool GenericDevice::runCommand(int command, void *ptr)
     return true;
 }
 
-void GenericDevice::setProperty(QObject * setPropCommand)
+bool GenericDevice::setProperty(QObject * setPropCommand)
 {
     GDSetCommand *indiCommand = static_cast<GDSetCommand *> (setPropCommand);
 
     //qDebug() << "We are trying to set value for property " << indiCommand->indiProperty << " and element" << indiCommand->indiElement << " and value " << indiCommand->elementValue << endl;
 
+    INDI::Property *pp= baseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
+    if (pp == NULL)
+        return false;
+
     switch (indiCommand->propType)
     {
         case INDI_SWITCH:
         {
-         INDI::Property *pp= baseDevice->getProperty(indiCommand->indiProperty.toLatin1().constData());
-         if (pp == NULL)
-             return;
-
         ISwitchVectorProperty *svp = pp->getSwitch();
         if (svp == NULL)
-            return;
+            return false;
 
         ISwitch *sp = IUFindSwitch(svp, indiCommand->indiElement.toLatin1().constData());
         if (sp == NULL)
-            return;
+            return false;
 
         if (svp->r == ISR_1OFMANY)
             IUResetSwitch(svp);
@@ -485,14 +485,39 @@ void GenericDevice::setProperty(QObject * setPropCommand)
 
         //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << endl;
         clientManager->sendNewSwitch(svp);
+
+        return true;
        }
           break;
 
+    case INDI_NUMBER:
+    {
+        INumberVectorProperty *nvp = pp->getNumber();
+        if (nvp == NULL)
+            return false;
+
+        INumber *np = IUFindNumber(nvp, indiCommand->indiElement.toLatin1().constData());
+        if (np == NULL)
+            return false;
+
+        double value = indiCommand->elementValue.toDouble();
+
+        if (value == np->value)
+            return true;
+
+        np->value = value;
+
+      //qDebug() << "Sending switch " << sp->name << " with status " << ((sp->s == ISS_ON) ? "On" : "Off") << endl;
+      clientManager->sendNewNumber(nvp);
+    }
+   break;
         // TODO: Add set property for other types of properties
     default:
         break;
 
     }
+
+    return true;
 }
 
 bool GenericDevice::getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)
@@ -533,9 +558,9 @@ bool DeviceDecorator::runCommand(int command, void *ptr)
     return interfacePtr->runCommand(command, ptr);
 }
 
-void DeviceDecorator::setProperty(QObject *setPropCommand)
+bool DeviceDecorator::setProperty(QObject *setPropCommand)
 {
-    interfacePtr->setProperty(setPropCommand);
+    return interfacePtr->setProperty(setPropCommand);
 }
 
 void DeviceDecorator::processBLOB(IBLOB *bp)
@@ -631,7 +656,93 @@ bool DeviceDecorator::getMinMaxStep(const QString & propName, const QString & el
 }
 
 
+ST4::ST4(INDI::BaseDevice *bdv, ClientManager *cm)
+{
+    baseDevice = bdv;
+    clientManager = cm;
+}
 
+ST4::~ST4() {}
+
+const char * ST4::getDeviceName()
+{
+    return baseDevice->getDeviceName();
+}
+
+bool ST4::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
+{
+    bool raOK=false, decOK=false;
+    raOK  = doPulse(ra_dir, ra_msecs);
+    decOK = doPulse(dec_dir, dec_msecs);
+
+    if (raOK && decOK)
+        return true;
+    else
+        return false;
+
+}
+
+bool ST4::doPulse(GuideDirection dir, int msecs )
+{
+    INumberVectorProperty *raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
+    INumberVectorProperty *decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
+    INumberVectorProperty *npulse = NULL;
+    INumber *dirPulse=NULL;
+
+    if (raPulse == NULL || decPulse == NULL)
+        return false;
+
+    switch(dir)
+    {
+    case RA_INC_DIR:
+    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_W");
+    if (dirPulse == NULL)
+        return false;
+
+    npulse = raPulse;
+    break;
+
+    case RA_DEC_DIR:
+    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_E");
+    if (dirPulse == NULL)
+        return false;
+
+    npulse = raPulse;
+    break;
+
+    case DEC_INC_DIR:
+    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
+    if (dirPulse == NULL)
+        return false;
+
+    npulse = decPulse;
+    break;
+
+    case DEC_DEC_DIR:
+    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
+    if (dirPulse == NULL)
+        return false;
+
+    npulse = decPulse;
+    break;
+
+    default:
+        return false;
+
+    }
+
+    if (dirPulse == NULL || npulse == NULL)
+        return false;
+
+    dirPulse->value = msecs;
+
+    clientManager->sendNewNumber(npulse);
+
+    qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
+
+    return true;
+
+}
 
 }
 

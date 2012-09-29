@@ -1182,6 +1182,9 @@
     <entry name="FocuserDriver" type="String">
       <label>Default Focuser driver</label>
     </entry>
+    <entry name="AuxDriver" type="String">
+      <label>Default Auxiliary driver</label>
+    </entry>
     <entry name="FocusTicks" type="UInt">
       <label>Default Focuser step ticks</label>
       <whatsthis>Step size of the absolute focuser. The step size TICKS should be adjusted so that when the focuse moves TICKS steps, the difference in HFR more than 0.1 pixels. Lower the value when you are close to optimal focus</whatsthis>

@@ -34,7 +34,6 @@ public:
     DeviceFamily getType() { return dType;}
 
 
-
     // Common commands
     bool getFrame(int *x, int *y, int *w, int *h);
     bool setFrame(int x, int y, int w, int h);
@@ -44,10 +43,6 @@ public:
     bool setBinning(CCDBinType binType);
     CCDBinType getBinning();
 
-    // If CCD has ST4 port
-    bool canGuide();
-    bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
-    bool doPulse(GuideDirection dir, int msecs );
 
     // Utitlity functions
     void setCaptureMode(FITSMode mode) { captureMode = mode; }
@@ -63,6 +58,7 @@ public:
     int getFocusTabID() { return focusTabID; }
     int getCalibrationTabID() { return calibrationTabID; }
 
+
 public slots:
     void FITSViewerDestroyed();
     void StreamWindowDestroyed();
@@ -77,6 +73,7 @@ private:
     int normalTabID, focusTabID, guideTabID, calibrationTabID;
     FITSViewer * fv;
     StreamWG *streamWindow;
+    ISD::ST4 *ST4Driver;
 
 };
 

@@ -45,6 +45,7 @@ public:
 
     void setCCD(ISD::GDInterface *newCCD);
     void setTelescope(ISD::GDInterface *newTelescope);
+    void addST4(ISD::ST4 *newST4);
 
     void appendLogText(const QString &);
     void clearLog();
@@ -67,7 +68,10 @@ private:
 
 
     ISD::CCD *currentCCD;
-    ISD::Telescope* currentTelescope;
+    ISD::Telescope *currentTelescope;
+    ISD::ST4* ST4Driver;
+
+    QList<ISD::ST4*> ST4List;
 
     QTabWidget *tabWidget;
 
