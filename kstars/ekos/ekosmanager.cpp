@@ -603,6 +603,9 @@ void EkosManager::processNewProperty(INDI::Property* prop)
             initGuide();
             guideProcess->setCCD(guider);
 
+            if (scope && scope->isConnected())
+                guideProcess->setTelescope(scope);
+
     }
 
 }

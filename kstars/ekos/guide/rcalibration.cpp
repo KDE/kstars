@@ -390,7 +390,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
             ui.progressBar->setValue( 0 );
             ui.pushButton_StartCalibration->setEnabled( false );
-            pmain_wnd->appendLogText("Drifting...");
+            pmain_wnd->appendLogText("GUIDE_RA Drifting...");
 
             // get start point
            // pmath->get_star_screen_pos( &start_x1, &start_y1 );
@@ -482,7 +482,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             start_x2 = cur_x;
             start_y2 = cur_y;
 
-            qDebug() << "Start X2 " << start_x2 << " start Y2 " << start_y2 << endl;
+           // qDebug() << "Start X2 " << start_x2 << " start Y2 " << start_y2 << endl;
 
             pmain_wnd->do_pulse( DEC_INC_DIR, pulseDuration );
             iterations++;
@@ -541,7 +541,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         double cur_x, cur_y;
         pmath->get_star_screen_pos( &cur_x, &cur_y );
 
-        pmain_wnd->appendLogText("GUIDE_DEC running back...");
+        //pmain_wnd->appendLogText("GUIDE_DEC running back...");
 
         //qDebug() << "Cur X1 " << cur_x << " Cur Y1 " << cur_y << endl;
 
@@ -549,7 +549,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         star_pos.y = -star_pos.y;
         star_pos = star_pos * ROT_Z;
 
-        qDebug() << "start Pos X " << star_pos.x << endl;
+        //qDebug() << "start Pos X " << star_pos.x << endl;
 
         // start point reached... so exit
         if( star_pos.x < 1.5 )

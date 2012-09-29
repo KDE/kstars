@@ -75,10 +75,11 @@ void Capture::addFilter(ISD::GDInterface *newFilter)
 {
     FilterCaptureCombo->addItem(newFilter->getDeviceName());
 
-    currentFilter = (ISD::Filter *) newFilter;
-    Filters.append(currentFilter);
+    Filters.append(static_cast<ISD::Filter *>(newFilter));
 
-    checkFilter(Filters.count() - 1);
+    checkFilter(0);
+
+    FilterCaptureCombo->setCurrentIndex(0);
 
 }
 
@@ -226,7 +227,7 @@ void Capture::checkFilter(int filterNum)
 
     }
 
-    FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value);
+    FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value-1);
 
 }
 
