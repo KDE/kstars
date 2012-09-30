@@ -141,7 +141,7 @@ class CatalogDB {
    **/
   void GetAllObjects(const QString &catalog_name,
                      QList< SkyObject* > &sky_list,
-                     QMap <int, QString> &names,
+                     QMap <int, QString> &named_objects,
                      CatalogComponent *catalog_pointer);
 
   /**
@@ -186,7 +186,7 @@ class CatalogDB {
    * @param name Name of the class being searched
    * @return int
    **/
-  int FindCatalog(const QString &name);
+  int FindCatalog(const QString &catalog_name);
 
   /**
    * @short Add the catalog name and details to the db.

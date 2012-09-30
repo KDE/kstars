@@ -136,12 +136,12 @@ void CatalogDB::RefreshCatalogList() {
 }
 
 
-int CatalogDB::FindCatalog(const QString &name) {
+int CatalogDB::FindCatalog(const QString& catalog_name) {
   skydb_.open();
   QSqlTableModel catalog(0, skydb_);
 
   catalog.setTable("Catalog");
-  catalog.setFilter("Name LIKE \'" + name + "\'");
+  catalog.setFilter("Name LIKE \'" + catalog_name + "\'");
   catalog.select();
 
   int catalog_count = catalog.rowCount();
