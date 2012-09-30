@@ -1,5 +1,5 @@
 /*  Ekos guide tool
-    Copyright (C) 2012 Alexander Stepanenko
+    Copyright (C) 2012 Andrew Stepanenko
 
     Modified by Jasem Mutlaq <mutlaqja@ikarustech.com> for KStars.
 
@@ -387,7 +387,7 @@ void rguider::guide( void )
      if (pmath->is_lost_star())
      {
          onStartStopButtonClick();
-         KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size."));
+         KMessageBox::error(NULL, i18n("Lost track of the guide star. Try increasing the square size and check the mount."));
          return;
      }
 

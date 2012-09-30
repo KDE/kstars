@@ -43,26 +43,35 @@ public:
 
     enum GuiderStage { CALIBRATION_STAGE, GUIDE_STAGE };
 
-    void addCCD(ISD::GDInterface *newCCD);
-    void addTelescope(ISD::GDInterface *newTelescope);
+    void setCCD(ISD::GDInterface *newCCD);
+    void setTelescope(ISD::GDInterface *newTelescope);
+    void addST4(ISD::ST4 *newST4);
 
     void appendLogText(const QString &);
+    void clearLog();
     bool capture();
 
     bool do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );	// do dual-axis pulse (thread-safe)
     bool do_pulse( GuideDirection dir, int msecs );											// do single-axis pulse (thread-safe)
+
+    QString getLogText() { return logText.join("\n"); }
 
 public slots:
 
         void newFITS(IBLOB*);
         void newST4(int index);
 
+signals:
+        void newLog();
 
 private:
 
 
     ISD::CCD *currentCCD;
-    ISD::Telescope* currentTelescope;
+    ISD::Telescope *currentTelescope;
+    ISD::ST4* ST4Driver;
+
+    QList<ISD::ST4*> ST4List;
 
     QTabWidget *tabWidget;
 
@@ -73,6 +82,8 @@ private:
     rguider *guider;
 
     bool telescopeGuide;
+
+    QStringList logText;
 
     double ccd_hor_pixel, ccd_ver_pixel, focal_length, aperture;
 

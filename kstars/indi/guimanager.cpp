@@ -202,7 +202,7 @@ void GUIManager::buildDevice(DriverInfo *di)
     connect(cm, SIGNAL(newINDILight(ILightVectorProperty*)), gdm, SLOT(updateLightGUI(ILightVectorProperty*)));
     connect(cm, SIGNAL(newINDIBLOB(IBLOB*)), gdm, SLOT(updateBLOBGUI(IBLOB*)));
 
-    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*)));
+    connect(cm, SIGNAL(newINDIMessage(INDI::BaseDevice*, int)), gdm, SLOT(updateMessageLog(INDI::BaseDevice*, int)));
 
 
     //qDebug() << "About to add to tab main widget with name " << di->getBaseDevice()->getDeviceName() << endl;

@@ -140,11 +140,11 @@ bool Telescope::doPulse(GuideDirection dir, int msecs )
     if (dirPulse == NULL || npulse == NULL)
         return false;
 
-    dirPulse->value = msecs/1000.0;
+    dirPulse->value = msecs;
 
     clientManager->sendNewNumber(npulse);
 
-    qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
+    //qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
 
     return true;
 
@@ -159,9 +159,9 @@ bool Telescope::runCommand(int command, void *ptr)
     {
        case INDI_SEND_COORDS:
         if (ptr == NULL)
-            Slew(KStars::Instance()->map()->clickedPoint());
+            sendCoords(KStars::Instance()->map()->clickedPoint());
         else
-            Slew(static_cast<SkyPoint *> (ptr));
+            sendCoords(static_cast<SkyPoint *> (ptr));
 
         break;
 

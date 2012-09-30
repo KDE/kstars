@@ -130,7 +130,7 @@ void INDIListener::removeDevice(DriverInfo *dv)
     foreach(ISD::GDInterface *gd, devices)
     {
         if (dv->getUniqueLabel() == gd->getDeviceName() || dv->getDriverSource() == HOST_SOURCE)
-        {
+        {           
             emit deviceRemoved(gd);
             devices.removeOne(gd);
             delete(gd);
@@ -139,6 +139,7 @@ void INDIListener::removeDevice(DriverInfo *dv)
                 return;
         }
     }
+
 }
 
 void INDIListener::registerProperty(INDI::Property *prop)
@@ -177,6 +178,13 @@ void INDIListener::registerProperty(INDI::Property *prop)
                 emit newFocuser(gd);
             }
 
+            if (!strcmp(prop->getName(), "TELESCOPE_TIMED_GUIDE_WE"))
+            {
+                ISD::ST4 *st4Driver = new ISD::ST4(gd->getBaseDevice(), gd->getDriverInfo()->getClientManager());
+                st4Devices.append(st4Driver);
+                emit newST4(st4Driver);
+            }
+
             gd->registerProperty(prop);
             break;
         }
@@ -185,6 +193,9 @@ void INDIListener::registerProperty(INDI::Property *prop)
 
 void INDIListener::removeProperty(INDI::Property *prop)
 {
+
+    if (prop == NULL)
+        return;
 
     foreach(ISD::GDInterface *gd, devices)
     {

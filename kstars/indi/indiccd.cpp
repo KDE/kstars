@@ -32,9 +32,11 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     batchMode = false;
     ISOMode   = true;
     captureMode = FITS_NORMAL;
+    captureFilter     = FITS_NONE;
     fv                = NULL;
     streamWindow      = NULL;
-    focusTabID        = guideTabID = -1;
+    normalTabID = focusTabID = guideTabID = calibrationTabID = -1;
+    ST4Driver = NULL;
 
 }
 
@@ -130,11 +132,13 @@ bool CCD::getFrame(int *x, int *y, int *w, int *h)
 
     *x = arg->value;
 
+
     arg = IUFindNumber(frameProp, "Y");
     if (arg == NULL)
         return false;
 
     *y = arg->value;
+
 
     arg = IUFindNumber(frameProp, "WIDTH");
     if (arg == NULL)
@@ -149,6 +153,36 @@ bool CCD::getFrame(int *x, int *y, int *w, int *h)
     *h = arg->value;
 
     return true;
+
+}
+
+bool CCD::setFrame(int x, int y, int w, int h)
+{
+    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_FRAME");
+
+    if (frameProp == NULL)
+        return false;
+
+    INumber *xarg = IUFindNumber(frameProp, "X");
+    INumber *yarg = IUFindNumber(frameProp, "Y");
+    INumber *warg = IUFindNumber(frameProp, "WIDTH");
+    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+
+    if (xarg && yarg && warg && harg)
+    {
+        if (xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
+            return true;
+
+        xarg->value = x;
+        yarg->value = y;
+        warg->value = w;
+        harg->value = h;
+
+        clientManager->sendNewNumber(frameProp);
+        return true;
+    }
+
+    return false;
 
 }
 
@@ -188,6 +222,9 @@ bool CCD::setFrameType(CCDFrameType fType)
     if (ccdFrame->s == ISS_ON)
         return true;
 
+    if (fType != FRAME_LIGHT)
+        captureMode = FITS_CALIBRATE;
+
     IUResetSwitch(frameProp);
     ccdFrame->s = ISS_ON;
 
@@ -216,6 +253,46 @@ bool CCD::setBinning(CCDBinType binType)
 
     return false;
 }
+
+CCDBinType CCD::getBinning()
+{
+    CCDBinType binType = SINGLE_BIN;
+
+    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    if (binProp == NULL)
+        return binType;
+
+    INumber *horBin = NULL, *verBin=NULL;
+
+    horBin = IUFindNumber(binProp, "HOR_BIN");
+    verBin = IUFindNumber(binProp, "VER_BIN");
+
+    if (!horBin || !verBin)
+        return binType;
+
+    switch ( (int) horBin->value)
+    {
+        case 2:
+          binType = DOUBLE_BIN;
+          break;
+
+        case 3:
+           binType = TRIPLE_BIN;
+           break;
+
+         case 4:
+            binType = QUADRAPLE_BIN;
+            break;
+
+         default:
+        break;
+
+    }
+
+    return binType;
+
+}
+
 
 bool CCD::setBinning(int bin_x, int bin_y)
 {
@@ -339,21 +416,28 @@ void CCD::processBLOB(IBLOB* bp)
         switch (captureMode)
         {
             case FITS_NORMAL:
-                fv->addFITS(&fileURL);
+                normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter);
                 break;
+
+        case FITS_CALIBRATE:
+            if (calibrationTabID == -1)
+                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+            else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
+                calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+            break;
 
             case FITS_FOCUS:
                 if (focusTabID == -1)
-                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS);
-                else if (fv->updateFITS(&fileURL, focusTabID) == false)
-                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS);
+                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+                else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
+                    focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
                 break;
 
         case FITS_GUIDE:
             if (guideTabID == -1)
-                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE);
-            else if (fv->updateFITS(&fileURL, guideTabID) == false)
-                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE);
+                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
+            else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
+                guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             break;
 
         }
@@ -367,21 +451,13 @@ void CCD::processBLOB(IBLOB* bp)
 
 }
 
-int CCD::getTabID()
-{
-
-    if (captureMode == FITS_FOCUS)
-        return focusTabID;
-    else if (captureMode == FITS_GUIDE)
-        return guideTabID;
-
-    return -1;
-
-}
-
 void CCD::FITSViewerDestroyed()
 {
     fv = NULL;
+    focusTabID = -1;
+    guideTabID = -1;
+    calibrationTabID = -1;
+
 }
 
 void CCD::StreamWindowDestroyed()
@@ -391,94 +467,8 @@ void CCD::StreamWindowDestroyed()
     streamWindow = NULL;
 }
 
-bool CCD::canGuide()
-{
-    INumberVectorProperty *raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
-    INumberVectorProperty *decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
-
-    if (raPulse && decPulse)
-        return true;
-    else
-        return false;
-}
-
-bool CCD::doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
-{
-    if (canGuide() == false)
-        return false;
-
-    bool raOK=false, decOK=false;
-    raOK  = doPulse(ra_dir, ra_msecs);
-    decOK = doPulse(dec_dir, dec_msecs);
-
-    if (raOK && decOK)
-        return true;
-    else
-        return false;
-}
-
-bool CCD::doPulse(GuideDirection dir, int msecs )
-{
-    INumberVectorProperty *raPulse  = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_WE");
-    INumberVectorProperty *decPulse = baseDevice->getNumber("TELESCOPE_TIMED_GUIDE_NS");
-    INumberVectorProperty *npulse = NULL;
-    INumber *dirPulse=NULL;
-
-    if (raPulse == NULL || decPulse == NULL)
-        return false;
-
-    switch(dir)
-    {
-    case RA_INC_DIR:
-    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_W");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = raPulse;
-    break;
-
-    case RA_DEC_DIR:
-    dirPulse = IUFindNumber(raPulse, "TIMED_GUIDE_E");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = raPulse;
-    break;
-
-    case DEC_INC_DIR:
-    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_N");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = decPulse;
-    break;
-
-    case DEC_DEC_DIR:
-    dirPulse = IUFindNumber(decPulse, "TIMED_GUIDE_S");
-    if (dirPulse == NULL)
-        return false;
-
-    npulse = decPulse;
-    break;
-
-    default:
-        return false;
-
-    }
-
-    if (dirPulse == NULL || npulse == NULL)
-        return false;
-
-    dirPulse->value = msecs/1000.0;
-
-    clientManager->sendNewNumber(npulse);
-
-    qDebug() << "Sending pulse for " << npulse->name << " in direction " << dirPulse->name << " for " << msecs << " ms " << endl;
-
-    return true;
 
 
-}
 
 
 }

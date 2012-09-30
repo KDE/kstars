@@ -60,6 +60,9 @@ Guide::Guide() : QWidget()
 
     connect(ST4Combo, SIGNAL(currentIndexChanged(int)), this, SLOT(newST4(int)));
 
+    foreach(QString filter, FITSViewer::filterTypes)
+        filterCombo->addItem(filter);
+
 }
 
 Guide::~Guide()
@@ -69,7 +72,7 @@ Guide::~Guide()
     delete pmath;
 }
 
-void Guide::addCCD(ISD::GDInterface *newCCD)
+void Guide::setCCD(ISD::GDInterface *newCCD)
 {
     currentCCD = (ISD::CCD *) newCCD;
 
@@ -106,31 +109,13 @@ void Guide::addCCD(ISD::GDInterface *newCCD)
         guider->fill_interface();
     }
 
-    if (currentCCD->canGuide())
-    {
-        telescopeGuide = false;
-        ST4Combo->addItem(currentCCD->getDeviceName());
-    }
 }
 
-void Guide::addTelescope(ISD::GDInterface *newTelescope)
+void Guide::setTelescope(ISD::GDInterface *newTelescope)
 {
     currentTelescope = (ISD::Telescope*) newTelescope;
 
-    if (currentTelescope->canGuide())
-    {
-       ST4Combo->addItem(currentTelescope->getDeviceName());
-       ST4Combo->setCurrentIndex(ST4Combo->count()-1);
-    }
-
-    if (ST4Combo->count() == 0)
-    {
-        KMessageBox::error(NULL, i18n("The Telescope and Guider do not support pulse commands. Guiding is not possible."));
-        close();
-        return;
-    }
-
-    INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_PARAMETERS");
+    INumberVectorProperty * nvp = currentTelescope->getBaseDevice()->getNumber("TELESCOPE_INFO");
     if (nvp)
     {
         INumber *np = IUFindNumber(nvp, "TELESCOPE_APERTURE");
@@ -156,6 +141,15 @@ void Guide::addTelescope(ISD::GDInterface *newTelescope)
     //qDebug() << "ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
 }
 
+void Guide::addST4(ISD::ST4 *newST4)
+{
+    ST4Combo->addItem(newST4->getDeviceName());
+    ST4List.append(newST4);
+
+    ST4Driver = ST4List.at(0);
+    ST4Combo->setCurrentIndex(0);
+}
+
 bool Guide::capture()
 {
 
@@ -177,6 +171,7 @@ bool Guide::capture()
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     currentCCD->setCaptureMode(FITS_GUIDE);
+    currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
     currentCCD->setFrameType(ccdFrame);
 
@@ -195,7 +190,7 @@ void Guide::newFITS(IBLOB *bp)
 
     currentCCD->disconnect(this);
 
-    FITSImage *fitsImage = fv->getImage(currentCCD->getTabID());
+    FITSImage *fitsImage = fv->getImage(currentCCD->getGuideTabID());
 
     pmath->set_image(fitsImage);
 
@@ -228,68 +223,38 @@ void Guide::newFITS(IBLOB *bp)
 
 void Guide::appendLogText(const QString &text)
 {
-    if (enableLoggingCheck->isChecked())
-    {
-        guideLogOut->ensureCursorVisible();
-        guideLogOut->insertPlainText(QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text) + "\n");
-        QTextCursor c = guideLogOut->textCursor();
-        c.movePosition(QTextCursor::Start);
-        guideLogOut->setTextCursor(c);
-    }
+
+    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+
+    emit newLog();
+}
+
+void Guide::clearLog()
+{
+    logText.clear();
+    emit newLog();
 }
 
 bool Guide::do_pulse( GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs )
 {
-    if (telescopeGuide)
-    {
-        if (currentTelescope == NULL)
+    if (ST4Driver == NULL)
         return false;
 
-       return currentTelescope->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
-    }
-    else
-    {
-        if (currentCCD == NULL)
-        return false;
-
-       return currentCCD->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
-
-    }
-
+    return ST4Driver->doPulse(ra_dir, ra_msecs, dec_dir, dec_msecs);
 }
 
 bool Guide::do_pulse( GuideDirection dir, int msecs )
 {
-    if (telescopeGuide)
-    {
-        if (currentTelescope == NULL)
+    if (ST4Driver == NULL)
         return false;
 
-        return currentTelescope->doPulse(dir, msecs);
-    }
-    else
-    {
-        if (currentCCD == NULL)
-        return false;
-
-        return currentCCD->doPulse(dir, msecs);
-
-    }
+    return ST4Driver->doPulse(dir, msecs);
 
 }
 
 void Guide::newST4(int index)
 {
-    if (currentTelescope)
-        if (ST4Combo->itemText(index) == currentTelescope->getDeviceName())
-        {
-            telescopeGuide = true;
-            return;
-        }
-
-    if (currentCCD)
-        if (ST4Combo->itemText(index) == currentCCD->getDeviceName())
-            telescopeGuide = false;
+    ST4Driver = ST4List.at(index);
 }
 
 

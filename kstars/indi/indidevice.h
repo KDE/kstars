@@ -65,7 +65,7 @@ public slots:
     bool updateLightGUI  (ILightVectorProperty *lvp);
     bool updateBLOBGUI  (IBLOB *bp);
 
-    void updateMessageLog(INDI::BaseDevice *idv);
+    void updateMessageLog(INDI::BaseDevice *idv, int messageID);
     /*
     bool buildTextGUI    (ITextVectorProperty *tvp, QString & errmsg);
     bool buildNumberGUI  (INumberVectorProperty *nvp, QString & errmsg);

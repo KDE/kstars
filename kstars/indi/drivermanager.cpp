@@ -253,6 +253,12 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
                   int ans = KMessageBox::warningContinueCancel(0, i18n("Driver %1 is already running, do you want to restart it?").arg(dv->getTreeLabel()));
                   if (ans == KMessageBox::Cancel)
                       continue;
+                  else
+                  {
+                      QList<DriverInfo *> stopList;
+                      stopList.append(dv);
+                      stopDevices(stopList);
+                  }
                 }
 
                 found = false;
@@ -982,6 +988,8 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
         groupType = KSTARS_RECEIVERS;
     else if (groupName.indexOf("GPS") != -1)
         groupType = KSTARS_GPS;
+    else if (groupName.indexOf("Auxiliary") != -1)
+        groupType = KSTARS_AUXILIARY;
     else
         groupType = KSTARS_UNKNOWN;
 

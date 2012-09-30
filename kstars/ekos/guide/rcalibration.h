@@ -1,5 +1,5 @@
 /*  Ekos guide tool
-    Copyright (C) 2012 Alexander Stepanenko
+    Copyright (C) 2012 Andrew Stepanenko
 
     Modified by Jasem Mutlaq <mutlaqja@ikarustech.com> for KStars.
 
@@ -48,6 +48,8 @@ public:
     bool is_finished() { return calibrationStage == CAL_FINISH; }
     void process_calibration();
 
+    void reset();
+
 protected slots:
 	void onSquareSizeChanged( int index );
 	void onEnableAutoMode( int state );
@@ -65,6 +67,7 @@ public slots:
 
 private:
 
+    void select_auto_star(FITSImage *image);
 	void fill_interface( void );
 	void calibrate_reticle_manual( void );
     void calibrate_reticle_by_ra_dec( bool ra_only ); // 1 or 2-axis calibration

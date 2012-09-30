@@ -34,27 +34,30 @@ public:
     DeviceFamily getType() { return dType;}
 
 
-
     // Common commands
     bool getFrame(int *x, int *y, int *w, int *h);
+    bool setFrame(int x, int y, int w, int h);
     bool capture(double exposure);
     bool setFrameType(CCDFrameType fType);
     bool setBinning(int bin_x, int bin_y);
     bool setBinning(CCDBinType binType);
+    CCDBinType getBinning();
 
-    // If CCD has ST4 port
-    bool canGuide();
-    bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
-    bool doPulse(GuideDirection dir, int msecs );
 
     // Utitlity functions
     void setCaptureMode(FITSMode mode) { captureMode = mode; }
+    void setCaptureFilter(FITSScale fType) { captureFilter = fType; }
     void setISOMode(bool enable) { ISOMode = enable; }
     void setBatchMode(bool enable) { batchMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setSeqCount(int count) { seqCount = count; }
+
     FITSViewer *getViewer() { return fv;}
-    int getTabID();
+    int getNormalTabID() { return normalTabID; }
+    int getGuideTabID() { return guideTabID; }
+    int getFocusTabID() { return focusTabID; }
+    int getCalibrationTabID() { return calibrationTabID; }
+
 
 public slots:
     void FITSViewerDestroyed();
@@ -62,13 +65,15 @@ public slots:
 
 private:
     FITSMode captureMode;
+    FITSScale captureFilter;
     bool batchMode;
     bool ISOMode;
     QString		seqPrefix;
     int seqCount;
-    int focusTabID, guideTabID;
+    int normalTabID, focusTabID, guideTabID, calibrationTabID;
     FITSViewer * fv;
     StreamWG *streamWindow;
+    ISD::ST4 *ST4Driver;
 
 };
 

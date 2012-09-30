@@ -68,6 +68,7 @@ public:
     // Convenience functions
     virtual const char *getDeviceName()=0;
     virtual bool isConnected()=0;
+    virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)=0;
 
     virtual ~GDInterface() {}
 
@@ -76,8 +77,10 @@ protected:
     QList<INDI::Property *> properties;
 
 public slots:
+    virtual bool Connect()=0;
+    virtual bool Disconnect()=0;
     virtual bool runCommand(int command, void *ptr=NULL)=0;
-    virtual void setProperty(QObject *)=0;
+    virtual bool setProperty(QObject *)=0;
 
 signals:
     void Connected();
@@ -118,9 +121,13 @@ public:
     virtual bool isConnected() { return connected; }
     virtual INDI::BaseDevice* getBaseDevice() { return baseDevice;}
 
+    virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
+
 public slots:
+    virtual bool Connect();
+    virtual bool Disconnect();
     virtual bool runCommand(int command, void *ptr=NULL);
-    virtual void setProperty(QObject *);
+    virtual bool setProperty(QObject *);
 
 protected:
     void createDeviceInit();
@@ -164,15 +171,35 @@ public:
     QList<INDI::Property *> getProperties();
     virtual INDI::BaseDevice* getBaseDevice();
 
+    bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
+
 
 public slots:
+    virtual bool Connect();
+    virtual bool Disconnect();
     virtual bool runCommand(int command, void *ptr=NULL);
-    virtual void setProperty(QObject *);
+    virtual bool setProperty(QObject *);
 
 protected:
     INDI::BaseDevice *baseDevice;
     ClientManager *clientManager;
     GDInterface *interfacePtr;
+
+};
+
+class ST4
+{
+public:
+    ST4(INDI::BaseDevice *bdv, ClientManager *cm);
+    ~ST4();
+
+    bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
+    bool doPulse(GuideDirection dir, int msecs );
+    const char *getDeviceName();
+
+private:
+    INDI::BaseDevice *baseDevice;
+    ClientManager *clientManager;
 
 };
 

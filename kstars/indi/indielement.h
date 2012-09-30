@@ -51,8 +51,8 @@ public:
     const QString &getLabel() { return label; }
     const QString &getName() { return name;}
 
-    const QString &getWriteField();
-    const QString &getReadField();
+    QString getWriteField();
+    QString getReadField();
 
 
     void buildSwitch(QButtonGroup* groupB, ISwitch *sw);

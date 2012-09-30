@@ -34,6 +34,8 @@ public:
     EkosManager(  );
     ~EkosManager();
 
+    void appendLogText(const QString &);
+
 public slots:
     void processINDI();
     void connectDevices();
@@ -43,7 +45,8 @@ public slots:
     void processNewDevice(ISD::GDInterface*);
     void processNewProperty(INDI::Property*);
 
-    void tabChanged(int index);
+    void updateLog();
+    void clearLog();
 
     void removeDevice(ISD::GDInterface*);
 
@@ -51,24 +54,37 @@ public slots:
     void setCCD(ISD::GDInterface *);
     void setFilter(ISD::GDInterface *);
     void setFocuser(ISD::GDInterface *);
+    void setST4(ISD::ST4 *);
 
  private:
 
+    void loadDefaultDrivers();
+    void saveDefaultDrivers();
     void reset();
+    void initCapture();
+    void initFocus();
+    void initGuide();
     bool useGuiderFromCCD;
     bool useFilterFromCCD;
+    bool useST4;
+    bool guideStarted;
+    bool ccdStarted;
 
-    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter;
-    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di;
+    ISD::GDInterface *scope, *ccd, *guider, *focuser, *filter, *aux;
+    DriverInfo *scope_di, *ccd_di, *guider_di, *filter_di, *focuser_di, *aux_di;
 
     Ekos::Capture *captureProcess;
     Ekos::Focus *focusProcess;
     Ekos::Guide *guideProcess;
 
+
+
     unsigned short nDevices;
     QList<DriverInfo *> managedDevices;
 
     QHash<QString, DriverInfo *> driversList;
+
+    QStringList logText;
 
 
 
