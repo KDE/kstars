@@ -179,7 +179,7 @@ void OpsCatalog::slotRemoveCatalog() {
                            "This action cannot be reversed! Delete Catalog?"),
                           i18n("Delete Catalog?") )
             == KMessageBox::No) {
-            KMessageBox::information(0, "Catalog addition cancelled.");
+            KMessageBox::information(0, "Catalog deletion cancelled.");
             return;
     }
     //Ask DB to remove catalog
