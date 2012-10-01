@@ -647,7 +647,7 @@ void INDI_E::browseBlob()
 
 }
 
-const QString & INDI_E::getWriteField()
+QString INDI_E::getWriteField()
 {
     if (write_w)
         return write_w->text();
@@ -655,7 +655,7 @@ const QString & INDI_E::getWriteField()
         return NULL;
 }
 
-const QString & INDI_E::getReadField()
+QString INDI_E::getReadField()
 {
     if (read_w)
         return read_w->text();

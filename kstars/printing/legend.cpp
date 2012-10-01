@@ -17,7 +17,7 @@
 
 #include "legend.h"
 #include "skyqpainter.h"
-#include "kstars.h"
+#include "skymap.h"
 #include "kstarsdata.h"
 #include "Options.h"
 #include "colorscheme.h"
@@ -36,11 +36,11 @@ namespace
 }
 
 Legend::Legend(LEGEND_ORIENTATION orientation, LEGEND_POSITION pos)
-    : m_Painter(0), m_KStars(KStars::Instance()), m_DeletePainter(false), m_Type(LT_FULL),
-    m_Orientation(orientation), m_Position(pos), m_PositionFloating(QPoint(0, 0)),
-    m_cScheme(KStars::Instance()->data()->colorScheme()), m_DrawFrame(false), m_SymbolSize(symbolSize),
-    m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
-    m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
+    : m_Painter(0), m_SkyMap(SkyMap::Instance()), m_DeletePainter(false), m_Type(LT_FULL),
+      m_Orientation(orientation), m_Position(pos), m_PositionFloating(QPoint(0, 0)),
+      m_cScheme(KStarsData::Instance()->colorScheme()), m_DrawFrame(false), m_SymbolSize(symbolSize),
+      m_BRectWidth(bRectWidth), m_BRectHeight(bRectHeight), m_MaxHScalePixels(maxHScalePixels),
+      m_MaxVScalePixels(maxVScalePixels), m_XSymbolSpacing(xSymbolSpacing), m_YSymbolSpacing(ySymbolSpacing)
 {
     m_BgColor = m_cScheme->colorNamed("SkyColor");
 }
@@ -166,7 +166,7 @@ void Legend::paintLegend(QPaintDevice *pd)
         delete m_Painter;
     }
 
-    m_Painter = new SkyQPainter(m_KStars, pd);
+    m_Painter = new SkyQPainter(m_SkyMap, pd);
     m_DeletePainter = true;
     m_Painter->begin();
 

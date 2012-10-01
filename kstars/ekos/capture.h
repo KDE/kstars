@@ -19,8 +19,9 @@
 
 #include "ui_capture.h"
 
-#include "fitsviewer/fitscommon.h"
+#include "../fitsviewer/fitscommon.h"
 #include "indi/indistd.h"
+#include "indi/indiccd.h"
 
 namespace Ekos
 {
@@ -32,11 +33,16 @@ class Capture : public QWidget, public Ui::Capture
     Q_OBJECT
 
 public:
+
+    enum { CALIBRATE_NONE, CALIBRATE_START, CALIBRATE_DONE };
+
     Capture();
-
-
     void addCCD(ISD::GDInterface *newCCD);
     void addFilter(ISD::GDInterface *newFilter);
+
+    void appendLogText(const QString &);
+    void clearLog();
+    QString getLogText() { return logText.join("\n"); }
 
     /* Capture */
     void updateSequencePrefix( const QString &newPrefix);
@@ -53,6 +59,9 @@ public slots:
 
     void checkSeqBoundary(const KFileItemList & items);
 
+signals:
+        void newLog();
+
 private:
 
     /* Capture */
@@ -65,6 +74,7 @@ private:
     QTimer *seqTimer;
     QString		seqPrefix;
     int			seqCount;
+    int calibrationState;
 
     QList<ISD::CCD *> CCDs;
 
@@ -76,6 +86,8 @@ private:
 
     ITextVectorProperty *filterName;
     INumberVectorProperty *filterSlot;
+
+    QStringList logText;
 
 };
 

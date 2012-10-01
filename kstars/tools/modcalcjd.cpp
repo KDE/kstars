@@ -142,8 +142,8 @@ void modCalcJD::processLines( QTextStream &istream, int inputData ) {
     QTextStream ostream(&fOut);
 
     QString line;
-    long double jd;
-    double mjd;
+    long double jd(0);
+    double mjd(0);
     KStarsDateTime dt;
 
     while ( ! istream.atEnd() ) {

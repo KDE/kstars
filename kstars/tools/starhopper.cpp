@@ -22,6 +22,7 @@
 #include "starcomponent.h"
 
 #include "kstarsdata.h"
+#include "ksutils.h"
 
 #include <QList>
 
@@ -44,10 +45,12 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
     QHash<SkyPoint const *, double> g_score;
     QHash<SkyPoint const *, double> f_score;
     QHash<SkyPoint const *, double> h_score;
- 
+
+    kDebug() << "StarHopper is trying to compute a path from source: " << src.ra().toHMSString() << src.dec().toDMSString() << " to destination: " << dest.ra().toHMSString() << dest.dec().toDMSString() << "; a starhop of " << src.angularDistanceTo( &dest ).Degrees() << " degrees!";
+
     oSet.append( &src );
     g_score[ &src ] = 0;
-    h_score[ &src ] = src.angularDistanceTo( &dest ).Degrees();
+    h_score[ &src ] = src.angularDistanceTo( &dest ).Degrees()/fov;
     f_score[ &src ] = h_score[ &src ];
     
     while( !oSet.isEmpty() ) {
@@ -61,11 +64,30 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
                 curr_node = sp;
             }
         }
-        kDebug() << "Lowest fscore is " << lowfscore;
-        if( curr_node == &dest || (curr_node != &src && h_score[ curr_node ] < 0.5 * fov) ) {
+        kDebug() << "Lowest fscore (vertex distance-plus-cost score) is " << lowfscore << " with coords: " << curr_node->ra().toHMSString() << curr_node->dec().toDMSString() << ". Considering this node now.";
+        if( curr_node == &dest || (curr_node != &src && h_score[ curr_node ] < 0.5) ) {
             // We are at destination
             reconstructPath( came_from[ curr_node ] );
-            kDebug() << "Result path count: " << result_path.count();
+            kDebug() << "We've arrived at the destination! Yay! Result path count: " << result_path.count();
+
+            // Just a test -- try to print out useful instructions to the debug console. Once we make star hopper unexperimental, we should move this to some sort of a display
+            kDebug() << "Star Hopping Directions: ";
+            const SkyPoint *prevHop = start;
+            foreach( const StarObject *hopStar, result_path ) {
+                QString direction;
+                double pa; // should be 0 to 2pi
+
+                dms angDist = prevHop->angularDistanceTo( hopStar, &pa );
+
+                dms dmsPA;
+                dmsPA.setRadians( pa );
+                direction = KSUtils::toDirectionString( dmsPA );
+
+                kDebug() << "  Slew " << angDist.Degrees() << " degrees " << direction << " to find a " << hopStar->spchar() << " star of mag " << hopStar->mag();
+                prevHop = hopStar;
+            }
+            kDebug() << "  The destination is within a field-of-view";
+
             return result_path;
         }
         
@@ -76,8 +98,10 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
         // larger than src --> dest distance by more than 20%, don't
         // even bother considering it.
 
-        if( h_score[ curr_node ] > h_score[ &src ] * 1.2 )
+        if( h_score[ curr_node ] > h_score[ &src ] * 1.2 ) {
+            kDebug() << "Node under consideration has larger distance to destination (h-score) than start node! Ignoring it.";
             continue;
+        }
 
         SkyPoint const *nhd_node;
 
@@ -114,7 +138,7 @@ QList<const StarObject *> StarHopper::computePath( const SkyPoint &src, const Sk
             if( tentative_better ) {
                 came_from[ nhd_node ] = curr_node;
                 g_score[ nhd_node ] = tentative_g_score;
-                h_score[ nhd_node ] = nhd_node->angularDistanceTo( &dest ).Degrees();
+                h_score[ nhd_node ] = nhd_node->angularDistanceTo( &dest ).Degrees() / fov;
                 f_score[ nhd_node ] = g_score[ nhd_node ] + h_score[ nhd_node ];
             }
         }
@@ -155,7 +179,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
         Q_ASSERT( nextstar );
 
         // Test 1: How bright is the star?
-        magcost = nextstar->mag() - 7.0 + log( fov ); // The brighter, the better. FIXME: 8.0 is now an arbitrary reference to the average faint star. Should actually depend on FOV, something like log( FOV ).
+        magcost = nextstar->mag() - 7.0 + 5 * log10( fov ); // The brighter, the better. FIXME: 8.0 is now an arbitrary reference to the average faint star. Should actually depend on FOV, something like log( FOV ).
     
         // Test 2: Is the star strikingly red / yellow coloured?
         QString SpType = nextstar->sptype();
@@ -182,7 +206,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
     }
         
     // Test 4: How far is the hop?
-    double distcost = (curr->angularDistanceTo( next ).Degrees() / fov); // 1 "magnitude" inc. for 1 FOV
+    double distcost = (curr->angularDistanceTo( next ).Degrees() / fov); // 1 "magnitude" incremental cost for 1 FOV. Is this even required, or is it just equivalent to halving our distance unit? I think it is required since the hop is not necessarily in the direction of the object -- asimha
 
     // Test 5: How effective is the hop? [Might not be required with A*]
     //    double distredcost = -((src->angularDistanceTo( dest ).Degrees() - next->angularDistanceTo( dest ).Degrees()) * 60 / fov)*3; // 3 "magnitudes" for 1 FOV closer
@@ -190,7 +214,7 @@ float StarHopper::cost( const SkyPoint *curr, const SkyPoint *next ) {
     // Test 5: Is this an asterism, or are there bright stars clustered nearby?
     QList<StarObject *> localNeighbors;
     StarComponent::Instance()->starsInAperture( localNeighbors, *curr, fov/10, maglim + 1.0 );
-    double stardensitycost = 1 - localNeighbors.count();
+    double stardensitycost = 1 - localNeighbors.count(); // -1 "magnitude" for every neighbouring star
 
     netcost = magcost /*+ speccost*/ + distcost + stardensitycost;
     if( netcost < 0 )

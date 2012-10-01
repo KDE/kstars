@@ -17,6 +17,7 @@
 
 #include "skypoint.h"
 #include "indicommon.h"
+#include "fitsviewer/fitscommon.h"
 
 
 class ClientManager;
@@ -48,20 +49,26 @@ class GDInterface : public QObject
     Q_OBJECT
 
 public:
+    // Property handling
     virtual void registerProperty(INDI::Property *prop) =0;
-
     virtual void removeProperty(INDI::Property *prop) =0;
     virtual void processSwitch(ISwitchVectorProperty *svp)=0;
     virtual void processText(ITextVectorProperty* tvp)=0;
     virtual void processNumber(INumberVectorProperty *nvp)=0;
     virtual void processLight(ILightVectorProperty *lvp)=0;
     virtual void processBLOB(IBLOB *bp)=0;
-    virtual DeviceFamily getType()=0;
-    virtual const char *getDeviceName()=0;
-    virtual DriverInfo * getDriverInfo() = 0;
+
+    // Accessors
     virtual QList<INDI::Property *> getProperties() =0;
+    virtual DeviceFamily getType()=0;
+    virtual DriverInfo * getDriverInfo() = 0;
     virtual INDI::BaseDevice* getBaseDevice()=0;
+
+
+    // Convenience functions
+    virtual const char *getDeviceName()=0;
     virtual bool isConnected()=0;
+    virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step)=0;
 
     virtual ~GDInterface() {}
 
@@ -70,8 +77,10 @@ protected:
     QList<INDI::Property *> properties;
 
 public slots:
+    virtual bool Connect()=0;
+    virtual bool Disconnect()=0;
     virtual bool runCommand(int command, void *ptr=NULL)=0;
-    virtual void setProperty(QObject *)=0;
+    virtual bool setProperty(QObject *)=0;
 
 signals:
     void Connected();
@@ -112,10 +121,13 @@ public:
     virtual bool isConnected() { return connected; }
     virtual INDI::BaseDevice* getBaseDevice() { return baseDevice;}
 
+    virtual bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
 
 public slots:
+    virtual bool Connect();
+    virtual bool Disconnect();
     virtual bool runCommand(int command, void *ptr=NULL);
-    virtual void setProperty(QObject *);
+    virtual bool setProperty(QObject *);
 
 protected:
     void createDeviceInit();
@@ -159,9 +171,14 @@ public:
     QList<INDI::Property *> getProperties();
     virtual INDI::BaseDevice* getBaseDevice();
 
+    bool getMinMaxStep(const QString & propName, const QString & elementName, double *min, double *max, double *step);
+
+
 public slots:
+    virtual bool Connect();
+    virtual bool Disconnect();
     virtual bool runCommand(int command, void *ptr=NULL);
-    virtual void setProperty(QObject *);
+    virtual bool setProperty(QObject *);
 
 protected:
     INDI::BaseDevice *baseDevice;
@@ -170,111 +187,23 @@ protected:
 
 };
 
-class Telescope : public DeviceDecorator
+class ST4
 {
-    Q_OBJECT
-
 public:
-    Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_TELESCOPE;}
+    ST4(INDI::BaseDevice *bdv, ClientManager *cm);
+    ~ST4();
 
-    void registerProperty(INDI::Property *prop);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty* tvp);
-    void processNumber(INumberVectorProperty *nvp);
-
-    DeviceFamily getType() { return dType;}
-
-protected:
-    void Slew(SkyPoint *ScopeTarget);
-
-public slots:
-    virtual bool runCommand(int command, void *ptr=NULL);
+    bool doPulse(GuideDirection ra_dir, int ra_msecs, GuideDirection dec_dir, int dec_msecs );
+    bool doPulse(GuideDirection dir, int msecs );
+    const char *getDeviceName();
 
 private:
-
-    SkyPoint currentCoord;
-
-};
-
-class CCD : public DeviceDecorator
-{
-    Q_OBJECT
-
-public:
-    CCD(GDInterface *iPtr);
-    ~CCD();
-
-    void registerProperty(INDI::Property *prop);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty* tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
-    void processBLOB(IBLOB *bp);
-
-    DeviceFamily getType() { return dType;}
-
-    void setFocusMode(bool enable) { focusMode = enable; }
-    void setISOMode(bool enable) { ISOMode = enable; }
-    void setBatchMode(bool enable) { batchMode = enable; }
-    void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
-    void setSeqCount(int count) { seqCount = count; }
-
-    FITSViewer *getViewer() { return fv;}
-    int getFocusTabID() { return focusTabID; }
-
-public slots:
-    bool runCommand(int command, void *ptr=NULL);
-    void FITSViewerDestroyed();
-    void StreamWindowDestroyed();
-
-private:
-    bool focusMode;
-    bool batchMode;
-    bool ISOMode;
-    QString		seqPrefix;
-    int seqCount;
-    int focusTabID;
-    FITSViewer * fv;
-    StreamWG *streamWindow;
+    INDI::BaseDevice *baseDevice;
+    ClientManager *clientManager;
 
 };
 
-class Filter : public DeviceDecorator
-{
-    Q_OBJECT
 
-public:
-    Filter(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FILTER;}
-
-    void registerProperty(INDI::Property *prop);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty* tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
-
-    DeviceFamily getType() { return dType;}
-
-};
-
-class Focuser : public DeviceDecorator
-{
-    Q_OBJECT
-
-public:
-    Focuser(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_FOCUSER;}
-
-    void registerProperty(INDI::Property *prop);
-    void processSwitch(ISwitchVectorProperty *svp);
-    void processText(ITextVectorProperty* tvp);
-    void processNumber(INumberVectorProperty *nvp);
-    void processLight(ILightVectorProperty *lvp);
-
-    DeviceFamily getType() { return dType;}
-
-public slots:
-    bool runCommand(int command, void *ptr=NULL);
-
-};
 
 }
 

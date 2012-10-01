@@ -434,7 +434,7 @@ Vector2f Projector::toScreenVec(const SkyPoint* o, bool oRefract, bool* onVisibl
     //is more than 90 degrees.  This is on the "back side" of the celestial sphere
     //and should not be drawn.
     if( onVisibleHemisphere )
-        *onVisibleHemisphere = (c > cosMaxFieldAngle());
+        *onVisibleHemisphere = (c > cosMaxFieldAngle()); // TODO: Isn't it more efficient to bypass the final calculation below if the object is not visible?
 
     double k = projectionK(c);
 

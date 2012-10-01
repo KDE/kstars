@@ -136,9 +136,9 @@ void ClientManager::newLight(ILightVectorProperty * lvp)
     emit newINDILight(lvp);
 }
 
-void ClientManager::newMessage(INDI::BaseDevice *dp)
+void ClientManager::newMessage(INDI::BaseDevice *dp, int messageID)
 {
-    emit newINDIMessage(dp);
+    emit newINDIMessage(dp, messageID);
 }
 
 

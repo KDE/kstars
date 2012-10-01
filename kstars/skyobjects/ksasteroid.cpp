@@ -39,9 +39,6 @@ KSAsteroid* KSAsteroid::clone() const
 }
 
 bool KSAsteroid::findGeocentricPosition( const KSNumbers *num, const KSPlanetBase *Earth ) {
-    //Precess the longitude of the Ascending Node to the desired epoch:
-    dms n = dms( double( N.Degrees() - 3.82394E-5 * ( num->julianDay() - J2000 )) ).reduce();
-
     //determine the mean anomaly for the desired date.  This is the mean anomaly for the
     //ephemeis epoch, plus the number of days between the desired date and ephemeris epoch,
     //times the asteroid's mean daily motion (360/P):

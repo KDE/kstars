@@ -89,7 +89,7 @@ public:
      *
      * @return Vector2f containing screen pixel x, y coordinates of SkyPoint.
      * @param o pointer to the SkyPoint for which to calculate x, y coordinates.
-     * @param useRefraction true = use Options::useRefraction() value.
+     * @param oRefract true = use Options::useRefraction() value.
      *   false = do not use refraction.  This argument is only needed
      *   for the Horizon, which should never be refracted.
      * @param onVisibleHemisphere pointer to a bool to indicate whether the point is

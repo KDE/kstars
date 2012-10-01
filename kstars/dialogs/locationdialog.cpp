@@ -292,7 +292,7 @@ bool LocationDialog::addCity( ) {
             //Attempt to highlight new city in list
             ui->GeoBox->setCurrentItem( 0 );
             if ( ui->GeoBox->count() ) {
-                for ( uint i=0; i<ui->GeoBox->count(); i++ ) {
+                for ( int i=0; i<ui->GeoBox->count(); i++ ) {
                     if ( ui->GeoBox->item(i)->text() == g->fullName() ) {
                         ui->GeoBox->setCurrentRow( i );
                         break;

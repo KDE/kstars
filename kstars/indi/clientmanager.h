@@ -47,7 +47,7 @@ protected:
     virtual void newNumber(INumberVectorProperty *);
     virtual void newText(ITextVectorProperty *);
     virtual void newLight(ILightVectorProperty *);
-    virtual void newMessage(INDI::BaseDevice *dp);
+    virtual void newMessage(INDI::BaseDevice *dp, int messageID);
 
     virtual void serverConnected();
     virtual void serverDisconnected(int exit_code);
@@ -71,7 +71,7 @@ signals:
     void newINDINumber(INumberVectorProperty *nvp);
     void newINDIText(ITextVectorProperty *tvp);
     void newINDILight(ILightVectorProperty *lvp);
-    void newINDIMessage(INDI::BaseDevice *dp);
+    void newINDIMessage(INDI::BaseDevice *dp, int messageID);
 
     void newTelescope();
     void newCCD();

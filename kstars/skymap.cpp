@@ -32,6 +32,7 @@
 #include <QPointF>
 #include <QApplication>
 #include <QGraphicsScene>
+#include <QInputDialog>
 
 #include <kactioncollection.h>
 #include <kconfig.h>
@@ -67,6 +68,7 @@
 #include "projections/orthographicprojector.h"
 #include "projections/azimuthalequidistantprojector.h"
 #include "projections/equirectangularprojector.h"
+#include "fov.h"
 
 #include "tools/flagmanager.h"
 
@@ -438,16 +440,10 @@ void SkyMap::slotDSS() {
     if ( clickedObject() ) {
         urlstring = KSUtils::getDSSURL( clickedObject() );
     } else {
-        //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
-        clickedPoint()->setRA0( clickedPoint()->ra().Hours() );
-        clickedPoint()->setDec0( clickedPoint()->dec().Degrees() );
-        clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
-        ra  = clickedPoint()->ra();
-        dec = clickedPoint()->dec();
+        SkyPoint deprecessedPoint = clickedPoint()->deprecess( data->updateNum() );
+        ra  = deprecessedPoint.ra();
+        dec = deprecessedPoint.dec();
         urlstring = KSUtils::getDSSURL( ra, dec ); // Use default size for non-objects
-        //restore coords from present epoch
-        clickedPoint()->setRA(  clickedPoint()->ra0() );
-        clickedPoint()->setDec( clickedPoint()->dec0() );
     }
 
     KUrl url ( urlstring );
@@ -477,16 +473,9 @@ void SkyMap::slotSDSS() {
         ra  = clickedObject()->ra0();
         dec = clickedObject()->dec0();
     } else {
-        //move present coords temporarily to ra0,dec0 (needed for precessToAnyEpoch)
-        clickedPoint()->setRA0( clickedPoint()->ra() );
-        clickedPoint()->setDec0( clickedPoint()->dec() );
-        clickedPoint()->precessFromAnyEpoch( data->ut().djd(), J2000 );
-        ra  = clickedPoint()->ra();
-        dec = clickedPoint()->dec();
-
-        //restore coords from present epoch
-        clickedPoint()->setRA(  clickedPoint()->ra0() );
-        clickedPoint()->setDec( clickedPoint()->dec0() );
+        SkyPoint deprecessedPoint = clickedPoint()->deprecess( data->updateNum() );
+        ra  = deprecessedPoint.ra();
+        dec = deprecessedPoint.dec();
     }
 
     RAString = RAString.sprintf( "ra=%f", ra.Degrees() );
@@ -567,19 +556,50 @@ void SkyMap::slotEndRulerMode() {
     }
     else { // Star Hop
         StarHopper hopper;
-        QList<const StarObject *> path = hopper.computePath( *AngularRuler.point( 0 ), *AngularRuler.points().last(), 1.0, 9.0 ); // FIXME: Hardcoded FOV and magnitude limits for testing
-
-        QList<SkyObject *> *mutablestarlist = new QList<SkyObject *>(); // FIXME: Memory leak
-        kDebug() << "path count: " << path.count();
-        foreach( const StarObject *conststar, path ) {
-            StarObject *mutablestar = const_cast<StarObject *>(conststar); // FIXME: Ugly const_cast
-            mutablestarlist->append( mutablestar );
-            kDebug() << "Added star!";
+        const SkyPoint &startHop = *AngularRuler.point( 0 );
+        const SkyPoint &stopHop = *clickedPoint();
+        double fov; // Field of view in arcminutes
+        bool ok; // true if user did not cancel the operation
+        if( data->getVisibleFOVs().size() == 1 ) {
+            // Exactly 1 FOV symbol visible, so use that. Also assume a circular FOV of size min{sizeX, sizeY}
+            FOV *f = data->getVisibleFOVs().first();
+            fov = ( ( f->sizeX() >= f->sizeY() && f->sizeY() != 0 ) ? f->sizeY() : f->sizeX() );
+            ok = true;
+        }
+        else if( !data->getVisibleFOVs().isEmpty() ) {
+            // Ask the user to choose from a list of available FOVs.
+            FOV const *f;
+            QMap< QString, double > nameToFovMap;
+            foreach( f, data->getVisibleFOVs() ) {
+                nameToFovMap.insert( f->name(), ( ( f->sizeX() >= f->sizeY() && f->sizeY() != 0) ? f->sizeY() : f->sizeX() ) );
+            }
+            fov = nameToFovMap[ QInputDialog::getItem( this, i18n("Star Hopper: Choose a field-of-view"), i18n("FOV to use for star hopping:"), nameToFovMap.uniqueKeys(), 0, false, &ok ) ];
+        }
+        else {
+            // Ask the user to enter a field of view
+            fov = QInputDialog::getDouble( this, i18n("Star Hopper: Enter field-of-view to use"), i18n("FOV to use for star hopping (in arcminutes):"), 60.0, 1.0, 600.0, 1, &ok );
         }
 
-        TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
-        delete t->list;
-        t->list = mutablestarlist;
+        Q_ASSERT( fov > 0.0 );
+
+        if( ok ) {
+
+            kDebug() << "fov = " << fov;
+
+            QList<const StarObject *> path = hopper.computePath( startHop, stopHop, fov/60.0, 9.0 ); // FIXME: Hardcoded magnitude limits for testing
+
+            QList<SkyObject *> *mutablestarlist = new QList<SkyObject *>(); // FIXME: Memory leak
+            kDebug() << "path count: " << path.count();
+            foreach( const StarObject *conststar, path ) {
+                StarObject *mutablestar = const_cast<StarObject *>(conststar); // FIXME: Ugly const_cast
+                mutablestarlist->append( mutablestar );
+                kDebug() << "Added star!";
+            }
+
+            TargetListComponent *t = KStarsData::Instance()->skyComposite()->getStarHopRouteList();
+            delete t->list;
+            t->list = mutablestarlist;
+        }
 
         rulerMode = false;
     }

@@ -583,7 +583,7 @@ void KStars::slotExportImage() {
 }
 
 void KStars::slotRunScript() {
-    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+    KUrl fileURL = KFileDialog::getOpenUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
     QFile f;
     QString fname;
 
@@ -600,14 +600,14 @@ void KStars::slotRunScript() {
 
             if ( result == KMessageBox::Cancel ) return;
             if ( result == KMessageBox::No ) { //save file
-                KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+                KUrl saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
                 KTemporaryFile tmpfile;
                 tmpfile.open();
 
                 while ( ! saveURL.isValid() ) {
                     message = i18n( "Save location is invalid. Try another location?" );
                     if ( KMessageBox::warningYesNo( 0, message, i18n( "Invalid Save Location" ), KGuiItem(i18n("Try Another")), KGuiItem(i18n("Do Not Try")) ) == KMessageBox::No ) return;
-                    saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|KStars Scripts (*.kstars)" );
+                    saveURL = KFileDialog::getSaveUrl( QDir::homePath(), "*.kstars|" + i18nc("Filter by file type: KStars Scripts.", "KStars Scripts (*.kstars)") );
                 }
 
                 if ( saveURL.isLocalFile() ) {

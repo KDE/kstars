@@ -13,6 +13,9 @@
 #include <KMessageBox>
 
 #include "indi/driverinfo.h"
+#include "indi/indifilter.h"
+#include "../fitsviewer/fitsviewer.h"
+#include "../fitsviewer/fitsimage.h"
 
 #include <libindi/basedevice.h>
 
@@ -28,6 +31,9 @@ Capture::Capture()
 
     filterSlot = NULL;
     filterName = NULL;
+
+    calibrationState = CALIBRATE_NONE;
+
 
     seqLister		= new KDirLister();
     seqTimer = new QTimer(this);
@@ -46,6 +52,9 @@ Capture::Capture()
     seqCurrentCount = 0;
     seqDelay = 0;
 
+    foreach(QString filter, FITSViewer::filterTypes)
+        filterCombo->addItem(filter);
+
     displayCheck->setEnabled(Options::showFITS());
 
 }
@@ -54,21 +63,23 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
 {
     CCDCaptureCombo->addItem(newCCD->getDeviceName());
 
-    currentCCD = (ISD::CCD *) newCCD;
+    connect(newCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
+    CCDs.append(static_cast<ISD::CCD *> (newCCD));
 
-    CCDs.append(currentCCD);
+    checkCCD(0);
+
 }
 
 void Capture::addFilter(ISD::GDInterface *newFilter)
 {
     FilterCaptureCombo->addItem(newFilter->getDeviceName());
 
-    currentFilter = (ISD::Filter *) newFilter;
-    Filters.append(currentFilter);
+    Filters.append(static_cast<ISD::Filter *>(newFilter));
 
-    checkFilter(Filters.count() - 1);
+    checkFilter(0);
+
+    FilterCaptureCombo->setCurrentIndex(0);
 
 }
 
@@ -140,32 +151,57 @@ void Capture::stopSequence()
 void Capture::checkCCD(int ccdNum)
 {
     if (ccdNum <= CCDs.count())
-        currentCCD = CCDs.at(ccdNum);
-    /*
-    INDI_D *idevice = NULL;
-    QString targetCCD = CCDCombo->itemText(ccdNum);
-
-    idevice = imenu->findDeviceByLabel(targetCCD);
-
-    if (!idevice)
     {
-        KMessageBox::error(this, i18n("INDI device %1 no longer exists.", targetCCD));
-        CCDCombo->removeItem(ccdNum);
-        lastCCD = CCDCombo->currentIndex();
-        if (lastCCD != -1)
-            checkCCD(lastCCD);
-        return;
+        int x,y,w,h;
+        int binx,biny;
+        double min,max,step;
+
+        currentCCD = CCDs.at(ccdNum);     
+
+        if (currentCCD->getMinMaxStep("CCD_FRAME", "X", &min, &max, &step))
+        {
+            frameXIN->setMinimum(min);
+            frameXIN->setMaximum(max);
+            frameXIN->setSingleStep(step);
+        }
+
+        if (currentCCD->getMinMaxStep("CCD_FRAME", "Y", &min, &max, &step))
+        {
+            frameYIN->setMinimum(min);
+            frameYIN->setMaximum(max);
+            frameYIN->setSingleStep(step);
+        }
+
+        if (currentCCD->getMinMaxStep("CCD_FRAME", "WIDTH", &min, &max, &step))
+        {
+            frameWIN->setMinimum(min);
+            frameWIN->setMaximum(max);
+            frameWIN->setSingleStep(step);
+        }
+
+        if (currentCCD->getMinMaxStep("CCD_FRAME", "HEIGHT", &min, &max, &step))
+        {
+            frameHIN->setMinimum(min);
+            frameHIN->setMaximum(max);
+            frameHIN->setSingleStep(step);
+        }
+
+        if (currentCCD->getFrame(&x,&y,&w,&h))
+        {
+
+            frameXIN->setValue(x);
+            frameYIN->setValue(y);
+            frameWIN->setValue(w);
+            frameHIN->setValue(h);
+        }
+
+        if (currentCCD->getBinning(&binx, &biny))
+        {
+            binXCombo->setCurrentIndex(binx-1);
+            binYCombo->setCurrentIndex(biny-1);
+        }
+
     }
-
-    if (!idevice->isOn())
-    {
-        KMessageBox::error(this, i18n("%1 is disconnected. Establish a connection to the device using the INDI Control Panel.", targetCCD));
-
-        CCDCombo->setCurrentIndex(lastCCD);
-        return;
-    }
-
-    currentCCD = targetCCD;*/
 }
 
 void Capture::checkFilter(int filterNum)
@@ -198,7 +234,8 @@ void Capture::checkFilter(int filterNum)
 
     }
 
-    FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value);
+    FilterPosCombo->setCurrentIndex( (int) filterSlot->np[0].value-1);
+
 }
 
 void Capture::newFITS(IBLOB *bp)
@@ -208,8 +245,30 @@ void Capture::newFITS(IBLOB *bp)
     if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || startB->isEnabled())
         return;    
 
+    if (calibrationState == CALIBRATE_START)
+    {
+        calibrationState = CALIBRATE_DONE;
+        seqTimer->start(seqDelay);
+        return;
+    }
+
+    if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_DONE)
+    {
+        calibrationState = CALIBRATE_NONE;
+
+        FITSViewer *fv = currentCCD->getViewer();
+
+        FITSImage *calibrateImage = fv->getImage(currentCCD->getCalibrationTabID());
+        FITSImage *currentImage   = fv->getImage(currentCCD->getNormalTabID());
+
+        if (calibrateImage && currentImage)
+            currentImage->subtract(calibrateImage);
+    }
+
     seqCurrentCount++;
     imgProgress->setValue(seqCurrentCount);
+
+    appendLogText(i18n("Recieved image %1 out of %2.").arg(seqCurrentCount).arg(seqTotalCount));
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
@@ -227,6 +286,7 @@ void Capture::newFITS(IBLOB *bp)
     }
     else
         seqTimer->start(seqDelay);
+
 }
 
 
@@ -237,7 +297,36 @@ void Capture::captureImage()
 
     seqTimer->stop();
 
-    currentCCD->runCommand(INDI_CAPTURE, &seqExpose);
+    if (currentCCD->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value()) == false)
+    {
+        appendLogText(i18n("Failed to set sub frame."));
+        return;
+
+    }
+
+    if (currentCCD->setBinning(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1) == false)
+    {
+        appendLogText(i18n("Failed to set binning."));
+        return;
+    }
+
+    if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
+    {
+        calibrationState = CALIBRATE_START;
+        currentCCD->setFrameType(FRAME_DARK);
+        currentCCD->setCaptureMode(FITS_CALIBRATE);
+        appendLogText(i18n("Capturing dark frame..."));
+    }
+    else
+    {
+
+        currentCCD->setFrameType(FRAME_LIGHT);
+        currentCCD->setCaptureMode(FITS_NORMAL);
+        currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+        appendLogText(i18n("Capturing image..."));
+    }
+
+    currentCCD->capture(seqExpose);   
 }
 
 
@@ -303,6 +392,20 @@ void Capture::checkSeqBoundary(const KFileItemList & items)
 
     currentCCD->setSeqCount(seqCount);
 
+}
+
+void Capture::appendLogText(const QString &text)
+{
+
+    logText.insert(0, QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss") + " " + i18n("%1").arg(text));
+
+    emit newLog();
+}
+
+void Capture::clearLog()
+{
+    logText.clear();
+    emit newLog();
 }
 
 }

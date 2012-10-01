@@ -58,7 +58,6 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
             a = dso->a();
             b = dso->a() * dso->e(); // Use a * e instead of b, since e() returns 1 whenever one of the dimensions is zero. This is important for circular objects
             pa = dso->pa() * dms::DegToRad;
-            // TODO: Deal with round objects, which may have undefined 'b' and 'pa', but a sensible 'a'.
 
             // We now want to convert a, b, and pa into an image
             // height and width -- i.e. a dRA and dDec.
@@ -69,7 +68,6 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
             // 'a' and 'b' are in arcminutes, so height and width are in arcminutes
 
             // Pad the RA and Dec, so that we show more of the sky than just the object.
-            // TODO: Make padding user-configurable
             height += dss_padding;
             width += dss_padding;
         }
@@ -89,7 +87,7 @@ QString KSUtils::getDSSURL( const SkyPoint * const p ) {
         if( width > 75.0 )
             width = 75.0;
 
-        return getDSSURL( p->ra0(), p->dec(), width, height );
+        return getDSSURL( p->ra0(), p->dec0(), width, height );
 }
 
 QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float height ) {
@@ -127,4 +125,36 @@ QString KSUtils::getDSSURL( const dms &ra, const dms &dec, float width, float he
 
     return ( URLprefix + RAString + DecString + SizeString + URLsuffix );
 
+}
+
+QString KSUtils::toDirectionString( dms angle ) {
+    // TODO: Instead of doing it this way, it would be nicer to
+    // compute the string to arbitrary precision. Although that will
+    // not be easy to localize.  (Consider, for instance, Indian
+    // languages that have special names for the intercardinal points)
+    // -- asimha
+
+    static const char *directions[] = {
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "N"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NNE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "ENE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "E"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "ESE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "SE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "SSE"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "S"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "SSW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "SW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "WSW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "W"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "WNW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "NNW"),
+        I18N_NOOP2( "Abbreviated cardinal / intercardinal etc. direction", "N"),
+    };
+
+    int index = (int)( (angle.Degrees() + 11.25) / 22.5); // A number between 0 and 16 (inclusive), 16 meaning the same thing as zero.
+
+    return i18nc( "Abbreviated cardinal / intercardinal etc. direction", directions[ index ] );
 }

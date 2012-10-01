@@ -919,7 +919,7 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                     .subs( hr ).subs( mnt ).subs( sec ).toString() << endl;
                 }
             } else if ( fn[0] == "changeViewOption" && fn.size() == 3 ) {
-                bool bOk(false), nOk(false), dOk(false);
+                bool bOk(false), dOk(false);
 
                 //parse bool value
                 bool bVal(false);
@@ -927,9 +927,6 @@ bool KStarsData::executeScript( const QString &scriptname, SkyMap *map ) {
                 if ( fn[2].toLower() == "false" ) { bOk = true; bVal = false; }
                 if ( fn[2] == "1" ) { bOk = true; bVal = true; }
                 if ( fn[2] == "0" ) { bOk = true; bVal = false; }
-
-                //parse int value
-                int nVal = fn[2].toInt( &nOk );
 
                 //parse double value
                 double dVal = fn[2].toDouble( &dOk );

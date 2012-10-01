@@ -65,7 +65,7 @@ SkyGLPainter::SkyGLPainter( QGLWidget *widget ) :
 {
     m_widget = widget;
     if( !m_init ) {
-        printf("Initializing texcoord arrays...\n");
+        kDebug() << "Initializing texcoord arrays...\n";
         for(int i = 0; i < NUMTYPES; ++i) {
             m_idx[i] = 0;
             for(int j = 0; j < BUFSIZE; ++j) {
@@ -163,6 +163,7 @@ bool SkyGLPainter::addItem(SkyPoint* p, int type, float width, char sp)
         case 'k': case 'K': starColor.setRgb( 255, 193, 153); break;
         case 'm': case 'M': starColor.setRgb( 255, 153, 153); break;
         case 'x':           starColor.setRgb( m_pen[0] * 255, m_pen[1] * 255, m_pen[2] *255 ); break;
+        default:            starColor.setRgb( 153, 255, 255); break; // If we don't know what spectral type, we use the same as 'A' (See SkyQPainter)
         }
 
         // Convert to HSV space using QColor's methods and adjust saturation.

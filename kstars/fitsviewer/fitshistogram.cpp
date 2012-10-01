@@ -39,8 +39,9 @@
 #include <kmessagebox.h>
 
 //#define HIST_LOG
+
 #define LOW_PASS_MARGIN 0.01
-#define LOW_PASS_LIMIT  5
+#define LOW_PASS_LIMIT  .05
 
 histogramUI::histogramUI(QDialog *parent) : QDialog(parent)
 {
@@ -55,7 +56,7 @@ FITSHistogram::FITSHistogram(QWidget *parent) : QDialog(parent)
 
     tab = (FITSTab *) parent;
 
-    type   = FITSAuto;
+    type   = FITS_AUTO;
     napply = 0;
 
     connect(ui->applyB, SIGNAL(clicked()), this, SLOT(applyScale()));
@@ -83,8 +84,8 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     double fits_w=0, fits_h=0;
     float *buffer = tab->getImage()->getImageBuffer();
 
-    tab->getImage()->getFITSSize(&fits_w, &fits_h);
-    tab->getImage()->getFITSMinMax(&fits_min, &fits_max);
+    tab->getImage()->getSize(&fits_w, &fits_h);
+    tab->getImage()->getMinMax(&fits_min, &fits_max);
 
     int pixel_range = (int) (fits_max - fits_min);
 
@@ -129,6 +130,28 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
         for (int j=0; j <= i; j++)
             cumulativeFreq[i] += histArray[j];
 
+
+     mean = (tab->getImage()->getAverage()-fits_min)*binWidth;
+     mean_p_std = (tab->getImage()->getAverage()-fits_min+tab->getImage()->getStdDev()*3)*binWidth;
+
+    // Indicator of information content of an image in a typical star field.
+    JMIndex = mean_p_std - mean;
+
+
+    #ifdef HIST_LOG
+    qDebug() << "Mean " << mean << " , mean plus std " << mean_p_std << " JMIndex " << JMIndex << endl;
+    #endif
+
+    if (mean == 0)
+        JMIndex = 0;
+    // Reject diffuse images by setting JMIndex to zero.
+    else if (mean_p_std / mean < 2)
+        JMIndex =0;
+
+    #ifdef HIST_LOG
+    qDebug() << "Final JMIndex " << JMIndex << endl;
+    #endif
+
     // Normalize histogram height. i.e. the maximum value will take the whole height of the widget
     histFactor = ((double) hist_height) / ((double) findMax(hist_width));
 
@@ -170,23 +193,23 @@ void FITSHistogram::applyScale()
 
     // Auto
     if (ui->autoR->isChecked())
-        type = FITSAuto;
+        type = FITS_AUTO;
     // Linear
     else if (ui->linearR->isChecked())
-        type = FITSLinear;
+        type = FITS_LINEAR;
     // Log
     else if (ui->logR->isChecked())
-        type = FITSLog;
+        type = FITS_LOG;
     // Exp
     else if (ui->sqrtR->isChecked())
-        type = FITSSqrt;
+        type = FITS_SQRT;
 
     histC = new FITSHistogramCommand(tab, this, type, min, max);
 
     tab->getUndoStack()->push(histC);
 }
 
-void FITSHistogram::equalize()
+void FITSHistogram::applyFilter(FITSScale ftype)
 {
     int min = ui->minSlider->value();
     int max = ui->maxSlider->value();
@@ -195,24 +218,7 @@ void FITSHistogram::equalize()
 
     FITSHistogramCommand *histC;
 
-    type = FITSEqualize;
-
-    histC = new FITSHistogramCommand(tab, this, type, min, max);
-
-    tab->getUndoStack()->push(histC);
-
-}
-
-void FITSHistogram::lowPassFilter()
-{
-    int min = ui->minSlider->value();
-    int max = ui->maxSlider->value();
-
-    napply++;
-
-    FITSHistogramCommand *histC;
-
-    type = FITSLowPass;
+    type = ftype;
 
     histC = new FITSHistogramCommand(tab, this, type, min, max);
 
@@ -314,8 +320,6 @@ FITSHistogramCommand::~FITSHistogramCommand()
 void FITSHistogramCommand::redo()
 {
 
-    float val, bufferVal;
-    double coeff;
     FITSImage *image = tab->getImage();
 
     float *image_buffer = image->getImageBuffer();
@@ -327,119 +331,30 @@ void FITSHistogramCommand::redo()
 
     switch (type)
     {
-    case FITSAuto:
-    case FITSLinear:
-        for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
-            {
-                bufferVal = image_buffer[i * width + j];
-                if (bufferVal < min) bufferVal = min;
-                else if (bufferVal > max) bufferVal = max;
-                image_buffer[i * width + j] = bufferVal;
-
-            }
+    case FITS_AUTO:
+    case FITS_LINEAR:
+        image->applyFilter(FITS_LINEAR, image_buffer, min, max);
         break;
 
-    case FITSLog:
-        coeff = max / log(1 + max);
-
-        for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
-            {
-                bufferVal = image_buffer[i * width + j];
-                if (bufferVal < min) bufferVal = min;
-                else if (bufferVal > max) bufferVal = max;
-                val = (coeff * log(1 + bufferVal));
-                if (val < min) val = min;
-                else if (val > max) val = max;
-                image_buffer[i * width + j] = val;
-            }
+    case FITS_LOG:
+        image->applyFilter(FITS_LOG, image_buffer, min, max);
         break;
 
-    case FITSSqrt:
-        coeff = max / sqrt(max);
-
-        for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
-            {
-                bufferVal = (int) image_buffer[i * width + j];
-                if (bufferVal < min) bufferVal = min;
-                else if (bufferVal > max) bufferVal = max;
-                val = (int) (coeff * sqrt(bufferVal));
-                image_buffer[i * width + j] = val;
-            }
+    case FITS_SQRT:
+        image->applyFilter(FITS_SQRT, image_buffer, min, max);
         break;
 
-     case FITSLowPass:
-     {
-        QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> histArray = histogram->getHistogram();
-        double maxFreq=0;
-        int maxFreqIndex=0;
-
-        for (int i=0; i < histArray.size(); i++)
-        {
-            if (histArray[i] > maxFreq)
-            {
-                maxFreq = histArray[i];
-                maxFreqIndex=i;
-            }
-        }
-
-        int lowPassCounter=0;
-        for (int i=maxFreqIndex; i < histArray.size(); i++)
-        {
-            // 5% cut off
-            if ( (histArray[i] / maxFreq) < LOW_PASS_MARGIN)
-            {
-               max = i / histogram->getBinWidth() + min;
-               //qDebug() << "We hit 1% limit at index " << i << " and max pixel value is now " << max << endl;
-               lowPassCounter++;
-
-               if (lowPassCounter >= (histArray.size() / LOW_PASS_LIMIT))
-                break;
-            }
-        }
-
-        //qDebug() << "Maximum freq is " << maxFreq << " with index of " << maxFreqIndex << endl;
-
-          for (int i=0; i < height; i++)
-             for (int j=0; j < width; j++)
-             {
-                bufferVal = image_buffer[i * width + j];
-                if (bufferVal < min) bufferVal = min;
-                else if (bufferVal > max) bufferVal = max;
-                image_buffer[i * width + j] = bufferVal;
-              }
-        }
+     case FITS_AUTO_STRETCH:
+       image->applyFilter(FITS_AUTO_STRETCH, image_buffer);
         break;
 
-     case FITSEqualize:
-     {
-        QVarLengthArray<int, INITIAL_MAXIMUM_WIDTH> cumulativeFreq = histogram->getCumulativeFreq();
-        coeff = 255.0 / (height * width);
-
-        for (int i=0; i < height; i++)
-            for (int j=0; j < width; j++)
-            {
-                bufferVal = (int) (image_buffer[i * width + j] - min) * histogram->getBinWidth();
-
-                if (bufferVal >= cumulativeFreq.size())
-                    bufferVal = cumulativeFreq.size()-1;
-
-                val = (int) (coeff * cumulativeFreq[bufferVal]);
-
-                image_buffer[i * width + j] = val;
-            }
-     }
+     case FITS_EQUALIZE:
+         image->applyFilter(FITS_EQUALIZE, image_buffer);
      break;
-
 
     default:
         break;
     }
-
-    tab->getImage()->calculateStats(true);
-    tab->getImage()->rescale(ZOOM_KEEP_LEVEL);
 
     if (histogram != NULL)
         histogram->updateHistogram();
@@ -466,22 +381,22 @@ QString FITSHistogramCommand::text() const
 
     switch (type)
     {
-    case FITSAuto:
+    case FITS_AUTO:
         return i18n("Auto Scale");
         break;
-    case FITSLinear:
+    case FITS_LINEAR:
         return i18n("Linear Scale");
         break;
-    case FITSLog:
+    case FITS_LOG:
         return i18n("Logarithmic Scale");
         break;
-    case FITSSqrt:
+    case FITS_SQRT:
         return i18n("Square Root Scale");
         break;
-    case FITSLowPass:
+    case FITS_AUTO_STRETCH:
         return i18n("Low Pass Filter");
         break;
-    case FITSEqualize:
+    case FITS_EQUALIZE:
         return i18n("Equalize");
         break;
 

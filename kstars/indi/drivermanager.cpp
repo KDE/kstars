@@ -253,6 +253,12 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
                   int ans = KMessageBox::warningContinueCancel(0, i18n("Driver %1 is already running, do you want to restart it?").arg(dv->getTreeLabel()));
                   if (ans == KMessageBox::Cancel)
                       continue;
+                  else
+                  {
+                      QList<DriverInfo *> stopList;
+                      stopList.append(dv);
+                      stopDevices(stopList);
+                  }
                 }
 
                 found = false;
@@ -298,10 +304,8 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
         if (qdv.empty())
             continue;
 
-       //port = dv->getPort().toInt();
         port = qdv.at(0)->getPort().toInt();
 
-       //qDebug() << "For host " << qdv.at(0)->getHost() << " which is equal to conversion values of " << port << endl;
         // Select random port within range is none specified.
         if (port == -1)
             port = getINDIPort(port);
@@ -383,7 +387,7 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
          }
          else
          {
-             QString errMsg = QString("Connection to INDI server locally on port %1 failed.").arg(port);
+             QString errMsg = i18n("Connection to INDI server locally on port %1 failed.").arg(port);
              KMessageBox::error(NULL, errMsg);
              foreach (DriverInfo *dv, qdv)
                  processDeviceStatus(dv);
@@ -564,7 +568,7 @@ void DriverManager::processClientTermination(ClientManager *client)
         return;
 
     ServerManager *manager = client->getServerManager();
-    QString errMsg = QString("Connection to INDI host at %1 on port %2 lost. Server disconnected.").arg(client->getHost()).arg(client->getPort());
+    QString errMsg = i18n("Connection to INDI host at %1 on port %2 lost. Server disconnected.").arg(client->getHost()).arg(client->getPort());
     KMessageBox::error(NULL, errMsg);
 
     if (manager)
@@ -599,7 +603,7 @@ void DriverManager::processServerTermination(ServerManager* server)
 
     if (server->getMode() == SERVER_ONLY)
     {
-        QString errMsg = QString("Connection to INDI host at %1 on port %2 encountered an error: %3.").arg(server->getHost()).arg(server->getPort()).arg(server->errorString());
+        QString errMsg = i18n("Connection to INDI host at %1 on port %2 encountered an error: %3.").arg(server->getHost()).arg(server->getPort()).arg(server->errorString());
         KMessageBox::error(NULL, errMsg);
     }
 
@@ -674,7 +678,7 @@ void DriverManager::processRemoteTree(bool dState)
                 {
                     GUIManager::Instance()->removeClient(clientManager);
                     INDIListener::Instance()->removeClient(clientManager);
-                    QString errMsg = QString("Connection to INDI server at host %1 with port %2 failed.").arg(dv->getHost()).arg(dv->getPort());
+                    QString errMsg = i18n("Connection to INDI server at host %1 with port %2 failed.").arg(dv->getHost()).arg(dv->getPort());
                     KMessageBox::error(NULL, errMsg);
                     processDeviceStatus(dv);
                 }
@@ -982,6 +986,8 @@ bool DriverManager::buildDeviceGroup(XMLEle *root, char errmsg[])
         groupType = KSTARS_RECEIVERS;
     else if (groupName.indexOf("GPS") != -1)
         groupType = KSTARS_GPS;
+    else if (groupName.indexOf("Auxiliary") != -1)
+        groupType = KSTARS_AUXILIARY;
     else
         groupType = KSTARS_UNKNOWN;
 

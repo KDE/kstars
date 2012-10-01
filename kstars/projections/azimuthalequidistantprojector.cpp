@@ -43,7 +43,7 @@ double AzimuthalEquidistantProjector::radius() const
 double AzimuthalEquidistantProjector::projectionK(double x) const
 {
     double crad = acos(x);
-    return crad/sin(crad);
+    return ( (crad != 0 ) ? crad/sin(crad) : 1 ); // This handles the 0/0 case. The limit of x / sin(x) is 1 as x -> 0.
 }
 
 double AzimuthalEquidistantProjector::projectionL(double x) const

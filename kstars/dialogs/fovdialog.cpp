@@ -57,9 +57,9 @@ namespace {
     }
 
     // Convert double to QString 
-    QString toString(double x)
+    QString toString(double x, int precision = 2)
     {
-        return QString::number(x, 'f', 2).replace( '.', KGlobal::locale()->decimalSymbol() );
+        return QString::number(x, 'f', precision).replace( '.', KGlobal::locale()->decimalSymbol() );
     }
 }
 
