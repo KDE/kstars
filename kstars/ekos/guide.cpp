@@ -152,19 +152,16 @@ void Guide::addST4(ISD::ST4 *newST4)
 
 bool Guide::capture()
 {
-
     if (currentCCD == NULL)
         return false;
 
     double seqExpose = exposureSpin->value();
 
     CCDFrameType ccdFrame = FRAME_LIGHT;
-    CCDBinType   binType  = DOUBLE_BIN;
-
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText("Error: Lost connection to CCD.");
+        appendLogText(i18n("Error: Lost connection to CCD."));
         return false;
     }
 
@@ -174,8 +171,6 @@ bool Guide::capture()
     currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
     currentCCD->setFrameType(ccdFrame);
-
-    currentCCD->setBinning(binType);
 
     currentCCD->capture(seqExpose);
 

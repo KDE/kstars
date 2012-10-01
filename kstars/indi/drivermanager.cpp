@@ -304,10 +304,8 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
         if (qdv.empty())
             continue;
 
-       //port = dv->getPort().toInt();
         port = qdv.at(0)->getPort().toInt();
 
-       //qDebug() << "For host " << qdv.at(0)->getHost() << " which is equal to conversion values of " << port << endl;
         // Select random port within range is none specified.
         if (port == -1)
             port = getINDIPort(port);

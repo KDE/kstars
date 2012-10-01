@@ -293,6 +293,25 @@ CCDBinType CCD::getBinning()
 
 }
 
+bool CCD::getBinning(int *bin_x, int *bin_y)
+{
+    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    if (binProp == NULL)
+        return false;
+
+    INumber *horBin = NULL, *verBin=NULL;
+
+    horBin = IUFindNumber(binProp, "HOR_BIN");
+    verBin = IUFindNumber(binProp, "VER_BIN");
+
+    if (!horBin || !verBin)
+        return false;
+
+    *bin_x = horBin->value;
+    *bin_y = verBin->value;
+
+    return true;
+}
 
 bool CCD::setBinning(int bin_x, int bin_y)
 {

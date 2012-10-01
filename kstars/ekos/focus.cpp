@@ -60,10 +60,9 @@ Focus::Focus()
 
     focusType = FOCUS_MANUAL;
 
-    startFocusB->setEnabled(false);
-    stopFocusB->setEnabled(false);
+    resetButtons();
 
-    appendLogText("Idle.");
+    appendLogText(i18n("Idle."));
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -78,39 +77,20 @@ Focus::Focus()
 void Focus::toggleAutofocus(bool enable)
 {
     if (enable)
-    {
         focusType = FOCUS_AUTO;
-        startFocusB->setEnabled(true);
-        focusInB->setEnabled(false);
-        focusOutB->setEnabled(false);
-        captureB->setEnabled(false);
-        startLoopB->setEnabled(false);
-    }
     else
-    {
         focusType = FOCUS_MANUAL;
-        startFocusB->setEnabled(false);
-        stopFocusB->setEnabled(false);
-        focusInB->setEnabled(true);
-        focusOutB->setEnabled(true);
-        captureB->setEnabled(true);
-        startLoopB->setEnabled(true);
-
-    }
 
     if (inFocusLoop || inAutoFocus)
         stopFocus();
+    else
+        resetButtons();
 }
 
 void Focus::checkCCD(int ccdNum)
 {
     if (ccdNum <= CCDs.count())
-    {
-
         currentCCD = CCDs.at(ccdNum);
-
-        BinCombo->setCurrentIndex(currentCCD->getBinning());
-    }
 
 }
 
@@ -124,14 +104,11 @@ void Focus::setFocuser(ISD::GDInterface *newFocuser)
         getAbsFocusPosition();
     }
 
-
-    AutoModeR->setEnabled(true);
-    startFocusB->setEnabled(true);
-    focusOutB->setEnabled(true);
-    focusInB->setEnabled(true);
-
     connect(currentFocuser, SIGNAL(numberUpdated(INumberVectorProperty*)), this, SLOT(processFocusProperties(INumberVectorProperty*)));
 
+    AutoModeR->setEnabled(true);
+
+    resetButtons();
 }
 
 void Focus::addCCD(ISD::GDInterface *newCCD)
@@ -143,7 +120,6 @@ void Focus::addCCD(ISD::GDInterface *newCCD)
     checkCCD(0);
 
     CCDCaptureCombo->setCurrentIndex(0);
-
 }
 
 void Focus::getAbsFocusPosition()
@@ -192,7 +168,7 @@ void Focus::startFocus()
     Options::setFocusTolerance(toleranceIN->value());
     Options::setFocusExposure(exposureIN->value());
 
-    appendLogText("Autofocus in progress...");
+    appendLogText(i18n("Autofocus in progress..."));
 }
 
 void Focus::stopFocus()
@@ -211,20 +187,17 @@ void Focus::stopFocus()
 
 void Focus::capture()
 {
-
     if (currentCCD == NULL)
         return;
 
     double seqExpose = exposureIN->value();
     CCDFrameType ccdFrame = FRAME_LIGHT;
-    CCDBinType   binType  = (CCDBinType) BinCombo->currentIndex();
 
     if (currentCCD->isConnected() == false)
     {
-        appendLogText("Error: Lost connection to CCD.");
+        appendLogText(i18n("Error: Lost connection to CCD."));
         return;
     }
-
 
     currentCCD->setCaptureMode(FITS_FOCUS);
     currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
@@ -233,12 +206,10 @@ void Focus::capture()
 
     currentCCD->setFrameType(ccdFrame);
 
-    currentCCD->setBinning(binType);
-
     currentCCD->capture(seqExpose);
 
     if (inFocusLoop == false)
-        appendLogText("Capturing image...");
+        appendLogText(i18n("Capturing image..."));
 
 }
 
@@ -250,7 +221,7 @@ void Focus::FocusIn(int ms)
 
     if (currentFocuser->isConnected() == false)
     {
-        appendLogText("Error: Lost connection to Focuser.");
+        appendLogText(i18n("Error: Lost connection to Focuser."));
         return;
     }
 
@@ -269,7 +240,7 @@ void Focus::FocusIn(int ms)
     else
         currentFocuser->moveFocuser(ms);
 
-    appendLogText("Focusing inward...");
+    appendLogText(i18n("Focusing inward..."));
 
 }
 
@@ -281,7 +252,7 @@ void Focus::FocusOut(int ms)
 
     if (currentFocuser->isConnected() == false)
     {
-        appendLogText("Error: Lost connection to Focuser.");
+        appendLogText(i18n("Error: Lost connection to Focuser."));
         return;
     }
 
@@ -300,7 +271,7 @@ void Focus::FocusOut(int ms)
     else
         currentFocuser->moveFocuser(ms);
 
-    appendLogText("Focusing outward...");
+    appendLogText(i18n("Focusing outward..."));
 
 }
 
@@ -329,7 +300,7 @@ void Focus::newFITS(IBLOB *bp)
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
     if (inFocusLoop == false && focusType == FOCUS_MANUAL && HFR == -1)
-            appendLogText(QString("FITS received. No stars detected."));
+            appendLogText(i18n("FITS received. No stars detected."));
 
     HFROut->setText(HFRText);
 
@@ -356,14 +327,18 @@ void Focus::autoFocusAbs(double currentHFR)
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-minHFR)*100.0, 0,'g', 2);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
+    //qDebug() << "Current HFR: " << currentHFR << " Current Position: " << pulseStep << endl;
+    //qDebug() << "minHFR: " << minHFR << " MinHFR Pos: " << minHFRPos << endl;
+    //qDebug() << "Delta: " << deltaTxt << endl;
+
     if (minHFR)
-         appendLogText(QString("FITS received. HFR %1 @ %2. Delta (%3%)").arg(HFRText).arg(pulseStep).arg(deltaTxt));
+         appendLogText(i18n("FITS received. HFR %1 @ %2. Delta (%3%)").arg(HFRText).arg(pulseStep).arg(deltaTxt));
     else
-        appendLogText(QString("FITS received. HFR %1 @ %2.").arg(HFRText).arg(pulseStep));
+        appendLogText(i18n("FITS received. HFR %1 @ %2.").arg(HFRText).arg(pulseStep));
 
     if (++absIterations > MAXIMUM_ABS_ITERATIONS)
     {
-        appendLogText("Autofocus failed to reach proper focus. Try increasing tolerance value.");
+        appendLogText(i18n("Autofocus failed to reach proper focus. Try increasing tolerance value."));
         stopFocus();
         return;
     }
@@ -371,7 +346,7 @@ void Focus::autoFocusAbs(double currentHFR)
     // No stars detected, try to capture again
     if (currentHFR == -1)
     {
-        appendLogText("No stars detected, capturing again...");
+        appendLogText(i18n("No stars detected, capturing again..."));
         capture();
         return;
     }
@@ -397,9 +372,9 @@ void Focus::autoFocusAbs(double currentHFR)
         if (focusInLimit && focusOutLimit && fabs(currentHFR - minHFR) < (toleranceIN->value()/100.0) && HFRInc == 0 )
             {
                 if (absIterations <= 2)
-                    appendLogText("Change in HFR is too small. Try increasing the step size or decreasing the tolerance.");
+                    appendLogText(i18n("Change in HFR is too small. Try increasing the step size or decreasing the tolerance."));
                 else
-                    appendLogText("Autofocus complete.");
+                    appendLogText(i18n("Autofocus complete."));
                 stopFocus();
                 break;
             }
@@ -506,7 +481,7 @@ void Focus::autoFocusAbs(double currentHFR)
         // Ops, we can't go any further, we're done.
         if (targetPulse == pulseStep)
         {
-            appendLogText("Autofocus complete.");
+            appendLogText(i18n("Autofocus complete."));
             stopFocus();
             return;
         }
@@ -514,7 +489,7 @@ void Focus::autoFocusAbs(double currentHFR)
         // Ops, deadlock
         if (focusOutLimit && focusOutLimit == focusInLimit)
         {
-            appendLogText("Deadlock reached. Please try again with different settings.");
+            appendLogText(i18n("Deadlock reached. Please try again with different settings."));
             stopFocus();
             return;
         }
@@ -540,18 +515,18 @@ void Focus::autoFocusRel(double currentHFR)
     QString deltaTxt = QString("%1").arg(fabs(currentHFR-HFR)*100.0, 0,'g', 2);
     QString HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 
-    appendLogText(QString("FITS received. HFR %1. Delta (%2%)").arg(HFRText).arg(deltaTxt));
+    appendLogText(i18n("FITS received. HFR %1. Delta (%2%)").arg(HFRText).arg(deltaTxt));
 
     if (pulseDuration <= 32)
     {
-        appendLogText("Autofocus failed to reach proper focus. Try adjusting the tolerance value.");
+        appendLogText(i18n("Autofocus failed to reach proper focus. Try adjusting the tolerance value."));
         stopFocus();
         return;
     }
 
     if (currentHFR == -1)
     {
-        appendLogText("No stars detected, capturing again...");
+        appendLogText(i18n("No stars detected, capturing again..."));
         capture();
         return;
     }
@@ -566,7 +541,7 @@ void Focus::autoFocusRel(double currentHFR)
         case FOCUS_IN:
             if (fabs(currentHFR - HFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
             {
-                appendLogText("Autofocus complete.");
+                appendLogText(i18n("Autofocus complete."));
                 stopFocus();
                 break;
             }
@@ -616,7 +591,7 @@ void Focus::autoFocusRel(double currentHFR)
     case FOCUS_OUT:
         if (fabs(currentHFR - HFR) < (toleranceIN->value()/100.0) && HFRInc == 0)
         {
-            appendLogText("Autofocus complete.");
+            appendLogText(i18n("Autofocus complete."));
             stopFocus();
             break;
         }
@@ -678,7 +653,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                capture();
            else if (nvp->s == IPS_ALERT)
            {
-               appendLogText("Focuser error, check INDI panel.");
+               appendLogText(i18n("Focuser error, check INDI panel."));
                stopFocus();
            }
 
@@ -696,7 +671,7 @@ void Focus::processFocusProperties(INumberVectorProperty *nvp)
                 capture();
             else if (nvp->s == IPS_ALERT)
             {
-                appendLogText("Focuser error, check INDI panel.");
+                appendLogText(i18n("Focuser error, check INDI panel."));
                 stopFocus();
             }
         }
@@ -728,7 +703,7 @@ void Focus::startLooping()
 
     resetButtons();
 
-    appendLogText("Starting continious exposure...");
+    appendLogText(i18n("Starting continious exposure..."));
 
     capture();
 }
@@ -757,10 +732,14 @@ void Focus::resetButtons()
         captureB->setEnabled(false);
         focusOutB->setEnabled(false);
         focusInB->setEnabled(false);
+
+        return;
     }
 
     if (focusType == FOCUS_AUTO && currentFocuser)
         startFocusB->setEnabled(true);
+    else
+        startFocusB->setEnabled(false);
 
     stopFocusB->setEnabled(false);
 

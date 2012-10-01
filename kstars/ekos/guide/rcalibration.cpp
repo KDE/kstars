@@ -295,7 +295,7 @@ void rcalibration::calibrate_reticle_manual( void )
 		{
             ui.pushButton_StartCalibration->setText( i18n("Stop") );
 		}
-        pmain_wnd->appendLogText("Drift scope in RA. Press stop when done.");
+        pmain_wnd->appendLogText(i18n("Drift scope in RA. Press stop when done."));
 
 		pmath->get_star_screen_pos( &start_x1, &start_y1 );
 		
@@ -316,7 +316,7 @@ void rcalibration::calibrate_reticle_manual( void )
                 axis = GUIDE_DEC;
 				
                 ui.pushButton_StartCalibration->setText( i18n("Stop GUIDE_DEC") );
-                pmain_wnd->appendLogText("Drift scope in DEC. Press stop when done.");
+                pmain_wnd->appendLogText(i18n("Drift scope in DEC. Press stop when done."));
 				return;
 			}
 			else
@@ -326,7 +326,7 @@ void rcalibration::calibrate_reticle_manual( void )
 				if( pmath->calc_and_set_reticle2( start_x1, start_y1, end_x1, end_y1, start_x2, start_y2, end_x2, end_y2 ) )
 				{
 					fill_interface();
-                    pmain_wnd->appendLogText("Calibration completed.");
+                    pmain_wnd->appendLogText(i18n("Calibration completed."));
                     calibrationStage = CAL_FINISH;
 				}
 				else
@@ -344,7 +344,7 @@ void rcalibration::calibrate_reticle_manual( void )
 			{
                 calibrationStage = CAL_FINISH;
 				fill_interface();
-                pmain_wnd->appendLogText("Calibration completed.");
+                pmain_wnd->appendLogText(i18n("Calibration completed."));
 			}
 			else
 			{
@@ -390,7 +390,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
 
             ui.progressBar->setValue( 0 );
             ui.pushButton_StartCalibration->setEnabled( false );
-            pmain_wnd->appendLogText("GUIDE_RA Drifting...");
+            pmain_wnd->appendLogText(i18n("GUIDE_RA Drifting..."));
 
             // get start point
            // pmath->get_star_screen_pos( &start_x1, &start_y1 );
@@ -434,7 +434,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
                 phi = pmath->calc_phi( start_x1, start_y1, end_x1, end_y1 );
                 ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
 
-                pmain_wnd->appendLogText("Running...");
+                pmain_wnd->appendLogText(i18n("Running..."));
             }
 
             // accelerate GUIDE_RA drive to return to start position
@@ -488,7 +488,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             iterations++;
             dec_iterations = 1;
             ui.progressBar->setValue( iterations );
-            pmain_wnd->appendLogText("GUIDE_DEC drifting...");
+            pmain_wnd->appendLogText(i18n("GUIDE_DEC drifting..."));
             break;
         }
         // calc orientation
@@ -496,7 +496,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
         {
             calibrationStage = CAL_FINISH;
             fill_interface();
-            pmain_wnd->appendLogText("Calibration completed.");
+            pmain_wnd->appendLogText(i18n("Calibration completed."));
             ui.startCalibrationLED->setColor(okColor);
 
         }
@@ -534,14 +534,14 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
             phi = pmath->calc_phi( start_x2, start_y2, end_x2, end_y2 );
             ROT_Z = RotateZ( -M_PI*phi/180.0 ); // derotates...
 
-            pmain_wnd->appendLogText("Running...");
+            pmain_wnd->appendLogText(i18n("Running..."));
         }
 
         //----- Z-check (new!) -----
         double cur_x, cur_y;
         pmath->get_star_screen_pos( &cur_x, &cur_y );
 
-        //pmain_wnd->appendLogText("GUIDE_DEC running back...");
+        //pmain_wnd->appendLogText(i18n("GUIDE_DEC running back...");
 
         //qDebug() << "Cur X1 " << cur_x << " Cur Y1 " << cur_y << endl;
 
@@ -581,7 +581,7 @@ void rcalibration::calibrate_reticle_by_ra_dec( bool ra_only )
     {
         calibrationStage = CAL_FINISH;
         fill_interface();
-        pmain_wnd->appendLogText("Calibration completed.");
+        pmain_wnd->appendLogText(i18n("Calibration completed."));
         ui.startCalibrationLED->setColor(okColor);
 
     }
@@ -634,7 +634,7 @@ void rcalibration::capture()
         if (calibrationStage == CAL_CAPTURE_IMAGE)
             ui.captureLED->setColor(busyColor);
 
-        pmain_wnd->appendLogText("Captuing image...");
+        pmain_wnd->appendLogText(i18n("Captuing image..."));
     }
 }
 
@@ -647,7 +647,7 @@ void rcalibration::set_image(FITSImage *image)
         case CAL_CAPTURE_IMAGE:
         case CAL_SELECT_STAR:
           {
-            pmain_wnd->appendLogText("Image captured...");
+            pmain_wnd->appendLogText(i18n("Image captured..."));
 
             ui.captureLED->setColor(okColor);
             calibrationStage = CAL_SELECT_STAR;

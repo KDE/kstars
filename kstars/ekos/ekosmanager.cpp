@@ -128,6 +128,8 @@ void EkosManager::reset()
     useST4          =false;
     ccdStarted      =false;
 
+    removeTabs();
+
     scope   =  NULL;
     ccd     =  NULL;
     guider  =  NULL;
@@ -310,7 +312,7 @@ void EkosManager::processINDI()
 
     processINDIB->setText(i18n("Stop INDI"));
 
-    appendLogText("INDI services started. Please connect devices.");
+    appendLogText(i18n("INDI services started. Please connect devices."));
 }
 
 void EkosManager::connectDevices()
@@ -346,7 +348,7 @@ void EkosManager::connectDevices()
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
 
-    appendLogText("Connecting INDI devices...");
+    appendLogText(i18n("Connecting INDI devices..."));
 }
 
 void EkosManager::disconnectDevices()
@@ -377,7 +379,7 @@ void EkosManager::disconnectDevices()
     connectB->setEnabled(true);
     disconnectB->setEnabled(false);
 
-    appendLogText("Disconnecting INDI devices...");
+    appendLogText(i18n("Disconnecting INDI devices..."));
 
 }
 
@@ -400,7 +402,7 @@ void EkosManager::cleanDevices()
     disconnectB->setEnabled(false);
     controlPanelB->setEnabled(false);
 
-    appendLogText("INDI services stopped.");
+    appendLogText(i18n("INDI services stopped."));
 }
 
 void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
@@ -458,7 +460,7 @@ void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
 {
     scope = scopeDevice;
 
-    appendLogText(QString("%1 is online.").arg(scope->getDeviceName()));
+    appendLogText(i18n("%1 is online.").arg(scope->getDeviceName()));
 
     if (guideProcess)
         guideProcess->setTelescope(scope);
@@ -470,14 +472,14 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
     if (useGuiderFromCCD == false && guider_di && (!strcmp(guider_di->getBaseDevice()->getDeviceName(), ccdDevice->getDeviceName())))
     {
         guider = ccdDevice;
-        appendLogText(QString("%1 is online.").arg(ccdDevice->getDeviceName()));
+        appendLogText(i18n("%1 is online.").arg(ccdDevice->getDeviceName()));
     }
     else
     {
         ccd = ccdDevice;
 
         if (ccdStarted == false)
-            appendLogText(QString("%1 is online.").arg(ccdDevice->getDeviceName()));
+            appendLogText(i18n("%1 is online.").arg(ccdDevice->getDeviceName()));
 
         ccdStarted = true;
 
@@ -503,7 +505,7 @@ void EkosManager::setFilter(ISD::GDInterface *filterDevice)
     if (useFilterFromCCD == false)
     {
        filter = filterDevice;
-       appendLogText(QString("%1 is online.").arg(filter->getDeviceName()));
+       appendLogText(i18n("%1 is online.").arg(filter->getDeviceName()));
     }
     else
         filter = ccd;
@@ -521,7 +523,7 @@ void EkosManager::setFocuser(ISD::GDInterface *focuserDevice)
 
     focusProcess->setFocuser(focuser);
 
-    appendLogText(QString("%1 is online.").arg(focuser->getDeviceName()));
+    appendLogText(i18n("%1 is online.").arg(focuser->getDeviceName()));
 
 }
 
@@ -530,41 +532,7 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
     switch (devInterface->getType())
     {
         case KSTARS_CCD:
-        if (devInterface == ccd  || devInterface == guider)
-        {
-            for (int i=0; i < toolsWidget->count(); i++)
-                if (i18n("CCD") == toolsWidget->tabText(i))
-                    toolsWidget->removeTab(i);
-
-            ccd = NULL;
-            delete (captureProcess);
-            captureProcess = NULL;
-         }
-         if (useGuiderFromCCD || devInterface == guider)
-         {
-                for (int i=0; i < toolsWidget->count(); i++)
-                    if (i18n("Guide") == toolsWidget->tabText(i))
-                        toolsWidget->removeTab(i);
-
-                guider = NULL;
-                delete (guideProcess);
-                guideProcess = NULL;
-
-        }
-
-         if (focusProcess)
-         {
-             for (int i=0; i < toolsWidget->count(); i++)
-                 if (i18n("Focus") == toolsWidget->tabText(i))
-                     toolsWidget->removeTab(i);
-
-             focuser = NULL;
-             delete (focusProcess);
-             focusProcess = NULL;
-
-         }
-
-
+        removeTabs();
 
         break;
 
@@ -576,7 +544,7 @@ void EkosManager::removeDevice(ISD::GDInterface* devInterface)
     }
 
 
-    appendLogText(QString("%1 is offline.").arg(devInterface->getDeviceName()));
+    appendLogText(i18n("%1 is offline.").arg(devInterface->getDeviceName()));
 
     foreach(DriverInfo *drvInfo, managedDevices)
     {
@@ -697,6 +665,30 @@ void EkosManager::setST4(ISD::ST4 * st4Driver)
      initGuide();
 
      guideProcess->addST4(st4Driver);
+
+}
+
+void EkosManager::removeTabs()
+{
+
+        for (int i=2; i < toolsWidget->count(); i++)
+                toolsWidget->removeTab(i);
+
+        ccd = NULL;
+        delete (captureProcess);
+        captureProcess = NULL;
+
+
+        guider = NULL;
+        delete (guideProcess);
+        guideProcess = NULL;
+
+
+        focuser = NULL;
+        delete (focusProcess);
+        focusProcess = NULL;
+
+
 
 }
 

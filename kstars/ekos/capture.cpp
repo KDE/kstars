@@ -153,6 +153,7 @@ void Capture::checkCCD(int ccdNum)
     if (ccdNum <= CCDs.count())
     {
         int x,y,w,h;
+        int binx,biny;
         double min,max,step;
 
         currentCCD = CCDs.at(ccdNum);     
@@ -192,6 +193,12 @@ void Capture::checkCCD(int ccdNum)
             frameYIN->setValue(y);
             frameWIN->setValue(w);
             frameHIN->setValue(h);
+        }
+
+        if (currentCCD->getBinning(&binx, &biny))
+        {
+            binXCombo->setCurrentIndex(binx-1);
+            binYCombo->setCurrentIndex(biny-1);
         }
 
     }
@@ -261,7 +268,7 @@ void Capture::newFITS(IBLOB *bp)
     seqCurrentCount++;
     imgProgress->setValue(seqCurrentCount);
 
-    appendLogText(QString("Recieved image %1 out of %2.").arg(seqCurrentCount).arg(seqTotalCount));
+    appendLogText(i18n("Recieved image %1 out of %2.").arg(seqCurrentCount).arg(seqTotalCount));
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 
@@ -292,14 +299,14 @@ void Capture::captureImage()
 
     if (currentCCD->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value()) == false)
     {
-        appendLogText("Failed to set sub frame.");
+        appendLogText(i18n("Failed to set sub frame."));
         return;
 
     }
 
     if (currentCCD->setBinning(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1) == false)
     {
-        appendLogText("Failed to set binning.");
+        appendLogText(i18n("Failed to set binning."));
         return;
     }
 
@@ -308,7 +315,7 @@ void Capture::captureImage()
         calibrationState = CALIBRATE_START;
         currentCCD->setFrameType(FRAME_DARK);
         currentCCD->setCaptureMode(FITS_CALIBRATE);
-        appendLogText("Capturing dark frame...");
+        appendLogText(i18n("Capturing dark frame..."));
     }
     else
     {
@@ -316,7 +323,7 @@ void Capture::captureImage()
         currentCCD->setFrameType(FRAME_LIGHT);
         currentCCD->setCaptureMode(FITS_NORMAL);
         currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
-        appendLogText("Capturing image...");
+        appendLogText(i18n("Capturing image..."));
     }
 
     currentCCD->capture(seqExpose);   

@@ -42,6 +42,7 @@ public:
     bool setBinning(int bin_x, int bin_y);
     bool setBinning(CCDBinType binType);
     CCDBinType getBinning();
+    bool getBinning(int *bin_x, int *bin_y);
 
 
     // Utitlity functions

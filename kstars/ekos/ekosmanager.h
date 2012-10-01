@@ -60,6 +60,7 @@ public slots:
 
     void loadDefaultDrivers();
     void saveDefaultDrivers();
+    void removeTabs();
     void reset();
     void initCapture();
     void initFocus();
