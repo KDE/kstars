@@ -593,6 +593,15 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
       }
 
       // Everything OK. Make a new Catalog entry in DB
+      CatalogData new_catalog;
+
+      new_catalog.catalog_name = catalog_name;
+      new_catalog.prefix = catPrefix;
+      new_catalog.color = catColor;
+      new_catalog.epoch = catEpoch;
+      new_catalog.fluxfreq = catFluxFreq;
+      new_catalog.fluxunit = catFluxUnit;
+
       AddCatalog(catalog_name, catPrefix, catColor, catEpoch,
                  catFluxFreq, catFluxUnit);
 

@@ -1,4 +1,5 @@
-set(LibKSDataHandlers_SRCS
+set(LibKSDataHandlers_SRCS 
+        ${kstars_SOURCE_DIR}/datahandlers/catalogdata.cpp
         ${kstars_SOURCE_DIR}/datahandlers/ksparser.cpp
         ${kstars_SOURCE_DIR}/datahandlers/catalogdb.cpp
 )

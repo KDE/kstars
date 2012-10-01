@@ -19,6 +19,7 @@
 #define CATALOGDB_H
 
 #include <datahandlers/ksparser.h>
+#include <datahandlers/catalogdata.h>
 #include "kstars/skyobjects/starobject.h"
 #include "kstars/skyobjects/deepskyobject.h"
 #include "kstars/skycomponents/skycomponent.h"
