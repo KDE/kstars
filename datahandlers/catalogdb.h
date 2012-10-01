@@ -20,6 +20,7 @@
 
 #include <datahandlers/ksparser.h>
 #include <datahandlers/catalogdata.h>
+#include <datahandlers/catalogentrydata.h>
 #include "kstars/skyobjects/starobject.h"
 #include "kstars/skyobjects/deepskyobject.h"
 #include "kstars/skycomponents/skycomponent.h"
@@ -89,38 +90,10 @@ class CatalogDB {
   /**
    * @brief Used to add a cross referenced entry into the database
    *
-   * @param catalog_name Name of the Catalog (must exist prior to execution)
-   * @param ID The ID number from the catalog. eg. for M 31, ID is 31
-   * @param long_name long name (if any) of the object
-   * @param ra Right Ascension of the object (in HH:MM:SS format)
-   * @param dec Declination of the object (in +/-DD:MM:SS format)
-   * @param type type of the object (from skyqpainter::drawDeepSkySymbol())
-   * 0: general star (not to be used)
-   * 1: star
-   * 2: planet
-   * 3: Open Cluster
-   * 4: Globular Cluster
-   * 5: Gaseous Nebula
-   * 6: Planetary Nebula
-   * 7: Supernova remnant
-   * 8: Galaxy
-   * 13: Asterism
-   * 14: Galaxy cluster
-   * 15: Dark Nebula
-   * 16: Quasar
-   * @param magnitude Apparent Magnitude of the object
-   * @param position_angle Position Angle of the object
-   * @param major_axis Major Axis Length (arcmin)
-   * @param minor_axis Minor Axis Length (arcmin)
-   * @param flux Flux for the object
+   * @param catalog_entry Data structure with entry details
    * @return void
    **/
-  void AddEntry(const QString &catalog_name, const int ID,
-                const QString &long_name, const QString& ra,
-                const QString& dec, const int type,
-                const float magnitude, const int position_angle,
-                const float major_axis, const float minor_axis,
-                const float flux);
+  void AddEntry(const CatalogEntryData &catalog_entry);
 
   /**
    * @brief Removes the catalog from the database and refreshes the listing.

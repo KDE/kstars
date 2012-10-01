@@ -229,17 +229,14 @@ void CatalogDB::ClearDSOEntries(int catalog_id) {
 }
 
 
-void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
-                         const QString& long_name, const QString& ra,
-                         const QString& dec, const int type,
-                         const float magnitude, const int position_angle,
-                         const float major_axis, const float minor_axis,
-                         const float flux) {
-  // Verification steps
+void CatalogDB::AddEntry(const CatalogEntryData& catalog_entry) {
+  // Verification step
   // If RA, Dec are Null, it denotes an invalid object and should not be written
 
-  if (ra == KSParser::EBROKEN_QSTRING || ra == "" ||
-      dec == KSParser::EBROKEN_QSTRING || dec == "") {
+  if (catalog_entry.ra == KSParser::EBROKEN_QSTRING ||
+      catalog_entry.ra == "" ||
+      catalog_entry.dec == KSParser::EBROKEN_QSTRING ||
+      catalog_entry.dec == "") {
     kDebug() << "Attempt to add incorrect row";
     return;
   }
@@ -259,14 +256,14 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                     " MajorAxis, MinorAxis, Flux) VALUES (:RA, :Dec, :Type,"
                     " :Magnitude, :PositionAngle, :MajorAxis, :MinorAxis,"
                     " :Flux)");
-  add_query.bindValue("RA", ra);
-  add_query.bindValue("Dec", dec);
-  add_query.bindValue("Type", type);
-  add_query.bindValue("Magnitude", magnitude);
-  add_query.bindValue("PositionAngle", position_angle);
-  add_query.bindValue("MajorAxis", major_axis);
-  add_query.bindValue("MinorAxis", minor_axis);
-  add_query.bindValue("Flux", flux);
+  add_query.bindValue("RA", catalog_entry.ra);
+  add_query.bindValue("Dec", catalog_entry.dec);
+  add_query.bindValue("Type", catalog_entry.type);
+  add_query.bindValue("Magnitude", catalog_entry.magnitude);
+  add_query.bindValue("PositionAngle", catalog_entry.position_angle);
+  add_query.bindValue("MajorAxis", catalog_entry.major_axis);
+  add_query.bindValue("MinorAxis", catalog_entry.minor_axis);
+  add_query.bindValue("Flux", catalog_entry.flux);
   if (!add_query.exec()) {
     kWarning() << "Custom Catalog Insert Query FAILED!";
     kWarning() << add_query.lastQuery();
@@ -285,7 +282,7 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
    */
 
   // Find ID of catalog
-  catid = FindCatalog(catalog_name);
+  catid = FindCatalog(catalog_entry.catalog_name);
   skydb_.close();
 
   // Part 2: Add in Object Designation
@@ -295,8 +292,8 @@ void CatalogDB::AddEntry(const QString& catalog_name, const int ID,
                  " IDNumber) VALUES (:catid, :rowuid, :longname, :id)");
   add_od.bindValue("catid", catid);
   add_od.bindValue("rowuid", rowuid);
-  add_od.bindValue("longname", long_name);
-  add_od.bindValue("id", ID);
+  add_od.bindValue("longname", catalog_entry.long_name);
+  add_od.bindValue("id", catalog_entry.ID);
   if (!add_od.exec()) {
     kWarning() << add_od.lastQuery();
     kWarning() << skydb_.lastError();
@@ -357,12 +354,22 @@ bool CatalogDB::AddCatalogContents(const QString& fname) {
       QHash<QString, QVariant> row_content;
       while (catalog_text_parser.HasNextRow()) {
         row_content = catalog_text_parser.ReadNextRow();
-        AddEntry(catalog_name, row_content["ID"].toInt(),
-                 row_content["Nm"].toString(), row_content["RA"].toString(),
-                 row_content["Dc"].toString(), row_content["Tp"].toInt(),
-                 row_content["Mg"].toFloat(), row_content["PA"].toFloat(),
-                 row_content["Mj"].toFloat(), row_content["Mn"].toFloat(),
-                 row_content["Flux"].toFloat());
+
+        CatalogEntryData catalog_entry;
+
+        catalog_entry.catalog_name = catalog_name;
+        catalog_entry.ID = row_content["ID"].toInt();
+        catalog_entry.long_name = row_content["Nm"].toString();
+        catalog_entry.ra = row_content["RA"].toString();
+        catalog_entry.dec = row_content["Dc"].toString();
+        catalog_entry.type = row_content["Tp"].toInt();
+        catalog_entry.magnitude = row_content["Mg"].toFloat();
+        catalog_entry.position_angle = row_content["PA"].toFloat();
+        catalog_entry.major_axis = row_content["Mj"].toFloat();
+        catalog_entry.minor_axis = row_content["Mn"].toFloat();
+        catalog_entry.flux = row_content["Flux"].toFloat();
+
+        AddEntry(catalog_entry);
       }
   }
   return true;
