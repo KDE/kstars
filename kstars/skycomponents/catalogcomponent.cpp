@@ -63,10 +63,13 @@ void CatalogComponent::loadData() {
       }
     }
 
-    KStars::Instance()->data()->catalogdb()->GetCatalogData(m_catName, m_catPrefix,
-                                                            m_catColor, m_catFluxFreq,
-                                                            m_catFluxUnit, m_catEpoch);
-
+    CatalogData loaded_catalog_data;
+    KStars::Instance()->data()->catalogdb()->GetCatalogData(m_catName, loaded_catalog_data);
+    m_catPrefix = loaded_catalog_data.prefix;
+    m_catColor = loaded_catalog_data.color;
+    m_catFluxFreq = loaded_catalog_data.fluxfreq;
+    m_catFluxUnit = loaded_catalog_data.fluxunit;
+    m_catEpoch = loaded_catalog_data.epoch;
 }
 
 void CatalogComponent::update( KSNumbers * ) {

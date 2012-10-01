@@ -158,10 +158,7 @@ int CatalogDB::FindCatalog(const QString& catalog_name) {
 }
 
 
-void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
-                           const QString& color, const float epoch,
-                           const QString& fluxfreq, const QString& fluxunit,
-                           const QString& author, const QString& license) {
+void CatalogDB::AddCatalog(const CatalogData& catalog_data) {
   skydb_.open();
   QSqlTableModel cat_entry(0, skydb_);
   cat_entry.setTable("Catalog");
@@ -169,14 +166,14 @@ void CatalogDB::AddCatalog(const QString& catalog_name, const QString& prefix,
   int row = 0;
   cat_entry.insertRows(row, 1);
   // row(0) is autoincerement ID
-  cat_entry.setData(cat_entry.index(row, 1), catalog_name);
-  cat_entry.setData(cat_entry.index(row, 2), prefix);
-  cat_entry.setData(cat_entry.index(row, 3), color);
-  cat_entry.setData(cat_entry.index(row, 4), epoch);
-  cat_entry.setData(cat_entry.index(row, 5), author);
-  cat_entry.setData(cat_entry.index(row, 6), license);
-  cat_entry.setData(cat_entry.index(row, 7), fluxfreq);
-  cat_entry.setData(cat_entry.index(row, 8), fluxunit);
+  cat_entry.setData(cat_entry.index(row, 1), catalog_data.catalog_name);
+  cat_entry.setData(cat_entry.index(row, 2), catalog_data.prefix);
+  cat_entry.setData(cat_entry.index(row, 3), catalog_data.color);
+  cat_entry.setData(cat_entry.index(row, 4), catalog_data.epoch);
+  cat_entry.setData(cat_entry.index(row, 5), catalog_data.author);
+  cat_entry.setData(cat_entry.index(row, 6), catalog_data.license);
+  cat_entry.setData(cat_entry.index(row, 7), catalog_data.fluxfreq);
+  cat_entry.setData(cat_entry.index(row, 8), catalog_data.fluxunit);
 
   cat_entry.submitAll();
 
@@ -602,16 +599,14 @@ bool CatalogDB::ParseCatalogInfoToDB(const QStringList &lines,
       new_catalog.fluxfreq = catFluxFreq;
       new_catalog.fluxunit = catFluxUnit;
 
-      AddCatalog(catalog_name, catPrefix, catColor, catEpoch,
-                 catFluxFreq, catFluxUnit);
+      AddCatalog(new_catalog);
 
       return true;
   }
 }
 
-void CatalogDB::GetCatalogData(const QString& catalog_name, QString& prefix,
-                               QString& color, QString& fluxfreq,
-                               QString& fluxunit, float& epoch) {
+void CatalogDB::GetCatalogData(const QString& catalog_name,
+                               CatalogData& load_catalog) {
     skydb_.open();
     QSqlTableModel catalog(0, skydb_);
     catalog.setTable("Catalog");
@@ -619,11 +614,11 @@ void CatalogDB::GetCatalogData(const QString& catalog_name, QString& prefix,
     catalog.select();
 
     QSqlRecord record = catalog.record(0);
-    prefix = record.value("Prefix").toString();
-    color = record.value("Color").toString();
-    fluxfreq = record.value("FluxFreq").toString();
-    fluxunit = record.value("FluxUnit").toString();
-    epoch = record.value("Epoch").toFloat();
+    load_catalog.prefix = record.value("Prefix").toString();
+    load_catalog.color = record.value("Color").toString();
+    load_catalog.fluxfreq = record.value("FluxFreq").toString();
+    load_catalog.fluxunit = record.value("FluxUnit").toString();
+    load_catalog.epoch = record.value("Epoch").toFloat();
 
     catalog.clear();
     skydb_.close();

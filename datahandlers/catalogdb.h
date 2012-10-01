@@ -149,16 +149,11 @@ class CatalogDB {
    * @brief Get information about the catalog like Prefix etc
    *
    * @param catalog_name Name of catalog whose details are required
-   * @param prefix Prefix of the catalog (assigns)
-   * @param color Color in which the objects are to be drawn (assigns)
-   * @param fluxfreq Flux Frequency of the catalog (assigns)
-   * @param fluxunit Flux Unit of the catalog (assigns)
-   * @param epoch Epoch of the catalog (assigns)
+   * @param catalog_data Data structure assigned with required data
    * @return void
    **/
-  void GetCatalogData(const QString& catalog_name, QString &prefix,
-                      QString &color, QString &fluxfreq,
-                      QString &fluxunit, float &epoch);
+  void GetCatalogData(const QString& catalog_name,
+                      CatalogData& catalog_data);
 
  private:
   /**
@@ -206,21 +201,11 @@ class CatalogDB {
   /**
    * @brief Add the catalog with given details into the database
    *
-   * @param catalog_name Name to be given to the catalog
-   * @param prefix Prefix of the catalog
-   * @param color Color of the drawn objects
-   * @param epoch Epoch of the catalog
-   * @param fluxfreq Flux Frequency of the catalog
-   * @param fluxunit Flux Unit of the catalog
-   * @param author Author of the catalog. Defaults to "KStars Community".
-   * @param license License for the catalog. Defaults to "None".
+   * @param catalog_data CatalogData object encompassing all catalog info
    * @return void
    **/
-  void AddCatalog(const QString& catalog_name, const QString& prefix,
-                  const QString& color, const float epoch,
-                  const QString& fluxfreq, const QString& fluxunit,
-                  const QString& author = "KStars Community",
-                  const QString& license = "None");
+  void AddCatalog(const CatalogData& catalog_data);
+
   /**
    * @brief Prepares the sequence required by KSParser according to header.
    * Information on the sequence is stored inside the header
