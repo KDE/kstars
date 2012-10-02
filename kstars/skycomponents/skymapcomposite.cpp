@@ -510,7 +510,7 @@ void SkyMapComposite::reloadCNames( ) {
 }
 
 void SkyMapComposite::reloadDeepSky() {
-    while (SkyMapDrawAbstract::drawLock()) ; // An Assert would locl 
+    while (SkyMapDrawAbstract::drawLock()) ; // Not pretty, but works.
     delete m_CustomCatalogs;
     m_CustomCatalogs = new SkyComposite( this );
     QStringList allcatalogs = Options::showCatalogNames();

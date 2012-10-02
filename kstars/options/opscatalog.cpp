@@ -189,7 +189,8 @@ void OpsCatalog::slotRemoveCatalog() {
     QListWidgetItem *todelete = CatalogList->takeItem( CatalogList->row( CatalogList->currentItem() ) );
     delete todelete;
     refreshCatalogList();
-//     m_ConfigDialog->enableButtonApply( true );
+    m_ConfigDialog->enableButtonApply( false );
+    KStars::Instance()->data()->skyComposite()->reloadDeepSky();
 }
 
 /*
@@ -218,6 +219,7 @@ void OpsCatalog::slotApply() {
     }
 
     updateCustomCatalogs();
+    KStars::Instance()->data()->skyComposite()->reloadDeepSky();
 
     Options::setShowMessier( m_ShowMessier );
     Options::setShowMessierImages( m_ShowMessImages );
