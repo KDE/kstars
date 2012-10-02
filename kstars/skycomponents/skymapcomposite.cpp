@@ -509,6 +509,19 @@ void SkyMapComposite::reloadCNames( ) {
     m_CNames = new ConstellationNamesComponent( this, m_Cultures );
 }
 
+void SkyMapComposite::reloadDeepSky() {
+    while (SkyMapDrawAbstract::drawLock()) ; // An Assert would locl 
+    delete m_CustomCatalogs;
+    m_CustomCatalogs = new SkyComposite( this );
+    QStringList allcatalogs = Options::showCatalogNames();
+    for ( int i=0; i < allcatalogs.size(); ++ i ) {
+        m_CustomCatalogs->addComponent(
+            new CatalogComponent( this, allcatalogs.at(i), false, i )
+            );
+    }
+}
+
+
 bool SkyMapComposite::isLocalCNames() {
     return m_CNames->isLocalCNames();
 }
