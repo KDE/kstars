@@ -37,7 +37,7 @@ class QPaintDevice;
   * for export of multiple FOVs at once, without user interaction.
   * \note Please note that SimpleFovExporter class instances may pause simulation clock if they're configured
   * to do so (via setClockStopping() method).
-  * \note FOV representation's shape can be overriden (i.e. FOV image will be always rectangular) using
+  * \note FOV representation's shape can be overridden (i.e. FOV image will be always rectangular) using
   * setFovShapeOverriden() method.
   */
 class SimpleFovExporter
@@ -94,7 +94,7 @@ public:
 
     /**
       * \brief Check if FOV representation will be always rectangular.
-      * \return true if FOV shape is overriden.
+      * \return true if FOV shape is overridden.
       */
     inline bool isFovShapeOverriden() { return m_OverrideFovShape; }
 

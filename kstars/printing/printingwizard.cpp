@@ -223,7 +223,7 @@ void PrintingWizard::beginShFovCapture()
         return;
     }
 
-    // If FOV shape should be overriden, do this now
+    // If FOV shape should be overridden, do this now
     m_SimpleFovExporter.setFovShapeOverriden(m_WizFovConfigUI->isFovShapeOverriden());
     m_SimpleFovExporter.setFovSymbolDrawn(m_WizFovConfigUI->isFovShapeOverriden());
 

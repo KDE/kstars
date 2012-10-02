@@ -86,7 +86,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="whatsThis">
-             <string>Delay between two consequetive focus images</string>
+             <string>Delay between two consequent focus images</string>
             </property>
             <property name="text">
              <string>Step:</string>

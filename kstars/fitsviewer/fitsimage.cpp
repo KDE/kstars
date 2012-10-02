@@ -733,7 +733,7 @@ void FITSImage::findCentroid()
                sum += pixVal;
                pixelRadius++;
             }
-            // Value < threshhold but avg exists
+            // Value < threshold but avg exists
             else if (sum > 0)
             {
                 // We found a potential centroid edge

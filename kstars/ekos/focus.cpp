@@ -395,7 +395,7 @@ void Focus::autoFocusAbs(double currentHFR)
                 else if (lastFocusDirection == FOCUS_IN && lastHFRPos > focusOutLimit)
                     focusOutLimit = lastHFRPos;
 
-                // If we have slope, get next target positon
+                // If we have slope, get next target position
                 if (initSlopeHFR)
                 {
                     slope = (currentHFR - initSlopeHFR) / (pulseStep - initSlopePos);
@@ -413,7 +413,7 @@ void Focus::autoFocusAbs(double currentHFR)
 
                 HFR = currentHFR;
 
-                // Let's keep track of the minumum HFR
+                // Let's keep track of the minimum HFR
                 if (HFR < minHFR)
                 {
                     minHFR = HFR;
@@ -703,7 +703,7 @@ void Focus::startLooping()
 
     resetButtons();
 
-    appendLogText(i18n("Starting continious exposure..."));
+    appendLogText(i18n("Starting continuous exposure..."));
 
     capture();
 }

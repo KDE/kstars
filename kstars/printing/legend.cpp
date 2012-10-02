@@ -414,7 +414,7 @@ void Legend::paintSymbols(QPointF pos)
 
             break;
         }
-    default : return; // shoud never happen
+    default : return; // should never happen
     }
 }
 
