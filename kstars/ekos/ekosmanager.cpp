@@ -327,22 +327,28 @@ void EkosManager::connectDevices()
     {
         ccd->Connect();
         connect(ccd, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
+
     }
 
     if (guider && guider != ccd)
     {
         guider->Connect();
         connect(guider, SIGNAL(propertyDefined(INDI::Property*)), this, SLOT(processNewProperty(INDI::Property*)));
+
     }
 
     if (filter && filter != ccd)
         filter->Connect();
 
+
     if (focuser)
         focuser->Connect();
 
+
+
     if (aux)
         aux->Connect();
+
 
 
     connectB->setEnabled(false);
@@ -415,28 +421,43 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
             {
                case KSTARS_TELESCOPE:
                 scope = devInterface;
+                connect(scope, SIGNAL(Connected()), this, SLOT(deviceConnected()));
                 break;
 
 
                case KSTARS_CCD:
                 if (guider_di == di)
+                {
                     guider = devInterface;
+                    connect(guider, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                }
                 else
+                {
                     ccd = devInterface;
+                    connect(ccd, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                }
                 break;
 
             case KSTARS_FOCUSER:
                 focuser = devInterface;
+                connect(focuser, SIGNAL(Connected()), this, SLOT(deviceConnected()));
                 break;
 
              case KSTARS_FILTER:
                 if (filter_di == di)
+                {
                     filter = devInterface;
+                    connect(filter, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                }
+
                 break;
 
              case KSTARS_AUXILIARY:
                 if (aux_di == di)
+                {
                     aux = devInterface;
+                    connect(aux, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                }
 
               default:
                 break;
@@ -454,6 +475,12 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
         controlPanelB->setEnabled(true);
     }
 
+}
+
+void EkosManager::deviceConnected()
+{
+    connectB->setEnabled(false);
+    disconnectB->setEnabled(true);
 }
 
 void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)
