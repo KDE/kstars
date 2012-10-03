@@ -91,7 +91,7 @@ void CalendarWidget::setHorizon() {
 
         /* riseSetTime seems buggy since it sometimes returns the same time for rise and set (01:00:00).
          * In this case, we just reset tmp_rTime and tmp_sTime so they will be considered invalid
-         * in the folowing lines.
+         * in the following lines.
          * NOTE: riseSetTime should be fix now, this test is no longer necessary*/
         if ( tmp_rTime == tmp_sTime ) {
             tmp_rTime = QTime();

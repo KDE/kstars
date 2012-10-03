@@ -154,7 +154,7 @@ bool FlagManager::validatePoint() {
 
     QString message;
 
-    //check if ra & dec values were succesfully converted
+    //check if ra & dec values were successfully converted
     if ( !raOk || !decOk ) {
         return false;
     }

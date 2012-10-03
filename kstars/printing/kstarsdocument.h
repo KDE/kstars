@@ -59,7 +59,7 @@ public:
     /**
       * \brief Write contents of the document to Open Document Text file.
       * \param fname File name.
-      * \return Returns true if write succeded.
+      * \return Returns true if write is successful.
       */
     bool writeOdt(const QString &fname);
 

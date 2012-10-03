@@ -268,7 +268,7 @@ void Capture::newFITS(IBLOB *bp)
     seqCurrentCount++;
     imgProgress->setValue(seqCurrentCount);
 
-    appendLogText(i18n("Recieved image %1 out of %2.").arg(seqCurrentCount).arg(seqTotalCount));
+    appendLogText(i18n("Received image %1 out of %2.").arg(seqCurrentCount).arg(seqTotalCount));
 
     currentImgCountOUT->setText( QString::number(seqCurrentCount));
 

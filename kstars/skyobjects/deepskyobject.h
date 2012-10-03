@@ -106,7 +106,7 @@ public:
     void setCatalog( const QString &s );
 
     /**
-      *Set the the refrence to the custom catalog component, if any
+      *Set the reference to the custom catalog component, if any
       *@sa customCatalog()
       */
     inline void setCustomCatalog(CustomCatalogComponent *s) { customCat = s; }

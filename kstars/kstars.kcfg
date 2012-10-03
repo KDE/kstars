@@ -732,7 +732,7 @@
     </entry>
     <entry name="ObsListSaveImage" type="Bool">
       <label>Save the DSS/SDSS images to disk</label>
-      <whatisthis>The images of objects in the obseving list will be autosaved if you download them</whatisthis>
+      <whatsthis>The images of objects in the observing list will be autosaved if you download them</whatsthis>
       <default>false</default>
     </entry>
     <entry name="ObsListPreferDSS" type="Bool">
