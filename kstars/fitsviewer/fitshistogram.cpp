@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "fitsviewer.h"
 #include "fitshistogram.h"
 #include "fitstab.h"
 #include "fitsimage.h"
@@ -145,7 +146,7 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     if (mean == 0)
         JMIndex = 0;
     // Reject diffuse images by setting JMIndex to zero.
-    else if (mean_p_std / mean < 2)
+    else if (tab->getImage()->getMode() != FITS_GUIDE && mean_p_std / mean < 2)
         JMIndex =0;
 
     #ifdef HIST_LOG
@@ -334,32 +335,29 @@ void FITSHistogramCommand::redo()
     case FITS_AUTO:
     case FITS_LINEAR:
         image->applyFilter(FITS_LINEAR, image_buffer, min, max);
+        image->updateFrame();
         break;
 
     case FITS_LOG:
         image->applyFilter(FITS_LOG, image_buffer, min, max);
+        image->updateFrame();
         break;
 
     case FITS_SQRT:
         image->applyFilter(FITS_SQRT, image_buffer, min, max);
+        image->updateFrame();
         break;
-
-     case FITS_AUTO_STRETCH:
-       image->applyFilter(FITS_AUTO_STRETCH, image_buffer);
-        break;
-
-     case FITS_EQUALIZE:
-         image->applyFilter(FITS_EQUALIZE, image_buffer);
-     break;
 
     default:
-        break;
+       image->applyFilter(type, image_buffer);
+       image->updateFrame();
+       break;
+
+
     }
 
     if (histogram != NULL)
         histogram->updateHistogram();
-
-    //tab->modifyFITSState(false);
 
 }
 
@@ -369,6 +367,7 @@ void FITSHistogramCommand::undo()
     memcpy( image->getImageBuffer(), buffer, image->getWidth() * image->getHeight() * sizeof(float));
     image->calculateStats(true);
     image->rescale(ZOOM_KEEP_LEVEL);
+    image->updateFrame();
 
 
     if (histogram != NULL)
@@ -393,14 +392,10 @@ QString FITSHistogramCommand::text() const
     case FITS_SQRT:
         return i18n("Square Root Scale");
         break;
-    case FITS_AUTO_STRETCH:
-        return i18n("Low Pass Filter");
-        break;
-    case FITS_EQUALIZE:
-        return i18n("Equalize");
-        break;
 
     default:
+        if (type-1 <= FITSViewer::filterTypes.count())
+            return FITSViewer::filterTypes.at(type-1);
         break;
     }
 
