@@ -245,7 +245,6 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
 
         foreach(DriverInfo *idv, dList)
         {
-            qDebug() << "dv port" << dv->getPort() << " idv port: " << idv->getPort() << endl;
             if (dv->getHost() == idv->getHost() && dv->getPort() == idv->getPort())
             {
 
@@ -278,10 +277,7 @@ void DriverManager::getUniqueHosts(QList<DriverInfo*> & dList, QList < QList<Dri
                 }
 
                 if (found == false)
-                {
-                    qDebug() << "Adding host " << idv->getHost() << " with Port: " << idv->getPort() << endl;
                     uList.append(idv);
-                }
 
             }
         }
@@ -372,6 +368,9 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
          clientManager->setServer(qdv.at(0)->getHost().toLatin1().constData(), ((uint) port));
 
+         GUIManager::Instance()->addClient(clientManager);
+         INDIListener::Instance()->addClient(clientManager);
+
          for (int i=0; i < INDI_MAX_TRIES; i++)
          {
              connectionToServer= clientManager->connectServer();
@@ -384,12 +383,8 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
 
          if (connectionToServer)
          {
-
              clients.append(clientManager);
-             GUIManager::Instance()->addClient(clientManager);
-             INDIListener::Instance()->addClient(clientManager);
              updateMenuActions();
-
          }
          else
          {
@@ -397,6 +392,9 @@ bool DriverManager::startDevices(QList<DriverInfo*> & dList)
              KMessageBox::error(NULL, errMsg);
              foreach (DriverInfo *dv, qdv)
                  processDeviceStatus(dv);
+
+             GUIManager::Instance()->removeClient(clientManager);
+             INDIListener::Instance()->removeClient(clientManager);
 
              return false;
 

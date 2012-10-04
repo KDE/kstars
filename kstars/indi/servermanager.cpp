@@ -192,7 +192,6 @@ void ServerManager::stop()
 void ServerManager::connectionSuccess()
 {
 
-    kDebug() << "Server connection success!!!" << endl;
     foreach(DriverInfo *device, managedDrivers)
          device->setServerState(true);
 
