@@ -30,6 +30,7 @@ DriverInfo::DriverInfo(const QString &inName)
 
     hostname      = "localhost";
     port          = "-1";
+    userPort      = "-1";
 
 }
 
@@ -86,6 +87,14 @@ void DriverInfo::setClientState(bool inState)
     //qDebug() << "Client state for this device changed, calling device state changed signal " << endl;
 
     emit deviceStateChanged(this);
+}
+
+void DriverInfo::setUserPort(const QString &inUserPort)
+{
+    if (inUserPort.isEmpty() == false)
+        userPort = inUserPort;
+    else
+        userPort = "-1";
 }
 
 #include "driverinfo.moc"

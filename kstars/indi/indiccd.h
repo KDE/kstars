@@ -64,6 +64,9 @@ public slots:
     void FITSViewerDestroyed();
     void StreamWindowDestroyed();
 
+signals:
+    void FITSViewerClosed();
+
 private:
     FITSMode captureMode;
     FITSScale captureFilter;

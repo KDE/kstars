@@ -53,10 +53,10 @@ bool ClientManager::isDriverManaged(DriverInfo *di)
 void ClientManager::newDevice(INDI::BaseDevice *dp)
 {
 
-    //IDLog("Received new device %s\n", dp->getDeviceName());
     setBLOBMode(B_ALSO, dp->getDeviceName());
 
     foreach(DriverInfo *dv, managedDrivers)
+    {
         if (dv->getUniqueLabel() == dp->getDeviceName() || dv->getDriverSource() == HOST_SOURCE)
         {
             if (dv->getDriverSource() == HOST_SOURCE)
@@ -91,6 +91,7 @@ void ClientManager::newDevice(INDI::BaseDevice *dp)
                 return;
             }
         }
+    }
 }
 
 void ClientManager::newProperty(INDI::Property *prop)

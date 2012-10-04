@@ -54,6 +54,7 @@ const int MINIMUM_ROWS_PER_CENTER=3;
 const int MAXIMUM_HOR_SEPARATION=10;
 const int MAXIMUM_VER_SEPARATION=2;
 const int MINIMUM_STDVAR=5;
+const int MAX_STARS=1024;
 
 //#define FITS_DEBUG
 
@@ -333,7 +334,7 @@ bool FITSImage::loadFITS ( const QString &filename )
 
     setAlignment(Qt::AlignCenter);
 
-    emit newStatus(QString("%1%x%2").arg(currentWidth).arg(currentHeight), FITS_RESOLUTION);
+    emit newStatus(QString("%1x%2").arg(stats.dim[0]).arg(stats.dim[1]), FITS_RESOLUTION);
 
 
     return true;
@@ -586,6 +587,9 @@ void FITSImage::updateFrame()
 
     QPixmap displayPixmap;
     bool ok=false;
+
+    if (displayImage == NULL)
+        return;
 
     if (currentZoom != ZOOM_DEFAULT)
             ok = displayPixmap.convertFromImage(displayImage->scaled( (int) currentWidth, (int) currentHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation));
@@ -971,6 +975,12 @@ void FITSImage::findCentroid()
             qDebug() << "HFR for this center is " << rCenter->HFR << " pixels and the total flux is " << FSum << endl;
             #endif
              starCenters.append(rCenter);
+
+             if (starCenters.count() > MAX_STARS)
+             {
+                 qDeleteAll(starCenters);
+                 break;
+             }
         }
 
     }
@@ -1009,15 +1019,16 @@ void FITSImage::drawGuideBox(QPainter *painter)
 {
     painter->setPen(QPen(Qt::green, 2));
 
-    int mid = guide_box / 2;
+    int mid = guide_box/2;
 
     if (mid == -1 || guide_x == -1 || guide_y == -1)
         return;
 
     int x1 = (guide_x - mid) * (currentZoom / ZOOM_DEFAULT);
     int y1 = (guide_y - mid) * (currentZoom / ZOOM_DEFAULT);
+    int w  = guide_box * (currentZoom / ZOOM_DEFAULT);
 
-    painter->drawRect(x1, y1, guide_box, guide_box);
+    painter->drawRect(x1, y1, w, w);
 }
 
 double FITSImage::getHFR(HFRType type)

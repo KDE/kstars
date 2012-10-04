@@ -143,10 +143,10 @@ void FITSHistogram::constructHistogram(int hist_width, int hist_height)
     qDebug() << "Mean " << mean << " , mean plus std " << mean_p_std << " JMIndex " << JMIndex << endl;
     #endif
 
-    if (mean == 0)
-        JMIndex = 0;
+   // if (mean == 0)
+       // JMIndex = 0;
     // Reject diffuse images by setting JMIndex to zero.
-    else if (tab->getImage()->getMode() != FITS_GUIDE && mean_p_std / mean < 2)
+    if (mean && tab->getImage()->getMode() != FITS_GUIDE && mean_p_std / mean < 2)
         JMIndex =0;
 
     #ifdef HIST_LOG

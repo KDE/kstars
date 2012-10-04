@@ -98,46 +98,41 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_4">
+      <widget class="QGroupBox" name="groupBox_Configuration">
        <property name="title">
-        <string>Calibration Status</string>
+        <string>Setup</string>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <item>
-         <widget class="QLabel" name="l_RStatus">
+         <widget class="QPushButton" name="captureB">
           <property name="text">
-           <string>State:</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_Configuration">
-       <property name="title">
-        <string>Configuration</string>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QLabel" name="l_18">
-          <property name="text">
-           <string>Square size</string>
+           <string>Capture</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox_SquareSize"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="l_19">
-          <property name="text">
-           <string>Algorithm</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="comboBox_ThresholdAlg"/>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="l_18">
+            <property name="text">
+             <string>Square size</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_SquareSize"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="l_19">
+            <property name="text">
+             <string>Algorithm</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_ThresholdAlg"/>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

@@ -32,8 +32,8 @@ CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
     batchMode = false;
     ISOMode   = true;
     captureMode = FITS_NORMAL;
+    fv          = NULL;
     captureFilter     = FITS_NONE;
-    fv                = NULL;
     streamWindow      = NULL;
     normalTabID = focusTabID = guideTabID = calibrationTabID = -1;
     ST4Driver = NULL;
@@ -430,6 +430,7 @@ void CCD::processBLOB(IBLOB* bp)
         {
             fv = new FITSViewer(KStars::Instance());
             connect(fv, SIGNAL(destroyed()), this, SLOT(FITSViewerDestroyed()));
+            connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
         switch (captureMode)

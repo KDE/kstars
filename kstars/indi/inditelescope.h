@@ -21,7 +21,8 @@ class Telescope : public DeviceDecorator
     Q_OBJECT
 
 public:
-    Telescope(GDInterface *iPtr) : DeviceDecorator(iPtr) { dType = KSTARS_TELESCOPE;}
+    Telescope(GDInterface *iPtr);
+    ~Telescope();
 
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty* tvp);

@@ -34,6 +34,8 @@ public:
     bool is_guiding( void ) const;
     void set_math( cgmath *math );
     void fill_interface( void );
+    void set_image(FITSImage *image);
+    void set_ready(bool enable) { is_ready = enable;}
 
 protected slots:
 	void onXscaleChanged( int i );
@@ -45,6 +47,8 @@ protected slots:
 	void onEnableDirDEC( int state );
 	void onInputParamChanged();
 
+    void guideStarSelected(int x, int y);
+
 	void onStartStopButtonClick();
 
 private:
@@ -53,7 +57,10 @@ private:
 
     custom_drawer *pDriftOut;
     cscroll_graph *drift_graph;
+
+    FITSImage *pimage;
 	bool is_started;
+    bool is_ready;
 	bool half_refresh_rate;
 
 

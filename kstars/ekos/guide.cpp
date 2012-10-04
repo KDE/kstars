@@ -54,6 +54,7 @@ Guide::Guide() : QWidget()
     guider = new rguider(this);
     guider->set_math(pmath);
 
+
     tabWidget->addTab(calibration, i18n("%1").arg(calibration->windowTitle()));
     tabWidget->addTab(guider, i18n("%1").arg(guider->windowTitle()));
     tabWidget->setTabEnabled(1, false);
@@ -77,6 +78,8 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
     currentCCD = (ISD::CCD *) newCCD;
 
     guiderCombo->addItem(currentCCD->getDeviceName());
+
+    connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
 
     INumberVectorProperty * nvp = currentCCD->getBaseDevice()->getNumber("GUIDE_INFO");
 
@@ -183,16 +186,15 @@ void Guide::newFITS(IBLOB *bp)
 
     FITSViewer *fv = currentCCD->getViewer();
 
-    currentCCD->disconnect(this);
+    disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
     FITSImage *fitsImage = fv->getImage(currentCCD->getGuideTabID());
 
     pmath->set_image(fitsImage);
-
+    guider->set_image(fitsImage);
     calibration->set_image(fitsImage);
 
     fv->show();
-
 
     if (guider->is_guiding())
     {
@@ -203,6 +205,7 @@ void Guide::newFITS(IBLOB *bp)
     }
     else if (calibration->is_calibrating())
     {
+
         pmath->do_processing();
         calibration->process_calibration();
 
@@ -210,7 +213,10 @@ void Guide::newFITS(IBLOB *bp)
             capture();
 
          if (calibration->is_finished())
+         {
+             guider->set_ready(true);
              tabWidget->setTabEnabled(1, true);
+         }
     }
 
 }
@@ -252,6 +258,16 @@ void Guide::newST4(int index)
     ST4Driver = ST4List.at(index);
 }
 
+double Guide::getReticleAngle()
+{
+    return calibration->getReticleAngle();
+}
+
+void Guide::viewerClosed()
+{
+    guider->set_image(NULL);
+    calibration->set_image(NULL);
+}
 
 }
 

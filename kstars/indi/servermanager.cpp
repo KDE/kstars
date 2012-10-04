@@ -131,6 +131,8 @@ bool ServerManager::startDriver(DriverInfo *dv)
 
         dv->setServerState(true);
 
+        dv->setPort(port);
+
         return true;
 }
 
@@ -147,6 +149,8 @@ void ServerManager::stopDriver(DriverInfo *dv)
         out.flush();
 
         dv->setServerState(false);
+
+        dv->setPort(dv->getUserPort());
 
 }
 
