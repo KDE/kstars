@@ -19,6 +19,22 @@
 #ifndef CATALOGDATA_H
 #define CATALOGDATA_H
 
+#include <QString>
+
+/**
+ * @brief Add the catalog with given details into the database
+ *
+ * catalog_name = Name to be given to the catalog
+ * prefix = Prefix of the catalog
+ * color = Color of the drawn objects
+ * epoch = Epoch of the catalog
+ * fluxfreq = Flux Frequency of the catalog
+ * fluxunit = Flux Unit of the catalog
+ * author = Author of the catalog. Defaults to "KStars Community".
+ * license = License for the catalog. Defaults to "None".
+ **/
+
+
 class CatalogData {
  public:
   CatalogData();

@@ -19,6 +19,37 @@
 #ifndef CATALOGENTRYDATA_H
 #define CATALOGENTRYDATA_H
 
+#include <QString>
+
+/**
+ * @brief Class to store details of a Catalog Entry
+ *
+ * catalog_name = Name of the Catalog (must exist prior to execution)
+ * ID = The ID number from the catalog. eg. for M 31, ID is 31
+ * long_name = long name (if any) of the object
+ * ra = Right Ascension of the object (in HH:MM:SS format)
+ * dec = Declination of the object (in +/-DD:MM:SS format)
+ * type = type of the object (from skyqpainter::drawDeepSkySymbol())
+ * 0: general star (not to be used)
+ * 1: star
+ * 2: planet
+ * 3: Open Cluster
+ * 4: Globular Cluster
+ * 5: Gaseous Nebula
+ * 6: Planetary Nebula
+ * 7: Supernova remnant
+ * 8: Galaxy
+ * 13: Asterism
+ * 14: Galaxy cluster
+ * 15: Dark Nebula
+ * 16: Quasar
+ * magnitude = Apparent Magnitude of the object
+ * position_angle = Position Angle of the object
+ * major_axis = Major Axis Length (arcmin)
+ * minor_axis = Minor Axis Length (arcmin)
+ * flux = Flux for the object
+ **/
+
 class CatalogEntryData {
  public:
   QString catalog_name;
