@@ -29,7 +29,7 @@ public:
     void appendManagedDriver(DriverInfo *dv);
     void removeManagedDriver(DriverInfo *dv);
 
-    int size() { return managedDrivers.size(); }
+    int count() { return managedDrivers.count(); }
 
     ServerManager* getServerManager() { return sManager;}
 

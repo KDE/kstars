@@ -85,7 +85,8 @@ void INDIListener::addClient(ClientManager *cm)
     connect(cm, SIGNAL(INDIDeviceRemoved(DriverInfo*)), this, SLOT(removeDevice(DriverInfo*)));
 
     connect(cm, SIGNAL(newINDIProperty(INDI::Property*)), this, SLOT(registerProperty(INDI::Property*)));
-    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), Qt::BlockingQueuedConnection);
+    //connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)), Qt::BlockingQueuedConnection);
+    connect(cm, SIGNAL(removeINDIProperty(INDI::Property*)), this, SLOT(removeProperty(INDI::Property*)));
 
     connect(cm, SIGNAL(newINDISwitch(ISwitchVectorProperty*)), this, SLOT(processSwitch(ISwitchVectorProperty*)));
     connect(cm, SIGNAL(newINDIText(ITextVectorProperty*)), this, SLOT(processText(ITextVectorProperty*)));

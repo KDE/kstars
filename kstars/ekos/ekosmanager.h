@@ -51,6 +51,7 @@ public slots:
     void removeDevice(ISD::GDInterface*);
 
     void deviceConnected();
+    void deviceDisconnected();
 
     void setTelescope(ISD::GDInterface *);
     void setCCD(ISD::GDInterface *);

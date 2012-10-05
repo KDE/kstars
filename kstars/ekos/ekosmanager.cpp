@@ -340,16 +340,11 @@ void EkosManager::connectDevices()
     if (filter && filter != ccd)
         filter->Connect();
 
-
     if (focuser)
         focuser->Connect();
 
-
-
     if (aux)
         aux->Connect();
-
-
 
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
@@ -369,7 +364,7 @@ void EkosManager::disconnectDevices()
         ccd->Disconnect();
     }
 
-    if (guider && guider != ccd)    
+    if (guider && guider != ccd)
         guider->Disconnect();
 
 
@@ -382,8 +377,6 @@ void EkosManager::disconnectDevices()
     if (aux)
         aux->Disconnect();
 
-    connectB->setEnabled(true);
-    disconnectB->setEnabled(false);
 
     appendLogText(i18n("Disconnecting INDI devices..."));
 
@@ -422,6 +415,7 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
                case KSTARS_TELESCOPE:
                 scope = devInterface;
                 connect(scope, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                connect(scope, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
                 break;
 
 
@@ -430,17 +424,20 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
                 {
                     guider = devInterface;
                     connect(guider, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                    connect(guider, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
                 }
                 else
                 {
                     ccd = devInterface;
                     connect(ccd, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                    connect(ccd, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
                 }
                 break;
 
             case KSTARS_FOCUSER:
                 focuser = devInterface;
                 connect(focuser, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                connect(focuser, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
                 break;
 
              case KSTARS_FILTER:
@@ -448,6 +445,7 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
                 {
                     filter = devInterface;
                     connect(filter, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                    connect(filter, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
                 }
 
                 break;
@@ -457,6 +455,7 @@ void EkosManager::processNewDevice(ISD::GDInterface *devInterface)
                 {
                     aux = devInterface;
                     connect(aux, SIGNAL(Connected()), this, SLOT(deviceConnected()));
+                    connect(aux, SIGNAL(Disconnected()), this, SLOT(deviceDisconnected()));
                 }
 
               default:
@@ -481,6 +480,17 @@ void EkosManager::deviceConnected()
 {
     connectB->setEnabled(false);
     disconnectB->setEnabled(true);
+
+    processINDIB->setEnabled(false);
+}
+
+void EkosManager::deviceDisconnected()
+{
+    connectB->setEnabled(true);
+    disconnectB->setEnabled(false);
+
+    processINDIB->setEnabled(true);
+
 }
 
 void EkosManager::setTelescope(ISD::GDInterface *scopeDevice)

@@ -415,9 +415,12 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
     {
         ClientManager *cm = dv->getClientManager();
 
+        if (cm == NULL)
+            continue;
+
         cm->removeManagedDriver(dv);
 
-        if (cm->size() == 0)
+        if (cm->count() == 0)
         {
               GUIManager::Instance()->removeClient(cm);
               INDIListener::Instance()->removeClient(cm);
@@ -426,12 +429,14 @@ void DriverManager::stopDevices(const QList<DriverInfo*> & dList)
               delete cm;
               cm = NULL;
         }
+    }
 
+    foreach(DriverInfo *dv, dList)
+    {
       ServerManager *sm = dv->getServerManager();
 
       if (sm != NULL)
       {
-          //qDebug() << "Asking to stop driver " << dv->getUniqueLabel() << endl;
           sm->stopDriver(dv);
 
           if (sm->size() == 0)
