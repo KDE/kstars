@@ -291,6 +291,13 @@ void EkosManager::processINDI()
 
     if (managedDevices.empty()) return;
 
+    if (ccd_di == NULL && guider_di == NULL)
+    {
+        KMessageBox::error(this, i18n("Ekos requires at least one CCD or Guider to operate."));
+        managedDevices.clear();
+        return;
+    }
+
     nDevices = managedDevices.count();
 
     saveDefaultDrivers();
