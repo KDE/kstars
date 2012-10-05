@@ -30,7 +30,7 @@
  * epoch = Epoch of the catalog
  * fluxfreq = Flux Frequency of the catalog
  * fluxunit = Flux Unit of the catalog
- * author = Author of the catalog. Defaults to "KStars Community".
+ * author = Author of the catalog. Defaults to "KStars".
  * license = License for the catalog. Defaults to "None".
  **/
 
