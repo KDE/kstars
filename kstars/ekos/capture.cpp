@@ -51,6 +51,7 @@ Capture::Capture()
     seqTotalCount = 0;
     seqCurrentCount = 0;
     seqDelay = 0;
+    useGuideHead = false;
 
     foreach(QString filter, FITSViewer::filterTypes)
         filterCombo->addItem(filter);
@@ -68,6 +69,9 @@ void Capture::addCCD(ISD::GDInterface *newCCD)
     CCDs.append(static_cast<ISD::CCD *> (newCCD));
 
     checkCCD(0);
+
+    if ( (static_cast<ISD::CCD *> (newCCD))->hasGuideHead())
+        CCDCaptureCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
 
 }
 
@@ -155,38 +159,52 @@ void Capture::checkCCD(int ccdNum)
         int x,y,w,h;
         int binx,biny;
         double min,max,step;
+        QString frameProp = QString("CCD_FRAME");
+        ISD::CCD::CCDChip chipType = ISD::CCD::PRIMARY_CCD;
 
-        currentCCD = CCDs.at(ccdNum);     
+        // Check whether main camera or guide head only
 
-        if (currentCCD->getMinMaxStep("CCD_FRAME", "X", &min, &max, &step))
+        if (CCDCaptureCombo->itemText(ccdNum).right(6) == QString("Guider"))
+        {
+            chipType = ISD::CCD::GUIDE_CCD;
+            frameProp = QString("GUIDE_FRAME");
+            ccdNum--;
+            useGuideHead = true;
+        }
+        else
+            useGuideHead = false;
+
+        currentCCD = CCDs.at(ccdNum);
+
+        if (currentCCD->getMinMaxStep(frameProp, "X", &min, &max, &step))
         {
             frameXIN->setMinimum(min);
             frameXIN->setMaximum(max);
             frameXIN->setSingleStep(step);
         }
 
-        if (currentCCD->getMinMaxStep("CCD_FRAME", "Y", &min, &max, &step))
+        if (currentCCD->getMinMaxStep(frameProp, "Y", &min, &max, &step))
         {
             frameYIN->setMinimum(min);
             frameYIN->setMaximum(max);
             frameYIN->setSingleStep(step);
         }
 
-        if (currentCCD->getMinMaxStep("CCD_FRAME", "WIDTH", &min, &max, &step))
+        if (currentCCD->getMinMaxStep(frameProp, "WIDTH", &min, &max, &step))
         {
             frameWIN->setMinimum(min);
             frameWIN->setMaximum(max);
             frameWIN->setSingleStep(step);
         }
 
-        if (currentCCD->getMinMaxStep("CCD_FRAME", "HEIGHT", &min, &max, &step))
+        if (currentCCD->getMinMaxStep(frameProp, "HEIGHT", &min, &max, &step))
         {
             frameHIN->setMinimum(min);
             frameHIN->setMaximum(max);
             frameHIN->setSingleStep(step);
         }
 
-        if (currentCCD->getFrame(&x,&y,&w,&h))
+        if (currentCCD->getFrame(&x,&y,&w,&h, chipType))
         {
 
             frameXIN->setValue(x);
@@ -195,7 +213,7 @@ void Capture::checkCCD(int ccdNum)
             frameHIN->setValue(h);
         }
 
-        if (currentCCD->getBinning(&binx, &biny))
+        if ( (chipType == ISD::CCD::PRIMARY_CCD) && (currentCCD->getBinning(&binx, &biny)))
         {
             binXCombo->setCurrentIndex(binx-1);
             binYCombo->setCurrentIndex(biny-1);
@@ -240,6 +258,10 @@ void Capture::checkFilter(int filterNum)
 
 void Capture::newFITS(IBLOB *bp)
 {
+
+    // not for us
+    if (useGuideHead == false && !strcmp(bp->name, "CCD2"))
+        return;
 
     // If the FITS is not for our device, simply ignore
     if (QString(bp->bvp->device)  != currentCCD->getDeviceName() || startB->isEnabled())
@@ -295,22 +317,24 @@ void Capture::captureImage()
     if (currentCCD == NULL)
         return;
 
+    ISD::CCD::CCDChip chipType = useGuideHead ? ISD::CCD::GUIDE_CCD : ISD::CCD::PRIMARY_CCD;
+
     seqTimer->stop();
 
-    if (currentCCD->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value()) == false)
+    if (currentCCD->setFrame(frameXIN->value(), frameYIN->value(), frameWIN->value(), frameHIN->value(), chipType) == false)
     {
         appendLogText(i18n("Failed to set sub frame."));
         return;
 
     }
 
-    if (currentCCD->setBinning(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1) == false)
+    if (chipType == ISD::CCD::PRIMARY_CCD && currentCCD->setBinning(binXCombo->currentIndex()+1, binYCombo->currentIndex()+1) == false)
     {
         appendLogText(i18n("Failed to set binning."));
         return;
     }
 
-    if (darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
+    if (chipType == ISD::CCD::PRIMARY_CCD && darkSubCheck->isChecked() && calibrationState == CALIBRATE_NONE)
     {
         calibrationState = CALIBRATE_START;
         currentCCD->setFrameType(FRAME_DARK);
@@ -320,13 +344,15 @@ void Capture::captureImage()
     else
     {
 
-        currentCCD->setFrameType(FRAME_LIGHT);
+        if (chipType == ISD::CCD::PRIMARY_CCD)
+            currentCCD->setFrameType(FRAME_LIGHT);
+
         currentCCD->setCaptureMode(FITS_NORMAL);
         currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
         appendLogText(i18n("Capturing image..."));
     }
 
-    currentCCD->capture(seqExpose);   
+    currentCCD->capture(seqExpose,chipType);
 }
 
 

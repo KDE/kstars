@@ -118,10 +118,22 @@ void CCD::processText(ITextVectorProperty *tvp)
     DeviceDecorator::processText(tvp);
 }
 
-bool CCD::getFrame(int *x, int *y, int *w, int *h)
+bool CCD::getFrame(int *x, int *y, int *w, int *h,  CCDChip type)
 {
 
-    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_FRAME");
+    INumberVectorProperty *frameProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        frameProp = baseDevice->getNumber("CCD_FRAME");
+        break;
+
+      case GUIDE_CCD:
+        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        break;
+
+    }
 
     if (frameProp == NULL)
         return false;
@@ -156,9 +168,21 @@ bool CCD::getFrame(int *x, int *y, int *w, int *h)
 
 }
 
-bool CCD::setFrame(int x, int y, int w, int h)
+bool CCD::setFrame(int x, int y, int w, int h, CCDChip type)
 {
-    INumberVectorProperty *frameProp = baseDevice->getNumber("CCD_FRAME");
+    INumberVectorProperty *frameProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        frameProp = baseDevice->getNumber("CCD_FRAME");
+        break;
+
+      case GUIDE_CCD:
+        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        break;
+
+    }
 
     if (frameProp == NULL)
         return false;
@@ -186,9 +210,22 @@ bool CCD::setFrame(int x, int y, int w, int h)
 
 }
 
-bool CCD::capture(double exposure)
+bool CCD::capture(double exposure, CCDChip type)
 {
-    INumberVectorProperty *expProp = baseDevice->getNumber("CCD_EXPOSURE_REQUEST");
+    INumberVectorProperty *expProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        expProp = baseDevice->getNumber("CCD_EXPOSURE_REQUEST");
+        break;
+
+      case GUIDE_CCD:
+        expProp = baseDevice->getNumber("GUIDER_EXPOSURE_REQUEST");
+        break;
+
+    }
+
     if (expProp == NULL)
         return false;
 
@@ -485,6 +522,15 @@ void CCD::StreamWindowDestroyed()
     qDebug() << "Stream windows destroyed " << endl;
     delete(streamWindow);
     streamWindow = NULL;
+}
+
+bool CCD::hasGuideHead()
+{
+    INumberVectorProperty *guideProp = baseDevice->getNumber("GUIDER_EXPOSURE_REQUEST");
+    if (guideProp == NULL)
+        return false;
+    else
+        return true;
 }
 
 

@@ -25,6 +25,8 @@ public:
     CCD(GDInterface *iPtr);
     ~CCD();
 
+    typedef enum { PRIMARY_CCD, GUIDE_CCD } CCDChip;
+
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty* tvp);
     void processNumber(INumberVectorProperty *nvp);
@@ -35,14 +37,16 @@ public:
 
 
     // Common commands
-    bool getFrame(int *x, int *y, int *w, int *h);
-    bool setFrame(int x, int y, int w, int h);
-    bool capture(double exposure);
+    bool getFrame(int *x, int *y, int *w, int *h, CCDChip type=PRIMARY_CCD);
+    bool setFrame(int x, int y, int w, int h, CCDChip type=PRIMARY_CCD);
+    bool capture(double exposure, CCDChip type=PRIMARY_CCD);
     bool setFrameType(CCDFrameType fType);
     bool setBinning(int bin_x, int bin_y);
     bool setBinning(CCDBinType binType);
     CCDBinType getBinning();
     bool getBinning(int *bin_x, int *bin_y);
+
+    bool hasGuideHead();
 
 
     // Utitlity functions

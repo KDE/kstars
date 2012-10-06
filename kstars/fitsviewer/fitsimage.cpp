@@ -156,7 +156,8 @@ FITSImage::~FITSImage()
     delete(image_buffer);
     delete(displayImage);
 
-    qDeleteAll(starCenters);
+    if (starCenters.count() > 0)
+        qDeleteAll(starCenters);
 
     if (fptr)
         fits_close_file(fptr, &status);
@@ -979,6 +980,7 @@ void FITSImage::findCentroid()
              if (starCenters.count() > MAX_STARS)
              {
                  qDeleteAll(starCenters);
+                 starCenters.clear();
                  break;
              }
         }

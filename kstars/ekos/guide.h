@@ -85,7 +85,7 @@ private:
     rcalibration *calibration;
     rguider *guider;
 
-    bool telescopeGuide;
+    bool useGuideHead;
 
     QStringList logText;
 

@@ -185,6 +185,9 @@ FITSViewer::FITSViewer (QWidget *parent)
 
 FITSViewer::~FITSViewer()
 {
+    foreach(FITSTab *tab, fitsImages)
+        tab->disconnect();
+
     qDeleteAll(fitsImages);
 }
 

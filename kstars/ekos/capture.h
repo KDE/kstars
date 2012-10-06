@@ -75,6 +75,7 @@ private:
     QString		seqPrefix;
     int			seqCount;
     int calibrationState;
+    bool useGuideHead;
 
     QList<ISD::CCD *> CCDs;
 

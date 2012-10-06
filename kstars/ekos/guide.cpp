@@ -37,10 +37,9 @@ Guide::Guide() : QWidget()
     currentCCD = NULL;
     currentTelescope = NULL;
     ccd_hor_pixel =  ccd_ver_pixel =  focal_length =  aperture = -1;
+    useGuideHead = false;
 
     tabWidget = new QTabWidget(this);
-
-    telescopeGuide = true;
 
     tabLayout->addWidget(tabWidget);
 
@@ -77,14 +76,23 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
 {
     currentCCD = (ISD::CCD *) newCCD;
 
-    guiderCombo->addItem(currentCCD->getDeviceName());
+    if ( (static_cast<ISD::CCD *> (newCCD))->hasGuideHead())
+    {
+        guiderCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
+        useGuideHead = true;
+    }
+    else
+         guiderCombo->addItem(currentCCD->getDeviceName());
 
     connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
 
-    INumberVectorProperty * nvp = currentCCD->getBaseDevice()->getNumber("GUIDE_INFO");
 
-    if (nvp == NULL)
-       nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
+    INumberVectorProperty * nvp = NULL;
+
+    if (useGuideHead)
+        nvp = currentCCD->getBaseDevice()->getNumber("GUIDE_INFO");
+    else
+        nvp = currentCCD->getBaseDevice()->getNumber("CCD_INFO");
 
     if (nvp)
     {
@@ -106,11 +114,13 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
-        if (currentCCD->getFrame(&x,&y,&w,&h))
+        if (currentCCD->getFrame(&x,&y,&w,&h, useGuideHead ? ISD::CCD::GUIDE_CCD : ISD::CCD::PRIMARY_CCD))
             pmath->set_video_params(w, h);
 
         guider->fill_interface();
     }
+
+    qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
 
 }
 
@@ -135,13 +145,13 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
-        if (currentCCD->getFrame(&x,&y,&w,&h))
+        if (currentCCD->getFrame(&x,&y,&w,&h, useGuideHead ? ISD::CCD::GUIDE_CCD : ISD::CCD::PRIMARY_CCD))
             pmath->set_video_params(w, h);
 
         guider->fill_interface();
     }
 
-    //qDebug() << "ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+    qDebug() << "SetScope: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
 }
 
 void Guide::addST4(ISD::ST4 *newST4)
@@ -173,9 +183,10 @@ bool Guide::capture()
     currentCCD->setCaptureMode(FITS_GUIDE);
     currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
-    currentCCD->setFrameType(ccdFrame);
+    if (useGuideHead == false)
+        currentCCD->setFrameType(ccdFrame);
 
-    currentCCD->capture(seqExpose);
+    currentCCD->capture(seqExpose, useGuideHead ? ISD::CCD::GUIDE_CCD : ISD::CCD::PRIMARY_CCD);
 
     return true;
 
