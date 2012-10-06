@@ -214,7 +214,7 @@ bool FITSImage::loadFITS ( const QString &filename )
 
     if (stats.ndim < 2)
     {
-        KMessageBox::error(0, i18n("1D FITS images are not supported in KStars.", i18n("FITS Open")));
+        KMessageBox::error(0, i18n("1D FITS images are not supported in KStars."), i18n("FITS Open"));
         return false;
     }
 
