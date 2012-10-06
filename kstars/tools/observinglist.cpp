@@ -93,7 +93,7 @@ ObservingList::ObservingList( KStars *_ks )
 {
     ui = new ObservingListUI( this );
     setMainWidget( ui );
-    setCaption( i18n( "Observing List" ) );
+    setCaption( i18n( "Observation Planner" ) );
     setButtons( KDialog::Close );
     dt = KStarsDateTime::currentDateTime();
     setFocusPolicy(Qt::StrongFocus);

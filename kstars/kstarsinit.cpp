@@ -362,7 +362,7 @@ void KStars::initActions() {
         << KIcon("accessories-calculator" )
         << KShortcut( Qt::CTRL+Qt::Key_C );
     actionCollection()->addAction("obslist", this, SLOT( slotObsList() ) )
-        << i18n("Observing List...")
+        << i18n("Observation Planner...")
         << KShortcut( Qt::CTRL+Qt::Key_L );
 
     actionCollection()->addAction("altitude_vs_time", this, SLOT( slotAVT() ) )
