@@ -25,18 +25,356 @@ const int MAX_FILENAME_LEN = 1024;
 namespace ISD
 {
 
+CCDChip::CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cType)
+{
+    baseDevice    = bDevice;
+    clientManager = cManager;
+    type          = cType;
+
+    captureMode   = FITS_NORMAL;
+    captureFilter = FITS_NONE;
+
+    normalImage = focusImage = guideImage = calibrationImage = NULL;
+}
+
+FITSImage * CCDChip::getImage(FITSMode imageType)
+{
+    switch (imageType)
+    {
+        case FITS_NORMAL:
+            return normalImage;
+            break;
+
+        case FITS_FOCUS:
+            return focusImage;
+            break;
+
+        case FITS_GUIDE:
+            return guideImage;
+            break;
+
+        case FITS_CALIBRATE:
+            return calibrationImage;
+            break;
+    }
+
+    return NULL;
+
+}
+
+void CCDChip::setImage(FITSImage *image, FITSMode imageType)
+{
+
+    switch (imageType)
+    {
+        case FITS_NORMAL:
+            normalImage = image;
+            break;
+
+        case FITS_FOCUS:
+            focusImage = image;
+            break;
+
+        case FITS_GUIDE:
+            guideImage = image;
+            break;
+
+        case FITS_CALIBRATE:
+            calibrationImage = image;
+            break;
+    }
+
+}
+
+bool CCDChip::getFrame(int *x, int *y, int *w, int *h)
+{
+
+    INumberVectorProperty *frameProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        frameProp = baseDevice->getNumber("CCD_FRAME");
+        break;
+
+      case GUIDE_CCD:
+        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        break;
+
+    }
+
+    if (frameProp == NULL)
+        return false;
+
+    INumber *arg = IUFindNumber(frameProp, "X");
+    if (arg == NULL)
+        return false;
+
+    *x = arg->value;
+
+
+    arg = IUFindNumber(frameProp, "Y");
+    if (arg == NULL)
+        return false;
+
+    *y = arg->value;
+
+
+    arg = IUFindNumber(frameProp, "WIDTH");
+    if (arg == NULL)
+        return false;
+
+    *w = arg->value;
+
+    arg = IUFindNumber(frameProp, "HEIGHT");
+    if (arg == NULL)
+        return false;
+
+    *h = arg->value;
+
+    return true;
+
+}
+
+bool CCDChip::setFrame(int x, int y, int w, int h)
+{
+    INumberVectorProperty *frameProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        frameProp = baseDevice->getNumber("CCD_FRAME");
+        break;
+
+      case GUIDE_CCD:
+        frameProp = baseDevice->getNumber("GUIDE_FRAME");
+        break;
+
+    }
+
+    if (frameProp == NULL)
+        return false;
+
+    INumber *xarg = IUFindNumber(frameProp, "X");
+    INumber *yarg = IUFindNumber(frameProp, "Y");
+    INumber *warg = IUFindNumber(frameProp, "WIDTH");
+    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
+
+    if (xarg && yarg && warg && harg)
+    {
+        if (xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
+            return true;
+
+        xarg->value = x;
+        yarg->value = y;
+        warg->value = w;
+        harg->value = h;
+
+        clientManager->sendNewNumber(frameProp);
+        return true;
+    }
+
+    return false;
+
+}
+
+bool CCDChip::capture(double exposure)
+{
+    INumberVectorProperty *expProp = NULL;
+
+    switch (type)
+    {
+       case PRIMARY_CCD:
+        expProp = baseDevice->getNumber("CCD_EXPOSURE_REQUEST");
+        break;
+
+      case GUIDE_CCD:
+        expProp = baseDevice->getNumber("GUIDER_EXPOSURE_REQUEST");
+        break;
+
+    }
+
+    if (expProp == NULL)
+        return false;
+
+    expProp->np[0].value = exposure;
+
+    clientManager->sendNewNumber(expProp);
+
+    return true;
+}
+
+bool CCDChip::setFrameType(CCDFrameType fType)
+{
+    if (type == GUIDE_CCD)
+        return false;
+
+    ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
+    if (frameProp == NULL)
+        return false;
+
+    ISwitch *ccdFrame = NULL;
+
+    if (fType == FRAME_LIGHT)
+        ccdFrame = IUFindSwitch(frameProp, "FRAME_LIGHT");
+    else if (fType == FRAME_DARK)
+        ccdFrame = IUFindSwitch(frameProp, "FRAME_DARK");
+    else if (fType == FRAME_BIAS)
+        ccdFrame = IUFindSwitch(frameProp, "FRAME_BIAS");
+    else if (fType == FRAME_FLAT)
+        ccdFrame = IUFindSwitch(frameProp, "FRAME_FLAT");
+
+    if (ccdFrame == NULL)
+        return false;
+
+    if (ccdFrame->s == ISS_ON)
+        return true;
+
+    if (fType != FRAME_LIGHT)
+        captureMode = FITS_CALIBRATE;
+
+    IUResetSwitch(frameProp);
+    ccdFrame->s = ISS_ON;
+
+    clientManager->sendNewSwitch(frameProp);
+
+    return true;
+}
+
+bool CCDChip::setBinning(CCDBinType binType)
+{
+    if (type == GUIDE_CCD)
+        return false;
+
+    switch (binType)
+    {
+        case SINGLE_BIN:
+            return setBinning(1,1);
+            break;
+        case DOUBLE_BIN:
+            return setBinning(2,2);
+            break;
+        case TRIPLE_BIN:
+            return setBinning(3,3);
+            break;
+        case QUADRAPLE_BIN:
+            return setBinning(4,4);
+            break;
+    }
+
+    return false;
+}
+
+CCDBinType CCDChip::getBinning()
+{
+    CCDBinType binType = SINGLE_BIN;
+
+    if (type == GUIDE_CCD)
+        return binType;
+
+    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    if (binProp == NULL)
+        return binType;
+
+    INumber *horBin = NULL, *verBin=NULL;
+
+    horBin = IUFindNumber(binProp, "HOR_BIN");
+    verBin = IUFindNumber(binProp, "VER_BIN");
+
+    if (!horBin || !verBin)
+        return binType;
+
+    switch ( (int) horBin->value)
+    {
+        case 2:
+          binType = DOUBLE_BIN;
+          break;
+
+        case 3:
+           binType = TRIPLE_BIN;
+           break;
+
+         case 4:
+            binType = QUADRAPLE_BIN;
+            break;
+
+         default:
+        break;
+
+    }
+
+    return binType;
+
+}
+
+bool CCDChip::getBinning(int *bin_x, int *bin_y)
+{
+    if (type == GUIDE_CCD)
+        return false;
+
+    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    if (binProp == NULL)
+        return false;
+
+    INumber *horBin = NULL, *verBin=NULL;
+
+    horBin = IUFindNumber(binProp, "HOR_BIN");
+    verBin = IUFindNumber(binProp, "VER_BIN");
+
+    if (!horBin || !verBin)
+        return false;
+
+    *bin_x = horBin->value;
+    *bin_y = verBin->value;
+
+    return true;
+}
+
+bool CCDChip::setBinning(int bin_x, int bin_y)
+{
+    if (type == GUIDE_CCD)
+        return false;
+
+    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
+    if (binProp == NULL)
+        return false;
+
+    INumber *horBin = NULL, *verBin=NULL;
+
+    horBin = IUFindNumber(binProp, "HOR_BIN");
+    verBin = IUFindNumber(binProp, "VER_BIN");
+
+    if (!horBin || !verBin)
+        return false;
+
+    if (horBin->value == bin_x && verBin->value == bin_y)
+        return true;
+
+    if (bin_x > horBin->max || bin_y > verBin->max)
+        return false;
+
+    horBin->value = bin_x;
+    verBin->value = bin_y;
+
+    clientManager->sendNewNumber(binProp);
+
+    return true;
+
+}
+
 
 CCD::CCD(GDInterface *iPtr) : DeviceDecorator(iPtr)
 {
     dType = KSTARS_CCD;
     batchMode = false;
     ISOMode   = true;
-    captureMode = FITS_NORMAL;
+    HasGuideHead = false;
     fv          = NULL;
-    captureFilter     = FITS_NONE;
     streamWindow      = NULL;
-    normalTabID = focusTabID = guideTabID = calibrationTabID = -1;
     ST4Driver = NULL;
+
+    primaryChip = new CCDChip(baseDevice, clientManager, CCDChip::PRIMARY_CCD);
+    guideChip   = NULL;
 
 }
 
@@ -44,6 +382,19 @@ CCD::~CCD()
 {
     delete (fv);
     delete (streamWindow);
+    delete (primaryChip);
+    delete (guideChip);
+}
+
+void CCD::registerProperty(INDI::Property *prop)
+{
+    if (!strcmp(prop->getName(), "GUIDER_EXPOSURE_REQUEST"))
+    {
+        HasGuideHead = true;
+        guideChip = new CCDChip(baseDevice, clientManager, CCDChip::GUIDE_CCD);
+    }
+
+    DeviceDecorator::registerProperty(prop);
 }
 
 void CCD::processLight(ILightVectorProperty *lvp)
@@ -118,266 +469,6 @@ void CCD::processText(ITextVectorProperty *tvp)
     DeviceDecorator::processText(tvp);
 }
 
-bool CCD::getFrame(int *x, int *y, int *w, int *h,  CCDChip type)
-{
-
-    INumberVectorProperty *frameProp = NULL;
-
-    switch (type)
-    {
-       case PRIMARY_CCD:
-        frameProp = baseDevice->getNumber("CCD_FRAME");
-        break;
-
-      case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDE_FRAME");
-        break;
-
-    }
-
-    if (frameProp == NULL)
-        return false;
-
-    INumber *arg = IUFindNumber(frameProp, "X");
-    if (arg == NULL)
-        return false;
-
-    *x = arg->value;
-
-
-    arg = IUFindNumber(frameProp, "Y");
-    if (arg == NULL)
-        return false;
-
-    *y = arg->value;
-
-
-    arg = IUFindNumber(frameProp, "WIDTH");
-    if (arg == NULL)
-        return false;
-
-    *w = arg->value;
-
-    arg = IUFindNumber(frameProp, "HEIGHT");
-    if (arg == NULL)
-        return false;
-
-    *h = arg->value;
-
-    return true;
-
-}
-
-bool CCD::setFrame(int x, int y, int w, int h, CCDChip type)
-{
-    INumberVectorProperty *frameProp = NULL;
-
-    switch (type)
-    {
-       case PRIMARY_CCD:
-        frameProp = baseDevice->getNumber("CCD_FRAME");
-        break;
-
-      case GUIDE_CCD:
-        frameProp = baseDevice->getNumber("GUIDE_FRAME");
-        break;
-
-    }
-
-    if (frameProp == NULL)
-        return false;
-
-    INumber *xarg = IUFindNumber(frameProp, "X");
-    INumber *yarg = IUFindNumber(frameProp, "Y");
-    INumber *warg = IUFindNumber(frameProp, "WIDTH");
-    INumber *harg = IUFindNumber(frameProp, "HEIGHT");
-
-    if (xarg && yarg && warg && harg)
-    {
-        if (xarg->value == x && yarg->value == y && warg->value == w && harg->value == h)
-            return true;
-
-        xarg->value = x;
-        yarg->value = y;
-        warg->value = w;
-        harg->value = h;
-
-        clientManager->sendNewNumber(frameProp);
-        return true;
-    }
-
-    return false;
-
-}
-
-bool CCD::capture(double exposure, CCDChip type)
-{
-    INumberVectorProperty *expProp = NULL;
-
-    switch (type)
-    {
-       case PRIMARY_CCD:
-        expProp = baseDevice->getNumber("CCD_EXPOSURE_REQUEST");
-        break;
-
-      case GUIDE_CCD:
-        expProp = baseDevice->getNumber("GUIDER_EXPOSURE_REQUEST");
-        break;
-
-    }
-
-    if (expProp == NULL)
-        return false;
-
-    expProp->np[0].value = exposure;
-
-    clientManager->sendNewNumber(expProp);
-
-    return true;
-}
-
-bool CCD::setFrameType(CCDFrameType fType)
-{
-    ISwitchVectorProperty *frameProp = baseDevice->getSwitch("CCD_FRAME_TYPE");
-    if (frameProp == NULL)
-        return false;
-
-    ISwitch *ccdFrame = NULL;
-
-    if (fType == FRAME_LIGHT)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_LIGHT");
-    else if (fType == FRAME_DARK)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_DARK");
-    else if (fType == FRAME_BIAS)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_BIAS");
-    else if (fType == FRAME_FLAT)
-        ccdFrame = IUFindSwitch(frameProp, "FRAME_FLAT");
-
-    if (ccdFrame == NULL)
-        return false;
-
-    if (ccdFrame->s == ISS_ON)
-        return true;
-
-    if (fType != FRAME_LIGHT)
-        captureMode = FITS_CALIBRATE;
-
-    IUResetSwitch(frameProp);
-    ccdFrame->s = ISS_ON;
-
-    clientManager->sendNewSwitch(frameProp);
-
-    return true;
-}
-
-bool CCD::setBinning(CCDBinType binType)
-{
-    switch (binType)
-    {
-        case SINGLE_BIN:
-            return setBinning(1,1);
-            break;
-        case DOUBLE_BIN:
-            return setBinning(2,2);
-            break;
-        case TRIPLE_BIN:
-            return setBinning(3,3);
-            break;
-        case QUADRAPLE_BIN:
-            return setBinning(4,4);
-            break;
-    }
-
-    return false;
-}
-
-CCDBinType CCD::getBinning()
-{
-    CCDBinType binType = SINGLE_BIN;
-
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
-    if (binProp == NULL)
-        return binType;
-
-    INumber *horBin = NULL, *verBin=NULL;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
-
-    if (!horBin || !verBin)
-        return binType;
-
-    switch ( (int) horBin->value)
-    {
-        case 2:
-          binType = DOUBLE_BIN;
-          break;
-
-        case 3:
-           binType = TRIPLE_BIN;
-           break;
-
-         case 4:
-            binType = QUADRAPLE_BIN;
-            break;
-
-         default:
-        break;
-
-    }
-
-    return binType;
-
-}
-
-bool CCD::getBinning(int *bin_x, int *bin_y)
-{
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
-    if (binProp == NULL)
-        return false;
-
-    INumber *horBin = NULL, *verBin=NULL;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
-
-    if (!horBin || !verBin)
-        return false;
-
-    *bin_x = horBin->value;
-    *bin_y = verBin->value;
-
-    return true;
-}
-
-bool CCD::setBinning(int bin_x, int bin_y)
-{
-    INumberVectorProperty *binProp = baseDevice->getNumber("CCD_BINNING");
-    if (binProp == NULL)
-        return false;
-
-    INumber *horBin = NULL, *verBin=NULL;
-
-    horBin = IUFindNumber(binProp, "HOR_BIN");
-    verBin = IUFindNumber(binProp, "VER_BIN");
-
-    if (!horBin || !verBin)
-        return false;
-
-    if (horBin->value == bin_x && verBin->value == bin_y)
-        return true;
-
-    if (bin_x > horBin->max || bin_y > verBin->max)
-        return false;
-
-    horBin->value = bin_x;
-    verBin->value = bin_y;
-
-    clientManager->sendNewNumber(binProp);
-
-    return true;
-
-}
 
 void CCD::processBLOB(IBLOB* bp)
 {
@@ -470,10 +561,20 @@ void CCD::processBLOB(IBLOB* bp)
             connect(fv, SIGNAL(destroyed()), this, SIGNAL(FITSViewerClosed()));
         }
 
-        switch (captureMode)
+        CCDChip *targetChip = NULL;
+
+        if (!strcmp(bp->name, "CCD1"))
+            targetChip = primaryChip;
+        else
+            targetChip = guideChip;
+
+        FITSScale captureFilter = targetChip->getCaptureFilter();
+
+        switch (targetChip->getCaptureMode())
         {
             case FITS_NORMAL:
                 normalTabID = fv->addFITS(&fileURL, FITS_NORMAL, captureFilter);
+                targetChip->setImage(fv->getImage(normalTabID), FITS_NORMAL);
                 break;
 
         case FITS_CALIBRATE:
@@ -481,6 +582,8 @@ void CCD::processBLOB(IBLOB* bp)
                 calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
             else if (fv->updateFITS(&fileURL, calibrationTabID, captureFilter) == false)
                 calibrationTabID = fv->addFITS(&fileURL, FITS_CALIBRATE, captureFilter);
+
+            targetChip->setImage(fv->getImage(calibrationTabID), FITS_CALIBRATE);
             break;
 
             case FITS_FOCUS:
@@ -488,6 +591,8 @@ void CCD::processBLOB(IBLOB* bp)
                     focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
                 else if (fv->updateFITS(&fileURL, focusTabID, captureFilter) == false)
                     focusTabID = fv->addFITS(&fileURL, FITS_FOCUS, captureFilter);
+
+                targetChip->setImage(fv->getImage(focusTabID), FITS_FOCUS);
                 break;
 
         case FITS_GUIDE:
@@ -495,6 +600,8 @@ void CCD::processBLOB(IBLOB* bp)
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
             else if (fv->updateFITS(&fileURL, guideTabID, captureFilter) == false)
                 guideTabID = fv->addFITS(&fileURL, FITS_GUIDE, captureFilter);
+
+            targetChip->setImage(fv->getImage(guideTabID), FITS_GUIDE);
             break;
 
         }
@@ -511,10 +618,7 @@ void CCD::processBLOB(IBLOB* bp)
 void CCD::FITSViewerDestroyed()
 {
     fv = NULL;
-    focusTabID = -1;
-    guideTabID = -1;
-    calibrationTabID = -1;
-
+    normalTabID = calibrationTabID = focusTabID = guideTabID = -1;
 }
 
 void CCD::StreamWindowDestroyed()
@@ -526,14 +630,24 @@ void CCD::StreamWindowDestroyed()
 
 bool CCD::hasGuideHead()
 {
-    INumberVectorProperty *guideProp = baseDevice->getNumber("GUIDER_EXPOSURE_REQUEST");
-    if (guideProp == NULL)
-        return false;
-    else
-        return true;
+    return HasGuideHead;
 }
 
+CCDChip * CCD::getChip(CCDChip::ChipType cType)
+{
+    switch (cType)
+    {
+        case CCDChip::PRIMARY_CCD:
+            return primaryChip;
+            break;
 
+        case CCDChip::GUIDE_CCD:
+            return guideChip;
+            break;
+    }
+
+    return NULL;
+}
 
 
 

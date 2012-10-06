@@ -76,13 +76,18 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
 {
     currentCCD = (ISD::CCD *) newCCD;
 
+    ISD::CCDChip *targetChip = NULL;
     if ( (static_cast<ISD::CCD *> (newCCD))->hasGuideHead())
     {
         guiderCombo->addItem(newCCD->getDeviceName() + QString(" Guider"));
         useGuideHead = true;
+        targetChip = currentCCD->getChip(ISD::CCDChip::GUIDE_CCD);
     }
     else
+    {
          guiderCombo->addItem(currentCCD->getDeviceName());
+         targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    }
 
     connect(currentCCD, SIGNAL(FITSViewerClosed()), this, SLOT(viewerClosed()));
 
@@ -114,13 +119,13 @@ void Guide::setCCD(ISD::GDInterface *newCCD)
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
-        if (currentCCD->getFrame(&x,&y,&w,&h, useGuideHead ? ISD::CCD::GUIDE_CCD : ISD::CCD::PRIMARY_CCD))
+        if (targetChip->getFrame(&x,&y,&w,&h))
             pmath->set_video_params(w, h);
 
         guider->fill_interface();
     }
 
-    qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+    //qDebug() << "SetCCD: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
 
 }
 
@@ -145,13 +150,15 @@ void Guide::setTelescope(ISD::GDInterface *newTelescope)
         pmath->set_guider_params(ccd_hor_pixel, ccd_ver_pixel, aperture, focal_length);
         int x,y,w,h;
 
-        if (currentCCD->getFrame(&x,&y,&w,&h, useGuideHead ? ISD::CCD::GUIDE_CCD : ISD::CCD::PRIMARY_CCD))
+        ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
+        if (targetChip->getFrame(&x,&y,&w,&h))
             pmath->set_video_params(w, h);
 
         guider->fill_interface();
     }
 
-    qDebug() << "SetScope: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
+    //qDebug() << "SetScope: ccd_pix_w " << ccd_hor_pixel << " - ccd_pix_h " << ccd_ver_pixel << " - focal length " << focal_length << " aperture " << aperture << endl;
 }
 
 void Guide::addST4(ISD::ST4 *newST4)
@@ -170,6 +177,8 @@ bool Guide::capture()
 
     double seqExpose = exposureSpin->value();
 
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+
     CCDFrameType ccdFrame = FRAME_LIGHT;
 
     if (currentCCD->isConnected() == false)
@@ -180,15 +189,14 @@ bool Guide::capture()
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    currentCCD->setCaptureMode(FITS_GUIDE);
-    currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+    targetChip->setCaptureMode(FITS_GUIDE);
+    targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
-    if (useGuideHead == false)
-        currentCCD->setFrameType(ccdFrame);
+   targetChip->setFrameType(ccdFrame);
 
-    currentCCD->capture(seqExpose, useGuideHead ? ISD::CCD::GUIDE_CCD : ISD::CCD::PRIMARY_CCD);
+   targetChip->capture(seqExpose);
 
-    return true;
+   return true;
 
 }
 void Guide::newFITS(IBLOB *bp)
@@ -199,11 +207,12 @@ void Guide::newFITS(IBLOB *bp)
 
     disconnect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    FITSImage *fitsImage = fv->getImage(currentCCD->getGuideTabID());
+    ISD::CCDChip *targetChip = currentCCD->getChip(useGuideHead ? ISD::CCDChip::GUIDE_CCD : ISD::CCDChip::PRIMARY_CCD);
+    FITSImage *targetImage = targetChip->getImage(FITS_GUIDE);
 
-    pmath->set_image(fitsImage);
-    guider->set_image(fitsImage);
-    calibration->set_image(fitsImage);
+    pmath->set_image(targetImage);
+    guider->set_image(targetImage);
+    calibration->set_image(targetImage);
 
     fv->show();
 

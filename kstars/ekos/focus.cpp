@@ -190,6 +190,8 @@ void Focus::capture()
     if (currentCCD == NULL)
         return;
 
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+
     double seqExpose = exposureIN->value();
     CCDFrameType ccdFrame = FRAME_LIGHT;
 
@@ -199,14 +201,14 @@ void Focus::capture()
         return;
     }
 
-    currentCCD->setCaptureMode(FITS_FOCUS);
-    currentCCD->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
+    targetChip->setCaptureMode(FITS_FOCUS);
+    targetChip->setCaptureFilter( (FITSScale) filterCombo->currentIndex());
 
     connect(currentCCD, SIGNAL(BLOBUpdated(IBLOB*)), this, SLOT(newFITS(IBLOB*)));
 
-    currentCCD->setFrameType(ccdFrame);
+    targetChip->setFrameType(ccdFrame);
 
-    currentCCD->capture(seqExpose);
+    targetChip->capture(seqExpose);
 
     if (inFocusLoop == false)
         appendLogText(i18n("Capturing image..."));
@@ -281,13 +283,24 @@ void Focus::newFITS(IBLOB *bp)
     INDI_UNUSED(bp);
     QString HFRText;
 
-    FITSViewer *fv = currentCCD->getViewer();
+    // Ignore guide head if there is any.
+    if (!strcmp(bp->name, "CCD2"))
+        return;
+
+    ISD::CCDChip *targetChip = currentCCD->getChip(ISD::CCDChip::PRIMARY_CCD);
+    FITSImage *targetImage = targetChip->getImage(FITS_FOCUS);
 
     currentCCD->disconnect(this);
 
-    double currentHFR=0;
+    if (targetImage == NULL)
+    {
+        qDebug() << "Error: targetImage is NULL!" << endl;
+        return;
+    }
 
-    foreach(FITSTab *tab, fv->getImages())
+    double currentHFR= targetImage->getHFR(HFR_MAX);
+
+    /*foreach(FITSTab *tab, fv->getImages())
     {
         if (tab->getUID() == currentCCD->getFocusTabID())
         {
@@ -295,7 +308,7 @@ void Focus::newFITS(IBLOB *bp)
             //qDebug() << "Focus HFR is " << tab->getImage()->getHFR() << endl;
             break;
         }
-    }
+    }*/
 
     HFRText = QString("%1").arg(currentHFR, 0,'g', 3);
 

@@ -39,6 +39,7 @@ public:
     Capture();
     void addCCD(ISD::GDInterface *newCCD);
     void addFilter(ISD::GDInterface *newFilter);
+    void addGuiderHead(ISD::GDInterface *newCCD);
 
     void appendLogText(const QString &);
     void clearLog();

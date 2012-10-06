@@ -13,8 +13,44 @@
 
 #include "indistd.h"
 
+class FITSImage;
+
 namespace ISD
 {
+
+class CCDChip
+{
+public:
+    typedef enum { PRIMARY_CCD, GUIDE_CCD } ChipType;
+
+    CCDChip(INDI::BaseDevice *bDevice, ClientManager *cManager, ChipType cType);
+
+    FITSImage * getImage(FITSMode imageType);
+    void setImage(FITSImage *image, FITSMode imageType);
+    void setCaptureMode(FITSMode mode) { captureMode = mode; }
+    void setCaptureFilter(FITSScale fType) { captureFilter = fType; }
+
+    // Common commands
+    bool getFrame(int *x, int *y, int *w, int *h);
+    bool setFrame(int x, int y, int w, int h);
+    bool capture(double exposure);
+    bool setFrameType(CCDFrameType fType);
+    bool setBinning(int bin_x, int bin_y);
+    bool setBinning(CCDBinType binType);
+    CCDBinType getBinning();
+    bool getBinning(int *bin_x, int *bin_y);
+
+    FITSMode getCaptureMode() { return captureMode;}
+    FITSScale getCaptureFilter() { return captureFilter; }
+
+private:
+    FITSImage *normalImage, *focusImage, *guideImage, *calibrationImage;
+    FITSMode captureMode;
+    FITSScale captureFilter;
+    INDI::BaseDevice *baseDevice;
+    ClientManager *clientManager;
+    ChipType type;
+};
 
 class CCD : public DeviceDecorator
 {
@@ -25,8 +61,7 @@ public:
     CCD(GDInterface *iPtr);
     ~CCD();
 
-    typedef enum { PRIMARY_CCD, GUIDE_CCD } CCDChip;
-
+    void registerProperty(INDI::Property *prop);
     void processSwitch(ISwitchVectorProperty *svp);
     void processText(ITextVectorProperty* tvp);
     void processNumber(INumberVectorProperty *nvp);
@@ -34,34 +69,17 @@ public:
     void processBLOB(IBLOB *bp);
 
     DeviceFamily getType() { return dType;}
-
-
-    // Common commands
-    bool getFrame(int *x, int *y, int *w, int *h, CCDChip type=PRIMARY_CCD);
-    bool setFrame(int x, int y, int w, int h, CCDChip type=PRIMARY_CCD);
-    bool capture(double exposure, CCDChip type=PRIMARY_CCD);
-    bool setFrameType(CCDFrameType fType);
-    bool setBinning(int bin_x, int bin_y);
-    bool setBinning(CCDBinType binType);
-    CCDBinType getBinning();
-    bool getBinning(int *bin_x, int *bin_y);
-
     bool hasGuideHead();
 
-
     // Utitlity functions
-    void setCaptureMode(FITSMode mode) { captureMode = mode; }
-    void setCaptureFilter(FITSScale fType) { captureFilter = fType; }
     void setISOMode(bool enable) { ISOMode = enable; }
     void setBatchMode(bool enable) { batchMode = enable; }
     void setSeqPrefix(const QString &preFix) { seqPrefix = preFix; }
     void setSeqCount(int count) { seqCount = count; }
 
     FITSViewer *getViewer() { return fv;}
-    int getNormalTabID() { return normalTabID; }
-    int getGuideTabID() { return guideTabID; }
-    int getFocusTabID() { return focusTabID; }
-    int getCalibrationTabID() { return calibrationTabID; }
+
+    CCDChip * getChip(CCDChip::ChipType cType);
 
 
 public slots:
@@ -71,17 +89,18 @@ public slots:
 signals:
     void FITSViewerClosed();
 
-private:
-    FITSMode captureMode;
-    FITSScale captureFilter;
+private:    
     bool batchMode;
     bool ISOMode;
+    bool HasGuideHead;
     QString		seqPrefix;
     int seqCount;
-    int normalTabID, focusTabID, guideTabID, calibrationTabID;
     FITSViewer * fv;
     StreamWG *streamWindow;
     ISD::ST4 *ST4Driver;
+    int normalTabID, calibrationTabID, focusTabID, guideTabID;
+
+    CCDChip *primaryChip, *guideChip;
 
 };
 

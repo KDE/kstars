@@ -38,11 +38,16 @@ FITSTab::FITSTab() : QWidget()
     histogram  = NULL;
 
     mDirty     = false;
-    undoStack = new KUndoStack();
+    undoStack = new KUndoStack(this);
     undoStack->setUndoLimit(10);
     undoStack->clear();
     connect(undoStack, SIGNAL(cleanChanged(bool)), this, SLOT(modifyFITSState(bool)));
 
+}
+
+FITSTab::~FITSTab()
+{
+    disconnect(0,0,0);
 }
 
 void FITSTab::saveUnsaved()

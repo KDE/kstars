@@ -529,16 +529,9 @@ void EkosManager::setCCD(ISD::GDInterface *ccdDevice)
 
         // If guider is the same driver as the CCD
         if (useGuiderFromCCD == true)
-        {
-            if ( (static_cast<ISD::CCD *>(ccd))->hasGuideHead() == false)
-            {
-                KMessageBox::error(this, i18n("%1 does not have a guide head.").arg(ccdDevice->getDeviceName()));
-                guider = NULL;
-                return;
-            }
             guider = ccd;
-        }
-    }
+
+}
 
     initCapture();
 
@@ -626,6 +619,13 @@ void EkosManager::processNewProperty(INDI::Property* prop)
             if (scope && scope->isConnected())
                 guideProcess->setTelescope(scope);
 
+    }
+
+    if (!strcmp(prop->getName(), "GUIDER_EXPOSURE_REQUEST") && ccd && !strcmp(ccd->getDeviceName(), prop->getDeviceName()))
+    {
+        initCapture();
+
+        captureProcess->addGuiderHead(ccd);
     }
 
 }
